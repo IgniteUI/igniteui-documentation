@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 import { SIDEBAR_BADGE_VARIANTS } from 'docs-template/sidebar';
+import { emitsFor, forMatches } from 'docs-template/lib/platform-groups';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -147,8 +148,8 @@ function inlinePlatformBlocks(content: string, plat: string): string {
 
         // Opener comes first — append literal text up to it
         result += content.slice(pos, openPos);
-        const platforms = openMatch![1].split(',').map((s: string) => s.trim());
-        const keep      = platforms.includes(plat);
+        // `for` accepts platform names and group aliases (Web, NonWeb) alike.
+        const keep      = forMatches(plat, openMatch![1]);
         const bodyStart = openPos + openMatch![0].length;
 
         // Walk forward to find the correctly nested closing tag
@@ -281,9 +282,11 @@ function buildFilteredToc(): string {
     function filterNodes(nodes: any[]): any[] {
         if (!Array.isArray(nodes)) return [];
         return nodes
-            .filter(n => !Array.isArray(n.exclude) || !n.exclude.includes(platform))
+            // `include` (allowlist, wins) and `exclude` (blacklist); both accept
+            // group aliases such as Web / NonWeb. See src/lib/platform-groups.ts.
+            .filter(n => emitsFor(platform, n))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ exclude, platforms, ...rest }) => {
+            .map(({ exclude, include, platforms, ...rest }) => {
                 // Apply platform-specific badge overrides, e.g.:
                 //   "platforms": { "Blazor": { "new": false, "preview": true } }
                 if (platforms && typeof platforms === 'object' && platforms[platform]) {

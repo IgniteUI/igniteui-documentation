@@ -1,4 +1,4 @@
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
+export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'WinUI' | 'Uno';
 
 export type ApiPackageDefinition = {
     packageId: string;
@@ -24,6 +24,8 @@ export const PLATFORM_MAP = {
     react: 'React',
     wc: 'WebComponents',
     blazor: 'Blazor',
+    winui: 'WinUI',
+    uno: 'Uno',
 } as const satisfies Record<string, PlatformName>;
 
 export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> = {
@@ -113,6 +115,59 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
             lite:          { packageId: 'IgniteUI.Blazor.Lite', pascalCaseMembers: true },
             gridlite:      { packageId: 'IgniteUI.Blazor.GridLite', pascalCaseMembers: true },
             'grid-lite':   { packageId: 'IgniteUI.Blazor.GridLite', pascalCaseMembers: true },
+        },
+    },
+    // -----------------------------------------------------------------------
+    // WinUI / Uno
+    //
+    // `prefix: 'Xam'` is correct for the controls (XamRadialGauge, XamDataChart,
+    // XamDataGrid, XamGeographicMap, …) but NOT for helper types, which are
+    // unprefixed in shipping WinUI (RadialGaugeRange, LinearGraphRange,
+    // DataGridToolbar, ColumnSortDescription). The resolver tries the prefixed
+    // and the bare form and takes whichever the registry contains, so both
+    // shapes resolve. See WINUI-UNO-PLAN.md §6.3.
+    //
+    // The `packageId`s below are the assembly names referenced by
+    // winui-samples/**/Sample.csproj. They are provisional until the API link
+    // registry exists (WINUI-UNO-PLAN.md §6.2) — only `core`, `inputs`,
+    // `geo-core` and `charts` are referenced by any `pkg` prop today.
+    // -----------------------------------------------------------------------
+    WinUI: {
+        folder: 'winui',
+        prefix: 'Xam',
+        pascalCaseMembers: true,
+        apiPackages: {
+            core:         { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            charts:       { packageId: 'Infragistics.WinUI.Charts', pascalCaseMembers: true },
+            grids:        { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
+            'data-grids': { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
+            gauges:       { packageId: 'Infragistics.WinUI.Gauges', pascalCaseMembers: true },
+            maps:         { packageId: 'Infragistics.WinUI.Maps', pascalCaseMembers: true },
+            inputs:       { packageId: 'Infragistics.WinUI.Inputs', pascalCaseMembers: true },
+            layouts:      { packageId: 'Infragistics.WinUI.Layouts', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+        },
+    },
+    // Uno shares the WinUI XAML surface; assembly names are provisional pending
+    // confirmation of the Uno package identity (WINUI-UNO-PLAN.md §8 Q5).
+    Uno: {
+        folder: 'uno',
+        prefix: 'Xam',
+        pascalCaseMembers: true,
+        apiPackages: {
+            core:         { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            charts:       { packageId: 'Infragistics.Uno.Charts', pascalCaseMembers: true },
+            grids:        { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
+            'data-grids': { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
+            gauges:       { packageId: 'Infragistics.Uno.Gauges', pascalCaseMembers: true },
+            maps:         { packageId: 'Infragistics.Uno.Maps', pascalCaseMembers: true },
+            inputs:       { packageId: 'Infragistics.Uno.Inputs', pascalCaseMembers: true },
+            layouts:      { packageId: 'Infragistics.Uno.Layouts', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.Core', pascalCaseMembers: true },
         },
     },
 };

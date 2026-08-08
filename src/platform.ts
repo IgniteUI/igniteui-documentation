@@ -31,6 +31,8 @@ export type PlatformKey =
     | 'react'
     | 'blazor'
     | 'web-components'
+    | 'winui'
+    | 'uno'
     | 'slingshot'
     | 'appbuilder';
 
@@ -167,6 +169,8 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     react: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     blazor: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     'web-components': { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
+    winui: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
+    uno: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     slingshot: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
     appbuilder: { navType: 'appbuilder', styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
 };
@@ -208,6 +212,22 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         root: '/general-getting-started',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
+    },
+    // XAML platforms. These ship under the Ultimate UI brand, not Ignite UI —
+    // hence `ultimate-ui-*` URL slugs rather than `ignite-ui-*`.
+    WinUI: {
+        lang: 'en', label: 'WinUI', key: 'winui', devPort: 4335,
+        base: '/products/ultimate-ui-winui/winui/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for WinUI',
+        description: 'Component documentation for Infragistics Ultimate UI for WinUI.',
+    },
+    Uno: {
+        lang: 'en', label: 'Uno Platform', key: 'uno', devPort: 4336,
+        base: '/products/ultimate-ui-uno/uno/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for Uno Platform',
+        description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',
     },
     // Japanese
     
@@ -277,6 +297,8 @@ export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
         case 'react':
         case 'blazor':
         case 'web-components':
+        case 'winui':
+        case 'uno':
         case 'slingshot':
             return { navType: 'infragistics', navUrl: `${igBase}/navigation` };
         default:

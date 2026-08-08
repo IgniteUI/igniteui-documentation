@@ -24,6 +24,11 @@ import {
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// The snippet emitter is a CommonJS bundle of the locally built renderer; see transformJsonSnippets.
+import { createRequire } from 'node:module';
+// Canonical platform-visibility rules, shared with astro.config.ts and the
+// link checkers. Node strips the TS types on import (CI runs Node 24).
+import { emitsFor, forMatches } from '../../../src/lib/platform-groups.ts';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -77,7 +82,7 @@ if (!platformConfig) {
 
 function collectExcludedSlugs(nodes, excluded = new Set()) {
     for (const node of nodes || []) {
-        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        const isExcluded = !emitsFor(PLATFORM, node);
         if (isExcluded && node.href) {
             excluded.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
         }
@@ -104,7 +109,7 @@ function collectAllSlugs(nodes, excluded) {
 // e.g. general-getting-started.md appears under a React node AND a Blazor-only node.
 function collectIncludedSlugs(nodes, included = new Set()) {
     for (const node of nodes || []) {
-        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        const isExcluded = !emitsFor(PLATFORM, node);
         if (!isExcluded && node.href) {
             included.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
         }
@@ -204,8 +209,8 @@ function applyReplacements(content, extraReplacements = []) {
 function filterPlatformBlocks(content) {
     return content.replace(
         /<!-- ([\w ,]+?) -->([\s\S]*?)<!-- end: \1 -->/g,
-        (_m, platforms, body) =>
-            platforms.split(',').map(p => p.trim()).includes(PLATFORM) ? body : '',
+        // Accepts platform names and group aliases (Web, NonWeb) alike.
+        (_m, platforms, body) => (forMatches(PLATFORM, platforms) ? body : ''),
     );
 }
 
@@ -262,15 +267,19 @@ function filterComponentBlocks(content, componentKey) {
 // 4. Code block filtering  (language tag + content detection)
 // ---------------------------------------------------------------------------
 
-// Languages that belong exclusively to one platform
+// Languages that belong exclusively to one platform, or to one platform group.
+// A value may be a platform name or a group alias (see src/lib/platform-groups.ts).
+// `xaml` maps to the Xaml group — NOT NonWeb, which will also cover non-XAML
+// platforms such as mobile.
 const EXCLUSIVE_LANG = {
     razor:  'Blazor',
     cshtml: 'Blazor',
     tsx:    'React',
     jsx:    'React',
+    xaml:   'Xaml',
 };
 
-// Content patterns for generic languages (ts / html)
+// Content patterns for generic languages (ts / html / cs)
 const CONTENT_PATTERNS = {
     Angular:       [/igx-\w+/,   /\bIgx[A-Z]/],
     React:         [/\bIgr[A-Z]/],
@@ -289,9 +298,9 @@ function detectPlatformFromContent(lang, code) {
 
 function filterCodeBlocks(content) {
     return content.replace(/```(\w+)([\s\S]*?)```/g, (match, lang, body) => {
-        // Exclusive language check
+        // Exclusive language check. `owner` may be a platform or a group alias.
         const owner = EXCLUSIVE_LANG[lang.toLowerCase()];
-        if (owner && owner !== PLATFORM) return '';
+        if (owner && !forMatches(PLATFORM, owner)) return '';
 
         // Content-based detection for ts / html
         const detected = detectPlatformFromContent(lang, body);
@@ -337,8 +346,7 @@ function inlinePlatformBlocks(content) {
         }
 
         result += content.slice(pos, openPos);
-        const platforms = openMatch[1].split(',').map(s => s.trim());
-        const keep      = platforms.includes(PLATFORM);
+        const keep      = forMatches(PLATFORM, openMatch[1]);
         const bodyStart = openPos + openMatch[0].length;
 
         let depth = 1, searchPos = bodyStart;
@@ -379,7 +387,78 @@ function inlinePlatformBlocks(content) {
     return result;
 }
 
+// ---------------------------------------------------------------------------
+// 5c. json-snippet blocks
+//
+// A ```json-snippet block holds one sample as JSON, and is turned into this platform's markup
+// here, during generation. That replaces the four or five hand written blocks a topic would
+// otherwise carry for the same sample — one per platform — with a single definition.
+//
+// Purely additive. Every other block is left exactly as it was, so a topic can hold both forms
+// and a platform specific snippet that has no JSON equivalent keeps working unchanged.
+//
+// The emitter is the locally built one from the renderer work, loaded through a CommonJS bundle.
+// When that work is published this becomes an ordinary package import and the paths below go away.
+// ---------------------------------------------------------------------------
+
+const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
+    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
+const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
+    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
+const SNIPPET_EXAMPLES = process.env.XPLAT_EXAMPLES;
+
+// The fence language each platform's markup is written in, which is what the topic would have
+// hand written for it.
+const SNIPPET_FENCE_LANG = {
+    Angular: 'html',
+    WebComponents: 'html',
+    React: 'tsx',
+    Blazor: 'razor',
+    WPF: 'xaml',
+    WinUI: 'xaml',
+    Uno: 'xaml',
+};
+
+let snippetApi = null;
+function loadSnippetApi() {
+    if (snippetApi !== null) return snippetApi;
+    const require = createRequire(import.meta.url);
+    // The renderer drags in Web Components classes that touch window/document at module scope.
+    // Code generation never renders, so the stub is only there to let the modules load.
+    require(SNIPPET_DOM_SHIM);
+    snippetApi = require(SNIPPET_API_PATH);
+    return snippetApi;
+}
+
+function transformJsonSnippets(content) {
+    if (!content.includes('```json-snippet')) return content;
+
+    const lang = SNIPPET_FENCE_LANG[PLATFORM];
+    const api = loadSnippetApi();
+
+    return content.replace(/```json-snippet\n([\s\S]*?)```/g, (match, body) => {
+        // A platform this sample cannot be emitted for drops out, the same way a code block
+        // belonging to another platform does.
+        if (!lang || !api.isSupportedPlatform(PLATFORM)) return '';
+
+        let markup;
+        try {
+            markup = api.emitSingleSnippet(body, PLATFORM, {
+                examplesRoot: SNIPPET_EXAMPLES,
+                defaultSnippetId: 'main',
+            });
+        } catch (e) {
+            // Failing the build beats publishing a page with a hole where a sample should be.
+            throw new Error(`json-snippet failed for ${PLATFORM}: ${e.message}\n${body}`);
+        }
+        if (markup === null) return '';
+        return '```' + lang + '\n' + markup + '\n```';
+    });
+}
+
 function transformMdxFile(content) {
+    // 0. Turn any json-snippet block into this platform's markup
+    content = transformJsonSnippets(content);
     // 1. Resolve <PlatformBlock> tags — keep only this platform's content
     content = inlinePlatformBlocks(content);
     // 2. Remove the now-unused PlatformBlock import (if any)
@@ -414,6 +493,7 @@ function normalizeImagePaths(content) {
 }
 
 function transformRegularFile(content, componentKey = null) {
+    content = transformJsonSnippets(content);
     content = filterPlatformBlocks(content);
     content = filterComponentBlocks(content, componentKey);
     content = filterCodeBlocks(content);

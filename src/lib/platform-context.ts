@@ -1,16 +1,29 @@
 /**
  * Platform configuration implementation — the single source of truth for
- * IgniteUI platform metadata used across Angular, React, WebComponents, and Blazor docs.
+ * IgniteUI platform metadata used across the Angular, React, WebComponents,
+ * Blazor, WinUI, and Uno docs.
  *
  * Types are defined in igniteui-astro-components/lib/types so components can
  * remain agnostic (reading context from Astro.locals set by middleware).
+ *
+ * `PlatformName` is sourced locally from api-platform-config.ts rather than from
+ * igniteui-astro-components, so this repo can add a platform without waiting on a
+ * package release. The package's own union is widened on its branch; once that
+ * ships, `LocalPlatformContext` below can collapse back to the package type.
+ * See WINUI-UNO-PLAN.md §8 Q3.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-export type { PlatformName, ApiPackageConfig, PlatformContext } from 'igniteui-astro-components/lib/types';
-import type { PlatformName, PlatformContext } from 'igniteui-astro-components/lib/types';
+export type { ApiPackageConfig } from 'igniteui-astro-components/lib/types';
+import type { PlatformContext as PackagePlatformContext } from 'igniteui-astro-components/lib/types';
 import { API_PLATFORM_CONFIGS, createApiPackages } from './api-platform-config.ts';
+import type { PlatformName } from './api-platform-config.ts';
+
+export type { PlatformName } from './api-platform-config.ts';
+
+/** The package's PlatformContext, widened to this repo's PlatformName union. */
+export type PlatformContext = Omit<PackagePlatformContext, 'name'> & { name: PlatformName };
 
 const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
@@ -95,6 +108,49 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             github: 'https://github.com/IgniteUI/igniteui-blazor',
             forums: 'https://www.infragistics.com/community/forums/f/ignite-ui-for-blazor',
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
+        },
+    },
+    // WinUI and Uno share the XAML control surface. `packages` values are the
+    // assembly/NuGet identities; see WINUI-UNO-PLAN.md §8 Q1/Q5 for the naming
+    // decisions still outstanding.
+    WinUI: {
+        name: 'WinUI',
+        lower: API_PLATFORM_CONFIGS.WinUI.folder,
+        prefix: API_PLATFORM_CONFIGS.WinUI.prefix,
+        productName: 'Infragistics Ultimate UI for WinUI',
+        productSpinal: 'ultimate-ui-winui',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'WinUI'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.WinUI.Charts',
+            grids: 'Infragistics.WinUI.DataGrid',
+            gauges: 'Infragistics.WinUI.Gauges',
+            maps: 'Infragistics.WinUI.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
+        },
+    },
+    Uno: {
+        name: 'Uno',
+        lower: API_PLATFORM_CONFIGS.Uno.folder,
+        prefix: API_PLATFORM_CONFIGS.Uno.prefix,
+        productName: 'Infragistics Ultimate UI for Uno Platform',
+        productSpinal: 'ultimate-ui-uno',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Uno'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.Uno.Charts',
+            grids: 'Infragistics.Uno.DataGrid',
+            gauges: 'Infragistics.Uno.Gauges',
+            maps: 'Infragistics.Uno.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
         },
     },
 };
