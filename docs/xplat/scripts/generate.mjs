@@ -419,6 +419,25 @@ const SNIPPET_FENCE_LANG = {
     Uno: 'xaml',
 };
 
+/**
+ * The style a documentation snippet is written in, before any sample says otherwise.
+ *
+ * The renderer's own defaults are what a generated project wants — every attribute on its own
+ * line, every dimension stated. A doc block is not that: it keeps attributes on the tag's line,
+ * and the XAML platforms write no dimensions at all because the hosting panel decides them.
+ * Stating it once here beats repeating it in every sample, and a sample can still override any of
+ * it through $styleOptions.
+ */
+const SNIPPET_STYLE_DEFAULTS = {
+    default: {
+        attributeLayout: 'singleLine',
+        suppressAutoElementNames: true,
+    },
+    WPF: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
+    WinUI: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
+    Uno: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
+};
+
 let snippetApi = null;
 function loadSnippetApi() {
     if (snippetApi !== null) return snippetApi;
@@ -446,6 +465,7 @@ function transformJsonSnippets(content) {
             markup = api.emitSingleSnippet(body, PLATFORM, {
                 examplesRoot: SNIPPET_EXAMPLES,
                 defaultSnippetId: 'main',
+                styleDefaults: SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default,
             });
         } catch (e) {
             // Failing the build beats publishing a page with a hole where a sample should be.

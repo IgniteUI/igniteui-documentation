@@ -82,9 +82,52 @@ function canonicalTag(raw) {
     return null;
 }
 
-/** An attribute name reduced to the property it names. */
+/**
+ * Platform member name → the canonical name it maps to, from the vendored apiMap.
+ *
+ * A property is deliberately named differently on some platforms: the canonical ItemsSource is
+ * dataSource on the web ones. That is expected variance the renderer already handles, so comparing
+ * the raw names would report a difference on every data bound sample in the docs. The apiMap is the
+ * product build's own record of those renames, so it is what decides here rather than a list kept
+ * by hand.
+ */
+const API_MAP_DIR = path.join(ROOT, '..', '..', 'src', 'data', 'api-map');
+
+const canonicalMemberNames = (() => {
+    const map = new Map();
+    let dirs = [];
+    try {
+        dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
+    } catch {
+        return map;   // no apiMap available; fall back to comparing names as written
+    }
+    for (const dir of dirs) {
+        for (const file of readdirSync(path.join(API_MAP_DIR, dir))) {
+            if (!file.endsWith('.json')) continue;
+            let data;
+            try { data = JSON.parse(readFileSync(path.join(API_MAP_DIR, dir, file), 'utf8')); }
+            catch { continue; }
+            for (const type of data.types || []) {
+                for (const member of type.members || []) {
+                    const original = member.originalName;
+                    if (!original || original.includes('.') || original.startsWith('this[')) continue;
+                    for (const n of member.names || []) {
+                        if (!n.mappedName) continue;
+                        const from = n.mappedName.replace(/[-_]/g, '').toLowerCase();
+                        const to = original.replace(/[-_]/g, '').toLowerCase();
+                        if (from !== to) map.set(from, to);
+                    }
+                }
+            }
+        }
+    }
+    return map;
+})();
+
+/** An attribute name reduced to the property it names, in its canonical form. */
 function canonicalAttr(raw) {
-    return raw.replace(/[-_]/g, '').toLowerCase();
+    const flattened = raw.replace(/[-_]/g, '').toLowerCase();
+    return canonicalMemberNames.get(flattened) || flattened;
 }
 
 /** An attribute value reduced to what it means, with the platform's delimiters removed. */
@@ -96,7 +139,65 @@ function canonicalValue(raw) {
     }
     v = v.trim();
     if (/^#[0-9a-fA-F]{3,8}$/.test(v)) return v.toLowerCase();   // hex colour case is not content
+
+    // How a platform refers to the data is its own business: XAML writes {Binding SalesData},
+    // React writes this.state.salesData and Blazor writes SalesData. All three name the same
+    // thing, and the renderer already knows how to write each. What matters is whether they name
+    // the *same* thing, so the reference is reduced to the name itself.
+    const binding = /^\{\s*Binding\s+([\w.]+)\s*\}$/.exec(v);
+    if (binding) return binding[1].toLowerCase();
+    if (/^(this\.)?(state\.)?[\w.]+$/.test(v) && /[a-zA-Z]/.test(v)) {
+        const stripped = v.replace(/^this\./, '').replace(/^state\./, '');
+        // Only treat it as a reference when it looks like one rather than a literal value.
+        if (/^[A-Za-z_][\w]*$/.test(stripped)) return stripped.toLowerCase();
+    }
     return v;
+}
+
+/** The colour names the docs actually use, for telling a colour from any other bare word. */
+const COLOR_WORDS = new Set([
+    'transparent', 'black', 'white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink',
+    'gray', 'grey', 'brown', 'cyan', 'magenta', 'lime', 'navy', 'teal', 'olive', 'maroon', 'silver',
+    'gold', 'aqua', 'fuchsia', 'indigo', 'violet', 'salmon', 'khaki', 'plum', 'orchid', 'tan',
+    'crimson', 'tomato', 'coral', 'ivory', 'beige', 'lavender', 'turquoise', 'wheat', 'snow',
+    'dodgerblue', 'limegreen', 'royalblue', 'skyblue', 'steelblue', 'seagreen', 'forestgreen',
+    'darkblue', 'darkgreen', 'darkred', 'darkgray', 'darkgrey', 'lightblue', 'lightgreen',
+    'lightgray', 'lightgrey', 'hotpink', 'deeppink', 'deepskyblue', 'midnightblue', 'gainsboro',
+]);
+
+/** Whether a value is a number, including the dimension and percentage forms. */
+function isNumericValue(v) {
+    if (typeof v !== 'string') return false;
+    return /^-?\d+(\.\d+)?(px|%|pt|em|rem)?$/.test(v.trim());
+}
+
+/** Whether a value names a colour, in any of the notations the docs use. */
+function isColorValue(v) {
+    if (typeof v !== 'string') return false;
+    const s = v.trim().toLowerCase();
+    if (/^#[0-9a-f]{3,8}$/.test(s)) return true;
+    if (/^rgba?\(/.test(s)) return true;
+    return COLOR_WORDS.has(s);
+}
+
+/**
+ * Whether an attribute value is a reference to something the page supplies, rather than a literal.
+ *
+ * This is what makes an absence explainable: a platform that binds its data in code writes no
+ * attribute at all, so `{Binding SalesData}` on one platform and nothing on another is the same
+ * sample expressed two ways. A missing *literal* is not explained by that and stays reported.
+ */
+function isReferenceValue(raw) {
+    let v = raw.trim();
+    if (v.startsWith('{') && v.endsWith('}')) {
+        const inner = v.slice(1, -1).trim();
+        if (/^Binding\s+[\w.]+$/.test(inner)) return true;      // {Binding SalesData}
+        v = inner;
+    }
+    if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+        v = v.slice(1, -1).trim();
+    }
+    return /^(this\.|state\.)/.test(v);                          // this.state.salesData
 }
 
 /**
@@ -112,6 +213,7 @@ function readElements(body) {
         const tag = canonicalTag(m[1]);
         if (!tag) continue;
         const attrs = {};
+        const bindings = new Set();
         const attrRe = /([\w:.-]+)\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\})/g;
         let a;
         while ((a = attrRe.exec(m[2])) !== null) {
@@ -119,9 +221,15 @@ function readElements(body) {
             // Names and refs are platform plumbing, not content: React writes ref, Angular writes
             // a template variable, and a generated sample invents a name where a doc writes none.
             if (name === 'name' || name === 'id' || name === 'ref') continue;
+            // Dimensions are presentation, and they legitimately differ: a web block sizes the
+            // sample for the page it sits on, and the XAML platforms omit them entirely because
+            // the hosting panel decides. Emission handles that with a style option, so a
+            // difference here is not something to fix in the source.
+            if (name === 'width' || name === 'height') continue;
             attrs[name] = canonicalValue(a[2]);
+            if (isReferenceValue(a[2])) bindings.add(name);
         }
-        elements.push({ tag, attrs });
+        elements.push({ tag, attrs, bindings });
     }
     return elements;
 }
@@ -214,12 +322,36 @@ function compareGroup(group) {
         for (const p of usable) for (const k of Object.keys(p.elements[i].attrs)) names.add(k);
         for (const name of names) {
             const values = usable.map(p => [p.platforms, p.elements[i].attrs[name]]);
-            const distinct = new Set(values.map(v => v[1] === undefined ? '(absent)' : v[1]));
+            const present = values.filter(v => v[1] !== undefined);
+            const distinct = new Set(present.map(v => v[1]));
+            const detail = values.map(([pl, v]) => `${pl}: ${v === undefined ? '(absent)' : v}`).join(', ');
+
+            // A colour chosen differently on one platform is a cosmetic choice, not a claim about
+            // the component, and picking one when collapsing changes nothing a reader relies on.
+            // Only skipped when every value is a colour — a colour against a non-colour is
+            // something else and stays reported.
+            if (present.length > 0 && present.every(v => isColorValue(v[1]))) continue;
+
+            // Numbers likewise: a sample's minimum, maximum or extent is an illustrative figure
+            // rather than a fact about the component, and the topics pick them freely. What is left
+            // after colours and numbers are set aside is the content that actually says something —
+            // a field name, a data type, an icon, a class.
+            if (present.length > 0 && present.every(v => isNumericValue(v[1]))) continue;
+
             if (distinct.size > 1) {
-                issues.push({
-                    kind: `element ${i + 1} ${name}`,
-                    detail: values.map(([pl, v]) => `${pl}: ${v === undefined ? '(absent)' : v}`).join(', '),
-                });
+                // Two platforms naming different values contradict each other, whatever the kind.
+                issues.push({ kind: `element ${i + 1} ${name}`, detail });
+                continue;
+            }
+            if (present.length === values.length) continue;
+
+            // Absent on some platform. Explained only when the platforms that do write it are
+            // binding to something the page supplies, since a platform may bind the same thing in
+            // code instead. A missing literal is not explained and is still reported.
+            const boundEverywherePresent = usable.every(p =>
+                p.elements[i].attrs[name] === undefined || p.elements[i].bindings.has(name));
+            if (!boundEverywherePresent) {
+                issues.push({ kind: `element ${i + 1} ${name}`, detail });
             }
         }
     }
