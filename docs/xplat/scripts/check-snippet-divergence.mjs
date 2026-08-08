@@ -43,6 +43,8 @@ const argOf = (name, dflt) => {
 const LANG = argOf('lang', 'en');
 const ONLY_FILE = argOf('file', null);
 const VERBOSE = args.includes('--verbose');
+// Web-only components are out of scope until there is a XAML counterpart to reconcile against.
+const INCLUDE_ALL = args.includes('--all');
 
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', LANG, 'components');
 
@@ -136,10 +138,59 @@ const canonicalMemberNames = (() => {
     return map;
 })();
 
-/** An attribute name reduced to the property it names, in its canonical form. */
-function canonicalAttr(raw) {
+/**
+ * Per component: the platform member names it renames, and what they are canonically.
+ *
+ * Keyed by component because a rename belongs to a type. ItemsSource is written dataSource on a
+ * DataGrid, while DataSource is a property in its own right on other types — resolving that
+ * globally either merges two different properties or, guarding against it, fails to merge the one
+ * that matters. The apiMap says which type each rename is for, so that is what decides.
+ */
+const renamesByComponent = (() => {
+    const byType = new Map();
+    let dirs = [];
+    try {
+        dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
+    } catch {
+        return byType;
+    }
+    for (const dir of dirs) {
+        for (const file of readdirSync(path.join(API_MAP_DIR, dir))) {
+            if (!file.endsWith('.json')) continue;
+            let data;
+            try { data = JSON.parse(readFileSync(path.join(API_MAP_DIR, dir, file), 'utf8')); }
+            catch { continue; }
+            for (const type of data.types || []) {
+                const typeName = (type.originalName || '')
+                    .replace(/Description$/, '').replace(/^Web/, '').toLowerCase();
+                if (!typeName) continue;
+                for (const member of type.members || []) {
+                    const original = member.originalName;
+                    if (!original || original.includes('.') || original.startsWith('this[')) continue;
+                    for (const n of member.names || []) {
+                        if (!n.mappedName) continue;
+                        const from = n.mappedName.replace(/[-_]/g, '').toLowerCase();
+                        const to = original.replace(/[-_]/g, '').toLowerCase();
+                        if (from === to) continue;
+                        if (!byType.has(typeName)) byType.set(typeName, new Map());
+                        byType.get(typeName).set(from, to);
+                    }
+                }
+            }
+        }
+    }
+    return byType;
+})();
+
+/**
+ * An attribute name reduced to the property it names, in its canonical form, for the component it
+ * was written on. Falls back to the name as written when the component has no rename for it.
+ */
+function canonicalAttr(raw, tag) {
     const flattened = raw.replace(/[-_]/g, '').toLowerCase();
-    return canonicalMemberNames.get(flattened) || flattened;
+    const forType = tag ? renamesByComponent.get(tag) : null;
+    if (forType && forType.has(flattened)) return forType.get(flattened);
+    return flattened;
 }
 
 /** An attribute value reduced to what it means, with the platform's delimiters removed. */
@@ -236,7 +287,7 @@ function readElements(body) {
             // invents a name where a doc writes none.
             const written = a[1].replace(/^[\w]+:/, '').replace(/[-_]/g, '').toLowerCase();
             if (written === 'name' || written === 'id' || written === 'ref' || written === 'key') continue;
-            const name = canonicalAttr(a[1]);
+            const name = canonicalAttr(a[1], tag);
             // Dimensions are presentation, and they legitimately differ: a web block sizes the
             // sample for the page it sits on, and the XAML platforms omit them entirely because
             // the hosting panel decides. Emission handles that with a style option, so a
@@ -248,6 +299,50 @@ function readElements(body) {
         elements.push({ tag, attrs, bindings });
     }
     return elements;
+}
+
+// ---------------------------------------------------------------------------
+// Which components are worth comparing
+// ---------------------------------------------------------------------------
+
+/**
+ * The components whose canonical description is a Web one, and so exist only on the web platforms.
+ *
+ * The product names a web-only description WebGridDescription, WebColumnDescription,
+ * WebDatePickerDescription; a component shared with the XAML platforms has no such prefix —
+ * BulletGraphDescription, DataGridDescription, GeographicMapDescription. So the presence of a
+ * Web<Name>Description in the apiMap is the product's own statement that the component is web only.
+ *
+ * Those are out of scope for now. Collapsing a group into one definition pays where the definition
+ * serves every platform, and a web-only component has no XAML counterpart to reconcile against.
+ * Derived rather than listed by hand, so this stays right as the platform surface moves.
+ */
+const webOnlyComponents = (() => {
+    const descriptions = new Set();
+    let dirs = [];
+    try {
+        dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
+    } catch {
+        return null;   // no apiMap: cannot tell, so nothing is excluded
+    }
+    for (const dir of dirs) {
+        for (const file of readdirSync(path.join(API_MAP_DIR, dir))) {
+            if (!file.endsWith('.json')) continue;
+            let data;
+            try { data = JSON.parse(readFileSync(path.join(API_MAP_DIR, dir, file), 'utf8')); }
+            catch { continue; }
+            for (const type of data.types || []) {
+                const name = type.originalName || '';
+                if (name.endsWith('Description')) descriptions.add(name.toLowerCase());
+            }
+        }
+    }
+    return descriptions;
+})();
+
+function isWebOnlyComponent(tag) {
+    if (!webOnlyComponents) return false;
+    return webOnlyComponents.has(`web${tag}description`);
 }
 
 // ---------------------------------------------------------------------------
@@ -396,14 +491,22 @@ function walk(dir, out = []) {
 }
 
 let filesWithIssues = 0, groupsChecked = 0, groupsDiverged = 0, issueCount = 0;
+let groupsOutOfScope = 0;
 const byKind = new Map();
 
-for (const file of walk(CONTENT_DIR)) {
+const allFiles = walk(CONTENT_DIR);
+
+for (const file of allFiles) {
     if (ONLY_FILE && !file.endsWith(ONLY_FILE)) continue;
     const text = readFileSync(file, 'utf8');
     const groups = findGroups(text);
     let reported = false;
     for (const group of groups) {
+        // Out of scope unless the component this group is about exists on the XAML platforms.
+        if (!INCLUDE_ALL) {
+            const first = group.map(b => readElements(b.body)[0]).find(e => e);
+            if (!first || isWebOnlyComponent(first.tag)) { groupsOutOfScope++; continue; }
+        }
         groupsChecked++;
         const result = compareGroup(group);
         if (!result) continue;
@@ -426,6 +529,10 @@ for (const file of walk(CONTENT_DIR)) {
 
 console.log(`\n${groupsDiverged} of ${groupsChecked} snippet groups disagree across platforms` +
     ` (${issueCount} differences in ${filesWithIssues} topics)`);
+if (!INCLUDE_ALL) {
+    console.log(`${groupsOutOfScope} groups skipped: web-only components, no XAML counterpart to reconcile` +
+        ` — pass --all to include them`);
+}
 if (byKind.size) {
     console.log('\nmost common:');
     for (const [k, v] of [...byKind.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12)) {
