@@ -31,6 +31,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -47,6 +48,8 @@ const VERBOSE = args.includes('--verbose');
 const INCLUDE_ALL = args.includes('--all');
 
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', LANG, 'components');
+// Still needed for scoping: the apiMap is what names a description Web<Name>Description.
+const API_MAP_DIR = path.join(ROOT, '..', '..', 'src', 'data', 'api-map');
 
 // ---------------------------------------------------------------------------
 // Normalising a markup block to what it actually says
@@ -85,112 +88,86 @@ function canonicalTag(raw) {
 }
 
 /**
- * Platform member name → the canonical name it maps to, from the vendored apiMap.
+ * The description property a platform's own name refers to, answered by the product's own metadata
+ * through the snippet emitter.
  *
- * A property is deliberately named differently on some platforms: the canonical ItemsSource is
- * dataSource on the web ones. That is expected variance the renderer already handles, so comparing
- * the raw names would report a difference on every data bound sample in the docs. The apiMap is the
- * product build's own record of those renames, so it is what decides here rather than a list kept
- * by hand.
+ * The apiMap cannot answer this: its files are generated per transpile target and XAML is the
+ * canonical side, so there is nothing there to map a XAML name from. The description metadata
+ * records every platform's name for a property in one entry —
+ * "(w:ItemsSource,xam:ItemsSource,s:DataSource)" — and is the only thing that knows dataSource and
+ * ItemsSource are the same property.
  */
-const API_MAP_DIR = path.join(ROOT, '..', '..', 'src', 'data', 'api-map');
+const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
+    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
+const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
+    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
 
-const canonicalMemberNames = (() => {
-    const map = new Map();
-    const canonicalNames = new Set();
-    const ambiguous = new Set();
-    let dirs = [];
+const nameResolver = (() => {
     try {
-        dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
+        const require = createRequire(import.meta.url);
+        require(SNIPPET_DOM_SHIM);
+        return require(SNIPPET_API_PATH);
     } catch {
-        return map;   // no apiMap available; fall back to comparing names as written
+        return null;   // without it, names are compared as written
     }
-    for (const dir of dirs) {
-        for (const file of readdirSync(path.join(API_MAP_DIR, dir))) {
-            if (!file.endsWith('.json')) continue;
-            let data;
-            try { data = JSON.parse(readFileSync(path.join(API_MAP_DIR, dir, file), 'utf8')); }
-            catch { continue; }
-            for (const type of data.types || []) {
-                for (const member of type.members || []) {
-                    const original = member.originalName;
-                    if (!original || original.includes('.') || original.startsWith('this[')) continue;
-                    canonicalNames.add(original.replace(/[-_]/g, '').toLowerCase());
-                    for (const n of member.names || []) {
-                        if (!n.mappedName) continue;
-                        const from = n.mappedName.replace(/[-_]/g, '').toLowerCase();
-                        const to = original.replace(/[-_]/g, '').toLowerCase();
-                        if (from === to) continue;
-                        // Ambiguous: this platform name maps to more than one canonical name, so
-                        // it cannot be resolved without knowing the type. Left alone.
-                        if (map.has(from) && map.get(from) !== to) { ambiguous.add(from); continue; }
-                        map.set(from, to);
-                    }
+})();
+
+/**
+ * The description type a component tag refers to. Built on first use, because the set of
+ * descriptions is read further down.
+ */
+let componentTypeNames = null;
+function descriptionTypeFor(tag) {
+    if (componentTypeNames === null) {
+        componentTypeNames = new Map();
+        // The metadata is keyed by the description name with its own casing — DataGrid, WebGrid —
+        // while a doc tag arrives lowercased. A web-only description is also reachable by its bare
+        // name, since <igc-grid> canonicalises to "grid" rather than "webgrid".
+        for (const cased of descriptionTypeNames) {
+            const name = cased.replace(/Description$/, '');
+            componentTypeNames.set(name.toLowerCase(), name);
+            if (name.startsWith('Web')) {
+                const bare = name.slice(3);
+                if (!componentTypeNames.has(bare.toLowerCase())) {
+                    componentTypeNames.set(bare.toLowerCase(), name);
                 }
             }
         }
     }
-    // A rename is only safe when the platform's name is not itself a canonical name somewhere.
-    // One type renaming IconName to `name` must not turn every `name` in the docs into an icon.
-    for (const from of [...map.keys()]) {
-        if (canonicalNames.has(from) || ambiguous.has(from)) map.delete(from);
-    }
-    return map;
-})();
+    return componentTypeNames.get(tag) || tag;
+}
 
 /**
- * Per component: the platform member names it renames, and what they are canonically.
+ * An attribute name reduced to the description property it names.
  *
- * Keyed by component because a rename belongs to a type. ItemsSource is written dataSource on a
- * DataGrid, while DataSource is a property in its own right on other types — resolving that
- * globally either merges two different properties or, guarding against it, fails to merge the one
- * that matters. The apiMap says which type each rename is for, so that is what decides.
+ * A data source is a special case: the description carries both DataSource and DataSourceRef — the
+ * value and a reference to a named one — and a topic writes whichever suits it, XAML almost always
+ * the reference, a sample configuring an inline source the value. They are one concept for the
+ * purpose of comparing, so the Ref is folded in.
  */
-const renamesByComponent = (() => {
-    const byType = new Map();
-    let dirs = [];
-    try {
-        dirs = readdirSync(API_MAP_DIR).filter(d => statSync(path.join(API_MAP_DIR, d)).isDirectory());
-    } catch {
-        return byType;
-    }
-    for (const dir of dirs) {
-        for (const file of readdirSync(path.join(API_MAP_DIR, dir))) {
-            if (!file.endsWith('.json')) continue;
-            let data;
-            try { data = JSON.parse(readFileSync(path.join(API_MAP_DIR, dir, file), 'utf8')); }
-            catch { continue; }
-            for (const type of data.types || []) {
-                const typeName = (type.originalName || '')
-                    .replace(/Description$/, '').replace(/^Web/, '').toLowerCase();
-                if (!typeName) continue;
-                for (const member of type.members || []) {
-                    const original = member.originalName;
-                    if (!original || original.includes('.') || original.startsWith('this[')) continue;
-                    for (const n of member.names || []) {
-                        if (!n.mappedName) continue;
-                        const from = n.mappedName.replace(/[-_]/g, '').toLowerCase();
-                        const to = original.replace(/[-_]/g, '').toLowerCase();
-                        if (from === to) continue;
-                        if (!byType.has(typeName)) byType.set(typeName, new Map());
-                        byType.get(typeName).set(from, to);
-                    }
-                }
-            }
-        }
-    }
-    return byType;
-})();
-
 /**
- * An attribute name reduced to the property it names, in its canonical form, for the component it
- * was written on. Falls back to the name as written when the component has no rename for it.
+ * A PlatformBlock's audience as a platform the metadata knows. The docs gate on groups as well as
+ * platforms — "Xaml" covers WinUI and Uno — and any member of a group will do, since a group exists
+ * precisely because its platforms share the naming.
  */
-function canonicalAttr(raw, tag) {
-    const flattened = raw.replace(/[-_]/g, '').toLowerCase();
-    const forType = tag ? renamesByComponent.get(tag) : null;
-    if (forType && forType.has(flattened)) return forType.get(flattened);
-    return flattened;
+const METADATA_PLATFORM = {
+    Xaml: 'WinUI', NonWeb: 'WinUI', Web: 'Angular',
+    WinUI: 'WinUI', Uno: 'Uno', Angular: 'Angular',
+    React: 'React', WebComponents: 'WebComponents', Blazor: 'Blazor',
+};
+
+function canonicalAttr(raw, tag, platform) {
+    const written = raw.replace(/^[\w]+:/, '');
+    const flattened = written.replace(/[-_]/g, '').toLowerCase();
+
+    if (nameResolver && tag && platform) {
+        const metadataPlatform = METADATA_PLATFORM[platform];
+        const resolved = metadataPlatform
+            ? nameResolver.resolvePropertyName(descriptionTypeFor(tag), metadataPlatform, written)
+            : null;
+        if (resolved) return resolved.replace(/Ref$/, '').toLowerCase();
+    }
+    return flattened.replace(/ref$/, '');
 }
 
 /** An attribute value reduced to what it means, with the platform's delimiters removed. */
@@ -270,7 +247,7 @@ function isReferenceValue(raw) {
  * parser: these are documentation snippets, and a tolerant scan reports more than a strict parse
  * that gives up on the first oddity.
  */
-function readElements(body) {
+function readElements(body, platform) {
     const elements = [];
     const tagRe = /<([A-Za-z][\w:.-]*)((?:\s+[\w:.-]+\s*=\s*(?:"[^"]*"|'[^']*'|\{[^}]*\}))*)\s*\/?>/g;
     let m;
@@ -287,7 +264,7 @@ function readElements(body) {
             // invents a name where a doc writes none.
             const written = a[1].replace(/^[\w]+:/, '').replace(/[-_]/g, '').toLowerCase();
             if (written === 'name' || written === 'id' || written === 'ref' || written === 'key') continue;
-            const name = canonicalAttr(a[1], tag);
+            const name = canonicalAttr(a[1], tag, platform);
             // Dimensions are presentation, and they legitimately differ: a web block sizes the
             // sample for the page it sits on, and the XAML platforms omit them entirely because
             // the hosting panel decides. Emission handles that with a style option, so a
@@ -317,6 +294,8 @@ function readElements(body) {
  * serves every platform, and a web-only component has no XAML counterpart to reconcile against.
  * Derived rather than listed by hand, so this stays right as the platform surface moves.
  */
+const descriptionTypeNames = new Set();
+
 const webOnlyComponents = (() => {
     const descriptions = new Set();
     let dirs = [];
@@ -333,7 +312,10 @@ const webOnlyComponents = (() => {
             catch { continue; }
             for (const type of data.types || []) {
                 const name = type.originalName || '';
-                if (name.endsWith('Description')) descriptions.add(name.toLowerCase());
+                if (name.endsWith('Description')) {
+                    descriptions.add(name.toLowerCase());
+                    descriptionTypeNames.add(name);
+                }
             }
         }
     }
@@ -396,7 +378,7 @@ function findGroups(text) {
 // ---------------------------------------------------------------------------
 
 function compareGroup(group) {
-    const parsed = group.map(b => ({ platforms: b.platforms, lang: b.lang, elements: readElements(b.body) }));
+    const parsed = group.map(b => ({ platforms: b.platforms, lang: b.lang, elements: readElements(b.body, b.platforms.split(',')[0].trim()) }));
 
     // Only compare blocks that actually describe elements.
     const usable = parsed.filter(p => p.elements.length > 0);
