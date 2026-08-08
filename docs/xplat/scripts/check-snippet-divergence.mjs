@@ -184,6 +184,12 @@ function canonicalValue(raw) {
     // React writes this.state.salesData and Blazor writes SalesData. All three name the same
     // thing, and the renderer already knows how to write each. What matters is whether they name
     // the *same* thing, so the reference is reduced to the name itself.
+    // An enumeration value is written qualified on some platforms and bare on others —
+    // ColumnMovingAnimationMode.SlideOver against slideOver — and the casing differs by
+    // convention. Same value, so it is reduced to the member name.
+    const qualifiedEnum = /^([A-Z][A-Za-z0-9]*)\.([A-Za-z][A-Za-z0-9]*)$/.exec(v);
+    if (qualifiedEnum) return qualifiedEnum[2].toLowerCase();
+
     const binding = /^\{\s*Binding\s+([\w.]+)\s*\}$/.exec(v);
     if (binding) return binding[1].toLowerCase();
     if (/^@[A-Za-z_][\w.]*$/.test(v)) return v.slice(1).toLowerCase();   // razor: @SalesData
@@ -322,9 +328,19 @@ const webOnlyComponents = (() => {
     return descriptions;
 })();
 
-function isWebOnlyComponent(tag) {
+/**
+ * Whether a component is out of scope: either web only, or not described at all.
+ *
+ * A Web<Name>Description is the product saying the component is web only. No description under
+ * either name means the component cannot be expressed as JSON in the first place — GridLite has
+ * none — so there is nothing to collapse it into and comparing its snippets proves nothing.
+ * Absence therefore means out of scope rather than in, which is the safer default: a component
+ * that gains a description joins the field, rather than every undescribed one sitting in it.
+ */
+function isOutOfScopeComponent(tag) {
     if (!webOnlyComponents) return false;
-    return webOnlyComponents.has(`web${tag}description`);
+    if (webOnlyComponents.has(`web${tag}description`)) return true;
+    return !webOnlyComponents.has(`${tag}description`);
 }
 
 // ---------------------------------------------------------------------------
@@ -487,7 +503,7 @@ for (const file of allFiles) {
         // Out of scope unless the component this group is about exists on the XAML platforms.
         if (!INCLUDE_ALL) {
             const first = group.map(b => readElements(b.body)[0]).find(e => e);
-            if (!first || isWebOnlyComponent(first.tag)) { groupsOutOfScope++; continue; }
+            if (!first || isOutOfScopeComponent(first.tag)) { groupsOutOfScope++; continue; }
         }
         groupsChecked++;
         const result = compareGroup(group);
@@ -512,7 +528,7 @@ for (const file of allFiles) {
 console.log(`\n${groupsDiverged} of ${groupsChecked} snippet groups disagree across platforms` +
     ` (${issueCount} differences in ${filesWithIssues} topics)`);
 if (!INCLUDE_ALL) {
-    console.log(`${groupsOutOfScope} groups skipped: web-only components, no XAML counterpart to reconcile` +
+    console.log(`${groupsOutOfScope} groups skipped: web-only or undescribed components, nothing to collapse into` +
         ` — pass --all to include them`);
 }
 if (byKind.size) {
