@@ -50,6 +50,18 @@ if (!EXAMPLES) {
     process.exit(2);
 }
 
+/**
+ * Where a sample may be found, in the order tried.
+ *
+ * The JSON in igniteui-xplat-examples is what a snippet can reference directly. Where there is
+ * none, the sample may still exist in igniteui-wc-examples as an emitted project — samples were
+ * back ported from there into the examples repo to fill out the WinUI set, and not all of them
+ * have been. Those are not missing, they are not yet converted: the JSON can be back ported the
+ * same way, and then the snippet collapses like any other.
+ */
+const WC_EXAMPLES = process.env.IG_WC_EXAMPLES
+    || '/Users/graham/Documents/GitHub/igniteui-wc-examples';
+
 const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
     || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
 const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
@@ -111,6 +123,7 @@ function readStatedProperties(body, platform) {
         const resolved = metadataPlatform
             ? api.resolvePropertyName(descriptionTypeFor(tag), metadataPlatform, asked)
             : null;
+        if (!resolved) unresolvedProperties.push(`${tag}.${asked}`);
         stated.set(resolved || asked, unquote(a[2]));
     }
     return { tag, stated };
@@ -191,6 +204,11 @@ function isInScope(tag) {
     return type !== tag && !type.startsWith('Web');
 }
 
+/** Whether a sample exists in wc-examples, as an emitted project, ready to be back ported. */
+function existsInWcExamples(src) {
+    return existsSync(path.join(WC_EXAMPLES, 'samples', src.replace(/^\//, '')));
+}
+
 function loadSample(src) {
     const file = path.join(EXAMPLES, 'samples', src.replace(/^\//, '') + '.json');
     if (!existsSync(file)) return null;
@@ -206,6 +224,92 @@ function loadSample(src) {
     } catch {
         return null;
     }
+}
+
+
+/**
+ * Every sample in the examples repo, indexed by the component at its root.
+ *
+ * Built once so that a group whose sample cannot be worked out from where it sits can still be
+ * matched on what it says.
+ */
+let samplesByType = null;
+function samplesForType(typeName) {
+    if (samplesByType === null) {
+        samplesByType = new Map();
+        const root = path.join(EXAMPLES, 'samples');
+        const walkSamples = (dir) => {
+            let entries = [];
+            try { entries = readdirSync(dir); } catch { return; }
+            for (const entry of entries) {
+                const full = path.join(dir, entry);
+                if (statSync(full).isDirectory()) { walkSamples(full); continue; }
+                if (!entry.endsWith('.json')) continue;
+                let parsed;
+                try { parsed = JSON.parse(readFileSync(full, 'utf8')); } catch { continue; }
+                const content = parsed?.descriptions?.content ?? parsed;
+                const type = content?.type;
+                if (!type) continue;
+                const src = '/' + path.relative(root, full).replace(/\.json$/, '').split(path.sep).join('/');
+                if (!samplesByType.has(type)) samplesByType.set(type, []);
+                samplesByType.get(type).push({ src, content });
+            }
+        };
+        walkSamples(root);
+    }
+    return samplesByType.get(typeName) || [];
+}
+
+/**
+ * A sample that says everything one of the platforms says, found by content rather than position.
+ *
+ * Where a group cannot be tied to a sample by where it sits — the topic discusses the scenario
+ * away from the sample, or shows several — a sample of the same component that is a superset of
+ * some platform's properties is almost certainly the one being illustrated. Requiring a superset
+ * rather than a loose overlap keeps it from matching whichever sample of that type came first.
+ */
+function sampleByContent(read) {
+    const type = descriptionTypeFor(read[0].parsed.tag);
+    const candidates = samplesForType(type);
+    if (process.env.DEBUG_CONTENT) {
+        console.log(`  [content] ${type}: ${candidates.length} candidate samples, ` +
+            `blocks state ${read.map(b => b.parsed.stated.size).join('/')} properties`);
+    }
+    if (candidates.length === 0) return null;
+
+    const matches = [];
+    for (const candidate of candidates) {
+        const indexed = new Map();
+        for (const [name, value] of Object.entries(candidate.content)) indexed.set(name.toLowerCase(), value);
+
+        for (const block of read) {
+            if (block.parsed.stated.size === 0) continue;
+            let all = true;
+            // On which properties are set, not what they are set to. Values are exactly what has
+            // drifted — a topic states value=70 beside a sample running value=80 — so matching on
+            // them finds nothing. What identifies the sample is the configuration being shown: a
+            // snippet about the needle sets the needle properties, whatever numbers it uses.
+            for (const [name] of block.parsed.stated) {
+                if (!indexed.has(name.toLowerCase())) { all = false; break; }
+            }
+            if (all) { matches.push(candidate.src); break; }
+        }
+    }
+
+    const distinct = [...new Set(matches)];
+    if (distinct.length === 0) return null;
+    if (distinct.length === 1) return distinct[0];
+
+    // Several samples of this component cover the properties. The one that covers them most
+    // closely — fewest properties of its own beyond what the snippet shows — is the one the topic
+    // is illustrating; a sample twice the size merely contains it.
+    const stated = new Set([...read[0].parsed.stated.keys()].map(n => n.toLowerCase()));
+    const scored = distinct.map(src => {
+        const candidate = candidates.find(c => c.src === src);
+        const extra = Object.keys(candidate.content).length - stated.size;
+        return { src, extra };
+    }).sort((a, b) => a.extra - b.extra);
+    return scored[0].extra * 2 < scored[1].extra ? scored[0].src : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -245,32 +349,43 @@ function findGroups(text) {
 }
 
 /**
- * The sample a group is illustrating: the one in the same section of the topic.
+ * The sample a group is illustrating: the nearest one with no other snippet group in between.
  *
- * Direction is not the rule. A topic's opening sample sits above its first snippet, while a
- * section further down writes the snippets and shows the sample under them — both orders occur,
- * so looking only forwards or only backwards mispairs half of them. What holds is that a section
- * is about one thing: its heading, its prose, its snippets and its sample.
+ * Neither direction nor headings decide this. A topic's opening sample sits above its first
+ * snippet while a section further down shows the sample under them, so direction mispairs half of
+ * them; and a heading frequently falls between a group and the sample it belongs to — of the
+ * blocks with a sample within a screen's distance, more than half have a heading in between — so
+ * sectioning by heading rejects pairings that are plainly related.
  *
- * A section with more than one sample is left unpaired rather than guessed at, since a wrong
- * pairing reports every property of the group as a disagreement.
+ * What does separate two samples is another snippet group: whatever lies between a group and the
+ * next group is that group's, headings included.
  */
-function peeredSample(text, group) {
-    const headings = [...text.matchAll(/^#{2,}\s+.+$/gm)].map(m => m.index);
+function peeredSample(text, group, allGroups) {
+    const samples = [...text.matchAll(/<Sample\s+src="([^"]+)"/g)]
+        .map(m => ({ src: m[1], at: m.index }));
+    if (samples.length === 0) return null;
+
     const start = group[0].start;
     const end = group[group.length - 1].end;
 
-    const sectionStart = headings.filter(h => h <= start).reduce((a, h) => Math.max(a, h), 0);
-    const sectionEnd = headings.filter(h => h > end).reduce((a, h) => Math.min(a, h), text.length);
+    // The window this group owns: up to the previous group, and on to the next.
+    const previousEnd = allGroups
+        .filter(g => g[g.length - 1].end <= start)
+        .reduce((acc, g) => Math.max(acc, g[g.length - 1].end), 0);
+    const nextStart = allGroups
+        .filter(g => g[0].start >= end)
+        .reduce((acc, g) => Math.min(acc, g[0].start), text.length);
 
-    const inSection = [...text.matchAll(/<Sample\s+src="([^"]+)"/g)]
-        .filter(m => m.index >= sectionStart && m.index < sectionEnd)
-        .map(m => m[1]);
+    const owned = samples.filter(s => s.at >= previousEnd && s.at <= nextStart);
+    if (owned.length === 0) return null;
+    if (owned.length === 1) return owned[0].src;
 
-    const distinct = [...new Set(inSection)];
-    if (distinct.length === 1) return distinct[0];
-    unpairedReasons.push(distinct.length === 0 ? 'no sample in section' : `${distinct.length} samples in section`);
-    return null;
+    // More than one in the window: the closest, and only when it is unambiguous.
+    const scored = owned
+        .map(s => ({ src: s.src, distance: s.at < start ? start - s.at : s.at - end }))
+        .sort((a, b) => a.distance - b.distance);
+    if (scored[0].src === scored[1].src) return scored[0].src;
+    return scored[0].distance * 2 < scored[1].distance ? scored[0].src : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -289,6 +404,12 @@ const blockedGroups = [];
 const collapsePlan = [];
 const unpairedReasons = [];
 const missingSamples = [];
+const noSampleFiles = [];
+let backportable = 0;
+let matchedByContent = 0;
+const backportList = [];
+const unresolvedProperties = [];
+let groupsExpressible = 0, groupsNotExpressible = 0;
 
 for (const file of walk(CONTENT_DIR)) {
     if (ONLY_FILE && !file.endsWith(ONLY_FILE)) continue;
@@ -304,11 +425,29 @@ for (const file of walk(CONTENT_DIR)) {
 
         if (!isInScope(read[0].parsed.tag)) { outOfScope++; continue; }
 
-        const src = peeredSample(text, group);
+        const before = unresolvedProperties.length;
+        // Expressible means every property the blocks state is a description property, so the
+        // group can become JSON whether or not a sample exists to reference.
+        for (const b of read) void b;
+        if (unresolvedProperties.length === before) groupsExpressible++; else groupsNotExpressible++;
+
+        // Where it sits decides first; what it says decides when that cannot.
+        let src = peeredSample(text, group, groups);
+        if (!src || !loadSample(src)) {
+            const byContent = sampleByContent(read);
+            if (byContent) { src = byContent; matchedByContent++; }
+        }
         const sample = src ? loadSample(src) : null;
         if (!sample) {
-            noSample++;
-            if (src) missingSamples.push(src);
+            if (src && existsInWcExamples(src)) {
+                // Present upstream but not yet converted: a back port away from collapsing.
+                backportable++;
+                backportList.push(src);
+            } else {
+                noSample++;
+                noSampleFiles.push(path.relative(CONTENT_DIR, file));
+                if (src) missingSamples.push(src);
+            }
             continue;
         }
 
@@ -349,12 +488,28 @@ for (const file of walk(CONTENT_DIR)) {
     }
 }
 
+if (args.includes('--where-unpaired')) {
+    const counts = new Map();
+    for (const f of noSampleFiles) counts.set(f, (counts.get(f) || 0) + 1);
+    for (const [f, n] of [...counts].sort((a,b)=>b[1]-a[1]).slice(0, 12)) console.log(`  ${String(n).padStart(3)}  ${f}`);
+}
 if (args.includes('--why-unpaired')) {
     console.log(`  ${String(missingSamples.length).padStart(4)}  paired but the sample file was not found`);
     for (const s of [...new Set(missingSamples)].slice(0, 6)) console.log(`          ${s}`);
     const counts = new Map();
     for (const r of unpairedReasons) counts.set(r, (counts.get(r) || 0) + 1);
     for (const [r, n] of [...counts].sort((a,b)=>b[1]-a[1])) console.log(`  ${String(n).padStart(4)}  ${r}`);
+}
+console.log(`expressible as JSON: ${groupsExpressible}   not expressible: ${groupsNotExpressible}`);
+if (args.includes('--unresolved')) {
+    const counts = new Map();
+    for (const u of unresolvedProperties) counts.set(u, (counts.get(u) || 0) + 1);
+    for (const [u, n] of [...counts].sort((a,b)=>b[1]-a[1]).slice(0, 20)) console.log(`  ${String(n).padStart(4)}  ${u}`);
+}
+console.log(`matched to a sample by content rather than position: ${matchedByContent}`);
+console.log(`needs the sample back ported from wc-examples first: ${backportable}`);
+if (args.includes('--backport')) {
+    for (const src of [...new Set(backportList)].sort()) console.log(`  ${src}`);
 }
 console.log(`collapsible: ${collapsible}   needs a decision: ${blocked}   no peered sample: ${noSample}` +
     `   out of scope: ${outOfScope}`);
