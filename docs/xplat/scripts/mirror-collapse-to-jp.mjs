@@ -106,7 +106,7 @@ function sectionIndexer(text) {
 const enSection = sectionIndexer(en);
 const jpSection = sectionIndexer(jp);
 
-const enFences = [...en.matchAll(/```json-snippet[^\n]*\n[\s\S]*?\n```/g)]
+const enFences = [...en.matchAll(/```json-snippet[^\n]*\n(?:[\s\S]*?\n)?```/g)]
     .map(m => ({ section: enSection(m.index), fence: m[0] }));
 const jpGroups = groupsOf(jp);
 
@@ -126,30 +126,13 @@ if (enHeadings !== jpHeadings) {
     process.exit(1);
 }
 
-// Every group in a section the English copy collapsed is replaced by that section's snippet —
-// except the ones English still has, which it deliberately kept. chart-annotations keeps a hand
-// written Web Components code block beside its snippet, and replacing the Japanese copy of that
-// block would leave the two saying different things.
-// Two snippets under one heading cannot be placed automatically — which of the section's groups
-// each replaces is a judgement. That only blocks placing them, though: a section already collapsed
-// on both sides has nothing to place and can still be refreshed below.
+// All of a section's snippets, in the order English has them. A section is replaced whole rather
+// than group by group, so two snippets under one heading — a definition and the code beside it —
+// both land, and neither has to be matched to a particular group.
 const bySection = new Map();
-const ambiguousSections = new Set();
 for (const f of enFences) {
-    if (bySection.has(f.section)) {
-        ambiguousSections.add(f.section);
-        continue;
-    }
-    bySection.set(f.section, f.fence);
-}
-for (const section of ambiguousSections) bySection.delete(section);
-
-const blockedSections = [...ambiguousSections].filter(
-    section => jpGroups.some(g => jpSection(g[0].start) === section));
-if (blockedSections.length > 0) {
-    console.error(`refusing to write: section ${blockedSections[0]} holds more than one snippet in ` +
-                  `en and still has blocks in jp, so which one replaces which is ambiguous.`);
-    process.exit(1);
+    if (!bySection.has(f.section)) bySection.set(f.section, []);
+    bySection.get(f.section).push(f.fence);
 }
 
 // Code blocks are the same text in both copies — only the prose is translated — so a Japanese
@@ -159,14 +142,15 @@ for (const group of groupsOf(en)) {
     for (const b of group) enKeptBodies.add(b.body.trim());
 }
 
-let out = '', last = 0, written = 0, replacedSections = new Set();
+let out = '', last = 0, written = 0;
+const replacedSections = new Set();
 for (const group of jpGroups) {
     const section = jpSection(group[0].start);
     if (!bySection.has(section)) continue;                       // hand written on both sides
     if (group.every(b => enKeptBodies.has(b.body.trim()))) continue;   // English kept this one too
     out += jp.slice(last, group[0].start);
-    if (!replacedSections.has(section)) {       // the first group in the section becomes the snippet
-        out += bySection.get(section);
+    if (!replacedSections.has(section)) {   // the section's snippets land where its first group was
+        out += bySection.get(section).join('\n\n');
         replacedSections.add(section);
         written++;
     }
@@ -178,7 +162,7 @@ out += jp.slice(last);
 // snippet is the same text in both copies — only the prose is translated — so a difference is
 // always the Japanese copy being behind, never a translation.
 let updated = 0;
-const jpFences = [...out.matchAll(/```json-snippet[^\n]*\n[\s\S]*?\n```/g)];
+const jpFences = [...out.matchAll(/```json-snippet[^\n]*\n(?:[\s\S]*?\n)?```/g)];
 if (jpFences.length === enFences.length) {
     let rebuilt = '', at = 0;
     for (let i = 0; i < jpFences.length; i++) {
