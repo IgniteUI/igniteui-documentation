@@ -56,6 +56,32 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## geo-map imagery topics
+
+`display-osm-imagery` and `display-esri-imagery` each carried a bare map in markup and, for every
+platform, a code block constructing the imagery object and assigning it to `backgroundContent`.
+Seven blocks and eleven blocks respectively, saying one thing.
+
+`backgroundContent` is an ordinary described property whose value is another description, so the
+whole thing is one JSON with the imagery nested inside the map. The generated markup nests the
+imagery element declaratively and needs no code at all — check-snippet-code-channels.mjs confirms
+neither snippet produces a line of binding code on any platform, which is what makes dropping the
+companion code blocks safe rather than merely tidier.
+
+Expect the shape to change: the page taught "construct the imagery and assign it in code" and now
+shows it nested in the markup. Both do what the prose says — set `backgroundContent` to the imagery
+object — and the nested form is what the running sample does.
+
+### What is left in these topics, and why
+
+- **`display-bing-imagery`** is not collapsed. Its code block resolves the imagery URI from
+  `window.location`, rewriting `http:` to `https:` to match the hosting page. That is a runtime
+  workaround rather than configuration, and no description can express it. The declarative half —
+  `apiKey` and `imageryStyle` — could be collapsed on its own, but that would leave the page setting
+  the same two properties in two places.
+- **The Esri Utility section** is not collapsed. It shows `EsriUtility.getUri(EsriStyle.WorldOceansMap)`,
+  a helper class the topic is teaching. There is no component being described there, only a call.
+
 ## linear-gauge
 
 The cleanest of the three gauges: six of the nine sections matched their own sample outright. XAML

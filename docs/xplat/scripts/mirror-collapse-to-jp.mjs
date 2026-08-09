@@ -82,40 +82,64 @@ function groupsOf(text) {
 }
 
 /**
- * What the English topic holds in document order: a collapsed snippet, or a group still written by
- * hand. Both matter — a topic is rarely collapsed all at once, and an uncollapsed group still
- * occupies a position that the Japanese copy also has. Comparing only the fences to all of the
- * Japanese groups misaligns as soon as one group is left alone.
+ * Which heading section a position falls in.
+ *
+ * Sections are the unit both copies share. Matching a fence to a group by position only works while
+ * each fence replaced exactly one group, and a collapse often merges several — the imagery topics
+ * put a markup block and a code block per platform under one heading, and one JSON replaces all of
+ * them. The headings are translated but there are the same number in the same order, so counting
+ * them locates a section in either copy.
  */
-const enItems = [
-    ...[...en.matchAll(/```json-snippet[^\n]*\n[\s\S]*?\n```/g)]
-        .map(m => ({ at: m.index, fence: m[0] })),
-    ...groupsOf(en).map(g => ({ at: g[0].start, fence: null })),
-].sort((a, b) => a.at - b.at);
+function sectionIndexer(text) {
+    const headings = [...text.matchAll(/^#{1,6} .+$/gm)].map(m => m.index);
+    return at => headings.filter(h => h < at).length;
+}
 
+const enSection = sectionIndexer(en);
+const jpSection = sectionIndexer(jp);
+
+const enFences = [...en.matchAll(/```json-snippet[^\n]*\n[\s\S]*?\n```/g)]
+    .map(m => ({ section: enSection(m.index), fence: m[0] }));
 const jpGroups = groupsOf(jp);
-const collapsed = enItems.filter(i => i.fence !== null).length;
 
-console.log(`${path.basename(FILE)}: en has ${collapsed} collapsed and ` +
-            `${enItems.length - collapsed} still by hand; jp has ${jpGroups.length} group(s)`);
+const enHeadings = (en.match(/^#{1,6} .+$/gm) || []).length;
+const jpHeadings = (jp.match(/^#{1,6} .+$/gm) || []).length;
 
-if (collapsed === 0) {
+console.log(`${path.basename(FILE)}: ${enFences.length} snippet(s) in en, ` +
+            `${jpGroups.length} group(s) in jp, ${enHeadings}/${jpHeadings} headings`);
+
+if (enFences.length === 0) {
     console.log('nothing collapsed in the English topic yet');
     process.exit(0);
 }
-if (enItems.length !== jpGroups.length) {
-    console.error(`refusing to write: en has ${enItems.length} snippet positions and jp has ` +
-                  `${jpGroups.length} groups. The two copies have drifted and need reconciling by hand.`);
+if (enHeadings !== jpHeadings) {
+    console.error(`refusing to write: en has ${enHeadings} headings and jp has ${jpHeadings}. ` +
+                  `The two copies have drifted and need reconciling by hand.`);
     process.exit(1);
 }
 
-let out = '', last = 0, written = 0;
-for (let i = 0; i < enItems.length; i++) {
-    if (enItems[i].fence === null) continue;   // still hand written on both sides
-    const group = jpGroups[i];
-    out += jp.slice(last, group[0].start) + enItems[i].fence;
+// Every group in a section the English copy collapsed is replaced by that section's snippet.
+const bySection = new Map();
+for (const f of enFences) {
+    if (bySection.has(f.section)) {
+        console.error(`refusing to write: section ${f.section} holds more than one snippet in en, ` +
+                      `so which jp group each replaces is ambiguous.`);
+        process.exit(1);
+    }
+    bySection.set(f.section, f.fence);
+}
+
+let out = '', last = 0, written = 0, replacedSections = new Set();
+for (const group of jpGroups) {
+    const section = jpSection(group[0].start);
+    if (!bySection.has(section)) continue;      // still hand written on both sides
+    out += jp.slice(last, group[0].start);
+    if (!replacedSections.has(section)) {       // the first group in the section becomes the snippet
+        out += bySection.get(section);
+        replacedSections.add(section);
+        written++;
+    }
     last = group[group.length - 1].end;
-    written++;
 }
 out += jp.slice(last);
 
