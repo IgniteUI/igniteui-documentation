@@ -437,6 +437,7 @@ const SNIPPET_FENCE_LANG = {
 // #bddcfc that Blazor writes).
 const SNIPPET_STYLE_COMMON = {
     suppressAutoElementNames: true,
+    suppressNameAttribute: true,
     colorNotation: 'hex',
     pascalCaseColorNames: true,
 };
@@ -474,11 +475,30 @@ function loadSnippetApi() {
     return snippetApi;
 }
 
-/** `source="/x" exclude="Blazor"` on the fence line. */
+/** `id="x" ref="x" channel="bindingCode" source="/x" exclude="Blazor"` on the fence line. */
 function parseFenceAttributes(info) {
     const attrs = {};
     for (const m of info.matchAll(/(\w+)="([^"]*)"/g)) attrs[m[1]] = m[2];
     return attrs;
+}
+
+/**
+ * The JSON each `id=` fence holds, so a later `ref=` fence can emit the same definition on another
+ * channel without the topic stating it twice.
+ *
+ * Some properties cannot be written as an attribute on some platforms — a data source or a tooltip
+ * template on Web Components is assigned in script — so a topic showing only markup would leave
+ * that platform's reader with a series bound to nothing. The second fence emits exactly the part
+ * the first could not, from the same definition, which is the whole point: two hand written blocks
+ * are two things to keep in step, and they never were.
+ */
+function collectSnippetDefinitions(content) {
+    const byId = new Map();
+    for (const m of content.matchAll(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g)) {
+        const id = parseFenceAttributes(m[1]).id;
+        if (id) byId.set(id, m[2]);
+    }
+    return byId;
 }
 
 function sampleFileFor(src) {
@@ -594,6 +614,9 @@ function validateJsonSnippets(sourceDir) {
     const problems = [];
     for (const s of snippets) {
         const where = `${path.relative(ROOT, s.file)}:${s.line}`;
+        // A ref= fence carries no definition of its own; the one it names is checked where it is
+        // written.
+        if (parseFenceAttributes(s.info).ref) continue;
         let parsed;
         try {
             parsed = JSON.parse(s.body);
@@ -637,6 +660,7 @@ function transformJsonSnippets(content) {
 
     const lang = SNIPPET_FENCE_LANG[PLATFORM];
     const api = loadSnippetApi();
+    const definitions = collectSnippetDefinitions(content);
 
     return content.replace(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g, (_match, info, body) => {
         // A platform this sample cannot be emitted for drops out, the same way a code block
@@ -654,21 +678,106 @@ function transformJsonSnippets(content) {
             throw new Error(`json-snippet source names a sample that does not exist: ${attrs.source}`);
         }
 
+        // A ref= fence emits another channel of a definition stated once, further up the page.
+        let json = body;
+        if (attrs.ref) {
+            const referenced = definitions.get(attrs.ref);
+            if (referenced === undefined) {
+                throw new Error(`json-snippet ref="${attrs.ref}" names no snippet with that id`);
+            }
+            json = referenced;
+        }
+
         const styleDefaults = SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default;
-        let markup;
+        const channel = attrs.channel || 'markup';
+        let emitted;
         try {
-            markup = api.emitSingleSnippet(body, PLATFORM, {
-                examplesRoot: SNIPPET_EXAMPLES,
-                defaultSnippetId: 'main',
-                styleDefaults,
-            });
+            if (channel === 'markup') {
+                emitted = api.emitSingleSnippet(json, PLATFORM, {
+                    examplesRoot: SNIPPET_EXAMPLES,
+                    defaultSnippetId: 'main',
+                    styleDefaults,
+                });
+            } else {
+                emitted = emitChannel(api, json, channel, styleDefaults);
+            }
         } catch (e) {
             // Failing the build beats publishing a page with a hole where a sample should be.
             throw new Error(`json-snippet failed for ${PLATFORM}: ${e.message}\n${info}\n${body}`);
         }
-        if (markup === null) return '';
-        return '```' + lang + '\n' + markup + '\n```';
+        // A channel this platform writes nothing to drops out, the same way a block belonging to
+        // another platform does — Angular binds its data source in the template, so it has no
+        // binding code to show beside it.
+        if (emitted === null || emitted.trim() === '') return '';
+        const fence = '```' + (channel === 'markup' ? lang : CODE_FENCE_LANG[PLATFORM] || 'ts') +
+                      '\n' + emitted + '\n```';
+        if (channel !== 'markup') return fence;
+        return fence + companionCode(api, json, attrs, styleDefaults);
     });
+}
+
+/**
+ * The code that has to run beside this markup, when the markup could not say everything.
+ *
+ * Some properties cannot be written as an attribute on some platforms — a data source or a tooltip
+ * template on Web Components is assigned in script — and the emitter is the thing that knows which,
+ * because it is what decided. So a topic does not have to declare that a code block is needed: if
+ * anything was left out of the markup, it appears here, and if nothing was, nothing appears. Angular
+ * binds its data source in the template and gets no block; Web Components gets two lines.
+ *
+ * What that block shows is the assignments alone, which is what 149 of the 192 code blocks in the
+ * hand written topics show. The 36 that also show how the reference was obtained, and the 27 that
+ * declare a field, are the introductory pages; `code="allCode"` gets that fuller form, and
+ * `code="none"` turns the whole thing off for a topic that would rather write its own.
+ */
+function companionCode(api, json, attrs, styleDefaults) {
+    const mode = attrs.code || 'auto';
+    if (mode === 'none') return '';
+
+    // The assignments decide whether anything is shown at all, even when the fuller form is asked
+    // for: field declarations and element lookups on their own teach nothing.
+    const bindings = emitChannel(api, json, 'bindingCode', styleDefaults);
+    if (bindings.trim() === '') return '';
+
+    const body = mode === 'auto' ? bindings : emitChannel(api, json, mode, styleDefaults);
+    if (body.trim() === '') return '';
+    return '\n\n```' + (CODE_FENCE_LANG[PLATFORM] || 'ts') + '\n' + body.trim() + '\n```';
+}
+
+/** The fence language each platform's code — as opposed to its markup — is written in. */
+const CODE_FENCE_LANG = {
+    Angular: 'ts',
+    React: 'tsx',
+    WebComponents: 'ts',
+    Blazor: 'razor',
+    WPF: 'csharp',
+    WinUI: 'csharp',
+    Uno: 'csharp',
+};
+
+/**
+ * One named channel of a definition — the part that did not fit in the markup.
+ *
+ * Asked for by recording a zone over the whole element on that channel, which is the same
+ * mechanism a sample uses to name its own snippets.
+ */
+function emitChannel(api, json, channel, styleDefaults) {
+    let parsed;
+    try {
+        parsed = JSON.parse(json);
+    } catch (e) {
+        throw new Error(`not valid JSON: ${e.message}`);
+    }
+    const root = parsed && parsed.descriptions && parsed.descriptions.content
+        ? parsed.descriptions.content
+        : parsed;
+    root['$type'] = `+doc:${channel}`;
+
+    const snippets = api.emitSnippets(JSON.stringify(parsed), PLATFORM, {
+        examplesRoot: SNIPPET_EXAMPLES,
+        styleDefaults,
+    });
+    return snippets.find(s => s.channel === channel)?.content ?? '';
 }
 
 function transformMdxFile(content) {

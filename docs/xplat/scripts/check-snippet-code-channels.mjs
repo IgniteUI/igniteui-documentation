@@ -69,11 +69,12 @@ for (const file of files) {
     if (!text.includes('```json-snippet')) continue;
     const hasCodeBlockFor = codeBlockPlatforms(text);
 
-    for (const m of text.matchAll(/```json-snippet[^\n]*\n([\s\S]*?)\n```/g)) {
+    for (const m of text.matchAll(/```json-snippet([^\n]*)\n([\s\S]*?)\n```/g)) {
         total++;
+        const fenceInfo = m[1];
         const line = text.slice(0, m.index).split('\n').length;
         let parsed;
-        try { parsed = JSON.parse(m[1]); } catch { continue; }
+        try { parsed = JSON.parse(m[2]); } catch { continue; }
 
         const needs = [];
         for (const platform of PLATFORMS) {
@@ -93,14 +94,16 @@ for (const file of files) {
         if (needs.length === 0) continue;
 
         needing++;
-        const missing = needs.filter(n => !hasCodeBlockFor.has(n.platform) &&
-                                          !hasCodeBlockFor.has('Xaml'));
+        // The generator emits the companion block itself unless the fence turned that off, so what
+        // is left to check is the snippets that opted out and then wrote nothing in its place.
+        const optedOut = /\bcode="none"/.test(fenceInfo);
         const where = `${path.relative(ROOT, file)}:${line}`;
-        console.log(`${where}`);
+        console.log(`${where}${optedOut ? '   (code="none")' : ''}`);
         for (const n of needs) {
-            const covered = hasCodeBlockFor.has(n.platform) ? '' : '   <- no code block on the page';
-            if (!hasCodeBlockFor.has(n.platform)) uncovered++;
-            console.log(`    ${n.platform}: ${n.lines} line(s) of binding code${covered}`);
+            const covered = !optedOut || hasCodeBlockFor.has(n.platform);
+            if (!covered) uncovered++;
+            console.log(`    ${n.platform}: ${n.lines} line(s) of binding code` +
+                        (covered ? '' : '   <- opted out of the generated block and wrote none'));
         }
     }
 }
