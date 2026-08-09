@@ -77,13 +77,18 @@ The snippets set `calloutsXMemberPath="index"`, `calloutsYMemberPath="value"` an
 and `value` and `info` are not fields of the data at all, so two of the three named nothing.
 Taken from the sample.
 
-### Two things deliberately left
+### `calloutsAllowedPositions` was being dropped by the emitter
 
-- **`calloutsAllowedPositions` is not in the snippet**, though the prose documents it and the
-  sample sets it. An enum collection is emitted only for XAML — and there as a binding rather than
-  a literal — and is silently dropped on Angular, React, Web Components and Blazor. A string
-  collection such as `includedProperties` emits everywhere, so the gap is enum collections. Add
-  the property once that is fixed.
+The prose documents it and the sample sets it, but no platform's snippet showed it, because an enum
+collection was emitted only for XAML. It is declared
+`Collection:string:CalloutPlacementPositionsCollection:CalloutPlacementPositions`, and a Collection
+fell through to sub properties — child elements — which a list of enum values has no representation
+as, so it was silently dropped everywhere the emitter did not have to set it in code.
+`includedProperties` escaped only because it happens to be declared `Array:string` instead. Fixed in
+the renderer; the property is now in the snippet.
+
+### One thing deliberately left
+
 - **The Web Components `ts` block is still hand written.** It sets the data sources in code, which
   is that platform's idiom, and the collapse only covers markup. It now restates member paths the
   generated markup also carries, which is exactly the drift this work exists to remove, so it
