@@ -20,12 +20,14 @@
 
 import {
     readFileSync, writeFileSync, mkdirSync,
-    existsSync, readdirSync, rmSync,
+    existsSync, readdirSync, rmSync, statSync,
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // The snippet emitter is a CommonJS bundle of the locally built renderer; see transformJsonSnippets.
 import { createRequire } from 'node:module';
+import Ajv from 'ajv';
+import draft06 from 'ajv/dist/refs/json-schema-draft-06.json' with { type: 'json' };
 // Canonical platform-visibility rules, shared with astro.config.ts and the
 // link checkers. Node strips the TS types on import (CI runs Node 24).
 import { emitsFor, forMatches } from '../../../src/lib/platform-groups.ts';
@@ -428,14 +430,32 @@ const SNIPPET_FENCE_LANG = {
  * Stating it once here beats repeating it in every sample, and a sample can still override any of
  * it through $styleOptions.
  */
+// Shared by every platform. One attribute per line is the renderer's own default and is how the
+// topics are written — thirty properties on one line is unreadable at any page width. Colours are
+// pinned to the spelling the topics use: a name where the colour has one, hex otherwise, rather
+// than each emitter picking (Web Components would otherwise write rgba(189, 220, 252, 1) for the
+// #bddcfc that Blazor writes).
+const SNIPPET_STYLE_COMMON = {
+    suppressAutoElementNames: true,
+    colorNotation: 'hex',
+    pascalCaseColorNames: true,
+};
+
 const SNIPPET_STYLE_DEFAULTS = {
-    default: {
-        attributeLayout: 'singleLine',
-        suppressAutoElementNames: true,
-    },
-    WPF: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
-    WinUI: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
-    Uno: { attributeLayout: 'singleLine', suppressAutoElementNames: true, omitDimensions: true },
+    default: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+
+    // How each platform's topics have always written their numbers: Angular leaves them
+    // undelimited, React braces them, and the rest quote them. React's emitter indents its
+    // attributes already, so it is the one platform that must not ask for it again.
+    Angular: { ...SNIPPET_STYLE_COMMON, indentAttributes: true, numericAttributeStyle: 'bare' },
+    WebComponents: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+    Blazor: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+    React: { ...SNIPPET_STYLE_COMMON, numericAttributeStyle: 'braced', selfCloseEmptyElements: true },
+
+    // The XAML platforms state no dimensions, because the hosting panel decides them.
+    WPF: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
+    WinUI: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
+    Uno: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
 };
 
 let snippetApi = null;
@@ -449,27 +469,197 @@ function loadSnippetApi() {
     return snippetApi;
 }
 
+/** `source="/x" exclude="Blazor"` on the fence line. */
+function parseFenceAttributes(info) {
+    const attrs = {};
+    for (const m of info.matchAll(/(\w+)="([^"]*)"/g)) attrs[m[1]] = m[2];
+    return attrs;
+}
+
+function sampleFileFor(src) {
+    return path.join(SNIPPET_EXAMPLES, 'samples', src.replace(/^\//, '') + '.json');
+}
+
+/**
+ * Turns every ```json-snippet block into this platform's markup.
+ *
+ *   ```json-snippet source="/gauges/bullet-graph/measures" exclude="Blazor"
+ *   { "type": "BulletGraph", "value": 50, … }
+ *   ```
+ *
+ * The JSON is written out in full rather than naming the sample and overlaying changes onto it. A
+ * reader of the topic can then see the whole snippet in the topic, which is the point — a block
+ * whose real content lives in another file, assembled by rules, is not something anyone can read.
+ *
+ * `source` names the running sample the values came from. Nothing is read from it during
+ * generation, but it is not decoration: check-snippet-sources.mjs compares the two and reports
+ * every property where they differ, so a snippet that drifts from the sample it claims to show is
+ * caught rather than discovered years later. That difference is exactly the overlay, so if the
+ * inline form is ever regretted, the overlay form can be produced from it mechanically.
+ *
+ * A snippet showing fewer properties than its source is the normal case and says nothing: a section
+ * about tick marks shows tick marks, not the thirty properties the running sample carries. What the
+ * check reports is a property both of them set to different values, which is the only shape drift
+ * can take once the two are linked.
+ *
+ * `exclude` names platforms the snippet is not for. A list of platforms to include was the other
+ * option and is the wrong default — a snippet is for every platform unless something makes it not,
+ * so stating the exception keeps the common case empty.
+ */
+/** Where the emitted schema is written, so an editor can point $schema at it. */
+const SNIPPET_SCHEMA_OUT = path.join(ROOT, 'generated', 'snippet-schema.json');
+
+/**
+ * Emits the JSON schema and checks every json-snippet in the source against it.
+ *
+ * The renderer rejects a bad snippet one property at a time and only once generation reaches it,
+ * which turns a page with five mistakes into five runs. The schema knows every description type
+ * and every property on it, so one pass can report all of them, with the file and the property
+ * named. It runs before any output is written, because a build that fails halfway leaves a
+ * half-generated tree behind.
+ *
+ * The schema is written out as well as used, so the same file can back editor completion.
+ */
+function validateJsonSnippets(sourceDir) {
+    const files = [];
+    (function walk(dir) {
+        for (const entry of readdirSync(dir)) {
+            const full = path.join(dir, entry);
+            if (statSync(full).isDirectory()) walk(full);
+            else if (full.endsWith('.mdx')) files.push(full);
+        }
+    })(sourceDir);
+
+    const snippets = [];
+    for (const file of files) {
+        const text = readFileSync(file, 'utf8');
+        if (!text.includes('```json-snippet')) continue;
+        for (const m of text.matchAll(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g)) {
+            const line = text.slice(0, m.index).split('\n').length;
+            snippets.push({ file, line, info: m[1], body: m[2] });
+        }
+    }
+    if (snippets.length === 0) return;
+
+    const api = loadSnippetApi();
+    const schema = JSON.parse(api.emitJsonSchema(SNIPPET_EXAMPLES));
+    mkdirSync(path.dirname(SNIPPET_SCHEMA_OUT), { recursive: true });
+    writeFileSync(SNIPPET_SCHEMA_OUT, JSON.stringify(schema, null, 2), 'utf8');
+
+    // The schema references some types it never defines — AxisLabelSettings among them — which ajv
+    // treats as fatal. Stubbing them permissively keeps every other property checkable; the count
+    // is reported because each one is a property nothing is checking.
+    const defined = new Set(Object.keys(schema.definitions));
+    const referenced = new Set();
+    (function walk(node) {
+        if (node === null || typeof node !== 'object') return;
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        for (const [key, value] of Object.entries(node)) {
+            if (key === '$ref' && typeof value === 'string' && value.startsWith('#/definitions/')) {
+                referenced.add(value.slice('#/definitions/'.length));
+            }
+            walk(value);
+        }
+    })(schema);
+    const dangling = [...referenced].filter(name => !defined.has(name));
+    for (const name of dangling) schema.definitions[name] = {};
+    if (dangling.length > 0) {
+        console.log(`[generate] json-snippet: ${dangling.length} type(s) referenced but not defined ` +
+                    `by the schema, so their properties go unchecked: ${dangling.slice(0, 5).join(', ')}` +
+                    (dangling.length > 5 ? ', …' : ''));
+    }
+
+    const ajv = new Ajv({ allErrors: true, strict: false, validateFormats: false });
+    ajv.addMetaSchema(draft06);
+    ajv.addSchema(schema, 'snippets');
+
+    // Checked against the description the snippet names, not against the union of all of them.
+    // The union reports every property as unknown once per type that lacks it, which buries the
+    // one misspelling that is actually wrong under a thousand that are not.
+    const validators = new Map();
+    const validatorFor = (type) => {
+        if (!validators.has(type)) {
+            validators.set(type, schema.definitions[type]
+                ? ajv.compile({ $ref: `snippets#/definitions/${type}` })
+                : null);
+        }
+        return validators.get(type);
+    };
+
+    const problems = [];
+    for (const s of snippets) {
+        const where = `${path.relative(ROOT, s.file)}:${s.line}`;
+        let parsed;
+        try {
+            parsed = JSON.parse(s.body);
+        } catch (e) {
+            problems.push(`${where}  not valid JSON — ${e.message}`);
+            continue;
+        }
+        if (!parsed || typeof parsed !== 'object') {
+            problems.push(`${where}  a snippet has to be an object describing one component`);
+            continue;
+        }
+        if (typeof parsed.type !== 'string') {
+            problems.push(`${where}  no "type", so there is nothing to check it against`);
+            continue;
+        }
+        const validate = validatorFor(parsed.type);
+        if (validate === null) {
+            problems.push(`${where}  unknown component type "${parsed.type}"`);
+            continue;
+        }
+        if (validate(parsed)) continue;
+        for (const err of validate.errors ?? []) {
+            const at = err.instancePath || '/';
+            problems.push(err.params?.additionalProperty
+                ? `${where}  ${at || '/'} unknown property "${err.params.additionalProperty}"`
+                : `${where}  ${at} ${err.message}`);
+        }
+    }
+
+    if (problems.length === 0) {
+        console.log(`[generate] json-snippet: ${snippets.length} checked against the schema, all valid`);
+        return;
+    }
+    console.error(`[generate] json-snippet: ${problems.length} problem(s) in ${snippets.length} snippet(s):`);
+    for (const p of problems) console.error(`  ${p}`);
+    process.exit(1);
+}
+
 function transformJsonSnippets(content) {
     if (!content.includes('```json-snippet')) return content;
 
     const lang = SNIPPET_FENCE_LANG[PLATFORM];
     const api = loadSnippetApi();
 
-    return content.replace(/```json-snippet\n([\s\S]*?)```/g, (match, body) => {
+    return content.replace(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g, (_match, info, body) => {
         // A platform this sample cannot be emitted for drops out, the same way a code block
         // belonging to another platform does.
         if (!lang || !api.isSupportedPlatform(PLATFORM)) return '';
 
+        const attrs = parseFenceAttributes(info);
+        // Same spelling a PlatformBlock's for= takes, groups included, so "Xaml" excludes all three.
+        if (attrs.exclude && forMatches(PLATFORM, attrs.exclude)) return '';
+
+        // Only that the path resolves. Whether the values still agree is a question for
+        // check-snippet-sources.mjs, which can say what differs; failing a build here could only
+        // say that something does.
+        if (attrs.source && !existsSync(sampleFileFor(attrs.source))) {
+            throw new Error(`json-snippet source names a sample that does not exist: ${attrs.source}`);
+        }
+
+        const styleDefaults = SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default;
         let markup;
         try {
             markup = api.emitSingleSnippet(body, PLATFORM, {
                 examplesRoot: SNIPPET_EXAMPLES,
                 defaultSnippetId: 'main',
-                styleDefaults: SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default,
+                styleDefaults,
             });
         } catch (e) {
             // Failing the build beats publishing a page with a hole where a sample should be.
-            throw new Error(`json-snippet failed for ${PLATFORM}: ${e.message}\n${body}`);
+            throw new Error(`json-snippet failed for ${PLATFORM}: ${e.message}\n${info}\n${body}`);
         }
         if (markup === null) return '';
         return '```' + lang + '\n' + markup + '\n```';
@@ -829,6 +1019,7 @@ if (existsSync(OUT_ROOT)) {
     console.log(`[generate] Cleaned output: ${OUT_ROOT}`);
 }
 mkdirSync(OUT_DIR, { recursive: true });
+validateJsonSnippets(SRC_COMPONENTS);
 processDir(SRC_COMPONENTS, OUT_DIR);
 
 // Expand grids/_shared/*.mdx into per-component output directories
