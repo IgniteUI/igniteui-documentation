@@ -450,7 +450,12 @@ const SNIPPET_STYLE_DEFAULTS = {
     Angular: { ...SNIPPET_STYLE_COMMON, indentAttributes: true, numericAttributeStyle: 'bare' },
     WebComponents: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
     Blazor: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
-    React: { ...SNIPPET_STYLE_COMMON, numericAttributeStyle: 'braced', selfCloseEmptyElements: true },
+    React: {
+        ...SNIPPET_STYLE_COMMON,
+        numericAttributeStyle: 'braced',
+        booleanAttributeStyle: 'braced',
+        selfCloseEmptyElements: true,
+    },
 
     // The XAML platforms state no dimensions, because the hosting panel decides them.
     WPF: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
