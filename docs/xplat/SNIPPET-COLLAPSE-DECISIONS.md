@@ -56,6 +56,44 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## chart-annotations
+
+### Paired against samples the page does not show
+
+Every snippet in this topic is a `CategoryChart`, while the three samples the page embeds are
+`DataChart`. The samples the snippets were actually written from — `annotations-final-value` and
+`annotations-custom` under `charts/category-chart` — are never mentioned on the page. The XAML
+binding to `TemperatureAnnotatedData` is what gives it away: that is `annotations-custom`'s own
+`dataSourceRef`.
+
+Collapsed against those two. The embedded `<Sample>` tags are left as they are; whether the page
+should show a CategoryChart sample next to CategoryChart snippets is a content question, not a
+collapse decision.
+
+### Callout member paths pointed at nothing
+
+The snippets set `calloutsXMemberPath="index"`, `calloutsYMemberPath="value"` and
+`calloutsLabelMemberPath="info"`. The running sample uses `Index`, `Temperature` and `TempInfo`,
+and `value` and `info` are not fields of the data at all, so two of the three named nothing.
+Taken from the sample.
+
+### Two things deliberately left
+
+- **`calloutsAllowedPositions` is not in the snippet**, though the prose documents it and the
+  sample sets it. An enum collection is emitted only for XAML — and there as a binding rather than
+  a literal — and is silently dropped on Angular, React, Web Components and Blazor. A string
+  collection such as `includedProperties` emits everywhere, so the gap is enum collections. Add
+  the property once that is fixed.
+- **The Web Components `ts` block is still hand written.** It sets the data sources in code, which
+  is that platform's idiom, and the collapse only covers markup. It now restates member paths the
+  generated markup also carries, which is exactly the drift this work exists to remove, so it
+  should come from the same JSON through the code channel.
+
+### The XAML callout snippet was in the wrong place
+
+It sat after the Timeline Styling section rather than with the callout markup it duplicates, which
+is why the group looked like a separate snippet. Folded into the callout snippet.
+
 ## bullet-graph
 
 Six of the nine groups collapsed trivially once XAML was overwritten (Usage, Comparative Measures,
