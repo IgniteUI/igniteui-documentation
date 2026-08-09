@@ -56,6 +56,33 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## linear-gauge
+
+The cleanest of the three gauges: six of the nine sections matched their own sample outright. XAML
+again carries the hero sample's values throughout — `NeedleShape="Needle"` where every web platform
+says `Custom`, `#79797a` where they say `DodgerBlue` — and again loses.
+
+### Highlight Needle — value taken from the sample, needle brush kept
+
+The topic ran `value=70` against the sample's 50, and the prose states no number, so the sample
+decides and it is now 50 — which also puts it in step with every other section in the topic.
+
+The topic additionally sets `needleBrush="Blue"`, which the sample does not. It is kept: the section
+exists to show a second needle, and colouring the main one is what makes the two distinguishable.
+Every web platform sets it.
+
+### Tick Marks — value kept at 50
+
+`/gauges/linear-gauge/tickmarks` runs `value=10`; every platform's snippet and every neighbouring
+section runs 50. Platform agreement outweighs the sample, and 10 would make this one section
+inexplicably different from the rest of the page.
+
+### Summary — constructed as a union
+
+As with the other two gauges, rebuilt as the union of the sections above it rather than the separate
+configuration the published page carried. It now includes the highlight needle properties the
+published Summary omitted.
+
 ## radial-gauge
 
 The same shape as bullet-graph, including the same cause: every XAML block carries the values of the
