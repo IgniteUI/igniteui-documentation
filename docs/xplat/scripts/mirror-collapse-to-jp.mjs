@@ -58,12 +58,20 @@ if (!jpFile) { console.error(`no Japanese topic matching ${FILE} — nothing to 
 const en = readFileSync(enFile, 'utf8');
 const jp = readFileSync(jpFile, 'utf8');
 
-/** A run of code blocks with nothing but whitespace between them. Same rule the dossier uses. */
+/**
+ * A run of code blocks with nothing but whitespace between them.
+ *
+ * Every code fence counts, not just the markup ones. A collapse replaces a whole section — the
+ * markup and the code beside it — so a section whose blocks are all `ts`, as Map Background's are,
+ * has to be seen here or the snippet is inserted after the blocks it was meant to replace and the
+ * page ends up with both.
+ */
 function groupsOf(text) {
     const blocks = [];
     for (const m of text.matchAll(/<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g)) {
-        if (!/```(html|tsx|razor|xaml)\n/.test(m[2])) continue;
-        blocks.push({ platforms: m[1].split(',').map(s => s.trim()),
+        if (!/```(html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n/.test(m[2])) continue;
+        const fence = /```(?:html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n([\s\S]*?)```/.exec(m[2]);
+        blocks.push({ platforms: m[1].split(',').map(s => s.trim()), body: fence ? fence[1] : '',
                       start: m.index, end: m.index + m[0].length });
     }
     const groups = [];
@@ -118,7 +126,10 @@ if (enHeadings !== jpHeadings) {
     process.exit(1);
 }
 
-// Every group in a section the English copy collapsed is replaced by that section's snippet.
+// Every group in a section the English copy collapsed is replaced by that section's snippet —
+// except the ones English still has, which it deliberately kept. chart-annotations keeps a hand
+// written Web Components code block beside its snippet, and replacing the Japanese copy of that
+// block would leave the two saying different things.
 const bySection = new Map();
 for (const f of enFences) {
     if (bySection.has(f.section)) {
@@ -129,10 +140,18 @@ for (const f of enFences) {
     bySection.set(f.section, f.fence);
 }
 
+// Code blocks are the same text in both copies — only the prose is translated — so a Japanese
+// block English still has is recognisable by its body.
+const enKeptBodies = new Set();
+for (const group of groupsOf(en)) {
+    for (const b of group) enKeptBodies.add(b.body.trim());
+}
+
 let out = '', last = 0, written = 0, replacedSections = new Set();
 for (const group of jpGroups) {
     const section = jpSection(group[0].start);
-    if (!bySection.has(section)) continue;      // still hand written on both sides
+    if (!bySection.has(section)) continue;                       // hand written on both sides
+    if (group.every(b => enKeptBodies.has(b.body.trim()))) continue;   // English kept this one too
     out += jp.slice(last, group[0].start);
     if (!replacedSections.has(section)) {       // the first group in the section becomes the snippet
         out += bySection.get(section);
@@ -142,6 +161,11 @@ for (const group of jpGroups) {
     last = group[group.length - 1].end;
 }
 out += jp.slice(last);
+
+// A wrapper left holding nothing. Some sections wrap each platform twice — once round the markup
+// and once round the code — so collapsing the fenced one leaves its empty twin behind, which the
+// English copy dropped along with everything else in the section.
+out = out.replace(/<PlatformBlock\s+for="[^"]+">\s*<\/PlatformBlock>\n*/g, '');
 
 if (DRY) {
     console.log(`would replace ${written} group(s); ${jp.length} -> ${out.length} bytes`);
