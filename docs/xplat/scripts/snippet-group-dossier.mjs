@@ -171,6 +171,25 @@ function namesIn(content, into = new Set()) {
     return into;
 }
 
+/**
+ * The component a group's blocks are about, as the sample JSON would name it.
+ *
+ * Taken from the root element — igx-radial-gauge, IgbRadialGauge, igCharts:XamRadialGauge all
+ * reduce to radialgauge. The gauges share most of their property names, so a radial gauge section
+ * about ranges matches the linear gauge's ranges sample just as well on properties alone; only the
+ * element says which component the reader is being shown.
+ */
+function componentOf(group) {
+    for (const b of group) {
+        const tag = /<\s*([A-Za-z][\w:.-]*)/.exec(b.body);
+        if (!tag) continue;
+        const name = tag[1].replace(/^.*:/, '')          // igCharts:XamRadialGauge
+                           .replace(/^(igx|igc|igb|igr|Igx|Igc|Igb|Igr|Xam)[-]?/, '');
+        return normalise(name);
+    }
+    return null;
+}
+
 /** Samples that set most of what this group's snippets set, best first. */
 function candidatesFor(group) {
     if (sampleIndex === null) {
@@ -178,6 +197,7 @@ function candidatesFor(group) {
     }
     const wanted = namesWritten(group);
     if (wanted.size === 0) return [];
+    const component = componentOf(group);
 
     const scored = [];
     for (const sample of sampleIndex) {
@@ -186,9 +206,13 @@ function candidatesFor(group) {
         if (covered === 0) continue;
         // Coverage of the snippet decides; a sample setting far more than the snippet is still a
         // fine source, so its extra properties only break ties.
-        scored.push({ ...sample, covered, ratio: covered / wanted.size, extra: sample.names.size });
+        const sameComponent = component !== null && normalise(sample.content.type) === component;
+        scored.push({ ...sample, covered, ratio: covered / wanted.size,
+                      extra: sample.names.size, sameComponent });
     }
-    scored.sort((a, b) => b.ratio - a.ratio || a.extra - b.extra);
+    // A sample of the same component wins over a better scoring one of a different component: a
+    // reader shown a radial gauge is not helped by the linear gauge's numbers.
+    scored.sort((a, b) => (b.sameComponent - a.sameComponent) || b.ratio - a.ratio || a.extra - b.extra);
     return scored.slice(0, 4);
 }
 

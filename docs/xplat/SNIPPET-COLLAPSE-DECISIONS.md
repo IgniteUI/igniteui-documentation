@@ -56,6 +56,44 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## radial-gauge
+
+The same shape as bullet-graph, including the same cause: every XAML block carries the values of the
+hero `animation` sample — `MinimumValue=0, MaximumValue=50, Value=25, Interval=5`, scale angles
+120/60, `BackingShape="Circular"`, `#d6d6d6` — rather than each section's own. Expect every XAML
+block in this topic to differ from the published page.
+
+Eight of the ten sections collapsed to their own sample. The rest:
+
+### Tick Marks — sample pinned, snippet extents kept
+
+As in bullet-graph, the platforms agree with each other and disagree with `/gauges/radial-gauge/tickmarks`
+on the extents: the topic writes `tickStartExtent 0.45, tickEndExtent 0.575, minorTickStartExtent
+0.575, minorTickEndExtent 0.5` against the sample's `0.5 / 0.57 / 0.57 / 0.52`. Platforms agreeing
+outweighs the sample, so the sample is the source and those four are kept.
+
+### Ranges — the topic's own ranges kept
+
+`/gauges/radial-gauge/ranges` runs two ranges in olive and orange with `value=80`; the topic shows
+three in red, yellow and green with `value=50`, which is what a section teaching ranges wants. All
+the web platforms agree on the topic's version, so it stands, with the sample recorded as the source.
+
+### Labels and Titles — maximumValue converged to 80
+
+The section alone ran `maximumValue=100` where every other section in the topic, and the sample,
+run 80. Nothing in the prose depends on it, so it is now 80 like its neighbours.
+
+### Summary — constructed as a union
+
+The published Summary was, again, not the union it claims to be: its own palette (`#c6c6c6`,
+`Black`, `#ededed`, `Gray`), its own two ranges at 20–40 and 40–60, and `value=70`. Rebuilt as the
+union of the sections above it, taking the earlier section's value where two conflict — `value=50`,
+`maximumValue=80`.
+
+As in bullet-graph, the union now contains the Title & Subtitle and Highlight Needle properties the
+published Summary omitted. They are among the snippets it says it combines, but they do change what
+the reader sees.
+
 ## chart-annotations
 
 ### Paired against samples the page does not show
