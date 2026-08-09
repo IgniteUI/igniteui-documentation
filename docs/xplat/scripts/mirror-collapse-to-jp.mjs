@@ -130,14 +130,26 @@ if (enHeadings !== jpHeadings) {
 // except the ones English still has, which it deliberately kept. chart-annotations keeps a hand
 // written Web Components code block beside its snippet, and replacing the Japanese copy of that
 // block would leave the two saying different things.
+// Two snippets under one heading cannot be placed automatically — which of the section's groups
+// each replaces is a judgement. That only blocks placing them, though: a section already collapsed
+// on both sides has nothing to place and can still be refreshed below.
 const bySection = new Map();
+const ambiguousSections = new Set();
 for (const f of enFences) {
     if (bySection.has(f.section)) {
-        console.error(`refusing to write: section ${f.section} holds more than one snippet in en, ` +
-                      `so which jp group each replaces is ambiguous.`);
-        process.exit(1);
+        ambiguousSections.add(f.section);
+        continue;
     }
     bySection.set(f.section, f.fence);
+}
+for (const section of ambiguousSections) bySection.delete(section);
+
+const blockedSections = [...ambiguousSections].filter(
+    section => jpGroups.some(g => jpSection(g[0].start) === section));
+if (blockedSections.length > 0) {
+    console.error(`refusing to write: section ${blockedSections[0]} holds more than one snippet in ` +
+                  `en and still has blocks in jp, so which one replaces which is ambiguous.`);
+    process.exit(1);
 }
 
 // Code blocks are the same text in both copies — only the prose is translated — so a Japanese
@@ -162,14 +174,31 @@ for (const group of jpGroups) {
 }
 out += jp.slice(last);
 
+// A section collapsed on both sides already, whose definition has since changed in English. The
+// snippet is the same text in both copies — only the prose is translated — so a difference is
+// always the Japanese copy being behind, never a translation.
+let updated = 0;
+const jpFences = [...out.matchAll(/```json-snippet[^\n]*\n[\s\S]*?\n```/g)];
+if (jpFences.length === enFences.length) {
+    let rebuilt = '', at = 0;
+    for (let i = 0; i < jpFences.length; i++) {
+        if (jpFences[i][0] !== enFences[i].fence) updated++;
+        rebuilt += out.slice(at, jpFences[i].index) + enFences[i].fence;
+        at = jpFences[i].index + jpFences[i][0].length;
+    }
+    out = rebuilt + out.slice(at);
+}
+
 // A wrapper left holding nothing. Some sections wrap each platform twice — once round the markup
 // and once round the code — so collapsing the fenced one leaves its empty twin behind, which the
 // English copy dropped along with everything else in the section.
 out = out.replace(/<PlatformBlock\s+for="[^"]+">\s*<\/PlatformBlock>\n*/g, '');
 
 if (DRY) {
-    console.log(`would replace ${written} group(s); ${jp.length} -> ${out.length} bytes`);
+    console.log(`would replace ${written} group(s) and refresh ${updated} snippet(s); ` +
+                `${jp.length} -> ${out.length} bytes`);
     process.exit(0);
 }
 writeFileSync(jpFile, out, 'utf8');
-console.log(`mirrored ${written} group(s) into ${path.relative(ROOT, jpFile)}`);
+console.log(`mirrored ${written} group(s) and refreshed ${updated} snippet(s) in ` +
+            `${path.relative(ROOT, jpFile)}`);

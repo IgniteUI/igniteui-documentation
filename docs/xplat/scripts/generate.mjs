@@ -438,6 +438,8 @@ const SNIPPET_FENCE_LANG = {
 const SNIPPET_STYLE_COMMON = {
     suppressAutoElementNames: true,
     suppressNameAttribute: true,
+    // The topics show the statements a handler runs, not the method the library wraps them in.
+    omitHandlerSignature: true,
     colorNotation: 'hex',
     pascalCaseColorNames: true,
 };
@@ -628,6 +630,11 @@ function validateJsonSnippets(sourceDir) {
             problems.push(`${where}  a snippet has to be an object describing one component`);
             continue;
         }
+        // A snippet needing more than the component — handlers, refs — is written in the sample's
+        // own shape, with the component under descriptions.content. Check that, as the emitter does.
+        if (parsed.descriptions && parsed.descriptions.content) {
+            parsed = parsed.descriptions.content;
+        }
         if (typeof parsed.type !== 'string') {
             problems.push(`${where}  no "type", so there is nothing to check it against`);
             continue;
@@ -772,6 +779,13 @@ function emitChannel(api, json, channel, styleDefaults) {
         ? parsed.descriptions.content
         : parsed;
     root['$type'] = `+doc:${channel}`;
+
+    // A handler is not written where its name appears, so marking the element does not reach it.
+    // The list of handler names carries its own sidecar, which registers the request the handler
+    // emitter answers when it gets there.
+    for (const list of ['onInit', 'onViewInit']) {
+        if (parsed[list] !== undefined) parsed[`$${list}`] = `+doc:${channel}`;
+    }
 
     const snippets = api.emitSnippets(JSON.stringify(parsed), PLATFORM, {
         examplesRoot: SNIPPET_EXAMPLES,
