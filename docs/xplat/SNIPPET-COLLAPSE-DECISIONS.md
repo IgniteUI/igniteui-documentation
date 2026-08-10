@@ -56,6 +56,23 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## The spreadsheet topics are not collapsible yet
+
+`Spreadsheet` has no description type. It is not among the 1190 definitions the schema is generated
+from, and there are no spreadsheet sample JSONs in the examples repository — the directory does not
+exist, so the samples those pages show are authored some other way. Without a description the
+renderer has nothing to emit from, so this is a limit of what is described rather than a judgement
+about the pages.
+
+That accounts for `spreadsheet-configuring`, `spreadsheet-overview`, `spreadsheet-commands` and the
+smaller spreadsheet pages — roughly 50 blocks. They become collapsible the day the component is
+described, and nothing else needs to change for that.
+
+The same check turns up two other kinds of root that are not components and never will be:
+
+- **data classes** — `WorldCity`, `SampleDataType`, `List` — a page defining the shape of its data
+- **page scaffolding** — `div`, `html`, `script` — the wrapper a sample sits in
+
 ## chart-performance
 
 Three sections collapsed, and each needed the array form — a snippet body that is a list of
