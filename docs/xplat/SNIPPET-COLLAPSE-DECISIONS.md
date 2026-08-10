@@ -56,6 +56,40 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## chart-performance
+
+Three sections collapsed, and each needed the array form — a snippet body that is a list of
+definitions rather than one. These are the only topics in the set where two components stand side by
+side because the point is the comparison, and neither is a child of the other.
+
+### The imperative form became declarative
+
+Chart Markers and Chart Resolution showed property assignments on a chart the reader is assumed to
+already have:
+
+```ts
+this.Chart.markerTypes.clear();
+this.Chart.markerTypes.add(MarkerType.None);
+```
+
+They now show the same properties on the components themselves, which is how the rest of the
+documentation states them, and which the two comments in the original were already describing — "on
+CategoryChart or FinancialChart", then "on LineSeries of DataChart" — so the array has one entry for
+each.
+
+Worth knowing that this changes what the section demonstrates: setting a property at runtime to fix
+a slow chart, rather than declaring it. The properties and values are the same either way.
+
+Two faults in the originals go with it: the Angular, React and Web Components blocks wrote
+`this.Chart.Resolution` with a capital R, which is not the property on those platforms, and the
+Blazor block set `this.Chart.Resolution = 10;` twice.
+
+### What is left in this topic
+
+- **Data Structure** shows two whole data classes, one recommended and one not. There is no component
+  in it; it is advice about how to shape data, and a description says what a component is.
+- **Data Filtering** and the guideline sections are prose with no snippet to collapse.
+
 ## geo-map imagery topics
 
 `display-osm-imagery` and `display-esri-imagery` each carried a bare map in markup and, for every

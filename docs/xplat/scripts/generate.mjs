@@ -563,7 +563,13 @@ function validateJsonSnippets(sourceDir) {
         if (!text.includes('```json-snippet')) continue;
         for (const m of text.matchAll(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g)) {
             const line = text.slice(0, m.index).split('\n').length;
-            snippets.push({ file, line, info: m[1], body: m[2] });
+            // An array body is several definitions in one block, each checked on its own.
+            let bodies = [m[2]];
+            try {
+                const parsed = JSON.parse(m[2]);
+                if (Array.isArray(parsed)) bodies = parsed.map(one => JSON.stringify(one));
+            } catch { /* reported below, where the message can name the file */ }
+            for (const body of bodies) snippets.push({ file, line, info: m[1], body });
         }
     }
     if (snippets.length === 0) return;
@@ -700,11 +706,14 @@ function transformJsonSnippets(content) {
         let emitted;
         try {
             if (channel === 'markup') {
-                emitted = api.emitSingleSnippet(json, PLATFORM, {
-                    examplesRoot: SNIPPET_EXAMPLES,
-                    defaultSnippetId: 'main',
-                    styleDefaults,
-                });
+                emitted = definitionsOf(json)
+                    .map(one => api.emitSingleSnippet(one, PLATFORM, {
+                        examplesRoot: SNIPPET_EXAMPLES,
+                        defaultSnippetId: 'main',
+                        styleDefaults,
+                    }))
+                    .filter(one => one !== null && one.trim() !== '')
+                    .join('\n\n');
             } else {
                 emitted = emitChannel(api, json, channel, styleDefaults);
             }
@@ -749,6 +758,24 @@ function companionCode(api, json, attrs, styleDefaults) {
     const body = mode === 'auto' ? bindings : emitChannel(api, json, mode, styleDefaults);
     if (body.trim() === '') return '';
     return '\n\n```' + (CODE_FENCE_LANG[PLATFORM] || 'ts') + '\n' + body.trim() + '\n```';
+}
+
+/**
+ * The definitions in a snippet body, which is usually one and occasionally several.
+ *
+ * A few topics show two components side by side because the point is the comparison — chart
+ * performance sets an ordinal axis on a FinancialChart and on a DataChart in the same breath, and
+ * neither is a child of the other. Written as a JSON array, emitted in order, one blank line
+ * between them, which is what the hand written block did.
+ */
+function definitionsOf(json) {
+    let parsed;
+    try {
+        parsed = JSON.parse(json);
+    } catch {
+        return [json];   // let the emitter report it, with the message it would have given anyway
+    }
+    return Array.isArray(parsed) ? parsed.map(one => JSON.stringify(one)) : [json];
 }
 
 /** The fence language each platform's code — as opposed to its markup — is written in. */
