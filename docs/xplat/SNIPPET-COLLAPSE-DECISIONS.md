@@ -108,27 +108,32 @@ The same check turns up two other kinds of root that are not components and neve
 
 ## chart-performance
 
-Three sections collapsed, and each needed the array form — a snippet body that is a list of
-definitions rather than one. These are the only topics in the set where two components stand side by
-side because the point is the comparison, and neither is a child of the other.
+Three sections collapsed. Axis Types needed the array form — a snippet body that is a list of
+definitions rather than one — because it shows a FinancialChart and a DataChart side by side, and
+neither is a child of the other. It is the only place in the set that needs it.
 
-### The imperative form became declarative
+### Chart Markers and Chart Resolution stay imperative
 
-Chart Markers and Chart Resolution showed property assignments on a chart the reader is assumed to
-already have:
+These sections show a property being set on a chart the reader already has:
 
 ```ts
 this.Chart.markerTypes.clear();
 this.Chart.markerTypes.add(MarkerType.None);
 ```
 
-They now show the same properties on the components themselves, which is how the rest of the
-documentation states them, and which the two comments in the original were already describing — "on
-CategoryChart or FinancialChart", then "on LineSeries of DataChart" — so the array has one entry for
-each.
+That is the lesson — how to fix a slow chart you already have — so they are emitted as code rather
+than as markup. `channel="code"` forces code behind, which is exactly what that emitter is for, and
+every platform shows the assignment again:
 
-Worth knowing that this changes what the section demonstrates: setting a property at runtime to fix
-a slow chart, rather than declaring it. The properties and values are the same either way.
+```ts
+igxCategoryChart1.markerTypes = [MarkerType.None];
+```
+
+Each section carries two snippets rather than one array, because the original made the same
+distinction in comments: "on CategoryChart or FinancialChart", then "on LineSeries of DataChart".
+
+The one difference from the originals is that the generated code constructs the chart first, where
+the page assumed one already existed. It is more to read but it stands on its own.
 
 Two faults in the originals go with it: the Angular, React and Web Components blocks wrote
 `this.Chart.Resolution` with a capital R, which is not the property on those platforms, and the
