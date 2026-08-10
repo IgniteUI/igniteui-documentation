@@ -729,7 +729,13 @@ function transformJsonSnippets(content) {
                     .filter(one => one !== null && one.trim() !== '')
                     .join('\n\n');
             } else {
-                emitted = emitChannel(api, json, channel, styleDefaults);
+                // Several channels can be asked for at once, joined in the order given. A topic's
+                // imports section needs both the components' imports and the ones its handler
+                // brings, and those are two regions.
+                emitted = channel.split(',').map(one => one.trim()).filter(Boolean)
+                    .map(one => emitChannel(api, json, one, styleDefaults).trim())
+                    .filter(one => one !== '')
+                    .join('\n');
             }
         } catch (e) {
             // Failing the build beats publishing a page with a hole where a sample should be.
