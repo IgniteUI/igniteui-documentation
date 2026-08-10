@@ -56,6 +56,24 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
+## geo-map-shape-styling waits on the library, not on the tooling
+
+The topic is fully expressible: its sample is a map with a shape series carrying
+`styleShapeRef: "ShapeFileStyling"` and an `onViewInit` of `ShapeFileOnViewInit`, and a fence can
+ask for several regions at once — `channel="bindingImports,handlersImports"` — to rebuild its
+Required Imports section.
+
+What stops it is that both library items hold content for Blazor and WinUI only:
+`ShapeFileOnViewInit` has `Blazor.cs` and `WinUI.cs`, `ShapeFileStyling` has `Blazor.js`, and
+neither has a `Web.ts`. So on Angular, React and Web Components the handler emits nothing and its
+imports are empty, and the section would ship with the two component imports where the page lists
+four. Left hand written until those items cover the web platforms.
+
+Note for anyone reading the commit history: an earlier message on this said `handlersImports` was
+not among the regions a recording zone can cover. That was wrong. The region is declared in every
+template, the recorder is handed its text directly, and it captures correctly — 4 lines for Blazor,
+2 for WinUI. Only the web content was missing.
+
 ## The spreadsheet topics are not collapsible yet
 
 `Spreadsheet` has no description type. It is not among the 1190 definitions the schema is generated
