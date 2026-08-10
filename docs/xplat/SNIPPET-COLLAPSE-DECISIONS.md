@@ -56,23 +56,38 @@ with each other and disagree with the sample, the agreement is the stronger sign
 sample and overlay the snippet's values, rather than restate the whole thing inline. Overlaying also
 narrows the gap for later work, since the overlaid names are then present on both sides.
 
-## geo-map-shape-styling waits on the library, not on the tooling
+## geo-map-shape-styling
 
-The topic is fully expressible: its sample is a map with a shape series carrying
-`styleShapeRef: "ShapeFileStyling"` and an `onViewInit` of `ShapeFileOnViewInit`, and a fence can
-ask for several regions at once — `channel="bindingImports,handlersImports"` — to rebuild its
-Required Imports section.
+### Required Imports is generated, and lists more than it used to
 
-What stops it is that both library items hold content for Blazor and WinUI only:
-`ShapeFileOnViewInit` has `Blazor.cs` and `WinUI.cs`, `ShapeFileStyling` has `Blazor.js`, and
-neither has a `Web.ts`. So on Angular, React and Web Components the handler emits nothing and its
-imports are empty, and the section would ship with the two component imports where the page lists
-four. Left hand written until those items cover the web platforms.
+The section is worked out from the example itself: the components it uses, plus the types its
+styling handler brings, which are two separate regions —
+`channel="bindingImports,handlersImports"`.
 
-Note for anyone reading the commit history: an earlier message on this said `handlersImports` was
-not among the regions a recording zone can cover. That was wrong. The region is declared in every
-template, the recorder is handed its text directly, and it captures correctly — 4 lines for Blazor,
-2 for WinUI. Only the web content was missing.
+It lists more than the hand written version did, and more correctly. The page named
+`IgxGeographicShapeSeries` where the class is `IgxGeographicShapeSeriesComponent`, and omitted
+`IgxGeographicMapComponent` entirely; both are now there, and the two `igniteui-angular-core`
+imports are one statement.
+
+Getting there needed two things that were missing rather than broken:
+
+- `ShapeFileOnViewInit` and `ShapeFileStyling` held content for Blazor and WinUI only, so the
+  handler emitted nothing on the web platforms. Both now have a `Web.ts`, written in the `Igc`
+  dialect the other 195 items use.
+- `TransformHandlerCode` was compiled out of this build, so a handler kept the Web Components type
+  names whatever platform was asked for. See the renderer commit; it is fixed.
+
+### The three styling sections are still by hand
+
+Shape Random, Scale and Range Styling each construct a helper from `ShapeStylingUtility` — a class
+the neighbouring topic teaches — and wire it to `styleShape`. The library's `ShapeFileStyling` does
+something else entirely, colouring by continent, so there is nothing to point at. They would need
+three new library items plus the utility itself, which is a larger piece of authoring than a
+collapse.
+
+Note for anyone reading the commit history: an earlier message said `handlersImports` was not among
+the regions a recording zone can cover. That was wrong twice over — the region captures correctly,
+and the real obstacles were the two above.
 
 ## The spreadsheet topics are not collapsible yet
 
