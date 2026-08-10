@@ -444,6 +444,13 @@ const SNIPPET_STYLE_COMMON = {
     pascalCaseColorNames: true,
 };
 
+const SNIPPET_STYLE_XAML = {
+    ...SNIPPET_STYLE_COMMON,
+    indentXamlAttributes: true,
+    omitDimensions: true,
+    selfCloseEmptyElements: true,
+};
+
 const SNIPPET_STYLE_DEFAULTS = {
     default: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
 
@@ -452,7 +459,14 @@ const SNIPPET_STYLE_DEFAULTS = {
     // attributes already, so it is the one platform that must not ask for it again.
     Angular: { ...SNIPPET_STYLE_COMMON, indentAttributes: true, numericAttributeStyle: 'bare' },
     WebComponents: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
-    Blazor: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+    // The topics close an element with nothing inside it on its own tag. They also qualify every
+    // enum value with its type — 315 times, and never otherwise — which is what the emitter
+    // already does, so there is nothing to configure for that.
+    Blazor: {
+        ...SNIPPET_STYLE_COMMON,
+        indentAttributes: true,
+        selfCloseEmptyElements: true,
+    },
     React: {
         ...SNIPPET_STYLE_COMMON,
         numericAttributeStyle: 'braced',
@@ -461,9 +475,9 @@ const SNIPPET_STYLE_DEFAULTS = {
     },
 
     // The XAML platforms state no dimensions, because the hosting panel decides them.
-    WPF: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
-    WinUI: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
-    Uno: { ...SNIPPET_STYLE_COMMON, indentXamlAttributes: true, omitDimensions: true },
+    WPF: { ...SNIPPET_STYLE_XAML },
+    WinUI: { ...SNIPPET_STYLE_XAML },
+    Uno: { ...SNIPPET_STYLE_XAML },
 };
 
 let snippetApi = null;
@@ -802,6 +816,10 @@ function emitChannel(api, json, channel, styleDefaults) {
     } catch (e) {
         throw new Error(`not valid JSON: ${e.message}`);
     }
+    // Asking for a component's code is asking for it built rather than declared, which is what
+    // forcing code behind does. The performance topics show a property being set on a chart the
+    // reader already has, and that is the lesson — not the same property written in markup.
+    const asCode = channel === 'code';
     const root = parsed && parsed.descriptions && parsed.descriptions.content
         ? parsed.descriptions.content
         : parsed;
@@ -817,6 +835,7 @@ function emitChannel(api, json, channel, styleDefaults) {
     const snippets = api.emitSnippets(JSON.stringify(parsed), PLATFORM, {
         examplesRoot: SNIPPET_EXAMPLES,
         styleDefaults,
+        forceCodeBehind: asCode,
     });
     return snippets.find(s => s.channel === channel)?.content ?? '';
 }
