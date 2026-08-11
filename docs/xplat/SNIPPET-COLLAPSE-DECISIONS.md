@@ -821,3 +821,76 @@ The section says "all above code snippets are combined into one code block below
 definition the union of the sections above it and no single sample backs it, so it is written inline
 rather than pinned. Built from the collapsed form of groups 2–8, which means it inherits the two
 decisions above: `value=50` from Highlight Value, and the overlaid tick extents.
+
+## Types a handler needs beside it: supporting items
+
+An event handler item's content lands inside the generated component's class, so a class the handler
+depends on had nowhere to go. `GetItemType` also made the two shapes mutually exclusive: a file with
+a `//begin data` region is a data item and its handler region is never read, so "put the types in the
+data region of the same item" was not open either. Nesting the type inside the handler region works
+in C# and only in C# — Kotlin, Swift and the rest of what is coming do not all offer nested types —
+so that was not the answer.
+
+A new item type carries them. `CodeGenerationLibraryItemType.Supporting`: a folder whose per-platform
+files hold a `//begin supportingTypes` region, emitted at the same scope as the component through a
+`supportingTypes` insertion point every sample template now has. In a razor file that scope is the
+component's own class, since a razor file has no namespace scope; everywhere else it is a peer.
+
+A handler names what it needs in its configuration, not in the sample:
+
+    MapShapeRandomStyling/Web-CONFIG.json
+    { "requires": ["ShapeStylingUtility"] }
+
+Declared on the item rather than in the sample so a sample naming the handler gets the types without
+knowing they exist, and so the item stays self sufficient wherever it is used. The list is flat and
+is not followed further — a supporting item requires nothing itself.
+
+**Dedup is by item name, which is why it is an item.** Two handlers requiring the same types produce
+one copy: each name goes through the same set that already stops a handler being emitted twice, and
+the first mention decides where the declarations land, which keeps a base class ahead of what extends
+it. The alternative considered — a labelled `supportingCode` region inside each handler item — was
+rejected for exactly this: it duplicates the content in every item that needs it and has to invent an
+identity space (labels) to deduplicate what it duplicated, with the label unverified against the code
+inside it. Symbol-level dedup was rejected earlier still: it means parsing declarations in every
+language the library targets.
+
+Emitted on a channel of its own, `supporting`, deliberately not part of `handler`. A topic showing a
+handler shows the lines that do the work; the helper class it calls into is usually a separate topic.
+A snippet asking a handler for `channel="supporting"` gets the types the handler requires, because
+the emission is recorded under the requiring item's name as well as its own — the request is
+registered under the name the topic asked for, which is the handler.
+
+Not yet done: `LibraryProjectEmitter`, the harness that compiles library items, does not emit
+supporting items — it writes one file per item through a per-platform scaffold that has no shape for
+peer declarations. It logs the skip rather than passing over it silently. A handler requiring one
+still generates correctly in a sample.
+
+## geo-map-shape-styling
+
+The last of the DataVisualization topics still hand written. Four sections — Random, Scale, Range and
+Comparison — each configured a helper from `ShapeStylingUtility` and wired it to `styleShape`. What
+was published did not compile: every one of the four called `getStyle(...)`, and the utility, both on
+its own topic and in the sample that runs, defines `generate(...)`. Three of the four also read
+`this.ShapeRandomStyling` where the field is `this.shapeRandomStyling`.
+
+Backported from `igniteui-wc-examples/samples/maps/geo-map/shape-styling`, the only downstream repo
+that has it. That sample configures all four and switches between them from a dropdown, which the
+code generation library cannot express, so it became four samples — `shape-styling-random`, `-scale`,
+`-range`, `-comparison` — one per variant, each a map, a shapefile load and one styling. Four rather
+than one because everything in `onViewInit` runs: four styling items on one sample would stack four
+shape series on one map.
+
+`ShapeStylingUtility` is the supporting item the four variant items require, so the utility exists
+once in the library rather than four times.
+
+Two changes to what a reader sees, both deliberate:
+
+- The `import { ShapeRandomStyling } from './ShapeStylingUtility'` line is gone. In a generated
+  sample there is no such import — the types are peers of the component — so the emitted snippet
+  cannot carry one. The prose still names the class, and its own topic still publishes the file.
+- The snippets now show the shapefile load and the series construction around the styling, where the
+  hand written ones elided them with `// ...`. The teaching stays imperative throughout, which
+  `audit-imperative.py` confirms.
+
+The page's own sample is untouched: it still colours by continent through `ShapeFileStyling`, and the
+four new samples back the snippets.

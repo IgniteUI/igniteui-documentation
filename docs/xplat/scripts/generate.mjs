@@ -867,7 +867,7 @@ const CODE_FENCE_LANG = {
  * The channels a handler contributes to — the handler itself, the region it lands in, and the
  * imports its types need. A sample's handlers are asked for these and left alone for the rest.
  */
-const HANDLER_CHANNELS = new Set(['handler', 'eventHandlers', 'handlersImports', 'allCode']);
+const HANDLER_CHANNELS = new Set(['handler', 'eventHandlers', 'handlersImports', 'allCode', 'supporting', 'supportingTypes']);
 
 function marksPartOfItself(json) {
     try {
