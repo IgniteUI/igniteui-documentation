@@ -927,3 +927,39 @@ documented value and stays pinned to the sample, in the way the gauge topics ove
 sample happens to set differently.
 
 Only the four markup blocks collapsed. The two import blocks above them are kept.
+
+### column-resizing — the web blocks agree, and correct each other
+
+Three web blocks state `Deferred`, `Interpolate` and a separator width of 5, against the sample's
+`Auto` and 1. The snippet states the documented values. WebComponents wrote
+`column-moving-separator-width` on a resizing topic; React and Blazor both say resizing, which
+settles it as a typo rather than a fourth opinion.
+
+The columns come from the documented blocks — FirstName, LastName, Street with `isResizingEnabled`
+off, City — replacing the five styled columns the XAML block inherited from the sample. All four
+fields exist on EmployeesSalesData, so this is a narrower example rather than a stale one, and the
+one the topic is actually about: resizing turned off for a single column.
+
+### column-moving — SlideOver and 5, not the sample's Auto and 2
+
+All three web blocks agree; the sample differs on both. Documented values stated.
+
+### column-animation — one of the documented values does not exist
+
+React and WebComponents both state `columnAddingAnimationMode="SlideToLeft"`. That enum's members
+are the SlideFrom set — SlideToLeft belongs to exchanging and hiding — so the value is not one the
+property can take and the schema rejects it. Blazor hints at the same conclusion by qualifying the
+adding property with `ColumnShowingAnimationMode.SlideFromLeft`: a wrong type name, but a valid
+value. The snippet states `SlideFromLeft`, which is also what the sample runs.
+
+The other three documented values are valid and are kept over the sample's: `SlideToRight` rather
+than `Crossfade`, `SlideToTopAndFadeOut` rather than `FadeOut`, `SlideFromBottomAndFadeIn` rather
+than `SlideFromLeft`.
+
+Also fixed by collapsing: WebComponents wrote the attribute as `column-addingAnimation-mode`, which
+is not the property's name in any casing.
+
+### row-highlighting, row-pinning — nothing but the name
+
+Both collapse cleanly. `rowHoverBackground` is stated where the sample omits it, since all four
+blocks teach it. The only change to what a reader sees is the grid's Name.
