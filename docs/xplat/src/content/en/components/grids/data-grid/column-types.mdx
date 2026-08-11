@@ -73,553 +73,68 @@ Refer to the [Column Sparkline](type-sparkline-table.mdx) topic for information 
 
 The following demonstrates the implementation of each of the columns described in this topic:
 
-<PlatformBlock for="React">
-```tsx
-<IgrDataGrid
-    height="100%"
-    width="100%"
-    defaultColumnMinWidth="120"
-    autoGenerateColumns="false"
-    dataSource={this.data}>
-    <IgrTextColumn field="FirstName" headerText="First Name" />
-    <IgrTextColumn field="LastName" headerText="Last Name" />
-    <IgrComboBoxColumn field="City" headerText="City" dataSource={this.cityList} textField="name"/>
-    <IgrTemplateColumn field="Address" headerText="Address"
-                       cellUpdating={this.onAddressCellUpdating} />
-    <IgrImageColumn field="Photo" headerText="Photo"
-                    imageResourceType="LocalAsset" />
-    <IgrNumericColumn field="Age" headerText="Age"  />
-    <IgrDateTimeColumn field="Birthday" headerText="Date of Birth"  />
-</IgrDataGrid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```html
-<igc-data-grid id="grid"
-    width="100%"
-    height="500px"
-    auto-generate-columns="false">
-    <igc-text-column field="FirstName"></igc-text-column>
-    <igc-text-column field="LastName"></igc-text-column>
-    <igc-combo-box-column id="City" field="City" text-field="name" header-text="City"></igc-text-column>
-    <igc-template-column id="Address" field="Address"></igc-template-column>
-    <igc-image-column field="Photo"></igc-text-column>
-    <igc-numeric-column field="Age"></igc-numeric-column>
-    <igc-date-time-column field="Birthday"></igc-date-time-column>
-</igc-data-grid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-import { IgcTemplateColumnComponent } from 'igniteui-webcomponents-data-grids';
-import { IgcTemplateCellInfo } from 'igniteui-webcomponents-data-grids';
-import { IgcTemplateCellUpdatingEventArgs } from 'igniteui-webcomponents-data-grids';
-
-let grid1 = (document.getElementById("grid") as IgcDataGridComponent);
-grid1.dataSource = data;
-
-let cityComboColumn = document.getElementById('city') as IgcComboBoxColumnComponent;
-
-if (cityComboColumn)
-    this.allCities = DataGridSharedData.getAllCities();
-    cityComboColumn.dataSource = this.cityList;
-    cityComboColumn.textField = "name";
-
-let TemplateColumn = (document.getElementById("Address") as IgcTemplateColumnComponent);
-TemplateColumn.cellUpdating = onCellUpdating;
-
-onCellUpdating(s: IgcTemplateColumnComponent, e: IgcTemplateCellUpdatingEventArgs): void {
- // alert("onAddressCellUpdating");
- const content = e.content as HTMLDivElement;
- let span1: HTMLSpanElement | null = null;
- let span2: HTMLSpanElement | null = null;
- const info = e.cellInfo as IgcTemplateCellInfo ;
- const item = info.rowItem;
-
- if (content.childElementCount === 0) {
-
-     span1 = document.createElement("span");
-     span2 = document.createElement("span");
-
-     content.style.verticalAlign = "top";
-     content.style.marginTop = "15px";
-     content.style.lineHeight = "normal";
-     content.style.display = "inline-grid";
-     content.style.fontFamily = "Verdana";
-     content.style.fontSize = "13px";
-
-     content.appendChild(span1);
-     content.appendChild(span2);
- }
- else {
-     span1 = content.children[0] as HTMLSpanElement;
-     span2 = content.children[1] as HTMLSpanElement;
- }
-
- if (span1 && span2) {
-       span1.textContent = item.Street;
-       span2.textContent = item.City + ", " + item.Country;
-  }
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```ts
-import { IgrTemplateCellUpdatingEventArgs } from 'igniteui-react-data-grids';
-import { IgrTemplateCellInfo } from 'igniteui-react-data-grids';
-import { IgrTemplateColumn } from 'igniteui-react-data-grids';
-import { IgrComboBoxColumn } from 'igniteui-react-data-grids';
-
-public onAddressCellUpdating(s: IgrTemplateColumn, e: IgrTemplateCellUpdatingEventArgs) {
-    const content = e.content as HTMLDivElement;
-    let span1: HTMLSpanElement | null = null;
-    let span2: HTMLSpanElement | null = null;
-    const info = e.cellInfo as IgrTemplateCellInfo;
-    const item = info.rowItem;
-
-    if (content.childElementCount === 0) {
-
-        span1 = document.createElement("span");
-        span2 = document.createElement("span");
-
-        content.style.verticalAlign = "top";
-        content.style.marginTop = "15px";
-        content.style.lineHeight = "normal";
-        content.style.display = "inline-grid";
-        content.style.fontFamily = "Verdana";
-        content.style.fontSize = "13px";
-
-        content.appendChild(span1);
-        content.appendChild(span2);
-    }
-    else {
-        span1 = content.children[0] as HTMLSpanElement;
-        span2 = content.children[1] as HTMLSpanElement;
-    }
-
-    if (span1 && span2) {
-        span1.textContent = item.Street;
-        span2.textContent = item.City + ", " + item.Country;
+```json-snippet source="/grids/data-grid/column-types"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "FirstName",
+                    "headerText": "First Name"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "LastName",
+                    "headerText": "Last Name"
+                },
+                {
+                    "type": "ComboBoxColumn",
+                    "field": "Country",
+                    "headerText": "Country",
+                    "dataSourceRef": "CountryNames",
+                    "textField": "Name",
+                    "valueField": "Name"
+                },
+                {
+                    "type": "TemplateColumn",
+                    "field": "Address",
+                    "headerText": "Address",
+                    "cellUpdatingRef": "DataGridAddressLinesTemplate"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "Photo",
+                    "headerText": "Photo",
+                    "isEditable": false
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Age",
+                    "headerText": "Age"
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "Birthday",
+                    "headerText": "Date of Birth"
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
     }
 }
 ```
-</PlatformBlock>
-
-<PlatformBlock for="Xaml">
-```xaml
-<igDataGrids:XamDataGrid
-    ItemsSource="{Binding EmployeesSalesData}"
-    AutoGenerateColumns="false">
-    <igDataGrids:XamDataGrid.Columns>
-        <igDataGrids:ImageColumn
-            Field="Photo"
-            IsEditable="false"
-            PaddingTop="5"
-            PaddingBottom="5"
-            PaddingRight="10"
-            HorizontalAlignment="Stretch">
-            <igDataGrids:ImageColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="false"
-                    Value="100" />
-            </igDataGrids:ImageColumn.Width>
-        </igDataGrids:ImageColumn>
-        <igDataGrids:TextColumn Field="Name">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TemplateColumn
-            Field="Sales"
-            CellUpdating="DataGridSalesGaugeTemplate"
-            HorizontalAlignment="Center"
-            Name="templateColumn1">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="160" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:NumericColumn
-            Field="Salary"
-            PositivePrefix="$"
-            ShowGroupingSeparator="true"
-            MaxFractionDigits="0"
-            MinFractionDigits="0">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-        <igDataGrids:DateTimeColumn
-            Field="Birthday"
-            HeaderText="Date of Birth">
-            <igDataGrids:DateTimeColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="140" />
-            </igDataGrids:DateTimeColumn.Width>
-        </igDataGrids:DateTimeColumn>
-        <igDataGrids:ComboBoxColumn
-            Field="Country"
-            ItemsSource="{Binding CountryNames}"
-            TextField="Name"
-            ValueField="Name"
-            Name="comboBoxColumn1">
-            <igDataGrids:ComboBoxColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:ComboBoxColumn.Width>
-        </igDataGrids:ComboBoxColumn>
-        <igDataGrids:ImageColumn
-            Field="CountryFlag"
-            HeaderText="Flag"
-            IsEditable="false"
-            PaddingTop="5"
-            PaddingBottom="5"
-            PaddingRight="10"
-            HorizontalAlignment="Stretch">
-            <igDataGrids:ImageColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="110" />
-            </igDataGrids:ImageColumn.Width>
-        </igDataGrids:ImageColumn>
-        <igDataGrids:TemplateColumn
-            Field="Address"
-            CellUpdating="DataGridAddressLinesTemplate"
-            Name="templateColumn2">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="170" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:TemplateColumn
-            Field="Phone"
-            CellUpdating="DataGridPhoneLinkTemplate"
-            Name="templateColumn3">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:TextColumn Field="Income">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:NumericColumn
-            Field="Age"
-            HorizontalAlignment="Left">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="false"
-                    Value="100" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-    </igDataGrids:XamDataGrid.Columns>
-</igDataGrids:XamDataGrid>
-```
-</PlatformBlock>
-
-The following is a sample data source to use with the above columns.
-
-```ts
-const maleNames: string[] = ["Kyle", "Oscar", "Ralph", "Torrey", "Bill", "Frank", "Howard", "Jack", "Larry", "Pete", "Steve", "Vince", "Mark", "Alex", "Max", "Brian", "Chris", "Andrew", "Martin", "Mike", "Steve", "Glenn", "Bruce"];
-const femaleNames: string[] = ["Gina", "Irene", "Katie", "Brenda", "Casey", "Fiona", "Holly", "Kate", "Liz", "Pamela", "Nelly", "Marisa", "Monica", "Anna", "Jessica", "Sofia", "Isabella", "Margo", "Jane", "Audrey", "Sally", "Melanie", "Greta", "Aurora", "Sally"];
-const lastNames: string[] = ["Adams", "Crowley", "Ellis", "Martinez", "Irvine", "Maxwell", "Clark", "Owens", "Rooney", "Lincoln", "Thomas", "Spacey", "Betts", "King", "Newton", "Fitzgerald", "Holmes", "Jefferson", "Landry", "Newberry", "Perez", "Spencer", "Starr", "Carter", "Edwards", "Stark", "Johnson", "Fitz", "Chief", "Blanc", "Perry", "Stone", "Williams", "Lane", "Jobs", "Adama", "Power", "Tesla"];
-const genders: string[] = ["male", "female"];
-const cities: string[] = ["New York, New York", "Columbus, Ohio", "Los Angeles, California", "Orlando, Florida", "New Orleans, Louisiana", "Las Vegas, Nevada", "Atlanta, Georgia"];
-const roadSuffixes: string[] = ["Road", "Street", "Court", "Way"];
-const roadNames: string[] = ["Alpha", "Beta", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Julia", "Kilo", "Lima", "Mike", "November"];
-
-const people: any[] = [];
-
-let maleCount: number = 0;
-let femaleCount: number = 0;
-for (let i = 0; i < 250; i++) {
-
-    const age: number = Math.round(this.getRandomNumber(20, 40));
-    const today: Date = new Date();
-    const gender: string = this.getRandomItem(genders);
-
-    let firstName: string;
-    const lastName: string = this.getRandomItem(lastNames);
-
-    const propertyNum: string = Math.round(this.getRandomNumber(1, 300)).toString();
-    const cityState: string = this.getRandomItem(cities);
-    const road: string = this.getRandomItem(roadNames) + " " + this.getRandomItem(roadSuffixes);
-
-    let photoPath: string;
-
-    if (gender === "male") {
-        firstName = this.getRandomItem(maleNames);
-        maleCount++;
-
-        if (maleCount > 26) {
-             maleCount = 0;
-        }
-
-        if (maleCount < 10) {
-            photoPath = '/assets/GUY0' + maleCount.toString() + '.png';
-        }
-        else {
-            photoPath = '/assets/GUY' + maleCount.toString() + '.png';
-        }
-    }
-    else {
-        firstName = this.getRandomItem(femaleNames);
-        femaleCount++;
-
-        if (femaleCount > 24) {
-            femaleCount = 0;
-        }
-
-        if (femaleCount < 10) {
-            photoPath = '/assets/GIRL0' + femaleCount.toString() + '.png';
-        }
-        else {
-            photoPath = '/assets/GIRL' + femaleCount.toString() + '.png';
-        }
-    }
-
-    const path: string = './assets/GIRL01.png';
-
-    const birthday: Date = new Date(today.getFullYear() - age, Math.round(this.getRandomNumber(1, 12)), Math.round(this.getRandomNumber(1, 28)));
-
-    people.push({
-        Address: propertyNum + " " + road + ", " + cityState,
-        Age: age,
-        Birthday: birthday,
-        City: cityState,
-        FirstName: firstName,
-        LastName: lastName,
-        Photo: path,
-        Street: propertyNum + " " + road + ","
-    });
-}
-
-this.data = people;
-
-public getRandomNumber(min: number, max: number): number {
-    return min + Math.random() * (max - min);
-}
-
-public getRandomItem(array: any[]): any {
-    const index = Math.round(this.getRandomNumber(0, array.length - 1));
-    return array[index];
-}
-```
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbDataGrid Height="100%" Width="100%"
-    DefaultColumnMinWidth="120"
-    AutoGenerateColumns="false"
-    DataSource="DataSource">
-    <IgbTextColumn Field="FirstName" HeaderText="First Name" />
-    <IgbTextColumn Field="LastName" HeaderText="Last Name" />
-    <IgbComboBoxColumn Field="City" />
-    <IgbTemplateColumn Field="Address" HeaderText="Address" CellUpdatingScript="onUpdatingAddressColumn" />
-    <IgbImageColumn Field="Photo" HeaderText="Photo" />
-    <IgbNumericColumn Field="Age" HeaderText="Age" />
-    <IgbDateTimeColumn Field="Birthday" HeaderText="Date of Birth" />
-</IgbDataGrid>
-
-// In JS file:
-function onUpdatingAddressColumn(grid, args) {
-    let content = args.content;
-    let info = args.cellInfo;
-    let item = info.rowItem;
-    let span1 = null;
-    let span2 = null;
-
-    if (content.childElementCount === 0) {
-        content.style.fontFamily = "Verdana";
-        content.style.fontSize = "13px";
-        content.style.verticalAlign = "center";
-        content.style.lineHeight = "normal";
-        content.style.display = "flex";
-        content.style.flexDirection = "column";
-        content.style.justifyContent = "center";
-        content.style.height = "100%";
-        content.style.width = "100%";
-        content.style.color = "rgb(24, 29, 31)";
-        // stacking above elements in the content of grid's cell
-        span1 = document.createElement("span");
-        span2 = document.createElement("span");
-        content.appendChild(span1);
-        content.appendChild(span2);
-    }
-    else {
-        span1 = content.children[0];
-        span2 = content.children[1];
-    }
-
-    if (span1 && span2) {
-        // updating elements in the content of grid's cell
-        span1.textContent = item.Street;
-        span2.textContent = item.City + ", " + item.Country;
-    }
-}
-
-igRegisterScript("onUpdatingAddressColumn", onUpdatingAddressColumn, false);
-```
-</PlatformBlock>
-
-<PlatformBlock for="Xaml">
-```xaml
-<igDataGrids:XamDataGrid
-    ItemsSource="{Binding EmployeesSalesData}"
-    AutoGenerateColumns="false">
-    <igDataGrids:XamDataGrid.Columns>
-        <igDataGrids:ImageColumn
-            Field="Photo"
-            IsEditable="false"
-            PaddingTop="5"
-            PaddingBottom="5"
-            PaddingRight="10"
-            HorizontalAlignment="Stretch">
-            <igDataGrids:ImageColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="false"
-                    Value="100" />
-            </igDataGrids:ImageColumn.Width>
-        </igDataGrids:ImageColumn>
-        <igDataGrids:TextColumn Field="Name">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TemplateColumn
-            Field="Sales"
-            CellUpdating="DataGridSalesGaugeTemplate"
-            HorizontalAlignment="Center"
-            Name="templateColumn1">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="160" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:NumericColumn
-            Field="Salary"
-            PositivePrefix="$"
-            ShowGroupingSeparator="true"
-            MaxFractionDigits="0"
-            MinFractionDigits="0">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-        <igDataGrids:DateTimeColumn
-            Field="Birthday"
-            HeaderText="Date of Birth">
-            <igDataGrids:DateTimeColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="140" />
-            </igDataGrids:DateTimeColumn.Width>
-        </igDataGrids:DateTimeColumn>
-        <igDataGrids:ComboBoxColumn
-            Field="Country"
-            ItemsSource="{Binding CountryNames}"
-            TextField="Name"
-            ValueField="Name"
-            Name="comboBoxColumn1">
-            <igDataGrids:ComboBoxColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:ComboBoxColumn.Width>
-        </igDataGrids:ComboBoxColumn>
-        <igDataGrids:ImageColumn
-            Field="CountryFlag"
-            HeaderText="Flag"
-            IsEditable="false"
-            PaddingTop="5"
-            PaddingBottom="5"
-            PaddingRight="10"
-            HorizontalAlignment="Stretch">
-            <igDataGrids:ImageColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="110" />
-            </igDataGrids:ImageColumn.Width>
-        </igDataGrids:ImageColumn>
-        <igDataGrids:TemplateColumn
-            Field="Address"
-            CellUpdating="DataGridAddressLinesTemplate"
-            Name="templateColumn2">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="170" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:TemplateColumn
-            Field="Phone"
-            CellUpdating="DataGridPhoneLinkTemplate"
-            Name="templateColumn3">
-            <igDataGrids:TemplateColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="130" />
-            </igDataGrids:TemplateColumn.Width>
-        </igDataGrids:TemplateColumn>
-        <igDataGrids:TextColumn Field="Income">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:NumericColumn
-            Field="Age"
-            HorizontalAlignment="Left">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="false"
-                    Value="100" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-    </igDataGrids:XamDataGrid.Columns>
-</igDataGrids:XamDataGrid>
-```
-</PlatformBlock>
 
 ## API References
 
