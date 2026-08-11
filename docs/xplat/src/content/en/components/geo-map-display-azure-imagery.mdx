@@ -33,99 +33,72 @@ The {Platform} <ApiLink type="AzureMapsImagery" /> is geographic imagery mapping
 ## {Platform} Displaying Imagery from Azure Maps - Code Example
 The following code snippet shows how to display geographic imagery tiles from Azure Maps in {Platform} <ApiLink type="GeographicMap" /> using <ApiLink type="AzureMapsImagery" /> class.
 
-<PlatformBlock for="Angular">
-
-```html
-<igx-geographic-map #map
-    width="100%"
-    height="100%"
-    zoomable="true" >
-</igx-geographic-map>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```ts
-import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { IgxAzureMapsImagery } from 'igniteui-angular-maps';
-// ...
-const tileSource = new IgxAzureMapsImagery();
-tileSource.apiKey = "YOUR_Azure_MAPS_API_KEY";
-tileSource.imageryStyle = AzureMapsImageryStyle.Satellite; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.TerraOverlay; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.Road; //or Traffic & Weather etc.
-
-this.map.backgroundContent = tileSource;
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```ts
-import { IgrGeographicMap } from 'igniteui-react-maps';
-import { IgrAzureMapsImagery } from 'igniteui-react-maps';
-import { AzureMapsImageryStyle } from 'igniteui-react-maps';
-// ...
-const tileSource = new IgrAzureMapsImagery();
-tileSource.apiKey = "YOUR_Azure_MAPS_API_KEY";
-tileSource.imageryStyle = AzureMapsImageryStyle.Satellite; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.Road; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.DarkGrey; // Traffic, Weather etc.
-
-const geoMap = new IgrGeographicMap({ name: "geoMap" });
-geoMap.backgroundContent = tileSource;
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```ts
-const tileSource = new IgcAzureMapsImagery();
-tileSource.apiKey = "YOUR_Azure_MAPS_API_KEY";
-tileSource.imageryStyle = AzureMapsImageryStyle.Satellite; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.Road; // or
-tileSource.imageryStyle = AzureMapsImageryStyle.DarkGrey; // Traffic, Weather etc.
-
-map.backgroundContent = tileSource;
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-@using IgniteUI.Blazor.Controls
-
-<IgbGeographicMap @ref="AzureMap"
-    Height="100%" Width="100%"
-    Zoomable="true"
-    BackgroundContent="@AzureImagery">
-</IgbGeographicMap>
-
-@code {
-
-    private IgbGeographicMap AzureMap;
-    private IgbAzureMapsImagery AzureImagery { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        //Update Map Background
-        AzureImagery = new IgbAzureMapsImagery
-        {
-            ApiKey = AzureKey,
-            ImageryStyle = AzureMapsImageryStyle.Satellite
-        };
-    }
+```json-snippet exclude="Xaml"
+{
+    "type": "GeographicMap",
+    "name": "azureMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "AzureMapsImagery",
+        "name": "azureImagery",
+        "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+        "imageryStyle": "Satellite"
+    },
+    "$type": "+doc:markup"
 }
 ```
 
-</PlatformBlock>
+```json-snippet exclude="Xaml,Blazor" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "name": "azureMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "AzureMapsImagery",
+        "name": "azureImagery",
+        "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+        "imageryStyle": "Satellite"
+    },
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
 
 ## {Platform} Overlaying Imagery from Azure Maps - Overview
 
@@ -146,193 +119,124 @@ This design allows you to build richer maps, for example:
 ## {Platform} Overlaying Imagery from Azure Maps - Code Example
 The following code snippet shows how to display geographic imagery tiles on top of a background imagery joining eg. traffic with a dark grey map for the {Platform} <ApiLink type="GeographicMap" /> using <ApiLink type="AzureMapsImagery" /> and <ApiLink type="GeographicTileSeries" /> classes.
 
-<PlatformBlock for="Angular">
-
-```html
-<igx-geographic-map #map height="100%" width="100%" zoomable="true">
-  <igx-geographic-tile-series #tileSeries></igx-geographic-tile-series>
-</igx-geographic-map>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```ts
-export class AppComponent implements AfterViewInit {
-  @ViewChild('map', { static: true }) public map!: IgxGeographicMapComponent;
-  @ViewChild('tileSeries', { static: true }) public tileSeries!: IgxGeographicTileSeriesComponent;
-
-  public azureImagery!: IgxAzureMapsImagery;
-  public azureKey: string = "<YOUR_KEY_HERE>";
-
-  ngAfterViewInit(): void {
-    // Update TileSeries
-    const overlay = new IgxAzureMapsImagery();
-    overlay.apiKey = this.azureKey;
-    overlay.imageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay;
-    this.tileSeries.tileImagery = overlay;
-
-    // Update Map Background
-    this.azureImagery = new IgxAzureMapsImagery();
-    this.azureImagery.apiKey = this.azureKey;
-    this.azureImagery.imageryStyle = AzureMapsImageryStyle.DarkGrey;
-    this.map.backgroundContent = this.azureImagery;
-  }
-}
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-// App.tsx
-import React, { useEffect, useRef } from 'react';
-import {
-  IgrGeographicMap,
-  IgrGeographicTileSeries,
-  IgrAzureMapsImagery,
-  AzureMapsImageryStyle
-} from 'igniteui-react-maps';
-
-export default function App() {
-    const mapRef = useRef<IgrGeographicMap>(null);
-    const tileSeriesRef = useRef<IgrGeographicTileSeries>(null);
-    const azureKey = "<YOUR_KEY_HERE>";
-
-    useEffect(() => {
-        // Update TileSeries
-        const overlay = new IgrAzureMapsImagery({});
-        overlay.apiKey = azureKey;
-        overlay.imageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay;
-
-        if (tileSeriesRef.current) {
-            tileSeriesRef.current.tileImagery = overlay;
-        }
-
-        // Update Map Background
-        const background = new IgrAzureMapsImagery({});
-        background.apiKey = azureKey;
-        background.imageryStyle = AzureMapsImageryStyle.DarkGrey;
-
-        if (mapRef.current) {
-            mapRef.current.backgroundContent = background;
-        }
-    }, []);
-
-    return (
-        <div style={{ height: "100vh" }}>
-        <IgrGeographicMap
-            ref={mapRef}
-            width="100%" height="100%"
-            zoomable={true}>
-            <IgrGeographicTileSeries ref={tileSeriesRef} />
-        </IgrGeographicMap>
-        </div>
-    );
-}
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<!-- index.html -->
-<html>
-  <head>
-    <script type="module" src="index.ts"></script>
-  </head>
-  <body style="margin:0;">
-    <igc-geographic-map id="map" width="100%" height="100%" zoomable="true">
-      <igc-geographic-tile-series id="tileSeries"></igc-geographic-tile-series>
-    </igc-geographic-map>
-  </body>
-</html>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```ts
-// index.ts
-import {
-  IgcGeographicMapComponent,
-  IgcGeographicTileSeriesComponent,
-  IgcAzureMapsImagery,
-  AzureMapsImageryStyle,
-  IgcGeographicMapModule
-} from 'igniteui-webcomponents-maps';
-import { ModuleManager } from 'igniteui-webcomponents-core';
-
-ModuleManager.register(IgcGeographicMapModule);
-
-const azureKey = "<YOUR_KEY_HERE>";
-
-window.addEventListener("load", () => {
-  const map = document.getElementById("map") as IgcGeographicMapComponent;
-  const tileSeries = document.getElementById("tileSeries") as IgcGeographicTileSeriesComponent;
-
-  // Update TileSeries
-  const overlay = new IgcAzureMapsImagery();
-  overlay.apiKey = azureKey;
-  overlay.imageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay;
-  tileSeries.tileImagery = overlay;
-
-  // Update Map Background
-  const background = new IgcAzureMapsImagery();
-  background.apiKey = azureKey;
-  background.imageryStyle = AzureMapsImageryStyle.DarkGrey;
-  map.backgroundContent = background;
-});
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-@using IgniteUI.Blazor.Controls
-
-<IgbGeographicMap @ref="AzureMap"
-                          Height="100%" Width="100%"
-                          Zoomable="true"
-                          BackgroundContent="@AzureImagery">
-        <IgbGeographicTileSeries @ref="ImagerySeries" />
-</IgbGeographicMap>
-
-@code {
-
-    private IgbGeographicMap AzureMap;
-    private IgbAzureMapsImagery AzureImagery { get; set; }
-    private IgbGeographicTileSeries ImagerySeries;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        //Update TileSeries
-        var imagery = new IgbAzureMapsImagery
+```json-snippet exclude="Xaml"
+{
+    "type": "GeographicMap",
+    "name": "azureMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "AzureMapsImagery",
+        "name": "azureImagery",
+        "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+        "imageryStyle": "DarkGrey"
+    },
+    "series": [
         {
-            ApiKey = AzureKey,
-            ImageryStyle = AzureMapsImageryStyle.TrafficAbsoluteOverlay
-        };
-
-        ImagerySeries.TileImagery = imagery;
-
-        //Update Map Background
-        AzureImagery = new IgbAzureMapsImagery
-        {
-            ApiKey = AzureKey,
-            ImageryStyle = AzureMapsImageryStyle.DarkGrey
-        };
-    }
+            "type": "GeographicTileSeries",
+            "name": "imagerySeries",
+            "$setInCode": {
+                "tileImagery": [
+                    "angular",
+                    "react",
+                    "webComponents"
+                ]
+            },
+            "$assignInCode": {
+                "tileImagery": [
+                    "angular",
+                    "react",
+                    "webComponents"
+                ]
+            },
+            "tileImagery": {
+                "type": "AzureMapsImagery",
+                "name": "trafficImagery",
+                "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+                "imageryStyle": "TrafficAbsoluteOverlay"
+            }
+        }
+    ],
+    "$type": "+doc:markup"
 }
 ```
 
-</PlatformBlock>
+```json-snippet exclude="Xaml,Blazor" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "name": "azureMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents"
+        ]
+    },
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "AzureMapsImagery",
+        "name": "azureImagery",
+        "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+        "imageryStyle": "DarkGrey"
+    },
+    "series": [
+        {
+            "type": "GeographicTileSeries",
+            "name": "imagerySeries",
+            "$setInCode": {
+                "tileImagery": [
+                    "angular",
+                    "react",
+                    "webComponents"
+                ]
+            },
+            "$assignInCode": {
+                "tileImagery": [
+                    "angular",
+                    "react",
+                    "webComponents"
+                ]
+            },
+            "tileImagery": {
+                "type": "AzureMapsImagery",
+                "name": "trafficImagery",
+                "apiKey": "YOUR_AZURE_MAPS_API_KEY",
+                "imageryStyle": "TrafficAbsoluteOverlay"
+            }
+        }
+    ],
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
 
 ## Properties
 The following table summarizes properties of the <ApiLink type="AzureMapsImagery" /> class:

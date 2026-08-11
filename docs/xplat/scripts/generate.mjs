@@ -440,6 +440,10 @@ const SNIPPET_STYLE_COMMON = {
     suppressNameAttribute: true,
     // The topics show the statements a handler runs, not the method the library wraps them in.
     omitHandlerSignature: true,
+    // A property holding an element is built where it is assigned, which is the two statements the
+    // hand written blocks showed. The lazily constructed field is the sounder habit on Angular and
+    // React, but this is a reproduction of what those pages taught.
+    directAssignment: true,
     colorNotation: 'hex',
     pascalCaseColorNames: true,
 };
@@ -469,6 +473,7 @@ const SNIPPET_STYLE_DEFAULTS = {
     },
     React: {
         ...SNIPPET_STYLE_COMMON,
+        indentAttributes: true,
         numericAttributeStyle: 'braced',
         booleanAttributeStyle: 'braced',
         selfCloseEmptyElements: true,
@@ -561,6 +566,22 @@ const SNIPPET_SCHEMA_OUT = path.join(ROOT, 'generated', 'snippet-schema.json');
  *
  * The schema is written out as well as used, so the same file can back editor completion.
  */
+
+// Timing for the phases of a run, printed when IG_TIMING is set. Kept because the run is long
+// enough that where the time goes is worth being able to ask.
+const TIMING = process.env.IG_TIMING === '1';
+const _phaseStart = new Map();
+function phase(name) {
+    if (!TIMING) return;
+    _phaseStart.set(name, Date.now());
+}
+function phaseDone(name, detail) {
+    if (!TIMING) return;
+    const started = _phaseStart.get(name);
+    if (started === undefined) return;
+    console.log(`[timing] ${name}: ${Date.now() - started}ms${detail ? '  ' + detail : ''}`);
+}
+
 function validateJsonSnippets(sourceDir) {
     const files = [];
     (function walk(dir) {
@@ -589,7 +610,9 @@ function validateJsonSnippets(sourceDir) {
     if (snippets.length === 0) return;
 
     const api = loadSnippetApi();
+    phase('emit schema');
     const schema = JSON.parse(api.emitJsonSchema(SNIPPET_EXAMPLES));
+    phaseDone('emit schema');
     mkdirSync(path.dirname(SNIPPET_SCHEMA_OUT), { recursive: true });
     writeFileSync(SNIPPET_SCHEMA_OUT, JSON.stringify(schema, null, 2), 'utf8');
 
@@ -616,9 +639,18 @@ function validateJsonSnippets(sourceDir) {
                     (dangling.length > 5 ? ', …' : ''));
     }
 
-    const ajv = new Ajv({ allErrors: true, strict: false, validateFormats: false });
+    phase('ajv addSchema');
+    // inlineRefs: false is the difference between two seconds and a minute and a half. Every
+    // property of every description declares a "$key" sidecar referencing one shared marker
+    // definition — some 48,000 references — and ajv's default is to inline a referenced schema at
+    // each site rather than compile it once and call it. Told not to, it compiles the marker once.
+    // The schema on disk keeps the references, so an editor still completes and describes them.
+    const ajv = new Ajv({
+        allErrors: true, strict: false, validateFormats: false, inlineRefs: false,
+    });
     ajv.addMetaSchema(draft06);
     ajv.addSchema(schema, 'snippets');
+    phaseDone('ajv addSchema');
 
     // Checked against the description the snippet names, not against the union of all of them.
     // The union reports every property as unknown once per type that lacks it, which buries the
@@ -626,9 +658,11 @@ function validateJsonSnippets(sourceDir) {
     const validators = new Map();
     const validatorFor = (type) => {
         if (!validators.has(type)) {
+            phase(`compile ${type}`);
             validators.set(type, schema.definitions[type]
                 ? ajv.compile({ $ref: `snippets#/definitions/${type}` })
                 : null);
+            phaseDone(`compile ${type}`);
         }
         return validators.get(type);
     };
@@ -716,12 +750,24 @@ function transformJsonSnippets(content) {
         }
 
         const styleDefaults = SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default;
-        const channel = attrs.channel || 'markup';
+        let channel = attrs.channel || 'markup';
         let emitted;
         try {
-            if (channel === 'markup') {
+            if (channel === 'auto') {
+                // The definition's own markers say which channel this platform wants, because the
+                // topic does not teach the same thing everywhere: a value the reader sets in code on
+                // one platform is written in markup on another, and the two are not interchangeable.
+                // So the fence names no channel and takes whichever one the marker chose.
+                const chosen = emitMarkedChannel(api, json, styleDefaults, attrs.item);
+                channel = chosen.channel;
+                emitted = chosen.content;
+            } else if (channel === 'markup') {
                 emitted = definitionsOf(json)
-                    .map(one => api.emitSingleSnippet(one, PLATFORM, {
+                    // A definition that marks part of itself is emitted twice — once whole, and
+                    // once as the part asked for. The part is the block the topic wants.
+                    .map(one => marksPartOfItself(one)
+                        ? emitChannel(api, one, 'markup', styleDefaults)
+                        : api.emitSingleSnippet(one, PLATFORM, {
                         examplesRoot: SNIPPET_EXAMPLES,
                         defaultSnippetId: 'main',
                         styleDefaults,
@@ -729,13 +775,9 @@ function transformJsonSnippets(content) {
                     .filter(one => one !== null && one.trim() !== '')
                     .join('\n\n');
             } else {
-                // Several channels can be asked for at once, joined in the order given. A topic's
-                // imports section needs both the components' imports and the ones its handler
-                // brings, and those are two regions.
-                emitted = channel.split(',').map(one => one.trim()).filter(Boolean)
-                    .map(one => emitChannel(api, json, one, styleDefaults).trim())
-                    .filter(one => one !== '')
-                    .join('\n');
+                // Several regions can be asked for at once, and the delimiter between their names
+                // says what goes between them in the block. See composeChannels.
+                emitted = composeChannels(api, json, channel, styleDefaults, attrs.item);
             }
         } catch (e) {
             // Failing the build beats publishing a page with a hole where a sample should be.
@@ -810,18 +852,227 @@ const CODE_FENCE_LANG = {
 };
 
 /**
+ * Whether the definition asks for part of itself, rather than all of itself.
+ *
+ * A sidecar whose value opens with `+` is an inclusion, wherever it sits in the tree — on an
+ * element's `$type` or on one of its properties.
+ */
+/**
+ * The channels a handler contributes to — the handler itself, the region it lands in, and the
+ * imports its types need. A sample's handlers are asked for these and left alone for the rest.
+ */
+const HANDLER_CHANNELS = new Set(['handler', 'eventHandlers', 'handlersImports', 'allCode']);
+
+function marksPartOfItself(json) {
+    try {
+        const parsed = JSON.parse(json);
+        const root = parsed && parsed.descriptions && parsed.descriptions.content
+            ? parsed.descriptions.content
+            : parsed;
+        return hasInclusionMarker(root);
+    } catch {
+        // Not this function's error to report; emitting it says the same thing with the text.
+        return false;
+    }
+}
+
+function hasInclusionMarker(node) {
+    if (Array.isArray(node)) return node.some(hasInclusionMarker);
+    if (!node || typeof node !== 'object') return false;
+    for (const [key, value] of Object.entries(node)) {
+        // A sidecar carries one marker, a list of them where the thing belongs to more than one
+        // channel, or an object splaying either of those by platform. Any marker anywhere in that
+        // counts, so the shapes are flattened rather than enumerated.
+        if (key.startsWith('$') && markerStrings(value).some(one => one.startsWith('+'))) {
+            return true;
+        }
+        if (hasInclusionMarker(value)) return true;
+    }
+    return false;
+}
+
+/** Every marker string a sidecar value holds, whichever of the three shapes it is written in. */
+function markerStrings(value) {
+    if (typeof value === 'string') return [value];
+    if (Array.isArray(value)) return value.flatMap(markerStrings);
+    if (value && typeof value === 'object') return Object.values(value).flatMap(markerStrings);
+    return [];
+}
+
+/**
+ * The regions a fence asked for, in order, with whatever it asked to go between them.
+ *
+ * A topic showing code behind rarely wants one region: it wants the imports, then how the component
+ * was reached, then the lines that do the work — and the hand written blocks it replaces put an
+ * elision between those, because they are excerpts from different parts of a file rather than one
+ * run of statements. Rather than a separate option for that, the delimiter between two names says
+ * which it is:
+ *
+ *     channel="bindingImports...bindingInit,bindingCode"
+ *
+ * where "," joins two regions directly and "..." puts the platform's own comment ellipsis between
+ * them. A region this platform writes nothing to drops out, and takes its delimiter with it, so a
+ * block never opens or ends with a stray mark.
+ */
+function composeChannels(api, json, spec, styleDefaults, only) {
+    const expanded = CHANNEL_PRESETS[spec.trim()] ?? spec;
+    // Split on either delimiter, keeping which one it was.
+    const parts = expanded.split(/(\.\.\.|,)/).map(one => one.trim()).filter(one => one !== '');
+
+    let out = '';
+    let pending = null;
+    for (const part of parts) {
+        if (part === ',' || part === '...') {
+            pending = part;
+            continue;
+        }
+        const content = emitChannel(api, json, part, styleDefaults, only).trim();
+        if (content === '') continue;
+        if (out !== '') {
+            out += '\n';
+            if (pending === '...') out += codeEllipsis() + '\n';
+        }
+        out += content;
+        pending = null;
+    }
+    return out;
+}
+
+/** The shorthands for region lists that keep coming up. */
+const CHANNEL_PRESETS = {
+    // What a topic showing code behind almost always wants.
+    codeBehind: 'bindingImports...bindingInit,bindingCode',
+};
+
+/**
+ * "the rest was left out", as a comment on this platform. Composed blocks are code, so the line
+ * comment is right for every one of them; a markup fence never composes.
+ */
+function codeEllipsis() {
+    return '// ...';
+}
+
+/**
+ * The snippet this platform's own markers asked for, whatever channel that turned out to be.
+ *
+ * For a section taught in code on one platform and in markup on another: the definition splays its
+ * sidecar by platform, and this reads back whichever one applied. Returns the channel too, because
+ * the fence has to be labelled with the language of what came out — razor for code, html for markup.
+ */
+function emitMarkedChannel(api, json, styleDefaults, only) {
+    // Which channel this platform's markers asked for has to be known before emitting, not after:
+    // a definition wanted as code is built rather than declared, and that is decided going in. The
+    // renderer resolves the splay for the emission itself; this reads the same sidecars to pick the
+    // channel and, from it, the language the block is labelled with.
+    const channels = markedChannelsFor(JSON.parse(json));
+    if (channels.length === 0) {
+        throw new Error('channel="auto" needs the definition to mark what it wants, and this one ' +
+                        `marked nothing for ${PLATFORM}`);
+    }
+    if (channels.length > 1) {
+        throw new Error('channel="auto" takes one marked channel, and this definition marked ' +
+                        `${channels.join(', ')} for ${PLATFORM}`);
+    }
+    return {
+        channel: channels[0],
+        content: emitChannel(api, json, channels[0], styleDefaults, only),
+    };
+}
+
+/**
+ * The platform key a splayed sidecar uses for the platform being generated. The renderer spells
+ * these out in PlatformKeyFor; they are the platform name with a lower case first letter.
+ */
+function platformSidecarKey() {
+    return PLATFORM.charAt(0).toLowerCase() + PLATFORM.slice(1);
+}
+
+/**
+ * The channels this platform's inclusion markers name, anywhere in the definition.
+ *
+ * Reads the same sidecars the renderer does, including the per platform form, and applies the same
+ * rule: a platform's own entry wins, "default" covers the platforms that have none.
+ */
+function markedChannelsFor(node, found = new Set()) {
+    if (Array.isArray(node)) {
+        for (const item of node) markedChannelsFor(item, found);
+        return [...found];
+    }
+    if (!node || typeof node !== 'object') return [...found];
+
+    for (const [key, value] of Object.entries(node)) {
+        if (key.startsWith('$') && value && typeof value === 'object' && !Array.isArray(value)) {
+            // The per platform form: this platform's entry, or the default when it has none.
+            const platform = platformSidecarKey();
+            const named = Object.keys(value).find(one => one.toLowerCase() === platform.toLowerCase());
+            const chosen = value[named ?? Object.keys(value).find(one => one.toLowerCase() === 'default')];
+            for (const marker of [].concat(chosen ?? [])) addMarkedChannel(marker, found);
+            continue;
+        }
+        if (key.startsWith('$')) {
+            for (const marker of [].concat(value)) addMarkedChannel(marker, found);
+            continue;
+        }
+        markedChannelsFor(value, found);
+    }
+    return [...found];
+}
+
+function addMarkedChannel(marker, found) {
+    if (typeof marker !== 'string' || !marker.startsWith('+')) return;
+    // "+doc:code" — the channel follows the id, and no channel at all means markup.
+    const [, channel] = marker.replace(/^\+>?/, '').split(':');
+    found.add(channel ?? 'markup');
+}
+
+/**
+ * The definition with all but the named handlers taken out of its init lists.
+ *
+ * What a fence's `item=` asks for. A sample's handlers can include ones the topic is not teaching —
+ * a set of shared helpers another handler calls, say — and there is no way to mark one entry of a
+ * list, so the copy handed to the emitter lists only what the block should show.
+ */
+function withOnlyTheseHandlers(parsed, only) {
+    const wanted = only.split(',').map(one => one.trim()).filter(Boolean);
+    const copy = JSON.parse(JSON.stringify(parsed));
+    const found = [];
+    for (const list of ['onInit', 'onViewInit']) {
+        const names = copy[list];
+        if (names === undefined) continue;
+        const kept = (Array.isArray(names) ? names : [names]).filter(name => {
+            if (!wanted.includes(name)) return false;
+            found.push(name);
+            return true;
+        });
+        if (kept.length === 0) delete copy[list];
+        else copy[list] = kept;
+    }
+    // A name that matches nothing is a mistake worth stopping for: the block would otherwise come
+    // out empty, or hold the wrong handler, and read as though that were the sample.
+    const missing = wanted.filter(name => !found.includes(name));
+    if (missing.length > 0) {
+        throw new Error(`item="${only}" names no handler this sample runs: ${missing.join(', ')}`);
+    }
+    return copy;
+}
+
+/**
  * One named channel of a definition — the part that did not fit in the markup.
  *
  * Asked for by recording a zone over the whole element on that channel, which is the same
  * mechanism a sample uses to name its own snippets.
  */
-function emitChannel(api, json, channel, styleDefaults) {
+function emitChannel(api, json, channel, styleDefaults, only) {
     let parsed;
     try {
         parsed = JSON.parse(json);
     } catch (e) {
         throw new Error(`not valid JSON: ${e.message}`);
     }
+    // A sample may run several handlers where the topic teaches one of them. Marking the list asks
+    // for all of them, so the ones not wanted are dropped from the copy being emitted; the fence
+    // still states the whole sample, and only the block is narrowed.
+    if (only) parsed = withOnlyTheseHandlers(parsed, only);
     // Asking for a component's code is asking for it built rather than declared, which is what
     // forcing code behind does. The performance topics show a property being set on a chart the
     // reader already has, and that is the lesson — not the same property written in markup.
@@ -829,13 +1080,22 @@ function emitChannel(api, json, channel, styleDefaults) {
     const root = parsed && parsed.descriptions && parsed.descriptions.content
         ? parsed.descriptions.content
         : parsed;
-    root['$type'] = `+doc:${channel}`;
+    // Marking the root includes everything under it, which is what a topic showing a whole sample
+    // wants. A definition that marks parts of itself is asking for those parts instead, so leave
+    // its own markers to say what is included and let the rest stay closed.
+    if (!hasInclusionMarker(root)) root['$type'] = `+doc:${channel}`;
 
     // A handler is not written where its name appears, so marking the element does not reach it.
     // The list of handler names carries its own sidecar, which registers the request the handler
     // emitter answers when it gets there.
-    for (const list of ['onInit', 'onViewInit']) {
-        if (parsed[list] !== undefined) parsed[`$${list}`] = `+doc:${channel}`;
+    //
+    // Only for the channels a handler writes to. Asking one for markup, or for the binding code the
+    // companion fence probes, leaves the library item requested and never emitted, which is an
+    // error — so a sample can keep its handlers listed while a fence shows only its markup.
+    if (HANDLER_CHANNELS.has(channel)) {
+        for (const list of ['onInit', 'onViewInit']) {
+            if (parsed[list] !== undefined) parsed[`$${list}`] = `+doc:${channel}`;
+        }
     }
 
     const snippets = api.emitSnippets(JSON.stringify(parsed), PLATFORM, {
@@ -843,7 +1103,10 @@ function emitChannel(api, json, channel, styleDefaults) {
         styleDefaults,
         forceCodeBehind: asCode,
     });
-    return snippets.find(s => s.channel === channel)?.content ?? '';
+    // The definition may also produce the whole-sample snippet the emitter makes by default. The
+    // one asked for here is the one keyed to this request.
+    return snippets.find(s => s.key === `doc:${channel}`)?.content
+        ?? snippets.find(s => s.channel === channel)?.content ?? '';
 }
 
 function transformMdxFile(content) {
@@ -1199,8 +1462,12 @@ if (existsSync(OUT_ROOT)) {
     console.log(`[generate] Cleaned output: ${OUT_ROOT}`);
 }
 mkdirSync(OUT_DIR, { recursive: true });
+phase('validate');
 validateJsonSnippets(SRC_COMPONENTS);
+phaseDone('validate');
+phase('generate pages');
 processDir(SRC_COMPONENTS, OUT_DIR);
+phaseDone('generate pages');
 
 // Expand grids/_shared/*.mdx into per-component output directories
 const sharedSrc = path.join(SRC_COMPONENTS, 'grids', '_shared');

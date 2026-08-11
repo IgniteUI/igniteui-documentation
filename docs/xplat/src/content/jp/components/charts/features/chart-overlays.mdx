@@ -84,27 +84,92 @@ import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
 このコード例は、<ApiLink type="DataAnnotationSliceLayer" />、<ApiLink type="ValueOverlay" />、および <ApiLink type="ValueLayer" /> 上のオーバーレイ テキストのスタイルを設定およびカスタマイズする方法を示しています。
 
 
-```json-snippet
+```json-snippet channel="auto" source="/charts/data-chart/data-annotation-multiple-with-overlay-text"
 {
-    "type": "DataAnnotationSliceLayer",
-    "name": "AnnoLayer",
-    "brush": "green",
-    "thickness": 2,
-    "annotationTextColor": "white",
-    "annotationLabelMemberPath": "Label",
-    "annotationValueMemberPath": "Value",
-    "overlayText": "OverlayText on DataAnnotationSliceLayer",
-    "overlayTextMemberPath": "Label",
-    "overlayTextLocation": "OutsideBottomCenter",
-    "overlayTextColor": "red",
-    "overlayTextBackground": "green",
-    "overlayTextBorderColor": "black",
-    "overlayTextBorderThickness": 1,
-    "overlayTextBorderRadius": 4,
-    "overlayTextHorizontalMargin": 0,
-    "overlayTextHorizontalPadding": 2,
-    "overlayTextVerticalMargin": 20,
-    "overlayTextVerticalPadding": 2
+    "type": "DataChart",
+    "name": "chart",
+    "plotAreaMarginBottom": 50,
+    "axes": [
+        {
+            "type": "CategoryXAxis",
+            "name": "xAxis",
+            "dataSourceRef": "StockTesla",
+            "label": "Date",
+            "labelTopMargin": 5,
+            "labelBottomMargin": 15
+        },
+        {
+            "type": "NumericYAxis",
+            "name": "yAxis",
+            "labelExtent": 60,
+            "labelHorizontalAlignment": "Center",
+            "labelRightMargin": 5,
+            "minimumValue": 0,
+            "maximumValue": 550
+        }
+    ],
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "series1",
+            "title": "Stock Price",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "dataSourceRef": "StockTesla",
+            "valueMemberPath": "Open",
+            "showDefaultTooltip": true,
+            "markerType": "None",
+            "brush": "black"
+        },
+        {
+            "type": "ValueOverlay",
+            "name": "valueOverlay",
+            "value": 435,
+            "brush": "green",
+            "isAxisAnnotationEnabled": true,
+            "thickness": 2,
+            "dashArray": [ 2, 4 ],
+            "axisRef": "yAxis",
+            "overlayText": "OverlayText on ValueOverlay",
+            "overlayTextLocation": "OutsideBottomCenter"
+        },
+        {
+            "type": "ValueLayer",
+            "name": "valueLayer",
+            "valueMode": "Average",
+            "brush": "purple",
+            "thickness": 2,
+            "dashArray": [ 2, 4 ],
+            "targetAxisRef": "yAxis",
+            "isAxisAnnotationEnabled": true,
+            "overlayText": "OverlayText on ValueLayer (Average)",
+            "overlayTextLocation": "OutsideBottomCenter"
+        },
+        {
+            "type": "DataAnnotationSliceLayer",
+            "$type": { "blazor": "+doc:code", "default": "+doc:markup" },
+            "name": "AnnoLayer",
+            "dataSourceRef": "AnnotationSliceMultiOverlayData",
+            "targetAxisRef": "yAxis",
+            "brush": "green",
+            "thickness": 2,
+            "annotationTextColor": "white",
+            "annotationLabelMemberPath": "Label",
+            "annotationValueMemberPath": "Value",
+            "overlayText": "OverlayText on DataAnnotationSliceLayer",
+            "overlayTextMemberPath": "Label",
+            "overlayTextLocation": "OutsideBottomCenter",
+            "overlayTextColor": "red",
+            "overlayTextBackground": "green",
+            "overlayTextBorderColor": "black",
+            "overlayTextBorderThickness": 1,
+            "overlayTextBorderRadius": 4,
+            "overlayTextHorizontalMargin": 0,
+            "overlayTextHorizontalPadding": 2,
+            "overlayTextVerticalMargin": 20,
+            "overlayTextVerticalPadding": 2
+        }
+    ]
 }
 ```
 
