@@ -894,3 +894,36 @@ Two changes to what a reader sees, both deliberate:
 
 The page's own sample is untouched: it still colours by continent through `ShapeFileStyling`, and the
 four new samples back the snippets.
+
+## The data grid topics, and which block is the reference
+
+These pages are gated `include: ["NonWeb"]` in the table of contents, so only the XAML platforms
+publish them today — but they were published for the web until recently and may be again. That
+settles which block a collapse has to reproduce: **the web blocks are authoritative, WebComponents
+first**, and the XAML blocks are not evidence of anything, having been generated from the samples on
+this branch by `add-xaml-snippets.mjs`. Where a sample disagrees with a web block, the sample is what
+has drifted.
+
+Because the web pages do not generate, a collapse cannot be checked by regenerating them. It is
+checked by emitting the fence directly for Angular, React, WebComponents and Blazor with the
+generator's own style tables, and reading that against the published block. WinUI is checked the
+ordinary way, against the generated page.
+
+Two things every one of these collapses changes, both accepted:
+
+- The grid gains `Name="grid"`. The samples name it and the topics' own API sections look it up by
+  that name, so the name belongs in the markup; the hand written XAML omitted it.
+- React's enum values become strings — `headerClickAction="SortByMultipleColumns"` where the page
+  wrote `{HeaderClickAction.SortByMultipleColumns}`. Both are valid and every collapsed topic writes
+  the string, but it means the enum's import is no longer needed. Where a page teaches that import in
+  a block of its own, the block stays: it is teaching the emitter has no way to reproduce, and
+  deleting it would lose it. Blazor still qualifies its enums, which is what those pages showed.
+
+### column-sorting — TriState converged to the web's value
+
+The sample's grid carries `SortByMultipleColumnsTriState`, which is the initial value of the live
+demo's dropdown, while all four web blocks teach `SortByMultipleColumns`. The snippet states the
+documented value and stays pinned to the sample, in the way the gauge topics overlay a value the
+sample happens to set differently.
+
+Only the four markup blocks collapsed. The two import blocks above them are kept.
