@@ -971,3 +971,31 @@ is not the property's name in any casing.
 
 Both collapse cleanly. `rowHoverBackground` is stated where the sample omits it, since all four
 blocks teach it. The only change to what a reader sees is the grid's Name.
+
+### column-summaries — Root and RowTop
+
+`summaryScope` is `Root` — React alone said `Groups` — and `groupSummaryDisplayMode` is `RowTop`,
+which the web blocks teach against the sample's `RowBottom`. The summary and group descriptions come
+from the sample, since no block states them and they are what the topic is demonstrating.
+
+The Japanese copy carries a section the English one does not (カスタム集計), so the mirror refuses to
+work in spans on this page and the same definition was applied to it directly. That extra section is
+untouched and still hand written.
+
+### horizontal-scrolling — WebComponents ignored, as instructed
+
+Its block writes `id=` on the columns where it means `field=`, and states a minimum of 200 against
+120 everywhere else. The two sections take the sample: the grid's minimum, then the sample's own
+twelve columns, each with the width the topic is about.
+
+This is the first published output to carry the width shorthand: the XAML columns now read
+`Width="*>120"` where they had a nested ColumnWidth element.
+
+### accessibility — not collapsible, and the reason is in the page
+
+The description has no accessibility property at all, so a snippet cannot state one. The page's own
+prose says why: the feature is turned on "by setting `--use-accessibility` property to true
+explicitly in CSS, preferably using a div tag around the grid", which is what the Blazor block shows.
+The React and WebComponents blocks set a `useAccessibility` attribute instead — whether the component
+really takes one is a question for the product, but the description does not model it either way.
+Left hand written.

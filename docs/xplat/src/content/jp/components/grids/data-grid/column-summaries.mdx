@@ -47,173 +47,188 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
 ## コード スニペット
 
-<PlatformBlock for="React">
-```tsx
-<IgrDataGrid
-    summaryScope = "Groups"
-    groupSummaryDisplayMode = "RowTop"
-    height="calc(100% - 40px)"
-    width="100%"
-    autoGenerateColumns="false"
-    dataSource={this.data}>
-        <IgrTextColumn field="ProductName" headerText="Product"/>
-        <IgrNumericColumn positivePrefix="$" field="BundlePrice" showGroupingSeparator="true" headerText="Price" />
-        <IgrNumericColumn field="OrderItems" headerText="Order Items"/>
-        <IgrNumericColumn field="OrderValue" showGroupingSeparator="true" headerText="Order Totals"
-        positivePrefix="$"  />
-        <IgrTextColumn field="Countries" headerText="Ship Country"/>
-</IgrDataGrid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```html
-<igc-data-grid
-    summary-scope="Root"
-    group-summary-display-mode="RowTop"
-    auto-generate-columns="false"
-    is-group-collapsable="true"
-    group-header-display-mode="combined"
-    default-column-min-width="100">
-        <igc-text-column field="ProductName" header-text="Product"></igc-text-column>
-        <igc-numeric-column positive-prefix="$" field="BundlePrice" show-grouping-separator="true" header-text="Price" ></igc-numeric-column>
-        <igc-numeric-column field="OrderItems" header-text="Order Items"></igc-numeric-column>
-        <igc-numeric-column field="OrderValue" show-grouping-separator="true" header-text="Order Totals" positive-prefix="$"></igc-numeric-column>
-        <igc-text-column field="Countries" header-text="Ship Country"></igc-text-column>
-</igc-data-grid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```ts
-import { IgrColumnGroupDescription } from 'igniteui-react-data-grids';
-import { IgrColumnSummaryDescription } from 'igniteui-react-data-grids'
-import { SummaryOperand, SummaryCalculator, DefaultSummaryResult, IDataSource, ISummaryResult } from 'igniteui-react-core';
-
-public componentDidMount() {
-    window.addEventListener('load', this.onLoad);
-}
-
-public onLoad() {
-    // Count Operand
-    const productCount = new IgrColumnSummaryDescription();
-    productCount.field = "ProductName";
-    productCount.operand = SummaryOperand.Count;
-    this.grid.summaryDescriptions.add(productCount);
-    // Min Operand with formatting
-    const priceMin = new IgrColumnSummaryDescription();
-    priceMin.field = "BundlePrice";
-    priceMin.operand = SummaryOperand.Min;
-    priceMin.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(priceMin);
-    // Max Operand and formatting
-    const priceMax = new IgrColumnSummaryDescription();
-    priceMax.field = "BundlePrice";
-    priceMax.operand = SummaryOperand.Max;
-    priceMax.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(priceMax);
-    // Sum Operand
-    const orderSum = new IgrColumnSummaryDescription();
-    orderSum.field = "OrderItems";
-    orderSum.operand = SummaryOperand.Sum;
-    this.grid.summaryDescriptions.add(orderSum);
-    // Average Operand and formatting
-    const orderValueAvg = new IgrColumnSummaryDescription();
-    orderValueAvg.field = "OrderValue";
-    orderValueAvg.operand = SummaryOperand.Average;
-    orderValueAvg.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(orderValueAvg);
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-import { IgcColumnGroupDescription } from 'igniteui-webcomponents-data-grids';
-import { IgcColumnSummaryDescription } from 'igniteui-webcomponents-data-grids'
-import { SummaryOperand, SummaryCalculator, DefaultSummaryResult, IDataSource, ISummaryResult } from 'igniteui-webcomponents-core';
-
-connectedCallback() {
-
-    // Count Operand
-    const productCount = new IgcColumnSummaryDescription();
-    productCount.field = "ProductName";
-    productCount.operand = SummaryOperand.Count;
-    this.grid.summaryDescriptions.add(productCount);
-    // Min Operand with formatting
-    const priceMin = new IgcColumnSummaryDescription();
-    priceMin.field = "BundlePrice";
-    priceMin.operand = SummaryOperand.Min;
-    priceMin.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(priceMin);
-    // Max Operand and formatting
-    const priceMax = new IgcColumnSummaryDescription();
-    priceMax.field = "BundlePrice";
-    priceMax.operand = SummaryOperand.Max;
-    priceMax.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(priceMax);
-    // Sum Operand
-    const orderSum = new IgcColumnSummaryDescription();
-    orderSum.field = "OrderItems";
-    orderSum.operand = SummaryOperand.Sum;
-    this.grid.summaryDescriptions.add(orderSum);
-    // Average Operand and formatting
-    const orderValueAvg = new IgcColumnSummaryDescription();
-    orderValueAvg.field = "OrderValue";
-    orderValueAvg.operand = SummaryOperand.Average;
-    orderValueAvg.formatOverride = new Intl.NumberFormat('en-EN', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    this.grid.summaryDescriptions.add(orderValueAvg);
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbDataGrid Height="500px" Width="100%"
-    @ref="DataGridRef"
-    SummaryScope="DataSourceSummaryScope.Root"
-    GroupSummaryDisplayMode="GroupSummaryDisplayMode.RowTop"
-    AutoGenerateColumns="false"
-    IsGroupCollapsable="true"
-    GroupHeaderDisplayMode="DataSourceSectionHeaderDisplayMode.Combined"
-    DataSource="DataSource">
-    <IgbTextColumn Field="ProductName" Width="130" HeaderText="Product" />
-    <IgbNumericColumn Field="BundlePrice" PositivePrefix="$" Width="120" ShowGroupingSeparator="true" HeaderText="Price" />
-    <IgbNumericColumn Field="OrderItems" Width="140" HeaderText="Orders" />
-    <IgbNumericColumn Field="OrderValue" Width="160" ShowGroupingSeparator="true" HeaderText="Order Totals" PositivePrefix="$" />
-    <IgbTextColumn Field="Country" Width="170" HeaderText="Ship Country" />
-</IgbDataGrid>
-
-@code {
-    private IgbDataGrid grid;
-    private IgbDataGrid DataGridRef
-    {
-        get { return grid; }
-        set
-        {
-            grid = value;
-            this.OnDataGridRef();
-            StateHasChanged();
+```json-snippet source="/grids/data-grid/column-summaries"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "isGroupCollapsable": true,
+            "groupHeaderDisplayMode": "Combined",
+            "summaryScope": "Root",
+            "groupSummaryDisplayMode": "RowTop",
+            "height": "100%",
+            "width": "100%",
+            "groupDescriptions": [
+                {
+                    "type": "ColumnGroupDescription",
+                    "field": "ProductName",
+                    "displayName": "ProductName"
+                }
+            ],
+            "summaryDescriptions": [
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductName",
+                    "operand": "Count"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductPrice",
+                    "operand": "Min"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductPrice",
+                    "operand": "Max"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderItems",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderValue",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderValue",
+                    "operand": "Average"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderDate",
+                    "operand": "Min",
+                    "calculatorDisplayName": "First"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderDate",
+                    "operand": "Max",
+                    "calculatorDisplayName": "Last"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "Profit",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "Profit",
+                    "operand": "Average"
+                }
+            ],
+            "columns": [
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 130
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 140
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Totals",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 160
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 140
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country",
+                    "headerText": "Ship Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 170
+                    }
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
         }
     }
-
-    private void OnDataGridRef()
-    {
-        var productCount = new ColumnSummaryDescription() { Field = "ProductName", Operand = SummaryOperand.Count };
-        var priceMin = new ColumnSummaryDescription() { Field = "BundlePrice", Operand = SummaryOperand.Min };
-        var priceMax = new ColumnSummaryDescription() { Field = "BundlePrice", Operand = SummaryOperand.Max };
-        var orderSum = new ColumnSummaryDescription() { Field = "OrderItems", Operand = SummaryOperand.Sum };
-        var orderValueAvg = new ColumnSummaryDescription() { Field = "OrderValue", Operand = SummaryOperand.Average };
-
-        this.DataGridRef.SummaryDescriptions.Add(productCount);
-        this.DataGridRef.SummaryDescriptions.Add(priceMin);
-        this.DataGridRef.SummaryDescriptions.Add(priceMax);
-        this.DataGridRef.SummaryDescriptions.Add(orderSum);
-        this.DataGridRef.SummaryDescriptions.Add(orderValueAvg);
-    }
 }
 ```
-</PlatformBlock>
 
 <PlatformBlock for="Angular, React, WebComponents">
 ## カスタム集計
