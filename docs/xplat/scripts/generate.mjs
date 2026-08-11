@@ -776,6 +776,9 @@ function transformJsonSnippets(content) {
                         styleDefaults,
                     }))
                     .filter(one => one !== null && one.trim() !== '')
+                    // Trimmed before joining: several definitions in one block are separated by one
+                    // blank line, not by however many the last of them happened to end with.
+                    .map(one => one.trim())
                     .join('\n\n');
             } else {
                 // Several regions can be asked for at once, and the delimiter between their names

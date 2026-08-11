@@ -554,6 +554,27 @@ The same check turns up two other kinds of root that are not components and neve
 
 ## chart-performance
 
+### The axis guidelines showed a property the financial chart does not have
+
+Axis Intervals and Axis Labels Visibility each demonstrate one guideline on the three charts that
+have it, so each is one fence with an **array body** — several definitions, emitted in order with a
+blank line between, which is the shape the hand written blocks had.
+
+Collapsing them caught an error the page has carried on all four platforms:
+
+```html
+<igx-financial-chart xAxisInterval="5" yAxisInterval="50"></igx-financial-chart>
+```
+
+`FinancialChart` has no `xAxisInterval`. It has some forty other `xAxis` properties, and a time based
+x axis, which is presumably why an interval is not among them. `CategoryChart` has both. The
+collapsed snippet sets only `yAxisInterval` there; the schema rejects the other, which is how it came
+to light. Label visibility is fine on both charts and is unchanged.
+
+Data Structure and Data Filtering are not collapsed. They teach a `FlattenDataSource` helper the
+reader writes, which is not a component.
+
+
 Three sections collapsed. Axis Types needed the array form — a snippet body that is a list of
 definitions rather than one — because it shows a FinancialChart and a DataChart side by side, and
 neither is a child of the other. It is the only place in the set that needs it.
