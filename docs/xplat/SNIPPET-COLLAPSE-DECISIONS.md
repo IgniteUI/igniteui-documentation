@@ -915,9 +915,17 @@ Two things every one of these collapses changes, both accepted:
   that name, so the name belongs in the markup; the hand written XAML omitted it.
 - React's enum values become strings — `headerClickAction="SortByMultipleColumns"` where the page
   wrote `{HeaderClickAction.SortByMultipleColumns}`. Both are valid and every collapsed topic writes
-  the string, but it means the enum's import is no longer needed. Where a page teaches that import in
-  a block of its own, the block stays: it is teaching the emitter has no way to reproduce, and
-  deleting it would lose it. Blazor still qualifies its enums, which is what those pages showed.
+  the string. Blazor still qualifies its enums, which is what those pages showed.
+
+  **The enum's import block goes with it.** Nothing in the emitted snippet refers to the enum, so a
+  hand written `import { HeaderClickAction } ...` beside the fence is dead text. Deleted, not kept.
+  And a page that did need its imports would not keep them by hand either: it would emit them, on
+  the imports channel, from the same definition. An uncollapsed block next to a collapsed one is the
+  thing this whole exercise is removing.
+
+  Imperative sections are the exception, and only because their code is not emitted at all: where a
+  topic teaches an API call, the imports that call needs stay beside it. column-sorting keeps its
+  `ColumnSortDescription` import for that reason and loses its `HeaderClickAction` one.
 
 ### column-sorting — TriState converged to the web's value
 
