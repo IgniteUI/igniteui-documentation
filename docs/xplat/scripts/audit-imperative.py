@@ -12,6 +12,8 @@ import re
 import subprocess
 import sys
 
+from platform_blocks import leaf_blocks_of
+
 BASE = 'bc240f0a6'
 DOCS = 'docs/xplat/src/content/en/components'
 
@@ -41,8 +43,9 @@ def sections(text):
 def block_kinds(section):
     """What each platform's block in this section looks like: markup, code, or both."""
     kinds = {}
-    for m in re.finditer(r'<PlatformBlock\s+for="([^"]+)">([\s\S]*?)</PlatformBlock>', section):
-        for f in re.finditer(r'```(\w+)\n([\s\S]*?)```', m.group(2)):
+    for b in leaf_blocks_of(section):
+        body = section[b['body_start']:b['body_end']]
+        for f in re.finditer(r'```(\w+)\n([\s\S]*?)```', body):
             lang, body = f.group(1), f.group(2)
             if lang in MARKUP_LANGS and re.search(r'^\s*<', body, re.M):
                 kind = 'markup'
@@ -51,8 +54,8 @@ def block_kinds(section):
                 kind = 'code'
             else:
                 kind = 'markup'
-            for platform in m.group(1).split(','):
-                kinds.setdefault(platform.strip(), set()).add(kind)
+            for platform in b['platforms']:
+                kinds.setdefault(platform, set()).add(kind)
     # A section with no platform blocks may still have bare fences
     if not kinds:
         for f in re.finditer(r'```(\w+)\n([\s\S]*?)```', section):

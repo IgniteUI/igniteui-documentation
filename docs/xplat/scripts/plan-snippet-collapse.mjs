@@ -25,6 +25,7 @@
  *   node scripts/plan-snippet-collapse.mjs [--lang=en] [--file=bullet-graph.mdx] [--show-blocked]
  */
 
+import { leafBlocksOf } from './platform-blocks.mjs';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -307,10 +308,11 @@ function sampleByContent(read, referencedInTopic) {
 // ---------------------------------------------------------------------------
 
 function findGroups(text) {
-    const blockRe = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;
     const found = [];
-    let m;
-    while ((m = blockRe.exec(text)) !== null) {
+    // Depth aware: these blocks nest, and a lazily paired closer is the inner block's.
+    for (const b of leafBlocksOf(text)) {
+        const m = { 1: b.platforms.join(', '), 2: text.slice(b.bodyStart, b.bodyEnd),
+                    0: text.slice(b.start, b.end), index: b.start };
         const fence = /```(html|tsx|razor|xaml)\n([\s\S]*?)```/.exec(m[2]);
         if (!fence) continue;
         found.push({ platforms: m[1], body: fence[2], start: m.index, end: m.index + m[0].length });

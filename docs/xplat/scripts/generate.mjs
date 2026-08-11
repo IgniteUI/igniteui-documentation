@@ -299,7 +299,10 @@ function detectPlatformFromContent(lang, code) {
 }
 
 function filterCodeBlocks(content) {
-    return content.replace(/```(\w+)([\s\S]*?)```/g, (match, lang, body) => {
+    // Both delimiters anchored to a line start: pairing them loosely makes the result depend on
+    // where the surrounding platform blocks happen to open and close, because a fence whose closer
+    // is not recognised runs on and takes the next fence with it.
+    return content.replace(/^```(\w+)[^\n]*\n([\s\S]*?)^```[ \t]*$/gm, (match, lang, body) => {
         // Exclusive language check. `owner` may be a platform or a group alias.
         const owner = EXCLUSIVE_LANG[lang.toLowerCase()];
         if (owner && !forMatches(PLATFORM, owner)) return '';

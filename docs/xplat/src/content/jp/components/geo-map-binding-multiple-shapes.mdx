@@ -38,464 +38,100 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 まず、必要なコンポーネントとモジュールをインポートします。
 
-<PlatformBlock for="React">
-
-```ts
-import { IgrGeographicMapModule } from 'igniteui-react-maps';
-import { IgrGeographicMap } from 'igniteui-react-maps';
-import { IgrGeographicShapeSeries } from 'igniteui-react-maps';
-import { IgrGeographicPolylineSeries } from 'igniteui-react-maps';
-import { IgrGeographicSymbolSeries } from 'igniteui-react-maps';
-import { IgrDataChartInteractivityModule } from 'igniteui-react-charts';
-import { IgrDataContext } from 'igniteui-react-core';
-import { IgrShapeDataSource } from 'igniteui-react-core';
-
-IgrGeographicMapModule.register();
-IgrDataChartInteractivityModule.register();
+```json-snippet id="shapes" exclude="Blazor,Xaml" source="/maps/geo-map/binding-multiple-shapes" channel="bindingImports,handlersImports"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true,
+            "series": [
+                {
+                    "type": "GeographicShapeSeries",
+                    "name": "polygonSeries",
+                    "shapeMemberPath": "points",
+                    "shapeFill": "rgb(150, 150, 150)",
+                    "shapeStroke": "Black",
+                    "shapeStrokeThickness": 1
+                },
+                {
+                    "type": "GeographicPolylineSeries",
+                    "name": "lineSeries",
+                    "shapeMemberPath": "points",
+                    "shapeStroke": "rgba(147, 15, 180, 0.5)",
+                    "thickness": 3
+                },
+                {
+                    "type": "GeographicSymbolSeries",
+                    "name": "symbolSeries",
+                    "longitudeMemberPath": "longitude",
+                    "latitudeMemberPath": "latitude",
+                    "markerType": "Circle",
+                    "markerOutline": "rgb(2, 102, 196)",
+                    "markerBrush": "White"
+                }
+            ]
+        }
+    },
+    "onViewInit": [
+        "MapMultipleShapesPolygons",
+        "MapMultipleShapesPolylines",
+        "MapMultipleShapesPoints",
+        "MapMultipleShapesLoad"
+    ]
+}
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```ts
-import { IgcGeographicMapModule } from 'igniteui-webcomponents-maps';
-import { IgcDataChartInteractivityModule } from 'igniteui-webcomponents-charts';
-import { IgcGeographicMapComponent } from 'igniteui-webcomponents-maps';
-import { IgcGeographicShapeSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcGeographicPolylineSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcGeographicSymbolSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcShapeDataSource } from 'igniteui-webcomponents-core';
-import { ModuleManager } from 'igniteui-webcomponents-core';
-
-ModuleManager.register(
-    IgcDataChartInteractivityModule,
-    IgcGeographicMapModule
-);
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```ts
-import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { IgxGeographicPolylineSeriesComponent } from 'igniteui-angular-maps';
-import { IgxGeographicShapeSeriesComponent } from 'igniteui-angular-maps';
-import { IgxGeographicSymbolSeriesComponent } from 'igniteui-angular-maps';
-import { IgxShapeDataSource } from 'igniteui-angular-core';
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(
-    typeof(IgbGeographicMapModule),
-    typeof(IgbDataChartInteractivityModule)
-);
-```
-
-</PlatformBlock>
 
 ## シリーズの作成
 
 次に、後で異なるタイプのシェープ ファイルをロードする地理的シリーズでマップを作成します。
 
-```json-snippet source="/maps/geo-map/binding-multiple-shapes"
-{
-    "type": "GeographicMap",
-    "name": "map",
-    "height": "500px",
-    "width": "700px",
-    "zoomable": true,
-    "series": [
-        {
-            "type": "GeographicShapeSeries",
-            "name": "polygonSeries",
-            "shapeMemberPath": "points",
-            "shapeFill": "rgb(150, 150, 150)",
-            "shapeStroke": "Black",
-            "shapeStrokeThickness": 1
-        },
-        {
-            "type": "GeographicPolylineSeries",
-            "name": "polylineSeries",
-            "shapeMemberPath": "points",
-            "shapeStroke": "rgba(147, 15, 180, 0.5)",
-            "thickness": 3
-        },
-        {
-            "type": "GeographicSymbolSeries",
-            "name": "symbolSeries",
-            "longitudeMemberPath": "longitude",
-            "latitudeMemberPath": "latitude",
-            "markerType": "Circle",
-            "markerOutline": "rgb(2, 102, 196)",
-            "markerBrush": "White"
-        }
-    ]
-}
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes"
 ```
 
 ## シェープファイルの読み込み
 
 次に、ページのコンストラクターで、地理マップコンポーネントに表示する各シェープファイルの <ApiLink type="ShapefileRecord" /> を追加します。
 
-<PlatformBlock for="React">
-
-```ts
-const sdsPolygons = new IgrShapeDataSource();
-sdsPolygons.importCompleted = this.onPolygonsLoaded;
-sdsPolygons.shapefileSource = url + "/shapes/WorldCountries.shp";
-sdsPolygons.databaseSource  = url + "/shapes/WorldCountries.dbf";
-sdsPolygons.dataBind();
-const sdsPolylines = new IgrShapeDataSource();
-sdsPolylines.importCompleted = this.onPolylinesLoaded;
-sdsPolylines.shapefileSource = url + "/shapes/WorldConnections.shp";
-sdsPolylines.databaseSource  = url + "/shapes/WorldConnections.dbf";
-sdsPolylines.dataBind();
-const sdsLocations = new IgrShapeDataSource();
-sdsLocations.importCompleted = this.onPointsLoaded;
-sdsLocations.shapefileSource = url + "/Shapes/WorldCities.shp";
-sdsLocations.databaseSource  = url + "/Shapes/WorldCities.dbf";
-sdsLocations.dataBind();
+```json-snippet ref="shapes" exclude="Blazor,Xaml" source="/maps/geo-map/binding-multiple-shapes" channel="handler" item="MapMultipleShapesLoad"
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```ts
-const sdsPolygons = new IgxShapeDataSource();
-sdsPolygons.importCompleted = this.onPolygonsLoaded;
-sdsPolygons.shapefileSource = url + "/shapes/WorldCountries.shp";
-sdsPolygons.databaseSource  = url + "/shapes/WorldCountries.dbf";
-sdsPolygons.dataBind();
-const sdsPolylines = new IgxShapeDataSource();
-sdsPolylines.importCompleted = this.onPolylinesLoaded;
-sdsPolylines.shapefileSource = url + "/shapes/WorldConnections.shp";
-sdsPolylines.databaseSource  = url + "/shapes/WorldConnections.dbf";
-sdsPolylines.dataBind();
-const sdsLocations = new IgxShapeDataSource();
-sdsLocations.importCompleted = this.onPointsLoaded;
-sdsLocations.shapefileSource = url + "/Shapes/WorldCities.shp";
-sdsLocations.databaseSource  = url + "/Shapes/WorldCities.dbf";
-sdsLocations.dataBind();
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```ts
-const sdsPolygons = new IgcShapeDataSource();
-sdsPolygons.importCompleted = this.onPolygonsLoaded;
-sdsPolygons.shapefileSource = url + "/shapes/WorldCountries.shp";
-sdsPolygons.databaseSource  = url + "/shapes/WorldCountries.dbf";
-sdsPolygons.dataBind();
-const sdsPolylines = new IgcShapeDataSource();
-sdsPolylines.importCompleted = this.onPolylinesLoaded;
-sdsPolylines.shapefileSource = url + "/shapes/WorldConnections.shp";
-sdsPolylines.databaseSource  = url + "/shapes/WorldConnections.dbf";
-sdsPolylines.dataBind();
-const sdsLocations = new IgcShapeDataSource();
-sdsLocations.importCompleted = this.onPointsLoaded;
-sdsLocations.shapefileSource = url + "/Shapes/WorldCities.shp";
-sdsLocations.databaseSource  = url + "/Shapes/WorldCities.dbf";
-sdsLocations.dataBind();
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-public IgbShapeDataSource AsiaShape;
-public IgbShapeDataSource EuropeShape;
-
-protected override void OnInitialized()
-{
-    this.AsiaShape = new IgbShapeDataSource()
-    {
-        ShapefileSource = "https://static.infragistics.com/xplatform/shapes/world_region_asia.shp",
-        DatabaseSource = "https://static.infragistics.com/xplatform/shapes/world_region_asia.dbf"
-    };
-
-    this.EuropeShape = new IgbShapeDataSource()
-    {
-        ShapefileSource = "https://static.infragistics.com/xplatform/shapes/world_region_europe.shp",
-        DatabaseSource = "https://static.infragistics.com/xplatform/shapes/world_region_europe.dbf"
-    };
-}
-```
-
-</PlatformBlock>
 
 
 
 <PlatformBlock for="Angular, React, WebComponents">
-
-
-
 ## ポリゴンの処理
 
 世界の国々の <ApiLink type="ShapefileRecord" /> に読み込まれた形状データを処理し、<ApiLink type="GeographicShapeSeries" /> オブジェクトに割り当てます。
+</PlatformBlock>
 
-```ts
-import { IgrGeographicShapeSeries } from 'igniteui-react-maps';
-import { IgrShapeDataSource } from 'igniteui-react-core';
-// ...
-public onPolygonsLoaded(sds: IgrShapeDataSource, e: any) {
-    const geoPolygons: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const country = {
-            points: record.points,
-            name: record.fieldValues.NAME,
-            gdp: record.fieldValues.GDP,
-            population: record.fieldValues.POPULATION
-        };
-        geoPolygons.push(country);
-    };
-
-    const shapeSeries = this.geoMap.series[0] as IgrGeographicShapeSeries;
-    shapeSeries.dataSource = geoPolygons;
-}
+<PlatformBlock for="Angular, React, WebComponents">
+```json-snippet ref="shapes" exclude="Blazor,Xaml" source="/maps/geo-map/binding-multiple-shapes" channel="handler" item="MapMultipleShapesPolygons"
 ```
+</PlatformBlock>
 
-```ts
-import { IgxGeographicPolylineSeriesComponent } from 'igniteui-angular-maps';
-import { IgxShapeDataSource } from 'igniteui-angular-core';
-// ...
-public onPolygonsLoaded(sds: IgxShapeDataSource, e: any) {
-    const geoPolygons: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const country = {
-            points: record.points,
-            name: record.fieldValues.NAME,
-            gdp: record.fieldValues.GDP,
-            population: record.fieldValues.POPULATION
-        };
-        geoPolygons.push(country);
-    };
-
-    const shapeSeries = this.geoMap.series[0] as IgxGeographicShapeSeries;
-    shapeSeries.dataSource = geoPolygons;
-}
-```
-
-```ts
-import { IgcGeographicShapeSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcShapeDataSource } from 'igniteui-webcomponents-core';
-// ...
-public onPolygonsLoaded(sds: IgcShapeDataSource, e: any) {
-    const geoPolygons: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const country = {
-            points: record.points,
-            name: record.fieldValues.NAME,
-            gdp: record.fieldValues.GDP,
-            population: record.fieldValues.POPULATION
-        };
-        geoPolygons.push(country);
-    };
-    let polygonSeries = (document.getElementById("polygonSeries") as IgcGeographicShapeSeriesComponent);
-    polygonSeries.dataSource = geoPolygons;
-    polygonSeries.renderSeries(false);
-}
-```
-
+<PlatformBlock for="Angular, React, WebComponents">
 ## ポリラインの処理
 
 <ApiLink type="ShapefileRecord" /> に読み込まれた形状データを処理し、主要都市間の通信ルートを使用して、<ApiLink type="GeographicPolylineSeries" /> オブジェクトに割り当てます。
+</PlatformBlock>
 
-```ts
-import { IgrGeographicPolylineSeries } from 'igniteui-react-maps';
-import { IgrShapeDataSource } from 'igniteui-react-core';
-// ...
-public onPolylinesLoaded(sds: IgrShapeDataSource, e: any) {
-    const geoPolylines: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const route = {
-            points: record.points,
-            name: record.fieldValues.Name,
-            capacity: record.fieldValues.CapacityG,
-            distance: record.fieldValues.DistanceKM,
-            isOverLand: record.fieldValues.OverLand === 0,
-            isActive: record.fieldValues.NotLive !== 0,
-            service: record.fieldValues.InService
-        };
-        geoPolylines.push(route);
-    }
-    const lineSeries = this.geoMap.series[1] as IgrGeographicPolylineSeries;
-    lineSeries.dataSource = geoPolylines;
-}
+<PlatformBlock for="Angular, React, WebComponents">
+```json-snippet ref="shapes" exclude="Blazor,Xaml" source="/maps/geo-map/binding-multiple-shapes" channel="handler" item="MapMultipleShapesPolylines"
 ```
+</PlatformBlock>
 
-```ts
-import { IgxGeographicPolylineSeriesComponent } from 'igniteui-angular-maps';
-import { IgxShapeDataSource } from 'igniteui-angular-core';
-// ...
-public onPolylinesLoaded(sds: IgxShapeDataSource, e: any) {
-    const geoPolylines: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const route = {
-            points: record.points,
-            name: record.fieldValues.Name,
-            capacity: record.fieldValues.CapacityG,
-            distance: record.fieldValues.DistanceKM,
-            isOverLand: record.fieldValues.OverLand === 0,
-            isActive: record.fieldValues.NotLive !== 0,
-            service: record.fieldValues.InService
-        };
-        geoPolylines.push(route);
-    }
-    const lineSeries = this.geoMap.series[1] as IgxGeographicPolylineSeries;
-    lineSeries.dataSource = geoPolylines;
-}
-```
-
-```ts
-import { IgcGeographicPolylineSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcShapeDataSource } from 'igniteui-webcomponents-core';
-// ...
-public onPolylinesLoaded(sds: IgcShapeDataSource, e: any) {
-    const geoPolylines: any[] = [];
-    // parsing shapefile data and creating geo-polygons
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        // using field/column names from .DBF file
-        const route = {
-            points: record.points,
-            name: record.fieldValues.Name,
-            capacity: record.fieldValues.CapacityG,
-            distance: record.fieldValues.DistanceKM,
-            isOverLand: record.fieldValues.OverLand === 0,
-            isActive: record.fieldValues.NotLive !== 0,
-            service: record.fieldValues.InService
-        };
-        geoPolylines.push(route);
-    }
-
-    let lineSeries = (document.getElementById("lineSeries") as IgcGeographicPolylineSeriesComponent);
-    lineSeries.dataSource = geoPolylines;
-    lineSeries.renderSeries(false);
-}
-```
-
+<PlatformBlock for="Angular, React, WebComponents">
 ## ポイントの処理
 
 <ApiLink type="ShapefileRecord" /> に読み込まれた世界各国の形状データを処理し、<ApiLink type="GeographicSymbolSeries" /> オブジェクトに割り当てます。
-
-```ts
-import { IgrGeographicSymbolSeries } from 'igniteui-react-maps';
-import { MarkerType } from 'igniteui-react-charts';
-// ...
-public onPointsLoaded(sds: IgrShapeDataSource, e: any) {
-    const geoLocations: any[] = [];
-    // parsing shapefile data and creating geo-locations
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        const pop = record.fieldValues.POPULATION;
-        if (pop > 0) {
-            // each shapefile record has just one point
-            const location = {
-                latitude: record.points[0][0].y,
-                longitude: record.points[0][0].x,
-                city: record.fieldValues.NAME,
-                population: pop
-            };
-            geoLocations.push(location);
-        }
-    }
-    const symbolSeries = this.geoMap.series[2] as IgrGeographicSymbolSeries;
-    symbolSeries.dataSource = geoLocations;
-}
-```
-
-```ts
-import { IgxGeographicSymbolSeriesComponent } from 'igniteui-angular-maps';
-import { IgxShapeDataSource } from 'igniteui-angular-core';
-// ...
-public onPointsLoaded(sds: IgxShapeDataSource, e: any) {
-    const geoLocations: any[] = [];
-    // parsing shapefile data and creating geo-locations
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        const pop = record.fieldValues.POPULATION;
-        if (pop > 0) {
-            // each shapefile record has just one point
-            const location = {
-                latitude: record.points[0][0].y,
-                longitude: record.points[0][0].x,
-                city: record.fieldValues.NAME,
-                population: pop
-            };
-            geoLocations.push(location);
-        }
-    }
-    const symbolSeries = this.geoMap.series[2] as IgxGeographicSymbolSeries;
-    symbolSeries.dataSource = geoLocations;
-}
-```
-
-```ts
-import { IgcGeographicSymbolSeriesComponent } from 'igniteui-webcomponents-maps';
-import { IgcShapeDataSource } from 'igniteui-webcomponents-core';
-// ...
-public onPointsLoaded(sds: IgcShapeDataSource, e: any) {
-    const geoLocations: any[] = [];
-    // parsing shapefile data and creating geo-locations
-    let pointData = sds.getPointData();
-    for ( let i = 0; i < pointData.length; i++ ) {
-        let record = pointData[i];
-        const pop = record.fieldValues.POPULATION;
-        if (pop > 0) {
-            // each shapefile record has just one point
-            const location = {
-                latitude: record.points[0][0].y,
-                longitude: record.points[0][0].x,
-                city: record.fieldValues.NAME,
-                population: pop
-            };
-            geoLocations.push(location);
-        }
-    }
-    let symbolSeries = (document.getElementById("symbolSeries") as IgcGeographicSymbolSeriesComponent);
-    symbolSeries.dataSource = geoLocations;
-    symbolSeries.renderSeries(false);
-}
-```
-
-
 </PlatformBlock>
 
+<PlatformBlock for="Angular, React, WebComponents">
+```json-snippet ref="shapes" exclude="Blazor,Xaml" source="/maps/geo-map/binding-multiple-shapes" channel="handler" item="MapMultipleShapesPoints"
+```
+</PlatformBlock>
 
 ## マップ背景
 

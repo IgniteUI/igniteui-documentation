@@ -17,6 +17,7 @@
  *   node scripts/mirror-collapse-to-jp.mjs --file=radial-gauge.mdx [--dry-run]
  */
 
+import { leafBlocksOf } from './platform-blocks.mjs';
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,18 +69,21 @@ const jp = readFileSync(jpFile, 'utf8');
  */
 function groupsOf(text) {
     const blocks = [];
-    for (const m of text.matchAll(/<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g)) {
-        if (!/```(html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n/.test(m[2])) continue;
-        const fence = /```(?:html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n([\s\S]*?)```/.exec(m[2]);
-        blocks.push({ platforms: m[1].split(',').map(s => s.trim()), body: fence ? fence[1] : '',
-                      start: m.index, end: m.index + m[0].length });
+    // Depth aware: pairing an opener with the first closer after it takes an inner block's closer,
+    // and a group whose extent is wrong takes whatever sits between with it when it is replaced.
+    for (const b of leafBlocksOf(text)) {
+        const body = text.slice(b.bodyStart, b.bodyEnd);
+        if (!/```(html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n/.test(body)) continue;
+        const fence = /```(?:html|tsx|razor|xaml|ts|typescript|csharp|js|javascript)\n([\s\S]*?)```/.exec(body);
+        blocks.push({ platforms: b.platforms, body: fence ? fence[1] : '',
+                      start: b.start, end: b.end });
     }
     const groups = [];
     let current = [], seen = new Set();
     for (const b of blocks) {
         const previousEnd = current.length ? current[current.length - 1].end : -1;
         const intervening = previousEnd >= 0 && text.slice(previousEnd, b.start).trim().length > 0;
-        if (current.length && (intervening || b.platforms.some(p => seen.has(p)))) {
+if (current.length && (intervening || b.platforms.some(p => seen.has(p)))) {
             groups.push(current); current = []; seen = new Set();
         }
         current.push(b);
@@ -106,7 +110,9 @@ function sectionIndexer(text) {
 const enSection = sectionIndexer(en);
 const jpSection = sectionIndexer(jp);
 
-const enFences = [...en.matchAll(/```json-snippet[^\n]*\n(?:[\s\S]*?\n)?```/g)]
+// The closing fence has to be the first one at a line start, or a fence with no body — which is
+// what a ref= fence is — runs on and swallows everything up to the next fence's close.
+const enFences = [...en.matchAll(/```json-snippet[^\n]*\n[\s\S]*?^```/gm)]
     .map(m => ({ section: enSection(m.index), fence: m[0] }));
 const jpGroups = groupsOf(jp);
 

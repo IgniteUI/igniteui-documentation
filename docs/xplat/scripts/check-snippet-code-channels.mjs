@@ -19,6 +19,7 @@
  *   XPLAT_EXAMPLES=… node scripts/check-snippet-code-channels.mjs
  */
 
+import { leafBlocksOf } from './platform-blocks.mjs';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -56,7 +57,10 @@ const files = [];
 /** The platforms a topic still shows a hand written code block for, near a given position. */
 function codeBlockPlatforms(text) {
     const found = new Set();
-    for (const m of text.matchAll(/<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g)) {
+    // Depth aware: these blocks nest, and a lazily paired closer is the inner block's.
+    for (const b of leafBlocksOf(text)) {
+        const m = { 1: b.platforms.join(', '), 2: text.slice(b.bodyStart, b.bodyEnd),
+                    0: text.slice(b.start, b.end), index: b.start };
         if (!/```(ts|typescript|razor|csharp)\n/.test(m[2])) continue;
         for (const p of m[1].split(',')) found.add(p.trim());
     }

@@ -22,6 +22,7 @@
  *   node scripts/snippet-group-dossier.mjs --file=bullet-graph.mdx [--group=2]
  */
 
+import { leafBlocksOf } from './platform-blocks.mjs';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -66,9 +67,10 @@ const text = readFileSync(topic, 'utf8');
 // ---------------------------------------------------------------------------
 
 const blocks = [];
-const blockRe = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;
-let m;
-while ((m = blockRe.exec(text)) !== null) {
+// Depth aware: these blocks nest, and a lazily paired closer is the inner block's.
+for (const b of leafBlocksOf(text)) {
+    const m = { 1: b.platforms.join(', '), 2: text.slice(b.bodyStart, b.bodyEnd),
+                0: text.slice(b.start, b.end), index: b.start };
     const fence = /```(html|tsx|razor|xaml)\n([\s\S]*?)```/.exec(m[2]);
     if (!fence) continue;
     blocks.push({ platforms: m[1], lang: fence[1], body: fence[2],
