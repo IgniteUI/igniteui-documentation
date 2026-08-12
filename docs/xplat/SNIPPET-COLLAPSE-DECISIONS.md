@@ -1039,3 +1039,22 @@ from the ProductOrders item.
 column-pinning's block files three columns under a "Columns pinned right" comment and states no
 pinning on them. The sample pins them, so the snippet does: a comment contradicted by the markup
 beside it is not the reference.
+
+### A toolbar and its grid are one definition, not two
+
+column-chooser and column-pinning each pair a toolbar or chooser with the grid it targets. Those go
+in one definition with two descriptions — `aboveContent` and `content`, which is how the samples
+already hold them — and the emitter writes both elements in order, matching what the blocks showed.
+Splitting them into an array of two definitions does not work: `targetGridRef` resolves within the
+definition, so a toolbar emitted alone reports the grid as a library item that does not exist.
+
+### column-chooser — another value that is not a member
+
+The React and WebComponents blocks state `columnHidingAnimationMode="SlideOver"`. SlideOver belongs
+to column *moving*; the hiding modes are the SlideTo and FadeOut set. The sample does not set the
+property at all, and the section is about the chooser, so the snippet drops it.
+
+### column-options, remote-data — WebComponents' minimum width, again
+
+remote-data's WebComponents block states a minimum of 200 where React, XAML and the sample say 120,
+the same disagreement horizontal-scrolling has. 120 stated.
