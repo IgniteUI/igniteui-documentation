@@ -1243,3 +1243,30 @@ Ported, and the Code Snippet section states it.
 
 What these three leave behind is what every component topic keeps: Dependencies and Component
 Modules.
+
+## Component Modules, collapsed after all
+
+The module list alone was not enough, because a Component Modules section teaches the call around it.
+The emitter writes that call now, into a region of its own — `moduleRegistration` — built from the
+same list it already wrote for the template, with each platform saying what wraps it:
+`@NgModule({ imports: [...] })` for Angular, `ModuleManager.register(...)` for Web Components, an
+array and a forEach for React, `builder.Services.AddIgniteUIBlazor(...)` for Blazor, and nothing at
+all for the XAML platforms, which have no registration. Angular and Blazor name the file the
+registration belongs in, as their hand written blocks did.
+
+A section is then one fence: `channel="modulesImports...moduleRegistration"`, which is the imports,
+an ellipsis comment, and the call. Applied to geo-map, the three gauges, the dashboard tile, the zoom
+slider, the colour editor, the toolbar and the multiple shapes topic.
+
+Two things stay hand written in those sections, and both are instructions rather than component code:
+the `npm install` lines, and the Blazor `@using` that belongs in _Imports.razor.
+
+### Two errors this turned up
+
+The zoom slider was excluded for Blazor in the table of contents, which is wrong — it ships there —
+so that page had been unbuildable for Blazor readers. The exclusion is gone.
+
+On the multiple shapes topic, three fences and the headings above them were still scoped to the three
+web platforms, left from when those handlers had no C# port. The port landed earlier today, so the
+fences admit Blazor while the wrappers still shut it out. Both are unwrapped, and Blazor now reads the
+Processing sections it was never shown.
