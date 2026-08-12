@@ -11,7 +11,7 @@
  *   2. fuzzy fallback      `headerClickAction` → `HeaderClickAction`  (PascalCase)
  *
  * This is deliberately additive: names the map does not cover keep resolving the
- * way they do today. See WINUI-UNO-PLAN.md §6.4.
+ * way they do today. See dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/notes/WINUI-UNO-PLAN.md §6.4.
  */
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs';

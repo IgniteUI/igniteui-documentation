@@ -11,22 +11,20 @@
  * It is the check that would have caught skipAlterDataCasing: the web emitters camelise a member of
  * the data without it, and no XAML run can show that.
  *
- *   XPLAT_EXAMPLES=<examples checkout> node scripts/check-snippet-emission.mjs [--lang=en] [glob]
+ *   node scripts/check-snippet-emission.mjs [--lang=en] [--print [--platform=WinUI]] [glob]
+ *
+ * The emitter and the examples checkout are resolved by lib/snippet-toolchain.mjs: a peer
+ * checkout locally, or XPLAT_EXAMPLES / IG_SNIPPET_API when they are somewhere else.
  */
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
+import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
 
-const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const EXAMPLES = process.env.XPLAT_EXAMPLES;
-if (!EXAMPLES) {
-    console.error('set XPLAT_EXAMPLES to the igniteui-xplat-examples checkout');
-    process.exit(2);
-}
+const EXAMPLES = resolveExamplesRoot();
 
 const args = process.argv.slice(2);
 const LANG = (args.find(a => a.startsWith('--lang=')) || '--lang=en').slice(7);
@@ -36,12 +34,7 @@ const ONLY = args.find(a => !a.startsWith('--'));
 const PRINT = args.some(a => a === '--print');
 const PRINT_PLATFORM = (args.find(a => a.startsWith('--platform=')) || '').slice(11);
 
-const SNIPPET_API = process.env.IG_SNIPPET_API
-    ?? '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
-const DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
-    ?? '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
-require(DOM_SHIM);
-const api = require(SNIPPET_API);
+const api = loadSnippetApi();
 
 const PLATFORMS = ['Angular', 'React', 'WebComponents', 'Blazor', 'WinUI'];
 

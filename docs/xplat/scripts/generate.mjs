@@ -26,11 +26,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // The snippet emitter is a CommonJS bundle of the locally built renderer; see transformJsonSnippets.
 import { createRequire } from 'node:module';
-import Ajv from 'ajv';
-import draft06 from 'ajv/dist/refs/json-schema-draft-06.json' with { type: 'json' };
 // Canonical platform-visibility rules, shared with astro.config.ts and the
 // link checkers. Node strips the TS types on import (CI runs Node 24).
 import { emitsFor, forMatches } from '../../../src/lib/platform-groups.ts';
+import {
+    loadSnippetApi as loadSnippetToolchainApi, resolveExamplesRoot, mdxFilesUnder,
+} from './lib/snippet-toolchain.mjs';
+import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -406,11 +408,15 @@ function inlinePlatformBlocks(content) {
 // When that work is published this becomes an ordinary package import and the paths below go away.
 // ---------------------------------------------------------------------------
 
-const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
-const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
-const SNIPPET_EXAMPLES = process.env.XPLAT_EXAMPLES;
+/**
+ * The examples checkout, resolved when a fence first needs it rather than at start-up: a locale or
+ * platform whose pages carry no json-snippet should not clone anything.
+ */
+let snippetExamples = null;
+function examplesRoot() {
+    if (snippetExamples === null) snippetExamples = resolveExamplesRoot();
+    return snippetExamples;
+}
 
 // The fence language each platform's markup is written in, which is what the topic would have
 // hand written for it.
@@ -494,8 +500,7 @@ function loadSnippetApi() {
     const require = createRequire(import.meta.url);
     // The renderer drags in Web Components classes that touch window/document at module scope.
     // Code generation never renders, so the stub is only there to let the modules load.
-    require(SNIPPET_DOM_SHIM);
-    snippetApi = require(SNIPPET_API_PATH);
+    snippetApi = loadSnippetToolchainApi();
     return snippetApi;
 }
 
@@ -526,7 +531,7 @@ function collectSnippetDefinitions(content) {
 }
 
 function sampleFileFor(src) {
-    return path.join(SNIPPET_EXAMPLES, 'samples', src.replace(/^\//, '') + '.json');
+    return path.join(examplesRoot(), 'samples', src.replace(/^\//, '') + '.json');
 }
 
 /**
@@ -585,141 +590,36 @@ function phaseDone(name, detail) {
     console.log(`[timing] ${name}: ${Date.now() - started}ms${detail ? '  ' + detail : ''}`);
 }
 
+/**
+ * Every json-snippet in the pages being built, checked against the schema the descriptions declare.
+ *
+ * The checking itself lives in lib/snippet-schema.mjs, shared with check-snippet-schema.mjs, which
+ * is what CI runs over both locales. Two implementations could disagree about what is valid, and the
+ * one that mattered would be whichever ran last.
+ */
 function validateJsonSnippets(sourceDir) {
-    const files = [];
-    (function walk(dir) {
-        for (const entry of readdirSync(dir)) {
-            const full = path.join(dir, entry);
-            if (statSync(full).isDirectory()) walk(full);
-            else if (full.endsWith('.mdx')) files.push(full);
-        }
-    })(sourceDir);
-
-    const snippets = [];
-    for (const file of files) {
-        const text = readFileSync(file, 'utf8');
-        if (!text.includes('```json-snippet')) continue;
-        for (const m of text.matchAll(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g)) {
-            const line = text.slice(0, m.index).split('\n').length;
-            // An array body is several definitions in one block, each checked on its own.
-            let bodies = [m[2]];
-            try {
-                const parsed = JSON.parse(m[2]);
-                if (Array.isArray(parsed)) bodies = parsed.map(one => JSON.stringify(one));
-            } catch { /* reported below, where the message can name the file */ }
-            for (const body of bodies) snippets.push({ file, line, info: m[1], body });
-        }
-    }
+    const files = mdxFilesUnder(sourceDir);
+    const snippets = snippetsIn(files, { relativeTo: ROOT });
     if (snippets.length === 0) return;
 
     const api = loadSnippetApi();
     phase('emit schema');
-    const schema = JSON.parse(api.emitJsonSchema(SNIPPET_EXAMPLES));
+    const validator = schemaValidator(api, examplesRoot());
     phaseDone('emit schema');
+
     mkdirSync(path.dirname(SNIPPET_SCHEMA_OUT), { recursive: true });
-    writeFileSync(SNIPPET_SCHEMA_OUT, JSON.stringify(schema, null, 2), 'utf8');
-
-    // The schema references some types it never defines — AxisLabelSettings among them — which ajv
-    // treats as fatal. Stubbing them permissively keeps every other property checkable; the count
-    // is reported because each one is a property nothing is checking.
-    const defined = new Set(Object.keys(schema.definitions));
-    const referenced = new Set();
-    (function walk(node) {
-        if (node === null || typeof node !== 'object') return;
-        if (Array.isArray(node)) { node.forEach(walk); return; }
-        for (const [key, value] of Object.entries(node)) {
-            if (key === '$ref' && typeof value === 'string' && value.startsWith('#/definitions/')) {
-                referenced.add(value.slice('#/definitions/'.length));
-            }
-            walk(value);
-        }
-    })(schema);
-    const dangling = [...referenced].filter(name => !defined.has(name));
-    for (const name of dangling) schema.definitions[name] = {};
-    if (dangling.length > 0) {
-        console.log(`[generate] json-snippet: ${dangling.length} type(s) referenced but not defined ` +
-                    `by the schema, so their properties go unchecked: ${dangling.slice(0, 5).join(', ')}` +
-                    (dangling.length > 5 ? ', …' : ''));
+    writeFileSync(SNIPPET_SCHEMA_OUT, JSON.stringify(validator.schema, null, 2), 'utf8');
+    if (validator.dangling.length > 0) {
+        console.log(`[generate] json-snippet: ${validator.dangling.length} type(s) referenced but not ` +
+                    `defined by the schema, so their properties go unchecked: ` +
+                    `${validator.dangling.slice(0, 5).join(', ')}` +
+                    (validator.dangling.length > 5 ? ', …' : ''));
     }
-
-    phase('ajv addSchema');
-    // inlineRefs: false is the difference between two seconds and a minute and a half. Every
-    // property of every description declares a "$key" sidecar referencing one shared marker
-    // definition — some 48,000 references — and ajv's default is to inline a referenced schema at
-    // each site rather than compile it once and call it. Told not to, it compiles the marker once.
-    // The schema on disk keeps the references, so an editor still completes and describes them.
-    const ajv = new Ajv({
-        allErrors: true, strict: false, validateFormats: false, inlineRefs: false,
-    });
-    ajv.addMetaSchema(draft06);
-    ajv.addSchema(schema, 'snippets');
-    phaseDone('ajv addSchema');
-
-    // Checked against the description the snippet names, not against the union of all of them.
-    // The union reports every property as unknown once per type that lacks it, which buries the
-    // one misspelling that is actually wrong under a thousand that are not.
-    const validators = new Map();
-    const validatorFor = (type) => {
-        if (!validators.has(type)) {
-            phase(`compile ${type}`);
-            validators.set(type, schema.definitions[type]
-                ? ajv.compile({ $ref: `snippets#/definitions/${type}` })
-                : null);
-            phaseDone(`compile ${type}`);
-        }
-        return validators.get(type);
-    };
 
     const problems = [];
-    for (const s of snippets) {
-        const where = `${path.relative(ROOT, s.file)}:${s.line}`;
-        // A ref= fence carries no definition of its own; the one it names is checked where it is
-        // written.
-        if (parseFenceAttributes(s.info).ref) continue;
-        let parsed;
-        try {
-            parsed = JSON.parse(s.body);
-        } catch (e) {
-            problems.push(`${where}  not valid JSON — ${e.message}`);
-            continue;
-        }
-        if (!parsed || typeof parsed !== 'object') {
-            problems.push(`${where}  a snippet has to be an object describing one component`);
-            continue;
-        }
-        // A snippet needing more than the component — handlers, refs — is written in the sample's
-        // own shape, with the component under descriptions.content. Every description is checked,
-        // not only that one: a topic pairing a toolbar with its grid states the toolbar under
-        // another key, and checking content alone let a column chooser carry four properties its
-        // description does not have, which the emitter then dropped without a word.
-        const toCheck = parsed.descriptions && typeof parsed.descriptions === 'object'
-            ? Object.entries(parsed.descriptions).map(([slot, value]) => ({ slot, value }))
-            : [{ slot: null, value: parsed }];
-        for (const { slot, value } of toCheck) {
-            checkOne(value, slot ? `${where}  (${slot})` : where);
-        }
-    }
-
-    function checkOne(parsed, where) {
-        if (!parsed || typeof parsed !== 'object') {
-            problems.push(`${where}  a description has to be an object`);
-            return;
-        }
-        if (typeof parsed.type !== 'string') {
-            problems.push(`${where}  no "type", so there is nothing to check it against`);
-            return;
-        }
-        const validate = validatorFor(parsed.type);
-        if (validate === null) {
-            problems.push(`${where}  unknown component type "${parsed.type}"`);
-            return;
-        }
-        if (validate(parsed)) return;
-        for (const err of validate.errors ?? []) {
-            const at = err.instancePath || '/';
-            problems.push(err.params?.additionalProperty
-                ? `${where}  ${at || '/'} unknown property "${err.params.additionalProperty}"`
-                : `${where}  ${at} ${err.message}`);
+    for (const snippet of snippets) {
+        for (const problem of problemsWith(snippet, validator)) {
+            problems.push(`${problem.where}${problem.at ? `  (${problem.at})` : ''}  ${problem.message}`);
         }
     }
 
@@ -784,7 +684,7 @@ function transformJsonSnippets(content) {
                     .map(one => marksPartOfItself(one)
                         ? emitChannel(api, one, 'markup', styleDefaults)
                         : api.emitSingleSnippet(one, PLATFORM, {
-                        examplesRoot: SNIPPET_EXAMPLES,
+                        examplesRoot: examplesRoot(),
                         defaultSnippetId: 'main',
                         styleDefaults,
                     }))
@@ -1118,7 +1018,7 @@ function emitChannel(api, json, channel, styleDefaults, only) {
     }
 
     const snippets = api.emitSnippets(JSON.stringify(parsed), PLATFORM, {
-        examplesRoot: SNIPPET_EXAMPLES,
+        examplesRoot: examplesRoot(),
         styleDefaults,
         forceCodeBehind: asCode,
     });

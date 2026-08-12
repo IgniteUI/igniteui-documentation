@@ -56,5 +56,5 @@ Consumers:
   `Grid`, while `IgcDataGrid` has no entry. Prefer taking XAML element names from
   the real samples over deriving them here.
 
-See [WINUI-UNO-PLAN.md](../../../WINUI-UNO-PLAN.md) §6.3–§6.4 for the full
+See `dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/notes/WINUI-UNO-PLAN.md` §6.3–§6.4 for the full
 resolution design.

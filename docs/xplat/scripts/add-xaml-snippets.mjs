@@ -14,7 +14,7 @@
  *
  * Name resolution is apiMap-authoritative with a fuzzy fallback
  * (`dataSource` → `ItemsSource` from the map; `headerClickAction` →
- * `HeaderClickAction` by convention). See WINUI-UNO-PLAN.md §6.4.
+ * `HeaderClickAction` by convention). See dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/notes/WINUI-UNO-PLAN.md §6.4.
  *
  * **Lockstep is enforced, not assumed.** A topic is edited only when its en and
  * jp copies agree on the *sequence* of snippet groups — same count, same

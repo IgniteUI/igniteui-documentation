@@ -30,6 +30,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -45,11 +46,7 @@ const SHOW_BLOCKED = args.includes('--show-blocked');
 const SHOW_PLAN = args.includes('--plan');
 
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', LANG, 'components');
-const EXAMPLES = process.env.XPLAT_EXAMPLES;
-if (!EXAMPLES) {
-    console.error('set XPLAT_EXAMPLES to the igniteui-xplat-examples checkout');
-    process.exit(2);
-}
+const EXAMPLES = resolveExamplesRoot();
 
 /**
  * Where a sample may be found, in the order tried.
@@ -63,15 +60,10 @@ if (!EXAMPLES) {
 const WC_EXAMPLES = process.env.IG_WC_EXAMPLES
     || '/Users/graham/Documents/GitHub/igniteui-wc-examples';
 
-const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
-const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
 
 const api = (() => {
     const require = createRequire(import.meta.url);
-    require(SNIPPET_DOM_SHIM);
-    return require(SNIPPET_API_PATH);
+    return loadSnippetApi();
 })();
 
 // A PlatformBlock gates on groups as well as platforms; any member of a group will do, because a

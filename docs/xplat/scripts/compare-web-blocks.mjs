@@ -18,23 +18,17 @@ import path from 'path';
 import { execFileSync } from 'child_process';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
+import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const EXAMPLES = process.env.XPLAT_EXAMPLES;
-if (!EXAMPLES) {
-    console.error('set XPLAT_EXAMPLES to the igniteui-xplat-examples checkout');
-    process.exit(2);
-}
+const EXAMPLES = resolveExamplesRoot();
 
 const args = process.argv.slice(2);
 const BEFORE = (args.find(a => a.startsWith('--before=')) || '--before=HEAD').slice(9);
 const ONLY = args.find(a => !a.startsWith('--')) || 'grids/data-grid';
 
-require(process.env.IG_SNIPPET_DOM_SHIM
-    ?? '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js');
-const api = require(process.env.IG_SNIPPET_API
-    ?? '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs');
+const api = loadSnippetApi();
 
 const COMMON = { suppressAutoElementNames: true, suppressNameAttribute: true,
                  omitHandlerSignature: true, directAssignment: true,

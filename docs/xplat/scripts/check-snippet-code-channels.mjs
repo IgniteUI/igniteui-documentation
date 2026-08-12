@@ -24,23 +24,15 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
-const EXAMPLES = process.env.XPLAT_EXAMPLES;
+const EXAMPLES = resolveExamplesRoot();
 
-if (!EXAMPLES) {
-    console.error('usage: XPLAT_EXAMPLES=… node scripts/check-snippet-code-channels.mjs');
-    process.exit(2);
-}
 
 const require = createRequire(import.meta.url);
-const SNIPPET_API = process.env.IG_SNIPPET_API
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
-const DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
-require(DOM_SHIM);
-const api = require(SNIPPET_API);
+const api = loadSnippetApi();
 
 const PLATFORMS = ['Angular', 'React', 'WebComponents', 'Blazor', 'WinUI'];
 const CONTENT = path.join(ROOT, 'src', 'content', 'en', 'components');

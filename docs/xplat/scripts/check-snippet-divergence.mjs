@@ -33,6 +33,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -98,16 +99,11 @@ function canonicalTag(raw) {
  * "(w:ItemsSource,xam:ItemsSource,s:DataSource)" — and is the only thing that knows dataSource and
  * ItemsSource are the same property.
  */
-const SNIPPET_API_PATH = process.env.IG_SNIPPET_API
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs';
-const SNIPPET_DOM_SHIM = process.env.IG_SNIPPET_DOM_SHIM
-    || '/Users/graham/Documents/work/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dom-shim.js';
 
 const nameResolver = (() => {
     try {
         const require = createRequire(import.meta.url);
-        require(SNIPPET_DOM_SHIM);
-        return require(SNIPPET_API_PATH);
+        return loadSnippetApi();
     } catch {
         return null;   // without it, names are compared as written
     }
