@@ -1339,3 +1339,53 @@ where a renderer constructs itself. On the portable platforms a renderer is buil
 an adapter, and the adapter is declared by the assembly hosting the controls — so there the caller
 passes the renderer in. The assembly filter is per build for the same reason: the data visualization
 assembly is not called the same thing on every platform.
+
+## What the checks found once they were made honest
+
+Three of the tools were reporting success on work they were not doing, and fixing them turned up real
+defects rather than tool noise.
+
+- **A composed channel was never emitted.** `check-snippet-emission.mjs` asked the emitter for
+  `"bindingImports...bindingInit,bindingCode"` as though it were one channel token. No such channel
+  exists, so nothing came out and nothing was checked — every `codeBehind` and every Component Modules
+  fence had passed vacuously. It now emits each region the way the generator composes them, and fails
+  only when every region of a fence is empty.
+- **The checker marked definitions the generator would not.** It set `$type` on the root
+  unconditionally, so a definition that marks parts of itself was checked as though it wanted the
+  whole element. It now mirrors the generator's rule.
+- **`channel="auto"` is not a region**, and asking for it as one produced nothing. It emits with the
+  definition's own markers instead, which is what the generator does.
+
+The defects that surfaced:
+
+- `geo-map-binding-multiple-sources`'s Summary asked for `code="allCode"` — the attribute is
+  `channel`, so that fence silently emitted markup and the page showed the same markup twice. Its
+  imports fence is empty on Blazor and the XAML platforms, and `allCode` is empty on the XAML
+  platforms, which declare all of it; both are scoped now.
+- `grids/data-grid/local-data`'s data block was a `ref=` fence asking for `data`, and the definition
+  it referenced marks nothing — so the block was empty on every platform. It states its own marker.
+
+`--print --platform=<name>` on the checker prints what each fence emits, which is the only way to read
+the output of a page gated away from a platform.
+
+## Uno
+
+`--platform=Uno` failed on the first fence of the first page: there is no `editor-templates/Uno`, and
+emission needs a folder template. Uno emits the same XAML dialect as WinUI against the same
+Microsoft.UI.Xaml types and differs only in how a project is assembled, which no snippet shows — so a
+platform with no template of its own borrows from the platform whose output it shares. Uno now
+generates both locales, with `XamDataGrid` and the same prefixes WinUI uses.
+
+## The library project emitter
+
+Injecting file access into `CodeGenerationFolderTemplate` left its `FileAccess` unset in that harness,
+and every provider's `GetEmitterTemplate` went straight to `LoadTemplate` — a null reference on the
+first handler item, which is where the build stopped. It defaults to System.IO where System.IO exists,
+as `CodeGenerationLibrary.FromFolder` does; a host without it is the case with something to declare.
+Verified by running the emitter over all eight platforms: exit 0, no exceptions.
+
+Still open there, and logged by the run rather than silent: a supporting item is not emitted into that
+project, so the four shape styling handlers reference types it does not write. The harness writes one
+file per item through a per-platform scaffold, and a supporting item needs its declarations beside the
+component — which needs a provider method and an import per platform. The pipelines do not compile
+that project today, so nothing is red.
