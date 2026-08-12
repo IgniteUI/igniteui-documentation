@@ -1058,3 +1058,19 @@ property at all, and the section is about the chooser, so the snippet drops it.
 
 remote-data's WebComponents block states a minimum of 200 where React, XAML and the sample say 120,
 the same disagreement horizontal-scrolling has. 120 stated.
+
+### skipAlterDataCasing belongs on every grid snippet
+
+Every grid sample sets it, and without it the web emitters camelise a member of the data: a column
+bound to ProductID comes out as `field="productID"`. XAML is unaffected, which is exactly why this
+hid — these pages only generate for XAML, so the WinUI checks were clean while the web output, the
+one that matters here, was wrong. All 49 grid fences now carry it.
+
+Worth remembering for any topic that names a field, a member path or a sort key: the flag lives at
+the root of the definition, beside `descriptions`, as it does in the samples.
+
+### row-grouping Summary — the union, as code where the page taught code
+
+The section claims to combine the snippets above it, so the definition carries both properties and
+the three group descriptions its own blocks build. The web platforms and Blazor take it on the code
+channel, since that is how those blocks teach it; XAML takes the markup.
