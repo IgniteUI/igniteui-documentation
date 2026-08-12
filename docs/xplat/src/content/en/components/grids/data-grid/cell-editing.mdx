@@ -179,157 +179,62 @@ And the controls that undo and redo them:
 
 The following demonstrates how incorporate error by checking if cells are empty when leaving edit mode and accepts commits that are from updated cells only.
 
-<PlatformBlock for="React">
-```tsx
-<IgrDataGrid
-    height="100%"
-    width="100%"
-    dataSource={this.data}
-    activationMode="Cell"
-    cellValueChanging={this.onCellValueChanging}
-    dataCommitting={this.onDataCommitting}>
-</IgrDataGrid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```html
-<igc-data-grid
-    id="grid"
-    height="calc(100% - 50px)"
-    width="100%"
-    activation-mode="Cell"
-    selection-mode="SingleRow"
-    default-column-min-width="125"
-    is-column-options-enabled="true"
-    auto-generate-columns="false"
-    edit-mode="Cell">
-```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```ts
-import { IgrGridDataCommittingEventArgs } from 'igniteui-react-data-grids';
-import { TransactionType } from 'igniteui-react-core'
-
-onCellValueChanging = (s: IgrDataGrid, e: IgrGridCellValueChangingEventArgs) => {
-    //check if value is empty upon exiting edit mode.
-    if (e.newValue === "") {
-        s.setEditError(e.editID, "Error, cell is empty");
-        //or revert changes
-        s.rejectEdit(e.editID);
-    }
-    else {
-        s.acceptEdit(e.editID);
-    }
-}
-
-onDataCommitting = (s: IgrDataGrid, e: IgrGridDataCommittingEventArgs) => {
-
-    if (e.changes[0].transactionType === TransactionType.Update) {
-        //commit was passed
-        s.acceptCommit(e.commitID);
-    }
-    else{
-        //commit was prevented
-        s.rejectCommit(e.commitID);
-    }
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-import { IgcGridDataCommittingEventArgs } from 'igniteui-webcomponents-data-grids';
-import { TransactionType } from 'igniteui-webcomponents-core'
-
-this.onCellValueChanging = this.onCellValueChanging.bind(this);
-this.grid.cellValueChanging = this.onCellValueChanging;
-
-this.onDataCommitting = this.onDataCommitting.bind(this);
-this.grid.dataCommitting = this.onDataCommitting;
-
-
-public onCellValueChanging (s: IgcDataGridComponent, e: IgcGridCellValueChangingEventArgs) {
-    if (s.editMode === EditModeType.CellBatch && this.undo !== null)
-    {
-        this.undo.disabled = false;
-    }
-
-    //check if value is empty upon exiting edit mode.
-    if (e.newValue === "") {
-        s.setEditError(e.editID, "Error, cell is empty");
-        //or revert changes
-        s.rejectEdit(e.editID);
-    }
-    else {
-        s.acceptEdit(e.editID);
-    }
-}
-
-public onDataCommitting (s: IgcDataGridComponent, e: IgcGridDataCommittingEventArgs) {
-    if (e.changes[0].transactionType === TransactionType.Update) {
-        //commit was passed
-        s.acceptCommit(e.commitID);
-    }
-    else{
-        //commit was prevented
-        s.rejectCommit(e.commitID);
-    }
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbDataGrid Height="100%" Width="100%"
-    @ref="DataGridRef"
-    CellValueChanging="OnCellValueChanging"
-    DataCommitting="OnDataCommitting">
- </IgbDataGrid>
-
-@code {
-    public IgbDataGrid DataGridRef;
-
-    public void OnCellValueChanging(IgbGridCellValueChangingEventArgs e)
-    {
-        //check if value is empty upon exiting edit mode.
-        if (e.NewValue == "")
-        {
-            this.DataGridRef.SetEditError(e.EditID, "Error, cell is empty");
-            //or revert changes
-            this.DataGridRef.RejectEdit(e.EditID);
-        }
-        else
-        {
-            this.DataGridRef.AcceptEdit(e.EditID);
-        }
-    }
-
-    public void OnDataCommitting(IgbGridDataCommittingEventArgs e)
-    {
-        if (e.Changes[0].TransactionType == TransactionType.Update)
-        {
-            //commit was passed
-            this.DataGridRef.AcceptCommit(e.CommitID);
-        }
-        else
-        {
-            //commit was prevented
-            this.DataGridRef.RejectCommit(e.CommitID);
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
         }
     }
 }
 ```
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+
+And the handlers it names:
+
 </PlatformBlock>
 
-<PlatformBlock for="Xaml">
-```xaml
-<igDataGrids:XamDataGrid
-    CellValueChanging="OnCellValueChanging"
-    DataCommitting="OnDataCommitting" />
+```json-snippet source="/grids/data-grid/cell-editing" channel="handler" exclude="Xaml"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "$cellValueChangingRef": "+doc:handler",
+            "$dataCommittingRef": "+doc:handler"
+        }
+    }
+}
 ```
-</PlatformBlock>
+
 
 ## API References
 

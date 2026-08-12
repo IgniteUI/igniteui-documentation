@@ -1163,3 +1163,28 @@ obvious single channel and it carries fields and initialisation but not the hand
 - **geo-map-binding-data-csv** — the block is a sample of CSV data.
 - **grids/data-grid/type-sparkline-table** — a template column drawing a sparkline per platform,
   which needs a template item written; the sparkline templates in the library are for other things.
+
+### cell-editing, Error Validation — written from the closest sample
+
+The section wires `cellValueChanging` and `dataCommitting`, and no sample carried either. Two library
+items do now — one refusing an empty cell with a message and taking anything else, one committing an
+update and refusing everything else — and the topic's own sample names them.
+
+Two fences, not one, and for a reason worth remembering: a definition that marks part of itself has
+its own markers respected, so the same definition carrying `$cellValueChangingRef: "+doc:handler"`
+emits the handler and *nothing* for markup. The markup fence states the definition plain; the handler
+fence restates it with the markers on the properties that name the handlers. The lead-in sentence
+between them is scoped to the platforms the second fence serves, or XAML reads a sentence promising
+code that never comes.
+
+### type-sparkline-table — the sample existed downstream
+
+The topic pointed `<Sample src="/charts/sparkline/grid" />` at a sample that did not exist here. It
+does exist in igniteui-wc-examples, so the data generator and the cell template are ported from the
+one that runs rather than invented: `ProductsWithHistory` — the sample's own `Products`, reshaped as
+an array of rows the way `ProductOrders` is, since that is what `dataSourceRef` binds to — and
+`DataGridSparklineTemplate`, which builds the chart in a container once and hands it the row's
+history as the grid reuses the cell.
+
+Blazor's block taught a `RenderFragment` holding a `Sparkline`. The library's Blazor templates are
+registered scripts, which is what its samples run, so that is what the collapsed topic shows.
