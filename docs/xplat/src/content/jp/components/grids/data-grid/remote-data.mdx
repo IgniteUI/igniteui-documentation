@@ -38,36 +38,23 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
 `Grid` を作成するには、以下のモジュールが必要です。
 
-<PlatformBlock for="Blazor">
-```razor
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbDataGridModule));
+```json-snippet source="/grids/data-grid/binding-remote-data" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
 ```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```ts
-import './odatajs-4.0.0';
-import { IgrDataGridModule } from 'igniteui-react-data-grids';
-import { IgrDataGrid } from 'igniteui-react-data-grids';
-import { ODataVirtualDataSource } from 'igniteui-react-datasources';
-
-IgrDataGridModule.register();
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-import './odatajs-4.0.0';
-import { ModuleManager } from 'igniteui-webcomponents-core';
-import { IgcDataGridModule } from 'igniteui-webcomponents-data-grids';
-import { IgcDataGridComponent } from 'igniteui-webcomponents-data-grids';
-import { ODataVirtualDataSource } from 'igniteui-webcomponents-dataSource';
-
-ModuleManager.register(IgcDataGridModule);
-```
-</PlatformBlock>
 
 <div class="divider--half"></div>
 
@@ -98,25 +85,20 @@ ModuleManager.register(IgcDataGridModule);
 
 データ ソースをグリッドに割り当てます。
 
-```ts
-private virtualData: ODataVirtualDataSource;
-// ...
-const vds = new ODataVirtualDataSource();
-vds.baseUri = ("https://services.odata.org/V4/Northwind/Northwind.svc");
-vds.entitySet = ("Orders");
-this.virtualData = vds;
-```
 
-<PlatformBlock for="WebComponents">
-```ts
-const vds = new ODataVirtualDataSource();
-vds.baseUri = ("https://services.odata.org/V4/Northwind/Northwind.svc");
-vds.entitySet = ("Orders");
-
-let grid1 = (document.getElementById("grid") as IgcDataGridComponent);
-grid1.dataSource = vds;
+```json-snippet source="/grids/data-grid/binding-remote-data" channel="data"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "NorthwindOrders",
+            "$dataSourceRef": "+doc:data"
+        }
+    }
+}
 ```
-</PlatformBlock>
 
 ## API リファレンス
 
