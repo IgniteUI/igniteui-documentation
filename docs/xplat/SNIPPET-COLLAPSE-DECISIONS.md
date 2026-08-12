@@ -1289,3 +1289,53 @@ need. The Esri utility has no item at all.
 What was fixed on those four: each published its TypeScript listing in no platform block at all, so
 Blazor readers saw it *and* their own C# copy, and the XAML platforms were shown a language they
 cannot use. The listing is scoped to the web platforms now.
+
+### Asking for one declaration out of an item
+
+The three world topics did become emittable, and not the way the paragraph above expected. Two routes
+were open, and the choice matters beyond these pages.
+
+Splitting the classes into supporting items was tried first. A data item's `requires` is read now, so
+it would have worked — but a supporting item is written where the component is, and WorldLocations is
+a thousand lines of city data. Every sample binding WorldFlights would have carried that inside its
+own component file rather than beside it, which is worse than what it replaced.
+
+So an item can mark regions inside itself instead, and a snippet can ask for one by name:
+
+```
+"dataSourceRef": "WorldFlights",
+"$dataSourceRef": "+doc:WorldLocations"
+```
+
+The item is one file, compiled whole into every sample that uses any of it, and nothing about the
+generated sample changes — the file still holds all of it, in the order it was authored. Only the
+snippet is narrower. The markers are the same ones the library already reads to find an item's
+content, and the region names are the item's own, so a token is asked of the item rather than assumed:
+a name it does not declare still means an emitter output region, which is how `content` and
+`supportingMethods` keep meaning what they meant.
+
+Three things had to change for it to hold:
+
+- A **region writer answers only to its region**, never to its channel. The region content is written
+  a second time, to a writer of its own, and the channel-matching rule would otherwise have matched
+  both writers and put that region into the whole-item snippet twice.
+- **`requires` is read on data items**, which is what makes a shared class expressible either way.
+- **The regions the library treats as structure** are now the emitter's output region names as well as
+  the library's own markers. Otherwise a marked property referencing a template item with a `content`
+  region would have been diverted away from the markup writer it meant.
+
+The C# region for WorldConnections runs to the end of CoordinateLine, because that is what its methods
+return and what the published page showed. Emitting it turned up a stray `;` after the opening brace
+of `GetFlights` in all three C# copies, left from converting it to a static constructor.
+
+The Esri utility is still not emittable, and for a different reason: it has no library item, and the
+section teaches a *call* — `EsriUtility.getUri(EsriStyle.WorldOceansMap)` — which a description cannot
+express.
+
+### The portable builds
+
+`JsonSchemaEmitter`'s reflection constructor built its own `ComponentRenderer`, which only exists
+where a renderer constructs itself. On the portable platforms a renderer is built from a platform and
+an adapter, and the adapter is declared by the assembly hosting the controls — so there the caller
+passes the renderer in. The assembly filter is per build for the same reason: the data visualization
+assembly is not called the same thing on every platform.
