@@ -1107,3 +1107,59 @@ What the comparison turned up, beyond the decisions already recorded:
 One thing the description cannot express, left as a gap rather than papered over: the column chooser
 takes a height, a width and the text on its show-all and hide-all buttons in the published blocks,
 and `ColumnChooser` models none of the four.
+
+## Finishing DataVisualization
+
+### chart-performance — three sections, and a fourth invalid property
+
+The two axis sections show the same setting on three chart types in one block, which is what an array
+body is for: three definitions, emitted in order. Data Filtering takes the code channel, the shape
+this page already publishes elsewhere.
+
+`xAxisLabelExtent` and `yAxisLabelExtent` are not properties of CategoryChart or FinancialChart —
+those expose `xAxisExtent` and `yAxisExtent`, and `labelExtent` is the axis-level name the DataChart
+form already used correctly. Fourth invalid value this exercise has turned up.
+
+### geo-map-display-bing-imagery — the osm pattern
+
+Markup, then the binding code, with `$setInCode` and `$assignInCode` for the web platforms, exactly
+as the OpenStreetMap topic does. The section had only Angular and React blocks before, so Blazor,
+WebComponents and the XAML platforms had nothing.
+
+One thing not carried over: the block listed the three imagery styles as alternatives with `// or`
+against each. A definition states one value; the styles are in the topic's own table above.
+
+A ref= fence cannot be used for the second one. The definition it names carries `$type:
++doc:markup`, and a definition that marks part of itself has its own markers respected, so nothing
+lands on the binding channels. Both fences state their markers, which is what the osm topic does.
+
+### geo-map-binding-shp-file — a published TODO
+
+The WebComponents block read ` TODO - ADD CODE SNIPPET`. The section teaches loading a shapefile
+imperatively, which no sample did — the page's own sample binds `shapefileDataSource` declaratively,
+and turning the topic's imperative lesson into that markup is the conversion never to make. So the
+loading path is a pair of library items and a sample of its own, and the section emits for every web
+platform.
+
+### geo-map-binding-multiple-shapes — Blazor was reading the wrong scenario
+
+Its Blazor block still taught the Asia/Europe scenario the page was rewritten away from, while every
+collapsed section on the page shut Blazor out for want of a C# port. The four map handlers now have
+Blazor implementations, the fences let Blazor in, and the stale block is gone.
+
+The Summary states the definition twice: the markup, then all four handlers. `allCode` was the
+obvious single channel and it carries fields and initialisation but not the handlers.
+
+### What is left in DataVisualization, and why
+
+- **geo-map-display-esri-imagery, Esri Utility** — the value taught is a call:
+  `EsriUtility.getUri(EsriStyle.WorldOceansMap)`. A description states values, not calls, so the
+  snippet would show a literal URI and lose the utility the section is about.
+- **geo-map-resources-world-locations, -world-util** — reference listings of helper classes. The web
+  copies could come from the library items that already hold them; the Blazor listings need those
+  items ported to C# first.
+- **radial-gauge, dashboard-tile** — package and namespace instructions for Blazor, not component
+  markup.
+- **geo-map-binding-data-csv** — the block is a sample of CSV data.
+- **grids/data-grid/type-sparkline-table** — a template column drawing a sparkline per platform,
+  which needs a template item written; the sparkline templates in the library are for other things.
