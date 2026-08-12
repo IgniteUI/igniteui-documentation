@@ -1188,3 +1188,26 @@ history as the grid reuses the cell.
 
 Blazor's block taught a `RenderFragment` holding a `Sparkline`. The library's Blazor templates are
 registered scripts, which is what its samples run, so that is what the collapsed topic shows.
+
+## What DataVisualization keeps, and why
+
+The count of "remaining blocks" was misleading for a while because the survey behind it matched
+markup fences only — tsx, html, razor, xaml — and everything left on these pages is code. Counting
+every fence gives the real picture, and what is left divides into four kinds, none of them a snippet:
+
+- **Dependencies** — `npm install` lines and the Blazor NuGet and namespace instructions. Setup, not
+  a component.
+- **Component Modules** — the registration each platform performs. The module channel can now be
+  asked for a sample's module list, which is a fix worth having, but what it yields is the list; the
+  call around it — `ModuleManager.register(...)`, `@NgModule`, `AddIgniteUIBlazor(...)` — lives in
+  the platform's template and not in anything a definition can state. These sections need the call,
+  so they stay as they are.
+- **Companion files and utilities** — the Esri utility, whose lesson is the call
+  `EsriUtility.getUri(EsriStyle.WorldOceansMap)`; the heat map's web worker, which is a file the
+  reader adds and wires up differently per bundler; the world resource listings, which could come
+  from the library items holding them once those items are ported to C#.
+- **Illustrations of data** — chart-performance's Data Structure, and the CSV on the csv binding
+  topic. They show the shape data should take, not a component.
+
+chart-annotations' Callout Layer was the last one that was really a snippet: WebComponents taught the
+same properties as assignments beside the markup fence, and now emits them on the code channel.
