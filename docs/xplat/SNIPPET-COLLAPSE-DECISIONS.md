@@ -999,3 +999,43 @@ explicitly in CSS, preferably using a div tag around the grid", which is what th
 The React and WebComponents blocks set a `useAccessibility` attribute instead — whether the component
 really takes one is a question for the product, but the description does not model it either way.
 Left hand written.
+
+### overview, Manually Define Columns — a sample that defines columns manually
+
+The blocks there use ProductID, QuantityPerUnit and UnitsInStock, and nothing in the library carries
+the last two, so binding them to the topic's own sample would publish columns showing nothing. The
+nearest real definition is `column-auto-generation-sales`: ProductOrders, `autoGenerateColumns` off,
+eight columns declared one by one — which is exactly what the section teaches. The snippet states
+that sample.
+
+### cell-editing — CellBatch, with the buttons left where they are
+
+The prose settles the value: "When set to CellBatch, in order to commit the changes you must...".
+Both batch sections state `CellBatch`, so WebComponents' `Cell` goes, and the grid is now one
+snippet with each platform's button markup kept beside it in a block of its own. A description
+cannot state a button, and the button is the other half of what those sections teach.
+
+The Error Validation section is not collapsed: it wires `cellValueChanging` and `dataCommitting`,
+and the sample carries neither handler, so there is nothing to emit them from.
+
+### row-grouping — imperative stays imperative, one section, two fences
+
+WebComponents and React teach these two properties as an assignment; Blazor and XAML teach them as
+an attribute. Those are not interchangeable, so each section states its definition once and emits it
+twice: `channel="code"` excluding the XAML platforms, and markup excluding the web ones.
+
+The web output carries the construction line — `var grid = new IgcDataGridComponent();` — before the
+assignment, where the page showed the property being set on a grid the reader already has. That is
+the shape the code channel produces everywhere, and what chart-performance has been publishing.
+
+### local-data, column-pinning — the shorthand made these possible
+
+Both are column-heavy and neither could be collapsed until a column width could be written as
+`*>70`. local-data states the React block column for column, which also removes the page's
+duplicated XAML block, its unguarded `ts` fence publishing React's data generator to every platform,
+and the TODO admitting WebComponents was never written. Its data is now emitted for every platform
+from the ProductOrders item.
+
+column-pinning's block files three columns under a "Columns pinned right" comment and states no
+pinning on them. The sample pins them, so the snippet does: a comment contradicted by the markup
+beside it is not the reference.

@@ -45,341 +45,134 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
 以下のコードは、`Pinned` プロパティと `PinColumn` 関数で列のピン固定を使用して、データ グリッドで列のピン固定を実装する方法を示します。
 
-<PlatformBlock for="React">
-```tsx
-<IgrDataGrid
-ref={this.onGridRef}
-height="calc(100% - 40px)"
-width="100%"
-autoGenerateColumns="false"
-defaultColumnMinWidth={120}
-scrollbarStyle="thin"
-dataSource={this.data}>
-
-    {/*Columns pinned left*/}
-    <IgrTextColumn pinned="left" field="ID" headerText="Employee ID" width="100"  horizontalAlignment="center"/>
-    <IgrTextColumn pinned="left" field="FirstName" headerText="First Name" width="170"/>
-    <IgrTextColumn pinned="left" field="LastName" headerText="Last Name" width="170"/>
-
-    {/*Columns unpinned*/}
-    <IgrDateTimeColumn pinned="none" field="Birthday" headerText="Date of Birth" width="150" horizontalAlignment="center"/>
-    <IgrNumericColumn pinned="none" field="Age" width="100" horizontalAlignment="center"/>
-    <IgrImageColumn pinned="none" field="CountryFlag" headerText="Country"
-    width="140" contentOpacity="1" horizontalAlignment="center"/>
-
-    {/*Columns pinned right*/}
-    <IgrTextColumn field="Street" headerText="Address" width="240"/>
-    <IgrTextColumn field="City"  width="150" />
-    <IgrTextColumn field="Country"  width="150" />
-</IgrDataGrid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```ts
-import { PinnedPositions } from 'igniteui-react-data-grids';
-
-public onButtonPinLeft = (e: any) => {
-
-    let idColumn = this.grid.actualColumns.item(0);
-    let firstNameColumn = this.grid.actualColumns.item(1);
-    let lastNameColumn = this.grid.actualColumns.item(2);
-
-    //pinned property
-    idColumn.pinned = PinnedPositions.Left;
-    firstNameColumn.pinned = PinnedPositions.Left;
-    lastNameColumn.pinned = PinnedPositions.Left;
-
-    // pinColumn Function
-    this.grid.pinColumn(idColumn, PinnedPositions.Left);
-    this.grid.pinColumn(firstNameColumn, PinnedPositions.Left);
-    this.grid.pinColumn(lastNameColumn, PinnedPositions.Left);
-}
-
-public onButtonPinRight = (e: any) => {
-
-    let streetColumn = this.grid.actualColumns.item(6);
-    let cityColumn = this.grid.actualColumns.item(7);
-    let countryColumn = this.grid.actualColumns.item(8);
-
-    //pinned property
-    streetColumn.pinned = PinnedPositions.Right;
-    cityColumn.pinned = PinnedPositions.Right;
-    countryColumn.pinned = PinnedPositions.Right;
-
-    //pinColumn function
-    this.grid.pinColumn(streetColumn, PinnedPositions.Right);
-    this.grid.pinColumn(cityColumn, PinnedPositions.Right);
-    this.grid.pinColumn(countryColumn, PinnedPositions.Right);
-}
-
-public onButtonUnPin = (e: any) => {
-
-    let idColumn = this.grid.actualColumns.item(0);
-    let firstNameColumn = this.grid.actualColumns.item(1);
-    let lastNameColumn = this.grid.actualColumns.item(2);
-
-    //pinned property
-    idColumn.pinned = PinnedPositions.Left;
-    firstNameColumn.pinned = PinnedPositions.Left;
-    lastNameColumn.pinned = PinnedPositions.Left;
-
-    //pinColumn function
-    this.grid.pinColumn(idColumn, PinnedPositions.None);
-    this.grid.pinColumn(firstNameColumn, PinnedPositions.None);
-    this.grid.pinColumn(lastNameColumn, PinnedPositions.None);
-
-    let streetColumn = this.grid.actualColumns.item(6);
-    let cityColumn = this.grid.actualColumns.item(7);
-    let countryColumn = this.grid.actualColumns.item(8);
-
-    //pinned property
-    streetColumn.pinned = PinnedPositions.None;
-    cityColumn.pinned = PinnedPositions.None;
-    countryColumn.pinned = PinnedPositions.None;
-
-    //pinColumn function
-    this.grid.pinColumn(streetColumn, PinnedPositions.None);
-    this.grid.pinColumn(cityColumn, PinnedPositions.None);
-    this.grid.pinColumn(countryColumn, PinnedPositions.None);
-}
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```html
-<igc-data-grid
-id="grid"
-height="calc(100% - 40px)"
-width="100%"
-auto-generate-columns="false"
-default-column-min-width="120px"
-scrollbar-style="thin"
->
-    <igc-text-column pinned="left" field="ID" header-text="Employee ID" width="100"  horizontal-alignment="center"></igc-text-column>
-    <igc-text-column pinned="left" field="FirstName" header-text="First Name" width="170"></igc-text-column>
-    <igc-text-column pinned="left" field="LastName" header-text="Last Name" width="170"></igc-text-column>
-
-    <igc-date-time-column pinned="none" field="Birthday" header-text="Date of Birth" width="150" horizontal-alignment="center"></igc-date-time-column>
-    <igc-numeric-column pinned="none" field="Age" width="100" horizontal-alignment="center"></igc-numeric-column>
-    <igc-image-column pinned="none" field="CountryFlag" header-text="Country" width="140" content-opacity="1" horizontal-alignment="center"></igc-image-column>
-
-    <igc-text-column pinned="right" field="Street" header-text="Address" width="240"></igc-text-column>
-    <igc-text-column pinned="right" field="City"  width="150" ></igc-text-column>
-    <igc-text-column pinned="right" field="Country"  width="150" ></igc-text-column>
-</igc-data-grid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-import { PinnedPositions } from 'igniteui-webcomponents-data-grids';
-
-onButtonPinLeft() {
-
-    let idColumn = this.grid.actualColumns.item(0);
-    let firstNameColumn = this.grid.actualColumns.item(1);
-    let lastNameColumn = this.grid.actualColumns.item(2);
-
-    //pinned property
-    idColumn.pinned = PinnedPositions.Left;
-    firstNameColumn.pinned = PinnedPositions.Left;
-    lastNameColumn.pinned = PinnedPositions.Left;
-
-    // pinColumn Function
-    this.grid.pinColumn(idColumn, PinnedPositions.Left);
-    this.grid.pinColumn(firstNameColumn, PinnedPositions.Left);
-    this.grid.pinColumn(lastNameColumn, PinnedPositions.Left);
-}
-
-onButtonPinRight() {
-
-    let streetColumn = this.grid.actualColumns.item(6);
-    let cityColumn = this.grid.actualColumns.item(7);
-    let countryColumn = this.grid.actualColumns.item(8);
-
-    //pinned property
-    streetColumn.pinned = PinnedPositions.Right;
-    cityColumn.pinned = PinnedPositions.Right;
-    countryColumn.pinned = PinnedPositions.Right;
-
-    //pinColumn function
-    this.grid.pinColumn(streetColumn, PinnedPositions.Right);
-    this.grid.pinColumn(cityColumn, PinnedPositions.Right);
-    this.grid.pinColumn(countryColumn, PinnedPositions.Right);
-}
-
-onButtonUnPin() {
-
-    let idColumn = this.grid.actualColumns.item(0);
-    let firstNameColumn = this.grid.actualColumns.item(1);
-    let lastNameColumn = this.grid.actualColumns.item(2);
-
-    //pinned property
-    idColumn.pinned = PinnedPositions.Left;
-    firstNameColumn.pinned = PinnedPositions.Left;
-    lastNameColumn.pinned = PinnedPositions.Left;
-
-    //pinColumn function
-    this.grid.pinColumn(idColumn, PinnedPositions.None);
-    this.grid.pinColumn(firstNameColumn, PinnedPositions.None);
-    this.grid.pinColumn(lastNameColumn, PinnedPositions.None);
-
-    let streetColumn = this.grid.actualColumns.item(6);
-    let cityColumn = this.grid.actualColumns.item(7);
-    let countryColumn = this.grid.actualColumns.item(8);
-
-    //pinned property
-    streetColumn.pinned = PinnedPositions.None;
-    cityColumn.pinned = PinnedPositions.None;
-    countryColumn.pinned = PinnedPositions.None;
-
-    //pinColumn function
-    this.grid.pinColumn(streetColumn, PinnedPositions.None);
-    this.grid.pinColumn(cityColumn, PinnedPositions.None);
-    this.grid.pinColumn(countryColumn, PinnedPositions.None);
+```json-snippet source="/grids/data-grid/column-pinning-picker"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ID",
+                    "headerText": "Employee ID",
+                    "pinned": "Left",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 100
+                    },
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "FirstName",
+                    "headerText": "First Name",
+                    "pinned": "Left",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 170
+                    }
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "LastName",
+                    "headerText": "Last Name",
+                    "pinned": "Left",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 170
+                    }
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "Birthday",
+                    "headerText": "Date of Birth",
+                    "pinned": "None",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 150
+                    },
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Age",
+                    "pinned": "None",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 100
+                    },
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "pinned": "None",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 140
+                    },
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Street",
+                    "headerText": "Address",
+                    "pinned": "Right",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 240
+                    }
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "City",
+                    "pinned": "Right",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 150
+                    }
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country",
+                    "pinned": "Right",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 150
+                    }
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
 }
 ```
-</PlatformBlock>
 
-<PlatformBlock for="Blazor">
-```razor
-<IgbDataGrid Height="100%" Width="100%"
-    DefaultColumnMinWidth="120"
-    DataSource="@DataSource"
-    AutoGenerateColumns="false"
-    @ref="DataGridRef">
 
-    @*Columns Pinned Left*@
-    <IgbTextColumn Field="ID" Pinned="PinnedPositions.Left" />
-    <IgbTextColumn Field="FirstName" Pinned="PinnedPositions.Left" />
-    <IgbTextColumn Field="LastName" Pinned="PinnedPositions.Left" />
 
-    @*Columns Unpinned*@
-    <IgbDateTimeColumn Field="Birthday" Pinned="PinnedPositions.None" />
-    <IgbNumericColumn Field="Age" Pinned="PinnedPositions.None" />
-    <IgbImageColumn Field="CountryFlag" Pinned="PinnedPositions.None" />
 
-    @*Columns Pinned Right*@
-    <IgbTextColumn Field="Street" Pinned="PinnedPositions.Right" />
-    <IgbTextColumn Field="City" Pinned="PinnedPositions.Right" />
-    <IgbTextColumn Field="Country" Pinned="PinnedPositions.Right" />
-</IgbDataGrid>
-```
-</PlatformBlock>
-
-<PlatformBlock for="Xaml">
-```xaml
-<igDataGrids:XamDataGrid
-    ItemsSource="{Binding EmployeesSalesData}"
-    AutoGenerateColumns="false"
-    DefaultColumnMinWidth="120">
-    <igDataGrids:XamDataGrid.Columns>
-        <igDataGrids:TextColumn
-            Field="ID"
-            Pinned="Left">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="110" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TextColumn
-            Field="FirstName"
-            Pinned="Left">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="190" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TextColumn
-            Field="LastName"
-            Pinned="Left">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="190" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:DateTimeColumn Field="Birthday">
-            <igDataGrids:DateTimeColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="170" />
-            </igDataGrids:DateTimeColumn.Width>
-        </igDataGrids:DateTimeColumn>
-        <igDataGrids:NumericColumn Field="Age">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-        <igDataGrids:ImageColumn
-            Field="CountryFlag"
-            IsEditable="false" />
-        <igDataGrids:TextColumn Field="Street">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="160" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TextColumn Field="City">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="false"
-                    Value="260" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:TextColumn Field="Country">
-            <igDataGrids:TextColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="170" />
-            </igDataGrids:TextColumn.Width>
-        </igDataGrids:TextColumn>
-        <igDataGrids:NumericColumn Field="Salary">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="170" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-        <igDataGrids:NumericColumn Field="Sales">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-        <igDataGrids:NumericColumn
-            Field="Salary"
-            PositivePrefix="$"
-            ShowGroupingSeparator="true"
-            MaxFractionDigits="0"
-            MinFractionDigits="0">
-            <igDataGrids:NumericColumn.Width>
-                <igDataGrids:ColumnWidth
-                    IsStarSized="true"
-                    Value="1"
-                    MinimumWidth="120" />
-            </igDataGrids:NumericColumn.Width>
-        </igDataGrids:NumericColumn>
-    </igDataGrids:XamDataGrid.Columns>
-</igDataGrids:XamDataGrid>
-```
-</PlatformBlock>
 
 ## ツールバーの列ピン固定 UI
 
