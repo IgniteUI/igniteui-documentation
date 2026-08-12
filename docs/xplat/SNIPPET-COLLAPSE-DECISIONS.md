@@ -1211,3 +1211,35 @@ every fence gives the real picture, and what is left divides into four kinds, no
 
 chart-annotations' Callout Layer was the last one that was really a snippet: WebComponents taught the
 same properties as assignments beside the markup fence, and now emits them on the code channel.
+
+## Which components are in scope
+
+"Everything whose canonical description name does not start with Web" is the rule, and the way to
+apply it is not the frontmatter — a page can mention Checkbox and be entirely about the web grid.
+The components that carry a XAML name in their metadata are the cross platform set, and there are
+twenty five of them: the charts, the gauges, the map, the data grid, the toolbar, the dashboard
+tile, the zoom slider, the colour editor, the sparkline, the treemap and the legends. The inputs and
+layouts are web only and out of scope even though their names carry no Web prefix.
+
+Two things that survey turned up, both metadata copy-and-paste: the DataGrid's WindowsForms
+qualified name is UltraLinearGauge, and ODataVirtualDataSource's is the pie chart's.
+
+### menus/toolbar — four sections
+
+The data chart integration, the data URL icon, the vertical orientation and the colour editor. The
+toolbar sits beside the component it targets in one definition; a toolbar stated alone reports its
+target as a library item that does not exist, which is how the vertical orientation fence failed
+first time. That one names no target, which is also what its block showed.
+
+### inputs/color-editor — a cross platform component among the web only ones
+
+Its Usage and Binding to events sections collapse; the handler the event section teaches is a
+library item now, on the web, Blazor and .NET, and the topic's sample names it.
+
+### zoomslider-overview — another sample that only existed downstream
+
+The topic pointed at /charts/zoomslider/overview, which exists in igniteui-wc-examples and not here.
+Ported, and the Code Snippet section states it.
+
+What these three leave behind is what every component topic keeps: Dependencies and Component
+Modules.
