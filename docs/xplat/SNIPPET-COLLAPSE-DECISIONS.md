@@ -1270,3 +1270,22 @@ On the multiple shapes topic, three fences and the headings above them were stil
 web platforms, left from when those handlers had no C# port. The port landed earlier today, so the
 fences admit Blazor while the wrappers still shut it out. Both are unwrapped, and Blazor now reads the
 Processing sections it was never shown.
+
+### The resource topics
+
+geo-map-resources-shape-styling-utility publishes the utility the shape styling topic uses, and that
+utility is a supporting item now, so the topic emits it: `channel="supporting"` for the listing and
+`handlersImports` for what it imports. Its Required Imports section loses the series type, which
+belongs to the handler that calls the utility rather than to the utility itself; the shape styling
+topic shows that one.
+
+The other four — world locations, world connections, world util and the Esri utility — cannot be
+emitted yet, and the reason is the library rather than the topics. WorldLocations and WorldConnections
+live inside the WorldFlights *data* item, WorldUtils inside a handler item, and there is no way to ask
+for one class out of an item. Splitting them into supporting items would be the fix, but a data item's
+"requires" is not read — only a handler's is — so WorldFlights would lose the classes its own samples
+need. The Esri utility has no item at all.
+
+What was fixed on those four: each published its TypeScript listing in no platform block at all, so
+Blazor readers saw it *and* their own C# copy, and the XAML platforms were shown a language they
+cannot use. The listing is scoped to the web platforms now.
