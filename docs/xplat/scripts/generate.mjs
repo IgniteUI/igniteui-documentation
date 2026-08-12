@@ -688,20 +688,33 @@ function validateJsonSnippets(sourceDir) {
             continue;
         }
         // A snippet needing more than the component — handlers, refs — is written in the sample's
-        // own shape, with the component under descriptions.content. Check that, as the emitter does.
-        if (parsed.descriptions && parsed.descriptions.content) {
-            parsed = parsed.descriptions.content;
+        // own shape, with the component under descriptions.content. Every description is checked,
+        // not only that one: a topic pairing a toolbar with its grid states the toolbar under
+        // another key, and checking content alone let a column chooser carry four properties its
+        // description does not have, which the emitter then dropped without a word.
+        const toCheck = parsed.descriptions && typeof parsed.descriptions === 'object'
+            ? Object.entries(parsed.descriptions).map(([slot, value]) => ({ slot, value }))
+            : [{ slot: null, value: parsed }];
+        for (const { slot, value } of toCheck) {
+            checkOne(value, slot ? `${where}  (${slot})` : where);
+        }
+    }
+
+    function checkOne(parsed, where) {
+        if (!parsed || typeof parsed !== 'object') {
+            problems.push(`${where}  a description has to be an object`);
+            return;
         }
         if (typeof parsed.type !== 'string') {
             problems.push(`${where}  no "type", so there is nothing to check it against`);
-            continue;
+            return;
         }
         const validate = validatorFor(parsed.type);
         if (validate === null) {
             problems.push(`${where}  unknown component type "${parsed.type}"`);
-            continue;
+            return;
         }
-        if (validate(parsed)) continue;
+        if (validate(parsed)) return;
         for (const err of validate.errors ?? []) {
             const at = err.instancePath || '/';
             problems.push(err.params?.additionalProperty

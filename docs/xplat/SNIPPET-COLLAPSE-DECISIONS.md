@@ -1074,3 +1074,36 @@ the root of the definition, beside `descriptions`, as it does in the samples.
 The section claims to combine the snippets above it, so the definition carries both properties and
 the three group descriptions its own blocks build. The web platforms and Blazor take it on the code
 channel, since that is how those blocks teach it; XAML takes the markup.
+
+## Checking a collapse for platforms the page does not publish
+
+The data grid topics are gated to the XAML platforms, so `generate.mjs --platform=React` skips them
+entirely: their fences had never once been emitted for the web. Schema validation still ran, but a
+schema says nothing about what comes out. Two checks close that, and both belong in the routine for
+any gated topic:
+
+- `check-snippet-emission.mjs` emits every fence for every platform regardless of gating, honouring
+  only the fence's own `exclude`. 541 emissions across five platforms, and it is what proves a
+  definition survives the platforms its page happens not to build.
+- `compare-web-blocks.mjs` recovers each page from before a commit and sets the block each platform
+  had beside what the fence emits for it now, per element, reporting attributes gained, lost and
+  changed. The web blocks are the accurate record for the web — they were published, where the XAML
+  blocks were generated from the samples — so this is the review that matters on these pages.
+
+What the comparison turned up, beyond the decisions already recorded:
+
+- **A validation gap.** Only `descriptions.content` was ever checked, so any other slot went
+  unexamined. The column chooser fence carried four properties its description does not have —
+  `showAllText`, `hideAllText`, `height`, `width` — and the emitter dropped them without a word.
+  Every description in a definition is checked now, and the four properties are gone from the fence.
+- **A grid told not to generate columns, with none stated, has none.** The chooser sections lost
+  their columns that way. Both now state the sample's.
+- **The toolbar sections' grids leave room for the toolbar**, which is what `calc(100% - 40px)` was
+  saying; the fences state it rather than the sample's 100%.
+- Enum values come out canonical — `left` becomes `Left`, `thin` becomes `Thin`,
+  `slideFromRightAndFadeIn` becomes `SlideFromRightAndFadeIn` — which is a correction, and
+  `120px` becomes `120` because the description takes a number.
+
+One thing the description cannot express, left as a gap rather than papered over: the column chooser
+takes a height, a width and the text on its show-all and hide-all buttons in the published blocks,
+and `ColumnChooser` models none of the four.
