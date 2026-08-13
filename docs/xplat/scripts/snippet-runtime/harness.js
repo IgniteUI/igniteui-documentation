@@ -69,6 +69,131 @@ const enumProblems = [];
     util.__tolerant = true;
 })();
 
+/**
+ * Canvases asked for at a size that cannot be meant.
+ *
+ * A tab dies from running out of memory, and the memory a chart uses is mostly not the JS heap: it is
+ * the bitmap behind a canvas, four bytes a pixel. A width computed from a bad number — a NaN, an extent
+ * that came out as an axis's whole range — asks the browser for gigabytes in one call, and the process
+ * is gone before anything can report it. Watched here, at the setter, so the size is known even when the
+ * allocation is what kills the page.
+ */
+const bigCanvases = [];
+(function watchCanvasSizes() {
+    const limit = 8192;   // beyond any real component on a 1280×900 page
+    for (const side of ['width', 'height']) {
+        const original = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, side);
+        if (!original || !original.set) continue;
+        Object.defineProperty(HTMLCanvasElement.prototype, side, {
+            configurable: true,
+            enumerable: original.enumerable,
+            get: original.get,
+            set(value) {
+                if (!Number.isFinite(value) || value > limit) {
+                    const note = `canvas ${side} set to ${value}`;
+                    bigCanvases.push(note);
+                    console.debug(`[canvas] ${note}`);
+                }
+                original.set.call(this, value);
+            },
+        });
+    }
+})();
+
+/**
+ * Where memory goes when it does not go on the JS heap.
+ *
+ * usedJSHeapSize counts objects, and a tab can die at four gigabytes with a heap that never passed a
+ * hundred megabytes: the bytes behind a typed array are external to the heap, and so are DOM nodes. A
+ * crash cannot be gone back to, so the accounting has to be running before it happens — a counter and a
+ * threshold, said out loud as it crosses each one.
+ */
+const externalBytes = { arrays: 0, arrayCount: 0, nodes: 0 };
+let announcedAt = 0;
+(function watchExternalMemory() {
+    const announce = () => {
+        const mb = Math.floor(externalBytes.arrays / (1024 * 1024));
+        if (mb < announcedAt + 256) return;
+        announcedAt = mb - (mb % 256);
+        console.debug(`[memory] ${announcedAt}MB in ${externalBytes.arrayCount} typed array(s), ` +
+                      `${externalBytes.nodes} node(s) made`);
+    };
+    const widths = { Float64Array: 8, Float32Array: 4, Int32Array: 4, Uint32Array: 4, Int16Array: 2,
+                     Uint16Array: 2, Int8Array: 1, Uint8Array: 1, Uint8ClampedArray: 1 };
+    for (const [name, width] of Object.entries(widths)) {
+        const Original = window[name];
+        if (typeof Original !== 'function') continue;
+        window[name] = new Proxy(Original, {
+            construct(target, argv, newTarget) {
+                const first = argv[0];
+                const length = typeof first === 'number' ? first
+                    : (first && typeof first.length === 'number' ? first.length : 0);
+                externalBytes.arrays += length * width;
+                externalBytes.arrayCount++;
+                announce();
+                return Reflect.construct(target, argv, newTarget);
+            },
+        });
+    }
+    const originalNS = document.createElementNS.bind(document);
+    document.createElementNS = function (ns, tag, options) {
+        externalBytes.nodes++;
+        if (externalBytes.nodes % 5000 === 0) {
+            console.debug(`[memory] ${externalBytes.nodes} node(s) made`);
+        }
+        return originalNS(ns, tag, options);
+    };
+})();
+
+/**
+ * The extremes of what gets drawn.
+ *
+ * A canvas of ordinary size can still take a page down: a path whose coordinates are in the millions
+ * asks the rasteriser to fill an area that size, and that allocation is neither the JS heap nor the
+ * canvas's own bitmap. Nothing in the page reports it, so the coordinates are watched as they are
+ * given — the largest one seen is the difference between "a component is drawing wrongly" and "a
+ * component is allocating".
+ */
+const drawn = { maxAbs: 0, calls: 0 };
+(function watchDrawnCoordinates() {
+    const proto = typeof CanvasRenderingContext2D === 'function'
+        ? CanvasRenderingContext2D.prototype : null;
+    if (!proto) return;
+    let announcedSize = 1e6;
+    let announcedCalls = 0;
+    const note = (...values) => {
+        drawn.calls++;
+        // Volume as well as size: a million small segments is as much memory as one enormous one, and a
+        // count that keeps climbing is the shape of a loop that does not end.
+        if (drawn.calls - announcedCalls >= 250000) {
+            announcedCalls = drawn.calls;
+            console.debug(`[drawn] ${drawn.calls} drawing call(s), largest coordinate ` +
+                          `${drawn.maxAbs.toExponential(2)}`);
+        }
+        for (const value of values) {
+            const size = Math.abs(Number(value));
+            if (!Number.isFinite(size)) {
+                console.debug('[drawn] a coordinate that is not a number');
+                continue;
+            }
+            if (size > drawn.maxAbs) drawn.maxAbs = size;
+            if (size > announcedSize) {
+                announcedSize = size * 10;
+                console.debug(`[drawn] a coordinate of ${size.toExponential(2)}`);
+            }
+        }
+    };
+    for (const [name, count] of [['moveTo', 2], ['lineTo', 2], ['rect', 4], ['arc', 3],
+                                 ['bezierCurveTo', 6], ['quadraticCurveTo', 4]]) {
+        const original = proto[name];
+        if (typeof original !== 'function') continue;
+        proto[name] = function (...argv) {
+            note(...argv.slice(0, count));
+            return original.apply(this, argv);
+        };
+    }
+})();
+
 const registered = { descriptions: 0, modules: 0, failures: [] };
 let registering = 0;
 
@@ -132,6 +257,11 @@ for (const each of [renderer, editorRenderer]) {
     // Unused references are cleaned up as it renders, so tearing a sample down also unregisters what it
     // registered — the axis a chart declared does not linger to be found by the next sample.
     each.cleanupUnusedOnRender = true;
+    // On, because the host is always driven with it on: the test client sets allowNullForRemove in every
+    // page it sends, and the dashboard tile sets it on its own renderer. A description given as null then
+    // removes what was there — which is also how a container is emptied without going behind the
+    // renderer's back — rather than being passed over.
+    each.allowNullForRemove = true;
     registerDescriptions(each.context);
 }
 registerModules();
@@ -175,6 +305,35 @@ CodeGenHelper.findByNameLookup = (name) => {
     }
     return LibraryManager.instance.hasItem(name) ? LibraryManager.instance.getInstance(name) : null;
 };
+
+/**
+ * Member paths, altered in concert with the data the library emitted.
+ *
+ * The emitter alters casing on both halves at once: it camelises a data item's members and camelises
+ * every member path in the markup with them, so a generated sample matches itself. Here the data comes
+ * from that same emitter but the paths come from the sample's own JSON, where they are written as the
+ * description declares them — so this side has to be altered too, or a series binds to nothing and
+ * every value is missing.
+ *
+ * A sample that declares skipAlterDataCasing has bound something that cannot be re-cased, and its data
+ * was emitted unaltered to match; its paths are left exactly as written.
+ *
+ * Installing a transformer is also what turns transforming on: on the web platforms the renderer does
+ * not consider member path transforms at all unless one is supplied.
+ */
+let keepCasingAsWritten = false;
+
+function alterMemberPath(path) {
+    // "-" is not a member character, as the test hosts have it.
+    const value = String(path ?? '').split('-').join('_');
+    if (keepCasingAsWritten) return value;
+    return value.split('.').map(segment => /^[A-Za-z]/.test(segment)
+        ? segment.substring(0, 1).toLowerCase() + segment.substring(1)
+        : segment).join('.');
+}
+
+renderer.addMemberPathTransformer(alterMemberPath);
+editorRenderer.addMemberPathTransformer(alterMemberPath);
 
 /**
  * What a reference in a sample resolves to.
@@ -231,6 +390,28 @@ const ANIMATION_TIMEOUT = 3000;
  * cannot be torn down is the next sample's problem and worth naming as this one's.
  */
 function cleanupPage() {
+    // First the removal the client sends: every slot that has something in it, described as null.
+    //
+    // "Slots whose control was removed from the layout are sent as null descriptions, which the renderer
+    // treats as a removal request (and destroys the control) when AllowNullForRemove is enabled" — so a
+    // control is destroyed rather than merely unrendered, which is a different thing from tearing the
+    // container down and may leave less behind. Through the main renderer, because that is the one a page
+    // is loaded into.
+    const occupied = SLOTS.filter(slot => {
+        const container = containerFor(slot);
+        return container && container.firstElementChild;
+    });
+    if (occupied.length > 0) {
+        const descriptions = {};
+        for (const slot of occupied) descriptions[slot] = null;
+        try {
+            renderer.loadJson(JSON.stringify({ allowNullForRemove: true, descriptions }), containerFor);
+        } catch (e) {
+            teardownProblems.push(`removing ${occupied.join(', ')}: ${e && e.message}`);
+        }
+    }
+
+    // Then the page level teardown, which is what the client's cleanupPage message runs.
     for (const slot of SLOTS) {
         const container = containerFor(slot);
         if (!container) continue;
@@ -241,7 +422,11 @@ function cleanupPage() {
                 teardownProblems.push(`${slot}: ${e && e.message}`);
             }
         }
-        container.innerHTML = '';
+        // Deliberately not emptying the container afterwards. The host does not, and it is the
+        // renderer's business what is in there: removing the elements behind its back leaves it
+        // holding references to nodes that are no longer in the document, which is a worse state than
+        // whatever the teardown left. Anything the teardown does not remove is a finding, not
+        // something for this harness to tidy away.
     }
 }
 
@@ -283,11 +468,25 @@ function stage(what) {
 async function load(sample, options) {
     const timeout = (options && options.timeout) || 8000;
 
+    // Whether this sample's data was emitted unaltered, which decides whether its paths are altered.
+    keepCasingAsWritten = !!(sample && sample.skipAlterDataCasing === true);
+
     teardownProblems = [];
     enumProblems.length = 0;
+    bigCanvases.length = 0;
+    drawn.maxAbs = 0;
+    drawn.calls = 0;
+    externalBytes.arrays = 0;
+    externalBytes.arrayCount = 0;
+    externalBytes.nodes = 0;
+    announcedAt = 0;
     stage('cleanup');
     cleanupPage();
-    const leftBehind = teardownProblems.slice();
+    // What the renderers objected to while tearing the previous sample down. Collected here rather than
+    // left for the next drain, because these belong to whatever was on the page before this sample —
+    // a component that cannot be removed cleanly is the finding, and it is not this sample's fault.
+    const leftBehind = teardownProblems.concat(collectErrors());
+    stage('cleaned');
     renderer.clearErrors();
     editorRenderer.clearErrors();
     unresolved.clear();
@@ -356,6 +555,33 @@ async function load(sample, options) {
     }
 
     stage('done');
+    // The handlers a sample lists to run once it is up, invoked the way the host invokes them: the
+    // library gives the method, bound to its holder, and a sample whose configuration lives in one of
+    // these renders nothing without it.
+    const initialisers = [];
+    if (thrown.length === 0) {
+        for (const list of ['onInit', 'onViewInit']) {
+            const value = sample && sample[list];
+            const names = typeof value === 'string' ? [value] : Array.isArray(value) ? value : [];
+            for (const name of names) {
+                if (!LibraryManager.instance.hasItem(name)) {
+                    initialisers.push(`${name} is not in the library`);
+                    continue;
+                }
+                try {
+                    const item = LibraryManager.instance.getInstance(name);
+                    if (typeof item === 'function') item();
+                } catch (e) {
+                    initialisers.push(`${name} threw: ${e && e.message}`);
+                }
+            }
+        }
+        if (initialisers.length === 0 && (sample.onInit || sample.onViewInit)) {
+            // Something ran, so let it settle before looking at the page.
+            await flushAll();
+        }
+    }
+
     const afterIdle = collectErrors();
 
     // Named references the renderer never got a value for: its own account of what is missing, rather
@@ -372,6 +598,10 @@ async function load(sample, options) {
         timedOut,
         animationTimedOut,
         enumProblems: enumProblems.slice(),
+        initialisers,
+        bigCanvases: bigCanvases.slice(),
+        drawn: { ...drawn },
+        externalBytes: { ...externalBytes },
         unresolved: [...unresolved, ...missingRefs.filter(name => !unresolved.has(name))],
     };
 }
@@ -398,8 +628,38 @@ function collectErrors() {
     return found;
 }
 
+/**
+ * The types in a sample that this page has no description for.
+ *
+ * A description module comes from a package, so a sample naming a component whose package is not
+ * installed cannot be checked here — and reporting it as a failure says the sample is broken when the
+ * truth is that the harness does not cover it. The renderer's own context is asked, rather than a list
+ * of families kept by hand, so installing another package changes the answer without changing this.
+ */
+function unknownTypes(sample) {
+    const found = new Set();
+    const context = renderer.context;
+    (function walk(node) {
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        if (!node || typeof node !== 'object') return;
+        if (typeof node.type === 'string') {
+            try {
+                const properties = context.getAllProperties(node.type);
+                if (!properties || properties.length === 0) found.add(node.type);
+            } catch {
+                found.add(node.type);
+            }
+        }
+        for (const value of Object.values(node)) {
+            if (value && typeof value === 'object') walk(value);
+        }
+    })(sample.descriptions ?? sample);
+    return [...found];
+}
+
 window.igSampleHarness = {
     load,
+    unknownTypes,
     registered: () => registered,
     itemCount: () => LibraryManager.instance.itemNames().length,
 };

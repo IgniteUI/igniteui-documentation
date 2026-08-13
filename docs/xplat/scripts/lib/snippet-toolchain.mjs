@@ -10,6 +10,9 @@
  *   2. a peer checkout beside this repository, which is the ordinary local case
  *   3. a package under node_modules, which is how CI will work once the emitter ships in one
  *
+ * A clone is only moved onto another branch when this is CI. A workspace there is made fresh for the
+ * run; a directory on someone's machine is theirs.
+ *
  * Nothing here builds anything. If the emitter is not built, the message says which command builds
  * it — guessing and running a build inside a check would hide why a run took four minutes.
  */
@@ -138,18 +141,32 @@ export function resolveExamplesRoot({ quiet = false } = {}) {
     }
 
     const clone = path.join(CACHE_DIR, 'igniteui-xplat-examples');
-    const branch = resolveExamplesBranch(say);
     if (fs.existsSync(path.join(clone, '.git'))) {
+        // Moving an existing checkout to another branch is a thing to do in CI and nowhere else. A
+        // workspace there is made fresh for the run, so the branch has to be resolved every time; on a
+        // machine, whatever is in that directory is there because someone put it there — a worktree of
+        // their own clone, a branch under test — and fetching over it discards their work without asking.
+        if (!IN_CI) {
+            say(`using the checkout already at ${path.relative(REPO_ROOT, clone)}, as it stands`);
+            return clone;
+        }
+        const branch = resolveExamplesBranch(say);
         say(`updating the cached clone to ${branch}`);
         git(clone, ['fetch', '--depth', '1', 'origin', branch]);
         git(clone, ['checkout', '--force', 'FETCH_HEAD']);
-    } else {
-        say(`cloning ${branch} into ${path.relative(REPO_ROOT, clone)}`);
-        fs.mkdirSync(CACHE_DIR, { recursive: true });
-        git(REPO_ROOT, ['clone', '--depth', '1', '--branch', branch, EXAMPLES_URL, clone]);
+        return clone;
     }
+
+    const branch = resolveExamplesBranch(say);
+    say(`cloning ${branch} into ${path.relative(REPO_ROOT, clone)}`);
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+    git(REPO_ROOT, ['clone', '--depth', '1', '--branch', branch, EXAMPLES_URL, clone]);
     return clone;
 }
+
+/** Whether this is a build rather than someone's machine. */
+const IN_CI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true' ||
+    process.env.TF_BUILD === 'True';
 
 const EXAMPLES_URL = process.env.XPLAT_EXAMPLES_URL
     ?? 'https://github.com/IgniteUI/igniteui-xplat-examples.git';

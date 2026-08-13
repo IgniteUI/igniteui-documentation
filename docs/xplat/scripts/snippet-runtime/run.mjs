@@ -1,31 +1,39 @@
 /**
- * Every sample in igniteui-xplat-examples, loaded into chromium with the real component renderer,
+ * Every json-snippet the documentation publishes, loaded into chromium with the real component renderer,
  * checked for errors.
  *
- * The snippet checks prove a definition emits code. They cannot prove the sample it came from works:
- * a property can be spelled right, typed right and still leave a component throwing on load. This
- * runs the other half — the real packages, the real renderer, one page, every sample.
+ * The emission checks prove a definition produces code. They cannot prove the component it describes
+ * works: a property can be spelled right, typed right, accepted by the schema, and still leave a
+ * component throwing when a browser builds it. This runs the other half — the real packages, the real
+ * renderer, one page, every definition a fence states.
  *
- * A sample passes when the renderer reports no errors, the browser throws nothing, and the renderer
- * goes idle. Idle is its own signal (queueForIdle runs once nothing is pending), so a sample that
- * never settles is a failure rather than a slow pass.
+ * A definition passes when the renderer reports no errors, the browser throws nothing, the renderer goes
+ * idle, flushes, settles its animations, and something is actually drawn.
  *
  * Usage:
- *   node run.mjs                          # the published packages
- *   node run.mjs --packages=<dir>         # a directory of locally built packages
- *   node run.mjs --filter=geo-map         # only samples whose path contains this
- *   node run.mjs --limit=20 --headed      # a quick look, with a visible browser
- *   node run.mjs --timeout=15000
+ *   node run.mjs                          # every fence in both locales
+ *   node run.mjs --lang=en                # one locale
+ *   node run.mjs --filter=geo-map         # only pages whose path contains this
+ *   node run.mjs --limit=20 --headed      # a look, with a visible browser
+ *   node run.mjs --sample=<file.json>     # a definition from a file, for cutting a failure down
+ *   node run.mjs --samples                # the examples repository's samples instead of the fences
  *
- * The examples checkout is resolved by ../lib/snippet-toolchain.mjs: a peer checkout, XPLAT_EXAMPLES,
- * or a clone of the examples branch matching the branch under check.
+ * The samples mode is what igniteui-xplat-examples should run over its own samples; it lives here
+ * because it is the same harness, and moving it is a move rather than a rewrite.
+ *
+ * The examples checkout is resolved by ../lib/snippet-toolchain.mjs: a peer checkout, XPLAT_EXAMPLES, or
+ * a clone of the examples branch matching the branch under check. It is needed either way — a fence
+ * binds to the same code generation library the samples do.
  */
 
 import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
-import { resolveExamplesRoot } from '../lib/snippet-toolchain.mjs';
+import {
+    resolveExamplesRoot, mdxFilesUnder, fencesOf, XPLAT_ROOT,
+} from '../lib/snippet-toolchain.mjs';
+import { fractionNotWhite } from './png.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -35,12 +43,23 @@ const flag = (name, fallback = null) => {
     return found === undefined ? fallback : found.slice(name.length + 3);
 };
 const PACKAGES = flag('packages', 'registry');
+// The fences are what this repository publishes. The samples are the examples repository's to check.
+const FROM_SAMPLES = args.includes('--samples');
+const LANGS = (flag('lang', 'en,jp')).split(',').map(s => s.trim()).filter(Boolean);
 const FILTER = flag('filter');
 const LIMIT = Number(flag('limit', '0')) || 0;
 const TIMEOUT = Number(flag('timeout', '8000'));
 const HEADED = args.includes('--headed');
 const KEEP_OPEN = args.includes('--keep-open');
 const VERBOSE = args.includes('--verbose');
+// Whether to look at what was drawn, and how little counts as nothing. A sample that leaves the plate
+// untouched has rendered nothing; a stray pixel or two is not evidence of anything.
+const SHOTS = !args.includes('--no-shots');
+const BLANK = Number(flag('blank', '0.0005'));
+const SHOT_DIR = flag('shots', path.join(HERE, 'blank-shots'));
+
+// What a load resolves to when the page never answers at all.
+const WEDGED = Symbol('wedged');
 
 const examples = resolveExamplesRoot();
 const samplesDir = path.join(examples, 'samples');
@@ -132,6 +151,10 @@ function emitLibrary(api, names) {
     const emitted = api.emitLibrary('WebComponents', {
         examplesRoot: examples,
         only: [...names].sort(),
+        // Per item, from the samples themselves, the way the library project emitter's sample analyzer
+        // builds it: a sample that declares skipAlterDataCasing has bound something that cannot be
+        // re-cased, so its data keeps the casing it was authored in.
+        skipAlterDataCasing: itemsThatKeepTheirCasing(),
     });
 
     // An item importing a package this harness does not install cannot be part of the lookup: every
@@ -190,6 +213,49 @@ function withoutItems(manager, dropped) {
 }
 
 /**
+ * The data items whose casing must be left alone, from the samples that bind them.
+ *
+ * The same rule the library project emitter's sample analyzer applies: a sample declaring
+ * skipAlterDataCasing has bound something the emitter cannot safely re-case — a member path buried in a
+ * filter string, or data built in code — so every data item it binds keeps the casing it was authored
+ * in. An item bound by samples that disagree is reported, as the analyzer reports it.
+ */
+let casingDisagreements = new Set();
+
+function itemsThatKeepTheirCasing() {
+    const state = new Map();
+    const disagreed = new Set();
+    for (const [name, sample] of parsed) {
+        if (sample.export === false) continue;
+        const keep = sample.skipAlterDataCasing === true;
+        for (const ref of referenceNamesIn(sample)) {
+            if (state.has(ref) && state.get(ref) !== keep) disagreed.add(ref);
+            else if (!state.has(ref)) state.set(ref, keep);
+        }
+    }
+    casingDisagreements = disagreed;
+    return [...state].filter(([, keep]) => keep).map(([ref]) => ref);
+}
+
+/**
+ * The modern web components a sample names, by the convention that they are prefixed "Web".
+ *
+ * WebGrid, WebPivotGrid, WebTreeGrid and their parts ship in a package this harness does not install.
+ */
+function webComponentTypesIn(sample) {
+    const found = new Set();
+    (function walk(node) {
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        if (!node || typeof node !== 'object') return;
+        if (typeof node.type === 'string' && /^Web[A-Z]/.test(node.type)) found.add(node.type);
+        for (const value of Object.values(node)) {
+            if (value && typeof value === 'object') walk(value);
+        }
+    })(sample.descriptions ?? sample);
+    return [...found];
+}
+
+/**
  * The names a set of samples refer to.
  *
  * Read off the JSON: any string property whose name ends in "Ref" is a reference. Some name an element
@@ -223,6 +289,138 @@ const PACKAGE_NAMES = Object.keys(
 
 /* --------------------------------------------------------------------- samples */
 
+/**
+ * Sample files named outright, from anywhere.
+ *
+ * For working out what in a sample is wrong: the answer is usually found by loading a cut-down copy of
+ * it, and a cut-down copy does not belong in the examples repository. Named files are loaded instead of
+ * the set, not as well.
+ */
+function namedSamples() {
+    const given = args.filter(a => a.startsWith('--sample=')).map(a => a.slice(9));
+    return given.map(file => path.resolve(file));
+}
+
+/**
+ * Every definition the documentation states, as a case each.
+ *
+ * A fence is the unit the documentation publishes, so it is the unit checked. An array body states
+ * several definitions and each is loaded on its own. A `ref=` fence restates a definition from further up
+ * the page and is skipped — the definition itself is already a case.
+ *
+ * Casing and animation come from the sample the fence names, unless the fence says otherwise: those two
+ * belong to the sample as a whole, and a fence emitting from it inherits them.
+ */
+function fenceCases() {
+    const cases = [];
+    for (const lang of LANGS) {
+        const dir = path.join(XPLAT_ROOT, 'src', 'content', lang, 'components');
+        if (!fs.existsSync(dir)) continue;
+        for (const file of mdxFilesUnder(dir)) {
+            const text = fs.readFileSync(file, 'utf8');
+            if (!text.includes('```json-snippet')) continue;
+            const where = path.relative(path.join(XPLAT_ROOT, 'src', 'content'), file);
+            if (FILTER && !where.includes(FILTER)) continue;
+            for (const fence of fencesOf(text)) {
+                if (fence.attrs.ref || !fence.body.trim()) continue;
+                let parsed;
+                try {
+                    parsed = JSON.parse(fence.body);
+                } catch {
+                    continue;      // the schema check reports this, with the reason
+                }
+                const definitions = Array.isArray(parsed) ? parsed : [parsed];
+                definitions.forEach((definition, i) => {
+                    const name = `${where}:${fence.line}` +
+                        (definitions.length > 1 ? `#${i + 1}` : '');
+                    cases.push({ name, sample: loadable(definition, fence.attrs) });
+                });
+            }
+        }
+    }
+    return LIMIT > 0 ? cases.slice(0, LIMIT) : cases;
+}
+
+/**
+ * A definition in the shape a live renderer can load, with the flags that belong to the page it is on.
+ *
+ * A fence states a description on its own — no wrapper, because a topic is showing a component and not a
+ * page. A renderer takes a map of descriptions keyed by container, so a bare one is put under "content"
+ * here. (The renderer learned to do that itself as part of this work, but a published one has not, and
+ * this check exists to run against published packages.)
+ *
+ * The two flags that are the page's rather than the component's go on the wrapper, which is where the
+ * renderer reads them.
+ */
+function loadable(definition, attrs) {
+    const bare = definition && typeof definition === 'object' && definition.descriptions === undefined;
+    const root = bare
+        ? { descriptions: { content: definition } }
+        : { ...definition };
+
+    const fromSample = sampleFlags(attrs.source);
+    for (const flag of ['skipAlterDataCasing', 'hasAnimations']) {
+        // The fence itself wins, then whatever it already states, then the sample it emits from.
+        const fromFence = attrs[flag] === undefined ? undefined : attrs[flag] === 'true';
+        const stated = bare ? definition[flag] : definition[flag];
+        const value = fromFence !== undefined ? fromFence
+            : stated !== undefined ? stated
+            : fromSample[flag];
+        if (value !== undefined) root[flag] = value;
+        if (bare && stated !== undefined) delete root.descriptions.content[flag];
+    }
+
+    // Animation is inferred when nothing says either way, by the same rules the components have: some
+    // animate on their own, and the rest animate when a transition is asked for. A definition that
+    // animates and is not waited for is torn down mid-animation, which is how a tree map ends up being
+    // driven after its rendering context has gone.
+    if (root.hasAnimations === undefined && animates(root.descriptions)) root.hasAnimations = true;
+    return root;
+}
+
+/** What the sample a fence names says about casing and animation. */
+function sampleFlags(source) {
+    if (!source) return {};
+    const file = path.join(examples, 'samples', source.replace(/^\//, '') + '.json');
+    if (!fs.existsSync(file)) return {};
+    try {
+        const sample = JSON.parse(fs.readFileSync(file, 'utf8'));
+        return { skipAlterDataCasing: sample.skipAlterDataCasing, hasAnimations: sample.hasAnimations };
+    } catch {
+        return {};
+    }
+}
+
+/** Whether a definition binds anything to draw from. */
+function bindsData(node) {
+    if (Array.isArray(node)) return node.some(bindsData);
+    if (!node || typeof node !== 'object') return false;
+    for (const [key, value] of Object.entries(node)) {
+        if (/^data[A-Za-z]*Ref$/.test(key) && typeof value === 'string') return true;
+        if ((key === 'dataSource' || key === 'itemsSource') && value != null) return true;
+        if (typeof value === 'object' && bindsData(value)) return true;
+    }
+    return false;
+}
+
+/** Whether anything described here animates unless told not to. */
+const ANIMATES_BY_DEFAULT = new Set([
+    'Treemap', 'CategoryChart', 'FinancialChart', 'DataPieChart', 'PieChart']);
+
+function animates(node) {
+    if (Array.isArray(node)) return node.some(animates);
+    if (!node || typeof node !== 'object') return false;
+    if (typeof node.type === 'string' && ANIMATES_BY_DEFAULT.has(node.type) &&
+        node.isTransitionInEnabled !== false && node.transitionInDuration !== 0) {
+        return true;
+    }
+    if (node.isTransitionInEnabled === true || node.isTransitionAnimationEnabled === true) return true;
+    for (const key of ['transitionDuration', 'transitionInDuration']) {
+        if (typeof node[key] === 'number' && node[key] > 0) return true;
+    }
+    return Object.values(node).some(value => typeof value === 'object' && animates(value));
+}
+
 function samples() {
     const found = [];
     (function walk(dir) {
@@ -244,24 +442,46 @@ function samples() {
 ensurePackages();
 ensureChromium();
 
-const list = samples();
-if (list.length === 0) {
-    console.error(`no samples matched${FILTER ? ` --filter=${FILTER}` : ''}`);
+// What this run loads: the definitions the documentation states, or — for the examples repository — its
+// samples, or single files named outright while cutting a failure down.
+const named = namedSamples();
+const cases = named.length > 0
+    ? named.map(file => ({ name: file, sample: loadable(JSON.parse(fs.readFileSync(file, 'utf8')), {}) }))
+    : FROM_SAMPLES
+        ? samples().map(name => ({
+            name,
+            sample: JSON.parse(fs.readFileSync(path.join(samplesDir, name), 'utf8')),
+        }))
+        : fenceCases();
+
+if (cases.length === 0) {
+    console.error(`nothing to load${FILTER ? ` for --filter=${FILTER}` : ''}`);
     process.exit(2);
 }
+console.log(`[runtime] ${cases.length} ${FROM_SAMPLES || named.length > 0 ? 'sample' : 'definition'}(s) ` +
+            `to load`);
 
 const wanted = new Set();
 const parsed = new Map();
-for (const name of list) {
-    const sample = JSON.parse(fs.readFileSync(path.join(samplesDir, name), 'utf8'));
-    parsed.set(name, sample);
-    referenceNamesIn(sample, wanted);
+const notExported = [];
+for (const one of cases) {
+    // A sample marked as not exported is still checked. The flag is not a statement that it is wrong —
+    // some are waiting to be turned on, and a new one cloned from an old one inherits it — but it does
+    // say it has probably never run in a browser, which is worth knowing beside a failure.
+    if (one.sample.export === false) notExported.push(one.name);
+    parsed.set(one.name, one.sample);
+    referenceNamesIn(one.sample, wanted);
+}
+const neverExported = new Set(notExported);
+if (notExported.length > 0) {
+    console.log(`[runtime] ${notExported.length} sample(s) are marked as not exported — checked anyway, ` +
+                `and noted as such if they fail`);
 }
 
 const { loadSnippetApi } = await import('../lib/snippet-toolchain.mjs');
 const library = emitLibrary(loadSnippetApi(), wanted);
 console.log(`[runtime] emitted ${library.dataItems} data item(s) and ${library.handlerItems} ` +
-            `handler item(s) for ${list.length} sample(s)`);
+            `handler item(s) for what they bind to`);
 // A sample binding to one of these is not checked, and is reported as such rather than failed. The
 // packages in question are the ones the documentation this repository builds does not cover — the
 // modern web grids version on their own line — and a check that fails over what it does not install
@@ -271,6 +491,15 @@ if (uncovered.size > 0) {
     const packages = new Set(library.unavailable.flatMap(entry => entry.missing));
     console.log(`[runtime] ${uncovered.size} library item(s) need package(s) this harness does not ` +
                 `install: ${[...packages].join(', ')}`);
+}
+// Reported here rather than while the map is built: most references are to elements inside a
+// description — a chart naming its own axis — and only the library knows which names are its items.
+const notItems = new Set(library.problems
+    .filter(p => p.reason === 'no such library item').map(p => p.item));
+const realDisagreements = [...casingDisagreements].filter(name => !notItems.has(name));
+if (realDisagreements.length > 0) {
+    console.log(`[runtime] ${realDisagreements.length} data item(s) are bound by samples that disagree ` +
+                `about skipAlterDataCasing: ${realDisagreements.slice(0, 6).join(', ')}`);
 }
 const realProblems = library.problems.filter(p => p.reason !== 'no such library item');
 if (realProblems.length > 0) {
@@ -324,6 +553,13 @@ const browser = await chromium.launch({
 let current = null;
 const browserProblems = new Map();
 const noteProblem = (sample, message) => {
+    // While the page is tearing the previous sample down, whatever it complains about is that sample's
+    // doing. The stage the harness announces is how this is known: between "cleanup" and "cleaned",
+    // nothing of the new sample has been loaded yet.
+    if (stages.length > 0 && stages[stages.length - 1] === 'cleanup') {
+        leftBehind.push({ after: previous, problem: message });
+        return;
+    }
     if (!sample) return;
     if (!browserProblems.has(sample)) browserProblems.set(sample, []);
     browserProblems.get(sample).push(message);
@@ -346,12 +582,24 @@ let stages = [];
 let chatter = [];
 // What the renderers reported while loading it, streamed out of the page as it happened.
 let rendererSaid = [];
+// Canvases asked for at a size that cannot be meant, which is how a page runs out of memory.
+let canvasSaid = [];
+// Where the memory went, as the page counted it on the way down.
+let memorySaid = [];
+// The extremes of what the page was asked to draw.
+let drawnSaid = [];
+// Samples that handed the rasteriser a coordinate that is not a number. Not a failure on its own — the
+// browser ignores such a segment — but it is a component computing geometry from something it should
+// have checked, and it is how the radial crash announces itself.
+const drewNonsense = new Set();
 
 async function openPage() {
     if (page !== null) {
         await page.close().catch(() => {});
     }
     page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    // Screenshots and waits fail rather than hang if the page stops answering.
+    page.setDefaultTimeout(30000);
     // Playwright says so when a tab dies, which is the only notice that arrives — the call being
     // awaited simply never returns.
     page.on('crash', () => {
@@ -375,6 +623,21 @@ async function openPage() {
         }
         // What the renderer objected to, as it objected. Kept separately from the return value, which a
         // crashed tab never delivers.
+        if (text.startsWith('[memory] ')) {
+            memorySaid.push(text.slice('[memory] '.length));
+            if (memorySaid.length > 12) memorySaid.shift();
+            return;
+        }
+        if (text.startsWith('[drawn] ')) {
+            drawnSaid.push(text.slice('[drawn] '.length));
+            if (drawnSaid.length > 6) drawnSaid.shift();
+            return;
+        }
+        if (text.startsWith('[canvas] ')) {
+            canvasSaid.push(text.slice('[canvas] '.length));
+            if (canvasSaid.length > 10) canvasSaid.shift();
+            return;
+        }
         if (text.startsWith('[cr-error] ')) {
             rendererSaid.push(text.slice('[cr-error] '.length));
             if (rendererSaid.length > 20) rendererSaid.shift();
@@ -404,7 +667,8 @@ if (setup.failures.length > 0) {
     for (const failure of setup.failures.slice(0, 10)) console.log(`  ${failure}`);
 }
 
-console.log(`[runtime] loading ${list.length} sample(s)\n`);
+console.log(`[runtime] loading ${parsed.size} ` +
+            `${FROM_SAMPLES || named.length > 0 ? 'sample' : 'definition'}(s)\n`);
 
 const failures = [];
 const contaminated = [];
@@ -416,16 +680,33 @@ let passed = 0;
 // How much the page is holding after each sample. A page that dies part way through a run is holding
 // something it should have let go of, and the shape of this says where it started.
 const heapBySample = [];
+// How much of the page each sample drew, for the summary.
+const drawnFraction = new Map();
 // The last reading taken, so a crash can say what the page was holding beforehand.
 let lastHeap = 0;
+// The most it was holding while the current sample loaded.
+let peakHeap = 0;
+let sinceLastNote = 0;
 // Which sample ran before the current one, so a failure that comes from inherited state can name it.
 let previous = null;
 
-for (const name of list) {
+for (const name of parsed.keys()) {
     const sample = parsed.get(name);
     const needsUncovered = [...referenceNamesIn(sample)].filter(ref => uncovered.has(ref));
     if (needsUncovered.length > 0) {
         skipped.push({ name, needs: needsUncovered });
+        continue;
+    }
+    // A component whose package is not installed here is the same case as a library item that needs
+    // one: not checked, rather than failed.
+    //
+    // Recognised by the name, because that is how this project already draws the line: a description
+    // whose name begins with "Web" is one of the modern web components, which version on their own line
+    // and are not what this documentation covers. The renderer cannot be asked instead — the core
+    // package carries descriptions for components it does not ship the elements for.
+    const uninstalled = webComponentTypesIn(sample);
+    if (uninstalled.length > 0) {
+        skipped.push({ name, needs: uninstalled.map(type => `the ${type} component`) });
         continue;
     }
     current = name;
@@ -452,11 +733,16 @@ for (const name of list) {
     if (problems.length === 0) {
         passed++;
         if (VERBOSE) console.log(`  ok    ${name}`);
+        else if (++sinceLastNote >= 50) {
+            // Something on the console every so often, so a long run is distinguishable from a stuck one.
+            sinceLastNote = 0;
+            console.log(`  … ${passed} loaded clean so far (${name})`);
+        }
         previous = name;
         continue;
     }
     failures.push({ name, problems });
-    console.log(`  FAIL  ${name}`);
+    console.log(`  FAIL  ${name}${neverExported.has(name) ? '  (marked not exported)' : ''}`);
     // A crash is reported whole: it cannot be reproduced by reading further down the log.
     const show = problems.some(p => p.startsWith('the page stopped answering')) ? problems.length : 6;
     for (const problem of problems.slice(0, show)) console.log(`          ${problem}`);
@@ -479,6 +765,49 @@ async function ensureHarness() {
 }
 
 /**
+ * How much of the page is not white, after a sample has settled.
+ *
+ * A screenshot rather than a count of elements: what matters is whether something is visible, and a
+ * component can add elements and draw nothing. Decoded here rather than by an image library, because the
+ * question is one comparison per pixel.
+ */
+async function howMuchWasDrawn(name) {
+    const root = await page.$('#root');
+    if (root === null) return null;
+    try {
+        const shot = await root.screenshot({ type: 'png' });
+        const measured = fractionNotWhite(shot);
+        if (SHOT_DIR && measured.fraction < BLANK) {
+            // Kept, because "it rendered nothing" is a claim worth being able to check.
+            const file = path.join(SHOT_DIR, name.replace(/[\\/]/g, '_').replace(/\.json$/, '') + '.png');
+            fs.mkdirSync(SHOT_DIR, { recursive: true });
+            fs.writeFileSync(file, shot);
+        }
+        return measured;
+    } catch (e) {
+        return null;
+    }
+}
+
+/**
+ * How much the page is holding, sampled until the load settles.
+ *
+ * peakHeap is what a crash report needs: a page that dies is holding something, and the last reading
+ * before it went is the difference between "out of memory" and "something threw".
+ */
+async function watchHeap(until) {
+    let running = true;
+    until.then(() => { running = false; }, () => { running = false; });
+    while (running) {
+        const reading = await page.evaluate(
+            '(performance.memory && performance.memory.usedJSHeapSize) || 0').catch(() => -1);
+        if (reading === -1) return;                     // the page is gone; the last peak stands
+        if (reading > peakHeap) peakHeap = reading;
+        await new Promise(resolve => setTimeout(resolve, 250));
+    }
+}
+
+/**
  * Everything known about a page that stopped answering.
  *
  * "Target crashed" on its own says nothing anyone can act on. What is available at that moment: the
@@ -497,11 +826,20 @@ function describeLostPage(name, error, heapBefore) {
     // The renderer collects rather than throws, so it may well have said what was wrong before the tab
     // went. Those never came back with the call; they came out on the console as they happened.
     for (const said of rendererSaid.slice(-8)) lines.push(`the renderer reported: ${said}`);
+    for (const said of canvasSaid.slice(-6)) lines.push(`and: ${said} — four bytes a pixel is where the memory went`);
+    for (const said of memorySaid.slice(-4)) lines.push(`it had allocated: ${said}`);
+    for (const said of drawnSaid.slice(-4)) lines.push(`it was drawing: ${said}`);
+    if (canvasSaid.length > 0) {
+        lines.push('so the memory went on canvases, not on the JS heap');
+    }
     const said = browserProblems.get(name) ?? [];
     for (const problem of said.slice(-6)) lines.push(`the page said: ${problem}`);
     for (const line of chatter.slice(-8)) lines.push(`the page logged: ${line}`);
     if (heapBefore > 0) {
         lines.push(`it was holding ${(heapBefore / (1024 * 1024)).toFixed(0)}MB before this sample`);
+    }
+    if (peakHeap > 0) {
+        lines.push(`and ${(peakHeap / (1024 * 1024)).toFixed(0)}MB at the last reading before it went`);
     }
     const fromBrowser = browserLog.filter(line =>
         /error|fatal|out of memory|oom|signal|crash|check failed|abort/i.test(line));
@@ -539,15 +877,32 @@ function describeSample(name) {
 async function loadOnce(name, sample) {
     let result;
     crashed = false;
+    peakHeap = 0;
     stages = [];
     chatter = [];
     rendererSaid = [];
+    canvasSaid = [];
+    memorySaid = [];
+    drawnSaid = [];
     const heapBefore = lastHeap;
     try {
         await ensureHarness();
-        result = await page.evaluate(
+        // Watched while it loads, not before. The stages a sample goes through are asynchronous, so the
+        // page comes back to the event loop between them and can be asked how much it is holding — which
+        // is the only way to know what it was holding when it died, since the load itself never returns.
+        const loading = page.evaluate(
             ([json, timeout]) => window.igSampleHarness.load(json, { timeout }),
             [sample, TIMEOUT]);
+        const watching = watchHeap(loading);
+        // A hard cap, because page.evaluate has no timeout of its own: a tab that goes down in the
+        // wrong way leaves the call waiting for ever, and a check that hangs is worse than one that
+        // fails. The cap allows for the waits inside — idle, flush, animations — and then gives up.
+        result = await Promise.race([
+            loading,
+            new Promise((resolve) => setTimeout(() => resolve(WEDGED), TIMEOUT + 20000)),
+        ]);
+        await watching;
+        if (result === WEDGED) return describeLostPage(name, new Error('it never answered'), heapBefore);
     } catch (e) {
         return describeLostPage(name, e, heapBefore);
     }
@@ -558,10 +913,22 @@ async function loadOnce(name, sample) {
     for (const problem of result.enumProblems ?? []) {
         enumProblems.set(problem, (enumProblems.get(problem) ?? 0) + 1);
     }
+    if (drawnSaid.some(said => said.includes('not a number'))) {
+        drewNonsense.add(name);
+    }
     for (const problem of result.leftBehind ?? []) {
         // The teardown of whatever ran before this one complained. Named against that sample, since
         // that is whose state it is.
         leftBehind.push({ after: previous, problem });
+    }
+
+    // Did anything actually get drawn? A sample can load without a complaint and put nothing on the
+    // page — a series bound to nothing, a component that measured zero — and no error says so. The
+    // page is a white plate, so a screenshot with no pixel other than white means nothing rendered.
+    let rendered = null;
+    if (SHOTS) {
+        rendered = await howMuchWasDrawn(name);
+        if (rendered !== null) drawnFraction.set(name, rendered);
     }
 
     const heap = await page.evaluate(
@@ -576,6 +943,14 @@ async function loadOnce(name, sample) {
         ...result.errors.map(e => `renderer: ${e.split('\n')[0]}`),
         ...(result.timedOut ? [`never went idle within ${TIMEOUT}ms`] : []),
         ...(result.animationTimedOut ? ['animations never settled'] : []),
+        ...(result.bigCanvases ?? []).map(c => `asked for a canvas it cannot need: ${c}`),
+        ...(result.initialisers ?? []).map(p => `a handler the sample runs at start-up: ${p}`),
+        // Drawing nothing is a failure for a sample, which is a whole runnable page, and information
+        // for a definition, which is usually an excerpt: a topic teaching one property states the
+        // component and the property and no data, and there is nothing for it to draw.
+        ...(rendered !== null && rendered.fraction < BLANK && FROM_SAMPLES
+            ? [`rendered nothing: the page is still ${(100 - rendered.fraction * 100).toFixed(1)}% white`]
+            : []),
         ...(browserProblems.get(name) ?? []),
     ];
 }
@@ -598,6 +973,29 @@ if (skipped.length > 0) {
                     (entry.needs.length > 3 ? `, and ${entry.needs.length - 3} more` : ''));
     }
     if (skipped.length > 8) console.log(`  … and ${skipped.length - 8} more`);
+}
+
+if (drawnFraction.size > 0) {
+    const blank = [...drawnFraction].filter(([, m]) => m.fraction < BLANK).map(([name]) => name);
+    const median = [...drawnFraction.values()].map(m => m.fraction).sort((a, b) => a - b)[
+        Math.floor(drawnFraction.size / 2)];
+    console.log(`\n[runtime] the typical one covered ${(median * 100).toFixed(0)}% of the page; ` +
+                `${blank.length} drew nothing`);
+    // Which of those had data to draw. One that binds nothing is an excerpt and is expected to be
+    // empty; one that binds data and still draws nothing is worth a look.
+    const withData = blank.filter(name => bindsData(parsed.get(name)));
+    for (const name of withData.slice(0, 10)) {
+        console.log(`  ${name} — binds data and still drew nothing` +
+                    `${neverExported.has(name) ? ', and is marked not exported' : ''}`);
+    }
+    if (withData.length === 0 && blank.length > 0) {
+        console.log(`  all of them state a component without data, which is what an excerpt looks like`);
+    }
+}
+
+if (drewNonsense.size > 0) {
+    console.log(`\n[runtime] ${drewNonsense.size} sample(s) drew coordinates that are not numbers:`);
+    for (const name of [...drewNonsense].slice(0, 8)) console.log(`  ${name}`);
 }
 
 if (enumProblems.size > 0) {
@@ -643,7 +1041,7 @@ if (heapBySample.length > 2) {
     for (const jump of jumps) console.log(`  +${mb(jump.grew)}MB at ${jump.name}`);
 }
 
-console.log(`\n${passed} of ${list.length - skipped.length} sample(s) loaded clean, ` +
+console.log(`\n${passed} of ${parsed.size - skipped.length} loaded clean, ` +
             `${failures.length} failed, ${contaminated.length} only in sequence, ` +
             `${skipped.length} not checked`);
 
