@@ -20,7 +20,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { loadSnippetApi, resolveExamplesRoot } from './lib/snippet-toolchain.mjs';
+import { loadSnippetApi, resolveExamplesRoot, platformBlocksOf, platformsAllowedAt }
+    from './lib/snippet-toolchain.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -100,11 +101,14 @@ function hasInclusionMarker(node) {
     return false;
 }
 
-let checked = 0, failures = 0, skipped = 0;
+let checked = 0, failures = 0, skipped = 0, gatedOut = 0;
+/** Every (item, platform) the library cannot answer for, and the fences that ran into it. */
+const libraryGaps = new Map();
 const byId = new Map();
 for (const file of files.sort()) {
     if (ONLY && !file.includes(ONLY)) continue;
     const text = fs.readFileSync(file, 'utf-8');
+    const blocks = platformBlocksOf(text);
     for (const fence of fencesOf(text)) {
         const where = `${file.split('/content/')[1]}:${fence.line}`;
         let body = fence.body;
@@ -112,9 +116,14 @@ for (const file of files.sort()) {
         if (fence.attrs.ref) body = byId.get(fence.attrs.ref) ?? body;
         if (!body.trim()) continue;
 
+        // A section the reader of this platform never sees is not this platform's to emit.
+        const shownTo = platformsAllowedAt(blocks, fence.line);
+
         for (const platform of PLATFORMS) {
-            // The fence's own exclusions still apply: a snippet that says it is not for a platform
-            // is not expected to emit there.
+            if (!shownTo.has(platform)) { gatedOut++; continue; }
+            // The fence's own exclusions still apply to what it emits: a snippet that says it is not
+            // for a platform is not expected to emit there. What they do not excuse is a library item
+            // that is missing for a platform, which is reported above wherever it is found.
             const excluded = (fence.attrs.exclude || '').split(',').map(s => s.trim()).filter(Boolean);
             const isXaml = platform === 'WinUI' || platform === 'Uno';
             if (excluded.includes(platform) || (isXaml && excluded.includes('Xaml'))) { skipped++; continue; }
@@ -122,8 +131,9 @@ for (const file of files.sort()) {
             checked++;
             try {
                 const channel = fence.attrs.channel;
+                const unresolved = [];
                 const opts = { examplesRoot: EXAMPLES, styleDefaults: styleFor(platform),
-                               defaultSnippetId: 'main' };
+                               defaultSnippetId: 'main', missingRefsOut: unresolved };
                 if (!channel || channel === 'markup') {
                     // A body that is an array states several definitions, emitted one after another,
                     // so each is checked on its own.
@@ -181,6 +191,16 @@ for (const file of files.sort()) {
                     // — but a fence where every region is empty produces an empty block.
                     if (produced.trim() === '') throw new Error('emitted nothing');
                 }
+                // The renderer's own account of what it could not resolve, after the attempt. A name it
+                // never found a value for is a gap in the library or a typo in the definition; either
+                // way the topic publishes something bound to nothing.
+                if (unresolved.length > 0) {
+                    for (const ref of unresolved) {
+                        const key = `${ref} [${platform}]`;
+                        if (!libraryGaps.has(key)) libraryGaps.set(key, []);
+                        libraryGaps.get(key).push(where);
+                    }
+                }
             } catch (e) {
                 failures++;
                 console.log(`${where} [${platform}] ${fence.attrs.channel || 'markup'}: ${e.message.split('\n')[0]}`);
@@ -190,5 +210,17 @@ for (const file of files.sort()) {
 }
 
 console.log(`\n${checked} emission(s) checked across ${PLATFORMS.length} platforms, ` +
-            `${skipped} skipped by exclusion, ${failures} failed`);
-process.exit(failures > 0 ? 1 : 0);
+            `${skipped} skipped by exclusion, ${gatedOut} in sections the platform is not shown, ` +
+            `${failures} failed`);
+
+if (libraryGaps.size > 0) {
+    console.error('');
+    console.error(`${libraryGaps.size} unresolved ref(s) — the renderer loaded the definition and ` +
+                  `never found a value for these. Whatever is missing is what to write: excluding a ` +
+                  `platform from the fence only hides it.`);
+    for (const [key, wheres] of [...libraryGaps.entries()].sort()) {
+        console.error(`  ${key}`);
+        console.error(`      named by ${wheres.length} fence(s), first ${wheres[0]}`);
+    }
+}
+process.exit(failures > 0 || libraryGaps.size > 0 ? 1 : 0);

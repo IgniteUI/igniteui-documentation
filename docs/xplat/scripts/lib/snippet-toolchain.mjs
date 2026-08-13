@@ -291,3 +291,50 @@ export function mdxFilesUnder(dir) {
     })(dir);
     return files.sort();
 }
+
+/** Every platform a topic can be read as. Xaml is the two that share XAML markup. */
+export const ALL_PLATFORMS = ['Angular', 'React', 'WebComponents', 'Blazor', 'WinUI', 'WPF'];
+
+/** "Xaml" stands for the two platforms that share XAML markup; everything else names itself. */
+export function expandPlatforms(names) {
+    const out = new Set();
+    for (const name of names) {
+        const trimmed = String(name).trim();
+        if (trimmed === 'Xaml') { out.add('WinUI'); out.add('WPF'); }
+        else if (ALL_PLATFORMS.includes(trimmed)) out.add(trimmed);
+    }
+    return out;
+}
+
+/**
+ * The PlatformBlock ranges in a page, as line spans with the platforms they are shown to.
+ *
+ * A section a platform cannot see is not that platform's problem: nothing in it is expected to emit
+ * there, and nothing in it leaves prose without code. Both checks read containment from here rather
+ * than each keeping its own idea of it.
+ */
+export function platformBlocksOf(text) {
+    const lines = text.split('\n');
+    const blocks = [];
+    const open = [];
+    lines.forEach((line, i) => {
+        const start = line.match(/<PlatformBlock\s+for="([^"]*)"/);
+        if (start) {
+            open.push({ from: i + 1, allows: expandPlatforms(start[1].split(',')) });
+            return;
+        }
+        if (line.includes('</PlatformBlock>') && open.length > 0) {
+            const b = open.pop();
+            blocks.push({ ...b, to: i + 1 });
+        }
+    });
+    return blocks;
+}
+
+/** Which platforms a line is shown to, given the blocks around it. All of them when ungated. */
+export function platformsAllowedAt(blocks, line) {
+    const around = blocks.filter(b => line > b.from && line < b.to);
+    if (around.length === 0) return new Set(ALL_PLATFORMS);
+    return around.map(b => b.allows)
+        .reduce((a, b) => new Set([...a].filter(x => b.has(x))));
+}

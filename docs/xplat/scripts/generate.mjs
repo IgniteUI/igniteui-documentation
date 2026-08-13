@@ -1011,7 +1011,10 @@ function emitChannel(api, json, channel, styleDefaults, only) {
     // Only for the channels a handler writes to. Asking one for markup, or for the binding code the
     // companion fence probes, leaves the library item requested and never emitted, which is an
     // error — so a sample can keep its handlers listed while a fence shows only its markup.
-    if (HANDLER_CHANNELS.has(channel)) {
+    //
+    // A fence naming one item asks for that item's code whatever the channel is called: a region of
+    // it is a channel token too, and the set below cannot list names an item invents.
+    if (HANDLER_CHANNELS.has(channel) || only) {
         for (const list of ['onInit', 'onViewInit']) {
             if (parsed[list] !== undefined) parsed[`$${list}`] = `+doc:${channel}`;
         }

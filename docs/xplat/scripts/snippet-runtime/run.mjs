@@ -333,7 +333,15 @@ function fenceCases() {
                 definitions.forEach((definition, i) => {
                     const name = `${where}:${fence.line}` +
                         (definitions.length > 1 ? `#${i + 1}` : '');
-                    cases.push({ name, sample: loadable(definition, fence.attrs) });
+                    cases.push({
+                        name,
+                        sample: loadable(definition, fence.attrs),
+                        // A fence that publishes one library item's code states only enough of a page
+                        // for the emitter to reach that item: the markup the item works against stays
+                        // on the fence that publishes the whole thing. Its start-up handlers are not
+                        // run here, because they would be run against a page deliberately left out.
+                        publishesOneItem: fence.attrs.item !== undefined,
+                    });
                 });
             }
         }
@@ -463,6 +471,8 @@ console.log(`[runtime] ${cases.length} ${FROM_SAMPLES || named.length > 0 ? 'sam
 
 const wanted = new Set();
 const parsed = new Map();
+/** Fences that publish one library item's code, whose definition is not a whole page. */
+const itemExcerpts = new Set();
 const notExported = [];
 for (const one of cases) {
     // A sample marked as not exported is still checked. The flag is not a statement that it is wrong —
@@ -470,6 +480,7 @@ for (const one of cases) {
     // say it has probably never run in a browser, which is worth knowing beside a failure.
     if (one.sample.export === false) notExported.push(one.name);
     parsed.set(one.name, one.sample);
+    if (one.publishesOneItem) itemExcerpts.add(one.name);
     referenceNamesIn(one.sample, wanted);
 }
 const neverExported = new Set(notExported);
@@ -875,6 +886,7 @@ function describeSample(name) {
 
 /** One attempt at a sample, as a list of complaints. Empty means it loaded clean. */
 async function loadOnce(name, sample) {
+    const runInitialisers = !itemExcerpts.has(name);
     let result;
     crashed = false;
     peakHeap = 0;
@@ -891,8 +903,9 @@ async function loadOnce(name, sample) {
         // page comes back to the event loop between them and can be asked how much it is holding — which
         // is the only way to know what it was holding when it died, since the load itself never returns.
         const loading = page.evaluate(
-            ([json, timeout]) => window.igSampleHarness.load(json, { timeout }),
-            [sample, TIMEOUT]);
+            ([json, timeout, runInitialisers]) =>
+                window.igSampleHarness.load(json, { timeout, runInitialisers }),
+            [sample, TIMEOUT, runInitialisers]);
         const watching = watchHeap(loading);
         // A hard cap, because page.evaluate has no timeout of its own: a tab that goes down in the
         // wrong way leaves the call waiting for ever, and a check that hangs is worse than one that

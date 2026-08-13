@@ -307,6 +307,29 @@ CodeGenHelper.findByNameLookup = (name) => {
 };
 
 /**
+ * The objects other items' methods are on, for the current definition only.
+ *
+ * A generated sample has every item a definition lists in the one component, so an item reaching
+ * another's method reaches it on itself. Emitted apart, each item is its own holder, and the request is
+ * what makes the reference resolvable: it names the item whose methods are wanted.
+ *
+ * Held by the load rather than by the helper, and dropped when the next one begins — a shared object
+ * that outlived the definition that asked for it would hand the next definition the state of the last.
+ */
+let sharedSupporting = new Map();
+
+CodeGenHelper.sharedSupportingLookup = (itemName) => {
+    if (!LibraryManager.instance.hasItem(itemName)) return null;
+    if (!sharedSupporting.has(itemName)) {
+        sharedSupporting.set(itemName, LibraryManager.instance.getHolderInstance(itemName));
+    }
+    return sharedSupporting.get(itemName);
+};
+CodeGenHelper.newSupportingLookup = (itemName) => (
+    LibraryManager.instance.hasItem(itemName)
+        ? LibraryManager.instance.getHolderInstance(itemName) : null);
+
+/**
  * Member paths, altered in concert with the data the library emitted.
  *
  * The emitter alters casing on both halves at once: it camelises a data item's members and camelises
@@ -471,6 +494,9 @@ async function load(sample, options) {
     // Whether this sample's data was emitted unaltered, which decides whether its paths are altered.
     keepCasingAsWritten = !!(sample && sample.skipAlterDataCasing === true);
 
+    // Nothing shared by the definition before this one survives into it.
+    sharedSupporting = new Map();
+
     teardownProblems = [];
     enumProblems.length = 0;
     bigCanvases.length = 0;
@@ -559,7 +585,10 @@ async function load(sample, options) {
     // library gives the method, bound to its holder, and a sample whose configuration lives in one of
     // these renders nothing without it.
     const initialisers = [];
-    if (thrown.length === 0) {
+    // Not run for a fence that publishes one library item's code: its definition states only enough of
+    // a page to reach that item, so a handler expecting the rest of it would fail on the omission
+    // rather than on anything wrong.
+    if (thrown.length === 0 && (!options || options.runInitialisers !== false)) {
         for (const list of ['onInit', 'onViewInit']) {
             const value = sample && sample[list];
             const names = typeof value === 'string' ? [value] : Array.isArray(value) ? value : [];
