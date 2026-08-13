@@ -60,6 +60,7 @@ import {
 import { buildSidebarFromToc } from './sidebar';
 import { getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
+import { getGtmContainerId } from './lib/platform-context.js';
 import { remarkEnvVars } from './plugins/remark-env-vars';
 import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
@@ -667,6 +668,16 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_PLATFORM = platform;
     }
 
+    // Google Tag Manager — first in <head>, as high as possible after the
+    // mandatory charset/viewport/title tags rendered by DocsLayout. Container ID
+    // is resolved per build mode (production vs. staging/development); see
+    // `getGtmContainerId()` for the resolution order.
+    const gtmContainerId = getGtmContainerId();
+    const gtmHead: HeadEntry[] = [{
+        tag: 'script',
+        content: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');`,
+    }];
+
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
 
@@ -755,7 +766,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
-                head: [...platformHead, ...codeViewHead, ...head],
+                head: [...gtmHead, ...platformHead, ...codeViewHead, ...head],
             }),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
