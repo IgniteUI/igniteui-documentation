@@ -12,10 +12,24 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
 
 ## Checks
 
+### Category/index exception
+Classify the topic before applying the checks below. A category/index page is evaluated against the
+category blueprint in `house-style.md`, not the component-topic checklist. Do not report missing
+component sections such as `Live Demo`, `Getting Started`, or `Usage`
+when the page follows a concise introductory block (a definition plus brief scope or purpose context,
+when needed) and `Key Features` (with a short intro and a `Feature` / `Description` /
+`Benefits` table) → top-level `Types/Members` section with each concrete type as its own
+navigable `###` child subsection and a verified sample → `Next Steps` → `Accessibility` →
+`API References` → `Additional Resources` → `FAQ`. Report component-topic sections such as `Live Demo`,
+`Getting Started`, or `Properties` in the category introduction as information-architecture drift
+instead. Do not require optional supporting sections when the category has no verified category-wide
+content for them.
+
 ### A. Structure & order
 - A1 (Error) A required section or subsection is missing (`## Live Demo`, Anatomy, Getting Started
   with `### Prerequisites and Version Compatibility`, Usage, Properties, Accessibility,
-  Known Limitations, API References, Dependencies, Additional Resources, Related Components, and
+  Known Limitations (as a top-level section or a `### Known Limitations` subsection under
+  `Troubleshooting`), API References, Dependencies, Additional Resources, Related Components, and
   FAQ on a component topic. **Troubleshooting** is conditional and is required only when the topic
   contains version-migration, deprecation, or legacy-setup notes.)
 - A2 (Warning) Sections are present but out of the canonical order.
@@ -32,7 +46,8 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
   **When to use:** / **When not to use:** are written as nested headings instead of inline labels
   inside that subsection.
 - A8 (Warning) **Anatomy** is incomplete: missing its opening screenshot/GIF (or a `{/* TODO */}`
-  marker for a not-yet-available asset), or missing the verified DOM tree / skeleton.
+  marker for a not-yet-available asset), missing the shared Astro `<Anatomy>` component, or missing
+  the verified DOM tree / skeleton.
 - A9 (Warning) **Accessibility** is missing one of its three required `###` sub-sections —
   **Keyboard Interaction**, **Screen Readers / ARIA**, **Accessibility Compliance** — or has them out
   of order.
@@ -44,6 +59,8 @@ concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fi
   component-specific.
 - A12 (Warning) A slot-mode FAQ does not set `indicatorPosition="end"` on every `<FaqItem>`;
   setting it only on `<Faq>` does not affect slotted children.
+- A13 (Warning) A component topic uses a hand-written anatomy image block instead of the shared
+  Astro `<Anatomy>` component, or uses a hand-written sample iframe instead of `<Sample>`.
 
 ### B. Naming
 - B1 (Warning) A heading uses a drifted name with a standard equivalent (see reconciliation table).
@@ -103,11 +120,8 @@ Run the compass on each section; flag content that has drifted out of the sectio
   `https://www.infragistics.com/api/blazor`). Use typed source for implementation details not exposed
   by API docs, and official framework docs for framework/version behavior; if unverifiable, don't
   assert it. Existing topic snippets/prose are not sufficient proof.
-- D10 (Error) A component topic is missing the required `last_updated` metadata, or is missing the
-  corresponding visible `**Last updated:** Month D, YYYY` line immediately after the lead paragraph,
-  uses a different placement or format, or duplicates the date elsewhere in the body. The visible
-  value must be generated from or match the `last_updated` metadata and must not be manually hard-coded
-  independently in the body.
+- D10 (Error) A topic is missing the required `last_updated` metadata. The date must be stored in
+  frontmatter and rendered by the site layout; do not duplicate it as MDX/Markdown content.
 - D11 (Warning) **Voice/tone drift** — prose isn't imperative/second-person present tense, mixes
   first-person-plural narration ("we create") with how-to, or carries filler ("simply", "just") or
   marketing inside instructional prose.
