@@ -40,9 +40,12 @@ As you can see, the application has applied default theming, which is [material 
 ```scss
 /* You can add global styles to this file, and also import other style files */
 
-// Standard CSS normalize, comment out if not required or using a different module
-@use "minireset.css/minireset";
 @use "@infragistics/igniteui-angular/theming" as *;
+
+// Standard CSS normalize, remove if it is not required.
+@layer ig.reset {
+  @import "minireset.css";
+}
 
 @include core();
 @include typography();
@@ -124,9 +127,7 @@ $toolbar-theme: grid-toolbar-theme(
   $background: $primary
 );
 
-:host {
-  @include tokens($toolbar-theme);
-}
+@include tokens($toolbar-theme);
 /* END Grid Toolbar */
 ```
 
@@ -141,8 +142,11 @@ The same process can be applied to override and customize any of the component t
 Now let's dig even deeper and create two custom versions of the theme, which can be switched between at runtime. We can do this with user control/preference and let them switch it at any time. For the example, however, we will use the OS defined user preference (light or dark) in order to apply a theme, which matches the current OS setting. In order to do this, we will need two color palettes:
 
 ```scss
-@use "minireset.css/minireset";
 @use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
 
 @include core();
 @include typography($font-family: "Poppins");
@@ -352,7 +356,7 @@ export class AppRoutingModule {
 
 Now we remove the `IgxTreeGridModule` and `IgxComboModule` imports, as well as the `EmployeesComponent` declaration, from our `app.module.ts` because we don't use them in any other views and a component can only be declared in one module.
 
-Then we move the custom `igx-grid`, `igx-grid-toolbar`, and `igx-combo` token overrides out of the global stylesheet and colocate them with the component that uses them, in `employees.component.scss`. Because these are just CSS custom properties, there's no need for `::ng-deep` to reach past `ViewEncapsulation`:
+Then we move the custom `igx-grid`, `igx-grid-toolbar`, and `igx-combo` themes out of the global stylesheet and colocate them with the component that uses them, in `employees.component.scss`. We use scoped mode because the components are excluded from the global `theme()` output below. CSS custom properties normally inherit through Emulated View Encapsulation; if a generated selector for a nested component does not match, wrap only that include in `::ng-deep` or move it to a global stylesheet:
 
 ```scss
 /* employees.component.scss */
@@ -367,32 +371,44 @@ Then we move the custom `igx-grid`, `igx-grid-toolbar`, and `igx-combo` token ov
 
   $primary: #1028c7;
 
-  @include tokens(grid-theme(
-    $schema: $dark-material-schema,
-    $background: #1a1a1a,
-    $foreground: #fff,
-    $accent-color: $primary
-  ));
+  @include tokens(
+    grid-theme(
+      $schema: $dark-material-schema,
+      $background: #1a1a1a,
+      $foreground: #fff,
+      $accent-color: $primary
+    ),
+    $mode: 'scoped'
+  );
 
-  @include tokens(combo-theme(
-    $schema: $dark-material-schema,
-    $toggle-button-background: $primary
-  ));
+  @include tokens(
+    combo-theme(
+      $schema: $dark-material-schema,
+      $toggle-button-background: $primary
+    ),
+    $mode: 'scoped'
+  );
 
-  @include tokens(grid-toolbar-theme(
-    $schema: $dark-material-schema,
-    $background: $primary
-  ));
+  @include tokens(
+    grid-toolbar-theme(
+      $schema: $dark-material-schema,
+      $background: $primary
+    ),
+    $mode: 'scoped'
+  );
 }
 ```
 
-With those overrides moved out, the top-level stylesheet no longer needs to exclude `igx-grid`, `igx-combo`, and `igx-grid-toolbar` from its token output — it can generate tokens for them using the shared app-wide palette and schema like any other component, while the Employees view supplies its own richer overrides on top:
+Because the Employees stylesheet now emits complete scoped themes, the top-level stylesheet can continue excluding `igx-grid`, `igx-combo`, and `igx-grid-toolbar` from its token output. It only emits global tokens for the shared components listed in `$include`:
 
 ```scss
 /* Updated styles.scss */
 @use "sass:map";
-@use "minireset.css/minireset";
 @use "@infragistics/igniteui-angular/theming" as *;
+
+@layer ig.reset {
+  @import "minireset.css";
+}
 
 @include core();
 @include typography($font-family: "Poppins");

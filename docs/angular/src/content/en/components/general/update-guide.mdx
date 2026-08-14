@@ -65,27 +65,62 @@ For example: if you are updating from version 6.2.4 to 7.1.0 you'd start from th
 
 ## From 22.0.x to 22.1.x
 
-Ignite UI for Angular 22.1.0 finishes the migration to the `tokens()` mixin as the single way to apply a component theme and moves component structural styles into each component's own bundle. Most of the following changes are rewritten automatically by the `ng update` migration for 22.1.0, but if you have code that isn't picked up automatically (e.g. non-standard formatting, aliased imports), here's what changed:
+Ignite UI for Angular 22.1.0 finishes the migration to the `tokens()` mixin and moves component structural styles into each component's bundle. The `ng update` migration performs the following syntactic changes automatically:
 
-- The individual per-component Sass theme wrapper mixins (`avatar`, `badge`, `banner`, `card`, `dialog`, `tabs`, and the rest of the previously deprecated component mixins, including the grid/pivot mixins) have been removed. Replace any remaining `@include <component>(<component>-theme(...))` call with `@include tokens(<component>-theme(...))`.
+- Replaces the removed per-component Sass wrapper mixins (`avatar`, `badge`, `banner`, `card`, `dialog`, `tabs`, the grid and pivot mixins, and the rest of the previously deprecated wrappers) with `tokens()`.
+- Removes calls to the deleted per-component `-typography` mixins, such as `badge-typography`, `dialog-typography`, and `checkbox-typography`. Typography is now applied through component tokens. See [Typography](/themes/sass/typography#component-typography) for component-specific overrides.
+- Removes deep Sass imports of structural partials, such as `igniteui-angular/lib/core/styles/components/avatar/avatar-component`, and their matching `component()` calls. Structural styles now ship automatically with the component bundle.
+- Renames direct imports and usages of `IgxDividerDirective` to `IgxDividerComponent`. `IgxDividerModule` is unaffected.
+
+Review migrated `tokens()` calls manually. The migration cannot determine whether a wrapper mixin represented an ordinary universal-token override or relied on component-local declarations. Keep the generated default mode unless testing or the theme's structure shows that local declarations are required. In that situational case, add `$mode: 'scoped'`:
 
 ```scss
 // Before
 .my-avatar {
-    @include avatar(avatar-theme($background: red));
+  @include avatar(avatar-theme($background: red));
 }
 
 // After
 .my-avatar {
-    @include tokens(avatar-theme($background: red));
+  @include tokens(
+    avatar-theme($background: red),
+    $mode: 'scoped'
+  );
 }
 ```
 
-- The per-component `-typography` mixins (`badge-typography`, `dialog-typography`, `checkbox-typography`, etc.) have been removed. Typography is now applied automatically as part of each component's tokens, so calls to these mixins should simply be deleted. See [Typography](/themes/sass/typography#component-typography) for how to scope a typography override to a specific component instance instead.
-- Deep Sass imports of per-component structural partials (e.g. `igniteui-angular/lib/core/styles/components/avatar/avatar-component`) and their `component()` mixin calls are no longer needed and should be removed — structural styles now ship automatically with each component's bundle.
-- `IgxDividerDirective` has been renamed to `IgxDividerComponent`. `IgxDividerModule` still exports the same component under the same name, so applications that only use the module import are unaffected; only direct standalone imports of `IgxDividerDirective` need updating.
+Start with the default global mode, including when replacing most `css-vars()` calls. If the component remains in the global `theme()` output, its local declarations can consume the universal tokens and no scoped mode is usually needed.
 
-For details on the underlying tree-shaking and cascade-layering changes, see [Component Themes](/themes/sass/component-themes) and [Global Themes](/themes/sass/global-themes#excluding-components).
+Use scoped mode only when the default output does not provide the component-local declarations required by the customization. Typical cases include:
+
+- The removed wrapper established a complete local theme whose behavior is not preserved by universal token overrides alone.
+- The component is listed in the global `theme()` mixin's `$exclude` list. In that case, the global theme does not emit the local declarations consumed by the component's structural stylesheet.
+- The theme uses component-local sizing expressions. Global mode intentionally omits sizing values that depend on local sizing variables.
+- The theme map contains multiple selectors, such as a component host and a ghost or overlay selector. Detached overlays must be themed from a selector that can match the overlay at its outlet, usually in a global stylesheet.
+- The local theme changes the design system or light/dark variant. Pass the corresponding `$schema` to the component theme function so scoped mode emits the correct theme metadata.
+
+Do not add scoped mode indiscriminately. Keep the default global mode for ordinary `--ig-<component>-*` overrides, whether application-wide or restricted by a selector. The component must remain included in the global `theme()` output so its local declarations can consume those universal tokens:
+
+```scss
+@include tokens(
+  avatar-theme(
+    $schema: $dark-material-schema,
+    $background: var(--ig-primary-500)
+  )
+);
+```
+
+Scoped mode does not universally remove the need for `::ng-deep`. Angular's Emulated View Encapsulation may still prevent selectors generated for nested or internal elements from matching. Preserve `::ng-deep` where testing shows it is required, or move that theme include to a global stylesheet. For a detached overlay, `::ng-deep` alone is insufficient; the theme must match or be inherited at the overlay outlet.
+
+Ignite UI styles now use the cascade order `ig.reset` → `ig.base` → the active design-system layer (`ig.material`, `ig.bootstrap`, `ig.fluent`, or `ig.indigo`) → `ig.derived`. If your application loads a reset or normalize stylesheet, place it in the lowest-precedence reset layer so it cannot override component styles:
+
+```scss
+@layer ig.reset {
+  @import "minireset.css";
+}
+```
+
+For details, see [Component Themes](/themes/sass/component-themes) and [Global Themes](/themes/sass/global-themes#excluding-components).
 
 ## From 21.1.x to 22.0.x
 
