@@ -31,7 +31,7 @@ import path from 'path';
 import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import {
-    resolveExamplesRoot, mdxFilesUnder, fencesOf, XPLAT_ROOT,
+    resolveExamplesRoot, resolveItemTemplates, mdxFilesUnder, fencesOf, XPLAT_ROOT,
 } from '../lib/snippet-toolchain.mjs';
 import { fractionNotWhite } from './png.mjs';
 
@@ -150,6 +150,9 @@ function emitLibrary(api, names) {
 
     const emitted = api.emitLibrary('WebComponents', {
         examplesRoot: examples,
+        // The item templates a library is emitted through: dev-tools when there is a checkout,
+        // this repository's copy otherwise, which is every run in CI.
+        templatesRoot: resolveItemTemplates(),
         only: [...names].sort(),
         // Per item, from the samples themselves, the way the library project emitter's sample analyzer
         // builds it: a sample that declares skipAlterDataCasing has bound something that cannot be

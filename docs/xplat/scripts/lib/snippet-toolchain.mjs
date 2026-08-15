@@ -84,27 +84,32 @@ export function resolveSnippetApiPaths() {
     if (spike) {
         const api = path.join(spike, 'dist', 'snippet-api.cjs');
         const shim = path.join(spike, 'dom-shim.js');
-        if (!fs.existsSync(api)) {
-            fail(`found a dev-tools checkout but the emitter is not built:\n` +
-                 `  ${api}\n\n` +
-                 `build it with:\n` +
-                 `  cd ${spike}\n` +
-                 `  node collect-ts.js && npm run build`);
+        if (fs.existsSync(api)) {
+            return { api, shim, from: path.relative(REPO_ROOT, spike) };
         }
-        return { api, shim, from: path.relative(REPO_ROOT, spike) };
+        // A checkout that has not been built is not a reason to stop: this repository builds its own
+        // from the published packages, and that is what the run falls to. Said out loud, because
+        // someone with dev-tools open probably meant to test their change to it.
+        console.log(`[emitter] dev-tools is checked out but its emitter is not built, so the ` +
+                    `published one is being used. To test your change:\n` +
+                    `  cd ${spike}\n` +
+                    `  node collect-ts.js && npm run build`);
     }
 
-    // A package, which is how CI works once the emitter ships in one. Kept last so a local
-    // checkout always wins: someone with dev-tools open is testing their change to it.
-    try {
-        const pkg = require.resolve('igniteui-webcomponents-core/package.json');
-        const dir = path.dirname(pkg);
-        const api = firstExisting([path.join(dir, 'snippet-api.cjs')]);
-        if (api) return { api, shim: path.join(dir, 'dom-shim.js'), from: 'igniteui-webcomponents-core' };
-    } catch { /* not installed, which the message below covers */ }
+    // This repository's own build of the emitter, bundled against the published packages. Kept after
+    // dev-tools so someone with a checkout open is testing their change to the renderer rather than
+    // the last one that shipped — and kept at all so CI needs nothing but npm.
+    const own = path.join(XPLAT_ROOT, 'scripts', 'snippet-emitter');
+    const ownApi = path.join(own, 'dist', 'snippet-api.cjs');
+    if (fs.existsSync(ownApi)) {
+        return { api: ownApi, shim: path.join(own, 'dom-shim.js'), from: 'scripts/snippet-emitter' };
+    }
 
     fail('no snippet emitter found. Either:\n' +
-         '  - check out dev-tools beside this repository and build the emitter:\n' +
+         '  - build the one in this repository, which needs nothing else:\n' +
+         '      cd docs/xplat/scripts/snippet-emitter\n' +
+         '      npm install && npm run build\n' +
+         '  - or check out dev-tools beside this repository to test a change to the renderer:\n' +
          `      cd ../dev-tools/${SPIKE_RELATIVE}\n` +
          '      node collect-ts.js && npm run build\n' +
          '  - or set IG_SNIPPET_API to a built snippet-api.cjs');
@@ -256,6 +261,48 @@ function git(cwd, args) {
 function fail(message) {
     console.error(message);
     process.exit(2);
+}
+
+/**
+ * The library project emitter's item templates: the scaffolds a library item is emitted into.
+ *
+ * No package ships them, so this repository keeps a copy. A dev-tools checkout wins when there is
+ * one, and the two are compared so a copy that has drifted says so rather than quietly emitting
+ * last year's shape.
+ */
+export function resolveItemTemplates({ quiet = false } = {}) {
+    const say = (message) => { if (!quiet) console.log(`[templates] ${message}`); };
+    if (process.env.IG_ITEM_TEMPLATES) {
+        return process.env.IG_ITEM_TEMPLATES;
+    }
+
+    const own = path.join(XPLAT_ROOT, 'scripts', 'snippet-emitter', 'templates');
+    const fromDevTools = firstExisting([
+        path.join(REPO_ROOT, '..', 'dev-tools', 'XPlatform', 'Main', 'Source', 'LibraryProjectEmitter',
+                  'LibraryProjectEmitter', 'templates'),
+        path.join(REPO_ROOT, '..', '..', 'dev-tools', 'XPlatform', 'Main', 'Source', 'LibraryProjectEmitter',
+                  'LibraryProjectEmitter', 'templates'),
+    ]);
+    if (fromDevTools) {
+        const drifted = [];
+        const mine = path.join(own, 'webcomponents-template');
+        const theirs = path.join(fromDevTools, 'webcomponents-template');
+        if (fs.existsSync(mine) && fs.existsSync(theirs)) {
+            for (const file of fs.readdirSync(mine)) {
+                const a = path.join(mine, file);
+                const b = path.join(theirs, file);
+                if (!fs.existsSync(b) || fs.readFileSync(a, 'utf8') !== fs.readFileSync(b, 'utf8')) {
+                    drifted.push(file);
+                }
+            }
+        }
+        if (drifted.length > 0) {
+            say(`the copy in this repository differs from dev-tools: ${drifted.join(', ')}`);
+            say('using dev-tools; copy them over when the difference is meant to stay');
+        }
+        return fromDevTools;
+    }
+    return own;
 }
 
 /** `id="x" ref="x" channel="bindingCode" source="/x" exclude="Blazor"` on the fence line. */

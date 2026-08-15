@@ -8,9 +8,10 @@ name: Snippet checks
 #   node docs/xplat/scripts/check-snippet-schema.mjs
 #   node docs/xplat/scripts/check-snippet-emission.mjs
 #
-# Locally those find a peer dev-tools and igniteui-xplat-examples checkout. Here there are none, so
-# dev-tools is checked out and its emitter built, and the examples are cloned at the branch matching
-# the branch under review — the same matching dev-tools' own builds use.
+# Locally these find a peer igniteui-xplat-examples checkout, and a dev-tools one when someone is
+# testing a change to the renderer. Here there is neither: the emitter is built from the published
+# packages, and the examples are cloned at the branch matching the branch under review — the same
+# matching dev-tools' own builds use.
 
 permissions:
   contents: read
@@ -42,31 +43,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # The emitter is the product's own code generating renderer, transpiled to run in node. It ships
-      # in dev-tools rather than in a package, so it is built here. Once igniteui-webcomponents-core
-      # exports the snippet recorder, this step can be dropped and IG_SNIPPET_API pointed at the
-      # installed package instead — lib/snippet-toolchain.mjs already resolves it that way.
-      - name: Checkout dev-tools
-        uses: actions/checkout@v4
-        with:
-          repository: Infragistics-Developer-Tools/dev-tools
-          path: dev-tools
-          token: ${{ secrets.DEV_TOOLS_TOKEN }}
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
-
+      # What turns a fence into a platform's code is the product's own code generating renderer,
+      # which ships in igniteui-webcomponents-core. This builds the thin wrapper around it against
+      # the published package, so nothing here needs a dev-tools checkout — see the README beside it.
       - name: Build the snippet emitter
-        working-directory: dev-tools/XPlatform/Main/Source/DataVisualization.JS/DataVisualization
-        run: dotnet build DV.Shared.DESCRIPTION.JS.csproj -c Debug
-
-      - name: Bundle the snippet emitter
-        working-directory: dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike
+        working-directory: docs/xplat/scripts/snippet-emitter
         run: |
           npm install --no-audit --no-fund
-          node collect-ts.js
           npm run build
 
       # The samples and the code generation library a snippet is emitted against. Resolved to the
@@ -80,13 +63,11 @@ jobs:
       - name: Check the schema
         env:
           XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
-          IG_SNIPPET_API: ${{ github.workspace }}/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs
         run: node docs/xplat/scripts/check-snippet-schema.mjs
 
       - name: Check emission on every platform
         env:
           XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
-          IG_SNIPPET_API: ${{ github.workspace }}/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs
         run: |
           node docs/xplat/scripts/check-snippet-emission.mjs --lang=en
           node docs/xplat/scripts/check-snippet-emission.mjs --lang=jp

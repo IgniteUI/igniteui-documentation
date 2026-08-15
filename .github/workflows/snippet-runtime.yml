@@ -47,29 +47,13 @@ jobs:
         with:
           node-version: 24
 
-      # The library a fence binds to is emitted by the product's own code generating renderer, which
-      # ships in dev-tools rather than in a package. Same build the snippet checks use.
-      - name: Checkout dev-tools
-        uses: actions/checkout@v4
-        with:
-          repository: Infragistics-Developer-Tools/dev-tools
-          path: dev-tools
-          token: ${{ secrets.DEV_TOOLS_TOKEN }}
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
-
+      # What turns a fence into a platform's code is the product's own code generating renderer,
+      # which ships in igniteui-webcomponents-core. This builds the thin wrapper around it against
+      # the published package, so nothing here needs a dev-tools checkout — see the README beside it.
       - name: Build the snippet emitter
-        working-directory: dev-tools/XPlatform/Main/Source/DataVisualization.JS/DataVisualization
-        run: dotnet build DV.Shared.DESCRIPTION.JS.csproj -c Debug
-
-      - name: Bundle the snippet emitter
-        working-directory: dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike
+        working-directory: docs/xplat/scripts/snippet-emitter
         run: |
           npm install --no-audit --no-fund
-          node collect-ts.js
           npm run build
 
       - name: Resolve the examples checkout
@@ -87,7 +71,6 @@ jobs:
         working-directory: docs/xplat/scripts/snippet-runtime
         env:
           XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
-          IG_SNIPPET_API: ${{ github.workspace }}/dev-tools/XPlatform/Main/Tests/XSharpTesting/SnippetEmitterSpike/dist/snippet-api.cjs
         run: |
           node run.mjs ${{ inputs.filter && format('--filter={0}', inputs.filter) || '' }}
 
