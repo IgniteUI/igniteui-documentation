@@ -26,7 +26,7 @@
  */
 
 import { leafBlocksOf } from './platform-blocks.mjs';
-import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -167,9 +167,10 @@ function descriptionTypeFor(tag) {
         descriptionNames = new Map();
         const dir = path.join(ROOT, '..', '..', 'src', 'data', 'api-map');
         try {
-            for (const platform of readdirSync(dir)) {
+            for (const dirent of readdirSync(dir, { withFileTypes: true })) {
+                const platform = dirent.name;
                 const p = path.join(dir, platform);
-                if (!statSync(p).isDirectory()) continue;
+                if (!dirent.isDirectory()) continue;
                 for (const file of readdirSync(p)) {
                     if (!file.endsWith('.json')) continue;
                     let data;
@@ -233,10 +234,13 @@ function samplesForType(typeName) {
         const root = path.join(EXAMPLES, 'samples');
         const walkSamples = (dir) => {
             let entries = [];
-            try { entries = readdirSync(dir); } catch { return; }
-            for (const entry of entries) {
+            // withFileTypes rather than a stat per entry: readdir already knows what each one is,
+            // so asking the filesystem again is both slower and a check the answer can outlive.
+            try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+            for (const dirent of entries) {
+                const entry = dirent.name;
                 const full = path.join(dir, entry);
-                if (statSync(full).isDirectory()) { walkSamples(full); continue; }
+                if (dirent.isDirectory()) { walkSamples(full); continue; }
                 if (!entry.endsWith('.json')) continue;
                 let parsed;
                 try { parsed = JSON.parse(readFileSync(full, 'utf8')); } catch { continue; }
@@ -375,9 +379,10 @@ function peeredSample(text, group, allGroups) {
 // ---------------------------------------------------------------------------
 
 function walk(dir, out = []) {
-    for (const entry of readdirSync(dir)) {
+    for (const dirent of readdirSync(dir, { withFileTypes: true })) {
+        const entry = dirent.name;
         const p = path.join(dir, entry);
-        if (statSync(p).isDirectory()) walk(p, out);
+        if (dirent.isDirectory()) walk(p, out);
         else if (entry.endsWith('.mdx') || entry.endsWith('.md')) out.push(p);
     }
     return out;

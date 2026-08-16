@@ -225,11 +225,15 @@ function proseBefore(group, index) {
     prose = prose.replace(/```[\s\S]*?```/g, '')
                  .replace(/<PlatformBlock[^>]*>|<\/PlatformBlock>/g, '')
                  .replace(/<Sample[^>]*\/>/g, '')
-                 .replace(/<ApiLink[^>]*\/>/g, m => (/type="([^"]+)"/.exec(m)?.[1] ?? ''))
-                 .replace(/<[^>]+>/g, '')
-                 .replace(/\n{2,}/g, '\n')
-                 .trim();
-    return prose;
+                 .replace(/<ApiLink[^>]*\/>/g, m => (/type="([^"]+)"/.exec(m)?.[1] ?? ''));
+    // Until it stops changing, rather than once: taking out `<a<b>c>` in a single pass leaves `c>`,
+    // and a tag can be spelled so that removing one reassembles another around it.
+    let previous;
+    do {
+        previous = prose;
+        prose = prose.replace(/<[^>]+>/g, '');
+    } while (prose !== previous);
+    return prose.replace(/\n{2,}/g, '\n').trim();
 }
 
 console.log(`topic: ${path.relative(CONTENT_DIR, topic)}   groups: ${groups.length}   samples: ${samples.length}\n`);

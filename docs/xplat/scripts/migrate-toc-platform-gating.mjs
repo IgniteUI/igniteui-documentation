@@ -203,8 +203,14 @@ function addMissingEntries(lang, nodes) {
 
 for (const [lang, indent] of Object.entries(LOCALES)) {
     const file = path.join(ROOT, 'src', 'content', lang, 'toc.json');
-    if (!existsSync(file)) continue;
-    const original = readFileSync(file, 'utf8');
+    // Read and let a missing file say so, rather than asking whether it exists and then reading it:
+    // the answer to the question can stop being true between the two.
+    let original;
+    try {
+        original = readFileSync(file, 'utf8');
+    } catch {
+        continue;
+    }
     const toc = JSON.parse(original);
 
     addMissingEntries(lang, toc);
