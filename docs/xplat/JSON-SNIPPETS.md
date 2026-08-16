@@ -330,8 +330,9 @@ record, topic by topic, is in `notes/SNIPPET-COLLAPSE-DECISIONS.md` in the emitt
 it in code — that is what `channel="code"` is for. A value set imperatively may be a signal that the
 imperative path is the only one that works, and on React and Blazor a declared value can be reapplied
 on re-render, actively undoing what the reader is trying to do. The two forms are not
-interchangeable. `scripts/audit-imperative.py` compares every collapsed section against what it
-replaced and reports any where a web platform's block was code and the fence now emits markup.
+interchangeable. `collapse-tools/audit-imperative.py`, in the emitter spike, compares every collapsed
+section against what it replaced and reports any where a web platform's block was code and the fence
+now emits markup.
 
 **XAML snippets are not evidence.** Nothing has ever compiled or run the XAML blocks in these topics,
 so nothing has ever caught one being wrong. Where XAML disagrees with the web platforms about a value,
@@ -367,6 +368,7 @@ is called, how regions are declared, and what `requires` and `lifetime` do.
 |---|---|
 | `SnippetEmitterSpike/SNIPPETS.md` (dev-tools) | the marker language in full, with the recorder API behind it |
 | `SnippetEmitterSpike/notes/SNIPPET-COLLAPSE-DECISIONS.md` (dev-tools) | every decision made while collapsing these topics, and why |
+| `SnippetEmitterSpike/collapse-tools/` (dev-tools) | the tools that do a collapse — planning it, mirroring it to `jp`, auditing it |
 | `code-gen-library/README.md` (examples) | writing library items |
 | `AI-AGENT-PLATFORM-BLOCK.md` | `PlatformBlock` itself |
 
