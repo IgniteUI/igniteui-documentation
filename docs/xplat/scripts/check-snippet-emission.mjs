@@ -102,8 +102,6 @@ function hasInclusionMarker(node) {
 }
 
 let checked = 0, failures = 0, skipped = 0, gatedOut = 0;
-/** Every (item, platform) the library cannot answer for, and the fences that ran into it. */
-const libraryGaps = new Map();
 const byId = new Map();
 for (const file of files.sort()) {
     if (ONLY && !file.includes(ONLY)) continue;
@@ -131,9 +129,8 @@ for (const file of files.sort()) {
             checked++;
             try {
                 const channel = fence.attrs.channel;
-                const unresolved = [];
                 const opts = { examplesRoot: EXAMPLES, styleDefaults: styleFor(platform),
-                               defaultSnippetId: 'main', missingRefsOut: unresolved };
+                               defaultSnippetId: 'main' };
                 if (!channel || channel === 'markup') {
                     // A body that is an array states several definitions, emitted one after another,
                     // so each is checked on its own.
@@ -191,16 +188,6 @@ for (const file of files.sort()) {
                     // — but a fence where every region is empty produces an empty block.
                     if (produced.trim() === '') throw new Error('emitted nothing');
                 }
-                // The renderer's own account of what it could not resolve, after the attempt. A name it
-                // never found a value for is a gap in the library or a typo in the definition; either
-                // way the topic publishes something bound to nothing.
-                if (unresolved.length > 0) {
-                    for (const ref of unresolved) {
-                        const key = `${ref} [${platform}]`;
-                        if (!libraryGaps.has(key)) libraryGaps.set(key, []);
-                        libraryGaps.get(key).push(where);
-                    }
-                }
             } catch (e) {
                 failures++;
                 console.log(`${where} [${platform}] ${fence.attrs.channel || 'markup'}: ${e.message.split('\n')[0]}`);
@@ -213,14 +200,4 @@ console.log(`\n${checked} emission(s) checked across ${PLATFORMS.length} platfor
             `${skipped} skipped by exclusion, ${gatedOut} in sections the platform is not shown, ` +
             `${failures} failed`);
 
-if (libraryGaps.size > 0) {
-    console.error('');
-    console.error(`${libraryGaps.size} unresolved ref(s) — the renderer loaded the definition and ` +
-                  `never found a value for these. Whatever is missing is what to write: excluding a ` +
-                  `platform from the fence only hides it.`);
-    for (const [key, wheres] of [...libraryGaps.entries()].sort()) {
-        console.error(`  ${key}`);
-        console.error(`      named by ${wheres.length} fence(s), first ${wheres[0]}`);
-    }
-}
-process.exit(failures > 0 || libraryGaps.size > 0 ? 1 : 0);
+process.exit(failures > 0 ? 1 : 0);

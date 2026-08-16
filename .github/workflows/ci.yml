@@ -28,6 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Generating a topic emits its json-snippet fences, which the product's code generating
+      # renderer does — it ships in igniteui-webcomponents-core, so this needs nothing but npm.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
       - name: Build ${{ matrix.platform }}
         run: npm run xplat:build:${{ matrix.platform }}
 
