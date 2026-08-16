@@ -318,6 +318,39 @@ CodeGenHelper.findByNameLookup = (name) => {
  */
 let sharedSupporting = new Map();
 
+/**
+ * The requests this page still has on the wire.
+ *
+ * A sample whose initializer fetches its data — the geo map binding topics all do — is not finished
+ * when the renderer goes idle: idle, flush and animation all say that nothing is *queued*, and a
+ * request that has not come back yet is queued nowhere. So the harness moves on, the response lands
+ * during the next sample, and its handler reaches for a map that has been torn down. The report then
+ * blames whichever sample happened to be loading, which is why the pair differs from run to run and
+ * why it never reproduces on a fast connection.
+ *
+ * Counting them here lets the load wait for them like anything else.
+ */
+let inFlight = 0;
+const nativeFetch = window.fetch.bind(window);
+window.fetch = (...args) => {
+    inFlight++;
+    return nativeFetch(...args).finally(() => { inFlight--; });
+};
+
+/** Resolves once nothing is outstanding, or once it has waited long enough to say so. */
+function drainFetches(timeout) {
+    if (inFlight === 0) return Promise.resolve(false);
+    return new Promise((resolve) => {
+        const started = Date.now();
+        const tick = () => {
+            if (inFlight === 0) return resolve(false);
+            if (Date.now() - started > timeout) return resolve(true);
+            setTimeout(tick, 25);
+        };
+        tick();
+    });
+}
+
 CodeGenHelper.sharedSupportingLookup = (itemName) => {
     if (!LibraryManager.instance.hasItem(itemName)) return null;
     if (!sharedSupporting.has(itemName)) {
@@ -606,7 +639,13 @@ async function load(sample, options) {
             }
         }
         if (initialisers.length === 0 && (sample.onInit || sample.onViewInit)) {
-            // Something ran, so let it settle before looking at the page.
+            // Something ran, so let it settle before looking at the page. An initializer that went to
+            // the network is not settled until the response is back and its handler has run, so the
+            // requests are waited for and then the work they queued is flushed.
+            stage('fetches');
+            if (await drainFetches(timeout)) {
+                initialisers.push(`still waiting on the network after ${timeout}ms`);
+            }
             await flushAll();
         }
     }
