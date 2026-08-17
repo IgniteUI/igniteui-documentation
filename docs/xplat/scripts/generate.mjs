@@ -34,6 +34,7 @@ import {
 } from './lib/snippet-toolchain.mjs';
 import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.mjs';
 import { fenceEmitter, libraryItemLookup, CODE_FENCE_LANG } from './lib/snippet-emit.mjs';
+import { resolveApiTerms } from './lib/api-terms.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -51,6 +52,7 @@ const LANG     = get('--lang=')     ?? process.env.LANG_CODE ?? 'en';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const ROOT       = path.join(__dirname, '..');
+const REPO_ROOT  = path.join(ROOT, '..', '..');
 
 // Source MD files:  src/content/{lang}/components/
 const SRC_COMPONENTS = path.join(ROOT, 'src', 'content', LANG, 'components');
@@ -707,16 +709,57 @@ function snippetEmitter() {
 }
 
 
-function transformMdxFile(content) {
+function transformMdxFile(content, where = 'this page') {
     // 0. Turn any json-snippet block into this platform's markup
     content = transformJsonSnippets(content);
     // 1. Resolve <PlatformBlock> tags — keep only this platform's content
     content = inlinePlatformBlocks(content);
     // 2. Remove the now-unused PlatformBlock import (if any)
     content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
+    // 2.5 Resolve backticked API terms to this platform's spelling. After the PlatformBlock pass so
+    //     only the content this platform keeps is considered, and before token substitution so a
+    //     term is matched as written. ensureMdxImports adds the ApiLink import for what this emits.
+    content = resolveApiTermsFor(content, where);
     // 3. Resolve all tokens ({Platform}, {ProductName}, etc.) in both frontmatter and body.
     content = applyReplacements(content);
     return content;
+}
+
+/**
+ * One page's code spans, rewritten for the platform being generated.
+ *
+ * Terms that resolve nowhere are collected rather than thrown on: a page naming an API the maps do
+ * not cover is worth reporting, but the maps do not yet cover every product area, so failing here
+ * would stop the build on names that are perfectly real. A missing or unknown `apiTerms:` does throw
+ * -- that is an authoring decision nobody has made, and it names the file.
+ */
+function resolveApiTermsFor(content, where) {
+    const result = resolveApiTerms(content, PLATFORM, { where, repoRoot: REPO_ROOT });
+    if (result.skipped) return result.content;
+
+    for (const term of result.unknown) unresolvedTerms.set(term, (unresolvedTerms.get(term) ?? 0) + 1);
+    for (const one of result.ambiguous) ambiguousTerms.set(one.term, one.candidates);
+    return result.content;
+}
+
+/** What resolution could not answer, gathered across the run and reported once at the end. */
+const unresolvedTerms = new Map();
+const ambiguousTerms = new Map();
+
+function reportApiTerms() {
+    if (unresolvedTerms.size > 0) {
+        const total = [...unresolvedTerms.values()].reduce((a, b) => a + b, 0);
+        const worst = [...unresolvedTerms.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15);
+        console.warn(`[generate] ${unresolvedTerms.size} backticked terms (${total} uses) matched no apiMap on any platform:`);
+        for (const [term, n] of worst) console.warn(`[generate]     ${String(n).padStart(4)}  ${term}`);
+        if (unresolvedTerms.size > worst.length) console.warn(`[generate]     ... and ${unresolvedTerms.size - worst.length} more`);
+    }
+    if (ambiguousTerms.size > 0) {
+        console.warn(`[generate] ${ambiguousTerms.size} backticked terms reached more than one canonical name; write the canonical to settle it:`);
+        for (const [term, candidates] of [...ambiguousTerms].slice(0, 10)) {
+            console.warn(`[generate]     ${term} ?= ${candidates.join(' | ')}`);
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -1008,7 +1051,7 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if (/\.mdx$/.test(entry)) {
-                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw)));
+                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw, path.join(LANG, 'components', entry))));
                 // Rewrite _shared/ cross-references so generated files resolve correctly.
                 //   top-level (relBase=''):     ./grids/_shared/X.mdx → ./grids/grid/X.mdx
                 //   grids/ level (relBase='grids'):  ./_shared/X.mdx → ./grid/X.mdx
@@ -1089,4 +1132,5 @@ if (existsSync(astroCacheDir)) {
     console.log('[generate] Cleared .astro cache.');
 }
 
+reportApiTerms();
 console.log('[generate] Done.');

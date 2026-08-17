@@ -28,7 +28,7 @@ import {
     JsonSchemaEmitter,
     TypeDescriptionPlatform,
 } from "igniteui-webcomponents-core";
-import * as core from "igniteui-webcomponents-core";
+import { descriptionModules, descriptionTypeMarkers } from "./descriptions";
 
 import { NodeCodeGenerationLibraryFileAccess } from "./node-file-access";
 
@@ -89,11 +89,8 @@ function libraryFor(examplesRoot: string): any {
 // list, because the set grows with the product and a missing one is a type a sample may not use.
 function registerDescriptions(renderer: any): void {
     const context = renderer.context;
-    for (const [name, exported] of Object.entries(core as Record<string, any>)) {
-        if (!name.endsWith("DescriptionModule")) continue;
-        if (exported && typeof exported.register === "function") {
-            exported.register(context);
-        }
+    for (const module of descriptionModules()) {
+        module.register(context);
     }
 }
 
@@ -140,6 +137,38 @@ export function resolvePropertyName(component: string, platformName: string, wri
     return resolved === undefined ? null : resolved;
 }
 
+/**
+ * What a platform calls a description property, or null when the component has no such property.
+ *
+ * The direction a topic needs. A definition writes dataSource and the emitter puts ItemsSource in
+ * the XAML it produces; the sentence introducing that snippet has to say the same word, and until
+ * now had no way to ask which word that is.
+ *
+ * Component and platform are named as the documentation spells them — "GeographicMap", "WinUI".
+ */
+export function platformPropertyName(component: string, platformName: string, propertyName: string): string | null {
+    const platform = (TypeDescriptionPlatform as any)[platformName];
+    if (platform === undefined) return null;
+
+    const resolved = sharedContext().getPropertyPlatformName(component, platform, propertyName);
+    return resolved === undefined ? null : resolved;
+}
+
+/**
+ * Whether the descriptions know a type by this name, so a documentation term can be recognised as
+ * one. Abstract descriptions register metadata without a constructor, so both are asked.
+ */
+export function isDescriptionType(name: string): boolean {
+    const context = sharedContext();
+    return context.hasDescriptionConstructor(name) || context.getAllProperties(name) !== null;
+}
+
+/** Every property a description declares, or null when no such type is registered. */
+export function descriptionProperties(name: string): string[] | null {
+    const props = sharedContext().getAllProperties(name);
+    return props === undefined ? null : props;
+}
+
 // One context, registered once: resolving a name does not depend on any sample, and the
 // documentation build asks thousands of times.
 let cachedContext: any = null;
@@ -158,18 +187,6 @@ export function isSupportedPlatform(platformName: string): boolean {
     return (CodeGenerationTargetPlatforms as any)[platformName] !== undefined;
 }
 
-// Every description type, which is what the schema is generated from. Globbed rather than listed
-// because the set grows with the product, and a schema missing a type would report the sample using
-// it as invalid.
-function descriptionTypeMarkers(): any[] {
-    const types: any[] = [];
-    for (const [name, exported] of Object.entries(core as Record<string, any>)) {
-        if (!name.endsWith("Description")) continue;
-        const marker = exported && exported.$t;
-        if (marker !== undefined && marker !== null) types.push(marker);
-    }
-    return types;
-}
 
 /**
  * The JSON schema the snippets are written against.

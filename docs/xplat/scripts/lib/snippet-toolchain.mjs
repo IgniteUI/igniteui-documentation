@@ -83,7 +83,11 @@ export function resolveSnippetApiPaths() {
     ]);
     if (spike) {
         const api = path.join(spike, 'dist', 'snippet-api.cjs');
-        const shim = path.join(spike, 'dom-shim.js');
+        // The emitter's own stub, not the spike's. The API is authored here and the spike builds
+        // that same file, so the stub that answers for it is this one; the spike keeps its own for
+        // its harness entries. Two of them disagreeing is how a locally built emitter fails on a
+        // DOM call the published one is fine with.
+        const shim = path.join(XPLAT_ROOT, 'scripts', 'snippet-emitter', 'dom-shim.js');
         if (fs.existsSync(api)) {
             return { api, shim, from: path.relative(REPO_ROOT, spike) };
         }
