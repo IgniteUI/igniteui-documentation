@@ -263,11 +263,18 @@ export function getEnvVars(): Record<string, string> {
     return _env!;
 }
 
-/** Built-in Google Tag Manager container IDs, keyed by build mode. */
-const GTM_CONTAINER_ID_DEFAULTS: Record<string, string> = {
-    production: 'GTM-T65CF7',
-    staging: 'GTM-NCKNPN',
-    development: 'GTM-NCKNPN',
+/** Built-in Google Tag Manager container IDs keyed by locale and build mode. */
+const GTM_CONTAINER_ID_DEFAULTS: Record<string, Record<string, string>> = {
+    en: {
+        production: 'GTM-T65CF7',
+        staging: 'GTM-NCKNPN',
+        development: 'GTM-NCKNPN',
+    },
+    jp: {
+        production: 'GTM-KVNSWJ',
+        staging: 'GTM-WLWSDK',
+        development: 'GTM-NNHVMC7',
+    },
 };
 
 /**
@@ -276,7 +283,7 @@ const GTM_CONTAINER_ID_DEFAULTS: Record<string, string> = {
  * Resolution order:
  *   1. `GTM_CONTAINER_ID` env var — explicit override.
  *   2. `GTMContainerId` in the resolved `environment.json` (per-mode, per-locale).
- *   3. Built-in default for the current build mode — production vs. staging/development.
+ *   3. Built-in default for the current locale and build mode.
  */
 export function getGtmContainerId(): string {
     if (process.env.GTM_CONTAINER_ID) return process.env.GTM_CONTAINER_ID;
@@ -284,6 +291,8 @@ export function getGtmContainerId(): string {
     const fromEnvJson = getEnvVars().GTMContainerId;
     if (fromEnvJson) return fromEnvJson;
 
+    const lang = process.env.LANG_CODE ?? 'en';
     const mode = getBuildMode();
-    return GTM_CONTAINER_ID_DEFAULTS[mode] ?? GTM_CONTAINER_ID_DEFAULTS.development;
+    const localeDefaults = GTM_CONTAINER_ID_DEFAULTS[lang] ?? GTM_CONTAINER_ID_DEFAULTS.en;
+    return localeDefaults[mode] ?? localeDefaults.development;
 }
