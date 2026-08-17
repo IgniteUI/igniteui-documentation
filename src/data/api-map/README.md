@@ -8,6 +8,35 @@ platform's public names, for both types and members.
 of truth for the mapping. They are read-only inputs — regenerate from a product
 build rather than hand-editing.
 
+## Layout
+
+One directory per platform, holding the maps for that platform. The web maps come from the
+TypeScript translators; `WinUI/` and `Uno/` come from the ApiGenerator, which now writes a map
+wherever it runs. `WPF/` is sparse: those projects are legacy non-SDK and cannot be loaded on macOS,
+so their maps need a Windows or CI run.
+
+`Shared/` is not a platform. The loader reads every directory here and keys forward answers by the
+`platform` field on each name, so a file whose entries name several platforms belongs somewhere that
+does not claim to be one of them.
+
+## Overrides
+
+A file ending `.apiMap.overrides.json` carries the same schema and is read after the maps, so what it
+declares sits on top of them. Two things need it:
+
+- **API suppressed from generation and then exposed by hand.** A generator maps what it generated, so
+  a member carrying `[TSSuppressWidgetMember]` is absent even though the package ships it —
+  `ShapefileRecord.Points` is in every web package as `points` and in no generated map.
+- **A canonical surface altered by `#if` or a partial class**, for a component the ApiGenerator does
+  not run for. The canonical name is the TINYCLR one, and the platform's spelling is recorded as a
+  rename off it.
+
+Say in the entry's `_comment` where the hand-written exposure actually lives. That is the only
+evidence the name is real, and an entry whose name later starts generating normally should be deleted
+rather than left to contradict the map.
+
+See [API-TERMS.md](../../../docs/xplat/API-TERMS.md) for how these are read.
+
 ## Shape
 
 ```jsonc
