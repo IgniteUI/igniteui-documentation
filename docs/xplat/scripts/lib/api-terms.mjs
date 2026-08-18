@@ -236,11 +236,25 @@ export function resolveTerm(map, term, platform, types = [], passthrough = new S
 
 
     const asType = canonicalTypeFor(map, term, platform);
-    if (asType.canonical) {
+
+    // The canonical type name, written exactly, is the author naming a type outright. That is checked
+    // ahead of everything else so a deliberate `TreemapLayoutType` cannot be taken for a member.
+    if (asType.canonical && asType.via === 'canonical') {
         const forward = forwardTypeName(map, asType.canonical, platform);
         return { kind: 'type', canonical: asType.canonical, written: term, via: asType.via, name: forward.name };
     }
-    // Scoped first: the same member name can belong to several types, and the page said which.
+
+    // Then the page's own context, before any loose match on the term as a type. This is the order the
+    // docfx transform used -- it took the first hit across mentionedTypes and never reached a bare type
+    // lookup -- and it is why the pages it produced said `member="dataSource"`.
+    //
+    // Reversing it is what put "the IDataSource property" on 18 pages: `IDataSource` is a type whose
+    // Blazor name happens to be `DataSource`, the reverse type table is keyed case insensitively, and a
+    // loose type match therefore beat the member the page was plainly talking about. Context first
+    // settles that without making the resolver guess from casing, and an author who means something
+    // else says so with a qualified name.
+    //
+    // Scoped, because the same member name belongs to several types and the page said which.
     for (const written of types) {
         const owner = canonicalTypeFor(map, written, platform).canonical ?? written;
         const asMember = canonicalMemberFor(map, term, owner, true);
@@ -250,6 +264,13 @@ export function resolveTerm(map, term, platform, types = [], passthrough = new S
             kind: 'member', canonical: asMember.canonical, written: term, type: owner, via: asMember.via,
             name: forward.name, ...(forward.ambiguous ? { ambiguous: forward.ambiguous } : {}),
         };
+    }
+
+    // A loose match on the term as a type -- an alias, or a platform spelling reversed back -- now that
+    // the page's context has had its say.
+    if (asType.canonical) {
+        const forward = forwardTypeName(map, asType.canonical, platform);
+        return { kind: 'type', canonical: asType.canonical, written: term, via: asType.via, name: forward.name };
     }
 
     if (asType.ambiguous) {
