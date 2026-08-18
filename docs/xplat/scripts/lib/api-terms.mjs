@@ -395,7 +395,7 @@ function passthroughTerms(content, platform) {
             usedApiLink = false;
             return '`' + name + '`';
         }
-        return `<ApiLink type="${owner}" member="${term}" label="${name}" />`;
+        return `<ApiLink type="${owner}" member="${name}" />`;
     });
 
     return { content: out, resolved, canonical: [], unknown: [], ambiguous: [], usedApiLink };
@@ -461,7 +461,7 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
             // that opted out wholesale (apiTerms: passthrough) is the explicit case and stays plain.
             usedApiLink = true;
             resolved.push(hit);
-            return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.canonical}" label="${hit.name}" />`;
+            return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.name ?? hit.canonical}" />`;
         }
 
         if (hit.kind === 'ambiguous') {
@@ -477,11 +477,11 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
         if (hit.name === null) canonical.push(term); else resolved.push(hit);
 
         if (hit.kind === 'type') {
-            return `<ApiLink ${apiLinkTypeAttrs(map, hit.canonical, platform)} label="${label}" />`;
+            return `<ApiLink ${apiLinkTypeAttrs(map, hit.canonical, platform)} />`;
         }
 
         // A term the author qualified stays qualified, in the platform's own spelling for both halves.
-        const shown = hit.via === 'qualified' ? `${hit.qualifiedBy}.${label}` : label;
+
 
         // Resolved, but with nothing to hang a link on: the term matched a member the maps know without
         // naming the type that owns it, which is what the unscoped lookup does. `type` is required --
@@ -497,7 +497,7 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
             return '`' + label + '`';
         }
 
-        return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.canonical}" label="${shown}" />`;
+        return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.name ?? hit.canonical}" />`;
     });
 
     return { content: out, resolved, canonical, unknown, ambiguous, usedApiLink };
