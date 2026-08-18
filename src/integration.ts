@@ -667,6 +667,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (platform) {
         process.env.DOCS_PLATFORM = platform;
     }
+    // Locale for getEnvVars() and getGtmContainerId(). Must be set before the
+    // getGtmContainerId() call below — getEnvVars() caches on first read.
+    process.env.LANG_CODE = navLang;
 
     // Google Tag Manager — first in <head>, as high as possible after the
     // mandatory charset/viewport/title tags rendered by DocsLayout. Container ID
