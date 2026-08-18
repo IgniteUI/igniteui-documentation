@@ -405,14 +405,88 @@ export function resolveTypeName(apiMap, typeName) {
  * A type the map has no name for on this platform keeps the canonical name and the default behaviour:
  * there is nothing better to say, and it is what the pages did before.
  */
+/**
+ * What each platform decorates a type name with, matching ApiLink's own `prefix` and `classSuffix`.
+ */
+const PLATFORM_AFFIXES = {
+    WebComponents: { prefix: 'Igc', suffix: 'Component' },
+    Angular: { prefix: 'Igx', suffix: 'Component' },
+    React: { prefix: 'Igr', suffix: '' },
+    Blazor: { prefix: 'Igb', suffix: '' },
+    WinUI: { prefix: 'Xam', suffix: '' },
+    Uno: { prefix: 'Xam', suffix: '' },
+    WPF: { prefix: 'Xam', suffix: '' },
+};
+
+/**
+ * The bare type name for an `ApiLink`, plus whether this platform decorates it.
+ *
+ * `type` is documented as the short name *without* prefix, and the component rebuilds the symbol as
+ * `prefix + type + classSuffix` before looking it up in a TypeDoc index of the platform's own symbols.
+ * Writing a canonical name straight through therefore doubled the prefix on the web -- `XamDataChart`
+ * became `IgcXamDataChart`, in no index -- and rendered plain code where a link used to be.
+ *
+ * So the name always goes out bare, and whether each affix is wanted is stated rather than left to the
+ * default. Both come from the map, which is the ground truth for what a platform calls the type:
+ *
+ *     XamDataChart -> IgcDataChartComponent -> type="DataChart"        prefixed suffix
+ *     XamDataChart -> IgrDataChart          -> type="DataChart"        prefixed, no suffix
+ *     XamDataChart -> XamDataChart          -> type="DataChart"        prefixed, no suffix
+ *     TreemapLayoutType (undecorated)       -> type="TreemapLayoutType" neither
+ *
+ * Deriving it this way rather than by stripping `Xam` from the canonical matters because the platform
+ * name is not predictable from the canonical: plenty of types are renamed outright --
+ * `ShapefileConverter` is `ShapeDataSource` on the web -- and only the classes predating the
+ * ApiGenerator carry `Xam` at all. The map knows; the rules do not.
+ */
+/**
+ * The platforms whose names carry the class suffix, used as the oracle for whether a type takes one.
+ *
+ * Whether a type is a component class that gets `Component` appended is a fact about the type, not
+ * about the platform being emitted, and `suffix={true}` is harmless on a platform that appends nothing
+ * -- the component tries the bare name too. Judging it from the platform in hand would therefore make
+ * the flag narrower than it was before, and narrower on exactly the platforms that cannot show whether
+ * the suffix was wanted. So it is judged where the answer is visible.
+ */
+const SUFFIX_ORACLES = ['WebComponents', 'Angular'];
+
 export function apiLinkTarget(apiMap, canonical, platform) {
-    const mapped = forwardTypeName(apiMap, canonical, platform).name;
-    return mapped ? { type: mapped, prefixed: false } : { type: canonical, prefixed: true };
+    const affixes = PLATFORM_AFFIXES[platform] ?? { prefix: '', suffix: '' };
+    const mapped = forwardTypeName(apiMap, canonical, platform).name ?? canonical;
+
+    let type = mapped;
+    let prefixed = false;
+    if (affixes.prefix !== '' && type.startsWith(affixes.prefix)) {
+        const rest = type.slice(affixes.prefix.length);
+        // Only a prefix if a name follows it, so `Xam|DataChart` splits and `Xam|arin` does not.
+        if (/^[A-Z][A-Za-z0-9]*$/.test(rest)) { type = rest; prefixed = true; }
+    }
+
+    // Asked of a platform that appends one, whichever platform is being emitted.
+    let suffix = false;
+    for (const oracle of SUFFIX_ORACLES) {
+        const oracleAffixes = PLATFORM_AFFIXES[oracle];
+        const oracleName = forwardTypeName(apiMap, canonical, oracle).name;
+        if (!oracleName) continue;
+        suffix = oracleName.endsWith(oracleAffixes.suffix)
+            && oracleName.length > oracleAffixes.suffix.length;
+        break;
+    }
+
+    // The emitted name is bare on both counts, so a platform that does append the suffix does not get
+    // it twice.
+    if (affixes.suffix !== '' && type.endsWith(affixes.suffix) && type.length > affixes.suffix.length) {
+        type = type.slice(0, -affixes.suffix.length);
+    }
+
+    return { type, prefixed, suffix };
 }
 
 /** That target, as the attributes an ApiLink tag carries. */
 export function apiLinkTypeAttrs(apiMap, canonical, platform) {
-    const { type, prefixed } = apiLinkTarget(apiMap, canonical, platform);
-    return `type="${type}"${prefixed ? '' : ' prefixed={false}'}`;
+    const { type, prefixed, suffix } = apiLinkTarget(apiMap, canonical, platform);
+    // Both stated, always. A default that happens to be right is indistinguishable from one that has
+    // not been thought about, and this is the attribute that decides whether the link resolves.
+    return `type="${type}" prefixed={${prefixed}} suffix={${suffix}}`;
 }
 
