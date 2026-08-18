@@ -549,6 +549,41 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
         return `import { ModuleManager } from '${pkg}';\n` + content;
     }
 
+    /**
+     * The harness calling the handler, dropped from a block that shows the handler.
+     *
+     * A sample invokes its handler from the component's init, and the recorded region takes that call
+     * in along with the body -- so a block teaching `mapBindingShpFileLoad` ended by calling
+     * `this.mapBindingShpFileLoad()`, which reads as part of the lesson and is not.
+     *
+     * Matched against the item's own name, so the only thing it can remove is the handler calling
+     * itself. A call to anything else is code the reader needs.
+     */
+    function withoutSelfInvocation(content, only, json) {
+        if (content === null) return content;
+
+        // `item=` names them when a block shows one handler. Without it the block shows whatever the
+        // sample runs, so the init lists are the same answer.
+        let names = only ? only.split(',').map(one => one.trim()).filter(Boolean) : [];
+        if (names.length === 0) {
+            for (const root of definitionsOf(json)) {
+                try {
+                    const parsed = JSON.parse(root);
+                    for (const list of ['onInit', 'onViewInit']) {
+                        names = names.concat([].concat(parsed[list] ?? []));
+                    }
+                } catch { /* the emitter reports a bad definition with a better message */ }
+            }
+        }
+        if (names.length === 0) return content;
+        let out = content;
+        for (const name of names) {
+            const camel = name.charAt(0).toLowerCase() + name.slice(1);
+            out = out.replace(new RegExp(`^[ \\t]*this\\.${camel}\\(\\);[ \\t]*\\r?\\n?`, 'gmi'), '');
+        }
+        return out.replace(/\n{3,}/g, '\n\n').replace(/\s+$/, '');
+    }
+
     function elideAfterFields(content) {
         if (content === null || content.trim() === '') return content;
         const lines = content.split('\n');
@@ -593,7 +628,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
                 channel: chosen.channel,
                 content: chosen.channel === 'markup'
                     ? interleaveComments(json, chosen.content, true)
-                    : interleaveComments(json, withModuleManagerImport(elideAfterFields(chosen.content)), false),
+                    : interleaveComments(json, withModuleManagerImport(elideAfterFields(withoutSelfInvocation(chosen.content, attrs.item, json))), false),
                 companion: '',
             };
         }
@@ -623,7 +658,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
         // goes between them in the block. See composeChannels.
         return {
             channel,
-            content: interleaveComments(json, withModuleManagerImport(elideAfterFields(composeChannels(json, channel, attrs.item))), false),
+            content: interleaveComments(json, withModuleManagerImport(elideAfterFields(withoutSelfInvocation(composeChannels(json, channel, attrs.item), attrs.item, json))), false),
             companion: '',
         };
     }
