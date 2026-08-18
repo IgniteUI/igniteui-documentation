@@ -187,6 +187,9 @@ const inside = (ranges, at) => ranges.some(([from, to]) => at >= from && at < to
  */
 const QUALIFIED = /^([A-Za-z][A-Za-z0-9]*)\.([A-Za-z][A-Za-z0-9]*)$/;
 
+/** `global::Name` forces the type reading, whatever the page's context would otherwise imply. */
+const GLOBAL = 'global::';
+
 /**
  * Any dotted term. What the dot means is decided by resolution, not by spelling: if the head resolves
  * as a type the dot is type scoping, and otherwise the whole thing is tried as one name, which is how
@@ -200,8 +203,11 @@ const QUALIFIED = /^([A-Za-z][A-Za-z0-9]*)\.([A-Za-z][A-Za-z0-9]*)$/;
  */
 const DOTTED = /^[A-Za-z][A-Za-z0-9]*(\.[A-Za-z][A-Za-z0-9]*)+$/;
 
-const looksLikeIdentifier = term =>
-    (/^[A-Za-z][A-Za-z0-9]*$/.test(term) && /[A-Z]/.test(term)) || DOTTED.test(term);
+const looksLikeIdentifier = term => {
+    // `global::Name` is a name with an instruction attached, so it is judged on the name.
+    const bare = term.startsWith(GLOBAL) ? term.slice(GLOBAL.length) : term;
+    return (/^[A-Za-z][A-Za-z0-9]*$/.test(bare) && /[A-Z]/.test(bare)) || DOTTED.test(bare);
+};
 
 /**
  * Resolves one term, without deciding how to render it.
@@ -212,6 +218,27 @@ const looksLikeIdentifier = term =>
  *          prints the canonical name and does not complain.
  */
 export function resolveTerm(map, term, platform, types = [], passthrough = new Set()) {
+    // `global::ToolTipType` — resolve as a type, whatever the page's context says.
+    //
+    // The counterpart to a qualified name, and needed for the same reason. Context has primacy, so a
+    // term that is both an enum and a property of the type the prose just named resolves to the
+    // property; where the enum is what was meant, this says so. Spelled the way C# spells it, because
+    // that is what it means and the audience reads C#.
+    //
+    // The prefix is for the resolver, not the reader: what renders is the type's own name.
+    if (term.startsWith(GLOBAL)) {
+        const bare = term.slice(GLOBAL.length);
+        const asType = canonicalTypeFor(map, bare, platform);
+        if (asType.canonical) {
+            const forward = forwardTypeName(map, asType.canonical, platform);
+            return { kind: 'type', canonical: asType.canonical, written: bare, via: 'global', name: forward.name };
+        }
+        if (asType.ambiguous) {
+            return { kind: 'ambiguous', canonical: bare, written: bare, name: null, ambiguous: asType.ambiguous };
+        }
+        return { kind: 'unknown', canonical: bare, written: bare, name: null };
+    }
+
     // A dotted term. Try the head as a type first: if it is one, the dot is type scoping and the tail
     // is the member. If it is not, the dot is inside the name -- a path into a sub-object, which the
     // maps record whole.

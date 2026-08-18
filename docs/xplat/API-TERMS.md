@@ -46,14 +46,34 @@ In order, stopping at the first answer:
 
 ### Which type the page is talking about
 
-Three ways, most specific first:
+In this order, which is the one the docfx transform used:
 
-- **Qualified.** `` `SeriesViewer.CheckmarkMarkerTemplate` `` says it outright. The head is resolved
-  as a type first; if it is not one, the dot is part of the name.
-- **Implicit context.** The types the prose has already named — in backticks or in an
-  `<ApiLink type=…>` — nearest first. `mentionedTypes` is not required, and a topic that reads well
-  usually names its subject before it names a property of it.
-- **`mentionedTypes`** in the frontmatter, as the fallback.
+1. **The canonical type name, written exactly.** Naming a type outright wins over everything, so a
+   deliberate `` `TreemapLayoutType` `` cannot be taken for a member.
+2. **Qualified.** `` `SeriesViewer.CheckmarkMarkerTemplate` `` says it outright. The head is resolved
+   as a type first; if it is not one, the dot is part of the name.
+3. **The implicit type** — the types the prose has already named, in backticks or in an
+   `<ApiLink type=…>`, nearest first. This has primacy over the frontmatter because it is how the
+   prose reads: name a component, then name a property of it.
+4. **`mentionedTypes`**, in the order given.
+5. **A loose match on the term as a type** — an alias, or a platform spelling reversed back.
+
+The last step being last is what matters. With it first, any member sharing a name with a type
+resolved the wrong way: `dataSource` reached the type `IDataSource`, whose Blazor name happens to be
+`DataSource`, and 18 pages ended up telling the reader about "the IDataSource property".
+
+Case is not consulted. It is a clue to what an author meant — useful when hunting these — but a term
+is not resolved on it. Disambiguation is explicit:
+
+| you want | write | renders as |
+|---|---|---|
+| the member, when context does not settle it | `` `CategoryChart.chartType` `` | `IgcCategoryChartComponent.chartType` |
+| the type, when context would make it a member | `` `global::ChartType` `` | `ChartType` |
+
+`global::` is the counterpart to a qualified name and is needed for the same reason: context has
+primacy, so a name that is both an enum and a property of the type just named resolves to the
+property. It is spelled the way C# spells it, and the prefix is for the resolver — what renders is the
+type's own name.
 
 Take care listing an enum in `mentionedTypes` when a property shares its name. `TrendLineType` is both
 an enum and the property on every chart that has trendlines; listing the enum on a page whose prose
