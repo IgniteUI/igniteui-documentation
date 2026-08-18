@@ -324,7 +324,20 @@ export function forwardMemberName(apiMap, canonicalMember, platform, canonicalTy
         : apiMap.memberAnywhere.get(canonicalMember);
 
     if (!byPlatform) return { known: false, name: null };
-    return { known: true, ...rankSpellings(byPlatform.get(platform)) };
+    const answer = rankSpellings(byPlatform.get(platform));
+
+    // A dotted canonical is a path into a sub-object -- `groupTextMargin.bottom` -- and the platforms
+    // that keep it as an object record only the leaf, because the path is the canonical. Emitting that
+    // leaf alone would tell a reader to set `bottom`. The platforms that flatten record the whole
+    // flattened name instead, and those need nothing doing.
+    const dot = canonicalMember.lastIndexOf('.');
+    if (dot > 0 && answer.name !== null) {
+        const leaf = canonicalMember.slice(dot + 1);
+        if (answer.name.toLowerCase() === leaf.toLowerCase()) {
+            return { ...answer, name: `${canonicalMember.slice(0, dot)}.${answer.name}` };
+        }
+    }
+    return { known: true, ...answer };
 }
 
 /** The best-attested spelling for a platform, and the rest if there is more than one. */
