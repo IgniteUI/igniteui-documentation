@@ -524,6 +524,31 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
      * Without the mark the block reads as one run of statements, and a reader copying it puts a field
      * declaration in the middle of a method.
      */
+    /**
+     * The import for `ModuleManager`, when a block calls it and nothing brought it in.
+     *
+     * `moduleRegistration` emits `ModuleManager.register(...)` and `modulesImports` lists the modules
+     * being registered -- but neither contributes the import of `ModuleManager` itself, so 12 of the 17
+     * Web Components pages that show a registration shipped code that fails on an undefined name. Only
+     * five had it, and those by accident, from another block on the same page.
+     *
+     * Compensating for that here rather than in the renderer, which is where it belongs: the region is
+     * the renderer's to fill and a fix there needs a product release, while these pages are wrong now.
+     * Remove this once `modulesImports` carries it.
+     *
+     * Web Components only. Angular, React and Blazor register through the modules themselves --
+     * `mods.forEach(m => m.register())` -- and never name `ModuleManager`.
+     */
+    const MODULE_MANAGER_PACKAGE = { WebComponents: 'igniteui-webcomponents-core' };
+
+    function withModuleManagerImport(content) {
+        const pkg = MODULE_MANAGER_PACKAGE[platform];
+        if (!pkg || content === null) return content;
+        if (!/\bModuleManager\s*\./.test(content)) return content;
+        if (/import\s*\{[^}]*\bModuleManager\b/.test(content)) return content;
+        return `import { ModuleManager } from '${pkg}';\n` + content;
+    }
+
     function elideAfterFields(content) {
         if (content === null || content.trim() === '') return content;
         const lines = content.split('\n');
@@ -568,7 +593,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
                 channel: chosen.channel,
                 content: chosen.channel === 'markup'
                     ? interleaveComments(json, chosen.content, true)
-                    : interleaveComments(json, elideAfterFields(chosen.content), false),
+                    : interleaveComments(json, withModuleManagerImport(elideAfterFields(chosen.content)), false),
                 companion: '',
             };
         }
@@ -598,7 +623,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
         // goes between them in the block. See composeChannels.
         return {
             channel,
-            content: interleaveComments(json, elideAfterFields(composeChannels(json, channel, attrs.item)), false),
+            content: interleaveComments(json, withModuleManagerImport(elideAfterFields(composeChannels(json, channel, attrs.item))), false),
             companion: '',
         };
     }

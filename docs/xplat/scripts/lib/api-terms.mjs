@@ -34,8 +34,14 @@ import {
     apiLinkTypeAttrs,
 } from './api-map-names.mjs';
 
-/** A term written `\like-this` is not an API name. The backslash is the author saying so. */
-const ESCAPE = '\\';
+/**
+ * A term written `\like-this` is not an API name. The backslash is the author saying so.
+ *
+ * A run of them counts as one. Inside a code span a backslash is a literal character, not an escape,
+ * so an author doubling it -- as several did, reasonably, expecting MDX to need it -- meant the same
+ * thing. Stripping only one left the other on the page: readers saw `\NaN`, `\MaxValue`, `\Low`.
+ */
+const ESCAPE = /^\\+/;
 
 let cachedApiMap = null;
 let cachedPassthrough = null;
@@ -381,7 +387,7 @@ function passthroughTerms(content, platform) {
     const out = content.replace(/`([^`\n]+)`/g, (whole, term, at) => {
         if (inside(ranges, at)) return whole;
 
-        if (term.startsWith(ESCAPE)) return '`' + term.slice(ESCAPE.length) + '`';
+        if (ESCAPE.test(term)) return '`' + term.replace(ESCAPE, '') + '`';
         if (!looksLikeIdentifier(term)) return whole;
 
         const name = camel ? term.charAt(0).toLowerCase() + term.slice(1) : term;
@@ -439,9 +445,9 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
     const out = content.replace(/`([^`\n]+)`/g, (whole, term, at) => {
         if (inside(ranges, at)) return whole;
 
-        if (term.startsWith(ESCAPE)) {
+        if (ESCAPE.test(term)) {
             // The author has said this is not an API name. The backslash was for us, not the reader.
-            return '`' + term.slice(ESCAPE.length) + '`';
+            return '`' + term.replace(ESCAPE, '') + '`';
         }
 
         if (!looksLikeIdentifier(term)) return whole;
