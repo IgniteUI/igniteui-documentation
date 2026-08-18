@@ -31,6 +31,7 @@ import {
     canonicalMemberFor,
     forwardTypeName,
     forwardMemberName,
+    apiLinkTypeAttrs,
 } from './api-map-names.mjs';
 
 /** A term written `\like-this` is not an API name. The backslash is the author saying so. */
@@ -341,8 +342,12 @@ function passthroughTerms(content, platform) {
         // A link, like every other resolved term. Only the *name* came from the rule rather than a
         // lookup; whether the api-docs index can point at it is a separate question, and ApiLink
         // already renders a plain code span when it cannot.
-        const type = owner ? ` type="${owner}"` : '';
-        return `<ApiLink${type} member="${term}" label="${name}" />`;
+        // No owner, no link -- see the note in resolveApiTerms. The rule still gave the right spelling.
+        if (!owner) {
+            usedApiLink = false;
+            return '`' + name + '`';
+        }
+        return `<ApiLink type="${owner}" member="${term}" label="${name}" />`;
     });
 
     return { content: out, resolved, canonical: [], unknown: [], ambiguous: [], usedApiLink };
@@ -408,7 +413,7 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
             // that opted out wholesale (apiTerms: passthrough) is the explicit case and stays plain.
             usedApiLink = true;
             resolved.push(hit);
-            return `<ApiLink type="${hit.type}" member="${hit.canonical}" label="${hit.name}" />`;
+            return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.canonical}" label="${hit.name}" />`;
         }
 
         if (hit.kind === 'ambiguous') {
@@ -424,13 +429,27 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
         if (hit.name === null) canonical.push(term); else resolved.push(hit);
 
         if (hit.kind === 'type') {
-            return `<ApiLink type="${hit.canonical}" label="${label}" />`;
+            return `<ApiLink ${apiLinkTypeAttrs(map, hit.canonical, platform)} label="${label}" />`;
         }
 
-        const owner = hit.type ? ` type="${hit.type}"` : '';
         // A term the author qualified stays qualified, in the platform's own spelling for both halves.
         const shown = hit.via === 'qualified' ? `${hit.qualifiedBy}.${label}` : label;
-        return `<ApiLink${owner} member="${hit.canonical}" label="${shown}" />`;
+
+        // Resolved, but with nothing to hang a link on: the term matched a member the maps know without
+        // naming the type that owns it, which is what the unscoped lookup does. `type` is required --
+        // the component builds its candidates from it, so without one every candidate is
+        // `prefix + undefined`, the link never resolves, and it renders as plain code with a tag around
+        // it implying a link that is not there. 172 of those were emitted before this check.
+        //
+        // So it stays a code span, in this platform's spelling. That is the half of the job that does
+        // not need an owner, and it is not an authoring error -- reporting it would send someone
+        // looking for a typo that is not there.
+        if (!hit.type) {
+            usedApiLink = false;
+            return '`' + label + '`';
+        }
+
+        return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.canonical}" label="${shown}" />`;
     });
 
     return { content: out, resolved, canonical, unknown, ambiguous, usedApiLink };

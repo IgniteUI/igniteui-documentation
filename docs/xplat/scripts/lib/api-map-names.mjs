@@ -382,3 +382,37 @@ export function resolveTypeName(apiMap, typeName) {
     }
     return { name: typeName.replace(/^(Igr|Igc|Igb|Igx)/, ''), via: 'fuzzy' };
 }
+
+/**
+ * What to write into an `ApiLink` so it resolves, for one platform.
+ *
+ * ApiLink builds its own candidates as `prefix + type` and `type`, each with and without the class
+ * suffix, and looks them up in a TypeDoc index of the platform's own symbols. A canonical name written
+ * straight through therefore arrives doubled on the web platforms -- `XamDataChart` becomes
+ * `IgcXamDataChart`, which is in no index -- and the component silently renders plain code where a link
+ * used to be.
+ *
+ * Stripping those affixes back off would be guesswork. The platform name is not always
+ * `prefix + short + suffix`: plenty of types are renamed outright -- `ShapefileConverter` is
+ * `ShapeDataSource` on the web -- and only the classes predating the ApiGenerator carry `Xam` at all.
+ *
+ * So the guessing is removed rather than reimplemented. We already know the actual resolution: the map
+ * records exactly what this platform calls the type, so that name is handed over with
+ * `prefixed={false}` and the component looks up what it was given. `suffix` is left at its default --
+ * with an exact name it costs nothing, and it still covers a map that records a name without its
+ * `Component` tail.
+ *
+ * A type the map has no name for on this platform keeps the canonical name and the default behaviour:
+ * there is nothing better to say, and it is what the pages did before.
+ */
+export function apiLinkTarget(apiMap, canonical, platform) {
+    const mapped = forwardTypeName(apiMap, canonical, platform).name;
+    return mapped ? { type: mapped, prefixed: false } : { type: canonical, prefixed: true };
+}
+
+/** That target, as the attributes an ApiLink tag carries. */
+export function apiLinkTypeAttrs(apiMap, canonical, platform) {
+    const { type, prefixed } = apiLinkTarget(apiMap, canonical, platform);
+    return `type="${type}"${prefixed ? '' : ' prefixed={false}'}`;
+}
+
