@@ -244,10 +244,17 @@ labelled with that channel's language.
 
 | sidecar | meaning |
 |---|---|
-| `$comment` | a note for whoever edits the definition. Never emitted. |
+| `$comment` | a remark emitted **ahead of this element**, in the platform's own comment syntax. Give the text alone — `"loads the shapes"`, not `"// loads the shapes"`. Because elements nest, one on a series lands mid-block, above that series' code. |
+| `$comments` | the same, but keyed by property, so the remark lands above the line that one property produced: `"$comments": { "markerTypes": "on CategoryChart or FinancialChart" }`. An entry matching no emitted line is reported rather than dropped. |
 | `$styleOptions` | see [Style options](#style-options) |
 | `$setInCode` | names the platforms where this property is set in code rather than markup: `"$setInCode": { "dataSourceRef": ["webComponents"] }` |
 | `$assignInCode` | the same, for a property assigned rather than set |
+
+A comment explaining code **inside a handler** does not belong in a sidecar at all — put it in the
+handler's own source in the examples checkout, where it is emitted along with the code it explains.
+The sidecars are for the part of a block the renderer generates, which has no other home. An
+elision between two excerpts is a third thing again: that is the `...` delimiter between channel
+names, and between a class field and the statements under it the emitter writes one itself.
 
 ---
 

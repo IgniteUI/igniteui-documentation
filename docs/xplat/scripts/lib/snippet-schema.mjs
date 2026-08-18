@@ -43,6 +43,44 @@ export function snippetsIn(files, { relativeTo = null } = {}) {
 }
 
 /**
+ * Let any element carry `$comments`.
+ *
+ * The descriptions declare `$comment` themselves — a remark ahead of an element — so the emitted
+ * schema already accepts it. `$comments` is the docs side companion that annotates one property
+ * rather than the element, applied after the renderer has run, and the descriptions have no reason
+ * to know about it.
+ *
+ * The schema is closed, which is what catches a misspelled property, so a key it has never heard of
+ * is rejected as a typo. Added here rather than asked for from the package: it costs the emitted
+ * schema nothing, and waiting on a product release to write a comment in a doc is the wrong
+ * dependency.
+ */
+function allowCommentsSidecar(schema) {
+    // Keyed by property name, with the value in any of the shapes a sidecar takes: the values are
+    // checked, while the keys are whatever properties the element happens to have.
+    const entry = {
+        anyOf: [
+            { type: 'string' },
+            { type: 'array', items: { type: 'string' } },
+            {
+                type: 'object',
+                additionalProperties: {
+                    anyOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+                },
+            },
+        ],
+    };
+    (function walk(node) {
+        if (node === null || typeof node !== 'object') return;
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        if (node.properties && typeof node.properties === 'object' && !node.properties.$comments) {
+            node.properties.$comments = { type: 'object', additionalProperties: entry };
+        }
+        for (const value of Object.values(node)) walk(value);
+    })(schema);
+}
+
+/**
  * A validator over the emitted schema.
  *
  * Compiled per component type rather than over the union of all of them: the union reports every
@@ -70,6 +108,8 @@ export function schemaValidator(api, examplesRoot, { onProgress = () => {} } = {
     })(schema);
     const dangling = [...referenced].filter(name => !defined.has(name));
     for (const name of dangling) schema.definitions[name] = {};
+
+    allowCommentsSidecar(schema);
 
     // inlineRefs: false is the difference between two seconds and a minute and a half. Every
     // property of every description declares a "$key" sidecar referencing one shared marker

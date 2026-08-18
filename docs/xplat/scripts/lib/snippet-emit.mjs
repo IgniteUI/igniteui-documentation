@@ -63,6 +63,97 @@ export function hasInclusionMarker(node) {
     return false;
 }
 
+/**
+ * How each platform writes a comment, in code and in the markup it emits.
+ *
+ * Only needed for `$comments`. The renderer writes `$comment` itself and knows each platform's
+ * syntax; this is the same knowledge, needed here because a comment anchored to a property is placed
+ * after the renderer has finished.
+ *
+ * The markup column is not decoration: an HTML comment inside JSX is rendered text rather than a
+ * comment, so getting it wrong puts the explanation on the page as content.
+ */
+const COMMENT_SYNTAX = {
+    Angular: { code: ['//', ''], markup: ['<!--', '-->'] },
+    WebComponents: { code: ['//', ''], markup: ['<!--', '-->'] },
+    React: { code: ['//', ''], markup: ['{/*', '*/}'] },
+    Blazor: { code: ['//', ''], markup: ['@*', '*@'] },
+    WPF: { code: ['//', ''], markup: ['<!--', '-->'] },
+    WinUI: { code: ['//', ''], markup: ['<!--', '-->'] },
+    Uno: { code: ['//', ''], markup: ['<!--', '-->'] },
+};
+
+/**
+ * The lines one `$comments` entry contributes for the platform being emitted.
+ *
+ * Accepts the shapes every sidecar accepts — one line, several, or either splayed by platform — so an
+ * explanation that only applies to some platforms says so the way a marker does. A splay naming no
+ * key for this platform contributes nothing, which is how a comment is made platform specific.
+ */
+export function commentLinesFor(value, platformKey) {
+    if (value == null) return [];
+    if (typeof value === 'string') return value.split('\n');
+    if (Array.isArray(value)) return value.flatMap(one => commentLinesFor(one, platformKey));
+    if (typeof value === 'object') {
+        return Object.hasOwn(value, platformKey) ? commentLinesFor(value[platformKey], platformKey) : [];
+    }
+    return [];
+}
+
+/**
+ * Whether an emitted line is the one a property's comment belongs above.
+ *
+ * Matched on the name with everything but letters and digits removed, because the same property is
+ * `markerTypes` in TypeScript, `MarkerTypes` in C# and `marker-types` in markup, while the comment is
+ * written once against the name the definition uses.
+ *
+ * The line also has to be an assignment of that property rather than any mention of it: without that,
+ * a comment on `resolution` lands above the line that declares the chart the property belongs to,
+ * because the emitted variable name contains the type name and often the property name too.
+ */
+function assignsProperty(line, property) {
+    const flat = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const target = flat(property);
+    // Code: `chart.markerTypes = …`, `chart.markerTypes.add(…)`. Markup: `marker-types="…"`.
+    const match = /^\s*(?:[\w.]*\.)?([\w-]+)\s*(?:=|\.[\w-]+\s*\(|:)/.exec(line)
+        ?? /^\s*([\w-]+)\s*=\s*["'{]/.exec(line);
+    return match !== null && flat(match[1]) === target;
+}
+
+/**
+ * A region as its own block, flush left.
+ *
+ * The obvious `.trim()` is wrong here and was: it strips the leading whitespace of the *string*,
+ * which is the first line's indentation and no other line's. A method lifted out of a class then
+ * emits with its signature flush and its body still indented four spaces — and where a doc comment
+ * sits above the signature, the comment goes flush and the signature stays indented, which is what a
+ * reader sees first.
+ *
+ * Taking the smallest indentation any line has and removing that from all of them keeps the block's
+ * internal shape while moving it out of whatever it was nested in.
+ */
+function dedent(text) {
+    const lines = String(text).replace(/\s+$/, '').split('\n');
+    while (lines.length > 0 && lines[0].trim() === '') lines.shift();
+    if (lines.length === 0) return '';
+
+    const indentOf = one => /^[ \t]*/.exec(one)[0].length;
+    const body = lines.slice(1).filter(one => one.trim() !== '');
+
+    // The renderer hands back a region whose first line is already flush while every other line still
+    // carries the indentation it had in the file. A minimum taken across all of them is then zero and
+    // nothing moves — which is how a doc comment ends up against the margin with the method it
+    // documents indented beneath it. So the first line is judged on its own, and when it is already
+    // flush the rest are brought up to meet it.
+    const flushHead = indentOf(lines[0]) === 0 && body.length > 0;
+    const measured = flushHead ? body : lines.filter(one => one.trim() !== '');
+    const strip = Math.min(...measured.map(indentOf));
+    if (strip === 0) return lines.join('\n');
+
+    return [flushHead ? lines[0] : lines[0].slice(strip),
+            ...lines.slice(1).map(one => one.slice(strip))].join('\n');
+}
+
 /** Every marker string a sidecar value holds, whichever of the three shapes it is written in. */
 function markerStrings(value) {
     if (typeof value === 'string') return [value];
@@ -78,7 +169,7 @@ function markerStrings(value) {
  * name something that is not a handler. Callers that cannot answer say so by leaving it out, and
  * then `item=` means what it always meant: one of the handlers the sample runs.
  */
-export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, knownItem = null }) {
+export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, knownItem = null, onWarn = () => {} }) {
 
     /**
      * The definition with all but the named items left out of its init lists.
@@ -205,7 +296,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
                 pending = part;
                 continue;
             }
-            const content = emitChannel(json, part, only).trim();
+            const content = dedent(emitChannel(json, part, only));
             if (content === '') continue;
             if (out !== '') {
                 out += '\n';
@@ -351,6 +442,112 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
      * beside it. Empty content means this platform writes nothing here, which is not an error — a
      * fence for a channel a platform does not use drops out the way a foreign code block does.
      */
+
+    /**
+     * `$comments` put back into the code the definition produced.
+     *
+     * The renderer's own `$comment` writes a remark ahead of an element, which covers a block's
+     * opening line and — because elements nest — a remark ahead of a series or an axis inside one.
+     * What it cannot do is annotate a single property, and that is what a hand written block used
+     * most: a line saying what the next assignment is for.
+     *
+     *     "$comments": { "markerTypes": "on CategoryChart or FinancialChart" }
+     *
+     * Keyed by property, so it cannot be confused with the per platform splay a value may itself be.
+     * Each entry lands immediately above the line that property produced, indented to match it, in
+     * the platform's own comment syntax.
+     *
+     * An entry that anchors to nothing is reported rather than dropped. A property renamed out from
+     * under its comment would otherwise take the explanation with it silently, which is the failure
+     * this whole mechanism exists to stop.
+     */
+    function interleaveComments(json, content, isMarkup) {
+        if (content === null || content.trim() === '') return content;
+        if (!content.includes('\n') && !/\$comments/.test(json)) return content;
+
+        const roots = definitionsOf(json)
+            .map(one => { try { return JSON.parse(one); } catch { return null; } })
+            .filter(Boolean);
+        if (!roots.length) return content;
+
+        const key = platformSidecarKey();
+        const [open, close] = (COMMENT_SYNTAX[platform] ?? COMMENT_SYNTAX.WebComponents)[isMarkup ? 'markup' : 'code'];
+
+        // Every $comments entry anywhere in the tree, not only on the root: a definition nests, and
+        // the property worth explaining is as often on a series as on the chart.
+        const wanted = [];
+        (function walk(node) {
+            if (node === null || typeof node !== 'object') return;
+            if (Array.isArray(node)) { node.forEach(walk); return; }
+            for (const [property, value] of Object.entries(node.$comments ?? {})) {
+                const lines = commentLinesFor(value, key);
+                if (lines.length) wanted.push({ property, lines });
+            }
+            for (const [k, v] of Object.entries(node)) if (k !== '$comments') walk(v);
+        })(roots.length === 1 ? roots[0] : roots);
+
+        if (!wanted.length) return content;
+
+        const out = [];
+        const placed = new Set();
+        for (const line of content.split('\n')) {
+            for (const entry of wanted) {
+                if (placed.has(entry) || !assignsProperty(line, entry.property)) continue;
+                const indent = /^\s*/.exec(line)[0];
+                for (const text of entry.lines) {
+                    out.push(`${indent}${open} ${text.trim()}${close ? ` ${close}` : ''}`);
+                }
+                placed.add(entry);
+            }
+            out.push(line);
+        }
+
+        for (const entry of wanted) {
+            if (!placed.has(entry)) {
+                onWarn(`$comments entry for "${entry.property}" matched no emitted line on ${platform};`
+                    + ' the comment was left out.');
+            }
+        }
+        return out.join('\n');
+    }
+
+
+    /**
+     * The elision between a block's field declarations and the statements below them.
+     *
+     * A region can hold both. A handler that requires a supporting item is emitted with the field
+     * that holds it — a class member — followed by the handler's own body, which is statements inside
+     * a method. They are excerpts from two different parts of a file, exactly what the `...` between
+     * two channel names marks, but here they arrive inside one region and that delimiter has nothing
+     * to sit between.
+     *
+     * Without the mark the block reads as one run of statements, and a reader copying it puts a field
+     * declaration in the middle of a method.
+     */
+    function elideAfterFields(content) {
+        if (content === null || content.trim() === '') return content;
+        const lines = content.split('\n');
+
+        // A field: an access modifier, then a name and optional type, then an initialiser. Nothing
+        // bracketed before the `=`, which is what keeps a method signature out.
+        const isField = line => /^\s*(?:private|protected|public|internal)\s+[^(){}=]*=[^;]*;\s*$/.test(line);
+
+        let last = -1;
+        for (let i = 0; i < lines.length; i++) {
+            if (isField(lines[i])) { last = i; continue; }
+            if (lines[i].trim() === '') continue;
+            break;
+        }
+        if (last === -1) return content;
+
+        const rest = lines.slice(last + 1).filter(one => one.trim() !== '');
+        if (rest.length === 0) return content;
+
+        const after = lines.slice(last + 1);
+        while (after.length && after[0].trim() === '') after.shift();
+        return [...lines.slice(0, last + 1), '// ...', ...after].join('\n');
+    }
+
     function emitFence(json, attrs) {
         const channel = attrs.channel || 'markup';
 
@@ -360,7 +557,13 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
             // platform is written in markup on another, and the two are not interchangeable. So the
             // fence names no channel and takes whichever one the marker chose.
             const chosen = emitMarkedChannel(json, attrs.item);
-            return { channel: chosen.channel, content: chosen.content, companion: '' };
+            return {
+                channel: chosen.channel,
+                content: chosen.channel === 'markup'
+                    ? interleaveComments(json, chosen.content, true)
+                    : interleaveComments(json, elideAfterFields(chosen.content), false),
+                companion: '',
+            };
         }
 
         if (channel === 'markup') {
@@ -375,18 +578,22 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
                 .filter(one => one !== null && one.trim() !== '')
                 // Trimmed before joining: several definitions in one block are separated by one
                 // blank line, not by however many the last of them happened to end with.
-                .map(one => one.trim())
+                .map(dedent)
                 .join('\n\n');
             return {
                 channel,
-                content,
+                content: interleaveComments(json, content, true),
                 companion: content.trim() === '' ? '' : companionCode(json, attrs),
             };
         }
 
         // Several regions can be asked for at once, and the delimiter between their names says what
         // goes between them in the block. See composeChannels.
-        return { channel, content: composeChannels(json, channel, attrs.item), companion: '' };
+        return {
+            channel,
+            content: interleaveComments(json, elideAfterFields(composeChannels(json, channel, attrs.item)), false),
+            companion: '',
+        };
     }
 
     return { emitFence, emitChannel, composeChannels, companionCode, definitionsOf };
