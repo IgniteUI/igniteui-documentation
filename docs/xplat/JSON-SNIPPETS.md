@@ -250,6 +250,19 @@ labelled with that channel's language.
 | `$setInCode` | names the platforms where this property is set in code rather than markup: `"$setInCode": { "dataSourceRef": ["webComponents"] }` |
 | `$assignInCode` | the same, for a property assigned rather than set |
 
+A handler fence usually wants its imports above it, which is what the hand written block it replaced
+had: `channel="handlersImports...handler"` emits the imports, an elision, then the handler. The `...`
+is what writes the elision, and a platform whose handler needs no imports drops the region and its
+delimiter both. Between a class field and the statements beneath it the emitter writes one itself,
+since those are two parts of a file arriving inside one region.
+
+A region of a **supporting item** cannot do this yet. The item's file has an `imports` region and the
+renderer publishes a `doc:imports` key for it, but the content comes back empty — the region is
+consumed to build the sample's import list rather than exposed. Reading the file directly is not a way
+round it: `Web.ts` is written in the Web Components names and the renderer translates them per
+platform, so a raw read would put `Igc` types on the React and Angular pages. Those imports are still
+on the page, in whatever fence asks for them nearer the top.
+
 A comment explaining code **inside a handler** does not belong in a sidecar at all — put it in the
 handler's own source in the examples checkout, where it is emitted along with the code it explains.
 The sidecars are for the part of a block the renderer generates, which has no other home. An

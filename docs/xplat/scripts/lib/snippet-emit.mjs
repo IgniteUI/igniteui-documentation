@@ -530,22 +530,29 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
 
         // A field: an access modifier, then a name and optional type, then an initialiser. Nothing
         // bracketed before the `=`, which is what keeps a method signature out.
-        const isField = line => /^\s*(?:private|protected|public|internal)\s+[^(){}=]*=[^;]*;\s*$/.test(line);
+        const isField = one => /^\s*(?:private|protected|public|internal)\s+[^(){}=]*=[^;]*;\s*$/.test(one);
+        const isImport = one => /^\s*(?:import\b|using\b|@using\b)/.test(one);
+        const isElision = one => /^\s*(?:\/\/|<!--|@\*|\{\/\*)\s*\.\.\./.test(one);
 
-        let last = -1;
-        for (let i = 0; i < lines.length; i++) {
-            if (isField(lines[i])) { last = i; continue; }
-            if (lines[i].trim() === '') continue;
+        // Fields do not have to open the block. A composed channel can put the imports first, with
+        // their own elision after them, and the field then sits in the middle — so the preamble is
+        // walked rather than assumed to start at line one.
+        let lastField = -1;
+        let i = 0;
+        for (; i < lines.length; i++) {
+            const one = lines[i];
+            if (isField(one)) { lastField = i; continue; }
+            if (one.trim() === '' || isImport(one) || isElision(one)) continue;
             break;
         }
-        if (last === -1) return content;
+        if (lastField === -1) return content;
 
-        const rest = lines.slice(last + 1).filter(one => one.trim() !== '');
-        if (rest.length === 0) return content;
+        const after = lines.slice(lastField + 1);
+        while (after.length > 0 && after[0].trim() === '') after.shift();
+        // Nothing below it to be separated from, or already separated.
+        if (after.length === 0 || isElision(after[0])) return content;
 
-        const after = lines.slice(last + 1);
-        while (after.length && after[0].trim() === '') after.shift();
-        return [...lines.slice(0, last + 1), '// ...', ...after].join('\n');
+        return [...lines.slice(0, lastField + 1), '// ...', ...after].join('\n');
     }
 
     function emitFence(json, attrs) {
