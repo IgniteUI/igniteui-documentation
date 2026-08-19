@@ -3,9 +3,9 @@ title: "{Platform} Map | Data Visualization Tools | Binding Geographic Shape Fil
 description: Use Infragistics' {Platform} map to load geo-spatial data from shape files. View {ProductName} map demos!
 keywords: "{Platform} map, shapefiles, {ProductName}, Infragistics, data binding"
 license: commercial
-mentionedTypes: ["GeographicMap", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+mentionedTypes: ["GeographicMap", "ShapefileConverter", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
 llms:
-  description: "The {ProductName} map component, the ShapefileRecord class loads geo-spatial data (points/locations, polylines, polygons) from shape files and converts it to a collection of IgxShapefileRecord objects."
+  description: "In the {ProductName} map component, geo-spatial data (points/locations, polylines, polygons) is loaded from shape files and converted into a collection of shapefile records, one per shape."
 apiTerms: full
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -14,18 +14,18 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} Binding Shape Files with Geo-spatial Data
 
-The {ProductName} map component, the `ShapefileRecord` class loads geo-spatial data (points/locations, polylines, polygons) from shape files and converts it to a collection of `IgxShapefileRecord` objects.
+In the {ProductName} map component, the `ShapefileConverter` class loads geo-spatial data (points/locations, polylines, polygons) from shape files and converts it to a collection of `ShapefileRecord` objects.
 
 
 ## {Platform} Binding Shape Files with Geo-spatial Data Example
 
 
-<Sample src="/maps/geo-map/binding-shp-polylines" height={500} alt="{Platform} Binding Shape Files with Geo spatial Data Example" />
+<Sample src="/maps/geo-map/binding-shp-file" height={500} alt="{Platform} Binding Shape Files with Geo spatial Data Example" />
 
 
 
 
-The following table explains properties of the `ShapefileRecord` class for loading shape files.
+The following table explains properties of the `ShapefileConverter` class for loading shape files.
 
 
 | Property | Type | Description   |
@@ -36,10 +36,10 @@ The following table explains properties of the `ShapefileRecord` class for loadi
 {/*TODO add for WPF only: */}
 {/* Both of the source properties for shape files are of Uri type. This means that shape files can be embedded resources in the application assembly and on the internet (via http). Refer to the previous section for more information on this process. The rules for resolving Uri objects are equivalent to any standard Uri property, for example the BitmapImage.UriSource property.*/}
 
-When both source properties are set to non-null values, then the `ShapefileRecord` object’s ImportAsync method is invoked which in return performs fetching and reading the shape files and finally doing the conversion. After this operation is complete, the `ShapefileRecord` is populated with `IgxShapefileRecord` objects and the `ImportCompleted` event is raised in order to notify about completed process of loading and converting geo-spatial data from shape files.
+When both source properties are set to non-null values, then the `ShapefileConverter` object’s ImportAsync method is invoked which in return performs fetching and reading the shape files and finally doing the conversion. After this operation is complete, the `ShapefileConverter` is populated with `ShapefileRecord` objects and the `ImportCompleted` event is raised in order to notify about completed process of loading and converting geo-spatial data from shape files.
 
 ## Loading Shapefiles
-The following code creates an instance of the `ShapefileRecord` object for loading a shape file that contains locations of major cities in the world. It also demonstrates how to handle the `ImportCompleted` event as a prerequisite for binding data to the map component.
+The following code creates an instance of the `ShapefileConverter` object for loading a shape file that contains the world’s undersea cable routes. It also demonstrates how to handle the `ImportCompleted` event as a prerequisite for binding data to the map component.
 
 ```json-snippet source="/maps/geo-map/binding-shp-file" channel="handlersImports...supportingTypes...handler" item="MapBindingShpFileLoad"
 {
@@ -59,7 +59,7 @@ The following code creates an instance of the `ShapefileRecord` object for loadi
 ```
 
 ## Binding Shapefiles
-In the map component, Geographic Series are used for displaying geo-spatial data that is loaded from shape files. All types of Geographic Series have an `dataSource` property which can be bound to an array of objects. The `ShapefileRecord` is an example such array because it contains a list of `IgxShapefileRecord` objects.
+In the map component, Geographic Series are used for displaying geo-spatial data that is loaded from shape files. All types of Geographic Series have a `dataSource` property which can be bound to an array of objects. What a `ShapefileConverter` produces is an example of such an array, because each item in it is a `ShapefileRecord`.
 
 The `ShapefileRecord` class provides properties for storing geo-spatial data, listed in the following table.
 
@@ -71,10 +71,10 @@ The `ShapefileRecord` class provides properties for storing geo-spatial data, li
 This data structure is suitable for use in most Geographic Series as long as appropriate data columns are mapped to them.
 
 ## Code Snippet
-This code example assumes that shape files were loaded using the `ShapefileRecord`.
-The following code binds `GeographicPolylineSeries` in the map component to the `ShapefileRecord` and maps the `Points` property of all `IgxShapefileRecord` objects.
+This code example assumes that shape files were loaded using the `ShapefileConverter`.
+The following code binds `GeographicPolylineSeries` in the map component to the records that source produced, and maps the `Points` property of each `ShapefileRecord` through `shapeMemberPath`.
 
-```json-snippet source="/maps/geo-map/binding-shp-polylines"
+```json-snippet source="/maps/geo-map/binding-shp-file"
 {
     "type": "GeographicMap",
     "name": "map",
@@ -84,12 +84,8 @@ The following code binds `GeographicPolylineSeries` in the map component to the 
     "series": [
         {
             "type": "GeographicPolylineSeries",
-            "name": "GeographicPolylineSeries1",
-            "shapefileDataSource": {
-                "type": "ShapeDataSource",
-                "shapefileSource": "https://static.infragistics.com/xplatform/shapes/WorldCableRoutes.shp",
-                "databaseSource": "https://static.infragistics.com/xplatform/shapes/WorldCableRoutes.dbf"
-            },
+            "name": "lineSeries",
+            "shapeMemberPath": "points",
             "shapeFilterResolution": 0.0,
             "shapeStrokeThickness": 3,
             "shapeStroke": "rgb(82, 82, 82, 0.4)"
@@ -103,6 +99,6 @@ The following code binds `GeographicPolylineSeries` in the map component to the 
 `GeographicPolylineSeries`
 `ShapefileRecord`
 `fields`
-<ApiLink type="ShapefileRecord" member="importCompleted" label="ImportCompleted" />
+`ShapefileConverter.ImportCompleted`
 `dataSource`
 `Points`

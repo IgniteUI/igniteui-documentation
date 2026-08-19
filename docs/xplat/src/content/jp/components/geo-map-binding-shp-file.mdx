@@ -3,10 +3,10 @@ title: "{Platform} マップ | データ可視化ツール | 地理的シェー�
 description: インフラジスティックスの {Platform} マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
 keywords: "{Platform} map, shapefiles, {ProductName}, Infragistics, data binding, {Platform} マップ, シェープファイル, データ バインディング, インフラジスティックス"
 license: commercial
-mentionedTypes: ["GeographicMap", "ShapefileConverter", "Series", "GeographicShapeSeriesBase"]
+mentionedTypes: ["GeographicMap", "ShapefileConverter", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
 _language: ja
 llms:
-  description: "{ProductName} Map コンポーネントの ShapefileRecord クラスは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、それを ShapefileRecord オブジェクトのコレクションに変換します。"
+  description: "{ProductName} Map コンポーネントでは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、シェイプごとに 1 つのシェープファイル レコードのコレクションに変換します。"
 apiTerms: full
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -15,14 +15,14 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} シェープ ファイルを地理的データにバインディング
 
-{ProductName} Map コンポーネントの `ShapefileRecord` クラスは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、それを `ShapefileRecord` オブジェクトのコレクションに変換します。
+{ProductName} Map コンポーネントの `ShapefileConverter` クラスは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、それを `ShapefileRecord` オブジェクトのコレクションに変換します。
 
 ## {Platform} シェープ ファイルを地理的データにバインディングの例
 
-<Sample src="/maps/geo-map/binding-shp-polylines" height={500} alt="{Platform} シェープ ファイルを地理的データにバインディングの例" />
+<Sample src="/maps/geo-map/binding-shp-file" height={500} alt="{Platform} シェープ ファイルを地理的データにバインディングの例" />
 
 
-以下の表は、シェイプ ファイルを読み込むための `ShapefileRecord` クラスのプロパティを説明します。
+以下の表は、シェイプ ファイルを読み込むための `ShapefileConverter` クラスのプロパティを説明します。
 
 | プロパティ | 型 | 概要   |
 |----------|------|---------------|
@@ -32,10 +32,10 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 
-両方のソース プロパティが null 以外の値に設定されると、`ShapefileRecord` オブジェクトの ImportAsync メソッドが起動し、シェイプ ファイルを取得して読み込み、最終的に変換を実行します。この操作が完了すると、`ShapefileRecord` は `ShapefileRecord` オブジェクトで生成され、シェイプ ファイルから地理空間データを読み込んで変換するプロセスが完了したことを通知するために、`ImportCompleted` イベントが起動されます。
+両方のソース プロパティが null 以外の値に設定されると、`ShapefileConverter` オブジェクトの ImportAsync メソッドが起動し、シェイプ ファイルを取得して読み込み、最終的に変換を実行します。この操作が完了すると、`ShapefileConverter` は `ShapefileRecord` オブジェクトで生成され、シェイプ ファイルから地理空間データを読み込んで変換するプロセスが完了したことを通知するために、`ImportCompleted` イベントが起動されます。
 
 ## シェープファイルの読み込み
-以下のコードは、世界の主要都市の場所を含むシェイプ ファイルを読み込むための `ShapefileRecord` オブジェクトのインスタンスを作成します。また、xamGeographicMap コントロールにデータをバインドするための前提条件として `ImportCompleted` イベントを処理する方法も示します。
+以下のコードは、世界の海底ケーブル ルートを含むシェイプ ファイルを読み込むための `ShapefileConverter` オブジェクトのインスタンスを作成します。また、Map コンポーネントにデータをバインドするための前提条件として `ImportCompleted` イベントを処理する方法も示します。
 
 ```json-snippet source="/maps/geo-map/binding-shp-file" channel="handlersImports...supportingTypes...handler" item="MapBindingShpFileLoad"
 {
@@ -55,7 +55,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 ```
 
 ## シェープファイルをバインド
-Map コンポーネントでは、Geographic Series は、シェイプ ファイルから読み込まれる地理的データを表示するために使用されます。すべてのタイプの地理的シリーズには、オブジェクトの配列にバインドできる `dataSource` プロパティがあります。`ShapefileRecord` は `ShapefileRecord` オブジェクトのリストを含むため、このような配列の例です。
+Map コンポーネントでは、Geographic Series は、シェイプ ファイルから読み込まれる地理的データを表示するために使用されます。すべてのタイプの地理的シリーズには、オブジェクトの配列にバインドできる `dataSource` プロパティがあります。`ShapefileConverter` が生成するものは、その各項目が `ShapefileRecord` であるため、このような配列の例です。
 
 `ShapefileRecord` クラスは、以下の表にリストする地理的データを保存するためのプロパティを提供します。
 
@@ -67,10 +67,10 @@ Map コンポーネントでは、Geographic Series は、シェイプ ファイ
 このデータ構造は、適切なデータ列がマップされている限り、ほとんどの地理的シリーズでの使用に適しています。
 
 ## コード スニペット
-このコード例は、シェープ ファイルが `ShapefileRecord` を使用して読み込まれたことを前提としています。
-以下のコードは、マップ コンポーネント内の `GeographicPolylineSeries` を `ShapefileRecord` にバインドし、すべての `ShapefileRecord` オブジェクトの `Points` プロパティをマップします。
+このコード例は、シェープ ファイルが `ShapefileConverter` を使用して読み込まれたことを前提としています。
+以下のコードは、マップ コンポーネント内の `GeographicPolylineSeries` をそのソースが生成したレコードにバインドし、各 `ShapefileRecord` の `Points` プロパティを `shapeMemberPath` でマップします。
 
-```json-snippet source="/maps/geo-map/binding-shp-polylines"
+```json-snippet source="/maps/geo-map/binding-shp-file"
 {
     "type": "GeographicMap",
     "name": "map",
@@ -80,12 +80,8 @@ Map コンポーネントでは、Geographic Series は、シェイプ ファイ
     "series": [
         {
             "type": "GeographicPolylineSeries",
-            "name": "GeographicPolylineSeries1",
-            "shapefileDataSource": {
-                "type": "ShapeDataSource",
-                "shapefileSource": "https://static.infragistics.com/xplatform/shapes/WorldCableRoutes.shp",
-                "databaseSource": "https://static.infragistics.com/xplatform/shapes/WorldCableRoutes.dbf"
-            },
+            "name": "lineSeries",
+            "shapeMemberPath": "points",
             "shapeFilterResolution": 0.0,
             "shapeStrokeThickness": 3,
             "shapeStroke": "rgb(82, 82, 82, 0.4)"
@@ -100,6 +96,6 @@ Map コンポーネントでは、Geographic Series は、シェイプ ファイ
 `GeographicPolylineSeries`
 `ShapefileRecord`
 `fields`
-<ApiLink type="ShapefileRecord" member="importCompleted" label="ImportCompleted" />
+`ShapefileConverter.ImportCompleted`
 `dataSource`
 `ShapefileRecord.Points`
