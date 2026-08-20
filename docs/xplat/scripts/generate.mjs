@@ -679,7 +679,14 @@ function transformJsonSnippets(content) {
         // another platform does — Angular binds its data source in the template, so it has no
         // binding code to show beside it.
         if (emitted.content === null || emitted.content.trim() === '') return '';
-        const fenceLang = emitted.channel === 'markup' ? lang : CODE_FENCE_LANG[PLATFORM] || 'ts';
+        // The markup channel is not the only one that produces markup: a template item on the XAML
+        // platforms is a DataTemplate, while on the web platforms the same item is a function inside
+        // TypeScript. So the fence follows what came out rather than the channel's name -- a block
+        // opening with a tag is markup, and labelling it csharp gave the reader XAML in a C# fence.
+        const looksLikeMarkup = emitted.content.trimStart().startsWith('<');
+        const fenceLang = emitted.channel === 'markup' || looksLikeMarkup
+            ? lang
+            : CODE_FENCE_LANG[PLATFORM] || 'ts';
         const fence = '```' + fenceLang + '\n' + emitted.content + '\n```';
         if (emitted.companion === '') return fence;
         return fence + '\n\n```' + (CODE_FENCE_LANG[PLATFORM] || 'ts') + '\n' + emitted.companion + '\n```';
