@@ -355,27 +355,93 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
     }
 
     /**
-     * The snippet this platform's own markers asked for, whatever channel that turned out to be.
+     * The order `auto` reads channels in, whichever of them it is asking for.
      *
-     * For a section taught in code on one platform and in markup on another: the definition splays
-     * its sidecar by platform, and this reads back whichever one applied. Returns the channel too,
-     * because the fence has to be labelled with the language of what came out.
+     * A reader meets the declaration first, then the imports the code beside it needs, then the
+     * code: the fields, what runs on init, the binding itself, and the handlers it wires.
      */
-    function emitMarkedChannel(json, only) {
-        // Which channel this platform's markers asked for has to be known before emitting, not
-        // after: a definition wanted as code is built rather than declared, and that is decided
-        // going in. The renderer resolves the splay for the emission itself; this reads the same
-        // sidecars to pick the channel and, from it, the language the block is labelled with.
-        const channels = markedChannelsFor(JSON.parse(json));
-        if (channels.length === 0) {
-            throw new Error('channel="auto" needs the definition to mark what it wants, and this ' +
-                            `one marked nothing for ${platform}`);
+    const AUTO_ORDER = [
+        'markup', 'code',
+        'bindingImports', 'handlersImports', 'modulesImports',
+        'bindingFields', 'bindingInit', 'bindingCode',
+        'eventHandlers',
+    ];
+
+    /**
+     * What `auto` asks for when the fence says nothing more.
+     *
+     * The declaration and the code that completes it. Imports and field declarations are left out:
+     * some topics showed them and some left them implied, and which is right is a property of the
+     * topic rather than of the platform -- so a fence that wants them says `include="bindingImports"`
+     * and one that does not is not given them merely because this platform has content there.
+     * `code` sits beside `markup` because the two are ways of saying the same component, never both.
+     */
+    const AUTO_DEFAULT = ['markup', 'code', 'bindingInit', 'bindingCode', 'eventHandlers'];
+
+    /**
+     * The channels one `auto` fence asks for: what it asks for by default, what the definition
+     * marked, and what the fence added, less anything it dropped.
+     *
+     * `include` and `omit` take channel names, the same ones a fence could have named outright, so
+     * matching a prior teach is naming the difference from the default rather than restating the
+     * whole list.
+     */
+    function autoChannelsFor(marked, include, omit) {
+        const asked = new Set([...AUTO_DEFAULT, ...marked, ...regionsOfMaybe(include)]);
+        for (const one of regionsOfMaybe(omit)) asked.delete(one);
+
+        // Known channels in reading order, then anything asked for that this list has never heard
+        // of -- a region an item invents is a channel token too.
+        const known = AUTO_ORDER.filter(one => asked.has(one));
+        const rest = [...asked].filter(one => !AUTO_ORDER.includes(one));
+        return [...known, ...rest];
+    }
+
+    function regionsOfMaybe(value) {
+        return value ? regionsOf(value) : [];
+    }
+
+    /**
+     * Everything this platform has to say about the definition, in the order above.
+     *
+     * A topic teaches one thing, and which parts carry it differs by platform: a value written as
+     * an attribute on one is assigned in code on another, and a component declared in markup still
+     * needs the binding that attaches it to its data. Asking for a single channel means whichever
+     * parts fall outside it are simply absent -- a page saying "as shown in the code below" above a
+     * block that does not show it.
+     *
+     * So every channel is asked, and the ones with content are kept. A definition that marks what
+     * it wants is asked for those first, since the marks are the author saying which parts are the
+     * lesson; the rest are still looked in, because a mark says what to include and not what to
+     * leave out.
+     */
+    function emitAutoParts(json, only, include, omit) {
+        const marked = markedChannelsFor(JSON.parse(json));
+        const order = autoChannelsFor(marked, include, omit);
+
+        const parts = [];
+        const seen = new Set();
+        for (const channel of order) {
+            // Whichever of the pair came first is the form this platform teaches in.
+            if (channel === 'code' && parts.some(one => one.channel === 'markup')) continue;
+            if (channel === 'markup' && parts.some(one => one.channel === 'code')) continue;
+
+            let content;
+            try {
+                content = emitChannel(json, channel, only);
+            } catch (e) {
+                // A channel a definition cannot answer for is not an error here: `auto` is asking
+                // what there is, and a handler channel on a sample with no handlers throws.
+                continue;
+            }
+            content = (content ?? '').trim();
+            // Channels overlap -- a region asked for by name can come back identical to the whole
+            // it belongs to -- so the same block is not shown twice.
+            if (content === '' || seen.has(content)) continue;
+            seen.add(content);
+            parts.push({ channel, content });
         }
-        if (channels.length > 1) {
-            throw new Error('channel="auto" takes one marked channel, and this definition marked ' +
-                            `${channels.join(', ')} for ${platform}`);
-        }
-        return { channel: channels[0], content: emitChannel(json, channels[0], only) };
+        return parts;
     }
 
     /**
@@ -619,18 +685,40 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
         const channel = attrs.channel || 'markup';
 
         if (channel === 'auto') {
-            // The definition's own markers say which channel this platform wants, because the topic
-            // does not teach the same thing everywhere: a value the reader sets in code on one
-            // platform is written in markup on another, and the two are not interchangeable. So the
-            // fence names no channel and takes whichever one the marker chose.
-            const chosen = emitMarkedChannel(json, attrs.item);
-            return {
-                channel: chosen.channel,
-                content: chosen.channel === 'markup'
-                    ? interleaveComments(json, chosen.content, true)
-                    : interleaveComments(json, withModuleManagerImport(elideAfterFields(withoutSelfInvocation(chosen.content, attrs.item, json))), false),
-                companion: '',
-            };
+            // The fence names no channel and takes what this platform has, because the topic does
+            // not teach the same thing everywhere: a value written as an attribute on one platform
+            // is assigned in code on another, and a component declared in markup still needs the
+            // binding that attaches it to its data. Naming one channel left whichever parts fell
+            // outside it absent -- a page saying "as shown in the code below" above a block that
+            // did not show it.
+            const parts = emitAutoParts(json, attrs.item, attrs.include, attrs.omit);
+            if (parts.length === 0) {
+                throw new Error(`channel="auto" found nothing for ${platform} in this definition`);
+            }
+
+            // Markup and code are two fences, in that order, which is the shape a fence already
+            // has: one block and its companion. What decides which a part belongs to is the content
+            // rather than the channel's name -- a template item is markup on the XAML platforms and
+            // a function on the web, under the one channel name.
+            const dressed = parts.map(part => {
+                const isMarkup = part.channel === 'markup' || part.content.trimStart().startsWith('<');
+                return {
+                    channel: part.channel,
+                    isMarkup,
+                    content: isMarkup
+                        ? interleaveComments(json, part.content, true)
+                        : interleaveComments(json, withModuleManagerImport(elideAfterFields(withoutSelfInvocation(part.content, attrs.item, json))), false),
+                };
+            });
+
+            const join = list => list.map(one => one.content.trim()).filter(Boolean).join('\n\n');
+            const markupParts = dressed.filter(one => one.isMarkup);
+            const codeParts = dressed.filter(one => !one.isMarkup);
+
+            if (markupParts.length > 0) {
+                return { channel: 'markup', content: join(markupParts), companion: join(codeParts) };
+            }
+            return { channel: codeParts[0].channel, content: join(codeParts), companion: '' };
         }
 
         if (channel === 'markup') {
