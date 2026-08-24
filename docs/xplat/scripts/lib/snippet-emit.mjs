@@ -236,13 +236,21 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
         // forcing code behind does. The performance topics show a property being set on a chart the
         // reader already has, and that is the lesson — not the same property written in markup.
         const asCode = channel === 'code';
-        const root = parsed && parsed.descriptions && parsed.descriptions.content
-            ? parsed.descriptions.content
-            : parsed;
+        // Every description, not just the one called content. A sample places components around the
+        // one in the middle -- a toolbar above it, a legend beside it -- and those carry the
+        // properties that tie them to it: the toolbar's target is on the toolbar. Marking content
+        // alone left them out of whatever channel was asked for, so their markup appeared and the
+        // code that wires them did not.
+        const described = parsed && parsed.descriptions && typeof parsed.descriptions === 'object'
+            ? Object.values(parsed.descriptions).filter(one => one && typeof one === 'object')
+            : [];
+        const roots = described.length > 0 ? described : [parsed];
         // Marking the root includes everything under it, which is what a topic showing a whole
         // sample wants. A definition that marks parts of itself is asking for those parts instead,
         // so leave its own markers to say what is included and let the rest stay closed.
-        if (!hasInclusionMarker(root)) root['$type'] = `+doc:${channel}`;
+        if (!roots.some(hasInclusionMarker)) {
+            for (const one of roots) one['$type'] = `+doc:${channel}`;
+        }
 
         // A handler is not written where its name appears, so marking the element does not reach it.
         // The list of handler names carries its own sidecar, which registers the request the handler
