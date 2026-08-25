@@ -1,0 +1,571 @@
+<ComponentBlock for="Grid">
+
+---
+title: Angular Grid State Persistence - Ignite UI for Angular
+description: Easily save and restore the grid state, using our comprehensive Ignite UI toolset for Angular. Learn how to restore columns, explore usage, and see demos!
+keywords: state persistence, ignite ui for angular, infragistics
+license: commercial
+llms:
+  description: "The igxGridState directive allows developers to easily save and restore the grid state."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: Angular Tree Grid State Persistence - Ignite UI for Angular
+description: Easily save and restore the grid state, using our comprehensive Ignite UI toolset for Angular. Learn how to restore columns, explore usage, and see demos!
+keywords: state persistence, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/state-persistence
+llms:
+  description: "The igxGridState directive allows developers to easily save and restore the grid state."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: Angular Hierarchical Grid State Persistence - Ignite UI for Angular
+description: Easily save and restore the grid state, using our comprehensive Ignite UI toolset for Angular. Learn how to restore columns, explore usage, and see demos!
+keywords: state persistence, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/state-persistence
+llms:
+  description: "The igxGridState directive allows developers to easily save and restore the grid state."
+---
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+---
+title: Angular Pivot Grid State Persistence - Ignite UI for Angular
+description: Easily save and restore the grid state, using our comprehensive Ignite UI toolset for Angular. Learn how to restore configuration, explore usage, and see demos!
+keywords: state persistence, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/state-persistence
+llms:
+  description: "The igxGridState directive allows developers to easily save and restore the grid state."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle} State Persistence
+
+The igxGridState directive allows developers to easily save and restore the grid state. When the <ApiLink type="GridStateDirective" /> directive is applied on the grid, it exposes the <ApiLink type="GridStateDirective" member="getState" label="getState" /> and <ApiLink type="GridStateDirective" member="setState" label="setState" /> methods that developers can use to achieve state persistence in any scenario.
+
+## Supported Features
+
+<ApiLink type="GridStateDirective" /> directive supports saving and restoring the state of the following features:
+
+<ComponentBlock for="Grid">
+
+- `Sorting`
+- `Filtering`
+- `Advanced Filtering`
+- `Paging`
+- `Cell Selection`
+- `Row Selection`
+- `Column Selection`
+- `Row Pinning`
+- `Expansion`
+- `GroupBy`
+- `Columns`
+<ComponentBlock for="Grid">
+  - Multi-row Layout
+</ComponentBlock>
+  - Columns order
+  - Column properties defined by the <ApiLink type="IColumnState" kind="interface" /> interface.
+  - Columns templates and functions are restored using application level code, see [Restoring Column](state-persistence#restoring-columns) section.
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+- `Sorting`
+- `Filtering`
+- `Advanced Filtering`
+- `Paging`
+- `Cell Selection`
+- `Row Selection`
+- `Column Selection`
+- `Row Pinning`
+- `Expansion`
+- `Columns`
+  - **NEW**: Multi column headers are now supported out of the box
+  - Columns order
+  - Column properties defined by the <ApiLink type="IColumnState" kind="interface" /> interface.
+  - Columns templates and functions are restored using application level code, see [Restoring Column](state-persistence#restoring-columns) section.
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+- `RowIslands`
+  - saving/restoring features for all child grids down the hierarchy
+- `Sorting`
+- `Filtering`
+- `Advanced Filtering`
+- `Paging`
+- `Cell Selection`
+- `Row Selection`
+- `Column Selection`
+- `Row Pinning`
+- `Expansion`
+- `Columns`
+  - Multi column headers
+  - Columns order
+  - Column properties defined by the <ApiLink type="IColumnState" kind="interface" /> interface.
+  - Columns templates and functions are restored using application level code, see [Restoring Column](state-persistence#restoring-columns) section.
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+- `Sorting`
+- `Filtering`
+- `Cell Selection`
+- `Row Selection`
+- `Column Selection`
+- `Expansion`
+- `Pivot Configuration`
+  - Pivot Configuration properties defined by the <ApiLink type="IPivotConfiguration" kind="interface" /> interface.
+  - Pivot Dimension and Value functions are restored using application level code, see [Restoring Pivot Configuration](state-persistence#restoring-pivot-configuration) section.
+  - Pivot Row and Column strategies are also restored using application level code, see [Restoring Pivot Strategies](state-persistence#restoring-pivot-strategies) section.
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<DocsAside type="info">
+The <ApiLink type="GridStateDirective" /> directive does not take care of templates. Go to [Restoring Column](state-persistence#restoring-columns) section to see how to restore column templates.
+</DocsAside>
+</ComponentBlock>
+
+<DocsAside type="info">
+The `Row Selection` feature requires the <ApiLink type="Grid" member="primaryKey" label="primaryKey" /> property to be set, so it can be stored/restored correctly.
+</DocsAside>
+
+## Usage
+
+<ApiLink type="GridStateDirective" member="getState" label="getState" /> - This method returns the grid state in a serialized JSON string, so developers can just take it and save it on any data storage (database, cloud, browser localStorage, etc). The method accepts first optional parameter `serialize`, which determines whether <ApiLink type="GridStateDirective" member="getState" label="getState" /> will return an <ApiLink type="IGridState" kind="interface" /> object or a serialized JSON string.
+The developer may choose to get only the state for a certain feature/features, by passing in the feature name, or an array with feature names as a second argument.
+
+```typescript
+// get all features` state in a serialized JSON string
+const gridState = state.getState();
+
+// get an `IGridState` object, containing all features original state objects, as returned by the grid public API
+const gridState: IGridState = state.getState(false);
+
+// get the sorting and filtering expressions
+const sortingFilteringStates: IGridState = state.getState(false, ['sorting', 'filtering']);
+```
+
+<ApiLink type="GridStateDirective" member="setState" label="setState" /> - The <ApiLink type="GridStateDirective" member="setState" label="setState" /> method accepts the serialized JSON string or <ApiLink type="IGridState" kind="interface" /> object as argument and will restore the state of each feature found in the object/JSON string.
+
+```typescript
+state.setState(gridState);
+state.setState(sortingFilteringStates)
+```
+
+`options` - The <ApiLink type="GridStateDirective" member="options" label="options" /> object implements the <ApiLink type="IGridStateOptions" kind="interface" /> interface, i.e. for every key, which is the name of a certain feature, there is the boolean value indicating if this feature state will be tracked. <ApiLink type="GridStateDirective" member="getState" label="getState" /> method will not put the state of these features in the returned value and <ApiLink type="GridStateDirective" member="setState" label="setState" /> method will not restore state for it.
+
+```typescript
+public options =  { cellSelection: false; sorting: false; }
+```
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [igxGridState]="options"></igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [igxGridState]="options"></igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [igxGridState]="options"></igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+```html
+<igx-pivot-grid [igxGridState]="options"></igx-pivot-grid>
+```
+
+</ComponentBlock>
+
+The simple to use single-point API's allows to achieve a full state persistence functionality in just a few lines of code. **Copy paste the code from below** - it will save the grid state in the browser `sessionStorage` object every time the user leaves the current page. Whenever the user returns to main page, the grid state will be restored. No more need to configure those complex advanced filtering and sorting expressions every time to get the data you want - do it once and have the code from below do the rest for your users:
+
+```typescript
+// app.component.ts
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public ngOnInit() {
+    this.router.events.pipe(take(1)).subscribe((event: NavigationStart) => {
+        this.saveGridState();
+    });
+}
+
+public ngAfterViewInit() {
+    this.restoreGridState();
+}
+
+public saveGridState() {
+    const state = this.state.getState() as string;
+    window.sessionStorage.setItem('grid1-state', state);
+}
+
+public restoreGridState() {
+    const state = window.sessionStorage.getItem('grid1-state');
+    this.state.setState(state);
+}
+```
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+## Restoring columns
+
+When possible the state directive will reuses the columns that already exists on the grid when restoring the state, instead of creating new column instances. The only scenario where a new instance will be created is when the column (or its children in case of a column groups) have no `field` property so there's no way to uniquely identify the matching column and re-use it.
+
+For such scenarios, the following [`limitations`](/{igPath}/state-persistence#limitations) are imposed. In that case restoring complex objects can be achieved with code on application level. Let's show how to do this for templated columns:
+
+1. Define a template reference variable (in the example below it is `#activeTemplate`) and assign an event handler for the <ApiLink type="Grid" member="columnInit" label="columnInit" /> event:
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+    ...
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+    ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid id="grid" #grid igxGridState (columnInit)="onColumnInit($event)">
+    <igx-column [field]="'IsActive'" header="IsActive">
+        <ng-template igxCell #activeTemplate let-column let-val="val">
+            <igx-checkbox [checked]="val"></igx-checkbox>
+        </ng-template>
+    </igx-column>
+    ...
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+2. Query the template view in the component using @ViewChild or @ViewChildren decorator. In the <ApiLink type="Grid" member="columnInit" label="columnInit" /> event handler, assign the template to the column `bodyTemplate` property:
+
+```typescript
+@ViewChild('activeTemplate', { static: true }) public activeTemplate: TemplateRef<any>;
+public onColumnInit(column: IgxColumnComponent) {
+    if (column.field === 'IsActive') {
+        column.bodyTemplate = this.activeTemplate;
+        column.summaries = MySummary;
+        column.filters = IgxNumberFilteringOperand.instance();
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+## Restoring Pivot Configuration
+
+<ApiLink type="GridStateDirective" /> will not persist pivot dimension functions, value formatters, etc. by default (see [`limitations`](state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxPivotGrid` exposes two events which can be used to set back any custom functions you have in the configuration: <ApiLink type="{ComponentApiType}" member="dimensionInit" label="dimensionInit" /> and <ApiLink type="{ComponentApiType}" member="valueInit" label="valueInit" />. Let's show how to do this:
+
+- Assign event handlers for the `dimensionInit` and `valueInit` events:
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfig" [igxGridState]="options"
+    (valueInit)='onValueInit($event)' (dimensionInit)='onDimensionInit($event)'>
+</igx-pivot-grid>
+```
+
+> The <ApiLink type="{ComponentApiType}" member="dimensionInit" label="dimensionInit" /> and <ApiLink type="{ComponentApiType}" member="valueInit" label="valueInit" /> events are emitted for each value and dimension defined in the <ApiLink type="PivotGrid" member="pivotConfiguration" label="pivotConfiguration" /> property.
+
+- In the `valueInit` event handler set all custom aggregators, formatters and styles:
+
+```typescript
+public onValueInit(value: IPivotValue) {
+    // Needed only for custom aggregators, formatter or styles.
+    if (value.member === 'AmountofSale') {
+        value.aggregate.aggregator = IgxTotalSaleAggregate.totalSale;
+        value.aggregateList?.forEach((aggr: IPivotAggregator) => {
+            switch (aggr.key) {
+                case 'SUM':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalSale;
+                    break;
+                case 'MIN':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMin;
+                    break;
+                case 'MAX':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMax;
+                    break;
+            }
+        });
+    } else if (value.member === 'Value') {
+        value.formatter = (value) => value ? '$' + parseFloat(value).toFixed(3) : undefined;
+        value.styles.upFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) > 150
+        value.styles.downFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) <= 150;
+    }
+}
+```
+
+- In the `dimensionInit` event handler set all custom `memberFunction` implementations:
+
+```typescript
+public onDimensionInit(dim: IPivotDimension) {
+    switch (dim.memberName) {
+        case 'AllProducts':
+            dim.memberFunction = () => 'All Products';
+            break;
+        case 'ProductCategory':
+            dim.memberFunction = (data) => data.Product.Name;
+            break;
+        case 'City':
+            dim.memberFunction = (data) => data.Seller.City;
+            break;
+        case 'SellerName':
+            dim.memberFunction = (data) => data.Seller.Name;
+            break;
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+## Restoring Child Grids
+
+Saving / Restoring state for the child grids is controlled by the <ApiLink kind="interface" type="IGridStateOptions" member="rowIslands" /> property and is enabled by default. <ApiLink type="GridStateDirective" /> will use the same options for saving/restoring features both for the root grid and all child grids down the hierarchy. For example, if we pass the following options:
+
+``` html
+<!-- public options = {selection: false, sorting: false, rowIslands: true} -->
+<igx-grid [igxGridState]="options"></igx-grid>
+```
+
+Then the `getState` API will return the state for all grids (root grid and child grids) features excluding `selection` and `sorting`. If later on the developer wants to restore only the `filtering` state for all grids, use:
+
+```typescript
+this.state.setState(state, ['filtering', 'rowIslands']);
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+## Demo
+
+<Sample src="/grid/grid-state" height={763} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+## Demo
+
+<Sample src="/tree-grid/tree-grid-state" height={1010} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+## Demo
+
+<Sample src="/hierarchical-grid/hGrid-state" height={715} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+<Sample lob src="/pivot-grid/pivot-grid-state-persistence" height={820} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="PivotGrid">
+
+## Restoring Pivot Strategies
+
+<ApiLink type="GridStateDirective" /> will not persist neither remote pivot operations nor custom dimension strategies (For further information see [Pivot Grid Remote Operations](pivot-grid-custom) sample) by default (see [`limitations`](state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxGridState` exposes an event called <ApiLink type="GridStateDirective" member="stateParsed" label="stateParsed" /> which can be used to additionally modify the grid state before it gets applied. Let's show how to do this:
+
+> <ApiLink type="GridStateDirective" /> is only emitted when we are using <ApiLink type="GridStateDirective" member="setState" label="setState" /> with string argument.
+
+- Set custom sorting strategy and custom pivot column and row dimension strategies:
+
+```html
+<igx-pivot-grid #grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy" [defaultExpandState]='true'
+    [igxGridState]="options" [sortStrategy]="customStrategy" [pivotUI]='{ showConfiguration: false }' [superCompactMode]="true" [height]="'500px'">
+</igx-pivot-grid>
+```
+
+```typescript
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public customStrategy = NoopSortingStrategy.instance();
+public options: IGridStateOptions = {...};
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+    columns: [...],
+    rows: [...],
+    values: [...],
+    filters: [...]
+};
+```
+
+- Restoring the state from the `sessionStorage` and applying the custom strategies looks like the following:
+
+```typescript
+public restoreState() {
+    const state = window.sessionStorage.getItem('grid-state');
+    this.state.stateParsed.pipe(take(1)).subscribe(parsedState => {
+        parsedState.sorting.forEach(x => x.strategy = NoopSortingStrategy.instance());
+        parsedState.pivotConfiguration.rowStrategy = NoopPivotDimensionsStrategy.instance();
+        parsedState.pivotConfiguration.columnStrategy = NoopPivotDimensionsStrategy.instance();
+    });
+    this.state.setState(state as string);
+}
+```
+
+<Sample lob src="/pivot-grid/pivot-grid-noop-persistence" height={580} alt="Angular Pivot Noop Grid State Persistence Example" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+## Restoring Strategies
+
+<ApiLink type="GridStateDirective" /> will not persist neither remote operations nor custom dimension strategies (For further information see [Grid Remote Operations](remote-data-operations) sample) by default (see [`limitations`](state-persistence#limitations)). Restoring any of these can be achieved with code on application level. The `IgxGridState` exposes an event called <ApiLink type="GridStateDirective" member="stateParsed" label="stateParsed" /> which can be used to additionally modify the grid state before it gets applied. Let's show how to do this:
+
+<DocsAside type="info">
+<ApiLink type="GridStateDirective" /> is only emitted when we are using <ApiLink type="GridStateDirective" member="setState" label="setState" /> with string argument.
+</DocsAside>
+
+- Set custom sorting strategy and custom column and row dimension strategies:
+
+```html
+<igx-grid #grid 
+          [data]="data" 
+          [igxGridState]="options" 
+          [sortStrategy]="customStrategy"
+          [height]="'500px'">
+</igx-grid>
+```
+
+```typescript
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public customStrategy = NoopSortingStrategy.instance();
+public options: IGridStateOptions = {...};
+```
+
+- Restoring the state from the `sessionStorage` and applying the custom strategies looks like the following:
+
+```typescript
+public restoreState() {
+    const state = window.sessionStorage.getItem('grid-state');
+    this.state.stateParsed.pipe(take(1)).subscribe(parsedState => {
+        parsedState.sorting.forEach(x => x.strategy = NoopSortingStrategy.instance());
+    });
+    this.state.setState(state as string);
+}
+```
+
+<Sample src="/grid/grid-state-persistence" height={580} alt="Angular Grid State Persistence Example" />
+
+</ComponentBlock>
+
+## Limitations
+
+<ComponentBlock for="HierarchicalGrid">
+
+- When restoring all grid features at once (using `setState` API with no parameters), then column properties for the root grid might be resetted to default. If this happens, restore the columns or column selection feature separately after that:
+
+```typescript
+state.setState(gridState);
+state.setState(gridState.columns);
+state.setState(gridState.columnSelection);
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+- <ApiLink type="GridStateDirective" member="getstate" label="getState" /> method uses JSON.stringify() method to convert the original objects to a JSON string. JSON.stringify() does not support Functions, thats why the [`IgxGridState`] directive will ignore the columns <ApiLink type="Column" member="formatter" label="formatter" />, <ApiLink type="Column" member="filters" label="filters" />, <ApiLink type="Column" member="summaries" label="summaries" />, <ApiLink type="Column" member="sortstrategy" label="sortStrategy" />, <ApiLink type="Column" member="cellClasses" label="cellClasses" />, <ApiLink type="Column" member="cellstyles" label="cellStyles" />, <ApiLink type="Column" member="headerTemplate" label="headerTemplate" /> and <ApiLink type="Column" member="bodyTemplate" label="bodyTemplate" /> properties.
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+- <ApiLink type="GridStateDirective" member="getState" label="getState" /> method uses JSON.stringify() method to convert the original objects to a JSON string. JSON.stringify() does not support Functions, thats why the <ApiLink type="GridStateDirective" /> directive will ignore the pivot dimension <ApiLink kind="interface" type="IPivotDimension" member="memberFunction" />, pivot values <ApiLink kind="interface" type="IPivotValue" member="member" />, <ApiLink kind="interface" type="IPivotValue" member="formatter" />, custom <ApiLink kind="interface" type="IPivotValue" member="aggregate" /> functions,
+ <ApiLink kind="interface" type="IPivotValue" member="styles" /> and pivot configuration strategies: <ApiLink kind="interface" type="IPivotConfiguration" member="columnStrategy" /> and <ApiLink kind="interface" type="IPivotConfiguration" member="rowStrategy" />.
+</ComponentBlock>
+
+
+## API References
+<ComponentBlock for="Grid">
+- <ApiLink type="Grid" />
+- <ApiLink type="GridStateDirective" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="GridStateDirective" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+- <ApiLink type="TreeGrid" />
+- <ApiLink type="GridStateDirective" />
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="GridStateDirective" />
+</ComponentBlock>
+## Additional Resources
+
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+- [{ComponentTitle} overview]({ComponentMainTopic})
+- [Paging](paging)
+- [Filtering](filtering)
+- [Sorting](sorting)
+- [Selection](selection)
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+- [{ComponentTitle} Overview](/{igPath}/{ComponentMainTopic})
+- [Pivot Grid Remote Operations](/{igPath}/pivot-grid-custom)
+- [Pivot Grid Features](/{igPath}/pivot-grid-features)
+</ComponentBlock>
+

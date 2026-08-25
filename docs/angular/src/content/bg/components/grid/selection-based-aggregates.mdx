@@ -1,0 +1,79 @@
+---
+title: Angular Grid Selection-Based Data Aggregation- Ignite UI for Angular
+description: Learn how to aggregate selected data in a grid with Ignite UI. Get instant content aggregations in the virtualized data and rich API for your next project.
+keywords: Data aggregation, selection, ignite ui for angular, infragistics
+license: commercial
+llms:
+  description: "With the sample, illustrated beyond, you may see how multiple selection is being used, alongside with custom summary functions, to display aggregates based on the selected values in the grid footer."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Grid Selection-Based Data Aggregation
+
+With the sample, illustrated beyond, you may see how multiple selection is being used, alongside with custom summary functions, to display aggregates based on the selected values in the grid footer.
+
+## Topic Overview
+
+To achieve the selection-based aggregates functionality, you can use our [Grid Selection](/components/grid/grid/selection) feature, together with the [Grid Summaries](/components/grid/grid/summaries).
+The Summaries are allowing for customization of the basic Summary feature functionality through extending one of the base classes, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" /> or <ApiLink type="DateSummaryOperand" />, depending on the column data type and your needs.
+
+## Selection
+
+To start working with the data in the selected grid range, you will have to subscribe to events that are notifying of changes in the grid selection. That can be done by subscribing to the <ApiLink type="Grid" member="selected" /> event and to the <ApiLink type="Grid" member="rangeSelected" /> event. You need to bind to both of them because the Selection feature differentiates between selecting a single cell and selecting a range of cells.
+
+In the events subscription logic, you can extract the selected data using the grid's <ApiLink type="Grid" member="getSelectedData" /> function and pass the selected data to the custom summary operand.
+
+
+## Summary
+
+Within the custom summary class, you'd have to be differentiating the types of data in the grid. For instance, in the scenario below, there are four different columns, whose type of data is suitable for custom summaries. These are the Unit Price, the Units in Stock, Discontinued status and the Order Date.
+The `operate` method of the derived class of the `IgxSummaryOperand`, is where you will process the data, starting by casing it in different categories based on the data types:
+
+```typescript
+const numberData = data.filter(rec => typeof rec === "number");
+const boolData = data.filter(rec => typeof rec === "boolean");
+const dates = data.filter(rec => isDate(rec));
+```
+
+<DocsAside type="info">
+Bear in mind, that `isDate` is a custom function.
+</DocsAside>
+
+After having the data types grouped accordingly, you can proceed to the aggregation itself. For that reason, you could use the already exposed methods of the `IgxNumberSummaryOperand` and `IgxDateSummaryOperand`.
+After that, you'd have to put the aggregated data in the same array, which would be returned to the template.
+For the visualization of the data, you might want to use the `<igx-grid-footer>`, which in a combination with the `custom-summaries` class will give the natural look of the Summary.
+
+
+### Demo
+
+Change the selection to see summaries of the currently selected range.
+
+
+<Sample src="/grid/grid-selection-custom-summaries" height={560} alt="" />
+
+
+## API References
+- <ApiLink type="Grid" label="IgxGridComponent API" />
+- <ApiLink type="GridCell" label="IgxGridCell API" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent Styles" />
+## Additional Resources
+
+
+- [Grid overview](/grid/grid)
+- <ApiLink type="GridSelectionService" label="Selection Service" />
+- [Row Selection](/grid/row-selection)
+- [Cell Selection](/grid/cell-selection)
+- <ApiLink type="NumberSummaryOperand" />
+- <ApiLink type="DateSummaryOperand" />
+- [Summaries](/grid/summaries)
+- [Paging](/grid/paging)
+
+Our community is active and always welcoming to new ideas.
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

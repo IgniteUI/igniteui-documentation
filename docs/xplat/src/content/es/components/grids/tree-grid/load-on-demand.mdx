@@ -1,0 +1,139 @@
+---
+title: "{Platform} Cuadrícula de árbol | Tabla de árbol {Platform} más rápida | Infragistics"
+description: La cuadrícula de árbol de {ProductName} proporciona las herramientas necesarias para cargar datos secundarios bajo demanda cuando se expande una fila principal. De ese modo, el volumen de datos se reduciría considerablemente y puede recuperarse solo cuando el usuario lo necesite.
+keywords: cuadrícula de árbol {Platform}, igniteui for {Platform}, infragistics
+license: commercial
+mentionedTypes: ["TreeGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: La cuadrícula de árbol de Ignite UI for {Platform} puede representarse de tal manera que requiera la cantidad mínima de datos que obtener del servidor para que el usuario pueda verla lo más rápido posible.
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Carga bajo demanda de la cuadrícula de árbol
+
+La cuadrícula de árbol de Ignite UI for {Platform} se puede representar de tal manera que requiera la cantidad mínima de datos que se obtienen del servidor para que el usuario pueda verla lo antes posible. Luego, solo después de que el usuario expanda una fila, se cargarán los elementos secundarios de esa fila principal concreta. Este mecanismo, también conocido como carga bajo demanda, se puede configurar fácilmente para funcionar con cualquier dato remoto.
+
+## Ejemplo de carga bajo demanda de la cuadrícula de árbol de {Platform}
+
+<Sample src="/{TreeGridSample}/load-on-demand" height={700} alt="{Platform} Tree Grid Load On Demand Example" />
+
+## Uso
+
+La característica de carga bajo demanda es compatible con ambos tipos de orígenes de datos de la cuadrícula de árbol: claves primarias y externas o colección secundaria. Solo necesita cargar los datos del nivel raíz en la cuadrícula de árbol y especificar las claves necesarias para uno de los tipos de origen de datos. Para cargar las filas secundarias cuando el usuario expande una fila, la cuadrícula de árbol proporciona la propiedad de entrada de callback <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="LoadChildrenOnDemand" />.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren">
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="treeGrid"></igc-tree-grid>
+```
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+    };
+}
+```
+
+El callback LoadChildrenOnDemand proporciona dos parámetros:
+
+- parentID: el ID de la fila principal que se está expandiendo.
+- done: callback que debe llamarse con los elementos secundarios cuando se recuperen del servidor.
+
+```typescript
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+}
+```
+
+</PlatformBlock>
+
+Después de que el usuario haga clic en el icono de expansión, este se reemplaza por un indicador de carga. Cuando se llama al callback done, el indicador de carga desaparece y se cargan los elementos secundarios. La cuadrícula de árbol agrega los elementos secundarios al origen de datos subyacente y rellena las claves necesarias automáticamente.
+
+### Visibilidad del indicador de expansión
+
+Si dispone de una forma de proporcionar información sobre si una fila tiene elementos secundarios antes de expandirla, podría usar la propiedad de entrada <ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" />. De este modo, podría proporcionar una propiedad booleana desde los objetos de datos que indique si debe mostrarse un indicador de expansión.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren" hasChildrenKey="hasEmployees">
+        ...
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="treeGrid" primary-key="ID" foreign-key="ParentID" has-children-key="hasEmployees"></igc-tree-grid>
+```
+
+</PlatformBlock>
+
+Tenga en cuenta que no es obligatorio establecer la propiedad <ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" />. En caso de que no la proporcione, se mostrarán indicadores de expansión para cada fila. Después de expandir una fila que no tiene elementos secundarios, aún debe llamar al callback done con undefined o una matriz vacía. En este caso, después de que desaparezca el indicador de carga, el indicador de expansión no vuelve a mostrarse.
+
+### Indicador de carga personalizado
+
+<PlatformBlock for="WebComponents">
+
+Si desea proporcionar su propio indicador de carga personalizado, puede usar la opción <ApiLink type="TreeGrid" member="rowLoadingIndicatorTemplate" label="RowLoadingIndicatorTemplate" /> para establecer una plantilla personalizada. El siguiente fragmento de código demuestra cómo configurarla:
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.rowLoadingIndicatorTemplate = this.rowLoadingTemplate;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+               this.getData(parentID, (children) => done(children));
+    };
+
+}
+public rowLoadingTemplate() {
+    return html`<igc-icon name="loop" collection="material"></igc-icon>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Si desea proporcionar su propio indicador de carga personalizado, puede crear un ng-template y marcarlo con la directiva RowLoadingIndicator. El siguiente fragmento de código demuestra cómo definir dicha plantilla personalizada:
+
+```html
+<igx-tree-grid>
+    <ng-template igxRowLoadingIndicator>
+        <igx-icon fontSet="material">loop</igx-icon>
+    </ng-template>
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="TreeGrid" />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

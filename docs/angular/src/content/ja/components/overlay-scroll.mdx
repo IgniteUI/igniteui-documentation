@@ -1,0 +1,105 @@
+---
+title: Angular Overlay Service - Scroll Strategies - MIT license 
+description: Explanation and example about the Overlay Service's IScrollStrategy interface and the classes that implement it.
+license: MIT
+llms:
+  description: "The scroll strategy determines how the scrolling is handled in the provided IgxOverlayService."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Scroll Strategies
+
+The scroll strategy determines how the scrolling is handled in the provided `IgxOverlayService`. There are four scroll strategies:
+
+1. **NoOperation** - does nothing.
+2. **Block** - the event is canceled and the component does not scroll with the window.
+3. **Close** - uses a tolerance and closes an expanded component upon scrolling if the tolerance is exceeded.
+4. **Absolute** - scrolls everything.
+
+## Usage
+
+Every scroll strategy has the following methods:
+
+- <ApiLink kind="interface" type="IScrollStrategy" member="initialize" /> - initializes the scroll strategy. It needs a reference of the document, the overlay service and the id of the component rendered
+- <ApiLink kind="interface" type="IScrollStrategy" member="attach" /> - attaches the scroll strategy to the specified element or to the document
+- <ApiLink kind="interface" type="IScrollStrategy" member="detach" /> - detaches the scroll strategy
+
+```typescript
+this.scrollStrategy.initialize(document, overlayService, id);
+this.scrollStrategy.attach();
+this.scrollStrategy.detach();
+```
+
+<hr/>
+
+### Getting Started
+
+The scroll strategy is passed as a property in the <ApiLink kind="interface" type="OverlaySettings" /> parameter when the <ApiLink type="OverlayService" member="attach" label="overlay.attach()" /> method is called:
+
+```typescript
+// Initializing and using overlay settings
+const overlaySettings: OverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new AbsoluteScrollStrategy(), //Passes the scroll strategy
+    modal: true,
+    closeOnOutsideClick: true
+}
+const overlayId = overlay.attach(dummyElement, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+To change the scrolling strategy, used by the overlay, override the <ApiLink kind="interface" type="IScrollStrategy" /> property of the <ApiLink kind="interface" type="OverlaySettings" /> object passed to the overlay. If a strategy was already attached you should detach the previously generated ID:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// to override the scroll strategy
+const newOverlaySettings = Object.assing({}, overlaySettings);
+Object.assing(newOverlaySettings, {
+    scrollStrategy: new CloseScrollStrategy()
+})
+const overlayId = overlay.attach(dummyElement, newOverlaySettings);
+overlay.show(overlayId);
+```
+
+<hr/>
+
+### Dependencies
+
+To use the any of the scroll strategies, import it like this:
+
+```typescript
+import { NoOpScrollStrategy } from "./scroll/NoOpScrollStrategy";
+```
+
+### Scroll Strategies
+
+The scroll strategies can be passed to the <ApiLink kind="interface" type="OverlaySettings" /> object to determine how the overlay should handle scrolling.
+The demo below illustrates the difference between the separate <ApiLink kind="interface" type="IScrollStrategy" />:
+
+<Sample src="/interactions/overlay-scroll-sample-2" height={400} alt="" />
+
+<hr/>
+
+## Modal
+
+The <ApiLink kind="interface" type="OverlaySettings" /> object also allows a boolean property (<ApiLink kind="interface" type="OverlaySettings" member="modal" />) to be passed. This controls how the overlay will be displayed:
+
+- If the <ApiLink kind="interface" type="OverlaySettings" member="modal" /> property is `false`, the element will be attached to the DOM foreground but everything will still be active and interactable - e.g. scrolling, clicking, etc.
+- If the <ApiLink kind="interface" type="OverlaySettings" member="modal" /> property is `true`, the element will be attached to the DOM foreground and an overlay blocker will wrap behind it, stopping propagation of all events:
+
+<Sample src="/interactions/overlay-scroll-sample-1" height={400} alt="" />
+
+<hr/>
+
+## API References
+- <ApiLink type="IScrollStrategy" kind="interface" />
+## Additional Resources
+
+- [Overlay Main Topic](/overlay)
+- [Position strategies](/overlay-position)
+- [Styling Topic](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Styles" />

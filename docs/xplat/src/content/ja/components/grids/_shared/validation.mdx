@@ -1,0 +1,735 @@
+---
+title: "{Platform} {ComponentTitle} 編集と検証 - {ProductName}"
+description: "{Platform} {ComponentTitle} を使用しながら、グリッドでユーザーの入力を検証し、有効かどうかを通知します。デモと例をご覧ください。"
+keywords: "{Platform} 検証, {ProductName}, infragistics,"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+namespace: Infragistics.Controls
+llms:
+  description: "{Platform} {ComponentName} は、セル/行の編集時にユーザー入力を検証する組み込みの検証メカニズムを備えた編集機能を提供します。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} 編集と検証
+
+{Platform} {ComponentName} は、セル/行の編集中にユーザー入力の組み込み検証メカニズムを備えた編集機能を提供します。よく知られた機能とより簡単に統合できるように、フォーム検証機能を拡張します。エディターの状態が変わると、視覚的インジケーターが `{ComponentName}` 内の編集されたセルに適用されます。
+
+## 構成
+
+### テンプレート駆動構成による構成
+
+{Platform} Forms バリデーターの一部を拡張して、<ApiLink type="Column" /> と直接連携できるようにしています。同じバリデーターは、<ApiLink type="Column" /> で宣言的に設定する属性として利用できます。次のバリデーターが標準でサポートされています。
+
+- Required
+- Min
+- Max
+- Email
+- MinLength
+- MaxLength
+- Pattern
+
+列入力が設定され、その値がメールとして書式設定されることを検証するには、関連するディレクティブを使用できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column [field]="email" [header]="User E-mail" required email></igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column field="email" header="User E-mail" required="true" email="true"></igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+次のサンプルは、`Required`、`Email`、`Min` バリデーター ディレクティブを `{ComponentName}` で使用する方法を示しています。
+
+<Sample src="/{ComponentSample}/data-validator-service" height={600} alt="{Platform} {ComponentTitle} Validation Basic Example" />
+
+### リアクティブ フォームによる構成
+
+行/セルで `<ApiLink type="{ComponentName}" member="formGroupCreated" />` イベントを介して編集が開始されるときに検証に使用される <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> を公開しています。関連フィールドに独自のバリデーターを追加することで変更できます。
+
+<ComponentBlock for="Grid">
+
+```html
+<{ComponentInstance} (formGroupCreated)='formCreateHandler($event)' ...>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid (formGroupCreated)='formCreateHandler($event)' ...>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid (formGroupCreated)='formCreateHandler($event)' ...>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+```ts
+    public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
+        const formGroup = args.formGroup;
+        const orderDateRecord = formGroup.get('OrderDate');
+        const requiredDateRecord = formGroup.get('RequiredDate');
+        const shippedDateRecord = formGroup.get('ShippedDate');
+
+        orderDateRecord.addValidators(this.futureDateValidator());
+        requiredDateRecord.addValidators(this.pastDateValidator());
+        shippedDateRecord.addValidators(this.pastDateValidator());
+    }
+
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```ts
+   public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
+        const formGroup = args.formGroup;
+        const hireDateRecord = formGroup.get('HireDate');
+        hireDateRecord.addValidators([this.futureDateValidator(), this.pastDateValidator()]);
+    }
+```
+
+</ComponentBlock>
+
+独自のバリデーター関数を記述するか、[組み込みの {Platform} バリデーター関数](https://{Platform}.io/guide/form-validation#built-in-validator-functions) のいずれかを使用するかを選択できます。
+
+</PlatformBlock>
+
+## 検証サービス API
+
+グリッドは、<ApiLink type="{ComponentName}" member="validation" /> プロパティを介して検証サービスを公開します。
+
+このサービスには次の公開 API があります。
+
+- `Valid` - グリッドの検証状態が有効かどうかを返します。
+- `GetInvalid` - 無効な状態のレコードを返します。
+- `Clear` - id でレコードの状態をクリアします。id が指定されていない場合はすべての状態をクリアします。
+- <ApiLink type="{ComponentName}" member="markAsTouched" /> - 関連するレコード/フィールドを touched としてマークします。
+
+無効な状態は、その中の検証エラーが検証ルールに従って修正されるか、クリアされるまで保持されます。
+
+## 検証トリガー
+
+検証は次のシナリオでトリガーされます。
+
+- グリッドの <ApiLink type="GridValidationTrigger" /> に基づいてセル エディター経由で編集中。エディターに入力している間の `Change`、またはエディターがフォーカスを失うか閉じるときの `Blur` のいずれかです。
+- API 経由でセル/行を更新するとき - <ApiLink type="{ComponentName}" member="updateRow" />、<ApiLink type="{ComponentName}" member="updateCell" /> など。
+- バッチ編集とトランザクション サービスの `Undo`/`Redo` API を使用するとき。
+
+<DocsAside type="info">
+
+ユーザー入力または編集 API を介して編集されていないレコードでは、検証はトリガーされません。セル上の視覚的インジケーターは、関連する入力が touched と見なされる場合にのみ表示されます。これは、ユーザー操作または検証サービスの <ApiLink type="{ComponentName}" member="markAsTouched" /> API を介した場合です。
+
+</DocsAside>
+
+<PlatformBlock for="Angular">
+
+## {Platform} {ComponentTitle} 検証カスタマイズ オプション
+
+### カスタム バリデーターの設定
+
+テンプレート内の <ApiLink type="Column" /> で使用する独自の検証ディレクティブを定義できます。
+
+```ts
+@Directive({
+    selector: '[phoneFormat]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: PhoneFormatDirective, multi: true }]
+})
+export class PhoneFormatDirective extends Validators {
+    @Input('phoneFormat')
+    public phoneFormatString = '';
+
+    public validate(control: AbstractControl): ValidationErrors | null {
+        return this.phoneFormatString ? phoneFormatValidator(new RegExp(this.phoneFormatString, 'i'))(control)
+            : null;
+    }
+}
+```
+
+定義してアプリ モジュールに追加したら、グリッド内の指定した列に宣言的に設定できます。
+
+```html
+<igx-column phoneFormat="\+\d{1}\-(?!0)(\d{3})\-(\d{3})\-(\d{4})\b"></igx-column>
+```
+
+### 既定のエラー テンプレートの変更
+
+セルが無効な状態になったときにエラー ツールチップに表示される、独自のカスタム エラー テンプレートを定義できます。これは、独自のカスタム エラー メッセージを追加したい場合や、メッセージの外観または内容を変更したい場合に便利です。
+
+```html
+<igx-column>
+  <ng-template igxCellValidationError let-cell='cell' let-defaultErr="defaultErrorTemplate">
+      <ng-container *ngTemplateOutlet="defaultErr">
+      </ng-container>
+      <div *ngIf="cell.validation.errors?.['phoneFormat']">
+        Please enter correct phone format
+      </div>
+  </ng-template>
+</igx-column>
+```
+
+### 無効な状態で編集モードを終了しないようにする
+
+場合によっては、データ内の無効な値の送信を許可したくないことがあります。そのシナリオでは、<ApiLink type="{ComponentName}" member="cellEdit" /> または <ApiLink type="{ComponentName}" member="rowEdit" /> イベントを使用し、新しい値が無効な場合にイベントをキャンセルできます。
+
+両方のイベントの引数には `Valid` プロパティがあり、それに応じてキャンセルできます。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentInstance} (cellEdit)='cellEdit($event)'>
+```
+
+</PlatformBlock>
+
+```ts
+public cellEdit(evt) {
+  if (!evt.valid) {
+    evt.cancel = true;
+  }
+}
+```
+
+### 例
+
+以下の例は、上記のカスタマイズ オプションを示しています。
+
+<Sample src="/{ComponentSample}/data-validator-service-extended" height={570} alt="{Platform} {ComponentTitle} Custom Validation Example" />
+
+### クロスフィールド検証
+
+シナリオによっては、あるフィールドの検証がレコード内の別のフィールドの値に依存する場合があります。
+
+その場合、カスタム バリデーターを使用して、共有される <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> を介してレコード内の値を比較できます。
+
+<ComponentBlock for="Grid">
+
+以下のサンプルは、同じレコードの異なるフィールド間のクロスフィールド検証を示しています。現在の日付と比較した日付の有効性、レコードの active 日付と created on 日付の間の有効性、および各従業員の成立/不成立案件の比率をチェックします。すべてのエラーは、レコードが無効であることを示し、関連するエラーを表示する個別のピン留め列に収集されます。
+
+次のコード行は、比較を含み、それに関連するエラーを設定するクロスフィールド バリデーター関数を示しています。
+
+<PlatformBlock for="Blazor">
+
+```razor
+private rowValidator(): ValidatorFn {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+        let returnObject = {};
+        const createdOnRecord = formGroup.get('created_on');
+        const lastActiveRecord = formGroup.get('last_activity');
+        const winControl = formGroup.get('deals_won');
+        const loseControl = formGroup.get('deals_lost');
+        const actualSalesControl = formGroup.get('actual_sales');
+
+        // Validate dates
+        const curDate = new Date();
+        if (new Date(createdOnRecord.value) > curDate) {
+            // The created on date should not be greater than current date.
+            returnObject['createdInvalid'] =  true;
+        }
+        if (new Date(lastActiveRecord.value) > curDate) {
+            // The last active date should not be greater than current date.
+            returnObject['lastActiveInvalid'] = true;
+        }
+        if (new Date(createdOnRecord.value) > new Date(lastActiveRecord.value)) {
+            // The created on date should not be greater than last active date.
+            returnObject['createdLastActiveInvalid'] = true;
+        }
+
+        // Validate deals
+        const dealsRatio = this.calculateDealsRatio(winControl.value, loseControl.value);
+        if (actualSalesControl.value === 0 && dealsRatio > 0) {
+            // If the actual sales value is 0 but there are deals made.
+            returnObject['salesZero'] = true;
+        }
+        if (actualSalesControl.value > 0 && dealsRatio === 0) {
+            // If the deals ratio based on deals won is 0 but the actual sales is bigger than 0.
+            returnObject['salesNotZero'] = true;
+        }
+
+        return returnObject;
+    };
+}
+
+public calculateDealsRatio(dealsWon, dealsLost) {
+    if (dealsLost === 0) return dealsWon + 1;
+    return Math.round(dealsWon / dealsLost * 100) / 100;
+}
+
+```
+
+</PlatformBlock>
+
+クロスフィールド バリデーターは、編集モードに入るときに各行の新しい <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> を返す `FormGroupCreated` イベントから、行の <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> に追加できます。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentInstance} #grid1 [data]="transactionData" [width]="'100%'" [height]="'480px'" [autoGenerate]="false"
+        [batchEditing]="true" [rowEditable]="true" [primaryKey]="'id'"
+        (formGroupCreated)='formCreateHandler($event)'>
+    <!-- ... -->
+</{ComponentInstance}>
+```
+
+</PlatformBlock>
+
+```typescript
+public formCreateHandler(evt: IGridFormGroupCreatedEventArgs) {
+    evt.formGroup.addValidators(this.rowValidator());
+}
+```
+
+さまざまなエラーは、すべてのエラーを単一のツールチップに結合するテンプレート化されたセルに表示されます。行の有効状態に応じて、異なるアイコンが表示されます。
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [pinned]="true" [width]="'50px'">
+    <ng-template igxCell let-cell="cell">
+        <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"  style="margin-right: '-10px';">
+            <img width="18" src="assets/images/grid/active.png"/>
+        </div>
+        <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef" style="margin-right: '-10px';">
+            <img width="18" src="assets/images/grid/expired.png"/>
+        </div>
+        <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+            <div *ngFor="let message of stateMessage(cell)">
+                {{message}}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+エラー メッセージは `StateMessage` 関数で収集されます。この関数は各セルのエラーを収集します。各列にはテンプレート化されたフォーム検証が存在する可能性があるためです。その後、カスタム `RowValidator` から発生する行自体のエラーをチェックします。
+
+```typescript
+public stateMessage(cell: IgxGridCell) {
+    const messages = [];
+    const row = cell.row;
+    const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+    cellValidationErrors.forEach(cell => {
+        if (cell.validation.errors) {
+            if (cell.validation.errors.required) {
+                messages.push(`The \`${cell.column.header}\` column is required.`);
+            }
+            // Other cell errors ...
+        }
+    });
+
+    if (row.validation.errors?.createdInvalid) {
+        messages.push(`The \`Date of Registration\` date cannot be in the future.`);
+    }
+    // Other cross-field errors...
+
+    return messages;
+}
+```
+
+以下のサンプルは、クロスフィールド検証の動作を示しています。
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={560} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+クロスフィールド バリデーターは、`FormGroupCreated` イベントで formGroup に追加できます。その中で複数のフィールドの有効性を比較できます。
+
+```ts
+  public formCreateCustomerHandler(event: IGridFormGroupCreatedEventArgs) {
+        const formGroup = event.formGroup;
+        formGroup.addValidators(this.addressValidator());
+    }
+
+    public formCreateOrderHandler(event: IGridFormGroupCreatedEventArgs) {
+        const formGroup = event.formGroup;
+        formGroup.addValidators(this.dateValidator());
+    }
+
+    public addressValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const formGroup = control;
+            let returnObject = {};
+            const city = formGroup.get('City');
+            const country = formGroup.get('Country');
+            const validCities = this.countryData.get(country.value);
+            if (!validCities || !validCities[city.value]) {
+                returnObject['invalidAddress'] = true;
+            }
+            return returnObject;
+        }
+    }
+
+    public dateValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const formGroup = control;
+            let returnObject = {};
+            const orderDate = formGroup.get('OrderDate').value;
+            const shippedDate = formGroup.get('ShippedDate').value;
+            if (new Date(shippedDate) < new Date(orderDate)) {
+                returnObject['invalidRange'] = true;
+            }
+            return returnObject;
+        }
+    }
+```
+
+複数フィールドのエラーは、個別のピン留め列に表示できます。
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'50px'">
+        <ng-template igxCell let-cell="cell">
+            <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"
+            >
+                <img width="18" src="assets/images/grid/active.png"/>
+            </div>
+            <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef"
+            >
+                <img width="18" src="assets/images/grid/expired.png"/>
+            </div>
+            <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+               <div *ngFor="let message of stateMessage(cell)">
+                   {{message}}
+               </div>
+            </div>
+        </ng-template>
+    </igx-column>
+```
+
+エラーと詳細メッセージは、行とセルの有効性に基づいて判断できます。
+
+```ts
+    public isRowValid(cell: IgxGridCell) {
+        const hasErrors = !!cell.row.validation.errors || cell.row.cells.some(x => !!x.validation.errors);
+        return !hasErrors;
+    }
+
+    public stateMessage(cell: IgxGridCell) {
+        const messages = [];
+        const row = cell.row;
+        if  (row.validation.errors?.invalidAddress) {
+            messages.push('The address information is invalid. City does not match the Country.');
+        }
+        if  (row.validation.errors?.invalidRange) {
+            messages.push('The ShippedDate cannot be before the OrderDate.');
+        }
+        const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+        if (cellValidationErrors && cellValidationErrors.length > 0) {
+            const fields = cellValidationErrors.map(x => x.column.field).join(',');
+            messages.push('The following fields are required: ' + fields);
+        }
+
+        if (messages.length === 0) {
+            // no errors
+            return ['Valid'];
+        }
+        return messages;
+    }
+```
+
+以下のサンプルは、ルート データと子データの両方に対する `{ComponentName}` でのクロスフィールド検証を示しています。
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={530} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+以下のサンプルは、同じレコードの異なるフィールド間のクロスフィールド検証を示しています。人物に指定された City が現在設定されている Country 内にあること、およびその逆もチェックします。また、その人物が採用された時点で年齢がすでに 18 歳であったかどうかもチェックします。
+
+次のコード行は、上記の比較を含み、関連するエラーを設定するクロスフィールド バリデーター関数を示しています。
+
+```ts
+private rowValidator(): ValidatorFn {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+        let returnObject = {};
+
+        const age = formGroup.get('Age');
+        const hireDate = formGroup.get('HireDate');
+        if ((new Date().getFullYear() - new Date(hireDate.value).getFullYear()) + 18 >= age.value) {
+            returnObject['ageLessHireDate'] = true;
+        }
+
+        const city = formGroup.get('City');
+        const country = formGroup.get('Country');
+        const validCities = this.countryData.get(country.value);
+        if (!validCities || !validCities[city.value]) {
+            returnObject['invalidAddress'] = true;
+        }
+
+        return returnObject;
+    };
+}
+```
+
+クロスフィールド バリデーターは、編集モードに入るときに各行の新しい <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> を返す `FormGroupCreated` イベントから、行の <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> に追加できます。
+
+```html
+<igx-tree-grid igxPreventDocumentScroll #treeGrid [batchEditing]="true" [data]="data" primaryKey="ID"
+    foreignKey="ParentID" [width]="'100%'" [height]="'500px'" [rowEditable]="true" [pinning]="pinningConfig"
+    (formGroupCreated)="formCreateHandler($event)">
+</igx-tree-grid>
+```
+
+```typescript
+public formCreateHandler(evt: IGridFormGroupCreatedEventArgs) {
+    evt.formGroup.addValidators(this.rowValidator());
+}
+```
+
+さまざまなエラーは、すべてのエラーを単一のツールチップに結合するテンプレート化されたセルに表示されます。行の有効状態に応じて、異なるアイコンが表示されます。
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'150px'">
+    <ng-template igxCell let-cell="cell">
+        <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"  style="margin: 'auto';">
+            <img width="18" src="assets/images/grid/active.png"/>
+        </div>
+        <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef" style="margin: 'auto';">
+            <img width="18" src="assets/images/grid/expired.png"/>
+        </div>
+        <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+            <div *ngFor="let message of stateMessage(cell)">
+                {{message}}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+エラー メッセージは `StateMessage` 関数で収集されます。この関数は各セルのエラーを収集します。各列にはテンプレート化されたフォーム検証が存在する可能性があるためです。その後、カスタム `RowValidator` から発生する行自体のエラーをチェックします。
+
+```typescript
+public stateMessage(cell: IgxGridCell) {
+    const messages = [];
+    const row = cell.row;
+    const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+    cellValidationErrors.forEach(cell => {
+        if (cell.validation.errors) {
+            if (cell.validation.errors.required) {
+                messages.push(`The \`${cell.column.header}\` column is required.`);
+            }
+            // Other cell errors...
+        }
+    });
+
+    if (row.validation.errors?.ageLessHireDate) {
+        messages.push(`\`Age\` cannot be less than 18 when the person was hired.`);
+    }
+    if (row.validation.errors?.invalidAddress) {
+        messages.push(`Selected \`City\` does not match the \`Country\`.`);
+    }
+
+    if (messages.length === 0 && this.isRowValid(cell)) {
+        messages.push('OK');
+    }
+
+    return messages;
+}
+```
+
+以下のサンプルは、クロスフィールド検証の動作を示しています。
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={570} alt="{Platform} {ComponentTitle} Cross field Validation Example" />
+
+</ComponentBlock>
+
+## スタイル設定
+
+[{ProductName} テーマ ライブラリ](../themes/index.md) を使用すると、編集中の既定の検証スタイルを変更できます。
+
+以下の例では、ツールチップに表示される検証メッセージ用に公開されたテンプレートを使用し、エラー色をオーバーライドして検証の既定の外観を変更します。
+また、無効な行の背景をスタイル設定して、より明確に区別できるようにします。
+
+### テーマのインポート
+
+css 変数をスタイル設定してアクセスする最も簡単な方法は、`app` のグローバル スタイル ファイル（通常は `styles.scss`）にスタイルを定義することです。
+最初に行う必要があるのは、`themes/index` ファイルをインポートすることです。これにより、{ProductName} Sass フレームワークの強力なツールすべてにアクセスできます。
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### スタイルの組み込み
+
+エラー色を変更するには、css 変数 `--ig-error-500` を使用できます。
+
+```scss
+--ig-error-500: 34, 80%, 63%;
+```
+
+### カスタム テンプレート
+
+既定のエラー テンプレートを変更すると、カスタム クラスとスタイルを設定できます。
+
+```html
+<ng-template igxCellValidationError let-cell='cell' let-defaultErr='defaultErrorTemplate'>
+    <div class="validator-container">
+        <ng-container *ngTemplateOutlet="defaultErr">
+        </ng-container>
+    </div>
+</ng-template>
+```
+
+### 無効な行とセルのスタイル
+
+行とセルは、行またはセルが無効かどうか、およびどの種類のエラーがアクティブであるかを開発者が把握するための API を提供します。
+
+<ComponentBlock for="Grid">
+
+```ts
+public rowStyles = {
+    background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        const pKey = this.grid.primaryKey;
+        const cell = this.grid.getCellByKey(rowData[pKey], columnKey);
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+
+```html
+<{ComponentInstance} [rowStyles]="rowStyles">
+    <igx-column field="ReorderLevel" header="Reorder Level" required [cellClasses]="cellStyles">
+    </igx-column>
+</{ComponentInstance}>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```ts
+public rowStyles = {
+    background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        let cell = this.hierarchicalGrid.getCellByKey(rowData, columnKey);
+        // search in child grids
+        if (!cell) {
+            for (let grid of this.childGrid.gridAPI.getChildGrids()) {
+                cell = grid.getCellByKey(rowData, columnKey);
+                if (cell) break;
+            }
+        }
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+
+```html
+<igx-hierarchical-grid [rowStyles]="rowStyles">
+    <igx-column field="Artist" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
+    <!--...-->
+    </igx-column>
+    <igx-row-island [key]="'Albums'" [rowStyles]="rowStyles">
+        <igx-column field="Album" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
+        </igx-column>
+    </igx-row-island>
+    <!--...-->
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Blazor">
+
+```razor
+public rowStyles = {
+    background: (row: RowType) => row.cells.find(c => c.validation.errors !== null && c.validation.errors !== undefined) ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        const pKey = this.treeGrid.primaryKey;
+        const cell = this.treeGrid.getCellByKey(rowData[pKey], columnKey);
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+
+</PlatformBlock>
+
+```html
+<igx-tree-grid [rowStyles]="rowStyles">
+        <igx-column *ngFor="let c of columns" [field]="c.field" [dataType]="c.dataType" [header]="c.label" [required]="c.required" [cellClasses]="cellStyles">
+        </igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+### デモ
+
+<Sample src="/{ComponentSample}/data-validation-style" height={560} alt="{Platform} {ComponentTitle} data validation style" />
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## その他のリソース
+
+<PlatformBlock for="Angular">
+
+- [igxGrid で CRUD 操作を構築する](../general/how-to/how-to-perform-crud.md)
+
+- [{ComponentTitle} 編集](editing.md)
+
+- [{ComponentTitle} 行編集](row-editing.md)
+
+- [{ComponentTitle} 行追加](row-adding.md)
+
+- [{ComponentTitle} トランザクション](batch-editing.md)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid">
+
+- [{ComponentTitle} 編集](editing.md)
+- [{ComponentTitle} 行編集](row-editing.md)
+- [{ComponentTitle} 行追加](row-adding.md)
+- [{ComponentTitle} トランザクション](batch-editing.md)
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

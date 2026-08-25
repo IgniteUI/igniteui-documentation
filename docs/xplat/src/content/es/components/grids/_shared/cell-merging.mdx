@@ -1,0 +1,418 @@
+---
+title: "{Platform} {ComponentTitle} Combinación de celdas - {ProductName}"
+description: Combine celdas adyacentes con valores iguales en la {ProductName} {ComponentTitle} mediante la función de combinación de celdas. ¡Aprenda la configuración, los modos de combinación y vea ejemplos en vivo!
+keywords: combinación de celdas, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellMerging}"
+llms:
+  description: Ignite UI for {Platform} {ComponentTitle} proporciona una función de combinación de celdas que combina dos o más celdas adyacentes con el mismo valor en una única celda más grande.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Combinación de celdas
+
+<PlatformBlock for="WebComponents, React">
+
+La {ComponentTitle} de Ignite UI for {Platform} proporciona una característica de combinación de celdas que combina dos o más celdas adyacentes con el mismo valor en una única celda más grande. La combinación se aplica verticalmente dentro de una columna y ayuda a mejorar la legibilidad al reducir los valores duplicados. La característica puede configurarse para combinar celdas ya sea mediante la coincidencia predeterminada de valores de datos o aplicando una condición personalizada.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+La {ComponentTitle} de Ignite UI for {Platform} proporciona una característica de combinación de celdas que combina dos o más celdas adyacentes con el mismo valor en una única celda más grande. La combinación se aplica verticalmente dentro de una columna y ayuda a mejorar la legibilidad al reducir los valores duplicados.
+
+</PlatformBlock>
+
+## Ejemplo de combinación de celdas de {Platform} {ComponentTitle}
+
+<ComponentBlock for="Grid"><Sample src="/{ComponentSample}/cell-merge" height={600} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid"><Sample src="/{ComponentSample}/cell-merge" height={475} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+<ComponentBlock for="TreeGrid"><Sample src="/{ComponentSample}/cell-merge" height={755} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+## Habilitar y usar la combinación de celdas
+
+La combinación de celdas en la cuadrícula se controla en dos niveles:
+
+- Modo de combinación a nivel de cuadrícula: determina cuándo se aplica la combinación.
+- Conmutador de combinación a nivel de columna: determina qué columnas pueden combinar celdas.
+
+### Modo de combinación de la cuadrícula
+
+La cuadrícula expone una propiedad <ApiLink type="{ComponentName}" member="cellMergeMode" /> que acepta valores de la enumeración <ApiLink type="GridCellMergeMode" />:
+
+- `always` - Combina cualquier celda adyacente que cumpla la condición de combinación, independientemente del estado de ordenación.
+- `onSort` - Combina celdas adyacentes solo cuando la columna está ordenada **(valor predeterminado)**.
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} >
+    ...
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const cellMergeMode: GridCellMergeMode = 'always';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} cell-merge-mode="always">
+    ...
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" >
+    ...
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.Always;
+}
+
+```
+
+</PlatformBlock>
+
+### Conmutador de combinación de columnas
+
+A nivel de columna, la combinación puede habilitarse o deshabilitarse con la propiedad <ApiLink type="ColumnGroup" member="merge" label="merge" />.
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn field="OrderID" merge={true}></IgrColumn>
+<IgrColumn field="ShipperName" merge={false}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column field="OrderID" merge="true"></igc-column>
+<igc-column field="ShipperName" merge="false"></igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="OrderID" Merge="true"></IgbColumn>
+<IgbColumn Field="ShipperName" Merge="false"></IgbColumn>
+```
+
+</PlatformBlock>
+
+En el ejemplo anterior:
+
+- La columna **OrderID** combinará valores duplicados adyacentes.
+- La columna **ShipperName** se representará normalmente sin combinación.
+
+### Ejemplo combinado
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} autoGenerate={false}>
+    <IgrColumn field="OrderID" header="Order ID" merge={true}></IgrColumn>
+    <IgrColumn field="ShipperName" header="Shipper Name" merge={true}></IgrColumn>
+    <IgrColumn field="Salesperson" header="Salesperson"></IgrColumn>
+</{ComponentSelector}>
+```
+
+```tsx
+const cellMergeMode: GridCellMergeMode = 'onSort';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} cell-merge-mode="onSort" auto-generate="false">
+    <igc-column field="OrderID" header="Order ID" merge="true"></igc-column>
+    <igc-column field="ShipperName" header="Shipper Name" merge="false"></igc-column>
+    <igc-column field="Salesperson" header="Salesperson"></igc-column>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" AutoGenerate="false">
+    <IgbColumn Field="OrderID" Header="Order ID" Merge="true"></IgbColumn>
+    <IgbColumn Field="ShipperName" Header="Shipper Name" Merge="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Salesperson"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.OnSort;
+}
+
+```
+
+</PlatformBlock>
+
+Aquí, la cuadrícula está configurada para combinar solo cuando las columnas están ordenadas, y tanto las columnas Category como Product están configuradas para la combinación.
+
+<PlatformBlock for="WebComponents, React">
+
+## Condiciones de combinación personalizadas
+
+Además de los modos integrados `always` y `onSort`, la cuadrícula permite definir una condición personalizada para combinar celdas mediante la propiedad <ApiLink type="{ComponentName}" member="mergeStrategy" />. Esta estrategia controla tanto cómo se comparan las celdas como cómo se calculan los rangos combinados.
+
+### Clase de estrategia de combinación
+
+Una estrategia de combinación personalizada debe implementar la clase <ApiLink type="GridMergeStrategy" />:
+
+<PlatformBlock for="React">
+
+```ts
+export declare class IgrGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export declare class IgcGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+
+```
+
+</PlatformBlock>
+
+- `merge` - define cómo se producen las celdas combinadas.
+- `comparer` - define la condición para decidir si dos registros adyacentes deben combinarse.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+### Extender la estrategia predeterminada
+
+Si solo desea personalizar parte del comportamiento (por ejemplo, la lógica del comparador), puede extender la <ApiLink type="DefaultMergeStrategy" /> integrada y sobrescribir los métodos pertinentes.
+
+<PlatformBlock for="React">
+
+```ts
+export class MyCustomStrategy extends IgrDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export class MyCustomStrategy extends IgcDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+El `IgxTreeGrid` proporciona dos estrategias integradas que implementan la interfaz `IGridMergeStrategy`: <ApiLink type="DefaultTreeGridMergeStrategy" /> y <ApiLink type="ByLevelTreeGridMergeStrategy" />. <ApiLink type="DefaultTreeGridMergeStrategy" /> combina todas las celdas con el mismo valor, independientemente de su nivel jerárquico. En cambio, <ApiLink type="ByLevelTreeGridMergeStrategy" /> solo combina celdas si tienen el mismo valor y se encuentran en el mismo nivel, lo que convierte el nivel en una condición obligatoria para la combinación.
+
+### Extender la estrategia predeterminada
+
+Si solo desea personalizar parte del comportamiento (por ejemplo, la lógica del comparador), puede extender una de las estrategias integradas, ya sea <ApiLink type="DefaultTreeGridMergeStrategy" /> o <ApiLink type="ByLevelTreeGridMergeStrategy" />, y sobrescribir los métodos pertinentes.
+
+<PlatformBlock for="React">
+
+```ts
+export class MyCustomStrategy extends IgrDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export class MyCustomStrategy extends IgcDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+### Aplicar una estrategia personalizada
+
+Una vez definida, asigne la estrategia a la cuadrícula mediante la propiedad <ApiLink type="{ComponentName}" member="mergeStrategy" />:
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} data={data} mergeStrategy={customStrategy}>
+  <IgrColumn field="ActionID" merge={true}></IgrColumn>
+  <IgrColumn field="ProjectName" merge={true}></IgrColumn>
+</{ComponentSelector}>
+```
+
+```ts
+const customStrategy = new MyCustomStrategy() as IgrGridMergeStrategy;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    const grid = (this.grid = document.getElementById('grid') as IgcGridComponent);
+
+    grid.data = this.data;
+    grid.mergeStrategy = new MyCustomStrategy() as IgcGridMergeStrategy;
+    grid.cellMergeMode = 'always';
+}
+
+```
+
+### Demostración
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid"><Sample src="/{ComponentSample}/cell-merge-custom-sample" height={600} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid"><Sample src="/{ComponentSample}/cell-merge-custom-sample" height={425} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+<ComponentBlock for="TreeGrid"><Sample src="/{ComponentSample}/cell-merge-custom-sample" height={755} alt="{Platform} {ComponentTitle} Cell Merging Example" /></ComponentBlock>
+
+</PlatformBlock>
+
+## Integración de características
+
+Debido al comportamiento específico de las celdas combinadas, debe tenerse en cuenta cómo se integra exactamente con algunas de las otras características de la cuadrícula:
+
+<ComponentBlock for="Grid">
+
+- **Expandir/Contraer**: si una característica (como maestro-detalle, agrupación, etc.) genera una fila sin datos, entonces la combinación de celdas se interrumpe y el grupo se dividirá.
+
+</ComponentBlock>
+
+- **Exportación a Excel**: las celdas combinadas permanecen combinadas cuando se exportan a Excel.
+- **Anclaje de columnas**: las celdas permanecen combinadas cuando una columna está anclada y se muestran en el área anclada.
+- **Anclaje de filas**: las celdas se combinan solo dentro de su área contenedora, es decir, las celdas de las filas ancladas se combinan solo con celdas de otras filas ancladas, mientras que las celdas de las filas no ancladas se combinan solo con celdas de filas no ancladas.
+- **Actualización/Edición**: dado que la activación interrumpe la secuencia de combinación, solo una única celda estará en modo de edición.
+- **Selección de filas**: si las filas seleccionadas intersectan celdas combinadas, todas las celdas combinadas relacionadas deben marcarse como parte de la selección.
+- **Navegación/Activación**: cuando una celda está activa, todas las celdas combinadas de la misma fila se convierten en celdas individuales, es decir, su secuencia de combinación se interrumpe. Esto también incluye la activación mediante navegación con teclado.
+
+<DocsAside type="info">
+
+Si se hace clic en una celda combinada, la celda más cercana de la secuencia de combinación se volverá activa.
+
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+## Limitaciones
+
+| Limitaciones conocidas                                                   | Descripción                                                                                                                        |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| La combinación de celdas no se admite en combinación con el diseño de varias filas. | Ambos abarcan diseños complejos que no tienen sentido cuando se combinan. Se emitirá una advertencia si se detecta dicha configuración no válida. |
+
+</ComponentBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+## Recursos adicionales
+
+- [Filtrado](filtering.md)
+- [Filtrado estilo Excel](excel-style-filtering.md)
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Anclaje de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

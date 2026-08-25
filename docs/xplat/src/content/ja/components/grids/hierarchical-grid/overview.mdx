@@ -1,0 +1,1020 @@
+---
+title: "{Platform} 階層グリッド | 最速の {Platform} 階層テーブル | Infragistics"
+description: "{ProductName} Hierarchical Grid は、階層データを簡単に表示および操作するために使用されます。ごくわずかなコーディングでデータをすばやくバインドできます。無料でお試しください"
+keywords: "{Platform} 階層グリッド, Ignite UI for {Platform}, Infragistics"
+license: commercial
+mentionedTypes: ["HierarchicalGridBaseDirective"]
+namespace: Infragistics.Controls
+llms:
+  description: "{ProductName} Hierarchical Data Grid は、階層型の表形式データを表示および操作するために使用されます。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import unfoldLessIconScreenshot from '@xplat-images/unfold\_less\_icon\_screenshot.jpg';
+
+# 階層データ グリッドの概要と構成
+
+{ProductName} 階層データ グリッドは、階層型の表形式データを表示および操作するために使用されます。ごく少ないコードでデータをすばやくバインドしたり、さまざまなイベントを使用して異なる動作をカスタマイズしたりできます。このコンポーネントは、データ選択、Excel スタイルのフィルタリング、並べ替え、ページング、テンプレート化、列の移動、列の固定、Excel および CSV へのエクスポートなど、豊富な機能セットを提供します。階層グリッドはフラット グリッド コンポーネントを基盤として構築されており、より詳細な情報が必要な場合に、親グリッドの行を展開または折りたたんで対応する子グリッドを表示できるようにすることで、その機能を拡張します。
+
+## {Platform} 階層データ グリッドの例
+
+この {Platform} グリッドの例では、ユーザーが階層データ セットを可視化し、セル テンプレートを使用して他の視覚的なコンポーネントを追加する方法を確認できます。
+
+<Sample src="/{HierarchicalGridSample}/overview" height={700} alt="{Platform} Hierarchical Grid example" />
+
+## {ProductName} 階層グリッドの使用開始
+
+### 依存関係
+
+<PlatformBlock for="Blazor">
+
+{Platform} 階層グリッドの使用を開始するには、まず {PackageCommon} パッケージをインストールする必要があります。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+{Platform} 階層グリッドの使用を開始するには、まず `{PackageGrids}` パッケージをインストールする必要があります。
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+{Platform} 階層グリッドの使用を開始するには、まず `{PackageCommon}` パッケージと `{PackageGrids}` パッケージをインストールする必要があります。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+IgniteUI.Blazor パッケージの追加については、次のトピックを参照してください。
+
+- [使用開始](../../general-getting-started-blazor-client.md)
+- [Nuget パッケージの追加](../../general-nuget-feed.md)
+
+階層グリッドに必要なスタイルを提供するには、アプリケーションの index.html ファイルに次の CSS リンクを含める必要もあります。
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/grid/light/bootstrap.css" rel="stylesheet" />
+```
+
+その後、次の名前空間を追加してコントロールの実装を開始できます。
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+
+```cmd
+npm install --save {PackageGrids}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```cmd
+npm install --save {PackageCommon}
+npm install --save {PackageGrids}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+<PlatformBlock for="WebComponents">
+
+グリッドを使用するには、次のインポートも含める必要があります。
+
+```typescript
+import 'igniteui-webcomponents-grids/grids/combined.js';
+```
+
+</PlatformBlock>
+
+対応するスタイルも参照する必要があります。[テーマ](../../themes/overview.md) のいずれかに対してライトまたはダークのオプションを選択し、プロジェクト構成に基づいてインポートできます。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+import 'igniteui-webcomponents-grids/grids/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import 'igniteui-react-grids/grids/themes/light/bootstrap.css'
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+または、リンクできます。
+
+```typescript
+<link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/bootstrap.css'>
+```
+
+</PlatformBlock>
+
+階層グリッドの外観をカスタマイズする方法の詳細については、[スタイル設定](overview.md#Styling) セクションを参照してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, Blazor">
+
+### コンポーネント モジュール
+
+<PlatformBlock for="Blazor">
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbhierarchicalGridModule));
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+// app.module.ts
+
+import { IgxhierarchicalGridModule } from 'igniteui-angular';
+// import { IgxhierarchicalGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        // ...
+        IgxhierarchicalGridModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## {Platform} 階層データ グリッドの使用
+
+### データバインディング
+
+**{HierarchicalGridSelector}** は {GridSelector} から派生しており、その機能の大部分を共有しています。主な違いは、複数レベルの階層を定義できる点です。これらは、**{HierarchicalGridSelector}** の定義内にある **{RowIslandSelector}** と呼ばれる別個のタグを通じて構成されます。**{RowIslandSelector}** コンポーネントは、特定のレベルにおける各子グリッドの構成を定義します。レベルごとに複数の行アイランドもサポートされています。
+階層グリッドは、データへのバインド方法を 2 つサポートしています。
+
+### 階層データの使用
+
+アプリケーションが、子オブジェクトの配列を参照するオブジェクトの配列として階層データ全体を読み込む場合、階層グリッドはそれを読み取って自動的にバインドするように構成できます。適切に構造化された階層データ ソースの例を次に示します。
+
+<PlatformBlock for="Angular, WebComponents">
+
+```ts
+export const singers = [{
+    "Artist": "Naomí Yepes",
+    "Photo": "assets/images/hgrid/naomi.png",
+    "Debut": "2011",
+    "Grammy Nominations": 6,
+    "Grammy Awards": 0,
+    "Tours": [{
+        "Tour": "Faithful Tour",
+        "Started on": "Sep-12",
+        "Location": "Worldwide",
+        "Headliner": "NO",
+        "Toured by": "Naomí Yepes"
+    }],
+    "Albums": [{
+        "Album": "Dream Driven",
+        "Launch Date": new Date("August 25, 2014"),
+        "Billboard Review": "81",
+        "US Billboard 200": "1",
+        "Artist": "Naomí Yepes",
+        "Songs": [{
+            "No.": "1",
+            "Title": "Intro",
+            "Released": "*",
+            "Genre": "*",
+            "Album": "Dream Driven"
+        }]
+    }]
+}];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public class SingersData : List<SingersDataItem>
+{
+    public SingersData()
+    {
+        this.Add(new SingersDataItem()
+        {
+            Artist = "Naomí Yepes",
+            Photo = "assets/images/hgrid/naomi.png",
+            Debut = "2011",
+            GrammyNomination = 6,
+            GrammyAwards = 0,
+            Tours = new List<ToursItem>() {
+            new ToursItem() {
+                Tour = "Faithful Tour",
+                StartedOn = new DateTime(),
+                Location = "Worldwide",
+                Headliner = "NO",
+                TouredBy = "Naomí Yepes"
+            }
+           },
+            Albums = new List<AlbumItem>() {
+            new AlbumItem() {
+                Album = "Dream Driven",
+                LaunchDate = new DateTime(),
+                BillboardReview= "81",
+                Artist = "Naomí Yepes",
+                Songs = new List<SongItem>() {
+                    new SongItem() {
+                        Number = "1",
+                        Title="Intro",
+                        Released = "*",
+                        Genre = "Rock",
+                        Album ="Dream Driven"
+                    }
+                }
+            }
+           }
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+各 **{RowIslandSelector}** では、子データを保持するプロパティのキーを指定する必要があります。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [data]="singers" [autoGenerate]="true">
+    <igx-row-island [key]="'Albums'" [autoGenerate]="true">
+        <igx-row-island [key]="'Songs'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-row-island>
+    <igx-row-island [key]="'Tours'" [autoGenerate]="true">
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid auto-generate="true">
+    <igc-row-island child-data-key="Albums" auto-generate="true">
+        <igc-row-island child-data-key="Songs" auto-generate="true">
+        </igc-row-island>
+    </igc-row-island>
+    <igc-row-island child-data-key="Tours" auto-generate="true">
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid autoGenerate={true} data={singers}>
+    <IgrRowIsland childDataKey="Albums" autoGenerate={true}>
+        <IgrRowIsland childDataKey="Songs" autoGenerate={true}>
+        </IgrRowIsland>
+    </IgrRowIsland>
+    <IgrRowIsland childDataKey="Tours" autoGenerate={true}>
+    </IgrRowIsland>
+</IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Data="SingersData" AutoGenerate="true">
+    <IgbRowIsland ChildDataKey="Tours" AutoGenerate="true"></IgbRowIsland>
+    <IgbRowIsland ChildDataKey="Albums"AutoGenerate="true">
+        <IgbRowIsland ChildDataKey="Songs" AutoGenerate="true"></IgbRowIsland>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+
+`data` の代わりに、ユーザーは {HierarchicalGridSelector} がデータを自動的に設定するために読み取る必要がある `childDataKey` のみを構成することに注意してください。
+
+</DocsAside>
+
+### Load-On-Demand の使用
+
+ほとんどのアプリケーションは、初期段階でできるだけ少ないデータを読み込むように設計されており、その結果、読み込み時間が短縮されます。このような場合、{HierarchicalGridSelector} は、ユーザーが作成したサービスがオンデマンドでデータを供給できるように構成できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<!-- hierarchicalGridSample.component.html -->
+
+<igx-hierarchical-grid #hGrid [primaryKey]="'customerId'" [autoGenerate]="true" [height]="'600px'" [width]="'100%'">
+    <igx-row-island [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="true"  (gridCreated)="gridCreated($event, 'Customers')">
+        <igx-row-island [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="true" (gridCreated)="gridCreated($event, 'Orders')">
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+```typescript
+//  hierarchicalGridSample.component.ts
+
+@Component({...})
+export class HierarchicalGridLoDSampleComponent implements AfterViewInit {
+    @ViewChild("hGrid")
+    public hGrid: IgxHierarchicalGridComponent;
+
+    constructor(private remoteService: RemoteLoDService) { }
+
+    public ngAfterViewInit() {
+        this.hGrid.isLoading = true;
+        this.remoteService.getData({ parentID: null, rootLevel: true, key: "Customers" }).subscribe((data) => {
+            this.hGrid.isLoading = false;
+            this.hGrid.data = data;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+
+    public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
+        const dataState = {
+            key: event.owner.key,
+            parentID: event.parentID,
+            parentKey: _parentKey,
+            rootLevel: false
+        };
+        event.grid.isLoading = true;
+        this.remoteService.getData(dataState).subscribe(
+            (data) => {
+                event.grid.isLoading = false;
+                event.grid.data = data;
+                event.grid.cdr.detectChanges();
+            }
+        );
+    }
+}
+```
+
+```typescript
+// remote-load-on-demand.service.ts
+
+@Injectable()
+export class RemoteLoDService {
+    public url = `https://data-northwind.indigo.design/`;
+
+    constructor(private http: HttpClient) { }
+
+    public getData(dataState: any): Observable<any[]> {
+        return this.http.get(this.buildUrl(dataState)).pipe(
+            map((response) => response)
+        );
+    }
+
+    public buildUrl(dataState) {
+        let qS = "";
+        if (dataState) {
+            if (dataState.rootLevel) {
+                qS += `${dataState.key}`;
+            } else {
+                qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+            }
+        }
+        return `${this.url}${qS}`;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid id="hGrid" primary-key="customerId" auto-generate="true" height="600px" width="100%">
+    <igc-row-island id="ordersRowIsland" child-data-key="Orders" primary-key="orderId" auto-generate="true">
+        <igc-row-island id="orderDetailsRowIsland" child-data-key="Details" primary-key="productId" auto-generate="true"></igc-row-island>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+```ts
+import { getData } from "./remoteService";
+
+export class HierarchicalGridLoadOnDemand {
+    constructor() {
+        const hierarchicalGrid = document.getElementById("hGrid") as IgcHierarchicalGridComponent;
+        const ordersRowIsland = document.getElementById("ordersRowIsland");
+        const orderDetailsRowIsland = document.getElementById("orderDetailsRowIsland");
+
+        ordersRowIsland.addEventListener("gridCreated", (event: any) => {
+            this.gridCreated(event, "Customers");
+        });
+        orderDetailsRowIsland.addEventListener("gridCreated", (event: any) => {
+            this.gridCreated(event, "Orders");
+        });
+
+        hierarchicalGrid.isLoading = true;
+
+        getData({ parentID: null, rootLevel: true, key: "Customers" }).then((data: any) => {
+            hierarchicalGrid.isLoading = false;
+            hierarchicalGrid.data = data;
+            hierarchicalGrid.markForCheck();
+        });
+    }
+
+    public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, _parentKey: string) {
+        const context = event.detail;
+        const dataState = {
+            key: context.owner.childDataKey,
+            parentID: context.parentID,
+            parentKey: _parentKey,
+            rootLevel: false
+        };
+        context.grid.isLoading = true;
+        getData(dataState).then((data: any[]) => {
+            context.grid.isLoading = false;
+            context.grid.data = data;
+            context.grid.markForCheck();
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { getData } from "./remoteService";
+
+export default function Sample() {
+  const hierarchicalGrid = useRef<IgrHierarchicalGrid>(null);
+
+  const gridCreated = (event: IgrGridCreatedEventArgs, _parentKey: string) => {
+    const context = event.detail;
+    const rowIsland = context.owner;
+    const dataState = {
+      key: rowIsland.childDataKey,
+      parentID: context.parentID,
+      parentKey: _parentKey,
+      rootLevel: false,
+    };
+
+    context.grid.isLoading = true;
+
+    getData(dataState).then((data: any[]) => {
+      context.grid.isLoading = false;
+      context.grid.data = data;
+      context.grid.markForCheck();
+    });
+  }
+
+  useEffect(() => {
+    hierarchicalGrid.current.isLoading = true;
+
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+      (data: any) => {
+        hierarchicalGrid.current.isLoading = false;
+        hierarchicalGrid.current.data = data;
+        hierarchicalGrid.current.markForCheck();
+      }
+    );
+  }, []);
+
+  return (
+    <IgrHierarchicalGrid
+        ref={hierarchicalGrid}
+        primaryKey="customerId"
+        autoGenerate={true}
+        height="600px"
+        width="100%">
+            <IgrRowIsland
+                childDataKey="Orders"
+                primaryKey="orderId"
+                autoGenerate={true}
+                onGridCreated={(e: IgrGridCreatedEventArgs) => gridCreated(e, "Customers")}>
+                    <IgrRowIsland
+                        childDataKey="Details"
+                        primaryKey="productId"
+                        autoGenerate={true}
+                        onGridCreated={(e: IgrGridCreatedEventArgs) => gridCreated(e, "Orders")}>
+                    </IgrRowIsland>
+            </IgrRowIsland>
+    </IgrHierarchicalGrid>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+```ts
+const URL = `https://data-northwind.indigo.design/`;
+
+export async function getData(dataState: any): Promise<any> {
+    const response = await fetch(buildUrl(dataState));
+    const data = await response.json();
+    return data;
+}
+
+function buildUrl(dataState: any) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Id="hGrid" AutoGenerate="true" PrimaryKey="customerId" Height="600px"
+    RenderedScript="OnGridRendered">
+    <IgbRowIsland ChildDataKey="Orders" PrimaryKey="orderId" AutoGenerate="true" GridCreatedScript="OnGridCreated">
+        <IgbRowIsland ChildDataKey="Details" PrimaryKey="productId" AutoGenerate="true" GridCreatedScript="OnGridCreated"></IgbRowIsland>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+```javascript
+igRegisterScript("OnGridRendered", () => {
+    const grid = document.getElementsByTagName("igc-hierarchical-grid")[0];
+    grid.isLoading = true;
+    getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
+        (data) => {
+            grid.isLoading = false;
+            grid.data = data;
+            grid.markForCheck();
+        });
+}, false)
+
+igRegisterScript("OnGridCreated", (args) => {
+    const context = args.detail;
+    const _parentKey = context.owner.childDataKey === "Orders" ? "Customers" : "Orders";
+    const dataState = {
+        key: context.owner.childDataKey,
+        parentID: context.parentID,
+        parentKey: _parentKey,
+        rootLevel: false,
+      };
+      context.grid.isLoading = true;
+      getData(dataState).then((data) => {
+        context.grid.isLoading = false;
+        context.grid.data = data;
+        context.grid.markForCheck();
+      });
+}, false)
+
+const DATA_URL = `https://data-northwind.indigo.design/`;
+
+function getData(dataState) {
+    return fetch(buildUrl(dataState))
+        .then((result) => result.json());
+}
+
+function buildUrl(dataState) {
+    let qS = "";
+    if (dataState) {
+        if (dataState.rootLevel) {
+            qS += `${dataState.key}`;
+        } else {
+            qS += `${dataState.parentKey}/${dataState.parentID}/${dataState.key}`;
+        }
+    }
+    return `${DATA_URL}${qS}`;
+}
+```
+
+</PlatformBlock>
+
+## 行展開インジケーターの非表示/表示
+
+行に子があるかどうかを展開前に情報として提供する方法がある場合は、<ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> 入力プロパティを使用できます。これにより、展開インジケーターを表示するかどうかを示すブール型プロパティをデータ オブジェクトから提供できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-hierarchical-grid #grid [data]="data" primaryKey="ID" hasChildrenKey="hasChildren">
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid data="data" primary-key="ID" has-children-key="hasChildren">
+</igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid data={data} primaryKey="ID" hasChildrenKey="hasChildren">
+</IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Data="data" PrimaryKey="ID" HasChildrenKey="hasChildren">
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> プロパティの設定は必須ではないことに注意してください。指定しない場合、各行に展開インジケーターが表示されます。
+
+さらに、ヘッダーのすべて展開/折りたたみインジケーターを表示/非表示にしたい場合は、<ApiLink type="HierarchicalGridBaseDirective" member="showExpandAll" label="ShowExpandAll" /> プロパティを使用できます。
+この UI はパフォーマンス上の理由から既定で無効になっており、大量のデータを持つグリッドや Load-On-Demand のグリッドで有効にすることは推奨されません。
+
+## 機能
+
+グリッドの機能は、{RowIslandSelector} マークアップを通じて有効化および構成できます。これらは、そのために作成されるすべてのグリッドに適用されます。行アイランド インスタンスを通じて実行時にオプションを変更すると、その行アイランドが生成した各グリッドに対して変更が適用されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-hierarchical-grid [data]="localData" [autoGenerate]="false"
+    [allowFiltering]='true' [height]="'600px'" [width]="'800px'" #hGrid>
+    <igx-column field="ID" [pinned]="true" [filterable]='true'></igx-column>
+    <igx-column-group header="Information">
+        <igx-column field="ChildLevels"></igx-column>
+        <igx-column field="ProductName" hasSummary='true'></igx-column>
+    </igx-column-group>
+    <igx-row-island [key]="'childData'" [autoGenerate]="false" [rowSelection]="'multiple'" #layout1>
+        <igx-column field="ID" [hasSummary]='true' [dataType]="'number'"></igx-column>
+        <igx-column-group header="Information2">
+            <igx-column field="ChildLevels"></igx-column>
+            <igx-column field="ProductName"></igx-column>
+        </igx-column-group>
+        <igx-paginator *igxPaginator [perPage]="5"></igx-paginator>
+    </igx-row-island>
+    <igx-paginator>
+    </igx-paginator>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid data="localData" auto-generate="false"
+    allow-filtering='true' height="600px" width="800px">
+    <igc-column field="ID" pinned="true" filterable="true"></igc-column>
+    <igc-column-group header="Information">
+        <igc-column field="ChildLevels"></igc-column>
+        <igc-column field="ProductName" has-summary="true"></igc-column>
+    </igc-column-group>
+    <igc-row-island child-data-key="childData" auto-generate="false" row-selection="multiple">
+        <igc-column field="ID" has-summary="true" data-type="number"></igc-column>
+        <igc-column-group header="Information2">
+            <igc-column field="ChildLevels"></igc-column>
+            <igc-column field="ProductName"></igc-column>
+        </igc-column-group>
+        <igc-paginator per-page="5"></igc-paginator>
+    </igc-row-island>
+    <igc-paginator>
+    </igc-paginator>
+</igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid data={localData} autoGenerate={false}
+    allowFiltering={true} height="600px" width="800px">
+    <IgrColumn field="ID" pinned={true} filterable={true}></IgrColumn>
+    <IgrColumnGroup header="Information">
+        <IgrColumn field="ChildLevels"></IgrColumn>
+        <IgrColumn field="ProductName" hasSummary={true}></IgrColumn>
+    </IgrColumnGroup>
+    <IgrRowIsland childDataKey="childData" autoGenerate={false} rowSelection="multiple">
+        <IgrColumn field="ID" hasSummary={true} dataType="number"></IgrColumn>
+        <IgrColumnGroup header="Information2">
+            <IgrColumn field="ChildLevels"></IgrColumn>
+            <IgrColumn field="ProductName"></IgrColumn>
+        </IgrColumnGroup>
+        <IgrPaginator perPage={5}></IgrPaginator>
+    </IgrRowIsland>
+    <IgrPaginator></IgrPaginator>
+</IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbHierarchicalGrid Data="localData" AutoGenerate="false"
+    AllowFiltering="true" Height="600px" Width="800px">
+    <IgbColumn Field="ID" Pinned="true" Filterable="true"></IgbColumn>
+    <IgbColumnGroup Header="Information">
+        <IgbColumn Field="ChildLevels"></IgbColumn>
+        <IgbColumn Field="ProductName" HasSummary="true"></IgbColumn>
+    </IgbColumnGroup>
+    <IgbRowIsland ChildDataKey="childData" AutoGenerate="false" RowSelection="GridSelectionMode.Multiple">
+        <IgbColumn Field="ID" HasSummary="true" DataType="number"></IgbColumn>
+        <IgbColumnGroup Header="Information2">
+            <IgbColumn Field="ChildLevels"></IgbColumn>
+            <IgbColumn Field="ProductName"></IgbColumn>
+        </IgbColumnGroup>
+        <IgbPaginator PerPage="5"></IgbPaginator>
+    </IgbRowIsland>
+    <IgbPaginator></IgbPaginator>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+次のグリッド機能はグリッド レベルごとに動作します。つまり、各グリッド インスタンスは、他のグリッドとは独立してそれらを管理します。
+
+- 並べ替え
+- フィルタリング
+- ページング
+- 複数列ヘッダー
+- 非表示
+- 固定
+- 移動
+- 集計
+- 検索
+
+選択とナビゲーションの機能は、{HierarchicalGridTitle} 全体に対してグローバルに動作します。
+
+- 選択
+  選択では、選択されたセルが 2 つの異なる子グリッドに同時に存在することは許可されません。
+- ナビゲーション
+  <kbd>↑</kbd> + <kbd>↓</kbd> でナビゲーションする場合、次/前の要素が子グリッドであれば、関連する子グリッド内でナビゲーションが続行され、関連するセルが選択されフォーカスされます。子セルが現在の表示ビューポートの外にある場合は、選択されたセルが常に表示されるようにビュー内へスクロールされます。
+
+## すべて折りたたみボタン
+
+階層グリッドでは、左上隅にある「すべて折りたたみ」ボタンを押すことで、現在展開されているすべての行を簡単に折りたたむことができます。さらに、他のグリッドを含み、それ自体が階層グリッドである各子グリッドにも同様のボタンがあります。これにより、ユーザーは階層内の特定のグリッドだけを折りたたむことができます。
+
+<Image src={unfoldLessIconScreenshot} alt="unfold_less_icon_screenshot" class="responsive-img" />
+
+{/\* TODO: サイズ設定のトピックの準備ができたらコメントアウトを解除 */}
+{/* ## サイズ設定
+
+[階層グリッドのサイズ設定](sizing.md) トピックを参照してください。 \*/}
+
+<PlatformBlock for="Angular">
+
+## CRUD 操作
+
+<DocsAside type="info">
+
+フラット データ グリッドとの重要な違いは、特定の行アイランドの各インスタンスが同じトランザクション サービス インスタンスを持ち、同じトランザクション ログを蓄積する点です。CRUD 機能を有効にするには、ユーザーは `IgxHierarchicalTransactionServiceFactory` を注入する必要があります。
+
+</DocsAside>
+
+CRUD API メソッドの呼び出しは、引き続き各個別のグリッド インスタンスを通じて行う必要があります。
+
+[igxGrid で CRUD 操作を構築する](../general/how-to/how-to-perform-crud.md)方法トピックを確認してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## スタイル設定
+
+igxHierarchicalGrid は、[Ignite UI for Angular テーマ ライブラリ](../themes/sass/component-themes.md) を通じたスタイル設定を可能にします。グリッドの <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" /> は、グリッドのすべての機能をカスタマイズできる幅広いプロパティを公開しています。
+
+以下の手順では、igxHierarchicalGrid のスタイル設定をカスタマイズする手順を説明します。
+
+### グローバル テーマのインポート
+
+階層グリッドのカスタマイズを開始するには、すべてのスタイル設定関数と mixin が配置されている `index` ファイルをインポートする必要があります。
+
+```scss
+@import '~igniteui-angular/lib/core/styles/themes/index'
+```
+
+### カスタム テーマの定義
+
+次に、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> を拡張し、階層グリッドを必要に応じてカスタマイズするために必要なパラメーターを受け取る新しいテーマを作成します。
+
+ <DocsAside type="info">
+
+階層グリッド専用の `sass` 関数はありません。
+
+ </DocsAside>
+
+```scss
+$custom-theme: grid-theme(
+  $cell-active-border-color: #ffcd0f,
+  $cell-selected-background: #6f6f6f,
+  $row-hover-background: #f8e495,
+  $row-selected-background: #8d8d8d,
+  $header-background: #494949,
+  $header-text-color: #fff,
+  $expand-icon-color: #ffcd0f,
+  $expand-icon-hover-color: #e0b710,
+  $resize-line-color: #ffcd0f,
+  $row-highlight: #ffcd0f
+);
+```
+
+### カスタム カラー パレットの定義
+
+上記で説明したアプローチでは、色の値がハードコーディングされていました。代わりに、<ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" /> 関数と <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" /> 関数を使用することで、より高い柔軟性を実現できます。
+`igx-palette` は、指定されたプライマリ色とセカンダリ色に基づいてカラー パレットを生成します。
+
+```scss
+$black-color: #494949;
+$yellow-color: #FFCD0F;
+
+$custom-palette: palette(
+ $primary: $black-color,
+ $secondary: $yellow-color
+);
+```
+
+カスタム パレットが生成された後、`igx-color` 関数を使用して、プライマリ色とセカンダリ色のさまざまなバリエーションを取得できます。
+
+```scss
+$custom-theme: grid-theme(
+    $cell-active-border-color: (igx-color($custom-palette, "secondary", 500)),
+    $cell-selected-background: (igx-color($custom-palette, "primary", 300)),
+    $row-hover-background: (igx-color($custom-palette, "secondary", 100)),
+    $row-selected-background: (igx-color($custom-palette, "primary", 100)),
+    $header-background: (igx-color($custom-palette, "primary", 500)),
+    $header-text-color: (igx-contrast-color($custom-palette, "primary", 500)),
+    $expand-icon-color: (igx-color($custom-palette, "secondary", 500)),
+    $expand-icon-hover-color: (igx-color($custom-palette, "secondary", 600)),
+    $resize-line-color: (igx-color($custom-palette, "secondary", 500)),
+    $row-highlight: (igx-color($custom-palette, "secondary", 500))
+);
+```
+
+### カスタム スキーマの定義
+
+さらに進んで、[**スキーマ**](../themes/sass/schemas.md) のすべての利点を備えた柔軟な構造を構築できます。**スキーマ** はテーマのレシピです。
+各コンポーネントに対して提供されている 2 つの定義済みスキーマのいずれかを拡張します。この場合は、`$_light_grid` を使用します。
+
+```scss
+$custom-grid-schema: extend($_light-grid,(
+    cell-active-border-color: (igx-color:('secondary', 500)),
+    cell-selected-background: (igx-color:('primary', 300)),
+    row-hover-background: (igx-color:('secondary', 100)),
+    row-selected-background: (igx-color:('primary', 100)),
+    header-background: (igx-color:('primary', 500)),
+    header-text-color: (igx-contrast-color:('primary', 500)),
+    expand-icon-color: (igx-color:('secondary', 500)),
+    expand-icon-hover-color: (igx-color:('secondary', 600)),
+    resize-line-color: (igx-color:('secondary', 500)),
+    row-highlight: (igx-color:('secondary', 500))
+));
+```
+
+カスタム スキーマを適用するには、`light` または `dark` のグローバルを拡張する必要があります。実際のプロセス全体は、コンポーネントにカスタム スキーマを提供し、その後、対応するコンポーネント テーマに追加することです。
+
+```scss
+$my-custom-schema: extend($light-schema, (
+    igx-grid: $custom-grid-schema
+));
+
+$custom-theme: grid-theme(
+    $palette: $custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+### カスタム テーマの適用
+
+テーマを適用する最も簡単な方法は、グローバル スタイル ファイル内で `sass` `@include` ステートメントを使用することです。
+
+```scss
+@include grid($custom-theme);
+```
+
+### スコープ付きコンポーネント テーマ
+
+カスタム テーマが特定のコンポーネントにのみ影響するようにするには、グローバル スタイル ファイルで定義したすべてのスタイルを、カスタム コンポーネントのスタイル ファイルへ移動できます（`index` ファイルのインポートを含む）。
+
+この方法では、Angular の [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) により、スタイルはカスタム コンポーネントにのみ適用されます。
+
+ <DocsAside type="info">
+
+コンポーネントが [`Emulated`](../themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation を使用している場合、グリッドにスタイルを設定するには、`::ng-deep` を使用してこのカプセル化を貫通する必要があります。
+
+ </DocsAside>
+
+ <DocsAside type="info">
+
+スタイルがコンポーネント外の要素に影響しないようにするには、ステートメントを `:host` セレクターの内側でラップします。
+
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-theme);
+    }
+}
+```
+
+### デモ
+
+<Sample src="/hierarchical-grid/hierarchical-grid-styling" height={505} alt="{Platform} Hierarchical Grid Styling Example" />
+
+<DocsAside type="info">
+
+サンプルは、**テーマの変更** で選択されたグローバル テーマの影響を受けません。
+
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## スタイル設定
+
+定義済みテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md) の一部を設定することで、グリッドをさらにカスタマイズできます。ヘッダーの背景色とテキストの色を変更したい場合は、まずグリッドにクラスを設定する必要があります。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-hierarchical-grid class="grid"></igc-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrHierarchicalGrid className="grid"></IgrHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+ <IgbHierarchicalGrid Class="grid"></IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+
+次に、そのクラスに対して `--header-background` および `--header-text-color` CSS プロパティを設定します。
+
+```css
+.grid {
+    --header-background: #494949;
+    --header-text-color: #FFF;
+}
+```
+
+### デモ
+
+<Sample src="/{HierarchicalGridSample}/hierarchical-grid-styling" height={700} alt="{Platform} Hierarchical Grid styling example" />
+
+</PlatformBlock>
+
+## 既知の制限事項
+
+| 制限事項 | 説明                                                 |
+| ---------- | ----------------------------------------------------------- |
+| グループ化   | グループ化機能は階層グリッドではサポートされていません。 |
+
+## API リファレンス
+
+<ApiLink type="HierarchicalGrid" /><br /> <ApiLink type="RowIsland" /><br /> <ApiLink type="Grid" /><br /> <ApiLink type="Column" /><br /> <ApiLink type="CellType" /><br />

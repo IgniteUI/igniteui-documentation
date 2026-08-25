@@ -1,0 +1,249 @@
+---
+title: "{Platform} {ComponentTitle} Edición - {ProductName}"
+description: Obtenga una API pública potente y una forma sencilla de realizar manipulaciones de datos, como crear, actualizar o eliminar registros. ¡Vea las opciones de edición de {Platform} {ComponentTitle}!
+keywords: manipulación de datos, {Platform}, {ProductName}, Infragistics
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridEditing}"
+llms:
+  description: La característica de edición de celdas de {ProductName} en {Platform} {ComponentTitle} proporciona una forma sencilla de realizar operaciones de manipulación de datos, como crear, actualizar y eliminar registros.
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Edición
+
+La característica de edición de celdas de {ProductName} en {Platform} {ComponentTitle} proporciona una forma sencilla de realizar operaciones de manipulación de datos, como crear, actualizar y eliminar registros. <ApiLink type="{ComponentName}" /> proporciona una potente API pública que permite personalizar la forma en que se realizan estas operaciones. Las fases de manipulación de datos son:
+
+- [Edición de celdas](cell-editing.md)
+- [Edición de filas](row-editing.md)
+- Edición por lotes (próximamente)
+
+<PlatformBlock for="Angular">
+
+Además, la **edición de celdas** expone varios editores predeterminados basados en el tipo de datos de la columna, que se pueden personalizar fácilmente mediante la [directiva CellEditor](cell-editing.md#cell-editing-templates) o las [directivas Row](row-editing.md#customizing-row-editing-overlay).
+
+</PlatformBlock>
+
+## Configuración
+
+Para especificar qué modo de edición debe habilitarse, <ApiLink type="{ComponentName}" /> expone las siguientes propiedades booleanas: <ApiLink type="Column" member="editable" /> y <ApiLink type="{ComponentName}" member="rowEditable" />.
+
+La propiedad <ApiLink type="Column" member="editable" /> permite especificar las siguientes opciones:
+
+- **false** - se deshabilitará la edición para la columna correspondiente. Este es el valor predeterminado.
+- **true** - se habilitará la edición para la columna correspondiente.
+
+> Tenga en cuenta que, si la columna no es editable, aún puede modificar su valor mediante la API pública expuesta por <ApiLink type="{ComponentName}" />.
+
+La propiedad <ApiLink type="{ComponentName}" member="rowEditable" /> permite especificar las siguientes opciones:
+
+- **false** - se deshabilitará la edición de filas en la cuadrícula correspondiente. Este es el valor predeterminado.
+- **true** - se habilitará la edición de filas en la cuadrícula correspondiente.
+
+En <ApiLink type="{ComponentName}" />, si establece la propiedad <ApiLink type="{ComponentName}" member="rowEditable" /> en true y la propiedad <ApiLink type="Column" member="editable" /> no se define explícitamente para ninguna columna, la edición se habilitará para todas las columnas excepto la **clave principal**.
+
+La [edición por lotes](batch-editing.md) en la cuadrícula puede habilitarse tanto para los modos de [edición de celdas](cell-editing.md) como de [edición de filas](row-editing.md). Para configurar la edición por lotes, es necesario proporcionar a la cuadrícula un  **TransactionService**.
+
+- **Edición de celdas y por lotes** - en este escenario, cada modificación individual de cada celda se conserva por separado, y las operaciones de deshacer/ rehacer están disponibles a nivel de celda;
+- **Edición de filas y por lotes** - en este escenario, las modificaciones se conservan a nivel de fila, por lo que las operaciones de deshacer/ rehacer no funcionarán para cada celda que se modifique, sino para el conjunto de celdas de cada fila.
+
+### Plantillas de edición
+
+Si desea usar plantillas de edición específicas del tipo de datos, debe especificar la propiedad <ApiLink type="Column" member="dataType" /> de la columna. Veamos ahora cuáles son las plantillas predeterminadas para cada tipo:
+
+- Para el tipo de datos `string`, la plantilla predeterminada usa <ApiLink pkg="core" type="Input" />.
+- Para el tipo de datos `number`, la plantilla predeterminada usa <ApiLink pkg="core" type="Input" /> type="number", por lo que, si intenta actualizar la celda a un valor que no se puede analizar como número, el cambio se descartará y el valor de la celda se establecerá en 0.
+- Para el tipo de datos `date`, la plantilla predeterminada usa <ApiLink pkg="core" type="DatePicker" />
+- Para el tipo de datos `dateTime`, la plantilla predeterminada usa <ApiLink pkg="core" type="DatePicker" />. Este editor proporcionará indicaciones de máscara para los elementos de entrada que forman parte del objeto DateTime.
+- Para el tipo de datos `time` -, la plantilla predeterminada usa <ApiLink pkg="core" type="DateTimeInput" />.
+- Para el tipo de datos `boolean`, la plantilla predeterminada usa <ApiLink pkg="core" type="Checkbox" />.
+- Para el tipo de datos `currency`, la plantilla predeterminada usa <ApiLink pkg="core" type="Input" /> con una configuración de prefijo/sufijo basada en la configuración regional de la aplicación o de la cuadrícula.
+- Para el tipo de datos `percent`, la plantilla predeterminada usa <ApiLink pkg="core" type="Input" /> con un elemento de sufijo que muestra una vista previa del valor editado en porcentajes.
+
+<ComponentBlock for="Grid">
+
+- Para plantillas personalizadas, puede consultar el [tema de edición de celdas](cell-editing.md#{PlatformLower}-grid-cell-editing-and-edit-templates-example)
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+Todos los tipos de datos de columna disponibles se pueden encontrar en el [tema oficial de tipos de columna](column-types.md#default-template).
+
+</ComponentBlock>
+
+### Argumentos y secuencia de eventos
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+La cuadrícula expone una amplia variedad de eventos que proporcionan mayor control sobre la experiencia de edición. Estos eventos se activan durante el ciclo de vida de la [**edición de filas**](row-editing.md) y la [**edición de celdas**](cell-editing.md): al iniciar, confirmar o cancelar la acción de edición.
+
+</ComponentBlock>
+
+| Evento       | Descripción                                                                                                                                                         | Argumentos   | Cancelable  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------- |
+| <ApiLink type="{ComponentName}" member="rowEditEnter" /> | Si `RowEditing` está habilitado, se activa cuando una fila entra en modo de edición                                                                                | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEditEnter" /> | Se activa cuando una celda **entra en modo de edición** (después de <ApiLink type="{ComponentName}" member="rowEditEnter" />)                                                                                   | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEdit" /> | Si se cambia el valor, se activa justo **antes** de que el valor de una celda se **confirme** (por ejemplo, al presionar <kbd>ENTRAR</kbd>)                               | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="cellEditDone" /> | Si se cambia el valor, se activa **después** de que una celda se haya editado y el valor de la celda se haya **confirmado**                                         | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="cellEditExit" /> | Se activa cuando una celda **sale del modo de edición**                                                                                                             | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="rowEdit" /> | Si `RowEditing` está habilitado, se activa justo antes de que el valor de una fila en modo de edición se **confirme** (por ejemplo, al hacer clic en el botón `Done` en la superposición de edición de filas) | <ApiLink type="GridEditEventArgs" /> | **true**    |
+| <ApiLink type="{ComponentName}" member="rowEditDone" /> | Si `RowEditing` está habilitado, se activa **después** de que una fila se haya editado y el nuevo valor de la fila se haya **confirmado**.                        | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+| <ApiLink type="{ComponentName}" member="rowEditExit" /> | Si `RowEditing` está habilitado, se activa cuando una fila **sale del modo de edición**                                                                           | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+
+### Cancelación de eventos
+
+- <ApiLink type="{ComponentName}" member="rowEditEnter" /> - Ni `Row` ni `Cell` entrarán en modo de edición.
+- <ApiLink type="{ComponentName}" member="cellEditEnter" /> - Impide entrar en edición de celda. Si <ApiLink type="{ComponentName}" member="rowEditable" /> está habilitado, se activará la edición de fila, aunque la edición de celda seguirá estando prohibida.
+- <ApiLink type="{ComponentName}" member="cellEdit" /> - Se permite la edición de `Cell` y/o `Row`; al pulsar el botón **Listo** o **Enter** no se confirmará el valor ni la transacción de la fila. La edición de celdas y la edición de filas no se cerrarán hasta que se haga clic en el botón **Cancelar**.
+- <ApiLink type="{ComponentName}" member="rowEdit" /> - Es posible confirmar la celda, pero no toda la fila. La fila permanecerá en modo de edición y la transacción de la fila se considerará abierta. Al pulsar **Listo** no se confirma ni se cierra la fila. El botón **Cancelar** cierra el proceso de edición y la transacción sin confirmar los cambios.
+
+El siguiente ejemplo demuestra la secuencia de ejecución de la edición en acción:
+
+<Sample src="/{ComponentSample}/editing-lifecycle" height={620} alt="{Platform} {ComponentTitle} editing lifecycle" />
+
+### Integración de características
+
+Mientras una celda/fila está en modo de edición, un usuario puede interactuar con la cuadrícula de muchas formas. La siguiente tabla especifica cómo una determinada interacción afecta a la edición actual:
+
+| {ComponentTitle} | Filtrado | Ordenación | Paginación | Movimiento | Fijación | Ocultación | Agrupar por | Cambio de tamaño | Escape | Enter |  F2 | Tab | Clic en celda | Añadir fila nueva/Eliminar/Editar |
+| ---------------- | :-------: | :-----: | :----: | :----: | :-----: | :----: | :-----: | :------: | :----: | :---: | :-: | :-: | :--------: | :---------------------: |
+| Mantener el modo de edición |           |         |        |        |         |        |         |     ✔    |        |       |     |     |            |                         |
+| Salir del modo de edición   |     ✔     |    ✔    |    ✔   |    ✔   |    ✔    |    ✔   |    ✔    |          |    ✔   |   ✔   |  ✔  |  ✔  |      ✔     |            ✔            |
+| Confirmar       |           |         |        |        |         |        |         |          |        |   ✔   |  ✔  |  ✔  |      ✔     |            ✔            |
+| Descartar       |     ✔     |    ✔    |    ✔   |    ✔   |    ✔    |    ✔   |    ✔    |          |    ✔   |       |     |     |            |                         |
+
+Como se observa en la tabla, todas las interacciones, excepto cambiar el tamaño de una columna, finalizarán la edición y descartarán los nuevos valores. Si el nuevo valor debe confirmarse, el desarrollador puede hacerlo en el evento "-ing" de la característica correspondiente.
+
+Ejemplo de cómo confirmar nuevos valores si el usuario intenta ordenar la columna mientras una celda/fila está en modo de edición:
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} #grid [data]="localData" [primaryKey]="'ProductID'" (sorting)="onSorting($event)">
+</{ComponentSelector}>
+```
+
+```typescript
+public onSorting(event: ISortingEventArgs) {
+    this.grid.endEdit(true);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" >
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("sorting", this.onSorting);
+}
+
+public onSorting(event: IgcSortingEventArgs) {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.endEdit(true);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector}
+    Id="grid"
+    SortingScript="SortingHandler"
+    RowEditable="true">
+</{ComponentSelector}>
+```
+
+```javascript
+//In JavaScript
+function SortingHandler() {
+    grid.endEdit(true);
+}
+igRegisterScript("SortingHandler", SortingHandler, false);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function onSorting(args: IgrSortingEventArgs) {
+    const grid = args.target as {ComponentSelector};
+    grid.endEdit(true);
+}
+
+<{ComponentSelector} data={localData} primaryKey="ProductID" onSorting={onSorting}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## Recursos adicionales
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+- [Tipos de datos de columna](column-types.md#default-template)
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Fijación de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+<ComponentBlock for="HierarchicalGrid">
+
+[Búsqueda](search.md)
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid">
+
+- [Tipos de datos de columna](column-types.md#default-template)
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Fijación de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+- [Búsqueda](search.md)
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+[Búsqueda](search.md)
+
+</ComponentBlock>
+
+</PlatformBlock>
