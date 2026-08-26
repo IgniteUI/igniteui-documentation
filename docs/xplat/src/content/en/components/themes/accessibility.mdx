@@ -6,7 +6,7 @@ license: MIT
 last_updated: 2026-08-26
 mentionedTypes: []
 llms:
-  description: "The {ProductName} theming engine calculates readable text colors at runtime, expresses every type scale in relative units, and ships an opt-in color-vision-deficiency palette for charts."
+  description: "{ProductName} calculates readable text colors at runtime, keeps every type scale relative, and ships an opt-in color-vision-deficiency chart palette."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -33,7 +33,7 @@ The table below summarizes what the theming engine does for the person ultimatel
 | A person who… | What the theming engine provides |
 |---|---|
 | Needs readable text on colored buttons, chips, and badges | A readable foreground color is calculated in the browser for every palette color, including brand colors you supply. |
-| Enlarges their default browser font size or zooms the page | Every type scale is expressed in relative units, and the library never pins the page font size. |
+| Enlarges their default browser font size | Every type scale is expressed in relative units, and the library never pins the page font size. |
 | Has a color-vision deficiency and reads charts | An opt-in chart palette chosen to stay distinguishable under common forms of color-vision deficiency. |
 | Prefers a dark interface for light sensitivity | A complete dark palette for each of the four shipped themes. |
 | Uses a screen reader with a custom-styled form control | A styling utility that hides a native input visually while keeping it in the accessibility tree. |
@@ -57,6 +57,8 @@ The capabilities on this page describe the theming engine's behavior. They are n
 - Run any custom color pairing you introduce through [`contrast()`](#check-a-contrast-ratio-yourself) before shipping it.
 
 ## Available Tools
+
+The theming engine exposes these Sass functions and mixins for the accessibility behavior described on this page.
 
 | Tool | Signature | What it does |
 |---|---|---|
@@ -115,12 +117,13 @@ This addresses WCAG 2.1 [1.4.4 Resize Text](https://www.w3.org/WAI/WCAG21/Unders
 
 Charts commonly distinguish series by hue alone, which does not work for readers with a color-vision deficiency. The theming engine ships a second chart palette whose colors stay distinguishable under the common forms of that condition, following the Okabe–Ito approach.
 
+{/* TODO: verify the Okabe-Ito attribution above before the next release. A code search for "Okabe" across the IgniteUI GitHub org returns no hits, and packages/theming/sass/color/_charts.scss documents the palette only as "color-blind brushes"; the shipped values are also only partly Okabe-Ito. Either cite a source or drop "following the Okabe-Ito approach". */}
+
 The palette is **off by default**. Turn it on with `configure-colors()`:
 
 ```scss
-.enhanced-accessibility {
-    @include configure-colors($enhanced-accessibility: true);
-}
+// Include at the top level, before your theme includes.
+@include configure-colors($enhanced-accessibility: true);
 ```
 
 Every chart theme then draws from the accessible set.
