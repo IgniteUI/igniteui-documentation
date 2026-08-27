@@ -59,6 +59,7 @@ The capabilities on this page describe the theming engine's behavior. They are n
 - Use [`contrast-color()`](#guarantee-readable-text-on-a-brand-color) wherever you place text on a palette color, instead of hard-coding a foreground.
 - Turn on the [color-vision-deficiency chart palette](#enable-the-color-vision-deficiency-chart-palette) if your application renders charts.
 - Run any custom color pairing you introduce through [`contrast()`](#check-a-contrast-ratio-yourself) before shipping it.
+- If you generate palettes with the [Theming MCP server](../ai/theming-mcp.mdx), it checks surface and gray contrast against WCAG thresholds as it builds them.
 
 ## Available Tools
 
@@ -86,6 +87,15 @@ Pair every background drawn from the palette with `contrast-color()` rather than
 }
 ```
 
+The same pairing in plain CSS, using the variables the theme already emits:
+
+```css
+.my-component {
+  background: var(--ig-primary-500);
+  color: var(--ig-primary-500-contrast);
+}
+```
+
 For a color that does not come from the palette — a tenant color, a user preference, a value set at runtime — use `adaptive-contrast()`:
 
 ```scss
@@ -94,6 +104,17 @@ For a color that does not come from the palette — a tenant color, a user prefe
 
     background: var(--bg);
     color: adaptive-contrast(var(--bg));
+}
+```
+
+`adaptive-contrast()` is a thin wrapper over a relative-color expression, so the same result is available without Sass. `--y-contrast` is defined by the theme:
+
+```css
+.my-component {
+  --bg: #09f;
+
+  background: var(--bg);
+  color: hsla(from color(from var(--bg) var(--y-contrast)) h 0 l / 1);
 }
 ```
 
@@ -129,13 +150,25 @@ No configuration is required. Every type scale in the four shipped themes expres
 
 The library records the base size as a value you can read:
 
-```scss
+```css
 --ig-base-font-size: 16px;
 ```
 
 It never emits a `html { font-size: … }` rule. This matters because writing that rule is the most common way a theming system overrides a user who has enlarged their default text. Because the library only reads the base size, a user who sets a larger default in their browser gets larger Ignite UI text.
 
 This addresses WCAG 2.1 <a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html" target="_blank" rel="noopener noreferrer">1.4.4 Resize Text</a> (Level AA) at the styling layer.
+
+### Raise or lower the contrast threshold
+
+The level at which the calculated foreground flips from black to white is held in a CSS variable, so it can be changed without Sass. It defaults to AA:
+
+```css
+:root {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+From Sass, the `palette()` and `adaptive-contrast()` mixins take `a`, `aa`, or `aaa` directly.
 
 ### Enable the color-vision-deficiency chart palette
 
@@ -148,7 +181,7 @@ The palette is **off by default**. Turn it on with `configure-colors()`:
 @include configure-colors($enhanced-accessibility: true);
 ```
 
-Every chart theme then draws from the accessible set. In Ignite UI for Angular the same switch is available at setup:
+Every chart theme then draws from the accessible set. The chart brushes are set when the theme is generated, so this one requires Sass; the prebuilt theme CSS exposes no variables for them. In Ignite UI for Angular the same switch is available at setup:
 
 ```scss
 @include core($enhanced-accessibility: true);
@@ -167,7 +200,7 @@ $ratio: contrast(#09f, #000);   // 7
 $lum: luminance(#09f);          // 0.3
 ```
 
-Use this whenever you override a component token directly, or introduce a color pairing the palette generator did not produce.
+Use this whenever you override a component token directly, or introduce a color pairing the palette generator did not produce. These two run at compile time and have no CSS equivalent - a stylesheet cannot compute a ratio.
 
 ### Hide an input without hiding it from screen readers
 
@@ -176,6 +209,23 @@ Custom-styled checkboxes, radios, and switches usually keep a native input under
 ```scss
 .my-checkbox input {
     @include hide-default();
+}
+```
+
+The mixin expands to a fixed set of declarations, so it can be written directly in CSS:
+
+```css
+.my-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: none;
+  clip: rect(0, 0, 0, 0);
+  outline: 0;
+  pointer-events: none;
+  overflow: hidden;
+  appearance: none;
 }
 ```
 
