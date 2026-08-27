@@ -17,8 +17,9 @@
  * Non-relative links (http/https, /, #, mailto:) and links without .mdx are left unchanged.
  */
 
-import { visit } from 'unist-util-visit';
+import { defineMdastPlugin } from 'satteri';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Resolve a relative .mdx link to an absolute Astro URL.
@@ -52,37 +53,48 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   return docsBase + '/' + slug.toLowerCase() + trail + suffix;
 }
 
-/** Remark plugin that rewrites relative .mdx links, prepends DOCS_BASE, and fixes relative image paths. */
+/** Resolve the source file path and docs root for the document being compiled. */
+function resolvePaths(fileURL: URL | undefined): { filePath: string; docsDir: string } {
+  const filePath = fileURL ? fileURLToPath(fileURL) : '';
+  const docsDir = process.env.DOCS_SOURCE_PATH
+    ? path.resolve(process.env.DOCS_SOURCE_PATH)
+    : (filePath ? path.dirname(filePath) : '');
+  return { filePath, docsDir };
+}
+
+/**
+ * Sätteri MDAST plugin that rewrites relative .mdx links, prepends DOCS_BASE,
+ * and fixes relative image paths.
+ */
 export function remarkMdLinks() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any, file: any) => {
-    const filePath = (file.path as string) ?? '';
-    const docsDir = process.env.DOCS_SOURCE_PATH
-      ? path.resolve(process.env.DOCS_SOURCE_PATH)
-      : (filePath ? path.dirname(filePath) : '');
+  return defineMdastPlugin({
+    name: 'md-links',
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
-      if (node.type === 'link' && node.url) {
-        node.url = rewriteMdLink(node.url as string, filePath, docsDir);
+    link(node, ctx) {
+      if (!node.url) return;
+      const { filePath, docsDir } = resolvePaths(ctx.fileURL);
+      let url = rewriteMdLink(node.url, filePath, docsDir);
 
-        // Prepend DOCS_BASE to root-relative internal links not already prefixed.
-        const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
-        if (
-          docsBase &&
-          (node.url as string).startsWith('/') &&
-          !(node.url as string).startsWith('//') &&
-          !(node.url as string).startsWith(docsBase + '/')
-        ) {
-          node.url = docsBase + (node.url as string);
-        }
+      // Prepend DOCS_BASE to root-relative internal links not already prefixed.
+      const docsBase = (process.env.DOCS_BASE ?? '').replace(/\/$/, '');
+      if (
+        docsBase &&
+        url.startsWith('/') &&
+        !url.startsWith('//') &&
+        !url.startsWith(docsBase + '/')
+      ) {
+        url = docsBase + url;
       }
 
-      // Rewrite relative `../images/` paths in markdown image nodes to root-relative `/images/`.
-      // Generated MDX files may contain relative image references that Vite cannot resolve.
-      if (node.type === 'image' && node.url) {
-        node.url = (node.url as string).replace(/^(\.\.\/)+images\//, '/images/');
-      }
-    });
-  };
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+
+    // Rewrite relative `../images/` paths in markdown image nodes to root-relative `/images/`.
+    // Generated MDX files may contain relative image references that Vite cannot resolve.
+    image(node, ctx) {
+      if (!node.url) return;
+      const url = node.url.replace(/^(\.\.\/)+images\//, '/images/');
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+  });
 }
