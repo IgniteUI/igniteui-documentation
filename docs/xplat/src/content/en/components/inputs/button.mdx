@@ -922,26 +922,61 @@ The exclamation mark (`!`) gives the Tailwind utility precedence over the Button
 
 ## Accessibility
 
+The {Platform} Button is an interactive control for actions and, when `href` is set, navigation.
+Use the native button behavior for commands and preserve the link behavior for navigation.
+
 ### Keyboard Interaction
 
+The Button uses the keyboard behavior of its rendered native control. A disabled Button is not
+interactive, and a Button with `href` is rendered as a link instead of a command button.
+
 | Key | Action |
-|--|--|
-| Tab | Moves focus to the Button when it is keyboard-focusable. |
-| Enter / Space | Activates the focused Button. |
+| -- | -- |
+| Tab / Shift+Tab | Moves focus to or away from the Button when it is keyboard-focusable. |
+| Enter / Space | Activates a focused command Button. Enter activates a Button used as a link. |
 
 ### Screen Readers / ARIA
 
-Provide an accessible label when the visible button content does not describe the action.
+The Button renders a native `button` for command actions and an `a` element when `href` is set.
+The native element supplies the appropriate role and keyboard semantics.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- The Button's visible content is used as its accessible name when it contains meaningful text.
+- Provide an `aria-label` or another accessible naming mechanism for an icon-only Button.
+- A disabled Button exposes its disabled state through the rendered native control.
+- Button click event handlers perform application actions; they do not replace the Button's
+    accessible name, role, or state.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- The Button uses the native `button` or `a` element, so assistive technology receives the
+    corresponding native role and keyboard semantics.
+- Provide an `aria-label` or another accessible naming mechanism for an icon-only Button.
+- A disabled Button is not keyboard interactive.
+- Click event handlers perform application actions; add an accessible name and state separately
+    when the action is not conveyed by the visible content or native attributes.
+
+</PlatformBlock>
 
 ### Accessibility Compliance
 
 This topic does not make a product-level WCAG, Section 508, or EN 301 549 conformance claim. Verify the rendered Button and its surrounding application against the accessibility requirements that apply to the target project.
 
 | Criterion | How the component supports the requirement |
-|--|--|
-| Keyboard operation | The Button can receive focus through the keyboard when it is keyboard-focusable, and Enter or Space activates the focused control. |
-| Accessible name | The Button's visible label provides its name. Provide an accessible label in the surrounding usage when the visible content does not describe the action. |
-| Link semantics | When `href` is set, use the Button as navigation and verify the resulting link name and destination in the rendered application. |
+| -- | -- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | The native command button supports keyboard activation, and a Button with `href` uses native link activation. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The rendered native element supplies the role and state semantics. The visible Button content supplies the accessible name when it is meaningful. |
+| [2.4.4 Link Purpose](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context) | When `href` is set, the Button becomes a navigation link; provide a name that identifies its destination or purpose. |
+
+Your responsibilities:
+
+- Give every Button a meaningful accessible name, especially icon-only Buttons.
+- Use a command Button for actions and `href` for navigation; do not emulate one with the other.
+- Do not rely on color, hover, or focus styling alone to communicate the action or state.
+- Preserve sufficient contrast and a visible focus indicator when customizing the Button theme.
 
 ## Troubleshooting
 
