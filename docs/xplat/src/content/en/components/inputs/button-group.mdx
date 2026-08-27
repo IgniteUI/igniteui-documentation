@@ -950,24 +950,55 @@ The exclamation mark (`!`) gives the Tailwind utility precedence over the Button
 
 ## Accessibility
 
-The Button Group groups related Toggle Buttons while preserving the interaction and accessible state of each button. Provide meaningful content for every button and choose a selection mode that matches the intended interaction.
+The {Platform} Button Group organizes related Toggle Buttons while exposing each button's selected and disabled state.
 
 ### Keyboard Interaction
 
-The {Platform} Button Group follows the keyboard behavior of its Toggle Buttons. Use the keyboard interaction provided by the contained buttons and verify the focus order and selection behavior for the configured selection mode.
+The Button Group delegates keyboard interaction to its contained Toggle Buttons. Each Toggle Button renders a native button, so standard button keyboard behavior activates the focused item and updates its selection according to the configured selection mode.
 
-| Interaction | Expected behavior |
+| Key | Action |
 | --- | --- |
-| Keyboard focus | The user can reach the contained Toggle Buttons according to their focus behavior. |
-| Toggle Button interaction | The focused button changes its selected state according to the configured selection mode. |
+| Tab / Shift+Tab | Moves focus to the next or previous enabled Toggle Button in the group. |
+| Enter / Space | Activates the focused Toggle Button and selects or deselects it according to the configured selection mode. |
+
+When the Button Group is disabled, it disables its contained Toggle Buttons so they are not keyboard interactive.
 
 ### Screen Readers / ARIA
 
-Use clear labels for every {Platform} Toggle Button so assistive technology users can identify each option and its selected state. When an icon does not provide an accessible name, provide an appropriate text label or accessible name for the button.
+The Button Group exposes a group relationship and each Toggle Button exposes its state through native button semantics.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- The group container uses `role="group"` and reflects the group disabled state through `aria-disabled`.
+- Each Toggle Button renders a native `button` with `aria-pressed` for selection state and `aria-disabled` for disabled state.
+- The group emits `igcSelect` and `igcDeselect` after user interaction changes a Toggle Button selection. The event detail is the Toggle Button `value`.
+- Provide visible text or an `aria-label` for every Toggle Button, especially for icon-only controls.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- The group container uses `role="group"`.
+- Angular updates each contained button's `aria-pressed` value when its selection changes and disables child buttons when the group is disabled.
+- The group emits `selected` and `deselected` when a user changes selection. Each event provides the selected Toggle Button and its index.
+- Provide visible text, an `igxLabel`, or another accessible name for every icon-only button.
+
+</PlatformBlock>
 
 ### Accessibility Compliance
 
-Verify the rendered {Platform} Button Group against the accessibility requirements of the application. Check the button names, focus order, selected state announcements, and behavior for the configured selection mode in the target framework.
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Each Toggle Button uses a native button, so the group selection behavior is available through standard button keyboard activation. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The group exposes `role="group"`. Toggle Buttons expose native button semantics and update `aria-pressed` when selection changes; xplat Toggle Buttons also expose `aria-disabled`. |
+
+Your responsibilities:
+
+- Give each Toggle Button a clear visible label or accessible name, especially when it contains only an icon.
+- Keep the group selection mode aligned with the control purpose, so users can understand whether one or multiple options may be selected.
+- Preserve the logical button order and sufficient color contrast when customizing the group or its selected state.
 
 ## Troubleshooting
 
