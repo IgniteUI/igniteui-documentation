@@ -99,6 +99,26 @@ The calculation happens in the browser rather than at build time. If the backgro
 `adaptive-contrast()` selects between black and white. Because those are the two available outcomes, the ratio the mechanism can achieve against a mid-tone background is bounded at roughly 4.6:1. That satisfies the WCAG AA threshold of 4.5:1 for normal text, which is the default the engine is configured for. Do not rely on this mechanism alone to reach the 7:1 AAA threshold; reaching AAA requires choosing background colors that are light or dark enough to allow it.
 </DocsAside>
 
+### Set the contrast level
+
+The calculated foreground is measured against a WCAG threshold held in the `--ig-contrast-level` CSS variable, which defaults to `var(--ig-wcag-aa)`. Three levels are predefined: `a`, `aa`, and `aaa`.
+
+Set the level for the whole application when you generate the palette:
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+To raise the level for one part of the page only, override the variable on that scope:
+
+```css
+.high-contrast-panel {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+The contrast level moves the luminance threshold at which the calculated foreground switches between black and white; it does not change which two colors can be chosen. See [Palettes](palettes.mdx) for the generated contrast variables.
+
 ### Scale text with the user's browser settings
 
 No configuration is required. Every type scale in the four shipped themes expresses `font-size`, `line-height`, `letter-spacing`, and margins through the `rem()` function, so all emitted values are relative to the root font size.
