@@ -721,6 +721,12 @@ function transformMdxFile(content, where = 'this page') {
     content = transformJsonSnippets(content);
     // 1. Resolve <PlatformBlock> tags — keep only this platform's content
     content = inlinePlatformBlocks(content);
+    // 1b. Filter code blocks by language and by content. Only PlatformBlock gating kept another
+    //     platform's code off an .mdx page before this, and a fence outside one survived everywhere:
+    //     Angular markup on the Web Components pages, a Web Components type on React's. A fence no
+    //     pattern claims is untouched, so this removes only what is positively another platform's.
+    content = filterCodeBlocks(content);
+
     // 2. Remove the now-unused PlatformBlock import (if any)
     content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
     // 2.5 Resolve backticked API terms to this platform's spelling. After the PlatformBlock pass so
