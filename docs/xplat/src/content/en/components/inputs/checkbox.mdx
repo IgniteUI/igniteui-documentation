@@ -739,23 +739,63 @@ The {Platform} Checkbox provides a selectable control with a label and state tha
 
 ### Keyboard Interaction
 
+The Checkbox uses the keyboard behavior provided by its rendered control. A disabled Checkbox is
+not keyboard interactive, and the Space key changes its checked state.
+
 Use the keyboard interaction provided by the Checkbox and verify the focus and state-change behavior for the target platform.
 
-| Interaction | Expected behavior |
+| Key / interaction | Action |
 | --- | --- |
-| Keyboard focus | The user can move focus to the Checkbox according to the platform's focus behavior. |
-| Space key | The focused Checkbox changes its checked state. |
+| Tab / Shift+Tab | Moves focus to or away from the Checkbox when it is enabled and focusable. |
+| Space | Toggles the checked state of the focused Checkbox. |
 | Indeterminate state | The Checkbox exposes its current state when the indeterminate state is enabled. |
 
 ### Screen Readers / ARIA
 
-Provide meaningful label content for every Checkbox so assistive technology users can identify its purpose. When the label is outside the component, reference it with the appropriate ARIA labelling attribute and verify the announcement in the target platform.
+The Checkbox exposes its checked state, disabled state, and, when configured, required, invalid,
+and indeterminate states through the semantics of its rendered control.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- Provide meaningful label content for every Checkbox so assistive technology users can identify
+  its purpose.
+- When the label is outside the component, connect it with the supported labelling mechanism and
+  verify the announcement in the target platform.
+- Preserve the Checkbox state semantics when customizing or wrapping the control.
+- Change event handlers report state changes; they do not replace the accessible name or state.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- Provide meaningful label content for every Checkbox so assistive technology users can identify
+  its purpose.
+- When the label is outside the component, connect it with the supported Angular labelling
+  mechanism and verify the announcement in the target platform.
+- Preserve the Checkbox state semantics when customizing or wrapping the control.
+- Change event handlers report state changes; add an accessible name separately when needed.
+
+</PlatformBlock>
 
 The checked, unchecked, required, invalid, disabled, and indeterminate states must remain available to assistive technology through the component's supported semantics. Verify the rendered announcement against the platform API documentation.
 
 ### Accessibility Compliance
 
-Verify the rendered {Platform} Checkbox against the accessibility requirements of the application. Check the accessible name, focus visibility, keyboard interaction, checked state, indeterminate state, required state, invalid state, and disabled state in the target framework.
+Verify the rendered {Platform} Checkbox against the accessibility requirements of the application.
+
+| Criterion | How the component supports the requirement |
+| --- | --- |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | The enabled Checkbox can receive keyboard focus and its checked state can be changed with Space. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The Checkbox exposes its accessible name and current selection state through the rendered control and supported state semantics. |
+| [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification) | When the Checkbox is invalid, expose the validation state and provide an appropriate message in the surrounding form. |
+
+Your responsibilities:
+
+- Give every Checkbox a meaningful accessible name.
+- Keep focus visible and preserve sufficient contrast when customizing the Checkbox theme.
+- Ensure required, invalid, disabled, and indeterminate states are also communicated when visual
+  styling alone is insufficient.
+- Test the rendered Checkbox with keyboard navigation and supported assistive technologies.
 
 ## Troubleshooting
 
