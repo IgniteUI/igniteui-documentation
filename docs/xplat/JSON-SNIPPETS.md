@@ -250,6 +250,25 @@ labelled with that channel's language.
 | `$setInCode` | names the platforms where this property is set in code rather than markup: `"$setInCode": { "dataSourceRef": ["webComponents"] }` |
 | `$assignInCode` | the same, for a property assigned rather than set |
 
+Either sidecar composes with `channel="auto"`, which is how a topic keeps one property imperative
+while the element around it stays declarative — markup for the structure, code for the property whose
+teaching depends on being assigned. The named property is dropped from the markup and assigned
+beside it:
+
+```json-snippet channel="auto" source="..."
+{
+    "type": "GeographicContourLineSeries",
+    "name": "contourSeries",
+    "$setInCode": { "thickness": ["angular", "react", "webComponents"] },
+    "thickness": 4
+}
+```
+
+emits the series as markup without a `thickness` attribute, and `contourSeries.thickness = 4;` in the
+code beside it. A property holding an element or a collection is assigned through the field the
+emitter declares for it; a string, a number or a boolean carries its own literal, quoted where the
+language needs it.
+
 A handler fence usually wants its imports above it, which is what the hand written block it replaced
 had: `channel="handlersImports...handler"` emits the imports, an elision, then the handler. The `...`
 is what writes the elision, and a platform whose handler needs no imports drops the region and its
