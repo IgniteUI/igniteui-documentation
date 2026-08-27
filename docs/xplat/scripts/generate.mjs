@@ -965,6 +965,14 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             content = inlinePlatformBlocks(content);
             content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
 
+            // 2b. Filter code blocks by language and by content, the same way a non-shared page is
+            //     filtered. Without it a PlatformBlock was the only thing keeping another platform's
+            //     code off these pages, and 29 fences were not inside one: Angular markup on the Web
+            //     Components pages, Web Components markup on the React pages, and so on. A fence no
+            //     pattern claims is untouched, so this only removes what is positively another
+            //     platform's.
+            content = filterCodeBlocks(content);
+
             // 3. Apply replacements + component tokens to frontmatter only.
             //    Body tokens ({Platform} etc.) are still handled by the Vite plugin
             //    at build time via _componentKey.
