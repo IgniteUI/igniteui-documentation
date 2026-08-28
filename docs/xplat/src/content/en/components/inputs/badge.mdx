@@ -887,19 +887,49 @@ The exclamation mark (`!`) gives the Tailwind utility precedence over the Badge'
 
 ## Accessibility
 
-The {Platform} Badge communicates a visual status and must have meaningful text or surrounding accessible context when that status is important.
+The {Platform} Badge is a non-interactive status visual that communicates a short count, state, or notification.
 
 ### Keyboard Interaction
 
-The Badge is a visual status indicator and does not provide an interactive keyboard action. It is reached according to the focus behavior of the element it decorates.
+The Badge does not receive focus, handle keyboard input, or expose component interaction events.
+
+| Key | Action |
+| -- | -- |
+| n/a | The Badge is not keyboard interactive. |
 
 ### Screen Readers / ARIA
 
-Provide meaningful visible content or an accessible label in the surrounding component when the Badge conveys information that is not otherwise available to assistive technology. Verify the resulting announcement for the specific surrounding control.
+The Badge host uses `role="status"` to expose its content as status information.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- The component sets `aria-roledescription` to identify the Badge and its current `variant`.
+- Add an `aria-label` when a Badge without text, including a `dot` Badge, communicates status that is not otherwise available to assistive technology.
+- Keep the Badge content or accessible label specific to the decorated item, such as `3 unread messages` rather than only `3`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- The component initializes with `role="status"` and `aria-label="badge"`.
+- Angular derives `aria-roledescription` from the Badge type and its icon or value. Set the `label` input when `badge` is not a meaningful accessible name.
+- Add a meaningful `label` for a Badge without text or a `dot` Badge when its status is not otherwise available to assistive technology.
+
+</PlatformBlock>
 
 ### Accessibility Compliance
 
-Accessibility conformance for this component must be verified against the official product accessibility statement and the rendered usage context.
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html) | The Badge exposes the semantic `status` role. The xplat implementation also exposes a role description based on the current variant; Angular exposes an accessible label and a role description based on its type and content. |
+
+Your responsibilities:
+
+- Provide an accessible name that explains the status when the Badge has no meaningful text, especially for `dot` Badges.
+- Do not use Badge color as the only indication of status; pair it with text, an icon, or another accessible cue.
+- Keep sufficient contrast between the Badge foreground and background when overriding theme styles.
 
 ## Troubleshooting
 
