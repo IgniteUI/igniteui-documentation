@@ -117,6 +117,24 @@ import bingmapsimagery from '@xplat-images/general/BingMapsImagery.png';
 }
 ```
 
+<PlatformBlock for="Angular, React">
+
+Bing は REST URI に指定されたプロトコルでタイルを提供するため、別のプロトコルで提供されるページからは拒否されます。イメージを割り当てる前に、ホスト ページに合わせて解決してください。
+
+```ts
+// resolving BingMaps uri based on HTTP protocol of hosting website
+let tileUri = roadImagery.actualBingImageryRestUri;
+const isHttpSecured = window.location.toString().startsWith("https:");
+if (isHttpSecured) {
+    tileUri = tileUri.replace("http:", "https:");
+} else {
+    tileUri = tileUri.replace("https:", "http:");
+}
+roadImagery.bingImageryRestUri = tileUri;
+```
+
+</PlatformBlock>
+
 
 
 ## プロパティ

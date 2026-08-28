@@ -115,6 +115,25 @@ The following code snippet shows how to display geographic imagery tiles from Bi
 }
 ```
 
+<PlatformBlock for="Angular, React">
+
+Bing serves its tiles over the protocol named in its REST URI, and a page served over the other protocol
+is refused. Resolve it against the hosting page before assigning the imagery:
+
+```ts
+// resolving BingMaps uri based on HTTP protocol of hosting website
+let tileUri = roadImagery.actualBingImageryRestUri;
+const isHttpSecured = window.location.toString().startsWith("https:");
+if (isHttpSecured) {
+    tileUri = tileUri.replace("http:", "https:");
+} else {
+    tileUri = tileUri.replace("https:", "http:");
+}
+roadImagery.bingImageryRestUri = tileUri;
+```
+
+</PlatformBlock>
+
 ## Properties
 The following table summarized properties of the `BingMapsMapImagery` class:
 
