@@ -284,11 +284,35 @@ registerModules();
     }
 })();
 
-const SLOTS = ['content', 'editor', 'legend', 'aboveContent', 'aboveContentLeft', 'aboveContentRight',
-               'belowContent', 'leftContent', 'rightContent'];
+const PAGE_SLOTS = ['content', 'editor', 'legend', 'aboveContent', 'aboveContentLeft',
+                   'aboveContentRight', 'belowContent', 'leftContent', 'rightContent'];
 
-/** The container a description slot is keyed to. */
-const containerFor = (key) => document.getElementById(key);
+/**
+ * The slots a definition asked for that this page does not lay out.
+ *
+ * A host page has fixed insertion points, and index.html mirrors them. A documentation fence does not:
+ * it names its holes to say what each component is -- "financialChart" beside "dataChart" -- because two
+ * components in one fence need two names, and the generator only ever reads them as labels. Loading such
+ * a definition here put every component into a container that did not exist, so nothing was cleaned up,
+ * nothing was flushed, and the animation handler was provided somewhere the renderer never looked: the
+ * whole fence failed as "animations never settled" whatever it contained. A CategoryChart in a hole
+ * named financialChart failed; a FinancialChart in "content" passed.
+ */
+const extraSlots = new Set();
+
+/** The container a description slot is keyed to, made if this page does not lay one out. */
+const containerFor = (key) => {
+    const existing = document.getElementById(key);
+    if (existing) return existing;
+    const made = document.createElement('div');
+    made.id = key;
+    document.getElementById('root').appendChild(made);
+    extraSlots.add(key);
+    return made;
+};
+
+/** Every slot in play: the page's own, and any a definition named. */
+const slots = () => PAGE_SLOTS.concat([...extraSlots]);
 
 // What a handler reaches the rendered component through, wired the way the host wires it: by container
 // name for a description, and by ref name — either spelling — for anything else.
@@ -453,7 +477,7 @@ function cleanupPage() {
     // control is destroyed rather than merely unrendered, which is a different thing from tearing the
     // container down and may leave less behind. Through the main renderer, because that is the one a page
     // is loaded into.
-    const occupied = SLOTS.filter(slot => {
+    const occupied = slots().filter(slot => {
         const container = containerFor(slot);
         return container && container.firstElementChild;
     });
@@ -468,7 +492,7 @@ function cleanupPage() {
     }
 
     // Then the page level teardown, which is what the client's cleanupPage message runs.
-    for (const slot of SLOTS) {
+    for (const slot of slots()) {
         const container = containerFor(slot);
         if (!container) continue;
         for (const each of [renderer, editorRenderer]) {
@@ -488,7 +512,7 @@ function cleanupPage() {
 
 /** Waits for every container to have drawn what it was given. */
 function flushAll() {
-    const containers = SLOTS.map(containerFor).filter(c => c && c.firstElementChild);
+    const containers = slots().map(containerFor).filter(c => c && c.firstElementChild);
     return Promise.all(containers.map(container => new Promise((resolve) => {
         let settled = false;
         const done = () => { if (!settled) { settled = true; resolve(); } };
@@ -558,9 +582,16 @@ async function load(sample, options) {
     const animationSettled = animated
         ? new Promise((resolve) => { onAnimationIdle = resolve; })
         : Promise.resolve(false);
+    // Every container this definition puts something in, not just "content". The renderer asks the
+    // container its component was rendered into, so a fence whose holes are named after its components
+    // was waiting on a handler provided somewhere else, and timed out every time.
+    const named = sample && sample.descriptions && typeof sample.descriptions === 'object'
+        ? Object.keys(sample.descriptions) : ['content'];
     if (animated) {
-        renderer.provideRefValue(containerFor('content'), 'AnimationIdleHandler',
-            (timedOutFlag) => { if (onAnimationIdle) onAnimationIdle(timedOutFlag === true); });
+        for (const slot of named) {
+            renderer.provideRefValue(containerFor(slot), 'AnimationIdleHandler',
+                (timedOutFlag) => { if (onAnimationIdle) onAnimationIdle(timedOutFlag === true); });
+        }
     }
 
     const json = animated
@@ -591,12 +622,15 @@ async function load(sample, options) {
                 settled = true;
                 resolve(true);
             }, timeout);
-            renderer.queueForIdle(containerFor('content'), () => {
-                if (settled) return;
-                settled = true;
-                clearTimeout(timer);
-                resolve(false);
-            });
+            let pending = named.length;
+            for (const slot of named) {
+                renderer.queueForIdle(containerFor(slot), () => {
+                    if (settled || --pending > 0) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    resolve(false);
+                });
+            }
         });
 
         if (!timedOut) {
