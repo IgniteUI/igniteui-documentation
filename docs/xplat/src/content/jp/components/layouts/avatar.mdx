@@ -1,81 +1,105 @@
 ---
-title: "{Platform} Avatar | レイアウト コントロール | インフラジスティックス"
-description: インフラジスティックスの {Platform} Avatar コンポーネントを使用して、画像、アイコン、またはイニシャルを表示します。
-keywords: avatar, layout, {ProductName}, Infragistics, アバター, レイアウト, インフラジスティックス
+title: "{Platform} Avatar Component | レイアウト | インフラジスティックス"
+description: "{Platform} Avatar コンポーネントを使用して、ユーザー、エンティティ、またはオブジェクトを画像、イニシャル、アイコン、またはカスタム コンテンツで表します。"
+keywords: "{Platform} Avatar, avatar component, profile image, initials, {ProductName}, Infragistics, アバター, プロフィール画像, イニシャル, インフラジスティックス"
+last_updated: "2026-07-29"
 license: MIT
-mentionedTypes: ["Avatar"]
+mentionedTypes: ["Avatar", "Badge", "Icon"]
+relatedComponents: ["Badge"]
 _language: ja
 llms:
-  description: "{ProductName} Avatar コンポーネントで画像、アイコン、またはイニシャルを表示し、サイズや形状を設定する方法を説明します。"
+  description: "{ProductName} Avatar トピックでは、画像、イニシャル、アイコン、カスタム コンテンツ、形状、サイズ、スタイル設定、アクセシビリティ ガイダンスを使用してユーザー、エンティティ、またはオブジェクトのアイデンティティをレンダリングする方法を示します。"
 apiTerms: none
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import avatarAnatomy from '@xplat-images/anatomy-content-light/avatar-lt-a.png';
+import avatarDo from '@xplat-images/avatar/avatar_do1.png';
+import avatarDo2x from '@xplat-images/avatar/avatar_do1@2x.png';
+import avatarDoNot from '@xplat-images/avatar/avatar_do_not1.png';
+import avatarDoNot2x from '@xplat-images/avatar/avatar_dont1@2x.png';
 
-# {Platform} Avatar (アバター)
+# Avatar (アバター) コンポーネント
 
-{ProductName} アバターは、アプリケーションでイニシャル、画像、またはアイコンを表示するのに役立ちます。
+{ProductName} Avatar は、画像、イニシャル、またはカスタム コンテンツを使用してユーザー、エンティティ、またはオブジェクトを表します。
 
-## {Platform} Icon Avatar の例
+アバターを使用して、リスト、カード、プロフィール メニュー、アクティビティ フィードでコンパクトな視覚的アイデンティティを提供します。
 
-<Sample src="/layouts/avatar/icon" height={80} alt="{Platform} Avatar の例" />
+## ライブ デモ
 
+<PlatformBlock for="WebComponents, React, Blazor">
 
-## 使用方法
+<Sample spacing="sm" height={300} src="/layouts/avatar/overview" alt="{Platform} Avatar overview example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample spacing="sm" height={300} src="/layouts/avatar-overview" alt="{Platform} Avatar overview example" />
+
+</PlatformBlock>
+
+## 構造
+
+アバターは、画像のセマンティクスを適用し、サポートされているコンテンツ パターンのいずれかをレンダリングする単一のホスト要素です。
+
+<Anatomy
+  class="avatar-anatomy"
+  name="{Platform} Avatar の構造"
+  description="アバターの構造は、画像、アイコン、イニシャルのコンテナーにラベルを付けます。"
+  src={avatarAnatomy.src}
+  alt="{Platform} Avatar の構造: 画像、アイコン、イニシャルのコンテナー"
+/>
+
+<style>{`
+  .avatar-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .avatar-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 画像コンテナー:</strong> 画像コンテンツ タイプを表示します。<br />
+<strong>2. アイコン コンテナー:</strong> アイコン コンテンツ タイプを表示します。<br />
+<strong>3. イニシャル コンテナー:</strong> テキスト コンテンツ タイプを表示します。</span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-avatar[role="img"]           // ホスト - アバターを公開
+└─ div[part="base"]              // アバター ラッパー
+   ├─ span[part="initials"]      // `initials` が設定されている場合にレンダリング
+   ├─ slot                       // `initials` が設定されていない場合にレンダリング
+   └─ img[part="image"]          // `src` が設定され読み込まれている間にレンダリング
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-avatar[role="img"]           // ホスト - アバターを公開
+└─ 優先順位順に以下のいずれか:
+   ├─ div.igx-avatar__image      // `src` が設定されている場合 - 背景として画像をレンダリング
+   ├─ igx-icon                   // `icon` が設定されている場合
+   ├─ span                       // `initials` が設定されている場合 - 最初の 2 文字
+   └─ ng-content                 // カスタム プロジェクション コンテンツ
+```
+
+</PlatformBlock>
+
+## 作業の開始
 
 <PlatformBlock for="WebComponents">
 
-まず、次のコマンドを実行して {ProductName} npm パッケージをインストールする必要があります。
-
-```cmd
-npm install {PackageWebComponents}
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-まず、次のコマンドを実行して、対応する {ProductName} npm パッケージをインストールする必要があります:
-
-```cmd
-npm install igniteui-react
-```
-
-次に、以下のように、<ApiLink pkg="core" type="Avatar" /> と必要な CSS をインポートする必要があります:
-
-```tsx
-import { IgrAvatar } from 'igniteui-react';
-import 'igniteui-webcomponents/themes/light/bootstrap.css';
-```
-
-
-</PlatformBlock>
-
-<ApiLink pkg="core" type="Avatar" /> を使用する前に、次のように登録する必要があります。
-
-<PlatformBlock for="Blazor">
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule));
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-また、追加の CSS ファイルをリンクして、スタイルを <ApiLink pkg="core" type="Avatar" /> コンポーネントに適用する必要があります。以下は、**Blazor Web Assembly** プロジェクトの **wwwroot/index.html** ファイルまたは **Blazor Server** プロジェクトの **Pages/_Host.cshtml** ファイルに配置する必要があります:
-
-```razor
-<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
-```
-
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
+アバター コンポーネントを使用する前に登録します。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general-getting-started.mdx)トピックを完了してください。
 
 ```ts
 import { defineComponents, IgcAvatarComponent } from 'igniteui-webcomponents';
@@ -85,39 +109,69 @@ defineComponents(IgcAvatarComponent);
 
 </PlatformBlock>
 
-{ProductName} の完全な概要については、[作業の開始](../general-getting-started.mdx)トピックを参照してください。
+<PlatformBlock for="Angular">
 
-<ApiLink pkg="core" type="Avatar" /> は、画像、イニシャル、またはアイコンを含むその他のコンテンツを表示できます。<ApiLink pkg="core" type="Avatar" /> の宣言は次のように簡単です。
+`<igx-avatar>` をレンダリングする前に Angular アバター コンポーネントをインポートします。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general/getting-started.mdx)トピックを完了してください。
 
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-avatar></igc-avatar>
+```ts
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+アバターをレンダリングする前に React ラッパーとテーマ スタイルシートをインポートします。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general-getting-started.mdx)トピックを完了してください。
+
 ```tsx
-<IgrAvatar />
+import { IgrAvatar } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
+`Program.cs` でアバター モジュールを登録し、テーマ スタイルシートをホスト ページに追加します。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general-getting-started.mdx)トピックを完了してください。
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule));
+```
+
 ```razor
-<IgbAvatar />
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 ```
 
 </PlatformBlock>
 
-アバターには、コンテキストに基づいてさまざまなコンテンツを描画できるようにするいくつかの属性があります。アバターの境界にコンテンツを表示する最も基本的な方法は、開始タグと終了タグの間にコンテンツを提供することです。
+## 使用方法
+
+デフォルト スロットに画像ソース、イニシャル、またはカスタム コンテンツを使用してアバターをレンダリングします。
+
+### バリアント
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+表示するコンテンツ ソースのみを設定します。アバターは <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> が設定されている場合にそれをレンダリングし、そうでない場合はデフォルト スロット コンテンツをレンダリングします。また、<ApiLink pkg="core" type="Avatar" member="src" label="Src" /> が設定されて正常に読み込まれている間は画像要素もレンダリングします。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+表示するコンテンツ ソースのみを設定します。Angular アバターは、最初に `src` をレンダリングし、次に `icon`、次に `initials` をレンダリングし、これらのいずれの入力も設定されていない場合はプロジェクションされたカスタム コンテンツにフォールバックします。
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
+<igc-avatar initials="AZ"></igc-avatar>
+
+<igc-avatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane">
+</igc-avatar>
+
 <igc-avatar>
   <igc-icon name="home"></igc-icon>
 </igc-avatar>
@@ -125,11 +179,30 @@ defineComponents(IgcAvatarComponent);
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="AZ"></igx-avatar>
+
+<igx-avatar src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"></igx-avatar>
+
+<igx-avatar icon="home"></igx-avatar>
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="React">
 
 ```tsx
+<IgrAvatar initials="AZ" />
+
+<IgrAvatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane"
+/>
+
 <IgrAvatar>
-    <IgrIcon name="home" />
+  <IgrIcon name="home" />
 </IgrAvatar>
 ```
 
@@ -138,6 +211,12 @@ defineComponents(IgcAvatarComponent);
 <PlatformBlock for="Blazor">
 
 ```razor
+<IgbAvatar Initials="AZ" />
+
+<IgbAvatar
+  Src="https://static.infragistics.com/xplatform/images/people/GUY01.png"
+  Alt="A photo of Ana Zane" />
+
 <IgbAvatar>
   <IgbIcon Name="home" />
 </IgbAvatar>
@@ -145,138 +224,467 @@ defineComponents(IgcAvatarComponent);
 
 </PlatformBlock>
 
-### イニシャル
+<PlatformBlock for="WebComponents, React, Blazor">
 
-<ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> 属性が設定されている場合、アバターのすべての子要素は無視され、この属性に渡された文字列が表示されます。
-
-<PlatformBlock for="WebComponents">
-
-```html
-<!-- Initials("AZ") will be displayed instead of the icon. -->
-
-<igc-avatar initials="AZ">
-  <igc-icon name="home"></igc-icon>
-</igc-avatar>
-```
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar/variants" alt="{Platform} Avatar variants example" />
 
 </PlatformBlock>
 
-<PlatformBlock for="React">
+<PlatformBlock for="Angular">
 
-```tsx
-<IgrAvatar initials="AZ">
-    <IgrIcon name="home" />
-</IgrAvatar>
-```
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-variants" alt="{Platform} Avatar variants example" />
 
 </PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<!-- Initials("AZ") will be displayed instead of the icon. -->
-
-<IgbAvatar Initials="AZ">
-  <IgbIcon Name="home" />
-</IgbAvatar>
-```
-
-</PlatformBlock>
-
-<Sample src="/layouts/avatar/initials" height={80} alt="{Platform} Avatar の例" />
-
-### 画像
-
-<ApiLink pkg="core" type="Avatar" member="src" label="Src" /> 属性に静的アセットに有効な URL が割り当てられている場合、アバターは画像を表示することもできます。その場合、<ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> 値は無視され、子要素は描画されません。
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-avatar
-  initials="AZ"
-  src="https://www.infragistics.com/angular-demos/assets/images/men/1.jpg"
-  alt="A photo of a man.">
-  <igc-icon name="home"></igc-icon>
-</igc-avatar>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrAvatar initials="AZ"
-           src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
-           alt="A photo of a man.">
-    <IgrIcon name="home" />
-</IgrAvatar>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbAvatar Initials="AZ"
-           Src="https://static.infragistics.com/xplatform/images/people/GUY01.png"
-           Alt="A photo of a man.">
-  <IgbIcon Name="home" />
-</IgbAvatar>
-```
-
-</PlatformBlock>
-
-<Sample src="/layouts/avatar/image" height={80} alt="{Platform} Avatar の例" />
 
 ### 形状
 
-アバターは、`circle`、`rounded`、`square` の 3 つの形状をサポートしています。アバターの形状は `square` であり、<ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> 属性を介して変更できます。
+<ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> を `square`、`rounded`、または `circle` に設定します。
 
-<Sample src="/layouts/avatar/shape" height={80} alt="{Platform} Avatar の例" />
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-avatar initials="AZ" shape="circle"></igc-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="AZ" shape="circle"></igx-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrAvatar initials="AZ" shape="circle" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbAvatar Initials="AZ" Shape="@AvatarShape.Circle" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar/shape" alt="{Platform} Avatar shape example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-shape" alt="{Platform} Avatar shape example" />
+
+</PlatformBlock>
 
 ### サイズ
 
-形状とは別に、アバターのサイズも `--ig-size` CSS 変数を利用して変更できます。サポートされているサイズは、`small` (デフォルト)、`medium`、`large` です。次のコード スニペットは、異なるコンポーネント サイズを使用する方法を示しています。
+プリセット アバター サイズが必要な場合は、`--ig-size` を共通サイズ トークンのいずれかに設定します。
+
+<PlatformBlock for="WebComponents, React, Blazor">
 
 ```css
 igc-avatar {
-    --ig-size: var(--ig-size-large);
+  --ig-size: var(--ig-size-large);
 }
 ```
 
-<Sample src="/layouts/avatar/size" height={130} alt="{Platform} Avatar の例" />
+</PlatformBlock>
 
-### スタイル設定
+<PlatformBlock for="Angular">
 
-<ApiLink pkg="core" type="Avatar" /> コンポーネントはいくつかの CSS パーツを公開し、スタイルを完全に制御できるようにします。
+```html
+<igx-avatar initials="AZ" size="large"></igx-avatar>
+```
 
-|名前|説明|
-|--|--|
-| `base` | アバターの基本ラッパー。 |
-| `initials` | アバターのイニシャル ラッパー。 |
-| `image` | アバターの画像ラッパー。 |
-| `icon` | アバターのアイコン ラッパー。 |
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar/size" alt="{Platform} Avatar size example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-size" alt="{Platform} Avatar size example" />
+
+</PlatformBlock>
+
+### 使用すべき場合と使用すべきでない場合
+
+**使用すべき場合:** プロフィール画像、イニシャル、またはアイコンなど、UI が人物、組織、オブジェクト、またはアカウントの小さな表現を必要とする場合にアバターを使用します。繰り返し表示されるアイデンティティを簡単に識別できるように、同じ UI 領域内で一貫したアバター戦略を維持します。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**使用すべきでない場合:** エンティティを表す代わりにカウント、ステータス、または通知インジケーターを表示する必要がある場合は、[Badge](../inputs/badge.mdx) コンポーネントを使用します。アイデンティティとステータスの両方を一緒に表示する必要がある場合、バッジはアバターを装飾することもできます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**使用すべきでない場合:** エンティティを表す代わりにカウント、ステータス、または通知インジケーターを表示する必要がある場合は、[Badge](../inputs/badge.mdx) コンポーネントを使用します。アイデンティティとステータスの両方を一緒に表示する必要がある場合、バッジはアバターを装飾することもできます。
+
+</PlatformBlock>
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべき</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべきでない</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDo} srcset={`${avatarDo.src} 1x, ${avatarDo2x.src} 2x`} alt="{Platform} Avatar do guidance" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDoNot} srcset={`${avatarDoNot.src} 1x, ${avatarDoNot2x.src} 2x`} alt="{Platform} Avatar don't guidance" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+## プロパティ
+
+アバターは、コンテンツと形状のための小さな入力セットを公開します。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Avatar" member="alt" label="Alt" /> | `string` | n/a | 画像アバターの代替テキストを設定します。 |
+| <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> | `string` | n/a | 画像が表示されない場合にレンダリングされるテキスト イニシャルを設定します。 |
+| <ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> | `"square" \| "rounded" \| "circle"` | `"square"` | アバターの形状を設定します。 |
+| <ApiLink pkg="core" type="Avatar" member="src" label="Src" /> | `string` | n/a | 画像ソース URL を設定します。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <ApiLink type="Avatar" member="icon" label="icon" /> | `string` | n/a | アバターがレンダリングするアイコンを設定します。 |
+| <ApiLink type="Avatar" member="initials" label="initials" /> | `string` | n/a | アバターがレンダリングするテキスト イニシャルを設定します。 |
+| <ApiLink type="Avatar" member="shape" label="shape" /> | `"square" \| "rounded" \| "circle"` | `"square"` | アバターの形状を設定します。 |
+| <ApiLink type="Avatar" member="size" label="size" /> | `"small" \| "medium" \| "large"` | `"small"` | アバターのサイズを設定します。 |
+| <ApiLink type="Avatar" member="src" label="src" /> | `string` | n/a | 画像ソース URL を設定します。 |
+
+</PlatformBlock>
+
+## スタイル設定
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample spacing="sm" height={420} src="/layouts/avatar/styling" alt="{Platform} styled Avatar example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample spacing="sm" height={420} src="/layouts/avatar-styling" alt="{Platform} styled Avatar example" />
+
+</PlatformBlock>
+
+アバターの外観はテーマ変数とプラットフォーム固有のスタイル設定フックを通じて制御されます。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+トークン レベルの変更にはアバター CSS 変数を使用し、レンダリングされたラッパー、画像、アイコン、またはイニシャルをターゲットにする必要がある場合は CSS パーツを使用します。
+
+| 変数 | 変更内容 |
+| -- | -- |
+| `--ig-avatar-background` | アバターの背景色。 |
+| `--ig-avatar-color` | テキストとイニシャルの色。 |
+| `--ig-avatar-icon-color` | スロット アイコンの色。 |
+| `--ig-avatar-border-radius` | 丸みのあるアバターに使用されるボーダー半径。 |
+| `--ig-avatar-size` | アバターの幅と高さ。 |
+| `--ig-size` | プリセット アバター サイズの導出に使用される共通コンポーネント サイズ トークン。 |
+
+| CSS パーツ | 説明 |
+| -- | -- |
+| `base` | アバター ラッパー。 |
+| `icon` | アイコン ラッパー。 |
+| `initials` | イニシャル ラッパー。 |
+| `image` | 画像要素。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+トークン レベルの変更にはアバター CSS 変数を使用し、特定のレンダリング タイプや形状をターゲットにする必要がある場合は Angular ホスト クラスを使用します。
+
+| 変数 | 変更内容 |
+| -- | -- |
+| `--ig-avatar-background` | アバターの背景色。 |
+| `--ig-avatar-color` | テキストとイニシャルの色。 |
+| `--ig-avatar-icon-color` | アイコンの色。 |
+| `--ig-avatar-border-radius` | 丸みのあるアバターに使用されるボーダー半径。 |
+| `--ig-avatar-size` | アバターの幅と高さ。 |
+| `--ig-size` | プリセット アバター サイズの導出に使用される共通コンポーネント サイズ トークン。 |
+
+| セレクター | 説明 |
+| -- | -- |
+| `igx-avatar` | アバター ホスト要素。 |
+| `.igx-avatar--rounded` | `shape` が `rounded` の場合に適用されます。 |
+| `.igx-avatar--circle` | `shape` が `circle` の場合に適用されます。 |
+| `.igx-avatar--image` | アバターが画像をレンダリングする場合に適用されます。 |
+| `.igx-avatar--icon` | アバターがアイコンをレンダリングする場合に適用されます。 |
+| `.igx-avatar--initials` | アバターがイニシャルをレンダリングする場合に適用されます。 |
+| `.igx-avatar__image` | 画像アバター要素。 |
+
+</PlatformBlock>
+
+### Sass テーマ
+
+アプリケーションが Sass を通じて Ignite UI テーマをカスタマイズする場合は、<ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> 関数を使用します。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS 変数
+
+Sass ビルド ステップなしでローカルでのスタイル設定が必要な場合は、コンポーネント CSS 変数を直接設定します。
+
+<PlatformBlock for="WebComponents, React, Blazor">
 
 ```css
 igc-avatar {
   --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
 }
 
 igc-avatar::part(base) {
-  --size: 60px;
-  color: var(--ig-success-500-contrast);
-  border-radius: 20px;
+  border: 2px solid var(--ig-success-700);
 }
 ```
 
-<Sample src="/layouts/avatar/styling" height={150} alt="{Platform} Avatar の例" />
+</PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+```css
+igx-avatar {
+  --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
+}
+```
+
+</PlatformBlock>
+
+### Tailwind によるスタイル設定
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Ignite UI コンポーネント トークンと共にユーティリティ ファーストのレイアウト スタイリングが必要な場合は、{ProductName} Avatar で Tailwind ユーティリティ クラスを使用します。
+
+<Sample spacing="sm" height={560} src="/layouts/avatar/tailwind-styling" alt="{Platform} Avatar Tailwind styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+アプリケーションが Tailwind クラスを通じて Ignite UI コンポーネントをスタイリングする場合は、Angular Tailwind ユーティリティ構文を使用します。
+
+<Sample height={560} src="/layouts/avatar-tailwind-styling" alt="{Platform} Avatar Tailwind styling example" />
+
+</PlatformBlock>
+
+## アクセシビリティ
+
+アバターは、アクセシブルな画像セマンティクスを持つ非インタラクティブなアイデンティティ表示要素です。
+
+### キーボード インタラクション
+
+アバターはフォーカスを受け取らず、キーボード インタラクションはありません。
+
+| キー | アクション |
+| -- | -- |
+| n/a | アバターはキーボードによるインタラクティブ操作に対応していません。 |
+
+### スクリーン リーダー / ARIA
+
+アバターは画像のセマンティクスと `avatar` のデフォルトのアクセシブル ラベルで初期化されます。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- `src` 画像が特定の人物、エンティティ、またはオブジェクトを表す場合は `alt` を設定します。
+- プロジェクションされたカスタム コンテンツに別のアクセシブルな名前が必要な場合は、明示的な `aria-label` を追加します。
+- 隣接するテキストがすでに同じエンティティを識別している場合、装飾的なアバターを冗長として扱います。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- 画像アバターがアイデンティティを伝える場合、周囲のテキストを使用して表現される人物、エンティティ、またはオブジェクトを識別します。
+- 隣接するテキストがすでに同じエンティティを識別している場合、装飾的なアバターを冗長として扱います。
+
+</PlatformBlock>
+
+### アクセシビリティ準拠
+
+インフラジスティックスは、[アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx) トピックで、Section 508 および WCAG 2.1 ガイドライン領域における {ProductName} のアクセシビリティ サポートを文書化しています。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| 基準 | コンポーネントの準拠方法 |
+| -- | -- |
+| [1.1.1 非テキスト コンテンツ](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | アバターにはアクセシブルなラベルがあり、画像アバターは `alt` を通じて特定の代替テキストを受け取ることができます。 |
+| [4.1.2 名前、役割、値](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | コンポーネントは画像セマンティクスで初期化され、コンテンツ関連の ARIA 情報を公開します。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 基準 | コンポーネントの準拠方法 |
+| -- | -- |
+| [1.1.1 非テキスト コンテンツ](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | アバターにはアクセシブル ラベルがあり、表現されるエンティティを識別する周囲のテキストと組み合わせることができます。 |
+| [4.1.2 名前、役割、値](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | コンポーネントは `role="img"` とデフォルトのアクセシブル ラベルで初期化されます。 |
+
+</PlatformBlock>
+
+ユーザー側の責任:
+
+- スタイルをオーバーライドするときに、アバターの背景とテキストまたはアイコンの色のコントラストを十分に保ちます。
+- 隣接するテキストがすでに人物またはエンティティの名前を示している場合、同じアイデンティティのアナウンスを重複させないようにします。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- アバターがアイデンティティを伝える場合は、説明的なラベルまたは `alt` テキストを提供してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- アバター画像がアイデンティティを伝える場合、近くのテキストが表現されるエンティティを識別していることを確認します。
+
+</PlatformBlock>
+
+## トラブルシューティング
+
+Avatar をインタラクティブまたはステータス コンポーネントとして扱う前に、このセクションを使用して境界と一般的な決定を確認してください。
+
+### 既知の制限
+
+アバターは視覚的なアイデンティティのプリミティブであり、それ自体ではインタラクション、ステータス、または通知動作を追加しません。
+
+- 表現されるエンティティがクリック可能でなければならない場合は、ボタンやリスト アイテムなどのインタラクティブなコンテナーを使用します。
+- ステータス、カウント、または通知インジケーターを表示する必要がある場合は、アバターにバッジを使用します。
 
 ## API リファレンス
 
-<ApiLink pkg="core" type="Avatar" /><br />
+完全なアバター API サーフェスについては、これらの API リファレンスを使用してください。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Avatar" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Badge" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Avatar" />
+
+</PlatformBlock>
+
+## 依存関係
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+スロット アイコンには、<ApiLink pkg="core" type="Icon" /> コンポーネントの登録またはインポートが必要です。
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+アバターはデフォルトの外観に共通テーマ スタイルシートも使用します。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Sass スタイル設定ワークフローは、<ApiLink kind="sass" module="themes" type="function-avatar-theme" label="IgxAvatar Theme" /> および <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon Theme" /> API を使用します。
+
+</PlatformBlock>
 
 ## その他のリソース
 
+サポートおよび関連する Ignite UI ドキュメントについては、これらのリソースを使用してください。
+
 - [{ProductName} **フォーラム (英語)**]({ForumsLink})
 - [{ProductName} **GitHub (英語)**]({GithubLink})
+
+## 関連コンポーネント
+
+アイデンティティをステータス、アクション、またはより豊富なレイアウトと組み合わせる必要がある場合は、これらの関連コンポーネントを使用してください。
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- [Badge](../inputs/badge.mdx) - カウント、ステータス、または通知インジケーターを表示するには Badge を使用します。UI にアイデンティティとステータスの両方が必要な場合、Badge は Avatar を装飾できます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [Badge](../inputs/badge.mdx) - カウント、ステータス、または通知インジケーターを表示するには Badge を使用します。UI にアイデンティティとステータスの両方が必要な場合、Badge は Avatar を装飾できます。
+
+</PlatformBlock>
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Badge の代わりに Avatar を使用するのはどのような場合ですか?" indicatorPosition="end">
+    UI が人物、アカウント、組織、またはオブジェクトを表す必要がある場合に Avatar を使用します。UI がカウント、ステータス、または通知インジケーターを表示する必要がある場合は Badge を使用します。
+  </FaqItem>
+
+  <FaqItem question="Avatar はキーボード インタラクションを追加しますか?" indicatorPosition="end">
+    いいえ。Avatar は非インタラクティブであり、それ自体ではフォーカスを受け取りません。表現されるエンティティがアクションを必要とする場合は、インタラクティブなコンポーネント内に配置してください。
+  </FaqItem>
+
+  <FaqItem question="スクリーン リーダー向けに画像アバターにラベルを付けるにはどうすればよいですか?" indicatorPosition="end">
+    アバター画像が特定のエンティティを識別する場合は、意味のある代替テキストを提供します。隣接するテキストがすでにそのエンティティの名前を示している場合、同じアイデンティティのアナウンスを繰り返さないようにします。
+  </FaqItem>
+</Faq>

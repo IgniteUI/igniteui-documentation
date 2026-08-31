@@ -318,3 +318,49 @@ export function getEnvVars(): Record<string, string> {
 
     return _env!;
 }
+
+/** Container IDs for one locale. `development` doubles as the fallback for unknown modes. */
+type GtmContainerIds = {
+    development: string;
+    staging: string;
+    production: string;
+    [mode: string]: string | undefined;
+};
+
+/**
+ * Built-in Google Tag Manager container IDs keyed by locale and build mode.
+ * `en` is required: it is the fallback for locales without their own set (e.g. `kr`).
+ */
+const GTM_CONTAINER_ID_DEFAULTS: { en: GtmContainerIds; [lang: string]: GtmContainerIds | undefined } = {
+    en: {
+        production: 'GTM-T65CF7',
+        staging: 'GTM-NCKNPN',
+        development: 'GTM-WLXLBZD',
+    },
+    jp: {
+        production: 'GTM-KVNSWJ',
+        staging: 'GTM-WLWSDK',
+        development: 'GTM-NNHVMC7',
+    },
+};
+
+/**
+ * Resolves the Google Tag Manager container ID for the current build.
+ *
+ * Resolution order:
+ *   1. `GTM_CONTAINER_ID` env var — explicit override.
+ *   2. `GTMContainerId` in the resolved `environment.json` (per-mode, per-locale).
+ *   3. Built-in default for the current locale and build mode.
+ */
+export function getGtmContainerId(): string {
+    if (process.env.GTM_CONTAINER_ID) return process.env.GTM_CONTAINER_ID;
+
+    const fromEnvJson = getEnvVars().GTMContainerId;
+    if (fromEnvJson) return fromEnvJson;
+
+    // LANG_CODE is set by createDocsSite() from the resolved navLang.
+    const lang = process.env.LANG_CODE ?? 'en';
+    const mode = getBuildMode();
+    const localeDefaults = GTM_CONTAINER_ID_DEFAULTS[lang] ?? GTM_CONTAINER_ID_DEFAULTS.en;
+    return localeDefaults[mode] ?? localeDefaults.development;
+}

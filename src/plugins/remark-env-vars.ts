@@ -14,7 +14,7 @@
  * DOCS_ENV (or NODE_ENV) selects the env block: development | staging | production.
  */
 
-import { visit } from 'unist-util-visit';
+import { defineMdastPlugin } from 'satteri';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -89,24 +89,30 @@ export function replaceEnvVars(str: string): string {
   return str.replace(ENV_PATTERN, (_match, key) => env[key] ?? `{environment:${key}}`);
 }
 
-/** Remark plugin that substitutes `{environment:key}` tokens in the markdown AST. */
+/**
+ * Sätteri MDAST plugin that substitutes `{environment:key}` tokens.
+ *
+ * Exported as a factory so Sätteri calls it once per compile; the
+ * `loadEnv()` cache is module-level and intentionally shared across documents.
+ */
 export function remarkEnvVars() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
-      if (node.type === 'text' && node.value) {
-        node.value = replaceEnvVars(node.value);
-      }
-      if (node.type === 'link' && node.url) {
-        node.url = replaceEnvVars(node.url);
-      }
-      if (node.type === 'image' && node.url) {
-        node.url = replaceEnvVars(node.url);
-      }
-      if (node.type === 'html' && node.value) {
-        node.value = replaceEnvVars(node.value);
-      }
-    });
-  };
+  return defineMdastPlugin({
+    name: 'env-vars',
+    text(node, ctx) {
+      const value = replaceEnvVars(node.value);
+      if (value !== node.value) ctx.setProperty(node, 'value', value);
+    },
+    html(node, ctx) {
+      const value = replaceEnvVars(node.value);
+      if (value !== node.value) ctx.setProperty(node, 'value', value);
+    },
+    link(node, ctx) {
+      const url = replaceEnvVars(node.url);
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+    image(node, ctx) {
+      const url = replaceEnvVars(node.url);
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+  });
 }
