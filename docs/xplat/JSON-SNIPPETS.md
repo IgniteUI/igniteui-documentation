@@ -64,6 +64,13 @@ what makes a schema check possible at all.
 | `item="Name"` | narrows the block to one library item — a handler the sample runs, or a supporting item whose region is being shown. A name that is neither is an error. |
 | `exclude="Platform,…"` | drops the fence on those platforms. Takes the same spelling `PlatformBlock` takes, so `Xaml` covers all the XAML platforms. Read [Coverage](#coverage-when-a-platform-should-not-see-something) before reaching for it. |
 | `code="auto\|allCode\|none"` | the companion code block beside markup. Default `auto`. |
+| `include="channel,…"` | `channel="auto"` only: channels to ask for on top of what it asks for anyway. |
+| `omit="channel,…"` | `channel="auto"` only: channels to drop from that list. |
+
+`include=` and `omit=` take channel names, the same tokens the fence could have named outright, so
+matching what a page used to teach is a matter of naming the difference from `auto`'s default rather
+than restating the whole list. `auto` asks for `markup`, `code`, `bindingInit`, `bindingCode` and
+`eventHandlers`, plus whatever the definition's own markers named.
 
 ### The companion code block
 
@@ -76,6 +83,13 @@ does not declare that a code block is needed:
 - `code="allCode"` — the fuller form, including how the reference was obtained and the field
   declaration. What an introductory page wants.
 - `code="none"` — off, for a topic that would rather write its own.
+
+> **`code=` and `channel=` are not two spellings of one thing.** `code="allCode"` is markup *plus* the
+> code beside it. `channel="allCode"` is the code *instead of* the markup — and on the XAML platforms,
+> whose samples are markup throughout, there is no code, so the fence emits nothing and drops out. A
+> "for your convenience, all of the above combined" section written that way published a heading and
+> nothing under it on WinUI and Uno. Such a section wants `channel="auto"`, which takes whatever the
+> platform actually has.
 
 ---
 
@@ -131,6 +145,59 @@ channel="bindingImports...bindingFields,bindingInit,bindingCode"
 A region this platform writes nothing to drops out and takes its delimiter with it, so a block never
 opens or ends with a stray mark. `channel="codeBehind"` is shorthand for
 `bindingImports...bindingInit,bindingCode`.
+
+---
+
+## More than one component in a fence
+
+A section teaching the same thing about two components states both in one fence, two ways.
+
+**An array** emits each definition in turn, one block, separated by a blank line:
+
+````mdx
+```json-snippet source="/charts/data-chart/axis-intervals"
+[
+    { "type": "CategoryChart", "xAxisInterval": 5 },
+    { "type": "FinancialChart", "yAxisInterval": 50 }
+]
+```
+````
+
+**Named holes** do the same through `descriptions`, and are what a fence peered to a sample uses,
+because a sample states its components that way:
+
+````mdx
+```json-snippet
+{
+    "descriptions": {
+        "financialChart": { "type": "FinancialChart", "xAxisMode": "Ordinal" },
+        "dataChart": { "type": "DataChart", "axes": [ { "type": "CategoryXAxis" } ] }
+    }
+}
+```
+````
+
+A hole's name is a label, not a layout: `content` is the one the host page lays out, and any other
+name is simply how this definition tells its components apart. `descriptions.content` is also where a
+marker check looks for the root, so a definition that marks part of itself and wants the whole
+treated as one thing puts it under `content`.
+
+One caveat worth knowing, because it bites in the live harness rather than in generation: the harness
+makes a container for whatever hole a definition names, and infers that a chart animates and must be
+waited for. A definition naming its holes after its components used to time out as "animations never
+settled" whatever it contained — fixed, but if you see that message, check the hole names first.
+
+---
+
+## Data casing
+
+`"skipAlterDataCasing": true` on a definition says the sample's data was emitted as written, so member
+paths are left alone. Without it the web emitters camelise a member of the data — `Year` becomes
+`year` — which is right when the data was generated and wrong when it was not.
+
+It belongs beside the fence's own definition, not in a sidecar, and it has to agree with the sample it
+mirrors: `check-snippet-casing.mjs` compares the two and reports a fence that disagrees. No XAML run
+can catch this, because the XAML emitters do not alter casing at all.
 
 ---
 
@@ -301,7 +368,7 @@ always looked like — a sample only needs to name what it wants differently.
 | option | values | effect |
 |---|---|---|
 | `indentAttributes` | bool | one attribute per line |
-| `indentXamlAttributes` | bool | the same, for XAML |
+| `indentXamlAttributes` | bool | the same, for XAML — but see the note below |
 | `attributeLayout` | `"singleLine"` | everything on one line instead |
 | `selfCloseEmptyElements` | bool | `<X />` rather than `<X></X>` |
 | `numericAttributeStyle` | `"bare"`, `"quoted"`, `"braced"` | how a number is written. Angular bare, React braced, the rest quoted |
@@ -311,6 +378,7 @@ always looked like — a sample only needs to name what it wants differently.
 | `pascalCaseColorNames` | bool | `Red` rather than `red` |
 | `suppressAutoElementNames` | bool | leave off names the emitter would invent |
 | `suppressNameAttribute` | bool | leave off the name attribute entirely |
+| `preferNameBindings` | bool | write a reference through its companion `…Name` attribute where the component has one, rather than assigning the element in code. Web Components only, and off by default: it is the declarative form the older hand written blocks used |
 | `omitHandlerSignature` | bool | show a handler's statements, not the method wrapping them |
 | `omitDimensions` | bool | no height and width — the XAML platforms let the panel decide |
 | `directAssignment` | bool | build a property where it is assigned rather than lazily |
@@ -321,6 +389,14 @@ always looked like — a sample only needs to name what it wants differently.
 
 An unknown option is ignored rather than fatal, so a definition may name one a newer renderer
 understands. That also means a **misspelled option is silent** — the schema check will not catch it.
+The schema does list the options it knows, so `$styleOptions` itself is checked; an option the
+installed product has never heard of is what passes silently, and a product newer than the published
+package is how that happens.
+
+> **`indentXamlAttributes` only indents an element that has children.** A self-closing root's
+> attributes come out at column zero whatever the option says, which is why 234 of the 408 XAML blocks
+> in the published output are flat and 174 are indented. It is the renderer's inconsistency, not the
+> topic's, and no definition can work around it.
 
 ---
 
@@ -350,6 +426,18 @@ concept of — gate the **section**, prose and all, with `<PlatformBlock>`:
 
 Both checks read that gating, so a section a platform never sees is not that platform's to emit and
 not a place it can be stranded.
+
+> **Gating is also a blind spot.** The emission check asks `platformsAllowedAt` before it emits, so a
+> fence inside a `PlatformBlock` is never run for the platforms that block excludes — not by the
+> build, and not by the check written to catch what the build cannot say. Nothing measures those
+> fences at all.
+>
+> So a `PlatformBlock` around a fence is worth auditing every time, and is sound only where the
+> section is genuinely one platform family's: module registration, a package install, a namespace
+> declaration. Two that were not turned up on an audit of all 55 collapsed topics — one hiding the
+> `using` directives the XAML platforms need, one hiding a whole summary section from Blazor as well
+> as the XAML platforms — and ungating them immediately surfaced three emission failures that had sat
+> behind the gate. If a gated fence emits for the excluded platform, the gate was wrong.
 
 **A missing library item is not a reason to hide anything.** If a section emits nothing on a platform
 because the item behind it was only ever written for the others, the answer is to write the item — see
@@ -417,7 +505,7 @@ is called, how regions are declared, and what `requires` and `lifetime` do.
 
 ## Validation and testing
 
-Five things can be checked, and they prove different things. The first four are static; only the last
+Six things can be checked, and they prove different things. The first five are static; only the last
 one runs the component.
 
 | check | proves | runs in CI |
@@ -426,6 +514,7 @@ one runs the component.
 | `check-snippet-emission.mjs` | every fence emits non-empty code on every platform | yes, `--lang=en` and `--lang=jp` |
 | `check-snippet-exclusions.mjs` | no exclusion leaves a platform reading prose with no code | no — run it by hand |
 | `check-snippet-casing.mjs` | a fence agrees with its sample about member casing | no |
+| `check-snippet-code-channels.mjs` | which fences are incomplete as markup alone, and whether each still has its companion block | no |
 | `snippet-runtime/run.mjs` | the component the definition describes actually loads and draws | yes |
 
 ```sh
@@ -435,6 +524,8 @@ node scripts/check-snippet-schema.mjs
 node scripts/check-snippet-emission.mjs --lang=en
 node scripts/check-snippet-emission.mjs --lang=jp     # not optional — see below
 node scripts/check-snippet-exclusions.mjs
+node scripts/check-snippet-casing.mjs
+node scripts/check-snippet-code-channels.mjs
 node scripts/generate.mjs --platform=WinUI --lang=en   # the build itself
 cd scripts/snippet-runtime && node run.mjs
 ```
@@ -448,7 +539,14 @@ cd scripts/snippet-runtime && node run.mjs
   gated away from, which generation never exercises. It cannot tell you the code is *correct*.
 - **The live harness** loads every fence into chromium against the published packages and reports what
   errored, what drew nothing, and what only fails after something else ran. It is the only check that
-  can catch a property that emits perfectly and throws at run time.
+  can catch a property that emits perfectly and throws at run time. Three flags matter when one
+  fails: `--filter=<path fragment>` narrows it to a page, `--sample=<file.json>` runs one definition
+  from a file, which is how a failure gets cut down to the property that causes it, and
+  `--packages=<dir>` swaps the published packages for a local build.
+
+  It also decides for itself which definitions animate — the chart families that animate on their own,
+  plus anything asking for a transition — and waits for those to settle. `"hasAnimations": true` or
+  `false` on the definition overrides that inference.
 
 ### Two traps worth knowing
 
@@ -464,6 +562,27 @@ pass is not automatically a CI pass. CI has no `dev-tools`, and uses the publish
 ```sh
 cd docs/xplat/scripts/snippet-emitter && npm install && npm run build   # what CI builds
 ```
+
+Three environment variables decide what a run is actually testing, and CI sets the last of them:
+
+| variable | names |
+|---|---|
+| `IG_SNIPPET_API` | a built `snippet-api.cjs` to emit with, ahead of a peer `dev-tools` or this repository's own build |
+| `IG_ITEM_TEMPLATES` | the library item templates, ahead of a peer `dev-tools` copy and then the vendored one in `scripts/snippet-emitter/templates` |
+| `XPLAT_EXAMPLES` | the examples checkout, ahead of a peer clone and then a clone of the branch matching this one |
+
+Pointing the first two at this repository's own copies is how a local run reproduces CI exactly:
+
+```sh
+export IG_SNIPPET_API=$PWD/docs/xplat/scripts/snippet-emitter/dist/snippet-api.cjs
+export IG_ITEM_TEMPLATES=$PWD/docs/xplat/scripts/snippet-emitter/templates
+```
+
+**The vendored templates drift.** `resolveItemTemplates` prefers dev-tools' copy and says out loud
+which files differ from the one in this repository — and that message is the only warning you get.
+Twelve fences once failed in CI and nowhere else because the vendored `handler.ts` had not gained the
+`supportingImports` region dev-tools had added, so a supporting item's import had nowhere to go and
+the emitted file referenced a name it never imported. When that message appears, copy them over.
 
 ### Generation fails the build
 

@@ -5,10 +5,20 @@ node run.mjs                       # the published packages
 node run.mjs --filter=maps/geo-map # a subset
 node run.mjs --limit=20 --headed   # a look, with a visible browser
 node run.mjs --packages=<dir>      # a directory of locally built packages
+node run.mjs --lang=en             # one locale instead of both
+node run.mjs --sample=<file.json>  # one definition from a file, for cutting a failure down
+node run.mjs --samples             # the examples repository's samples instead of the fences
 ```
 
+`--sample=` is the one to reach for on a failure: copy the fence's JSON into a file, delete half, run
+it again. That is how "animations never settled" on a two-chart fence turned out to be neither chart —
+a definition whose holes are named after its components was waiting on a container this page had not
+laid out. Whichever hole a definition names now gets one.
+
 A sample passes when the renderer reports no errors, the browser throws nothing, and the renderer goes
-idle, flushes, and settles its animations. All four are the renderer's own signals, waited for in the
+idle, flushes, and settles its animations. Which definitions animate is inferred — the chart families
+that animate on their own, plus anything asking for a transition — and `"hasAnimations"` on the
+definition settles it either way. All four are the renderer's own signals, waited for in the
 order the Web Components test host waits for them — see `harness.js` for why each one matters.
 
 What the run reports besides pass and fail:
