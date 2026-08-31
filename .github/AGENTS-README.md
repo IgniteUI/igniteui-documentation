@@ -6,12 +6,13 @@ This document describes the AI skills available in this repository, what each on
 
 ## Context
 
-The MDX files under `docs/xplat/src/content/en/` are **shared across four platforms**: Angular, React, WebComponents, and Blazor. A single source file is built once per platform to produce four separate documentation sites. Two recurring tasks require specific knowledge to do correctly:
+The MDX files under `docs/xplat/src/content/en/` are **shared across six platforms**: Angular, React, WebComponents, Blazor, WinUI, and Uno. A single source file is built once per platform to produce a separate documentation site each time, and `docs/xplat/src/content/jp/` mirrors the set. Three recurring tasks require specific knowledge to do correctly:
 
-1. **ApiLink** — inline API hyperlinks that resolve to the correct platform-specific TypeDoc URL at build time.
+1. **ApiLink** — inline API hyperlinks that resolve to the correct platform-specific TypeDoc URL at build time, under the processing mode the page's `apiTerms` frontmatter declares.
 2. **PlatformBlock** — a wrapper component that shows content only for the specified platform(s).
+3. **json-snippet** — a component stated once as JSON, which generation turns into each platform's own code rather than a hand written block per platform.
 
-The skills below are the canonical reference for both.
+The skills below are the canonical reference for all three.
 
 ---
 
@@ -19,8 +20,10 @@ The skills below are the canonical reference for both.
 
 | Skill | Use it for |
 |---|---|
-| [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` calls in MDX files |
+| [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` calls in MDX files, and the `apiTerms` mode a page declares |
+| [`xplat-docs-json-snippets`](./skills/xplat-docs-json-snippets/SKILL.md) | Writing or validating `json-snippet` fences — the JSON a component is stated in, and the checks over it |
 | [`xplat-docs-platform-block`](./skills/xplat-docs-platform-block/SKILL.md) | Adding, fixing, or auditing `<PlatformBlock>` usage in MDX files |
+| [`xplat-docs-api-map-sync`](./skills/xplat-docs-api-map-sync/SKILL.md) | Keeping the api maps in step with a product release |
 | [`docfx-sync`](./skills/docfx-sync/SKILL.md) | Merging upstream igniteui-docfx changes and fixing MDX regressions |
 
 ---
@@ -34,6 +37,13 @@ The skills below are the canonical reference for both.
 | Adding or updating the `## API References` section at the bottom of a page | `xplat-docs-api-links` |
 | Working with excel library API links (`pkg="excel"`) | `xplat-docs-api-links` |
 | Working with dock manager slot API links | `xplat-docs-api-links` |
+| Showing a component's code on a page, or changing what a snippet shows | `xplat-docs-json-snippets` |
+| Choosing between markup, code, a handler, or `channel="auto"` for a fence | `xplat-docs-json-snippets` |
+| A platform showing a heading and prose with no code under it | `xplat-docs-json-snippets` |
+| Running the schema, emission, casing or live-load checks before pushing | `xplat-docs-json-snippets` |
+| A page that will not build for want of `apiTerms` | `xplat-docs-api-links` |
+| An "Ambiguous API symbol" build failure asking for `pkg=` | `xplat-docs-api-links` |
+| Updating the api maps after a product release | `xplat-docs-api-map-sync` |
 | Wrapping a code block or prose section so it only appears on specific platforms | `xplat-docs-platform-block` |
 | Checking that a file has no bare platform-specific code blocks | `xplat-docs-platform-block` |
 | Investigating a PlatformBlock balance error (unmatched open/close tags) | `xplat-docs-platform-block` |

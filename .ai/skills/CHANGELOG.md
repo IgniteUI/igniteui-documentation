@@ -1,5 +1,34 @@
 # igniteui doc-skill set · changelog
 
+## v4 · 2026-08-31
+
+Teaches the set two xplat contracts it did not know, both of which an author following v3 would get
+wrong. No rule was removed or reworded; two were added and one bullet was scoped. Whole set bumped to
+v4 per the uniform version-line convention.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| `apiTerms` added to the normative frontmatter contract: required for xplat, no default, `full` / `passthrough` / `none`, with what each does to a backticked name. A page written to v3's contract has no `apiTerms` and **does not build** — generation throws on a missing or unknown value. `docs/xplat/API-TERMS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| `json-snippet` added ahead of the inline-code-snippet bullet: an xplat DV topic states its component once as JSON and generation emits every platform's code from the product's description metadata, so hand written per-platform blocks are the exception now rather than the default. The existing bullet is scoped to the blocks a topic still authors by hand. `docs/xplat/JSON-SNIPPETS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| house-style's version note corrected: it claimed "content unchanged from v2", which v4 makes false. | igniteui-doc-topics/references/house-style.md |
+| Set-wide version line bumped to `v4 · 2026-08-31`, including the content-unchanged files. | all files |
+
+### Unchanged
+
+Both routers, both skills' `description` fields (so the `.claude/` and `.codex/` adapters still
+byte-match and needed no edit), every audit check and severity, every blueprint and section table,
+and the whole frontmatter skill.
+
+### Where the substance lives
+
+The working guides for these two contracts are repository skills rather than references in this set,
+because they are xplat build machinery rather than house style: `.github/skills/xplat-docs-api-links`
+(modes, `ApiLink` props, `pkg=` disambiguation, the build-time ambiguity trap) and
+`.github/skills/xplat-docs-json-snippets` (fence attributes, channels, the five traps, the checks).
+This set points at them; it does not restate them.
+
 ## v3 · 2026-08-14
 
 Restructures both skills to the routing-hub + references architecture used by the

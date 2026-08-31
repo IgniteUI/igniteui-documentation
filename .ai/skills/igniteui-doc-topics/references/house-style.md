@@ -1,7 +1,7 @@
 # Ignite UI house style
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
-bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+Version: v4 · 2026-08-31 · igniteui doc-skill set (v4 adds the xplat `apiTerms` contract and the
+`json-snippet` rule; content was unchanged from v2 through v3). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
 field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
@@ -63,8 +63,16 @@ llms:
   description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
 relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
+apiTerms: full             # xplat: REQUIRED, no default — full | passthrough | none (see below)
 ---
 ```
+
+- **`apiTerms` (xplat) is required and has no default.** A missing or unknown value stops the build.
+  `full` looks every backticked name up in the api maps and reports what does not resolve — the right
+  mode for a topic whose API the generator describes. `passthrough` links by rule for a component no
+  generator describes. `none` leaves code spans exactly as written and emits no `ApiLink`, for a page
+  that is not about a mapped API. `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links`
+  skill is the working guide.
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence that **defines the component (or concept), never the page**: subject
@@ -466,6 +474,13 @@ audits the body side.
   document a difference that doesn't exist; replace them with **one two-column table:
   variable · what it changes**. Don't add a defaults column either — defaults vary per theme and
   belong to the generated API reference, and the durable content is the variable's name and effect.
+- **In xplat, prefer a `json-snippet` fence to a hand written block per platform.** A DV topic
+  states the component once as JSON and generation emits each platform's own code from the product's
+  description metadata, so the four to six copies cannot drift apart and a property that does not
+  exist cannot be published. Hand written per-platform blocks are what that replaced; reach for one
+  only where no definition can express the lesson. `docs/xplat/JSON-SNIPPETS.md` is normative and the
+  `xplat-docs-json-snippets` skill is the working guide. The rest of this bullet applies to the blocks
+  a topic still authors by hand — Angular's own topics, and the xplat sections a fence cannot state.
 - **Audit & modernize inline code snippets — not the samples.** Fenced code blocks (` ```… ```
   `) are authored in the topic, so verify and update them: no deprecated APIs or outdated framework
   idioms (drop `standalone: true`; prefer Angular's built-in control flow `@if`/`@for` over
