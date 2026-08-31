@@ -740,9 +740,6 @@ NuGet を使用した Ignite UI for Blazor のインストールの詳細につ�
 
 Visual Studio 2022 を起動し、開始ページで **[新しいプロジェクトの作成]** をクリックし、**Blank App, Packaged (WinUI 3 in Desktop)** テンプレートを選択して、**[次へ]** をクリックします。プロジェクト名と場所を指定して、**[作成]** をクリックします。
 
-{/* TODO: the English section notes that the Blazor section above carries a screenshot at each step.
-     Add the equivalent WinUI ones, or drop the images from this section deliberately. */}
-
 ### {ProductName} のインストール
 
 {ProductName} は NuGet パッケージとして提供されます。Visual Studio で **[ツール]** → **[NuGet パッケージ マネージャー]** → **[ソリューションの NuGet パッケージの管理]** を選択し、使用するコントロールのパッケージをインストールします。以下のすべてのパッケージには **Infragistics.WinUI.Core** が必要です。
@@ -762,10 +759,7 @@ Visual Studio 2022 を起動し、開始ページで **[新しいプロジェク
 | `Infragistics.WinUI.DataVisualization` | ビジュアライゼーション コントロールの共通サポート | — |
 | `Infragistics.WinUI.SkiaSharp` | オプションの SkiaSharp レンダリング バックエンド | — |
 
-{/* TODO: confirm the licensed feed URL. The package IDs are the nuspecs on gmurray/winui, which is
-     where the WinUI packaging currently lives -- this branch's Source/Nuget carries only seven of the
-     twelve, without Maps, Dashboards, Sparkline, TreeMap or SkiaSharp. nuget.org has the public ones
-     only at 21.2.36-alpha. Revisit once that branch merges. */}
+ライセンス ユーザーは、これらのパッケージを Infragistics のプライベート NuGet フィードから取得します。パッケージ ソースとして追加していない場合は、[Infragistics NuGet フィード](./general-nuget-feed.mdx) のトピックで手順を説明しています。
 
 ### 名前空間の追加
 
@@ -788,17 +782,79 @@ Visual Studio 2022 を起動し、開始ページで **[新しいプロジェク
 
 ### コントロールの作成
 
-{/* TODO: a short first-control walkthrough, in the shape the Blazor section uses. The data grid overview
-     topic already carries a complete XAML block that could be reused here. */}
+パッケージをインストールして名前空間を宣言すれば、コントロールは他の要素と同じようにマークアップで記述できます。以下は、上記で宣言した `igGauges` プレフィックスを使用して、ウィンドウに放射ゲージを追加します。
+
+```json-snippet source="/gauges/radial-gauge/needle"
+{
+    "type": "RadialGauge",
+    "name": "gauge",
+    "value": 50,
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "interval": 10
+}
+```
+
+プロジェクトを実行すると、ゲージがスケール、目盛り、および 50 を指す針を描画します。各コントロールのトピックは、このようなブロックから始まり、そのトピックが扱うプロパティを追加していきます。
 
 </PlatformBlock>
 
 <PlatformBlock for="Uno">
-{/* TODO: Uno needs its own section, as on the English page. The namespace declarations are identical --
-     Uno uses the same `using:` form and the same Infragistics.Controls.* namespaces -- but project
-     creation differs, and its packages come from dotnet pack rather than the nuspecs
-     (Infragistics.Uno.Core / .Charts / .DataGrid / .DataVisualization / .Gauges, plus the
-     Infragistics.Uno.Wasm.* variants). */}
+## {ProductName} を使用した作業の開始
+
+{ProductName} は、専用のパッケージ セットを通じて Uno Platform で動作します。コントロール、そのプロパティ、および XAML は WinUI のトピックで示しているものと同じで、異なるのはプロジェクトの作成方法と、提供されるパッケージです。
+
+### 前提条件
+
+Uno Platform には、単一の Visual Studio ワークロードではなく独自のソリューション テンプレートと前提条件チェックがあり、いずれもこのトピックより速く変化します。プロジェクトの作成と `uno-check` の実行については、Uno Platform の [Getting Started](https://platform.uno/docs/articles/get-started.html) を参照し、その後このトピックに戻って {ProductName} を追加してください。
+
+### {ProductName} のインストール
+
+{ProductName} は NuGet パッケージとして提供されます。以下のすべてのパッケージには **Infragistics.Uno.Core** が必要です。
+
+| パッケージ | コントロール | 宣言する名前空間 |
+| --- | --- | --- |
+| `Infragistics.Uno.Core` | 以下のすべてに必要 | `Infragistics.Controls` |
+| `Infragistics.Uno.Charts` | チャートおよびグラフ | `Infragistics.Controls.Charts` |
+| `Infragistics.Uno.DataGrid` | データ グリッド | `Infragistics.Controls.Grids` |
+| `Infragistics.Uno.Gauges` | 放射、線形、およびブレット ゲージ | `Infragistics.Controls.Gauges` |
+| `Infragistics.Uno.DataVisualization` | ビジュアライゼーション コントロールの共通サポート | — |
+
+WebAssembly ヘッドでは、代わりに `Infragistics.Uno.Wasm.*` パッケージ (**Infragistics.Uno.Wasm.Core**、**Infragistics.Uno.Wasm.Charts**、**Infragistics.Uno.Wasm.DataVisualization**) を使用します。
+
+これは WinUI よりも狭いセットです。地理マップ、ダッシュボード タイル、入力、レイアウト、スパークライン、ツリーマップには Uno のパッケージがないため、これらを扱うトピックには Uno のコードがありません。
+
+ライセンス ユーザーは、これらのパッケージを Infragistics のプライベート NuGet フィードから取得します。パッケージ ソースとして追加していない場合は、[Infragistics NuGet フィード](./general-nuget-feed.mdx) のトピックで手順を説明しています。
+
+### 名前空間の追加
+
+Uno は WinUI と同じ `using:` 形式と同じ名前空間を使用します。
+
+```xaml
+<Page
+    xmlns:ig="using:Infragistics.Controls"
+    xmlns:igCharts="using:Infragistics.Controls.Charts"
+    xmlns:igDataGrids="using:Infragistics.Controls.Grids"
+    xmlns:igGauges="using:Infragistics.Controls.Gauges">
+</Page>
+```
+
+宣言が必要なのは、ファイルで実際に使用するものだけです。これらのトピックのコード スニペットはすべてこれらのプレフィックスで記述されています。
+
+### コントロールの作成
+
+```json-snippet source="/gauges/radial-gauge/needle"
+{
+    "type": "RadialGauge",
+    "name": "gauge",
+    "value": 50,
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "interval": 10
+}
+```
+
+プロジェクトを実行すると、ゲージがスケール、目盛り、および 50 を指す針を描画します。
 </PlatformBlock>
 
 
