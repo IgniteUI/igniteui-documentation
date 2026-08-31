@@ -18,7 +18,7 @@ snippet validators that are run by hand.
 | `ci/` | what the workflows call directly |  |
 
 See [JSON-SNIPPETS.md](../JSON-SNIPPETS.md) for what a json-snippet is and how to author one, and
-[API-TERMS.md](../API-TERMS.md) for how a backticked API name in prose becomes the reader's own
+[API-TERMS.md](../API-TERMS.md) for how an API name in backticks becomes the reader's own
 spelling.
 
 ## Collapsing a topic into snippets

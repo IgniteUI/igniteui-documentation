@@ -69,7 +69,7 @@ Consumers:
 |---|---|
 | [`docs/xplat/scripts/lib/api-map-names.mjs`](../../../docs/xplat/scripts/lib/api-map-names.mjs) | resolves a platform name to its canonical form; apiMap authoritative, fuzzy fallback |
 | [`docs/xplat/scripts/check-api-map-accuracy.mjs`](../../../docs/xplat/scripts/check-api-map-accuracy.mjs) | regression test proving apiMap resolution only improves accuracy |
-| [`docs/xplat/scripts/resolve-api-links.mjs`](../../../docs/xplat/scripts/resolve-api-links.mjs) | one-shot authoring tool converting backticked names to `<ApiLink>` |
+| [`docs/xplat/scripts/resolve-api-links.mjs`](../../../docs/xplat/scripts/resolve-api-links.mjs) | one-shot authoring tool converting names in backticks to `<ApiLink>` |
 
 ## Caveats
 

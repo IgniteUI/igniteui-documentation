@@ -1,6 +1,6 @@
 # API terms in prose
 
-A backticked API name in a topic is written once, canonically, and comes out as the name the
+An API name in backticks is written once, canonically, and comes out as the name the
 reader's own platform uses. `` `MarkerTypes` `` reaches a Blazor reader as `MarkerTypes`, a
 WebComponents reader as `markerTypes`, and each is linked to its own API reference.
 
@@ -101,7 +101,7 @@ gives the forward answer for each platform and the reverse answer for each spell
   ApiGenerator does not run for, where `#if` or a partial class altered the canonical surface.
 
 The loader reads every directory under the api-map root and keys forward answers by the `platform`
-field on each name, so the folder a file sits in is organisation rather than scope.
+field on each name, so the folder a file sits in is organization rather than scope.
 
 Record where the hand-written exposure lives in the entry's `_comment`. That note is the only evidence
 the name is real, and the entry should be deleted rather than left to rot if the name is ever
