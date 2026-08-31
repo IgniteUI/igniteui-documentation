@@ -1,12 +1,18 @@
 ﻿import { CodeGenHelper } from './libraryManager';
 //insert handlersImports
 //end handlersImports
+//insert supportingImports
+//end supportingImports
 
 export class PlaceholderHolder {
 
     constructor() {
         
     }
+
+    //insert emitterOnly
+
+    //end emitterOnly
 
     //insert eventHandlers
     //end eventHandlers
