@@ -3,9 +3,9 @@ title: Accessibility
 description: How the Ignite UI for Angular theming engine supports accessibility - automatic text contrast, relative text scaling, and a color-vision-deficiency chart palette.
 keywords: accessibility, contrast, WCAG, theming, color, typography, Ignite UI for Angular, Angular, Infragistics
 license: MIT
-last_updated: "2026-08-27"
+last_updated: "2026-08-31"
 llms:
-  description: "Ignite UI for Angular calculates readable text colors at runtime, keeps every type scale relative, and ships an opt-in color-vision-deficiency chart palette."
+  description: "Ignite UI for Angular calculates text colors against a WCAG contrast threshold at runtime, keeps every type scale relative, and ships an opt-in color-vision-deficiency chart palette."
 ---
 
 {/*Twin topic: docs/xplat/src/content/en/components/themes/accessibility.mdx covers React, Web Components and Blazor. The two are near-identical by design; apply substantive edits to both.*/}
@@ -17,7 +17,7 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 # Accessibility
 
 <div class="highlight">
-The Ignite UI for Angular theming engine builds accessibility into the styling layer: it calculates a readable text color for any background at runtime, expresses every type scale in relative units so text scales with the user's settings, and ships an opt-in color palette for readers with color-vision deficiency.
+The Ignite UI for Angular theming engine builds accessibility into the styling layer: it calculates a text color for any background color at runtime and measures it against a WCAG contrast threshold, expresses every type scale in relative units so text scales with the user's settings, and ships an opt-in color palette for readers with color-vision deficiency.
 </div>
 <igc-divider></igc-divider>
 
@@ -32,11 +32,11 @@ Accessibility in Ignite UI is delivered by two layers that you configure indepen
 
 This page covers the first layer. It describes capabilities that apply to every component you style with the theming engine, including components you build yourself on top of it.
 
-The table below summarizes what the theming engine does for the person ultimately using your application.
+The table below summarizes what the theming engine does for the person ultimately using your application. Each row is an input your application builds on, not a conformance outcome: you supply the colors, the engine generates pairings measured against a WCAG threshold, and verifying that the finished product conforms remains your responsibility.
 
 | A person who… | What the theming engine provides |
 |---|---|
-| Needs readable text on colored buttons, chips, and badges | A readable foreground color is calculated in the browser for every palette color, including brand colors you supply. |
+| Needs readable text on colored buttons, chips, and badges | A foreground color is calculated in the browser for every generated palette color — including brand colors you supply — and measured against the WCAG contrast level you configure (AA by default). |
 | Enlarges their default browser font size | Every type scale is expressed in relative units, and the library never pins the page font size. |
 | Has a color-vision deficiency and reads charts | An opt-in chart palette chosen to stay distinguishable under common forms of color-vision deficiency. |
 | Prefers a dark interface for light sensitivity | A complete dark palette for each of the four shipped themes. |
@@ -44,11 +44,13 @@ The table below summarizes what the theming engine does for the person ultimatel
 
 ## Before You Start
 
-Two boundaries determine what you can rely on from this page.
+Three boundaries determine what you can rely on from this page.
 
 **The theming engine styles; it does not add semantics.** ARIA roles, keyboard handling, and focus management come from the component library, not from the theme. Applying a theme does not make a custom control accessible on its own.
 
-**The contrast guarantee applies to generated palette colors.** The engine calculates foreground colors for palettes produced by the `palette()` generator. Individual component themes may also pair a specific foreground token with a specific background token by hand; those pairings are set per theme and are not produced by the contrast calculation described below. When you override component tokens directly, verify the result with [`contrast()`](#check-a-contrast-ratio-yourself).
+**The contrast calculation applies to generated palette colors.** The engine calculates foreground colors for palettes produced by the `palette()` generator. Individual component themes may also pair a specific foreground token with a specific background token by hand; those pairings are set per theme and are not produced by the contrast calculation described below. When you override component tokens directly, verify the result with [`contrast()`](#check-a-contrast-ratio-yourself).
+
+**Conformance of the finished product is yours to verify.** The engine controls its inputs — palettes, calculated pairings, type scales — not how your application uses them. A palette built from your brand colors can reach full conformance, but the engine cannot claim that outcome for you; confirm the rendered result before stating conformance.
 
 <DocsAside type="note">
 The capabilities on this page describe the theming engine's behavior. They are not a conformance statement for Ignite UI for Angular as a product. For per-component conformance information, see [Accessibility Compliance](../interactivity/accessibility-compliance.mdx).
@@ -56,7 +58,7 @@ The capabilities on this page describe the theming engine's behavior. They are n
 
 ## Next Steps
 
-- Use [`contrast-color()`](#guarantee-readable-text-on-a-brand-color) wherever you place text on a palette color, instead of hard-coding a foreground.
+- Use [`contrast-color()`](#keep-text-readable-on-a-brand-color) wherever you place text on a palette color, instead of hard-coding a foreground.
 - Turn on the [color-vision-deficiency chart palette](#enable-the-color-vision-deficiency-chart-palette) if your application renders charts.
 - Run any custom color pairing you introduce through [`contrast()`](#check-a-contrast-ratio-yourself) before shipping it.
 - If you generate palettes with the [Theming MCP server](../ai/theming-mcp.mdx), it checks surface and gray contrast against WCAG thresholds as it builds them.
@@ -76,7 +78,7 @@ The theming engine exposes these Sass functions and mixins for the accessibility
 
 ## Common Workflows
 
-### Guarantee readable text on a brand color
+### Keep text readable on a brand color
 
 Pair every background drawn from the palette with `contrast-color()` rather than a hard-coded `black` or `white`:
 
@@ -142,7 +144,7 @@ To raise the level for one part of the page only, override the variable on that 
 }
 ```
 
-The contrast level moves the luminance threshold at which the calculated foreground switches between black and white; it does not change which two colors can be chosen. See [Palettes](palettes.mdx) for the generated contrast variables.
+The contrast level moves the luminance threshold at which the calculated foreground switches between black and white; it does not change which two colors can be chosen, and setting `aaa` does not by itself make a pairing conform — that depends on the background colors you chose. Verify with [`contrast()`](#check-a-contrast-ratio-yourself). See [Palettes](palettes.mdx) for the generated contrast variables.
 
 ### Scale text with the user's browser settings
 
@@ -261,7 +263,7 @@ Each of the four shipped themes — Material, Bootstrap, Fluent, and Indigo — 
   </FaqItem>
 
   <FaqItem question="Do I still get readable text if I supply my own brand color?" indicatorPosition="end">
-    Yes, for colors used through the palette. The foreground color is calculated in the browser from the background's luminance, so it is recalculated whenever the background changes, including at runtime.
+    Yes — for colors used through the palette, measured against the configured level (AA by default). The foreground is recalculated in the browser whenever the background changes, including at runtime. Pairings you set by hand are outside the calculation; verify them with <code>contrast()</code>.
   </FaqItem>
 
   <FaqItem question="What does the contrast level setting actually change?" indicatorPosition="end">
