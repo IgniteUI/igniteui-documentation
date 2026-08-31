@@ -56,6 +56,55 @@ If you need to plot data sources with large number of data points (e.g. 10,000+)
 
 Although {Platform} charts support rendering of multiple data sources by binding array of arrays of data points to `ItemsSource` property. It is much faster for charts if multiple data sources are flatten into single data source where each data item contains multiple data columns rather just one data column. For example:
 
+<PlatformBlock for="Xaml">
+
+```csharp
+this.CategoryChart.ItemsSource = FlattenDataSource.Create();
+this.FinancialChart.ItemsSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
 
 ```csharp
@@ -75,13 +124,13 @@ public static class FlattenDataSource
     {
         public int USA { get; set; }
         public int CHN { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 // instead of this data structure:
 public static class MultiDataSources
 {
-    public static List<MultiDataItem> Create() {
+    public static List<List<MultiDataItem>> Create() {
         var dataSource1 = new List<MultiDataItem>() {
             new MultiDataItem { Year = "1996", Value = 148 },
             new MultiDataItem { Year = "2000", Value = 142 },
@@ -98,7 +147,7 @@ public static class MultiDataSources
     public class MultiDataItem
     {
         public int Value { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 ```

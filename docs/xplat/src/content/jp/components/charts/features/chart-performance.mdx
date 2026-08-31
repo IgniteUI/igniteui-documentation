@@ -58,6 +58,55 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 {Platform} チャートは、データ ポイントの配列の配列を `ItemsSource` プロパティにバインドすることにより、複数のデータ ソースの描画をサポートします。複数のデータ ソースが単一のデータ ソースにフラット化され、各データ項目に 1 つのデータ列だけでなく複数のデータ列が含まれる場合、チャートははるかに高速になります。例えば:
 
+<PlatformBlock for="Xaml">
+
+```csharp
+this.CategoryChart.ItemsSource = FlattenDataSource.Create();
+this.FinancialChart.ItemsSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
 
 ```csharp
@@ -77,13 +126,13 @@ public static class FlattenDataSource
     {
         public int USA { get; set; }
         public int CHN { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 // instead of this data structure:
 public static class MultiDataSources
 {
-    public static List<MultiDataItem> Create() {
+    public static List<List<MultiDataItem>> Create() {
         var dataSource1 = new List<MultiDataItem>() {
             new MultiDataItem { Year = "1996", Value = 148 },
             new MultiDataItem { Year = "2000", Value = 142 },
@@ -100,7 +149,7 @@ public static class MultiDataSources
     public class MultiDataItem
     {
         public int Value { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 ```
