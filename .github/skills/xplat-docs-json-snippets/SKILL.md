@@ -6,6 +6,46 @@ user-invocable: true
 
 # Xplat json-snippet Guide
 
+## Which documents this applies to
+
+Two populations share `docs/xplat/src/content/`, and they are held to different standards.
+
+| | **XPLAT docs** | **Web-only docs** |
+|---|---|---|
+| what they are | the DV set — charts, gauges, maps, dashboard tile, data grid, toolbar, zoom slider | web components — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite |
+| platforms | every platform, including WinUI and Uno | Angular, React, Web Components, Blazor |
+| code in the topic | **a `json-snippet` unless a platform-specific snippet is genuinely necessary** | whatever suits them |
+| API terms | **always `apiTerms: full`, canonical names in backticks** | any mode; their call |
+
+**The test:** does the page publish to WinUI or Uno? `docs/xplat/generated/WinUI/en/components/` after
+a `generate.mjs --platform=WinUI` run is the definitive answer — 132 pages today. Before a build, the
+quick signals are the subject (a DV component is xplat; a web component is not) and the page's toc
+entry: `include: ["Web"]` means web-only, and no `include` or `include: ["NonWeb"]` means it reaches
+the XAML platforms.
+
+These strictures are **not** a house style to spread. Applying them to a web-only topic is a mistake
+in the other direction: those pages are free to hand write a block per platform and to declare any
+`apiTerms` mode, and rewriting them to match the DV set is out of scope.
+
+The two rules are not equally hard.
+
+**`apiTerms: full` on an xplat doc is absolute.** A bare name in prose that no map resolves is an API
+claim nobody checked, and there is no case where a DV topic wants that.
+
+**A `json-snippet` is the strong default, not a ban.** The reason to prefer it is that a hand written
+block per platform is four to six copies of one lesson that drift apart an edit at a time — so reach
+for a definition first, and expect to justify not doing so. But a platform-specific snippet is a
+legitimate tool when it is genuinely necessary, and some lessons are: a data shape with no component
+in it, a namespace declaration, a package install, a step that only one platform family has. Write
+the block, and say why the definition could not carry it where the change is recorded. What is not
+legitimate is reaching for one because writing the definition looked like more work.
+
+If you find an xplat page on `apiTerms: none`, suspect one of two things before copying it: a page
+that landed in the set by accident (an untoc'd page publishes everywhere), or a page whose gating
+changed without its frontmatter following.
+
+---
+
 `docs/xplat/JSON-SNIPPETS.md` is the normative guide — the marker grammar, every sidecar, the
 standing policies. This skill is the working subset: what to write, what breaks, what to run.
 
@@ -64,7 +104,8 @@ code shows" do not. Sound only when the section still has a snippet for that pla
 **4. Both languages, one commit.** `en` is the reference and `jp` mirrors it. The checks take
 `--lang`; CI runs both, and a drifted `jp` copy fails only under `--lang=jp`.
 
-**5. `apiTerms` is required frontmatter.** A page without it does not build. See
+**5. `apiTerms` is required frontmatter, and on an xplat doc the value is `full`.** A page without it
+does not build at all; a page on `none` builds and quietly stops linking API names. See
 `xplat-docs-api-links`.
 
 ## Validating

@@ -6,7 +6,11 @@ This document describes the AI skills available in this repository, what each on
 
 ## Context
 
-The MDX files under `docs/xplat/src/content/en/` are **shared across six platforms**: Angular, React, WebComponents, Blazor, WinUI, and Uno. A single source file is built once per platform to produce a separate documentation site each time, and `docs/xplat/src/content/jp/` mirrors the set. Three recurring tasks require specific knowledge to do correctly:
+The MDX files under `docs/xplat/src/content/en/` are **shared across six platforms**: Angular, React, WebComponents, Blazor, WinUI, and Uno. A single source file is built once per platform to produce a separate documentation site each time, and `docs/xplat/src/content/jp/` mirrors the set.
+
+**Two populations live in that tree, and they are not held to the same standard.** An **xplat doc** is one that publishes to WinUI and Uno as well as the web platforms — the DV set: charts, gauges, maps, dashboard tile, data grid, toolbar, zoom slider. There, `apiTerms: full` with canonical names in backticks is required, and a component is stated as a `json-snippet` unless a platform-specific snippet is genuinely necessary. A **web-only doc** — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite — carries neither obligation and may do as it likes; reworking one to match the DV set is out of scope, not an improvement.
+
+Three recurring tasks require specific knowledge to do correctly:
 
 1. **ApiLink** — inline API hyperlinks that resolve to the correct platform-specific TypeDoc URL at build time, under the processing mode the page's `apiTerms` frontmatter declares.
 2. **PlatformBlock** — a wrapper component that shows content only for the specified platform(s).
