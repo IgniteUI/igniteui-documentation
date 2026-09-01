@@ -1,10 +1,14 @@
 ---
 name: xplat-docs-api-links
-description: "Reference guide for adding, fixing, and auditing ApiLink components in xplat MDX using the generated api-docs registry. Covers clean ApiLink props, pkg/kind disambiguation, member checks, PlatformBlock use, and registry reports."
+description: "Reference guide for authoring and auditing API terms in the multi-platform docs tree. Strict-xplat topics require canonical backticked terms; other populations may use raw ApiLink components."
 user-invocable: true
 ---
 
 # Xplat ApiLink Guide
+
+Here, **strict xplat** means a topic whose frontmatter explicitly says `platformType: xplat`. The
+`docs/xplat` directory is broader: it also contains `xplat-unmapped` and `web-only` topics, so its
+folder name alone does not select the strict-xplat rules.
 
 ## The page declares its population, and the mode follows
 
@@ -39,34 +43,46 @@ than `XamDataChart` and still resolve, and writing the canonical name always set
 type is chosen, when a term should *not* resolve, and the override files for API the maps cannot
 describe.
 
+For strict-xplat source, canonical API names in backticks are required. Do not hand-author
+`<ApiLink>`: generation emits it after choosing the target platform's spelling and URL. Use the
+leading-backslash escape inside backticks for a name that must remain code but cannot be resolved,
+for example `` `\defineComponents` ``. If a link genuinely cannot be represented as a term, the
+narrow exception is `<ApiLink raw ... />`; the `raw` attribute records the deliberate exception and
+is required by `check-doc-scope.mjs`.
+
 ### Authoring and auditing tools
 
 ```sh
 cd docs/xplat
 node scripts/resolve-api-links.mjs --dry-run     # names in backticks -> <ApiLink>; --file for one page
+node scripts/backtransform-api-links.mjs --dry-run --lang=en # authored ApiLink -> canonical terms
 node scripts/fix-api-link-attrs.mjs             # normalize attributes on existing links
 node scripts/check-api-map-accuracy.mjs         # the api maps against the generated registry
 ```
 
 
-## Preferred Markup
+## Strict-Xplat Markup
 
-Use unprefixed TypeDoc names and let the registry resolve package, kind, prefix,
-suffix, URL, and member anchors:
+Use canonical backticked names and let generation resolve package, kind, prefix, suffix, URL, and
+member anchors:
 
 ```mdx
-<ApiLink type="Grid" />
-<ApiLink type="Grid" member="rowSelection" />
-<ApiLink type="CategoryChart" />
+`Grid`
+`Grid.RowSelection`
+`CategoryChart`
 ```
 
-## Props
+Qualified `Type.Member` is for a member whose owner cannot be settled safely from prose context.
+Prefer the unqualified canonical member where the context already names its type.
+
+## Raw ApiLink Props Outside Strict Xplat
 
 - `type`: required unprefixed symbol name.
 - `member`: optional member/property/method/enum value.
 - `label`: optional display text.
 - `pkg`: disambiguation only. Add it when `check-mdx-links` reports that the same symbol exists in multiple packages.
 - `kind`: use for Sass (`kind="sass"`) or when the registry report proves a TypeDoc symbol needs narrowing.
+- `raw`: strict-xplat-only exception marker for a link that cannot be represented by a canonical term.
 
 Do not add `exclude`, `excludePrefixFor`, or `excludeSuffixFor`.
 
@@ -80,11 +96,11 @@ platform:
 
 ```mdx
 <PlatformBlock for="Angular">
-  <ApiLink type="IGridState" />
+  `IGridState`
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
-  <ApiLink type="GridState" />
+  `GridState`
 </PlatformBlock>
 ```
 
@@ -125,10 +141,11 @@ the astro build fails at render time with the page it died on:
 "IgbDateRangeDescriptor". Add pkg= or kind= to disambiguate.
 ```
 
-The fix is `pkg=`, and the first place to look is the same page: `scheduling/calendar` had already
-answered it three times with `pkg="core"` and left seven links bare. Two habits follow from that:
+For a raw link outside strict xplat, the fix is `pkg=`. For a strict-xplat term, use an exact
+canonical spelling, a qualified `Type.Member`, `global::Type`, or correct the API map. Two habits
+follow from that:
 
-- When adding `pkg=` to one link, check whether the page's other links to that symbol need it too.
+- When resolving one ambiguity, check the page's other references to that symbol too.
 - After a package or beta bump, build every platform rather than trusting the link report —
   `npm run xplat:build:{angular,react,webcomponents,blazor}`. Each stops at the *first* ambiguity, so
   a clean report is not a clean build.

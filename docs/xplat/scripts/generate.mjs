@@ -128,6 +128,10 @@ function collectIncludedSlugs(nodes, included = new Set()) {
 }
 
 const TOC_PATH = path.join(ROOT, 'src', 'content', LANG, 'toc.json');
+const INCLUDED_SLUGS = (() => {
+    if (!existsSync(TOC_PATH)) return new Set();
+    return collectIncludedSlugs(JSON.parse(readFileSync(TOC_PATH, 'utf8')));
+})();
 const EXCLUDED_SLUGS = (() => {
     if (!existsSync(TOC_PATH)) return new Set();
     const toc = JSON.parse(readFileSync(TOC_PATH, 'utf8'));
@@ -184,8 +188,18 @@ function normalizeMarkdownSpacing(content) {
     return normalized;
 }
 
+function applyProductLicense(content) {
+    if (PLATFORM !== 'WinUI' && PLATFORM !== 'Uno') return content;
+    return content.replace(/^(---\r?\n)([\s\S]*?)(^---)/m, (_match, open, body, close) => {
+        const licensed = /^license:\s*.*$/m.test(body)
+            ? body.replace(/^license:\s*.*$/m, 'license: commercial')
+            : `${body.replace(/\s*$/, '\n')}license: commercial\n`;
+        return `${open}${licensed}${close}`;
+    });
+}
+
 function prepareMarkdownOutput(content) {
-    return normalizeMarkdownSpacing(content);
+    return normalizeMarkdownSpacing(applyProductLicense(content));
 }
 
 // ---------------------------------------------------------------------------
@@ -954,6 +968,14 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
         const srcPath = path.join(sharedSrcDir, entry);
         const raw = readFileSync(srcPath, 'utf8');
 
+        // Shared web theming topics have generated component-specific paths that do not exactly
+        // match their TOC source path, so TOC exclusion alone cannot identify them. Do not emit
+        // those routes into the XAML product output.
+        if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') && /^platformType:\s*web-only\s*$/m.test(raw)) {
+            console.log(`[generate] Skipping web-only shared topic: _shared/${entry}`);
+            continue;
+        }
+
         // Determine which components this file applies to
         const applicableKeys = getSharedComponentKeys(raw);
 
@@ -1071,6 +1093,11 @@ function processDir(srcDir, outDir, relBase = '') {
                 continue;
             }
             const raw = readFileSync(srcPath, 'utf8');
+            if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') &&
+                /^platformType:\s*web-only\s*$/m.test(raw) && !INCLUDED_SLUGS.has(slug)) {
+                console.log(`[generate] Skipping unlinked web-only topic: ${slug}`);
+                continue;
+            }
             if (/\.mdx$/.test(entry)) {
                 let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw, path.join(LANG, 'components', entry))));
                 // Rewrite _shared/ cross-references so generated files resolve correctly.

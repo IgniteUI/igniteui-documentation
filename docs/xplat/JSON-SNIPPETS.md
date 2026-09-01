@@ -70,6 +70,10 @@ Two things follow for anyone working here.
 not a defect, and rewriting one to use a fence is out of scope rather than an improvement. The
 strictures in this guide are the DV set's.
 
+For `platformType: xplat`, those strictures include canonical API names in backticks and no authored
+raw `<ApiLink>` calls. Generation emits `ApiLink` after resolving the target platform. The explicit
+`<ApiLink raw ... />` form exists only for a link that cannot be represented as a canonical term.
+
 **Identity is not publication.** A topic can be `xplat` and reach no desktop platform — the whole of
 Excel and spreadsheet do not, because no XAML package exists, and the data grid's accessibility topic
 does not because its XAML shape is undecided. So where a page publishes never settles which population

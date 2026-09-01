@@ -89,6 +89,14 @@ for (const file of pages.sort()) {
                     `Use platformType: xplat-unmapped if its API cannot be resolved.`);
     }
     if (mode && mode === IMPLIED[declared]) redundant.push(`${slug}: apiTerms: ${mode} is what ${declared} already implies`);
+    if (declared === 'xplat') {
+        const raw = text.match(/<ApiLink\b[^>]*>/g) ?? [];
+        const forbidden = raw.filter(tag => !/\sraw(?:\s|=|\/?>)/.test(tag));
+        if (forbidden.length > 0) {
+            errors.push(`${slug}: ${forbidden.length} authored <ApiLink> call(s) without the explicit raw attribute. ` +
+                        'Strict-xplat source requires canonical API terms in backticks.');
+        }
+    }
 
     // Publication, which is the toc's business rather than the page's.
     //
@@ -98,7 +106,9 @@ for (const file of pages.sort()) {
     // is an artefact of the question rather than anything about the page.
     if (slug.startsWith('grids/_shared/')) continue;
 
-    const shown = published.get(slug) ?? [...WEB, ...DESKTOP];
+    // Desktop generation drops an unlinked web-only topic. Cross-platform topics still emit even
+    // when the toc does not name them, so keep the historical publish-everywhere fallback for those.
+    const shown = published.get(slug) ?? (declared === 'web-only' ? [] : [...WEB, ...DESKTOP]);
     const desktop = shown.filter(p => DESKTOP.includes(p));
     if (declared.startsWith('xplat') && desktop.length === 0) noDesktop.push(slug);
     if (declared === 'web-only' && desktop.length > 0) desktopLeak.push(`${slug} (${desktop.join(', ')})`);

@@ -65,10 +65,24 @@ jobs:
           XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
         run: node docs/xplat/scripts/check-snippet-schema.mjs
 
-      - name: Check every topic declares its population
+      - name: Check topic population and API-term authoring
         run: |
           node docs/xplat/scripts/check-doc-scope.mjs --lang=en
           node docs/xplat/scripts/check-doc-scope.mjs --lang=jp
+
+      - name: Check desktop topics are commercially licensed
+        working-directory: docs/xplat
+        env:
+          XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
+        run: |
+          node scripts/generate.mjs --platform=WinUI --lang=en
+          node scripts/check-commercial-license.mjs --platform=WinUI --lang=en
+          node scripts/generate.mjs --platform=WinUI --lang=jp
+          node scripts/check-commercial-license.mjs --platform=WinUI --lang=jp
+          node scripts/generate.mjs --platform=Uno --lang=en
+          node scripts/check-commercial-license.mjs --platform=Uno --lang=en
+          node scripts/generate.mjs --platform=Uno --lang=jp
+          node scripts/check-commercial-license.mjs --platform=Uno --lang=jp
 
       - name: Check emission on every platform
         env:

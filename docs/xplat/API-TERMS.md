@@ -42,6 +42,13 @@ today: the Excel library, whose API no generator describes, and the data grid's 
 which documents ARIA on DOM elements while the XAML platforms have UI Automation, so what it should
 say there is not yet decided.
 
+**Strict-xplat source must author API terms in backticks.** Do not hand-author `<ApiLink>` in a page
+whose frontmatter says `platformType: xplat`; generation emits the component after it resolves the
+canonical term for the target platform. `check-doc-scope.mjs` fails on a raw call. The narrow escape
+for a link that genuinely cannot be represented as a term is `<ApiLink raw ... />`; `raw` is an
+explicit review marker, not an alternative house style. If a name should remain code but cannot be
+resolved, use the normal backtick escape instead, for example `` `\defineComponents` ``.
+
 **Identity is not publication.** Which platforms a page reaches is the toc's business, and the two are
 allowed to disagree — the accessibility topic is an xplat doc that reaches no desktop platform at all.
 `check-doc-scope.mjs` reports a disagreement rather than failing it, because a disagreement is a

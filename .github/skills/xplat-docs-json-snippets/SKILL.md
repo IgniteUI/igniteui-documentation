@@ -41,6 +41,10 @@ The two rules are not equally hard.
 **`apiTerms: full` on an xplat doc is absolute.** A bare name in prose that no map resolves is an API
 claim nobody checked, and there is no case where a DV topic wants that.
 
+Strict-xplat source also may not hand-author raw `<ApiLink>` calls. Canonical backticked terms are
+required; generation emits the platform-specific component. `<ApiLink raw ... />` is the narrow,
+explicitly reviewed exception for a link that truly cannot be represented as a term.
+
 **A `json-snippet` is the strong default, not a ban.** The reason to prefer it is that a hand written
 block per platform is four to six copies of one lesson that drift apart an edit at a time — so reach
 for a definition first, and expect to justify not doing so. But a platform-specific snippet is a

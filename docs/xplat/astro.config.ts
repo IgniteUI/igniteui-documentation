@@ -286,7 +286,7 @@ function buildFilteredToc(): string {
             // group aliases such as Web / NonWeb. See src/lib/platform-groups.ts.
             .filter(n => emitsFor(platform, n))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ exclude, include, platforms, ...rest }) => {
+            .flatMap(({ exclude, include, platforms, ...rest }) => {
                 // Apply platform-specific badge overrides, e.g.:
                 //   "platforms": { "Blazor": { "new": false, "preview": true } }
                 if (platforms && typeof platforms === 'object' && platforms[platform]) {
@@ -295,13 +295,30 @@ function buildFilteredToc(): string {
                         if (key in override) rest[key] = override[key];
                     }
                 }
+                // WinUI and Uno are premium product families. Mark every emitted link so the
+                // navigation metadata and its visible badge communicate that consistently.
+                if ((platform === 'WinUI' || platform === 'Uno') && rest.href) {
+                    rest.premium = true;
+                }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {
                         rest.name = (rest.name as string).replaceAll(token, value);
                     }
                 }
                 if (Array.isArray(rest.items)) rest.items = filterNodes(rest.items);
-                return rest;
+
+                // The source toc models Data Grid as one link with nested features. On the XAML
+                // sites its preceding header is already the single top-level "Data Grid" section,
+                // so flatten this wrapper into Overview + feature links instead of rendering a
+                // redundant Data Grid group inside the Data Grid section.
+                if ((platform === 'WinUI' || platform === 'Uno') &&
+                    rest.href === 'grids/data-grid/overview.mdx' && Array.isArray(rest.items)) {
+                    const { items, ...overview } = rest;
+                    overview.name = lang === 'jp' ? '概要' : 'Overview';
+                    return [overview, ...items];
+                }
+
+                return [rest];
             });
     }
 
