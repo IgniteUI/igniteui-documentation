@@ -1,0 +1,244 @@
+<ComponentBlock for="Grid">
+
+---
+title: Angular Grid Theming - Ignite UI for Angular
+description: The Ignite UI for Angular Grid is themed with grid-theme(), a Sass function that derives every color in the component from three primary tokens.
+keywords: angular grid theming, angular grid styling, grid theme, ignite ui for angular, infragistics
+license: commercial
+last_updated: "2026-08-27"
+llms:
+  description: "The Ignite UI for Angular Grid is themed through grid-theme(), which derives every color from a background, foreground and accent token."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: Angular Tree Grid Theming - Ignite UI for Angular
+description: The Ignite UI for Angular Tree Grid is themed with grid-theme(), a Sass function that derives every color in the component from three primary tokens.
+keywords: angular tree grid theming, angular tree grid styling, grid theme, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/theming
+last_updated: "2026-08-27"
+llms:
+  description: "The Ignite UI for Angular Tree Grid is themed through grid-theme(), which derives every color from a background, foreground and accent token."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: Angular Hierarchical Grid Theming - Ignite UI for Angular
+description: The Ignite UI for Angular Hierarchical Grid is themed with grid-theme(), a Sass function that derives every color in the component from three primary tokens.
+keywords: angular hierarchical grid theming, angular hierarchical grid styling, grid theme, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/theming
+last_updated: "2026-08-27"
+llms:
+  description: "The Ignite UI for Angular Hierarchical Grid is themed through grid-theme(), which derives every color from a background, foreground and accent token."
+---
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+---
+title: Angular Pivot Grid Theming - Ignite UI for Angular
+description: The Ignite UI for Angular Pivot Grid is themed with grid-theme(), a Sass function that derives every color in the component from three primary tokens.
+keywords: angular pivot grid theming, angular pivot grid styling, grid theme, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/theming
+last_updated: "2026-08-27"
+llms:
+  description: "The Ignite UI for Angular Pivot Grid is themed through grid-theme(), which derives every color from a background, foreground and accent token."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle} Theming
+
+The Ignite UI for Angular {ComponentTitle} is themed through <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />, which derives every color from a background, foreground and accent token. Those three primary tokens reach everything the component renders: the header, the rows, the borders, the summaries, the toolbar, the paginator and the filtering popups.
+
+<DocsAside type="info">
+There is no separate theme function per grid. The Data Grid, Tree Grid, Hierarchical Grid and Pivot Grid all read `grid-theme()`, so the same theme applies to any of them without modification.
+</DocsAside>
+
+## Angular {ComponentTitle} Theming Example
+
+The four themes below are custom — written for this sample, not shipped with the library. Each sets the three primary tokens and nothing else in the color space, so switching between them shows how far those three values reach.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-theming" height={720} alt="Angular {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-style" height={710} alt="Angular {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-styling" height={630} alt="Angular {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+<Sample src="/pivot-grid/pivot-grid-styling" height={650} alt="Angular {ComponentTitle} theming example" />
+
+</ComponentBlock>
+
+## Getting started
+
+Import the theming entry point, where the theme functions and the `tokens()` mixin are exported:
+
+```scss
+@use "igniteui-angular/theming" as *;
+```
+
+Then declare a theme and include it on the element you want to affect:
+
+```scss
+:host {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+That is a complete theme. The {ComponentTitle} is now dark indigo with a coral accent, and the text, header, row borders, hover states, selection tints and popup chrome have all been computed for you.
+
+## Primary tokens
+
+The {ComponentTitle} theme is built from three tokens; every other color is derived from them.
+
+| Token | What it controls |
+| -- | -- |
+| `$background` | The surface the whole component is built on. Every other surface and the default foreground are derived from it. |
+| `$foreground` | Text and icons. Derived from `$background` by contrast when not set. |
+| `$accent-color` | Interactive color: sort indicators, selection, hover tints, focus. |
+
+`$foreground` is listed as primary but rarely needs setting. Left alone, it is chosen for contrast against the background, so a dark background produces light text and a light one produces dark text without a second declaration.
+
+## How derivation works
+
+When you declare a theme, the derived tokens are not resolved at build time into fixed colors. They are emitted as CSS expressions over the primary tokens you supplied:
+
+```css
+.my-grid {
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  --ig-grid-sorted-header-icon-color: hsl(from var(--ig-grid-accent-color) h s l/0.7);
+}
+```
+
+Two consequences follow. Changing a primary token re-computes everything downstream, including at runtime through CSS custom properties. And the relationships hold whatever value you supply, so a theme cannot fall out of step with itself.
+
+## Going deeper
+
+Some tokens are derivation roots in their own right. Declaring one detaches it from the background, and whatever sits on it derives from the new value instead.
+
+`$header-background` is the clearest example. Left alone it is mixed from `$background`, and the header text follows `$foreground`. Declare it, and the header text is re-derived to take contrast against the header itself:
+
+```scss
+:host {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52,
+    $header-background: #ff7d52
+  ));
+}
+```
+
+<DocsAside type="note">
+Reach for these only when you want a surface to stop tracking the background. Most tokens the theme documents as auto-derived are best left alone — overriding one pins a value that would otherwise stay in step with the rest of the theme.
+</DocsAside>
+
+## Structure
+
+Color is only half of a theme. Density and roundness are controlled by global design-system tokens rather than `grid-theme()` parameters, so they are set as plain custom properties:
+
+```scss
+:host {
+  --ig-size: var(--ig-size-small);   // small | medium | large
+  --ig-radius-factor: 0;             // 0 to 1
+
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+Grid lines are theme parameters. To hide one, tint it to the surface behind it rather than removing it, so the row metrics do not change between themes:
+
+```scss
+@include tokens(grid-theme(
+  // horizontal dividers, blended away
+  $row-border-color: var(--ig-grid-background),
+  // vertical dividers, drawn in the same color the theme derives for rows
+  $body-column-border-color-odd: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38),
+  $body-column-border-color-even: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38)
+));
+```
+
+## CSS variables
+
+The default appearance is deliberate, not derived: out of the box the {ComponentTitle} matches the Ignite UI design specification exactly, resolving against the base palette rather than computing colors from a background. Derivation is what you opt into when you declare a theme of your own.
+
+That has one practical consequence for CSS-only theming. Until a theme is declared there are no derived expressions to override — the component reads `var(--ig-grid-header-background, var(--ig-gray-100))` and its siblings — so setting a couple of custom properties by hand does **not** cascade:
+
+```css
+/* Not enough on its own: the background changes, the header stays grey. */
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+}
+```
+
+To theme without a Sass build, declare the **full token set** — the roots plus the derived expressions that reference them. That block is self-contained, because each derived token is an expression over the roots:
+
+```css
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  /* … and the rest of the theme's tokens */
+}
+```
+
+Generating that by hand is impractical, so use the playground below: it emits the complete block for the colors you pick.
+
+<DocsAside type="note">
+Prefer the Sass route when you can. `grid-theme()` writes the derived tokens for you and keeps them in step with the library; a hand-maintained CSS block is a snapshot that will not pick up changes to the theme.
+</DocsAside>
+
+## Try it
+
+Change a color and watch it reach the header, the rows, the summaries, the paginator and the filtering popups. Switch grids to confirm the same tokens serve all of them, and copy the generated theme when you are happy with it.
+
+<Sample src="/theming/grid-theme-playground" height={700} alt="Angular grid theme playground" />
+
+## API References
+
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="{ComponentName}Component Styles" />
+
+## Additional Resources
+
+- [{ComponentTitle} overview](/{igPath}/{ComponentMainTopic})
+- [Palettes](/themes/sass/palettes)
+- [Typography](/themes/typography)
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+- [Size](/{igPath}/display-density)
+- [Conditional Styling](/{igPath}/conditional-cell-styling)
+
+</ComponentBlock>
