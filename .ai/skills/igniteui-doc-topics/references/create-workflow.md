@@ -25,6 +25,11 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
 4. **Scaffold frontmatter** — the metadata contract lives in `house-style.md` → "File format &
    frontmatter"; this step orders the work, it does not restate the rules. Apply the contract to
    every topic type, including category/index topics.
+   - **First, for an xplat topic:** `platformType`, which is required and has no default — a topic
+     without it does not build, and it decides the standard the rest of the work is held to. `xplat`
+     for the DV set, `xplat-unmapped` where its API cannot be resolved, `web-only` for a topic that
+     ships for the web platforms and no further. It also settles `apiTerms`, which is then stated only
+     to differ. See house-style → "File format & frontmatter".
    - **Before the body (fixed by convention):** `title` (xplat component topics use the
      `{ComponentTitle}` token; xplat category/index topics use a concise, framework-neutral category
      name without `{Platform}` or `{ProductName}` tokens, for example `title: "Grids and Tables"`;

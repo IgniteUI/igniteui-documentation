@@ -49,6 +49,35 @@ what makes a schema check possible at all.
 
 ---
 
+## Which topics this is for
+
+Three populations share `src/content/`, each topic says which it is in its frontmatter, and only one
+of them is held to what follows.
+
+| `platformType` | what it is | code in the topic | API terms |
+|---|---|---|---|
+| `xplat` | the DV set — charts, gauges, maps, dashboard tile, data grid, spreadsheet, toolbar, zoom slider | a `json-snippet` unless a platform-specific snippet is genuinely necessary | `full`, implied |
+| `xplat-unmapped` | the same set, where the full treatment cannot be applied yet | the same, where a definition can express it | `passthrough`, implied |
+| `web-only` | the web platforms and no further — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite | whatever suits them | `none`, implied |
+
+**Required, no default**, and it decides `apiTerms`, which a page states only to differ. A topic
+without it does not build. `check-doc-scope.mjs` enforces that and reports where a declaration and the
+toc disagree; `API-TERMS.md` is normative for the field itself.
+
+Two things follow for anyone working here.
+
+**Read the frontmatter before applying anything below.** A per-platform block on a web-only topic is
+not a defect, and rewriting one to use a fence is out of scope rather than an improvement. The
+strictures in this guide are the DV set's.
+
+**Identity is not publication.** A topic can be `xplat` and reach no desktop platform — the whole of
+Excel and spreadsheet do not, because no XAML package exists, and the data grid's accessibility topic
+does not because its XAML shape is undecided. So where a page publishes never settles which population
+it belongs to. If you are classifying one: a topic collapsed to fences with full backtick treatment is
+certainly `xplat`; one that was not may be `web-only`, or may simply never have been processed.
+
+---
+
 ## The fence
 
 ````
@@ -505,11 +534,12 @@ is called, how regions are declared, and what `requires` and `lifetime` do.
 
 ## Validation and testing
 
-Six things can be checked, and they prove different things. The first five are static; only the last
+Seven things can be checked, and they prove different things. The first five are static; only the last
 one runs the component.
 
 | check | proves | runs in CI |
 |---|---|---|
+| `check-doc-scope.mjs` | every topic declares its population, and the declaration holds up | yes |
 | `check-snippet-schema.mjs` | every property exists on the description it is stated on | yes |
 | `check-snippet-emission.mjs` | every fence emits non-empty code on every platform | yes, `--lang=en` and `--lang=jp` |
 | `check-snippet-exclusions.mjs` | no exclusion leaves a platform reading prose with no code | no — run it by hand |

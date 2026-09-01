@@ -6,6 +6,7 @@ snippet validators that are run by hand.
 | script | what it does | run by |
 |---|---|---|
 | `generate.mjs` | builds a platform's topics from the shared `.mdx`, emitting every json-snippet | the build |
+| `check-doc-scope.mjs` | every topic declares its population, and the declaration holds up | CI |
 | `check-snippet-schema.mjs` | every snippet against the schema the descriptions declare | CI |
 | `check-snippet-emission.mjs` | every fence emits on every platform, in both languages | CI |
 | `snippet-runtime/run.mjs` | every fence loaded into chromium against the real renderer | CI |
@@ -18,8 +19,8 @@ snippet validators that are run by hand.
 | `ci/` | what the workflows call directly |  |
 
 See [JSON-SNIPPETS.md](../JSON-SNIPPETS.md) for what a json-snippet is and how to author one, and
-[API-TERMS.md](../API-TERMS.md) for how an API name in backticks becomes the reader's own
-spelling.
+[API-TERMS.md](../API-TERMS.md) for the `platformType` populations and how an API name in backticks
+becomes the reader's own spelling.
 
 ## Collapsing a topic into snippets
 

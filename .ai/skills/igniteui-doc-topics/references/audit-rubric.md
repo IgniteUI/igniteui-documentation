@@ -129,6 +129,13 @@ Run the compass on each section; flag content that has drifted out of the sectio
   Styling instead of Usage.
 
 ### D. Metadata & AI-readiness
+- D0 (Blocker, xplat) No `platformType`, or one that does not match the topic. The field is required
+  and has no default, so a topic without it does not build; and it decides which standard the topic is
+  held to, so the wrong value quietly applies the wrong rules. `xplat` for the DV set,
+  `xplat-unmapped` where its API cannot be resolved, `web-only` for the web platforms and no further.
+  Two traps: identity is not publication, so a topic can be `xplat` and reach no desktop platform; and
+  a per-platform code block or a non-`full` `apiTerms` is a finding on an xplat topic and perfectly
+  fine on a web-only one. `check-doc-scope.mjs` reports both, and house-style carries the contract.
 - D1 (Warning) `relatedComponents` is set but **Usage**'s **Do/Don't** guidance doesn't name the
   specific sibling(s) by name and link them — or vice-versa, it names a sibling that isn't listed in
   `relatedComponents`.
