@@ -86,7 +86,7 @@ certainly `xplat`; one that was not may be `web-only`, or may simply never have 
 
 | attribute | what it does |
 |---|---|
-| `source="/path"` | the sample this definition mirrors. Generation fails if the path names no sample, so a moved sample cannot leave a topic pointing at nothing. |
+| `source="/path"` | **optional.** The sample this definition mirrors, for provenance. Validated when present — generation fails if the path names no sample, so a moved sample cannot leave a topic pointing at nothing — and nothing requires it. |
 | `id="name"` | names this definition so later fences can re-emit it. |
 | `ref="name"` | emits another channel of a definition stated once further up the page. The body is empty; the definition is not repeated. |
 | `channel="..."` | which part of the sample to show. Default `markup`. See [Channels](#channels). |
@@ -100,6 +100,14 @@ certainly `xplat`; one that was not may be `web-only`, or may simply never have 
 matching what a page used to teach is a matter of naming the difference from `auto`'s default rather
 than restating the whole list. `auto` asks for `markup`, `code`, `bindingInit`, `bindingCode` and
 `eventHandlers`, plus whatever the definition's own markers named.
+
+**Nothing requires `source`.** It records which sample a definition was taken from, which is worth
+having: it is what `check-snippet-casing.mjs` compares a fence against, and what tells a later reader
+where the values came from. But a definition that mirrors no single sample is perfectly legitimate —
+30 of the 158 fences in `en` name none — and neither the build nor any check asks for one. A fence
+teaching one property, or composed from two samples, or stating something no sample runs, simply
+leaves it off. Do not invent a `source` to satisfy a rule that does not exist, and do not remove one
+that is already there.
 
 ### The companion code block
 

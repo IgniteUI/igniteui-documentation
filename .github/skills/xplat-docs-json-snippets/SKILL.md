@@ -85,7 +85,7 @@ item only exists for the others" is not one — write the item.
 
 | attribute | what it does |
 |---|---|
-| `source="/path"` | the sample this mirrors. Generation fails if the sample does not exist |
+| `source="/path"` | **optional** — the sample this mirrors, for provenance. Checked when present, never required |
 | `channel="…"` | which part to show. Default `markup`; `auto` takes whatever the platform has |
 | `code="auto\|allCode\|none"` | the companion code block beside markup. Default `auto` |
 | `item="Name"` | narrow to one library item — a handler or a supporting type |
@@ -93,7 +93,7 @@ item only exists for the others" is not one — write the item.
 | `exclude="Platform,…"` | drop the fence there. `Xaml` covers all the XAML platforms |
 | `include=` / `omit=` | `channel="auto"` only: add or drop channels |
 
-## The five traps
+## The six traps
 
 **1. `code=` and `channel=` are not two spellings of one thing.** `code="allCode"` is markup *plus*
 its code; `channel="allCode"` is code *instead of* markup — and the XAML platforms, whose samples
@@ -113,7 +113,13 @@ code shows" do not. Sound only when the section still has a snippet for that pla
 **4. Both languages, one commit.** `en` is the reference and `jp` mirrors it. The checks take
 `--lang`; CI runs both, and a drifted `jp` copy fails only under `--lang=jp`.
 
-**5. `platformType` is required frontmatter, and it decides `apiTerms`.** A page without it does not
+**5. `source=` is not required, and inventing one is worse than omitting it.** It records which
+sample a definition came from, and `check-snippet-casing.mjs` uses it to compare the two — so name it
+when there is one. But 30 of the 158 fences in `en` name none, because a definition can teach one
+property, compose two samples, or state something no sample runs. Nothing enforces it. Leave the ones
+already there alone.
+
+**6. `platformType` is required frontmatter, and it decides `apiTerms`.** A page without it does not
 build at all. A page that states `apiTerms` usually does not need to — say it only to differ from what
 the population implies. See `xplat-docs-api-links`.
 
