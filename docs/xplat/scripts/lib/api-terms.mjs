@@ -77,30 +77,69 @@ export function apiMap(repoRoot = undefined) {
 /** The `apiTerms:` values a page may declare. */
 export const API_TERM_MODES = ['full', 'none', 'passthrough'];
 
+/** The `platformType:` values a page may declare. */
+export const PLATFORM_TYPES = ['xplat', 'xplat-unmapped', 'web-only'];
+
+/** What each platform type means a page's code spans want, when the page does not say otherwise. */
+const API_TERMS_DEFAULT = { xplat: 'full', 'xplat-unmapped': 'passthrough', 'web-only': 'none' };
+
 /**
- * How a page wants its code spans treated, from `apiTerms:` in the frontmatter.
+ * Which population a page belongs to, from `platformType:` in the frontmatter.
  *
- *   full         every backticked term is resolved through the maps
+ *   xplat            the DV set, with an API the generator describes
+ *   xplat-unmapped   the DV set, where the full treatment cannot be applied yet. Two reasons so far,
+ *                    and both are the page's situation rather than its identity: the Excel library
+ *                    has an API no generator describes, so there is no map to check its names
+ *                    against; and the data grid's accessibility topic documents ARIA on DOM elements
+ *                    while the XAML platforms have UI Automation, so what it should say there is not
+ *                    yet decided. Either way the terms resolve by rule. Saying this here rather than
+ *                    per page keeps "an xplat doc is `full`" true without an exception list: a page
+ *                    that cannot meet it is its own category rather than one quietly opting out.
+ *   web-only         published for the web platforms and no further
+ *
+ * **Required, with no default.** It decides two things a page cannot be read for: what `apiTerms`
+ * means here, and whether a hand written block per platform is a drift risk or nobody's business.
+ * A page that has not stated it fails, naming the file.
+ */
+export function platformType(content, where = 'this page') {
+    const match = /^platformType:\s*(\S+)/m.exec(content);
+    if (!match) {
+        throw new Error(
+            `${where}: no platformType in the frontmatter. Add "platformType: xplat" for a topic in ` +
+            `the cross-platform (DV) set, "platformType: xplat-unmapped" for one whose API no ` +
+            `generator describes, or "platformType: web-only" for one that ships for the web ` +
+            `platforms only.`);
+    }
+    const value = match[1].replace(/^["']|["']$/g, '');
+    if (!PLATFORM_TYPES.includes(value)) {
+        throw new Error(`${where}: platformType is "${value}"; expected one of ${PLATFORM_TYPES.join(', ')}.`);
+    }
+    return value;
+}
+
+/**
+ * How a page wants its code spans treated: `apiTerms:` if it states one, otherwise whatever its
+ * `platformType` implies.
+ *
+ *   full         every term in backticks is resolved through the maps
  *   none         nothing is touched: the code span is preserved as authored, no ApiLink, no report
  *   passthrough  resolved by rule rather than by lookup -- the canonical name as written on the XAML
  *                platforms, camelCased on the ones that camelCase -- and still rendered as an
  *                ApiLink, with nothing reported as unknown
  *
- * **Required, with no default.** Which of the two a page wants is not derivable from the page: it
- * follows from whether the page ships outside the web, and that lives in the toc. Defaulting either
- * way makes the wrong answer the silent one — default `full` and a web-only page reports every
- * backticked shell command as an unresolved API name; default `none` and a cross-platform page
- * quietly stops resolving and nobody notices until a reader sees the wrong platform's spelling. So
- * the decision is stated per page and a page that has not stated it fails.
+ * **The default comes from `platformType`,** which is what this used to require every page to restate.
+ * An xplat topic is `full`: it has a second spelling to resolve to on every platform it ships for, and
+ * a name nothing resolves is an API claim nobody checked. A web-only topic is `none`: it has no second
+ * spelling, so resolution can only introduce noise -- every backticked shell command reported as an
+ * unresolved API name. Defaulting without knowing the population is what made this undecidable
+ * before; the population is now stated in the page.
  *
- * `none` is for pages outside the cross-platform set. A page that only ever ships for the web has no
- * second spelling to resolve to, so resolution can only introduce noise.
- *
- * `passthrough` is for the parts of the product ApiGenerator does not build: the Excel library, and
- * components like DataChart that carry no widget markers for WPF and are exposed directly. Their
- * canonical C# surface *is* the public API, so there is no map and never will be by that route, and a
- * name is the same everywhere bar casing. Reporting those as unknown would be reporting that a
- * generator we do not run for them did not run.
+ * A page states `apiTerms` only to differ from that. `passthrough` is the case that needs it: the
+ * parts of the product ApiGenerator does not build -- the Excel library, and components like DataChart
+ * that carry no widget markers for WPF and are exposed directly. Their canonical C# surface *is* the
+ * public API, so there is no map and never will be by that route, and a name is the same everywhere
+ * bar casing. Reporting those as unknown would be reporting that a generator we do not run for them
+ * did not run.
  *
  * A page in `passthrough` still gets platform-correct casing, which is the part a reader notices.
  * What it gives up is the check: a typo on such a page resolves as happily as a real name.
@@ -108,9 +147,7 @@ export const API_TERM_MODES = ['full', 'none', 'passthrough'];
 export function apiTermsMode(content, where = 'this page') {
     const match = /^apiTerms:\s*(\S+)/m.exec(content);
     if (!match) {
-        throw new Error(
-            `${where}: no apiTerms in the frontmatter. Add "apiTerms: full" for a page that ships ` +
-            `outside the web, or "apiTerms: none" for one that does not.`);
+        return API_TERMS_DEFAULT[platformType(content, where)];
     }
 
     const mode = match[1].replace(/^["']|["']$/g, '');

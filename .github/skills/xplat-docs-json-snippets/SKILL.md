@@ -8,20 +8,29 @@ user-invocable: true
 
 ## Which documents this applies to
 
-Two populations share `docs/xplat/src/content/`, and they are held to different standards.
+Every topic declares its population in the frontmatter, and the populations are held to different
+standards. **`platformType` is required and has no default** — a page without it does not build.
 
-| | **XPLAT docs** | **Web-only docs** |
-|---|---|---|
-| what they are | the DV set — charts, gauges, maps, dashboard tile, data grid, toolbar, zoom slider | web components — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite |
-| platforms | every platform, including WinUI and Uno | Angular, React, Web Components, Blazor |
-| code in the topic | **a `json-snippet` unless a platform-specific snippet is genuinely necessary** | whatever suits them |
-| API terms | **always `apiTerms: full`, canonical names in backticks** | any mode; their call |
+| | **`xplat`** | **`xplat-unmapped`** | **`web-only`** |
+|---|---|---|---|
+| what it is | the DV set — charts, gauges, maps, dashboard tile, data grid, spreadsheet, toolbar, zoom slider | the DV set, where the full treatment cannot be applied yet | web components — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite |
+| code in the topic | **a `json-snippet` unless a platform-specific snippet is genuinely necessary** | same, where a definition can express it at all | whatever suits them |
+| API terms | `apiTerms: full`, implied — canonical names in backticks | `passthrough`, implied | `none`, implied |
 
-**The test:** does the page publish to WinUI or Uno? `docs/xplat/generated/WinUI/en/components/` after
-a `generate.mjs --platform=WinUI` run is the definitive answer — 132 pages today. Before a build, the
-quick signals are the subject (a DV component is xplat; a web component is not) and the page's toc
-entry: `include: ["Web"]` means web-only, and no `include` or `include: ["NonWeb"]` means it reaches
-the XAML platforms.
+**Read the frontmatter first.** It is stated per page, so nothing has to be inferred. `apiTerms`
+appears only when a page differs from what its population implies, which is rare.
+
+**Classifying a new page:** identity is what the topic *is*, not where it publishes today — a topic
+can be xplat and not reach desktop yet, which is true of the data grid's accessibility topic and of
+everything Excel. The strongest evidence is the page's own history: if it was collapsed to
+`json-snippet` fences and full backtick treatment, it is definitely xplat. If it was not, it may be
+web-only, or it may simply never have been processed — `check-doc-scope.mjs` reports the DV-shaped
+pages sitting in `web-only` for exactly that reason.
+
+`xplat-unmapped` is not a soft xplat. It is for a topic whose names genuinely cannot resolve: the
+Excel library, whose API no generator describes, and the accessibility topic, whose XAML shape is
+undecided. An xplat page may **not** declare `apiTerms: none` — that is opting out of what makes it
+xplat, and the check fails on it.
 
 These strictures are **not** a house style to spread. Applying them to a web-only topic is a mistake
 in the other direction: those pages are free to hand write a block per platform and to declare any
@@ -104,14 +113,15 @@ code shows" do not. Sound only when the section still has a snippet for that pla
 **4. Both languages, one commit.** `en` is the reference and `jp` mirrors it. The checks take
 `--lang`; CI runs both, and a drifted `jp` copy fails only under `--lang=jp`.
 
-**5. `apiTerms` is required frontmatter, and on an xplat doc the value is `full`.** A page without it
-does not build at all; a page on `none` builds and quietly stops linking API names. See
-`xplat-docs-api-links`.
+**5. `platformType` is required frontmatter, and it decides `apiTerms`.** A page without it does not
+build at all. A page that states `apiTerms` usually does not need to — say it only to differ from what
+the population implies. See `xplat-docs-api-links`.
 
 ## Validating
 
 ```sh
 cd docs/xplat
+node scripts/check-doc-scope.mjs --lang=en            # every topic declares its population
 node scripts/check-snippet-schema.mjs                 # every property exists on its description
 node scripts/check-snippet-emission.mjs --lang=en     # every fence emits, on every platform
 node scripts/check-snippet-emission.mjs --lang=jp
@@ -121,7 +131,7 @@ node scripts/generate.mjs --platform=WinUI --lang=en  # the build itself
 cd scripts/snippet-runtime && node run.mjs            # loads every fence in chromium
 ```
 
-The first two run in CI, and the live harness runs on every pull request. What each cannot tell you,
+The first three run in CI, and the live harness runs on every pull request. What each cannot tell you,
 and how to cut a runtime failure down with `--sample=`, is in JSON-SNIPPETS.md.
 
 **A local pass is not automatically a CI pass.** The emitter resolves from `IG_SNIPPET_API`, then a

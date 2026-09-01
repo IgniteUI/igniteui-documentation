@@ -12,19 +12,40 @@ The check is the point. A term that resolves to nothing is reported and the buil
 how a typo gets caught — there is no other way to catch one, because a misspelled name in prose looks
 exactly like a name for a platform you did not build.
 
-## Every topic declares a mode
+## Every topic declares its population, and the mode follows
 
-`apiTerms` is required in the frontmatter. There is no default, so the decision is made per document
-rather than inherited by a topic nobody thought about:
+`platformType` is required in the frontmatter. There is no default, so the decision is made per
+document rather than inherited by a topic nobody thought about:
+
+| population | what it is | `apiTerms` it implies |
+|---|---|---|
+| `xplat` | the cross-platform (DV) set — anything whose API the generator describes | `full` |
+| `xplat-unmapped` | the same set, where the full treatment cannot be applied yet | `passthrough` |
+| `web-only` | published for the web platforms and no further | `none` |
+
+A page states `apiTerms` only to differ from what its population implies, which is rare: 578 pages
+stated what their population already says, and now none do.
 
 | mode | what happens | for |
 |---|---|---|
-| `full` | looked up in the api maps; unresolvable terms are reported | the xplat topics — anything whose API the generator describes |
+| `full` | looked up in the api maps; unresolvable terms are reported | every xplat topic |
 | `passthrough` | resolved by rule instead of by map, still linked | a component no generator describes |
 | `none` | the code span is left exactly as written, and no `ApiLink` is emitted | topics that are not about a mapped API at all |
 
 `full` and `passthrough` both emit an `ApiLink`. `none` does not — a page that opted out is saying
 these are not API names, so linking them would be wrong rather than merely unchecked.
+
+**An xplat page may not declare `none`.** That is opting out of the treatment that makes it xplat, and
+`check-doc-scope.mjs` fails on it. A page that genuinely cannot resolve its names is
+`xplat-unmapped` — its own population rather than an exception to this one. Two things sit there
+today: the Excel library, whose API no generator describes, and the data grid's accessibility topic,
+which documents ARIA on DOM elements while the XAML platforms have UI Automation, so what it should
+say there is not yet decided.
+
+**Identity is not publication.** Which platforms a page reaches is the toc's business, and the two are
+allowed to disagree — the accessibility topic is an xplat doc that reaches no desktop platform at all.
+`check-doc-scope.mjs` reports a disagreement rather than failing it, because a disagreement is a
+decision to confirm rather than a defect to fix.
 
 A component can be put in passthrough on its own, in `src/data/api-map/passthrough.json`, so the rest
 of a mixed page is still checked. DataChart is deliberately *not* listed there: it falls back to

@@ -63,25 +63,30 @@ llms:
   description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
 relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
-apiTerms: full             # xplat: REQUIRED, no default — full | passthrough | none (see below)
+platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmapped | web-only
 ---
 ```
 
-- **`apiTerms` (xplat) is required and has no default.** A missing or unknown value stops the build.
-  `full` looks every name in backticks up in the api maps and reports what does not resolve.
-  `passthrough` links by rule for a component no generator describes. `none` leaves code spans exactly
-  as written and emits no `ApiLink`. **An xplat doc is always `full`** — see the two populations below.
-  `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links` skill is the working guide.
+- **`platformType` (xplat) is required and has no default.** A missing or unknown value stops the
+  build. It also decides `apiTerms`, which a page then states only to differ: `xplat` implies `full`
+  (names in backticks resolved through the api maps), `xplat-unmapped` implies `passthrough` (resolved
+  by rule, for an API no generator describes), `web-only` implies `none` (left as written, no
+  `ApiLink`). An xplat page may not state `none`; a topic that genuinely cannot resolve its names is
+  `xplat-unmapped`. `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links` skill is the
+  working guide.
 
-- **Two populations share the xplat content tree, held to different standards.** The **DV set** —
-  charts, gauges, maps, dashboard tile, data grid, toolbar, zoom slider, anything that publishes to
-  WinUI and Uno as well as the web platforms — is an **xplat doc**, where `apiTerms` is always `full`
-  with canonical names in backticks, and a component is stated as a `json-snippet` unless a
-  platform-specific snippet is genuinely necessary. **Web-only** topics — inputs, layouts,
-  notifications, scheduling, themes, the web grid families, grid lite — carry no such obligation: they
-  may hand write a block per platform and declare any `apiTerms` mode, and reworking them to match the
-  DV set is out of scope rather than an improvement. The test for which population a page is in, and
-  the exceptions a definition genuinely cannot express, are in the `xplat-docs-json-snippets` skill.
+- **Three populations share the xplat content tree, held to different standards, and each page says
+  which it is.** The **DV set** — charts, gauges, maps, dashboard tile, data grid, spreadsheet,
+  toolbar, zoom slider — is `platformType: xplat`: canonical names in backticks resolved in full, and
+  a component stated as a `json-snippet` unless a platform-specific snippet is genuinely necessary.
+  `xplat-unmapped` is the same set where that treatment cannot be applied yet — the Excel library,
+  whose API no generator describes, and the data grid's accessibility topic, whose XAML shape is
+  undecided. **Web-only** topics — inputs, layouts, notifications, scheduling, themes, the web grid
+  families, grid lite — carry no such obligation: they may hand write a block per platform and declare
+  any mode, and reworking them to match the DV set is out of scope rather than an improvement.
+  **Identity is not publication:** a topic can be xplat and not reach the desktop platforms yet, so
+  where a page publishes never settles which population it is in. `check-doc-scope.mjs` enforces the
+  declaration and reports the disagreements; the `xplat-docs-json-snippets` skill is the working guide.
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence that **defines the component (or concept), never the page**: subject

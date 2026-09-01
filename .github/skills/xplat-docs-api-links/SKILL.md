@@ -6,30 +6,29 @@ user-invocable: true
 
 # Xplat ApiLink Guide
 
-## The page declares its processing mode first
+## The page declares its population, and the mode follows
 
-`apiTerms` is **required frontmatter with no default** — a missing or unknown value stops the build,
-so the decision is made per page rather than inherited by a page nobody thought about.
+`platformType` is **required frontmatter with no default** — a missing or unknown value stops the
+build, naming the file. It decides how names in backticks are treated:
 
-| mode | what happens to a name in backticks | for |
+| population | implies | what happens to a name in backticks |
 |---|---|---|
-| `full` | looked up in the api maps, linked, and reported if it does not resolve | **every xplat doc, always** |
-| `passthrough` | linked by rule instead of by map | a component no generator describes |
-| `none` | left exactly as written; no `ApiLink` is emitted | a page that is not about a mapped API |
+| `xplat` | `apiTerms: full` | looked up in the api maps, linked, and reported if it does not resolve |
+| `xplat-unmapped` | `apiTerms: passthrough` | linked by rule instead of by map — no generator describes this API |
+| `web-only` | `apiTerms: none` | left exactly as written; no `ApiLink` is emitted |
+
+**`apiTerms` is now an override, not a per-page decision.** State it only where a page differs from
+what its population implies; 578 pages that restated the implied value no longer do. An xplat page may
+**not** state `none` — that is opting out of the treatment that makes it xplat, and
+`check-doc-scope.mjs` fails on it. A topic whose names genuinely cannot resolve is `xplat-unmapped`:
+its own population rather than an exception inside another.
 
 `full` and `passthrough` both emit an `ApiLink`. `none` does not: a page that opted out is saying
 these are not API names, so linking them would be wrong rather than merely unchecked.
 
-**On an xplat doc there is no choice to make.** The DV set — anything that publishes to WinUI and Uno
-as well as the web platforms — is always `apiTerms: full`, with canonical names written in backticks
-and left to resolve. The three-way choice above is a **web-only** latitude: inputs, layouts,
-notifications, scheduling, themes, the web grid families and grid lite may declare whatever mode suits
-them, and rewriting them to match the DV set is not an improvement. `xplat-docs-json-snippets` states
-the same boundary for code blocks and gives the test for which population a page is in.
-
 Canonical means the name the maps know, not the platform's spelling: write `` `DataChart` ``, not
 `` `XamDataChart` ``. Both resolve, and the canonical one reads the same on every platform — which is
-the point of a shared topic.
+the point of a shared topic. `xplat-docs-json-snippets` states the same boundary for code blocks.
 
 Under `full`, a term resolves by canonical name first, then in reverse through the platform affixes
 (`Xam`, `Igc`, `Igr`, `Igb`, `Igx`) and the `Component` / `Description` suffixes, then scoped to a
