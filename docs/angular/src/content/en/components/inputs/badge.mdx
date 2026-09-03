@@ -1,0 +1,402 @@
+---
+title: "Badge"
+description: "The Ignite UI for Angular Badge displays a short status, category, count, or notification indicator alongside avatars, navigation menus, and other components."
+keywords: "Angular Badge, Ignite UI for Angular, badge indicator"
+license: MIT
+mentionedTypes: ["Badge"]
+last_updated: "2026-07-24"
+llms:
+  description: "The Ignite UI for Angular Badge component displays a short status, category, count, or notification indicator alongside avatars, navigation menus, and other components."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import badgeAnatomy from '@xplat-images/anatomy-content-light/badge-lt-a.png';
+import badgeDo from '@xplat-images/badge/badge-do.png';
+import badgeDoNot from '@xplat-images/badge/badge-do-nоt.png';
+
+# Badge Component
+
+The Angular Badge component is provided by the platform-specific Ignite UI for Angular package and is used in conjunction with avatars, navigation menus, or other components in an application when a visual notification is needed. Badges are usually designed with predefined styles to communicate information, success, warnings, or errors.
+
+## Live Demo
+
+The Angular Badge demo shows how the component can communicate a compact status or notification next to another interface element.
+
+<Sample src="/data-display/badge-overview" showThemePicker height={212} position="center" noBorder={false} spacing="md" alt="Angular Badge example" />
+
+## Anatomy
+
+The Angular Badge presents a compact label or dot indicator that decorates another interface element.
+
+<Anatomy
+  class="badge-anatomy"
+  name="Badge"
+  description="The Badge component is a compact label or dot indicator that decorates another interface element."
+  src={badgeAnatomy.src}
+  alt="Badge anatomy"
+/>
+
+<style>{`
+  .badge-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .badge-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Dot indicator:</strong> A small badge dot used to show a status or a new update.<br />
+<strong>2. Icon:</strong> Represents the type of status or action.<br />
+<strong>3. Container:</strong> The badge shape that holds and styles the icon or label.<br />
+<strong>4. Label:</strong> Text or a number displayed inside the badge.</span>
+
+The component renders its content inside the `base` CSS part. Use the component's default slot for text or other inline content; when `dot` is enabled, the badge renders as an indicator without content.
+
+```text
+<igc-badge>
+└── ::part(base)
+  └── default slot content
+</igc-badge>
+```
+
+## Getting Started
+
+To use the Angular Badge, follow the [Ignite UI for Angular Getting Started](../general-getting-started.mdx) topic for the basic project setup, then register the component for your target platform.
+
+### Prerequisites and Version Compatibility
+
+Use a supported version of the Ignite UI for Angular package for your target framework. Keep the framework package, the Badge package, and the theme package on the same release version. The examples below identify the framework and package used by each code block so that the snippets remain self-contained when read without the surrounding page context.
+
+For Angular using the **igniteui-angular** package, install the package:
+
+```cmd
+npm install igniteui-angular
+```
+
+Then import the Badge component:
+
+```ts
+import { IgxBadgeComponent } from 'igniteui-angular/badge';
+```
+
+Add `IgxBadgeComponent` to the component `imports` collection, then use the `igx-badge` element in your template.
+
+The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as follows:
+
+```html
+<igx-badge></igx-badge>
+```
+
+## Usage
+
+Use the Angular Badge to display a short status, category, count, or notification indicator alongside another component.
+
+Let's see how the demo sample is done. It's a simple success badge on an avatar. To build that, import the `IgxAvatarModule` together with the `IgxBadgeModule`:
+
+```typescript
+import { IgxBadgeModule } from 'igniteui-angular/badge';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+```
+
+Add both modules to the component `imports` collection, or import the standalone components. Then add the components to your template:
+
+```html
+<div class="wrapper">
+  <igx-avatar icon="person" shape="circle" size="small"></igx-avatar>
+  <igx-badge icon="check" type="success"></igx-badge>
+</div>
+```
+
+Use a relatively positioned wrapper to place the Badge over the avatar:
+
+```scss
+.wrapper {
+  position: relative;
+  margin-top: 15px;
+}
+
+igx-badge {
+  position: absolute;
+  bottom: 0;
+  left: 28px;
+}
+```
+
+### Type
+
+The Badge can carry different types of content such as a number or an icon.
+
+Use the `[value]` input to display text or a numeric count inside the Badge:
+
+```html
+<igx-badge [value]="model.value"></igx-badge>
+```
+
+Use the `[icon]` input to display an icon inside the Badge:
+
+```html
+<igx-badge icon="check" type="success"></igx-badge>
+```
+
+When both `[icon]` and `[value]` are set, the Badge displays both simultaneously:
+
+```html
+<igx-badge icon="check" value="5" type="success"></igx-badge>
+```
+
+You can also project content directly. When projecting both an icon and text, wrap the text to keep the correct padding:
+
+```html
+<igx-badge>
+  <igx-icon>bluetooth</igx-icon>
+  <span>Bluetooth</span>
+</igx-badge>
+```
+
+<Sample src="/data-display/badge-type" showThemePicker height={212} position="center" alt="Angular Badge type example" />
+
+#### Icon
+In addition to Material Icons, the Angular Badge supports Material Icons Extended and other custom icon sets. Register the custom icon with `IgxIconService`, then specify its name and icon set:
+
+```ts
+this._iconService.addSvgIconFromText(heartMonitor.name, heartMonitor.value, 'imx-icons');
+```
+
+```html
+<igx-badge icon="heart-monitor" iconSet="imx-icons"></igx-badge>
+```
+
+<Sample src="/data-display/badge-icon" showThemePicker height={212} position="center" alt="Angular Badge icon example" />
+
+#### Dot
+
+The Ignite UI for Angular Badge can also render as a minimal dot indicator for notifications by setting its <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute. Dot badges do not support content, but they can be outlined and can use any of the available dot types (for example, `primary`, `success`, or `info`).
+
+Set the <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> attribute to render a minimal notification indicator without content:
+
+```html
+<igx-badge dot></igx-badge>
+```
+
+<Sample src="/data-display/badge-dot" showThemePicker height={212} position="start center" alt="Angular Badge dot example" />
+
+### Size
+
+Control the Badge size with the `--size` CSS variable. For text badges smaller than `16px`, also adjust the font size and line height:
+
+```scss
+igx-badge {
+  --size: 12px;
+
+  font-size: calc(var(--size) / 2);
+  line-height: normal;
+}
+```
+
+<Sample src="/data-display/badge-size" showThemePicker height={316} position="center" alt="Angular Badge size example" />
+
+### Shape
+
+The Badge shape can be set to `rounded` (the default) or `square` with the <ApiLink pkg="core" type="Badge" member="shape" label="shape" /> attribute.
+
+```html
+<igx-badge icon="check" type="success" shape="square"></igx-badge>
+```
+
+<Sample src="/data-display/badge-shape" showThemePicker height={212} position="center" alt="Angular Badge shape example" />
+
+When the Badge has a `square` shape, it can be further customized by setting a custom border radius using the `--border-radius` CSS variable.
+
+### Variants
+
+The Angular Badge supports the Primary, Info, Success, Warn, and Error types. Set the <ApiLink pkg="core" type="Badge" member="type" label="type" /> attribute to select a type.
+
+```html
+<igx-badge type="success"></igx-badge>
+```
+
+<Sample src="/data-display/badge-variants" showThemePicker height={212} position="center" alt="Angular Badge variants example" />
+
+### Outlined
+
+The badge can also have a subtle border around it when the <ApiLink pkg="core" type="Badge" member="outlined" label="outlined" /> attribute is set.
+
+```html
+<igx-badge outlined></igx-badge>
+```
+
+<Sample src="/data-display/badge-outlined" showThemePicker height={212} position="center" noBorder={false} spacing="md" alt="Angular Badge outlined example" />
+
+### Do/Don't
+
+**When to use:** Use a Badge to communicate a short status, category, count, or notification state alongside another component. Use `dot` when the indicator does not need visible text.
+
+**When not to use:** Do not use a Badge as the primary control for an action, as a replacement for a form validation message, or when the status cannot be understood from the badge content, surrounding context, or accessible labeling.
+
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={badgeDo} alt="Badge used with an Avatar and a text label" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={badgeDoNot} alt="Badge examples used without a surrounding interface element" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Properties
+
+The Angular Badge exposes platform-specific properties for controlling its content, appearance, and indicator behavior.
+
+The Angular Badge exposes the following properties. Use the API reference for the complete type definitions.
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Badge" member="dot" label="dot" /> | boolean | `false` | Renders the Badge as a dot indicator without content. |
+| <ApiLink pkg="core" type="Badge" member="outlined" label="outlined" /> | boolean | `false` | Displays an outline around the Badge. |
+| <ApiLink pkg="core" type="Badge" member="shape" label="shape" /> | BadgeShape | `rounded` | Sets the Badge shape. |
+| <ApiLink pkg="core" type="Badge" member="type" label="type" /> | BadgeType | `default` | Sets the Angular Badge stylistic type. |
+| <ApiLink pkg="core" type="Badge" member="cssClass" label="cssClass" /> | string | — | Applies a custom CSS class. |
+
+## Styling
+
+The Angular Badge uses the <ApiLink pkg="core" type="Badge" /> component's `base` CSS part and documented styling variables to customize its appearance.
+
+### Sass Theming
+
+Use the Ignite UI for Angular theme system to style the Badge consistently with the rest of your application.
+
+### CSS Variables
+
+```css
+igc-badge::part(base) {
+  --background-color: var(--ig-error-A100);
+  --border-radius: 2px;
+}
+```
+
+| variable | what it changes |
+| --- | --- |
+| `--background-color` | The badge background color. |
+| `--border-radius` | The badge corner radius. |
+| `--border-color` | The outlined badge border color. |
+
+### Style Parts
+
+| part | what it styles |
+| --- | --- |
+| `base` | The Badge root element. |
+
+<Sample src="/data-display/badge-styling" height={212} position="center" noBorder={false} spacing="md" alt="Angular Badge styling example" />
+
+### Styling with Tailwind
+
+You can style the Badge using custom Tailwind utility classes. Make sure to [set up Tailwind](/themes/tailwind) first.
+
+Along with the Tailwind import in your global stylesheet, include the utility file:
+
+```scss
+@import "tailwindcss";
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+Use `light-badge` and `dark-badge` for the light and dark theme variants. You can override the generated CSS variables with arbitrary properties:
+
+```html
+<igx-badge
+  class="!light-badge ![--background:#FF4E00] ![--border-radius:4px]">
+</igx-badge>
+```
+
+The exclamation mark (`!`) ensures that the utility class takes precedence over the component's default theme.
+
+<Sample src="/data-display/badge-tailwind-styling" height={212} position="center" noBorder={false} spacing="md" alt="Angular Badge tailwind styling example"/>
+
+## Accessibility
+
+The Angular Badge communicates a visual status and must have meaningful text or surrounding accessible context when that status is important.
+
+### Keyboard Interaction
+
+The Badge is a visual status indicator and does not provide an interactive keyboard action. It is reached according to the focus behavior of the element it decorates.
+
+### Screen Readers / ARIA
+
+Provide meaningful visible content or an accessible label in the surrounding component when the Badge conveys information that is not otherwise available to assistive technology. Verify the resulting announcement for the specific surrounding control.
+
+### Accessibility Compliance
+
+Accessibility conformance for this component must be verified against the official product accessibility statement and the rendered usage context.
+
+## Troubleshooting
+
+The Angular Badge troubleshooting guidance follows a problem → cause → fix format for common styling and content issues.
+
+### Why does my custom background color not change the Badge?
+
+The selected `variant` takes precedence over the `--background-color` CSS variable. To use a custom background color, avoid setting a variant that applies its own background color.
+
+### Why is my dot Badge not displaying content?
+
+The `dot` property renders the Badge as a minimal indicator and does not support content. Use a regular Badge when you need to display text or other inline content.
+
+### Known Limitations
+
+The Angular Badge has the following platform-independent limitations.
+
+- A dot Badge is an indicator only and cannot display text or an icon.
+- Badge styling and variant/type names differ between Angular and the other supported frameworks. Use the platform-specific examples and API links on this page rather than copying an attribute between frameworks.
+- The Badge is a visual status indicator and does not provide keyboard interaction of its own.
+
+## API References
+
+The Angular Badge API reference lists the complete verified API surface for the target platform.
+<ApiLink pkg="core" type="Badge" />
+
+## Dependencies
+
+The Angular Badge requires a theme stylesheet to apply its visual styling. See the framework-specific setup in **Getting Started**.
+
+## Additional Resources
+
+The following resources provide additional Angular Badge guidance and project support.
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+
+## Related Components
+
+The Angular Badge is commonly used with related components such as Avatar when a status indicator belongs to another visual element.
+
+- [Avatar](../layouts/avatar.mdx) — combine an Avatar with a Badge to show a status indicator.
+
+## FAQ
+
+These frequently asked questions cover common Angular Badge content, indicator, and package choices.
+
+<Faq>
+
+  <FaqItem question="Can a Badge display both an icon and text?">
+    Yes. Use the platform-specific value and icon APIs shown in **Usage**. When projecting content directly, keep the icon and text in the component's default content area.
+  </FaqItem>
+
+  <FaqItem question="How do I display a notification dot without content?">
+    Set the platform-specific `dot` property or attribute. A dot Badge intentionally renders without text or other content.
+  </FaqItem>
+
+  <FaqItem question="Which package should I install for Badge?">
+    Use `igniteui-angular` for Angular, `igniteui-react` for React, `igniteui-webcomponents` for Web Components, and `IgniteUI.Blazor` for Blazor. Keep related Ignite UI packages on the same release version.
+  </FaqItem>
+
+</Faq>
