@@ -145,8 +145,8 @@ Use `--no-sync` only for a quick local resolver check when generated content is 
 Angular:
 
 ```text
-npm run sync:generated-from-xplat --prefix docs/angular
-npm run sync:generated-from-xplat:jp --prefix docs/angular
+npm run xplat:generate --prefix docs/angular
+npm run xplat:generate:jp --prefix docs/angular
 scan docs/angular/src/content
 ```
 

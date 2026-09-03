@@ -59,6 +59,7 @@ import {
     type LlmsMeta, type LlmsSet, type SidebarEntry,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
+import { DOC_ROOTS_ENV, findFirstInRoots, resolveDocRoots, toRootList } from './lib/doc-roots.ts';
 import { getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { getGtmContainerId } from './lib/platform-context.js';
@@ -155,8 +156,8 @@ interface GenerateLlmsMdOptions {
     outDir: string;
     /** Page slugs to convert (stripped of trailing slashes). */
     slugs: string[];
-    /** Path to the source docs directory — used only for diagnostic warnings. */
-    docsDir: string;
+    /** Source docs roots, highest precedence first — used only for diagnostic warnings. */
+    docsDirs: string[];
     /** Configured site URL. */
     siteUrl: string;
     /** Named documentation subsets to assemble into combined .txt files. */
@@ -218,7 +219,7 @@ function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): s
  *   /llms-small.txt   — same as full, but with code blocks and inline code removed
  *   /_llms-txt/*.txt  — topic-specific bundles defined by `llmsSets`
  */
-async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }: GenerateLlmsMdOptions): Promise<void> {
+async function generateLlmsMdFiles({ outDir, slugs, docsDirs, siteUrl, llmsSets }: GenerateLlmsMdOptions): Promise<void> {
     console.log(`[docs-template] Generating ${slugs.length} .md files…`);
     const mdStart = Date.now();
 
@@ -236,9 +237,8 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }
 
             // Resolve the source MDX/MD path so warnings point developers at the
             // file they need to edit, not the built HTML artifact.
-            const sourceRef = ['.mdx', '.md']
-                .map(ext => path.join(docsDir, slug + ext))
-                .find(f => fs.existsSync(f)) ?? path.join(docsDir, slug + '.mdx');
+            const sourceRef = findFirstInRoots(docsDirs, ['.mdx', '.md'].map(ext => slug + ext))
+                ?? path.join(docsDirs[0] ?? '', slug + '.mdx');
 
             const md = await htmlPageToMd(htmlPath, siteUrl, td, sourceRef);
             if (!md) { skippedSlugs.push(slug); mdDone++; return ''; }
@@ -356,8 +356,11 @@ export interface SiteMetaOptions {
     /** Localized site description for non-English builds. Used in the llms.txt
      *  manifest blockquote instead of the (typically English) `description`. */
     localizedDescription?: string;
-    /** Path to the source markdown files. */
-    docsDir?: string;
+    /**
+     * Path to the source markdown files, or several such paths ordered
+     * highest precedence first when the site overlays content roots.
+     */
+    docsDir?: string | string[];
     sidebar?: SidebarEntry[];
     platform?: PlatformKey | null;
     navLang?: NavLang;
@@ -410,8 +413,11 @@ export function siteMetaIntegration({
     packages = [],
     selectedPackage = '',
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
-    const llmsMetaMap = docsDir
-        ? buildLlmsMetaMap(docsDir, sidebar ?? [])
+    // Content roots, highest precedence first. A page's metadata and its raw
+    // source are both read from the first root that supplies its slug.
+    const docsDirs = toRootList(docsDir);
+    const llmsMetaMap = docsDirs.length
+        ? buildLlmsMetaMap(docsDirs, sidebar ?? [])
         : new Map<string, LlmsMeta>();
 
     const virtualId = 'virtual:docs-template/site-meta';
@@ -508,7 +514,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
             },
 
             'astro:server:setup'({ server }) {
-                if (!docsDir) return;
+                if (!docsDirs.length) return;
                 // Dev-mode convenience: serve raw source MDX/MD files for /{slug}.md
                 // requests so LLM clients can fetch Markdown during local development
                 // without a full production build.  The HTML→MD pipeline only runs at
@@ -518,14 +524,14 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                     if (!req.url?.endsWith('.md')) return next();
                     // Strip leading slash and .md suffix to get the slug
                     const slug = req.url.slice(1, -3);
-                    for (const ext of ['.md', '.mdx']) {
-                        const src = path.join(docsDir, slug + ext);
+                    const src = findFirstInRoots(docsDirs, ['.md', '.mdx'].map(ext => slug + ext));
+                    if (src) {
                         try {
                             const raw = await fsp.readFile(src, 'utf-8');
                             res.setHeader('Content-Type', 'text/plain; charset=utf-8');
                             res.end(raw);
                             return;
-                        } catch { /* try next extension */ }
+                        } catch { /* fall through to the next middleware */ }
                     }
                     next();
                 });
@@ -548,7 +554,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                 // Include a UTF-8 signature because static preview servers may omit charset.
                 await fsp.writeFile(path.join(outDir, 'llms.txt'), withUtf8Bom(llmsContent), 'utf-8');
 
-                if (docsDir) {
+                if (docsDirs.length) {
                     const slugs = pages
                         .map(p => p.pathname.replace(/\/$/, ''))
                         .filter(s => s && s !== '404' && s !== 'index');
@@ -556,7 +562,7 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                     await generateLlmsMdFiles({
                         outDir,
                         slugs,
-                        docsDir,
+                        docsDirs,
                         siteUrl: configuredSite,
                         llmsSets,
                     });
@@ -639,8 +645,22 @@ function createBasePrependIntegration(base: string): AstroIntegration {
 export interface DocsSiteSource {
     /** Absolute path to the TOC file. */
     tocPath: string;
-    /** Absolute path to the Markdown docs directory. */
+    /**
+     * Absolute path to the site's own Markdown docs directory. This stays the
+     * site's "home" root: sibling files such as `environment.json` are looked
+     * up next to it, and it is the lowest-precedence content root.
+     */
     docsDir: string;
+    /**
+     * Extra content roots overlaid on `docsDir`, ordered highest precedence
+     * first. All roots share one slug namespace, so a page present in an
+     * overlay replaces the `docsDir` page with the same slug — nothing is
+     * copied between the trees.
+     *
+     * Roots that do not exist on disk are ignored, so a language an upstream
+     * generator does not emit simply has no overlay.
+     */
+    overlayDirs?: string[];
 }
 
 export interface CreateDocsSiteOptions {
@@ -727,15 +747,25 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         ...astroExtra
     } = options;
 
+    // Ordered content roots, highest precedence first: any overlays, then the
+    // site's own docs directory. Overlays that are absent on disk are dropped.
+    const docRoots = resolveDocRoots(source.docsDir, source.overlayDirs);
+
     const sidebar = buildSidebarFromToc({
         tocPath: source.tocPath!,
-        docsDir: source.docsDir!,
+        docsDir: docRoots,
         exclude: sidebarOptions.exclude ?? [],
     });
 
     // Expose env vars so consuming content.config.ts and components can read them.
+    // DOCS_SOURCE_PATH stays the site's own root — `environment.json` and other
+    // siblings are resolved against it — while DOCS_SOURCE_PATHS carries the
+    // full precedence-ordered list for the content loader and remark plugins.
     if (source.docsDir) {
         process.env.DOCS_SOURCE_PATH = source.docsDir;
+    }
+    if (docRoots.length) {
+        process.env[DOC_ROOTS_ENV] = JSON.stringify(docRoots);
     }
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
@@ -872,7 +902,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 title,
                 description,
                 localizedDescription,
-                docsDir: source.docsDir,
+                docsDir: docRoots,
                 sidebar,
                 platform,
                 navLang,

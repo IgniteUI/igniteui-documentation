@@ -84,9 +84,9 @@ The `.mdx` extension enables editor Go-to-Definition (Ctrl+Click). The `remarkMd
 
 The Angular documentation is assembled from three sources before being checked:
 
-1. **xplat sync** — `docs/xplat/src/content/` is generated into platform-specific output and then copied into `docs/angular/src/content/` by the sync scripts.
+1. **xplat generation** — `docs/xplat/src/content/` is generated into platform-specific output under `docs/xplat/generated/Angular/`. The Angular site reads that directory in place as a second content root; it is never copied into `docs/angular/src/content/`.
 2. **Grid generation** — `docs/angular/src/content/en/grids_templates/` and `jp/grids_templates/` are template files shared across all four grid types (Grid, TreeGrid, HierarchicalGrid, PivotGrid). `generate.mjs` expands them into the individual component pages under `docs/angular/src/content/en/components/grid/`, `treegrid/`, `hierarchicalgrid/`, and `pivotGrid/`. These template directories are excluded from link checking (same as xplat `_shared/`).
-3. **Link check** — the checker scans the fully assembled `docs/angular/src/content/` tree.
+3. **Link check** — the checker scans both Angular content roots (`docs/angular/src/content/` and `docs/xplat/generated/Angular/`) and resolves links across them, since a topic in one root may link to a topic served from the other.
 
 The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
 
@@ -184,7 +184,7 @@ The check is read-only and reports the source file and line for missing or malfo
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.
 - Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
-- Cross-platform topics are also generated into the Angular tree at build time (by `docs/angular/scripts/sync-generated.mjs`) and are therefore **not committed** under `docs/angular/` — they are gitignored, and editing those Angular copies has no effect. Edit the xplat source instead. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
+- Cross-platform topics are generated to `docs/xplat/generated/Angular/` and overlaid on the Angular content at build time — they are never copied into `docs/angular/`, and xplat wins wherever both provide the same slug. Edit the xplat source; editing an Angular copy has no effect. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
 ## Collaboration Docs

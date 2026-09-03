@@ -66,10 +66,14 @@ const FAIL_ON_AMBIGUITY = args['fail-on-ambiguity'] !== undefined;
 const BROKEN_LIMIT = parseListLimit(args['broken-limit'] ?? args['unresolved-limit'] ?? '100');
 const NO_SYNC     = !!args['no-sync'];
 const RESOLVE_ONLY = !!args['resolve-only'];
+// The Angular site serves two content roots: its own topics plus the xplat
+// generator's Angular output, which it overlays rather than copying in. Both
+// are scanned so API links in generated topics keep their coverage.
 const DEFAULT_SRC = PLATFORM === 'angular'
-    ? 'docs/angular/src/content'
-    : 'docs/xplat/src/content';
-const SRC_DIR     = String(args.src ?? DEFAULT_SRC);
+    ? ['docs/angular/src/content', 'docs/xplat/generated/Angular']
+    : ['docs/xplat/src/content'];
+const SRC_DIRS    = (args.src ? [String(args.src)] : DEFAULT_SRC).filter(d => existsSync(d));
+const SRC_DIR     = SRC_DIRS.join(', ');
 const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
 const PLATFORM_CONFIGS = API_PLATFORM_CONFIGS;
@@ -579,14 +583,14 @@ function runRequiredNpmScript(script, prefix, description) {
     }
 }
 
-// For Angular: regenerate xplat Angular MDX and sync it into docs/angular before scanning
+// For Angular: regenerate the xplat Angular MDX the site overlays before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
-    const syncScripts = [
-        ['en', 'sync:generated-from-xplat'],
-        ['jp', 'sync:generated-from-xplat:jp'],
+    const generateScripts = [
+        ['en', 'xplat:generate'],
+        ['jp', 'xplat:generate:jp'],
     ];
 
-    for (const [lang, script] of syncScripts) {
+    for (const [lang, script] of generateScripts) {
         runRequiredNpmScript(script, 'docs/angular', `Refreshing Angular generated content (lang=${lang})`);
     }
     console.log();
@@ -603,7 +607,7 @@ if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !NO_SYNC && !args.src) {
 console.log(`\nScanning sources in "${SRC_DIR}"`);
 console.log(`Platforms: ${targetPlatforms.join(', ')}\n`);
 
-let mdxFiles = walkMdx(resolve(SRC_DIR));
+let mdxFiles = SRC_DIRS.flatMap(d => walkMdx(resolve(d)));
 if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !args.src) {
     const platformName = PLATFORM_MAP[PLATFORM];
     const beforeFilter = mdxFiles.length;

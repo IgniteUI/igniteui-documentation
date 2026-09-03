@@ -24,6 +24,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { findFirstInRoots, toRootList } from './lib/doc-roots.ts';
 import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 import type { NavLang } from './platform.ts';
 
@@ -117,20 +118,21 @@ export function collectSlugs(items: SidebarEntry[]): string[] {
  * it must happen before the build because the rendered HTML does not expose
  * LLM-specific frontmatter fields like `llms.description` or `llms.keywords`.
  */
-export function buildLlmsMetaMap(docsDir: string, items: SidebarEntry[]): Map<string, LlmsMeta> {
+export function buildLlmsMetaMap(docsDir: string | string[], items: SidebarEntry[]): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
+    const roots = toRootList(docsDir);
     for (const slug of collectSlugs(items)) {
         const candidates = slug
             ? [`${slug}.md`, `${slug}.mdx`, path.join(slug, 'index.md'), path.join(slug, 'index.mdx')]
             : ['index.md', 'index.mdx'];
-        for (const candidate of candidates) {
-            try {
-                const raw = fs.readFileSync(path.join(docsDir, candidate), 'utf-8');
-                const meta = extractLlmsMeta(raw);
-                if (meta.description || meta.keywords?.length) map.set(slug, meta);
-                break;
-            } catch { /* try next candidate */ }
-        }
+        // Roots are searched highest precedence first, so the metadata comes
+        // from the same file that supplies the rendered page.
+        const source = findFirstInRoots(roots, candidates);
+        if (!source) continue;
+        try {
+            const meta = extractLlmsMeta(fs.readFileSync(source, 'utf-8'));
+            if (meta.description || meta.keywords?.length) map.set(slug, meta);
+        } catch { /* unreadable source — leave the slug without metadata */ }
     }
     return map;
 }

@@ -16,7 +16,7 @@
  */
 
 import fs from 'node:fs';
-import path from 'node:path';
+import { findFirstInRoots, toRootList } from './lib/doc-roots.ts';
 import { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
 import type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
@@ -43,16 +43,18 @@ interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
+function docExists(docsDirs: string[], href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
     // Check the href as-is, then also with .md ↔ .mdx swapped as a safety net
     // (toc.json uses .mdx, but this guards against any stale .md hrefs).
-    if (fs.existsSync(path.join(docsDir, href))) return true;
     const alt = href.endsWith('.mdx')
         ? href.slice(0, -4) + '.md'
         : href.endsWith('.md') ? href.slice(0, -3) + '.mdx' : null;
-    return alt !== null && fs.existsSync(path.join(docsDir, alt));
+    const candidates = alt === null ? [href] : [href, alt];
+    // A single TOC drives every content root, so an entry counts as present
+    // when *any* root supplies the page.
+    return findFirstInRoots(docsDirs, candidates) !== undefined;
 }
 
 function hrefToSlug(href: string): string {
@@ -95,7 +97,7 @@ function sortGroupItems(group: SidebarGroup): void {
 }
 
 function convertTocItem(
-    docsDir: string,
+    docsDirs: string[],
     item: TocItem,
     exclude: RegExp[],
     depth: number,
@@ -108,7 +110,7 @@ function convertTocItem(
             items: [],
             collapsed: collapsedForDepth(depth),
         };
-        if (item.href && docExists(docsDir, item.href, exclude)) {
+        if (item.href && docExists(docsDirs, item.href, exclude)) {
             const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
             if (item.premium) {
                 overviewEntry.attrs = { 'data-premium': 'true' };
@@ -117,7 +119,7 @@ function convertTocItem(
             group.items.push(overviewEntry);
         }
         for (const child of item.items) {
-            const entry = convertTocItem(docsDir, child, exclude, depth + 1);
+            const entry = convertTocItem(docsDirs, child, exclude, depth + 1);
             if (entry) group.items.push(entry);
         }
         if (item.sortable) sortGroupItems(group);
@@ -125,7 +127,7 @@ function convertTocItem(
     }
 
     if (item.href) {
-        if (!docExists(docsDir, item.href, exclude)) return null;
+        if (!docExists(docsDirs, item.href, exclude)) return null;
         const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
         const badges: NonNullable<SidebarLink['badges']> = [];
         for (const variant of SIDEBAR_BADGE_VARIANTS) {
@@ -149,8 +151,12 @@ function convertTocItem(
 export interface BuildSidebarFromTocOptions {
     /** Absolute path to the TOC file (.json). */
     tocPath: string;
-    /** Absolute path to the Markdown docs directory. */
-    docsDir: string;
+    /**
+     * Absolute path to the Markdown docs directory, or a list of directories
+     * ordered highest precedence first. A TOC entry is kept when any of them
+     * supplies the page.
+     */
+    docsDir: string | string[];
     /** Extra patterns to exclude (matched against the `href`). */
     exclude?: RegExp[];
 }
@@ -160,6 +166,7 @@ export interface BuildSidebarFromTocOptions {
  */
 export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
+    const docsDirs = toRootList(docsDir);
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems: TocItem[] = JSON.parse(tocRaw);
 
@@ -176,7 +183,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             currentGroupSortable = item.sortable === true;
-            if (item.href && docExists(docsDir, item.href, exclude)) {
+            if (item.href && docExists(docsDirs, item.href, exclude)) {
                 const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
                 if (item.premium) {
                     overviewEntry.attrs = { 'data-premium': 'true' };
@@ -189,7 +196,7 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
         // Items inside a header section are at depth 1 (nested);
         // items outside any header section are at depth 0 (root).
         const depth = currentGroup ? 1 : 0;
-        const entry = convertTocItem(docsDir, item, exclude, depth);
+        const entry = convertTocItem(docsDirs, item, exclude, depth);
         if (!entry) continue;
         if (currentGroup) currentGroup.items.push(entry);
         else sidebar.push(entry);

@@ -10,9 +10,9 @@
  *   import { collections } from 'docs-template/content';
  *   export { collections };
  *
- *   `createDocsSite({ source: { docsDir } })` in astro.config.ts
- *   automatically sets DOCS_SOURCE_PATH, so the exported `collections`
- *   object picks it up with no extra configuration.
+ *   `createDocsSite({ source: { docsDir, overlayDirs } })` in astro.config.ts
+ *   publishes the full root list, so the exported `collections` object picks
+ *   it up with no extra configuration.
  *
  * ── Custom excludes / extra schema fields ────────────────────────────────
  *
@@ -25,12 +25,27 @@
  *       extendSchema: z.object({ myCustomField: z.string().optional() }),
  *     }),
  *   };
+ *
+ * ── Overlaying a generated tree on an authored one ────────────────────────
+ *
+ *   Pass several roots, highest precedence first. All roots share one slug
+ *   namespace, and the first root to provide a slug wins — nothing is copied
+ *   between the trees, so the authored tree stays free of build output:
+ *
+ *   export const collections = {
+ *     docs: createDocsCollection([
+ *       { dir: generatedDir, exclude: ['changelog/**'] },  // wins
+ *       authoredDir,
+ *     ]),
+ *   };
  */
 
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { pathToFileURL } from 'node:url';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { docRootsFromEnv } from './lib/doc-roots.ts';
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
@@ -50,6 +65,131 @@ function withTitleFilter(baseLoader: any): any {
                 if (!entry?.data?.title || entry.data.title === SKIP_TITLE) {
                     ctx.store.delete(id);
                 }
+            }
+        },
+    };
+}
+
+// ---------------------------------------------------------------------------
+// Multi-root overlay support
+// ---------------------------------------------------------------------------
+//
+// Astro's `glob()` loader owns the whole store: it snapshots `store.keys()` when
+// it starts and deletes every id it did not touch by the time it finishes. Two
+// glob loaders sharing one collection would therefore wipe each other's entries.
+//
+// `scopeStore` hands each root its own view of the store so that:
+//   • `keys()`  lists only the entries that came from *that* root, so a root's
+//     cleanup sweep can never delete another root's pages;
+//   • `get()`/`set()` ignore ids a higher-precedence root has already claimed,
+//     so a shadowed page is silently skipped instead of overwriting the winner
+//     (and without tripping Astro's duplicate-slug warning, which fires inside
+//     the loader between its `get` and its `set`).
+//
+// Roots are always ordered highest precedence first, so root 0 wins every
+// collision — see `src/lib/doc-roots.ts` for the convention.
+
+/** Absolute path of the file an entry was loaded from, or `undefined`. */
+function entrySourcePath(entry: unknown, configRoot: string): string | undefined {
+    const filePath = (entry as { filePath?: string } | undefined)?.filePath;
+    return filePath ? path.resolve(configRoot, filePath) : undefined;
+}
+
+interface ScopeStoreOptions {
+    /** Absolute path of the root this view belongs to. */
+    root: string;
+    /** Index of this root in the precedence list (0 = highest). */
+    rootIndex: number;
+    /** True when this is the lowest-precedence root. */
+    isLast: boolean;
+    /** Astro's `config.root`, used to absolutize the relative `filePath` on entries. */
+    configRoot: string;
+    /** Shared across roots for one load pass: entry id → index of the root that claimed it. */
+    claimed: Map<string, number>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function scopeStore(store: any, options: ScopeStoreOptions): any {
+    const { root, rootIndex, isLast, configRoot, claimed } = options;
+    const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
+
+    /** True when `id` was loaded from this root — decided by the entry's own file path. */
+    const ownsEntry = (id: string): boolean => {
+        const source = entrySourcePath(store.get(id), configRoot);
+        // Entries with no file path predate this loader (or came from elsewhere).
+        // Only the last root claims them, so they are still swept exactly once.
+        if (!source) return isLast;
+        return source.startsWith(rootWithSep);
+    };
+
+    /** True when any *other* root has taken this id during this load pass. */
+    const takenByOther = (id: string): boolean => {
+        const owner = claimed.get(id);
+        return owner !== undefined && owner !== rootIndex;
+    };
+
+    /**
+     * True when a root that outranks this one has taken the id. Writes are
+     * blocked only by higher precedence, never by lower, so a root can still
+     * take over a slug it should win — which is what happens when the dev
+     * server's watcher adds a file that shadows an already-loaded page.
+     */
+    const takenByHigher = (id: string): boolean => {
+        const owner = claimed.get(id);
+        return owner !== undefined && owner < rootIndex;
+    };
+
+    return {
+        ...store,
+        keys: () => [...store.keys()].filter(ownsEntry),
+        entries: () => [...store.entries()].filter(([id]: [string]) => ownsEntry(id)),
+        values: () => [...store.entries()].filter(([id]: [string]) => ownsEntry(id)).map(([, v]: [string, unknown]) => v),
+        // Hiding another root's entry keeps the two files from being compared
+        // against each other, which is what would otherwise emit a
+        // duplicate-slug warning for a slug that is deliberately shadowed.
+        get: (id: string) => (takenByOther(id) ? undefined : store.get(id)),
+        set: (entry: { id: string }) => {
+            if (takenByHigher(entry.id)) return false;
+            claimed.set(entry.id, rootIndex);
+            return store.set(entry);
+        },
+        delete: (id: string) => {
+            if (takenByOther(id)) return;
+            claimed.delete(id);
+            return store.delete(id);
+        },
+    };
+}
+
+/**
+ * Runs one glob loader per content root against a single collection.
+ *
+ * Roots are listed highest precedence first and loaded in that order, so the
+ * first root to provide a slug is the one that wins.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function overlayLoader(loaders: Array<{ root: string; loader: any }>): any {
+    if (loaders.length === 1) return loaders[0].loader;
+
+    return {
+        name: 'docs-overlay-loader',
+        load: async (ctx: any) => {
+            // Entry `filePath`s are stored relative to Astro's project root,
+            // which the config exposes as a file:// URL.
+            const configRoot = ctx.config?.root ? fileURLToPath(ctx.config.root) : process.cwd();
+            const claimed = new Map<string, number>();
+
+            for (const [rootIndex, { root, loader }] of loaders.entries()) {
+                await loader.load({
+                    ...ctx,
+                    store: scopeStore(ctx.store, {
+                        root,
+                        rootIndex,
+                        isLast: rootIndex === loaders.length - 1,
+                        configRoot,
+                        claimed,
+                    }),
+                });
             }
         },
     };
@@ -84,10 +224,17 @@ function makeDocsSchema(extend?: z.ZodObject<z.ZodRawShape>) {
     );
 }
 
+/**
+ * A content root. Use the object form to give one root its own exclusions —
+ * for example, keeping a generated tree's `changelog/` out of a site that
+ * maintains its own.
+ */
+export type DocsContentRoot = string | { dir: string; exclude?: string[] };
+
 interface CreateDocsCollectionOptions {
     /**
-     * Glob patterns to exclude (relative to `sourceDir`). A leading `!` is
-     * added automatically when missing, so `'internal/**'` and
+     * Glob patterns to exclude, applied to *every* root (relative to each root).
+     * A leading `!` is added automatically when missing, so `'internal/**'` and
      * `'!internal/**'` are both accepted.
      */
     exclude?: string[];
@@ -99,29 +246,38 @@ interface CreateDocsCollectionOptions {
 }
 
 /**
- * Creates an Astro content collection (`docs`) for a docs site,
- * using a glob loader against the given source directory.
+ * Creates an Astro content collection (`docs`) for a docs site, using a glob
+ * loader against each source directory.
  *
  * @param sourceDir - Absolute path to the directory containing the source
- *   `.md`/`.mdx` files. Defaults to `process.env.DOCS_SOURCE_PATH` if omitted.
+ *   `.md`/`.mdx` files, or a list of such directories **ordered highest
+ *   precedence first**: when the same slug exists in more than one root, the
+ *   earliest root in the list provides the page and the rest are ignored.
+ *   Defaults to `process.env.DOCS_SOURCE_PATH` if omitted.
  * @param options - Optional exclude patterns and schema extension.
  */
 export function createDocsCollection(
-    sourceDir?: string,
+    sourceDir?: DocsContentRoot | DocsContentRoot[],
     { exclude = [], extendSchema }: CreateDocsCollectionOptions = {},
 ) {
-    const dir = sourceDir ?? process.env.DOCS_SOURCE_PATH;
-    if (!dir) {
+    const configured = sourceDir ?? process.env.DOCS_SOURCE_PATH;
+    const roots = (Array.isArray(configured) ? configured : [configured])
+        .filter((r): r is DocsContentRoot => Boolean(r))
+        .map(r => (typeof r === 'string' ? { dir: r, exclude: [] as string[] } : { ...r, exclude: r.exclude ?? [] }))
+        .filter(r => Boolean(r.dir));
+
+    if (roots.length === 0) {
         throw new Error(
             '[docs-template] createDocsCollection: no source directory provided. ' +
-            'Pass a path as the first argument or set the DOCS_SOURCE_PATH env variable.'
+            'Pass a path (or list of paths) as the first argument or set the DOCS_SOURCE_PATH env variable.'
         );
     }
 
-    const excludePatterns = exclude.map(p => (p.startsWith('!') ? p : `!${p}`));
+    const toNegated = (patterns: string[]) => patterns.map(p => (p.startsWith('!') ? p : `!${p}`));
 
-    return defineCollection({
-        loader: withTitleFilter(glob({
+    const loaders = roots.map(({ dir, exclude: rootExclude }) => ({
+        root: path.resolve(dir),
+        loader: glob({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
             pattern: [
                 '*.{md,mdx}',
@@ -133,9 +289,13 @@ export function createDocsCollection(
                 '!README.md',
                 '!CHANGELOG.md',
                 '!LICENSE.md',
-                ...excludePatterns,
+                ...toNegated([...exclude, ...rootExclude]),
             ],
-        })),
+        }),
+    }));
+
+    return defineCollection({
+        loader: withTitleFilter(overlayLoader(loaders)),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         schema: makeDocsSchema(extendSchema) as any,
     });
@@ -155,5 +315,5 @@ export function createDocsCollection(
  *   export { collections };
  */
 export const collections = {
-    docs: createDocsCollection(process.env.DOCS_SOURCE_PATH),
+    docs: createDocsCollection(docRootsFromEnv()),
 };

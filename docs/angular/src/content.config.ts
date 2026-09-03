@@ -1,6 +1,6 @@
 import { z } from 'astro/zod';
 import { createDocsCollection } from 'docs-template/content';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,7 +13,20 @@ try {
 	lang = cfg.lang ?? lang;
 } catch { /* use defaults */ }
 
+// Angular's own, hand-authored topics.
 const docsDir = path.join(root, 'src', 'content', lang, 'components');
+
+// Topics generated from the shared cross-platform source. These are read in
+// place — nothing is copied into src/content — and they take precedence over
+// the Angular tree, so a topic that has moved to xplat is served from xplat
+// even if a stale copy is still sitting in src/content.
+//
+// changelog/ and grids/ stay Angular-owned and are never taken from xplat.
+const xplatDir = path.join(root, '..', 'xplat', 'generated', 'Angular', lang, 'components');
+
+const roots = existsSync(xplatDir)
+	? [{ dir: xplatDir, exclude: ['changelog/**', 'grids/**'] }, docsDir]
+	: [docsDir];
 
 const tableOfContentsSchema = z.object({
         tableOfContents: z
@@ -28,5 +41,5 @@ const tableOfContentsSchema = z.object({
 });
 
 export const collections = {
-        docs: createDocsCollection(docsDir, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
+        docs: createDocsCollection(roots, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
 };
