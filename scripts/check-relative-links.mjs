@@ -28,6 +28,13 @@
 
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path'; // join used in walkMdx
+import {
+    ANGULAR_AUTHORED_ROOT,
+    ANGULAR_OVERLAY_ROOT,
+    getRootGroup,
+    isShadowedAuthoredFile,
+    isUnservedOverlayFile,
+} from './lib/angular-content-roots.mjs';
 
 // CLI args
 const args = Object.fromEntries(
@@ -45,14 +52,34 @@ const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
+/**
+ * Drops roots that are not on disk, so a language the xplat generator does not
+ * emit (`kr`) simply has no overlay rather than a hard failure. Losing the
+ * Angular overlay root, though, silently shrinks coverage over every generated
+ * topic — so that one is called out.
+ */
+function keepExisting(dirs) {
+    return dirs.filter(d => {
+        if (existsSync(d)) return true;
+        if (d === ANGULAR_OVERLAY_ROOT) {
+            console.warn(
+                `[warn] "${d}" is missing — the xplat Angular overlay was not scanned.\n` +
+                '       Links in generated topics are unchecked. Generate it first:\n' +
+                '         npm run xplat:generate --prefix docs/angular\n' +
+                '         npm run xplat:generate:jp --prefix docs/angular'
+            );
+        }
+        return false;
+    });
+}
+
 function getSrcDirs() {
     if (args.src) return [String(args.src)];
     // The Angular site overlays the xplat generator's Angular output on its own
     // content instead of copying it in, so both trees have to be scanned — and
-    // links may point across them (see OVERLAY_ROOT_GROUPS below).
+    // links may point across them (see lib/angular-content-roots.mjs).
     if (PLATFORM === 'angular') {
-        return ['docs/angular/src/content', 'docs/xplat/generated/Angular']
-            .filter(d => existsSync(d));
+        return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]);
     }
     if (PLATFORM === 'xplat' || (PLATFORM && XPLAT_PLATFORMS.has(PLATFORM))) {
         // Scan source for _shared/ template links, plus the React/WC/Blazor
@@ -71,8 +98,7 @@ function getSrcDirs() {
         console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor`);
         process.exit(1);
     }
-    return ['docs/angular/src/content', 'docs/xplat/generated/Angular', 'docs/xplat/src/content']
-        .filter(d => existsSync(d));
+    return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
 }
 
 // File walking
@@ -240,58 +266,10 @@ function getLangRoot(filePath) {
     return m ? m[1] + '/' : null;
 }
 
-/**
- * Content roots that share one slug namespace. The Angular site serves its own
- * tree and the xplat generator's Angular output as a single set of pages, so a
- * link may legitimately point from one tree at a topic that lives in the other.
- */
-const OVERLAY_ROOT_GROUPS = [
-    ['docs/angular/src/content', 'docs/xplat/generated/Angular'],
-];
-
-/**
- * Paths that exist in a generated tree but are not served, because the site
- * excludes them from the overlay. `grids/` and `changelog/` stay Angular-owned,
- * so the xplat copies are never rendered and their links must not be checked.
- *
- * Keep in sync with the overlay excludes in docs/angular/src/content.config.ts.
- */
-const UNSERVED_OVERLAY_PATHS = [
-    /\/docs\/xplat\/generated\/Angular\/[^/]+\/components\/(grids|changelog)\//i,
-];
-
-function isUnservedOverlayFile(filePath) {
-    const normalized = filePath.replace(/\\/g, '/');
-    return UNSERVED_OVERLAY_PATHS.some(re => re.test(normalized));
-}
-
-/**
- * Returns every language root that resolves alongside `langRoot`, itself first.
- * Roots that are not on disk (a language the generator does not emit) are dropped.
- *
- * `langRoot` is absolute — the scan resolves its source dirs — so the repo-relative
- * group entries are matched as a substring and the prefix before them is carried
- * over to the peers.
- */
-function getRootGroup(langRoot) {
-    if (!langRoot) return [];
-    const normalized = langRoot.replace(/\\/g, '/').replace(/\/$/, '');
-    for (const group of OVERLAY_ROOT_GROUPS) {
-        for (const base of group) {
-            const at = normalized.lastIndexOf(base + '/');
-            if (at === -1) continue;
-            const prefix = normalized.slice(0, at);
-            const lang = normalized.slice(at + base.length + 1);
-            if (!lang || lang.includes('/')) continue;
-            const peers = group
-                .filter(other => other !== base)
-                .map(other => `${prefix}${other}/${lang}/`)
-                .filter(dir => existsSync(dir));
-            return [langRoot, ...peers];
-        }
-    }
-    return [langRoot];
-}
+// `OVERLAY_ROOT_GROUPS`, `getRootGroup`, `isUnservedOverlayFile` and
+// `isShadowedAuthoredFile` live in scripts/lib/angular-content-roots.mjs — the
+// single description of what the Angular site actually serves, shared with
+// check-mdx-links.mjs.
 
 /**
  * Resolves an absolute doc link like /treegrid/tree-grid against the
@@ -312,9 +290,14 @@ function resolveAbsoluteLink(langRoots, url) {
             resolve(langRoot, pathLower),
         ];
         for (const base of candidates) {
-            if (existsSync(base)) return base;
-            if (existsSync(base + '.mdx')) return base + '.mdx';
-            if (existsSync(base + '.md')) return base + '.md';
+            for (const candidate of [base, base + '.mdx', base + '.md']) {
+                // A file the site never serves cannot satisfy a link: the xplat
+                // copies of grids/ and changelog/ sit on disk but are excluded
+                // from the overlay, so accepting one would hide a genuinely
+                // broken link on a page that *is* served.
+                if (isUnservedOverlayFile(candidate)) continue;
+                if (existsSync(candidate)) return candidate;
+            }
         }
     }
     return null;
@@ -429,10 +412,15 @@ function resolveLink(fileDir, href, langRoots = []) {
         }
     }
 
+    // Candidates re-anchored on a peer root can land on a file the site never
+    // serves (the overlay's excluded grids/ and changelog/); those must not
+    // satisfy the link, or a broken /grids/... reference would pass.
     for (const abs of bases) {
+        if (isUnservedOverlayFile(abs)) continue;
         if (existsSync(abs)) return { resolved: abs, missingExt: false };
     }
     for (const abs of bases) {
+        if (isUnservedOverlayFile(abs + '.mdx')) continue;
         if (existsSync(abs + '.mdx')) return describe(abs + '.mdx');
     }
 
@@ -448,7 +436,12 @@ let filesToScan;
 let scanDescription;
 
 const srcDirs = getSrcDirs();
-filesToScan = srcDirs.flatMap(d => walkMdx(resolve(d))).filter(f => !isUnservedOverlayFile(f));
+// Only scan files the Angular site actually renders: skip the overlay's
+// excluded grids/ and changelog/, and skip authored topics that xplat shadows —
+// the latter are on disk but never served, so their links belong to no page.
+filesToScan = srcDirs
+    .flatMap(d => walkMdx(resolve(d)))
+    .filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
 scanDescription = `source dirs: ${srcDirs.join(', ')}`;
 
 console.log(`\nScanning for relative links`);

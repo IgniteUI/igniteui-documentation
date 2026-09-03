@@ -54,13 +54,50 @@ function generatedFiles(sourceDir) {
     return out;
 }
 
-/** True when git has the path in the index — those are never deleted here. */
+/**
+ * Aborts the run. Anything git cannot answer confidently has to stop the
+ * script *before* it deletes: a git that fails to run would otherwise make
+ * every file look untracked, and this script deletes untracked files.
+ */
+function abortOnGitFailure(result, what) {
+    if (result.error) {
+        console.error(`[clean-synced] Could not run git (${what}): ${result.error.message}`);
+        console.error('[clean-synced] Refusing to delete anything without a working git. Aborting.');
+        process.exit(1);
+    }
+    const stderr = (result.stderr ?? '').toString().trim();
+    console.error(`[clean-synced] git ${what} failed with exit code ${result.status}.`);
+    if (stderr) console.error(`  ${stderr}`);
+    console.error('[clean-synced] Refusing to delete anything without a trustworthy git. Aborting.');
+    process.exit(1);
+}
+
+/** Verifies up front that git runs and that repoRoot really is a repository. */
+function assertGitAvailable() {
+    const r = spawnSync('git', ['rev-parse', '--is-inside-work-tree'], {
+        cwd: repoRoot,
+        encoding: 'utf8',
+    });
+    if (r.error || r.status !== 0) abortOnGitFailure(r, 'rev-parse --is-inside-work-tree');
+}
+
+/**
+ * True when git has the path in the index — those are never deleted here.
+ *
+ * `git ls-files --error-unmatch` exits 0 for a tracked path and 1 for an
+ * untracked one. Every other outcome (git missing, fatal repo error, a signal)
+ * is a failure to answer, not a "no", so it aborts rather than green-lighting
+ * a delete.
+ */
 function isTracked(absPath) {
     const r = spawnSync('git', ['ls-files', '--error-unmatch', '--', absPath], {
         cwd: repoRoot,
-        stdio: 'ignore',
+        encoding: 'utf8',
     });
-    return r.status === 0;
+    if (r.error || r.status === null) abortOnGitFailure(r, `ls-files -- ${absPath}`);
+    if (r.status === 0) return true;
+    if (r.status === 1) return false;
+    return abortOnGitFailure(r, `ls-files -- ${absPath}`);
 }
 
 /** Removes directories left empty by the deletions, bottom-up. */
@@ -72,6 +109,10 @@ function pruneEmptyDirs(dir, stopAt) {
         current = dirname(current);
     }
 }
+
+// Fail fast: without git this script cannot tell a leftover copy from a
+// tracked topic, and it must never delete the latter.
+assertGitAvailable();
 
 let totalRemoved = 0;
 const trackedOverlaps = [];

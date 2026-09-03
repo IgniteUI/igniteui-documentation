@@ -45,7 +45,13 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { docRootsFromEnv } from './lib/doc-roots.ts';
+import { docRootsFromEnv, toRootList, type DocsContentRoot } from './lib/doc-roots.ts';
+
+// The canonical root helpers live in `lib/doc-roots.ts` — re-exported here so a
+// consuming `content.config.ts` can read the root list `createDocsSite`
+// published (`docRootsFromEnv()`) from the same module it already imports.
+export { docRootsFromEnv } from './lib/doc-roots.ts';
+export type { DocsContentRoot, ResolvedDocRoot } from './lib/doc-roots.ts';
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
@@ -81,10 +87,18 @@ function withTitleFilter(baseLoader: any): any {
 // `scopeStore` hands each root its own view of the store so that:
 //   • `keys()`  lists only the entries that came from *that* root, so a root's
 //     cleanup sweep can never delete another root's pages;
-//   • `get()`/`set()` ignore ids a higher-precedence root has already claimed,
-//     so a shadowed page is silently skipped instead of overwriting the winner
-//     (and without tripping Astro's duplicate-slug warning, which fires inside
-//     the loader between its `get` and its `set`).
+//   • `get()` only ever hands a root back its *own* entries, so a shadowed page
+//     is silently skipped instead of overwriting the winner (and without
+//     tripping Astro's duplicate-slug warning, which fires inside the loader
+//     between its `get` and its `set`);
+//   • `set()` is refused for ids a higher-precedence root has claimed.
+//
+// Ownership is decided by the entry's own `filePath`, not just by what a root
+// wrote during this pass: on a *warm* load the glob loader returns early — with
+// no `set` — as soon as it sees an unchanged digest, so a root that wins every
+// one of its slugs may never call `set` at all. `get()` therefore registers the
+// claim itself, which is what keeps the winner from being overwritten by the
+// next root on the second and every later build against a populated store.
 //
 // Roots are always ordered highest precedence first, so root 0 wins every
 // collision — see `src/lib/doc-roots.ts` for the convention.
@@ -113,13 +127,24 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
     const { root, rootIndex, isLast, configRoot, claimed } = options;
     const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
 
+    /**
+     * Ownership of a stored entry, decided by the file it was loaded from:
+     *   `'mine'`    — the file lives under this root;
+     *   `'other'`   — it lives under a different root;
+     *   `'orphan'`  — it has no file path (predates this loader, or came from
+     *                 elsewhere). Only the last root claims orphans, so they are
+     *                 still swept exactly once.
+     */
+    const ownership = (id: string): 'mine' | 'other' | 'orphan' => {
+        const source = entrySourcePath(store.get(id), configRoot);
+        if (!source) return 'orphan';
+        return source.startsWith(rootWithSep) ? 'mine' : 'other';
+    };
+
     /** True when `id` was loaded from this root — decided by the entry's own file path. */
     const ownsEntry = (id: string): boolean => {
-        const source = entrySourcePath(store.get(id), configRoot);
-        // Entries with no file path predate this loader (or came from elsewhere).
-        // Only the last root claims them, so they are still swept exactly once.
-        if (!source) return isLast;
-        return source.startsWith(rootWithSep);
+        const owner = ownership(id);
+        return owner === 'orphan' ? isLast : owner === 'mine';
     };
 
     /** True when any *other* root has taken this id during this load pass. */
@@ -147,7 +172,26 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
         // Hiding another root's entry keeps the two files from being compared
         // against each other, which is what would otherwise emit a
         // duplicate-slug warning for a slug that is deliberately shadowed.
-        get: (id: string) => (takenByOther(id) ? undefined : store.get(id)),
+        //
+        // Reading one's own entry also *claims* the id. The loader calls `get`
+        // for every file it walks, but only calls `set` when the content
+        // actually changed, so claiming here is the only thing that records the
+        // winner on a warm load — without it the next root would see an
+        // unclaimed id and overwrite the page it is supposed to be shadowed by.
+        get: (id: string) => {
+            if (takenByOther(id)) return undefined;
+            switch (ownership(id)) {
+                case 'mine':
+                    claimed.set(id, rootIndex);
+                    return store.get(id);
+                case 'other':
+                    return undefined;
+                default:
+                    // No file path to go on (or no entry at all) — nothing to
+                    // claim; hand back whatever the store has.
+                    return store.get(id);
+            }
+        },
         set: (entry: { id: string }) => {
             if (takenByHigher(entry.id)) return false;
             claimed.set(entry.id, rootIndex);
@@ -224,13 +268,6 @@ function makeDocsSchema(extend?: z.ZodObject<z.ZodRawShape>) {
     );
 }
 
-/**
- * A content root. Use the object form to give one root its own exclusions —
- * for example, keeping a generated tree's `changelog/` out of a site that
- * maintains its own.
- */
-export type DocsContentRoot = string | { dir: string; exclude?: string[] };
-
 interface CreateDocsCollectionOptions {
     /**
      * Glob patterns to exclude, applied to *every* root (relative to each root).
@@ -261,10 +298,10 @@ export function createDocsCollection(
     { exclude = [], extendSchema }: CreateDocsCollectionOptions = {},
 ) {
     const configured = sourceDir ?? process.env.DOCS_SOURCE_PATH;
-    const roots = (Array.isArray(configured) ? configured : [configured])
-        .filter((r): r is DocsContentRoot => Boolean(r))
-        .map(r => (typeof r === 'string' ? { dir: r, exclude: [] as string[] } : { ...r, exclude: r.exclude ?? [] }))
-        .filter(r => Boolean(r.dir));
+    const roots = toRootList(
+        (Array.isArray(configured) ? configured : [configured])
+            .filter((r): r is DocsContentRoot => Boolean(r)),
+    ).filter(r => Boolean(r.dir));
 
     if (roots.length === 0) {
         throw new Error(

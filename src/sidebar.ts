@@ -16,7 +16,7 @@
  */
 
 import fs from 'node:fs';
-import { findFirstInRoots, toRootList } from './lib/doc-roots.ts';
+import { findFirstInRoots, toRootList, type DocsContentRoot, type ResolvedDocRoot } from './lib/doc-roots.ts';
 import { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
 import type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
@@ -43,7 +43,7 @@ interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-function docExists(docsDirs: string[], href: string, exclude: RegExp[]): boolean {
+function docExists(docsDirs: ResolvedDocRoot[], href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
     // Check the href as-is, then also with .md ↔ .mdx swapped as a safety net
@@ -97,7 +97,7 @@ function sortGroupItems(group: SidebarGroup): void {
 }
 
 function convertTocItem(
-    docsDirs: string[],
+    docsDirs: ResolvedDocRoot[],
     item: TocItem,
     exclude: RegExp[],
     depth: number,
@@ -152,11 +152,11 @@ export interface BuildSidebarFromTocOptions {
     /** Absolute path to the TOC file (.json). */
     tocPath: string;
     /**
-     * Absolute path to the Markdown docs directory, or a list of directories
+     * Absolute path to the Markdown docs directory, or a list of roots
      * ordered highest precedence first. A TOC entry is kept when any of them
-     * supplies the page.
+     * supplies the page — a root that excludes the path does not count.
      */
-    docsDir: string | string[];
+    docsDir: DocsContentRoot | DocsContentRoot[];
     /** Extra patterns to exclude (matched against the `href`). */
     exclude?: RegExp[];
 }

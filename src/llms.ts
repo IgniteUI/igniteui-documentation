@@ -24,7 +24,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { findFirstInRoots, toRootList } from './lib/doc-roots.ts';
+import { findFirstInRoots, toRootList, type DocsContentRoot } from './lib/doc-roots.ts';
 import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 import type { NavLang } from './platform.ts';
 
@@ -118,7 +118,7 @@ export function collectSlugs(items: SidebarEntry[]): string[] {
  * it must happen before the build because the rendered HTML does not expose
  * LLM-specific frontmatter fields like `llms.description` or `llms.keywords`.
  */
-export function buildLlmsMetaMap(docsDir: string | string[], items: SidebarEntry[]): Map<string, LlmsMeta> {
+export function buildLlmsMetaMap(docsDir: DocsContentRoot | DocsContentRoot[], items: SidebarEntry[]): Map<string, LlmsMeta> {
     const map = new Map<string, LlmsMeta>();
     const roots = toRootList(docsDir);
     for (const slug of collectSlugs(items)) {

@@ -59,7 +59,15 @@ import {
     type LlmsMeta, type LlmsSet, type SidebarEntry,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
-import { DOC_ROOTS_ENV, findFirstInRoots, resolveDocRoots, toRootList } from './lib/doc-roots.ts';
+import {
+    DOC_ROOTS_ENV,
+    findFirstInRoots,
+    resolveDocRoots,
+    serializeDocRoots,
+    toRootList,
+    type DocsContentRoot,
+    type ResolvedDocRoot,
+} from './lib/doc-roots.ts';
 import { getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { getGtmContainerId } from './lib/platform-context.js';
@@ -157,7 +165,7 @@ interface GenerateLlmsMdOptions {
     /** Page slugs to convert (stripped of trailing slashes). */
     slugs: string[];
     /** Source docs roots, highest precedence first — used only for diagnostic warnings. */
-    docsDirs: string[];
+    docsDirs: ResolvedDocRoot[];
     /** Configured site URL. */
     siteUrl: string;
     /** Named documentation subsets to assemble into combined .txt files. */
@@ -238,7 +246,7 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDirs, siteUrl, llmsSets 
             // Resolve the source MDX/MD path so warnings point developers at the
             // file they need to edit, not the built HTML artifact.
             const sourceRef = findFirstInRoots(docsDirs, ['.mdx', '.md'].map(ext => slug + ext))
-                ?? path.join(docsDirs[0] ?? '', slug + '.mdx');
+                ?? path.join(docsDirs[0]?.dir ?? '', slug + '.mdx');
 
             const md = await htmlPageToMd(htmlPath, siteUrl, td, sourceRef);
             if (!md) { skippedSlugs.push(slug); mdDone++; return ''; }
@@ -357,10 +365,12 @@ export interface SiteMetaOptions {
      *  manifest blockquote instead of the (typically English) `description`. */
     localizedDescription?: string;
     /**
-     * Path to the source markdown files, or several such paths ordered
-     * highest precedence first when the site overlays content roots.
+     * Path to the source markdown files, or several such roots ordered
+     * highest precedence first when the site overlays content roots. A root
+     * may carry its own `exclude` globs — those subtrees are treated as absent
+     * from it, so the next root supplies the slug.
      */
-    docsDir?: string | string[];
+    docsDir?: DocsContentRoot | DocsContentRoot[];
     sidebar?: SidebarEntry[];
     platform?: PlatformKey | null;
     navLang?: NavLang;
@@ -660,7 +670,7 @@ export interface DocsSiteSource {
      * Roots that do not exist on disk are ignored, so a language an upstream
      * generator does not emit simply has no overlay.
      */
-    overlayDirs?: string[];
+    overlayDirs?: DocsContentRoot[];
 }
 
 export interface CreateDocsSiteOptions {
@@ -765,7 +775,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         process.env.DOCS_SOURCE_PATH = source.docsDir;
     }
     if (docRoots.length) {
-        process.env[DOC_ROOTS_ENV] = JSON.stringify(docRoots);
+        process.env[DOC_ROOTS_ENV] = serializeDocRoots(docRoots);
     }
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';

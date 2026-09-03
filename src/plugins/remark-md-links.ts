@@ -20,7 +20,7 @@
 import { defineMdastPlugin } from 'satteri';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { docRootsFromEnv, rootForFile } from '../lib/doc-roots.ts';
+import { docRootsFromEnv, rootForFile, type ResolvedDocRoot } from '../lib/doc-roots.ts';
 
 /**
  * Resolve a relative .mdx link to an absolute Astro URL.
@@ -55,8 +55,8 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
 }
 
 /** Parsed once — this runs for every link node in every page. */
-let docRootsCache: string[] | undefined;
-function cachedDocRoots(): string[] {
+let docRootsCache: ResolvedDocRoot[] | undefined;
+function cachedDocRoots(): ResolvedDocRoot[] {
   return (docRootsCache ??= docRootsFromEnv());
 }
 

@@ -147,8 +147,13 @@ Angular:
 ```text
 npm run xplat:generate --prefix docs/angular
 npm run xplat:generate:jp --prefix docs/angular
-scan docs/angular/src/content
+scan docs/angular/src/content and docs/xplat/generated/Angular
 ```
+
+The Angular site serves both roots — its own authored topics plus the xplat
+generator's Angular output, overlaid in place rather than copied in — so the
+checker scans both. Files the site never serves are skipped: the overlay's
+`grids/` and `changelog/`, and authored topics that xplat shadows.
 
 React, Web Components, and Blazor:
 

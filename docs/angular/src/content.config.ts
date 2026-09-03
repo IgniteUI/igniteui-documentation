@@ -1,5 +1,5 @@
 import { z } from 'astro/zod';
-import { createDocsCollection } from 'docs-template/content';
+import { createDocsCollection, docRootsFromEnv } from 'docs-template/content';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -24,9 +24,18 @@ const docsDir = path.join(root, 'src', 'content', lang, 'components');
 // changelog/ and grids/ stay Angular-owned and are never taken from xplat.
 const xplatDir = path.join(root, '..', 'xplat', 'generated', 'Angular', lang, 'components');
 
-const roots = existsSync(xplatDir)
-	? [{ dir: xplatDir, exclude: ['changelog/**', 'grids/**'] }, docsDir]
-	: [docsDir];
+// astro.config.ts owns the root list: createDocsSite resolves `source.docsDir`
+// plus `source.overlayDirs` (excludes and all) and publishes the result as
+// DOCS_SOURCE_PATHS, so the collection is built from exactly the roots the rest
+// of the site resolves against. The literal fallback below only applies when
+// this config is loaded without that env var — `astro check`, a direct
+// `getCollection()` in a script — and must stay in step with astro.config.ts.
+const rootsFromEnv = docRootsFromEnv();
+const roots = rootsFromEnv.length
+	? rootsFromEnv
+	: existsSync(xplatDir)
+		? [{ dir: xplatDir, exclude: ['changelog/**', 'grids/**'] }, docsDir]
+		: [docsDir];
 
 const tableOfContentsSchema = z.object({
         tableOfContents: z
