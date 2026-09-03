@@ -9,9 +9,10 @@ llms:
   description: "{ProductName} calculates text colors against a WCAG contrast threshold at runtime, keeps every type scale relative, and ships an opt-in color-vision-deficiency chart palette."
 ---
 
-{/*Twin topic: docs/angular/src/content/en/components/themes/accessibility.mdx covers Angular. The two are near-identical by design; apply substantive edits to both.*/}
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set still carries its own copy at docs/angular/src/content/en/components/themes/accessibility.mdx because this page is excluded for Angular in src/content/en/toc.json; keep the two in sync until that exclude is lifted. Never write a literal PlatformBlock tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 
@@ -26,7 +27,7 @@ Accessibility in {ProductName} is delivered by two layers that you configure ind
 | Layer | What it is responsible for | Where it is documented |
 |---|---|---|
 | **Theming engine** (`igniteui-theming`) | Color contrast, text sizing, chart color palettes, and the styling utilities that keep custom controls reachable by assistive technology. | This page. |
-| **Component library** | Keyboard operability, focus movement, ARIA roles and states, and screen-reader announcements. | [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) and each component topic. |
+| **Component library** (`{PackageCommon}`) | Keyboard operability, focus movement, ARIA roles and states, and screen-reader announcements. | [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) and each component topic. |
 
 This page covers the first layer. It describes capabilities that apply to every component you style with the theming engine, including components you build yourself on top of it.
 
@@ -66,7 +67,7 @@ The capabilities on this page describe the theming engine's behavior. They are n
 The theming engine exposes these Sass functions and mixins for the accessibility behavior described on this page.
 
 <DocsAside type="note">
-These are Sass APIs: they need a Sass build with `igniteui-theming` resolvable from your load paths, as described in [Customizing with Sass](overview.mdx#customizing-with-sass). If you use the prebuilt theme CSS instead, you still get calculated contrast colors - pair each palette color with its `-contrast` variable, for example `var(--ig-primary-500-contrast)`, and set the threshold with `--ig-contrast-level`. The chart palette, `hide-default()`, and the `contrast()` and `luminance()` functions have no CSS-only equivalent.
+These are Sass APIs: they need a Sass build with `igniteui-theming` resolvable from your load paths, as described in <PlatformBlock for="Angular">[Theming with Sass](sass/index.mdx)</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">[Customizing with Sass](overview.mdx#customizing-with-sass)</PlatformBlock>. If you use the prebuilt theme CSS instead, you still get calculated contrast colors - pair each palette color with its `-contrast` variable, for example `var(--ig-primary-500-contrast)`, and set the threshold with `--ig-contrast-level`. The chart palette, `hide-default()`, and the `contrast()` and `luminance()` functions have no CSS-only equivalent.
 </DocsAside>
 
 | Tool | Signature | What it does |
@@ -187,6 +188,16 @@ The palette is **off by default**. Turn it on with `configure-colors()`:
 
 Every chart theme then draws from the accessible set. The chart brushes are set when the theme is generated, so this one requires Sass; the prebuilt theme CSS exposes no variables for them.
 
+<PlatformBlock for="Angular">
+
+In {ProductName} the same switch is available at setup:
+
+```scss
+@include core($enhanced-accessibility: true);
+```
+
+</PlatformBlock>
+
 <DocsAside type="note">
 Color alone should not be the only way a chart conveys meaning. Pair this palette with direct labels, distinct markers, or dash patterns so the chart also works in grayscale.
 </DocsAside>
@@ -269,7 +280,7 @@ Each of the four shipped themes — Material, Bootstrap, Fluent, and Indigo — 
   </FaqItem>
 
   <FaqItem question="Is the color-vision-deficiency chart palette on by default?" indicatorPosition="end">
-    No. Enable it with <code>configure-colors($enhanced-accessibility: true)</code>.
+    No. Enable it with <code>configure-colors($enhanced-accessibility: true)</code><PlatformBlock for="Angular">, or with <code>core($enhanced-accessibility: true)</code> at setup</PlatformBlock>.
   </FaqItem>
 
   <FaqItem question="Do I need to configure anything for text scaling?" indicatorPosition="end">
