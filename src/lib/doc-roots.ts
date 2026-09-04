@@ -18,8 +18,10 @@
  * ── Ordering convention ──────────────────────────────────────────────────────
  * Every function here takes and returns roots **highest precedence first**, so
  * a plain `for` loop over the list resolves a slug the same way the site does.
- * The one place that reverses the list is the content loader, where the *last*
- * loader to write a given id is the one that wins.
+ * The content loader follows the same convention: it loads the roots in list
+ * order and refuses writes from a lower-precedence root for any id a higher one
+ * has already claimed, so the *first* root to provide a slug is the one that
+ * wins. Never reverse the list before handing it to a consumer.
  *
  * ── Excludes ────────────────────────────────────────────────────────────────
  * A root may carry its own `exclude` globs — subtrees it contributes on disk but

@@ -43,6 +43,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { docRootsFromEnv, toRootList, type DocsContentRoot } from './lib/doc-roots.ts';
@@ -102,6 +103,19 @@ function withTitleFilter(baseLoader: any): any {
 //
 // Roots are always ordered highest precedence first, so root 0 wins every
 // collision — see `src/lib/doc-roots.ts` for the convention.
+//
+// ── Dev-server watching ──────────────────────────────────────────────────────
+// Each glob loader registers its own `add`/`change`/`unlink` handlers on the
+// shared file watcher, and each handler only reacts to paths under its own
+// root. That is fine for adds and edits (the scoped store lets a higher root
+// take a slug over, and keeps a lower one from stealing it) but not for
+// deletes: when a *winning* file goes away, its root removes the entry, and
+// nothing tells the shadowed root that its file is now the page — the route
+// vanishes until the next full reload. `scopeWatcher` closes that gap by
+// following every unlink under root N with a synthetic change for the same
+// relative path in roots N+1…, so the first lower root that still has the file
+// re-syncs it through its own loader (and the scoped store again makes sure
+// only the highest of those wins).
 
 /** Absolute path of the file an entry was loaded from, or `undefined`. */
 function entrySourcePath(entry: unknown, configRoot: string): string | undefined {
@@ -205,6 +219,56 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
     };
 }
 
+type WatchHandler = (filePath: string) => unknown;
+
+/** Source extensions the loaders serve; a deleted `.mdx` may be backed by a `.md`. */
+const SOURCE_EXTENSIONS = ['.md', '.mdx'];
+
+interface ScopeWatcherOptions {
+    /** Index of the root this view belongs to (0 = highest precedence). */
+    rootIndex: number;
+    /** Per-root `change` handlers registered so far, shared across all views. */
+    changeHandlers: WatchHandler[][];
+    /** Called after a root's own `unlink` handler has run for `filePath`. */
+    onUnlinked: (rootIndex: number, filePath: string) => Promise<void>;
+}
+
+/**
+ * Wraps the dev server's file watcher for one root. Every call passes through
+ * to the real watcher; the view only records the root's `change` handler (so
+ * the overlay can re-sync a file on the root's behalf) and follows the root's
+ * `unlink` handler with `onUnlinked`.
+ *
+ * Methods are bound to the real watcher rather than delegated through a
+ * prototype so the watcher's internal state is never written onto the view.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function scopeWatcher(watcher: any, options: ScopeWatcherOptions): any {
+    const { rootIndex, changeHandlers, onUnlinked } = options;
+
+    return new Proxy(watcher, {
+        get(target, prop, receiver) {
+            if (prop === 'on') {
+                return (event: string, handler: WatchHandler) => {
+                    let registered = handler;
+                    if (event === 'change') {
+                        changeHandlers[rootIndex].push(handler);
+                    } else if (event === 'unlink') {
+                        registered = async (filePath: string) => {
+                            await handler(filePath);
+                            await onUnlinked(rootIndex, filePath);
+                        };
+                    }
+                    target.on(event, registered);
+                    return receiver;
+                };
+            }
+            const value = Reflect.get(target, prop, target);
+            return typeof value === 'function' ? value.bind(target) : value;
+        },
+    });
+}
+
 /**
  * Runs one glob loader per content root against a single collection.
  *
@@ -215,6 +279,8 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
 function overlayLoader(loaders: Array<{ root: string; loader: any }>): any {
     if (loaders.length === 1) return loaders[0].loader;
 
+    const rootsWithSep = loaders.map(({ root }) => (root.endsWith(path.sep) ? root : root + path.sep));
+
     return {
         name: 'docs-overlay-loader',
         load: async (ctx: any) => {
@@ -222,6 +288,38 @@ function overlayLoader(loaders: Array<{ root: string; loader: any }>): any {
             // which the config exposes as a file:// URL.
             const configRoot = ctx.config?.root ? fileURLToPath(ctx.config.root) : process.cwd();
             const claimed = new Map<string, number>();
+            const changeHandlers: WatchHandler[][] = loaders.map(() => []);
+
+            /**
+             * A file under root `rootIndex` was deleted. Re-sync the same
+             * relative path from every lower-precedence root that still has it,
+             * highest first — the scoped store lets the first of them claim the
+             * slug and refuses the rest, so the page never disappears while a
+             * shadowed copy exists. Paths outside the root (which the root's own
+             * handler ignored too) and paths no lower root can serve are no-ops.
+             */
+            const onUnlinked = async (rootIndex: number, deletedPath: string): Promise<void> => {
+                const abs = path.resolve(deletedPath);
+                if (!abs.startsWith(rootsWithSep[rootIndex])) return;
+
+                const relPath = abs.slice(rootsWithSep[rootIndex].length);
+                const ext = path.extname(relPath);
+                if (!SOURCE_EXTENSIONS.includes(ext)) return;
+                const stem = relPath.slice(0, -ext.length);
+                // Same extension first, so an overlay `.mdx` falls back to a base
+                // `.mdx` before a base `.md` — matching `findFirstInRoots`.
+                const candidates = [ext, ...SOURCE_EXTENSIONS.filter(e => e !== ext)].map(e => stem + e);
+
+                for (let lower = rootIndex + 1; lower < loaders.length; lower++) {
+                    for (const candidate of candidates) {
+                        const file = path.join(loaders[lower].root, candidate);
+                        if (!fs.existsSync(file)) continue;
+                        // The root's own handler applies its glob (and excludes)
+                        // before syncing, so an excluded copy is skipped here too.
+                        for (const handler of changeHandlers[lower]) await handler(file);
+                    }
+                }
+            };
 
             for (const [rootIndex, { root, loader }] of loaders.entries()) {
                 await loader.load({
@@ -233,6 +331,9 @@ function overlayLoader(loaders: Array<{ root: string; loader: any }>): any {
                         configRoot,
                         claimed,
                     }),
+                    watcher: ctx.watcher
+                        ? scopeWatcher(ctx.watcher, { rootIndex, changeHandlers, onUnlinked })
+                        : ctx.watcher,
                 });
             }
         },
