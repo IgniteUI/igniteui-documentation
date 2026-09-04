@@ -24,7 +24,7 @@
  *       { tag: 'link', attrs: { rel: 'stylesheet', href: '...' } },
  *     ],
  *     // Extra Astro options (markdown, image, build, …)
- *     markdown: { remarkPlugins: [] },
+ *     markdown: { mdastPlugins: [], hastPlugins: [] },
  *   });
  *
  * --- Option B: manual composition (for full control) ---
@@ -49,7 +49,8 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { buildHtmlToMdConverter, htmlPageToMd } from './html-to-md.ts';
 import { createIndex as pagefindCreateIndex } from 'pagefind';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
 import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
 import mdx from '@astrojs/mdx';
@@ -61,6 +62,7 @@ import { buildSidebarFromToc } from './sidebar';
 import { getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
 import { getGtmContainerId } from './lib/platform-context.js';
+import { satteri } from '@astrojs/markdown-satteri';
 import { remarkEnvVars } from './plugins/remark-env-vars';
 import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
@@ -69,6 +71,77 @@ import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-h
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+
+/**
+ * Absolute directories of every installed `igniteui-theming` copy, nearest first.
+ *
+ * The linked component library's tree is searched too: when
+ * `igniteui-astro-components` is a local checkout it carries its own copy, and its
+ * stylesheets are compiled as part of this build.
+ */
+function resolveThemingPackageDirs(): string[] {
+    const origins: string[] = [fileURLToPath(import.meta.url)];
+    try {
+        origins.push(createRequire(import.meta.url).resolve('igniteui-astro-components/package.json'));
+    } catch { /* library not linked — its tree simply isn't searched */ }
+
+    const dirs: string[] = [];
+    for (const origin of origins) {
+        try {
+            const themingPkg = createRequire(origin).resolve('igniteui-theming/package.json');
+            const dir = path.dirname(themingPkg);
+            if (!dirs.includes(dir)) dirs.push(dir);
+        } catch { /* not installed in this tree */ }
+    }
+    return dirs;
+}
+
+/**
+ * Sass importer for `igniteui-theming` subpaths.
+ *
+ * `igniteui-theming` declares its Sass files as `"./sass/**\/*.*"`, which is not a
+ * valid Node subpath pattern — only a single `*` is allowed — so no `sass/...`
+ * subpath resolves through its exports map. Vite 8 (Astro 7) resolves Sass `@use`
+ * through its own resolver, which enforces package exports; earlier versions fell
+ * back to plain filesystem resolution, which is why these imports used to work.
+ *
+ * Vite appends its resolver-backed importer *after* any configured ones, so this
+ * runs first and short-circuits those imports to a real path. Returning the
+ * directory-style URL lets Sass apply its own partial/index rules, so
+ * `sass/typography` still finds `sass/typography/_index.scss`.
+ */
+function createThemingSassImporter(): { findFileUrl(url: string): URL | null } {
+    const prefix = 'igniteui-theming/';
+    const packageDirs = resolveThemingPackageDirs();
+
+    return {
+        findFileUrl(url: string): URL | null {
+            if (!url.startsWith(prefix)) return null;
+            const subpath = url.slice(prefix.length);
+
+            for (const dir of packageDirs) {
+                const candidate = path.join(dir, subpath);
+                // Sass appends the partial/index variants itself, so it is enough that
+                // the target or its containing directory exists in this copy.
+                if (fs.existsSync(candidate) || fs.existsSync(path.dirname(candidate))) {
+                    return pathToFileURL(candidate);
+                }
+            }
+            return null;
+        },
+    };
+}
+
+/** Sass `loadPaths` covering the node_modules trees that hold `igniteui-theming`. */
+function resolveScssLoadPaths(): string[] {
+    // An app-local install wins, matching the previous cwd-only behaviour.
+    const paths: string[] = [path.join(process.cwd(), 'node_modules')];
+    for (const dir of resolveThemingPackageDirs()) {
+        const nodeModulesDir = path.dirname(dir);
+        if (!paths.includes(nodeModulesDir)) paths.push(nodeModulesDir);
+    }
+    return paths;
+}
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
@@ -389,7 +462,14 @@ export function siteMetaIntegration({
                         css: {
                             preprocessorOptions: {
                                 scss: {
-                                    loadPaths: [path.join(process.cwd(), 'node_modules')],
+                                    // Vite installs Sass's NodePackageImporter by default, and
+                                    // Sass consults importers before `loadPaths`. That importer
+                                    // *throws* on a subpath the exports map doesn't cover instead
+                                    // of falling through, which breaks every
+                                    // `igniteui-theming/sass/...` import (see resolveScssLoadPaths).
+                                    // Clearing it puts resolution back on `loadPaths`.
+                                    importers: [createThemingSassImporter()],
+                                    loadPaths: resolveScssLoadPaths(),
                                     // The if-function deprecation originates inside
                                     // igniteui-theming (vendor code we cannot modify).
                                     silenceDeprecations: ['if-function'],
@@ -790,9 +870,36 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
+        // Astro 7 defaults to `compressHTML: 'jsx'`, which drops whitespace between
+        // inline elements entirely instead of collapsing it to a single space. That
+        // silently joins adjacent text — breadcrumb segments, badge labels and callout
+        // titles render as "Open SourceIgnite UI" / "InfoThe -y flag". Keeping the
+        // Astro 6 behaviour preserves the rendered copy; switch to 'jsx' only after
+        // auditing templates for the inline pairs that need an explicit {" "}.
+        compressHTML: true,
         ...astroExtra,
         vite: {
             ...(astroExtra as any).vite,
+            css: {
+                ...(astroExtra as any).vite?.css,
+                preprocessorOptions: {
+                    ...(astroExtra as any).vite?.css?.preprocessorOptions,
+                    scss: {
+                        // Vite installs Sass's NodePackageImporter by default, and Sass
+                        // consults importers before `loadPaths`. That importer *throws* on a
+                        // subpath the exports map doesn't cover rather than falling through,
+                        // which breaks every `igniteui-theming/sass/...` import
+                        // (see resolveScssLoadPaths). Clearing it puts resolution back on
+                        // `loadPaths`.
+                        importers: [createThemingSassImporter()],
+                        loadPaths: resolveScssLoadPaths(),
+                        // The if-function deprecation originates inside igniteui-theming
+                        // (vendor code we cannot modify).
+                        silenceDeprecations: ['if-function'],
+                        ...(astroExtra as any).vite?.css?.preprocessorOptions?.scss,
+                    },
+                },
+            },
             server: {
                 ...(astroExtra as any).vite?.server,
                 proxy: {
@@ -807,20 +914,25 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 wrap: true,
             },
             ...(astroExtra as any).markdown,
-            remarkPlugins: [
-                remarkEnvVars,
-                remarkMdLinks,
-                remarkHtmlTransforms,
-                ...((astroExtra as any).markdown?.remarkPlugins ?? []),
-            ],
-            rehypePlugins: [
-                rehypeTableWrapper,
-                rehypeHeadingAnchors,
-                rehypeStripEmptyParagraphs,
-                rehypeApiReferencesGrid,
-                rehypePagefindIgnore,
-                ...((astroExtra as any).markdown?.rehypePlugins ?? []),
-            ],
+            // Astro 7 renders Markdown/MDX with Sätteri instead of remark/rehype.
+            // MDAST plugins run before HAST plugins, matching the old
+            // remarkPlugins-then-rehypePlugins ordering.
+            processor: satteri({
+                mdastPlugins: [
+                    remarkEnvVars,
+                    remarkMdLinks,
+                    remarkHtmlTransforms,
+                    ...((astroExtra as any).markdown?.mdastPlugins ?? []),
+                ],
+                hastPlugins: [
+                    rehypeTableWrapper,
+                    rehypeHeadingAnchors,
+                    rehypeStripEmptyParagraphs,
+                    rehypeApiReferencesGrid,
+                    rehypePagefindIgnore,
+                    ...((astroExtra as any).markdown?.hastPlugins ?? []),
+                ],
+            }),
         },
         integrations: [
             siteMetaIntegration({
