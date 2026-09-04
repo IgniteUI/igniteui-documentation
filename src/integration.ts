@@ -597,6 +597,46 @@ function copyDirSync(src: string, dest: string): void {
 
 
 /**
+ * Astro integration that injects the GTM `<noscript>` fallback immediately after
+ * the opening `<body>` tag of every built HTML page.
+ *
+ * This is a post-build rewrite rather than an Astro component because DocsLayout
+ * ships from the published `igniteui-astro-components` package and exposes no
+ * body-top slot: a component can only render inside `<main>`, i.e. in the middle
+ * of the Pagefind-indexed content region. Rewriting the response in middleware
+ * was the other option, but that buffers every HTML response (see #493), whereas
+ * this runs once per file at build time.
+ *
+ * The dev server serves pages without the fallback; only built output gets it.
+ */
+function createGtmNoscriptIntegration(containerId: string): AstroIntegration {
+    const marker = 'Google Tag Manager (noscript)';
+    const snippet = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${containerId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->`;
+
+    function rewriteDir(dir: string): void {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) { rewriteDir(full); continue; }
+            if (!entry.name.endsWith('.html')) continue;
+
+            const original = fs.readFileSync(full, 'utf-8');
+            if (original.includes(marker)) continue;
+            const rewritten = original.replace(/<body[^>]*>/i, (openTag: string) => openTag + snippet);
+            if (rewritten !== original) fs.writeFileSync(full, rewritten, 'utf-8');
+        }
+    }
+
+    return {
+        name: 'docs-template:gtm-noscript',
+        hooks: {
+            'astro:build:done'({ dir }) {
+                rewriteDir(fileURLToPath(dir));
+            },
+        },
+    };
+}
+
+/**
  * Astro integration that post-processes all built HTML files to prepend `base`
  * to root-relative `src="/..."` attributes that Astro doesn't rewrite automatically
  * (e.g. raw `<img>` tags in markdown/MDX content).
@@ -755,11 +795,38 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // mandatory charset/viewport/title tags rendered by DocsLayout. Container ID
     // is resolved per build mode (production vs. staging/development); see
     // `getGtmContainerId()` for the resolution order.
+    //
+    // Entry order matters:
+    //   1. Consent Mode defaults + `user_id`, which must run *before* gtm.js so
+    //      tags start denied and wait for the CMP update. www.infragistics.com
+    //      sets exactly these defaults ahead of its own GTM snippet; docs pages
+    //      share the same container, so without them docs traffic would be
+    //      measured under a different consent state than the rest of the site.
+    //   2. The GTM loader snippet.
+    //   3. The SPA page-view bridge — DocsLayout renders <ClientRouter />, so
+    //      topic-to-topic navigation is a pushState swap: gtm.js runs only on the
+    //      initial hard load and no further `gtm.js`/All Pages triggers fire.
+    //
+    // Astro does not re-execute head scripts whose content is unchanged across a
+    // view transition, so all three run exactly once per full page load. The
+    // consent and SPA snippets still guard on a window flag so that a future
+    // per-page value in either one cannot double-apply the defaults or register
+    // the listener twice; the loader is left as Google's stock snippet.
     const gtmContainerId = getGtmContainerId();
-    const gtmHead: HeadEntry[] = [{
-        tag: 'script',
-        content: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');`,
-    }];
+    const gtmHead: HeadEntry[] = [
+        {
+            tag: 'script',
+            content: `window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments);}if(!window.__igdGtmConsent){window.__igdGtmConsent=1;gtag('consent','default',{'functionality_storage':'denied','analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','security_storage':'denied','personalization_storage':'denied','wait_for_update':500});try{var igdUserId=localStorage.getItem('userId');if(igdUserId!==null){window.dataLayer.push({'user_id':igdUserId});}}catch(e){}}`,
+        },
+        {
+            tag: 'script',
+            content: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');`,
+        },
+        {
+            tag: 'script',
+            content: `(function(){if(window.__igdGtmSpaBridge)return;window.__igdGtmSpaBridge=1;var initial=true;document.addEventListener('astro:page-load',function(){if(initial){initial=false;return;}window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'page_view_spa',page_path:location.pathname+location.search,page_location:location.href,page_title:document.title});});})();`,
+        },
+    ];
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -883,6 +950,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 selectedPackage,
                 head: [...gtmHead, ...platformHead, ...codeViewHead, ...head],
             }),
+            createGtmNoscriptIntegration(gtmContainerId),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
