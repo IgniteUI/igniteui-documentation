@@ -222,6 +222,31 @@ licensing/pricing, framework and version support, migration, accessibility, and
 "is ‹Component› right for ‹use case›". An FAQ whose answers cannot stand alone is markup without
 retrieval value — FAQ answers are among the most-quoted chunks on the page.
 
+### FAQ question-generation contract
+
+Generate FAQ questions from the component's verified public surface and the questions users actually
+ask about that kind of control. Build a question inventory from the API registry and typed source:
+primary value or state, important inputs and events, form or validation integration, accessibility,
+keyboard interaction, styling or rendering boundaries, and the closest alternative component. Then
+search public web sources for recurring question shapes using the component name with `how to`, `not
+working`, `value`, `change`, `disabled`, `keyboard`, `form`, `validation`, `accessibility`, and
+`when to use`.
+
+- Use web results to discover user language, recurring confusion, and missing question types. Prefer
+  official Infragistics documentation, API docs, GitHub issues, and framework guidance.
+- Treat web search as question discovery, never as authority for API behavior. Verify every answer
+  against component source/API and official framework documentation; omit or mark unresolved answers
+  with `‹VERIFY: source fact needed›`.
+- Select 3–6 questions covering distinct, high-value intents. Prefer concrete outcomes, such as
+  “How do I set the Switch value?” or “Why is the Checkbox not changing when I press Space?” Avoid
+  generic questions such as “What is accessibility?”.
+- Include a question only when its answer adds information not copied verbatim from another section.
+  Link to detailed Usage, Accessibility, Properties, or Troubleshooting content instead of repeating
+  steps.
+- Do not force irrelevant categories onto simple primitives. Each answer must be 2–4 self-contained
+  sentences, repeat the component noun, and avoid undocumented defaults, browser support, or
+  conformance promises.
+
 **When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
 must include the matching guidance image from the Indigo.Design documentation before the guidance
 text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
