@@ -9,9 +9,10 @@
  * whether the target exists (trying .mdx, .md, and bare extensions).
  * JSX-style href attributes with relative paths are also checked.
  *
- * When --platform=angular the script scans docs/angular/src/content.
+ * When --platform=angular the script scans docs/angular/src/content plus
+ * docs/xplat/generated/Angular — the two roots the Angular site serves.
  * When --platform=react|wc|blazor  it scans docs/xplat/src/content.
- * Omitting --platform scans both trees in one pass.
+ * Omitting --platform scans every tree in one pass.
  *
  * Usage:
  *   node scripts/check-relative-links.mjs
@@ -27,6 +28,13 @@
 
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path'; // join used in walkMdx
+import {
+    ANGULAR_AUTHORED_ROOT,
+    ANGULAR_OVERLAY_ROOT,
+    getRootGroup,
+    isShadowedAuthoredFile,
+    isUnservedOverlayFile,
+} from './lib/angular-content-roots.mjs';
 
 // CLI args
 const args = Object.fromEntries(
@@ -44,15 +52,40 @@ const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
+/**
+ * Drops roots that are not on disk, so a language the xplat generator does not
+ * emit (`kr`) simply has no overlay rather than a hard failure. Losing the
+ * Angular overlay root, though, silently shrinks coverage over every generated
+ * topic — so that one is called out.
+ */
+function keepExisting(dirs) {
+    return dirs.filter(d => {
+        if (existsSync(d)) return true;
+        if (d === ANGULAR_OVERLAY_ROOT) {
+            console.warn(
+                `[warn] "${d}" is missing — the xplat Angular overlay was not scanned.\n` +
+                '       Links in generated topics are unchecked. Generate it first:\n' +
+                '         npm run xplat:generate --prefix docs/angular\n' +
+                '         npm run xplat:generate:jp --prefix docs/angular'
+            );
+        }
+        return false;
+    });
+}
+
 function getSrcDirs() {
     if (args.src) return [String(args.src)];
-    if (PLATFORM === 'angular') return ['docs/angular/src/content'];
+    // The Angular site overlays the xplat generator's Angular output on its own
+    // content instead of copying it in, so both trees have to be scanned — and
+    // links may point across them (see lib/angular-content-roots.mjs).
+    if (PLATFORM === 'angular') {
+        return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]);
+    }
     if (PLATFORM === 'xplat' || (PLATFORM && XPLAT_PLATFORMS.has(PLATFORM))) {
         // Scan source for _shared/ template links, plus the React/WC/Blazor
         // generated output (after generate.mjs has rewritten _shared/ paths).
-        // Angular is intentionally excluded: generated/Angular/ is an
-        // intermediate artifact that gets synced into docs/angular/src/content/
-        // and validated there by --platform=angular.
+        // Angular is intentionally excluded here: generated/Angular/ is one of
+        // the two roots the Angular site serves, so --platform=angular scans it.
         // Run the generate scripts before this check so generated/ is up to date.
         const dirs = ['docs/xplat/src/content'];
         for (const p of ['React', 'WebComponents', 'Blazor']) {
@@ -65,7 +98,7 @@ function getSrcDirs() {
         console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor`);
         process.exit(1);
     }
-    return ['docs/angular/src/content', 'docs/xplat/src/content'];
+    return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
 }
 
 // File walking
@@ -166,12 +199,12 @@ function blankInapplicablePlatformBlocks(content, platforms) {
 /**
  * Maps a source file path to the set of applicable platforms for PlatformBlock
  * filtering. Files in docs/xplat/src/content are shared across all xplat
- * platforms, we filter out Angular only blocks; files in docs/angular/src
- * keep Angular blocks and skip xplat-only ones.
+ * platforms, we filter out Angular only blocks; files in docs/angular/src and
+ * in the generator's Angular output keep Angular blocks and skip xplat-only ones.
  */
 function platformSetForFile(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    if (normalized.includes('docs/angular/src/')) {
+    if (normalized.includes('docs/angular/src/') || normalized.includes('docs/xplat/generated/Angular/')) {
         return new Set(['Angular']);
     }
     if (normalized.includes('docs/xplat/src/')) {
@@ -229,30 +262,43 @@ function isAbsoluteDocLink(url) {
  */
 function getLangRoot(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    const m = normalized.match(/^(.*\/content\/(?:en|jp|kr))\//i);
+    const m = normalized.match(/^(.*\/(?:content|generated\/[^/]+)\/(?:en|jp|kr))\//i);
     return m ? m[1] + '/' : null;
 }
 
+// `OVERLAY_ROOT_GROUPS`, `getRootGroup`, `isUnservedOverlayFile` and
+// `isShadowedAuthoredFile` live in scripts/lib/angular-content-roots.mjs — the
+// single description of what the Angular site actually serves, shared with
+// check-mdx-links.mjs.
+
 /**
  * Resolves an absolute doc link like /treegrid/tree-grid against the
- * language content root. Tries components/{path}.mdx then {path}.mdx.
+ * language content roots. Tries components/{path}.mdx then {path}.mdx in each
+ * root that shares the slug namespace.
  * Returns the resolved path string or null if not found.
  */
-function resolveAbsoluteLink(langRoot, url) {
+function resolveAbsoluteLink(langRoots, url) {
     const path = stripHash(url).slice(1); // strip leading '/'
     if (!path) return 'hash-only';
     // Astro lowercases all URL slugs at build time. Always resolve using the
     // lowercased path so that camelCase links like /pivotGrid/... are flagged
     // as broken (the built URL is /pivotgrid/...).
     const pathLower = path.toLowerCase();
-    const candidates = [
-        resolve(langRoot, 'components', pathLower),
-        resolve(langRoot, pathLower),
-    ];
-    for (const base of candidates) {
-        if (existsSync(base)) return base;
-        if (existsSync(base + '.mdx')) return base + '.mdx';
-        if (existsSync(base + '.md')) return base + '.md';
+    for (const langRoot of langRoots) {
+        const candidates = [
+            resolve(langRoot, 'components', pathLower),
+            resolve(langRoot, pathLower),
+        ];
+        for (const base of candidates) {
+            for (const candidate of [base, base + '.mdx', base + '.md']) {
+                // A file the site never serves cannot satisfy a link: the xplat
+                // copies of grids/ and changelog/ sit on disk but are excluded
+                // from the overlay, so accepting one would hide a genuinely
+                // broken link on a page that *is* served.
+                if (isUnservedOverlayFile(candidate)) continue;
+                if (existsSync(candidate)) return candidate;
+            }
+        }
     }
     return null;
 }
@@ -342,21 +388,40 @@ function extractRelativeLinks(content, filePath) {
  * missingExt = true means the path has no extension but resolves via .mdx —
  *   the link should be written as ./page.mdx, not ./page.
  */
-function resolveLink(fileDir, href) {
+function resolveLink(fileDir, href, langRoots = []) {
     const path = stripHash(href);
     if (!path) return { resolved: 'hash-only', missingExt: false };
 
-    const abs = resolve(fileDir, path);
-
-    if (existsSync(abs)) return { resolved: abs, missingExt: false };
-
-    if (existsSync(abs + '.mdx')) {
+    const describe = (abs) => {
         const lastDot = path.lastIndexOf('.');
         const lastSlash = path.lastIndexOf('/');
         const hasExt = lastDot > lastSlash;
         const isBare = !path.startsWith('./') && !path.startsWith('../');
-        const missingExt = !hasExt || isBare;
-        return { resolved: abs + '.mdx', missingExt, bare: isBare };
+        return { resolved: abs, missingExt: !hasExt || isBare, bare: isBare };
+    };
+
+    // The file's own root first, then any root it shares a slug namespace with:
+    // the same relative path is re-anchored on each peer, so a link that points
+    // at a topic served from the other tree still resolves.
+    const [ownRoot, ...peerRoots] = langRoots;
+    const bases = [resolve(fileDir, path)];
+    if (ownRoot && peerRoots.length) {
+        const fromRoot = relative(resolve(ownRoot), bases[0]);
+        if (!fromRoot.startsWith('..')) {
+            for (const peer of peerRoots) bases.push(resolve(peer, fromRoot));
+        }
+    }
+
+    // Candidates re-anchored on a peer root can land on a file the site never
+    // serves (the overlay's excluded grids/ and changelog/); those must not
+    // satisfy the link, or a broken /grids/... reference would pass.
+    for (const abs of bases) {
+        if (isUnservedOverlayFile(abs)) continue;
+        if (existsSync(abs)) return { resolved: abs, missingExt: false };
+    }
+    for (const abs of bases) {
+        if (isUnservedOverlayFile(abs + '.mdx')) continue;
+        if (existsSync(abs + '.mdx')) return describe(abs + '.mdx');
     }
 
     return { resolved: null, missingExt: false };
@@ -371,7 +436,12 @@ let filesToScan;
 let scanDescription;
 
 const srcDirs = getSrcDirs();
-filesToScan = srcDirs.flatMap(d => walkMdx(resolve(d)));
+// Only scan files the Angular site actually renders: skip the overlay's
+// excluded grids/ and changelog/, and skip authored topics that xplat shadows —
+// the latter are on disk but never served, so their links belong to no page.
+filesToScan = srcDirs
+    .flatMap(d => walkMdx(resolve(d)))
+    .filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
 scanDescription = `source dirs: ${srcDirs.join(', ')}`;
 
 console.log(`\nScanning for relative links`);
@@ -393,18 +463,19 @@ for (const file of filesToScan) {
     const relFile = relative(cwd, file).replace(/\\/g, '/');
 
     const langRoot = getLangRoot(file);
+    const langRoots = getRootGroup(langRoot);
 
     for (const { href, line, kind } of links) {
         if (kind === 'absolute') {
             if (langRoot) {
-                const resolved = resolveAbsoluteLink(langRoot, href);
+                const resolved = resolveAbsoluteLink(langRoots, href);
                 if (resolved === null) {
                     brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
                 }
             }
             continue;
         }
-        const { resolved, missingExt, bare } = resolveLink(fileDir, href);
+        const { resolved, missingExt, bare } = resolveLink(fileDir, href, langRoots);
         if (resolved === null) {
             brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
         } else if (bare) {

@@ -20,6 +20,7 @@
 import { defineMdastPlugin } from 'satteri';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { docRootsFromEnv, rootForFile, type ResolvedDocRoot } from '../lib/doc-roots.ts';
 
 /**
  * Resolve a relative .mdx link to an absolute Astro URL.
@@ -53,12 +54,27 @@ function rewriteMdLink(url: string, filePath: string, docsDir: string): string {
   return docsBase + '/' + slug.toLowerCase() + trail + suffix;
 }
 
-/** Resolve the source file path and docs root for the document being compiled. */
+/** Parsed once — this runs for every link node in every page. */
+let docRootsCache: ResolvedDocRoot[] | undefined;
+function cachedDocRoots(): ResolvedDocRoot[] {
+  return (docRootsCache ??= docRootsFromEnv());
+}
+
+/**
+ * Resolve the source file path and docs root for the document being compiled.
+ *
+ * With several content roots the slug must be computed against the root the
+ * file itself lives in — every root shares one slug namespace, so a link from
+ * a generated topic to an authored one still lands on the right URL even though
+ * the target does not exist inside the generated tree.
+ */
 function resolvePaths(fileURL: URL | undefined): { filePath: string; docsDir: string } {
   const filePath = fileURL ? fileURLToPath(fileURL) : '';
-  const docsDir = process.env.DOCS_SOURCE_PATH
-    ? path.resolve(process.env.DOCS_SOURCE_PATH)
-    : (filePath ? path.dirname(filePath) : '');
+  const ownRoot = filePath ? rootForFile(cachedDocRoots(), filePath) : undefined;
+  const docsDir = ownRoot
+    ?? (process.env.DOCS_SOURCE_PATH
+      ? path.resolve(process.env.DOCS_SOURCE_PATH)
+      : (filePath ? path.dirname(filePath) : ''));
   return { filePath, docsDir };
 }
 
