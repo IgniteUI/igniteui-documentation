@@ -224,7 +224,7 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
     Uno: {
         lang: 'en', label: 'Uno Platform', key: 'uno', devPort: 4336,
-        base: '/products/ultimate-ui-uno/uno/components',
+        base: '/products/ultimate-ui-uno-platform/uno-platform/components',
         root: '/general-getting-started',
         title: 'Infragistics Ultimate UI for Uno Platform',
         description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',

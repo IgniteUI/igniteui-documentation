@@ -189,7 +189,7 @@ async function mapConcurrent<T, R>(
     return results;
 }
 
-// Drives the `api/<folder>/llms.txt` URL advertised per platform. WinUI and Uno
+// Drives the `api/<folder>/llms.txt` URL advertised per platform. WinUI and Uno Platform
 // are listed on the assumption that api-docs will publish these folders; if that
 // pipeline does not land, remove them so no unreachable URL is advertised.
 // See WINUI-UNO-PLAN.md §6.2.
@@ -199,7 +199,7 @@ const API_DOCS_FOLDER_BY_PLATFORM: Partial<Record<PlatformKey, string>> = {
     'web-components': 'webcomponents',
     blazor: 'blazor',
     winui: 'winui',
-    uno: 'uno',
+    uno: 'uno-platform',
 };
 
 function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): string | undefined {

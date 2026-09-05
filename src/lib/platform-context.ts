@@ -1,7 +1,7 @@
 /**
  * Platform configuration implementation — the single source of truth for
  * IgniteUI platform metadata used across the Angular, React, WebComponents,
- * Blazor, WinUI, and Uno docs.
+ * Blazor, WinUI, and Uno Platform docs.
  *
  * Types are defined in igniteui-astro-components/lib/types so components can
  * remain agnostic (reading context from Astro.locals set by middleware).
@@ -110,7 +110,7 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
         },
     },
-    // WinUI and Uno share the XAML control surface. `packages` values are the
+    // WinUI and Uno Platform share the XAML control surface. `packages` values are the
     // assembly/NuGet identities; see WINUI-UNO-PLAN.md §8 Q1/Q5 for the naming
     // decisions still outstanding.
     WinUI: {
@@ -135,10 +135,10 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     Uno: {
         name: 'Uno',
-        lower: API_PLATFORM_CONFIGS.Uno.folder,
+        lower: API_PLATFORM_CONFIGS.Uno.publicPath!,
         prefix: API_PLATFORM_CONFIGS.Uno.prefix,
         productName: 'Infragistics Ultimate UI for Uno Platform',
-        productSpinal: 'ultimate-ui-uno',
+        productSpinal: 'ultimate-ui-uno-platform',
         apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Uno'),
         packages: {
             common: 'Infragistics.Core',
@@ -200,7 +200,7 @@ function buildContext(name: PlatformName): PlatformContext {
     const base = PLATFORMS[name];
     return {
         ...base,
-        apiLinkIndex: loadApiLinkIndex(base.lower),
+        apiLinkIndex: loadApiLinkIndex(API_PLATFORM_CONFIGS[name].folder),
         apiPackages: Object.fromEntries(
             Object.entries(base.apiPackages).map(([key, pkg]) => [
                 key,

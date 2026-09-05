@@ -13,7 +13,10 @@ export type ApiPackageRuntimeConfig = ApiPackageDefinition & {
 };
 
 export type ApiPlatformDefinition = {
+    /** Internal folder used to store the checked-in ApiLink registry. */
     folder: string;
+    /** Public path segment used by the hosted API documentation site. */
+    publicPath?: string;
     prefix: string;
     pascalCaseMembers?: boolean;
     apiPackages: Record<string, ApiPackageDefinition>;
@@ -127,17 +130,14 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
     // and the bare form and takes whichever the registry contains, so both
     // shapes resolve. See WINUI-UNO-PLAN.md §6.3.
     //
-    // The `packageId`s below are the assembly names referenced by
-    // winui-samples/**/Sample.csproj. They are provisional until the API link
-    // registry exists (WINUI-UNO-PLAN.md §6.2) — only `core`, `inputs`,
-    // `geo-core` and `charts` are referenced by any `pkg` prop today.
+    // The package IDs below match the generated api-docs registry.
     // -----------------------------------------------------------------------
     WinUI: {
         folder: 'winui',
         prefix: 'Xam',
         pascalCaseMembers: true,
         apiPackages: {
-            core:         { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            core:         { packageId: 'Infragistics.WinUI.Core', pascalCaseMembers: true },
             charts:       { packageId: 'Infragistics.WinUI.Charts', pascalCaseMembers: true },
             grids:        { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
             'data-grids': { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
@@ -145,19 +145,19 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
             maps:         { packageId: 'Infragistics.WinUI.Maps', pascalCaseMembers: true },
             inputs:       { packageId: 'Infragistics.WinUI.Inputs', pascalCaseMembers: true },
             layouts:      { packageId: 'Infragistics.WinUI.Layouts', pascalCaseMembers: true },
-            dashboards:   { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
-            datasources:  { packageId: 'Infragistics.Core', pascalCaseMembers: true },
-            'geo-core':   { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.WinUI.Dashboards', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
         },
     },
-    // Uno shares the WinUI XAML surface; assembly names are provisional pending
-    // confirmation of the Uno package identity (WINUI-UNO-PLAN.md §8 Q5).
+    // Uno Platform shares the WinUI XAML surface with Uno-specific package IDs.
     Uno: {
         folder: 'uno',
+        publicPath: 'uno-platform',
         prefix: 'Xam',
         pascalCaseMembers: true,
         apiPackages: {
-            core:         { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            core:         { packageId: 'Infragistics.Uno.Core', pascalCaseMembers: true },
             charts:       { packageId: 'Infragistics.Uno.Charts', pascalCaseMembers: true },
             grids:        { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
             'data-grids': { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
@@ -165,15 +165,16 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
             maps:         { packageId: 'Infragistics.Uno.Maps', pascalCaseMembers: true },
             inputs:       { packageId: 'Infragistics.Uno.Inputs', pascalCaseMembers: true },
             layouts:      { packageId: 'Infragistics.Uno.Layouts', pascalCaseMembers: true },
-            dashboards:   { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
-            datasources:  { packageId: 'Infragistics.Core', pascalCaseMembers: true },
-            'geo-core':   { packageId: 'Infragistics.Core', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.Uno.Dashboards', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
         },
     },
 };
 
 export function apiDocsPlatformPath(platform: PlatformName): string {
-    return API_PLATFORM_CONFIGS[platform].folder;
+    const config = API_PLATFORM_CONFIGS[platform];
+    return config.publicPath ?? config.folder;
 }
 
 export function apiDocRoot(apiDocsBaseUrl: string, platform: PlatformName, packageId: string): string {

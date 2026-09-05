@@ -6,7 +6,7 @@ This document describes the AI skills available in this repository, what each on
 
 ## Context
 
-The MDX files under `docs/xplat/src/content/en/` are **shared across six platforms**: Angular, React, WebComponents, Blazor, WinUI, and Uno. A single source file is built once per platform to produce a separate documentation site each time, and `docs/xplat/src/content/jp/` mirrors the set.
+The MDX files under `docs/xplat/src/content/en/` are **shared across six platforms**: Angular, React, WebComponents, Blazor, WinUI, and Uno Platform. A single source file is built once per platform to produce a separate documentation site each time, and `docs/xplat/src/content/jp/` mirrors the set.
 
 **Three populations live in that tree, and every page declares which it is** in its `platformType` frontmatter, which is required and has no default. **`xplat`** is the DV set — charts, gauges, maps, dashboard tile, data grid, spreadsheet, toolbar, zoom slider — where names in backticks resolve in full and a component is stated as a `json-snippet` unless a platform-specific snippet is genuinely necessary. **`xplat-unmapped`** is the same set where that treatment cannot be applied yet: the Excel library, whose API no generator describes, and the data grid's accessibility topic, whose XAML shape is undecided. **`web-only`** — inputs, layouts, notifications, scheduling, themes, the web grid families, grid lite — carries neither obligation and may do as it likes; reworking one to match the DV set is out of scope, not an improvement. Identity is not publication: a topic can be xplat and not reach the desktop platforms yet.
 

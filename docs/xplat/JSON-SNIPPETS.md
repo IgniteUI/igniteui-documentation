@@ -129,7 +129,7 @@ does not declare that a code block is needed:
 > code beside it. `channel="allCode"` is the code *instead of* the markup — and on the XAML platforms,
 > whose samples are markup throughout, there is no code, so the fence emits nothing and drops out. A
 > "for your convenience, all of the above combined" section written that way published a heading and
-> nothing under it on WinUI and Uno. Such a section wants `channel="auto"`, which takes whatever the
+> nothing under it on WinUI and Uno Platform. Such a section wants `channel="auto"`, which takes whatever the
 > platform actually has.
 
 ---

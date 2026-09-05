@@ -7,7 +7,7 @@ snippet validators that are run by hand.
 |---|---|---|
 | `generate.mjs` | builds a platform's topics from the shared `.mdx`, emitting every json-snippet | the build |
 | `check-doc-scope.mjs` | every topic declares its population, the declaration holds up, and strict-xplat source uses canonical API terms in backticks instead of raw `ApiLink` calls | CI |
-| `check-commercial-license.mjs` | every topic emitted for WinUI and Uno has exactly `license: commercial` in its frontmatter | CI |
+| `check-commercial-license.mjs` | every topic emitted for WinUI and Uno Platform has exactly `license: commercial` in its frontmatter | CI |
 | `check-snippet-schema.mjs` | every snippet against the schema the descriptions declare | CI |
 | `check-snippet-emission.mjs` | every fence emits on every platform, in both languages | CI |
 | `snippet-runtime/run.mjs` | every fence loaded into chromium against the real renderer | CI |
