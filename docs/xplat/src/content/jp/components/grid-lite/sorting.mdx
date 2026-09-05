@@ -8,6 +8,7 @@ license: MIT
 _language: ja
 llms:
   description: "{GridLiteTitle} はデータ ソースに対してソート操作をサポートします。"
+platformType: web-only
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -18,7 +19,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 <PlatformBlock for="React, WebComponents">
 
-{GridLiteTitle} はデータ ソースに対してソート操作をサポートします。ソートは列単位で制御され、ソート可能な列とソート不可の列を設定できます。グリッド自体も特定のソート動作を制御します。デフォルトでは、列の `sortable` プロパティで明示的に設定されない限り、列のソートは無効です。
+{GridLiteTitle} はデータ ソースに対してソート操作をサポートします。ソートは列単位で制御され、ソート可能な列とソート不可の列を設定できます。グリッド自体も特定のソート動作を制御します。デフォルトでは、列の `Column.sortable` プロパティで明示的に設定されない限り、列のソートは無効です。
 
 </PlatformBlock>
 
@@ -162,7 +163,7 @@ return (
 
 <PlatformBlock for="React, WebComponents">
 
-{GridLiteTitle} は単一および複数列ソートの両方をサポートします。複数列ソートはデフォルトで有効で、グリッドの `sortingOptions` プロパティを通じて設定可能です。`mode` プロパティは、値として `'single'` または `'multiple'` を受け入れます。
+{GridLiteTitle} は単一および複数列ソートの両方をサポートします。複数列ソートはデフォルトで有効で、グリッドの `sortingOptions` プロパティを通じて設定可能です。`SortingOptions.mode` プロパティは、値として `'single'` または `'multiple'` を受け入れます。
 
 </PlatformBlock>
 
@@ -548,16 +549,20 @@ UI を通じてソート操作が実行されると、コンポーネントは�
 グリッドが新しいソート状態を適用した後、`sorted` イベントが発行されます。このイベントには最後のソート操作で使用された式が含まれ、キャンセルはできません。
 
 <PlatformBlock for="WebComponents">
+
 ```typescript
 grid.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
 grid.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
 ```
+
 </PlatformBlock>
 <PlatformBlock for="React">
+
 ```typescript
 gridRef.current.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
 gridRef.current.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
 ```
+
 </PlatformBlock>
 
 </PlatformBlock>
@@ -590,7 +595,7 @@ UI を通じてソート操作が実行されると、コンポーネントは `
 
 <Sample src="/{GridLiteSample}/sort-config-events" height={600} alt="{Platform} {GridLiteTitle} ソート構成イベント" />
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 ## リモート ソート操作
 
@@ -598,6 +603,8 @@ UI を通じてソート操作が実行されると、コンポーネントは `
 
 <PlatformBlock for="React, WebComponents">
 `dataPipelineConfiguration` プロパティを使用すると、ソート操作が実行されるたびに呼び出されるカスタム フックを提供できます。コールバックには <ApiLink type="DataPipelineParams" /> オブジェクトが渡されます。
+
+<PlatformBlock for="WebComponents">
 
 ```typescript
 export type DataPipelineParams<T extends object> = {
@@ -616,15 +623,41 @@ export type DataPipelineParams<T extends object> = {
 };
 ```
 
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * グリッドの現在のデータ状態。
+   */
+  data: T[];
+  /**
+   * グリッド コンポーネント自体。
+   */
+  grid: IgrGridLite<T>;
+  /**
+   * 実行されるデータ操作の種類。
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
+
 ```typescript
 grid.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
 ```
+
 </PlatformBlock>
 <PlatformBlock for="React">
+
 ```typescript
 gridRef.current.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
 ```
+
 </PlatformBlock>
 </PlatformBlock>
 

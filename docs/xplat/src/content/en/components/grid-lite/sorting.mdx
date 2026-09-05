@@ -7,6 +7,7 @@ namespace: Infragistics.Controls
 license: MIT
 llms:
   description: "The {GridLiteTitle} supports sorting operations on its data source."
+platformType: web-only
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -19,7 +20,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 <PlatformBlock for="React, WebComponents">
 
 
-The {GridLiteTitle} supports sorting operations on its data source. Data sorting is controlled on per-column level, allowing you to have sortable and non-sortable columns, while the grid itself controls certain sort behaviors. By default, sorting on a column is disabled unless explicitly configured with the `sortable` property of the column.
+The {GridLiteTitle} supports sorting operations on its data source. Data sorting is controlled on per-column level, allowing you to have sortable and non-sortable columns, while the grid itself controls certain sort behaviors. By default, sorting on a column is disabled unless explicitly configured with the `Column.sortable` property of the column.
 
 </PlatformBlock>
 
@@ -186,7 +187,7 @@ You can also control whether the sort operations for string columns should be ca
 <PlatformBlock for="React, WebComponents">
 
 
-The {GridLiteTitle} supports both single and multi-column sorting. Multi-column is enabled by default and can be configured through the `sortingOptions` property of the grid. The `mode` property accepts `'single'` or `'multiple'` as values.
+The {GridLiteTitle} supports both single and multi-column sorting. Multi-column is enabled by default and can be configured through the `sortingOptions` property of the grid. The `SortingOptions.mode` property accepts `'single'` or `'multiple'` as values.
 
 </PlatformBlock>
 
@@ -635,16 +636,20 @@ When a sorting operation is performed through the UI, the component emits a cust
 After the grid applies the new sorting state, a `sorted` event is emitted. It contains the expression which was used in the last sort operation and it is not cancellable.
 
 <PlatformBlock for="WebComponents">
+
 ```typescript
 grid.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
 grid.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
 ```
+
 </PlatformBlock>
 <PlatformBlock for="React">
+
 ```typescript
 gridRef.current.addEventListener('sorting', (event: CustomEvent<SortingExpression<T>>) => { ... });
 gridRef.current.addEventListener('sorted', (event: CustomEvent<SortingExpression<T>>) => { ... });
 ```
+
 </PlatformBlock>
 
 
@@ -684,7 +689,7 @@ In the following sample, when you try to sort the **Name** and **Rating** column
 
 
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 
 ## Remote sort operations
@@ -693,6 +698,8 @@ In cases where sorting must be done remotely or you want to save the current sta
 
 <PlatformBlock for="React, WebComponents">
 Using the `dataPipelineConfiguration` property, you can provide a custom hook which will be called each time a sort operation is about to run. The callback is passed a <ApiLink type="DataPipelineParams" /> object.
+
+<PlatformBlock for="WebComponents">
 
 ```typescript
 export type DataPipelineParams<T extends object> = {
@@ -711,15 +718,41 @@ export type DataPipelineParams<T extends object> = {
 };
 ```
 
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: IgrGridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
+
 ```typescript
 grid.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
 ```
+
 </PlatformBlock>
 <PlatformBlock for="React">
+
 ```typescript
 gridRef.current.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
 ```
+
 </PlatformBlock>
 </PlatformBlock>
 

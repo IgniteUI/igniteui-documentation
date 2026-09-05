@@ -8,6 +8,7 @@ namespace: Infragistics.Controls.Charts
 _language: ja
 llms:
   description: "{Platform} チャートは、数百万のデータ ポイントを描画し、それらを数ミリ秒ごとに更新する高性能のために最適化されています。"
+platformType: xplat
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -26,7 +27,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## 高頻度 {Platform} チャート
 
-高頻度シナリオでは、{Platform} チャートは、リアルタイムまたは指定されたミリ秒間隔で更新されるデータ項目を描画できます。タッチ デバイスでチャートを操作しているときでも、ラグ、画面のちらつき、表示の遅れは発生しません。次のサンプルは、高頻度シナリオでの <ApiLink type="CategoryChart" /> を示しています。
+高頻度シナリオでは、{Platform} チャートは、リアルタイムまたは指定されたミリ秒間隔で更新されるデータ項目を描画できます。タッチ デバイスでチャートを操作しているときでも、ラグ、画面のちらつき、表示の遅れは発生しません。次のサンプルは、高頻度シナリオでの `CategoryChart` を示しています。
 
 <Sample src="/charts/category-chart/high-frequency" height={400} alt="{Platform} 高頻度 {Platform} チャート" />
 
@@ -35,7 +36,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## 大量のデータの {Platform} チャート
 
-大量データのシナリオでは、{Platform} チャートは 100 万のデータ ポイントを描画できますが、エンドユーザーがチャートのコンテンツをズームイン/ズームアウトまたはナビゲートしようとしたときにチャートはスムーズなパフォーマンスを提供し続けます。次のサンプルは、大量データのシナリオでの <ApiLink type="CategoryChart" /> を示しています。
+大量データのシナリオでは、{Platform} チャートは 100 万のデータ ポイントを描画できますが、エンドユーザーがチャートのコンテンツをズームイン/ズームアウトまたはナビゲートしようとしたときにチャートはスムーズなパフォーマンスを提供し続けます。次のサンプルは、大量データのシナリオでの `CategoryChart` を示しています。
 
 <Sample src="/charts/category-chart/high-volume" height={400} alt="{Platform} 大量のデータの {Platform} チャート" />
 
@@ -47,7 +48,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ### データ サイズ
 
-多数のデータ ポイント (10,000 以上など) を含むデータ ソースをプロットする必要がある場合は、その目的のために特別にデザインされた次のタイプのシリーズのいずれかで {Platform} <ApiLink type="DataChart" /> を使用することをお勧めします。
+多数のデータ ポイント (10,000 以上など) を含むデータ ソースをプロットする必要がある場合は、その目的のために特別にデザインされた次のタイプのシリーズのいずれかで {Platform} `XamDataChart` を使用することをお勧めします。
 
 - [カテゴリ ポイント チャート](../types/point-chart.mdx) や[散布マーカー チャート](../types/scatter-chart.mdx#{PlatformLower}-散布マーカー-チャート) の代わりに[散布高密度チャート](../types/scatter-chart.mdx#{PlatformLower}-散布高密度チャート)
 - [カテゴリ折れ線チャート](../types/line-chart.mdx#{PlatformLower}-折れ線チャートの例) や[散布折れ線チャート](../types/scatter-chart.mdx#{PlatformLower}-散布折れ線チャート) の代わりに[散布ポリライン チャート](../types/shape-chart.mdx#{PlatformLower}-散布ポリライン-チャート)
@@ -55,7 +56,56 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ### データ構造
 
-{Platform} チャートは、データ ポイントの配列の配列を <ApiLink type="DataSource" /> プロパティにバインドすることにより、複数のデータ ソースの描画をサポートします。複数のデータ ソースが単一のデータ ソースにフラット化され、各データ項目に 1 つのデータ列だけでなく複数のデータ列が含まれる場合、チャートははるかに高速になります。例えば:
+{Platform} チャートは、データ ポイントの配列の配列を `ItemsSource` プロパティにバインドすることにより、複数のデータ ソースの描画をサポートします。複数のデータ ソースが単一のデータ ソースにフラット化され、各データ項目に 1 つのデータ列だけでなく複数のデータ列が含まれる場合、チャートははるかに高速になります。例えば:
+
+<PlatformBlock for="Xaml">
+
+```csharp
+this.CategoryChart.ItemsSource = FlattenDataSource.Create();
+this.FinancialChart.ItemsSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
@@ -76,13 +126,13 @@ public static class FlattenDataSource
     {
         public int USA { get; set; }
         public int CHN { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 // instead of this data structure:
 public static class MultiDataSources
 {
-    public static List<MultiDataItem> Create() {
+    public static List<List<MultiDataItem>> Create() {
         var dataSource1 = new List<MultiDataItem>() {
             new MultiDataItem { Year = "1996", Value = 148 },
             new MultiDataItem { Year = "2000", Value = 142 },
@@ -99,7 +149,7 @@ public static class MultiDataSources
     public class MultiDataItem
     {
         public int Value { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
 ```
@@ -139,31 +189,35 @@ export class MultiDataSources {
 
 ### データ フィルタリング
 
-{Platform} <ApiLink type="CategoryChart" /> および <ApiLink type="FinancialChart" /> コントロールには、データを分析して一連のチャートを生成するデータ アダプターが組み込まれています。ただし、<ApiLink type="DomainChart" member="includedProperties" label="IncludedProperties" /> と <ApiLink type="DomainChart" member="excludedProperties" label="ExcludedProperties" /> を使用して、実際に描画するデータ列のみをフィルタリングすると、より高速に動作します。例:
+{Platform} `CategoryChart` および `FinancialChart` コントロールには、データを分析して一連のチャートを生成するデータ アダプターが組み込まれています。ただし、`includedProperties` と `excludedProperties` を使用して、実際に描画するデータ列のみをフィルタリングすると、より高速に動作します。例:
 
 
-<PlatformBlock for="Blazor">
-
-```razor
-this.Chart.IncludedProperties = new string[] { "Year", "USA", "RUS" };
-this.Chart.ExcludedProperties = new string[] { "CHN",  "FRN", "GER" };
+```json-snippet channel="code"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "CategoryChart",
+            "includedProperties": [
+                "Year",
+                "USA",
+                "RUS"
+            ],
+            "excludedProperties": [
+                "CHN",
+                "FRN",
+                "GER"
+            ]
+        }
+    }
+}
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular, React, WebComponents">
-```ts
-this.Chart.includedProperties = [ "Year", "USA", "RUS" ];
-this.Chart.excludedProperties = [ "CHN",  "FRN", "GER" ];
-```
-
-</PlatformBlock>
 
 ## チャート パフォーマンス ガイドライン
 
 ### チャート タイプ
 
-[折れ線チャート](../types/line-chart.mdx)などの単純なチャート タイプは、データ ポイント間のスプライン線の補間が複雑であるため、[スプライン チャート](../types/spline-chart.mdx)を使用するよりもパフォーマンスが速くなります。したがって、{Platform} <ApiLink type="CategoryChart" /> の <ApiLink type="CategoryChart" member="chartType" label="CategoryChart.ChartType" /> プロパティまたは <ApiLink type="FinancialChart" /> コントロールを使用して、描画が高速なチャートのタイプを選択する必要があります。または、{Platform} <ApiLink type="DataChart" /> コントロールで、シリーズのタイプをより高速なシリーズに変更することもできます。
+[折れ線チャート](../types/line-chart.mdx)などの単純なチャート タイプは、データ ポイント間のスプライン線の補間が複雑であるため、[スプライン チャート](../types/spline-chart.mdx)を使用するよりもパフォーマンスが速くなります。したがって、{Platform} `CategoryChart` の `CategoryChart.chartType` プロパティまたは `FinancialChart` コントロールを使用して、描画が高速なチャートのタイプを選択する必要があります。または、{Platform} `XamDataChart` コントロールで、シリーズのタイプをより高速なシリーズに変更することもできます。
 
 次の表に、チャートの各グループで、パフォーマンスが速いものから遅いものの順にチャートのタイプを示します。
 
@@ -206,62 +260,46 @@ this.Chart.excludedProperties = [ "CHN",  "FRN", "GER" ];
 
 以下のコード例は、{Platform} チャートからマーカーを削除する方法を示します。
 
-<PlatformBlock for="Blazor">
-
-```razor
-// on CategoryChart or FinancialChart
-this.Chart.MarkerTypes.Clear();
-this.Chart.MarkerTypes.Add(MarkerType.None);
-
-// on LineSeries of DataChart
-this.LineSeries.MarkerType = MarkerType.None;
+```json-snippet channel="code"
+{
+    "type": "CategoryChart",
+    "$comments": { "markerTypes": "on CategoryChart or FinancialChart" },
+    "markerTypes": [ "None" ]
+}
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="Angular, React, WebComponents">
-```ts
-// on CategoryChart or FinancialChart
-this.Chart.markerTypes.clear();
-this.Chart.markerTypes.add(MarkerType.None);
-
-// on LineSeries of DataChart
-this.LineSeries.markerType = MarkerType.None;
-
+```json-snippet channel="code"
+{
+    "type": "DataChart",
+    "series": [
+        { "$comment": "on LineSeries of DataChart", "type": "LineSeries", "markerType": "None" }
+    ]
+}
 ```
-
-</PlatformBlock>
 
 ### チャートの解像度
 
-<ApiLink type="DomainChart" member="resolution" label="Resolution" /> プロパティをより大きな値に設定するとパフォーマンスは向上しますが、プロットされた系列の線のグラフィカルな忠実度は低下します。このようなわけで、忠実度が受け入れられなくなるまで値を大きくする可能性があります。
+`DomainChart.resolution` プロパティをより大きな値に設定するとパフォーマンスは向上しますが、プロットされた系列の線のグラフィカルな忠実度は低下します。このようなわけで、忠実度が受け入れられなくなるまで値を大きくする可能性があります。
 
 このコード スニペットは、{Platform} チャートの解像度を下げる方法を示しています。
 
-<PlatformBlock for="Blazor">
-
-```razor
-// on CategoryChart or FinancialChart:
-this.Chart.Resolution = 10;
-this.Chart.Resolution = 10;
-
-// on LineSeries of DataChart:
-this.LineSeries.Resolution = 10;
+```json-snippet channel="code"
+{
+    "$comment": "on CategoryChart or FinancialChart",
+    "type": "CategoryChart",
+    "resolution": 10
+}
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="Angular, React, WebComponents">
-```ts
-// on CategoryChart or FinancialChart:
-this.Chart.Resolution = 10;
-
-// on LineSeries of DataChart:
-this.LineSeries.Resolution = 10;
-
+```json-snippet channel="code"
+{
+    "$comment": "on LineSeries of DataChart",
+    "type": "DataChart",
+    "series": [
+        { "type": "LineSeries", "resolution": 10 }
+    ]
+}
 ```
-
-</PlatformBlock>
 
 ### チャート オーバーレイ
 
@@ -276,62 +314,32 @@ this.LineSeries.Resolution = 10;
 データ ポイント間の時間間隔に基づくスペースが重要でない場合は、DateTime をサポートする x 軸の使用はお勧めしません。代わりに、順序/カテゴリ軸を使用する必要があります。これは、データを結合する方法がより効率的であるためです。また、順序/カテゴリ軸は、時間ベースの x 軸のようにデータのソートを実行しません。
 
 <DocsAside type="info" title="情報">
-<ApiLink type="CategoryChart" /> はすでに順序/カテゴリ軸を使用しているため、そのプロパティを変更する必要はありません。
+`CategoryChart` はすでに順序/カテゴリ軸を使用しているため、そのプロパティを変更する必要はありません。
 </DocsAside>
 
-このコード スニペットは、<ApiLink type="FinancialChart" /> および <ApiLink type="DataChart" /> コントロールで x 軸を順序付け/カテゴリ化する方法を示しています。
+このコード スニペットは、`FinancialChart` および `XamDataChart` コントロールで x 軸を順序付け/カテゴリ化する方法を示しています。
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbFinancialChart XAxisMode="FinancialChartXAxisMode.Ordinal"/>
-
-<IgbDataChart >
-    <IgbCategoryXAxis Label="Time" />
-</IgbDataChart>
+```json-snippet
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "financialChart": {
+            "type": "FinancialChart",
+            "xAxisMode": "Ordinal"
+        },
+        "dataChart": {
+            "type": "DataChart",
+            "axes": [
+                { "type": "CategoryXAxis", "label": "Time" }
+            ]
+        }
+    }
+}
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-financial-chart xAxisMode="Ordinal"></igx-financial-chart>
-
-<igx-data-chart>
-    <igx-category-x-axis label="Time"></igx-category-x-axis>
-</igx-data-chart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrFinancialChart xAxisMode="Ordinal" />
-
-<IgrDataChart>
-    <IgrCategoryXAxis label="Time" />
-</IgrDataChart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-financial-chart x-axis-mode="Ordinal"></igc-financial-chart>
-
-<igc-data-chart>
-    <igc-category-x-axis label="Time"></igc-category-x-axis>
-</igc-data-chart>
-```
-
-</PlatformBlock>
 
 ### 軸の間隔
 
-デフォルトでは、{Platform} チャートは、データの範囲に基づいて <ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> を自動的に計算します。したがって、軸のグリッド線と軸のラベルが多すぎないように、軸の間隔を特に小さい値に設定することは避けてください。また、多くの軸グリッド線または軸ラベルが必要ない場合は、<ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /> プロパティを自動的に計算された軸間隔よりも大きい値に増やすことを検討することをお勧めします。
+デフォルトでは、{Platform} チャートは、データの範囲に基づいて `yAxisInterval` を自動的に計算します。したがって、軸のグリッド線と軸のラベルが多すぎないように、軸の間隔を特に小さい値に設定することは避けてください。また、多くの軸グリッド線または軸ラベルが必要ない場合は、`yAxisInterval` プロパティを自動的に計算された軸間隔よりも大きい値に増やすことを検討することをお勧めします。
 
 <DocsAside type="info" title="情報">
 チャートのパフォーマンスが低下するため、軸の副間隔を設定することはお勧めしません。
@@ -339,69 +347,38 @@ this.LineSeries.Resolution = 10;
 
 このコード スニペットは、{Platform} チャートで軸の主間隔を設定する方法を示しています。
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbCategoryChart  XAxisInterval="5" YAxisInterval="50"/>
-
-<IgbFinancialChart XAxisInterval="5" YAxisInterval="50"/>
-
-<IgbDataChart >
-    <IgbCategoryXAxis Name="xAxis" Interval="5" />
-    <IgbNumericYAxis  Name="yAxis" Interval="50" />
-</IgbDataChart>
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisInterval": 5,
+        "yAxisInterval": 50
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisInterval": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "interval": 5
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "interval": 50
+            }
+        ]
+    }
+]
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-category-chart xAxisInterval="5" yAxisInterval="50"></igx-category-chart>
-
-<igx-financial-chart xAxisInterval="5" yAxisInterval="50"></igx-financial-chart>
-
-<igx-data-chart>
-    <igx-category-x-axis name="xAxis" interval="5"></igx-category-x-axis>
-    <igx-numeric-y-axis name="yAxis" interval="50"></igx-numeric-y-axis>
-</igx-data-chart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrCategoryChart  xAxisInterval={5} yAxisInterval={50}/>
-
-<IgrFinancialChart xAxisInterval={5} yAxisInterval={50}/>
-
-<IgrDataChart>
-    <IgrCategoryXAxis name="xAxis" interval={5} />
-    <IgrNumericYAxis  name="yAxis" interval={50}/>
-</IgrDataChart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-category-chart x-axis-interval="5" y-axis-interval="50"></igc-category-chart>
-
-<igc-financial-chart x-axis-interval="5" y-axis-interval="50"></igc-financial-chart>
-
-<igc-data-chart>
-    <igc-category-x-axis name="xAxis" interval="5"></igc-category-x-axis>
-    <igc-numeric-y-axis name="yAxis" interval="50"></igc-numeric-y-axis>
-</igc-data-chart>
-```
-
-</PlatformBlock>
 
 ### 軸スケール
 
-<ApiLink type="CategoryChart" member="yAxisIsLogarithmic" label="YAxisIsLogarithmic" /> プロパティを false に設定すると、パフォーマンスを向上させるために推奨されます。対数目盛で軸範囲と軸ラベルの値を計算するよりも操作が少なくて済むためです。
+`yAxisIsLogarithmic` プロパティを false に設定すると、パフォーマンスを向上させるために推奨されます。対数目盛で軸範囲と軸ラベルの値を計算するよりも操作が少なくて済むためです。
 
 ### 軸ラベルの表示状態
 
@@ -409,137 +386,63 @@ this.LineSeries.Resolution = 10;
 
 このコード スニペットは、{Platform} チャートで軸ラベルを非表示にする方法を示しています。
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbCategoryChart
-    XAxisLabelVisibility="Visibility.Collapsed"
-    YAxisLabelVisibility="Visibility.Collapsed">
-</IgbCategoryChart>
-
-<IgbFinancialChart
-    XAxisLabelVisibility="Visibility.Collapsed"
-    YAxisLabelVisibility="Visibility.Collapsed">
-</IgbFinancialChart>
-
-<IgbDataChart>
-    <IgbCategoryXAxis Name="xAxis" LabelVisibility="Visibility.Collapsed" />
-    <IgbNumericYAxis  Name="yAxis" LabelVisibility="Visibility.Collapsed" />
-</IgbDataChart>
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelVisibility": "Collapsed"
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelVisibility": "Collapsed"
+            }
+        ]
+    }
+]
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-category-chart xAxisLabelVisibility="Collapsed" yAxisLabelVisibility="Collapsed">
-</igx-category-chart>
-
-<igx-financial-chart xAxisLabelVisibility="Collapsed" yAxisLabelVisibility="Collapsed">
-</igx-financial-chart>
-
-<igx-data-chart>
-    <igx-category-x-axis name="xAxis" labelVisibility="Collapsed"></igx-category-x-axis>
-    <igx-numeric-y-axis name="yAxis" labelVisibility="Collapsed"></igx-numeric-y-axis>
-</igx-data-chart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrCategoryChart xAxisLabelVisibility="Collapsed" yAxisLabelVisibility="Collapsed" />
-
-<IgrFinancialChart xAxisLabelVisibility="Collapsed" yAxisLabelVisibility="Collapsed" />
-
-<IgrDataChart>
-    <IgrCategoryXAxis name="xAxis" labelVisibility="Collapsed" />
-    <IgrNumericYAxis  name="yAxis" labelVisibility="Collapsed" />
-</IgrDataChart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-category-chart x-axis-label-visibility="Collapsed" y-axis-label-visibility="Collapsed">
-</igc-category-chart>
-
-<igc-financial-chart x-axis-label-visibility="Collapsed" y-axis-label-visibility="Collapsed">
-</igc-financial-chart>
-
-<igc-data-chart>
-    <igc-category-x-axis name="xAxis" label-visibility="Collapsed"></igc-category-x-axis>
-    <igc-numeric-y-axis name="yAxis" label-visibility="Collapsed"></igc-numeric-y-axis>
-</igc-data-chart>
-```
-
-</PlatformBlock>
 
 ### 軸ラベルの省略形
 
-ただし、{Platform} チャートは、<ApiLink type="CategoryChart" member="yAxisAbbreviateLargeNumbers" label="YAxisAbbreviateLargeNumbers" /> が true に設定されている場合に、軸ラベルに表示される大きな数値 (10,000 以上など) の省略形をサポートします。代わりに、データ 項目の大きな値を公約数で除算して前処理し、<ApiLink type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /> をデータ値の省略形に使用される約数を表す文字列に設定することをお勧めします。
+ただし、{Platform} チャートは、`yAxisAbbreviateLargeNumbers` が true に設定されている場合に、軸ラベルに表示される大きな数値 (10,000 以上など) の省略形をサポートします。代わりに、データ 項目の大きな値を公約数で除算して前処理し、`yAxisTitle` をデータ値の省略形に使用される約数を表す文字列に設定することをお勧めします。
 
 このコード スニペットは、{Platform} チャートで軸のタイトルを設定する方法を示しています。
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbCategoryChart  YAxisTitle="In millions of Dollars"/>
-
-<IgbFinancialChart YAxisTitle="In millions of Dollars"/>
-
-<IgbDataChart >
-    <IgbNumericYAxis Title="In millions of Dollars" />
-</IgbDataChart>
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "NumericYAxis",
+                "title": "In millions of Dollars"
+            }
+        ]
+    }
+]
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-category-chart yAxisTitle="In millions of Dollars"></igx-category-chart>
-
-<igx-financial-chart yAxisTitle="In millions of Dollars"></igx-financial-chart>
-
-<igx-data-chart>
-    <igx-numeric-y-axis title="In millions of Dollars"></igx-numeric-y-axis>
-</igx-data-chart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrCategoryChart  yAxisTitle="In millions of Dollars" />
-
-<IgrFinancialChart yAxisTitle="In millions of Dollars" />
-
-<IgrDataChart>
-    <IgrNumericYAxis title="In millions of Dollars" />
-</IgrDataChart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-category-chart y-axis-title="In millions of Dollars"></igc-category-chart>
-
-<igc-financial-chart y-axis-title="In millions of Dollars"></igc-financial-chart>
-
-<igc-data-chart>
-    <igc-numeric-y-axis title="In millions of Dollars"></igc-numeric-y-axis>
-</igc-data-chart>
-```
-
-</PlatformBlock>
 
 ### 軸ラベルの範囲
 
@@ -547,142 +450,112 @@ this.LineSeries.Resolution = 10;
 
 次のコード スニペットは、{Platform} チャートの y 軸のラベルに固定されたラベル範囲を設定する方法を示します。
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbCategoryChart  XAxisLabelExtent="50" YAxisLabelExtent="50"/>
-
-<IgbFinancialChart XAxisLabelExtent="50" YAxisLabelExtent="50"/>
-
-<IgbDataChart>
-    <IgbCategoryXAxis Name="xAxis" LabelExtent="50" />
-    <IgbNumericYAxis  Name="yAxis" LabelExtent="50" />
-</IgbDataChart>
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelExtent": 50
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelExtent": 50
+            }
+        ]
+    }
+]
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-category-chart xAxisLabelExtent="50" yAxisLabelExtent="50"></igx-category-chart>
-
-<igx-financial-chart xAxisLabelExtent="50" yAxisLabelExtent="50"></igx-financial-chart>
-
-<igx-data-chart>
-    <igx-category-x-axis name="xAxis" labelExtent="50"></igx-category-x-axis>
-    <igx-numeric-y-axis name="yAxis" labelExtent="50"></igx-numeric-y-axis>
-</igx-data-chart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrCategoryChart  xAxisLabelExtent={50} yAxisLabelExtent={50}/>
-
-<IgrFinancialChart xAxisLabelExtent={50} yAxisLabelExtent={50}/>
-
-<IgrDataChart>
-    <IgrCategoryXAxis name="xAxis" labelExtent={50} />
-    <IgrNumericYAxis  name="yAxis" labelExtent={50} />
-</IgrDataChart>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-category-chart x-axis-label-extent="50" y-axis-label-extent="50"></igc-category-chart>
-
-<igc-financial-chart x-axis-label-extent="50" y-axis-label-extent="50"></igc-financial-chart>
-
-<igc-data-chart>
-    <igc-category-x-axis name="xAxis" label-extent="50"></igc-category-x-axis>
-    <igc-numeric-y-axis name="yAxis" label-extent="50"></igc-numeric-y-axis>
-</igc-data-chart>
-```
-
-</PlatformBlock>
 
 ### 軸その他のビジュアル
 
 追加の軸ビジュアル (軸タイトルなど) を有効にしたり、デフォルト値を変更したりすると、{Platform} チャートのパフォーマンスが低下する可能性があります。
 
-たとえば、<ApiLink type="CategoryChart" /> または <ApiLink type="FinancialChart" /> コントロールでこれらのプロパティを変更します。
+たとえば、`CategoryChart` または `FinancialChart` コントロールでこれらのプロパティを変更します。
 
 | 軸ビジュアル          | X 軸プロパティ | Y 軸プロパティ |
 | ---------------------|-------------------|------------------- |
-| すべての軸ビジュアル      | <ApiLink type="CategoryChart" member="xAxisInterval" label="XAxisInterval" /><br />  <ApiLink type="CategoryChart" member="xAxisMinorInterval" label="XAxisMinorInterval" /> | <ApiLink type="CategoryChart" member="yAxisInterval" label="YAxisInterval" /><br />  <ApiLink type="CategoryChart" member="yAxisMinorInterval" label="YAxisMinorInterval" /> |
-| 軸目盛       | <ApiLink type="CategoryChart" member="xAxisTickStroke" label="XAxisTickStroke" /> <br />  <ApiLink type="CategoryChart" member="xAxisTickStrokeThickness" label="XAxisTickStrokeThickness" /><br />  <ApiLink type="CategoryChart" member="xAxisTickLength" label="XAxisTickLength" /><br />  | <ApiLink type="CategoryChart" member="yAxisTickStroke" label="YAxisTickStroke" /> <br />  <ApiLink type="CategoryChart" member="yAxisTickStrokeThickness" label="YAxisTickStrokeThickness" /><br />  <ApiLink type="CategoryChart" member="yAxisTickLength" label="YAxisTickLength" /><br /> |
-| 軸主グリッド線 | <ApiLink type="CategoryChart" member="xAxisMajorStroke" label="XAxisMajorStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisMajorStrokeThickness" label="XAxisMajorStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisMajorStroke" label="YAxisMajorStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisMajorStrokeThickness" label="YAxisMajorStrokeThickness" /><br /> |
-| 軸の副グリッド線 | <ApiLink type="CategoryChart" member="xAxisMinorStroke" label="XAxisMinorStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisMinorStrokeThickness" label="XAxisMinorStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisMinorStroke" label="YAxisMinorStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisMinorStrokeThickness" label="YAxisMinorStrokeThickness" /><br /> |
-| 軸主線       | <ApiLink type="CategoryChart" member="xAxisStroke" label="XAxisStroke" /><br />  <ApiLink type="CategoryChart" member="xAxisStrokeThickness" label="XAxisStrokeThickness" /><br />   | <ApiLink type="CategoryChart" member="yAxisStroke" label="YAxisStroke" /><br />  <ApiLink type="CategoryChart" member="yAxisStrokeThickness" label="YAxisStrokeThickness" /><br /> |
-| 軸タイトル          | <ApiLink type="CategoryChart" member="xAxisTitle" label="XAxisTitle" /><br />  <ApiLink type="CategoryChart" member="xAxisTitleAngle" label="XAxisTitleAngle" /><br />    | <ApiLink type="CategoryChart" member="yAxisTitle" label="YAxisTitle" /><br />  <ApiLink type="CategoryChart" member="yAxisTitleAngle" label="YAxisTitleAngle" /><br /> |
-| 軸ストリップ          | <ApiLink type="CategoryChart" member="xAxisStrip" label="XAxisStrip" /><br />   | <ApiLink type="CategoryChart" member="yAxisStrip" label="YAxisStrip" /><br /> |
+| すべての軸ビジュアル      | `xAxisInterval`<br />  `xAxisMinorInterval` | `yAxisInterval`<br />  `yAxisMinorInterval` |
+| 軸目盛       | `xAxisTickStroke` <br />  `xAxisTickStrokeThickness`<br />  `xAxisTickLength`<br />  | `yAxisTickStroke` <br />  `yAxisTickStrokeThickness`<br />  `yAxisTickLength`<br /> |
+| 軸主グリッド線 | `xAxisMajorStroke`<br />  `xAxisMajorStrokeThickness`<br />   | `yAxisMajorStroke`<br />  `yAxisMajorStrokeThickness`<br /> |
+| 軸の副グリッド線 | `xAxisMinorStroke`<br />  `xAxisMinorStrokeThickness`<br />   | `yAxisMinorStroke`<br />  `yAxisMinorStrokeThickness`<br /> |
+| 軸主線       | `xAxisStroke`<br />  `xAxisStrokeThickness`<br />   | `yAxisStroke`<br />  `yAxisStrokeThickness`<br /> |
+| 軸タイトル          | `xAxisTitle`<br />  `xAxisTitleAngle`<br />    | `yAxisTitle`<br />  `yAxisTitleAngle`<br /> |
+| 軸ストリップ          | `xAxisStrip`<br />   | `yAxisStrip`<br /> |
 
 
-または、<ApiLink type="DataChart" /> コントロールの <ApiLink type="Axis" /> のプロパティを変更します。
+または、`XamDataChart` コントロールの `Axis` のプロパティを変更します。
 
 | 軸ビジュアル          | 軸プロパティ |
 | ---------------------|------------------- |
 | すべての軸ビジュアル     | `Interval`、`MinorInterval` |
-| 軸目盛       | <ApiLink type="Axis" member="tickStroke" label="TickStroke" /> 、<ApiLink type="Axis" member="tickStrokeThickness" label="TickStrokeThickness" />、<ApiLink type="Axis" member="tickLength" label="TickLength" /> |
-| 軸主グリッド線 | <ApiLink type="Axis" member="majorStroke" label="MajorStroke" />、<ApiLink type="Axis" member="majorStrokeThickness" label="MajorStrokeThickness" /> |
-| 軸の副グリッド線 | <ApiLink type="Axis" member="minorStroke" label="MinorStroke" />、<ApiLink type="Axis" member="minorStrokeThickness" label="MinorStrokeThickness" /> |
-| 軸主線       | <ApiLink type="Axis" member="stroke" label="Stroke" />、<ApiLink type="Axis" member="strokeThickness" label="StrokeThickness" /> |
-| 軸タイトル          | <ApiLink type="DomainChart" member="chartTitle" label="Title" />、`TitleAngle` |
-| 軸ストリップ         | <ApiLink type="Axis" member="strip" label="Strip" /> |
+| 軸目盛       | `tickStroke` 、`tickStrokeThickness`、`tickLength` |
+| 軸主グリッド線 | `majorStroke`、`majorStrokeThickness` |
+| 軸の副グリッド線 | `minorStroke`、`minorStrokeThickness` |
+| 軸主線       | `Axis.stroke`、`strokeThickness` |
+| 軸タイトル          | `chartTitle`、`TitleAngle` |
+| 軸ストリップ         | `Axis.strip` |
 
 ## ファイナンシャル チャートのパフォーマンス
 
-上記のパフォーマンスガイドラインに加えて、{Platform} <ApiLink type="FinancialChart" /> コントロールには、パフォーマンスに影響を与える次の独自の機能があります。
+上記のパフォーマンスガイドラインに加えて、{Platform} `FinancialChart` コントロールには、パフォーマンスに影響を与える次の独自の機能があります。
 
 ### Y 軸モード
 
-<ApiLink type="LineSeries" member="percentChange" label="PercentChange" /> モードを使用するよりも必要な操作が少ないため、パフォーマンスを向上させるには、<ApiLink type="FinancialChart" member="yAxisMode" label="YAxisMode" /> オプションを `Numeric` に設定することをお勧めします。
+`LineSeries.percentChange` モードを使用するよりも必要な操作が少ないため、パフォーマンスを向上させるには、`yAxisMode` オプションを `Numeric` に設定することをお勧めします。
 
 ### チャート ペイン
 
-<ApiLink type="FinancialChart" member="indicatorTypes" label="IndicatorTypes" /> および <ApiLink type="FinancialChart" member="overlayTypes" label="OverlayTypes" /> オプションを使用して複数のペインを設定した場合、パフォーマンスが低下する可能性があり、少数の財務指標および単一の財務オーバーレイを使用することをお勧めします。
+`indicatorTypes` および `overlayTypes` オプションを使用して複数のペインを設定した場合、パフォーマンスが低下する可能性があり、少数の財務指標および単一の財務オーバーレイを使用することをお勧めします。
 
 ### ズーム スライダー
 
-<ApiLink type="FinancialChart" member="zoomSliderType" label="ZoomSliderType" /> オプションを <ApiLink type="FinancialChartVolumeType" member="None" label="None" /> に設定すると、チャート パフォーマンスを向上し、その他のインジケーターおよびボリューム ペインのために垂直スペースを利用可能になります。
+`zoomSliderType` オプションを `None` に設定すると、チャート パフォーマンスを向上し、その他のインジケーターおよびボリューム ペインのために垂直スペースを利用可能になります。
 
 ### ボリューム タイプ
 
-<ApiLink type="FinancialChart" member="volumeType" label="VolumeType" /> プロパティの設定はチャート パフォーマンスに次の影響を与える可能性があります:
+`volumeType` プロパティの設定はチャート パフォーマンスに次の影響を与える可能性があります:
 
-- <ApiLink type="FinancialChartVolumeType" member="None" label="None" /> - ボリューム ペインが表示されないため、最も簡易です。
-- <ApiLink type="FinancialChartVolumeType" member="Line" label="Line" /> - 描画するのにより手間がかかるボリューム タイプです。データ ポイントの大量を描画するか、複数のデータ ソースをプロットする場合に使用することをお勧めします。
-- <ApiLink type="FinancialChartVolumeType" member="Area" label="Area" /> - <ApiLink type="FinancialChartVolumeType" member="Line" label="Line" /> ボリューム タイプより描画に手間がかかります。
-- <ApiLink type="FinancialChartVolumeType" member="Column" label="Column" /> - <ApiLink type="FinancialChartVolumeType" member="Area" label="Area" /> ボリューム タイプより描画に手間がかかります。1 つ ～ 3 つの株のボリューム データを描画する場合にお勧めします。
+- `None` - ボリューム ペインが表示されないため、最も簡易です。
+- `Line` - 描画するのにより手間がかかるボリューム タイプです。データ ポイントの大量を描画するか、複数のデータ ソースをプロットする場合に使用することをお勧めします。
+- `Area` - `Line` ボリューム タイプより描画に手間がかかります。
+- `Column` - `Area` ボリューム タイプより描画に手間がかかります。1 つ ～ 3 つの株のボリューム データを描画する場合にお勧めします。
 
 ## データ チャートのパフォーマンス
 
-一般的なパフォーマンス ガイドラインに加えて、{Platform} <ApiLink type="DataChart" /> コントロールには、パフォーマンスに影響を与える次の固有の機能があります。
+一般的なパフォーマンス ガイドラインに加えて、{Platform} `XamDataChart` コントロールには、パフォーマンスに影響を与える次の固有の機能があります。
 
 ### 軸コレクション
 
-<ApiLink type="DataChart" /> コントロールの <ApiLink type="DataChart" member="Axes" label="Axes" /> コレクションに追加する軸が多すぎると、チャートのパフォーマンスが低下するため、シリーズ間で[軸の共有](./chart-axis-layouts.mdx#軸共有の例)をお勧めします。
+`XamDataChart` コントロールの `Axes` コレクションに追加する軸が多すぎると、チャートのパフォーマンスが低下するため、シリーズ間で[軸の共有](./chart-axis-layouts.mdx#軸共有の例)をお勧めします。
 
 ### シリーズ コレクション
 
-また、{Platform} <ApiLink type="DataChart" /> コントロールの <ApiLink type="DataChart" member="Series" label="Series" /> コレクションに多くのシリーズを追加すると、各シリーズに独自の描画キャンバスがあるため、描画にオーバーヘッドが追加されます。これは、データ チャートに 10 を超えるシリーズがある場合に特に重要です。複数のデータ ソースを組み合わせてフラット化したデータ ソースにし ([データ構造](#データ構造)セクションを参照)、次のシリーズの条件付き書式設定機能を使用することをお勧めします。
+また、{Platform} `XamDataChart` コントロールの `Series` コレクションに多くのシリーズを追加すると、各シリーズに独自の描画キャンバスがあるため、描画にオーバーヘッドが追加されます。これは、データ チャートに 10 を超えるシリーズがある場合に特に重要です。複数のデータ ソースを組み合わせてフラット化したデータ ソースにし ([データ構造](#データ構造)セクションを参照)、次のシリーズの条件付き書式設定機能を使用することをお勧めします。
 
 | パフォーマンスが低下するシナリオ | 条件付き書式設定を使用したより高速なシナリオ |
 | ----------------------------|---------------------------------------- |
-| <ApiLink type="LineSeries" /> の 10 以上        | 単一の <ApiLink type="ScatterLineSeries" /> |
-| <ApiLink type="LineSeries" /> の 20 以上           | 単一の <ApiLink type="ScatterPolylineSeries" /> |
-| <ApiLink type="ScatterLineSeries" /> の 10 以上  | 単一の <ApiLink type="ScatterPolylineSeries" /> |
-| <ApiLink type="PointSeries" /> の 10 以上       | 単一の <ApiLink type="ScatterSeries" /> |
-| <ApiLink type="PointSeries" /> の 20 以上       | 単一の <ApiLink type="HighDensityScatterSeries" /> |
-| <ApiLink type="ScatterSeries" /> の 20 以上     | 単一の <ApiLink type="HighDensityScatterSeries" /> |
-| <ApiLink type="AreaSeries" /> の 10 以上        | 単一の <ApiLink type="ScatterPolygonSeries" /> |
-| <ApiLink type="ColumnSeries" /> の 10 以上      | 単一の <ApiLink type="ScatterPolygonSeries" /> |
+| `LineSeries` の 10 以上        | 単一の `ScatterLineSeries` |
+| `LineSeries` の 20 以上           | 単一の `ScatterPolylineSeries` |
+| `ScatterLineSeries` の 10 以上  | 単一の `ScatterPolylineSeries` |
+| `PointSeries` の 10 以上       | 単一の `ScatterSeries` |
+| `PointSeries` の 20 以上       | 単一の `HighDensityScatterSeries` |
+| `ScatterSeries` の 20 以上     | 単一の `HighDensityScatterSeries` |
+| `AreaSeries` の 10 以上        | 単一の `ScatterPolygonSeries` |
+| `ColumnSeries` の 10 以上      | 単一の `ScatterPolygonSeries` |
 
 
 ## その他のリソース
@@ -714,6 +587,6 @@ this.LineSeries.Resolution = 10;
 
 ## API リファレンス
 
-<ApiLink type="CategoryChart" /><br />
-<ApiLink type="FinancialChart" /><br />
-<ApiLink type="DataChart" /><br />
+`CategoryChart`<br />
+`FinancialChart`<br />
+`XamDataChart`<br />

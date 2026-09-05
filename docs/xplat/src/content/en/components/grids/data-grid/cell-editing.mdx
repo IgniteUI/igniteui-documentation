@@ -1,0 +1,250 @@
+---
+title: "{Platform} Data Grid | Cell and Row Editing with Batch Updating | Infragistics"
+description: "Use Infragistics' {Platform} grid component which supports the cell and row editing feature that can also be configured to batch update all cells of the grid at any given moment. Learn how {ProductName} can help you better display your data!"
+keywords: "{Platform} Table, Data Grid, cell and row editing, {ProductName}, batch updating, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "EditModeType", "TransactionType"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
+llms:
+  description: "The {ProductName} Data Table / Data Grid supports cell and row editing with batch updating."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} Grid Editing
+
+The {ProductName} Data Table / Data Grid supports cell and row editing with batch updating. Note, this is currently limited to non-templated columns.
+
+## {Platform} Grid Editing Example
+
+
+<Sample src="/grids/data-grid/cell-editing" height={600} alt="{Platform} Grid Editing Example" />
+
+
+
+<div class="divider--half"></div>
+
+## Overview
+
+Editing in the {Platform} data grid is configured by using the `EditMode` option of the {Platform} grid. This property takes three different options, listed below:
+
+- `None`: Editing is not enabled.
+- `Cell`: Allow cells to enter edit mode and commit the value on exiting edit mode.
+- `CellBatch`: Allows cells to enter edit mode but changes will be cached later until they are committed.
+- `Row`: Allow rows to enter edit mode and commit the value on exit.
+
+When set to `CellBatch`, in order to commit the changes you must perform the `commitEdits` method from the grid. The grid will italicize the cells until they are committed providing control over when to push changes back to the datasource.
+
+In addition, error handling can be performed by hooking the `onCellValueChanging` event and inspecting new values before they are committed. The grid exposes a `setEditError` method that can output an error message. This keeps the cell in edit mode until a valid value is entered. Otherwise the grid's `rejectEdit` method can be performed to revert the invalid value. If no invalid value is found, you can also commit your changes by calling the grid's `acceptEdit` method.
+
+Commits can be approved or declined at the grid level by hooking `onDataCommitting` via the `acceptCommit` or `rejectCommit` methods passing the `commitID` event argument as the parameter. This event also exposes a `changes` collection which stores all the modifications prior to being committed. For example, you can check if a commit was from an add, update, or delete operation via the `TransactionType` property exposed on the `changes` collection and perform an `acceptCommit` or `rejectCommit` when necessary.
+
+## Excel Style Editing
+
+`EditOnKeyPress` enables you to instantly begin editing when typing similar to how Excel behaves. In addition you may set the `EditModeClickAction` property to `SingleClick` to allow users to quickly edit cells while navigating to other cells. By default double-clicking is required to enter edit mode.
+
+## Code Snippet
+
+The following demonstrates how to configure editing on the data grid and committing the data.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+And the control that commits the batch:
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button onClick={this.onCommitClick}>Commit Data</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="clickCommit">Commit</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnCommitClick">Commit Data</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnCommitClick(MouseEventArgs e)
+    {
+        this.DataGridRef.CommitEdits();
+    }
+}
+```
+
+</PlatformBlock>
+
+## Undo/Redo batch changes
+
+The following demonstrates how to revert changes while batch updating is enabled.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+And the controls that undo and redo them:
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button disabled={!this.canUndo} onClick={this.onUndoClick}>Undo</button>
+<button disabled={!this.canRedo} onClick={this.onRedoClick}>Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="undoClick" disabled="true">Undo</button>
+<button id="redoClick" disabled="true">Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnUndoClick">Undo</button>
+<button @onclick="OnRedoClick">Redo</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnUndoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Undo();
+    }
+
+    private void OnRedoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Redo();
+    }
+}
+```
+
+</PlatformBlock>
+
+## Error Validation and Commit Integrity
+
+The following demonstrates how incorporate error by checking if cells are empty when leaving edit mode and accepts commits that are from updated cells only.
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+And the handlers it names:
+
+
+```json-snippet source="/grids/data-grid/cell-editing" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "$styleOptions": { "omitHandlerSignature": false },
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "$cellValueChangingRef": "+doc:handler",
+            "$dataCommittingRef": "+doc:handler"
+        }
+    }
+}
+```
+
+
+
+## API References
+
+- `CellBatch`
+- `EditModeClickAction`
+- `EditMode`
+- `SingleClick`
+- `TransactionType`

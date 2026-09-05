@@ -10,7 +10,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
     API_PLATFORM_CONFIGS,
-    apiDocsPlatformPath,
     createApiPackages,
     type PlatformName,
 } from '../../../../src/lib/api-platform-config.ts';
@@ -112,7 +111,7 @@ function loadApiLinkIndex(platform: PlatformName): PlatformContext['apiLinkIndex
             'src',
             'data',
             'api-link-index',
-            apiDocsPlatformPath(platform),
+            API_PLATFORM_CONFIGS[platform].folder,
             `${getApiLinkIndexName()}.json`
         );
         if (!fs.existsSync(file)) return undefined;

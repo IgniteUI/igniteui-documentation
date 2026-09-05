@@ -1,0 +1,249 @@
+---
+title: "{Platform} データ グリッド | 一括更新のセルおよび行編集 | インフラジスティックス"
+description: "セルおよび行の編集機能をサポートするインフラジスティックスの {Platform} グリッド コンポーネントを使用して、任意の時点でグリッドのすべてのセルを一括更新するように設定できます。{ProductName} を使用したデータの表示方法について説明します。"
+keywords: "{Platform} Table, Data Grid, cell and row editing, {ProductName}, batch updating, Infragistics, {Platform} テーブル, データ グリッド, セルおよび行の編集, 一括更新, インフラジスティックス"
+license: commercial
+mentionedTypes: ["DataGrid", "EditModeType", "TransactionType"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
+llms:
+  description: "{ProductName} Data Table / Data Grid は、一括更新のセルおよび行編集をサポートします。"
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} Grid 編集
+
+{ProductName} Data Table / Data Grid は、一括更新のセルおよび行編集をサポートします。注: 現在、これは非テンプレート列に制限されています。
+
+## {Platform} Grid 編集の例
+
+
+<Sample src="/grids/data-grid/cell-editing" height={600} alt="{Platform} Grid 編集の例" />
+
+
+
+<div class="divider--half"></div>
+
+## 概要
+
+{Platform} データ グリッドの編集は、{Platform} グリッドの `EditMode` オプションを使用して設定します。このプロパティには、以下にリストされている 3 つの異なるオプションがあります。
+
+- `None`: 編集は有効ではありません。
+- `Cell`: セルが編集モードに入り、編集モードの終了時に値をコミットできるようにします。
+- `CellBatch`: セルが編集モードに入りますが、変更はコミットされるまで後でキャッシュされます。
+- `Row`: 行が編集モードに入り、編集モードの終了時に値をコミットできるようにします。
+
+`CellBatch` に設定した場合、変更をコミットするにはグリッドから `commitEdits` メソッドを実行する必要があります。グリッドは、コミットされるまでセルを斜体で表示し、変更をデータ ソースにプッシュするタイミングを制御します。
+
+さらに、`onCellValueChanging` イベントをフックし、コミットされる前に新しい値を調べることでエラー処理を実行できます。グリッドはエラー メッセージを出力できる `setEditError` メソッドを公開します。これにより、有効な値が入力されるまで、セルを編集モードに維持します。それ以外の場合は、グリッドの `rejectEdit` メソッドを実行して無効な値を元に戻すことができます。無効な値が見つからない場合、グリッドの `acceptEdit` メソッドを呼び出して変更をコミットすることもできます。
+
+コミットは、`acceptCommit` または `rejectCommit` メソッドで `onDataCommitting` をフックし、`commitID` イベント引数をパラメーターとして渡すことで、グリッド レベルで承認または拒否できます。このイベントは、コミットされる前のすべての変更を保存する `changes` コレクションも公開します。たとえば、コミットが追加、更新、削除操作のいずれであるかを `changes` コレクションで公開された `TransactionType` プロパティによって確認し、必要に応じて `acceptCommit` または `rejectCommit` を実行できます。
+
+## Excel スタイル編集
+
+`EditOnKeyPress` を使用すると、Excel の動作と同じように、入力時にすぐに編集を開始できます。さらに、`EditModeClickAction` プロパティを `SingleClick` に設定して、ユーザーが他のセルに移動しながらセルをすばやく編集できるようにすることができます。デフォルトでは、編集モードに入るにはダブル クリックが必要です。
+
+## コード スニペット
+
+以下は、データ グリッドで編集を設定し、データをコミットする方法を示します。
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+変更をコミットするコントロールは以下のとおりです。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button onClick={this.onCommitClick}>Commit Data</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="clickCommit">Commit</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnCommitClick">Commit Data</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnCommitClick(MouseEventArgs e)
+    {
+        this.DataGridRef.CommitEdits();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+## 一括変更を元に戻す/やり直し
+
+以下は、一括更新が有効な場合に変更を元に戻す方法を示しています。
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+<PlatformBlock for="React, WebComponents, Blazor">
+変更を元に戻す/やり直すコントロールは以下のとおりです。
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<button disabled={!this.canUndo} onClick={this.onUndoClick}>Undo</button>
+<button disabled={!this.canRedo} onClick={this.onRedoClick}>Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<button id="undoClick" disabled="true">Undo</button>
+<button id="redoClick" disabled="true">Redo</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button @onclick="OnUndoClick">Undo</button>
+<button @onclick="OnRedoClick">Redo</button>
+
+@code {
+    public IgbDataGrid DataGridRef;
+
+    private void OnUndoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Undo();
+    }
+
+    private void OnRedoClick(MouseEventArgs e)
+    {
+        this.DataGridRef.Redo();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+## エラー検証とコミットの整合性
+
+以下は、編集モードを終了するときにセルが空かどうかを確認し、更新されたセルからのコミットのみを受け入れることによって、エラーを組み込む方法を示しています。
+
+```json-snippet source="/grids/data-grid/cell-editing"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+```json-snippet source="/grids/data-grid/cell-editing" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "$styleOptions": { "omitHandlerSignature": false },
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "activationMode": "Cell",
+            "editMode": "CellBatch",
+            "cellValueChangingRef": "DataGridValidateCellEdit",
+            "dataCommittingRef": "DataGridCommitUpdatesOnly",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "$cellValueChangingRef": "+doc:handler",
+            "$dataCommittingRef": "+doc:handler"
+        }
+    }
+}
+```
+
+
+
+## API リファレンス
+
+- `CellBatch`
+- `EditModeClickAction`
+- `EditMode`
+- `SingleClick`
+- `TransactionType`

@@ -7,12 +7,12 @@ import { fileURLToPath } from 'node:url';
 // src/ → project root
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-let platform = 'React';
-let lang = 'en';
+let platform = process.env.PLATFORM || 'React';
+let lang = process.env.LANG_CODE || 'en';
 try {
     const cfg = JSON.parse(readFileSync(path.join(root, '.platform.json'), 'utf8'));
-    platform = cfg.platform ?? platform;
-    lang     = cfg.lang     ?? lang;
+    platform = process.env.PLATFORM || cfg.platform || platform;
+    lang     = process.env.LANG_CODE || cfg.lang || lang;
 } catch { /* use defaults */ }
 
 const docsDir = path.join(root, 'generated', platform, lang, 'components');

@@ -1,7 +1,7 @@
 # Ignite UI house style
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
-bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+Version: v4 · 2026-08-31 · igniteui doc-skill set (v4 adds the xplat `apiTerms` contract and the
+`json-snippet` rule; content was unchanged from v2 through v3). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
 field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
@@ -63,8 +63,30 @@ llms:
   description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
 relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
+platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmapped | web-only
 ---
 ```
+
+- **`platformType` (xplat) is required and has no default.** A missing or unknown value stops the
+  build. It also decides `apiTerms`, which a page then states only to differ: `xplat` implies `full`
+  (names in backticks resolved through the api maps), `xplat-unmapped` implies `passthrough` (resolved
+  by rule, for an API no generator describes), `web-only` implies `none` (left as written, no
+  `ApiLink`). An xplat page may not state `none`; a topic that genuinely cannot resolve its names is
+  `xplat-unmapped`. `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links` skill is the
+  working guide.
+
+- **Three populations share the xplat content tree, held to different standards, and each page says
+  which it is.** The **DV set** — charts, gauges, maps, dashboard tile, data grid, spreadsheet,
+  toolbar, zoom slider — is `platformType: xplat`: canonical names in backticks resolved in full, and
+  a component stated as a `json-snippet` unless a platform-specific snippet is genuinely necessary.
+  `xplat-unmapped` is the same set where that treatment cannot be applied yet — the Excel library,
+  whose API no generator describes, and the data grid's accessibility topic, whose XAML shape is
+  undecided. **Web-only** topics — inputs, layouts, notifications, scheduling, themes, the web grid
+  families, grid lite — carry no such obligation: they may hand write a block per platform and declare
+  any mode, and reworking them to match the DV set is out of scope rather than an improvement.
+  **Identity is not publication:** a topic can be xplat and not reach the desktop platforms yet, so
+  where a page publishes never settles which population it is in. `check-doc-scope.mjs` enforces the
+  declaration and reports the disagreements; the `xplat-docs-json-snippets` skill is the working guide.
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence that **defines the component (or concept), never the page**: subject
@@ -466,6 +488,15 @@ audits the body side.
   document a difference that doesn't exist; replace them with **one two-column table:
   variable · what it changes**. Don't add a defaults column either — defaults vary per theme and
   belong to the generated API reference, and the durable content is the variable's name and effect.
+- **An xplat (DV) topic states its component as a `json-snippet` by default.** Generation emits each
+  platform's own code from the product's description metadata, so the four to six copies cannot drift
+  apart and a property that does not exist cannot be published. A platform-specific snippet is
+  discouraged rather than banned: it stays the right tool where a definition genuinely cannot carry the
+  lesson — a data shape with no component in it, a namespace declaration, a package install, a step
+  only one platform family has — and the reason belongs wherever the change is recorded. **Web-only
+  topics are exempt**; a per-platform block there is not a defect. `docs/xplat/JSON-SNIPPETS.md` is normative and the
+  `xplat-docs-json-snippets` skill is the working guide. The rest of this bullet applies to the blocks
+  a topic still authors by hand — Angular's own topics, and the xplat sections a fence cannot state.
 - **Audit & modernize inline code snippets — not the samples.** Fenced code blocks (` ```… ```
   `) are authored in the topic, so verify and update them: no deprecated APIs or outdated framework
   idioms (drop `standalone: true`; prefer Angular's built-in control flow `@if`/`@for` over

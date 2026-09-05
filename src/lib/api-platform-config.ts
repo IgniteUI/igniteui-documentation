@@ -1,4 +1,4 @@
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor';
+export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'WinUI' | 'Uno';
 
 export type ApiPackageDefinition = {
     packageId: string;
@@ -13,7 +13,10 @@ export type ApiPackageRuntimeConfig = ApiPackageDefinition & {
 };
 
 export type ApiPlatformDefinition = {
+    /** Internal folder used to store the checked-in ApiLink registry. */
     folder: string;
+    /** Public path segment used by the hosted API documentation site. */
+    publicPath?: string;
     prefix: string;
     pascalCaseMembers?: boolean;
     apiPackages: Record<string, ApiPackageDefinition>;
@@ -24,6 +27,8 @@ export const PLATFORM_MAP = {
     react: 'React',
     wc: 'WebComponents',
     blazor: 'Blazor',
+    winui: 'WinUI',
+    uno: 'Uno',
 } as const satisfies Record<string, PlatformName>;
 
 export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> = {
@@ -115,10 +120,61 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
             'grid-lite':   { packageId: 'IgniteUI.Blazor.GridLite', pascalCaseMembers: true },
         },
     },
+    // -----------------------------------------------------------------------
+    // WinUI / Uno
+    //
+    // `prefix: 'Xam'` is correct for the controls (XamRadialGauge, XamDataChart,
+    // XamDataGrid, XamGeographicMap, …) but NOT for helper types, which are
+    // unprefixed in shipping WinUI (RadialGaugeRange, LinearGraphRange,
+    // DataGridToolbar, ColumnSortDescription). The resolver tries the prefixed
+    // and the bare form and takes whichever the registry contains, so both
+    // shapes resolve. See WINUI-UNO-PLAN.md §6.3.
+    //
+    // The package IDs below match the generated api-docs registry.
+    // -----------------------------------------------------------------------
+    WinUI: {
+        folder: 'winui',
+        prefix: 'Xam',
+        pascalCaseMembers: true,
+        apiPackages: {
+            core:         { packageId: 'Infragistics.WinUI.Core', pascalCaseMembers: true },
+            charts:       { packageId: 'Infragistics.WinUI.Charts', pascalCaseMembers: true },
+            grids:        { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
+            'data-grids': { packageId: 'Infragistics.WinUI.DataGrid', pascalCaseMembers: true },
+            gauges:       { packageId: 'Infragistics.WinUI.Gauges', pascalCaseMembers: true },
+            maps:         { packageId: 'Infragistics.WinUI.Maps', pascalCaseMembers: true },
+            inputs:       { packageId: 'Infragistics.WinUI.Inputs', pascalCaseMembers: true },
+            layouts:      { packageId: 'Infragistics.WinUI.Layouts', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.WinUI.Dashboards', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.WinUI.DataVisualization', pascalCaseMembers: true },
+        },
+    },
+    // Uno Platform shares the WinUI XAML surface with Uno-specific package IDs.
+    Uno: {
+        folder: 'uno',
+        publicPath: 'uno-platform',
+        prefix: 'Xam',
+        pascalCaseMembers: true,
+        apiPackages: {
+            core:         { packageId: 'Infragistics.Uno.Core', pascalCaseMembers: true },
+            charts:       { packageId: 'Infragistics.Uno.Charts', pascalCaseMembers: true },
+            grids:        { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
+            'data-grids': { packageId: 'Infragistics.Uno.DataGrid', pascalCaseMembers: true },
+            gauges:       { packageId: 'Infragistics.Uno.Gauges', pascalCaseMembers: true },
+            maps:         { packageId: 'Infragistics.Uno.Maps', pascalCaseMembers: true },
+            inputs:       { packageId: 'Infragistics.Uno.Inputs', pascalCaseMembers: true },
+            layouts:      { packageId: 'Infragistics.Uno.Layouts', pascalCaseMembers: true },
+            dashboards:   { packageId: 'Infragistics.Uno.Dashboards', pascalCaseMembers: true },
+            datasources:  { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
+            'geo-core':   { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
+        },
+    },
 };
 
 export function apiDocsPlatformPath(platform: PlatformName): string {
-    return API_PLATFORM_CONFIGS[platform].folder;
+    const config = API_PLATFORM_CONFIGS[platform];
+    return config.publicPath ?? config.folder;
 }
 
 export function apiDocRoot(apiDocsBaseUrl: string, platform: PlatformName, packageId: string): string {
