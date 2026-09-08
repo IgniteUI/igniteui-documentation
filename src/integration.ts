@@ -797,15 +797,25 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     // `getGtmContainerId()` for the resolution order.
     //
     // Entry order matters:
-    //   1. Consent Mode defaults + `user_id`, which must run *before* gtm.js so
-    //      tags start denied and wait for the CMP update. www.infragistics.com
-    //      sets exactly these defaults ahead of its own GTM snippet; docs pages
-    //      share the same container, so without them docs traffic would be
-    //      measured under a different consent state than the rest of the site.
+    //   1. Consent Mode defaults + `user_id`, then a replay of the visitor's saved
+    //      choice. All of it must run *before* gtm.js so tags start denied and
+    //      wait for the update. www.infragistics.com sets exactly these defaults
+    //      ahead of its own GTM snippet; docs pages share the same container, so
+    //      without them docs traffic would be measured under a different consent
+    //      state than the rest of the site.
+    //      The main site's cookie-consent controller stores the chosen state in
+    //      localStorage as `IGconsentMode` (same origin as the docs, so it is
+    //      shared) and treats jp.infragistics.com as implied consent; both rules
+    //      are mirrored here so a returning visitor is measured identically on
+    //      docs and main site. A first-time visitor who lands on the docs stays
+    //      denied: the consent banner itself is not part of the docs layout yet.
     //   2. The GTM loader snippet.
     //   3. The SPA page-view bridge — DocsLayout renders <ClientRouter />, so
     //      topic-to-topic navigation is a pushState swap: gtm.js runs only on the
-    //      initial hard load and no further `gtm.js`/All Pages triggers fire.
+    //      initial hard load and no further `gtm.js`/All Pages triggers fire. It
+    //      pushes `trackSPAPageview`, the Custom Event the published container
+    //      already listens for (the main site's SPA convention), so no container
+    //      change is needed.
     //
     // Astro does not re-execute head scripts whose content is unchanged across a
     // view transition, so all three run exactly once per full page load. The
@@ -816,7 +826,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     const gtmHead: HeadEntry[] = [
         {
             tag: 'script',
-            content: `window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments);}if(!window.__igdGtmConsent){window.__igdGtmConsent=1;gtag('consent','default',{'functionality_storage':'denied','analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','security_storage':'denied','personalization_storage':'denied','wait_for_update':500});try{var igdUserId=localStorage.getItem('userId');if(igdUserId!==null){window.dataLayer.push({'user_id':igdUserId});}}catch(e){}}`,
+            content: `window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments);}if(!window.__igdGtmConsent){window.__igdGtmConsent=1;gtag('consent','default',{'functionality_storage':'denied','analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','security_storage':'denied','personalization_storage':'denied','wait_for_update':500});try{var igdUserId=localStorage.getItem('userId');if(igdUserId!==null){window.dataLayer.push({'user_id':igdUserId});}}catch(e){}try{if(location.hostname==='jp.infragistics.com'){var igdGrantAll={'functionality_storage':'granted','security_storage':'granted','ad_storage':'granted','ad_user_data':'granted','ad_personalization':'granted','analytics_storage':'granted','personalization_storage':'granted'};gtag('consent','update',igdGrantAll);window.dataLayer.push({event:'initialCustomConsentUpdate'});localStorage.setItem('IGconsentMode',JSON.stringify(igdGrantAll));}else{var igdSavedMode=localStorage.getItem('IGconsentMode');if(igdSavedMode!==null){gtag('consent','update',JSON.parse(igdSavedMode));window.dataLayer.push({event:'customConsentUpdate'});}}}catch(e){}}`,
         },
         {
             tag: 'script',
@@ -824,7 +834,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         {
             tag: 'script',
-            content: `(function(){if(window.__igdGtmSpaBridge)return;window.__igdGtmSpaBridge=1;var initial=true;document.addEventListener('astro:page-load',function(){if(initial){initial=false;return;}window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'page_view_spa',page_path:location.pathname+location.search,page_location:location.href,page_title:document.title});});})();`,
+            content: `(function(){if(window.__igdGtmSpaBridge)return;window.__igdGtmSpaBridge=1;var initial=true;document.addEventListener('astro:page-load',function(){if(initial){initial=false;return;}window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'trackSPAPageview',page_path:location.pathname+location.search,page_location:location.href,page_title:document.title});});})();`,
         },
     ];
 
