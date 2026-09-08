@@ -1,0 +1,508 @@
+# Ignite UI house style
+
+Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
+bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
+
+The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
+`diataxis-cheatsheet.md` (the *why*); the section→mode map is the "Diátaxis mode" column of the
+canonical section table below.
+
+## Contents
+
+- [Two doc sets](#two-doc-sets)
+- [File format & frontmatter](#file-format--frontmatter) — the normative field contract
+- [Per-framework mechanics](#per-framework-mechanics)
+- [Never fabricate API identifiers (zero-risk rule)](#never-fabricate-api-identifiers-zero-risk-rule)
+- [Verification workflow](#verification-workflow)
+- [Component topic — canonical section order](#component-topic--canonical-section-order) — incl. FAQ
+  component, reference-table contract, Usage coverage, Indigo.Design suggestions, Live Demo contract,
+  `<Sample>` configuration, Accessibility sub-structure
+- [Overview topics](#overview-topics) — concept/guide and category/index blueprints
+- [Naming reconciliation (drift → standard)](#naming-reconciliation-drift--standard)
+- [Entity terminology (canonical names)](#entity-terminology-canonical-names)
+- [Write-for-both-audiences rules](#write-for-both-audiences-rules-people--ai-assistants)
+- [Formatting & altitude](#formatting--altitude)
+- [Voice & tone](#voice--tone)
+- [Verify every claim against the component](#verify-every-claim-against-the-component)
+
+> **Current vs target state.** The live `vnext` repo is *pre-standardization* — many topics use
+> drifted headings (e.g. `## Angular Rating Example`, `## Configuration`). This file describes the
+> **target** standard (revision-2 blueprint). When **authoring**, write to the target. When
+> **auditing**, measure against the target and report the gap.
+
+## Two doc sets
+
+| Doc set | Frameworks | Path (vnext) | Layout | One topic = |
+|---|---|---|---|---|
+| **Angular** | Angular only | `docs/angular/src/content/en/components/` | flat `*.mdx` | one framework |
+| **xplat** | React · Web Components · Blazor | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all three frameworks** |
+
+The **same section list, order, and names apply to both sets.** Differences are mechanical only (see
+Per-framework mechanics), never the shape of the page. **Dependencies** appears in both sets — it
+covers modules to import (Angular) or supporting components/themes required to render or function
+(xplat); currently seen as `## Theming Dependencies`.
+
+## File format & frontmatter
+
+**This section is the single normative field contract for the doc-skill set.** The companion
+`igniteui-topic-frontmatter` skill audits against it and carries the audit procedure and severities;
+`igniteui-doc-topics` Create step 4 orders the work. Where wording differs anywhere, this section
+wins.
+
+Topics are **Astro `.mdx`**. Frontmatter is YAML. Observed + target fields:
+
+```yaml
+---
+title: "{ComponentTitle}"   # xplat component title; the layout appends the resolved product name
+description: "…"           # <=~160 chars, definition-first ("X is a … that …"); complete sentences, never ellipsis-truncated
+keywords: "…"              # comma-separated; legacy/internal — every keyword appears in the body
+license: MIT
+mentionedTypes: ["Rating"] # xplat: API types referenced on the page
+llms:
+  description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
+last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
+relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
+---
+```
+
+- **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
+  self-contained answer sentence that **defines the component (or concept), never the page**: subject
+  noun names the product and component, no pronouns, no "This topic shows…". It is *not* optional
+  filler. The `llms.description`, the H1 lead sentence, and the site's llms-manifest entry should be
+  the same sentence or trivial variants of it: one definition, emitted everywhere the machine looks.
+- **`description`** is definition-first ("The <Component> is a … that …"), not imperative task
+  phrasing ("Use X to …"); complete declarative sentences, written to fit <=~160 characters, never
+  truncated with an ellipsis.
+- **Cross-field consistency:** `title`, `description`, `llms.description`, `keywords`, the H1, and
+  the lead sentence tell one story with the same entity names and the same capability list; the lead
+  sentence mirrors `llms.description`.
+- **Body support:** every capability named in `description`, `llms.description`, or `keywords` is
+  supported by the finished body. Content-bearing fields are generated from the finished body, never
+  from imagination (see `create-workflow.md`, step 4).
+- **`title`** uses `"{ComponentTitle}"` for xplat topics because the layout appends the resolved
+  product name to the HTML title. Do not add a framework-specific suffix or duplicate the framework in
+  the component phrase. Angular-set titles follow the frontmatter skill's title rule
+  (`"Angular <Component> Component"`, query-relevant terms within ~60 characters).
+- **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
+  target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
+  with no **Usage** → **Do/Don't** guidance as a hard error.
+- **`last_updated`** is required for every topic, including category/index topics. Store the date in
+  frontmatter and let the site layout render it. For xplat component topics, use the tokenized component title convention. For xplat
+  category/index topics, use the plain category name only, without `{Platform}` or `{ProductName}`
+  in `title` (for example, `title: "Grids and Tables"`).
+
+### MDX imports (declare what you use)
+
+```mdx
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import { Image } from 'astro:assets';  // when embedding repo-owned images
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  // xplat only
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+```
+
+## Per-framework mechanics
+
+- **Prefixes differ by framework/library — don't assume one for all:**
+  - **Angular** → native **`igniteui-angular`**, **`igx-`** tags / **`Igx…Component`** classes. The
+    Angular doc set documents this library.
+  - **Web Components** → **`igniteui-webcomponents`**, **`igc-`** tags / **`Igc…Component`** classes.
+  - **React** → **`igniteui-react`**, a **wrapper around the `igc`** web components.
+  - **Blazor** → **`igniteui-blazor`**, a **wrapper around the `igc`** web components.
+- **Net effect:** the **xplat doc set (React / WC / Blazor) is entirely `igc`-based** — WC is `igc`
+  directly; React and Blazor wrap it. The **Angular doc set is `igx`**.
+- **Exception — WC-first components in the Angular docs.** Some newer components are built as web
+  components and surfaced in the Angular docs via the `igc` element rather than a native `igx` one
+  (verified: the Angular **Rating** topic installs `igniteui-webcomponents`, registers
+  `IgcRatingComponent`, and renders `<igc-rating>`). So **don't assume `igx` for every Angular topic** —
+  verify the tag/class per component.
+- **Angular set:** plain prose, no platform tokens. Registers and renders whichever the component is
+  (`igx-…` native, or the `igc-…` WC for the exceptions above).
+- **xplat set:** the *same file* serves React / WC / Blazor via:
+  - **Tokens** the build resolves: `{Platform}`, `{ProductName}`, `{PackageWebComponents}`,
+    `{PackageReact}`, `{PackageBlazor}`, etc. Use them in title/description/keywords/headings and prose
+    — never hard-code "React" where a token belongs.
+  - **`<PlatformBlock for="WebComponents">…</PlatformBlock>`** to wrap framework-specific content
+    (install commands, imports, snippets). `for` values: `WebComponents`, `React`, `Blazor`.
+- **Live samples** embed the same way in both sets:
+  `<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating Basic Example" />`
+- **API links** use `<ApiLink …>` rather than hand-written URLs so they resolve per framework.
+
+## Never fabricate API identifiers (zero-risk rule)
+
+The skill's job is structure and prose, **not** to invent the API surface. Do **not** emit a guessed
+tag, class, package name, property, method, event, CSS part, or theming variable. A plausible-but-wrong
+name that a reader copies is worse than an obvious gap.
+
+- Use an identifier **only** when it is verified — from the component's typed API source, an existing
+  topic, or the user. The naming patterns are known (Angular `igx-<name>` / `Igx<Name>Component`; WC and
+  its React/Blazor wrappers `igc-<name>` / `Igc<Name>Component`), but the pattern is not a licence to
+  guess — confirm the exact prefix *and* `<name>` per component (some Angular topics are `igc` — see the
+  exception above).
+- When you must reference an unverified identifier, write a visible placeholder instead of a guess:
+  `‹VERIFY: exact export name›`. For a table, emit the fixed column headers and a single injection note
+  — invent no rows.
+- This applies equally to React/Blazor wrapper symbols: they resolve to the `igc` core, so prefer the
+  verified `igc` usage and mark any wrapper-specific class you can't confirm with `‹VERIFY:…›`.
+- **`<ApiLink>` targets are identifiers too.** A `type` that exists in the source is not enough — it
+  must have a generated reference page, and the only reliable check is an existing `<ApiLink>` with that
+  `type` elsewhere in the doc set. Abstract/base classes in particular (e.g. `ButtonBase`) may appear in
+  `mentionedTypes` yet have no page — the rendered link (e.g. `IgrButtonBase`) points nowhere. Link base-class
+  members through the concrete component instead (`type="Button" member="href"`), and list only the concrete
+  component under **API References**.
+
+## Verification workflow
+
+Use this checklist when creating technical content or auditing an existing topic. Audit mode reports
+verification gaps; it does not edit the topic. Existing topic prose and snippets are evidence to check,
+not a source of truth.
+
+1. **Identify the target platform.** Angular/native `igx`, Web Components `igc`, React, or Blazor.
+2. **Verify public API facts through MCP first.** Use the Ignite UI/API docs MCP source for component
+   types, properties, methods, events, and API-link targets.
+3. **If MCP is unavailable, use the official platform API docs.**
+   - React: `https://www.infragistics.com/api/react/`
+   - Web Components: `https://www.infragistics.com/api/webcomponents/`
+   - Blazor: `https://www.infragistics.com/api/blazor`
+4. **Use typed source only for details the API docs do not expose.** Examples: rendered DOM, slots,
+   parts, key handlers, theme `.scss` `@param` comments, precedence rules, and deprecation markers.
+5. **Use official framework docs for framework behavior.** Examples: Angular standalone defaults,
+   control-flow syntax, React conventions, and Blazor conventions.
+6. **Mark unresolved facts visibly.** Use `‹VERIFY: exact fact/source needed›` or flag the issue in the
+   audit report; never replace uncertainty with a plausible claim.
+
+Authored fenced code snippets follow the same verification order. Live `<Sample>` embeds are separate:
+verify `src`, `alt`, and display props in the topic, but report sample-code problems as upstream sample
+project work.
+
+## Component topic — canonical section order
+
+Required = every component topic, always this order. Conditional = only when relevant, but always in
+this slot. **These names are the only allowed H2s.** Anything feature-specific becomes a sub-heading
+under **Usage**, never a new top-level section.
+
+| # | Section (`##`) | Required? | Diátaxis mode | Contents |
+|---|---|---|---|---|
+| 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. Every topic, including category/index topics, must contain `last_updated` in frontmatter; the date is rendered by the site layout and must not be added as visible topic text. |
+| 2 | **Live Demo** | required | demonstration (action) | A `## Live Demo` section containing exactly one `<Sample>` of the simplest useful state, before **Anatomy**. Keep this section sample-only unless a one-sentence setup is truly needed. |
+| 3 | **Anatomy** | required for component topics | orientation (reference) | Use the shared Astro `<Anatomy>` component with a verified anatomy image, `name`, `description`, and `alt`; follow it with the verified **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
+| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** and include the required `### Prerequisites and Version Compatibility` subsection for verified package, framework, and version guidance. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. |
+| 5 | **Usage** | required | how-to + explanation | Add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings, and includes the matching guidance image from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available. Styling content belongs in **Styling**, not here. |
+| 6 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
+| 7 | **Methods** | conditional | reference | Table of callable actions. |
+| 8 | **Events** | conditional | reference | Table of emitted events. |
+| 9 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
+| 10 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
+| 11 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
+| 12 | **Known Limitations** | required | reference | Verified platform-independent limitations and boundaries of the component. Use a top-level section when standalone; when the limitations directly support troubleshooting guidance, place them as a `### Known Limitations` subsection inside `## Troubleshooting`. Do not use this content for troubleshooting fixes or unsupported claims. |
+| 13 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
+| 14 | **Dependencies** | required | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). |
+| 15 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
+| 16 | **Related Components** | required | navigation / decision support | Verified sibling components and concise links explaining when they are a better fit. |
+| 17 | **FAQ** | required | reference / how-to | Frequently asked, component-specific questions; render them with `Faq` and `FaqItem`, keep answers concise, and move troubleshooting diagnosis to **Troubleshooting**. |
+
+### FAQ component
+
+When authoring or updating a component topic, use the Astro FAQ components instead of plain FAQ
+headings or hand-written accordion markup. Import `Faq` and `FaqItem` from
+`igniteui-astro-components/components/mdx/`, wrap the questions in `<Faq>`, and put each answer in a
+`<FaqItem question="…" indicatorPosition="end">`. In slot mode, set
+`indicatorPosition="end"` on every `FaqItem`; the value on `Faq` does not flow into slotted
+children. Prefer slot mode so answers can contain normal MDX, links, code blocks, and other
+components. Keep the FAQ questions component-specific and concise; do not move troubleshooting
+content into the FAQ merely to populate it.
+
+Each answer is **2–4 self-contained sentences, quotable without its question**: restate the subject
+noun, no dangling "it"/"this". Draw questions from the predictable fan-out for the component:
+licensing/pricing, framework and version support, migration, accessibility, and
+"is ‹Component› right for ‹use case›". An FAQ whose answers cannot stand alone is markup without
+retrieval value — FAQ answers are among the most-quoted chunks on the page.
+
+**When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
+must include the matching guidance image from the Indigo.Design documentation before the guidance
+text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
+`{/* TODO */}` marker rather than a broken image. The subsection must also include inline **When to
+use:** and **When not to use:** labels, not nested headings. When `relatedComponents` is non-empty,
+**When not to use:** must name the specific better-fit sibling(s) by name and link them; when it's
+empty (standalone primitives like Badge/Divider), **When not to use:** states the boundary without
+inventing a sibling.
+
+**Reference-table contract:** Properties / Methods / Events tables are **generated from the same typed
+API source** as the full reference — not hand-typed. Inline tables = the core knobs for fast scanning;
+**API References** links to the complete set. One source, so nothing drifts. **When authoring, do not
+hand-write or invent rows:** emit the fixed column headers (`name · type · default · description`) and a
+single build-injection note, and leave the row values to the generator. Inventing a plausible property
+or event name is exactly the failure this contract exists to prevent.
+
+**Usage coverage contract:** use property-focused sub-sections to demonstrate every public input.
+Prefer one sub-section per standalone property; group
+properties only when they are inseparable in real use or define a shared precedence/behavior. Each
+sub-section should include a minimal, copyable snippet for every platform it affects. Add a
+`<Sample>` only when the demo path is verified and the visual result teaches something the snippet
+alone does not.
+
+**Indigo.Design Usage suggestions:** for every component topic, inspect the matching Indigo.Design
+component documentation under `https://www.infragistics.com/products/indigo-design/help/components/`
+before finalizing or auditing the **Usage** structure. Extract the Indigo.Design component outline
+(typically the H2/H3 sections after the demo) and map it to Ignite UI by **meaning**, not by exact
+heading text. A section named `Image` may become `Media`; `Card Layout` may become `Layout`;
+`Item Content Template` may become `Content`; and a Figma-only `Areas` section may belong in
+**Anatomy** instead of **Usage**. Keep useful existing Usage subsections, then suggest or add missing
+subsections only when the Indigo.Design section corresponds to a real Ignite UI API, slot, state,
+layout pattern, or verified sample. Do not copy Figma-only implementation details into runtime docs;
+translate them into the closest verified Ignite UI behavior, or leave them as suggestion-level notes.
+If the Indigo.Design topic or asset cannot be reached, state that limitation and continue from the
+verified Ignite UI API/source.
+
+**Live Demo contract:** every component topic has a `## Live Demo` section immediately after the
+intro and before **Anatomy**. It contains exactly one top preview `<Sample>` of the simplest useful
+state so the page table of contents exposes the demo as a navigable section. Do not leave the top
+sample as a bare block between the intro and Anatomy. Add Usage samples only for distinct,
+user-facing tasks or property-focused behaviors (selection, editing, sorting, validation,
+templating, styling, shape, content, sizing). Soft max **5 samples/page**; up to 5 is fine, and only
+clear sprawl past that warrants splitting into focused topics.
+
+### `<Sample>` configuration — pick the props deliberately
+
+`<Sample>` renders a live demo (iframe + source-code tabs + live-edit buttons). **`src` is required and must
+point at a real demo path** — treat it like any other identifier under the zero-risk rule: never invent or
+guess a `src`, an `lob`/`dv`/`crm` base, or a path; use one only when it's verified from the sample project
+or an existing topic, else leave a `‹VERIFY: demo path›` marker. Never hand-edit the demo's code — that lives
+in the separate sample project.
+
+Choose the display config from **what the sample is showing**, not by habit:
+
+| Prop | Default | Use it when… |
+|---|---|---|
+| `src` | — (required) | Always. Relative demo path. |
+| `alt` | — | **Always** — the iframe title for accessibility. A missing `alt` is an audit finding (E1). Describe the demo, e.g. `alt="Angular Calendar range selection"`. |
+| `height` | `400` | The demo's natural height isn't ~400px. Match the content. **Mutually exclusive with `fitContent`** — set one or the other, never both. |
+| `fitContent` | off | The component is small or variable-height (badge, chip, avatar, icon, switch), **or a compact standalone sub-view** (e.g. a calendar days/months/years view), and a fixed frame would waste or clip space. The iframe grows to the component's own height, so **do not also set `height`** — drop it entirely. Ignores `resizable`. |
+| `iframeOnly` | off | The **result** is the point and the source isn't instructive — purely visual demos, or a Styling preview whose styling is applied upstream (not in copyable code). Drops the code tabs/footer. Keep the tabs when the code *is* the lesson (e.g. a Sass `calendar-theme` snippet). |
+| `fullscreenBtn` | off | Paired with `iframeOnly` for large/complex visual demos that benefit from full-screen. |
+| `resizable` | off | Responsiveness is the lesson (grids, layout, splitter, dock manager) — lets the reader drag the width. Ignored with `fitContent`. |
+| `position` | — | A small component would otherwise sit in the top-left; align it (`center`, etc.). |
+| `spacing` | — | The demo needs breathing room around the iframe (`sm`/`md`/`lg` = 8/16/32px). |
+| `noBorder` | off | The default border competes with the demo visually. Cosmetic — use sparingly. |
+| `lob` / `dv` / `crm` | default base | The demo lives in the LOB, Data-Viz, or CRM demos app rather than the default — **verify before setting**. |
+
+Defaults are right for most Usage samples: `<Sample src="…" height={…} alt="…" />`. Reach for the extra props
+only when the component type calls for it — the `## Live Demo` preview and standard task demos keep the code tabs (no
+`iframeOnly`); the **Styling** section still opens with a styled-result `<Sample>`, using `iframeOnly` only
+when its styling isn't shown as copyable code.
+
+### Accessibility — required sub-structure
+
+`## Accessibility` always carries three `###` sub-sections, in this order. All three are **reference**
+mode: statements of fact in tables and short lists — no steps, no marketing.
+
+#### Source-first generation contract
+
+Generate the Accessibility section from the component implementation before writing prose. Inspect
+the component template/render method and typed source for the rendered native elements, `role`,
+`aria-*` attributes, focus/tab-order conditions, disabled handling, and indeterminate or validation
+state mapping. Inspect keyboard and pointer event handlers to derive the key-to-action table and
+state transitions. Inspect the public API registry to verify property and event names, then map each
+fact to the platform that actually implements it.
+
+- Treat rendered template/source as the authority for DOM, roles, ARIA attributes, and default state
+  behavior; treat the topic's existing prose as evidence to re-check, never as the source.
+- Treat event handlers as evidence for interaction and state changes only. An event name does not
+  prove an accessible name, role, state, or WCAG conformance claim.
+- For xplat topics, emit shared facts once and use `<PlatformBlock>` when Angular differs from the
+  Web Components implementation or its React/Blazor wrappers.
+- Include only verified attributes, events, and state behavior. If source is unavailable or a fact
+  cannot be resolved, write `‹VERIFY: source fact needed›` or omit it; never infer ARIA behavior from
+  a component name or a generic HTML pattern.
+- Derive the compliance table only from behavior verified in the section and an official product
+  accessibility statement. Do not generate blanket WCAG/Section 508 compliance claims.
+
+1. **`### Keyboard Interaction`** — one key → action table, verified against the component's key
+   handlers. Note how the component is reached (Tab) and any condition that removes it from the tab
+   order.
+2. **`### Screen Readers / ARIA`** — the roles, `aria-*` attributes, and announcements the component
+   provides (from source), plus what the reader must supply (e.g. `aria-label` when the visible
+   content doesn't describe the action).
+3. **`### Accessibility Compliance`** — the conformance evidence, in this shape:
+   - **Lead sentence** naming the conformance target (WCAG version + level; Section 508 / EN 301 549
+     where applicable). This is a product-level claim — state it only from an official Infragistics
+     statement; otherwise write `‹VERIFY: conformance target›`.
+   - **Conformance table** — two columns: **Criterion · How the component complies**. List only the
+     WCAG success criteria *relevant to this component*, each row grounded in behavior already
+     verified on this page (the keyboard table, the ARIA facts, the typed source). Link each
+     criterion to its WCAG Understanding page. Common criteria to pick from:
+     1.3.1 Info and Relationships (roles/structure) · 1.4.1 Use of Color (states not conveyed by
+     color alone) · 1.4.3 Contrast (Minimum) (default themes) · 1.4.11 Non-text Contrast ·
+     2.1.1 Keyboard + 2.1.2 No Keyboard Trap (full keyboard operability) · 2.4.3 Focus Order ·
+     2.4.7 Focus Visible (focus ring) · 2.5.7 Dragging Movements (every drag interaction needs a
+     keyboard/single-pointer alternative — splitter, slider, dock manager) · 2.5.8 Target Size
+     (Minimum) · 4.1.2 Name, Role, Value · 4.1.3 Status Messages (components that announce — toast,
+     snackbar, progress). Omit irrelevant criteria entirely — no "N/A" filler rows.
+   - **Your responsibilities** — a short list of what the app author must still do for the page to
+     conform: provide the accessible name, keep sufficient contrast when overriding themes, preserve
+     a logical focus order in the surrounding layout, keep minimum target sizes when custom-sizing.
+     Cross-link the Usage/Styling sections that show *how* — don't repeat the steps here. This split
+     (what the component guarantees vs what the reader owes) is the highest-value content of the
+     sub-section for both humans and AI assistants.
+   - **Known exceptions** *(only when real)* — criteria the component doesn't fully meet, each with
+     its workaround or tracking link. An honest, specific gap beats a silent one.
+   - **Validation & resources** *(optional, verified only)* — the screen reader / AT combinations the
+     component is tested with, and links to the product accessibility statement / VPAT and the
+     matching [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/) pattern.
+     Omit when unverified — never invent a testing matrix.
+
+   Compliance claims are the highest-risk statements on the page — they carry legal weight, and a
+   wrong one is copied into the reader's own conformance report. The zero-risk rule applies at full
+   strength: no blanket "fully accessible" / "WCAG compliant" sentence, ever; every table row traces
+   to observable, verified behavior; product-level claims come only from an official source.
+
+## Overview topics
+
+**5a. Concept / guide overview** (Diátaxis: *explanation*) — e.g. "Theming concepts":
+Title + intro → **Overview** → **Before You Start** → **Next Steps** → **Available Tools** →
+**Common Workflows** → **Troubleshooting** → **Additional Resources** → optional **FAQ**. Use an
+accordion for FAQ content when a compact question-and-answer block is useful.
+
+**5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
+The page starts with an H1 and a concise introductory block: a clear category definition and, when
+needed, brief context about its scope or purpose. Follow it with **Key Features** (open with a short intro and a compact `Feature` / `Description` /
+`Benefits` table) → top-level **Types / Members** section when the category maps component
+types. Each concrete type/member, such as `{Platform} Data Grid`, `{Platform} List`, or
+`{Platform} Tree Grid`, is its own navigable `###` child subsection with a concise definition,
+verified link, and a verified `<Sample>` for every entry) → additional feature
+subsections as needed → **Next Steps** → **Accessibility** → **API References** → **Additional Resources** → **FAQ**.
+
+The category introduction must not use the component-topic sequence `When to Use`,
+`When Not to Use`, `Live Demo`, `Getting Started`, `Usage`, `Properties`,
+`Accessibility`, or `Troubleshooting` in the category introduction. Selection guidance belongs in the
+category definition or in the relevant type/member entry, and a demo belongs inside the entry it
+demonstrates. Supporting sections follow the navigation sections and must contain verified,
+category-specific content.
+
+Guardrails: cap each section at ~3 short paragraphs (else add sub-sections); isolate marketing copy in
+a single "Why {ProductName}" section — never thread it through instructional content.
+
+## Naming reconciliation (drift → standard)
+
+| Seen in the wild | Standard name |
+|---|---|
+| "Angular X Component Overview"; "X Component Overview"; "{Platform} X Component Overview" (H1) | **`X Component`** (H1 — drop framework + "Overview") |
+| Setup; "Getting Started with…"; "Getting Started with Ignite UI for Angular X" | **Getting Started** |
+| Code Snippet; Examples; "Using the … Component"; "{Platform} X Example"; "Angular X Example" | **Usage** |
+| "Avatar Shape"; "‹Component› ‹Feature›" (Usage sub-heading) | **`‹Feature›`** (drop the component name) |
+| Configuration | **Properties** |
+| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **Do/Don't** (as the final `###` under **Usage**) |
+| top-level `## When to Use` / `## When Not to Use`; `### When to Use` / `### When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | Inline **When to use:** / **When not to use:** labels inside the final **Usage** subsection, `### Do/Don't` |
+| Summary (as lead-in) | intro ¶ or **Overview** |
+| Keyboard Navigation | **Accessibility** |
+| WAI-ARIA Support; Compliance; Section 508; Accessibility Statement | **`### Accessibility Compliance`** (under **Accessibility**) |
+| Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** (as the final `###` under **Usage**) |
+| Theming (H2) | **Styling** (H2); the Sass approach becomes `### Sass Theming` under it |
+| Known Issues and Limitations; Limitations; Known Issues | **Known Limitations** (a required top-level section; it may live as `### Known Limitations` under **Troubleshooting** only when the limitations directly support that troubleshooting guidance — see section 12. Troubleshooting *fixes* found under a limitations heading move to **Troubleshooting**.) |
+| API; API Reference (singular) | **API References** |
+| Theming Dependencies | **Dependencies** |
+
+## Entity terminology (canonical names)
+
+Source: blog-creator product-context v4 · 2026-08-14. This table is a governed copy: when the blog
+set's terminology table changes, update this section in the same change and keep both version lines
+aligned. Docs are the highest-authority entity signal the site emits — assistants consolidate
+entities from repeated identical naming, and drift fragments the association. These names bind body
+prose, headings, and frontmatter alike; the frontmatter skill audits the metadata side, rubric B6
+audits the body side.
+
+- Canonical component term: **"[Framework] Data Grid"** (title case): "Angular Data Grid", "React
+  Data Grid", "Web Components Data Grid", "Blazor Data Grid". Permitted shorthand after first
+  mention: "the Data Grid". In the xplat set, write it with the token: "{Platform} Data Grid".
+- Sibling components are fixed compounds, always fully qualified: **Tree Grid, Hierarchical Grid,
+  Pivot Grid**. Bare "grid" only as a common noun inside feature phrases ("grid features", "bind the
+  grid to data"); never as the standalone entity name, never in titles or headings.
+- Banned entity synonyms: "datagrid" (one word, except when quoting an API symbol), "grid component"
+  as subject noun, silent drift to "table"/"data table". Ecosystem synonyms stated once as an
+  explicit equivalence are fine ("row pinning (also known as frozen rows)").
+- Product names verbatim: "Ignite UI for Angular", "App Builder"; no abbreviation drift ("IgniteUI",
+  "AppBuilder") in prose. In the xplat set, prefer `{ProductName}` where the resolved product name is
+  meant.
+
+## Write-for-both-audiences rules (people + AI assistants)
+
+1. **One job per section** — self-contained; no "as mentioned above." A section must make sense landed-on cold.
+2. **Lead each section with one plain, specific sentence that names the component** (with the platform token where the set uses them) before any table/code — skip empty boilerplate. Sections are the retrieval chunks; a chunk that never names its subject is invisible to the query that should retrieve it.
+3. **Use the standard section names everywhere** — "Accessibility" always means the same thing.
+4. **Phrase guidance/troubleshooting as real questions** — When-Not-to-Use is the highest-value content for answer accuracy; name the sibling explicitly.
+5. **Reference lives in tables**, generated from the typed source.
+6. **Strong `description` / `llms.description`** — <~160 chars, answer-shaped, definition-first; `llms.description` defines the component, not the page (full contract in "File format & frontmatter").
+7. **Document theming variables** — variable · what it changes, in **one table for all themes**. No default-value column: defaults are per-theme values that live in the generated API reference, not the topic.
+
+## Formatting & altitude
+
+- **No divider hugging a block.** Never place `<hr>` or `<igc-divider>` directly before or after a
+  `<Sample>`, code fence, or table — those blocks carry their own separation. Dividers separate
+  *prose* sections only; in practice a topic rarely needs them at all.
+- **Single item ⇒ paragraph.** A `ul`/`ol` with one item is a paragraph. Use a list only for two or
+  more parallel items.
+- **Current API first, legacy after.** Show the current/recommended approach first (e.g. the
+  standalone component import); place deprecated/legacy approaches (NgModule) *below* it, explicitly
+  marked as legacy — never above the current one.
+- **Don't repeat the generic install boilerplate.** The `ng add igniteui-angular` + "read the getting
+  started topic" prose is identical on every component page — collapse it to a **one-line prerequisite
+  link** and lead Getting Started with the component-specific import instead. This mirrors how the major
+  component libraries (Angular Material, MUI, Ant Design, PrimeNG) work: install lives in one central
+  page; each component page shows only its own import. Keep the prerequisite as a single linked line
+  (optionally with an inline `ng add` token) so a cold-landing reader or AI still has the pointer — just
+  not the repeated paragraph.
+- **Styling leads with the result.** The Styling section opens with a `<Sample>` of the styled
+  outcome, then the tables; its first subsection is `### Sass Theming` (the Sass theme workflow), then
+  the other approaches (`### Tailwind`, `### Custom sizing`, …).
+- **One styling table — never per-theme tabs, never default values.** In the `theming` repo every
+  theme schema `extend`s the same base schema and only overrides *values* (e.g. `$material-switch`,
+  `$fluent-switch`, `$indigo-switch` all extend `$light-switch`; `$bootstrap-switch` extends
+  `$fluent-switch`), so **every theme exposes the identical variable set** — only the defaults differ.
+  Per-theme tabbed tables (the legacy `.theme-switcher-wrapper` / `.theme-table` markup) therefore
+  document a difference that doesn't exist; replace them with **one two-column table:
+  variable · what it changes**. Don't add a defaults column either — defaults vary per theme and
+  belong to the generated API reference, and the durable content is the variable's name and effect.
+- **Audit & modernize inline code snippets — not the samples.** Fenced code blocks (` ```… ```
+  `) are authored in the topic, so verify and update them: no deprecated APIs or outdated framework
+  idioms (drop `standalone: true`; prefer Angular's built-in control flow `@if`/`@for` over
+  `*ngIf`/`*ngFor`; use verified imports, selectors, and tags). The live **`<Sample>`** embeds render
+  from the separate sample project — **never hand-edit their code**; fix those upstream. The only
+  intentionally "old" snippets are the legacy ones quarantined in **Troubleshooting**.
+- **Omit `standalone: true` (Angular).** Components are standalone by default since Angular v19
+  (igniteui-angular targets far newer), so it's redundant in examples — don't write it. Show
+  `standalone: false` only when illustrating the legacy NgModule path (in Troubleshooting).
+- **Version & legacy notes live in Troubleshooting.** Don't bury "prior to vX use…" migration notes
+  in code-fence comments, and don't scatter legacy/alternative setup (e.g. NgModule) across the page.
+  Collect them in **Troubleshooting**, each phrased as question → cause → fix. Getting Started and
+  code samples show only the current, recommended path.
+- **Curated (not generated) reference tables — for now.** No build-time generator injects inline
+  Properties/Styling-Variables tables yet (only the full API reference is generated, reached via
+  `<ApiLink>`). Until one exists, hand-author a **small core** table whose every row is **verified
+  from source** (typed component for props; the `@param` doc-comments in the component's
+  `_…-theme.scss` for styling vars) and link `<ApiLink>` for the complete set. The zero-risk rule
+  still applies: no unverified rows.
+
+## Voice & tone
+
+Write instructions the same way across every topic so readers (and assistants) get one predictable voice.
+
+- **Imperative, second person, present tense.** "Set the `shape` attribute…", "Import the component…" — not "we create…" or "the developer should…". Address the reader as *you* only when needed for clarity.
+- **One voice per topic.** Don't mix imperative how-to with first-person-plural narration ("we create") or tutorial hand-holding. Reference sections (Properties/Styling tables, Accessibility) stay descriptive.
+- **Specific over vague; cut filler.** Name the exact attribute, value, or behavior. Drop "simply", "just", "in order to", "as you can see", and empty lead-ins.
+- **No marketing in instructional prose.** Keep promotion out of how-to/reference; overview topics isolate it in a single "Why {ProductName}" slot.
+- **Name features by their real Ignite UI identifier** (e.g. `igx-icon`, not "material icon") and cross-link the topic.
+
+## Verify every claim against the component
+
+The zero-risk rule is not limited to identifiers — **every statement of fact must be verified against the actual component before it ships or is recommended as an edit.** This includes defaults, value ranges, precedence/fallback behavior, version support ("since vX"), deprecations, emitted events, and rendered DOM.
+
+- **Source of truth:** follow the **Verification workflow** above. Public API facts come from MCP
+  first, then the official platform API docs. Typed source is for implementation details the API docs
+  do not expose. Existing docs and snippets are never sufficient proof by themselves.
+- **When recommending edits, verify first.** Never "correct" prose into a plausible-sounding claim you haven't checked — a confident wrong statement is worse than the original.
+- **If you can't verify it, don't assert it.** Write `‹VERIFY: …›` or leave the existing text and flag it — never guess a default, a version, or a behavior.
+- Behavioral claims that read fine but contradict the source (e.g. "the image falls back to initials on load error" when the code only sets precedence) are exactly what this rule catches.

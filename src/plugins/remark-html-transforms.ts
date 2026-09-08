@@ -1,30 +1,32 @@
 /**
- * Remark plugin: inline HTML transforms.
+ * Sätteri MDAST plugin: inline HTML transforms.
  *
  * Handles legacy HTML patterns in markdown content:
  *   - Rewrites relative `../images/` sources to root-relative paths
  *   - Normalizes code block language identifiers to lowercase
  */
 
-import { visit } from 'unist-util-visit';
+import { defineMdastPlugin } from 'satteri';
 
 const IMG_SRC_PATTERN = /src="(\.\.\/)+images\//g;
 
-/** Remark plugin that transforms legacy HTML patterns in the AST. */
+/** Sätteri MDAST plugin that transforms legacy HTML patterns in the AST. */
 export function remarkHtmlTransforms() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
-      // Inline HTML: relative img src → root-relative
-      if (node.type === 'html' && node.value) {
-        node.value = (node.value as string).replace(IMG_SRC_PATTERN, 'src="/images/');
-      }
+  return defineMdastPlugin({
+    name: 'html-transforms',
 
-      // Code blocks: normalize language to lowercase
-      if (node.type === 'code' && node.lang) {
-        node.lang = (node.lang as string).toLowerCase();
-      }
-    });
-  };
+    // Inline HTML: relative img src → root-relative
+    html(node, ctx) {
+      if (!node.value) return;
+      const value = node.value.replace(IMG_SRC_PATTERN, 'src="/images/');
+      if (value !== node.value) ctx.setProperty(node, 'value', value);
+    },
+
+    // Code blocks: normalize language to lowercase
+    code(node, ctx) {
+      if (!node.lang) return;
+      const lang = node.lang.toLowerCase();
+      if (lang !== node.lang) ctx.setProperty(node, 'lang', lang);
+    },
+  });
 }

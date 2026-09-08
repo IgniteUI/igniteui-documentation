@@ -1,0 +1,297 @@
+---
+title: "Angular Avatar コンポーネント | レイアウト | インフラジスティックス"
+description: "Angular Avatar コンポーネントを使用して、ユーザー、エンティティ、またはオブジェクトを画像、イニシャル、アイコン、またはカスタム コンテンツで表します。"
+keywords: "Angular Avatar, アバター コンポーネント, プロフィール画像, イニシャル, Ignite UI for Angular, Infragistics"
+last_updated: "2026-07-29"
+license: MIT
+mentionedTypes: ["Avatar", "Badge", "Icon"]
+relatedComponents: ["Badge"]
+_language: ja
+llms:
+  description: "Ignite UI for Angular Avatar トピックでは、画像、イニシャル、アイコン、カスタム コンテンツ、形状、サイズ、スタイル設定、アクセシビリティ ガイダンスを使用してユーザー、エンティティ、またはオブジェクトのアイデンティティをレンダリングする方法を示します。"
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import avatarAnatomy from '@xplat-images/anatomy-content-light/avatar-lt-a.png';
+import avatarDo from '@xplat-images/avatar/avatar_do1.png';
+import avatarDo2x from '@xplat-images/avatar/avatar_do1@2x.png';
+import avatarDoNot from '@xplat-images/avatar/avatar_do_not1.png';
+import avatarDoNot2x from '@xplat-images/avatar/avatar_dont1@2x.png';
+
+# Avatar (アバター) コンポーネント
+
+Ignite UI for Angular Avatar は、画像、イニシャル、またはカスタム コンテンツを使用してユーザー、エンティティ、またはオブジェクトを表します。
+
+アバターを使用して、リスト、カード、プロフィール メニュー、アクティビティ フィードでコンパクトな視覚的アイデンティティを提供します。
+
+## ライブ デモ
+
+<Sample spacing="sm" height={300} src="/layouts/avatar-overview" alt="Angular Avatar の概要の例" />
+
+## 構造
+
+アバターは、画像のセマンティクスを適用し、サポートされているコンテンツ パターンのいずれかをレンダリングする単一のホスト要素です。
+
+<Anatomy
+  class="avatar-anatomy"
+  name="Angular Avatar の構造"
+  description="アバターの構造は、画像、アイコン、イニシャルのコンテナーにラベルを付けます。"
+  src={avatarAnatomy.src}
+  alt="Angular Avatar の構造: 画像、アイコン、イニシャルのコンテナー"
+/>
+
+<style>{`
+  .avatar-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .avatar-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 画像コンテナー:</strong> 画像コンテンツ タイプを表示します。<br />
+<strong>2. アイコン コンテナー:</strong> アイコン コンテンツ タイプを表示します。<br />
+<strong>3. イニシャル コンテナー:</strong> テキスト コンテンツ タイプを表示します。</span>
+
+```text
+igx-avatar[role="img"]           // ホスト - アバターを公開
+└─ 優先順位順に以下のいずれか:
+   ├─ div.igx-avatar__image      // `src` が設定されている場合 - 背景として画像をレンダリング
+   ├─ igx-icon                   // `icon` が設定されている場合
+   ├─ span                       // `initials` が設定されている場合 - 最初の 2 文字
+   └─ ng-content                 // カスタム プロジェクション コンテンツ
+```
+
+## 作業の開始
+
+`<igx-avatar>` をレンダリングする前に Angular アバター コンポーネントをインポートします。Ignite UI for Angular をまだセットアップしていない場合は、最初に共有 [作業の開始](../general/getting-started.mdx) トピックを完了してください。
+
+```ts
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+```
+
+## 使用方法
+
+デフォルト スロットに画像ソース、イニシャル、またはカスタム コンテンツを使用してアバターをレンダリングします。
+
+### バリアント
+
+表示するコンテンツ ソースのみを設定します。Angular アバターは、最初に `src` をレンダリングし、次に `icon`、次に `initials` をレンダリングし、これらのいずれの入力も設定されていない場合はプロジェクションされたカスタム コンテンツにフォールバックします。
+
+```html
+<igx-avatar initials="AZ"></igx-avatar>
+
+<igx-avatar src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"></igx-avatar>
+
+<igx-avatar icon="home"></igx-avatar>
+```
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-variants" alt="Angular Avatar のバリアントの例" />
+
+### 形状
+
+<ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> を `square`、`rounded`、または `circle` に設定します。
+
+```html
+<igx-avatar initials="AZ" shape="circle"></igx-avatar>
+```
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-shape" alt="Angular Avatar の形状の例" />
+
+### サイズ
+
+プリセット アバター サイズが必要な場合は、`--ig-size` を共有サイズ トークンのいずれかに設定します。
+
+```html
+<igx-avatar initials="AZ" size="large"></igx-avatar>
+```
+
+<Sample position="center" spacing="sm" height={300} src="/layouts/avatar-size" alt="Angular Avatar のサイズの例" />
+
+### 使用すべき場合と使用すべきでない場合
+
+**使用すべき場合:** プロフィール画像、イニシャル、アイコンなど、UI が人物、組織、オブジェクト、またはアカウントの小さな表現を必要とする場合にアバターを使用します。繰り返し表示されるアイデンティティを簡単に識別できるように、同じ UI 領域内で一貫したアバター戦略を維持します。
+
+**使用すべきでない場合:** エンティティを表す代わりにカウント、ステータス、または通知インジケーターを表示する必要がある場合は、[Badge](../inputs/badge.mdx) コンポーネントを使用します。アイデンティティとステータスの両方を一緒に表示する必要がある場合、バッジはアバターを装飾することもできます。
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべき</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべきでない</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDo} srcset={`${avatarDo.src} 1x, ${avatarDo2x.src} 2x`} alt="Angular Avatar の使用ガイダンス" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDoNot} srcset={`${avatarDoNot.src} 1x, ${avatarDoNot2x.src} 2x`} alt="Angular Avatar の不使用ガイダンス" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+## プロパティ
+
+アバターは、コンテンツと形状のための小さな入力セットを公開します。
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <ApiLink type="Avatar" member="icon" label="icon" /> | `string` | n/a | アバターがレンダリングするアイコンを設定します。 |
+| <ApiLink type="Avatar" member="initials" label="initials" /> | `string` | n/a | アバターがレンダリングするテキスト イニシャルを設定します。 |
+| <ApiLink type="Avatar" member="shape" label="shape" /> | `"square" \| "rounded" \| "circle"` | `"square"` | アバターの形状を設定します。 |
+| <ApiLink type="Avatar" member="size" label="size" /> | `"small" \| "medium" \| "large"` | `"small"` | アバターのサイズを設定します。 |
+| <ApiLink type="Avatar" member="src" label="src" /> | `string` | n/a | 画像ソース URL を設定します。 |
+
+## スタイル設定
+
+<Sample spacing="sm" height={420} src="/layouts/avatar-styling" alt="スタイル設定した Angular Avatar の例" />
+
+アバターの外観はテーマ変数とプラットフォーム固有のスタイル設定フックを通じて制御されます。
+
+トークン レベルの変更にはアバター CSS 変数を使用し、特定のレンダリング タイプや形状をターゲットにする必要がある場合は Angular ホスト クラスを使用します。
+
+| 変数 | 変更内容 |
+| -- | -- |
+| `--ig-avatar-background` | アバターの背景色。 |
+| `--ig-avatar-color` | テキストとイニシャルの色。 |
+| `--ig-avatar-icon-color` | アイコンの色。 |
+| `--ig-avatar-border-radius` | 丸みのあるアバターで使用される境界線の半径。 |
+| `--ig-avatar-size` | アバターの幅と高さ。 |
+| `--ig-size` | プリセット アバター サイズを導出するために使用する共有コンポーネント サイズ トークン。 |
+
+| セレクター | 説明 |
+| -- | -- |
+| `igx-avatar` | アバターのホスト要素。 |
+| `.igx-avatar--rounded` | `shape` が `rounded` の場合に適用されます。 |
+| `.igx-avatar--circle` | `shape` が `circle` の場合に適用されます。 |
+| `.igx-avatar--image` | アバターが画像をレンダリングするときに適用されます。 |
+| `.igx-avatar--icon` | アバターがアイコンをレンダリングするときに適用されます。 |
+| `.igx-avatar--initials` | アバターがイニシャルをレンダリングするときに適用されます。 |
+| `.igx-avatar__image` | 画像アバター要素。 |
+
+### Sass テーマ
+
+アプリケーションが Sass を通じて Ignite UI テーマをカスタマイズする場合は、<ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> 関数を使用します。
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+### CSS 変数
+
+Sass ビルド ステップなしでローカルでのスタイル設定が必要な場合は、コンポーネント CSS 変数を直接設定します。
+
+```css
+igx-avatar {
+  --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
+}
+```
+
+### Tailwind によるスタイル設定
+
+アプリケーションが Tailwind クラスを通じて Ignite UI コンポーネントのスタイルを設定する場合は、Angular Tailwind ユーティリティ構文を使用します。
+
+<Sample height={560} src="/layouts/avatar-tailwind-styling" alt="Angular Avatar Tailwind スタイル設定の例" />
+
+## アクセシビリティ
+
+アバターは、アクセシブルな画像セマンティクスを持つ非インタラクティブなアイデンティティ表示要素です。
+
+### キーボード インタラクション
+
+アバターはフォーカスを受け取らず、キーボード インタラクションはありません。
+
+| キー | アクション |
+| -- | -- |
+| n/a | アバターはキーボードによるインタラクティブ操作に対応していません。 |
+
+### スクリーン リーダー / ARIA
+
+アバターは画像のセマンティクスと `avatar` のデフォルトのアクセシブル ラベルで初期化されます。
+
+- 画像アバターがアイデンティティを伝える場合、周囲のテキストを使用して表現される人物、エンティティ、またはオブジェクトを識別します。
+- 隣接するテキストがすでに同じエンティティを識別している場合、装飾的なアバターを冗長として扱います。
+
+### アクセシビリティ準拠
+
+Infragistics は、[アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx) トピックで、Section 508 および WCAG 2.1 ガイドライン領域における Ignite UI for Angular のアクセシビリティ サポートを文書化しています。
+
+| 基準 | コンポーネントの準拠方法 |
+| -- | -- |
+| [1.1.1 非テキスト コンテンツ](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content) | アバターにはアクセシブル ラベルがあり、表現されるエンティティを識別する周囲のテキストと組み合わせることができます。 |
+| [4.1.2 名前、役割、値](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value) | コンポーネントは `role="img"` とデフォルトのアクセシブル ラベルで初期化されます。 |
+
+ユーザー側の責任:
+
+- スタイルをオーバーライドするときに、アバターの背景とテキストまたはアイコンの色のコントラストを十分に保ちます。
+- 隣接するテキストがすでに人物またはエンティティの名前を示している場合、同じアイデンティティのアナウンスを重複させないようにします。
+
+- アバター画像がアイデンティティを伝える場合、近くのテキストが表現されるエンティティを識別していることを確認します。
+
+## トラブルシューティング
+
+Avatar をインタラクティブまたはステータス コンポーネントとして扱う前に、このセクションを使用して境界と一般的な決定を確認してください。
+
+### 既知の制限
+
+アバターは視覚的なアイデンティティのプリミティブであり、それ自体ではインタラクション、ステータス、または通知動作を追加しません。
+
+- 表現されるエンティティがクリック可能でなければならない場合は、ボタンやリスト アイテムなどのインタラクティブなコンテナーを使用します。
+- ステータス、カウント、または通知インジケーターを表示する必要がある場合は、アバターにバッジを使用します。
+
+## API リファレンス
+
+完全なアバター API サーフェスについては、これらの API リファレンスを使用してください。
+
+<ApiLink type="Avatar" />
+
+## 依存関係
+
+Sass スタイル設定ワークフローは、<ApiLink kind="sass" module="themes" type="function-avatar-theme" label="IgxAvatar テーマ" /> および <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon テーマ" /> API を使用します。
+
+## その他のリソース
+
+サポートおよび関連する Ignite UI ドキュメントについては、これらのリソースを使用してください。
+
+- [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)
+
+## 関連コンポーネント
+
+アイデンティティをステータス、アクション、またはより豊富なレイアウトと組み合わせる必要がある場合は、これらの関連コンポーネントを使用してください。
+
+- [Badge](../inputs/badge.mdx) - カウント、ステータス、または通知インジケーターを表示するには Badge を使用します。UI にアイデンティティとステータスの両方が必要な場合、Badge は Avatar を装飾できます。
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Badge の代わりに Avatar を使用するのはどのような場合ですか?" indicatorPosition="end">
+    UI が人物、アカウント、組織、またはオブジェクトを表す必要がある場合に Avatar を使用します。UI がカウント、ステータス、または通知インジケーターを表示する必要がある場合は Badge を使用します。
+  </FaqItem>
+
+  <FaqItem question="Avatar はキーボード インタラクションを追加しますか?" indicatorPosition="end">
+    いいえ。Avatar は非インタラクティブであり、それ自体ではフォーカスを受け取りません。表現されるエンティティがアクションを必要とする場合は、インタラクティブなコンポーネント内に配置してください。
+  </FaqItem>
+
+  <FaqItem question="スクリーン リーダー向けに画像アバターにラベルを付けるにはどうすればよいですか?" indicatorPosition="end">
+    アバター画像が特定のエンティティを識別する場合は、意味のある代替テキストを提供します。隣接するテキストがすでにそのエンティティの名前を示している場合、同じアイデンティティのアナウンスを繰り返さないようにします。
+  </FaqItem>
+</Faq>
