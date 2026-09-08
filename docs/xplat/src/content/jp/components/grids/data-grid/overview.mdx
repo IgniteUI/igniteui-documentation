@@ -1,0 +1,437 @@
+---
+title: "{Platform} データ グリッド コンポーネント | リアルタイム {Platform} テーブル | インフラジスティックス"
+description: "インフラジスティックスの {Platform} グリッド コンポーネントは、高速でリアルタイムの React データ グリッドを作成します。{ProductName} を使用したデータの表示方法について説明します。"
+keywords: "{Platform} Table, Data Grid, overview, {ProductName}, data binding, Infragistics, {Platform} テーブル, データ グリッド, 概要, データ バインディング, インフラジスティックス"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+llms:
+  description: "{ProductName} Data Table / Data Grid は、表形式の {Platform} コンポーネントでコーディングや設定をほとんど行わずにデータをすばやくバインドして表示できます。"
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} Data Grid 概要
+
+{ProductName} Data Table / Data Grid は、表形式の {Platform} コンポーネントでコーディングや設定をほとんど行わずにデータをすばやくバインドして表示できます。{Platform} の機能には、フィルタリング、ソート、テンプレート、行選択、行のグループ化、行の固定、および列移動があります。{Platform} データ テーブルは、ライブ ストリーミング データ用に最適化されており、無制限のデータセットサイズを行数または列数で処理することができます。
+
+## {Platform} Data Grid の例
+
+このデモは、グリッドで利用可能な機能のいくつかを実装しています:
+フィルタリング、グループ化、列のピン固定/ピン固定解除、列の再配置、ソート、および集計。
+
+<Sample src="/grids/data-grid/overview" height={600} alt="{Platform} Data Grid の例" />
+
+
+
+<div class="divider--half"></div>
+
+## 作業の開始
+
+### 依存関係
+
+<PlatformBlock for="Blazor">
+IgniteUI.Blazor パッケージの追加については、以下のトピックを参照してください。
+- [作業の開始](../../general-getting-started.mdx)
+- [NuGet パッケージの追加](../../general-nuget-feed.mdx)
+
+以下の名前空間を追加してコントロールの実装を開始できます。
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents">
+{Platform} Grid のパッケージをインストールするときに core パッケージもインストールする必要があります。
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageGrids}
+npm install --save {PackageInputs}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### モジュールの要件
+
+`Grid` を作成するには、以下のモジュールが必要です。
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+<div class="divider--half"></div>
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+### オプションのモジュール
+
+上記のオプションの `Grid` 機能を使用するには、以下のモジュールが必要です。
+
+```json-snippet source="/grids/data-grid/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid"
+        }
+    },
+    "modules": [
+        "grids/DataGridModule",
+        "grids/DataGridToolbarModule",
+        "charts/SparklineModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+<div class="divider--half"></div>
+
+### サンプル データ ソース
+{Platform} グリッド モジュールがインポートされました。以下のステップはローカル データにバインドするグリッドの基本的な設定です。
+
+```ts
+    this.data = [{
+        Discontinued: false,
+        OrderDate: new Date("2012-02-12"),
+        ProductID: 1,
+        ProductName: "Chai",
+        QuantityPerUnit: "10 boxes x 20 bags",
+        ReorderLevel: 10,
+        UnitPrice: 18.0000,
+        UnitsInStock: 39
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2003-03-17"),
+        ProductID: 2,
+        ProductName: "Chang",
+        QuantityPerUnit: "24 - 12 oz bottles",
+        ReorderLevel: 25,
+        UnitPrice: 19.0000,
+        UnitsInStock: 17
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2006-03-17"),
+        ProductID: 3,
+        ProductName: "Aniseed Syrup",
+        QuantityPerUnit: "12 - 550 ml bottles",
+        ReorderLevel: 25,
+        UnitPrice: 10.0000,
+        UnitsInStock: 13
+    }, {
+        Discontinued: false,
+        OrderDate: new Date("2016-03-17"),
+        ProductID: 4,
+        ProductName: "Chef Antony Cajun Seasoning",
+        QuantityPerUnit: "48 - 6 oz jars",
+        ReorderLevel: 0,
+        UnitPrice: 22.0000,
+        UnitsInStock: 53
+    }, {
+        Discontinued: true,
+        OrderDate: new Date("2011-11-11"),
+        ProductID: 5,
+        ProductName: "Chef Antony Gumbo Mix",
+        QuantityPerUnit: "36 boxes",
+        ReorderLevel: 0,
+        UnitPrice: 21.3500,
+        UnitsInStock: 0
+    }];
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+
+    public List<SaleInfo> DataSource { get; set;}
+    Random Rand = new Random();
+
+    protected override void OnInitialized()
+    {
+        GenerateData();
+    }
+
+    public void GenerateData()
+    {
+        string[] names = new string[] {
+            "Intel CPU", "AMD CPU",
+            "Intel Motherboard", "AMD Motherboard", "Nvidia Motherboard",
+            "Nvidia GPU", "Gigabyte GPU", "Asus GPU", "AMD GPU", "MSI GPU",
+            "Corsair Memory", "Patriot Memory", "Skill Memory",
+            "Samsung HDD", "WD HDD", "Seagate HDD", "Intel HDD", "Asus HDD",
+            "Samsung SSD", "WD SSD", "Seagate SSD", "Intel SSD", "Asus SSD",
+            "Samsung Monitor", "Asus Monitor", "LG Monitor", "HP Monitor" };
+
+        string[] countries = new string[] {
+            "USA", "UK", "France", "Canada", "Poland",
+            "Denmark", "Croatia", "Australia", "Seychelles",
+            "Sweden", "Germany", "Japan", "Ireland",
+            "Barbados", "Jamaica", "Cuba", "Spain", };
+        string[] status = new string[] { "Packing", "Shipped", "Delivered" };
+
+        var sales = new List<SaleInfo>();
+
+        for (var i = 0; i < 200; i++)
+        {
+            var price = GetRandomNumber(10000, 90000) / 100;
+            var items = GetRandomNumber(4, 30);
+            var value = Math.Round(price * items);
+            var margin = GetRandomNumber(2, 5);
+            var profit = Math.Round((price * margin / 100) * items);
+            var country = GetRandomItem(countries);
+
+            var item = new SaleInfo()
+            {
+                Country = country,
+                CountryFlag = GetCountryFlag(country),
+                Margin = margin,
+                OrderDate = GetRandomDate(),
+                OrderItems = items,
+                OrderValue = value,
+                ProductID = 1001 + i,
+                ProductName = GetRandomItem(names),
+                ProductPrice = price,
+                Profit = Math.Round(profit),
+                Status = GetRandomItem(status)
+            };
+            sales.Add(item);
+        }
+
+        this.DataSource = sales;
+    }
+
+    public double GetRandomNumber(double min, double max)
+    {
+        return Math.Round(min + (Rand.NextDouble() * (max - min)));
+    }
+
+    public string GetRandomItem(string[] array)
+    {
+        var index = (int)Math.Round(GetRandomNumber(0, array.Length - 1));
+        return array[index];
+    }
+
+    public DateTime GetRandomDate() {
+        var today = new DateTime();
+        var year = today.Year;
+        var month = this.GetRandomNumber(1, 9);
+        var day = this.GetRandomNumber(10, 27);
+        return new DateTime(year, (int)month, (int)day);
+    }
+
+    public string GetCountryFlag(string country)
+    {
+        var flag = "https://static.infragistics.com/xplatform/images/flags/" + country + ".png";
+        return flag;
+    }
+
+    public class SaleInfo
+    {
+        public string? Status { get; set; }
+        public string? ProductName { get; set; }
+        public string? CountryFlag { get; set; }
+        public string? Country { get; set; }
+        public DateTime OrderDate { get; set; }
+        public double Profit { get; set; }
+        public double ProductPrice { get; set; }
+        public double ProductID { get; set; }
+        public double OrderValue { get; set; }
+        public double OrderItems { get; set; }
+        public double Margin { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+### 列の自動生成
+以下のコードは、{Platform} データ グリッドを上記のローカルデータにバインドする方法を示しています。
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": true,
+            "defaultColumnMinWidth": 100,
+            "summaryScope": "Root",
+            "isColumnOptionsEnabled": true,
+            "isGroupCollapsable": true,
+            "groupSummaryDisplayMode": "RowBottom",
+            "columnMovingMode": "Deferred",
+            "columnMovingAnimationMode": "SlideOver",
+            "columnMovingSeparatorWidth": 2,
+            "columnShowingAnimationMode": "SlideFromRightAndFadeIn",
+            "columnHidingAnimationMode": "SlideToRightAndFadeOut",
+            "selectionMode": "SingleRow",
+            "cornerRadiusTopLeft": 0,
+            "cornerRadiusTopRight": 0,
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+
+### 列の手動定義
+
+```json-snippet source="/grids/data-grid/column-auto-generation-sales"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "Product ID"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product Name"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "City"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "isEditable": false
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "maxFractionDigits": 0,
+                    "minFractionDigits": 0
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+
+### 列のスタイル設定
+次のコードは、提供された列のプロパティを使用して特定の列のスタイルを設定する方法を示しています。
+
+```json-snippet source="/grids/data-grid/overview"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "TextColumn",
+            "field": "Name",
+            "background": "SkyBlue",
+            "fontStyle": "italic",
+            "fontWeight": "bold",
+            "fontFamily": "Times New Roman",
+            "fontSize": 16
+        }
+    }
+}
+```
+
+<PlatformBlock for="Blazor">
+### ビデオ チュートリアル
+
+Blazor データ グリッドの作成について詳しくは、このチュートリアル ビデオ (英語) をご覧ください。
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/aT1L3nXqN6o">
+</iframe>
+</PlatformBlock>
+
+
+## その他のリソース
+
+- [アクセシビリティの遵守](accessibility.mdx)
+- [セルのアクティブ化](cell-activation.mdx)
+- [グリッド編集](cell-editing.mdx)
+- [セル選択](cell-selection.mdx)
+- [列アニメーション](column-animation.mdx)
+- [列の選択](column-chooser.mdx)
+- [列フィルタリング](column-filtering.mdx)
+- [列の移動](column-moving.mdx)
+- [列のオプション](column-options.mdx)
+- [列サイズの変更](column-resizing.mdx)
+- [列の並ソート](column-sorting.mdx)
+- [列タイプ](column-types.mdx)
+- [パフォーマンス](performance.mdx)
+- [行のピン固定](row-pinning.mdx)
+- [行グループ](row-grouping.mdx)
+- [行のハイライト表示](row-highlighting.mdx)
+
+{/*TODO fix build flagging list items*/}
+<PlatformBlock for="React">
+{/*- [行のページング](row-paging.mdx)*/}
+</PlatformBlock>
+
+## API リファレンス
+
+- `Grid`

@@ -8,6 +8,7 @@ _language: ja
 
 llms:
   description: "GeographicMap コントロールのナビゲーションは、既定では有効にされており、マップ コンテンツのズームとパンが可能です。"
+platformType: xplat
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -16,7 +17,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} コンテンツのナビゲーション
 
-<ApiLink type="GeographicMap" /> コントロールのナビゲーションは、既定では有効にされており、マップ コンテンツのズームとパンが可能です。ただし、この動作は <ApiLink type="GeographicMap" member="Zoomable" label="Zoomable" /> プロパティを使用して変更できます。マップでは同期ズームのみが許可されていること、つまり、アスペクト比を維持したままマップコンテンツをスケーリングすることを知っておくことが重要です。結果として、マップコンテンツを水平方向にスケーリングせずに垂直方向にスケーリングすることはできません。
+`XamGeographicMap` コントロールのナビゲーションは、既定では有効にされており、マップ コンテンツのズームとパンが可能です。ただし、この動作は `Zoomable` プロパティを使用して変更できます。マップでは同期ズームのみが許可されていること、つまり、アスペクト比を維持したままマップコンテンツをスケーリングすることを知っておくことが重要です。結果として、マップコンテンツを水平方向にスケーリングせずに垂直方向にスケーリングすることはできません。
 
 ## {Platform} コンテンツのナビゲーションの例
 
@@ -34,23 +35,14 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 このコード スニペットは、地理座標を使用してマップをナビゲートする方法を示しています。
 
-<PlatformBlock for="React">
-
-```ts
-const geoMap = new IgrGeographicMap({ name: "geoMap" });
-
-geoMap.zoomToGeographic({ left: -134.5, top: 16.5, width: 70.0, height: 37.0 });
+```json-snippet channel="eventHandlers"
+{
+    "descriptions": {
+        "content": { "type": "GeographicMap", "name": "geoMap", "height": "100%", "width": "100%", "zoomable": true }
+    },
+    "onViewInit": [ "MapNavigationOnViewInit" ]
+}
 ```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-this.GeoMap.ZoomToGeographic(new Rect() { Left = -134.5, Top = 16.5, Width = 70.0, Height = 37.0 });
-```
-
-</PlatformBlock>
 
 ## ウィンドウ座標
 
@@ -60,47 +52,39 @@ this.GeoMap.ZoomToGeographic(new Rect() { Left = -134.5, Top = 16.5, Width = 70.
 
 このコード スニペットは、相対ウィンドウ座標を使用してマップをナビゲートする方法を示しています。
 
-<PlatformBlock for="React">
-
-```ts
-const geoMap = new IgrGeographicMap({ name: "geoMap" });
-
-geoMap.windowRect = { left: 0.1, top: 0.1, width: 0.5, height: 0.5 };
-// or
-geoMap.windowPositionHorizontal = 0.1;
-geoMap.windowPositionVertical = 0.1;
-geoMap.windowScale = 0.5;
+```json-snippet channel="code"
+{
+    "type": "GeographicMap",
+    "windowRect": { "left": 0.1, "top": 0.1, "width": 0.5, "height": 0.5 }
+}
 ```
 
-</PlatformBlock>
+または
 
-<PlatformBlock for="Blazor">
-
-```razor
-this.GeoMap.ZoomToGeographic(new Rect() { Left = 0.1, Top = 0.1, Width = 0.5, Height = 0.5 });
-// or
-this.GeoMap.WindowPositionHorizontal = 0.1;
-this.GeoMap.WindowPositionVertical = 0.1;
-this.GeoMap.WindowScale = 0.5;
+```json-snippet channel="code"
+{
+    "type": "GeographicMap",
+    "windowPositionHorizontal": 0.1,
+    "windowPositionVertical": 0.1,
+    "windowScale": 0.5
+}
 ```
-
-</PlatformBlock>
 
 ## プロパティ
-以下の表は <ApiLink type="GeographicMap" /> コントロールのナビゲーションで使用できるプロパティをまとめたものです。
+以下の表は `XamGeographicMap` コントロールのナビゲーションで使用できるプロパティをまとめたものです。
 
 | プロパティ名  | プロパティ型   | 概要   |
 |----------------|-----------------|---------------|
-|<ApiLink type="GeographicMap" member="WindowRect" label="WindowRect" />| Rect | 地図コンテンツの表示領域にナビゲーション ウィンドウの新しい位置とサイズを設定します。0、0、1、1 の値で長方形を指定すると、ナビゲーション ウィンドウのマップ コンテンツ全体がズームアウトされます。 |
-|<ApiLink type="GeographicMap" member="windowScale" label="WindowScale" />| number | マップ コントロールのナビゲーション ウィンドウの新しいサイズを設定します。<ApiLink type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティに格納されている Width または Height の最小値です。 |
-|<ApiLink type="SeriesViewer" member="windowPositionHorizontal" label="WindowPositionHorizontal" />| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの新しい水平位置を設定します。これは <ApiLink type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティの Left に保存された値と等しくなります。 |
-|<ApiLink type="SeriesViewer" member="windowPositionVertical" label="WindowPositionVertical" />| number | ナビゲーション ウィンドウのアンカー ポイントの、地図コントロールの上端からの新しい垂直位置を設定します。これは <ApiLink type="GeographicMap" member="WindowRect" label="WindowRect" /> プロパティの Top に保存された値と等しくなります。 |
-|<ApiLink type="SeriesViewer" member="actualWindowRect" label="ActualWindowRect" />| Rect | マップ コンテンツの表示領域内のナビゲーション ウィンドウの現在の位置とサイズを示します。0、0、1、1の値で長方形を指定すると、ナビゲーション ウィンドウにマップ コンテンツ全体が表示されます。  |
-|<ApiLink type="GeographicMap" member="actualWindowScale" label="ActualWindowScale" />| number | マップ コントロールのナビゲーション ウィンドウの現在のサイズを示します。<ApiLink type="SeriesViewer" member="actualWindowRect" label="ActualWindowRect" /> プロパティに格納されている Width または Height の最小値と同じです。 |
-|<ApiLink type="SeriesViewer" member="actualWindowPositionHorizontal" label="ActualWindowPositionHorizontal" />| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの現在の水平位置を示します。<ApiLink type="SeriesViewer" member="actualWindowRect" label="ActualWindowRect" /> プロパティの Left に保存された値と等しくなります。 |
-|<ApiLink type="SeriesViewer" member="actualWindowPositionVertical" label="ActualWindowPositionVertical" />| number | マップコントロールの上端からのナビゲーションウィンドウのアンカーポイントの垂直位置を示します。<ApiLink type="SeriesViewer" member="actualWindowRect" label="ActualWindowRect" /> プロパティの Top に保存された値と等しくなります。 |
+|`WindowRect`| Rect | 地図コンテンツの表示領域にナビゲーション ウィンドウの新しい位置とサイズを設定します。0、0、1、1 の値で長方形を指定すると、ナビゲーション ウィンドウのマップ コンテンツ全体がズームアウトされます。 |
+|`windowScale`| number | マップ コントロールのナビゲーション ウィンドウの新しいサイズを設定します。`WindowRect` プロパティに格納されている Width または Height の最小値です。 |
+|`windowPositionHorizontal`| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの新しい水平位置を設定します。これは `WindowRect` プロパティの Left に保存された値と等しくなります。 |
+|`windowPositionVertical`| number | ナビゲーション ウィンドウのアンカー ポイントの、地図コントロールの上端からの新しい垂直位置を設定します。これは `WindowRect` プロパティの Top に保存された値と等しくなります。 |
+|`actualWindowRect`| Rect | マップ コンテンツの表示領域内のナビゲーション ウィンドウの現在の位置とサイズを示します。0、0、1、1の値で長方形を指定すると、ナビゲーション ウィンドウにマップ コンテンツ全体が表示されます。  |
+|`actualWindowScale`| number | マップ コントロールのナビゲーション ウィンドウの現在のサイズを示します。`actualWindowRect` プロパティに格納されている Width または Height の最小値と同じです。 |
+|`actualWindowPositionHorizontal`| number | マップ コントロールの左端からのナビゲーション ウィンドウのアンカー ポイントの現在の水平位置を示します。`actualWindowRect` プロパティの Left に保存された値と等しくなります。 |
+|`actualWindowPositionVertical`| number | マップコントロールの上端からのナビゲーションウィンドウのアンカーポイントの垂直位置を示します。`actualWindowRect` プロパティの Top に保存された値と等しくなります。 |
 
 
 ## API リファレンス
 
-<ApiLink type="GeographicMap" /><br />
+`XamGeographicMap`<br />

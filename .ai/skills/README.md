@@ -1,6 +1,6 @@
 # Ignite UI doc-skill set — architecture and maintenance guide
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. This file is for humans; agents load the
+Version: v4 · 2026-08-31 · igniteui doc-skill set. This file is for humans; agents load the
 SKILL.md files. Change history: `CHANGELOG.md`.
 
 ## What this is
@@ -58,6 +58,14 @@ change over time lives in `references/`. Three reasons:
 ├── igniteui-doc-topics/SKILL.md          ← adapter (description byte-matches canonical)
 └── igniteui-topic-frontmatter/SKILL.md   ← adapter (description byte-matches canonical)
 ```
+
+**Where xplat build machinery lives instead.** Two contracts an xplat author needs are not house
+style but build behaviour, so their working guides are repository skills and this set only points at
+them: `.github/skills/xplat-docs-api-links` (the `apiTerms` modes, `ApiLink` props, `pkg=`
+disambiguation) and `.github/skills/xplat-docs-json-snippets` (fence attributes, channels, the
+checks). house-style names both, and `docs/xplat/API-TERMS.md` and `docs/xplat/JSON-SNIPPETS.md` are
+normative for them. Do not restate their rules here — that is the drift this set was restructured to
+stop.
 
 **Authority chain:** where any two files differ, `house-style.md` wins on content rules (it is the
 single normative field contract and template source); each skill's own references win on its

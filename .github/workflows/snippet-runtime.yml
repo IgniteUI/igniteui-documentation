@@ -1,0 +1,84 @@
+name: Snippet load check
+
+# Every json-snippet fence in the topics loaded into chromium with the real component renderer and the
+# published igniteui-webcomponents-* packages, checked for errors.
+#
+# The other checks prove a fence emits code. They cannot prove what it publishes renders: a property can
+# be spelled right, typed right, and still leave a component throwing on load. This is the other half,
+# and it is the same script anyone runs locally:
+#
+#   node docs/xplat/scripts/snippet-runtime/run.mjs
+#
+# The packages come from the registry here, which is what a reader of the documentation installs. A
+# local run can point at a locally built set with --packages=<dir> when checking a build before it
+# ships.
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ master, vnext ]
+    paths:
+      - 'docs/xplat/scripts/snippet-runtime/**'
+      - '.github/workflows/snippet-runtime.yml'
+  schedule:
+    # Nightly, because what this checks is the published packages against the samples: neither changes
+    # because of anything in this repository, and both change without it.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      filter:
+        description: 'Only fences whose page path contains this'
+        required: false
+        type: string
+
+jobs:
+  load-every-fence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # What turns a fence into a platform's code is the product's own code generating renderer,
+      # which ships in igniteui-webcomponents-core. This builds the thin wrapper around it against
+      # the published package, so nothing here needs a dev-tools checkout — see the README beside it.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: Resolve the examples checkout
+        id: examples
+        run: |
+          node docs/xplat/scripts/ci/resolve-examples.mjs --print-path >> "$GITHUB_OUTPUT"
+
+      - name: Install the harness and chromium
+        working-directory: docs/xplat/scripts/snippet-runtime
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Load every fence
+        working-directory: docs/xplat/scripts/snippet-runtime
+        env:
+          XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
+        run: |
+          node run.mjs ${{ inputs.filter && format('--filter={0}', inputs.filter) || '' }}
+
+      - name: Keep what the emitted library looked like
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emitted-library
+          path: docs/xplat/scripts/snippet-runtime/generated
+          if-no-files-found: ignore
+          retention-days: 7

@@ -194,7 +194,7 @@ export const IGDOCS_BROAD_SECTIONS = [
 ] as const;
 
 /** Platforms that use the Ignite UI doc broad sections. */
-const IGDOCS_PLATFORMS = new Set<string>(['angular', 'react', 'blazor', 'web-components']);
+const IGDOCS_PLATFORMS = new Set<string>(['angular', 'react', 'blazor', 'web-components', 'winui', 'uno']);
 
 /**
  * Returns the set of broad-section labels for the given platform.

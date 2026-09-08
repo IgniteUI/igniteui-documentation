@@ -20,10 +20,21 @@
 
 import {
     readFileSync, writeFileSync, mkdirSync,
-    existsSync, readdirSync, rmSync,
+    existsSync, readdirSync, rmSync, statSync,
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// The snippet emitter is a CommonJS bundle of the locally built renderer; see transformJsonSnippets.
+import { createRequire } from 'node:module';
+// Canonical platform-visibility rules, shared with astro.config.ts and the
+// link checkers. Node strips the TS types on import (CI runs Node 24).
+import { emitsFor, forMatches } from '../../../src/lib/platform-groups.ts';
+import {
+    loadSnippetApi as loadSnippetToolchainApi, resolveExamplesRoot, mdxFilesUnder,
+} from './lib/snippet-toolchain.mjs';
+import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.mjs';
+import { fenceEmitter, libraryItemLookup, CODE_FENCE_LANG } from './lib/snippet-emit.mjs';
+import { resolveApiTerms } from './lib/api-terms.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -41,6 +52,7 @@ const LANG     = get('--lang=')     ?? process.env.LANG_CODE ?? 'en';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const ROOT       = path.join(__dirname, '..');
+const REPO_ROOT  = path.join(ROOT, '..', '..');
 
 // Source MD files:  src/content/{lang}/components/
 const SRC_COMPONENTS = path.join(ROOT, 'src', 'content', LANG, 'components');
@@ -77,7 +89,7 @@ if (!platformConfig) {
 
 function collectExcludedSlugs(nodes, excluded = new Set()) {
     for (const node of nodes || []) {
-        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        const isExcluded = !emitsFor(PLATFORM, node);
         if (isExcluded && node.href) {
             excluded.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
         }
@@ -104,7 +116,7 @@ function collectAllSlugs(nodes, excluded) {
 // e.g. general-getting-started.md appears under a React node AND a Blazor-only node.
 function collectIncludedSlugs(nodes, included = new Set()) {
     for (const node of nodes || []) {
-        const isExcluded = Array.isArray(node.exclude) && node.exclude.includes(PLATFORM);
+        const isExcluded = !emitsFor(PLATFORM, node);
         if (!isExcluded && node.href) {
             included.add(node.href.replace(/\.(mdx?)?$/, '').replace(/\\/g, '/'));
         }
@@ -116,6 +128,10 @@ function collectIncludedSlugs(nodes, included = new Set()) {
 }
 
 const TOC_PATH = path.join(ROOT, 'src', 'content', LANG, 'toc.json');
+const INCLUDED_SLUGS = (() => {
+    if (!existsSync(TOC_PATH)) return new Set();
+    return collectIncludedSlugs(JSON.parse(readFileSync(TOC_PATH, 'utf8')));
+})();
 const EXCLUDED_SLUGS = (() => {
     if (!existsSync(TOC_PATH)) return new Set();
     const toc = JSON.parse(readFileSync(TOC_PATH, 'utf8'));
@@ -172,8 +188,18 @@ function normalizeMarkdownSpacing(content) {
     return normalized;
 }
 
+function applyProductLicense(content) {
+    if (PLATFORM !== 'WinUI' && PLATFORM !== 'Uno') return content;
+    return content.replace(/^(---\r?\n)([\s\S]*?)(^---)/m, (_match, open, body, close) => {
+        const licensed = /^license:\s*.*$/m.test(body)
+            ? body.replace(/^license:\s*.*$/m, 'license: commercial')
+            : `${body.replace(/\s*$/, '\n')}license: commercial\n`;
+        return `${open}${licensed}${close}`;
+    });
+}
+
 function prepareMarkdownOutput(content) {
-    return normalizeMarkdownSpacing(content);
+    return normalizeMarkdownSpacing(applyProductLicense(content));
 }
 
 // ---------------------------------------------------------------------------
@@ -204,8 +230,8 @@ function applyReplacements(content, extraReplacements = []) {
 function filterPlatformBlocks(content) {
     return content.replace(
         /<!-- ([\w ,]+?) -->([\s\S]*?)<!-- end: \1 -->/g,
-        (_m, platforms, body) =>
-            platforms.split(',').map(p => p.trim()).includes(PLATFORM) ? body : '',
+        // Accepts platform names and group aliases (Web, NonWeb) alike.
+        (_m, platforms, body) => (forMatches(PLATFORM, platforms) ? body : ''),
     );
 }
 
@@ -262,15 +288,19 @@ function filterComponentBlocks(content, componentKey) {
 // 4. Code block filtering  (language tag + content detection)
 // ---------------------------------------------------------------------------
 
-// Languages that belong exclusively to one platform
+// Languages that belong exclusively to one platform, or to one platform group.
+// A value may be a platform name or a group alias (see src/lib/platform-groups.ts).
+// `xaml` maps to the Xaml group — NOT NonWeb, which will also cover non-XAML
+// platforms such as mobile.
 const EXCLUSIVE_LANG = {
     razor:  'Blazor',
     cshtml: 'Blazor',
     tsx:    'React',
     jsx:    'React',
+    xaml:   'Xaml',
 };
 
-// Content patterns for generic languages (ts / html)
+// Content patterns for generic languages (ts / html / cs)
 const CONTENT_PATTERNS = {
     Angular:       [/igx-\w+/,   /\bIgx[A-Z]/],
     React:         [/\bIgr[A-Z]/],
@@ -288,10 +318,13 @@ function detectPlatformFromContent(lang, code) {
 }
 
 function filterCodeBlocks(content) {
-    return content.replace(/```(\w+)([\s\S]*?)```/g, (match, lang, body) => {
-        // Exclusive language check
+    // Both delimiters anchored to a line start: pairing them loosely makes the result depend on
+    // where the surrounding platform blocks happen to open and close, because a fence whose closer
+    // is not recognised runs on and takes the next fence with it.
+    return content.replace(/^```(\w+)[^\n]*\n([\s\S]*?)^```[ \t]*$/gm, (match, lang, body) => {
+        // Exclusive language check. `owner` may be a platform or a group alias.
         const owner = EXCLUSIVE_LANG[lang.toLowerCase()];
-        if (owner && owner !== PLATFORM) return '';
+        if (owner && !forMatches(PLATFORM, owner)) return '';
 
         // Content-based detection for ts / html
         const detected = detectPlatformFromContent(lang, body);
@@ -337,8 +370,7 @@ function inlinePlatformBlocks(content) {
         }
 
         result += content.slice(pos, openPos);
-        const platforms = openMatch[1].split(',').map(s => s.trim());
-        const keep      = platforms.includes(PLATFORM);
+        const keep      = forMatches(PLATFORM, openMatch[1]);
         const bodyStart = openPos + openMatch[0].length;
 
         let depth = 1, searchPos = bodyStart;
@@ -379,14 +411,382 @@ function inlinePlatformBlocks(content) {
     return result;
 }
 
-function transformMdxFile(content) {
+// ---------------------------------------------------------------------------
+// 5c. json-snippet blocks
+//
+// A ```json-snippet block holds one sample as JSON, and is turned into this platform's markup
+// here, during generation. That replaces the four or five hand written blocks a topic would
+// otherwise carry for the same sample — one per platform — with a single definition.
+//
+// Purely additive. Every other block is left exactly as it was, so a topic can hold both forms
+// and a platform specific snippet that has no JSON equivalent keeps working unchanged.
+//
+// The emitter is the locally built one from the renderer work, loaded through a CommonJS bundle.
+// When that work is published this becomes an ordinary package import and the paths below go away.
+// ---------------------------------------------------------------------------
+
+/**
+ * The examples checkout, resolved when a fence first needs it rather than at start-up: a locale or
+ * platform whose pages carry no json-snippet should not clone anything.
+ */
+let snippetExamples = null;
+function examplesRoot() {
+    if (snippetExamples === null) snippetExamples = resolveExamplesRoot();
+    return snippetExamples;
+}
+
+// The fence language each platform's markup is written in, which is what the topic would have
+// hand written for it.
+const SNIPPET_FENCE_LANG = {
+    Angular: 'html',
+    WebComponents: 'html',
+    React: 'tsx',
+    Blazor: 'razor',
+    WPF: 'xaml',
+    WinUI: 'xaml',
+    Uno: 'xaml',
+};
+
+/**
+ * The style a documentation snippet is written in, before any sample says otherwise.
+ *
+ * The renderer's own defaults are what a generated project wants — every attribute on its own
+ * line, every dimension stated. A doc block is not that: it keeps attributes on the tag's line,
+ * and the XAML platforms write no dimensions at all because the hosting panel decides them.
+ * Stating it once here beats repeating it in every sample, and a sample can still override any of
+ * it through $styleOptions.
+ */
+// Shared by every platform. One attribute per line is the renderer's own default and is how the
+// topics are written — thirty properties on one line is unreadable at any page width. Colours are
+// pinned to the spelling the topics use: a name where the colour has one, hex otherwise, rather
+// than each emitter picking (Web Components would otherwise write rgba(189, 220, 252, 1) for the
+// #bddcfc that Blazor writes).
+const SNIPPET_STYLE_COMMON = {
+    suppressAutoElementNames: true,
+    suppressNameAttribute: true,
+    // The topics show the statements a handler runs, not the method the library wraps them in.
+    omitHandlerSignature: true,
+    // A property holding an element is built where it is assigned, which is the two statements the
+    // hand written blocks showed. The lazily constructed field is the sounder habit on Angular and
+    // React, but this is a reproduction of what those pages taught.
+    directAssignment: true,
+    colorNotation: 'hex',
+    pascalCaseColorNames: true,
+};
+
+const SNIPPET_STYLE_XAML = {
+    ...SNIPPET_STYLE_COMMON,
+    indentXamlAttributes: true,
+    omitDimensions: true,
+    selfCloseEmptyElements: true,
+};
+
+const SNIPPET_STYLE_DEFAULTS = {
+    default: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+
+    // How each platform's topics have always written their numbers: Angular leaves them
+    // undelimited, React braces them, and the rest quote them. React's emitter indents its
+    // attributes already, so it is the one platform that must not ask for it again.
+    Angular: { ...SNIPPET_STYLE_COMMON, indentAttributes: true, numericAttributeStyle: 'bare' },
+    WebComponents: { ...SNIPPET_STYLE_COMMON, indentAttributes: true },
+    // The topics close an element with nothing inside it on its own tag. They also qualify every
+    // enum value with its type — 315 times, and never otherwise — which is what the emitter
+    // already does, so there is nothing to configure for that.
+    Blazor: {
+        ...SNIPPET_STYLE_COMMON,
+        indentAttributes: true,
+        selfCloseEmptyElements: true,
+    },
+    React: {
+        ...SNIPPET_STYLE_COMMON,
+        indentAttributes: true,
+        numericAttributeStyle: 'braced',
+        booleanAttributeStyle: 'braced',
+        selfCloseEmptyElements: true,
+    },
+
+    // The XAML platforms state no dimensions, because the hosting panel decides them.
+    WPF: { ...SNIPPET_STYLE_XAML },
+    WinUI: { ...SNIPPET_STYLE_XAML },
+    Uno: { ...SNIPPET_STYLE_XAML },
+};
+
+let snippetApi = null;
+function loadSnippetApi() {
+    if (snippetApi !== null) return snippetApi;
+    const require = createRequire(import.meta.url);
+    // The renderer drags in Web Components classes that touch window/document at module scope.
+    // Code generation never renders, so the stub is only there to let the modules load.
+    snippetApi = loadSnippetToolchainApi();
+    return snippetApi;
+}
+
+/** `id="x" ref="x" channel="bindingCode" source="/x" exclude="Blazor"` on the fence line. */
+function parseFenceAttributes(info) {
+    const attrs = {};
+    for (const m of info.matchAll(/(\w+)="([^"]*)"/g)) attrs[m[1]] = m[2];
+    return attrs;
+}
+
+/**
+ * The JSON each `id=` fence holds, so a later `ref=` fence can emit the same definition on another
+ * channel without the topic stating it twice.
+ *
+ * Some properties cannot be written as an attribute on some platforms — a data source or a tooltip
+ * template on Web Components is assigned in script — so a topic showing only markup would leave
+ * that platform's reader with a series bound to nothing. The second fence emits exactly the part
+ * the first could not, from the same definition, which is the whole point: two hand written blocks
+ * are two things to keep in step, and they never were.
+ */
+function collectSnippetDefinitions(content) {
+    const byId = new Map();
+    for (const m of content.matchAll(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g)) {
+        const id = parseFenceAttributes(m[1]).id;
+        if (id) byId.set(id, m[2]);
+    }
+    return byId;
+}
+
+function sampleFileFor(src) {
+    return path.join(examplesRoot(), 'samples', src.replace(/^\//, '') + '.json');
+}
+
+/**
+ * Turns every ```json-snippet block into this platform's markup.
+ *
+ *   ```json-snippet source="/gauges/bullet-graph/measures" exclude="Blazor"
+ *   { "type": "BulletGraph", "value": 50, … }
+ *   ```
+ *
+ * The JSON is written out in full rather than naming the sample and overlaying changes onto it. A
+ * reader of the topic can then see the whole snippet in the topic, which is the point — a block
+ * whose real content lives in another file, assembled by rules, is not something anyone can read.
+ *
+ * `source` names the running sample the values came from. Nothing is read from it during
+ * generation, but it is not decoration: check-snippet-sources.mjs compares the two and reports
+ * every property where they differ, so a snippet that drifts from the sample it claims to show is
+ * caught rather than discovered years later. That difference is exactly the overlay, so if the
+ * inline form is ever regretted, the overlay form can be produced from it mechanically.
+ *
+ * A snippet showing fewer properties than its source is the normal case and says nothing: a section
+ * about tick marks shows tick marks, not the thirty properties the running sample carries. What the
+ * check reports is a property both of them set to different values, which is the only shape drift
+ * can take once the two are linked.
+ *
+ * `exclude` names platforms the snippet is not for. A list of platforms to include was the other
+ * option and is the wrong default — a snippet is for every platform unless something makes it not,
+ * so stating the exception keeps the common case empty.
+ */
+/** Where the emitted schema is written, so an editor can point $schema at it. */
+const SNIPPET_SCHEMA_OUT = path.join(ROOT, 'generated', 'snippet-schema.json');
+
+/**
+ * Emits the JSON schema and checks every json-snippet in the source against it.
+ *
+ * The renderer rejects a bad snippet one property at a time and only once generation reaches it,
+ * which turns a page with five mistakes into five runs. The schema knows every description type
+ * and every property on it, so one pass can report all of them, with the file and the property
+ * named. It runs before any output is written, because a build that fails halfway leaves a
+ * half-generated tree behind.
+ *
+ * The schema is written out as well as used, so the same file can back editor completion.
+ */
+
+// Timing for the phases of a run, printed when IG_TIMING is set. Kept because the run is long
+// enough that where the time goes is worth being able to ask.
+const TIMING = process.env.IG_TIMING === '1';
+const _phaseStart = new Map();
+function phase(name) {
+    if (!TIMING) return;
+    _phaseStart.set(name, Date.now());
+}
+function phaseDone(name, detail) {
+    if (!TIMING) return;
+    const started = _phaseStart.get(name);
+    if (started === undefined) return;
+    console.log(`[timing] ${name}: ${Date.now() - started}ms${detail ? '  ' + detail : ''}`);
+}
+
+/**
+ * Every json-snippet in the pages being built, checked against the schema the descriptions declare.
+ *
+ * The checking itself lives in lib/snippet-schema.mjs, shared with check-snippet-schema.mjs, which
+ * is what CI runs over both locales. Two implementations could disagree about what is valid, and the
+ * one that mattered would be whichever ran last.
+ */
+function validateJsonSnippets(sourceDir) {
+    const files = mdxFilesUnder(sourceDir);
+    const snippets = snippetsIn(files, { relativeTo: ROOT });
+    if (snippets.length === 0) return;
+
+    const api = loadSnippetApi();
+    phase('emit schema');
+    const validator = schemaValidator(api, examplesRoot());
+    phaseDone('emit schema');
+
+    mkdirSync(path.dirname(SNIPPET_SCHEMA_OUT), { recursive: true });
+    writeFileSync(SNIPPET_SCHEMA_OUT, JSON.stringify(validator.schema, null, 2), 'utf8');
+    if (validator.dangling.length > 0) {
+        console.log(`[generate] json-snippet: ${validator.dangling.length} type(s) referenced but not ` +
+                    `defined by the schema, so their properties go unchecked: ` +
+                    `${validator.dangling.slice(0, 5).join(', ')}` +
+                    (validator.dangling.length > 5 ? ', …' : ''));
+    }
+
+    const problems = [];
+    for (const snippet of snippets) {
+        for (const problem of problemsWith(snippet, validator)) {
+            problems.push(`${problem.where}${problem.at ? `  (${problem.at})` : ''}  ${problem.message}`);
+        }
+    }
+
+    if (problems.length === 0) {
+        console.log(`[generate] json-snippet: ${snippets.length} checked against the schema, all valid`);
+        return;
+    }
+    console.error(`[generate] json-snippet: ${problems.length} problem(s) in ${snippets.length} snippet(s):`);
+    for (const p of problems) console.error(`  ${p}`);
+    process.exit(1);
+}
+
+function transformJsonSnippets(content) {
+    if (!content.includes('```json-snippet')) return content;
+
+    const lang = SNIPPET_FENCE_LANG[PLATFORM];
+    const api = loadSnippetApi();
+    const definitions = collectSnippetDefinitions(content);
+
+    return content.replace(/```json-snippet *([^\n]*)\n([\s\S]*?)```/g, (_match, info, body) => {
+        // A platform this sample cannot be emitted for drops out, the same way a code block
+        // belonging to another platform does.
+        if (!lang || !api.isSupportedPlatform(PLATFORM)) return '';
+
+        const attrs = parseFenceAttributes(info);
+        // Same spelling a PlatformBlock's for= takes, groups included, so "Xaml" excludes all three.
+        if (attrs.exclude && forMatches(PLATFORM, attrs.exclude)) return '';
+
+        // Only that the path resolves. Whether the values still agree is a question for
+        // check-snippet-sources.mjs, which can say what differs; failing a build here could only
+        // say that something does.
+        if (attrs.source && !existsSync(sampleFileFor(attrs.source))) {
+            throw new Error(`json-snippet source names a sample that does not exist: ${attrs.source}`);
+        }
+
+        // A ref= fence emits another channel of a definition stated once, further up the page.
+        let json = body;
+        if (attrs.ref) {
+            const referenced = definitions.get(attrs.ref);
+            if (referenced === undefined) {
+                throw new Error(`json-snippet ref="${attrs.ref}" names no snippet with that id`);
+            }
+            json = referenced;
+        }
+
+        let emitted;
+        try {
+            emitted = snippetEmitter().emitFence(json, attrs);
+        } catch (e) {
+            // Failing the build beats publishing a page with a hole where a sample should be.
+            throw new Error(`json-snippet failed for ${PLATFORM}: ${e.message}\n${info}\n${body}`);
+        }
+        // A channel this platform writes nothing to drops out, the same way a block belonging to
+        // another platform does — Angular binds its data source in the template, so it has no
+        // binding code to show beside it.
+        if (emitted.content === null || emitted.content.trim() === '') return '';
+        // The markup channel is not the only one that produces markup: a template item on the XAML
+        // platforms is a DataTemplate, while on the web platforms the same item is a function inside
+        // TypeScript. So the fence follows what came out rather than the channel's name -- a block
+        // opening with a tag is markup, and labelling it csharp gave the reader XAML in a C# fence.
+        const looksLikeMarkup = emitted.content.trimStart().startsWith('<');
+        const fenceLang = emitted.channel === 'markup' || looksLikeMarkup
+            ? lang
+            : CODE_FENCE_LANG[PLATFORM] || 'ts';
+        const fence = '```' + fenceLang + '\n' + emitted.content + '\n```';
+        if (emitted.companion === '') return fence;
+        return fence + '\n\n```' + (CODE_FENCE_LANG[PLATFORM] || 'ts') + '\n' + emitted.companion + '\n```';
+    });
+}
+
+/**
+ * This platform's emitter, built once and reused.
+ *
+ * The library lookup behind `item=` loads the library, so a fresh emitter per fence would reload it
+ * for every block on the page.
+ */
+let emitterForPlatform = null;
+function snippetEmitter() {
+    if (emitterForPlatform === null) {
+        const api = loadSnippetApi();
+        const root = examplesRoot();
+        emitterForPlatform = fenceEmitter({
+            api,
+            platform: PLATFORM,
+            examplesRoot: root,
+            styleDefaults: SNIPPET_STYLE_DEFAULTS[PLATFORM] || SNIPPET_STYLE_DEFAULTS.default,
+            knownItem: libraryItemLookup(api, PLATFORM, root),
+        });
+    }
+    return emitterForPlatform;
+}
+
+
+function transformMdxFile(content, where = 'this page') {
+    // 0. Turn any json-snippet block into this platform's markup
+    content = transformJsonSnippets(content);
     // 1. Resolve <PlatformBlock> tags — keep only this platform's content
     content = inlinePlatformBlocks(content);
+    // 1b. Filter code blocks by language and by content. Only PlatformBlock gating kept another
+    //     platform's code off an .mdx page before this, and a fence outside one survived everywhere:
+    //     Angular markup on the Web Components pages, a Web Components type on React's. A fence no
+    //     pattern claims is untouched, so this removes only what is positively another platform's.
+    content = filterCodeBlocks(content);
+
     // 2. Remove the now-unused PlatformBlock import (if any)
     content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
+    // 2.5 Resolve backticked API terms to this platform's spelling. After the PlatformBlock pass so
+    //     only the content this platform keeps is considered, and before token substitution so a
+    //     term is matched as written. ensureMdxImports adds the ApiLink import for what this emits.
+    content = resolveApiTermsFor(content, where);
     // 3. Resolve all tokens ({Platform}, {ProductName}, etc.) in both frontmatter and body.
     content = applyReplacements(content);
     return content;
+}
+
+/**
+ * One page's code spans, rewritten for the platform being generated.
+ *
+ * Terms that resolve nowhere are collected rather than thrown on: a page naming an API the maps do
+ * not cover is worth reporting, but the maps do not yet cover every product area, so failing here
+ * would stop the build on names that are perfectly real. A missing or unknown `apiTerms:` does throw
+ * -- that is an authoring decision nobody has made, and it names the file.
+ */
+function resolveApiTermsFor(content, where) {
+    const result = resolveApiTerms(content, PLATFORM, { where, repoRoot: REPO_ROOT });
+    if (result.skipped) return result.content;
+
+    for (const term of result.unknown) unresolvedTerms.set(term, (unresolvedTerms.get(term) ?? 0) + 1);
+    for (const one of result.ambiguous) ambiguousTerms.set(one.term, one.candidates);
+    return result.content;
+}
+
+/** What resolution could not answer, gathered across the run and reported once at the end. */
+const unresolvedTerms = new Map();
+const ambiguousTerms = new Map();
+
+function reportApiTerms() {
+    if (unresolvedTerms.size > 0) {
+        const total = [...unresolvedTerms.values()].reduce((a, b) => a + b, 0);
+        const worst = [...unresolvedTerms.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15);
+        console.warn(`[generate] ${unresolvedTerms.size} backticked terms (${total} uses) matched no apiMap on any platform:`);
+        for (const [term, n] of worst) console.warn(`[generate]     ${String(n).padStart(4)}  ${term}`);
+        if (unresolvedTerms.size > worst.length) console.warn(`[generate]     ... and ${unresolvedTerms.size - worst.length} more`);
+    }
+    if (ambiguousTerms.size > 0) {
+        console.warn(`[generate] ${ambiguousTerms.size} backticked terms reached more than one canonical name; write the canonical to settle it:`);
+        for (const [term, candidates] of [...ambiguousTerms].slice(0, 10)) {
+            console.warn(`[generate]     ${term} ?= ${candidates.join(' | ')}`);
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -414,6 +814,7 @@ function normalizeImagePaths(content) {
 }
 
 function transformRegularFile(content, componentKey = null) {
+    content = transformJsonSnippets(content);
     content = filterPlatformBlocks(content);
     content = filterComponentBlocks(content, componentKey);
     content = filterCodeBlocks(content);
@@ -567,6 +968,14 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
         const srcPath = path.join(sharedSrcDir, entry);
         const raw = readFileSync(srcPath, 'utf8');
 
+        // Shared web theming topics have generated component-specific paths that do not exactly
+        // match their TOC source path, so TOC exclusion alone cannot identify them. Do not emit
+        // those routes into the XAML product output.
+        if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') && /^platformType:\s*web-only\s*$/m.test(raw)) {
+            console.log(`[generate] Skipping web-only shared topic: _shared/${entry}`);
+            continue;
+        }
+
         // Determine which components this file applies to
         const applicableKeys = getSharedComponentKeys(raw);
 
@@ -583,6 +992,14 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             // 2. Filter <PlatformBlock> tags — keep only this platform's content.
             content = inlinePlatformBlocks(content);
             content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
+
+            // 2b. Filter code blocks by language and by content, the same way a non-shared page is
+            //     filtered. Without it a PlatformBlock was the only thing keeping another platform's
+            //     code off these pages, and 29 fences were not inside one: Angular markup on the Web
+            //     Components pages, Web Components markup on the React pages, and so on. A fence no
+            //     pattern claims is untouched, so this only removes what is positively another
+            //     platform's.
+            content = filterCodeBlocks(content);
 
             // 3. Apply replacements + component tokens to frontmatter only.
             //    Body tokens ({Platform} etc.) are still handled by the Vite plugin
@@ -676,8 +1093,13 @@ function processDir(srcDir, outDir, relBase = '') {
                 continue;
             }
             const raw = readFileSync(srcPath, 'utf8');
+            if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') &&
+                /^platformType:\s*web-only\s*$/m.test(raw) && !INCLUDED_SLUGS.has(slug)) {
+                console.log(`[generate] Skipping unlinked web-only topic: ${slug}`);
+                continue;
+            }
             if (/\.mdx$/.test(entry)) {
-                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw)));
+                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw, path.join(LANG, 'components', entry))));
                 // Rewrite _shared/ cross-references so generated files resolve correctly.
                 //   top-level (relBase=''):     ./grids/_shared/X.mdx → ./grids/grid/X.mdx
                 //   grids/ level (relBase='grids'):  ./_shared/X.mdx → ./grid/X.mdx
@@ -729,7 +1151,12 @@ if (existsSync(OUT_ROOT)) {
     console.log(`[generate] Cleaned output: ${OUT_ROOT}`);
 }
 mkdirSync(OUT_DIR, { recursive: true });
+phase('validate');
+validateJsonSnippets(SRC_COMPONENTS);
+phaseDone('validate');
+phase('generate pages');
 processDir(SRC_COMPONENTS, OUT_DIR);
+phaseDone('generate pages');
 
 // Expand grids/_shared/*.mdx into per-component output directories
 const sharedSrc = path.join(SRC_COMPONENTS, 'grids', '_shared');
@@ -753,4 +1180,5 @@ if (existsSync(astroCacheDir)) {
     console.log('[generate] Cleared .astro cache.');
 }
 
+reportApiTerms();
 console.log('[generate] Done.');
