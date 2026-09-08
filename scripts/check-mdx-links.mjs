@@ -39,6 +39,12 @@ import {
     getPackageClassSuffixes,
     getPackageIds,
 } from '../src/lib/api-platform-config.ts';
+import {
+    ANGULAR_AUTHORED_ROOT,
+    ANGULAR_OVERLAY_ROOT,
+    isShadowedAuthoredFile,
+    isUnservedOverlayFile,
+} from './lib/angular-content-roots.mjs';
 
 // CLI args
 const args = Object.fromEntries(
@@ -66,10 +72,33 @@ const FAIL_ON_AMBIGUITY = args['fail-on-ambiguity'] !== undefined;
 const BROKEN_LIMIT = parseListLimit(args['broken-limit'] ?? args['unresolved-limit'] ?? '100');
 const NO_SYNC     = !!args['no-sync'];
 const RESOLVE_ONLY = !!args['resolve-only'];
+// The Angular site serves two content roots: its own topics plus the xplat
+// generator's Angular output, which it overlays rather than copying in. Both
+// are scanned so API links in generated topics keep their coverage.
 const DEFAULT_SRC = PLATFORM === 'angular'
-    ? 'docs/angular/src/content'
-    : 'docs/xplat/src/content';
-const SRC_DIR     = String(args.src ?? DEFAULT_SRC);
+    ? [ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]
+    : ['docs/xplat/src/content'];
+// Configured, *unfiltered*: docs/xplat/generated/Angular does not exist on a
+// clean checkout and is created by the generate step further down, so an
+// existsSync() filter here would drop it before it is ever written and silently
+// shrink Angular coverage. Existence is resolved at scan time instead.
+const CONFIGURED_SRC_DIRS = args.src ? [String(args.src)] : DEFAULT_SRC;
+let SRC_DIRS      = CONFIGURED_SRC_DIRS;
+let SRC_DIR       = SRC_DIRS.join(', ');
+
+/** Drops configured roots that are still absent at scan time, warning about each. */
+function resolveSrcDirs(dirs) {
+    return dirs.filter(d => {
+        if (existsSync(d)) return true;
+        const hint = d === ANGULAR_OVERLAY_ROOT
+            ? '\n       Generate it first:\n' +
+              '         npm run xplat:generate --prefix docs/angular\n' +
+              '         npm run xplat:generate:jp --prefix docs/angular'
+            : '';
+        console.warn(`\n[warn] Source root "${d}" does not exist — skipping it.${hint}`);
+        return false;
+    });
+}
 const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
 const PLATFORM_CONFIGS = API_PLATFORM_CONFIGS;
@@ -579,14 +608,14 @@ function runRequiredNpmScript(script, prefix, description) {
     }
 }
 
-// For Angular: regenerate xplat Angular MDX and sync it into docs/angular before scanning
+// For Angular: regenerate the xplat Angular MDX the site overlays before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
-    const syncScripts = [
-        ['en', 'sync:generated-from-xplat'],
-        ['jp', 'sync:generated-from-xplat:jp'],
+    const generateScripts = [
+        ['en', 'xplat:generate'],
+        ['jp', 'xplat:generate:jp'],
     ];
 
-    for (const [lang, script] of syncScripts) {
+    for (const [lang, script] of generateScripts) {
         runRequiredNpmScript(script, 'docs/angular', `Refreshing Angular generated content (lang=${lang})`);
     }
     console.log();
@@ -600,10 +629,23 @@ if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !NO_SYNC && !args.src) {
     console.log();
 }
 
+// Resolved here, *after* any generate step above, so a root that only exists
+// once generation has run is still picked up.
+SRC_DIRS = resolveSrcDirs(CONFIGURED_SRC_DIRS);
+SRC_DIR = SRC_DIRS.join(', ');
+
 console.log(`\nScanning sources in "${SRC_DIR}"`);
 console.log(`Platforms: ${targetPlatforms.join(', ')}\n`);
 
-let mdxFiles = walkMdx(resolve(SRC_DIR));
+let mdxFiles = SRC_DIRS.flatMap(d => walkMdx(resolve(d)));
+if (PLATFORM === 'angular') {
+    // Only files the Angular site renders: the overlay's excluded grids/ and
+    // changelog/ are on disk but never served, and an authored topic whose slug
+    // xplat also provides is shadowed — xplat always wins.
+    const beforeFilter = mdxFiles.length;
+    mdxFiles = mdxFiles.filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
+    console.log(`  Overlay filter      : ${beforeFilter - mdxFiles.length} unserved MDX file(s) skipped\n`);
+}
 if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !args.src) {
     const platformName = PLATFORM_MAP[PLATFORM];
     const beforeFilter = mdxFiles.length;
