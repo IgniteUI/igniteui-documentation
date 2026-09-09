@@ -73,7 +73,9 @@ Before using the <ApiLink pkg="core" type="NavDrawer" />, you need to register i
 
 builder.Services.AddIgniteUIBlazor(
   typeof(IgbNavDrawerModule),
-  typeof(IgbNavDrawerHeaderItemModule)
+  typeof(IgbNavDrawerHeaderItemModule),
+  typeof(IgbNavDrawerItemModule),
+  typeof(IgbIconModule)
 );
 ```
 
@@ -132,20 +134,36 @@ The simplest way to start using the <ApiLink pkg="core" type="NavDrawer" /> is a
 
 <PlatformBlock for="Blazor">
 
+The icons used throughout the examples in this topic come from the `material` collection and have to be registered before the <ApiLink pkg="core" type="Icon" /> component can render them. Registering an icon requires a reference to a single <ApiLink pkg="core" type="Icon" /> element on the page, on which the <ApiLink pkg="core" type="Icon" member="registerIcon" label="RegisterIcon" /> method is called. For more details, see the [Icon](../layouts/icon.mdx) topic.
+
 ```razor
 <IgbNavDrawer Open="true">
     <IgbNavDrawerHeaderItem>
         Sample Drawer
     </IgbNavDrawerHeaderItem>
     <IgbNavDrawerItem>
-        <IgbIcon @ref="@HomeIcon" slot="icon" IconName="home" Collection="material"></IgbIcon>
+        <IgbIcon @ref="@IconRef" slot="icon" IconName="home" Collection="material"></IgbIcon>
         <span slot="content">Home</span>
     </IgbNavDrawerItem>
     <IgbNavDrawerItem>
-        <IgbIcon @ref="@SearchIcon" slot="icon" IconName="search" Collection="material"></IgbIcon>
+        <IgbIcon slot="icon" IconName="search" Collection="material"></IgbIcon>
         <span slot="content">Search</span>
     </IgbNavDrawerItem>
 </IgbNavDrawer>
+
+@code {
+    private IgbIcon IconRef { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (this.IconRef != null && firstRender)
+        {
+            this.IconRef.RegisterIcon("home", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_home_24px.svg", "material");
+            this.IconRef.RegisterIcon("search", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_search_24px.svg", "material");
+        }
+    }
+}
 ```
 
 </PlatformBlock>
@@ -216,7 +234,7 @@ To enhance our component a bit, we can use it in conjunction with the <ApiLink p
 
 ```razor
 <IgbNavbar>
-    <IgbIcon slot="start" IconName="menu" Collection="material" />
+    <IgbIcon @ref="@IconRef" slot="start" IconName="menu" Collection="material" @onclick="OnMenuIconClick" />
     <h2>Home</h2>
 </IgbNavbar>
 
@@ -229,7 +247,7 @@ To enhance our component a bit, we can use it in conjunction with the <ApiLink p
         <span slot="content">Home</span>
     </IgbNavDrawerItem>
     <IgbNavDrawerItem>
-        <IgbIcon slot="icon" IconName="search" Collection="material" @onclick="OnMenuIconClick" />
+        <IgbIcon slot="icon" IconName="search" Collection="material" />
         <span slot="content">Search</span>
     </IgbNavDrawerItem>
 </IgbNavDrawer>
@@ -312,6 +330,19 @@ this.radioGroup.addEventListener('click', (radio: any) => {
 @code {
 
     public IgbNavDrawer NavDrawerRef { get; set; }
+
+    private IgbIcon IconRef { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (this.IconRef != null && firstRender)
+        {
+            this.IconRef.RegisterIcon("menu", "https://unpkg.com/material-design-icons@3.0.1/navigation/svg/production/ic_menu_24px.svg", "material");
+            this.IconRef.RegisterIcon("home", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_home_24px.svg", "material");
+            this.IconRef.RegisterIcon("search", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_search_24px.svg", "material");
+        }
+    }
 
     public void OnRadioOptionClick(IgbComponentBoolValueChangedEventArgs args)
     {
@@ -466,16 +497,16 @@ With the mini variant, the Navigation Drawer changes its width instead of closin
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbNavDrawer @ref="@NavDrawerRef" Open="true" style="position: relative">
+<IgbNavDrawer Open="true" style="position: relative">
     <IgbNavDrawerHeaderItem>
         Sample Drawer
     </IgbNavDrawerHeaderItem>
     <IgbNavDrawerItem>
-        <IgbIcon @ref="@HomeIcon" slot="icon" Collection="material" IconName="home" />
+        <IgbIcon @ref="@IconRef" slot="icon" Collection="material" IconName="home" />
         <span slot="content">Home</span>
     </IgbNavDrawerItem>
     <IgbNavDrawerItem>
-        <IgbIcon @ref="@SearchIcon" slot="icon" Collection="material" IconName="search" />
+        <IgbIcon slot="icon" Collection="material" IconName="search" />
         <span slot="content">Search</span>
     </IgbNavDrawerItem>
     <div slot="mini">
@@ -487,6 +518,20 @@ With the mini variant, the Navigation Drawer changes its width instead of closin
         </IgbNavDrawerItem>
     </div>
 </IgbNavDrawer>
+
+@code {
+    private IgbIcon IconRef { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (this.IconRef != null && firstRender)
+        {
+            this.IconRef.RegisterIcon("home", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_home_24px.svg", "material");
+            this.IconRef.RegisterIcon("search", "https://unpkg.com/material-design-icons@3.0.1/action/svg/production/ic_search_24px.svg", "material");
+        }
+    }
+}
 ```
 
 </PlatformBlock>
