@@ -79,17 +79,17 @@ The component renders its content inside the `base` CSS part. Use the component'
 
 To use the {Platform} Badge, follow the [{ProductName} Getting Started](../general-getting-started.mdx) topic for the basic project setup, then register the component for your target platform.
 
-### Prerequisites and Version Compatibility
+<PlatformBlock for="React,WebComponents">
 
-Use a supported version of the {ProductName} package for your target framework. Keep the framework package, the Badge package, and the theme package on the same release version. The examples below identify the framework and package used by each code block so that the snippets remain self-contained when read without the surrounding page context.
-
-<PlatformBlock for="WebComponents">
-
-For Web Components using the **{PackageWebComponents}** package, install the package:
+For {Platform} using the **{PackageCommon}** package, install the package:
 
 ```cmd
-npm install {PackageWebComponents}
+npm install {PackageCommon}
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
 
 You will then need to import the <ApiLink pkg="core" type="Badge" />, its theme CSS, and register the component, like so:
 
@@ -103,12 +103,6 @@ defineComponents(IgcBadgeComponent);
 </PlatformBlock>
 
 <PlatformBlock for="React">
-
-For React using the **igniteui-react** package, install the package:
-
-```cmd
-npm install igniteui-react
-```
 
 You will then need to import the Badge wrapper and its theme CSS, like so:
 
@@ -145,15 +139,17 @@ For Angular using the **igniteui-angular** package, install the package:
 npm install igniteui-angular
 ```
 
-Then import the Badge component:
+Then import `IgxBadgeComponent` in the component `imports` collection.
 
 ```ts
 import { IgxBadgeComponent } from 'igniteui-angular/badge';
 ```
 
-Add `IgxBadgeComponent` to the component `imports` collection, then use the `igx-badge` element in your template.
+</PlatformBlock>
 
 The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as follows:
+
+<PlatformBlock for="Angular">
 
 ```html
 <igx-badge></igx-badge>
@@ -162,8 +158,6 @@ The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as fo
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
-
-The simplest way to start using the <ApiLink pkg="core" type="Badge" /> is as follows:
 
 ```html
 <igc-badge></igc-badge>
@@ -794,24 +788,29 @@ Use the {ProductName} theme system to style the Badge consistently with the rest
 
 ### CSS Variables
 
-```css
-igc-badge::part(base) {
-  --background-color: var(--ig-error-A100);
-  --border-radius: 2px;
-}
-```
-
 | variable | what it changes |
 | --- | --- |
 | `--background-color` | The badge background color. |
+| `--border-color` | The badge border color. |
 | `--border-radius` | The badge corner radius. |
-| `--border-color` | The outlined badge border color. |
+| `--elevation` | The badge shadow. |
+| `--icon-color` | The badge icon color. |
+| `--text-color` | The badge text color. |
+| `--size` | The badge size. |
+| `--dot-size` | The size of the dot-type badge. |
 
 ### Style Parts
 
 | part | what it styles |
 | --- | --- |
 | `base` | The Badge root element. |
+
+```css
+igc-badge::part(base) {
+  --background-color: var(--ig-error-A100);
+  --border-radius: 2px;
+}
+```
 
 <PlatformBlock for="Angular">
 
@@ -933,7 +932,7 @@ Your responsibilities:
 
 ## Troubleshooting
 
-The {Platform} Badge troubleshooting guidance follows a problem → cause → fix format for common styling and content issues.
+Use this section to check boundaries and common decisions before treating Badge as an interactive control or the only indication of status.
 
 ### Why does my custom background color not change the Badge?
 
@@ -975,16 +974,18 @@ The {Platform} Badge is commonly used with related components such as Avatar whe
 
 ## FAQ
 
-These frequently asked questions cover common {Platform} Badge content, indicator, and package choices.
-
 <Faq>
 
   <FaqItem question="Can a Badge display both an icon and text?">
-    Yes. Use the platform-specific value and icon APIs shown in **Usage**. When projecting content directly, keep the icon and text in the component's default content area.
+    Yes. Use the Badge's content area for the text and the supported icon content for the visual indicator. Keep the combination short so it remains a compact status or category label.
   </FaqItem>
 
   <FaqItem question="How do I display a notification dot without content?">
     Set the platform-specific `dot` property or attribute. A dot Badge intentionally renders without text or other content.
+  </FaqItem>
+
+  <FaqItem question="When should I use a dot Badge instead of a text Badge?">
+    Use a dot Badge when the status is communicated by presence alone. Use a text Badge when users need the status, category, or count to be understandable without relying on color or position.
   </FaqItem>
 
   <FaqItem question="Which package should I install for Badge?">
