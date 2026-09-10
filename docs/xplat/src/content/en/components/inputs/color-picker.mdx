@@ -1,0 +1,969 @@
+---
+title: "Color Picker"
+description: "The {ProductName} Color Picker is a form-associated component that lets users pick and edit a color through an interactive dropdown with a gradient canvas, hue and alpha sliders, format switching, an eye-dropper, and predefined swatches."
+keywords: "{Platform} Color Picker, {ProductName}, color picker, color input, hex, rgb, hsl, alpha, swatches, eye-dropper, form-associated"
+license: MIT
+mentionedTypes: ["ColorPicker"]
+relatedComponents: ["ColorEditor"]
+last_updated: "2026-09-04"
+llms:
+  description: "The {ProductName} Color Picker is a form-associated component that lets users pick and edit a color through an interactive dropdown with a gradient canvas, hue and alpha sliders, format switching, an eye-dropper, and predefined swatches."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import colorPickerAnatomy from '@xplat-images/anatomy-content-light/color-picker-lt-a.png';
+import colorPickerDo from '@xplat-images/color-picker/color-picker-do.png';
+import colorPickerDo2x from '@xplat-images/color-picker/color-picker-do@2x.png';
+import colorPickerDoNot from '@xplat-images/color-picker/color-picker-do-not.png';
+import colorPickerDoNot2x from '@xplat-images/color-picker/color-picker-do-not@2x.png';
+
+
+# Color Picker Component <Badge variant="new" />
+
+The {ProductName} Color Picker is a form-associated component that lets users pick and edit a color through an interactive dropdown with a gradient canvas, hue and alpha sliders, format switching, an eye-dropper, and predefined swatches.
+
+## Live Demo
+
+The {Platform} Color Picker demo shows the default anchor that previews the current color and opens a dropdown for editing.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/color-picker-overview" height={440} position="center" noBorder={false} spacing="md" alt="Angular Color Picker example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/overview" height={440} position="center" noBorder={false} spacing="md" alt="{Platform} Color Picker example" />
+
+</PlatformBlock>
+
+## Anatomy
+
+The {Platform} Color Picker is composed of an anchor that opens a popover dropdown containing the picker surface — a gradient canvas, hue and alpha sliders, format-aware color inputs, action buttons, and an optional swatch grid.
+
+<Anatomy
+  class="color-picker-anatomy"
+  name="Color Picker"
+  description="The Color Picker component is composed of an anchor and a picker dropdown that contains a gradient canvas, hue and alpha sliders, color inputs, action buttons, and optional swatches."
+  src={colorPickerAnatomy.src}
+  alt="Color Picker anatomy"
+/>
+
+<style>{`
+  .color-picker-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>A - Input Color Picker</strong><br /><br />
+<strong>1. Input Color Picker:</strong> The input type of the Color Picker<br />
+<strong>2. Color anchor/Fill:</strong> Trigger the color dialog and shows the currently selected color.<br />
+<strong>3. Label:</strong> The label for the input color picker.<br />
+<strong>4. Placeholder:</strong> The placeholder text.<br />
+<strong>5. Suffix Container:</strong> The container for suffix elements, such as action buttons.<br />
+<strong>6. Hint:</strong> The hint text for the input color picker.<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>B - Default Color Picker</strong><br /><br />
+<strong>1. Color anchor:</strong> Trigger the color dialog<br />
+<strong>2. Fill:</strong> Shows the currently selected color.<br />
+<strong>3. Label:</strong> The label for the color picker.<br />
+<strong>4. Hint:</strong> The hint text for the color picker.<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>C - Color Picker Dialog</strong><br /><br />
+<strong>1. Color Picker Dialog:</strong> The main dialog containing all color selection controls.<br />
+<strong>2. Gradient canvas:</strong> An HSV saturation/value area with a draggable marker.<br />
+<strong>3. Color Picker handle:</strong> A draggable marker that indicates the currently selected color on the gradient canvas.<br />
+<strong>4. Hue slider:</strong> A range slider for the base color.<br />
+<strong>5. Hue slider handle:</strong> A draggable marker that indicates the currently selected hue on the hue slider.<br />
+<strong>6. Copy button:</strong> Copy the currently selected color to the clipboard.<br />
+<strong>7. Eye-dropper button:</strong> Activate the eye-dropper tool for selecting colors from the screen.<br />
+<strong>8. Alpha slider:</strong> An optional opacity slider, shown when `show-alpha` is set.<br />
+<strong>9. Alpha slider handle:</strong> A draggable marker that indicates the currently selected alpha value on the alpha slider.<br />
+<strong>10. Opacity value:</strong> The currently selected opacity value on the alpha slider.<br />
+<strong>11. Format switcher:</strong> A dropdown for selecting the color format (`hex`, `rgb`, `hsl`).<br />
+<strong>12. Color value:</strong> The currently selected color value displayed according to the chosen format (`hex`, `rgb`, `hsl`).<br />
+<strong>13. Swatches:</strong> An optional grid of predefined color swatches.<br /></span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+<igc-color-picker>
+└── ::part(label)                        // rendered when `label` is set
+└── ::part(anchor)                       // trigger button (default) or input swatch prefix
+    └── ::part(anchor empty)             // added when no color value is set
+└── ::part(picker)                       // popover dropdown
+    ├── igc-picker-canvas                // gradient canvas with focusable marker
+    ├── ::part(main-row)
+    │   ├── ::part(hue)                  // hue range slider
+    │   └── ::part(buttons)
+    │       ├── ::part(copy)             // copy-to-clipboard button
+    │       └── ::part(eye-dropper)      // eye-dropper button
+    ├── ::part(alpha-row)                // rendered when `show-alpha` is set
+    │   └── ::part(alpha)                // alpha range slider
+    ├── ::part(inputs-row)
+    │   ├── ::part(format-select)        // format switcher (hidden when `hide-formats` is set)
+    │   └── color value input
+    └── ::part(swatches)                 // rendered when `swatches` is non-empty
+        └── ::part(swatch)               // individual swatch buttons
+</igc-color-picker>
+```
+
+</PlatformBlock>
+
+## Getting Started
+
+To use the {Platform} Color Picker, follow the [{ProductName} Getting Started](../general-getting-started.mdx) topic for the basic project setup, then register the component for your target platform the following way:
+
+<PlatformBlock for="WebComponents">
+
+For Web Components, import the <ApiLink type="ColorPicker" />, its theme CSS, and register the component:
+
+```ts
+import { defineComponents, IgcColorPickerComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcColorPickerComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+For React, import the <ApiLink pkg="core" type="ColorPicker" /> wrapper and theme CSS:
+
+```tsx
+import { IgrColorPicker } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+For Blazor using the **IgniteUI.Blazor** package, register the <ApiLink pkg="core" type="ColorPicker" /> module:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbColorPickerModule));
+```
+
+Link the additional CSS file that applies the styling to the <ApiLink pkg="core" type="ColorPicker" /> component in **wwwroot/index.html** (Blazor Web Assembly) or **Pages/_Host.cshtml** (Blazor Server):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+For Angular, import and define the <ApiLink pkg="core" type="ColorPicker" /> component:
+
+```ts
+import { defineComponents, IgcColorPickerComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcColorPickerComponent);
+```
+
+Then use the `igc-color-picker` element in your template.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The simplest way to start using the <ApiLink pkg="core" type="ColorPicker" /> is as follows:
+
+```html
+<igc-color-picker label="Pick a color"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+The simplest way to start using the <ApiLink pkg="core" type="ColorPicker" /> is as follows:
+
+```tsx
+<IgrColorPicker label="Pick a color"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The simplest way to start using the <ApiLink pkg="core" type="ColorPicker" /> is as follows:
+
+```razor
+<IgbColorPicker Label="Pick a color"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The simplest way to start using the <ApiLink type="ColorPicker" /> is as follows:
+
+```html
+<igc-color-picker label="Pick a color"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+## Usage
+
+Use the {Platform} Color Picker to let users pick and edit a color through an interactive dropdown. Assign any valid CSS color string (hex, rgb/rgba, hsl/hsla, or a named color) to the <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> property to set the initial color. An empty or invalid string clears the value and renders a checkered pattern on the anchor.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+### Mode
+
+The <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> property controls the anchor presentation. The default `default` renders a trigger button that previews the current color; `input` renders an editable text field with a color swatch prefix. Both anchors open the same picker dropdown.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker mode="input" label="Background"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker mode="input" label="Background"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Mode="ColorPickerMode.Input" Label="Background"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker mode="input" label="Background"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/color-picker-input" height={440} position="center" noBorder={false} spacing="md" alt="Angular Color Picker mode example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/input" height={440} position="center" noBorder={false} spacing="md" alt="{Platform} Color Picker mode example" />
+
+</PlatformBlock>
+
+### Format
+
+Use the <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> property to control how the color is serialized. Supported values are `hex`, `rgb`, and `hsl`. Changing the format re-serializes the existing color without altering it.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker format="rgb" value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker format="rgb" value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Format="ColorPickerFormat.Rgb" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker format="rgb" value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+To hide the built-in format switcher and lock the picker to a single format, set the <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> property.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker hide-formats format="hex"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker hideFormats={true} format="hex"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker HideFormats="true" Format="ColorPickerFormat.Hex"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker [hideFormats]="true" format="hex"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+### Alpha
+
+By default the picker edits fully opaque colors. Enable the alpha slider and its numeric input by setting the <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> property.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker show-alpha value="rgba(25, 118, 210, 0.5)"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker showAlpha={true} value="rgba(25, 118, 210, 0.5)"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker ShowAlpha="true" Value="rgba(25, 118, 210, 0.5)"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker [showAlpha]="true" value="rgba(25, 118, 210, 0.5)"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+### Swatches
+
+Provide a list of predefined colors through the <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> property. When set, the picker renders a swatch grid below the color inputs. Clicking a swatch applies it as the current color.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const picker = document.querySelector('igc-color-picker');
+picker.swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker swatches={['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50']}></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Swatches='@(new[] { "#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50" })'></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+public swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50'];
+```
+
+```html
+<igc-color-picker [swatches]="swatches"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/color-picker-swatches" height={380} position="center" noBorder={false} spacing="md" alt="Angular Color Picker swatches example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/swatches" height={380} position="center" noBorder={false} spacing="md" alt="{Platform} Color Picker swatches example" />
+
+</PlatformBlock>
+
+### Eye-Dropper and Copy to Clipboard
+
+The picker dropdown includes two built-in actions which are always available:
+
+- **Copy to clipboard** – copies the current color value to the clipboard.
+- **Eye-dropper** – lets users pick a color from anywhere on the screen.
+
+### Disabled
+
+You can also set the <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> property to disable the Color Picker.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker disabled value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker disabled={true} value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Disabled="true" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker [disabled]="true" value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+### Validation
+
+Mark the control as <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> to fail form validation when no color is selected. The component supports the standard form-associated API — <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" />, <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" />, and <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" />.
+
+You can use also use helper and validation messages under the anchor through the exposed slots:
+
+- `helper-text` – Displays a hint or instructional message below the anchor.
+- `value-missing` – Renders custom content when the required field validation fails.
+- `invalid` – Renders custom content when the component is in an invalid state.
+- `custom-error` – Displays content when a custom validation message is set using <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity()" />.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker required label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker required={true} label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Required="true" Label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker [required]="true" label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</igc-color-picker>
+```
+
+</PlatformBlock>
+
+### Do/Don't
+
+Use the <ApiLink pkg="core" type="ColorPicker" /> when users need to enter or edit an arbitrary color through a visual editor and the value must participate in form submission and validation. Always provide a clear label so the anchor is identifiable, and prefer the Input type when the picker is placed alongside other form fields.
+
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 24px;">
+    <tbody>
+      <tr>
+        <td style="border: none; padding: 16px 20px;"><Image src={colorPickerDo} srcset={`${colorPickerDo.src} 1x, ${colorPickerDo2x.src} 2x`} alt="Color Picker used in a form with a labelled anchor" class="responsive-img" style="border: 1px solid #D2DBE8; margin: unset;" /></td>
+        <td style="border: none; padding: 16px 20px;"><Image src={colorPickerDoNot} srcset={`${colorPickerDoNot.src} 1x, ${colorPickerDoNot2x.src} 2x`} alt="Color Picker used without context or accessible label" class="responsive-img" style="border: 1px solid #D2DBE8; margin: unset;" /></td>
+      </tr>
+      <tr>
+        <td style="border: none; padding: 16px 20px; text-align: left; color: green;"><strong>Do</strong></td>
+        <td style="border: none; padding: 16px 20px; text-align: left; color: red;"><strong>Don't</strong></td>
+      </tr>
+      <tr>
+        <td style="border: none; padding: 4px 20px; text-align: left; text-wrap: auto;">Bring in the full ColorPicker for open-ended, creative tasks — a drawing tool's brush, an illustration fill, a chart series, a custom theme. </td>
+        <td style="border: none; padding: 4px 20px; text-align: left; text-wrap: auto;">Avoid using ColorPicker if users only need to select from a set palette or don't require advanced customization options.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Properties
+
+The {Platform} Color Picker exposes properties for its content, presentation, and form association.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> | `string` | `''` | The current color, serialized in the active format. Accepts any valid CSS color string; empty or invalid clears the value. |
+| <ApiLink pkg="core" type="ColorPicker" member="label" label="label" /> | `string` | — | The label of the anchor. In `mode="input"` it is forwarded to the anchor input's own label. |
+| <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> | `'hex' \| 'rgb' \| 'hsl'` | `'hex'` | The output format used when serializing the value string. |
+| <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> | `'default' \| 'input'` | `'default'` | Whether the anchor is a trigger button (`default`) or an editable text field with a swatch prefix (`input`). |
+| <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | Predefined color strings rendered as a selectable swatch grid. |
+| <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | Whether to hide the format switcher. |
+| <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | Whether to show the alpha slider and its numeric input. |
+| <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | Whether the control is required for form validation. |
+| <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | The disabled state of the control. Also skips the open/close keybindings. |
+| <ApiLink pkg="core" type="ColorPicker" member="open" label="open" /> | `boolean` | `false` | The open state of the picker dropdown. |
+| <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> | `string` | — | The name of the control for form submission. |
+| <ApiLink pkg="core" type="ColorPicker" member="invalid" label="invalid" /> | `boolean` | `false` | Sets or returns the invalid visual state of the control. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink type="ColorPicker" member="value" label="value" /> | `string` | `''` | The current color, serialized in the active format. Accepts any valid CSS color string; empty or invalid clears the value. |
+| <ApiLink type="ColorPicker" member="label" label="label" /> | `string` | — | The label of the anchor. In `mode="input"` it is forwarded to the anchor input's own label. |
+| <ApiLink type="ColorPicker" member="format" label="format" /> | `'hex' \| 'rgb' \| 'hsl'` | `'hex'` | The output format used when serializing the value string. |
+| <ApiLink type="ColorPicker" member="mode" label="mode" /> | `'default' \| 'input'` | `'default'` | Whether the anchor is a trigger button (`default`) or an editable text field with a swatch prefix (`input`). |
+| <ApiLink type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | Predefined color strings rendered as a selectable swatch grid. |
+| <ApiLink type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | Whether to hide the format switcher. |
+| <ApiLink type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | Whether to show the alpha slider and its numeric input. |
+| <ApiLink type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | Whether the control is required for form validation. |
+| <ApiLink type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | The disabled state of the control. |
+| <ApiLink type="ColorPicker" member="size" label="size" /> | `'small' \| 'medium' \| 'large'` | `'medium'` | Sets the Color Picker size. |
+| <ApiLink type="ColorPicker" member="name" label="name" /> | `string` | — | The name of the control for form submission. |
+
+</PlatformBlock>
+
+## Methods
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Name | Return type | Description |
+| -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="show" label="show" /> | `Promise<boolean>` | Opens the picker dropdown. |
+| <ApiLink pkg="core" type="ColorPicker" member="hide" label="hide" /> | `Promise<boolean>` | Closes the picker dropdown. |
+| <ApiLink pkg="core" type="ColorPicker" member="toggle" label="toggle" /> | `Promise<boolean>` | Toggles the open state of the picker dropdown. |
+| <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" /> | `boolean` | Checks the validity of the control without showing a message. |
+| <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" /> | `boolean` | Checks the validity of the control and reports it to the user. |
+| <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" /> | `void` | Sets a custom validation message. Pass an empty string to clear. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Return type | Description |
+| -- | -- | -- |
+| <ApiLink type="ColorPicker" member="show" label="show" /> | `void` | Opens the picker dropdown. |
+| <ApiLink type="ColorPicker" member="hide" label="hide" /> | `void` | Closes the picker dropdown. |
+| <ApiLink type="ColorPicker" member="toggle" label="toggle" /> | `void` | Toggles the open state of the picker dropdown. |
+
+</PlatformBlock>
+
+## Events
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Name | Cancelable | Detail | Description |
+| -- | -- | -- | -- |
+| `igcInput` | No | `string` | Emitted on every interim change — dragging the canvas or sliders, typing in the color value input, selecting a swatch, or picking a color through the eye-dropper. |
+| `igcChange` | No | `string` | Emitted once, when the committed value has changed and focus leaves the component entirely. |
+| `igcOpening` | Yes | `void` | Emitted just before the picker dropdown is opened. Cancel with `event.preventDefault()`. |
+| `igcOpened` | No | `void` | Emitted after the picker dropdown is opened. |
+| `igcClosing` | Yes | `void` | Emitted just before the picker dropdown is closed. Cancel with `event.preventDefault()`. |
+| `igcClosed` | No | `void` | Emitted after the picker dropdown is closed. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Type | Description |
+| -- | -- | -- |
+| <ApiLink type="ColorPicker" member="valueChange" label="valueChange" /> | `EventEmitter<string>` | Emitted when the committed color value changes. |
+| <ApiLink type="ColorPicker" member="opening" label="opening" /> | `EventEmitter<void>` | Emitted just before the picker dropdown is opened. |
+| <ApiLink type="ColorPicker" member="opened" label="opened" /> | `EventEmitter<void>` | Emitted after the picker dropdown is opened. |
+| <ApiLink type="ColorPicker" member="closing" label="closing" /> | `EventEmitter<void>` | Emitted just before the picker dropdown is closed. |
+| <ApiLink type="ColorPicker" member="closed" label="closed" /> | `EventEmitter<void>` | Emitted after the picker dropdown is closed. |
+
+</PlatformBlock>
+
+## Styling
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/color-picker-styling" height={340} position="center" noBorder={false} spacing="md" alt="Angular Color Picker styling example" />
+
+The {Platform} Color Picker appearance can be customized through CSS variables and the theming system.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/styling" height={340} position="center" noBorder={false} spacing="md" alt="{Platform} Color Picker styling example" />
+
+The {Platform} Color Picker appearance can be customized through CSS variables, CSS parts and the theming system.
+
+</PlatformBlock>
+
+### Styling Variables
+
+| Variable | What it changes |
+| -- | -- |
+| `--ig-color-picker-label-color` | Color of the color picker label. |
+| `--ig-color-picker-label-color-invalid` | Color of the label when the component is invalid. |
+| `--ig-color-picker-label-color-disabled` | Color of the label when the component is disabled. |
+| `--ig-color-picker-anchor-background` | Background color of the color picker anchor. |
+| `--ig-color-picker-anchor-background-hover` | Background color of the anchor on hover. |
+| `--ig-color-picker-anchor-background-focus-visible` | Background color of the anchor when focus is visible. |
+| `--ig-color-picker-anchor-background-focus-visible-hover` | Background color of the anchor when focus is visible and it is hovered. |
+| `--ig-color-picker-anchor-background-active` | Background color of the anchor while active. |
+| `--ig-color-picker-anchor-background-active-focus-visible` | Background color of the anchor while active with visible focus. |
+| `--ig-color-picker-anchor-background-disabled` | Background color of the anchor when disabled. |
+| `--ig-color-picker-anchor-outline-color` | Focus-visible outline color of the anchor. |
+| `--ig-color-picker-anchor-border-color` | Border color of the anchor. |
+| `--ig-color-picker-anchor-border-color-disabled` | Border color of the anchor when disabled. |
+| `--ig-color-picker-anchor-border-radius` | Border radius of the anchor. |
+| `--ig-color-picker-swatch-preview-border-color` | Border color of the color preview inside the anchor. |
+| `--ig-color-picker-picker-background` | Background color of the picker dropdown. |
+| `--ig-color-picker-picker-border-color` | Border color of the picker dropdown. |
+| `--ig-color-picker-picker-border-radius` | Border radius of the picker dropdown. |
+| `--ig-color-picker-picker-canvas-border-color` | Border color of the picker gradient canvas. |
+| `--ig-color-picker-picker-elevation` | Shadow elevation of the picker dropdown. |
+| `--ig-color-picker-slider-track-border-color` | Border color of the hue and alpha slider tracks. |
+| `--ig-color-picker-slider-track-border-radius` | Border radius of the hue and alpha slider tracks. |
+| `--ig-color-picker-slider-thumb-border-color` | Border color of the hue and alpha slider thumbs. |
+| `--ig-color-picker-swatch-separator-color` | Color of the separator above the swatch grid. |
+| `--ig-color-picker-swatch-border-color` | Border color of the predefined color swatches. |
+| `--ig-color-picker-swatch-border-radius` | Border radius of the predefined color swatches. |
+| `--ig-color-picker-swatch-size` | Size of the predefined color swatches. |
+| `--ig-color-picker-transparency-grid-odd` | Odd checker color in the transparency grid. |
+| `--ig-color-picker-transparency-grid-even` | Even checker color in the transparency grid. |
+| `--ig-color-picker-invalid-color` | Color used for invalid-state indicators. |
+| `--ig-color-picker-marker-size` | Size of the marker on the picker gradient canvas. |
+| `--ig-color-picker-marker-elevation` | Shadow elevation of the marker on the picker gradient canvas. |
+| `--ig-color-picker-marker-color` | Color of the marker on the picker gradient canvas. |
+
+### Style Parts
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Part | What it styles |
+| -- | -- |
+| `anchor` | The trigger element that opens the picker (the button in default mode, or the swatch prefix in input mode). |
+| `empty` | Applied alongside `anchor` when no color value is set, rendering a checkered background. |
+| `label` | The label rendered above the anchor in default mode. |
+| `picker` | The popover container holding the canvas, sliders, inputs, and swatches. |
+| `main-row` | The row containing the hue slider and the copy/eye-dropper buttons. |
+| `alpha-row` | The row containing the alpha slider and input, rendered when `show-alpha` is set. |
+| `inputs-row` | The row containing the format select and the color value input. |
+| `buttons` | The wrapper around the copy and eye-dropper buttons. |
+| `hue` | The hue range slider. |
+| `alpha` | The alpha (opacity) range slider. |
+| `copy` | The copy-to-clipboard icon button. |
+| `eye-dropper` | The eye-dropper icon button. |
+| `format-select` | The select control used to switch the color string format. |
+| `swatches` | The container of predefined color swatches. |
+| `swatch` | An individual predefined color swatch button. |
+
+</PlatformBlock>
+
+### Sass Theming
+
+Use the <ApiLink kind="sass" module="themes" type="function-color-picker-theme" label="color-picker-theme" code={true} /> function for customizing the appearance of the Color Picker through Sass.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-color-picker-theme: color-picker-theme(
+  $anchor-background: #383838,
+  $picker-background: #383838,
+  $picker-border-color: #e2b206
+);
+
+:root {
+  @include tokens($custom-color-picker-theme);
+}
+```
+
+### CSS Variables
+
+Set component CSS variables directly when you need local styling without a Sass build step.
+
+```css
+igc-color-picker {
+  --ig-color-picker-anchor-background: #383838;
+  --ig-color-picker-picker-background: #383838;
+  --ig-color-picker-border-color: #e2b206;
+}
+```
+
+### Styling with Tailwind
+
+You can style the Color Picker with the custom Tailwind utility classes from `igniteui-theming`. Make sure to [set up Tailwind](/themes/tailwind) first, then import the Ignite UI utilities in your global stylesheet:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-color-picker class="!light-color-picker ![--picker-border-color:#e2b206]"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```jsx
+<IgrColorPicker className="!light-color-picker ![--picker-border-color:#e2b206]"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Class="!light-color-picker ![--picker-border-color:#e2b206]"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-color-picker class="!light-color-picker ![--picker-border-color:#e2b206]"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+The exclamation mark (`!`) gives the Tailwind utility precedence over the component's default theme styles.
+
+## Accessibility
+
+The {Platform} Color Picker is a fully keyboard-accessible, form-associated control. The anchor is either a labelled button (default mode) or an editable input (input mode), and the open picker traps focus.
+
+### Keyboard Interaction
+
+The keybindings below are skipped while the component is `disabled`.
+
+| Key | Action |
+| -- | -- |
+| `Alt` + `ArrowDown` | Opens the picker dropdown. |
+| `Alt` + `ArrowUp` | Closes the picker dropdown and returns focus to the anchor. |
+| `Escape` | Closes the picker dropdown and returns focus to the anchor. |
+| `Arrow` keys | When the gradient canvas marker is focused, moves the marker by one step in the pressed direction. |
+| `Tab` | Moves focus between the interactive elements inside the open picker. |
+
+### Screen Readers / ARIA
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- The anchor sets `aria-haspopup="dialog"` and references the validation/helper-text container via `aria-describedby` so helper and validation messages are announced.
+- The hue and alpha sliders are native `input[type="range"]` elements labelled via `aria-label` (`Hue`, `Alpha slider`).
+- The gradient canvas marker is focusable and operable with the arrow keys.
+- The format switcher and the color value input carry visually-hidden labels; the copy and eye-dropper buttons expose visually-hidden text.
+- Each swatch button exposes its color through `aria-label`.
+- While the picker is open, focus is trapped within it; the picker content is `inert` while closed and excluded from the tab order.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- The anchor sets `aria-haspopup="dialog"` and references the validation/helper-text container via `aria-describedby`.
+- The hue and alpha sliders expose accessible labels through `aria-label`.
+- The gradient canvas marker is focusable and operable with the arrow keys.
+- Set the `label` input to provide a meaningful accessible name for the anchor.
+- Each swatch button exposes its color through `aria-label`.
+
+</PlatformBlock>
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The component exposes its label, helper text, and validation messages through `aria-describedby` and slot projection. |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | All interactions — opening, closing, gradient navigation, and slider adjustment — are keyboard operable. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The anchor exposes `aria-haspopup`, sliders expose accessible labels, and swatches expose their color via `aria-label`. |
+
+Your responsibilities:
+
+- Provide an accessible label through the `label` property or a projected label so the anchor is identifiable to screen readers.
+- Do not rely on color alone to convey required or invalid state; use the validation slots or helper text.
+- Keep sufficient contrast when overriding theme styles for the anchor and picker surface.
+
+## Troubleshooting
+
+The {Platform} Color Picker troubleshooting guidance follows a problem → cause → fix format for common integration and platform issues.
+
+### Why is the eye-dropper button disabled?
+
+The eye-dropper button is only enabled when the browser implements the [`EyeDropper`](https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper) API. Support is captured once at construction time, so injecting the API after the component is created has no effect. Users on browsers without native support should use the gradient canvas or swatches instead.
+
+### Why does clicking the copy button do nothing?
+
+The copy action depends on the `navigator.clipboard.writeText` API and a secure context (HTTPS or `localhost`). It silently no-ops when the API is unavailable, when the site is loaded over an insecure origin, or when the browser denies the clipboard permission.
+
+### Why did an invalid color string clear my value?
+
+Assigning an empty, whitespace-only, or invalid string to `value` clears the color instead of reverting to the previous value. Non-hex/rgb/hsl strings are resolved through an `OffscreenCanvas` 2D context; environments without canvas support resolve to the empty value rather than a fallback color.
+
+### Why is the emitted value in a different format than what I typed?
+
+The externally observable value is always normalized to the active `format`. Round-tripping an input string is not guaranteed to be byte-for-byte identical — for example, typing `red` with `format="hex"` re-serializes to `#ff0000`.
+
+## Known Limitations
+
+The {Platform} Color Picker has the following platform-independent limitations.
+
+- The eye-dropper button is always rendered but only enabled when the browser implements the `EyeDropper` API; support is captured once at construction time.
+- Copying to the clipboard depends on `navigator.clipboard` and a secure context; it silently no-ops where unavailable or denied.
+- The externally observable `value` is always normalized to the active `format`; the input string is not guaranteed to round-trip byte-for-byte.
+- Static UI labels (`Hue`, `Alpha slider`, `Open color picker`, `Copy color value to clipboard`, `Pick a color from the screen`) are accessibility-only and are not currently localized.
+
+## API References
+
+Use these API references for the complete Color Picker API surface.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="ColorPicker" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="ColorPicker" />
+
+</PlatformBlock>
+
+## Dependencies
+
+The {Platform} Color Picker requires a theme stylesheet to apply its visual styling. See the framework-specific setup in **Getting Started**.
+
+## Additional Resources
+
+Use these resources for support and related Ignite UI documentation.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+Use these related components when you need a lightweight or non-form-associated color input.
+
+- [Color Editor](./color-editor.mdx) — A lightweight color picker for simpler scenarios that do not require form association or an interactive dropdown.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="How do I bind the Color Picker to a form?" indicatorPosition="end">
+    Set the <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> attribute to the form field name and place the Color Picker inside a `<form>` element. The current serialized color is submitted under that name, and the control participates in `required` validation and form reset through the standard form-associated element APIs.
+  </FaqItem>
+
+  <FaqItem question="Which color formats does the Color Picker accept?" indicatorPosition="end">
+    The `value` property accepts any valid CSS color string, including hex, `rgb`/`rgba`, `hsl`/`hsla`, and named colors. The externally observable serialized value is normalized to the active `format` (`hex`, `rgb`, or `hsl`).
+  </FaqItem>
+
+  <FaqItem question="Does the eye-dropper work in every browser?" indicatorPosition="end">
+    No. The eye-dropper depends on the browser [`EyeDropper`](https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper) API and is only enabled where that API is available. In other browsers the button renders disabled and users must pick a color through the gradient canvas, sliders, or swatches.
+  </FaqItem>
+
+  <FaqItem question="How is `igcInput` different from `igcChange`?" indicatorPosition="end">
+    `igcInput` fires on every interim interaction — dragging the canvas or sliders, typing, selecting a swatch, or picking through the eye-dropper. `igcChange` fires once when the committed value has changed and focus leaves the component entirely, matching the semantics of the native `change` event on form controls.
+  </FaqItem>
+
+  <FaqItem question="Which package should I install for Color Picker?" indicatorPosition="end">
+    Use `igniteui-angular` for Angular, `igniteui-react` for React, `igniteui-webcomponents` for Web Components, and `IgniteUI.Blazor` for Blazor. Keep related Ignite UI packages on the same release version.
+  </FaqItem>
+</Faq>
