@@ -1,0 +1,1060 @@
+---
+title: "Breadcrumbs"
+description: "The {ProductName} Breadcrumbs component renders an ordered trail of navigation items separated by a configurable icon, communicating a user's location within a site's hierarchy and providing a way back to higher-level pages."
+keywords: "{Platform} Breadcrumbs, {ProductName}, breadcrumb, navigation trail, current page, aria-current, separator, prefix, suffix"
+license: MIT
+mentionedTypes: ["Breadcrumbs", "Breadcrumb"]
+relatedComponents: ["Navbar", "NavigationDrawer"]
+last_updated: "2026-09-08"
+llms:
+  description: "The {ProductName} Breadcrumbs component renders an ordered trail of navigation items separated by a configurable icon, communicating a user's location within a site's hierarchy and providing a way back to higher-level pages."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+{/* TODO: uncomment when images are available
+import { Image } from 'astro:assets';
+import breadcrumbsAnatomy from '@xplat-images/anatomy-content-light/breadcrumbs-lt-a.png';
+import breadcrumbsDo from '@xplat-images/breadcrumbs/breadcrumbs-do.png';
+import breadcrumbsDo2x from '@xplat-images/breadcrumbs/breadcrumbs-do@2x.png';
+import breadcrumbsDoNot from '@xplat-images/breadcrumbs/breadcrumbs-do-not.png';
+import breadcrumbsDoNot2x from '@xplat-images/breadcrumbs/breadcrumbs-do-not@2x.png';
+*/}
+
+# Breadcrumbs Component <Badge variant="new" />
+
+The {ProductName} Breadcrumbs component renders an ordered trail of navigation items separated by a configurable icon, communicating a user's location within a site's hierarchy and providing a way back to higher-level pages.
+
+## Live Demo
+
+The {Platform} Breadcrumbs demo shows a three-item trail with the current page marked at the end.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/menus/breadcrumbs-overview" height={120} position="center" noBorder={false} spacing="md" alt="Angular Breadcrumbs example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/menus/breadcrumbs/overview" height={120} position="center" noBorder={false} spacing="md" alt="{Platform} Breadcrumbs example" />
+
+</PlatformBlock>
+
+## Anatomy
+
+The {Platform} Breadcrumbs component is a pair of elements: a container that manages shared state and renders as an ARIA list, and one or more item children that render arbitrary slotted content followed by a separator.
+
+{/* TODO: replace with verified anatomy image
+<Anatomy
+  class="breadcrumbs-anatomy"
+  name="Breadcrumbs"
+  description="The Breadcrumbs component is composed of a container that renders an ARIA list and one or more items that render slotted content followed by a separator."
+  src={breadcrumbsAnatomy.src}
+  alt="Breadcrumbs anatomy"
+/>
+
+<style>{`
+  .breadcrumbs-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+`}</style>
+*/}
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Container:</strong> The `Breadcrumbs` element that groups the trail as an ARIA `list` and holds the shared separator icon.<br />
+<strong>2. Item:</strong> A `Breadcrumb` element that renders as an ARIA `listitem`, containing the main content (typically a link).<br />
+<strong>3. Prefix slot:</strong> Optional content rendered before the main content, such as an icon.<br />
+<strong>4. Suffix slot:</strong> Optional content rendered after the main content.<br />
+<strong>5. Separator:</strong> An icon (or slotted content) rendered after each item except the last.<br />
+<strong>6. Current item:</strong> The item marked with `current` — visually distinguished and announced with `aria-current="page"`.</span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+<nav aria-label="Breadcrumb">
+  <igc-breadcrumbs role="list">
+    <igc-breadcrumb role="listitem">
+      ├── ::part(label)
+      │   ├── slot="prefix"                 // optional prefix content
+      │   ├── default slot                  // main content, typically <a>
+      │   └── slot="suffix"                 // optional suffix content
+      └── ::part(separator)                 // hidden on the last item
+          └── slot="separator"              // per-item override
+    </igc-breadcrumb>
+    <!-- more <igc-breadcrumb> items ... -->
+    <igc-breadcrumb current role="listitem" aria-current="page">
+      <!-- last item, no trailing separator -->
+    </igc-breadcrumb>
+  </igc-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+<nav aria-label="Breadcrumb">
+  <igx-breadcrumbs role="list">
+    <igx-breadcrumb role="listitem">
+      ├── label                             // wraps prefix, default, and suffix
+      │   ├── slot="prefix"                 // optional prefix content
+      │   ├── default slot                  // main content, typically <a>
+      │   └── slot="suffix"                 // optional suffix content
+      └── separator                         // hidden on the last item
+          └── slot="separator"              // per-item override
+    </igx-breadcrumb>
+    <!-- more <igx-breadcrumb> items ... -->
+    <igx-breadcrumb current role="listitem" aria-current="page">
+      <!-- last item, no trailing separator -->
+    </igx-breadcrumb>
+  </igx-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+## Getting Started
+
+To use the {Platform} Breadcrumbs, follow the [{ProductName} Getting Started](../general-getting-started.mdx) topic for the basic project setup, then register the components for your target platform.
+
+### Prerequisites and Version Compatibility
+
+Use a supported version of the {ProductName} package for your target framework. Keep the framework package, the Breadcrumbs package, and the theme package on the same release version. The examples below identify the framework and package used by each code block so that the snippets remain self-contained when read without the surrounding page context.
+
+<PlatformBlock for="WebComponents">
+
+For Web Components using the **{PackageWebComponents}** package, install the package:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Import the <ApiLink pkg="core" type="Breadcrumbs" /> and <ApiLink pkg="core" type="Breadcrumb" />, their theme CSS, and register both components:
+
+```ts
+import { defineComponents, IgcBreadcrumbsComponent, IgcBreadcrumbComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcBreadcrumbsComponent, IgcBreadcrumbComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+For React using the **igniteui-react** package, install the package:
+
+```cmd
+npm install igniteui-react
+```
+
+Import the Breadcrumbs wrappers and theme CSS:
+
+```tsx
+import { IgrBreadcrumbs, IgrBreadcrumb } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+For Blazor using the **IgniteUI.Blazor** package, register the Breadcrumbs modules:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule), typeof(IgbBreadcrumbModule));
+```
+
+Link the additional CSS file that applies the styling to the Breadcrumbs components in **wwwroot/index.html** (Blazor Web Assembly) or **Pages/_Host.cshtml** (Blazor Server):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+For Angular using the **igniteui-angular** package, install the package:
+
+```cmd
+npm install igniteui-angular
+```
+
+Then import the Breadcrumbs components:
+
+```ts
+import { IgxBreadcrumbsComponent, IgxBreadcrumbComponent } from 'igniteui-angular/breadcrumbs';
+```
+
+Add both components to the component `imports` collection, then use the `igx-breadcrumbs` and `igx-breadcrumb` elements in your template.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The simplest way to start using the <ApiLink pkg="core" type="Breadcrumbs" /> is as follows:
+
+```html
+<nav aria-label="Breadcrumb">
+  <igc-breadcrumbs>
+    <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+    <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+    <igc-breadcrumb current><a href="/home/products/laptop">Laptop</a></igc-breadcrumb>
+  </igc-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+The simplest way to start using the <ApiLink pkg="core" type="Breadcrumbs" /> is as follows:
+
+```tsx
+<nav aria-label="Breadcrumb">
+  <IgrBreadcrumbs>
+    <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+    <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+    <IgrBreadcrumb current={true}><a href="/home/products/laptop">Laptop</a></IgrBreadcrumb>
+  </IgrBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The simplest way to start using the <ApiLink pkg="core" type="Breadcrumbs" /> is as follows:
+
+```razor
+<nav aria-label="Breadcrumb">
+  <IgbBreadcrumbs>
+    <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+    <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+    <IgbBreadcrumb Current="true"><a href="/home/products/laptop">Laptop</a></IgbBreadcrumb>
+  </IgbBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The simplest way to start using the <ApiLink type="Breadcrumbs" /> is as follows:
+
+```html
+<nav aria-label="Breadcrumb">
+  <igx-breadcrumbs>
+    <igx-breadcrumb><a href="/home">Home</a></igx-breadcrumb>
+    <igx-breadcrumb><a href="/home/products">Products</a></igx-breadcrumb>
+    <igx-breadcrumb [current]="true"><a href="/home/products/laptop">Laptop</a></igx-breadcrumb>
+  </igx-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+## Usage
+
+Compose a trail by slotting one <ApiLink pkg="core" type="Breadcrumb" /> per level inside a <ApiLink pkg="core" type="Breadcrumbs" /> container. Each item accepts arbitrary content in its default slot — most commonly an anchor element that handles the actual navigation.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/docs">Docs</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/docs/breadcrumbs">Breadcrumbs</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/docs">Docs</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/docs/breadcrumbs">Breadcrumbs</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/docs">Docs</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/docs/breadcrumbs">Breadcrumbs</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs>
+  <igx-breadcrumb><a href="/">Root</a></igx-breadcrumb>
+  <igx-breadcrumb><a href="/docs">Docs</a></igx-breadcrumb>
+  <igx-breadcrumb [current]="true"><a href="/docs/breadcrumbs">Breadcrumbs</a></igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+### Current Page
+
+Mark the item that represents the currently viewed page with the <ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /> property. The component reflects `current` as an attribute and applies `aria-current="page"` to the host, so screen readers announce which item is the current page.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/dashboard">Dashboard</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/dashboard">Dashboard</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/dashboard">Dashboard</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs>
+  <igx-breadcrumb><a href="/home">Home</a></igx-breadcrumb>
+  <igx-breadcrumb [current]="true"><a href="/home/dashboard">Dashboard</a></igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+Update `current` at runtime after a client-side navigation to move the marker to the newly active item:
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```ts
+const items = document.querySelectorAll('igc-breadcrumb');
+for (const item of items) {
+  item.current = false;
+}
+items[items.length - 1].current = true;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```ts
+const items = document.querySelectorAll('igx-breadcrumb');
+for (const item of items) {
+  (item as any).current = false;
+}
+(items[items.length - 1] as any).current = true;
+```
+
+</PlatformBlock>
+
+### Shared Separator
+
+Use the <ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /> property on the container to set a shared separator icon for every item in the trail. The value is an icon name from the registered icon collection; the container propagates it to each descendant item through context.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs separator="chevron_right">
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/products/laptop">Laptop</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs separator="chevron_right">
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/products/laptop">Laptop</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Separator="chevron_right">
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/products/laptop">Laptop</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs separator="chevron_right">
+  <igx-breadcrumb><a href="/home">Home</a></igx-breadcrumb>
+  <igx-breadcrumb><a href="/home/products">Products</a></igx-breadcrumb>
+  <igx-breadcrumb [current]="true"><a href="/home/products/laptop">Laptop</a></igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/menus/breadcrumbs-custom-separator" height={120} position="center" noBorder={false} spacing="md" alt="Angular Breadcrumbs custom separator example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/menus/breadcrumbs/custom-separator" height={120} position="center" noBorder={false} spacing="md" alt="{Platform} Breadcrumbs custom separator example" />
+
+</PlatformBlock>
+
+The trailing separator is automatically hidden on the last item in the trail, so you never need to omit it manually.
+
+### Per-Item Separator Override
+
+Override the separator for a single item by slotting content into that item's `separator` slot. This is useful for mixing text separators (such as `/` or `›`) with icons, or for using an entirely different icon at one boundary.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/settings">Settings</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/settings">Settings</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/settings">Settings</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs>
+  <igx-breadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </igx-breadcrumb>
+  <igx-breadcrumb [current]="true"><a href="/home/settings">Settings</a></igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+### Prefix and Suffix Content
+
+Each <ApiLink pkg="core" type="Breadcrumb" /> exposes `prefix` and `suffix` slots for supplementary content such as icons, badges, or status indicators around the main content.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <igc-icon slot="prefix" name="home"></igc-icon>
+    <a href="/home">Home</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb current>
+    <a href="/home/inbox">Inbox</a>
+    <igc-badge slot="suffix" variant="success">3</igc-badge>
+  </igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <IgrIcon slot="prefix" name="home" />
+    <a href="/home">Home</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}>
+    <a href="/home/inbox">Inbox</a>
+    <IgrBadge slot="suffix" variant="success">3</IgrBadge>
+  </IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <IgbIcon slot="prefix" Name="home" />
+    <a href="/home">Home</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true">
+    <a href="/home/inbox">Inbox</a>
+    <IgbBadge slot="suffix" Variant="@StyleVariant.Success">3</IgbBadge>
+  </IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs>
+  <igx-breadcrumb>
+    <igx-icon slot="prefix" name="home"></igx-icon>
+    <a href="/home">Home</a>
+  </igx-breadcrumb>
+  <igx-breadcrumb [current]="true">
+    <a href="/home/inbox">Inbox</a>
+    <igx-badge slot="suffix" type="success">3</igx-badge>
+  </igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/menus/breadcrumbs-prefix-suffix" height={120} position="center" noBorder={false} spacing="md" alt="Angular Breadcrumbs prefix and suffix example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/menus/breadcrumbs/prefix-suffix" height={120} position="center" noBorder={false} spacing="md" alt="{Platform} Breadcrumbs prefix and suffix example" />
+
+</PlatformBlock>
+
+### Accessible Navigation Landmark
+
+Wrap the trail in a `<nav>` element with an `aria-label` so assistive technology exposes it as a navigation landmark. The label belongs on the `<nav>`, not on the list, per the ARIA breadcrumb pattern.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<nav aria-label="Breadcrumb">
+  <igc-breadcrumbs>
+    <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+    <igc-breadcrumb current><a href="/products">Products</a></igc-breadcrumb>
+  </igc-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<nav aria-label="Breadcrumb">
+  <IgrBreadcrumbs>
+    <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+    <IgrBreadcrumb current={true}><a href="/products">Products</a></IgrBreadcrumb>
+  </IgrBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<nav aria-label="Breadcrumb">
+  <IgbBreadcrumbs>
+    <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+    <IgbBreadcrumb Current="true"><a href="/products">Products</a></IgbBreadcrumb>
+  </IgbBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<nav aria-label="Breadcrumb">
+  <igx-breadcrumbs>
+    <igx-breadcrumb><a href="/">Root</a></igx-breadcrumb>
+    <igx-breadcrumb [current]="true"><a href="/products">Products</a></igx-breadcrumb>
+  </igx-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+### Wrapping and Long Trails
+
+The container renders its items on a single wrapping row using flex layout. When a trail is longer than the available width, the items wrap to the next line automatically — no additional configuration is required.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/menus/breadcrumbs-wrapping" height={160} position="center" noBorder={false} spacing="md" alt="Angular Breadcrumbs long trail wrapping example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/menus/breadcrumbs/wrapping" height={160} position="center" noBorder={false} spacing="md" alt="{Platform} Breadcrumbs long trail wrapping example" />
+
+</PlatformBlock>
+
+In Right-to-Left layouts, the separator icon is mirrored automatically without additional configuration, so a right-pointing chevron becomes left-pointing without changing the icon name.
+
+### Do/Don't
+
+**When to use:** Use Breadcrumbs to show a user's location within a hierarchical structure — a folder path, a category tree, a nested settings area, or a wizard step location — and to provide a way back to higher levels through the slotted links.
+
+**When not to use:** Use the [Navbar](./navbar.mdx) or [Navigation Drawer](./navigation-drawer.mdx) when you need a primary navigation surface with tabs, groups, or expanded actions rather than a linear hierarchy trail.
+
+{/* TODO: replace with guidance images from Indigo.Design once available
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 24px;">
+    <tbody>
+      <tr>
+        <td style="border: none; padding: 16px 20px;"><Image src={breadcrumbsDo} srcset={`${breadcrumbsDo.src} 1x, ${breadcrumbsDo2x.src} 2x`} alt="Breadcrumbs used to show a hierarchical trail with the current page marked" class="responsive-img" style="border: 1px solid #D2DBE8; margin: unset;" /></td>
+        <td style="border: none; padding: 16px 20px;"><Image src={breadcrumbsDoNot} srcset={`${breadcrumbsDoNot.src} 1x, ${breadcrumbsDoNot2x.src} 2x`} alt="Breadcrumbs used as primary navigation instead of a hierarchy trail" class="responsive-img" style="border: 1px solid #D2DBE8; margin: unset;" /></td>
+      </tr>
+      <tr>
+        <td style="border: none; padding: 16px 20px; text-align: left; color: green;"><strong>Do</strong></td>
+        <td style="border: none; padding: 16px 20px; text-align: left; color: red;"><strong>Don't</strong></td>
+      </tr>
+      <tr>
+        <td style="border: none; padding: 4px 20px; text-align: left; text-wrap: auto;">Use Breadcrumbs to reveal the current page's ancestry inside a deeply nested layout so users can jump back to any level.</td>
+        <td style="border: none; padding: 4px 20px; text-align: left; text-wrap: auto;">Avoid Breadcrumbs on flat, single-level pages where there is nothing meaningful to navigate up to.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+*/}
+
+## Properties
+
+The {Platform} Breadcrumbs exposes a single shared property on the container and a single state property on each item.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**<ApiLink pkg="core" type="Breadcrumbs" />**
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /> | `string` | `'tree_expand'` | The icon name used as the default separator between breadcrumb items. Propagated to every descendant item through context. |
+
+**<ApiLink pkg="core" type="Breadcrumb" />**
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /> | `boolean` | `false` | Marks this breadcrumb as representing the current page. Reflects `aria-current="page"` on the host. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**<ApiLink type="Breadcrumbs" />**
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink type="Breadcrumbs" member="separator" label="separator" /> | `string` | `'tree_expand'` | The icon name used as the default separator between breadcrumb items. Propagated to every descendant item. |
+
+**<ApiLink type="Breadcrumb" />**
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink type="Breadcrumb" member="current" label="current" /> | `boolean` | `false` | Marks this breadcrumb as representing the current page. Reflects `aria-current="page"` on the host. |
+
+</PlatformBlock>
+
+## Styling
+
+<PlatformBlock for="Angular">
+
+<Sample src="/menus/breadcrumbs-styling" height={140} position="center" noBorder={false} spacing="md" alt="Angular Breadcrumbs styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/menus/breadcrumbs/styling" height={140} position="center" noBorder={false} spacing="md" alt="{Platform} Breadcrumbs styling example" />
+
+</PlatformBlock>
+
+The {Platform} Breadcrumbs appearance is controlled through CSS variables, CSS parts on each item, and the shared theme system.
+
+### Styling Variables
+
+**<ApiLink pkg="core" type="Breadcrumbs" />**
+
+| Variable | What it changes |
+| -- | -- |
+| `--ig-breadcrumbs-gap` | The gap between breadcrumb items. Defaults to `0.5rem`. |
+
+**<ApiLink pkg="core" type="Breadcrumb" />**
+
+| Variable | What it changes |
+| -- | -- |
+| `--ig-breadcrumb-link-color` | The color of the breadcrumb link. Defaults to `--ig-primary-500`. |
+| `--ig-breadcrumb-link-color-hover` | The hover color of the breadcrumb link. Defaults to `--ig-primary-700`. |
+| `--ig-breadcrumb-current-color` | The color of the current breadcrumb link. Defaults to `--ig-gray-900`. |
+| `--ig-breadcrumb-separator-color` | The color of the separator icon. Defaults to `--ig-gray-500`. |
+
+### Style Parts
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**<ApiLink pkg="core" type="Breadcrumb" />**
+
+| Part | What it styles |
+| -- | -- |
+| `label` | The container wrapping the prefix, default, and suffix slots. |
+| `separator` | The container wrapping the separator slot content. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**<ApiLink type="Breadcrumb" />**
+
+| Selector | Description |
+| -- | -- |
+| `igx-breadcrumb` | The breadcrumb item host element. |
+| `.igx-breadcrumb__label` | The container wrapping the prefix, default, and suffix slots. |
+| `.igx-breadcrumb__separator` | The container wrapping the separator slot content. |
+
+</PlatformBlock>
+
+### Sass Theming
+
+Use the {ProductName} theme system to style the Breadcrumbs consistently with the rest of your application.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+.branded-breadcrumbs {
+  --ig-breadcrumb-link-color: var(--ig-primary-500);
+  --ig-breadcrumb-link-color-hover: var(--ig-primary-700);
+  --ig-breadcrumb-current-color: var(--ig-gray-900);
+  --ig-breadcrumb-separator-color: var(--ig-gray-400);
+  --ig-breadcrumbs-gap: 0.75rem;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+.branded-breadcrumbs {
+  --ig-breadcrumb-link-color: var(--ig-primary-500);
+  --ig-breadcrumb-link-color-hover: var(--ig-primary-700);
+  --ig-breadcrumb-current-color: var(--ig-gray-900);
+  --ig-breadcrumb-separator-color: var(--ig-gray-400);
+  --ig-breadcrumbs-gap: 0.75rem;
+}
+```
+
+</PlatformBlock>
+
+### CSS Variables
+
+Set component CSS variables directly when you need local styling without a Sass build step.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-breadcrumbs {
+  --ig-breadcrumbs-gap: 1rem;
+}
+
+igc-breadcrumb {
+  --ig-breadcrumb-separator-color: var(--ig-gray-400);
+}
+
+igc-breadcrumb::part(label) {
+  padding-inline: 0.25rem;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+igx-breadcrumbs {
+  --ig-breadcrumbs-gap: 1rem;
+}
+
+igx-breadcrumb {
+  --ig-breadcrumb-separator-color: var(--ig-gray-400);
+}
+```
+
+</PlatformBlock>
+
+### Styling with Tailwind
+
+Combine Tailwind utility classes with the Breadcrumbs CSS variables. Make sure to [set up Tailwind](/themes/tailwind) first, then import the Ignite UI utilities in your global stylesheet:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-breadcrumbs class="![--ig-breadcrumbs-gap:1rem] ![--ig-breadcrumb-separator-color:theme(colors.slate.400)]">
+  <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/current">Current</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```jsx
+<IgrBreadcrumbs className="![--ig-breadcrumbs-gap:1rem] ![--ig-breadcrumb-separator-color:theme(colors.slate.400)]">
+  <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/current">Current</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Class="![--ig-breadcrumbs-gap:1rem] ![--ig-breadcrumb-separator-color:theme(colors.slate.400)]">
+  <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/current">Current</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-breadcrumbs class="![--ig-breadcrumbs-gap:1rem] ![--ig-breadcrumb-separator-color:theme(colors.slate.400)]">
+  <igx-breadcrumb><a href="/">Root</a></igx-breadcrumb>
+  <igx-breadcrumb [current]="true"><a href="/current">Current</a></igx-breadcrumb>
+</igx-breadcrumbs>
+```
+
+</PlatformBlock>
+
+The exclamation mark (`!`) gives the Tailwind utility precedence over the component's default styles.
+
+## Accessibility
+
+The {Platform} Breadcrumbs follows the ARIA breadcrumb navigation pattern. The container exposes the ARIA `list` role, each item exposes the `listitem` role, and the current item is announced with `aria-current="page"`.
+
+### Keyboard Interaction
+
+The Breadcrumbs components do not implement custom keyboard handling — navigation relies on the native behavior of the interactive content slotted into each item (typically an anchor).
+
+| Key | Action |
+| -- | -- |
+| `Tab` / `Shift` + `Tab` | Moves focus between the interactive elements (typically links) slotted into each breadcrumb item. |
+| `Enter` / `Space` | Activates the currently focused link, following the native behavior of the slotted element. |
+
+### Screen Readers / ARIA
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- The <ApiLink pkg="core" type="Breadcrumbs" /> host has `role="list"`.
+- Each <ApiLink pkg="core" type="Breadcrumb" /> host has `role="listitem"`.
+- Setting `current` to `true` applies `aria-current="page"` to the host; setting it back to `false` removes the attribute.
+- Wrap the trail in `<nav aria-label="Breadcrumb">` (or a domain-specific label) so assistive technology exposes it as a navigation landmark. The label belongs on the `<nav>`, not on the list.
+- The separator icons are decorative and are not announced by screen readers.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- The <ApiLink type="Breadcrumbs" /> host has `role="list"`.
+- Each <ApiLink type="Breadcrumb" /> host has `role="listitem"`.
+- Setting `current` to `true` applies `aria-current="page"` to the host.
+- Wrap the trail in `<nav aria-label="Breadcrumb">` so assistive technology exposes it as a navigation landmark. The label belongs on the `<nav>`, not on the list.
+- The separator icons are decorative and are not announced by screen readers.
+
+</PlatformBlock>
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| -- | -- |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The container and items expose the `list` / `listitem` roles, and the current item exposes `aria-current="page"`. |
+| [2.4.8 Location](https://www.w3.org/WAI/WCAG21/Understanding/location) | The trail visually and programmatically communicates the current page's location within the site hierarchy. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The `<nav>` wrapper carries the accessible name; the `list`/`listitem` roles carry the structural semantics. |
+
+Your responsibilities:
+
+- Wrap the Breadcrumbs container in a `<nav>` element and set a descriptive `aria-label`, such as `"Breadcrumb"` or `"Product category"`.
+- Mark exactly one item as `current` per trail so screen readers announce a single current page.
+- Provide a meaningful text label inside each slotted anchor; do not rely on prefix icons alone to communicate the destination.
+
+## Troubleshooting
+
+The {Platform} Breadcrumbs troubleshooting guidance follows a problem → cause → fix format for common integration and rendering issues.
+
+### Why is my separator not visible on some items?
+
+The separator is automatically hidden on the last item in the trail — this is the intended behavior for the ARIA breadcrumb pattern. If it is missing from an unexpected item, check whether that item is the last visible child of the container.
+
+### Why is the custom icon name I set on `separator` not rendering?
+
+The separator icon must be registered with the icon registry (in the same collection used by the surrounding UI). Register the icon before rendering the trail, or fall back to the default `tree_expand` icon that ships with the theme.
+
+### Why does the trail not wrap in RTL?
+
+Wrapping is not RTL-specific — it happens whenever the total content width exceeds the container width. In RTL contexts, the visual order is reversed and the separator icon is mirrored automatically; if the trail still overflows, check whether a parent element is preventing the container from taking up its natural width.
+
+### Why is `aria-current` not being announced?
+
+`aria-current="page"` is applied only when the item's `current` property is `true`. If you mutate items after a client-side navigation, make sure to set `current = false` on the previous item before setting `current = true` on the new one, so exactly one item is announced as the current page.
+
+## Known Limitations
+
+The {Platform} Breadcrumbs has the following platform-independent limitations.
+
+- The Breadcrumbs components do not implement custom keyboard handling — activation depends on the interactive element slotted into each item (usually an anchor).
+- The Breadcrumbs do not render a `<nav>` landmark of their own; the consuming application must provide the `<nav aria-label="...">` wrapper.
+- The container does not truncate long trails automatically. Combine the natural flex wrapping with your own overflow strategy (e.g. collapsing intermediate items into a menu) when a single-line trail is required at narrow widths.
+
+## API References
+
+Use these API references for the complete Breadcrumbs API surface.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Breadcrumbs" />
+<ApiLink pkg="core" type="Breadcrumb" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Breadcrumbs" />
+<ApiLink type="Breadcrumb" />
+
+</PlatformBlock>
+
+## Dependencies
+
+The {Platform} Breadcrumbs requires a theme stylesheet to apply its visual styling. See the framework-specific setup in **Getting Started**. When you use the default separator (`tree_expand`) or any other icon name for the `separator` property, the icon must be available in the registered icon collection.
+
+## Additional Resources
+
+Use these resources for support and related Ignite UI documentation.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+Use these related components when the navigation surface is broader than a single hierarchy trail.
+
+- [Navbar](./navbar.mdx) — For the primary application header with actions and identity.
+- [Navigation Drawer](./navigation-drawer.mdx) — For a persistent or collapsible side navigation with grouped links.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="How do I change the separator icon between items?" indicatorPosition="end">
+    Set the `separator` property on the Breadcrumbs container to the name of any registered icon; the container propagates the icon to every descendant item. To override the separator for a single item, slot the replacement content into that item's `separator` slot.
+  </FaqItem>
+
+  <FaqItem question="Do I need to manually hide the last separator?" indicatorPosition="end">
+    No. The Breadcrumb item automatically hides its trailing separator when it is the last item in the trail, so you can render the items in a loop without any special-casing.
+  </FaqItem>
+
+  <FaqItem question="Does the Breadcrumbs component render a `<nav>` landmark itself?" indicatorPosition="end">
+    No. The Breadcrumbs renders as an ARIA `list` of `listitem` children. Following the ARIA breadcrumb pattern, the consuming application wraps the container in `<nav aria-label="Breadcrumb">` (or a more specific label) so the accessible name lives on the landmark rather than on the list.
+  </FaqItem>
+
+  <FaqItem question="How do I mark the current page?" indicatorPosition="end">
+    Set the `current` property on the Breadcrumb item that represents the currently viewed page. The item reflects `current` as an attribute and applies `aria-current="page"` on the host, so screen readers announce which entry is the current page.
+  </FaqItem>
+
+  <FaqItem question="Which package should I install for Breadcrumbs?" indicatorPosition="end">
+    Use `igniteui-angular` for Angular, `igniteui-react` for React, `igniteui-webcomponents` for Web Components, and `IgniteUI.Blazor` for Blazor. Keep related Ignite UI packages on the same release version.
+  </FaqItem>
+</Faq>
