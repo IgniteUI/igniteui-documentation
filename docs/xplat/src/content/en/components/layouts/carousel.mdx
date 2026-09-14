@@ -1,5 +1,5 @@
 ---
-title: "Carousel | Ignite UI for {Framework}"
+title: "Carousel | Ignite UI"
 description: "Use the {ProductName} Carousel component to show slide-based content with navigation, indicators, animation, and automatic transitions."
 keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Carousel component, {Platform} Carousel control"
 license: MIT
@@ -100,8 +100,6 @@ igx-carousel                     // host - coordinates slides, navigation, and i
 ## Getting Started
 
 The {Platform} Carousel requires the carousel component, slide component, and theme stylesheet before you declare slides.
-
-### Prerequisites and Version Compatibility
 
 Install {ProductName} and configure the theme from the [Getting Started](../general-getting-started.mdx) topic before adding the Carousel to an application.
 
@@ -298,6 +296,27 @@ Set the <ApiLink pkg="core" type="CarouselSlide" member="active" label="active" 
 ```
 
 </PlatformBlock>
+
+<DocsAside type="info">
+If no active slide is set, the first one is active by default. If multiple slides are active during initial rendering or later updates, the last active slide is used.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Set the <ApiLink type="CarouselSlide" member="active" label="active" /> input on the slide that should be selected when the Carousel renders.
+
+```html
+<igx-carousel>
+    <igx-slide>
+        ...
+    </igx-slide>
+    <igx-slide [active]="true">
+        ...
+    </igx-slide>
+</igx-carousel>
+```
 
 <DocsAside type="info">
 If no active slide is set, the first one is active by default. If multiple slides are active during initial rendering or later updates, the last active slide is used.
@@ -654,6 +673,8 @@ Use the <ApiLink type="CarouselPrevButtonDirective" /> and <ApiLink type="Carous
 </igx-carousel>
 ```
 
+Use text, SVG, or <ApiLink type="Icon" /> content in these templates when the default navigation controls do not fit the design.
+
 </PlatformBlock>
 
 ### Slide Content
@@ -820,6 +841,8 @@ Set the <ApiLink type="Carousel" member="animationType" label="animationType" />
 </igx-carousel>
 ```
 
+Set the <ApiLink type="Carousel" member="animationType" label="animationType" /> input to `none` to disable animations.
+
 <Sample src="/layouts/carousel-animations" height={460} noBackground={false} alt="Angular Carousel animations example" />
 
 </PlatformBlock>
@@ -893,6 +916,10 @@ Set the <ApiLink type="Carousel" member="interval" label="interval" /> input to 
     ...
 </igx-carousel>
 ```
+
+<DocsAside type="info">
+Hovering over carousel content or moving keyboard focus into carousel content pauses automatic transitioning. Automatic transitioning resumes when the pointer or keyboard focus leaves the carousel.
+</DocsAside>
 
 </PlatformBlock>
 
@@ -982,6 +1009,27 @@ const images = [
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
+
+Use the <ApiLink type="CarouselIndicatorDirective" /> template directive with a thumbnail image for each indicator when indicators should preview their corresponding slide.
+
+```html
+<igx-carousel [navigation]="false" [pause]="false" [interval]="2000" [vertical]="true" animationType="fade">
+    <ng-template igxCarouselIndicator let-slide>
+        <img
+            [class.blurred]="!slide.active"
+            [src]="slides[slide.index].thumbnail"
+            [alt]="slides[slide.index].alt + ' thumbnail'"
+            width="50"
+            height="60" />
+    </ng-template>
+
+    @for (slide of slides; track slide.image) {
+        <igx-slide>
+            <img class="slide-image" [src]="slide.image" [alt]="slide.alt" />
+        </igx-slide>
+    }
+</igx-carousel>
+```
 
 <Sample src="/layouts/carousel-thumbnail" height={470} noBackground={false} alt="Angular Carousel thumbnail indicators example" />
 
