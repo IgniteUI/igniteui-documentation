@@ -1,7 +1,30 @@
 # Ignite UI house style
 
+Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
+bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
+
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
-`diataxis-cheatsheet.md` (the *why*) and the section→mode map in `SKILL.md`.
+`diataxis-cheatsheet.md` (the *why*); the section→mode map is the "Diátaxis mode" column of the
+canonical section table below.
+
+## Contents
+
+- [Two doc sets](#two-doc-sets)
+- [File format & frontmatter](#file-format--frontmatter) — the normative field contract
+- [Per-framework mechanics](#per-framework-mechanics)
+- [Never fabricate API identifiers (zero-risk rule)](#never-fabricate-api-identifiers-zero-risk-rule)
+- [Verification workflow](#verification-workflow)
+- [Component topic — canonical section order](#component-topic--canonical-section-order) — incl. FAQ
+  component, reference-table contract, Usage coverage, Indigo.Design suggestions, Live Demo contract,
+  `<Sample>` configuration, Accessibility sub-structure
+- [Overview topics](#overview-topics) — concept/guide and category/index blueprints
+- [Naming reconciliation (drift → standard)](#naming-reconciliation-drift--standard)
+- [Entity terminology (canonical names)](#entity-terminology-canonical-names)
+- [Write-for-both-audiences rules](#write-for-both-audiences-rules-people--ai-assistants)
+- [Formatting & altitude](#formatting--altitude)
+- [Voice & tone](#voice--tone)
+- [Verify every claim against the component](#verify-every-claim-against-the-component)
 
 > **Current vs target state.** The live `vnext` repo is *pre-standardization* — many topics use
 > drifted headings (e.g. `## Angular Rating Example`, `## Configuration`). This file describes the
@@ -22,27 +45,45 @@ covers modules to import (Angular) or supporting components/themes required to r
 
 ## File format & frontmatter
 
+**This section is the single normative field contract for the doc-skill set.** The companion
+`igniteui-topic-frontmatter` skill audits against it and carries the audit procedure and severities;
+`igniteui-doc-topics` Create step 4 orders the work. Where wording differs anywhere, this section
+wins.
+
 Topics are **Astro `.mdx`**. Frontmatter is YAML. Observed + target fields:
 
 ```yaml
 ---
 title: "{ComponentTitle}"   # xplat component title; the layout appends the resolved product name
-description: "…"           # <=~160 chars, shaped as an answer ("X is a … that …")
-keywords: "…"              # comma-separated
+description: "…"           # <=~160 chars, definition-first ("X is a … that …"); complete sentences, never ellipsis-truncated
+keywords: "…"              # comma-separated; legacy/internal — every keyword appears in the body
 license: MIT
 mentionedTypes: ["Rating"] # xplat: API types referenced on the page
 llms:
-  description: "…"         # AI-facing one-liner; the exact text an assistant uses to summarize
+  description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
 relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
 ---
 ```
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
-  self-contained answer sentence. It is *not* optional filler.
+  self-contained answer sentence that **defines the component (or concept), never the page**: subject
+  noun names the product and component, no pronouns, no "This topic shows…". It is *not* optional
+  filler. The `llms.description`, the H1 lead sentence, and the site's llms-manifest entry should be
+  the same sentence or trivial variants of it: one definition, emitted everywhere the machine looks.
+- **`description`** is definition-first ("The <Component> is a … that …"), not imperative task
+  phrasing ("Use X to …"); complete declarative sentences, written to fit <=~160 characters, never
+  truncated with an ellipsis.
+- **Cross-field consistency:** `title`, `description`, `llms.description`, `keywords`, the H1, and
+  the lead sentence tell one story with the same entity names and the same capability list; the lead
+  sentence mirrors `llms.description`.
+- **Body support:** every capability named in `description`, `llms.description`, or `keywords` is
+  supported by the finished body. Content-bearing fields are generated from the finished body, never
+  from imagination (see `create-workflow.md`, step 4).
 - **`title`** uses `"{ComponentTitle}"` for xplat topics because the layout appends the resolved
   product name to the HTML title. Do not add a framework-specific suffix or duplicate the framework in
-  the component phrase.
+  the component phrase. Angular-set titles follow the frontmatter skill's title rule
+  (`"Angular <Component> Component"`, query-relevant terms within ~60 characters).
 - **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
   target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
   with no **Usage** → **Do/Don't** guidance as a hard error.
@@ -174,6 +215,13 @@ headings or hand-written accordion markup. Import `Faq` and `FaqItem` from
 children. Prefer slot mode so answers can contain normal MDX, links, code blocks, and other
 components. Keep the FAQ questions component-specific and concise; do not move troubleshooting
 content into the FAQ merely to populate it.
+
+Each answer is **2–4 self-contained sentences, quotable without its question**: restate the subject
+noun, no dangling "it"/"this". Draw questions from the predictable fan-out for the component:
+licensing/pricing, framework and version support, migration, accessibility, and
+"is ‹Component› right for ‹use case›". An FAQ whose answers cannot stand alone is markup without
+retrieval value — FAQ answers are among the most-quoted chunks on the page.
+
 **When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
 must include the matching guidance image from the Indigo.Design documentation before the guidance
 text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
@@ -251,6 +299,27 @@ when its styling isn't shown as copyable code.
 
 `## Accessibility` always carries three `###` sub-sections, in this order. All three are **reference**
 mode: statements of fact in tables and short lists — no steps, no marketing.
+
+#### Source-first generation contract
+
+Generate the Accessibility section from the component implementation before writing prose. Inspect
+the component template/render method and typed source for the rendered native elements, `role`,
+`aria-*` attributes, focus/tab-order conditions, disabled handling, and indeterminate or validation
+state mapping. Inspect keyboard and pointer event handlers to derive the key-to-action table and
+state transitions. Inspect the public API registry to verify property and event names, then map each
+fact to the platform that actually implements it.
+
+- Treat rendered template/source as the authority for DOM, roles, ARIA attributes, and default state
+  behavior; treat the topic's existing prose as evidence to re-check, never as the source.
+- Treat event handlers as evidence for interaction and state changes only. An event name does not
+  prove an accessible name, role, state, or WCAG conformance claim.
+- For xplat topics, emit shared facts once and use `<PlatformBlock>` when Angular differs from the
+  Web Components implementation or its React/Blazor wrappers.
+- Include only verified attributes, events, and state behavior. If source is unavailable or a fact
+  cannot be resolved, write `‹VERIFY: source fact needed›` or omit it; never infer ARIA behavior from
+  a component name or a generic HTML pattern.
+- Derive the compliance table only from behavior verified in the section and an official product
+  accessibility statement. Do not generate blanket WCAG/Section 508 compliance claims.
 
 1. **`### Keyboard Interaction`** — one key → action table, verified against the component's key
    handlers. Note how the component is reached (Tab) and any condition that removes it from the tab
@@ -333,18 +402,40 @@ a single "Why {ProductName}" section — never thread it through instructional c
 | WAI-ARIA Support; Compliance; Section 508; Accessibility Statement | **`### Accessibility Compliance`** (under **Accessibility**) |
 | Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** (as the final `###` under **Usage**) |
 | Theming (H2) | **Styling** (H2); the Sass approach becomes `### Sass Theming` under it |
-| Known Limitations; Known Issues and Limitations; Limitations | **Troubleshooting** |
+| Known Issues and Limitations; Limitations; Known Issues | **Known Limitations** (a required top-level section; it may live as `### Known Limitations` under **Troubleshooting** only when the limitations directly support that troubleshooting guidance — see section 12. Troubleshooting *fixes* found under a limitations heading move to **Troubleshooting**.) |
 | API; API Reference (singular) | **API References** |
 | Theming Dependencies | **Dependencies** |
+
+## Entity terminology (canonical names)
+
+Source: blog-creator product-context v4 · 2026-08-14. This table is a governed copy: when the blog
+set's terminology table changes, update this section in the same change and keep both version lines
+aligned. Docs are the highest-authority entity signal the site emits — assistants consolidate
+entities from repeated identical naming, and drift fragments the association. These names bind body
+prose, headings, and frontmatter alike; the frontmatter skill audits the metadata side, rubric B6
+audits the body side.
+
+- Canonical component term: **"[Framework] Data Grid"** (title case): "Angular Data Grid", "React
+  Data Grid", "Web Components Data Grid", "Blazor Data Grid". Permitted shorthand after first
+  mention: "the Data Grid". In the xplat set, write it with the token: "{Platform} Data Grid".
+- Sibling components are fixed compounds, always fully qualified: **Tree Grid, Hierarchical Grid,
+  Pivot Grid**. Bare "grid" only as a common noun inside feature phrases ("grid features", "bind the
+  grid to data"); never as the standalone entity name, never in titles or headings.
+- Banned entity synonyms: "datagrid" (one word, except when quoting an API symbol), "grid component"
+  as subject noun, silent drift to "table"/"data table". Ecosystem synonyms stated once as an
+  explicit equivalence are fine ("row pinning (also known as frozen rows)").
+- Product names verbatim: "Ignite UI for Angular", "App Builder"; no abbreviation drift ("IgniteUI",
+  "AppBuilder") in prose. In the xplat set, prefer `{ProductName}` where the resolved product name is
+  meant.
 
 ## Write-for-both-audiences rules (people + AI assistants)
 
 1. **One job per section** — self-contained; no "as mentioned above." A section must make sense landed-on cold.
-2. **Lead each section with one plain, specific sentence** before any table/code — skip empty boilerplate.
+2. **Lead each section with one plain, specific sentence that names the component** (with the platform token where the set uses them) before any table/code — skip empty boilerplate. Sections are the retrieval chunks; a chunk that never names its subject is invisible to the query that should retrieve it.
 3. **Use the standard section names everywhere** — "Accessibility" always means the same thing.
 4. **Phrase guidance/troubleshooting as real questions** — When-Not-to-Use is the highest-value content for answer accuracy; name the sibling explicitly.
 5. **Reference lives in tables**, generated from the typed source.
-6. **Strong `description` / `llms.description`** — <~160 chars, answer-shaped.
+6. **Strong `description` / `llms.description`** — <~160 chars, answer-shaped, definition-first; `llms.description` defines the component, not the page (full contract in "File format & frontmatter").
 7. **Document theming variables** — variable · what it changes, in **one table for all themes**. No default-value column: defaults are per-theme values that live in the generated API reference, not the topic.
 
 ## Formatting & altitude
