@@ -7,7 +7,8 @@ description: >-
   identity in Ignite UI Angular or xplat documentation topics. This skill is strictly
   frontmatter-only: audit first and provide suggestions for the user to choose from before changing
   anything; never edit topic body content, headings, prose, samples, code snippets, links, tables, or
-  section structure.
+  section structure. For anything touching body content, structure, headings, prose, or samples, use
+  the companion igniteui-doc-topics skill instead.
 ---
 
 # Ignite UI topic frontmatter adapter
