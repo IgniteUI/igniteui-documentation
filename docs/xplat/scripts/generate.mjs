@@ -442,9 +442,10 @@ const SNIPPET_FENCE_LANG = {
     WebComponents: 'html',
     React: 'tsx',
     Blazor: 'razor',
-    WPF: 'xaml',
-    WinUI: 'xaml',
-    Uno: 'xaml',
+    // Shiki does not ship a XAML grammar; XML highlights the same markup syntax.
+    WPF: 'xml',
+    WinUI: 'xml',
+    Uno: 'xml',
 };
 
 /**
