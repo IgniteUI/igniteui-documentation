@@ -9,6 +9,11 @@
  * whether the target exists (trying .mdx, .md, and bare extensions).
  * JSX-style href attributes with relative paths are also checked.
  *
+ * The hrefs in each toc.json are checked in the same pass. They are file paths
+ * rather than URLs, but they break the same way a link does — and buildSidebar()
+ * drops an entry whose target is missing instead of failing, so a stale one
+ * disappears from the sidebar with no error.
+ *
  * When --platform=angular the script scans docs/angular/src/content plus
  * docs/xplat/generated/Angular — the two roots the Angular site serves.
  * When --platform=react|wc|blazor  it scans docs/xplat/src/content.
@@ -26,7 +31,7 @@
  * Exit code: 0 = all OK, 1 = broken links found.
  */
 
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path'; // join used in walkMdx
 import {
     ANGULAR_AUTHORED_ROOT,
@@ -54,23 +59,26 @@ const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
 /**
  * Drops roots that are not on disk, so a language the xplat generator does not
- * emit (`kr`) simply has no overlay rather than a hard failure. Losing the
- * Angular overlay root, though, silently shrinks coverage over every generated
- * topic — so that one is called out.
+ * emit (`kr`) simply has no overlay rather than a hard failure. Losing an en/jp
+ * overlay, though, silently shrinks coverage: its generated topics are skipped,
+ * and links and toc entries pointing at them report a false "not found" — so
+ * each missing language is called out.
  */
 function keepExisting(dirs) {
-    return dirs.filter(d => {
-        if (existsSync(d)) return true;
-        if (d === ANGULAR_OVERLAY_ROOT) {
+    if (dirs.includes(ANGULAR_OVERLAY_ROOT)) {
+        const missing = ['en', 'jp'].filter(lang => !existsSync(`${ANGULAR_OVERLAY_ROOT}/${lang}`));
+        if (missing.length) {
             console.warn(
-                `[warn] "${d}" is missing — the xplat Angular overlay was not scanned.\n` +
-                '       Links in generated topics are unchecked. Generate it first:\n' +
-                '         npm run xplat:generate --prefix docs/angular\n' +
-                '         npm run xplat:generate:jp --prefix docs/angular'
+                `[warn] "${ANGULAR_OVERLAY_ROOT}" is missing ${missing.join(' and ')} — that part of the xplat Angular overlay was not scanned.\n` +
+                '       Links in its generated topics are unchecked, and links or toc entries pointing at\n' +
+                '       those topics may report a false "not found". Generate it first:\n' +
+                missing
+                    .map(lang => `         npm run ${lang === 'en' ? 'xplat:generate' : 'xplat:generate:jp'} --prefix docs/angular`)
+                    .join('\n')
             );
         }
-        return false;
-    });
+    }
+    return dirs.filter(d => existsSync(d));
 }
 
 function getSrcDirs() {
@@ -222,6 +230,52 @@ const MD_LINK_RE = /\[(?:[^\]\\]|\\.)*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
  */
 const JSX_HREF_RE = /href=["'](\.[^"'\s>]+)["']/g;
 
+/**
+ * True when `path` is an existing *file*.
+ *
+ * Every doc page is a file, so a bare directory must never satisfy a link on
+ * its own: a group folder such as components/inputs/ exists on disk but
+ * publishes no page, and /inputs 404s.
+ */
+function isFile(path) {
+    try {
+        return statSync(path).isFile();
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * True when `path` is a file the site actually serves.
+ *
+ * A file the site never renders cannot satisfy a link: the xplat copies of
+ * grids/ and changelog/ sit on disk but are excluded from the Angular overlay,
+ * so accepting one would hide a genuinely broken link on a page that *is*
+ * served (see lib/angular-content-roots.mjs).
+ */
+function isServedFile(path) {
+    return !isUnservedOverlayFile(path) && isFile(path);
+}
+
+/**
+ * Every on-disk file that can publish at the URL `base` maps to.
+ *
+ * Astro derives the id from the file path and strips a trailing `/index`
+ * (see getContentEntryIdAndSlug in astro/dist/content/utils.js), so
+ * components/themes/sass/index.mdx publishes at /themes/sass — a directory
+ * therefore does satisfy a link, but only when it holds an index page.
+ * `base` itself is included for links that already carry an extension.
+ */
+function pageCandidates(base) {
+    return [
+        base,
+        base + '.mdx',
+        base + '.md',
+        join(base, 'index.mdx'),
+        join(base, 'index.md'),
+    ];
+}
+
 /** Strip hash fragment (#anchor) from a URL path. */
 function stripHash(url) {
     const i = url.indexOf('#');
@@ -239,6 +293,17 @@ const ASSET_EXTENSIONS = new Set([
 ]);
 
 /**
+ * Asset extensions that disqualify an *absolute* link from being a doc link.
+ *
+ * .html/.htm are deliberately excluded from this set: legacy docfx URLs were
+ * written as /themes/palettes.html, and treating them as assets made them
+ * invisible to this check instead of reporting them as broken.
+ */
+const ABSOLUTE_LINK_ASSET_EXTENSIONS = new Set(
+    [...ASSET_EXTENSIONS].filter(ext => ext !== '.html' && ext !== '.htm')
+);
+
+/**
  * True when a URL is an absolute doc-internal link, e.g. /treegrid/tree-grid.
  * Rejects external URLs, anchors-only, protocol-relative, and asset extensions.
  */
@@ -251,7 +316,7 @@ function isAbsoluteDocLink(url) {
     const slash = path.lastIndexOf('/');
     if (dot > slash) {
         const ext = path.slice(dot).toLowerCase();
-        if (ASSET_EXTENSIONS.has(ext)) return false;
+        if (ABSOLUTE_LINK_ASSET_EXTENSIONS.has(ext)) return false;
     }
     return true;
 }
@@ -271,36 +336,46 @@ function getLangRoot(filePath) {
 // single description of what the Angular site actually serves, shared with
 // check-mdx-links.mjs.
 
+/** Legacy docfx extension on a doc URL, e.g. /themes/palettes.html */
+const LEGACY_HTML_RE = /\.html?$/i;
+
 /**
- * Resolves an absolute doc link like /treegrid/tree-grid against the
- * language content roots. Tries components/{path}.mdx then {path}.mdx in each
- * root that shares the slug namespace.
- * Returns the resolved path string or null if not found.
+ * Resolves an absolute doc link like /treegrid/tree-grid against `langRoots` —
+ * every content root that shares this slug namespace (see getRootGroup).
+ * Returns { resolved, reason }; resolved is null when the target does not exist.
  */
 function resolveAbsoluteLink(langRoots, url) {
-    const path = stripHash(url).slice(1); // strip leading '/'
-    if (!path) return 'hash-only';
+    let path = stripHash(url).slice(1); // strip leading '/'
+    if (!path) return { resolved: 'hash-only', reason: null };
+
     // Astro lowercases all URL slugs at build time. Always resolve using the
     // lowercased path so that camelCase links like /pivotGrid/... are flagged
     // as broken (the built URL is /pivotgrid/...).
-    const pathLower = path.toLowerCase();
+    path = path.toLowerCase();
+
+    // The docs collection is rooted at content/<lang>/components (see
+    // docs/*/src/content.config.ts), so "components" is never a URL segment.
+    // A link starting with it is the on-disk file path written as a URL: it
+    // resolves to a real file yet 404s in the browser, which is what let
+    // https://github.com/IgniteUI/igniteui-documentation/issues/530 through.
+    if (path === 'components' || path.startsWith('components/')) {
+        return { resolved: null, reason: 'components-prefix' };
+    }
+
+    // Legacy docfx URLs carried a .html suffix; Astro routes do not.
+    const legacyHtml = LEGACY_HTML_RE.test(path);
+    if (legacyHtml) path = path.replace(LEGACY_HTML_RE, '');
+
     for (const langRoot of langRoots) {
-        const candidates = [
-            resolve(langRoot, 'components', pathLower),
-            resolve(langRoot, pathLower),
-        ];
-        for (const base of candidates) {
-            for (const candidate of [base, base + '.mdx', base + '.md']) {
-                // A file the site never serves cannot satisfy a link: the xplat
-                // copies of grids/ and changelog/ sit on disk but are excluded
-                // from the overlay, so accepting one would hide a genuinely
-                // broken link on a page that *is* served.
-                if (isUnservedOverlayFile(candidate)) continue;
-                if (existsSync(candidate)) return candidate;
+        const base = resolve(langRoot, 'components', path);
+        for (const candidate of pageCandidates(base)) {
+            if (isServedFile(candidate)) {
+                return { resolved: candidate, reason: legacyHtml ? 'legacy-html' : null };
             }
         }
     }
-    return null;
+
+    return { resolved: null, reason: legacyHtml ? 'legacy-html' : 'not-found' };
 }
 
 /**
@@ -383,45 +458,56 @@ function extractRelativeLinks(content, filePath) {
 // File resolution
 
 /**
+ * Returns `abs` followed by the same path re-anchored on every peer in
+ * `langRoots` — the file's own root first, then each root it shares a slug
+ * namespace with (see getRootGroup). A path outside the own root is returned
+ * alone.
+ */
+function acrossRoots(abs, langRoots) {
+    const [ownRoot, ...peerRoots] = langRoots;
+    const paths = [abs];
+    if (ownRoot && peerRoots.length) {
+        const fromRoot = relative(resolve(ownRoot), abs);
+        if (!fromRoot.startsWith('..')) {
+            for (const peer of peerRoots) paths.push(resolve(peer, fromRoot));
+        }
+    }
+    return paths;
+}
+
+/**
  * Returns { resolved, missingExt } for `href` relative to `fileDir`.
- * resolved = null means the target does not exist on disk.
+ * resolved = null means the target does not exist in any content root.
  * missingExt = true means the path has no extension but resolves via .mdx —
  *   the link should be written as ./page.mdx, not ./page.
+ *
+ * Candidates cover the tree the file lives in first, then the same relative
+ * path re-anchored on each root it shares a slug namespace with, so a link
+ * that points at a topic served from the other tree still resolves.
  */
 function resolveLink(fileDir, href, langRoots = []) {
     const path = stripHash(href);
     if (!path) return { resolved: 'hash-only', missingExt: false };
 
-    const describe = (abs) => {
+    // Candidates re-anchored on a peer root can land on a file the site never
+    // serves (the overlay's excluded grids/ and changelog/); isServedFile()
+    // rejects those, or a broken /grids/... reference would pass.
+    const candidates = acrossRoots(resolve(fileDir, path), langRoots);
+
+    for (const candidate of candidates) {
+        if (isServedFile(candidate)) return { resolved: candidate, missingExt: false };
+    }
+
+    for (const candidate of candidates) {
+        const target = pageCandidates(candidate).find(isServedFile);
+        if (!target) continue;
+
         const lastDot = path.lastIndexOf('.');
         const lastSlash = path.lastIndexOf('/');
         const hasExt = lastDot > lastSlash;
         const isBare = !path.startsWith('./') && !path.startsWith('../');
-        return { resolved: abs, missingExt: !hasExt || isBare, bare: isBare };
-    };
-
-    // The file's own root first, then any root it shares a slug namespace with:
-    // the same relative path is re-anchored on each peer, so a link that points
-    // at a topic served from the other tree still resolves.
-    const [ownRoot, ...peerRoots] = langRoots;
-    const bases = [resolve(fileDir, path)];
-    if (ownRoot && peerRoots.length) {
-        const fromRoot = relative(resolve(ownRoot), bases[0]);
-        if (!fromRoot.startsWith('..')) {
-            for (const peer of peerRoots) bases.push(resolve(peer, fromRoot));
-        }
-    }
-
-    // Candidates re-anchored on a peer root can land on a file the site never
-    // serves (the overlay's excluded grids/ and changelog/); those must not
-    // satisfy the link, or a broken /grids/... reference would pass.
-    for (const abs of bases) {
-        if (isUnservedOverlayFile(abs)) continue;
-        if (existsSync(abs)) return { resolved: abs, missingExt: false };
-    }
-    for (const abs of bases) {
-        if (isUnservedOverlayFile(abs + '.mdx')) continue;
-        if (existsSync(abs + '.mdx')) return describe(abs + '.mdx');
+        const missingExt = !hasExt || isBare;
+        return { resolved: target, missingExt, bare: isBare };
     }
 
     return { resolved: null, missingExt: false };
@@ -468,9 +554,11 @@ for (const file of filesToScan) {
     for (const { href, line, kind } of links) {
         if (kind === 'absolute') {
             if (langRoot) {
-                const resolved = resolveAbsoluteLink(langRoots, href);
-                if (resolved === null) {
-                    brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
+                const { resolved, reason } = resolveAbsoluteLink(langRoots, href);
+                // A legacy .html suffix 404s on the Astro routes even when the
+                // target page itself exists, so report it either way.
+                if (resolved === null || reason === 'legacy-html') {
+                    brokenLinks.push({ file: relFile, line, href, reason });
                 }
             }
             continue;
@@ -491,11 +579,152 @@ for (const file of filesToScan) {
     for (const m of content.matchAll(BARE_LINK_RE)) {
         const href = m[1];
         const hash = m[2] ?? '';
-        const abs = resolve(fileDir, href);
-        if (existsSync(abs + '.mdx')) {
+        const resolvesToPage = acrossRoots(resolve(fileDir, href), langRoots)
+            .some(candidate => isServedFile(candidate + '.mdx'));
+        if (resolvesToPage) {
             const line = (content.slice(0, m.index).match(/\n/g) || []).length + 1;
             brokenLinks.push({ file: relFile, line, href: href + hash, reason: 'bare-path' });
         }
+    }
+}
+
+// toc.json navigation
+
+/**
+ * toc.json hrefs are the sidebar's only source of navigation, and they are file
+ * paths relative to the components dir carrying the .mdx extension — not URLs.
+ *
+ * They need checking for the same reason the links above do, and are easy to get
+ * wrong in the same way: a topic move changes both, and buildSidebar() drops an
+ * entry whose target is missing (docExists() → null in src/sidebar.ts) rather
+ * than failing, so a stale href disappears from the sidebar with no error.
+ *
+ * Resolution reuses getRootGroup(), so an Angular toc entry may point at a page
+ * that only the xplat overlay (docs/xplat/generated/Angular/<lang>/) provides.
+ */
+
+/** Ordered { value, line } for every "href" in a toc, read from the raw text. */
+function tocHrefLines(text) {
+    const lines = [];
+    const re = /"href"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+        lines.push({
+            value: m[1],
+            line: (text.slice(0, m.index).match(/\n/g) || []).length + 1,
+        });
+    }
+    return lines;
+}
+
+/**
+ * Yields every toc entry carrying an href, in document order, with the chain of
+ * entry names and the platforms it is excluded for.
+ *
+ * buildFilteredToc() in docs/xplat/astro.config.ts drops an excluded node along
+ * with its children, so exclusions accumulate down the tree. Excluded entries
+ * are still yielded (flagged) to keep the ordering aligned with tocHrefLines().
+ */
+function* walkTocEntries(entries, trail = [], excluded = [], counter = { n: 0 }) {
+    if (!Array.isArray(entries)) return;
+
+    for (const entry of entries) {
+        if (!entry || typeof entry !== 'object') continue;
+
+        const path = [...trail, entry.name ?? '(unnamed)'];
+        const excl = Array.isArray(entry.exclude) ? [...excluded, ...entry.exclude] : excluded;
+
+        if (typeof entry.href === 'string' && entry.href) {
+            yield { href: entry.href, trail: path, excluded: excl, index: counter.n++ };
+        }
+        if (Array.isArray(entry.items)) {
+            yield* walkTocEntries(entry.items, path, excl, counter);
+        }
+    }
+}
+
+/**
+ * True when a toc href resolves under any of `langRoots`.
+ *
+ * docExists() accepts the href as written and also swaps .md ↔ .mdx, so both
+ * count here. Like docExists(), a root never answers for a path it excludes.
+ */
+function tocHrefResolves(langRoots, href) {
+    const normalized = href.replace(/\\/g, '/');
+    const swapped = normalized.endsWith('.mdx') ? normalized.slice(0, -4) + '.md'
+                  : normalized.endsWith('.md')  ? normalized.slice(0, -3) + '.mdx'
+                  : null;
+
+    for (const langRoot of langRoots) {
+        if (isServedFile(resolve(langRoot, 'components', normalized))) return true;
+        if (swapped && isServedFile(resolve(langRoot, 'components', swapped))) return true;
+    }
+    return false;
+}
+
+/**
+ * The tocs in scope, as { toc, langRoots, platform }.
+ *
+ * Angular ships its own toc per language and resolves through getRootGroup(),
+ * so it picks up the xplat-authored pages the site overlays. The xplat
+ * platforms share one source toc that astro.config.ts filters per platform at
+ * build time, so the same filter is applied here against each generated tree.
+ */
+function getTocTargets() {
+    const targets = [];
+
+    if (!PLATFORM || PLATFORM === 'angular') {
+        for (const lang of ['en', 'jp']) {
+            const langRoot = resolve(cwd, ANGULAR_AUTHORED_ROOT, lang) + '/';
+            const toc = resolve(langRoot, 'components', 'toc.json');
+            if (existsSync(toc)) targets.push({ toc, langRoots: getRootGroup(langRoot), platform: null });
+        }
+    }
+
+    if (!PLATFORM || PLATFORM === 'xplat' || XPLAT_PLATFORMS.has(PLATFORM)) {
+        for (const platform of ['React', 'WebComponents', 'Blazor']) {
+            for (const lang of ['en', 'jp']) {
+                const toc = resolve(cwd, 'docs/xplat/src/content', lang, 'toc.json');
+                const dir = resolve(cwd, 'docs/xplat/generated', platform, lang) + '/';
+                if (!existsSync(toc) || !existsSync(dir)) continue;
+
+                targets.push({ toc, langRoots: [dir], platform });
+            }
+        }
+    }
+
+    return targets;
+}
+
+let totalTocHrefs = 0;
+
+for (const { toc, langRoots, platform } of getTocTargets()) {
+    const text = readFileSync(toc, 'utf-8');
+    const relToc = relative(cwd, toc).replace(/\\/g, '/');
+
+    let entries;
+    try {
+        entries = JSON.parse(text);
+    } catch (error) {
+        brokenLinks.push({ file: relToc, line: 1, href: '(whole file)', reason: `unparseable JSON: ${error.message}` });
+        continue;
+    }
+
+    const hrefLines = tocHrefLines(text);
+
+    for (const { href, trail, excluded, index } of walkTocEntries(entries)) {
+        if (platform && excluded.includes(platform)) continue;
+
+        totalTocHrefs++;
+        if (tocHrefResolves(langRoots, href)) continue;
+
+        brokenLinks.push({
+            file: relToc,
+            line: hrefLines[index]?.value === href ? hrefLines[index].line : 1,
+            href,
+            reason: 'toc-not-found',
+            entry: platform ? `${platform}: ${trail.join(' → ')}` : trail.join(' → '),
+        });
     }
 }
 
@@ -508,7 +737,7 @@ const HR2 = '─'.repeat(72);
 if (SUMMARY) {
     const label  = PLATFORM ?? 'all';
     const status = brokenLinks.length === 0 ? '✅' : '❌';
-    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links)`);
+    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links, ${totalTocHrefs} toc hrefs)`);
     process.exit(brokenLinks.length > 0 ? 1 : 0);
 }
 
@@ -516,27 +745,33 @@ if (SUMMARY) {
 if (SUMMARY) {
     const label  = PLATFORM ?? 'all';
     const status = brokenLinks.length === 0 ? '✅' : '❌';
-    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links)`);
+    console.log(`  ${status}  ${label.padEnd(10)}  Broken links: ${brokenLinks.length}  (${totalFiles} files, ${totalLinks} links, ${totalTocHrefs} toc hrefs)`);
     process.exit(brokenLinks.length > 0 ? 1 : 0);
 }
 
 console.log(`  MDX/MD files scanned : ${totalFiles}`);
 console.log(`  Relative links found : ${totalLinks}`);
-console.log(`  Broken links         : ${brokenLinks.length}\n`);
+console.log(`  TOC hrefs found      : ${totalTocHrefs}`);
+console.log(`  Broken               : ${brokenLinks.length}\n`);
 
 console.log(HR);
-console.log('  RELATIVE LINK CHECK REPORT (MDX source)');
+console.log('  RELATIVE LINK CHECK REPORT (MDX source + toc.json)');
 console.log(HR);
 
 if (brokenLinks.length === 0) {
-    console.log('\n  All relative links resolve to existing files.\n');
+    console.log('\n  All links and toc entries resolve to pages that ship.\n');
 } else {
     for (const item of brokenLinks) {
-        const tag = item.reason === 'bare-path'    ? '[use ./page.mdx instead]'
-                  : item.reason === 'missing-mdx'  ? '[add .mdx extension]'
+        const tag = item.reason === 'bare-path'         ? '[use ./page.mdx instead]'
+                  : item.reason === 'missing-mdx'       ? '[add .mdx extension]'
+                  : item.reason === 'components-prefix' ? '[drop the /components prefix]'
+                  : item.reason === 'legacy-html'       ? '[drop the .html extension]'
+                  : item.reason === 'toc-not-found'     ? '[toc target missing — entry is dropped from the sidebar]'
+                  : item.reason.startsWith('unparseable') ? `[${item.reason}]`
                   : '[not found]';
         console.log(`\n  ✗  ${item.file}:${item.line}  ${tag}`);
         console.log(`       href: ${item.href}`);
+        if (item.entry) console.log(`       entry: ${item.entry}`);
     }
     console.log('');
 }
@@ -558,7 +793,8 @@ if (MD_OUTPUT) {
     lines.push('|---|---|');
     lines.push(`| Files scanned | ${totalFiles} |`);
     lines.push(`| Relative links | ${totalLinks} |`);
-    lines.push(`| ✅ OK | ${totalLinks - brokenLinks.length} |`);
+    lines.push(`| TOC hrefs | ${totalTocHrefs} |`);
+    lines.push(`| ✅ OK | ${totalLinks + totalTocHrefs - brokenLinks.length} |`);
     lines.push(`| ❌ **Broken** | **${brokenLinks.length}** |`);
     lines.push('');
 
@@ -568,10 +804,15 @@ if (MD_OUTPUT) {
         lines.push('| File | Line | href | Issue |');
         lines.push('|---|---:|---|---|');
         for (const item of brokenLinks) {
-            const issue = item.reason === 'bare-path'   ? 'use ./page.mdx instead'
-                        : item.reason === 'missing-mdx' ? 'add .mdx extension'
+            const issue = item.reason === 'bare-path'         ? 'use ./page.mdx instead'
+                        : item.reason === 'missing-mdx'       ? 'add .mdx extension'
+                        : item.reason === 'components-prefix' ? 'drop the /components prefix'
+                        : item.reason === 'legacy-html'       ? 'drop the .html extension'
+                        : item.reason === 'toc-not-found'     ? 'toc target missing — entry is dropped from the sidebar'
+                        : item.reason.startsWith('unparseable') ? item.reason
                         : 'not found';
-            lines.push(`| \`${item.file}\` | ${item.line} | \`${item.href}\` | ${issue} |`);
+            const where = item.entry ? ` (${item.entry})` : '';
+            lines.push(`| \`${item.file}\` | ${item.line} | \`${item.href}\`${where} | ${issue} |`);
         }
         lines.push('');
     }
