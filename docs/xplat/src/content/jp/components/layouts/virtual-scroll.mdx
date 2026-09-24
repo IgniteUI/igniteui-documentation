@@ -35,7 +35,7 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 
 </PlatformBlock>
 
-## アナトミー
+## 構造
 
 {Platform} Virtual Scroll は、表示されているアイテムと設定可能なバッファーをレンダリングし、そのトラックはコレクション全体のスクロール範囲を保持します。
 
@@ -63,11 +63,11 @@ igc-virtual-scroll                            — scrollable viewport
 
 </PlatformBlock>
 
-## はじめに
+## 作業の開始
 
 <PlatformBlock for="Angular">
 
-[使用手順](../general/getting-started.mdx) のトピックに従って {ProductName} をセットアップし、<ApiLink type="VirtualScroll" /> と、アイテム テンプレートをマークする `IgxVirtualItemDirective` をインポートします。
+[作業の開始](../general/getting-started.mdx) のトピックに従って {ProductName} をセットアップし、<ApiLink type="VirtualScroll" /> と、アイテム テンプレートをマークする `IgxVirtualItemDirective` をインポートします。
 
 ```ts
 import { Component } from '@angular/core';
@@ -95,7 +95,7 @@ export class EmployeesComponent {
 
 <PlatformBlock for="WebComponents">
 
-[使用手順](../general-getting-started.mdx) のトピックに従って {ProductName} をセットアップし、<ApiLink type="VirtualScroll" /> を登録して、アイテム テンプレートとデータを指定します。
+[作業の開始](../general-getting-started.mdx) のトピックに従って {ProductName} をセットアップし、<ApiLink type="VirtualScroll" /> を登録して、アイテム テンプレートとデータを指定します。
 
 ```ts
 import { defineComponents, IgcVirtualScrollComponent } from 'igniteui-webcomponents';
@@ -116,7 +116,7 @@ virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${
 
 </PlatformBlock>
 
-Virtual Scroll のホストには、垂直スクロールの場合は固定の高さ、水平スクロールの場合は固定の幅が必要です。コンテンツに応じて成長するホストには、埋めるべきビューポートが存在しません。
+Virtual Scroll のホストには、垂直スクロールの場合は固定の高さ、水平スクロールの場合は固定の幅が必要です。コンテンツに合わせてサイズが拡大するホストには、埋めるべきビューポートがありません。
 
 ### 前提条件とバージョン互換性
 
@@ -136,7 +136,7 @@ Virtual Scroll のホストには、垂直スクロールの場合は固定の�
 | --- | --- |
 | パッケージ | `igniteui-webcomponents` (MIT) |
 | コンポーネントが最初にリリースされたバージョン | 7.3.0 |
-| アイテム テンプレート | Lit の `html` タグ。`lit` は `igniteui-webcomponents` の依存関係であるため、直接インポートする場合は自身の依存関係にも追加してください。 |
+| アイテム テンプレート | Lit の `html` タグ。`lit` は `igniteui-webcomponents` の依存関係ですが、直接インポートする場合は自身の依存関係にも追加してください。 |
 
 </PlatformBlock>
 
@@ -228,7 +228,7 @@ Virtual Scroll の <ApiLink type="VirtualScroll" member="estimatedItemSize" labe
 
 </PlatformBlock>
 
-アイテムはボーダー ボックスで測定されるため、マージンはアイテムのサイズに含まれません。マージンの代わりに、アイテムにパディングまたは `gap` を使用してアイテム間の間隔を設定してください。
+アイテムはボーダー ボックスで測定されるため、マージンはアイテムのサイズに含まれません。マージンの代わりに、パディング、またはアイテム内の `gap` を使用してアイテム間の間隔を設定してください。
 
 ### 方向
 
@@ -280,7 +280,7 @@ Virtual Scroll の <ApiLink type="VirtualScroll" member="overScan" label="overSc
 
 ### インデックスへのスクロール
 
-Virtual Scroll の <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex" /> メソッドは、アイテムをビューにスクロールします。そのオプションはネイティブの `scrollIntoView` のものと同じです。`block`（`start`、`center`、`end`、または `nearest`）、水平リスト用の `inline`、`behavior`（`auto` または `smooth`）。まだレンダリングされていないアイテムには推定サイズしかないため、コンポーネントは到達した位置のアイテムを測定して位置を補正します。返されるプロミスは最終的な位置で解決されます。
+Virtual Scroll の <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex" /> メソッドは、アイテムが表示される位置までスクロールします。オプションはネイティブの `scrollIntoView` と同じで、`block`（`start`、`center`、`end`、または `nearest`）、水平リスト用の `inline`、`behavior`（`auto` または `smooth`）を指定できます。まだレンダリングされていないアイテムには推定サイズしかないため、コンポーネントは到達した位置のアイテムを測定して位置を補正します。返されるプロミスは最終的な位置が確定すると解決されます。
 
 <PlatformBlock for="Angular">
 
@@ -351,7 +351,7 @@ virtualScroll.addEventListener('igcDataRequest', (event: CustomEvent<VirtualScro
 
 </PlatformBlock>
 
-一度に保留できるデータ要求は 1 つだけで、次の要求は次の `data` の変更に続きます。`data` が空の場合は要求が発行されないため、最初のページは自分で読み込む必要があります。ソースにこれ以上アイテムがない場合は追加を停止してください。コンポーネントは同じ開始インデックスを再度要求することはありません。
+一度に保留できるデータ要求は 1 つだけで、次の要求は `data` が次に変更された後に発行されます。`data` が空の場合は要求が発行されないため、最初のページは自分で読み込む必要があります。ソースにこれ以上アイテムがない場合は追加を停止してください。コンポーネントは同じ開始インデックスを再度要求することはありません。
 
 <PlatformBlock for="Angular">
 
@@ -423,29 +423,29 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-### 使用方法の推奨・非推奨
+### 使用すべき場合と使用すべきでない場合
 
 {/*TODO: add the Virtual Scroll Do/Don't guidance image from Indigo.Design when it is available.*/}
 
 <PlatformBlock for="Angular">
 
-**使用する場合:** ディレクトリ、フィード、ログ、カードのストリップなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
+**使用すべき場合:** ディレクトリ、フィード、ログ、カードのストリップなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
 
-**使用しない場合:** 短いリストは [List](../list.mdx) と `@for` で直接レンダリングします。列、並べ替え、フィルタリングを伴う表形式のデータには [Grid](../grid/grid.mdx) を使用します。仮想化を行わずにリッチなアイテムの少量のセットを表示するには [Card](../card.mdx) を使用します。
+**使用すべきでない場合:** 短いリストは [List](../list.mdx) と `@for` で直接レンダリングします。列、並べ替え、フィルタリングを伴う表形式のデータには [Grid](../grid/grid.mdx) を使用します。仮想化を行わずにリッチなアイテムの少量のセットを表示するには [Card](../card.mdx) を使用します。
 
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
-**使用する場合:** ディレクトリ、フィード、ログ、カードのストリップなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
+**使用すべき場合:** ディレクトリ、フィード、ログ、カードのストリップなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
 
-**使用しない場合:** 短いリストは [List](../grids/list.mdx) で直接レンダリングします。仮想化を行わずにリッチなアイテムの少量のセットを表示するには [Card](./card.mdx) を使用します。
+**使用すべきでない場合:** 短いリストは [List](../grids/list.mdx) で直接レンダリングします。仮想化を行わずにリッチなアイテムの少量のセットを表示するには [Card](./card.mdx) を使用します。
 
 </PlatformBlock>
 
 | 推奨 | 非推奨 |
 | --- | --- |
-| ホストに固定の高さ（垂直）または幅（水平）を指定する。 | ホストをコンテンツに応じて成長させる。 |
+| ホストに固定の高さ（垂直）または幅（水平）を指定する。 | ホストのサイズをコンテンツに合わせて拡大させる。 |
 | `estimatedItemSize` をアイテムの平均サイズに近い値に設定する。 | はるかに大きい、または小さいアイテムに対してデフォルトの 50px を維持する。 |
 | コレクションが変更されたときに新しい配列を割り当てる。 | バインドされた配列をその場で変更する。 |
 | パディングまたは `gap` でアイテム間の間隔を設定する。 | マージンでアイテム間の間隔を設定する。 |
@@ -483,7 +483,7 @@ await virtualScroll.layoutComplete;
 
 | 名前 | 戻り値 | 説明 |
 | --- | --- | --- |
-| <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex(index: number, options?: ScrollIntoViewOptions)" /> | `Promise<void>` | `index` のアイテムをビューにスクロールし、補正された位置が安定すると解決されます。 |
+| <ApiLink type="VirtualScroll" member="scrollToIndex" label="scrollToIndex(index: number, options?: ScrollIntoViewOptions)" /> | `Promise<void>` | `index` のアイテムをビューにスクロールし、最終的なスクロール位置が確定すると完了します。 |
 
 ## イベント
 
@@ -511,7 +511,7 @@ await virtualScroll.layoutComplete;
 
 <PlatformBlock for="Angular">
 
-ホストのサイズを設定し、[アナトミー](#アナトミー) のクラスを使用してレンダリングされたアイテムを対象にします。
+ホストのサイズを設定し、[構造](#構造) のクラスを使用してレンダリングされたアイテムを対象にします。
 
 ```scss
 .employees igx-virtual-scroll {
@@ -545,11 +545,11 @@ igc-virtual-scroll.employees [data-vs-index]:nth-child(even) {
 
 {Platform} Virtual Scroll は、レンダリングされたウィンドウのみを DOM に保持するため、アイテム テンプレートはコレクション全体の中での各アイテムの位置を公開する必要があります。
 
-### キーボード操作
+### キーボード インタラクション
 
 {Platform} Virtual Scroll はキー ハンドラーを追加しません。ホストはネイティブのスクロール コンテナーであり、フォーカスされたスクロール コンテナーはブラウザーのキーでスクロールします。
 
-| キー | 操作 |
+| キー | アクション |
 | --- | --- |
 | 上矢印 / 下矢印 | 垂直リストをスクロールします。 |
 | 左矢印 / 右矢印 | 水平リストをスクロールします。 |
@@ -582,10 +582,10 @@ Infragistics は、{ProductName} が対象とするアクセシビリティ標�
 
 | 基準 | コンポーネントが要件をサポートする方法 |
 | --- | --- |
-| [1.3.1 情報および関係性](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | ラッパーは表示専用であるため、リスト構造はホストとアイテム テンプレートから提供され、`aria-posinset` と `aria-setsize` で各アイテムの位置を公開できます。 |
+| [1.3.1 情報及び関係性](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | ラッパーは表示専用であるため、リスト構造はホストとアイテム テンプレートから提供され、`aria-posinset` と `aria-setsize` で各アイテムの位置を公開できます。 |
 | [2.1.1 キーボード](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | ホストはネイティブのスクロール コンテナーであり、フォーカスを得るとキーボードでスクロールできます。キーボードでホストに到達できるかどうかはアプリケーションに依存します。以下のリストを参照してください。 |
 
-あなたの責任範囲:
+ユーザー側の責任:
 
 - アイテムにフォーカス可能な要素が含まれない場合は、`tabindex="0"` を設定してホストをキーボードで到達可能にし、アクセシブルな名前を付けてください。
 - アイテム テンプレートから `aria-posinset` と `aria-setsize` でアイテムの位置を公開してください。
@@ -618,7 +618,7 @@ Virtual Scroll は `data` を参照によって比較するため、その場で
 
 ### igxForOf リストを Virtual Scroll に置き換えるにはどうすればよいですか?
 
-Virtual Scroll は実行時にアイテムを測定し、独自のスクロール コンテナーを作成するため、`igxForOf` のコンテナー サイズおよびスクロール コンテナーの入力には相当するものがありません。`igxForOf` ディレクティブは Virtual Scroll を推奨して非推奨になりました。既存のリストは引き続き動作しますが、単一の軸を仮想化する新しいリストには Virtual Scroll を使用してください。
+Virtual Scroll は実行時にアイテムを測定し、独自のスクロール コンテナーを作成するため、`igxForOf` のコンテナー サイズおよびスクロール コンテナーの入力には相当するものがありません。`igxForOf` ディレクティブは非推奨となり、代わりに Virtual Scroll の使用が推奨されます。既存のリストは引き続き動作しますが、単一の軸を仮想化する新しいリストには Virtual Scroll を使用してください。
 
 | igxForOf | Virtual Scroll |
 | --- | --- |
@@ -636,7 +636,7 @@ Virtual Scroll は実行時にアイテムを測定し、独自のスクロー�
 
 </PlatformBlock>
 
-## 既知の制限事項
+## 既知の制限
 
 - {Platform} Virtual Scroll は単一の軸を仮想化します。行と列の両方を仮想化するにはグリッドが必要です。
 - ビューから外れてスクロールされたアイテムは、フォーカスと内部状態とともに DOM から削除されます。
@@ -667,7 +667,7 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
 
 ## その他のリソース
 
-- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **フォーラム (英語)**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
 
 ## 関連コンポーネント
@@ -676,7 +676,7 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
 
 - [List](../list.mdx) - 短いリストや、仮想化されたリストのコンテナーとして List を使用します。
 - [Card](../card.mdx) - リッチなアイテムの少量のセット、または水平の Virtual Scroll のアイテムとしてカードを使用します。
-- [Virtual ForOf Directive](../for-of.mdx) - 既存のリストで使用されるディレクティブ ベースの仮想化。
+- [Virtual ForOf ディレクティブ](../for-of.mdx) - 既存のリストで使用されるディレクティブ ベースの仮想化。
 
 </PlatformBlock>
 
@@ -697,7 +697,7 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
     {Platform} Virtual Scroll のアイテムは、レンダリングされた時点でそれぞれが測定されるため、異なるサイズにすることができます。アイテムが測定される前にスクロールバーを正確に保つため、`estimatedItemSize` をアイテムの平均サイズに近い値に設定してください。
   </FaqItem>
   <FaqItem question="Virtual Scroll を特定のアイテムまでスクロールするにはどうすればよいですか?" indicatorPosition="end">
-    {Platform} Virtual Scroll の `scrollToIndex` メソッドを、アイテムのインデックスとオプションの `block`、`behavior` オプションとともに呼び出します。このメソッドは、補正された位置が安定すると解決されるプロミスを返します。
+    {Platform} Virtual Scroll の `scrollToIndex` メソッドを、アイテムのインデックスと、省略可能な `block` および `behavior` オプションを指定して呼び出します。このメソッドは、補正された位置が安定すると解決されるプロミスを返します。
   </FaqItem>
   <FaqItem question="ユーザーがスクロールしている間に Virtual Scroll にリモート データを読み込むにはどうすればよいですか?" indicatorPosition="end">
     <PlatformBlock for="Angular">
