@@ -308,3 +308,31 @@ export function getGtmContainerId(): string {
     const localeDefaults = GTM_CONTAINER_ID_DEFAULTS[lang] ?? GTM_CONTAINER_ID_DEFAULTS.en;
     return localeDefaults[mode] ?? localeDefaults.development;
 }
+
+/** Consent-bundle base URLs per build mode. `development` doubles as the fallback for unknown modes. */
+const CONSENT_ASSETS_BASE_URL_DEFAULTS: Record<string, string> = {
+    // Published by the Astro marketing site. Until that site has taken over
+    // www.infragistics.com the production URL answers 404, which fails closed:
+    // the inline Consent Mode default keeps every tag denied and no banner shows —
+    // exactly the pre-banner behaviour. It starts working at cutover with no
+    // docs release.
+    production: 'https://www.infragistics.com/assets/consent',
+    staging: 'https://astro-staging.infragistics.com/assets/consent',
+    development: 'https://astro-staging.infragistics.com/assets/consent',
+};
+
+/**
+ * Resolves where the shared Infragistics cookie-consent bundle is served from
+ * (`consent-bootstrap.js`, `consent-banner.js`, `consent.css`), without a
+ * trailing slash.
+ *
+ * Resolution order:
+ *   1. `CONSENT_ASSETS_BASE_URL` env var — explicit override.
+ *   2. Built-in default for the current build mode.
+ */
+export function getConsentAssetsBaseUrl(): string {
+    const value = process.env.CONSENT_ASSETS_BASE_URL
+        ?? CONSENT_ASSETS_BASE_URL_DEFAULTS[getBuildMode()]
+        ?? CONSENT_ASSETS_BASE_URL_DEFAULTS.development;
+    return value.replace(/\/+$/, '');
+}
