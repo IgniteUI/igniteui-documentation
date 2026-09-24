@@ -5,16 +5,21 @@ keywords: Angular Virtual ForOf ディレクティブ, ネイティブ Angular �
 license: MIT
 _language: ja
 llms:
-  description: "Ignite UI for Angular は ngFor と同様の仮想 igxFor ディレクティブを公開します。"
+  description: "Ignite UI for Angular の igxForOf ディレクティブは、大量のデータをテンプレート化するための ngForOf の代替となる非推奨のディレクティブです。Virtual Scroll コンポーネントがこれに代わります。"
 ---
 
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # Angular Virtual ForOf (仮想 ForOf) ディレクティブの概要
 
+<DocsAside type="warning" title="非推奨">
+`igxForOf` ディレクティブは非推奨であり、[Virtual Scroll](./layouts/virtual-scroll.mdx) コンポーネントに置き換えられます。既存のリストは引き続き動作しますが、単一の軸を仮想化する新しいリストには Virtual Scroll を使用してください。Virtual Scroll は実行時に項目を測定するため項目ごとに異なるサイズを使用でき、独自のスクロール コンテナーも作成します。既存のリストを移行する方法については、[igxForOf リストを Virtual Scroll に置き換えるにはどうすればよいですか?](./layouts/virtual-scroll.mdx#igxforof-リストを-virtual-scroll-に置き換えるにはどうすればよいですか)を参照してください。
+</DocsAside>
+
 <div class="highlight">
-The Ignite UI for Angular igxForOf directive is an alternative to ngForOf for templating large amounts of data. It uses virtualization behind the scenes to optimize DOM rendering and memory consumption.
+Ignite UI for Angular の igxForOf ディレクティブは、大量のデータをテンプレート化するための ngForOf の代替となるディレクティブです。内部で仮想化を使用して、DOM のレンダリングとメモリ消費を最適化します。
 </div>
 
 ## Angular 仮想スクロール ディレクティブの例
@@ -113,7 +118,7 @@ Ignite UI for Angular ForOf モジュールまたはディレクティブをイ�
 </igx-list>
 ```
 
-**注:** <ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> テンプレートの親コンテナーには、次の CSS ルールが適用されていることを強く推奨します: 垂直方向には `height`、水平方向には `width`、`overflow: hidden` および `position: relative`。スムーズ スクロール動作が、表示されたままの場合にページのその他の部分に視覚的に影響を与えることが可能なコンテンツ オフセットによって実装されるためです。
+**注:** <ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> テンプレートの親コンテナーには、次の CSS ルールが適用されていることを強く推奨します: 垂直方向には `height`、水平方向には `width`、`overflow: hidden` および `position: relative`。これは、スムーズ スクロール動作がコンテンツのオフセットによって実現されており、オフセットされたコンテンツが表示されたままになると、ページの他の部分に視覚的な影響を与える可能性があるためです。
 
 ### 水平仮想化
 
@@ -166,11 +171,11 @@ Ignite UI for Angular ForOf モジュールまたはディレクティブをイ�
 
 `igxFor` ディレクティブは、`igxGrid` 内のデータを垂直方向と水平方向の両方向に仮想化するために使用されます。
 
-より詳細な情報とデモについては、[グリッド仮想化](/grid/virtualization)トピックに従ってください。
+より詳細な情報とデモについては、[グリッド仮想化](/grid/virtualization)トピックを参照してください。
 
 ### リモート サービスにバインドされる igxFor
 
-<ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> ディレクティブは、`Observable` プロパティ- `remoteData`を使用してリモート サービスにバインドできます。(次の例の場合) `chunkLoading` イベントも、データのリクエストをトリガーするために利用する必要があります。
+<ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> ディレクティブは、`Observable` プロパティ (次の例では `remoteData`) を使用してリモート サービスにバインドできます。データのリクエストをトリガーするには、`chunkLoading` イベントも使用する必要があります。
 
 ```html
 <div style='height: 500px; overflow: hidden; position: relative;'>
@@ -243,7 +248,7 @@ private buildUrl(dataState: any): string {
 }
 ```
 
-<ApiLink type="ForOfDirective" member="chunkPreload" label="chunkPreload" /> イベントが発生するたびに、新しいデータのチャンクがリクエストされます。
+<ApiLink type="ForOfDirective" member="chunkPreload" label="chunkPreload" /> イベントが発生するたびに、新しいデータのチャンクをリクエストする必要があります。
 
 ```typescript
 chunkLoading(evt) {
@@ -258,7 +263,7 @@ chunkLoading(evt) {
 
 ## ローカル変数
 
-igxFor ディレクティブのコンテキストには、`even`、`odd`、`first`、`last` のヘルパー プロパティが含まれています。これらは、コレクション内の現在の要素の位置を識別するために使用されます。次のコードスニペットは、`ng-template` で `even` プロパティを使用する方法を示しています。すべての偶数の div 要素に `even` クラスが割り当てられます:
+`igxFor` ディレクティブのコンテキストには、`even`、`odd`、`first`、`last` のヘルパー プロパティが含まれています。これらは、コレクション内の現在の要素の位置を識別するために使用されます。次のコード スニペットは、`ng-template` で `even` プロパティを使用する方法を示しています。すべての偶数の div 要素に `even` クラスが割り当てられます:
 
 ```html
 <ng-template igxFor let-item let-isEven="even"
@@ -272,7 +277,7 @@ igxFor ディレクティブのコンテキストには、`even`、`odd`、`firs
 
 |制限|説明|
 |--- |--- |
-| 初期化後にレンダリングされたテンプレートのコンテンツのサイズが変更された場合、`scrollTo` メソッドが正しく動作されません。| 初期化後にランタイムを変更するサイズを持つテンプレート内の要素の場合 (コンテンツ プロジェクション、リモート要求の解決などの結果として)、`scrollTo` メソッドは正しいインデックスまでスクロールできません。メソッドは、ランタイムのサイズ変更が発生する前にインデックスの位置までスクロールし、サイズが変更された後は場所が正しくありません。回避策として、コンテンツが後で読み込まれた場合にコンテンツに基づいてサイズを変更しないテンプレートを使用します。
+| 初期化後にレンダリングされたテンプレートのコンテンツのサイズが変更された場合、`scrollTo` メソッドが正しく動作しません。| テンプレート内の要素のサイズが初期化後に実行時に変化する場合 (コンテンツ プロジェクション、リモート要求の解決などの結果として)、`scrollTo` メソッドは正しいインデックスまでスクロールできません。メソッドは実行時のサイズ変更が発生する前のインデックスの位置までスクロールするため、後でサイズが変更されると位置が正しくなくなります。回避策として、コンテンツが後から読み込まれる場合は、コンテンツに応じてサイズが変わらないテンプレートを使用します。 |
 
 ## API リファレンス
 
@@ -283,4 +288,8 @@ igxFor ディレクティブのコンテキストには、`even`、`odd`、`firs
 ## その他のリソース
 
 <hr/>
+
 コミュニティに参加して新しいアイデアをご提案ください。
+
+- [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub** (英語)](https://github.com/IgniteUI/igniteui-angular)
