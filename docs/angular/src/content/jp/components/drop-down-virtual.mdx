@@ -1,11 +1,11 @@
 ---
-title: ドロップダウン コンポーネント | MITライセンス
-description: Angular 仮想化 Drop Down の Ignite UI を使用して、単一の項目選択をサポートする非常に大きな項目のリストを表示します。
-keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Drop Down コンポーネント, Angular Drop Down コントロール, Angular コントロール Large Item List, Angular コントロール Singe Selection
+title: Angular Drop Down コンポーネント – Ignite UI for Angular | インフラジスティックス | MITライセンス
+description: Ignite UI for Angular の仮想化 Drop Down を使用して、単一項目の選択をサポートする非常に大きな項目のリストを表示します。
+keywords: Ignite UI for Angular, UI コントロール, Angular ウィジェット, web ウィジェット, UI ウィジェット, Angular, ネイティブ Angular コンポーネント スイート, ネイティブ Angular コントロール, ネイティブ Angular コンポーネント ライブラリ, Angular Drop Down コンポーネント, Angular Drop Down コントロール, Angular コントロール 大規模項目リスト, Angular コントロール 単一選択
 license: MIT
 _language: ja
 llms:
-  description: "Ignite UI for Angular Drop Down コンポーネントは、選択可能な項目リストを表示するために、IgxForOf ディレクティブの使用方法を完全に統合できます。"
+  description: "Ignite UI for Angular Drop Down コンポーネントは、選択可能な項目の非常に大きなリストを表示するために Virtual Scroll コンポーネントをホストできます。"
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -14,92 +14,87 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # 仮想ドロップダウン
 
-Ignite UI for Angular Drop Down コンポーネントは、選択可能な項目リストを表示するために、[`IgxForOf`](/for-of) ディレクティブの使用方法を完全に統合できます。
+Ignite UI for Angular Drop Down コンポーネントは、選択可能な項目の非常に大きなリストを表示するために [Virtual Scroll](./layouts/virtual-scroll.mdx) コンポーネントをホストできます。ドロップダウンのビューポート内の項目のみがレンダリングされ、選択とキーボード ナビゲーションはリスト全体に対して機能します。
 
 ## Angular 仮想ドロップダウンの例
 
 <Sample src="/data-entries/dropdown-virtual" height={320} alt="Angular 仮想ドロップダウンの例" />
 
-<hr/>
-
 ## 使用方法
 
 ### はじめに
 
-仮想アイテムのリストを表示するようにドロップダウンを設定するには、いくつかの前提条件を満たす必要があります。
-はじめにドロップダウンを宣言するコンポーネントのモジュールに `IgxForOfModule` をインポートする必要があります。
+<ApiLink type="VirtualScroll" /> と、リスト項目のテンプレートをマークする `IgxVirtualItemDirective` をドロップダウンと一緒にインポートします。
 
 ```typescript
-// app.module.ts
-import { IgxForOfModule } from 'igniteui-angular/directives';
-// import { IgxForOfModule } from '@infragistics/igniteui-angular'; for licensed package
+// drop-down-virtual.component.ts
+import { Component } from '@angular/core';
+import { IgxButtonDirective, IgxToggleActionDirective } from 'igniteui-angular/directives';
+import { IgxDropDownComponent, IgxDropDownItemComponent, IgxDropDownItemNavigationDirective } from 'igniteui-angular/drop-down';
+import { IgxVirtualItemDirective, IgxVirtualScrollComponent } from 'igniteui-angular/virtual-scroll';
+// import { IgxVirtualItemDirective, IgxVirtualScrollComponent } from '@infragistics/igniteui-angular'; for licensed package
 
-@NgModule({
+@Component({
+    selector: 'app-drop-down-virtual',
+    templateUrl: './drop-down-virtual.component.html',
+    styleUrls: ['./drop-down-virtual.component.scss'],
     imports: [
-        ...
-        IgxForOfModule
+        IgxButtonDirective, IgxToggleActionDirective, IgxDropDownItemNavigationDirective,
+        IgxDropDownComponent, IgxDropDownItemComponent,
+        IgxVirtualScrollComponent, IgxVirtualItemDirective
     ]
 })
-export class AppModule {}
+export class DropDownVirtualComponent { }
 ```
 
 ### テンプレートの構成
 
-次に、`*ngFor` の代わりに <ApiLink type="ForOfDirective" label="*igxFor" /> を使用してデータをループ処理し、ドロップダウン コンポーネントのテンプレートを作成する必要があります。`*igxFor` ディレクティブは、すべての項目を正しく表示するために追加の構成が必要です。
+次に、ドロップダウンの内側に `igx-virtual-scroll` を配置し、`igxVirtualItem` でマークされた `ng-template` で各項目をレンダリングします。ドロップダウンは投影された Virtual Scroll を検出し、スクロール、キーボード ナビゲーション、選択にそれを使用します。
 
 ```html
 <!-- drop-down-virtual.component.html -->
-<button igxButton [igxToggleAction]="dropdown"
-        [igxDropDownItemNavigation]="dropdown">
-        Item Series
+<button igxButton [igxToggleAction]="dropdown" [igxDropDownItemNavigation]="dropdown">
+    Item Series
 </button>
 <igx-drop-down #dropdown>
-    <div class="drop-down-virtual-wrapper" style="height: {{ itemsMaxHeight }}px;">
-        <igx-drop-down-item
-            *igxFor="let item of items; index as index;
-                     scrollOrientation: 'vertical';
-                     containerSize: itemsMaxHeight;
-                     itemSize: itemHeight;"
-            [value]="item" [isHeader]="item.header"
-            role="option" [disabled]="item.disabled"
-            [index]="index">
-            {{ item.name }}
-        </igx-drop-down-item>
-    </div>
+    <igx-virtual-scroll class="drop-down-virtual-wrapper" [data]="items" [estimatedItemSize]="itemHeight">
+        <ng-template igxVirtualItem let-item let-index="index">
+            <igx-drop-down-item [value]="item" [isHeader]="item.header" [disabled]="item.disabled" [index]="index">
+                {{ item.name }}
+            </igx-drop-down-item>
+        </ng-template>
+    </igx-virtual-scroll>
 </igx-drop-down>
 <div>Selected Model: <span>{{ dropdown.selectedItem?.value.name }}</span></div>
 ```
 
-以下は、`*igxFor` ディレクティブに渡される追加パラメーターです。
-- `index` - データセット内の現在の項目のインデックスを取得します。
-- `scrollOrientation` - 常に `'vertical'` にする必要があります。
-- `containerSize` - 仮想化コンテナーのサイズ (ピクセル単位)。これは、ラッピング `<div>` にも適用する必要があります。
-- `itemSize` - 表示される項目のサイズ (ピクセル単位)。
+ここで使用されている `igx-virtual-scroll` の入力は次のとおりです。
 
-項目の一意性を確保するために、<ApiLink type="DropDownItemComponent" member="value" label="value" /> input の内の `item` および `igx-drop-down-item` の <ApiLink type="DropDownItemComponent" member="index" label="index" /> 内の `index` を渡します。
-スクロールしながら選択を維持するには、ドロップダウン 項目はそれがバインドされているデータ項目への参照を持つ必要があります。
+- `data` - 項目全体のリスト。参照によって比較されるため、変更するには新しい配列を割り当てます。
+- `estimatedItemSize` - レンダリングされて測定される前の項目の高さ (`px` 単位)。スクロールバーとキーボード ナビゲーションが最初から正確になるように、ドロップダウン項目の実際の高さに設定します。
 
-<DocsAside type="info">
-ドロップダウンが項目の仮想化リストで機能するためには、<ApiLink type="DropDownItemComponent" member="value" label="value" /> および <ApiLink type="DropDownItemComponent" member="index" label="index" /> の入力をすべての項目に渡す必要があります。
-</DocsAside>
+項目の一意性を確保するために、`igx-drop-down-item` の <ApiLink type="DropDownItemComponent" member="value" label="value" /> 入力に `item` を、<ApiLink type="DropDownItemComponent" member="index" label="index" /> 入力に `index` を渡します。
+スクロールしながら選択を維持するには、ドロップダウン項目はそれがバインドされているデータ項目への参照を持つ必要があります。
 
 <DocsAside type="info">
-各項目に対して `[value]` 入力に渡される一意の値を持たない場合、予想外の結果 (誤った選択) となる場合があります。
+ドロップダウンが項目の仮想化リストで機能するためには、<ApiLink type="DropDownItemComponent" member="value" label="value" /> および <ApiLink type="DropDownItemComponent" member="index" label="index" /> の入力をすべての項目に渡す**必要があります**。
 </DocsAside>
 <DocsAside type="info">
-ドロップダウンが仮想化項目を使用する場合、<ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> の種類は `{ value: any, index: number }` になります。ここで、`value` はデータ項目への参照です。`[value]` input の内に渡され、`index` はデータセット内の項目のインデックスです。
+各項目に対して `[value]` 入力に一意の値を渡すことを強くお勧めします。渡さない場合、予想外の結果 (誤った選択) になる可能性があります。
+</DocsAside>
+<DocsAside type="info">
+ドロップダウンが仮想化された項目を使用する場合、<ApiLink type="DropDown" member="selecteditem" label="dropdown.selectedItem" /> の型は `{ value: any, index: number }` になります。ここで、`value` は `[value]` 入力に渡されたデータ項目への参照であり、`index` はデータセット内の項目のインデックスです。
 </DocsAside>
 
 ### コンポーネント定義
 
-コンポーネントの constructor 内で、ドロップダウンに表示される、適度に大きな項目のリスト (ヘッダーと無効なアイテムの両方を含む) を宣言します。`itemHeight` と `itemsMaxHeight` を宣言する必要があります。
+コンポーネントの内部で、ドロップダウンに表示される、適度に大きな項目のリスト (ヘッダーと無効な項目の両方を含む) と、項目の高さを宣言します。
 
 ```typescript
-// drop-drop-virtual.component.ts
+// drop-down-virtual.component.ts
 export class DropDownVirtualComponent {
   public items: DataItem[];
-  public itemHeight = 48;
-  public itemsMaxHeight = 320;
+  public itemHeight = 40;
 
   constructor() {
     const itemsCollection: DataItem[] = [];
@@ -127,160 +122,137 @@ export class DropDownVirtualComponent {
 
 ### スタイル
 
-最後に、ラッピング div に `overflow: hidden` を設定して、2 つのスクロールバー (`igxFor` のスクロールバーとコンテナー自体のスクロールバー) が表示されないようにします。
+`igx-virtual-scroll` 要素はリストのスクロール コンテナーであるため、固定の高さが必要です。ラッピング要素や `overflow` ルールは必要ありません。
 
 ```scss
-// drop-drop-virtual.component.scss
+// drop-down-virtual.component.scss
 .drop-down-virtual-wrapper {
-  overflow: hidden;
+    height: 240px;
+    width: 180px;
 }
 ```
 
 ## リモート データ
 
-`igx-drop-down` は、`*igxFor` 構造ディレクティブを使用したリモート データの部分的な読み込みをサポートします。構成はローカル項目の構成に似ていますが、主な違いはデータ部分の読み込み方法です。
+`igx-drop-down` は、リモート データのページの読み込みもサポートしています。Virtual Scroll の <ApiLink type="VirtualScroll" member="dataWindow" label="dataWindow" /> 入力を読み込まれたページにバインドし、<ApiLink type="VirtualScroll" member="stateChange" label="stateChange" /> 出力が報告する範囲から次のページを読み込みます。リストはリモート コレクション全体と同じ長さになるため、スクロールバーはすべての項目にまたがりますが、読み込まれたページのみがメモリー内にあります。
 
 ### テンプレート
 
-ドロップダウン テンプレートは、以前の例 と比べてそれほど変更する必要はありません。それでも、ラッピング div を指定し、それに応じてスタイルを設定し、`*igxFor` の完全な設定を書き出す必要があります。リモートソースからデータを取得するので、データが観測可能になるように指定して Angular の `async` パイプに渡す必要があります。
+このテンプレートは、データ バインディングの点でのみ前の例と異なります。`dataWindow` が `data` の代わりとなり、`stateChange` がページを要求します。`index` テンプレート変数は、リモート コレクション全体における項目のインデックスです。
 
 ```html
 <igx-drop-down #remoteDropDown>
-    <div class="drop-down-virtual-wrapper">
-        <igx-drop-down-item
-            *igxFor="let item of rData | async; index as index;
-                     scrollOrientation: 'vertical';
-                     containerSize: itemsMaxHeight;
-                     itemSize: itemHeight;"
-            [value]="item.ProductName" role="option"
-            [disabled]="item.disabled" [index]="index">
-            {{ item.ProductName }}
-        </igx-drop-down-item>
-    </div>
+    <igx-virtual-scroll
+        class="drop-down-virtual-wrapper"
+        [dataWindow]="page()"
+        [estimatedItemSize]="itemHeight"
+        (stateChange)="onStateChange($event)">
+        <ng-template igxVirtualItem let-item let-index="index">
+            <igx-drop-down-item [value]="item.ProductName" [index]="index">
+                {{ item.ProductName }}
+            </igx-drop-down-item>
+        </ng-template>
+    </igx-virtual-scroll>
 </igx-drop-down>
 ```
 
-### チャンクロードの処理
+### ページの読み込み
 
-ご覧のとおり、テンプレートは前の例のテンプレートとほとんど同じです。このリモートデータのシナリオでは、背後にあるコードが大部分の負担を軽減します。
-
-まず、データを取得するためのリモートサービスを定義する必要があります。
+まず、コレクションのページとレコードの総数を返すリモート サービスを定義します。
 
 ```typescript
 // remote.service.ts
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { IForOfState } from 'igniteui-angular/directives';
-// import { IForOfState } from '@infragistics/igniteui-angular'; for licensed package
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class RemoteService {
-    public remoteData: Observable<any[]>;
-    private _remoteData: BehaviorSubject<any[]>;
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-        this._remoteData = new BehaviorSubject([]);
-        this.remoteData = this._remoteData.asObservable();
+    // Assuming that the API service is RESTful and can take the following:
+    // skip: start index of the data that we fetch
+    // count: number of records we fetch
+    public getPage(skip: number, count: number): Observable<{ value: any[]; '@odata.count': number }> {
+        return this.http.get<{ value: any[]; '@odata.count': number }>(
+            `https://dummy.db/dummyEndpoint?$skip=${skip}&$top=${count}&$count=true`
+        );
     }
-
-    public getData(data?: IForOfState, cb?: (any) => void): any {
-        // Assuming that the API service is RESTful and can take the following:
-        // skip: start index of the data that we fecth
-        // count: number of records we fetch
-    this.http.get(`https://dummy.db/dummyEndpoint?skip=${data.startIndex}&count=${data.chunkSize}`).subscribe((data) => {
-        // emit the values through the _remoteData subject
-        this._remoteData.next(data);
-    })
 }
 ```
 
-このサービスは、`remoteData` の下に `Observable` を公開します。リモート ドロップダウン コンポーネントでサービスを注入し、そのプロパティにバインドします。
+コンポーネントでは、読み込まれたページを `VirtualDataWindow` 型のシグナルに保持します。初期化時に最初のページを読み込み、`stateChange` が読み込み済みのページがカバーしていない範囲を報告するたびに新しいページを読み込みます。以前のリクエストをキャンセルすることで、遅い応答が新しいページを上書きしないようにします。
 
 ```typescript
-// remote-drop-down.component.ts
+// drop-down-remote.component.ts
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { VirtualDataWindow, VirtualScrollState } from 'igniteui-angular/virtual-scroll';
+import { Subscription } from 'rxjs';
+
+/** Extra records requested on each side of the range the viewport wants. */
+const BUFFER = 10;
+
 @Component({
     providers: [RemoteService],
     selector: 'app-drop-down-remote',
     templateUrl: './drop-down-remote.component.html',
-    styleUrls: ['./drop-down-remote.component.scss']
+    styleUrls: ['./drop-down-remote.component.scss'],
+    imports: [/* the same imports as in the local example */]
 })
 export class DropDownRemoteComponent implements OnInit, OnDestroy {
-    @ViewChild(IgxForOfDirective, { read: IgxForOfDirective })
-    public remoteForDir: IgxForOfDirective<any>;
-    @ViewChild('remoteDropDown', { read: IgxDropDownComponent })
-    public remoteDropDown: IgxDropDownComponent;
-    public itemHeight = 48;
-    public itemsMaxHeight = 480;
-    public prevRequest: Subscription;
-    public rData: any;
-
-    private destroy$ = new Subject();
-    constructor(private remoteService: RemoteService) { }
-
-    public ngAfterViewInit() {
-        const initialState = { startIndex: 0, chunkSize: Math.ceil(this.itemsMaxHeight / this.itemHeight) }
-        this.remoteService.getData(initialState, (data) => {
-            this.remoteForDir.totalItemCount = data['@odata.count'];
-        });
-        // Subscribe to igxForOf.chunkPreload and load new data from service
-        this.remoteForDir.chunkPreload.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-            this.dataLoading(data);
-        });
-    }
-
-    public dataLoading(evt) {
-        if (this.prevRequest) {
-            this.prevRequest.unsubscribe();
-        }
-        this.prevRequest = this.remoteService.getData(
-            evt,
-            (data) => {
-                this.remoteForDir.totalItemCount = data['@odata.count'];
-            });
-    }
+    private remoteService = inject(RemoteService);
+    public itemHeight = 40;
+    public readonly page = signal<VirtualDataWindow<any>>({ items: [], startIndex: 0, totalCount: 0 });
+    private pending?: Subscription;
 
     public ngOnInit() {
-        this.rData = this.remoteService.remoteData;
+        this.loadPage(0, 2 * BUFFER);
+    }
+
+    public onStateChange(state: VirtualScrollState) {
+        const page = this.page();
+        if (state.startIndex >= page.startIndex && state.endIndex < page.startIndex + page.items.length) {
+            return; // The loaded page already covers the range.
+        }
+        const startIndex = Math.max(0, state.startIndex - BUFFER);
+        this.loadPage(startIndex, state.endIndex - startIndex + 1 + BUFFER);
     }
 
     public ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this.pending?.unsubscribe();
+    }
+
+    private loadPage(startIndex: number, count: number) {
+        this.pending?.unsubscribe();
+        this.pending = this.remoteService.getPage(startIndex, count).subscribe(data => {
+            this.page.set({ items: data.value, startIndex, totalCount: data['@odata.count'] });
+        });
     }
 }
 ```
 
-`ngAfterViewInit` フックの内部で、初期状態のデータを取得し、`igxForOf` ディレクティブの <ApiLink type="ForOfDirective" member="chunkPreload" label="chunkPreload" /> エミッターをサブスクライブするために呼び出します。このサブスクリプションは、ロードされたチャンクが変更されるたびにデータを取得します。コンポーネントの破棄時にエミッターから簡単にサブスクライブ解除できるように、`pipe(takeUntil(this.destroy$))` を使用します。
+ドロップダウンが、例えば `End` キーでまだ読み込まれていない項目にナビゲートすると、Virtual Scroll はその項目までスクロールし、`stateChange` が新しい範囲を報告し、その項目を含むページが読み込まれます。
 
 ### リモートの仮想化 - デモ
 
-上記の設定の結果は、スクロールバーの状態に応じて表示されるはずのデータを動的にロードするドロップダウンです。
+上記の設定の結果は、スクロールバーの状態に応じて、表示するデータを動的に読み込むドロップダウンです。
 
-<Sample src="/data-entries/dropdown-remote" height={400} alt="" />
-
-<hr/>
+<Sample src="/data-entries/dropdown-remote" height={400} alt="リモート データを使用した Angular 仮想ドロップダウン" />
 
 ## 注意と制限
 
-仮想化された項目のリストでドロップダウンを使用すると、いくつかの制限があります。`*igxFor` を使用してドロップダウン リストを設定するときは、次の点に注意してください。
-- ループされているロップダウン項目は、次の css を持つラッピング要素 (`<div>` など) で渡す必要があります。`overflow: hidden` と `height` が `containerSize` に等しい (`px` で) 。
-- リストが仮想化されている場合、`<igx-drop-down-item-group>` を項目のグループ化に使用することはできません。代わりに `isHeader` プロパティを使用します。
-- `items` アクセサーは、現在仮想化ビューにあるヘッダー以外のロップダウン項目のリストのみを返します。
-- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> は、タイプ  `{ value: any, index: number }` です。
-- <ApiLink type="DropDown" member="selection" label="selection" /> によって発行されたオブジェクトは、`const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }` に変更されます。
-- `dropdown.setSelectedItem` は、**データセット内の項目のインデックス**を使用して呼び出す必要があります。
-- ドロップダウン項目の `[selected]` 入力を設定しても、ドロップダウン選択内の項目はマークされません。
+仮想化された項目のリストでドロップダウンを使用すると、いくつかの制限があります。`igx-virtual-scroll` を使用してドロップダウン リストを設定するときは、次の点に注意してください。
 
-- The drop-down items that are being looped need to be passed in a wrapping element (e.g. `<div>`) which has the following css: `overflow: hidden` and `height` equal to `containerSize` in `px`
-- `<igx-drop-down-item-group>` cannot be used for grouping items when the list is virtualized. Use the `isHeader` property instead
-- The `items` accessor will return only the list of non-header drop-down items that are currently in the virtualized view.
-- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> is of type `{ value: any, index: number }`
-- The object emitted by <ApiLink type="DropDown" member="selection" label="selection" /> changes to `const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }`
-- `dropdown.setSelectedItem` should be called with the **item's index in the data set**
-- setting the drop-down item's `[selected]` input will **not** mark the item in the drop-down selection
+- `igx-virtual-scroll` 要素はリストのスクロール コンテナーであるため、固定の `height` を持つ必要があります。
+- リストが仮想化されている場合、`<igx-drop-down-item-group>` を項目のグループ化に使用することはできません。代わりに `isHeader` プロパティを使用します。
+- `items` アクセサーは、現在仮想化ビューにあるヘッダー以外のドロップダウン項目のリストのみを返します。
+- <ApiLink type="DropDown" member="selectedItem" label="dropdown.selectedItem" /> の型は `{ value: any, index: number }` です。
+- <ApiLink type="DropDown" member="selectionChanging" label="selectionChanging" /> によって発行されるオブジェクトは、`const emittedEvent: { newSelection: { value: any, index: number }, oldSelection: { value: any, index: number }, cancel: boolean, }` に変わります。
+- `dropdown.setSelectedItem` は、**データセット内の項目のインデックス**を使用して呼び出す必要があります。
+- ドロップダウン項目の `[selected]` 入力を設定しても、ドロップダウンの選択内で項目がマークされること**はありません**。
+
+ドロップダウンは、以前のバージョンと同様に、投影された [`*igxFor`](./for-of.mdx) ディレクティブでも動作します。このディレクティブは非推奨となり、Virtual Scroll に置き換えられているため、新しいドロップダウンには `igx-virtual-scroll` を使用してください。
 
 ## API リファレンス
-
-- <ApiLink type="ForOfDirective" />
+- <ApiLink type="VirtualScroll" />
 - <ApiLink type="DropDown" />
