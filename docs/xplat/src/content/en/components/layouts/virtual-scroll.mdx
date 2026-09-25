@@ -2,19 +2,23 @@
 title: "Virtual Scroll"
 description: "The Virtual Scroll is a component that renders only the items in its viewport plus a small buffer, so large lists scroll smoothly."
 keywords: "{Platform} Virtual Scroll, virtualization, virtual list, large lists, infinite scroll, remote data, {ProductName}"
-last_updated: "2026-09-17"
+last_updated: "2026-09-25"
 license: MIT
 mentionedTypes: ["VirtualScroll"]
-relatedComponents: ["List", "Card"]
+relatedComponents: ["List", "Grid", "Card"]
 llms:
   description: "The {ProductName} Virtual Scroll is a component that renders large lists by keeping only the items in its viewport, plus a configurable buffer, in the DOM."
 ---
-import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
 
 # Virtual Scroll Component
 
@@ -38,7 +42,29 @@ The {ProductName} Virtual Scroll is a component that renders large lists by keep
 
 The {Platform} Virtual Scroll renders the visible items plus a configurable buffer, and its track preserves the scroll range of the whole collection.
 
-{/*TODO: add the Virtual Scroll anatomy image and render it with the <Anatomy> component.*/}
+<Anatomy
+  class="virtual-scroll-anatomy"
+  name="Virtual Scroll"
+  description="The Virtual Scroll anatomy labels the host, the track, the content element, the item wrappers, and the over-scan buffer."
+  src={virtualScrollAnatomy.src}
+  alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
+/>
+
+<style>{`
+  .virtual-scroll-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .virtual-scroll-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Host:</strong> The scroll container. Its fixed height (width when horizontal) sets how many items are visible.<br />
+<strong>2. Track:</strong> A spacer sized to the estimated length of the whole collection, so the scrollbar spans every item.<br />
+<strong>3. Content element:</strong> Holds only the rendered items. It starts at the first rendered buffer item, above the viewport, and takes its size from the rendered items.<br />
+<strong>4. Item wrapper:</strong> One per rendered item. It hosts the item template and is the box that gets measured.<br />
+<strong>5. Over-scan buffer:</strong> The <code>overScan</code> items (2 by default) rendered past each edge of the viewport.</span>
 
 <PlatformBlock for="Angular">
 
@@ -115,7 +141,7 @@ virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${
 
 </PlatformBlock>
 
-The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed width for horizontal scrolling. A host that grows with its content has no viewport to fill.
+The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed width for horizontal scrolling. A host that grows with its content renders every item, so the list is not virtualized.
 
 ### Prerequisites and Version Compatibility
 
@@ -151,7 +177,7 @@ Mark an `ng-template` with `igxVirtualItem`, or pass a template defined elsewher
 
 ```html
 <igx-list>
-    <igx-virtual-scroll [data]="employees" [estimatedItemSize]="64" style="height: 480px">
+    <igx-virtual-scroll role="presentation" [data]="employees" [estimatedItemSize]="64" style="height: 480px">
         <ng-template igxVirtualItem let-employee let-index="index" let-count="count">
             <igx-list-item [attr.aria-posinset]="index + 1" [attr.aria-setsize]="count">
                 <igx-avatar igxListThumbnail shape="circle" [initials]="employee.initials"></igx-avatar>
@@ -424,13 +450,11 @@ await virtualScroll.layoutComplete;
 
 ### Do/Don't
 
-{/*TODO: add the Virtual Scroll Do/Don't guidance image from Indigo.Design when it is available.*/}
-
 <PlatformBlock for="Angular">
 
 **When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
 
-**When not to use:** Render a short list directly with the [List](../list.mdx) and `@for`. Use the [Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
+**When not to use:** Render a short list directly with the [List](../list.mdx) and `@for`. Use the [{Platform} Data Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
 
 </PlatformBlock>
 
@@ -438,16 +462,26 @@ await virtualScroll.layoutComplete;
 
 **When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
 
-**When not to use:** Render a short list directly with the [List](../grids/list.mdx). Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
+**When not to use:** Render a short list directly with the [List](../grids/list.mdx). Use the [{Platform} Data Grid](../grids/data-grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
 
 </PlatformBlock>
 
-| Do | Don't |
-| --- | --- |
-| Give the host a fixed height (vertical) or width (horizontal). | Let the host grow with its content. |
-| Set `estimatedItemSize` close to the average item size. | Keep the 50px default for much larger or smaller items. |
-| Assign a new array when the collection changes. | Change the bound array in place. |
-| Space items with padding or `gap`. | Space items with margins. |
+<div class="table-responsive">
+  <table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Properties
 
@@ -562,6 +596,7 @@ The host has no `tabindex`. Browsers differ in whether a scroll container withou
 <PlatformBlock for="Angular">
 
 - The host has `role="list"`; the track, the content element, and the item wrappers have `role="presentation"`. Items that render `role="listitem"`, such as `igx-list-item`, are exposed as items of that list.
+- Inside a container that already provides list semantics, such as `igx-list`, set `role="presentation"` on the host so that the items are not nested in a second list.
 - Map the `index` and `count` template variables to `aria-posinset` and `aria-setsize`.
 - Give a focusable host an accessible name with `aria-label` or `aria-labelledby`.
 
@@ -628,7 +663,7 @@ The Virtual Scroll measures items at runtime and creates its own scroll containe
 | `igxForScrollContainer` | Not needed: the host is the scroll container |
 | `scrollTo(index)` | `scrollToIndex(index, options)`, which returns a promise |
 | `chunkLoad`, `chunkPreload` | `stateChange` |
-| `igxForRemote` with `totalItemCount` | `dataWindow` with `totalCount`, or `data` with `dataRequest` for append-only loading |
+| `igxForTotalItemCount` for remote data | `dataWindow` with `totalCount`, or `data` with `dataRequest` for append-only loading |
 | `index`, `count`, `first`, `last`, `even`, `odd` | The same template variables |
 
 The grids keep their own row and column virtualization; see [Grid Virtualization](../grid/virtualization.mdx).
@@ -674,6 +709,7 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 <PlatformBlock for="Angular">
 
 - [List](../list.mdx) - Use the List for a short list, or as the container of a virtualized list.
+- [Data Grid](../grid/grid.mdx) - Use the Data Grid for tabular data with columns, sorting, or filtering.
 - [Card](../card.mdx) - Use cards for a small set of rich items, or as items of a horizontal Virtual Scroll.
 - [Virtual ForOf Directive](../for-of.mdx) - The directive-based virtualization used by existing lists.
 
@@ -682,6 +718,7 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 <PlatformBlock for="WebComponents">
 
 - [List](../grids/list.mdx) - Use the List for a short list, or as the container of a virtualized list.
+- [Data Grid](../grids/data-grid.mdx) - Use the Data Grid for tabular data with columns, sorting, or filtering.
 - [Card](./card.mdx) - Use cards for a small set of rich items, or as items of a horizontal Virtual Scroll.
 
 </PlatformBlock>
