@@ -14,6 +14,7 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 import { Image } from 'astro:assets';
@@ -622,6 +623,44 @@ Control the Color Picker size by setting the `--ig-size` variable to one of thre
   </tbody>
 </table>
 
+<PlatformBlock for="Angular">
+
+## Using the Color Picker in Angular Forms
+
+To use the Color Picker web component in an Angular form and bind it with `formControlName` or `ngModel`, Angular requires an implementation of its `ControlValueAccessor` interface. {ProductName} provides one as the `IgcFormControlDirective`, which attaches to supported web components by their element selector. As of version 22.2.0, it supports `igc-color-picker` in addition to `igc-rating`.
+
+Import `IgcFormControlDirective` together with `ReactiveFormsModule`, or `FormsModule` if you bind with `ngModel`:
+
+```ts
+import { ReactiveFormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    imports: [ReactiveFormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+
+export class LabelFormComponent {...}
+```
+
+Then bind the Color Picker to a `FormControl` with `formControlName`. The control receives the color in the active `format` and updates when focus leaves the Color Picker with a different color:
+
+```html
+<form [formGroup]="labelForm">
+  <igc-color-picker formControlName="color" label="Label color" required></igc-color-picker>
+</form>
+```
+
+<DocsAside type="info">
+The directive handles only the value binding. Keep `CUSTOM_ELEMENTS_SCHEMA` if you use Angular property binding for other Color Picker properties, such as `[swatches]="swatches"`.
+</DocsAside>
+
+The following sample uses the Color Picker in a reactive form with required validation:
+
+<Sample src="/data-entries/color-picker-reactive-form" height={850} position="center" noBackground={false} noBorder={false} alt="Angular Color Picker in a reactive form" />
+
+</PlatformBlock>
 
 ## Properties
 
@@ -926,6 +965,7 @@ Use these related components when a full color picker is more than you need.
 <Faq>
   <FaqItem question="How do I bind the Color Picker to a form?" indicatorPosition="end">
     Set the <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> attribute to the form field name and place the Color Picker inside a `<form>` element. The current serialized color is submitted under that name, and the control participates in `required` validation and form reset through the standard form-associated element APIs.
+    <PlatformBlock for="Angular">In Angular reactive forms, import `IgcFormControlDirective` and bind the Color Picker with `formControlName`. See [Using the Color Picker in Angular Reactive Forms](#using-the-color-picker-in-angular-forms).</PlatformBlock>
   </FaqItem>
 
   <FaqItem question="How is `igcInput` different from `igcChange`?" indicatorPosition="end">
