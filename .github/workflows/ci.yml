@@ -28,9 +28,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # DOCS_TOC_STRICT fails the build when a toc.json entry points at a
+      # missing file, instead of silently dropping it from the sidebar.
       - name: Build ${{ matrix.platform }}
         run: npm run xplat:build:${{ matrix.platform }}
+        env:
+          DOCS_TOC_STRICT: 'true'
 
       - name: Build Angular Unique
         if: matrix.platform == 'angular'
         run: npm run angular:build
+        env:
+          DOCS_TOC_STRICT: 'true'
