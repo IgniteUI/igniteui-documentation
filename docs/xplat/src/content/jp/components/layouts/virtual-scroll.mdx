@@ -2,7 +2,7 @@
 title: "Virtual Scroll"
 description: "Virtual Scroll は、ビューポート内のアイテムと少量のバッファーのみをレンダリングするコンポーネントであり、大量のリストでもスムーズにスクロールできます。"
 keywords: "{Platform} Virtual Scroll, virtualization, virtual list, large lists, infinite scroll, remote data, {ProductName}, 仮想スクロール, 仮想化, 仮想リスト, 大量リスト, 無限スクロール, リモート データ"
-last_updated: "2026-09-24"
+last_updated: "2026-09-25"
 license: MIT
 mentionedTypes: ["VirtualScroll"]
 relatedComponents: ["List", "Grid", "Card"]
@@ -13,8 +13,13 @@ llms:
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
 
 # Virtual Scroll コンポーネント
 
@@ -38,7 +43,29 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 
 {Platform} Virtual Scroll は、表示されているアイテムと設定可能なバッファーをレンダリングし、そのトラックはコレクション全体のスクロール範囲を保持します。
 
-{/*TODO: add the Virtual Scroll anatomy image and render it with the <Anatomy> component.*/}
+<Anatomy
+  class="virtual-scroll-anatomy"
+  name="Virtual Scroll"
+  description="The Virtual Scroll anatomy labels the host, the track, the content element, the item wrappers, and the over-scan buffer."
+  src={virtualScrollAnatomy.src}
+  alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
+/>
+
+<style>{`
+  .virtual-scroll-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .virtual-scroll-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. ホスト:</strong> スクロール コンテナーです。固定の高さ (水平の場合は幅) によって、表示されるアイテムの数が決まります。<br />
+<strong>2. トラック:</strong> コレクション全体の推定される長さに合わせてサイズが設定されるスペーサーです。これにより、スクロールバーがすべてのアイテムに及びます。<br />
+<strong>3. コンテンツ要素:</strong> レンダリングされたアイテムのみを保持します。ビューポートの上にある、最初にレンダリングされたバッファー アイテムから始まり、そのサイズはレンダリングされたアイテムによって決まります。<br />
+<strong>4. アイテム ラッパー:</strong> レンダリングされたアイテムごとに 1 つ存在し、アイテム テンプレートをホストします。サイズが測定されるのはこのボックスです。<br />
+<strong>5. オーバー スキャン バッファー:</strong> ビューポートの各端を超えてレンダリングされる <code>overScan</code> 個のアイテム (デフォルトは 2) です。</span>
 
 <PlatformBlock for="Angular">
 
@@ -424,8 +451,6 @@ await virtualScroll.layoutComplete;
 
 ### 使用すべき場合と使用すべきでない場合
 
-{/*TODO: add the Virtual Scroll Do/Don't images when the design team supplies them. Indigo.Design has no Virtual Scroll page to source them from.*/}
-
 <PlatformBlock for="Angular">
 
 **使用すべき場合:** ディレクトリ、フィード、ログ、横一列に並んだカードなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
@@ -442,12 +467,22 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-| 推奨 | 非推奨 |
-| --- | --- |
-| ホストに固定の高さ (垂直) または幅 (水平) を指定する。 | ホストのサイズをコンテンツに合わせて拡大させる。 |
-| `estimatedItemSize` をアイテムの平均サイズに近い値に設定する。 | はるかに大きい、または小さいアイテムに対してデフォルトの 50px を維持する。 |
-| コレクションが変更されたときに新しい配列を割り当てる。 | バインドされた配列をその場で変更する。 |
-| パディングまたは `gap` でアイテム間の間隔を設定する。 | マージンでアイテム間の間隔を設定する。 |
+<div class="table-responsive">
+  <table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべき</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">使用すべきでない</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## プロパティ
 

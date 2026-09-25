@@ -2,7 +2,7 @@
 title: "Virtual Scroll"
 description: "The Virtual Scroll is a component that renders only the items in its viewport plus a small buffer, so large lists scroll smoothly."
 keywords: "{Platform} Virtual Scroll, virtualization, virtual list, large lists, infinite scroll, remote data, {ProductName}"
-last_updated: "2026-09-24"
+last_updated: "2026-09-25"
 license: MIT
 mentionedTypes: ["VirtualScroll"]
 relatedComponents: ["List", "Grid", "Card"]
@@ -12,8 +12,13 @@ llms:
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
 
 # Virtual Scroll Component
 
@@ -37,7 +42,29 @@ The {ProductName} Virtual Scroll is a component that renders large lists by keep
 
 The {Platform} Virtual Scroll renders the visible items plus a configurable buffer, and its track preserves the scroll range of the whole collection.
 
-{/*TODO: add the Virtual Scroll anatomy image and render it with the <Anatomy> component.*/}
+<Anatomy
+  class="virtual-scroll-anatomy"
+  name="Virtual Scroll"
+  description="The Virtual Scroll anatomy labels the host, the track, the content element, the item wrappers, and the over-scan buffer."
+  src={virtualScrollAnatomy.src}
+  alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
+/>
+
+<style>{`
+  .virtual-scroll-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .virtual-scroll-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Host:</strong> The scroll container. Its fixed height (width when horizontal) sets how many items are visible.<br />
+<strong>2. Track:</strong> A spacer sized to the estimated length of the whole collection, so the scrollbar spans every item.<br />
+<strong>3. Content element:</strong> Holds only the rendered items. It starts at the first rendered buffer item, above the viewport, and takes its size from the rendered items.<br />
+<strong>4. Item wrapper:</strong> One per rendered item. It hosts the item template and is the box that gets measured.<br />
+<strong>5. Over-scan buffer:</strong> The <code>overScan</code> items (2 by default) rendered past each edge of the viewport.</span>
 
 <PlatformBlock for="Angular">
 
@@ -423,8 +450,6 @@ await virtualScroll.layoutComplete;
 
 ### Do/Don't
 
-{/*TODO: add the Virtual Scroll Do/Don't images when the design team supplies them. Indigo.Design has no Virtual Scroll page to source them from.*/}
-
 <PlatformBlock for="Angular">
 
 **When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
@@ -441,12 +466,22 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-| Do | Don't |
-| --- | --- |
-| Give the host a fixed height (vertical) or width (horizontal). | Let the host grow with its content. |
-| Set `estimatedItemSize` close to the average item size. | Keep the 50px default for much larger or smaller items. |
-| Assign a new array when the collection changes. | Change the bound array in place. |
-| Space items with padding or `gap`. | Space items with margins. |
+<div class="table-responsive">
+  <table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Do</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Don't</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Properties
 
