@@ -16,6 +16,12 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
    matching Indigo.Design component documentation under
    `https://www.infragistics.com/products/indigo-design/help/components/` and use its component
    structure as input for Usage subsection suggestions.
+  For the Accessibility section, inspect the component template/render method and typed source
+  first: extract rendered native elements, `role`, `aria-*` attributes, focus and disabled
+  conditions, and validation/selection state mapping. Read keyboard and pointer event handlers to
+  derive interaction and state-change facts. Use the API registry to verify public property and
+  event names. Generate platform-specific differences with `<PlatformBlock>`, and mark unresolved
+  facts with `‹VERIFY: source fact needed›` rather than inferring them from generic HTML behavior.
 4. **Scaffold frontmatter** — the metadata contract lives in `house-style.md` → "File format &
    frontmatter"; this step orders the work, it does not restate the rules. Apply the contract to
    every topic type, including category/index topics.
