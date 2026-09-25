@@ -45,6 +45,20 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
+// Topics generated from the shared cross-platform source, read straight out of
+// the xplat generator's output. They override the Angular tree for any slug
+// they provide, and nothing is ever copied into src/content — so the tracked
+// content tree never accumulates build output. Absent for languages the xplat
+// generator does not emit (kr), in which case there is simply no overlay.
+//
+// changelog/ and grids/ stay Angular-owned: xplat emits them too, but the site
+// never serves those copies. This is the single source of truth for the overlay
+// — createDocsSite publishes it as DOCS_SOURCE_PATHS, and src/content.config.ts
+// reads it back from there.
+const xplatOverlay = {
+	dir: path.join(__dirname, '..', 'xplat', 'generated', 'Angular', docsLang, 'components'),
+	exclude: ['changelog/**', 'grids/**'],
+};
 const localizedDescription: Partial<Record<NavLang, string>> = {
 	jp: 'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。',
 	kr: 'Ignite UI for Angular 컴포넌트 및 API 참조 문서입니다.',
@@ -85,6 +99,7 @@ export default createDocsSite({
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
+		overlayDirs: [xplatOverlay],
 	},
 	head: [
 		{ tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? base : ''}/favicon.ico`, type: 'image/x-icon' } },

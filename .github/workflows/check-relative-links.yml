@@ -26,13 +26,15 @@ jobs:
 
       - run: npm ci
 
-      # Sync xplat-generated Angular content into docs/angular/src/content
-      # before scanning so the angular tree is complete (same as the angular build).
-      - name: Sync xplat → angular (en)
-        run: npm run sync:generated-from-xplat --prefix docs/angular
+      # Generate the xplat Angular overlay into docs/xplat/generated/Angular.
+      # The Angular site reads that tree in place (nothing is copied into
+      # docs/angular/src/content), and the link checker scans both roots, so
+      # the overlay has to exist before scanning — same as the angular build.
+      - name: Generate xplat Angular overlay (en)
+        run: npm run xplat:generate --prefix docs/angular
 
-      - name: Sync xplat → angular (jp)
-        run: npm run sync:generated-from-xplat:jp --prefix docs/angular
+      - name: Generate xplat Angular overlay (jp)
+        run: npm run xplat:generate:jp --prefix docs/angular
 
       - name: Generate angular content (en)
         run: npm run generate:en --prefix docs/angular

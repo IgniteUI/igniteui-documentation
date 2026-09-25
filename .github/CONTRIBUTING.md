@@ -493,11 +493,16 @@ The cross-platform (xplat) documentation MDX source files live in this repositor
 
 If content originates from or must be synced with the upstream [`igniteui-xplat-docs`](https://github.com/IgniteUI/igniteui-xplat-docs) repository, use the merge scripts in `scripts/` (e.g. `merge-vnext-updates.mjs`, `migrate-vnext-new-files.mjs`) to pull in updates rather than editing generated files directly.
 
-## These topics are generated into the Angular tree — don't edit or commit them there
+## These topics are served to Angular from xplat — don't copy them into the Angular tree
 
-For **Angular**, the xplat output is compiled and copied over the Angular content tree on every build by `docs/angular/scripts/sync-generated.mjs` (run via `sync:generated-from-xplat` before every `angular:dev`/`angular:build`). It overwrites everything under `docs/angular/src/content/{en,jp}/components/` **except** `grids/`, `changelog/`, and `toc.json`, which stay Angular-owned.
+For **Angular**, the xplat output is compiled to `docs/xplat/generated/Angular/{en,jp}/components/` by `xplat:generate`, which runs before every `angular:dev`/`angular:build`. The Angular site then reads that directory **in place**, as a second content root overlaid on `docs/angular/src/content/{lang}/components/`. Nothing is copied between the two trees, so the tracked Angular content never accumulates build output.
 
-As a result these Angular copies (charts, geo-map, gauges, spreadsheet, excel-library, `general-changelog-dv`, etc.) are **not committed** — editing them under `docs/angular/` has no effect, so edit the xplat source instead. They are kept out of git by the `xplat-generated topics` block at the bottom of `docs/angular/src/content/en/.gitignore` and `docs/angular/src/content/jp/.gitignore`. If you add a **new** cross-platform topic group under `docs/xplat/src/content/`, add a matching pattern to those two `.gitignore` blocks so the generated Angular copy is not accidentally committed.
+Both roots share one slug namespace — `<root>/charts/types/area-chart.mdx` is the page `/charts/types/area-chart` whichever root it came from — and **xplat always wins**: if a slug exists in both, the generated topic is served and the Angular file is ignored entirely. `grids/` and `changelog/` are excluded from the overlay and stay Angular-owned, as does `toc.json`, which drives the sidebar for both roots.
+
+Two consequences worth knowing:
+
+- Editing one of these topics under `docs/angular/` has no effect — edit `docs/xplat/src/content/` instead. Adding a new cross-platform topic needs no `.gitignore` change; it simply appears from the xplat root.
+- A **committed** Angular topic that xplat also provides is dead weight: it is shadowed and never served, which almost always means the topic was moved to xplat without deleting the Angular copy. `node docs/angular/scripts/clean-synced.mjs` reports these (and deletes untracked leftovers from the old copy step with `--apply`).
 
 # <a name='#adding-images'>Adding of images in the topic</a>
 

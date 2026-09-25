@@ -14,9 +14,10 @@
  * drops an entry whose target is missing instead of failing, so a stale one
  * disappears from the sidebar with no error.
  *
- * When --platform=angular the script scans docs/angular/src/content.
+ * When --platform=angular the script scans docs/angular/src/content plus
+ * docs/xplat/generated/Angular — the two roots the Angular site serves.
  * When --platform=react|wc|blazor  it scans docs/xplat/src/content.
- * Omitting --platform scans both trees in one pass.
+ * Omitting --platform scans every tree in one pass.
  *
  * Usage:
  *   node scripts/check-relative-links.mjs
@@ -32,6 +33,13 @@
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path'; // join used in walkMdx
+import {
+    ANGULAR_AUTHORED_ROOT,
+    ANGULAR_OVERLAY_ROOT,
+    getRootGroup,
+    isShadowedAuthoredFile,
+    isUnservedOverlayFile,
+} from './lib/angular-content-roots.mjs';
 
 // CLI args
 const args = Object.fromEntries(
@@ -49,15 +57,43 @@ const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
+/**
+ * Drops roots that are not on disk, so a language the xplat generator does not
+ * emit (`kr`) simply has no overlay rather than a hard failure. Losing an en/jp
+ * overlay, though, silently shrinks coverage: its generated topics are skipped,
+ * and links and toc entries pointing at them report a false "not found" — so
+ * each missing language is called out.
+ */
+function keepExisting(dirs) {
+    if (dirs.includes(ANGULAR_OVERLAY_ROOT)) {
+        const missing = ['en', 'jp'].filter(lang => !existsSync(`${ANGULAR_OVERLAY_ROOT}/${lang}`));
+        if (missing.length) {
+            console.warn(
+                `[warn] "${ANGULAR_OVERLAY_ROOT}" is missing ${missing.join(' and ')} — that part of the xplat Angular overlay was not scanned.\n` +
+                '       Links in its generated topics are unchecked, and links or toc entries pointing at\n' +
+                '       those topics may report a false "not found". Generate it first:\n' +
+                missing
+                    .map(lang => `         npm run ${lang === 'en' ? 'xplat:generate' : 'xplat:generate:jp'} --prefix docs/angular`)
+                    .join('\n')
+            );
+        }
+    }
+    return dirs.filter(d => existsSync(d));
+}
+
 function getSrcDirs() {
     if (args.src) return [String(args.src)];
-    if (PLATFORM === 'angular') return ['docs/angular/src/content'];
+    // The Angular site overlays the xplat generator's Angular output on its own
+    // content instead of copying it in, so both trees have to be scanned — and
+    // links may point across them (see lib/angular-content-roots.mjs).
+    if (PLATFORM === 'angular') {
+        return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]);
+    }
     if (PLATFORM === 'xplat' || (PLATFORM && XPLAT_PLATFORMS.has(PLATFORM))) {
         // Scan source for _shared/ template links, plus the React/WC/Blazor
         // generated output (after generate.mjs has rewritten _shared/ paths).
-        // Angular is intentionally excluded: generated/Angular/ is an
-        // intermediate artifact that gets synced into docs/angular/src/content/
-        // and validated there by --platform=angular.
+        // Angular is intentionally excluded here: generated/Angular/ is one of
+        // the two roots the Angular site serves, so --platform=angular scans it.
         // Run the generate scripts before this check so generated/ is up to date.
         const dirs = ['docs/xplat/src/content'];
         for (const p of ['React', 'WebComponents', 'Blazor']) {
@@ -70,7 +106,7 @@ function getSrcDirs() {
         console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor`);
         process.exit(1);
     }
-    return ['docs/angular/src/content', 'docs/xplat/src/content'];
+    return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
 }
 
 // File walking
@@ -171,12 +207,12 @@ function blankInapplicablePlatformBlocks(content, platforms) {
 /**
  * Maps a source file path to the set of applicable platforms for PlatformBlock
  * filtering. Files in docs/xplat/src/content are shared across all xplat
- * platforms, we filter out Angular only blocks; files in docs/angular/src
- * keep Angular blocks and skip xplat-only ones.
+ * platforms, we filter out Angular only blocks; files in docs/angular/src and
+ * in the generator's Angular output keep Angular blocks and skip xplat-only ones.
  */
 function platformSetForFile(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    if (normalized.includes('docs/angular/src/')) {
+    if (normalized.includes('docs/angular/src/') || normalized.includes('docs/xplat/generated/Angular/')) {
         return new Set(['Angular']);
     }
     if (normalized.includes('docs/xplat/src/')) {
@@ -207,6 +243,18 @@ function isFile(path) {
     } catch {
         return false;
     }
+}
+
+/**
+ * True when `path` is a file the site actually serves.
+ *
+ * A file the site never renders cannot satisfy a link: the xplat copies of
+ * grids/ and changelog/ sit on disk but are excluded from the Angular overlay,
+ * so accepting one would hide a genuinely broken link on a page that *is*
+ * served (see lib/angular-content-roots.mjs).
+ */
+function isServedFile(path) {
+    return !isUnservedOverlayFile(path) && isFile(path);
 }
 
 /**
@@ -279,66 +327,24 @@ function isAbsoluteDocLink(url) {
  */
 function getLangRoot(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    const m = normalized.match(/^(.*\/content\/(?:en|jp|kr))\//i);
+    const m = normalized.match(/^(.*\/(?:content|generated\/[^/]+)\/(?:en|jp|kr))\//i);
     return m ? m[1] + '/' : null;
 }
 
-/**
- * Paths that docs/angular/scripts/sync-generated.mjs refuses to copy into the
- * Angular tree: grids/ and changelog/, because Angular ships its own versions.
- * Pages under them exist in docs/xplat/generated/Angular but never reach the
- * Angular site, so they must not satisfy an Angular link.
- *
- * Keep in step with shouldCopy() in docs/angular/scripts/sync-generated.mjs.
- */
-const NOT_SYNCED_TO_ANGULAR_RE = /(^|\/)(grids|changelog)\//i;
-
-/** True when `relPath` (relative to components/) is synced into the Angular tree. */
-function isSyncedToAngular(relPath) {
-    return !NOT_SYNCED_TO_ANGULAR_RE.test(relPath);
-}
-
-/**
- * Content roots that feed the same published URL space as `langRoot`.
- *
- * New topics — Angular-only ones included — are authored under docs/xplat and
- * copied into the Angular tree at build time by
- * docs/angular/scripts/sync-generated.mjs. A link in docs/angular/src/content
- * may therefore legitimately target a page that exists only under
- * docs/xplat/generated/Angular/<lang>/, so resolution has to consider both
- * roots. Without the second root, every link to an xplat-authored Angular topic
- * reports a false "not found" whenever the sync step has not run.
- *
- * Returns an ordered list of { dir, accepts } (own tree first). `accepts` takes
- * a path relative to components/ and reports whether that root can serve it, so
- * a root only satisfies links to pages it actually publishes.
- */
-const docRootsCache = new Map();
-
-function getDocRoots(langRoot) {
-    const cached = docRootsCache.get(langRoot);
-    if (cached) return cached;
-
-    const roots = [{ dir: langRoot, accepts: () => true }];
-    const m = langRoot.replace(/\\/g, '/').match(/docs\/angular\/src\/content\/(en|jp|kr)\/$/i);
-    if (m) {
-        const generated = resolve(process.cwd(), 'docs/xplat/generated/Angular', m[1]) + '/';
-        if (existsSync(generated)) roots.push({ dir: generated, accepts: isSyncedToAngular });
-    }
-
-    docRootsCache.set(langRoot, roots);
-    return roots;
-}
+// `OVERLAY_ROOT_GROUPS`, `getRootGroup`, `isUnservedOverlayFile` and
+// `isShadowedAuthoredFile` live in scripts/lib/angular-content-roots.mjs — the
+// single description of what the Angular site actually serves, shared with
+// check-mdx-links.mjs.
 
 /** Legacy docfx extension on a doc URL, e.g. /themes/palettes.html */
 const LEGACY_HTML_RE = /\.html?$/i;
 
 /**
- * Resolves an absolute doc link like /treegrid/tree-grid against every content
- * root feeding this URL space. Returns { resolved, reason }; resolved is null
- * when the target does not exist.
+ * Resolves an absolute doc link like /treegrid/tree-grid against `langRoots` —
+ * every content root that shares this slug namespace (see getRootGroup).
+ * Returns { resolved, reason }; resolved is null when the target does not exist.
  */
-function resolveAbsoluteLink(langRoot, url) {
+function resolveAbsoluteLink(langRoots, url) {
     let path = stripHash(url).slice(1); // strip leading '/'
     if (!path) return { resolved: 'hash-only', reason: null };
 
@@ -360,12 +366,10 @@ function resolveAbsoluteLink(langRoot, url) {
     const legacyHtml = LEGACY_HTML_RE.test(path);
     if (legacyHtml) path = path.replace(LEGACY_HTML_RE, '');
 
-    for (const { dir, accepts } of getDocRoots(langRoot)) {
-        if (!accepts(path)) continue;
-
-        const base = resolve(dir, 'components', path);
+    for (const langRoot of langRoots) {
+        const base = resolve(langRoot, 'components', path);
         for (const candidate of pageCandidates(base)) {
-            if (isFile(candidate)) {
+            if (isServedFile(candidate)) {
                 return { resolved: candidate, reason: legacyHtml ? 'legacy-html' : null };
             }
         }
@@ -454,24 +458,21 @@ function extractRelativeLinks(content, filePath) {
 // File resolution
 
 /**
- * Maps `abs` — a path inside the components dir of `langRoot` — onto the
- * equivalent path under each additional content root feeding the same URL
- * space. Returns [] when langRoot is unknown, has no extra roots, or the
- * target sits outside the components dir (images and other assets).
+ * Returns `abs` followed by the same path re-anchored on every peer in
+ * `langRoots` — the file's own root first, then each root it shares a slug
+ * namespace with (see getRootGroup). A path outside the own root is returned
+ * alone.
  */
-function siblingRootPaths(langRoot, abs) {
-    if (!langRoot) return [];
-
-    const roots = getDocRoots(langRoot);
-    if (roots.length < 2) return [];
-
-    const rel = relative(resolve(langRoot, 'components'), abs).replace(/\\/g, '/');
-    if (!rel || rel.startsWith('../')) return [];
-
-    return roots
-        .slice(1)
-        .filter(({ accepts }) => accepts(rel))
-        .map(({ dir }) => resolve(dir, 'components', rel));
+function acrossRoots(abs, langRoots) {
+    const [ownRoot, ...peerRoots] = langRoots;
+    const paths = [abs];
+    if (ownRoot && peerRoots.length) {
+        const fromRoot = relative(resolve(ownRoot), abs);
+        if (!fromRoot.startsWith('..')) {
+            for (const peer of peerRoots) paths.push(resolve(peer, fromRoot));
+        }
+    }
+    return paths;
 }
 
 /**
@@ -480,23 +481,25 @@ function siblingRootPaths(langRoot, abs) {
  * missingExt = true means the path has no extension but resolves via .mdx —
  *   the link should be written as ./page.mdx, not ./page.
  *
- * Candidates cover the tree the file lives in first, then the equivalent path
- * under the other roots feeding this URL space, so a relative link to an
- * xplat-authored Angular topic resolves before the sync step has run.
+ * Candidates cover the tree the file lives in first, then the same relative
+ * path re-anchored on each root it shares a slug namespace with, so a link
+ * that points at a topic served from the other tree still resolves.
  */
-function resolveLink(fileDir, href, langRoot) {
+function resolveLink(fileDir, href, langRoots = []) {
     const path = stripHash(href);
     if (!path) return { resolved: 'hash-only', missingExt: false };
 
-    const abs = resolve(fileDir, path);
-    const candidates = [abs, ...siblingRootPaths(langRoot, abs)];
+    // Candidates re-anchored on a peer root can land on a file the site never
+    // serves (the overlay's excluded grids/ and changelog/); isServedFile()
+    // rejects those, or a broken /grids/... reference would pass.
+    const candidates = acrossRoots(resolve(fileDir, path), langRoots);
 
     for (const candidate of candidates) {
-        if (isFile(candidate)) return { resolved: candidate, missingExt: false };
+        if (isServedFile(candidate)) return { resolved: candidate, missingExt: false };
     }
 
     for (const candidate of candidates) {
-        const target = pageCandidates(candidate).find(isFile);
+        const target = pageCandidates(candidate).find(isServedFile);
         if (!target) continue;
 
         const lastDot = path.lastIndexOf('.');
@@ -519,30 +522,18 @@ let filesToScan;
 let scanDescription;
 
 const srcDirs = getSrcDirs();
-filesToScan = srcDirs.flatMap(d => walkMdx(resolve(d)));
+// Only scan files the Angular site actually renders: skip the overlay's
+// excluded grids/ and changelog/, and skip authored topics that xplat shadows —
+// the latter are on disk but never served, so their links belong to no page.
+filesToScan = srcDirs
+    .flatMap(d => walkMdx(resolve(d)))
+    .filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
 scanDescription = `source dirs: ${srcDirs.join(', ')}`;
 
 console.log(`\nScanning for relative links`);
 console.log(`Scope: ${scanDescription}`);
 if (PLATFORM) console.log(`Platform: ${PLATFORM}`);
 console.log('');
-
-// The Angular URL space is fed by two trees: docs/angular/src/content plus the
-// xplat-authored Angular pages under docs/xplat/generated/Angular, which the
-// build copies in via docs/angular/scripts/sync-generated.mjs. New topics are
-// authored in xplat, so without that tree present links to them would report a
-// false "not found".
-if (PLATFORM === 'angular' || (!PLATFORM && !args.src)) {
-    for (const lang of ['en', 'jp']) {
-        if (existsSync(resolve(cwd, 'docs/xplat/generated/Angular', lang))) continue;
-
-        const script = lang === 'en' ? 'generate:angular' : 'generate:angular:jp';
-        console.log(`  !  docs/xplat/generated/Angular/${lang} is missing — links to xplat-authored`);
-        console.log(`     Angular topics may report a false "not found". Run:`);
-        console.log(`       npm run ${script} --prefix docs/xplat`);
-        console.log('');
-    }
-}
 
 /** @type {Array<{file: string, line: number, href: string}>} */
 const brokenLinks = [];
@@ -558,11 +549,12 @@ for (const file of filesToScan) {
     const relFile = relative(cwd, file).replace(/\\/g, '/');
 
     const langRoot = getLangRoot(file);
+    const langRoots = getRootGroup(langRoot);
 
     for (const { href, line, kind } of links) {
         if (kind === 'absolute') {
             if (langRoot) {
-                const { resolved, reason } = resolveAbsoluteLink(langRoot, href);
+                const { resolved, reason } = resolveAbsoluteLink(langRoots, href);
                 // A legacy .html suffix 404s on the Astro routes even when the
                 // target page itself exists, so report it either way.
                 if (resolved === null || reason === 'legacy-html') {
@@ -571,7 +563,7 @@ for (const file of filesToScan) {
             }
             continue;
         }
-        const { resolved, missingExt, bare } = resolveLink(fileDir, href, langRoot);
+        const { resolved, missingExt, bare } = resolveLink(fileDir, href, langRoots);
         if (resolved === null) {
             brokenLinks.push({ file: relFile, line, href, reason: 'not-found' });
         } else if (bare) {
@@ -587,9 +579,8 @@ for (const file of filesToScan) {
     for (const m of content.matchAll(BARE_LINK_RE)) {
         const href = m[1];
         const hash = m[2] ?? '';
-        const abs = resolve(fileDir, href);
-        const resolvesToPage = [abs, ...siblingRootPaths(langRoot, abs)]
-            .some(candidate => existsSync(candidate + '.mdx'));
+        const resolvesToPage = acrossRoots(resolve(fileDir, href), langRoots)
+            .some(candidate => isServedFile(candidate + '.mdx'));
         if (resolvesToPage) {
             const line = (content.slice(0, m.index).match(/\n/g) || []).length + 1;
             brokenLinks.push({ file: relFile, line, href: href + hash, reason: 'bare-path' });
@@ -608,8 +599,8 @@ for (const file of filesToScan) {
  * entry whose target is missing (docExists() → null in src/sidebar.ts) rather
  * than failing, so a stale href disappears from the sidebar with no error.
  *
- * Resolution reuses getDocRoots(), so an Angular toc entry may point at a page
- * that only exists under docs/xplat/generated/Angular/<lang>/ until the sync runs.
+ * Resolution reuses getRootGroup(), so an Angular toc entry may point at a page
+ * that only the xplat overlay (docs/xplat/generated/Angular/<lang>/) provides.
  */
 
 /** Ordered { value, line } for every "href" in a toc, read from the raw text. */
@@ -653,41 +644,40 @@ function* walkTocEntries(entries, trail = [], excluded = [], counter = { n: 0 })
 }
 
 /**
- * True when a toc href resolves under any of `roots`.
+ * True when a toc href resolves under any of `langRoots`.
  *
  * docExists() accepts the href as written and also swaps .md ↔ .mdx, so both
- * count here.
+ * count here. Like docExists(), a root never answers for a path it excludes.
  */
-function tocHrefResolves(roots, href) {
+function tocHrefResolves(langRoots, href) {
     const normalized = href.replace(/\\/g, '/');
     const swapped = normalized.endsWith('.mdx') ? normalized.slice(0, -4) + '.md'
                   : normalized.endsWith('.md')  ? normalized.slice(0, -3) + '.mdx'
                   : null;
 
-    for (const { dir, accepts } of roots) {
-        if (!accepts(normalized)) continue;
-        if (isFile(resolve(dir, 'components', normalized))) return true;
-        if (swapped && isFile(resolve(dir, 'components', swapped))) return true;
+    for (const langRoot of langRoots) {
+        if (isServedFile(resolve(langRoot, 'components', normalized))) return true;
+        if (swapped && isServedFile(resolve(langRoot, 'components', swapped))) return true;
     }
     return false;
 }
 
 /**
- * The tocs in scope, as { toc, roots, platform }.
+ * The tocs in scope, as { toc, langRoots, platform }.
  *
- * Angular ships its own toc per language and resolves through getDocRoots(), so
- * it picks up the xplat-authored pages the sync copies in. The xplat platforms
- * share one source toc that astro.config.ts filters per platform at build time,
- * so the same filter is applied here against each generated tree.
+ * Angular ships its own toc per language and resolves through getRootGroup(),
+ * so it picks up the xplat-authored pages the site overlays. The xplat
+ * platforms share one source toc that astro.config.ts filters per platform at
+ * build time, so the same filter is applied here against each generated tree.
  */
 function getTocTargets() {
     const targets = [];
 
     if (!PLATFORM || PLATFORM === 'angular') {
         for (const lang of ['en', 'jp']) {
-            const langRoot = resolve(cwd, 'docs/angular/src/content', lang) + '/';
+            const langRoot = resolve(cwd, ANGULAR_AUTHORED_ROOT, lang) + '/';
             const toc = resolve(langRoot, 'components', 'toc.json');
-            if (existsSync(toc)) targets.push({ toc, roots: getDocRoots(langRoot), platform: null });
+            if (existsSync(toc)) targets.push({ toc, langRoots: getRootGroup(langRoot), platform: null });
         }
     }
 
@@ -698,7 +688,7 @@ function getTocTargets() {
                 const dir = resolve(cwd, 'docs/xplat/generated', platform, lang) + '/';
                 if (!existsSync(toc) || !existsSync(dir)) continue;
 
-                targets.push({ toc, roots: [{ dir, accepts: () => true }], platform });
+                targets.push({ toc, langRoots: [dir], platform });
             }
         }
     }
@@ -708,7 +698,7 @@ function getTocTargets() {
 
 let totalTocHrefs = 0;
 
-for (const { toc, roots, platform } of getTocTargets()) {
+for (const { toc, langRoots, platform } of getTocTargets()) {
     const text = readFileSync(toc, 'utf-8');
     const relToc = relative(cwd, toc).replace(/\\/g, '/');
 
@@ -726,7 +716,7 @@ for (const { toc, roots, platform } of getTocTargets()) {
         if (platform && excluded.includes(platform)) continue;
 
         totalTocHrefs++;
-        if (tocHrefResolves(roots, href)) continue;
+        if (tocHrefResolves(langRoots, href)) continue;
 
         brokenLinks.push({
             file: relToc,
