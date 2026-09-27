@@ -1,8 +1,29 @@
 # Audit rubric
 
-The checkable rules for **audit mode**, and the report format to produce. Every finding maps to a
-concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fix. Detail lives in
-`house-style.md`; the *why* behind mode findings lives in `diataxis-cheatsheet.md`.
+Version: v3 · 2026-08-14 · igniteui doc-skill set. Before editing, confirm this version line against
+`.ai/skills/CHANGELOG.md`.
+
+The audit workflow, the checkable rules for **audit mode**, and the report format to produce. Every
+finding maps to a concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fix.
+Detail lives in `house-style.md`; the *why* behind mode findings lives in `diataxis-cheatsheet.md`.
+
+## Audit workflow
+
+1. **Classify** the topic (SKILL.md Step 0) and identify its doc set (Angular vs xplat) and type.
+2. **Follow the verification workflow** in `house-style.md` before judging technical content.
+   Old snippets/prose are never the source of truth by themselves. For component topics, inspect the
+   matching Indigo.Design component documentation and compare its structure to the topic's Usage
+   subsections by semantic content, not heading text, before making Usage-coverage suggestions.
+3. **Run every check** below — structure/order (A), naming (B), Diátaxis mode integrity (C),
+   metadata/AI-readiness and correctness (D), samples/links (E), formatting and snippet currency (F).
+   For mode integrity, run the compass on each section and flag drift. For detailed frontmatter-only
+   audits or normalization, use the companion `igniteui-topic-frontmatter` skill; for full topic
+   audits, apply only the basic metadata checks here unless the user asks for frontmatter
+   suggestions.
+4. **Report** in the exact format at the end of this file: Verdict → Summary → Findings (each with
+   Where / Issue / Principle / Fix) → Quick wins. Order findings Error → Warning → Suggestion.
+5. Keep every **Fix** concrete and applyable (the corrected heading, the sentence to move, the table
+   to add). If the topic is already clean, say so and note what it does well — don't invent problems.
 
 ## Severity
 
@@ -55,8 +76,9 @@ content for them.
   reference/how-to content that belongs in Getting Started, another Usage subsection, Properties, or Accessibility instead of do/don't
   guidance.
 - A11 (Warning) **FAQ** uses plain question headings or hand-written accordion markup instead of
-  the shared Astro `<Faq>` / `<FaqItem>` components, or does not keep each answer concise and
-  component-specific.
+  the shared Astro `<Faq>` / `<FaqItem>` components, does not keep each answer concise and
+  component-specific, or an answer is not 2–4 self-contained sentences quotable without its question
+  (dangling "it"/"this", no subject noun).
 - A12 (Warning) A slot-mode FAQ does not set `indicatorPosition="end"` on every `<FaqItem>`;
   setting it only on `<Faq>` does not affect slotted children.
 - A13 (Warning) A component topic uses a hand-written anatomy image block instead of the shared
@@ -69,7 +91,17 @@ content for them.
 - B3 (Suggestion) Singular/plural or casing mismatch (`API Reference` → `API References`).
 - B4 (Warning) H1 carries a framework prefix or an "Overview" suffix → standard H1 is
   `‹Component› Component` (e.g. `# Angular Avatar Component Overview` → `# Avatar Component`).
+  Pending `‹VERIFY: layout H1/framework adjacency, both doc sets›`: if the layout renders the
+  framework/product adjacent to the H1 (template heading, breadcrumb, or HTML title), B4 stands as
+  written; if it does not, B4 reverses for the Angular set and the H1 carries the framework (the
+  head query is "angular ‹component› component"). Until answered, report B4 findings with this
+  dependency noted.
 - B5 (Warning) A **Usage** sub-heading repeats the component name (`### Avatar Shape` → `### Shape`).
+- B6 (Warning) Body prose or a heading drifts from canonical entity naming (see house-style →
+  Entity terminology): "datagrid" as one word outside quoted API symbols, "grid component" as
+  subject noun, silent "table"/"data table" drift, product-name abbreviation drift ("IgniteUI",
+  "AppBuilder"), bare "grid" as a standalone entity name, or a sibling compound not fully qualified
+  (Tree Grid, Hierarchical Grid, Pivot Grid).
 
 ### C. Diátaxis mode integrity (mode-bleed)
 Run the compass on each section; flag content that has drifted out of the section's assigned mode.
@@ -100,8 +132,12 @@ Run the compass on each section; flag content that has drifted out of the sectio
 - D1 (Warning) `relatedComponents` is set but **Usage**'s **Do/Don't** guidance doesn't name the
   specific sibling(s) by name and link them — or vice-versa, it names a sibling that isn't listed in
   `relatedComponents`.
-- D2 (Warning) Missing/weak `description` or `llms.description` (not answer-shaped, or >~160 chars).
-- D3 (Warning) Section opens with no plain lead sentence, or with empty boilerplate.
+- D2 (Warning) Missing/weak `description` or `llms.description` (not answer-shaped, not
+  definition-first, page-referential ("This topic shows…"), or >~160 chars). The full field contract
+  lives in house-style → "File format & frontmatter"; for a field-by-field audit, hand off to the
+  companion `igniteui-topic-frontmatter` skill.
+- D3 (Warning) Section opens with no plain lead sentence naming the component (or platform token),
+  or with empty boilerplate.
 - D4 (Warning) A section relies on "as mentioned above" / isn't self-contained.
 - D5 (Warning) Properties/Methods/Events appear hand-written rather than from the typed source.
 - D6 (Suggestion) Styling variables undocumented where the component is themeable.
@@ -130,6 +166,10 @@ Run the compass on each section; flag content that has drifted out of the sectio
   source, a conformance-table row not traceable to behavior verified on the page or in source, an
   "N/A" filler row for an irrelevant criterion, or an invented testing/AT matrix or VPAT link.
   Fix: criterion-level rows tied to observable behavior, or `‹VERIFY:…›`.
+- D13 (Warning) **Quotability** — run the quotability test on the H1 lead sentence, each section
+  lead, each FAQ answer, and `llms.description`: if an assistant answered the page's target query
+  (or the section's sub-query) today, is this the sentence it would quote? A surface where no
+  sentence passes is a finding; page-referential phrasing ("This topic shows how to…") never passes.
 
 ### E. Samples & links
 - E1 (Warning) `<Sample>` missing an `alt`.
@@ -143,6 +183,9 @@ Run the compass on each section; flag content that has drifted out of the sectio
   class (e.g. `ButtonBase`): the link renders (e.g. `IgrButtonBase`) but points nowhere. Verify the
   `type` appears as an `<ApiLink>` target elsewhere in the doc set; link base-class members through
   the concrete component (`type="Button" member="href"`) instead.
+- E7 (Warning) A prose link uses non-descriptive anchor text ("here", "click here", "this link", a
+  bare URL) instead of descriptive, entity-bearing anchor text ("Ignite UI Angular Data Grid
+  documentation"). `<ApiLink>` covers API links; this check covers body links.
 
 ### F. Formatting & altitude
 - F1 (Suggestion) A `ul`/`ol` with a single item that should be a paragraph.

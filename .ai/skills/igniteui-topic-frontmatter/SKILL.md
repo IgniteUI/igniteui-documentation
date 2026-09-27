@@ -7,154 +7,57 @@ description: >-
   identity in Ignite UI Angular or xplat documentation topics. This skill is strictly
   frontmatter-only: audit first and provide suggestions for the user to choose from before changing
   anything; never edit topic body content, headings, prose, samples, code snippets, links, tables, or
-  section structure.
+  section structure. For anything touching body content, structure, headings, prose, or samples, use
+  the companion igniteui-doc-topics skill instead.
 ---
 
 # Ignite UI topic frontmatter
 
+Version: v3 · 2026-08-14 · igniteui doc-skill set. All set files carry this version line; before
+editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
+byte-match this file's `description`. Change log: `.ai/skills/CHANGELOG.md` · human-readable intent:
+`.ai/skills/README.md`.
+
 Audit Ignite UI documentation topic frontmatter so pages have modern, uniform metadata for SEO,
-generated schema, and LLM-readable manifests without touching the topic body.
+generated schema, and LLM-readable manifests — without touching the topic body.
 
-## Scope
+**This file is a routing hub only: no audit rules, no field shapes, and no report formats live
+here.** The metadata contract is precise and versioned; never audit or normalize from memory — read
+the reference files first, then act.
 
-Only inspect and discuss the YAML frontmatter block between the opening and closing `---`.
+## Scope and operating mode
 
-Do not edit or rewrite:
+Only inspect and discuss the YAML frontmatter block between the opening and closing `---`. Never
+edit or rewrite headings, body prose, samples, code snippets, API tables, links outside frontmatter,
+or section order. If a metadata issue depends on body content, cite the body only as evidence and
+suggest a frontmatter change.
 
-- H1/H2/H3 headings
-- intro paragraphs or body prose
-- samples, code snippets, API tables, or links outside frontmatter
-- section order or topic structure
-
-If a metadata issue depends on body content, cite the body content only as evidence and suggest a
-frontmatter change. Leave the body unchanged.
-
-## Operating mode
-
-This skill is **audit-first**.
+This skill is **audit-first**:
 
 1. Read the topic's frontmatter.
-2. Audit it against the rules below.
-3. Return categorized findings and concrete replacement suggestions.
-4. Stop. Do not edit the file until the user explicitly selects what to change.
+2. Read the reference files below, then audit against them.
+3. Return categorized findings and concrete replacement suggestions in the standard report format.
+4. Stop. Do not edit the file until the user explicitly selects what to change; then follow the
+   apply procedure in the report-format reference.
 
-When the user later asks to apply selected suggestions, edit only the frontmatter fields involved in
-those selected suggestions.
+## Task → Reference file
 
-## Doc sets
+| Task | Reference file to read |
+|---|---|
+| Any audit or normalization: field-by-field quality checks, doc-set/token rules, severity ladder | [`references/audit-rules.md`](./references/audit-rules.md) |
+| The normative field contract — which fields exist, their shapes and quality bars (authoritative where wording differs) | [`../igniteui-doc-topics/references/house-style.md`](../igniteui-doc-topics/references/house-style.md) → "File format & frontmatter" |
+| Canonical component/product naming for metadata values | [`../igniteui-doc-topics/references/house-style.md`](../igniteui-doc-topics/references/house-style.md) → "Entity terminology" |
+| Producing the audit report; applying user-selected suggestions | [`references/report-format.md`](./references/report-format.md) |
 
-- Angular topics live under `docs/angular/src/content/<lang>/components/`.
-- xplat topics live under `docs/xplat/src/content/<lang>/components/` and may use tokens such as
-  `{Platform}`, `{ProductName}`, `{ComponentTitle}`, and `{ComponentKeywords}`.
+> **When in doubt, read more rather than fewer.** A missed field rule doesn't just weaken one page:
+> docs metadata is the strongest entity signal the site emits, and drift fragments it.
 
-Keep valid platform tokens in xplat frontmatter. Do not replace them with a single concrete
-framework name unless the topic itself is framework-specific.
+## Hard boundaries
 
-For xplat component metadata, avoid repeating the framework identity in the same field. The xplat
-site layout already appends the resolved product name to the HTML title, so use
-`title: "{ComponentTitle}"` and do not add `| {ProductName}` in topic frontmatter. Use `{ProductName}` in
-`description` and `llms.description` when the resolved product name identifies the platform, and use
-`{Platform}` in `keywords` or when the field genuinely needs the shorter platform label.
-
-## Expected fields
-
-Common fields:
-
-```yaml
----
-title: "..."
-description: "..."
-keywords: "..."
-license: MIT
-last_updated: "YYYY-MM-DD"
-llms:
-  description: "..."
----
-```
-
-Additional fields when relevant:
-
-```yaml
-mentionedTypes: ["ComponentType"]
-relatedComponents: [SiblingComponent]
-_canonicalLink: "{environment:dvUrl}/components/..."
-tableOfContents:
-  minHeadingLevel: 2
-  maxHeadingLevel: 3
-```
-
-The xplat component topic standard requires `last_updated`. Other optional fields should be
-recommended only when the topic type or existing repo pattern warrants them.
-
-## Audit rules
-
-### Required quality checks
-
-- **Title:** present, concise, and topic-specific. All component topics use
-  `title: "{ComponentTitle}"` because the xplat site layout appends the resolved product name to the
-  HTML title. Do not add a framework-specific product suffix or duplicate the framework/platform in
-  the component phrase. Avoid "complete guide", "ultimate guide",
-  "try for free", and other marketing phrases.
-- **Description:** present, about 140-160 characters when practical, answer-first, and specific
-  enough to stand alone in search results and generated schema. Avoid marketing calls to action.
-- **`llms.description`:** present and more answer-shaped than the meta description. It should be a
-  single self-contained sentence that says what the topic/component is and what it helps developers
-  do. Prefer this over keyword stuffing.
-- **Framework/package clarity:** frontmatter must not blur Angular, React, Web Components, and
-  Blazor APIs. Angular topics should identify Ignite UI for Angular when needed. xplat topics should
-  use `{Platform}` / `{ProductName}` tokens instead of hard-coded single-framework wording.
-- **`license`:** present when the topic belongs to a doc set that uses license frontmatter.
-- **`mentionedTypes`:** xplat component topics should list the concrete API types linked or
-  discussed by the page. Do not invent API type names; if unsure, flag as a verification issue.
-- **`relatedComponents`:** recommend only for close sibling components that should affect Do/Don't
-  guidance. Do not add generic category neighbors just to fill the field.
-- **`keywords`:** treat as legacy/internal metadata, not an SEO optimization surface. Keep it
-  coherent if present, but do not spend effort keyword-stuffing. If the repo later drops `keywords`,
-  remove it only when the user asks or a repo-level policy exists.
-- **`_canonicalLink`:** do not invent. Flag inconsistent or suspicious canonical links, but require
-  an explicit canonical policy or nearby precedent before suggesting a replacement.
-- **`last_updated`:** required for component topics. Use the `YYYY-MM-DD` format and keep the value
-  maintained by the topic workflow or another clear source of truth.
-
-### Severity
-
-- **Error:** missing required frontmatter for the doc set, malformed YAML, or metadata that clearly
-  misidentifies the component/framework.
-- **Warning:** weak, inconsistent, misleading, too-long, or marketing-heavy metadata.
-- **Suggestion:** polish, consistency improvements, optional fields, or policy-dependent changes.
-
-## Report format
-
-Use this shape:
-
-```md
-# Frontmatter Audit: <topic path>
-
-**Verdict:** <Conforms | Minor drift | Needs work | Invalid>
-**Summary:** <1-2 sentences about the highest-value metadata fixes.>
-
-## Findings
-### <Error|Warning|Suggestion> · <short title>
-- **Field:** `<field name>`
-- **Issue:** <what is wrong>
-- **Suggestion:** <specific replacement or action>
-
-## Suggested Frontmatter Changes
-| Field | Current | Suggested | Reason |
-|---|---|---|---|
-| `description` | ... | ... | ... |
-
-No file changes were made. Tell me which suggestions to apply.
-```
-
-If there are no issues, say that the frontmatter conforms and do not invent changes.
-
-## Applying selected suggestions
-
-When the user explicitly asks to apply one or more suggestions:
-
-1. Re-read the file.
-2. Modify only the YAML frontmatter block.
-3. Preserve unrelated frontmatter fields and field order where practical.
-4. Do not edit body content after the closing `---`.
-5. Run a focused diff check when available.
+- **Never invent a canonical link.** Flag inconsistent or suspicious `_canonicalLink` values, but
+  require an explicit canonical policy or nearby precedent before suggesting a replacement.
+- **Never invent API type names** for `mentionedTypes`; if unsure, flag as a verification issue.
+- **Unresolved facts stay visible.** Use `‹VERIFY: …›` placeholders; never replace uncertainty with
+  a plausible value.
+- **No edits before explicit user selection.** Findings and suggestions first, changes only on
+  request, and only to the fields the user selected.

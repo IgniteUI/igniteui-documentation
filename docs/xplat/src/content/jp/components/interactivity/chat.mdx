@@ -227,12 +227,12 @@ const ChatExample = () => {
  }
 ```
 
-その後、`messageCreated` イベントにフックして、作成されたメッセージをコレクションに追加することで、クライアントから送信されたメッセージを同期できます。
+`Messages` コレクションは、ユーザーがメッセージを送信すると自動的に更新されます。`MessageCreated` イベントを処理して、メッセージを永続化したり、その他の副作用を実行したりできます。イベントの詳細を `Messages` に再度追加しないでください:
 
 ```cs
 public void OnMessageCreated(IgbChatMessageEventArgs e)
 {
-  Messages = Messages.Append(e.Detail).ToArray();
+  Console.WriteLine($"Message created: {e.Detail.Text}");
 }
 ```
 
@@ -243,14 +243,56 @@ public void OnMessageCreated(IgbChatMessageEventArgs e)
 ### プロパティ
 <ApiLink type="Chat" /> コンポーネントは、その状態と構成を制御できるいくつかの重要なプロパティを公開します。
 
-| 名前              | 説明                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | チャットに表示されるメッセージの配列 (<ApiLink type="ChatMessage" />[])。表示するメッセージを制御するためにバインド可能。                                                  |
-| `draftMessage`    | 未送信メッセージ。`text` とオプションの `attachments` を含むオブジェクト。メッセージ下書きの保存や復元に便利。            |
-| `options`         | 現在のユーザー ID、入力プレースホルダー、許可されるファイル タイプ、クイック リプライサジェスト、入力遅延、カスタム レンダラーなどのチャット設定 (<ApiLink type="ChatOptions" />)。 |
-| `resourceStrings` | ラベル、ヘッダー、システム テキストのローカライズ文字列。多言語対応に使用。                                   |
+| 名前                                                                                                                                    | 説明                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <PlatformBlock for="Blazor">`Messages`</PlatformBlock><PlatformBlock for="WebComponents,React">`messages`</PlatformBlock>               | チャットに表示される双方向のメッセージの配列 (<ApiLink type="ChatMessage" />[])。ユーザーがメッセージを送信すると、Chat は渡されたコレクションを更新します。 |
+| <PlatformBlock for="Blazor">`DraftMessage`</PlatformBlock><PlatformBlock for="WebComponents,React">`draftMessage`</PlatformBlock>       | 未送信メッセージ。`text` とオプションの `attachments` を含むオブジェクト。メッセージ下書きの保存や復元に便利。 |
+| <PlatformBlock for="Blazor">`Options`</PlatformBlock><PlatformBlock for="WebComponents,React">`options`</PlatformBlock>                 | 現在のユーザー ID、入力プレースホルダー、許可されるファイル タイプ、クイック リプライサジェスト、入力遅延、カスタム レンダラーなどのチャット設定 (<ApiLink type="ChatOptions" />)。 |
+| <PlatformBlock for="Blazor">`ResourceStrings`</PlatformBlock><PlatformBlock for="WebComponents,React">`resourceStrings`</PlatformBlock> | ラベル、ヘッダー、システム テキストのローカライズ文字列。多言語対応に使用。 |
 
 上記のプロパティを使用することで、Chat の UI をアプリケーションの状態やバックエンドと簡単に同期させることができます。
+
+#### 双方向のメッセージ コレクション
+
+<PlatformBlock for="WebComponents,React">`messages`</PlatformBlock><PlatformBlock for="Blazor">`Messages`</PlatformBlock> コレクションは双方向です。アプリケーションが表示するメッセージを提供し、会話が進むにつれて Chat が元のコレクションを更新します。ユーザーがメッセージを送信すると、そのコレクションへの参照を保持しているコードから、新しく作成されたメッセージにアクセスできます。
+
+<PlatformBlock for="WebComponents">`igcMessageCreated`</PlatformBlock><PlatformBlock for="React">`onMessageCreated`</PlatformBlock><PlatformBlock for="Blazor">`MessageCreated`</PlatformBlock> イベントは、永続化やその他の副作用のための通知です。作成されたメッセージをコレクションに再度追加しないでください。
+
+元のコレクションを変更せずに残す必要がある場合は、シャロー コピーを Chat に渡します。既存のメッセージ オブジェクトは引き続き共有されます。これらのオブジェクトも独立させる必要がある場合は、コピーしたコレクションを構築する際に、各メッセージの新しいインスタンスを作成してください。
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const chatMessages = [...originalMessages];
+chat.messages = chatMessages;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```tsx
+const chatMessages = [...originalMessages];
+
+return <IgrChat messages={chatMessages} options={options} />;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+IgbChatMessage[] chatMessages = originalMessages.ToArray();
+```
+
+```razor
+<IgbChat Messages="chatMessages" Options="Options"></IgbChat>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents, React">
 

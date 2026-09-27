@@ -1,39 +1,27 @@
 /**
- * Rehype plugin: wrap API References section content in a grid div.
+ * Sätteri HAST plugin: wrap API References section content in a grid nav.
  *
  * Markdown `## API References` headings are followed by <ApiLink> components
  * and <PlatformBlock> wrappers separated by <br> tags. Blank lines between
  * items create multiple <p> elements, so a plain CSS `h2 + p` selector only
  * catches the first paragraph.
  *
- * This plugin walks the HAST, finds every <h2> whose text is "API References",
- * collects all following siblings up to the next heading, strips <br> nodes and blank text nodes,
- * and wraps the collected nodes in:
- *   <div class="api-references-grid">…</div>
+ * This plugin finds every <h2> whose text is "API References", collects all
+ * following siblings up to the next heading, strips <br> nodes and blank text
+ * nodes, and wraps the collected nodes in:
+ *   <nav class="idg-api-references">…</nav>
+ *
+ * The collected nodes are copied into the wrapper (see `detach`) and the
+ * originals removed, which carries MDX components across intact.
  */
 
-import { visit, SKIP } from 'unist-util-visit';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type HastNode = any;
+import { defineHastPlugin } from 'satteri';
+import type { HastNode } from 'satteri';
+import type { ElementContent } from 'hast';
 
 /** True if the node is a heading (h1–h6). */
 function isHeading(node: HastNode): boolean {
     return node.type === 'element' && /^h[1-6]$/.test(node.tagName);
-}
-
-/** True if the node is an <h2> whose text content equals "API References". */
-function isApiReferencesHeading(node: HastNode): boolean {
-    if (node.type !== 'element' || node.tagName !== 'h2') return false;
-    const text = extractText(node).trim();
-    return text === 'API References';
-}
-
-/** Recursively extract all text from a node. */
-function extractText(node: HastNode): string {
-    if (node.type === 'text') return node.value;
-    if (node.children) return node.children.map(extractText).join('');
-    return '';
 }
 
 /** True if the node is an empty or whitespace-only text node. */
@@ -47,70 +35,71 @@ function isBr(node: HastNode): boolean {
            ((node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') && node.name === 'br');
 }
 
-/** Strip blank text nodes and <br> elements from a node list. */
-function stripBlanks(nodes: HastNode[]): HastNode[] {
-    return nodes.filter((n) => !isBlankText(n) && !isBr(n));
+/**
+ * Recursively copy a node into a plain, id-free object.
+ *
+ * Sätteri encodes a node that still carries its arena id as a *ref*, which
+ * copies the subtree but leaves the original in place — and removing that
+ * original then invalidates the ref, deleting the copy too. Spreading drops the
+ * non-enumerable id (the materializers' convention), so the result is rebuilt
+ * as fresh content and the original can safely be removed.
+ */
+function detach<T extends HastNode>(node: T): T {
+    const copy = { ...node } as T & { children?: HastNode[] };
+    const children = childrenOf(node);
+    if (children) copy.children = children.map(detach);
+    return copy;
+}
+
+/** Children of a node, or `undefined` for the leaf types that have none. */
+function childrenOf(node: HastNode): HastNode[] | undefined {
+    const children = (node as { children?: HastNode[] }).children;
+    return Array.isArray(children) ? children : undefined;
 }
 
 export function rehypeApiReferencesGrid() {
-    return (tree: HastNode) => {
-        // Process any container node (root or element) whose children may include headings.
-        // The `root` node holds top-level siblings — that's where ## API References and the
-        // following <ApiLink> blocks live, so we must include it in the visitor.
-        visit(tree, (node: HastNode) => node.type === 'root' || (node.type === 'element' && !!node.children), (node: HastNode) => {
+    return defineHastPlugin({
+        name: 'api-references-grid',
+        element: {
+            filter: ['h2'],
+            visit(node, ctx) {
+                if (ctx.textContent(node).trim() !== 'API References') return;
 
-            const children: HastNode[] = node.children;
-            let i = 0;
+                const parent = ctx.parent(node);
+                const index = ctx.indexOf(node);
+                if (!parent || index === undefined) return;
 
-            while (i < children.length) {
-                const child = children[i];
+                // Collect all siblings after the heading until the next heading.
+                const siblings = parent.children as HastNode[];
+                let end = index + 1;
+                while (end < siblings.length && !isHeading(siblings[end])) end++;
 
-                if (isApiReferencesHeading(child)) {
-                    // Collect all siblings after the heading until the next heading
-                    const start = i + 1;
-                    let end = start;
+                const contentNodes = siblings.slice(index + 1, end);
+                if (contentNodes.length === 0) return;
 
-                    while (end < children.length && !isHeading(children[end])) {
-                        end++;
+                // Flatten: unwrap <p> elements so their children become direct grid items.
+                const flatNodes: HastNode[] = [];
+                for (const n of contentNodes) {
+                    if (n.type === 'element' && n.tagName === 'p') {
+                        flatNodes.push(...(childrenOf(n) ?? []));
+                    } else {
+                        flatNodes.push(n);
                     }
-
-                    const contentNodes = children.slice(start, end);
-
-                    // Flatten: unwrap <p> elements so their children become direct grid items
-                    const flatNodes: HastNode[] = [];
-                    for (const n of contentNodes) {
-                        if (n.type === 'element' && n.tagName === 'p') {
-                            flatNodes.push(...(n.children ?? []));
-                        } else {
-                            flatNodes.push(n);
-                        }
-                    }
-
-                    const gridItems = stripBlanks(flatNodes);
-
-                    if (gridItems.length === 0) {
-                        i++;
-                        continue;
-                    }
-
-                    // Build the wrapper nav
-                    const gridDiv: HastNode = {
-                        type: 'element',
-                        tagName: 'nav',
-                        properties: { className: ['idg-api-references'] },
-                        children: gridItems,
-                    };
-
-                    // Replace the original siblings with the wrapper
-                    children.splice(start, end - start, gridDiv);
-
-                    // Skip past the newly inserted wrapper
-                    i = start + 1;
-                    return SKIP;
                 }
 
-                i++;
-            }
-        });
-    };
+                const gridItems = flatNodes.filter((n) => !isBlankText(n) && !isBr(n));
+                if (gridItems.length === 0) return;
+
+                ctx.insertAfter(node, {
+                    type: 'element',
+                    tagName: 'nav',
+                    properties: { className: ['idg-api-references'] },
+                    children: gridItems.map(detach) as ElementContent[],
+                });
+
+                // The nav holds detached copies, so every original is removed.
+                for (const n of contentNodes) ctx.removeNode(n);
+            },
+        },
+    });
 }
