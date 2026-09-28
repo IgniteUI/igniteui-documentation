@@ -131,8 +131,13 @@ function assignsProperty(line, property) {
  *
  * Taking the smallest indentation any line has and removing that from all of them keeps the block's
  * internal shape while moving it out of whatever it was nested in.
+ *
+ * `liftedFromFile` is for code taken out of a file, whose first line arrives flush while the rest keep
+ * the file's nesting. Markup is written whole by the renderer and is already the shape it should be:
+ * judged as lifted code, an element that closes itself -- its tag flush, every other line one of its
+ * indented attributes -- had all of its attributes pulled back to the margin.
  */
-function dedent(text) {
+function dedent(text, liftedFromFile = true) {
     const lines = String(text).replace(/\s+$/, '').split('\n');
     while (lines.length > 0 && lines[0].trim() === '') lines.shift();
     if (lines.length === 0) return '';
@@ -145,7 +150,7 @@ function dedent(text) {
     // nothing moves — which is how a doc comment ends up against the margin with the method it
     // documents indented beneath it. So the first line is judged on its own, and when it is already
     // flush the rest are brought up to meet it.
-    const flushHead = indentOf(lines[0]) === 0 && body.length > 0;
+    const flushHead = liftedFromFile && indentOf(lines[0]) === 0 && body.length > 0;
     const measured = flushHead ? body : lines.filter(one => one.trim() !== '');
     const strip = Math.min(...measured.map(indentOf));
     if (strip === 0) return lines.join('\n');
@@ -741,7 +746,7 @@ export function fenceEmitter({ api, platform, examplesRoot, styleDefaults, known
                 .filter(one => one !== null && one.trim() !== '')
                 // Trimmed before joining: several definitions in one block are separated by one
                 // blank line, not by however many the last of them happened to end with.
-                .map(dedent)
+                .map(one => dedent(one, false))
                 .join('\n\n');
             return {
                 channel,

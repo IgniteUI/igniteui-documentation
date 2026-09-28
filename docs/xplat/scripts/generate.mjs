@@ -35,6 +35,7 @@ import {
 import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.mjs';
 import { fenceEmitter, libraryItemLookup, CODE_FENCE_LANG } from './lib/snippet-emit.mjs';
 import { resolveApiTerms } from './lib/api-terms.mjs';
+import { loadAcknowledgedTerms } from './lib/acknowledged-terms.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -470,7 +471,6 @@ const SNIPPET_STYLE_COMMON = {
     // hand written blocks showed. The lazily constructed field is the sounder habit on Angular and
     // React, but this is a reproduction of what those pages taught.
     directAssignment: true,
-    colorNotation: 'hex',
     pascalCaseColorNames: true,
 };
 
@@ -766,12 +766,28 @@ function resolveApiTermsFor(content, where) {
 
     for (const term of result.unknown) unresolvedTerms.set(term, (unresolvedTerms.get(term) ?? 0) + 1);
     for (const one of result.ambiguous) ambiguousTerms.set(one.term, one.candidates);
+    for (const e of result.errors ?? []) {
+        const ack = acknowledged.match(PLATFORM, where, e);
+        (ack ? acknowledgedErrors : termErrors).push({ where, ...e, ack });
+    }
+    for (const gap of result.mapGaps ?? []) {
+        const key = `${gap.platform}\t${gap.declaredOn}::${gap.member}`;
+        if (!mapGaps.has(key)) mapGaps.set(key, { ...gap, pages: new Set() });
+        mapGaps.get(key).pages.add(where);
+    }
     return result.content;
 }
 
 /** What resolution could not answer, gathered across the run and reported once at the end. */
 const unresolvedTerms = new Map();
 const ambiguousTerms = new Map();
+/** API terms the description metadata and the api-docs index could not resolve. These fail the run. */
+const termErrors = [];
+/** The same, where src/data/api-terms-acknowledged.json says why they may wait. Reported, not fatal. */
+const acknowledgedErrors = [];
+const acknowledged = loadAcknowledgedTerms(REPO_ROOT);
+/** Members a platform has that its apiMap does not spell. These fail the run -- see reportApiTerms. */
+const mapGaps = new Map();
 
 function reportApiTerms() {
     if (unresolvedTerms.size > 0) {
@@ -786,6 +802,42 @@ function reportApiTerms() {
         for (const [term, candidates] of [...ambiguousTerms].slice(0, 10)) {
             console.warn(`[generate]     ${term} ?= ${candidates.join(' | ')}`);
         }
+    }
+    // Unlike the two above, this is never the page's fault and never safe to print past: the type is
+    // on this platform, the member is on the type, and the map has no name for it, so the page would
+    // show the XAML name to a reader who cannot type it. Fixed in the maps, with an override naming
+    // where the hand-written exposure lives.
+    // An xplat term nothing resolves is never printed past: the page would show a name the reader's
+    // platform may not have. The fix is in the page (context, qualifier, escape, PlatformBlock) or in
+    // the description metadata or index, and each error says which term and where.
+    if (acknowledgedErrors.length > 0) {
+        console.warn(`[generate] ${acknowledgedErrors.length} acknowledged API term error(s) for ${PLATFORM}, still outstanding:`);
+        for (const e of acknowledgedErrors) console.warn(`[generate]     ${e.where}:${e.line}  ${e.message}  -- acknowledged: ${e.ack.reason}${e.ack.clears ? ` (clears: ${e.ack.clears})` : ''}`);
+    }
+    for (const e of acknowledged.stale(PLATFORM)) {
+        console.warn(`[generate] stale acknowledgement for ${PLATFORM}, nothing matched it -- delete it: ${JSON.stringify(e)}`);
+    }
+    if (termErrors.length > 0) {
+        // Two different problems, reported apart. A description error is a term that maps to nothing the
+        // product describes -- fixed in the page or the description metadata. An index error is a term
+        // that maps, but this platform's api-docs index lacks the name -- the index is behind or the
+        // platform does not have it.
+        for (const kind of ['description', 'index']) {
+            const some = termErrors.filter(e => (e.kind ?? 'description') === kind);
+            if (!some.length) continue;
+            console.error(`[generate] ${some.length} API term(s) for ${PLATFORM} ${kind === 'description' ? 'do not map to the description API' : 'map, but are missing from the api-docs index'}:`);
+            for (const e of some) console.error(`[generate]     ${e.where}:${e.line}  ${e.message}`);
+        }
+        throw new Error(`[generate] ${termErrors.length} unresolved API term(s) for ${PLATFORM}; see above.`);
+    }
+    if (mapGaps.size > 0) {
+        console.error(`[generate] ${mapGaps.size} members exist on a ${PLATFORM} type but have no ${PLATFORM} name in the apiMap.`);
+        console.error('[generate] Add each to an *.apiMap.overrides.json (see src/data/api-map/README.md):');
+        for (const gap of mapGaps.values()) {
+            const pages = [...gap.pages];
+            console.error(`[generate]     ${gap.declaredOn}::${gap.member}  (written \`${gap.term}\` against ${gap.type}; ${pages.length} page(s), e.g. ${pages[0]})`);
+        }
+        throw new Error(`[generate] apiMap has no ${PLATFORM} name for ${mapGaps.size} member(s); patch the maps.`);
     }
 }
 
@@ -1099,7 +1151,7 @@ function processDir(srcDir, outDir, relBase = '') {
                 continue;
             }
             if (/\.mdx$/.test(entry)) {
-                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw, path.join(LANG, 'components', entry))));
+                let content = prepareMarkdownOutput(ensureMdxImports(transformMdxFile(raw, path.join(LANG, 'components', relBase, entry))));
                 // Rewrite _shared/ cross-references so generated files resolve correctly.
                 //   top-level (relBase=''):     ./grids/_shared/X.mdx → ./grids/grid/X.mdx
                 //   grids/ level (relBase='grids'):  ./_shared/X.mdx → ./grid/X.mdx

@@ -48,6 +48,7 @@ export function resolveApiMapRoot(explicit = null, repoRoot = process.cwd()) {
  *   typeForward:    Map<lowercased canonical type, Map<platform, mappedName>>
  *   memberForward:  Map<`${lowercased canonical type}::${lowercased member}`, Map<platform, mappedName>>
  *   memberAnywhere: Map<lowercased canonical member, Map<platform, Map<mappedName, count>>>
+ *   descriptionMemberAnywhere: the same, for the `<Name>Description` types alone
  *
  * Counts are retained so an ambiguous name can be reported rather than guessed.
  */
@@ -59,6 +60,9 @@ export function loadApiMap(apiMapRoot) {
     const typeForward = new Map();
     const memberForward = new Map();
     const memberAnywhere = new Map();
+    // The Description types carry the JSON description layer's spellings, camelCase on every platform,
+    // so they are kept apart and consulted only for a member no real type has.
+    const descriptionMemberAnywhere = new Map();
     /** canonical type -> its canonical base type, so a scoped lookup can walk up. */
     const baseOf = new Map();
 
@@ -141,8 +145,9 @@ export function loadApiMap(apiMapRoot) {
                         // Unscoped, for a term whose owning type the topic never named. Kept with
                         // counts so an ambiguous member can be reported instead of guessed at, and
                         // keyed with the canonical casing to match the forward tables.
-                        if (!memberAnywhere.has(canonicalMember)) memberAnywhere.set(canonicalMember, new Map());
-                        const byPlatform = memberAnywhere.get(canonicalMember);
+                        const pool = canonicalType.endsWith('Description') ? descriptionMemberAnywhere : memberAnywhere;
+                        if (!pool.has(canonicalMember)) pool.set(canonicalMember, new Map());
+                        const byPlatform = pool.get(canonicalMember);
                         if (!byPlatform.has(n.platform)) byPlatform.set(n.platform, new Map());
                         const spellings = byPlatform.get(n.platform);
                         spellings.set(n.mappedName, (spellings.get(n.mappedName) ?? 0) + 1);
@@ -151,7 +156,7 @@ export function loadApiMap(apiMapRoot) {
             }
         }
     }
-    return { memberToCanonical, typeToCanonical, memberByType, typeForward, memberForward, memberAnywhere, baseOf };
+    return { memberToCanonical, typeToCanonical, memberByType, typeForward, memberForward, memberAnywhere, descriptionMemberAnywhere, baseOf };
 }
 
 /**
@@ -248,7 +253,7 @@ export function canonicalMemberFor(apiMap, term, canonicalType = null, scopedOnl
         // declared on a base -- markerTypes is on XYChart, not on the CategoryChart a page mentions.
         // The original docfx-era tool did the same, and without it a scoped lookup misses most
         // inherited members and the term loses its type attribution.
-        for (let owner = canonicalType, hops = 0; owner && hops < 12; owner = apiMap.baseOf.get(owner), hops++) {
+        for (const owner of baseChain(apiMap, canonicalType)) {
             if (apiMap.memberForward.has(`${owner}::${term}`)) return { canonical: term, via: 'canonical', owner };
             const inherited = apiMap.memberByType.get(`${owner}::${term.toLowerCase()}`);
             if (usableCanonical(inherited)) return { canonical: inherited, via: 'alias', owner };
@@ -259,7 +264,9 @@ export function canonicalMemberFor(apiMap, term, canonicalType = null, scopedOnl
         if (scopedOnly) return { canonical: null };
     }
 
-    if (apiMap.memberAnywhere.has(term)) return { canonical: term, via: 'canonical' };
+    if (apiMap.memberAnywhere.has(term) || apiMap.descriptionMemberAnywhere.has(term)) {
+        return { canonical: term, via: 'canonical' };
+    }
 
     // A dotted canonical is a path into a nested object, not a member name -- the same rule
     // resolveMemberName applies. `strokeThickness` reaches StrokeThickness and also six
@@ -293,6 +300,18 @@ export function canonicalMemberFor(apiMap, term, canonicalType = null, scopedOnl
     return { canonical: null };
 }
 
+/**
+ * A type and every base above it, nearest first, to the root of the hierarchy. Stops only on a
+ * repeat, which would be a cycle in the maps rather than a real hierarchy.
+ */
+function* baseChain(apiMap, canonicalType) {
+    const seen = new Set();
+    for (let owner = canonicalType; owner && !seen.has(owner); owner = apiMap.baseOf.get(owner)) {
+        seen.add(owner);
+        yield owner;
+    }
+}
+
 /** A canonical name, as opposed to a path into a nested object. */
 const usableCanonical = name => typeof name === 'string' && name.length > 0 && !name.includes('.');
 
@@ -319,9 +338,28 @@ export function forwardTypeName(apiMap, canonicalType, platform) {
  * @returns {{ known: boolean, name: string|null, ambiguous?: string[] }}
  */
 export function forwardMemberName(apiMap, canonicalMember, platform, canonicalType = null) {
-    const byPlatform = canonicalType
-        ? apiMap.memberForward.get(`${canonicalType}::${canonicalMember}`) ?? apiMap.memberAnywhere.get(canonicalMember)
-        : apiMap.memberAnywhere.get(canonicalMember);
+    // The maps record a member on the type that declares it, so the page's type is only where the
+    // search starts: MarkerBrushes is on DomainChart, not on the CategoryChart a page names. The
+    // unscoped table pools every type, the Description types' JSON spellings included, so it is the
+    // answer only when nothing in the chain declares the member. The first declaration is the answer
+    // even when it has no entry for this platform: that is a gap in the maps, which an override fixes,
+    // and borrowing a spelling from some other type would hide it.
+    let byPlatform = null;
+    let declaredOn = null;
+    for (const owner of baseChain(apiMap, canonicalType)) {
+        byPlatform = apiMap.memberForward.get(`${owner}::${canonicalMember}`);
+        if (byPlatform) { declaredOn = owner; break; }
+    }
+
+    // The platform has the type and the type has the member, but the map gives no spelling for it:
+    // a member suppressed from generation and exposed by hand, most often. Reported as a gap so the
+    // build fails and names the override to write. A platform without the type at all is normal --
+    // not every assembly is generated for every platform -- and keeps printing the canonical name.
+    if (declaredOn && !byPlatform.get(platform)?.size && apiMap.typeForward.get(canonicalType)?.get(platform)?.size) {
+        return { known: true, name: null, gap: { type: canonicalType, declaredOn, member: canonicalMember, platform } };
+    }
+
+    byPlatform ??= apiMap.memberAnywhere.get(canonicalMember) ?? apiMap.descriptionMemberAnywhere.get(canonicalMember);
 
     if (!byPlatform) return { known: false, name: null };
     const answer = rankSpellings(byPlatform.get(platform));

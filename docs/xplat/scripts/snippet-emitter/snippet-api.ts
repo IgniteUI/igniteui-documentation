@@ -27,6 +27,7 @@ import {
     CodeGenerationTargetPlatforms,
     JsonSchemaEmitter,
     TypeDescriptionPlatform,
+    TypeDescriptionWellKnownType,
 } from "igniteui-webcomponents-core";
 import { descriptionModules, descriptionTypeMarkers } from "./descriptions";
 
@@ -101,6 +102,10 @@ function registerDescriptions(renderer: any): void {
  * through exactly the same reading a sample's own $styleOptions does — several of these are
  * enumerations whose JSON spelling ("singleLine") is not their value, and assigning the string
  * would quietly do nothing.
+ *
+ * The merge is per platform. A sample writing { "react": true } for an option says nothing about
+ * any other platform, so those keep the default; replacing the option whole would drop the default
+ * everywhere the sample did not name, and the renderer would fall back to its own.
  */
 function applyStyleDefaults(json: string, defaults: Record<string, unknown> | undefined): string {
     if (!defaults) return json;
@@ -114,8 +119,41 @@ function applyStyleDefaults(json: string, defaults: Record<string, unknown> | un
     if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return json;
 
     const declared = parsed["$styleOptions"];
-    parsed["$styleOptions"] = { ...defaults, ...(declared && typeof declared === "object" ? declared : {}) };
+    const merged: Record<string, unknown> = { ...defaults };
+    if (declared && typeof declared === "object" && !Array.isArray(declared)) {
+        for (const [name, value] of Object.entries(declared)) {
+            const existing = removeIgnoringCase(merged, name);
+            merged[name] = combineStyleValue(existing, value);
+        }
+    }
+    parsed["$styleOptions"] = merged;
     return JSON.stringify(parsed);
+}
+
+/** A per platform value laid over the default it refines; anything else simply replaces it. */
+function combineStyleValue(defaultValue: unknown, declared: unknown): unknown {
+    if (declared === null || typeof declared !== "object" || Array.isArray(declared) || defaultValue === undefined) {
+        return declared;
+    }
+    const combined: Record<string, unknown> =
+        defaultValue !== null && typeof defaultValue === "object" && !Array.isArray(defaultValue)
+            ? { ...(defaultValue as Record<string, unknown>) }
+            : { default: defaultValue };
+    for (const [platform, value] of Object.entries(declared as Record<string, unknown>)) {
+        removeIgnoringCase(combined, platform);
+        combined[platform] = value;
+    }
+    return combined;
+}
+
+// The renderer matches option and platform names without regard to case, so a key differing only in
+// case is the same key and has to be replaced rather than kept alongside.
+function removeIgnoringCase(obj: Record<string, unknown>, name: string): unknown {
+    const key = Object.keys(obj).find(k => k.toLowerCase() === name.toLowerCase());
+    if (key === undefined) return undefined;
+    const value = obj[key];
+    delete obj[key];
+    return value;
 }
 
 /**
@@ -167,6 +205,78 @@ export function isDescriptionType(name: string): boolean {
 export function descriptionProperties(name: string): string[] | null {
     const props = sharedContext().getAllProperties(name);
     return props === undefined ? null : props;
+}
+
+/**
+ * Every description type, by the name a topic writes it: DataChart, not DataChartDescription.
+ *
+ * What the documentation's API terms resolve against. Taken from the same markers the schema is
+ * generated from, so the two cannot disagree about which types exist.
+ */
+export function descriptionTypeNames(): string[] {
+    const names = new Set<string>();
+    for (const marker of descriptionTypeMarkers()) {
+        const name = String(marker.typeName ?? marker.name ?? "");
+        if (name.endsWith("Description") && name.length > "Description".length) names.add(name.slice(0, -"Description".length));
+    }
+    return [...names].sort();
+}
+
+/**
+ * What a description says about one of its properties: the kind of value it holds, the exported type
+ * it names, whether it is an event, and -- for an enum -- the values it may take. Null when the type
+ * has no such property.
+ *
+ * The kinds are TypeDescriptionWellKnownType's names (ExportedType, DataRef, EventRef, MethodRef,
+ * ...). An enum-typed property is an ExportedType whose specificType is the enum's name.
+ */
+export function descriptionPropertyInfo(component: string, propertyName: string):
+    { knownType: string; specificType: string | null; isCustomEvent: boolean; enumNames: string[] | null } | null {
+    const context = sharedContext();
+    const props = context.getAllProperties(component);
+    if (props === null || props === undefined || !props.includes(propertyName)) return null;
+    const metadata = context.getMetadata(component, propertyName);
+    if (metadata === null || metadata === undefined) return null;
+    const known = (TypeDescriptionWellKnownType as any)[metadata.knownType];
+    const names = context.getPropertyEnumNames(component, propertyName);
+    return {
+        knownType: typeof known === "string" ? known : String(metadata.knownType),
+        specificType: metadata.specificType ?? null,
+        isCustomEvent: !!metadata.isCustomEvent,
+        enumNames: names ? String(names).split(/[;,]/).map(n => n.trim()).filter(n => n.length > 0) : null,
+    };
+}
+
+/**
+ * The transform a description property goes through on a platform -- "TextStyleTransform",
+ * "FontFamilyTransform", ... -- or null when it is written as mapped.
+ *
+ * The metadata keeps these per platform ("(p:TitleTextStyle/TextStyleTransform,...)"), last mapping
+ * winning, but only exposes them internally (TypeDescriptionMetadata.GetTransformName). The package's
+ * build renames that member, so the map is found by what it holds rather than by what it is called: the
+ * one dictionary on the metadata whose values are transform names. A transform can change which member
+ * a platform has -- TextStyleTransform expands one description property into four on the XAML
+ * platforms -- which is why the documentation has to know it.
+ */
+export function descriptionPropertyTransform(component: string, platformName: string, propertyName: string): string | null {
+    const platform = (TypeDescriptionPlatform as any)[platformName];
+    if (platform === undefined) return null;
+    const context = sharedContext();
+    const props = context.getAllProperties(component);
+    if (props === null || props === undefined || !props.includes(propertyName)) return null;
+    const metadata = context.getMetadata(component, propertyName);
+    if (metadata === null || metadata === undefined) return null;
+    // The package's Dictionary is not iterable from here, so each is asked about every platform: the
+    // transform map is the one whose values are transform names; the name map holds member names.
+    const platforms = Object.values(TypeDescriptionPlatform as any).filter(v => typeof v === "number") as number[];
+    let transforms: any = null;
+    for (const key of Object.keys(metadata)) {
+        const candidate = (metadata as any)[key];
+        if (!candidate || typeof candidate.containsKey !== "function" || typeof candidate.item !== "function") continue;
+        const held = platforms.filter(p => candidate.containsKey(p)).map(p => candidate.item(p));
+        if (held.length > 0 && held.every((v: any) => typeof v === "string" && /Transform$/.test(v))) { transforms = candidate; break; }
+    }
+    return transforms && transforms.containsKey(platform) ? transforms.item(platform) : null;
 }
 
 // One context, registered once: resolving a name does not depend on any sample, and the

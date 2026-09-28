@@ -3,7 +3,7 @@ title: "{Platform} マップ | データ可視化ツール | 地理的シェー�
 description: インフラジスティックスの {Platform} マップを使用して、シェイプ ファイルから地理空間データを読み込みます。{ProductName} マップのサンプルを是非お試しください!
 keywords: "{Platform} map, shapefiles, {ProductName}, Infragistics, data binding, {Platform} マップ, シェープファイル, データ バインディング, インフラジスティックス"
 license: commercial
-mentionedTypes: ["GeographicMap", "ShapefileConverter", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+mentionedTypes: ["GeographicMap", "ShapeDataSource", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
 _language: ja
 llms:
   description: "{ProductName} Map コンポーネントでは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、シェイプごとに 1 つのシェープファイル レコードのコレクションに変換します。"
@@ -15,14 +15,14 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} シェープ ファイルを地理的データにバインディング
 
-{ProductName} Map コンポーネントの `ShapefileConverter` クラスは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、それを `ShapefileRecord` オブジェクトのコレクションに変換します。
+{ProductName} Map コンポーネントの `ShapeDataSource` クラスは、形状ファイルから地理空間データ (ポイント/位置、ポリライン、ポリゴン) を読み込み、それを `ShapefileRecord` オブジェクトのコレクションに変換します。
 
 ## {Platform} シェープ ファイルを地理的データにバインディングの例
 
 <Sample src="/maps/geo-map/binding-shp-file" height={500} alt="{Platform} シェープ ファイルを地理的データにバインディングの例" />
 
 
-以下の表は、シェイプ ファイルを読み込むための `ShapefileConverter` クラスのプロパティを説明します。
+以下の表は、シェイプ ファイルを読み込むための `ShapeDataSource` クラスのプロパティを説明します。
 
 | プロパティ | 型 | 概要   |
 |----------|------|---------------|
@@ -32,10 +32,10 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 
-両方のソース プロパティが null 以外の値に設定されると、`ShapefileConverter` オブジェクトの ImportAsync メソッドが起動し、シェイプ ファイルを取得して読み込み、最終的に変換を実行します。この操作が完了すると、`ShapefileConverter` は `ShapefileRecord` オブジェクトで生成され、シェイプ ファイルから地理空間データを読み込んで変換するプロセスが完了したことを通知するために、`ImportCompleted` イベントが起動されます。
+両方のソース プロパティが null 以外の値に設定されると、`ShapeDataSource` オブジェクトの ImportAsync メソッドが起動し、シェイプ ファイルを取得して読み込み、最終的に変換を実行します。この操作が完了すると、`ShapeDataSource` は `ShapefileRecord` オブジェクトで生成され、シェイプ ファイルから地理空間データを読み込んで変換するプロセスが完了したことを通知するために、`ImportCompleted` イベントが起動されます。
 
 ## シェープファイルの読み込み
-以下のコードは、世界の海底ケーブル ルートを含むシェイプ ファイルを読み込むための `ShapefileConverter` オブジェクトのインスタンスを作成します。また、Map コンポーネントにデータをバインドするための前提条件として `ImportCompleted` イベントを処理する方法も示します。
+以下のコードは、世界の海底ケーブル ルートを含むシェイプ ファイルを読み込むための `ShapeDataSource` オブジェクトのインスタンスを作成します。また、Map コンポーネントにデータをバインドするための前提条件として `ImportCompleted` イベントを処理する方法も示します。
 
 ```json-snippet source="/maps/geo-map/binding-shp-file" channel="handlersImports,bindingFields...supportingTypes...handler" item="MapBindingShpFileLoad"
 {
@@ -55,20 +55,20 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 ```
 
 ## シェープファイルをバインド
-Map コンポーネントでは、Geographic Series は、シェイプ ファイルから読み込まれる地理的データを表示するために使用されます。すべてのタイプの地理的シリーズには、オブジェクトの配列にバインドできる `dataSource` プロパティがあります。`ShapefileConverter` が生成するものは、その各項目が `ShapefileRecord` であるため、このような配列の例です。
+Map コンポーネントでは、Geographic Series は、シェイプ ファイルから読み込まれる地理的データを表示するために使用されます。すべてのタイプの地理的シリーズには、オブジェクトの配列にバインドできる `dataSource` プロパティがあります。`ShapeDataSource` が生成するものは、その各項目が `ShapefileRecord` であるため、このような配列の例です。
 
 `ShapefileRecord` クラスは、以下の表にリストする地理的データを保存するためのプロパティを提供します。
 
 | プロパティ     | 概要   |
-|--------------|---------------|
-|`Points`|シェイプ ファイル(.shp) から読み込まれた 1 つの地理空間シェープにすべてのポイントが含まれます。たとえば、シェープファイルで日本は、以下でポイント オブジェクト リストのリストとして表されます。<ul><li>ポイントの最初のリストは北海道のシェイプを表します。</li><li>ポイントの 2 番目のリストは本州のシェイプを表します。</li><li>ポイントの 3 番目のリストは九州のシェイプを表します。</li><li>ポイントの 4 番目のリストは四国のシェイプを表します。</li></ul>|
-| `Fields` |列名でキーが付けられたシェイプ データベース ファイル (.dbf) からのデータ行を含みます。たとえば、日本についてのデータには、人口、地域、首都名などが含まれます。|
+|--------------|---------------|<PlatformBlock for="Angular, React, WebComponents, WinUI, Uno">
+|<PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock>|シェイプ ファイル(.shp) から読み込まれた 1 つの地理空間シェープにすべてのポイントが含まれます。たとえば、シェープファイルで日本は、以下でポイント オブジェクト リストのリストとして表されます。<ul><li>ポイントの最初のリストは北海道のシェイプを表します。</li><li>ポイントの 2 番目のリストは本州のシェイプを表します。</li><li>ポイントの 3 番目のリストは九州のシェイプを表します。</li><li>ポイントの 4 番目のリストは四国のシェイプを表します。</li></ul>|</PlatformBlock>
+| <PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="fieldValues" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="FieldValues" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Fields" /></PlatformBlock> |列名でキーが付けられたシェイプ データベース ファイル (.dbf) からのデータ行を含みます。たとえば、日本についてのデータには、人口、地域、首都名などが含まれます。|
 
 このデータ構造は、適切なデータ列がマップされている限り、ほとんどの地理的シリーズでの使用に適しています。
 
 ## コード スニペット
-このコード例は、シェープ ファイルが `ShapefileConverter` を使用して読み込まれたことを前提としています。
-以下のコードは、マップ コンポーネント内の `GeographicPolylineSeries` をそのソースが生成したレコードにバインドし、各 `ShapefileRecord` の `Points` プロパティを `shapeMemberPath` でマップします。
+このコード例は、シェープ ファイルが `ShapeDataSource` を使用して読み込まれたことを前提としています。
+以下のコードは、マップ コンポーネント内の `GeographicPolylineSeries` をそのソースが生成したレコードにバインドし、各 `ShapefileRecord` の <PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock><PlatformBlock for="Blazor">`\Points`</PlatformBlock> プロパティを `shapeMemberPath` でマップします。
 
 ```json-snippet source="/maps/geo-map/binding-shp-file"
 {
@@ -96,6 +96,6 @@ Map コンポーネントでは、Geographic Series は、シェイプ ファイ
 `GeographicPolylineSeries`
 `ShapefileRecord`
 `fields`
-`ShapefileConverter.ImportCompleted`
-`dataSource`
-`ShapefileRecord.Points`
+`ShapeDataSource.ImportCompleted`
+`dataSource`<PlatformBlock for="Angular, React, WebComponents, WinUI, Uno">
+<PlatformBlock for="Angular, React, WebComponents"><ApiLink raw type="ShapefileRecord" prefixed={true} suffix={false} member="points" /></PlatformBlock><PlatformBlock for="WinUI, Uno"><ApiLink raw type="ShapefileRecord" prefixed={false} suffix={false} member="Points" /></PlatformBlock></PlatformBlock>

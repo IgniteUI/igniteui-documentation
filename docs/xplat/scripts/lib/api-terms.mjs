@@ -22,6 +22,7 @@
  * backslash, which says so explicitly rather than relying on it happening to miss.
  */
 
+import { resolveDescriptionTerms } from './description-terms.mjs';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
@@ -296,7 +297,7 @@ export function resolveTerm(map, term, platform, types = [], passthrough = new S
                 return {
                     kind: 'member', canonical: asMember.canonical, written: term, type: owner.canonical,
                     via: 'qualified', qualifiedBy: ownerName,
-                    name: forward.name ?? asMember.canonical,
+                    name: forward.name ?? asMember.canonical, ...(forward.gap ? { gap: forward.gap } : {}),
                 };
             }
             // The head is a type, so this was meant as an API reference and the tail is wrong.
@@ -325,16 +326,25 @@ export function resolveTerm(map, term, platform, types = [], passthrough = new S
     // else says so with a qualified name.
     //
     // Scoped, because the same member name belongs to several types and the page said which.
+    //
+    // A type whose map has no spelling for the member is passed over while another type in context can
+    // answer: the nearest type is only a guess at which one the prose meant, and a later one that
+    // resolves is a better guess than reporting a gap. The gap is reported when nothing else answers.
+    let firstGap = null;
     for (const written of types) {
         const owner = canonicalTypeFor(map, written, platform).canonical ?? written;
         const asMember = canonicalMemberFor(map, term, owner, true);
         if (!asMember.canonical) continue;
         const forward = forwardMemberName(map, asMember.canonical, platform, owner);
-        return {
+        const hit = {
             kind: 'member', canonical: asMember.canonical, written: term, type: owner, via: asMember.via,
             name: forward.name, ...(forward.ambiguous ? { ambiguous: forward.ambiguous } : {}),
+            ...(forward.gap ? { gap: forward.gap } : {}),
         };
+        if (!forward.gap) return hit;
+        firstGap ??= hit;
     }
+    if (firstGap) return firstGap;
 
     // A loose match on the term as a type -- an alias, or a platform spelling reversed back -- now that
     // the page's context has had its say.
@@ -464,6 +474,15 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
         return { content, resolved: [], canonical: [], unknown: [], ambiguous: [], usedApiLink: false, skipped: true };
     }
 
+    // The xplat set resolves from the product's description metadata and the api-docs indexes; see
+    // description-terms.mjs. Every term either resolves or is an error the build reports and fails on.
+    const described = resolveDescriptionTerms(content, platform, { repoRoot: repoRoot ?? process.cwd() });
+    return { content: described.content, resolved: [], canonical: [], unknown: [], ambiguous: [], mapGaps: [],
+             errors: described.errors, usedApiLink: described.usedApiLink };
+}
+
+/** The map-based resolution the xplat set used before description-terms.mjs; kept for the migration tools. */
+export function resolveApiTermsFromMaps(content, platform, { mentionedTypes = null, repoRoot = undefined, where = 'this page' } = {}) {
     const map = apiMap(repoRoot);
     const passthrough = passthroughTypes(repoRoot);
     const declared = mentionedTypes ?? mentionedTypesOf(content);
@@ -475,6 +494,9 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
 
     const resolved = [];
     const canonical = [];
+    // Members the platform has but its map does not spell. Not an authoring error and not something
+    // to resolve around: the map is wrong, and an override is the fix.
+    const mapGaps = [];
     const unknown = [];
     const ambiguous = [];
     let usedApiLink = false;
@@ -517,7 +539,9 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
         // A term the maps know but this platform does not have keeps its canonical name. Still an
         // ApiLink, so it stays a link rather than degrading to plain code on one platform.
         const label = hit.name ?? hit.canonical;
-        if (hit.name === null) canonical.push(term); else resolved.push(hit);
+        if (hit.gap) mapGaps.push({ term, ...hit.gap });
+        else if (hit.name === null) canonical.push(term);
+        else resolved.push(hit);
 
         if (hit.kind === 'type') {
             return `<ApiLink ${apiLinkTypeAttrs(map, hit.canonical, platform)} />`;
@@ -543,5 +567,5 @@ export function resolveApiTerms(content, platform, { mentionedTypes = null, repo
         return `<ApiLink ${apiLinkTypeAttrs(map, hit.type, platform)} member="${hit.name ?? hit.canonical}" />`;
     });
 
-    return { content: out, resolved, canonical, unknown, ambiguous, usedApiLink };
+    return { content: out, resolved, canonical, unknown, ambiguous, mapGaps, usedApiLink };
 }
