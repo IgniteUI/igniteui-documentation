@@ -12,8 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      # Report every platform/language combination instead of stopping at the
+      # first failure — a JP-only break should not hide the EN results.
+      fail-fast: false
       matrix:
         platform: ['angular', 'react', 'webcomponents', 'blazor']
+        # Japanese is built as well as English because the two resolve content
+        # differently: docs/angular/astro.config.ts maps @xplat-images to
+        # src/content/<lang>/images, so an image that exists in EN does not
+        # satisfy a JP import, and an EN-only build never notices.
+        lang: ['en', 'jp']
 
     steps:
       - name: Checkout
@@ -30,13 +38,13 @@ jobs:
 
       # DOCS_TOC_STRICT fails the build when a toc.json entry points at a
       # missing file, instead of silently dropping it from the sidebar.
-      - name: Build ${{ matrix.platform }}
-        run: npm run xplat:build:${{ matrix.platform }}
+      - name: Build ${{ matrix.platform }} (${{ matrix.lang }})
+        run: npm run xplat:build:${{ matrix.platform }}${{ matrix.lang == 'jp' && ':jp' || '' }}
         env:
           DOCS_TOC_STRICT: 'true'
 
-      - name: Build Angular Unique
+      - name: Build Angular Unique (${{ matrix.lang }})
         if: matrix.platform == 'angular'
-        run: npm run angular:build
+        run: npm run angular:build${{ matrix.lang == 'jp' && ':jp' || '' }}
         env:
           DOCS_TOC_STRICT: 'true'
