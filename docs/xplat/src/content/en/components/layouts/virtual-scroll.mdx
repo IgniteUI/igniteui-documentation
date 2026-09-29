@@ -15,7 +15,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
-import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import { Image } from 'astro:assets';
 import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
 import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
 import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
@@ -32,7 +32,7 @@ The {ProductName} Virtual Scroll is a component that renders large lists by keep
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 <Sample src="/layouts/virtual-scroll/overview" height={560} alt="{Platform} Virtual Scroll with 100,000 employees" />
 
@@ -44,8 +44,6 @@ The {Platform} Virtual Scroll renders the visible items plus a configurable buff
 
 <Anatomy
   class="virtual-scroll-anatomy"
-  name="Virtual Scroll"
-  description="The Virtual Scroll anatomy labels the host, the track, the content element, the item wrappers, and the over-scan buffer."
   src={virtualScrollAnatomy.src}
   alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
 />
@@ -77,7 +75,7 @@ igx-virtual-scroll                      — scrollable viewport (role="list")
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 ```text
 igc-virtual-scroll                            — scrollable viewport
@@ -141,6 +139,31 @@ virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+Set up {ProductName} with the [Getting Started](../general-getting-started.mdx) topic, then import the <ApiLink type="VirtualScroll" /> and give it an item template and data. The React wrapper registers the underlying element when the module loads, so no registration call is needed:
+
+```tsx
+import { IgrVirtualScroll } from 'igniteui-react';
+import type { VirtualScrollItemContext } from 'igniteui-react';
+
+const items = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+
+export function Employees() {
+    return (
+        <IgrVirtualScroll
+            data={items}
+            itemTemplate={(ctx: VirtualScrollItemContext<Item>) => (
+                <div className="row">{ctx.index}: {ctx.value.name}</div>
+            )}
+            style={{ height: '400px' }}
+        />
+    );
+}
+```
+
+</PlatformBlock>
+
 The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed width for horizontal scrolling. A host that grows with its content renders every item, so the list is not virtualized.
 
 ### Prerequisites and Version Compatibility
@@ -162,6 +185,18 @@ The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed w
 | Package | `igniteui-webcomponents` (MIT) |
 | First release with the component | 7.3.0 |
 | Item templates | Lit's `html` tag. `lit` is a dependency of `igniteui-webcomponents`; add it to your own dependencies when you import it directly. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| Requirement | Value |
+| --- | --- |
+| Package | `igniteui-react` (MIT) |
+| First release with the component | 19.9.0 |
+| Peer packages | `react` and `react-dom` 18 or 19 |
+| Item templates | JSX returned from a function. `igniteui-webcomponents` comes in as a dependency of `igniteui-react`; you do not install it yourself. |
+| Theme | Import a theme stylesheet once, for example `igniteui-webcomponents/themes/light/bootstrap.css`. |
 
 </PlatformBlock>
 
@@ -207,6 +242,27 @@ virtualScroll.itemTemplate = (ctx: VirtualScrollItemContext<Employee>) => html`
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+Set <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> to a function that returns JSX. The function receives a `VirtualScrollItemContext` with `value` (the item), `index`, `count`, `isFirst`, and `isLast`. Without an item template, the component renders nothing.
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    itemTemplate={(ctx: VirtualScrollItemContext<Employee>) => (
+        <IgrListItem ariaPosinset={ctx.index + 1} ariaSetsize={ctx.count}>
+            <IgrAvatar slot="start" shape="circle" initials={ctx.value.initials} />
+            <span slot="title">{ctx.value.name}</span>
+            <span slot="subtitle">{ctx.value.email}</span>
+        </IgrListItem>
+    )}
+    style={{ height: '480px' }}
+/>
+```
+
+</PlatformBlock>
+
 ### Data
 
 The Virtual Scroll <ApiLink type="VirtualScroll" member="data" label="data" /> collection is compared by reference. Assign a new array to update the list; changing the bound array in place, for example with `push`, does not update it.
@@ -223,6 +279,14 @@ this.employees = [...this.employees, newEmployee];
 
 ```ts
 virtualScroll.data = [...virtualScroll.data, newEmployee];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(current => [...current, newEmployee]);
 ```
 
 </PlatformBlock>
@@ -247,6 +311,16 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" labe
 
 ```html
 <igc-virtual-scroll estimated-item-size="80" style="height: 480px"></igc-virtual-scroll>
+```
+
+<Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={employees} estimatedItemSize={80} style={{ height: '480px' }} />
 ```
 
 <Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
@@ -283,6 +357,22 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="orientation" label="ori
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll
+    orientation="horizontal"
+    data={employees}
+    estimatedItemSize={220}
+    itemTemplate={ctx => <div style={{ width: '220px' }}>...</div>}
+    style={{ height: '200px' }}
+/>
+```
+
+<Sample src="/layouts/virtual-scroll/horizontal" height={260} alt="{Platform} Virtual Scroll with horizontal cards" />
+
+</PlatformBlock>
+
 ### Over-Scan
 
 The Virtual Scroll <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> is the number of extra items rendered beyond each edge of the viewport (`2` by default). A larger value reduces blank areas during fast scrolling and renders more elements.
@@ -299,6 +389,14 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="overScan" label="overSc
 
 ```html
 <igc-virtual-scroll over-scan="6" style="height: 400px"></igc-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={items} overScan={6} style={{ height: '400px' }} />
 ```
 
 </PlatformBlock>
@@ -325,6 +423,20 @@ public async goTo(index: number): Promise<void> {
 
 ```ts
 await virtualScroll.scrollToIndex(index, { block: 'center' });
+```
+
+<Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const virtualScroll = useRef<IgrVirtualScroll>(null);
+
+async function goTo(index: number): Promise<void> {
+    await virtualScroll.current?.scrollToIndex(index, { block: 'center' });
+}
 ```
 
 <Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
@@ -370,6 +482,27 @@ virtualScroll.addEventListener('igcDataRequest', (event: CustomEvent<VirtualScro
         virtualScroll.data = [...virtualScroll.data, ...page];
     });
 });
+```
+
+<Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+The Virtual Scroll `onDataRequest` event supports append-only loading from remote data. It is emitted when the rendered window nears the end of `data`, and on the first render when the loaded items do not fill the viewport. Append the requested items as a new array:
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    onDataRequest={async (event: CustomEvent<VirtualScrollDataRequest>) => {
+        const { startIndex, count } = event.detail;
+        const page = await fetchEmployees(startIndex, count);
+        setEmployees(current => [...current, ...page]);
+    }}
+    style={{ height: '440px' }}
+/>
 ```
 
 <Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
@@ -448,49 +581,113 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-### Do/Don't
+<PlatformBlock for="React">
 
-<PlatformBlock for="Angular">
-
-<DoDont
-  doSrc={virtualScrollDo}
-  doAlt="{Platform} Virtual Scroll showing a list of 100,000 employees"
-  dontSrc={virtualScrollDoNot}
-  dontAlt="{Platform} Virtual Scroll used for a list of only five employees"
->
-<Fragment slot="do">
-
-Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
-
-</Fragment>
-<Fragment slot="dont">
-
-Render a short list directly with the [List](../list.mdx) and `@for`. Use the [{Platform} Data Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
-
-</Fragment>
-</DoDont>
+```tsx
+setEmployees(await fetchEmployees());
+await virtualScroll.current?.layoutComplete;
+```
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+### Do/Don't
 
-<DoDont
-  doSrc={virtualScrollDo}
-  doAlt="{Platform} Virtual Scroll showing a list of 100,000 employees"
-  dontSrc={virtualScrollDoNot}
-  dontAlt="{Platform} Virtual Scroll used for a list of only five employees"
->
-<Fragment slot="do">
+<style>{`
+  .vs-guidance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(537px, 100%), 1fr));
+    grid-template-rows: auto auto;
+    gap: 26px;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 0 26px;
+    isolation: isolate;
+  }
 
-Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
+  .vs-guidance__panel {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    gap: 26px;
+    margin: 0;
+    min-width: 0;
+  }
 
-</Fragment>
-<Fragment slot="dont">
+  .vs-guidance__frame {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
 
-Render a short list directly with the [List](../grids/list.mdx). Use the [{Platform} Data Grid](../grids/data-grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
+  .vs-guidance__frame img {
+    display: block;
+    width: min(537px, 100%);
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 4px;
+  }
 
-</Fragment>
-</DoDont>
+  .vs-guidance__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+  }
+
+  .vs-guidance__label {
+    font-weight: 600;
+  }
+
+  .vs-guidance__caption p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .vs-guidance__panel--do .vs-guidance__label {
+    color: light-dark(var(--ig-success-700), var(--ig-success-100));
+  }
+
+  .vs-guidance__panel--dont .vs-guidance__label {
+    color: light-dark(var(--ig-error-700), var(--ig-error-300));
+  }
+`}</style>
+
+<div class="vs-guidance">
+<figure class="vs-guidance__panel vs-guidance__panel--do">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">Do</span>
+</figcaption>
+</figure>
+<figure class="vs-guidance__panel vs-guidance__panel--dont">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">Don't</span>
+</figcaption>
+</figure>
+</div>
+
+<PlatformBlock for="Angular">
+
+**When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
+
+**When not to use:** Render a short list directly with the [List](../list.mdx) and `@for`. Use the [{Platform} Data Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+**When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
+
+**When not to use:** Render a short list directly with the [List](../grids/list.mdx). Use the [{Platform} Data Grid](../grids/data-grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
 
 </PlatformBlock>
 
@@ -519,7 +716,22 @@ Render a short list directly with the [List](../grids/list.mdx). Use the [{Platf
 | <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | Extra items rendered beyond each edge of the viewport. Attribute: `over-scan`. |
 | <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | The size in pixels of an item until it is measured. A non-positive value uses `50`. Attribute: `estimated-item-size`. |
 | <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `VirtualScrollItemTemplate<T> \| null` | `null` | The function that renders each item. Property only. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `VirtualScrollKeyFunction<T> \| null` | `null` | Returns an item's key, so an item keeps its element when it moves in `data`. Without it, the index is the key. Property only. |
 | <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (read-only) | — | Resolves when rendering and item measurement have settled. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `any[]` | `[]` | The collection to virtualize. Compared by reference. |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | The scroll axis. |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | Extra items rendered beyond each edge of the viewport. |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | The size in pixels of an item until it is measured. A non-positive value uses `50`. |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `(ctx: VirtualScrollItemContext) => ReactNode` | `null` | The function that renders each item. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `(item, index) => unknown` | `null` | Returns an item's key, so an item keeps its element when it moves in `data`. Without it, the index is the key. |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (read-only) | — | Resolves when rendering and item measurement have settled. Read it from a ref, not as a prop. |
 
 </PlatformBlock>
 
@@ -549,6 +761,17 @@ Render a short list directly with the [List](../grids/list.mdx). Use the [{Platf
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+| Name | Argument | Description |
+| --- | --- | --- |
+| `onStateChange` | `CustomEvent<VirtualScrollState>` | Emitted when the rendered window changes. `event.detail` carries `startIndex`, `endIndex`, `viewportSize`, `totalSize`. |
+| `onDataRequest` | `CustomEvent<VirtualScrollDataRequest>` | Emitted when the rendered window nears the end of `data`. `event.detail` carries `startIndex` and `count`. |
+
+The handlers receive the native `CustomEvent`, so read the payload from `event.detail`.
+
+</PlatformBlock>
+
 ## Styling
 
 The {Platform} Virtual Scroll has no theme of its own: it lays out the viewport, and the rendered items take their styles from the elements and components in the item template.
@@ -569,7 +792,7 @@ Size the host and target the rendered items with the classes from the [Anatomy](
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 The component renders into its light DOM, so regular selectors reach the rendered items. Its default styles give the host a height of `18.75rem`; override the height to size the viewport.
 
@@ -613,7 +836,7 @@ The host has no `tabindex`. Browsers differ in whether a scroll container withou
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - The track, the content element, and the item wrappers have `role="presentation"`. The host has no role: place it inside an element with a list role, such as `igc-list`, or give it `role="list"` when the items render `role="listitem"`.
 - Map the `index` and `count` context properties to `aria-posinset` and `aria-setsize`.
@@ -654,6 +877,14 @@ Items that have not rendered use `estimatedItemSize`, and the total size is corr
 ### Why do items drift out of place further down the list?
 
 Margins are not part of an item's measured size. Replace item margins with padding, or with a `gap` inside the item.
+
+<PlatformBlock for="React, WebComponents">
+
+### Why is `igc-virtual-scroll` not defined after `defineAllComponents()`?
+
+`defineAllComponents()` did not include the Virtual Scroll in `igniteui-webcomponents` 7.3.0 and 7.3.1, so bulk registration left the element undefined. Upgrade to 7.3.2 or later, or register it explicitly with `defineComponents(IgcVirtualScrollComponent)`.
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -710,6 +941,12 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+The {Platform} Virtual Scroll has no dependencies on other components and needs no theme of its own. `igniteui-react` brings in `igniteui-webcomponents` and `lit`, and the components in the item template need a theme stylesheet.
+
+</PlatformBlock>
+
 ## Additional Resources
 
 - [{ProductName} **Forums**]({ForumsLink})
@@ -726,7 +963,7 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - [List](../grids/list.mdx) - Use the List for a short list, or as the container of a virtualized list.
 - [Data Grid](../grids/data-grid.mdx) - Use the Data Grid for tabular data with columns, sorting, or filtering.
@@ -752,6 +989,10 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
     </PlatformBlock>
     <PlatformBlock for="WebComponents">
     The {Platform} Virtual Scroll supports append-only loading through the `igcDataRequest` event. Handle the event and assign a new array that includes the requested items to `data`.
+    </PlatformBlock>
+
+    <PlatformBlock for="React">
+    The {Platform} Virtual Scroll supports append-only loading through the `onDataRequest` event. Handle the event and assign a new array that includes the requested items to `data`.
     </PlatformBlock>
   </FaqItem>
 </Faq>

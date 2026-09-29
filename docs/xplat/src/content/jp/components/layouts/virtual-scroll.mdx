@@ -16,7 +16,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
-import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import { Image } from 'astro:assets';
 import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
 import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
 import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
@@ -33,7 +33,7 @@ import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-n
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 <Sample src="/layouts/virtual-scroll/overview" height={560} alt="{Platform} Virtual Scroll with 100,000 employees" />
 
@@ -45,8 +45,6 @@ import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-n
 
 <Anatomy
   class="virtual-scroll-anatomy"
-  name="Virtual Scroll"
-  description="The Virtual Scroll anatomy labels the host, the track, the content element, the item wrappers, and the over-scan buffer."
   src={virtualScrollAnatomy.src}
   alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
 />
@@ -78,7 +76,7 @@ igx-virtual-scroll                      — scrollable viewport (role="list")
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 ```text
 igc-virtual-scroll                            — scrollable viewport
@@ -142,6 +140,31 @@ virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+[作業の開始](../general-getting-started.mdx) のトピックに従って {ProductName} をセットアップし、<ApiLink type="VirtualScroll" /> をインポートして、アイテム テンプレートとデータを指定します。React ラッパーはモジュールの読み込み時に基になる要素を登録するため、登録の呼び出しは不要です。
+
+```tsx
+import { IgrVirtualScroll } from 'igniteui-react';
+import type { VirtualScrollItemContext } from 'igniteui-react';
+
+const items = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+
+export function Employees() {
+    return (
+        <IgrVirtualScroll
+            data={items}
+            itemTemplate={(ctx: VirtualScrollItemContext<Item>) => (
+                <div className="row">{ctx.index}: {ctx.value.name}</div>
+            )}
+            style={{ height: '400px' }}
+        />
+    );
+}
+```
+
+</PlatformBlock>
+
 Virtual Scroll のホストには、垂直スクロールの場合は固定の高さ、水平スクロールの場合は固定の幅が必要です。コンテンツに合わせてサイズが拡大するホストはすべてのアイテムをレンダリングするため、リストは仮想化されません。
 
 ### 前提条件とバージョン互換性
@@ -163,6 +186,18 @@ Virtual Scroll のホストには、垂直スクロールの場合は固定の�
 | パッケージ | `igniteui-webcomponents` (MIT) |
 | コンポーネントが最初にリリースされたバージョン | 7.3.0 |
 | アイテム テンプレート | Lit の `html` タグ。`lit` は `igniteui-webcomponents` の依存関係ですが、直接インポートする場合は自身の依存関係にも追加してください。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 要件 | 値 |
+| --- | --- |
+| パッケージ | `igniteui-react` (MIT) |
+| コンポーネントが最初にリリースされたバージョン | 19.9.0 |
+| ピア パッケージ | `react` および `react-dom` 18 または 19 |
+| アイテム テンプレート | 関数から返される JSX。`igniteui-webcomponents` は `igniteui-react` の依存関係として含まれるため、個別にインストールする必要はありません。 |
+| テーマ | テーマ スタイルシートを 1 度インポートします。例: `igniteui-webcomponents/themes/light/bootstrap.css`。 |
 
 </PlatformBlock>
 
@@ -208,6 +243,27 @@ virtualScroll.itemTemplate = (ctx: VirtualScrollItemContext<Employee>) => html`
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+<ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> に、JSX を返す関数を設定します。この関数は、`value` (アイテム)、`index`、`count`、`isFirst`、`isLast` を持つ `VirtualScrollItemContext` を受け取ります。アイテム テンプレートがない場合、コンポーネントは何もレンダリングしません。
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    itemTemplate={(ctx: VirtualScrollItemContext<Employee>) => (
+        <IgrListItem ariaPosinset={ctx.index + 1} ariaSetsize={ctx.count}>
+            <IgrAvatar slot="start" shape="circle" initials={ctx.value.initials} />
+            <span slot="title">{ctx.value.name}</span>
+            <span slot="subtitle">{ctx.value.email}</span>
+        </IgrListItem>
+    )}
+    style={{ height: '480px' }}
+/>
+```
+
+</PlatformBlock>
+
 ### データ
 
 Virtual Scroll の <ApiLink type="VirtualScroll" member="data" label="data" /> コレクションは参照によって比較されます。リストを更新するには新しい配列を割り当てる必要があります。`push` などでバインドされた配列をその場で変更しても更新されません。
@@ -224,6 +280,14 @@ this.employees = [...this.employees, newEmployee];
 
 ```ts
 virtualScroll.data = [...virtualScroll.data, newEmployee];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(current => [...current, newEmployee]);
 ```
 
 </PlatformBlock>
@@ -248,6 +312,16 @@ Virtual Scroll の <ApiLink type="VirtualScroll" member="estimatedItemSize" labe
 
 ```html
 <igc-virtual-scroll estimated-item-size="80" style="height: 480px"></igc-virtual-scroll>
+```
+
+<Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={employees} estimatedItemSize={80} style={{ height: '480px' }} />
 ```
 
 <Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
@@ -284,6 +358,22 @@ Virtual Scroll の <ApiLink type="VirtualScroll" member="orientation" label="ori
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll
+    orientation="horizontal"
+    data={employees}
+    estimatedItemSize={220}
+    itemTemplate={ctx => <div style={{ width: '220px' }}>...</div>}
+    style={{ height: '200px' }}
+/>
+```
+
+<Sample src="/layouts/virtual-scroll/horizontal" height={260} alt="{Platform} Virtual Scroll with horizontal cards" />
+
+</PlatformBlock>
+
 ### オーバー スキャン
 
 Virtual Scroll の <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> は、ビューポートの各端を超えてレンダリングされる追加アイテムの数です (デフォルトは `2`)。値を大きくすると、高速スクロール中の空白領域が減りますが、レンダリングする要素が増えます。
@@ -300,6 +390,14 @@ Virtual Scroll の <ApiLink type="VirtualScroll" member="overScan" label="overSc
 
 ```html
 <igc-virtual-scroll over-scan="6" style="height: 400px"></igc-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={items} overScan={6} style={{ height: '400px' }} />
 ```
 
 </PlatformBlock>
@@ -326,6 +424,20 @@ public async goTo(index: number): Promise<void> {
 
 ```ts
 await virtualScroll.scrollToIndex(index, { block: 'center' });
+```
+
+<Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const virtualScroll = useRef<IgrVirtualScroll>(null);
+
+async function goTo(index: number): Promise<void> {
+    await virtualScroll.current?.scrollToIndex(index, { block: 'center' });
+}
 ```
 
 <Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
@@ -371,6 +483,27 @@ virtualScroll.addEventListener('igcDataRequest', (event: CustomEvent<VirtualScro
         virtualScroll.data = [...virtualScroll.data, ...page];
     });
 });
+```
+
+<Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Virtual Scroll の `onDataRequest` イベントは、リモート データからの追加のみの読み込みをサポートします。レンダリングされたウィンドウが `data` の末尾に近づいたとき、および読み込み済みのアイテムがビューポートを埋めない場合は最初のレンダリング時に発生します。要求されたアイテムを新しい配列として追加します。
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    onDataRequest={async (event: CustomEvent<VirtualScrollDataRequest>) => {
+        const { startIndex, count } = event.detail;
+        const page = await fetchEmployees(startIndex, count);
+        setEmployees(current => [...current, ...page]);
+    }}
+    style={{ height: '440px' }}
+/>
 ```
 
 <Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
@@ -449,53 +582,113 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-### 使用すべき場合と使用すべきでない場合
+<PlatformBlock for="React">
 
-<PlatformBlock for="Angular">
-
-<DoDont
-  doSrc={virtualScrollDo}
-  doAlt="{Platform} Virtual Scroll showing a list of 100,000 employees"
-  dontSrc={virtualScrollDoNot}
-  dontAlt="{Platform} Virtual Scroll used for a list of only five employees"
-  doLabel="使用すべき"
-  dontLabel="使用すべきでない"
->
-<Fragment slot="do">
-
-ディレクトリ、フィード、ログ、横一列に並んだカードなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
-
-</Fragment>
-<Fragment slot="dont">
-
-短いリストは [List](../list.mdx) と `@for` で直接レンダリングします。列、ソート、フィルタリングを伴う表形式のデータには [{Platform} Data Grid](../grid/grid.mdx) を使用します。仮想化せずに少数のリッチなアイテムを表示するには [Card](../card.mdx) を使用します。
-
-</Fragment>
-</DoDont>
+```tsx
+setEmployees(await fetchEmployees());
+await virtualScroll.current?.layoutComplete;
+```
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+### 使用すべき場合と使用すべきでない場合
 
-<DoDont
-  doSrc={virtualScrollDo}
-  doAlt="{Platform} Virtual Scroll showing a list of 100,000 employees"
-  dontSrc={virtualScrollDoNot}
-  dontAlt="{Platform} Virtual Scroll used for a list of only five employees"
-  doLabel="使用すべき"
-  dontLabel="使用すべきでない"
->
-<Fragment slot="do">
+<style>{`
+  .vs-guidance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(537px, 100%), 1fr));
+    grid-template-rows: auto auto;
+    gap: 26px;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 0 26px;
+    isolation: isolate;
+  }
 
-ディレクトリ、フィード、ログ、横一列に並んだカードなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
+  .vs-guidance__panel {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    gap: 26px;
+    margin: 0;
+    min-width: 0;
+  }
 
-</Fragment>
-<Fragment slot="dont">
+  .vs-guidance__frame {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
 
-短いリストは [List](../grids/list.mdx) で直接レンダリングします。列、ソート、フィルタリングを伴う表形式のデータには [{Platform} Data Grid](../grids/data-grid.mdx) を使用します。仮想化せずに少数のリッチなアイテムを表示するには [Card](./card.mdx) を使用します。
+  .vs-guidance__frame img {
+    display: block;
+    width: min(537px, 100%);
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 4px;
+  }
 
-</Fragment>
-</DoDont>
+  .vs-guidance__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+  }
+
+  .vs-guidance__label {
+    font-weight: 600;
+  }
+
+  .vs-guidance__caption p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .vs-guidance__panel--do .vs-guidance__label {
+    color: light-dark(var(--ig-success-700), var(--ig-success-100));
+  }
+
+  .vs-guidance__panel--dont .vs-guidance__label {
+    color: light-dark(var(--ig-error-700), var(--ig-error-300));
+  }
+`}</style>
+
+<div class="vs-guidance">
+<figure class="vs-guidance__panel vs-guidance__panel--do">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">使用すべき</span>
+</figcaption>
+</figure>
+<figure class="vs-guidance__panel vs-guidance__panel--dont">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">使用すべきでない</span>
+</figcaption>
+</figure>
+</div>
+
+<PlatformBlock for="Angular">
+
+**使用すべき場合:** ディレクトリ、フィード、ログ、横一列に並んだカードなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
+
+**使用すべきでない場合:** 短いリストは [List](../list.mdx) と `@for` で直接レンダリングします。列、ソート、フィルタリングを伴う表形式のデータには [{Platform} Data Grid](../grid/grid.mdx) を使用します。仮想化せずに少数のリッチなアイテムを表示するには [Card](../card.mdx) を使用します。
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+**使用すべき場合:** ディレクトリ、フィード、ログ、横一列に並んだカードなど、一度にレンダリングするには大きすぎる長いリストに対して Virtual Scroll を使用します。これには、スクロール中にリモート データを読み込むリストも含まれます。
+
+**使用すべきでない場合:** 短いリストは [List](../grids/list.mdx) で直接レンダリングします。列、ソート、フィルタリングを伴う表形式のデータには [{Platform} Data Grid](../grids/data-grid.mdx) を使用します。仮想化せずに少数のリッチなアイテムを表示するには [Card](./card.mdx) を使用します。
 
 </PlatformBlock>
 
@@ -524,7 +717,22 @@ await virtualScroll.layoutComplete;
 | <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | ビューポートの各端を超えてレンダリングされる追加アイテムの数。属性: `over-scan`。 |
 | <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | アイテムが測定されるまでのピクセル単位のサイズ。0 以下の値の場合は `50` が使用されます。属性: `estimated-item-size`。 |
 | <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `VirtualScrollItemTemplate<T> \| null` | `null` | 各アイテムをレンダリングする関数。プロパティのみ。 |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `VirtualScrollKeyFunction<T> \| null` | `null` | アイテムのキーを返します。これにより、アイテムが `data` 内で移動しても同じ要素が保持されます。指定しない場合はインデックスがキーになります。プロパティのみ。 |
 | <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (読み取り専用) | — | レンダリングとアイテムの測定が完了すると解決されます。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| 名前 | 型 | デフォルト | 説明 |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `any[]` | `[]` | 仮想化するコレクション。参照で比較されます。 |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | スクロール軸。 |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | ビューポートの各端を超えてレンダリングされる追加のアイテム数。 |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | 測定されるまでのアイテムのサイズ (ピクセル)。0 以下の値は `50` として扱われます。 |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `(ctx: VirtualScrollItemContext) => ReactNode` | `null` | 各アイテムをレンダリングする関数。 |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `(item, index) => unknown` | `null` | アイテムのキーを返します。これにより、アイテムが `data` 内で移動しても同じ要素が保持されます。指定しない場合はインデックスがキーになります。 |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (読み取り専用) | — | レンダリングとアイテムの測定が完了すると解決します。プロパティとしてではなく、ref から読み取ります。 |
 
 </PlatformBlock>
 
@@ -554,6 +762,17 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+| 名前 | 引数 | 説明 |
+| --- | --- | --- |
+| `onStateChange` | `CustomEvent<VirtualScrollState>` | レンダリングされたウィンドウが変更されたときに発生します。`event.detail` は `startIndex`、`endIndex`、`viewportSize`、`totalSize` を持ちます。 |
+| `onDataRequest` | `CustomEvent<VirtualScrollDataRequest>` | レンダリングされたウィンドウが `data` の末尾に近づいたときに発生します。`event.detail` は `startIndex` と `count` を持ちます。 |
+
+ハンドラーはネイティブの `CustomEvent` を受け取るため、ペイロードは `event.detail` から読み取ります。
+
+</PlatformBlock>
+
 ## スタイル設定
 
 {Platform} Virtual Scroll には独自のテーマはありません。ビューポートのレイアウトのみを行い、レンダリングされたアイテムはアイテム テンプレート内の要素やコンポーネントからスタイルを継承します。
@@ -574,7 +793,7 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 コンポーネントはライト DOM 内にレンダリングされるため、通常のセレクターでレンダリングされたアイテムに到達できます。デフォルトのスタイルはホストに `18.75rem` の高さを与えます。ビューポートのサイズを変更するには、この高さを上書きしてください。
 
@@ -618,7 +837,7 @@ igc-virtual-scroll.employees [data-vs-index]:nth-child(even) {
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - トラック、コンテンツ要素、アイテム ラッパーには `role="presentation"` が設定されています。ホストにはロールがありません。`igc-list` のようにリストのロールを持つ要素の中に配置するか、アイテムが `role="listitem"` をレンダリングする場合はホストに `role="list"` を設定してください。
 - `index` と `count` のコンテキスト プロパティを `aria-posinset` と `aria-setsize` にマップします。
@@ -659,6 +878,14 @@ Virtual Scroll は `data` を参照によって比較するため、その場で
 ### リストの下の方でアイテムの位置がずれるのはなぜですか?
 
 マージンはアイテムの測定済みサイズに含まれません。アイテムのマージンをパディングまたはアイテム内の `gap` に置き換えてください。
+
+<PlatformBlock for="React, WebComponents">
+
+### `defineAllComponents()` の後に `igc-virtual-scroll` が定義されないのはなぜですか?
+
+`igniteui-webcomponents` 7.3.0 および 7.3.1 では `defineAllComponents()` に Virtual Scroll が含まれていなかったため、一括登録では要素が未定義のままになります。7.3.2 以降にアップグレードするか、`defineComponents(IgcVirtualScrollComponent)` で明示的に登録してください。
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -715,6 +942,12 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+{Platform} Virtual Scroll は他のコンポーネントへの依存関係を持たず、独自のテーマも必要としません。`igniteui-react` が `igniteui-webcomponents` と `lit` を含み、アイテム テンプレート内のコンポーネントにはテーマ スタイルシートが必要です。
+
+</PlatformBlock>
+
 ## その他のリソース
 
 - [{ProductName} **フォーラム (英語)**]({ForumsLink})
@@ -731,7 +964,7 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - [List](../grids/list.mdx) - 短いリストや、仮想化されたリストのコンテナーとして List を使用します。
 - [Data Grid](../grids/data-grid.mdx) - 列、ソート、フィルタリングを伴う表形式のデータには Data Grid を使用します。
@@ -757,6 +990,10 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
     </PlatformBlock>
     <PlatformBlock for="WebComponents">
     {Platform} Virtual Scroll は、`igcDataRequest` イベントを通じて追加専用の読み込みをサポートします。イベントを処理し、要求されたアイテムを含む新しい配列を `data` に割り当てます。
+    </PlatformBlock>
+
+    <PlatformBlock for="React">
+    {Platform} Virtual Scroll は `onDataRequest` イベントによる追加のみの読み込みをサポートします。イベントを処理し、要求されたアイテムを含む新しい配列を `data` に割り当てます。
     </PlatformBlock>
   </FaqItem>
 </Faq>
