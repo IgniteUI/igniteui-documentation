@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ master, vnext ]
 
+# A new push supersedes whatever is still running for the same PR, so cancel it
+# rather than paying for eight jobs worth of results nobody will read. head_ref
+# keeps the group per-PR; the fallback matters only if a push trigger is ever added.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-verify:
 
