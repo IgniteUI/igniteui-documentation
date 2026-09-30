@@ -31,19 +31,32 @@ All notable changes for each version of {ProductName} are documented on this pag
 ### {PackageGrids} (Grids)
 
 - <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
-  - The Excel style filtering search list is now virtualized by the new [Virtual Scroll](./layouts/virtual-scroll.mdx) component. A row is measured in the DOM once it renders and the measured size replaces the estimate it started from. The list markup changed accordingly: the internal display container and vertical scrollbar helper elements are replaced by the virtual scroll host and its item wrappers. Applications and tests that reach into those elements directly need updating.
-  - **Accessibility** - Removed the nested list role from the internal virtual scroll container of the Excel style filtering, preserving its existing listbox and options.
-  - The `rowStyles`, `headerStyles` and `headerGroupStyles` properties are now typed `GridStyleCSSProperty | null` instead of `any`.
-  - Scrollbars are now styled with the standard `scrollbar-color` and `scrollbar-width` properties instead of the `::-webkit-scrollbar-*` pseudo-elements. Scrollbars rendered inside the grids, the Column Actions and the Excel style filtering menus follow that host's own background and foreground colors. Scrollbar arrow buttons cannot be styled or enabled through the standard properties, and `scrollbar-width: thin` removes them where the platform draws them. Firefox versions prior to 64 render the scrollbars with the platform default colors and size.
-- **PDF export**
-  - Summary rows are now shaded like the header row of the exported table. A summary closes the rows above it the way the header opens them, so it no longer reads as one more record. As with the header background, the shading follows the `showTableBorders` option.
-  - The row dimension cells of a <ApiLink type="PivotGrid" /> export are shaded the same way. A row dimension value that repeats down consecutive records is now drawn once, in a single cell over all of them, the way the grid merges its own row headers. A value merges only under the same parent dimension, so the same date under two different cities still gets a cell each, and a cell that would reach past the bottom of a page is cut off there and opened again under the headers of the next one.
+  - The Excel style filtering search list now uses the [Virtual Scroll](./layouts/virtual-scroll.mdx) component. The list measures each row when the row renders. The measured size replaces the estimated size.
+  - The markup of the Excel style filtering search list changed. The virtual scroll host and its item wrappers replace the internal display container and the vertical scrollbar helper. Update the applications and tests that access these elements directly.
+  - The internal virtual scroll container of the Excel style filtering no longer has a nested list role. The listbox and its options do not change.
+  - The `rowStyles`, `headerStyles` and `headerGroupStyles` properties now have the type `GridStyleCSSProperty | null`. Before, the type was `any`.
+  - The scrollbars now use the standard `scrollbar-color` and `scrollbar-width` CSS properties. Before, they used the `::-webkit-scrollbar-*` pseudo-elements.
+  - The scrollbars in the grids, the Column Actions and the Excel style filtering menus use the background and foreground colors of their host.
 
 **Breaking Changes**
 
 - **Theming**
-  - The `--ig-grid-summary-border-width` and `--ig-grid-summary-pinned-border-width` CSS custom properties were removed. A summary cell takes its border width from the grid itself, the header border width for the cell separator and the pinned border width for the pinned border, so a summary border can no longer be thicker or thinner than the column border it continues. The border styles and colors stay themable through the `--ig-grid-summary-border-style`, `--ig-grid-summary-pinned-border-style`, `--ig-grid-summary-border-color` and `--ig-grid-summary-pinned-border-color` properties.
-  - The standard scrollbar properties expose only two colors and three width keywords, so most of the scrollbar theme variables no longer have any effect. `--sb-thumb-bg-color` and `--sb-track-bg-color` continue to work, while the hover, border, corner and minimum height variables are ignored. `--sb-size` no longer sets the scrollbar thickness, because `scrollbar-width` accepts only `auto`, `thin` or `none`. Set `--sb-width: thin` on the scope that declares the scrollbar variables, or `scrollbar-width: thin` directly on the scrolling element, where a thinner scrollbar is required.
+  - Removed the `--ig-grid-summary-border-width` and `--ig-grid-summary-pinned-border-width` CSS variables. A summary cell now uses the border widths of the grid. The header border width sets the cell separator, and the pinned border width sets the pinned border.
+  - You can still set the summary border styles and colors with `--ig-grid-summary-border-style`, `--ig-grid-summary-pinned-border-style`, `--ig-grid-summary-border-color` and `--ig-grid-summary-pinned-border-color`.
+  - Most scrollbar theme variables now have no effect, because the standard scrollbar properties accept only two colors and three width keywords. `--sb-thumb-bg-color` and `--sb-track-bg-color` continue to work. The hover, border, corner and minimum height variables have no effect.
+  - `--sb-size` no longer sets the scrollbar thickness, because `scrollbar-width` accepts only `auto`, `thin` or `none`. For a thinner scrollbar, set `--sb-width: thin` on the element that declares the scrollbar variables. You can also set `scrollbar-width: thin` directly on the scrolling element.
+
+**Behavioral Changes**
+
+- **Scrollbars**
+  - The standard CSS properties cannot style or show the scrollbar arrow buttons. `scrollbar-width: thin` removes the arrow buttons on platforms that show them.
+  - Firefox versions before 64 do not support `scrollbar-color` and `scrollbar-width`. These versions show the scrollbars with the default colors and size of the platform.
+- **PDF export**
+  - Summary rows now have the same background as the header row. As with the header background, the `showTableBorders` option controls this background.
+  - The row dimension cells of a <ApiLink type="PivotGrid" /> export also have this background.
+  - When a row dimension value repeats in consecutive records, the <ApiLink type="PivotGrid" /> export now shows the value one time, in one merged cell. The grid merges its row headers in the same way.
+  - A value merges only under the same parent dimension. For example, the same date under two different cities gets two cells.
+  - When a merged cell goes past the bottom of a page, the cell stops at the end of the page. The cell continues below the headers on the next page.
 
 ## **{PackageVerChanges-26-2-SEP}**
 
@@ -51,187 +64,242 @@ All notable changes for each version of {ProductName} are documented on this pag
 
 #### New Components
 
-The following components from `igniteui-webcomponents` 7.3.0 and 7.4.0 are now available in {ProductName}:
+{ProductName} now includes these components from `igniteui-webcomponents` 7.3.0 and 7.4.0:
 
-- [Breadcrumbs](./layouts/breadcrumbs.mdx) (<ApiLink type="Breadcrumbs" /> and <ApiLink type="Breadcrumb" />) - Show a navigation trail.
-- [Color Picker](./inputs/color-picker.mdx) (<ApiLink type="ColorPicker" />) - Provides a user interface for selecting colors, supporting various color formats and a customizable palette.
-- [QR Code](./inputs/qr-code.mdx) (<ApiLink type="QrCode" />) - Renders a scannable QR code as an SVG from the `value` property, encoding the data in numeric, alphanumeric or byte mode.
-- [Virtual Scroll](./layouts/virtual-scroll.mdx) (<ApiLink type="VirtualScroll" />) - Renders large or unbounded lists efficiently, because it renders only the items in the viewport plus a configurable `overScan`.
-  - Supports `vertical` and `horizontal` orientation, and RTL layouts.
-  - Item sizes can be fixed, estimated with `estimatedItemSize`, or fully variable. The component measures each rendered item and corrects its estimate automatically. The average measured item size replaces `estimatedItemSize` for the items that are not measured yet, so the scrollbar follows the real content.
-  - Item elements are recycled: an item that stays in the rendered window keeps its element, and the elements of the items that leave show the items that enter. The `keyFunction` property returns the key of an item, so an item keeps its element also when it moves in `data`. Without it, the index is the key. DOM state that the item template does not bind, for example the state of a checkbox without a `checked` binding, stays with the element, so bind such state in the item template.
-  - The component operates correctly above the maximum scroll coordinate of the browser, so lists that are much larger than the DOM permits continue to scroll and render correctly.
+- [Breadcrumbs](./layouts/breadcrumbs.mdx) (<ApiLink type="Breadcrumbs" /> and <ApiLink type="Breadcrumb" />) - Shows a navigation trail.
+- [Color Picker](./inputs/color-picker.mdx) (<ApiLink type="ColorPicker" />) - Lets the user select a color. It supports different color formats and a custom palette.
+- [QR Code](./inputs/qr-code.mdx) (<ApiLink type="QrCode" />) - Renders a QR code as an SVG from the `value` property. It encodes the data in numeric, alphanumeric or byte mode.
+- [Virtual Scroll](./layouts/virtual-scroll.mdx) (<ApiLink type="VirtualScroll" />) - Renders only the items in the viewport and the number of additional items that `overScan` sets. Use it for large or unbounded lists.
+  - The component supports vertical and horizontal orientation, and right-to-left (RTL) layouts.
+  - Item sizes can be fixed, estimated with `estimatedItemSize`, or variable. The component measures each rendered item and corrects the estimate.
+  - Items that are not measured yet use the average measured size instead of `estimatedItemSize`. The scrollbar then agrees with the real content.
+  - The component recycles item elements. An item that stays in the rendered window keeps its element. The elements of the items that leave the window show the items that enter it.
+  - The `keyFunction` property returns the key of an item. With a key, an item keeps its element when it moves in `data`. Without `keyFunction`, the index is the key.
+  - DOM state that the item template does not bind stays with the element. An example is the state of a checkbox without a `checked` binding. Bind this state in the item template.
+  - The component operates correctly in lists that are larger than the maximum scroll size of the browser.
 
 #### Changed
 
-- Updated to use the latest `igniteui-webcomponents@7.4.1`, which brings the changes of the [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01), [7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09), [7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23) and [7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) releases summarized below.
-- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated to use the latest `igniteui-dockmanager@2.2.1`. See the Dock Manager section below.
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.11.0`. See the Grid Lite section below.
+- Updated `igniteui-webcomponents` to 7.4.1. This update includes the [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01), [7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09), [7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23) and [7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) releases.
+- Updated `igniteui-dockmanager` to 2.2.1 and `igniteui-grid-lite` to 0.11.0. Refer to the Dock Manager and Grid Lite sections.
 - #### Library
-  - Removed the `@lit-labs/virtualizer` dependency. The new [Virtual Scroll](./layouts/virtual-scroll.mdx) component now supplies the virtualization, and the <ApiLink type="Combo" /> dropdown list uses it as well.
-  - Updated the optional peer dependencies `dompurify`, `marked` and `shiki` to their latest stable versions.
+  - Removed the `@lit-labs/virtualizer` dependency. The [Virtual Scroll](./layouts/virtual-scroll.mdx) component now does the virtualization. The <ApiLink type="Combo" /> list also uses it.
+  - Updated the optional peer dependencies `dompurify`, `marked` and `shiki` to their current stable versions.
+- #### Avatar
+  - The component now has `role="img"`. Before, it had `image`, which is an ARIA 1.3 value that current tools do not support.
+  - The accessible name comes from `alt`. If `alt` is not set, the name comes from `initials`. The role description is always `avatar`.
+  - Before, the name was always "avatar", and `alt` or `initials` set the role description.
+- #### Badge
+  - The role description is always `badge`. Assistive technology no longer reads the `variant`.
+  - The `icon` CSS part applies only when an <ApiLink type="Icon" /> is the only content of the badge. This agrees with the documentation.
+- #### Carousel
+  - The component now delegates the focus in this order: the indicator container, the navigation buttons, then the first focusable element in the active slide.
+- #### Chip
+  - The type of the `onRemove` event no longer declares a boolean `detail`. The event never had this detail.
+- #### Tile Manager
+  - <ApiLink type="Tile" /> now renders its resize handles directly. The `trigger-side`, `trigger` and `trigger-bottom` CSS parts keep their names.
+  - The new `tile-container` CSS part contains the tile content and the resize handles.
 - #### AI-Assisted Development - Skills
-  - Condensed all React skills to the framework-specific facts an agent cannot infer, cutting their total size roughly in half. Reference files were consolidated (`COMPONENTS`, `USAGE`, `DATAVIZ`, `MCP`, `TROUBLESHOOTING`) and duplicated setup and theming guidance was removed.
-  - Documented the MCP tools with their real named-argument schemas, including that doc tools take `framework` while API tools take `platform`, added `get_project_setup_guide` and replaced the non-existent `get_theming_guidance` tool with `read_resource`.
-  - Documented dark mode as a global switch driven by `--ig-theme-variant` plus `configureTheme()`, rather than a scopable set of custom properties.
-  - Corrected the palette override mechanism: shades derive from the `500` shade (e.g. `--ig-primary-500`). The previously documented `--ig-primary-h`, `-s` and `-l` tokens do not exist.
-  - Corrected the Excel/CSV exporter import path to `igniteui-react-grids`, the form submit handler type to `React.FormEvent` and the event handler types to the generated `Igr*EventArgs` aliases. Removed the deprecated `IgrGridModule.register()` from the grid migration guidance and replaced the non-existent `--ig-button-foreground` token example.
-  - Added `license: MIT` to every skill and rewrote the descriptions with explicit `WHEN TO USE:` and `WHEN NOT TO USE:` sections, so agents pick the right skill. The Grid Lite to premium grid migration skill is now listed in the skills README.
+  - Reduced the React skills to the framework-specific facts that an agent cannot find by itself. The total size of the skills is approximately half of the previous size.
+  - Merged the reference files into `COMPONENTS`, `USAGE`, `DATAVIZ`, `MCP` and `TROUBLESHOOTING`. Removed duplicate setup and theming guidance.
+  - The skills now document the named-argument schemas of the MCP tools. The documentation tools take `framework`, and the API tools take `platform`.
+  - Added `get_project_setup_guide`. Replaced `get_theming_guidance`, which does not exist, with `read_resource`.
+  - The skills now document dark mode as a global switch that `--ig-theme-variant` and `configureTheme()` control. You cannot apply dark mode to only a part of the page with custom properties.
+  - Corrected the palette override: all shades come from the `500` shade, for example `--ig-primary-500`. The `--ig-primary-h`, `-s` and `-l` tokens do not exist.
+  - Corrected the Excel/CSV exporter import path to `igniteui-react-grids`. Corrected the form submit handler type to `React.FormEvent`, and the event handler types to the generated `Igr*EventArgs` aliases.
+  - Removed the deprecated `IgrGridModule.register()` from the grid migration guidance. Replaced the `--ig-button-foreground` token example, because this token does not exist.
+  - Added `license: MIT` to all skills. Each skill description now has `WHEN TO USE:` and `WHEN NOT TO USE:` sections, so that agents select the correct skill.
+  - The skills README now lists the Grid Lite to premium grid migration skill.
 
 #### New Features
 
 - #### Button Group
-  - The single selection modes (`single` and `single-required`) now use the radio group keyboard pattern. The group is one tab stop, and the arrow keys move the focus and the selection together, skipping disabled buttons and wrapping at the two ends. `alignment="horizontal"` uses ArrowLeft and ArrowRight and follows the text direction, `alignment="vertical"` uses ArrowUp and ArrowDown. The `multiple` mode does not change and each button stays a tab stop.
-  - Improved accessibility: the single selection modes expose a `radiogroup` with `radio` buttons, instead of toggle buttons with `aria-pressed`. The `radiogroup` or `group` role and the disabled state are now on the <ApiLink type="ButtonGroup" /> host, so an `aria-label` or `aria-labelledby` on the host names the group, and `alignment` sets the `aria-orientation` of the radio group. The `focused` CSS part of <ApiLink type="ToggleButton" /> is now documented.
+  - The single selection modes (`single` and `single-required`) now use the radio group keyboard pattern:
+    - The group is one tab stop.
+    - The arrow keys move the focus and the selection together. They skip disabled buttons and wrap at the two ends.
+    - With `alignment="horizontal"`, ArrowLeft and ArrowRight move the selection in the text direction. With `alignment="vertical"`, ArrowUp and ArrowDown move the selection.
+    - The `multiple` mode does not change. Each button stays a tab stop.
+  - The single selection modes now expose a `radiogroup` with `radio` buttons. Before, they exposed toggle buttons with `aria-pressed`.
+  - The <ApiLink type="ButtonGroup" /> host now has the `radiogroup` or `group` role and the disabled state. An `aria-label` or `aria-labelledby` on the host names the group.
+  - In the single selection modes, `alignment` sets the `aria-orientation` of the radio group.
+  - The `focused` CSS part of <ApiLink type="ToggleButton" /> is now documented.
 - #### Calendar, Date Picker, Date Range Picker
   - <ApiLink type="Calendar" /> now exports the `label-inner`, `months-row` and `years-row` CSS parts. The pickers export them as `calendar-label-inner`, `months-row` and `years-row`.
-  - When `weekStart` is not set, the week starts on the first day of the week of the `locale`, as reported by `Intl.Locale.prototype.getWeekInfo()`. For example, `bg` starts on Monday and `en` stays on Sunday. An explicit `weekStart` has priority. Set it to `undefined` to return to the locale value. Browsers without `getWeekInfo()` keep the Sunday default.
-  - The header date and the month/year navigation follow the field order of the `locale`. For `ja`, the year button precedes the month button. The years view keeps plain numbers.
 - #### Chip
-  - `outlined` property. When set to `true`, the chip shows an outlined style.
+  - New `outlined` property. Set it to `true` to show an outlined chip.
   - The `start` and `end` slots, and the new `action` and `remove` CSS parts, are now documented.
 - #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
-  - `scrollStrategy` property. It sets what the popup does when a container scrolls: `hide` (default) hides the popup while its anchor is fully out of view, `scroll` keeps the popup visible and on its anchor, and `close` closes the component on each scroll (a `sticky` tooltip also closes). The date pickers ignore the property in `dialog` mode.
+  - New `scrollStrategy` property. It sets the popup behavior when a container scrolls:
+    - `hide` (default) hides the popup while its anchor is fully out of view.
+    - `scroll` keeps the popup visible and on its anchor.
+    - `close` closes the component on each scroll. This also closes a `sticky` tooltip.
+  - The date pickers ignore `scrollStrategy` in `dialog` mode.
 - #### Dropdown
-  - Improved accessibility: the target element declares `aria-haspopup="listbox"`. While the list is open, the target holds `aria-activedescendant` that points at the item that keyboard navigation is on, so screen readers announce the highlight.
+  - The target element now has `aria-haspopup="listbox"`. Before, it had `aria-haspopup="true"`.
+  - While the list is open, `aria-activedescendant` on the target points to the active item. Screen readers announce this item.
 - #### Icon
-  - `registerIcon` and `registerIconFromText` now accept a `RegisterIconOptions` object as their third argument, in addition to the plain collection string. `stripMeta: true` removes the `<title>` and `<desc>` elements from the stored SVG, which prevents the native browser tooltip on hover. The title text stays available as the `aria-label` of the host <ApiLink type="Icon" /> element.
+  - `registerIcon` and `registerIconFromText` now accept a `RegisterIconOptions` object as the third argument. The plain collection string continues to work.
+  - `stripMeta: true` removes the `<title>` and `<desc>` elements from the stored SVG. This prevents the native browser tooltip on hover.
+  - The title text stays available as the `aria-label` of the host <ApiLink type="Icon" /> element.
 - #### Mask Input, Date Time Input, Date Range Picker
-  - The masked editors now support the standard undo and redo shortcuts: `Ctrl + Z` / `Cmd + Z` to undo, and `Ctrl + Y`, `Ctrl + Shift + Z` / `Cmd + Shift + Z` to redo. A sequence of typed characters, or a sequence of deletions, becomes one undo step. A caret movement, a paste, a drop, a cut, a spin of a date part, and an IME composition each start a new step. A restored step emits `onInput`, so two-way bindings follow the undo. The history stays through focus changes and is discarded when you set the value programmatically, when the form resets the control, or when the `mask`, `prompt` or `inputFormat` pattern changes.
+  - The masked editors now support undo and redo:
+    - Undo: `Ctrl + Z` or `Cmd + Z`.
+    - Redo: `Ctrl + Y`, `Ctrl + Shift + Z` or `Cmd + Shift + Z`.
+  - A sequence of typed characters is one undo step. A sequence of deletions is also one undo step.
+  - A caret movement, a paste, a drop, a cut, a spin of a date part and an IME composition each start a new step.
+  - A restored step emits `onInput`. Two-way bindings follow the undo.
+  - The history stays when the focus changes. The component clears the history when you set the value programmatically, when the form resets the control, or when `mask`, `prompt` or `inputFormat` changes.
 - #### Splitter
-  - `startCollapsed` and `endCollapsed` properties. Use them to read and to set the collapsed state of each pane.
-  - `onLayoutChanged` event. The component emits it after a user resize or a change of the expansion state. The payload holds the current layout (`startSize`, `endSize`, `startCollapsed`, `endCollapsed`).
+  - New `startCollapsed` and `endCollapsed` properties. They get and set the collapsed state of each pane.
+  - New `onLayoutChanged` event. The component emits it after a user resize or a change of the expansion state.
+  - The `onLayoutChanged` payload contains the current layout: `startSize`, `endSize`, `startCollapsed` and `endCollapsed`.
 - #### Tabs
-  - `selectedTab` property. It returns the selected <ApiLink type="Tab" /> element, or `null`.
-  - `select()` now also matches the `label` of a tab, in addition to its IDREF, so you can pass the value that `selected` reports back into it.
-  - Improved accessibility: the tab headers expose `aria-posinset` and `aria-setsize`, the strip declares its `aria-orientation`, and the selected panel is focusable, so keyboard users can reach panel content that holds no focusable elements of its own. The strip also keeps a tab stop when no tab is selected.
-  - The component now finds <ApiLink type="Tab" /> elements that come through an intermediate slot, so another component can wrap <ApiLink type="Tabs" />.
+  - New `selectedTab` property. It returns the selected <ApiLink type="Tab" /> element, or `null`.
+  - `select()` now also accepts the `label` of a tab, in addition to its IDREF. You can pass the value of `selected` back to `select()`.
+  - The tab headers now have `aria-posinset` and `aria-setsize`. The strip has `aria-orientation`.
+  - The selected panel is focusable. Keyboard users can reach panel content that has no focusable elements.
+  - The strip keeps a tab stop when no tab is selected.
+  - The component now finds <ApiLink type="Tab" /> elements that come through an intermediate slot. Another component can wrap <ApiLink type="Tabs" />.
 - #### Tooltip
-  - Improved accessibility: the anchor points at the tooltip with `aria-describedby`, so screen readers announce the content as the description of the anchor. In `sticky` mode the default close action is a labelled `<button>` that you can reach and operate from the keyboard. The new `close-button` CSS part exposes it.
+  - The anchor now references the tooltip with `aria-describedby`. Screen readers announce the tooltip content as the description of the anchor.
+  - In `sticky` mode, the default close action is a labeled `<button>`. You can reach and use it with the keyboard. The new `close-button` CSS part exposes it.
 - #### Popover
-  - Popover-based components now use native CSS anchor positioning in browsers that support it (Chrome/Edge 133+, Firefox 147+, Safari 26+). Other browsers use `@floating-ui/dom` as before, and load it only when necessary.
+  - Popover-based components now use native CSS anchor positioning in browsers that support it: Chrome and Edge 133+, Firefox 147+ and Safari 26+.
+  - Other browsers continue to use `@floating-ui/dom`. They load it only when necessary.
 - #### Themes
-  - All components now carry `forced-colors: active` styles in the Material, Bootstrap, Fluent and Indigo themes. In Windows High Contrast mode they draw from the system palette (`CanvasText`, `Highlight`, `GrayText`, `LinkText`), and the disabled, hover, focus and selected states stay distinguishable.
+  - All components now have `forced-colors: active` styles in the Material, Bootstrap, Fluent and Indigo themes.
+  - In Windows High Contrast mode, the components use the system colors (`CanvasText`, `Highlight`, `GrayText`, `LinkText`). The disabled, hover, focus and selected states stay different from each other.
 
 #### Breaking Changes
 
+- #### Chip
+  - `part="base"` is now a plain wrapper. The selection control moved to the new `action` part. The remove control moved to the new `remove` part.
+  - Move the `::part(base)` rules for the interactive surface to `::part(action)`.
+  - `focus-shadow-color` and `focus-selected-shadow-color` replace the `focus-outline-color` and `focus-selected-outline-color` CSS variables.
+- #### AI-Assisted Development - Skills
+  - Renamed the `grid-lite-to-igr-grid-migration` skill to `igniteui-react-migrate-grid-lite-to-premium`. The new name uses the `igniteui-react-` prefix, as the other skills do.
+  - Install the renamed skill again under the new folder name, and remove the old folder.
+  - Renamed the `reference/` folder of each skill to `references/`. Install these skills again so that their links work: `igniteui-react-components`, `igniteui-react-customize-theme` and `igniteui-react-generate-from-image-design`.
+
+#### Behavioral Changes
+
 - #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
-  - **Behavior change:** The popup now hides while its anchor is fully scrolled out of view. Before, it stayed visible. Set `scrollStrategy="scroll"` to keep the previous behavior.
+  - The popup now hides while its anchor is fully out of view. Before, the popup stayed visible. To keep the previous behavior, set `scrollStrategy="scroll"`.
 - #### Dropdown, Select, Tooltip
   - The popup no longer moves along the viewport edge to stay in view. It only flips to the opposite side.
 - #### Button Group
-  - A disabled group no longer sets `disabled` on its buttons. The buttons inherit the state, so a button that is disabled on its own stays disabled when you enable the group again, and the buttons that you add to a disabled group are also disabled.
-  - In the single selection modes each button is no longer a separate tab stop. See the keyboard pattern in the New Features section above.
+  - A disabled group no longer sets `disabled` on its buttons. The buttons inherit the disabled state.
+  - A button that has its own `disabled` stays disabled when you enable the group again. A button that you add to a disabled group is also disabled.
+  - In the single selection modes, the buttons are no longer separate tab stops. Refer to the keyboard pattern in New Features.
+- #### Calendar, Date Picker, Date Range Picker
+  - If `weekStart` is not set, the week starts on the first day of the week of the `locale`. The component gets this day from `Intl.Locale.prototype.getWeekInfo()`.
+  - For example, the week starts on Monday for `bg` and on Sunday for `en`.
+  - An explicit `weekStart` has priority. Set `weekStart` to `undefined` to use the locale value again. Browsers without `getWeekInfo()` use Sunday.
+  - The header date and the month and year navigation use the field order of the `locale`. For example, for `ja` the year button comes before the month button. The years view continues to show plain numbers.
 - #### Date Time Input, Date Picker, Date Range Picker
-  - The components no longer change the `value` property while the user types. `value` now holds only a committed value and changes together with the `onChange` event, which the components still emit on blur. Before, `value` changed on each keystroke and no event announced the change. This makes the components usable in templates that bind `value` externally, such as an edit template in <ApiLink type="Grid" />.
-  - The value that the user types, and the result of a spin of a date part or of `Ctrl + ;`, is available in the `detail` of the `onInput` event. A spin of a date part in a focused editor also defers to the commit on blur. A programmatic `stepUp()` or `stepDown()` on an unfocused component changes `value` immediately, as do `clear()`, `setRangeText()` and direct assignments. In the pickers the calendar continues to follow the typed date during editing.
+  - The components no longer change `value` while the user types. `value` changes only on commit, together with the `onChange` event. The components emit `onChange` on blur, as before.
+  - Before, `value` changed on each keystroke, and no event announced the change.
+  - You can now bind `value` externally, for example in an edit template of <ApiLink type="Grid" />.
+  - The `detail` of the `onInput` event contains the typed value. It also contains the result of a date part spin or of `Ctrl + ;`.
+  - In a focused editor, a spin of a date part also waits for the commit on blur.
+  - On an unfocused component, `stepUp()` and `stepDown()` change `value` immediately. `clear()`, `setRangeText()` and direct assignments also change `value` immediately.
+  - In the pickers, the calendar continues to follow the typed date while the user types.
 - #### Dropdown
-  - The component no longer emits `onChange` when you select the item that is already selected. The list still closes, as before.
+  - The component no longer emits `onChange` when the user selects the item that is already selected. The list still closes.
 - #### Tabs
-  - The scroll buttons now scroll to the nearest tab that is not fully visible, instead of a fixed step of 180px. A tab below a scroll button counts as not visible, so one click brings exactly one tab into view.
+  - The scroll buttons now scroll to the nearest tab that is not fully visible. Before, they scrolled a fixed step of 180px.
+  - A tab below a scroll button counts as not visible. One click shows exactly one more tab.
 - #### Tooltip
-  - A tooltip that closes from a hide trigger now waits exactly `hideDelay`. Before, it waited through an additional, undocumented stage of 180ms.
-  - In `sticky` mode the default close button hides the tooltip immediately and does not wait for `hideDelay`.
-  - `focusin` and `focusout` are now part of the default `showTriggers` and `hideTriggers`, so a tooltip opens when its anchor gets keyboard focus, and closes when the focus leaves the anchor.
-- #### Chip
-  - **Breaking for custom styles:** `part="base"` is now a plain wrapper. The selection control moved to the new `action` part, and the remove control to the new `remove` part. Move rules that target `::part(base)` for the interactive surface to `::part(action)`.
-  - The `focus-outline-color` and `focus-selected-outline-color` CSS variables are replaced by `focus-shadow-color` and `focus-selected-shadow-color`.
-  - The `onRemove` event no longer declares a boolean detail that it never carried.
-- #### Avatar
-  - The component now exposes `role="img"`. Before, it declared `image`, which is an ARIA 1.3 token that current tools do not know.
-  - The accessible name now comes from `alt`, and then from `initials`. The role description is the static string `avatar`. Before, the name was always the literal "avatar", and `alt` or `initials` became the role description.
-- #### Badge
-  - The role description is the static string `badge`. The visual `variant` no longer reaches assistive technology. The `icon` CSS part now applies only when an <ApiLink type="Icon" /> is the only content of the badge, as the documentation already stated.
-- #### Carousel
-  - The component now delegates focus to its indicator container, its navigation buttons, or the first focusable element in the active slide, in this sequence.
-- #### Tile Manager
-  - <ApiLink type="Tile" /> renders its resize handles directly. The `trigger-side`, `trigger` and `trigger-bottom` parts keep their names, and the new `tile-container` part wraps the tile content together with the handles.
-- #### AI-Assisted Development - Skills
-  - Renamed the `grid-lite-to-igr-grid-migration` skill to `igniteui-react-migrate-grid-lite-to-premium` to follow the `igniteui-react-` prefix used by the other skills. Reinstall it under the new folder name and remove the old one.
-  - Renamed each skill's `reference/` folder to `references/`. Reinstall the affected skills (`igniteui-react-components`, `igniteui-react-customize-theme`, `igniteui-react-generate-from-image-design`) so their links resolve.
+  - A tooltip that closes from a hide trigger now waits exactly `hideDelay`. Before, it waited an additional 180ms that was not documented.
+  - In `sticky` mode, the default close button hides the tooltip immediately. It does not wait for `hideDelay`.
+  - The default `showTriggers` and `hideTriggers` now include `focusin` and `focusout`. The tooltip opens when its anchor gets keyboard focus, and closes when the focus leaves the anchor.
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|Single selection is tracked per element, so buttons without a `value`, or with the same `value`, can take the selection. `selectedItems` replaces the current selection instead of adding to it, and no longer ignores buttons whose `value` is an empty string. Buttons added to a disabled group, `focus()`, `blur()` and `click()` before the first render, and toggle buttons that are not direct children no longer break the group state.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|One live region and one tab stop for a calendar with more than one visible month. Time-only date strings resolve against the local date. `weekStart` renders correctly on the initial render. Keyboard navigation over a large number of disabled dates no longer hangs the browser.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|A carousel paused through `pause()` no longer restarts on pointer or focus. `isPlaying` and `isPaused` describe the rotation correctly after `interval` changes, and stray timers are cleared. Fewer projected indicators than slides no longer throw. The removal of the active slide, or slides entering an empty carousel, keep an active slide. Each indicator carries `aria-controls`, and the indicators set `aria-label` as a content attribute.|
-|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|With `adoptRootStyles` enabled, the component now tracks the stylesheets that enter the document after the initial adoption, and the adoption keeps the theme styles of the message and input parts.|
-|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox, Switch, Radio|An external `<label>` bound through `for`, or wrapping the component, names the control and a click on it focuses and toggles the control. The host `aria-labelledby` names the control.|
-|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Color Picker|The picker canvas responds to touch input. In `default` mode, an external `<label>` and the host `aria-labelledby` and `aria-label` name the trigger button. In `input` mode, the text input no longer carries `aria-expanded`.|
-|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo, Select|A click on the input label no longer opens the list and closes it again. The `label` property and an external `<label>` name the input, instead of the selection status text.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|`Enter` before any arrow key no longer throws. Keyboard navigation and the `aria-haspopup` and `aria-expanded` attributes are correct after reopening with or without an explicit target. `show()` with an unresolved target keeps the current one and returns `false` without an anchor. `clearSelection()` and the removal of the selected item reset the navigation. The dropdown header and group labels are handled correctly in the accessibility tree, and the anchor names the list through `ariaLabelledByElements`.|
-|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|A `label` set after the first render reaches the native input in dropdown mode. The `container` CSS part is now exported.|
+|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|Single selection now tracks each element. Buttons without a `value`, or with the same `value`, can now take the selection. `selectedItems` now replaces the current selection. Before, it added to the selection. `selectedItems` no longer ignores buttons with an empty `value`. Buttons added to a disabled group no longer break the group state. The same applies to `focus()`, `blur()` and `click()` before the first render, and to toggle buttons that are not direct children.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|A calendar with more than one visible month now has one live region and one tab stop. Time-only date strings resolve against the local date. `weekStart` is correct on the first render. Keyboard navigation over many disabled dates no longer freezes the browser.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|A carousel that `pause()` stopped no longer starts again on pointer or focus. `isPlaying` and `isPaused` are correct after `interval` changes. The component clears unused timers. A carousel with fewer projected indicators than slides no longer causes an error. The carousel keeps an active slide when you remove the active slide, or when slides enter an empty carousel. Each indicator has `aria-controls`. The indicators set `aria-label` as a content attribute.|
+|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|With `adoptRootStyles` enabled, the component now tracks the stylesheets that the document gets after the initial adoption. The adoption keeps the theme styles of the message and input parts.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox, Switch, Radio|An external `<label>` now names the control, through `for` or as a wrapper. A click on the label focuses and toggles the control. The host `aria-labelledby` now names the control.|
+|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Color Picker|The picker canvas now responds to touch input. In `default` mode, an external `<label>`, the host `aria-labelledby` and the host `aria-label` name the trigger button. In `input` mode, the text input no longer has `aria-expanded`.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo, Select|A click on the input label no longer opens and closes the list. The `label` property and an external `<label>` now name the input. Before, the selection status text named the input.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|`Enter` before an arrow key no longer causes an error. Keyboard navigation, `aria-haspopup` and `aria-expanded` are correct after the dropdown opens again, with or without an explicit target. `show()` with an unresolved target keeps the current target. Without an anchor, `show()` returns `false`. `clearSelection()` and the removal of the selected item reset the navigation. The accessibility tree shows the dropdown header and group labels correctly. The anchor names the list through `ariaLabelledByElements`.|
+|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|In dropdown mode, a `label` set after the first render now goes to the native input. The `container` CSS part is now exported.|
 |[2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Range Picker|The `ranges` CSS part is now exported.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|Form associated components|Validation messages no longer disappear after the first failed form submission, and the invalid styles follow the validity state. A host that starts invalid, such as a `required` input with `invalid` set, shows its validation messages.|
-|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input, Mask Input, Date Time Input, Date Picker, Date Range Picker, File Input, Textarea, Select, Combo, Color Picker|A click on the label emits one `click` event from the component, and none when it is disabled. The host `aria-labelledby` and `aria-label` name the native editor, with one naming order for all form associated components: the host `aria-labelledby`, then the external `<label>` elements, then the own label, then the host `aria-label`. A `<label>` added after the first render names the control, and the helper text `aria-describedby` stays after a re-render.|
-|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|A click on an external `<label>` focuses the native input and opens the file picker.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|Recent Firefox versions paint the matches again, because the root node of the host now adopts the `::highlight()` rules. A component inside another shadow root also resolves its `--background` and `--foreground` custom properties correctly in Chromium.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|An icon rendered through a reference resolves when you register the target icon later. `role="img"` is declared only when the icon has an accessible name.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|Exact values with a fractional `step`, and `stepUp(n)` and `stepDown(n)` move by `n` steps. A non-numeric `max` or `step` falls back to a valid number. The accessible name, `aria-valuetext`, `aria-readonly` and `aria-disabled` are correct, an external `<label>` names the control, and `onHover` fires again when the pointer re-enters the same symbol.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|`ArrowUp` on a closed select with a selection moves to the previous item. Type-ahead no longer throws on the first character or swallows keyboard shortcuts. Selecting the already selected item closes the list. A `value` set before the matching item exists is kept and resolved when the item is added. The input text comes only from the main content of the selected item.|
-|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|An external `<label>` and the host `aria-labelledby` name the control, the slider follows a change of the host `aria-label` after the first render, and the value tooltip is hidden from assistive technology.|
-|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|Opaque scroll buttons in the Indigo theme. `onChange` is emitted when `activation` is `manual` and a tab is activated with `Enter` or `Space`. The selection stays in agreement with the DOM when `selected` is set to `false` on the active tab, when the last tab is removed, and for disabled tabs. The start scroll button and click scrolling behave correctly under browser zoom, and a scroll of the strip does less rendering work.|
-|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|A change of `resize` away from `auto` releases the inline height. Projected text becomes the default value, as with a native `<textarea>`, so the control stays pristine and a form reset restores the text.|
-|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|A swap of two positioned tiles no longer writes a column value into `rowStart`, and a tile added next to a single positioned tile no longer collides with it.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()` and `hide()` cancel a queued transition in the opposite direction. A pointer that moves back over the anchor during the hide animation keeps the tooltip open. `show(target)` no longer desynchronizes the `open` state. `withArrow` set at runtime positions the arrow. Delayed transitions return a promise that settles, and `Escape` emits `onClosed` only when there is something to close.|
-|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|Large or deeply nested trees are much faster: reading the `path` of an item no longer costs `2^depth`, keyboard navigation is about 5 times faster, removal of a subtree while items are selected is about 2 times faster, and `items`, `select()` and expanding or collapsing all items are 25-45% faster.|
-|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar, Badge|The avatar `<img>` renders `alt=""` when no alt text is set, so it counts as decorative. A badge that holds an icon together with text keeps its inline padding and no longer clips the text.|
-|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|A removable chip passes the `nested-interactive` accessibility audit, because the remove control is now a sibling of the chip surface. The accessible name is the chip content. `Space` toggles the selection, `onRemove` fires only on removable chips, focus on the remove control shows the focus state of the chip, and the prefix and suffix wrappers hide correctly.|
-|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|Virtual Scroll|`scrollToIndex` with `block: 'nearest'` aligns an item after the viewport to the end of the viewport, as native `scrollIntoView` does.|
-|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|The package now ships an `exports` map, so bundlers and TypeScript resolve its entry points and typings|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|Form associated components|Validation messages no longer disappear after the first failed form submission. The invalid styles follow the validity state. A host that starts invalid, for example a `required` input with `invalid`, now shows its validation messages.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input, Mask Input, Date Time Input, Date Picker, Date Range Picker, File Input, Textarea, Select, Combo, Color Picker|A click on the label now emits one `click` event from the component. A disabled component emits no `click` event. The host `aria-labelledby` and `aria-label` now name the native editor. All form associated components use this naming order: the host `aria-labelledby`, the external `<label>` elements, the own label, the host `aria-label`. A `<label>` added after the first render names the control. The helper text `aria-describedby` stays after a re-render.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|A click on an external `<label>` now focuses the native input and opens the file picker.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|Recent Firefox versions show the matches again. The root node of the host now adopts the `::highlight()` rules. In Chromium, a component inside a different shadow root now resolves its `--background` and `--foreground` CSS variables correctly.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|An icon that renders through a reference now resolves when you register the target icon later. The icon has `role="img"` only when it has an accessible name.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|Values with a fractional `step` are now exact. `stepUp(n)` and `stepDown(n)` move by `n` steps. A non-numeric `max` or `step` falls back to a valid number. The accessible name, `aria-valuetext`, `aria-readonly` and `aria-disabled` are correct. An external `<label>` names the control. `onHover` now fires when the pointer leaves the component and enters again over the same symbol.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|`ArrowUp` on a closed select with a selection now moves to the previous item. Type-ahead no longer causes an error on the first character. Type-ahead no longer blocks keyboard shortcuts. A selection of the selected item closes the list. The component keeps a `value` that you set before the matching item exists, and resolves it when you add the item. The input text comes only from the main content of the selected item.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|An external `<label>` and the host `aria-labelledby` now name the control. The slider follows changes of the host `aria-label` after the first render. Assistive technology no longer reads the value tooltip.|
+|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|The scroll buttons in the Indigo theme are now opaque. With `activation="manual"`, `Enter` or `Space` on a tab now emits `onChange`. The selection stays correct when you set `selected` to `false` on the active tab, when you remove the last tab, and for disabled tabs. The start scroll button and click scrolling work correctly with browser zoom. A scroll of the strip now does less rendering work.|
+|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|A change of `resize` from `auto` to a different value now releases the inline height. Projected text becomes the default value, as in a native `<textarea>`. The control stays pristine, and a form reset restores the text.|
+|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|A swap of two positioned tiles no longer writes a column value into `rowStart`. A tile that you add next to a single positioned tile no longer overlaps it.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()` and `hide()` cancel a queued transition in the opposite direction. The tooltip stays open when the pointer moves back over the anchor during the hide animation. `show(target)` no longer makes the `open` state incorrect. `withArrow` set at runtime now positions the arrow. The promises of delayed transitions now settle. `Escape` emits `onClosed` only when the tooltip is open.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|Operations on large or deeply nested trees are faster. A read of the `path` of an item now costs `depth`, not `2^depth`. Keyboard navigation is approximately 5 times faster. The removal of a subtree with selected items is approximately 2 times faster. `items`, `select()`, and the expansion or collapse of all items are 25-45% faster.|
+|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar, Badge|The avatar `<img>` now has `alt=""` when no alt text is set. The image is then decorative. A badge with an icon and text keeps its inline padding. The badge no longer clips the text.|
+|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|A removable chip now passes the `nested-interactive` accessibility audit, because the remove control is a sibling of the chip surface. The accessible name is the chip content. `Space` toggles the selection. `onRemove` fires only on removable chips. Focus on the remove control shows the focus state of the chip. The prefix and suffix wrappers hide correctly.|
+|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|Virtual Scroll|`scrollToIndex` with `block: 'nearest'` now aligns an item after the viewport to the end of the viewport, as native `scrollIntoView` does.|
+|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|The package now has an `exports` map. Bundlers and TypeScript resolve its entry points and type definitions.|
 
 ### {PackageDockManager} (Dock Manager)
 
-- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated to use the latest `igniteui-dockmanager@2.2.1` (previously 2.1.2). See the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.3 to 2.2.1. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
 
 #### New Features
 
-- Exposed new CSS variables for the unpinned pane header background and text: `--igc-unpinned-header-background` and `--igc-unpinned-header-text`.
+- New CSS variables for the unpinned pane header: `--igc-unpinned-header-background` and `--igc-unpinned-header-text`.
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|The hidden tab selected event from a nested Dock Manager is also handled by the parent Dock Manager|
-|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|Selecting a browser autofill suggestion in a Dock Manager content pane throws an error|
-|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|Browser freezes when clicking a slotted radio button with Angular default change detection|
-|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|The `tab-strip-area top` part is not applied|
-|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|The selected tab out of view event from a nested Dock Manager is also handled by the parent Dock Manager|
-|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|Incorrect `aria-label` values on tab headers after reordering Dock Manager tabs|
+|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|The parent Dock Manager no longer handles the hidden tab selected event of a nested Dock Manager.|
+|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|A browser autofill suggestion in a content pane no longer causes an error when the user selects it.|
+|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|A click on a slotted radio button no longer freezes the browser with Angular default change detection.|
 
 ### {GridLitePackage} (Grid Lite)
 
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.11.0` (previously 0.9.0), which brings the changes of the [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) and [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) releases.
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.9.0 to 0.11.0. This update includes the [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) and [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) releases.
 
 #### New Features
 
-- Full ARIA grid pattern through `ElementInternals`: roles, row and column counts and indices, `aria-sort`, and `aria-selected`. The filter row is exposed as a second header row.
-- Keyboard navigation and click activation set DOM focus on the active cell, so screen readers announce the cell.
-- Public `columns` setter.
+- The grid now implements the full ARIA grid pattern through `ElementInternals`: roles, row and column counts and indices, `aria-sort` and `aria-selected`. The filter row is a second header row.
+- Keyboard navigation and a click now move the DOM focus to the active cell. Screen readers announce the cell.
+- New public `columns` setter.
 
 #### Changed
 
-- Row virtualization uses the new [Virtual Scroll](./layouts/virtual-scroll.mdx) component instead of `@lit-labs/virtualizer`, so fewer off-screen rows render and the `@lit-labs/virtualizer` dependency is removed. Compared to 0.10.0, with 10,000 rows and 20 columns in an 800px-tall grid, smooth scrolling holds 60 fps instead of 30 fps, jumping to distant scroll positions is 8 times faster and sorting is 8 times faster. With a cell template the gains are equal or larger.
-- Navigation without a column keeps the current column, and cell activation updates only the two affected rows instead of all visible rows.
-- Faster rendering: rows reuse cells across column changes, sorting shares one collator, and a `ResizeObserver` drives the scrollbar offset.
-- The cancelable `onSorting` and `onFiltering` events fire before the state changes, so listeners can cancel or modify the expression. The `onSorted` and `onFiltered` events fire after the data view updates.
+- Row virtualization now uses the [Virtual Scroll](./layouts/virtual-scroll.mdx) component. Fewer rows outside the viewport render. Removed the `@lit-labs/virtualizer` dependency.
+- Performance compared to 0.10.0, with 10,000 rows and 20 columns in an 800px-high grid:
+  - Smooth scrolling runs at 60 fps. Before, it ran at 30 fps.
+  - A jump to a distant scroll position is 8 times faster.
+  - Sorting is 8 times faster.
+  - With a cell template, the improvements are equal or larger.
+- Navigation without a column keeps the current column.
+- Cell activation now updates only the two affected rows. Before, it updated all visible rows.
+- Rows reuse cells when the columns change. Sorting uses one shared collator. A `ResizeObserver` controls the scrollbar offset.
+- The cancelable `onSorting` and `onFiltering` events fire before the state changes. Listeners can cancel or change the expression.
+- The `onSorted` and `onFiltered` events fire after the data view updates.
 
 #### Deprecated
 
-- The positional `navigateTo(row, column?, activate?)` arguments. Use `navigateTo(row, options)` instead.
+- The positional arguments of `navigateTo(row, column?, activate?)`. Use `navigateTo(row, options)`.
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Filters with only OR expressions matched every record|
-|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|String filter conditions crashed on `null` or `undefined` cell values|
-|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Concurrent asynchronous data pipeline runs could apply results out of order|
-|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Declarative columns nested in a wrapping element no longer drop their sibling columns|
-|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Navigation state is kept per grid instance, skips hidden columns, and no longer produces invalid row indices|
-|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|Filter expressions with conditions that match no column are skipped|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Filters with only OR expressions no longer match all records.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|String filter conditions no longer cause an error on `null` or `undefined` cell values.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Concurrent asynchronous data pipeline runs no longer apply their results in the wrong order.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Declarative columns in a wrapper element no longer remove their sibling columns.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Each grid instance now has its own navigation state. Navigation skips hidden columns and no longer produces invalid row indices.|
+|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|The grid now skips filter expressions with conditions that match no column.|
 
 ## **{PackageVerChanges-26-2-JUL}**
 
@@ -240,49 +308,65 @@ The following components from `igniteui-webcomponents` 7.3.0 and 7.4.0 are now a
 #### New Features
 
 - #### AI-Assisted Development - Skills
-  - New Grid Lite to Premium Data Grid migration skill with end-to-end mapping guidance for imports, templates, sorting, filtering, server-side patterns, and toolbar and export flows ([#168](https://github.com/IgniteUI/igniteui-react/pull/168)).
+  - New Grid Lite to Premium Data Grid migration skill. It maps imports, templates, sorting, filtering, server-side patterns, and toolbar and export flows ([#168](https://github.com/IgniteUI/igniteui-react/pull/168)).
 
 #### Changed
 
-- The `igniteui-webcomponents` `~7.2.1` dependency now resolves to 7.2.4, which brings the changes of the [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15), [7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18) and [7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) patch releases summarized below.
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.9.0`. See the Grid Lite section below.
+- Updated `igniteui-webcomponents` to 7.2.4. This update includes the [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15), [7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18) and [7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) patch releases.
+- Updated `igniteui-dockmanager` to 2.1.3 and `igniteui-grid-lite` to 0.9.0. Refer to the Dock Manager and Grid Lite sections.
 - #### Form associated components
-  - External `<label>` associations are now resolved to the underlying native input of <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="Textarea" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Select" />, <ApiLink type="Combo" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" />, either through the `for` and `id` mechanism or by nesting the component inside the `<label>`. The label is exposed to assistive technologies and a click on it focuses the inner input ([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263)).
+  - An external `<label>` now links to the native input of <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="Textarea" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Select" />, <ApiLink type="Combo" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" />.
+  - Use the `for` and `id` attributes, or put the component inside the `<label>`. Assistive technology reads the label. A click on the label focuses the native input ([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263)).
 - #### Snackbar, Toast
-  - The container positioning property is abstracted into the new `NotificationPositioning` type ([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251)).
+  - The container positioning property now uses the new `NotificationPositioning` type ([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251)).
 - #### AI-Assisted Development - Skills
-  - Refactored and streamlined the React skills to rely on MCP-backed documentation and API lookups for authoritative usage patterns ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
-  - Updated the image-to-React generation guidance to the canonical MCP call forms, including `list_components('react')` and `get_doc('react', '<name>')` ([#167](https://github.com/IgniteUI/igniteui-react/pull/167), [#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
-  - Improved the theme customization workflow to emphasize safer sequencing for palette, theme, typography and elevations, and explicit token discovery before overrides ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
-  - Corrected the Nav Drawer CSS custom property naming in the guidance and gotchas references ([#169](https://github.com/IgniteUI/igniteui-react/pull/169)), added explicit grid column-width guidance to avoid fixed-width layouts with trailing empty space unless widths are explicitly requested, and applied follow-up review fixes to reduce ambiguity and incorrect API usage patterns ([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - The React skills now use MCP documentation and API lookups for usage patterns ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - The image-to-React generation guidance now uses the canonical MCP calls, for example `list_components('react')` and `get_doc('react', '<name>')` ([#167](https://github.com/IgniteUI/igniteui-react/pull/167), [#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - The theme customization workflow now sets a safer order for palette, theme, typography and elevations. It finds the tokens before it overrides them ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - Corrected the Nav Drawer CSS variable names in the guidance and gotchas references ([#169](https://github.com/IgniteUI/igniteui-react/pull/169)).
+  - The grid guidance now tells agents not to use fixed column widths that leave empty space at the end. Agents use fixed widths only when the user requests them ([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - Removed unclear text and incorrect API usage patterns ([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|Line height for the title and sub-title slots|
-|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover based components|Popover reposition jitter in `position: sticky` ancestors|
-|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Text selection in Safari during drag operations, and height collapse when a spanning tile is maximized|
-|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|The selected tab header no longer scrolls into view on the initial render|
+|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|Fixed the line height of the title and subtitle slots.|
+|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover based components|The popover position is now stable in ancestors with `position: sticky`.|
+|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Safari no longer selects text during a drag operation. The height no longer collapses when you maximize a spanning tile.|
+|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|The selected tab header no longer scrolls into view on the first render.|
 
 ### {PackageGrids} (Grids)
 
-- Updated to use `igniteui-webcomponents-grids@7.2.0`, based on the `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200) release. The derived Sass grid themes introduced in that release target the Angular theming API and do not change the CSS-themed {ProductName} grids.
+- Updated `igniteui-webcomponents-grids` to 7.2.0. This version uses `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200).
+- The derived Sass grid themes of `igniteui-angular` 22.0.0 apply only to the Angular theming API. They do not change the {ProductName} grids, which use CSS themes.
 
-### {GridLitePackage} (Grid Lite)
+### {PackageDockManager} (Dock Manager)
 
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.9.0` (previously 0.8.0). See the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09).
-
-#### Changed
-
-- Improved sort and filter performance for large data sets by precomputing sort keys and filter expression trees ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63)).
-- Updated body cell and row theming to use the latest `igniteui-theming` variables and bumped `igniteui-theming` to 27.3.0 ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)).
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.2 to 2.1.3. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|Body cell and row border styles now use the correct theme variables across the default, odd, even, hover and active states|
+|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|The `tab-strip-area top` part now applies.|
+|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|The parent Dock Manager no longer handles the selected tab out of view event of a nested Dock Manager.|
+|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|The tab headers now have the correct `aria-label` values after you reorder the tabs.|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.8.0 to 0.9.0. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09).
+
+#### Changed
+
+- Sort and filter operations are faster on large data sets. The grid now calculates the sort keys and the filter expression trees in advance ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63)).
+- The body cell and row themes now use the current `igniteui-theming` variables. Updated `igniteui-theming` to 27.3.0 ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|The body cell and row border styles now use the correct theme variables in the default, odd, even, hover and active states.|
 
 ## **{PackageVerChanges-26-2-MAY}**
 
@@ -290,115 +374,119 @@ The following components from `igniteui-webcomponents` 7.3.0 and 7.4.0 are now a
 
 #### Changed
 
-- Updated to use the latest `igniteui-webcomponents@7.2.1`, which brings the changes of the [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) release summarized below.
-- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated to use the latest `igniteui-dockmanager@2.1.2`. See the Dock Manager section below.
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.8.0`. See the Grid Lite section below.
+- Updated `igniteui-webcomponents` to 7.2.1. This update includes the [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) release.
+- Updated `igniteui-dockmanager` to 2.1.2 and `igniteui-grid-lite` to 0.8.0. Refer to the Dock Manager and Grid Lite sections.
 - #### Form controls
-  - <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Checkbox" />, <ApiLink type="Radio" />, <ApiLink type="Switch" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> now submit their associated form on **Enter** key press, matching native browser behavior ([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213)).
+  - <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Checkbox" />, <ApiLink type="Radio" />, <ApiLink type="Switch" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> now submit their form when the user presses **Enter**, as native controls do ([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213)).
 - #### Input
-  - Added theming support for the `date`, `time`, `datetime-local`, `week` and `month` input types, ensuring consistent styles and floating label behavior across all supported themes ([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223)).
-- #### Nav Drawer
-  - The `overlay` CSS part has been removed. Target the `base` part's `::backdrop` pseudo-element, the `--ig-overlay-background-color` variable, or use the theming package instead ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+  - Added theme support for the `date`, `time`, `datetime-local`, `week` and `month` input types. These types now have the same styles and floating label behavior in all themes ([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223)).
 - #### AI-Assisted Development - Skills
-  - Updated and enhanced the skills shipped with the package.
+  - Updated the skills in the package.
 
 #### New Features
 
 - #### Date Range Picker
-  - Added support for editing the date range value directly via a single input field ([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733)).
+  - You can now edit the date range value in a single input field ([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733)).
 - #### Nav Drawer
-  - <ApiLink type="NavDrawer" /> for non-relative positions now uses the native Popover API, with built-in modal semantics, focus trapping and accessibility support ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
-  - `keepOpenOnEscape` property. It prevents the drawer from closing when the user presses **Escape** (non-relative positions only).
-  - `onClosing` event, emitted just before the drawer is closed by user interaction. Cancelable.
-  - `onClosed` event, emitted just after the drawer is closed by user interaction.
+  - For non-relative positions, <ApiLink type="NavDrawer" /> now uses the native Popover API. The API supplies modal semantics, a focus trap and accessibility support ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+  - New `keepOpenOnEscape` property. It keeps the drawer open when the user presses **Escape**. It applies only to non-relative positions.
+  - New `onClosing` event. The drawer emits it before a user interaction closes the drawer. You can cancel this event.
+  - New `onClosed` event. The drawer emits it after a user interaction closes the drawer.
 - #### Invoker Commands API
-  - <ApiLink type="Button" /> and <ApiLink type="IconButton" /> now support the `command` and `commandFor` properties, enabling declarative control of target components without custom JavaScript wiring ([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225)).
-  - <ApiLink type="Banner" />, <ApiLink type="Dialog" />, <ApiLink type="NavDrawer" />, <ApiLink type="Snackbar" /> and <ApiLink type="Toast" /> now respond to the `--show`, `--hide` and `--toggle` commands dispatched by an invoker button.
+  - <ApiLink type="Button" /> and <ApiLink type="IconButton" /> now support the `command` and `commandFor` properties. With these properties, a button controls a target component without custom JavaScript ([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225)).
+  - <ApiLink type="Banner" />, <ApiLink type="Dialog" />, <ApiLink type="NavDrawer" />, <ApiLink type="Snackbar" /> and <ApiLink type="Toast" /> now respond to the `--show`, `--hide` and `--toggle` commands from an invoker button.
 - #### Snackbar, Toast
-  - `positioning` property (`viewport` or `container`). The components now render as a popover in the browser top layer. Setting `positioning` to `container` anchors the component to its nearest visible ancestor instead of the viewport ([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203)).
+  - New `positioning` property (`viewport` or `container`). The components now render as a popover in the top layer of the browser.
+  - With `positioning` set to `container`, the component anchors to its nearest visible ancestor instead of the viewport ([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203)).
+
+#### Breaking Changes
+
+- #### Nav Drawer
+  - Removed the `overlay` CSS part. Use the `::backdrop` pseudo-element of the `base` part, the `--ig-overlay-background-color` variable, or the theming package ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
 
 #### Deprecated
 
 - #### Localization
-  - The old resource string interfaces for <ApiLink type="Calendar" />, <ApiLink type="Chat" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> are deprecated. The components now use the new `igniteui-i18n` resource keys. Setting individual `resourceStrings` properties directly is no longer supported; provide a complete resource strings object instead ([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169)).
+  - The old resource string interfaces for <ApiLink type="Calendar" />, <ApiLink type="Chat" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> are deprecated. The components now use the `igniteui-i18n` resource keys.
+  - You can no longer set individual `resourceStrings` properties. Set a complete resource strings object ([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169)).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|Selected state border color mismatch in the focused and hover states|
-|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|Display value not restored correctly when tabbing out in single-select mode with a partial search text|
-|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|Step components connected to the DOM before their parent stepper now correctly receive context after being adopted by a stepper|
+|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|The border color of the selected state is now correct in the focused and hover states.|
+|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|In single selection mode, the display value is now correct when the user moves the focus out with Tab after a partial search text.|
+|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|A step that connects to the DOM before its parent stepper now gets the context when a stepper adopts it.|
 
 ### {PackageDockManager} (Dock Manager)
 
-- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated to use the latest `igniteui-dockmanager@2.1.2` (previously 2.1.1). See the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.1 to 2.1.2. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|Pressing inside the pane content no longer steals the focus from slotted interactive elements such as inputs, textareas and selects|
-|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|The unpinned tab area location no longer resets to `left` when a pane is floated, and the pane no longer disappears when docked back|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|A press inside the pane content no longer takes the focus from slotted interactive elements, for example inputs, textareas and selects.|
+|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|The unpinned tab area location no longer resets to `left` when a pane floats. The pane no longer disappears when you dock it again.|
 
 ### {GridLitePackage} (Grid Lite)
 
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.8.0` (previously 0.7.1). See the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27).
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.7.1 to 0.8.0. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27).
 
 #### Changed
 
-- Filtering row input enhancements with updated styles and refactored common logic ([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54)).
-- Updated `igniteui-webcomponents` to 7.2.0 and the Node.js engine requirement to 22+ ([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65), [#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64)).
+- Updated the styles of the filter row input. Refactored the common filter logic ([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54)).
+- Updated `igniteui-webcomponents` to 7.2.0. The grid now requires Node.js 22 or later ([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65), [#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64)).
 
 ## **{PackageVerChanges-26-2-APR}**
 
-This entry also covers the 19.6.1 (April 2026) patch release.
+This entry also includes the 19.6.1 (April 2026) patch release.
 
 ### {PackageCommon}
 
 #### Changed
 
-- Updated to use the latest `igniteui-webcomponents@7.1.3`, which brings the changes of the [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25), [7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22) and [7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) patch releases summarized below.
-- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated to use the latest `igniteui-dockmanager@2.1.1`, a maintenance release focused on build, CI/CD and development workflow improvements ([#152](https://github.com/IgniteUI/igniteui-react/pull/152)).
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.7.1`. See the Grid Lite section below.
+- Updated `igniteui-webcomponents` to 7.1.3. This update includes the [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25), [7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22) and [7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) patch releases.
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` to 2.1.1. This release changes only the build, CI/CD and development workflow ([#152](https://github.com/IgniteUI/igniteui-react/pull/152)).
+- Updated `igniteui-grid-lite` to 0.7.1. Refer to the Grid Lite section.
 - #### Button Group
-  - Theme colors alignment ([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182)).
+  - Aligned the theme colors ([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182)).
 - #### Checkbox
-  - Updated disabled and indeterminate styles ([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158)).
+  - Updated the disabled and indeterminate styles ([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158)).
 - #### Chip
-  - The content is wrapped inside a new part container, with updated styles ([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190)).
+  - The chip content is now inside a new part container. Updated the chip styles ([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190)).
 - #### Circular Progress
-  - Unified the track color CSS variable between the progress bars ([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185)).
+  - The circular and linear progress bars now use the same track color CSS variable ([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185)).
 - #### AI-Assisted Development - Skills
-  - New `igniteui-react-generate-from-image-design` skill that teaches AI coding assistants how to implement React views from design images such as screenshots, mockups and wireframes ([#146](https://github.com/IgniteUI/igniteui-react/pull/146)).
-  - Updated the skills to use the Ignite UI CLI MCP server ([#151](https://github.com/IgniteUI/igniteui-react/pull/151), [#154](https://github.com/IgniteUI/igniteui-react/pull/154)).
-  - 19.6.1: Clarified and expanded the grids (including Grid Lite) and forms guidance ([#141](https://github.com/IgniteUI/igniteui-react/pull/141)), added a complete data chart example ([#143](https://github.com/IgniteUI/igniteui-react/pull/143)) and package-routing guidance ([#145](https://github.com/IgniteUI/igniteui-react/pull/145)).
+  - New `igniteui-react-generate-from-image-design` skill. It shows AI coding assistants how to build React views from design images, for example screenshots, mockups and wireframes ([#146](https://github.com/IgniteUI/igniteui-react/pull/146)).
+  - The skills now use the Ignite UI CLI MCP server ([#151](https://github.com/IgniteUI/igniteui-react/pull/151), [#154](https://github.com/IgniteUI/igniteui-react/pull/154)).
+  - 19.6.1: Clarified and expanded the guidance for grids, Grid Lite and forms ([#141](https://github.com/IgniteUI/igniteui-react/pull/141)). Added a complete data chart example ([#143](https://github.com/IgniteUI/igniteui-react/pull/143)) and package routing guidance ([#145](https://github.com/IgniteUI/igniteui-react/pull/145)).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|Selected item styles|
-|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|Unified display size across platforms|
-|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|Background style discrepancies|
-|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|In horizontal orientation, the content area height can now be driven by the active step's content instead of always being sized to the tallest step. The new `--body-grid-rows` CSS custom property controls the internal row sizing of each step body: its default `1fr` expands the body to fit its content, while `0fr` collapses it to zero height|
+|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|Fixed the selected item styles.|
+|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|The display size is now the same on all platforms.|
+|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|Fixed differences in the background styles.|
+|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|In horizontal orientation, the height of the content area can now follow the content of the active step. Before, the height was always the height of the tallest step. The new `--body-grid-rows` CSS variable sets the row size of each step body. The default `1fr` expands the body to fit its content. `0fr` collapses the body to zero height.|
 
 ### {PackageGrids} (Grids)
 
-- Updated to use `igniteui-webcomponents-grids@7.1.0`, based on the `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120) release.
-- **Security** - Bumped the `jspdf` dependency bundled with the PDF export to 4.2.1 to address a security vulnerability present in earlier versions ([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113)).
+- Updated `igniteui-webcomponents-grids` to 7.1.0. This version uses `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120).
+- **Security** - Updated the `jspdf` dependency of the PDF export to 4.2.1. This version fixes a security vulnerability of earlier versions ([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113)).
 
 ### {GridLitePackage} (Grid Lite)
 
-- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated to use the latest `igniteui-grid-lite@0.7.1` (previously 0.7.0). See the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01).
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.7.0 to 0.7.1. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01).
 
 #### Bug Fixes
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|The `filterExpressions` and `sortExpressions` property setters now replace the existing state instead of being additive|
-|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|Setting the initial filter or sort state without column configuration no longer crashes|
-|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|Adopted styles are now correctly applied on the connected callback|
+|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|The `filterExpressions` and `sortExpressions` setters now replace the current state. Before, they added to it.|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|An initial filter or sort state without a column configuration no longer causes an error.|
+|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|The grid now applies the adopted styles correctly in the connected callback.|
 
 ## **{PackageVerChanges-26-2-JUN}**
 
