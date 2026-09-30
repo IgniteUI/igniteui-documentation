@@ -8,6 +8,7 @@ namespace: Infragistics.Controls
 _language: ja
 llms:
   description: "{ProductName} Color Editor は軽量のカラー ピッカー コンポーネントです。"
+platformType: xplat
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -25,6 +26,8 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 
 
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+
 ## 依存関係
 
 <PlatformBlock for="Angular, WebComponents, React">
@@ -35,75 +38,38 @@ npm install {PackageCore}
 npm install {PackageInputs}
 ```
 
-<ApiLink type="ColorEditor" /> を使用する前に、次のモジュールを登録する必要があります:
-
-<PlatformBlock for="WebComponents">
-
-```ts
-import { IgcColorEditorModule } from "igniteui-angular-inputs";
-
-@NgModule({
-    imports: [
-        IgcColorEditorModule
-    ]
-})
-export class AppModule {}
-```
+`ColorEditor` を使用する前に、次のモジュールを登録する必要があります:
 
 </PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```ts
-import { IgcColorEditorModule, IgcColorEditorComponent } from 'igniteui-webcomponents-inputs';
-
-ModuleManager.register(
-    IgcColorEditorModule
-);
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-import { IgrColorEditor, IgrColorEditorModule } from 'igniteui-react';
-import 'igniteui-webcomponents/themes/light/bootstrap.css';
-
-IgrColorEditorModule.register();
-```
-
-</PlatformBlock>
-
-</PlatformBlock>
-
-
 <PlatformBlock for="Blazor">
 
+**_Imports.razor** ファイルに、**IgniteUI.Blazor.Controls** 名前空間を追加します。
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
 
 
-ます、**IgniteUI.Blazor.Controls** 名前空間を **_Imports.razor** ファイルに追加します。
-
-```ts
-import { IgcColorEditorModule } from "igniteui-angular-inputs";
-
-@NgModule({
-    imports: [
-        IgcColorEditorModule
+```json-snippet source="/inputs/color-editor/overview" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "ColorEditor",
+            "name": "colorEditor"
+        }
+    },
+    "modules": [
+        "inputs/ColorEditorModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
     ]
-})
-export class AppModule {}
+}
 ```
 
-Dashboard Tile コンポーネントを使用する場合、以下のモジュールが必要です:
-
-```ts
-import { IgcColorEditorModule, IgcColorEditorComponent } from 'igniteui-webcomponents-inputs';
-
-ModuleManager.register(
-    IgcColorEditorModule
-);
-```
 
 
 </PlatformBlock>
@@ -111,55 +77,15 @@ ModuleManager.register(
 
 ## 使用方法
 
-<ApiLink type="ColorEditor" /> の使用を開始する最も簡単な方法は次のとおりです:
+`ColorEditor` の使用を開始する最も簡単な方法は次のとおりです:
 
 
-<PlatformBlock for="Angular">
-
-
-```html
-<igx-color-editor
-    name="colorEditor"
-    #colorEditor>
-    </igx-color-editor>
-</div>
+```json-snippet source="/inputs/color-editor/overview" code="allCode"
+{
+    "type": "ColorEditor",
+    "name": "colorEditor"
+}
 ```
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="WebComponents">
-
-
-```html
-<igc-color-editor
-    name="colorEditor"
-    id="colorEditor">
-</igc-color-editor>
-```
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-```tsx
-<IgrColorEditor
-    ref={this.colorEditorRef}>
-</IgrColorEditor>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbColorEditor>
-</IgbColorEditor>
-```
-</PlatformBlock>
 
 ## イベントにバインド
 
@@ -168,62 +94,31 @@ Color Editor コンポーネントは、次のイベントを発生させます:
 - valueChanged
 - valueChanging
 
-<PlatformBlock for="Angular">
-```ts
-@ViewChild("colorEditor", { static: true } )
-private colorEditor: IgxColorEditorComponent
-public ngAfterViewInit(): void
+```json-snippet source="/inputs/color-editor/overview" code="allCode"
 {
-    this.colorEditor.valueChanged.subscribe(this.onValueChanged);
-}
-
-public onValueChanged = (e: any) => {
-    console.log("test");
-}
-
-```
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-```ts
-this.OnValueChanged = this.OnValueChanged.bind(this);
-this.colorEditor = document.getElementById('colorEditor') as IgcColorEditorComponent;
-this.colorEditor.valueChanged = this.OnValueChanged;
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-```razor
-<IgbColorEditor ValueChanged="@OnValueChanged" />
-
-@code {
-    public void OnValueChanged(IgbColorEditorPanelSelectedValueChangedEventArgs e)
-    {
-
-    }
-}
-
-```
-</PlatformBlock>
-
-<PlatformBlock for="React">
-```tsx
-<IgrColorEditor valueChanged={this.onValueChanged} />
-
-public onValueChanged(calendar: IgrColorEditor, e: IgrColorEditorPanelSelectedValueChangedEventArgs) {
-
+    "type": "ColorEditor",
+    "name": "colorEditor",
+    "valueChangedRef": "ColorEditorValueChanged"
 }
 ```
 
-</PlatformBlock>
+ハンドラーにはエディターと `ColorEditorPanelSelectedValueChangedEventArgs` が渡され、その `newValue` に選択された色が格納されます。
+
+```json-snippet source="/inputs/color-editor/overview" channel="handlersImports...handler"
+{
+    "type": "ColorEditor",
+    "name": "colorEditor",
+    "valueChangedRef": "ColorEditorValueChanged",
+    "$valueChangedRef": "+doc:handler"
+}
+```
 
 
 
 
 ## API リファレンス
 
-<ApiLink type="ColorEditor" /><br />
+`ColorEditor`<br />
 
 ## その他のリソース
 

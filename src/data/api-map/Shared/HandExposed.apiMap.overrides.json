@@ -1,0 +1,94 @@
+{
+  "_comment": [
+    "API that is suppressed from generation and then exposed by hand.",
+    "",
+    "A generator writes a map of what it generated, so a member it was told to skip is absent even",
+    "though the shipped package has it. Documentation reads these maps to decide whether a backticked",
+    "term is an API name at all, so without an entry here a real name a reader can type is",
+    "indistinguishable from a typo.",
+    "",
+    "This folder is not a platform. The loader reads every directory under the api-map root and keys",
+    "forward answers by the platform field on each name, so one file answers for all of them -- which",
+    "is what these entries need, being members whose only spelling difference is house casing.",
+    "",
+    "One entry serves both directions: the canonical name with a platform spelling gives the forward",
+    "answer for that platform and the reverse answer for the spelling.",
+    "",
+    "Each entry records where the hand-written exposure actually lives, because that is the only",
+    "evidence that the name is real. If one of these is ever generated normally, the generated map",
+    "wins on agreement and this entry should be deleted rather than left to rot."
+  ],
+  "types": [
+    {
+      "_comment": [
+        "Points carries [TSSuppressWidgetMember] on the web branch and [WFSuppressWidgetMember] on the",
+        "other, so no generated map has it. The web spelling is not a guess: the hand-written wrapper",
+        "ig_-shapefile-record.template.ts declares `get points(): Point[][]`, which agrees with the",
+        "[ClientName(\"points\")] on the field. On the XAML platforms the field is plainly public and keeps",
+        "its own name. Its siblings FieldValues and Bounds are generated, and Blazor spells those",
+        "PascalCase, so Points is what Blazor calls this one."
+      ],
+      "originalName": "ShapefileRecord",
+      "originalNamespace": "Infragistics.Controls.Maps",
+      "originalBaseTypeName": "DependencyObject",
+      "members": [
+        { "originalName": "Points",
+          "names": [
+            { "platform": "WebComponents", "mappedType": "Point[][]", "mappedName": "points" },
+            { "platform": "React", "mappedType": "Point[][]", "mappedName": "points" },
+            { "platform": "Angular", "mappedType": "Point[][]", "mappedName": "points" },
+            { "platform": "Blazor", "mappedType": "Point[][]", "mappedName": "Points" },
+            { "platform": "WinUI", "mappedType": "List<List<Point>>", "mappedName": "Points" },
+            { "platform": "Uno", "mappedType": "List<List<Point>>", "mappedName": "Points" }
+          ] }
+      ]
+    },
+    {
+      "_comment": [
+        "The whole *MarkerTemplate family on SeriesViewer is suppressed on every platform at once --",
+        "[WFSuppressWidgetMember] through [JAVASuppressWidgetMember] -- so not one of them appears in any",
+        "generated map. The suppression keeps them off the component wrapper, not off the class: the web",
+        "SeriesViewer declares `get checkmarkMarkerTemplate(): DataTemplate`.",
+        "",
+        "Only the checkmark template is recorded here, because it is the only one a topic names. This is",
+        "also the newest of them, which is why refreshing the maps did not help."
+      ],
+      "originalName": "SeriesViewer",
+      "originalNamespace": "Infragistics.Controls",
+      "originalBaseTypeName": "Control",
+      "members": [
+        { "originalName": "CheckmarkMarkerTemplate",
+          "names": [
+            { "platform": "WebComponents", "mappedType": "DataTemplate", "mappedName": "checkmarkMarkerTemplate" },
+            { "platform": "React", "mappedType": "DataTemplate", "mappedName": "checkmarkMarkerTemplate" },
+            { "platform": "Angular", "mappedType": "DataTemplate", "mappedName": "checkmarkMarkerTemplate" },
+            { "platform": "Blazor", "mappedType": "DataTemplate", "mappedName": "CheckmarkMarkerTemplate" },
+            { "platform": "WinUI", "mappedType": "DataTemplate", "mappedName": "CheckmarkMarkerTemplate" },
+            { "platform": "Uno", "mappedType": "DataTemplate", "mappedName": "CheckmarkMarkerTemplate" }
+          ] }
+      ]
+    },
+    {
+      "_comment": [
+        "A type rather than a member, and absent for a different reason: it is internal with [WFWidget]",
+        "in the shipping build, which marks it for WinForms and says nothing to the web translator, and",
+        "it reaches the web packages by being exported rather than by being wrapped --",
+        "public_api.DV.Shared.GEO.JS.ts exports it under its own name.",
+        "",
+        "Named identically everywhere, so this entry exists to say the name is real rather than to",
+        "translate it. Marking the class [Widget] would let the generator record it and make this entry",
+        "unnecessary; that is a product-source decision, not one to take from the documentation side."
+      ],
+      "originalName": "TriangulationSource",
+      "originalNamespace": "Infragistics.Controls.Charts",
+      "names": [
+        { "platform": "WebComponents", "mappedName": "TriangulationSource" },
+        { "platform": "React", "mappedName": "TriangulationSource" },
+        { "platform": "Angular", "mappedName": "TriangulationSource" },
+        { "platform": "Blazor", "mappedName": "TriangulationSource" },
+        { "platform": "WinUI", "mappedName": "TriangulationSource" },
+        { "platform": "Uno", "mappedName": "TriangulationSource" }
+      ]
+    }
+  ]
+}
