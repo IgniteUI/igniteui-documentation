@@ -294,9 +294,31 @@ setEmployees(current => [...current, newEmployee]);
 
 `data` が変更されると、コンポーネントは最初に変更されたインデックスより前のアイテムの測定済みサイズを保持し、それ以降のアイテムはレンダリング時に再度測定します。追加操作ではすべての既存の測定値が保持されますが、置換、フィルタリング、ソートでは最初に変更されたアイテム以降の測定値が破棄されます。
 
+<PlatformBlock for="React, WebComponents">
+
+アイテムは、そのキーがレンダリングされたウィンドウ内にある間、同じ要素を保持します。<ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> を指定しない場合はインデックスがキーになるため、ソート、挿入、削除の後もそのインデックスの要素はそのまま残り、新しいアイテムを表示します。アイテムが `data` 内で移動する場合は、`keyFunction` から安定した ID を返してください。
+
+```ts
+virtualScroll.keyFunction = (employee) => employee.id;
+```
+
+</PlatformBlock>
+
 ### 推定アイテム サイズ
 
-Virtual Scroll の <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> は、アイテムがレンダリングされて測定されるまでのピクセル単位のサイズです (デフォルトは `50`)。アイテムは異なるサイズを持つことができ、測定されたサイズがそれぞれ推定値を置き換えます。アイテムが測定される前にスクロールバーと `scrollToIndex` を正確に保つため、推定値はアイテムの平均サイズに近い値に設定してください。
+Virtual Scroll の <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> は、アイテムがレンダリングされて測定されるまでのピクセル単位のサイズです (デフォルトは `50`)。アイテムは異なるサイズを持つことができ、測定されたサイズがそれぞれ推定値を置き換えます。
+
+<PlatformBlock for="Angular">
+
+アイテムが測定される前にスクロールバーと `scrollToIndex` を正確に保つため、推定値はアイテムの平均サイズに近い値に設定してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+最初のレンダリングが実際の内容に近くなるよう、推定値はアイテムの平均サイズに近い値に設定してください。アイテムが測定されると、まだ測定されていないアイテムの推定値は測定済みの平均サイズに置き換えられるため、推定値がずれていてもスクロールバーと `scrollToIndex` は自動的に補正されます。
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -593,6 +615,8 @@ await virtualScroll.current?.layoutComplete;
 
 ### 使用すべき場合と使用すべきでない場合
 
+Virtual Scroll は通常、長いリストのスクロール コンテナーとして機能し、ビューポート内のアイテムと小さなバッファーのみを DOM に保持します。一度にレンダリングできる短いリストには使用しないでください。また、アイテム テンプレートを作成する際は、各アイテムの状態を要素ではなくデータに保持してください。アイテムの要素は再利用されるため、テンプレートがバインドしていない DOM の状態は、その要素を受け取ったアイテムに表示されます。
+
 <style>{`
   .vs-guidance {
     /* The screenshots are exported at this width; the panel is capped to it so
@@ -603,12 +627,18 @@ await virtualScroll.current?.layoutComplete;
     /* Tracks are exactly the card width, not 1fr, so the gap between the two
        panels is the 26px of the design rather than 26px plus leftover track. */
     grid-template-columns: repeat(auto-fit, minmax(min(var(--vs-card-width), 100%), var(--vs-card-width)));
-    justify-content: start;
+
+    /* The tracks are a fixed width, so centre them when the pair is narrower
+       than the content column instead of leaving the slack on one side. */
+    justify-content: center;
     grid-template-rows: auto auto;
     gap: 26px;
     align-items: stretch;
     width: 100%;
-    margin: 0 0 26px;
+
+    /* Roomier than the 26px the page gives its other blocks: this one is a
+       pair of tall images, so it needs more air before the next section. */
+    margin: 0 0 48px;
     isolation: isolate;
   }
 
@@ -831,7 +861,7 @@ igc-virtual-scroll.employees [data-vs-index]:nth-child(even) {
 | Page Up / Page Down | ビューポート 1 つ分ほどスクロールします。 |
 | Home / End | コレクションの先頭または末尾にスクロールします。 |
 
-ホストには `tabindex` がありません。フォーカス可能なコンテンツがないスクロール コンテナーがフォーカスを受け取れるかどうかはブラウザーによって異なるため、アイテムにフォーカス可能な要素が含まれない場合は、ホストに `tabindex="0"` を設定してください。ビューから外れてスクロールされたアイテムは DOM から削除されるため、削除されたアイテム内のフォーカスは失われます。
+ホストには `tabindex` がありません。フォーカス可能なコンテンツがないスクロール コンテナーがフォーカスを受け取れるかどうかはブラウザーによって異なるため、アイテムにフォーカス可能な要素が含まれない場合は、ホストに `tabindex="0"` を設定してください。アイテム内のフォーカスは、そのアイテムがレンダリングされたウィンドウから外れると保持されません。外れる前に意図的にフォーカスを移動してください。
 
 ### スクリーン リーダー / ARIA
 
@@ -880,19 +910,23 @@ Virtual Scroll は `data` を参照によって比較するため、その場で
 
 ### スクロール中にスクロールバーのサイズが変わるのはなぜですか?
 
-まだレンダリングされていないアイテムは `estimatedItemSize` を使用しており、アイテムが測定されるにつれて合計サイズが補正されます。`estimatedItemSize` をアイテムの平均サイズに近い値に設定してください。
+まだレンダリングされていないアイテムは `estimatedItemSize` を使用しており、アイテムが測定されるにつれて合計サイズが補正されます。
+
+<PlatformBlock for="Angular">
+
+`estimatedItemSize` をアイテムの平均サイズに近い値に設定してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+その後、まだ測定されていないアイテムの推定値は測定済みの平均サイズに置き換えられるため、スクロールするにつれて補正が収束します。最初のレンダリングが実際の内容に近くなるよう、`estimatedItemSize` はアイテムの平均サイズに近い値に設定してください。
+
+</PlatformBlock>
 
 ### リストの下の方でアイテムの位置がずれるのはなぜですか?
 
 マージンはアイテムの測定済みサイズに含まれません。アイテムのマージンをパディングまたはアイテム内の `gap` に置き換えてください。
-
-<PlatformBlock for="React, WebComponents">
-
-### `defineAllComponents()` の後に `igc-virtual-scroll` が定義されないのはなぜですか?
-
-`igniteui-webcomponents` 7.3.0 および 7.3.1 では `defineAllComponents()` に Virtual Scroll が含まれていなかったため、一括登録では要素が未定義のままになります。7.3.2 以降にアップグレードするか、`defineComponents(IgcVirtualScrollComponent)` で明示的に登録してください。
-
-</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -923,7 +957,7 @@ Virtual Scroll は実行時にアイテムを測定し、独自のスクロー�
 ## 既知の制限
 
 - {Platform} Virtual Scroll は単一の軸を仮想化します。行と列の両方を仮想化するにはグリッドが必要です。
-- ビューから外れてスクロールされたアイテムは、フォーカスと内部状態とともに DOM から削除されます。
+- ウィンドウの移動に伴ってアイテムの要素は再利用されるため、`checked` をバインドしていないチェックボックスなど、アイテム テンプレートがバインドしていない DOM の状態は、その要素を受け取ったアイテムに表示されます。アイテムの状態はすべてバインドし、ユーザーによる変更はアイテムに書き戻してください。
 
 <PlatformBlock for="Angular">
 
@@ -987,6 +1021,9 @@ Angular Virtual Scroll は、他のコンポーネントへの依存関係を持
   </FaqItem>
   <FaqItem question="Virtual Scroll のアイテムは同じサイズである必要がありますか?" indicatorPosition="end">
     {Platform} Virtual Scroll のアイテムは、レンダリングされた時点でそれぞれが測定されるため、異なるサイズにすることができます。アイテムが測定される前にスクロールバーを正確に保つため、`estimatedItemSize` をアイテムの平均サイズに近い値に設定してください。
+    <PlatformBlock for="React, WebComponents">
+    アイテムが測定されると、まだ測定されていないアイテムの推定値は測定済みの平均サイズに置き換えられます。
+    </PlatformBlock>
   </FaqItem>
   <FaqItem question="Virtual Scroll を特定のアイテムまでスクロールするにはどうすればよいですか?" indicatorPosition="end">
     {Platform} Virtual Scroll の `scrollToIndex` メソッドを、アイテムのインデックスと、省略可能な `block` および `behavior` オプションを指定して呼び出します。このメソッドは、補正された位置が安定すると解決されるプロミスを返します。

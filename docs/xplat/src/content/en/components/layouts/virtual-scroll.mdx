@@ -293,9 +293,31 @@ setEmployees(current => [...current, newEmployee]);
 
 When `data` changes, the component keeps the measured sizes of the items before the first changed index and measures the rest again when they render. Appending keeps every existing measurement; replacing, filtering, or sorting discards the measurements from the first changed item onwards.
 
+<PlatformBlock for="React, WebComponents">
+
+An item keeps its element while its key is in the rendered window. Without <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> the index is the key, so after a sort, an insert, or a removal the element at an index stays put and shows its new item. Return a stable id from `keyFunction` when items move within `data`:
+
+```ts
+virtualScroll.keyFunction = (employee) => employee.id;
+```
+
+</PlatformBlock>
+
 ### Estimated Item Size
 
-The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> is the size in pixels an item has until it renders and is measured (`50` by default). Items can have different sizes: each measured size replaces the estimate. Set the estimate close to the average item size to keep the scrollbar and `scrollToIndex` accurate before items are measured.
+The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> is the size in pixels an item has until it renders and is measured (`50` by default). Items can have different sizes: each measured size replaces the estimate.
+
+<PlatformBlock for="Angular">
+
+Set the estimate close to the average item size to keep the scrollbar and `scrollToIndex` accurate before items are measured.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+Set the estimate close to the average item size so that the first render lands near the real content. Once items are measured, their average replaces the estimate for the items that are not measured yet, so the scrollbar and `scrollToIndex` correct themselves even when the estimate is off.
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -592,6 +614,8 @@ await virtualScroll.current?.layoutComplete;
 
 ### Do/Don't
 
+The Virtual Scroll usually works as the scroll container of a long list, keeping only the items in its viewport, plus a small buffer, in the DOM. Avoid it for a list short enough to render at once, and as you write the item template, keep each item state in the data rather than in its elements: item elements are reused, so DOM state the template does not bind shows on whichever item takes the element.
+
 <style>{`
   .vs-guidance {
     /* The screenshots are exported at this width; the panel is capped to it so
@@ -602,12 +626,18 @@ await virtualScroll.current?.layoutComplete;
     /* Tracks are exactly the card width, not 1fr, so the gap between the two
        panels is the 26px of the design rather than 26px plus leftover track. */
     grid-template-columns: repeat(auto-fit, minmax(min(var(--vs-card-width), 100%), var(--vs-card-width)));
-    justify-content: start;
+
+    /* The tracks are a fixed width, so centre them when the pair is narrower
+       than the content column instead of leaving the slack on one side. */
+    justify-content: center;
     grid-template-rows: auto auto;
     gap: 26px;
     align-items: stretch;
     width: 100%;
-    margin: 0 0 26px;
+
+    /* Roomier than the 26px the page gives its other blocks: this one is a
+       pair of tall images, so it needs more air before the next section. */
+    margin: 0 0 48px;
     isolation: isolate;
   }
 
@@ -830,7 +860,7 @@ The {Platform} Virtual Scroll adds no key handlers. The host is a native scroll 
 | Page Up / Page Down | Scrolls by about one viewport. |
 | Home / End | Scrolls to the start or the end of the collection. |
 
-The host has no `tabindex`. Browsers differ in whether a scroll container without focusable content can receive focus, so set `tabindex="0"` on the host when the items contain nothing focusable. Items scrolled out of view leave the DOM, so focus inside a removed item is lost.
+The host has no `tabindex`. Browsers differ in whether a scroll container without focusable content can receive focus, so set `tabindex="0"` on the host when the items contain nothing focusable. Focus inside an item does not survive that item leaving the rendered window, so move focus deliberately before it does.
 
 ### Screen Readers / ARIA
 
@@ -879,19 +909,23 @@ The Virtual Scroll compares `data` by reference, so a change in place is not det
 
 ### Why does the scrollbar change size while I scroll?
 
-Items that have not rendered use `estimatedItemSize`, and the total size is corrected as items are measured. Set `estimatedItemSize` close to the average item size.
+Items that have not rendered use `estimatedItemSize`, and the total size is corrected as items are measured.
+
+<PlatformBlock for="Angular">
+
+Set `estimatedItemSize` close to the average item size.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+The average measured size then replaces the estimate for the items that are not measured yet, so the correction settles as you scroll. Set `estimatedItemSize` close to the average item size to make the first render land near the real content.
+
+</PlatformBlock>
 
 ### Why do items drift out of place further down the list?
 
 Margins are not part of an item's measured size. Replace item margins with padding, or with a `gap` inside the item.
-
-<PlatformBlock for="React, WebComponents">
-
-### Why is `igc-virtual-scroll` not defined after `defineAllComponents()`?
-
-`defineAllComponents()` did not include the Virtual Scroll in `igniteui-webcomponents` 7.3.0 and 7.3.1, so bulk registration left the element undefined. Upgrade to 7.3.2 or later, or register it explicitly with `defineComponents(IgcVirtualScrollComponent)`.
-
-</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -922,7 +956,7 @@ The grids keep their own row and column virtualization; see [Grid Virtualization
 ## Known Limitations
 
 - The {Platform} Virtual Scroll virtualizes one axis. Rows and columns that are both virtualized require a grid.
-- Items scrolled out of view are removed from the DOM together with their focus and internal state.
+- Item elements are reused as the window moves, so DOM state that the item template does not bind, such as a checkbox without a bound `checked`, shows on whichever item takes the element. Bind all item state, and write user changes back to the item.
 
 <PlatformBlock for="Angular">
 
@@ -986,6 +1020,9 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
   </FaqItem>
   <FaqItem question="Do Virtual Scroll items need the same size?" indicatorPosition="end">
     Items in the {Platform} Virtual Scroll can have different sizes, because each item is measured once it renders. Set `estimatedItemSize` close to the average item size so that the scrollbar is accurate before items are measured.
+    <PlatformBlock for="React, WebComponents">
+    Once items are measured, their average replaces the estimate for the items that are not measured yet.
+    </PlatformBlock>
   </FaqItem>
   <FaqItem question="How do I scroll the Virtual Scroll to a specific item?" indicatorPosition="end">
     Call the {Platform} Virtual Scroll `scrollToIndex` method with the item index and optional `block` and `behavior` options. The method returns a promise that resolves when the corrected position is stable.
