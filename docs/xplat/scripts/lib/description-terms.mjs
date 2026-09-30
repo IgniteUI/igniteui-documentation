@@ -248,7 +248,7 @@ function resolveOne(term, ctx) {
         const wanted = CAMELCASING.has(platform) ? camel(leaf) : pascal(leaf);
         for (const owner of owners) {
             const found = indexMember(owner, wanted, platform, repoRoot, { method: true });
-            if (found) return { html: link(owner, found, platform, repoRoot, q ? `${owner}.${found}` : found) };
+            if (found) return { html: link(owner, found, platform, repoRoot, !!q) };
         }
         return { kind: 'index', error: `\`${term}\`: no ${platform} method ${wanted} on ${owners.join(', ') || '(no type in context)'}` };
     }
@@ -271,7 +271,7 @@ function resolveOne(term, ctx) {
         if (parent && names.every(n => n.startsWith(parent + '.'))) {
             const found = indexMember(out[0].owner, parent, platform, repoRoot);
             if (!found) return { kind: 'index', error: `\`${term}\`: ${platform} collapses these to ${out[0].owner}.${parent}, which its index does not have` };
-            return { html: link(out[0].owner, found, platform, repoRoot, found) };
+            return { html: link(out[0].owner, found, platform, repoRoot) };
         }
         return { html: out.map(o => o.html).join('/') };
     }
@@ -280,7 +280,7 @@ function resolveOne(term, ctx) {
     if (NAME.test(term) && isType(term)) {
         const t = platformType(term, platform, repoRoot);
         if (!t) return { kind: 'index', error: `\`${term}\`: no ${platform} class for this type in the api index` };
-        return { html: `<ApiLink type="${term}" prefixed={${t.prefixed}} suffix={${t.suffix}} />` };
+        return { html: `<ApiLink type="${term}" prefixed={${t.prefixed}} suffix={${t.suffix}} label="${t.symbol}" />` };
     }
 
     const r = resolveMember(term, ctx);
@@ -322,7 +322,7 @@ function resolveMember(term, ctx) {
             if (!values || !values.has(written)) continue;
             const t = platformType(owner, platform, repoRoot);
             if (!t) return { kind: 'index', error: `\`${term}\`: no ${platform} class for enum ${owner} in the api index` };
-            const label = qualifier ? `${owner}.${written}` : written;
+            const label = qualifier ? `${t.symbol}.${written}` : written;
             return { owner, name: written, html: `<ApiLink type="${owner}" prefixed={${t.prefixed}} suffix={${t.suffix}} member="${written}" label="${label}" />` };
         }
         if (!d.types.has(owner)) continue;
@@ -342,7 +342,7 @@ function resolveMember(term, ctx) {
             const parts = ['FontFamily', 'FontSize', 'FontWeight', 'FontStyle'].map(part => hit.prop.replace('TextStyle', part));
             const found = parts.map(part => indexMember(owner, part, platform, repoRoot));
             if (found.some(f => !f)) { misses.push(`${owner}.${parts.filter((_, i) => !found[i]).join('/')} (TextStyleTransform)`); continue; }
-            return { owner, name: found.join('/'), html: found.map(f => link(owner, f, platform, repoRoot, qualifier ? `${owner}.${f}` : f)).join('/') };
+            return { owner, name: found.join('/'), html: found.map(f => link(owner, f, platform, repoRoot, !!qualifier)).join('/') };
         }
         // Blazor sits in no prefix group, so the metadata answers it with the description name. Its API
         // is generated from the TypeScript widget, though, so where the web collapses font properties
@@ -363,15 +363,16 @@ function resolveMember(term, ctx) {
         for (const c of candidates) { found = indexMember(owner, c.split('.')[0], platform, repoRoot); if (found) { chosen = c; break; } }
         if (!found) { misses.push(`${owner}.${candidates.join(' or ')}`); missName ??= candidates[0]; continue; }
         const shown = chosen.includes('.') ? found + chosen.slice(chosen.indexOf('.')) : found;
-        return { owner, name: shown, html: link(owner, shown, platform, repoRoot, qualifier ? `${owner}.${shown}` : shown) };
+        return { owner, name: shown, html: link(owner, shown, platform, repoRoot, !!qualifier) };
     }
     if (misses.length) return { kind: 'index', fallback: missName, error: `\`${term}\`: described as ${misses.join(', ')}, which the ${platform} api index does not have` };
     return { error: `\`${term}\`: ${qualifier ? `not a member of ${qualifier}` : `no type in context has it (context: ${owners.join(', ') || 'none'})`}` };
 }
 
-function link(owner, member, platform, repoRoot, label) {
+function link(owner, member, platform, repoRoot, qualified = false) {
     const t = platformType(owner, platform, repoRoot);
     const attrs = t ? `type="${owner}" prefixed={${t.prefixed}} suffix={${t.suffix}}` : `type="${owner}"`;
+    const label = qualified ? `${t.symbol}.${member}` : member;
     return `<ApiLink ${attrs} member="${member}" label="${label}" />`;
 }
 
