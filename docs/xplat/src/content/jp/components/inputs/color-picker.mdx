@@ -1,0 +1,981 @@
+---
+title: "Color Picker"
+description: "{ProductName} Color Picker は、グラデーション キャンバス、色相と透明度のスライダー、フォーマットの切り替え、スポイト、定義済みのスウォッチを備えたインタラクティブなドロップダウンを通じて、ユーザーが色を選択および編集できるフォーム関連コンポーネントです。"
+keywords: "{Platform} Color Picker, {ProductName}, カラー ピッカー, 色入力, hex, rgb, hsl, alpha, スウォッチ, スポイト, フォーム関連"
+license: MIT
+mentionedTypes: ["ColorPicker"]
+relatedComponents: ["ColorEditor"]
+last_updated: "2026-09-23"
+_language: ja
+llms:
+  description: "{ProductName} Color Picker は、グラデーション キャンバス、色相と透明度のスライダー、フォーマットの切り替え、スポイト、定義済みのスウォッチを備えたインタラクティブなドロップダウンを通じて、ユーザーが色を選択および編集できるフォーム関連コンポーネントです。"
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import colorPickerAnatomy from '@xplat-images/anatomy-content-light/color-picker-lt-a.png';
+import colorPickerDo from '@xplat-images/color-picker/color-picker-do.png';
+import colorPickerDo2x from '@xplat-images/color-picker/color-picker-do@2x.png';
+import colorPickerDoNot from '@xplat-images/color-picker/color-picker-do-not.png';
+import colorPickerDoNot2x from '@xplat-images/color-picker/color-picker-do-not@2x.png';
+
+{/*
+React and Blazor are excluded in toc.json until a released igniteui-react / IgniteUI.Blazor version wraps the component; their blocks below are staged and must be verified against the released wrapper APIs before removing the exclusion.
+*/}
+
+# Color Picker コンポーネント <Badge variant="new" />
+
+{ProductName} Color Picker は、グラデーション キャンバス、色相と透明度のスライダー、フォーマットの切り替え、スポイト、定義済みのスウォッチを備えたインタラクティブなドロップダウンを通じて、ユーザーが色を選択および編集できるフォーム関連コンポーネントです。
+
+## ライブ デモ
+
+{Platform} Color Picker のデモは、現在選択されている色をプレビューし、別の色を編集または選択できるドロップダウンを開く `input` モードのアンカーを示します。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-overview" height={740} position="center" noBackground={false} showThemePicker={true} alt="{Platform} Color Picker の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/overview" height={740} position="center" noBackground={false} showThemePicker={true} alt="{Platform} Color Picker の例" />
+
+</PlatformBlock>
+
+## 構造
+
+{Platform} Color Picker は、ピッカー サーフェス (グラデーション キャンバス、色相と透明度のスライダー、フォーマットに応じた色入力、アクション ボタン、オプションのスウォッチ グリッド) を含むポップオーバー ドロップダウンを開くアンカーで構成されます。
+
+<Anatomy
+  class="color-picker-anatomy"
+  name="Color Picker"
+  description="Parts of the Color Picker: the input and default anchors, and the picker dropdown with its canvas, sliders, inputs, action buttons, and swatches."
+  src={colorPickerAnatomy.src}
+  alt="Color Picker anatomy"
+/>
+
+<style>{`
+  .color-picker-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="color-picker"][id$="-example"]:not([id*="overview"], [id*="tailwind-styling"]) .igd-sample-frame {
+    height: 80%;
+  }
+
+  [id^="cw-"][id*="color-picker-overview"][id$="-example"] .igd-sample-frame,
+  [id^="cw-"][id*="color-picker-tailwind-styling"][id$="-example"] .igd-sample-frame {
+    height: 90%;
+  }
+
+  [id^="cw-"][id*="color-picker-overview"][id$="-example"] .igd-sample-frame {
+    width: 75%;
+  }
+
+  [id^="cw-"][id*="color-picker-swatches"][id$="-example"] .igd-sample-frame {
+    width: 80%;
+  }
+
+  [id^="cw-"][id*="color-picker-styling"][id$="-example"] .igd-sample-frame,
+  [id^="cw-"][id*="color-picker-tailwind-styling"][id$="-example"] .igd-sample-frame {
+    width: 90%;
+  }
+
+  @media (width < 580px) {
+    [id^="cw-"][id*="color-picker"][id$="-example"] .igd-sample-frame {
+      width: 90%;
+    }
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>A - 入力型 Color Picker</strong><br /><br />
+<strong>1. 入力モード:</strong> `mode="input"` でレンダリングされた Color Picker。<br />
+<strong>2. カラー アンカー/フィル:</strong> ピッカー ドロップダウンをトリガーし、現在選択されている色を表示します。<br />
+<strong>3. ラベル:</strong> 入力型 Color Picker のラベル。<br />
+<strong>4. プレースホルダー:</strong> 入力が空の間に表示される、`#rrggbb` のようなアクティブなフォーマットのパターン。<br />
+<strong>5. サフィックス コンテナー:</strong> アクション ボタンなどのサフィックス要素のコンテナー。<br />
+<strong>6. ヒント:</strong> 入力型 Color Picker のヒント テキスト。<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>B - デフォルト Color Picker</strong><br /><br />
+<strong>1. カラー アンカー:</strong> ピッカー ドロップダウンをトリガーします。<br />
+<strong>2. フィル:</strong> 現在選択されている色を表示します。<br />
+<strong>3. ラベル:</strong> Color Picker のラベル。<br />
+<strong>4. ヒント:</strong> Color Picker のヒント テキスト。<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>C - Color Picker ドロップダウン</strong><br /><br />
+<strong>1. Color Picker ドロップダウン:</strong> すべての色選択コントロールを含むポップオーバー。<br />
+<strong>2. グラデーション キャンバス:</strong> ドラッグ可能なマーカーを持つ HSV の彩度/明度エリア。<br />
+<strong>3. Color Picker マーカー:</strong> グラデーション キャンバス上で現在選択されている色を示すドラッグ可能なマーカー。<br />
+<strong>4. 色相スライダー:</strong> 基本色用の範囲スライダー。<br />
+<strong>5. 色相スライダー ハンドル:</strong> 色相スライダー上で現在選択されている色相を示すドラッグ可能なマーカー。<br />
+<strong>6. コピー ボタン:</strong> 現在選択されている色をクリップボードにコピーします。<br />
+<strong>7. スポイト ボタン:</strong> 画面から色を選択するためのスポイト ツールをアクティブにします。<br />
+<strong>8. 透明度スライダー:</strong> `show-alpha` が設定されている場合に表示されるオプションの不透明度スライダー。<br />
+<strong>9. 透明度スライダー ハンドル:</strong> 透明度スライダー上で現在選択されている透明度の値を示すドラッグ可能なマーカー。<br />
+<strong>10. 不透明度の値:</strong> 透明度スライダー上で現在選択されている不透明度の値。<br />
+<strong>11. フォーマット スイッチャー:</strong> 色のフォーマット (`hex`、`rgb`、`hsl`) を選択するためのドロップダウン。<br />
+<strong>12. 色の値:</strong> 選択されたフォーマット (`hex`、`rgb`、`hsl`) に従って表示される現在選択されている色の値。<br />
+<strong>13. スウォッチ:</strong> 定義済みの色のスウォッチのオプションのグリッド。<br /></span>
+
+```text
+<igc-color-picker>
+└── ::part(color-picker)
+    ├── igc-popover
+    │   ├── ::part(anchor)                   // trigger button (default mode) or swatch button in the input prefix (input mode)
+    │   │                                    // also ::part(empty) with no value, ::part(input-mode) in input mode
+    │   └── ::part(picker)                   // dropdown, role="dialog"
+    │       ├── ::part(picker-canvas)        // gradient canvas
+    │       │   └── ::part(marker)           // focusable slider; also ::part(dragging) while dragged
+    │       ├── ::part(main-row)
+    │       │   ├── ::part(hue)              // hue range slider
+    │       │   └── ::part(buttons)
+    │       │       ├── ::part(copy)         // copy-to-clipboard button
+    │       │       └── ::part(eye-dropper)  // eye-dropper button
+    │       ├── ::part(alpha-row)            // rendered when show-alpha is set
+    │       │   ├── ::part(alpha)            // alpha range slider
+    │       │   └── ::part(alpha-input)      // alpha percentage input
+    │       ├── ::part(inputs-row)
+    │       │   ├── ::part(format-select)    // format switcher, hidden when hide-formats is set
+    │       │   └── color value input
+    │       └── ::part(swatches)             // rendered when swatches is non-empty
+    │           └── ::part(swatch)           // individual swatch buttons
+    ├── ::part(label)                        // default mode, rendered when label is set
+    └── helper text and validation messages
+```
+
+## 作業の開始
+
+{Platform} Color Picker を使用するには、基本的なプロジェクト セットアップについて<PlatformBlock for="Angular">[{ProductName} の使用の開始]({environment:infragisticsBaseUrl}/products/ignite-ui-angular/angular/components/general/getting-started)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} の使用の開始](../general-getting-started.mdx)</PlatformBlock> トピックを参照してから、コンポーネントを登録します。
+
+### 前提条件とバージョンの互換性
+
+<PlatformBlock for="WebComponents, Angular">
+
+Color Picker には `igniteui-webcomponents` 7.3.0 以降が必要です。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName} は Color Picker を Web コンポーネントとしてレンダリングするため、Angular プロジェクトに `igniteui-webcomponents` をインストールします。
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcColorPickerComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcColorPickerComponent) とテーマをインポートしてから、コンポーネントを登録します。
+
+```ts
+import { defineComponents, IgcColorPickerComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcColorPickerComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igc-color-picker` をレンダリングする Angular コンポーネントに `CUSTOM_ELEMENTS_SCHEMA` を追加します。
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="ColorPicker" /> ラッパーとテーマをインポートします。
+
+```tsx
+import { IgrColorPicker } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+**Program.cs** で <ApiLink pkg="core" type="ColorPicker" /> モジュールを登録します。
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbColorPickerModule));
+```
+
+**wwwroot/index.html** (Blazor WebAssembly) または **Pages/_Host.cshtml** (Blazor Server) でテーマ スタイルシートをリンクします。
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+ラベル付きで Color Picker をレンダリングします。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker label="Pick a color"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker label="Pick a color"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Label="Pick a color"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+## 使用方法
+
+<ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> には、任意の CSS カラー文字列 (先頭の `#` の有無にかかわらない hex、`rgb`/`rgba`、`hsl`/`hsla`、または名前付きカラー) を設定します。空または無効な文字列は値をクリアし、アンカーには市松模様が表示されます。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-value" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の値の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/value" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の値の例" />
+
+</PlatformBlock>
+
+### モード
+
+<ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> プロパティは、アンカーの表示方法を制御します。デフォルト値の `default` は現在の色をプレビューするトリガー ボタンをレンダリングし、`input` は色のスウォッチをプレフィックスとして持つ編集可能なテキスト フィールドをレンダリングします。どちらのアンカーも同じピッカー ドロップダウンを開きます。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker mode="input" label="Background"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker mode="input" label="Background"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Mode="ColorPickerMode.Input" Label="Background"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-input" height={590} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の入力例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/input" height={590} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の入力例" />
+
+</PlatformBlock>
+
+### フォーマット
+
+色をシリアル化する方法を制御するには <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> プロパティを使用します。サポートされる値は `hex`、`rgb`、`hsl` です。フォーマットを変更すると、既存の色を変更せずに再シリアル化するため、`igcInput` イベントも `igcChange` イベントも発生しません。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker format="rgb" value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker format="rgb" value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Format="ColorPickerFormat.Rgb" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+組み込みのフォーマット スイッチャーを非表示にしてピッカーを単一のフォーマットに固定するには、<ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> プロパティを設定します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker hide-formats format="hex"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker hideFormats={true} format="hex"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker HideFormats="true" Format="ColorPickerFormat.Hex"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-format" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のフォーマット例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/format" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のフォーマット例" />
+
+</PlatformBlock>
+
+### 透明度
+
+デフォルトでは、ピッカーは完全に不透明な色を編集します。透明度スライダーとそのパーセンテージ入力を有効にするには、<ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> プロパティを設定します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker show-alpha value="rgba(25, 118, 210, 0.5)"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker showAlpha={true} value="rgba(25, 118, 210, 0.5)"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker ShowAlpha="true" Value="rgba(25, 118, 210, 0.5)"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-alpha" height={618} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の透明度例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/alpha" height={618} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の透明度例" />
+
+</PlatformBlock>
+
+### スウォッチ
+
+<ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> プロパティを通じて定義済みの色のリストを指定します。設定すると、ピッカーは色の入力の下にスウォッチ グリッドをレンダリングします。スウォッチをクリックすると、それが現在の色として適用されます。定義できるスウォッチの数に制限はありません。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```ts
+const picker = document.querySelector('igc-color-picker');
+picker.swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker swatches={['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50']}></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Swatches='@(new[] { "#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50" })'></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-swatches" height={717} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のスウォッチ例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/swatches" height={717} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のスウォッチ例" />
+
+</PlatformBlock>
+
+### 無効
+
+Color Picker を無効にするには、<ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> プロパティを設定します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker disabled value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker disabled={true} value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Disabled="true" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+### 検証
+
+色が選択されていない場合にフォームの検証を失敗させるには、コントロールを <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> としてマークします。このコンポーネントは、標準のフォーム関連 API (<ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" />、<ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" />、<ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" />) をサポートします。
+
+以下のスロットを使用して、アンカーの下にヘルパーと検証メッセージを表示します。
+
+- `helper-text` – アンカーの下にヒントまたは説明メッセージを表示します。
+- `value-missing` – 必須フィールドの検証が失敗した場合にカスタム コンテンツをレンダリングします。
+- `invalid` – コンポーネントが無効な状態のときにカスタム コンテンツをレンダリングします。
+- `custom-error` – <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity()" /> を使用してカスタム検証メッセージが設定されている場合にコンテンツを表示します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker required label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker required={true} label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Required="true" Label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-states" height={585} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の状態" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/states" height={585} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の状態" />
+
+</PlatformBlock>
+
+### サイズ
+
+`--ig-size` 変数を `--ig-size-small`、`--ig-size-medium`、`--ig-size-large` の 3 つのオプションのいずれかに設定して、Color Picker のサイズを制御します。これは、デフォルトと入力型の両方のアンカー、およびドロップダウン ウィンドウのサイズを調整するために使用できます。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-sizes" height={635} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のサイズ" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/sizes" height={635} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker のサイズ" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-input-sizes" height={665} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の入力サイズ" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/input-sizes" height={665} position="center" noBackground={false} noBorder={false} alt="{Platform} Color Picker の入力サイズ" />
+
+</PlatformBlock>
+
+### 使用すべき場合と使用すべきでない場合
+
+**使用する場合:** ユーザーがビジュアル エディターを通じて任意の色を入力または編集する必要があり、その値がフォームの送信と検証に関与する必要がある場合に Color Picker を使用します。常に明確なラベルを提供し、ピッカーが他のフォーム フィールドと並んで配置される場合は `input` モードを優先します。
+
+**使用しない場合:** ユーザーが少数の固定された色のセットからのみ選択する場合は、代わりにそのセットを通常のボタンまたはセレクトとしてレンダリングします。より軽量なカラー エディターが必要な場合は、[Color Editor](./color-editor.mdx) の使用を検討してください。
+
+<table class="table" style="width: 100%; max-width: 1100px; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={colorPickerDo} srcset={`${colorPickerDo.src} 1x, ${colorPickerDo2x.src} 2x`} alt="Color Picker used to choose a drawing brush color" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={colorPickerDoNot} srcset={`${colorPickerDoNot.src} 1x, ${colorPickerDoNot2x.src} 2x`} alt="Color Picker used to choose a product color that comes in a fixed set of options" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>Do</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>Don't</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        描画ツールのブラシ、イラストの塗りつぶし、チャート シリーズ、カスタム テーマなど、自由度の高い創造的なタスクには完全な Color Picker を使用します。
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        ユーザーが固定されたパレットからのみ選択する必要がある場合や、高度なカスタマイズ オプションを必要としない場合は、Color Picker の使用を避けてください。
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<PlatformBlock for="Angular">
+
+## Angular フォームでの Color Picker の使用
+
+Angular フォームで Color Picker Web コンポーネントを使用し、`formControlName` または `ngModel` でバインドするには、Angular は `ControlValueAccessor` インターフェイスの実装を必要とします。{ProductName} は、対応する Web コンポーネントに要素セレクターでアタッチする `IgcFormControlDirective` としてこれを提供します。バージョン 22.2.0 以降、`igc-rating` に加えて `igc-color-picker` もサポートされます。
+
+`IgcFormControlDirective` を `ReactiveFormsModule` (または `ngModel` でバインドする場合は `FormsModule`) と一緒にインポートします。
+
+```ts
+import { ReactiveFormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    imports: [ReactiveFormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+
+export class LabelFormComponent {...}
+```
+
+次に、`formControlName` を使用して Color Picker を `FormControl` にバインドします。コントロールはアクティブな `format` で色を受け取り、フォーカスが異なる色で Color Picker から離れると更新されます。
+
+```html
+<form [formGroup]="labelForm">
+  <igc-color-picker formControlName="color" label="Label color" required></igc-color-picker>
+</form>
+```
+
+<DocsAside type="info">
+このディレクティブは値のバインドのみを処理します。`[swatches]="swatches"` など、他の Color Picker プロパティに Angular プロパティ バインディングを使用する場合は、`CUSTOM_ELEMENTS_SCHEMA` を維持してください。
+</DocsAside>
+
+次のサンプルは、必須検証を伴うリアクティブ フォームで Color Picker を使用します。
+
+<Sample src="/data-entries/color-picker-reactive-form" height={850} position="center" noBackground={false} noBorder={false} alt="リアクティブ フォームの Angular Color Picker" />
+
+</PlatformBlock>
+
+## プロパティ
+
+{Platform} Color Picker は、そのコンテンツ、表示、およびフォームとの関連付けのためのプロパティを公開します。
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> | `string` | `''` | アクティブなフォーマットでシリアル化された現在の色。 |
+| <ApiLink pkg="core" type="ColorPicker" member="label" label="label" /> | `string` | — | アンカーのラベル。`mode="input"` では、アンカーの入力自体のラベルに転送されます。 |
+| <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> | `'hex' \| 'rgb' \| 'hsl'` | `'hex'` | 値の文字列をシリアル化するときに使用する出力フォーマット。 |
+| <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> | `'default' \| 'input'` | `'default'` | アンカーがトリガー ボタン (`default`) か、スウォッチのプレフィックスを持つ編集可能なテキスト フィールド (`input`) か。 |
+| <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | 選択可能なスウォッチ グリッドとしてレンダリングされる定義済みの色の文字列。 |
+| <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | フォーマット スイッチャーを非表示にするかどうか。 |
+| <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | 透明度スライダーとそのパーセンテージ入力を表示するかどうか。 |
+| <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | フォームの検証にコントロールが必須かどうか。 |
+| <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | コントロールの無効状態。 |
+| <ApiLink pkg="core" type="ColorPicker" member="open" label="open" /> | `boolean` | `false` | ピッカー ドロップダウンの開いた状態。 |
+| <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> | `string` | — | フォーム送信用のコントロールの名前。 |
+| <ApiLink pkg="core" type="ColorPicker" member="invalid" label="invalid" /> | `boolean` | `false` | コントロールの無効 (invalid) なビジュアル状態を設定または返します。 |
+
+## メソッド
+
+| 名前 | 戻り値の型 | 説明 |
+| -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="show" label="show" /> | `Promise<boolean>` | `igcOpening` または `igcOpened` を発生させずにピッカー ドロップダウンを開きます。 |
+| <ApiLink pkg="core" type="ColorPicker" member="hide" label="hide" /> | `Promise<boolean>` | `igcClosing` または `igcClosed` を発生させずにピッカー ドロップダウンを閉じます。 |
+| <ApiLink pkg="core" type="ColorPicker" member="toggle" label="toggle" /> | `Promise<boolean>` | イベントを発生させずにピッカー ドロップダウンの開いた状態を切り替えます。 |
+| <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" /> | `boolean` | メッセージを表示せずにコントロールの妥当性を確認します。 |
+| <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" /> | `boolean` | コントロールの妥当性を確認し、ユーザーに報告します。 |
+| <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" /> | `void` | カスタム検証メッセージを設定します。クリアするには空の文字列を渡します。 |
+
+## イベント
+
+| 名前 | キャンセル可能 | 詳細 | 説明 |
+| -- | -- | -- | -- |
+| `igcInput` | いいえ | `string` | グラデーション キャンバス、色相と透明度のスライダー、透明度の入力、スウォッチ、またはスポイトからのすべての中間的な変更で発生します。 |
+| `igcChange` | いいえ | `string` | フォーカスがコンポーネントから離れ、色がフォーカスが入ったときの色と異なる場合に発生します。 |
+| `igcOpening` | はい | `void` | ユーザーがピッカー ドロップダウンを開く直前に発生します。`event.preventDefault()` でキャンセルします。 |
+| `igcOpened` | いいえ | `void` | ユーザーがピッカー ドロップダウンを開いた後に発生します。 |
+| `igcClosing` | はい | `void` | ユーザーがピッカー ドロップダウンを閉じる直前に発生します。`event.preventDefault()` でキャンセルします。 |
+| `igcClosed` | いいえ | `void` | ユーザーがピッカー ドロップダウンを閉じた後に発生します。 |
+
+## スタイル設定
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-styling" height={630} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Color Picker のスタイル設定例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/styling" height={630} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Color Picker のスタイル設定例" />
+
+</PlatformBlock>
+
+{Platform} Color Picker の外観は、CSS 変数、CSS パーツ、およびテーマ設定システムを通じてカスタマイズできます。
+
+### スタイル変数
+
+| 変数 | 変更する内容 |
+| -- | -- |
+| `--ig-color-picker-label-color` | Color Picker ラベルの色。 |
+| `--ig-color-picker-label-color-invalid` | コンポーネントが無効 (invalid) な場合のラベルの色。 |
+| `--ig-color-picker-label-color-disabled` | コンポーネントが無効化されている場合のラベルの色。 |
+| `--ig-color-picker-anchor-background` | Color Picker アンカーの背景色。 |
+| `--ig-color-picker-anchor-background-hover` | ホバー時のアンカーの背景色。 |
+| `--ig-color-picker-anchor-background-focus-visible` | フォーカスが表示されている場合のアンカーの背景色。 |
+| `--ig-color-picker-anchor-background-focus-visible-hover` | フォーカスが表示されており、ホバーされている場合のアンカーの背景色。 |
+| `--ig-color-picker-anchor-background-active` | アクティブ時のアンカーの背景色。 |
+| `--ig-color-picker-anchor-background-active-focus-visible` | フォーカスが表示された状態でアクティブなアンカーの背景色。 |
+| `--ig-color-picker-anchor-background-disabled` | 無効化されている場合のアンカーの背景色。 |
+| `--ig-color-picker-anchor-outline-color` | アンカーのフォーカス表示時のアウトライン色。 |
+| `--ig-color-picker-anchor-border-color` | アンカーの境界線色。 |
+| `--ig-color-picker-anchor-border-color-disabled` | 無効化されている場合のアンカーの境界線色。 |
+| `--ig-color-picker-anchor-border-radius` | アンカーの境界線の半径。 |
+| `--ig-color-picker-swatch-preview-border-color` | アンカー内の色プレビューの境界線色。 |
+| `--ig-color-picker-picker-background` | ピッカー ドロップダウンの背景色。 |
+| `--ig-color-picker-picker-border-color` | ピッカー ドロップダウンの境界線色。 |
+| `--ig-color-picker-picker-border-radius` | ピッカー ドロップダウンの境界線の半径。 |
+| `--ig-color-picker-picker-canvas-border-color` | ピッカーのグラデーション キャンバスの境界線色。 |
+| `--ig-color-picker-picker-elevation` | ピッカー ドロップダウンの影。 |
+| `--ig-color-picker-slider-track-border-color` | 色相と透明度のスライダー トラックの境界線色。 |
+| `--ig-color-picker-slider-track-border-radius` | 色相と透明度のスライダー トラックの境界線の半径。 |
+| `--ig-color-picker-slider-thumb-border-color` | 色相と透明度のスライダー サムの境界線色。 |
+| `--ig-color-picker-swatch-separator-color` | スウォッチ グリッド上部の区切り線の色。 |
+| `--ig-color-picker-swatch-border-color` | 定義済みの色のスウォッチの境界線色。 |
+| `--ig-color-picker-swatch-border-radius` | 定義済みの色のスウォッチの境界線の半径。 |
+| `--ig-color-picker-swatch-size` | 定義済みの色のスウォッチのサイズ。 |
+| `--ig-color-picker-transparency-grid-odd` | 透明度グリッドの奇数チェッカー色。 |
+| `--ig-color-picker-transparency-grid-even` | 透明度グリッドの偶数チェッカー色。 |
+| `--ig-color-picker-invalid-color` | 無効 (invalid) 状態のインジケーターに使用される色。 |
+| `--ig-color-picker-marker-size` | ピッカーのグラデーション キャンバス上のマーカーのサイズ。 |
+| `--ig-color-picker-marker-elevation` | ピッカーのグラデーション キャンバス上のマーカーの影。 |
+| `--ig-color-picker-marker-color` | ピッカーのグラデーション キャンバス上のマーカーの色。 |
+
+### スタイル パーツ
+
+| パーツ | スタイル設定する内容 |
+| -- | -- |
+| `color-picker` | アンカー、ラベル、ヘルパー テキストを囲むラッパー。 |
+| `anchor` | ピッカーを開くトリガー要素 (デフォルト モードではボタン、入力モードではスウォッチのプレフィックス)。 |
+| `empty` | 色の値が設定されていない場合に `anchor` とともに適用され、市松模様の背景をレンダリングします。 |
+| `input-mode` | 入力モードで `anchor` とともに適用されます。 |
+| `label` | デフォルト モードでアンカーの上にレンダリングされるラベル。 |
+| `picker` | キャンバス、スライダー、入力、スウォッチを保持するポップオーバー コンテナー。 |
+| `picker-canvas` | グラデーション キャンバス。 |
+| `marker` | グラデーション キャンバス上のドラッグ可能なマーカー。 |
+| `dragging` | マーカーがドラッグされている間、`marker` とともに適用されます。 |
+| `main-row` | 色相スライダーとコピー/スポイト ボタンを含む行。 |
+| `alpha-row` | `show-alpha` が設定されている場合にレンダリングされる、透明度スライダーと入力を含む行。 |
+| `alpha-input` | 透明度パーセンテージの入力。 |
+| `inputs-row` | フォーマットの選択と色の値の入力を含む行。 |
+| `buttons` | コピーとスポイトのボタンを囲むラッパー。 |
+| `hue` | 色相の範囲スライダー。 |
+| `alpha` | 透明度 (不透明度) の範囲スライダー。 |
+| `copy` | クリップボードへのコピー アイコン ボタン。 |
+| `eye-dropper` | スポイト アイコン ボタン。 |
+| `format-select` | 色の文字列フォーマットを切り替えるために使用されるセレクト コントロール。 |
+| `swatches` | 定義済みの色のスウォッチのコンテナー。 |
+| `swatch` | 個々の定義済みの色のスウォッチ ボタン。 |
+
+### Sass テーマ
+
+Sass を通じて Color Picker の外観をカスタマイズするには、<ApiLink kind="sass" module="themes" type="function-color-picker-theme" label="color-picker-theme" code={true} /> 関数を使用します。
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-color-picker-theme: color-picker-theme(
+  $picker-background: #e6f2ff,
+  $picker-border-color: #a9b8cc,
+  $picker-border-radius: 1rem
+);
+
+:root {
+  @include tokens($custom-color-picker-theme);
+}
+```
+
+### CSS 変数
+
+Sass ビルド ステップなしでローカルにスタイル設定する必要がある場合は、コンポーネントの CSS 変数を直接設定します。
+
+```css
+igc-color-picker {
+  --ig-color-picker-picker-background: #e6f2ff;
+  --ig-color-picker-picker-border-color: #a9b8cc;
+  --ig-color-picker-picker-border-radius: 1rem;
+  --ig-color-picker-picker-elevation: none;
+}
+```
+
+### Tailwind によるスタイル設定
+
+`igniteui-theming` のカスタム Tailwind ユーティリティ クラスを使用して Color Picker のスタイルを設定します。まず [Tailwind をセットアップ](../themes/tailwind.mdx)して Ignite UI テーマを適用します。
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+`light-color-picker` ユーティリティを適用して Color Picker にそのテーマ変数を与え、任意のプロパティ クラスで個々の変数をオーバーライドします。`!` プレフィックスはユーティリティを important としてマークし、コンポーネントのデフォルトのテーマ スタイルよりも優先されるようにします。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker className="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-tailwind-styling" height={660} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Color Picker の Tailwind スタイル設定例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/tailwind-styling" height={660} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Color Picker の Tailwind スタイル設定例" />
+
+</PlatformBlock>
+
+## アクセシビリティ
+
+{Platform} Color Picker は、キーボードで操作可能なフォーム関連コントロールです。アンカーはラベル付きボタン (デフォルト モード) または編集可能な入力 (入力モード) であり、開いたピッカーはフォーカスをトラップします。
+
+### キーボード インタラクション
+
+以下のキー バインディングは、コンポーネントが `disabled` の間はスキップされます。
+
+| キー | アクション |
+| -- | -- |
+| `Alt` + `ArrowDown` | ピッカー ドロップダウンを切り替えます。 |
+| `Alt` + `ArrowUp` | ピッカー ドロップダウンを閉じ、フォーカスをアンカーに戻します。 |
+| `Escape` | ピッカー ドロップダウンを閉じ、フォーカスをアンカーに戻します。 |
+| 矢印キー | グラデーション キャンバスのマーカーにフォーカスがある場合、押された方向に 1 ステップずつマーカーを移動します。 |
+| `ArrowUp` / `ArrowDown` | 透明度の入力にフォーカスがある場合、不透明度を 1% 増減します。 |
+| `Tab` | 開いたピッカー内のインタラクティブな要素間でフォーカスを移動します。 |
+
+### スクリーン リーダー / ARIA
+
+- アンカーは `aria-haspopup="dialog"` と `aria-expanded` を設定し、`aria-describedby` を通じてヘルパー テキスト コンテナーを参照するため、ヘルパーと検証メッセージがアナウンスされます。
+- ピッカー ドロップダウンには `role="dialog"` とアクセシブルな名前 `Color picker` があります。
+- グラデーション キャンバスのマーカーには `role="slider"` があり、`aria-valuetext` を通じて両方の軸をアナウンスします (例: `Saturation 50%, brightness 80%`)。
+- 色相と透明度のスライダーは、`aria-label` (`Hue`、`Alpha slider`) でラベル付けされたネイティブの `input[type="range"]` 要素です。
+- フォーマット スイッチャーと色の値の入力には視覚的に非表示のラベルが付いており、コピーとスポイトのボタンには視覚的に非表示のテキストが公開されています。
+- 各スウォッチ ボタンは `aria-label` を通じてその色を公開します。
+- ピッカーが開いている間、フォーカスはその中にトラップされます。閉じている間、ピッカーのコンテンツは `inert` であり、タブ順序から除外されます。
+
+### アクセシビリティ準拠
+
+Infragistics は、Section 508 および WCAG 2.1 ガイドライン領域に関する {ProductName} のアクセシビリティ サポートを [アクセシビリティ コンプライアンス](../interactivity/accessibility-compliance.mdx) トピックで説明しています。
+
+| 基準 | コンポーネントがどのように準拠しているか |
+| -- | -- |
+| [1.3.1 情報および関係性](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | コンポーネントは、`aria-describedby` とスロット プロジェクションを通じて、そのラベル、ヘルパー テキスト、検証メッセージを公開します。 |
+| [2.1.1 キーボード](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | ピッカーの開閉、グラデーション マーカー、スライダー、入力、フォーマット スイッチャー、スウォッチはキーボードで操作できます。 |
+| [4.1.2 名前、役割、値](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | アンカーは `aria-haspopup` と `aria-expanded` を公開し、マーカーはその値とともに `role="slider"` を公開し、スライダーはアクセシブルなラベルを公開し、スウォッチは `aria-label` を通じてその色を公開します。 |
+
+ユーザー側の責任:
+
+- スクリーン リーダーでアンカーを識別できるように、`label` プロパティまたは投影されたラベルを通じてアクセシブルなラベルを提供してください。
+- 必須または無効な状態を伝えるために色だけに依存しないでください。検証スロットまたはヘルパー テキストを使用してください。
+- アンカーとピッカー サーフェスのテーマ スタイルをオーバーライドする場合は、十分なコントラストを維持してください。
+
+## トラブルシューティング
+
+{Platform} Color Picker のトラブルシューティング ガイダンスは、一般的な統合およびプラットフォームの問題について、問題 → 原因 → 修正の形式に従います。
+
+### 色の値がクリアされたり元に戻ったりするのはなぜですか?
+
+空、空白のみ、または無効な文字列を `value` に割り当てると、前の値を保持する代わりに色がクリアされます。色の入力に入力された無効な文字列は、代わりに現在の色に戻ります。有効な CSS カラー文字列を割り当て、環境が `OffscreenCanvas` をサポートしていることを確認してください (既知の制限を参照)。
+
+### 出力される値が入力したものと異なるフォーマットになるのはなぜですか?
+
+値は常にアクティブな `format` でシリアル化されるため、入力文字列はバイト単位でラウンドトリップしません。たとえば、`format="hex"` で `red` と入力すると `#ff0000` が生成されます。読み戻すことが予想される表記法に `format` を設定してください。
+
+### 色を入力しても `igcInput` が発生しないのはなぜですか?
+
+色の入力は、すべてのキーストロークではなく、変更されたときに入力された色をコミットするため、入力された色は `igcInput` を発生させません。フォーカスが異なる色でコンポーネントから離れたときに発生する `igcChange` をリッスンしてください。
+
+### 既知の制限事項
+
+- スポイト ボタンは、[`EyeDropper`](https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper) API を実装しているブラウザーでのみ有効になります。サポートは、コンポーネントが作成されたときに一度検出されます。
+- クリップボードへのコピーは `navigator.clipboard` と安全なコンテキスト (HTTPS または `localhost`) に依存します。API が利用できない場所や権限が拒否された場所では、何も実行されません。
+- このコンポーネントは、すべての色の文字列を `OffscreenCanvas` の 2D コンテキストを通じて解析します。`OffscreenCanvas` が利用できない場合、すべての値は空になります。
+- `Hue`、`Alpha slider`、`Open color picker`、`Copy color value to clipboard` などの組み込みのアクセシブルなラベルは英語のみで、ローカライズされていません。
+
+## API リファレンス
+
+Color Picker の完全な API サーフェスについては、これらの API リファレンスを使用してください。
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcColorPickerComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcColorPickerComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="ColorPicker" />
+
+</PlatformBlock>
+
+## 依存関係
+
+{Platform} Color Picker は、ビジュアル スタイルを適用するためにテーマ スタイルシートを必要とします。**作業の開始**のセットアップを参照してください。
+
+## その他のリソース
+
+サポートと関連する Ignite UI ドキュメントについては、以下のリソースを使用してください。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 関連コンポーネント
+
+完全な Color Picker が必要以上の機能を持つ場合は、これらの関連コンポーネントを使用してください。
+
+- [Color Editor](./color-editor.mdx) — より単純な色の編集シナリオのための、現在プレビュー段階の軽量なカラー エディター。
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Color Picker をフォームにバインドするにはどうすればよいですか?" indicatorPosition="end">
+    <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> 属性をフォーム フィールド名に設定し、Color Picker を `<form>` 要素内に配置します。現在シリアル化されている色はその名前で送信され、コントロールは標準のフォーム関連要素 API を通じて `required` 検証とフォームのリセットに関与します。
+    <PlatformBlock for="Angular">Angular リアクティブ フォームでは、`IgcFormControlDirective` をインポートし、`formControlName` で Color Picker をバインドします。[Angular リアクティブ フォームでの Color Picker の使用](#angular-フォームでの-color-picker-の使用) を参照してください。</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="`igcInput` は `igcChange` とどう違いますか?" indicatorPosition="end">
+    `igcInput` は、キャンバス、スライダー、透明度の入力、スウォッチ、またはスポイトとのすべての中間的な操作で発生します。`igcChange` は、フォーカスが Color Picker から離れ、色がフォーカスが入ったときの色と異なる場合に一度だけ発生し、ネイティブの `change` イベントのセマンティクスに一致します。色の入力に入力された色は `igcChange` のみを発生させます。
+  </FaqItem>
+
+  <FaqItem question="どのパッケージが Color Picker を提供していますか?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">Color Picker は `igniteui-webcomponents` パッケージ (バージョン 7.3.0 以降) で提供されます。</PlatformBlock>
+    <PlatformBlock for="Angular">`igniteui-angular` には Color Picker が含まれていないため、Angular アプリケーションは直接インストールします。</PlatformBlock>
+    <PlatformBlock for="React, Blazor">Color Picker は `{PackageCommon}` パッケージで提供されます。</PlatformBlock>
+  </FaqItem>
+</Faq>
