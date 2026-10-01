@@ -2,19 +2,23 @@
 title: "Virtual Scroll"
 description: "The Virtual Scroll is a component that renders only the items in its viewport plus a small buffer, so large lists scroll smoothly."
 keywords: "{Platform} Virtual Scroll, virtualization, virtual list, large lists, infinite scroll, remote data, {ProductName}"
-last_updated: "2026-09-17"
+last_updated: "2026-09-25"
 license: MIT
 mentionedTypes: ["VirtualScroll"]
-relatedComponents: ["List", "Card"]
+relatedComponents: ["List", "Grid", "Card"]
 llms:
   description: "The {ProductName} Virtual Scroll is a component that renders large lists by keeping only the items in its viewport, plus a configurable buffer, in the DOM."
 ---
-import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
 
 # Virtual Scroll Component
 
@@ -28,7 +32,7 @@ The {ProductName} Virtual Scroll is a component that renders large lists by keep
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 <Sample src="/layouts/virtual-scroll/overview" height={560} alt="{Platform} Virtual Scroll with 100,000 employees" />
 
@@ -38,7 +42,27 @@ The {ProductName} Virtual Scroll is a component that renders large lists by keep
 
 The {Platform} Virtual Scroll renders the visible items plus a configurable buffer, and its track preserves the scroll range of the whole collection.
 
-{/*TODO: add the Virtual Scroll anatomy image and render it with the <Anatomy> component.*/}
+<Anatomy
+  class="virtual-scroll-anatomy"
+  src={virtualScrollAnatomy.src}
+  alt="{Platform} Virtual Scroll anatomy: host, track, content element, item wrappers, and over-scan buffers"
+/>
+
+<style>{`
+  .virtual-scroll-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .virtual-scroll-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Host:</strong> The scroll container. Its fixed height (width when horizontal) sets how many items are visible.<br />
+<strong>2. Track:</strong> A spacer sized to the estimated length of the whole collection, so the scrollbar spans every item.<br />
+<strong>3. Content element:</strong> Holds only the rendered items. It starts at the first rendered buffer item, above the viewport, and takes its size from the rendered items.<br />
+<strong>4. Item wrapper:</strong> One per rendered item. It hosts the item template and is the box that gets measured.<br />
+<strong>5. Over-scan buffer:</strong> The <code>overScan</code> items (2 by default) rendered past each edge of the viewport.</span>
 
 <PlatformBlock for="Angular">
 
@@ -51,7 +75,7 @@ igx-virtual-scroll                      — scrollable viewport (role="list")
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 ```text
 igc-virtual-scroll                            — scrollable viewport
@@ -115,7 +139,32 @@ virtualScroll.data = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${
 
 </PlatformBlock>
 
-The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed width for horizontal scrolling. A host that grows with its content has no viewport to fill.
+<PlatformBlock for="React">
+
+Set up {ProductName} with the [Getting Started](../general-getting-started.mdx) topic, then import the <ApiLink type="VirtualScroll" /> and give it an item template and data. The React wrapper registers the underlying element when the module loads, so no registration call is needed:
+
+```tsx
+import { IgrVirtualScroll } from 'igniteui-react';
+import type { VirtualScrollItemContext } from 'igniteui-react';
+
+const items = Array.from({ length: 100_000 }, (_, i) => ({ name: `Item ${i}` }));
+
+export function Employees() {
+    return (
+        <IgrVirtualScroll
+            data={items}
+            itemTemplate={(ctx: VirtualScrollItemContext<Item>) => (
+                <div className="row">{ctx.index}: {ctx.value.name}</div>
+            )}
+            style={{ height: '400px' }}
+        />
+    );
+}
+```
+
+</PlatformBlock>
+
+The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed width for horizontal scrolling. A host that grows with its content renders every item, so the list is not virtualized.
 
 ### Prerequisites and Version Compatibility
 
@@ -139,6 +188,18 @@ The Virtual Scroll host needs a fixed height for vertical scrolling or a fixed w
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+| Requirement | Value |
+| --- | --- |
+| Package | `igniteui-react` (MIT) |
+| First release with the component | 19.9.0 |
+| Peer packages | `react` and `react-dom` 18 or 19 |
+| Item templates | JSX returned from a function. `igniteui-webcomponents` comes in as a dependency of `igniteui-react`; you do not install it yourself. |
+| Theme | Import a theme stylesheet once, for example `igniteui-webcomponents/themes/light/bootstrap.css`. |
+
+</PlatformBlock>
+
 ## Usage
 
 ### Item Template
@@ -151,7 +212,7 @@ Mark an `ng-template` with `igxVirtualItem`, or pass a template defined elsewher
 
 ```html
 <igx-list>
-    <igx-virtual-scroll [data]="employees" [estimatedItemSize]="64" style="height: 480px">
+    <igx-virtual-scroll role="presentation" [data]="employees" [estimatedItemSize]="64" style="height: 480px">
         <ng-template igxVirtualItem let-employee let-index="index" let-count="count">
             <igx-list-item [attr.aria-posinset]="index + 1" [attr.aria-setsize]="count">
                 <igx-avatar igxListThumbnail shape="circle" [initials]="employee.initials"></igx-avatar>
@@ -181,6 +242,27 @@ virtualScroll.itemTemplate = (ctx: VirtualScrollItemContext<Employee>) => html`
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+Set <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> to a function that returns JSX. The function receives a `VirtualScrollItemContext` with `value` (the item), `index`, `count`, `isFirst`, and `isLast`. Without an item template, the component renders nothing.
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    itemTemplate={(ctx: VirtualScrollItemContext<Employee>) => (
+        <IgrListItem ariaPosinset={ctx.index + 1} ariaSetsize={ctx.count}>
+            <IgrAvatar slot="start" shape="circle" initials={ctx.value.initials} />
+            <span slot="title">{ctx.value.name}</span>
+            <span slot="subtitle">{ctx.value.email}</span>
+        </IgrListItem>
+    )}
+    style={{ height: '480px' }}
+/>
+```
+
+</PlatformBlock>
+
 ### Data
 
 The Virtual Scroll <ApiLink type="VirtualScroll" member="data" label="data" /> collection is compared by reference. Assign a new array to update the list; changing the bound array in place, for example with `push`, does not update it.
@@ -201,11 +283,41 @@ virtualScroll.data = [...virtualScroll.data, newEmployee];
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(current => [...current, newEmployee]);
+```
+
+</PlatformBlock>
+
 When `data` changes, the component keeps the measured sizes of the items before the first changed index and measures the rest again when they render. Appending keeps every existing measurement; replacing, filtering, or sorting discards the measurements from the first changed item onwards.
+
+<PlatformBlock for="React, WebComponents">
+
+An item keeps its element while its key is in the rendered window. Without <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> the index is the key, so after a sort, an insert, or a removal the element at an index stays put and shows its new item. Return a stable id from `keyFunction` when items move within `data`:
+
+```ts
+virtualScroll.keyFunction = (employee) => employee.id;
+```
+
+</PlatformBlock>
 
 ### Estimated Item Size
 
-The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> is the size in pixels an item has until it renders and is measured (`50` by default). Items can have different sizes: each measured size replaces the estimate. Set the estimate close to the average item size to keep the scrollbar and `scrollToIndex` accurate before items are measured.
+The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> is the size in pixels an item has until it renders and is measured (`50` by default). Items can have different sizes: each measured size replaces the estimate.
+
+<PlatformBlock for="Angular">
+
+Set the estimate close to the average item size to keep the scrollbar and `scrollToIndex` accurate before items are measured.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+Set the estimate close to the average item size so that the first render lands near the real content. Once items are measured, their average replaces the estimate for the items that are not measured yet, so the scrollbar and `scrollToIndex` correct themselves even when the estimate is off.
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
@@ -221,6 +333,16 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="estimatedItemSize" labe
 
 ```html
 <igc-virtual-scroll estimated-item-size="80" style="height: 480px"></igc-virtual-scroll>
+```
+
+<Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={employees} estimatedItemSize={80} style={{ height: '480px' }} />
 ```
 
 <Sample src="/layouts/virtual-scroll/variable-size" height={560} alt="{Platform} Virtual Scroll with variable item heights" />
@@ -257,6 +379,22 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="orientation" label="ori
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll
+    orientation="horizontal"
+    data={employees}
+    estimatedItemSize={220}
+    itemTemplate={ctx => <div style={{ width: '220px' }}>...</div>}
+    style={{ height: '200px' }}
+/>
+```
+
+<Sample src="/layouts/virtual-scroll/horizontal" height={260} alt="{Platform} Virtual Scroll with horizontal cards" />
+
+</PlatformBlock>
+
 ### Over-Scan
 
 The Virtual Scroll <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> is the number of extra items rendered beyond each edge of the viewport (`2` by default). A larger value reduces blank areas during fast scrolling and renders more elements.
@@ -273,6 +411,14 @@ The Virtual Scroll <ApiLink type="VirtualScroll" member="overScan" label="overSc
 
 ```html
 <igc-virtual-scroll over-scan="6" style="height: 400px"></igc-virtual-scroll>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrVirtualScroll data={items} overScan={6} style={{ height: '400px' }} />
 ```
 
 </PlatformBlock>
@@ -299,6 +445,20 @@ public async goTo(index: number): Promise<void> {
 
 ```ts
 await virtualScroll.scrollToIndex(index, { block: 'center' });
+```
+
+<Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const virtualScroll = useRef<IgrVirtualScroll>(null);
+
+async function goTo(index: number): Promise<void> {
+    await virtualScroll.current?.scrollToIndex(index, { block: 'center' });
+}
 ```
 
 <Sample src="/layouts/virtual-scroll/scroll-to-index" height={620} alt="{Platform} Virtual Scroll scrolling to an index" />
@@ -344,6 +504,27 @@ virtualScroll.addEventListener('igcDataRequest', (event: CustomEvent<VirtualScro
         virtualScroll.data = [...virtualScroll.data, ...page];
     });
 });
+```
+
+<Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+The Virtual Scroll `onDataRequest` event supports append-only loading from remote data. It is emitted when the rendered window nears the end of `data`, and on the first render when the loaded items do not fill the viewport. Append the requested items as a new array:
+
+```tsx
+<IgrVirtualScroll
+    data={employees}
+    estimatedItemSize={64}
+    onDataRequest={async (event: CustomEvent<VirtualScrollDataRequest>) => {
+        const { startIndex, count } = event.detail;
+        const page = await fetchEmployees(startIndex, count);
+        setEmployees(current => [...current, ...page]);
+    }}
+    style={{ height: '440px' }}
+/>
 ```
 
 <Sample src="/layouts/virtual-scroll/infinite-scroll" height={560} alt="{Platform} Virtual Scroll loading more items while scrolling" />
@@ -422,32 +603,130 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+```tsx
+setEmployees(await fetchEmployees());
+await virtualScroll.current?.layoutComplete;
+```
+
+</PlatformBlock>
+
 ### Do/Don't
 
-{/*TODO: add the Virtual Scroll Do/Don't guidance image from Indigo.Design when it is available.*/}
+The Virtual Scroll usually works as the scroll container of a long list, keeping only the items in its viewport, plus a small buffer, in the DOM. Avoid it for a list short enough to render at once, and as you write the item template, keep each item state in the data rather than in its elements: item elements are reused, so DOM state the template does not bind shows on whichever item takes the element.
+
+<style>{`
+  .vs-guidance {
+    /* The screenshots are exported at this width; the panel is capped to it so
+       the card and its label share one edge. */
+    --vs-card-width: 537px;
+
+    display: grid;
+    /* Tracks are exactly the card width, not 1fr, so the gap between the two
+       panels is the 26px of the design rather than 26px plus leftover track. */
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--vs-card-width), 100%), var(--vs-card-width)));
+
+    /* The tracks are a fixed width, so centre them when the pair is narrower
+       than the content column instead of leaving the slack on one side. */
+    justify-content: center;
+    grid-template-rows: auto auto;
+    gap: 26px;
+    align-items: stretch;
+    width: 100%;
+
+    /* Roomier than the 26px the page gives its other blocks: this one is a
+       pair of tall images, so it needs more air before the next section. */
+    margin: 0 0 48px;
+    isolation: isolate;
+  }
+
+  .vs-guidance__panel {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    gap: 26px;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .vs-guidance__frame {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
+
+  .vs-guidance__frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 4px;
+  }
+
+  .vs-guidance__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+  }
+
+  .vs-guidance__label {
+    font-weight: 600;
+  }
+
+  .vs-guidance__caption p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .vs-guidance__panel--do .vs-guidance__label {
+    color: light-dark(var(--ig-success-700), var(--ig-success-100));
+  }
+
+  .vs-guidance__panel--dont .vs-guidance__label {
+    color: light-dark(var(--ig-error-700), var(--ig-error-300));
+  }
+`}</style>
+
+<div class="vs-guidance">
+<figure class="vs-guidance__panel vs-guidance__panel--do">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">Do</span>
+
+Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
+
+</figcaption>
+</figure>
+<figure class="vs-guidance__panel vs-guidance__panel--dont">
+<div class="vs-guidance__frame">
+<Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" />
+</div>
+<figcaption class="vs-guidance__caption">
+<span class="vs-guidance__label">Don't</span>
 
 <PlatformBlock for="Angular">
 
-**When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
-
-**When not to use:** Render a short list directly with the [List](../list.mdx) and `@for`. Use the [Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
+Render a short list directly with the [List](../list.mdx) and `@for`. Use the [{Platform} Data Grid](../grid/grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](../card.mdx) elements without virtualization.
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
-**When to use:** Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
-
-**When not to use:** Render a short list directly with the [List](../grids/list.mdx). Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
+Render a short list directly with the [List](../grids/list.mdx). Use the [{Platform} Data Grid](../grids/data-grid.mdx) for tabular data with columns, sorting, or filtering. Show a small set of rich items as [Card](./card.mdx) elements without virtualization.
 
 </PlatformBlock>
 
-| Do | Don't |
-| --- | --- |
-| Give the host a fixed height (vertical) or width (horizontal). | Let the host grow with its content. |
-| Set `estimatedItemSize` close to the average item size. | Keep the 50px default for much larger or smaller items. |
-| Assign a new array when the collection changes. | Change the bound array in place. |
-| Space items with padding or `gap`. | Space items with margins. |
+</figcaption>
+</figure>
+</div>
 
 ## Properties
 
@@ -474,7 +753,22 @@ await virtualScroll.layoutComplete;
 | <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | Extra items rendered beyond each edge of the viewport. Attribute: `over-scan`. |
 | <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | The size in pixels of an item until it is measured. A non-positive value uses `50`. Attribute: `estimated-item-size`. |
 | <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `VirtualScrollItemTemplate<T> \| null` | `null` | The function that renders each item. Property only. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `VirtualScrollKeyFunction<T> \| null` | `null` | Returns an item's key, so an item keeps its element when it moves in `data`. Without it, the index is the key. Property only. |
 | <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (read-only) | — | Resolves when rendering and item measurement have settled. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink type="VirtualScroll" member="data" label="data" /> | `any[]` | `[]` | The collection to virtualize. Compared by reference. |
+| <ApiLink type="VirtualScroll" member="orientation" label="orientation" /> | `'vertical' \| 'horizontal'` | `'vertical'` | The scroll axis. |
+| <ApiLink type="VirtualScroll" member="overScan" label="overScan" /> | `number` | `2` | Extra items rendered beyond each edge of the viewport. |
+| <ApiLink type="VirtualScroll" member="estimatedItemSize" label="estimatedItemSize" /> | `number` | `50` | The size in pixels of an item until it is measured. A non-positive value uses `50`. |
+| <ApiLink type="VirtualScroll" member="itemTemplate" label="itemTemplate" /> | `(ctx: VirtualScrollItemContext) => ReactNode` | `null` | The function that renders each item. |
+| <ApiLink type="VirtualScroll" member="keyFunction" label="keyFunction" /> | `(item, index) => unknown` | `null` | Returns an item's key, so an item keeps its element when it moves in `data`. Without it, the index is the key. |
+| <ApiLink type="VirtualScroll" member="layoutComplete" label="layoutComplete" /> | `Promise<void>` (read-only) | — | Resolves when rendering and item measurement have settled. Read it from a ref, not as a prop. |
 
 </PlatformBlock>
 
@@ -504,6 +798,17 @@ await virtualScroll.layoutComplete;
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+| Name | Argument | Description |
+| --- | --- | --- |
+| `onStateChange` | `CustomEvent<VirtualScrollState>` | Emitted when the rendered window changes. `event.detail` carries `startIndex`, `endIndex`, `viewportSize`, `totalSize`. |
+| `onDataRequest` | `CustomEvent<VirtualScrollDataRequest>` | Emitted when the rendered window nears the end of `data`. `event.detail` carries `startIndex` and `count`. |
+
+The handlers receive the native `CustomEvent`, so read the payload from `event.detail`.
+
+</PlatformBlock>
+
 ## Styling
 
 The {Platform} Virtual Scroll has no theme of its own: it lays out the viewport, and the rendered items take their styles from the elements and components in the item template.
@@ -524,7 +829,7 @@ Size the host and target the rendered items with the classes from the [Anatomy](
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 The component renders into its light DOM, so regular selectors reach the rendered items. Its default styles give the host a height of `18.75rem`; override the height to size the viewport.
 
@@ -555,19 +860,20 @@ The {Platform} Virtual Scroll adds no key handlers. The host is a native scroll 
 | Page Up / Page Down | Scrolls by about one viewport. |
 | Home / End | Scrolls to the start or the end of the collection. |
 
-The host has no `tabindex`. Browsers differ in whether a scroll container without focusable content can receive focus, so set `tabindex="0"` on the host when the items contain nothing focusable. Items scrolled out of view leave the DOM, so focus inside a removed item is lost.
+The host has no `tabindex`. Browsers differ in whether a scroll container without focusable content can receive focus, so set `tabindex="0"` on the host when the items contain nothing focusable. Focus inside an item does not survive that item leaving the rendered window, so move focus deliberately before it does.
 
 ### Screen Readers / ARIA
 
 <PlatformBlock for="Angular">
 
 - The host has `role="list"`; the track, the content element, and the item wrappers have `role="presentation"`. Items that render `role="listitem"`, such as `igx-list-item`, are exposed as items of that list.
+- Inside a container that already provides list semantics, such as `igx-list`, set `role="presentation"` on the host so that the items are not nested in a second list.
 - Map the `index` and `count` template variables to `aria-posinset` and `aria-setsize`.
 - Give a focusable host an accessible name with `aria-label` or `aria-labelledby`.
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - The track, the content element, and the item wrappers have `role="presentation"`. The host has no role: place it inside an element with a list role, such as `igc-list`, or give it `role="list"` when the items render `role="listitem"`.
 - Map the `index` and `count` context properties to `aria-posinset` and `aria-setsize`.
@@ -603,7 +909,19 @@ The Virtual Scroll compares `data` by reference, so a change in place is not det
 
 ### Why does the scrollbar change size while I scroll?
 
-Items that have not rendered use `estimatedItemSize`, and the total size is corrected as items are measured. Set `estimatedItemSize` close to the average item size.
+Items that have not rendered use `estimatedItemSize`, and the total size is corrected as items are measured.
+
+<PlatformBlock for="Angular">
+
+Set `estimatedItemSize` close to the average item size.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+The average measured size then replaces the estimate for the items that are not measured yet, so the correction settles as you scroll. Set `estimatedItemSize` close to the average item size to make the first render land near the real content.
+
+</PlatformBlock>
 
 ### Why do items drift out of place further down the list?
 
@@ -628,7 +946,7 @@ The Virtual Scroll measures items at runtime and creates its own scroll containe
 | `igxForScrollContainer` | Not needed: the host is the scroll container |
 | `scrollTo(index)` | `scrollToIndex(index, options)`, which returns a promise |
 | `chunkLoad`, `chunkPreload` | `stateChange` |
-| `igxForRemote` with `totalItemCount` | `dataWindow` with `totalCount`, or `data` with `dataRequest` for append-only loading |
+| `igxForTotalItemCount` for remote data | `dataWindow` with `totalCount`, or `data` with `dataRequest` for append-only loading |
 | `index`, `count`, `first`, `last`, `even`, `odd` | The same template variables |
 
 The grids keep their own row and column virtualization; see [Grid Virtualization](../grid/virtualization.mdx).
@@ -638,7 +956,7 @@ The grids keep their own row and column virtualization; see [Grid Virtualization
 ## Known Limitations
 
 - The {Platform} Virtual Scroll virtualizes one axis. Rows and columns that are both virtualized require a grid.
-- Items scrolled out of view are removed from the DOM together with their focus and internal state.
+- Item elements are reused as the window moves, so DOM state that the item template does not bind, such as a checkbox without a bound `checked`, shows on whichever item takes the element. Bind all item state, and write user changes back to the item.
 
 <PlatformBlock for="Angular">
 
@@ -664,6 +982,12 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 
 </PlatformBlock>
 
+<PlatformBlock for="React">
+
+The {Platform} Virtual Scroll has no dependencies on other components and needs no theme of its own. `igniteui-react` brings in `igniteui-webcomponents` and `lit`, and the components in the item template need a theme stylesheet.
+
+</PlatformBlock>
+
 ## Additional Resources
 
 - [{ProductName} **Forums**]({ForumsLink})
@@ -674,14 +998,16 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
 <PlatformBlock for="Angular">
 
 - [List](../list.mdx) - Use the List for a short list, or as the container of a virtualized list.
+- [Data Grid](../grid/grid.mdx) - Use the Data Grid for tabular data with columns, sorting, or filtering.
 - [Card](../card.mdx) - Use cards for a small set of rich items, or as items of a horizontal Virtual Scroll.
 - [Virtual ForOf Directive](../for-of.mdx) - The directive-based virtualization used by existing lists.
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React, WebComponents">
 
 - [List](../grids/list.mdx) - Use the List for a short list, or as the container of a virtualized list.
+- [Data Grid](../grids/data-grid.mdx) - Use the Data Grid for tabular data with columns, sorting, or filtering.
 - [Card](./card.mdx) - Use cards for a small set of rich items, or as items of a horizontal Virtual Scroll.
 
 </PlatformBlock>
@@ -694,6 +1020,9 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
   </FaqItem>
   <FaqItem question="Do Virtual Scroll items need the same size?" indicatorPosition="end">
     Items in the {Platform} Virtual Scroll can have different sizes, because each item is measured once it renders. Set `estimatedItemSize` close to the average item size so that the scrollbar is accurate before items are measured.
+    <PlatformBlock for="React, WebComponents">
+    Once items are measured, their average replaces the estimate for the items that are not measured yet.
+    </PlatformBlock>
   </FaqItem>
   <FaqItem question="How do I scroll the Virtual Scroll to a specific item?" indicatorPosition="end">
     Call the {Platform} Virtual Scroll `scrollToIndex` method with the item index and optional `block` and `behavior` options. The method returns a promise that resolves when the corrected position is stable.
@@ -704,6 +1033,10 @@ The {Platform} Virtual Scroll has no dependencies on other components and needs 
     </PlatformBlock>
     <PlatformBlock for="WebComponents">
     The {Platform} Virtual Scroll supports append-only loading through the `igcDataRequest` event. Handle the event and assign a new array that includes the requested items to `data`.
+    </PlatformBlock>
+
+    <PlatformBlock for="React">
+    The {Platform} Virtual Scroll supports append-only loading through the `onDataRequest` event. Handle the event and assign a new array that includes the requested items to `data`.
     </PlatformBlock>
   </FaqItem>
 </Faq>
