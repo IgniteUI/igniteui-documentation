@@ -5,7 +5,7 @@ keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widge
 license: MIT
 last_updated: "2026-08-25"
 relatedComponents: [Switch]
-mentionedTypes: ["Checkbox", "Form"]
+mentionedTypes: ["Checkbox"]
 llms:
   description: "The {Platform} Checkbox is a component that lets you add checkboxes to your {Platform} apps."
 ---
@@ -180,10 +180,10 @@ After registration, render the <ApiLink pkg="core" type="Checkbox" /> with the p
 
 </PlatformBlock>
 
-<PlatformBlock for="React,WebComponents,Blazor">
+<PlatformBlock for="Blazor">
 
-<DocsAside type="warning">
-The <ApiLink pkg="core" type="Checkbox" /> component doesn't work with the standard `<form>` element. Use `Form` instead.
+<DocsAside type="warning" title="Warning">
+The <ApiLink pkg="core" type="Checkbox" /> component doesn't work with a standard HTML `<form>` element in Blazor. Use the Blazor `EditForm` component instead.
 </DocsAside>
 
 </PlatformBlock>
@@ -250,7 +250,7 @@ The checkbox can also be labelled by elements external to the checkbox. In this 
 
 ```razor
 <span id="checkbox-label">Label</span>
-<IgbCheckbox AriaLabelledby="checkbox-label" />
+<IgbCheckbox AriaLabelledBy="checkbox-label" />
 ```
 
 </PlatformBlock>
@@ -476,28 +476,36 @@ The following properties cover the main Checkbox configuration options documente
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Checkbox" member="checked" label="checked" /> | `boolean` | `false` | Gets or sets whether the checkbox is selected. |
 | <ApiLink pkg="core" type="Checkbox" member="indeterminate" label="indeterminate" /> | `boolean` | `false` | Gets or sets whether the checkbox is in an indeterminate state. |
-| <ApiLink pkg="core" type="Checkbox" member="labelPosition" label="labelPosition" /> | `ToggleLabelPosition` | `after` | Sets the position of the checkbox label. |
+| <ApiLink pkg="core" type="Checkbox" member="labelPosition" label="labelPosition" /> | <PlatformBlock for="Angular">`LabelPosition`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`ToggleLabelPosition`</PlatformBlock> | `after` | Sets the position of the checkbox label. |
 | <ApiLink pkg="core" type="Checkbox" member="required" label="required" /> | `boolean` | `false` | Gets or sets whether the Checkbox is required. |
 | <ApiLink pkg="core" type="Checkbox" member="invalid" label="invalid" /> | `boolean` | `false` | Gets or sets whether the Checkbox is invalid. |
 | <ApiLink pkg="core" type="Checkbox" member="disabled" label="disabled" /> | `boolean` | `false` | Gets or sets whether the Checkbox is disabled. |
-| <ApiLink pkg="core" type="Checkbox" member="name" label="name" /> | `string` | — | Gets or sets the name used when the Checkbox is submitted through `Form`. |
-| <ApiLink pkg="core" type="Checkbox" member="value" label="value" /> | `string` | — | Gets or sets the value submitted through `Form`. |
+| <ApiLink pkg="core" type="Checkbox" member="value" label="value" /> | `string` | — | Gets or sets the value used when the Checkbox is submitted with a form. |
+<PlatformBlock for="Angular,React,WebComponents">| <ApiLink pkg="core" type="Checkbox" member="name" label="name" /> | `string` | — | Gets or sets the name used when the Checkbox is submitted with a form. |</PlatformBlock>
 
 ## Styling
 
-The {Platform} Checkbox uses CSS parts and documented styling variables to customize its appearance.
+<PlatformBlock for="Angular">
+
+The {Platform} Checkbox is styled through the {ProductName} Sass theme system and the CSS variables it generates.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Checkbox uses CSS parts and CSS variables to customize its appearance.
+
+</PlatformBlock>
 
 ### Sass Theming
 
 Use the {ProductName} theme system to style the Checkbox consistently with the rest of your application. Verify the available Sass theme parameters in the API documentation before adding a custom theme.
 
-### CSS Variables
-
-Use the following styling properties to customize the Checkbox indicator and selected-state appearance:
-
 <PlatformBlock for="Angular">
 
-| Primary Property | Related Properties | Description |
+The <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="checkbox-theme" code={true} /> exposes the following parameters:
+
+| Primary Parameter | Related Parameters | Description |
 | --- | --- | --- |
 | `$empty-color` | `$empty-color-hover`, `$focus-outline-color` | Unchecked border color and related focus or hover states. |
 | `$fill-color` | `$fill-color-hover`, `$tick-color`, `$focus-border-color`, `$disabled-indeterminate-color`, `$focus-outline-color` | Checked border, fill, tick, focus, and disabled-indeterminate colors. |
@@ -508,12 +516,14 @@ Use the following styling properties to customize the Checkbox indicator and sel
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
+### CSS Variables
+
+Use the following styling properties to customize the Checkbox indicator and selected-state appearance:
+
 | Variable | What it changes |
 | --- | --- |
 | `--tick-color` | The color of the check icon. |
 | `--fill-color` | The background color of the selected checkbox. |
-
-</PlatformBlock>
 
 ### Style Parts
 
@@ -525,6 +535,8 @@ Use the following CSS parts to target the Checkbox structure:
 | `control` | The checkbox control element. |
 | `indicator` | The checkbox indicator icon. |
 | `label` | The Checkbox label. |
+
+</PlatformBlock>
 
 ### Custom Styling
 
@@ -705,13 +717,13 @@ Your responsibilities:
 
 ## API References
 
-The {Platform} Checkbox API reference provides the complete API surface for the component and its form integration.
+The {Platform} Checkbox API reference provides the complete API surface for the component.
 
 <ApiLink pkg="core" type="Checkbox" />
 
 ## Dependencies
 
-The {Platform} Checkbox requires the platform package and its theme stylesheet. Form scenarios also require the {ProductName} `Form` integration described in [**Getting Started**](#getting-started).
+The {Platform} Checkbox requires a theme stylesheet to apply its visual styling. See the framework-specific setup in <PlatformBlock for="Angular">[**Getting Started**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Getting Started**](../general-getting-started.mdx)</PlatformBlock>.
 
 ## Additional Resources
 
@@ -732,7 +744,7 @@ These frequently asked questions cover common {Platform} Checkbox selection, acc
 
 <Faq>
   <FaqItem question="Can I use the Checkbox with a form?" indicatorPosition="end">
-    The {Platform} Checkbox uses the {ProductName} `Form` integration rather than the standard HTML `<form>` element. Configure a unique `name` and `value` when submitting the Checkbox state through `Form`.
+    <PlatformBlock for="React,WebComponents">The {Platform} Checkbox is form-associated and participates in a native HTML `<form>`. Set a unique `name` and a `value` so the checked state is submitted with the form.</PlatformBlock><PlatformBlock for="Blazor">Use the Blazor `EditForm` component instead of a standard HTML `<form>` and bind the checked state of the Checkbox to your model.</PlatformBlock><PlatformBlock for="Angular">The {Platform} Checkbox works with `ngModel` and with reactive forms, so you can bind its checked state through a form control.</PlatformBlock>
   </FaqItem>
   <FaqItem question="How do I show a partially selected Checkbox?" indicatorPosition="end">
     The {Platform} Checkbox supports a third, indeterminate state for partially selected options. Set the `indeterminate` property to enable that state.
