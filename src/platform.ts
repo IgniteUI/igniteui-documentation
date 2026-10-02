@@ -259,6 +259,21 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
+    // XAML platforms ship under the Ultimate UI brand — `ultimate-ui-*` slugs, not `ignite-ui-*`.
+    WinUIJP: {
+        lang: 'jp', label: 'WinUI', key: 'winui', devPort: 4345,
+        base: '/products/ultimate-ui-winui/winui/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for WinUI',
+        description: 'Component documentation for Infragistics Ultimate UI for WinUI.',
+    },
+    UnoJP: {
+        lang: 'jp', label: 'Uno Platform', key: 'uno', devPort: 4346,
+        base: '/products/ultimate-ui-uno-platform/uno-platform/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for Uno Platform',
+        description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',
+    },
 };
 
 /**

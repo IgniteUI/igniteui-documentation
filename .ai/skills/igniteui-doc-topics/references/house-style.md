@@ -36,7 +36,7 @@ canonical section table below.
 | Doc set | Frameworks | Path (vnext) | Layout | One topic = |
 |---|---|---|---|---|
 | **Angular** | Angular only | `docs/angular/src/content/en/components/` | flat `*.mdx` | one framework |
-| **xplat** | React · Web Components · Blazor | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all three frameworks** |
+| **xplat** | React · Web Components · Blazor · WinUI · Uno | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all five frameworks** |
 
 The **same section list, order, and names apply to both sets.** Differences are mechanical only (see
 Per-framework mechanics), never the shape of the page. **Dependencies** appears in both sets — it
@@ -135,8 +135,12 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
   - **Web Components** → **`igniteui-webcomponents`**, **`igc-`** tags / **`Igc…Component`** classes.
   - **React** → **`igniteui-react`**, a **wrapper around the `igc`** web components.
   - **Blazor** → **`igniteui-blazor`**, a **wrapper around the `igc`** web components.
-- **Net effect:** the **xplat doc set (React / WC / Blazor) is entirely `igc`-based** — WC is `igc`
-  directly; React and Blazor wrap it. The **Angular doc set is `igx`**.
+  - **WinUI** → **`Infragistics.*`** NuGet packages (e.g. `Infragistics.Core`,
+    `Infragistics.WinUI.Charts`), **XAML elements** / **`Xam…`** classes — native, not `igc`-based.
+  - **Uno Platform** → the same **`Infragistics.*`** NuGet packages and **`Xam…`** XAML classes as WinUI.
+- **Net effect:** the **web xplat platforms (React / WC / Blazor) are entirely `igc`-based** — WC is
+  `igc` directly; React and Blazor wrap it. **WinUI and Uno are native XAML/.NET (`Xam…`), not
+  `igc`-based.** The **Angular doc set is `igx`**.
 - **Exception — WC-first components in the Angular docs.** Some newer components are built as web
   components and surfaced in the Angular docs via the `igc` element rather than a native `igx` one
   (verified: the Angular **Rating** topic installs `igniteui-webcomponents`, registers
@@ -144,12 +148,14 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
   verify the tag/class per component.
 - **Angular set:** plain prose, no platform tokens. Registers and renders whichever the component is
   (`igx-…` native, or the `igc-…` WC for the exceptions above).
-- **xplat set:** the *same file* serves React / WC / Blazor via:
+- **xplat set:** the *same file* serves React / WC / Blazor / WinUI / Uno via:
   - **Tokens** the build resolves: `{Platform}`, `{ProductName}`, `{PackageWebComponents}`,
     `{PackageReact}`, `{PackageBlazor}`, etc. Use them in title/description/keywords/headings and prose
     — never hard-code "React" where a token belongs.
   - **`<PlatformBlock for="WebComponents">…</PlatformBlock>`** to wrap framework-specific content
-    (install commands, imports, snippets). `for` values: `WebComponents`, `React`, `Blazor`.
+    (install commands, imports, snippets). `for` values: `React`, `WebComponents`, `Blazor`,
+    `WinUI`, `Uno`, plus the group aliases `Web` (the four web platforms) and `NonWeb` / `Xaml`
+    (both = WinUI + Uno). Prefer `for="Web"` for web-only content so it stays correct as platforms grow.
 - **Live samples** embed the same way in both sets:
   `<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating Basic Example" />`
 - **API links** use `<ApiLink …>` rather than hand-written URLs so they resolve per framework.
@@ -183,7 +189,7 @@ Use this checklist when creating technical content or auditing an existing topic
 verification gaps; it does not edit the topic. Existing topic prose and snippets are evidence to check,
 not a source of truth.
 
-1. **Identify the target platform.** Angular/native `igx`, Web Components `igc`, React, or Blazor.
+1. **Identify the target platform.** Angular/native `igx`; Web Components `igc`, React, or Blazor (`igc`-based); or WinUI / Uno (native XAML/.NET, `Xam…`).
 2. **Verify public API facts through MCP first.** Use the Ignite UI/API docs MCP source for component
    types, properties, methods, events, and API-link targets.
 3. **If MCP is unavailable, use the official platform API docs.**

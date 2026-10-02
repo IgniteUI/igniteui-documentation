@@ -9,7 +9,7 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
 
 1. **Classify** (Step 0 in SKILL.md). Name the topic type.
 2. **Pick the doc set & framework.** Angular set = its own file, plain prose. xplat set = one file
-   for React/WC/Blazor using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
+   for React/WC/Blazor/WinUI/Uno using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
    the relevant details from `house-style.md`.
 3. **Follow the verification workflow** in `house-style.md` before writing technical content.
    Existing snippets and old prose are clues, not authority. For component topics, also inspect the
