@@ -300,6 +300,27 @@ when its styling isn't shown as copyable code.
 `## Accessibility` always carries three `###` sub-sections, in this order. All three are **reference**
 mode: statements of fact in tables and short lists — no steps, no marketing.
 
+#### Source-first generation contract
+
+Generate the Accessibility section from the component implementation before writing prose. Inspect
+the component template/render method and typed source for the rendered native elements, `role`,
+`aria-*` attributes, focus/tab-order conditions, disabled handling, and indeterminate or validation
+state mapping. Inspect keyboard and pointer event handlers to derive the key-to-action table and
+state transitions. Inspect the public API registry to verify property and event names, then map each
+fact to the platform that actually implements it.
+
+- Treat rendered template/source as the authority for DOM, roles, ARIA attributes, and default state
+  behavior; treat the topic's existing prose as evidence to re-check, never as the source.
+- Treat event handlers as evidence for interaction and state changes only. An event name does not
+  prove an accessible name, role, state, or WCAG conformance claim.
+- For xplat topics, emit shared facts once and use `<PlatformBlock>` when Angular differs from the
+  Web Components implementation or its React/Blazor wrappers.
+- Include only verified attributes, events, and state behavior. If source is unavailable or a fact
+  cannot be resolved, write `‹VERIFY: source fact needed›` or omit it; never infer ARIA behavior from
+  a component name or a generic HTML pattern.
+- Derive the compliance table only from behavior verified in the section and an official product
+  accessibility statement. Do not generate blanket WCAG/Section 508 compliance claims.
+
 1. **`### Keyboard Interaction`** — one key → action table, verified against the component's key
    handlers. Note how the component is reached (Tab) and any condition that removes it from the tab
    order.
