@@ -1,0 +1,854 @@
+---
+title: "Breadcrumbs"
+description: "{ProductName} Breadcrumbs コンポーネントは、設定可能なアイコンで区切られた一連のナビゲーション項目を順序付きで表示し、サイト階層内でのユーザーの現在位置を伝えるとともに、上位のページに戻るための手段を提供します。"
+keywords: "{Platform} Breadcrumbs, {ProductName}, パンくずリスト, ナビゲーション トレイル, 現在のページ, aria-current, 区切り記号, プレフィックス, サフィックス"
+license: MIT
+mentionedTypes: ["Breadcrumbs", "Breadcrumb"]
+relatedComponents: ["Navbar", "NavigationDrawer"]
+last_updated: "2026-09-08"
+_language: ja
+llms:
+  description: "{ProductName} Breadcrumbs コンポーネントは、設定可能なアイコンで区切られた一連のナビゲーション項目を順序付きで表示し、サイト階層内でのユーザーの現在位置を伝えるとともに、上位のページに戻るための手段を提供します。"
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import breadcrumbsAnatomy from '@xplat-images/anatomy-content-light/breadcrumbs-lt-a.png';
+import breadcrumbsDo from '@xplat-images/breadcrumbs/breadcrumbs-do.png';
+import breadcrumbsDo2x from '@xplat-images/breadcrumbs/breadcrumbs-do@2x.png';
+import breadcrumbsDoNot from '@xplat-images/breadcrumbs/breadcrumbs-do-not.png';
+import breadcrumbsDoNot2x from '@xplat-images/breadcrumbs/breadcrumbs-do-not@2x.png';
+
+{/*
+Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component. Its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
+*/}
+
+# Breadcrumbs (パンくずリスト) コンポーネント <Badge variant="new" />
+
+{ProductName} Breadcrumbs コンポーネントは、設定可能なアイコンで区切られた一連のナビゲーション項目を順序付きで表示し、サイト階層内でのユーザーの現在位置を伝えるとともに、上位のページに戻るための手段を提供します。
+
+## ライブ デモ
+
+{Platform} Breadcrumbs のデモでは、末尾の項目が現在のページとしてマークされた 3 項目のパンくずリストを表示します。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-overview" height={120} position="center" showThemePicker={true} noBorder={false} spacing="md" alt="Angular Breadcrumbs の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/overview" height={120} position="center" showThemePicker={true} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs の例" />
+
+</PlatformBlock>
+
+## 構造
+
+{Platform} Breadcrumbs コンポーネントは 2 つの要素で構成されます。共有状態を管理し、ARIA リストとしてレンダリングされるコンテナーと、スロットに配置された任意のコンテンツとその後ろの区切り記号をレンダリングする 1 つ以上の項目 (子要素) です。
+
+<Anatomy
+  class="breadcrumbs-anatomy"
+  name="Breadcrumbs の構造"
+  description="Breadcrumbs コンポーネントは、ARIA リストをレンダリングするコンテナーと、スロットに配置されたコンテンツとその後ろの区切り記号をレンダリングする 1 つ以上の項目で構成されます。"
+  src={breadcrumbsAnatomy.src}
+  alt="Breadcrumbs の構造"
+/>
+
+<style>{`
+  .breadcrumbs-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="breadcrumbs-states"][id$="-example"] .igd-sample-frame {
+    width: 90%;
+  }
+
+  @media (max-width: 650px) {
+    [id^="cw-"][id*="breadcrumbs"][id$="-example"] .igd-sample-frame {
+      height: 90%;
+    }
+
+    [id^="cw-"][id*="breadcrumbs-wrapping"][id$="-example"] .igd-sample-frame,
+    [id^="cw-"][id*="breadcrumbs-size"][id$="-example"] .igd-sample-frame{
+      width: 90%;
+    }
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Breadcrumbs 項目:</strong> パンくずリスト内の 1 つの階層レベルを表します<br />
+<strong>2. Breadcrumbs 項目のアイコン (オプション):</strong> ラベルの右側または左側に表示できます<br />
+<strong>3. 区切り記号:</strong> 個々の項目を区切り、階層内の方向を示す視覚的な要素です<br />
+<strong>4. 現在の項目:</strong> パンくずリスト内のアクティブな階層レベルを表し、通常はクリックできません</span>
+
+```text
+<igc-breadcrumbs role="list">
+  <igc-breadcrumb role="listitem">
+    ├── ::part(label)
+    │   ├── slot="prefix"                 // optional prefix content
+    │   ├── default slot                  // main content, typically <a>
+    │   └── slot="suffix"                 // optional suffix content
+    └── ::part(separator)                 // hidden on the last item
+        └── slot="separator"              // per-item override
+  </igc-breadcrumb>
+  <!-- more <igc-breadcrumb> items ... -->
+  <igc-breadcrumb current role="listitem" aria-current="page">
+    <!-- last item, no trailing separator -->
+  </igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+## 作業の開始
+
+{Platform} Breadcrumbs を使用するには、基本的なプロジェクト セットアップについて<PlatformBlock for="Angular">[{ProductName} の作業の開始](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} の作業の開始](../general-getting-started.mdx)</PlatformBlock> トピックに従ってから、コンポーネントを登録します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+Breadcrumbs コンポーネントには `igniteui-webcomponents` 7.4.0 以降が必要です。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName} は Breadcrumbs を Web コンポーネントとしてレンダリングするため、Angular プロジェクトに `igniteui-webcomponents` をインストールします:
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Breadcrumbs コンポーネントには `igniteui-react` 19.9.0 以降が必要です。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)、[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)、およびテーマをインポートしてから、両方のコンポーネントを登録します:
+
+```ts
+import { defineComponents, IgcBreadcrumbsComponent, IgcBreadcrumbComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcBreadcrumbsComponent, IgcBreadcrumbComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igc-breadcrumbs` をレンダリングする Angular コンポーネントに `CUSTOM_ELEMENTS_SCHEMA` を追加します:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="Breadcrumbs" /> および <ApiLink pkg="core" type="Breadcrumb" /> ラッパーとテーマをインポートします:
+
+```tsx
+import { IgrBreadcrumbs, IgrBreadcrumb } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+**Program.cs** で <ApiLink pkg="core" type="Breadcrumbs" /> および <ApiLink pkg="core" type="Breadcrumb" /> モジュールを登録します:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule), typeof(IgbBreadcrumbModule));
+```
+
+**wwwroot/index.html** (Blazor WebAssembly) または **Pages/_Host.cshtml** (Blazor Server) でテーマ スタイルシートをリンクします:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+Breadcrumbs コンテナー内に階層レベルごとに 1 つの Breadcrumb 項目を配置して、パンくずリストを構成します。各項目はデフォルト スロットに任意のコンテンツを受け入れます。最も一般的なのは、ナビゲーションを処理するアンカーです:
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/products/laptop">Laptop</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/products/laptop">Laptop</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/products/laptop">Laptop</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+## 使用方法
+
+### 現在のページ
+
+現在表示しているページを表す項目を <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> プロパティでマークします。項目はこれを属性として反映し、`aria-current="page"` を設定するため、スクリーン リーダーは現在のページをアナウンスします。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/dashboard">Dashboard</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/dashboard">Dashboard</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/dashboard">Dashboard</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+### 共有の区切り記号
+
+コンテナーの <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> プロパティを使用して、パンくずリスト内のすべての項目に共通の区切り記号アイコンを設定します。値は登録済みのアイコン コレクションのアイコン名で、コンテナーがそれを各項目に伝播します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs separator="slash">
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products/laptops">Laptops</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/products/laptops/gaming">Gaming Laptop</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs separator="slash">
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products/laptops">Laptops</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/products/laptops/gaming">Gaming Laptop</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Separator="slash">
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products/laptops">Laptops</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/products/laptops/gaming">Gaming Laptop</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-custom-separator" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs のカスタム区切り記号の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/custom-separator" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs のカスタム区切り記号の例" />
+
+</PlatformBlock>
+
+末尾の区切り記号はパンくずリストの最後の項目では自動的に非表示になるため、手動で省略する必要はありません。
+
+### 項目ごとの区切り記号のオーバーライド
+
+区切り記号は、その項目の `separator` スロットにコンテンツを配置することで、単一の項目に対してオーバーライドすることもできます。これは、テキストの区切り記号 (`/` や `›` など) とアイコンを組み合わせる場合や、境界ごとにまったく異なる区切り記号を使用する場合に便利です。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/settings">Settings</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/settings">Settings</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/settings">Settings</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+### プレフィックスとサフィックスのコンテンツ
+
+各 Breadcrumb 項目は、メイン コンテンツの前後にアイコン、バッジ、ステータス インジケーターなどの補足コンテンツを配置するための `prefix` スロットと `suffix` スロットを公開します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <igc-icon slot="prefix" name="home"></igc-icon>
+    <a href="/home">Home</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb>
+    <a href="/home/profile">Mail</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb>
+    <a href="/home/profile">Messages</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb current>
+    <a href="/home/inbox">Inbox</a>
+    <igc-badge slot="suffix" outlined variant="danger">3</igc-badge>
+  </igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <IgrIcon slot="prefix" name="home"></IgrIcon>
+    <a href="/home">Home</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb>
+    <a href="/home/profile">Mail</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb>
+    <a href="/home/profile">Messages</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}>
+    <a href="/home/inbox">Inbox</a>
+    <IgrBadge slot="suffix" outlined={true} variant="danger">3</IgrBadge>
+  </IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <IgbIcon slot="prefix" Name="home"></IgbIcon>
+    <a href="/home">Home</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb>
+    <a href="/home/profile">Mail</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb>
+    <a href="/home/profile">Messages</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true">
+    <a href="/home/inbox">Inbox</a>
+    <IgbBadge slot="suffix" Outlined="true" Variant="@StyleVariant.Danger">3</IgbBadge>
+  </IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-prefix-suffix" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs のプレフィックスとサフィックスの例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/prefix-suffix" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs のプレフィックスとサフィックスの例" />
+
+</PlatformBlock>
+
+### 折り返しと長いパンくずリスト
+
+コンテナーは、フレックス レイアウトを使用して項目を折り返し可能な 1 行にレンダリングします。パンくずリストが使用可能な幅より長い場合、項目は自動的に次の行に折り返されます。追加の構成は必要ありません。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-wrapping" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs の長いパンくずリストの折り返しの例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/wrapping" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs の長いパンくずリストの折り返しの例" />
+
+</PlatformBlock>
+
+右から左 (RTL) のレイアウトでは、区切り記号のアイコンは追加の構成なしで自動的に反転されるため、右向きのシェブロンはアイコン名を変更することなく左向きになります。
+
+### サイズ
+
+`--ig-size` 変数を `--ig-size-small`、`--ig-size-medium`、`--ig-size-large` の 3 つのオプションのいずれかに設定して、Breadcrumbs のサイズを制御します。これにより、パンくずリスト内のテキストとアイコンのサイズ、およびそれらのパディングを調整できます。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-sizes" height={200} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs のサイズ" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/sizes" height={200} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs のサイズ" />
+
+</PlatformBlock>
+
+### 状態
+
+Breadcrumbs は、`hover`、`focus`、`pressed`、`disabled` などのさまざまな視覚的状態と、`focus-hover` や `focus-pressed` などの組み合わせをサポートします。これらの状態は、各 Breadcrumb 項目の現在のインタラクション ステータスを示すのに役立ちます。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-states" height={400} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs の状態" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/states" height={400} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs の状態" />
+
+</PlatformBlock>
+
+### 使用すべき場合と使用すべきでない場合
+
+3 階層以上の階層構造を持つコンテンツの多いアプリケーションでは、親ページに戻るための明確で手間のかからないパスを提供してユーザーの現在位置を把握しやすくするために、Breadcrumbs を使用します。不要な視覚的ノイズを生むだけのフラットな単一階層のサイト構造や、代わりに進行状況インジケーターが必要となる段階的なステップ バイ ステップのプロセスでは、Breadcrumbs を使用しないでください。
+
+<table class="table" style="width: 100%; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={breadcrumbsDo} srcset={`${breadcrumbsDo.src} 1x, ${breadcrumbsDo2x.src} 2x`} alt="現在のページがマークされた階層パスを示すために使用された Breadcrumbs" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={breadcrumbsDoNot} srcset={`${breadcrumbsDoNot.src} 1x, ${breadcrumbsDoNot2x.src} 2x`} alt="階層パスではなく主要なナビゲーションとして使用された Breadcrumbs" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>Do</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>Don't</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        コンテンツが 2 階層より深くネストされている複雑な製品では、Breadcrumbs を使用します。
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        Breadcrumbs を主要なナビゲーションとして使用することや、階層が 1 レベルしかない場合に使用することは避けてください。
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## プロパティ
+
+コンテナーは共有の区切り記号を公開し、各項目はその状態を公開します。
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" /></PlatformBlock>**
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | 項目間のデフォルトの区切り記号として使用されるアイコン名。パンくずリスト内のすべての項目に伝播されます。 |
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | 項目を現在のページとしてマークし、`aria-current="page"` を設定します。 |
+| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | 項目を無効にし、`aria-disabled="true"` を設定して、スロットに配置されたコンテンツをタブ シーケンスから除外します。 |
+
+
+## スタイル設定
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-styling" height={140} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs のスタイル設定例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/styling" height={140} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs のスタイル設定例" />
+
+</PlatformBlock>
+
+{Platform} Breadcrumbs の外観は、CSS 変数、CSS パーツ、およびテーマ設定システムを通じて制御されます。
+
+### スタイル変数
+
+| 変数 | 変更内容 |
+| -- | -- |
+| `--ig-breadcrumb-text-color` | Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-icon-color` | Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-current-text-color` | 現在選択されている Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-current-icon-color` | 現在選択されている Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-pressed-text-color` | 押下時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-pressed-icon-color` | 押下時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-hover-text-color` | ホバー時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-hover-icon-color` | ホバー時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-focus-text-color` | フォーカス時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-focus-icon-color` | フォーカス時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-focus-underline-color` | フォーカス時の Breadcrumb のテキストの下線の色。Material テーマでのみ使用されます。 |
+| `--ig-breadcrumb-focus-border-color` | フォーカス時の境界線の色。 |
+| `--ig-breadcrumb-focus-hover-text-color` | フォーカスおよびホバー時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-focus-hover-icon-color` | フォーカスおよびホバー時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-focus-hover-underline-color` | フォーカスおよびホバー時の Breadcrumb のテキストの下線の色。Material テーマでのみ使用されます。 |
+| `--ig-breadcrumb-focus-pressed-text-color` | フォーカスおよび押下時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-focus-pressed-icon-color` | フォーカスおよび押下時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-focus-pressed-underline-color` | フォーカスおよび押下時の Breadcrumb のテキストの下線の色。Material テーマでのみ使用されます。 |
+| `--ig-breadcrumb-disabled-text-color` | 無効時の Breadcrumb のテキストの色。 |
+| `--ig-breadcrumb-disabled-icon-color` | 無効時の Breadcrumb のアイコンの色。 |
+| `--ig-breadcrumb-separator-color` | Breadcrumb の区切り記号の色。 |
+
+### スタイル パーツ
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+
+| パーツ | スタイル設定の対象 |
+| -- | -- |
+| `label` | プレフィックス、デフォルト、サフィックスの各スロットをラップするコンテナー。 |
+| `separator` | 区切り記号スロットのコンテンツをラップするコンテナー。 |
+
+### Sass テーマ
+
+Sass を通じて Breadcrumbs の外観をカスタマイズするには、<ApiLink kind="sass" module="themes" type="function-breadcrumb-theme" label="breadcrumb-theme" code={true} /> 関数を使用します。
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$my-breadcrumb-theme: breadcrumb-theme(
+    $text-color: #1E2125,
+    $icon-color: #8B5BB1
+);
+
+:root {
+  @include tokens($my-breadcrumb-theme);
+}
+```
+
+### CSS 変数
+
+Sass ビルド ステップなしでローカルにスタイル設定する必要がある場合は、コンポーネントの CSS 変数を直接設定します。
+
+```css
+igc-breadcrumbs {
+  --ig-breadcrumb-text-color: var(--ig-primary-50);
+  --ig-breadcrumb-icon-color: var(--ig-primary-200);
+  --ig-breadcrumb-separator-color: var(--ig-gray-200);
+}
+
+igc-breadcrumb::part(label) {
+  padding-inline: 0.25rem;
+}
+```
+
+### Tailwind によるスタイル設定
+
+ユーティリティ ファーストのスタイル設定を行うには、Tailwind ユーティリティ クラスを Breadcrumbs の CSS 変数と組み合わせます。最初に Ignite UI テーマで [Tailwind をセットアップ](../themes/tailwind.mdx)します:
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs class="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/current">Current</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```jsx
+<IgrBreadcrumbs className="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/current">Current</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Class="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/current">Current</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-tailwind-styling" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs の Tailwind スタイル設定例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/tailwind-styling" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs の Tailwind スタイル設定例" />
+
+</PlatformBlock>
+
+感嘆符 (`!`) により、Tailwind ユーティリティがコンポーネントのデフォルト スタイルより優先されます。
+
+## アクセシビリティ
+
+{Platform} Breadcrumbs は、ARIA のパンくずリスト ナビゲーション パターンに従います。コンテナーは ARIA の `list` ロールを公開し、各項目は `listitem` ロールを公開し、現在の項目は `aria-current="page"` でアナウンスされます。
+
+### アクセシブルなナビゲーション ランドマーク
+
+支援技術がナビゲーション ランドマークとして認識できるように、パンくずリストを `aria-label` 付きの `<nav>` 要素でラップします。ARIA のパンくずリスト パターンに従い、ラベルはリストではなく `<nav>` に設定します。
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<nav aria-label="Breadcrumb">
+  <igc-breadcrumbs>
+    <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+    <igc-breadcrumb current><a href="/products">Products</a></igc-breadcrumb>
+  </igc-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<nav aria-label="Breadcrumb">
+  <IgrBreadcrumbs>
+    <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+    <IgrBreadcrumb current={true}><a href="/products">Products</a></IgrBreadcrumb>
+  </IgrBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<nav aria-label="Breadcrumb">
+  <IgbBreadcrumbs>
+    <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+    <IgbBreadcrumb Current="true"><a href="/products">Products</a></IgbBreadcrumb>
+  </IgbBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+### キーボード インタラクション
+
+Breadcrumbs コンポーネントはカスタムのキーボード処理を実装していません。ナビゲーションは、スロットに配置されたインタラクティブなコンテンツのネイティブな動作に依存します:
+
+| キー | アクション |
+| -- | -- |
+| `Tab` / `Shift` + `Tab` | 各 Breadcrumb 項目のスロットに配置されたインタラクティブな要素 (通常はリンク) 間でフォーカスを移動します。 |
+| `Enter` / `Space` | 現在フォーカスされているリンクをアクティブ化します。スロットに配置された要素のネイティブな動作に従います。 |
+
+### スクリーン リーダー / ARIA
+
+- `Breadcrumbs` ホストには `role="list"` があります。
+- 各 `Breadcrumb` ホストには `role="listitem"` があります。
+- `current` を `true` に設定するとホストに `aria-current="page"` が適用され、`false` に戻すとその属性が削除されます。
+- `disabled` を `true` に設定すると、ホストに `aria-disabled="true"` が適用されます。
+- 区切り記号のアイコンは装飾的なものであり、スクリーン リーダーによって読み上げられることはありません。
+
+### アクセシビリティ準拠
+
+Infragistics は、Section 508 および WCAG 2.1 ガイドライン領域に関する {ProductName} のアクセシビリティ サポートを [アクセシビリティ コンプライアンス](../interactivity/accessibility-compliance.mdx) トピックで説明しています。
+
+| 基準 | コンポーネントがどのように準拠しているか |
+| -- | -- |
+| [1.3.1 情報および関係性](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | コンテナーと項目は `list` / `listitem` ロールを公開し、現在の項目は `aria-current="page"` を公開します。 |
+| [2.4.8 現在位置](https://www.w3.org/WAI/WCAG21/Understanding/location) | パンくずリストは、サイト階層内での現在のページの位置を視覚的かつプログラム的に伝えます。 |
+| [4.1.2 名前、役割、値](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | `<nav>` ラッパーがアクセシブルな名前を持ち、`list`/`listitem` ロールが構造的なセマンティクスを持ちます。 |
+
+ユーザー側の責任:
+
+- Breadcrumbs コンテナーを `<nav>` 要素でラップし、`"Breadcrumb"` や `"Product category"` などのわかりやすい `aria-label` を設定してください。
+- スクリーン リーダーが単一の現在のページをアナウンスするように、パンくずリストごとに 1 つの項目のみを `current` としてマークしてください。
+- スロットに配置した各アンカー内に意味のあるテキスト ラベルを提供してください。リンク先を伝えるためにプレフィックス アイコンだけに依存しないでください。
+
+## トラブルシューティング
+
+{Platform} Breadcrumbs のトラブルシューティング ガイダンスは、一般的な統合およびレンダリングの問題について、問題 → 原因 → 修正の形式に従います。
+
+### 一部の項目で区切り記号が表示されないのはなぜですか?
+
+区切り記号は、パンくずリストの最後の項目では自動的に非表示になります。これは ARIA のパンくずリスト パターンにおける意図された動作です。想定外の項目で区切り記号が表示されない場合は、その項目がコンテナー内で最後に表示されている子要素になっていないか確認してください。
+
+### 'separator' に設定したカスタム アイコン名がレンダリングされないのはなぜですか?
+
+区切り記号のアイコンは、アイコン レジストリに登録されている必要があります。パンくずリストをレンダリングする前にアイコンを登録するか、テーマに付属するデフォルトの `tree_expand` アイコンにフォールバックしてください。
+
+### RTL でパンくずリストが折り返されないのはなぜですか?
+
+折り返しは RTL 固有のものではなく、コンテンツの合計幅がコンテナーの幅を超えた場合に常に発生します。RTL コンテキストでは、視覚的な順序が反転され、区切り記号のアイコンは自動的に反転されます。それでもパンくずリストがオーバーフローする場合は、親要素がコンテナーの本来の幅の確保を妨げていないか確認してください。
+
+## 既知の制限事項
+
+{Platform} Breadcrumbs には、プラットフォームに依存しない次の制限事項があります。
+
+- Breadcrumbs コンポーネントはカスタムのキーボード処理を実装していません。アクティブ化は、各項目のスロットに配置されたインタラクティブな要素 (通常はアンカー) に依存します。
+- Breadcrumbs は独自の `<nav>` ランドマークをレンダリングしません。`<nav aria-label="...">` ラッパーは、使用するアプリケーション側で提供する必要があります。
+- コンテナーは長いパンくずリストを自動的に切り詰めません。幅の狭い画面で 1 行のパンくずリストが必要な場合は、自然なフレックスの折り返しと独自のオーバーフロー戦略 (中間の項目をメニューに折りたたむなど) を組み合わせてください。
+
+## API リファレンス
+
+Breadcrumbs の完全な API サーフェスについては、これらの API リファレンスを使用してください。
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)<br />
+[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="Breadcrumbs" /><br />
+<ApiLink pkg="core" type="Breadcrumb" />
+
+</PlatformBlock>
+
+## 依存関係
+
+{Platform} Breadcrumbs は、ビジュアル スタイルを適用するためにテーマ スタイルシートを必要とします。**作業の開始**のフレームワーク固有のセットアップを参照してください。
+
+## その他のリソース
+
+サポートと関連する Ignite UI ドキュメントについては、以下のリソースを使用してください。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 関連コンポーネント
+
+ナビゲーションの範囲が単一の階層パスより広い場合は、これらの関連コンポーネントを使用します。
+
+- <PlatformBlock for="Angular">[Navbar](../navbar.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[Navbar](../menus/navbar.mdx)</PlatformBlock> — アクションとアイデンティティを備えたアプリケーションの主要なヘッダーに使用します。
+- <PlatformBlock for="Angular">[Navigation Drawer](../navdrawer.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[Navigation Drawer](../menus/navigation-drawer.mdx)</PlatformBlock> — グループ化されたリンクを持つ、固定または折りたたみ可能なサイド ナビゲーションに使用します。
+
+## FAQ
+
+<Faq>
+  <FaqItem question="項目間の区切り記号アイコンを変更するにはどうすればよいですか?" indicatorPosition="end">
+    Breadcrumbs コンテナーの `separator` プロパティを、登録済みの任意のアイコンの名前に設定します。コンテナーはそのアイコンをすべての子孫項目に伝播します。単一の項目の区切り記号をオーバーライドするには、その項目の `separator` スロットに置き換えるコンテンツを配置します。
+  </FaqItem>
+
+  <FaqItem question="最後の区切り記号を手動で非表示にする必要がありますか?" indicatorPosition="end">
+    いいえ。Breadcrumb 項目は、パンくずリストの最後の項目である場合に末尾の区切り記号を自動的に非表示にするため、特別な処理なしでループで項目をレンダリングできます。
+  </FaqItem>
+
+  <FaqItem question="Breadcrumbs コンポーネント自体が `<nav>` ランドマークをレンダリングしますか?" indicatorPosition="end">
+    いいえ。Breadcrumbs は、`listitem` の子要素を持つ ARIA `list` としてレンダリングされます。ARIA のパンくずリスト パターンに従い、アクセシブルな名前がリストではなくランドマークに設定されるように、使用するアプリケーション側でコンテナーを `<nav aria-label="Breadcrumb">` (またはより具体的なラベル) でラップします。
+  </FaqItem>
+
+  <FaqItem question="現在のページをマークするにはどうすればよいですか?" indicatorPosition="end">
+    現在表示しているページを表す Breadcrumb 項目に `current` プロパティを設定します。項目は `current` を属性として反映し、ホストに `aria-current="page"` を適用するため、スクリーン リーダーはどの項目が現在のページであるかをアナウンスします。
+  </FaqItem>
+
+  <FaqItem question="Breadcrumbs にはどのパッケージをインストールすればよいですか?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">Breadcrumbs は `igniteui-webcomponents` パッケージ (バージョン 7.4.0 以降) で提供されます。</PlatformBlock>
+    <PlatformBlock for="Angular">`igniteui-angular` には Breadcrumbs が含まれていないため、Angular アプリケーションは直接インストールします。</PlatformBlock>
+    <PlatformBlock for="React, Blazor">Breadcrumbs は `{PackageCommon}` パッケージで提供されます。</PlatformBlock>
+  </FaqItem>
+</Faq>
