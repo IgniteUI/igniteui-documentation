@@ -110,74 +110,58 @@ git log --format="%H%n%P%n%s" -1 HEAD
 ```
 
 The three lines printed are the commit SHA, its parent SHA(s) and its subject.
-Use the subject to decide **which one** of the two MCP sources below to query.
-Query exactly one of them — each returns the full patch of every changed file,
-so calling both downloads a large documentation merge twice for nothing:
-
-- The push was a **pull request merge** if the subject starts with
-  `Merge pull request #NNN` (a merge commit with two parents) or ends with
-  `(#NNN)` (a squash merge). Take `NNN` as the pull request number and use
-  **source A**.
-- Otherwise it was a direct push, or a merge that did not come from a pull
-  request (such as `master` into `vnext`): use **source B**.
-
-The `github` MCP CLI is on your PATH; run `github --help` and
-`github <tool> --help` to confirm exact flag names before calling a tool.
-
-**Source A — pull request merge.** Ask for the pull request's own file list:
-
-```bash
-github pull_request_read --method get_files --owner IgniteUI --repo igniteui-documentation --pullNumber NNN --perPage 30 --page 1
-```
-
-There is no separate `get_pull_request_files` tool on this server; the file
-list is the `get_files` method of `pull_request_read`. Each entry carries
-`filename`, `status`, `patch` and — for renamed files — `previous_filename`,
-and the list is the pull request's complete changeset. For the author, make
-one more small call and take `user.login` from its response (the pull request
-author's GitHub login; the response has no name or email):
-
-```bash
-github pull_request_read --method get --owner IgniteUI --repo igniteui-documentation --pullNumber NNN
-```
-
-**Source B — direct push.** Ask what the commit itself changed:
+Then ask the GitHub MCP server what that commit changed. The `github` MCP CLI
+is on your PATH; run `github --help` and `github <tool> --help` to confirm
+exact flag names before calling a tool:
 
 ```bash
 github get_commit --owner IgniteUI --repo igniteui-documentation --sha <sha-from-above> --detail full_patch --perPage 30 --page 1
 ```
 
+This is the only source for the changed-file list. For a merge commit GitHub
+reports the diff against the first parent, and a squash merge is the squashed
+change itself, so either way the response is exactly what landed on `vnext`.
+Do not substitute a pull request's file list for it: a `(#NNN)` in the subject
+is no proof that the push was that pull request's merge, and the pull
+request's files are the same changes anyway.
+
 `--detail full_patch` is required: the default detail level (`stats`) strips
 the per-file `patch` that Step 3 needs. The response carries a `files` array
-whose entries have `filename`, `status` and `patch` (but no
-`previous_filename`), plus the author under `commit.author.name` /
-`commit.author.email` — no extra call is needed. For a merge commit GitHub
-reports the diff against the first parent, which is exactly the set of changes
-the merge brought onto `vnext`.
+whose entries have `filename`, `status` and `patch`. It has no
+`previous_filename`, so a `renamed` entry names only the new path — Step 3
+explains how to find the old one.
 
-**Paging — both sources.** The server returns the file list **one page at a
-time** and does not aggregate pages (30 entries by default, at most 100 per
-call). Keep `--perPage 30`: a page of 30 documentation patches stays
-comfortably under the MCP gateway's 512 KB inline response limit, and the
-patches are what you have to read anyway, so smaller pages are easier to work
-through than one huge response. If a page comes back with exactly 30 entries,
-request `--page 2`, `--page 3`, … until a page has fewer than 30. The
-changed-file list is the concatenation of all pages.
+**Paging.** The server returns the `files` array **one page at a time** and
+does not aggregate pages (30 entries by default, at most 100 per call). Keep
+`--perPage 30`: a page of 30 documentation patches stays comfortably under the
+MCP gateway's 512 KB inline response limit, and the patches are what you have
+to read anyway, so smaller pages are easier to work through than one huge
+response. If a page comes back with exactly 30 entries, request `--page 2`,
+`--page 3`, … until a page has fewer than 30. The changed-file list is the
+concatenation of all pages.
 
 **Oversized responses.** If a response contains `payloadPath` and
-`agentInstructions` instead of the file list, the gateway wrote the full JSON
-to disk because it exceeded the inline limit. Read that file with
+`agentInstructions` instead of the `files` array, the gateway wrote the full
+JSON to disk because it exceeded the inline limit. Read that file with
 `cat <payloadPath>`. If it cannot be read, repeat the call with a smaller page
 (`--perPage 10`) and page through accordingly.
 
 Keep the entries whose `filename` starts with `docs/angular/src/content/en/` —
 that is your changed-file list.
 
-Also record the author to credit: the pull request author's login
-(`user.login`, source A) or the commit author's `commit.author.name` /
-`commit.author.email` (source B). Do not take the author from local `git log`:
-on a merge commit the local committer is whoever pressed merge, not the person
-who wrote the docs. You will include the author verbatim in the pull request
+Also record the author to credit, from the same response:
+`commit.author.name` / `commit.author.email`. The one exception is a merge
+commit — two parent SHAs and a subject of the form
+`Merge pull request #NNN from …` — whose author is whoever pressed the merge
+button, not the person who wrote the docs. For those, make one small extra
+call and credit the pull request author's login (`user.login`) instead:
+
+```bash
+github pull_request_read --method get --owner IgniteUI --repo igniteui-documentation --pullNumber NNN
+```
+
+If that call fails, fall back to the commit author. Do not take the author
+from local `git log`. You will include the author verbatim in the pull request
 body (Step 6) so the PR can be manually assigned to the right person.
 
 If the MCP calls succeed but report no file under `docs/angular/src/content/en/`,
@@ -267,34 +251,49 @@ automatically.
 
 ### Step 3 — Determine what changed in each filtered English file
 
-Take each file's patch from the Step 1 response. Both `get_commit` (called with
-`--detail full_patch`) and `pull_request_read --method get_files` return a
-`patch` field per file — that is the diff, and it is the one to review.
-Understand which sections were added, removed, or modified.
+Take each file's `patch` from the Step 1 response (`get_commit` called with
+`--detail full_patch` returns one per file) — that is the diff, and it is the
+one to review. Understand which sections were added, removed, or modified.
 
 Do **not** use `git diff HEAD~1 HEAD` here; it cannot work in this shallow
 checkout, for the same reason it cannot work in Step 1.
 
 Let each entry's `status` drive what you do with it:
 
-- `modified` — work from the `patch` as described above.
-- `added`, or any entry whose `patch` is missing (GitHub omits it for very
-  large and for binary files) — treat the file as new or fully rewritten: read
-  the complete English file from the local checkout with
-  `cat <path-to-en-file>` — the working tree sits at the pushed commit, so it
-  already holds the final content — and translate it in full.
+- `added` — the page is new. Read the complete English file from the local
+  checkout with `cat <path-to-en-file>` — the working tree sits at the pushed
+  commit, so it already holds the final content — and translate it in full.
+- `modified` — work from the `patch`. If the `patch` is missing (GitHub omits
+  it for very large and for binary files), treat the file as fully rewritten
+  and translate it from `cat <path-to-en-file>`, as for `added`.
+- `renamed` — the page moved, and the entry names only its new path. Treat
+  the new path like `added`, starting from the old page's Japanese
+  translation when the TOC tells you where that page was (next paragraph).
+  Never guess the old path from the file name.
 - `removed` — the English page was deleted. It no longer exists in the
   checkout, so do not try to `cat` it and do not create a Japanese file for
   it. If its Japanese counterpart exists, delete it with
   `git rm <path-to-jp-file>` (a permitted command) so the Japanese tree keeps
   mirroring the English one.
-- `renamed` — the page moved. Treat the new path like `added` (translate the
-  full English file, reusing the existing Japanese translation of the old page
-  as your starting point where it still applies), then `git rm` the old
-  Japanese file. Source A gives you the old path as `previous_filename`;
-  source B does not, so locate the old Japanese file yourself — for example
-  with `find docs/angular/src/content/jp -name <basename>` — and only
-  remove a file that no longer has an English counterpart.
+
+**Pages that left the TOC.** A rename, or a move out of
+`docs/angular/src/content/en/` altogether, produces no `removed` entry for the
+old path — but it always changes `toc.json` or `components/toc.json`, because
+the entry's `href` has to follow the file. So whenever a TOC file is among the
+changed files, read its `patch`: every `href` on a removed (`-`) line that
+does not reappear unchanged on an added (`+`) line is a page that left its
+old location.
+Resolve that `href` as in Step 1b and check the English path with `ls`. If
+the English file is gone and its Japanese counterpart exists, `git rm` the
+Japanese file; if the same entry came back with a new `href`, that old
+Japanese file is also your starting point for the renamed page. Remove a
+Japanese file only after `ls` has confirmed that its English counterpart no
+longer exists.
+
+The `grids_templates/` files are not in the TOC. After handling the changed
+files, compare `ls docs/angular/src/content/en/grids_templates` with
+`ls docs/angular/src/content/jp/grids_templates` and `git rm` any Japanese
+template that has no English counterpart.
 
 ### Step 4 — Apply equivalent changes to the Japanese file
 
@@ -358,9 +357,10 @@ JSON object. The pull request should:
 - Include a body that lists every English file that was processed and its
   Japanese counterpart, plus a brief summary of what changed. Add an
   **"Original author:"** line at the top of the body with the author
-  captured in Step 1 — `Original author: Jane Doe <jane@example.com>` for a
-  direct push, or `Original author: @login` for a pull request merge — so
-  the PR can be manually assigned to the correct person.
+  captured in Step 1 — `Original author: Jane Doe <jane@example.com>` from the
+  commit author, or `Original author: @login` when the pull request author
+  was used for a merge commit — so the PR can be manually assigned to the
+  correct person.
 - Target the `vnext` branch.
 
 If no English files under `docs/angular/src/content/en/` were changed in this
