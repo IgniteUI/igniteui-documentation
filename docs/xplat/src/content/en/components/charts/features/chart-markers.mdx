@@ -129,6 +129,99 @@ In addition to marker properties, you can implement your own marker by setting a
 
 
 
+## {Platform} Chart Marker SVG Templates
+
+Instead of writing a marker template in code, you can draw markers from an SVG by setting the `MarkerTemplateSVG` property of a series to the SVG's markup. Setting it sets the series' `MarkerTemplate` to a template that draws the SVG, so the same icon files you use elsewhere in your app can be used as markers. Setting `MarkerTemplateSVG` to null or an empty string removes the template it set; a template you set directly on `MarkerTemplate` replaces it.
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDataChart>
+    <IgbLineSeries
+        ValueMemberPath="Value"
+        XAxisName="xAxis"
+        YAxisName="yAxis"
+        MarkerTemplateSVG="@StarSVG" />
+</IgbDataChart>
+
+@code {
+    private string StarSVG = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'>" +
+        "<path fill='currentColor' stroke='currentColor' d='M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z'/></svg>";
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-data-chart>
+    <igx-line-series
+        valueMemberPath="Value"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [markerTemplateSVG]="starSVG">
+    </igx-line-series>
+</igx-data-chart>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const starSVG = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'>" +
+    "<path fill='currentColor' stroke='currentColor' d='M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z'/></svg>";
+
+<IgrDataChart>
+    <IgrLineSeries
+        valueMemberPath="Value"
+        xAxisName="xAxis"
+        yAxisName="yAxis"
+        markerTemplateSVG={starSVG} />
+</IgrDataChart>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const series = document.getElementById('lineSeries') as IgcLineSeriesComponent;
+series.markerTemplateSVG = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'>" +
+    "<path fill='currentColor' stroke='currentColor' d='M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z'/></svg>";
+```
+
+The SVG can also be set with the `marker-template-svg` attribute.
+
+</PlatformBlock>
+
+### Size and Position
+
+Each marker is drawn centered on its data point at the SVG's own size: its `width` and `height` attributes, or its `viewBox` size if those aren't set, in device-independent pixels. Setting the series' `MarkerSize` draws every marker at that size instead. The SVG's `viewBox` is fitted into the marker's area as its `preserveAspectRatio` attribute says; by default it's scaled uniformly and centered.
+
+### Colors
+
+The SVG is painted the way a browser paints it, with one addition: `currentColor` stands for the colors of the item the marker belongs to.
+
+- `fill="currentColor"` fills with the marker brush, the same brush a built-in marker is filled with, including per-item colors from `MarkerBrush`, palettes and highlighting.
+- `stroke="currentColor"` strokes with the marker outline, at the marker thickness unless the SVG sets a `stroke-width`.
+- Colors written in the SVG are used as they are. A fill that isn't specified is black, and a stroke that isn't specified isn't drawn, as in a browser. If the SVG sets the `color` property itself, `currentColor` uses that color instead.
+
+To draw markers that follow the series' colors the way the built-in markers do, use `fill="currentColor"` for the marker's body and `stroke="currentColor"` for its outline. Outline icon sets that are drawn with `stroke="currentColor"`, such as Lucide and Feather icons, take the series' outline color without changes.
+
+<DocsAside type="info">
+Line, spline and area series draw hollow markers by default: their marker brush is white and their marker outline is the series color. Icons filled with `fill="currentColor"`, such as Heroicons solid or Bootstrap icons, are therefore white on those series unless you set `MarkerBrush`.
+</DocsAside>
+
+### Legend Badges
+
+The `LegendItemBadgeTemplateSVG` property of a series draws its legend badge from an SVG in the same way. The SVG fills the badge's area, and `currentColor` takes the series' legend badge brush and outline. When a series draws markers from `MarkerTemplateSVG` and its legend badge shows the series' marker, the badge shows the SVG marker too.
+
+### Supported SVG
+
+Marker SVGs support paths, the basic shapes (`rect`, `circle`, `ellipse`, `line`, `polyline` and `polygon`), groups, nested `svg` elements, `use` and `symbol`, transforms, `style` elements with simple selectors, presentation attributes and `style` attributes, all CSS color formats, opacity, `fill-rule`, and stroke caps, joins and dashes. Gradients and patterns are drawn with their first stop color, and text, images, filters, masks and clip paths aren't drawn.
+
 ## Additional Resources
 
 You can find more information about related chart features in these topics:
