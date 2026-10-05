@@ -64,7 +64,8 @@ export function buildHtmlToMdConverter() {
     //   script/style       — runtime scripts and CSS
     //   igc-icon            — decorative web-component icons (chevrons, etc.)
     //   igc-icon-button     — heading anchor-link buttons added by rehype
-    td.remove(['script', 'style', 'igc-icon', 'igc-icon-button']);
+    //   igc-divider         — visual separators carry no meaning in plain text LLM output
+    td.remove(['script', 'style', 'igc-icon', 'igc-icon-button', 'igc-divider']);
 
     // ── Turndown rules ────────────────────────────────────────────────────
     // Custom rules transform site-specific HTML patterns into clean Markdown
@@ -103,12 +104,6 @@ export function buildHtmlToMdConverter() {
     td.addRule('sample-container', {
         filter: (node: Element) => node.nodeName === 'DIV' && (node.getAttribute('class') || '').includes('igd-sample-container'),
         replacement: (content: string) => content,
-    });
-
-    // Decorative half-dividers -> drop
-    td.addRule('divider', {
-        filter: (node: Element) => node.nodeName === 'DIV' && (node.getAttribute('class') || '').includes('divider--half'),
-        replacement: () => '',
     });
 
     return td;

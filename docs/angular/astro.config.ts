@@ -1,10 +1,12 @@
 ﻿// @ts-check
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
 import mdx from '@astrojs/mdx';
+import type { Plugin } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -45,6 +47,39 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
+
+// ── @xplat-images resolution ──────────────────────────────────────────────
+// Topics generated from the xplat source import their images as
+// '@xplat-images/<path>'. Those images already live once in the shared xplat
+// asset folder, which is language-agnostic — so resolve there, and let the
+// Angular locale's own image directory take precedence when it holds the same
+// relative path. That override is what keeps the localized Japanese screenshots
+// (general/nuget-*, marketing/*) winning over the English originals, without
+// every other xplat image needing a copy in this tree.
+//
+// Ordered highest-precedence-first. A specifier matching nothing resolves to the
+// shared root, so the resulting ImageNotFound names where a new shared image
+// belongs rather than a per-locale path most images should never need.
+const xplatImageRoots = [
+	path.join(__dirname, 'src', 'content', docsLang, 'images'),
+	path.join(__dirname, '..', 'xplat', 'src', 'assets', 'images'),
+];
+
+const XPLAT_IMAGES = '@xplat-images';
+
+// A resolve.alias cannot express a fallback, so this runs as a pre plugin.
+function xplatImages(): Plugin {
+	return {
+		name: 'igdocs:xplat-images',
+		enforce: 'pre',
+		resolveId(source) {
+			if (source !== XPLAT_IMAGES && !source.startsWith(`${XPLAT_IMAGES}/`)) return null;
+			const rel = source.slice(XPLAT_IMAGES.length + 1);
+			const hit = xplatImageRoots.find(root => existsSync(path.join(root, rel)));
+			return path.join(hit ?? xplatImageRoots[xplatImageRoots.length - 1], rel);
+		},
+	};
+}
 const localizedDescription: Partial<Record<NavLang, string>> = {
 	jp: 'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。',
 	kr: 'Ignite UI for Angular 컴포넌트 및 API 참조 문서입니다.',
@@ -76,10 +111,10 @@ export default createDocsSite({
 		})),
 	packages: Object.values(IGDOCS_PLATFORMS)
 		.filter(p => p.lang === docsLang)
-		.map(({ label, key, base: b }) => ({
+		.map(({ label, key, base, root }) => ({
 			label,
 			value: key,
-			href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+			href: mode === 'production' ? `${PROD_HOST}${base}${root}` : `${STAGING_HOST}${base}${root}`,
 		})),
 	selectedPackage: 'angular',
 	source: {
@@ -102,12 +137,12 @@ export default createDocsSite({
 		},
 	],
 	// Expose @/ alias so MDX files can import Sample.astro and peer components.
-	// @xplat-images resolves xplat-sourced MDX image imports to the angular images dir.
+	// @xplat-images is handled by xplatImages() rather than an alias — see above.
 	vite: {
+		plugins: [xplatImages()],
 		resolve: {
 			alias: {
 				'@': path.join(__dirname, 'src'),
-				'@xplat-images': path.join(__dirname, 'src', 'content', docsLang, 'images'),
 			},
 		},
 		server: { fs: { strict: false } },

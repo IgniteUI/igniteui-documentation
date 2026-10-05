@@ -1,6 +1,6 @@
 ---
 title: "{Platform} {ComponentTitle} セル結合 - {ProductName}"
-description: "{ProductName} for {Platform} {ComponentTitle} の複数行レイアウト機能を使用して、列をより強力な方法で配置およびサイズ設定します。デモと例をお試しください。"
+description: "{ProductName} {ComponentTitle} で、セル結合機能を使用して同じ値を持つ隣接セルを結合します。構成方法や結合モードを学び、実際の例をご覧ください。"
 keywords: cell merging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics, セル結合, インフラジスティックス
 license: commercial
 mentionedTypes: [{ComponentApiMembers}]
@@ -15,7 +15,6 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
-
 
 
 # {Platform} {ComponentTitle} セル結合
@@ -202,10 +201,13 @@ export declare class IgcGridMergeStrategy {
 ```
 </PlatformBlock>
 
-<ComponentBlock for="Grid, HierarchicalGrid">
-### Extending the Default Strategy
+- `merge` - 結合されたセルをどのように生成するかを定義。
+- `comparer` - 隣接するレコードを結合すべきかを判定する条件を定義。
 
-If you only want to customize part of the behavior (for example, the comparer logic), you can extend the built-in <ApiLink type="DefaultMergeStrategy" /> and override the relevant methods.
+<ComponentBlock for="Grid, HierarchicalGrid">
+### デフォルトのストラテジを拡張
+
+一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの <ApiLink type="DefaultMergeStrategy" /> を拡張し、必要なメソッドのみをオーバーライドできます。
 
 <PlatformBlock for="React">
 ```ts
@@ -238,11 +240,11 @@ export class MyCustomStrategy extends IgcDefaultMergeStrategy {
 </PlatformBlock>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
-The `IgxTreeGrid` provides two built-in strategies that implement the `IGridMergeStrategy` interface: <ApiLink type="DefaultTreeGridMergeStrategy" /> and <ApiLink type="ByLevelTreeGridMergeStrategy" />. <ApiLink type="DefaultTreeGridMergeStrategy" /> merges all cells with the same value, regardless of their hierarchical level. In contrast, <ApiLink type="ByLevelTreeGridMergeStrategy" /> only merges cells if they have the same value and are located at the same level, making level a required condition for merging.
+`IgxTreeGrid` は、`IGridMergeStrategy` インターフェイスを実装する 2 つの組み込みストラテジ <ApiLink type="DefaultTreeGridMergeStrategy" /> と <ApiLink type="ByLevelTreeGridMergeStrategy" /> を提供します。<ApiLink type="DefaultTreeGridMergeStrategy" /> は、階層レベルに関係なく同じ値を持つすべてのセルを結合します。一方、<ApiLink type="ByLevelTreeGridMergeStrategy" /> は、同じ値を持ち、かつ同じレベルに存在するセルのみを結合するため、レベルが結合の必須条件になります。
 
-### Extending the Default Strategy
+### デフォルトのストラテジを拡張
 
-If you only want to customize part of the behavior (for example, the comparer logic), you can extend one of the built-in strategies, either <ApiLink type="DefaultTreeGridMergeStrategy" /> or <ApiLink type="ByLevelTreeGridMergeStrategy" />, and override the relevant methods.
+一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの <ApiLink type="DefaultTreeGridMergeStrategy" /> または <ApiLink type="ByLevelTreeGridMergeStrategy" /> のいずれかを拡張し、必要なメソッドのみをオーバーライドできます。
 
 <PlatformBlock for="React">
 ```ts
@@ -275,8 +277,8 @@ export class MyCustomStrategy extends IgcDefaultTreeGridMergeStrategy {
 </PlatformBlock>
 </ComponentBlock>
 
-### デフォルトのストラテジを拡張
-一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの <ApiLink type="DefaultMergeStrategy" /> を拡張し、必要なメソッドのみをオーバーライドできます。
+### カスタム ストラテジの適用
+定義したカスタム ストラテジは、<ApiLink type="{ComponentName}" member="mergeStrategy" label="MergeStrategy" /> プロパティを通じてグリッドに割り当てます:
 <PlatformBlock for="React">
 
 ```tsx
@@ -304,58 +306,63 @@ constructor() {
 
 ```
 
-### Demo
+### デモ
 </PlatformBlock>
 <ComponentBlock for="Grid">
-<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={600} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={600} alt="{Platform} {ComponentTitle} セル結合の例" />
 </ComponentBlock>
 <ComponentBlock for="HierarchicalGrid">
-<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={425} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={425} alt="{Platform} {ComponentTitle} セル結合の例" />
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
-<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={755} alt="{Platform} {ComponentTitle} Cell Merging Example" />
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={755} alt="{Platform} {ComponentTitle} セル結合の例" />
 </ComponentBlock>
 
 </PlatformBlock>
-## デフォルトのストラテジを拡張
-一部の動作 (例: comparer ロジック) のみをカスタマイズしたい場合は、組み込みの <ApiLink type="DefaultTreeGridMergeStrategy" /> または <ApiLink type="ByLevelTreeGridMergeStrategy" /> のいずれかを拡張し、必要なメソッドのみをオーバーライドできます。
+## 機能の統合
+結合されたセルには特有の動作があるため、グリッドの他の機能と具体的にどのように連携するかに注意が必要です:
 <ComponentBlock for="Grid">
-- **Expand/Collapse**: if a feature (such as master-detail, grouping, etc.) generates a non-data row, then the cell merging is interrupted and the group will be split.
+- **展開/折りたたみ**: マスター/詳細やグループ化などの機能によってデータを含まない行が生成されると、セルの結合が中断され、グループが分割されます。
 </ComponentBlock>
-- **Excel export**: merged cells remain merged when exported to Excel.
-- **Column pinning**: cells remain merged when a column is pinned and are displayed in the pinned area.
-- **Row pinning**: cells merge only withing their containing area, i.e. cells of pinned rows merge only with cells of other pinned rows, while cells of unpinned rows merge only with cells of unpinned rows.
-- **Updating/Editing**: since activation breaks the merge sequence, only a single cell will be in edit mode.
-- **Row selection**: if selected rows intersect merged cells, all related merged cells should be marked as part of the selection.
-- **Navigation/Activation**: when a cell is active, all merged cells in the same row become single cells, i.e. their merge sequence is broken. This also includes activation via keyboard navigation.
+- **Excel エクスポート**: 結合されたセルは、Excel にエクスポートしても結合された状態を維持します。
+- **列のピン固定**: 列がピン固定されている場合でも、セルは結合された状態を維持し、ピン固定領域に表示されます。
+- **行のピン固定**: セルは、それぞれが属する領域内でのみ結合されます。つまり、ピン固定された行のセルは他のピン固定された行のセルとのみ結合され、ピン固定されていない行のセルはピン固定されていない行のセルとのみ結合されます。
+- **更新/編集**: アクティブ化によって結合シーケンスが分解されるため、編集モードになるのは単一セルのみです。
+- **行の選択**: 選択された行が結合セルと交差する場合、関連するすべての結合セルが選択対象としてマークされます。
+- **ナビゲーション/アクティブ化**: セルがアクティブになると、同じ行内の結合されたセルはすべて単一のセルになります。つまり、結合シーケンスが解除されます。これには、キーボード ナビゲーションによるアクティブ化も含まれます。
 
 <DocsAside type="info" title="情報">
-If a merged cell is clicked, the closest cell from the merge sequence will become active.
+結合セルをクリックすると、結合シーケンス内でもっとも近いセルがアクティブになります。
 </DocsAside>
 
 <ComponentBlock for="Grid">
-## カスタム ストラテジの適用
+## 制限
 
-定義したカスタム ストラテジは、<ApiLink type="{ComponentName}" member="mergeStrategy" label="MergeStrategy" /> プロパティを通じてグリッドに割り当てます。
+|既知の制限| 説明|
+| --- | --- |
+| セルの結合は、複数行レイアウトとの組み合わせではサポートされません。 | 両方とも複雑なレイアウトを使用するため、同時に使用することはできません。このような無効な構成が検出された場合は警告が表示されます。 |
 </ComponentBlock>
 
 ## API リファレンス
+<ApiLink type="{ComponentName}" />
+<ApiLink type="{ComponentName}" member="cellMergeMode" label="CellMergeMode" />
+<ApiLink type="GridCellMergeMode" />
+<ApiLink type="GridMergeStrategy" />
+<ApiLink type="DefaultMergeStrategy" />
+## その他のリソース
 
-<ApiLink type="{ComponentName}" /><br />
-<ApiLink type="{ComponentName}" member="cellMergeMode" label="CellMergeMode" /><br />
-<ApiLink type="GridCellMergeMode" /><br />
-<ApiLink type="GridMergeStrategy" /><br />
-<ApiLink type="DefaultMergeStrategy" /><br />
+- [フィルタリング](filtering.mdx)
+- [Excel スタイル フィルタリング](excel-style-filtering.mdx)
+- [仮想化とパフォーマンス](virtualization.mdx)
+- [ページング](paging.mdx)
+- [ソート](sorting.mdx)
+- [集計](summaries.mdx)
+- [列の移動](column-moving.mdx)
+- [列のピン固定](column-pinning.mdx)
+- [列のサイズ変更](column-resizing.mdx)
+- [選択](selection.mdx)
 
-## 機能の統合
+コミュニティに参加して新しいアイデアをご提案ください。
 
-セル結合の特性上、他の機能との連携動作について以下の点に注意が必要です:
-
-- **展開と縮小**: マスター詳細、グループ化など、データ以外の行を生成する機能がある場合、その位置でセル結合が中断され、グループが分割されます。
-
-- **Excel エクスポート**: 結合されたセルは、Excel にエクスポートしても結合状態が維持されます。
-- **列のピン固定**: 列がピン固定されてもセルの結合は維持され、ピン固定領域内に表示されます。
-- **行のピン固定**: セルは自身が属する領域内でのみ結合されます。つまり、ピン固定された行のセルはピン固定行のセル同士で、ピン固定されていない行のセルはその中でのみ結合されます。
-- **ナビゲーション/アクティベーション**: セルがアクティブになると、その行内の結合セルはすべて単一セルに分解されます。これはキーボード ナビゲーションによるアクティベーションも含みます。
-- **更新/編集**: アクティブ化によって結合シーケンスが分解されるため、編集モードになるのは単一セルのみです。
-- **行の選択**: 選択された行が結合セルと交差する場合、関連するすべての結合セルが選択対象としてマークされます。
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
