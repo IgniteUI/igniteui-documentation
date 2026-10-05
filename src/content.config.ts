@@ -12,7 +12,6 @@ export const collections = {
       'grids_templates/**',
       'style-guide.mdx',
       'themes/sass/presets/**',
-      'themes.mdx',
     ],
     extendSchema: z.object({
       tableOfContents: z

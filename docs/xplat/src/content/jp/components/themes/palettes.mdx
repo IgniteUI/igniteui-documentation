@@ -60,34 +60,45 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 上記のカラーに加えて、各カラー バリエーションに **Level AA** [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) 準拠の `contrast` カラーも含まれています。つまり、対応する `contrast` カラー バリエーションをベースカラー バリエーションの前景カラーとして安全に使用できます。
 
 <DocsAside type="info" title="情報">
-コントラスト カラーはビルド時に生成されるため、CSS 変数をオーバーライドしても、対応するコントラスト カラーは更新されません。
+コントラスト カラーは、対応するシェード カラーから実行時に計算される CSS 相対カラーであるため、ベース カラー バリエーションをオーバーライドすると、そのコントラスト カラーも一緒に更新されます。
 </DocsAside>
 
-以下は、Light Bootstrap パレットで宣言された `primary` カラーの抜粋です。
+以下は、Light Material パレットで宣言された `primary` カラーの抜粋です。
 
 ```css
 :root {
   //...
   --ig-primary-500: #09f;
-  --ig-primary-500-contrast: black;
+  --ig-primary-500-contrast: hsla(from color(from var(--ig-primary-500) var(--y-contrast)) h 0 l / 1);
+  --ig-primary-seed: #09f;
   --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
-  --ig-primary-600-contrast: black;
+  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l / 1);
   --ig-primary-700: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.81));
   //...
   --ig-secondary-400: hsl(from var(--ig-secondary-500) h calc(s * 0.875) calc(l * 1.08));
-  --ig-secondary-400-contrast: black;
+  --ig-secondary-400-contrast: hsla(from color(from var(--ig-secondary-400) var(--y-contrast)) h 0 l / 1);
   --ig-secondary-500: #df1b74;
-  --ig-secondary-500-contrast: white;
+  --ig-secondary-500-contrast: hsla(from color(from var(--ig-secondary-500) var(--y-contrast)) h 0 l / 1);
   --ig-secondary-600: hsl(from var(--ig-secondary-500) h calc(s * 1.26) calc(l * 0.89));
-  --ig-secondary-600-contrast: white;
+  --ig-secondary-600-contrast: hsla(from color(from var(--ig-secondary-600) var(--y-contrast)) h 0 l / 1);
   //...
+  --ig-wcag-a: 0.31;
+  --ig-wcag-aa: 0.185;
+  --ig-wcag-aaa: 0.178;
+  --ig-contrast-level: var(--ig-wcag-aa);
+  --y: clamp(0, (y / var(--ig-contrast-level) - 1) * -infinity, 1);
+  --y-contrast: xyz-d65 var(--y) var(--y) var(--y);
 }
 ```
 
 すべてのプライマリ カラー バリエーションは、1 つの基本変数カラー バリエーション `--ig-primary-500` から派生します。他のカラー変数 (`--ig-secondary-500`、`--ig-surface-500` など) にも同様のことが当てはまります。他のバリエーションは、メイン変数カラー バリエーション `500` を受け取り、割り当てられた変数バリエーション (`600`、`700` など) に応じて `saturation` と `lightness` を変更する相対カラー関数 `hsl()` によって生成されます。`primary`、`secondary`、`surface`、またはその他のカラーのすべてのバリエーションを実行時に変更できるため、この方法を使用することにしました。
 
-<DocsAside type="warning" title="警告">
-コントラスト カラーは他の部分のように CSS 実行時に生成されないため、メイン カラー バリエーション (`500`) を変更しても、コントラスト カラーは更新されません。手動で変更する必要があります。この動作は今後のリリースで改善され、コントラスト カラーも CSS 実行時に計算されるようになります。
+番号付きのバリエーションに加えて、各カラーは、パレットの生成元となったベース カラーを変更せずに保持する `seed` 変数を公開します。`primary`、`secondary`、およびその他の有彩色では、seed は `500` バリエーションと一致します。`gray` では一致しません。`--ig-gray-seed` はグレースケールの派生元となったカラー (サーフェス カラーの輝度から選択された黒または白) を記録し、`--ig-gray-500` は生成された中間トーンです。
+
+コントラスト カラーは、ベース カラーの輝度と選択されたコントラスト レベルから CSS 実行時に計算され、黒と白のうち読みやすい方が選択されます。この計算はカスケードの一部であるため、メイン カラー バリエーション (`500`) を変更すると、そのコントラスト カラーも一緒に更新されます。手動での操作は必要ありません。
+
+<DocsAside type="info" title="情報">
+しきい値は `--ig-contrast-level` に保持されており、デフォルトは `var(--ig-wcag-aa)` です。任意のスコープでオーバーライドして、`var(--ig-wcag-a)` または `var(--ig-wcag-aaa)` に切り替えることができます。ビルド済みの CSS を使用する代わりに Sass からテーマをコンパイルする場合、`palette` および `adaptive-contrast` ミックスインは `a`、`aa`、または `aaa` を直接受け取ります。[アクセシビリティ](accessibility.mdx)を参照してください。
 </DocsAside>
 
 ## パレットの定義
