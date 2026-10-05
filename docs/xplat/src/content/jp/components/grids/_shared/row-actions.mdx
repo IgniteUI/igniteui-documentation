@@ -41,11 +41,11 @@ import { IgxActionStripModule } from 'igniteui-angular';
 
 事前定義された操作 (actions) UI コンポーネントは次のとおりです:
 
-- <ApiLink type="GridEditingActions" /> - <ApiLink type="{ComponentName}" /> 編集専用に設計された機能と UI を含みます。`RowEditable` オプションと <ApiLink type="{ComponentName}" /> の行削除に応じて、セルまたは行の編集モードをすばやく切り替えることができます。
+- <ApiLink type="GridEditingActions" /> - <ApiLink type="{ComponentName}" /> 編集専用に設計された機能と UI を含みます。<ApiLink type="{ComponentName}" member="rowEditable" /> オプションと <ApiLink type="{ComponentName}" /> の行削除に応じて、セルまたは行の編集モードをすばやく切り替えることができます。
 
 - <ApiLink type="GridPinningActions" /> - <ApiLink type="{ComponentName}" /> ピン固定専用に設計された機能と UI を含みます。行をすばやくピン固定し、ピン固定された行とその無効な行の間を移動できます。
 
-これらは <ApiLink type="{ComponentName}" /> 内に追加され、デフォルトのインタラクションを提供する <ApiLink type="ActionStrip" /> プを持つために必要です。
+これらを <ApiLink type="{ComponentName}" /> 内に追加するだけで、デフォルトのインタラクションを提供する <ApiLink type="ActionStrip" /> を使用できます。
 
 <PlatformBlock for="Angular">
 ```html
@@ -116,18 +116,14 @@ import { IgxActionStripModule } from 'igniteui-angular';
 </ComponentBlock>
 
 <PlatformBlock for="Angular">
-```razor
-<IgbTreeGrid Data=northwindEmployees RowEditable="True" PrimaryKey="ID">
-    @foreach (var c in columns)
-    {
-        <IgbColumn Field="@c.Field">
-        </IgbColumn>
-    }
-    <IgbActionStrip @ref=actionstrip>
-        <IgbGridPinningActions></IgbGridPinningActions>
-        <IgbGridEditingActions></IgbGridEditingActions>
-    </IgbActionStrip>
-</IgbTreeGrid>
+```html
+<igx-grid [rowEditable]="true" primaryKey="ID">
+    <igx-column field="field"></igx-column>
+    <igx-action-strip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-grid>
 ```
 <ComponentBlock for="TreeGrid">
 <PlatformBlock for="WebComponents">
@@ -226,47 +222,20 @@ import { IgxActionStripModule } from 'igniteui-angular';
 ```
 </PlatformBlock>
 
-<ComponentBlock for="Grid, TreeGrid">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
 <PlatformBlock for="Blazor">
 ```razor
 <div class="grid__wrapper">
     <{ComponentSelector} Data=northwindEmployees>
         <IgbActionStrip @ref=actionstrip>
             <IgbGridPinningActions></IgbGridPinningActions>
-            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
-                <IgbIcon>edit</IgbIcon>
-            </IgbButton>
-            @if (!IsDeleted(actionstrip.Context))
-            {
-                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
-                    <IgbIcon>delete</IgbIcon>
-                </IgbButton>
-            }
+            <IgbGridEditingActions
+                EditRow="true"
+                DeleteRow="true"
+                AddRow="true">
+            </IgbGridEditingActions>
         </IgbActionStrip>
     </{ComponentSelector}>
-</div>
-```
-</PlatformBlock>
-</ComponentBlock>
-
-<ComponentBlock for="HierarchicalGrid">
-<PlatformBlock for="Blazor">
-```razor
-<div class="grid__wrapper">
-    <IgbHierarchicalGrid Data=northwindEmployees>
-        <IgbActionStrip @ref=actionstrip>
-            <IgbGridPinningActions></IgbGridPinningActions>
-            <IgbButton Title="Edit" @onclick="() => StartEdit(actionstrip.Context)">
-                <IgbIcon>edit</IgbIcon>
-            </IgbButton>
-            @if (!IsDeleted(actionstrip.Context))
-            {
-                <IgbButton Title="Delete" @onclick="() => Delete(actionstrip.Context)">
-                    <IgbIcon>delete</IgbIcon>
-                </IgbButton>
-            }
-        </IgbActionStrip>
-    </IgbHierarchicalGrid>
 </div>
 ```
 </PlatformBlock>
@@ -331,7 +300,6 @@ import { IgxActionStripModule } from 'igniteui-angular';
 </PlatformBlock>
 
 ## API リファレンス
-
-<ApiLink type="{ComponentName}" /><br />
-<ApiLink type="GridPinningActions" /><br />
-<ApiLink type="GridEditingActions" /><br />
+<ApiLink type="{ComponentName}" />
+<ApiLink type="GridPinningActions" />
+<ApiLink type="GridEditingActions" />
