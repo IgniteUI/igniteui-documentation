@@ -119,7 +119,10 @@ function platformType(name, platform, repoRoot) {
         { symbol: name, prefixed: false, suffix: false },
     ];
     const hit = candidates.find(c => symbols[c.symbol]);
-    return hit ? { ...hit, entries: symbols[hit.symbol] } : null;
+    if (!hit) return null;
+    // An index lists a symbol as one entry, or as several where packages share the name.
+    const value = symbols[hit.symbol];
+    return { ...hit, entries: Array.isArray(value) ? value : [value] };
 }
 
 /**
