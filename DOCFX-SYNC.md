@@ -18,8 +18,7 @@ Common regressions introduced by the upstream sync:
 | Unclosed `<br>` | `<br />` |
 | HTML comments `<!-- ... -->` outside code blocks | Remove or replace with MDX-style `{/* ... */}` |
 | `<!-- schema: -->` | Remove entirely |
-| `suffix={false}` missing on non-Component classes | Restore from master |
-| `prefixed={false}` missing on interface/enum/type types | Restore from master |
+| `suffix={false}` / `prefixed={false}` dropped from an ApiLink | Leave them off — the registry resolves prefix and suffix. See "Checking against the skill rules" below |
 | Missing or overwritten `llms.description` | Add or preserve a specific summary for the generated `llms.txt` index |
 
 ---
@@ -108,7 +107,7 @@ For each file reported with raw `{environment:angularApiUrl}` links:
 3. If master didn't have this line (it's new upstream content), convert manually:
    - `[IgxFooComponent](url)` → `<ApiLink type="Foo" />`
    - `[IgxFooComponent.bar](url)` → `<ApiLink type="Foo" member="bar" />`
-   - `[IFooEventArgs](url)` → `<ApiLink kind="interface" type="IFooEventArgs" suffix={false} prefixed={false} />`
+   - `[IFooEventArgs](url)` → `<ApiLink kind="interface" type="IFooEventArgs" />`
    - `[FooEnum](url)` → `<ApiLink kind="enum" type="FooEnum" />`
    - See [ApiLink rules](#apilink-rules) below.
 
@@ -138,9 +137,9 @@ Angular docs use `<ApiLink>` **without** a `pkg=` prop for most types (defaults 
 | Situation | Example |
 |---|---|
 | Component class | `<ApiLink type="Grid" />` → `IgxGridComponent` |
-| Directive (no Component suffix) | `<ApiLink type="TooltipTargetDirective" suffix={false} />` |
-| Utility class (no Component suffix) | `<ApiLink type="FilteringOperand" suffix={false} />` |
-| Interface (no Igx prefix, no suffix) | `<ApiLink kind="interface" type="IGridEditEventArgs" suffix={false} prefixed={false} />` |
+| Directive (no Component suffix) | `<ApiLink type="TooltipTargetDirective" />` |
+| Utility class (no Component suffix) | `<ApiLink type="FilteringOperand" />` |
+| Interface (no Igx prefix, no suffix) | `<ApiLink kind="interface" type="IGridEditEventArgs" />` |
 | Enum | `<ApiLink kind="enum" type="GridSelectionMode" />` |
 | Member (property/method) | `<ApiLink type="Grid" member="filteringLogic" />` |
 | Member with display label | `<ApiLink type="Grid" member="rowEditEnter" label="rowEditEnter" />` |
@@ -151,10 +150,12 @@ Angular docs use `<ApiLink>` **without** a `pkg=` prop for most types (defaults 
 
 - `type` — short name without platform prefix (`"Grid"` not `"IgxGrid"`)
 - `kind` — `"class"` (default), `"interface"`, `"enum"`, `"type"`, `"variable"`, `"function"`
-- `suffix` — `true` by default; set `false` for directives, utilities, interfaces
-- `prefixed` — `true` by default; set `false` for interfaces (`IFoo`), enums with no `Igx` prefix, functions
 - `member` — property or method name (lowercase is fine, component normalises it)
 - `label` — overrides the display text
+
+`prefixed` and `suffix` are legacy overrides. The registry resolves prefix and suffix from the
+symbol, and no file in either doc set uses either prop. Do not add them, and do not restore them
+after a sync.
 
 ---
 
