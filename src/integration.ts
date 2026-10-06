@@ -69,8 +69,21 @@ import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
 import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
+import { igChrome } from 'igniteui-astro-components/chrome';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+
+/**
+ * The Infragistics header/footer, a snapshot of the marketing site's own
+ * export (/assets/chrome/fragment.html), kept current by sync PRs from the
+ * marketing deploy (scripts/chrome-sync.mjs). One folder at the repo root, shared by
+ * docs/angular and docs/xplat:
+ *
+ *   ig-chrome/production  from www.infragistics.com        production builds
+ *   ig-chrome/staging     from astro-staging.infragistics.com  everything else
+ */
+const chromeSnapshot = (mode: string) =>
+    fileURLToPath(new URL(`../ig-chrome/${mode === 'production' ? 'production' : 'staging'}`, import.meta.url));
 
 /**
  * Absolute directories of every installed `igniteui-theming` copy, nearest first.
@@ -883,6 +896,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 selectedPackage,
                 head: [...gtmHead, ...platformHead, ...codeViewHead, ...head],
             }),
+            igChrome({ snapshot: chromeSnapshot(mode) }),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
