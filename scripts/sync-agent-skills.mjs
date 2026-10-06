@@ -14,7 +14,6 @@
  */
 
 import { readFile, writeFile, mkdir, readdir, rm } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -28,6 +27,29 @@ const CANONICAL_DIRS = [
 ];
 
 const check = process.argv.includes('--check');
+
+/**
+ * Reads a file, returning null when it is not there. Checking first and reading after would be a
+ * race: the file can go away between the two calls.
+ */
+async function readIfPresent(file) {
+  try {
+    return await readFile(file, 'utf8');
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
+/** Lists a directory, returning [] when it is not there. Same reasoning as readIfPresent. */
+async function readdirIfPresent(dir) {
+  try {
+    return await readdir(dir, { withFileTypes: true });
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  }
+}
 
 /** Splits a SKILL.md into its raw YAML frontmatter block and the rest. */
 function splitFrontmatter(text) {
@@ -55,19 +77,18 @@ function extractField(frontmatter, field) {
   return collected.join('\n');
 }
 
-/** Every canonical skill on disk, as { name, skillPath, relDir }. */
+/** Every canonical skill on disk, as { name, relDir, text }. */
 async function collectSkills() {
   const found = [];
   for (const dir of CANONICAL_DIRS) {
-    if (!existsSync(dir)) continue;
-    for (const entry of await readdir(dir, { withFileTypes: true })) {
+    for (const entry of await readdirIfPresent(dir)) {
       if (!entry.isDirectory()) continue;
-      const skillPath = path.join(dir, entry.name, 'SKILL.md');
-      if (!existsSync(skillPath)) continue;
+      const text = await readIfPresent(path.join(dir, entry.name, 'SKILL.md'));
+      if (text === null) continue;
       found.push({
         name: entry.name,
-        skillPath,
         relDir: path.relative(ROOT, path.join(dir, entry.name)).split(path.sep).join('/'),
+        text,
       });
     }
   }
@@ -108,8 +129,7 @@ const problems = [];
 const written = [];
 
 for (const skill of skills) {
-  const text = await readFile(skill.skillPath, 'utf8');
-  const parts = splitFrontmatter(text);
+  const parts = splitFrontmatter(skill.text);
   if (!parts) {
     problems.push(`${skill.relDir}/SKILL.md: no YAML frontmatter block`);
     continue;
@@ -124,7 +144,7 @@ for (const skill of skills) {
 
   const expected = renderPointer(skill, nameField, descriptionField);
   const pointerPath = path.join(POINTER_DIR, skill.name, 'SKILL.md');
-  const actual = existsSync(pointerPath) ? await readFile(pointerPath, 'utf8') : null;
+  const actual = await readIfPresent(pointerPath);
 
   if (actual === expected) continue;
 
@@ -142,9 +162,9 @@ for (const skill of skills) {
 }
 
 // Pointers whose canonical skill no longer exists are stale.
-if (existsSync(POINTER_DIR)) {
+{
   const names = new Set(skills.map((s) => s.name));
-  for (const entry of await readdir(POINTER_DIR, { withFileTypes: true })) {
+  for (const entry of await readdirIfPresent(POINTER_DIR)) {
     if (!entry.isDirectory() || names.has(entry.name)) continue;
     if (check) {
       problems.push(`.claude/skills/${entry.name}/: no canonical skill with this name`);
