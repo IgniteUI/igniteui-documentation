@@ -355,6 +355,8 @@ export default createDocsSite({
             label,
             value: key,
             href: mode === 'production' ? `${PROD_HOST}${base}${root}` : `${STAGING_HOST}${base}${root}`,
+            // Switching keeps the current topic when it exists under `base`; `href` is the fallback.
+            base: mode === 'production' ? `${PROD_HOST}${base}` : `${STAGING_HOST}${base}`,
         })),
     selectedPackage: p.key,
     head: [

@@ -377,7 +377,7 @@ export interface SiteMetaOptions {
      * The selector is hidden when there are no package options to render
      * (for example, when `packages` is omitted or an empty array).
      */
-    packages?: Array<string | { label: string; value?: string; href?: string }>;
+    packages?: Array<string | { label: string; value?: string; href?: string; base?: string }>;
     /**
      * Initially selected package value. Must match one of `packages`;
      * ignored when no package options are available.
@@ -689,8 +689,12 @@ export interface CreateDocsSiteOptions {
     llmsSets?: LlmsSet[];
     /** Cross-product navigation links rendered in the DocsSubHeader. */
     productLinks?: ProductLink[];
-    /** Items for the DocsSubHeader package/platform selector. When `packages` is empty, the selector is hidden. */
-    packages?: Array<string | { label: string; value?: string; href?: string }>;
+    /**
+     * Items for the DocsSubHeader package/platform selector. When `packages` is empty, the selector is hidden.
+     * Give an entry a `base` (root URL of its docs site) to keep the current topic when switching to it;
+     * its `href` is used when that topic does not exist there.
+     */
+    packages?: Array<string | { label: string; value?: string; href?: string; base?: string }>;
     /** Initially selected package value when `packages` is provided (must match one of `packages`). */
     selectedPackage?: string;
     /** Extra Astro integrations appended after the built-in ones. */
