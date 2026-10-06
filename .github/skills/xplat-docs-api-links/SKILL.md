@@ -28,7 +28,16 @@ suffix, URL, and member anchors:
 Do not add `exclude`, `excludePrefixFor`, or `excludeSuffixFor`.
 
 Avoid adding `prefixed={false}` or `suffix={false}` in new MDX. Those are legacy
-fallback overrides, not the normal registry-based workflow.
+fallback overrides, not the normal registry-based workflow. No file under
+`docs/xplat/src/content/en/` uses either prop; the registry resolves prefix and
+suffix from the symbol. `check-mdx-links` still honours `prefixed` so old markup
+keeps resolving, but new markup must not reintroduce it.
+
+This skill is the single authority on ApiLink markup.
+`docs/xplat/API-LINKS-README.md` and `docs/xplat/API-REFERENCES.md` are human
+background on how the component and registry work. Where they describe
+hand-setting `prefixed`, `suffix`, or a routine `pkg`, they predate the registry
+and this skill wins.
 
 ## PlatformBlock
 

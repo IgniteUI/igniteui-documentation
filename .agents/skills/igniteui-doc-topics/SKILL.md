@@ -17,10 +17,10 @@ description: >-
 
 # Ignite UI doc topics
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. All set files carry this version line; before
+Version: v4 · 2026-10-06 · igniteui doc-skill set. All set files carry this version line; before
 editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
-byte-match this file's `description`. Change log: `.ai/skills/CHANGELOG.md` · human-readable intent:
-`.ai/skills/README.md`.
+byte-match this file's `description`. Change log: `.agents/CHANGELOG.md` · human-readable intent:
+`.agents/README.md`.
 
 Write and audit Ignite UI documentation topics so every page has the same predictable shape — easy
 for developers to read and for AI assistants to answer from. The engine is **Diátaxis** (four

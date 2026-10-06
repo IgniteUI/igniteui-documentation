@@ -170,9 +170,9 @@ Japanese `llms.description` values must be written in Japanese. They should summ
 
 After fixing, verify that new `<ApiLink>` additions don't conflict with the skill rules:
 
-- Read [`.github/skills/xplat-docs-api-links/SKILL.md`](.github/skills/xplat-docs-api-links/SKILL.md) for the full rule set (primarily for xplat files, but `kind`, `suffix`, `prefixed` rules apply to angular too)
-- Angular docs do **not** use `pkg=` for standard `igniteui-angular` types — this differs from the xplat skill which requires it
-- Compare suspicious ApiLink calls against the master version of the file to catch dropped `suffix={false}` or `prefixed={false}` props
+- Read [`.github/skills/xplat-docs-api-links/SKILL.md`](.github/skills/xplat-docs-api-links/SKILL.md) for the full rule set; it is the single authority on ApiLink markup
+- Angular docs do **not** use `pkg=` for standard `igniteui-angular` types. The xplat skill does not require `pkg=` either — it is for disambiguation only, when `check-mdx-links` reports the same symbol in more than one package
+- `prefixed={false}` and `suffix={false}` are legacy overrides. A sync that drops them is usually correct: the registry resolves prefix and suffix. Do not restore them — if a link resolves wrongly without them, fix it with `check-mdx-links` and `pkg`/`kind` instead
 
 ---
 

@@ -1,3 +1,9 @@
+---
+name: docfx-sync
+description: "Merging upstream igniteui-docfx content into docs-template and fixing the MDX regressions a sync introduces. Covers identifying and merging a docfx vnext sync PR, running the quality-check script and reading its output, conversion rules for each regression pattern (`.md` link extensions, raw `{environment:angularApiUrl}` links, lost ApiLink and Sample components), ApiLink syntax for Angular-specific docs, and build verification. Use when merging or repairing a docfx sync."
+user-invocable: true
+---
+
 # Skill: docfx-sync
 
 **Domain**: Merging upstream igniteui-docfx content into docs-template and fixing the MDX regressions it introduces.

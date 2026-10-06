@@ -113,13 +113,10 @@ llms:
 
 Keep `description` and `keywords` focused on reader-facing SEO. Write `llms.description` as a compact content summary that names the component or feature and the concrete tasks, concepts, or APIs covered by the page.
 
-- Use one meaningful sentence, between 40 and 300 characters for English or 20 and 300 characters for Japanese.
-- Describe the page's distinguishing content. Do not merely restate its title.
-- Prefer specific capabilities such as configuration, events, methods, data operations, styling, or troubleshooting.
-- Do not use calls to action such as "Try it now" or "Check out examples and demos".
-- Do not include HTML, Markdown links, or generic openings such as "This topic" and "In this example".
-- Shared xplat descriptions may use build tokens such as `{Platform}`, `{ProductName}`, and `{ComponentTitle}`.
-- When a file contains multiple conditional frontmatter blocks, add the metadata to every block.
+Two limits apply, and they are not the same thing:
+
+- **Enforced by the build:** one sentence of 40-300 characters for English, 20-300 for Japanese. `npm run check:llms-metadata` fails outside that range. When a file contains multiple conditional frontmatter blocks, every block needs the metadata.
+- **Editorial rule:** everything else - what makes a good `llms.description`, what to avoid, and how it must line up with the title, H1 lead and keywords - lives in the `igniteui-topic-frontmatter` skill, in [`.agents/skills/igniteui-topic-frontmatter/references/audit-rules.md`](../.agents/skills/igniteui-topic-frontmatter/references/audit-rules.md). That file is canonical; do not restate its rules here.
 
 Run the read-only metadata validator before opening a pull request:
 
@@ -393,7 +390,7 @@ Also declare the types in the frontmatter so the auto-generated API reference gr
 mentionedTypes: ["Grid", "Column"]
 ```
 
-For a complete editing reference see [AI-AGENT-API-LINKS.md](../docs/xplat/AI-AGENT-API-LINKS.md). For the registry and checker flow, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
+The `xplat-docs-api-links` skill ([`.github/skills/xplat-docs-api-links/SKILL.md`](skills/xplat-docs-api-links/SKILL.md)) is the complete editing reference and the single authority on ApiLink markup. For the registry and checker flow, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
 
 # <a name='#checking-api-links'>Checking MDX API Links</a>
 

@@ -1,5 +1,13 @@
 # ApiLink — How It Works and How to Update It
 
+> **Status — human background, not agent instructions.**
+> The single authority on `ApiLink` markup is the `xplat-docs-api-links` skill
+> ([`.github/skills/xplat-docs-api-links/SKILL.md`](../../.github/skills/xplat-docs-api-links/SKILL.md)).
+> This file explains how the component and the registry work. Where it shows hand-set `prefixed`,
+> `suffix`, or a routine `pkg`, it predates registry-based resolution: no file under
+> `docs/xplat/src/content/en/` uses `prefixed` or `suffix` any more, and new markup must not
+> reintroduce them.
+
 ## Overview
 
 `<ApiLink>` is an Astro MDX component that generates **platform-aware** hyperlinks to the TypeDoc API reference sites. It resolves the correct URL at build time based on the current platform (Angular, React, WebComponents, Blazor), so a **single MDX source file** produces correct links for all four documentation targets.
