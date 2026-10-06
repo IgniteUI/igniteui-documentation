@@ -1,0 +1,141 @@
+---
+title: "{Platform} Data Grid | Column Sorting | Infragistics"
+description: "Use Infragistics' {Platform} grid component's sorting feature to configure a mix of sortable and non-sortable columns, with rich API and data sorting. View {ProductName} tutorials!"
+keywords: "{Platform} Table, Data Grid, column, sorting, row, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "HeaderClickAction"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridSorting}"
+llms:
+  description: "The {ProductName} Data Table / Data Grid supports ascending and descending column sorting with a Single Column, Multi-Column and Tri-State Column Sorting configuration."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} Grid Sorting Overview
+
+The {ProductName} Data Table / Data Grid supports ascending and descending column sorting with a Single Column, Multi-Column and Tri-State Column Sorting configuration.
+
+## {Platform} Grid Sorting Example
+
+
+<Sample src="/grids/data-grid/column-sorting" height={600} alt="{Platform} Grid Sorting Example" />
+
+
+
+<div class="divider--half"></div>
+
+## Code Snippet
+
+You can sort by a single or multiple column ascending or descending in the {Platform} data grid by using the `HeaderClickAction` property. If TriState is enabled you can remove the sort applied to a column.
+
+- `SortByMultipleColumns`
+- `SortByMultipleColumnsTriState`
+- `SortByOneColumnOnly`
+- `SortByOneColumnOnlyTriState`
+
+```json-snippet source="/grids/data-grid/column-sorting"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "RealEstateData",
+            "headerClickAction": "SortByMultipleColumns",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+## Sorting through API
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrColumnSortDescription } from 'igniteui-react-data-grids';
+import { ListSortDirection } from 'igniteui-react-core';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+public onGridRef(grid: IgrDataGrid) {
+    this.grid = grid;
+}
+// ...
+let colSortDesc = new IgrColumnSortDescription();
+colSortDesc.field = "UnitsInStock";
+colSortDesc.sortDirection = ListSortDirection.Descending;
+this.grid.sortDescriptions.add(colSortDesc);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { IgcColumnSortDescription } from 'igniteui-webcomponents-data-grids';
+import { ListSortDirection } from 'igniteui-webcomponents-core';
+
+let grid1 = (document.getElementById("grid") as IgcDataGridComponent);
+grid1.dataSource = data;
+
+let colSortDesc = new IgcColumnSortDescription();
+colSortDesc.field = "UnitsInStock";
+colSortDesc.sortDirection = ListSortDirection.Descending;
+grid1.sortDescriptions.add(colSortDesc);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    // Using the ref property above:
+    private IgbDataGrid grid;
+    private IgbDataGrid DataGridRef
+    {
+        get { return grid; }
+        set
+        {
+            grid = value;
+            OnGridRefChanged();
+            StateHasChanged();
+        }
+    }
+
+    private void OnGridRefChanged()
+    {
+        if (this.DataGridRef != null)
+        {
+            this.DataGridRef.SortDescriptions.Add(new ColumnSortDescription()
+            {
+                Field = "Property",
+                SortDirection = ListSortDirection.Descending
+            });
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+## API References
+
+- `HeaderClickAction`
+- `SortByMultipleColumnsTriState`
+- `SortByMultipleColumns`
+- `SortByOneColumnOnlyTriState`

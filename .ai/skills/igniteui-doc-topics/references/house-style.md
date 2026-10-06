@@ -1,7 +1,7 @@
 # Ignite UI house style
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
-bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+Version: v4 · 2026-08-31 · igniteui doc-skill set (v4 adds the xplat `apiTerms` contract and the
+`json-snippet` rule; content was unchanged from v2 through v3). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
 field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
@@ -36,7 +36,7 @@ canonical section table below.
 | Doc set | Frameworks | Path (vnext) | Layout | One topic = |
 |---|---|---|---|---|
 | **Angular** | Angular only | `docs/angular/src/content/en/components/` | flat `*.mdx` | one framework |
-| **xplat** | React · Web Components · Blazor | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all three frameworks** |
+| **xplat** | React · Web Components · Blazor · WinUI · Uno | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all five frameworks** |
 
 The **same section list, order, and names apply to both sets.** Differences are mechanical only (see
 Per-framework mechanics), never the shape of the page. **Dependencies** appears in both sets — it
@@ -63,8 +63,30 @@ llms:
   description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
 relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
+platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmapped | web-only
 ---
 ```
+
+- **`platformType` (xplat) is required and has no default.** A missing or unknown value stops the
+  build. It also decides `apiTerms`, which a page then states only to differ: `xplat` implies `full`
+  (names in backticks resolved through the api maps), `xplat-unmapped` implies `passthrough` (resolved
+  by rule, for an API no generator describes), `web-only` implies `none` (left as written, no
+  `ApiLink`). An xplat page may not state `none`; a topic that genuinely cannot resolve its names is
+  `xplat-unmapped`. `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links` skill is the
+  working guide.
+
+- **Three populations share the xplat content tree, held to different standards, and each page says
+  which it is.** The **DV set** — charts, gauges, maps, dashboard tile, data grid, spreadsheet,
+  toolbar, zoom slider — is `platformType: xplat`: canonical names in backticks resolved in full, and
+  a component stated as a `json-snippet` unless a platform-specific snippet is genuinely necessary.
+  `xplat-unmapped` is the same set where that treatment cannot be applied yet — the Excel library,
+  whose API no generator describes, and the data grid's accessibility topic, whose XAML shape is
+  undecided. **Web-only** topics — inputs, layouts, notifications, scheduling, themes, the web grid
+  families, grid lite — carry no such obligation: they may hand write a block per platform and declare
+  any mode, and reworking them to match the DV set is out of scope rather than an improvement.
+  **Identity is not publication:** a topic can be xplat and not reach the desktop platforms yet, so
+  where a page publishes never settles which population it is in. `check-doc-scope.mjs` enforces the
+  declaration and reports the disagreements; the `xplat-docs-json-snippets` skill is the working guide.
 
 - **`llms.description`** already exists in both sets and is high-value — write it as a crisp,
   self-contained answer sentence that **defines the component (or concept), never the page**: subject
@@ -113,8 +135,12 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
   - **Web Components** → **`igniteui-webcomponents`**, **`igc-`** tags / **`Igc…Component`** classes.
   - **React** → **`igniteui-react`**, a **wrapper around the `igc`** web components.
   - **Blazor** → **`igniteui-blazor`**, a **wrapper around the `igc`** web components.
-- **Net effect:** the **xplat doc set (React / WC / Blazor) is entirely `igc`-based** — WC is `igc`
-  directly; React and Blazor wrap it. The **Angular doc set is `igx`**.
+  - **WinUI** → **`Infragistics.*`** NuGet packages (e.g. `Infragistics.Core`,
+    `Infragistics.WinUI.Charts`), **XAML elements** / **`Xam…`** classes — native, not `igc`-based.
+  - **Uno Platform** → the same **`Infragistics.*`** NuGet packages and **`Xam…`** XAML classes as WinUI.
+- **Net effect:** the **web xplat platforms (React / WC / Blazor) are entirely `igc`-based** — WC is
+  `igc` directly; React and Blazor wrap it. **WinUI and Uno are native XAML/.NET (`Xam…`), not
+  `igc`-based.** The **Angular doc set is `igx`**.
 - **Exception — WC-first components in the Angular docs.** Some newer components are built as web
   components and surfaced in the Angular docs via the `igc` element rather than a native `igx` one
   (verified: the Angular **Rating** topic installs `igniteui-webcomponents`, registers
@@ -122,12 +148,14 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
   verify the tag/class per component.
 - **Angular set:** plain prose, no platform tokens. Registers and renders whichever the component is
   (`igx-…` native, or the `igc-…` WC for the exceptions above).
-- **xplat set:** the *same file* serves React / WC / Blazor via:
+- **xplat set:** the *same file* serves React / WC / Blazor / WinUI / Uno via:
   - **Tokens** the build resolves: `{Platform}`, `{ProductName}`, `{PackageWebComponents}`,
     `{PackageReact}`, `{PackageBlazor}`, etc. Use them in title/description/keywords/headings and prose
     — never hard-code "React" where a token belongs.
   - **`<PlatformBlock for="WebComponents">…</PlatformBlock>`** to wrap framework-specific content
-    (install commands, imports, snippets). `for` values: `WebComponents`, `React`, `Blazor`.
+    (install commands, imports, snippets). `for` values: `React`, `WebComponents`, `Blazor`,
+    `WinUI`, `Uno`, plus the group aliases `Web` (the four web platforms) and `NonWeb` / `Xaml`
+    (both = WinUI + Uno). Prefer `for="Web"` for web-only content so it stays correct as platforms grow.
 - **Live samples** embed the same way in both sets:
   `<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating Basic Example" />`
 - **API links** use `<ApiLink …>` rather than hand-written URLs so they resolve per framework.
@@ -161,7 +189,7 @@ Use this checklist when creating technical content or auditing an existing topic
 verification gaps; it does not edit the topic. Existing topic prose and snippets are evidence to check,
 not a source of truth.
 
-1. **Identify the target platform.** Angular/native `igx`, Web Components `igc`, React, or Blazor.
+1. **Identify the target platform.** Angular/native `igx`; Web Components `igc`, React, or Blazor (`igc`-based); or WinUI / Uno (native XAML/.NET, `Xam…`).
 2. **Verify public API facts through MCP first.** Use the Ignite UI/API docs MCP source for component
    types, properties, methods, events, and API-link targets.
 3. **If MCP is unavailable, use the official platform API docs.**
@@ -466,6 +494,15 @@ audits the body side.
   document a difference that doesn't exist; replace them with **one two-column table:
   variable · what it changes**. Don't add a defaults column either — defaults vary per theme and
   belong to the generated API reference, and the durable content is the variable's name and effect.
+- **An xplat (DV) topic states its component as a `json-snippet` by default.** Generation emits each
+  platform's own code from the product's description metadata, so the four to six copies cannot drift
+  apart and a property that does not exist cannot be published. A platform-specific snippet is
+  discouraged rather than banned: it stays the right tool where a definition genuinely cannot carry the
+  lesson — a data shape with no component in it, a namespace declaration, a package install, a step
+  only one platform family has — and the reason belongs wherever the change is recorded. **Web-only
+  topics are exempt**; a per-platform block there is not a defect. `docs/xplat/JSON-SNIPPETS.md` is normative and the
+  `xplat-docs-json-snippets` skill is the working guide. The rest of this bullet applies to the blocks
+  a topic still authors by hand — Angular's own topics, and the xplat sections a fence cannot state.
 - **Audit & modernize inline code snippets — not the samples.** Fenced code blocks (` ```… ```
   `) are authored in the topic, so verify and update them: no deprecated APIs or outdated framework
   idioms (drop `standalone: true`; prefer Angular's built-in control flow `@if`/`@for` over

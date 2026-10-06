@@ -32,6 +32,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path'; // join used in walkMdx
+import { emitsFor } from '../src/lib/platform-groups.ts';
 
 // CLI args
 const args = Object.fromEntries(
@@ -628,26 +629,26 @@ function tocHrefLines(text) {
 
 /**
  * Yields every toc entry carrying an href, in document order, with the chain of
- * entry names and the platforms it is excluded for.
+ * entry names and whether the platform publishes it.
  *
- * buildFilteredToc() in docs/xplat/astro.config.ts drops an excluded node along
- * with its children, so exclusions accumulate down the tree. Excluded entries
- * are still yielded (flagged) to keep the ordering aligned with tocHrefLines().
+ * buildFilteredToc() in docs/xplat/astro.config.ts applies both include and
+ * exclude to each node, dropping its children too. Hidden entries are still
+ * yielded to keep the ordering aligned with tocHrefLines().
  */
-function* walkTocEntries(entries, trail = [], excluded = [], counter = { n: 0 }) {
+function* walkTocEntries(entries, platform, trail = [], parentVisible = true, counter = { n: 0 }) {
     if (!Array.isArray(entries)) return;
 
     for (const entry of entries) {
         if (!entry || typeof entry !== 'object') continue;
 
         const path = [...trail, entry.name ?? '(unnamed)'];
-        const excl = Array.isArray(entry.exclude) ? [...excluded, ...entry.exclude] : excluded;
+        const visible = parentVisible && (!platform || emitsFor(platform, entry));
 
         if (typeof entry.href === 'string' && entry.href) {
-            yield { href: entry.href, trail: path, excluded: excl, index: counter.n++ };
+            yield { href: entry.href, trail: path, visible, index: counter.n++ };
         }
         if (Array.isArray(entry.items)) {
-            yield* walkTocEntries(entry.items, path, excl, counter);
+            yield* walkTocEntries(entry.items, platform, path, visible, counter);
         }
     }
 }
@@ -722,8 +723,8 @@ for (const { toc, roots, platform } of getTocTargets()) {
 
     const hrefLines = tocHrefLines(text);
 
-    for (const { href, trail, excluded, index } of walkTocEntries(entries)) {
-        if (platform && excluded.includes(platform)) continue;
+    for (const { href, trail, visible, index } of walkTocEntries(entries, platform)) {
+        if (!visible) continue;
 
         totalTocHrefs++;
         if (tocHrefResolves(roots, href)) continue;
