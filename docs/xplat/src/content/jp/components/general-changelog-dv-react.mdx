@@ -30,12 +30,493 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## **{PackageVerLatest}**
 
+### {PackageGrids} (Grids)
+
+- <ApiLink type="Grid" />、<ApiLink type="TreeGrid" />、<ApiLink type="HierarchicalGrid" />、<ApiLink type="PivotGrid" />
+  - Excel スタイル フィルタリングの検索リストで <ApiLink type="VirtualScroll" /> コンポーネントを使用するようになりました。リストは各行のレンダリング時にその行を測定し、測定したサイズで推定サイズを置き換えます。
+  - Excel スタイル フィルタリングの検索リストのマークアップが変更されました。内部の表示コンテナーと垂直スクロールバー ヘルパーの代わりに、仮想スクロール ホストとアイテム ラッパーが使用されます。これらの要素に直接アクセスするアプリケーションとテストを更新してください。
+  - Excel スタイル フィルタリングの内部仮想スクロール コンテナーに、ネストされたリスト ロールがなくなりました。リストボックスとそのオプションは変更されません。
+  - `rowStyles`、`headerStyles`、`headerGroupStyles` プロパティの型が `GridStyleCSSProperty | null` になりました。以前の型は `any` でした。
+  - スクロールバーで、`::-webkit-scrollbar-*` 疑似要素の代わりに標準の `scrollbar-color` および `scrollbar-width` CSS プロパティを使用するようになりました。
+  - グリッド、列アクション、および Excel スタイル フィルタリング メニューのスクロールバーは、ホストの背景色と前景色を使用します。
+
+**重大な変更**
+
+- **テーマ**
+  - `--ig-grid-summary-border-width` および `--ig-grid-summary-pinned-border-width` CSS 変数が削除されました。集計セルはグリッドの罫線幅を使用します。ヘッダーの罫線幅がセルの区切りを、固定の罫線幅が固定の罫線を設定します。
+  - 集計の罫線のスタイルと色は、引き続き `--ig-grid-summary-border-style`、`--ig-grid-summary-pinned-border-style`、`--ig-grid-summary-border-color`、`--ig-grid-summary-pinned-border-color` で設定できます。
+  - 標準のスクロールバー プロパティは 2 つの色と 3 つの幅キーワードのみを受け入れるため、ほとんどのスクロールバー テーマ変数は効果がなくなりました。`--sb-thumb-bg-color` と `--sb-track-bg-color` は引き続き機能します。ホバー、罫線、コーナー、最小高さの変数は効果がありません。
+  - `scrollbar-width` は `auto`、`thin`、`none` のみを受け入れるため、`--sb-size` はスクロールバーの太さを設定しなくなりました。スクロールバーを細くするには、スクロールバー変数を宣言する要素に `--sb-width: thin` を設定します。スクロール要素に `scrollbar-width: thin` を直接設定することもできます。
+
+**動作の変更**
+
+- **スクロールバー**
+  - 標準の CSS プロパティでは、スクロールバーの矢印ボタンのスタイル設定や表示はできません。`scrollbar-width: thin` は、矢印ボタンを表示するプラットフォームでそれらを削除します。
+  - 64 より前のバージョンの Firefox は `scrollbar-color` と `scrollbar-width` をサポートしません。これらのバージョンでは、プラットフォームの既定の色とサイズでスクロールバーが表示されます。
+- **PDF エクスポート**
+  - 集計行の背景が、ヘッダー行と同じになりました。ヘッダーの背景と同様に、この背景は `showTableBorders` オプションで制御されます。
+  - <ApiLink type="PivotGrid" /> エクスポートの行ディメンション セルにもこの背景が適用されます。
+  - 連続するレコードで行ディメンションの値が繰り返される場合、<ApiLink type="PivotGrid" /> エクスポートでは、その値が 1 つの結合セルに 1 回だけ表示されるようになりました。グリッドも行ヘッダーを同じ方法で結合します。
+  - 値は同じ親ディメンションの下でのみ結合されます。たとえば、2 つの異なる都市の同じ日付には 2 つのセルが作成されます。
+  - 結合セルがページの下端を超える場合、セルはページの終わりで止まり、次のページのヘッダーの下に続きます。
+
+## **{PackageVerChanges-26-2-SEP}**
+
+### {PackageCommon}
+
+#### 新しいコンポーネント
+
+{ProductName} に、`igniteui-webcomponents` 7.3.0 および 7.4.0 の次のコンポーネントが含まれるようになりました:
+
+- [Breadcrumbs](./layouts/breadcrumbs.mdx) (<ApiLink type="Breadcrumbs" /> および <ApiLink type="Breadcrumb" />) - ナビゲーション パスを表示します。
+- [Color Picker](./inputs/color-picker.mdx) (<ApiLink type="ColorPicker" />) - ユーザーが色を選択できます。さまざまな色形式とカスタム パレットをサポートします。
+- [QR Code](./inputs/qr-code.mdx) (<ApiLink type="QrCode" />) - `value` プロパティから QR コードを SVG としてレンダリングします。データを数字、英数字、またはバイト モードでエンコードします。
+- Virtual Scroll (<ApiLink type="VirtualScroll" />) - ビューポート内のアイテムと、`overScan` で設定された数の追加アイテムのみをレンダリングします。大規模なリストや無制限のリストに使用します。
+  - このコンポーネントは、垂直方向と水平方向、および右から左 (RTL) のレイアウトをサポートします。
+  - アイテムのサイズは、固定、`estimatedItemSize` による推定、または可変にできます。コンポーネントはレンダリングされた各アイテムを測定し、推定値を補正します。
+  - まだ測定されていないアイテムには、`estimatedItemSize` の代わりに測定済みサイズの平均が使用されます。これにより、スクロールバーが実際のコンテンツと一致します。
+  - このコンポーネントはアイテム要素をリサイクルします。レンダリング ウィンドウ内に残るアイテムは、その要素を保持します。ウィンドウから出るアイテムの要素は、ウィンドウに入るアイテムを表示します。
+  - `keyFunction` プロパティはアイテムのキーを返します。キーがあると、`data` 内でアイテムが移動してもその要素が保持されます。`keyFunction` がない場合は、インデックスがキーになります。
+  - アイテム テンプレートがバインドしない DOM 状態は、要素に残ります。たとえば、`checked` バインドのないチェックボックスの状態です。この状態はアイテム テンプレートでバインドしてください。
+  - このコンポーネントは、ブラウザーの最大スクロール サイズより大きいリストでも正しく動作します。
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.4.1 に更新しました。この更新には [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)、[7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01)、[7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09)、[7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23)、[7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) のリリースが含まれます。
+- `igniteui-dockmanager` を 2.2.1 に、`igniteui-grid-lite` を 0.11.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### ライブラリ
+  - `@lit-labs/virtualizer` 依存関係を削除しました。仮想化は <ApiLink type="VirtualScroll" /> コンポーネントが行います。<ApiLink type="Combo" /> のリストでもこれを使用します。
+  - オプションのピア依存関係 `dompurify`、`marked`、`shiki` を現在の安定バージョンに更新しました。
+- #### Avatar
+  - コンポーネントに `role="img"` が設定されるようになりました。以前は ARIA 1.3 の値で、現在のツールがサポートしていない `image` でした。
+  - アクセシブル名は `alt` から取得されます。`alt` が設定されていない場合は `initials` から取得されます。ロールの説明は常に `avatar` です。
+  - 以前は、名前は常に "avatar" で、`alt` または `initials` がロールの説明を設定していました。
+- #### Badge
+  - ロールの説明は常に `badge` です。支援技術は `variant` を読み上げなくなりました。
+  - `icon` CSS パートは、<ApiLink type="Icon" /> がバッジの唯一のコンテンツである場合にのみ適用されます。これはドキュメントと一致します。
+- #### Carousel
+  - コンポーネントは、インジケーター コンテナー、ナビゲーション ボタン、アクティブなスライド内の最初のフォーカス可能な要素の順でフォーカスを委任するようになりました。
+- #### Chip
+  - `onRemove` イベントの型が、ブール型の `detail` を宣言しなくなりました。このイベントにはこの detail はもともとありませんでした。
+- #### Tile Manager
+  - <ApiLink type="Tile" /> がサイズ変更ハンドルを直接レンダリングするようになりました。`trigger-side`、`trigger`、`trigger-bottom` CSS パートの名前は変わりません。
+  - 新しい `tile-container` CSS パートに、タイルのコンテンツとサイズ変更ハンドルが含まれます。
+- #### AI 支援開発 - スキル
+  - React スキルを、エージェントが自力では見つけられないフレームワーク固有の情報に絞りました。スキルの合計サイズは以前の約半分です。
+  - リファレンス ファイルを `COMPONENTS`、`USAGE`、`DATAVIZ`、`MCP`、`TROUBLESHOOTING` に統合しました。重複していたセットアップとテーマ設定のガイダンスを削除しました。
+  - スキルで MCP ツールの名前付き引数スキーマを記載するようになりました。ドキュメント ツールは `framework` を、API ツールは `platform` を受け取ります。
+  - `get_project_setup_guide` を追加しました。存在しない `get_theming_guidance` を `read_resource` に置き換えました。
+  - スキルで、ダーク モードを `--ig-theme-variant` と `configureTheme()` が制御するグローバル スイッチとして記載するようになりました。カスタム プロパティでページの一部にのみダーク モードを適用することはできません。
+  - パレットのオーバーライドを修正しました。すべてのシェードは `500` シェード (例: `--ig-primary-500`) から生成されます。`--ig-primary-h`、`-s`、`-l` トークンは存在しません。
+  - Excel/CSV エクスポーターのインポート パスを `igniteui-react-grids` に修正しました。フォーム送信ハンドラーの型を `React.FormEvent` に、イベント ハンドラーの型を生成された `Igr*EventArgs` エイリアスに修正しました。
+  - グリッド移行ガイダンスから非推奨の `IgrGridModule.register()` を削除しました。存在しない `--ig-button-foreground` トークンの例を置き換えました。
+  - すべてのスキルに `license: MIT` を追加しました。各スキルの説明に `WHEN TO USE:` と `WHEN NOT TO USE:` セクションを追加し、エージェントが適切なスキルを選択できるようにしました。
+  - スキルの README に、Grid Lite からプレミアム グリッドへの移行スキルが記載されるようになりました。
+
+#### 新機能
+
+- #### Button Group
+  - 単一選択モード (`single` および `single-required`) で、ラジオ グループのキーボード パターンを使用するようになりました:
+    - グループは 1 つのタブ ストップです。
+    - 矢印キーでフォーカスと選択が一緒に移動します。無効なボタンはスキップされ、両端で折り返します。
+    - `alignment="horizontal"` では、ArrowLeft と ArrowRight がテキストの方向に選択を移動します。`alignment="vertical"` では、ArrowUp と ArrowDown が選択を移動します。
+    - `multiple` モードは変更されません。各ボタンはタブ ストップのままです。
+  - 単一選択モードで、`radio` ボタンを持つ `radiogroup` が公開されるようになりました。以前は `aria-pressed` を持つトグル ボタンが公開されていました。
+  - <ApiLink type="ButtonGroup" /> ホストに `radiogroup` または `group` ロールと無効状態が設定されるようになりました。ホストの `aria-label` または `aria-labelledby` でグループに名前を付けます。
+  - 単一選択モードでは、`alignment` がラジオ グループの `aria-orientation` を設定します。
+  - <ApiLink type="ToggleButton" /> の `focused` CSS パートがドキュメント化されました。
+- #### Calendar、Date Picker、Date Range Picker
+  - <ApiLink type="Calendar" /> が `label-inner`、`months-row`、`years-row` CSS パートをエクスポートするようになりました。ピッカーはこれらを `calendar-label-inner`、`months-row`、`years-row` としてエクスポートします。
+- #### Chip
+  - 新しい `outlined` プロパティ。`true` に設定すると、アウトライン付きのチップが表示されます。
+  - `start` および `end` スロットと、新しい `action` および `remove` CSS パートがドキュメント化されました。
+- #### Combo、Color Picker、Date Picker、Date Range Picker、Dropdown、Select、Tooltip
+  - 新しい `scrollStrategy` プロパティ。コンテナーがスクロールされたときのポップアップの動作を設定します:
+    - `hide` (既定) は、アンカーが完全に表示範囲外にある間、ポップアップを非表示にします。
+    - `scroll` は、ポップアップを表示したままアンカー上に保持します。
+    - `close` は、スクロールのたびにコンポーネントを閉じます。これにより `sticky` ツールチップも閉じられます。
+  - 日付ピッカーは、`dialog` モードでは `scrollStrategy` を無視します。
+- #### Dropdown
+  - ターゲット要素に `aria-haspopup="listbox"` が設定されるようになりました。以前は `aria-haspopup="true"` でした。
+  - リストが開いている間、ターゲットの `aria-activedescendant` がアクティブなアイテムを指します。スクリーン リーダーはこのアイテムを読み上げます。
+- #### Icon
+  - `registerIcon` と `registerIconFromText` が、3 番目の引数として `RegisterIconOptions` オブジェクトを受け入れるようになりました。従来のコレクション文字列も引き続き機能します。
+  - `stripMeta: true` は、保存される SVG から `<title>` と `<desc>` 要素を削除します。これにより、ホバー時のブラウザー標準のツールチップが表示されなくなります。
+  - タイトル テキストは、ホストの <ApiLink type="Icon" /> 要素の `aria-label` として引き続き利用できます。
+- #### Mask Input、Date Time Input、Date Range Picker
+  - マスク エディターで元に戻す/やり直しがサポートされました:
+    - 元に戻す: `Ctrl + Z` または `Cmd + Z`。
+    - やり直し: `Ctrl + Y`、`Ctrl + Shift + Z` または `Cmd + Shift + Z`。
+  - 連続して入力された文字は 1 つの元に戻すステップです。連続した削除も 1 つの元に戻すステップです。
+  - キャレットの移動、貼り付け、ドロップ、切り取り、日付部分のスピン、IME 入力は、それぞれ新しいステップを開始します。
+  - 復元されたステップは `onInput` を発行します。双方向バインディングは元に戻す操作に追従します。
+  - フォーカスが変わっても履歴は保持されます。値をプログラムで設定した場合、フォームがコントロールをリセットした場合、または `mask`、`prompt`、`inputFormat` が変更された場合、コンポーネントは履歴をクリアします。
+- #### Splitter
+  - 新しい `startCollapsed` および `endCollapsed` プロパティ。各ペインの折りたたみ状態を取得および設定します。
+  - 新しい `onLayoutChanged` イベント。ユーザーによるサイズ変更または展開状態の変更後にコンポーネントが発行します。
+  - `onLayoutChanged` のペイロードには、現在のレイアウト (`startSize`、`endSize`、`startCollapsed`、`endCollapsed`) が含まれます。
+- #### Tabs
+  - 新しい `selectedTab` プロパティ。選択されている <ApiLink type="Tab" /> 要素、または `null` を返します。
+  - `select()` が、`id` に加えてタブの `label` も受け入れるようになりました。`selected` の値を `select()` に渡すことができます。
+  - タブ ヘッダーに `aria-posinset` と `aria-setsize` が設定されました。ストリップには `aria-orientation` が設定されます。
+  - 選択されているパネルがフォーカス可能になりました。フォーカス可能な要素のないパネル コンテンツにも、キーボード ユーザーが到達できます。
+  - タブが選択されていない場合でも、ストリップはタブ ストップを保持します。
+  - コンポーネントは、中間スロットを通過する <ApiLink type="Tab" /> 要素を検出するようになりました。別のコンポーネントで <ApiLink type="Tabs" /> をラップできます。
+- #### Tooltip
+  - アンカーが `aria-describedby` でツールチップを参照するようになりました。スクリーン リーダーはツールチップのコンテンツをアンカーの説明として読み上げます。
+  - `sticky` モードでは、既定の閉じる操作はラベル付きの `<button>` です。キーボードで到達して使用できます。新しい `close-button` CSS パートでこれを公開します。
+- #### Popover
+  - Popover ベースのコンポーネントは、サポートするブラウザー (Chrome および Edge 133 以降、Firefox 147 以降、Safari 26 以降) でネイティブの CSS アンカー位置指定を使用するようになりました。
+  - その他のブラウザーは引き続き `@floating-ui/dom` を使用します。必要な場合にのみ読み込まれます。
+- #### テーマ
+  - Material、Bootstrap、Fluent、Indigo テーマのすべてのコンポーネントに `forced-colors: active` スタイルが追加されました。
+  - Windows ハイ コントラスト モードでは、コンポーネントはシステム カラー (`CanvasText`、`Highlight`、`GrayText`、`LinkText`) を使用します。無効、ホバー、フォーカス、選択の各状態は互いに区別されたままです。
+
+#### 重大な変更
+
+- #### Chip
+  - `part="base"` は単純なラッパーになりました。選択コントロールは新しい `action` パートに、削除コントロールは新しい `remove` パートに移動しました。
+  - 操作可能な面に対する `::part(base)` ルールを `::part(action)` に移してください。
+  - `focus-outline-color` および `focus-selected-outline-color` CSS 変数が、`focus-shadow-color` および `focus-selected-shadow-color` に置き換えられました。
+- #### AI 支援開発 - スキル
+  - `grid-lite-to-igr-grid-migration` スキルの名前を `igniteui-react-migrate-grid-lite-to-premium` に変更しました。新しい名前は、他のスキルと同様に `igniteui-react-` プレフィックスを使用します。
+  - 名前が変更されたスキルを新しいフォルダー名で再インストールし、古いフォルダーを削除してください。
+  - 各スキルの `reference/` フォルダーの名前を `references/` に変更しました。リンクが機能するよう、`igniteui-react-components`、`igniteui-react-customize-theme`、`igniteui-react-generate-from-image-design` のスキルを再インストールしてください。
+
+#### 動作の変更
+
+- #### Combo、Color Picker、Date Picker、Date Range Picker、Dropdown、Select、Tooltip
+  - アンカーが完全に表示範囲外にある間、ポップアップが非表示になりました。以前はポップアップが表示されたままでした。以前の動作を維持するには、`scrollStrategy="scroll"` を設定します。
+- #### Dropdown、Select、Tooltip
+  - ポップアップは、表示範囲内に留まるためにビューポートの端に沿って移動しなくなりました。反対側に反転するだけです。
+- #### Button Group
+  - 無効なグループは、そのボタンに `disabled` を設定しなくなりました。ボタンはグループの無効状態を継承します。
+  - 独自の `disabled` を持つボタンは、グループを再び有効にしても無効のままです。無効なグループに追加したボタンも無効になります。
+  - 単一選択モードでは、ボタンは個別のタブ ストップではなくなりました。新機能のキーボード パターンを参照してください。
+- #### Calendar、Date Picker、Date Range Picker
+  - `weekStart` が設定されていない場合、週は `locale` の週の最初の日から始まります。コンポーネントはこの日を `Intl.Locale.prototype.getWeekInfo()` から取得します。
+  - たとえば、週は `bg` では月曜日、`en` では日曜日から始まります。
+  - 明示的な `weekStart` が優先されます。ロケールの値を再び使用するには、`weekStart` を `undefined` に設定します。`getWeekInfo()` のないブラウザーでは日曜日が使用されます。
+  - ヘッダーの日付と月/年のナビゲーションは、`locale` のフィールド順を使用します。たとえば `ja` では、年ボタンが月ボタンの前に表示されます。年ビューは引き続き単純な数値を表示します。
+- #### Date Time Input、Date Picker、Date Range Picker
+  - コンポーネントは、ユーザーの入力中に `value` を変更しなくなりました。`value` は、`onChange` イベントとともにコミット時にのみ変更されます。コンポーネントは、従来どおりブラー時に `onChange` を発行します。
+  - 以前は、キーストロークごとに `value` が変更され、変更を通知するイベントはありませんでした。
+  - たとえば <ApiLink type="Grid" /> の編集テンプレートなどで、`value` を外部からバインドできるようになりました。
+  - `onInput` イベントの `detail` には、入力された値が含まれます。日付部分のスピンまたは `Ctrl + ;` の結果も含まれます。
+  - フォーカスされているエディターでは、日付部分のスピンもブラー時のコミットまで待機します。
+  - フォーカスされていないコンポーネントでは、`stepUp()` と `stepDown()` は `value` をすぐに変更します。`clear()`、`setRangeText()`、および直接の代入も `value` をすぐに変更します。
+  - ピッカーでは、ユーザーの入力中、カレンダーは引き続き入力された日付に追従します。
+- #### Dropdown
+  - ユーザーがすでに選択されているアイテムを選択しても、コンポーネントは `onChange` を発行しなくなりました。リストは引き続き閉じます。
+- #### Tabs
+  - スクロール ボタンは、完全には表示されていない最も近いタブまでスクロールするようになりました。以前は 180px の固定ステップでスクロールしていました。
+  - スクロール ボタンの下にあるタブは、表示されていないものとして扱われます。1 回のクリックで、ちょうど 1 つ多くのタブが表示されます。
+- #### Tooltip
+  - 非表示トリガーで閉じるツールチップは、正確に `hideDelay` だけ待機するようになりました。以前は、ドキュメント化されていない 180ms が追加で待機されていました。
+  - `sticky` モードでは、既定の閉じるボタンはツールチップをすぐに非表示にします。`hideDelay` を待機しません。
+  - 既定の `showTriggers` と `hideTriggers` に `focusin` と `focusout` が含まれるようになりました。アンカーがキーボード フォーカスを受け取るとツールチップが開き、フォーカスがアンカーから離れると閉じます。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|単一選択で各要素が追跡されるようになりました。`value` のないボタン、または同じ `value` のボタンでも選択できるようになりました。`selectedItems` は現在の選択を置き換えるようになりました。以前は選択に追加されていました。`selectedItems` が空の `value` を持つボタンを無視しなくなりました。無効なグループに追加されたボタンがグループの状態を壊さなくなりました。最初のレンダリング前の `focus()`、`blur()`、`click()`、および直接の子ではないトグル ボタンにも同様に適用されます。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|複数の月を表示するカレンダーに、ライブ リージョンとタブ ストップが 1 つずつ設定されるようになりました。時刻のみの日付文字列はローカルの日付に対して解決されます。`weekStart` が最初のレンダリングで正しくなりました。多数の無効な日付に対するキーボード ナビゲーションでブラウザーがフリーズしなくなりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|`pause()` で停止したカルーセルが、ポインターまたはフォーカスで再び開始しなくなりました。`interval` の変更後も `isPlaying` と `isPaused` が正しくなりました。コンポーネントは未使用のタイマーをクリアします。スライドよりも投影されたインジケーターが少ないカルーセルでエラーが発生しなくなりました。アクティブなスライドを削除した場合や、空のカルーセルにスライドが入った場合でも、カルーセルはアクティブなスライドを保持します。各インジケーターに `aria-controls` が設定されました。インジケーターはコンテンツ属性として `aria-label` を設定します。|
+|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|`adoptRootStyles` を有効にすると、コンポーネントが最初の適用後にドキュメントが取得するスタイルシートを追跡するようになりました。適用ではメッセージ パートと入力パートのテーマ スタイルが保持されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox, Switch, Radio|外部の `<label>` が、`for` またはラッパーとして、コントロールに名前を付けるようになりました。ラベルをクリックするとコントロールがフォーカスされ、切り替わります。ホストの `aria-labelledby` がコントロールに名前を付けるようになりました。|
+|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Color Picker|ピッカーのキャンバスがタッチ入力に応答するようになりました。`default` モードでは、外部の `<label>`、ホストの `aria-labelledby`、ホストの `aria-label` がトリガー ボタンに名前を付けます。`input` モードでは、テキスト入力に `aria-expanded` が設定されなくなりました。|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo, Select|入力ラベルをクリックしてもリストが開閉しなくなりました。`label` プロパティと外部の `<label>` が入力に名前を付けるようになりました。以前は、選択状態のテキストが入力に名前を付けていました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|矢印キーの前の `Enter` でエラーが発生しなくなりました。ドロップダウンを再び開いた後、明示的なターゲットの有無にかかわらず、キーボード ナビゲーション、`aria-haspopup`、`aria-expanded` が正しくなりました。未解決のターゲットでの `show()` は現在のターゲットを保持します。アンカーがない場合、`show()` は `false` を返します。`clearSelection()` と選択されたアイテムの削除でナビゲーションがリセットされます。アクセシビリティ ツリーにドロップダウンのヘッダーとグループ ラベルが正しく表示されます。アンカーは `ariaLabelledByElements` を通じてリストに名前を付けます。|
+|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|ドロップダウン モードで、最初のレンダリング後に設定された `label` がネイティブ入力に反映されるようになりました。`container` CSS パートがエクスポートされるようになりました。|
+|[2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Range Picker|`ranges` CSS パートがエクスポートされるようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|フォーム関連コンポーネント|最初のフォーム送信が失敗した後に、検証メッセージが消えなくなりました。無効なスタイルが検証状態に追従します。たとえば `invalid` を持つ `required` 入力など、最初から無効なホストで検証メッセージが表示されるようになりました。|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input, Mask Input, Date Time Input, Date Picker, Date Range Picker, File Input, Textarea, Select, Combo, Color Picker|ラベルをクリックすると、コンポーネントから 1 つの `click` イベントが発行されるようになりました。無効なコンポーネントは `click` イベントを発行しません。ホストの `aria-labelledby` と `aria-label` がネイティブ エディターに名前を付けるようになりました。すべてのフォーム関連コンポーネントは、ホストの `aria-labelledby`、外部の `<label>` 要素、自身のラベル、ホストの `aria-label` の順で名前を付けます。最初のレンダリング後に追加された `<label>` もコントロールに名前を付けます。ヘルパー テキストの `aria-describedby` は再レンダリング後も維持されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|外部の `<label>` をクリックすると、ネイティブ入力にフォーカスし、ファイル ピッカーが開くようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|最近のバージョンの Firefox で一致箇所が再び表示されるようになりました。ホストのルート ノードが `::highlight()` ルールを適用するようになりました。Chromium で、異なる shadow root 内のコンポーネントが `--background` および `--foreground` CSS 変数を正しく解決するようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|参照によってレンダリングされるアイコンが、対象のアイコンを後から登録した場合でも解決されるようになりました。アイコンは、アクセシブル名がある場合にのみ `role="img"` を持ちます。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|小数の `step` を持つ値が正確になりました。`stepUp(n)` と `stepDown(n)` は `n` ステップ移動します。数値ではない `max` または `step` は有効な数値にフォールバックします。アクセシブル名、`aria-valuetext`、`aria-readonly`、`aria-disabled` が正しくなりました。外部の `<label>` がコントロールに名前を付けます。`onHover` が、ポインターがコンポーネントを離れて同じシンボル上に再び入ったときに発生するようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|選択のある閉じた Select で `ArrowUp` を押すと、前のアイテムに移動するようになりました。先行入力で最初の文字によるエラーが発生しなくなりました。先行入力がキーボード ショートカットをブロックしなくなりました。選択済みアイテムの選択でリストが閉じます。一致するアイテムが存在する前に設定した `value` を保持し、アイテムを追加したときに解決します。入力テキストは、選択されたアイテムのメイン コンテンツからのみ取得されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|外部の `<label>` とホストの `aria-labelledby` がコントロールに名前を付けるようになりました。スライダーは、最初のレンダリング後のホストの `aria-label` の変更に追従します。支援技術が値のツールチップを読み上げなくなりました。|
+|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|Indigo テーマのスクロール ボタンが不透明になりました。`activation="manual"` で、タブ上の `Enter` または `Space` が `onChange` を発行するようになりました。アクティブなタブで `selected` を `false` に設定した場合、最後のタブを削除した場合、および無効なタブについて、選択が正しく維持されます。開始スクロール ボタンとクリック スクロールが、ブラウザーのズームで正しく動作します。ストリップのスクロールによるレンダリング処理が軽くなりました。|
+|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|`resize` を `auto` から別の値に変更すると、インラインの高さが解放されるようになりました。投影されたテキストは、ネイティブの `<textarea>` と同様に既定値になります。コントロールはプリスティン状態のままで、フォームのリセットでテキストが復元されます。|
+|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|位置指定された 2 つのタイルの入れ替えで、列の値が `rowStart` に書き込まれなくなりました。位置指定された単一のタイルの隣に追加したタイルが、それと重ならなくなりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()` と `hide()` は、キューに入っている逆方向のトランジションをキャンセルします。非表示アニメーション中にポインターがアンカー上に戻ると、ツールチップは開いたままになります。`show(target)` が `open` 状態を誤らせなくなりました。実行時に設定した `withArrow` が矢印を配置するようになりました。遅延トランジションの Promise が解決されるようになりました。`Escape` は、ツールチップが開いている場合にのみ `onClosed` を発行します。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|大規模または深くネストされたツリーに対する操作が高速になりました。アイテムの `path` の読み取りのコストが `2^depth` ではなく `depth` になりました。キーボード ナビゲーションは約 5 倍高速になりました。選択されたアイテムを含むサブツリーの削除は約 2 倍高速になりました。`items`、`select()`、およびすべてのアイテムの展開または折りたたみが 25～45% 高速になりました。|
+|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar, Badge|代替テキストが設定されていない場合、アバターの `<img>` に `alt=""` が設定されるようになりました。この場合、画像は装飾的なものになります。アイコンとテキストを持つバッジは、インラインのパディングを保持します。バッジがテキストを切り取らなくなりました。|
+|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|削除可能なチップが、削除コントロールをチップの面の兄弟要素にしたため、`nested-interactive` アクセシビリティ監査に合格するようになりました。アクセシブル名はチップのコンテンツです。`Space` で選択が切り替わります。`onRemove` は削除可能なチップでのみ発生します。削除コントロールへのフォーカスでチップのフォーカス状態が表示されます。プレフィックスとサフィックスのラッパーが正しく非表示になります。|
+|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|Virtual Scroll|`block: 'nearest'` を指定した `scrollToIndex` が、ネイティブの `scrollIntoView` と同様に、ビューポートの後ろにあるアイテムをビューポートの終端に揃えるようになりました。|
+|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|パッケージに `exports` マップが追加されました。バンドラーと TypeScript がエントリ ポイントと型定義を解決します。|
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.3 から 2.2.1 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### 新機能
+
+- 固定解除されたペイン ヘッダー用の新しい CSS 変数: `--igc-unpinned-header-background` と `--igc-unpinned-header-text`。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|親の Dock Manager が、ネストされた Dock Manager の非表示タブ選択イベントを処理しなくなりました。|
+|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|コンテンツ ペイン内のブラウザーのオートフィル候補をユーザーが選択したときに、エラーが発生しなくなりました。|
+|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|Angular の既定の変更検出で、スロットされたラジオ ボタンをクリックしてもブラウザーがフリーズしなくなりました。|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.9.0 から 0.11.0 に更新しました。この更新には [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) と [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) のリリースが含まれます。
+
+#### 新機能
+
+- グリッドが `ElementInternals` を通じて完全な ARIA グリッド パターンを実装しました: ロール、行と列の数とインデックス、`aria-sort`、`aria-selected`。フィルター行は 2 番目のヘッダー行です。
+- キーボード ナビゲーションとクリックで、DOM フォーカスがアクティブなセルに移動するようになりました。スクリーン リーダーがセルを読み上げます。
+- 新しいパブリック `columns` セッター。
+
+#### 変更
+
+- 行の仮想化で <ApiLink type="VirtualScroll" /> コンポーネントを使用するようになりました。ビューポート外でレンダリングされる行が減りました。`@lit-labs/virtualizer` 依存関係を削除しました。
+- 高さ 800px のグリッドで、10,000 行 20 列の場合の 0.10.0 と比較したパフォーマンス:
+  - スムーズ スクロールは 60 fps で動作します。以前は 30 fps でした。
+  - 離れたスクロール位置へのジャンプが 8 倍高速になりました。
+  - 並べ替えが 8 倍高速になりました。
+  - セル テンプレートを使用する場合、改善は同等かそれ以上です。
+- 列を指定しないナビゲーションは、現在の列を保持します。
+- セルのアクティブ化で、影響を受ける 2 つの行のみが更新されるようになりました。以前はすべての表示行が更新されていました。
+- 列が変更されたとき、行はセルを再利用します。並べ替えは 1 つの共有コレーターを使用します。`ResizeObserver` がスクロールバーのオフセットを制御します。
+- キャンセル可能な `onSorting` および `onFiltering` イベントは、状態が変更される前に発生します。リスナーは式をキャンセルまたは変更できます。
+- `onSorted` および `onFiltered` イベントは、データ ビューの更新後に発生します。
+
+#### 非推奨
+
+- `navigateTo(row, column?, activate?)` の位置引数。`navigateTo(row, options)` を使用してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|OR 式のみのフィルターが、すべてのレコードに一致しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|文字列フィルター条件が、`null` または `undefined` のセル値でエラーを起こさなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|同時に実行される非同期データ パイプラインが、結果を誤った順序で適用しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|ラッパー要素内の宣言的な列が、兄弟の列を削除しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|各グリッド インスタンスが独自のナビゲーション状態を持つようになりました。ナビゲーションは非表示の列をスキップし、無効な行インデックスを生成しなくなりました。|
+|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|どの列にも一致しない条件を持つフィルター式をグリッドがスキップするようになりました。|
+
+## **{PackageVerChanges-26-2-JUL}**
+
+### {PackageCommon}
+
+#### 新機能
+
+- #### AI 支援開発 - スキル
+  - 新しい Grid Lite からプレミアム データ グリッドへの移行スキル。インポート、テンプレート、並べ替え、フィルタリング、サーバー側パターン、ツールバーとエクスポートのフローをマッピングします ([#168](https://github.com/IgniteUI/igniteui-react/pull/168))。
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.2.4 に更新しました。この更新には [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15)、[7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18)、[7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) のパッチ リリースが含まれます。
+- `igniteui-dockmanager` を 2.1.3 に、`igniteui-grid-lite` を 0.9.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### フォーム関連コンポーネント
+  - 外部の `<label>` が、<ApiLink type="Input" />、<ApiLink type="MaskInput" />、<ApiLink type="Textarea" />、<ApiLink type="DateTimeInput" />、<ApiLink type="Select" />、<ApiLink type="Combo" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> のネイティブ入力にリンクされるようになりました。
+  - `for` 属性と `id` 属性を使用するか、コンポーネントを `<label>` 内に配置します。支援技術がラベルを読み上げます。ラベルをクリックするとネイティブ入力にフォーカスされます ([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263))。
+- #### Snackbar、Toast
+  - コンテナーの位置指定プロパティで、新しい `NotificationPositioning` 型を使用するようになりました ([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251))。
+- #### AI 支援開発 - スキル
+  - React スキルで、使用パターンに MCP ドキュメントと API の参照を使用するようになりました ([#167](https://github.com/IgniteUI/igniteui-react/pull/167))。
+  - 画像から React を生成するガイダンスで、たとえば `list_components('react')` や `get_doc('react', '<name>')` などの標準の MCP 呼び出しを使用するようになりました ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)、[#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+  - テーマ カスタマイズのワークフローで、パレット、テーマ、タイポグラフィ、エレベーションの順序がより安全になりました。トークンをオーバーライドする前に見つけるようになります ([#167](https://github.com/IgniteUI/igniteui-react/pull/167))。
+  - ガイダンスと注意事項のリファレンスで、Nav Drawer の CSS 変数名を修正しました ([#169](https://github.com/IgniteUI/igniteui-react/pull/169))。
+  - グリッドのガイダンスで、末尾に空きスペースが残る固定の列幅を使用しないようエージェントに指示するようになりました。エージェントは、ユーザーが要求した場合にのみ固定幅を使用します ([#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+  - 不明瞭なテキストと誤った API 使用パターンを削除しました ([#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|タイトルとサブタイトル スロットの行の高さを修正しました。|
+|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover ベースのコンポーネント|`position: sticky` を持つ祖先内で、ポップオーバーの位置が安定しました。|
+|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Safari でドラッグ操作中にテキストが選択されなくなりました。スパンするタイルを最大化したときに高さが折りたたまれなくなりました。|
+|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|選択されたタブ ヘッダーが、最初のレンダリング時にスクロールして表示されなくなりました。|
+
+### {PackageGrids} (Grids)
+
+- `igniteui-webcomponents-grids` を 7.2.0 に更新しました。このバージョンは `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200) を使用します。
+- `igniteui-angular` 22.0.0 の派生 Sass グリッド テーマは、Angular のテーマ API にのみ適用されます。CSS テーマを使用する {ProductName} のグリッドは変更されません。
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.2 から 2.1.3 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|`tab-strip-area top` パートが適用されるようになりました。|
+|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|親の Dock Manager が、ネストされた Dock Manager の表示範囲外の選択タブ イベントを処理しなくなりました。|
+|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|タブを並べ替えた後、タブ ヘッダーの `aria-label` 値が正しくなりました。|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.8.0 から 0.9.0 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09)を参照してください。
+
+#### 変更
+
+- 大規模なデータ セットでの並べ替えとフィルター操作が高速になりました。グリッドが並べ替えキーとフィルター式ツリーを事前に計算するようになりました ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63))。
+- 本体のセルと行のテーマで、現在の `igniteui-theming` 変数を使用するようになりました。`igniteui-theming` を 27.3.0 に更新しました ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|本体のセルと行の罫線スタイルが、既定、奇数、偶数、ホバー、アクティブの各状態で正しいテーマ変数を使用するようになりました。|
+
+## **{PackageVerChanges-26-2-MAY}**
+
+### {PackageCommon}
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.2.1 に更新しました。この更新には [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) リリースが含まれます。
+- `igniteui-dockmanager` を 2.1.2 に、`igniteui-grid-lite` を 0.8.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### フォーム コントロール
+  - <ApiLink type="Input" />、<ApiLink type="MaskInput" />、<ApiLink type="DateTimeInput" />、<ApiLink type="Checkbox" />、<ApiLink type="Radio" />、<ApiLink type="Switch" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> が、ネイティブ コントロールと同様に、ユーザーが **Enter** を押したときにフォームを送信するようになりました ([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213))。
+- #### Input
+  - `date`、`time`、`datetime-local`、`week`、`month` の入力タイプのテーマ サポートを追加しました。これらのタイプは、すべてのテーマで同じスタイルとフローティング ラベルの動作になります ([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223))。
+- #### AI 支援開発 - スキル
+  - パッケージ内のスキルを更新しました。
+
+#### 新機能
+
+- #### Date Range Picker
+  - 日付範囲の値を単一の入力フィールドで編集できるようになりました ([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733))。
+- #### Nav Drawer
+  - 相対位置以外では、<ApiLink type="NavDrawer" /> がネイティブの Popover API を使用するようになりました。この API がモーダルのセマンティクス、フォーカス トラップ、アクセシビリティ サポートを提供します ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194))。
+  - 新しい `keepOpenOnEscape` プロパティ。ユーザーが **Escape** を押してもドロワーを開いたままにします。相対位置以外にのみ適用されます。
+  - 新しい `onClosing` イベント。ユーザーの操作でドロワーが閉じる前に発行されます。このイベントはキャンセルできます。
+  - 新しい `onClosed` イベント。ユーザーの操作でドロワーが閉じた後に発行されます。
+- #### Invoker Commands API
+  - <ApiLink type="Button" /> と <ApiLink type="IconButton" /> が `command` および `commandFor` プロパティをサポートするようになりました。これらのプロパティを使用すると、カスタム JavaScript なしでボタンがターゲット コンポーネントを制御できます ([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225))。
+  - <ApiLink type="Banner" />、<ApiLink type="Dialog" />、<ApiLink type="NavDrawer" />、<ApiLink type="Snackbar" />、<ApiLink type="Toast" /> が、呼び出しボタンからの `--show`、`--hide`、`--toggle` コマンドに応答するようになりました。
+- #### Snackbar、Toast
+  - 新しい `positioning` プロパティ (`viewport` または `container`)。コンポーネントがブラウザーのトップ レイヤーのポップオーバーとしてレンダリングされるようになりました。
+  - `positioning` を `container` に設定すると、コンポーネントはビューポートではなく、最も近い表示されている祖先にアンカーされます ([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203))。
+
+#### 重大な変更
+
+- #### Nav Drawer
+  - `overlay` CSS パートを削除しました。`base` パートの `::backdrop` 疑似要素、`--ig-overlay-background-color` 変数、またはテーマ パッケージを使用してください ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194))。
+
+#### 非推奨
+
+- #### ローカライズ
+  - <ApiLink type="Calendar" />、<ApiLink type="Chat" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> の古いリソース文字列インターフェイスは非推奨になりました。コンポーネントは `igniteui-i18n` のリソース キーを使用するようになりました。
+  - 個々の `resourceStrings` プロパティを設定することはできなくなりました。完全なリソース文字列オブジェクトを設定してください ([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|フォーカス状態とホバー状態で、選択状態の罫線の色が正しくなりました。|
+|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|単一選択モードで、部分的な検索テキストの後にユーザーが Tab でフォーカスを移動したときの表示値が正しくなりました。|
+|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|親の Stepper より前に DOM に接続されたステップが、Stepper に取り込まれたときにコンテキストを取得するようになりました。|
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.1 から 2.1.2 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|ペイン コンテンツ内の押下で、スロットされた `<input>`、`<textarea>`、`<select>` 要素からフォーカスが奪われなくなりました。|
+|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|ペインがフローティングになったときに、固定解除されたタブ領域の位置が `left` にリセットされなくなりました。再びドッキングしたときにペインが消えなくなりました。|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.7.1 から 0.8.0 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27)を参照してください。
+
+#### 変更
+
+- フィルター行の入力のスタイルを更新しました。共通のフィルター ロジックをリファクタリングしました ([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54))。
+- `igniteui-webcomponents` を 7.2.0 に更新しました。グリッドで Node.js 22 以降が必要になりました ([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65)、[#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64))。
+
+## **{PackageVerChanges-26-2-APR}**
+
+このエントリには、19.6.1 (2026 年 4 月) のパッチ リリースも含まれます。
+
+### {PackageCommon}
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.1.3 に更新しました。この更新には [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25)、[7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22)、[7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) のパッチ リリースが含まれます。
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.1 に更新しました。このリリースで変更されたのはビルド、CI/CD、開発ワークフローのみです ([#152](https://github.com/IgniteUI/igniteui-react/pull/152))。
+- `igniteui-grid-lite` を 0.7.1 に更新しました。Grid Lite のセクションを参照してください。
+- #### Button Group
+  - テーマの色を調整しました ([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182))。
+- #### Checkbox
+  - 無効状態と不確定状態のスタイルを更新しました ([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158))。
+- #### Chip
+  - チップのコンテンツが、新しいパート コンテナー内に配置されるようになりました。チップのスタイルを更新しました ([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190))。
+- #### Circular Progress
+  - 円形と線形のプログレス バーで、同じトラック色の CSS 変数を使用するようになりました ([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185))。
+- #### AI 支援開発 - スキル
+  - 新しい `igniteui-react-generate-from-image-design` スキル。スクリーンショット、モックアップ、ワイヤーフレームなどのデザイン画像から React ビューを構築する方法を、AI コーディング アシスタントに示します ([#146](https://github.com/IgniteUI/igniteui-react/pull/146))。
+  - スキルで Ignite UI CLI MCP サーバーを使用するようになりました ([#151](https://github.com/IgniteUI/igniteui-react/pull/151)、[#154](https://github.com/IgniteUI/igniteui-react/pull/154))。
+  - 19.6.1: グリッド、Grid Lite、フォームに関するガイダンスを明確化し、拡充しました ([#141](https://github.com/IgniteUI/igniteui-react/pull/141))。完全なデータ チャートの例 ([#143](https://github.com/IgniteUI/igniteui-react/pull/143)) とパッケージ ルーティングのガイダンス ([#145](https://github.com/IgniteUI/igniteui-react/pull/145)) を追加しました。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|選択されたアイテムのスタイルを修正しました。|
+|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|表示サイズがすべてのプラットフォームで同じになりました。|
+|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|背景スタイルの差異を修正しました。|
+|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|水平方向で、コンテンツ領域の高さがアクティブなステップのコンテンツに追従できるようになりました。以前は、高さは常に最も高いステップの高さでした。新しい `--body-grid-rows` CSS 変数が各ステップ本体の行サイズを設定します。既定の `1fr` は本体をコンテンツに合わせて拡大します。`0fr` は本体を高さ 0 に折りたたみます。|
+
+### {PackageGrids} (Grids)
+
+- `igniteui-webcomponents-grids` を 7.1.0 に更新しました。このバージョンは `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120) を使用します。
+- **セキュリティ** - PDF エクスポートの `jspdf` 依存関係を 4.2.1 に更新しました。このバージョンでは、以前のバージョンのセキュリティ脆弱性が修正されています ([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113))。
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.7.0 から 0.7.1 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|`filterExpressions` と `sortExpressions` のセッターが現在の状態を置き換えるようになりました。以前は追加されていました。|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|列構成のない初期のフィルターまたは並べ替え状態で、エラーが発生しなくなりました。|
+|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|グリッドが、connected コールバックで採用されたスタイルを正しく適用するようになりました。|
+
+## **{PackageVerChanges-26-2-JUN}**
+
 ### {PackageCharts}
 
 #### 新機能
 
 - `MarkerType` 列挙型に `Checkmark` オプションが追加されました。シリーズで `MarkerType.Checkmark` を使用すると、円の中に V 字型のチェックマーク アイコンを表示できます。新しい `MarkerAutomaticBehavior.Checkmark` 列挙値でチャート内のすべてのシリーズにチェックマーク形状を適用でき、`SeriesViewer.CheckmarkMarkerTemplate` プロパティでテンプレートをカスタマイズできます。
 - マーカーをサポートするチャート シリーズで `MarkerSize` がサポートされ、デバイス非依存ピクセル単位でマーカー サイズを制御できるようになりました。`NaN` に設定するとテンプレート ベースの既定サイズに戻ります。
+
+### {PackageCommon}
+
+#### 変更
+
+- <ApiLink type="DockManager" />: 新しい `minResizeWidth` および `minResizeHeight` プロパティ、`paneFlyoutToggle` イベント、`layoutChange` イベントの追加 detail、および修正を含む、最新の `igniteui-dockmanager@2.1.0` を使用するように更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md#210)を参照してください。
+- 新しい <ApiLink type="Splitter" /> および <ApiLink type="Highlight" /> コンテナー コンポーネントと修正を含む、最新の `igniteui-webcomponents@7.1.0` を使用するように更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#710---2026-03-19)を参照してください。
+
+#### 新機能
+
+- #### AI 支援開発 - エージェント スキル
+  - Ignite UI for React での作業方法を AI コーディング アシスタント (GitHub Copilot、Cursor、Windsurf、Claude、JetBrains AI など) に教える、構造化されたナレッジ ファイルです。
+  - スキル ファイルは `igniteui-react` パッケージに含まれており、[skills/](https://github.com/IgniteUI/igniteui-react/tree/master/skills) ディレクトリにもあります:
+    - **components** - UI パターンに適した React コンポーネント (`Igr*`) を特定し、インストール、インポート、使用します — JSX パターン、イベント、ref、フォームなど。
+    - **customize-theme** - Ignite UI Theming MCP サーバーの使用を含め、React で CSS カスタム プロパティ、Sass、テーマ システムを使用してスタイルをカスタマイズします。
+    - **optimize-bundle-size** - 粒度の細かいインポート、ツリー シェイキング、遅延読み込みでバンドル サイズを削減します。
+  - これらのスキルは、エージェントのスキル パス (例: `.agents/skills` または `.claude/skills`) に配置すると自動的に検出されます。
+
+## **{PackageVerChanges-26-2-MAR}**
 
 ### バグ修正
 
