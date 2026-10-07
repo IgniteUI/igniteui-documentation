@@ -19,7 +19,7 @@ declare module 'virtual:docs-template/site-meta' {
   /** Locale for the nav prefetch URL. Mirrors the value on `virtual:docs-template/nav-html`. */
   export const navLang: NavLang;
   /** Items for the DocsSubHeader package/platform selector. Empty array when not configured. */
-  export const packages: Array<string | { label: string; value?: string; href?: string }>;
+  export const packages: Array<string | { label: string; value?: string; href?: string; base?: string }>;
   /** Initially selected package. Empty string when not configured. */
   export const selectedPackage: string;
 }
