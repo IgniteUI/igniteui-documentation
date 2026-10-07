@@ -170,7 +170,7 @@ node scripts/check-mdx-quality.mjs --all
 
 ## Related skills
 
-- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — full ApiLink syntax reference (for xplat files; the `kind`, `suffix`, `prefixed` rules also apply to angular)
+- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — full ApiLink syntax reference (for xplat files; the `kind` rules also apply to angular, and `suffix`/`prefixed` are legacy on both)
 - [`xplat-docs-platform-block`](../xplat-docs-platform-block/SKILL.md) — PlatformBlock usage in xplat files
 
 ---

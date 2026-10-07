@@ -77,6 +77,13 @@ function extractField(frontmatter, field) {
   return collected.join('\n');
 }
 
+/** The value of a single-line scalar field, with surrounding quotes removed. */
+function scalarValue(field) {
+  const match = /^[^:]+:[ \t]*(.*)$/.exec(field.split('\n')[0]);
+  if (!match) return null;
+  return match[1].trim().replace(/^(['"])(.*)\1$/, '$2');
+}
+
 /** Every canonical skill on disk, as { name, relDir, text }. */
 async function collectSkills() {
   const found = [];
@@ -126,6 +133,51 @@ if (skills.length === 0) {
 }
 
 /*
+ * Parse and validate every canonical skill before writing anything, so a malformed or
+ * mis-identified skill fails the run rather than producing a pointer that misrepresents it.
+ */
+const parsed = [];
+{
+  const invalid = [];
+  for (const skill of skills) {
+    const parts = splitFrontmatter(skill.text);
+    if (!parts) {
+      invalid.push(`${skill.relDir}/SKILL.md: no YAML frontmatter block`);
+      continue;
+    }
+
+    const nameField = extractField(parts.frontmatter, 'name');
+    const descriptionField = extractField(parts.frontmatter, 'description');
+    if (!nameField || !descriptionField) {
+      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs both 'name' and 'description'`);
+      continue;
+    }
+
+    // The directory name keys the pointer path and the collision check below, while the pointer
+    // advertises the declared `name`. If they disagree the pointer misrepresents the skill, and
+    // two mismatched skills could advertise one name while passing a directory-keyed check.
+    const declared = scalarValue(nameField);
+    if (declared !== skill.name) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: frontmatter name '${declared}' does not match its directory '${skill.name}'`,
+      );
+      continue;
+    }
+
+    parsed.push({ ...skill, nameField, descriptionField });
+  }
+
+  if (invalid.length > 0) {
+    console.error('Canonical skills are not valid:');
+    console.error('');
+    for (const i of invalid) console.error(`  ${i}`);
+    console.error('');
+    console.error('A skill directory name and its frontmatter `name` must be identical.');
+    process.exit(1);
+  }
+}
+
+/*
  * A skill name may exist in only one canonical directory. Pointers are keyed by name, so two
  * canonical skills sharing one would resolve to the same `.claude/skills/<name>/SKILL.md` and the
  * second would silently overwrite the first, leaving one canonical skill unexposed. Fail before
@@ -134,7 +186,7 @@ if (skills.length === 0) {
 {
   const firstSeen = new Map();
   const collisions = [];
-  for (const skill of skills) {
+  for (const skill of parsed) {
     const first = firstSeen.get(skill.name);
     if (first) collisions.push(`${skill.name}: ${first.relDir} and ${skill.relDir}`);
     else firstSeen.set(skill.name, skill);
@@ -153,20 +205,8 @@ if (skills.length === 0) {
 const problems = [];
 const written = [];
 
-for (const skill of skills) {
-  const parts = splitFrontmatter(skill.text);
-  if (!parts) {
-    problems.push(`${skill.relDir}/SKILL.md: no YAML frontmatter block`);
-    continue;
-  }
-
-  const nameField = extractField(parts.frontmatter, 'name');
-  const descriptionField = extractField(parts.frontmatter, 'description');
-  if (!nameField || !descriptionField) {
-    problems.push(`${skill.relDir}/SKILL.md: frontmatter needs both 'name' and 'description'`);
-    continue;
-  }
-
+for (const skill of parsed) {
+  const { nameField, descriptionField } = skill;
   const expected = renderPointer(skill, nameField, descriptionField);
   const pointerPath = path.join(POINTER_DIR, skill.name, 'SKILL.md');
   const actual = await readIfPresent(pointerPath);
@@ -188,7 +228,7 @@ for (const skill of skills) {
 
 // Pointers whose canonical skill no longer exists are stale.
 {
-  const names = new Set(skills.map((s) => s.name));
+  const names = new Set(parsed.map((s) => s.name));
   for (const entry of await readdirIfPresent(POINTER_DIR)) {
     if (!entry.isDirectory() || names.has(entry.name)) continue;
     if (check) {
@@ -208,9 +248,9 @@ if (problems.length > 0) {
 }
 
 if (check) {
-  console.log(`Agent skill pointers are in sync (${skills.length} skills).`);
+  console.log(`Agent skill pointers are in sync (${parsed.length} skills).`);
 } else if (written.length > 0) {
   console.log(`Synced ${written.length} pointer(s): ${written.join(', ')}`);
 } else {
-  console.log(`Agent skill pointers already up to date (${skills.length} skills).`);
+  console.log(`Agent skill pointers already up to date (${parsed.length} skills).`);
 }

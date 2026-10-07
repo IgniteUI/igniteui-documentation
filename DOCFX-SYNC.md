@@ -132,30 +132,12 @@ git push origin your-name/add-latest-docfx-changes
 
 ## ApiLink rules
 
-Angular docs use `<ApiLink>` **without** a `pkg=` prop for most types (defaults to `pkg="core"` which maps to `igniteui-angular`). Use `pkg=` only for sub-packages.
+The `docfx-sync` skill owns these: see
+[`.github/skills/docfx-sync/SKILL.md`](.github/skills/docfx-sync/SKILL.md) for the URL → `<ApiLink>`
+conversion table and the prop reference (`type`, `kind`, `member`, `label`, `pkg`), including the
+Angular default where `pkg` is rarely needed.
 
-| Situation | Example |
-|---|---|
-| Component class | `<ApiLink type="Grid" />` → `IgxGridComponent` |
-| Directive (no Component suffix) | `<ApiLink type="TooltipTargetDirective" />` |
-| Utility class (no Component suffix) | `<ApiLink type="FilteringOperand" />` |
-| Interface (no Igx prefix, no suffix) | `<ApiLink kind="interface" type="IGridEditEventArgs" />` |
-| Enum | `<ApiLink kind="enum" type="GridSelectionMode" />` |
-| Member (property/method) | `<ApiLink type="Grid" member="filteringLogic" />` |
-| Member with display label | `<ApiLink type="Grid" member="rowEditEnter" label="rowEditEnter" />` |
-| Charts sub-package | `<ApiLink pkg="charts" type="CategoryChart" />` |
-| Custom display text | `<ApiLink type="Combo" label="igx-combo" />` |
-
-**Key props:**
-
-- `type` — short name without platform prefix (`"Grid"` not `"IgxGrid"`)
-- `kind` — `"class"` (default), `"interface"`, `"enum"`, `"type"`, `"variable"`, `"function"`
-- `member` — property or method name (lowercase is fine, component normalises it)
-- `label` — overrides the display text
-
-`prefixed` and `suffix` are legacy overrides. The registry resolves prefix and suffix from the
-symbol, and no file in either doc set uses either prop. Do not add them, and do not restore them
-after a sync.
+They are not repeated here. This guide covers the sync process; the skill covers the markup.
 
 ---
 
@@ -169,11 +151,13 @@ Japanese `llms.description` values must be written in Japanese. They should summ
 
 ## Checking against the skill rules
 
-After fixing, verify that new `<ApiLink>` additions don't conflict with the skill rules:
+After fixing, verify the new `<ApiLink>` additions against the skills that own the markup rules:
 
-- Read [`.github/skills/xplat-docs-api-links/SKILL.md`](.github/skills/xplat-docs-api-links/SKILL.md) for the full rule set; it is the single authority on ApiLink markup
-- Angular docs do **not** use `pkg=` for standard `igniteui-angular` types. The xplat skill does not require `pkg=` either — it is for disambiguation only, when `check-mdx-links` reports the same symbol in more than one package
-- `prefixed={false}` and `suffix={false}` are legacy overrides. A sync that drops them is usually correct: the registry resolves prefix and suffix. Do not restore them — if a link resolves wrongly without them, fix it with `check-mdx-links` and `pkg`/`kind` instead
+- [`.github/skills/docfx-sync/SKILL.md`](.github/skills/docfx-sync/SKILL.md) — conversion table and prop reference for Angular content
+- [`.github/skills/xplat-docs-api-links/SKILL.md`](.github/skills/xplat-docs-api-links/SKILL.md) — the single authority on ApiLink markup
+- Run `npm run check-mdx-links` and resolve anything it reports as broken or ambiguous
+
+One thing specific to syncing: a sync often drops `prefixed={false}` / `suffix={false}` from links that had them. That is the correct outcome — the registry resolves prefix and suffix — so leave them off rather than restoring from `master`.
 
 ---
 
