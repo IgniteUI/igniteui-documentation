@@ -1,6 +1,6 @@
 # Audit report format and apply procedure
 
-Version: v4 · 2026-10-06 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged.
+Version: v5 · 2026-10-07 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged.
 
 ## Report format
 

@@ -34,10 +34,8 @@ suffix from the symbol. `check-mdx-links` still honours `prefixed` so old markup
 keeps resolving, but new markup must not reintroduce it.
 
 This skill is the single authority on ApiLink markup.
-`docs/xplat/API-LINKS-README.md` and `docs/xplat/API-REFERENCES.md` are human
-background on how the component and registry work. Where they describe
-hand-setting `prefixed`, `suffix`, or a routine `pkg`, they predate the registry
-and this skill wins.
+The registry architecture, data contract, and checker operation are documented in
+[API-LINK-WORKFLOW.md](../../../API-LINK-WORKFLOW.md).
 
 ## PlatformBlock
 

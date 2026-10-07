@@ -331,7 +331,7 @@ Valid platform names (exact casing): `Angular`, `React`, `WebComponents`, `Blazo
 
 # <a name='#api-link'>ApiLink usage</a>
 
-Use `<ApiLink>` to link inline text and the API References section to platform-specific API documentation. A single `<ApiLink>` tag resolves to the correct URL for each platform at build time.
+Use `<ApiLink>` to link inline text and the API References section to platform-specific API documentation. A single tag resolves through the generated registry at build time.
 
 Import at the top of the MDX file:
 
@@ -339,134 +339,17 @@ Import at the top of the MDX file:
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 ```
 
-Basic syntax:
+The [canonical ApiLink skill](skills/xplat-docs-api-links/SKILL.md) owns markup, disambiguation, and platform-specific authoring rules.
 
-```mdx
-<ApiLink type="Grid" />
-<ApiLink type="Column" member="sortable" />
-<ApiLink pkg="gauges" type="BulletGraph" label="Bullet Graph" />
-```
-
-Key attributes:
-
-| Attribute | Required | Notes |
-|---|---|---|
-| `pkg` | no | Package key such as `"core"`, `"grids"`, `"charts"`, `"inputs"`, `"excel"`, or `"geo-core"`. Add it only when the registry has multiple valid matches and the package must be explicit. |
-| `type` | yes | Short type name **without** platform prefix — e.g. `"Grid"`, not `"IgrGrid"`. |
-| `kind` | for non-classes | API kind. Omit for classes. Use `"enum"`, `"interface"`, `"type"`, `"function"`, or `"variable"` when the registry symbol is not a class. |
-| `member` | no | Property or method name for anchor links. |
-| `prefixed` | no | Default `true` (adds `Igr`/`Igx`/`Igc`/`Igb`). Set `{false}` for excel types and when `type` already contains `{ComponentName}`. |
-| `suffix` | no | Default `true` for component-style symbols. Set `{false}` for utility classes, strategy classes, and excel types that do not have an Angular `Component` suffix. |
-| `label` | no | Override the display text. |
-
-`ApiLink` resolves through the generated API symbol registry. Keep links minimal when the registry can resolve a single target:
-
-```mdx
-<ApiLink type="Calendar" />
-<ApiLink type="Grid" member="filter" />
-```
-
-Add `pkg` only when the same symbol exists in more than one package:
-
-```mdx
-<ApiLink pkg="core" type="Calendar" />
-<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
-<ApiLink pkg="geo-core" type="NumberFormatSpecifier" />
-```
-
-Add `kind` only when the intended symbol is not a class, or when the same name exists as multiple API kinds:
-
-```mdx
-<ApiLink kind="enum" type="TransactionType" />
-```
-
-If one `ApiLink` cannot be correct for all platforms, split the content with `PlatformBlock` instead of forcing one set of props to mean different targets.
-
-Member lookup is case-insensitive, but after a member is found the registry is the source of truth for the rendered member name and anchor.
-
-Also declare the types in the frontmatter so the auto-generated API reference grid works:
-
-```yaml
-mentionedTypes: ["Grid", "Column"]
-```
-
-The `xplat-docs-api-links` skill ([`.github/skills/xplat-docs-api-links/SKILL.md`](skills/xplat-docs-api-links/SKILL.md)) is the complete editing reference and the single authority on ApiLink markup. For the registry and checker flow, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
+For xplat topics, the generator uses `mentionedTypes` frontmatter to populate the API reference grid. The [frontmatter skill](../.agents/skills/igniteui-topic-frontmatter/SKILL.md) owns guidance for that field.
 
 # <a name='#checking-api-links'>Checking MDX API Links</a>
 
-Use the root `check-mdx-links` scripts to validate `ApiLink` references:
-
-| Scope | Command |
-|---|---|
-| All MDX sources | `npm run check-mdx-links` |
-| Angular docs | `npm run check-mdx-links:angular` |
-| React xplat docs | `npm run check-mdx-links:react` |
-| Web Components xplat docs | `npm run check-mdx-links:wc` |
-| Blazor xplat docs | `npm run check-mdx-links:blazor` |
-| Markdown reports | `npm run check-mdx-links:report:<platform>` |
-| Resolve-only broken-link reports | `npm run check-mdx-links:broken:<platform>` |
-
-These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an **Ambiguous ApiLinks** section, writes a `reports/api-link-ambiguity-report*.md` file, and exits with a failure.
-
-Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
-
-Angular checks run the same generated-content sync used by Angular builds before scanning `docs/angular/src/content`. React, Web Components, and Blazor checks generate the selected platform output first, then scan raw xplat MDX files filtered through each language `toc.json` platform exclusions. This keeps report paths pointed at raw xplat source files while avoiding topics excluded from that platform.
-
-Reports are written under `reports/`:
-
-| Report | Meaning |
-|---|---|
-| `api-link-ambiguity-report*.md` | Registry duplicate keys and currently referenced ambiguous `ApiLink`s. |
-| `mdx-broken-links*.md` | Resolve-only broken or unresolved `ApiLink`s. |
-| `mdx-link-report*.md` | Full URL check output when the non-broken report scripts are used. |
-
-Referenced ambiguities should be fixed before merging. Registry duplicate keys can remain in the report when no current MDX link references them.
+The root `check-mdx-links` scripts validate registry resolution and URL reachability. [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md#checker-commands) lists the platform commands, generation prerequisites, and report formats.
 
 # <a name='#api-link-registry-workflow'>ApiLink registry workflow</a>
 
-The API registry flow is:
-
-```mermaid
-flowchart TD
-    A[api-docs] --> B[Generate API docs]
-    B --> C[Generate API registry JSON]
-    C --> D[Sync into igniteui-documentation]
-    D --> E[ApiLink resolves type/member from registry]
-    E --> F{Resolved?}
-
-    F -->|Yes| G[Render API link]
-    G --> H[Link checker crawls URL]
-    H --> I[Reported if unreachable / soft 404]
-
-    F -->|No| J[Render highlighted text only]
-    J --> K[Reported as unresolved]
-```
-
-The checker also detects duplicate registry matches:
-
-```mermaid
-flowchart TD
-    A[MDX ApiLink] --> B[Resolve candidate names]
-    B --> C[Apply platform prefix/suffix rules]
-    C --> D[Apply pkg and kind filters]
-    D --> E[Match type in registry]
-    E --> F[Match member case-insensitively]
-    F --> G{How many registry symbols match?}
-
-    G -->|0| H[Unresolved ApiLink]
-    G -->|1| I[Resolved ApiLink]
-    G -->|2 or more| J[Ambiguous ApiLink]
-
-    H --> K[Write broken report]
-    I --> L[Use canonical registry symbol and member]
-    J --> M[Write ambiguity report and fail when enabled]
-```
-
-Registry snapshots live under `src/data/api-link-index/<platform>/staging-latest.json`. The runtime `ApiLink` component and the checker both use these registries to choose the final URL.
-
-Only referenced ambiguities are blocking. Duplicate registry keys listed in the report are informational until an MDX file references them without enough props to choose the intended symbol.
-
-For the full workflow, package mappings, generated-content behavior, and practical fix loop, see [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md).
+The runtime component and checker read registry snapshots under `src/data/api-link-index/`. See [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md) for repository ownership, the registry contract, package mappings, and ambiguity reporting.
 
 # <a name='#creating-shared-help-topics'>Creating shared help topics</a>
 
@@ -487,8 +370,6 @@ All cross-page links must carry the `.mdx` extension. Both explicit (`./page.mdx
 # <a name='#updating-of-data-visualization-related-topics'>Updating of Data Visualization related topics</a>
 
 The cross-platform (xplat) documentation MDX source files live in this repository under `docs/xplat/src/content/`. Edit them directly here. The generated per-platform output is produced by the build scripts under `docs/xplat/scripts/`.
-
-If content originates from or must be synced with the upstream [`igniteui-xplat-docs`](https://github.com/IgniteUI/igniteui-xplat-docs) repository, use the merge scripts in `scripts/` (e.g. `merge-vnext-updates.mjs`, `migrate-vnext-new-files.mjs`) to pull in updates rather than editing generated files directly.
 
 ## These topics are generated into the Angular tree — don't edit or commit them there
 

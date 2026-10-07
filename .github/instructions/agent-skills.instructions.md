@@ -1,5 +1,5 @@
 ---
-applyTo: ".agents/**,.claude/**,.github/skills/**,.github/instructions/**,.github/CONTRIBUTING.md,scripts/sync-agent-skills.mjs,DOCFX-SYNC.md,docs/xplat/*.md"
+applyTo: ".agents/**,.claude/**,.github/skills/**,.github/instructions/**,.github/CONTRIBUTING.md,scripts/sync-agent-skills.mjs,README.md,API-LINK-WORKFLOW.md,docs/xplat/*.md"
 ---
 
 # Reviewing changes to the agent skill set
@@ -53,8 +53,8 @@ Flag as a problem:
 - Topic structure, heading or template rules stated outside
   `.agents/skills/igniteui-doc-topics/references/house-style.md`.
 - `ApiLink` markup rules stated outside `.github/skills/xplat-docs-api-links/SKILL.md`.
-  `docs/xplat/API-LINKS-README.md` and `docs/xplat/API-REFERENCES.md` are human background only and
-  must not be turned back into agent instructions.
+  `API-LINK-WORKFLOW.md` documents registry architecture and checker operation; it links to the
+  canonical skills for authoring rules.
 - A new agent-facing guide added under `docs/xplat/` (for example an `AI-AGENT-*.md` file). Two such
   guides were removed because they contradicted the skills; new guidance belongs in a skill.
 
@@ -65,8 +65,7 @@ The registry resolves package, prefix, suffix and member anchors. No file under
 
 Flag as a problem:
 
-- Guidance or examples that reintroduce `prefixed={false}` or `suffix={false}`, or that tell an
-  author to restore them after a docfx sync.
+- Guidance or examples that reintroduce `prefixed={false}` or `suffix={false}`.
 - Guidance that `pkg=` is required. It is for disambiguation only, when `check-mdx-links` reports
   the same symbol in more than one package.
 - Guidance to add `exclude`, `excludePrefixFor` or `excludeSuffixFor`. Those props are obsolete.
