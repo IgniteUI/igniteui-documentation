@@ -17,7 +17,7 @@ description: >-
 
 # Ignite UI doc topics
 
-Version: v4 · 2026-10-06 · igniteui doc-skill set. All set files carry this version line; before
+Version: v5 · 2026-10-07 · igniteui doc-skill set. All set files carry this version line; before
 editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
 byte-match this file's `description`. Change log: `.agents/CHANGELOG.md` · human-readable intent:
 `.agents/README.md`.

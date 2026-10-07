@@ -1,6 +1,6 @@
 # Diátaxis cheat-sheet
 
-Version: v4 · 2026-10-06 · igniteui doc-skill set (content unchanged; version line added for the
+Version: v5 · 2026-10-07 · igniteui doc-skill set (content unchanged; version line added for the
 set-wide match check). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 Condensed from https://diataxis.fr (tutorials, how-to, reference, explanation, compass).

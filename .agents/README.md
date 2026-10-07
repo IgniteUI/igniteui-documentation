@@ -1,6 +1,6 @@
 # Ignite UI documentation — agent skills
 
-Version: v4 · 2026-10-06 · igniteui doc-skill set. This file is for humans; agents load the
+Version: v5 · 2026-10-07 · igniteui doc-skill set. This file is for humans; agents load the
 SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 
 ## Layout
@@ -16,8 +16,6 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 .github/skills/              ← gh-aw skills: pinned here, see "Why skills live in two places"
 ├── xplat-docs-api-links/
 ├── xplat-docs-platform-block/
-├── xplat-docs-api-map-sync/
-├── docfx-sync/
 └── agentic-workflows/
 
 .claude/skills/              ← generated pointers, one per skill; never edited by hand
@@ -31,13 +29,10 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 | `igniteui-topic-frontmatter` | `.agents/skills/` | Frontmatter-only audits and normalization, audit-first, never touching the body |
 | `xplat-docs-api-links` | `.github/skills/` | Adding, fixing or auditing `<ApiLink>` in xplat MDX |
 | `xplat-docs-platform-block` | `.github/skills/` | Adding, fixing or auditing `<PlatformBlock>` in xplat MDX |
-| `xplat-docs-api-map-sync` | `.github/skills/` | Syncing the generated API map/registry |
-| `docfx-sync` | `.github/skills/` | Merging upstream igniteui-docfx changes and fixing MDX regressions |
 | `agentic-workflows` | `.github/skills/` | Designing, creating, debugging or upgrading gh-aw workflows |
 
-`xplat-docs-api-links` is the single authority on ApiLink markup. `docs/xplat/API-LINKS-README.md`
-and `docs/xplat/API-REFERENCES.md` are human background on how the component and registry work; they
-are not agent instructions and do not override the skill.
+`xplat-docs-api-links` is the single authority on ApiLink markup. [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md)
+documents the current registry architecture and checker operation; authoring rules live in the skills.
 
 ## Why skills live in two places
 
