@@ -125,6 +125,31 @@ if (skills.length === 0) {
   process.exit(1);
 }
 
+/*
+ * A skill name may exist in only one canonical directory. Pointers are keyed by name, so two
+ * canonical skills sharing one would resolve to the same `.claude/skills/<name>/SKILL.md` and the
+ * second would silently overwrite the first, leaving one canonical skill unexposed. Fail before
+ * writing anything.
+ */
+{
+  const firstSeen = new Map();
+  const collisions = [];
+  for (const skill of skills) {
+    const first = firstSeen.get(skill.name);
+    if (first) collisions.push(`${skill.name}: ${first.relDir} and ${skill.relDir}`);
+    else firstSeen.set(skill.name, skill);
+  }
+  if (collisions.length > 0) {
+    console.error('A skill name exists in more than one canonical directory:');
+    console.error('');
+    for (const c of collisions) console.error(`  ${c}`);
+    console.error('');
+    console.error('Pointers are keyed by name, so these would overwrite each other.');
+    console.error('Keep one copy — see .agents/README.md, "Why skills live in two places".');
+    process.exit(1);
+  }
+}
+
 const problems = [];
 const written = [];
 
