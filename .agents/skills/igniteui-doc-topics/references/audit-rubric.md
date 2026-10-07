@@ -1,7 +1,7 @@
 # Audit rubric
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. Before editing, confirm this version line against
-`.ai/skills/CHANGELOG.md`.
+Version: v4 · 2026-10-06 · igniteui doc-skill set. Before editing, confirm this version line against
+`.agents/CHANGELOG.md`.
 
 The audit workflow, the checkable rules for **audit mode**, and the report format to produce. Every
 finding maps to a concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fix.

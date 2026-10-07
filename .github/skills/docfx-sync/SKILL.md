@@ -1,3 +1,10 @@
+---
+license: MIT
+name: docfx-sync
+description: "Covers merging upstream igniteui-docfx content into this repository and fixing the MDX regressions a sync introduces: identifying and merging a docfx vnext sync PR, running the quality-check script and reading its output, the conversion rules for each regression pattern (.md link extensions, raw environment:angularApiUrl links, lost ApiLink and Sample components), ApiLink syntax for Angular content, and build verification. WHEN TO USE: merging a docfx sync PR, or repairing regressions a sync left behind. WHEN NOT TO USE: xplat ApiLink markup outside a sync (use xplat-docs-api-links), or legacy apiMap imports (use xplat-docs-api-map-sync)."
+user-invocable: true
+---
+
 # Skill: docfx-sync
 
 **Domain**: Merging upstream igniteui-docfx content into docs-template and fixing the MDX regressions it introduces.
@@ -164,7 +171,7 @@ node scripts/check-mdx-quality.mjs --all
 
 ## Related skills
 
-- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — full ApiLink syntax reference (for xplat files; the `kind`, `suffix`, `prefixed` rules also apply to angular)
+- [`xplat-docs-api-links`](../xplat-docs-api-links/SKILL.md) — full ApiLink syntax reference (for xplat files; the `kind` rules also apply to angular, and `suffix`/`prefixed` are legacy on both)
 - [`xplat-docs-platform-block`](../xplat-docs-platform-block/SKILL.md) — PlatformBlock usage in xplat files
 
 ---

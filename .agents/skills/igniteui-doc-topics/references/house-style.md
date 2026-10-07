@@ -1,7 +1,7 @@
 # Ignite UI house style
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged from v2; set-wide version
-bump). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
+Version: v4 · 2026-10-06 · igniteui doc-skill set (content unchanged from v2; set-wide version
+bump). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
 field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with

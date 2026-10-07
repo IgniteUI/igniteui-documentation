@@ -1,7 +1,7 @@
 # Diátaxis cheat-sheet
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set (content unchanged; version line added for the
-set-wide match check). Before editing, confirm this version line against `.ai/skills/CHANGELOG.md`.
+Version: v4 · 2026-10-06 · igniteui doc-skill set (content unchanged; version line added for the
+set-wide match check). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 Condensed from https://diataxis.fr (tutorials, how-to, reference, explanation, compass).
 This is the *reasoning layer*. For how the four modes attach to Ignite UI sections, see

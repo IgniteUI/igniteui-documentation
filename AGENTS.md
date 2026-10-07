@@ -1,0 +1,99 @@
+# AGENTS.md — Ignite UI documentation
+
+Repository-wide guidance for AI agents working in `igniteui-documentation`.
+
+## Project overview
+
+The Ignite UI documentation site: Astro-based, built from shared MDX sources into a separate site per
+product and locale.
+
+- **Framework**: Astro, with MDX content and TypeScript integrations
+- **Shared components**: `igniteui-astro-components` supplies `ApiLink`, `PlatformBlock`, the site
+  chrome and the docs layout
+- **Doc sets**: `docs/angular/` (Angular) and `docs/xplat/` (React, Web Components, Blazor from one
+  source)
+- **Locales**: `en`, `jp`, and a frozen legacy `kr` in the Angular set
+- **Package name**: `docs-template`, consumed by the doc sets as `docs-template/*`
+
+## Repository structure
+
+```text
+.agents/                      ← agent infrastructure
+  README.md                   ← the index for every skill in the repo; read this first
+  CHANGELOG.md                ← change history for the doc-skill set
+  skills/                     ← canonical skills (Codex scans this path)
+.github/
+  skills/                     ← canonical skills that gh-aw must see; see .agents/README.md
+  instructions/               ← path-specific Copilot code review instructions
+  CONTRIBUTING.md             ← contributor guide: topic structure, metadata, review flow
+  workflows/                  ← CI, CD per platform and locale, and gh-aw JP sync
+.claude/skills/               ← generated pointers; never edited by hand
+docs/
+  angular/                    ← Angular doc set (astro.config.ts, src/content/{en,jp,kr})
+  xplat/                      ← cross-platform doc set (astro.config.ts, src/content/{en,jp})
+    API-LINKS-README.md       ← how ApiLink and the registry resolve a URL (background)
+    API-REFERENCES.md         ← the API references system (background)
+src/                          ← the shared Astro integration published as docs-template
+  integration.ts              ← createDocsSite options and the site-meta virtual module
+  llms.ts                     ← llms.txt generation
+  components/                 ← shared MDX and layout components
+  lib/platform-context.ts     ← platform config: doc roots, package ids, prefixes
+scripts/                      ← checkers and generators (see "Checks" below)
+DOCFX-SYNC.md                 ← the docfx sync process
+```
+
+## Skills
+
+Every skill in this repo is internal contributor tooling. **`.agents/README.md` is the index** — it
+lists all eight, says which directory each lives in and why, and explains the generated
+`.claude/skills/` pointers.
+
+Start there rather than guessing. In short:
+
+| Task | Skill |
+|---|---|
+| Write or audit a documentation topic | `igniteui-doc-topics` |
+| Audit topic frontmatter only | `igniteui-topic-frontmatter` |
+| Add or fix an `<ApiLink>` | `xplat-docs-api-links` |
+| Add or fix a `<PlatformBlock>` | `xplat-docs-platform-block` |
+| Import legacy apiMap coverage | `xplat-docs-api-map-sync` |
+| Merge or repair a docfx sync | `docfx-sync` |
+| Design or debug a gh-aw workflow | `agentic-workflows` |
+| Write or edit a skill | `skill-authoring` |
+
+## Conventions
+
+- **One rule, one place.** A rule lives in the skill that owns it and is referenced everywhere else.
+  Do not restate another skill's rules in a README, a guide or `CONTRIBUTING.md`.
+- **`ApiLink` is registry-resolved.** Pass `type`, optionally `member`, `kind` for non-classes, and
+  `pkg` only to disambiguate. `prefixed` and `suffix` are legacy overrides; no file in either doc set
+  uses them.
+- **`PlatformBlock` is for platform-specific content**, not for API URL mechanics. Platform names are
+  case-sensitive: `Angular`, `React`, `WebComponents`, `Blazor`.
+- **Every topic needs `llms.description`** in every conditional frontmatter block. The build enforces
+  40-300 characters for English, 20-300 for Japanese.
+- **Japanese topics are machine-synced** by the gh-aw workflows in `.github/workflows/`. Do not
+  hand-edit a JP topic to match an English change unless the task is specifically a JP fix.
+
+## Checks
+
+```sh
+npm run verify              # skills:check + llms metadata + spellcheck + markdown lint
+npm run skills:check        # agent skill pointers are in sync and valid
+npm run skills:sync         # regenerate the pointers after changing a name or description
+npm run check:llms-metadata # llms.description present and within length
+npm run check-mdx-links     # ApiLink resolution, ambiguities and broken links
+npm run spellcheck          # cspell over docs/
+npm run lint:md             # markdownlint over docs/
+```
+
+Builds are per doc set, platform and locale, for example `npm run angular:build:en` or
+`npm run build:staging:react:en`. See `package.json` for the full list.
+
+## Notes
+
+- There is no `.codex/` directory. Codex discovers `.agents/skills/` natively.
+- `.claude/skills/` exists because Claude Code discovers project skills only from there. It is
+  generated by `scripts/sync-agent-skills.mjs` and holds no rules.
+- This repo does not use an ACS (`main.yaml`) manifest. That spec is archived; this file and
+  `.agents/README.md` carry the same information.

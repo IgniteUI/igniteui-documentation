@@ -1,6 +1,7 @@
 ---
+license: MIT
 name: xplat-docs-api-links
-description: "Reference guide for adding, fixing, and auditing ApiLink components in xplat MDX using the generated api-docs registry. Covers clean ApiLink props, pkg/kind disambiguation, member checks, PlatformBlock use, and registry reports."
+description: "The single authority on ApiLink markup in xplat MDX, resolved through the generated api-docs registry. Covers clean ApiLink props, pkg and kind disambiguation, member checks, when PlatformBlock is needed instead, the registry reports, and why prefixed and suffix are legacy overrides. WHEN TO USE: adding, fixing or auditing an ApiLink, or interpreting a check-mdx-links ambiguity or broken-link report. WHEN NOT TO USE: importing coverage from the legacy apiMap data (use xplat-docs-api-map-sync), platform-specific content that is not about API URLs (use xplat-docs-platform-block), or repairing a docfx sync (use docfx-sync)."
 user-invocable: true
 ---
 
@@ -28,7 +29,16 @@ suffix, URL, and member anchors:
 Do not add `exclude`, `excludePrefixFor`, or `excludeSuffixFor`.
 
 Avoid adding `prefixed={false}` or `suffix={false}` in new MDX. Those are legacy
-fallback overrides, not the normal registry-based workflow.
+fallback overrides, not the normal registry-based workflow. No file under
+`docs/xplat/src/content/en/` uses either prop; the registry resolves prefix and
+suffix from the symbol. `check-mdx-links` still honours `prefixed` so old markup
+keeps resolving, but new markup must not reintroduce it.
+
+This skill is the single authority on ApiLink markup.
+`docs/xplat/API-LINKS-README.md` and `docs/xplat/API-REFERENCES.md` are human
+background on how the component and registry work. Where they describe
+hand-setting `prefixed`, `suffix`, or a routine `pkg`, they predate the registry
+and this skill wins.
 
 ## PlatformBlock
 

@@ -1,22 +1,27 @@
 ---
+license: MIT
 name: igniteui-topic-frontmatter
 description: >-
-  Audit and normalize YAML frontmatter metadata for Ignite UI MDX documentation topics. Use when a
-  task mentions frontmatter, SEO titles, meta descriptions, llms.description, keywords, canonical
-  links, relatedComponents, mentionedTypes, license, metadata uniformity, or AI-readable page
-  identity in Ignite UI Angular or xplat documentation topics. This skill is strictly
-  frontmatter-only: audit first and provide suggestions for the user to choose from before changing
-  anything; never edit topic body content, headings, prose, samples, code snippets, links, tables, or
-  section structure. For anything touching body content, structure, headings, prose, or samples, use
-  the companion igniteui-doc-topics skill instead.
+  Audits and normalizes YAML frontmatter metadata on Ignite UI MDX documentation topics: SEO titles,
+  meta descriptions, llms.description, keywords, canonical links, relatedComponents, mentionedTypes,
+  license and the AI-readable page identity, across the Angular and xplat doc sets. It is strictly
+  frontmatter-only, audit-first: it reports findings and offers suggestions for the user to choose
+  from before changing anything, and never edits topic body content, headings, prose, samples, code
+  snippets, links, tables or section structure.
+  WHEN TO USE: a task mentions frontmatter, SEO titles, meta descriptions, llms.description,
+  keywords, canonical links, relatedComponents, mentionedTypes, metadata uniformity, or AI-readable
+  page identity on a documentation topic.
+  WHEN NOT TO USE: anything touching body content, structure, headings, prose or samples (use
+  igniteui-doc-topics), or frontmatter on a SKILL.md rather than on a topic (use skill-authoring).
+user-invocable: true
 ---
 
 # Ignite UI topic frontmatter
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. All set files carry this version line; before
+Version: v4 · 2026-10-06 · igniteui doc-skill set. All set files carry this version line; before
 editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
-byte-match this file's `description`. Change log: `.ai/skills/CHANGELOG.md` · human-readable intent:
-`.ai/skills/README.md`.
+byte-match this file's `description`. Change log: `.agents/CHANGELOG.md` · human-readable intent:
+`.agents/README.md`.
 
 Audit Ignite UI documentation topic frontmatter so pages have modern, uniform metadata for SEO,
 generated schema, and LLM-readable manifests — without touching the topic body.

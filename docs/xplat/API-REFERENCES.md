@@ -1,5 +1,12 @@
 # API References System — xplat docs
 
+> **Status — human background, not agent instructions.**
+> The single authority on `ApiLink` markup is the `xplat-docs-api-links` skill
+> ([`.github/skills/xplat-docs-api-links/SKILL.md`](../../.github/skills/xplat-docs-api-links/SKILL.md)).
+> This file explains how the component and the registry resolve a URL; it does not define the markup
+> rules. `prefixed` and `suffix` are legacy props — the registry resolves both, no file in either doc
+> set passes them, and new markup must not add them.
+
 Complete reference for the `ApiLink` component used across all platform MDX pages.
 
 ---
@@ -185,8 +192,8 @@ Use anywhere in prose to link a class, interface, enum, type alias, variable, or
 | `member` | `string` | — | Property or method name. Appended as `#{member}` anchor in URL |
 | `pkg` | `string` | `"core"` | Package key. See table above |
 | `label` | `string` | auto | Display text. Defaults to `{Prefix}{Type}` or `{Prefix}{Type}.{member}` — **never** includes `classSuffix` |
-| `prefixed` | `boolean` | `true` | Set `false` when the name already has the prefix, or for functions/types that have no platform prefix. **Always `false` for excel library types.** |
-| `suffix` | `boolean` | `true` | Set `false` for utility/non-component classes that don't carry the `Component` suffix. Required for all excel types, FilteringOperand classes, SortingStrategy classes, SummaryOperand classes. |
+| `prefixed` | `boolean` | `true` | Legacy. Whether the platform prefix is prepended. The registry resolves this; do not pass the prop |
+| `suffix` | `boolean` | `true` | Legacy. Whether the platform class suffix is appended. The registry resolves this; do not pass the prop |
 
 ### URL segments by kind
 
@@ -219,19 +226,19 @@ The <ApiLink pkg="charts" type="CategoryChart" /> renders category data.
 Enable via <ApiLink pkg="charts" type="CategoryChart" member="isTransitionInEnabled" label="IsTransitionInEnabled" />.
 
 <!-- Grid property -->
-Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> to enable selection.
+Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" /> to enable selection.
 
 <!-- Function (no platform prefix) -->
-Call <ApiLink kind="function" type="configureTheme" prefixed={false} /> to apply a theme at runtime.
+Call <ApiLink kind="function" type="configureTheme" /> to apply a theme at runtime.
 
 <!-- Variable (fully-qualified) -->
-Use <ApiLink kind="variable" type="IgrCalendarResourceStringEN" prefixed={false} /> for English localization.
+Use <ApiLink kind="variable" type="IgrCalendarResourceStringEN" /> for English localization.
 
 <!-- Type alias (no prefix) -->
-See the <ApiLink kind="type" type="AbsolutePosition" prefixed={false} /> type for valid values.
+See the <ApiLink kind="type" type="AbsolutePosition" /> type for valid values.
 
 <!-- Interface (no prefix) -->
-Implement <ApiLink kind="interface" type="ComboTemplateProps" prefixed={false} /> for custom templates.
+Implement <ApiLink kind="interface" type="ComboTemplateProps" /> for custom templates.
 
 <!-- Enum -->
 Set the <ApiLink kind="enum" type="CalendarSelection" /> enum to control selection mode.
@@ -250,17 +257,17 @@ Set the <ApiLink kind="enum" type="CalendarSelection" /> enum to control selecti
   <code>TransitionInDuration</code>
 </a>
 
-<!-- <ApiLink kind="function" type="configureTheme" prefixed={false} /> -->
+<!-- <ApiLink kind="function" type="configureTheme" /> -->
 <a href=".../ignite-ui-react/docs/typescript/latest/functions/igniteui-react.configureTheme.html">
   <code>configureTheme</code>
 </a>
 
-<!-- <ApiLink kind="variable" type="IgrCalendarResourceStringEN" prefixed={false} /> -->
+<!-- <ApiLink kind="variable" type="IgrCalendarResourceStringEN" /> -->
 <a href=".../ignite-ui-react/docs/typescript/latest/variables/igniteui-react.IgrCalendarResourceStringEN.html">
   <code>IgrCalendarResourceStringEN</code>
 </a>
 
-<!-- <ApiLink kind="type" type="AbsolutePosition" prefixed={false} /> -->
+<!-- <ApiLink kind="type" type="AbsolutePosition" /> -->
 <a href=".../ignite-ui-react/docs/typescript/latest/types/igniteui-react.AbsolutePosition.html">
   <code>AbsolutePosition</code>
 </a>
@@ -279,17 +286,17 @@ Set the <ApiLink kind="enum" type="CalendarSelection" /> enum to control selecti
 |-----------|-----------|
 | Class name in prose text | `<ApiLink type="Foo" />` |
 | Property or method in prose text | `<ApiLink type="Foo" member="bar" label="Bar" />` |
-| Interface name | `<ApiLink kind="interface" type="FooProps" prefixed={false} />` |
+| Interface name | `<ApiLink kind="interface" type="FooProps" />` |
 | Enum name | `<ApiLink kind="enum" type="FooEnum" />` |
-| Type alias | `<ApiLink kind="type" type="FooType" prefixed={false} />` |
-| Variable | `<ApiLink kind="variable" type="FooVar" prefixed={false} />` |
-| Function | `<ApiLink kind="function" type="fooFn" prefixed={false} />` |
+| Type alias | `<ApiLink kind="type" type="FooType" />` |
+| Variable | `<ApiLink kind="variable" type="FooVar" />` |
+| Function | `<ApiLink kind="function" type="fooFn" />` |
 | Symbol in "API References" section | `<ApiLink type="Foo" />` — one per type (add `kind=` for non-class) |
 | Property/method in "API References" section | **Never** — members go in `<ApiLink>` inline only |
-| Chart class/member | Always `pkg="charts"` |
-| Grid class/member | Always `pkg="grids"` — never `pkg="core"` for grid types |
-| Gauge class/member | Always `pkg="gauges"` |
-| Map class/member | Always `pkg="maps"` |
+| Chart class/member | `pkg="charts"` only if `check-mdx-links` reports the symbol in more than one package |
+| Grid class/member | `pkg="grids"` only to disambiguate; the registry resolves the package otherwise |
+| Gauge class/member | `pkg="gauges"` only to disambiguate |
+| Map class/member | `pkg="maps"` only to disambiguate |
 | Import placement | After frontmatter `---`, before first `#` heading — **never inside a code fence** |
 
 ---
@@ -344,10 +351,10 @@ import ApiLink from '@/components/mdx/ApiLink.astro';
 
 # {Platform} {ComponentTitle} Row Selection
 
-Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" prefixed={false} /> to enable selection.
-Use <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={false} /> to access selected rows.
+Set <ApiLink pkg="grids" type="{ComponentName}" member="rowSelection" /> to enable selection.
+Use <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" /> to access selected rows.
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="{ComponentName}" />
 <ApiLink pkg="grids" type="Column" />
 ```
 
@@ -357,13 +364,15 @@ Use <ApiLink pkg="grids" type="{ComponentName}" member="selectedRows" prefixed={
 
 Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) are **utility classes** — they carry no platform prefix and no `Component` suffix on any platform.
 
-Always use `prefixed={false}` for all `pkg="excel"` links:
+The registry knows they carry no prefix, so the markup needs nothing special:
 
 ```mdx
-<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
-<ApiLink pkg="excel" prefixed={false} type="Workbook" />
-<ApiLink pkg="excel" prefixed={false} type="Worksheet" member="tables" label="Tables" />
+<ApiLink pkg="excel" type="WorksheetTable" />
+<ApiLink pkg="excel" type="Workbook" />
+<ApiLink pkg="excel" type="Worksheet" member="tables" label="Tables" />
 ```
+
+Older pages pass `prefixed={false}` here. That is the legacy override; do not add it to new markup.
 
 The Blazor excel package is **separate** from `IgniteUI.Blazor`. The `pkg="excel"` config for Blazor resolves to:
 - **Package:** `IgniteUI.Blazor.Documents.Excel`
@@ -407,38 +416,9 @@ The MDX parser tries to evaluate them even inside comments. Fix by converting to
 
 ---
 
-## For AI Agents — Checklist
+## Writing ApiLink markup
 
-When updating any MDX file to use `ApiLink`:
-
-1. **Add import** immediately after the closing `---` of the frontmatter — never inside a code fence:
-
-   ```mdx
-   import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
-   ```
-
-2. **Determine the correct `pkg`** from the content area (see table above). Charts pages → `"charts"`. Grid pages → `"grids"`. Component pages → `"core"` (or omit).
-
-3. **Replace inline backtick class names** in prose (outside code blocks) with `<ApiLink>`:
-   - `` `CategoryChart` `` → `<ApiLink pkg="charts" type="CategoryChart" />`
-
-4. **Replace inline backtick member names** in prose with `<ApiLink member=...>`:
-   - `` `TransitionInDuration` `` → `<ApiLink pkg="charts" type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" />`
-   - Use the **primary class of the page** as `type`. Use `camelCase` for `member`. Use the original display text for `label`.
-
-5. **Fix API References** at the bottom — keep only **top-level symbols** (no members), add correct `pkg` and `kind`:
-   - Before (over-specified): `<ApiLink type="CategoryChart" />` `<ApiLink type="IsTransitionInEnabled" />` `<ApiLink type="TransitionInDuration" />`
-   - After (top-level only): `<ApiLink pkg="charts" type="CategoryChart" />`
-   - For interfaces/enums/types/functions/variables: `<ApiLink kind="interface" type="FooProps" prefixed={false} />`
-
-6. **Use one `<ApiLink>` per type** in the API References section. Group them by package.
-
-7. **Never mix kinds** — use the correct `kind=` for each type (class, interface, enum, etc.).
-
-8. **Never hardcode prefixes** (`Igr`, `Igx`, `Igc`, `Igb`) in the `type` prop — the component adds the prefix automatically. Use `prefixed={false}` for:
-   - Fully-qualified names (`IgbToast`, `{ComponentName}`)
-   - Functions, type aliases, variables, and most interfaces/enums that have no platform prefix
-
-9. **Non-class kinds preserve casing** — the `type` value you pass is used verbatim (no lowercasing). Match the exact TypeDoc symbol name.
-
-10. **Do not convert** references inside fenced code blocks (` ``` `). Only convert prose text.
+The procedure for adding, fixing and auditing `<ApiLink>` lives in the
+[`xplat-docs-api-links`](../../.github/skills/xplat-docs-api-links/SKILL.md) skill, which is the
+single authority. This file documents how the component and the registry resolve a URL; it does
+not define the markup rules.

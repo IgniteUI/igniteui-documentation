@@ -1,5 +1,12 @@
 # ApiLink — How It Works and How to Update It
 
+> **Status — human background, not agent instructions.**
+> The single authority on `ApiLink` markup is the `xplat-docs-api-links` skill
+> ([`.github/skills/xplat-docs-api-links/SKILL.md`](../../.github/skills/xplat-docs-api-links/SKILL.md)).
+> This file explains how the component and the registry resolve a URL; it does not define the markup
+> rules. `prefixed` and `suffix` are legacy props — the registry resolves both, no file in either doc
+> set passes them, and new markup must not add them.
+
 ## Overview
 
 `<ApiLink>` is an Astro MDX component that generates **platform-aware** hyperlinks to the TypeDoc API reference sites. It resolves the correct URL at build time based on the current platform (Angular, React, WebComponents, Blazor), so a **single MDX source file** produces correct links for all four documentation targets.
@@ -21,8 +28,8 @@ Renders an inline `<a><code>…</code></a>` link to a specific type or member.
 | `kind` | string | `"class"` | Symbol kind: `class`, `interface`, `enum`, `type`, `variable`, `function` |
 | `member` | string | — | Property or method name to anchor to, e.g. `"sortable"` |
 | `label` | string | auto | Override display text. Defaults to `PrefixType` or `PrefixType.member` |
-| `prefixed` | boolean | `true` | When `true`, the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is prepended automatically |
-| `suffix` | boolean | `true` | When `true`, the platform class suffix (e.g. `Component` for Angular DV packages) is appended. Set `false` for utility/non-component classes (FilteringOperand, SortingStrategy, excel library types, etc.) |
+| `prefixed` | boolean | `true` | Legacy. When `true`, the platform prefix (`Igr`/`Igx`/`Igc`/`Igb`) is prepended automatically. The registry resolves this; do not pass the prop |
+| `suffix` | boolean | `true` | Legacy. When `true`, the platform class suffix (e.g. `Component` for Angular DV packages) is appended. The registry resolves this; do not pass the prop |
 
 ### URL Resolution
 
@@ -44,7 +51,7 @@ The `docRoot` and URL format are resolved from `src/lib/platform-context.ts` bas
 
 ```mdx
 <!-- Link to the grid component class -->
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="{ComponentName}" />
 
 <!-- Link to a column property (same for all platforms) -->
 <ApiLink pkg="grids" type="Column" member="sortable" />
@@ -56,13 +63,13 @@ The `docRoot` and URL format are resolved from `src/lib/platform-context.ts` bas
 <ApiLink pkg="grids" type="ClipboardOptions" kind="interface" member="copyHeaders" />
 
 <!-- Link to a grid method with custom label -->
-<ApiLink pkg="grids" type="{ComponentName}" member="pinRow" label="PinRow" prefixed={false} />
+<ApiLink pkg="grids" type="{ComponentName}" member="pinRow" label="PinRow" />
 
 <!-- Link to a type alias -->
-<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" prefixed={false} />
+<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" />
 
 <!-- Angular-only service (no platform prefix) -->
-<ApiLink pkg="grids" type="ExcelExporterService" prefixed={false} />
+<ApiLink pkg="grids" type="ExcelExporterService" />
 ```
 
 ---
@@ -129,7 +136,7 @@ The most common error is pointing `type="{ComponentName}"` to a property that be
 
 | Scenario | Correct `type=` |
 |---|---|
-| Grid-level property (`allowFiltering`, `rowEditable`, `clipboardOptions`, …) | `{ComponentName}` + `prefixed={false}` |
+| Grid-level property (`allowFiltering`, `rowEditable`, `clipboardOptions`, …) | `{ComponentName}` |
 | Column property (`sortable`, `filterable`, `editable`, `dataType`, `pinned`, `resizable`, …) | `Column` |
 | ColumnGroup-only property (`collapsible`, `expanded`, `collapsibleIndicatorTemplate`) | `ColumnGroup` |
 | Property set on child columns (`visibleWhenCollapsed`) | `Column` |
@@ -142,59 +149,19 @@ The most common error is pointing `type="{ComponentName}"` to a property that be
 | Search options (`caseSensitive`, `exactMatch`) | `BaseSearchInfo` |
 | Cell type properties (`editValue`) | `CellType` + `kind="interface"` |
 
-### The `prefixed` prop — when to set it
+### Legacy props: `prefixed` and `suffix`
 
-The `prefixed` prop (default `true`) controls whether the platform class prefix (`Igr`/`Igx`/`Igc`/`Igb`) is automatically prepended to `type`.
+`prefixed` (default `true`) controlled whether the platform class prefix (`Igr`/`Igx`/`Igc`/`Igb`)
+was prepended to `type`. `suffix` (default `true`) controlled whether a platform's component suffix
+was appended — Angular's `grids` package turns `IgxGrid` into `IgxGridComponent`, while utility and
+strategy classes such as `IgxStringFilteringOperand` carry no suffix.
 
-**Keep default (`prefixed={true}`, or just omit it)** for all concrete short type names:
+Both are now resolved from the registry, which knows each symbol's real name. **No file in either
+doc set passes `prefixed` or `suffix`**, and new markup must not add them. They remain supported so
+old markup keeps resolving.
 
-```mdx
-<ApiLink pkg="grids" type="Column" member="sortable" />
-<!-- resolves to IgrColumn (React), IgxColumn (Angular), etc. -->
-```
-
-**Set `prefixed={false}`** when:
-- `type="{ComponentName}"` — the template variable already expands to the full prefixed name at build time
-- The type name is already fully qualified (e.g. `"ExcelExporterService"` — Angular-only, no Igr prefix exists)
-- The symbol genuinely has no platform prefix (standalone functions, certain enums)
-
-```mdx
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
-<ApiLink pkg="grids" type="ExcelExporterService" prefixed={false} />
-```
-
----
-
-### The `suffix` prop — non-component utility classes and excel library types
-
-Some platforms append a suffix to UI component class names. For Angular, the `grids` package appends `Component` to all component classes: `IgxGrid` → `IgxGridComponent`, `IgxColumn` → `IgxColumnComponent`.
-
-However, **utility and strategy classes do not carry this suffix**: `IgxStringFilteringOperand`, `IgxDefaultSortingStrategy`, `IgxSummaryOperand`, etc.
-
-**For these classes, add `suffix={false}`** to prevent the incorrect suffix from being appended:
-
-```mdx
-<!-- Wrong — resolves to IgxStringFilteringOperandComponent (404) -->
-<ApiLink pkg="grids" type="StringFilteringOperand" />
-
-<!-- Correct — resolves to IgxStringFilteringOperand -->
-<ApiLink pkg="grids" type="StringFilteringOperand" suffix={false} />
-```
-
-**Classes that need `suffix={false}`** (utility/non-component classes):
-- All `*FilteringOperand` classes (`BooleanFilteringOperand`, `NumberFilteringOperand`, `StringFilteringOperand`, `DateFilteringOperand`, etc.)
-- All `*SummaryOperand` classes (`SummaryOperand`, `NumberSummaryOperand`, `DateSummaryOperand`)
-- Strategy classes (`DefaultSortingStrategy`, `NoopSortingStrategy`, `NoopFilteringStrategy`, `GridSortingStrategy`)
-- **All excel library types** (`Workbook`, `Worksheet`, `WorksheetCell`, `WorksheetTable`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) — these are utility classes with no platform prefix and no Component suffix
-- Any class whose name does **not** end in a UI-component pattern
-
-**Classes that keep the default `suffix={true}` / omit it** (UI component classes):
-- `Column`, `ColumnGroup`, `Grid`, `TreeGrid`, `HierarchicalGrid`
-- Any class that maps to a rendered UI component
-
-> **Rule of thumb:** If the class represents something you place in a template (`<igx-column>`, `<igx-grid>`), it has the `Component` suffix. If it is a utility you instantiate in code (`StringFilteringOperand.instance()`), it does not.
-
----
+If a link resolves to the wrong symbol without them, that is a registry or disambiguation problem:
+run `check-mdx-links` and use `pkg` or `kind`, rather than overriding the name by hand.
 
 ## Always Set `kind=` to Match the TypeDoc Symbol Type
 
@@ -226,20 +193,21 @@ Check the TypeDoc JSON for the symbol's `kind` field:
 <ApiLink pkg="grids" type="RowType" kind="interface" member="validation" />
 
 <!-- enum — must set kind="enum" -->
-<ApiLink pkg="grids" type="GridSelectionMode" kind="enum" prefixed={false} />
+<ApiLink pkg="grids" type="GridSelectionMode" kind="enum" />
 
 <!-- type alias — must set kind="type" -->
-<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" prefixed={false} />
+<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" />
 ```
 
 ### Quick checklist before writing an ApiLink
 
-1. **Find the symbol** in the TypeDoc JSON — check its `kind` value.
-2. **Set `kind=`** if it is not `128` (class).
-3. **Set `type=`** to the short unprefixed name that owns the member.
-4. **Set `member=`** to the exact property/method name.
-5. **Set `pkg=`** to the package the type belongs to.
-6. **Keep or remove `prefixed={false}`** — remove it for concrete short names like `"Column"`; keep it for `{ComponentName}` or fully-qualified names.
+1. **Set `type=`** to the short unprefixed name that owns the member.
+2. **Set `member=`** to the exact property/method name, if you are linking to one.
+3. **Set `kind=`** for anything that is not a class — `sass`, `interface`, `enum`, `type`,
+   `variable`, `function`.
+4. **Add `pkg=` only to disambiguate**, when `check-mdx-links` reports the same symbol in more than
+   one package.
+5. **Add nothing else.** The registry resolves prefix, suffix, URL and member anchor.
 
 ---
 
@@ -250,7 +218,7 @@ If a page references a type that is not yet in the `## API References` section, 
 ```mdx
 ## API References
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
+<ApiLink pkg="grids" type="{ComponentName}" />
 <ApiLink pkg="grids" type="Column" />
 <ApiLink pkg="grids" type="ColumnGroup" />
 <ApiLink pkg="grids" kind="interface" type="ClipboardOptions" />
@@ -260,11 +228,11 @@ If a page references a type that is not yet in the `## API References` section, 
 
 ## Excel Library — Special Rules
 
-Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) **never** carry a platform prefix or the `Component` suffix on any platform. Always use:
+Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) **never** carry a platform prefix or the `Component` suffix on any platform. The registry knows this, so the markup needs nothing special:
 
 ```mdx
-<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
-<ApiLink pkg="excel" prefixed={false} type="Workbook" member="save" label="Save" />
+<ApiLink pkg="excel" type="WorksheetTable" />
+<ApiLink pkg="excel" type="Workbook" member="save" label="Save" />
 ```
 
 The Blazor excel package is **separate** from the main `IgniteUI.Blazor` package:

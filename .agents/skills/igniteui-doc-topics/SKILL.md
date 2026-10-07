@@ -1,26 +1,28 @@
 ---
+license: MIT
 name: igniteui-doc-topics
 description: >-
-  Author or audit Ignite UI documentation topics — component pages, how-to guides, conceptual
-  overviews, and category indexes — for both the Angular doc set and the cross-platform (React /
-  Web Components / Blazor) doc set. Applies the Diátaxis framework mapped onto Ignite UI's house
-  templates: canonical section order, fixed heading names, frontmatter (including `llms.description`
-  and the `relatedComponents` trigger), `.mdx` sample embeds, and per-framework token/PlatformBlock
-  mechanics. Use this whenever someone asks to write, draft, create, review, audit, fix, or
-  standardize a documentation topic, tutorial, guide, reference page, or concept overview for Ignite
-  UI — even if they just say "write docs for the X component" or "review this topic" without naming
-  Diátaxis or the templates. Also use it when deciding what *kind* of documentation a page should be,
-  or when a topic mixes tutorial / how-to / reference / explanation content that should be separated.
-  For frontmatter-only audits or metadata normalization, use the companion igniteui-topic-frontmatter
-  skill instead.
+  Authors and audits Ignite UI documentation topics - component pages, how-to guides, conceptual
+  overviews and category indexes - across the Angular and cross-platform (React / Web Components /
+  Blazor) doc sets. Applies the Diataxis framework mapped onto Ignite UI house templates: canonical
+  section order, fixed heading names, frontmatter, .mdx sample embeds, and per-framework token and
+  PlatformBlock mechanics.
+  WHEN TO USE: writing, reviewing, auditing, fixing or standardizing a topic, tutorial, guide,
+  reference page or concept overview, including when the request is only "write docs for the X
+  component"; deciding what kind of documentation a page should be; or separating a topic that
+  mixes tutorial, how-to, reference and explanation content.
+  WHEN NOT TO USE: frontmatter-only audits (use igniteui-topic-frontmatter), ApiLink markup (use
+  xplat-docs-api-links), PlatformBlock alone (use xplat-docs-platform-block), or authoring a
+  SKILL.md (use skill-authoring).
+user-invocable: true
 ---
 
 # Ignite UI doc topics
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. All set files carry this version line; before
+Version: v4 · 2026-10-06 · igniteui doc-skill set. All set files carry this version line; before
 editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
-byte-match this file's `description`. Change log: `.ai/skills/CHANGELOG.md` · human-readable intent:
-`.ai/skills/README.md`.
+byte-match this file's `description`. Change log: `.agents/CHANGELOG.md` · human-readable intent:
+`.agents/README.md`.
 
 Write and audit Ignite UI documentation topics so every page has the same predictable shape — easy
 for developers to read and for AI assistants to answer from. The engine is **Diátaxis** (four
