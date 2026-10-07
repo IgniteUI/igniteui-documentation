@@ -3,7 +3,7 @@ title: "Chip"
 description: "The {ProductName} Chip is a compact element for tags, filters, and recipients that users can select or remove, with style variants and icon slots."
 keywords: "{Platform} Chip, chip component, selectable chip, removable chip, tags, filters, {ProductName}, Infragistics"
 license: MIT
-last_updated: "2026-10-05"
+last_updated: "2026-10-07"
 mentionedTypes: ["Chip", "Icon"]
 relatedComponents: ["Button", "Checkbox", "Badge"]
 llms:
@@ -27,13 +27,13 @@ A chip can be selectable, removable, or both, and can show icons or other conten
 
 <PlatformBlock for="WebComponents, React, Blazor">
 
-<Sample src="/inputs/chip/overview" showThemePicker height={80} alt="{Platform} Chip overview example" />
+<Sample src="/inputs/chip/overview" showThemePicker height={455} alt="{Platform} Chip overview example" />
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
-<Sample src="/data-display/chip-simple" showThemePicker height={100} alt="{Platform} Chip overview example" />
+<Sample src="/data-display/chip-overview" showThemePicker height={455} alt="{Platform} Chip overview example" />
 
 </PlatformBlock>
 
@@ -218,12 +218,46 @@ Use the `igniteui-angular` package. The `outlined` input is available in 22.2.0 
 
 ## Usage
 
-Add a label to the {Platform} Chip, then turn on selection, removal, and visual options as your layout needs.
+Add a label to the {Platform} Chip, then add icons, a type, a size, and selection or removal as your layout needs.
+
+### Layout
+
+The {Platform} Chip supports content templating around its label. <PlatformBlock for="WebComponents, React, Blazor">Place content in the `prefix` and `suffix` slots</PlatformBlock><PlatformBlock for="Angular">Mark content with the `igxPrefix` and `igxSuffix` directives</PlatformBlock> to show it before and after the label, such as text or an <PlatformBlock for="WebComponents, React, Blazor">[Icon](../layouts/icon.mdx)</PlatformBlock><PlatformBlock for="Angular">[Icon](../icon.mdx)</PlatformBlock>. Icons in the chip follow its size, so they also come in three sizes: large, medium, and small.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/layout" showThemePicker height={245} alt="{Platform} Chip layout example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-layout" showThemePicker height={245} alt="{Platform} Chip layout example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Place the label in the default slot. The `start` slot renders before the prefix content, and the `end` slot renders before the suffix content. Use the `select` and `remove` slots to replace the default select and remove icons.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Place the label inside the chip. Set the <ApiLink pkg="core" type="Chip" member="selectIcon" label="selectIcon" /> and <ApiLink pkg="core" type="Chip" member="removeIcon" label="removeIcon" /> inputs to templates that replace the default select and remove icons.
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-chip>Design</igc-chip>
+<igc-chip selectable removable>
+  <igc-icon slot="select" name="check"></igc-icon>
+  <igc-icon slot="prefix" name="person"></igc-icon>
+  Ana Zane
+  <igc-icon slot="suffix" name="mail"></igc-icon>
+  <igc-icon slot="remove" name="close"></igc-icon>
+</igc-chip>
 ```
 
 </PlatformBlock>
@@ -231,7 +265,13 @@ Add a label to the {Platform} Chip, then turn on selection, removal, and visual 
 <PlatformBlock for="React">
 
 ```tsx
-<IgrChip>Design</IgrChip>
+<IgrChip selectable removable>
+  <IgrIcon slot="select" name="check" />
+  <IgrIcon slot="prefix" name="person" />
+  Ana Zane
+  <IgrIcon slot="suffix" name="mail" />
+  <IgrIcon slot="remove" name="close" />
+</IgrChip>
 ```
 
 </PlatformBlock>
@@ -239,7 +279,13 @@ Add a label to the {Platform} Chip, then turn on selection, removal, and visual 
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbChip>Design</IgbChip>
+<IgbChip Selectable="true" Removable="true">
+    <IgbIcon slot="select" IconName="check" Collection="material" />
+    <IgbIcon slot="prefix" IconName="person" Collection="material" />
+    Ana Zane
+    <IgbIcon slot="suffix" IconName="mail" Collection="material" />
+    <IgbIcon slot="remove" IconName="close" Collection="material" />
+</IgbChip>
 ```
 
 </PlatformBlock>
@@ -247,14 +293,228 @@ Add a label to the {Platform} Chip, then turn on selection, removal, and visual 
 <PlatformBlock for="Angular">
 
 ```html
-<igx-chip>Design</igx-chip>
+<igx-chip selectable removable [selectIcon]="selectIcon" [removeIcon]="removeIcon">
+  <igx-icon igxPrefix>person</igx-icon>
+  Ana Zane
+  <igx-icon igxSuffix>mail</igx-icon>
+</igx-chip>
+
+<ng-template #selectIcon>
+  <igx-icon>check_circle</igx-icon>
+</ng-template>
+
+<ng-template #removeIcon>
+  <igx-icon>delete</igx-icon>
+</ng-template>
 ```
 
 </PlatformBlock>
 
-### Selection
+<PlatformBlock for="WebComponents, React, Blazor">
 
-Set <ApiLink pkg="core" type="Chip" member="selectable" label="Selectable" /> to let users toggle the chip by clicking it or pressing <kbd>Space</kbd><PlatformBlock for="WebComponents, React, Blazor"> or <kbd>Enter</kbd></PlatformBlock>. Each toggle updates <ApiLink pkg="core" type="Chip" member="selected" label="Selected" /> and emits a selection event with the new state. Set `selected` to define the initial state.
+Custom content in the `remove` slot replaces the default remove icon, including its focus and accessible label. Make the replacement focusable and give it an accessible name.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Custom `selectIcon` and `removeIcon` templates replace the default icons, including their accessible labels, so give your icons an accessible label.
+
+</PlatformBlock>
+
+### Types
+
+The {Platform} Chip provides two types: Default and Primary.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/types" showThemePicker height={220} alt="{Platform} Chip types example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-types" showThemePicker height={220} alt="{Platform} Chip types example" />
+
+</PlatformBlock>
+
+Leave <ApiLink pkg="core" type="Chip" member="variant" label="Variant" /> unset for the default type, or set it to <PlatformBlock for="WebComponents, React, Angular">`primary`</PlatformBlock><PlatformBlock for="Blazor">`StyleVariant.Primary`</PlatformBlock> for the primary type. The variant also accepts <PlatformBlock for="WebComponents, React, Angular">`info`, `success`, `warning`, and `danger`</PlatformBlock><PlatformBlock for="Blazor">`StyleVariant.Info`, `StyleVariant.Success`, `StyleVariant.Warning`, and `StyleVariant.Danger`</PlatformBlock> for status colors.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip>Default</igc-chip>
+<igc-chip variant="primary">Primary</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip>Default</IgrChip>
+<IgrChip variant="primary">Primary</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip>Default</IgbChip>
+<IgbChip Variant="StyleVariant.Primary">Primary</IgbChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip>Default</igx-chip>
+<igx-chip variant="primary">Primary</igx-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Angular">
+
+### Outlined
+
+Set <ApiLink pkg="core" type="Chip" member="outlined" label="Outlined" /> to render the chip with a border and the outlined background. You can combine it with any variant.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+<Sample src="/inputs/chip/outlined" showThemePicker height={165} alt="{Platform} Chip outlined example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-outlined" showThemePicker height={165} alt="{Platform} Chip outlined example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip outlined variant="info">Draft</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip outlined variant="info">Draft</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip outlined variant="info">Draft</igx-chip>
+```
+
+</PlatformBlock>
+
+### Size
+
+The {Platform} Chip comes in three sizes:
+
+- Large: suitable for interactive scenarios, such as action triggers.
+- Medium: suitable for short areas, such as the recipient field of an email composer.
+- Small: suitable for data-dense scenarios, such as the values in a grid cell.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/size" showThemePicker height={255} alt="{Platform} Chip size example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-size" showThemePicker height={255} alt="{Platform} Chip size example" />
+
+</PlatformBlock>
+
+Set `--ig-size` to `var(--ig-size-small)`, `var(--ig-size-medium)`, or `var(--ig-size-large)` to change the chip size. Set it on a chip, or on a container to size all chips inside it.
+
+```css
+.filter-chips {
+  --ig-size: var(--ig-size-small);
+}
+```
+
+### Interaction State
+
+The {Platform} Chip can be enabled or disabled.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/interaction-state" showThemePicker height={190} alt="{Platform} Chip interaction state example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-interaction-state" showThemePicker height={190} alt="{Platform} Chip interaction state example" />
+
+</PlatformBlock>
+
+Set <ApiLink pkg="core" type="Chip" member="disabled" label="Disabled" /> to prevent interaction. A disabled chip can't receive focus or be selected, and it doesn't render the remove icon, even when `removable` is set.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-chip disabled>Archived</igc-chip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrChip disabled>Archived</IgrChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChip Disabled="true">Archived</IgbChip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-chip disabled>Archived</igx-chip>
+```
+
+</PlatformBlock>
+
+### State
+
+When users interact with the {Platform} Chip, it changes from its default idle state to hover, focused, and selected.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/state" showThemePicker height={245} alt="{Platform} Chip state example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-state" showThemePicker height={245} alt="{Platform} Chip state example" />
+
+</PlatformBlock>
+
+The selected state needs selection to be enabled. Set <ApiLink pkg="core" type="Chip" member="selectable" label="Selectable" /> to let users toggle the chip by clicking it or pressing <kbd>Space</kbd><PlatformBlock for="WebComponents, React, Blazor"> or <kbd>Enter</kbd></PlatformBlock>. Each toggle updates <ApiLink pkg="core" type="Chip" member="selected" label="Selected" /> and emits a selection event with the new state. Set `selected` to define the initial state.
 
 <PlatformBlock for="WebComponents, React, Blazor">
 
@@ -328,9 +588,23 @@ public onSelectedChanging(event: IChipSelectEventArgs) {
 
 </PlatformBlock>
 
-### Removing
+### Remove Chip
 
-Set <ApiLink pkg="core" type="Chip" member="removable" label="Removable" /> to show the remove icon. Activating the icon emits a remove event, but the chip stays on the page. Remove the chip, or the item it represents, in the event handler.
+When a chip can be removed, a cancel icon appears at its end.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/remove" showThemePicker height={245} alt="{Platform} Chip remove example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-remove" showThemePicker height={245} alt="{Platform} Chip remove example" />
+
+</PlatformBlock>
+
+Set <ApiLink pkg="core" type="Chip" member="removable" label="Removable" /> to show the icon. Activating the icon emits a remove event, but the chip stays on the page. Remove the chip, or the item it represents, in the event handler.
 
 <PlatformBlock for="WebComponents">
 
@@ -402,249 +676,49 @@ public onRemove(event: IBaseChipEventArgs) {
 
 </PlatformBlock>
 
-### Variants
-
-Set <ApiLink pkg="core" type="Chip" member="variant" label="Variant" /> to apply one of the predefined colors. Leave it unset for the default appearance.
-
-<PlatformBlock for="WebComponents, React, Angular">
-
-The supported values are `primary`, `info`, `success`, `warning`, and `danger`.
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-The supported values are the `StyleVariant` members `Primary`, `Info`, `Success`, `Warning`, and `Danger`.
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-chip variant="success">Approved</igc-chip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrChip variant="success">Approved</IgrChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbChip Variant="StyleVariant.Success">Approved</IgbChip>
-```
-
-</PlatformBlock>
+### Chips Area
 
 <PlatformBlock for="Angular">
 
-```html
-<igx-chip variant="success">Approved</igx-chip>
-```
+Use the <ApiLink pkg="core" type="ChipsArea" /> component to organize a collection of chips.
 
-</PlatformBlock>
+<Sample src="/data-display/chip-area" showThemePicker height={165} alt="{Platform} Chips Area example" />
 
-<PlatformBlock for="WebComponents, React, Blazor">
-
-<Sample src="/inputs/chip/variants" showThemePicker height={80} alt="{Platform} Chip variants example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-<Sample src="/data-display/chip-variants" showThemePicker height={100} alt="{Platform} Chip variants example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents, React, Angular">
-
-### Outlined
-
-Set <ApiLink pkg="core" type="Chip" member="outlined" label="Outlined" /> to render the chip with a border and the outlined background. You can combine it with any variant.
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
+Inside the chips area, the arrow keys move focus between chips. When users drag a `draggable` chip over another chip, or press <kbd>Shift</kbd> and an arrow key, the chips area emits `reorder` with the new order. It also emits `selectionChange` with the selected chips. The chips area doesn't reorder the chips itself, so apply the new order to your data in the `reorder` handler.
 
 ```html
-<igc-chip outlined variant="info">Draft</igc-chip>
+<igx-chips-area (reorder)="onReorder($event)">
+  @for (chip of chips; track chip.id) {
+    <igx-chip [id]="chip.id" [draggable]="true">{{ chip.text }}</igx-chip>
+  }
+</igx-chips-area>
 ```
 
-</PlatformBlock>
+```ts
+import { IChipsAreaReorderEventArgs } from 'igniteui-angular/chips';
 
-<PlatformBlock for="React">
-
-```tsx
-<IgrChip outlined variant="info">Draft</IgrChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-chip outlined variant="info">Draft</igx-chip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents, React">
-
-<Sample src="/inputs/chip/outlined" showThemePicker height={80} alt="{Platform} Chip outlined example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-<Sample src="/data-display/chip-outlined" showThemePicker height={100} alt="{Platform} Chip outlined example" />
-
-</PlatformBlock>
-
-### Disabled
-
-Set <ApiLink pkg="core" type="Chip" member="disabled" label="Disabled" /> to prevent interaction. A disabled chip can't receive focus or be selected, and it doesn't render the remove icon, even when `removable` is set.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-chip disabled>Archived</igc-chip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrChip disabled>Archived</IgrChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbChip Disabled="true">Archived</IgbChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-chip disabled>Archived</igx-chip>
-```
-
-</PlatformBlock>
-
-### Content
-
-<PlatformBlock for="WebComponents, React, Blazor">
-
-Place the label in the default slot. Use the `prefix` and `suffix` slots for content before and after the label, such as an [Icon](../layouts/icon.mdx). The `start` slot renders before the prefix content, and the `end` slot renders before the suffix content. Use the `select` and `remove` slots to replace the default select and remove icons.
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-Place the label inside the chip. Use the `igxPrefix` and `igxSuffix` directives for content before and after the label, such as an [Icon](../icon.mdx). Set the <ApiLink pkg="core" type="Chip" member="selectIcon" label="selectIcon" /> and <ApiLink pkg="core" type="Chip" member="removeIcon" label="removeIcon" /> inputs to templates that replace the default select and remove icons.
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-chip selectable removable>
-  <igc-icon slot="select" name="check"></igc-icon>
-  <igc-icon slot="prefix" name="person"></igc-icon>
-  Ana Zane
-  <igc-icon slot="suffix" name="mail"></igc-icon>
-  <igc-icon slot="remove" name="close"></igc-icon>
-</igc-chip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrChip selectable removable>
-  <IgrIcon slot="select" name="check" />
-  <IgrIcon slot="prefix" name="person" />
-  Ana Zane
-  <IgrIcon slot="suffix" name="mail" />
-  <IgrIcon slot="remove" name="close" />
-</IgrChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbChip Selectable="true" Removable="true">
-    <IgbIcon slot="select" IconName="check" Collection="material" />
-    <IgbIcon slot="prefix" IconName="person" Collection="material" />
-    Ana Zane
-    <IgbIcon slot="suffix" IconName="mail" Collection="material" />
-    <IgbIcon slot="remove" IconName="close" Collection="material" />
-</IgbChip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-```html
-<igx-chip selectable removable [selectIcon]="selectIcon" [removeIcon]="removeIcon">
-  <igx-icon igxPrefix>person</igx-icon>
-  Ana Zane
-  <igx-icon igxSuffix>mail</igx-icon>
-</igx-chip>
-
-<ng-template #selectIcon>
-  <igx-icon>check_circle</igx-icon>
-</ng-template>
-
-<ng-template #removeIcon>
-  <igx-icon>delete</igx-icon>
-</ng-template>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents, React, Blazor">
-
-Custom content in the `remove` slot replaces the default remove icon, including its focus and accessible label. Make the replacement focusable and give it an accessible name.
-
-<Sample src="/inputs/chip/multiple" showThemePicker height={80} alt="{Platform} Chip custom content example" />
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-Custom `selectIcon` and `removeIcon` templates replace the default icons, including their accessible labels, so give your icons an accessible label.
-
-</PlatformBlock>
-
-### Size
-
-Set `--ig-size` to `var(--ig-size-small)`, `var(--ig-size-medium)`, or `var(--ig-size-large)` to change the chip size. Set it on a chip, or on a container to size all chips inside it.
-
-```css
-.filter-chips {
-  --ig-size: var(--ig-size-small);
+public onReorder(event: IChipsAreaReorderEventArgs) {
+  this.chips = event.chipsArray.map((chip) => this.chips.find((item) => item.id === chip.id)!);
 }
 ```
 
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents, React, Blazor">
 
-<Sample src="/inputs/chip/size" showThemePicker height={80} alt="{Platform} Chip size example" />
+To organize a collection of chips, place them in a container that lays them out with a gap, such as a wrapping flex container.
+
+<Sample src="/inputs/chip/area" showThemePicker height={165} alt="{Platform} Chips Area example" />
+
+The {Platform} Chip has no separate chips area component, so the container's CSS sets the layout.
+
+```css
+.chips-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+```
 
 </PlatformBlock>
 
@@ -695,37 +769,11 @@ chip.resourceStrings = { chip_remove: 'Remove tag' };
 
 </PlatformBlock>
 
-<PlatformBlock for="Angular">
-
-### Chips Area
-
-Wrap chips in an <ApiLink pkg="core" type="ChipsArea" /> when they need to work together. Inside the chips area, the arrow keys move focus between chips. When users drag a `draggable` chip over another chip, or press <kbd>Shift</kbd> and an arrow key, the chips area emits `reorder` with the new order. It also emits `selectionChange` with the selected chips. The chips area doesn't reorder the chips itself, so apply the new order to your data in the `reorder` handler.
-
-```html
-<igx-chips-area (reorder)="onReorder($event)">
-  @for (chip of chips; track chip.id) {
-    <igx-chip [id]="chip.id" [draggable]="true">{{ chip.text }}</igx-chip>
-  }
-</igx-chips-area>
-```
-
-```ts
-import { IChipsAreaReorderEventArgs } from 'igniteui-angular/chips';
-
-public onReorder(event: IChipsAreaReorderEventArgs) {
-  this.chips = event.chipsArray.map((chip) => this.chips.find((item) => item.id === chip.id)!);
-}
-```
-
-<Sample src="/data-display/chip-area-sample" showThemePicker height={100} alt="{Platform} Chips Area example" />
-
-</PlatformBlock>
-
 ### Do/Don't
 
 When using a Chip, the obround will automatically size itself to fit the content and you only need to adjust the size of the instance accordingly. If the Chip is used as an action trigger for related content, avoid using it in scenarios where there is only one available action, or for configurations presenting only one selectable option.
 
-{/*TODO: Add the Indigo.Design Chip Do/Don't visuals above the Do and Don't columns when the assets are available.*/}
+{/*TODO: Add the Do/Don't visuals from the Indigo.Design chip page above the Do and Don't columns: a Blue, Gray, and Green chip group for Do, and a single Blue chip for Don't.*/}
 
 <style>{`
   .chip-guidance {
@@ -892,19 +940,19 @@ The <ApiLink pkg="core" type="ChipsArea" /> emits events for the chips inside it
 
 ## Styling
 
+Style the {Platform} Chip with its CSS variables for token-level changes, and with its <PlatformBlock for="WebComponents, React, Blazor">CSS parts</PlatformBlock><PlatformBlock for="Angular">CSS classes</PlatformBlock> when you need to target a specific element.
+
 <PlatformBlock for="WebComponents, React, Blazor">
 
-<Sample src="/inputs/chip/styling" height={80} alt="{Platform} styled Chip example" />
+<Sample src="/inputs/chip/styling" height={205} alt="{Platform} styled Chip example" />
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
-<Sample src="/data-display/chip-styling" height={100} alt="{Platform} styled Chip example" />
+<Sample src="/data-display/chip-styling" height={205} alt="{Platform} styled Chip example" />
 
 </PlatformBlock>
-
-Style the {Platform} Chip with its CSS variables for token-level changes, and with its <PlatformBlock for="WebComponents, React, Blazor">CSS parts</PlatformBlock><PlatformBlock for="Angular">CSS classes</PlatformBlock> when you need to target a specific element.
 
 | Variable | What it changes |
 | -- | -- |
@@ -1028,13 +1076,19 @@ igx-chip .igx-chip__end {
 
 </PlatformBlock>
 
-<PlatformBlock for="Angular">
-
 ### Styling with Tailwind
 
-Use the {ProductName} Tailwind utility classes when your application styles components through Tailwind. Set up Tailwind first, as described in [Tailwind Classes](../themes/misc/tailwind-classes.mdx).
+You can style the {Platform} Chip with Tailwind utility classes, and set its CSS variables through arbitrary properties such as `[--ig-chip-background:var(--ig-primary-600)]`. Make sure to set up Tailwind first, as described in <PlatformBlock for="WebComponents, React, Blazor">[Tailwind](../themes/tailwind.mdx)</PlatformBlock><PlatformBlock for="Angular">[Tailwind Classes](../themes/misc/tailwind-classes.mdx)</PlatformBlock>.
 
-<Sample src="/data-display/chip-tailwind-styling" height={80} alt="{Platform} Chip Tailwind styling example" />
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/inputs/chip/tailwind-styling" height={485} alt="{Platform} Chip Tailwind styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/chip-tailwind-styling" height={485} alt="{Platform} Chip Tailwind styling example" />
 
 </PlatformBlock>
 
@@ -1134,14 +1188,14 @@ Your responsibilities:
 
 <PlatformBlock for="WebComponents, React, Blazor">
 
-- Keep custom `remove` slot content focusable and labeled, as described in [Content](#content).
+- Keep custom `remove` slot content focusable and labeled, as described in [Layout](#layout).
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
 - Place chips that users select inside an `igx-chips-area`, so their `option` role has a `listbox` parent.
-- Label custom select and remove icon templates, as described in [Content](#content).
+- Label custom select and remove icon templates, as described in [Layout](#layout).
 
 </PlatformBlock>
 
@@ -1166,7 +1220,7 @@ Use this section when a chip doesn't behave or look as expected after a change o
 
 ### Why does the chip stay on the page after I click the remove icon?
 
-The remove event only notifies your application. Remove the chip in the event handler, as shown in [Removing](#removing).
+The remove event only notifies your application. Remove the chip in the event handler, as shown in [Remove Chip](#remove-chip).
 
 <PlatformBlock for="WebComponents, React, Blazor">
 
