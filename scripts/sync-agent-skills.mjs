@@ -28,6 +28,30 @@ const CANONICAL_DIRS = [
 
 const check = process.argv.includes('--check');
 
+/** Agent Skills spec limits: https://agentskills.io/specification */
+const NAME_MAX = 64;
+const DESCRIPTION_MAX = 1024;
+const BODY_MAX_LINES = 500;
+const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/**
+ * A frontmatter field's value as the consumer sees it. A folded block (`description: >-`) joins its
+ * lines with single spaces, so the raw text would both overcount the length and hide markers that
+ * straddle a line break.
+ */
+function fieldValue(field) {
+  const lines = field.split('\n');
+  const first = lines[0].replace(/^[^:]+:[ \t]*/, '').trim();
+  if (first && first !== '>-' && first !== '>' && first !== '|') {
+    return first.replace(/^(['"])(.*)\1$/, '$2');
+  }
+  return lines
+    .slice(1)
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .join(' ');
+}
+
 /**
  * Reads a file, returning null when it is not there. Checking first and reading after would be a
  * race: the file can go away between the two calls.
@@ -164,6 +188,53 @@ const parsed = [];
       continue;
     }
 
+    // Agent Skills spec limits. The description is the trigger surface and the pointer copies it
+    // verbatim, so a breach here is duplicated into .claude/skills/.
+    if (declared.length > NAME_MAX) {
+      invalid.push(`${skill.relDir}/SKILL.md: name is ${declared.length} characters (max ${NAME_MAX})`);
+      continue;
+    }
+    if (!NAME_PATTERN.test(declared)) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: name '${declared}' must be lowercase letters, numbers and single hyphens, with no leading or trailing hyphen`,
+      );
+      continue;
+    }
+
+    const description = fieldValue(descriptionField);
+    if (description.length > DESCRIPTION_MAX) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: description is ${description.length} characters (max ${DESCRIPTION_MAX})`,
+      );
+      continue;
+    }
+    if (description.length === 0) {
+      invalid.push(`${skill.relDir}/SKILL.md: description is empty`);
+      continue;
+    }
+
+    // House rules, stated in .agents/skills/skill-authoring/SKILL.md.
+    if (!extractField(parts.frontmatter, 'license')) {
+      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs a 'license' field`);
+      continue;
+    }
+    const haystack = description;
+    const missingMarkers = ['WHEN TO USE:', 'WHEN NOT TO USE:'].filter((m) => !haystack.includes(m));
+    if (missingMarkers.length > 0) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: description is missing ${missingMarkers.join(' and ')}`,
+      );
+      continue;
+    }
+
+    const bodyLines = skill.text.split('\n').length;
+    if (bodyLines > BODY_MAX_LINES) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: ${bodyLines} lines (max ${BODY_MAX_LINES}) — move detail into references/`,
+      );
+      continue;
+    }
+
     parsed.push({ ...skill, nameField, descriptionField });
   }
 
@@ -172,7 +243,7 @@ const parsed = [];
     console.error('');
     for (const i of invalid) console.error(`  ${i}`);
     console.error('');
-    console.error('A skill directory name and its frontmatter `name` must be identical.');
+    console.error('See .agents/skills/skill-authoring/SKILL.md for the frontmatter contract.');
     process.exit(1);
   }
 }

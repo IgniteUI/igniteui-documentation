@@ -1,6 +1,7 @@
 ---
+license: MIT
 name: xplat-docs-api-map-sync
-description: "Reference guide for syncing xplat ApiLink coverage from the legacy igniteui-xplat-docs apiMap data while keeping ApiLink markup registry-first. Use when importing missing links from igniteui-xplat-docs or auditing ApiLink coverage after API registry updates."
+description: "Covers syncing xplat ApiLink coverage from the legacy igniteui-xplat-docs apiMap data while keeping the markup registry-first. WHEN TO USE: importing missing API links from igniteui-xplat-docs, or auditing ApiLink coverage after an API registry update. WHEN NOT TO USE: writing or fixing individual ApiLink markup (use xplat-docs-api-links), or merging upstream docfx content (use docfx-sync)."
 user-invocable: true
 ---
 

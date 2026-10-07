@@ -21,8 +21,12 @@ Flag as a problem:
 - A `SKILL.md` added anywhere else, including a new `.codex/`, `.ai/`, or root `skills/` directory.
   There is deliberately no `.codex/` directory: Codex reads `.agents/skills/` natively.
 - A new skill that is not added to the **The skills** table in `.agents/README.md`.
-- A `SKILL.md` without YAML frontmatter carrying both `name` and `description`. Without them the
-  skill cannot be discovered by any tool.
+- A `SKILL.md` that breaks the contract in `.agents/skills/skill-authoring/SKILL.md`: no frontmatter,
+  a `name` that does not match its directory or is not lowercase kebab-case within 64 characters, a
+  `description` that is empty, over 1024 characters, or missing the `WHEN TO USE:` and
+  `WHEN NOT TO USE:` markers, a missing `license`, or a body over 500 lines. `npm run skills:check`
+  enforces all of these, so a PR that trips one should be failing CI — say so rather than
+  re-deriving it.
 
 ## Generated pointer files
 
@@ -38,6 +42,19 @@ Flag as a problem:
   `.claude/skills/` in the same commit. The author needs to run `npm run skills:sync`. The
   `description` is the triggering surface and must match the canonical byte for byte.
 - A skill directory removed from `.agents/skills/` or `.github/skills/` while its pointer remains.
+
+## Authoring rules
+
+`.agents/skills/skill-authoring/SKILL.md` is the contract for writing a skill, and
+`npm run skills:check` enforces it. Flag as a problem:
+
+- A rule about writing skills added anywhere other than that skill — the README should link to it,
+  not restate it.
+- A new skill that carries a product prefix. Internal skills are named after the task, in plain
+  kebab-case; the older `igniteui-` and `xplat-docs-` prefixes are kept for continuity only.
+- A description that reads as a summary rather than a trigger. It is the only thing an agent sees
+  before loading the skill, so it needs the `WHEN TO USE:` / `WHEN NOT TO USE:` pair, with the
+  second naming the skill to use instead.
 
 ## One rule, one place
 

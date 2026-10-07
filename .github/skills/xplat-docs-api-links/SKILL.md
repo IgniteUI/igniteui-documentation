@@ -1,6 +1,7 @@
 ---
+license: MIT
 name: xplat-docs-api-links
-description: "Reference guide for adding, fixing, and auditing ApiLink components in xplat MDX using the generated api-docs registry. Covers clean ApiLink props, pkg/kind disambiguation, member checks, PlatformBlock use, and registry reports."
+description: "The single authority on ApiLink markup in xplat MDX, resolved through the generated api-docs registry. Covers clean ApiLink props, pkg and kind disambiguation, member checks, when PlatformBlock is needed instead, the registry reports, and why prefixed and suffix are legacy overrides. WHEN TO USE: adding, fixing or auditing an ApiLink, or interpreting a check-mdx-links ambiguity or broken-link report. WHEN NOT TO USE: importing coverage from the legacy apiMap data (use xplat-docs-api-map-sync), platform-specific content that is not about API URLs (use xplat-docs-platform-block), or repairing a docfx sync (use docfx-sync)."
 user-invocable: true
 ---
 

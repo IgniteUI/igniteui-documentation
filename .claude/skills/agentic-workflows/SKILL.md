@@ -1,6 +1,6 @@
 ---
 name: agentic-workflows
-description: Route gh-aw workflow design/create/debug/upgrade requests to the right prompts.
+description: "Routes requests about GitHub Agentic Workflows (gh-aw) in this repository to the matching upstream prompt or skill file, and applies the repository overlay in .github/aw/ when present. WHEN TO USE: designing, creating, updating, debugging or upgrading a gh-aw workflow, including the JP sync workflows compiled to .github/workflows/*.lock.yml. WHEN NOT TO USE: ordinary GitHub Actions workflows that are not gh-aw, or authoring the skills themselves (use skill-authoring)."
 ---
 
 # agentic-workflows (pointer)
