@@ -74,8 +74,9 @@ npm run skills:check         # verify pointers match; runs in CI via `npm run ve
 
 Two automated checks defend the layout:
 
-- **`npm run skills:check`** (CI, via the `agent-skills` job in `.github/workflows/lint.yml`, and
-  part of `npm run verify`) fails when a pointer is missing, stale or orphaned, and when a canonical
+- **`npm run skills:check`** (CI, via `.github/workflows/agent-skills.yml`, and part of
+  `npm run verify`) fails when a `SKILL.md` sits outside the canonical directories, when a pointer is
+  missing, stale or orphaned, and when a canonical
   `SKILL.md` breaks the contract in [`skill-authoring`](skills/skill-authoring/SKILL.md): missing
   frontmatter, `name` not matching its directory or outside the 64-character/kebab-case rules, a
   `description` that is empty, over 1024 characters or missing the `WHEN TO USE:` / `WHEN NOT TO USE:`
@@ -86,6 +87,10 @@ Two automated checks defend the layout:
   tells the reviewer to flag a skill added outside the two canonical directories, a hand-edited
   pointer, a rule restated outside its canonical file, reintroduced `prefixed`/`suffix` guidance,
   and version-line or changelog drift.
+
+That workflow runs on every pull request, with no `paths` filter: the mistake most worth catching is
+a skill added in the wrong place, and a filter listing the correct locations would skip the job for
+exactly those changes.
 
 The CI check catches mechanical drift; the Copilot instructions catch the editorial drift a script
 cannot see.

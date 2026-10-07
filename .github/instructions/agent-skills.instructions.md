@@ -20,6 +20,8 @@ Flag as a problem:
 
 - A `SKILL.md` added anywhere else, including a new `.codex/`, `.ai/`, or root `skills/` directory.
   There is deliberately no `.codex/` directory: Codex reads `.agents/skills/` natively.
+  `npm run skills:check` scans the whole repository for stray `SKILL.md` files and runs on every PR
+  with no `paths` filter, so this should already be failing CI.
 - A new skill that is not added to the **The skills** table in `.agents/README.md`.
 - A `SKILL.md` that breaks the contract in `.agents/skills/skill-authoring/SKILL.md`: no frontmatter,
   a `name` that does not match its directory or is not lowercase kebab-case within 64 characters, a

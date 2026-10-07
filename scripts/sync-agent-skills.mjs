@@ -101,6 +101,36 @@ function extractField(frontmatter, field) {
   return collected.join('\n');
 }
 
+/** Directories a SKILL.md may legitimately live in: the two canonical roots, plus the pointers. */
+const ALLOWED_SKILL_ROOTS = ['.agents/skills', '.github/skills', '.claude/skills'];
+
+/** Not worth walking, and never a place a repo skill belongs. */
+const SCAN_SKIP = new Set(['node_modules', '.git', 'dist', '.astro', 'coverage', 'reports']);
+
+/**
+ * Every SKILL.md in the repo, so one added in the wrong place fails loudly instead of being
+ * invisible. Scanning only the canonical roots would mean a skill dropped into `.codex/skills/`,
+ * a root `skills/`, or a resurrected `.ai/` passed silently.
+ */
+async function findStraySkills() {
+  const stray = [];
+  async function walk(dir, rel) {
+    for (const entry of await readdirIfPresent(dir)) {
+      const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        if (SCAN_SKIP.has(entry.name)) continue;
+        await walk(path.join(dir, entry.name), childRel);
+      } else if (entry.name === 'SKILL.md') {
+        if (!ALLOWED_SKILL_ROOTS.some((root) => childRel.startsWith(`${root}/`))) {
+          stray.push(childRel);
+        }
+      }
+    }
+  }
+  await walk(ROOT, '');
+  return stray.sort();
+}
+
 /** The value of a single-line scalar field, with surrounding quotes removed. */
 function scalarValue(field) {
   const match = /^[^:]+:[ \t]*(.*)$/.exec(field.split('\n')[0]);
@@ -154,6 +184,23 @@ if (skills.length === 0) {
   console.error('No canonical skills found. Expected SKILL.md under:');
   for (const d of CANONICAL_DIRS) console.error(`  ${path.relative(ROOT, d)}/<skill-name>/`);
   process.exit(1);
+}
+
+/*
+ * A SKILL.md outside the canonical roots would otherwise be invisible to every check below, so the
+ * one mistake this guard most needs to catch — a skill in the wrong place — would pass silently.
+ */
+{
+  const stray = await findStraySkills();
+  if (stray.length > 0) {
+    console.error('Skills found outside the canonical directories:');
+    console.error('');
+    for (const s of stray) console.error(`  ${s}`);
+    console.error('');
+    console.error('A skill belongs in .agents/skills/, or in .github/skills/ when gh-aw must see it.');
+    console.error('See .agents/README.md, "Why skills live in two places".');
+    process.exit(1);
+  }
 }
 
 /*

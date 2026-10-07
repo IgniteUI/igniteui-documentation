@@ -23,6 +23,9 @@ There are two canonical directories, and which one you pick is decided by toolin
 A name may exist in **one** of those directories, never both. `.claude/skills/` is generated; never
 put a canonical skill there.
 
+Nowhere else counts. A `SKILL.md` under `.codex/`, a root `skills/`, or a revived `.ai/` fails
+`npm run skills:check`, which scans the whole repository rather than only the canonical roots.
+
 ## Naming
 
 - Plain kebab-case, lowercase letters, numbers and single hyphens.
