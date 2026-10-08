@@ -78,7 +78,11 @@ content for them.
 - A11 (Warning) **FAQ** uses plain question headings or hand-written accordion markup instead of
   the shared Astro `<Faq>` / `<FaqItem>` components, does not keep each answer concise and
   component-specific, or an answer is not 2–4 self-contained sentences quotable without its question
-  (dangling "it"/"this", no subject noun).
+  (dangling "it"/"this", no subject noun). Also report generic questions, duplicated
+  Usage/Troubleshooting content, questions unsupported by the component's verified API or behavior,
+  and FAQ sets with no evidence of considering recurring public user questions for the component
+  category. Recommend 3–6 questions covering distinct high-value intents, with answers verified
+  against official API/source documentation.
 - A12 (Warning) A slot-mode FAQ does not set `indicatorPosition="end"` on every `<FaqItem>`;
   setting it only on `<Faq>` does not affect slotted children.
 - A13 (Warning) A component topic uses a hand-written anatomy image block instead of the shared
