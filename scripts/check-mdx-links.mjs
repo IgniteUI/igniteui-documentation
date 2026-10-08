@@ -158,21 +158,37 @@ function candidateNames(props, platformName, explicitPkgKey) {
     return names;
 }
 
+/**
+ * Returns the platform whose API registry an ApiLink resolves against. The
+ * `platform` prop points a link at another platform's API, e.g.
+ * `platform="WebComponents"` for the igc- web components in Angular topics.
+ * Accepts platform names (`WebComponents`) and CLI keys (`wc`), in any case.
+ */
+function registryPlatformName(props, platformName) {
+    if (typeof props.platform !== 'string' || !props.platform.trim()) return platformName;
+    const value = props.platform.trim().toLowerCase();
+    return PLATFORM_MAP[value]
+        ?? Object.keys(PLATFORM_CONFIGS).find(name => name.toLowerCase() === value)
+        ?? null;
+}
+
 function resolveApiLink(props, platformName) {
-    const index = API_LINK_INDEXES[platformName];
+    const registryName = registryPlatformName(props, platformName);
+    if (!registryName) return { status: 'unknown-platform' };
+    const index = API_LINK_INDEXES[registryName];
     if (!index?.symbols) return { status: 'unavailable' };
     if (!props.type) return { status: 'missing-type' };
     if (props.type.includes('{')) return { status: 'dynamic' };
     if (props.kind === 'sass') return { status: 'sass' };
 
     const explicitPkg = typeof props.pkg === 'string' && props.pkg.length > 0;
-    const packageId = explicitPkg ? PACKAGE_IDS[platformName]?.[props.pkg] : undefined;
+    const packageId = explicitPkg ? PACKAGE_IDS[registryName]?.[props.pkg] : undefined;
     if (explicitPkg && !packageId) return { status: 'unknown-package' };
-    const platform = PLATFORM_CONFIGS[platformName];
+    const platform = PLATFORM_CONFIGS[registryName];
     let matchedSymbol = false;
     let ambiguity = null;
 
-    for (const name of candidateNames(props, platformName, explicitPkg ? props.pkg : undefined)) {
+    for (const name of candidateNames(props, registryName, explicitPkg ? props.pkg : undefined)) {
         const value = index.symbols[name];
         if (!value) continue;
         const symbols = Array.isArray(value) ? value : [value];
