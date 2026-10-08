@@ -1,0 +1,299 @@
+---
+title: "{Platform} {ComponentTitle} Theming - {ProductName}"
+description: The {ProductName} {ComponentTitle} is themed with --ig-grid-* CSS custom properties. Declare the derived tokens, and every color follows three primary tokens.
+keywords: "{Platform} {ComponentTitle} theming, {Platform} {ComponentTitle} styling, grid theme, css variables, {ProductName}, Infragistics"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid", "PivotGrid"]
+_canonicalLink: "{CanonicalLinkToGridTheming}"
+llms:
+  description: "The {ProductName} {ComponentTitle} is themed through --ig-grid-* CSS custom properties. Out of the box, each property is independent; once the derived tokens are declared, every color follows a background, foreground and accent token."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} Theming
+
+The {ProductName} {ComponentTitle} is themed through `--ig-grid-*` CSS custom properties. By default each property changes only a single part of the grid. Once the **derived tokens** are declared, three primary tokens can restyle the whole grid at once.
+
+- **Out of the box**, the header, the rows, the borders, the hover and selection states each read their own property and fall back to the base palette, so a color changes only where it is set.
+- **With the derived tokens declared**, the primary tokens are **background**, **foreground** and **accent** color. Every other color is written as an expression over them, which carries them into everything the component renders: the header, the rows, the borders, the summaries, the toolbar, the paginator and the filtering popups.
+
+The [theme playground](#try-it) at the end of this topic generates the derived tokens for any colors you pick.
+
+<DocsAside type="info">
+There is no separate set of tokens per grid. The Grid, Tree Grid, Hierarchical Grid and Pivot Grid all read the same `--ig-grid-*` custom properties, so the same theme applies to any of them without modification.
+</DocsAside>
+
+## {Platform} {ComponentTitle} Theming Example
+
+The four themes below are custom - written for this sample, not shipped with the library. They share one block of derived tokens, so each theme only sets the primary tokens plus a few surface and border colors. Switching between them shows how far those few values reach once the derived tokens are in place.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/{ComponentSample}/theming" height={720} alt="{Platform} {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/{ComponentSample}/theming" height={710} alt="{Platform} {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/{ComponentSample}/theming" height={630} alt="{Platform} {ComponentTitle} theming example" />
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+<Sample src="/{ComponentSample}/theming" height={650} alt="{Platform} {ComponentTitle} theming example" />
+
+</ComponentBlock>
+
+## Explicitly set properties
+
+Without the derived tokens, the {ComponentTitle} keeps the look defined by the Ignite UI design specification. Each property resolves against the base palette - the header, for example, reads `var(--ig-grid-header-background, var(--ig-gray-100))` - and no property refers to another. With no expressions in place, a change has nowhere to flow, so setting a couple of properties on their own does **not** cascade:
+
+```css
+/* Not enough on its own: the background changes, the header stays gray. */
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+}
+```
+
+Here `--ig-grid-background` and `--ig-grid-accent-color` are ordinary properties like any other. To restyle the {ComponentTitle} this way, write every property you want to change:
+
+```css
+.my-grid {
+  --ig-grid-content-background: #08002e;
+  --ig-grid-row-odd-background: #08002e;
+  --ig-grid-row-even-background: #08002e;
+  --ig-grid-content-text-color: #ffffff;
+  --ig-grid-header-background: #120b3d;
+  --ig-grid-header-text-color: #ffffff;
+  --ig-grid-row-hover-background: #2a1b4a;
+  /* … and every other property you want to change */
+}
+```
+
+This works well for a targeted change to a few surfaces. For a full theme, declare the derived tokens instead.
+
+## Derived tokens
+
+The derived tokens are a block of `--ig-grid-*` custom properties declared on a class. The block holds the three primary tokens, plus every other token written as a CSS expression over them. You do not need to write that block yourself - the [theme playground](#try-it) generates it for the colors you pick, and **Show code** opens a window where you can copy the complete block of declarations:
+
+```css
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-header-text-color: var(--ig-grid-foreground);
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  /* … and the rest of the token set */
+}
+```
+
+Then apply the class to the {ComponentTitle}:
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+The {ComponentTitle} manages its own `class` attribute, so put the theme class on a container element instead. The tokens are inherited by the {ComponentTitle} inside it:
+
+<PlatformBlock for="WebComponents">
+```html
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<div className="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+With the block applied, the theme is complete. The {ComponentTitle} is now dark indigo with a coral accent, and the text, header, row borders, hover states, selection tints and popup chrome have all been computed from those two values. From here on, the primary tokens are all you need to change.
+
+<DocsAside type="note">
+Declare the primary tokens on the same element as the derived tokens, or on one of its ancestors. A custom property's `var()` references are resolved on the element where the property is declared, so primary tokens set on a descendant of that element are ignored by the derived block.
+</DocsAside>
+
+## Primary tokens
+
+With the derived tokens declared, the {ComponentTitle} theme is built from three primary tokens and every other color follows them. Without the derived tokens, these three are ordinary properties like the rest and do not affect any other color.
+
+| Token | What it controls (with the derived tokens declared) |
+| -- | -- |
+| `--ig-grid-background` | The surface the whole component is built on. Every other surface and the default foreground are derived from it. |
+| `--ig-grid-foreground` | Text and icons. Derived from the background by contrast when not set. |
+| `--ig-grid-accent-color` | Interactive color: sort indicators, selection, hover tints, focus. |
+
+`--ig-grid-foreground` is listed as primary but rarely needs setting. Left alone, it is chosen for contrast against the background, so a dark background produces light text and a light one produces dark text without a second declaration.
+
+## How derivation works
+
+The derived tokens are not fixed colors. Each one is a CSS expression over the primary tokens:
+
+```css
+.my-grid {
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  --ig-grid-sorted-header-icon-color: hsl(from var(--ig-grid-accent-color) h s l/0.7);
+}
+```
+
+Two consequences follow. First, changing a primary token re-computes everything downstream, including at runtime through CSS custom properties. Second, the relationships hold whatever value you supply, so a theme cannot fall out of step with itself. Both hold only while the derived tokens are declared - remove them and every property goes back to being independent.
+
+## Going deeper
+
+With the derived tokens declared, some tokens are derivation roots in their own right. Declaring one detaches it from the background, and whatever sits on it should derive from the new value instead.
+
+`--ig-grid-header-background` is the clearest example. Left alone it is mixed from `--ig-grid-background`, and the header text follows `--ig-grid-foreground`. Declare it, and the header text is re-derived to take contrast against the header background itself:
+
+```css
+.my-grid {
+  --ig-grid-header-background: #ff7d52;
+  --ig-grid-header-text-color: hsla(from color(from var(--ig-grid-header-background) var(--y-contrast)) h 0 l/1);
+}
+```
+
+<DocsAside type="note">
+Reach for these only when you want a surface to stop tracking the background. Most derived tokens are best left alone - overriding one pins a value that would otherwise stay in step with the rest of the theme.
+</DocsAside>
+
+## Structure
+
+Color is only half of a theme. Density and roundness are controlled by global design-system tokens rather than grid tokens, so you set them alongside the grid tokens:
+
+```css
+.my-grid {
+  --ig-size: var(--ig-size-small);   /* small | medium | large */
+  --ig-radius-factor: 0;             /* 0 to 1 */
+}
+```
+
+Grid lines are theme tokens too. To hide one, tint it to the surface behind it rather than removing it, so the row metrics do not change between themes:
+
+```css
+.my-grid {
+  /* horizontal dividers, blended away */
+  --ig-grid-row-border-color: var(--ig-grid-background);
+  /* vertical dividers, drawn in the same color the theme derives for rows */
+  --ig-grid-body-column-border-color-odd: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+  --ig-grid-body-column-border-color-even: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+}
+```
+
+<PlatformBlock for="WebComponents, React">
+
+## Sass Theming
+
+If your project compiles Sass, the theming engine can write the token set for you instead of you maintaining it by hand. Import the theming package, where the theme functions and the `tokens()` mixin are exported:
+
+```scss
+@use "igniteui-theming" as *;
+```
+
+Then declare the theme with <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> and include it on the element you want to affect:
+
+```scss
+.my-grid {
+  --ig-size: var(--ig-size-small);
+  --ig-radius-factor: 0;
+
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+The compiled output is the same complete block of `--ig-grid-*` variables described above, so the class is applied to the {ComponentTitle} in exactly the same way. Each parameter maps to the token of the same name - `$background` to `--ig-grid-background`, `$accent-color` to `--ig-grid-accent-color` - and every token you leave out is emitted as an expression over the ones you set.
+
+Derivation tokens are handled for you, too. Declaring `$header-background` also re-derives the header text to take contrast against the new header, the step you otherwise write by hand:
+
+```scss
+.my-grid {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52,
+    $header-background: #ff7d52
+  ));
+}
+```
+
+<DocsAside type="note">
+If your project already compiles Sass, `grid-theme()` is the lower-maintenance option: it writes the derived tokens for you and keeps them in step with the library. A hand-maintained CSS block is a snapshot that will not pick up library updates; it has to be updated or regenerated by hand.
+</DocsAside>
+
+</PlatformBlock>
+
+## Try it
+
+Change a color and watch it reach the header, the rows, the summaries, the paginator and the filtering popups. Switch grids to confirm the same tokens serve all of them, then select **Show code** to copy the complete CSS block - the primary tokens together with every derived token.
+
+<Sample src="/grids/playground/grid-theme-playground" height={700} alt="{Platform} grid theme playground" />
+
+## API References
+
+- <ApiLink type="{ComponentName}" />
+- <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />
+
+## Additional Resources
+
+<ComponentBlock for="Grid">
+- [{ComponentTitle} Overview](../data-grid.mdx)
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+- [{ComponentTitle} Overview](overview.mdx)
+</ComponentBlock>
+- [Palettes](../../themes/palettes.mdx)
+- [Typography](../../themes/typography.mdx)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Size](size.mdx)
+- [Conditional Styling](conditional-cell-styling.mdx)
+</ComponentBlock>
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
