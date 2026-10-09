@@ -80,9 +80,17 @@ async function fetchBytes(url, { html = false } = {}) {
       throw new Error(`${url} answered with Content-Type '${type || '(none)'}', not text/html`);
     }
   }
-  const buf = Buffer.from(await res.arrayBuffer());
-  if (buf.length > MAX_BYTES) throw new Error(`${url} returned ${buf.length} bytes, over the ${MAX_BYTES} limit`);
-  return buf;
+  // Enforce the limit while reading, so an oversized response is never buffered whole.
+  const length = Number(res.headers.get('content-length'));
+  if (length > MAX_BYTES) throw new Error(`${url} is ${length} bytes, over the ${MAX_BYTES} limit`);
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of res.body ?? []) {
+    size += chunk.length;
+    if (size > MAX_BYTES) throw new Error(`${url} returned more than the ${MAX_BYTES} byte limit`);
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks);
 }
 
 /**
