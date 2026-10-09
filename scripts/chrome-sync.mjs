@@ -101,15 +101,27 @@ function makeReader(source) {
   const distRoot = path.dirname(path.dirname(path.dirname(file))); // dist/assets/chrome/fragment.html -> dist
   return {
     fragment: async () => fs.readFileSync(file),
-    asset: async (url) => fs.readFileSync(path.join(distRoot, decodeURIComponent(new URL(url).pathname))),
+    asset: async (url) => {
+      // Decoding can turn %2F into a separator, so check the result stays inside dist.
+      const asset = path.join(distRoot, decodeURIComponent(new URL(url).pathname));
+      const rel = path.relative(distRoot, asset);
+      if (rel === '..' || rel.startsWith(`..${path.sep}`) || path.isAbsolute(rel)) {
+        throw new Error(`The fragment links ${url}, which is outside ${distRoot}.`);
+      }
+      return fs.readFileSync(asset);
+    },
   };
 }
 
-/** A collision-free, flat file name for an image path: /assets/logos/fw-react.svg -> assets-logos-fw-react.svg */
+/**
+ * A flat file name for an image path: /assets/logos/fw-react.svg -> assets-logos-fw-react.svg.
+ * Only [\w.-] is kept, so a name can never point outside assets/media.
+ */
 const mediaName = (pathname) =>
-  pathname.startsWith('/assets/chrome/media/')
+  (pathname.startsWith('/assets/chrome/media/')
     ? pathname.slice('/assets/chrome/media/'.length)
-    : pathname.replace(/^\/+/, '').replace(/[^\w.-]+/g, '-');
+    : pathname.replace(/^\/+/, '')
+  ).replace(/[^\w.-]+/g, '-');
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -147,7 +159,14 @@ async function main() {
   const cssUrl = /href="([^"]+\/chrome\.css)"/.exec(parsed.head)?.[1];
   const jsUrl = /src="([^"]+\/chrome\.js)"/.exec(parsed.head)?.[1];
   if (!cssUrl || !jsUrl) throw new Error("The fragment's head does not link chrome.css and chrome.js.");
-  const origin = new URL(cssUrl).origin;
+  // From a URL, fetch only from the host --source names, whatever hosts the
+  // fragment links. (A local build is read from its dist folder; hosts don't matter.)
+  const origin = new URL(isUrl(args.source) ? args.source : cssUrl).origin;
+  if (isUrl(args.source)) {
+    for (const url of [cssUrl, jsUrl]) {
+      if (new URL(url).origin !== origin) throw new Error(`The fragment links ${url}, which is not on ${origin}.`);
+    }
+  }
 
   const css = (await read.asset(cssUrl)).toString('utf8');
   const js = (await read.asset(jsUrl)).toString('utf8');
@@ -164,6 +183,8 @@ async function main() {
   const escapedOrigin = origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   collect(html, new RegExp(`(${escapedOrigin}/[^"'\\s)]+)`, 'g'));
   collect(css, /url\(\s*["']?(\/[^"')]+)["']?\s*\)/g);
+  const names = [...images.values()];
+  if (new Set(names).size !== names.length) throw new Error('Two of the images map to the same media file name.');
 
   const tmp = `${outDir}.tmp-${process.pid}`;
   fs.rmSync(tmp, { recursive: true, force: true });
