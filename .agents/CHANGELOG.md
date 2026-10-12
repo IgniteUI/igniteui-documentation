@@ -11,12 +11,13 @@ tooling from active agent guidance and keep current authoring rules in the canon
 
 | Change | File(s) |
 |---|---|
-| Retired the `docfx-sync` and `xplat-docs-api-map-sync` skills and removed their generated Claude pointers and index entries. Five canonical skills remain. | `.github/skills/`, `.claude/skills/`, `.agents/README.md` |
+| Retired the `docfx-sync` and `xplat-docs-api-map-sync` skills and removed their generated Claude pointers and index entries. Six canonical skills remain, including the new `skill-authoring` skill from #913. | `.github/skills/`, `.claude/skills/`, `.agents/README.md` |
 | Removed the old sync guide, legacy apiMap converters, historical API recovery/React repair scripts, completed image converter, and xplat README placeholder. | `DOCFX-SYNC.md`, `docs/xplat/scripts/resolve-api-links.mjs`, `docs/xplat/scripts/fix-api-link-attrs.mjs`, `scripts/restore-apilinks.mjs`, `scripts/apply-react-platform-fixes.mjs`, `scripts/convert-img-tags.mjs`, `docs/xplat/README.md` |
 | Removed the two older API guides after preserving verified package/Excel and member-ownership background in the current registry workflow reference. Discarded obsolete implementation paths, URL formulas, mandatory non-class `kind` rules, and unverified Dock Manager slot examples. | `docs/xplat/API-LINKS-README.md`, `docs/xplat/API-REFERENCES.md`, `API-LINK-WORKFLOW.md` |
 | Removed competing authoring procedures from contributor guidance and the registry workflow. These files now link to the canonical skills; registry architecture, checker commands, generation prerequisites, and report interpretation remain documented. | `.github/CONTRIBUTING.md`, `API-LINK-WORKFLOW.md` |
 | Replaced the deleted migration-guide link and retired-guide references. Updated review coverage for the retained registry workflow. | `README.md`, `.github/skills/xplat-docs-api-links/SKILL.md`, `.github/instructions/agent-skills.instructions.md` |
-| Bumped the set to v5. Topic/frontmatter skill substance and discovery descriptions are unchanged; their version lines move with the set. | `.agents/**` |
+| Adapted the latest #913 guidance to the cleanup: removed retired skill routes from `AGENTS.md`, `skill-authoring`, and the ApiLink discovery description, and added `AGENTS.md` to review coverage. The new skill, validation contract, and dedicated CI workflow remain. | `AGENTS.md`, `.agents/skills/skill-authoring/SKILL.md`, `.github/skills/xplat-docs-api-links/SKILL.md`, `.github/instructions/agent-skills.instructions.md` |
+| Bumped the set to v5. Topic/frontmatter authoring rule substance is unchanged; their version lines move with the set. | `.agents/**` |
 
 ### Retained
 
@@ -46,7 +47,13 @@ files contradicted each other; those are listed below. Resolves IgniteUI/igniteu
 | `API-LINKS-README.md` and `API-REFERENCES.md` reduced to human background: the `For AI Agents - Checklist`, the `prefixed`/`suffix` how-to sections and the pre-registry checklists are gone, the Rules and Props tables no longer mandate `prefixed={false}` or a routine `pkg`, and the skill is named as the authority. | `docs/xplat/` |
 | `DOCFX-SYNC.md` no longer tells syncs to restore `prefixed={false}`/`suffix={false}` or claims the xplat skill requires `pkg=`, in the regression table, the Angular ApiLink rules table, the conversion examples and the key-props list. | `DOCFX-SYNC.md` |
 | `CONTRIBUTING.md` keeps the build-enforced `llms.description` limits (40-300 EN, 20-300 JP, from `check-llms-metadata.mjs`) and links to `audit-rules.md` for the editorial rules instead of restating them. Its dead link to the deleted ApiLink guide now points at the skill. | `.github/CONTRIBUTING.md` |
-| Two guardrails added: `npm run skills:check` in CI, and a path-specific Copilot code review instructions file. | `.github/workflows/lint.yml`, `.github/instructions/agent-skills.instructions.md` |
+| Two guardrails added: `npm run skills:check` in CI, and a path-specific Copilot code review instructions file. The check runs in its own workflow with no `paths` filter, because a filter listing the correct skill locations would skip the job for a skill added in the wrong one. | `.github/workflows/agent-skills.yml`, `.github/instructions/agent-skills.instructions.md` |
+| New `skill-authoring` skill: where a skill belongs given the two canonical directories, the frontmatter contract, naming, the 500-line body budget, the one-rule-one-place rule, and pointer regeneration. Adapted from the equivalents in `igniteui-angular` and `igniteui-webcomponents`. | `.agents/skills/skill-authoring/SKILL.md` |
+| All eight skills brought onto that contract: `license: MIT` added throughout (both siblings require it), and every `description` rewritten with the `WHEN TO USE:` / `WHEN NOT TO USE:` markers so the trigger surface names what the skill does *and* what to use instead. | all `SKILL.md` |
+| Spec violation fixed: `igniteui-doc-topics` carried a 1080-character `description`, over the Agent Skills maximum of 1024, and the pointer copied it verbatim. Rewritten to 967, keeping its substance. | `.agents/skills/igniteui-doc-topics/SKILL.md` |
+| `docfx-sync` frontmatter: the `name`/`description` it never had, so it can be discovered at all. | `.github/skills/docfx-sync/SKILL.md` |
+| `skills:check` now enforces the whole contract, not just pointer sync: frontmatter present, `name` matching its directory and within the spec's 64-character kebab-case rules, `description` non-empty and within 1024 with both markers, `license` present, body within 500 lines, and no name claimed by two canonical directories. Nothing is written when validation fails. | `scripts/sync-agent-skills.mjs` |
+| Root `AGENTS.md` added: the live cross-tool convention, which both sibling repos have and this one did not. Points at `.agents/README.md` as the skills index rather than restating it. Deliberately not an ACS `main.yaml`: that spec was archived in May 2026 with no successor. | `AGENTS.md` |
 
 ### Unchanged
 

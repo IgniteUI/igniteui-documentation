@@ -9,7 +9,8 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 .agents/
 ├── README.md                ← this file: the index for every skill in the repo
 ├── CHANGELOG.md             ← every change to the doc-skill set, mapped to review finding IDs
-└── skills/                  ← canonical skills (Codex and other ACS-aware tools read this path)
+└── skills/                  ← canonical skills (Codex reads this path)
+    ├── skill-authoring/
     ├── igniteui-doc-topics/
     └── igniteui-topic-frontmatter/
 
@@ -25,6 +26,7 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 
 | Skill | Canonical location | Use it for |
 |---|---|---|
+| `skill-authoring` | `.agents/skills/` | Writing or editing a skill: where it belongs, the frontmatter contract, the body budget |
 | `igniteui-doc-topics` | `.agents/skills/` | Authoring or auditing whole topics against the Diátaxis-based house templates |
 | `igniteui-topic-frontmatter` | `.agents/skills/` | Frontmatter-only audits and normalization, audit-first, never touching the body |
 | `xplat-docs-api-links` | `.github/skills/` | Adding, fixing or auditing `<ApiLink>` in xplat MDX |
@@ -67,15 +69,23 @@ npm run skills:check         # verify pointers match; runs in CI via `npm run ve
 
 Two automated checks defend the layout:
 
-- **`npm run skills:check`** (CI, via the `agent-skills` job in `.github/workflows/lint.yml`, and
-  part of `npm run verify`) fails when a pointer is missing, stale, orphaned, or when a canonical
-  `SKILL.md` has no `name`/`description`.
+- **`npm run skills:check`** (CI, via `.github/workflows/agent-skills.yml`, and part of
+  `npm run verify`) fails when a `SKILL.md` sits outside the canonical directories, when a pointer is
+  missing, stale or orphaned, and when a canonical
+  `SKILL.md` breaks the contract in [`skill-authoring`](skills/skill-authoring/SKILL.md): missing
+  frontmatter, `name` not matching its directory or outside the 64-character/kebab-case rules, a
+  `description` that is empty, over 1024 characters or missing the `WHEN TO USE:` / `WHEN NOT TO USE:`
+  markers, a missing `license`, a body over 500 lines, or one name claimed by two directories.
 - **`.github/instructions/agent-skills.instructions.md`** steers GitHub Copilot code review on PRs
   touching these paths. It is a path-specific instructions file (`applyTo` frontmatter), which
   Copilot code review honours alongside any repository-wide `.github/copilot-instructions.md`. It
   tells the reviewer to flag a skill added outside the two canonical directories, a hand-edited
   pointer, a rule restated outside its canonical file, reintroduced `prefixed`/`suffix` guidance,
   and version-line or changelog drift.
+
+That workflow runs on every pull request, with no `paths` filter: the mistake most worth catching is
+a skill added in the wrong place, and a filter listing the correct locations would skip the job for
+exactly those changes.
 
 The CI check catches mechanical drift; the Copilot instructions catch the editorial drift a script
 cannot see.
@@ -151,8 +161,9 @@ Platform names are case-sensitive. `ApiLink` and `PlatformBlock` are supplied by
    changelog with an owner. When a verification is answered, apply its pre-committed outcome and
    remove the placeholder in the same edit.
 
-When adding a new skill: put it in `.agents/skills/` (or `.github/skills/` if gh-aw must see it), add
-it to **The skills** table above, and run `npm run skills:sync`.
+When adding a new skill, follow [`skill-authoring`](skills/skill-authoring/SKILL.md): put it in
+`.agents/skills/` (or `.github/skills/` if gh-aw must see it), add it to **The skills** table above,
+and run `npm run skills:sync`.
 
 ## Provenance
 

@@ -28,6 +28,30 @@ const CANONICAL_DIRS = [
 
 const check = process.argv.includes('--check');
 
+/** Agent Skills spec limits: https://agentskills.io/specification */
+const NAME_MAX = 64;
+const DESCRIPTION_MAX = 1024;
+const BODY_MAX_LINES = 500;
+const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/**
+ * A frontmatter field's value as the consumer sees it. A folded block (`description: >-`) joins its
+ * lines with single spaces, so the raw text would both overcount the length and hide markers that
+ * straddle a line break.
+ */
+function fieldValue(field) {
+  const lines = field.split('\n');
+  const first = lines[0].replace(/^[^:]+:[ \t]*/, '').trim();
+  if (first && first !== '>-' && first !== '>' && first !== '|') {
+    return first.replace(/^(['"])(.*)\1$/, '$2');
+  }
+  return lines
+    .slice(1)
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .join(' ');
+}
+
 /**
  * Reads a file, returning null when it is not there. Checking first and reading after would be a
  * race: the file can go away between the two calls.
@@ -75,6 +99,36 @@ function extractField(frontmatter, field) {
   }
   while (collected.length > 1 && collected.at(-1).trim() === '') collected.pop();
   return collected.join('\n');
+}
+
+/** Directories a SKILL.md may legitimately live in: the two canonical roots, plus the pointers. */
+const ALLOWED_SKILL_ROOTS = ['.agents/skills', '.github/skills', '.claude/skills'];
+
+/** Not worth walking, and never a place a repo skill belongs. */
+const SCAN_SKIP = new Set(['node_modules', '.git', 'dist', '.astro', 'coverage', 'reports']);
+
+/**
+ * Every SKILL.md in the repo, so one added in the wrong place fails loudly instead of being
+ * invisible. Scanning only the canonical roots would mean a skill dropped into `.codex/skills/`,
+ * a root `skills/`, or a resurrected `.ai/` passed silently.
+ */
+async function findStraySkills() {
+  const stray = [];
+  async function walk(dir, rel) {
+    for (const entry of await readdirIfPresent(dir)) {
+      const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        if (SCAN_SKIP.has(entry.name)) continue;
+        await walk(path.join(dir, entry.name), childRel);
+      } else if (entry.name === 'SKILL.md') {
+        if (!ALLOWED_SKILL_ROOTS.some((root) => childRel.startsWith(`${root}/`))) {
+          stray.push(childRel);
+        }
+      }
+    }
+  }
+  await walk(ROOT, '');
+  return stray.sort();
 }
 
 /** The value of a single-line scalar field, with surrounding quotes removed. */
@@ -133,6 +187,23 @@ if (skills.length === 0) {
 }
 
 /*
+ * A SKILL.md outside the canonical roots would otherwise be invisible to every check below, so the
+ * one mistake this guard most needs to catch — a skill in the wrong place — would pass silently.
+ */
+{
+  const stray = await findStraySkills();
+  if (stray.length > 0) {
+    console.error('Skills found outside the canonical directories:');
+    console.error('');
+    for (const s of stray) console.error(`  ${s}`);
+    console.error('');
+    console.error('A skill belongs in .agents/skills/, or in .github/skills/ when gh-aw must see it.');
+    console.error('See .agents/README.md, "Why skills live in two places".');
+    process.exit(1);
+  }
+}
+
+/*
  * Parse and validate every canonical skill before writing anything, so a malformed or
  * mis-identified skill fails the run rather than producing a pointer that misrepresents it.
  */
@@ -164,6 +235,53 @@ const parsed = [];
       continue;
     }
 
+    // Agent Skills spec limits. The description is the trigger surface and the pointer copies it
+    // verbatim, so a breach here is duplicated into .claude/skills/.
+    if (declared.length > NAME_MAX) {
+      invalid.push(`${skill.relDir}/SKILL.md: name is ${declared.length} characters (max ${NAME_MAX})`);
+      continue;
+    }
+    if (!NAME_PATTERN.test(declared)) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: name '${declared}' must be lowercase letters, numbers and single hyphens, with no leading or trailing hyphen`,
+      );
+      continue;
+    }
+
+    const description = fieldValue(descriptionField);
+    if (description.length > DESCRIPTION_MAX) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: description is ${description.length} characters (max ${DESCRIPTION_MAX})`,
+      );
+      continue;
+    }
+    if (description.length === 0) {
+      invalid.push(`${skill.relDir}/SKILL.md: description is empty`);
+      continue;
+    }
+
+    // House rules, stated in .agents/skills/skill-authoring/SKILL.md.
+    if (!extractField(parts.frontmatter, 'license')) {
+      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs a 'license' field`);
+      continue;
+    }
+    const haystack = description;
+    const missingMarkers = ['WHEN TO USE:', 'WHEN NOT TO USE:'].filter((m) => !haystack.includes(m));
+    if (missingMarkers.length > 0) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: description is missing ${missingMarkers.join(' and ')}`,
+      );
+      continue;
+    }
+
+    const bodyLines = skill.text.split('\n').length;
+    if (bodyLines > BODY_MAX_LINES) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: ${bodyLines} lines (max ${BODY_MAX_LINES}) — move detail into references/`,
+      );
+      continue;
+    }
+
     parsed.push({ ...skill, nameField, descriptionField });
   }
 
@@ -172,7 +290,7 @@ const parsed = [];
     console.error('');
     for (const i of invalid) console.error(`  ${i}`);
     console.error('');
-    console.error('A skill directory name and its frontmatter `name` must be identical.');
+    console.error('See .agents/skills/skill-authoring/SKILL.md for the frontmatter contract.');
     process.exit(1);
   }
 }

@@ -1,14 +1,17 @@
 ---
 name: igniteui-topic-frontmatter
 description: >-
-  Audit and normalize YAML frontmatter metadata for Ignite UI MDX documentation topics. Use when a
-  task mentions frontmatter, SEO titles, meta descriptions, llms.description, keywords, canonical
-  links, relatedComponents, mentionedTypes, license, metadata uniformity, or AI-readable page
-  identity in Ignite UI Angular or xplat documentation topics. This skill is strictly
-  frontmatter-only: audit first and provide suggestions for the user to choose from before changing
-  anything; never edit topic body content, headings, prose, samples, code snippets, links, tables, or
-  section structure. For anything touching body content, structure, headings, prose, or samples, use
-  the companion igniteui-doc-topics skill instead.
+  Audits and normalizes YAML frontmatter metadata on Ignite UI MDX documentation topics: SEO titles,
+  meta descriptions, llms.description, keywords, canonical links, relatedComponents, mentionedTypes,
+  license and the AI-readable page identity, across the Angular and xplat doc sets. It is strictly
+  frontmatter-only, audit-first: it reports findings and offers suggestions for the user to choose
+  from before changing anything, and never edits topic body content, headings, prose, samples, code
+  snippets, links, tables or section structure.
+  WHEN TO USE: a task mentions frontmatter, SEO titles, meta descriptions, llms.description,
+  keywords, canonical links, relatedComponents, mentionedTypes, metadata uniformity, or AI-readable
+  page identity on a documentation topic.
+  WHEN NOT TO USE: anything touching body content, structure, headings, prose or samples (use
+  igniteui-doc-topics), or frontmatter on a SKILL.md rather than on a topic (use skill-authoring).
 ---
 
 # igniteui-topic-frontmatter (pointer)
