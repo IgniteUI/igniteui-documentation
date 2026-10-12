@@ -23,8 +23,11 @@ There are two canonical directories, and which one you pick is decided by toolin
 A name may exist in **one** of those directories, never both. `.claude/skills/` is generated; never
 put a canonical skill there.
 
-Nowhere else counts. A `SKILL.md` under `.codex/`, a root `skills/`, or a revived `.ai/` fails
-`npm run skills:check`, which scans the whole repository rather than only the canonical roots.
+Nowhere else counts, and the path must be exactly `<root>/<name>/SKILL.md`. A `SKILL.md` under
+`.codex/`, a root `skills/`, a revived `.ai/`, or nested deeper inside an existing skill such as
+`.agents/skills/<name>/references/SKILL.md` all fail `npm run skills:check`, which scans the whole
+repository rather than only the canonical roots. A reference file is `references/<topic>.md`; it is
+never named `SKILL.md`.
 
 ## Naming
 
@@ -42,7 +45,7 @@ Nowhere else counts. A `SKILL.md` under `.codex/`, a root `skills/`, or a revive
 | `license` | Required here. Use `MIT`, matching `igniteui-angular` and `igniteui-webcomponents`. |
 | `name` | Required. Max 64 characters. Lowercase letters, numbers and hyphens only. No leading, trailing or consecutive hyphens. Must match the folder name. |
 | `description` | Required. Non-empty, **max 1024 characters**. No XML tags. |
-| `user-invocable` | Set `true` so the skill can be invoked by name as well as matched automatically. |
+| `user-invocable` | Required. Must be `true`, so the skill can be invoked by name as well as matched automatically. |
 
 Write the description in the third person: say what the skill covers, then add both markers:
 

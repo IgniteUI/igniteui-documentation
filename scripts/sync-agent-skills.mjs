@@ -121,9 +121,15 @@ async function findStraySkills() {
         if (SCAN_SKIP.has(entry.name)) continue;
         await walk(path.join(dir, entry.name), childRel);
       } else if (entry.name === 'SKILL.md') {
-        if (!ALLOWED_SKILL_ROOTS.some((root) => childRel.startsWith(`${root}/`))) {
-          stray.push(childRel);
-        }
+        // Exactly `<root>/<name>/SKILL.md`. A prefix match would also accept a deeper path such as
+        // `.agents/skills/<name>/references/SKILL.md`, which collectSkills never looks at — so an
+        // unregistered skill would pass both checks.
+        const placed = ALLOWED_SKILL_ROOTS.some(
+          (root) =>
+            childRel.startsWith(`${root}/`) &&
+            childRel.slice(root.length + 1).split('/').length === 2,
+        );
+        if (!placed) stray.push(childRel);
       }
     }
   }
@@ -263,6 +269,14 @@ const parsed = [];
     // House rules, stated in .agents/skills/skill-authoring/SKILL.md.
     if (!extractField(parts.frontmatter, 'license')) {
       invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs a 'license' field`);
+      continue;
+    }
+
+    // Without this the skill is matched automatically but cannot be invoked by name, which is half
+    // the discovery contract the skill-authoring skill promises.
+    const invocableField = extractField(parts.frontmatter, 'user-invocable');
+    if (!invocableField || fieldValue(invocableField) !== 'true') {
+      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs 'user-invocable: true'`);
       continue;
     }
     const haystack = description;

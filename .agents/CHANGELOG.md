@@ -53,6 +53,7 @@ files contradicted each other; those are listed below. Resolves IgniteUI/igniteu
 | Spec violation fixed: `igniteui-doc-topics` carried a 1080-character `description`, over the Agent Skills maximum of 1024, and the pointer copied it verbatim. Rewritten to 967, keeping its substance. | `.agents/skills/igniteui-doc-topics/SKILL.md` |
 | `docfx-sync` frontmatter: the `name`/`description` it never had, so it can be discovered at all. | `.github/skills/docfx-sync/SKILL.md` |
 | `skills:check` now enforces the whole contract, not just pointer sync: frontmatter present, `name` matching its directory and within the spec's 64-character kebab-case rules, `description` non-empty and within 1024 with both markers, `license` present, body within 500 lines, and no name claimed by two canonical directories. Nothing is written when validation fails. | `scripts/sync-agent-skills.mjs` |
+| Two gaps in `skills:check` closed: the stray scan matched any descendant of a canonical root, so a `SKILL.md` nested inside an existing skill (for example under its `references/`) passed while `collectSkills` never saw it; and `user-invocable: true` was required by the authoring contract but never verified. Both are now enforced. | `scripts/sync-agent-skills.mjs` |
 | Root `AGENTS.md` added: the live cross-tool convention, which both sibling repos have and this one did not. Points at `.agents/README.md` as the skills index rather than restating it. Deliberately not an ACS `main.yaml`: that spec was archived in May 2026 with no successor. | `AGENTS.md` |
 
 ### Unchanged

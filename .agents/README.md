@@ -75,7 +75,9 @@ Two automated checks defend the layout:
   `SKILL.md` breaks the contract in [`skill-authoring`](skills/skill-authoring/SKILL.md): missing
   frontmatter, `name` not matching its directory or outside the 64-character/kebab-case rules, a
   `description` that is empty, over 1024 characters or missing the `WHEN TO USE:` / `WHEN NOT TO USE:`
-  markers, a missing `license`, a body over 500 lines, or one name claimed by two directories.
+  markers, a missing `license`, a missing or non-`true` `user-invocable`, a body over 500 lines, or
+  one name claimed by two directories. A `SKILL.md` anywhere other than exactly
+  `<root>/<name>/SKILL.md` fails too, including one nested inside an existing skill.
 - **`.github/instructions/agent-skills.instructions.md`** steers GitHub Copilot code review on PRs
   touching these paths. It is a path-specific instructions file (`applyTo` frontmatter), which
   Copilot code review honours alongside any repository-wide `.github/copilot-instructions.md`. It
