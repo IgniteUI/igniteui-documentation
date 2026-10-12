@@ -83,9 +83,14 @@ async function readdirIfPresent(dir) {
   }
 }
 
-/** Splits a SKILL.md into its raw YAML frontmatter block and the rest. */
+/**
+ * Splits a SKILL.md into its raw YAML frontmatter block and the rest. The closing `---` may end the
+ * file: a skill with frontmatter and no body is the spec's own minimal example, and requiring a
+ * newline after it rejected that file as having no frontmatter at all — a misleading message on a
+ * file that plainly has some.
+ */
 function splitFrontmatter(text) {
-  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n/.exec(text);
+  const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
   return match ? { frontmatter: match[1] } : null;
 }
 
