@@ -1,7 +1,7 @@
 ---
 license: MIT
 name: xplat-docs-api-links
-description: "The single authority on ApiLink markup in xplat MDX, resolved through the generated api-docs registry. Covers clean ApiLink props, pkg and kind disambiguation, member checks, when PlatformBlock is needed instead, the registry reports, and why prefixed and suffix are legacy overrides. WHEN TO USE: adding, fixing or auditing an ApiLink, or interpreting a check-mdx-links ambiguity or broken-link report. WHEN NOT TO USE: importing coverage from the legacy apiMap data (use xplat-docs-api-map-sync), platform-specific content that is not about API URLs (use xplat-docs-platform-block), or repairing a docfx sync (use docfx-sync)."
+description: "The single authority on ApiLink markup in xplat MDX, resolved through the generated api-docs registry. Covers clean ApiLink props, pkg and kind disambiguation, member checks, when PlatformBlock is needed instead, the registry reports, and why prefixed and suffix are legacy overrides. WHEN TO USE: adding, fixing or auditing an ApiLink, or interpreting a check-mdx-links ambiguity or broken-link report. WHEN NOT TO USE: platform-specific content that is not about API URLs (use xplat-docs-platform-block), whole-topic authoring or audits (use igniteui-doc-topics), or topic frontmatter-only audits (use igniteui-topic-frontmatter)."
 user-invocable: true
 ---
 
@@ -35,10 +35,8 @@ suffix from the symbol. `check-mdx-links` still honours `prefixed` so old markup
 keeps resolving, but new markup must not reintroduce it.
 
 This skill is the single authority on ApiLink markup.
-`docs/xplat/API-LINKS-README.md` and `docs/xplat/API-REFERENCES.md` are human
-background on how the component and registry work. Where they describe
-hand-setting `prefixed`, `suffix`, or a routine `pkg`, they predate the registry
-and this skill wins.
+The registry architecture, data contract, and checker operation are documented in
+[API-LINK-WORKFLOW.md](../../../API-LINK-WORKFLOW.md).
 
 ## PlatformBlock
 

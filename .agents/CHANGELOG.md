@@ -1,5 +1,33 @@
 # igniteui doc-skill set · changelog
 
+Version: v5 · 2026-10-07 · igniteui doc-skill set.
+
+## v5 · 2026-10-07
+
+Follow-up to IgniteUI/igniteui-documentation#913. Decision DOCFX-CLEANUP: retire obsolete migration
+tooling from active agent guidance and keep current authoring rules in the canonical skills.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| Retired the `docfx-sync` and `xplat-docs-api-map-sync` skills and removed their generated Claude pointers and index entries. Six canonical skills remain, including the new `skill-authoring` skill from #913. | `.github/skills/`, `.claude/skills/`, `.agents/README.md` |
+| Removed the old sync guide, legacy apiMap converters, historical API recovery/React repair scripts, completed image converter, and xplat README placeholder. | `DOCFX-SYNC.md`, `docs/xplat/scripts/resolve-api-links.mjs`, `docs/xplat/scripts/fix-api-link-attrs.mjs`, `scripts/restore-apilinks.mjs`, `scripts/apply-react-platform-fixes.mjs`, `scripts/convert-img-tags.mjs`, `docs/xplat/README.md` |
+| Removed the two older API guides after preserving verified package/Excel and member-ownership background in the current registry workflow reference. Discarded obsolete implementation paths, URL formulas, mandatory non-class `kind` rules, and unverified Dock Manager slot examples. | `docs/xplat/API-LINKS-README.md`, `docs/xplat/API-REFERENCES.md`, `API-LINK-WORKFLOW.md` |
+| Removed competing authoring procedures from contributor guidance and the registry workflow. These files now link to the canonical skills; registry architecture, checker commands, generation prerequisites, and report interpretation remain documented. | `.github/CONTRIBUTING.md`, `API-LINK-WORKFLOW.md` |
+| Replaced the deleted migration-guide link and retired-guide references. Updated review coverage for the retained registry workflow. | `README.md`, `.github/skills/xplat-docs-api-links/SKILL.md`, `.github/instructions/agent-skills.instructions.md` |
+| Adapted the latest #913 guidance to the cleanup: removed retired skill routes from `AGENTS.md`, `skill-authoring`, and the ApiLink discovery description, and added `AGENTS.md` to review coverage. The new skill, validation contract, and dedicated CI workflow remain. | `AGENTS.md`, `.agents/skills/skill-authoring/SKILL.md`, `.github/skills/xplat-docs-api-links/SKILL.md`, `.github/instructions/agent-skills.instructions.md` |
+| Bumped the set to v5. Topic/frontmatter authoring rule substance is unchanged; their version lines move with the set. | `.agents/**` |
+
+### Retained
+
+Current generators, validators, registry data, authoring skills, and JP translation workflows remain.
+`convert-dvapi-links.mjs` and `convert-callouts.mjs` remain available for residual content repairs.
+Generated reports, inherited nested workflows, and Korean locale configuration are separate
+housekeeping decisions. Historical entries and open verification items below are preserved.
+
+---
+
 ## v4 · 2026-10-06
 
 Consolidates the repository's agent-facing instructions. No rule substance changed except where two

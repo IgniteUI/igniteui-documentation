@@ -1,6 +1,6 @@
 # Audit rubric
 
-Version: v4 · 2026-10-06 · igniteui doc-skill set. Before editing, confirm this version line against
+Version: v5 · 2026-10-07 · igniteui doc-skill set. Before editing, confirm this version line against
 `.agents/CHANGELOG.md`.
 
 The audit workflow, the checkable rules for **audit mode**, and the report format to produce. Every

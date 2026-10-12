@@ -30,7 +30,7 @@ Nowhere else counts. A `SKILL.md` under `.codex/`, a root `skills/`, or a revive
 
 - Plain kebab-case, lowercase letters, numbers and single hyphens.
 - No product prefix is required. Internal skills are named after the task
-  (`docfx-sync`, `skill-authoring`), and the older `igniteui-` and `xplat-docs-` prefixes are kept
+  (`agentic-workflows`, `skill-authoring`), and the older `igniteui-` and `xplat-docs-` prefixes are kept
   for continuity rather than copied into new skills.
 - **The folder name and the `name` field must be identical.** This is a spec requirement, and
   `npm run skills:check` fails when they diverge.
@@ -74,7 +74,6 @@ Point at the owner instead:
 - MDX topic frontmatter → `igniteui-topic-frontmatter`
 - `ApiLink` markup → `xplat-docs-api-links`
 - `PlatformBlock` → `xplat-docs-platform-block`
-- docfx sync conversions → `docfx-sync`
 
 ## Pointers
 

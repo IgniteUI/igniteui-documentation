@@ -31,21 +31,19 @@ product and locale.
 docs/
   angular/                    ← Angular doc set (astro.config.ts, src/content/{en,jp,kr})
   xplat/                      ← cross-platform doc set (astro.config.ts, src/content/{en,jp})
-    API-LINKS-README.md       ← how ApiLink and the registry resolve a URL (background)
-    API-REFERENCES.md         ← the API references system (background)
 src/                          ← the shared Astro integration published as docs-template
   integration.ts              ← createDocsSite options and the site-meta virtual module
   llms.ts                     ← llms.txt generation
   components/                 ← shared MDX and layout components
   lib/platform-context.ts     ← platform config: doc roots, package ids, prefixes
 scripts/                      ← checkers and generators (see "Checks" below)
-DOCFX-SYNC.md                 ← the docfx sync process
+API-LINK-WORKFLOW.md          ← registry architecture and checker operation
 ```
 
 ## Skills
 
 Every skill in this repo is internal contributor tooling. **`.agents/README.md` is the index** — it
-lists all eight, says which directory each lives in and why, and explains the generated
+lists all six, says which directory each lives in and why, and explains the generated
 `.claude/skills/` pointers.
 
 Start there rather than guessing. In short:
@@ -56,8 +54,6 @@ Start there rather than guessing. In short:
 | Audit topic frontmatter only | `igniteui-topic-frontmatter` |
 | Add or fix an `<ApiLink>` | `xplat-docs-api-links` |
 | Add or fix a `<PlatformBlock>` | `xplat-docs-platform-block` |
-| Import legacy apiMap coverage | `xplat-docs-api-map-sync` |
-| Merge or repair a docfx sync | `docfx-sync` |
 | Design or debug a gh-aw workflow | `agentic-workflows` |
 | Write or edit a skill | `skill-authoring` |
 
@@ -65,9 +61,9 @@ Start there rather than guessing. In short:
 
 - **One rule, one place.** A rule lives in the skill that owns it and is referenced everywhere else.
   Do not restate another skill's rules in a README, a guide or `CONTRIBUTING.md`.
-- **`ApiLink` is registry-resolved.** Pass `type`, optionally `member`, `kind` for non-classes, and
-  `pkg` only to disambiguate. `prefixed` and `suffix` are legacy overrides; no file in either doc set
-  uses them.
+- **`ApiLink` is registry-resolved.** Follow
+  [the canonical ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md) for markup and
+  disambiguation rules.
 - **`PlatformBlock` is for platform-specific content**, not for API URL mechanics. Platform names are
   case-sensitive: `Angular`, `React`, `WebComponents`, `Blazor`.
 - **Every topic needs `llms.description`** in every conditional frontmatter block. The build enforces

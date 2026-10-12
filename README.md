@@ -168,7 +168,7 @@ Use the root `check-mdx-links` scripts to validate `ApiLink` references:
 
 These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an `Ambiguous ApiLinks` section, writes an `api-link-ambiguity-report*.md` file under `reports/`, and exits with a failure.
 
-Fix ambiguous links by adding a specific `pkg` or `kind` prop. If the correct target differs by platform, wrap platform-specific links in `PlatformBlock`.
+For authoring fixes, follow the [canonical ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md). See [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md) for checker operation and report interpretation.
 
 ## Checking LLM Metadata
 
@@ -178,7 +178,7 @@ English and Japanese topics use `llms.description` to provide concise page summa
 npm run check:llms-metadata
 ```
 
-The check is read-only and reports the source file and line for missing or malformed metadata. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#llm-metadata) for the writing rules and [migration.md](migration.md#4-frontmatter) for migration guidance.
+The check is read-only and reports the source file and line for missing or malformed metadata. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#llm-metadata) for contributor guidance and the [frontmatter skill](.agents/skills/igniteui-topic-frontmatter/SKILL.md) for metadata rules.
 
 ## Content Locations
 
