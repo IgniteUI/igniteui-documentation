@@ -31,8 +31,16 @@ const check = process.argv.includes('--check');
 /** Agent Skills spec limits: https://agentskills.io/specification */
 const NAME_MAX = 64;
 const DESCRIPTION_MAX = 1024;
-const BODY_MAX_LINES = 500;
+const FILE_MAX_LINES = 500;
 const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+/**
+ * A tag-shaped run in a description. Frontmatter is injected into the agent's system prompt and the
+ * pointer copies it verbatim into a second file, so a stray tag is a prompt-injection surface in two
+ * places. Requires a letter or a closing slash after `<` so prose like `<500 lines` is not a match.
+ */
+const DESCRIPTION_TAG_PATTERN = /<\/?[a-zA-Z][^>]*>/;
+/** The one license every skill here declares; all of them are first-party internal tooling. */
+const REQUIRED_LICENSE = 'MIT';
 
 /**
  * A frontmatter field's value as the consumer sees it. A folded block (`description: >-`) joins its
@@ -265,10 +273,19 @@ const parsed = [];
       invalid.push(`${skill.relDir}/SKILL.md: description is empty`);
       continue;
     }
+    const tag = DESCRIPTION_TAG_PATTERN.exec(description);
+    if (tag) {
+      invalid.push(
+        `${skill.relDir}/SKILL.md: description contains the tag '${tag[0]}' — write it as plain text, without angle brackets`,
+      );
+      continue;
+    }
 
     // House rules, stated in .agents/skills/skill-authoring/SKILL.md.
-    if (!extractField(parts.frontmatter, 'license')) {
-      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs a 'license' field`);
+    // Checking only that the key is present would accept `license:` with nothing after it.
+    const licenseField = extractField(parts.frontmatter, 'license');
+    if (!licenseField || fieldValue(licenseField) !== REQUIRED_LICENSE) {
+      invalid.push(`${skill.relDir}/SKILL.md: frontmatter needs 'license: ${REQUIRED_LICENSE}'`);
       continue;
     }
 
@@ -288,10 +305,14 @@ const parsed = [];
       continue;
     }
 
-    const bodyLines = skill.text.split('\n').length;
-    if (bodyLines > BODY_MAX_LINES) {
+    // The whole file, frontmatter included: the spec's budget is "keep your main SKILL.md under 500
+    // lines", and the agent loads all of it when the skill activates. Two skills here already carry
+    // 17-18 lines of frontmatter, and a 1024-character description adds ~11 more, so excluding it
+    // would let the file that actually gets loaded run well past the budget.
+    const fileLines = skill.text.split('\n').length;
+    if (fileLines > FILE_MAX_LINES) {
       invalid.push(
-        `${skill.relDir}/SKILL.md: ${bodyLines} lines (max ${BODY_MAX_LINES}) — move detail into references/`,
+        `${skill.relDir}/SKILL.md: ${fileLines} lines (max ${FILE_MAX_LINES}) — move detail into references/`,
       );
       continue;
     }

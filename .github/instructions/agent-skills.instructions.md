@@ -25,9 +25,12 @@ Flag as a problem:
 - A new skill that is not added to the **The skills** table in `.agents/README.md`.
 - A `SKILL.md` that breaks the contract in `.agents/skills/skill-authoring/SKILL.md`: no frontmatter,
   a `name` that does not match its directory or is not lowercase kebab-case within 64 characters, a
-  `description` that is empty, over 1024 characters, or missing the `WHEN TO USE:` and
-  `WHEN NOT TO USE:` markers, a missing `license`, a missing or non-`true` `user-invocable`, or a
-  body over 500 lines. A `SKILL.md` must sit at exactly `<root>/<name>/SKILL.md`; one nested deeper,
+  `description` that is empty, over 1024 characters, carries an angle-bracket tag, or is missing the
+  `WHEN TO USE:` and `WHEN NOT TO USE:` markers, a `license` absent or not `MIT`, a missing or
+  non-`true` `user-invocable`, or a file over 500 lines. That budget counts the whole file,
+  frontmatter included: the spec's limit is the file and the agent loads all of it, so do not report
+  a skill as compliant by measuring the body alone. A `SKILL.md` must sit at exactly
+  `<root>/<name>/SKILL.md`; one nested deeper,
   such as under a skill's `references/`, is not a reference file and is never loaded. `npm run skills:check`
   enforces all of these, so a PR that trips one should be failing CI — say so rather than
   re-deriving it.

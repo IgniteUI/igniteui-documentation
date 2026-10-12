@@ -42,9 +42,9 @@ never named `SKILL.md`.
 
 | Field | Rules |
 |---|---|
-| `license` | Required here. Use `MIT`, matching `igniteui-angular` and `igniteui-webcomponents`. |
+| `license` | Required here, and must be exactly `MIT`, matching `igniteui-angular` and `igniteui-webcomponents`. Every skill in this repo is first-party internal tooling; a different licence is a deliberate decision, so change this line and the check together. |
 | `name` | Required. Max 64 characters. Lowercase letters, numbers and hyphens only. No leading, trailing or consecutive hyphens. Must match the folder name. |
-| `description` | Required. Non-empty, **max 1024 characters**. No XML tags. |
+| `description` | Required. Non-empty, **max 1024 characters**. No tags in angle brackets — write `ApiLink`, not `<ApiLink>`. |
 | `user-invocable` | Required. Must be `true`, so the skill can be invoked by name as well as matched automatically. |
 
 Write the description in the third person: say what the skill covers, then add both markers:
@@ -54,11 +54,15 @@ Write the description in the third person: say what the skill covers, then add b
 
 Agents see only `name` and `description` until they load the skill, so the description decides
 whether it is ever used. The 1024-character limit is a hard one — a description over it is invalid,
-and the pointer copies it verbatim, so the breach is duplicated.
+and the pointer copies it verbatim, so the breach is duplicated. The same duplication is why angle
+brackets are barred: the description is injected into the agent's system prompt, and the pointer
+puts a second copy in a second file.
 
 ## Token budget
 
-- Keep the `SKILL.md` body under 500 lines.
+- Keep the whole `SKILL.md` under 500 lines, **frontmatter included**. The spec's budget is the file,
+  and the agent loads all of it when the skill activates — frontmatter here runs to 17-18 lines on
+  some skills, and a 1024-character description adds about 11 more, so it is not rounding error.
 - If it grows past that, use progressive disclosure: keep the overview and core rules in `SKILL.md`
   and move detail into `references/<topic>.md`.
 - Link each reference file directly from `SKILL.md`, one level deep, and say when to read it, so
@@ -95,8 +99,10 @@ npm run skills:check    # verify; also runs in CI and in npm run verify
 
 1. The skill is in `.agents/skills/`, or in `.github/skills/` with a gh-aw reason.
 2. Frontmatter passes the table above, and the folder name matches `name`.
-3. The description includes `WHEN TO USE:` and `WHEN NOT TO USE:`, and is within 1024 characters.
-4. The body is under 500 lines, and every reference file is linked from `SKILL.md`.
+3. The description includes `WHEN TO USE:` and `WHEN NOT TO USE:`, is within 1024 characters, and
+   carries no angle-bracket tags.
+4. The whole file, frontmatter included, is under 500 lines, and every reference file is linked
+   from `SKILL.md`.
 5. The skill states no rule another skill owns.
 6. It is listed in the Skills table in [`.agents/README.md`](../../README.md).
 7. `npm run skills:sync` has been run and the generated pointer is committed.
