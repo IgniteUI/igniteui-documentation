@@ -1,8 +1,14 @@
 /**
  * platform.ts
  *
- * Central registry of per-platform CDN assets (styles / scripts) and nav
- * endpoint configuration.
+ * Central registry of per-platform CDN assets (styles / scripts).
+ *
+ * The Infragistics header and footer are not among them: they come from the
+ * marketing site's export, snapshotted in ig-chrome/ and rendered by
+ * igniteui-astro-components' igChrome() (see src/integration.ts), so nothing is
+ * fetched from /navigation. The legacy chrome's own assets (LEGACY_CHROME_*) are added
+ * for a Japanese build only, which still renders the fetched legacy chrome
+ * until the Japanese version of the new design ships.
  *
  * Usage from astro.config.ts:
  *   import { getPlatformHead } from './src/platform.ts';
@@ -52,17 +58,9 @@ export interface PlatformMeta {
     lang: NavLang;
 }
 
-type NavType = 'infragistics' | 'appbuilder' | 'none';
-
 interface PlatformDef {
-    navType: NavType;
     styles: HeadEntry[];
     scripts: HeadEntry[];
-}
-
-export interface NavConfig {
-    navType: NavType;
-    navUrl: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -81,14 +79,22 @@ const IG_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/animate-custom.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/assets/modern/css/fontello.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' } },
+];
+
+// ---------------------------------------------------------------------------
+// TEMPORARY — the legacy fetched chrome's own CSS and JS, Japanese builds only.
+//
+// A `lang: 'jp'` build still renders the header and footer fetched from
+// jp.infragistics.com/navigation (igniteui-astro-components' DocsLayout), and
+// that markup needs these. Every other build renders the ig-chrome/ snapshot
+// and loads none of them. Remove with the Japanese fallback.
+// ---------------------------------------------------------------------------
+const LEGACY_CHROME_STYLES: HeadEntry[] = [
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/navigation.css' } },
     { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://www.infragistics.com/css/footer.css' } },
 ];
 
-// ---------------------------------------------------------------------------
-// Shared IG scripts — used by: angular, react, blazor, web-components, slingshot
-// ---------------------------------------------------------------------------
-const IG_SCRIPTS: HeadEntry[] = [
+const LEGACY_CHROME_SCRIPTS: HeadEntry[] = [
     {
         tag: 'script',
         attrs: {
@@ -158,17 +164,14 @@ const APPBUILDER_SCRIPTS: HeadEntry[] = [
 
 // ---------------------------------------------------------------------------
 // Platform registry
-// navType drives which endpoint the build-time prefetch uses:
-//   'infragistics' → www/jp.infragistics.com/navigation
-//   'appbuilder'   → www.appbuilder.dev/header-footer-export
 // ---------------------------------------------------------------------------
 export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
-    angular: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
-    react: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
-    blazor: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
-    'web-components': { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
-    slingshot: { navType: 'infragistics', styles: IG_STYLES, scripts: IG_SCRIPTS },
-    appbuilder: { navType: 'appbuilder', styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
+    angular: { styles: IG_STYLES, scripts: [] },
+    react: { styles: IG_STYLES, scripts: [] },
+    blazor: { styles: IG_STYLES, scripts: [] },
+    'web-components': { styles: IG_STYLES, scripts: [] },
+    slingshot: { styles: IG_STYLES, scripts: [] },
+    appbuilder: { styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
 };
 
 // ---------------------------------------------------------------------------
@@ -246,7 +249,9 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
  * Pass the result directly to `createDocsSite({ head: getPlatformHead(...) })`.
  *
  * @param platform - Platform identifier.
- * @param lang - Locale — not currently used but kept for API completeness.
+ * @param lang - Locale. `'jp'` adds the legacy chrome's assets for an
+ *   Infragistics-family platform, because a Japanese build still renders the
+ *   fetched legacy chrome (temporary).
  */
 export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
     const def = PLATFORM_DEFS[platform as PlatformKey];
@@ -254,32 +259,12 @@ export function getPlatformHead(platform: string, lang = 'en'): HeadEntry[] {
         console.warn(`[docs-template] Unknown platform "${platform}" — no head entries injected.`);
         return [];
     }
+    const legacyChrome = lang === 'jp' && platform !== 'appbuilder';
     return [
         { tag: 'meta', attrs: { property: 'docs:platform', content: platform } },
         ...def.styles,
+        ...(legacyChrome ? LEGACY_CHROME_STYLES : []),
         ...def.scripts,
+        ...(legacyChrome ? LEGACY_CHROME_SCRIPTS : []),
     ];
-}
-
-/**
- * Returns the nav endpoint config for the given platform.
- * Used internally by siteMetaIntegration to decide what to prefetch.
- *
- * @param platform - Platform identifier, or `null` for no nav.
- * @param lang - Locale for the nav URL ('en' | 'jp' | 'kr').
- */
-export function getNavConfig(platform: string | null, lang = 'en'): NavConfig {
-    const igBase = lang === 'jp' ? 'https://jp.infragistics.com' : 'https://www.infragistics.com';
-    switch (platform) {
-        case 'appbuilder':
-            return { navType: 'appbuilder', navUrl: 'https://www.appbuilder.dev/header-footer-export' };
-        case 'angular':
-        case 'react':
-        case 'blazor':
-        case 'web-components':
-        case 'slingshot':
-            return { navType: 'infragistics', navUrl: `${igBase}/navigation` };
-        default:
-            return { navType: 'none', navUrl: null };
-    }
 }

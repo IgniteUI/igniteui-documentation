@@ -30,12 +30,493 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ## **{PackageVerLatest}**
 
+### {PackageGrids} (グリッド)
+
+- <ApiLink type="Grid" />、<ApiLink type="TreeGrid" />、<ApiLink type="HierarchicalGrid" />、<ApiLink type="PivotGrid" />
+  - Excel スタイル フィルタリングの検索リストで <ApiLink type="VirtualScroll" /> コンポーネントを使用するようになりました。リストは各行のレンダリング時にその行を測定し、測定したサイズで推定サイズを置き換えます。
+  - Excel スタイル フィルタリングの検索リストのマークアップが変更されました。内部の表示コンテナーと垂直スクロールバー ヘルパーの代わりに、仮想スクロール ホストとアイテム ラッパーが使用されます。これらの要素に直接アクセスするアプリケーションとテストを更新してください。
+  - Excel スタイル フィルタリングの内部仮想スクロール コンテナーに、ネストされたリスト ロールがなくなりました。リストボックスとそのオプションは変更されません。
+  - `rowStyles`、`headerStyles`、`headerGroupStyles` プロパティの型が `GridStyleCSSProperty | null` になりました。以前の型は `any` でした。
+  - スクロールバーで、`::-webkit-scrollbar-*` 疑似要素の代わりに標準の `scrollbar-color` および `scrollbar-width` CSS プロパティを使用するようになりました。
+  - グリッド、列アクション、および Excel スタイル フィルタリング メニューのスクロールバーは、ホストの背景色と前景色を使用します。
+
+**重大な変更**
+
+- **テーマ**
+  - `--ig-grid-summary-border-width` および `--ig-grid-summary-pinned-border-width` CSS 変数が削除されました。集計セルはグリッドの罫線幅を使用します。ヘッダーの罫線幅がセルの区切りを、ピン固定の罫線幅がピン固定の罫線を設定します。
+  - 集計の罫線のスタイルと色は、引き続き `--ig-grid-summary-border-style`、`--ig-grid-summary-pinned-border-style`、`--ig-grid-summary-border-color`、`--ig-grid-summary-pinned-border-color` で設定できます。
+  - 標準のスクロールバー プロパティは 2 つの色と 3 つの幅キーワードのみを受け入れるため、ほとんどのスクロールバー テーマ変数は効果がなくなりました。`--sb-thumb-bg-color` と `--sb-track-bg-color` は引き続き機能します。ホバー、罫線、コーナー、最小高さの変数は効果がありません。
+  - `scrollbar-width` は `auto`、`thin`、`none` のみを受け入れるため、`--sb-size` はスクロールバーの太さを設定しなくなりました。スクロールバーを細くするには、スクロールバー変数を宣言する要素に `--sb-width: thin` を設定します。スクロール要素に `scrollbar-width: thin` を直接設定することもできます。
+
+**動作変更**
+
+- **スクロールバー**
+  - 標準の CSS プロパティでは、スクロールバーの矢印ボタンのスタイル設定や表示はできません。`scrollbar-width: thin` は、矢印ボタンを表示するプラットフォームでそれらを削除します。
+  - 64 より前のバージョンの Firefox は `scrollbar-color` と `scrollbar-width` をサポートしません。これらのバージョンでは、プラットフォームの既定の色とサイズでスクロールバーが表示されます。
+- **PDF エクスポート**
+  - 集計行の背景が、ヘッダー行と同じになりました。ヘッダーの背景と同様に、この背景は `showTableBorders` オプションで制御されます。
+  - <ApiLink type="PivotGrid" /> エクスポートの行ディメンション セルにもこの背景が適用されます。
+  - 連続するレコードで行ディメンションの値が繰り返される場合、<ApiLink type="PivotGrid" /> エクスポートでは、その値が 1 つの結合セルに 1 回だけ表示されるようになりました。グリッドも行ヘッダーを同じ方法で結合します。
+  - 値は同じ親ディメンションの下でのみ結合されます。たとえば、2 つの異なる都市の同じ日付には 2 つのセルが作成されます。
+  - 結合セルがページの下端を超える場合、セルはページの終わりで止まり、次のページのヘッダーの下に続きます。
+
+## **{PackageVerChanges-26-2-SEP}**
+
+### {PackageCommon}
+
+#### 新しいコンポーネント
+
+{ProductName} に、`igniteui-webcomponents` 7.3.0 および 7.4.0 の次のコンポーネントが含まれるようになりました:
+
+- [Breadcrumbs](./layouts/breadcrumbs.mdx) (<ApiLink type="Breadcrumbs" /> および <ApiLink type="Breadcrumb" />) - ナビゲーション パスを表示します。
+- [Color Picker](./inputs/color-picker.mdx) (<ApiLink type="ColorPicker" />) - ユーザーが色を選択できます。さまざまな色形式とカスタム パレットをサポートします。
+- [QR Code](./inputs/qr-code.mdx) (<ApiLink type="QrCode" />) - `value` プロパティから QR コードを SVG としてレンダリングします。データを数字、英数字、またはバイト モードでエンコードします。
+- Virtual Scroll (<ApiLink type="VirtualScroll" />) - ビューポート内のアイテムと、`overScan` で設定された数の追加アイテムのみをレンダリングします。大規模なリストや無制限のリストに使用します。
+  - このコンポーネントは、垂直方向と水平方向、および右から左 (RTL) のレイアウトをサポートします。
+  - アイテムのサイズは、固定、`estimatedItemSize` による推定、または可変にできます。コンポーネントはレンダリングされた各アイテムを測定し、推定値を補正します。
+  - まだ測定されていないアイテムには、`estimatedItemSize` の代わりに測定済みサイズの平均が使用されます。これにより、スクロールバーが実際のコンテンツと一致します。
+  - このコンポーネントはアイテム要素をリサイクルします。レンダリング ウィンドウ内に残るアイテムは、その要素を保持します。ウィンドウから出るアイテムの要素は、ウィンドウに入るアイテムを表示します。
+  - `keyFunction` プロパティはアイテムのキーを返します。キーがあると、`data` 内でアイテムが移動してもその要素が保持されます。`keyFunction` がない場合は、インデックスがキーになります。
+  - アイテム テンプレートがバインドしない DOM 状態は、要素に残ります。たとえば、`checked` バインドのないチェックボックスの状態です。この状態はアイテム テンプレートでバインドしてください。
+  - このコンポーネントは、ブラウザーの最大スクロール サイズより大きいリストでも正しく動作します。
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.4.1 に更新しました。この更新には [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)、[7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01)、[7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09)、[7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23)、[7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) のリリースが含まれます。
+- `igniteui-dockmanager` を 2.2.1 に、`igniteui-grid-lite` を 0.11.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### ライブラリ
+  - `@lit-labs/virtualizer` 依存関係を削除しました。仮想化は <ApiLink type="VirtualScroll" /> コンポーネントが行います。<ApiLink type="Combo" /> のリストでもこれを使用します。
+  - オプションのピア依存関係 `dompurify`、`marked`、`shiki` を現在の安定バージョンに更新しました。
+- #### Avatar
+  - コンポーネントに `role="img"` が設定されるようになりました。以前は ARIA 1.3 の値で、現在のツールがサポートしていない `image` でした。
+  - アクセシブル名は `alt` から取得されます。`alt` が設定されていない場合は `initials` から取得されます。ロールの説明は常に `avatar` です。
+  - 以前は、名前は常に "avatar" で、`alt` または `initials` がロールの説明を設定していました。
+- #### Badge
+  - ロールの説明は常に `badge` です。支援技術は `variant` を読み上げなくなりました。
+  - `icon` CSS パートは、<ApiLink type="Icon" /> がバッジの唯一のコンテンツである場合にのみ適用されます。これはドキュメントと一致します。
+- #### Carousel
+  - コンポーネントは、インジケーター コンテナー、ナビゲーション ボタン、アクティブなスライド内の最初のフォーカス可能な要素の順でフォーカスを委任するようになりました。
+- #### Chip
+  - `onRemove` イベントの型が、ブール型の `detail` を宣言しなくなりました。このイベントには、もともと `detail` はありませんでした。
+- #### Tile Manager
+  - <ApiLink type="Tile" /> がサイズ変更ハンドルを直接レンダリングするようになりました。`trigger-side`、`trigger`、`trigger-bottom` CSS パートの名前は変わりません。
+  - 新しい `tile-container` CSS パートに、タイルのコンテンツとサイズ変更ハンドルが含まれます。
+- #### AI 支援開発 - スキル
+  - React スキルを、エージェントが自力では見つけられないフレームワーク固有の情報に絞りました。スキルの合計サイズは以前の約半分です。
+  - リファレンス ファイルを `COMPONENTS`、`USAGE`、`DATAVIZ`、`MCP`、`TROUBLESHOOTING` に統合しました。重複していたセットアップとテーマ設定のガイダンスを削除しました。
+  - スキルで MCP ツールの名前付き引数スキーマを記載するようになりました。ドキュメント ツールは `framework` を、API ツールは `platform` を受け取ります。
+  - `get_project_setup_guide` を追加しました。存在しない `get_theming_guidance` を `read_resource` に置き換えました。
+  - スキルで、ダーク モードを `--ig-theme-variant` と `configureTheme()` が制御するグローバル スイッチとして記載するようになりました。カスタム プロパティでページの一部にのみダーク モードを適用することはできません。
+  - パレットのオーバーライドを修正しました。すべてのシェードは `500` シェード (例: `--ig-primary-500`) から生成されます。`--ig-primary-h`、`-s`、`-l` トークンは存在しません。
+  - Excel/CSV エクスポーターのインポート パスを `igniteui-react-grids` に修正しました。フォーム送信ハンドラーの型を `React.FormEvent` に、イベント ハンドラーの型を生成された `Igr*EventArgs` エイリアスに修正しました。
+  - グリッド移行ガイダンスから非推奨の `IgrGridModule.register()` を削除しました。存在しない `--ig-button-foreground` トークンの例を置き換えました。
+  - すべてのスキルに `license: MIT` を追加しました。各スキルの説明に `WHEN TO USE:` と `WHEN NOT TO USE:` セクションを追加し、エージェントが適切なスキルを選択できるようにしました。
+  - スキルの README に、Grid Lite からプレミアム グリッドへの移行スキルが記載されるようになりました。
+
+#### 新機能
+
+- #### Button Group
+  - 単一選択モード (`single` および `single-required`) で、ラジオ グループのキーボード パターンを使用するようになりました:
+    - グループは 1 つのタブ ストップです。
+    - 矢印キーでフォーカスと選択が一緒に移動します。無効なボタンはスキップされ、両端で折り返します。
+    - `alignment="horizontal"` では、ArrowLeft と ArrowRight がテキストの方向に選択を移動します。`alignment="vertical"` では、ArrowUp と ArrowDown が選択を移動します。
+    - `multiple` モードは変更されません。各ボタンはタブ ストップのままです。
+  - 単一選択モードで、`radio` ボタンを持つ `radiogroup` が公開されるようになりました。以前は `aria-pressed` を持つトグル ボタンが公開されていました。
+  - <ApiLink type="ButtonGroup" /> ホストに `radiogroup` または `group` ロールと無効状態が設定されるようになりました。ホストの `aria-label` または `aria-labelledby` でグループに名前を付けます。
+  - 単一選択モードでは、`alignment` がラジオ グループの `aria-orientation` を設定します。
+  - <ApiLink type="ToggleButton" /> の `focused` CSS パートがドキュメント化されました。
+- #### Calendar、Date Picker、Date Range Picker
+  - <ApiLink type="Calendar" /> が `label-inner`、`months-row`、`years-row` CSS パートをエクスポートするようになりました。ピッカーはこれらを `calendar-label-inner`、`months-row`、`years-row` としてエクスポートします。
+- #### Chip
+  - 新しい `outlined` プロパティ。`true` に設定すると、アウトライン付きのチップが表示されます。
+  - `start` および `end` スロットと、新しい `action` および `remove` CSS パートがドキュメント化されました。
+- #### Combo、Color Picker、Date Picker、Date Range Picker、Dropdown、Select、Tooltip
+  - 新しい `scrollStrategy` プロパティ。コンテナーがスクロールされたときのポップアップの動作を設定します:
+    - `hide` (既定) は、アンカーが完全に表示範囲外にある間、ポップアップを非表示にします。
+    - `scroll` は、ポップアップを表示したままアンカー上に保持します。
+    - `close` は、スクロールのたびにコンポーネントを閉じます。これにより `sticky` ツールチップも閉じられます。
+  - 日付ピッカーは、`dialog` モードでは `scrollStrategy` を無視します。
+- #### Dropdown
+  - ターゲット要素に `aria-haspopup="listbox"` が設定されるようになりました。以前は `aria-haspopup="true"` でした。
+  - リストが開いている間、ターゲットの `aria-activedescendant` がアクティブなアイテムを指します。スクリーン リーダーはこのアイテムを読み上げます。
+- #### Icon
+  - `registerIcon` と `registerIconFromText` が、3 番目の引数として `RegisterIconOptions` オブジェクトを受け入れるようになりました。従来のコレクション文字列も引き続き機能します。
+  - `stripMeta: true` は、保存される SVG から `<title>` と `<desc>` 要素を削除します。これにより、ホバー時のブラウザー標準のツールチップが表示されなくなります。
+  - タイトル テキストは、ホストの <ApiLink type="Icon" /> 要素の `aria-label` として引き続き利用できます。
+- #### Mask Input、Date Time Input、Date Range Picker
+  - マスク エディターで元に戻す/やり直しがサポートされました:
+    - 元に戻す: `Ctrl + Z` または `Cmd + Z`。
+    - やり直し: `Ctrl + Y`、`Ctrl + Shift + Z` または `Cmd + Shift + Z`。
+  - 連続して入力された文字は 1 つの元に戻すステップです。連続した削除も 1 つの元に戻すステップです。
+  - キャレットの移動、貼り付け、ドロップ、切り取り、日付部分のスピン、IME 入力は、それぞれ新しいステップを開始します。
+  - 復元されたステップは `onInput` を発行します。双方向バインディングは元に戻す操作に追従します。
+  - フォーカスが変わっても履歴は保持されます。値をプログラムで設定した場合、フォームがコントロールをリセットした場合、または `mask`、`prompt`、`inputFormat` が変更された場合、コンポーネントは履歴をクリアします。
+- #### Splitter
+  - 新しい `startCollapsed` および `endCollapsed` プロパティ。各ペインの折りたたみ状態を取得および設定します。
+  - 新しい `onLayoutChanged` イベント。ユーザーによるサイズ変更または展開状態の変更後にコンポーネントが発行します。
+  - `onLayoutChanged` のペイロードには、現在のレイアウト (`startSize`、`endSize`、`startCollapsed`、`endCollapsed`) が含まれます。
+- #### Tabs
+  - 新しい `selectedTab` プロパティ。選択されている <ApiLink type="Tab" /> 要素、または `null` を返します。
+  - `select()` が、`id` に加えてタブの `label` も受け入れるようになりました。`selected` の値を `select()` に渡すことができます。
+  - タブ ヘッダーに `aria-posinset` と `aria-setsize` が設定されました。ストリップには `aria-orientation` が設定されます。
+  - 選択されているパネルがフォーカス可能になりました。フォーカス可能な要素のないパネル コンテンツにも、キーボード ユーザーが到達できます。
+  - タブが選択されていない場合でも、ストリップはタブ ストップを保持します。
+  - コンポーネントは、中間スロットを通過する <ApiLink type="Tab" /> 要素を検出するようになりました。別のコンポーネントで <ApiLink type="Tabs" /> をラップできます。
+- #### Tooltip
+  - アンカーが `aria-describedby` でツールチップを参照するようになりました。スクリーン リーダーはツールチップのコンテンツをアンカーの説明として読み上げます。
+  - `sticky` モードでは、既定の閉じる操作はラベル付きの `<button>` です。キーボードで到達して使用できます。新しい `close-button` CSS パートでこれを公開します。
+- #### Popover
+  - Popover ベースのコンポーネントは、サポートするブラウザー (Chrome および Edge 133 以降、Firefox 147 以降、Safari 26 以降) でネイティブの CSS アンカー位置指定を使用するようになりました。
+  - その他のブラウザーは引き続き `@floating-ui/dom` を使用します。必要な場合にのみ読み込まれます。
+- #### テーマ
+  - Material、Bootstrap、Fluent、Indigo テーマのすべてのコンポーネントに `forced-colors: active` スタイルが追加されました。
+  - Windows ハイ コントラスト モードでは、コンポーネントはシステム カラー (`CanvasText`、`Highlight`、`GrayText`、`LinkText`) を使用します。無効、ホバー、フォーカス、選択の各状態は互いに区別されたままです。
+
+#### 重大な変更
+
+- #### Chip
+  - `part="base"` は単純なラッパーになりました。選択コントロールは新しい `action` パートに、削除コントロールは新しい `remove` パートに移動しました。
+  - 操作可能な面に対する `::part(base)` ルールを `::part(action)` に移してください。
+  - `focus-outline-color` および `focus-selected-outline-color` CSS 変数が、`focus-shadow-color` および `focus-selected-shadow-color` に置き換えられました。
+- #### AI 支援開発 - スキル
+  - `grid-lite-to-igr-grid-migration` スキルの名前を `igniteui-react-migrate-grid-lite-to-premium` に変更しました。新しい名前は、他のスキルと同様に `igniteui-react-` プレフィックスを使用します。
+  - 名前が変更されたスキルを新しいフォルダー名で再インストールし、古いフォルダーを削除してください。
+  - 各スキルの `reference/` フォルダーの名前を `references/` に変更しました。リンクが機能するよう、`igniteui-react-components`、`igniteui-react-customize-theme`、`igniteui-react-generate-from-image-design` のスキルを再インストールしてください。
+
+#### 動作変更
+
+- #### Combo、Color Picker、Date Picker、Date Range Picker、Dropdown、Select、Tooltip
+  - アンカーが完全に表示範囲外にある間、ポップアップが非表示になりました。以前はポップアップが表示されたままでした。以前の動作を維持するには、`scrollStrategy="scroll"` を設定します。
+- #### Dropdown、Select、Tooltip
+  - ポップアップは、表示範囲内に留まるためにビューポートの端に沿って移動しなくなりました。反対側に反転するだけです。
+- #### Button Group
+  - 無効なグループは、そのボタンに `disabled` を設定しなくなりました。ボタンはグループの無効状態を継承します。
+  - 独自の `disabled` を持つボタンは、グループを再び有効にしても無効のままです。無効なグループに追加したボタンも無効になります。
+  - 単一選択モードでは、ボタンは個別のタブ ストップではなくなりました。「新機能」セクションのキーボード パターンを参照してください。
+- #### Calendar、Date Picker、Date Range Picker
+  - `weekStart` が設定されていない場合、週は `locale` の週の最初の日から始まります。コンポーネントはこの日を `Intl.Locale.prototype.getWeekInfo()` から取得します。
+  - たとえば、週は `bg` では月曜日、`en` では日曜日から始まります。
+  - 明示的な `weekStart` が優先されます。ロケールの値を再び使用するには、`weekStart` を `undefined` に設定します。`getWeekInfo()` のないブラウザーでは日曜日が使用されます。
+  - ヘッダーの日付と月/年のナビゲーションは、`locale` のフィールド順を使用します。たとえば `ja` では、年ボタンが月ボタンの前に表示されます。年ビューは引き続き単純な数値を表示します。
+- #### Date Time Input、Date Picker、Date Range Picker
+  - コンポーネントは、ユーザーの入力中に `value` を変更しなくなりました。`value` は、`onChange` イベントとともにコミット時にのみ変更されます。コンポーネントは、従来どおりブラー時に `onChange` を発行します。
+  - 以前は、キーストロークごとに `value` が変更され、変更を通知するイベントはありませんでした。
+  - たとえば <ApiLink type="Grid" /> の編集テンプレートなどで、`value` を外部からバインドできるようになりました。
+  - `onInput` イベントの `detail` には、入力された値が含まれます。日付部分のスピンまたは `Ctrl + ;` の結果も含まれます。
+  - フォーカスされているエディターでは、日付部分のスピンもブラー時のコミットまで待機します。
+  - フォーカスされていないコンポーネントでは、`stepUp()` と `stepDown()` は `value` をすぐに変更します。`clear()`、`setRangeText()`、および直接の代入も `value` をすぐに変更します。
+  - ピッカーでは、ユーザーの入力中、カレンダーは引き続き入力された日付に追従します。
+- #### Dropdown
+  - ユーザーがすでに選択されているアイテムを選択しても、コンポーネントは `onChange` を発行しなくなりました。リストは引き続き閉じます。
+- #### Tabs
+  - スクロール ボタンは、完全には表示されていない最も近いタブまでスクロールするようになりました。以前は 180px の固定ステップでスクロールしていました。
+  - スクロール ボタンの下にあるタブは、表示されていないものとして扱われます。1 回クリックするごとに、タブがちょうど 1 つずつ追加で表示されます。
+- #### Tooltip
+  - 非表示トリガーで閉じるツールチップは、正確に `hideDelay` だけ待機するようになりました。以前は、ドキュメント化されていない 180ms が追加で待機されていました。
+  - `sticky` モードでは、既定の閉じるボタンはツールチップをすぐに非表示にします。`hideDelay` を待機しません。
+  - 既定の `showTriggers` と `hideTriggers` に `focusin` と `focusout` が含まれるようになりました。アンカーがキーボード フォーカスを受け取るとツールチップが開き、フォーカスがアンカーから離れると閉じます。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|単一選択で各要素が追跡されるようになりました。`value` のないボタン、または同じ `value` のボタンでも選択できるようになりました。`selectedItems` は現在の選択を置き換えるようになりました。以前は選択に追加されていました。`selectedItems` が空の `value` を持つボタンを無視しなくなりました。無効なグループに追加されたボタンがグループの状態を壊さなくなりました。最初のレンダリング前の `focus()`、`blur()`、`click()`、および直接の子ではないトグル ボタンにも同様に適用されます。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|複数の月を表示するカレンダーに、ライブ リージョンとタブ ストップが 1 つずつ設定されるようになりました。時刻のみの日付文字列はローカルの日付に対して解決されます。`weekStart` が最初のレンダリングで正しくなりました。多数の無効な日付に対するキーボード ナビゲーションでブラウザーがフリーズしなくなりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|`pause()` で停止したカルーセルが、ポインターまたはフォーカスで再び開始しなくなりました。`interval` の変更後も `isPlaying` と `isPaused` が正しくなりました。コンポーネントは未使用のタイマーをクリアします。スライドよりも投影されたインジケーターが少ないカルーセルでエラーが発生しなくなりました。アクティブなスライドを削除した場合や、空のカルーセルにスライドが入った場合でも、カルーセルはアクティブなスライドを保持します。各インジケーターに `aria-controls` が設定されました。インジケーターはコンテンツ属性として `aria-label` を設定します。|
+|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|`adoptRootStyles` を有効にすると、コンポーネントが最初の適用後にドキュメントが取得するスタイルシートを追跡するようになりました。適用ではメッセージ パートと入力パートのテーマ スタイルが保持されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox、Switch、Radio|外部の `<label>` が、`for` またはラッパーとして、コントロールに名前を付けるようになりました。ラベルをクリックするとコントロールがフォーカスされ、切り替わります。ホストの `aria-labelledby` がコントロールに名前を付けるようになりました。|
+|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Color Picker|ピッカーのキャンバスがタッチ入力に応答するようになりました。`default` モードでは、外部の `<label>`、ホストの `aria-labelledby`、ホストの `aria-label` がトリガー ボタンに名前を付けます。`input` モードでは、テキスト入力に `aria-expanded` が設定されなくなりました。|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo、Select|入力ラベルをクリックしてもリストが開閉しなくなりました。`label` プロパティと外部の `<label>` が入力に名前を付けるようになりました。以前は、選択状態のテキストが入力に名前を付けていました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|矢印キーの前の `Enter` でエラーが発生しなくなりました。ドロップダウンを再び開いた後、明示的なターゲットの有無にかかわらず、キーボード ナビゲーション、`aria-haspopup`、`aria-expanded` が正しくなりました。未解決のターゲットでの `show()` は現在のターゲットを保持します。アンカーがない場合、`show()` は `false` を返します。`clearSelection()` と選択されたアイテムの削除でナビゲーションがリセットされます。アクセシビリティ ツリーにドロップダウンのヘッダーとグループ ラベルが正しく表示されます。アンカーは `ariaLabelledByElements` を通じてリストに名前を付けます。|
+|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|ドロップダウン モードで、最初のレンダリング後に設定された `label` がネイティブ入力に反映されるようになりました。`container` CSS パートがエクスポートされるようになりました。|
+|[2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Range Picker|`ranges` CSS パートがエクスポートされるようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|フォーム関連コンポーネント|最初のフォーム送信が失敗した後に、検証メッセージが消えなくなりました。無効なスタイルが検証状態に追従します。たとえば `invalid` を持つ `required` 入力など、最初から無効なホストで検証メッセージが表示されるようになりました。|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input、Mask Input、Date Time Input、Date Picker、Date Range Picker、File Input、Textarea、Select、Combo、Color Picker|ラベルをクリックすると、コンポーネントから 1 つの `click` イベントが発行されるようになりました。無効なコンポーネントは `click` イベントを発行しません。ホストの `aria-labelledby` と `aria-label` がネイティブ エディターに名前を付けるようになりました。すべてのフォーム関連コンポーネントは、ホストの `aria-labelledby`、外部の `<label>` 要素、自身のラベル、ホストの `aria-label` の順で名前を付けます。最初のレンダリング後に追加された `<label>` もコントロールに名前を付けます。ヘルパー テキストの `aria-describedby` は再レンダリング後も維持されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|外部の `<label>` をクリックすると、ネイティブ入力にフォーカスし、ファイル ピッカーが開くようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|最近のバージョンの Firefox で一致箇所が再び表示されるようになりました。ホストのルート ノードが `::highlight()` ルールを適用するようになりました。Chromium で、異なる shadow root 内のコンポーネントが `--background` および `--foreground` CSS 変数を正しく解決するようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|参照によってレンダリングされるアイコンが、対象のアイコンを後から登録した場合でも解決されるようになりました。アイコンは、アクセシブル名がある場合にのみ `role="img"` を持ちます。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|小数の `step` を持つ値が正確になりました。`stepUp(n)` と `stepDown(n)` は `n` ステップ移動します。数値ではない `max` または `step` は有効な数値にフォールバックします。アクセシブル名、`aria-valuetext`、`aria-readonly`、`aria-disabled` が正しくなりました。外部の `<label>` がコントロールに名前を付けます。`onHover` が、ポインターがコンポーネントを離れて同じシンボル上に再び入ったときに発生するようになりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|選択のある閉じた Select で `ArrowUp` を押すと、前のアイテムに移動するようになりました。先行入力で最初の文字によるエラーが発生しなくなりました。先行入力がキーボード ショートカットをブロックしなくなりました。選択済みアイテムの選択でリストが閉じます。一致するアイテムが存在する前に設定した `value` を保持し、アイテムを追加したときに解決します。入力テキストは、選択されたアイテムのメイン コンテンツからのみ取得されます。|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|外部の `<label>` とホストの `aria-labelledby` がコントロールに名前を付けるようになりました。スライダーは、最初のレンダリング後のホストの `aria-label` の変更に追従します。支援技術が値のツールチップを読み上げなくなりました。|
+|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|Indigo テーマのスクロール ボタンが不透明になりました。`activation="manual"` で、タブ上の `Enter` または `Space` が `onChange` を発行するようになりました。アクティブなタブで `selected` を `false` に設定した場合、最後のタブを削除した場合、および無効なタブについて、選択が正しく維持されます。開始スクロール ボタンとクリック スクロールが、ブラウザーのズームで正しく動作します。ストリップのスクロールによるレンダリング処理が軽くなりました。|
+|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|`resize` を `auto` から別の値に変更すると、インラインの高さが解放されるようになりました。投影されたテキストは、ネイティブの `<textarea>` と同様に既定値になります。コントロールはプリスティン状態のままで、フォームのリセットでテキストが復元されます。|
+|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|位置指定された 2 つのタイルの入れ替えで、列の値が `rowStart` に書き込まれなくなりました。位置指定された単一のタイルの隣に追加したタイルが、それと重ならなくなりました。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()` と `hide()` は、キューに入っている逆方向のトランジションをキャンセルします。非表示アニメーション中にポインターがアンカー上に戻ると、ツールチップは開いたままになります。`show(target)` を呼び出しても、`open` 状態が不正確にならなくなりました。実行時に設定した `withArrow` が矢印を配置するようになりました。遅延トランジションの Promise が解決されるようになりました。`Escape` は、ツールチップが開いている場合にのみ `onClosed` を発行します。|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|大規模または深くネストされたツリーに対する操作が高速になりました。アイテムの `path` の読み取りのコストが `2^depth` ではなく `depth` になりました。キーボード ナビゲーションは約 5 倍高速になりました。選択されたアイテムを含むサブツリーの削除は約 2 倍高速になりました。`items`、`select()`、およびすべてのアイテムの展開または折りたたみが 25～45% 高速になりました。|
+|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar、Badge|代替テキストが設定されていない場合、アバターの `<img>` に `alt=""` が設定されるようになりました。この場合、画像は装飾的なものになります。アイコンとテキストを持つバッジは、インラインのパディングを保持します。バッジがテキストを切り取らなくなりました。|
+|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|削除可能なチップが、削除コントロールをチップの面の兄弟要素にしたため、`nested-interactive` アクセシビリティ監査に合格するようになりました。アクセシブル名はチップのコンテンツです。`Space` で選択が切り替わります。`onRemove` は削除可能なチップでのみ発生します。削除コントロールへのフォーカスでチップのフォーカス状態が表示されます。プレフィックスとサフィックスのラッパーが正しく非表示になります。|
+|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|Virtual Scroll|`block: 'nearest'` を指定した `scrollToIndex` が、ネイティブの `scrollIntoView` と同様に、ビューポートの後ろにあるアイテムをビューポートの終端に揃えるようになりました。|
+|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|パッケージに `exports` マップが追加されました。バンドラーと TypeScript がエントリ ポイントと型定義を解決します。|
+
+### {PackageDockManager} (ドック マネージャー)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.3 から 2.2.1 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### 新機能
+
+- 固定解除されたペイン ヘッダー用の新しい CSS 変数: `--igc-unpinned-header-background` と `--igc-unpinned-header-text`。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|親の Dock Manager が、ネストされた Dock Manager の非表示タブ選択イベントを処理しなくなりました。|
+|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|コンテンツ ペイン内のブラウザーのオートフィル候補をユーザーが選択したときに、エラーが発生しなくなりました。|
+|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|Angular の既定の変更検出で、スロットされたラジオ ボタンをクリックしてもブラウザーがフリーズしなくなりました。|
+
+### {GridLitePackage} (グリッド ライト)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.9.0 から 0.11.0 に更新しました。この更新には [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) と [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) のリリースが含まれます。
+
+#### 新機能
+
+- グリッドが `ElementInternals` を通じて完全な ARIA グリッド パターンを実装しました: ロール、行と列の数とインデックス、`aria-sort`、`aria-selected`。フィルター行は 2 番目のヘッダー行です。
+- キーボード ナビゲーションとクリックで、DOM フォーカスがアクティブなセルに移動するようになりました。スクリーン リーダーがセルを読み上げます。
+- 新しいパブリック `columns` セッター。
+
+#### 変更
+
+- 行の仮想化で <ApiLink type="VirtualScroll" /> コンポーネントを使用するようになりました。ビューポート外でレンダリングされる行が減りました。`@lit-labs/virtualizer` 依存関係を削除しました。
+- 高さ 800px のグリッドで、10,000 行 20 列の場合の 0.10.0 と比較したパフォーマンス:
+  - スムーズ スクロールは 60 fps で動作します。以前は 30 fps でした。
+  - 離れたスクロール位置へのジャンプが 8 倍高速になりました。
+  - ソートが 8 倍高速になりました。
+  - セル テンプレートを使用する場合、改善は同等かそれ以上です。
+- 列を指定しないナビゲーションは、現在の列を保持します。
+- セルのアクティブ化で、影響を受ける 2 つの行のみが更新されるようになりました。以前はすべての表示行が更新されていました。
+- 列が変更されたとき、行はセルを再利用します。ソートは 1 つの共有コレーターを使用します。`ResizeObserver` がスクロールバーのオフセットを制御します。
+- キャンセル可能な `onSorting` および `onFiltering` イベントは、状態が変更される前に発生します。リスナーは式をキャンセルまたは変更できます。
+- `onSorted` および `onFiltered` イベントは、データ ビューの更新後に発生します。
+
+#### 非推奨
+
+- `navigateTo(row, column?, activate?)` の位置引数。`navigateTo(row, options)` を使用してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|OR 式のみのフィルターが、すべてのレコードに一致しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|文字列フィルター条件が、`null` または `undefined` のセル値でエラーを起こさなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|同時に実行される非同期データ パイプラインが、結果を誤った順序で適用しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|ラッパー要素内の宣言的な列が、兄弟の列を削除しなくなりました。|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|各グリッド インスタンスが独自のナビゲーション状態を持つようになりました。ナビゲーションは非表示の列をスキップし、無効な行インデックスを生成しなくなりました。|
+|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|どの列にも一致しない条件を持つフィルター式をグリッドがスキップするようになりました。|
+
+## **{PackageVerChanges-26-2-JUL}**
+
+### {PackageCommon}
+
+#### 新機能
+
+- #### AI 支援開発 - スキル
+  - 新しい Grid Lite からプレミアム データ グリッドへの移行スキル。インポート、テンプレート、ソート、フィルタリング、サーバー側パターン、ツールバーとエクスポートのフローをマッピングします ([#168](https://github.com/IgniteUI/igniteui-react/pull/168))。
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.2.4 に更新しました。この更新には [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15)、[7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18)、[7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) のパッチ リリースが含まれます。
+- `igniteui-dockmanager` を 2.1.3 に、`igniteui-grid-lite` を 0.9.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### フォーム関連コンポーネント
+  - 外部の `<label>` が、<ApiLink type="Input" />、<ApiLink type="MaskInput" />、<ApiLink type="Textarea" />、<ApiLink type="DateTimeInput" />、<ApiLink type="Select" />、<ApiLink type="Combo" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> のネイティブ入力にリンクされるようになりました。
+  - `for` 属性と `id` 属性を使用するか、コンポーネントを `<label>` 内に配置します。支援技術がラベルを読み上げます。ラベルをクリックするとネイティブ入力にフォーカスされます ([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263))。
+- #### Snackbar、Toast
+  - コンテナーの位置指定プロパティで、新しい `NotificationPositioning` 型を使用するようになりました ([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251))。
+- #### AI 支援開発 - スキル
+  - React スキルで、使用パターンに MCP ドキュメントと API の参照を使用するようになりました ([#167](https://github.com/IgniteUI/igniteui-react/pull/167))。
+  - 画像から React を生成するガイダンスで、たとえば `list_components('react')` や `get_doc('react', '<name>')` などの標準の MCP 呼び出しを使用するようになりました ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)、[#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+  - テーマ カスタマイズのワークフローで、パレット、テーマ、タイポグラフィ、エレベーションの順序がより安全になりました。トークンをオーバーライドする前に見つけるようになります ([#167](https://github.com/IgniteUI/igniteui-react/pull/167))。
+  - ガイダンスと注意事項のリファレンスで、Nav Drawer の CSS 変数名を修正しました ([#169](https://github.com/IgniteUI/igniteui-react/pull/169))。
+  - グリッドのガイダンスで、末尾に空きスペースが残る固定の列幅を使用しないようエージェントに指示するようになりました。エージェントは、ユーザーが要求した場合にのみ固定幅を使用します ([#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+  - 不明瞭なテキストと誤った API 使用パターンを削除しました ([#170](https://github.com/IgniteUI/igniteui-react/pull/170))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|タイトルとサブタイトル スロットの行の高さを修正しました。|
+|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover ベースのコンポーネント|`position: sticky` を持つ祖先内で、ポップオーバーの位置が安定しました。|
+|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Safari でドラッグ操作中にテキストが選択されなくなりました。スパンするタイルを最大化したときに高さが折りたたまれなくなりました。|
+|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|選択されたタブ ヘッダーが、最初のレンダリング時にスクロールして表示されなくなりました。|
+
+### {PackageGrids} (グリッド)
+
+- `igniteui-webcomponents-grids` を 7.2.0 に更新しました。このバージョンは `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200) を使用します。
+- `igniteui-angular` 22.0.0 の派生 Sass グリッド テーマは、Angular のテーマ API にのみ適用されます。CSS テーマを使用する {ProductName} のグリッドは変更されません。
+
+### {PackageDockManager} (ドック マネージャー)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.2 から 2.1.3 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|`tab-strip-area top` パートが適用されるようになりました。|
+|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|親の Dock Manager が、ネストされた Dock Manager の表示範囲外の選択タブ イベントを処理しなくなりました。|
+|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|タブを並べ替えた後、タブ ヘッダーの `aria-label` 値が正しくなりました。|
+
+### {GridLitePackage} (グリッド ライト)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.8.0 から 0.9.0 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09)を参照してください。
+
+#### 変更
+
+- 大規模なデータ セットでのソートとフィルター操作が高速になりました。グリッドがソート キーとフィルター式ツリーを事前に計算するようになりました ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63))。
+- 本体のセルと行のテーマで、現在の `igniteui-theming` 変数を使用するようになりました。`igniteui-theming` を 27.3.0 に更新しました ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|本体のセルと行の罫線スタイルが、既定、奇数、偶数、ホバー、アクティブの各状態で正しいテーマ変数を使用するようになりました。|
+
+## **{PackageVerChanges-26-2-MAY}**
+
+### {PackageCommon}
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.2.1 に更新しました。この更新には [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) リリースが含まれます。
+- `igniteui-dockmanager` を 2.1.2 に、`igniteui-grid-lite` を 0.8.0 に更新しました。Dock Manager と Grid Lite のセクションを参照してください。
+- #### フォーム コントロール
+  - <ApiLink type="Input" />、<ApiLink type="MaskInput" />、<ApiLink type="DateTimeInput" />、<ApiLink type="Checkbox" />、<ApiLink type="Radio" />、<ApiLink type="Switch" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> が、ネイティブ コントロールと同様に、ユーザーが **Enter** を押したときにフォームを送信するようになりました ([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213))。
+- #### Input
+  - `date`、`time`、`datetime-local`、`week`、`month` の入力タイプのテーマ サポートを追加しました。これらのタイプは、すべてのテーマで同じスタイルとフローティング ラベルの動作になります ([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223))。
+- #### AI 支援開発 - スキル
+  - パッケージ内のスキルを更新しました。
+
+#### 新機能
+
+- #### Date Range Picker
+  - 日付範囲の値を単一の入力フィールドで編集できるようになりました ([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733))。
+- #### Nav Drawer
+  - 相対位置以外では、<ApiLink type="NavDrawer" /> がネイティブの Popover API を使用するようになりました。この API がモーダルのセマンティクス、フォーカス トラップ、アクセシビリティ サポートを提供します ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194))。
+  - 新しい `keepOpenOnEscape` プロパティ。ユーザーが **Escape** を押してもドロワーを開いたままにします。相対位置以外にのみ適用されます。
+  - 新しい `onClosing` イベント。ユーザーの操作でドロワーが閉じる前に発行されます。このイベントはキャンセルできます。
+  - 新しい `onClosed` イベント。ユーザーの操作でドロワーが閉じた後に発行されます。
+- #### Invoker Commands API
+  - <ApiLink type="Button" /> と <ApiLink type="IconButton" /> が `command` および `commandFor` プロパティをサポートするようになりました。これらのプロパティを使用すると、カスタム JavaScript なしでボタンがターゲット コンポーネントを制御できます ([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225))。
+  - <ApiLink type="Banner" />、<ApiLink type="Dialog" />、<ApiLink type="NavDrawer" />、<ApiLink type="Snackbar" />、<ApiLink type="Toast" /> が、呼び出しボタンからの `--show`、`--hide`、`--toggle` コマンドに応答するようになりました。
+- #### Snackbar、Toast
+  - 新しい `positioning` プロパティ (`viewport` または `container`)。コンポーネントがブラウザーのトップ レイヤーのポップオーバーとしてレンダリングされるようになりました。
+  - `positioning` を `container` に設定すると、コンポーネントはビューポートではなく、最も近い表示されている祖先にアンカーされます ([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203))。
+
+#### 重大な変更
+
+- #### Nav Drawer
+  - `overlay` CSS パートを削除しました。`base` パートの `::backdrop` 疑似要素、`--ig-overlay-background-color` 変数、またはテーマ パッケージを使用してください ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194))。
+
+#### 非推奨
+
+- #### ローカライズ
+  - <ApiLink type="Calendar" />、<ApiLink type="Chat" />、<ApiLink type="DatePicker" />、<ApiLink type="DateRangePicker" /> の古いリソース文字列インターフェイスは非推奨になりました。コンポーネントは `igniteui-i18n` のリソース キーを使用するようになりました。
+  - 個々の `resourceStrings` プロパティを設定することはできなくなりました。完全なリソース文字列オブジェクトを設定してください ([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169))。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|フォーカス状態とホバー状態で、選択状態の罫線の色が正しくなりました。|
+|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|単一選択モードで、部分的な検索テキストの後にユーザーが Tab でフォーカスを移動したときの表示値が正しくなりました。|
+|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|親の Stepper より前に DOM に接続されたステップが、Stepper に取り込まれたときにコンテキストを取得するようになりました。|
+
+### {PackageDockManager} (ドック マネージャー)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.1 から 2.1.2 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|ペイン コンテンツ内を押しても、スロットされた `<input>`、`<textarea>`、`<select>` 要素からフォーカスが奪われなくなりました。|
+|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|ペインがフローティングになったときに、固定解除されたタブ領域の位置が `left` にリセットされなくなりました。再びドッキングしたときにペインが消えなくなりました。|
+
+### {GridLitePackage} (グリッド ライト)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.7.1 から 0.8.0 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27)を参照してください。
+
+#### 変更
+
+- フィルター行の入力のスタイルを更新しました。共通のフィルター ロジックをリファクタリングしました ([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54))。
+- `igniteui-webcomponents` を 7.2.0 に更新しました。グリッドで Node.js 22 以降が必要になりました ([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65)、[#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64))。
+
+## **{PackageVerChanges-26-2-APR}**
+
+このエントリには、19.6.1 (2026 年 4 月) のパッチ リリースも含まれます。
+
+### {PackageCommon}
+
+#### 変更
+
+- `igniteui-webcomponents` を 7.1.3 に更新しました。この更新には [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25)、[7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22)、[7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) のパッチ リリースが含まれます。
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): `igniteui-dockmanager` を 2.1.1 に更新しました。このリリースで変更されたのはビルド、CI/CD、開発ワークフローのみです ([#152](https://github.com/IgniteUI/igniteui-react/pull/152))。
+- `igniteui-grid-lite` を 0.7.1 に更新しました。Grid Lite のセクションを参照してください。
+- #### Button Group
+  - テーマの色を調整しました ([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182))。
+- #### Checkbox
+  - 無効状態と不確定状態のスタイルを更新しました ([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158))。
+- #### Chip
+  - チップのコンテンツが、新しいパート コンテナー内に配置されるようになりました。チップのスタイルを更新しました ([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190))。
+- #### Circular Progress
+  - 円形と線形のプログレス バーで、同じトラック色の CSS 変数を使用するようになりました ([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185))。
+- #### AI 支援開発 - スキル
+  - 新しい `igniteui-react-generate-from-image-design` スキル。スクリーンショット、モックアップ、ワイヤーフレームなどのデザイン画像から React ビューを構築する方法を、AI コーディング アシスタントに示します ([#146](https://github.com/IgniteUI/igniteui-react/pull/146))。
+  - スキルで Ignite UI CLI MCP サーバーを使用するようになりました ([#151](https://github.com/IgniteUI/igniteui-react/pull/151)、[#154](https://github.com/IgniteUI/igniteui-react/pull/154))。
+  - 19.6.1: グリッド、Grid Lite、フォームに関するガイダンスを明確化し、拡充しました ([#141](https://github.com/IgniteUI/igniteui-react/pull/141))。完全なデータ チャートの例 ([#143](https://github.com/IgniteUI/igniteui-react/pull/143)) とパッケージ ルーティングのガイダンス ([#145](https://github.com/IgniteUI/igniteui-react/pull/145)) を追加しました。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|選択されたアイテムのスタイルを修正しました。|
+|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|表示サイズがすべてのプラットフォームで同じになりました。|
+|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|背景スタイルの差異を修正しました。|
+|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|水平方向で、コンテンツ領域の高さがアクティブなステップのコンテンツに追従できるようになりました。以前は、高さは常に最も高いステップの高さでした。新しい `--body-grid-rows` CSS 変数が各ステップ本体の行サイズを設定します。既定の `1fr` は本体をコンテンツに合わせて拡大します。`0fr` は本体を高さ 0 に折りたたみます。|
+
+### {PackageGrids} (グリッド)
+
+- `igniteui-webcomponents-grids` を 7.1.0 に更新しました。このバージョンは `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120) を使用します。
+- **セキュリティ** - PDF エクスポートの `jspdf` 依存関係を 4.2.1 に更新しました。このバージョンでは、以前のバージョンのセキュリティ脆弱性が修正されています ([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113))。
+
+### {GridLitePackage} (グリッド ライト)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): `igniteui-grid-lite` を 0.7.0 から 0.7.1 に更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01)を参照してください。
+
+#### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|`filterExpressions` と `sortExpressions` のセッターが現在の状態を置き換えるようになりました。以前は追加されていました。|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|列構成のない初期のフィルターまたはソート状態で、エラーが発生しなくなりました。|
+|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|グリッドが、connected コールバックで採用されたスタイルを正しく適用するようになりました。|
+
+## **{PackageVerChanges-26-2-JUN}**
+
 ### {PackageCharts}
 
 #### 新機能
 
 - `MarkerType` 列挙型に `Checkmark` オプションが追加されました。シリーズで `MarkerType.Checkmark` を使用すると、円の中に V 字型のチェックマーク アイコンを表示できます。新しい `MarkerAutomaticBehavior.Checkmark` 列挙値でチャート内のすべてのシリーズにチェックマーク形状を適用でき、`SeriesViewer.CheckmarkMarkerTemplate` プロパティでテンプレートをカスタマイズできます。
 - マーカーをサポートするチャート シリーズで `MarkerSize` がサポートされ、デバイス非依存ピクセル単位でマーカー サイズを制御できるようになりました。`NaN` に設定するとテンプレート ベースの既定サイズに戻ります。
+
+### {PackageCommon}
+
+#### 変更
+
+- <ApiLink type="DockManager" />: 新しい `minResizeWidth` および `minResizeHeight` プロパティ、`paneFlyoutToggle` イベント、`layoutChange` イベントの追加 detail、および修正を含む、最新の `igniteui-dockmanager@2.1.0` を使用するように更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md#210)を参照してください。
+- 新しい <ApiLink type="Splitter" /> および <ApiLink type="Highlight" /> コンテナー コンポーネントと修正を含む、最新の `igniteui-webcomponents@7.1.0` を使用するように更新しました。[完全な変更ログ](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#710---2026-03-19)を参照してください。
+
+#### 新機能
+
+- #### AI 支援開発 - エージェント スキル
+  - Ignite UI for React での作業方法を AI コーディング アシスタント (GitHub Copilot、Cursor、Windsurf、Claude、JetBrains AI など) に教える、構造化されたナレッジ ファイルです。
+  - スキル ファイルは `igniteui-react` パッケージに含まれており、[skills/](https://github.com/IgniteUI/igniteui-react/tree/master/skills) ディレクトリにもあります:
+    - **components** - UI パターンに適した React コンポーネント (`Igr*`) を特定し、インストール、インポート、使用します — JSX パターン、イベント、ref、フォームなど。
+    - **customize-theme** - Ignite UI Theming MCP サーバーの使用を含め、React で CSS カスタム プロパティ、Sass、テーマ システムを使用してスタイルをカスタマイズします。
+    - **optimize-bundle-size** - 粒度の細かいインポート、ツリー シェイキング、遅延読み込みでバンドル サイズを削減します。
+  - これらのスキルは、エージェントのスキル パス (例: `.agents/skills` または `.claude/skills`) に配置すると自動的に検出されます。
+
+## **{PackageVerChanges-26-2-MAR}**
 
 ### バグ修正
 
@@ -118,12 +599,11 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ### 機能拡張
 
-#### {PackageCharts}
+### {PackageCharts}
 
 DataPieChart および ProportionalCategoryAngleAxis に OthersCategoryBrush と OthersCategoryOutline を追加しました。
 
-
-#### バグ修正
+### バグ修正
 
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
@@ -136,104 +616,131 @@ DataPieChart および ProportionalCategoryAngleAxis に OthersCategoryBrush と
 |2234|IgrRadialChart|バケット サイズが 0 に等しい場合のチェックを追加。 |
 |2234|IgrDataChart|注釈レイヤーにおける GetCategoryIndexAxis() を修正。 |
 
-- #### Chat
-  - Removed the `typingIndicator` template renderer. Use the `typing-indicator` slot instead.
-
-- #### Tooltip
-  - Removed the `disableArrow` deprecated property.
-
-- #### Library
-  - Minimum Node version required is now >= 22.
-
-  #### Bug Fixes
-
-| Bug Number | Control | Description |
-|------------|---------|-------------|
-|[2033](https://github.com/IgniteUI/igniteui-webcomponents/pull/2033)|Carousel|Context instantiation in Blazor|
-|[2085](https://github.com/IgniteUI/igniteui-webcomponents/pull/2085)|Combo|Correct cursor style over non input parts|
-|[2085](https://github.com/IgniteUI/igniteui-webcomponents/pull/2085)|Textarea|Correct cursor style over non input parts|
-
-### **{PackageVerChanges-25-2-DEC}**
-
-- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
-  - Improved performance by dynamically adjusting the scroll throttle based on the data displayed in grid.
-
-**Breaking Changes**
-
-- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
-  - Original `data` array mutations (like adding/removing/moving records in the original array) are no longer detected automatically. Components need an array reference change for the change to be detected.
-
-**Localization(i18n)**
-
-- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />, <ApiLink type="Combo" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="DateRangePicker" />, <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="Carousel" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="Tree" />
-  - New `Intl` implementation for the grid components that format and render data like dates and numbers. Updated `Intl` implementation for <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="DatePicker" />, and <ApiLink pkg="core" type="DateRangePicker" />.
-  - New localization implementation for the currently supported languages for all components that have resource strings in the currently supported languages.
-  - New public localization API and package named `igniteui-i18n-resources` containing the new resources that are used in conjunction.
-
-**PDF export**
-- Added PDF export functionality allowing users to export grid data to PDF format.
-
-**Popover API**
-
-- Dropdown menus and dialogs are now using HTML Popover API to provide better positioning and accessibility.
-
-## バグ修正
-
-### 機能拡張
-
-### チャート
-
-- TimeXAxisLabelFormat に LabelFormatOverride イベントが追加され、TimeXAxis のすべての時間形式レベルでイベントを使用して書式設定をオーバーライドできるようになりました。
-
-### **{PackageVerChanges-25-2-NOV}**
-
-| Bug Number | Control | Description |
-|------------|---------|-------------|
-|2270|IgrDataChart|Added OthersCategoryBrush and OthersCategoryOutline to DataPieChart and ProportionalCategoryAngleAxis |
-|2251|igniteui-react-layouts|Skip resolving property editor props containing @constantValues |
-|2353|IgrDataChart|syntax error while building infragistics.dvcommonwidget.js |
-|2354|IgrDataChart|infragistics.dvcommonwidget.js has "unser" typo instead of "unset" in case names |
-|2338|IgrDataPieChart|SeriesPointerMove event doesn't fire correctly when StartAngle is set |
-|2235|Excel|Workbook.Load() throwing a Excel.FormulaParseException. |
-|2234|IgrRadialChart|Added a check for bucket size equals to 0 |
-|2234|IgrDataChart|fix GetCategoryIndexAxis() for annotation layers |
-
-## {PackageCharts} (チャート)
-
-### <Badge variant="preview" /> ユーザー注釈
-
-{ProductName} では、ユーザー注釈機能により、実行時に <ApiLink type="DataChart" /> にスライス注釈、ストリップ注釈、ポイント注釈を追加できるようになりました。これにより、エンドユーザーは、スライス注釈を使用して会社の四半期レポートなどの単一の重要イベントを強調したり、ストリップ注釈を使用して期間を持つイベントを示したりすることで、プロットに詳細を追加できます。ポイント注釈またはこれら 3 つの任意の組み合わせを使用して、プロットされたシリーズ上の個々のポイントを呼び出すこともできます。
-
-### <Badge variant="preview" /> 軸注釈の衝突検出
-
-#### {PackageMaps} (地理マップ)
-
-- Azure Map Imagery は RTM になりました。
-
-- Adjusted the schema generation to account for more items to make it more likely to find valid values for properties.
-
-## バグ修正
-
-### **{PackageVerChanges-25-1-OCT_2}**
-
-#### 新しいコンポーネント
-
-- <ApiLink type="Chat" /> コンポーネントを追加しました。
-
-This is directly integrated with the available tools of the <ApiLink type="Grid" member="toolbar" label="Toolbar" />.
-
-<Image src={dataChartUserAnnotationCreate} alt="{Platform} user-annotation-create" class="responsive-img" />
-
-#### {PackageGrids} (グリッド)
-
-- <ApiLink type="Grid" />、<ApiLink type="TreeGrid" />、<ApiLink type="HierarchicalGrid" />
-  - 同じデータまたはその他のカスタム条件に基づいて列内のセルを 1 つのセルに構成および結合できる新しいセル結合機能を追加しました。
-
-        個々の列で有効化できます:
+## **{PackageVerChanges-25-2-DEC}**
 
 ### バグ修正
 
-| バグ修正 | コントロール | 説明 |
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|33808|IgrDataChart|TimeAxisInterval の IntervalType Ticks に設定されたスケールが表示されない。|
+|34255|IgrDataChart|0.00001 スケールの目盛りが重なって表示される。|
+|38510|IgrDataChart|Stacked シリーズの AssigningCategoryStyle イベント サポート。|
+
+### 機能拡張
+
+#### チャート
+
+- TimeXAxisLabelFormat に LabelFormatOverride イベントが追加され、TimeXAxis のすべての時間形式レベルでイベントを使用して書式設定をオーバーライドできるようになりました。
+
+- プロパティの有効な値を見つけやすくするために、より多くの項目を考慮するようにスキーマ生成を調整しました。
+
+## **{PackageVerChanges-25-2-NOV}**
+
+### {PackageCharts} (チャート)
+
+#### <Badge variant="preview" /> ユーザー注釈
+
+{ProductName} では、ユーザー注釈機能により、実行時に <ApiLink type="DataChart" /> にスライス注釈、ストリップ注釈、ポイント注釈を追加できるようになりました。これにより、エンドユーザーは、スライス注釈を使用して会社の四半期レポートなどの単一の重要イベントを強調したり、ストリップ注釈を使用して期間を持つイベントを示したりすることで、プロットに詳細を追加できます。ポイント注釈またはこれら 3 つの任意の組み合わせを使用して、プロットされたシリーズ上の個々のポイントを呼び出すこともできます。
+
+これは、<ApiLink type="Grid" member="toolbar" label="Toolbar" /> で使用可能なツールと直接統合されています。
+
+<Image src={dataChartUserAnnotationCreate} alt="{Platform} user-annotation-create" class="responsive-img" />
+
+#### <Badge variant="preview" /> 軸注釈の衝突検出
+
+軸注釈が自動で衝突を検出し、適切に収まるよう切り詰めます。この機能を有効にするには、次のプロパティを設定します:
+
+- <ApiLink type="CategoryAngleAxis" member="shouldAvoidAnnotationCollisions" label="ShouldAvoidAnnotationCollisions" />
+- <ApiLink type="CategoryAngleAxis" member="shouldAutoTruncateAnnotations" label="ShouldAutoTruncateAnnotations" />
+
+### {PackageMaps} (地理マップ)
+
+- Azure Map Imagery は RTM になりました。
+
+### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|40136|Excel Library|Excel ワークブック読み込み時に FormulaParseException 例外が発生する。|
+|40262|IgrSpreadsheet|警告がある場合に #Circularity! が表示される。Excel と同様に、代わりに値 (例: 0) を表示するよう要望。|
+|40458|IgrSpreadsheet|Arial フォント使用時、igx-spreadsheet がセル内のテキストを切り捨てる。|
+|40490|IgrDatePicker|Autofill による入力は日付ピッカーに反映されない。|
+
+## **{PackageVerChanges-25-1-OCT_2}**
+
+### 新しいコンポーネント
+
+- <ApiLink type="Chat" /> コンポーネントを追加しました。
+
+### {PackageGrids} (グリッド)
+- <ApiLink type="Grid" />、<ApiLink type="TreeGrid" />、<ApiLink type="HierarchicalGrid" />
+- 同じデータまたはその他のカスタム条件に基づいて列内のセルを 1 つのセルに構成および結合できる新しいセル結合機能を追加しました。
+
+        個々の列で有効化できます:
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrColumn field="field" merge={true}></IgrColumn>
+```
+
+</PlatformBlock>
+        結合は、グリッド レベルで次のいずれかを適用するように構成できます:
+  - `onSort` - 列がソートされた場合のみ。
+  - `always` - データ操作に関係なく常に。
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrGrid cellMergeMode="always">
+        </IgrGrid>
+```
+
+</PlatformBlock>
+
+        既定の `cellMergeMode` は `onSort` です。
+
+        カスタム シナリオでその他の結合条件やロジックが必要な場合は、グリッドにカスタムの `mergeStrategy` を設定して機能を変更できます。
+
+        特定のデータ フィールドにカスタム処理が必要な場合は、個々の列に `mergeComparer` を設定することもできます。
+
+- 個々の列を特定の側 (グリッドの先頭または末尾) にピン固定できる機能を追加しました。これにより、両側からピン固定できるようになりました。列に `pinningPosition` プロパティを設定して宣言的に行うことができます:
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrColumn field="Col1" pinned={true} pinningPosition="pinningPosition">
+        </IgrColumn>
+```
+
+</PlatformBlock>
+
+        ```ts
+        pinningPosition = ColumnPinningPosition.End;
+        ```
+
+        または、API でオプションのパラメーターを使用して行うこともできます:
+
+        ```ts
+        grid.pinColumn('Col1', 0, ColumnPinningPosition.End);
+        grid.pinColumn('Col2', 0, ColumnPinningPosition.Start);
+        ```
+
+        列に `pinningPosition` プロパティが設定されていない場合、その列はグリッドの `pinning` オプションの `columns` で指定された位置になります。
+
+- **ソートの改善**
+  - シュワルツ変換を使用してソート アルゴリズムの効率を改善しました。これは decorate-sort-undecorate とも呼ばれる手法で、ソート キーを元のデータ レコードに一時的に関連付けることで、ソート キーの再計算を回避します。
+  - ソート アルゴリズムを再帰的な処理から反復的な処理にリファクタリングしました。
+- **グループ化の改善**
+  - グループ化アルゴリズムを再帰的な処理から反復的な処理にリファクタリングしました。
+  - グループ化操作を最適化しました。
+
+
+
+
+### バグ修正
+
+| バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
 |[1853](https://github.com/IgniteUI/igniteui-webcomponents/pull/1853)| List |リスト コンポーネントおよびテーマ間で重複していた CSS 変数を削除。|
 |[1871](https://github.com/IgniteUI/igniteui-webcomponents/pull/1871)| Card |テーマからカラーを取得するように変更。|
@@ -242,116 +749,24 @@ This is directly integrated with the available tools of the <ApiLink type="Grid"
 |[1885](https://github.com/IgniteUI/igniteui-webcomponents/pull/1885)| Date Picker |編集不可の入力設定で change イベントが発生しない問題を修正。|
 |[1894](https://github.com/IgniteUI/igniteui-webcomponents/pull/1894)| Date Picker | Material テーマで値をクリアした際にノッチの境界線に関する問題を修正。|
 
-### **{PackageVerChanges-25-1-OCT}**
 
-| Bug Number | Control | Description |
-|------------|---------|-------------|
-|40136|Excel Library|FormulaParseException exception when loading an Excel workbook|
-|40262|IgrSpreadsheet|#Circularity! is displayed when there are warnings. Request to match Excel - display a value eg. 0 instead|
-|40458|IgrSpreadsheet|When using Arial font, the igx-spreadsheet cuts off text in the cells|
-|40490|IgrDatePicker|Inputs by Autofill won't give any effects for a date picker|
+## **{PackageVerChanges-25-1-OCT}**
 
-## {PackageMaps} 地理マップ
+### {PackageMaps} (地理マップ)
 
-### <Badge variant="preview" /> Azure マップ画像のサポート
+#### <Badge variant="preview" /> Azure マップ画像のサポート
 
-<ApiLink type="GeographicMap" /> は、 Azure ベースのマップ画像をサポートし、開発者は複数のアプリケーション タイプにわたって詳細かつ動的なマップを表示できるようになりました。複数のマップ レイヤーを組み合わせて地理データを視覚化し、インタラクティブなマッピング エクスペリエンスを簡単に作成できます。
+<ApiLink type="IgbGeographicMap" /> は、Azure ベースのマップ画像をサポートし、開発者は複数のアプリケーション タイプにわたって詳細かつ動的なマップを表示できるようになりました。複数のマップ レイヤーを組み合わせて地理データを視覚化し、インタラクティブなマッピング エクスペリエンスを簡単に作成できます。
+
+注: Bing マップ画像のサポートは段階的に廃止されます。既存のエンタープライズ キーは引き続き Bing Maps にアクセスするために利用できるため、Azure Maps へ移行する間も現在のアプリケーションをそのまま利用可能です。
+
+公開されている Azure Maps の一部は[こちら](https://azure.microsoft.com/ja-jp/products/azure-maps)をご覧ください。
 
 ### {PackageCharts} (チャート)
-- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />
-  - Introduced a new cell merging feature that allows you to configure and merge cells in a column based on same data or other custom condition, into a single cell.
 
-        It can be enabled on the individual columns:
+#### <Badge variant="preview" /> 新しい軸ラベル イベント
 
-<PlatformBlock for="React">
-
-```tsx
-        <IgrColumn field="field" merge={true}></IgrColumn>
-        ```
-
-</PlatformBlock>
-        The merging can be configured on the grid level to apply either:
-     - `onSort` - only when the column is sorted.
-     - `always` - always, regardless of data operations.
-
-<PlatformBlock for="React">
-
-```tsx
-        <IgrGrid cellMergeMode="always">
-        </IgrGrid>
-        ```
-
-</PlatformBlock>
-
-        The default `cellMergeMode` is `onSort`.
-
-        The functionality can be modified by setting a custom `mergeStrategy` on the grid, in case some other merge conditions or logic is needed for a custom scenario.
-
-        It's possible also to set a `mergeComparer` on the individual columns, in case some custom handling is needed for a particular data field.
-
-  - Added ability to pin individual columns to a specific side (start or end of the grid), so that you can now have pinning from both sides. This can be done either declaratively by setting the `pinningPosition` property on the column:
-
-<PlatformBlock for="React">
-
-```tsx
-        <IgrColumn field="Col1" pinned={true} pinningPosition="pinningPosition">
-        </IgrColumn>
-        ```
-
-</PlatformBlock>
-
-        ```ts
-        pinningPosition = ColumnPinningPosition.End;
-        ```
-
-        Or with the API, via optional parameter:
-
-        ```ts
-        grid.pinColumn('Col1', 0, ColumnPinningPosition.End);
-        grid.pinColumn('Col2', 0, ColumnPinningPosition.Start);
-        ```
-
-        If property `pinningPosition` is not set on a column, the column will default to the position specified on the grid's `pinning` options for `columns`.
-
-  - **Sorting improvements**
-     - Improved sorting algorithm efficiency using Schwartzian transformation. This is a technique, also known as decorate-sort-undecorate, which avoids recomputing the sort keys by temporarily associating them with the original data records.
-     - Refactored sorting algorithms from recursive to iterative.
-  - **Groupby improvements**
-     - Refactored grouping algorithm from recursive to iterative.
-     - Optimized grouping operations.
-
-
-
-
-### <Badge variant="preview" /> 新しい軸ラベル イベント
-
-軸ラベルに対するさまざまな操作を検出できるように、次のイベントが <ApiLink type="DataChart" /> に追加されました。
-
-
-## <Badge variant="preview" /> 対応軸
-
-### <Badge variant="preview" /> RadialPieSeries インセット アウトライン
-
-#### {PackageGrids} (グリッド)
-
-The <ApiLink type="IgbGeographicMap" /> now supports Azure-based map imagery, allowing developers to display detailed, dynamic maps across multiple application types. You can combine multiple map layers, visualize geographic data, and create interactive mapping experiences with ease.
-
-Note: Support for Bing Maps imagery is being phased out. Existing enterprise keys can still be used to access Bing Maps, ensuring your current applications continue to function while you transition to Azure maps.
-
-Explore some of the publicly available [Azure maps here](https://azure.microsoft.com/en-us/products/azure-maps).
-
-### <Badge variant="preview" /> セル サフィックス コンテンツ
-
-#### バグ修正
-
-| バグ番号 | コントロール | 説明 |
-|------------|---------|-------------|
-|31624 | <ApiLink type="CategoryChart" /> | <ApiLink type="CategoryChart" /> を含むウィンドウをリサイズすると、チャートがシリーズをレンダリングできなくなる。|
-|27304 | <ApiLink type="DataChart" /> | ズーム長方形が背景長方形と同じ位置に配置されない。|
-|38231 | <ApiLink type="Grid" /> | 非ピン固定列は、非表示が存在する場合に元の位置に戻らない。|
-|30600 | <ApiLink type="DoughnutChart" /> | チャートやシリーズに textStyle プロパティが存在しない (円チャートにはある)。|
-|37930 | <ApiLink type="DataChart" /> | Data Annotation Overlay のテキスト色が機能しない。|
-|33861 | Excel Library | 折れ線チャートを追加すると、ドイツ語カルチャで Excel ファイルが破損する。|
+軸ラベルに対するさまざまな操作を検出できるように、次のイベントが <ApiLink type="IgbDataChart" /> に追加されました。
 
 - `LabelMouseDown`
 - `LabelMouseUp`
@@ -360,23 +775,23 @@ Explore some of the publicly available [Azure maps here](https://azure.microsoft
 - `LabelMouseMove`
 - `LabelMouseClick`
 
-#### 機能拡張
+#### <Badge variant="preview" /> 対応軸
 
-Added `CompanionAxis` properties to the X and Y axis that allow you to quickly create a clone of an existing axis. When enabled using the <ApiLink type="CategoryAngleAxis" member="companionAxisEnabled" label="CompanionAxisEnabled" /> property, this will default the cloned axis to the opposite position of the chart and you can then configure that axes' properties.
+X 軸と Y 軸に `CompanionAxis` プロパティが追加され、既存の軸を簡単に複製できるようになりました。<ApiLink type="CategoryAngleAxis" member="companionAxisEnabled" label="CompanionAxisEnabled" /> プロパティを有効にすると、複製された軸はチャートの反対側に配置され、そこから各軸プロパティを設定できます。
 
-#### IgrBulletGraph
+#### <Badge variant="preview" /> RadialPieSeries インセット アウトライン
 
-- <Badge variant="preview" /> 新しい <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> プロパティが追加されました。
+<ApiLink type="RadialPieSeries" /> のアウトライン レンダリング方法を制御するために <ApiLink type="RadialPieSeries" member="useInsetOutlines" label="UseInsetOutlines" /> プロパティが追加されました。**true** に設定すると、アウトラインがスライス形状の内側に描画され、**false** (既定値) に設定すると、アウトラインはスライス形状の端に半分内側・半分外側で描画されます。
 
-**Breaking Changes**
+**重大な変更**
 
-- A fix was made due to an issue where the <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> and <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> properties on <ApiLink type="ChartMouseEventArgs" /> class were reversed. This will change the values that <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> and <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> return.
+- <ApiLink type="ChartMouseEventArgs" /> クラスの <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> プロパティと <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> プロパティが逆になっている問題が修正されました。これにより、<ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> と <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> が返す値が変更されます。
 
-### チャート
+### {PackageGrids} (グリッド)
 
-#### IgrDataGrid
+#### <Badge variant="preview" /> セル サフィックス コンテンツ
 
-- DataGrid に新しいプロパティ `stopPropagation` が追加されました。これにより、マウス イベントが親要素へバブリングするのを防止できます。
+セル内のサフィックス コンテンツのサポートが追加されました。これにより、セル値の末尾にテキストやアイコンを追加してスタイルを設定できるようになりました。セル サフィックス コンテンツに追加されたプロパティの完全なリストは以下に示されており、<ApiLink type="DataGridColumn" /> および <ApiLink type="DataGridCellEventArgs" member="CellInfo" label="CellInfo" /> クラスで使用できます。
 
 - <ApiLink type="DataGridColumn" member="suffixText" label="SuffixText" />
 - <ApiLink type="DataGridColumn" member="suffixTextColor" label="SuffixTextColor" />
@@ -391,19 +806,51 @@ Added `CompanionAxis` properties to the X and Y axis that allow you to quickly c
 - <ApiLink type="DataGridColumn" member="suffixIconViewBoxHeight" label="SuffixIconViewBoxHeight" />
 - <ApiLink type="DataGridColumn" member="textDecoration" label="TextDecoration" />
 
-Please note that the maximum size available for the icons is 24x24. You can provide an icon that is larger or smaller than this, but you will need to configure the viewbox settings in order to properly scale it to fit in the 24x24 space so it is fully visible.
+アイコンに使用できる最大サイズは 24x24 であることに注意してください。これより大きいまたは小さいアイコンを提供することもできますが、アイコンが完全に表示されるように 24x24 のスペースに収まるように適切に拡大縮小するには、ビューボックス設定を構成する必要があります。
 
-### IgrLinearGauge
+### バグ修正
+
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|31624 | <ApiLink type="CategoryChart" /> | <ApiLink type="CategoryChart" /> を含むウィンドウをリサイズすると、チャートがシリーズをレンダリングできなくなる。|
+|27304 | <ApiLink type="DataChart" /> | ズーム長方形が背景長方形と同じ位置に配置されない。|
+|37930 | <ApiLink type="DataChart" /> | Data Annotation Overlay のテキスト色が機能しない。|
+|30600 | <ApiLink type="DoughnutChart" /> | チャートやシリーズに textStyle プロパティが存在しない (円チャートにはある)。|
+|38231 | <ApiLink type="Grid" /> | 非表示の列が存在する場合、ピン固定を解除した列が元の位置に戻らない。|
+|33861 | Excel Library | 折れ線チャートを追加すると、ドイツ語カルチャで Excel ファイルが破損する。|
+
+### 機能拡張
+
+#### IgrBulletGraph
 
 - <Badge variant="preview" /> 新しい <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> プロパティが追加されました。
 
-### **{PackageVerChanges-25-1-SEP}**
+#### チャート
 
-#### 機能拡張
+- DataToolTipLayer、ItemToolTipLayer、CategoryToolTipLayer にスタイル設定用の新しいプロパティが追加されました: `ToolTipBackground`、`ToolTipBorderBrush`、および `ToolTipBorderThickness`。
 
+- DataLegend にスタイル設定用の新しいプロパティが追加されました: <ApiLink type="DataLegend" member="contentBackground" label="ContentBackground" />、<ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" />、および <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" />。<ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" /> と <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" /> はそれぞれ既定で transparent と 0 に設定されているため、境界線を表示するにはこれらのプロパティを設定する必要があります。
+
+- マウスのワールド相対位置を提供する <ApiLink type="ChartMouseEventArgs" member="worldPosition" label="WorldPosition" /> という新しいプロパティが <ApiLink type="ChartMouseEventArgs" /> に追加されました。この位置は、軸空間内の X 軸と Y 軸の両方に対して 0 から 1 の間の値になります。
+
+- <ApiLink type="SeriesViewer" /> と <ApiLink type="DomainChart" /> に <ApiLink type="SeriesViewer" member="highlightingFadeOpacity" label="HighlightingFadeOpacity" /> が追加されました。ハイライト表示されたシリーズに適用される不透明度を設定できます。
+
+- ドメイン チャートの `CalloutLabelUpdating` イベントを公開しました。
+
+#### IgrDataGrid
+
+- DataGrid に新しいプロパティ `stopPropagation` が追加されました。これにより、マウス イベントが親要素へバブリングするのを防止できます。
+
+#### IgrLinearGauge
+
+- <Badge variant="preview" /> 新しい <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> プロパティが追加されました。
+
+## **{PackageVerChanges-25-1-SEP}**
+
+### 機能拡張
 - DatePicker が入力時にカレンダー表示を更新するように改善しました (Date Range Picker と同様) [1818](https://github.com/IgniteUI/igniteui-webcomponents/issues/1818)。
 
-#### バグ修正
+### バグ修正
 
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
@@ -419,21 +866,13 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 |[1809](https://github.com/IgniteUI/igniteui-webcomponents/pull/1809)|Switch|新しい thumb hover プロパティを使用するよう修正。|
 |[1837](https://github.com/IgniteUI/igniteui-webcomponents/pull/1837)|TileManager|内部正規表現のエスケープ不備を修正。|
 
-- New properties added to the DataLegend to aid in styling: <ApiLink type="DataLegend" member="contentBackground" label="ContentBackground" />, <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" />, and <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" />. The <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" /> and <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" /> default to transparent and 0 respectively, so in order to see these borders, you will need to set these properties.
-
-- Added a new property to <ApiLink type="ChartMouseEventArgs" /> called <ApiLink type="ChartMouseEventArgs" member="worldPosition" label="WorldPosition" /> that provides the world relative position of the mouse. This position will be a value between 0 and 1 for both the X and Y axis within the axis space.
-
-- Added <ApiLink type="SeriesViewer" member="highlightingFadeOpacity" label="HighlightingFadeOpacity" /> to <ApiLink type="SeriesViewer" /> and <ApiLink type="DomainChart" />. This allows you to configure the opacity applied to highlighted series.
-
-- Expose `CalloutLabelUpdating` event for domain charts.
-
-#### **{PackageVerChanges-25-1-AUG}**
+## **{PackageVerChanges-25-1-AUG}**
 
 - フォームに関連付けられたカスタム要素は、`:state()` CSS セレクターを使用してスタイル設定するための **ig-invalid** カスタム状態を公開するようになりました。
   [詳細はこちらをご参照ください](https://developer.mozilla.org/ja/docs/Web/CSS/:state)
 - フォーム関連カスタム要素の有効性の動作: 要素は `:user-invalid` を模倣しようとし、UI またはフォームの `requestSubmit()/reset()` 呼び出しを介して操作されない限り、無効スタイルは適用されません。
 
-#### バグ修正
+### バグ修正
 
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
@@ -444,7 +883,7 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 |[1799](https://github.com/IgniteUI/igniteui-webcomponents/pull/1799)|Date Picker|Indigo のエレベーション スタイルを修正。|
 |[1783](https://github.com/IgniteUI/igniteui-webcomponents/pull/1783)|Date Range Picker|キーボード操作時にメイン入力へフォーカスを戻す。|
 |[1792](https://github.com/IgniteUI/igniteui-webcomponents/pull/1792)|Input|Material テーマでのプレースホルダーとラベルの整列を修正。|
-|[1806](https://github.com/IgniteUI/igniteui-webcomponents/pull/1806)|Navigation Drawer|_relative_ 位置スタイルとアニメーションを更新。|
+|[1806](https://github.com/IgniteUI/igniteui-webcomponents/pull/1806)|Navigation Drawer|**relative** 位置のスタイルとアニメーションを更新。|
 |[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Select|無効状態のテーマ適用問題。|
 |[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|Material テーマでのインタラクション問題。|
 |[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|サフィックス部分でのリサイズの動作を修正。|
@@ -461,78 +900,74 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 ## **{PackageVerChanges-25-1-JUL2}**
 
+- <Badge variant="new" /> コンポーネント - Date Range Picker
+
 ### 重大な変更
-- Added enhancement DatePicker should update calendar view on typing, as Date Range Picker [1818](https://github.com/IgniteUI/igniteui-webcomponents/issues/1818)
 
-### File Input
-
+#### File Input
 - `onChange` および `onCancel` イベントの詳細では、基になるコンポーネントの `files` プロパティが返されるようになりました。
 
-## Tooltip
-
+#### Tooltip
 - Tooltip イベントは、`detail` プロパティに `anchor` ターゲットを返さなくなりました。
 
 ### 動作変更
 
-| Bug Number | Control | Description |
-|------------|---------|-------------|
-|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Input|Invalid state in **readonly** mode|
-|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Input|Cannot style **helper-text**|
-|[1795](https://github.com/IgniteUI/igniteui-webcomponents/pull/1795)|Card|Slotted igc-avatar in Indigo theme|
-|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Combo|Border overlaps label text in invalid state|
-|[1799](https://github.com/IgniteUI/igniteui-webcomponents/pull/1799)|Date Picker|Indigo elevation styles|
-|[1783](https://github.com/IgniteUI/igniteui-webcomponents/pull/1783)|Date range picker|Return focus to main input on keyboard interactions|
-|[1792](https://github.com/IgniteUI/igniteui-webcomponents/pull/1792)|Input|Placeholder and label alignment in Material theme|
-|[1806](https://github.com/IgniteUI/igniteui-webcomponents/pull/1806)|Navigation drawer|Update **relative** positions styles and animation|
-|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Select|Invalid state theming issues|
-|[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|Material theme interaction issues|
-|[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|Resizing behavior with suffix part|
-|[1775](https://github.com/IgniteUI/igniteui-webcomponents/pull/1775)|Calendar|Vertical mode container paddings|
-|[1731](https://github.com/IgniteUI/igniteui-webcomponents/issues/1731)|Carousel|Pause automatic rotation on pointer-initiated focus|
-|[1772](https://github.com/IgniteUI/igniteui-webcomponents/issues/1772)|Carousel|Ensure `onSlideChanged` event is emitted when a slide is changed|
-|[1765](https://github.com/IgniteUI/igniteui-webcomponents/pull/1765)|Date picker|Styling issues|
-|[1764](https://github.com/IgniteUI/igniteui-webcomponents/pull/1764)|Date range picker|CSS borders and elevation|
-|[1747](https://github.com/IgniteUI/igniteui-webcomponents/pull/1747)|File input|Bootstrap invalid box-shadow styles|
-|[1672](https://github.com/IgniteUI/igniteui-webcomponents/pull/1672)|Stepper|Error when setting linear property in deferred rendering scenarios|
-|[1768](https://github.com/IgniteUI/igniteui-webcomponents/pull/1768)|Textarea|Readonly state styles|
-|[1755](https://github.com/IgniteUI/igniteui-webcomponents/pull/1755)|Dropdown|Icon size in Bootstrap theme|
-|[1739](https://github.com/IgniteUI/igniteui-webcomponents/pull/1739)|Inputs|Label positioning and transition logic in Material theme|
-
-## Tooltip
-
+#### Tooltip
 - **動作変更**: Tooltip のデフォルトの `placement` は 'bottom' になりました。
 - **動作変更**: `with-arrow` が設定されていない限り、ツールチップはデフォルトでは矢印インジケーターをレンダリングしません。
 
 ### 機能拡張
-
-#### バグ修正
-| バグ番号 | コントロール | 説明 |
-|------------|---------|-------------|
-|[1710](https://github.com/IgniteUI/igniteui-webcomponents/issues/1710)|Calendar および Date Picker|特定のシナリオにおける日付ロールオーバーが正しくない。
-|[1728](https://github.com/IgniteUI/igniteui-webcomponents/pull/1728)|Combo|テーマにおける大文字小文字を区別しないアイコン スタイルを修正。
-|[1726](https://github.com/IgniteUI/igniteui-webcomponents/pull/1726)|Input|Fluent テーマの境界線を box-shadow に置き換える。
-|[1732](https://github.com/IgniteUI/igniteui-webcomponents/pull/1732)|Input|Indigo テーマでのフォーカス状態背景色を修正。
-|[1715](https://github.com/IgniteUI/igniteui-webcomponents/pull/1715)|Text Area|ラベルの高さとコンポーネントの高さのオーバーライドを修正。
-
-#### **{PackageVerChanges-25-1-JUL1}**
-- Tooltip events will no longer return its `anchor` target in its `detail` property
+- すべてのテーマにわたってフォームに関連付けられたほとんどのコンポーネントの読み取り専用スタイルを更新し、コンポーネントが読み取り専用状態にあることをより適切に示せるようになりました。
 
 ### バグ修正
 
-#### {PackageCharts} (チャート)
+| バグ番号 | コントロール | 説明 |
+|------------|---------|-------------|
+|[1710](https://github.com/IgniteUI/igniteui-webcomponents/issues/1710)|Calendar および Date Picker|特定のシナリオにおける日付ロールオーバーが正しくない。|
+|[1728](https://github.com/IgniteUI/igniteui-webcomponents/pull/1728)|Combo|テーマにおける大文字小文字を区別しないアイコン スタイルを修正。|
+|[1726](https://github.com/IgniteUI/igniteui-webcomponents/pull/1726)|Input|Fluent テーマの境界線を box-shadow に置き換える。|
+|[1732](https://github.com/IgniteUI/igniteui-webcomponents/pull/1732)|Input|Indigo テーマでのフォーカス状態背景色を修正。|
+|[1715](https://github.com/IgniteUI/igniteui-webcomponents/pull/1715)|Text Area|ラベルの高さとコンポーネントの高さのオーバーライドを修正。|
+
+## **{PackageVerChanges-25-1-JUL1}**
+
+### バグ修正
+
+| バグ番号 | コントロール | 説明      |
+|------------|---------|------------------|
+|36448 | <ApiLink type="RadialGauge" /> | ラジアル ラベルの書式設定プロパティ (例: Title、SubTitles) が機能しない。|
+
+### {PackageCharts} (チャート)
+
 - 軸ラベルに使用できる <Badge variant="new" /> `MaximumExtent` および `MaximumExtentPercentage` プロパティを追加しました。
 
-### **{PackageVerChanges-24-2-APR2}**
-- Updated the readonly styles of most form associated components across all themes to better signify when a component is in a readonly state.
+## **{PackageVerChanges-24-2-APR2}**
 
-### {PackageMaps} 地理マップ
+### {PackageMaps} (地理マップ)
 
 <DocsAside type="info" title="情報">
 2025 年 6 月 30 日をもって、すべての Microsoft Bing Maps for Enterprise Basic (無料) アカウントはすべて廃止されます。無料の Basic アカウントおよびキーをご利用中の場合は、サービスの中断を回避するために今すぐ対応する必要があります。Bing Maps for Enterprise の有償ライセンスをお持ちの方は、2028 年 6 月 30 日までアプリケーション内で Bing Maps を引き続きご利用いただけます。
 詳細は以下をご覧ください:
 </DocsAside>
 
-## {PackageCharts} (チャート)
+[Microsoft Bing ブログ](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+### {PackageCharts} (チャート)
+
+- <Badge variant="preview" /> [チャート データ注釈](./charts/features/chart-data-annotations.mdx)レイヤーを追加しました:
+  - データ注釈バンド レイヤー
+  - データ注釈ライン レイヤー
+  - データ注釈矩形レイヤー
+  - データ注釈スライス レイヤー
+  - データ注釈ストリップ レイヤー
+
+- [データ ツールチップ](./charts/features/chart-data-tooltip.mdx)と[データ凡例](./charts/features/chart-data-legend.mdx)では、ツールチップまたは凡例のコンテンツをテーブルまたは垂直レイアウト構造でレイアウトするために使用できる <Badge variant="preview" /> <ApiLink type="DataLegend" member="layoutMode" label="LayoutMode" /> プロパティが公開されています。
+
+- <Badge variant="preview" /> チャートの <ApiLink type="SeriesViewer" member="defaultInteraction" label="DefaultInteraction" /> プロパティが更新され、新しい列挙体 `DragSelect` が含まれるようになりました。これにより、ドラッグされたプレビュー Rect は、その中に含まれるポイントを選択します。
+
+- <Badge variant="preview" /> [ValueOverlay と ValueLayer](./charts/features/chart-overlays.mdx) は、上記にリストした <Badge variant="preview" /> [チャート データ注釈](./charts/features/chart-data-annotations.mdx)に加えて、プロット領域に追加の注釈テキストをオーバーレイするために使用できる <ApiLink type="ValueLayer" member="overlayText" label="OverlayText" /> プロパティを公開するようになりました。これらの注釈の外観は、OverlayText プレフィックスが付いた多くのプロパティを使用して構成できます。たとえば、`OverlayTextBrush` プロパティはオーバーレイ テキストの色を構成します。
+
+- <Badge variant="new" /> [トレンドライン レイヤー](./charts/features/chart-trendlines.mdx) シリーズ タイプを使用すると、トレンド ライン レイヤーごとに 1 つのトレンド ラインを特定のシリーズに適用できます。これにより、チャートに複数の [TrendlineLayer](./charts/features/chart-overlays.mdx) シリーズ タイプを使用できるため、単一のシリーズで複数のトレンド ラインを使用できるようになります。
 
 ### {PackageDashboards} (ダッシュボード)
 
@@ -542,67 +977,56 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 **重大な変更**
 
-## 機能拡張
+- <ApiLink type="DataGrid" /> と <ApiLink type="MultiColumnComboBox" /> は igniteui-react-data-grids パッケージに含まれるようになりました。
 
-### Toolbar
+### 機能拡張
 
+#### Toolbar
 - ツールバーから追加された値レイヤーが凡例に表示されるようになりました。
 - ズーム リセット ツールはズーム ドロップダウンに移動されました。
 
-[Microsoft Bing Blogs](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
-
-### Data Pie Chart
-
+#### Data Pie Chart
 - チャートは `GetOthersContext()` メソッドを公開するようになりました。これにより、Others (その他) スライスのコンテンツが返されます。
-
-- The [Data Tooltip](./charts/features/chart-data-tooltip.mdx) and [Data Legend](./charts/features/chart-data-legend.mdx) expose <Badge variant="preview" /> <ApiLink type="DataLegend" member="layoutMode" label="LayoutMode" /> property that you can use to layout the contents of the tooltip or legend in a table or vertical layout structure.
-
-- <Badge variant="preview" /> The <ApiLink type="SeriesViewer" member="defaultInteraction" label="DefaultInteraction" /> property of the charts has been updated to include a new enumeration - `DragSelect` in which the dragged preview Rect will select the points contained within.
-
-- <Badge variant="preview" /> The [ValueOverlay and ValueLayer](./charts/features/chart-overlays.mdx), in addition to the <Badge variant="preview" /> [Chart Data Annotations](./charts/features/chart-data-annotations.mdx) listed above now expose an `OverlayText` property that can be used to overlay additional annotation text in the plot area. These appearance of these annotations can be configured by using the many OverlayText-prefixed properties. For example, the `OverlayTextBrush` property will configure the color of the overlay text.
-
-- <Badge variant="new" /> [Trendline Layer](./charts/features/chart-trendlines.mdx) series type that allows you to apply a single trend line per trend line layer to a particular series. This allows the usage of multiple trend lines on a single series since you can have multiple [TrendlineLayer](./charts/features/chart-overlays.mdx) series types in the chart.
 
 ### バグ修正
 
 | バグ番号 | コントロール | 説明      |
 |------------|---------|------------------|
 |25997 | <ApiLink type="DataGrid" /> | 集計はグループ化された最初の子行にのみ表示される。|
-|37023 | <ApiLink type="DataChart" /> | overflow: hidden が設定されている場合にツールチップが切り取られたり画面外に表示されたりする。
-|37244 | Excel Library | カスタム データ検証が機能しない。.
-|37685 | <ApiLink type="Spreadsheet" /> | Arial フォントで書式設定された数値が正しく描画されない。
+|37023 | <ApiLink type="DataChart" /> | overflow: hidden が設定されている場合にツールチップが切り取られたり画面外に表示されたりする。|
+|37685 | <ApiLink type="Spreadsheet" /> | Arial フォントで書式設定された数値が正しく描画されない。|
+|37244 | Excel Library | カスタム データ検証が機能しない。|
 
-### **{PackageVerChanges-24-2-APR2}**
-
+## **{PackageVerChanges-24-2-APR2}**
 <DocsAside type="info" title="情報">
-バージョン 19.0.0 では、React 製品に多くの重大な変更が導入され、API の改善と整理が行われました。詳細は完全なアップデートガイドをご参照ください。
+バージョン 19.0.0 では、React 製品に多くの重大な変更が導入され、API の改善と整理が行われました。詳細は完全なアップデート ガイドをご参照ください。
 </DocsAside>
 
 [アップデート ガイド](./update-guide.mdx)
 
 ### 削除済
+- <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" /> は削除されました。代わりに <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" /> を使用してください。
+- <ApiLink pkg="core" type="RadioChangeEventArgs" /> は削除されました。代わりに <ApiLink pkg="core" type="RadioChangeEventArgs" /> を使用してください。
+- <ApiLink pkg="core" type="RangeSliderValue" /> は削除されました。代わりに <ApiLink pkg="core" type="RangeSliderValueEventArgs" /> を使用してください。
+- `ActiveStepChangingArgs` は削除されました。代わりに <ApiLink pkg="core" type="ActiveStepChangingEventArgs" /> を使用してください。
+- `ActiveStepChangedArgs` は削除されました。代わりに <ApiLink pkg="core" type="ActiveStepChangedEventArgs" /> を使用してください。
 
-#### 機能拡張
-- Value layers added from the toolbar now appear on the legend.
-- The zoom reset tool has been moved to the zoom drop-down.
+
+### 機能拡張
 
 #### Stepper
-Stepper Step の `titlePosition` は、同じ動作を持つ undefined ではなく、デフォルトで `auto` に設定されるようになりました。
+Stepper Step の `titlePosition` のデフォルト値が、undefined ではなく `auto` になりました (動作は同じです)。
 
-### Tabs
+#### Tabs
+igr-tab の `panel` プロパティは削除されました。
 
-`igr-tab` パネル プロパティは削除されました。
+igr-tab-panel コンポーネントは削除されました。igr-tab は、タブ ヘッダーとタブ コンテンツの両方を単一のコンポーネントに含むようになりました。
 
 ## **{PackageVerChanges-24-2-APR}**
-<DocsAside type="info" title="情報">
-With 19.0.0 the React product introduces many breaking changes done to improve and streamline the API. Please refer to the full Update Guide.
-</DocsAside>
-
-[Update Guide](./update-guide.mdx)
 
 ### 新しいコンポーネント
-- TileManager
 
+- TileManager
 
 ### 機能拡張
 
@@ -612,9 +1036,10 @@ With 19.0.0 the React product introduces many breaking changes done to improve a
 #### Accordion
 - 新しいイベント <ApiLink pkg="core" type="DatePicker" member="open" label="Open" /> および `Close` を追加しました。
 
-igr-tab-panel component is removed. The igr-tab now encompasses both the tab header and the tab content in a single component.
+### {PackageGrids}
 
-## {PackageGrids}
+- **すべてのグリッド**
+  - <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> プロパティを使用して初期フィルタリングを適用できるようになりました。
 
 ### 非推奨
 
@@ -622,16 +1047,24 @@ igr-tab-panel component is removed. The igr-tab now encompasses both the tab hea
 
 ### バグ修正
 
-#### **{PackageVerChanges-24-2-MAR1}**
-- Added new property on <ApiLink pkg="core" type="ListItem" /> called <ApiLink pkg="core" type="ListItem" member="selected" label="Selected" />
+| バグ番号 | コントロール | 説明      |
+|------------|---------|------------------|
+|25602 | <ApiLink type="DataGrid" /> | 日付固有のフィルター演算子のいずれかを含むレイアウトを読み込むと、コンソールに TypeError エラーが発生する。|
+|28480 | <ApiLink type="Combo" /> | データ ソースを置き換えると、未定義の参照エラーがスローされる。|
+|30319 | <ApiLink type="DataGrid" /> | 値が変更されていないのにレコードがソートされる。|
+|32598 | <ApiLink type="DataGrid" /> | 複数選択が正しく機能しない。
+|36374 | <ApiLink pkg="core" type="Input" /> | タッチ デバイスでフォームを送信すると、以前の値がバインドされていた。|
 
-#### {PackageGrids}
+## **{PackageVerChanges-24-2-MAR}**
+
+### {PackageGrids}
 次の表は、このリリースの {ProductName} ツールセットに対して行われたバグ修正を示しています。
 
-### **{PackageVerChanges-24-2-MAR}**
+| バグ番号 | コントロール | 説明      |
+|------------|---------|------------------|
+|36864|Grids|React ライセンス版パッケージの import パス "grids/combined" が誤っている。|
 
-- **All Grids**
-  - Allow applying initial filtering through <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> property
+## **{PackageVerChanges-24-2-FEB}**
 
 ### {PackageGrids}
 
@@ -640,65 +1073,63 @@ igr-tab-panel component is removed. The igr-tab now encompasses both the tab hea
   - 内部グリッド アクション ボタンをカプセル化しました。
 
 ### {PackageCommon}
-
 - `Dockmanager` に、分割内で直接ドッキングできる新しい `allowSplitterDock` プロパティが追加されました。
 - `Dockmanager` の <ApiLink type="SplitPane" /> に新しい `useFixedSize` プロパティが追加され、新しいサイズ変更動作が可能になりました。
 
-## 機能拡張
+### 機能拡張
 
-### Toolbar
+#### Toolbar
+
 - <ApiLink type="Grid" member="toolbar" label="Toolbar" /> と <ApiLink type="ToolPanel" /> に新しい `groupHeaderTextStyle` プロパティを追加しました。設定されている場合、すべての <ApiLink type="ToolActionGroupHeader" /> アクションに適用されます。
 - タイトル テキストの水平方向の配置を制御する <ApiLink type="SeriesViewer" member="titleHorizontalAlignment" label="TitleHorizontalAlignment" /> という新しいプロパティを <ApiLink type="ToolAction" /> に追加しました。
 - <ApiLink type="ToolActionSubPanel" /> に、パネル内の項目間の間隔を制御する `itemSpacing` という新しいプロパティを追加しました。
 
-| Bug Number | Control | Description      |
+### バグ修正
+
+次の表は、このリリースの {ProductName} ツールセットに対して行われたバグ修正を示しています。
+
+| バグ番号 | コントロール | 説明      |
 |------------|---------|------------------|
-|36864|Grids|There is wrong import path "grids/combined" for the react licensed package|
+|30286 | <ApiLink type="DataChart" /> | バブルをクリックすると、Bubble Series のツールチップが近くのバブル データの内容に切り替わる。|
+|32906 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" /> は上部に 2 つの xAxis を表示している。|
+|33605 | <ApiLink type="DataChart" /> | 凡例に ScatterLineSeries の線の色が正しく表示されない。|
+|34776 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" /> を繰り返し表示したり非表示にしたりすると、JS ヒープでメモリ リークが発生する。|
+|35498 | <ApiLink type="DataChart" /> | IncludedSeries で指定されたシリーズのツールチップは表示されない。|
+|34324 | <ApiLink type="Grid" /> | グリッド テンプレートの条件による列の非表示が機能しない。|
+|34678 | <ApiLink type="Grid" /> | 列挙値が文字列に変換されるため、一部のグリッド プロパティで期待される数値の動作にならない。|
+|32093 | <ApiLink type="PivotGrid" /> | PivotDateDimensionOptions が PivotDateDimension に適用されない。|
+|34053 | <ApiLink type="RadialGauge" /> | スケール ラベルの位置がずれる。|
+|35496 | <ApiLink type="Spreadsheet" /> | Excel に画像付きでスタイルを設定するとエラーが発生する。|
+|36176 | Excel Library | LET 関数を含む Excel ブックを読み込むと、例外が発生する。|
+|36379 | Excel Library | Excel ワークブック内のアルファ チャネルを含む色は読み込まれない。|
+|26218 | Excel Library | Excel ファイルを読み込むだけで、チャートのプロット領域の右マージンが狭くなり、塗りつぶしパターンと前景の塗りつぶしが消える。|
+|34083 | Excel Library | テンプレート Excel ファイルのテキストに「=」が含まれている場合、TextOperatorConditionalFormat が正しく読み込まれない/保存されない。|
+|35495 | Excel Library | テンプレート ファイルを読み込むと、セル内の画像が失われる。|
 
-## バグ修正
-
-### **{PackageVerChanges-24-2-JAN}**
+## **{PackageVerChanges-24-2-JAN}**
 
 - バグ修正
 
 ### {PackageGrids}
+
 - **すべてのグリッド**
   - 複数の重複したブラウザー タブでコンポーネントが開かれた場合に発生する重大なメモリ リークを修正しました。
 
-### **{PackageVerChanges-24-2-DEC}**
+## **{PackageVerChanges-24-2-DEC}**
 
-#### {PackageCharts} (チャート)
+### {PackageCharts} (チャート)
 
 DashboardTile <Badge variant="preview" />
 
+- 新しい [Dashboard Tile](./dashboard-tile.mdx) コンポーネントは、バインドされた ItemsSource コレクションまたは単一のポイントを分析および視覚化し、データのスキーマとカウントに基づいて適切なデータ視覚化を返すコンテナー コントロールです。このコントロールは、組み込みの [Toolbar](./menus/toolbar.mdx) コンポーネントを利用して、実行時に視覚化を変更できるようにし、最小限のコードでデータのさまざまな視覚化を表示できるようにします。
+
 ### {PackageCharts} (入力)
 
-- <Badge variant="preview" />[カラー エディター](./inputs/color-editor.mdx)はスタンドアロンのカラー ピッカーとして使用できるようになり、さらに [Toolbar](./menus/toolbar.mdx) コンポーネントの <Badge variant="preview" /> ToolAction に統合され、実行時に視覚化を更新できるようになりました。
-
-| Bug Number | Control | Description      |
-|------------|---------|------------------|
-|30286 | <ApiLink type="DataChart" /> | Bubble Series tooltip content is switched to that of nearby bubble data in clicking a bubble|
-|32906 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" /> is showing two xAxis on the top|
-|33605 | <ApiLink type="DataChart" /> | ScatterLineSeries is not showing the color of the line correctly in the legend|
-|34776 | <ApiLink type="DataChart" /> | Repeatedly showing and hiding the <ApiLink type="DataChart" /> causes memory leakage in JS Heap|
-|35498 | <ApiLink type="DataChart" /> | Tooltips for the series specified in IncludedSeries are not displayed|
-|34324 | <ApiLink type="Grid" /> | Column hiding through condition in the grid template is not working|
-|34678 | <ApiLink type="Grid" /> | Enum values coerced to strings, breaking expected numeric behavior in some grid properties|
-|32093 | <ApiLink type="PivotGrid" /> | PivotDateDimensionOptions are not applied to the PivotDateDimension|
-|34053 | <ApiLink type="RadialGauge" /> | The position of the scale label is shifted|
-|35496 | <ApiLink type="Spreadsheet" /> | Error when setting styles in Excel with images|
-|36176 | Excel Library | Exception occurs when loading an Excel workbook that has a LET function|
-|36379 | Excel Library | Colors with any alpha channel in an excel workbook fail to load|
-|26218 | Excel Library | Chart's plot area right margin becomes narrower and fill pattern and fill foreground are gone just by loading an Excel file|
-|34083 | Excel Library | TextOperatorConditionalFormat's is not loaded/saved properly if the text contains = in a template Excel file|
-|35495 | Excel Library | Pictures in cells are lost when a template file is loaded|
+- <Badge variant="preview" /> [カラー エディター](./inputs/color-editor.mdx)はスタンドアロンのカラー ピッカーとして使用できるようになり、さらに [Toolbar](./menus/toolbar.mdx) コンポーネントの <Badge variant="preview" /> ToolAction に統合され、実行時に視覚化を更新できるようになりました。
 
 ## **{PackageVerChanges-24-2-NOV}**
 
-- Bug Fixes
-
 ### 一般
-
 - 新しい [Carousel](./layouts/carousel.mdx) コンポーネント。
 - <ApiLink pkg="core" type="Input" />
   - `change` イベント引数タイプを <ApiLink pkg="core" type="ComponentDataValueChangedEventArgs" /> から <ApiLink pkg="core" type="ComponentValueChangedEventArgs" /> に変更しました。
@@ -707,9 +1138,22 @@ DashboardTile <Badge variant="preview" />
 
 ### {PackageCharts} (チャート)
 
-- 新しい[データ円チャート](./charts/types/data-pie-chart.mdx) - <ApiLink type="DataPieChart" /> は円ャートを表示する新しいコンポーネントです。このコンポーネントは、<ApiLink type="CategoryChart" /> と同様に動作し、基になるデータ モデルのプロパティを自動的に検出しながら、ItemLegend コンポーネントを介して選択、強調表示、アニメーション、凡例のサポートを可能にします。
+- 新しい[データ円チャート](./charts/types/data-pie-chart.mdx) - <ApiLink type="DataPieChart" /> は円チャートを表示する新しいコンポーネントです。このコンポーネントは、<ApiLink type="CategoryChart" /> と同様に動作し、基になるデータ モデルのプロパティを自動的に検出しながら、ItemLegend コンポーネントを介して選択、ハイライト表示、アニメーション、凡例のサポートを可能にします。
 
-- 新しい [比例カテゴリ角度軸](./charts/types/radial-chart.mdx) - スライスをプロットするための、<ApiLink type="DataChart" /> のラジアル円シリーズの新しい軸。円チャートに似ており、データ ポイントが円グラフ内のセグメントとして表されます。
+- 新しい[比例カテゴリ角度軸](./charts/types/radial-chart.mdx) - スライスをプロットするための、<ApiLink type="DataChart" /> のラジアル円シリーズの新しい軸。円チャートに似ており、データ ポイントが円グラフ内のセグメントとして表されます。
+
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" />
+
+  - 新しい ToolActionCheckboxList
+        選択用のチェックボックスを備えた項目のコレクションを表示する新しい CheckboxList ToolAction。ToolAction CheckboxList 内のグリッドの高さは 5 項目まで大きくなり、その後スクロールバーが表示されます。
+        IgrCheckboxListModule を登録する必要があります。
+
+  - 新しいフィルタリングのサポート
+
+  - 軸フィールドの変更
+        CategoryChart をターゲットにする場合のツールバーの新しいデフォルトの IconMenu。
+        ラベル フィールドは X 軸にマップされ、値フィールドは Y 軸にマップされます。
+        ターゲット チャートは、行われた変更にリアルタイムで反応します。チャートに ItemsSource が設定されていない場合、IconMenu は非表示になります。
 
 ### {PackageCommon}
 
@@ -721,84 +1165,119 @@ DashboardTile <Badge variant="preview" />
   - <ApiLink type="setIconRef" /> メソッドが追加されました。これにより、アイコンを SVG ファイルで登録および置き換えることができます。
   - すべてのコンポーネントが内部的な参照によるアイコンを使用するようになり、カスタム テンプレートを明示的に提供しなくても簡単に置き換えられるようになりました。
 - <ApiLink type="Combo" />、<ApiLink pkg="core" type="DatePicker" />、<ApiLink pkg="core" type="Dialog" />、<ApiLink pkg="core" type="Dropdown" />、<ApiLink pkg="core" type="ExpansionPanel" />、<ApiLink pkg="core" type="NavDrawer" />、<ApiLink pkg="core" type="Toast" />、<ApiLink pkg="core" type="Snackbar" />、**IgrSelectComponent**
-  - トグル メソッドの `show`、`hide`、`toggle` メソッドは、成功した場合に **true** を返すようになりました。そうでない場合は **false**。
+  - トグル メソッドの `show`、`hide`、`toggle` メソッドは、成功した場合に **true** を返すようになりました。そうでない場合は **false** を返します。
 - **IgrButtonComponent**、<ApiLink pkg="core" type="IconButton" />、<ApiLink pkg="core" type="Checkbox" />、<ApiLink pkg="core" type="Switch" />、<ApiLink type="Combo" />、<ApiLink pkg="core" type="DateTimeInput" />、<ApiLink pkg="core" type="Input" />、<ApiLink pkg="core" type="MaskInput" />、<ApiLink pkg="core" type="Radio" />、**IgrSelectComponent**、<ApiLink pkg="core" type="Textarea" />
   - カスタムの `focus` および `blur` イベントは非推奨になりました。代わりにネイティブの `onFocus` および `onBlur` イベントを使用してください。
 - <ApiLink pkg="core" type="RadioGroup" />
   - <ApiLink type="DatePicker" member="name" label="Name" /> および <ApiLink pkg="core" type="DatePicker" member="value" label="Value" /> プロパティを追加しました。
 
-## {PackageGrids}
+**重大な変更**
 
-### **{PackageVerChanges-24-1-JUN}**
-- New [Carousel](./layouts/carousel.mdx) component.
+- 古い **IgrDatePicker** の名前を **IgrXDatePicker** に変更しました。
+- <ApiLink type="IconButton" member="form" label="Form" /> コンポーネントを削除しました。代わりにネイティブのフォームを使用してください。
+- 次のコンポーネントで `size` プロパティを削除し、`--ig-size` CSS カスタム プロパティを使用するようにしました:
+  - <ApiLink pkg="core" type="Avatar" />、**IgrButtonComponent**、<ApiLink pkg="core" type="IconButton" />、<ApiLink pkg="core" type="Calendar" />、<ApiLink pkg="core" type="Chip" />、<ApiLink pkg="core" type="Dropdown" />、<ApiLink pkg="core" type="Icon" />、<ApiLink pkg="core" type="Input" />、<ApiLink pkg="core" type="List" />、<ApiLink pkg="core" type="Rating" />、<ApiLink pkg="core" type="Snackbar" />、<ApiLink pkg="core" type="Tabs" />、<ApiLink pkg="core" type="Tree" />
+- <ApiLink pkg="core" type="Badge" />、<ApiLink pkg="core" type="Chip" />、<ApiLink pkg="core" type="LinearProgress" />、<ApiLink pkg="core" type="CircularProgress" />
+  - <ApiLink pkg="core" type="IconButton" member="variant" label="Variant" /> プロパティのタイプの名前を <ApiLink pkg="core" type="StyleVariant" /> に変更しました。
+- <ApiLink pkg="core" type="Calendar" />
+  - <ApiLink type="FieldPipeArgs" member="weekStart" label="WeekStart" /> プロパティのタイプの名前を <ApiLink pkg="core" type="WeekDays" /> に変更しました。
+- <ApiLink pkg="core" type="Checkbox" />、<ApiLink pkg="core" type="Switch" />
+  - `change` イベント引数タイプを <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" /> から <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" /> に変更しました。
+- <ApiLink type="Combo" />、**IgrSelectComponent**
+  - `positionStrategy`、`flip`、`sameWidth` プロパティを削除しました。
+- <ApiLink pkg="core" type="DateTimeInput" />
+  - `maxValue` および `minValue` プロパティを削除しました。代わりに `max` および `min` を使用してください。
+- <ApiLink pkg="core" type="Dropdown" />
+  - `positionStrategy` プロパティを削除しました。
 - <ApiLink pkg="core" type="Input" />
-  - Changed `change` event argument type from <ApiLink pkg="core" type="ComponentDataValueChangedEventArgs" /> to <ApiLink pkg="core" type="ComponentValueChangedEventArgs" />
+  - 古い名前の `maxlength` および `minlength` プロパティを削除しました。`maxLength` および `minLength` を使用してください。
+  - 古い名前の `readonly` および `inputmode` プロパティを削除しました。`readOnly` および `inputMode` を使用してください。
+  - `inputMode` のタイプも `string` に変更しました。
+- <ApiLink pkg="core" type="Radio" />
+  - `change` イベント引数タイプを <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" /> から <ApiLink pkg="core" type="RadioChangeEventArgs" /> に変更しました。
+- <ApiLink pkg="core" type="RangeSlider" />
+  - `ariaThumbLower` および `ariaThumbUpper` プロパティを削除しました。代わりに `thumbLabelLower` および `thumbLabelUpper` を使用してください。
+- <ApiLink pkg="core" type="Rating" />
+  - `readonly` プロパティの名前を `readOnly` に変更しました。
 
-## {PackageCommon}
+### {PackageGrids}
+
+- **すべてのグリッド**
+  - 新しい `RowClick` イベントが追加されました。
+- <ApiLink type="PivotGrid" />
+  - <ApiLink type="PivotDimension" /> に `sortable` プロパティが追加されました。
+  - 水平レイアウトが追加されました。新しい `pivotUI` プロパティ内で `rowLayout` `horizontal` として有効にできます。
+  - 水平レイアウトのみの行ディメンション集計が追加されました。`horizontalSummary` を **true** に設定することで、各 <ApiLink type="PivotDimension" /> に対して有効にできます。
+  - 水平集計の位置を設定するための `horizontalSummariesPosition` プロパティを `pivotUI` に追加しました。
+  - 行ディメンションの行ヘッダーが追加されました。新しい `pivotUI` プロパティ内で `showHeaders` **true** として有効にできます。
+  - キーボード ナビゲーションで、任意の行ディメンション ヘッダーや列ヘッダーから行ヘッダーへ双方向に移動できるようになりました。
+  - キーボード操作で行ディメンションの折りたたみ (<kbd>ALT</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> 矢印キー) および行ヘッダーのソート (<kbd>CTRL</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> 矢印キー) ができるようになりました。
+
+**重大な変更**
+
+- **すべてのグリッド**
+  - <ApiLink type="RowIsland" />
+  - `displayDensity` の非推奨のプロパティが削除されました。
+  - `actualColumns`、`contentColumns` プロパティの名前を、`actualColumnList` および `contentColumnList` に変更しました。すべての列を取得するには、`columns` または `columnList` プロパティを使用してください。
+  - `rowDelete` および `rowAdd` イベント引数タイプの名前を <ApiLink type="RowDataCancelableEventArgs" /> に変更しました。
+  - `contextMenu` イベント引数タイプの名前を <ApiLink type="GridContextMenuEventArgs" /> に変更しました。
+  - <ApiLink type="GridEditEventArgs" />、<ApiLink type="GridEditDoneEventArgs" />、<ApiLink type="PinRowEventArgs" /> イベントの `rowID` および `primaryKey` プロパティが削除されました。代わりに `rowKey` を使用してください。
+- <ApiLink type="PivotGrid" />
+  - `showPivotConfigurationUI` プロパティが削除されました。`pivotUI` を使用して、その中に新しい `showConfiguration` オプションを設定してください。
+- <ApiLink type="Column" />
+  - `movable` プロパティが削除されました。グリッドの `moving` プロパティを使用してください。
+  - `columnChildren` プロパティが削除されました。代わりに `childColumns` を使用してください。
+- <ApiLink type="ColumnGroup" />
+  - `children` プロパティが削除されました。代わりに `childColumns` を使用してください。
+- <ApiLink type="Paginator" />
+  - `isFirstPageDisabled` および `isLastPageDisabled` プロパティが削除されました。代わりに、`isFirstPage` および `isLastPage` を使用してください。
+
+## **{PackageVerChanges-24-1-JUN}**
+
+### {PackageCommon}
+- <ApiLink pkg="core" type="Input" />、<ApiLink pkg="core" type="Textarea" /> - ユーザー入力を制限することなく検証ルールを適用できるように <ApiLink pkg="core" type="Input" member="validateOnly" label="ValidateOnly" /> を公開しました。
+- <ApiLink pkg="core" type="Dropdown" /> - <ApiLink type="PositionStrategy" /> プロパティは非推奨です。ドロップダウンは、ブラウザー ビューポートの最上位レイヤーにコンテナーをレンダリングするために `Popover` API を使用するようになったため、このプロパティは廃止されました。
+- <ApiLink type="DockManager" /> - <ApiLink type="SplitPane" /> の <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" /> は非推奨です。分割ペイン レベルで isMaximized を true に設定しても、分割ペインはコンテナーとしてのみ機能し、最大化されて表示される実際のコンテンツがないため、実際の効果はありません。代わりに、<ApiLink type="TabGroupPane" /> および/または <ApiLink type="ContentPane" /> の <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" /> プロパティを使用してください。
 
 ### {PackageGrids}
 
 - `DisplayDensity` は非推奨となり、代わりに `--ig-size` CSS カスタム プロパティが使用されるようになりました。詳細については、[グリッド サイズ](./grids/_shared/size.mdx) トピックを参照してください。
 
+
 - <ApiLink type="PivotGrid" /> - コンポーネントの構成が正しく適用できるようになりました。
-
-- <ApiLink type="Grid" member="toolbar" label="Toolbar" />
-
-  - New ToolActionCheckboxList
-        A new CheckboxList ToolAction that displays a collection of items with checkboxes for selecting. A grid inside ToolAction CheckboxList grows in height up to 5 items, then a scrollbar is displayed.
-        Requires IgrCheckboxListModule to be registered.
-
-  - New Filtering Support
-
-  - Axis Field Changes
-        New default IconMenu in Toolbar when targeting CategoryChart.
-        Label fields are mapped to the X-axis and Value fields are mapped to the Y-axis.
-        Target chart reacts in realtime to changes made. IconMenu is hidden when chart has no ItemsSource set.
-
 ### {PackageCharts} (チャート)
 
-- [データ凡例のグループ化](./charts/features/chart-data-legend.mdx#{PlatformLower}-データ凡例のグループ化) と [データ ツールチップのグループ化](./charts/features/chart-data-tooltip.mdx#{PlatformLower}-データ-チャートのデータ-ツールチップのグループ化) - 新しいグループ化機能が追加されました。<ApiLink type="DataLegend" member="groupRowVisible" label="GroupRowVisible" /> プロパティは、各シリーズのグループ化を切り替え、オプトインすると <ApiLink type="CrosshairLayer" member="dataLegendGroup" label="DataLegendGroup" /> プロパティを介してグループ テキストを割り当てることができます 同じ値が複数のシリーズに適用されている場合、それらはグループ化されて表示されます。すべてのユーザー向けに分類および整理する必要がある大規模なデータセットに役立ちます。
+- [データ凡例のグループ化](./charts/features/chart-data-legend.mdx#{PlatformLower}-データ凡例のグループ化) と [データ ツールチップのグループ化](./charts/features/chart-data-tooltip.mdx#{PlatformLower}-データ-チャートのデータ-ツールチップのグループ化) - 新しいグループ化機能が追加されました。<ApiLink type="DataLegend" member="groupRowVisible" label="GroupRowVisible" /> プロパティは、各シリーズのグループ化を切り替え、オプトインすると <ApiLink type="CrosshairLayer" member="dataLegendGroup" label="DataLegendGroup" /> プロパティを介してグループ テキストを割り当てることができます。同じ値が複数のシリーズに適用されている場合、それらはグループ化されて表示されます。すべてのユーザー向けに分類および整理する必要がある大規模なデータセットに役立ちます。
 
-- [チャートの選択](./charts/features/chart-data-selection.mdx) - 新しいシリーズ選択のスタイル設定。これは、<ApiLink type="CategoryChart" /> および <ApiLink type="DataChart" /> のすべてのカテゴリ、財務、およびラジアル シリーズに広く採用されています。シリーズはクリックして異なる色で表示したり、明るくしたり、薄くしたり、フォーカスのアウトラインを表示したりできます。個々のシリーズまたはデータ項目全体を通じて影響を受ける項目を管理します。
-複数のシリーズとマーカーがサポートされています。特定のデータ項目の値間のさまざまな相違点や類似点を示すのに役立ちます。また、`SelectedSeriesItemsChanged` イベントと <ApiLink type="SeriesViewer" member="selectedSeriesItems" label="SelectedSeriesItems" /> は、選択内容に基づいたデータ分析を行うポップアップやその他の画面など、アプリケーション内で実行できるその他のアクションを取り巻く堅牢なビジネス要件を構築するための追加の支援として利用できます。
+- [チャートの選択](./charts/features/chart-data-selection.mdx) - 新しいシリーズ選択のスタイル設定。これは、<ApiLink type="CategoryChart" /> および <ApiLink type="DataChart" /> のすべてのカテゴリ、財務、およびラジアル シリーズに広く採用されています。シリーズはクリックして異なる色で表示したり、明るくしたり、薄くしたり、フォーカスのアウトラインを表示したりできます。個々のシリーズまたはデータ項目全体を通じて影響を受ける項目を管理します。複数のシリーズとマーカーがサポートされています。特定のデータ項目の値間のさまざまな相違点や類似点を示すのに役立ちます。また、`SelectedSeriesItemsChanged` イベントと <ApiLink type="SeriesViewer" member="selectedSeriesItems" label="SelectedSeriesItems" /> は、選択内容に基づいたデータ分析を行うポップアップやその他の画面など、アプリケーション内で実行できるその他のアクションを取り巻く堅牢なビジネス要件を構築するための追加の支援として利用できます。
 
-- [比例カテゴリ角度軸](./charts/types/radial-chart.mdx) - <ApiLink type="DataChart" /> のラジアル円シリーズの新しい軸により、データ チャートのすべての追加機能を使用してロバスト可能な視覚化をする円チャートの作成が可能になります。
+- [比例カテゴリ角度軸](./charts/types/radial-chart.mdx) - <ApiLink type="DataChart" /> のラジアル円シリーズの新しい軸により、データ チャートのすべての追加機能を使用して堅牢な視覚化を行う円チャートの作成が可能になります。
+
+- [ツリーマップのハイライト表示](./charts/types/treemap-chart.mdx#{PlatformLower}-ツリーマップのハイライト表示) - ツリー マップの項目のマウスオーバーによるハイライト表示を構成できる <ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> プロパティが公開されました。このプロパティには 2 つのオプションがあります: `Brighten` では、マウスを置いた項目にのみハイライト表示が適用され、`FadeOthers` では、マウスホバーした項目のハイライト表示はそのままで、それ以外はすべてフェードアウトします。このハイライト表示はアニメーション化されており、<ApiLink type="SeriesViewer" member="highlightingTransitionDuration" label="HighlightingTransitionDuration" /> プロパティを使用して制御できます。
+
+- [ツリーマップのパーセントベースのハイライト表示](./charts/types/treemap-chart.mdx#{PlatformLower}-ツリーマップのパーセントベースのハイライト表示) - 新しいパーセントベースのハイライト表示により、ノードはコレクションの進行状況またはサブセットを表すことができます。外観は、データ項目のメンバーによって、または新しい <ApiLink type="XYChart" member="highlightedDataSource" label="HighlightedItemsSource" /> を指定することによって、特定の値までの背景色の塗りつぶしとして表示されます。<ApiLink type="SeriesViewer" member="highlightedValuesDisplayMode" label="HighlightedValuesDisplayMode" /> で切り替えることができ、`FillBrushes` でスタイルを設定できます。
+
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" /> - 選択した特定のツールの周囲に境界線を描くための ToolAction の新しい <ApiLink type="ToolActionGroupHeader" member="isHighlighted" label="IsHighlighted" /> オプション。
 
 ### {PackageGauges} (ゲージ)
 
 - <ApiLink type="RadialGauge" />
   - ハイライト針の新しいラベル。<ApiLink type="RadialGauge" member="highlightLabelText" label="HighlightLabelText" /> と <ApiLink type="RadialGauge" member="highlightLabelSnapsToNeedlePivot" label="HighlightLabelSnapsToNeedlePivot" /> および、その他の HighlightLabel の多くのスタイル関連プロパティが追加されました。
 
-**Breaking Changes**
-
-- **All Grids**
-  - <ApiLink type="RowIsland" />
-  - Removed `displayDensity` deprecated property.
-  - Renamed `actualColumns`, `contentColumns` properties to `actualColumnList` and `contentColumnList`. Use `columns` or `columnList` property to get all columns now.
-  - Renamed `rowDelete` and `rowAdd` event argument type to <ApiLink type="RowDataCancelableEventArgs" />.
-  - Renamed `contextMenu` event argument type to <ApiLink type="GridContextMenuEventArgs" />.
-  - Removed <ApiLink type="GridEditEventArgs" />,  <ApiLink type="GridEditDoneEventArgs" />, <ApiLink type="PinRowEventArgs" /> events `rowID` and `primaryKey` properties. Use `rowKey` instead.
-- <ApiLink type="PivotGrid" />
-  - removed `showPivotConfigurationUI` property. Use `pivotUI` and set inside it the new `showConfiguration` option.
-- <ApiLink type="Column" />
-  - Removed `movable` property. Use Grid's `moving` property now.
-  - Removed `columnChildren` property. Use `childColumns` instead.
-- <ApiLink type="ColumnGroup" />
-  - Removed `children` property. Use `childColumns` instead.
-- <ApiLink type="Paginator" />
-  - Removed `isFirstPageDisabled` and `isLastPageDisabled` properties. Use `isFirstPage` and `isLastPage` instead.
-
 ## **{PackageVerChanges-23-2-MAR}**
 
 ### {PackageCharts}
+
 - <ApiLink type="XYChart" member="initialFilter" label="InitialFilter" /> プロパティによる新しいデータ フィルタリング。フィルター式を適用して、チャート データをレコードのサブセットにフィルターします。大規模なデータのドリルダウンに使用できます。
+
+- `RadialChart`
+  - 新しいラベル モード
+        <ApiLink type="CategoryAngleAxis" /> は、ラベルの位置をさらに構成できる <ApiLink type="CategoryAngleAxis" member="labelMode" label="LabelMode" /> プロパティを公開するようになりました。これにより、`Center` 列挙型を選択してデフォルト モードを切り替えることも、ラベルを円形のプロット領域に近づける新しいモード `ClosestPoint` を使用することもできます。
 
 ### {PackageGrids}
 
 - 新しい [<ApiLink type="HierarchicalGrid" />](./grids/hierarchical-grid/overview.mdx) コンポーネント
 
-
-- <ApiLink type="PivotGrid" /> - Configuration of the component can now be applied correctly.
 ### {PackageGauges}
 
 - <ApiLink type="RadialGauge" />
@@ -810,23 +1289,13 @@ DashboardTile <Badge variant="preview" />
 - <ApiLink type="BulletGraph" />
   - <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" /> が 'Overlay' 設定に適用されたとき、パフォーマンス バーには値と新しい <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" /> の差が反映されるようになりました。ハイライト値には、フィルタリング/サブセットが完了した測定パーセンテージが塗りつぶされた色で表示され、残りのバーの外観は割り当てられた値に対して薄く表示され、リアルタイムでパフォーマンスを示します。
 
-- [Chart Selection](./charts/features/chart-data-selection.mdx) - New series selection styling. This is adopted broadly across all category, financial and radial series for <ApiLink type="CategoryChart" /> and <ApiLink type="DataChart" />. Series can be clicked and shown a different color, brightened or faded, and focus outlines. Manage which items are effected through individual series or entire data item. Multiple series and markers are supported. Useful for illustrating various differences or similarities between values of a particular data item. Also  `SelectedSeriesItemsChanged` event and <ApiLink type="SeriesViewer" member="selectedSeriesItems" label="SelectedSeriesItems" /> are available for additional help to build out robust business requirements surrounding other actions that can take place within an application such as a popup or other screen with data analysis based on the selection.
-
-- [Proportional Category Angle Axis](./charts/types/radial-chart.mdx) - New axes for the Radial Pie Series in the <ApiLink type="DataChart" />, to enable creating pie charts in the allowing robust visualizations using all the added power of the data chart.
-
-- [Treemap Highlighting](./charts/types/treemap-chart.mdx#{PlatformLower}-treemap-highlighting) - Now exposes a <ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> property that allows you to configure the mouse-over highlighting of the items in the tree map. This property takes two options: `Brighten` where the highlight will apply to the item that you hover the mouse over only, and `FadeOthers` where the highlight of the hovered item will remain the same, but everything else will fade out. This highlight is animated, and can be controlled using the <ApiLink type="SeriesViewer" member="highlightingTransitionDuration" label="HighlightingTransitionDuration" /> property.
-
-- [Treemap Percent-based Highlighting](./charts/types/treemap-chart.mdx#{PlatformLower}-treemap-percent-based-highlighting) - New percent-based highlighting, allowing nodes to represent progress or subset of a collection. The appearance is shown as a fill-in of its backcolor up to a specific value either by a member on your data item or by supplying a new <ApiLink type="XYChart" member="highlightedDataSource" label="HighlightedItemsSource" />. Can be toggled via <ApiLink type="SeriesViewer" member="highlightedValuesDisplayMode" label="HighlightedValuesDisplayMode" /> and styled via `FillBrushes`.
-
-- <ApiLink type="Grid" member="toolbar" label="Toolbar" /> - New <ApiLink type="ToolActionGroupHeader" member="isHighlighted" label="IsHighlighted" /> option for ToolAction for outlining a border around specific tools of choice.
-
 ### {PackageCommon}
 
 - 新しい <ApiLink pkg="core" type="Textarea" /> コンポーネント
 - 新しい <ApiLink pkg="core" type="ButtonGroup" /> コンポーネント
 - <ApiLink type="DockManager" />
-  - 新しい <ApiLink type="DockManager" member="proximityDock" label="ProximityDock" /> プロパティ。有効にすると、ドッキング インジケーターは表示されなくなり、エンド ユーザーは、ドラッグしたペインをターゲット ペインの端に近づけてドラッグすることでドッキングできます
-  - 新しい <ApiLink type="DockManager" member="containedInBoundaries" label="ContainedInBoundaries" /> プロパティ。フローティング ペインを Dock Manager の境界内に保持するかどうかを決定します。デフォルトは **false** です。
+  - 新しい <ApiLink type="DockManager" member="proximityDock" label="ProximityDock" /> プロパティ。有効にすると、ドッキング インジケーターは表示されなくなり、エンド ユーザーは、ドラッグしたペインをターゲット ペインの端に近づけてドラッグすることでドッキングできます。
+  - 新しい <ApiLink type="DockManager" member="containedInBoundaries" label="ContainedInBoundaries" /> プロパティ。フローティング ペインを Dock Manager の境界内に保持するかどうかを決定します。デフォルトは `false` です。
   - 新しい <ApiLink type="DockManager" member="showPaneHeaders" label="ShowPaneHeaders" /> プロパティ。ペインのヘッダーをホバー時にのみ表示するか、常に表示するかを決定します。デフォルトは `always` です。
 - <ApiLink pkg="core" type="Input" />、<ApiLink pkg="core" type="MaskInput" />、<ApiLink pkg="core" type="DateTimeInput" />、<ApiLink pkg="core" type="Rating" />
   - `Readonly` は <ApiLink pkg="core" type="DatePicker" member="readOnly" label="ReadOnly" /> に名前が変更されました。
@@ -834,15 +1303,30 @@ DashboardTile <Badge variant="preview" />
   - `Maxlength` は <ApiLink pkg="core" type="Input" member="maxLength" label="MaxLength" /> に名前が変更されました。
   - `Minlength` は <ApiLink pkg="core" type="Input" member="minLength" label="MinLength" /> に名前が変更されました。
 - <ApiLink pkg="core" type="Tree" />
-  - ノードをクリックすると展開状態が変更されるかどうかを決定する `toggleNodeOnClick` プロパティが追加されました。デフォルトは **false** です。
+  - ノードをクリックすると展開状態が変更されるかどうかを決定する `toggleNodeOnClick` プロパティが追加されました。デフォルトは `false` です。
 - <ApiLink pkg="core" type="Rating" />
-  - `allowReset` が追加されました。有効にすると、同じ値を選択するとコンポーネントがリセットされます。**動作の変更** - 以前のリリースでは、これが Rating コンポーネントのデフォルトの動作でした。アプリケーションでこの動作を維持する必要がある場合は、必ず `allowReset` を設定してください。
+  - `allowReset` が追加されました。有効にすると、同じ値を選択するとコンポーネントがリセットされます。**動作変更** - 以前のリリースでは、これが Rating コンポーネントのデフォルトの動作でした。アプリケーションでこの動作を維持する必要がある場合は、必ず `allowReset` を設定してください。
 - <ApiLink pkg="core" type="DatePicker" member="select" label="Select" />、<ApiLink pkg="core" type="Dropdown" />
   - `selectedItem`、`items`、および `groups` ゲッターが公開されました。
 
-## 非推奨
 
-### 削除済
+#### 非推奨
+
+- <ApiLink type="IconButton" member="form" label="Form" /> コンポーネントは非推奨になりました。代わりにネイティブの form 要素を使用してください。
+- `size` プロパティと属性は、すべてのコンポーネントで非推奨になりました。代わりに `--ig-size` CSS カスタム プロパティを使用してください。次の例では、Avatar コンポーネントのサイズを小さく設定します:
+
+  ```css
+  .avatar {
+      --ig-size: var(--ig-size-small);
+  }
+  ```
+
+- <ApiLink pkg="core" type="DateTimeInput" />
+  - `MinValue` および `MaxValue` プロパティは非推奨になりました。代わりに <ApiLink pkg="core" type="DatePicker" member="min" label="Min" /> および <ApiLink pkg="core" type="DatePicker" member="max" label="Max" /> を使用してください。
+- <ApiLink pkg="core" type="RangeSlider" />
+  - `AriaLabelLower` および `AriaLabelUpper` プロパティは非推奨になりました。代わりに <ApiLink pkg="core" type="RangeSlider" member="thumbLabelLower" label="ThumbLabelLower" /> および <ApiLink pkg="core" type="RangeSlider" member="thumbLabelUpper" label="ThumbLabelUpper" /> を使用してください。
+
+#### 削除済
 
 - デフォルトの属性を隠していた独自の `dir` 属性が削除されました。これは互換性のある変更です。
 - <ApiLink pkg="core" type="Slider" /> - `ariaLabel` シャドウ プロパティ。これは互換性のある変更です。
@@ -850,53 +1334,27 @@ DashboardTile <Badge variant="preview" />
 - <ApiLink pkg="core" type="Switch" /> - `ariaLabelledBy` シャドウ属性。これは互換性のある変更です。
 - <ApiLink pkg="core" type="Radio" /> - `ariaLabelledBy` シャドウ属性。これは互換性のある変更です。
 
-- `RadialChart`
-  - New Label Mode
-        The <ApiLink type="CategoryAngleAxis" /> for the now exposes a <ApiLink type="CategoryAngleAxis" member="labelMode" label="LabelMode" /> property that allows you to further configure the location of the labels. This allows you to toggle between the default mode by selecting the `Center` enum, or use the new mode, `ClosestPoint`, which will bring the labels closer to the circular plot area.
-
-### **{PackageVerChanges-23-2-JAN}**
-
-- New [<ApiLink type="HierarchicalGrid" />](./grids/hierarchical-grid/overview.mdx) component
+## **{PackageVerChanges-23-2-JAN}**
 
 ### {PackageCharts} (チャート)
 
 - [チャートのハイライト表示フィルター](./charts/features/chart-highlight-filter.mdx) - <ApiLink type="CategoryChart" /> と <ApiLink type="DataChart" /> は、データのサブセットの内外でハイライト表示およびアニメーション化する方法を公開するようになりました。このハイライト表示の表示はシリーズのタイプによって異なります。列およびエリア シリーズの場合、サブセットはデータの合計セットの上に表示され、サブセットはシリーズの実際のブラシによって色付けされ、合計セットは不透明度を下げます。折れ線シリーズの場合、サブセットは点線で表示されます。
 
-### **{PackageVerChanges-23-2-DEC}**
+## **{PackageVerChanges-23-2-DEC}**
 
-- New <ApiLink pkg="core" type="Textarea" /> component
-- New <ApiLink pkg="core" type="ButtonGroup" /> component
-- <ApiLink type="DockManager" />
-  - New <ApiLink type="DockManager" member="proximityDock" label="ProximityDock" /> property. If enabled, docking indicators are not visible and the end user can dock the dragged pane by dragging it close to the target pane edges.
-  - New <ApiLink type="DockManager" member="containedInBoundaries" label="ContainedInBoundaries" /> property. Determines whether the floating panes are kept inside the Dock Manager boundaries. Defaults to `false`.
-  - New <ApiLink type="DockManager" member="showPaneHeaders" label="ShowPaneHeaders" /> property. Determines whether pane headers are only shown on hover or always visible. Defaults to `always`.
-- <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="MaskInput" />, <ApiLink pkg="core" type="DateTimeInput" />, <ApiLink pkg="core" type="Rating" />
-  - `Readonly` has been renamed to <ApiLink pkg="core" type="DatePicker" member="readOnly" label="ReadOnly" />
-- <ApiLink pkg="core" type="Input" />
-  - `Maxlength` has been renamed to <ApiLink pkg="core" type="Input" member="maxLength" label="MaxLength" />
-  - `Minlength` has been renamed to <ApiLink pkg="core" type="Input" member="minLength" label="MinLength" />
-- <ApiLink pkg="core" type="Tree" />
-  - Added `toggleNodeOnClick` property that determines whether clicking over a node will change its expanded state or not. Defaults to `false`.
-- <ApiLink pkg="core" type="Rating" />
-  - `allowReset` added. When enabled selecting the same value will reset the component. **Behavioral change** - In previous releases this was the default behavior of the rating component. Make sure to set `allowReset` if you need to keep this behavior in your application.
-- <ApiLink pkg="core" type="DatePicker" member="select" label="Select" />, <ApiLink pkg="core" type="Dropdown" />
-  - exposed `selectedItem`, `items` and `groups` getters
+### {PackageGrids} (グリッド)
 
+- 新規機能 - [状態保持](./grids/_shared/state-persistence.mdx)
 
-#### {PackageGrids} (Grid)
+## **{PackageVerChanges-23-2}**
 
-- 新規機能:
-  - [状態保持](./grids/_shared/state-persistence.mdx)
+### {PackageGrids} - Toolbar - <Badge variant="preview" />
 
-#### **{PackageVerChanges-23-2}**
+- クリップボードを介してチャートを画像に保存するための保存ツール アクションが追加されました。
+- ツールバーの <ApiLink type="Toolbar" member="orientation" label="Orientation" /> プロパティを介して垂直方向が追加されました。デフォルトでは、ツールバーは水平方向ですが、ツールバーを垂直方向に表示できるようになり、ツールが左右にポップアップ表示されます。
+- ツールバーの `renderImageFromText` メソッドを介してカスタム SVG アイコンのサポートが追加され、カスタム ツールの作成がさらに強化されました。
 
-- Removed our own `dir` attribute which shadowed the default one. This is a non-breaking change.
-- <ApiLink pkg="core" type="Slider" /> - `ariaLabel` shadowed property. This is a non-breaking change.
-- <ApiLink pkg="core" type="Checkbox" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
-- <ApiLink pkg="core" type="Switch" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
-- <ApiLink pkg="core" type="Radio" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
-
-## {PackageGrids} - Toolbar - <Badge variant="preview" />
+- [Grid](./grids/data-grid.mdx) - 完全な機能を備えた新しいクロスプラットフォーム グリッドで、フィルタリング、ソート、テンプレート、行選択、行のグループ化、行のピン固定、列の移動などの機能が含まれています。
 
 ### 非推奨のコンポーネント
 
@@ -906,11 +1364,15 @@ DashboardTile <Badge variant="preview" />
 
 ### 新しいコンポーネント
 
-- <Badge variant="preview" /> [Toolbar](./menus/toolbar.mdx) コンポーネントは、主にチャート コンポーネントで使用される UI 操作のコンパニオン コンテナーです。ツールバーは、<ApiLink type="DataChart" /> または <ApiLink type="CategoryChart" /> コンポーネントにリンクされると、プロパティとツール項目のプリセットで動的に更新されます。プロジェクト用のカスタム ツールを作成して、エンド ユーザーが変更を提供できるようになり、無限のカスタマイズが可能になります。
+- <Badge variant="preview" /> [Toolbar](./menus/toolbar.mdx) - このコンポーネントは、主にチャート コンポーネントで使用される UI 操作のコンパニオン コンテナーです。ツールバーは、<ApiLink type="DataChart" /> または <ApiLink type="CategoryChart" /> コンポーネントにリンクされると、プロパティとツール項目のプリセットで動的に更新されます。プロジェクト用のカスタム ツールを作成して、エンド ユーザーが変更を提供できるようになり、無限のカスタマイズが可能になります。
 
-## {PackageCharts} (チャート)
+### {PackageCharts} (チャート)
 
-### **{PackageVerChanges-22-2}**
+- [ValueLayer](./charts/features/chart-overlays.mdx#{PlatformLower}-値レイヤー) - <ApiLink type="ValueLayer" /> という名前の新しいシリーズ タイプが公開されました。これにより、Maximum、Minimum、Average など、プロットされたデータのさまざまな焦点のオーバーレイを描画できます。これは、新しい <ApiLink type="XYChart" member="valueLines" label="ValueLines" /> コレクションに追加することで、<ApiLink type="CategoryChart" /> と <ApiLink type="FinancialChart" /> に適用されます。
+
+- **ダッシュ配列**を <ApiLink type="DataChart" /> のシリーズのさまざまな部分に適用できるようになりました。これは、チャートにプロットされた[シリーズ](./charts/types/line-chart.mdx#{PlatformLower}-折れ線チャートのスタイル設定)、チャートの[グリッド線](./charts/features/chart-axis-gridlines.mdx#{PlatformLower}-軸グリッド線のプロパティ)、およびチャートにプロットされたシリーズの[トレンドライン](./charts/features/chart-trendlines.mdx#{PlatformLower}-チャート-トレンドラインのダッシュ配列の例)に適用できます。
+
+## **{PackageVerChanges-22-2}**
 
 デフォルトの動作を大幅に改善し、カテゴリ チャート API を改良して使いやすくしました。これらの新しいチャートの改善点は次のとおりです:
 
@@ -923,7 +1385,7 @@ DashboardTile <Badge variant="preview" />
   - ZoomMaximumItemSpan
   - ZoomToCategoryRange
   - ZoomToItemSpan
-- カテゴリの文字列と数値をグループ化、ソート、集計するための新しい[チャート集計](./charts/features/chart-data-aggregations.mdx) API により、チャート データを事前に集計または計算する必要がなくなります。
+- カテゴリの文字列と数値をグループ化、ソート、集計するための新しい[チャート集計](./charts/features/chart-data-aggregations.mdx) API により、チャート データを事前に集計または計算する必要がなくなります:
   - InitialSortDescriptions
   - InitialSorts
   - SortDescriptions
@@ -937,6 +1399,9 @@ DashboardTile <Badge variant="preview" />
   - GroupSorts
   - GroupSortDescriptions
 
+
+<ApiLink type="XYChart" member="includedProperties" label="IncludedProperties" /> | <ApiLink type="XYChart" member="excludedProperties" label="ExcludedProperties" /> を使用している場合、[チャート集計](./charts/features/chart-data-aggregations.mdx)は機能しません。チャートのこれらのプロパティは、集計されていないデータ用です。データを集計しようとすると、これらのプロパティは使用できなくなります。機能しない理由は、集計によって、描画のためにチャートに渡されるコレクションが置き換えられるためです。include/exclude プロパティは、そのデータのプロパティをフィルターイン/フィルターアウトするように設計されており、それらのプロパティは新しい集計されたコレクションには存在しなくなります。
+
 ### {PackageGrids} (データ グリッド)
 
 - **{IgPrefix}Column** を <ApiLink type="DataGridColumn" /> に変更しました。
@@ -945,7 +1410,6 @@ DashboardTile <Badge variant="preview" />
 - **SummaryOperand** を <ApiLink type="DataSourceSummaryOperand" /> に変更しました。
 
 ## **{PackageVerChanges-22-1}**
-
 ### {PackageCharts} (チャート)
 
 - 高度に構成可能な [DataLegend](./charts/features/chart-data-legend.mdx) コンポーネントが追加されました。これは、<ApiLink type="SeriesViewer" member="Legend" label="Legend" /> とよく似たコンポーネントですが、シリーズの値を表示し、シリーズの行と値の列をフィルタリングし、値のスタイルとフォーマットを行うための多くの構成プロパティを提供します。
@@ -967,80 +1431,45 @@ DashboardTile <Badge variant="preview" />
 
 新機能 - [行ページング](./grids/_shared/paging.mdx)を追加しました。これは、大量のデータセットを類似したコンテンツを持つ一連のページに分割するために使用されます。ページネーションを使用すると、データを設定された行数で表示することができ、ユーザーはスクロール バーを使用せずにデータを順次閲覧することができます。テーブル ページネーションの UI には通常、現在のページ、合計ページ、ユーザーがページをめくるためのクリック可能な [前へ] と [次へ] の矢印 / ボタンなどが含まれます。
 
-- It is now possible to apply a **dash array** to the different parts of the series of the <ApiLink type="DataChart" />. You can apply this to the [series](./charts/types/line-chart.mdx#{PlatformLower}-styling-line-chart) plotted in the chart, the [gridlines](./charts/features/chart-axis-gridlines.mdx#{PlatformLower}-axis-gridlines-properties) of the chart, and the [trendlines](./charts/features/chart-trendlines.mdx#{PlatformLower}-chart-trendlines-dash-array-example) of the series plotted in the chart.
-
 ## **{PackageVerChanges-21-2.1}**
-
-Added significant improvements to default behaviors, and refined the Category Chart API to make it easier to use. These new chart improvements include:
-
-- Responsive layouts for horizontal label rotation based on browser / screen size.
-- Enhanced rendering for rounded labels on all platforms.
-- Added marker properties to StackedFragmentSeries.
-- Added <ApiLink type="SeriesViewer" member="shouldPanOnMaximumZoom" label="ShouldPanOnMaximumZoom" /> property.
-- New Category Axis Properties:
-  - ZoomMaximumCategoryRange
-  - ZoomMaximumItemSpan
-  - ZoomToCategoryRange
-  - ZoomToItemSpan
-- New [Chart Aggregation](./charts/features/chart-data-aggregations.mdx) API for Grouping, Sorting and Summarizing Category string and numeric values, eliminating the need to pre-aggregate or calculate chart data:
-  - InitialSortDescriptions
-  - InitialSorts
-  - SortDescriptions
-  - InitialGroups
-  - InitialGroupDescriptions
-  - GroupDescriptions
-  - InitialSummaries
-  - InitialSummaryDescriptions
-  - SummaryDescriptions
-  - InitialGroupSortDescriptions
-  - GroupSorts
-  - GroupSortDescriptions
-
-
-[Chart Aggregation](./charts/features/chart-data-aggregations.mdx) will not work when using <ApiLink type="XYChart" member="includedProperties" label="IncludedProperties" /> | <ApiLink type="XYChart" member="excludedProperties" label="ExcludedProperties" />. These properties on the chart are meant for non-aggregated data. Once you attempt to aggregate data these properties should no longer be used. The reason it does not work is because aggregation replaces the collection that is passed to the chart for render.  The include/exclude properties are designed to filter in/out properties of that data and those properties no longer exist in the new aggregated collection.
 
 ### {PackageGrids} (データ グリッド)
 
-- Changed **{IgPrefix}Column** to <ApiLink type="DataGridColumn" />
-- Changed **GridCellEventArgs** to <ApiLink type="DataGridCellEventArgs" />
-- Changed **GridSelectionMode** to <ApiLink type="DataGridSelectionMode" />
-- Changed **SummaryOperand** to <ApiLink type="DataSourceSummaryOperand" />
+#### データ グリッド
+- ドロップダウンの項目に複数のフィールドで構成されるキーが含まれる場合に使用する、string[] 型の <ApiLink type="ComboBoxColumn" member="valueMultiField" label="ValueMultiField" /> を <ApiLink type="ComboBoxColumn" /> に追加しました。
 
-## データ グリッド
+<DocsAside type="info" title="情報">
+以下の重大な変更が導入されました
+</DocsAside>
+
+- <ApiLink type="ComboEditor" member="valueField" label="ValueField" /> プロパティを string[] 型から string に変更しました。
+
 ### {PackageInputs} (入力)
 
-- Added the highly-configurable [DataLegend](./charts/features/chart-data-legend.mdx) component, which works much like the <ApiLink type="SeriesViewer" member="Legend" label="Legend" />, but it shows values of series and provides many configuration properties for filtering series rows and values columns, styling and formatting values.
-- Added the highly-configurable [DataToolTip](./charts/features/chart-data-tooltip.mdx) which displays values and titles of series as well as legend badges of series in a tooltip. This is now the default tooltip for all chart types.
-- Added animation and transition-in support for Stacked Series. Animations can be enabled by setting the <ApiLink type="CategoryChart" member="isTransitionInEnabled" label="IsTransitionInEnabled" /> property to true. From there, you can set the <ApiLink type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" /> property to determine how long your animation should take to complete and the <ApiLink type="CategoryChart" member="transitionInMode" label="TransitionInMode" /> to determine the type of animation that takes place.
-- Added `AssigningCategoryStyle` event, is now available to all series in <ApiLink type="DataChart" />. This event is handled when you want to conditionally configure aspects of the series items such as <ApiLink type="CrosshairLayer" member="fill" label="Fill" /> background-color and highlighting.
-- New <ApiLink type="CalloutLayer" member="allowedPositions" label="AllowedPositions" /> enumeration for CalloutLayer. Used to limit where the callouts are to be placed within the chart. By default, the callouts are intelligently placed in the best place but this used to force for example `TopLeft`, `TopRight`, `BottomLeft` or `BottomRight`.
-- New corner radius properties added for Annotation Layers; used to round-out the corners of each of the callouts. Note, a corner radius has now been added by default.
-  - <ApiLink type="CalloutLayer" member="calloutCornerRadius" label="CalloutCornerRadius" /> for CalloutLayer
-  - <ApiLink type="FinalValueLayer" member="axisAnnotationBackgroundCornerRadius" label="AxisAnnotationBackgroundCornerRadius" /> for FinalValueLayer
-  - <ApiLink type="CrosshairLayer" member="xAxisAnnotationBackgroundCornerRadius" label="XAxisAnnotationBackgroundCornerRadius" /> and <ApiLink type="CrosshairLayer" member="yAxisAnnotationBackgroundCornerRadius" label="YAxisAnnotationBackgroundCornerRadius" /> for CrosshairLayer
-- New <ApiLink type="SeriesViewer" member="horizontalViewScrollbarMode" label="HorizontalViewScrollbarMode" /> and <ApiLink type="SeriesViewer" member="verticalViewScrollbarMode" label="VerticalViewScrollbarMode" /> enumeration to enable scrollbars in various ways. When paired with <ApiLink type="XYChart" member="isVerticalZoomEnabled" label="IsVerticalZoomEnabled" /> or <ApiLink type="XYChart" member="isHorizontalZoomEnabled" label="IsHorizontalZoomEnabled" />, you'll be able to persist or fade-in and out the scrollbars along the axes to navigate the chart.
-- New <ApiLink type="NumericXAxis" member="favorLabellingScaleEnd" label="FavorLabellingScaleEnd" />, determines whether the axis should favor emitting a label at the end of the scale. Only compatible with numeric axes (e.g. <ApiLink type="NumericXAxis" />, <ApiLink type="NumericYAxis" />, `PercentChangeAxis`).
-- New <ApiLink type="CategoryChart" member="isSplineShapePartOfRange" label="IsSplineShapePartOfRange" /> determines whether to include the spline shape in the axis range requested of the axis.
-- New <ApiLink type="CategoryChart" member="xAxisMaximumGap" label="XAxisMaximumGap" />, determines the maximum allowed value for the plotted series when using <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" />. The gap determines the amount of space between columns or bars of plotted series.
-- New <ApiLink type="CategoryChart" member="xAxisMinimumGapSize" label="XAxisMinimumGapSize" />, determines the minimum allowed pixel-based value for the plotted series when using <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" /> to ensure there is always some spacing between each category.
-
-### 日付ピッカー
-
+#### 日付ピッカー
 - ValueChanged イベントを `SelectedValueChanged` に変更しました。
 
-## 複数列コンボボックス
+#### 複数列コンボボックス
+- `TextChanged` イベントを `TextValueChanged` に変更しました。
+- `ValueChanged` イベントを `SelectedValueChanged` に変更しました。
 
-### **{PackageVerChanges-21-2}**
 
-#### {PackageCharts} (チャート)
+## **{PackageVerChanges-21-2}**
+
+<DocsAside type="info" title="情報">
+最適な互換性を得るために、プロジェクトに "lit-html": "^2.0.0" 以降のパッケージが追加されていることを確認してください。
+</DocsAside>
+
+### {PackageCharts} (チャート)
+
 このリリースでは、地理マップとすべてのチャート コンポーネントのビジュアル デザインと構成オプションにいくつかの改善と簡素化が導入されています。
 
 - <ApiLink type="FinancialChart" /> と <ApiLink type="CategoryChart" /> の <ApiLink type="XYChart" member="yAxisLabelLocation" label="YAxisLabelLocation" /> プロパティのタイプを **AxisLabelLocation** から **YAxisLabelLocation** に変更しました。
-- <ApiLink type="FinancialChart" /> の **AxisLabelLocation** から **XAxisLabelLocation** に <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> プロパティのタイプを変更しました。
+- <ApiLink type="FinancialChart" /> の <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> プロパティのタイプを **AxisLabelLocation** から **XAxisLabelLocation** に変更しました。
 - <ApiLink type="CategoryChart" /> に <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> プロパティを追加しました。
 - 凡例で <ApiLink type="GeographicMap" /> の地理的なシリーズを表すためのサポートが追加されました。
-- <ApiLink type="FinancialChart" /> と<ApiLink type="CategoryChart" /> にデフォルトの十字線を追加しました。
-- <ApiLink type="FinancialChart" /> と<ApiLink type="CategoryChart" /> にデフォルトの十字線の注釈を追加しました。
+- <ApiLink type="FinancialChart" /> と <ApiLink type="CategoryChart" /> にデフォルトの十字線を追加しました。
+- <ApiLink type="FinancialChart" /> と <ApiLink type="CategoryChart" /> にデフォルトの十字線の注釈を追加しました。
 - <ApiLink type="FinancialChart" /> にデフォルトで最終値の注釈を追加しました。
 - カテゴリ チャートとファイナンシャル チャートに新しいプロパティを追加しました:
   - 十字線をカスタマイズするための <ApiLink type="XYChart" member="crosshairsLineThickness" label="CrosshairsLineThickness" /> およびその他のプロパティ
@@ -1048,37 +1477,90 @@ Added significant improvements to default behaviors, and refined the Category Ch
   - 最終値の注釈をカスタマイズするための <ApiLink type="XYChart" member="finalValueAnnotationsBackground" label="FinalValueAnnotationsBackground" /> およびその他のプロパティ
   - シリーズ塗りつぶしの不透明度を変更できる <ApiLink type="XYChart" member="areaFillOpacity" label="AreaFillOpacity" /> (エリア チャートなど)
   - マーカーの厚さを変更できる <ApiLink type="XYChart" member="markerThickness" label="MarkerThickness" />
-- カテゴリ チャート、ファイナンシャル チャート、データ チャート、および地理マップに新しいプロパティを追加しました。
-  - 同じチャート内の複数のシリーズにどのマーカー タイプを割り当てることができる <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" />
+- カテゴリ チャート、ファイナンシャル チャート、データ チャート、および地理マップに新しいプロパティを追加しました:
+  - 同じチャート内の複数のシリーズにどのマーカー タイプを割り当てるかを設定できる <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" />
   - 凡例で表されるすべてのシリーズのバッジの形状を設定するための <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" />
   - 凡例のすべてのシリーズにバッジの複雑さを設定するための <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" />
-- データ チャートと地理マップのシリーズに新しいプロパティを追加しました。
+- データ チャートと地理マップのシリーズに新しいプロパティを追加しました:
   - 凡例で表される特定のシリーズにバッジの形状を設定するための <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" />
   - 凡例の特定のシリーズにバッジの複雑さを設定するための <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" />
-- カテゴリ チャートとシリーズで、デフォルトの垂直十字線ストロークを<span style="color:#000000">#000000</span> から <span style="color:#BBBBBB">#BBBBBB</span> に変更しました。
+- カテゴリ チャートとシリーズで、デフォルトの垂直十字線ストロークを <span style="color:#000000">#000000</span> から <span style="color:#BBBBBB">#BBBBBB</span> に変更しました。
 - 同じチャートにプロットされたすべてのシリーズのマーカーの図形を円に変更しました。これは、チャートの <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" /> プロパティを `SmartIndexed` 列挙値に設定することで元に戻すことができます。
-- チャートの凡例のシリーズの簡略化された図形で、円、線、または四角のみを表示します。これは、チャートの <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> プロパティを `MatchSeries` 列挙値に設定することで元に戻すことができます。
-- アクセシビリティを向上させるために、すべてのチャートに表示されるシリーズとマーカーのカラー パレットを変更しました
+- チャートの凡例のシリーズの図形を簡略化し、円、線、または四角のみを表示するようにしました。これは、チャートの <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> プロパティを `MatchSeries` 列挙値に設定することで元に戻すことができます。
+- アクセシビリティを向上させるために、すべてのチャートに表示されるシリーズとマーカーのカラー パレットを変更しました。
 
-| 古いのブラシ/アウトライン | 新のアウトライン/ブラシ |
+| 古いブラシ/アウトライン | 新しいアウトライン/ブラシ |
 | -------------------- | ------------------- |
 | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8B5BB1">#8B5BB1</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#F8A15F">#F8A15F</span> <br /><span style="color:#EE5879">#EE5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F7D262">#F7D262</span> <br /><span style="color:#8CE7D9">#8CE7D9</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8961A9">#8961A9</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#82E9D9">#82E9D9</span> <br /><span style="color:#EA3C63">#EA3C63</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F8CE4F">#F8CE4F</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#FF903B">#FF903B</span> <br /> |
 
+
 ### {PackageGrids} (データ グリッド)
 
-#### **{PackageVerChanges-21-1}**
-- Changed ValueChanged event to `SelectedValueChanged`.
+- 新機能:
+  - [フィルター行](./grids/_shared/filtering.mdx)
+  - [レイアウトのカスタマイズの読み込み/保存](./grids/_shared/state-persistence.mdx)
+  - [列をグループ化するための GroupBy 領域](./grids/grid/groupby.mdx)
+  - [セルの結合](./grids/_shared/cell-merging.mdx)
+- 新しい API:
+  - `SelectionChanged` イベントを追加しました。複数行の選択など、選択のインタラクションの変化を検出するために使用されます。
+- 重大な変更:
+  - グリッドの SummaryScope プロパティのタイプを <ApiLink type="DataSourceSummaryScope" /> から SummaryScope に変更しました。
+  - GroupHeaderDisplayMode プロパティのタイプを <ApiLink type="DataSourceSectionHeaderDisplayMode" /> から GroupHeaderDisplayMode に変更しました。
 
-#### {PackageCharts} (チャート)
+
+## **{PackageVerChanges-21-1}**
+### {PackageCharts} (チャート)
+
 このリリースでは、すべてのチャート コンポーネントに、いくつかの新しく改善されたビジュアル デザインと構成オプションが導入されています。例えば、<ApiLink type="DataChart" />、<ApiLink type="CategoryChart" />、および <ApiLink type="FinancialChart" />。
 
+- 棒/縦棒/ウォーターフォール シリーズを、角丸ではなく角が四角になるように変更しました。
+- heat min プロパティの散布高密度シリーズの色を <span style="color:#8a5bb1">#8a5bb1</span> から <span style="color:#000000">#000000</span> に変更しました。
+- heat max プロパティの散布高密度シリーズの色を <span style="color:#ee5879">#ee5879</span> から <span style="color:#ee5879">#ee5879</span> に変更しました。
+- ファイナンシャル/ウォーターフォール シリーズの `NegativeBrush` および `NegativeOutline` プロパティを <span style="color:#C62828">#C62828</span> から <span style="color:#ee5879">#ee5879</span> に変更しました。
+- マーカーの厚さを 1px から 2px に変更しました。
+- <ApiLink type="PointSeries" />、<ApiLink type="BubbleSeries" />、<ApiLink type="ScatterSeries" />、<ApiLink type="PolarScatterSeries" /> のマーカーのアウトラインに一致するようにマーカーの塗りつぶしを変更しました。<ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> プロパティを Normal に設定すると、この変更を元に戻すことができます。
+- <ApiLink type="TimeXAxis" /> および <ApiLink type="OrdinalTimeXAxis" /> のラベリングを圧縮しました。
+- 新しいマーカー プロパティ:
+  - series.<ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> - マーカーがアウトラインに依存するように、`MatchMarkerOutline` に設定できます。
+  - series.<ApiLink type="XYChart" member="markerFillOpacity" label="MarkerFillOpacity" /> - 0〜1 の値に設定できます。
+  - series.<ApiLink type="XYChart" member="markerOutlineMode" label="MarkerOutlineMode" /> - マーカーのアウトラインが塗りブラシの色に依存するように、`MatchMarkerBrush` に設定できます。
+- 新しいシリーズ プロパティ:
+  - series.<ApiLink type="XYChart" member="outlineMode" label="OutlineMode" /> - シリーズ アウトラインの表示を切り替えるように設定できます。データ チャートの場合、プロパティはシリーズ上にあることに注意してください。
+- チャートがデフォルトのズーム レベルにあるときにビューポートに導入されるブリード オーバー領域を定義する新しいチャート プロパティ。一般的な使用例では、軸と最初/最後のデータ ポイントの間にスペースを提供します。以下にリストされている <ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" /> は、マーカーが有効になっているときに自動的にマージンを設定することに注意してください。その他は、厚さを表す `Double` を指定するように設計されており、PlotAreaMarginLeft などがチャートの 4 辺すべてにスペースを調整します:
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginLeft" label="PlotAreaMarginLeft" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginTop" label="PlotAreaMarginTop" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginRight" label="PlotAreaMarginRight" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginBottom" label="PlotAreaMarginBottom" />
+  - chart.<ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />
+- 新しいハイライト表示プロパティ
+  - chart.<ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> - ホバーされたシリーズとホバーされていないシリーズをフェードまたは明るくするかを設定します。
+  - chart.<ApiLink type="SeriesViewer" member="highlightingBehavior" label="HighlightingBehavior" /> - 真上または最も近い項目など、マウスの位置に応じてシリーズをハイライト表示するかどうかを設定します。
+  - 以前のリリースでは、ハイライト表示はホバー時にフェードするように制限されていたことに注意してください。
+- 積層型、散布、極座標、ラジアル、シェイプ シリーズにハイライト表示を追加しました:
+- 積層型、散布、極座標、ラジアル、シェイプ シリーズに注釈レイヤーを追加しました:
+- 積層型シリーズ内の個々の積層フラグメントのデータ ソースをオーバーライドするためのサポートが追加されました。
+- 積層型、散布、範囲、極座標、ラジアル、シェイプ シリーズにカスタム スタイルのイベントを追加しました。
+- 垂直ズームをシリーズ コンテンツに自動的に同期するサポートが追加されました。
+- 表示された最初のラベルに基づいてチャートの水平マージンを自動的に拡張するサポートが追加されました。
+- シリーズとマーカーのカラー パレットを再設計しました:
 
-## チャート凡例
+| 古いブラシ/アウトライン | 新しいアウトライン/ブラシ |
+| -------------------- | ------------------- |
+| <span style="color:#7446B9">#7446B9</span> <br /><span style="color:#9FB328">#9FB328</span> <br /><span style="color:#F96232">#F96232</span> <br /><span style="color:#2E9CA6">#2E9CA6</span> <br /><span style="color:#DC3F76">#DC3F76</span> <br /><span style="color:#FF9800">#FF9800</span> <br /><span style="color:#3F51B5">#3F51B5</span> <br /><span style="color:#439C47">#439C47</span> <br /><span style="color:#795548">#795548</span> <br /><span style="color:#9A9A9A">#9A9A9A</span> | <span style="color:#8bdc5c">#8bdc5c</span> <br /><span style="color:#8b5bb1">#8b5bb1</span> <br /><span style="color:#6db1ff">#6db1ff</span> <br /><span style="color:#f8a15f">#f8a15f</span> <br /><span style="color:#ee5879">#ee5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#f7d262">#f7d262</span> <br /><span style="color:#8ce7d9">#8ce7d9</span> <br /><span style="color:#e051a9">#e051a9</span> <br /><span style="color:#a8a8b7">#a8a8b7</span> <br /> |
+
+例:
+
+|   |   |
+|---|---|
+| <Image src={chartdefaults1} alt="chartDefaults1" class="responsive-img" /> | <Image src={chartdefaults2} alt="chartDefaults2" class="responsive-img" /> |
+| <Image src={chartdefaults3} alt="chartDefaults3" class="responsive-img" /> | <Image src={chartdefaults4} alt="chartDefaults4" class="responsive-img" /> |
+
+#### チャート凡例
 
 - バブル、ドーナツ、および円チャートで使用できる水平方向の <ApiLink type="Toolbar" member="orientation" label="Orientation" /> プロパティを ItemLegend に追加しました。
 - <ApiLink type="SeriesViewer" member="legendHighlightingMode" label="LegendHighlightingMode" /> プロパティの追加 - 凡例項目にホバーした時にシリーズのハイライト表示を有効にします。
 
-### {PackageMaps} (GeoMap)
+### {PackageMaps} (地理マップ)
 
 <DocsAside type="info" title="情報">
 これらの機能は CTP です。
@@ -1087,10 +1569,7 @@ Added significant improvements to default behaviors, and refined the Category Ch
 - マップの表示を折り返すためのサポートが追加されました (水平方向に無限にスクロールできます)。
 - 座標原点を折り返しながら、一部のマップ シリーズの表示をシフトするためのサポートが追加されました。
 - シェイプ シリーズのハイライト表示のサポートが追加されました。
-
-| Old brushes/outlines | New outline/brushes |
-| -------------------- | ------------------- |
-| <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8B5BB1">#8B5BB1</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#F8A15F">#F8A15F</span> <br /><span style="color:#EE5879">#EE5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F7D262">#F7D262</span> <br /><span style="color:#8CE7D9">#8CE7D9</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8961A9">#8961A9</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#82E9D9">#82E9D9</span> <br /><span style="color:#EA3C63">#EA3C63</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F8CE4F">#F8CE4F</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#FF903B">#FF903B</span> <br /> |
+- シェイプ シリーズの一部の注釈レイヤーのサポートが追加されました。
 
 
 ### {PackageGrids} (データ グリッド)
@@ -1107,67 +1586,23 @@ Added significant improvements to default behaviors, and refined the Category Ch
 - スペース バーを押すと、MultipleRow または SingleRow に設定された <ApiLink type="GridSelectionMode" /> プロパティを介してアクティブな行の選択が切り替わります。
 - 列オプション ダイアログに列集計を追加しました。
 
+### {PackageInputs} (入力)
 
-## {PackageInputs} (入力)
-### 日付ピッカー
+#### 日付ピッカー
 
 - <ApiLink type="DatePicker" member="showTodayButton" label="ShowTodayButton" /> - 現在の日付のボタンの表示を切り替えます。
 - <ApiLink pkg="core" type="DatePicker" member="label" label="Label" /> - 日付値の上にラベルを追加します。
 - <ApiLink pkg="core" type="DatePicker" member="placeholder" label="Placeholder" /> プロパティ - 値が選択されていない場合にカスタム テキストを追加します。
-- <ApiLink type="IWorksheetCellFormat" member="formatString" label="FormatString" /> - 入力日付文字列をカスタマイズします。(例: `yyyy-MM-dd`)
+- <ApiLink type="IWorksheetCellFormat" member="formatString" label="FormatString" /> - 入力日付文字列をカスタマイズします (例: `yyyy-MM-dd`)。
 - <ApiLink type="DatePicker" member="dateFormat" label="DateFormat" /> - 選択した日付を LongDate または ShortDate のどちらとして表示するかを指定します。
 - <ApiLink type="DatePicker" member="firstDayOfWeek" label="FirstDayOfWeek" /> - 週の最初の曜日を指定します。
 - <ApiLink type="DatePicker" member="firstWeekOfYear" label="FirstWeekOfYear" /> - 年の最初の週をいつ表示するかを指定します。例えば、最初の 1 週間、最初の 4 日間の週です。
 - <ApiLink pkg="core" type="DatePicker" member="showWeekNumbers" label="ShowWeekNumbers" /> - 週番号の表示を切り替えます。
-- <ApiLink type="DatePicker" member="minDate" label="MinDate" /> & <ApiLink type="DatePicker" member="maxDate" label="MaxDate" /> - 使用可能の選択できる日付の範囲を指定する日付制限。
+- <ApiLink type="DatePicker" member="minDate" label="MinDate" /> & <ApiLink type="DatePicker" member="maxDate" label="MaxDate" /> - 選択可能な日付の範囲を指定する日付制限。
 - アクセシビリティの追加
 
-- Changed Bar/Column/Waterfall series to have square corners instead of rounded corners
-- Changed Scatter High Density series’ colors for heat min property from <span style="color:#8a5bb1">#8a5bb1</span> to <span style="color:#000000">#000000</span>
-- Changed Scatter High Density series’ colors for heat max property from <span style="color:#ee5879">#ee5879</span> to <span style="color:#ee5879">#ee5879</span>
-- Changed Financial/Waterfall series’ `NegativeBrush` and `NegativeOutline` properties from <span style="color:#C62828">#C62828</span> to <span style="color:#ee5879">#ee5879</span>
-- Changed marker's thickness to 2px from 1px
-- Changed marker's fill to match the marker's outline for <ApiLink type="PointSeries" />, <ApiLink type="BubbleSeries" />, <ApiLink type="ScatterSeries" />, <ApiLink type="PolarScatterSeries" />. You can use set <ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> property to Normal to undo this change
-- Compressed labelling for the <ApiLink type="TimeXAxis" /> and <ApiLink type="OrdinalTimeXAxis" />
-- New Marker Properties:
-  - series.<ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> - Can be set to `MatchMarkerOutline` so the marker depends on the outline
-  - series.<ApiLink type="XYChart" member="markerFillOpacity" label="MarkerFillOpacity" /> - Can be set to a value 0 to 1
-  - series.<ApiLink type="XYChart" member="markerOutlineMode" label="MarkerOutlineMode" /> - Can be set to `MatchMarkerBrush` so the marker's outline depends on the fill brush color
-- New Series Property:
-  - series.<ApiLink type="XYChart" member="outlineMode" label="OutlineMode" /> - Can be set to toggle the series outline visibility. Note, for Data Chart, the property is on the series
-- New chart properties that define bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case is to provide space between the axes and first/last data points. Note, the <ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />, listed below, will automatically set the margin when markers are enabled. The others are designed to specify a `Double` to represent the thickness, where PlotAreaMarginLeft etc. adjusts the space to all four sides of the chart:
-  - chart.<ApiLink type="XYChart" member="plotAreaMarginLeft" label="PlotAreaMarginLeft" />
-  - chart.<ApiLink type="XYChart" member="plotAreaMarginTop" label="PlotAreaMarginTop" />
-  - chart.<ApiLink type="XYChart" member="plotAreaMarginRight" label="PlotAreaMarginRight" />
-  - chart.<ApiLink type="XYChart" member="plotAreaMarginBottom" label="PlotAreaMarginBottom" />
-  - chart.<ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />
-- New Highlighting Properties
-  - chart.<ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> - Sets whether hovered or non-hovered series to fade, brighten
-  - chart.<ApiLink type="SeriesViewer" member="highlightingBehavior" label="HighlightingBehavior" /> - Sets whether the series highlights depending on mouse position e.g. directly over or nearest item
-  - Note, in previous releases the highlighting was limited to fade on hover.
-- Added Highlighting Stacked, Scatter, Polar, Radial, and Shape series:
-- Added Annotation layers to Stacked, Scatter, Polar, Radial, and Shape series:
-- Added support for overriding the data source of individual stack fragments within a stacked series
-- Added custom style events to Stacked, Scatter, Range, Polar, Radial, and Shape series
-- Added support to automatically sync the vertical zoom to the series content
-- Added support to automatically expanding the horizontal margins of the chart based on the initial labels displayed
-- Redesigned color palette of series and markers:
 
-| Old brushes/outlines | New outline/brushes |
-| -------------------- | ------------------- |
-| <span style="color:#7446B9">#7446B9</span> <br /><span style="color:#9FB328">#9FB328</span> <br /><span style="color:#F96232">#F96232</span> <br /><span style="color:#2E9CA6">#2E9CA6</span> <br /><span style="color:#DC3F76">#DC3F76</span> <br /><span style="color:#FF9800">#FF9800</span> <br /><span style="color:#3F51B5">#3F51B5</span> <br /><span style="color:#439C47">#439C47</span> <br /><span style="color:#795548">#795548</span> <br /><span style="color:#9A9A9A">#9A9A9A</span> | <span style="color:#8bdc5c">#8bdc5c</span> <br /><span style="color:#8b5bb1">#8b5bb1</span> <br /><span style="color:#6db1ff">#6db1ff</span> <br /><span style="color:#f8a15f">#f8a15f</span> <br /><span style="color:#ee5879">#ee5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#f7d262">#f7d262</span> <br /><span style="color:#8ce7d9">#8ce7d9</span> <br /><span style="color:#e051a9">#e051a9</span> <br /><span style="color:#a8a8b7">#a8a8b7</span> <br /> |
-
-for example:
-
-|   |   |
-|---|---|
-| <Image src={chartdefaults1} alt="chartDefaults1" class="responsive-img" /> | <Image src={chartdefaults2} alt="chartDefaults2" class="responsive-img" /> |
-| <Image src={chartdefaults3} alt="chartDefaults3" class="responsive-img" /> | <Image src={chartdefaults4} alt="chartDefaults4" class="responsive-img" /> |
-
-#### **{PackageVerChangedFields}**
-
-- Added horizontal <ApiLink type="Toolbar" member="orientation" label="Orientation" /> property to ItemLegend that can be used with Bubble, Donut, and Pie Chart
-- Added <ApiLink type="SeriesViewer" member="legendHighlightingMode" label="LegendHighlightingMode" /> property - Enables series highlighting when hovering over legend items
+## **{PackageVerChangedFields}**
 
 ### {PackageGrids} (データ グリッド)
 
@@ -1177,39 +1612,7 @@ for example:
 
 - PropertyPath の名称変更
 
-
-### **{PackageVerRenamedGrid}**
-
-- Added <ApiLink type="Grid" member="editOnKeyPress" label="EditOnKeyPress" /> aka Excel-style Editing, instantly begin editing when typing.
-- Added <ApiLink type="Grid" member="editModeClickAction" label="EditModeClickAction" /> property - By default double-clicking is required to enter edit mode. This can be set to `SingleClick` to allow for edit mode to occur when selecting a new cell.
-- Added <ApiLink type="EnterKeyBehaviors" /> property - aka Excel-style Navigation (Enter Behavior) – controls the behavior of the enter key, e.g. Options are (none, edit, move up, down, left, right)
-- Added <ApiLink type="EnterKeyBehaviorAfterEdit" /> property - While in edit-mode, this property controls when enter is pressed, e.g. Options are (moves to the cell below, above, right, left)
-- Added <ApiLink type="Grid" member="selectAllRows" label="SelectAllRows" /> - method.
-- Added Row Range Selection - With <ApiLink type="GridSelectionMode" /> property set to MultipleRow the following new functionality is now included:
-  - Click and drag to select rows
-  - <kbd>SHIFT</kbd> and click to select multiple rows.
-  - <kbd>SHIFT</kbd> and press the <kbd>↑</kbd> + <kbd>↓</kbd> arrow keys to select multiple rows.
-- Pressing space bar toggles selection of active row via <ApiLink type="GridSelectionMode" /> property set to MultipleRow or SingleRow
-- Added Column Summaries to Column Options Dialog.
-
-### {PackageGrids} (データ グリッド)
-
-#### **{PackageVerChangedImports}**
-
-- import ステートメントの変更
-
-
-## **{PackageVerChangedFields}**
-
-### {PackageGrids} (Data Grid)
-
-<DocsAside type="info" title="情報">
-These breaking changes were introduce in the grid package.
-</DocsAside>
-
-- Changed name of PropertyPath
-
-The data grid component property `propertyPath` has been renamed to `field`. This applies to all Column types, GroupDescription, SortDescription & SummaryDescription.
+データ グリッド コンポーネントのプロパティ `propertyPath` の名前が `field` に変更されました。これは、すべての列タイプ、GroupDescription、SortDescription および SummaryDescription に適用されます。
 
 <PlatformBlock for="React">
 
@@ -1235,17 +1638,17 @@ income.field = "Income";
 
 ## **{PackageVerRenamedGrid}**
 
-### {PackageGrids} (Data Grid)
+### {PackageGrids} (データ グリッド)
 
-- Changed Name of Live Grid
+- Live Grid の名称変更
 
-The data grid component and it's corresponding module's names have changed from "LiveGrid" to "DataGrid".
+データ グリッド コンポーネントとそれに対応するモジュールの名前が "LiveGrid" から "DataGrid" に変更されました。
 
 <DocsAside type="info" title="情報">
-These breaking changes were introduce in these packages and components only:
+これらの重大な変更は、以下のパッケージとコンポーネントでのみ導入されました:
 </DocsAside>
 
-The new code for importing the grid and it's corresponding module is:
+グリッドとそれに対応するモジュールをインポートするための新しいコードは次のとおりです:
 
 <PlatformBlock for="React">
 
@@ -1256,40 +1659,40 @@ import { IgrDataGridModule } from 'igniteui-react-data-grids';
 
 </PlatformBlock>
 
-- Required Peer Dependency for Data Grid
+- データ グリッドに必要なピア依存関係
 
-The data grid component requires the "inputs" package.
+データ グリッド コンポーネントには "inputs" パッケージが必要です。
 
-```ts
-**npm install --save {PackageInputs}**
+```cmd
+npm install --save {PackageInputs}
 ```
 
 
 ## **{PackageVerChangedImports}**
 
-- Changed Import Statements
+- `import` ステートメントの変更
 
-Import statements have been simplified to use just package names instead of full paths to API classes and enums.
+`import` ステートメントが簡素化され、API クラスと列挙型へのフル パスではなく、パッケージ名のみを使用するようになりました。
 
 <DocsAside type="info" title="情報">
-These breaking changes were introduce in these packages and components only:
+これらの重大な変更は、以下のパッケージとコンポーネントでのみ導入されました:
 </DocsAside>
 
-| Affected Packages | Affected Components |
+| 影響を受けるパッケージ | 影響を受けるコンポーネント |
 | ------------------|---------------------|
 | <a href="{PackageWebsite}{PackageExcel}/v/{PackageVerChangedImports}" target="_blank">{PackageExcel}</a> | [Excel Library](./excel-library.mdx)  |
 | <a href="{PackageWebsite}{PackageSpreadsheet}/v/{PackageVerChangedImports}" target="_blank">{PackageSpreadsheet}</a> | [Spreadsheet](./spreadsheet-overview.mdx) |
 | <a href="{PackageWebsite}{PackageMaps}/v/{PackageVerChangedImports}" target="_blank">{PackageMaps}</a> | [Geo Map](./geo-map.mdx), [Treemap](./charts/types/treemap-chart.mdx)  |
 | <a href="{PackageWebsite}{PackageGauges}/v/{PackageVerChangedImports}" target="_blank">{PackageGauges}</a> |  [Bullet Graph](./bullet-graph.mdx), [Linear Gauge](./linear-gauge.mdx), [Radial Gauge](./radial-gauge.mdx)   |
 | <a href="{PackageWebsite}{PackageCharts}/v/{PackageVerChangedImports}" target="_blank">{PackageCharts}</a>| Category Chart, Data Chart, Donut Chart, Financial Chart], Pie Chart, [Zoom Slider](./zoomslider-overview.mdx)  |
-| <a href="{PackageWebsite}{PackageCore}/v/{PackageVerChangedImports}" target="_blank">{PackageCore}</a> | all classes and enums  |
+| <a href="{PackageWebsite}{PackageCore}/v/{PackageVerChangedImports}" target="_blank">{PackageCore}</a> | すべてのクラスと列挙型  |
 | <a href="{PackageWebsite}{PackageGrids}/v/{PackageVerChangedImports}" target="_blank">{PackageGrids}</a> | [Data Grid](./grids/data-grid.mdx) |
 
-- Code After Changes
+- 変更後のコード
 
-Now, you need to use just package names instead of full paths to API classes and enums.
+API クラスと列挙型へのフル パスではなく、パッケージ名のみを使用する必要があります。
 
-Please also note that the name of the Data Grid component and its corresponding modules have also changed.
+データ グリッド コンポーネントとそれに対応するモジュールの名前も変更されていることに注意してください。
 
 <PlatformBlock for="React">
 
@@ -1317,9 +1720,9 @@ import { IgrLiveGridModule } from 'igniteui-react-data-grids';
 
 </PlatformBlock>
 
-- Code Before Changes
+- 変更前のコード
 
-Before, you had to import using full paths to API classes and enums:
+以前は、API クラスと列挙型へのフル パスを使用してインポートする必要がありました:
 
 <PlatformBlock for="React">
 
