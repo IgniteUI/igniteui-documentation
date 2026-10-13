@@ -16,6 +16,9 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
    matching Indigo.Design component documentation under
    `https://www.infragistics.com/products/indigo-design/help/components/` and use its component
    structure as input for Usage subsection suggestions.
+  For FAQ questions, build the question inventory defined in `house-style.md` → "FAQ
+  question-generation contract", including its public web search; use web results for wording and
+  intent discovery only, then verify every answer against official API/source documentation.
   For the Accessibility section, inspect the component template/render method and typed source
   first: extract rendered native elements, `role`, `aria-*` attributes, focus and disabled
   conditions, and validation/selection state mapping. Read keyboard and pointer event handlers to
@@ -57,7 +60,9 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
      `indicatorPosition="end"` on every `FaqItem`, because the value on `Faq` does not flow into
      slotted children. When auditing, flag plain FAQ headings or custom accordion markup and convert
      each question/answer pair to an `FaqItem` while keeping the answer concise and
-     component-specific.
+     component-specific. Select 3–6 questions from the inventory built in step 3, following the
+     selection rules in the FAQ question-generation contract. Keep each answer 2–4 self-contained
+     sentences; do not copy Troubleshooting or Usage steps verbatim.
    - **6e — Required sections check.** Include the required `### Prerequisites and Version
      Compatibility` subsection under **Getting Started**, and the required **Known Limitations**,
      **Related Components**, and **FAQ** sections in their canonical positions. A verified
