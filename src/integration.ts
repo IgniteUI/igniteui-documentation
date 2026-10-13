@@ -790,6 +790,15 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         content:
             '[data-astro-transition-persist="global-nav-bar"]{position:relative!important}' +
             '.igd-chrome header.nv{position:relative;top:auto}',
+    }, {
+        // Close an open top-nav dropdown on scroll
+        tag: 'script',
+        content:
+            'if(!window.__igdNavScrollClose){window.__igdNavScrollClose=1;' +
+            'addEventListener("scroll",function(){' +
+            'if(document.querySelector(\'.nv [data-nav-trigger][aria-expanded="true"]\'))' +
+            'document.body.dispatchEvent(new MouseEvent("click",{bubbles:true}))' +
+            '},{passive:true})}',
     }];
 
     // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
