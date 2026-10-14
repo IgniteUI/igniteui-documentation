@@ -13,8 +13,8 @@
  *
  *   node scripts/check-snippet-emission.mjs [--lang=en] [--print [--platform=WinUI]] [glob]
  *
- * The emitter and the examples checkout are resolved by lib/snippet-toolchain.mjs: a peer
- * checkout locally, or XPLAT_EXAMPLES / IG_SNIPPET_API when they are somewhere else.
+ * The emitter and the examples checkout are resolved by lib/snippet-toolchain.mjs: the examples at the
+ * commit xplat-examples.lock.json states, or XPLAT_EXAMPLES / IG_SNIPPET_API to name others.
  */
 
 import fs from 'fs';

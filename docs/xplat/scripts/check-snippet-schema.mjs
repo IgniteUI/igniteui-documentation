@@ -9,9 +9,8 @@
  * Usage:
  *   node scripts/check-snippet-schema.mjs [--lang=en,jp] [--quiet] [path fragment]
  *
- * The emitter and the examples checkout are resolved by lib/snippet-toolchain.mjs: a peer checkout
- * locally, XPLAT_EXAMPLES / IG_SNIPPET_API when they live somewhere else, or a clone of the matching
- * examples branch when there is no peer at all.
+ * The emitter and the examples checkout are resolved by lib/snippet-toolchain.mjs: the examples at the
+ * commit xplat-examples.lock.json states, or XPLAT_EXAMPLES / IG_SNIPPET_API to name others.
  */
 
 import fs from 'fs';

@@ -6,12 +6,11 @@
  * anyone else runs them, and it cannot work in CI at all. Resolution is stated once here, in the
  * order a run should prefer:
  *
- *   1. an environment variable, which is how CI and anyone with an unusual layout says where
- *   2. a peer checkout beside this repository, which is the ordinary local case
- *   3. a package under node_modules, which is how CI will work once the emitter ships in one
+ *   The emitter: an environment variable, then a built dev-tools spike beside this repository, then
+ *   the one built here under scripts/snippet-emitter.
  *
- * A clone is only moved onto another branch when this is CI. A workspace there is made fresh for the
- * run; a directory on someone's machine is theirs.
+ *   The examples: an environment variable naming a checkout, else the commit xplat-examples.lock.json
+ *   states, fetched into .snippet-cache. See resolveExamplesRoot.
  *
  * Nothing here builds anything. If the emitter is not built, the message says which command builds
  * it — guessing and running a build inside a check would hide why a run took four minutes.
@@ -32,7 +31,7 @@ export const XPLAT_ROOT = path.resolve(HERE, '..', '..');
 /** The repository root, which is where peer checkouts sit beside. */
 export const REPO_ROOT = path.resolve(XPLAT_ROOT, '..', '..');
 
-/** Where a clone goes when there is no peer checkout. Ignored by git; safe to delete. */
+/** Where the locked examples are fetched to. Ignored by git; safe to delete. */
 export const CACHE_DIR = path.join(REPO_ROOT, '.snippet-cache');
 
 const SPIKE_RELATIVE = path.join(
@@ -122,13 +121,40 @@ export function resolveSnippetApiPaths() {
 /**
  * The examples checkout: samples, and the code generation library the samples bind to.
  *
- * Cloned when there is no peer, at the branch that matches the branch being checked. The matching
- * rules are the ones dev-tools uses in Builds/scripts/resolve-xplat-examples-branch.sh, because a
- * change that spans both repositories is made on same-named branches in both, and a check that read
- * main would review the change against the wrong samples.
+ * Which commit is stated in xplat-examples.lock.json beside docs/xplat, not inferred. A checkout found
+ * lying around -- a peer clone on whatever branch someone last left it, a cache from an earlier run --
+ * was used as it stood, so a build could quietly read months-old samples and report the gaps as
+ * errors in the page. Now:
+ *
+ *   1. XPLAT_EXAMPLES, a checkout named outright, is used as given: that is how someone tests their
+ *      own examples changes. It says so when the checkout is not at the locked commit.
+ *   2. Otherwise .snippet-cache/igniteui-xplat-examples is made to match the lock: fetched shallow and
+ *      sparse, only the folders the documentation reads.
+ *
+ * A peer checkout is no longer picked up on its own; point XPLAT_EXAMPLES at it to use one.
  */
+export const EXAMPLES_LOCK = path.join(XPLAT_ROOT, 'xplat-examples.lock.json');
+
+/** The folders of the examples repository the documentation reads; the rest is never fetched. */
+const EXAMPLES_PATHS = ['code-gen-library', 'editor-templates', 'samples'];
+
+/** The lock: { repository, ref, commit }. A commit pins the build; a ref alone follows its tip. */
+export function readExamplesLock() {
+    let lock;
+    try {
+        lock = JSON.parse(fs.readFileSync(EXAMPLES_LOCK, 'utf8'));
+    } catch (e) {
+        fail(`cannot read ${path.relative(REPO_ROOT, EXAMPLES_LOCK)}: ${e.message}`);
+    }
+    if (!lock.repository || !lock.ref) {
+        fail(`${path.relative(REPO_ROOT, EXAMPLES_LOCK)} needs "repository" and "ref"`);
+    }
+    return lock;
+}
+
 export function resolveExamplesRoot({ quiet = false } = {}) {
     const say = (message) => { if (!quiet) console.log(`[examples] ${message}`); };
+    const lock = readExamplesLock();
 
     if (process.env.XPLAT_EXAMPLES) {
         const given = path.resolve(process.env.XPLAT_EXAMPLES);
@@ -136,126 +162,98 @@ export function resolveExamplesRoot({ quiet = false } = {}) {
             fail(`XPLAT_EXAMPLES has no code-gen-library in it:\n  ${given}`);
         }
         say(`using XPLAT_EXAMPLES: ${given}`);
+        const head = gitOut(given, ['rev-parse', 'HEAD']);
+        if (lock.commit && head && head !== lock.commit) {
+            say(`note: it is at ${head.slice(0, 10)}, not the locked ${lock.commit.slice(0, 10)} (${lock.ref})`);
+        }
         return given;
     }
 
-    const peer = firstExisting([
-        path.join(REPO_ROOT, '..', 'igniteui-xplat-examples', 'code-gen-library'),
-        path.join(REPO_ROOT, '..', '..', 'igniteui-xplat-examples', 'code-gen-library'),
-    ]);
-    if (peer) {
-        const root = path.dirname(peer);
-        say(`using the peer checkout: ${root}`);
-        return root;
-    }
-
     const clone = path.join(CACHE_DIR, 'igniteui-xplat-examples');
-    if (fs.existsSync(path.join(clone, '.git'))) {
-        // Moving an existing checkout to another branch is a thing to do in CI and nowhere else. A
-        // workspace there is made fresh for the run, so the branch has to be resolved every time; on a
-        // machine, whatever is in that directory is there because someone put it there — a worktree of
-        // their own clone, a branch under test — and fetching over it discards their work without asking.
-        if (!IN_CI) {
-            say(`using the checkout already at ${path.relative(REPO_ROOT, clone)}, as it stands`);
+    if (!lock.commit) say(`not pinned: following the tip of ${lock.ref} (pin it with resolve-examples.mjs --pin)`);
+    // Generations are often run several at once, one per platform. Whoever gets here first brings the
+    // cache to the lock; the rest wait, then find it already there.
+    return withCacheLock(clone, () => syncCache(clone, lock, say));
+}
+
+function syncCache(clone, lock, say) {
+    const wanted = lock.commit ?? lock.ref;
+    if (fs.existsSync(clone)) {
+        // Only a clone this made is moved. A worktree of someone's own clone, or one with edits in it,
+        // is theirs: refusing loses nothing, overwriting could.
+        if (!fs.existsSync(path.join(clone, '.git')) || fs.statSync(path.join(clone, '.git')).isFile()) {
+            fail(`${path.relative(REPO_ROOT, clone)} is not a clone this toolchain made (a worktree, or ` +
+                 `not a repository). Move it aside or delete it, or set XPLAT_EXAMPLES to use it as it is.`);
+        }
+        if (lock.commit && gitOut(clone, ['rev-parse', 'HEAD']) === lock.commit) {
+            say(`${path.relative(REPO_ROOT, clone)} is at the locked ${lock.commit.slice(0, 10)}`);
             return clone;
         }
-        const branch = resolveExamplesBranch(say);
-        say(`updating the cached clone to ${branch}`);
-        git(clone, ['fetch', '--depth', '1', 'origin', branch]);
-        git(clone, ['checkout', '--force', 'FETCH_HEAD']);
-        return clone;
+        if (gitOut(clone, ['status', '--porcelain'])) {
+            fail(`${path.relative(REPO_ROOT, clone)} has local changes; not moving it to ${wanted}. ` +
+                 `Commit or discard them, or set XPLAT_EXAMPLES to use it as it is.`);
+        }
+    } else {
+        say(`creating ${path.relative(REPO_ROOT, clone)} from ${lock.repository}`);
+        fs.mkdirSync(clone, { recursive: true });
+        git(clone, ['init', '-q']);
+        git(clone, ['remote', 'add', 'origin', lock.repository]);
+        git(clone, ['config', 'remote.origin.promisor', 'true']);
+        git(clone, ['config', 'remote.origin.partialclonefilter', 'blob:none']);
+        git(clone, ['sparse-checkout', 'set', ...EXAMPLES_PATHS]);
     }
 
-    const branch = resolveExamplesBranch(say);
-    say(`cloning ${branch} into ${path.relative(REPO_ROOT, clone)}`);
-    fs.mkdirSync(CACHE_DIR, { recursive: true });
-    git(REPO_ROOT, ['clone', '--depth', '1', '--branch', branch, EXAMPLES_URL, clone]);
+    say(`fetching ${wanted}${lock.commit ? ` (${lock.ref})` : ''}`);
+    git(clone, ['fetch', '-q', '--depth', '1', '--filter=blob:none', 'origin', wanted]);
+    git(clone, ['checkout', '-q', '--force', '--detach', 'FETCH_HEAD']);
+    if (lock.commit && gitOut(clone, ['rev-parse', 'HEAD']) !== lock.commit) {
+        fail(`fetched ${wanted} but the checkout is not at it`);
+    }
     return clone;
 }
 
-/** Whether this is a build rather than someone's machine. */
-const IN_CI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true' ||
-    process.env.TF_BUILD === 'True';
-
-const EXAMPLES_URL = process.env.XPLAT_EXAMPLES_URL
-    ?? 'https://github.com/IgniteUI/igniteui-xplat-examples.git';
-
-/**
- * Which branch of the examples to read.
- *
- * Same order dev-tools resolves it in: the branch's own name, then any branch whose last segment
- * matches — "docs/json-snippets" finds "gmurray/json-snippets" — then the branch this one is
- * targeting, then main. Stated as a preference list rather than a lookup because a name that
- * matches nothing has to fall all the way back without failing.
- */
-export function resolveExamplesBranch(say = () => {}) {
-    if (process.env.XPLAT_EXAMPLES_BRANCH) {
-        say(`branch from XPLAT_EXAMPLES_BRANCH: ${process.env.XPLAT_EXAMPLES_BRANCH}`);
-        return process.env.XPLAT_EXAMPLES_BRANCH;
-    }
-
-    const here = currentBranch();
-    const target = stripRef(process.env.GITHUB_BASE_REF ?? '');
-    const remote = remoteBranches();
-
-    if (here && remote.includes(here)) {
-        say(`exact branch match: ${here}`);
-        return here;
-    }
-    const lastNode = here ? here.split('/').pop() : null;
-    if (lastNode) {
-        const match = remote.find(name => name.split('/').pop() === lastNode);
-        if (match) {
-            say(`last segment of "${here}" matches: ${match}`);
-            return match;
+/** Runs fn holding an exclusive lock beside the cache: a directory, since making one is atomic. */
+function withCacheLock(clone, fn) {
+    const lockDir = clone + '.lock';
+    fs.mkdirSync(path.dirname(clone), { recursive: true });
+    const started = Date.now();
+    for (;;) {
+        try {
+            fs.mkdirSync(lockDir);
+            break;
+        } catch (e) {
+            if (e.code !== 'EEXIST') throw e;
+            if (Date.now() - started > 10 * 60 * 1000) {
+                fail(`waited ten minutes for ${path.relative(REPO_ROOT, lockDir)}; if no other run is ` +
+                     `fetching the examples, delete it`);
+            }
+            Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 250);
         }
     }
-    if (target) {
-        if (target === 'main' || remote.includes(target)) {
-            say(`no match for "${here}", using the branch it targets: ${target}`);
-            return target;
-        }
-        const release = target.match(/^release\/(.+)$/);
-        if (release && remote.includes(release[1])) {
-            say(`no match for "${here}", using the release it targets: ${release[1]}`);
-            return release[1];
-        }
+    try {
+        return fn();
+    } finally {
+        fs.rmSync(lockDir, { recursive: true, force: true });
     }
-    say(`no match for "${here}", using main`);
-    return 'main';
 }
 
-function currentBranch() {
-    // In a pull request the checkout is detached at the merge commit, so the branch under review is
-    // only in the environment. Locally, git knows.
-    const fromEnv = stripRef(process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF ?? '');
-    if (fromEnv) return fromEnv;
+/** The commit a ref of the locked repository currently points at, or null when it cannot be read. */
+export function examplesRefTip(lock, ref = lock.ref) {
     try {
-        const name = execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'],
-            { cwd: REPO_ROOT, encoding: 'utf8' }).trim();
-        return name === 'HEAD' ? null : name;
+        const out = execFileSync('git', ['ls-remote', lock.repository, `refs/heads/${ref}`],
+            { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+        return out.split('\t')[0].trim() || null;
     } catch {
         return null;
     }
 }
 
-function remoteBranches() {
+function gitOut(cwd, args) {
     try {
-        const out = execFileSync('git', ['ls-remote', '--heads', EXAMPLES_URL],
-            { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-        return out.split('\n')
-            .map(line => line.split('\t')[1])
-            .filter(Boolean)
-            .map(ref => ref.replace(/^refs\/heads\//, ''));
+        return execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
     } catch {
-        // Offline, or no access. Falling back to main is better than failing a check that may not
-        // need the clone at all.
-        return [];
+        return null;
     }
-}
-
-function stripRef(value) {
-    return value.replace(/^refs\/heads\//, '').trim();
 }
 
 function git(cwd, args) {

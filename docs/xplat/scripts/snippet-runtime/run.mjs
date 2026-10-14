@@ -21,8 +21,8 @@
  * The samples mode is what igniteui-xplat-examples should run over its own samples; it lives here
  * because it is the same harness, and moving it is a move rather than a rewrite.
  *
- * The examples checkout is resolved by ../lib/snippet-toolchain.mjs: a peer checkout, XPLAT_EXAMPLES, or
- * a clone of the examples branch matching the branch under check. It is needed either way — a fence
+ * The examples checkout is resolved by ../lib/snippet-toolchain.mjs: the commit xplat-examples.lock.json
+ * states, or XPLAT_EXAMPLES to name another. It is needed either way — a fence
  * binds to the same code generation library the samples do.
  */
 

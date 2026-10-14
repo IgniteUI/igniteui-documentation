@@ -7,17 +7,29 @@
  *     node docs/xplat/scripts/ci/resolve-examples.mjs --print-path >> "$GITHUB_OUTPUT"
  *
  * Locally it reports what it found, which is worth knowing before a check runs against the wrong
- * samples for twenty minutes.
+ * samples for twenty minutes. With --pin it updates xplat-examples.lock.json instead.
  */
 
-import { resolveExamplesRoot, resolveExamplesBranch } from '../lib/snippet-toolchain.mjs';
+import fs from 'node:fs';
+import { resolveExamplesRoot, readExamplesLock, examplesRefTip, EXAMPLES_LOCK } from '../lib/snippet-toolchain.mjs';
 
 const args = process.argv.slice(2);
 const FOR_OUTPUT = args.includes('--print-path');
 
-if (args.includes('--branch-only')) {
-    // Which branch would be used, without cloning anything.
-    console.log(resolveExamplesBranch(message => console.error(`[examples] ${message}`)));
+// --pin [ref]: point the lock at a ref's current tip, so every build reads that exact commit. The ref
+// defaults to the one already locked. Run it after the examples change lands, and commit the lock.
+const pinAt = args.indexOf('--pin');
+if (pinAt >= 0) {
+    const lock = readExamplesLock();
+    const ref = args[pinAt + 1] && !args[pinAt + 1].startsWith('--') ? args[pinAt + 1] : lock.ref;
+    const tip = examplesRefTip(lock, ref);
+    if (!tip) {
+        console.error(`[examples] cannot read the tip of ${ref} in ${lock.repository}`);
+        process.exit(2);
+    }
+    const pinned = { ...lock, ref, commit: tip };
+    fs.writeFileSync(EXAMPLES_LOCK, JSON.stringify(pinned, null, 4) + '\n');
+    console.log(`[examples] pinned ${ref} at ${tip}`);
     process.exit(0);
 }
 

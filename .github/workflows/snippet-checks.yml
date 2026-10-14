@@ -8,10 +8,9 @@ name: Snippet checks
 #   node docs/xplat/scripts/check-snippet-schema.mjs
 #   node docs/xplat/scripts/check-snippet-emission.mjs
 #
-# Locally these find a peer igniteui-xplat-examples checkout, and a dev-tools one when someone is
-# testing a change to the renderer. Here there is neither: the emitter is built from the published
-# packages, and the examples are cloned at the branch matching the branch under review — the same
-# matching dev-tools' own builds use.
+# The examples are the commit docs/xplat/xplat-examples.lock.json states, here and locally alike. The
+# emitter is built from the published packages; locally a built dev-tools spike is used instead, when
+# someone is testing a change to the renderer.
 
 permissions:
   contents: read
@@ -52,9 +51,9 @@ jobs:
           npm install --no-audit --no-fund
           npm run build
 
-      # The samples and the code generation library a snippet is emitted against. Resolved to the
-      # examples branch matching this one, so a change spanning both repositories is checked against
-      # the samples it was written for.
+      # The samples and the code generation library a snippet is emitted against, at the commit
+      # docs/xplat/xplat-examples.lock.json states. A change spanning both repositories points the
+      # lock at its examples branch.
       - name: Resolve the examples checkout
         id: examples
         run: |

@@ -595,6 +595,25 @@ cd scripts/snippet-runtime && node run.mjs
 **Run both languages.** The checks take `--lang` and default to `en`. CI runs both. A topic whose
 Japanese copy has drifted fails only under `--lang=jp`.
 
+**Which examples a build reads is stated, not guessed.** `docs/xplat/xplat-examples.lock.json` names
+the examples repository, a `ref`, and a `commit`. Every build, local or CI, reads that commit, fetched
+shallow and sparse (only `code-gen-library`, `editor-templates` and `samples`) into `.snippet-cache/`.
+A checkout lying beside this repository is no longer picked up on its own, because a stale one was
+read silently. Set `XPLAT_EXAMPLES` to use a checkout as it is, for instance to try examples changes
+before pushing them.
+
+For a change that spans both repositories:
+
+```sh
+# point the lock at the examples branch and pin its current tip
+node docs/xplat/scripts/ci/resolve-examples.mjs --pin gmurray/my-examples-branch
+# ... after the examples change merges, pin main
+node docs/xplat/scripts/ci/resolve-examples.mjs --pin main
+```
+
+Commit the lock with the documentation change. A lock with a `ref` and no `commit` follows the tip of
+that ref and says so on every run; useful while iterating, but not reproducible, so pin before merging.
+
 **Local and CI may not use the same emitter.** `resolveSnippetApiPaths` prefers, in order:
 `IG_SNIPPET_API`, a built emitter in a peer `dev-tools` checkout, then this repository's own build from
 the published packages. That order exists so someone with `dev-tools` open is testing their change
@@ -611,7 +630,7 @@ Three environment variables decide what a run is actually testing, and CI sets t
 |---|---|
 | `IG_SNIPPET_API` | a built `snippet-api.cjs` to emit with, ahead of a peer `dev-tools` or this repository's own build |
 | `IG_ITEM_TEMPLATES` | the library item templates, ahead of a peer `dev-tools` copy and then the vendored one in `scripts/snippet-emitter/templates` |
-| `XPLAT_EXAMPLES` | the examples checkout, ahead of a peer clone and then a clone of the branch matching this one |
+| `XPLAT_EXAMPLES` | an examples checkout to use as it is, instead of the commit `xplat-examples.lock.json` states |
 
 Pointing the first two at this repository's own copies is how a local run reproduces CI exactly:
 
