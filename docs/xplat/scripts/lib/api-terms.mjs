@@ -78,6 +78,11 @@ export function apiMap(repoRoot = undefined) {
 /** The `apiTerms:` values a page may declare. */
 export const API_TERM_MODES = ['full', 'none', 'passthrough'];
 
+/** Whether a page is web-only, stated or by default. See platformType. */
+export function isWebOnly(content, where = 'this page') {
+    return platformType(content, where) === 'web-only';
+}
+
 /** The `platformType:` values a page may declare. */
 export const PLATFORM_TYPES = ['xplat', 'xplat-unmapped', 'web-only'];
 
@@ -100,16 +105,15 @@ const API_TERMS_DEFAULT = { xplat: 'full', 'xplat-unmapped': 'passthrough', 'web
  *
  * **Required, with no default.** It decides two things a page cannot be read for: what `apiTerms`
  * means here, and whether a hand written block per platform is a drift risk or nobody's business.
- * A page that has not stated it fails, naming the file.
+ *
+ * **Temporarily, a page that does not state it is web-only.** The web-only pages carry no
+ * platformType while the JSON snippets work merges, so they stay identical to the web documentation
+ * and their owners have no edits from it to review. Restore the error below once that has landed.
  */
 export function platformType(content, where = 'this page') {
     const match = /^platformType:\s*(\S+)/m.exec(content);
     if (!match) {
-        throw new Error(
-            `${where}: no platformType in the frontmatter. Add "platformType: xplat" for a topic in ` +
-            `the cross-platform (DV) set, "platformType: xplat-unmapped" for one whose API no ` +
-            `generator describes, or "platformType: web-only" for one that ships for the web ` +
-            `platforms only.`);
+        return 'web-only';
     }
     const value = match[1].replace(/^["']|["']$/g, '');
     if (!PLATFORM_TYPES.includes(value)) {

@@ -17,6 +17,11 @@ exactly like a name for a platform you did not build.
 `platformType` is required in the frontmatter. There is no default, so the decision is made per
 document rather than inherited by a topic nobody thought about:
 
+> **Temporarily suspended for `web-only`.** While the JSON snippets work merges, the web-only pages
+> carry no `platformType`, so they stay identical to the web documentation and their owners have no
+> edits from it to review. The build treats a page without one as `web-only`. Do not add
+> `platformType: web-only` to a page in the meantime; xplat pages still state theirs.
+
 | population | what it is | `apiTerms` it implies |
 |---|---|---|
 | `xplat` | the cross-platform (DV) set — anything whose API the generator describes | `full` |

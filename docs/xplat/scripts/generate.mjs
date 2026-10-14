@@ -34,7 +34,7 @@ import {
 } from './lib/snippet-toolchain.mjs';
 import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.mjs';
 import { fenceEmitter, libraryItemLookup, CODE_FENCE_LANG } from './lib/snippet-emit.mjs';
-import { resolveApiTerms } from './lib/api-terms.mjs';
+import { resolveApiTerms, isWebOnly } from './lib/api-terms.mjs';
 import { loadAcknowledgedTerms } from './lib/acknowledged-terms.mjs';
 
 // ---------------------------------------------------------------------------
@@ -1024,7 +1024,7 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
         // Shared web theming topics have generated component-specific paths that do not exactly
         // match their TOC source path, so TOC exclusion alone cannot identify them. Do not emit
         // those routes into the XAML product output.
-        if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') && /^platformType:\s*web-only\s*$/m.test(raw)) {
+        if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') && isWebOnly(raw, `_shared/${entry}`)) {
             console.log(`[generate] Skipping web-only shared topic: _shared/${entry}`);
             continue;
         }
@@ -1147,7 +1147,7 @@ function processDir(srcDir, outDir, relBase = '') {
             }
             const raw = readFileSync(srcPath, 'utf8');
             if ((PLATFORM === 'WinUI' || PLATFORM === 'Uno') &&
-                /^platformType:\s*web-only\s*$/m.test(raw) && !INCLUDED_SLUGS.has(slug)) {
+                isWebOnly(raw, slug) && !INCLUDED_SLUGS.has(slug)) {
                 console.log(`[generate] Skipping unlinked web-only topic: ${slug}`);
                 continue;
             }
