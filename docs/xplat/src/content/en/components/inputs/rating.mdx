@@ -1,76 +1,135 @@
 ---
-title: "{Platform} Rating"
-description: With {ProductName} Rating, allows users to view and provide feedback using unicode symbols, svg, or icons.
-keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Rating components, {Platform} Rating controls"
+title: "{Platform} Rating Component"
+description: "The {ProductName} Rating is a form-associated input for selecting or viewing a score on a scale of stars or custom symbols, with half-star steps."
+keywords: "{Platform} Rating, {ProductName}, star rating, half-star rating, rating symbols"
 license: MIT
-mentionedTypes: ["Rating"]
+last_updated: "2026-10-07"
+relatedComponents: ["Slider", "RadioGroup"]
+mentionedTypes: ["Rating", "RatingSymbol"]
 llms:
-  description: "The {ProductName} Rating component allows users to view and provide feedback."
+  description: "The {ProductName} Rating is a form-associated component that lets users view and select a score on a scale of stars or custom symbols."
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import ratingAnatomy from '@xplat-images/anatomy-content-light/rating-lt-a.png';
+import ratingDoSymbol from '@xplat-images/rating/rating-do-1.png';
+import ratingDoNotSymbol from '@xplat-images/rating/rating-do-not-1.png';
+import ratingDoContrast from '@xplat-images/rating/rating-do-2.png';
+import ratingDoNotContrast from '@xplat-images/rating/rating-do-not-2.png';
 
+# Rating
 
-# {Platform} Rating Overview
+The {ProductName} Rating is a form-associated component that lets users view and select a score on a scale of stars or custom symbols.
 
-The {ProductName} Rating component allows users to view and provide feedback.
+<PlatformBlock for="Angular">
 
-<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating Basic Example" />
+In Angular, the Rating is the `igc-rating` web component from `igniteui-webcomponents`. Bind it to Angular forms with the `IgcFormControlDirective`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The Rating supports half-star and other fractional values, a hover preview, single selection of distinct symbols, and full keyboard input.
+
+</PlatformBlock>
+
+## Live Demo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+</PlatformBlock>
+
+## Anatomy
+
+The Rating is built from Label and Value, where the Value is the number of the rating scale. The Label can be switched on/off using a boolean property. The number of icons in the rating scale is predefined to 5 stars in total, but if you need to design a Rating with more rating icons, the easiest way to do so is by inserting the component into your workspace.
+
+<Anatomy
+  class="rating-anatomy"
+  name="Rating"
+  description="The Rating component shows a label and a row of symbols that fill up to the current value."
+  src={ratingAnatomy.src}
+  alt="Rating anatomy showing the label and full, partially filled, and empty star symbols"
+/>
+
+<style>{`
+  .rating-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .rating-anatomy .igd-anatomy__image {
+    max-width: 257.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Label (optional):</strong> describes what the user is rating<br />
+<strong>2. Rating Icon:</strong> indicates selected item<br />
+<strong>3. Rating Icon:</strong> indicates half selected item<br />
+<strong>4. Rating Icon:</strong> indicates unselected item</span>
+
+The `igc-rating` element renders the label and a slider that holds the symbols. Without projected symbols, it renders one star for each point of `max`:
+
+```text
+igc-rating
+└─ #shadow-root
+   ├─ label[part="label"]                    // hidden when label isn't set
+   └─ div[part="base"][role="slider"]
+      ├─ div[part="symbols"]                 // aria-hidden="true"
+      │  └─ slot[name="symbol"]              // projected igc-rating-symbol elements
+      │     └─ igc-rating-symbol × max       // default stars when nothing is projected
+      │        └─ #shadow-root
+      │           ├─ div[part="symbol full"]   // star_filled icon, clipped to the value
+      │           └─ div[part="symbol empty"]  // star_outlined icon, clipped to the rest
+      └─ label[part="value-label"]
+         └─ slot[name="value-label"]         // hidden when the slot is empty
+```
+
+Each `igc-rating-symbol` renders its default slot in the `full` part and its `empty` slot in the `empty` part.
+
+## Getting Started
+
+To use the {Platform} Rating, follow the <PlatformBlock for="Angular">[{ProductName} Getting Started](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Getting Started](../general-getting-started.mdx)</PlatformBlock> topic for the basic project setup, then add the component for your target platform.
 
 <PlatformBlock for="WebComponents">
 
-First, you need to install the {ProductName} by running the following command:
+Install the **{PackageCommon}** package:
 
 ```cmd
-npm install {PackageWebComponents}
+npm install {PackageCommon}
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
-
-```cmd
-npm install igniteui-react
-```
-
-</PlatformBlock>
-
-Before using the <ApiLink pkg="core" type="Rating" />, you need to register it as follows:
-
-<PlatformBlock for="Blazor">
-
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule));
-```
-
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Rating" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
-
-```razor
-<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
+Then import the <ApiLink pkg="core" type="Rating" />, its theme CSS, and register the component. The registration also registers the `igc-rating-symbol` and `igc-icon` elements:
 
 ```ts
-import { defineComponents, IgcRatingComponent } from "igniteui-webcomponents";
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 defineComponents(IgcRatingComponent);
 ```
 
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.mdx) topic.
-
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
+Install the **{PackageCommon}** package:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Then import the <ApiLink pkg="core" type="Rating" /> wrapper and the theme CSS:
 
 ```tsx
 import { IgrRating } from 'igniteui-react';
@@ -79,20 +138,62 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 </PlatformBlock>
 
-The simplest way to start using the <ApiLink pkg="core" type="Rating" /> is as follows:
+<PlatformBlock for="Blazor">
 
-<PlatformBlock for="WebComponents">
+Register the Rating module in **Program.cs**:
 
-```html
-<igc-rating></igc-rating>
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule));
+```
+
+Then link the theme CSS file in **wwwroot/index.html** for a **Blazor WebAssembly** project or in **Pages/_Host.cshtml** for a **Blazor Server** project:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+<PlatformBlock for="Angular">
 
-```razor
-<IgbRating></IgbRating>
+If your project doesn't use {ProductName} yet, run `ng add igniteui-angular`. Then install the **{PackageComponents}** package, which provides the Rating:
+
+```cmd
+npm install {PackageComponents}
+```
+
+Register the `IgcRatingComponent`, and add `CUSTOM_ELEMENTS_SCHEMA` to the Angular component that renders `igc-rating`:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
+
+@Component({
+    selector: 'app-product-rating',
+    template: '<igc-rating label="Rate this product"></igc-rating>',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ProductRatingComponent {}
+```
+
+The {ProductName} theme styles `igc-rating`, so the Rating follows the theme that you include with the `theme()` mixin.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+After registration, render the <ApiLink pkg="core" type="Rating" /> with a label:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating label="Rate this product"></igc-rating>
 ```
 
 </PlatformBlock>
@@ -100,148 +201,238 @@ The simplest way to start using the <ApiLink pkg="core" type="Rating" /> is as f
 <PlatformBlock for="React">
 
 ```tsx
-  <IgrRating></IgrRating>
+<IgrRating label="Rate this product" />
 ```
 
 </PlatformBlock>
 
-This will create a five-star rating component that can be used to input and read data from.
+<PlatformBlock for="Blazor">
 
-## Using Custom Symbols
+```razor
+<IgbRating Label="Rate this product" />
+```
 
-The <ApiLink pkg="core" type="Rating" /> component allows you to use custom symbols in place of the default star symbols. If you want to use a different symbol, like SVG, icon or another unicode symbol, you should place <ApiLink pkg="core" type="RatingSymbol" /> components between the opening and closing brackets of the <ApiLink pkg="core" type="Rating" />:
+</PlatformBlock>
+
+The Rating renders five stars and starts with a value of 0.
+
+## Usage
+
+Use the {Platform} Rating to collect a score for a product, a service, or an experience, or to show an average score that users can't change.
+
+Set `hoverPreview` to fill the symbols up to the value under the pointer before the user clicks. When the pointer leaves the symbols, the {Platform} Rating shows its value again. A read-only or disabled Rating shows no preview.
+
+<PlatformBlock for="WebComponents">
+
+While the preview is on, the Rating emits `igcHover` with the value under the pointer:
+
+```html
+<igc-rating hover-preview label="Rate this article"></igc-rating>
+<span id="hint"></span>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+const hint = document.getElementById('hint')!;
+
+rating.addEventListener('igcHover', (event) => {
+  hint.textContent = `${event.detail} stars`;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+While the preview is on, the Rating calls `onHover` with the value under the pointer:
+
+```tsx
+<IgrRating
+  hoverPreview={true}
+  label="Rate this article"
+  onHover={(e: CustomEvent<number>) => setHint(`${e.detail} stars`)}
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+While the preview is on, the Rating raises `Hover` with the value under the pointer:
+
+```razor
+<IgbRating HoverPreview="true" Label="Rate this article" Hover="OnHover" />
+
+@code {
+    private string Hint { get; set; }
+
+    private void OnHover(IgbNumberEventArgs e)
+    {
+        Hint = $"{e.Detail} stars";
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+While the preview is on, the Rating emits `igcHover` with the value under the pointer:
+
+```html
+<igc-rating hover-preview label="Rate this article" (igcHover)="onHover($event)"></igc-rating>
+```
+
+```ts
+public hint = '';
+
+public onHover(event: Event) {
+    this.hint = `${(event as CustomEvent<number>).detail} stars`;
+}
+```
+
+</PlatformBlock>
+
+By default, a click on the current value keeps the value. Set `allowReset` to reset the {Platform} Rating to 0 when the user clicks the current value again.
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-rating>
-  <igc-rating-symbol> <span>💙</span> <span slot="empty">💙</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>💙</span> <span slot="empty">💙</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>💙</span> <span slot="empty">💙</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>💙</span> <span slot="empty">💙</span> </igc-rating-symbol>
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating allowReset={true} label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating AllowReset="true" Label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+Set `readOnly` to show a score that users can't change, such as the average of all reviews. The value can be any number in the range, so a value of 4.3 fills four symbols and 30% of the fifth. A read-only {Platform} Rating stays in the tab order, and assistive technology announces it as read-only.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating readOnly={true} value={4.3} label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating ReadOnly="true" Value="4.3" Label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+### Layout
+
+The `label` property renders a visible label above the symbols and names the {Platform} Rating for assistive technology. To show custom content next to the symbols, such as the current score, place it in the `value-label` slot:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating value="4" label="Rate this product">
+  <span slot="value-label">4 of 5</span>
 </igc-rating>
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbRating>
-  <IgbRatingSymbol> <span>💙</span> <span slot="empty">💙</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>💙</span> <span slot="empty">💙</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>💙</span> <span slot="empty">💙</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>💙</span> <span slot="empty">💙</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>💙</span> <span slot="empty">💙</span> </IgbRatingSymbol>
-</IgbRating>
-```
+Update the slot content in the `igcChange` handler to keep it in sync with the value.
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
 ```tsx
-  <IgrRating className="size-large" label="Rate Experience" step={.5} hoverPreview={true}>
-    <IgrRatingSymbol>
-        <IgrIcon name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-        <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-      <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-       <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-       <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
+<IgrRating value={score} label="Rate this product" onChange={(e: CustomEvent<number>) => setScore(e.detail)}>
+  <span slot="value-label">{score} of 5</span>
 </IgrRating>
 ```
 
 </PlatformBlock>
 
-<Sample src="/inputs/rating/custom" height={150} alt="{Platform} Rating Custom Symbols Example" />
-
-> The number of rating symbols between the opening and closing brackets of the rating component determines the max value.
-
-## Single Selection
-
-The {ProductName} Rating component has a single selection mode that allows users to provide different icons/elements for the different rating values. In this case, only one of the icons/elements can be selected and reflect the feedback given by the user.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-rating single>
-  <igc-rating-symbol> <span>😣</span> <span slot="empty">😣</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>😣</span> <span slot="empty">😣</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>😣</span> <span slot="empty">😣</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>😣</span> <span slot="empty">😣</span> </igc-rating-symbol>
-  <igc-rating-symbol> <span>😣</span> <span slot="empty">😣</span> </igc-rating-symbol>
-</igc-rating>
-```
-
-</PlatformBlock>
-
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbRating>
-  <IgbRatingSymbol> <span>😣</span> <span slot="empty">😣</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>😣</span> <span slot="empty">😣</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>😣</span> <span slot="empty">😣</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>😣</span> <span slot="empty">😣</span> </IgbRatingSymbol>
-  <IgbRatingSymbol> <span>😣</span> <span slot="empty">😣</span> </IgbRatingSymbol>
+<IgbRating @bind-Value="Score" Label="Rate this product">
+    <span slot="value-label">@Score of 5</span>
 </IgbRating>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="React">
+<PlatformBlock for="Angular">
 
-```tsx
-<IgrRating single={true}>
-  <IgrRatingSymbol>
-      <span>😣</span>
-      <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <span>😣</span>
-      <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <span>😣</span>
-      <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <span>😣</span>
-      <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <span>😣</span>
-      <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-</IgrRating>
+```html
+<igc-rating [value]="score" label="Rate this product" (igcChange)="onScoreChange($event)">
+  <span slot="value-label">{{ score }} of 5</span>
+</igc-rating>
 ```
 
 </PlatformBlock>
 
-<Sample src="/inputs/rating/single-selection" height={150} alt="{Platform} Rating with Single Selection" />
+Give every {Platform} Rating an accessible name, and describe its value in words that fit the scale.
 
-> Keep in mind that the `step` attribute doesn't work with single selection mode.
+<PlatformBlock for="React,WebComponents,Angular">
 
-## Empty & Selected
+When the Rating has no visible `label`, set `aria-label` on it, or, with `igniteui-webcomponents` 7.4.1 and later, associate a `<label>` element with it. Assistive technology reads the value as "3 of 5" by default. Set `valueFormat` to replace this text: the Rating replaces `{0}` with the value and `{1}` with `max`, which also lets you localize the text.
 
-The {ProductName} Rating component allows users to use different icons or elements for the 'selected' and 'empty' states of each rating symbol. It is mandatory to provide two icons for each symbol, even if they are the same. One is used for the 'selected' state, which is defined by not specifying any slot, and the other is used for the 'empty' state, which you can define using the `empty` slot. For instance:
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Assistive technology reads the value as "3 of 5" by default. Set <ApiLink pkg="core" type="Rating" member="ValueFormat" label="ValueFormat" /> to replace this text: the Rating replaces `{0}` with the value and `{1}` with `Max`, which also lets you localize the text.
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-rating-symbol>
-  <igc-icon collection="default" name="bandage"></igc-icon>
-  <igc-icon collection="default" name="bacteria" slot="empty"></igc-icon>
-</igc-rating-symbol>
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating aria-label="Delivery speed" valueFormat="{0} out of {1} stars" />
 ```
 
 </PlatformBlock>
@@ -249,10 +440,41 @@ The {ProductName} Rating component allows users to use different icons or elemen
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbRatingSymbol>
-  <IgbIcon Collection="material" IconName="bandage"></IgbIcon>
-  <IgbIcon Collection="material" IconName="bacteria" slot="empty"></IgbIcon>
-</IgbRatingSymbol>
+<IgbRating Label="Delivery speed" ValueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+Text layer can be changed or hidden, if not needed
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-layout" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating with the label on and off" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/layout" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating with the label on and off" />
+
+</PlatformBlock>
+
+### Interaction States
+
+The {Platform} Rating is enabled by default. Set `disabled` to turn it off:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
 ```
 
 </PlatformBlock>
@@ -260,222 +482,910 @@ The {ProductName} Rating component allows users to use different icons or elemen
 <PlatformBlock for="React">
 
 ```tsx
-<IgrRatingSymbol>
-    <IgrIcon name='bandage' collection="material"></IgrIcon>
-    <IgrIcon name='bacteria' collection="material" slot='empty'></IgrIcon>
-</IgrRatingSymbol>
+<IgrRating disabled={true} value={3} label="Rate this product" />
 ```
 
 </PlatformBlock>
 
-<Sample src="/inputs/rating/empty" height={150} alt="{Platform} Rating with Empty and Selected state" />
+<PlatformBlock for="Blazor">
 
-As shown above, the best practice is to use icons for the rating symbols. We recommend using an [`igc-icon`](../layouts/icon.mdx) component for the 'empty' and 'selected' icons. However, if you prefer to use symbols or emojis instead of icons, we recommend using a `<span>` element for them, like so:
+```razor
+<IgbRating Disabled="true" Value="3" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating in the enabled, read-only, and disabled states" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating in the enabled, read-only, and disabled states" />
+
+</PlatformBlock>
+
+### Empty/Full State
+
+The `value` of the {Platform} Rating sets how full its symbols are. A value of 0, the default, shows all symbols empty, and a value equal to `max` shows all symbols full.
 
 <PlatformBlock for="WebComponents">
+
+Set the value and the maximum as attributes, and listen for `igcChange` to get the value that the user selects:
+
 ```html
-<igc-rating>
+<igc-rating value="3" max="10" label="Rate this movie"></igc-rating>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+
+rating.addEventListener('igcChange', (event) => {
+  console.log(`New rating: ${event.detail}`);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Keep the value in state and update it in the `onChange` handler:
+
+```tsx
+import { useState } from 'react';
+import { IgrRating } from 'igniteui-react';
+
+export default function MovieRating() {
+  const [score, setScore] = useState(3);
+
+  return (
+    <IgrRating
+      value={score}
+      max={10}
+      label="Rate this movie"
+      onChange={(e: CustomEvent<number>) => setScore(e.detail)}
+    />
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Bind the value with `@bind-Value`:
+
+```razor
+<IgbRating @bind-Value="Score" Max="10" Label="Rate this movie" />
+
+@code {
+    private double Score { get; set; } = 3;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Bind the value as a property, and update it in the `igcChange` handler:
+
+```html
+<igc-rating [value]="score" max="10" label="Rate this movie" (igcChange)="onScoreChange($event)"></igc-rating>
+```
+
+```ts
+public score = 3;
+
+public onScoreChange(event: Event) {
+    this.score = (event as CustomEvent<number>).detail;
+}
+```
+
+</PlatformBlock>
+
+Set `step` to `0.5` to let users select half stars:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating step={0.5} value={3.5} label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Step="0.5" Value="3.5" Label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-states" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating in the empty, half-full, and full states" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/states" showThemePicker height={200} noBorder={false} spacing="md" alt="{Platform} Rating in the empty, half-full, and full states" />
+
+</PlatformBlock>
+
+### Size
+
+The Rating is available in three sizes - Small, Medium and Large. The small, medium, and large sizes render 18px, 24px, and 36px symbols, and the {Platform} Rating uses the medium size by default. Set the `--ig-size` CSS variable to `--ig-size-small`, `--ig-size-medium`, or `--ig-size-large` to choose a size. For a size outside these presets, set `--ig-rating-symbol-size`:
+
+```css
+.rating-small {
+  --ig-size: var(--ig-size-small);
+}
+
+.rating-large {
+  --ig-size: var(--ig-size-large);
+}
+
+.rating-custom {
+  --ig-rating-symbol-size: 3rem;
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating className="rating-large" label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Class="rating-large" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} Rating size example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} Rating size example" />
+
+</PlatformBlock>
+
+### Symbols
+
+By default, the {Platform} Rating renders star icons. To use other symbols, place one <PlatformBlock for="Angular">`igc-rating-symbol` element</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RatingSymbol" /></PlatformBlock> for each point of the scale inside the Rating. Each rating symbol shows its default slot content in the part of the symbol that the value covers and its `empty` slot content in the rest, so fill both slots, even with the same content. The number of rating symbols sets `max`, and the Rating ignores the `max` that you set.
+
+<PlatformBlock for="WebComponents">
+
+The following rating uses registered heart icons. Register the icons first, as described in the [Icon](../layouts/icon.mdx) topic:
+
+```html
+<igc-rating label="Rate this recipe">
   <igc-rating-symbol>
-    <span>😣</span>
-    <span slot="empty">😣</span>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
   </igc-rating-symbol>
   <igc-rating-symbol>
-    <span>😔</span>
-    <span slot="empty">😔</span>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
   </igc-rating-symbol>
-  ...
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
 </igc-rating>
 ```
-</PlatformBlock>
 
-<PlatformBlock for="Blazor">
-```razor
-<IgbRating>
-  <IgbRatingSymbol>
-    <span>😣</span>
-    <span slot="empty">😣</span>
-  </IgbRatingSymbol>
-  <IgbRatingSymbol>
-    <span>😔</span>
-    <span slot="empty">😔</span>
-  </IgbRatingSymbol>
-  ...
-</IgbRating>
-```
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
+The following rating uses registered heart icons. Register the icons first, as described in the [Icon](../layouts/icon.mdx) topic:
+
 ```tsx
-<IgrRating>
-  <IgrRatingSymbol>
-    <span>😣</span>
-    <span slot="empty">😣</span>
-  </IgrRatingSymbol>
-  <IgrRatingSymbol>
-    <span>😔</span>
-    <span slot="empty">😔</span>
-  </IgrRatingSymbol>
-  ...
+import { IgrIcon, IgrRating, IgrRatingSymbol } from 'igniteui-react';
+
+<IgrRating label="Rate this recipe">
+  {[1, 2, 3, 4, 5].map((i) => (
+    <IgrRatingSymbol key={i}>
+      <IgrIcon name="favorite" collection="material" />
+      <IgrIcon name="favorite_border" collection="material" slot="empty" />
+    </IgrRatingSymbol>
+  ))}
 </IgrRating>
 ```
+
 </PlatformBlock>
 
-## Configuration
+<PlatformBlock for="Blazor">
 
-### Single
+The following rating uses registered heart icons. Register the icons first, as described in the [Icon](../layouts/icon.mdx) topic:
 
-Turns on the <ApiLink pkg="core" type="Rating" member="single" label="Single" /> visual mode for the rating. Useful when using symbols that communicate unique values, like feedback emoji faces.
+```razor
+<IgbRating Label="Rate this recipe">
+    @for (var i = 0; i < 5; i++)
+    {
+        <IgbRatingSymbol>
+            <IgbIcon IconName="favorite" Collection="material" />
+            <IgbIcon IconName="favorite_border" Collection="material" slot="empty" />
+        </IgbRatingSymbol>
+    }
+</IgbRating>
+```
 
-### Value
+</PlatformBlock>
 
-The <ApiLink pkg="core" type="Rating" member="value" label="Value" /> attribute sets the current value of the component.
+<PlatformBlock for="Angular">
 
-### Label
+The following rating uses heart icons that you register with `registerIconFromText` from `igniteui-webcomponents`. Use `igc-icon` in the rating symbols, because the Rating sizes `igc-icon` elements to the symbol size:
 
-The <ApiLink pkg="core" type="Rating" member="label" label="Label" /> attribute allows setting the label value of the rating component.
+```html
+<igc-rating label="Rate this recipe">
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <igc-rating-symbol>
+      <igc-icon name="favorite" collection="material"></igc-icon>
+      <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
 
-### Value Format
+</PlatformBlock>
 
-A format string which sets [aria-valuetext](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-valuetext). All instances of it will be replaced with the current value of the control. Important for screen-readers and useful for localization.
+The Rating colors icons and text with the full and empty symbol colors of the theme. It renders content other than an Icon in the `empty` slot in grayscale, so the same emoji in both slots looks selected or empty.
 
-### Max Value
+### Single Selection
 
-The <ApiLink pkg="core" type="Rating" member="max" label="Max" /> attribute sets the maximum allowed value of the rating component.
-
-### Step
-
-The <ApiLink pkg="core" type="Rating" member="step" label="Step" /> attribute sets the allowed fraction of steps between two symbols. Useful when splitting the rating symbols in halves.
-
-### Hover Preview
+Set `single` to show only the selected symbol as full. Use single selection with symbols that each stand for one distinct value, such as a scale of faces. In single selection, the {Platform} Rating uses a `step` of 1 and rounds a fractional value up.
 
 <PlatformBlock for="WebComponents">
 
-The `hover-preview` attribute makes the component show the possible outcome of user selection on hover. It is useful when you want to give instant feedback about what the selected value could be.
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-The <ApiLink pkg="core" type="Rating" member="hoverPreview" label="HoverPreview" /> attribute makes the component show the possible outcome of user selection on hover. It is useful when you want to give instant feedback about what the selected value could be.
+```html
+<igc-rating single label="How was your experience?">
+  <igc-rating-symbol><span>😣</span><span slot="empty">😣</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😔</span><span slot="empty">😔</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😐</span><span slot="empty">😐</span></igc-rating-symbol>
+  <igc-rating-symbol><span>🙂</span><span slot="empty">🙂</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😆</span><span slot="empty">😆</span></igc-rating-symbol>
+</igc-rating>
+```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
-The `hoverPreview` attribute makes the component show the possible outcome of user selection on hover. It is useful when you want to give instant feedback about what the selected value could be.
+```tsx
+const faces = ['😣', '😔', '😐', '🙂', '😆'];
+
+<IgrRating single={true} label="How was your experience?">
+  {faces.map((face) => (
+    <IgrRatingSymbol key={face}>
+      <span>{face}</span>
+      <span slot="empty">{face}</span>
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
 
 </PlatformBlock>
 
-### Read-Only
+<PlatformBlock for="Blazor">
 
-The <ApiLink pkg="core" type="Rating" member="readOnly" label="ReadOnly" /> attribute allows the users to set the <ApiLink pkg="core" type="Rating" /> in read-only mode. This attribute is useful when you want to use the component for information purposes only.
+```razor
+<IgbRating Single="true" Label="How was your experience?">
+    @foreach (var face in Faces)
+    {
+        <IgbRatingSymbol>
+            <span>@face</span>
+            <span slot="empty">@face</span>
+        </IgbRatingSymbol>
+    }
+</IgbRating>
 
-### Disabled
+@code {
+    private readonly string[] Faces = { "😣", "😔", "😐", "🙂", "😆" };
+}
+```
 
-The <ApiLink pkg="core" type="Rating" member="disabled" label="Disabled" /> attribute disables the component, making it impossible to select a value using the mouse or keyboard.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating single label="How was your experience?">
+  @for (face of faces; track face) {
+    <igc-rating-symbol>
+      <span>{{ face }}</span>
+      <span slot="empty">{{ face }}</span>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+```ts
+public faces = ['😣', '😔', '😐', '🙂', '😆'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### Forms
+
+The {Platform} Rating is a form-associated element. Inside a `<form>`, it submits its value as text under its `name`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+A form reset restores the value that the `value` attribute sets:
+
+```html
+<form>
+  <igc-rating name="score" value="4" label="Rate your stay"></igc-rating>
+  <button type="submit">Send</button>
+  <button type="reset">Reset</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log(new FormData(e.currentTarget).get('score'));
+  }}
+>
+  <IgrRating name="score" label="Rate your stay" />
+  <button type="submit">Send</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### Forms
+
+Use the Blazor `EditForm` component, and bind the value of the Rating to a property of your model with `@bind-Value`. The binding updates the model through the `ValueChanged` event when the user changes the value:
+
+```razor
+<EditForm Model="Review" OnSubmit="Submit">
+    <IgbRating @bind-Value="Review.Score" Label="Rate your stay" />
+    <button type="submit">Send</button>
+</EditForm>
+
+@code {
+    private ReviewModel Review { get; set; } = new();
+
+    private void Submit()
+    {
+        // Review.Score holds the value that the user selected.
+    }
+
+    public class ReviewModel
+    {
+        public double Score { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Forms
+
+To bind the Rating with `ngModel` or `formControlName`, Angular needs an implementation of its `ControlValueAccessor` interface. {ProductName} provides it as the standalone `IgcFormControlDirective`, which attaches to `igc-rating` elements with `ngModel` or `formControlName`. Import it together with `FormsModule` or `ReactiveFormsModule`:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    selector: 'app-review-form',
+    template: `
+        <form>
+            <igc-rating name="userRating" [(ngModel)]="review.rating" label="Your rating"></igc-rating>
+        </form>
+    `,
+    imports: [FormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ReviewFormComponent {
+    public review = { rating: 0 };
+}
+```
+
+With reactive forms, bind the Rating with `formControlName`:
+
+```html
+<form [formGroup]="reviewForm">
+  <igc-rating formControlName="rating" label="Your rating"></igc-rating>
+</form>
+```
+
+The directive updates the model on `igcChange`, marks the control as touched when the Rating loses focus, and disables the Rating when you disable the form control.
+
+</PlatformBlock>
+
+### Do/Don't
+
+The star is a very recognizable ranking symbol, and people may not associate other symbols with a rating scale. If you replace the star with a custom symbol, make sure that its purpose is clear. Avoid colors with poor contrast, like similar shades of the same color or combinations that create chromatic aberrations. The Icons selections should be emphasized and should have a good visual distinct appearance.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoSymbol} alt="Rating with four of five orange stars selected under the Rate your experience label" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotSymbol} alt="Rating that uses diamond symbols in circles instead of stars" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="margin: 0;">Use stars or another symbol that users associate with a rating scale.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="margin: 0;">Avoid symbols whose meaning as a score isn't clear.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoContrast} alt="Rating with four selected orange stars that stand out from one gray outlined star" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotContrast} alt="Rating with light gray selected stars that are hard to tell apart from the gray empty stars" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="margin: 0;">Make the selected symbols stand out from the empty ones.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="margin: 0;">Avoid similar shades for the selected and the empty symbols.</p>
+  </div>
+</div>
+
+## Properties
+
+The {Platform} Rating exposes the following properties. See the API reference for the complete type definitions.
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="value" label="value" /></PlatformBlock><PlatformBlock for="Angular">[`value`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#value)</PlatformBlock> | `number` | `0` | The current value, from 0 to the maximum value. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="max" label="max" /></PlatformBlock><PlatformBlock for="Angular">[`max`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#max)</PlatformBlock> | `number` | `5` | The maximum value and the number of default symbols. Projected rating symbols set it to their count. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="step" label="step" /></PlatformBlock><PlatformBlock for="Angular">[`step`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#step)</PlatformBlock> | `number` | `1` | The smallest change of the value, from 0.001 to 1. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="label" label="label" /></PlatformBlock><PlatformBlock for="Angular">[`label`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#label)</PlatformBlock> | `string` | — | The visible label, which also names the rating. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="valueFormat" label="valueFormat" /></PlatformBlock><PlatformBlock for="Angular">[`valueFormat`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#valueFormat)</PlatformBlock> | `string` | — | The format of `aria-valuetext`. `{0}` stands for the value and `{1}` for the maximum value. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="hoverPreview" label="hoverPreview" /></PlatformBlock><PlatformBlock for="Angular">[`hoverPreview`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#hoverPreview)</PlatformBlock> | `boolean` | `false` | Whether the rating previews the value under the pointer. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="readOnly" label="readOnly" /></PlatformBlock><PlatformBlock for="Angular">[`readOnly`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#readOnly)</PlatformBlock> | `boolean` | `false` | Whether the user can't change the value. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="single" label="single" /></PlatformBlock><PlatformBlock for="Angular">[`single`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#single)</PlatformBlock> | `boolean` | `false` | Whether only the selected symbol is shown as full. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="allowReset" label="allowReset" /></PlatformBlock><PlatformBlock for="Angular">[`allowReset`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#allowReset)</PlatformBlock> | `boolean` | `false` | Whether a click on the current value resets the rating to 0. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock><PlatformBlock for="Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#disabled)</PlatformBlock> | `boolean` | `false` | Whether the rating is disabled. |
+<PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="name" label="name" /></PlatformBlock><PlatformBlock for="React">`name`</PlatformBlock><PlatformBlock for="Angular">[`name`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#name)</PlatformBlock> | `string` | — | The name under which a form submits the value. |</PlatformBlock>
 
 ## Methods
 
-### Step Up
+The {Platform} Rating exposes the following methods. They change the value without emitting a change event.
 
-The <ApiLink pkg="core" type="Rating" member="stepUp" label="StepUp" /> method increments the value of the component by `n` steps. Determined by the `step` factor.
-
-### Step Down
-
-The <ApiLink pkg="core" type="Rating" member="stepDown" label="StepDown" /> method decrements the value of the component by `n` steps. Determined by the `step` factor.
+| Method | Description |
+| --- | --- |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | Increases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | Decreases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
 
 ## Events
 
-<PlatformBlock for="WebComponents">
+The {Platform} Rating emits the following events. It doesn't emit them when you set the value or call a method.
 
-The <ApiLink pkg="core" type="Rating" /> component emits two separate events - `igcHover` and `igcChange`.
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-The <ApiLink pkg="core" type="Rating" /> component emits two separate events - `Hover` and `Change`.
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-The <ApiLink pkg="core" type="Rating" /> component emits two separate events - `hover` and `change`.
-
-</PlatformBlock>
-
-### Hover Event
-
-<PlatformBlock for="WebComponents">
-
-The `igcHover` event is fired when hovering over a symbol. It provides the value of the symbol under the mouse cursor. Useful for creating custom value labels and readouts.
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-The `Hover` event is fired when hovering over a symbol. It provides the value of the symbol under the mouse cursor. Useful for creating custom value labels and readouts.
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-The `hover` event is fired when hovering over a symbol. It provides the value of the symbol under the mouse cursor. Useful for creating custom value labels and readouts.
-
-</PlatformBlock>
-
-### Change Event
-
-<PlatformBlock for="WebComponents">
-
-The `igcChange` event is fired when the selected value changes.
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-The `Change` event is fired when the selected value changes.
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-The `change` event is fired when the selected value changes.
-
-</PlatformBlock>
+| Name | Type | Description |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents,Angular">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | Emitted when the user changes the value. The event detail holds the new value. |
+| <PlatformBlock for="WebComponents,Angular">`igcHover`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onHover" label="onHover" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Hover" label="Hover" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | Emitted when the hover preview is on and the pointer moves to another value. The event detail holds the value under the pointer. |
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="Rating" member="ValueChanged" label="ValueChanged" /> | `EventCallback<double>` | Emitted with the new value. Use it through `@bind-Value`. |</PlatformBlock>
 
 ## Styling
 
-The <ApiLink pkg="core" type="Rating" /> component exposes CSS parts for almost all of its inner elements. The following table lists all of the exposed CSS parts:
+The {Platform} Rating takes its colors and its symbol size from the theme. Change them with the following CSS variables:
 
-|Name|Description|
-|--|--|
-| `base` | The main wrapper which holds all of the rating elements. |
-| `label` | The label part. |
-| `value-label` | The value label part. |
-| `symbols` | A wrapper for all rating symbols. |
-| `symbol` | The part of the encapsulated default symbol. |
-| `full` | The part of the encapsulated full symbols. |
-| `empty` | The part of the encapsulated empty symbols. |
+| Variable | What it changes |
+| --- | --- |
+| `--ig-rating-symbol-full-color` | The color of the full symbols: the default stars, icons, and text. |
+| `--ig-rating-symbol-empty-color` | The color of the empty symbols. |
+| `--ig-rating-label-color` | The color of the label. |
+| `--ig-rating-value-label` | The color of the value label. |
+| `--ig-rating-symbol-size` | The size of the symbols. |
+| `--ig-size` | The size preset: `--ig-size-small`, `--ig-size-medium`, or `--ig-size-large`. |
+| `--ig-rating-disabled-full-symbol-color` | The color of the full symbols when the rating is disabled. |
+| `--ig-rating-disabled-empty-symbol-color` | The color of the empty symbols when the rating is disabled. |
+| `--ig-rating-disabled-label-color` | The color of the label and the value label when the rating is disabled. |
+| `--ig-rating-symbol-full-filter` | The CSS filter of full symbols other than icons, such as emoji, when the rating is disabled. |
+| `--ig-rating-symbol-empty-filter` | The CSS filter of empty symbols other than icons, such as emoji, when the rating is disabled. |
 
-```css
-igc-rating::part(full) {
-  color: var(--ig-primary-500)
-}
+The `igc-rating` element exposes the following CSS parts:
 
-igc-rating::part(empty) {
-  color: var(--ig-secondary-200);
+| Part | What it styles |
+| --- | --- |
+| `base` | The slider that holds the symbols and the value label. |
+| `label` | The label. |
+| `value-label` | The container of the `value-label` slot. |
+| `symbols` | The container of all symbols. |
+| `symbol` | Each default symbol. |
+| `full` | The full layer of each default symbol. |
+| `empty` | The empty layer of each default symbol. |
+
+The `igc-rating` element exports the `symbol`, `full`, and `empty` parts of its default stars only. To style projected rating symbols, use the `symbol`, `full`, and `empty` parts of the `igc-rating-symbol` element.
+
+### Sass Theming
+
+Create a theme with the <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`rating-theme`</PlatformBlock> function and include it with the `tokens()` mixin. The function accepts parameters such as `$symbol-full-color`, `$symbol-empty-color`, `$label-color`, and `$symbol-size`, and the mixin emits the matching `--ig-rating-*` variables in the scope where you include it.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:host {
+  @include tokens($custom-rating-theme);
 }
 ```
 
-<Sample src="/inputs/rating/styling" height={150} alt="{Platform} Rating Styling Example" />
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The Sass functions come from the `igniteui-theming` package. See the [Theming](../themes/overview.mdx) topic for the Sass setup.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:root {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS Variables
+
+Set the CSS variables on a Rating or on a container when you need local styling without a Sass build step, and use the CSS parts for other styles:
+
+```css
+igc-rating {
+  --ig-rating-symbol-full-color: #e41c77;
+  --ig-rating-symbol-empty-color: #a9b8cc;
+}
+
+igc-rating::part(label) {
+  font-weight: 600;
+}
+
+igc-rating-symbol::part(empty) {
+  opacity: 0.6;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating styling example" />
+
+</PlatformBlock>
+
+### Styling with Tailwind
+
+You can style the {Platform} Rating with Tailwind arbitrary properties that set its CSS variables. Make sure to <PlatformBlock for="Angular">[set up Tailwind](../themes/misc/tailwind-classes.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[set up Tailwind](../themes/tailwind.mdx)</PlatformBlock> first:
+
+<PlatformBlock for="WebComponents,Angular">
+
+```html
+<igc-rating
+  label="Rate this product"
+  class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating
+  label="Rate this product"
+  className="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" Class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating Tailwind styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating Tailwind styling example" />
+
+</PlatformBlock>
+
+## Accessibility
+
+The {Platform} Rating is a slider: users reach it with the Tab key, change its value with the arrow keys, and hear the value through its ARIA attributes.
+
+### Keyboard Interaction
+
+The {Platform} Rating is a single tab stop, because only the slider element inside it, the `base` part, receives focus. A disabled Rating leaves the tab order. A read-only Rating stays in the tab order but ignores the following keys, so they keep their default browser actions, such as page scrolling.
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves the focus to the next or the previous focusable element. The Rating doesn't handle these keys, so it never traps the focus. |
+| <kbd>Arrow Right</kbd> | Increases the value by one step. In a right-to-left layout, decreases it. |
+| <kbd>Arrow Left</kbd> | Decreases the value by one step. In a right-to-left layout, increases it. |
+| <kbd>Arrow Up</kbd> | Increases the value by one step. |
+| <kbd>Arrow Down</kbd> | Decreases the value by one step. |
+| <kbd>Home</kbd> | Sets the value to one step, the lowest value that a click can select. |
+| <kbd>End</kbd> | Sets the value to the maximum value. |
+
+The {Platform} Rating handles these keys on `keydown`:
+
+- It prevents their default action, so the arrow keys, Home, and End don't scroll the page while the Rating has focus.
+- A key that you hold repeats its action.
+- A key that you press together with Shift, Ctrl, Alt, or Meta does nothing.
+- The value stays between 0 and the maximum value. A key that would move the value past a bound keeps the value and emits no event.
+- Each key that changes the value emits the change event.
+
+With a pointer, a click selects the value under the pointer, rounded up to the next step. A read-only or disabled Rating ignores clicks.
+
+### Screen Readers / ARIA
+
+The {Platform} Rating renders one focusable element, the `base` part, with the `slider` role. Its `tabindex` is `0`, or `-1` when the Rating is disabled, and it carries the following value attributes:
+
+| Attribute | Value |
+| --- | --- |
+| `aria-valuemin` | `0` |
+| `aria-valuemax` | The maximum value |
+| `aria-valuenow` | The value, including fractions such as `4.3` |
+| `aria-valuetext` | "3 of 5" by default, or the `valueFormat` text |
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+With `igniteui-webcomponents` 7.4.0 and later, the slider also sets `aria-disabled` and `aria-readonly` to expose the disabled and read-only states. With 7.4.1 and later, the slider takes its accessible name from the first of the following:
+
+1. The `aria-labelledby` attribute of the host.
+2. A `<label>` element that is bound through `for`, or that wraps the Rating. A click on the label focuses the slider.
+3. The `label` property, which renders a visible label that the slider references through `aria-labelledby`.
+4. The `aria-label` attribute of the host. The slider ignores it when the `label` property is set.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The `Label` property renders a visible label that the slider references through `aria-labelledby`, which gives the slider its accessible name.
+
+</PlatformBlock>
+
+The {Platform} Rating also behaves as follows for assistive technology:
+
+- The `symbols` part sets `aria-hidden="true"`, so the symbols, including projected icons and emoji, are hidden and don't need text alternatives. The value reaches assistive technology only through `aria-valuenow` and `aria-valuetext`.
+- The `value-label` slot renders inside the slider. Screen readers read the value from `aria-valuetext`, so describe the value with `valueFormat` rather than with the slot content.
+- The Rating doesn't use a live region. A changed value reaches assistive technology only through the slider attributes.
+- The Rating doesn't set `aria-invalid`, so a custom validation message isn't exposed as an invalid state.
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| --- | --- |
+| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | The symbols are hidden from assistive technology, and the slider exposes the value as text through `aria-valuetext`. |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The visible label of the `label` property is associated with the slider through `aria-labelledby`. |
+| [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | The default symbols show a filled star for the selected part of the scale and an outlined star for the rest, so the value doesn't depend on color alone. |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | The arrow keys, Home, and End change the value, so users can rate without a pointer. |
+| [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | The Rating is a single tab stop and doesn't handle the Tab key, so Tab and Shift + Tab move the focus out of it. |
+| [2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | The Rating themes don't remove the browser focus indicator from the focused slider. |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The slider exposes the `slider` role, its value through `aria-valuenow` and `aria-valuetext`, and the name that you provide.<PlatformBlock for="React,WebComponents,Angular"> With `igniteui-webcomponents` 7.4.0 and later, it also exposes the disabled and read-only states.</PlatformBlock> |
+
+Your responsibilities:
+
+- Name every Rating with the `label` property<PlatformBlock for="React,WebComponents,Angular">, an associated `<label>` element, or `aria-label`</PlatformBlock>. See [Layout](#layout).
+- Set `valueFormat` when "3 of 5" doesn't describe the scale, or when the page uses another language.
+- With custom symbols, make the full and the empty symbols differ in shape or fill, not only in color, and keep a contrast ratio of at least 3:1 against the background, as [1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast) requires.
+- When you restyle the `base` part, keep a visible focus indicator.
+- Keep the pointer targets large enough. Each value is a target as wide as one symbol, or half a symbol with a step of 0.5. The small size renders 18px symbols, below the 24 by 24 CSS pixels of [2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum), so prefer the medium or the large size for pointer and touch input.
+- Don't put information only in the hover preview, because keyboard users don't see it.
+- When you validate the rating with a custom validation message, also show the message as text next to the Rating, as [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification) requires, because the Rating doesn't set `aria-invalid`.
+
+Differences from the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/):
+
+- <kbd>Home</kbd> sets the value to one step instead of to `aria-valuemin`, which is 0. Use <kbd>Arrow Down</kbd> to reach 0.
+- The Rating doesn't support <kbd>Page Up</kbd> and <kbd>Page Down</kbd>, which the pattern lists as optional keys.
+
+## Troubleshooting
+
+Use these answers when a {Platform} Rating doesn't behave as expected.
+
+### Why doesn't the change event fire when I set the value?
+
+The {Platform} Rating emits the change event only for user input: a click or a key. Setting the value in code, or calling the step methods, changes the value without the event, so update your own state where you set the value.
+
+### Why doesn't a click on the current value reset the rating?
+
+The {Platform} Rating keeps the value on a click on the current value, unless you set `allowReset`. Before `igniteui-webcomponents` 4.7.0, a click on the current value always reset the rating; set `allowReset` to keep that behavior after an upgrade.
+
+### Why doesn't the hover event fire?
+
+The {Platform} Rating emits the hover event only while `hoverPreview` is on, and not when the Rating is read-only or disabled. Set `hoverPreview` to receive the event.
+
+### Known Limitations
+
+The {Platform} Rating has the following limitations:
+
+- The scale always starts at 0. The Rating has no property for another minimum.
+- The Rating has no `required` validation. To require a score, check that the value is greater than 0 before you submit the data.
+- In single selection, the step is always 1.
+- The Rating has no invalid styles of its own, and it doesn't set `aria-invalid`.
 
 ## API References
 
-<ApiLink pkg="core" type="Rating" /><br />
-<ApiLink pkg="core" type="RatingSymbol" /><br />
+The {Platform} Rating API reference lists the complete API surface for the target platform.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Rating" />
+- <ApiLink pkg="core" type="RatingSymbol" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [`IgcRatingComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent)
+- [`IgcRatingSymbolComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingSymbolComponent)
+- <ApiLink type="IgcFormControlDirective" prefixed={false} suffix={false} label="IgcFormControlDirective" />
+- <ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" />
+
+</PlatformBlock>
+
+## Dependencies
+
+The {Platform} Rating requires a theme to apply its colors and symbol sizes. See the framework-specific setup in <PlatformBlock for="Angular">[**Getting Started**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Getting Started**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+The Rating requires the `igniteui-webcomponents` package, and Angular forms binding requires the `IgcFormControlDirective`. The `theme()` mixin of {ProductName} includes the `igc-rating` styles unless you exclude `igc-rating` through its `$exclude` parameter.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The registration of the `IgcRatingComponent` also registers the `igc-rating-symbol` and `igc-icon` elements that the Rating renders.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Register the `IgbIconModule` as well when you place `IgbIcon` elements in rating symbols.
+
+</PlatformBlock>
 
 ## Additional Resources
 
+The following resources provide more {Platform} Rating guidance and project support:
+
+- [Rating - Design System Component](https://www.infragistics.com/products/indigo-design/help/components/rating)
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+The {Platform} Rating collects a score on a scale of symbols. Use these components when the input needs a different form:
+
+- <PlatformBlock for="Angular">[Slider](../slider/slider.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Slider](./slider.mdx)</PlatformBlock> - Use Slider when users pick a precise number from a continuous range, such as a price or a volume.
+- <PlatformBlock for="Angular">[Radio Group](../radio-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Radio Group](./radio.mdx)</PlatformBlock> - Use Radio Group when each option needs a text label, such as Poor, Fair, and Good.
+- [Icon](../layouts/icon.mdx) - Use Icon to draw the custom symbols of a Rating.
+
+## FAQ
+
+These questions cover common {Platform} Rating setup, accessibility, and usage scenarios.
+
+<Faq>
+  <FaqItem question="Can users select half stars?" indicatorPosition="end">
+    Yes. Set the `step` property of the {Platform} Rating to `0.5`, and a click on the left half of a star selects the half value in a left-to-right layout. The arrow keys then change the value of the {Platform} Rating in steps of 0.5.
+  </FaqItem>
+  <FaqItem question="How do I show an average rating that users can't change?" indicatorPosition="end">
+    Set the `readOnly` property of the {Platform} Rating and set its value to the average, such as 4.3. The {Platform} Rating fills the symbols in part for a fractional value, stays focusable, and ignores clicks and keys.
+  </FaqItem>
+  <FaqItem question="Is the Rating accessible to keyboard and screen reader users?" indicatorPosition="end">
+    Yes. The {Platform} Rating is a single tab stop with the `slider` role, the arrow keys, Home, and End change its value, and screen readers read the value through `aria-valuetext`. Give the {Platform} Rating an accessible name with the `label` property or `aria-label`, and set `valueFormat` to describe the value in words.
+  </FaqItem>
+  <FaqItem question="Does the Rating work with forms?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Yes. Import the `IgcFormControlDirective` from `igniteui-angular/directives` to bind the Angular Rating with `ngModel` or `formControlName`. The directive updates the model when the user changes the value and disables the Rating when you disable the form control.</PlatformBlock><PlatformBlock for="React,WebComponents">Yes. The {Platform} Rating is a form-associated element, so a `<form>` submits its value under its `name`. A disabled `<fieldset>` also disables the {Platform} Rating.</PlatformBlock><PlatformBlock for="Blazor">Yes. Place the Blazor Rating in a Blazor `EditForm` and bind its value to a property of your model with `@bind-Value`. The binding updates the model through the `ValueChanged` event when the user changes the value.</PlatformBlock>
+  </FaqItem>
+</Faq>
