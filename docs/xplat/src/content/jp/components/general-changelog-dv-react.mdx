@@ -280,11 +280,11 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 - 高さ 800px のグリッドで、10,000 行 20 列の場合の 0.10.0 と比較したパフォーマンス:
   - スムーズ スクロールは 60 fps で動作します。以前は 30 fps でした。
   - 離れたスクロール位置へのジャンプが 8 倍高速になりました。
-  - 並べ替えが 8 倍高速になりました。
+  - ソートが 8 倍高速になりました。
   - セル テンプレートを使用する場合、改善は同等かそれ以上です。
 - 列を指定しないナビゲーションは、現在の列を保持します。
 - セルのアクティブ化で、影響を受ける 2 つの行のみが更新されるようになりました。以前はすべての表示行が更新されていました。
-- 列が変更されたとき、行はセルを再利用します。並べ替えは 1 つの共有コレーターを使用します。`ResizeObserver` がスクロールバーのオフセットを制御します。
+- 列が変更されたとき、行はセルを再利用します。ソートは 1 つの共有コレーターを使用します。`ResizeObserver` がスクロールバーのオフセットを制御します。
 - キャンセル可能な `onSorting` および `onFiltering` イベントは、状態が変更される前に発生します。リスナーは式をキャンセルまたは変更できます。
 - `onSorted` および `onFiltered` イベントは、データ ビューの更新後に発生します。
 
@@ -310,7 +310,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 #### 新機能
 
 - #### AI 支援開発 - スキル
-  - 新しい Grid Lite からプレミアム データ グリッドへの移行スキル。インポート、テンプレート、並べ替え、フィルタリング、サーバー側パターン、ツールバーとエクスポートのフローをマッピングします ([#168](https://github.com/IgniteUI/igniteui-react/pull/168))。
+  - 新しい Grid Lite からプレミアム データ グリッドへの移行スキル。インポート、テンプレート、ソート、フィルタリング、サーバー側パターン、ツールバーとエクスポートのフローをマッピングします ([#168](https://github.com/IgniteUI/igniteui-react/pull/168))。
 
 #### 変更
 
@@ -361,7 +361,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 #### 変更
 
-- 大規模なデータ セットでの並べ替えとフィルター操作が高速になりました。グリッドが並べ替えキーとフィルター式ツリーを事前に計算するようになりました ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63))。
+- 大規模なデータ セットでのソートとフィルター操作が高速になりました。グリッドがソート キーとフィルター式ツリーを事前に計算するようになりました ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63))。
 - 本体のセルと行のテーマで、現在の `igniteui-theming` 変数を使用するようになりました。`igniteui-theming` を 27.3.0 に更新しました ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66))。
 
 #### バグ修正
@@ -428,7 +428,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
-|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|ペイン コンテンツ内の押下で、スロットされた `<input>`、`<textarea>`、`<select>` 要素からフォーカスが奪われなくなりました。|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|ペイン コンテンツ内を押しても、スロットされた `<input>`、`<textarea>`、`<select>` 要素からフォーカスが奪われなくなりました。|
 |[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|ペインがフローティングになったときに、固定解除されたタブ領域の位置が `left` にリセットされなくなりました。再びドッキングしたときにペインが消えなくなりました。|
 
 ### {GridLitePackage} (グリッド ライト)
@@ -487,7 +487,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
 |[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|`filterExpressions` と `sortExpressions` のセッターが現在の状態を置き換えるようになりました。以前は追加されていました。|
-|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|列構成のない初期のフィルターまたは並べ替え状態で、エラーが発生しなくなりました。|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|列構成のない初期のフィルターまたはソート状態で、エラーが発生しなくなりました。|
 |[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|グリッドが、connected コールバックで採用されたスタイルを正しく適用するようになりました。|
 
 ## **{PackageVerChanges-26-2-JUN}**
@@ -662,7 +662,7 @@ DataPieChart および ProportionalCategoryAngleAxis に OthersCategoryBrush と
 | バグ番号 | コントロール | 説明 |
 |------------|---------|-------------|
 |40136|Excel Library|Excel ワークブック読み込み時に FormulaParseException 例外が発生する。|
-|40262|IgrSpreadsheet|警告がある場合に #Circularity! が表示される。Excel との一致を要求 — 値 (例: 0) を表示するように改善。|
+|40262|IgrSpreadsheet|警告がある場合に #Circularity! が表示される。Excel と同様に、代わりに値 (例: 0) を表示するよう要望。|
 |40458|IgrSpreadsheet|Arial フォント使用時、igx-spreadsheet がセル内のテキストを切り捨てる。|
 |40490|IgrDatePicker|Autofill による入力は日付ピッカーに反映されない。|
 
@@ -816,7 +816,7 @@ X 軸と Y 軸に `CompanionAxis` プロパティが追加され、既存の軸�
 |27304 | <ApiLink type="DataChart" /> | ズーム長方形が背景長方形と同じ位置に配置されない。|
 |37930 | <ApiLink type="DataChart" /> | Data Annotation Overlay のテキスト色が機能しない。|
 |30600 | <ApiLink type="DoughnutChart" /> | チャートやシリーズに textStyle プロパティが存在しない (円チャートにはある)。|
-|38231 | <ApiLink type="Grid" /> | 非ピン固定列は、非表示が存在する場合に元の位置に戻らない。|
+|38231 | <ApiLink type="Grid" /> | 非表示の列が存在する場合、ピン固定を解除した列が元の位置に戻らない。|
 |33861 | Excel Library | 折れ線チャートを追加すると、ドイツ語カルチャで Excel ファイルが破損する。|
 
 ### 機能拡張
@@ -1015,7 +1015,7 @@ X 軸と Y 軸に `CompanionAxis` プロパティが追加され、既存の軸�
 ### 機能拡張
 
 #### Stepper
-Stepper Step の `titlePosition` は、undefined (同じ動作) ではなく、デフォルトで `auto` に設定されるようになりました。
+Stepper Step の `titlePosition` のデフォルト値が、undefined ではなく `auto` になりました (動作は同じです)。
 
 #### Tabs
 igr-tab の `panel` プロパティは削除されました。
@@ -1103,7 +1103,7 @@ igr-tab-panel コンポーネントは削除されました。igr-tab は、タ�
 |36176 | Excel Library | LET 関数を含む Excel ブックを読み込むと、例外が発生する。|
 |36379 | Excel Library | Excel ワークブック内のアルファ チャネルを含む色は読み込まれない。|
 |26218 | Excel Library | Excel ファイルを読み込むだけで、チャートのプロット領域の右マージンが狭くなり、塗りつぶしパターンと前景の塗りつぶしが消える。|
-|34083 | Excel Library | テンプレート Excel ファイルのテキストに 「=」 が含まれている場合、TextOperatorConditionalFormat が正しく読み込まれない/保存されない。|
+|34083 | Excel Library | テンプレート Excel ファイルのテキストに「=」が含まれている場合、TextOperatorConditionalFormat が正しく読み込まれない/保存されない。|
 |35495 | Excel Library | テンプレート ファイルを読み込むと、セル内の画像が失われる。|
 
 ## **{PackageVerChanges-24-2-JAN}**
@@ -1211,7 +1211,7 @@ DashboardTile <Badge variant="preview" />
   - 水平集計の位置を設定するための `horizontalSummariesPosition` プロパティを `pivotUI` に追加しました。
   - 行ディメンションの行ヘッダーが追加されました。新しい `pivotUI` プロパティ内で `showHeaders` **true** として有効にできます。
   - キーボード ナビゲーションで、任意の行ディメンション ヘッダーや列ヘッダーから行ヘッダーへ双方向に移動できるようになりました。
-  - キーボード操作で行ディメンションの縮小 (<kbd>ALT</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> 矢印キー) および行ヘッダーのソート (<kbd>CTRL</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> 矢印キー) ができるようになりました。
+  - キーボード操作で行ディメンションの折りたたみ (<kbd>ALT</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> 矢印キー) および行ヘッダーのソート (<kbd>CTRL</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> 矢印キー) ができるようになりました。
 
 **重大な変更**
 
