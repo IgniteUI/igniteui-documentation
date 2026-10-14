@@ -4,6 +4,7 @@ description: Use Infragistics' {Platform} components to create apps and improve 
 keywords: "{ProductName}, Infragistics, Themes, Styling"
 license: MIT
 mentionedTypes: ["ConfigureTheme"]
+last_updated: "2026-10-09"
 llms:
   description: "{ProductName} ships with four distinct themes - Bootstrap, Material, Fluent, and Indigo."
 ---
@@ -94,7 +95,18 @@ This only tells components to switch their internal styles to the desired theme,
 
 The theme files above are prebuilt CSS, and the topics in this section customize them by overriding CSS variables - see [Palettes](palettes.mdx), [Typography](typography.mdx), [Elevations](elevations.mdx), and [Configuration](configuration.mdx). That path needs no build configuration and covers most customization.
 
-Some capabilities are only reachable from Sass, because they run at compile time rather than through a variable. The contrast and chart-palette functions on the [Accessibility](accessibility.mdx) topic are the main example. To use them, install `igniteui-theming` and import it:
+The prebuilt themes are compiled from `igniteui-theming`, the Sass library behind every {ProductName} theme, and the same library is available to your application. Some capabilities are only reachable from it, because they run at compile time rather than through a variable:
+
+- Generating a palette from your own seed colors, as described in [Palette Generation](palette-generation.mdx).
+- The contrast and chart-palette functions on the [Accessibility](accessibility.mdx) topic.
+
+A Sass build with `igniteui-theming` produces plain CSS: a stylesheet of `--ig-*` variables that you load after the theme file, the same way you load your own CSS overrides. Your framework only needs a way to run the Sass compiler. Install both packages:
+
+```cmd
+npm install igniteui-theming sass --save-dev
+```
+
+Then import the library in a `.scss` file:
 
 ```scss
 @use 'igniteui-theming' as *;
@@ -104,13 +116,75 @@ Some capabilities are only reachable from Sass, because they run at compile time
 
 // Required for $material-elevations and $indigo-elevations
 @use 'igniteui-theming/sass/elevations/presets' as *;
+
+:root {
+  @include palette(palette($primary: #0099ff, $secondary: #df1b74, $surface: #ffffff));
+}
 ```
 
+### Compiling the Stylesheet
+
+<PlatformBlock for="React">
+
+Vite and Next.js compile `.scss` imports once the `sass` package is installed. Import the stylesheet after the theme file:
+
+```tsx
+import 'igniteui-react-grids/grids/themes/light/bootstrap.css';
+import './theme.scss';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Vite compiles `.scss` imports once the `sass` package is installed, and webpack does the same through `sass-loader`. Import the stylesheet after the theme file:
+
+```ts
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+import './theme.scss';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+A Blazor project has no JavaScript bundler, so compile the stylesheet with the Sass command line, for example from an npm script or a pre-build step, and write the result into `wwwroot`:
+
+```cmd
+npx sass --load-path=node_modules Styles/theme.scss wwwroot/css/theme.css
+```
+
+Link the compiled file after the theme file in your host page:
+
+```html
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+<link href="css/theme.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+Any other build tool works the same way, and so does the Sass command line. When nothing else compiles Sass, run it as a separate step and load the output like any CSS file:
+
+```cmd
+npx sass --load-path=node_modules src/theme.scss public/theme.css
+```
+
+</PlatformBlock>
+
 <DocsAside type="note">
-If `@use 'igniteui-theming' as *;` does not resolve, your Sass compiler is missing `node_modules` in its load paths. Set `css.preprocessorOptions.scss.loadPaths` in Vite, or `sassOptions.loadPaths` in Next.js.
+If `@use 'igniteui-theming' as *;` does not resolve, your Sass compiler is missing `node_modules` in its load paths. Pass `--load-path=node_modules` to the Sass command line, set `css.preprocessorOptions.scss.loadPaths` in Vite, or set `sassOptions.loadPaths` in Next.js.
 </DocsAside>
+
+### Without a Sass Toolchain
+
+The output does not have to be rebuilt with your application. Compile the stylesheet once and commit the CSS, then recompile it only when you change the Sass. The [Theming MCP server](../ai/theming-mcp.mdx) can also generate palettes and component themes as ready-to-use CSS, with no local Sass compiler.
 
 <PlatformBlock for="React, WebComponents">
 
 ## API References
-<PlatformBlock for="Angular,React,WebComponents"><ApiLink type="configureTheme" /></PlatformBlock>
+
+<ApiLink type="configureTheme" />
+
+</PlatformBlock>
