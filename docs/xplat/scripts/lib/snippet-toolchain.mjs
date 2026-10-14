@@ -126,12 +126,13 @@ export function resolveSnippetApiPaths() {
  * was used as it stood, so a build could quietly read months-old samples and report the gaps as
  * errors in the page. Now:
  *
- *   1. XPLAT_EXAMPLES, a checkout named outright, is used as given: that is how someone tests their
- *      own examples changes. It says so when the checkout is not at the locked commit.
+ *   1. A checkout named outright -- --examples=peer, --examples=<path>, or XPLAT_EXAMPLES -- is used as
+ *      given: that is how someone tests their own examples changes. It says so when the checkout is
+ *      not at the locked commit.
  *   2. Otherwise .snippet-cache/igniteui-xplat-examples is made to match the lock: fetched shallow and
  *      sparse, only the folders the documentation reads.
  *
- * A peer checkout is no longer picked up on its own; point XPLAT_EXAMPLES at it to use one.
+ * A peer checkout is no longer picked up on its own; ask for it with --examples=peer.
  */
 export const EXAMPLES_LOCK = path.join(XPLAT_ROOT, 'xplat-examples.lock.json');
 
@@ -156,12 +157,13 @@ export function resolveExamplesRoot({ quiet = false } = {}) {
     const say = (message) => { if (!quiet) console.log(`[examples] ${message}`); };
     const lock = readExamplesLock();
 
-    if (process.env.XPLAT_EXAMPLES) {
-        const given = path.resolve(process.env.XPLAT_EXAMPLES);
+    const named = explicitExamples();
+    if (named) {
+        const given = named.path;
         if (!fs.existsSync(path.join(given, 'code-gen-library'))) {
-            fail(`XPLAT_EXAMPLES has no code-gen-library in it:\n  ${given}`);
+            fail(`${named.from} has no code-gen-library in it:\n  ${given}`);
         }
-        say(`using XPLAT_EXAMPLES: ${given}`);
+        say(`using ${named.from}: ${given}`);
         const head = gitOut(given, ['rev-parse', 'HEAD']);
         if (lock.commit && head && head !== lock.commit) {
             say(`note: it is at ${head.slice(0, 10)}, not the locked ${lock.commit.slice(0, 10)} (${lock.ref})`);
@@ -176,6 +178,36 @@ export function resolveExamplesRoot({ quiet = false } = {}) {
     return withCacheLock(clone, () => syncCache(clone, lock, say));
 }
 
+/** The peer checkouts --examples=peer looks for, nearest first. */
+const PEER_CANDIDATES = [
+    path.join(REPO_ROOT, '..', 'igniteui-xplat-examples'),
+    path.join(REPO_ROOT, '..', '..', 'igniteui-xplat-examples'),
+];
+
+/**
+ * An examples checkout named outright, used as it is instead of the locked commit.
+ *
+ *   --examples=peer     the igniteui-xplat-examples checkout beside this repository
+ *   --examples=<path>   a checkout anywhere
+ *   XPLAT_EXAMPLES      the same as --examples=<path>; the parameter wins when both are given
+ *
+ * Any script that resolves the examples takes the parameter, generate.mjs and the snippet checks alike.
+ */
+function explicitExamples() {
+    const arg = process.argv.slice(2).find(a => a.startsWith('--examples='));
+    if (arg) {
+        const value = arg.slice('--examples='.length);
+        if (value === 'peer') {
+            const peer = firstExisting(PEER_CANDIDATES.map(c => path.join(c, 'code-gen-library')));
+            if (!peer) fail(`--examples=peer found no igniteui-xplat-examples beside this repository; looked in:\n  ${PEER_CANDIDATES.join('\n  ')}`);
+            return { path: path.dirname(peer), from: '--examples=peer' };
+        }
+        return { path: path.resolve(value), from: `--examples=${value}` };
+    }
+    if (process.env.XPLAT_EXAMPLES) return { path: path.resolve(process.env.XPLAT_EXAMPLES), from: 'XPLAT_EXAMPLES' };
+    return null;
+}
+
 function syncCache(clone, lock, say) {
     const wanted = lock.commit ?? lock.ref;
     if (fs.existsSync(clone)) {
@@ -183,7 +215,7 @@ function syncCache(clone, lock, say) {
         // is theirs: refusing loses nothing, overwriting could.
         if (!fs.existsSync(path.join(clone, '.git')) || fs.statSync(path.join(clone, '.git')).isFile()) {
             fail(`${path.relative(REPO_ROOT, clone)} is not a clone this toolchain made (a worktree, or ` +
-                 `not a repository). Move it aside or delete it, or set XPLAT_EXAMPLES to use it as it is.`);
+                 `not a repository). Move it aside or delete it, or pass --examples=<path> (or set XPLAT_EXAMPLES) to use it as it is.`);
         }
         if (lock.commit && gitOut(clone, ['rev-parse', 'HEAD']) === lock.commit) {
             say(`${path.relative(REPO_ROOT, clone)} is at the locked ${lock.commit.slice(0, 10)}`);
@@ -191,7 +223,7 @@ function syncCache(clone, lock, say) {
         }
         if (gitOut(clone, ['status', '--porcelain'])) {
             fail(`${path.relative(REPO_ROOT, clone)} has local changes; not moving it to ${wanted}. ` +
-                 `Commit or discard them, or set XPLAT_EXAMPLES to use it as it is.`);
+                 `Commit or discard them, or pass --examples=<path> (or set XPLAT_EXAMPLES) to use it as it is.`);
         }
     } else {
         say(`creating ${path.relative(REPO_ROOT, clone)} from ${lock.repository}`);

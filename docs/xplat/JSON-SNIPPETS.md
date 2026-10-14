@@ -599,20 +599,41 @@ Japanese copy has drifted fails only under `--lang=jp`.
 the examples repository, a `ref`, and a `commit`. Every build, local or CI, reads that commit, fetched
 shallow and sparse (only `code-gen-library`, `editor-templates` and `samples`) into `.snippet-cache/`.
 A checkout lying beside this repository is no longer picked up on its own, because a stale one was
-read silently. Set `XPLAT_EXAMPLES` to use a checkout as it is, for instance to try examples changes
-before pushing them.
+read silently.
+
+To generate against a checkout of your own instead — your peer `igniteui-xplat-examples`, to try
+examples changes before pushing them — name it. Every script that reads the examples takes the same
+parameter, `generate.mjs` and the snippet checks alike:
+
+```sh
+cd docs/xplat
+npm run generate:peer -- --platform=WinUI                       # the igniteui-xplat-examples beside this repo
+node scripts/generate.mjs --platform=React --examples=peer        # the same, without npm
+node scripts/generate.mjs --platform=React --examples=../my/examples   # a checkout anywhere
+node scripts/check-snippet-emission.mjs --lang=en --examples=peer
+XPLAT_EXAMPLES=../my/examples node scripts/generate.mjs --platform=React  # the variable form
+```
+
+`--examples=peer` looks for `igniteui-xplat-examples` beside this repository, then one level further
+up, and fails if there is none. The checkout is used as it is, on whatever branch it is on; the run
+says so when that is not the locked commit.
 
 For a change that spans both repositories:
 
 ```sh
 # point the lock at the examples branch and pin its current tip
-node docs/xplat/scripts/ci/resolve-examples.mjs --pin gmurray/my-examples-branch
+node docs/xplat/scripts/ci/resolve-examples.mjs --pin my-examples-branch
 # ... after the examples change merges, pin main
 node docs/xplat/scripts/ci/resolve-examples.mjs --pin main
 ```
 
 Commit the lock with the documentation change. A lock with a `ref` and no `commit` follows the tip of
-that ref and says so on every run; useful while iterating, but not reproducible, so pin before merging.
+that ref and says so on every run; useful while iterating, but not reproducible.
+
+**Nothing merges into `vnext` or `master` until the lock is pinned in the examples mainline.** The
+`Examples lock` workflow runs `resolve-examples.mjs --check-pinned` on every pull request into them, and
+fails unless the lock names a `commit` that is already in examples `main` (or the lock's `mainline`, if
+it names another). A feature-branch commit can be rebased or deleted; a commit in `main` stays.
 
 **Local and CI may not use the same emitter.** `resolveSnippetApiPaths` prefers, in order:
 `IG_SNIPPET_API`, a built emitter in a peer `dev-tools` checkout, then this repository's own build from
