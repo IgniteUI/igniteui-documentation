@@ -732,6 +732,7 @@ function snippetEmitter() {
 
 
 function transformMdxFile(content, where = 'this page') {
+    const webOnly = isWebOnly(content, where);
     // 0. Turn any json-snippet block into this platform's markup
     content = transformJsonSnippets(content);
     // 1. Resolve <PlatformBlock> tags — keep only this platform's content
@@ -740,7 +741,8 @@ function transformMdxFile(content, where = 'this page') {
     //     platform's code off an .mdx page before this, and a fence outside one survived everywhere:
     //     Angular markup on the Web Components pages, a Web Components type on React's. A fence no
     //     pattern claims is untouched, so this removes only what is positively another platform's.
-    content = filterCodeBlocks(content);
+    //     Not on a web-only page, which stays as the web documentation renders it.
+    if (!webOnly) content = filterCodeBlocks(content);
 
     // 2. Remove the now-unused PlatformBlock import (if any)
     content = content.replace(/^import PlatformBlock from '[^']+';?\r?\n/m, '');
@@ -1051,8 +1053,8 @@ function expandSharedFiles(sharedSrcDir, gridsOutDir) {
             //     code off these pages, and 29 fences were not inside one: Angular markup on the Web
             //     Components pages, Web Components markup on the React pages, and so on. A fence no
             //     pattern claims is untouched, so this only removes what is positively another
-            //     platform's.
-            content = filterCodeBlocks(content);
+            //     platform's. Not on a web-only page, which stays as the web documentation renders it.
+            if (!isWebOnly(raw, `_shared/${entry}`)) content = filterCodeBlocks(content);
 
             // 3. Apply replacements + component tokens to frontmatter only.
             //    Body tokens ({Platform} etc.) are still handled by the Vite plugin
