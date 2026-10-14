@@ -2,7 +2,7 @@
 /**
  * Every topic declares which population it belongs to, and this checks that the declaration holds up.
  *
- *   platformType: xplat            the cross-platform (DV) set, API terms resolved through the maps
+ *   platformType: xplat            the cross-platform (DV) set, API terms resolved through the descriptions
  *   platformType: xplat-unmapped   the same set, where the full treatment cannot be applied yet
  *   platformType: web-only         the web platforms and no further
  *

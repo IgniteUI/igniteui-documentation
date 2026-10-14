@@ -69,7 +69,7 @@ platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmap
 
 - **`platformType` (xplat) is required and has no default.** A missing or unknown value stops the
   build. It also decides `apiTerms`, which a page then states only to differ: `xplat` implies `full`
-  (names in backticks resolved through the api maps), `xplat-unmapped` implies `passthrough` (resolved
+  (names in backticks resolved through the product's description metadata), `xplat-unmapped` implies `passthrough` (resolved
   by rule, for an API no generator describes), `web-only` implies `none` (left as written, no
   `ApiLink`). An xplat page may not state `none`; a topic that genuinely cannot resolve its names is
   `xplat-unmapped`. `docs/xplat/API-TERMS.md` is normative; the `xplat-docs-api-links` skill is the

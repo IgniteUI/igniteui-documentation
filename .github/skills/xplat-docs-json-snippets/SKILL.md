@@ -158,6 +158,6 @@ export IG_ITEM_TEMPLATES=$PWD/docs/xplat/scripts/snippet-emitter/templates
 | document | covers |
 |---|---|
 | `docs/xplat/JSON-SNIPPETS.md` | the full contract: markers, sidecars, style options, policies |
-| `xplat-docs-api-links` skill | `apiTerms`, `ApiLink`, and the api maps |
+| `xplat-docs-api-links` skill | `apiTerms` and `ApiLink` |
 | `xplat-docs-platform-block` skill | `PlatformBlock` itself |
 | `code-gen-library/README.md` (examples repo) | writing the handlers, data and templates a fence names |

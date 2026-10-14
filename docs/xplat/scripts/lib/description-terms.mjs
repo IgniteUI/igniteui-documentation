@@ -25,7 +25,7 @@
  *   `\anything`            not an API term; the backslash is removed and nothing is resolved
  */
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { loadSnippetApi } from './snippet-toolchain.mjs';
@@ -146,27 +146,18 @@ function indexEnum(name, platform, repoRoot) {
 }
 
 // Some index entries list only what a class declares -- every WinUI and Uno class, and a few web ones --
-// so an inherited member is looked for up the class hierarchy. Nothing in the index records the hierarchy; until it does, the api maps' base
-// types answer. Web and Blazor indexes list inherited members on the class itself.
-let bases = null;
-function baseChain(canonical, repoRoot) {
-    if (bases === null) {
-        bases = new Map();
-        const root = path.join(repoRoot, 'src', 'data', 'api-map');
-        if (existsSync(root)) {
-            for (const dir of readdirSafe(root)) {
-                for (const file of readdirSafe(path.join(root, dir)).filter(f => f.endsWith('.json'))) {
-                    let json; try { json = JSON.parse(readFileSync(path.join(root, dir, file), 'utf8')); } catch { continue; }
-                    for (const t of json.types ?? []) if (t.originalName && t.originalBaseTypeName && !bases.has(t.originalName)) bases.set(t.originalName, t.originalBaseTypeName);
-                }
-            }
-        }
+// so an inherited member is looked for up the class hierarchy. Nothing in the index records the
+// hierarchy; the description classes do, and the snippet API reads it from them. Web and Blazor indexes
+// list inherited members on the class itself.
+function baseChain(canonical) {
+    const { api } = describe();
+    if (typeof api.descriptionBaseType !== 'function') {
+        throw new Error('description terms: the snippet API has no descriptionBaseType; rebuild it (npm run build in scripts/snippet-emitter)');
     }
     const out = [], seen = new Set();
-    for (let t = canonical; t && !seen.has(t); t = bases.get(t)) { seen.add(t); out.push(t); }
+    for (let t = canonical; t && !seen.has(t); t = api.descriptionBaseType(t)) { seen.add(t); out.push(t); }
     return out;
 }
-function readdirSafe(dir) { try { return readdirSync(dir); } catch { return []; } }
 
 /** The index's own spelling of a member on a type (or, where the index is declared-only, its bases). */
 function indexMember(typeName, member, platform, repoRoot, { method = false } = {}) {
@@ -188,7 +179,7 @@ function indexMember(typeName, member, platform, repoRoot, { method = false } = 
     if (direct) return direct;
     // Not only WinUI and Uno: some web classes are listed declared-only too (IgcGeographicMapComponent
     // carries its own 52 members; windowRect is on IgcSeriesViewerComponent).
-    const chain = new Set([own.symbol, typeName, 'Xam' + typeName].flatMap(t => baseChain(t, repoRoot).slice(1)));
+    const chain = new Set(baseChain(typeName).slice(1));
     for (const base of chain) {
         const b = platformType(base.replace(/^Xam/, ''), platform, repoRoot) ?? platformType(base, platform, repoRoot);
         const found = b && look(b.entries);

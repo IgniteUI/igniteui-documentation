@@ -758,58 +758,28 @@ function transformMdxFile(content, where = 'this page') {
 /**
  * One page's code spans, rewritten for the platform being generated.
  *
- * Terms that resolve nowhere are collected rather than thrown on: a page naming an API the maps do
- * not cover is worth reporting, but the maps do not yet cover every product area, so failing here
- * would stop the build on names that are perfectly real. A missing or unknown `apiTerms:` does throw
- * -- that is an authoring decision nobody has made, and it names the file.
+ * Terms that resolve nowhere are collected across the run and reported together at the end, where an
+ * unacknowledged one fails the build (see reportApiTerms). An unknown `apiTerms:` throws at once -- it
+ * names the file.
  */
 function resolveApiTermsFor(content, where) {
     const result = resolveApiTerms(content, PLATFORM, { where, repoRoot: REPO_ROOT });
     if (result.skipped) return result.content;
 
-    for (const term of result.unknown) unresolvedTerms.set(term, (unresolvedTerms.get(term) ?? 0) + 1);
-    for (const one of result.ambiguous) ambiguousTerms.set(one.term, one.candidates);
     for (const e of result.errors ?? []) {
         const ack = acknowledged.match(PLATFORM, where, e);
         (ack ? acknowledgedErrors : termErrors).push({ where, ...e, ack });
     }
-    for (const gap of result.mapGaps ?? []) {
-        const key = `${gap.platform}\t${gap.declaredOn}::${gap.member}`;
-        if (!mapGaps.has(key)) mapGaps.set(key, { ...gap, pages: new Set() });
-        mapGaps.get(key).pages.add(where);
-    }
     return result.content;
 }
 
-/** What resolution could not answer, gathered across the run and reported once at the end. */
-const unresolvedTerms = new Map();
-const ambiguousTerms = new Map();
 /** API terms the description metadata and the api-docs index could not resolve. These fail the run. */
 const termErrors = [];
 /** The same, where src/data/api-terms-acknowledged.json says why they may wait. Reported, not fatal. */
 const acknowledgedErrors = [];
 const acknowledged = loadAcknowledgedTerms(REPO_ROOT);
-/** Members a platform has that its apiMap does not spell. These fail the run -- see reportApiTerms. */
-const mapGaps = new Map();
 
 function reportApiTerms() {
-    if (unresolvedTerms.size > 0) {
-        const total = [...unresolvedTerms.values()].reduce((a, b) => a + b, 0);
-        const worst = [...unresolvedTerms.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15);
-        console.warn(`[generate] ${unresolvedTerms.size} backticked terms (${total} uses) matched no apiMap on any platform:`);
-        for (const [term, n] of worst) console.warn(`[generate]     ${String(n).padStart(4)}  ${term}`);
-        if (unresolvedTerms.size > worst.length) console.warn(`[generate]     ... and ${unresolvedTerms.size - worst.length} more`);
-    }
-    if (ambiguousTerms.size > 0) {
-        console.warn(`[generate] ${ambiguousTerms.size} backticked terms reached more than one canonical name; write the canonical to settle it:`);
-        for (const [term, candidates] of [...ambiguousTerms].slice(0, 10)) {
-            console.warn(`[generate]     ${term} ?= ${candidates.join(' | ')}`);
-        }
-    }
-    // Unlike the two above, this is never the page's fault and never safe to print past: the type is
-    // on this platform, the member is on the type, and the map has no name for it, so the page would
-    // show the XAML name to a reader who cannot type it. Fixed in the maps, with an override naming
-    // where the hand-written exposure lives.
     // An xplat term nothing resolves is never printed past: the page would show a name the reader's
     // platform may not have. The fix is in the page (context, qualifier, escape, PlatformBlock) or in
     // the description metadata or index, and each error says which term and where.
@@ -832,15 +802,6 @@ function reportApiTerms() {
             for (const e of some) console.error(`[generate]     ${e.where}:${e.line}  ${e.message}`);
         }
         throw new Error(`[generate] ${termErrors.length} unresolved API term(s) for ${PLATFORM}; see above.`);
-    }
-    if (mapGaps.size > 0) {
-        console.error(`[generate] ${mapGaps.size} members exist on a ${PLATFORM} type but have no ${PLATFORM} name in the apiMap.`);
-        console.error('[generate] Add each to an *.apiMap.overrides.json (see src/data/api-map/README.md):');
-        for (const gap of mapGaps.values()) {
-            const pages = [...gap.pages];
-            console.error(`[generate]     ${gap.declaredOn}::${gap.member}  (written \`${gap.term}\` against ${gap.type}; ${pages.length} page(s), e.g. ${pages[0]})`);
-        }
-        throw new Error(`[generate] apiMap has no ${PLATFORM} name for ${mapGaps.size} member(s); patch the maps.`);
     }
 }
 

@@ -27,7 +27,6 @@ The skills below are the canonical reference for all three.
 | [`xplat-docs-api-links`](./skills/xplat-docs-api-links/SKILL.md) | Adding, fixing, or auditing `<ApiLink>` calls in MDX files, and the `apiTerms` mode a page declares |
 | [`xplat-docs-json-snippets`](./skills/xplat-docs-json-snippets/SKILL.md) | Writing or validating `json-snippet` fences — the JSON a component is stated in, and the checks over it |
 | [`xplat-docs-platform-block`](./skills/xplat-docs-platform-block/SKILL.md) | Adding, fixing, or auditing `<PlatformBlock>` usage in MDX files |
-| [`xplat-docs-api-map-sync`](./skills/xplat-docs-api-map-sync/SKILL.md) | Keeping the api maps in step with a product release |
 | [`docfx-sync`](./skills/docfx-sync/SKILL.md) | Merging upstream igniteui-docfx changes and fixing MDX regressions |
 
 ---
@@ -47,7 +46,6 @@ The skills below are the canonical reference for all three.
 | Running the schema, emission, casing or live-load checks before pushing | `xplat-docs-json-snippets` |
 | A page that will not build for want of `apiTerms` | `xplat-docs-api-links` |
 | An "Ambiguous API symbol" build failure asking for `pkg=` | `xplat-docs-api-links` |
-| Updating the api maps after a product release | `xplat-docs-api-map-sync` |
 | Wrapping a code block or prose section so it only appears on specific platforms | `xplat-docs-platform-block` |
 | Checking that a file has no bare platform-specific code blocks | `xplat-docs-platform-block` |
 | Investigating a PlatformBlock balance error (unmatched open/close tags) | `xplat-docs-platform-block` |

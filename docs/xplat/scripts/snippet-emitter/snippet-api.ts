@@ -207,6 +207,29 @@ export function descriptionProperties(name: string): string[] | null {
     return props === undefined ? null : props;
 }
 
+let descriptionBases: Map<string, string> | null = null;
+
+/**
+ * The description type a description inherits from, by the name a topic writes it, or null at the
+ * root: LineSeries -> HorizontalAnchoredCategorySeries. Read from the description classes, which carry
+ * the product's own hierarchy. Some api-docs indexes list only what a class declares, so a member is
+ * looked for up this chain.
+ */
+export function descriptionBaseType(name: string): string | null {
+    if (descriptionBases === null) {
+        descriptionBases = new Map();
+        for (const marker of descriptionTypeMarkers()) {
+            const own = String(marker.typeName ?? marker.name ?? "");
+            const baseMarker = marker.baseType;
+            const base = baseMarker ? String(baseMarker.typeName ?? baseMarker.name ?? "") : "";
+            if (own.endsWith("Description") && base.endsWith("Description") && base.length > "Description".length) {
+                descriptionBases.set(own.slice(0, -"Description".length), base.slice(0, -"Description".length));
+            }
+        }
+    }
+    return descriptionBases.get(name) ?? null;
+}
+
 /**
  * Every description type, by the name a topic writes it: DataChart, not DataChartDescription.
  *

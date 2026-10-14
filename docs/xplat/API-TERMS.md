@@ -33,8 +33,8 @@ stated what their population already says, and now none do.
 
 | mode | what happens | for |
 |---|---|---|
-| `full` | looked up in the api maps; unresolvable terms are reported | every xplat topic |
-| `passthrough` | resolved by rule instead of by map, still linked | a component no generator describes |
+| `full` | resolved through the product's description metadata and the api-docs index; an unresolvable term fails the build | every xplat topic |
+| `passthrough` | resolved by rule instead of by lookup, still linked | a component no generator describes |
 | `none` | the code span is left exactly as written, and no `ApiLink` is emitted | topics that are not about a mapped API at all |
 
 `full` and `passthrough` both emit an `ApiLink`. `none` does not — a page that opted out is saying
@@ -59,58 +59,32 @@ allowed to disagree — the accessibility topic is an xplat doc that reaches no 
 `check-doc-scope.mjs` reports a disagreement rather than failing it, because a disagreement is a
 decision to confirm rather than a defect to fix.
 
-A component can be put in passthrough on its own, in `src/data/api-map/passthrough.json`, so the rest
-of a mixed page is still checked. DataChart is deliberately *not* listed there: it falls back to
-passthrough where no map answers, rather than declaring itself unchecked.
-
 ## How a term resolves
 
-In order, stopping at the first answer:
+`docs/xplat/scripts/lib/description-terms.mjs` does it, from two sources. The product's description
+metadata (TypeDescriptionContext) says what a term *is* — a type, a property and its per-platform
+names, an event, an enum and its values — and what each platform calls it. The platform's api-docs
+index says the name really exists there, and how that platform spells it. Nothing is guessed: a term
+neither can answer is an error, reported with the page, and the build fails.
 
-1. **The canonical name, exact case.** Checked first, so writing the canonical always settles a
-   question — which is what makes every rule below safe to have.
-2. **Reverse from a platform spelling.** The platform affixes (`Xam`, `Igc`, `Igr`, `Igb`, `Igx`) and
-   the `Component` / `Description` suffixes are tried in reverse, so a topic may write `DataChart`
-   rather than `XamDataChart` and still resolve. `XamDataChart` in prose is accurate and unpleasant to
-   read; both work.
-3. **Scoped to a type the page named**, walking up the base chain — `markerTypes` is declared on
-   `XYChart`, not on the `CategoryChart` the page is about.
-4. **Unscoped**, across every map.
+What an author can write:
 
-### Which type the page is talking about
+| term | means |
+|---|---|
+| `` `Type` `` | a description type or an enum, by its description name (`DataChart`) |
+| `` `Member` `` | a member of the type in context: the nearest type named before it on the page, then the page's `mentionedTypes` |
+| `` `Type.Member` `` | the same, with the owner stated; the label keeps the qualifier |
+| `` `m:Name` ``, `` `m:Type.Name` `` | a method; the descriptions do not describe methods, so the term says what it is and the index confirms it |
+| `` `EventScript` `` | Blazor's synchronous variant of an event; the suffix is dropped elsewhere |
+| `` `A/B/C` `` | a group some platforms collapse into one member; the parts resolve separately |
 
-In this order, which is the one the docfx transform used:
-
-1. **The canonical type name, written exactly.** Naming a type outright wins over everything, so a
-   deliberate `` `TreemapLayoutType` `` cannot be taken for a member.
-2. **Qualified.** `` `SeriesViewer.CheckmarkMarkerTemplate` `` says it outright. The head is resolved
-   as a type first; if it is not one, the dot is part of the name.
-3. **The implicit type** — the types the prose has already named, in backticks or in an
-   `<ApiLink type=…>`, nearest first. This has primacy over the frontmatter because it is how the
-   prose reads: name a component, then name a property of it.
-4. **`mentionedTypes`**, in the order given.
-5. **A loose match on the term as a type** — an alias, or a platform spelling reversed back.
-
-The last step being last is what matters. With it first, any member sharing a name with a type
-resolved the wrong way: `dataSource` reached the type `IDataSource`, whose Blazor name happens to be
-`DataSource`, and 18 pages ended up telling the reader about "the IDataSource property".
-
-Case is not consulted. It is a clue to what an author meant — useful when hunting these — but a term
-is not resolved on it. Disambiguation is explicit:
-
-| you want | write | renders as |
-|---|---|---|
-| the member, when context does not settle it | `` `CategoryChart.chartType` `` | `IgcCategoryChartComponent.chartType` |
-| the type, when context would make it a member | `` `global::ChartType` `` | `ChartType` |
-
-`global::` is the counterpart to a qualified name and is needed for the same reason: context has
-primacy, so a name that is both an enum and a property of the type just named resolves to the
-property. It is spelled the way C# spells it, and the prefix is for the resolver — what renders is the
-type's own name.
+A type renders as the platform's class name — `IgxBulletGraphComponent` on Angular, `XamBulletGraph`
+on WinUI — and a qualified member renders with that class name as its owner. A bare member keeps a
+short label.
 
 Take care listing an enum in `mentionedTypes` when a property shares its name. `TrendLineType` is both
-an enum and the property on every chart that has trendlines; listing the enum on a page whose prose
-means the property makes the term reach two different canonical names.
+an enum and the property on every chart that has trendlines; on a page whose prose means the property,
+write `` `Series.TrendLineType` `` or name the chart first.
 
 ## When a term should not resolve
 
@@ -121,39 +95,22 @@ someone says otherwise.
 For a name that exists on one platform only, a `PlatformBlock` is better than an escape: it is real
 API, so it should be linked where it exists and absent where it does not.
 
-## Overrides, for API the maps cannot describe
-
-A generator writes a map of what it generated. Something suppressed from generation and then exposed
-by hand is missing from the map even though the package ships it, so a real name is indistinguishable
-from a typo. `*.apiMap.overrides.json` fills that gap, using the same schema as a map — one entry
-gives the forward answer for each platform and the reverse answer for each spelling.
-
-- `src/data/api-map/Shared/HandExposed.apiMap.overrides.json` — API suppressed then hand-exposed on
-  every platform, such as `ShapefileRecord.Points`.
-- `src/data/api-map/WPF/DataChart.XAML.wpf.apiMap.overrides.json` — WPF renames for components the
-  ApiGenerator does not run for, where `#if` or a partial class altered the canonical surface.
-
-The loader reads every directory under the api-map root and keys forward answers by the `platform`
-field on each name, so the folder a file sits in is organization rather than scope.
-
-Record where the hand-written exposure lives in the entry's `_comment`. That note is the only evidence
-the name is real, and the entry should be deleted rather than left to rot if the name is ever
-generated normally.
-
 ## Reading the report
 
-`generate.mjs` prints what it could not resolve at the end of a run:
+`generate.mjs` reports every term it could not resolve, grouped by cause, and fails the run:
 
-```
-[generate] 4 backticked terms (6 uses) matched no apiMap on any platform:
-[generate]        2  Points
-```
+- **does not map to the description API** — the term names nothing the product describes. Fix the
+  page (context, qualifier, escape, `PlatformBlock`) or the description metadata.
+- **maps, but missing from the api-docs index** — the term is described, but this platform's index
+  lacks the name: the index is behind, or the platform does not have it.
 
-and separately what reached more than one canonical name. Both should be empty. If a term is
-genuinely not an API name, escape it; if it is, it needs a map, an override, or a `PlatformBlock`.
+An error that has to wait, because the index predates the API it names, goes in
+`src/data/api-terms-acknowledged.json` with the reason and what clears it. It is then printed as a
+warning each time it occurs instead of failing the run, and an acknowledgement that no longer matches
+anything is reported so it can be deleted.
 
 ## Related
 
 - [API-LINKS-README.md](API-LINKS-README.md) — the `ApiLink` component itself
-- [src/data/api-map/README.md](../../src/data/api-map/README.md) — the maps and where they come from
+- [scripts/lib/description-terms.mjs](scripts/lib/description-terms.mjs) — the resolution itself
 - [scripts/README.md](scripts/README.md) — the checks

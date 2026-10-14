@@ -17,8 +17,8 @@ build, naming the file. It decides how names in backticks are treated:
 
 | population | implies | what happens to a name in backticks |
 |---|---|---|
-| `xplat` | `apiTerms: full` | looked up in the api maps, linked, and reported if it does not resolve |
-| `xplat-unmapped` | `apiTerms: passthrough` | linked by rule instead of by map — no generator describes this API |
+| `xplat` | `apiTerms: full` | resolved through the product's description metadata and the api-docs index, linked; the build fails if it does not resolve |
+| `xplat-unmapped` | `apiTerms: passthrough` | linked by rule instead of by lookup — no generator describes this API |
 | `web-only` | `apiTerms: none` | left exactly as written; no `ApiLink` is emitted |
 
 **`apiTerms` is now an override, not a per-page decision.** State it only where a page differs from
@@ -30,18 +30,18 @@ its own population rather than an exception inside another.
 `full` and `passthrough` both emit an `ApiLink`. `none` does not: a page that opted out is saying
 these are not API names, so linking them would be wrong rather than merely unchecked.
 
-Canonical means the name the maps know, not the platform's spelling: write `` `DataChart` ``, not
-`` `XamDataChart` ``. Both resolve, and the canonical one reads the same on every platform — which is
-the point of a shared topic. `xplat-docs-json-snippets` states the same boundary for code blocks.
+Canonical means the description name, not the platform's spelling: write `` `DataChart` ``, not
+`` `XamDataChart` ``. The canonical one reads the same on every platform — which is the point of a
+shared topic — and renders as each platform's class name. `xplat-docs-json-snippets` states the same
+boundary for code blocks.
 
-Under `full`, a term resolves by canonical name first, then in reverse through the platform affixes
-(`Xam`, `Igc`, `Igr`, `Igb`, `Igx`) and the `Component` / `Description` suffixes, then scoped to a
-type the page named walking up the base chain, then unscoped. So a topic may write `DataChart` rather
-than `XamDataChart` and still resolve, and writing the canonical name always settles a question.
+Under `full`, `description-terms.mjs` resolves a term from the product's description metadata
+(TypeDescriptionContext) and confirms it in the platform's api-docs index; a term neither can answer
+fails the build. A member resolves against the nearest type named before it, then `mentionedTypes`;
+`Type.Member` states the owner, and `m:Name` marks a method.
 
-`docs/xplat/API-TERMS.md` is normative for all of this — the resolution order, how the page's subject
-type is chosen, when a term should *not* resolve, and the override files for API the maps cannot
-describe.
+`docs/xplat/API-TERMS.md` is normative for all of this — the term forms, how the owning type is
+chosen, when a term should *not* resolve, and the report.
 
 For strict-xplat source, canonical API names in backticks are required. Do not hand-author
 `<ApiLink>`: generation emits it after choosing the target platform's spelling and URL. Use the
@@ -55,9 +55,7 @@ is required by `check-doc-scope.mjs`.
 ```sh
 cd docs/xplat
 node scripts/resolve-api-links.mjs --dry-run     # names in backticks -> <ApiLink>; --file for one page
-node scripts/backtransform-api-links.mjs --dry-run --lang=en # authored ApiLink -> canonical terms
 node scripts/fix-api-link-attrs.mjs             # normalize attributes on existing links
-node scripts/check-api-map-accuracy.mjs         # the api maps against the generated registry
 ```
 
 
@@ -157,7 +155,6 @@ both generate the content before doing their own work.
 
 | document | covers |
 |---|---|
-| `docs/xplat/API-TERMS.md` | normative: modes, resolution order, overrides, the report |
+| `docs/xplat/API-TERMS.md` | normative: modes, term forms, the report |
 | `xplat-docs-json-snippets` skill | stating a component as JSON so every platform's code is generated |
-| `xplat-docs-api-map-sync` skill | keeping the api maps in step with a release |
 | `xplat-docs-platform-block` skill | `PlatformBlock` itself |
