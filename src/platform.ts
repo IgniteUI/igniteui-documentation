@@ -37,6 +37,8 @@ export type PlatformKey =
     | 'react'
     | 'blazor'
     | 'web-components'
+    | 'winui'
+    | 'uno'
     | 'slingshot'
     | 'appbuilder';
 
@@ -170,6 +172,8 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     react: { styles: IG_STYLES, scripts: [] },
     blazor: { styles: IG_STYLES, scripts: [] },
     'web-components': { styles: IG_STYLES, scripts: [] },
+    winui: { styles: IG_STYLES, scripts: [] },
+    uno: { styles: IG_STYLES, scripts: [] },
     slingshot: { styles: IG_STYLES, scripts: [] },
     appbuilder: { styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
 };
@@ -212,6 +216,22 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
     },
+    // XAML platforms. These ship under the Ultimate UI brand, not Ignite UI —
+    // hence `ultimate-ui-*` URL slugs rather than `ignite-ui-*`.
+    WinUI: {
+        lang: 'en', label: 'WinUI', key: 'winui', devPort: 4335,
+        base: '/products/ultimate-ui-winui/winui/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for WinUI',
+        description: 'Component documentation for Infragistics Ultimate UI for WinUI.',
+    },
+    Uno: {
+        lang: 'en', label: 'Uno Platform', key: 'uno', devPort: 4336,
+        base: '/products/ultimate-ui-uno-platform/uno-platform/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for Uno Platform',
+        description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',
+    },
     // Japanese
     
     AngularJP: {
@@ -241,6 +261,21 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         root: '/general-getting-started',
         title: 'Ignite UI for Blazor',
         description: 'Component documentation for Ignite UI for Blazor.',
+    },
+    // XAML platforms ship under the Ultimate UI brand — `ultimate-ui-*` slugs, not `ignite-ui-*`.
+    WinUIJP: {
+        lang: 'jp', label: 'WinUI', key: 'winui', devPort: 4345,
+        base: '/products/ultimate-ui-winui/winui/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for WinUI',
+        description: 'Component documentation for Infragistics Ultimate UI for WinUI.',
+    },
+    UnoJP: {
+        lang: 'jp', label: 'Uno Platform', key: 'uno', devPort: 4346,
+        base: '/products/ultimate-ui-uno-platform/uno-platform/components',
+        root: '/general-getting-started',
+        title: 'Infragistics Ultimate UI for Uno Platform',
+        description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',
     },
 };
 

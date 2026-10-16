@@ -17,28 +17,27 @@ Use it when:
 - the actual symbol or member name differs by platform;
 - a platform needs a manual external link or plain text because the API does not exist.
 
-Do not use it just to handle package, prefix, suffix, or URL differences. ApiLink
-and the generated registry should handle those.
+Do not use it just to handle package, prefix, suffix, or URL differences. Canonical backticked terms,
+generation, and the generated registry should handle those.
 
 ## Correct Use
 
 ```mdx
 <PlatformBlock for="Angular">
-  <ApiLink type="IGridState" />
+  `IGridState`
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
-  <ApiLink type="GridState" />
+  `GridState`
 </PlatformBlock>
 ```
 
-## ApiLink Rules
+## API-Term Rules
 
-- Prefer clean links: `<ApiLink type="Grid" />`.
-- Add `member` when linking to a member.
-- Add `pkg` only when `check-mdx-links` reports an ambiguity.
-- Do not add `exclude`, `excludePrefixFor`, or `excludeSuffixFor`.
-- Avoid new `prefixed={false}` or `suffix={false}` usage.
+- On `platformType: xplat`, canonical backticked API terms are required.
+- Qualify a member as `Type.Member` only when prose context cannot settle its owner.
+- Use `<ApiLink raw ... />` only for a link that genuinely cannot be represented as a term.
+- Raw ApiLink prop guidance belongs to `web-only`, `xplat-unmapped`, or that explicit exception.
 
 ## Formatting
 
