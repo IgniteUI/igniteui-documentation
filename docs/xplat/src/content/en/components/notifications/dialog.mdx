@@ -1,135 +1,324 @@
 ---
-title: "{Platform} Dialog | Infragistics"
-description: With {ProductName} Dialog component, developers can easily integrate a dialog window centered on top of app content.
-keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Dialog components"
+title: "{Platform} Dialog Component"
+description: "The {ProductName} Dialog shows a message, a confirmation, or a form in a modal window that users complete or close before they continue."
+keywords: "{Platform} Dialog, {ProductName}, modal dialog, alert dialog, confirmation dialog, dialog form"
 license: MIT
+last_updated: "2026-10-15"
+relatedComponents: ["Banner", "Snackbar", "Toast"]
 mentionedTypes: ["Dialog"]
 llms:
-  description: "The {ProductName} Dialog component is used to display some information or prompt the user for an action or confirmation."
+  description: "The {ProductName} Dialog is a component that shows a message, a confirmation, or a form in a modal window that users complete or close before they continue."
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import dialogAnatomy from '@xplat-images/anatomy-content-light/dialog-lt-a.png';
+import dialogDoLabels from '@xplat-images/dialog/dialog-do-1.png';
+import dialogDoNotLabels from '@xplat-images/dialog/dialog-do-not-1.png';
+import dialogDoActions from '@xplat-images/dialog/dialog-do-2.png';
+import dialogDoNotActions from '@xplat-images/dialog/dialog-do-not-2.png';
 
+# Dialog
 
-# {Platform} Dialog Overview
+The {ProductName} Dialog is a component that shows a message, a confirmation, or a form in a modal window that users complete or close before they continue.
 
-The {ProductName} Dialog component is used to display some information or prompt the user for an action or confirmation. It is shown in a modal window, which means that the user is not allowed to interact with the main app until a certain action is performed that closes the dialog.
+<PlatformBlock for="Angular">
 
-## {ProductName} Dialog Example
+The Angular Dialog is the `igx-dialog` component. It shows a title, a message, and up to two built-in buttons, or the title, content, and actions that you project into it.
 
-This sample demonstrates how to create a Dialog component in {Platform}.
+</PlatformBlock>
 
-<Sample src="/notifications/dialog/overview" height={400} alt="{Platform} Dialog Example" />
+<PlatformBlock for="React,WebComponents,Blazor">
 
+The Dialog is built on the native `dialog` element. It shows a title, a message, your content, and the action buttons in its footer, and it closes when the user presses Escape.
 
+</PlatformBlock>
 
+## Live Demo
 
-### Usage
+<PlatformBlock for="Angular">
 
+<Sample src="/interactions/dialog-overview" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Dialog example that opens a confirmation dialog with Cancel and OK buttons" />
 
-<PlatformBlock for="WebComponents">
+</PlatformBlock>
 
+<PlatformBlock for="React,WebComponents,Blazor">
 
-First, you need to install the {ProductName} by running the following command:
+<Sample src="/notifications/dialog/overview" showThemePicker height={400} noBorder={false} spacing="md" alt="{Platform} Dialog example that opens a confirmation dialog with Cancel and OK buttons" />
 
-```cmd
-npm install {PackageWebComponents}
+</PlatformBlock>
+
+## Anatomy
+
+The main elements include a title, a body, and action buttons.
+
+<Anatomy
+  class="dialog-anatomy"
+  name="Dialog"
+  description="The Dialog component shows a title, a body with the message or the controls, and the action buttons in a modal window."
+  src={dialogAnatomy.src}
+  alt="Dialog anatomy showing the title, the body, and the action buttons"
+/>
+
+<style>{`
+  .dialog-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .dialog-anatomy .igd-anatomy__image {
+    max-width: 417px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Title:</strong> should be brief and clearly describe the dialogs’s task or purpose<br />
+<strong>2. Body:</strong> contains the information and/or controls needed to complete the dialog’s task. It can include message text and components<br />
+<strong>3. Action Buttons:</strong> the main actions needed to complete or cancel the dialog task</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The `igc-dialog` element renders a backdrop and a native `dialog` element with a header, a content section, and a footer:
+
+```text
+igc-dialog
+└─ #shadow-root
+   ├─ div[part="backdrop"]                       // the backdrop behind the open dialog
+   └─ dialog[part="base"][role="dialog"]         // opened as a modal dialog
+      ├─ header[part="title"]                    // hidden when the dialog has no title
+      │  └─ slot[name="title"]                   // falls back to the title property
+      ├─ section[part="content"]
+      │  ├─ slot[name="message"]                 // hidden when empty
+      │  └─ slot                                 // the content of the dialog
+      └─ footer[part="footer"]
+         └─ slot[name="footer"]                  // falls back to the default OK button
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+While the Angular Dialog is open, the overlay renders it inside the `igx-dialog` element, in the top layer of the page:
+
+```text
+igx-dialog
+└─ div.igx-overlay__wrapper--modal[popover="manual"]  // the backdrop of a modal dialog
+   └─ div.igx-overlay__content--modal
+      └─ div.igx-dialog[tabindex="0"]                 // keeps the focus inside the dialog
+         └─ div.igx-dialog__window[role]
+            ├─ div.igx-dialog__window-title           // the title, or the projected igx-dialog-title
+            ├─ div.igx-dialog__window-content
+            │  └─ span.igx-dialog__window-message      // the message, or the projected content
+            └─ div.igx-dialog__window-actions          // the built-in buttons, or the projected igx-dialog-actions
+```
+
+</PlatformBlock>
+
+## Getting Started
+
+To use the {Platform} Dialog, follow the <PlatformBlock for="Angular">[{ProductName} Getting Started](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Getting Started](../general-getting-started.mdx)</PlatformBlock> topic for the basic project setup, then add the component for your target platform.
 
 <PlatformBlock for="WebComponents">
 
+Install the **{PackageCommon}** package:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Then import the <ApiLink pkg="core" type="Dialog" />, its theme CSS, and register the component. The registration also registers the `igc-button` element of the default OK button:
+
 ```ts
 import { defineComponents, IgcDialogComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 defineComponents(IgcDialogComponent);
 ```
 
 </PlatformBlock>
 
-
 <PlatformBlock for="React">
 
-
-
-First, you need to the install the corresponding {ProductName} npm package by running the following command:
+Install the **{PackageCommon}** package:
 
 ```cmd
-npm install igniteui-react
+npm install {PackageCommon}
 ```
 
-You will then need to import the {Platform} <ApiLink pkg="core" type="Dialog" /> and its necessary CSS, like so:
+Then import the <ApiLink pkg="core" type="Dialog" /> wrapper, the `IgrButton` wrapper for the action buttons, and the theme CSS:
 
 ```tsx
-import { IgrDialog } from 'igniteui-react';
+import { IgrButton, IgrDialog } from 'igniteui-react';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 ```
 
-
 </PlatformBlock>
-
-
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.mdx) topic.
-
 
 <PlatformBlock for="Blazor">
 
-
-Before using the {Platform} <ApiLink pkg="core" type="Dialog" />, you need to register it as follows:
-
+Register the Dialog module and the Button module of the action buttons in **Program.cs**:
 
 ```csharp
 // in Program.cs file
 
-builder.Services.AddIgniteUIBlazor(typeof(IgbDialogModule));
+builder.Services.AddIgniteUIBlazor(typeof(IgbDialogModule), typeof(IgbButtonModule));
+```
+
+Then link the theme CSS file in **wwwroot/index.html** for a **Blazor WebAssembly** project or in **Pages/_Host.cshtml** for a **Blazor Server** project:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 
-The simplest way to display the dialog component is to use its <ApiLink pkg="core" type="Dialog" member="show" label="Show" /> method and call it on a button click.
+If your project doesn't use {ProductName} yet, run `ng add igniteui-angular`. Then import the `IGX_DIALOG_DIRECTIVES` token and add it to the `imports` of your component. The token holds the <ApiLink pkg="core" type="Dialog" /> and the `igx-dialog-title` and `igx-dialog-actions` directives. The built-in buttons of the dialog don't need extra imports, and the example below imports the `IgxButtonDirective` for the button that opens the dialog:
 
-<PlatformBlock for="Blazor">
+```ts
+import { Component } from '@angular/core';
+import { IGX_DIALOG_DIRECTIVES } from 'igniteui-angular/dialog';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IGX_DIALOG_DIRECTIVES } from '@infragistics/igniteui-angular/dialog'; for licensed package
 
-```razor
-<div class="container vertical">
-    <IgbButton @onclick="OnDialogShow" Variant=@ButtonVariant.Contained>Show Dialog</IgbButton>
-    <IgbDialog @ref="DialogRef" Title="Confirmation">
-        <p>Are you sure you want to delete the Annual_Report_2016.pdf and Annual_Report_2017.pdf files?</p>
-        <IgbButton slot="footer" @onclick="OnDialogHide" Variant=@ButtonVariant.Flat>Cancel</IgbButton>
-        <IgbButton slot="footer" @onclick="OnDialogHide" Variant=@ButtonVariant.Flat>OK</IgbButton>
-    </IgbDialog>
-</div>
+@Component({
+    selector: 'app-home',
+    template: `
+        <button igxButton="contained" (click)="dialog.open()">Delete file</button>
 
-@code {
-    public IgbDialog DialogRef;
-    public async Task OnDialogShow()
-    {
-        if (this.DialogRef != null)
-            await this.DialogRef.ShowAsync();
-    }
-    public async Task OnDialogHide()
-    {
-        if (this.DialogRef != null)
-            await this.DialogRef.HideAsync();
-    }
-}
+        <igx-dialog #dialog
+            title="Delete File"
+            message="Are you sure you want to delete this file?"
+            leftButtonLabel="Cancel"
+            (leftButtonSelect)="dialog.close()"
+            rightButtonLabel="Delete"
+            (rightButtonSelect)="dialog.close()">
+        </igx-dialog>
+    `,
+    imports: [IGX_DIALOG_DIRECTIVES, IgxButtonDirective]
+})
+export class HomeComponent {}
 ```
+
+The built-in buttons don't close the Angular Dialog by themselves. Call `close()` in the handlers of their `leftButtonSelect` and `rightButtonSelect` events.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+After registration, render the <ApiLink pkg="core" type="Dialog" /> with a title, the content, and the action buttons in the `footer` slot, and open it with the `show` method:
 
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-button onclick="dialog.show()" variant="contained">Show Dialog</igc-button>
+<igc-button id="open-button">Delete file</igc-button>
 
-<igc-dialog id="dialog" title="Confirmation">
-    <p>Are you sure you want to delete the Annual_Report_2016.pdf and Annual_Report_2017.pdf files?</p>
-    <igc-button slot="footer" onclick="dialog.close()" variant="flat">Cancel</igc-button>
-    <igc-button slot="footer" onclick="dialog.close()" variant="flat">OK</igc-button>
+<igc-dialog id="delete-dialog" title="Delete File">
+  <p>Are you sure you want to delete this file?</p>
+  <igc-button slot="footer" id="cancel-button" variant="flat">Cancel</igc-button>
+  <igc-button slot="footer" id="delete-button" variant="contained">Delete</igc-button>
+</igc-dialog>
+```
+
+```ts
+const dialog = document.getElementById('delete-dialog') as IgcDialogComponent;
+
+document.getElementById('open-button')!.addEventListener('click', () => dialog.show());
+document.getElementById('cancel-button')!.addEventListener('click', () => dialog.hide());
+document.getElementById('delete-button')!.addEventListener('click', () => dialog.hide());
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { useRef } from 'react';
+import { IgrButton, IgrDialog } from 'igniteui-react';
+
+export default function DeleteFile() {
+  const dialogRef = useRef<IgrDialog>(null);
+
+  return (
+    <>
+      <IgrButton onClick={() => dialogRef.current?.show()}>Delete file</IgrButton>
+      <IgrDialog ref={dialogRef} title="Delete File">
+        <p>Are you sure you want to delete this file?</p>
+        <IgrButton slot="footer" variant="flat" onClick={() => dialogRef.current?.hide()}>Cancel</IgrButton>
+        <IgrButton slot="footer" variant="contained" onClick={() => dialogRef.current?.hide()}>Delete</IgrButton>
+      </IgrDialog>
+    </>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbButton @onclick="ShowDialog">Delete file</IgbButton>
+
+<IgbDialog @ref="Dialog" Title="Delete File">
+    <p>Are you sure you want to delete this file?</p>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat" @onclick="HideDialog">Cancel</IgbButton>
+    <IgbButton slot="footer" Variant="ButtonVariant.Contained" @onclick="HideDialog">Delete</IgbButton>
+</IgbDialog>
+
+@code {
+    private IgbDialog Dialog { get; set; }
+
+    private async Task ShowDialog()
+    {
+        await Dialog.ShowAsync();
+    }
+
+    private async Task HideDialog()
+    {
+        await Dialog.HideAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+## Usage
+
+Use the {Platform} Dialog to show a message or alert to the user, allowing him to take action accordingly or to present a form that requires immediate action before proceeding, such as a login. The Dialog is displayed modally, meaning that the user has to complete or close it before moving on.
+
+### Types
+
+The Dialog can be used to show an alert with only a confirming button, a message with cancellation and confirmation, or as a container for action that needs immediate attention, such as a user logging into his account. Its Button area is templatable, allowing you, for example, to adjust the buttons.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+For an alert, leave the `footer` slot empty, and the {Platform} Dialog shows its default OK button, which closes the dialog. For a confirmation, place the cancel and the confirm buttons in the `footer` slot. For a custom dialog, place the controls in the content of the dialog:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dialog title="Notification">
+  <p>Your email has been sent successfully!</p>
+</igc-dialog>
+
+<igc-dialog title="Confirmation">
+  <p>Your email will be permanently deleted.</p>
+  <igc-button slot="footer" variant="flat">Cancel</igc-button>
+  <igc-button slot="footer" variant="flat">OK</igc-button>
+</igc-dialog>
+
+<igc-dialog title="Sign In">
+  <igc-input label="Username"></igc-input>
+  <igc-input label="Password" type="password"></igc-input>
+  <igc-button slot="footer" variant="flat">Cancel</igc-button>
+  <igc-button slot="footer" variant="flat">Sign In</igc-button>
 </igc-dialog>
 ```
 
@@ -138,92 +327,1174 @@ The simplest way to display the dialog component is to use its <ApiLink pkg="cor
 <PlatformBlock for="React">
 
 ```tsx
-<IgrButton variant="contained" clicked={this.onDialogShow}>
-    <span>Show Dialog</span>
-</IgrButton>
-
-<IgrDialog ref={this.onDialogRef}>
-    <span>Dialog Message</span>
+<IgrDialog title="Notification">
+  <p>Your email has been sent successfully!</p>
 </IgrDialog>
 
-public onDialogRef(dialog: IgrDialog) {
-    if (!dialog) { return; }
-    this.dialogRef = dialog;
+<IgrDialog title="Confirmation">
+  <p>Your email will be permanently deleted.</p>
+  <IgrButton slot="footer" variant="flat">Cancel</IgrButton>
+  <IgrButton slot="footer" variant="flat">OK</IgrButton>
+</IgrDialog>
+
+<IgrDialog title="Sign In">
+  <IgrInput label="Username" />
+  <IgrInput label="Password" type="password" />
+  <IgrButton slot="footer" variant="flat">Cancel</IgrButton>
+  <IgrButton slot="footer" variant="flat">Sign In</IgrButton>
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDialog Title="Notification">
+    <p>Your email has been sent successfully!</p>
+</IgbDialog>
+
+<IgbDialog Title="Confirmation">
+    <p>Your email will be permanently deleted.</p>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat">Cancel</IgbButton>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat">OK</IgbButton>
+</IgbDialog>
+
+<IgbDialog Title="Sign In">
+    <IgbInput Label="Username" />
+    <IgbInput Label="Password" type="password" />
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat">Cancel</IgbButton>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat">Sign In</IgbButton>
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+For an alert, set only the `leftButtonLabel`. For a confirmation, set both the `leftButtonLabel` and the `rightButtonLabel`. For a custom dialog, project the title, the controls, and the buttons into the dialog with the `igx-dialog-title` and `igx-dialog-actions` directives:
+
+```html
+<igx-dialog #alert
+    title="Notification"
+    message="Your email has been sent successfully!"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="alert.close()">
+</igx-dialog>
+
+<igx-dialog #confirm
+    title="Confirmation"
+    message="Your email will be permanently deleted."
+    leftButtonLabel="Cancel"
+    (leftButtonSelect)="confirm.close()"
+    rightButtonLabel="OK"
+    (rightButtonSelect)="confirm.close()">
+</igx-dialog>
+
+<igx-dialog #signIn>
+  <igx-dialog-title>Sign In</igx-dialog-title>
+  <igx-input-group>
+    <label igxLabel for="username">Username</label>
+    <input igxInput id="username" type="text" />
+  </igx-input-group>
+  <igx-input-group>
+    <label igxLabel for="password">Password</label>
+    <input igxInput id="password" type="password" />
+  </igx-input-group>
+  <igx-dialog-actions>
+    <button igxButton="flat" (click)="signIn.close()">Cancel</button>
+    <button igxButton="flat" (click)="signIn.close()">Sign In</button>
+  </igx-dialog-actions>
+</igx-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/dialog-types" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Dialog as an alert, a confirmation, and a sign-in form" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/notifications/dialog/types" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Dialog as an alert, a confirmation, and a sign-in form" />
+
+</PlatformBlock>
+
+### Title and Content
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The <ApiLink pkg="core" type="Dialog" member="title" label="title" /> property sets the text of the dialog header. To show other content in the header, such as an icon, place it in the `title` slot, which takes precedence over the property. Place a short message in the `message` slot, which the {Platform} Dialog shows above the rest of the content and limits to a width of 40 characters. Everything else that you place in the dialog becomes its content:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dialog>
+  <span slot="title">Delete File</span>
+  <span slot="message">Are you sure you want to delete this file?</span>
+  <p>Annual_Report_2026.pdf will be removed from all your devices.</p>
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDialog>
+  <span slot="title">Delete File</span>
+  <span slot="message">Are you sure you want to delete this file?</span>
+  <p>Annual_Report_2026.pdf will be removed from all your devices.</p>
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDialog>
+    <span slot="title">Delete File</span>
+    <span slot="message">Are you sure you want to delete this file?</span>
+    <p>Annual_Report_2026.pdf will be removed from all your devices.</p>
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The <ApiLink pkg="core" type="Dialog" member="title" label="title" /> and <ApiLink pkg="core" type="Dialog" member="message" label="message" /> properties set the text of the dialog header and the dialog body. To show other content in the header, such as an icon, project an `igx-dialog-title` element or an element with the `igxDialogTitle` directive. Everything else that you place in the dialog becomes its content. The Angular Dialog ignores the projected title when you set `title`, and the projected content when you set `message`:
+
+```html
+<igx-dialog #dialog>
+  <igx-dialog-title>
+    <igx-icon>delete</igx-icon>
+    <span>Delete File</span>
+  </igx-dialog-title>
+  <p>Are you sure you want to delete Annual_Report_2026.pdf?</p>
+  <igx-dialog-actions>
+    <button igxButton="flat" (click)="dialog.close()">Cancel</button>
+    <button igxButton="contained" (click)="dialog.close()">Delete</button>
+  </igx-dialog-actions>
+</igx-dialog>
+```
+
+</PlatformBlock>
+
+### Action Buttons
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Place the action buttons of the {Platform} Dialog in the `footer` slot. When the slot is empty, the dialog shows a default OK button, which closes the dialog and emits the closing events. Set <ApiLink pkg="core" type="Dialog" member="hideDefaultAction" label="hideDefaultAction" /> to hide the default button, for example when the content of the dialog has its own buttons. The property has no effect when the `footer` slot has content:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dialog title="Processing" hide-default-action>
+  <p>Exporting the report. This can take a few seconds.</p>
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDialog title="Processing" hideDefaultAction={true}>
+  <p>Exporting the report. This can take a few seconds.</p>
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDialog Title="Processing" HideDefaultAction="true">
+    <p>Exporting the report. This can take a few seconds.</p>
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The <ApiLink pkg="core" type="Dialog" member="leftButtonLabel" label="leftButtonLabel" /> and <ApiLink pkg="core" type="Dialog" member="rightButtonLabel" label="rightButtonLabel" /> properties add the built-in buttons, and each button renders only when its label is set. The `leftButtonType` and `rightButtonType` properties set the button variant, `flat` by default, and the `leftButtonRipple` and `rightButtonRipple` properties set the ripple color. A click on a built-in button emits <ApiLink pkg="core" type="Dialog" member="leftButtonSelect" label="leftButtonSelect" /> or <ApiLink pkg="core" type="Dialog" member="rightButtonSelect" label="rightButtonSelect" />, and the dialog stays open until you call `close()`:
+
+```html
+<igx-dialog #dialog
+    title="Delete File"
+    message="Are you sure you want to delete this file?"
+    leftButtonLabel="Cancel"
+    (leftButtonSelect)="dialog.close()"
+    rightButtonLabel="Delete"
+    rightButtonType="contained"
+    (rightButtonSelect)="deleteFile(); dialog.close()">
+</igx-dialog>
+```
+
+For other buttons, project them into the dialog with an `igx-dialog-actions` element or an element with the `igxDialogActions` directive. The Angular Dialog ignores the projected actions when you set a button label.
+
+</PlatformBlock>
+
+### Opening and Closing
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Open and close the {Platform} Dialog with the following methods, which play the open and the close animations:
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+- <ApiLink pkg="core" type="Dialog" member="show" label="show" /> opens the dialog.
+- <ApiLink pkg="core" type="Dialog" member="hide" label="hide" /> closes the dialog.
+- <ApiLink pkg="core" type="Dialog" member="toggle" label="toggle" /> opens the dialog when it's closed and closes it when it's open.
+
+Each method returns a promise that resolves to `false` when the dialog is already in the requested state. The <ApiLink pkg="core" type="Dialog" member="open" label="open" /> property also opens and closes the dialog, but without the animations.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- <ApiLink pkg="core" type="Dialog" member="ShowAsync" label="ShowAsync" /> opens the dialog.
+- <ApiLink pkg="core" type="Dialog" member="HideAsync" label="HideAsync" /> closes the dialog.
+- <ApiLink pkg="core" type="Dialog" member="ToggleAsync" label="ToggleAsync" /> opens the dialog when it's closed and closes it when it's open.
+
+Each method returns `false` when the dialog is already in the requested state. The <ApiLink pkg="core" type="Dialog" member="Open" label="Open" /> parameter also opens and closes the dialog, but without the animations, and it doesn't change when the user closes the dialog. Use the methods to keep the state in sync.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+These methods and the `open` property don't emit the closing events. To open or close the dialog without code, add the `command` and `commandfor` attributes to a button, in browsers that support the [Invoker Commands API](https://developer.mozilla.org/en-US/docs/Web/API/Invoker_Commands_API). Set `command` to `--show`, `--hide`, or `--toggle`, and set `commandfor` to the `id` of the dialog:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-button command="--show" commandfor="delete-dialog">Delete file</igc-button>
+
+<igc-dialog id="delete-dialog" title="Delete File">
+  <p>Are you sure you want to delete this file?</p>
+  <igc-button slot="footer" variant="flat" command="--hide" commandfor="delete-dialog">Cancel</igc-button>
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrButton command="--show" commandfor="delete-dialog">Delete file</IgrButton>
+
+<IgrDialog id="delete-dialog" title="Delete File">
+  <p>Are you sure you want to delete this file?</p>
+  <IgrButton slot="footer" variant="flat" command="--hide" commandfor="delete-dialog">Cancel</IgrButton>
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbButton Command="--show" Commandfor="delete-dialog">Delete file</IgbButton>
+
+<IgbDialog id="delete-dialog" Title="Delete File">
+    <p>Are you sure you want to delete this file?</p>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat" Command="--hide" Commandfor="delete-dialog">Cancel</IgbButton>
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Open and close the Angular Dialog with the following methods, which play the open and the close animations:
+
+- <ApiLink pkg="core" type="Dialog" member="open" label="open" /> opens the dialog. It accepts optional overlay settings, as described in [Position and Animation](#position-and-animation).
+- <ApiLink pkg="core" type="Dialog" member="close" label="close" /> closes the dialog.
+- <ApiLink pkg="core" type="Dialog" member="toggle" label="toggle" /> opens the dialog when it's closed and closes it when it's open.
+
+To control the dialog from a property of your component, bind <ApiLink pkg="core" type="Dialog" member="isOpen" label="isOpen" /> two-way. The property changes to `false` when the user closes the dialog:
+
+```html
+<button igxButton="contained" (click)="showDialog = true">Delete file</button>
+
+<igx-dialog [(isOpen)]="showDialog"
+    title="Delete File"
+    message="Are you sure you want to delete this file?"
+    leftButtonLabel="Cancel"
+    (leftButtonSelect)="showDialog = false">
+</igx-dialog>
+```
+
+The Angular Dialog emits <ApiLink pkg="core" type="Dialog" member="opening" label="opening" /> and <ApiLink pkg="core" type="Dialog" member="closing" label="closing" /> before it opens and closes, and <ApiLink pkg="core" type="Dialog" member="opened" label="opened" /> and <ApiLink pkg="core" type="Dialog" member="closed" label="closed" /> after the animation ends. These events also fire when you open and close the dialog in code. Set `cancel` to `true` in the handler of `opening` or `closing` to keep the dialog in its current state.
+
+</PlatformBlock>
+
+### Closing on Escape and Outside Click
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Dialog closes when the user presses Escape. Set <ApiLink pkg="core" type="Dialog" member="keepOpenOnEscape" label="keepOpenOnEscape" /> to keep it open, for example while it guards unsaved work. Set <ApiLink pkg="core" type="Dialog" member="closeOnOutsideClick" label="closeOnOutsideClick" /> to close the dialog when the user clicks the backdrop:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dialog title="Edit Profile" keep-open-on-escape>
+  ...
+</igc-dialog>
+
+<igc-dialog title="Shortcuts" close-on-outside-click>
+  ...
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDialog title="Edit Profile" keepOpenOnEscape={true}>
+  ...
+</IgrDialog>
+
+<IgrDialog title="Shortcuts" closeOnOutsideClick={true}>
+  ...
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDialog Title="Edit Profile" KeepOpenOnEscape="true">
+    ...
+</IgbDialog>
+
+<IgbDialog Title="Shortcuts" CloseOnOutsideClick="true">
+    ...
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+When the user closes the dialog with Escape, a click on the backdrop, the default OK button, or a submitted form, the {Platform} Dialog emits the closing event before it closes and the closed event after the close animation ends. Cancel the closing event to keep the dialog open:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const dialog = document.querySelector('igc-dialog')!;
+
+dialog.addEventListener('igcClosing', (event) => {
+  if (event.target === dialog && hasUnsavedChanges) {
+    event.preventDefault();
+  }
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDialog
+  title="Edit Profile"
+  onClosing={(event: CustomEvent<void>) => {
+    if (event.target === event.currentTarget && hasUnsavedChanges) {
+      event.preventDefault();
+    }
+  }}>
+  ...
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The <ApiLink pkg="core" type="Dialog" member="Closing" label="Closing" /> callback can't cancel the closing, because it runs after the browser handles the event. To cancel it, set <ApiLink pkg="core" type="Dialog" member="ClosingScript" label="ClosingScript" /> to the name of a JavaScript function that you register with `igRegisterScript`:
+
+```razor
+<IgbDialog Title="Edit Profile" ClosingScript="onDialogClosing">
+    ...
+</IgbDialog>
+```
+
+```javascript
+// In JavaScript
+function onDialogClosing(event) {
+    if (event.target === event.currentTarget && window.hasUnsavedChanges) {
+        event.preventDefault();
+    }
 }
 
-public onDialogShow() {
-    if (this.dialogRef) {
-        this.dialogRef.show();
+igRegisterScript("onDialogClosing", onDialogClosing, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Components in the dialog that open and close, such as the Select, emit their own `igcClosing` and `igcClosed` events, which bubble to the dialog. Check that the target of the event is the dialog before you handle it, as the examples above do.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog closes when the user presses Escape. Set <ApiLink pkg="core" type="Dialog" member="closeOnEscape" label="closeOnEscape" /> to `false` to keep it open, for example while it guards unsaved work. Set <ApiLink pkg="core" type="Dialog" member="closeOnOutsideSelect" label="closeOnOutsideSelect" /> to `true` to close the dialog when the user clicks outside it. The dialog reads these properties when it opens, so a change while the dialog is open takes effect the next time it opens:
+
+```html
+<igx-dialog title="Edit Profile" [closeOnEscape]="false">
+  ...
+</igx-dialog>
+
+<igx-dialog title="Shortcuts" [closeOnOutsideSelect]="true">
+  ...
+</igx-dialog>
+```
+
+To keep the dialog open in other cases, cancel the `closing` event. Its `event` argument holds the keyboard or the pointer event that closes the dialog, and it's `undefined` when you call `close()`:
+
+```html
+<igx-dialog title="Edit Profile" (closing)="onClosing($event)">
+  ...
+</igx-dialog>
+```
+
+```ts
+import { IDialogCancellableEventArgs } from 'igniteui-angular/dialog';
+
+public hasUnsavedChanges = false;
+
+public onClosing(args: IDialogCancellableEventArgs) {
+    if (args.event && this.hasUnsavedChanges) {
+        args.cancel = true;
     }
 }
 ```
 
 </PlatformBlock>
 
-The <ApiLink pkg="core" type="Dialog" /> component provides an <ApiLink pkg="core" type="Dialog" member="open" label="Open" /> property, which gives you the ability to configure its state as per your application scenario.
+### Forms
 
-Use the <ApiLink pkg="core" type="Dialog" member="title" label="Title" /> property to set the title of the dialog. However, if any content is provided in the `title` slot, it will take precedence over the property.
+<PlatformBlock for="React,WebComponents,Blazor">
 
-Action buttons or additional information can be placed in the bottom part of the dialog via the `footer` slot. If no content is added there, a default `OK` button will be shown that closes the Dialog when clicked. In case you do not want this button to be shown you can set the <ApiLink pkg="core" type="Dialog" member="hideDefaultAction" label="HideDefaultAction" /> property to **true**. The default value is **false**.
-
-### Closing
-
-By default, the Dialog is closed automatically when the user presses `ESC`. You could prevent this behavior using the <ApiLink pkg="core" type="Dialog" member="keepOpenOnEscape" label="KeepOpenOnEscape" /> property. The default value is **false**. If there is an open dropdown (or any other element that should handle `ESC` internally) in the dialog, pressing `ESC` once will close the dropdown and pressing it again will close the dialog.
-
-Use the <ApiLink type="OverlaySettings" member="closeOnOutsideClick" label="CloseOnOutsideClick" /> property to configure if the dialog should be closed when clicking outside of it. The default value is **false**.
-
-
-<PlatformBlock for="Angular, WebComponents, React">
-
-
-
-<Sample src="/notifications/dialog/closing-variations" height={400} alt="{Platform} Dialog Closing Variations" />
-
-
+Place a `form` element with `method="dialog"` in the content of the {Platform} Dialog to close the dialog when the user submits the form. The dialog emits the closing events, so you can cancel the closing, and it doesn't send the form to a server. To keep the submit button in the footer, as the design guidance recommends, associate it with the form:
 
 </PlatformBlock>
 
+<PlatformBlock for="WebComponents">
 
-### Form
+```html
+<igc-dialog id="sign-in" title="Sign In">
+  <form id="sign-in-form" method="dialog">
+    <igc-input name="username" label="Username" required></igc-input>
+    <igc-input name="password" label="Password" type="password" required></igc-input>
+  </form>
+  <igc-button slot="footer" variant="flat" command="--hide" commandfor="sign-in">Cancel</igc-button>
+  <igc-button slot="footer" variant="flat" type="submit" form="sign-in-form">Sign In</igc-button>
+</igc-dialog>
+```
 
-Form elements can close a Dialog if they have the attribute `method="dialog"`. Submitting the form will trigger the closing of the dialog.
+</PlatformBlock>
 
-<Sample src="/notifications/dialog/form" height={500} alt="{Platform} Dialog Form Example" />
+<PlatformBlock for="React">
 
+The `form` property of the `IgrButton` is read-only, so submit the form from the click handler of the button:
 
+```tsx
+const dialogRef = useRef<IgrDialog>(null);
+const formRef = useRef<HTMLFormElement>(null);
 
-## Styling
+<IgrDialog ref={dialogRef} title="Sign In">
+  <form ref={formRef} method="dialog">
+    <IgrInput name="username" label="Username" required={true} />
+    <IgrInput name="password" label="Password" type="password" required={true} />
+  </form>
+  <IgrButton slot="footer" variant="flat" onClick={() => dialogRef.current?.hide()}>Cancel</IgrButton>
+  <IgrButton slot="footer" variant="flat" onClick={() => formRef.current?.requestSubmit()}>Sign In</IgrButton>
+</IgrDialog>
+```
 
-The <ApiLink pkg="core" type="Dialog" /> component exposes several CSS parts to give you full control over its style:
+</PlatformBlock>
 
-|Name|Description|
-|--|--|
-| `base` | The base wrapper of the dialog. |
-| `title` | The title container. |
-| `footer` | The footer container. |
-| `content` | The content container. |
+<PlatformBlock for="Blazor">
 
-```css
-igc-dialog::part(content) {
-  background: var(--ig-secondary-800);
-  color: var(--ig-secondary-800-contrast);
-}
+```razor
+<IgbDialog @ref="Dialog" Title="Sign In">
+    <form id="sign-in-form" method="dialog">
+        <IgbInput name="username" Label="Username" Required="true" />
+        <IgbInput name="password" Label="Password" type="password" Required="true" />
+    </form>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat" @onclick="HideDialog">Cancel</IgbButton>
+    <IgbButton slot="footer" Variant="ButtonVariant.Flat" DisplayType="ButtonBaseType.Submit" form="sign-in-form">Sign In</IgbButton>
+</IgbDialog>
+```
 
-igc-dialog::part(title),
-igc-dialog::part(footer) {
-  background: var(--ig-secondary-800);
-  color: var(--ig-warn-500);
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+When a native `button` or `input` element submits the form, the {Platform} Dialog sets its <ApiLink pkg="core" type="Dialog" member="returnValue" label="returnValue" /> to the `value` of that element. Read `returnValue` in the handler of the closed event to find out which button closed the dialog.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog doesn't close when a form in it is submitted. Handle the `submit` event of the form and call `close()`:
+
+```html
+<igx-dialog #signIn title="Sign In">
+  <form id="sign-in-form" (submit)="onSignIn($event, signIn)">
+    <igx-input-group>
+      <label igxLabel for="username">Username</label>
+      <input igxInput id="username" name="username" type="text" required />
+    </igx-input-group>
+    <igx-input-group>
+      <label igxLabel for="password">Password</label>
+      <input igxInput id="password" name="password" type="password" required />
+    </igx-input-group>
+  </form>
+  <igx-dialog-actions>
+    <button igxButton="flat" type="button" (click)="signIn.close()">Cancel</button>
+    <button igxButton="flat" type="submit" form="sign-in-form">Sign In</button>
+  </igx-dialog-actions>
+</igx-dialog>
+```
+
+```ts
+import { IgxDialogComponent } from 'igniteui-angular/dialog';
+
+public onSignIn(event: SubmitEvent, dialog: IgxDialogComponent) {
+    event.preventDefault();
+    // Send the credentials.
+    dialog.close();
 }
 ```
 
-<Sample src="/notifications/dialog/styling" height={400} alt="{Platform} Dialog Styling Example" />
+</PlatformBlock>
 
+<PlatformBlock for="Angular">
 
+### Position and Animation
 
+By default, the Angular Dialog opens in the center of the page with a fade animation. Set <ApiLink pkg="core" type="Dialog" member="positionSettings" label="positionSettings" /> to change the position and the animations. The dialog uses a global position strategy, so only `horizontalDirection` and `verticalDirection` change its position, and the settings that you leave out keep their default values:
+
+```ts
+import { slideInTop, slideOutTop } from 'igniteui-angular/animations';
+import { HorizontalAlignment, PositionSettings, VerticalAlignment } from 'igniteui-angular/core';
+
+public positionSettings: PositionSettings = {
+    horizontalDirection: HorizontalAlignment.Center,
+    verticalDirection: VerticalAlignment.Top,
+    openAnimation: slideInTop,
+    closeAnimation: slideOutTop
+};
+```
+
+```html
+<igx-dialog title="Notification" [positionSettings]="positionSettings">
+  ...
+</igx-dialog>
+```
+
+The dialog is modal by default: it shows a backdrop, and the backdrop blocks clicks on the page. Set <ApiLink pkg="core" type="Dialog" member="isModal" label="isModal" /> to `false` to show the dialog without a backdrop and keep the page interactive. To change the overlay settings for a single opening, pass them to `open()`. The settings that you pass override the defaults of the dialog for that opening only and don't change its properties:
+
+```ts
+this.dialog.open({ modal: false, closeOnOutsideClick: true });
+```
+
+</PlatformBlock>
+
+### Do/Don't
+
+The dialog's title and button labels work together to communicate the purpose of the dialog and the outcome of each action. Clear wording in both helps users understand what they are confirming and make decisions with confidence.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={dialogDoLabels} alt="A dialog titled Delete File with Cancel and Delete buttons" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={dialogDoNotLabels} alt="A dialog titled Are you sure? with No and Yes buttons" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="margin: 0;">Use a specific title and button labels that clearly state the action and its outcome, so users know exactly what they are confirming.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="margin: 0;">Avoid vague titles and ambiguous labels like "Yes/No" — they don't tell users what will actually happen and lead to confusion and mistakes.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={dialogDoActions} alt="A Sign In dialog with Cancel and Sign In buttons in its button area" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={dialogDoNotActions} alt="A Sign In dialog with a Log In button in its body in addition to the Cancel and Sign In buttons" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="margin: 0;">When designing a custom Dialog, place all action buttons in the dialog's dedicated button area, keeping the body section for content only.</p>
+  </div>
+  <div>
+    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="margin: 0;">When designing a custom Dialog, avoid placing buttons in the body section and use the existing dialog buttons for your actions instead.</p>
+  </div>
+</div>
+
+## Properties
+
+The {Platform} Dialog exposes the following properties. See the API reference for the complete type definitions.
+
+<PlatformBlock for="React,WebComponents">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="title" label="title" /> | `string` | — | The text of the dialog header. The `title` slot takes precedence over it. |
+| <ApiLink pkg="core" type="Dialog" member="open" label="open" /> | `boolean` | `false` | Whether the dialog is open. A change opens or closes the dialog without the animations and the closing events. |
+| <ApiLink pkg="core" type="Dialog" member="hideDefaultAction" label="hideDefaultAction" /> | `boolean` | `false` | Whether the default OK button is hidden when the `footer` slot is empty. |
+| <ApiLink pkg="core" type="Dialog" member="keepOpenOnEscape" label="keepOpenOnEscape" /> | `boolean` | `false` | Whether the dialog stays open when the user presses Escape. |
+| <ApiLink pkg="core" type="Dialog" member="closeOnOutsideClick" label="closeOnOutsideClick" /> | `boolean` | `false` | Whether a click on the backdrop closes the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="returnValue" label="returnValue" /> | `string \| undefined` | `undefined` | The `value` of the native button that submitted a form with `method="dialog"`. You can also set it in code. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="Title" label="Title" /> | `string` | — | The text of the dialog header. The `title` slot takes precedence over it. |
+| <ApiLink pkg="core" type="Dialog" member="Open" label="Open" /> | `bool` | `false` | Whether the dialog is open. A change opens or closes the dialog without the animations and the closing events. |
+| <ApiLink pkg="core" type="Dialog" member="HideDefaultAction" label="HideDefaultAction" /> | `bool` | `false` | Whether the default OK button is hidden when the `footer` slot is empty. |
+| <ApiLink pkg="core" type="Dialog" member="KeepOpenOnEscape" label="KeepOpenOnEscape" /> | `bool` | `false` | Whether the dialog stays open when the user presses Escape. |
+| <ApiLink pkg="core" type="Dialog" member="CloseOnOutsideClick" label="CloseOnOutsideClick" /> | `bool` | `false` | Whether a click on the backdrop closes the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="ClosingScript" label="ClosingScript" /> | `string` | — | The name of a registered JavaScript function that handles the closing event in the browser and can cancel it. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="isOpen" label="isOpen" /> | `boolean` | `false` | Whether the dialog is open. Supports two-way binding. |
+| <ApiLink pkg="core" type="Dialog" member="title" label="title" /> | `string` | `''` | The text of the dialog header. When set, the projected title is ignored. |
+| <ApiLink pkg="core" type="Dialog" member="message" label="message" /> | `string` | `''` | The text of the dialog body. When set, the projected content is ignored. |
+| <ApiLink pkg="core" type="Dialog" member="leftButtonLabel" label="leftButtonLabel" /> | `string` | `''` | The text of the left built-in button, which renders only when the label is set. |
+| <ApiLink pkg="core" type="Dialog" member="rightButtonLabel" label="rightButtonLabel" /> | `string` | `''` | The text of the right built-in button, which renders only when the label is set. |
+| <ApiLink pkg="core" type="Dialog" member="leftButtonType" label="leftButtonType" /> | `IgxButtonType` | `'flat'` | The variant of the left built-in button. |
+| <ApiLink pkg="core" type="Dialog" member="rightButtonType" label="rightButtonType" /> | `IgxButtonType` | `'flat'` | The variant of the right built-in button. |
+| <ApiLink pkg="core" type="Dialog" member="leftButtonRipple" label="leftButtonRipple" /> | `string` | `''` | The ripple color of the left built-in button. |
+| <ApiLink pkg="core" type="Dialog" member="rightButtonRipple" label="rightButtonRipple" /> | `string` | `''` | The ripple color of the right built-in button. |
+| <ApiLink pkg="core" type="Dialog" member="closeOnEscape" label="closeOnEscape" /> | `boolean` | `true` | Whether the dialog closes when the user presses Escape. |
+| <ApiLink pkg="core" type="Dialog" member="closeOnOutsideSelect" label="closeOnOutsideSelect" /> | `boolean` | `false` | Whether a click outside the dialog closes it. |
+| <ApiLink pkg="core" type="Dialog" member="isModal" label="isModal" /> | `boolean` | `true` | Whether the dialog shows a backdrop that blocks clicks on the page. |
+| <ApiLink pkg="core" type="Dialog" member="focusTrap" label="focusTrap" /> | `boolean` | `true` | Whether Tab and Shift + Tab keep the focus inside the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="positionSettings" label="positionSettings" /> | `PositionSettings` | — | The position and the animations of the dialog. Centered with a fade animation by default. |
+| <ApiLink pkg="core" type="Dialog" member="role" label="role" /> | `string` | — | Read-only. The ARIA role of the dialog, which depends on the built-in buttons. |
+| <ApiLink pkg="core" type="Dialog" member="titleId" label="titleId" /> | `string` | — | Read-only. The `id` that `aria-labelledby` of the dialog refers to. |
+
+</PlatformBlock>
+
+## Methods
+
+<PlatformBlock for="React,WebComponents">
+
+The {Platform} Dialog exposes the following methods. They don't emit the closing events.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="show" label="show" /> | Opens the dialog with the open animation. Returns a promise that resolves to `false` when the dialog is already open. |
+| <ApiLink pkg="core" type="Dialog" member="hide" label="hide" /> | Closes the dialog with the close animation. Returns a promise that resolves to `false` when the dialog is already closed. |
+| <ApiLink pkg="core" type="Dialog" member="toggle" label="toggle" /> | Opens the dialog when it's closed and closes it when it's open. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The {Platform} Dialog exposes the following methods. They don't raise `Closing` and `Closed`.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="ShowAsync" label="ShowAsync" /> | Opens the dialog with the open animation. Returns `false` when the dialog is already open. |
+| <ApiLink pkg="core" type="Dialog" member="HideAsync" label="HideAsync" /> | Closes the dialog with the close animation. Returns `false` when the dialog is already closed. |
+| <ApiLink pkg="core" type="Dialog" member="ToggleAsync" label="ToggleAsync" /> | Opens the dialog when it's closed and closes it when it's open. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog exposes the following methods. They emit the opening and the closing events.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="open" label="open" /> | Opens the dialog. Accepts optional overlay settings that override the defaults of the dialog for this opening. |
+| <ApiLink pkg="core" type="Dialog" member="close" label="close" /> | Closes the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="toggle" label="toggle" /> | Opens the dialog when it's closed and closes it when it's open. |
+
+</PlatformBlock>
+
+## Events
+
+The {Platform} Dialog emits the following events.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents">`igcClosing`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Dialog" member="onClosing" label="onClosing" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Dialog" member="Closing" label="Closing" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted before the dialog closes when the user presses Escape, clicks the backdrop, clicks the default OK button, or submits a form with `method="dialog"`. Cancel it to keep the dialog open<PlatformBlock for="Blazor"> through `ClosingScript`</PlatformBlock>. |
+| <PlatformBlock for="WebComponents">`igcClosed`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Dialog" member="onClosed" label="onClosed" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Dialog" member="Closed" label="Closed" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted after the dialog closes and its close animation ends, for the same user actions. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Dialog" member="opening" label="opening" /> | Emitted with `IDialogCancellableEventArgs` before the dialog opens. Set `cancel` to keep the dialog closed. |
+| <ApiLink pkg="core" type="Dialog" member="opened" label="opened" /> | Emitted with `IDialogEventArgs` after the dialog opens and its open animation ends. |
+| <ApiLink pkg="core" type="Dialog" member="closing" label="closing" /> | Emitted with `IDialogCancellableEventArgs` before the dialog closes. Set `cancel` to keep the dialog open. The `event` argument holds the keyboard or the pointer event that closes the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="closed" label="closed" /> | Emitted with `IDialogEventArgs` after the dialog closes and its close animation ends. |
+| <ApiLink pkg="core" type="Dialog" member="leftButtonSelect" label="leftButtonSelect" /> | Emitted with `IDialogEventArgs` when the user clicks the left built-in button. Doesn't close the dialog. |
+| <ApiLink pkg="core" type="Dialog" member="rightButtonSelect" label="rightButtonSelect" /> | Emitted with `IDialogEventArgs` when the user clicks the right built-in button. Doesn't close the dialog. |
+
+</PlatformBlock>
+
+## Styling
+
+The {Platform} Dialog takes its colors from the theme. Change them with the following CSS variables:
+
+| Variable | What it changes |
+| --- | --- |
+| `--ig-dialog-background` | The background of the dialog. |
+| `--ig-dialog-title-color` | The text color of the title. |
+| `--ig-dialog-message-color` | The text color of the message and the content. |
+| `--ig-dialog-border-color` | The border color of the dialog. |
+| `--ig-dialog-border-radius` | The corner radius of the dialog. |
+| `--ig-dialog-elevation` | The shadow of the dialog. |
+<PlatformBlock for="React,WebComponents,Blazor">| `--ig-dialog-backdrop` | The color of the backdrop behind the open dialog. |</PlatformBlock><PlatformBlock for="Angular">| `--ig-overlay-background-color` | The color of the backdrop behind a modal dialog. The overlay theme sets this variable. |</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The `igc-dialog` element exposes the following CSS parts:
+
+| Part | What it styles |
+| --- | --- |
+| `base` | The native `dialog` element. |
+| `title` | The header that holds the title. |
+| `content` | The section that holds the message and the content. |
+| `footer` | The footer that holds the action buttons. |
+| `backdrop` | The backdrop behind the open dialog. |
+
+</PlatformBlock>
+
+### Sass Theming
+
+When you modify a primary property, all related dependent properties are automatically updated to reflect the change. The primary parameter of the <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`dialog-theme`</PlatformBlock> function is `$background`, from which the theme derives the title, the message, and the border colors. Create a theme with the function and include it with the `tokens()` mixin, which emits the matching `--ig-dialog-*` variables in the scope where you include it.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-dialog-theme: dialog-theme(
+  $background: #011627,
+  $border-radius: 12px
+);
+
+:host {
+  @include tokens($custom-dialog-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The Sass functions come from the `igniteui-theming` package. See the [Theming](../themes/overview.mdx) topic for the Sass setup.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-dialog-theme: dialog-theme(
+  $background: #011627,
+  $border-radius: 12px
+);
+
+:root {
+  @include tokens($custom-dialog-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS Variables
+
+Set the CSS variables on a Dialog or on a container when you need local styling without a Sass build step:
+
+```css
+.welcome-dialog {
+  --ig-dialog-background: #011627;
+  --ig-dialog-title-color: #ffffff;
+  --ig-dialog-border-radius: 12px;
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Use the CSS parts for other styles:
+
+```css
+igc-dialog::part(title) {
+  font-weight: 600;
+}
+
+igc-dialog::part(footer) {
+  gap: 16px;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/dialog-styling" height={520} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Dialog styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/notifications/dialog/styling" height={520} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Dialog styling example" />
+
+</PlatformBlock>
+
+### Styling with Tailwind
+
+You can style the {Platform} Dialog with Tailwind arbitrary properties that set the `--ig-dialog-*` CSS variables. Make sure to <PlatformBlock for="Angular">[set up Tailwind](../themes/misc/tailwind-classes.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[set up Tailwind](../themes/tailwind.mdx)</PlatformBlock> first.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-dialog class="[--ig-dialog-background:#011627] [--ig-dialog-title-color:#FF8040] [--ig-dialog-message-color:#FFFFFF]">
+  ...
+</igx-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-dialog class="[--ig-dialog-background:#011627] [--ig-dialog-title-color:#FF8040] [--ig-dialog-message-color:#FFFFFF]">
+  ...
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDialog className="[--ig-dialog-background:#011627] [--ig-dialog-title-color:#FF8040] [--ig-dialog-message-color:#FFFFFF]">
+  ...
+</IgrDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDialog Class="[--ig-dialog-background:#011627] [--ig-dialog-title-color:#FF8040] [--ig-dialog-message-color:#FFFFFF]">
+    ...
+</IgbDialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/dialog-tailwind-styling" height={360} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Dialog Tailwind styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/notifications/dialog/tailwind-styling" height={360} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Dialog Tailwind styling example" />
+
+</PlatformBlock>
+
+## Accessibility
+
+The {Platform} Dialog shows its content in a modal window that users reach and leave with the keyboard. This section lists what the dialog renders and handles, as its template and event handlers define it.
+
+### Keyboard Interaction
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Dialog opens its native `dialog` element with `showModal()` and closes it with `close()`, so the browser manages the focus:
+
+- When the dialog opens, the focus moves to the first focusable element in the dialog, in DOM order: a control in the content, a button in the `footer` slot, or the default OK button. When the dialog has no focusable elements, the focus moves to the dialog itself.
+- While the dialog is open, the rest of the page is inert, so the keyboard and the pointer can't reach it.
+- When the dialog closes, the focus returns to the element that had it before the dialog opened.
+
+The following keys work while the dialog is open:
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves the focus to the next or the previous focusable element in the dialog. The dialog doesn't handle these keys: the inert page makes the browser move the focus from the last element in the dialog to the browser controls and then back to the first element. |
+| <kbd>Escape</kbd> | The browser sends a `cancel` event to the native `dialog`. The {Platform} Dialog prevents the native close, emits the closing event, and closes when you don't cancel that event. With `keepOpenOnEscape`, the dialog stays open, and when the browser closes the native `dialog` anyway, for example on a repeated Escape, the dialog opens it again. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | Activates the focused button. The default OK button closes the dialog and emits the closing events. |
+
+The {Platform} Dialog also handles these pointer and form actions:
+
+- A click on the native `dialog` outside its box, which is a click on the backdrop, closes the dialog when `closeOnOutsideClick` is set. The dialog checks the pointer position, so a press inside the dialog followed by a release on the backdrop also closes it.
+- A `submit` event from a form with `method="dialog"` in the default slot closes the dialog, unless you prevent the `submit` event or cancel the closing event.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog manages the focus as follows:
+
+- When the dialog opens with built-in buttons, each button gets the `igxFocus` directive bound to `isOpen`, so the right button gets the focus, or the left button when it's the only one.
+- When the dialog opens without built-in buttons, the focus doesn't move into the dialog. Move it yourself, for example with `[igxFocus]="dialog.isOpen"` on the first control in the content.
+- While the dialog is open, the `igxFocusTrap` directive on the `div.igx-dialog` container handles Tab and Shift + Tab.
+- When the dialog closes, the focus doesn't return to the element that opened it.
+
+The following keys work while the dialog is open:
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> | Moves the focus to the next focusable element in the dialog, and from the last one to the first. |
+| <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves the focus to the previous focusable element in the dialog, and from the first one to the last. |
+| <kbd>Escape</kbd> | Closes the dialog and emits `closing` and `closed` when `closeOnEscape` is `true`. The overlay service listens for Escape on the whole document, so the key works wherever the focus is, and it closes only the topmost open overlay. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | Activates the focused button. A built-in button emits `leftButtonSelect` or `rightButtonSelect` and doesn't close the dialog. |
+
+The focus trap works only when `focusTrap` is `true`, and it handles Tab and Shift + Tab as follows:
+
+- It finds the focusable elements in the dialog with the `a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])` selector. It skips disabled elements and the content of elements with `aria-hidden="true"`, and it doesn't look into the shadow roots of web components.
+- It moves the focus in DOM order, so it ignores positive `tabindex` values, and it wraps from the last element to the first and back.
+- When the dialog has no focusable elements, it keeps the focus on the `div.igx-dialog` container.
+
+The Angular Dialog also handles these pointer actions:
+
+- In a modal dialog, a click on the backdrop closes the dialog when `closeOnOutsideSelect` is `true`. A press inside the dialog followed by a release on the backdrop also counts as a click on the backdrop.
+- In a dialog with `isModal` set to `false`, a click anywhere outside the dialog closes it when `closeOnOutsideSelect` is `true`.
+- The dialog stops the propagation of the clicks inside it, so click handlers on the document don't receive them.
+
+</PlatformBlock>
+
+### Screen Readers / ARIA
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Dialog renders the following roles and attributes:
+
+| Element | Role | Attributes |
+| --- | --- | --- |
+| `div[part="backdrop"]` | — | `aria-hidden="true"` while the dialog is closed. The element is empty and decorative. |
+| `dialog[part="base"]` | `dialog` | `aria-labelledby` that points to the `title` part, and `aria-label` when you set `aria-label` on the `igc-dialog` element. |
+| `header[part="title"]` | — | The `id` that `aria-labelledby` points to. Hidden when the dialog has no title. |
+| The default OK button | `button` | The name "OK". |
+
+The {Platform} Dialog exposes the following information to assistive technology:
+
+- While the dialog is open, it's a modal `dialog`, and the content of the page outside it isn't in the accessibility tree. While the dialog is closed, the dialog isn't in the accessibility tree.
+- The dialog takes its accessible name from the `title` property or the `title` slot. An `aria-label` on the `igc-dialog` element takes precedence over the title, and a dialog without a title or an `aria-label` has no accessible name.
+- The dialog doesn't set `aria-describedby`, so the message and the content aren't its accessible description.
+- The dialog doesn't use a live region. Assistive technology finds the open dialog through the focus, which moves into it.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog renders the following roles and attributes:
+
+| Element | Role | Attributes |
+| --- | --- | --- |
+| `igx-dialog` | — | `id`, `igx-dialog-0` and up by default, and `tabindex="-1"`. |
+| `div.igx-overlay__wrapper--modal` | — | `popover="manual"`, which renders the open dialog in the top layer of the page. |
+| `div.igx-dialog` | — | `tabindex="0"`, and `aria-hidden="true"` while the dialog is closed. |
+| `div.igx-dialog__window` | `dialog` with two built-in buttons, `alertdialog` with one, `alert` without built-in buttons | `aria-labelledby` that points to the `titleId`. |
+| `div.igx-dialog__window-title` | — | The `id` that `aria-labelledby` points to, set to the `titleId`. Rendered when you set `title`. |
+| The built-in buttons | `button` | `type="button"` and the name from `leftButtonLabel` or `rightButtonLabel`. |
+
+The Angular Dialog exposes the following information to assistive technology:
+
+- The role of the dialog depends on the built-in buttons, and the `role` property is read-only. A custom dialog without built-in buttons, such as a sign-in form, has the `alert` role.
+- The dialog takes its accessible name from the `title` property. A projected `igx-dialog-title` doesn't get the `titleId`, so a dialog with a projected title has no accessible name unless you bind `[id]="dialog.titleId"` on the title.
+- The dialog doesn't set `aria-modal`, and the top layer doesn't make the rest of the page inert, so assistive technology can still reach the page behind a modal dialog.
+- The dialog doesn't set `aria-describedby`, so the message and the content aren't its accessible description.
+- While the dialog is closed, its container has `aria-hidden="true"` and is hidden.
+
+</PlatformBlock>
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| --- | --- |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The role of the dialog exposes the window, and `aria-labelledby` links the dialog to its title.<PlatformBlock for="Angular"> The role depends on the built-in buttons.</PlatformBlock> |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Tab and Shift + Tab reach every control in the dialog, Enter and Space activate the buttons, and Escape closes the dialog. |
+| [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | Escape closes the dialog by default, so keyboard users can leave it with a standard key. |
+| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | <PlatformBlock for="React,WebComponents,Blazor">The focus moves into the dialog when it opens and returns to the previously focused element when it closes.</PlatformBlock><PlatformBlock for="Angular">The built-in buttons get the focus when the dialog opens, and the focus trap keeps Tab and Shift + Tab inside the dialog while it's open.</PlatformBlock> |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The dialog exposes its role and a name from its title. |
+
+Your responsibilities:
+
+- Give every dialog a title that names its task, as the [Do/Don't](#dodont) guidance shows.<PlatformBlock for="React,WebComponents,Blazor"> For a dialog without a title, set `aria-label` on the dialog.</PlatformBlock><PlatformBlock for="Angular"> For a projected title, bind `[id]="dialog.titleId"` on it.</PlatformBlock>
+- Keep a button that closes the dialog, especially when you turn off closing on Escape.
+- When you override the theme colors, keep a contrast ratio of at least 4.5:1 between the text and the background of the dialog, as [1.4.3 Contrast (Minimum)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum) requires.
+<PlatformBlock for="Angular">- Move the focus into a dialog without built-in buttons when it opens, and return the focus to the element that opened the dialog in the handler of `closed`.</PlatformBlock>
+
+## Troubleshooting
+
+These are the {Platform} Dialog problems that come up most often, with their causes and fixes.
+
+<PlatformBlock for="React,WebComponents">
+
+### Why is returnValue empty after the user submits the form?
+
+The {Platform} Dialog sets `returnValue` from the submitter of the form, and only a native `button` or `input` element is a submitter. An Ignite UI Button submits the form without a submitter, so `returnValue` keeps its previous value. Use a native submit button, or set `returnValue` in the click handler of the Ignite UI Button before the form is submitted.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### Why does Show() throw an error?
+
+The `Show`, `Hide`, and `Toggle` methods are the synchronous versions of `ShowAsync`, `HideAsync`, and `ToggleAsync`. The dialog methods in the browser return a promise, so on Blazor WebAssembly the synchronous calls throw an exception although the dialog opens or closes, and on Blazor Server they fail ([igniteui-blazor#512](https://github.com/IgniteUI/igniteui-blazor/issues/512)). Use the `Async` methods instead.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Why does a screen reader read my custom dialog as an alert?
+
+The Angular Dialog sets its role from the built-in buttons, and a dialog without `leftButtonLabel` and `rightButtonLabel` gets the `alert` role. The `role` property is read-only. When the dialog only confirms or cancels an action, use the built-in buttons, which give it the `dialog` or the `alertdialog` role.
+
+### Why doesn't a change to closeOnEscape take effect?
+
+The Angular Dialog passes `closeOnEscape`, `closeOnOutsideSelect`, and `isModal` to the overlay when it opens, so a change while the dialog is open applies the next time it opens ([igniteui-angular#12537](https://github.com/IgniteUI/igniteui-angular/issues/12537)). To change the behavior of an open dialog, cancel the `closing` event instead.
+
+</PlatformBlock>
+
+### Known Limitations
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- The `command` and `commandfor` attributes work only in browsers that support the [Invoker Commands API](https://developer.mozilla.org/en-US/docs/Web/API/Invoker_Commands_API).
+- The `message` slot limits its content to a width of 40 characters.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- The `Open` parameter doesn't change when the user closes the dialog, and the Blazor Dialog has no `OpenChanged` callback.
+- The `Closing` callback can't cancel the closing. Use `ClosingScript`, as described in [Closing on Escape and Outside Click](#closing-on-escape-and-outside-click).
+- The `ReturnValue` parameter doesn't reach the dialog in the browser, and it doesn't change when a form sets the return value ([igniteui-blazor#300](https://github.com/IgniteUI/igniteui-blazor/issues/300)).
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- A dialog without built-in buttons doesn't move the focus into itself when it opens, and the dialog doesn't return the focus to the element that opened it.
+- The modal dialog doesn't make the rest of the page inert for assistive technology.
+- The focus trap moves the focus in DOM order and ignores positive `tabindex` values ([igniteui-angular#13299](https://github.com/IgniteUI/igniteui-angular/issues/13299)).
+- The dialog stops the propagation of the clicks inside it, so a third-party menu in the dialog that closes on document clicks stays open ([igniteui-angular#13849](https://github.com/IgniteUI/igniteui-angular/issues/13849)).
+- The `minSize` of the position settings has no effect, because the dialog uses a global position strategy.
+
+</PlatformBlock>
 
 ## API References
-<ApiLink pkg="core" type="Dialog" />
+
+The {Platform} Dialog API reference lists the complete API surface for the target platform.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Dialog" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink pkg="core" type="Dialog" label="IgxDialogComponent" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" />
+
+</PlatformBlock>
+
+## Dependencies
+
+The {Platform} Dialog requires a theme to apply its colors and sizes. See the framework-specific setup in <PlatformBlock for="Angular">[**Getting Started**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Getting Started**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+The Angular Dialog renders through the overlay service, which also draws the backdrop of a modal dialog. The built-in buttons use the `igxButton` and `igxRipple` directives.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The registration of the `IgcDialogComponent` also registers the `igc-button` element of the default OK button. Register the components that you place in the dialog, such as the Input, separately.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Register the modules of the components that you place in the dialog, such as the `IgbButtonModule` and the `IgbInputModule`, separately.
+
+</PlatformBlock>
+
 ## Additional Resources
 
+The following resources provide more {Platform} Dialog guidance and project support:
+
+- [Dialog - Design System Component](https://www.infragistics.com/products/indigo-design/help/components/dialog)
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+The {Platform} Dialog blocks the page until the user completes or closes it. Use these components when the message doesn't need to interrupt the user:
+
+- <PlatformBlock for="Angular">[Banner](../banner.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Banner](./banner.mdx)</PlatformBlock> - Use Banner for an important message that stays on the page until the user dismisses it.
+- <PlatformBlock for="Angular">[Snackbar](../snackbar.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Snackbar](./snackbar.mdx)</PlatformBlock> - Use Snackbar for a brief message about an operation, with an optional action.
+- <PlatformBlock for="Angular">[Toast](../toast.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Toast](./toast.mdx)</PlatformBlock> - Use Toast for a brief message that disappears on its own and needs no action.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Why does the Dialog close when the user selects text in it and releases the mouse outside it?" indicatorPosition="end">
+    <PlatformBlock for="Angular">When `closeOnOutsideSelect` is `true`, the Angular Dialog treats a press inside the dialog followed by a release outside it as a click outside, so it closes. Leave `closeOnOutsideSelect` off for a dialog with input fields or text that users select, or cancel the `closing` event when the press started inside the dialog.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">When `closeOnOutsideClick` is set, the browser reports a press inside the {Platform} Dialog followed by a release on the backdrop as a click outside the dialog, so the dialog closes. Leave `closeOnOutsideClick` off for a dialog with input fields or text that users select, or cancel the closing event when the press started inside the dialog.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="How do I change the width of the Dialog?" indicatorPosition="end">
+    <PlatformBlock for="Angular">The Angular Dialog sizes to its content and has no width property, and the `minSize` of its position settings has no effect with the global position strategy that the dialog uses. Set the width on an element in the content, such as a `div` that wraps the content. The `message` text of the Angular Dialog is limited to a width of 40 characters.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Set the width of the `base` part, for example `igc-dialog::part(base) { width: 600px; }`, because the {Platform} Dialog otherwise sizes to its content. The `message` slot of the {Platform} Dialog limits its content to a width of 40 characters, so place wide content in the default slot.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Where does the focus go when the Dialog closes?" indicatorPosition="end">
+    <PlatformBlock for="Angular">The Angular Dialog doesn't return the focus to the element that opened it, so the focus moves to the page body. Focus that element yourself in the handler of `closed`, for example `(closed)="openButton.focus()"` with an `#openButton` template reference variable on the button that opens the dialog.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">The browser returns the focus to the element that had it before the {Platform} Dialog opened, which is usually the button that opened the dialog. While the {Platform} Dialog is open, the rest of the page is inert, so the focus can't move to the page.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Why does the Dialog closing handler run when a Select or a Combo in it closes?" indicatorPosition="end">
+    <PlatformBlock for="Angular">It doesn't. The Angular Dialog emits `closing` and `closed` as Angular outputs, which don't bubble, so a component in the dialog doesn't run the handlers of the dialog. Bind the events of the inner component on that component.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">The Select, the Combo, and other components that open and close emit their own `igcClosing` and `igcClosed` events, which bubble to the {Platform} Dialog. Check that the target of the event is the dialog before you handle it, as the examples in [Closing on Escape and Outside Click](#closing-on-escape-and-outside-click) do.</PlatformBlock><PlatformBlock for="Blazor"> The `Closing` and `Closed` callbacks of the Blazor Dialog don't carry the target, so check it in a `ClosingScript` or `ClosedScript` function.</PlatformBlock>
+  </FaqItem>
+</Faq>
