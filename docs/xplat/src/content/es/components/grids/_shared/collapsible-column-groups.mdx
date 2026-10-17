@@ -1,0 +1,355 @@
+---
+title: "{Platform} {ComponentTitle} Grupos de columnas contraíbles - {ProductName}"
+description: Aproveche la capacidad de mostrar\ocultar conjuntos de datos más pequeños y concisos mediante el uso de grupos de columnas contraíbles en nuestro {Platform} {ComponentTitle}. ¡Pruébelo ahora!
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["ColumnGroup"]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCollapsibleColumnGroups}"
+llms:
+  description: La característica de grupos de columnas contraíbles de {ProductName} en {Platform} {ComponentTitle} le permite organizar y administrar varios niveles de columnas y grupos de columnas anidados en {ComponentName} agrupándolos y proporcionando la opción de contraer o expandir estos grupos.
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import expandIndicator from '@xplat-images/general/expand\_indicator.png';
+import collapsedIndicator from '@xplat-images/general/collapsed\_indicator.png';
+
+# {Platform} {ComponentTitle} Información general sobre grupos de columnas contraíbles
+
+La característica de grupos de columnas contraíbles de {ProductName} en {Platform} {ComponentTitle} le permite organizar y administrar varios niveles de columnas y grupos de columnas anidados en <ApiLink type="{ComponentName}" /> agrupándolos y proporcionando la opción de contraer o expandir estos grupos para mejorar la visualización y la navegación de los datos.
+
+## {Platform} {ComponentTitle} Ejemplo de grupos de columnas contraíbles
+
+<Sample src="/{ComponentSample}/column-collapsible-groups" height={600} alt="{Platform} {ComponentTitle} Collapsible Column Groups Overview Example" />
+
+## Configuración
+
+Para empezar a usar <ApiLink type="{ComponentName}" /> y la característica de **encabezados multicolumna contraíbles**, primero debe instalar {ProductName} escribiendo el siguiente comando:
+
+<PlatformBlock for="Angular">
+
+```cmd
+ng add igniteui-angular
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cmd
+> dotnet add package IgniteUI.Blazor --version {PackageVerLatestShort}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```cmd
+npm install --save igniteui-webcomponents-core
+npm install --save igniteui-webcomponents-grids
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```cmd
+npm install igniteui-react-grids
+```
+
+</PlatformBlock>
+
+Para obtener una introducción completa a {ProductName}, lea el tema [Primeros pasos](../../general-getting-started.md).
+
+Además, le recomendamos encarecidamente que eche un breve vistazo al tema [encabezados multicolumna](multi-column-headers.md), para ver información más detallada sobre cómo configurar los grupos de columnas en su cuadrícula.
+
+## Uso
+
+**Grupos de columnas contraíbles** forma parte de la característica de encabezados multicolumna, que proporciona una forma de contraer/expandir un grupo de columnas a un conjunto de datos más pequeño. Cuando se contrae un grupo de columnas, se mostrará al usuario final un subconjunto de las columnas y las demás columnas hijas del grupo se ocultarán. Cada columna contraída/expandida puede estar enlazada al origen de datos de la cuadrícula, o puede no estar enlazada y, por lo tanto, ser calculada.
+
+Para definir un grupo de columnas como contraíble, debe establecer la propiedad <ApiLink type="ColumnGroup" member="collapsible" /> en <ApiLink type="ColumnGroup" /> en **true**.
+
+Debe definir la propiedad <ApiLink type="ColumnState" member="visibleWhenCollapsed" /> en al menos dos columnas hijas. Al menos una columna debe estar visible cuando el grupo está contraído (<ApiLink type="ColumnState" member="visibleWhenCollapsed" /> establecido en **true**) y al menos una columna debe estar oculta cuando el grupo está expandido (<ApiLink type="ColumnState" member="visibleWhenCollapsed" /> establecido en `false`); de lo contrario, la **funcionalidad contraíble se deshabilitará**. Si <ApiLink type="ColumnState" member="visibleWhenCollapsed" /> no se especifica para algunas de las columnas hijas, esta columna siempre estará visible independientemente de si el estado principal está expandido o contraído.
+
+Veamos el marcado siguiente:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true"> <!-- Initially the column groups will be expanded--->
+    <!--The column below will be visible when its parent is collapsed-->
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <!--The three columns below will be visible when its parent is expanded-->
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column field="FirstName" header="First Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column field="LastName" header="Last Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column-group header="Customer Address"> <!--This column visibility will not be changed based on parent expand/collapsed state-->
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+ <IgbColumnGroup Header="Customer Information" Collapsible="true">
+    <!--The column below will be visible when its parent is collapsed-->
+    <IgbColumn Field="CustomerName" Header="Full name" VisibleWhenCollapsed="true"></IgbColumn>
+        <!--The three columns below will be visible when its parent is expanded-->
+        <IgbColumn Field="CustomerID" Header="Customer ID" VisibleWhenCollapsed="false"></IgbColumn>
+        <IgbColumn Field="FirstName" Header="First Name" VisibleWhenCollapsed="false"></IgbColumn>
+        <IgbColumn Field="LastName" Header="Last Name" VisibleWhenCollapsed="false"></IgbColumn>
+        <IgbColumnGroup Header="Customer Address">
+            <IgbColumn Field="Country" Header="Country" Sortable="true"></IgbColumn>
+            <IgbColumn Field="City" Header="City" Sortable="true"></IgbColumn>
+        </IgbColumnGroup>
+ </IgbColumnGroup>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column-group header="Customer Information" collapsible="true"> <!-- Initially the column groups will be expanded--->
+    <!--The column below will be visible when its parent is collapsed-->
+    <igc-column field="CustomerName" header="Fullname" data-type="string" visible-when-collapsed="true"></igc-column>
+    <!--The three columns below will be visible when its parent is expanded-->
+    <igc-column field="CustomerID" header="Customer ID" data-type="string" visible-when-collapsed="false"></igc-column>
+    <igc-column field="FirstName" header="First Name" data-type="string" visible-when-collapsed="false">
+    </igc-column>
+    <igc-column field="LastName" header="Last Name" data-type="string" visible-when-collapsed="false">
+    </igc-column>
+    <igc-column-group header="Customer Address"> <!--This column visibility will not be changed based on parent expand/collapsed state-->
+        <igc-column field="Country" header="Country" data-type="string" sortable="true">
+        </igc-column>
+        <igc-column field="City" header="City" data-type="string" sortable="true">
+        </igc-column>
+    </igc-column-group>
+</igc-column-group>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumnGroup collapsible={true} header="Customer Information">
+    <IgrColumn field="CustomerName" header="Customer Name" visibleWhenCollapsed={true}>
+    </IgrColumn>
+    <IgrColumn field="CustomerID" header="Customer ID" visibleWhenCollapsed={false}>
+    </IgrColumn>
+    <IgrColumn field="CustomerFirstName" header="First Name" visibleWhenCollapsed={false}>
+    </IgrColumn>
+    <IgrColumn field="CustomerLastName" header="Last Name" visibleWhenCollapsed={false}>
+    </IgrColumn>
+    <IgrColumnGroup header="Customer Address">
+        <IgrColumn field="CustomerAddress"  header="Full Address" width="250px" visibleWhenCollapsed={true}>
+        </IgrColumn>
+        <IgrColumn field="Address" visibleWhenCollapsed={false}>
+        </IgrColumn>
+        <IgrColumn  field="City" visibleWhenCollapsed={false}>
+        </IgrColumn>
+        <IgrColumn field="Country" visibleWhenCollapsed={false}>
+        </IgrColumn>
+        <IgrColumn field="PostalCode" header="Postal Code" visibleWhenCollapsed={false}>
+        </IgrColumn>
+    </IgrColumnGroup>
+</IgrColumnGroup>
+```
+
+</PlatformBlock>
+
+En resumen, cada columna hija tiene tres estados:
+
+- Puede estar siempre visible, sin importar el estado expandido de su elemento principal.
+- Puede estar visible cuando su elemento principal está contraído.
+- Puede estar oculta cuando su elemento principal está contraído.
+
+El estado inicial del grupo de columnas especificado como contraíble es <ApiLink type="ColumnGroup" member="expanded" /> establecido en **true**, pero puede cambiar fácilmente este comportamiento estableciéndolo en **false**.
+
+<PlatformBlock for="Angular, WebComponents, React, Blazor">
+
+## Plantilla del indicador de expandir/contraer
+
+El indicador de expansión predeterminado para <ApiLink type="{ComponentName}" /> es el siguiente:
+
+<Image src={expandIndicator} alt="expand_indicator" class="responsive-img" style="width: 450px; height: 130px" />
+
+El indicador de contracción predeterminado para <ApiLink type="{ComponentName}" /> es el siguiente:
+
+<Image src={collapsedIndicator} alt="collapsed_indicator" class="responsive-img" style="width: 400px; height: 130px" />
+
+Además, si necesita cambiar el indicador de expandir/contraer predeterminado, proporcionamos opciones de plantillas para lograrlo.
+
+<PlatformBlock for="Blazor">
+
+```razor
+ <IgbColumnGroup @ref="infoColumn" Header="Customer Information" Collapsible="true">
+    <IgbColumn Field="CustomerName" Header="Full name" VisibleWhenCollapsed="true"></IgbColumn>
+    <IgbColumn Field="CustomerID" Header="Customer ID" VisibleWhenCollapsed="false"></IgbColumn>
+    <IgbColumn Field="FirstName" Header="First Name" VisibleWhenCollapsed="false"></IgbColumn>
+    <IgbColumn Field="LastName" Header="Last Name" VisibleWhenCollapsed="false"></IgbColumn>
+    <IgbColumnGroup @ref="addressColumn" Header="Customer Address">
+        <IgbColumn Field="Country" Header="Country" Sortable="true"></IgbColumn>
+        <IgbColumn Field="City" Header="City" Sortable="true"></IgbColumn>
+    </IgbColumnGroup>
+ </IgbColumnGroup>
+
+@code {
+    private IgbColumnGroup infoColumn;
+    private IgbColumnGroup addressColumn;
+
+    public RenderFragment<IgbColumnTemplateContext> ColumnIndicatorTemplate = (context) =>
+    {
+        string icon = context.Column.Expanded ? "remove" : "add";
+        return @<IgbIcon IconName="@icon" Collection="material"></IgbIcon>;
+    };
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        this.infoColumn.CollapsibleIndicatorTemplate = this.ColumnIndicatorTemplate;
+        this.addressColumn.CollapsibleIndicatorTemplate = this.ColumnIndicatorTemplate;
+    }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column-group id="info" header="Customer Information" collapsible="true">
+    <igc-column field="CustomerName" header="Fullname" data-type="string" visible-when-collapsed="true"></igc-column>
+    <igc-column field="CustomerID" header="Customer ID" data-type="string" visible-when-collapsed="false"></igc-column>
+    <igc-column-group id="address" header="Customer Address" collapsible="true">
+        <igc-column field="Country" header="Country" data-type="string" sortable="true" visible-when-collapsed="true"></igc-column>
+        <igc-column field="City" header="City" data-type="string" sortable="true" visible-when-collapsed="false"></igc-column>
+    </igc-column-group>
+</igc-column-group>
+```
+
+```ts
+constructor() {
+    var info = document.getElementById('info') as IgcColumnGroupComponent;
+    var address = document.getElementById('address') as IgcColumnGroupComponent;
+    info.collapsibleIndicatorTemplate = this.indTemplate;
+    address.collapsibleIndicatorTemplate = this.indTemplate;
+}
+
+public indTemplate = (ctx: IgcColumnTemplateContext) => {
+    return html`
+        <igc-icon name="${ctx.column.expanded ? 'remove' : 'add'}" draggable="false"></igc-icon>
+    `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumnGroup id="info" header="Customer Information" collapsible={true} collapsibleIndicatorTemplate={collapsibleIndicatorTemplate}>
+    <IgrColumn field="CustomerName" header="Fullname" dataType="string" visibleWhenCollapsed={true}></IgrColumn>
+    <IgrColumn field="CustomerID" header="Customer ID" dataType="string" visibleWhenCollapsed={false}></IgrColumn>
+    <IgrColumnGroup id="address" header="Customer Address" collapsible={true}>
+        <IgrColumn field="Country" header="Country" dataType="string" sortable={true} visibleWhenCollapsed={true}></IgrColumn>
+        <IgrColumn field="City" header="City" dataType="string" sortable={true} visibleWhenCollapsed={false}></IgrColumn>
+    </IgrColumnGroup>
+</IgrColumnGroup>
+
+const collapsibleIndicatorTemplate = (ctx: IgrColumnTemplateContext) => {
+    return (
+    <div>
+        <IgrIcon iconName={ctx.column.expanded ? 'remove' : 'add'}></IgrIcon>
+    </div>)
+}
+
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Uso de una propiedad
+
+Puede definir una plantilla personalizada de expandir/contraer y proporcionarla a cada uno de los grupos de columnas contraíbles mediante la propiedad <ApiLink type="ColumnGroup" member="collapsibleIndicatorTemplate" />. Compruebe el marcado siguiente:
+
+```html
+<ng-template #indTemplate let-column="column">
+    <igx-icon [attr.draggable]="false" >{{column.expanded ? 'remove' : 'add'}} </igx-icon>
+</ng-template>
+<igx-column-group header="Customer Information" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+### Uso de la directiva igxCollapsibleIndicator
+
+Otra forma de lograr este comportamiento es usar la directiva igxCollapsibleIndicator como se muestra en el ejemplo siguiente:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true">
+    <ng-template igxCollapsibleIndicator let-column="column">
+        <igx-icon [attr.draggable]="false">{{column.expanded ? 'remove' : 'add'}}</igx-icon>
+    </ng-template>
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+</PlatformBlock>
+
+> **Nota**
+> Tenga en cuenta que, inicialmente, la opción de contraer grupo tiene prioridad sobre columna oculta: si declaró que su columna debe estar oculta mediante la propiedad
+> hidden y tiene un grupo definido donde debe mostrarse la misma columna, la columna se mostrará.
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+<ApiLink type="ColumnGroup" />
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid">
+
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Anclaje de columnas](column-pinning.md)
+- [Selección](selection.md)
+
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,897 @@
+---
+title: "{Platform} グリッドのグループ化 | 複数フィールドによるグループ化 | Infragistics"
+description: "{Platform} のマテリアル テーブルでデータ レコードを視覚化できるグループ化を構成し、グループ化されたデータを個別の便利な列グループで視覚化します。"
+keywords: "{Platform}、グリッド、{ProductName}、グループ化、Infragistics"
+license: commercial
+mentionedTypes: ["Grid", "RowDirective", "GroupByRowSelectorTemplateDetails"]
+namespace: Infragistics.Controls
+llms:
+  description: "{Platform} {GridName} における {ProductName} のグループ化動作は、列の値に基づいてグループ化されたデータ行を作成します。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} グリッドのグループ化
+
+{Platform} {GridName} の {ProductName} グループ化動作は、列の値に基づいてグループ化されたデータ行を作成します。<ApiLink type="Grid" /> のグループ化により、グループを階層構造で視覚化できます。グループ化されたデータ行は展開または折りたたむことができ、グループ化の順序は UI または API を通じて変更できます。行選択が有効な場合、グループ行の左端の領域にグループ化行セレクターが描画されます。<ApiLink type="Grid" member="rowSelection" label="RowSelection" /> プロパティが単一に設定されている場合、チェックボックスは無効になり、選択が配置されているグループを示すためだけに機能します。<ApiLink type="Grid" member="rowSelection" label="RowSelection" /> プロパティが複数に設定されている場合、グループ化行セレクターをクリックすると、このグループに属するすべてのレコードが選択されます。
+
+## {Platform} グリッドのグループ化の例
+
+この例では、大量のデータに対するグループ化機能を示します。列ヘッダーを上部 (グループ化領域) にドラッグすると、ユーザーは選択した列のデータを階層構造で確認できます。さらに列ヘッダーを上部にドラッグすることで、複数のフィールドでグループ化できます。これらのグループ化オプションは、行や列が多数あるテーブルで、ユーザーがデータをより高速かつ視覚的に受け入れやすい方法で表示したい場合に役立ちます。
+
+<Sample src="/{GridSample}/groupby-expressions" height={605} alt="{Platform} {GridTitle} Group By Example" />
+
+## 初期グループ化状態
+
+グリッドの <ApiLink type="Grid" member="groupingExpressions" label="GroupingExpressions" /> プロパティに式の配列を割り当てることで、グリッドの初期グループ化を定義できます。
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    grid.groupingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Desc },
+        { fieldName: 'Released', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+constructor() {
+    var grid = document.getElementById("grid") as IgcGridComponent;
+    grid.groupingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Desc },
+        { fieldName: 'Released', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const expressions = [
+    { fieldName: 'ProductName', dir: SortingDirection.Desc },
+    { fieldName: 'Released', dir: SortingDirection.Desc }
+];
+const grid1Ref = useRef<IgrGrid>(null);
+
+<IgrGrid
+    autoGenerate={true}
+    groupingExpressions={expressions}
+    ref={grid1Ref}>
+</IgrGrid>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" @ref="grid" Id="grid" GroupingExpressions="GroupingExpression1"></IgbGrid>
+
+@code {
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+}
+```
+
+</PlatformBlock>
+
+グループ化式は `ISortingExpression` インターフェイスを実装します。
+
+## グループ化 API
+
+### グループ化 API
+
+グループ化は、UI およびグリッド コンポーネントによって公開される堅牢な API を通じて利用できます。開発者は、各列の <ApiLink type="Column" member="groupable" label="Groupable" /> プロパティを `true` に設定することで、エンドユーザーが特定の列でグリッド データをグループ化できるようにできます。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid auto-generate="false" id="grid">
+    <igc-column field="OrderID" hidden="true"></igc-column>
+    <igc-column field="ShipCountry" header="Ship Country" width="200px" groupable="true"> </igc-column>
+    <igc-column field="OrderDate" header="Order Date" data-type="date" width="200px" groupable="true"> </igc-column>
+    <igc-column field="PostalCode" header="Postal Code" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Discontinued" width="200px" data-type="boolean" groupable="true" name="column1" id="column1"> </igc-column>
+    <igc-column field="ShipName" header="Ship Name" width="200px" groupable="true"> </igc-column>
+    <igc-column field="ShipCity" header="Ship City" width="200px" groupable="true"> </igc-column>
+    <igc-column field="ShipperName" header="Shipper Name" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Salesperson" header="Sales Person" width="200px" groupable="true"> </igc-column>
+    <igc-column field="UnitPrice" header="Unit Price" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Quantity" width="200px" groupable="true"> </igc-column>
+</igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="false" Data="InvoicesData" @ref="grid" Id="grid" GroupingExpressions="GroupingExpression1" GroupRowTemplateScript="WebGridGroupByRowTemplate">
+    <IgbColumn Field="OrderID" Hidden="true"></IgbColumn>
+    <IgbColumn Field="ShipCountry" Header="Ship Country" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="OrderDate" Header="Order Date" DataType="GridColumnDataType.Date" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="PostalCode" Header="Postal Code" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="Discontinued" Width="200px" DataType="GridColumnDataType.Boolean" Groupable="true" BodyTemplateScript="WebGridBooleanCellTemplate" Name="column1" @ref="column1"></IgbColumn>
+    <IgbColumn Field="ShipName" Header="Ship Name" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="ShipCity" Header="Ship City" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="ShipperName" Header="Shipper Name"Width="200px"Groupable="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Sales Person" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="UnitPrice" Header="Unit Price" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="Quantity" Width="200px" Groupable="true"></IgbColumn>
+</IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    grid.columns.forEach((column) => {
+        column.groupable = true;
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid
+    autoGenerate={false}
+    ref={gridRef}>
+    <IgrColumn field="OrderID" hidden={true}></IgrColumn>
+    <IgrColumn field="ShipCountry" header="Ship Country" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="OrderDate" header="Order Date" dataType="date" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="PostalCode" header="Postal Code" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="Discontinued" width="200px" dataType="boolean" groupable={true}></IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+    constructor() {
+        var column1 = (this.column1 = document.getElementById("column1") as IgcColumnComponent);
+        column1.groupable = true;
+    }
+```
+
+</PlatformBlock>
+
+実行時には、式は <ApiLink type="Grid" member="groupingExpressions" label="groupingExpressions" /> プロパティから取得および設定できます。既存の式を追加または変更する必要がある場合は、単一の式または式の配列を指定して <ApiLink type="Grid" member="groupBy" label="GroupBy" /> メソッドを使用することもできます。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+grid.groupBy({ fieldName: 'ProductName', dir: SortingDirection.Desc, ignoreCase: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+gridRef.current.groupBy([{ fieldName: 'ProductName', dir: SortingDirection.Desc, ignoreCase: true }]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    public IgbGrid grid;
+
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+
+
+    private void GroupGrid()
+    {
+        this.grid.GroupBy(GroupingExpression1);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+これまで、グループ化と並べ替えは相互に連携して機能していました。バージョン 13.2 では、グループ化を並べ替えから切り離す新しい動作が導入されました。たとえば、グループ化をクリアしてもグリッド内の並べ替え式はクリアされず、その逆も同様です。ただし、列が並べ替えとグループ化の両方を行っている場合、グループ化式が優先されます。
+
+</DocsAside>
+
+</PlatformBlock>
+
+### 展開/折りたたみ API
+
+グループ化式に加えて、グループ行の展開状態も制御できます。これらは <ApiLink type="Grid" /> コンポーネントの別個のプロパティ <ApiLink type="Grid" member="groupingExpansionState" label="GroupingExpansionState" /> に格納され、これは <ApiLink type="GroupByExpandState" /> のコレクションです。各展開状態は、それが作成されたフィールド名と、各グループ化レベルで表す値によって一意に定義されます。つまり、識別子は <ApiLink type="GroupByKey" /> の階層配列です。
+
+<ApiLink type="Grid" member="groupingExpressions" label="GroupingExpressions" /> と同様に、<ApiLink type="GroupByExpandState" /> のリストを <ApiLink type="Grid" member="groupingExpansionState" label="GroupingExpansionState" /> に直接設定すると、それに応じて展開状態が変更されます。さらに、<ApiLink type="Grid" /> は、グループ レコード インスタンスまたは行の <ApiLink type="RowDirective" member="expanded" label="Expanded" /> プロパティを介してグループを切り替えるメソッド <ApiLink type="Grid" member="toggleGroup" label="ToggleGroup" /> を公開します。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.toggleGroup(groupRow);
+```
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0);
+groupRow.expanded = false;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.toggleGroup(groupRow);
+```
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0);
+groupRow.expanded = false;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" GroupingExpressions="GroupingExpression1" GroupingExpansionState=ExpansionState @ref="grid" Id="grid">
+</IgbGrid>
+
+@code {
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+    public IgbGroupByExpandState[] state = new IgbGroupByExpandState[1]
+    {
+        new IgbGroupByExpandState(){ Hierarchy = new IgbGroupByKey[1]{ new IgbGroupByKey() { FieldName="ShipCountry", Value = "USA" } },  Expanded = false }
+    };
+}
+```
+
+</PlatformBlock>
+
+グループは展開済み (**既定**) または折りたたみ済みで作成でき、展開状態には通常、既定の動作とは反対の状態のみが含まれます。グループを展開済みで作成するかどうかは、<ApiLink type="Grid" member="groupsExpanded" label="GroupsExpanded" /> プロパティを通じて制御できます。
+
+### グループ内のすべての行を選択/選択解除する API
+
+グループ内のすべての行の選択/選択解除は、<ApiLink type="Grid" member="selectRowsInGroup" label="SelectRowsInGroup" /> および <ApiLink type="Grid" member="deselectRowsInGroup" label="DeselectRowsInGroup" /> API メソッドを通じて利用できます。
+
+以下のコード スニペットを使用すると、グループ レコード インスタンスの <ApiLink type="Grid" member="selectRowsInGroup" label="SelectRowsInGroup" /> メソッドを使用して、グループ内のすべての行を選択できます。さらに、このメソッドの 2 番目のパラメーターはブール プロパティであり、以前の行選択をクリアするかどうかを選択できます。既定では以前の選択は保持されます。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.selectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.selectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+var row = await this.grid.GetRowByIndexAsync(0);
+this.grid.SelectRowsInGroup(row.GroupRow, true);
+```
+
+</PlatformBlock>
+
+プログラムでグループ内のすべての行を選択解除する必要がある場合は、<ApiLink type="Grid" member="deselectRowsInGroup" label="DeselectRowsInGroup" /> メソッドを使用できます。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.deselectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.deselectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+var row = await this.grid.GetRowByIndexAsync(0);
+this.grid.DeselectRowsInGroup(row.GroupRow);
+```
+
+</PlatformBlock>
+
+## テンプレート化
+
+### グループ行テンプレート
+
+展開/折りたたみ UI を除き、グループ行は完全にテンプレート化できます。既定では、グループ化アイコンを描画し、それが表すフィールド名と値を表示します。テンプレートの描画対象となるコンテキストは <ApiLink type="GroupByRecord" /> 型です。
+
+例として、次のテンプレートではグループ行のサマリーをより詳細にします。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRow let-groupRow>
+    <span>Total items with value: {{ groupRow.value }} are {{ groupRow.records.length }}</span>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowTemplateContext) => {
+    const groupRow = ctx.implicit;
+    return (<>
+       <span>Total items with value: { groupRow.value } are { groupRow.records.length }</span>
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public groupByRowTemplate = (ctx: IgcGroupByRowTemplateContext) => {
+        const groupRow: IgcGroupByRecord = ctx.implicit;
+        return html`<span>Total items with value: ${ groupRow.value } are ${ groupRow.records.length }</span>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" @ref="grid" Id="grid" GroupRowTemplateScript="WebGridGroupByRowTemplate"></IgbGrid>
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("WebGridGroupByRowTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var groupRow = ctx.implicit;
+    return html`<span>Total items with value: ${groupRow.value} are ${groupRow.records.length}</span>`;
+}, false);
+```
+
+</PlatformBlock>
+
+### グループ行セレクター テンプレート
+
+前述のとおり、展開/折りたたみ UI を除き、グループ行は完全にテンプレート化できます。カスタムのグループ化行セレクター テンプレートを作成するには、<ApiLink type="Grid" member="groupByRowSelectorTemplate" label="GroupByRowSelectorTemplate" /> を使用します。テンプレートからは、暗黙的に提供されるコンテキスト変数にアクセスでき、そのプロパティによってグループ化行の状態に関する情報を取得できます。
+
+<ApiLink type="GroupByRowSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> プロパティは、グループ レコードのうち現在選択されている数を示し、<ApiLink type="GroupByRowSelectorTemplateDetails" member="totalCount" label="TotalCount" /> はグループに属するレコード数を示します。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRowSelector let-groupByRowContext>
+    {{ groupByRowContext.selectedCount }} / {{ groupByRowContext.totalCount  }}
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowSelectorTemplateContext) => {
+    return (<>
+        { ctx.implicit.selectedCount } / { ctx.implicit.totalCount }
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public groupByRowSelectorTemplate = (ctx: IgcGroupByRowSelectorTemplateContext) => {
+    return html`
+        ${ ctx.implicit.selectedCount } / ${ ctx.implicit.totalCount  }
+    `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid GroupByRowSelectorTemplateScript="GroupByRowSelectorTemplate"></IgbGrid>
+```
+
+```javascript
+//In Javascript
+igRegisterScript("GroupByRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html` ${ctx.implicit.selectedCount} / ${ctx.implicit.totalCount} `;
+}, false);
+```
+
+</PlatformBlock>
+
+<ApiLink type="GroupByRowSelectorTemplateDetails" member="groupRow" label="GroupRow" /> プロパティは、グループ行への参照を返します。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRowSelector let-groupByRowContext>
+    <div (click)="handleGroupByRowSelectorClick($event, groupByRowContext.groupRow)">Handle groupRow</div>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowSelectorTemplateContext) => {
+    const groupRow = ctx.implicit.groupRow;
+    return (<>
+        <div onClick={(e: any) => handleGroupByRowSelectorClick(e, groupRow)}>Handle groupRow</div> `;
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public groupByRowSelectorTemplate = (ctx: IgcGroupByRowSelectorTemplateContext) => {
+    const groupRow = ctx.implicit.groupRow;
+    return html` <div @click=${(e: any) => this.handleGroupByRowSelectorClick(e, groupRow)} ">Handle groupRow</div> `;
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid GroupByRowSelectorTemplateScript="GroupByRowSelectorTemplate"></IgbGrid>
+```
+
+```javascript
+//In Javascript
+igRegisterScript("GroupByRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var groupRow = ctx.implicit.groupRow;
+    return html`<div onclick="handleGroupByRowSelectorClick()">Handle groupRow</div> `;
+}, false);
+```
+
+</PlatformBlock>
+
+<ApiLink type="GroupByRowSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> および <ApiLink type="GroupByRowSelectorTemplateDetails" member="totalCount" label="TotalCount" /> プロパティを使用すると、グループ化行セレクターをチェック済みにするか、不確定 (部分的に選択済み) にするかを判断できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-grid #grid [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <!-- ... -->
+    <ng-template GroupByRowSelector let-context>
+        <igx-checkbox
+            [checked]=" context.selectedCount > 0 && context.selectedCount === context.totalCount"
+            [indeterminate]="context.selectedCount > 0 && context.selectedCount !== context.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</igx-grid>
+```
+
+</PlatformBlock>
+
+## {Platform} ページングを使用したグリッドのグループ化
+
+グループ行は、データ行とともにページング処理に参加します。各ページのページ サイズに含まれます。折りたたまれた行はページング処理に含まれません。展開または折りたたみ操作を行うと、ページングはページ数を再計算し、必要に応じてページ インデックスを調整します。
+複数のページにまたがるグループは、それらのページ間で分割されます。グループ行は開始するページにのみ表示され、後続のページでは繰り返されません。グループ行のサマリー情報はグループ全体に基づいて計算され、ページングの影響を受けません。
+
+### {Platform} ページングを使用したグループ化の例
+
+<Sample src="/{GridSample}/groupby-paging" height={605} alt="{Platform} {GridTitle} group by with paging example" />
+
+## サマリーを使用したグループ化
+
+グループ化とサマリーの統合については、[サマリー](summaries.md#summaries-with-group-by) トピックで説明されています。
+
+## キーボード ナビゲーション
+
+グループ化 UI は、次のキーボード操作をサポートします。
+
+- グループ行の場合 (フォーカスは行または展開/折りたたみセル上にある必要があります)
+  - <kbd>代替</kbd> + <kbd>右</kbd> - グループを展開します
+  - <kbd>代替</kbd> + <kbd>左</kbd> - グループを折りたたみます
+  - <kbd>スペース</kbd> - <kbd>rowSelection</kbd> プロパティが複数に設定されている場合、グループ内のすべての行を選択します
+
+- グループ化領域内のグループ <ApiLink pkg="core" type="Chip" /> コンポーネントの場合 (フォーカスはチップ上にある必要があります)
+  - <kbd>シフト</kbd> + <kbd>左</kbd> - 可能な場合、フォーカスされたチップを左へ移動し、グループ化順序を変更します
+  - <kbd>シフト</kbd> + <kbd>右</kbd> - 可能な場合、フォーカスされたチップを右へ移動し、グループ化順序を変更します
+  - <kbd>スペース</kbd> - 並べ替え方向を変更します
+  - <kbd>削除</kbd> - フィールドのグループ化を解除します
+  - チップの個別の要素にもフォーカス可能で、<kbd>入力</kbd> キーを使用して操作できます。
+
+<PlatformBlock for="WebComponents, Angular, React">
+
+## {Platform} グリッドのカスタム グループ化
+
+グリッドでは、列ごとまたはグループ化式ごとにカスタム グループ化を定義でき、カスタム条件に基づいたグループ化を提供します。これは、複雑なオブジェクトでグループ化する必要がある場合や、その他のアプリケーション固有のシナリオで役立ちます。
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+カスタム グループ化を実装するには、まずデータを適切に並べ替える必要があります。このため、基底の `DefaultSortingStrategy` を拡張するカスタム並べ替え戦略を適用する必要がある場合もあります。データが並べ替えられた後、列または特定のグループ化式に <ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> を指定することで、カスタム グループを決定できます。
+
+</DocsAside>
+
+<DocsAside type="info">
+
+カスタム グループ化を実装するには、まずデータを適切に並べ替える必要があります。このため、基底の <ApiLink type="DefaultSortingStrategy" /> を拡張するカスタム並べ替え戦略を適用する必要がある場合もあります。データが並べ替えられた後、列または特定のグループ化式に <ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> を指定することで、カスタム グループを決定できます。
+
+</DocsAside>
+
+</PlatformBlock>
+
+以下のサンプルは、`Date` によるカスタム グループ化を示しています。ここでは、ユーザーが選択したグループ化モードに基づいて、日付値が日、週、月、または年で並べ替えおよびグループ化されます。
+
+### {Platform} カスタム グループ化の例
+
+<Sample src="/{GridSample}/groupby-custom" height={605} alt="{Platform} {GridTitle} custom group by example" />
+
+このサンプルでは、異なる日付条件に対するカスタム並べ替えを定義します。
+各カスタム戦略は、値を並べ替えるときに使用されるカスタム比較関数である <PlatformBlock for="React"><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /></PlatformBlock><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> メソッドを定義します。さらに、比較に必要な値を日付から抽出します。
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public groupByMode = "Month";
+public getParsedDate(date: any) {
+    return {
+        day: date.getDay(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear()
+    };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupByMode = "Month";
+function getParsedDate(date: any) {
+    return {
+        day: date.getDay(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear()
+    };
+}
+```
+
+</PlatformBlock>
+
+グループ化式には <PlatformBlock for="React"><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /></PlatformBlock><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> 関数が定義されており、選択したグループ化モードに基づいて同じグループに属する項目を決定します。並べ替え済みデータ内でこの関数が 0 を返す値は、同じグループの一部としてマークされます。
+
+```typescript
+grid.groupingExpressions = [
+    { fieldName: 'OrderDate', dir: SortingDirection.Desc,
+    groupingComparer: (a, b) => {
+            const dateA = this.getParsedDate(a);
+            const dateB = this.getParsedDate(b);
+            if (this.groupByMode === 'Month') {
+                return dateA.month === dateB.month ? 0 : -1;
+            } else if (this.groupByMode === "Year") {
+                return dateA.year === dateB.year ? 0 : -1;
+            } else if (this.groupByMode === 'Week') {
+                return this.getWeekOfDate(a) === this.getWeekOfDate(b) ? 0 : -1;
+            }
+            return dateA.day === dateB.day && dateA.month === dateB.month ? 0 : -1;
+        }
+    }
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## スタイル設定
+
+定義済みテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md) の一部を設定することで、グリッドをさらにカスタマイズできます。
+一部の色を変更したい場合は、まずグリッドにクラスを設定する必要があります。
+
+<PlatformBlock for="WebComponents">
+
+```ts
+<igc-grid class="grid"></igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid">
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+次に、そのクラスに関連する CSS プロパティを設定します。
+
+```css
+.grid {
+    --ig-grid-group-row-background: #969799;
+    --ig-grid-group-row-selected-background: #969799;
+    --ig-grid-group-label-column-name-text: #f8f8f8;
+    --ig-grid-group-label-text: #f8f8f8;
+    --ig-grid-group-count-text-color: #222;
+    --ig-grid-expand-icon-color: #f8f8f8;
+    --ig-grid-expand-icon-hover-color: #f8f8f8;
+}
+```
+
+### デモ
+
+<Sample src="/{GridSample}/groupby-styling" height={605} alt="{Platform} {GridTitle} Group By Styling Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+グリッドでは、[{ProductName} テーマ ライブラリ](../themes/styles.md) を通じたスタイル設定が可能です。グリッドのテーマは、グリッドのすべての機能をカスタマイズできる多種多様なプロパティを公開しています。
+
+以下の手順では、グリッドのグループ化のスタイル設定をカスタマイズする手順を説明します。
+
+### グローバル テーマのインポート
+
+グループ化機能のカスタマイズを開始するには、すべてのスタイル設定関数と mixin が配置されている `index` ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### カスタム テーマの定義
+
+次に、`grid-theme` を拡張し、グループ化を希望どおりにカスタマイズするために必要なパラメーターを受け取る新しいテーマを作成します。また、グループ化機能で使用されるため、`chip-theme` も拡張する必要があります。
+
+```scss
+
+$custom-theme: grid-theme(
+    /* Group By properties that affect styling */
+    $group-row-background: #494949,
+    $group-row-selected-background: #383838,
+    $group-label-column-name-text: #f8f8f8,
+    $group-label-icon: #FFCD0F,
+    $group-label-text: #f8f8f8,
+    $group-count-background: #FFCD0F,
+    $group-count-text-color: #000,
+    $expand-icon-color: #FFCD0F,
+    $expand-icon-hover-color: rgb(223, 181, 13),
+    $cell-active-border-color: #FFCD0F,
+    $row-selected-background: #fff6d3,
+    $row-selected-text-color: #000,
+    $drop-indicator-color: #FFCD0F
+    /* add other features properties here... */
+);
+
+/* Chip theme will style the chips in the Group By area */
+$custom-chips-theme: chip-theme(
+    $background: #494949,
+    $text-color: #f8f8f8,
+    $hover-text-color: #e7e7e7
+);
+```
+
+### カスタム カラー パレットの定義
+
+上記で説明したアプローチでは、カラー値はハードコードされていました。代わりに、`palette` および `color` 関数を使用すると、より高い柔軟性を実現できます。
+`palette` は、提供されたプライマリ カラーとセカンダリ カラーに基づいてカラー パレットを生成します。
+
+```scss
+$black-color: #292826;
+$yellow-color: #FFCD0F;
+
+$custom-palette: palette(
+  $primary: $black-color,
+  $secondary: $yellow-color
+);
+```
+
+カスタム パレットが生成された後、`color` 関数を使用して、プライマリ カラーとセカンダリ カラーのさまざまなバリエーションを取得できます。
+
+```scss
+$custom-theme: grid-theme(
+    $group-row-background: color($custom-palette, "primary", 300),
+    $group-row-selected-background: color($custom-palette, "primary", 400),
+    $group-label-column-name-text:contrast-color($custom-palette, "primary", 500),
+    $group-label-icon: color($custom-palette, "secondary", 600),
+    $group-label-text:contrast-color($custom-palette, "primary", 500),
+    $group-count-background: color($custom-palette, "secondary", 600),
+    $group-count-text-color: color($custom-palette, "primary", 400),
+    $expand-icon-color: color($custom-palette, "secondary", 600),
+    $expand-icon-hover-color: color($custom-palette, "secondary", 300),
+    $cell-active-border-color: color($custom-palette, "secondary", 600)
+);
+
+$custom-chips-theme: chip-theme(
+    $background: color($custom-palette, "primary", 300),
+    $text-color:contrast-color($custom-palette, "primary", 500),
+    $hover-text-color:contrast-color($custom-palette, "primary", 600)
+);
+```
+
+### カスタム スキーマの定義
+
+さらに進んで、[**スキーマ**](../themes/sass/schemas.md) のすべての利点を備えた柔軟な構造を構築できます。**スキーマ** はテーマのレシピです。
+各コンポーネントに提供される 2 つの定義済みスキーマのいずれかを拡張します。この場合は、`$_light_grid` を使用します。
+
+```scss
+$custom-grid-schema: extend($_light-grid,(
+    group-row-background: (-color:('secondary', 100)),
+    group-row-selected-background: (-color:('primary', 400)),
+    group-label-column-name-text: (-color:('primary', 600)),
+    group-label-icon: (-color:('primary', 600)),
+    group-label-text: (-color:('secondary', 700)),
+    group-count-background: (-color:('primary', 600)),
+    group-count-text-color: (-color:('secondary', 400)),
+    expand-icon-color: (-color:('primary', 600)),
+    expand-icon-hover-color: (-color:('primary', 400))
+));
+```
+
+カスタム スキーマを適用するには、`light` または `dark` グローバルのいずれかを拡張する必要があります。プロセス全体は、実際にはコンポーネントにカスタム スキーマを提供し、その後それを対応するコンポーネント テーマに追加することです。
+
+```scss
+$my-custom-schema: extend($light-schema, (
+    -grid: $custom-grid-schema
+));
+
+$custom-theme: grid-theme(
+    $palette: $custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+### カスタム テーマの適用
+
+テーマを適用する最も簡単な方法は、グローバル スタイル ファイル内で `sass` `@include` ステートメントを使用することです。
+
+```scss
+@include grid($custom-theme);
+@include chip($custom-chips-theme);
+```
+
+### スコープ付きコンポーネント テーマ
+
+カスタム テーマを特定のコンポーネントのみに影響させるには、グローバル スタイル ファイルで定義したすべてのスタイルを、カスタム コンポーネントのスタイル ファイルに移動できます (`index` ファイルのインポートを含む)。
+
+この方法では、{Platform} の [ViewEncapsulation](https://{Platform}.io/api/core/Component#encapsulation) により、スタイルはカスタム コンポーネントにのみ適用されます。
+
+ <DocsAside type="info">
+
+コンポーネントが [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation を使用している場合、グリッドのスタイルを設定するには、`::ng-deep` を使用してこのカプセル化を貫通する必要があります。
+
+ </DocsAside>
+
+ <DocsAside type="info">
+
+スタイルがコンポーネント外の要素に影響しないように、ステートメントを `:host` セレクター内にラップします。
+
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-theme);
+        @include chip($custom-chips-theme);
+    }
+}
+```
+
+### デモ
+
+{/*NOTE this sample is differed*/}
+
+<Sample src="/{GridSample}/groupby-styling" height={570} alt="{Platform} {GridTitle} groupby styling" />
+
+<DocsAside type="info">
+
+サンプルは、**テーマの変更** で選択されたグローバル テーマの影響を受けません。
+
+</DocsAside>
+
+</PlatformBlock>
+
+## 既知の制限
+
+| 制限                               | 説明                                             |
+| ---------------------------------------- | ------------------------------------------------------- |
+| グループ化された列の最大数は 10 です。 | 10 を超える列がグループ化されると、エラーがスローされます。 |
+
+## API リファレンス
+
+<ApiLink type="Grid" />
+
+<ApiLink type="Column" />
+
+<ApiLink pkg="core" type="Chip" />
+
+## その他のリソース
+
+- [グリッドの概要](../data-grid.md)
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [列の移動](column-moving.md)
+- [サマリー](summaries.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+
+私たちのコミュニティは活発で、常に新しいアイデアを歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

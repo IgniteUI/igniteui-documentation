@@ -1,0 +1,431 @@
+---
+title: Componente de árbol de {Platform} | Infragistics
+description: Con el componente de árbol de {Platform} puede mostrar datos jerárquicos en una estructura de vista de árbol, personalizar nodos fácilmente y cargar datos bajo demanda. Pruébelo ahora.
+keywords: Árbol de {Platform}, árbol de elementos, información general, {ProductName}, Infragistics
+license: MIT
+mentionedTypes: ["Tree", "TreeItem", "Icon", "CircularProgress"]
+llms:
+  description: El árbol de {ProductName}, también conocido como componente TreeView, es un control de alto rendimiento que visualiza estructuras de datos expandibles dentro de una UI con forma de árbol, lo que le permite aplicar la carga bajo demanda para los elementos secundarios.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de {Platform} Tree
+
+{ProductName} Tree, también conocido como componente TreeView, es un control de alto rendimiento que visualiza estructuras de datos expandibles dentro de una UI similar a un árbol, lo que le permite aplicar carga bajo demanda para elementos secundarios. {ProductName} Tree también proporciona características como expandir y contraer nodos, navegación de aplicaciones anidada; los nodos de {ProductName} Tree se pueden generar manualmente o desde una fuente de datos vinculada.
+
+Para los usuarios finales, esto significa que pueden navegar fácilmente por diferentes páginas de la aplicación, usar selección, casillas de verificación, agregar textos, iconos, imágenes y mucho más.
+
+El componente {ProductName} Tree permite a los usuarios representar datos jerárquicos en una estructura de vista de árbol, manteniendo relaciones padre-hijo, así como definir una estructura estática de vista de árbol sin un modelo de datos correspondiente. Su objetivo principal es permitir a los usuarios finales visualizar y navegar dentro de estructuras de datos jerárquicas. El componente <ApiLink pkg="core" type="Tree" /> también proporciona capacidades de carga bajo demanda, activación de elementos, selección múltiple y en cascada de elementos mediante casillas de verificación integradas, navegación con teclado integrada y mucho más.
+
+## Ejemplo de {Platform} Tree
+
+En este ejemplo básico de {ProductName} Tree, puede ver cómo definir un árbol y sus elementos especificando la jerarquía de elementos.
+
+<Sample src="/grids/tree/basic-example" height={400} alt="{Platform} Tree Example" />
+
+<div class="divider--half"></div>
+
+## Cómo usar {ProductName} Tree con Ignite UI
+
+<PlatformBlock for="WebComponents">
+
+Primero, debe instalar {ProductName} ejecutando el siguiente comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Antes de usar <ApiLink pkg="core" type="Tree" />, debe registrarlo de la siguiente manera:
+
+```ts
+import { defineComponents, IgcTreeComponent } from 'igniteui-webcomponents';
+defineComponents(IgcTreeComponent);
+```
+
+Para obtener una introducción completa a {ProductName}, lea el tema [**Introducción**](../general-getting-started.md).
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Primero, debe instalar el paquete npm {ProductName} correspondiente ejecutando el siguiente comando:
+
+```cmd
+npm install igniteui-react
+```
+
+A continuación, deberá importar <ApiLink pkg="core" type="Tree" />y su CSS necesario, así:
+
+```tsx
+import { IgrTree, IgrTreeItem } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+También deberá vincular un archivo CSS adicional para aplicar el estilo al componente <ApiLink pkg="core" type="Tree" />. Lo siguiente debe colocarse en el archivo **wwwroot/index.html** en un proyecto **Blazor Web Assembly** o en el archivo **Pages/\_Host.cshtml** en un proyecto **Blazor Server**:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbTreeModule),
+    typeof(IgbTreeItemModule)
+);
+```
+
+</PlatformBlock>
+
+La forma más sencilla de empezar a usar <ApiLink pkg="core" type="Tree" /> es la siguiente:
+
+### Declaración de un árbol
+
+<ApiLink pkg="core" type="TreeItem" /> es la representación de cada elemento que pertenece a <ApiLink pkg="core" type="Tree" />.
+Los elementos proporcionan las propiedades <ApiLink pkg="core" type="TreeItem" member="disabled" label="Disabled" />, <ApiLink pkg="core" type="TreeItem" member="active" label="Active" />, <ApiLink pkg="core" type="TreeItem" member="selected" label="Selected" /> y <ApiLink pkg="core" type="TreeItem" member="expanded" label="Expanded" />, que le dan la oportunidad de configurar los estados del elemento según sus requisitos.
+La propiedad <ApiLink pkg="core" type="TreeItem" member="value" label="Value" /> se puede usar para agregar una referencia a la entrada de datos que representa el elemento.
+
+<PlatformBlock for="WebComponents, Blazor">
+
+Los elementos se pueden declarar usando uno de los siguientes enfoques.
+
+- Declarar el árbol y sus elementos especificando la jerarquía de elementos e iterando por un conjunto de datos
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree>
+    ${data.map((x) => html`
+        <igc-tree-item .value=${x} .expanded=${x.expanded} .label=${x.label}>
+              ${x.children.map((y) => html`
+                  <igc-tree-item .value=${y} .expanded=${y.expanded}>
+                      <span slot="label">${y.label}</span>
+                  </igc-tree-item>
+              `
+        </igc-tree-item>
+    `
+</igc-tree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTree>
+    @foreach (var student in this.Students)
+    {
+        <IgbTreeItem Value="@item.Id" Label="@item.Name">
+        </IgbTreeItem>
+    }
+</IgbTree>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+Los elementos se pueden vincular a un modelo de datos para que sus estados expandido y seleccionado también se reflejen en los datos subyacentes.
+
+- Declarar un árbol creando elementos estáticos no enlazados
+
+Para representar un árbol, no necesariamente necesita un conjunto de datos: se pueden crear elementos individuales sin un modelo de datos subyacente usando la propiedad <ApiLink pkg="core" type="TreeItem" member="label" label="Label" /> expuesta o proporcionar contenido de ranura personalizado para la etiqueta <ApiLink pkg="core" type="TreeItem" />.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree>
+    <igc-tree-item>
+        <div slot="label">
+            I am a parent item 1
+            <img src="hard_coded_src.webb" alt="Alt Text">
+        </div>
+        <igc-tree-item label="I am a child item 1">
+        </igc-tree-item>
+    </igc-tree-item>
+
+    <igc-tree-item>
+        <div slot="label">
+            I am a parent item 2
+            <img src="hard_coded_src.webb" alt="Alt Text">
+        </div>
+        <igc-tree-item label="I am a child item 1">
+        </igc-tree-item>
+    </igc-tree-item>
+</igc-tree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTree>
+    <IgbTreeItem Label="North America">
+        <IgbTreeItem Label="United States"></IgbTreeItem>
+        <IgbTreeItem Label="Canada"></IgbTreeItem>
+        <IgbTreeItem Label="Mexico"></IgbTreeItem>
+    </IgbTreeItem>
+    <IgbTreeItem Label="South America">
+        <IgbTreeItem Label="Brazil"></IgbTreeItem>
+        <IgbTreeItem Label="Uruguay"></IgbTreeItem>
+    </IgbTreeItem>
+    <IgbTreeItem Label="Europe">
+        <IgbTreeItem Label="United Kingdom"></IgbTreeItem>
+        <IgbTreeItem Label="Germany"></IgbTreeItem>
+        <IgbTreeItem Label="Bulgaria"></IgbTreeItem>
+    </IgbTreeItem>
+</IgbTree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTree>
+    <IgrTreeItem label='North America'>
+        <IgrTreeItem label='United States' />
+        <IgrTreeItem label='Canada' />
+        <IgrTreeItem label='Mexico' />
+    </IgrTreeItem>
+    <IgrTreeItem label='South America'>
+        <IgrTreeItem label='Brazil' />
+        <IgrTreeItem label='Uruguay' />
+    </IgrTreeItem>
+    <IgrTreeItem label='Europe'>
+        <IgrTreeItem label='United Kingdom' />
+        <IgrTreeItem label='Germany' />
+        <IgrTreeItem label='Bulgaria' />
+    </IgrTreeItem>
+</IgrTree>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+
+Puede proporcionar contenido de ranura personalizado para las áreas de sangría, expansión y etiqueta de cada <ApiLink pkg="core" type="TreeItem" />, respectivamente, usando las ranuras `indentation`, `indicator` y `label` proporcionadas.
+
+</DocsAside>
+
+### Interacciones de elementos
+
+<ApiLink pkg="core" type="TreeItem" /> se puede expandir o contraer:
+
+- haciendo clic en el indicador de expansión del elemento (comportamiento predeterminado).
+- haciendo clic en el elemento si la propiedad <ApiLink pkg="core" type="Tree" /> <ApiLink pkg="core" type="Tree" member="toggleNodeOnClick" label="ToggleNodeOnClick" /> está establecida en `true`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree toggle-node-on-click="true">
+    <igc-tree-item label="North America">
+        <igc-tree-item label="United States"></igc-tree-item>
+        <igc-tree-item label="Canada"></igc-tree-item>
+        <igc-tree-item label="Mexico"></igc-tree-item>
+    </igc-tree-item>
+    <igc-tree-item label="South America">
+        <igc-tree-item label="Brazil"></igc-tree-item>
+    </igc-tree-item>
+</igc-tree>
+```
+
+</PlatformBlock>
+
+De forma predeterminada, se pueden expandir varios elementos al mismo tiempo. Para cambiar este comportamiento y permitir expandir solo una rama a la vez, se puede habilitar la propiedad <ApiLink pkg="core" type="Tree" member="singleBranchExpand" label="SingleBranchExpand" />. De esta manera, cuando se expanda un elemento, todas las demás ramas ya expandidas del mismo nivel se contraerán.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree single-branch-expand="true">
+    <igc-tree-item label="North America">
+        <igc-tree-item label="United States"></igc-tree-item>
+        <igc-tree-item label="Canada"></igc-tree-item>
+        <igc-tree-item label="Mexico"></igc-tree-item>
+    </igc-tree-item>
+    <igc-tree-item label="South America">
+        <igc-tree-item label="Brazil"></igc-tree-item>
+    </igc-tree-item>
+</igc-tree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Además, <ApiLink pkg="core" type="Tree" /> proporciona los siguientes métodos API para interacciones de elementos:
+
+- <ApiLink type="Tree" member="Expand" label="Tree.Expand" /> - expande todos los elementos. Si se pasa una matriz de elementos, expande solo los elementos especificados.
+- <ApiLink type="Tree" member="Collapse" label="Tree.Collapse" /> - contrae todos los elementos. Si se pasa una matriz de elementos, contrae solo los elementos especificados.
+- <ApiLink type="Tree" member="Select" label="Tree.Select" /> - selecciona todos los elementos. Si se pasa una matriz de elementos, selecciona solo los elementos especificados. No emite el evento `selection`.
+- <ApiLink type="Tree" member="Deselect" label="Tree.Deselect" /> - anula la selección de todos los elementos. Si se pasa una matriz de elementos, anula la selección solo de los elementos especificados. No emite el evento `selection`.
+
+</PlatformBlock>
+
+## Selección de {Platform} Tree
+
+Para configurar la selección de elementos en el componente {ProductName} Tree, solo necesita establecer su propiedad <ApiLink pkg="core" type="Tree" member="selection" label="Selection" />. Esta propiedad acepta los siguientes tres modos: **None**, **Multiple** y **Cascade**. A continuación, veremos cada uno de ellos con más detalle.
+
+### None
+
+En <ApiLink pkg="core" type="Tree" />, de forma predeterminada, la selección de elementos está deshabilitada. Los usuarios no pueden seleccionar ni anular la selección de un elemento mediante interacción de UI, pero estas acciones aún se pueden completar mediante el método API proporcionado.
+
+### Multiple
+
+Para habilitar la selección múltiple de elementos en <ApiLink pkg="core" type="Tree" />, simplemente establezca la propiedad <ApiLink pkg="core" type="Tree" member="selection" label="Selection" /> en **multiple**. Esto representará una casilla de verificación para cada elemento. Cada elemento tiene dos estados: seleccionado o no. Este modo admite selección múltiple.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree selection="multiple">
+</igc-tree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTree Selection=TreeSelection.Multiple>
+</IgbTree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTree selection="multiple" />
+```
+
+</PlatformBlock>
+
+### Cascade
+
+Para habilitar la selección de elementos en cascada en <ApiLink pkg="core" type="Tree" />, simplemente establezca la propiedad de selección en **cascade**. Esto representará una casilla de verificación para cada elemento.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree selection="Cascade">
+</igc-tree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTree Selection=TreeSelection.Cascade>
+</IgbTree>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTree selection="cascade" />
+```
+
+</PlatformBlock>
+
+En este modo, el estado de selección de un elemento padre depende completamente del estado de selección de sus elementos secundarios. Cuando un padre tiene algunos elementos secundarios seleccionados y otros sin seleccionar, su casilla de verificación está en un estado indeterminado.
+
+## Navegación con teclado
+
+La navegación con teclado en <ApiLink pkg="core" type="Tree" /> proporciona una gran variedad de interacciones de teclado para el usuario. Esta funcionalidad está habilitada de forma predeterminada y permite a los usuarios navegar por los elementos.
+
+La navegación de <ApiLink pkg="core" type="Tree" /> cumple con los estándares de accesibilidad W3C y es cómoda de usar.
+
+**Combinaciones de teclas**
+
+- <kbd>↓</kbd> - navega al siguiente elemento visible. Marca el elemento como activo. No hace nada si está en el ÚLTIMO elemento.
+- <kbd>CTRL</kbd> + <kbd>↓</kbd> - navega al siguiente elemento visible. No hace nada si está en el ÚLTIMO elemento.
+- <kbd>↑</kbd> - navega al elemento visible anterior. Marca el elemento como activo. No hace nada si está en el PRIMER elemento.
+- <kbd>CTRL</kbd> + <kbd>↑</kbd> - navega al elemento visible anterior. No hace nada si está en el PRIMER elemento.
+- <kbd>←</kbd> - en un elemento padre expandido, lo contrae. Si el elemento está contraído o no tiene elementos secundarios, se mueve a su elemento padre. No hace nada si no hay elemento padre.
+- <kbd>→</kbd> - en un elemento padre expandido, navega al primer elemento secundario del elemento. Si está en un elemento padre contraído, lo expande. No hace nada si el elemento no tiene elementos secundarios.
+- <kbd>INICIO</kbd> - navega al PRIMER elemento.
+- <kbd>FIN</kbd> - navega al ÚLTIMO elemento visible.
+- <kbd>PESTAÑA</kbd> - navega al siguiente elemento enfocable en la página, fuera del árbol.
+- <kbd>MAYÚS</kbd> + <kbd>PESTAÑA</kbd> - navega al elemento enfocable anterior en la página, fuera del árbol.
+- <kbd>ESPACIO</kbd> - conmuta la selección del elemento actual. Marca el nodo como activo.
+- <kbd>MAYÚS</kbd> + <kbd>ESPACIO</kbd> - conmuta la selección de todos los elementos entre el activo y aquel en el que se presionó Espacio mientras se mantenía presionada <kbd>MAYÚS</kbd> si la selección está habilitada.
+- <kbd>ENTRAR</kbd> - activa el elemento enfocado. Si el elemento tiene un vínculo, abre el vínculo.
+- <kbd>\*</kbd> - expande el elemento y todos los elementos hermanos del mismo nivel.
+
+Cuando la selección está habilitada, la selección de elementos por parte del usuario final solo se permite mediante la casilla de verificación representada. Dado que ambos tipos de selección permiten selección múltiple, están disponibles las siguientes interacciones con el mouse y el teclado:
+
+- <kbd>Hacer clic</kbd> - cuando se realiza en la casilla de verificación del elemento, conmuta la selección del elemento si la selección está habilitada. De lo contrario, enfoca el elemento
+- <kbd>MAYÚS</kbd> + <kbd>Hacer clic</kbd> - cuando se realiza en la casilla de verificación del elemento, conmuta la selección de todos los elementos entre el activo y aquel en el que se hizo clic mientras se mantenía presionada <kbd>MAYÚS</kbd> si la selección está habilitada
+
+<PlatformBlock for="WebComponents">
+
+## Carga bajo demanda de {Platform} Tree
+
+{ProductName} Tree se puede representar de tal manera que requiera recuperar la cantidad mínima de datos del servidor para que el usuario pueda verlo lo más rápido posible. Con este enfoque de carga dinámica de datos, solo después de que el usuario expanda un elemento, se recuperarán los elementos secundarios de ese elemento padre en particular. Este mecanismo, también conocido como carga bajo demanda, se puede configurar fácilmente para funcionar con cualquier dato remoto.
+
+<Sample src="/grids/tree/load-on-demand" height={400} alt="{Platform} Tree Load On Demand Example" />
+
+Después de que el usuario hace clic en el icono de expansión, este se reemplaza por un indicador de carga. Cuando la propiedad de carga se resuelve como false, el indicador de carga desaparece y los elementos secundarios se cargan.
+
+Puede proporcionar contenido de ranura personalizado para el área de carga usando la ranura `loadingIndicator`. Si dicha ranura no está definida, se usa <ApiLink pkg="core" type="CircularProgress" />.
+
+### Carga bajo demanda con virtualización
+
+Cargar un mayor número de elementos secundarios bajo demanda en {ProductName} Tree podría afectar negativamente al rendimiento, ya que los elementos del árbol están definidos declarativamente por diseño. La siguiente demostración muestra cómo se puede usar la biblioteca [@lit-labs/virtualizer](https://github.com/lit/lit/tree/main/packages/labs/virtualizer) para representar los elementos secundarios del árbol en un contenedor virtualizado. El resultado es un rendimiento mejorado, ya que solo se representa en el DOM el fragmento visible de elementos secundarios.
+
+<Sample src="/grids/tree-load-on-demand-virtualized" height={400} alt="{Platform} Tree Load On Demand Virtualized Example" />
+
+</PlatformBlock>
+
+## Estilo
+
+Puede cambiar la apariencia de <ApiLink pkg="core" type="TreeItem" /> usando algunas de las partes CSS expuestas que se enumeran a continuación:
+
+| Nombre de parte | Descripción                                              |
+| --------------- | -------------------------------------------------------- |
+| `wrapper` | El contenedor del elemento del árbol.                    |
+| `selected` | Indica el estado seleccionado. Se aplica a `wrapper`. |
+| `focused` | Indica el estado enfocado. Se aplica a `wrapper`.  |
+| `active` | Indica un estado activo. Se aplica a `wrapper`.    |
+| `indicator` | El indicador de expansión del elemento del árbol.        |
+| `label` | El contenido del elemento del árbol.                     |
+| `text` | El texto mostrado del elemento del árbol.                |
+| `select` | La casilla de verificación del elemento del árbol cuando la selección está habilitada. |
+
+Con estas partes CSS, podemos personalizar la apariencia del componente <ApiLink pkg="core" type="Tree" /> de esta manera:
+
+```css
+igc-tree-item {
+    --background-active: var(--ig-secondary-500);
+    --foreground-active: var(--ig-secondary-500-contrast);
+}
+```
+
+<Sample src="/grids/tree/styling" height={400} alt="Tree Styling Example" />
+
+<div class="divider--half"></div>
+
+## Referencias de API
+
+<ApiLink pkg="core" type="Tree" /><br /> <ApiLink pkg="core" type="TreeItem" /><br /> <ApiLink pkg="core" type="Icon" /><br /> <ApiLink pkg="core" type="CircularProgress" /><br />
+
+## Recursos adicionales
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

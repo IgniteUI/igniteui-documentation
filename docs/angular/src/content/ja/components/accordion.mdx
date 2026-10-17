@@ -1,0 +1,317 @@
+---
+title: Angular アコーディオン コンポーネント – 完全な機能を備えた折りたたみ可能なパネル - Infragistics - MIT ライセンス
+description: Angular Accordion は、アコーディオン メニューで垂直方向に展開可能なパネルを構築するために使用されます。Ignite UI for Angular アコーディオン コンポーネントを使用してこれを実装する方法を確認してください。
+keywords: angular accordion、angular accordion コンポーネント、angular accordion サンプル、ignite ui for angular、angular UI コンポーネント、infragistics
+license: MIT
+llms:
+  description: Angular Accordion は、クリック可能なヘッダーと関連するコンテンツ セクションを備えた垂直方向に展開可能なパネルを構築するための GUI コンポーネントであり、単一のコンテナに表示されます。
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Accordion コンポーネント概要
+
+## Angular Accordion とは
+
+Angular Accordion は、クリック可能なヘッダーと関連するコンテンツセクションを備えた垂直方向に展開可能なパネルを構築するための GUI コンポーネントです。単一のコンテナに表示されます。アコーディオンは、単一ページ上の複数のコンテンツセクション間でのスクロール必要性を減らすために一般的に使用されます。キーボードナビゲーションと、基盤となるパネルの展開状態を制御するための API を提供します。
+
+ユーザーは、サムネイルやラベルなどのアイテムリスト間で対話およびナビゲートできます。これらの各アイテムは、含まれている情報を表示するために切り替える（展開または折りたたむ）ことができます。構成に応じて、一度に単一または複数の展開されたアイテムが存在することができます。
+
+## Angular Accordion の例
+
+以下は、FAQ セクションの基本的な Angular Accordion の例です。これはアコーディオンとして動作し、個別に動作するセクションがあります。各テキストブロックを 1 クリックで切り替えることができ、同時に複数のパネルを展開できます。このようにして、自動的に展開および折りたたまれ、毎回以前に開いていたセクションを隠してしまうパネル間を行き来することなく、情報をより簡単に読むことができます。
+
+ここでは、`igx-accordion` とその <ApiLink type="ExpansionPanel" label="expansion panels" /> を定義する方法を確認できます。サンプルは、2 つのタイプの展開動作も示しています。スイッチボタンは <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> プロパティを設定して、一度に展開される単一または複数のブランチ間を切り替えます。
+
+<Sample src="/layouts/accordion-sample-1" height={460} alt="Angular Accordion Example" />
+
+<hr/>
+
+## Ignite UI for Angular Accordion を使い始める
+
+Ignite UI for Angular Accordion コンポーネントを開始するには、まず Ignite UI for Angular をインストールする必要があります。既存の Angular アプリケーションで、次のコマンドを入力します。
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular の完全な紹介については、[*getting started*](/general/getting-started) トピックを参照してください。
+
+次のステップは、**app.module.ts** ファイルに `IgxAccordionModule` をインポートすることです。
+
+```typescript
+// app.module.ts
+
+...
+import { IgxAccordionModule } from 'igniteui-angular/accordion';
+// import { IgxAccordionModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxAccordionModule],
+    ...
+})
+export class AppModule {}
+```
+
+または、`16.0.0` 以降は `IgxAccordionComponent` をスタンドアロン依存関係としてインポートすることも、[`IGX_ACCORDION_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/accordion/src/accordion/public_api.ts) トークンを使用してコンポーネントおよびそのすべてのサポートコンポーネントとディレクティブをインポートすることもできます。
+
+```typescript
+// home.component.ts
+
+...
+import { IGX_ACCORDION_DIRECTIVES } from 'igniteui-angular/accordion';
+// import { IGX_ACCORDION_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-accordion>
+        <igx-expansion-panel>
+            <igx-expansion-panel-header>
+                <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+            </igx-expansion-panel-header>
+            <igx-expansion-panel-body>
+                Content Panel 1
+            </igx-expansion-panel-body>
+        </igx-expansion-panel>
+    </igx-accordion>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_ACCORDION_DIRECTIVES]
+    /* or imports: [IgxAccordionComponent] */
+})
+export class HomeComponent {}
+```
+
+Ignite UI for Angular Accordion モジュールまたはディレクティブをインポートしたので、`igx-accordion` とそのパネルの基本的な構成を開始できます。
+
+## Angular Accordion コンポーネントの使用
+
+<ApiLink type="Accordion" /> の各セクションは、<ApiLink type="ExpansionPanel" label="expansion panel" /> を使用して定義されます。
+パネルは <ApiLink type="ExpansionPanelHeader" member="disabled" label="disabled" />、<ApiLink type="ExpansionPanel" member="collapsed" label="collapsed" /> および <ApiLink type="ExpansionPanel" member="animationSettings" label="animationSettings" /> プロパティを提供します。これにより、要件に応じてパネルの状態を構成できます。
+
+### アコーディオンの宣言
+
+アコーディオンは、その中に宣言されたすべての <ApiLink type="ExpansionPanel" label="igx-expansion-panel`s" /> をラップします。
+
+```html
+<igx-accordion #accordion [singleBranchExpand]="true">
+    <igx-expansion-panel>
+        <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+        </igx-expansion-panel-header>
+        <igx-expansion-panel-body>
+            Content Panel 1
+        </igx-expansion-panel-body>
+    </igx-expansion-panel>
+    <igx-expansion-panel>
+        <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Title Panel 2</igx-expansion-panel-title>
+        </igx-expansion-panel-header>
+        <igx-expansion-panel-body>
+            Content Panel 2
+        </igx-expansion-panel-body>
+    </igx-expansion-panel>
+</igx-accordion>
+```
+
+<ApiLink type="Accordion" member="panels" label="panels" /> アクセッサを使用すると、`igx-accordion` のすべての <ApiLink type="ExpansionPanel" label="expansion panels" /> 子を含むコレクションへの参照を取得できます。
+
+```typescript
+@ViewChild('accordion', { static: true })
+public accordion!: IgxAccordionComponent;
+
+this.accordion.panels;
+```
+
+上記で示されているように、<ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> プロパティにより、一度に単一または複数のパネルを展開できるかどうかを設定できます。
+
+### Angular Accordion アニメーション
+
+Angular Accordion は、パネルの展開および折りたたみアクションの両方のアニメーションをサポートしています。アニメーション動作はカスタマイズできます。通常、アニメーションは各展開パネルに個別に設定できます。ただし、<ApiLink type="Accordion" /> レベルですべてのパネルに一度に適用することもできます。これにより、ユーザーは <ApiLink type="Accordion" /> のアニメーションプロパティを介してすべてのセクションのアニメーションを一度に無効にできます。
+
+アニメーションに関しては、2 つのオプションがあります。まず、アコーディオンコンポーネントで `animationSettings` プロパティを設定できます。
+
+```typescript
+import { useAnimation, slideInLeft, slideOutRight } from '@angular/animations';
+// import { useAnimation, slideInLeft, slideOutRight } from '@infragistics/igniteui-angular/animations'; for licensed package
+
+@Component({
+    ...
+})
+export class AccordionComponent {
+    public animationSettingsCustom = {
+        closeAnimation: useAnimation(slideOutRight, {
+            params: {
+                duration: '100ms',
+                toPosition: 'translateX(25px)'
+            }
+        }),
+        openAnimation: useAnimation(slideInLeft, {
+            params: {
+                duration: '500ms',
+                fromPosition: 'translateX(-15px)',
+                startOpacity: 0.1
+            }
+        })
+    };
+}
+```
+
+見てのとおり、<ApiLink kind="sass" module="animations" label="**inbuilt suite of animations**" /> から <ApiLink kind="sass" module="animations" type="mixin-slide-in-left" label="slideInLeft" code={true} /> および <ApiLink kind="sass" module="animations" type="mixin-slide-out-right" label="slideOutRight" code={true} /> アニメーションを使用して、コンポーネントコンテンツが左側から表示され、コンテンツを折りたたむときに右側に消えるようにしています。さらに、アニメーションのパラメータの一部をオーバーライドすることで、アニメーションをカスタマイズします。
+
+次のスニペットは、アニメーション設定をコンポーネントに渡すことを示しています。
+
+```html
+<igx-accordion #accordion [animationSettings]="animationSettingsCustom">
+    ...
+</igx-accordion>
+```
+
+<DocsAside type="info">
+もし <ApiLink type="Accordion" /> のアニメーションをオフにしたい場合は、`animationSettings`を`null`に設定することができます。
+</DocsAside>
+
+または、すべての単一 <ApiLink type="ExpansionPanel" label="expansion panel" />\`s <ApiLink type="ExpansionPanel" member="animationSettings" label="animationSettings" /> 入力を設定する能力があります。
+
+```html
+<igx-accordion #accordion [singleBranchExpand]="true">
+     <igx-expansion-panel [animationSettings]="slideLeftRightSettings">
+        <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+        </igx-expansion-panel-header>
+        <igx-expansion-panel-body>
+            Content Panel 1
+        </igx-expansion-panel-body>
+    </igx-expansion-panel>
+    <igx-expansion-panel [animationSettings]="slideTopBottomSettings">
+        <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Title Panel 2</igx-expansion-panel-title>
+        </igx-expansion-panel-header>
+        <igx-expansion-panel-body>
+            Content Panel 2
+        </igx-expansion-panel-body>
+    </igx-expansion-panel>
+</igx-accordion>
+```
+
+<ApiLink type="Accordion" member="collapseAll" label="collapseAll" /> および <ApiLink type="Accordion" member="expandAll" label="expandAll" /> メソッドを使用すると、それぞれ <ApiLink type="Accordion" /> のすべての <ApiLink type="ExpansionPanel" /> をプログラム的に折りたたむおよび展開できます。
+
+<DocsAside type="info">
+もし <ApiLink type="Accordion" member="singleBranchExpand" label="singleBranchExpand" /> プロパティが _true_ に設定されている場合、 <ApiLink type="Accordion" member="expandAll" label="expandAll" /> メソッドを呼び出すと最後のものだけが展開されます <ApiLink type="ExpansionPanel" label="panel" />.
+</DocsAside>
+
+### Angular Accordion テンプレート例
+
+Angular <ApiLink type="Accordion" label="Accordion component" /> を使用すると、ヘッダーおよびコンテンツパネルの外観をカスタマイズできます。
+以下のサンプルは、<ApiLink type="ExpansionPanelComponent" /> の組み込みテンプレート機能を使用して、精密なフィルタリングオプションを実装する方法を示しています。
+
+<Sample src="/layouts/accordion-sample-3" height={550} alt="Angular Accordion Example" />
+
+<hr/>
+
+### ネストされた Angular Accordions シナリオ
+
+次の Angular アコーディオンの例では、複雑な FAQ セクションを作成して、この一般的なアプリケーションシナリオについてどのように進めるかを説明します。サンプルでは、ネストされた <ApiLink type="Accordion" /> は、<ApiLink type="ExpansionPanel" label="expansion panel" /> の本体内に <ApiLink type="Accordion" label="accordion" /> を追加することによって実現されます。
+
+```html
+<igx-accordion #accordion>
+     <igx-expansion-panel>
+        <igx-expansion-panel-header>
+            <igx-expansion-panel-title>Title Panel 1</igx-expansion-panel-title>
+        </igx-expansion-panel-header>
+        <igx-expansion-panel-body>
+            <igx-accordion #childAccordion>
+                <igx-expansion-panel>
+                    <igx-expansion-panel-header>
+                        <igx-expansion-panel-title>Title Nested Panel 1</igx-expansion-panel-title>
+                    </igx-expansion-panel-header>
+                    <igx-expansion-panel-body>
+                        Content Nested Panel 1
+                    </igx-expansion-panel-body>
+                </igx-expansion-panel>
+                ...
+            </igx-accordion>
+        </igx-expansion-panel-body>
+    </igx-expansion-panel>
+    ...
+</igx-accordion>
+```
+
+以下の結果を確認できます。
+
+<Sample src="/layouts/accordion-sample-2" height={550} alt="Angular Accordion Example" />
+
+<hr/>
+
+## キーボードナビゲーション
+
+Ignite UI for Angular Accordion のキーボードナビゲーションは、エンドユーザーに豊富な種類のキーボード対話を提供します。この機能はデフォルトで有効になっており、エンドユーザーがパネル間を簡単にナビゲートできるようになります。
+<ApiLink type="Accordion" /> ナビゲーションは W3C アクセシビリティ標準に準拠し、使いやすくなっています。
+
+**キーの組み合わせ**
+
+- <kbd>タブ</kbd> - フォーカスを最初の（フォーカスがアコーディオンの前にある場合）/次のパネルに移動します
+- <kbd>Shift + Tab</kbd> - フォーカスを最後の（フォーカスがアコーディオンの後にある場合）/前のパネルに移動します
+- <kbd>下矢印</kbd> - フォーカスを下のパネルに移動します
+- <kbd>上矢印</kbd> - フォーカスを上のパネルに移動します
+- <kbd>Alt + 下矢印</kbd> - アコーディオンのフォーカスされたパネルを展開します
+- <kbd>Alt + 上矢印</kbd> - アコーディオンのフォーカスされたパネルを折りたたみます
+- <kbd>Shift + Alt + Arrow Down</kbd> - すべての有効なパネルを展開します（singleBranchExpand が true に設定されている場合、最後の有効なパネルを展開します）
+- <kbd>Shift + Alt + 上矢印キー</kbd> - すべての有効なパネルを折りたたみます
+- <kbd>ホーム</kbd> - アコーディオン内の最初の有効なパネルにナビゲートします
+- <kbd>終了</kbd> - アコーディオン内の最後の有効なパネルにナビゲートします
+
+## スタイル設定
+
+<ApiLink type="Accordion" label="accordion" /> はコンテナとしてのみ機能し、基盤となる <ApiLink type="ExpansionPanel" label="panels" /> があります。スタイルは、[`styling section of the IgxExpansionPanel topic`](/expansion-panel#styling) で説明されているように、パネルのテーマを通じて直接適用できます。
+
+デザインでは、拡張パネルに余白が設定されています。`igx-accordion` 内に配置されている場合があります。これを変更するために、igx-expansion-panel テーマ内に公開されているプロパティがあります。
+テーマエンジンによって公開されている機能を利用するために、スタイルファイルに `index` ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+最も単純なアプローチに従い、<ApiLink kind="sass" module="themes" type="function-expansion-panel-theme" label="expansion-panel-theme" code={true} /> を拡張し、`$header-background`、`$body-color` および `$expanded-margin` パラメータを受け入れる新しいテーマを作成します。テーマは、指定された背景との対比が最も良くなる黒または白に基づいて、前景色を自動的に割り当てます。
+
+```scss
+$custom-panel-theme: expansion-panel-theme(
+  $header-background: #011627,
+  $body-background: #f0ece7,
+  $expanded-margin: 10px
+);
+```
+
+最後のステップは、コンポーネントのテーマを含めることです。
+
+```scss
+:host {
+    @include tokens($custom-panel-theme);
+}
+```
+
+### デモ
+
+<Sample src="/layouts/accordion-style" height={350} alt="Angular Accordion Style Example" />
+
+## API リファレンス
+
+- <ApiLink type="Accordion" />
+- <ApiLink type="ExpansionPanel" />
+- <ApiLink type="ExpansionPanelHeader" />
+- <ApiLink type="ExpansionPanelBody" />
+- <ApiLink kind="sass" module="themes" type="mixin-igx-expansion-panel" label="IgxExpansionPanel Styles" />
+
+## その他のリソース
+
+当社のコミュニティは活発であり、常に新しいアイデアを歓迎しています。
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

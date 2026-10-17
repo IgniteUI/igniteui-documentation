@@ -1,0 +1,605 @@
+<ComponentBlock for="Grid">
+
+---
+title: Excel Style Filtering in Angular Data Grid- Ignite UI for Angular
+description: Learn how to configure Excel filtering in Angular Data Grid. You can enable/disable various options and customize the Excel style filter menu the way you want.
+keywords: excel like filter, igniteui for angular, infragistics
+license: commercial
+llms:
+  description: "The grid Excel filtering provides an Excel like filtering UI for any Angular table like the {ComponentTitle}."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: Excel Style Filtering in Angular {ComponentTitle} - Ignite UI for Angular
+description: Learn how to configure Excel filtering in Angular {ComponentTitle}. You can enable/disable various options and customize the Excel style filter menu the way you want.
+keywords: excel like filter, igniteui for angular, infragistics
+license: commercial
+_canonicalLink: grid/excel-style-filtering
+llms:
+  description: "The grid Excel filtering provides an Excel like filtering UI for any Angular table like the {ComponentTitle}."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Excel Filtering in Angular {ComponentTitle}
+
+The grid Excel filtering provides an Excel like filtering UI for any Angular table like the {ComponentTitle}.
+
+## Angular {ComponentTitle} Excel Style Filtering Example
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-excel-style-filtering-sample-1" height={950} alt="Angular {ComponentTitle} Excel Style Filtering Example" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-excel-style-filtering-sample-1" height={950} alt="Angular {ComponentTitle} Excel Style Filtering Example" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-sample-1" height={950} alt="Angular {ComponentTitle} Excel Style Filtering Example" />
+
+</ComponentBlock>
+
+
+## Usage
+
+To turn on the grid excel filtering, two inputs should be set. The <ApiLink type="{ComponentApiType}" member="allowFiltering" label="allowFiltering" /> should be set to `true` and the <ApiLink type="{ComponentApiType}" member="filterMode" label="filterMode" /> should be set to `excelStyleFilter`.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" [autoGenerate]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="data" [autoGenerate]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+## Interactions
+
+In order to open the filter menu for a particular column, the Angular filter icon in the header should be clicked. Additionally, you can use the `Ctrl + Shift + L` combination on a selected header. If the column can be sorted, pinned, moved, selected or hidden along with the filtering functionality, there will be buttons available for the features that are turned on.
+
+If no filter is applied, all the items in the list will be selected. They can be filtered from the input above the list. In order to filter the data, you can select/deselect the items in the list and either click the Apply button, or press `Enter`. The filtering applied through the list items creates filter expressions with `equals` operator and the logic operator between the expressions is <ApiLink kind="enum" type="FilteringLogic" member="Or" />.
+
+If you type something in the search box and apply the filter, only the items that match the search criteria will be selected. If you want to add items to the currently filtered ones, however, you should select the option `Add current selection to filter`.
+
+If you want to clear the filter, you can check the `Select All` option and then click the Apply button.
+
+To apply a filter with different expressions, you can click the **Text filter**, which will open a sub menu with all available filter operators for the particular column. Selecting one of them will open the custom filter dialog, where you can add as many expressions as you want with different filter and logic operators. There is also a clear button, which can clear the filter.
+
+
+## Configure Menu Features
+
+Sorting, pinning and hiding features can be removed from the filter menu using the corresponding inputs: <ApiLink type="Column" member="sortable" label="sortable" />, <ApiLink type="Column" member="selected" label="selected" />, <ApiLink type="Column" member="disablePinning" label="disablePinning" />, <ApiLink type="Column" member="disableHiding" label="disableHiding" />.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data" [autoGenerate]="false" height="650px" width="100%" [moving]="true" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+    <igx-column field="ProductName" header="Product Name" [sortable]="true" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [sortable]="false" [disablePinning]="true" [disableHiding]="true" [dataType]="'string'">
+    </igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" [disablePinning]="true" [disableHiding]="true" [sortable]="true" [dataType]="'number'">
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [sortable]="false"  [dataType]="'date'" [formatter]="formatDate">
+    </igx-column>
+    <igx-column field="Discontinued" header="Discontinued" [sortable]="true" [dataType]="'boolean'">
+    </igx-column>
+</igx-grid>
+```
+
+
+In the sample below **Product Name** and **Discontinued** columns have all four features enabled, **Quantity Per Unit** have all three disabled, **Unit Price** has only sorting and **Order Date** has only pinning and hiding and all are <ApiLink type="Column" member="selectable" label="selectable" />.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treegrid1 [data]="data" [autoGenerate]="false" height="480px" width="100%" [moving]="true" [allowFiltering]="true"
+    primaryKey="ID" foreignKey="ParentID" filterMode="excelStyleFilter">
+    <igx-column field="ID" header="Order ID" [dataType]="'string'"></igx-column>
+    <igx-column field="Name" header="Order Product" [dataType]="'string'" [sortable]="true"></igx-column>
+    <igx-column field="Category" header="Category" [dataType]="'string'" [sortable]="true"></igx-column>
+    <igx-column field="Units" header="Units" [dataType]="'number'" [sortable]="true"></igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" [dataType]="'currency'" [pipeArgs]="formatOptions"></igx-column>
+    <igx-column field="Price" header="Price" [dataType]="'currency'" [pipeArgs]="formatOptions" [sortable]="false" [disablePinning]="true" [disableHiding]="true"></igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'" [formatter]="formatDate" [sortable]="false"></igx-column>
+    <igx-column field="Delivered" header="Deliverued" [dataType]="'boolean'" [sortable]="false">
+        <ng-template igxCell let-cell="cell" let-val>
+            <img *ngIf="val" src="assets/images/grid/active.png" title="Delivered" alt="Delivered" />
+            <img *ngIf="!val" src="assets/images/grid/expired.png" title="Undelivered" alt="Undelivered" />
+        </ng-template>
+    </igx-column>
+</igx-tree-grid>
+```
+
+
+In the sample below 'Order Product', 'Category' and 'Units' columns have all three features enabled, 'Price' have all three disabled, 'Order Date' and 'Delivered' have only pinning and hiding.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false" [moving]="true" [allowFiltering]='true' filterMode="excelStyleFilter"
+    [height]="'650px'" [width]="'100%'" [rowHeight]="'65px'" #hierarchicalGrid>
+    <igx-column field="Artist" [filterable]='true' [sortable]="true"></igx-column>
+    <igx-column field="Photo" [filterable]='false'>
+        <ng-template igxCell let-cell="cell">
+            <div class="cell__inner_2">
+                <img [src]="cell.value" class="photo" />
+            </div>
+        </ng-template>
+    </igx-column>
+    <igx-column field="Debut" [filterable]='true' [disablePinning]="true" [disableHiding]="true"></igx-column>
+    <igx-column field="Grammy Nominations" [filterable]='true' [dataType]="'number'" [sortable]="false"></igx-column>
+    <igx-column field="Grammy Awards" [filterable]='true' [dataType]="'number'"></igx-column>
+
+    <igx-row-island [key]="'Albums'" [autoGenerate]="false" [allowFiltering]='true' filterMode="excelStyleFilter">
+        <igx-column field="Album" [filterable]='true'></igx-column>
+        <igx-column field="Launch Date" [filterable]='true' [dataType]="'date'"></igx-column>
+        <igx-column field="Billboard Review" [filterable]='true' [dataType]="'number'"></igx-column>
+        <igx-column field="US Billboard 200" [filterable]='true' [dataType]="'number'"></igx-column>
+    <igx-row-island [key]="'Songs'" [autoGenerate]="false" >
+            <igx-column field="No."></igx-column>
+            <igx-column field="Title"></igx-column>
+            <igx-column field="Released"></igx-column>
+            <igx-column field="Genre"></igx-column>
+    </igx-row-island>
+    </igx-row-island>
+
+    <igx-row-island [key]="'Tours'" [autoGenerate]="false">
+        <igx-column field="Tour"></igx-column>
+        <igx-column field="Started on"></igx-column>
+        <igx-column field="Location"></igx-column>
+        <igx-column field="Headliner"></igx-column>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+
+In the sample below 'Artist' column have all three features enabled, 'Debut' have all three disabled, 'Grammy Nominations' has only pinning and hiding.
+</ComponentBlock>
+
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-excel-style-filtering-sample-2" height={900} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-excel-style-filtering-sample-2" height={900} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-sample-2" height={900} alt="" />
+
+</ComponentBlock>
+
+
+## Templates
+
+If you want to further customize the Excel style filter menu without disabling the column features you could use custom templates. The Excel Style filter menu provides two directives for templating:
+
+- `IgxExcelStyleColumnOperationsTemplateDirective` - re-templates the area with all column operations like sorting, pinning, etc.
+- `IgxExcelStyleFilterOperationsTemplateDirective` - re-templates the area with all filter specific operations.
+
+You could either re-template only one of those areas or both of them. You could put any custom content inside those directives or you could use any of our built-in Excel style filtering components.
+
+The following code demonstrates how to define a custom Excel style filter menu using the <ApiLink type="ExcelStyleHeader" />, <ApiLink type="ExcelStyleSorting" /> and <ApiLink type="ExcelStyleSearch" /> components.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data" [autoGenerate]="false" height="650px" width="100%" [allowFiltering]="true" [filterMode]="'excelStyleFilter'">
+
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+    
+    ...
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treegrid1 [data]="data" [autoGenerate]="false" height="480px" width="100%" [allowFiltering]="true"
+    primaryKey="ID" foreignKey="ParentID" filterMode="excelStyleFilter">
+
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+
+    ...
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false" [allowFiltering]='true' filterMode="excelStyleFilter"
+    [height]="'650px'" [width]="'100%'" [rowHeight]="'65px'" #hierarchicalGrid>
+    
+    <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+        <igx-excel-style-column-operations>
+            <igx-excel-style-header
+                [showPinning]="true"
+                [showHiding]="true"
+            >
+            </igx-excel-style-header>
+
+            <igx-excel-style-sorting></igx-excel-style-sorting>
+        </igx-excel-style-column-operations>
+
+        <igx-excel-style-filter-operations>
+            <igx-excel-style-search></igx-excel-style-search>
+        </igx-excel-style-filter-operations>
+    </igx-grid-excel-style-filtering>
+
+    ...
+
+    <igx-row-island [key]="'Albums'" [autoGenerate]="false" [allowFiltering]='true' filterMode="excelStyleFilter">
+        <igx-grid-excel-style-filtering [minHeight]="'380px'" [maxHeight]="'500px'">
+            <igx-excel-style-column-operations>
+                <igx-excel-style-header
+                    [showPinning]="true"
+                    [showHiding]="true"
+                >
+                </igx-excel-style-header>
+
+                <igx-excel-style-sorting></igx-excel-style-sorting>
+            </igx-excel-style-column-operations>
+
+            <igx-excel-style-filter-operations>
+                <igx-excel-style-search></igx-excel-style-search>
+            </igx-excel-style-filter-operations>
+        </igx-grid-excel-style-filtering>
+        ....
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+You could also re-template the Excel style filtering icon in the column header using the `igxExcelStyleHeaderIcon` directive:
+
+```html
+<{ComponentSelector} ...>
+    <ng-template igxExcelStyleHeaderIcon>
+        <igx-icon>filter_alt</igx-icon>
+    </ng-template>
+</{ComponentSelector}>
+```
+
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-excel-style-filtering-sample-3" height={700} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-excel-style-filtering-sample-3" height={700} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-sample-3" height={700} alt="" />
+
+</ComponentBlock>
+
+Here is the full list of Excel style filtering components that you could use:
+
+- <ApiLink type="ExcelStyleHeader" />
+- <ApiLink type="ExcelStyleSorting" />
+- <ApiLink type="ExcelStyleMoving" />
+- <ApiLink type="ExcelStylePinning" />
+- <ApiLink type="ExcelStyleHiding" />
+- <ApiLink type="ExcelStyleSelecting" />
+- <ApiLink type="ExcelStyleClearFilters" />
+- <ApiLink type="ExcelStyleConditionalFilter" />
+- <ApiLink type="ExcelStyleSearch" />
+
+
+## Unique Column Values Strategy
+
+The list items inside the Excel Style Filtering dialog represent the unique values for the respective column. These values can be provided manually and loaded on demand, which is demonstrated in the [`{ComponentTitle} Remote Data Operations`](/{igPath}/remote-data-operations#unique-column-values-strategy) topic.
+
+## Formatted Values Filtering Strategy
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+By default, the {ComponentTitle} component filters the data based on the original cell values, however in some cases you may want to filter the data based on the formatted values. In order to do that you can use the <ApiLink type="FormattedValuesFilteringStrategy" />.
+</ComponentBlock>
+<ComponentBlock for="Grid, HierarchicalGrid">
+The following sample demonstrates how to format the numeric values of a column as strings and filter the {ComponentTitle} based on the string values:
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+By default, the {ComponentTitle} component filters the data based on the original cell values, however in some cases you may want to filter the data based on the formatted values. In order to do that you can use the <ApiLink type="TreeGridFormattedValuesFilteringStrategy" />. The following sample demonstrates how to format the numeric values of a column as strings and filter the {ComponentTitle} based on the string values:
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-formatted-filtering-strategy" height={650} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-formatted-filtering-strategy" height={650} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hGrid-formatted-filtering-strategy" height={650} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+The formatted values filtering strategy won't work correctly if you have more than one column bound to the same field from your data and one of the columns has a formatter.
+</DocsAside>
+
+<ComponentBlock for="TreeGrid">
+
+## Tree Filter View
+
+By default, the Excel Style Filtering dialog displays the items in a list view. In order to display them in a tree view you can use the <ApiLink type="TreeGridFilteringStrategy" /> and specify an array of column field names. Filter items will be displayed in a tree view for the specified columns and in a list view for all other columns. The following sample demonstrates how to show filter items in a tree view for the first column:
+
+<Sample src="/tree-grid/tree-grid-tree-filter-view" height={650} alt="" />
+</ComponentBlock>
+
+## External Excel Style filtering
+
+As you see at the demos above the default appearance of the Excel Style filtering dialog is inside the {ComponentTitle}. So this dialog is only visible when configuring the filters. There is a way to make that dialog stay always visible - it can be used outside of the grid as a standalone component. In the demo below, the Excel style filtering is declared separately of the {ComponentTitle}.
+
+### Demo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-external-excel-style-filtering" height={670} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-external-excel-style-filtering" height={670} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-external-excel-style-filtering" height={670} alt="" />
+
+</ComponentBlock>
+
+
+### Usage
+
+In order to configure the Excel style filtering component, you should set its <ApiLink type="Column" label="column" /> property to one of the {ComponentTitle}'s columns. In the sample above, we have bound the <ApiLink type="Column" label="column" /> property to the value of an IgxSelectComponent that displays the {ComponentTitle}'s columns.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-select #gridColums value="ProductID">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of grid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="grid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-select #gridColums value="ID">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of treegrid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="treegrid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-select #gridColums value="Artist">
+   <label igxLabel>Columns:</label>
+   <igx-select-item *ngFor="let c of hierarchicalgrid1.columns" [value]="c.field">
+       {{ c.field }}
+   </igx-select-item>
+</igx-select>
+
+<igx-grid-excel-style-filtering [column]="hierarchicalgrid1.getColumnByName(gridColums.value)">
+</igx-grid-excel-style-filtering>
+```
+
+</ComponentBlock>
+
+## External Outlet
+
+The {ComponentTitle}'s [`z-index`](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index) creates separate stacking context for each grid in the DOM. This ensures that all descendant elements of the grid will render as intended, without overlapping one another.
+However, elements that go outside of the grid (e.g. Excel Style filter) will conflict with outside elements with the same `z-index` (e.g. having two grids one under another) resulting in false rendering. The solution for this issue is to set the <ApiLink type="{ComponentApiType}" member="outlet" label="outlet" /> property to an external outlet directive which allows the overlay elements to always appear on top.
+
+### Demo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-external-outlet" height={700} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-external-outlet" height={700} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-external-outlet" height={700} alt="" />
+
+</ComponentBlock>
+
+## Styling
+
+To get started with styling the Excel Style Filtering dialog, we need to import the `index` file, where all the theme functions and component mixins live:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+There are a couple of ways to style the Excel Style Filtering dialog. It can be styled using the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />. The Excel Style Filtering dialog inherits the `$background`, `$foreground`, and `$accent-color` values defined in the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />. It also provides dedicated parameters for customizing the dialog’s text colors.
+
+Alternatively, you can use the dedicated <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} />, which allows you to fully style only the Excel Style Filtering dialog.
+
+The simplest approach is to use the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />:
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+The background and foreground colors of the Excel Style Filtering dialog are inherited from the grid theme. Additionally, all nested components, such as buttons and checkboxes, inherit the accent color from the grid theme.
+
+After that, we are ready to include our newly created grid theme. If we want to make additional style changes specific to the Excel Style Filtering dialog, we can target it directly:
+
+```scss
+:host {
+    @include tokens($custom-grid);
+
+    igx-grid-excel-style-filtering {
+        --ig-excel-filtering-background: #444;
+    }
+}
+```
+
+<DocsAside type="info">
+If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
+</DocsAside>
+
+```scss
+:host ::ng-deep {
+    @include tokens($custom-grid);
+
+    igx-grid-excel-style-filtering {
+        --ig-excel-filtering-background: #444;
+    }
+}
+```
+
+### Demo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-excel-style-filtering-style" height={950} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-excel-style-filtering-style" height={950} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-style" height={950} alt="" />
+
+</ComponentBlock>
+
+
+<DocsAside type="info">
+The sample will not be affected by the selected global theme from `Change Theme`.
+</DocsAside>
+
+## API References
+- <ApiLink type="Column" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="{ComponentName}Component Styles" />
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="Excel Filtering Theme"/>
+## Additional Resources
+
+
+- [{ComponentTitle} overview](/{igPath}/{ComponentMainTopic})
+- [Virtualization and Performance](/{igPath}/virtualization)
+- [Paging](/{igPath}/paging)
+- [Sorting](/{igPath}/sorting)
+- [Summaries](/{igPath}/summaries)
+- [Column Moving](/{igPath}/column-moving)
+- [Column Pinning](/{igPath}/column-pinning)
+- [Column Resizing](/{igPath}/column-resizing)
+- [Selection](/{igPath}/selection)
+
+Our community is active and always welcoming to new ideas.
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

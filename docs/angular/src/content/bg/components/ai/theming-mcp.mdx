@@ -1,0 +1,385 @@
+---
+title: Angular Theming MCP | Infragistics
+description: >-
+  Използвайте Ignite UI Theming MCP сървър, за да генерирате палети, теми,
+  типография и преопределения на дизайнерски токени за Ignite UI for Angular
+  чрез вашия AI асистент.
+keywords: >-
+  Ignite UI for Angular елементи управления, Angular джаджи, уеб джаджи, UI
+  джаджи, Components Suite, Artificial Intelligence, AI, MCP, Model Context
+  Protocol, Theming, Custom Themes, Palettes, Typography, Elevations
+llms:
+  description: >-
+    Ignite UI Theming MCP е сървър на Model Context Protocol (MCP), който
+    позволява на AI асистентите да генерират production-ready код за теми за
+    Ignite UI приложения.
+source_hash: 7af334cc
+source_locale: en
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Ignite UI Theming MCP
+
+<p class="highlight">Ignite UI Theming MCP е <a href="https://modelcontextprotocol.io/" target="_blank">Протокол за контекст на модела</a> (MCP) сервър, който позволява на AI асистентите да генерират production-ready код за тематизиране на Ignite UI приложения. MCP е отворен стандарт, който позволява на AI асистентите да извикват специализирани инструменти, предоставени от външни сървъри. Свържете Ignite UI Theming MCP към вашия редактор или desktop AI клиент и опишете темата, палитрата или преопределянията на компонентите, които искате да бъдат генерирани.</p>
+
+<igc-divider></igc-divider>
+
+## Преглед
+
+Сервърът Ignite UI Theming MCP дава на AI асистентите знания и инструменти за создаване на точен код за темиране, включително палети с надлежно генериране на нюанси, типография, издигания, препокривки на дизайн токени на компоненти и повече.
+
+Сервърът поддържа всичките четири дизайнерски системи на Ignite UI (**Material**, **Bootstrap**, **Fluent** и **Indigo**) както в светли, така и в тъмни варианти. Докато този наръчник се фокусира върху Angular, MCP сервърът работи и с всички библиотеки с компоненти на Ignite UI от Infragistics. Инструментът `detect_platform` идентифицира рамката на проекта и автоматично избира правилните пътища на импортиране и селектори. За Blazor проекти, които нямат `package.json`, връща `generic` - кажете на AI явно: *"Използвай платформата Blazor."*
+
+Повечето инструменти могат да произвеждат либо **Sass** либо **CSS** изход. Sass изходът е по подразбиране и се интегрира с модула `igniteui-theming` Sass. CSS изходът генерира готови за използване CSS пользовательски свойства и може да се използва **без локална верига от инструменти за Sass** - сервърът го компилира за вас.
+
+Ignite UI Theming MCP работи паралелно с Ignite UI CLI MCP. На практика Theming MCP обработва палети, теми, токени, типография, издигания и работни процеси на стила, докато CLI MCP обработва създаване на проекти, модификация на проекти, работни процеси на компоненти и задачи ориентирани към документация. Повечето екипи ще искат и двата сервъра свързани в един и същи AI клиент.
+
+**Примери на подкани за опит веднъж свързани:**
+
+> *"Създай пълна Material Design тъмна тема за моето Angular приложение със първичен #2563eb и коралов втори цвят #f97316."*
+
+> *"Кои дизайнерски токени са достъпни за компонента бутон? Персонализирай го с моя брандиран лилав #8b5cf6."*
+
+> *"Моите указания за брандинг уточняват точни шестнадесетични стойности за всеки първичен нюанс - създай пользовательска палета с тези явни стойности."*
+
+> *"Направи компонента календар да използва по-малко разстояние."*
+
+## Предварителни условия
+
+Преди конфигуриране на MCP сервъра, уверете се, че имате:
+
+- **Node.js** (версия 18 или по-нова) инсталирана. Това осигурява командата `npx`, използвана за стартиране на сервъра.
+- Проект с **пакет Ignite UI** изброен като зависимост в `package.json`.
+- **AI клиент с поддръжка на MCP** - например VS Code с GitHub Copilot, Cursor, Claude Desktop, Claude Code или JetBrains IDE с приставката AI Assistant.
+
+Ако все още нямате инсталирано Ignite UI Theming, стартирайте:
+
+```bash
+npm install igniteui-theming
+```
+
+## Настройка
+
+MCP сервърът е пакетиран с пакета `igniteui-theming` npm и стартирани чрез `npx`. Няма нужда от отделна инсталация освен наличието на пакет Ignite UI в проекта ви.
+
+Каноничната команда за стартиране е:
+
+```bash
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+<DocsAside type="info">
+Флагът `-y` казва на `npx` да автоматично потвърди подкана за изтегляне на пакет, така че сървърът да може да се стартира без ръчно намесване.
+</DocsAside>
+
+### Как работи разрешаването на версията
+
+Тъй като `igniteui-theming` е зависимост на `igniteui-angular`, той вече присъства в `node_modules` ви след `npm install`. Когато стартирате командата по-горе, `npx` открива локално инсталираното копие и го стартира директно. Няма заявка към мрежата. Това означава, че версията на MCP сервъра винаги остава в синхрон със останалите вам пакети Ignite UI.
+
+Ако стартирате командата извън проект (или преди `npm install`), `npx -y` изтегля **най-новата** версия от npm в временния кеш вместо това. Сервърът все още ще стартира, но `detect_platform` ще върне `generic`, тъй като няма `package.json` за инспекция.
+
+Изберете своя AI клиент по-долу за конкретните стъпки на конфигурация.
+
+### VS Code
+
+GitHub Copilot в VS Code поддържа MCP сервъри чрез конфигурационен файл на ниво работна площ. Създайте или редактирайте `.vscode/mcp.json` в корена на проекта ви:
+
+```json
+{
+  "servers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+След запазване, отворете панела на чата на GitHub Copilot, преминете в режим **Agent** и инструментите на Ignite UI Theming ще бъдат достъпни.
+
+<DocsAside type="info">
+Поддържката на MCP в VS Code изисква GitHub Copilot и VS Code 1.99 или по-нова версия.
+</DocsAside>
+
+### Cursor
+
+Cursor поддържа MCP конфигурация с обхват на проект. Създайте или редактирайте `.cursor/mcp.json` в корена на проекта ви:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Сервърът ще бъде открит автоматично, когато отворите нова сесия на чат на Cursor.
+
+<DocsAside type="info">
+Можете също да конфигурирате MCP сървъри глобално чрез **Settings → MCP** в Cursor.
+</DocsAside>
+
+### Claude Desktop
+
+Добавете сервъра към конфигурационния файл на Claude Desktop:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Рестартирайте Claude Desktop след запазване. Ще видите индикатор на MCP сервър (икона с плъзгач) в областта за въвеждане на чат, потвърждавайки, че MCP инструментите са активни.
+
+### Claude Code
+
+Claude Code поддържа MCP сервъри чрез своя CLI и конфигурационен файл `.mcp.json` с обхват на проект. За да споделите конфигурацията със своя екип, създайте или редактирайте `.mcp.json` в корена на проекта ви:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Алтернативно, можете да добавите сервъра чрез командния ред само за вашата локална среда:
+
+```bash
+claude mcp add igniteui-theming -- npx -y igniteui-theming igniteui-theming-mcp
+```
+
+Използвайте командата `/mcp` в Claude Code, за да проверите дали сервърът е свързан.
+
+### JetBrains IDEs
+
+JetBrains AI Assistant поддържа MCP сервъри чрез настройките на IDE:
+
+1. Отворете **Settings** (или **Preferences** на macOS).
+
+2. Отидете на **Tools → AI Assistant → Model Context Protocol (MCP)**.
+
+3. Щракнете **+ Add** и изберете **As JSON** или използвайте полетата на формуляра.
+
+4. Въведете следната конфигурация:
+
+   ```json
+   {
+  "mcpServers": {
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+   ```
+
+5. Щракнете **OK** и рестартирайте AI Assistant.
+
+<DocsAside type="info">
+Поддержката на MCP изисква AI Assistant плъгина да бъде инсталиран и активиран в JetBrains IDE.
+</DocsAside>
+
+### Други MCP клиенти
+
+За всеки друг MCP съвместим клиент, използвайте STDIO транспорта с тази команда за стартиране:
+
+```bash
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+## Персонализирайте поведението на AI с правила на проекта
+
+Този раздел е опционален. Той е насочен към екипи, които искат да настроят *как* AI генерира код за темиране, така че да съответства на конвенциите на съществуващия им код.
+
+Редактори като VS Code и Cursor ви позволяват да предоставите инструкционни файлове на ниво проект, които оформят как се държи AI. MCP сервърът вече учи AI *кои инструменти да вика и в какъв ред*. Не е необходимо да повтаряте това. Вместо това използвайте тези инструкционни файлове, за да кодирате **дизайнерските решения, конвенциите на кода и организацията на файловете на проекта ви**, така че AI да произвежда код, който подхожда на кодовата база ви при първи опит.
+
+### VS Code (`.github/copilot-instructions.md`)
+
+```markdown
+## Theming Conventions
+
+### Sass Code Style
+- Use `@use` / `@forward` - never `@import`.
+- Extract repeated color values into Sass variables (e.g., `$brand-hover: #a78bfa`).
+- Prefer setting primary design tokens over overriding many dependent tokens.
+  For example, setting `$foreground` on a flat button automatically derives
+  `$hover-background`, `$focus-background`, and `$active-background`.
+- Keep component overrides scoped - use the component's default selector
+  (e.g., `.igx-button--flat`) unless a narrower scope is needed.
+```
+
+### Cursor (`.cursor/rules/theming.mdc`)
+
+```markdown
+---
+description: Ignite UI for Angular theming conventions
+globs: ["**/*.scss", "**/styles/**"]
+---
+
+## Project Theming Rules
+
+### Code conventions
+- `@use` / `@forward` only - no `@import`.
+- Extract shared colors into variables; do not repeat hex literals.
+- Prefer primary tokens - let dependent tokens derive automatically.
+- One component override per file. Name the file after the component.
+- Comment every override with the design rationale.
+- Never hard-code gray shades for text - use palette grays so dark mode works.
+- For dark mode, only the palette changes. Component overrides stay the same.
+```
+
+<DocsAside type="info">
+И двата файла се съхраняват в контрол на версиите, така че всеки член на екипа получава същото поведение на AI без ръчна настройка. Адаптирайте цветовете на марката, системата за дизайн и пътищата на файловете, за да съответстват на вашия проект.
+</DocsAside>
+
+## Налични инструменти
+
+MCP сервърът разкрива набор от инструменти, които AI използва автоматично въз основа на вашите подкани. Никога не е необходимо да ги викате директно. Просто опишете какво искате.
+
+За да видите текущия пълен списък на инструментите и техните параметри по всяко време, попитайте своя AI асистент:
+
+> *"Кои инструменти осигурява Ignite UI Theming MCP?"*
+
+Ето кратък преглед на всеки инструмент:
+
+| Инструмент     | Описание                                                                                                                                                                                                                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `detect_platform` | Идентифицира рамката на проекта и избира правилните пътища на импортиране и селектори. За Angular, React и Web Components проекти, чете `package.json`. За Blazor проекти, които нямат `package.json`, върща `generic` - кажете на AI явно: *"Използвай платформата Blazor."* |
+| `create_palette` | Генерира палета с цветове с автоматични нюансови варианти (50-900, A100-A700) от вашите основни цветове на брандинга. Приема параметър `output` (`sass` или `css`) и `designSystem` за избор на схемата.                                                                         |
+| `create_custom_palette` | Пъргав създаване на палета. Уточнете точни шестнадесетични стойности за всеки нюанс, когато автоматичното генериране не е подходящо.                                                                                                                                                                                 |
+| `create_typography` | Настройка на семейство шрифт и скала от типове за дадена дизайнерска система.                                                                                                                                                                                                                    |
+| `create_elevations` | Конфигурира нива на издигания box-shadow (0-24) за Material или Indigo дизайнерски системи.                                                                                                                                                                                                               |
+| `create_theme` | Еднократна пълна тема: палета + типография + издигания, готова да се включи в `styles.scss`. Приема `designSystem` (`material`, `bootstrap`, `fluent` или `indigo`) и `variant` (`light` или `dark`).                                           |
+| `set_size` | Задава `--ig-size` глобално или за конкретен компонент (`small`, `medium` или `large`).                                                                                                                                                                                      |
+| `set_spacing` | Задава `--ig-spacing` (и опционално препокривки inline/block) глобално или на компонент.                                                                                                                                                                                                             |
+| `set_roundness` | Задава `--ig-radius-factor` (0 = квадратен, 1 = напълно кръгъл) глобално или на компонент.                                                                                                                                                                                                                       |
+| `get_component_design_tokens` | Връща всички налични дизайнерски токени за компонент. Винаги викайте това преди `create_component_theme`.                                                                                                                                                                                                       |
+| `create_component_theme` | Генерира Sass или CSS за персонализиране на токените на компонент (цветове, граници и т.н.). Приема `variant` (`light` или `dark`) за избор на правилната схема.                                                                                                         |
+| `get_color` | Връща препратка на CSS променлива за цвят на палета, например `var(--ig-primary-500)`. Поддържа опционални параметри на контрастност и прозрачност.                                                                                                                                                      |
+| `read_resource` | Чете вградени справочни ресурси, организирани в четири категории: платформени конфигурации (6), предварителни настройки на палета/типография/издигания (5), указания за цветове (7) и документи на подредба/разстояние (8).                                                                |
+
+<DocsAside type="info">
+За композитни компоненти (напр. `combo`, `select`, `grid`), `get_component_design_tokens` връща списък на свързани дъщерни теми вместо плосък списък на токени. Например, запитване на `grid` може да върне дъщерни теми като `grid`, `grid-toolbar`, `grid-filtering` и `paginator`. AI ще генерира отделен `create_component_theme` повик за всяка дъщерна тема, използвайки подходящия селектор с обхват.
+</DocsAside>
+
+<DocsAside type="info">
+Ако вашият проект използва лицензирания пакет `@infragistics/igniteui-angular`, уведомете AI, така че той да може да зададе параметъра `licensed` на инструментите за палитра, тема и компонент. Това коригира генерираните пътища на импорта съответно.
+</DocsAside>
+
+## Често срещани работни процеси
+
+Следните сценарии показват какво можете да попросите AI да направи веднъж MCP сервърът е свързан.
+
+### Тема на нов проект
+
+> *"Стартирам нов Angular проект с Ignite UI. Създай пълна Material Design светла тема със първичен #2563eb, втори цвят #f97316 и шрифт Roboto."*
+
+AI ще вика `create_theme` и ще върне готов за използване файл `styles.scss`. Генерираният изход ще изглежда подобен на това:
+
+```scss
+/* styles.scss */
+@use 'igniteui-angular/theming' as *;
+
+$my-palette: palette(
+  $primary: #2563eb,
+  $secondary: #f97316,
+  $surface: #fff,
+  $gray: #9e9e9e,
+);
+
+$my-typography: typography(
+  $font-family: 'Roboto, sans-serif',
+);
+
+@include core();
+@include typography($my-typography);
+@include theme($my-palette, $schema: $light-material-schema);
+```
+
+### Вариант на тъмен режим
+
+> *"Имам нужда от версия на тъмен режим на съществуващата ми тема. Запазете същия първичен син, но използвайте тъмна повърхност #121212."*
+
+### Точни нюанси на цветове на брандинга
+
+> *"Моята дизайнерска система уточнява точни шестнадесетични стойности за всичките 14 нюанса на нашия първичен зелен. Ще залепя стойностите - създай пользовательска палета."*
+
+AI ще вика `create_custom_palette` със `mode: "explicit"` за първичния цвят и ще автоматично генерира останалото. Вижте [Палети](https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes/sass/palettes) за повече подробности относно генериране на нюанси.
+
+### Персонализиране на ниво компонент
+
+> *"Стилизирай плоския бутон със лилаво背景 #8b5cf6 и бял текст, с по-светъл лилав #a78bfa при наминаване."*
+
+AI ще вика първо `get_component_design_tokens`, за да открие валидни имена на токени, след това ще вика `create_component_theme` със правилните стойности.
+
+### Приспособления на подредба
+
+> *"Календарът се чувства вздут - намали неговото разстояние и направи всички компоненти малко по-малки."*
+
+AI ще вика `set_spacing` ограничено до компонента календар и `set_size` на ниво `:root`.
+
+## Решаване на проблеми
+
+**Платформата не е открита**
+
+Ако `detect_platform` връща `null` или `generic`, уверете се, че `package.json` ви изброява пакет Ignite UI (например `igniteui-angular`) като зависимост.
+
+Можете също да кажете на AI явно: *"Използвай платформата Angular."*
+
+**Предупреждение за светимост на цветове**
+
+Ако AI предупреждава относно светимост на цветове, това означава, че избраният цвят е твърде светъл или твърде тъмен, за да работи добре автоматичното генериране на нюанси. Или изберете цвят в средния диапазон, или попросете AI да използва `create_custom_palette` с явни стойности на нюанси.
+
+**Несъответствие на цвят на повърхност**
+
+За светли теми използвайте светла повърхност (например `#fafafa`). За тъмни теми използвайте тъмна повърхност (например `#121212`). Несъответстващите цветове на повърхност причиняват AI да издаде предупреждение.
+
+**Генерираният Sass не се компилира**
+
+Уверете се, че `igniteui-angular` и `igniteui-theming` са инсталирани:
+
+```bash
+ng add igniteui-angular
+```
+
+Също потвърдете, че `core()` се вика преди всеки друг миксин за темиране в `styles.scss`. Вижте [Темиране със Sass](https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes/sass/index) за правилната настройка на файлове.
+
+## Дополнителни ресурси
+
+- [AI-Assisted Development with Ignite UI](./ai-assisted-development-overview.md)
+- [Ignite UI for Angular Skills](./skills.md)
+- [Ignite UI CLI MCP](./cli-mcp.md)
+- [MAKER Framework](./maker-framework.md)
+
+{/\* Идеално тези трябва да бъдат включени веднъж документацията е комбинирана
+
+- [Theming Overview](../themes/index)
+- [Palettes](../themes/palettes)
+- [Typography](../themes/typography)
+- [Elevations](../themes/elevations)
+- [Spacing](../themes/spacing)
+- [Roundness](../themes/roundness)
+- [Theming with Sass](../themes/sass/index)
+  \*/}
+
+<hr/>
+
+Нашата общност е активна и винаги приветства нови идеи.
+
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

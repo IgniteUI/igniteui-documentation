@@ -1,0 +1,986 @@
+---
+title: "{Platform} {ComponentTitle} 行選択 - {ProductName}"
+description: "{Platform} {ComponentTitle} を使用した {ComponentTitle} バッチ編集により、基になるデータに影響を与えることなくデータ操作を実行できます。デモとサンプルをご覧ください！"
+keywords: "{Platform}、{ComponentKeywords}、{ProductName}、Infragistics"
+license: commercial
+mentionedTypes: ["GridBaseDirective", "RowSelectorTemplateDetails", "HeadSelectorTemplateDetails", "Checkbox"]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowSelection}"
+llms:
+  description: "{Platform} {ComponentTitle} の {ProductName} 行選択機能により、ユーザーはデータの単一行または複数行をインタラクティブに選択、強調表示、または選択解除できます。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} 行選択
+
+{Platform} {ComponentTitle} の {ProductName} 行選択機能により、ユーザーはデータの単一行または複数行を対話的に選択、強調表示、または選択解除できます。<ApiLink type="{ComponentName}" /> では、いくつかの選択モードを使用できます。
+
+- 選択なし
+- 複数選択
+- 単一選択
+
+## {Platform} 行選択の例
+
+<ComponentBlock for="TreeGrid">
+
+以下のサンプルは、<ApiLink type="{ComponentName}" /> の **行選択** の 4 種類の動作を示します。以下のボタンを使用して、使用可能な各選択モードを有効にします。各ボタン操作時には、スナックバー メッセージ ボックスを通じて簡単な説明が表示されます。スイッチ ボタンを使用して、行セレクターのチェックボックスを *非表示* または *表示* します。
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+以下のサンプルは、<ApiLink type="{ComponentName}" /> の **行選択** の 3 種類の動作を示します。以下のドロップダウンを使用して、使用可能な各選択モードを有効にします。チェックボックスを使用して、行セレクターのチェックボックスを *非表示* または *表示* します。
+
+</ComponentBlock>
+
+<Sample src="/{ComponentSample}/row-selection-mode" height={700} alt="{Platform} {ComponentTitle} Row Selection Example" />
+
+## セットアップ
+
+<ApiLink type="{ComponentName}" /> で行選択を設定するには、<ApiLink type="{ComponentName}" member="rowSelection" /> プロパティを設定するだけです。このプロパティは <ApiLink type="GridSelectionMode" /> 値を受け取ります。
+
+<ApiLink type="GridSelectionMode" /> は次のモードを公開します。
+
+- **なし**
+- **単一**
+- **複数**
+
+<ComponentBlock for="TreeGrid">
+
+- **複数カスケード**
+
+</ComponentBlock>
+
+以下では、それぞれについて詳しく見ていきます。
+
+### 選択なし
+
+<ApiLink type="{ComponentName}" /> では、既定で行選択が無効になっています (<ApiLink type="{ComponentName}" member="rowSelection" /> は None)。そのため、<ApiLink type="{ComponentName}" /> UI との操作によって行を選択または選択解除することは**できません**。これらの操作を完了する唯一の方法は、提供されている API メソッドを使用することです。
+
+### 単一選択
+
+単一行選択は簡単に設定できます。必要なことは、<ApiLink type="{ComponentName}" member="rowSelection" /> を `Single` プロパティに設定することだけです。これにより、**グリッド内で 1 行のみを選択**できるようになります。セルをクリックするか、行のセルにフォーカスしているときに <kbd>スペース</kbd> キーを押すことで行を選択できます。もちろん、行セレクター フィールドをクリックして行を選択することもできます。行が選択または選択解除されると、<ApiLink type="{ComponentName}" member="rowSelectionChanging" /> イベントが発行されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="remote | async" [rowSelection]="'single'" [autoGenerate]="true"
+          (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" row-selection="Single" auto-generate="true"
+        allow-filtering="true">
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("rowSelectionChanging", this.handleRowSelection);
+}
+```
+
+```ts
+public handleRowSelection(args: IgcRowSelectionEventArgs) {
+    if (args.detail.added.length && args.detail.added[0] === 3) {
+        args.detail.cancel = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const handleRowSelection = (args: IgrRowSelectionEventArgs) => {
+    if (args.detail.added.length && args.detail.added[0] === 3) {
+        args.detail.cancel = true;
+    }
+}
+
+<{ComponentSelector} rowSelection="single" autoGenerate={true} allowFiltering={true} onRowSelectionChanging={handleRowSelection}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Single
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             RowSelectionChanging='RowSelectionChanging'
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+@code {
+    private void RowSelectionChanging(IgbRowSelectionEventArgs args)
+    {
+        // handler for selection change
+    }
+}
+```
+
+</PlatformBlock>
+
+### 複数選択
+
+<ApiLink type="{ComponentName}" /> で複数行選択を有効にするには、<ApiLink type="{ComponentName}" member="rowSelection" /> プロパティを `Multiple` に設定するだけです。これにより、各行および <ApiLink type="{ComponentName}" /> ヘッダーで行セレクター フィールドが有効になります。行セレクターを使用すると、ユーザーは複数の行を選択でき、選択状態はスクロール、ページング、および並べ替えやフィルタリングなどのデータ操作を通じて保持されます。セルをクリックするか、セルにフォーカスがあるときに <kbd>スペース</kbd> キーを押すことでも行を選択できます。1 行を選択した状態で <kbd>シフト</kbd> キーを押しながら別の行をクリックすると、行の範囲全体が選択されます。この選択モードでは、単一の行をクリックすると、以前に選択されていた行は選択解除されます。<kbd>コントロール</kbd> キーを押しながら**クリック**すると、その行の選択状態が切り替わり、以前の選択は保持されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="remote | async" [primaryKey]="'ProductID'" [rowSelection]="'multiple'"
+        (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true" [autoGenerate]="true">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" row-selection="Multiple"
+        allow-filtering="true" auto-generate="true">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple"
+        allowFiltering={true} autoGenerate={true}>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+
+### カスケード選択
+
+<ApiLink type="{ComponentName}" /> でカスケード行選択を有効にするには、<ApiLink type="{ComponentName}" member="rowSelection" /> プロパティを `MultipleCascade` に設定するだけです。これにより、各行および <ApiLink type="{ComponentName}" /> ヘッダーで行セレクター フィールドが有効になります。行セレクターを使用すると、ユーザーは複数の行を選択でき、下位ツリー内のすべての子も選択されます。選択状態は、スクロール、ページング、および並べ替えやフィルタリングなどのデータ操作を通じて保持されます。セルをクリックするか、セルにフォーカスがあるときに <kbd>スペース</kbd> キーを押すことでも行を選択できます。1 行を選択した状態で <kbd>シフト</kbd> キーを押しながら別の行を**クリック**すると、親レコードの選択によって、選択範囲内に含まれていない場合でも、そのすべての子が選択されます。この選択モードでは、単一の行を**クリック**すると、以前に選択されていた行は選択解除されます。<kbd>コントロール</kbd> キーを押しながら**クリック**すると、その行とその子の選択状態が切り替わり、以前の選択は保持されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true"
+        [rowSelection]="'multipleCascade'" [allowFiltering]="true" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="grid" primaryKey="ID" foreign-key="ParentID" auto-generate="true"
+        row-selection="MultipleCascade" allow-filtering="true">
+</igc-tree-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.MultipleCascade
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTreeGrid primaryKey="ID" foreignKey="ParentID" autoGenerate={true}
+        rowSelection="multipleCascade" allowFiltering={true}>
+</IgrTreeGrid>
+```
+
+</PlatformBlock>
+
+このモードでは、親の選択状態はその子の選択状態に完全に依存します。親に選択された子と選択解除された子が混在している場合、そのチェックボックスは不確定状態になります。
+
+</ComponentBlock>
+
+**注**
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+
+- <ApiLink type="{ComponentName}" /> がリモート仮想化を使用している場合に、適切な行選択とセル選択を実現するには、<ApiLink type="{ComponentName}" member="primaryKey" /> を提供する必要があります。
+- <ApiLink type="{ComponentName}" /> がリモート仮想化を使用している場合、ヘッダーのチェックボックスをクリックすると、現在グリッド内にあるすべてのレコードが選択または選択解除されます。オンデマンドで <ApiLink type="{ComponentName}" /> に新しいデータが読み込まれた場合、新しく追加された行は選択されません。これは制限事項であるため、この動作はご自身で処理する必要があり、提供されている API メソッドを使用してこれらの行を選択できます。
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+- 行選択は <ApiLink type="{ComponentName}" member="rowSelectionChanging" /> イベントをトリガーします。このイベントは、**新しい選択**、**古い選択**、古い選択から**追加**および**削除**された行に関する情報を提供します。また、このイベントは**キャンセル可能**であるため、選択を防止できます。
+- 行選択が有効な場合、行セレクターが表示されます。ただし、表示したくない場合は、<ApiLink type="GridBaseDirective" member="hideRowSelectors" label="HideRowSelectors" /> を **true** に設定できます。
+- 実行時に行選択モードを切り替えると、以前の行選択状態はクリアされます。
+
+## API の使用方法
+
+### プログラムによる行の選択
+
+以下のコード スニペットを使用すると、1 行または複数行を同時に選択できます (<ApiLink type="{ComponentName}" member="primaryKey" /> 経由)。さらに、このメソッドの 2 番目のパラメーターはブール プロパティであり、以前の行選択をクリアするかどうかを選択できます。既定では、以前の選択は保持されます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} #grid  [data]="remote | async"
+[primaryKey]="'ProductID'"
+[rowSelection]="'multiple'
+[autoGenerate]="true">
+</{ComponentSelector}>
+
+<button (click)="grid.selectRows([1,2,5], true)">Select 1,2 and 5</button>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=Select>Select</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void Select()
+        {
+            object[] array = new object[] { 1,2, 5 };
+            await this.grid.SelectRowsAsync(array, true);
+        }
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+
+<button id='select'>Select 1,2 and 5</button>
+
+```
+
+```ts
+constructor() {
+    document.getElementById("select").addEventListener("click", this.onClickSelect);
+}
+public onClickSelect() {
+    const grid = document.getElementById("grid") as {ComponentName}Component;
+    grid.selectRows([1,2,5], true);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function onClickSelect() {
+    gridRef.current.selectRows([1,2,5], true);
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} ref={gridRef}>
+</{ComponentSelector}>
+<button onClick={onClickSelect}>Select 1,2 and 5</button>
+
+```
+
+</PlatformBlock>
+
+これにより、ID 1、2、5 のデータ エントリに対応する行が <ApiLink type="{ComponentName}" /> の選択に追加されます。
+
+### 行の選択解除
+
+プログラムによって行を選択解除する必要がある場合は、<ApiLink type="GridBaseDirective" member="deselectRows" label="DeselectRows" /> メソッドを使用できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} #grid  [data]="remote | async"
+[primaryKey]="'ProductID'"
+[rowSelection]="'multiple'
+[autoGenerate]="true">
+</{ComponentSelector}>
+
+<button (click)="grid.deselectRows([1,2,5], true)">Select 1,2 and 5</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=Deselect>Deselect</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void Deselect()
+        {
+            object[] array = new object[] { 1, 2, 5 };
+            await this.grid.DeselectRowsAsync(array);
+        }
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+
+<button id='deselect'>DeSelect</button>
+
+```
+
+```ts
+constructor() {
+    document.getElementById("deselect").addEventListener("click", this.onClickDeselect);
+}
+public onClickDeselect() {
+    const grid = document.getElementById("grid") as {ComponentName}Component;
+    grid.deselectRows([1,2,5]);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function onClickDeselect() {
+    gridRef.current.deselectRows([1,2,5]);
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} ref={gridRef}>
+</{ComponentSelector}>
+<button onClick={onClickDeselect}>Deselect 1,2 and 5</button>
+
+```
+
+</PlatformBlock>
+
+### 行選択イベント
+
+行選択に変更があると、<ApiLink type="{ComponentName}" member="rowSelectionChanging" /> イベントが発行されます。<ApiLink type="{ComponentName}" member="rowSelectionChanging" /> は次の引数を公開します。
+
+- `OldSelection`  - 行選択の以前の状態を含む行 ID の配列。
+- `NewSelection` - 行選択の新しい状態に一致する行 ID の配列。
+- `Added` - 現在選択に追加されている行 ID の配列。
+- `Removed` - 古い選択状態に従って現在削除されている行 ID の配列。
+- `Event` - 行選択の変更をトリガーした元のイベント。
+- `Cancel` - 行選択の変更を防止できます。
+
+<ComponentBlock for="HierarchicalGrid">
+
+- `Owner` - イベントが子グリッドからトリガーされた場合、イベントが発行されたコンポーネントへの参照を提供します。
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} (rowSelectionChanging)="handleRowSelectionChange($event)">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid">
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("rowSelectionChanging", this.handleRowSelectionChange);
+}
+
+public handleRowSelectionChange(args) {
+    args.detail.cancel = true; // this will cancel the row selection
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const handleRowSelectionChange = (args: IgrRowSelectionEventArgs) => {
+    args.detail.cancel = true; // this will cancel the row selection
+}
+
+<{ComponentSelector} onRowSelectionChanging={handleRowSelectionChange}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=Grid
+             AutoGenerate=true
+             RowSelectionChanging='RowSelectionChanging'
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+@code {
+    private void RowSelectionChanging(IgbRowSelectionEventArgs args)
+    {
+        // handler
+    }
+}
+```
+
+</PlatformBlock>
+
+### すべての行を選択
+
+<ApiLink type="{ComponentName}" /> が提供するもう 1 つの便利な API メソッドは <ApiLink type="{ComponentName}" member="selectAllRows" label="SelectAllRows" /> です。既定では、このメソッドはすべてのデータ行を選択しますが、フィルタリングが適用されている場合は、フィルター条件に一致する行のみを選択します。**false** パラメーターを指定してメソッドを呼び出すと、`SelectAllRows(false)` はフィルタリングが適用されている場合でも、常にグリッド内のすべてのデータを選択します。
+
+> **注** <ApiLink type="GridBaseDirective" member="selectAllRows" label="SelectAllRows" /> は削除された行を選択しないことに注意してください。
+
+### すべての行を選択解除
+
+<ApiLink type="{ComponentName}" /> は <ApiLink type="{ComponentName}" member="deselectAllRows" label="DeselectAllRows" /> メソッドを提供します。このメソッドは既定で、すべてのデータ行を選択解除しますが、フィルタリングが適用されている場合は、フィルター条件に一致する行のみを選択解除します。**false** パラメーターを指定してメソッドを呼び出すと、`DeselectAllRows(false)` はフィルタリングが適用されている場合でも、常にすべての行選択状態をクリアします。
+
+### 選択された行を取得する方法
+
+現在どの行が選択されているかを確認する必要がある場合は、<ApiLink type="{ComponentName}" member="selectedRows" /> ゲッターを使用して行 ID を取得できます。
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public getSelectedRows() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    const currentSelection = grid.selectedRows; // return array of row IDs
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             @ref=grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+    </{ComponentSelector}>
+    <IgbButton @onclick=GetSelected>Get selected</IgbButton>
+    @code {
+        public {ComponentSelector} grid;
+        private async void GetSelected()
+        {
+            var selected = this.grid.SelectedRows;
+        }
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function getSelectedRows() {
+    return gridRef.current.selectedRows;
+}
+```
+
+</PlatformBlock>
+
+さらに、<ApiLink type="{ComponentName}" member="selectedRows" /> に行 ID を割り当てることで、グリッドの選択状態を変更できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" [autoGenerate]="false" [selectedRows]="mySelectedRows" [data]="data">
+    <igx-column [field]="'ProductID'"></igx-column>
+    <igx-column [field]="'ProductName'"></igx-column>
+    <igx-column [field]="'UnitsInStock'"></igx-column>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public mySelectedRows = [1, 2, 3]; // an array of row IDs
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.selectedRows = this.mySelectedRows;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const mySelectedRows = [1,2,3];
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={false} selectedRows={mySelectedRows}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} Width="100%"
+             Id="grid"
+             Height="100%"
+             RowSelection=GridSelectionMode.Multiple
+             PrimaryKey="Key"
+             SelectedRows=selectedRows
+             @ref=Grid
+             AutoGenerate=true
+             Data=northwindEmployees>
+</{ComponentSelector}>
+
+@code {
+    public object[] selectedRows = new object[] { 1, 2, 5 };
+}
+```
+
+</PlatformBlock>
+
+### 行セレクター テンプレート
+
+<ApiLink type="{ComponentName}" /> では、ヘッダーおよび行セレクターをテンプレート化でき、さまざまなシナリオで役立つ機能を提供するそれらのコンテキストにもアクセスできます。
+
+既定では、<ApiLink type="{ComponentName}" /> は行セレクターの親コンテナーまたは行自体での**すべての行選択操作を処理**し、テンプレートには状態の視覚化のみを残します。基本機能のオーバーライドは、通常、[RowSelectionChanging イベント](#row-selection-event)を使用して行う必要があります。基本機能をオーバーライドする <ApiLink pkg="core" type="Checkbox" member="click" label="Click" /> ハンドラーを持つカスタム テンプレートを実装する場合は、正しい行状態を維持するために、イベントの伝播を停止する必要があります。
+
+#### 行テンプレート
+
+カスタム行セレクター テンプレートを作成するには、`{ComponentSelector}` 内で <ApiLink type="GridBaseDirective" member="rowSelectorTemplate" label="RowSelectorTemplate" /> プロパティを使用できます。テンプレートからは、暗黙的に提供されるコンテキスト変数にアクセスでき、そのプロパティから行の状態に関する情報を取得できます。
+
+<ApiLink type="Column" member="selected" /> プロパティは現在の行が選択されているかどうかを示し、<ApiLink type="RowSelectorTemplateDetails" member="index" label="Index" /> プロパティは行インデックスにアクセスするために使用できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    {{ rowContext.index }}
+    <igx-checkbox
+        [checked]="rowContext.selected"
+        [readonly]="true"
+    ></igx-checkbox>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+igRegisterScript("WebGridRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    if (ctx.implicit.selected) {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+    <span> ${ctx.implicit.index}</span>
+<igc-checkbox checked></igc-checkbox>
+</div>`;
+    } else {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+    <span> ${ctx.implicit.index}</span>
+<igc-checkbox></igc-checkbox>
+</div>`;
+    }
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public rowSelectorTemplate = (ctx: IgcRowSelectorTemplateContext) => {
+    if (ctx.implicit.selected) {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+            <span> ${ctx.implicit.index}</span>
+            <igc-checkbox checked></igc-checkbox>
+            </div>`;
+    } else {
+        return html`<div style="justify-content: space-evenly;display: flex;width: 70px;">
+            <span> ${ctx.implicit.index}</span>
+            <igc-checkbox></igc-checkbox>
+            </div>`;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const rowSelectorTemplate = (ctx: IgrRowSelectorTemplateContext) => {
+    if (ctx.implicit.selected) {
+        return (
+            <>
+                <div style={{justifyContent: 'space-evenly', display: 'flex', width: '70px'}}>
+                    <span> ${ctx.implicit.index}</span>
+                    <IgrCheckbox checked></IgrCheckbox>
+                </div>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <div style={{justifyContent: 'space-evenly', display: 'flex', width: '70px'}}>
+                    <span> ${ctx.implicit.index}</span>
+                    <IgrCheckbox></IgrCheckbox>
+                </div>
+            </>
+        );
+    }
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate="false" rowSelectorTemplate={rowSelectorTemplate}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+<ApiLink type="RowSelectorTemplateDetails" member="rowID" label="RowID" /> プロパティは、`{ComponentSelector}` 行の参照を取得するために使用できます。これは、行セレクター要素に `click` ハンドラーを実装する場合に便利です。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    <igx-checkbox (click)="onSelectorClick($event, rowContext.key)"></igx-checkbox>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public rowSelectorTemplate = (ctx: IgcRowSelectorTemplateContext) => {
+    return html`
+        <igc-checkbox
+            @click="${(event: any) => {
+            this.onSelectorClick(event, ctx.implicit.key);
+            }}"
+        ></igc-checkbox>
+    `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const rowSelectorTemplate = (ctx: IgrRowSelectorTemplateContext) => {
+    return (
+        <>
+            <IgrCheckbox onClick={(event) => onSelectorClick(event, ctx.implicit.key)}>
+            </IgrCheckbox>
+        </>
+    );
+}
+```
+
+</PlatformBlock>
+
+上記の例では、<ApiLink pkg="core" type="Checkbox" /> を使用し、その <ApiLink pkg="core" type="Checkbox" member="checked" label="Checked" /> プロパティに `rowContext.selected` をバインドしています。これが動作する様子は、[行番号付けデモ](#row-numbering-demo)で確認できます。
+
+<ComponentBlock for="HierarchicalGrid">
+
+<DocsAside type="info">
+
+`rowContext.select()` メソッドと `rowContext.deselect()` メソッドは、`{ComponentSelector}` のテンプレート コンテキストで公開されます。基本機能をオーバーライドするクリック ハンドラーを実装する場合、特に子グリッドで現在の行を切り替えやすくします。
+
+</DocsAside>
+
+</ComponentBlock>
+
+### ヘッダー テンプレート
+
+カスタム ヘッダー セレクター テンプレートを作成するには、<ApiLink type="{ComponentName}" /> 内で <ApiLink type="GridBaseDirective" member="headSelectorTemplate" label="HeadSelectorTemplate" /> プロパティを使用できます。テンプレートからは、暗黙的に提供されるコンテキスト変数にアクセスでき、そのプロパティからヘッダーの状態に関する情報を取得できます。
+
+<ApiLink type="HeadSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> プロパティは現在選択されている行数を示し、<ApiLink type="HeadSelectorTemplateDetails" member="totalCount" label="TotalCount" /> は <ApiLink type="{ComponentName}" /> 内に合計で何行あるかを示します。
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template igxHeadSelector let-headContext>
+    {{ headContext.selectedCount }} / {{ headContext.totalCount  }}
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public headSelectorTemplate = (ctx: IgcHeadSelectorTemplateContext) => {
+    return html` ${ctx.implicit.selectedCount} / ${ctx.implicit.totalCount} `;
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const headSelectorTemplate = (ctx: IgrHeadSelectorTemplateContext) => {
+    return (
+        <>
+            {ctx.implicit.selectedCount} / {ctx.implicit.totalCount}
+        </>
+    );
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+public RenderFragment<IgbHeadSelectorTemplateContext> Template = (context) =>
+{
+    return @<div> <img style="min-width:80px;" src="https://www.infragistics.com/angular-demos-lob/assets/images/card/avatars/igLogo.png"/></div>;
+};
+```
+
+</PlatformBlock>
+
+<ApiLink type="HeadSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> プロパティと <ApiLink type="HeadSelectorTemplateDetails" member="totalCount" label="TotalCount" /> プロパティは、ヘッダー セレクターをチェック済みにするか不確定状態 (部分的に選択) にするかを判断するために使用できます。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]=" headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} id="grid"
+primary-key="ProductID"
+row-selection="Multiple"
+auto-generate="true">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    const grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.headSelectorTemplate = this.headSelectorTemplate;
+}
+
+public headSelectorTemplate = (ctx: IgcHeadSelectorTemplateContext) => {
+    const implicit: any = ctx.implicit;
+    if (implicit.selectedCount > 0 && implicit.selectedCount === implicit.totalCount) {
+            return html`<igc-checkbox checked></igc-checkbox>`;
+        } else if (implicit.selectedCount > 0 && implicit.selectedCount !== implicit.totalCount) {
+            return html`<igc-checkbox indeterminate></igc-checkbox>`;
+        }
+        return html`<igc-checkbox></igc-checkbox>`;
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const headSelectorTemplate = (ctx: IgrHeadSelectorTemplateContext) => {
+    const implicit: any = ctx.implicit;
+    if (implicit.selectedCount > 0 && implicit.selectedCount === implicit.totalCount) {
+            return (
+                <>
+                    <IgrCheckbox checked></IgrCheckbox>
+                </>
+            );
+        } else if (implicit.selectedCount > 0 && implicit.selectedCount !== implicit.totalCount) {
+            return (
+                <>
+                    <IgrCheckbox indeterminate></IgrCheckbox>
+                </>
+            );
+        }
+        return (
+            <>
+                <IgrCheckbox ></IgrCheckbox>
+            </>
+        );
+}
+
+<{ComponentSelector} primaryKey="ProductID" rowSelection="multiple" autoGenerate={true} headSelectorTemplate={headSelectorTemplate}>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+`{ComponentSelector}` の各階層レベルは、独自の行およびヘッダー テンプレートを持つことができます。
+
+<DocsAside type="info">
+
+`headContext.selectAll()` メソッドと `headContext.deselectAll()` メソッドは、`{ComponentSelector}` のテンプレート コンテキストで公開されます。基本機能をオーバーライドするクリック ハンドラーを実装する場合、特に子グリッドですべての行を切り替えやすくします。
+
+</DocsAside>
+
+</ComponentBlock>
+
+### 行番号付けデモ
+
+このデモは、カスタム ヘッダーおよび行セレクターの使用方法を示します。後者は `RowContext.Index` を使用して行番号を表示し、`RowContext.Selected` にバインドされた <ApiLink pkg="core" type="Checkbox" /> を使用します。
+
+<Sample src="/{ComponentSample}/row-selection-template-numbers" height={550} alt="{Platform} {ComponentTitle} Selection Template Numbering Example" />
+
+<ComponentBlock for="Grid, TreeGrid">
+
+### Excel スタイルの行セレクター デモ
+
+このデモでは、カスタム テンプレートを使用して Excel のようなヘッダーおよび行セレクターを再現します。
+
+<Sample src="/{ComponentSample}/row-selection-template-excel" height={550} alt="{Platform} {ComponentTitle} Selection Template Excel Example" />
+
+</ComponentBlock>
+
+### 条件付き選択デモ
+
+このデモでは、<ApiLink type="{ComponentName}" member="rowSelectionChanging" /> イベントと、選択不可の行に対して無効化されたチェックボックスを持つカスタム テンプレートを使用して、一部の行が選択されないようにします。
+
+<Sample src="/{ComponentSample}/conditional-row-selectors" height={550} alt="{Platform} {ComponentTitle} Conditional Row Selectors Example" />
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" /><br /> <PlatformBlock for="Angular"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock><br /> <ApiLink type="GroupByRowSelectorTemplateDetails" /><br /> <ApiLink type="HeadSelectorTemplateDetails" /><br /> <ApiLink pkg="core" type="Checkbox" /><br />
+
+## その他のリソース
+
+<ComponentBlock for="Grid, TreeGrid">
+
+- [選択](selection.md)
+- [セル選択](cell-selection.md)
+- [ページング](paging.md)
+- [フィルタリング](filtering.md)
+- [並べ替え](sorting.md)
+- [集計](summaries.md)
+- [列移動](column-moving.md)
+- [列固定](column-pinning.md)
+- [列サイズ変更](column-resizing.md)
+- [仮想化とパフォーマンス](virtualization.md)
+
+</ComponentBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

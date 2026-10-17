@@ -1,0 +1,321 @@
+---
+title: "{Platform} {ComponentTitle} サイズ設定 - {ProductName}"
+description: "{Platform} {ComponentTitle} のサイズ設定の仕組みを理解し、ユーザーが遭遇するさまざまなシナリオに対応するために幅と高さを使用する方法を学びます。"
+keywords: サイズ設定 , {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: "{Platform} {ComponentTitle} の {ProductName} サイズ設定機能は、レスポンシブで使いやすいグリッド インターフェイスを作成するうえで重要な要素です。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import columnsDefaultGridwidthNullV2 from '@xplat-images/grid\_sizing/columns-default-gridWidth-null-v2.jpg';
+import widthNullNoScrollV2 from '@xplat-images/grid\_sizing/width-null-no-scroll-v2.jpg';
+import widthNullScrollV2 from '@xplat-images/grid\_sizing/width-null-scroll-v2.jpg';
+import widthNullParentScrollV2 from '@xplat-images/grid\_sizing/width-null-parent-scroll-v2.jpg';
+import widthColsScrollbarV2 from '@xplat-images/grid\_sizing/width-cols-scrollbar-v2.jpg';
+import widthColsScrollParentNoscrollV2 from '@xplat-images/grid\_sizing/width-cols-scroll-parent-noscroll-v2.jpg';
+import widthColsScrollParentScrollV2 from '@xplat-images/grid\_sizing/width-cols-scroll-parent-scroll-v2.jpg';
+import widthPercent100pV2 from '@xplat-images/grid\_sizing/width-percent-100p-v2.jpg';
+import widthPercentParent100pV2 from '@xplat-images/grid\_sizing/width-percent-parent-100p-v2.jpg';
+import widthPercent150pParentNoscrollV2 from '@xplat-images/grid\_sizing/width-percent-150p-parent-noscroll-v2.jpg';
+import widthPercent150pParentScrollV2 from '@xplat-images/grid\_sizing/width-percent-150p-parent-scroll-v2.jpg';
+import heightNull14rowsV2 from '@xplat-images/grid\_sizing/height-null-14rows-v2.jpg';
+import heightNull24rowsV2 from '@xplat-images/grid\_sizing/height-null-24rows-v2.jpg';
+import heightNull24rowsParentNoscrollV2 from '@xplat-images/grid\_sizing/height-null-24rows-parent-noscroll-v2.jpg';
+import heightNull24rowsParentScrollV2 from '@xplat-images/grid\_sizing/height-null-24rows-parent-scroll-v2.jpg';
+import height500px4rowsV2 from '@xplat-images/grid\_sizing/height-500px-4rows-v2.jpg';
+import height500px14rowsV2 from '@xplat-images/grid\_sizing/height-500px-14rows-v2.jpg';
+import height700px14rowsParentNoscrollV2 from '@xplat-images/grid\_sizing/height-700px-14rows-parent-noscroll-v2.jpg';
+import height700px14rowsParentScrollV2 from '@xplat-images/grid\_sizing/height-700px-14rows-parent-scroll-v2.jpg';
+import heightUndefined7rowsV2 from '@xplat-images/grid\_sizing/height-undefined-7rows-v2.jpg';
+import heightUndefined14rowsV2 from '@xplat-images/grid\_sizing/height-undefined-14rows-v2.jpg';
+import heightPercent100Parent800pxV2 from '@xplat-images/grid\_sizing/height-percent-100-parent-800px-v2.jpg';
+import heightPercent130pParentNoscrollV2 from '@xplat-images/grid\_sizing/height-percent-130p-parent-noscroll-v2.jpg';
+import heightPercent130pParentScrollV2 from '@xplat-images/grid\_sizing/height-percent-130p-parent-scroll-v2.jpg';
+import heightPercent100Parent100V2 from '@xplat-images/grid\_sizing/height-percent-100-parent-100-v2.jpg';
+import columnsDefaultAllRowSelectorsV2 from '@xplat-images/grid\_sizing/columns-default-all-row-selectors-v2.jpg';
+import columnsDefaultAllMin136pxV2 from '@xplat-images/grid\_sizing/columns-default-all-min-136px-v2.jpg';
+import columnsDefaultFirstRest100pxV2 from '@xplat-images/grid\_sizing/columns-default-first-rest-100px-v2.jpg';
+import columnsDefaultAllFirst100pxV2 from '@xplat-images/grid\_sizing/columns-default-all-first-100px-v2.jpg';
+import columns150pxEmptyAreaV2 from '@xplat-images/grid\_sizing/columns-150px-empty-area-v2.jpg';
+import columns150pxExtraAreaV2 from '@xplat-images/grid\_sizing/columns-150px-extra-area-v2.jpg';
+import columnsPercentLess100pV2 from '@xplat-images/grid\_sizing/columns-percent-less-100p-v2.jpg';
+import columnsPercent100pV2 from '@xplat-images/grid\_sizing/columns-percent-100p-v2.jpg';
+import columnsPercentBigger100pV2 from '@xplat-images/grid\_sizing/columns-percent-bigger100p-v2.jpg';
+import columnsPercentGridwidthNullV2 from '@xplat-images/grid\_sizing/columns-percent-gridWidth-null-v2.jpg';
+import hgridWidthPercentagesV2 from '@xplat-images/grid\_sizing/hgrid-width-percentages-v2.jpg';
+import hgridHeightPercentagesV2 from '@xplat-images/grid\_sizing/hgrid-height-percentages-v2.jpg';
+
+# {Platform} {ComponentTitle} サイズ設定
+
+{Platform} {ComponentTitle} の {ProductName} サイズ設定機能は、レスポンシブで使いやすいグリッド インターフェイスを作成するうえで重要な要素です。{Platform} {ComponentTitle} サイズ設定機能により、ユーザーはさまざまな画面サイズ、コンテンツ、またはユーザー設定に対応するために、グリッドの <ApiLink type="{ComponentName}" member="width" /> と <ApiLink type="{ComponentName}" member="height" /> を調整できます。`{ComponentName}` の境界線とパディングのサイズについては、幅/高さのサイズ計算に含まれます。これは [ボーダー ボックス](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing) サイズ設定とも呼ばれます。これはすべてのシナリオで適用されます。
+
+<DocsAside type="info">
+
+ボーダー ボックス サイズ設定がユーザーによって上書きされた場合、`{ComponentName}` が正しくサイズ設定されることは保証できません。
+
+</DocsAside>
+
+## {Platform} {ComponentTitle} 幅
+
+<ApiLink type="{ComponentName}" member="width" /> 入力に値が割り当てられていない場合、既定値は `100%` になり、`{ComponentName}` は利用可能なスペースを埋めようとします。グリッドがこれにどのように反応するかは、`Percentages` セクションで確認できます。
+
+<DocsAside type="info">
+
+`{ComponentName}` 自体の <ApiLink type="{ComponentName}" member="width" /> スタイルを手動で設定すると、予期しない動作になります。
+
+</DocsAside>
+
+### ヌル
+
+グリッドの <ApiLink type="{ComponentName}" member="width" /> は `null` の値を受け入れることができ、設定すると、すべての列が DOM に描画されます。列の仮想化が適用されないため、グリッドの横スクロールバーが表示されないようにグリッドがサイズ設定されます。
+
+- 6 列があり、そのいずれにも幅が定義されていない場合、このシナリオでは各列に既定で `136px` の <ApiLink type="{ComponentName}" member="width" /> が割り当てられるため、グリッドの <ApiLink type="{ComponentName}" member="width" /> は `816px` になります。列の <ApiLink type="{ComponentName}" member="width" /> がパーセンテージの場合も同じです。縦スクロールバーが描画される場合、または追加の列を描画する機能がある場合、それらの幅も追加されます。
+
+<Image src={columnsDefaultGridwidthNullV2} alt="columns-default-gridWidth-null-v2" style="width: 80%" />
+
+- 列幅が `200px` に設定された 6 列がある場合、それらはウィンドウに収まり、すべて表示されます。
+
+<Image src={widthNullNoScrollV2} alt="width-null-no-scroll-v2" style="width: 80%" />
+
+- 列数がさらに多い場合、または幅が大きくブラウザーのビューからはみ出す列がある場合でも、それらはすべて描画されます。同じ数の列があり、各列の列幅が `300px` であるとします。すべてがブラウザーの表示領域に収まらないため、ネイティブにスクロールバーが作成されます。次の例は、この正確なシナリオを示しています。
+
+<Image src={widthNullScrollV2} alt="width-null-scroll-v2" style="width: 80%" />
+
+- グリッドに何らかの親要素があり、その親要素にオーバーフローが設定されていない場合でも、すべての列が表示されるように描画されます。それ以外の場合、親要素にオーバーフロー `auto` または `scroll` があると、その親要素のスクロールバーがネイティブに描画されます。次の例では、見やすくするために親の高さを大きくしています。
+
+<Image src={widthNullParentScrollV2} alt="width-null-parent-scroll-v2" style="width: 80%" />
+
+<DocsAside type="info">
+
+この動作により、グリッド データに列が多すぎる場合、すべての列が仮想化なしで描画されるため、ブラウザーのパフォーマンスに大きな影響を与える可能性があります。
+
+</DocsAside>
+
+### ピクセル
+
+`{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> 入力がピクセルに設定されている場合、グリッド全体のサイズがその値に設定され、静的になります。ブラウザーのサイズ変更や DOM の変更には反応しませんが、グリッドのコンテンツについてはこの限りではありません。
+
+- グリッドが横スクロールバーを描画するために幅をピクセルで設定する場合、そのコンテンツ幅が指定されたグリッドの <ApiLink type="{ComponentName}" member="width" /> を超える必要があります。たとえば、列の合計幅が `1200px` を超えるとします。この場合、横スクロールバーが描画されます。
+
+<Image src={widthColsScrollbarV2} alt="width-cols-scrollbar-v2" style="width: 80%" />
+
+- グリッドに親要素があるシナリオでは、スクロールバーを描画するかどうかは親のスタイル設定によって異なります。グリッド自体に関連するその他のすべては維持されます。親要素の幅がグリッドの幅より小さく、オーバーフロー スタイルが `auto` または `scroll` に設定されている場合、ネイティブにスクロールバーが描画されます。たとえば、親の `width` が `1000px` に設定され、`{ComponentName}` の `width` が引き続き `1200px` の場合、次の図のようになります。
+
+<Image src={widthColsScrollParentNoscrollV2} alt="width-cols-scroll-parent-noscroll-v2" style="width: 80%" />
+
+<Image src={widthColsScrollParentScrollV2} alt="width-cols-scroll-parent-scroll-v2" style="width: 80%" />
+
+### パーセンテージ
+
+`{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> がパーセンテージに設定されている場合、親要素の幅に従ってグリッドのサイズが設定されます。親要素に幅が指定されていない場合、`{ComponentName}` はブラウザー ウィンドウを基準にサイズ設定されます。
+
+- たとえば、グリッドの <ApiLink type="{ComponentName}" member="width" /> 入力を `100%` に設定し、親要素がない場合、ブラウザー ウィンドウの利用可能な幅の 100% を埋めます。サイズが変更されると、グリッドもそれに応じてサイズ変更されます。
+
+<Image src={widthPercent100pV2} alt="width-percent-100p-v2" style="width: 80%" />
+
+- グリッドの幅を `100%` に設定し、特定の幅 `1200px` を持つ親要素がある場合、これはグリッドがその要素を基準にサイズ設定され、最終的な幅が `1200px` になることを意味します。
+
+<Image src={widthPercentParent100pV2} alt="width-percent-parent-100p-v2" style="width: 80%" />
+
+- <ApiLink type="{ComponentName}" member="width" /> が `1000px` の親要素があり、グリッドの <ApiLink type="{ComponentName}" member="width" /> が `150%` に設定されている場合、計算されるグリッド幅は `1500px` になります。この場合でもグリッドは完全に表示されるように描画されますが、親に `overflow: auto` を設定すると、その親は独自にスクロールバーを描画します。
+
+<Image src={widthPercent150pParentNoscrollV2} alt="width-percent-150p-parent-noscroll-v2" style="width: 80%" />
+
+<Image src={widthPercent150pParentScrollV2} alt="width-percent-150p-parent-scroll-v2" style="width: 80%" />
+
+## {Platform} {ComponentTitle} 高さ
+
+既定では、`{ComponentName}` に高さが定義されていない場合、`100%` に設定されます。DOM 構造に応じてグリッドがどのように反応するかは、`Percentages` セクションで確認できます。
+
+<DocsAside type="info">
+
+`{ComponentName}` 自体の <ApiLink type="{ComponentName}" member="height" /> スタイルを手動で設定すると、予期しない動作になります。
+
+</DocsAside>
+
+### ヌル
+
+`{ComponentName}` の <ApiLink type="{ComponentName}" member="height" /> 入力は `null` 値を受け入れることができ、設定すると、行数に関係なくすべての行をスクロールバーなしで表示します。この場合、グリッドはいずれにしてもすべての行を描画するため、垂直仮想化はありません。
+
+- この場合に 14 行のデータがあると、グリッドはその 14 行すべてを描画し、グリッド内に空のスペースがない状態ですべてが表示されるようにグリッドのサイズを設定します。
+
+<Image src={heightNull14rowsV2} alt="height-null-14rows-v2" style="width: 80%" />
+
+- 代わりに 24 行ある場合、グリッドは引き続きすべての行を描画しますが、行が多すぎるためブラウザーの境界を超えます。そのため、ユーザーが残りの行まで下にスクロールできるように、ブラウザー自体が既定で縦スクロールバーを描画します。
+
+<Image src={heightNull24rowsV2} alt="height-null-24rows-v2" style="width: 80%" />
+
+- 定義済みの <ApiLink type="{ComponentName}" member="height" /> を持つ親要素がある場合でも、グリッドは引き続きすべての行を描画し、影響を受けません。親に `650px` の <ApiLink type="{ComponentName}" member="height" /> があるとします。`overflow` が `auto` または `scroll` に設定されている場合、縦スクロールバーが描画されますが、グリッドは引き続き影響を受けません。
+
+<Image src={heightNull24rowsParentNoscrollV2} alt="height-null-24rows-parent-noscroll-v2" style="width: 80%" />
+
+<Image src={heightNull24rowsParentScrollV2} alt="height-null-24rows-parent-scroll-v2" style="width: 80%" />
+
+<DocsAside type="info">
+
+この動作により、グリッド データに行が多すぎる場合、すべての行が仮想化なしで描画されるため、ブラウザーのパフォーマンスに大きな影響を与える可能性があります。
+
+</DocsAside>
+
+### ピクセル
+
+`{ComponentName}` の <ApiLink type="{ComponentName}" member="height" /> をピクセルで設定することは、<ApiLink type="{ComponentName}" member="width" /> をピクセルで設定する方法と同様に、すべての場合でグリッドがその特定のサイズに設定されるため、より単純です。
+
+- たとえば、データに 4 行がある状態で高さを `500px` に設定すると、グリッドはそのサイズに収まり、4 行では表示領域を埋めるのに十分ではないため、空の領域ができることが想定されます。
+
+<Image src={height500px4rowsV2} alt="height-500px-4rows-v2" style="width: 80%" />
+
+- <ApiLink type="{ComponentName}" member="height" /> がピクセルに設定されているときに行数がグリッドの表示領域を超える場合、縦スクロールバーが描画されます。たとえば、`500px` の高さが設定され、14 行を持つグリッドは次のように描画されます。
+
+<Image src={height500px14rowsV2} alt="height-500px-14rows-v2" style="width: 80%" />
+
+- <ApiLink type="{ComponentName}" member="height" /> が定義された親要素がある場合、`overflow` が `auto` または `scroll` に設定されていない限り、グリッドは引き続き完全に表示されます。それ以外の場合はスクロールバーが描画されます。
+
+<Image src={height700px14rowsParentNoscrollV2} alt="height-700px-14rows-parent-noscroll-v2" style="width: 80%" />
+
+<Image src={height700px14rowsParentScrollV2} alt="height-700px-14rows-parent-scroll-v2" style="width: 80%" />
+
+### パーセンテージ
+
+<ApiLink type="{ComponentName}" member="height" /> 入力がパーセンテージに設定されている場合、`{ComponentName}` は親要素の高さに基づいてサイズ設定されます。親要素の <ApiLink type="{ComponentName}" member="height" /> がピクセルまたはパーセンテージで設定されている場合、グリッドは親のサイズを基準にサイズ設定されます。
+
+親要素に高さが定義されていない場合、ブラウザーは最初に高さを割り当てず、その子要素とそのサイズに基づいてサイズ設定します。そのため、グリッドには、パーセンテージによるサイズ設定を適用するために使用する基準の高さを知る方法がありません。この理由により、最大 10 行を描画し、行がそれより多い場合は縦スクロールバーが描画されます。それ以外の場合、グリッドは描画された行数に合わせられます。このシナリオについては、次の例で詳しく見ていきます。
+
+<ApiLink type="{ComponentName}" member="width" /> を `1200px` に設定し、親要素にサイズが適用されていないとします。
+
+- 10 行未満の場合、グリッドは最後の行と表示領域の下部の間に空のスペースを作らずに、表示領域内のすべての行に合わせようとします。たとえば、グリッド データが 7 行で構成されているとします。グリッドは、縦スクロールバーなしで、またグリッド内に空のスペースなしですべての 7 行を描画します。
+
+<Image src={heightUndefined7rowsV2} alt="height-undefined-7rows-v2" style="width: 80%" />
+
+- 10 行を超える場合、残りの行のために縦スクロールバーが描画され、いつでも表示できるのは 10 行のみです。次の例では、行数のみを 14 に増やしています。
+
+<Image src={heightUndefined14rowsV2} alt="height-undefined-14rows-v2" style="width: 80%" />
+
+- 親要素の高さを `800px` に設定し、`{ComponentName}` を `100%` の高さに設定した場合、これはグリッドが `800px` の 100 パーセントにサイズ設定されることを意味します。
+
+<Image src={heightPercent100Parent800pxV2} alt="height-percent-100-parent-800px-v2" style="width: 80%" />
+
+- `{ComponentName}` の <ApiLink type="{ComponentName}" member="height" /> が `100%` より大きい数値に設定され、親要素に高さがある場合、親がスクロールバーを描画するには、やはり `overflow` が `auto` または `scroll` に設定されている必要があります。それ以外の場合、グリッドは完全に表示され、親のサイズを基準にサイズ設定されます。
+
+<Image src={heightPercent130pParentNoscrollV2} alt="height-percent-130p-parent-noscroll-v2" style="width: 80%" />
+
+<Image src={heightPercent130pParentScrollV2} alt="height-percent-130p-parent-scroll-v2" style="width: 80%" />
+
+- グリッドをブラウザー ウィンドウの `100%` にサイズ設定したい場合は、`body` と親グリッド要素の高さの両方を `100%` に設定する必要があります。この場合、親要素はサイズ設定でき、ブラウザーのサイズが変更されるとグリッドもそれに応じてサイズ設定されます。
+
+<Image src={heightPercent100Parent100V2} alt="height-percent-100-parent-100-v2" style="width: 80%" />
+
+## {Platform} {ComponentTitle} 列のサイズ設定
+
+グリッド自体のサイズに応じて、その内部の列も異なる方法でサイズ設定でき、グリッドが横スクロールバーを描画する場合としない場合のシナリオが生じる可能性があります。列には、ピクセル、パーセンテージで幅を設定することも、何も設定されていない場合は自動サイズ設定することもできます。このセクションでは、これらのシナリオについて詳しく見ていきます。
+
+### デフォルト
+
+既定では、列に指定された幅がない場合、グリッド ビュー領域に空きスペースがあればそれを埋めるように自動サイズ設定しようとします。自動サイズ設定された列の最小幅は `136px` であるため、その列で利用可能な領域が `136px` 未満の場合、そのサイズが既定値になります。
+
+これらのシナリオでグリッドのサイズが変更されると、列幅も変更を反映するように更新されるため、新しく利用可能になった空きスペースを埋めます。
+
+- 列に指定された <ApiLink type="{ComponentName}" member="width" /> がなく、`{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> が `null` に設定されている場合、最小値の `136px` にサイズ設定されます。これは、<ApiLink type="{ComponentName}" member="width" /> が `null` で、幅のない 6 列を持つグリッドでは、各列が `136px` にサイズ設定されることを意味します。
+
+<Image src={columnsDefaultGridwidthNullV2} alt="columns-default-gridWidth-null-v2" style="width: 80%" />
+
+- 複数の自動サイズ設定列がある場合、それらは利用可能なスペースを互いに均等に分割します。これは、6 列があり、`1200px` の空の領域がある場合、それぞれが `200px` にサイズ設定されることを意味します。
+
+<Image src={columnsDefaultAllRowSelectorsV2} alt="columns-default-all-row-selectors-v2" style="width: 80%" />
+
+- 利用可能な空きスペースがあり、各自動サイズ設定列が `136px` 未満になる場合、すべての自動サイズ設定列は既定で `136px` になり、グリッドは横スクロールバーを描画します。次の例では、自動サイズ設定列を 12 列とし、グリッドの <ApiLink type="{ComponentName}" member="width" /> を `1000px` に設定します。
+
+<Image src={columnsDefaultAllMin136pxV2} alt="columns-default-all-min-136px-v2" style="width: 80%" />
+
+- 列に指定された <ApiLink type="{ComponentName}" member="width" /> がないが、他のすべての列にピクセルまたはパーセンテージの <ApiLink type="{ComponentName}" member="width" /> がある場合、その列も利用可能なスペースを埋めようとします。たとえば、最初の列に幅を設定せず、他の 5 列すべてに `100px` の <ApiLink type="{ComponentName}" member="width" /> がある場合、最初の列が残りを埋めます。
+
+<Image src={columnsDefaultFirstRest100pxV2} alt="columns-default-first-rest-100px-v2" style="width: 80%" />
+
+- 複数の列に指定された <ApiLink type="{ComponentName}" member="width" /> がない場合も同じで、すべての列が利用可能なスペースを互いに均等に分割します。次の図では、最初の列の <ApiLink type="{ComponentName}" member="width" /> が `100px` に設定されています。
+
+<Image src={columnsDefaultAllFirst100pxV2} alt="columns-default-all-first-100px-v2" style="width: 80%" />
+
+<DocsAside type="info">
+
+行セレクターのチェックボックス列などの機能列は、自動サイズ設定列の計算に考慮される追加スペースを占めます。
+
+</DocsAside>
+
+### ピクセル
+
+列にピクセル単位の特定の <ApiLink type="{ComponentName}" member="width" /> が設定されている場合、手動でサイズ変更されない限り、そのサイズに固定されます。列の合計 <ApiLink type="{ComponentName}" member="width" /> は静的であるため、`{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> より小さい場合も、それを超える場合もあります。
+
+- すべての列の合計 `width` が `{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> より小さい場合、列が埋めることのできない空の領域がグリッド内にできます。これは `{ComponentName}` の想定される動作です。次の例では、列の幅は `150px` です。
+
+<Image src={columns150pxEmptyAreaV2} alt="columns-150px-empty-area-v2" style="width: 80%" />
+
+- すべての列の合計 <ApiLink type="{ComponentName}" member="width" /> が実際の `{ComponentName}` の <ApiLink type="{ComponentName}" member="width" /> より大きい場合、横スクロールバーが描画されます。次の例では、6 列のそれぞれの幅が `300px` で、グリッドの幅が `1200px` です。これは、列の合計が境界外にはみ出す `600px` の超過分を持つことを意味します。
+
+<Image src={columns150pxExtraAreaV2} alt="columns-150px-extra-area-v2" style="width: 80%" />
+
+### パーセンテージ
+
+列にパーセンテージの <ApiLink type="{ComponentName}" member="width" /> が設定されている場合、そのサイズはグリッド サイズを基準に計算されます。これはピクセル単位の幅の動作に似ていますが、列にレスポンシブ性も提供します。つまり、グリッドのサイズが変更されると、列もそれに応じてサイズ変更されます。
+
+- すべての列の合計幅が `100%` 未満の場合、ピクセルの場合と同様に、列が覆わないグリッドの空の領域ができることがあります。
+
+<Image src={columnsPercentLess100pV2} alt="columns-percent-less-100p-v2" style="width: 80%" />
+
+- 合計幅がちょうど `100%` の場合、列はグリッドの利用可能なすべてのスペースを埋めます。
+
+<Image src={columnsPercent100pV2} alt="columns-percent-100p-v2" style="width: 80%" />
+
+- 合計幅が `100%` を超える場合、ユーザーが表示外の列を見られるようにするために、横スクロールバーが描画されます。
+
+<Image src={columnsPercentBigger100pV2} alt="columns-percent-bigger-100p-v2" style="width: 80%" />
+
+- 列がパーセンテージで設定され、グリッドの <ApiLink type="{ComponentName}" member="width" /> が `null` に設定されている場合、各列に `136px` の <ApiLink type="{ComponentName}" member="width" /> が適用されます。これは、グリッド自体に <ApiLink type="{ComponentName}" member="width" /> がなく、<ApiLink type="{ComponentName}" member="width" /> が `null` のときにコンテンツに依存してサイズ設定されるため、列をグリッドを基準にサイズ設定できないためです。次の例では、6 列すべての <ApiLink type="{ComponentName}" member="width" /> が `50%` に設定されています。
+
+<Image src={columnsPercentGridwidthNullV2} alt="columns-percent-gridWidth-null-v2" style="width: 80%" />
+
+<ComponentBlock for="HierarchicalGrid">
+
+## {Platform} {ComponentTitle} 子のサイズ設定
+
+`{ComponentName}` には通常子要素が含まれるため、さまざまなシナリオに対応するために、それらにも <ApiLink type="{ComponentName}" member="width" /> と <ApiLink type="{ComponentName}" member="height" /> を指定できます。子要素は <ApiLink type="RowIsland" /> テンプレートを使用して定義されるため、同じレベルおよびアイランド内のすべての子要素に同じ <ApiLink type="{ComponentName}" member="width" /> と <ApiLink type="{ComponentName}" member="height" /> プロパティが適用されます。
+
+### 幅
+
+子要素の <ApiLink type="{ComponentName}" member="width" /> は、各子グリッドも `{ComponentName}` のインスタンスであるため、`{ComponentName}` 自体と大きく異なる動作はしません。
+
+唯一の違いは、ユーザーが子グリッドの親要素を変更できないことです。そのため、<ApiLink type="{ComponentName}" member="width" /> がパーセンテージに設定されている場合、子に割り当てられる `100%` の幅は、親グリッドの <ApiLink type="{ComponentName}" member="width" /> より小さくなります。これは、展開されたときに区別しやすくするためです。次の画像は、既定で `100%` 幅になるため、既定の子グリッド サイズを示しています。
+
+<Image src={hgridWidthPercentagesV2} alt="hgrid-width-percentages-v2" style="width: 80%" />
+
+### 高さ
+
+`{ComponentName}` 内の各子の <ApiLink type="{ComponentName}" member="height" /> も、ルート レベル グリッドの <ApiLink type="{ComponentName}" member="height" /> と同様に動作します。
+
+違いは、子グリッドでは、<ApiLink type="{ComponentName}" member="height" /> がパーセンテージに設定されている場合、親要素の高さが未設定であるかのように動作することです。これは、このシナリオではグリッドが最大 10 行を描画することを意味します。データ内の行数が 10 未満の場合、グリッドはすべての行に合わせてビュー領域のサイズを設定します。データにそれより多くの行がある場合、縦スクロールバーが描画され、ビュー領域は 10 行分の高さにサイズ設定されます。
+
+<Image src={hgridHeightPercentagesV2} alt="hgrid-height-percentages-v2" style="width: 80%" />
+
+</ComponentBlock>
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" />
+
+## 追加リソース
+
+<ComponentBlock for="Grid">
+
+- [仮想化とパフォーマンス](virtualization.md)
+
+</ComponentBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
