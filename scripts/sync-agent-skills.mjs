@@ -117,8 +117,13 @@ function extractField(frontmatter, field) {
 /** Directories a SKILL.md may legitimately live in: the two canonical roots, plus the pointers. */
 const ALLOWED_SKILL_ROOTS = ['.agents/skills', '.github/skills', '.claude/skills'];
 
-/** Not worth walking, and never a place a repo skill belongs. */
-const SCAN_SKIP = new Set(['node_modules', '.git', 'dist', '.astro', 'coverage', 'reports']);
+/**
+ * Not worth walking: build output and vendored trees, none of which hold tracked files. Only add a
+ * directory here if nothing in it is tracked — a tracked directory holds authored, reviewed content,
+ * and skipping one would carve a hole in a scan whose whole purpose is to leave nowhere to hide.
+ * `reports/` was here and is tracked, so it is scanned.
+ */
+const SCAN_SKIP = new Set(['node_modules', '.git', 'dist', '.astro', 'coverage']);
 
 /**
  * Every SKILL.md in the repo, so one added in the wrong place fails loudly instead of being
