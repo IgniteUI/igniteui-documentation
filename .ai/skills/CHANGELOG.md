@@ -1,5 +1,37 @@
 # igniteui doc-skill set · changelog
 
+## v4 · 2026-08-31
+
+Teaches the set two xplat contracts it did not know, both of which an author following v3 would get
+wrong. No rule was removed or reworded; two were added and one bullet was scoped. Whole set bumped to
+v4 per the uniform version-line convention.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| `apiTerms` added to the normative frontmatter contract: required for xplat, no default, `full` / `passthrough` / `none`, with what each does to a backticked name. A page written to v3's contract has no `apiTerms` and **does not build** — generation throws on a missing or unknown value. `docs/xplat/API-TERMS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| `json-snippet` added ahead of the inline-code-snippet bullet: an xplat DV topic states its component once as JSON and generation emits every platform's code from the product's description metadata, so hand written per-platform blocks are the exception now rather than the default. Discouraged rather than banned — a definition cannot carry a data shape, a namespace declaration or a package install, and a block is the right tool there. The existing bullet is scoped to the blocks a topic still authors by hand. `docs/xplat/JSON-SNIPPETS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| The populations of the xplat content tree written down, because both rules above are scoped to one of them, and each page now declares which it is in `platformType`. **xplat** owes full API term resolution and a `json-snippet`-first habit; **xplat-unmapped** is the same set where that cannot be applied yet (the Excel library, and the data grid's accessibility topic); **web-only** owes neither and is not to be reworked to match. Identity is not publication: a topic can be xplat and not reach the desktop platforms yet. `platformType` replaces `apiTerms` in the required-fields list, since the mode now follows from the population. | igniteui-doc-topics/references/house-style.md |
+| house-style's version note corrected: it claimed "content unchanged from v2", which v4 makes false. | igniteui-doc-topics/references/house-style.md |
+| Create step 4 now begins with `platformType` for an xplat topic, since it is required, has no default, and decides which standard the rest of the work is held to. | igniteui-doc-topics/references/create-workflow.md |
+| Audit check D0 added (Blocker, xplat): no `platformType`, or one that does not match the topic. Names the two traps — identity is not publication, and a per-platform block or a non-`full` `apiTerms` is a finding on an xplat topic and fine on a web-only one. | igniteui-doc-topics/references/audit-rubric.md |
+| Set-wide version line bumped to `v4 · 2026-08-31`, including the content-unchanged files. | all files |
+
+### Unchanged
+
+Both routers, both skills' `description` fields (so the `.claude/` and `.codex/` adapters still
+byte-match and needed no edit), every audit check and severity, every blueprint and section table,
+and the whole frontmatter skill.
+
+### Where the substance lives
+
+The working guides for these two contracts are repository skills rather than references in this set,
+because they are xplat build machinery rather than house style: `.github/skills/xplat-docs-api-links`
+(modes, `ApiLink` props, `pkg=` disambiguation, the build-time ambiguity trap) and
+`.github/skills/xplat-docs-json-snippets` (fence attributes, channels, the five traps, the checks).
+This set points at them; it does not restate them.
+
 ## v3 · 2026-08-14
 
 Restructures both skills to the routing-hub + references architecture used by the
@@ -16,6 +48,7 @@ including content-unchanged files, per the blog-creator convention).
 | igniteui-topic-frontmatter split: SKILL.md becomes a router (scope, audit-first mode, task table, hard boundaries); the field checks + severity ladder move to `references/audit-rules.md`; report shape + apply procedure move to `references/report-format.md`. `description` unchanged (adapter byte-match preserved). | igniteui-topic-frontmatter/* |
 | igniteui-doc-topics slimmed: SKILL.md keeps identity, two modes, compass, composite principle, task table, grounding boundaries. Create steps 1–7 (6a–6f) + the category/index structure move to `references/create-workflow.md`; the 5 audit-workflow steps move into `audit-rubric.md`. `description` unchanged. | igniteui-doc-topics/SKILL.md, references/create-workflow.md, references/audit-rubric.md |
 | Accessibility generation is source-first: derive DOM, roles, ARIA, focus/state behavior, and keyboard actions from component templates and typed source; use event handlers only for interaction evidence and require official sources for conformance claims. | igniteui-doc-topics/references/house-style.md, references/create-workflow.md |
+| FAQ generation is component-specific and web-informed: derive question candidates from verified API/behavior and recurring public user questions, then verify answers against official source/API documentation and audit for generic or duplicated entries. The earlier fan-out list (licensing, version support, migration, accessibility, "is X right for") is merged into the house-style "FAQ question-generation contract" as the single question inventory; create-workflow points to it instead of restating it. | igniteui-doc-topics/references/house-style.md, references/create-workflow.md, references/audit-rubric.md |
 | Dedup (D2-03 stage 2): the section→mode map is no longer restated in SKILL.md — it is the "Diátaxis mode" column of house-style's canonical section table; SKILL.md keeps only the one-section-one-mode rule and the concrete mode-bleed examples. The category blueprint now lives in house-style + create-workflow only. Stale pointers fixed (house-style intro pointed at a SKILL.md map that moved; body-support bullet pointed at "Create workflow step 4" which now lives in create-workflow.md). | igniteui-doc-topics/SKILL.md, references/house-style.md |
 | Set-level README.md added: human-readable intent, file map, authority chain, and the five-step update procedure (edit references not routers; uniform version bump; adapter byte-match; changelog entry; resolve ‹VERIFY› by pre-committed outcome). | README.md |
 | Set-wide version line: every file now carries `Version: v3 · 2026-08-14 · igniteui doc-skill set`, including content-unchanged house-style and diataxis-cheatsheet (the cheatsheet gains its first version line). | all files |

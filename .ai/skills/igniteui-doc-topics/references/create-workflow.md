@@ -1,6 +1,6 @@
 # Create workflow
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged;
+Version: v4 · 2026-08-31 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged;
 restructured into this reference so the workflow can evolve without touching the router. Blueprints,
 mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from
 `audit-rubric.md` before delivering.
@@ -9,13 +9,16 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
 
 1. **Classify** (Step 0 in SKILL.md). Name the topic type.
 2. **Pick the doc set & framework.** Angular set = its own file, plain prose. xplat set = one file
-   for React/WC/Blazor using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
+   for React/WC/Blazor/WinUI/Uno using `{Platform}`/`{ProductName}` tokens and `<PlatformBlock for="…">`. Load
    the relevant details from `house-style.md`.
 3. **Follow the verification workflow** in `house-style.md` before writing technical content.
    Existing snippets and old prose are clues, not authority. For component topics, also inspect the
    matching Indigo.Design component documentation under
    `https://www.infragistics.com/products/indigo-design/help/components/` and use its component
    structure as input for Usage subsection suggestions.
+  For FAQ questions, build the question inventory defined in `house-style.md` → "FAQ
+  question-generation contract", including its public web search; use web results for wording and
+  intent discovery only, then verify every answer against official API/source documentation.
   For the Accessibility section, inspect the component template/render method and typed source
   first: extract rendered native elements, `role`, `aria-*` attributes, focus and disabled
   conditions, and validation/selection state mapping. Read keyboard and pointer event handlers to
@@ -25,6 +28,11 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
 4. **Scaffold frontmatter** — the metadata contract lives in `house-style.md` → "File format &
    frontmatter"; this step orders the work, it does not restate the rules. Apply the contract to
    every topic type, including category/index topics.
+   - **First, for an xplat topic:** `platformType`, which is required and has no default — a topic
+     without it does not build, and it decides the standard the rest of the work is held to. `xplat`
+     for the DV set, `xplat-unmapped` where its API cannot be resolved, `web-only` for a topic that
+     ships for the web platforms and no further. It also settles `apiTerms`, which is then stated only
+     to differ. See house-style → "File format & frontmatter".
    - **Before the body (fixed by convention):** `title` (xplat component topics use the
      `{ComponentTitle}` token; xplat category/index topics use a concise, framework-neutral category
      name without `{Platform}` or `{ProductName}` tokens, for example `title: "Grids and Tables"`;
@@ -57,7 +65,9 @@ mechanics, and the frontmatter contract live in `house-style.md`; run the rubric
      `indicatorPosition="end"` on every `FaqItem`, because the value on `Faq` does not flow into
      slotted children. When auditing, flag plain FAQ headings or custom accordion markup and convert
      each question/answer pair to an `FaqItem` while keeping the answer concise and
-     component-specific.
+     component-specific. Select 3–6 questions from the inventory built in step 3, following the
+     selection rules in the FAQ question-generation contract. Keep each answer 2–4 self-contained
+     sentences; do not copy Troubleshooting or Usage steps verbatim.
    - **6e — Required sections check.** Include the required `### Prerequisites and Version
      Compatibility` subsection under **Getting Started**, and the required **Known Limitations**,
      **Related Components**, and **FAQ** sections in their canonical positions. A verified
