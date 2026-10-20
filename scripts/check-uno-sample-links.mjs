@@ -25,6 +25,7 @@ const routes = new Set([...registry.matchAll(/\{\s*"([^"]+)"\s*,/g)].map(match =
 assert(routes.size > 0, 'No sample routes found in registry');
 const failures = [];
 let examples = 0;
+let sourceWidgets = 0;
 function inspect(directory) {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
         const file = path.join(directory, entry.name);
@@ -36,6 +37,16 @@ function inspect(directory) {
             const elements = dom.window.document.querySelectorAll(
                 '.igd-code-view[data-iframe-src], .igd-sample-container iframe');
             for (const element of elements) {
+                if (element.tagName === 'IFRAME' && element.closest('.igd-code-view')) continue;
+                if (element.hasAttribute('data-iframe-src')) {
+                    sourceWidgets++;
+                    if (element.getAttribute('data-demos-base-url') !== expectedRoot) {
+                        failures.push(`${file}: source JSON base does not match ${expectedRoot}`);
+                    }
+                    if (!['winui', 'uno', 'uno-platform'].includes(element.getAttribute('data-platform'))) {
+                        failures.push(`${file}: unsupported source-viewer platform ${element.getAttribute('data-platform')}`);
+                    }
+                }
                 const address = element.getAttribute('data-iframe-src')
                     ?? element.getAttribute('data-src') ?? element.getAttribute('src');
                 examples++;
@@ -53,6 +64,7 @@ function inspect(directory) {
 }
 inspect(args.site);
 assert(examples > 0, 'No sample embeds found; provide a built WinUI or Uno documentation site');
+assert(sourceWidgets > 0, 'No source-enabled sample widgets found in the built documentation site');
 for (const failure of failures) console.error(failure);
 assert.equal(failures.length, 0, `${failures.length} invalid sample embeds out of ${examples}`);
-console.log(`Validated ${examples} documentation embeds against ${routes.size} Uno sample routes (${args.environment}).`);
+console.log(`Validated ${examples} documentation embeds, including ${sourceWidgets} source-enabled widgets, against ${routes.size} Uno sample routes (${args.environment}).`);

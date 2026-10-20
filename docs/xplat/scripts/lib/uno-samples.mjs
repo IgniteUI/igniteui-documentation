@@ -33,9 +33,7 @@ export function filterUnoSamples(content, platform) {
                 return '';
             }
             if (route !== originalRoute) widget = widget.replace(`src="${src}"`, `src="/${route}"`);
-            // The Uno app serves samples directly, rather than the web demo
-            // code-viewer JSON endpoints used by the shared widget's tabs.
-            return /\biframeOnly\b/.test(widget) ? widget : widget.replace('<Sample', '<Sample iframeOnly');
+            return widget;
         });
     }).join('');
 }
