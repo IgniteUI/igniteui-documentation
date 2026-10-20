@@ -77,9 +77,8 @@ const noDesktop = [], desktopLeak = [], dvShaped = [], redundant = [];
 for (const file of pages.sort()) {
     const slug = file.slice(CONTENT.length + 1);
     const text = fs.readFileSync(file, 'utf-8');
-    // Temporarily, a page that does not state its population is web-only, as the generator reads it
-    // (see platformType in lib/api-terms.mjs).
-    const declared = /^platformType:\s*(\S+)/m.exec(text)?.[1] ?? 'web-only';
+    const declared = /^platformType:\s*(\S+)/m.exec(text)?.[1];
+    if (!declared) { errors.push(`${slug}: no platformType`); continue; }
     if (!PLATFORM_TYPES.includes(declared)) {
         errors.push(`${slug}: platformType "${declared}" is not one of ${PLATFORM_TYPES.join(', ')}`);
         continue;
