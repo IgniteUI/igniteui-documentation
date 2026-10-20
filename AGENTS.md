@@ -13,7 +13,7 @@ product and locale.
 - **Doc sets**: `docs/angular/` builds the Angular site; `docs/xplat/` is shared source built per
   platform. `docs/xplat/` is **not** Angular-free — it carries Angular content (most of its English
   topics contain an `Angular` `PlatformBlock`) and Angular topics are generated from it, which is
-  why `docs/angular/astro.config.ts` resolves `@xplat-images` back into the xplat tree. All four
+  why `docs/angular/astro.config.ts` resolves `@xplat-images` back into the xplat tree. All six
   platforms are in scope when editing xplat source; see the platform table in `.agents/README.md`.
 - **Locales**: `en`, `jp`, and a frozen legacy `kr` in the Angular set
 - **Package name**: `docs-template`, consumed by the doc sets as `docs-template/*`
@@ -33,7 +33,7 @@ product and locale.
 .claude/skills/               ← generated pointers; never edited by hand
 docs/
   angular/                    ← Angular doc set (astro.config.ts, src/content/{en,jp,kr})
-  xplat/                      ← shared source, all four platforms incl. Angular (src/content/{en,jp})
+  xplat/                      ← shared source, all six platforms incl. Angular (src/content/{en,jp})
 src/                          ← the shared Astro integration published as docs-template
   integration.ts              ← createDocsSite options and the site-meta virtual module
   llms.ts                     ← llms.txt generation
@@ -46,7 +46,7 @@ API-LINK-WORKFLOW.md          ← registry architecture and checker operation
 ## Skills
 
 Every skill in this repo is internal contributor tooling. **`.agents/README.md` is the index** — it
-lists all six, says which directory each lives in and why, and explains the generated
+lists all seven, says which directory each lives in and why, and explains the generated
 `.claude/skills/` pointers.
 
 Start there rather than guessing. In short:
@@ -57,6 +57,7 @@ Start there rather than guessing. In short:
 | Audit topic frontmatter only | `igniteui-topic-frontmatter` |
 | Add or fix an `<ApiLink>` | `xplat-docs-api-links` |
 | Add or fix a `<PlatformBlock>` | `xplat-docs-platform-block` |
+| Add or fix a `json-snippet` block | `xplat-docs-json-snippets` |
 | Design or debug a gh-aw workflow | `agentic-workflows` |
 | Write or edit a skill | `skill-authoring` |
 
@@ -68,7 +69,11 @@ Start there rather than guessing. In short:
   [the canonical ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md) for markup and
   disambiguation rules.
 - **`PlatformBlock` is for platform-specific content**, not for API URL mechanics. Platform names are
-  case-sensitive: `Angular`, `React`, `WebComponents`, `Blazor`.
+  case-sensitive, and there are six: `Angular`, `React`, `WebComponents`, `Blazor`, `WinUI`, `Uno`.
+  Use the key, not the display label — `Uno`, not `Uno Platform`.
+- **Every xplat topic declares a `platformType`**, which is required and has no default: `xplat`,
+  `xplat-unmapped` or `web-only`. It decides whether backticked API names resolve, and whether a
+  component should be stated as a `json-snippet` rather than a per-platform block.
 - **Every topic needs `llms.description`** in every conditional frontmatter block. The build enforces
   40-300 characters for English, 20-300 for Japanese.
 - **Japanese topics are machine-synced** by the gh-aw workflows in `.github/workflows/`. Do not

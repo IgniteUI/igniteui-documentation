@@ -3,7 +3,7 @@ name: igniteui-doc-topics
 description: >-
   Authors and audits Ignite UI documentation topics - component pages, how-to guides, conceptual
   overviews and category indexes - across the Angular and cross-platform (React / Web Components /
-  Blazor) doc sets. Applies the Diataxis framework mapped onto Ignite UI house templates: canonical
+  Blazor / WinUI / Uno) doc sets. Applies the Diataxis framework mapped onto Ignite UI house templates: canonical
   section order, fixed heading names, frontmatter, .mdx sample embeds, and per-framework token and
   PlatformBlock mechanics.
   WHEN TO USE: writing, reviewing, auditing, fixing or standardizing a topic, tutorial, guide,

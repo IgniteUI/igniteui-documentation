@@ -1,6 +1,27 @@
 # igniteui doc-skill set · changelog
 
-Version: v5 · 2026-10-07 · igniteui doc-skill set.
+Version: v6 · 2026-10-20 · igniteui doc-skill set.
+
+## v6 · 2026-10-20
+
+Absorbs the xplat json-snippet work from IgniteUI/igniteui-documentation#497, which landed on
+`vnext` while this branch was open. #497 brought a new skill, rewrote two existing ones, and took the
+platform set from four to six. Everything below is about making that land inside the consolidated
+structure rather than beside it.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| New skill `xplat-docs-json-snippets` adopted from #497 and **kept in `.github/skills/`**. It is xplat build machinery that the JP sync workflows must see: those workflows process `docs/xplat/src/content/en/**`, which holds 56 topics containing json-snippets, and they discover skills only from the baked `GH_AW_SKILL_DIR`. #497's own changelog reaches the same conclusion. Moving it to `.agents/skills/` would have hidden it from its only automated consumer. | `.github/skills/xplat-docs-json-snippets/SKILL.md` |
+| All three `.github/skills/` content skills brought onto the frontmatter contract, which #497 did not apply: `license: MIT` added and every `description` given the `WHEN TO USE:` / `WHEN NOT TO USE:` pair, each naming the sibling skill to use instead. #497's rewrites had replaced the descriptions wholesale, dropping the markers this PR added. | `.github/skills/xplat-docs-api-links/SKILL.md`, `.github/skills/xplat-docs-platform-block/SKILL.md`, `.github/skills/xplat-docs-json-snippets/SKILL.md` |
+| `xplat-docs-platform-block` merged as a union rather than replaced. #497's version was 62 lines to this branch's 161 and had dropped the import statement, what must not be wrapped, `ComponentBlock` nesting, tag balance, full coverage and the common-mistakes table — the substance folded in from the deleted `AI-AGENT-PLATFORM-BLOCK.md`, which no longer exists here to fold again. #497's new API-term rules section and canonical-term examples were added on top. | `.github/skills/xplat-docs-platform-block/SKILL.md` |
+| Six platforms, not four: `WinUI` and `Uno` are real entries in `src/platform.ts`. Platform counts, the case-sensitive name list and the casing row in the mistakes table updated, and the display labels distinguished from the keys (`Uno`, not `Uno Platform`). | `.github/skills/xplat-docs-platform-block/SKILL.md`, `.agents/README.md`, `AGENTS.md` |
+| `igniteui-doc-topics` description takes #497's platform-list change (`WinUI`, `Uno`) while keeping this branch's contract-compliant rewrite; #497 had edited the pre-contract 1080-character text. Now 981 characters, markers intact. | `.agents/skills/igniteui-doc-topics/SKILL.md` |
+| #497's house-style additions — the `apiTerms` contract, the `json-snippet` rule, the `platformType` populations, create step 4 and audit check D0 — merged cleanly onto the `.agents/` paths. Only the version lines conflicted. | `.agents/skills/igniteui-doc-topics/**`, `.agents/skills/igniteui-topic-frontmatter/**` |
+| `docs/xplat/README.md` restored from #497. This branch had deleted it as an empty placeholder — it was 0 bytes — and #497 made it a real guide index, so the deletion no longer applied. Its rows for the two guides this PR deleted now point at the canonical skills instead of dead files. | `docs/xplat/README.md` |
+| `.ai/skills/README.md` and `.github/AGENTS-README.md` stay deleted. #497 updated both; their substance — six platforms, the three populations, json-snippet as a third recurring task — is carried into `.agents/README.md` instead of leaving three indexes disagreeing. | `.agents/README.md` |
+| Set bumped to v6. | `.agents/**` |
 
 ## v5 · 2026-10-07
 
@@ -69,6 +90,40 @@ scope here. See "Open verification items" below; the repo evidence for four of t
 the pull request.
 
 ---
+
+## v4 (vnext line) · 2026-08-31
+
+Teaches the set two xplat contracts it did not know, both of which an author following v3 would get
+wrong. No rule was removed or reworded; two were added and one bullet was scoped. Whole set bumped to
+v4 per the uniform version-line convention.
+
+**Numbering note.** This entry and `v4 · 2026-10-06` below were numbered v4 independently, on `vnext` and on the consolidation branch, before the two met. Neither was renumbered: rewriting a shipped version line is the drift the line exists to catch. The set continues from v6.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| `apiTerms` added to the normative frontmatter contract: required for xplat, no default, `full` / `passthrough` / `none`, with what each does to a backticked name. A page written to v3's contract has no `apiTerms` and **does not build** — generation throws on a missing or unknown value. `docs/xplat/API-TERMS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| `json-snippet` added ahead of the inline-code-snippet bullet: an xplat DV topic states its component once as JSON and generation emits every platform's code from the product's description metadata, so hand written per-platform blocks are the exception now rather than the default. Discouraged rather than banned — a definition cannot carry a data shape, a namespace declaration or a package install, and a block is the right tool there. The existing bullet is scoped to the blocks a topic still authors by hand. `docs/xplat/JSON-SNIPPETS.md` named as normative. | igniteui-doc-topics/references/house-style.md |
+| The populations of the xplat content tree written down, because both rules above are scoped to one of them, and each page now declares which it is in `platformType`. **xplat** owes full API term resolution and a `json-snippet`-first habit; **xplat-unmapped** is the same set where that cannot be applied yet (the Excel library, and the data grid's accessibility topic); **web-only** owes neither and is not to be reworked to match. Identity is not publication: a topic can be xplat and not reach the desktop platforms yet. `platformType` replaces `apiTerms` in the required-fields list, since the mode now follows from the population. | igniteui-doc-topics/references/house-style.md |
+| house-style's version note corrected: it claimed "content unchanged from v2", which v4 makes false. | igniteui-doc-topics/references/house-style.md |
+| Create step 4 now begins with `platformType` for an xplat topic, since it is required, has no default, and decides which standard the rest of the work is held to. | igniteui-doc-topics/references/create-workflow.md |
+| Audit check D0 added (Blocker, xplat): no `platformType`, or one that does not match the topic. Names the two traps — identity is not publication, and a per-platform block or a non-`full` `apiTerms` is a finding on an xplat topic and fine on a web-only one. | igniteui-doc-topics/references/audit-rubric.md |
+| Set-wide version line bumped to `v4 · 2026-08-31`, including the content-unchanged files. | all files |
+
+### Unchanged
+
+Both routers, both skills' `description` fields (so the `.claude/` and `.codex/` adapters still
+byte-match and needed no edit), every audit check and severity, every blueprint and section table,
+and the whole frontmatter skill.
+
+### Where the substance lives
+
+The working guides for these two contracts are repository skills rather than references in this set,
+because they are xplat build machinery rather than house style: `.github/skills/xplat-docs-api-links`
+(modes, `ApiLink` props, `pkg=` disambiguation, the build-time ambiguity trap) and
+`.github/skills/xplat-docs-json-snippets` (fence attributes, channels, the five traps, the checks).
+This set points at them; it does not restate them.
 
 ## v3 · 2026-08-14
 

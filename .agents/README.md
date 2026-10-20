@@ -1,6 +1,6 @@
 # Ignite UI documentation — agent skills
 
-Version: v5 · 2026-10-07 · igniteui doc-skill set. This file is for humans; agents load the
+Version: v6 · 2026-10-20 · igniteui doc-skill set. This file is for humans; agents load the
 SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 
 ## Layout
@@ -17,6 +17,7 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 .github/skills/              ← gh-aw skills: pinned here, see "Why skills live in two places"
 ├── xplat-docs-api-links/
 ├── xplat-docs-platform-block/
+├── xplat-docs-json-snippets/
 └── agentic-workflows/
 
 .claude/skills/              ← generated pointers, one per skill; never edited by hand
@@ -29,12 +30,25 @@ SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 | `skill-authoring` | `.agents/skills/` | Writing or editing a skill: where it belongs, the frontmatter contract, the body budget |
 | `igniteui-doc-topics` | `.agents/skills/` | Authoring or auditing whole topics against the Diátaxis-based house templates |
 | `igniteui-topic-frontmatter` | `.agents/skills/` | Frontmatter-only audits and normalization, audit-first, never touching the body |
-| `xplat-docs-api-links` | `.github/skills/` | Adding, fixing or auditing `<ApiLink>` in xplat MDX |
+| `xplat-docs-api-links` | `.github/skills/` | Adding, fixing or auditing API terms and `<ApiLink>` in xplat MDX |
 | `xplat-docs-platform-block` | `.github/skills/` | Adding, fixing or auditing `<PlatformBlock>` in xplat MDX |
+| `xplat-docs-json-snippets` | `.github/skills/` | Authoring and validating `json-snippet` blocks in xplat MDX |
 | `agentic-workflows` | `.github/skills/` | Designing, creating, debugging or upgrading gh-aw workflows |
 
 `xplat-docs-api-links` is the single authority on ApiLink markup. [API-LINK-WORKFLOW.md](../API-LINK-WORKFLOW.md)
 documents the current registry architecture and checker operation; authoring rules live in the skills.
+
+**Three skills cover xplat build machinery rather than house style**, which is why the doc-skill set
+points at them instead of restating their rules: `xplat-docs-api-links` (the `apiTerms` modes,
+`ApiLink` props, `pkg=` disambiguation), `xplat-docs-platform-block` and `xplat-docs-json-snippets`
+(fence attributes, channels, the checks). Under `docs/xplat/`, `API-TERMS.md` and `JSON-SNIPPETS.md`
+are normative for the build behaviour those two describe.
+
+**Every xplat topic declares its population** in `platformType`, which is required and has no
+default. `xplat` is the DV set, which owes full API term resolution and a `json-snippet`-first habit;
+`xplat-unmapped` is the same set where that cannot be applied yet; `web-only` owes neither and is not
+to be reworked to match. Identity is not publication: a topic can be xplat and not reach the desktop
+platforms yet.
 
 ## Why skills live in two places
 
@@ -134,7 +148,7 @@ operational procedure (severities, report shapes, workflow order). The frontmatt
 across into `igniteui-doc-topics/references/house-style.md` deliberately — one contract, two
 consumers.
 
-## The four platforms
+## The six platforms
 
 All xplat MDX content is built for:
 
@@ -144,9 +158,15 @@ All xplat MDX content is built for:
 | `React` | `Igr` | `igniteui-react-*` |
 | `WebComponents` | `Igc` | `igniteui-webcomponents-*` |
 | `Blazor` | `Igb` | `IgniteUI.Blazor` |
+| `WinUI` | `Xam` | `Infragistics.WinUI.*` |
+| `Uno` | `Xam` | `Infragistics.Uno.*` |
 
-Platform names are case-sensitive. `ApiLink` and `PlatformBlock` are supplied by
-`igniteui-astro-components`; platform config lives in `src/lib/platform-context.ts`.
+Platform names are case-sensitive, and they are the keys rather than the display labels — `Uno`, not
+`Uno Platform`. WinUI and Uno share the XAML control surface, and `Xam` is right for the controls but
+not for helper types, which ship unprefixed; the resolver tries both forms. Each platform also has a
+`…JP` counterpart for the Japanese build. `ApiLink` and `PlatformBlock` are supplied by
+`igniteui-astro-components`; platform config lives in `src/lib/platform-context.ts` and
+`src/lib/api-platform-config.ts`.
 
 ## How to update the set
 

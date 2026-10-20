@@ -1,15 +1,15 @@
 ---
 license: MIT
 name: xplat-docs-platform-block
-description: "Covers PlatformBlock in xplat MDX, where one source file builds for Angular, React, WebComponents and Blazor. Includes when content needs wrapping and when wrapping would hide it, the import, case-sensitive platform names, ComponentBlock nesting for grid variants, tag balance and the self-closing-tag error, full platform coverage, and the mistakes that silently drop content from a platform. WHEN TO USE: adding, fixing or auditing a PlatformBlock, or diagnosing content that is missing from one platform's built site. WHEN NOT TO USE: ApiLink markup rules (use xplat-docs-api-links), or topic structure and headings (use igniteui-doc-topics)."
+description: "Guidance for using PlatformBlock in xplat MDX after ApiLink moved to registry-based resolution: the import, case-sensitive platform names, what must not be wrapped, ComponentBlock nesting, tag balance and platform coverage. WHEN TO USE: adding, fixing or auditing a PlatformBlock, or wrapping prose or markup that belongs to some platforms and not others. WHEN NOT TO USE: ApiLink markup or API term resolution (use xplat-docs-api-links), json-snippet blocks (use xplat-docs-json-snippets), or whole-topic structure (use igniteui-doc-topics)."
 user-invocable: true
 ---
-
 # PlatformBlock In Xplat Docs
 
-MDX files under `docs/xplat/src/content/` are shared across four platforms: **Angular, React,
-WebComponents, Blazor**. A single source file is built once per platform, producing four separate
-sites. `<PlatformBlock>` renders its content only for the platforms it lists.
+MDX files under `docs/xplat/src/content/` are shared across six platforms: **Angular, React,
+WebComponents, Blazor, WinUI, Uno**. A single source file is built once per platform, producing a
+separate site each time, and `docs/xplat/src/content/jp/` mirrors the set. `<PlatformBlock>` renders
+its content only for the platforms it lists.
 
 ## Import
 
@@ -19,8 +19,9 @@ Every MDX file that uses `<PlatformBlock>` must import it:
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 ```
 
-Platform names are **case-sensitive**: `Angular`, `React`, `WebComponents`, `Blazor`. A misspelling
-such as `Webcomponents` or `blazor` is not an error — the content is silently never shown.
+Platform names are **case-sensitive**: `Angular`, `React`, `WebComponents`, `Blazor`, `WinUI`,
+`Uno`. A misspelling such as `Webcomponents`, `blazor` or `UNO` is not an error — the content is
+silently never shown. The keys, not the display labels: `Uno`, not `Uno Platform`.
 
 ## Purpose
 
@@ -33,20 +34,27 @@ Use it when:
 - the actual symbol or member name differs by platform;
 - a platform needs a manual external link or plain text because the API does not exist.
 
-Do not use it to handle package, prefix, suffix, or URL differences. `ApiLink` and the generated
-registry handle those — see the `xplat-docs-api-links` skill.
+Do not use it to handle package, prefix, suffix, or URL differences. Canonical backticked terms,
+generation and the generated registry handle those — see the `xplat-docs-api-links` skill.
 
 ## Correct use
 
 ```mdx
 <PlatformBlock for="Angular">
-  <ApiLink type="IGridState" />
+  `IGridState`
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
-  <ApiLink type="GridState" />
+  `GridState`
 </PlatformBlock>
 ```
+
+## API-term rules
+
+- On `platformType: xplat`, canonical backticked API terms are required.
+- Qualify a member as `Type.Member` only when prose context cannot settle its owner.
+- Use `<ApiLink raw ... />` only for a link that genuinely cannot be represented as a term.
+- Raw `ApiLink` prop guidance belongs to `web-only`, `xplat-unmapped`, or that explicit exception.
 
 ## What must NOT be wrapped
 
@@ -121,7 +129,7 @@ the section.
 | Missing PlatformBlock around WC-specific TypeScript | Code shown on all platforms | Add `<PlatformBlock for="WebComponents">` |
 | Self-closing `<PlatformBlock />` used as a closing tag | MDX parse error or wrong rendering | Use `</PlatformBlock>` |
 | `</PlatformBlock>` placed before related code | Platform-specific code shown everywhere | Move it after the last related block |
-| Wrong platform casing (`Webcomponents`, `blazor`) | Content silently never shown | Use `Angular`, `React`, `WebComponents`, `Blazor` |
+| Wrong platform casing (`Webcomponents`, `blazor`, `UNO`) | Content silently never shown | Use `Angular`, `React`, `WebComponents`, `Blazor`, `WinUI`, `Uno` |
 | CSS inside a PlatformBlock when it applies to all | CSS hidden from unlisted platforms | Move it outside |
 | JSX `{500}` inside a `{/* */}` MDX comment | Parse error: `Cannot read properties of undefined (reading 'start')` | Use a string: `height="500"` |
 
@@ -148,5 +156,6 @@ be safely restructured.
 
 ## Related
 
-- `xplat-docs-api-links` — the single authority on `ApiLink` markup.
+- `xplat-docs-api-links` — the single authority on API terms and `ApiLink` markup.
+- `xplat-docs-json-snippets` — stating a component once as JSON instead of per platform.
 - `src/lib/platform-context.ts` — platform detection and config.

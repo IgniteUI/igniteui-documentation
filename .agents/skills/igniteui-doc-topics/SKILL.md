@@ -4,7 +4,7 @@ name: igniteui-doc-topics
 description: >-
   Authors and audits Ignite UI documentation topics - component pages, how-to guides, conceptual
   overviews and category indexes - across the Angular and cross-platform (React / Web Components /
-  Blazor) doc sets. Applies the Diataxis framework mapped onto Ignite UI house templates: canonical
+  Blazor / WinUI / Uno) doc sets. Applies the Diataxis framework mapped onto Ignite UI house templates: canonical
   section order, fixed heading names, frontmatter, .mdx sample embeds, and per-framework token and
   PlatformBlock mechanics.
   WHEN TO USE: writing, reviewing, auditing, fixing or standardizing a topic, tutorial, guide,
@@ -19,7 +19,7 @@ user-invocable: true
 
 # Ignite UI doc topics
 
-Version: v5 · 2026-10-07 · igniteui doc-skill set. All set files carry this version line; before
+Version: v6 · 2026-10-20 · igniteui doc-skill set. All set files carry this version line; before
 editing any file, confirm the lines match across the set. The `.claude` adapter's `description` must
 byte-match this file's `description`. Change log: `.agents/CHANGELOG.md` · human-readable intent:
 `.agents/README.md`.

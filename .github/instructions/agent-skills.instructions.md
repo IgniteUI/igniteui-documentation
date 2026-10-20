@@ -76,20 +76,28 @@ Flag as a problem:
   `.agents/skills/igniteui-topic-frontmatter/references/audit-rules.md` for everything else.
 - Topic structure, heading or template rules stated outside
   `.agents/skills/igniteui-doc-topics/references/house-style.md`.
-- `ApiLink` markup rules stated outside `.github/skills/xplat-docs-api-links/SKILL.md`.
+- `ApiLink` markup rules stated outside `.github/skills/xplat-docs-api-links/SKILL.md`, or
+  `json-snippet` authoring rules stated outside `.github/skills/xplat-docs-json-snippets/SKILL.md`.
   `API-LINK-WORKFLOW.md` documents registry architecture and checker operation; it links to the
   canonical skills for authoring rules.
-- A new agent-facing guide added under `docs/xplat/` (for example an `AI-AGENT-*.md` file). Two such
-  guides were removed because they contradicted the skills; new guidance belongs in a skill.
+- A new agent-facing *authoring* guide added under `docs/xplat/` (for example an `AI-AGENT-*.md`
+  file). Two such guides were removed because they contradicted the skills; authoring rules belong in
+  a skill. `API-TERMS.md`, `JSON-SNIPPETS.md` and `PLATFORM-LABELS.md` are a different thing and are
+  fine: they are normative for *build behaviour*, the skills are the working guides that point at
+  them, and `docs/xplat/README.md` indexes them. Flag one of those only if it starts restating
+  authoring rules a skill owns.
 
 ## ApiLink markup
 
-The registry resolves package, prefix, suffix and member anchors. No file under
-`docs/xplat/src/content/en/` uses `prefixed` or `suffix`.
+The registry resolves package, prefix, suffix and member anchors. Under
+`docs/xplat/src/content/en/`, `prefixed` and `suffix` appear only inside `<ApiLink raw …>` — nine
+occurrences in one topic, where WinUI and Uno need the bare form because their helper types ship
+unprefixed. The Angular set uses neither at all.
 
 Flag as a problem:
 
-- Guidance or examples that reintroduce `prefixed={false}` or `suffix={false}`.
+- Guidance or examples that reintroduce `prefixed={false}` or `suffix={false}` as normal markup. On
+  an `ApiLink raw` exception they are legitimate, and `xplat-docs-api-links` says when that applies.
 - Guidance that `pkg=` is required. It is for disambiguation only, when `check-mdx-links` reports
   the same symbol in more than one package.
 - Guidance to add `exclude`, `excludePrefixFor` or `excludeSuffixFor`. Those props are obsolete.

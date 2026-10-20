@@ -1,6 +1,6 @@
 ---
 name: xplat-docs-platform-block
-description: "Covers PlatformBlock in xplat MDX, where one source file builds for Angular, React, WebComponents and Blazor. Includes when content needs wrapping and when wrapping would hide it, the import, case-sensitive platform names, ComponentBlock nesting for grid variants, tag balance and the self-closing-tag error, full platform coverage, and the mistakes that silently drop content from a platform. WHEN TO USE: adding, fixing or auditing a PlatformBlock, or diagnosing content that is missing from one platform's built site. WHEN NOT TO USE: ApiLink markup rules (use xplat-docs-api-links), or topic structure and headings (use igniteui-doc-topics)."
+description: "Guidance for using PlatformBlock in xplat MDX after ApiLink moved to registry-based resolution: the import, case-sensitive platform names, what must not be wrapped, ComponentBlock nesting, tag balance and platform coverage. WHEN TO USE: adding, fixing or auditing a PlatformBlock, or wrapping prose or markup that belongs to some platforms and not others. WHEN NOT TO USE: ApiLink markup or API term resolution (use xplat-docs-api-links), json-snippet blocks (use xplat-docs-json-snippets), or whole-topic structure (use igniteui-doc-topics)."
 ---
 
 # xplat-docs-platform-block (pointer)

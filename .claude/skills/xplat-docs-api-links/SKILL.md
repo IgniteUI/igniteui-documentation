@@ -1,6 +1,6 @@
 ---
 name: xplat-docs-api-links
-description: "The single authority on ApiLink markup in xplat MDX, resolved through the generated api-docs registry. Covers clean ApiLink props, pkg and kind disambiguation, member checks, when PlatformBlock is needed instead, the registry reports, and why prefixed and suffix are legacy overrides. WHEN TO USE: adding, fixing or auditing an ApiLink, or interpreting a check-mdx-links ambiguity or broken-link report. WHEN NOT TO USE: platform-specific content that is not about API URLs (use xplat-docs-platform-block), whole-topic authoring or audits (use igniteui-doc-topics), or topic frontmatter-only audits (use igniteui-topic-frontmatter)."
+description: "Reference guide for authoring and auditing API terms in the multi-platform docs tree. Strict-xplat topics require canonical backticked terms; other populations may use raw ApiLink components. Covers the platformType populations, the apiTerms modes, raw ApiLink props, and pkg/kind disambiguation. WHEN TO USE: adding, fixing or auditing an ApiLink or a backticked API term in xplat MDX, deciding how a page's platformType or apiTerms affects its names, or resolving a check-mdx-links ambiguity report. WHEN NOT TO USE: PlatformBlock on its own (use xplat-docs-platform-block), json-snippet blocks (use xplat-docs-json-snippets), whole-topic structure (use igniteui-doc-topics), or MDX topic frontmatter (use igniteui-topic-frontmatter)."
 ---
 
 # xplat-docs-api-links (pointer)
