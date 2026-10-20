@@ -56,6 +56,9 @@ function inspect(directory) {
                 }
                 const route = new URL(address).pathname.slice('/uno-wasm-demos/'.length)
                     .replace(/^samples\//, '').replace(/\/$/, '');
+                if (element.hasAttribute('data-iframe-src') && new URL(address).pathname !== `/uno-wasm-demos/${route}`) {
+                    failures.push(`${file}: source-enabled embed requires a canonical sample route: ${address}`);
+                }
                 if (!routes.has(route)) failures.push(`${file}: missing Uno sample ${route}`);
             }
             dom.window.close();

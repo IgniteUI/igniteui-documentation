@@ -32,7 +32,9 @@ export function filterUnoSamples(content, platform) {
                 omitted.add(route);
                 return '';
             }
-            if (route !== originalRoute) widget = widget.replace(`src="${src}"`, `src="/${route}"`);
+            // Source JSON uses canonical routes, including when a topic supplied
+            // the browser's optional /samples/ prefix or a trailing slash.
+            if (src !== `/${route}`) widget = widget.replace(`src="${src}"`, `src="/${route}"`);
             return widget;
         });
     }).join('');

@@ -22,7 +22,7 @@ test('web samples and fenced widget examples retain their original markup', () =
 
 test('multiline widgets and prefixed direct routes resolve to the same sample', () => {
     const widget = '<Sample\n  src="/samples/charts/category-chart/overview/"\n  height={500}\n/>';
-    assert.equal(filterUnoSamples(widget, 'Uno'), widget);
+    assert.equal(filterUnoSamples(widget, 'Uno'), widget.replace('/samples/charts/category-chart/overview/', '/charts/category-chart/overview'));
     assert.equal(filterUnoSamples('<Sample iframeOnly src="/charts/category-chart/overview" />', 'Uno'),
         '<Sample iframeOnly src="/charts/category-chart/overview" />');
 });
