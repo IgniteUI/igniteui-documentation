@@ -4,8 +4,9 @@ Version: v5 · 2026-10-07 · igniteui doc-skill set.
 
 ## v5 · 2026-10-07
 
-Follow-up to IgniteUI/igniteui-documentation#913. Decision DOCFX-CLEANUP: retire obsolete migration
-tooling from active agent guidance and keep current authoring rules in the canonical skills.
+Reconciles the skill consolidation in this PR with the DocFX cleanup that landed separately in
+IgniteUI/igniteui-documentation#917. Decision DOCFX-CLEANUP: retire obsolete migration tooling from
+active agent guidance and keep current authoring rules in the canonical skills.
 
 ### Changed
 
@@ -43,7 +44,6 @@ files contradicted each other; those are listed below. Resolves IgniteUI/igniteu
 | `.github/AGENTS-README.md` folded into `.agents/README.md`, which is now the single index for every skill in the repo. Its "ApiLink rules in brief" section is dropped: it restated the pre-registry rules. | `.agents/README.md` |
 | `.github/skills/` stays where it is. The gh-aw compiler bakes `GH_AW_SKILL_DIR: ".github/skills"` into every `*.lock.yml`, so moving those skills breaks the JP sync workflows. Documented in the README. | `.agents/README.md` |
 | `docs/xplat/AI-AGENT-API-LINKS.md` and `AI-AGENT-PLATFORM-BLOCK.md` deleted. The first contradicted `xplat-docs-api-links` (it required `kind=` on every link and taught `prefixed={false}`, which no content file uses); the second's substance — import, ComponentBlock nesting, tag balance, coverage, common mistakes — folded into `xplat-docs-platform-block`. | `.github/skills/xplat-docs-platform-block/SKILL.md`, `docs/xplat/` |
-| `docfx-sync` gained the `name`/`description` frontmatter it never had, so it can be discovered at all. | `.github/skills/docfx-sync/SKILL.md` |
 | `API-LINKS-README.md` and `API-REFERENCES.md` reduced to human background: the `For AI Agents - Checklist`, the `prefixed`/`suffix` how-to sections and the pre-registry checklists are gone, the Rules and Props tables no longer mandate `prefixed={false}` or a routine `pkg`, and the skill is named as the authority. | `docs/xplat/` |
 | `DOCFX-SYNC.md` no longer tells syncs to restore `prefixed={false}`/`suffix={false}` or claims the xplat skill requires `pkg=`, in the regression table, the Angular ApiLink rules table, the conversion examples and the key-props list. | `DOCFX-SYNC.md` |
 | `CONTRIBUTING.md` keeps the build-enforced `llms.description` limits (40-300 EN, 20-300 JP, from `check-llms-metadata.mjs`) and links to `audit-rules.md` for the editorial rules instead of restating them. Its dead link to the deleted ApiLink guide now points at the skill. | `.github/CONTRIBUTING.md` |
@@ -56,6 +56,8 @@ files contradicted each other; those are listed below. Resolves IgniteUI/igniteu
 | Two gaps in `skills:check` closed: the stray scan matched any descendant of a canonical root, so a `SKILL.md` nested inside an existing skill (for example under its `references/`) passed while `collectSkills` never saw it; and `user-invocable: true` was required by the authoring contract but never verified. Both are now enforced. | `scripts/sync-agent-skills.mjs` |
 | Three more contract/check mismatches closed. `description` is now rejected for angle-bracket tags, which the contract barred and the check ignored; the rule is not in the Agent Skills spec but third-party validators carry it, and the rationale holds twice here because the description is injected into the system prompt *and* copied verbatim into a pointer. `license` is now required to be exactly `MIT` rather than merely present, so `license:` with no value no longer passes. The 500-line budget is restated as the whole file: the spec's limit is the file, the agent loads all of it, and frontmatter here already runs to 17-18 lines on two skills, so the check was right and the wording was wrong. | `scripts/sync-agent-skills.mjs`, `.agents/skills/skill-authoring/SKILL.md`, `.agents/README.md`, `.github/instructions/agent-skills.instructions.md` |
 | Parser fix, no rule change: `splitFrontmatter` required a newline after the closing `---`, so a `SKILL.md` ending at that delimiter — frontmatter and no body, which is the spec's own minimal example — was reported as having no frontmatter at all. The closing delimiter may now end the file. The contract never required a trailing newline; only the parser did. | `scripts/sync-agent-skills.mjs` |
+| `skills:sync` no longer deletes a developer's own local skills. `.claude/skills/` is both the generated pointer directory and where a developer's personal skills live; the reaper removed every directory there without a canonical skill of the same name, which for an untracked local skill meant unrecoverable loss. It now removes only directories carrying the generated marker, and leaves anything else untouched and unreported. Raised in PR #913 review. | `scripts/sync-agent-skills.mjs` |
+| `AGENTS.md` no longer describes `docs/xplat/` as React, Web Components and Blazor only. It carries Angular content and Angular topics are generated from it, which is why `docs/angular/astro.config.ts` resolves `@xplat-images`; the platform table in `.agents/README.md` always listed all four. Raised in PR #913 review. | `AGENTS.md` |
 | Root `AGENTS.md` added: the live cross-tool convention, which both sibling repos have and this one did not. Points at `.agents/README.md` as the skills index rather than restating it. Deliberately not an ACS `main.yaml`: that spec was archived in May 2026 with no successor. | `AGENTS.md` |
 
 ### Unchanged

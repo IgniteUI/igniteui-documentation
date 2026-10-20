@@ -10,8 +10,11 @@ product and locale.
 - **Framework**: Astro, with MDX content and TypeScript integrations
 - **Shared components**: `igniteui-astro-components` supplies `ApiLink`, `PlatformBlock`, the site
   chrome and the docs layout
-- **Doc sets**: `docs/angular/` (Angular) and `docs/xplat/` (React, Web Components, Blazor from one
-  source)
+- **Doc sets**: `docs/angular/` builds the Angular site; `docs/xplat/` is shared source built per
+  platform. `docs/xplat/` is **not** Angular-free — it carries Angular content (most of its English
+  topics contain an `Angular` `PlatformBlock`) and Angular topics are generated from it, which is
+  why `docs/angular/astro.config.ts` resolves `@xplat-images` back into the xplat tree. All four
+  platforms are in scope when editing xplat source; see the platform table in `.agents/README.md`.
 - **Locales**: `en`, `jp`, and a frozen legacy `kr` in the Angular set
 - **Package name**: `docs-template`, consumed by the doc sets as `docs-template/*`
 
@@ -30,7 +33,7 @@ product and locale.
 .claude/skills/               ← generated pointers; never edited by hand
 docs/
   angular/                    ← Angular doc set (astro.config.ts, src/content/{en,jp,kr})
-  xplat/                      ← cross-platform doc set (astro.config.ts, src/content/{en,jp})
+  xplat/                      ← shared source, all four platforms incl. Angular (src/content/{en,jp})
 src/                          ← the shared Astro integration published as docs-template
   integration.ts              ← createDocsSite options and the site-meta virtual module
   llms.ts                     ← llms.txt generation
