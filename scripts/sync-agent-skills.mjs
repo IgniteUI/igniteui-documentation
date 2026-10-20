@@ -326,7 +326,9 @@ const parsed = [];
     // lines", and the agent loads all of it when the skill activates. Two skills here already carry
     // 17-18 lines of frontmatter, and a 1024-character description adds ~11 more, so excluding it
     // would let the file that actually gets loaded run well past the budget.
-    const fileLines = skill.text.split('\n').length;
+    // A file ending in a newline splits into a trailing empty element, so the terminator on the last
+    // line would otherwise count as a line of its own and reject a file of exactly FILE_MAX_LINES.
+    const fileLines = skill.text.split('\n').length - (skill.text.endsWith('\n') ? 1 : 0);
     if (fileLines > FILE_MAX_LINES) {
       invalid.push(
         `${skill.relDir}/SKILL.md: ${fileLines} lines (max ${FILE_MAX_LINES}) — move detail into references/`,

@@ -54,10 +54,15 @@ is required by `check-doc-scope.mjs`.
 ### Authoring and auditing tools
 
 ```sh
-cd docs/xplat
-node scripts/resolve-api-links.mjs --dry-run     # names in backticks -> <ApiLink>; --file for one page
-node scripts/fix-api-link-attrs.mjs             # normalize attributes on existing links
+npm run check-mdx-links                        # resolution, ambiguities, broken links; --platform= narrows
+npm run check-api-links                        # the generated registry's own report
+node docs/xplat/scripts/check-doc-scope.mjs --lang=en   # platformType, apiTerms, the raw exception
 ```
+
+**No tool rewrites prose into `<ApiLink>`.** The two that did, `resolve-api-links.mjs` and
+`fix-api-link-attrs.mjs`, have been removed: they froze one platform's spelling into a source file
+that serves six, which is the problem canonical backticked terms exist to solve. Author the term and
+let generation resolve it.
 
 
 ## Strict-Xplat Markup
