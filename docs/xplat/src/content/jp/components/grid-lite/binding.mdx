@@ -24,7 +24,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 <PlatformBlock for="Blazor">
 
-{GridLiteTitle} は、データ ソースとして `List<T>` を受け入れます。`T` はモデルを表します。各グリッド行は配列内のデータ レコードをレンダリングしたもので、行のセルは列の構成に基づいて制御されます。
+{GridLiteTitle} は、データ ソースとして `List<TItem>` などの `IEnumerable<TItem>` を受け入れます。`TItem` はモデルを表します。各グリッド行はコレクション内のデータ レコードをレンダリングしたもので、行のセルは列の構成に基づいて制御されます。
 
 </PlatformBlock>
 
@@ -85,10 +85,16 @@ return (
 </IgbGridLite>
 
 @code {
-    this.data = new List<T>
+    private List<Product> data = new();
+
+    private void UpdateData()
     {
-        // ここにレコードを記述します
-    };
+        // 新しいコレクションを割り当てます
+        data = new List<Product>
+        {
+            // ここにレコードを記述します
+        };
+    }
 }
 ```
 
@@ -147,8 +153,13 @@ return (
 <IgbGridLite Data="data" AutoGenerate="true" />
 
 @code {
-    // 新しいバインディング後、グリッドはバインドされたデータから列コレクションを推論します。
-    this.data = new List<T>();
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // 新しいバインディング後、グリッドはバインドされたデータから列コレクションを推論します。
+        data = new List<Product>();
+    }
 }
 ```
 
@@ -168,7 +179,7 @@ return (
 <DocsAside type="info" title="情報">
 {GridLiteTitle} のソート/フィルター状態は、この方法でデータ ソースを変更しても保持されます。
 </DocsAside>
-通常は `ClearSort()` または `ClearFilter()` を呼び出して、これらの状態をリセットすることをお勧めします。
+通常は `ClearSortAsync()` または `ClearFilterAsync()` を呼び出して、これらの状態をリセットすることをお勧めします。
 
 </PlatformBlock>
 
