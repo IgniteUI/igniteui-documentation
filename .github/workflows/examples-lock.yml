@@ -1,0 +1,36 @@
+name: Examples lock
+
+# The documentation is built against the igniteui-xplat-examples commit docs/xplat/xplat-examples.lock.json
+# names. A branch may follow an examples branch while both are in progress, but nothing merges into
+# vnext or master until the lock names a commit that is already in the examples mainline: a feature
+# branch can be rebased or deleted, and the documentation would then point at a commit that is gone.
+#
+# Runs on every pull request, with no path filter, so it can be a required check: a required check a
+# path filter skips leaves the pull request waiting for it. It fetches history only and takes seconds.
+#
+#   node docs/xplat/scripts/ci/resolve-examples.mjs --check-pinned
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ master, vnext ]
+  workflow_dispatch:
+
+jobs:
+  examples-lock-pinned:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: The lock names a commit in the examples mainline
+        run: node docs/xplat/scripts/ci/resolve-examples.mjs --check-pinned
