@@ -71,6 +71,7 @@ The following diagram shows the element structure of the {Platform} Radio Group.
 ```text
 igx-radio-group                  — groups the radio buttons
 └── igx-radio                    — one per option
+    ├── input.igx-radio__input   — the native radio input
     ├── .igx-radio__composite    — the radio control
     └── .igx-radio__label        — the projected label content
 ```
@@ -82,7 +83,8 @@ igx-radio-group                  — groups the radio buttons
 ```text
 igc-radio-group                  — groups the radio buttons
 └── igc-radio                    — one per option
-    └── [part="base"]            — wraps the control and the label
+    └── [part="base"]            — the <label> that wraps the input, the control, and the label
+        ├── input[type="radio"]  — the native radio input
         ├── [part="control"]     — the radio control
         └── [part="label"]       — the slotted label content
 ```
@@ -128,7 +130,7 @@ builder.Services.AddIgniteUIBlazor(
 );
 ```
 
-Then link the theme CSS file in **wwwroot/index.html** for a **Blazor WebAssembly** project or in **Pages/_Host.cshtml** for a **Blazor Server** project:
+Then add the theme stylesheet to your host page:
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -248,6 +250,12 @@ The {Platform} Radio and Radio Group ship in the following package. The samples 
 
 The {Platform} Radio places its label after the radio control by default. Set the <ApiLink pkg="core" type="Radio" member="labelPosition" label="labelPosition" /> property to `before` to place the label before the control. In a vertical Radio Group, radio buttons with the label before the control align to the end of the group.
 
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Place the radio buttons as direct children of the Radio Group. Radio buttons inside a wrapper element aren't part of the group, and the group doesn't lay them out.
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
 
 ```html
@@ -292,7 +300,17 @@ The {Platform} Radio places its label after the radio control by default. Set th
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular,React,WebComponents">
+
 A radio button can also be labelled by an element outside of it. Reference the element with `aria-labelledby` when you need full control over where the label sits and how it looks.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+The outside element names the radio button in `igniteui-webcomponents` 7.4.1 and later. In earlier versions, the radio button gets no accessible name from it.
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
@@ -308,15 +326,6 @@ A radio button can also be labelled by an element outside of it. Reference the e
 ```tsx
 <span id="radio-label">Express delivery</span>
 <IgrRadio aria-labelledby="radio-label" value="express"></IgrRadio>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<span id="radio-label">Express delivery</span>
-<IgbRadio AriaLabelledBy="radio-label" Value="express" />
 ```
 
 </PlatformBlock>
@@ -588,6 +597,12 @@ A {Platform} Radio is either on (checked) or off. Set the <ApiLink pkg="core" ty
 
 The {Platform} Radio submits the `value` of the selected radio button under the group's `name`. Set the <ApiLink pkg="core" type="Radio" member="required" label="required" /> property on a radio button of the group to require a selection before the form is submitted.
 
+<PlatformBlock for="React,WebComponents,Blazor">
+
+To show a message when the selection is missing, put it in the `value-missing` slot of a radio button. The required selection makes every radio button of the group invalid, so place the message in the last radio button to show it below the group.
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
 
 ```html
@@ -595,7 +610,10 @@ The {Platform} Radio submits the `value` of the selected radio button under the 
   <igc-radio-group name="fruit">
     <igc-radio value="apple" required>Apple</igc-radio>
     <igc-radio value="banana">Banana</igc-radio>
-    <igc-radio value="orange">Orange</igc-radio>
+    <igc-radio value="orange">
+      Orange
+      <span slot="value-missing">Choose a fruit.</span>
+    </igc-radio>
   </igc-radio-group>
 </form>
 ```
@@ -609,7 +627,10 @@ The {Platform} Radio submits the `value` of the selected radio button under the 
   <IgrRadioGroup name="fruit">
     <IgrRadio value="apple" required={true}>Apple</IgrRadio>
     <IgrRadio value="banana">Banana</IgrRadio>
-    <IgrRadio value="orange">Orange</IgrRadio>
+    <IgrRadio value="orange">
+      Orange
+      <span slot="value-missing">Choose a fruit.</span>
+    </IgrRadio>
   </IgrRadioGroup>
 </form>
 ```
@@ -622,7 +643,10 @@ The {Platform} Radio submits the `value` of the selected radio button under the 
 <IgbRadioGroup name="fruit">
     <IgbRadio Value="apple" Required="true">Apple</IgbRadio>
     <IgbRadio Value="banana">Banana</IgbRadio>
-    <IgbRadio Value="orange">Orange</IgbRadio>
+    <IgbRadio Value="orange">
+        Orange
+        <span slot="value-missing">Choose a fruit.</span>
+    </IgbRadio>
 </IgbRadioGroup>
 ```
 
@@ -664,16 +688,57 @@ The following properties cover the {Platform} Radio and Radio Group options docu
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| <ApiLink pkg="core" type="Radio" member="checked" label="checked" /> | `boolean` | `false` | Gets or sets whether the radio button is on. |
-| <ApiLink pkg="core" type="Radio" member="disabled" label="disabled" /> | `boolean` | `false` | Gets or sets whether the radio button is disabled. |
-| <ApiLink pkg="core" type="Radio" member="invalid" label="invalid" /> | `boolean` | `false` | Gets or sets whether the radio button is in the invalid state. |
-| <ApiLink pkg="core" type="Radio" member="labelPosition" label="labelPosition" /> | <PlatformBlock for="Angular">`LabelPosition`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`ToggleLabelPosition`</PlatformBlock> | `after` | Sets whether the label is placed before or after the radio control. |
-| <ApiLink pkg="core" type="Radio" member="required" label="required" /> | `boolean` | `false` | Gets or sets whether a selection is required. |
-| <ApiLink pkg="core" type="Radio" member="value" label="value" /> | <PlatformBlock for="Angular">`any`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`string`</PlatformBlock> | — | Gets or sets the value submitted with the form when the radio button is on. |
-| <PlatformBlock for="Angular"><ApiLink type="RadioGroupDirective" member="alignment" label="alignment" /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RadioGroup" member="alignment" label="alignment" /></PlatformBlock> (Radio Group) | <PlatformBlock for="Angular">`RadioGroupAlignment`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`ContentOrientation`</PlatformBlock> | <PlatformBlock for="Angular">`horizontal`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`vertical`</PlatformBlock> | Sets whether the radio buttons are stacked in a column or placed in a row. |
-| <PlatformBlock for="Angular"><ApiLink type="RadioGroupDirective" member="value" label="value" /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RadioGroup" member="value" label="value" /></PlatformBlock> (Radio Group) | <PlatformBlock for="Angular">`any`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`string`</PlatformBlock> | — | Gets or sets the value of the radio button that is on. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="checked" label="checked" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="checked" label="Checked" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`</PlatformBlock> | `false` | Gets or sets whether the radio button is on. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="disabled" label="Disabled" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`</PlatformBlock> | `false` | Gets or sets whether the radio button is disabled. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="invalid" label="Invalid" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`</PlatformBlock> | `false` | Gets or sets whether the radio button is in the invalid state. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="labelPosition" label="labelPosition" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="labelPosition" label="LabelPosition" /></PlatformBlock> | <PlatformBlock for="Angular">`LabelPosition`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`ToggleLabelPosition`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`after`</PlatformBlock><PlatformBlock for="Blazor">`ToggleLabelPosition.After`</PlatformBlock> | Sets whether the label is placed before or after the radio control. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="required" label="required" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="required" label="Required" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`</PlatformBlock> | `false` | Gets or sets whether a selection is required. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="Radio" member="value" label="value" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="value" label="Value" /></PlatformBlock> | <PlatformBlock for="Angular">`any`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`string`</PlatformBlock> | — | Gets or sets the value submitted with the form when the radio button is on. |
+| <PlatformBlock for="Angular"><ApiLink type="RadioGroupDirective" member="alignment" label="alignment" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="RadioGroup" member="alignment" label="alignment" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="RadioGroup" member="alignment" label="Alignment" /></PlatformBlock> (Radio Group) | <PlatformBlock for="Angular">`RadioGroupAlignment`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`ContentOrientation`</PlatformBlock> | <PlatformBlock for="Angular">`horizontal`</PlatformBlock><PlatformBlock for="React,WebComponents">`vertical`</PlatformBlock><PlatformBlock for="Blazor">`ContentOrientation.Vertical`</PlatformBlock> | Sets whether the radio buttons are stacked in a column or placed in a row. |
+| <PlatformBlock for="Angular"><ApiLink type="RadioGroupDirective" member="value" label="value" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="RadioGroup" member="value" label="value" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="RadioGroup" member="value" label="Value" /></PlatformBlock> (Radio Group) | <PlatformBlock for="Angular">`any`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`string`</PlatformBlock> | — | Gets or sets the value of the radio button that is on. |
 <PlatformBlock for="Angular,React,WebComponents">| <ApiLink pkg="core" type="Radio" member="name" label="name" /> | `string` | — | Gets or sets the name that groups radio buttons together. |</PlatformBlock>
 <PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="Angular"><ApiLink type="RadioGroupDirective" member="name" label="name" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="RadioGroup" member="name" label="name" /></PlatformBlock> (Radio Group) | `string` | — | Gets or sets the name applied to all radio buttons in the group. |</PlatformBlock>
+
+## Methods
+
+The {Platform} Radio exposes the following methods.
+
+<PlatformBlock for="React,WebComponents">
+
+| Name | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Radio" member="checkValidity" label="checkValidity()" /> | Checks the validity of the radio button and returns `true` when it's valid. |
+| <ApiLink pkg="core" type="Radio" member="reportValidity" label="reportValidity()" /> | Checks the validity of the radio button, shows its invalid state when it isn't valid, and returns `true` when it's valid. |
+| <ApiLink pkg="core" type="Radio" member="setCustomValidity" label="setCustomValidity(message)" /> | Sets a custom validation message. Pass an empty string to clear it. |
+| <ApiLink pkg="core" type="Radio" member="click" label="click()" /> | Simulates a click on the radio button, which turns it on. |
+| <ApiLink pkg="core" type="Radio" member="focus" label="focus()" /> | Moves focus to the radio button. |
+| <ApiLink pkg="core" type="Radio" member="blur" label="blur()" /> | Removes focus from the radio button. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Name | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Radio" member="checkValidity" label="CheckValidity()" /> | Checks the validity of the radio button and returns `true` when it's valid. |
+| <ApiLink pkg="core" type="Radio" member="reportValidity" label="ReportValidity()" /> | Checks the validity of the radio button, shows its invalid state when it isn't valid, and returns `true` when it's valid. |
+| <ApiLink pkg="core" type="Radio" member="setCustomValidity" label="SetCustomValidity(message)" /> | Sets a custom validation message. Pass an empty string to clear it. |
+| <ApiLink pkg="core" type="Radio" member="click" label="Click()" /> | Simulates a click on the radio button, which turns it on. |
+| <ApiLink pkg="core" type="Radio" member="focusComponent" label="FocusComponent(options)" /> | Moves focus to the radio button. |
+| <ApiLink pkg="core" type="Radio" member="blurComponent" label="BlurComponent()" /> | Removes focus from the radio button. |
+
+Each method also has an asynchronous version that returns a `Task`, for example `CheckValidityAsync()`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Name | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Radio" member="select" label="select()" /> | Turns the radio button on and emits the `change` event. It does nothing when the radio button is already on. |
+| <ApiLink pkg="core" type="Radio" member="deselect" label="deselect()" /> | Turns the radio button off without emitting the `change` event. |
+
+</PlatformBlock>
 
 ## Events
 
@@ -681,7 +746,9 @@ The {Platform} Radio emits an event when the user turns a radio button on.
 
 | Name | Description |
 | --- | --- |
-| <PlatformBlock for="Angular">`change` (Radio and Radio Group)</PlatformBlock><PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React">`onChange`</PlatformBlock><PlatformBlock for="Blazor">`Change`</PlatformBlock> | Emitted when the checked state of a radio button changes. The event arguments carry the `checked` state and the `value` of the radio button. |
+| <PlatformBlock for="Angular"><ApiLink pkg="core" type="Radio" member="change" label="change" /> (Radio and Radio Group)</PlatformBlock><PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Radio" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Radio" member="change" label="Change" /></PlatformBlock> | Emitted when the checked state of a radio button changes. The event arguments carry the `checked` state and the `value` of the radio button. |
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="RadioGroup" member="valueChanged" label="ValueChanged" /> (Radio Group) | Raised with the new value of the Radio Group when its selection changes. `@bind-Value` uses it. |</PlatformBlock>
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="Radio" member="checkedChanged" label="CheckedChanged" /> | Raised with the new checked state of the radio button. `@bind-Checked` uses it. |</PlatformBlock>
 
 ## Styling
 
@@ -868,14 +935,31 @@ When a radio button in the group is on, it is the only tab stop of the group. Wh
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+In `IgniteUI.Blazor` 26.1, clearing the selection in code leaves no tab stop in the group. See [Known Limitations](#known-limitations).
+
+</PlatformBlock>
+
 ### Screen Readers / ARIA
 
 - Each {Platform} Radio renders a native `<input type="radio">`, which exposes the radio role, the checked state, and the disabled and required states.<PlatformBlock for="Angular"> The input also sets `aria-invalid` from the `invalid` property.</PlatformBlock>
-- The label content of the radio button is its accessible name. When the label is outside the component, connect it with `aria-labelledby`.
+- The label content of the radio button is its accessible name.<PlatformBlock for="Angular,React,WebComponents"> When the label is outside the component, connect it with `aria-labelledby`.</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+- The Radio Group renders the `radiogroup` role and sets `aria-orientation` from its `alignment`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- The Radio Group renders the `radiogroup` role. In `IgniteUI.Blazor` 26.1, it doesn't set `aria-orientation`.
+
+</PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-- The Radio Group renders the `radiogroup` role and sets `aria-orientation` from its `alignment`.
 - Give the Radio Group an accessible name, for example with `aria-labelledby` pointing to the question it answers.
 
 </PlatformBlock>
@@ -899,22 +983,22 @@ Your responsibilities:
 
 - Give every radio button meaningful label content, and give the Radio Group an accessible name.
 - Keep the focus ring visible and preserve sufficient contrast when you customize the Radio colors.
-- Show a validation message in the surrounding form when the Radio is invalid, so the error isn't conveyed by color alone.
+- Show a validation message when the Radio is invalid, so the error isn't conveyed by color alone.<PlatformBlock for="React,WebComponents,Blazor"> Use the `value-missing` slot, as shown in [Forms](#forms).</PlatformBlock><PlatformBlock for="Angular"> Show it in the surrounding form.</PlatformBlock>
 - Test the rendered Radio Group with keyboard navigation and the assistive technologies your users rely on.
 
+<PlatformBlock for="Angular,Blazor">
+
 ## Known Limitations
-
-<PlatformBlock for="React,WebComponents">
-
-The {Platform} Radio and Radio Group have no known limitations.
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
-The {Platform} Radio and Radio Group have the following known limitation:
+The {Platform} Radio and Radio Group have the following known limitations:
 
 - The Radio doesn't work with a standard HTML `<form>` element in Blazor. Use the Blazor `EditForm` component instead.
+- In `IgniteUI.Blazor` 26.1, a radio button can't be labelled by an element outside of it. `IgbRadio` has no `AriaLabelledBy` parameter, and an `aria-labelledby` attribute doesn't give the radio button an accessible name. Put the label text inside the radio button.
+- In `IgniteUI.Blazor` 26.1, clearing the selection in code takes every radio button out of the tab order. Keyboard users can't reach the group until a mouse click or your code turns one of its radio buttons on again.
 
 </PlatformBlock>
 
@@ -970,13 +1054,13 @@ These frequently asked questions cover common {Platform} Radio and Radio Group s
 
 <Faq>
   <FaqItem question="How do I get the selected value when the user changes the selection?" indicatorPosition="end">
-    Handle the <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React">`onChange`</PlatformBlock><PlatformBlock for="Blazor">`Change`</PlatformBlock><PlatformBlock for="Angular">`change`</PlatformBlock> event on the {Platform} Radio Group. The change event arguments carry the `value` of the radio button the user turned on.<PlatformBlock for="Angular"> You can also bind the selected value with `ngModel` or a form control on `igx-radio-group`.</PlatformBlock> The change event doesn't fire when you set the Radio Group `value` in code.
+    Handle the <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React">`onChange`</PlatformBlock><PlatformBlock for="Blazor">`Change`</PlatformBlock><PlatformBlock for="Angular">`change`</PlatformBlock> event on the {Platform} Radio Group. The change event arguments carry the `value` of the radio button the user turned on.<PlatformBlock for="Angular"> You can also bind the selected value with `ngModel` or a form control on `igx-radio-group`.</PlatformBlock><PlatformBlock for="Blazor"> You can also bind the selected value with `@bind-Value` on the Radio Group.</PlatformBlock> The change event doesn't fire when you set the Radio Group `value` in code.
   </FaqItem>
   <FaqItem question="How do I select a radio button from code?" indicatorPosition="end">
     Set the {Platform} Radio Group `value` to the `value` of the radio button you want to turn on.<PlatformBlock for="React,WebComponents,Blazor"> You can also set `checked` on that radio button, which turns off the other radio buttons in the group. Selecting a radio button in code doesn't fire the change event.</PlatformBlock><PlatformBlock for="Angular"> Setting the Radio Group `value` doesn't fire the `change` event. To select a radio button and fire the `change` event, call the `select()` method of that radio button.</PlatformBlock>
   </FaqItem>
   <FaqItem question="How do I clear the selection of a Radio Group?" indicatorPosition="end">
-    Users can't turn off a selected {Platform} Radio by clicking it again, which is the standard radio button behavior. <PlatformBlock for="React,WebComponents,Blazor">To clear the selection in code, set the Radio Group `value` to an empty string or another value that none of its radio buttons has.</PlatformBlock><PlatformBlock for="Angular">To clear the selection in code, set the Radio Group `value`, or the form control bound to the group, to `null`.</PlatformBlock> If users need to clear the selection themselves, add a "None" option or a separate clear button.
+    Users can't turn off a selected {Platform} Radio by clicking it again, which is the standard radio button behavior. <PlatformBlock for="React,WebComponents,Blazor">To clear the selection in code, set the Radio Group `value` to an empty string or another value that none of its radio buttons has.</PlatformBlock><PlatformBlock for="Blazor"> In `IgniteUI.Blazor` 26.1, this also takes every radio button out of the tab order, as described in [Known Limitations](#known-limitations).</PlatformBlock><PlatformBlock for="Angular">To clear the selection in code, set the Radio Group `value`, or the form control bound to the group, to `null`.</PlatformBlock> If users need to clear the selection themselves, add a "None" option or a separate clear button.
   </FaqItem>
   <FaqItem question="Why can more than one radio button be on at the same time?" indicatorPosition="end">
     <PlatformBlock for="React,WebComponents,Blazor">{Platform} Radio buttons are mutually exclusive only when they share the same `name`, so radio buttons without a shared `name` can be on at the same time. Set `name` on the Radio Group, which applies it to all of its radio buttons, or set the same `name` on each radio button.</PlatformBlock><PlatformBlock for="Angular">{Platform} Radio buttons are mutually exclusive when they're placed in the same `igx-radio-group`, which generates a shared `name` when you don't set one. Place radio buttons that belong together in one Radio Group instead of using standalone radio buttons.</PlatformBlock>
