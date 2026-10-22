@@ -120,7 +120,13 @@ npm run check-mdx-links:broken:angular
 npm run check-mdx-links:broken:react
 npm run check-mdx-links:broken:wc
 npm run check-mdx-links:broken:blazor
+
+# WinUI and Uno are supported by the checker but have no npm shortcut yet:
+node --experimental-strip-types scripts/check-mdx-links.mjs --platform=winui --resolve-only --list-broken
+node --experimental-strip-types scripts/check-mdx-links.mjs --platform=uno --resolve-only --list-broken
 ```
+
+`--platform=` takes `angular`, `react`, `wc`, `blazor`, `winui` or `uno`; omitting it covers all six.
 
 Interpret common statuses:
 
@@ -151,8 +157,8 @@ follow from that:
 
 - When resolving one ambiguity, check the page's other references to that symbol too.
 - After a package or beta bump, build every platform rather than trusting the link report —
-  `npm run xplat:build:{angular,react,webcomponents,blazor}`. Each stops at the *first* ambiguity, so
-  a clean report is not a clean build.
+  `npm run xplat:build:{angular,react,webcomponents,blazor,winui,uno}`. All six exist; each stops at
+  the *first* ambiguity, so a clean report is not a clean build.
 
 CI surfaces these in the **CI** and **Check Relative Links** jobs rather than a link-named one, since
 both generate the content before doing their own work.
