@@ -111,6 +111,7 @@ anything is reported so it can be deleted.
 
 ## Related
 
-- [API-LINKS-README.md](API-LINKS-README.md) — the `ApiLink` component itself
+- [`xplat-docs-api-links`](../../.github/skills/xplat-docs-api-links/SKILL.md) — the `ApiLink`
+  component itself, and the authoring rules for it
 - [scripts/lib/description-terms.mjs](scripts/lib/description-terms.mjs) — the resolution itself
 - [scripts/README.md](scripts/README.md) — the checks

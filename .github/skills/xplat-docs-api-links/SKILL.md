@@ -1,6 +1,7 @@
 ---
+license: MIT
 name: xplat-docs-api-links
-description: "Reference guide for authoring and auditing API terms in the multi-platform docs tree. Strict-xplat topics require canonical backticked terms; other populations may use raw ApiLink components."
+description: "Reference guide for authoring and auditing API terms in the multi-platform docs tree. Strict-xplat topics require canonical backticked terms; other populations may use raw ApiLink components. Covers the platformType populations, the apiTerms modes, raw ApiLink props, and pkg/kind disambiguation. WHEN TO USE: adding, fixing or auditing an ApiLink or a backticked API term in xplat MDX, deciding how a page's platformType or apiTerms affects its names, or resolving a check-mdx-links ambiguity report. WHEN NOT TO USE: PlatformBlock on its own (use xplat-docs-platform-block), json-snippet blocks (use xplat-docs-json-snippets), whole-topic structure (use igniteui-doc-topics), or MDX topic frontmatter (use igniteui-topic-frontmatter)."
 user-invocable: true
 ---
 
@@ -53,10 +54,15 @@ is required by `check-doc-scope.mjs`.
 ### Authoring and auditing tools
 
 ```sh
-cd docs/xplat
-node scripts/resolve-api-links.mjs --dry-run     # names in backticks -> <ApiLink>; --file for one page
-node scripts/fix-api-link-attrs.mjs             # normalize attributes on existing links
+npm run check-mdx-links                        # resolution, ambiguities, broken links; --platform= narrows
+npm run check-api-links                        # the generated registry's own report
+node docs/xplat/scripts/check-doc-scope.mjs --lang=en   # platformType, apiTerms, the raw exception
 ```
+
+**No tool rewrites prose into `<ApiLink>`.** The two that did, `resolve-api-links.mjs` and
+`fix-api-link-attrs.mjs`, have been removed: they froze one platform's spelling into a source file
+that serves six, which is the problem canonical backticked terms exist to solve. Author the term and
+let generation resolve it.
 
 
 ## Strict-Xplat Markup
@@ -114,7 +120,21 @@ npm run check-mdx-links:broken:angular
 npm run check-mdx-links:broken:react
 npm run check-mdx-links:broken:wc
 npm run check-mdx-links:broken:blazor
+npm run check-mdx-links:broken:winui
+npm run check-mdx-links:broken:uno
 ```
+
+Every `check-mdx-links` and `check-api-links` family has all six platform variants — plain, `:report`
+and `:broken` — so there is no platform you have to drop to the raw script for. `--platform=` takes
+`angular`, `react`, `wc`, `blazor`, `winui` or `uno`; omitting it covers all six.
+
+`check-api-links` reads built output under `dist/<platform>`, so build the platform first or it has
+nothing to read.
+
+A platform whose API documentation is not published yet fails these checks on **HTTP 404**, not on
+anything wrong in the MDX — the term resolved, the page it points at does not exist on the host. That
+is the current state for WinUI and Uno. The `:broken` variants are `--resolve-only` and make no HTTP
+requests, so use those to check the source itself while a platform's API docs are still coming.
 
 Interpret common statuses:
 
@@ -145,8 +165,8 @@ follow from that:
 
 - When resolving one ambiguity, check the page's other references to that symbol too.
 - After a package or beta bump, build every platform rather than trusting the link report —
-  `npm run xplat:build:{angular,react,webcomponents,blazor}`. Each stops at the *first* ambiguity, so
-  a clean report is not a clean build.
+  `npm run xplat:build:{angular,react,webcomponents,blazor,winui,uno}`. All six exist; each stops at
+  the *first* ambiguity, so a clean report is not a clean build.
 
 CI surfaces these in the **CI** and **Check Relative Links** jobs rather than a link-named one, since
 both generate the content before doing their own work.
