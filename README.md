@@ -4,7 +4,7 @@ This public repository contains the documentation source for the Ignite UI for A
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) v22.12.0 or higher
+- [Node.js](https://nodejs.org) v22.23.4 or higher
 - [npm](https://www.npmjs.com/)
 
 ## Getting Started
