@@ -1,6 +1,6 @@
 # Frontmatter audit rules
 
-Version: v3 · 2026-08-14 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged;
+Version: v4 · 2026-08-31 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged;
 restructured into this reference so rules can evolve without touching the router. The normative
 field contract lives in `../../igniteui-doc-topics/references/house-style.md` → "File format &
 frontmatter"; where wording differs, house-style wins.
