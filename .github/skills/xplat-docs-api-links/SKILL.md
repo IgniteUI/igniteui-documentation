@@ -120,13 +120,21 @@ npm run check-mdx-links:broken:angular
 npm run check-mdx-links:broken:react
 npm run check-mdx-links:broken:wc
 npm run check-mdx-links:broken:blazor
-
-# WinUI and Uno are supported by the checker but have no npm shortcut yet:
-node --experimental-strip-types scripts/check-mdx-links.mjs --platform=winui --resolve-only --list-broken
-node --experimental-strip-types scripts/check-mdx-links.mjs --platform=uno --resolve-only --list-broken
+npm run check-mdx-links:broken:winui
+npm run check-mdx-links:broken:uno
 ```
 
-`--platform=` takes `angular`, `react`, `wc`, `blazor`, `winui` or `uno`; omitting it covers all six.
+Every `check-mdx-links` and `check-api-links` family has all six platform variants — plain, `:report`
+and `:broken` — so there is no platform you have to drop to the raw script for. `--platform=` takes
+`angular`, `react`, `wc`, `blazor`, `winui` or `uno`; omitting it covers all six.
+
+`check-api-links` reads built output under `dist/<platform>`, so build the platform first or it has
+nothing to read.
+
+A platform whose API documentation is not published yet fails these checks on **HTTP 404**, not on
+anything wrong in the MDX — the term resolved, the page it points at does not exist on the host. That
+is the current state for WinUI and Uno. The `:broken` variants are `--resolve-only` and make no HTTP
+requests, so use those to check the source itself while a platform's API docs are still coming.
 
 Interpret common statuses:
 
