@@ -54,7 +54,7 @@ The Rating supports half-star and other fractional values, a hover preview, sing
 
 ## Anatomy
 
-The Rating is built from Label and Value, where the Value is the number of the rating scale. The Label can be switched on/off using a boolean property. The number of icons in the rating scale is predefined to 5 stars in total, but if you need to design a Rating with more rating icons, the easiest way to do so is by inserting the component into your workspace.
+The Rating is built from Label and Value, where the Value is the number of the rating scale. The label shows when you set `label`. Set `max` to change the number of symbols (5 by default).
 
 <Anatomy
   class="rating-anatomy"
@@ -148,7 +148,7 @@ Register the Rating module in **Program.cs**:
 builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule));
 ```
 
-Then link the theme CSS file in **wwwroot/index.html** for a **Blazor WebAssembly** project or in **Pages/_Host.cshtml** for a **Blazor Server** project:
+Then add the theme stylesheet to your host page:
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -219,6 +219,8 @@ The Rating renders five stars and starts with a value of 0.
 ## Usage
 
 Use the {Platform} Rating to collect a score for a product, a service, or an experience, or to show an average score that users can't change.
+
+### Hover Preview
 
 Set `hoverPreview` to fill the symbols up to the value under the pointer before the user clicks. When the pointer leaves the symbols, the {Platform} Rating shows its value again. A read-only or disabled Rating shows no preview.
 
@@ -293,6 +295,8 @@ public onHover(event: Event) {
 
 </PlatformBlock>
 
+### Reset
+
 By default, a click on the current value keeps the value. Set `allowReset` to reset the {Platform} Rating to 0 when the user clicks the current value again.
 
 <PlatformBlock for="WebComponents">
@@ -327,7 +331,9 @@ By default, a click on the current value keeps the value. Set `allowReset` to re
 
 </PlatformBlock>
 
-Set `readOnly` to show a score that users can't change, such as the average of all reviews. The value can be any number in the range, so a value of 4.3 fills four symbols and 30% of the fifth. A read-only {Platform} Rating stays in the tab order, and assistive technology announces it as read-only.
+### Read-Only
+
+Set `readOnly` to show a score that users can't change, such as the average of all reviews. The value can be any number in the range, so a value of 4.3 fills four symbols and 30% of the fifth. A read-only {Platform} Rating stays in the tab order<PlatformBlock for="React,WebComponents,Angular">, and assistive technology announces it as read-only</PlatformBlock>.
 
 <PlatformBlock for="WebComponents">
 
@@ -453,7 +459,7 @@ Assistive technology reads the value as "3 of 5" by default. Set <ApiLink pkg="c
 
 </PlatformBlock>
 
-Text layer can be changed or hidden, if not needed
+Leave `label` unset to hide the label, or use the `value-label` slot to show the score.
 
 <PlatformBlock for="Angular">
 
@@ -972,6 +978,8 @@ The directive updates the model on `igcChange`, marks the control as touched whe
 
 </PlatformBlock>
 
+The Rating has no `required` validation. To require a score, check that the value is greater than 0 before you submit the data.
+
 ### Do/Don't
 
 The star is a very recognizable ranking symbol, and people may not associate other symbols with a rating scale. If you replace the star with a custom symbol, make sure that its purpose is clear. Avoid colors with poor contrast, like similar shades of the same color or combinations that create chromatic aberrations. The Icons selections should be emphasized and should have a good visual distinct appearance.
@@ -983,11 +991,11 @@ The star is a very recognizable ranking symbol, and people may not associate oth
 
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
   <div>
-    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">Do</p>
     <p style="margin: 0;">Use stars or another symbol that users associate with a rating scale.</p>
   </div>
   <div>
-    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">Don't</p>
     <p style="margin: 0;">Avoid symbols whose meaning as a score isn't clear.</p>
   </div>
 </div>
@@ -999,11 +1007,11 @@ The star is a very recognizable ranking symbol, and people may not associate oth
 
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
   <div>
-    <p style="color: #258b3b; font-weight: 600; margin: 0 0 8px;">Do</p>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">Do</p>
     <p style="margin: 0;">Make the selected symbols stand out from the empty ones.</p>
   </div>
   <div>
-    <p style="color: #e40046; font-weight: 600; margin: 0 0 8px;">Don't</p>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">Don't</p>
     <p style="margin: 0;">Avoid similar shades for the selected and the empty symbols.</p>
   </div>
 </div>
@@ -1024,16 +1032,20 @@ The {Platform} Rating exposes the following properties. See the API reference fo
 | <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="single" label="single" /></PlatformBlock><PlatformBlock for="Angular">[`single`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#single)</PlatformBlock> | `boolean` | `false` | Whether only the selected symbol is shown as full. |
 | <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="allowReset" label="allowReset" /></PlatformBlock><PlatformBlock for="Angular">[`allowReset`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#allowReset)</PlatformBlock> | `boolean` | `false` | Whether a click on the current value resets the rating to 0. |
 | <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock><PlatformBlock for="Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#disabled)</PlatformBlock> | `boolean` | `false` | Whether the rating is disabled. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="React">`invalid`</PlatformBlock><PlatformBlock for="Angular">[`invalid`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#invalid)</PlatformBlock> | `boolean` | `false` | Marks the rating as invalid through the `ig-invalid` custom state. The Rating themes don't style this state. |
 <PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="name" label="name" /></PlatformBlock><PlatformBlock for="React">`name`</PlatformBlock><PlatformBlock for="Angular">[`name`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#name)</PlatformBlock> | `string` | — | The name under which a form submits the value. |</PlatformBlock>
 
 ## Methods
 
-The {Platform} Rating exposes the following methods. They change the value without emitting a change event.
+The {Platform} Rating exposes the following methods. The step methods change the value without emitting a change event.
 
 | Method | Description |
 | --- | --- |
-| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | Increases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
-| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | Decreases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUp" label="StepUp" />, <ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | Increases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDown" label="StepDown" />, <ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | Decreases the value by the given number of steps.<PlatformBlock for="Angular,React,WebComponents"> The number defaults to 1.</PlatformBlock> |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="React">`checkValidity`</PlatformBlock><PlatformBlock for="Angular">[`checkValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#checkValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="CheckValidity" label="CheckValidity" />, <ApiLink pkg="core" type="Rating" member="CheckValidityAsync" label="CheckValidityAsync" /></PlatformBlock> | Returns whether the value is valid, and emits `invalid` when it isn't. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="React">`reportValidity`</PlatformBlock><PlatformBlock for="Angular">[`reportValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#reportValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="ReportValidity" label="ReportValidity" />, <ApiLink pkg="core" type="Rating" member="ReportValidityAsync" label="ReportValidityAsync" /></PlatformBlock> | Returns whether the value is valid, and shows the browser validation message when it isn't. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="setCustomValidity" label="setCustomValidity" /></PlatformBlock><PlatformBlock for="React">`setCustomValidity`</PlatformBlock><PlatformBlock for="Angular">[`setCustomValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#setCustomValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="SetCustomValidity" label="SetCustomValidity" />, <ApiLink pkg="core" type="Rating" member="SetCustomValidityAsync" label="SetCustomValidityAsync" /></PlatformBlock> | Sets a custom validation message. The rating is invalid while the message isn't empty. |
 
 ## Events
 
@@ -1237,7 +1249,7 @@ The {Platform} Rating renders one focusable element, the `base` part, with the `
 
 <PlatformBlock for="React,WebComponents,Angular">
 
-With `igniteui-webcomponents` 7.4.0 and later, the slider also sets `aria-disabled` and `aria-readonly` to expose the disabled and read-only states. With 7.4.1 and later, the slider takes its accessible name from the first of the following:
+With `igniteui-webcomponents` 7.3.0 and later, the slider also sets `aria-disabled` and `aria-readonly` to expose the disabled and read-only states. With 7.4.1 and later, the slider takes its accessible name from the first of the following:
 
 1. The `aria-labelledby` attribute of the host.
 2. A `<label>` element that is bound through `for`, or that wraps the Rating. A click on the label focuses the slider.
@@ -1271,7 +1283,7 @@ Infragistics documents {ProductName} accessibility support for Section 508 and W
 | [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | The arrow keys, Home, and End change the value, so users can rate without a pointer. |
 | [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | The Rating is a single tab stop and doesn't handle the Tab key, so Tab and Shift + Tab move the focus out of it. |
 | [2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | The Rating themes don't remove the browser focus indicator from the focused slider. |
-| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The slider exposes the `slider` role, its value through `aria-valuenow` and `aria-valuetext`, and the name that you provide.<PlatformBlock for="React,WebComponents,Angular"> With `igniteui-webcomponents` 7.4.0 and later, it also exposes the disabled and read-only states.</PlatformBlock> |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The slider exposes the `slider` role, its value through `aria-valuenow` and `aria-valuetext`, and the name that you provide.<PlatformBlock for="React,WebComponents,Angular"> With `igniteui-webcomponents` 7.3.0 and later, it also exposes the disabled and read-only states.</PlatformBlock> |
 
 Your responsibilities:
 
@@ -1303,15 +1315,6 @@ The {Platform} Rating keeps the value on a click on the current value, unless yo
 ### Why doesn't the hover event fire?
 
 The {Platform} Rating emits the hover event only while `hoverPreview` is on, and not when the Rating is read-only or disabled. Set `hoverPreview` to receive the event.
-
-### Known Limitations
-
-The {Platform} Rating has the following limitations:
-
-- The scale always starts at 0. The Rating has no property for another minimum.
-- The Rating has no `required` validation. To require a score, check that the value is greater than 0 before you submit the data.
-- In single selection, the step is always 1.
-- The Rating has no invalid styles of its own, and it doesn't set `aria-invalid`.
 
 ## API References
 
