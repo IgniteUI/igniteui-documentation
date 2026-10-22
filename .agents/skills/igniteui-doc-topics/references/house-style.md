@@ -218,7 +218,7 @@ under **Usage**, never a new top-level section.
 | 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. Every topic, including category/index topics, must contain `last_updated` in frontmatter; the date is rendered by the site layout and must not be added as visible topic text. |
 | 2 | **Live Demo** | required | demonstration (action) | A `## Live Demo` section containing exactly one `<Sample>` of the simplest useful state, before **Anatomy**. Keep this section sample-only unless a one-sentence setup is truly needed. |
 | 3 | **Anatomy** | required for component topics | orientation (reference) | Use the shared Astro `<Anatomy>` component with a verified anatomy image, `name`, `description`, and `alt`; follow it with the verified **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
-| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** and include the required `### Prerequisites and Version Compatibility` subsection for verified package, framework, and version guidance. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. |
+| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** and include the required `### Prerequisites and Version Compatibility` subsection for verified package, framework, and version guidance. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. **Blazor:** module registration is optional — see *Blazor module registration* below. |
 | 5 | **Usage** | required | how-to + explanation | Add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings, and includes the matching guidance image from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available. Styling content belongs in **Styling**, not here. |
 | 6 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
 | 7 | **Methods** | conditional | reference | Table of callable actions. |
@@ -514,6 +514,13 @@ audits the body side.
   page; each component page shows only its own import. Keep the prerequisite as a single linked line
   (optionally with an inline `ng add` token) so a cold-landing reader or AI still has the pointer — just
   not the repeated paragraph.
+- **Blazor module registration.** A Blazor component loads its own module the first time it renders,
+  so Getting Started shows the bare `builder.Services.AddIgniteUIBlazor()` call (the one setup step a
+  Blazor component page repeats), then names the component's own module as **optional**, linked to
+  the **Component Modules** section of the general getting-started topic. Don't list the modules of
+  other components the content uses. List as required only feature modules that no component
+  loads (chart interactivity, the Dashboard Tile's visualizations). Canonical example:
+  `inputs/badge.mdx`.
 - **Styling leads with the result.** The Styling section opens with a `<Sample>` of the styled
   outcome, then the tables; its first subsection is `### Sass Theming` (the Sass theme workflow), then
   the other approaches (`### Tailwind`, `### Custom sizing`, …).
