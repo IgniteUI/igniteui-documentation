@@ -1,6 +1,6 @@
 # Ignite UI documentation — agent skills
 
-Version: v6 · 2026-10-20 · igniteui doc-skill set. This file is for humans; agents load the
+Version: v7 · 2026-10-22 · igniteui doc-skill set. This file is for humans; agents load the
 SKILL.md files. Change history: `.agents/CHANGELOG.md`.
 
 ## Layout

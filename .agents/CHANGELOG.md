@@ -1,6 +1,22 @@
 # igniteui doc-skill set · changelog
 
-Version: v6 · 2026-10-20 · igniteui doc-skill set.
+Version: v7 · 2026-10-22 · igniteui doc-skill set.
+
+## v7 · 2026-10-22
+
+Teaches the set that Blazor module registration is optional: a component loads its own module the
+first time it renders. Under v6 an author led a Blazor Getting Started with "register the X module",
+listed every other component's module, and F4 flagged the bare `AddIgniteUIBlazor()` call the topics
+repeat on purpose. Decision: IgniteUI/igniteui-documentation#946, which applies the pattern to the
+Blazor topics in the same change.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| *Blazor module registration* bullet added to house-style, and the Getting Started row points to it: show the bare `builder.Services.AddIgniteUIBlazor()` call, then the component's own module as optional; no other components' modules; feature modules no component loads stay required. Traces to IgniteUI/igniteui-documentation#946, which applied the pattern to the Blazor topics; under the v6 rules an author led with "register the X module" and listed every other component's module. | `.agents/skills/igniteui-doc-topics/references/house-style.md` |
+| Audit check F4 scoped (Blazor's bare `AddIgniteUIBlazor()` snippet is not boilerplate) and F9 (Warning) added: a Blazor Getting Started presenting a component module as required, or listing other components' modules. Same decision as the row above. | `.agents/skills/igniteui-doc-topics/references/audit-rubric.md` |
+| Set bumped to v7. | `.agents/**` |
 
 ## v6 · 2026-10-20
 
