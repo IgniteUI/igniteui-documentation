@@ -55,6 +55,49 @@ Use the platform-specific commands from the root workspace:
 | Blazor Japanese | `npm run xplat:dev:blazor:jp`
 
 
+## Header and footer
+
+The Infragistics header and footer come from the marketing site
+(Marketing-Infragistics), which publishes them at
+`/assets/chrome/fragment.html`. Both sites (`docs/angular` and `docs/xplat`) render a **snapshot** of it kept in this
+repo, through igniteui-astro-components' `igChrome()`. Nothing is fetched at build
+time or at runtime: the chrome's CSS, JS and images are copied into the build
+and served from `{base}/_ig-chrome/{build}/`.
+
+```
+ig-chrome/
+  staging/      from https://astro-staging.infragistics.com  (default builds)
+  production/   from https://www.infragistics.com            (`DOCS_ENV=production`)
+```
+
+One folder serves both sites: `createDocsSite` in `src/integration.ts` picks
+`ig-chrome/production` for `DOCS_ENV=production` builds and `ig-chrome/staging`
+otherwise.
+
+- **Japanese builds** keep the legacy chrome fetched from
+  `jp.infragistics.com/navigation` until a Japanese fragment is published.
+- A missing or invalid snapshot **fails the build**, naming the folder.
+- **Don't edit `ig-chrome/` by hand.** The marketing site's deploy (its
+  `sync-chrome` job) runs `scripts/chrome-sync.mjs` on what it just deployed and
+  opens a PR here (`chore/sync-header-footer-staging` or `…-production`) when
+  the chrome changed. Review and merge it like any other PR.
+
+To sync by hand, run the script locally:
+
+```sh
+node scripts/chrome-sync.mjs --source https://www.infragistics.com/assets/chrome/fragment.html --out ig-chrome/production
+node scripts/chrome-sync.mjs --source ../Marketing-Infragistics/dist/assets/chrome/fragment.html --out ig-chrome/staging
+```
+
+`--source` takes a fragment URL, or the `fragment.html` of a local marketing
+build (its `dist/` must hold the images the fragment links). The script
+validates the fragment, downloads its CSS, JS and images, and writes nothing
+when the build hash is unchanged (`--force` rewrites anyway; `--allow-missing`
+skips instead of failing when the fragment returns 404). An unreachable host
+fails: astro-staging is only reachable from the internal network.
+
+See [igniteui-astro-components: The Infragistics header and footer](https://github.com/IgniteUI/igniteui-astro-components#the-infragistics-header-and-footer).
+
 ## MDX Components
 
 The MDX files currently use these documentation components from `igniteui-astro-components/components/mdx`:
