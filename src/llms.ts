@@ -23,7 +23,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
+import yaml from 'js-yaml';
 import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 import type { NavLang } from './platform.ts';
 
@@ -72,10 +72,14 @@ interface FrontmatterData {
 // Frontmatter extraction
 // ---------------------------------------------------------------------------
 
+/** Leading `---` YAML block of a source MDX/MD file (optional BOM, LF or CRLF). */
+const FRONTMATTER_RE = /^\uFEFF?---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/;
+
 export function extractLlmsMeta(raw: string): LlmsMeta {
     let data: FrontmatterData;
     try {
-        data = matter(raw).data as FrontmatterData;
+        const block = FRONTMATTER_RE.exec(raw)?.[1];
+        data = ((block ? yaml.load(block) : null) ?? {}) as FrontmatterData;
     } catch {
         return {};
     }
