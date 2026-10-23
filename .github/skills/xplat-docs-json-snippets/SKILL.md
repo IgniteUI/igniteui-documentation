@@ -1,6 +1,7 @@
 ---
+license: MIT
 name: xplat-docs-json-snippets
-description: "Guide for authoring and validating json-snippet blocks in xplat MDX: stating a component once as JSON so generation emits each platform's own code, choosing channels, keeping a platform from being stranded, and running the schema, emission, casing and live-load checks."
+description: "Guide for authoring and validating json-snippet blocks in xplat MDX: stating a component once as JSON so generation emits each platform's own code, choosing channels, keeping a platform from being stranded, and running the schema, emission, casing and live-load checks. WHEN TO USE: adding, fixing or reviewing a json-snippet fence, choosing a channel, keeping a platform from being stranded, or diagnosing a snippet schema, emission, casing or live-load failure. WHEN NOT TO USE: ApiLink markup or API term resolution (use xplat-docs-api-links), PlatformBlock on its own (use xplat-docs-platform-block), or whole-topic structure (use igniteui-doc-topics)."
 user-invocable: true
 ---
 
