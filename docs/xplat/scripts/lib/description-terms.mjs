@@ -393,6 +393,20 @@ function mentionedTypesOf(content) {
 }
 
 /**
+ * A name the descriptions don't cover can still be a real class on this platform (Blazor's Igb*Module
+ * types have reference pages). The error offers the link alongside the escape; only the author knows
+ * whether the prose means that class.
+ */
+function indexedClassHint(term, platform, repoRoot) {
+    const { prefix } = AFFIXES[platform];
+    const name = prefix && term.startsWith(prefix) ? term.slice(prefix.length) : term;
+    const hit = platformType(name, platform, repoRoot);
+    if (!hit) return '';
+    const attrs = [`type="${hit.prefixed ? name : hit.symbol}"`, !hit.prefixed && 'prefixed={false}', !hit.suffix && AFFIXES[platform].suffix && 'suffix={false}'].filter(Boolean).join(' ');
+    return ` -- ${hit.symbol} is a ${platform} API ${hit.entries[0]?.k ?? "type"}; if that's what this means, link it with <ApiLink raw ${attrs} /> in a ${platform} PlatformBlock, otherwise escape it`;
+}
+
+/**
  * Every backticked term on a page, rewritten for one platform.
  *
  * @returns {{ content: string, errors: {term: string, line: number, message: string}[], usedApiLink: boolean }}
@@ -442,7 +456,8 @@ export function resolveDescriptionTerms(content, platform, { repoRoot }) {
         if (!looksLikeTerm(term)) return whole;
         const r = resolveOne(term, { d, platform, repoRoot, context: contextAt(at) });
         if (r.error) {
-            errors.push({ term, line: lineOf(at), message: r.error, kind: r.kind ?? 'description' });
+            const kind = r.kind ?? 'description';
+            errors.push({ term, line: lineOf(at), message: r.error + (kind === 'description' ? indexedClassHint(term, platform, repoRoot) : ''), kind });
             // Unlinked either way; an index miss the description could name keeps the platform's
             // spelling (markerSize on the web), so an acknowledged gap still reads correctly.
             return r.fallback ? '`' + r.fallback + '`' : whole;
