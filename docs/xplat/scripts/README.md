@@ -14,7 +14,6 @@ snippet validators that are run by hand.
 | `check-snippet-exclusions.mjs` | no exclusion leaves a platform reading prose with no code | by hand |
 | `check-snippet-casing.mjs` | a fence agrees with its sample about member casing | by hand |
 | `check-snippet-code-channels.mjs` | a markup fence carries the code the markup could not say | by hand |
-| `resolve-api-links.mjs`, `fix-api-link-attrs.mjs` | API links | by hand |
 | `lib/`, `platform-blocks.mjs` | shared by the above |  |
 | `snippet-emitter/` | the emitter, bundled from the published packages | CI builds it |
 | `ci/` | what the workflows call directly |  |
