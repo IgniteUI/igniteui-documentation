@@ -69,8 +69,21 @@ import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
 import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
+import { igChrome } from 'igniteui-astro-components/chrome';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+
+/**
+ * The Infragistics header/footer, a snapshot of the marketing site's own
+ * export (/assets/chrome/fragment.html), kept current by sync PRs from the
+ * marketing deploy (scripts/chrome-sync.mjs). One folder at the repo root, shared by
+ * docs/angular and docs/xplat:
+ *
+ *   ig-chrome/production  from www.infragistics.com        production builds
+ *   ig-chrome/staging     from astro-staging.infragistics.com  everything else
+ */
+const chromeSnapshot = (mode: string) =>
+    fileURLToPath(new URL(`../ig-chrome/${mode === 'production' ? 'production' : 'staging'}`, import.meta.url));
 
 /**
  * Absolute directories of every installed `igniteui-theming` copy, nearest first.
@@ -189,11 +202,17 @@ async function mapConcurrent<T, R>(
     return results;
 }
 
+// Drives the `api/<folder>/llms.txt` URL advertised per platform. WinUI and Uno Platform
+// are listed on the assumption that api-docs will publish these folders; if that
+// pipeline does not land, remove them so no unreachable URL is advertised.
+// See WINUI-UNO-PLAN.md §6.2.
 const API_DOCS_FOLDER_BY_PLATFORM: Partial<Record<PlatformKey, string>> = {
     angular: 'angular',
     react: 'react',
     'web-components': 'webcomponents',
     blazor: 'blazor',
+    winui: 'winui',
+    uno: 'uno-platform',
 };
 
 function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): string | undefined {
@@ -770,6 +789,24 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
     ];
 
+    // Make the sticky IG header scroll away so it no longer covers the sticky
+    // subheader.
+    const chromeHead: HeadEntry[] = [{
+        tag: 'style',
+        content:
+            '[data-astro-transition-persist="global-nav-bar"]{position:relative!important}' +
+            '.igd-chrome header.nv{position:relative;top:auto}',
+    }, {
+        // Close an open top-nav dropdown on scroll
+        tag: 'script',
+        content:
+            'if(!window.__igdNavScrollClose){window.__igdNavScrollClose=1;' +
+            'addEventListener("scroll",function(){' +
+            'if(document.querySelector(\'.nv [data-nav-trigger][aria-expanded="true"]\'))' +
+            'document.body.dispatchEvent(new MouseEvent("click",{bubbles:true}))' +
+            '},{passive:true})}',
+    }];
+
     // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
     // /code-viewer/*.json from the local demos server without CORS issues.
     const devProxy: Record<string, object> = {};
@@ -881,8 +918,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
-                head: [...gtmHead, ...platformHead, ...codeViewHead, ...head],
+                head: [...gtmHead, ...platformHead, ...codeViewHead, ...chromeHead, ...head],
             }),
+            igChrome({ snapshot: chromeSnapshot(mode) }),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],
