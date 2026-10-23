@@ -63,6 +63,10 @@ const FOLDER_LABELS = {
     'wc-jp':      'WebComponents (JP)',
     blazor:       'Blazor (EN)',
     'blazor-jp':  'Blazor (JP)',
+    winui:        'WinUI (EN)',
+    'winui-jp':   'WinUI (JP)',
+    uno:          'Uno (EN)',
+    'uno-jp':     'Uno (JP)',
 };
 
 /** Subfolders to skip inside each platform build - no API links there. */
