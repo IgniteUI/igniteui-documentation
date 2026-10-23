@@ -15,7 +15,6 @@ The Ignite UI Rating component allows users to view and provide feedback.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 
 ## Basic Usage

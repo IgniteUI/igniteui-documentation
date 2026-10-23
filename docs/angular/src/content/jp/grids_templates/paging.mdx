@@ -5,6 +5,8 @@ description: Angular ページネーションを構成して Ignite UI の Angul
 keywords: angular ページネーション, igniteui for angular, インフラジスティックス
 license: commercial
 _language: ja
+llms:
+  description: "ページネーションは、大量のデータセットを類似したコンテンツを持つ一連のページに分割するために使用されます。"
 ---
 
 </ComponentBlock>
@@ -16,6 +18,8 @@ keywords: angular ページネーション, igniteui for angular, インフラ�
 license: commercial
 _canonicalLink: grid/paging
 _language: ja
+llms:
+  description: "ページネーションは、大量のデータセットを類似したコンテンツを持つ一連のページに分割するために使用されます。"
 ---
 
 </ComponentBlock>
@@ -45,7 +49,6 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 <Sample src="/hierarchical-grid/hierarchical-grid-paging" height={580} alt="Angular ページネーションの例" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 [`igx-paginator`](/paginator) コンポーネントを追加すると、機能が存在するかどうかが制御されます。トグル プロパティを持つ単純な `*ngIf` を使用して、機能を有効/無効にできます。<ApiLink type="Paginator" member="perPage" label="perPage" /> 入力は、ページごとに表示されるレコードを制御します。以下のように {ComponentTitle} でページングを有効にします。
@@ -171,11 +174,10 @@ IgxHierarchicalGrid の子グリッドの実装方法および DI スコープ�
 <Sample src="/hierarchical-grid/hierarchical-grid-reusable-paginator" height={600} alt="" />
 </ComponentBlock>
 
-<div class="divider--half"></div>
 
 ## リモート ページング
 
-リモート ページングは、データ取得を担当するサービスと、グリッドの構築とデータ サブスクリプションを担当するコンポーネントを宣言することで実現できます。詳細については、[`{ComponentTitle} リモート データ操作`](/{igPath}/remote-data-operations#リモート-ページング)トピックをご覧ください。
+リモート ページングは、データ取得を担当するサービスと、グリッドの構築とデータ サブスクリプションを担当するコンポーネントを宣言することで実現できます。<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">詳細については、[`{ComponentTitle} リモート データ 操作`](/{igPath}/remote-data-operations#リモート-ページング)トピックをご覧ください。</ComponentBlock>
 
 <ComponentBlock for="Grid">
 
@@ -195,62 +197,22 @@ IgxHierarchicalGrid の子グリッドの実装方法および DI スコープ�
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-最も簡単な方法で <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> を拡張し `$text-color`、`$background-color` および `$border-color` パラメータを受け入れる新しいテーマを作成します。
+最も簡単な方法で <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> を拡張し `$foreground`、`$background`、`$border-color` および `$accent-color` パラメータを受け入れる新しいテーマを作成します。
 
 ```scss
-$dark-paginator: paginator-theme(
-  $text-color: #d0ab23;,
-  $background-color: #231c2c,
-  $border-color: #d0ab23;
+$paginator-theme: paginator-theme(
+  $foreground: #ff570f,
+  $background: #130425FF,
+  $border-color: #ff570f,
+  $accent-color: #ff570f,
 );
 ```
 
-`paginator-theme` はページング コンテナーの色の制御のみですが、ポケットベル UI のボタンには影響しません。これらのボタンにスタイル設定するために、新しいアイコン ボタン テーマを作成しましょう。
+新しく作成したテーマを**含める**ことができます。
 
 ```scss
-$dark-button: flat-icon-button-theme(
-  $foreground: #d0ab23,
-  $hover-foreground: #231c2c,
-  $hover-background: #d0ab23,
-  $focus-foreground: #231c2c,
-  $focus-background: #d0ab23,
-  $disabled-foreground: #9b7829
-);
-```
-
-<DocsAside type="info" title="情報">
-上記のようにカラーの値をハードコーディングする代わりに、<ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> および <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> 関数を使用してカラーに関してより高い柔軟性を実現することができます。使い方の詳細については[`パレット`](/themes/sass/palettes.md)のトピックをご覧ください。
-</DocsAside>
-
-最後にそれぞれのテーマを持つコンポーネント ミックスインを**含める**ことです。
-
-```scss
-:host {
-    @include tokens($dark-paginator);
-
-    .igx-grid-paginator__pager {
-        @include tokens($dark-button);
-    }
-}
-```
-
-<DocsAside type="info" title="情報">
-作成した **icon-button-theme** を `.igx-paginator__pager` 内に含めて、ページネーター ボタンのみにスタイルを設定します。そうでない場合は、グリッド内の他のアイコン ボタンも影響を受けます。
-</DocsAside>
-
-<DocsAside type="info" title="情報">
-コンポーネントが [`Emulated`](/themes/sass/component-themes.md#表示のカプセル化) ViewEncapsulation を使用している場合、ボタンのようにページング コンテナー内にあるコンポーネントのスタイルを設定するには、`::ng-deep` を使用してこのカプセル化を`解除する`必要があります。
-</DocsAside>
-
-```scss
-:host {
-  @include tokens($dark-paginator);
-
-  igx-paginator {
-    ::ng-deep {
-      @include tokens($dark-button);
-    }
-  }
+igx-paginator {
+  @include tokens($paginator-theme);
 }
 ```
 
@@ -260,7 +222,6 @@ $dark-button: flat-icon-button-theme(
 
 <Sample src="/grid/custom-grid-paging-style" height={560} alt="" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 <ComponentBlock for="HierarchicalGrid">
@@ -287,10 +248,10 @@ $dark-button: flat-icon-button-theme(
 
 ## その他のリソース
 
-<div class="divider--half"></div>
 
 - [{ComponentTitle} 概要](/{igPath}/{ComponentMainTopic})
-- [Paginator](/paginator.md)
+- [Paginator](/paginator)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
 - [仮想化とパフォーマンス](/{igPath}/virtualization)
 - [フィルタリング](/{igPath}/filtering)
 - [ソート](/{igPath}/sorting)
@@ -299,8 +260,8 @@ $dark-button: flat-icon-button-theme(
 - [列ピン固定](/{igPath}/column-pinning)
 - [列サイズ変更](/{igPath}/column-resizing)
 - [選択](/{igPath}/selection)
+</ComponentBlock>
 
-<div class="divider--half"></div>
 コミュニティに参加して新しいアイデアをご提案ください。
 
 - [Ignite UI for Angular **フォーラム** (英語)](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

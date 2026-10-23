@@ -9,7 +9,7 @@ _language: kr
 <p class="highlight">
 The [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) exposes API that allows to bind a combo to a remote service and retrieve data on demand.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The sample below demonstrates remote binding using combo API - defining [valueKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#valuekey) and [displayKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#displaykey), and using [dataPreLoad]({environment:angularApiUrl}/classes/igxcombocomponent.html#datapreload) to load new chunk of remote data:
@@ -70,6 +70,7 @@ When the data is returned from the service as an observable, then we can set it 
 <igx-combo [data]="rData | async" [valueKey]="'ProductID'" [displayKey]="'ProductName'"
     (dataPreLoad)="dataLoading($event)" (searchInputUpdate)="searchInput($event)" (opening)="searchInput('')"></igx-combo>
 ```
+
 Let's define the cases, when the [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) will need to request new data:
     - when combo is initialized
     - when we scroll combo's list. Then combo will emit [dataPreLoad]({environment:angularApiUrl}/classes/igxcombocomponent.html#datapreload) along with the new combo `virtualizationState`, which allows to make a new request to the remote service.
@@ -133,15 +134,14 @@ export class ComboRemoteComponent implements OnInit {
 > Note: Service needs to be included as a provider.
 
 ## Additional Resources
-<div class="divider--half"></div>
 
-* [Combo Features](combo-features.md)
-* [Combo Templates](combo-templates.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Single Select ComboBox](simple-combo.md)
+- [Combo Features](combo-features.md)
+- [Combo Templates](combo-templates.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Single Select ComboBox](simple-combo.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

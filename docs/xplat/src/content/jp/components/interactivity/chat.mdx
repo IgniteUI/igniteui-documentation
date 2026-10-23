@@ -5,16 +5,19 @@ keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widge
 license: MIT
 mentionedTypes: ["Chat"]
 _language: ja
+llms:
+  description: "{ProductName} チャット コンポーネントは、アプリケーションで会話型インターフェースを構築するための完全なソリューションを提供します。"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} Chat (チャット) の概要
 
 {ProductName} チャット コンポーネントは、アプリケーションで会話型インターフェースを構築するための完全なソリューションを提供します。カスタマー サポート ツール、コラボレーション ワークスペース、チャットボット アシスタントなどを作成する場合でも、チャット コンポーネントは必要な機能を提供します: テキスト メッセージの送受信、ファイル添付のアップロード、クイック リプライサジェストの表示、他の参加者が入力中であることを示す入力中インジケーター。
 
-`Chat` コンポーネントは静的なメッセージ リストではなく、**リアルタイム通信**を想定したインタラクティブな設計です。入力やレンダリング、ユーザー操作を管理しつつ、メッセージや添付の表示方法は完全にカスタマイズ可能です。また、レイアウトやビジュアルの任意部分をオーバーライドできる広範なレンダリング API も提供されています。
+<ApiLink pkg="core" type="Chat" /> コンポーネントは静的なメッセージ リストではなく、**リアルタイム通信**を想定したインタラクティブな設計です。入力やレンダリング、ユーザー操作を管理しつつ、メッセージや添付の表示方法は完全にカスタマイズ可能です。また、レイアウトやビジュアルの任意部分をオーバーライドできる広範なレンダリング API も提供されています。
 
 <Sample src="/interactions/chat/overview" height={900} alt="{Platform} Chat 概要の例" />
 
@@ -36,6 +39,20 @@ npm install {PackageWebComponents}
 
 ```cmd
 npm install igniteui-react
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cmd
+Install-Package IgniteUI.Blazor
+```
+
+または .NET CLI を使用します:
+
+```cmd
+dotnet add package IgniteUI.Blazor
 ```
 
 </PlatformBlock>
@@ -64,11 +81,27 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 </PlatformBlock>
 
-CSS ファイルにはデフォルト テーマが含まれています。`Chat` をアプリケーションのブランドに合わせて変更したい場合は、別のテーマに置き換えたり、カスタム テーマを作成したりできます。
+<PlatformBlock for="Blazor">
+
+```cs
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbChatModule));
+```
+
+<ApiLink pkg="core" type="Chat" /> コンポーネントにスタイルを適用するには、追加の CSS ファイルをリンクする必要があります。
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+CSS ファイルにはデフォルト テーマが含まれています。<ApiLink pkg="core" type="Chat" /> をアプリケーションのブランドに合わせて変更したい場合は、別のテーマに置き換えたり、カスタム テーマを作成したりできます。
 
 ## 使用方法
 
-最も簡単な使用方法は、以下のように直接 `Chat` を宣言することです。
+最も簡単な使用方法は、以下のように直接 <ApiLink pkg="core" type="Chat" /> を宣言することです。
 
 <PlatformBlock for="WebComponents">
 
@@ -101,6 +134,24 @@ const options: IgrChatOptions = {
 return (
   <IgrChat options={options} />
 );
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+ public IgbChatOptions Options = new IgbChatOptions()
+ {
+  CurrentUserId = "user",
+  HeaderText = "Support Chat"
+ };
+```
+
+```razor
+<IgbChat @ref="Chat" Options="Options">
+</IgbChat>
 ```
 
 </PlatformBlock>
@@ -157,19 +208,93 @@ const ChatExample = () => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChat @ref="Chat" Options="Options" Messages="Messages" MessageCreated="OnMessageCreated" Height="100%"></IgbChat>
+```
+
+```cs
+ public IgbChatMessage[] Messages = new IgbChatMessage[]
+ {
+     new IgbChatMessage()
+     {
+         Id = "1",
+         Text = "Hi, I have a question about my recent order, #7890.",
+         Sender = "user",
+         Timestamp = (DateTime.Now - TimeSpan.FromMilliseconds(3500000)).ToString()
+     }
+ }
+```
+
+`Messages` コレクションは、ユーザーがメッセージを送信すると自動的に更新されます。`MessageCreated` イベントを処理して、メッセージを永続化したり、その他の副作用を実行したりできます。イベントの詳細を `Messages` に再度追加しないでください:
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Console.WriteLine($"Message created: {e.Detail.Text}");
+}
+```
+
+</PlatformBlock>
+
 この方法により、サーバー エンドポイント、チャットボット エンジン、コラボレーション アプリのバックエンドなど、任意のデータ ソースと簡単に統合できます。
 
 ### プロパティ
-`Chat` コンポーネントは、その状態と構成を制御できるいくつかの重要なプロパティを公開します。
+<ApiLink pkg="core" type="Chat" /> コンポーネントは、その状態と構成を制御できるいくつかの重要なプロパティを公開します。
 
-| 名前              | 説明                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `messages`        | チャットに表示されるメッセージの配列 (`ChatMessage[]`)。表示するメッセージを制御するためにバインド可能。                                                  |
-| `draftMessage`    | 未送信メッセージ。`text` とオプションの `attachments` を含むオブジェクト。メッセージ下書きの保存や復元に便利。            |
-| `options`         | 現在のユーザー ID、入力プレースホルダー、許可されるファイル タイプ、クイック リプライサジェスト、入力遅延、カスタム レンダラーなどのチャット設定 (`ChatOptions`)。 |
-| `resourceStrings` | ラベル、ヘッダー、システム テキストのローカライズ文字列。多言語対応に使用。                                   |
+| 名前                                                                                                                                    | 説明                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <PlatformBlock for="Blazor">`Messages`</PlatformBlock><PlatformBlock for="WebComponents,React">`messages`</PlatformBlock>               | チャットに表示される双方向のメッセージの配列 (<ApiLink pkg="core" type="ChatMessage" />[])。ユーザーがメッセージを送信すると、Chat は渡されたコレクションを更新します。 |
+| <PlatformBlock for="Blazor">`DraftMessage`</PlatformBlock><PlatformBlock for="WebComponents,React">`draftMessage`</PlatformBlock>       | 未送信メッセージ。`text` とオプションの `attachments` を含むオブジェクト。メッセージ下書きの保存や復元に便利。 |
+| <PlatformBlock for="Blazor">`Options`</PlatformBlock><PlatformBlock for="WebComponents,React">`options`</PlatformBlock>                 | 現在のユーザー ID、入力プレースホルダー、許可されるファイル タイプ、クイック リプライサジェスト、入力遅延、カスタム レンダラーなどのチャット設定 (<ApiLink pkg="core" type="ChatOptions" />)。 |
+| <PlatformBlock for="Blazor">`ResourceStrings`</PlatformBlock><PlatformBlock for="WebComponents,React">`resourceStrings`</PlatformBlock> | ラベル、ヘッダー、システム テキストのローカライズ文字列。多言語対応に使用。 |
 
 上記のプロパティを使用することで、Chat の UI をアプリケーションの状態やバックエンドと簡単に同期させることができます。
+
+#### 双方向のメッセージ コレクション
+
+<PlatformBlock for="WebComponents,React">`messages`</PlatformBlock><PlatformBlock for="Blazor">`Messages`</PlatformBlock> コレクションは双方向です。アプリケーションが表示するメッセージを提供し、会話が進むにつれて Chat が元のコレクションを更新します。ユーザーがメッセージを送信すると、そのコレクションへの参照を保持しているコードから、新しく作成されたメッセージにアクセスできます。
+
+<PlatformBlock for="WebComponents">`igcMessageCreated`</PlatformBlock><PlatformBlock for="React">`onMessageCreated`</PlatformBlock><PlatformBlock for="Blazor">`MessageCreated`</PlatformBlock> イベントは、永続化やその他の副作用のための通知です。作成されたメッセージをコレクションに再度追加しないでください。
+
+元のコレクションを変更せずに残す必要がある場合は、シャロー コピーを Chat に渡します。既存のメッセージ オブジェクトは引き続き共有されます。これらのオブジェクトも独立させる必要がある場合は、コピーしたコレクションを構築する際に、各メッセージの新しいインスタンスを作成してください。
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const chatMessages = [...originalMessages];
+chat.messages = chatMessages;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```tsx
+const chatMessages = [...originalMessages];
+
+return <IgrChat messages={chatMessages} options={options} />;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+IgbChatMessage[] chatMessages = originalMessages.ToArray();
+```
+
+```razor
+<IgbChat Messages="chatMessages" Options="Options"></IgbChat>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
 
 ### 添付
 モダンな会話ではテキストだけに限られません。Chat コンポーネントはファイル添付機能のサポートが組み込まれており、ユーザーは画像、ドキュメント、その他のファイルを共有できます。
@@ -222,6 +347,8 @@ const options: IgrChatOptions = {
 
 </PlatformBlock>
 
+</PlatformBlock>
+
 ### サジェスト
 クイック リプライのサジェストは、ユーザーがすぐにタップして返信できる事前定義の応答を提供します。この機能は、チャットボットやカスタマー サービスのフロー、あるいはユーザーを構造化されたプロセスに案内する場合に特に有用です。
 サジェストは、文字列の配列を suggestions プロパティにバインドすることで提供できます。`suggestions-position` 属性を使用すると、表示位置を入力領域の下またはメッセージ リストの下に制御できます。
@@ -262,6 +389,19 @@ return (
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  CurrentUserId = "me",
+  Suggestions = new string[] { "Yes", "No", "Maybe later" },
+  SuggestionsPosition = ChatSuggestionsPosition.BelowInput
+};
+```
+
+</PlatformBlock>
+
 この方法により、繰り返し入力する必要が減り、ガイド付きの会話でユーザー体験を向上させることができます。
 
 ### 入力中インジケーター
@@ -290,18 +430,42 @@ const options: IgrChatOptions = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  IsTyping = true
+};
+```
+
+</PlatformBlock>
+
 この機能は通常、バックエンド サービスからの入力イベントを受け取ったときなど、プログラムで切り替えます。
 
 ### カスタム レンダラー
 Chat コンポーネントはデフォルトの UI ですぐに使用できますが、多くのアプリケーションでは外観と操作性をカスタマイズする必要があります。たとえば、既読通知を追加したり、アバターを表示したり、入力領域を音声録音ボタンに置き換えたりする場合です。
-`Chat` コンポーネントはレンダラー システムでこのニーズに対応します。レンダラーは、UI の特定の部分のテンプレートを返す関数です。必要に応じて、任意の数のレンダラーをオーバーライドできます。
+<ApiLink pkg="core" type="Chat" /> コンポーネントはレンダラー システムでこのニーズに対応します。レンダラーは、UI の特定の部分のテンプレートを返す関数です。必要に応じて、任意の数のレンダラーをオーバーライドできます。
 
 #### ChatTemplateRenderer
 すべてのレンダラーは同じ関数シグネチャに従います。
 
+<PlatformBlock for="WebComponents, React">
+
 ```ts
 export type ChatTemplateRenderer<T> = (ctx: T) => unknown;
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```js
+igRegisterScript("MyTemplate", (ctx) => {
+}, false);
+```
+
+</PlatformBlock>
 
 ctx パラメーターは、レンダリングされる対象に応じたさまざまなコンテキスト データを提供します。
 
@@ -309,10 +473,10 @@ ctx パラメーターは、レンダリングされる対象に応じたさま�
 
 | コンテキスト タイプ                    | 提供データ                                                                                                   |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `ChatRenderContext`           | `instance` (チャット コンポーネント インスタンス).                                                                         |
-| `ChatInputRenderContext`      | `ChatRenderContext` を継承し、`attachments` (`ChatMessageAttachment` の配列) と `value` (現在の入力テキスト) を追加。 |
-| `ChatMessageRenderContext`    | `ChatRenderContext` を継承し、`ChatMessage` (レンダリングされる `ChatMessage`) を追加。                                 |
-| `ChatAttachmentRenderContext` | `ChatMessageRenderContext` を継承し、`attachment` (レンダリングされる `ChatMessageAttachment`) を追加。                 |
+| <ApiLink pkg="core" type="ChatRenderContext" />           | `instance` (チャット コンポーネント インスタンス).                                                                         |
+| <ApiLink pkg="core" type="ChatInputRenderContext" />      | <ApiLink pkg="core" type="ChatRenderContext" /> を継承し、`attachments` (<ApiLink pkg="core" type="ChatMessageAttachment" /> の配列) と `value` (現在の入力テキスト) を追加。 |
+| <ApiLink pkg="core" type="ChatMessageRenderContext" />    | <ApiLink pkg="core" type="ChatRenderContext" /> を継承し、<ApiLink pkg="core" type="ChatMessage" /> (レンダリングされる <ApiLink pkg="core" type="ChatMessage" />) を追加。                                 |
+| <ApiLink pkg="core" type="ChatAttachmentRenderContext" /> | <ApiLink pkg="core" type="ChatMessageRenderContext" /> を継承し、`attachment` (レンダリングされる <ApiLink pkg="core" type="ChatMessageAttachment" />) を追加。                 |
 
 #### 利用可能なレンダラー
 
@@ -321,7 +485,6 @@ Chat のカスタマイズ可能な部分は次の通りです:
 - Attachment レベル: attachment、attachmentHeader、attachmentContent
 - Input レベル: input、inputActions、inputActionsStart、inputActionsEnd、inputAttachments、fileUploadButton、sendButton
 - Suggestion: suggestionPrefix
-- その他: TypingIndicator
 
 この粒度により、添付の表示方法など、特定の部分だけを変更してもチャット全体のレイアウトを書き換える必要はありません。
 
@@ -358,6 +521,28 @@ const options = {
     }
   }
 };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        MessageContentScript = "MessageContentScript"
+    }
+};
+```
+
+```js
+igRegisterScript("MessageContentScript", (ctx) => {
+    var html = window.igTemplating.html;
+    return  html`<div className="bubble custom">${ctx.message.text}</div>`;
+}, false);
+
 ```
 
 </PlatformBlock>
@@ -401,12 +586,35 @@ const options = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        InputScript = "InputTemplate"
+    }
+};
+```
+
+
+```js
+igRegisterScript("InputTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<textarea placeholder=${ctx.instance?.options?.inputPlaceholder || 'Type here...'}>${ctx.value}</textarea>
+    <button @click=${() => alert('Voice input!')}>🎤</button>`;
+}, false);
+```
+
+</PlatformBlock>
+
 #### 例: 入力アクションの拡張
-`Chat` コンポーネントには、デフォルトのアクション (アップロードと送信) を保持しつつ追加のコントロールを拡張できるレンダラーがあります:
+<ApiLink pkg="core" type="Chat" /> コンポーネントには、デフォルトのアクション (アップロードと送信) を保持しつつ追加のコントロールを拡張できるレンダラーがあります:
 - `inputActionsStart` - デフォルトのアップロード ボタンの後にカスタム コンテンツを挿入可能。
 - `inputActionsEnd` - デフォルトの送信ボタンの後にカスタム コンテンツを挿入可能。
 
-例えば、アップロード ボタンの横に音声録音ボタンを追加したり、送信ボタンの後に追加オプション メニューを追加したりできます。
+例えば、他のボタンの前に音声録音ボタンを追加したり、送信ボタンの後に追加オプション メニューを追加したりできます。
 次の例では、デフォルトのアップロード ボタンはそのままですが、その隣にマイク ボタンが追加されています。一方、デフォルトの送信ボタンを削除し、カスタムの「質問」ボタンと「その他」メニューに置き換えます。
 
 <PlatformBlock for="WebComponents">
@@ -461,15 +669,68 @@ const options = {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  Renderers = new IgbChatRenderers()
+  {
+    InputActionsStartScript = "InputActionsStartTemplate",
+    InputActionsEndScript = "InputActionsEndTemplate",
+    SendButtonScript = "SendButtonTemplate"
+  }
+};
+```
+
+
+```js
+igRegisterScript("SendButtonTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html``;
+}, false);
+
+
+igRegisterScript("InputActionsStartTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<igc-icon-button variant="flat">🎤</igc-icon-button>`;
+}, false);
+
+igRegisterScript("InputActionsEndTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+    <igc-button @click=${() => handleCustomSendClick(ctx.instance)}>Ask</igc-button>
+    <igc-icon-button variant="flat" name="more_horiz"></igc-icon-button>
+  </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
 この設定では:
+<PlatformBlock for="WebComponents, React">
 - アップロード ボタンはそのまま残ります。
+</PlatformBlock>
 - その後にマイク ボタンが追加されます (inputActionsStart)。
 - デフォルトの送信ボタンが削除され、カスタムの「質問」ボタンと「その他」アイコン (inputActionsEnd) に置き換えられました。
 
 この方法により、チャット入力バーの柔軟性が完全に向上し、入力領域を最初から再構築することなく、アクションを追加、削除、または並べ替えることができます。
 
+<PlatformBlock for="WebComponents, React">
+
 ### Markdown レンダリング
-Chat コンポーネントは  `igniteui-webcomponents/extras`  `igniteui-react/extras`  からエクスポートされる `createMarkdownRenderer` ヘルパーを通じて Markdown をサポートします。これにより、書式付きテキスト、リンク、リスト、シンタックス ハイライト付きコードブロックを表示しつつ、安全に HTML をサニタイズできます。
+
+<PlatformBlock for="WebComponents">
+
+Chat コンポーネントは `igniteui-webcomponents/extras` からエクスポートされる `createMarkdownRenderer` ヘルパーを通じて Markdown をサポートします。これにより、書式付きテキスト、リンク、リスト、シンタックス ハイライト付きコードブロックを表示しつつ、安全に HTML をサニタイズできます。
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Chat コンポーネントは `igniteui-react/extras` からエクスポートされる `createMarkdownRenderer` ヘルパーを通じて Markdown をサポートします。これにより、書式付きテキスト、リンク、リスト、シンタックス ハイライト付きコードブロックを表示しつつ、安全に HTML をサニタイズできます。
+
+</PlatformBlock>
 <PlatformBlock for="WebComponents">
 
 <DocsAside type="info" title="情報">
@@ -561,6 +822,8 @@ const markdownRenderer = await createMarkdownRenderer({
 | `theme`         | 適用する Shiki テーマを指定するオブジェクト。`light` モードと `dark` モードに個別の値をサポートします (例: `{ light: 'github-light', dark: 'github-dark' }`)。 |
 | `sanitizer`     | 最終的な HTML をサニタイズするカスタム関数。デフォルトは `DOMPurify.sanitize` です。                                                                 |
 
+</PlatformBlock>
+
 ### イベント
 アプリケーション ロジックと統合するために、Chat コンポーネントは一連のイベントを発行します。
 
@@ -594,6 +857,16 @@ const markdownRenderer = await createMarkdownRenderer({
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+- MessageCreated - 新しいメッセージ作成時
+- MessageReact - メッセージにリアクションした時
+- TypingChange - 入力状態変更時
+- InputFocus / onInputBlur - 入力フォーカス イベント
+- InputChange - 入力値変更時
+
+</PlatformBlock>
+
 これらのイベントをリッスンし、バックエンドと同期することができます。
 
 <PlatformBlock for="WebComponents">
@@ -621,9 +894,26 @@ chatRef.current.addEventListener('onMessageCreated', (e) => {
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChat MessageCreated="OnMessageCreated"></IgbChat>
+```
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Console.WriteLine($"Message: {e.Detail.Text}");
+}
+```
+
+<Sample src="/interactions/chat/features" height={900} alt="{Platform} チャット機能" />
+
+</PlatformBlock>
+
 ## スタイル設定
 
-`Chat` コンポーネントは、外観や構造を詳細にカスタマイズできる **CSS パーツ**と**スロット**を提供します。
+<ApiLink pkg="core" type="Chat" /> コンポーネントは、外観や構造を詳細にカスタマイズできる **CSS パーツ**と**スロット**を提供します。
 
 ### CSS パーツ
 
@@ -721,19 +1011,19 @@ igc-chat::part(empty-state) {
 }
 ```
 
-これにより、`Chat` の機能を置き換えることなく、ブランドに合わせたスタイルを適用できます。
+これにより、<ApiLink pkg="core" type="Chat" /> の機能を置き換えることなく、ブランドに合わせたスタイルを適用できます。
 
 <Sample src="/interactions/chat/styling" height={900} alt="Web Components チャットのスタイル設定の例" />
 
 ## API リファレンス
 
-- `Chat`
-- `ChatOptions`
-- `ChatMessage`
-- `ChatMessageAttachment`
-- `ChatRenderers`
-- `ChatTemplateRenderer`
-- [スタイル設定およびテーマ](../themes/overview.md)
+- <ApiLink pkg="core" type="Chat" />
+- <ApiLink pkg="core" type="ChatOptions" />
+- <ApiLink pkg="core" type="ChatMessage" />
+- <ApiLink pkg="core" type="ChatMessageAttachment" />
+- <ApiLink pkg="core" type="ChatRenderers" />
+- <ApiLink type="ChatTemplateRenderer" />
+- [スタイル設定およびテーマ](../themes/overview.mdx)
 
 ## その他のリソース
 

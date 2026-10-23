@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/series-highlighting">
 </code-view>
 
-<div class="divider--half"></div>
 
 [`IgxDataChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxdatachartcomponent.html) 제어에서 강조 표시를 활성화하려면 대화형 모듈을 가져와 등록해야 합니다. 다음 코드를 사용하여 이 작업을 실행할 수 있습니다:
 

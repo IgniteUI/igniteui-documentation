@@ -21,7 +21,6 @@ The following example demonstrates the annotation layers that are available on t
 </code-view>
 
 
-<div class="divider--half"></div>
 
 Like this sample? Get access to our complete Angular toolkit and start building your own apps in minutes. <a href="{environment:infragisticsBaseUrl}/products/ignite-ui-angular/download">Download it for free.</a>
 
@@ -50,7 +49,6 @@ The following example shows how to configure the crosshair layer but targeting a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Final Value Layer
 
@@ -73,7 +71,6 @@ The following example demonstrates how to style the final value layer annotation
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ```html
 <igx-category-chart
@@ -107,7 +104,6 @@ The following example demonstrates how to style the callout layer annotations by
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ```html
 <igx-category-chart

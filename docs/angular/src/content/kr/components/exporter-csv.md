@@ -12,17 +12,16 @@ _language: kr
 The IgniteUI CSV Exporter service can export data in a Character Separated Values format from both raw data (array) or from an [**IgxGrid**](grid/grid.md).
 The exporting functionality is encapsulated in the [`IgxCsvExporterService`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html) class.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### CSV Exporter Demo
 
 
-<code-view style="height: 150px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 150px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-csv/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 To start using the IgniteUI CSV Exporter first import the [`IgxCsvExporterService`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html) in the app.module.ts file and add the service to the `providers` array:
 
@@ -73,12 +72,12 @@ public exportButtonHandler() {
 
 ```
 
-If all went well, you should see an export button. When pressed, it will trigger the export process and the browser will download a file named "ExportedDataFile.csv" which contains the data from the `localData` array in CSV format. 
+If all went well, you should see an export button. When pressed, it will trigger the export process and the browser will download a file named "ExportedDataFile.csv" which contains the data from the `localData` array in CSV format.
 
 
 ### Exporting IgxGrid's Data
 
-The CSV Exporter service can also export data in CSV format from an [**IgxGrid**](grid/grid.md). The only difference is that you need to invoke the 
+The CSV Exporter service can also export data in CSV format from an [**IgxGrid**](grid/grid.md). The only difference is that you need to invoke the
 [`IgxCsvExporterService`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html)'s [`export`]({environment:angularApiUrl}/classes/igxcsvexporterservice.html#export) method and pass the [**IgxGrid**](grid/grid.md) as first argument.
 
 Here is an example:
@@ -113,8 +112,8 @@ public exportButtonHandler() {
 ```
 
 
-<code-view style="height: 300px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 300px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/services/export-csv-sample-1/" >
 </code-view>
 
@@ -123,8 +122,8 @@ public exportButtonHandler() {
 ### Customizing the Exported Format
 
 The CSV Exporter supports several types of exporting formats. The export format may be specified:
-* as a second argument of the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) objects's constructor
-* using the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) object's [`fileType`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html#filetype) property
+- as a second argument of the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) objects's constructor
+- using the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) object's [`fileType`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html#filetype) property
 
 Different export formats have different file extensions and value delimiters. The following table maps the export formats and their respective file extensions and delimiters:
 
@@ -134,7 +133,6 @@ Different export formats have different file extensions and value delimiters. Th
 | [`CsvFileTypes.TAB`]({environment:angularApiUrl}/enums/csvfiletypes.html#tab) | .tab | Tab |
 | [`CsvFileTypes.TSV`]({environment:angularApiUrl}/enums/csvfiletypes.html#tsv) | .tsv | Tab |
 
-<div class="divider--half"></div>
 
 You can also specify a custom delimiter using the [`IgxCsvExporterOptions`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html) objects's [`valueDelimiter`]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html#valuedelimiter) property.
 
@@ -161,20 +159,19 @@ When you are exporting data from [**IgxGrid**](grid/grid.md) the export process 
 
 The CSV Exporter service has a few more APIs to explore, which are listed below.
 
-* [IgxCsvExporterService API]({environment:angularApiUrl}/classes/igxcsvexporterservice.html)
-* [IgxCsvExporterOptions API]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html)
+- [IgxCsvExporterService API]({environment:angularApiUrl}/classes/igxcsvexporterservice.html)
+- [IgxCsvExporterOptions API]({environment:angularApiUrl}/classes/igxcsvexporteroptions.html)
 
 Additional components that were used:
 
-* [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxGridComponent API]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent Styles]({environment:sassApiUrl}/themes#function-grid-theme)
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

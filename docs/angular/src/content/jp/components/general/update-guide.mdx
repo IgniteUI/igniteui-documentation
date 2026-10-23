@@ -3,6 +3,8 @@ title: アップデート ガイド | Ignite UI for Angular | インフラジス
 description: 新しいバージョンの Ignite UI for Angular ライブラリにアップデートする方法については、この記事を参照してください。
 keywords: ignite ui for angular, アップデート, npm パッケージ, マテリアル コンポーネント
 _language: ja
+llms:
+  description: "Ignite UI for Angular バージョニングは、最初の数字がコードでサポートされる Angular のメジャー バージョンで、2 番目の数字はメジャー バージョン リリースの数字です。"
 ---
 
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
@@ -61,6 +63,24 @@ ng update @angular/cli
 自動的にアップデートできない変更もあります。以下の変更はバージョンごとにセクションが分かれています。アッププデートが必要な場合は、現在のバージョンから開始してそれ以降のアップデートを適用しjます。
 
 例: 6.2.4 から 7.1.0 にアップデートする場合、[6.x .. から] セクションから始めて変更を適用していきます。
+
+## 21.1.x から 22.0.x の場合
+
+Angular はタッチ ジェスチャー用の `HammerModule` の提供を終了しました。Ignite UI for Angular コンポーネントでタッチ操作（パン、スワイプ、タップ）を引き続き使用するには、`angular.json` の `scripts` 配列で HammerJS をグローバル スクリプトとして読み込みます。
+
+```json
+"architect": {
+  "build": {
+    "options": {
+      "scripts": [
+        "node_modules/hammerjs/hammer.min.js"
+      ]
+    }
+  }
+}
+```
+
+グローバルに読み込まれると、Ignite UI for Angular は `window.Hammer` を自動検出してタッチ ジェスチャーの処理に使用します。追加のインポートやモジュール登録は不要です。
 
 ## 21.0.x から 21.1.x の場合
 
@@ -154,7 +174,7 @@ ng update igniteui-angular
 ng update igniteui-angular --migrate-only --from=20.1.0 --to=21.0.0
 ```
 
-エントリ ポイント、移行オプション、破壊的変更、および使用例の詳細については、[コード分割とマルチ エントリ ポイント ガイド](code-splitting-and-multiple-entry-points.md)を参照してください。
+エントリ ポイント、移行オプション、破壊的変更、および使用例の詳細については、[コード分割とマルチ エントリ ポイント ガイド](code-splitting-and-multiple-entry-points.mdx)を参照してください。
 
 ### 依存性注入のリファクタリング
 
@@ -414,8 +434,8 @@ public onButtonClick(event) {
 
 - `igxGrid`, `igxHierarchicalGrid`, `igxTreeGrid`
   - Parameters in grid templates now have types for their context. This can also cause issues if the app is in strict template mode and uses the wrong type. References to the template that may require conversion:
-    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" suffix={false} prefixed={false} /> (for example the column parameter in `igxFilterCellTemplate`)
-    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" suffix={false} prefixed={false} /> (for example the cell parameter in `igxCell` template)
+    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" /> (for example the column parameter in `igxFilterCellTemplate`)
+    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" /> (for example the cell parameter in `igxCell` template)
 - Ignite UI for Angular has a dependency on [igniteui-theming](https://github.com/IgniteUI/igniteui-theming). Add the following preprocessor configuration in your `angular.json` file.
 
 ```json
@@ -452,19 +472,19 @@ public onButtonClick(event) {
 
 - `igxGrid`、`igxHierarchicalGrid`、`igxTreeGrid`
   - グリッド テンプレートのパラメーターに、コンテキストの型が追加されました。これは、アプリが厳密なテンプレート モードであり、間違った型を使用している場合にも問題を引き起こす可能性があります。変換が必要なテンプレートへの参照:
-    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" suffix={false} prefixed={false} /> (たとえば、`igxFilterCellTemplate` の列パラメーター)
-    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" suffix={false} prefixed={false} /> (たとえば、`igxCell` テンプレートの cell パラメーター)
+    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" /> (たとえば、`igxFilterCellTemplate` の列パラメーター)
+    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" /> (たとえば、`igxCell` テンプレートの cell パラメーター)
 - Ignite UI for Angular に [igniteui-theming](https://github.com/IgniteUI/igniteui-theming) の依存関係があります。次のプリプロセッサ設定を `angular.json` ファイルに追加します。
 
-    ```json
-	"build": {
-	  "options": {
-	    "stylePreprocessorOptions": {
-		"includePaths": ["node_modules"]
-	    }
-	  }
-	}
-    ```
+```json
+"build": {
+  "options": {
+    "stylePreprocessorOptions": {
+      "includePaths": ["node_modules"]
+    }
+  }
+}
+```
 
 - **重大な変更** - テーマの構成、カラー、エレベーション、およびタイポグラフィのすべてのグローバル CSS 変数のプレフィックスが `--igx` から `--ig` に変更されました。この変更はグローバル コンポーネント変数には影響しません。
 
@@ -727,7 +747,7 @@ public onButtonClick(event) {
 <igx-icon style.color="{{ col.hasSummary ? '#e41c77' : '' }}">functions</igx-icon>
 ```
 
-  - **重大な変更** - グリッドにカスタム ディレクティブを適用する場合、ホスティング グリッドへの参照を取得するために、コンストラクターに `IGX_GRID_BASE` トークンを注入します。
+- **重大な変更** - グリッドにカスタム ディレクティブを適用する場合、ホスティング グリッドへの参照を取得するために、コンストラクターに `IGX_GRID_BASE` トークンを注入します。
 
 ```scss
 // free version
@@ -1007,7 +1027,7 @@ To get a better grasp on the Sass Module System, you can read [this great articl
 ### グリッド
 
 - 重大な変更:
-  - <ApiLink type="Paginator" /> - グリッドでページネーターがインスタンス化される方法が変更されました。グリッド ツリーに投影される別個のコンポーネントになりました。したがって、`[paging]="true"` プロパティはすべてのグリッドから削除され、グリッド内のページネーターに関連する他のすべてのプロパティは非推奨です。[ページング トピック](../grid/paging.md)で説明されているように、`Grid Paging` 機能を有効にするためのガイドに従うことをお勧めします。
+  - <ApiLink type="Paginator" /> - グリッドでページネーターがインスタンス化される方法が変更されました。グリッド ツリーに投影される別個のコンポーネントになりました。したがって、`[paging]="true"` プロパティはすべてのグリッドから削除され、グリッド内のページネーターに関連する他のすべてのプロパティは非推奨です。[ページング トピック](../grid/paging.mdx)で説明されているように、`Grid Paging` 機能を有効にするためのガイドに従うことをお勧めします。
   - <ApiLink type="PageSizeSelector" /> および <ApiLink type="PageNavigation" /> が導入され、カスタム コンテンツの実装が容易になりました。
 
     ```html
@@ -1029,15 +1049,15 @@ const selectedCells = grid.selectedCells;              // returns IgxGridCell[]
 const cells = grid.getColumnByName('ProductID').cells; // returns IgxGridCell[]
 ```
 
-  - ページング コンポーネントの API はリファクタリング中に変更され、古いプロパティの多くは非推奨になりました。残念ながら、これらの変更の一部を適切に移行することは控えめに言っても複雑であるため、エラーはアプリケーション レベルで処理する必要があります。
-  - 次のプロパティはグリッドから非推奨になりました:
-    - paging、perPage page、totalPages、isFirstPage、isLastPage、pageChange、perPageChange、pagingDone
-  - 次のメソッドも非推奨です:
-    - nextPage()
-    - previousPage()
-  - 次のプロパティが削除されました:
-    - paginationTemplate - カスタム テンプレートを定義するには、`igx-paginator-content` を使用します。
-  - HierarchicalGrid の詳細 - RowIslands でページングを有効にする場合は、次の `*igxPaginator` ディレクティブの使用法が必要です。
+- ページング コンポーネントの API はリファクタリング中に変更され、古いプロパティの多くは非推奨になりました。残念ながら、これらの変更の一部を適切に移行することは控えめに言っても複雑であるため、エラーはアプリケーション レベルで処理する必要があります。
+- 次のプロパティはグリッドから非推奨になりました:
+  - paging、perPage page、totalPages、isFirstPage、isLastPage、pageChange、perPageChange、pagingDone
+- 次のメソッドも非推奨です:
+  - nextPage()
+  - previousPage()
+- 次のプロパティが削除されました:
+  - paginationTemplate - カスタム テンプレートを定義するには、`igx-paginator-content` を使用します。
+- HierarchicalGrid の詳細 - RowIslands でページングを有効にする場合は、次の `*igxPaginator` ディレクティブの使用法が必要です。
 
     ```html
     <igx-hierarchical-grid #hGrid >
@@ -1302,18 +1322,18 @@ grid.getRowByIndex(0).expanded = false;
     - contentFit と固定オプションを含む `type` プロパティは使用できなくなりました。ヘッダーのサイズ設定と配置モードは現在、<ApiLink type="Tabs" member="tabAlignment" label="tabAlignment" /> 入力プロパティによって制御されています。この入力プロパティは、start (デフォルト)、center、end、justify の 4 つのいずれかが設定できます。古い `contentFit` タイプは現在の `start` 配置値に対応し、古い `fixed` タイプは現在の `justify` 値に対応します。
   - `tabItemSelected` および `tabItemDeselected` イベントが削除されました。<ApiLink type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" />、<ApiLink type="Tabs" member="selectedindexchange" label="selectedIndexChange" />、<ApiLink type="Tabs" member="selectedIndexChange" label="selectedItemChange" /> の 3 つの新しいイベントが導入されました。これらのイベントにより、タブの選択をより柔軟に制御できます。残念ながら、これらのイベント変更に対して適切な移行を行うことはとても複雑であるため、エラーはプロジェクト レベルで処理する必要があります。
 
-- _row_ property in the event arguments emitted by _onRowPinning_, and _dragData_ property in the event arguments emitted by _onRowDragStart_, _onRowDragEnd_ is now implementing <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} />
-- _ng update_ will migrate most of the uses of _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ , like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} />.
-- _getRowByIndex_ will now return a <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> object, if the row at that index is a summary row (previously used to returned _undefined_). _row.isSummaryRow_ and _row.isGroupByRow_ return true if the row at the index is a summary row or a group by row.
+- _row_ property in the event arguments emitted by _onRowPinning_, and _dragData_ property in the event arguments emitted by _onRowDragStart_, _onRowDragEnd_ is now implementing <ApiLink type="RowType" kind="interface" />
+- _ng update_ will migrate most of the uses of _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ , like imports, typings and casts. If a place in your code using any of the above is not migrated, just remove the typing/cast, or change it with <ApiLink type="RowType" kind="interface" />.
+- _getRowByIndex_ will now return a <ApiLink type="RowType" kind="interface" /> object, if the row at that index is a summary row (previously used to returned _undefined_). _row.isSummaryRow_ and _row.isGroupByRow_ return true if the row at the index is a summary row or a group by row.
 
 ### IgxGridComponent、IgxTreeGridComponent、IgxHierarchicalGridComponent
 
 - _IgxGridRowComponent_、_IgxTreeGridRowComponent_、_IgxHierarchicalRowComponent_、_IgxGridGroupByRowComponent_ はパブリック API で公開されなくなりました。
-- 以前は上記のいずれかのインスタンスを返していたパブリック API は、パブリック <ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> インターフェースを実装するオブジェクトを返すようになりました。
+- 以前は上記のいずれかのインスタンスを返していたパブリック API は、パブリック <ApiLink type="RowType" kind="interface" /> インターフェースを実装するオブジェクトを返すようになりました。
 
-<ApiLink type="RowType" kind="interface" suffix={false} prefixed={false} /> のパブリック API は、_IgxRowComponent_ などが公開していたものと同じですが、次の点に注意してください:
+<ApiLink type="RowType" kind="interface" /> のパブリック API は、_IgxRowComponent_ などが公開していたものと同じですが、次の点に注意してください:
 
-- _IgxHierarchicalRowComponent_ によって公開される _toggle_ メソッドは使用できません。すべての行タイプに <ApiLink kind="interface" prefixed={false} suffix={false} type="RowType" member="expanded" /> プロパティを使用します:
+- _IgxHierarchicalRowComponent_ によって公開される _toggle_ メソッドは使用できません。すべての行タイプに <ApiLink kind="interface" type="RowType" member="expanded" /> プロパティを使用します:
 
 *row.rowData_ および _row.rowID_ は非推奨であり、バージョン 13 で完全に削除されます。代わりに _row.data_ と _row.key_ を使用してください。
 
@@ -1332,7 +1352,7 @@ grid.getRowByIndex(0).expanded = false;
 
 - IgxGrid、IgxTreeGrid、IgxHierarchicalGrid
   - グリッドでツール バーをインスタンス化される方法が変更されました。グリッド ツリーに投影される別個のコンポーネントになりました。したがって、`showToolbar` プロパティはすべてのグリッドから削除され、グリッド内のツールバーに関連する他のすべてのプロパティは非推奨です。
-    [ツールバー トピック](../grid/toolbar.md)で説明されているように、ツールバー機能を有効にするための推奨される方法に従うことをお勧めします。
+    [ツールバー トピック](../grid/toolbar.mdx)で説明されているように、ツールバー機能を有効にするための推奨される方法に従うことをお勧めします。
   - `igxToolbarCustomContent` ディレクティブが削除されました。移行により、テンプレート コンテンツがツールバー コンテンツ内に移動しますが、テンプレート バインディングは解決されません。移行後は、必ずテンプレート ファイルを確認してください。
   - ツールバー コンポーネントの API はリファクタリング中に変更され、古いプロパティの多くが削除されました。残念ながら、これらの変更に対して適切な移行を行うことはとても複雑であるため、エラーはプロジェクト レベルで処理する必要があります。
 
@@ -1350,7 +1370,7 @@ grid.getRowByIndex(0).expanded = false;
 ## 10.0.x から 10.1.x の場合
 
 - IgxGrid、IgxTreeGrid、IgxHierarchicalGrid
-  - Excel スタイル フィルター メニューを再テンプレート化するための `IgxExcelStyleSortingTemplateDirective`、`IgxExcelStyleHidingTemplateDirective`、`IgxExcelStyleMovingTemplateDirective`、`IgxExcelStylePinningTemplateDirective`、`IgxExcelStyleSelectingTemplateDirective` ディレクティブは削除されたため、列操作とフィルター操作領域を再テンプレート化するために新しく追加されたディレクティブ - `IgxExcelStyleColumnOperationsTemplateDirective` と `IgxExcelStyleFilterOperationsTemplateDirective` を使用できます。テンプレート内で使用するために、Excel スタイル フィルター メニューのすべての内部コンポーネントも公開しました。新しいテンプレートディレクティブの使用に関する詳細は、この[トピック](../grid/excel-style-filtering.md#テンプレート)をご覧ください。
+  - Excel スタイル フィルター メニューを再テンプレート化するための `IgxExcelStyleSortingTemplateDirective`、`IgxExcelStyleHidingTemplateDirective`、`IgxExcelStyleMovingTemplateDirective`、`IgxExcelStylePinningTemplateDirective`、`IgxExcelStyleSelectingTemplateDirective` ディレクティブは削除されたため、列操作とフィルター操作領域を再テンプレート化するために新しく追加されたディレクティブ - `IgxExcelStyleColumnOperationsTemplateDirective` と `IgxExcelStyleFilterOperationsTemplateDirective` を使用できます。テンプレート内で使用するために、Excel スタイル フィルター メニューのすべての内部コンポーネントも公開しました。新しいテンプレートディレクティブの使用に関する詳細は、この[トピック](../grid/excel-style-filtering.mdx#テンプレート)をご覧ください。
 - IgxGrid
   - `selectedRows()` メソッドは、`selectedRows`入力プロパティに変更されました。この重大な変更により、ユーザーは実行時にグリッドの選択状態を簡単に変更できます。行の事前選択もサポートされています。`selectedRows()` メソッドが呼び出されるすべてのインスタンスは、括弧なしで書き換える必要があります。
   - `selectedRows` 入力のバインディングは次のようになります:
@@ -1426,8 +1446,7 @@ The `ng update` process will update all enumeration names, like `AvatarType`, `T
 
 ## 8.x.x から 9.0.x の場合
 
-Angular 9 の重大な変更により、Hammer プロバイダー は暗黙的に追加されていません。
-[詳細は](https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes-9 )を参照してください。このため、以下のコンポネントの**タッチ**操作が正しく動作するには、アプリケーションのルート モジュールに `HammerModule` をインポートする必要があります。
+Angular 9 の重大な変更により、Hammer プロバイダーは暗黙的に追加されなくなりました。このため、以下のコンポーネントの**タッチ**操作を正しく動作させには、アプリケーションのルート モジュールに `HammerModule` をインポートする必要があります。
 
 - igxGrid
 - igxHierarchicalGrid

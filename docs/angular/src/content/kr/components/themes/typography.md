@@ -8,11 +8,12 @@ _language: kr
 
 ## Typography
 <p class="highlight">The Ignite UI for Angular Typography Sass module allows you to modify the typography for the entire application, specific typographic scale, or specific components.</p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
-Ignite UI for Angular follows [The Type System](https://material.io/design/typography/the-type-system.html#) as described in the Material Design specification. The type system is a ***type scale*** consisting of ***13 different category type styles*** used across most components. All of the scale categories are completely reusable and adjustable by the end user.
+Ignite UI for Angular follows [The Type System](https://material.io/design/typography/the-type-system.html#) as described in the Material Design specification. The type system is a _**type scale**_ consisting of _**13 different category type styles**_ used across most components. All of the scale categories are completely reusable and adjustable by the end user.
 
 Here's a list of all 13 category styles as defined in Ignite UI for Angular:
+
 | **Scale Category** | **Font Family** | **Font Weight** | **Font Size** | **Text Transform** | **Letter Spacing** | **Line Height** |
 |----------------|-----------------|-----------------|---------------|--------------------|--------------------|-----------------|
 | **h1** | Titillium Web | 300 | 6 rem | none | -.09375 rem | 7 rem |
@@ -29,7 +30,7 @@ Here's a list of all 13 category styles as defined in Ignite UI for Angular:
 | **caption** | Titillium Web | 400 | .75 rem | none | .025 rem | 1 rem |
 | **overline** | Titillium Web | 400 | .625 rem | uppercase | .09375 rem | 1 rem |
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 An application can define multiple `scales` that may share scale categories between one another. A `scale category` is a set of `type styles`, containing information about `font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, and `text-transform`.
 
@@ -87,10 +88,10 @@ We can use the `$h1-style` we defined in our previous example to produce a sligh
 $my-type-scale:type-scale($h1: $h1-style);
 ```
 
-Now `$my-type-scale` will store a modified type scale containing the modifications we specified for the `h1` category scale. 
+Now `$my-type-scale` will store a modified type scale containing the modifications we specified for the `h1` category scale.
 
 > [!NOTE]
-> You can modify as many of the 13 category scales as you want by passing type styles for each one of them. 
+> You can modify as many of the 13 category scales as you want by passing type styles for each one of them.
 
 #### The Typography Mixin
 
@@ -131,7 +132,7 @@ Most of the components in Ignite UI for Angular use scale categories for styling
 - `subtitle-2` - used for styling card subtitle and small title.
 - `body-2` - used for styling card text content.
 
-There are two ways to change the text styles of a card. The first is by modifying the `h5`, `subtitle-2`, and/or `body-2` scales in the ***default type scale*** that we pass to the typography mixin. So if we wanted to make the title in a card smaller, all we have to do is change the font-size for the `h5` scale category.
+There are two ways to change the text styles of a card. The first is by modifying the `h5`, `subtitle-2`, and/or `body-2` scales in the _**default type scale**_ that we pass to the typography mixin. So if we wanted to make the title in a card smaller, all we have to do is change the font-size for the `h5` scale category.
 
 ```scss
 // Create a custom h5 scale category style
@@ -159,7 +160,7 @@ $my-type-scale:type-scale($h5: $my-h5);
 
 We no longer include the `typography` mixin by passing it the `$my-type-scale` scale with our modification to the `h5` category. Now all we do is pass the custom scale we created to the `card-typography` mixin. The only component that uses our `$my-type-scale` scale is the card now.
 
-Typography style mixins can be scoped to specific selectors. Say we wanted our custom card typography styles to be applied for all `igx-card` components with class name of `my-cool-card`. 
+Typography style mixins can be scoped to specific selectors. Say we wanted our custom card typography styles to be applied for all `igx-card` components with class name of `my-cool-card`.
 
 ```scss
 //...
@@ -205,12 +206,11 @@ Here's a list of all CSS classes we provide by default:
 - `igx-typography__caption`
 - `igx-typography__overline`
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
-###Additional Resources
+### Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

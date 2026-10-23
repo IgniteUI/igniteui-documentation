@@ -28,7 +28,6 @@ This example shows how configure the axis gridline to display major and minor gr
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Axis Gridlines Properties
 
@@ -64,7 +63,6 @@ The following example demonstrates how to customize the gridlines by setting the
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Axis Tickmarks Example
 
@@ -81,7 +79,6 @@ The following example demonstrates how to customize the tickmarks by setting the
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Axis Tickmarks Properties
 

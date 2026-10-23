@@ -21,7 +21,6 @@ The following example demonstrates how to create Composite Chart using [`IgxColu
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

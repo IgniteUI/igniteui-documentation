@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/axis-locations">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 코드 예제
 
@@ -63,6 +62,6 @@ _language: kr
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [시리즈 유형](data-chart-series-types.md)

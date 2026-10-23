@@ -16,7 +16,6 @@ TODO
            github-src="excel/excel-library/working-with-grids">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Usage
 

@@ -19,7 +19,6 @@ The Infragistics Excel Engine's [`WorksheetChart`]({environment:dvApiBaseUrl}/pr
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Usage
 

@@ -21,7 +21,6 @@ You can create the Angular Point Chart in the [`IgxCategoryChartComponent`]({env
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Point Chart with Single Series
 
@@ -34,7 +33,6 @@ In the following example, the Angular Point Chart is comparing the generation of
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Point Chart with Multiple Series
 
@@ -47,7 +45,6 @@ Since the Angular Point Chart allows you to combine multiple series and compare 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Point Chart Styling
 
@@ -60,7 +57,6 @@ Once the Angular Point Chart is set up, we may want to make some further styling
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Point Charts
 

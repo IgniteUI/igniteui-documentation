@@ -17,7 +17,6 @@ The Ignite UI for Angular data chart component allows for synchronization with r
            github-src="charts/data-chart/chart-synchronization">
 </code-view>
 
-<div class="divider--half"></div>
 
 There are four options of chart synchronization, in that you can synchronize horizontally only, vertically only, both, or you can choose not to synchronize at all, which is the default.
 

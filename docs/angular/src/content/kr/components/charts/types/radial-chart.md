@@ -23,7 +23,6 @@ You can create this type of chart in [`IgxDataChartComponent`]({environment:dvAp
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Column Chart
 
@@ -38,7 +37,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Line Chart
 
@@ -53,7 +51,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Pie Chart
 
@@ -68,7 +65,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Chart Styling
 
@@ -83,7 +79,6 @@ This example demonstrates how to customize Angular Radial Chart.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

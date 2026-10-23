@@ -18,14 +18,13 @@ _language: kr
            github-src="charts/financial-chart/panes">
 </code-view>
 
-<div class="divider--half"></div>
 
 다음 창은 금융 차트 컨트롤에서 사용할 수 있습니다:
 
--   가격 창 - 선, 캔들 스틱, 바(OHLC), 추세선, 금융 오버레이를 사용하여 가격을 렌더링합니다.
--   Indicator Pane - 별도의 차트에 모든 금융지표를 렌더링하고 `BollingerBands` 및 `PriceChannel` 오버레이가 Y축과 동일한 값 범위를 공유하기 위해서 가격 창에 렌더링됩니다.
--   볼륨 창 - 기둥, 선 및 영역 차트 유형을 사용하여 재고 볼륨을 상기의 모든 창 아래에 렌더링합니다.
--   줌 창 - 모든 창의 줌을 제어하며 항상 차트 하단에 렌더링됩니다.
+- 가격 창 - 선, 캔들 스틱, 바(OHLC), 추세선, 금융 오버레이를 사용하여 가격을 렌더링합니다.
+- Indicator Pane - 별도의 차트에 모든 금융지표를 렌더링하고 `BollingerBands` 및 `PriceChannel` 오버레이가 Y축과 동일한 값 범위를 공유하기 위해서 가격 창에 렌더링됩니다.
+- 볼륨 창 - 기둥, 선 및 영역 차트 유형을 사용하여 재고 볼륨을 상기의 모든 창 아래에 렌더링합니다.
+- 줌 창 - 모든 창의 줌을 제어하며 항상 차트 하단에 렌더링됩니다.
 
 ## 인디케이터 창
 
@@ -96,10 +95,8 @@ _language: kr
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
--   [차트 퍼포먼스](financial-chart-performance.md)
+- [차트 퍼포먼스](financial-chart-performance.md)

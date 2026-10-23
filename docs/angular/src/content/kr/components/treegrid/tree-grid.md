@@ -12,12 +12,11 @@ _language: kr
 ### 데모
 
 
-<code-view style="height:850px" 
-           data-demos-base-url="{environment:lobDemosBaseUrl}" 
+<code-view style="height:850px"
+           data-demos-base-url="{environment:lobDemosBaseUrl}"
            iframe-src="{environment:lobDemosBaseUrl}/tree-grid/treegrid-childdatakey/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 시작하기
 
@@ -218,12 +217,11 @@ export class MyComponent implements OnInit {
 다음은 최종 결과입니다:
 
 
-<code-view style="height:450px" 
-           data-demos-base-url="{environment:lobDemosBaseUrl}" 
+<code-view style="height:450px"
+           data-demos-base-url="{environment:lobDemosBaseUrl}"
            iframe-src="{environment:lobDemosBaseUrl}/tree-grid/treegrid-primaryforeignkey/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### 지속성 및 통합성
 
@@ -235,39 +233,37 @@ export class MyComponent implements OnInit {
 - 내보내기를 한 Excel 워크시트는 트리 그리드 자체에 그룹화될 때 레코드를 그룹화하여 계층에 반영합니다. 모든 레코드의 전개 상태도 지속되고 반영됩니다.
 - CSV로 내보내기를 할 때 수준 및 전개 상태는 무시되며 모든 데이터는 플랫으로 내보내기가 됩니다.
 
-<div class="divider--half"></div>
 
 ### 키보드 탐색
 
 키보드 탐색은 트리 그리드에서 기본적으로 사용할 수 있으며 최종 사용자를 위해 가능한 많은 기능과 시나리오를 포함하도록 하고 있습니다. 특정 셀에 초점을 맞추고 다음 키 조합 중 하나를 누른 경우 설명된 동작이 실행됩니다:
 
- - `위 화살표` - 한 셀 위로 이동(줄 바꿈 없음);
- - `아래 화살표` - 한 셀 아래로 이동(줄 바꿈 없음);
- - `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
- - `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
- - `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
- - `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
- - `Home` - 행의 가장 왼쪽 셀로 이동;
- - `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
- - `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
- - `End` - 행의 가장 오른쪽 셀로 이동;
- - `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
- - `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
- - `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
- - `Enter` - 편집 모드로 들어감;
- - `F2` - 편집 모드로 들어감;
- - `Esc` - 편집 모드를 종료함;
- - `Tab` - 순차적으로 포커스를 행의 다음 셀 위로 이동하고, 마지막 셀에 도달하면 다음 행으로 이동합니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다. 다음 셀을 편집할 수 없으면 선택해야 합니다;
- - `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 셀이 편집 모드인 경우에는 행의 이전 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다. 셀을 편집할 수 없으면 선택해야 합니다;
- - `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
- - `Alt + 왼쪽 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 접혀집니다;
- - `Alt + 위 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 접혀집니다;
- - `Alt + 오른쪽 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 전개됩니다;
- - `Alt + 아래 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 전개됩니다;
- - 마우스 `휠` -  포커스 요소를 흐리게 합니다;
+- `위 화살표` - 한 셀 위로 이동(줄 바꿈 없음);
+- `아래 화살표` - 한 셀 아래로 이동(줄 바꿈 없음);
+- `왼쪽 화살표` - 한 셀 왼쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `오른쪽 화살표` - 한 셀 오른쪽으로 이동(라인 간에 줄 바꿈 없음);
+- `Ctrl + 위 화살표` - 현재 열의 첫 번째 셀로 이동;
+- `Ctrl + 아래 화살표` - 현재 열의 마지막 셀로 이동;
+- `Ctrl + 왼쪽 화살표` -  행의 가장 왼쪽 셀로 이동;
+- `Home` - 행의 가장 왼쪽 셀로 이동;
+- `Ctrl + Home` - 그리드의 왼쪽 상단 셀로 이동;
+- `Ctrl + 오른쪽 화살표` -  행의 가장 오른쪽 셀로 이동;
+- `End` - 행의 가장 오른쪽 셀로 이동;
+- `Ctrl + End` - 그리드의 오른쪽 하단 셀로 이동;
+- `Page Up` - 한 페이지(뷰 포트) 위로 스크롤;
+- `Page Down` -  한 페이지(뷰 포트) 아래로 스크롤;
+- `Enter` - 편집 모드로 들어감;
+- `F2` - 편집 모드로 들어감;
+- `Esc` - 편집 모드를 종료함;
+- `Tab` - 순차적으로 포커스를 행의 다음 셀 위로 이동하고, 마지막 셀에 도달하면 다음 행으로 이동합니다; 셀이 편집 모드인 경우에는 행의 다음 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다. 다음 셀을 편집할 수 없으면 선택해야 합니다;
+- `Shift + Tab` - 순차적으로 행의 이전 셀로 포커스를 이동하고, 첫 번째 셀에 도달하면 포커스를 이전 행으로 이동합니다. 셀이 편집 모드인 경우에는 행의 이전 편집 가능한 셀로 이동하고, 편집 가능한 가장 오른쪽 셀에서 `CANCEL` 및 `DONE` 버튼으로 이동하고, `DONE` 버튼으로 현재 편집된 행 안의 편집 가능한 가장 왼쪽 셀로 이동합니다. 셀을 편집할 수 없으면 선택해야 합니다;
+- `Space` -  행을 선택할 수 있는 경우에는 스페이스 키를 누르면 행 선택을 트리거합니다;
+- `Alt + 왼쪽 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 접혀집니다;
+- `Alt + 위 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 접혀집니다;
+- `Alt + 오른쪽 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 전개됩니다;
+- `Alt + 아래 화살표` 트리 그리드 행의 위 - 셀은 선택되고 포커스되어지며 선택된 셀 행에 하위가 있으면 행은 전개됩니다;
+- 마우스 `휠` -  포커스 요소를 흐리게 합니다;
 
-<div class="divider--half"></div>
 
 ### Sizing
 
@@ -283,31 +279,27 @@ See the [Grid Sizing](sizing.md) topic.
 > [!NOTE]
 > `igxTreeGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxTreeGrid`. For more details see [igxForOf Known Issues](../for-of.html#known-limitations) section.
 
-<div class="divider--half"></div>
 
 ## API 참조
 
-<div class="divider--half"></div>
 
-* [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
-* [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
-* [IgxTreeGridRow]({environment:angularApiUrl}/classes/igxtreegridrow.html)
-* [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
-* [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
-* [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
-* [IgxBaseTransactionService]({environment:angularApiUrl}/classes/igxbasetransactionservice.html)
+- [IgxTreeGridComponent]({environment:angularApiUrl}/classes/igxtreegridcomponent.html)
+- [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
+- [IgxTreeGridRow]({environment:angularApiUrl}/classes/igxtreegridrow.html)
+- [IgxGridComponent]({environment:angularApiUrl}/classes/igxgridcomponent.html)
+- [IgxGridComponent 스타일]({environment:sassApiUrl}/themes#function-grid-theme)
+- [IgxGridCell]({environment:angularApiUrl}/classes/igxgridcell.html)
+- [IgxBaseTransactionService]({environment:angularApiUrl}/classes/igxbasetransactionservice.html)
 
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
-* [Grid Sizing](sizing.md)
-* [데이터 그리드](../grid/grid.md)
-* [행 편집](row-editing.md)
+- [Grid Sizing](sizing.md)
+- [데이터 그리드](../grid/grid.md)
+- [행 편집](row-editing.md)
 
-<div class="divider--half"></div>
 커뮤니티는 활동적이고 새로운 아이디어를 항상 환영합니다.
 
-* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

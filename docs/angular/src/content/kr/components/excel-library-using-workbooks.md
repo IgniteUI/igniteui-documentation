@@ -19,7 +19,6 @@ The Infragistics Excel Engine enables you to save data to and load data from Mic
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Change Default Font
 

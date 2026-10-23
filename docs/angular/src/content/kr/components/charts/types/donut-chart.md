@@ -21,7 +21,6 @@ You can create this type of chart with the [`IgxDoughnutChartComponent`]({enviro
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Donut Chart Recommendations
 
@@ -75,7 +74,6 @@ The Angular Donut Chart has the ability to select slices on click. Optionally, y
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Donut Chart - Multiple Rings
 
@@ -88,7 +86,6 @@ It is possible to have a multiple ring display in the Angular Donut Chart, with 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

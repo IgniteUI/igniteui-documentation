@@ -3,6 +3,8 @@ title: Angular Dialog Window Component - MIT license
 description: Whether building informative dialogs or data manipulation windows, Ignite UI for Angular Dialog Window component can manage information shown in real-time for fast capability.
 keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI widgets, Angular, Native Angular Components Suite, Angular UI Components, Native Angular Components Library, Angular Dialog Window component, Angular Dialog Window control, Angular Dialog Component
 license: MIT
+llms:
+  description: "Use the Ignite UI for Angular Dialog Window component to display messages or present forms for users to fill out."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -78,8 +80,7 @@ import { IgxRippleDirective } from 'igniteui-angular/directives';
 export class HomeComponent {}
 ```
 
-
-<DocsAside type="note">
+<DocsAside type="info">
 This component uses Material Icons. Add the following link to your `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
 </DocsAside>
 
@@ -186,7 +187,7 @@ Sign In
 
 There are two ways to change the position at which the `igx-dialog` will be shown:
 
-- Using <ApiLink type="Dialog" member="open" label="open" /> method and pass a valid <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />. Example:
+- Using <ApiLink type="Dialog" member="open" label="open" /> method and pass a valid <ApiLink kind="interface" type="OverlaySettings" />. Example:
 
 ```typescript
 import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
@@ -213,7 +214,7 @@ export class HomeComponent {
 }
 ```
 
-- Using the `positionSettings` `@Input`. Example:
+- Using the <ApiLink type="Dialog" member="positionSettings" label="positionSettings" /> `@Input`. Example:
 
 ```html
 <igx-dialog #alert title="Notification" [positionSettings]="positionSettings" >
@@ -267,36 +268,13 @@ By default when the dialog is opened the Tab key focus is trapped within it, i.e
 
 Changing the `$background` property automatically updates the following dependent properties:
 
-<table class="collapsible-table">
-    <thead>
-        <tr>
-        <th>Primary Property</th>
-        <th>Dependent Property</th>
-        <th>Description</th>
-        </tr>
-    </thead>
-    <tbody class="group">
-        <tr class="primary">
-        <td>
-            <details><summary><strong>$background</strong></summary></details>
-        </td>
-        <td>$title-color</td>
-        <td>The dialog title text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$message-color</td>
-        <td>The dialog message text color.</td>
-        </tr>
-        <tr class="dependent">
-        <td></td>
-        <td>$border-color</td>
-        <td>The border color used for dialog component.</td>
-        </tr>
-    </tbody>
-</table>
+| Primary Property | Dependent Property | Description |
+| --- | --- | --- |
+| **$background** | $title-color | The dialog title text color. |
+|  | $message-color | The dialog message text color. |
+|  | $border-color | The border color used for dialog component. |
 
-To get started with styling the dialog window, we need to import the `index` file, where all the theme functions and component mixins live:
+To get started with styling the dialog window, we need to import the `index` file, where all the theme functions and the `tokens()` mixin are exported:
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -316,7 +294,7 @@ $my-dialog-theme: dialog-theme(
 ```
 
 <DocsAside type="info">
-In order to style any additional components that are used as part of the dialog window's content (such as the [`IgxButton`](/button)), an additional theme should be created that is specific to the respective component and is placed under the dialog window's scope only (so it does not affect the rest of the application).
+In order to style any additional components that are used as part of the dialog window's content (such as the [`IgxButton`](./inputs/button.mdx)), an additional theme should be created that is specific to the respective component and is placed under the dialog window's scope only (so it does not affect the rest of the application).
 </DocsAside>
 
 ```scss
@@ -342,7 +320,7 @@ In order to learn more about the various options for providing themes to element
 
 ### Including Themes
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 The last step is to **include** the component theme in our application.
 
@@ -353,7 +331,7 @@ The last step is to **include** the component theme in our application.
 ```
 
 <DocsAside type="info">
-If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep` to apply the styles.
+In some component templates, Emulated View Encapsulation can still prevent the generated token declarations from reaching nested Ignite UI elements. If the theme does not take effect, use `::ng-deep` as shown below or move the theme to a global stylesheet.
 </DocsAside>
 
 ```scss
@@ -371,14 +349,11 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 <hr/>
 
 ## API References
-
 <hr/>
-
 - <ApiLink type="Dialog" />
 - <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="IgxDialogComponent Styles" />
-- <ApiLink kind="interface" prefixed={false} suffix={false} type="OverlaySettings" />
+- <ApiLink kind="interface" type="OverlaySettings" />
 - <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay Styles" />
-
 ## Theming Dependencies
 
 - <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton Theme" />

@@ -21,7 +21,6 @@ You can create Stock Chart using the [`IgxFinancialChartComponent`]({environment
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Stock Chart Recommendations
 
@@ -71,7 +70,6 @@ As a Stock Chart is meant to allow the user to perform data analysis functions, 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stock Chart
 
@@ -84,7 +82,6 @@ In this example the Stock Chart is representing the S\&P 500 over the course of 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stock Chart Styling
 
@@ -97,7 +94,6 @@ If you need a Stock Chart with more features such as composite other series, you
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Chart Annotations
 
@@ -116,7 +112,6 @@ Note: When using the ordinal X axis mode, the CalloutsXMemberPath should point t
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Chart Panes
 
@@ -159,7 +154,6 @@ In this example, the stock chart is plotting revenue for United States.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

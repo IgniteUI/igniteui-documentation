@@ -17,6 +17,5 @@ The Data Chart is ... TODO ...
            github-src="charts/data-chart/binding-data-triangulation">
 </code-view>
 
-<div class="divider--half"></div>
 
 TODO add content

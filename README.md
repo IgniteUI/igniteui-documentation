@@ -55,6 +55,49 @@ Use the platform-specific commands from the root workspace:
 | Blazor Japanese | `npm run xplat:dev:blazor:jp`
 
 
+## Header and footer
+
+The Infragistics header and footer come from the marketing site
+(Marketing-Infragistics), which publishes them at
+`/assets/chrome/fragment.html`. Both sites (`docs/angular` and `docs/xplat`) render a **snapshot** of it kept in this
+repo, through igniteui-astro-components' `igChrome()`. Nothing is fetched at build
+time or at runtime: the chrome's CSS, JS and images are copied into the build
+and served from `{base}/_ig-chrome/{build}/`.
+
+```
+ig-chrome/
+  staging/      from https://astro-staging.infragistics.com  (default builds)
+  production/   from https://www.infragistics.com            (`DOCS_ENV=production`)
+```
+
+One folder serves both sites: `createDocsSite` in `src/integration.ts` picks
+`ig-chrome/production` for `DOCS_ENV=production` builds and `ig-chrome/staging`
+otherwise.
+
+- **Japanese builds** keep the legacy chrome fetched from
+  `jp.infragistics.com/navigation` until a Japanese fragment is published.
+- A missing or invalid snapshot **fails the build**, naming the folder.
+- **Don't edit `ig-chrome/` by hand.** The marketing site's deploy (its
+  `sync-chrome` job) runs `scripts/chrome-sync.mjs` on what it just deployed and
+  opens a PR here (`chore/sync-header-footer-staging` or `…-production`) when
+  the chrome changed. Review and merge it like any other PR.
+
+To sync by hand, run the script locally:
+
+```sh
+node scripts/chrome-sync.mjs --source https://www.infragistics.com/assets/chrome/fragment.html --out ig-chrome/production
+node scripts/chrome-sync.mjs --source ../Marketing-Infragistics/dist/assets/chrome/fragment.html --out ig-chrome/staging
+```
+
+`--source` takes a fragment URL, or the `fragment.html` of a local marketing
+build (its `dist/` must hold the images the fragment links). The script
+validates the fragment, downloads its CSS, JS and images, and writes nothing
+when the build hash is unchanged (`--force` rewrites anyway; `--allow-missing`
+skips instead of failing when the fragment returns 404). An unreachable host
+fails: astro-staging is only reachable from the internal network.
+
+See [igniteui-astro-components: The Infragistics header and footer](https://github.com/IgniteUI/igniteui-astro-components#the-infragistics-header-and-footer).
+
 ## MDX Components
 
 The MDX files currently use these documentation components from `igniteui-astro-components/components/mdx`:
@@ -66,11 +109,131 @@ The MDX files currently use these documentation components from `igniteui-astro-
 | `PlatformBlock` | Shows content only for selected platforms. |
 | `Sample` | Embeds runnable or linked product samples. |
 
+## Checking Relative Links
+
+Use the root `check-relative-links` scripts to validate that every relative cross-page link in the MDX source resolves to an existing file.
+
+### Link convention
+
+All relative cross-page links must carry the `.mdx` extension. Preferred forms:
+
+- `./page.mdx` — same-directory link (explicit relative)
+- `../folder/page.mdx` — parent-directory link (explicit relative)
+- `page.mdx` — bare same-directory link (also accepted by the checker)
+
+The `.mdx` extension enables editor Go-to-Definition (Ctrl+Click). The `remarkMdLinks` plugin strips the extension and makes the URL absolute at build time. The link checker validates that the target file exists and normalizes bare `page.mdx` links as same-directory relative.
+
+### Angular content pipeline
+
+The Angular documentation is assembled from three sources before being checked:
+
+1. **xplat sync** — `docs/xplat/src/content/` is generated into platform-specific output and then copied into `docs/angular/src/content/` by the sync scripts.
+2. **Grid generation** — `docs/angular/src/content/en/grids_templates/` and `jp/grids_templates/` are template files shared across all four grid types (Grid, TreeGrid, HierarchicalGrid, PivotGrid). `generate.mjs` expands them into the individual component pages under `docs/angular/src/content/en/components/grid/`, `treegrid/`, `hierarchicalgrid/`, and `pivotGrid/`. These template directories are excluded from link checking (same as xplat `_shared/`).
+3. **Link check** — the checker scans the fully assembled `docs/angular/src/content/` tree.
+
+The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
+
+> **xplat:** The checker scans both `docs/xplat/src/content/` (source) and the `docs/xplat/generated/React|WebComponents|Blazor` trees, so a broken link usually surfaces once per source file plus once per generated platform copy. `docs/xplat/generated/` is gitignored build output, fix the link in the source file and regenerate; never edit the generated copies.
+
+### Commands
+
+The preferred command to replicate the exact CI pipeline locally:
+
+```bash
+npm run check-relative-links:ci
+```
+
+This runs the full chain in order:
+1. Sync xplat → angular (en)
+2. Sync xplat → angular (jp)
+3. Generate angular grid pages (en)
+4. Generate angular grid pages (jp)
+5. Generate xplat React + WC + Blazor pages (en) — expands `_shared/` templates and rewrites `_shared/` paths in output
+6. Generate xplat React + WC + Blazor pages (jp)
+7. Check xplat links (source `docs/xplat/src/content/` + `docs/xplat/generated/`)
+8. Check angular links
+
+> **Note:** The generate scripts rewrite `../_shared/X.mdx` → `./X.mdx` (and `./_shared/X.mdx` → `./grid/X.mdx`) in the generated output so links in the expanded files resolve correctly.
+
+Other available commands:
+
+| Scope | Command |
+|---|---|
+| Full CI simulation (preferred) | `npm run check-relative-links:ci` |
+| Both trees, no setup (skips the generate steps) | `npm run check-relative-links` |
+| Full pipeline, combined report to file | `npm run check-relative-links:report` |
+
+To check a single tree without running the generate steps, call the script directly with `--platform` (`angular`, `xplat`, `react`, `wc`, or `blazor`):
+
+```bash
+node scripts/check-relative-links.mjs --platform=angular
+node scripts/check-relative-links.mjs --platform=xplat --md=reports/relative-links-report.md
+```
+
+Note that this skips generation, so it scans whatever is currently on disk. Use `check-relative-links:ci` when the generated output may be stale.
+
+The checker exits with code 1 on any broken link and prints each failure with a reason code:
+
+| Reason | Meaning |
+|---|---|
+| `[not found]` | Target file does not exist |
+| `[add .mdx extension]` | Link is `./page` — has `./` prefix but is missing the `.mdx` extension |
+| `[use ./page.mdx instead]` | Link is `(page)` — bare path with no extension and no `./` prefix |
+
+## Checking HTML Links
+
+The relative-link checker works on MDX source. To validate the links in a **built** site instead, use the `check-html-links` scripts. They crawl every `.html` file under `dist/`, extract the internal doc links, and verify each target page exists in the same `dist` tree. This catches breakage introduced by the build itself, so it requires a completed build.
+
+| Scope | Command |
+|---|---|
+| Crawl `dist/` | `npm run check-html-links` |
+| Crawl `dist/`, report to file | `npm run check-html-links:report` |
+
+Pass `--dist=` to scope the crawl to one built site:
+
+```bash
+node scripts/check-html-links.mjs --dist=dist/angular
+```
+
+## Checking MDX API Links
+
+Use the root `check-mdx-links` scripts to validate `ApiLink` references:
+
+| Scope | Command |
+|---|---|
+| All MDX sources | `npm run check-mdx-links` |
+| Angular docs | `npm run check-mdx-links:angular` |
+| React xplat docs | `npm run check-mdx-links:react` |
+| Web Components xplat docs | `npm run check-mdx-links:wc` |
+| Blazor xplat docs | `npm run check-mdx-links:blazor` |
+| Markdown reports | `npm run check-mdx-links:report:<platform>` |
+| Resolve-only broken-link reports | `npm run check-mdx-links:broken:<platform>` |
+
+These scripts also check for ambiguous `ApiLink` references. If a symbol exists in more than one registry package and the link does not specify enough information to choose safely, the script prints an `Ambiguous ApiLinks` section, writes an `api-link-ambiguity-report*.md` file under `reports/`, and exits with a failure.
+
+For authoring fixes, follow the [canonical ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md). See [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md) for checker operation and report interpretation.
+
+## Checking LLM Metadata
+
+English and Japanese topics use `llms.description` to provide concise page summaries in the generated `llms.txt` indexes. Validate all author-owned source topics with:
+
+```bash
+npm run check:llms-metadata
+```
+
+The check is read-only and reports the source file and line for missing or malformed metadata. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#llm-metadata) for contributor guidance and the [frontmatter skill](.agents/skills/igniteui-topic-frontmatter/SKILL.md) for metadata rules.
+
 ## Content Locations
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.
 - Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
+- Cross-platform topics are also generated into the Angular tree at build time (by `docs/angular/scripts/sync-generated.mjs`) and are therefore **not committed** under `docs/angular/` — they are gitignored, and editing those Angular copies has no effect. Edit the xplat source instead. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
+
+## Collaboration Docs
+
+- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
+- [API-LINK-WORKFLOW.md](API-LINK-WORKFLOW.md): API registry flow, `ApiLink` resolution, ambiguity handling, and checker commands.
 
 ## Contributing
 

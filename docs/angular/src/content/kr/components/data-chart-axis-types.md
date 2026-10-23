@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/axis-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 지원되는 축
 
@@ -157,9 +156,9 @@ _language: kr
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [축 설정](data-chart-axis-settings.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [축 설정](data-chart-axis-settings.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 유형](data-chart-series-types.md)

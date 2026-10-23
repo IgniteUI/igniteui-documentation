@@ -1,10 +1,12 @@
----
+﻿---
 title: "{Platform} CLI - {ProductName}"
 description: "The {ProductName} CLI scaffolds {Platform} projects, adds pre-configured component views, and connects AI coding assistants via a built-in MCP server."
 keywords: "{Platform} cli, command line interface, {ProductName}, Infragistics"
 mentionedTypes: []
 license: MIT
-last_updated: "2026-04-21"
+last_updated: "2026-10-01"
+llms:
+  description: "The Ignite UI CLI (igniteui-cli) is a standalone global command-line tool for creating and scaffolding {Platform} applications with {ProductName}."
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -60,7 +62,7 @@ or:
 ig new
 ```
 
-For a step-by-step walkthrough of the wizard options, see [Step-by-Step Guide Using Ignite UI CLI](general-step-by-step-guide-using-cli.md).
+For a step-by-step walkthrough of the wizard options, see [Step-by-Step Guide Using Ignite UI CLI](./general-step-by-step-guide-using-cli.mdx).
 
 ### Create a project directly
 
@@ -68,16 +70,23 @@ For a step-by-step walkthrough of the wizard options, see [Step-by-Step Guide Us
 To create a React project non-interactively, provide `react` as the framework and `igr-ts` as the project type:
 
 ```cmd
-ig new <project-name> --framework=react --type=igr-ts --template=top-nav
+ig new <project-name> --framework=react --template=side-nav
 ```
 
-The following project templates are available for React:
+The following base project templates are available for React:
 
-| Template ID | Description                                        |
-| :---------- | :------------------------------------------------- |
-| empty       | Minimal project structure with no predefined views |
-| base        | Project structure with a home page                 |
-| top-nav     | Project structure with a top navigation bar        |
+| Template ID   | Description                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Minimal project structure with no predefined views. Authentication is not available for this template. |
+| side-nav      | Project structure with a side navigation drawer. Supports authentication as an add-on (see below). |
+| side-nav-mini | Project structure with a compact side navigation drawer. Supports authentication as an add-on (see below). |
+
+When using the interactive wizard, selecting `side-nav` or `side-nav-mini` triggers an additional prompt asking whether to add authentication. Selecting `empty` skips the authentication prompt. The following template IDs are generated and can also be used directly with `ig new` for non-interactive creation - they are not shown in the wizard's template list:
+
+| Template ID        | Description                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Side navigation extended with authentication.    |
+| side-nav-mini-auth | Side navigation mini extended with authentication. |
 
 </PlatformBlock>
 
@@ -88,13 +97,67 @@ To create a Web Components project non-interactively, provide `webcomponents` as
 ig new <project-name> --framework=webcomponents --type=igc-ts --template=side-nav
 ```
 
-The following project templates are available for Web Components:
+The following base project templates are available for Web Components:
 
-| Template ID | Description                                        |
-| :---------- | :------------------------------------------------- |
-| empty       | Minimal project structure with no predefined views |
-| base        | Project structure with a home page                 |
-| side-nav    | Project structure with a side navigation drawer    |
+| Template ID   | Description                                                                 |
+| :------------ | :-------------------------------------------------------------------------- |
+| empty         | Minimal project structure with no predefined views. Authentication is not available for this template. |
+| side-nav      | Project structure with a side navigation drawer. Supports authentication as an add-on (see below). |
+| side-nav-mini | Project structure with a compact side navigation drawer. Supports authentication as an add-on (see below). |
+
+When using the interactive wizard, selecting `side-nav` or `side-nav-mini` triggers an additional prompt asking whether to add authentication. Selecting `empty` skips the authentication prompt. The following template IDs are generated and can also be used directly with `ig new` for non-interactive creation - they are not shown in the wizard's template list:
+
+| Template ID        | Description                                      |
+| :----------------- | :----------------------------------------------- |
+| side-nav-auth      | Side navigation extended with authentication.    |
+| side-nav-mini-auth | Side navigation mini extended with authentication. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor projects are scaffolded through the **.NET CLI**, so a **.NET SDK 10.0 or newer** is required. On first use the CLI automatically installs the
+[`IgniteUI.Blazor.Templates`](https://www.nuget.org/packages/IgniteUI.Blazor.Templates) package if it isn't already present.
+
+To create a Blazor project non-interactively, provide `blazor` as the framework and choose a hosting model:
+
+```cmd
+ig new <project-name> --framework blazor --hosting Server
+```
+
+A more complete example that also sets the theme, the theme variant and skips package restore:
+
+```cmd
+ig new MyApp --framework blazor --hosting Auto --theme material --variant dark --skip-install
+```
+
+### Blazor options
+
+| Option            | Alias | Values                                          | Default     | Description                                                        |
+| :---------------- | :---- | :---------------------------------------------- | :---------- | :----------------------------------------------------------------- |
+| `--hosting`       |       | `Server`, `Wasm`, `Auto`                        | `Server`    | Blazor hosting model (Blazor only).                                |
+| `--theme`         | `-th` | `bootstrap`, `material`, `fluent`, `indigo`     | `bootstrap` | Ignite UI theme applied to the project.                            |
+| `--variant`       |       | `light`, `dark`                                 | `light`     | Theme color variant (Blazor only).                                |
+| `--skip-install`  | `-si` | —                                               | `false`     | Skip the package restore after scaffolding.                       |
+| `--skip-git`      | `-sg` | —                                               | `false`     | Do not initialize a git repository for the project.               |
+
+> [!NOTE]
+> `--hosting` and `--variant` are only valid for the Blazor framework and are ignored by other frameworks.
+
+### Base project templates
+
+The following base project templates are available for Blazor:
+
+| Template ID | Description                                                                      |
+| :---------- | :------------------------------------------------------------------------------- |
+| empty       | Minimal Blazor Web App scaffolded via the `IgniteUI.Blazor.Templates` package.   |
+
+Once the project is created, run it with the standard .NET tooling:
+
+```cmd
+cd <project-name>
+dotnet run
+```
 
 </PlatformBlock>
 
@@ -111,7 +174,7 @@ The following arguments are available when creating a project:
 | `--assistants`   |        | Configures MCP servers for the specified AI coding assistants. Values: `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none`. |
 | `--agents`       |        | Copies Agent Skill files into the specified agents' skill directories. Values: `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none`. |
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 ### AI Configuration During Project Creation
 
@@ -144,13 +207,13 @@ Navigate through the options using the arrow keys, toggle selections with SPACE,
 To skip the AI configuration prompts entirely during project creation, pass `--assistants none --agents none`:
 
 ```cmd
-ig new my-app --framework=react --type=igr-ts --template=top-nav --assistants none --agents none
+ig new my-app --framework=react --template=side-nav --assistants none --agents none
 ```
 
 To auto-configure AI tools without prompting, specify the desired values:
 
 ```cmd
-ig new my-app --framework=react --type=igr-ts --template=top-nav --assistants vscode --agents copilot claude
+ig new my-app --framework=react --template=side-nav --assistants vscode --agents copilot claude
 ```
 
 </PlatformBlock>
@@ -181,58 +244,169 @@ To list all available templates in the current project:
 ig list
 ```
 
-For a guided walkthrough of the component addition wizard, see [Step-by-Step Guide Using Ignite UI CLI](general-step-by-step-guide-using-cli.md#add-view).
+The list is project-aware and reflects the project's framework and type.
 
-<DocsAside type="note">
+For a guided walkthrough of the component addition wizard, see [Step-by-Step Guide Using Ignite UI CLI](./general-step-by-step-guide-using-cli.mdx#add-view).
+
+<DocsAside type="info">
 Your routing file will be updated with the path to the newly generated page. For example, a component named `MyGrid` will be navigable at `/my-grid`.
 </DocsAside>
 
 <PlatformBlock for="React">
-To see all component templates available for the current project, run `ig list`. The list is project-aware and reflects the selected framework and type.
+The following component templates are available for React:
+
+| Name               | Component Template |
+| :----------------- | :----------------- |
+| Accordion          | accordion          |
+| Avatar             | avatar             |
+| Badge              | badge              |
+| Banner             | banner             |
+| Breadcrumbs        | breadcrumbs        |
+| Bullet Graph       | bullet-graph       |
+| Button             | button             |
+| Button Group       | button-group       |
+| Calendar           | calendar           |
+| Card               | card               |
+| Carousel           | carousel           |
+| Category Chart     | category-chart     |
+| Chat               | chat               |
+| Checkbox           | checkbox           |
+| Chip               | chip               |
+| Circular Progress  | circular-progress  |
+| Color Picker       | color-picker       |
+| Color Picker Alpha | color-picker-alpha |
+| Combo              | combo              |
+| Date Picker        | date-picker        |
+| Date Range Picker  | date-range-picker  |
+| Date Time Input    | date-time-input    |
+| Dialog             | dialog             |
+| Divider            | divider            |
+| Doughnut Chart     | doughnut-chart     |
+| Dropdown           | dropdown           |
+| Expansion Panel    | expansion-panel    |
+| File Input         | file-input         |
+| Financial Chart    | financial-chart    |
+| Form               | form               |
+| Grid               | grid               |
+| Hierarchical Grid  | hierarchical-grid  |
+| Highlight          | highlight          |
+| Icon               | icon               |
+| Icon Button        | icon-button        |
+| Input              | input              |
+| Linear Gauge       | linear-gauge       |
+| Linear Progress    | linear-progress    |
+| List               | list               |
+| Mask Input         | mask-input         |
+| Nav Drawer         | nav-drawer         |
+| Navbar             | navbar             |
+| Pie Chart          | pie-chart          |
+| Pivot Grid         | pivot-grid         |
+| QR Code            | qr-code            |
+| Radial Gauge       | radial-gauge       |
+| Radio Group        | radio-group        |
+| Range Slider       | range-slider       |
+| Rating             | rating             |
+| Ripple             | ripple             |
+| Select             | select             |
+| Slider             | slider             |
+| Snackbar           | snackbar           |
+| Splitter           | splitter           |
+| Stepper            | stepper            |
+| Switch             | switch             |
+| Tabs               | tabs               |
+| Text Area          | text-area          |
+| Theme Provider     | theme-provider     |
+| Tile Manager       | tile-manager       |
+| Toast              | toast              |
+| Toggle Button      | toggle-button      |
+| Tooltip            | tooltip            |
+| Tree               | tree               |
+| Tree Grid          | tree-grid          |
+| Virtual Scroll     | virtual-scroll     |
+
+The `financial-chart` template is not shown in the interactive `ig add` wizard. Add it directly with `ig add financial-chart [component-name]`.
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 The following component templates are available for Web Components:
 
-| Name              | Component Template |
-| :---------------- | :----------------- |
-| Accordion         | accordion          |
-| Avatar            | avatar             |
-| Badge             | badge              |
-| Banner            | banner             |
-| Button            | button             |
-| Button Group      | button-group       |
-| Calendar          | calendar           |
-| Card              | card               |
-| Checkbox          | checkbox           |
-| Chip              | chip               |
-| Circular Progress | circular-progress  |
-| Date Picker       | date-picker        |
-| Date Time Input   | date-time-input    |
-| Divider           | divider            |
-| Dock Manager      | dock-manager       |
-| Dropdown          | dropdown           |
-| Expansion Panel   | expansion-panel    |
-| Financial Chart   | financial-chart    |
-| Form              | form               |
-| Grid              | grid               |
-| Icon              | icon               |
-| Icon Button       | icon-button        |
-| Input             | input              |
-| Linear Gauge      | linear-gauge       |
-| Linear Progress   | linear-progress    |
-| List              | list               |
-| Navbar            | navbar             |
-| Pie Chart         | pie-chart          |
-| Radial Gauge      | radial-gauge       |
-| Radio Group       | radio-group        |
-| Rating            | rating             |
-| Ripple            | ripple             |
-| Slider            | slider             |
-| Switch            | switch             |
-| Tabs              | tabs               |
-| Text Area         | text-area          |
-| Tree              | tree               |
+| Name               | Component Template |
+| :----------------- | :----------------- |
+| Accordion          | accordion          |
+| Avatar             | avatar             |
+| Badge              | badge              |
+| Banner             | banner             |
+| Breadcrumb         | breadcrumb         |
+| Button             | button             |
+| Button Group       | button-group       |
+| Calendar           | calendar           |
+| Card               | card               |
+| Carousel           | carousel           |
+| Carousel Vertical  | carousel-vertical  |
+| Chat               | chat               |
+| Checkbox           | checkbox           |
+| Chip               | chip               |
+| Circular Progress  | circular-progress  |
+| Color Picker       | color-picker       |
+| Color Picker Alpha | color-picker-alpha |
+| Combo              | combo              |
+| Combo Groups       | combo-groups       |
+| Date Picker        | date-picker        |
+| Date Range Picker  | date-range-picker  |
+| Date Time Input    | date-time-input    |
+| Dialog             | dialog             |
+| Dialog Form        | dialog-form        |
+| Divider            | divider            |
+| Dock Manager       | dock-manager       |
+| Dropdown           | dropdown           |
+| Expansion Panel    | expansion-panel    |
+| File Input         | file-input         |
+| Financial Chart    | financial-chart    |
+| Form               | form               |
+| Grid               | grid               |
+| Grid Editing       | grid-editing       |
+| Grid Summaries     | grid-summaries     |
+| Hierarchical Grid  | hierarchical-grid  |
+| Highlight          | highlight          |
+| Icon               | icon               |
+| Icon Button        | icon-button        |
+| Input              | input              |
+| Linear Gauge       | linear-gauge       |
+| Linear Progress    | linear-progress    |
+| List               | list               |
+| Mask Input         | mask-input         |
+| Mask Input Formats | mask-input-formats |
+| Nav Drawer         | nav-drawer         |
+| Navbar             | navbar             |
+| Pie Chart          | pie-chart          |
+| Pivot Grid         | pivot-grid         |
+| QR Code            | qr-code            |
+| Radial Gauge       | radial-gauge       |
+| Radio Group        | radio-group        |
+| Range Slider       | range-slider       |
+| Rating             | rating             |
+| Ripple             | ripple             |
+| Select             | select             |
+| Select Groups      | select-groups      |
+| Slider             | slider             |
+| Snackbar           | snackbar           |
+| Snackbar Action    | snackbar-action    |
+| Splitter           | splitter           |
+| Splitter Vertical  | splitter-vertical  |
+| Stepper            | stepper            |
+| Stepper Vertical   | stepper-vertical   |
+| Switch             | switch             |
+| Tabs               | tabs               |
+| Text Area          | text-area          |
+| Theme Provider     | theme-provider     |
+| Tile Manager       | tile-manager       |
+| Toast              | toast              |
+| Toggle Button      | toggle-button      |
+| Tooltip            | tooltip            |
+| Tree               | tree               |
+| Tree Grid          | tree-grid          |
+| Virtual Scroll     | virtual-scroll     |
 
 </PlatformBlock>
 
@@ -274,7 +448,7 @@ Or, if you have Ignite UI CLI installed globally:
 ig mcp
 ```
 
-<PlatformBlock for="React, WebComponents">
+<PlatformBlock for="React, WebComponents, Blazor">
 
 ### Quick Setup with `ig ai-config`
 
@@ -290,7 +464,7 @@ If you have the CLI installed globally:
 ig ai-config
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 Without a version pin, `npx` may pull an older CLI version that does not recognize the `ai-config` subcommand and will instead launch an interactive project-creation prompt, scaffolding a new project inside your existing one. Make sure that you have installed CLI version 16.x.
 </DocsAside>
 
@@ -349,7 +523,7 @@ After the command finishes, start the MCP servers in your AI client. The servers
 
 **VS Code with GitHub Copilot:** Open `.vscode/mcp.json`. VS Code displays an inline **Start** button above each server entry. Click **Start** for both `igniteui` and `igniteui-theming`. Once started, VS Code shows the available tool count next to each server (for example, _"13 tools | 1 prompt"_). Alternatively, run **MCP: List Servers** from the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`), select each server, and choose **Start**.
 
-For full setup instructions across all AI clients and Agent Skills wiring, see [Agent Skills](./ai/skills.md) and [Ignite UI CLI MCP](./ai/cli-mcp.md).
+For full setup instructions across all AI clients and Agent Skills wiring, see [Agent Skills](./ai/skills.mdx) and [Ignite UI CLI MCP](./ai/cli-mcp.mdx).
 
 </PlatformBlock>
 
@@ -389,7 +563,13 @@ Configure your AI client to use the CLI MCP server manually. Most teams connect 
 }
 ```
 
-For per-client setup guides (VS Code, GitHub, Cursor, Claude Desktop, Claude Code, JetBrains) and a full description of available tools, see [Ignite UI CLI MCP](./ai/cli-mcp.md). For an end-to-end walkthrough using both MCP servers, see [Build an App End-to-End with CLI MCP and Theming MCP](./general-how-to-mcp-e2e.md).
+For per-client setup guides (VS Code, GitHub, Cursor, Claude Desktop, Claude Code, JetBrains) and a full description of available tools, see [Ignite UI CLI MCP](./ai/cli-mcp.mdx).
+
+<PlatformBlock for="React, WebComponents">
+
+For an end-to-end walkthrough using both MCP servers, see [Build an App End-to-End with CLI MCP and Theming MCP](./general-how-to-mcp-e2e.mdx).
+
+</PlatformBlock>
 
 </PlatformBlock>
 

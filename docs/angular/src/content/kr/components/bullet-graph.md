@@ -23,7 +23,6 @@ The following sample demonstrates how setting multiple properties on the same ga
 </code-view>
 
 
-<div class="divider--half"></div>
 
 This gauge supports one scale, one set of tick marks and one set of labels. The component also has built-in support for animated transitions. This animation is easily customizable by setting the `transitionDuration` property.
 The features of the bullet graph include configurable orientation and direction, configurable visual elements such as the needle, and more.
@@ -57,7 +56,6 @@ import { IgxBulletGraphModule } from 'igniteui-angular-gauges';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 
@@ -85,7 +83,6 @@ The following code walks through creating a bullet graph component, and configur
  </igx-bullet-graph>
 ```
 
-<div class="divider--half"></div>
 
 ## Configurable Elements
 

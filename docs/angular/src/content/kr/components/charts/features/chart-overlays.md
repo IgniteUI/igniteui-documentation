@@ -22,7 +22,6 @@ The following example depicts a [Column Chart](../types/column-chart.md) with a 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Value Overlay Properties
 

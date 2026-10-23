@@ -5,6 +5,8 @@ keywords: data binding, {Platform}, {ComponentKeywords}, {ProductName}, Infragis
 mentionedTypes: [{ComponentApiMembers}]
 namespace: Infragistics.Controls
 license: MIT
+llms:
+  description: "The {GridLiteTitle} accepts an array of plain objects as a data source."
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -27,7 +29,7 @@ The {GridLiteTitle} accepts an array of plain objects as a data source. Each gri
 <PlatformBlock for="Blazor">
 
 
-The {GridLiteTitle} accepts a `List<T>` as its data source, where `T` is representing your model. Each grid row is the rendered representation of a data record in the array with row cells being controlled by the column configuration.
+The {GridLiteTitle} accepts an `IEnumerable<TItem>`, such as a `List<TItem>`, as its data source, where `TItem` is representing your model. Each grid row is the rendered representation of a data record in the collection with row cells being controlled by the column configuration.
 
 </PlatformBlock>
 
@@ -91,10 +93,16 @@ return (
 </IgbGridLite>
 
 @code {
-    this.data = new List<T>
+    private List<Product> data = new();
+
+    private void UpdateData()
     {
-        // records follow
-    };
+        // Assign a new collection
+        data = new List<Product>
+        {
+            // records follow
+        };
+    }
 }
 ```
 
@@ -163,8 +171,13 @@ return (
 <IgbGridLite Data="data" AutoGenerate="true" />
 
 @code {
-    // After the new binding the grid will infer the column collection from the bound data.
-    this.data = new List<T>();
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // After the new binding the grid will infer the column collection from the bound data.
+        data = new List<Product>();
+    }
 }
 ```
 
@@ -189,7 +202,7 @@ Usually you will want to reset them by calling either `clearSort()` and/or `clea
 <DocsAside type="info">
 The sort/filter states of the {GridLiteTitle} are kept when changing the data source in this manner.
 </DocsAside>
-Usually you will want to reset them by calling either `ClearSort()` and/or `ClearFilter()`.
+Usually you will want to reset them by calling either `ClearSortAsync()` and/or `ClearFilterAsync()`.
 
 </PlatformBlock>
 
@@ -200,15 +213,29 @@ the column collection is reset, and a new data source is bound to the grid.
 <Sample src="/{GridLiteSample}/data-binding" height={600} alt="{Platform} {GridLiteTitle} Data Binding" />
 
 
-{/* TODO <ApiLink type="{ComponentName}" " />
-<ApiLink type="Column" " />*/}
+<PlatformBlock for="WebComponents, Blazor">
+
+## API References
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
 
 ## Additional Resources
 
-- [Column Configuration](column-configuration.md)
-- [Sorting](sorting.md)
-- [Filtering](filtering.md)
-- [Theming & Styling](theming.md)
+- [Column Configuration](./column-configuration.mdx)
+- [Sorting](./sorting.mdx)
+- [Filtering](./filtering.mdx)
+- [Theming & Styling](./theming.mdx)
 
 Our community is active and always welcoming to new ideas.
 

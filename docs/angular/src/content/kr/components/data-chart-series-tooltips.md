@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/series-tooltips">
 </code-view>
 
-<div class="divider--half"></div>
 
 [`IgxDataChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxdatachartcomponent.html) 제어에서 도구 설명 또는 도구 설명 레이어를 사용하려면 대화형 모듈을 가져와서 등록해야 합니다. 다음 코드를 사용하여 이 작업을 실행할 수 있습니다:
 

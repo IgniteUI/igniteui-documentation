@@ -19,7 +19,6 @@ The Ignite UI Dock Manager component provides means to manage the layout of your
 </code-view>
 
 
-<div class="divider--half"></div>
 
 
 ## Usage

@@ -23,7 +23,6 @@ The colors of the markers are also managed by setting the [`markerBrushes`]({env
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Chart Marker Templates
 
@@ -36,7 +35,6 @@ In addition to marker properties, you can implement your own marker by setting a
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

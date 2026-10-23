@@ -15,7 +15,7 @@ The [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) comp
 The [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) exposes intuitive **keyboard navigation** and it is **accessibility compliant**.<br />
 Drop Down items are **virtualized**, which guarantees smooth work, even if the [igx-combo]({environment:angularApiUrl}/classes/igxcombocomponent.html) is bound to data source with a lot of items.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 
@@ -24,7 +24,6 @@ Drop Down items are **virtualized**, which guarantees smooth work, even if the [
            iframe-src="{environment:demosBaseUrl}/lists/combo/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!WARNING]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**installation**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation) topic.
@@ -63,6 +62,7 @@ export class ComboDemo implements OnInit {
     }
 }
 ```
+
 > Note: If [displayKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#displaykey) is omitted then [valueKey]({environment:angularApiUrl}/classes/igxcombocomponent.html#valuekey) entity will instead be used as item text.
 
 ## Features
@@ -108,11 +108,10 @@ When igxCombo is opened, allow custom values are enabled and add item button is 
 - `ArrowUp` focus will be moved back to the last list item or if list is empty will be moved to the search input.
 
 ## API
-<div class="divider--half"></div>
 
-* [IgxComboComponent]({environment:angularApiUrl}/classes/igxcombocomponent.html)
-* [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
-* [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
+- [IgxComboComponent]({environment:angularApiUrl}/classes/igxcombocomponent.html)
+- [IgxComboComponent Styles]({environment:sassApiUrl}/themes#function-combo-theme)
+- [IgxOverlay Styles]({environment:sassApiUrl}/themes#function-overlay-theme)
 
 ## Known Issues
 
@@ -124,18 +123,17 @@ When igxCombo is opened, allow custom values are enabled and add item button is 
 > `igxCombo` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxCombo`. For more details see [igxForOf Known Issues](for-of.html#known-limitations) section.
 
 ## Additional Resources
-<div class="divider--half"></div>
 
-* [Combo Features](combo-features.md)
-* [Combo Remote Binding](combo-remote.md)
-* [Combo Templates](combo-templates.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
-* [Single Select ComboBox](simple-combo.md)
-* [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
-* [IgxInputGroup]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [Combo Features](combo-features.md)
+- [Combo Remote Binding](combo-remote.md)
+- [Combo Templates](combo-templates.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [Single Select ComboBox](simple-combo.md)
+- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
+- [IgxInputGroup]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -3,11 +3,16 @@ title: "{Platform} Chart Highlight Filter | Data Visualization | Infragistics"
 description: Infragistics' {Platform} Chart Highlight Filter
 keywords: "{Platform} Charts, Highlighting, Filtering, Infragistics"
 license: commercial
-mentionedTypes: ["CategoryChart", "DataChart", "Series", "HighlightedValuesDisplayMode"]
+mentionedTypes: ["CategoryChart", "DataChart", "Series", "HighlightedValuesDisplayMode", "HorizontalAnchoredCategorySeries"]
 namespace: Infragistics.Controls.Charts
+llms:
+  description: "The {ProductName} Chart components support a data highlighting overlay that can enhance the visualization of the series plotted in those charts by allowing you to view a subset of the data plotted."
+platformType: xplat
 ---
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {Platform} Chart Highlight Filter
 
@@ -16,50 +21,50 @@ The {ProductName} Chart components support a data highlighting overlay that can 
 <Sample src="/charts/data-chart/chart-highlight-filter-multiple-series" height={500} alt="{Platform} Highlight Filter Example" />
 
 
-Note that data highlighting feature is supported by the `DataChart` and `CategoryChart`, but it is configured in different ways in those controls due to the nature of how those controls work. One thing remains constant with this feature though, in that you need to set the `HighlightedValuesDisplayMode` property to `Overlay` if you want to see the highlight. The following will explain the different configurations for the highlight filter feature.
+Note that data highlighting feature is supported by the `DataChart` and `CategoryChart`, but it is configured in different ways in those controls due to the nature of how those controls work. One thing remains constant with this feature though, in that you need to set the `highlightedValuesDisplayMode` property to `SeriesHighlightedValuesDisplayMode.Overlay` if you want to see the highlight. The following will explain the different configurations for the highlight filter feature.
 
 ## Using Highlight Filter with DataChart
 
-In the `DataChart`, much of the highlight filter API happens on the series themselves, mainly by setting the `HighlightedItemsSource` property to a collection representing a subset of the data you want to highlight. The count of the items in the `HighlightedItemsSource` needs to match the count of the data bound to the `ItemsSource` of the series that you are looking to highlight, and in the case of category series, it will use the `ValueMemberPath` that you have defined as the highlight path by default. The sample at the top of this page uses the `HighlightedItemsSource` in the `DataChart` to show the overlay.
+In the `DataChart`, much of the highlight filter API happens on the series themselves, mainly by setting the `highlightedDataSource` property to a collection representing a subset of the data you want to highlight. The count of the items in the `highlightedDataSource` needs to match the count of the data bound to the `DataSource` of the series that you are looking to highlight, and in the case of category series, it will use the `ValueMemberPath` that you have defined as the highlight path by default. The sample at the top of this page uses the `highlightedDataSource` in the `DataChart` to show the overlay.
 
-In the case that the schema does not match between the `HighlightedItemsSource` and the `ItemsSource` of the series, you can configure this using the `HighlightedValueMemberPath` property on the series. Additionally, if you would like to use the `ItemsSource` of the series itself as the highlight source and have a path on your data item that represents the subset, you can do this. This is done by simply setting the `HighlightedValueMemberPath` property to that path and not providing a `HighlightedItemsSource`.
+In the case that the schema does not match between the `highlightedDataSource` and the `DataSource` of the series, you can configure this using the `HighlightedValueMemberPath` property on the series. Additionally, if you would like to use the `DataSource` of the series itself as the highlight source and have a path on your data item that represents the subset, you can do this. This is done by simply setting the `HighlightedValueMemberPath` property to that path and not providing a `highlightedDataSource`.
 
-The reduced opacity of the column and area series types is configurable by setting the `HighlightedValuesFadeOpacity` property on the series. You can also set the `HighlightedValuesDisplayMode` property to `Hidden` if you do not wish to see the overlay at all.
+The reduced opacity of the column and area series types is configurable by setting the `highlightedValuesFadeOpacity` property on the series. You can also set the `highlightedValuesDisplayMode` property to `SeriesHighlightedValuesDisplayMode.Hidden` if you do not wish to see the overlay at all.
 
-The part of the series shown by the highlight filter will be represented in the legend and tooltip layers of the chart separately. You can configure the title that this is given in the tooltip and legend by setting the `HighlightedTitleSuffix`. This will append the value that you provide to the end of the `Title` of the series.
+The part of the series shown by the highlight filter will be represented in the legend and tooltip layers of the chart separately. You can configure the title that this is given in the tooltip and legend by setting the `highlightedTitleSuffix`. This will append the value that you provide to the end of the `chartTitle` of the series.
 
-If the `DataLegend` or `DataToolTipLayer` is used then the highlighted series will appear grouped. This can be managed by setting the `HighlightedValuesDataLegendGroup` property on the series to categorize them appropriately.
+If the `DataLegend` or `DataToolTipLayer` is used then the highlighted series will appear grouped. This can be managed by setting the `highlightedValuesDataLegendGroup` property on the series to categorize them appropriately.
 
-The following example demonstrates the usage of the data legend grouping and highlighting overlay feature within the `DataChart` control using the `HighlightedValuesDataLegendGroup`:
+The following example demonstrates the usage of the data legend grouping and highlighting overlay feature within the `DataChart` control using the `highlightedValuesDataLegendGroup`:
 
 <Sample src="/charts/data-chart/data-legend-grouping-and-highlighting" height={500} alt="{Platform} Data Legend Grouping Highlight Example" />
 
 
-The following example demonstrates the usage of the data legend grouping and highlighting overlay feature within the `DataChart` control using the `HighlightedValuesDataLegendGroup`:
+The following example demonstrates the usage of the data legend grouping and highlighting overlay feature within the `DataChart` control using the `highlightedValuesDataLegendGroup`:
 
 <Sample src="/charts/data-chart/data-tooltip-grouping-and-highlighting" height={500} alt="{Platform} Data Tooltip Grouping Highlight Example" />
 
 
-The following example demonstrates the usage of the data highlighting overlay feature within the `DataChart` control using the `HighlightedValueMemberPath`:
+The following example demonstrates the usage of the data highlighting overlay feature within the `DataChart` control using the `highlightedValueMemberPath`:
 
 <Sample src="/charts/data-chart/chart-highlight-filter" height={500} alt="{Platform} Highlight Filter Example" />
 
 
 ## Using Highlight Filter in CategoryChart
 
-The `CategoryChart` highlight filter happens on the chart by setting the `InitialHighlightFilter` property. Since the `CategoryChart` takes all of the properties on your underlying data item into account by default, you will need to define the `InitialGroups` on the chart as well so that the data can be grouped and aggregated in a way that you can have a subset of the data to filter on. You can set the `InitialGroups` to a value path in your underlying data item to group by a path that has duplicate values.
+The `CategoryChart` highlight filter happens on the chart by setting the `initialHighlightFilter` property. Since the `CategoryChart` takes all of the properties on your underlying data item into account by default, you will need to define the `initialGroups` on the chart as well so that the data can be grouped and aggregated in a way that you can have a subset of the data to filter on. You can set the `initialGroups` to a value path in your underlying data item to group by a path that has duplicate values.
 
-{/* Unsure of this part. Need to review */}
-{/* ????? The `InitialHighlightFilter` is done using OData filter query syntax. The syntax for this is an abbreviation of the filter operator. For example, if you wanted to have an InitialHighlightFilter of "Month not equals January" it would be represented as "Month ne 'January'"*/}
+{/*Unsure of this part. Need to review */}
+{/* ????? The `initialHighlightFilter` is done using OData filter query syntax. The syntax for this is an abbreviation of the filter operator. For example, if you wanted to have an InitialHighlightFilter of "Month not equals January" it would be represented as "Month ne 'January'"*/}
 
-Similar to the `DataChart`, the `HighlightedValuesDisplayMode` property is also exposed on the `CategoryChart`. In the case that you do not want to see the overlay, you can set this property to `Hidden`.
+Similar to the `DataChart`, the `highlightedValuesDisplayMode` property is also exposed on the `CategoryChart`. In the case that you do not want to see the overlay, you can set this property to `SeriesHighlightedValuesDisplayMode.Hidden`.
 
 The following example demonstrates the usage of the data highlighting overlay feature within the `CategoryChart` control:
 
 <Sample src="/charts/category-chart/chart-highlight-filter" height={500} alt="{Platform} Highlight Filter Example" />
 
 
-{/* TODO add new section that talks about how this feature also applies to Range, Financial series and the HighlightedValueMemberPath property corresponds to:
+{/*TODO add new section that talks about how this feature also applies to Range, Financial series and the HighlightedValueMemberPath property corresponds to:
 HighlightedHighMemberPath and HighlightedLowMemberPath in Range Series
 HighlightedHighMemberPath, HighlightedLowMemberPath, HighlightedOpenMemberPath, HighlightedCloseMemberPath in Financial Series*/}
 
@@ -67,9 +72,9 @@ HighlightedHighMemberPath, HighlightedLowMemberPath, HighlightedOpenMemberPath, 
 
 You can find more information about related chart features in these topics:
 
-- [Chart Highlighting](chart-highlighting.md)
-- [Chart Data Tooltip](chart-data-tooltip.md)
-- [Chart Data Aggregations](chart-data-aggregations.md)
+- [Chart Highlighting](chart-highlighting.mdx)
+- [Chart Data Tooltip](chart-data-tooltip.mdx)
+- [Chart Data Aggregations](chart-data-aggregations.mdx)
 
 ## API References
 
@@ -78,11 +83,11 @@ The following is a list of API members mentioned in the above sections:
 
 | `CategoryChart` Properties                    | `DataChart` Properties |
 | ----------------------------------------------|---------------------------|
-| `CategoryChart.HighlightedItemsSource`        | `Series.HighlightedItemsSource`  |
-| `CategoryChart.HighlightedTitleSuffix`        | `Series.HighlightedTitleSuffix`  |
-| `CategoryChart.HighlightedValueMemberPath`    | `Series.HighlightedValueMemberPath`     |
-| `CategoryChart.HighlightedValuesDisplayMode`  | `Series.HighlightedValuesDisplayMode`   |
-| `CategoryChart.HighlightedValuesFadeOpacity`  | `Series.HighlightedValuesFadeOpacity`   |
-| `CategoryChart.HighlightedValuesDisplayMode`  | `Series.HighlightedValuesDisplayMode`   |
-| `CategoryChart.InitialHighlightFilter`        |  |
-| `CategoryChart.InitialGroups`                 |  |
+| `highlightedDataSource`        | `highlightedDataSource`  |
+| `highlightedTitleSuffix`        | `highlightedTitleSuffix`  |
+| `highlightedValueMemberPath`    | `highlightedValueMemberPath`     |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `highlightedValuesFadeOpacity`  | `highlightedValuesFadeOpacity`   |
+| `highlightedValuesDisplayMode`  | `highlightedValuesDisplayMode`   |
+| `initialHighlightFilter`        |  |
+| `initialGroups`                 |  |

@@ -18,7 +18,6 @@ The sparkline control has several visual elements and corresponding features tha
            github-src="charts/sparkline/display-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 <!-- Angular, React, WebComponents -->
 
@@ -26,8 +25,8 @@ The sparkline control has several visual elements and corresponding features tha
 
 In order to use the Ignite UI for Angular sparkline component, the following packages need to be installed:
 
--   **npm install --save igniteui-angular-core**
--   **npm install --save igniteui-angular-charts**
+- **npm install --save igniteui-angular-core**
+- **npm install --save igniteui-angular-charts**
     <!-- end: Angular, React, WebComponents -->
 
 The sparkline component requires the import of the following modules:
@@ -53,10 +52,10 @@ export class AppModule {}
 
 The Ignite UI for Angular sparkline component supports the following types of sparklines:
 
--   `Area`
--   [`IgxColumnComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcolumncomponent.html)
--   `Line`
--   `WinLoss`
+- `Area`
+- [`IgxColumnComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcolumncomponent.html)
+- `Line`
+- `WinLoss`
 
 The type is defined by setting the `DisplayType` property. If the `DisplayType` property is not specified, then by default, the `Line` type is displayed.
 
@@ -71,7 +70,6 @@ If the `WinLoss` sparkline is bound to the same data as the other types such as 
     displayType="Area" />
 ```
 
-<div class="divider--half"></div>
 
 ## Markers
 
@@ -79,12 +77,12 @@ The Ignite UI for Angular sparkline component allows you to show markers as circ
 
 Markers in the sparkline can be placed in any combination of the following locations:
 
--   `All`: Display markers for all data points in the sparkline.
--   `Low`: Display markers on the data point of the lowest value. If there are multiple points at the lowest value, it will show on each point with that value.
--   `High`: Display markers on the data point of the highest value. If there are multiple points at the highest value, it will show on each point with that value.
--   `First`: Display a marker on the first data point in the sparkline.
--   `Last`: Display a marker on the last data point in the sparkline.
--   `Negative`: Display markers on the negative data points plotted in the sparkline.
+- `All`: Display markers for all data points in the sparkline.
+- `Low`: Display markers on the data point of the lowest value. If there are multiple points at the lowest value, it will show on each point with that value.
+- `High`: Display markers on the data point of the highest value. If there are multiple points at the highest value, it will show on each point with that value.
+- `First`: Display a marker on the first data point in the sparkline.
+- `Last`: Display a marker on the last data point in the sparkline.
+- `Negative`: Display markers on the negative data points plotted in the sparkline.
 
 All of the markers mentioned above can be customized using the related marker types' property in aspects of color, visibility, and size. For example, the `Low` markers above will have properties `LowMarkerBrush`, `LowMarkerVisibility`, and `LowMarkerSize`.
 
@@ -110,7 +108,6 @@ All of the markers mentioned above can be customized using the related marker ty
            github-src="charts/sparkline/markers">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Normal Range
 
@@ -118,9 +115,9 @@ The normal range feature of the Ignite UI for Angular sparkline component is a h
 
 The normal range can be wider than the maximum data point or beyond, and it can also be as thin as the sparkline's `Line` display type, to serve as a threshold indicator, for instance. The width of the normal range is determined by the following three properties, which serve as the minimum settings required for displaying the normal range:
 
--   `NormalRangeVisibility`: Whether or not the normal range is visible.
--   `NormalRangeMaximum`: The bottom border of the range.
--   `NormalRangeMinimum`: The top border of the range.
+- `NormalRangeVisibility`: Whether or not the normal range is visible.
+- `NormalRangeMaximum`: The bottom border of the range.
+- `NormalRangeMinimum`: The top border of the range.
 
 By default, the normal range is not displayed. When enabled, the normal range shows up with a light gray color appearance, which can also be configured using the `NormalRangeFill` property.
 
@@ -141,7 +138,6 @@ You can also configure whether or not to show the normal range in front of or be
            github-src="charts/sparkline/normal-range">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Trendlines
 
@@ -153,20 +149,20 @@ Trendlines can only be displayed one at a time and by default, the trendline is 
 
 A list of supported trendlines can be found below:
 
--   [`None`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#none)
--   [`CubicFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#cubicfit)
--   [`CumulativeAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#cumulativeaverage)
--   [`ExponentialAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#exponentialaverage)
--   [`ExponentialFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#exponentialfit)
--   [`LinearFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#linearfit)
--   [`LogarithmicFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#logarithmicfit)
--   [`ModifiedAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#modifiedaverage)
--   [`PowerLawFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#powerlawfit)
--   [`QuadraticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quadraticfit)
--   [`QuarticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quarticfit)
--   [`QuinticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quinticfit)
--   [`SimpleAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#simpleaverage)
--   [`WeightedAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#weightedaverage)
+- [`None`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#none)
+- [`CubicFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#cubicfit)
+- [`CumulativeAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#cumulativeaverage)
+- [`ExponentialAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#exponentialaverage)
+- [`ExponentialFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#exponentialfit)
+- [`LinearFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#linearfit)
+- [`LogarithmicFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#logarithmicfit)
+- [`ModifiedAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#modifiedaverage)
+- [`PowerLawFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#powerlawfit)
+- [`QuadraticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quadraticfit)
+- [`QuarticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quarticfit)
+- [`QuinticFit`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#quinticfit)
+- [`SimpleAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#simpleaverage)
+- [`WeightedAverage`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/trendlinetype.html#weightedaverage)
 
 The following code example shows how to enable a trendline in the Ignite UI for Angular sparkline component:
 
@@ -184,7 +180,6 @@ The following code example shows how to enable a trendline in the Ignite UI for 
            github-src="charts/sparkline/trendlines">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Unknown Value Interpolation
 
@@ -203,4 +198,3 @@ In order to plot the unknown values, you can set the [`UnknownValuePlotting`]({e
            github-src="charts/sparkline/unknown-values">
 </code-view>
 
-<div class="divider--half"></div>

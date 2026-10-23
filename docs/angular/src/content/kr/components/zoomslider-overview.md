@@ -19,7 +19,6 @@ The ZoomSlider control provides zooming functionality to range-enabled controls.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Usage
 
@@ -72,4 +71,3 @@ The following code demonstrates how to setup the ZoomSlider.
 </igx-zoom-slider>
 ```
 
-<div class="divider--half"></div>

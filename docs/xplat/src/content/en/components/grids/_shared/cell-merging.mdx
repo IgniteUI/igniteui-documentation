@@ -1,12 +1,14 @@
 ---
 title: "{Platform} {ComponentTitle} Cell Merging - {ProductName}"
-description: Position and size columns in a more powerful way, using the multi-row layout functionality in the {ProductName} for {Platform} {ComponentTitle}. Check out examples and demos!
+description: Merge adjacent cells with equal values in the {ProductName} {ComponentTitle} using the Cell Merging feature. Learn configuration, merging modes, and see live examples!
 keywords: cell merging, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
 license: commercial
 mentionedTypes: [{ComponentApiMembers}]
 sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
 _canonicalLink: "{CanonicalLinkToGridCellMerging}"
+llms:
+  description: "The Ignite UI for {Platform} {ComponentTitle} provides a Cell Merging feature that combines two or more adjacent cells with the same value into a single, larger cell."
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -42,7 +44,7 @@ Cell merging in the grid is controlled at two levels:
 
 ### Grid Merge Mode
 
-The grid exposes a <ApiLink pkg="grids" type="{ComponentName}" member="cellMergeMode" prefixed={false} /> property that accepts values from the <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="grids" type="GridCellMergeMode" kind="type" prefixed={false} /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" type="GridCellMergeMode" kind="enum" prefixed={false} /></PlatformBlock> enum:
+The grid exposes a <ApiLink type="{ComponentName}" member="cellMergeMode" /> property that accepts values from the <ApiLink type="GridCellMergeMode" /> enum:
 - `always` - Merges any adjacent cells that meet the merging condition, regardless of sort state.
 - `onSort` - Merges adjacent cells only when the column is sorted **(default value)**.
 
@@ -77,17 +79,19 @@ const cellMergeMode: GridCellMergeMode = 'always';
 @code {
     private GridCellMergeMode CellMergeMode = GridCellMergeMode.Always;
 }
+
 ```
 </PlatformBlock>
 
 ### Column Merge Toggle
-At the column level, merging can be enabled or disabled with the <ApiLink pkg="grids" type="ColumnGroup" member="merge" label="merge" /> property.
+At the column level, merging can be enabled or disabled with the <ApiLink type="ColumnGroup" member="merge" label="merge" /> property.
 
 <PlatformBlock for="React">
 ```tsx
 <IgrColumn field="OrderID" merge={true}></IgrColumn>
 <IgrColumn field="ShipperName" merge={false}></IgrColumn>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -123,6 +127,7 @@ In the above example:
 ```tsx
 const cellMergeMode: GridCellMergeMode = 'onSort';
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -146,6 +151,7 @@ const cellMergeMode: GridCellMergeMode = 'onSort';
 @code {
     private GridCellMergeMode CellMergeMode = GridCellMergeMode.OnSort;
 }
+
 ```
 </PlatformBlock>
 
@@ -153,10 +159,10 @@ Here, the grid is set to merge only when columns are sorted, and both Category a
 
 <PlatformBlock for="WebComponents, React">
 ## Custom Merge Conditions
-In addition to the built-in `always` and `onSort` modes, the grid allows you to define a custom condition for merging cells through the <ApiLink pkg="grids" type="{ComponentName}" member="mergeStrategy" prefixed={false} /> property. This strategy controls both how cells are compared and how merged ranges are calculated.
+In addition to the built-in `always` and `onSort` modes, the grid allows you to define a custom condition for merging cells through the <ApiLink type="{ComponentName}" member="mergeStrategy" /> property. This strategy controls both how cells are compared and how merged ranges are calculated.
 
 ### Merge Strategy Class
-A custom merge strategy must implement the <ApiLink pkg="grids" type="GridMergeStrategy" kind="interface" suffix={false} /> class:
+A custom merge strategy must implement the <ApiLink type="GridMergeStrategy" /> class:
 
 <PlatformBlock for="React">
 ```ts
@@ -173,6 +179,7 @@ export declare class IgrGridMergeStrategy {
     comparer: (prevRecord: any, record: any, field: string) => boolean;
 }
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -189,6 +196,7 @@ export declare class IgcGridMergeStrategy {
 
     comparer: (prevRecord: any, record: any, field: string) => boolean;
 }
+
 ```
 </PlatformBlock>
 
@@ -198,7 +206,7 @@ export declare class IgcGridMergeStrategy {
 <ComponentBlock for="Grid, HierarchicalGrid">
 ### Extending the Default Strategy
 
-If you only want to customize part of the behavior (for example, the comparer logic), you can extend the built-in <ApiLink pkg="grids" type="DefaultMergeStrategy" suffix={false} /> and override the relevant methods.
+If you only want to customize part of the behavior (for example, the comparer logic), you can extend the built-in <ApiLink type="DefaultMergeStrategy" /> and override the relevant methods.
 
 <PlatformBlock for="React">
 ```ts
@@ -213,6 +221,7 @@ export class MyCustomStrategy extends IgrDefaultMergeStrategy {
     }
 }
 ```
+
 </PlatformBlock>
 <PlatformBlock for="WebComponents">
 ```ts
@@ -230,11 +239,11 @@ export class MyCustomStrategy extends IgcDefaultMergeStrategy {
 </PlatformBlock>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
-The `IgxTreeGrid` provides two built-in strategies that implement the `IGridMergeStrategy` interface: `DefaultTreeGridMergeStrategy` and `ByLevelTreeGridMergeStrategy`. `DefaultTreeGridMergeStrategy` merges all cells with the same value, regardless of their hierarchical level. In contrast, `ByLevelTreeGridMergeStrategy` only merges cells if they have the same value and are located at the same level, making level a required condition for merging.
+The `IgxTreeGrid` provides two built-in strategies that implement the `IGridMergeStrategy` interface: <ApiLink type="DefaultTreeGridMergeStrategy" /> and <ApiLink type="ByLevelTreeGridMergeStrategy" />. <ApiLink type="DefaultTreeGridMergeStrategy" /> merges all cells with the same value, regardless of their hierarchical level. In contrast, <ApiLink type="ByLevelTreeGridMergeStrategy" /> only merges cells if they have the same value and are located at the same level, making level a required condition for merging.
 
 ### Extending the Default Strategy
 
-If you only want to customize part of the behavior (for example, the comparer logic), you can extend one of the built-in strategies, either `DefaultTreeGridMergeStrategy` or `ByLevelTreeGridMergeStrategy`, and override the relevant methods.
+If you only want to customize part of the behavior (for example, the comparer logic), you can extend one of the built-in strategies, either <ApiLink type="DefaultTreeGridMergeStrategy" /> or <ApiLink type="ByLevelTreeGridMergeStrategy" />, and override the relevant methods.
 
 <PlatformBlock for="React">
 ```ts
@@ -268,8 +277,9 @@ export class MyCustomStrategy extends IgcDefaultTreeGridMergeStrategy {
 </ComponentBlock>
 
 ### Applying a Custom Strategy
-Once defined, assign the strategy to the grid through the <ApiLink pkg="grids" type="{ComponentName}" member="mergeStrategy" prefixed={false} /> property:
+Once defined, assign the strategy to the grid through the <ApiLink type="{ComponentName}" member="mergeStrategy" /> property:
 <PlatformBlock for="React">
+
 ```tsx
 <{ComponentSelector} data={data} mergeStrategy={customStrategy}>
   <IgrColumn field="ActionID" merge={true}></IgrColumn>
@@ -280,6 +290,7 @@ Once defined, assign the strategy to the grid through the <ApiLink pkg="grids" t
 ```ts
 const customStrategy = new MyCustomStrategy() as IgrGridMergeStrategy;
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
@@ -291,6 +302,7 @@ constructor() {
     grid.mergeStrategy = new MyCustomStrategy() as IgcGridMergeStrategy;
     grid.cellMergeMode = 'always';
 }
+
 ```
 
 ### Demo
@@ -331,21 +343,23 @@ If a merged cell is clicked, the closest cell from the merge sequence will becom
 </ComponentBlock>
 
 ## API References
-
-<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} /><br />
-
+<ApiLink type="{ComponentName}" />
+<ApiLink type="{ComponentName}" member="cellMergeMode" label="CellMergeMode" />
+<ApiLink type="GridCellMergeMode" />
+<ApiLink type="GridMergeStrategy" />
+<ApiLink type="DefaultMergeStrategy" />
 ## Additional Resources
 
-- [Filtering](filtering.md)
-- [Excel Style Filtering](excel-style-filtering.md)
-- [Virtualization and Performance](virtualization.md)
-- [Paging](paging.md)
-- [Sorting](sorting.md)
-- [Summaries](summaries.md)
-- [Column Moving](column-moving.md)
-- [Column Pinning](column-pinning.md)
-- [Column Resizing](column-resizing.md)
-- [Selection](selection.md)
+- [Filtering](filtering.mdx)
+- [Excel Style Filtering](excel-style-filtering.mdx)
+- [Virtualization and Performance](virtualization.mdx)
+- [Paging](paging.mdx)
+- [Sorting](sorting.mdx)
+- [Summaries](summaries.mdx)
+- [Column Moving](column-moving.mdx)
+- [Column Pinning](column-pinning.mdx)
+- [Column Resizing](column-resizing.mdx)
+- [Selection](selection.mdx)
 
 Our community is active and always welcoming to new ideas.
 

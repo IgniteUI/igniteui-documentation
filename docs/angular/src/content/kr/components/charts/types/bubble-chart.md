@@ -21,7 +21,6 @@ You can create the Bubble Chart in [`IgxDataChartComponent`]({environment:dvApiB
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Bubble Chart with Single Series
 
@@ -34,7 +33,6 @@ You can bind your data to `ItemsSource` property of [`IgxBubbleSeriesComponent`]
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Bubble Chart with Multiple Series
 
@@ -47,7 +45,6 @@ In Angular Bubble Chart, binding multiple data sources works by setting each new
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Bubble Chart Styling
 
@@ -60,7 +57,6 @@ In Angular Bubble Chart, you can customize shape of bubble markers using [`marke
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

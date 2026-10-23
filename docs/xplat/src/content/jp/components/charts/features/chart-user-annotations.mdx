@@ -2,9 +2,12 @@
 title: "{Platform} チャートのユーザー注釈 | データ可視化 | インフラジスティックス"
 description: インフラジスティックスの {Platform} チャートのユーザー注釈
 keywords: "{Platform} Charts, User Annotations, Infragistics, {Platform} チャート, ユーザー注釈, インフラジスティックス"
-mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer"]
+mentionedTypes: ["DataChart", "UserAnnotationLayer", "UserStripAnnotation", "UserSliceAnnotation", "UserPointAnnotation", "Toolbar", "UserAnnotationInformation", "SeriesViewer", "UserAnnotationInformationEventArgs", "UserAnnotationToolTipContentUpdatingEventArgs"]
 namespace: Infragistics.Controls.Charts
 _language: ja
+llms:
+  description: "{ProductName} では、ユーザー注釈機能を使用して、実行時に DataChart にスライス注釈、ストリップ注釈、ポイント注釈を追加できます。"
+platformType: xplat
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -13,10 +16,11 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import { Image } from 'astro:assets';
 import dataChartUserAnnotationCreate from '@xplat-images/charts/data-chart-user-annotation-create.gif';
 import dataChartUserAnnotationDelete from '@xplat-images/charts/data-chart-user-annotation-delete.gif';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
 
 
 
-# {Platform} チャートのユーザー注釈レイヤー <label>PREVIEW</label>
+# {Platform} チャートのユーザー注釈レイヤー <Badge variant="preview" />
 
 {ProductName} では、ユーザー注釈機能を使用して、実行時に `DataChart` にスライス注釈、ストリップ注釈、ポイント注釈を追加できます。これにより、エンドユーザーは、スライス注釈を使用して会社の四半期レポートなどの単一の重要イベントを強調したり、ストリップ注釈を使用して期間を持つイベントを示したりするなど、プロットに詳細を追加できます。ポイント注釈またはこれら 3 つの任意の組み合わせを使用して、プロットされたシリーズ上の個々のポイントを呼び出すこともできます。
 
@@ -31,7 +35,7 @@ import dataChartUserAnnotationDelete from '@xplat-images/charts/data-chart-user-
 
 ## Toolbar でユーザー注釈を使用する
 
-`Toolbar` には、「Annotate Chart」 と 「Delete Note」 という 2 つのツールを含む Annotations メニュー項目が用意されています。このメニュー項目を表示するには、対象のチャートで <ApiLink pkg="charts" type="DataChart" member="isUserAnnotationsEnabled" label="IsUserAnnotationsEnabled" /> プロパティを **true** に設定する必要があります。
+`Toolbar` には、「Annotate Chart」 と 「Delete Note」 という 2 つのツールを含む Annotations メニュー項目が用意されています。このメニュー項目を表示するには、対象のチャートで `isUserAnnotationsEnabled` プロパティを **true** に設定する必要があります。
 
 開いた後に表示される 「Annotate Chart」 オプションを使用すると、`DataChart` のプロット領域に注釈を付けることができます。追加できる注釈はスライス注釈、ストリップ注釈、ポイント注釈です。X 軸または Y 軸のラベルをクリックすると、スライス注釈を追加できます。プロット領域をクリックしてドラッグすることで、ストリップ注釈を追加できます。また、チャートにプロットされたシリーズ内のポイントをクリックして、ポイント注釈を追加することもできます。
 
@@ -41,34 +45,34 @@ import dataChartUserAnnotationDelete from '@xplat-images/charts/data-chart-user-
 
 <Image src={dataChartUserAnnotationDelete} alt="{Platform} user-annotation-delete" class="responsive-img" />
 
-`Toolbar` を使用してこれらのユーザー注釈を追加すると、`DataChart` は `UserAnnotationInformationRequested` イベントを発生させ、そこでユーザー注釈に関する追加情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な <ApiLink pkg="charts" type="UserAnnotationInformation" suffix={false} /> オブジェクトを返します。
+`Toolbar` を使用してこれらのユーザー注釈を追加すると、`DataChart` は `UserAnnotationInformationRequested` イベントを発生させ、そこでユーザー注釈に関する追加情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な `UserAnnotationInformation` オブジェクトを返します。
 
-以下の表は、<ApiLink pkg="charts" type="UserAnnotationInformation" suffix={false} /> で構成可能なさまざまなプロパティの詳細を示しています。
+以下の表は、`UserAnnotationInformation` で構成可能なさまざまなプロパティの詳細を示しています。
 
 | プロパティ | タイプ | 説明 |
 |------------|---------|-------------|
-|`AnnotationData`|`string`|このプロパティは、ユーザー注釈に追加情報を提供するためのものです。このプロパティは、`UserAnnotationToolTipContentUpdating` イベントと組み合わせて使用され、注釈のツールチップに追加情報を表示するよう設計されています。|
-|`AnnotationId`|`string`|この読み取り専用プロパティは、ユーザー注釈の一意の文字列 ID を返します。|
-|`BadgeColor`|`string`|このプロパティは、ユーザー注釈のバッジに使用する色を取得または設定します。|
-|`BadgeImageUri`|`string`|このプロパティは、ユーザー注釈のバッジに使用する画像へのパスを取得または設定します。|
-|`DialogSuggestedXLocation`|`double`|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 X 座標を取得します。|
-|`DialogSuggestedYLocation`|`double`|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 Y 座標を取得します。|
-|`Label`|`string`|このプロパティは、ユーザー注釈に表示するラベルを取得または設定します。|
-|`MainColor`|`string`|このプロパティは、ユーザー注釈の背景を塗りつぶすために使用する色を取得または設定します。|
+|`annotationData`|`string`|このプロパティは、ユーザー注釈に追加情報を提供するためのものです。このプロパティは、`UserAnnotationToolTipContentUpdating` イベントと組み合わせて使用され、注釈のツールチップに追加情報を表示するよう設計されています。|
+|`annotationId`|`string`|この読み取り専用プロパティは、ユーザー注釈の一意の文字列 ID を返します。|
+|`badgeColor`|`string`|このプロパティは、ユーザー注釈のバッジに使用する色を取得または設定します。|
+|`badgeImageUri`|`string`|このプロパティは、ユーザー注釈のバッジに使用する画像へのパスを取得または設定します。|
+|`dialogSuggestedXLocation`|`double`|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 X 座標を取得します。|
+|`dialogSuggestedYLocation`|`double`|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 Y 座標を取得します。|
+|`UserStripAnnotation.label`|`string`|このプロパティは、ユーザー注釈に表示するラベルを取得または設定します。|
+|`mainColor`|`string`|このプロパティは、ユーザー注釈の背景を塗りつぶすために使用する色を取得または設定します。|
 
-`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、`DataChart` の `FinishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`CancelAnnotationFlow` を呼び出して注釈の `AnnotationId` を渡すことで注釈の作成をキャンセルすることもできます。注釈の `AnnotationId` は、前述のように、`UserAnnotationInformationRequested` イベントの引数の AnnotationInfo パラメーターから取得できます。これにより、プロット領域から注釈が削除されます。
+`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、`DataChart` の `m:finishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`m:cancelAnnotationFlow` を呼び出して注釈の `annotationId` を渡すことで注釈の作成をキャンセルすることもできます。注釈の `annotationId` は、前述のように、`UserAnnotationInformationRequested` イベントの引数の AnnotationInfo パラメーターから取得できます。これにより、プロット領域から注釈が削除されます。
 
 ## ユーザー注釈をプログラムで使用する
 
-<ApiLink pkg="charts" type="UserAnnotationLayer" /> をプログラムで使用する場合、`DataChart` に対して 2 つのメソッドを呼び出し、ユーザー注釈の追加または削除を行えるモードに切り替えることができます。これらのメソッドは `StartCreatingAnnotation` と `StartDeletingAnnotation` です。
+`UserAnnotationLayer` をプログラムで使用する場合、`DataChart` に対して 2 つのメソッドを呼び出し、ユーザー注釈の追加または削除を行えるモードに切り替えることができます。これらのメソッドは `m:startCreatingAnnotation` と `m:startDeletingAnnotation` です。
 
-`StartCreatingAnnotation` を呼び出した後は、X または Y 軸のラベルをクリックしてスライス注釈を追加したり、プロット領域をクリックしドラッグしてからマウスボタンを離してストリップ注釈を追加したり、チャート内のシリーズ上のデータ ポイントをクリックしてポイント注釈を追加したりできます。
+`m:startCreatingAnnotation` を呼び出した後は、X または Y 軸のラベルをクリックしてスライス注釈を追加したり、プロット領域をクリックしドラッグしてからマウスボタンを離してストリップ注釈を追加したり、チャート内のシリーズ上のデータ ポイントをクリックしてポイント注釈を追加したりできます。
 
-これらのユーザー注釈のいずれかを追加すると、`UserAnnotationInformationRequested` イベントが発生し、ユーザー注釈に関する詳細情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な <ApiLink pkg="charts" type="UserAnnotationInformation" suffix={false} /> オブジェクトを返します。
+これらのユーザー注釈のいずれかを追加すると、`UserAnnotationInformationRequested` イベントが発生し、ユーザー注釈に関する詳細情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な `UserAnnotationInformation` オブジェクトを返します。
 
-`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、`DataChart` の `FinishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`CancelAnnotationFlow` を呼び出して注釈の `AnnotationId` を渡すことで注釈の作成をキャンセルすることもできます。注釈の `AnnotationId` は、前述のように、`UserAnnotationInformationRequested` イベントの引数の AnnotationInfo パラメーターから取得できます。これにより、プロット領域から注釈が削除されます。
+`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、`DataChart` の `m:finishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`m:cancelAnnotationFlow` を呼び出して注釈の `annotationId` を渡すことで注釈の作成をキャンセルすることもできます。注釈の `annotationId` は、前述のように、`UserAnnotationInformationRequested` イベントの引数の AnnotationInfo パラメーターから取得できます。これにより、プロット領域から注釈が削除されます。
 
-ユーザー注釈がチャートに追加されると、`Series` コレクションに <ApiLink pkg="charts" type="UserAnnotationLayer" /> として表示されます。<ApiLink pkg="charts" type="UserAnnotationLayer" /> には、プロット領域に追加された注釈の種類に応じて <ApiLink pkg="charts" type="UserSliceAnnotation" suffix={false} />、<ApiLink pkg="charts" type="UserStripAnnotation" suffix={false} />、および <ApiLink pkg="charts" type="UserPointAnnotation" suffix={false} /> 要素を保存できる `Annotations` コレクションがあります。
+ユーザー注釈がチャートに追加されると、`Series` コレクションに `UserAnnotationLayer` として表示されます。`UserAnnotationLayer` には、プロット領域に追加された注釈の種類に応じて `UserSliceAnnotation`、`UserStripAnnotation`、および `UserPointAnnotation` 要素を保存できる `UserAnnotationLayer.annotations` コレクションがあります。
 
 ## UserAnnotationToolTip
 
@@ -76,22 +80,22 @@ import dataChartUserAnnotationDelete from '@xplat-images/charts/data-chart-user-
 
 チャートは `UserAnnotationToolTipContentUpdating` イベントを公開しており、ツールチップが表示される際にその内容を更新できます。このイベント引数には `Content` と `AnnotationInfo` の 2 つのプロパティがあります。
 
-ツールチップは `UserAnnotationInformationRequested` イベントと連動する設計になっており、そのイベントで `AnnotationInfo.AnnotationData` に設定した追加情報を、ツールチップ表示時にも利用できます。`UserAnnotationToolTipContentUpdating` イベントのイベント引数の `AnnotationInfo` プロパティは、そのイベントで変更できる `UserAnnotationInformationRequested` の `AnnotationInfo` プロパティと同じインスタンスになります。これにより、ユーザー注釈の作成時に提供された情報を活用し、ツールチップ内にさらに多くの情報を提供できるようになります。
+ツールチップは `UserAnnotationInformationRequested` イベントと連動する設計になっており、そのイベントで `UserAnnotationInformation.AnnotationData` に設定した追加情報を、ツールチップ表示時にも利用できます。`UserAnnotationToolTipContentUpdating` イベントのイベント引数の `AnnotationInfo` プロパティは、そのイベントで変更できる `UserAnnotationInformationRequested` の `AnnotationInfo` プロパティと同じインスタンスになります。これにより、ユーザー注釈の作成時に提供された情報を活用し、ツールチップ内にさらに多くの情報を提供できるようになります。
 
 
 ## API リファレンス
 
 
-<ApiLink type="DataChart" pkg="charts" /><br />
-<ApiLink type="UserAnnotationLayer" pkg="charts" /><br />
-<ApiLink type="UserAnnotationInformation" pkg="charts" suffix={false} /><br />
-<ApiLink type="UserSliceAnnotation" pkg="charts" suffix={false} /><br />
-<ApiLink type="UserStripAnnotation" pkg="charts" suffix={false} /><br />
-<ApiLink type="UserPointAnnotation" pkg="charts" suffix={false} /><br />
+`DataChart`<br />
+`UserAnnotationLayer`<br />
+`UserAnnotationInformation`<br />
+`UserSliceAnnotation`<br />
+`UserStripAnnotation`<br />
+`UserPointAnnotation`<br />
 
 ## その他のリソース
 
 関連するチャート機能の詳細については、次のトピックを参照してください。
 
-- [チャートの注釈](chart-annotations.md)
-- [チャートのデータ注釈](chart-data-annotations.md)
+- [チャートの注釈](./chart-annotations.mdx)
+- [チャートのデータ注釈](./chart-data-annotations.mdx)

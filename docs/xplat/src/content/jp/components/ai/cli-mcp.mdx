@@ -4,7 +4,10 @@ description: "Ignite UI CLI MCP を AI クライアントに接続して、{Prod
 keywords: "{Platform}, {ProductName}, Infragistics, Ignite UI CLI MCP, Ignite UI Theming MCP, MCP, Model Context Protocol, AI, エージェント, GitHub Copilot, Cursor, Claude, JetBrains"
 license: MIT
 _canonicalLink: "{environment:dvUrl}/components/ai/cli-mcp"
+_language: ja
 mentionedTypes: []
+llms:
+  description: "Ignite UI CLI MCP は、AI アシスタントが {ProductName} アプリケーションのプロジェクトのスキャフォールディング、既存アプリの変更、コンポーネントの作成と更新、ドキュメントの質問に回答できるようにする Model Context Protocol (MCP) サーバーです。"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
@@ -13,7 +16,7 @@ import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBloc
 
 <p class="highlight">Ignite UI CLI MCP は、AI アシスタントが {ProductName} アプリケーションのプロジェクトのスキャフォールディング、既存アプリの変更、コンポーネントの作成と更新、ドキュメントの質問に回答できるようにする <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) サーバーです。Ignite UI CLI MCP をエディター、GitHub リポジトリ、またはデスクトップ AI クライアントに接続し、やりたいことを伝えると、アシスタントが CLI ツールを使用します。</p>
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ## 概要
 
@@ -22,7 +25,7 @@ Ignite UI CLI MCP は、チャットまたはエージェント モードを通�
 推奨セットアップ手順は、最初に Ignite UI CLI から始めることです。この手順では、Ignite UI CLI がプロジェクトを作成し、必要なパッケージをインストールし、VS Code 用の MCP 構成を初期設定します。また、空のフォルダーでアシスタントが MCP を通じてプロジェクトを作成するところから開始することも、既存のプロジェクトに MCP を接続することもできます。
 
 <PlatformBlock for="React, WebComponents">
-セットアップ後の完全なビルド フローを確認したい場合は、[Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.md)を参照してください。
+セットアップ後の完全なビルド フローを確認したい場合は、[Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.mdx)を参照してください。
 </PlatformBlock>
 
 **接続後に試すプロンプトの例:**
@@ -63,7 +66,7 @@ MCP サーバーは `npx` を通じて起動されます。Node.js と `igniteui
 npx -y igniteui-cli mcp
 ```
 
-<DocsAside type="note">
+<DocsAside type="info">
 `-y` フラグは、`npx` にパッケージ ダウンロード プロンプトを自動確認するように指示するため、サーバーは手動介入なしで起動できます。
 </DocsAside>
 
@@ -72,19 +75,19 @@ npx -y igniteui-cli mcp
 Ignite UI CLI MCP を開始するには 3 つの方法があります。
 
 > **推奨 - CLI ファースト**
-  最初に `ig new` または `npx --package igniteui-cli igniteui new` コマンドにより Ignite UI CLI を使ってプロジェクトを作成します。Ignite UI CLI がプロジェクトをスキャフォールディングし、必要なパッケージをインストールし、VS Code 用の `.vscode/mcp.json` を自動的に作成するため、これが最も簡単なセットアップです。その後、生成された MCP 構成を確認し、AI クライアントでプロジェクトを開くだけです。
+  最初に `ig new` または `npx --package igniteui-cli igniteui new` コマンドにより Ignite UI CLI を使ってプロジェクトを作成します。Ignite UI CLI がプロジェクトをスキャフォールディングし、必要なパッケージをインストールし、構成する AI クライアントとエージェントを選択するプロンプトを表示するため、これが最も簡単なセットアップです。その後、生成された MCP 構成を確認し、AI クライアントでプロジェクトを開くだけです。
 
 > **空のフォルダー**
   完全に空のフォルダーから始め、MCP 構成を手動で追加してから、アシスタントにチャットを通じてプロジェクトを作成するよう依頼します。このパスは、最初に CLI を自分で実行するのではなく、MCP でプロジェクト作成フローを最初から動かしたい場合に便利です。
 
 > **既存プロジェクト**
-  既存のプロジェクトに MCP 構成を追加し、現在のコードベースで作業を続けます。このパスは、プロジェクトが既に存在し、プロジェクトの変更、コンポーネント作業、ドキュメントへの質問を、何も再生成することなくアシスタントに支援させたい場合に便利です。
+  既存のプロジェクトに MCP 構成を追加し、現在のコードベースで作業を続けます。`ig ai-config` (Angular プロジェクトの場合は `ng generate @igniteui/angular-schematics:ai-config`) をプロジェクト ルートから実行して、選択した AI クライアント向けに MCP 構成を書き込み、エージェント スキルをプロジェクトにコピーします。コマンドはどのクライアントとエージェントを構成するかを選択するプロンプトを表示します。
 
 3 つのパスはすべて同じ MCP サーバーを使用します。違いは、プロンプトを開始する前にプロジェクトがどのように準備されるかだけです。
 
 - **CLI ファースト**の手順では、Ignite UI CLI がプロジェクトを作成し、最初の MCP 構成を準備します
 - **空のフォルダー**の手順では、最初に MCP 構成を作成し、その後アシスタントにプロジェクトを作成させます
-- **既存プロジェクト**の手順では、MCP を現在のコードベースにアタッチし、既存のものから続行します
+- **既存プロジェクト**の手順では、`ig ai-config` を実行して選択したクライアント向けに MCP 構成を書き込み、エージェント スキルを自動的にコピーします
 
 いずれの場合も、MCP サーバーが接続されて AI クライアントで表示されたら、アシスタントは同じセッションで作業を続けることができます。
 
@@ -132,30 +135,33 @@ ig new my-app --framework=angular --type=igx-ts --template=empty
 ```bash
 npx --package igniteui-cli igniteui new my-app --framework=angular --type=igx-ts --template=empty
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
 ```bash
-ig new my-app --framework=react
+ig new my-app --framework=react --type=igr-ts --template=side-nav
 ```
 
 `npx` で実行する場合:
 
 ```bash
-npx --package igniteui-cli igniteui new my-app --framework=react
+npx ig new my-app --framework=react --template=side-nav
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 ```bash
-ig new my-app --framework=webcomponents
+ig new my-app --framework=webcomponents --template=side-nav
 ```
 
 `npx` で実行する場合:
 
 ```bash
-npx --package igniteui-cli igniteui new my-app --framework=webcomponents
+npx ig new my-app --framework=webcomponents --template=side-nav
 ```
+
 </PlatformBlock>
 
 ガイド モードでは、Ignite UI CLI は、プロジェクト名、フレームワーク、テンプレート、テーマ、コンポーネントを追加するか、セットアップを完了するか、を対話形式で聞いてきます。直接モードでは、フレームワークとサポートされているオプションをコマンド自体に指定します。
@@ -164,12 +170,12 @@ npx --package igniteui-cli igniteui new my-app --framework=webcomponents
 プロジェクト テンプレート、CLI コマンド オプション、`ig add` などのコンポーネント スキャフォールディング コマンドの詳細については、Angular の Ignite UI CLI ドキュメントを参照してください。
 </PlatformBlock>
 <PlatformBlock for="React, WebComponents">
-プロジェクト テンプレート、CLI コマンド オプション、`ig add` などのコンポーネント スキャフォールディング コマンドの詳細については、[Ignite UI CLI](../general-cli-overview.md) を参照してください。
+プロジェクト テンプレート、CLI コマンド オプション、`ig add` などのコンポーネント スキャフォールディング コマンドの詳細については、[Ignite UI CLI](../general-cli-overview.mdx) を参照してください。
 </PlatformBlock>
 
 ### VS Code
 
-VS Code の GitHub Copilot は、ワークスペース レベルの構成ファイルを介して MCP サーバーをサポートします。プロジェクト ルートに `.vscode/mcp.json` を作成または編集します。
+VS Code の GitHub Copilot は、ワークスペース レベルの構成ファイルを介して MCP サーバーをサポートします。プロジェクト ルートから `ig ai-config` (Angular の場合は `ng generate @igniteui/angular-schematics:ai-config`) を実行するとこのファイルを自動的に生成できます。手動で構成する場合は、プロジェクト ルートの `.vscode/mcp.json` を作成または編集します。
 
 ```json
 {
@@ -190,7 +196,7 @@ VS Code の GitHub Copilot は、ワークスペース レベルの構成ファ�
 
 保存したら、GitHub Copilot チャット パネルを開き、**Agent** モードに切り替えると、Ignite UI CLI MCP ツールが利用できるようになります。
 
-<DocsAside type="note">
+<DocsAside type="info">
 VS Code での MCP サポートには、GitHub Copilot と VS Code 1.99 以降が必要です。
 </DocsAside>
 
@@ -215,7 +221,7 @@ Cursor はプロジェクト スコープの MCP 構成をサポートします�
 
 サーバーは、新しい Cursor チャット セッションを開くと自動的に選択されます。
 
-<DocsAside type="note">
+<DocsAside type="info">
 Cursor の **Settings → MCP** を介してグローバルに MCP サーバーを構成することもできます。
 </DocsAside>
 
@@ -297,7 +303,7 @@ JetBrains AI Assistant は、IDE 設定を介して MCP サーバーをサポー
 
 5. **OK** をクリックして AI Assistant を再起動します。
 
-<DocsAside type="note">
+<DocsAside type="info">
 MCP サポートには、JetBrains IDE に AI Assistant プラグインがインストールされて有効になっている必要があります。
 </DocsAside>
 
@@ -359,8 +365,8 @@ MCP サーバーは、AI がプロンプトに基づいて自動的に使用す�
 | `get_doc`                 | ケバブ ケース名 (例: `grid-editing`、`combo-overview`) で特定のコンポーネント ドキュメントの完全なマークダウン コンテンツを取得します。コード サンプル、テーブル、リンクを含みます。 |
 | `search_docs`             | フレームワークの Ignite UI ドキュメント全体でフルテキスト検索を実行します。抜粋付きで最大 20 件のランク付けされた結果を返します。 |
 | `get_project_setup_guide` | CLI 手順とインストール手順を含む、特定のフレームワークで新しいプロジェクトを作成するためのプロジェクト セットアップ ガイドを返します。 |
-| `search_api`              | Angular、React、Web Components 全体でキーワードまたはコンポーネント名によって API エントリを検索します。 |
-| `get_api_reference`       | プロパティ、メソッド、イベントを含む、特定のコンポーネントまたはクラスの完全な API リファレンスを返します。Angular、React、Web Components をサポートします。 |
+| `search_api`              | Angular、React、Blazor、Web Components 全体でキーワードまたはコンポーネント名によって API エントリを検索します。 |
+| `get_api_reference`       | プロパティ、メソッド、イベントを含む、特定のコンポーネントまたはクラスの完全な API リファレンスを返します。Angular、React、Blazor、Web Components をサポートします。 |
 
 まとめると、CLI MCP ツールは以下を支援します。
 
@@ -370,14 +376,14 @@ MCP サーバーは、AI がプロンプトに基づいて自動的に使用す�
 - プロジェクト構造と構成の更新
 - ドキュメントと API の質問への回答
 
-<DocsAside type="note">
+<DocsAside type="info">
 フレームワークの検出にはコンポーネント名のプレフィックスを参照します: Angular は `Igx`、React は `Igr`、Web Components は `Igc`、Blazor は `Igb` です。アシスタントは、開いているファイルまたはプロンプト コンテキストから正しいフレームワークを自動的に選択します。
 </DocsAside>
 
 テーマ サーバーは、同じクライアント セッションにスタイリング、テーマ、パレット、トークン ワークフローを追加します。
 
 <PlatformBlock for="React, WebComponents">
-主要なハンズオン ワークフローについては、[Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.md)を参照してください。
+主要なハンズオン ワークフローについては、[Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.mdx)を参照してください。
 </PlatformBlock>
 
 ## 一般的なワークフロー
@@ -386,7 +392,7 @@ MCP サーバーは、AI がプロンプトに基づいて自動的に使用す�
 
 ### CLI ファーストセットアップ
 
-最も速いガイド付きセットアップが必要で、`.vscode/mcp.json` を自動生成したい場合は、最初に Ignite UI CLI でプロジェクトを作成します。
+最も速いガイド付きセットアップが必要な場合は、最初に Ignite UI CLI でプロジェクトを作成します。`ig new` は、MCP 向けに構成する AI クライアントとスキル ファイルをセットアップするエージェントを選択するプロンプトを表示します。
 
 シナリオの例:
 
@@ -429,9 +435,9 @@ Node.js がインストールされていないか、現在のターミナル環
 
 構成コンテンツがキー名と引数の順序を含めて例と正確に一致していることを確認します。
 
-**プロジェクトは作成されたが、MCP 構成は VS Code のみで利用可能**
+**プロジェクトは作成されたが、MCP がいずれかの AI クライアント用に構成されていない**
 
-Ignite UI CLI は CLI ファースト手順のプロジェクト新規作成において `.vscode/mcp.json` を書き込みます。Cursor、Claude Desktop、Claude Code、JetBrains、GitHub、または別の MCP クライアントを使用している場合は、同じサーバー エントリをそのクライアントの構成形式と場所にコピーします。
+`ig new` はどのクライアントを構成するか選択するプロンプトを表示します。プロジェクト作成時にクライアントをスキップした場合は、`ig ai-config` を実行して、プロンプトが表示されたときに欠けているクライアントを選択します。
 
 **アシスタントが間違ったフォルダーで作業しているか、プロジェクト ファイルが見つからない**
 
@@ -448,13 +454,12 @@ JSON が `mcpServers` 構造を使用していること、および各ローカ�
 ## その他のリソース
 
 <PlatformBlock for="React, WebComponents">
-- [Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.md)
+- [Ignite UI CLI MCP と Ignite UI Theming MCP を使用したアプリのエンドツーエンドのビルド](../general-how-to-mcp-e2e.mdx)
 </PlatformBlock>
-- [Ignite UI を使った AI 支援開発](./ai-assisted-development-overview.md)
-- [{ProductName} スキル](./skills.md)
-- [Ignite UI Theming MCP](./theming-mcp.md)
+- [Ignite UI を使った AI 支援開発](./ai-assisted-development-overview.mdx)
+- [{ProductName} スキル](./skills.mdx)
+- [Ignite UI Theming MCP](./theming-mcp.mdx)
 
-<div class="divider--half"></div>
 
 コミュニティに参加して新しいアイデアをご提案ください。
 

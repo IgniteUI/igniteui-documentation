@@ -17,25 +17,26 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+import { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
+import type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // Re-export so consumers (astro.config.ts in child sites) can import the
 // canonical types from the same module they already use.
-export type { SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
+export { SIDEBAR_BADGE_VARIANTS } from './lib/sidebar/types';
+export type { SidebarBadgeVariant, SidebarEntry, SidebarGroup, SidebarLink } from './lib/sidebar/types';
 
 // ---------------------------------------------------------------------------
 // Internal types
 // ---------------------------------------------------------------------------
 
-interface TocItem {
+interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
     name?: string;
     href?: string;
     header?: boolean;
+    sortable?: boolean;
     items?: TocItem[];
-    new?: boolean;
-    preview?: boolean;
-    updated?: boolean;
-    premium?: boolean;
+    /** Per-platform badge overrides. Stripped during TOC generation. */
+    platforms?: Record<string, Partial<Pick<TocItem, SidebarBadgeVariant>>>;
 }
 
 // ---------------------------------------------------------------------------
@@ -45,9 +46,8 @@ interface TocItem {
 function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
-    // Check the href as-is, then also with .md ↔ .mdx swapped so that toc.json
-    // entries like "charts/chart-features.md" resolve even when the file on disk
-    // is "charts/chart-features.mdx" (and vice-versa).
+    // Check the href as-is, then also with .md ↔ .mdx swapped as a safety net
+    // (toc.json uses .mdx, but this guards against any stale .md hrefs).
     if (fs.existsSync(path.join(docsDir, href))) return true;
     const alt = href.endsWith('.mdx')
         ? href.slice(0, -4) + '.md'
@@ -74,6 +74,26 @@ function collapsedForDepth(depth: number): boolean {
     return depth > 0;
 }
 
+function sortableLabel(label: string): string {
+    return label.replace(/[-:()[\]/&]+/g, ' ');
+}
+
+function sortSidebarEntries(entries: SidebarEntry[]): SidebarEntry[] {
+    return entries.sort((a, b) => sortableLabel(a.label).localeCompare(sortableLabel(b.label), undefined, {
+        sensitivity: 'base',
+        numeric: true,
+    }));
+}
+
+function sortGroupItems(group: SidebarGroup): void {
+    const [first, ...rest] = group.items;
+    if (first && 'slug' in first && first.label === 'Overview') {
+        group.items = [first, ...sortSidebarEntries(rest)];
+        return;
+    }
+    group.items = sortSidebarEntries(group.items);
+}
+
 function convertTocItem(
     docsDir: string,
     item: TocItem,
@@ -89,12 +109,18 @@ function convertTocItem(
             collapsed: collapsedForDepth(depth),
         };
         if (item.href && docExists(docsDir, item.href, exclude)) {
-            group.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+            const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+            if (item.premium) {
+                overviewEntry.attrs = { 'data-premium': 'true' };
+                overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+            }
+            group.items.push(overviewEntry);
         }
         for (const child of item.items) {
             const entry = convertTocItem(docsDir, child, exclude, depth + 1);
             if (entry) group.items.push(entry);
         }
+        if (item.sortable) sortGroupItems(group);
         return group.items.length > 0 ? group : null;
     }
 
@@ -102,18 +128,60 @@ function convertTocItem(
         if (!docExists(docsDir, item.href, exclude)) return null;
         const entry: SidebarLink = { label: item.name, slug: hrefToSlug(item.href) };
         const badges: NonNullable<SidebarLink['badges']> = [];
-        if (item.new)          badges.push({ text: 'New',     variant: 'new'     });
-        else if (item.preview) badges.push({ text: 'Preview', variant: 'preview' });
-        else if (item.updated) badges.push({ text: 'Updated', variant: 'updated' });
-        if (item.premium) {
-            entry.attrs = { 'data-premium': 'true' };
-            badges.push({ text: 'Premium', variant: 'premium' });
+        for (const variant of SIDEBAR_BADGE_VARIANTS) {
+            if (!item[variant]) continue;
+            if (variant === 'premium') {
+                entry.attrs = { 'data-premium': 'true' };
+            }
+            badges.push({ text: variant.charAt(0).toUpperCase() + variant.slice(1), variant });
         }
         if (badges.length) entry.badges = badges;
         return entry;
     }
 
     return null;
+}
+
+interface MissingTocTarget {
+    name: string;
+    href: string;
+}
+
+/**
+ * Every named TOC entry whose href points at a file that does not exist
+ * exactly the entries `convertTocItem()` silently drops. Hrefs matched by
+ * `exclude` are dropped on purpose, so they are not reported.
+ */
+function findMissingTargets(
+    docsDir: string,
+    items: TocItem[],
+    exclude: RegExp[],
+    missing: MissingTocTarget[] = [],
+): MissingTocTarget[] {
+    for (const item of items) {
+        if (!item.name) continue;
+        if (item.href && !exclude.some((p) => p.test(item.href!)) && !docExists(docsDir, item.href, exclude)) {
+            missing.push({ name: item.name, href: item.href });
+        }
+        if (item.items?.length) findMissingTargets(docsDir, item.items, exclude, missing);
+    }
+    return missing;
+}
+
+/**
+ * Warns about TOC entries left out of the sidebar because their target file is
+ * missing, or throws when `strict` is set so CI fails instead of shipping a
+ * sidebar with silently vanished links.
+ */
+function reportMissingTargets(tocPath: string, missing: MissingTocTarget[], strict: boolean): void {
+    if (!missing.length) return;
+    const noun = missing.length === 1 ? 'entry points' : 'entries point';
+    const message =
+        `[igniteui-documentation] ${tocPath}: ${missing.length} toc ${noun} to a missing file and ` +
+        `${missing.length === 1 ? 'was' : 'were'} left out of the sidebar:\n` +
+        missing.map(({ name, href }) => `  - ${name} → ${href}`).join('\n');
+    if (strict) throw new Error(message);
+    console.warn(message);
 }
 
 // ---------------------------------------------------------------------------
@@ -127,26 +195,48 @@ export interface BuildSidebarFromTocOptions {
     docsDir: string;
     /** Extra patterns to exclude (matched against the `href`). */
     exclude?: RegExp[];
+    /**
+     * Throw instead of warning when a TOC entry points at a missing file.
+     * Defaults to `DOCS_TOC_STRICT=true`, which CI sets.
+     */
+    strict?: boolean;
 }
 
 /**
  * Reads a JSON TOC file and converts it to a sidebar array.
  */
-export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
+export function buildSidebarFromToc({
+    tocPath,
+    docsDir,
+    exclude = [],
+    strict = process.env.DOCS_TOC_STRICT === 'true',
+}: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems: TocItem[] = JSON.parse(tocRaw);
 
+    reportMissingTargets(tocPath, findMissingTargets(docsDir, tocItems, exclude), strict);
+
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
+    let currentGroupSortable = false;
 
     for (const item of tocItems) {
         if (item.header) {
-            if (currentGroup) sidebar.push(currentGroup);
+            if (currentGroup) {
+                if (currentGroupSortable) sortGroupItems(currentGroup);
+                sidebar.push(currentGroup);
+            }
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
+            currentGroupSortable = item.sortable === true;
             if (item.href && docExists(docsDir, item.href, exclude)) {
-                currentGroup.items.push({ label: 'Overview', slug: hrefToSlug(item.href) });
+                const overviewEntry: SidebarLink = { label: 'Overview', slug: hrefToSlug(item.href) };
+                if (item.premium) {
+                    overviewEntry.attrs = { 'data-premium': 'true' };
+                    overviewEntry.badges = [{ text: 'Premium', variant: 'premium' }];
+                }
+                currentGroup.items.push(overviewEntry);
             }
             continue;
         }
@@ -159,6 +249,9 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
         else sidebar.push(entry);
     }
 
-    if (currentGroup) sidebar.push(currentGroup);
+    if (currentGroup) {
+        if (currentGroupSortable) sortGroupItems(currentGroup);
+        sidebar.push(currentGroup);
+    }
     return sidebar;
 }

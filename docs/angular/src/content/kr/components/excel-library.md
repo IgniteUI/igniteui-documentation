@@ -19,7 +19,6 @@ The Infragistics Excel Library allows you to work with spreadsheet data using fa
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Dependencies
 
@@ -98,7 +97,6 @@ ExcelUtility.save(workbook, "fileName");
 
 <!-- Angular -->
 
-<div class="divider--half"></div>
 
 ## Managing Heap
 

@@ -4,6 +4,8 @@ description: Learn about new features in the {ProductName}.
 keywords: Changelog, What's New,  {ProductName}, Infragistics
 mentionedTypes: ["SeriesViewer", "XYChart", "DomainChart", "DataChart", "Toolbar", "GeographicMap", "DatePicker", "MultiColumnComboBox", "CategoryChart", "CrosshairLayer", "FinalValueLayer", "CalloutLayer", "DataLegend", "Grid", "GridSelectionMode", DataGridCellEventArgs, DataGridSelectionMode, DataSourceSummaryOperand, "RadialGauge", "RadialChart", "Toolbar"]
 namespace: Infragistics.Controls.Charts
+llms:
+  description: "Release history for {ProductName} data visualization components, covering new features, fixes, and breaking changes."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -14,6 +16,9 @@ import chartdefaults1 from '@xplat-images/chartDefaults1.png';
 import chartdefaults2 from '@xplat-images/chartDefaults2.png';
 import chartdefaults3 from '@xplat-images/chartDefaults3.png';
 import chartdefaults4 from '@xplat-images/chartDefaults4.png';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {ProductName} Changelog
 
@@ -23,12 +28,481 @@ All notable changes for each version of {ProductName} are documented on this pag
 
 ## **{PackageVerLatest}**
 
+### {PackageGrids} (Grids)
+
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
+  - The Excel style filtering search list now uses the <ApiLink type="VirtualScroll" /> component. The list measures each row when the row renders. The measured size replaces the estimated size.
+  - The markup of the Excel style filtering search list changed. The virtual scroll host and its item wrappers replace the internal display container and the vertical scrollbar helper. Update the applications and tests that access these elements directly.
+  - The internal virtual scroll container of the Excel style filtering no longer has a nested list role. The listbox and its options do not change.
+  - The `rowStyles`, `headerStyles` and `headerGroupStyles` properties now have the type `GridStyleCSSProperty | null`. Before, the type was `any`.
+  - The scrollbars now use the standard `scrollbar-color` and `scrollbar-width` CSS properties. Before, they used the `::-webkit-scrollbar-*` pseudo-elements.
+  - The scrollbars in the grids, the Column Actions and the Excel style filtering menus use the background and foreground colors of their host.
+
+**Breaking Changes**
+
+- **Theming**
+  - Removed the `--ig-grid-summary-border-width` and `--ig-grid-summary-pinned-border-width` CSS variables. A summary cell now uses the border widths of the grid. The header border width sets the cell separator, and the pinned border width sets the pinned border.
+  - You can still set the summary border styles and colors with `--ig-grid-summary-border-style`, `--ig-grid-summary-pinned-border-style`, `--ig-grid-summary-border-color` and `--ig-grid-summary-pinned-border-color`.
+  - Most scrollbar theme variables now have no effect, because the standard scrollbar properties accept only two colors and three width keywords. `--sb-thumb-bg-color` and `--sb-track-bg-color` continue to work. The hover, border, corner and minimum height variables have no effect.
+  - `--sb-size` no longer sets the scrollbar thickness, because `scrollbar-width` accepts only `auto`, `thin` or `none`. For a thinner scrollbar, set `--sb-width: thin` on the element that declares the scrollbar variables. You can also set `scrollbar-width: thin` directly on the scrolling element.
+
+**Behavioral Changes**
+
+- **Scrollbars**
+  - The standard CSS properties cannot style or show the scrollbar arrow buttons. `scrollbar-width: thin` removes the arrow buttons on platforms that show them.
+  - Firefox versions before 64 do not support `scrollbar-color` and `scrollbar-width`. These versions show the scrollbars with the default colors and size of the platform.
+- **PDF export**
+  - Summary rows now have the same background as the header row. As with the header background, the `showTableBorders` option controls this background.
+  - The row dimension cells of a <ApiLink type="PivotGrid" /> export also have this background.
+  - When a row dimension value repeats in consecutive records, the <ApiLink type="PivotGrid" /> export now shows the value one time, in one merged cell. The grid merges its row headers in the same way.
+  - A value merges only under the same parent dimension. For example, the same date under two different cities gets two cells.
+  - When a merged cell goes past the bottom of a page, the cell stops at the end of the page. The cell continues below the headers on the next page.
+
+## **{PackageVerChanges-26-2-SEP}**
+
+### {PackageCommon}
+
+#### New Components
+
+{ProductName} now includes these components from `igniteui-webcomponents` 7.3.0 and 7.4.0:
+
+- [Breadcrumbs](./layouts/breadcrumbs.mdx) (<ApiLink type="Breadcrumbs" /> and <ApiLink type="Breadcrumb" />) - Shows a navigation trail.
+- [Color Picker](./inputs/color-picker.mdx) (<ApiLink type="ColorPicker" />) - Lets the user select a color. It supports different color formats and a custom palette.
+- [QR Code](./inputs/qr-code.mdx) (<ApiLink type="QrCode" />) - Renders a QR code as an SVG from the `value` property. It encodes the data in numeric, alphanumeric or byte mode.
+- Virtual Scroll (<ApiLink type="VirtualScroll" />) - Renders only the items in the viewport and the number of additional items that `overScan` sets. Use it for large or unbounded lists.
+  - The component supports vertical and horizontal orientation, and right-to-left (RTL) layouts.
+  - Item sizes can be fixed, estimated with `estimatedItemSize`, or variable. The component measures each rendered item and corrects the estimate.
+  - Items that are not measured yet use the average measured size instead of `estimatedItemSize`. The scrollbar then agrees with the real content.
+  - The component recycles item elements. An item that stays in the rendered window keeps its element. The elements of the items that leave the window show the items that enter it.
+  - The `keyFunction` property returns the key of an item. With a key, an item keeps its element when it moves in `data`. Without `keyFunction`, the index is the key.
+  - DOM state that the item template does not bind stays with the element. An example is the state of a checkbox without a `checked` binding. Bind this state in the item template.
+  - The component operates correctly in lists that are larger than the maximum scroll size of the browser.
+
+#### Changed
+
+- Updated `igniteui-webcomponents` to 7.4.1. This update includes the [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01), [7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09), [7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23) and [7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) releases.
+- Updated `igniteui-dockmanager` to 2.2.1 and `igniteui-grid-lite` to 0.11.0. Refer to the Dock Manager and Grid Lite sections.
+- #### Library
+  - Removed the `@lit-labs/virtualizer` dependency. The <ApiLink type="VirtualScroll" /> component now does the virtualization. The <ApiLink type="Combo" /> list also uses it.
+  - Updated the optional peer dependencies `dompurify`, `marked` and `shiki` to their current stable versions.
+- #### Avatar
+  - The component now has `role="img"`. Before, it had `image`, which is an ARIA 1.3 value that current tools do not support.
+  - The accessible name comes from `alt`. If `alt` is not set, the name comes from `initials`. The role description is always `avatar`.
+  - Before, the name was always "avatar", and `alt` or `initials` set the role description.
+- #### Badge
+  - The role description is always `badge`. Assistive technology no longer reads the `variant`.
+  - The `icon` CSS part applies only when an <ApiLink type="Icon" /> is the only content of the badge. This agrees with the documentation.
+- #### Carousel
+  - The component now delegates the focus in this order: the indicator container, the navigation buttons, then the first focusable element in the active slide.
+- #### Chip
+  - The type of the `onRemove` event no longer declares a boolean `detail`. The event never had this detail.
+- #### Tile Manager
+  - <ApiLink type="Tile" /> now renders its resize handles directly. The `trigger-side`, `trigger` and `trigger-bottom` CSS parts keep their names.
+  - The new `tile-container` CSS part contains the tile content and the resize handles.
+- #### AI-Assisted Development - Skills
+  - Reduced the React skills to the framework-specific facts that an agent cannot find by itself. The total size of the skills is approximately half of the previous size.
+  - Merged the reference files into `COMPONENTS`, `USAGE`, `DATAVIZ`, `MCP` and `TROUBLESHOOTING`. Removed duplicate setup and theming guidance.
+  - The skills now document the named-argument schemas of the MCP tools. The documentation tools take `framework`, and the API tools take `platform`.
+  - Added `get_project_setup_guide`. Replaced `get_theming_guidance`, which does not exist, with `read_resource`.
+  - The skills now document dark mode as a global switch that `--ig-theme-variant` and `configureTheme()` control. You cannot apply dark mode to only a part of the page with custom properties.
+  - Corrected the palette override: all shades come from the `500` shade, for example `--ig-primary-500`. The `--ig-primary-h`, `-s` and `-l` tokens do not exist.
+  - Corrected the Excel/CSV exporter import path to `igniteui-react-grids`. Corrected the form submit handler type to `React.FormEvent`, and the event handler types to the generated `Igr*EventArgs` aliases.
+  - Removed the deprecated `IgrGridModule.register()` from the grid migration guidance. Replaced the `--ig-button-foreground` token example, because this token does not exist.
+  - Added `license: MIT` to all skills. Each skill description now has `WHEN TO USE:` and `WHEN NOT TO USE:` sections, so that agents select the correct skill.
+  - The skills README now lists the Grid Lite to premium grid migration skill.
+
+#### New Features
+
+- #### Button Group
+  - The single selection modes (`single` and `single-required`) now use the radio group keyboard pattern:
+    - The group is one tab stop.
+    - The arrow keys move the focus and the selection together. They skip disabled buttons and wrap at the two ends.
+    - With `alignment="horizontal"`, ArrowLeft and ArrowRight move the selection in the text direction. With `alignment="vertical"`, ArrowUp and ArrowDown move the selection.
+    - The `multiple` mode does not change. Each button stays a tab stop.
+  - The single selection modes now expose a `radiogroup` with `radio` buttons. Before, they exposed toggle buttons with `aria-pressed`.
+  - The <ApiLink type="ButtonGroup" /> host now has the `radiogroup` or `group` role and the disabled state. An `aria-label` or `aria-labelledby` on the host names the group.
+  - In the single selection modes, `alignment` sets the `aria-orientation` of the radio group.
+  - The `focused` CSS part of <ApiLink type="ToggleButton" /> is now documented.
+- #### Calendar, Date Picker, Date Range Picker
+  - <ApiLink type="Calendar" /> now exports the `label-inner`, `months-row` and `years-row` CSS parts. The pickers export them as `calendar-label-inner`, `months-row` and `years-row`.
+- #### Chip
+  - New `outlined` property. Set it to `true` to show an outlined chip.
+  - The `start` and `end` slots, and the new `action` and `remove` CSS parts, are now documented.
+- #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
+  - New `scrollStrategy` property. It sets the popup behavior when a container scrolls:
+    - `hide` (default) hides the popup while its anchor is fully out of view.
+    - `scroll` keeps the popup visible and on its anchor.
+    - `close` closes the component on each scroll. This also closes a `sticky` tooltip.
+  - The date pickers ignore `scrollStrategy` in `dialog` mode.
+- #### Dropdown
+  - The target element now has `aria-haspopup="listbox"`. Before, it had `aria-haspopup="true"`.
+  - While the list is open, `aria-activedescendant` on the target points to the active item. Screen readers announce this item.
+- #### Icon
+  - `registerIcon` and `registerIconFromText` now accept a `RegisterIconOptions` object as the third argument. The plain collection string continues to work.
+  - `stripMeta: true` removes the `<title>` and `<desc>` elements from the stored SVG. This prevents the native browser tooltip on hover.
+  - The title text stays available as the `aria-label` of the host <ApiLink type="Icon" /> element.
+- #### Mask Input, Date Time Input, Date Range Picker
+  - The masked editors now support undo and redo:
+    - Undo: `Ctrl + Z` or `Cmd + Z`.
+    - Redo: `Ctrl + Y`, `Ctrl + Shift + Z` or `Cmd + Shift + Z`.
+  - A sequence of typed characters is one undo step. A sequence of deletions is also one undo step.
+  - A caret movement, a paste, a drop, a cut, a spin of a date part and an IME composition each start a new step.
+  - A restored step emits `onInput`. Two-way bindings follow the undo.
+  - The history stays when the focus changes. The component clears the history when you set the value programmatically, when the form resets the control, or when `mask`, `prompt` or `inputFormat` changes.
+- #### Splitter
+  - New `startCollapsed` and `endCollapsed` properties. They get and set the collapsed state of each pane.
+  - New `onLayoutChanged` event. The component emits it after a user resize or a change of the expansion state.
+  - The `onLayoutChanged` payload contains the current layout: `startSize`, `endSize`, `startCollapsed` and `endCollapsed`.
+- #### Tabs
+  - New `selectedTab` property. It returns the selected <ApiLink type="Tab" /> element, or `null`.
+  - `select()` now also accepts the `label` of a tab, in addition to its `id`. You can pass the value of `selected` back to `select()`.
+  - The tab headers now have `aria-posinset` and `aria-setsize`. The strip has `aria-orientation`.
+  - The selected panel is focusable. Keyboard users can reach panel content that has no focusable elements.
+  - The strip keeps a tab stop when no tab is selected.
+  - The component now finds <ApiLink type="Tab" /> elements that come through an intermediate slot. Another component can wrap <ApiLink type="Tabs" />.
+- #### Tooltip
+  - The anchor now references the tooltip with `aria-describedby`. Screen readers announce the tooltip content as the description of the anchor.
+  - In `sticky` mode, the default close action is a labeled `<button>`. You can reach and use it with the keyboard. The new `close-button` CSS part exposes it.
+- #### Popover
+  - Popover-based components now use native CSS anchor positioning in browsers that support it: Chrome and Edge 133+, Firefox 147+ and Safari 26+.
+  - Other browsers continue to use `@floating-ui/dom`. They load it only when necessary.
+- #### Themes
+  - All components now have `forced-colors: active` styles in the Material, Bootstrap, Fluent and Indigo themes.
+  - In Windows High Contrast mode, the components use the system colors (`CanvasText`, `Highlight`, `GrayText`, `LinkText`). The disabled, hover, focus and selected states stay different from each other.
+
+#### Breaking Changes
+
+- #### Chip
+  - `part="base"` is now a plain wrapper. The selection control moved to the new `action` part. The remove control moved to the new `remove` part.
+  - Move the `::part(base)` rules for the interactive surface to `::part(action)`.
+  - `focus-shadow-color` and `focus-selected-shadow-color` replace the `focus-outline-color` and `focus-selected-outline-color` CSS variables.
+- #### AI-Assisted Development - Skills
+  - Renamed the `grid-lite-to-igr-grid-migration` skill to `igniteui-react-migrate-grid-lite-to-premium`. The new name uses the `igniteui-react-` prefix, as the other skills do.
+  - Install the renamed skill again under the new folder name, and remove the old folder.
+  - Renamed the `reference/` folder of each skill to `references/`. Install these skills again so that their links work: `igniteui-react-components`, `igniteui-react-customize-theme` and `igniteui-react-generate-from-image-design`.
+
+#### Behavioral Changes
+
+- #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
+  - The popup now hides while its anchor is fully out of view. Before, the popup stayed visible. To keep the previous behavior, set `scrollStrategy="scroll"`.
+- #### Dropdown, Select, Tooltip
+  - The popup no longer moves along the viewport edge to stay in view. It only flips to the opposite side.
+- #### Button Group
+  - A disabled group no longer sets `disabled` on its buttons. The buttons inherit the disabled state.
+  - A button that has its own `disabled` stays disabled when you enable the group again. A button that you add to a disabled group is also disabled.
+  - In the single selection modes, the buttons are no longer separate tab stops. Refer to the keyboard pattern in New Features.
+- #### Calendar, Date Picker, Date Range Picker
+  - If `weekStart` is not set, the week starts on the first day of the week of the `locale`. The component gets this day from `Intl.Locale.prototype.getWeekInfo()`.
+  - For example, the week starts on Monday for `bg` and on Sunday for `en`.
+  - An explicit `weekStart` has priority. Set `weekStart` to `undefined` to use the locale value again. Browsers without `getWeekInfo()` use Sunday.
+  - The header date and the month and year navigation use the field order of the `locale`. For example, for `ja` the year button comes before the month button. The years view continues to show plain numbers.
+- #### Date Time Input, Date Picker, Date Range Picker
+  - The components no longer change `value` while the user types. `value` changes only on commit, together with the `onChange` event. The components emit `onChange` on blur, as before.
+  - Before, `value` changed on each keystroke, and no event announced the change.
+  - You can now bind `value` externally, for example in an edit template of <ApiLink type="Grid" />.
+  - The `detail` of the `onInput` event contains the typed value. It also contains the result of a date part spin or of `Ctrl + ;`.
+  - In a focused editor, a spin of a date part also waits for the commit on blur.
+  - On an unfocused component, `stepUp()` and `stepDown()` change `value` immediately. `clear()`, `setRangeText()` and direct assignments also change `value` immediately.
+  - In the pickers, the calendar continues to follow the typed date while the user types.
+- #### Dropdown
+  - The component no longer emits `onChange` when the user selects the item that is already selected. The list still closes.
+- #### Tabs
+  - The scroll buttons now scroll to the nearest tab that is not fully visible. Before, they scrolled a fixed step of 180px.
+  - A tab below a scroll button counts as not visible. One click shows exactly one more tab.
+- #### Tooltip
+  - A tooltip that closes from a hide trigger now waits exactly `hideDelay`. Before, it waited an additional 180ms that was not documented.
+  - In `sticky` mode, the default close button hides the tooltip immediately. It does not wait for `hideDelay`.
+  - The default `showTriggers` and `hideTriggers` now include `focusin` and `focusout`. The tooltip opens when its anchor gets keyboard focus, and closes when the focus leaves the anchor.
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|Single selection now tracks each element. Buttons without a `value`, or with the same `value`, can now take the selection. `selectedItems` now replaces the current selection. Before, it added to the selection. `selectedItems` no longer ignores buttons with an empty `value`. Buttons added to a disabled group no longer break the group state. The same applies to `focus()`, `blur()` and `click()` before the first render, and to toggle buttons that are not direct children.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|A calendar with more than one visible month now has one live region and one tab stop. Time-only date strings resolve against the local date. `weekStart` is correct on the first render. Keyboard navigation over many disabled dates no longer freezes the browser.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|A carousel that `pause()` stopped no longer starts again on pointer or focus. `isPlaying` and `isPaused` are correct after `interval` changes. The component clears unused timers. A carousel with fewer projected indicators than slides no longer causes an error. The carousel keeps an active slide when you remove the active slide, or when slides enter an empty carousel. Each indicator has `aria-controls`. The indicators set `aria-label` as a content attribute.|
+|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|With `adoptRootStyles` enabled, the component now tracks the stylesheets that the document gets after the initial adoption. The adoption keeps the theme styles of the message and input parts.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox, Switch, Radio|An external `<label>` now names the control, through `for` or as a wrapper. A click on the label focuses and toggles the control. The host `aria-labelledby` now names the control.|
+|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Color Picker|The picker canvas now responds to touch input. In `default` mode, an external `<label>`, the host `aria-labelledby` and the host `aria-label` name the trigger button. In `input` mode, the text input no longer has `aria-expanded`.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo, Select|A click on the input label no longer opens and closes the list. The `label` property and an external `<label>` now name the input. Before, the selection status text named the input.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|`Enter` before an arrow key no longer causes an error. Keyboard navigation, `aria-haspopup` and `aria-expanded` are correct after the dropdown opens again, with or without an explicit target. `show()` with an unresolved target keeps the current target. Without an anchor, `show()` returns `false`. `clearSelection()` and the removal of the selected item reset the navigation. The accessibility tree shows the dropdown header and group labels correctly. The anchor names the list through `ariaLabelledByElements`.|
+|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|In dropdown mode, a `label` set after the first render now goes to the native input. The `container` CSS part is now exported.|
+|[2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Range Picker|The `ranges` CSS part is now exported.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|Form associated components|Validation messages no longer disappear after the first failed form submission. The invalid styles follow the validity state. A host that starts invalid, for example a `required` input with `invalid`, now shows its validation messages.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input, Mask Input, Date Time Input, Date Picker, Date Range Picker, File Input, Textarea, Select, Combo, Color Picker|A click on the label now emits one `click` event from the component. A disabled component emits no `click` event. The host `aria-labelledby` and `aria-label` now name the native editor. All form associated components use this naming order: the host `aria-labelledby`, the external `<label>` elements, the own label, the host `aria-label`. A `<label>` added after the first render names the control. The helper text `aria-describedby` stays after a re-render.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|A click on an external `<label>` now focuses the native input and opens the file picker.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|Recent Firefox versions show the matches again. The root node of the host now adopts the `::highlight()` rules. In Chromium, a component inside a different shadow root now resolves its `--background` and `--foreground` CSS variables correctly.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|An icon that renders through a reference now resolves when you register the target icon later. The icon has `role="img"` only when it has an accessible name.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|Values with a fractional `step` are now exact. `stepUp(n)` and `stepDown(n)` move by `n` steps. A non-numeric `max` or `step` falls back to a valid number. The accessible name, `aria-valuetext`, `aria-readonly` and `aria-disabled` are correct. An external `<label>` names the control. `onHover` now fires when the pointer leaves the component and enters again over the same symbol.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|`ArrowUp` on a closed select with a selection now moves to the previous item. Type-ahead no longer causes an error on the first character. Type-ahead no longer blocks keyboard shortcuts. A selection of the selected item closes the list. The component keeps a `value` that you set before the matching item exists, and resolves it when you add the item. The input text comes only from the main content of the selected item.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|An external `<label>` and the host `aria-labelledby` now name the control. The slider follows changes of the host `aria-label` after the first render. Assistive technology no longer reads the value tooltip.|
+|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|The scroll buttons in the Indigo theme are now opaque. With `activation="manual"`, `Enter` or `Space` on a tab now emits `onChange`. The selection stays correct when you set `selected` to `false` on the active tab, when you remove the last tab, and for disabled tabs. The start scroll button and click scrolling work correctly with browser zoom. A scroll of the strip now does less rendering work.|
+|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|A change of `resize` from `auto` to a different value now releases the inline height. Projected text becomes the default value, as in a native `<textarea>`. The control stays pristine, and a form reset restores the text.|
+|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|A swap of two positioned tiles no longer writes a column value into `rowStart`. A tile that you add next to a single positioned tile no longer overlaps it.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()` and `hide()` cancel a queued transition in the opposite direction. The tooltip stays open when the pointer moves back over the anchor during the hide animation. `show(target)` no longer makes the `open` state incorrect. `withArrow` set at runtime now positions the arrow. The promises of delayed transitions now settle. `Escape` emits `onClosed` only when the tooltip is open.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|Operations on large or deeply nested trees are faster. A read of the `path` of an item now costs `depth`, not `2^depth`. Keyboard navigation is approximately 5 times faster. The removal of a subtree with selected items is approximately 2 times faster. `items`, `select()`, and the expansion or collapse of all items are 25-45% faster.|
+|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar, Badge|The avatar `<img>` now has `alt=""` when no alt text is set. The image is then decorative. A badge with an icon and text keeps its inline padding. The badge no longer clips the text.|
+|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|A removable chip now passes the `nested-interactive` accessibility audit, because the remove control is a sibling of the chip surface. The accessible name is the chip content. `Space` toggles the selection. `onRemove` fires only on removable chips. Focus on the remove control shows the focus state of the chip. The prefix and suffix wrappers hide correctly.|
+|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|Virtual Scroll|`scrollToIndex` with `block: 'nearest'` now aligns an item after the viewport to the end of the viewport, as native `scrollIntoView` does.|
+|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|The package now has an `exports` map. Bundlers and TypeScript resolve its entry points and type definitions.|
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.3 to 2.2.1. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
+
+#### New Features
+
+- New CSS variables for the unpinned pane header: `--igc-unpinned-header-background` and `--igc-unpinned-header-text`.
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|The parent Dock Manager no longer handles the hidden tab selected event of a nested Dock Manager.|
+|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|A browser autofill suggestion in a content pane no longer causes an error when the user selects it.|
+|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|A click on a slotted radio button no longer freezes the browser with Angular default change detection.|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.9.0 to 0.11.0. This update includes the [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) and [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) releases.
+
+#### New Features
+
+- The grid now implements the full ARIA grid pattern through `ElementInternals`: roles, row and column counts and indices, `aria-sort` and `aria-selected`. The filter row is a second header row.
+- Keyboard navigation and a click now move the DOM focus to the active cell. Screen readers announce the cell.
+- New public `columns` setter.
+
+#### Changed
+
+- Row virtualization now uses the <ApiLink type="VirtualScroll" /> component. Fewer rows outside the viewport render. Removed the `@lit-labs/virtualizer` dependency.
+- Performance compared to 0.10.0, with 10,000 rows and 20 columns in an 800px-high grid:
+  - Smooth scrolling runs at 60 fps. Before, it ran at 30 fps.
+  - A jump to a distant scroll position is 8 times faster.
+  - Sorting is 8 times faster.
+  - With a cell template, the improvements are equal or larger.
+- Navigation without a column keeps the current column.
+- Cell activation now updates only the two affected rows. Before, it updated all visible rows.
+- Rows reuse cells when the columns change. Sorting uses one shared collator. A `ResizeObserver` controls the scrollbar offset.
+- The cancelable `onSorting` and `onFiltering` events fire before the state changes. Listeners can cancel or change the expression.
+- The `onSorted` and `onFiltered` events fire after the data view updates.
+
+#### Deprecated
+
+- The positional arguments of `navigateTo(row, column?, activate?)`. Use `navigateTo(row, options)`.
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Filters with only OR expressions no longer match all records.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|String filter conditions no longer cause an error on `null` or `undefined` cell values.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Concurrent asynchronous data pipeline runs no longer apply their results in the wrong order.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Declarative columns in a wrapper element no longer remove their sibling columns.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|Each grid instance now has its own navigation state. Navigation skips hidden columns and no longer produces invalid row indices.|
+|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|The grid now skips filter expressions with conditions that match no column.|
+
+## **{PackageVerChanges-26-2-JUL}**
+
+### {PackageCommon}
+
+#### New Features
+
+- #### AI-Assisted Development - Skills
+  - New Grid Lite to Premium Data Grid migration skill. It maps imports, templates, sorting, filtering, server-side patterns, and toolbar and export flows ([#168](https://github.com/IgniteUI/igniteui-react/pull/168)).
+
+#### Changed
+
+- Updated `igniteui-webcomponents` to 7.2.4. This update includes the [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15), [7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18) and [7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) patch releases.
+- Updated `igniteui-dockmanager` to 2.1.3 and `igniteui-grid-lite` to 0.9.0. Refer to the Dock Manager and Grid Lite sections.
+- #### Form associated components
+  - An external `<label>` now links to the native input of <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="Textarea" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Select" />, <ApiLink type="Combo" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" />.
+  - Use the `for` and `id` attributes, or put the component inside the `<label>`. Assistive technology reads the label. A click on the label focuses the native input ([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263)).
+- #### Snackbar, Toast
+  - The container positioning property now uses the new `NotificationPositioning` type ([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251)).
+- #### AI-Assisted Development - Skills
+  - The React skills now use MCP documentation and API lookups for usage patterns ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - The image-to-React generation guidance now uses the canonical MCP calls, for example `list_components('react')` and `get_doc('react', '<name>')` ([#167](https://github.com/IgniteUI/igniteui-react/pull/167), [#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - The theme customization workflow now sets a safer order for palette, theme, typography and elevations. It finds the tokens before it overrides them ([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - Corrected the Nav Drawer CSS variable names in the guidance and gotchas references ([#169](https://github.com/IgniteUI/igniteui-react/pull/169)).
+  - The grid guidance now tells agents not to use fixed column widths that leave empty space at the end. Agents use fixed widths only when the user requests them ([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - Removed unclear text and incorrect API usage patterns ([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|Fixed the line height of the title and subtitle slots.|
+|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover based components|The popover position is now stable in ancestors with `position: sticky`.|
+|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Safari no longer selects text during a drag operation. The height no longer collapses when you maximize a spanning tile.|
+|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|The selected tab header no longer scrolls into view on the first render.|
+
+### {PackageGrids} (Grids)
+
+- Updated `igniteui-webcomponents-grids` to 7.2.0. This version uses `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200).
+- The derived Sass grid themes of `igniteui-angular` 22.0.0 apply only to the Angular theming API. They do not change the {ProductName} grids, which use CSS themes.
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.2 to 2.1.3. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|The `tab-strip-area top` part now applies.|
+|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|The parent Dock Manager no longer handles the selected tab out of view event of a nested Dock Manager.|
+|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|The tab headers now have the correct `aria-label` values after you reorder the tabs.|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.8.0 to 0.9.0. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09).
+
+#### Changed
+
+- Sort and filter operations are faster on large data sets. The grid now calculates the sort keys and the filter expression trees in advance ([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63)).
+- The body cell and row themes now use the current `igniteui-theming` variables. Updated `igniteui-theming` to 27.3.0 ([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|The body cell and row border styles now use the correct theme variables in the default, odd, even, hover and active states.|
+
+## **{PackageVerChanges-26-2-MAY}**
+
 ### {PackageCommon}
 
 #### Changed
 
-- `DockManager`: Updated to use the latest `igniteui-dockmanager@2.1.0` with new `minResizeWidth` and `minResizeHeight` properties, `paneFlyoutToggle` event; additional `layoutChange` event detail and fixes. See the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md#210).
-- Updated to use the latest `igniteui-webcomponents@7.1.0` including new `Splitter` and `Highlight` container components and fixes. See the [full changelog](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#710---2026-03-19).
+- Updated `igniteui-webcomponents` to 7.2.1. This update includes the [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) release.
+- Updated `igniteui-dockmanager` to 2.1.2 and `igniteui-grid-lite` to 0.8.0. Refer to the Dock Manager and Grid Lite sections.
+- #### Form controls
+  - <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Checkbox" />, <ApiLink type="Radio" />, <ApiLink type="Switch" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> now submit their form when the user presses **Enter**, as native controls do ([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213)).
+- #### Input
+  - Added theme support for the `date`, `time`, `datetime-local`, `week` and `month` input types. These types now have the same styles and floating label behavior in all themes ([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223)).
+- #### AI-Assisted Development - Skills
+  - Updated the skills in the package.
+
+#### New Features
+
+- #### Date Range Picker
+  - You can now edit the date range value in a single input field ([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733)).
+- #### Nav Drawer
+  - For non-relative positions, <ApiLink type="NavDrawer" /> now uses the native Popover API. The API supplies modal semantics, a focus trap and accessibility support ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+  - New `keepOpenOnEscape` property. It keeps the drawer open when the user presses **Escape**. It applies only to non-relative positions.
+  - New `onClosing` event. The drawer emits it before a user interaction closes the drawer. You can cancel this event.
+  - New `onClosed` event. The drawer emits it after a user interaction closes the drawer.
+- #### Invoker Commands API
+  - <ApiLink type="Button" /> and <ApiLink type="IconButton" /> now support the `command` and `commandFor` properties. With these properties, a button controls a target component without custom JavaScript ([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225)).
+  - <ApiLink type="Banner" />, <ApiLink type="Dialog" />, <ApiLink type="NavDrawer" />, <ApiLink type="Snackbar" /> and <ApiLink type="Toast" /> now respond to the `--show`, `--hide` and `--toggle` commands from an invoker button.
+- #### Snackbar, Toast
+  - New `positioning` property (`viewport` or `container`). The components now render as a popover in the top layer of the browser.
+  - With `positioning` set to `container`, the component anchors to its nearest visible ancestor instead of the viewport ([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203)).
+
+#### Breaking Changes
+
+- #### Nav Drawer
+  - Removed the `overlay` CSS part. Use the `::backdrop` pseudo-element of the `base` part, the `--ig-overlay-background-color` variable, or the theming package ([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+
+#### Deprecated
+
+- #### Localization
+  - The old resource string interfaces for <ApiLink type="Calendar" />, <ApiLink type="Chat" />, <ApiLink type="DatePicker" /> and <ApiLink type="DateRangePicker" /> are deprecated. The components now use the `igniteui-i18n` resource keys.
+  - You can no longer set individual `resourceStrings` properties. Set a complete resource strings object ([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169)).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|The border color of the selected state is now correct in the focused and hover states.|
+|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|In single selection mode, the display value is now correct when the user moves the focus out with Tab after a partial search text.|
+|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|A step that connects to the DOM before its parent stepper now gets the context when a stepper adopts it.|
+
+### {PackageDockManager} (Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` from 2.1.1 to 2.1.2. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|A press inside the pane content no longer takes the focus from slotted `<input>`, `<textarea>` and `<select>` elements.|
+|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|The unpinned tab area location no longer resets to `left` when a pane floats. The pane no longer disappears when you dock it again.|
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.7.1 to 0.8.0. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27).
+
+#### Changed
+
+- Updated the styles of the filter row input. Refactored the common filter logic ([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54)).
+- Updated `igniteui-webcomponents` to 7.2.0. The grid now requires Node.js 22 or later ([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65), [#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64)).
+
+## **{PackageVerChanges-26-2-APR}**
+
+This entry also includes the 19.6.1 (April 2026) patch release.
+
+### {PackageCommon}
+
+#### Changed
+
+- Updated `igniteui-webcomponents` to 7.1.3. This update includes the [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25), [7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22) and [7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) patch releases.
+- [Dock Manager](./layouts/dock-manager.mdx) (<ApiLink type="DockManager" />): Updated `igniteui-dockmanager` to 2.1.1. This release changes only the build, CI/CD and development workflow ([#152](https://github.com/IgniteUI/igniteui-react/pull/152)).
+- Updated `igniteui-grid-lite` to 0.7.1. Refer to the Grid Lite section.
+- #### Button Group
+  - Aligned the theme colors ([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182)).
+- #### Checkbox
+  - Updated the disabled and indeterminate styles ([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158)).
+- #### Chip
+  - The chip content is now inside a new part container. Updated the chip styles ([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190)).
+- #### Circular Progress
+  - The circular and linear progress bars now use the same track color CSS variable ([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185)).
+- #### AI-Assisted Development - Skills
+  - New `igniteui-react-generate-from-image-design` skill. It shows AI coding assistants how to build React views from design images, for example screenshots, mockups and wireframes ([#146](https://github.com/IgniteUI/igniteui-react/pull/146)).
+  - The skills now use the Ignite UI CLI MCP server ([#151](https://github.com/IgniteUI/igniteui-react/pull/151), [#154](https://github.com/IgniteUI/igniteui-react/pull/154)).
+  - 19.6.1: Clarified and expanded the guidance for grids, Grid Lite and forms ([#141](https://github.com/IgniteUI/igniteui-react/pull/141)). Added a complete data chart example ([#143](https://github.com/IgniteUI/igniteui-react/pull/143)) and package routing guidance ([#145](https://github.com/IgniteUI/igniteui-react/pull/145)).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|Fixed the selected item styles.|
+|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|The display size is now the same on all platforms.|
+|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|Fixed differences in the background styles.|
+|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|In horizontal orientation, the height of the content area can now follow the content of the active step. Before, the height was always the height of the tallest step. The new `--body-grid-rows` CSS variable sets the row size of each step body. The default `1fr` expands the body to fit its content. `0fr` collapses the body to zero height.|
+
+### {PackageGrids} (Grids)
+
+- Updated `igniteui-webcomponents-grids` to 7.1.0. This version uses `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120).
+- **Security** - Updated the `jspdf` dependency of the PDF export to 4.2.1. This version fixes a security vulnerability of earlier versions ([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113)).
+
+### {GridLitePackage} (Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx) (<ApiLink type="GridLite" />): Updated `igniteui-grid-lite` from 0.7.0 to 0.7.1. Refer to the [full changelog](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01).
+
+#### Bug Fixes
+
+| Bug Number | Control | Description |
+|------------|---------|-------------|
+|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|The `filterExpressions` and `sortExpressions` setters now replace the current state. Before, they added to it.|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|An initial filter or sort state without a column configuration no longer causes an error.|
+|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|The grid now applies the adopted styles correctly in the connected callback.|
+
+## **{PackageVerChanges-26-2-JUN}**
+
+### {PackageCharts}
+
+#### New Features
+
+- Added `Checkmark` option to the `MarkerType` enum. Use `MarkerType.Checkmark` on a series to display a V-shaped checkmark icon inside a circle. The new `MarkerAutomaticBehavior.Checkmark` enum value allows applying the checkmark shape to all series in the chart, and the `SeriesViewer.CheckmarkMarkerTemplate` property can be used to customize its template.
+- Added `MarkerSize` support on marker-enabled chart series to control marker dimensions in device-independent pixels and reset to template-based sizing with `NaN`.
+
+### {PackageCommon}
+
+#### Changed
+
+- <ApiLink type="DockManager" />: Updated to use the latest `igniteui-dockmanager@2.1.0` with new `minResizeWidth` and `minResizeHeight` properties, `paneFlyoutToggle` event; additional `layoutChange` event detail and fixes. See the [full changelog](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md#210).
+- Updated to use the latest `igniteui-webcomponents@7.1.0` including new <ApiLink type="Splitter" /> and <ApiLink type="Highlight" /> container components and fixes. See the [full changelog](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#710---2026-03-19).
 
 #### New Features
 
@@ -51,6 +525,12 @@ All notable changes for each version of {ProductName} are documented on this pag
 | 41167 | Excel | Object's Formulas are not round-tripped - Added Excel support for round tripping the camera tool |
 | 41419 | Excel | Saving a VBA Signed Excel file does not keep a signature/certificate. |
 | 41594 | IgrDataChart | AssigningCategoryStyle args.GetItems is null or not working to update items in the fragment series. |
+
+### Enhancements
+
+### {PackageCharts}
+
+- Added `RangeBarSeries` support for horizontal range rendering in `IgrDataChart`.
 
 ## **{PackageVerChanges-26-2-FEB}**
 ### {PackageCommon}
@@ -91,18 +571,18 @@ All notable changes for each version of {ProductName} are documented on this pag
 
 ### {PackageGrids} (Grids)
 
-- `IgrGrid`, `IgrTreeGrid`, `IgrHierarchicalGrid`, `IgrPivotGrid`
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
   - Improved performance by dynamically adjusting the scroll throttle based on the data displayed in grid.
 
 **Breaking Changes**
 
-- `IgrGrid`, `IgrTreeGrid`, `IgrHierarchicalGrid`, `IgrPivotGrid`
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
   - Original `data` array mutations (like adding/removing/moving records in the original array) are no longer detected automatically. Components need an array reference change for the change to be detected.
 
 **Localization(i18n)**
 
-- `IgrGrid`, `IgrTreeGrid`, `IgrHierarchicalGrid`, `IgrPivotGrid`, `IgrCombo`, `IgrDatePicker`, `IgrDateRangePicker`, `IgrCalendar`, `IgrCarousel`, `IgrChip`, `IgrInput`, `IgrTree`
-  - New `Intl` implementation for the grid components that format and render data like dates and numbers. Updated `Intl` implementation for `IgrCalendar`, `IgrDatePicker`, and `IgrDateRangePicker`.
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />, <ApiLink type="Combo" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="DateRangePicker" />, <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="Carousel" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="Tree" />
+  - New `Intl` implementation for the grid components that format and render data like dates and numbers. Updated `Intl` implementation for <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="DatePicker" />, and <ApiLink pkg="core" type="DateRangePicker" />.
   - New localization implementation for the currently supported languages for all components that have resource strings in the currently supported languages.
   - New public localization API and package named `igniteui-i18n-resources` containing the new resources that are used in conjunction.
 
@@ -156,20 +636,20 @@ Added OthersCategoryBrush and OthersCategoryOutline to DataPieChart and Proporti
 
 ### {PackageCharts} (Charts)
 
-#### <label>PREVIEW</label> User Annotations
+#### <Badge variant="preview" /> User Annotations
 
-In {ProductName}, you can now annotate the `DataChart` with slice, strip, and point annotations at runtime using the new user annotations feature. This allows the end user to add more details to the plot such as calling out single important events such as company quarter reports by using the slice annotation or events that have a duration by using the strip annotation. You can also call out individual points on the plotted series by using the point annotation or any combination of these three.
+In {ProductName}, you can now annotate the <ApiLink type="DataChart" /> with slice, strip, and point annotations at runtime using the new user annotations feature. This allows the end user to add more details to the plot such as calling out single important events such as company quarter reports by using the slice annotation or events that have a duration by using the strip annotation. You can also call out individual points on the plotted series by using the point annotation or any combination of these three.
 
-This is directly integrated with the available tools of the `Toolbar`.
+This is directly integrated with the available tools of the <ApiLink type="Grid" member="toolbar" label="Toolbar" />.
 
 <Image src={dataChartUserAnnotationCreate} alt="{Platform} user-annotation-create" class="responsive-img" />
 
-#### <label>PREVIEW</label> Collision Detection for Axis Annotations
+#### <Badge variant="preview" /> Collision Detection for Axis Annotations
 
 Ability for axis annotations to automatically detect collisions and truncate to fit better. To enable this feature you must set the following properties:
 
-- `ShouldAvoidAnnotationCollisions`
-- `ShouldAutoTruncateAnnotations`
+- <ApiLink type="CategoryAngleAxis" member="shouldAvoidAnnotationCollisions" label="ShouldAvoidAnnotationCollisions" />
+- <ApiLink type="CategoryAngleAxis" member="shouldAutoTruncateAnnotations" label="ShouldAutoTruncateAnnotations" />
 
 ### {PackageMaps} (Geographic Map)
 
@@ -188,11 +668,11 @@ Ability for axis annotations to automatically detect collisions and truncate to 
 
 ### New Components
 
-- Added `IgrChat` component
+- Added <ApiLink type="Chat" /> component
 
 ### {PackageGrids} (Grids)
-- `IgrGrid`, `IgrTreeGrid`, `IgrHierarchicalGrid`
-  - Introduced a new cell merging feature that allows you to configure and merge cells in a column based on same data or other custom condition, into a single cell.
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />
+- Introduced a new cell merging feature that allows you to configure and merge cells in a column based on same data or other custom condition, into a single cell.
 
         It can be enabled on the individual columns:
 
@@ -200,19 +680,19 @@ Ability for axis annotations to automatically detect collisions and truncate to 
 
 ```tsx
         <IgrColumn field="field" merge={true}></IgrColumn>
-        ```
+```
 
 </PlatformBlock>
         The merging can be configured on the grid level to apply either:
-     - `onSort` - only when the column is sorted.
-     - `always` - always, regardless of data operations.
+  - `onSort` - only when the column is sorted.
+  - `always` - always, regardless of data operations.
 
 <PlatformBlock for="React">
 
 ```tsx
         <IgrGrid cellMergeMode="always">
         </IgrGrid>
-        ```
+```
 
 </PlatformBlock>
 
@@ -222,14 +702,14 @@ Ability for axis annotations to automatically detect collisions and truncate to 
 
         It's possible also to set a `mergeComparer` on the individual columns, in case some custom handling is needed for a particular data field.
 
-  - Added ability to pin individual columns to a specific side (start or end of the grid), so that you can now have pinning from both sides. This can be done either declaratively by setting the `pinningPosition` property on the column:
+- Added ability to pin individual columns to a specific side (start or end of the grid), so that you can now have pinning from both sides. This can be done either declaratively by setting the `pinningPosition` property on the column:
 
 <PlatformBlock for="React">
 
 ```tsx
         <IgrColumn field="Col1" pinned={true} pinningPosition="pinningPosition">
         </IgrColumn>
-        ```
+```
 
 </PlatformBlock>
 
@@ -246,12 +726,12 @@ Ability for axis annotations to automatically detect collisions and truncate to 
 
         If property `pinningPosition` is not set on a column, the column will default to the position specified on the grid's `pinning` options for `columns`.
 
-  - **Sorting improvements**
-     - Improved sorting algorithm efficiency using Schwartzian transformation. This is a technique, also known as decorate-sort-undecorate, which avoids recomputing the sort keys by temporarily associating them with the original data records.
-     - Refactored sorting algorithms from recursive to iterative.
-  - **Groupby improvements**
-     - Refactored grouping algorithm from recursive to iterative.
-     - Optimized grouping operations.
+- **Sorting improvements**
+  - Improved sorting algorithm efficiency using Schwartzian transformation. This is a technique, also known as decorate-sort-undecorate, which avoids recomputing the sort keys by temporarily associating them with the original data records.
+  - Refactored sorting algorithms from recursive to iterative.
+- **Groupby improvements**
+  - Refactored grouping algorithm from recursive to iterative.
+  - Optimized grouping operations.
 
 
 
@@ -272,9 +752,9 @@ Ability for axis annotations to automatically detect collisions and truncate to 
 
 ### {PackageMaps} (Geographic Map)
 
-#### <label>PREVIEW</label> Azure Map Imagery Support
+#### <Badge variant="preview" /> Azure Map Imagery Support
 
-The `IgbGeographicMap` now supports Azure-based map imagery, allowing developers to display detailed, dynamic maps across multiple application types. You can combine multiple map layers, visualize geographic data, and create interactive mapping experiences with ease.
+The <ApiLink type="IgbGeographicMap" /> now supports Azure-based map imagery, allowing developers to display detailed, dynamic maps across multiple application types. You can combine multiple map layers, visualize geographic data, and create interactive mapping experiences with ease.
 
 Note: Support for Bing Maps imagery is being phased out. Existing enterprise keys can still be used to access Bing Maps, ensuring your current applications continue to function while you transition to Azure maps.
 
@@ -282,9 +762,9 @@ Explore some of the publicly available [Azure maps here](https://azure.microsoft
 
 ### {PackageCharts} (Charts)
 
-#### <label>PREVIEW</label> New Axis Label Events
+#### <Badge variant="preview" /> New Axis Label Events
 
-The following events have been added to the `IgbDataChart` to allow you to detect different operations on the axis labels:
+The following events have been added to the <ApiLink type="IgbDataChart" /> to allow you to detect different operations on the axis labels:
 
 - `LabelMouseDown`
 - `LabelMouseUp`
@@ -293,36 +773,36 @@ The following events have been added to the `IgbDataChart` to allow you to detec
 - `LabelMouseMove`
 - `LabelMouseClick`
 
-#### <label>PREVIEW</label> Companion Axis
+#### <Badge variant="preview" /> Companion Axis
 
-Added `CompanionAxis` properties to the X and Y axis that allow you to quickly create a clone of an existing axis. When enabled using the `CompanionAxisEnabled` property, this will default the cloned axis to the opposite position of the chart and you can then configure that axes' properties.
+Added `CompanionAxis` properties to the X and Y axis that allow you to quickly create a clone of an existing axis. When enabled using the <ApiLink type="CategoryAngleAxis" member="companionAxisEnabled" label="CompanionAxisEnabled" /> property, this will default the cloned axis to the opposite position of the chart and you can then configure that axes' properties.
 
-#### <label>PREVIEW</label> RadialPieSeries Inset Outlines
+#### <Badge variant="preview" /> RadialPieSeries Inset Outlines
 
-There is a new property called `UseInsetOutlines` to control how outlines on the `RadialPieSeries` are rendered. Setting this value to **true** will inset the outlines within the slice shape, whereas a **false** (default) value will place the outlines half-in half-out along the edge of the slice shape.
+There is a new property called <ApiLink type="RadialPieSeries" member="useInsetOutlines" label="UseInsetOutlines" /> to control how outlines on the <ApiLink type="RadialPieSeries" /> are rendered. Setting this value to **true** will inset the outlines within the slice shape, whereas a **false** (default) value will place the outlines half-in half-out along the edge of the slice shape.
 
 **Breaking Changes**
 
-- A fix was made due to an issue where the `PlotAreaPosition` and `ChartPosition` properties on `ChartMouseEventArgs` class were reversed. This will change the values that `PlotAreaPosition` and `ChartPosition` return.
+- A fix was made due to an issue where the <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> and <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> properties on <ApiLink type="ChartMouseEventArgs" /> class were reversed. This will change the values that <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" /> and <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> return.
 
 ### {PackageGrids} (Grids)
 
-#### <label>PREVIEW</label> Cell Suffix Content
+#### <Badge variant="preview" /> Cell Suffix Content
 
-Added support for suffix content within the cells that allows you to add additional text or icons to the end of the cell value and style it. The full list of added properties for the cell suffix content is listed below and is available on the `DataGridColumn` and `CellInfo` class:
+Added support for suffix content within the cells that allows you to add additional text or icons to the end of the cell value and style it. The full list of added properties for the cell suffix content is listed below and is available on the <ApiLink type="DataGridColumn" /> and <ApiLink type="DataGridCellEventArgs" member="CellInfo" label="CellInfo" /> class:
 
-- `SuffixText`
-- `SuffixTextColor`
+- <ApiLink type="DataGridColumn" member="suffixText" label="SuffixText" />
+- <ApiLink type="DataGridColumn" member="suffixTextColor" label="SuffixTextColor" />
 - `SuffixTextFont`
-- `SuffixIconName`
-- `SuffixIconCollectionName`
-- `SuffixIconStroke`
-- `SuffixIconFill`
-- `SuffixIconViewBoxLeft`
-- `SuffixIconViewBoxTop`
-- `SuffixIconViewBoxWidth`
-- `SuffixIconViewBoxHeight`
-- `TextDecoration`
+- <ApiLink type="DataGridColumn" member="suffixIconName" label="SuffixIconName" />
+- <ApiLink type="DataGridColumn" member="suffixIconCollectionName" label="SuffixIconCollectionName" />
+- <ApiLink type="DataGridColumn" member="suffixIconStroke" label="SuffixIconStroke" />
+- <ApiLink type="DataGridColumn" member="suffixIconFill" label="SuffixIconFill" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxLeft" label="SuffixIconViewBoxLeft" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxTop" label="SuffixIconViewBoxTop" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxWidth" label="SuffixIconViewBoxWidth" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxHeight" label="SuffixIconViewBoxHeight" />
+- <ApiLink type="DataGridColumn" member="textDecoration" label="TextDecoration" />
 
 Please note that the maximum size available for the icons is 24x24. You can provide an icon that is larger or smaller than this, but you will need to configure the viewbox settings in order to properly scale it to fit in the 24x24 space so it is fully visible.
 
@@ -330,28 +810,28 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 | Bug Number | Control | Description |
 |------------|---------|-------------|
-|31624 | `IgrCategoryChart` | Resizing the containing window of the `IgrCategoryChart` causes the chart to fail to render the series|
-|27304 | `IgrDataChart` | Zoom rectangle is not positioned the same as the background rectangle|
-|37930 | `IgrDataChart` | Data Annotation Overlay Text Color not working|
-|30600 | `IgrDoughnutChart` | No textStyle property for either the chart or series (pie chart has this)|
-|38231 | `IgrGrid` | Unpinned column does not return to the original position if hidden columns exist|
+|31624 | <ApiLink type="CategoryChart" /> | Resizing the containing window of the <ApiLink type="CategoryChart" /> causes the chart to fail to render the series|
+|27304 | <ApiLink type="DataChart" /> | Zoom rectangle is not positioned the same as the background rectangle|
+|37930 | <ApiLink type="DataChart" /> | Data Annotation Overlay Text Color not working|
+|30600 | <ApiLink type="DoughnutChart" /> | No textStyle property for either the chart or series (pie chart has this)|
+|38231 | <ApiLink type="Grid" /> | Unpinned column does not return to the original position if hidden columns exist|
 |33861 | Excel Library | Adding line chart corrupts excel File for German culture|
 
 ### Enhancements
 
 #### IgrBulletGraph
 
-- <label>PREVIEW</label> Added new `LabelsVisible` property
+- <Badge variant="preview" /> Added new <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> property
 
 #### Charts
 
 - New properties added to the DataToolTipLayer, ItemToolTipLayer, and CategoryToolTipLayer to aid in styling: `ToolTipBackground`, `ToolTipBorderBrush`, and `ToolTipBorderThickness`
 
-- New properties added to the DataLegend to aid in styling: `ContentBackground`, `ContentBorderBrush`, and `ContentBorderThickness`. The `ContentBorderBrush` and `ContentBorderThickness` default to transparent and 0 respectively, so in order to see these borders, you will need to set these properties.
+- New properties added to the DataLegend to aid in styling: <ApiLink type="DataLegend" member="contentBackground" label="ContentBackground" />, <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" />, and <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" />. The <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" /> and <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" /> default to transparent and 0 respectively, so in order to see these borders, you will need to set these properties.
 
-- Added a new property to `ChartMouseEventArgs` called `WorldPosition` that provides the world relative position of the mouse. This position will be a value between 0 and 1 for both the X and Y axis within the axis space.
+- Added a new property to <ApiLink type="ChartMouseEventArgs" /> called <ApiLink type="ChartMouseEventArgs" member="worldPosition" label="WorldPosition" /> that provides the world relative position of the mouse. This position will be a value between 0 and 1 for both the X and Y axis within the axis space.
 
-- Added `HighlightingFadeOpacity` to `SeriesViewer` and `DomainChart`. This allows you to configure the opacity applied to highlighted series.
+- Added <ApiLink type="SeriesViewer" member="highlightingFadeOpacity" label="HighlightingFadeOpacity" /> to <ApiLink type="SeriesViewer" /> and <ApiLink type="DomainChart" />. This allows you to configure the opacity applied to highlighted series.
 
 - Expose `CalloutLabelUpdating` event for domain charts.
 
@@ -361,7 +841,7 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 #### IgrLinearGauge
 
-- <label>PREVIEW</label> Added new `LabelsVisible` property
+- <Badge variant="preview" /> Added new <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> property
 
 ## **{PackageVerChanges-25-1-SEP}**
 
@@ -419,7 +899,7 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 ## **{PackageVerChanges-25-1-JUL2}**
 
-- <label>NEW</label> Component - Date Range Picker
+- <Badge variant="new" /> Component - Date Range Picker
 
 ### Breaking Changes
 
@@ -454,11 +934,11 @@ Please note that the maximum size available for the icons is 24x24. You can prov
 
 | Bug Number | Control | Description      |
 |------------|---------|------------------|
-|36448 | `IgrRadialGauge` | Radial label format properties do not work. (eg. Title, SubTitles)|
+|36448 | <ApiLink type="RadialGauge" /> | Radial label format properties do not work. (eg. Title, SubTitles)|
 
 ### {PackageCharts} (Charts)
 
-- Add <label>NEW</label> `MaximumExtent` and `MaximumExtentPercentage` properties for use with axis labels.
+- Add <Badge variant="new" /> `MaximumExtent` and `MaximumExtentPercentage` properties for use with axis labels.
 
 ## **{PackageVerChanges-24-2-APR2}**
 
@@ -473,30 +953,30 @@ For more details please visit:
 
 ### {PackageCharts} (Charts)
 
-- Added <label>PREVIEW</label> [Chart Data Annotations](charts/features/chart-data-annotations.md) layers:
+- Added <Badge variant="preview" /> [Chart Data Annotations](./charts/features/chart-data-annotations.mdx) layers:
   - Data Annotation Band Layer
   - Data Annotation Line Layer
   - Data Annotation Rect Layer
   - Data Annotation Slice Layer
   - Data Annotation Strip Layer
 
-- The [Data Tooltip](charts/features/chart-data-tooltip.md) and [Data Legend](charts/features/chart-data-legend.md) expose <label>PREVIEW</label> `LayoutMode` property that you can use to layout the contents of the tooltip or legend in a table or vertical layout structure.
+- The [Data Tooltip](./charts/features/chart-data-tooltip.mdx) and [Data Legend](./charts/features/chart-data-legend.mdx) expose <Badge variant="preview" /> <ApiLink type="DataLegend" member="layoutMode" label="LayoutMode" /> property that you can use to layout the contents of the tooltip or legend in a table or vertical layout structure.
 
-- <label>PREVIEW</label> The `DefaultInteraction` property of the charts has been updated to include a new enumeration - `DragSelect` in which the dragged preview Rect will select the points contained within.
+- <Badge variant="preview" /> The <ApiLink type="SeriesViewer" member="defaultInteraction" label="DefaultInteraction" /> property of the charts has been updated to include a new enumeration - `DragSelect` in which the dragged preview Rect will select the points contained within.
 
-- <label>PREVIEW</label> The [ValueOverlay and ValueLayer](charts/features/chart-overlays.md), in addition to the <label>PREVIEW</label> [Chart Data Annotations](charts/features/chart-data-annotations.md) listed above now expose an `OverlayText` property that can be used to overlay additional annotation text in the plot area. These appearance of these annotations can be configured by using the many OverlayText-prefixed properties. For example, the `OverlayTextBrush` property will configure the color of the overlay text.
+- <Badge variant="preview" /> The [ValueOverlay and ValueLayer](./charts/features/chart-overlays.mdx), in addition to the <Badge variant="preview" /> [Chart Data Annotations](./charts/features/chart-data-annotations.mdx) listed above now expose an <ApiLink type="ValueLayer" member="overlayText" label="OverlayText" /> property that can be used to overlay additional annotation text in the plot area. These appearance of these annotations can be configured by using the many OverlayText-prefixed properties. For example, the `OverlayTextBrush` property will configure the color of the overlay text.
 
-- <label>NEW</label> [Trendline Layer](charts/features/chart-trendlines.md) series type that allows you to apply a single trend line per trend line layer to a particular series. This allows the usage of multiple trend lines on a single series since you can have multiple [TrendlineLayer](charts/features/chart-overlays.md) series types in the chart.
+- <Badge variant="new" /> [Trendline Layer](./charts/features/chart-trendlines.mdx) series type that allows you to apply a single trend line per trend line layer to a particular series. This allows the usage of multiple trend lines on a single series since you can have multiple [TrendlineLayer](./charts/features/chart-overlays.mdx) series types in the chart.
 
 ### {PackageDashboards} (Dashboards)
 
-- The `IgrDashboardTile` now supports propagating the aggregations from its DataGrid view to the chart visualization such as sorting, grouping, filtering and selection. This is currently supported by binding the `DataSource` of the `IgrDashboardTile` to an instance of `IgrLocalDataSource`.
+- The <ApiLink type="DashboardTile" /> now supports propagating the aggregations from its DataGrid view to the chart visualization such as sorting, grouping, filtering and selection. This is currently supported by binding the <ApiLink type="DataSource" /> of the <ApiLink type="DashboardTile" /> to an instance of <ApiLink type="LocalDataSource" />.
 
 ### {PackageGrids}
 
 **Breaking Changes**
 
-- The `IgrDataGrid` & `IgrMultiColumnComboBox` are now part of the igniteui-react-data-grids package.
+- The <ApiLink type="DataGrid" /> & <ApiLink type="MultiColumnComboBox" /> are now part of the igniteui-react-data-grids package.
 
 ### Enhancements
 
@@ -511,9 +991,9 @@ For more details please visit:
 
 | Bug Number | Control | Description      |
 |------------|---------|------------------|
-|25997 | `IgrDataGrid` | Summaries are only showing for first grouped child row|
-|37023 | `IgrDataChart` | Tooltips are cut-off/offscreen if overflow hidden is set.|
-|37685 | `IgrSpreadsheet` | Poor rendering of numbers formatted with Arial font.|
+|25997 | <ApiLink type="DataGrid" /> | Summaries are only showing for first grouped child row|
+|37023 | <ApiLink type="DataChart" /> | Tooltips are cut-off/offscreen if overflow hidden is set.|
+|37685 | <ApiLink type="Spreadsheet" /> | Poor rendering of numbers formatted with Arial font.|
 |37244 | Excel Library | Custom Data Validation is not working.|
 
 ## **{PackageVerChanges-24-2-APR2}**
@@ -521,14 +1001,14 @@ For more details please visit:
 With 19.0.0 the React product introduces many breaking changes done to improve and streamline the API. Please refer to the full Update Guide.
 </DocsAside>
 
-[Update Guide](update-guide.md)
+[Update Guide](./update-guide.mdx)
 
 ### Removed
-- `CheckboxChangeEventArgs` removed, use `IgrCheckboxChangeEventArgs` instead.
-- `RadioChangeEventArgs` removed, use `IgrRadioChangeEventArgs` instead.
-- `IgrRangeSliderValue` removed, use `IgrRangeSliderValueEventArgs` instead.
-- `IgrActiveStepChangingArgs` removed, use `IgrActiveStepChangingEventArgs` instead.
-- `IgrActiveStepChangedArgs` removed, use `IgrActiveStepChangedEventArgs` instead.
+- <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" /> removed, use <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" /> instead.
+- <ApiLink pkg="core" type="RadioChangeEventArgs" /> removed, use <ApiLink pkg="core" type="RadioChangeEventArgs" /> instead.
+- <ApiLink pkg="core" type="RangeSliderValue" /> removed, use <ApiLink pkg="core" type="RangeSliderValueEventArgs" /> instead.
+- `ActiveStepChangingArgs` removed, use <ApiLink pkg="core" type="ActiveStepChangingEventArgs" /> instead.
+- `ActiveStepChangedArgs` removed, use <ApiLink pkg="core" type="ActiveStepChangedEventArgs" /> instead.
 
 
 ### Enhancements
@@ -550,29 +1030,29 @@ igr-tab-panel component is removed. The igr-tab now encompasses both the tab hea
 ### Enhancements
 
 #### List
-- Added new property on `ListItem` called `Selected`
+- Added new property on <ApiLink pkg="core" type="ListItem" /> called <ApiLink pkg="core" type="ListItem" member="selected" label="Selected" />
 
 #### Accordion
-- Added new events `Open` and `Close`
+- Added new events <ApiLink pkg="core" type="DatePicker" member="open" label="Open" /> and `Close`
 
 ### {PackageGrids}
 
 - **All Grids**
-  - Allow applying initial filtering through `FilteringExpressionsTree` property
+  - Allow applying initial filtering through <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> property
 
 ### Deprecations
 
-- The `clicked` event of the `Button` is deprecated. Use the native `onClick` handler.
+- The `clicked` event of the <ApiLink type="DataGridCellEventArgs" member="button" label="Button" /> is deprecated. Use the native `onClick` handler.
 
 ### Bug Fixes
 
 | Bug Number | Control | Description      |
 |------------|---------|------------------|
-|25602 | `IgrDataGrid` | Loading a layout with one of the date-specific filter operators results in a TypeError console error|
-|28480 | `IgrCombo` | Undefined reference error is thrown when a datasource is replaced|
-|30319 | `IgrDataGrid` | Records are sorted despite no value changed|
-|32598 | `IgrDataGrid` | Multi-selection is not working correctly
-|36374 | `IgrInput` | A previous value was bound when a form was submitted on any touch device|
+|25602 | <ApiLink type="DataGrid" /> | Loading a layout with one of the date-specific filter operators results in a TypeError console error|
+|28480 | <ApiLink type="Combo" /> | Undefined reference error is thrown when a datasource is replaced|
+|30319 | <ApiLink type="DataGrid" /> | Records are sorted despite no value changed|
+|32598 | <ApiLink type="DataGrid" /> | Multi-selection is not working correctly
+|36374 | <ApiLink pkg="core" type="Input" /> | A previous value was bound when a form was submitted on any touch device|
 
 ## **{PackageVerChanges-24-2-MAR}**
 
@@ -593,15 +1073,15 @@ The following table lists the bug fixes made for the {ProductName} toolset for t
 
 ### {PackageCommon}
 - Added new `allowSplitterDock` property for `Dockmanager` that allows docking directly in a split.
-- Added new `useFixedSize` property for the `SplitPane` of `Dockmanager` that allows new resize behavior.
+- Added new `useFixedSize` property for the <ApiLink type="SplitPane" /> of `Dockmanager` that allows new resize behavior.
 
 ### Enhancements
 
 #### Toolbar
 
-- Added new `groupHeaderTextStyle` property to `Toolbar` and `ToolPanel`. If set, it will apply to all `ToolActionGroupHeader` actions.
-- Added new property on `ToolAction` called `TitleHorizontalAlignment` which controls the horizontal alignment of the title text.
-- Added new property on `ToolActionSubPanel` called `itemSpacing` which controls the spacing between items inside the panel.
+- Added new `groupHeaderTextStyle` property to <ApiLink type="Grid" member="toolbar" label="Toolbar" /> and <ApiLink type="ToolPanel" />. If set, it will apply to all <ApiLink type="ToolActionGroupHeader" /> actions.
+- Added new property on <ApiLink type="ToolAction" /> called <ApiLink type="SeriesViewer" member="titleHorizontalAlignment" label="TitleHorizontalAlignment" /> which controls the horizontal alignment of the title text.
+- Added new property on <ApiLink type="ToolActionSubPanel" /> called `itemSpacing` which controls the spacing between items inside the panel.
 
 ### Bug Fixes
 
@@ -609,16 +1089,16 @@ The following table lists the bug fixes made for the {ProductName} toolset for t
 
 | Bug Number | Control | Description      |
 |------------|---------|------------------|
-|30286 | `IgrDataChart` | Bubble Series tooltip content is switched to that of nearby bubble data in clicking a bubble|
-|32906 | `IgrDataChart` | `IgrDataChart` is showing two xAxis on the top|
-|33605 | `IgrDataChart` | ScatterLineSeries is not showing the color of the line correctly in the legend|
-|34776 | `IgrDataChart` | Repeatedly showing and hiding the `IgrDataChart` causes memory leakage in JS Heap|
-|35498 | `IgrDataChart` | Tooltips for the series specified in IncludedSeries are not displayed|
-|34324 | `IgrGrid` | Column hiding through condition in the grid template is not working|
-|34678 | `IgrGrid` | Enum values coerced to strings, breaking expected numeric behavior in some grid properties|
-|32093 | `IgrPivotGrid` | PivotDateDimensionOptions are not applied to the PivotDateDimension|
-|34053 | `IgrRadialGauge` | The position of the scale label is shifted|
-|35496 | `IgrSpreadsheet` | Error when setting styles in Excel with images|
+|30286 | <ApiLink type="DataChart" /> | Bubble Series tooltip content is switched to that of nearby bubble data in clicking a bubble|
+|32906 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" /> is showing two xAxis on the top|
+|33605 | <ApiLink type="DataChart" /> | ScatterLineSeries is not showing the color of the line correctly in the legend|
+|34776 | <ApiLink type="DataChart" /> | Repeatedly showing and hiding the <ApiLink type="DataChart" /> causes memory leakage in JS Heap|
+|35498 | <ApiLink type="DataChart" /> | Tooltips for the series specified in IncludedSeries are not displayed|
+|34324 | <ApiLink type="Grid" /> | Column hiding through condition in the grid template is not working|
+|34678 | <ApiLink type="Grid" /> | Enum values coerced to strings, breaking expected numeric behavior in some grid properties|
+|32093 | <ApiLink type="PivotGrid" /> | PivotDateDimensionOptions are not applied to the PivotDateDimension|
+|34053 | <ApiLink type="RadialGauge" /> | The position of the scale label is shifted|
+|35496 | <ApiLink type="Spreadsheet" /> | Error when setting styles in Excel with images|
 |36176 | Excel Library | Exception occurs when loading an Excel workbook that has a LET function|
 |36379 | Excel Library | Colors with any alpha channel in an excel workbook fail to load|
 |26218 | Excel Library | Chart's plot area right margin becomes narrower and fill pattern and fill foreground are gone just by loading an Excel file|
@@ -638,30 +1118,30 @@ The following table lists the bug fixes made for the {ProductName} toolset for t
 
 ### {PackageCharts} (Charts)
 
-DashboardTile <label>PREVIEW</label>
+DashboardTile <Badge variant="preview" />
 
-- New [Dashboard Tile](dashboard-tile.md) component is a container control that analyzes and visualizes a bound ItemsSource collection or single point and returns an appropriate data visualization based on the schema and count of the data. This control utilizes a built-in [Toolbar](menus/toolbar.md) component to allow you to make changes to the visualization at runtime, allowing you to see many different visualizations of your data with minimal code.
+- New [Dashboard Tile](./dashboard-tile.mdx) component is a container control that analyzes and visualizes a bound ItemsSource collection or single point and returns an appropriate data visualization based on the schema and count of the data. This control utilizes a built-in [Toolbar](./menus/toolbar.mdx) component to allow you to make changes to the visualization at runtime, allowing you to see many different visualizations of your data with minimal code.
 
 ### {PackageCharts} (Inputs)
 
-- <label>PREVIEW</label> [Color Editor](inputs/color-editor.md) can be used as a standalone color picker and is now integrated into <label>PREVIEW</label> ToolAction of [Toolbar](menus/toolbar.md) component to update visualizations at runtime.
+- <Badge variant="preview" /> [Color Editor](./inputs/color-editor.mdx) can be used as a standalone color picker and is now integrated into <Badge variant="preview" /> ToolAction of [Toolbar](./menus/toolbar.mdx) component to update visualizations at runtime.
 
 ## **{PackageVerChanges-24-2-NOV}**
 
 ### General
-- New [Carousel](layouts/carousel.md) component.
-- `Input`
-  - Changed `change` event argument type from `ComponentDataValueChangedEventArgs` to `ComponentValueChangedEventArgs`
+- New [Carousel](./layouts/carousel.mdx) component.
+- <ApiLink pkg="core" type="Input" />
+  - Changed `change` event argument type from <ApiLink pkg="core" type="ComponentDataValueChangedEventArgs" /> to <ApiLink pkg="core" type="ComponentValueChangedEventArgs" />
 
 ## **{PackageVerChanges-24-1-SEP}**
 
 ### {PackageCharts} (Charts)
 
-- New [Data Pie Chart](charts/types/data-pie-chart.md) - The `DataPieChart` is a new component that renders a pie chart. This component works similarly to the `CategoryChart`, in that it will automatically detect the properties on your underlying data model while allowing selection, highlighting, animation and legend support via the ItemLegend component.
+- New [Data Pie Chart](./charts/types/data-pie-chart.mdx) - The <ApiLink type="DataPieChart" /> is a new component that renders a pie chart. This component works similarly to the <ApiLink type="CategoryChart" />, in that it will automatically detect the properties on your underlying data model while allowing selection, highlighting, animation and legend support via the ItemLegend component.
 
-- New [Proportional Category Angle Axis](charts/types/radial-chart.md) - New axes for the Radial Pie Series in the `DataChart`, to plot slices similar to a pie chart, a type of data visualization where data points are represented as segments within a circular graph.
+- New [Proportional Category Angle Axis](./charts/types/radial-chart.mdx) - New axes for the Radial Pie Series in the <ApiLink type="DataChart" />, to plot slices similar to a pie chart, a type of data visualization where data points are represented as segments within a circular graph.
 
-- `Toolbar`
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" />
 
   - New ToolActionCheckboxList
         A new CheckboxList ToolAction that displays a collection of items with checkboxes for selecting. A grid inside ToolAction CheckboxList grows in height up to 5 items, then a scrollbar is displayed.
@@ -676,57 +1156,57 @@ DashboardTile <label>PREVIEW</label>
 
 ### {PackageCommon}
 
-- New [Banner](notifications/banner.md) component.
-- New [DatePicker](scheduling/date-picker.md) component.
-- New `Divider` component.
+- New [Banner](./notifications/banner.mdx) component.
+- New [DatePicker](./scheduling/date-picker.mdx) component.
+- New <ApiLink pkg="core" type="Divider" /> component.
 - Added support for native events to all components.
-- `Icon`
-  - Added `setIconRef` method. This allows to register and replace icons by SVG files.
+- <ApiLink pkg="core" type="Icon" />
+  - Added <ApiLink type="setIconRef" /> method. This allows to register and replace icons by SVG files.
   - All components now use icons by reference internally so that it's easy to replace them without explicitly providing custom templates.
-- `Combo`, `DatePicker`, `Dialog`, `Dropdown`,  `ExpansionPanel`, `NavDrawer`, `Toast`, `Snackbar`, **IgrSelectComponent**
+- <ApiLink type="Combo" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="Dialog" />, <ApiLink pkg="core" type="Dropdown" />,  <ApiLink pkg="core" type="ExpansionPanel" />, <ApiLink pkg="core" type="NavDrawer" />, <ApiLink pkg="core" type="Toast" />, <ApiLink pkg="core" type="Snackbar" />, **IgrSelectComponent**
   - Toggle methods `show`, `hide`, `toggle` methods return **true** now on success, otherwise **false**.
-- **IgrButtonComponent**, `IconButton`, `Checkbox`, `Switch`, `Combo`, `DateTimeInput`, `Input`, `MaskInput`, `Radio`, **IgrSelectComponent**, `Textarea`
+- **IgrButtonComponent**, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Checkbox" />, <ApiLink pkg="core" type="Switch" />, <ApiLink type="Combo" />, <ApiLink pkg="core" type="DateTimeInput" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="MaskInput" />, <ApiLink pkg="core" type="Radio" />, **IgrSelectComponent**, <ApiLink pkg="core" type="Textarea" />
   - Deprecated custom `focus` and `blur` events. Use the native `onFocus` and `onBlur` events instead
-- `RadioGroup`
-  - Added `Name` and `Value` properties.
+- <ApiLink pkg="core" type="RadioGroup" />
+  - Added <ApiLink type="DatePicker" member="name" label="Name" /> and <ApiLink pkg="core" type="DatePicker" member="value" label="Value" /> properties.
 
 **Breaking Changes**
 
 - Renamed old **IgrDatePicker** to **IgrXDatePicker**.
-- Removed `Form` component. Use native form instead.
+- Removed <ApiLink type="IconButton" member="form" label="Form" /> component. Use native form instead.
 - Removed `size` property in favor of the `--ig-size` CSS custom property for the following components:
-  - `Avatar`,  **IgrButtonComponent**, `IconButton`, `Calendar`, `Chip`, `Dropdown`, `Icon`, `Input`, `List`, `Rating`, `Snackbar`, `Tabs`, `Tree`
-- `Badge`, `Chip`, `LinearProgress`, `CircularProgress`
-  - Renamed `Variant` property type to `StyleVariant`.
-- `Calendar`
-  - Renamed `WeekStart` property type to `WeekDays`.
-- `Checkbox`, `Switch`
-  - Changed `change` event argument type from `ComponentBoolValueChangedEventArgs` to `CheckboxChangeEventArgs`.
-- `Combo`, **IgrSelectComponent**
+  - <ApiLink pkg="core" type="Avatar" />,  **IgrButtonComponent**, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="Dropdown" />, <ApiLink pkg="core" type="Icon" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="List" />, <ApiLink pkg="core" type="Rating" />, <ApiLink pkg="core" type="Snackbar" />, <ApiLink pkg="core" type="Tabs" />, <ApiLink pkg="core" type="Tree" />
+- <ApiLink pkg="core" type="Badge" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="LinearProgress" />, <ApiLink pkg="core" type="CircularProgress" />
+  - Renamed <ApiLink pkg="core" type="IconButton" member="variant" label="Variant" /> property type to <ApiLink pkg="core" type="StyleVariant" />.
+- <ApiLink pkg="core" type="Calendar" />
+  - Renamed <ApiLink type="FieldPipeArgs" member="weekStart" label="WeekStart" /> property type to <ApiLink pkg="core" type="WeekDays" />.
+- <ApiLink pkg="core" type="Checkbox" />, <ApiLink pkg="core" type="Switch" />
+  - Changed `change` event argument type from <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" /> to <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />.
+- <ApiLink type="Combo" />, **IgrSelectComponent**
   - Removed `positionStrategy`, `flip`, `sameWidth` properties.
-- `DateTimeInput`
+- <ApiLink pkg="core" type="DateTimeInput" />
   - Removed `maxValue` and `minValue` properties. Use `max` and `min` instead.
-- `Dropdown`
+- <ApiLink pkg="core" type="Dropdown" />
   - Removed `positionStrategy` property.
-- `Input`
+- <ApiLink pkg="core" type="Input" />
   - Removed old named `maxlength` and `minlength` properties. Use `maxLength` and `minLength`.
   - Removed old named `readonly` and `inputmode` properties. Use `readOnly` and `inputMode`.
   - Changed `inputMode` type also to `string`.
-- `Radio`
-  - Changed `change` event argument type from `ComponentBoolValueChangedEventArgs` to `RadioChangeEventArgs`.
-- `RangeSlider`
+- <ApiLink pkg="core" type="Radio" />
+  - Changed `change` event argument type from <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" /> to <ApiLink pkg="core" type="RadioChangeEventArgs" />.
+- <ApiLink pkg="core" type="RangeSlider" />
   - Removed `ariaThumbLower` and `ariaThumbUpper` properties. Use `thumbLabelLower` and `thumbLabelUpper` instead.
-- `Rating`
+- <ApiLink pkg="core" type="Rating" />
   - Renamed `readonly` property to `readOnly`.
 
 ### {PackageGrids}
 
 - **All Grids**
   - Added new `RowClick` event.
-- `PivotGrid`
-  - Added `sortable` property for a `PivotDimension`.
+- <ApiLink type="PivotGrid" />
+  - Added `sortable` property for a <ApiLink type="PivotDimension" />.
   - Added horizontal layout. Can be enabled inside the new `pivotUI` property as `rowLayout` `horizontal`.
-  - Added row dimension summaries for horizontal layout only. Can be enabled for each `PivotDimension` by setting `horizontalSummary` to **true**.
+  - Added row dimension summaries for horizontal layout only. Can be enabled for each <ApiLink type="PivotDimension" /> by setting `horizontalSummary` to **true**.
   - Added `horizontalSummariesPosition` property to the `pivotUI`, configuring horizontal summaries position.
   - Added row headers for the row dimensions. Can be enabled inside the new `pivotUI` property as `showHeaders` **true**.
   - Keyboard navigation now can move in to row headers back and forth from any row dimension headers or column headers.
@@ -735,159 +1215,161 @@ DashboardTile <label>PREVIEW</label>
 **Breaking Changes**
 
 - **All Grids**
-  - `RowIsland`
+  - <ApiLink type="RowIsland" />
   - Removed `displayDensity` deprecated property.
   - Renamed `actualColumns`, `contentColumns` properties to `actualColumnList` and `contentColumnList`. Use `columns` or `columnList` property to get all columns now.
-  - Renamed `rowDelete` and `rowAdd` event argument type to `RowDataCancelableEventArgs`.
-  - Renamed `contextMenu` event argument type to `GridContextMenuEventArgs`.
-  - Removed `GridEditEventArgs`,  `GridEditDoneEventArgs`, `PinRowEventArgs` events `rowID` and `primaryKey` properties. Use `rowKey` instead.
-- `PivotGrid`
+  - Renamed `rowDelete` and `rowAdd` event argument type to <ApiLink type="RowDataCancelableEventArgs" />.
+  - Renamed `contextMenu` event argument type to <ApiLink type="GridContextMenuEventArgs" />.
+  - Removed <ApiLink type="GridEditEventArgs" />,  <ApiLink type="GridEditDoneEventArgs" />, <ApiLink type="PinRowEventArgs" /> events `rowID` and `primaryKey` properties. Use `rowKey` instead.
+- <ApiLink type="PivotGrid" />
   - removed `showPivotConfigurationUI` property. Use `pivotUI` and set inside it the new `showConfiguration` option.
-- `Column`
+- <ApiLink type="Column" />
   - Removed `movable` property. Use Grid's `moving` property now.
   - Removed `columnChildren` property. Use `childColumns` instead.
-- `ColumnGroup`
+- <ApiLink type="ColumnGroup" />
   - Removed `children` property. Use `childColumns` instead.
-- `Paginator`
+- <ApiLink type="Paginator" />
   - Removed `isFirstPageDisabled` and `isLastPageDisabled` properties. Use `isFirstPage` and `isLastPage` instead.
 
 ## **{PackageVerChanges-24-1-JUN}**
 
 ### {PackageCommon}
-- `Input`, `Textarea` - exposed `ValidateOnly` to enable validation rules being enforced without restricting user input.
-- `Dropdown` - `PositionStrategy` property is deprecated. The dropdown now uses the `Popover` API to render its container in the top layer of the browser viewport, making the property obsolete.
-- `DockManager` - `SplitPane` `IsMaximized` is deprecated. Having isMaximized set to true on a split pane level has no real effect as split panes serve as containers only, meaning they have no actual content to be shown maximized. Use the `IsMaximized` property of `TabGroupPane` and/or `ContentPane` instead.
+- <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="Textarea" /> - exposed <ApiLink pkg="core" type="Input" member="validateOnly" label="ValidateOnly" /> to enable validation rules being enforced without restricting user input.
+- <ApiLink pkg="core" type="Dropdown" /> - <ApiLink type="PositionStrategy" /> property is deprecated. The dropdown now uses the `Popover` API to render its container in the top layer of the browser viewport, making the property obsolete.
+- <ApiLink type="DockManager" /> - <ApiLink type="SplitPane" /> <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" /> is deprecated. Having isMaximized set to true on a split pane level has no real effect as split panes serve as containers only, meaning they have no actual content to be shown maximized. Use the <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" /> property of <ApiLink type="TabGroupPane" /> and/or <ApiLink type="ContentPane" /> instead.
 
 ### {PackageGrids}
 
-- `DisplayDensity` deprecated in favor of the `--ig-size` CSS custom property. Check out the [Grid Size](grids/grid/size.md) topic for more.
+- `DisplayDensity` deprecated in favor of the `--ig-size` CSS custom property. Check out the [Grid Size](./grids/_shared/size.mdx) topic for more.
 
 
-- `PivotGrid` - Configuration of the component can now be applied correctly.
+- <ApiLink type="PivotGrid" /> - Configuration of the component can now be applied correctly.
 ### {PackageCharts} (Charts)
 
-- [Data Legend Grouping](charts/features/chart-data-legend.md#{PlatformLower}-data-legend-grouping) & [Data Tooltip Grouping](charts/features/chart-data-tooltip.md#{PlatformLower}-data-tooltip-grouping-for-data-chart) - New grouping feature added. The property `GroupRowVisible` toggles grouping with each series opting in can assign group text via the `DataLegendGroup` property. If the same value is applied to more than one series then they will appear grouped. Useful for large datasets that need to be categorized and organized for all users.
+- [Data Legend Grouping](./charts/features/chart-data-legend.mdx#{PlatformLower}-data-legend-grouping) & [Data Tooltip Grouping](./charts/features/chart-data-tooltip.mdx#{PlatformLower}-data-tooltip-grouping-for-data-chart) - New grouping feature added. The property <ApiLink type="DataLegend" member="groupRowVisible" label="GroupRowVisible" /> toggles grouping with each series opting in can assign group text via the <ApiLink type="CrosshairLayer" member="dataLegendGroup" label="DataLegendGroup" /> property. If the same value is applied to more than one series then they will appear grouped. Useful for large datasets that need to be categorized and organized for all users.
 
-- [Chart Selection](charts/features/chart-data-selection.md) - New series selection styling. This is adopted broadly across all category, financial and radial series for `CategoryChart` and `DataChart`. Series can be clicked and shown a different color, brightened or faded, and focus outlines. Manage which items are effected through individual series or entire data item. Multiple series and markers are supported. Useful for illustrating various differences or similarities between values of a particular data item. Also  `SelectedSeriesItemsChanged` event and `SelectedSeriesItems` are available for additional help to build out robust business requirements surrounding other actions that can take place within an application such as a popup or other screen with data analysis based on the selection.
+- [Chart Selection](./charts/features/chart-data-selection.mdx) - New series selection styling. This is adopted broadly across all category, financial and radial series for <ApiLink type="CategoryChart" /> and <ApiLink type="DataChart" />. Series can be clicked and shown a different color, brightened or faded, and focus outlines. Manage which items are effected through individual series or entire data item. Multiple series and markers are supported. Useful for illustrating various differences or similarities between values of a particular data item. Also  `SelectedSeriesItemsChanged` event and <ApiLink type="SeriesViewer" member="selectedSeriesItems" label="SelectedSeriesItems" /> are available for additional help to build out robust business requirements surrounding other actions that can take place within an application such as a popup or other screen with data analysis based on the selection.
 
-- [Proportional Category Angle Axis](charts/types/radial-chart.md) - New axes for the Radial Pie Series in the `DataChart`, to enable creating pie charts in the allowing robust visualizations using all the added power of the data chart.
+- [Proportional Category Angle Axis](./charts/types/radial-chart.mdx) - New axes for the Radial Pie Series in the <ApiLink type="DataChart" />, to enable creating pie charts in the allowing robust visualizations using all the added power of the data chart.
 
-- [Treemap Highlighting](charts/types/treemap-chart.md#{PlatformLower}-treemap-highlighting) - Now exposes a `HighlightingMode` property that allows you to configure the mouse-over highlighting of the items in the tree map. This property takes two options: `Brighten` where the highlight will apply to the item that you hover the mouse over only, and `FadeOthers` where the highlight of the hovered item will remain the same, but everything else will fade out. This highlight is animated, and can be controlled using the `HighlightingTransitionDuration` property.
+- [Treemap Highlighting](./charts/types/treemap-chart.mdx#{PlatformLower}-treemap-highlighting) - Now exposes a <ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> property that allows you to configure the mouse-over highlighting of the items in the tree map. This property takes two options: `Brighten` where the highlight will apply to the item that you hover the mouse over only, and `FadeOthers` where the highlight of the hovered item will remain the same, but everything else will fade out. This highlight is animated, and can be controlled using the <ApiLink type="SeriesViewer" member="highlightingTransitionDuration" label="HighlightingTransitionDuration" /> property.
 
-- [Treemap Percent-based Highlighting](charts/types/treemap-chart.md#{PlatformLower}-treemap-percent-based-highlighting) - New percent-based highlighting, allowing nodes to represent progress or subset of a collection. The appearance is shown as a fill-in of its backcolor up to a specific value either by a member on your data item or by supplying a new `HighlightedItemsSource`. Can be toggled via `HighlightedValuesDisplayMode` and styled via `FillBrushes`.
+- [Treemap Percent-based Highlighting](./charts/types/treemap-chart.mdx#{PlatformLower}-treemap-percent-based-highlighting) - New percent-based highlighting, allowing nodes to represent progress or subset of a collection. The appearance is shown as a fill-in of its backcolor up to a specific value either by a member on your data item or by supplying a new <ApiLink type="XYChart" member="highlightedDataSource" label="HighlightedItemsSource" />. Can be toggled via <ApiLink type="SeriesViewer" member="highlightedValuesDisplayMode" label="HighlightedValuesDisplayMode" /> and styled via `FillBrushes`.
 
-- `Toolbar` - New `IsHighlighted` option for ToolAction for outlining a border around specific tools of choice.
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" /> - New <ApiLink type="ToolActionGroupHeader" member="isHighlighted" label="IsHighlighted" /> option for ToolAction for outlining a border around specific tools of choice.
 
 ### {PackageGauges} (Gauges)
 
-- `RadialGauge`
-  - New label for the highlight needle. `HighlightLabelText` and `HighlightLabelSnapsToNeedlePivot` and many other styling related properties for the HighlightLabel were added.
+- <ApiLink type="RadialGauge" />
+  - New label for the highlight needle. <ApiLink type="RadialGauge" member="highlightLabelText" label="HighlightLabelText" /> and <ApiLink type="RadialGauge" member="highlightLabelSnapsToNeedlePivot" label="HighlightLabelSnapsToNeedlePivot" /> and many other styling related properties for the HighlightLabel were added.
 
 ## **{PackageVerChanges-23-2-MAR}**
 
 ### {PackageCharts}
 
-- New Data Filtering via the `InitialFilter` property. Apply filter expressions to filter the chart data to a subset of records. Can be used for drill down large data.
+- New Data Filtering via the <ApiLink type="XYChart" member="initialFilter" label="InitialFilter" /> property. Apply filter expressions to filter the chart data to a subset of records. Can be used for drill down large data.
 
 - `RadialChart`
   - New Label Mode
-        The `CategoryAngleAxis` for the now exposes a `LabelMode` property that allows you to further configure the location of the labels. This allows you to toggle between the default mode by selecting the `Center` enum, or use the new mode, `ClosestPoint`, which will bring the labels closer to the circular plot area.
+        The <ApiLink type="CategoryAngleAxis" /> for the now exposes a <ApiLink type="CategoryAngleAxis" member="labelMode" label="LabelMode" /> property that allows you to further configure the location of the labels. This allows you to toggle between the default mode by selecting the `Center` enum, or use the new mode, `ClosestPoint`, which will bring the labels closer to the circular plot area.
 
 ### {PackageGrids}
 
-- New [`HierarchicalGrid`](grids/hierarchical-grid/overview.md) component
+- New [<ApiLink type="HierarchicalGrid" />](./grids/hierarchical-grid/overview.mdx) component
 
 ### {PackageGauges}
 
-- `RadialGauge`
-  - New title/subtitle properties. `TitleText`, `SubtitleText` will appear near the bottom the gauge. In addition, the various title/subtitle font properties were added such as `TitleFontSize`, `TitleFontFamily`, `TitleFontStyle`, `TitleFontWeight` and `TitleExtent`. Finally, the new `TitleDisplaysValue` will allow the value to correspond with the needle's position.
-  - New `OpticalScalingEnabled` and `OpticalScalingSize` properties for the `RadialGauge`. This new feature will manage the size at which labels, titles, and subtitles of the gauge have 100% optical scaling. You can read more about this new feature in this [topic](radial-gauge.md#optical-scaling)
-  - New highlight needle was added. `HighlightValue` and `HighlightValueDisplayMode` when both are provided a value and 'Overlay' setting, this will make the main needle to appear faded and a new needle will appear.
-- `LinearGauge`
-  - New highlight needle was added. `HighlightValue` and `HighlightValueDisplayMode` when both are provided a value and 'Overlay' setting, this will make the main needle to appear faded and a new needle will appear.
-- `BulletGraph`
-  - The Performance bar will now reflect a difference between the value and new `HighlightValue` when the `HighlightValueDisplayMode` is applied to the 'Overlay' setting. The highlight value will show a filtered/subset completed measured percentage as a filled in color while the remaining bar's appearance will appear faded to the assigned value, illustrating the performance in real-time.
+- <ApiLink type="RadialGauge" />
+  - New title/subtitle properties. <ApiLink type="RadialGauge" member="titleText" label="TitleText" />, <ApiLink type="RadialGauge" member="subtitleText" label="SubtitleText" /> will appear near the bottom the gauge. In addition, the various title/subtitle font properties were added such as `TitleFontSize`, `TitleFontFamily`, `TitleFontStyle`, `TitleFontWeight` and <ApiLink type="RadialGauge" member="titleExtent" label="TitleExtent" />. Finally, the new <ApiLink type="RadialGauge" member="titleDisplaysValue" label="TitleDisplaysValue" /> will allow the value to correspond with the needle's position.
+  - New <ApiLink type="RadialGauge" member="opticalScalingEnabled" label="OpticalScalingEnabled" /> and <ApiLink type="RadialGauge" member="opticalScalingSize" label="OpticalScalingSize" /> properties for the <ApiLink type="RadialGauge" />. This new feature will manage the size at which labels, titles, and subtitles of the gauge have 100% optical scaling. You can read more about this new feature in this [topic](./radial-gauge.mdx#optical-scaling)
+  - New highlight needle was added. <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" /> and <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" /> when both are provided a value and 'Overlay' setting, this will make the main needle to appear faded and a new needle will appear.
+- <ApiLink type="LinearGauge" />
+  - New highlight needle was added. <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" /> and <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" /> when both are provided a value and 'Overlay' setting, this will make the main needle to appear faded and a new needle will appear.
+- <ApiLink type="BulletGraph" />
+  - The Performance bar will now reflect a difference between the value and new <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" /> when the <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" /> is applied to the 'Overlay' setting. The highlight value will show a filtered/subset completed measured percentage as a filled in color while the remaining bar's appearance will appear faded to the assigned value, illustrating the performance in real-time.
 
 ### {PackageCommon}
 
-- New `Textarea` component
-- New `ButtonGroup` component
-- `DockManager`
-  - New `ProximityDock` property. If enabled, docking indicators are not visible and the end user can dock the dragged pane by dragging it close to the target pane edges.
-  - New `ContainedInBoundaries` property. Determines whether the floating panes are kept inside the Dock Manager boundaries. Defaults to `false`.
-  - New `ShowPaneHeaders` property. Determines whether pane headers are only shown on hover or always visible. Defaults to `always`.
-- `Input`, `MaskInput`, `DateTimeInput`, `Rating`
-  - `Readonly` has been renamed to `ReadOnly`
-- `Input`
-  - `Maxlength` has been renamed to `MaxLength`
-  - `Minlength` has been renamed to `MinLength`
-- `Tree`
+- New <ApiLink pkg="core" type="Textarea" /> component
+- New <ApiLink pkg="core" type="ButtonGroup" /> component
+- <ApiLink type="DockManager" />
+  - New <ApiLink type="DockManager" member="proximityDock" label="ProximityDock" /> property. If enabled, docking indicators are not visible and the end user can dock the dragged pane by dragging it close to the target pane edges.
+  - New <ApiLink type="DockManager" member="containedInBoundaries" label="ContainedInBoundaries" /> property. Determines whether the floating panes are kept inside the Dock Manager boundaries. Defaults to `false`.
+  - New <ApiLink type="DockManager" member="showPaneHeaders" label="ShowPaneHeaders" /> property. Determines whether pane headers are only shown on hover or always visible. Defaults to `always`.
+- <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="MaskInput" />, <ApiLink pkg="core" type="DateTimeInput" />, <ApiLink pkg="core" type="Rating" />
+  - `Readonly` has been renamed to <ApiLink pkg="core" type="DatePicker" member="readOnly" label="ReadOnly" />
+- <ApiLink pkg="core" type="Input" />
+  - `Maxlength` has been renamed to <ApiLink pkg="core" type="Input" member="maxLength" label="MaxLength" />
+  - `Minlength` has been renamed to <ApiLink pkg="core" type="Input" member="minLength" label="MinLength" />
+- <ApiLink pkg="core" type="Tree" />
   - Added `toggleNodeOnClick` property that determines whether clicking over a node will change its expanded state or not. Defaults to `false`.
-- `Rating`
+- <ApiLink pkg="core" type="Rating" />
   - `allowReset` added. When enabled selecting the same value will reset the component. **Behavioral change** - In previous releases this was the default behavior of the rating component. Make sure to set `allowReset` if you need to keep this behavior in your application.
-- `Select`, `Dropdown`
+- <ApiLink pkg="core" type="DatePicker" member="select" label="Select" />, <ApiLink pkg="core" type="Dropdown" />
   - exposed `selectedItem`, `items` and `groups` getters
 
 
 #### Deprecations
 
-- The `Form` component has been deprecated. Please, use the native form element instead.
+- The <ApiLink type="IconButton" member="form" label="Form" /> component has been deprecated. Please, use the native form element instead.
 - The `size` property and attribute have been deprecated for all components. Use the `--ig-size` CSS custom property instead. The following example sets the size of the avatar component to small:
-    ```css
-    .avatar {
-        --ig-size: var(--ig-size-small);
-    }
-    ```
-- `DateTimeInput`
-  - `MinValue` and `MaxValue` properties have been deprecated. Please, use `Min` and `Max` instead.
-- `RangeSlider`
-  - `AriaLabelLower` and `AriaLabelUpper` properties have been deprecated. Please, use `ThumbLabelLower` and `ThumbLabelUpper` instead.
+
+  ```css
+  .avatar {
+      --ig-size: var(--ig-size-small);
+  }
+  ```
+
+- <ApiLink pkg="core" type="DateTimeInput" />
+  - `MinValue` and `MaxValue` properties have been deprecated. Please, use <ApiLink pkg="core" type="DatePicker" member="min" label="Min" /> and <ApiLink pkg="core" type="DatePicker" member="max" label="Max" /> instead.
+- <ApiLink pkg="core" type="RangeSlider" />
+  - `AriaLabelLower` and `AriaLabelUpper` properties have been deprecated. Please, use <ApiLink pkg="core" type="RangeSlider" member="thumbLabelLower" label="ThumbLabelLower" /> and <ApiLink pkg="core" type="RangeSlider" member="thumbLabelUpper" label="ThumbLabelUpper" /> instead.
 
 #### Removed
 
 - Removed our own `dir` attribute which shadowed the default one. This is a non-breaking change.
-- `Slider` - `ariaLabel` shadowed property. This is a non-breaking change.
-- `Checkbox` - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
-- `Switch` - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
-- `Radio` - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
+- <ApiLink pkg="core" type="Slider" /> - `ariaLabel` shadowed property. This is a non-breaking change.
+- <ApiLink pkg="core" type="Checkbox" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
+- <ApiLink pkg="core" type="Switch" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
+- <ApiLink pkg="core" type="Radio" /> - `ariaLabelledBy` shadowed attribute. This is a non-breaking change.
 
 ## **{PackageVerChanges-23-2-JAN}**
 
 ### {PackageCharts} (Charts)
 
-- [Chart Highlight Filter](charts/features/chart-highlight-filter.md) - The `CategoryChart` and `DataChart` now expose a way to highlight and animate in and out of a subset of data. The display of this highlight depends on the series type. For column and area series, the subset will be shown on top of the total set of data where the subset will be colored by the actual brush of the series, and the total set will have a reduced opacity. For line series, the subset will be shown as a dotted line.
+- [Chart Highlight Filter](./charts/features/chart-highlight-filter.mdx) - The <ApiLink type="CategoryChart" /> and <ApiLink type="DataChart" /> now expose a way to highlight and animate in and out of a subset of data. The display of this highlight depends on the series type. For column and area series, the subset will be shown on top of the total set of data where the subset will be colored by the actual brush of the series, and the total set will have a reduced opacity. For line series, the subset will be shown as a dotted line.
 
 ## **{PackageVerChanges-23-2-DEC}**
 
 ### {PackageGrids} (Grid)
 
-- Added New Features - [State Persistence](grids/grid/state-persistence.md)
+- Added New Features - [State Persistence](./grids/_shared/state-persistence.mdx)
 
 ## **{PackageVerChanges-23-2}**
 
-### {PackageGrids} - Toolbar - <label>PREVIEW</label>
+### {PackageGrids} - Toolbar - <Badge variant="preview" />
 
 - Save tool action has been added to save the chart to an image via the clipboard.
-- Vertical orientation has been added via the toolbar's `Orientation` property. By default the toolbar is horizontal, now the toolbar can be shown in vertical orientation where the tools will popup to the left/right respectfully.
+- Vertical orientation has been added via the toolbar's <ApiLink type="Toolbar" member="orientation" label="Orientation" /> property. By default the toolbar is horizontal, now the toolbar can be shown in vertical orientation where the tools will popup to the left/right respectfully.
 - Custom SVG icons support was added via the toolbar's `renderImageFromText` method, further enhancing custom tool creation.
 
-- [Grid](grids/data-grid.md) - This is a new fully functional cross-platform grid and includes features like filtering, sorting, templates, row selection, row grouping, row pinning and movable columns.
+- [Grid](./grids/data-grid.mdx) - This is a new fully functional cross-platform grid and includes features like filtering, sorting, templates, row selection, row grouping, row pinning and movable columns.
 
 ### Deprecated Components
 
-> [DataGrid](grids/data-grid/overview.md) - The DataGrid is deprecated, please use [Grid](grids/data-grid.md)
+> [DataGrid](./grids/data-grid.mdx) - The DataGrid is deprecated, please use [Grid](./grids/data-grid.mdx)
 
 ## **{PackageVerChanges-23-1}**
 
 ### New Components
 
-- <label>PREVIEW</label> [Toolbar](menus/toolbar.md) - This component is a companion container for UI operations to be used primarily with our charting components. The toolbar will dynamically update with a preset of properties and tool items when linked to our `DataChart` or `CategoryChart` components. You'll be able to create custom tools for your project allowing end users to provide changes, offering an endless amount of customization.
+- <Badge variant="preview" /> [Toolbar](./menus/toolbar.mdx) - This component is a companion container for UI operations to be used primarily with our charting components. The toolbar will dynamically update with a preset of properties and tool items when linked to our <ApiLink type="DataChart" /> or <ApiLink type="CategoryChart" /> components. You'll be able to create custom tools for your project allowing end users to provide changes, offering an endless amount of customization.
 
 ### {PackageCharts} (Charts)
 
-- [ValueLayer](charts/features/chart-overlays.md#{PlatformLower}-value-layer) - A new series type named the `ValueLayer` is now exposed which can allow you to render an overlay for different focal points of the plotted data such as Maximum, Minimum, and Average. This is applied to the `CategoryChart` and `FinancialChart` by adding to the new `ValueLines` collection.
+- [ValueLayer](./charts/features/chart-overlays.mdx#{PlatformLower}-value-layer) - A new series type named the <ApiLink type="ValueLayer" /> is now exposed which can allow you to render an overlay for different focal points of the plotted data such as Maximum, Minimum, and Average. This is applied to the <ApiLink type="CategoryChart" /> and <ApiLink type="FinancialChart" /> by adding to the new <ApiLink type="XYChart" member="valueLines" label="ValueLines" /> collection.
 
-- It is now possible to apply a **dash array** to the different parts of the series of the `DataChart`. You can apply this to the [series](charts/types/line-chart.md#{PlatformLower}-styling-line-chart) plotted in the chart, the [gridlines](charts/features/chart-axis-gridlines.md#{PlatformLower}-axis-gridlines-properties) of the chart, and the [trendlines](charts/features/chart-trendlines.md#{PlatformLower}-chart-trendlines-dash-array-example) of the series plotted in the chart.
+- It is now possible to apply a **dash array** to the different parts of the series of the <ApiLink type="DataChart" />. You can apply this to the [series](./charts/types/line-chart.mdx#{PlatformLower}-styling-line-chart) plotted in the chart, the [gridlines](./charts/features/chart-axis-gridlines.mdx#{PlatformLower}-axis-gridlines-properties) of the chart, and the [trendlines](./charts/features/chart-trendlines.mdx#{PlatformLower}-chart-trendlines-dash-array-example) of the series plotted in the chart.
 
 ## **{PackageVerChanges-22-2}**
 
@@ -896,13 +1378,13 @@ Added significant improvements to default behaviors, and refined the Category Ch
 - Responsive layouts for horizontal label rotation based on browser / screen size.
 - Enhanced rendering for rounded labels on all platforms.
 - Added marker properties to StackedFragmentSeries.
-- Added `ShouldPanOnMaximumZoom` property.
+- Added <ApiLink type="SeriesViewer" member="shouldPanOnMaximumZoom" label="ShouldPanOnMaximumZoom" /> property.
 - New Category Axis Properties:
   - ZoomMaximumCategoryRange
   - ZoomMaximumItemSpan
   - ZoomToCategoryRange
   - ZoomToItemSpan
-- New [Chart Aggregation](charts/features/chart-data-aggregations.md) API for Grouping, Sorting and Summarizing Category string and numeric values, eliminating the need to pre-aggregate or calculate chart data:
+- New [Chart Aggregation](./charts/features/chart-data-aggregations.mdx) API for Grouping, Sorting and Summarizing Category string and numeric values, eliminating the need to pre-aggregate or calculate chart data:
   - InitialSortDescriptions
   - InitialSorts
   - SortDescriptions
@@ -917,49 +1399,49 @@ Added significant improvements to default behaviors, and refined the Category Ch
   - GroupSortDescriptions
 
 
-[Chart Aggregation](charts/features/chart-data-aggregations.md) will not work when using `IncludedProperties` | `ExcludedProperties`. These properties on the chart are meant for non-aggregated data. Once you attempt to aggregate data these properties should no longer be used. The reason it does not work is because aggregation replaces the collection that is passed to the chart for render.  The include/exclude properties are designed to filter in/out properties of that data and those properties no longer exist in the new aggregated collection.
+[Chart Aggregation](./charts/features/chart-data-aggregations.mdx) will not work when using <ApiLink type="XYChart" member="includedProperties" label="IncludedProperties" /> | <ApiLink type="XYChart" member="excludedProperties" label="ExcludedProperties" />. These properties on the chart are meant for non-aggregated data. Once you attempt to aggregate data these properties should no longer be used. The reason it does not work is because aggregation replaces the collection that is passed to the chart for render.  The include/exclude properties are designed to filter in/out properties of that data and those properties no longer exist in the new aggregated collection.
 
 ### {PackageGrids} (Data Grid)
 
-- Changed **{IgPrefix}Column** to `DataGridColumn`
-- Changed **GridCellEventArgs** to `DataGridCellEventArgs`
-- Changed **GridSelectionMode** to `DataGridSelectionMode`
-- Changed **SummaryOperand** to `DataSourceSummaryOperand`
+- Changed **{IgPrefix}Column** to <ApiLink type="DataGridColumn" />
+- Changed **GridCellEventArgs** to <ApiLink type="DataGridCellEventArgs" />
+- Changed **GridSelectionMode** to <ApiLink type="DataGridSelectionMode" />
+- Changed **SummaryOperand** to <ApiLink type="DataSourceSummaryOperand" />
 
 ## **{PackageVerChanges-22-1}**
 ### {PackageCharts} (Charts)
 
-- Added the highly-configurable [DataLegend](charts/features/chart-data-legend.md) component, which works much like the `Legend`, but it shows values of series and provides many configuration properties for filtering series rows and values columns, styling and formatting values.
-- Added the highly-configurable [DataToolTip](charts/features/chart-data-tooltip.md) which displays values and titles of series as well as legend badges of series in a tooltip. This is now the default tooltip for all chart types.
-- Added animation and transition-in support for Stacked Series. Animations can be enabled by setting the `IsTransitionInEnabled` property to true. From there, you can set the `TransitionInDuration` property to determine how long your animation should take to complete and the `TransitionInMode` to determine the type of animation that takes place.
-- Added `AssigningCategoryStyle` event, is now available to all series in `DataChart`. This event is handled when you want to conditionally configure aspects of the series items such as `Fill` background-color and highlighting.
-- New `AllowedPositions` enumeration for CalloutLayer. Used to limit where the callouts are to be placed within the chart. By default, the callouts are intelligently placed in the best place but this used to force for example `TopLeft`, `TopRight`, `BottomLeft` or `BottomRight`.
+- Added the highly-configurable [DataLegend](./charts/features/chart-data-legend.mdx) component, which works much like the <ApiLink type="SeriesViewer" member="Legend" label="Legend" />, but it shows values of series and provides many configuration properties for filtering series rows and values columns, styling and formatting values.
+- Added the highly-configurable [DataToolTip](./charts/features/chart-data-tooltip.mdx) which displays values and titles of series as well as legend badges of series in a tooltip. This is now the default tooltip for all chart types.
+- Added animation and transition-in support for Stacked Series. Animations can be enabled by setting the <ApiLink type="CategoryChart" member="isTransitionInEnabled" label="IsTransitionInEnabled" /> property to true. From there, you can set the <ApiLink type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" /> property to determine how long your animation should take to complete and the <ApiLink type="CategoryChart" member="transitionInMode" label="TransitionInMode" /> to determine the type of animation that takes place.
+- Added `AssigningCategoryStyle` event, is now available to all series in <ApiLink type="DataChart" />. This event is handled when you want to conditionally configure aspects of the series items such as <ApiLink type="CrosshairLayer" member="fill" label="Fill" /> background-color and highlighting.
+- New <ApiLink type="CalloutLayer" member="allowedPositions" label="AllowedPositions" /> enumeration for CalloutLayer. Used to limit where the callouts are to be placed within the chart. By default, the callouts are intelligently placed in the best place but this used to force for example `TopLeft`, `TopRight`, `BottomLeft` or `BottomRight`.
 - New corner radius properties added for Annotation Layers; used to round-out the corners of each of the callouts. Note, a corner radius has now been added by default.
-  - `CalloutCornerRadius` for CalloutLayer
-  - `AxisAnnotationBackgroundCornerRadius` for FinalValueLayer
-  - `XAxisAnnotationBackgroundCornerRadius` and `YAxisAnnotationBackgroundCornerRadius` for CrosshairLayer
-- New `HorizontalViewScrollbarMode` and `VerticalViewScrollbarMode` enumeration to enable scrollbars in various ways. When paired with `IsVerticalZoomEnabled` or `IsHorizontalZoomEnabled`, you'll be able to persist or fade-in and out the scrollbars along the axes to navigate the chart.
-- New `FavorLabellingScaleEnd`, determines whether the axis should favor emitting a label at the end of the scale. Only compatible with numeric axes (e.g. `NumericXAxis`, `NumericYAxis`, `PercentChangeAxis`).
-- New `IsSplineShapePartOfRange` determines whether to include the spline shape in the axis range requested of the axis.
-- New `XAxisMaximumGap`, determines the maximum allowed value for the plotted series when using `XAxisGap`. The gap determines the amount of space between columns or bars of plotted series.
-- New `XAxisMinimumGapSize`, determines the minimum allowed pixel-based value for the plotted series when using `XAxisGap` to ensure there is always some spacing between each category.
+  - <ApiLink type="CalloutLayer" member="calloutCornerRadius" label="CalloutCornerRadius" /> for CalloutLayer
+  - <ApiLink type="FinalValueLayer" member="axisAnnotationBackgroundCornerRadius" label="AxisAnnotationBackgroundCornerRadius" /> for FinalValueLayer
+  - <ApiLink type="CrosshairLayer" member="xAxisAnnotationBackgroundCornerRadius" label="XAxisAnnotationBackgroundCornerRadius" /> and <ApiLink type="CrosshairLayer" member="yAxisAnnotationBackgroundCornerRadius" label="YAxisAnnotationBackgroundCornerRadius" /> for CrosshairLayer
+- New <ApiLink type="SeriesViewer" member="horizontalViewScrollbarMode" label="HorizontalViewScrollbarMode" /> and <ApiLink type="SeriesViewer" member="verticalViewScrollbarMode" label="VerticalViewScrollbarMode" /> enumeration to enable scrollbars in various ways. When paired with <ApiLink type="XYChart" member="isVerticalZoomEnabled" label="IsVerticalZoomEnabled" /> or <ApiLink type="XYChart" member="isHorizontalZoomEnabled" label="IsHorizontalZoomEnabled" />, you'll be able to persist or fade-in and out the scrollbars along the axes to navigate the chart.
+- New <ApiLink type="NumericXAxis" member="favorLabellingScaleEnd" label="FavorLabellingScaleEnd" />, determines whether the axis should favor emitting a label at the end of the scale. Only compatible with numeric axes (e.g. <ApiLink type="NumericXAxis" />, <ApiLink type="NumericYAxis" />, `PercentChangeAxis`).
+- New <ApiLink type="CategoryChart" member="isSplineShapePartOfRange" label="IsSplineShapePartOfRange" /> determines whether to include the spline shape in the axis range requested of the axis.
+- New <ApiLink type="CategoryChart" member="xAxisMaximumGap" label="XAxisMaximumGap" />, determines the maximum allowed value for the plotted series when using <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" />. The gap determines the amount of space between columns or bars of plotted series.
+- New <ApiLink type="CategoryChart" member="xAxisMinimumGapSize" label="XAxisMinimumGapSize" />, determines the minimum allowed pixel-based value for the plotted series when using <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" /> to ensure there is always some spacing between each category.
 
 ### {PackageGrids} (Data Grid)
 
-Added New Feature - [Row Paging](grids/data-grid/row-paging.md) which is used to split a large set of data into a sequence of pages that have similar content. With pagination, data can be displayed in a set number of rows, letting users “scroll” through their data, without needing a scroll bar. The UI for table pagination usually includes things like the current page, total pages, and clickable Previous and Next arrows/buttons that let users flip through the pages of data.
+Added New Feature - [Row Paging](./grids/_shared/paging.mdx) which is used to split a large set of data into a sequence of pages that have similar content. With pagination, data can be displayed in a set number of rows, letting users “scroll” through their data, without needing a scroll bar. The UI for table pagination usually includes things like the current page, total pages, and clickable Previous and Next arrows/buttons that let users flip through the pages of data.
 
 ## **{PackageVerChanges-21-2.1}**
 
 ### {PackageGrids} (Data Grid)
 
 #### Data Grid
-- Added `ValueMultiField`, of type string[], in the `ComboBoxColumn` to be used when your items in the drop down contain a key that consists of multiple fields.
+- Added <ApiLink type="ComboBoxColumn" member="valueMultiField" label="ValueMultiField" />, of type string[], in the <ApiLink type="ComboBoxColumn" /> to be used when your items in the drop down contain a key that consists of multiple fields.
 
 <DocsAside type="info">
 The following breaking changes were introduced
 </DocsAside>
 
-- Changed `ValueField` property from type string[] to string.
+- Changed <ApiLink type="ComboEditor" member="valueField" label="ValueField" /> property from type string[] to string.
 
 ### {PackageInputs} (Inputs)
 
@@ -970,7 +1452,6 @@ The following breaking changes were introduced
 - Changed `TextChanged` event to `TextValueChanged`.
 - Changed `ValueChanged` event to `SelectedValueChanged`.
 
-<div class="divider--half"></div>
 
 ## **{PackageVerChanges-21-2}**
 
@@ -982,80 +1463,78 @@ Please ensure package "lit-html": "^2.0.0" or newer is added to your project for
 
 This release introduces a few improvements and simplifications to visual design and configuration options for the geographic map and all chart components.
 
-- Changed `YAxisLabelLocation` property's type to **YAxisLabelLocation** from **AxisLabelLocation** in `FinancialChart` and `CategoryChart`
-- Changed `XAxisLabelLocation` property's type to **XAxisLabelLocation** from **AxisLabelLocation** in `FinancialChart`
-- Added `XAxisLabelLocation` property to `CategoryChart`
-- Added support for representing geographic series of `GeographicMap` in a legend
-- Added crosshair lines by default in `FinancialChart` and `CategoryChart`
-- Added crosshair annotations by default in `FinancialChart` and `CategoryChart`
-- Added final value annotation by default in `FinancialChart`
+- Changed <ApiLink type="XYChart" member="yAxisLabelLocation" label="YAxisLabelLocation" /> property's type to **YAxisLabelLocation** from **AxisLabelLocation** in <ApiLink type="FinancialChart" /> and <ApiLink type="CategoryChart" />
+- Changed <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> property's type to **XAxisLabelLocation** from **AxisLabelLocation** in <ApiLink type="FinancialChart" />
+- Added <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> property to <ApiLink type="CategoryChart" />
+- Added support for representing geographic series of <ApiLink type="GeographicMap" /> in a legend
+- Added crosshair lines by default in <ApiLink type="FinancialChart" /> and <ApiLink type="CategoryChart" />
+- Added crosshair annotations by default in <ApiLink type="FinancialChart" /> and <ApiLink type="CategoryChart" />
+- Added final value annotation by default in <ApiLink type="FinancialChart" />
 - Added new properties in Category Chart and Financial Chart:
-  - `CrosshairsLineThickness` and other properties for customizing crosshairs lines
-  - `CrosshairsAnnotationXAxisBackground` and other properties for customizing crosshairs annotations
-  - `FinalValueAnnotationsBackground` and other properties for customizing final value annotations
-  - `AreaFillOpacity` that allow changing opacity of series fill (e.g. Area chart)
-  - `MarkerThickness` that allows changing thickness of markers
+  - <ApiLink type="XYChart" member="crosshairsLineThickness" label="CrosshairsLineThickness" /> and other properties for customizing crosshairs lines
+  - <ApiLink type="XYChart" member="crosshairsAnnotationXAxisBackground" label="CrosshairsAnnotationXAxisBackground" /> and other properties for customizing crosshairs annotations
+  - <ApiLink type="XYChart" member="finalValueAnnotationsBackground" label="FinalValueAnnotationsBackground" /> and other properties for customizing final value annotations
+  - <ApiLink type="XYChart" member="areaFillOpacity" label="AreaFillOpacity" /> that allow changing opacity of series fill (e.g. Area chart)
+  - <ApiLink type="XYChart" member="markerThickness" label="MarkerThickness" /> that allows changing thickness of markers
 - Added new properties in Category Chart, Financial Chart, Data Chart, and Geographic Map:
-  - `MarkerAutomaticBehavior` that allows which marker type is assigned to multiple series in the same chart
-  - `LegendItemBadgeShape` for setting badge shape of all series represented in a legend
-  - `LegendItemBadgeMode` for setting badge complexity on all series in a legend
+  - <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" /> that allows which marker type is assigned to multiple series in the same chart
+  - <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" /> for setting badge shape of all series represented in a legend
+  - <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> for setting badge complexity on all series in a legend
 - Added new properties in Series in Data Chart and Geographic Map:
-  - `LegendItemBadgeShape` for setting badge shape on specific series represented in a legend
-  - `LegendItemBadgeMode` for setting badge complexity on specific series in a legend
+  - <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" /> for setting badge shape on specific series represented in a legend
+  - <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> for setting badge complexity on specific series in a legend
 - Changed default vertical crosshair line stroke from <span style="color:#000000">#000000</span> to <span style="color:#BBBBBB">#BBBBBB</span> in category chart and series
-- Changed shape of markers to circle for all series plotted in the same chart. This can be reverted by setting chart's `MarkerAutomaticBehavior` property to `SmartIndexed` enum value
-- Simplified shapes of series in chart's legend to display only circle, line, or square. This can be reverted by setting chart's `LegendItemBadgeMode` property to `MatchSeries` enum value
+- Changed shape of markers to circle for all series plotted in the same chart. This can be reverted by setting chart's <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" /> property to `SmartIndexed` enum value
+- Simplified shapes of series in chart's legend to display only circle, line, or square. This can be reverted by setting chart's <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> property to `MatchSeries` enum value
 - Changed color palette of series and markers displayed in all charts to improve accessibility
 
 | Old brushes/outlines | New outline/brushes |
 | -------------------- | ------------------- |
 | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8B5BB1">#8B5BB1</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#F8A15F">#F8A15F</span> <br /><span style="color:#EE5879">#EE5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F7D262">#F7D262</span> <br /><span style="color:#8CE7D9">#8CE7D9</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8961A9">#8961A9</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#82E9D9">#82E9D9</span> <br /><span style="color:#EA3C63">#EA3C63</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F8CE4F">#F8CE4F</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#FF903B">#FF903B</span> <br /> |
 
-<div class="divider--half"></div>
 
 ### {PackageGrids} (Data Grid)
 
 - New Features Added:
-  - [Filter Row](grids/data-grid/column-filtering.md)
-  - [Load/Save Layout Customizations](grids/data-grid/load-save-layout.md)
-  - [GroupBy Area for column grouping](grids/data-grid/row-grouping.md)
-  - [Cell Merging](grids/data-grid/cell-merging.md)
+  - [Filter Row](./grids/_shared/filtering.mdx)
+  - [Load/Save Layout Customizations](./grids/_shared/state-persistence.mdx)
+  - [GroupBy Area for column grouping](./grids/grid/groupby.mdx)
+  - [Cell Merging](./grids/_shared/cell-merging.mdx)
 - New API:
   - Added `SelectionChanged` event. Used to detect changes on selection interactions
      e.g. Multiple row selection.
 - Breaking Changes:
-  - Changed grid's SummaryScope property's type to SummaryScope from `DataSourceSummaryScope`
-  - Changed GroupHeaderDisplayMode property's type to GroupHeaderDisplayMode from `DataSourceSectionHeaderDisplayMode`
+  - Changed grid's SummaryScope property's type to SummaryScope from <ApiLink type="DataSourceSummaryScope" />
+  - Changed GroupHeaderDisplayMode property's type to GroupHeaderDisplayMode from <ApiLink type="DataSourceSectionHeaderDisplayMode" />
 
-<div class="divider--half"></div>
 
 ## **{PackageVerChanges-21-1}**
 ### {PackageCharts} (Charts)
 
-This release introduces several new and improved visual design and configuration options for all of the chart components, e.g. `DataChart`, `CategoryChart`, and `FinancialChart`.
+This release introduces several new and improved visual design and configuration options for all of the chart components, e.g. <ApiLink type="DataChart" />, <ApiLink type="CategoryChart" />, and <ApiLink type="FinancialChart" />.
 
 - Changed Bar/Column/Waterfall series to have square corners instead of rounded corners
 - Changed Scatter High Density series’ colors for heat min property from <span style="color:#8a5bb1">#8a5bb1</span> to <span style="color:#000000">#000000</span>
 - Changed Scatter High Density series’ colors for heat max property from <span style="color:#ee5879">#ee5879</span> to <span style="color:#ee5879">#ee5879</span>
 - Changed Financial/Waterfall series’ `NegativeBrush` and `NegativeOutline` properties from <span style="color:#C62828">#C62828</span> to <span style="color:#ee5879">#ee5879</span>
 - Changed marker's thickness to 2px from 1px
-- Changed marker's fill to match the marker's outline for `PointSeries`, `BubbleSeries`, `ScatterSeries`, `PolarScatterSeries`. You can use set `MarkerFillMode` property to Normal to undo this change
-- Compressed labelling for the `TimeXAxis` and `OrdinalTimeXAxis`
+- Changed marker's fill to match the marker's outline for <ApiLink type="PointSeries" />, <ApiLink type="BubbleSeries" />, <ApiLink type="ScatterSeries" />, <ApiLink type="PolarScatterSeries" />. You can use set <ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> property to Normal to undo this change
+- Compressed labelling for the <ApiLink type="TimeXAxis" /> and <ApiLink type="OrdinalTimeXAxis" />
 - New Marker Properties:
-  - series.`MarkerFillMode` - Can be set to `MatchMarkerOutline` so the marker depends on the outline
-  - series.`MarkerFillOpacity` - Can be set to a value 0 to 1
-  - series.`MarkerOutlineMode` - Can be set to `MatchMarkerBrush` so the marker's outline depends on the fill brush color
+  - series.<ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> - Can be set to `MatchMarkerOutline` so the marker depends on the outline
+  - series.<ApiLink type="XYChart" member="markerFillOpacity" label="MarkerFillOpacity" /> - Can be set to a value 0 to 1
+  - series.<ApiLink type="XYChart" member="markerOutlineMode" label="MarkerOutlineMode" /> - Can be set to `MatchMarkerBrush` so the marker's outline depends on the fill brush color
 - New Series Property:
-  - series.`OutlineMode` - Can be set to toggle the series outline visibility. Note, for Data Chart, the property is on the series
-- New chart properties that define bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case is to provide space between the axes and first/last data points. Note, the `ComputedPlotAreaMarginMode`, listed below, will automatically set the margin when markers are enabled. The others are designed to specify a `Double` to represent the thickness, where PlotAreaMarginLeft etc. adjusts the space to all four sides of the chart:
-  - chart.`PlotAreaMarginLeft`
-  - chart.`PlotAreaMarginTop`
-  - chart.`PlotAreaMarginRight`
-  - chart.`PlotAreaMarginBottom`
-  - chart.`ComputedPlotAreaMarginMode`
+  - series.<ApiLink type="XYChart" member="outlineMode" label="OutlineMode" /> - Can be set to toggle the series outline visibility. Note, for Data Chart, the property is on the series
+- New chart properties that define bleed over area introduced into the viewport when the chart is at the default zoom level. A common use case is to provide space between the axes and first/last data points. Note, the <ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />, listed below, will automatically set the margin when markers are enabled. The others are designed to specify a `Double` to represent the thickness, where PlotAreaMarginLeft etc. adjusts the space to all four sides of the chart:
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginLeft" label="PlotAreaMarginLeft" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginTop" label="PlotAreaMarginTop" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginRight" label="PlotAreaMarginRight" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginBottom" label="PlotAreaMarginBottom" />
+  - chart.<ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />
 - New Highlighting Properties
-  - chart.`HighlightingMode` - Sets whether hovered or non-hovered series to fade, brighten
-  - chart.`HighlightingBehavior` - Sets whether the series highlights depending on mouse position e.g. directly over or nearest item
+  - chart.<ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> - Sets whether hovered or non-hovered series to fade, brighten
+  - chart.<ApiLink type="SeriesViewer" member="highlightingBehavior" label="HighlightingBehavior" /> - Sets whether the series highlights depending on mouse position e.g. directly over or nearest item
   - Note, in previous releases the highlighting was limited to fade on hover.
 - Added Highlighting Stacked, Scatter, Polar, Radial, and Shape series:
 - Added Annotation layers to Stacked, Scatter, Polar, Radial, and Shape series:
@@ -1078,8 +1557,8 @@ for example:
 
 #### Chart Legend
 
-- Added horizontal `Orientation` property to ItemLegend that can be used with Bubble, Donut, and Pie Chart
-- Added `LegendHighlightingMode` property - Enables series highlighting when hovering over legend items
+- Added horizontal <ApiLink type="Toolbar" member="orientation" label="Orientation" /> property to ItemLegend that can be used with Bubble, Donut, and Pie Chart
+- Added <ApiLink type="SeriesViewer" member="legendHighlightingMode" label="LegendHighlightingMode" /> property - Enables series highlighting when hovering over legend items
 
 ### {PackageMaps} (GeoMap)
 
@@ -1092,38 +1571,36 @@ These features are CTP
 - Added support for highlighting of the shape series
 - Added support for some annotation layers for the shape series
 
-<div class="divider--half"></div>
 
 ### {PackageGrids} (Data Grid)
 
-- Added `EditOnKeyPress` aka Excel-style Editing, instantly begin editing when typing.
-- Added `EditModeClickAction` property - By default double-clicking is required to enter edit mode. This can be set to `SingleClick` to allow for edit mode to occur when selecting a new cell.
-- Added `EnterKeyBehaviors` property - aka Excel-style Navigation (Enter Behavior) – controls the behavior of the enter key, e.g. Options are (none, edit, move up, down, left, right)
-- Added `EnterKeyBehaviorAfterEdit` property - While in edit-mode, this property controls when enter is pressed, e.g. Options are (moves to the cell below, above, right, left)
-- Added `SelectAllRows` - method.
-- Added Row Range Selection - With `GridSelectionMode` property set to MultipleRow the following new functionality is now included:
+- Added <ApiLink type="Grid" member="editOnKeyPress" label="EditOnKeyPress" /> aka Excel-style Editing, instantly begin editing when typing.
+- Added <ApiLink type="Grid" member="editModeClickAction" label="EditModeClickAction" /> property - By default double-clicking is required to enter edit mode. This can be set to `SingleClick` to allow for edit mode to occur when selecting a new cell.
+- Added <ApiLink type="EnterKeyBehaviors" /> property - aka Excel-style Navigation (Enter Behavior) – controls the behavior of the enter key, e.g. Options are (none, edit, move up, down, left, right)
+- Added <ApiLink type="EnterKeyBehaviorAfterEdit" /> property - While in edit-mode, this property controls when enter is pressed, e.g. Options are (moves to the cell below, above, right, left)
+- Added <ApiLink type="Grid" member="selectAllRows" label="SelectAllRows" /> - method.
+- Added Row Range Selection - With <ApiLink type="GridSelectionMode" /> property set to MultipleRow the following new functionality is now included:
   - Click and drag to select rows
   - <kbd>SHIFT</kbd> and click to select multiple rows.
   - <kbd>SHIFT</kbd> and press the <kbd>↑</kbd> + <kbd>↓</kbd> arrow keys to select multiple rows.
-- Pressing space bar toggles selection of active row via `GridSelectionMode` property set to MultipleRow or SingleRow
+- Pressing space bar toggles selection of active row via <ApiLink type="GridSelectionMode" /> property set to MultipleRow or SingleRow
 - Added Column Summaries to Column Options Dialog.
 
 ### {PackageInputs} (Inputs)
 
 #### Date Picker
 
-- `ShowTodayButton` - Toggles Today button visibility
-- `Label` - Adds a label above the date value
-- `Placeholder` property - adds custom text when no value is selected
-- `FormatString` - Customize input date string e.g. (`yyyy-MM-dd`)
-- `DateFormat` - Specifies whether to display selected dates as LongDate or ShortDate
-- `FirstDayOfWeek` - Specifies first day of week
-- `FirstWeekOfYear` - Specifies when to display first week of the year, e.g. (First Full Week, First Four day Week)
-- `ShowWeekNumbers` - Toggles Week number visibility
-- `MinDate` & `MaxDate` - Date limits, specifying a range of available selectable dates.
+- <ApiLink type="DatePicker" member="showTodayButton" label="ShowTodayButton" /> - Toggles Today button visibility
+- <ApiLink pkg="core" type="DatePicker" member="label" label="Label" /> - Adds a label above the date value
+- <ApiLink pkg="core" type="DatePicker" member="placeholder" label="Placeholder" /> property - adds custom text when no value is selected
+- <ApiLink type="IWorksheetCellFormat" member="formatString" label="FormatString" /> - Customize input date string e.g. (`yyyy-MM-dd`)
+- <ApiLink type="DatePicker" member="dateFormat" label="DateFormat" /> - Specifies whether to display selected dates as LongDate or ShortDate
+- <ApiLink type="DatePicker" member="firstDayOfWeek" label="FirstDayOfWeek" /> - Specifies first day of week
+- <ApiLink type="DatePicker" member="firstWeekOfYear" label="FirstWeekOfYear" /> - Specifies when to display first week of the year, e.g. (First Full Week, First Four day Week)
+- <ApiLink pkg="core" type="DatePicker" member="showWeekNumbers" label="ShowWeekNumbers" /> - Toggles Week number visibility
+- <ApiLink type="DatePicker" member="minDate" label="MinDate" /> & <ApiLink type="DatePicker" member="maxDate" label="MaxDate" /> - Date limits, specifying a range of available selectable dates.
 - Added Accessibility
 
-<div class="divider--half"></div>
 
 ## **{PackageVerChangedFields}**
 
@@ -1186,11 +1663,10 @@ import { IgrDataGridModule } from 'igniteui-react-data-grids';
 
 The data grid component requires the "inputs" package.
 
-```ts
-**npm install --save {PackageInputs}**
+```cmd
+npm install --save {PackageInputs}
 ```
 
-<div class="divider--half"></div>
 
 ## **{PackageVerChangedImports}**
 
@@ -1204,13 +1680,13 @@ These breaking changes were introduce in these packages and components only:
 
 | Affected Packages | Affected Components |
 | ------------------|---------------------|
-| <a href="{PackageWebsite}{PackageExcel}/v/{PackageVerChangedImports}" target="_blank">{PackageExcel}</a> | [Excel Library](excel-library.md)  |
-| <a href="{PackageWebsite}{PackageSpreadsheet}/v/{PackageVerChangedImports}" target="_blank">{PackageSpreadsheet}</a> | [Spreadsheet](spreadsheet-overview.md) |
-| <a href="{PackageWebsite}{PackageMaps}/v/{PackageVerChangedImports}" target="_blank">{PackageMaps}</a> | [Geo Map](geo-map.md), [Treemap](charts/types/treemap-chart.md)  |
-| <a href="{PackageWebsite}{PackageGauges}/v/{PackageVerChangedImports}" target="_blank">{PackageGauges}</a> |  [Bullet Graph](bullet-graph.md), [Linear Gauge](linear-gauge.md), [Radial Gauge](radial-gauge.md)   |
-| <a href="{PackageWebsite}{PackageCharts}/v/{PackageVerChangedImports}" target="_blank">{PackageCharts}</a>| Category Chart, Data Chart, Donut Chart, Financial Chart], Pie Chart, [Zoom Slider](zoomslider-overview.md)  |
+| <a href="{PackageWebsite}{PackageExcel}/v/{PackageVerChangedImports}" target="_blank">{PackageExcel}</a> | [Excel Library](./excel-library.mdx)  |
+| <a href="{PackageWebsite}{PackageSpreadsheet}/v/{PackageVerChangedImports}" target="_blank">{PackageSpreadsheet}</a> | [Spreadsheet](./spreadsheet-overview.mdx) |
+| <a href="{PackageWebsite}{PackageMaps}/v/{PackageVerChangedImports}" target="_blank">{PackageMaps}</a> | [Geo Map](./geo-map.mdx), [Treemap](./charts/types/treemap-chart.mdx)  |
+| <a href="{PackageWebsite}{PackageGauges}/v/{PackageVerChangedImports}" target="_blank">{PackageGauges}</a> |  [Bullet Graph](./bullet-graph.mdx), [Linear Gauge](./linear-gauge.mdx), [Radial Gauge](./radial-gauge.mdx)   |
+| <a href="{PackageWebsite}{PackageCharts}/v/{PackageVerChangedImports}" target="_blank">{PackageCharts}</a>| Category Chart, Data Chart, Donut Chart, Financial Chart], Pie Chart, [Zoom Slider](./zoomslider-overview.mdx)  |
 | <a href="{PackageWebsite}{PackageCore}/v/{PackageVerChangedImports}" target="_blank">{PackageCore}</a> | all classes and enums  |
-| <a href="{PackageWebsite}{PackageGrids}/v/{PackageVerChangedImports}" target="_blank">{PackageGrids}</a> | [Data Grid](grids/data-grid/overview.md) |
+| <a href="{PackageWebsite}{PackageGrids}/v/{PackageVerChangedImports}" target="_blank">{PackageGrids}</a> | [Data Grid](./grids/data-grid.mdx) |
 
 - Code After Changes
 

@@ -19,7 +19,6 @@ Use the map component's [`IgxGeographicSymbolSeriesComponent`]({environment:dvAp
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Data Requirements
 

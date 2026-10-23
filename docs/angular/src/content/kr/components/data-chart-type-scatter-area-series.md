@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-area-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 필요한 축
 
@@ -28,9 +27,9 @@ _language: kr
 
 [`IgxScatterAreaSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxscatterareaseriescomponent.html)에는 다음과 같은 데이터 요구 사항이 있습니다:
 
--   데이터 소스는 배열 또는 데이터 항목 목록이어야 함
--   데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
--   모든 데이터 항목에는 `XMemberPath`, `YMemberPath` 및 [`colorMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxscatterareaseriescomponent.html#colormemberpath) 속성에 매핑되는 3개의 숫자 데이터 열이 있어야 합니다.
+- 데이터 소스는 배열 또는 데이터 항목 목록이어야 함
+- 데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
+- 모든 데이터 항목에는 `XMemberPath`, `YMemberPath` 및 [`colorMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxscatterareaseriescomponent.html#colormemberpath) 속성에 매핑되는 3개의 숫자 데이터 열이 있어야 합니다.
 
 [SampleScatterData](data-chart-data-sources-scatter.md)는 위의 데이터 요구 사항을 충족하는 데이터 소스로 사용할 수 있습니다.
 
@@ -97,13 +96,13 @@ export class AppModule { /* ... */ }
 
 다음 표에는 [`IgxScatterAreaSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxscatterareaseriescomponent.html)의 면 채색에 영향을 주는 [`IgxCustomPaletteColorScaleComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html)의 속성이 열거되어 있습니다 .
 
--   [`palette`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#palette)는 선택하거나 보간하는 컬러의 컬렉션을 설정합니다.
--   [`interpolationMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#interpolationmode)는 팔레트에서 컬러를 가져오는 메소드를 설정합니다.
--   [`maximumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#maximumvalue)는 컬러를 할당할 수 있는 상한값을 설정합니다. 지정한 값이 이 값보다 큰 경우에는 투명하게 됩니다.
--   [`minimumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#minimumvalue)는 컬러를 할당할 수 있는 최소값을 설정합니다. 지정한 값이 이 값보다 작은 경우에는 투명하게 됩니다.
+- [`palette`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#palette)는 선택하거나 보간하는 컬러의 컬렉션을 설정합니다.
+- [`interpolationMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#interpolationmode)는 팔레트에서 컬러를 가져오는 메소드를 설정합니다.
+- [`maximumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#maximumvalue)는 컬러를 할당할 수 있는 상한값을 설정합니다. 지정한 값이 이 값보다 큰 경우에는 투명하게 됩니다.
+- [`minimumValue`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxcustompalettecolorscalecomponent.html#minimumvalue)는 컬러를 할당할 수 있는 최소값을 설정합니다. 지정한 값이 이 값보다 작은 경우에는 투명하게 됩니다.
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 유형](data-chart-series-types.md)

@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/type-scatter-series">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 분산 마커 시리즈의 유형
 
@@ -44,9 +43,9 @@ _language: kr
 
 분산 마커 시리즈에는 다음과 같은 데이터 요구 사항이 있습니다:
 
--   데이터 소스는 배열 또는 데이터 항목 목록이어야 함
--   데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
--   모든 데이터 항목에는 `XMemberPath` 및 `YMemberPath` 속성에 매핑되는 2개의 숫자 데이터 열이 있어야 합니다
+- 데이터 소스는 배열 또는 데이터 항목 목록이어야 함
+- 데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 분산형 시리즈를 렌더링하지 않습니다.
+- 모든 데이터 항목에는 `XMemberPath` 및 `YMemberPath` 속성에 매핑되는 2개의 숫자 데이터 열이 있어야 합니다
 
 [SampleScatterStats](data-chart-data-sources-stats.md)는 위의 데이터 요구 사항을 충족하는 데이터 소스로 사용할 수 있습니다.
 
@@ -124,10 +123,10 @@ export class AppModule { /* ... */ }
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 도구 설명](data-chart-series-tooltips.md)
--   [시리즈 추세선](data-chart-series-trendlines.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 도구 설명](data-chart-series-tooltips.md)
+- [시리즈 추세선](data-chart-series-trendlines.md)
+- [시리즈 유형](data-chart-series-types.md)

@@ -3,23 +3,29 @@ title: Step-by-Step Guide Using Ignite UI CLI | Ignite UI for Angular | Infragis
 description: Walk through the Ignite UI CLI interactive wizard to create a new Angular project, choose a template and theme, and add Ignite UI for Angular component views.
 keywords: ignite ui cli, ignite ui for angular, angular scaffolding, step-by-step, infragistics
 last_updated: "2025-04-08"
+llms:
+  description: "The Ignite UI CLI step-by-step mode is an interactive wizard that guides you through project creation, template selection, theming, and component view addition for Ignite UI CLI-based Angular projects."
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import { Image } from 'astro:assets';
 import play from '../../../images/general/play.svg';
+import buildCLIappGif from '../../../images/general/buildCLIapp.gif';
 import igStepByStepProjectTypeCli from '../../../images/general/ig-step-by-step-project-type-cli.png';
 import igStepByStepScenarioTemplates from '../../../images/general/ig-step-by-step-scenario-templates.png';
 import igStepByStepNewProjectName from '../../../images/general/ig-step-by-step-new-project-name.png';
-import igStepByStepNewProjectTemplate from '../../../images/general/ig-step-by-step-new-project-template.png';
-import igStepByStepNewProjectTheme from '../../../images/general/ig-step-by-step-new-project-theme.png';
+import igStepByStepNewProjectTemplate from '../../../images/general/igx-side-auth-steps.png';
+import igStepByStepNewProjectQuestion from '../../../images/general/igx-side-auth-question.png';
+import igStepByStepNewProjectTheme from '../../../images/general/igx-side-auth-theme.png';
 import igStepByStepNewProjectAction from '../../../images/general/ig-step-by-step-new-project-action.png';
 import igStepByStepTemplateGroup from '../../../images/general/ig-step-by-step-template-group.png';
 import igStepByStepComponentFeatures from '../../../images/general/ig-step-by-step-component-features.png';
+import igStepByStepAiConfigAssistants from '../../../images/general/ig-step-by-step-ai-config-assistants.png';
+import igStepByStepAiConfigAgents from '../../../images/general/ig-step-by-step-ai-config-agents.png';
 
 # Step-by-Step Guide Using Ignite UI CLI
 
-The Ignite UI CLI step-by-step mode is an interactive wizard that guides you through project creation, template selection, theming, and component view addition for [Ignite UI CLI](getting-started-with-cli)-based Angular projects. It covers the same operations as the non-interactive `ig new` and `ig add` commands but prompts you at each step rather than requiring all arguments upfront.
+The Ignite UI CLI step-by-step mode is an interactive wizard that guides you through project creation, template selection, theming, and component view addition for [Ignite UI CLI](./getting-started-with-cli.mdx)-based Angular projects. It covers the same operations as the non-interactive `ig new` and `ig add` commands but prompts you at each step rather than requiring all arguments upfront.
 
 The step-by-step mode does not support scripted or non-interactive use - for that, use the direct `ig new` and `ig add` commands with explicit arguments. The wizard relies on `Inquirer.js`; see [supported terminals](https://github.com/SBoudrias/Inquirer.js#support-os-terminals) for compatibility.
 
@@ -36,9 +42,9 @@ ig new
 ```
 
 <div style="display:inline-block;">
-    <a style="background: url(../../../images/general/buildCLIapp.gif); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;"
+    <a style={`background: url(${buildCLIappGif.src}); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;`}
        href="https://youtu.be/QK_NsdtdA70" target="_blank">
-        <img src="../../../images/general/play.svg" alt="Play video: Building Your First Ignite UI CLI App" style="vertical-align: middle;" />
+        <Image src={play} alt="Play video: Building Your First Ignite UI CLI App" style="vertical-align: middle;" />
     </a>
     <p style="text-align:center;">Building Your First Ignite UI CLI App</p>
 </div>
@@ -53,11 +59,15 @@ After selecting `Angular` as a framework, you will be prompted to choose the typ
 
 <Image src={igStepByStepProjectTypeCli} alt="Step by step project type selection" class="responsive-img" />
 
-Then you will be guided to choose one of the available project templates. You can create an empty project, a project with side navigation, or an [authentication project](auth-template) with a basic authentication module. Navigate through the available options using the arrow keys and press ENTER to confirm the selection:
+Then you will be guided to choose one of the available project templates. Three base templates are available: **Empty Project**, **Side Navigation**, and **Side Navigation Mini**. Navigate through the available options using the arrow keys and press ENTER to confirm the selection:
 
 <Image src={igStepByStepNewProjectTemplate} alt="Step by step new project template selection" class="responsive-img" />
 
-The next step is to choose a theme for your application. Selecting the default option includes a pre-compiled CSS file (`igniteui-angular.css`) with the default Ignite UI for Angular theme in your project's `angular.json`. The custom option generates a color palette and theme configuration using the [Theming API](../../themes) in `app/styles.scss`.
+If you select **Side Navigation** or **Side Navigation Mini**, the wizard will prompt you with an additional step asking whether to add an [authentication module](./auth-template.mdx) to the project. Answering yes generates the corresponding auth variant (`side-nav-auth` or `side-nav-mini-auth`). If you select **Empty Project**, the authentication prompt is skipped.
+
+<Image src={igStepByStepNewProjectQuestion} alt="Step by step auth question prompt" class="responsive-img" />
+
+The next step is to choose a theme for your application. Selecting the default option includes a pre-compiled CSS file (`igniteui-angular.css`) with the default Ignite UI for Angular theme in your project's `angular.json`. The custom option generates a color palette and theme configuration using the [Theming API](../../themes/sass/index.mdx) in `app/styles.scss`.
 
 <Image src={igStepByStepNewProjectTheme} alt="Step by step new project theme selection" class="responsive-img" />
 
@@ -73,7 +83,7 @@ The Ignite UI CLI supports multiple component templates and scenario templates t
 ig add
 ```
 
-You will be provided with a [list of the available templates](component-templates#component-templates), grouped by category.
+You will be provided with a [list of the available templates](./component-templates.mdx#component-templates), grouped by category.
 
 <Image src={igStepByStepTemplateGroup} alt="Step by step template group selection" class="responsive-img" />
 
@@ -81,7 +91,7 @@ Use the arrow keys to navigate through the options and ENTER to select. For some
 
 <Image src={igStepByStepComponentFeatures} alt="Step by step component feature toggles" class="responsive-img" />
 
-If you choose to add a scenario to your application, you will also get a list of the available [scenario templates](/general/cli/component-templates#scenario-templates):
+If you choose to add a scenario to your application, you will also get a list of the available [scenario templates](./component-templates.mdx#scenario-templates):
 
 <Image src={igStepByStepScenarioTemplates} alt="Step by step scenario template selection" class="responsive-img" />
 
@@ -101,7 +111,7 @@ After choosing your framework, project type, template, and theme, the wizard pro
 
 You will be prompted to select which coding assistants to configure MCP servers for. Use the SPACE key to toggle selections and ENTER to confirm:
 
-![Step by step AI config coding assistants prompt](../../../images/general/ig-step-by-step-ai-config-assistants.png)
+<Image src={igStepByStepAiConfigAssistants} alt="Step by step AI config coding assistants prompt" class="responsive-img" />
 
 - **Generic** (Claude Code, VS Code, and others) - writes `.mcp.json`
 - **VS Code** (GitHub Copilot) - writes `.vscode/mcp.json`
@@ -116,7 +126,7 @@ The default selection is **Generic**. Selecting **None** skips MCP server config
 
 Next, you will be prompted to select which AI agents to configure skill files and instructions for:
 
-![Step by step AI config agents prompt](../../../images/general/ig-step-by-step-ai-config-agents.png)
+<Image src={igStepByStepAiConfigAgents} alt="Step by step AI config agents prompt" class="responsive-img" />
 
 - **Generic** - `.agents/skills/` and `AGENTS.md`
 - **Claude** - `.claude/skills/` and `.claude/CLAUDE.md`
@@ -130,6 +140,6 @@ Next, you will be prompted to select which AI agents to configure skill files an
 
 The default selections are **Generic** and **Claude**. Selecting **None** skips agent configuration entirely.
 
-<DocsAside type="note">
+<DocsAside type="info">
 To skip AI configuration prompts entirely during non-interactive project creation, pass `--assistants none --agents none` to `ig new`. To re-run AI configuration later, use `ig ai-config` from the project root.
 </DocsAside>

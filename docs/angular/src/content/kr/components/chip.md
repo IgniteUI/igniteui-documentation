@@ -12,15 +12,15 @@ _language: kr
 #### Demo
 
 
-<code-view style="height:650px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:650px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/chip-sample/" >
 </code-view>
 
 
 #### Initializing Chips
 
-The [`IgxChipComponent`]({environment:angularApiUrl}/classes/igxchipcomponent.html) is the main class for a chip elemenent and the [`IgxChipsAreaComponent`]({environment:angularApiUrl}/classes/igxchipsareacomponent.html) is the main class for a chip area. The chip area is used when handling more complex scenarios that require interaction between chips (dragging, selection, navigation etc.). The [`IgxChipComponent`]({environment:angularApiUrl}/classes/igxchipcomponent.html) has an [`id`]({environment:angularApiUrl}/classes/igxchipcomponent.html#id) input so that the different chips can be easily distinguished. If [`id`]({environment:angularApiUrl}/classes/igxchipcomponent.html#id) is not provided it will be automatically generated.
+The [`IgxChipComponent`]({environment:angularApiUrl}/classes/igxchipcomponent.html) is the main class for a chip element and the [`IgxChipsAreaComponent`]({environment:angularApiUrl}/classes/igxchipsareacomponent.html) is the main class for a chip area. The chip area is used when handling more complex scenarios that require interaction between chips (dragging, selection, navigation etc.). The [`IgxChipComponent`]({environment:angularApiUrl}/classes/igxchipcomponent.html) has an [`id`]({environment:angularApiUrl}/classes/igxchipcomponent.html#id) input so that the different chips can be easily distinguished. If [`id`]({environment:angularApiUrl}/classes/igxchipcomponent.html#id) is not provided it will be automatically generated.
 
 Example of using [`igxChip`]({environment:angularApiUrl}/classes/igxchipcomponent.html) with [`igxChipArea`]({environment:angularApiUrl}/classes/igxchipsareacomponent.html):
 
@@ -194,17 +194,18 @@ The chip can be focused using the `Tab` key or by clicking on it. When in chip a
   - <kbd>SPACE</kbd> or <kbd>ENTER</kbd> Fires the [`remove`]({environment:angularApiUrl}/classes/igxchipcomponent.html#remove) output so the chip deletion can be handled manually.
 
 ### Styling
-The igxChip allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The chip's [theme]({environment:sassApiUrl}/themes#function-chip-theme) exposes a wide variety of properties, which allow the customization of many of the aspects of the chip.        
+The igxChip allows styling through the [Ignite UI for Angular Theme Library](../themes/sass/component-themes.md). The chip's [theme]({environment:sassApiUrl}/themes#function-chip-theme) exposes a wide variety of properties, which allow the customization of many of the aspects of the chip.
 
- #### Importing global theme
+#### Importing global theme
 To begin styling of the predefined chip layout, you need to import the `index` file, where all styling functions and mixins are located.  
+
 ```scss
 @import '~igniteui-angular/lib/core/styles/themes/index'
-```   
+```
 
 #### Defining custom theme
 Next, create a new theme, that extends the [`chip-theme`]({environment:sassApiUrl}/themes#function-chip-theme) and accepts the parameters, required to customize the chip as desired.
-   
+
 
 ```scss
 $custom-theme: chip-theme(
@@ -219,10 +220,10 @@ $custom-theme: chip-theme(
     $focus-selected-background: #ffcd0f,
     $border-radius: 5px
 );
-```   
+```
 
 #### Defining a custom color palette
-In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.   
+In the approach, that was described above, the color values were hardcoded. Alternatively, you can achieve greater flexibility, using the [`palette`]({environment:sassApiUrl}/palettes#function-palette) and [`color`]({environment:sassApiUrl}/palettes#function-color) functions.
 `igx-palette` generates a color palette, based on provided primary and secondary colors.  
 
 ```scss
@@ -233,9 +234,9 @@ $custom-palette: palette(
     $primary: $black-color,
     $secondary: $yellow-color
 );
-```   
+```
 
-After the custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.   
+After the custom palette has been generated, the `igx-color` function can be used to obtain different varieties of the primary and the secondary colors.
 
 ```scss
 $custom-theme: chip-theme(
@@ -253,8 +254,8 @@ $custom-theme: chip-theme(
 ```
 
 #### Defining custom schemas
-You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.   
-Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_light_chip`.   
+You can go even further and build flexible structure that has all the benefits of a [**schema**](../themes/sass/schemas.md). The **schema** is the recipe of a theme.
+Extend one of the two predefined schemas, that are provided for every component. In our case, we would use `$_light_chip`.
 
 ```scss
 $custom-chip-schema: extend($_light-chip, (
@@ -269,8 +270,9 @@ $custom-chip-schema: extend($_light-chip, (
     focus-selected-background: (igx-color("secondary", 500)),
     border-radius: 5px
 ));
-```   
-In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.   
+```
+
+In order for the custom schema to be applied, either `light`, or `dark` globals has to be extended. The whole process is actually supplying a component with a custom schema and adding it to the respective component theme afterwards.
 
 ```scss
 $my-custom-schema: extend($light-schema, (
@@ -284,7 +286,8 @@ $custom-theme: chip-theme(
 ```
 
 #### Applying the custom theme
-The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file: 
+The easiest way to apply your theme is with a `sass` `@include` statement in the global styles file:
+
 ```scss
 @include chip($custom-theme);
 ```
@@ -298,7 +301,7 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
  >[!NOTE]
  >If the component is using an [`Emulated`](../themes/sass/component-themes.md#view-encapsulation) ViewEncapsulation, it is necessary to penetrate this encapsulation using `::ng-deep` in order to style the grid.
  >[!NOTE]
- >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements *outside of* our component:
+ >Wrap the statement inside of a `:host` selector to prevent your styles from affecting elements _outside of_ our component:
 
 ```scss
 :host {
@@ -306,26 +309,25 @@ This way, due to Angular's [ViewEncapsulation](https://angular.io/api/core/Compo
         @include chip($custom-theme);
     }
 }
-```   
+```
 
 #### Demo
 
-<code-view style="height:650px" 
+<code-view style="height:650px"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-display/chip-styling/" >
 </code-view>
 
 
 ### API
 
-* [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
-* [IgxChipComponent Styles]({environment:sassApiUrl}/themes#function-chip-theme)
-* [IgxChipsAreaComponent]({environment:angularApiUrl}/classes/igxchipsareacomponent.html)
+- [IgxChipComponent]({environment:angularApiUrl}/classes/igxchipcomponent.html)
+- [IgxChipComponent Styles]({environment:sassApiUrl}/themes#function-chip-theme)
+- [IgxChipsAreaComponent]({environment:angularApiUrl}/classes/igxchipsareacomponent.html)
 
 ### References
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

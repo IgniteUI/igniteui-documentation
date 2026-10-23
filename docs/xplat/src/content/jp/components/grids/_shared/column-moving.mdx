@@ -8,6 +8,8 @@ sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
 namespace: Infragistics.Controls
 _canonicalLink: "{CanonicalLinkToGridColumnMoving}"
 _language: ja
+llms:
+  description: "{Platform} {ComponentTitle} の {ProductName} 列移動機能を使用すると、列をすばやく簡単に並べ替えることができます。"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -16,7 +18,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 # {ComponentTitle} の列の並べ替えと移動
 
-{Platform} {ComponentTitle} の {ProductName} 列移動機能を使用すると、列をすばやく簡単に並べ替えることができます。これは、列移動 API を使用するか、マウスまたはタッチ ジェスチャを使用してヘッダーを別の位置にドラッグ アンド ドロップすることによって実行できます。{Platform} {ComponentTitle} では、ピン固定された列とピン固定されていない列、および[複数列ヘッダー](multi-column-headers.md)に対しても列の移動を有効にすることができます。
+{Platform} {ComponentTitle} の {ProductName} 列移動機能を使用すると、列をすばやく簡単に並べ替えることができます。これは、列移動 API を使用するか、マウスまたはタッチ ジェスチャを使用してヘッダーを別の位置にドラッグ アンド ドロップすることによって実行できます。{Platform} {ComponentTitle} では、ピン固定された列とピン固定されていない列、および[複数列ヘッダー](multi-column-headers.mdx)に対しても列の移動を有効にすることができます。
 
 <DocsAside type="info" title="情報">
 列と列グループ間の順序変更は、それらが階層の同じレベルにあり、両方が同じグループにある場合にのみ許可されます。列/列グループが最上位の列である場合、列/列グループ間を移動できます。
@@ -31,7 +33,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 </PlatformBlock>
 
 <DocsAside type="info" title="情報">
-ピン固定領域が最大幅 (<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> 幅合計の 80%) を超えた場合、ドロップ操作が禁止されていてピン固定ができないことをヒントの表示でエンドユーザーに通知します。つまり、ピン固定領域に列をドロップできません。
+ピン固定領域が最大幅 (<ApiLink type="{ComponentName}" /> 幅合計の 80%) を超えた場合、ドロップ操作が禁止されていてピン固定ができないことをヒントの表示でエンドユーザーに通知します。つまり、ピン固定領域に列をドロップできません。
 </DocsAside>
 
 <PlatformBlock for="Angular">
@@ -44,10 +46,12 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 <PlatformBlock for="Blazor">
 ```razor
+@code {
     public RenderFragment<IgbColumnTemplateContext> headerTemplate => (context) =>
     {
         return @<IgbIcon Collection="fas" IconName="fa-thumbtack" draggable="false" @onclick="() => onClick()"></IgbIcon>;
     };
+}
 ```
 </PlatformBlock>
 
@@ -79,12 +83,14 @@ const headerTemplate = (ctx: IgrCellTemplateContext) => {
 
 ## 概要
 
-**列移動**機能は各列レベルで有効にできます。つまり、<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> に移動可能な列または移動不可の列の両方を含むことができます。<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の `Moving` 入力によって制御されます。
+**列移動**機能は各列レベルで有効にできます。つまり、<ApiLink type="{ComponentName}" /> に移動可能な列または移動不可の列の両方を含むことができます。<ApiLink type="{ComponentName}" /> の <ApiLink type="GridBaseDirective" member="moving" label="Moving" /> 入力によって制御されます。
 <ComponentBlock for="Grid">
 <PlatformBlock for="Angular">
+
 ```html
 <{ComponentSelector} [moving]="true"></{ComponentSelector}>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -149,7 +155,7 @@ const headerTemplate = (ctx: IgrCellTemplateContext) => {
 
 ドラッグアンドドロップ機能に加えて、列の移動機能には、プログラムで列を移動/並べ替えできる API メソッドも用意されています。
 
-<PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="grids" kind='interface' type="GridBaseDirective" member="moveColumn" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="grids" kind="class" type="Grid" member="moveColumn" /></PlatformBlock> - Moves a column before or after another column (a target). The first parameter is the column to be moved, and the second parameter is the target column. Also accepts an optional third parameter `Position` (representing a <ApiLink pkg="grids" type="DropPosition" kind="enum" prefixed={false} /> value), which determines whether to place the column before or after the target column.
+<ApiLink type="GridBaseDirective" member="moveColumn" /> - Moves a column before or after another column (a target). The first parameter is the column to be moved, and the second parameter is the target column. Also accepts an optional third parameter `Position` (representing a <ApiLink type="DropPosition" /> value), which determines whether to place the column before or after the target column.
 
 <PlatformBlock for="React, Angular, WebComponents">
 ```typescript
@@ -158,11 +164,12 @@ const idColumn = grid.getColumnByName("ID");
 const nameColumn = grid.getColumnByName("Name");
 
 grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
+
 ```
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+```csharp
     public async void HandleClick()
     {
         IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
@@ -170,9 +177,10 @@ grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
         this.Grid.MoveColumn(Col1,Col2, DropPosition.AfterDropTarget);
     }
 ```
+
 </PlatformBlock>
 
-`MoveColumn` - 列を別の列 (ターゲット) の前または後に移動します。最初のパラメーターは移動する列で、2 番目のパラメーターはターゲット列です。オプションの 3 番目のパラメーター `Position` (`DropPosition` 値を表す) でターゲット列の前または後に列を配置するかどうかを決定します。
+<ApiLink type="GridBaseDirective" member="moveColumn" label="MoveColumn" /> - 列を別の列 (ターゲット) の前または後に移動します。最初のパラメーターは移動する列で、2 番目のパラメーターはターゲット列です。オプションの 3 番目のパラメーター `Position` (<ApiLink type="DropPosition" /> 値を表す) でターゲット列の前または後に列を配置するかどうかを決定します。
 
 <PlatformBlock for="WebComponents">
 ```typescript
@@ -183,7 +191,7 @@ idColumn.move(3);
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-```razor
+```csharp
     public async void HandleClick()
     {
         IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
@@ -192,13 +200,13 @@ idColumn.move(3);
 ```
 </PlatformBlock>
 
-`Move` - 列を指定した表示インデックスに移動します。渡されたインデックス パラメーターが無効である場合 (負である/列数を超える場合)、または列がこのインデックスに移動できない場合 (別のグループ内にある場合)、操作は実行されません。
+<ApiLink type="Column" member="move" label="Move" /> - 列を指定した表示インデックスに移動します。渡されたインデックス パラメーターが無効である場合 (負である/列数を超える場合)、または列がこのインデックスに移動できない場合 (別のグループ内にある場合)、操作は実行されません。
 
 ## イベント
 
 列のドラッグアンドドロップ操作を可能にする列移動に関連するイベントが複数あります。`ColumnMovingStart`、`ColumnMoving`、および `ColumnMovingEnd` です。
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> の `ColumnMovingEnd` イベントを処理し、列が新しい位置にドロップされたときにカスタム ロジックを実装できます。たとえば、以下のスニペットでは、**Change On Year(%)** 列の後に **Category** のドロップをキャンセルできます。
+<ApiLink type="{ComponentName}" /> の `ColumnMovingEnd` イベントを処理し、列が新しい位置にドロップされたときにカスタム ロジックを実装できます。たとえば、以下のスニペットでは、**Change On Year(%)** 列の後に **Category** のドロップをキャンセルできます。
 
 <PlatformBlock for="Angular">
 ```html
@@ -232,6 +240,7 @@ public onColumnMovingEnd(event) {
     }
 }
 ```
+
 </PlatformBlock>
 
 <ComponentBlock for="Grid, HierarchicalGrid">
@@ -247,6 +256,7 @@ const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
     <IgrColumn field="Category"></IgrColumn>
     <IgrColumn field="Change On Year(%)" dataType="number"></IgrColumn>
 </{ComponentSelector}>
+
 ```
 </PlatformBlock>
 </ComponentBlock>
@@ -264,6 +274,7 @@ const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
     <IgrColumn field="Change On Year(%)" dataType="number"></IgrColumn>
 </{ComponentSelector}>
 ```
+
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
@@ -282,7 +293,7 @@ const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
 <PlatformBlock for="Angular">
 ## スタイル設定
 
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} /> 列移動ヘッダーのスタイル設定は、すべてのテーマ関数とコンポーネント mixins のある `index` ファイルをインポートする必要があります。
+<ApiLink type="{ComponentName}" /> 列移動ヘッダーのスタイル設定は、すべてのテーマ関数とコンポーネント mixins のある `index` ファイルをインポートする必要があります。
 
 ```scss
 @use "igniteui-{Platform}/theming" as *;
@@ -291,7 +302,7 @@ const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
 // @import '~igniteui-{Platform}/lib/core/styles/themes/index';
 ```
 
-最も簡単な方法は、<ApiLink kind="sass" module="index.html" type="function-grid-theme" label="grid-theme" /> を拡張する新しいテーマを作成し、`$ghost-header-background`、`$ghost-header-text-color`、および `$ghost-header-icon-color` パラメーターを受け取る方法です。
+最も簡単な方法は、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> を拡張する新しいテーマを作成し、`$ghost-header-background`、`$ghost-header-text-color`、および `$ghost-header-icon-color` パラメーターを受け取る方法です。
 
 ```scss
 // Define dark theme for the column moving
@@ -322,7 +333,7 @@ $dark-grid-column-moving-theme: grid-theme(
 
 ### カラー パレットの定義
 
-上記のように色の値をハードコーディングする代わりに、<ApiLink kind="sass" module="index.html" type="function-igx-palette" label="igx-palette" /> および <ApiLink kind="sass" module="index.html" type="function-igx-color" label="igx-color" /> 関数を使用することによって色に関してより高い柔軟性を持つことができます。
+上記のように色の値をハードコーディングする代わりに、<ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" /> および <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" /> 関数を使用することによって色に関してより高い柔軟性を持つことができます。
 
 **igx-palette** は渡された一次色と二次色に基づいてカラーパレットを生成します。
 
@@ -333,7 +344,7 @@ $black-color: #575757;
 $dark-palette: palette($primary: $yellow-color, $secondary: $black-color);
 ```
 
-そして <ApiLink kind="sass" module="index.html" type="function-igx-color" label="**igx-color**" /> を使えばパレットから簡単に色を取り出すことができます。
+そして <ApiLink type="function-igx-color" label="**igx-color**" kind="sass" module="index.html" /> を使えばパレットから簡単に色を取り出すことができます。
 
 ```scss
 $dark-grid-column-moving-theme: grid-theme(
@@ -353,7 +364,7 @@ Color および Palette は、カラーを生成および取得するための�
 
 テーマ エンジンを使用して[スキーマ](/components/themes/sass/schemas.html)の利点を活用でき、堅牢で柔軟な構造を構築できます。**スキーマ**はテーマを使用する方法です。
 
-すべてのコンポーネントに提供されている 2 つの定義済みスキーマのいずれかを拡張します。この場合は <ApiLink kind="sass" module="index.html" type="variable-_light-grid" label="light-grid" /> です。
+すべてのコンポーネントに提供されている 2 つの定義済みスキーマのいずれかを拡張します。この場合は <ApiLink type="variable-_light-grid" label="light-grid" kind="sass" module="index.html" /> です。
 
 ```scss
 // Extending the dark grid schema
@@ -372,7 +383,7 @@ $dark-grid-column-moving-schema: extend($_light-grid,
 );
 ```
 
-カスタム スキーマを適用するには、グローバル (<ApiLink kind="sass" module="index.html" type="variable-light-schema" label="light" /> または <ApiLink kind="sass" module="index.html" type="variable-dark-schema" label="dark" />) の 1 つを**拡張する**必要があります。これは基本的にカスタム スキーマでコンポーネントを指し示し、その後それぞれのコンポーネント テーマに追加するものです。
+カスタム スキーマを適用するには、グローバル (<ApiLink type="variable-light-schema" label="light" kind="sass" module="index.html" /> または <ApiLink type="variable-dark-schema" label="dark" kind="sass" module="index.html" />) の 1 つを**拡張する**必要があります。これは基本的にカスタム スキーマでコンポーネントを指し示し、その後それぞれのコンポーネント テーマに追加するものです。
 
 ```scss
 // Extending the global dark-schema
@@ -400,7 +411,7 @@ $dark-grid-column-moving-theme: grid-theme(
 <PlatformBlock for="WebComponents, Blazor, React">
 ## スタイル設定
 
-定義済みのテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md)のいくつかを設定することで、グリッドをさらにカスタマイズできます。
+定義済みのテーマに加えて、利用可能な [CSS プロパティ](../grid/theming-grid.mdx)のいくつかを設定することで、グリッドをさらにカスタマイズできます。
 
 色を変更したい場合は、最初にグリッドのクラスを設定する必要があります:
 
@@ -436,21 +447,21 @@ $dark-grid-column-moving-theme: grid-theme(
 
 ## API リファレンス
 
-<ApiLink type="{ComponentName}" pkg="grids" prefixed={false} /><br />
-<ApiLink type="Column" pkg="grids" /><br />
+<ApiLink type="{ComponentName}" /><br />
+<ApiLink type="Column" /><br />
 
 ## その他のリソース
 
 <ComponentBlock for="Grid">
-- [仮想化とパフォーマンス](virtualization.md)
-- [ページング](paging.md)
-- [フィルタリング](filtering.md)
-- [ソート](sorting.md)
-- [集計](summaries.md)
-- [列のピン固定](column-pinning.md)
-- [列のサイズ変更](column-resizing.md)
-- [選択](selection.md)
-- [検索](search.md)
+- [仮想化とパフォーマンス](virtualization.mdx)
+- [ページング](paging.mdx)
+- [フィルタリング](filtering.mdx)
+- [ソート](sorting.mdx)
+- [集計](summaries.mdx)
+- [列のピン固定](column-pinning.mdx)
+- [列のサイズ変更](column-resizing.mdx)
+- [選択](selection.mdx)
+- [検索](search.mdx)
 </ComponentBlock>
 
 コミュニティに参加して新しいアイデアをご提案ください。

@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/axis-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 기본적으로 레이블을 명시적으로 설정할 필요는 없습니다. 금융 차트는 제공한 데이터 내에서 최초의 적절한 속성을 사용하고 이를 레이블에 사용합니다.
 
@@ -39,7 +38,6 @@ _language: kr
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 레이블
 
@@ -63,20 +61,19 @@ _language: kr
 </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 모드
 
 [`IgxFinancialChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html) 제어를 사용하면 X축 및 Y축에 다른 모드를 설정할 수 있습니다.
 X축의 경우 다음 모드 중에서 선택할 수 있습니다:
 
--   Time - 이 모드는 데이터의 갭을 X축에 스페이스를 사용해 렌더링하는데 예를 들면, 주간이나 공휴일에 주식 거래가 없음을 나타냅니다.
--   Ordinal - 이 모드는 데이터가 없는 날짜 영역을 축소합니다. 이것이 기본값입니다.
+- Time - 이 모드는 데이터의 갭을 X축에 스페이스를 사용해 렌더링하는데 예를 들면, 주간이나 공휴일에 주식 거래가 없음을 나타냅니다.
+- Ordinal - 이 모드는 데이터가 없는 날짜 영역을 축소합니다. 이것이 기본값입니다.
 
 Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
 
--   Numeric - 이 모드는 데이터의 정확한 값을 차트화합니다. 이것이 기본값입니다.
--   PercentChange - 이 모드는 제공된 최초의 데이터 포인트에 상대되는 백분율 변화로 데이터를 표시합니다.
+- Numeric - 이 모드는 데이터의 정확한 값을 차트화합니다. 이것이 기본값입니다.
+- PercentChange - 이 모드는 제공된 최초의 데이터 포인트에 상대되는 백분율 변화로 데이터를 표시합니다.
 
 다음의 코드 예제는 축의 모드를 설정하는 방법을 보여줍니다:
 
@@ -90,7 +87,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
 </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 범위
 
@@ -108,14 +104,13 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 축척
 
 금융 차트 컨트롤에서 차트의 데이터가 Y축에 대해 대수적으로 매핑되는지 여부를 제어할 수 있는데 이 작업은 다음의 속성을 설정하여 실행합니다:
 
--   [`yAxisIsLogarithmic`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html#yaxisislogarithmic) - Y축이 선형 축적 대신에 대수 축적을 사용하는지 여부를 지정합니다. 기본적으로 이 속성은 false로 설정됩니다.
--   [`yAxisLogarithmBase`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html#yaxislogarithmbase) - Y축에 데이터 항목의 위치를 매핑할 때 로그 함수에 사용하는 기준값입니다.
+- [`yAxisIsLogarithmic`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html#yaxisislogarithmic) - Y축이 선형 축적 대신에 대수 축적을 사용하는지 여부를 지정합니다. 기본적으로 이 속성은 false로 설정됩니다.
+- [`yAxisLogarithmBase`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxfinancialchartcomponent.html#yaxislogarithmbase) - Y축에 데이터 항목의 위치를 매핑할 때 로그 함수에 사용하는 기준값입니다.
     yAxisIsLogarithmic이 true인 경우에만 유효합니다.
 
 다음의 코드 조각은 X축에서 눈금 표시의 색상, 길이, 두께를 설정하는 방법을 보여줍니다.
@@ -130,7 +125,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 눈금
 
@@ -149,7 +143,6 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 축 제목
 
@@ -172,4 +165,3 @@ Y축의 경우 다음 모드 중에서 선택할 수 있습니다:
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>

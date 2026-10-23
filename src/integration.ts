@@ -24,7 +24,7 @@
  *       { tag: 'link', attrs: { rel: 'stylesheet', href: '...' } },
  *     ],
  *     // Extra Astro options (markdown, image, build, …)
- *     markdown: { remarkPlugins: [] },
+ *     markdown: { mdastPlugins: [], hastPlugins: [] },
  *   });
  *
  * --- Option B: manual composition (for full control) ---
@@ -41,62 +41,315 @@
  *
  * Generated output:
  *   /llms.txt              — manifest listing every page with its .md URL
- *   /{slug}.md             — raw markdown for each page (env-vars substituted)
+ *   /{slug}.md             — Markdown for each page (converted from rendered HTML)
  */
 
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { buildHtmlToMdConverter, htmlPageToMd } from './html-to-md.ts';
 import { createIndex as pagefindCreateIndex } from 'pagefind';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
 import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
 import mdx from '@astrojs/mdx';
 import {
     buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform, toUrlSlug,
-    type LlmsMeta, type LlmsSet, type SidebarItem,
+    type LlmsMeta, type LlmsSet, type SidebarEntry,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
 import { getPlatformHead } from './platform';
 import type { HeadEntry, PlatformKey, NavLang } from './platform.ts';
+import { getGtmContainerId } from './lib/platform-context.js';
+import { satteri } from '@astrojs/markdown-satteri';
 import { remarkEnvVars } from './plugins/remark-env-vars';
 import { remarkMdLinks } from './plugins/remark-md-links';
 import { remarkHtmlTransforms } from './plugins/remark-html-transforms';
 import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-table-wrapper';
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
+import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
+import { igChrome } from 'igniteui-astro-components/chrome';
+import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
+import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+
+/**
+ * The Infragistics header/footer, a snapshot of the marketing site's own
+ * export (/assets/chrome/fragment.html), kept current by sync PRs from the
+ * marketing deploy (scripts/chrome-sync.mjs). One folder at the repo root, shared by
+ * docs/angular and docs/xplat:
+ *
+ *   ig-chrome/production  from www.infragistics.com        production builds
+ *   ig-chrome/staging     from astro-staging.infragistics.com  everything else
+ */
+const chromeSnapshot = (mode: string) =>
+    fileURLToPath(new URL(`../ig-chrome/${mode === 'production' ? 'production' : 'staging'}`, import.meta.url));
+
+/**
+ * Absolute directories of every installed `igniteui-theming` copy, nearest first.
+ *
+ * The linked component library's tree is searched too: when
+ * `igniteui-astro-components` is a local checkout it carries its own copy, and its
+ * stylesheets are compiled as part of this build.
+ */
+function resolveThemingPackageDirs(): string[] {
+    const origins: string[] = [fileURLToPath(import.meta.url)];
+    try {
+        origins.push(createRequire(import.meta.url).resolve('igniteui-astro-components/package.json'));
+    } catch { /* library not linked — its tree simply isn't searched */ }
+
+    const dirs: string[] = [];
+    for (const origin of origins) {
+        try {
+            const themingPkg = createRequire(origin).resolve('igniteui-theming/package.json');
+            const dir = path.dirname(themingPkg);
+            if (!dirs.includes(dir)) dirs.push(dir);
+        } catch { /* not installed in this tree */ }
+    }
+    return dirs;
+}
+
+/**
+ * Sass importer for `igniteui-theming` subpaths.
+ *
+ * `igniteui-theming` declares its Sass files as `"./sass/**\/*.*"`, which is not a
+ * valid Node subpath pattern — only a single `*` is allowed — so no `sass/...`
+ * subpath resolves through its exports map. Vite 8 (Astro 7) resolves Sass `@use`
+ * through its own resolver, which enforces package exports; earlier versions fell
+ * back to plain filesystem resolution, which is why these imports used to work.
+ *
+ * Vite appends its resolver-backed importer *after* any configured ones, so this
+ * runs first and short-circuits those imports to a real path. Returning the
+ * directory-style URL lets Sass apply its own partial/index rules, so
+ * `sass/typography` still finds `sass/typography/_index.scss`.
+ */
+function createThemingSassImporter(): { findFileUrl(url: string): URL | null } {
+    const prefix = 'igniteui-theming/';
+    const packageDirs = resolveThemingPackageDirs();
+
+    return {
+        findFileUrl(url: string): URL | null {
+            if (!url.startsWith(prefix)) return null;
+            const subpath = url.slice(prefix.length);
+
+            for (const dir of packageDirs) {
+                const candidate = path.join(dir, subpath);
+                // Sass appends the partial/index variants itself, so it is enough that
+                // the target or its containing directory exists in this copy.
+                if (fs.existsSync(candidate) || fs.existsSync(path.dirname(candidate))) {
+                    return pathToFileURL(candidate);
+                }
+            }
+            return null;
+        },
+    };
+}
+
+/** Sass `loadPaths` covering the node_modules trees that hold `igniteui-theming`. */
+function resolveScssLoadPaths(): string[] {
+    // An app-local install wins, matching the previous cwd-only behaviour.
+    const paths: string[] = [path.join(process.cwd(), 'node_modules')];
+    for (const dir of resolveThemingPackageDirs()) {
+        const nodeModulesDir = path.dirname(dir);
+        if (!paths.includes(nodeModulesDir)) paths.push(nodeModulesDir);
+    }
+    return paths;
+}
 
 /** Build / deployment mode. Drives env-var `DOCS_BUILD_MODE`. */
 export type DocsMode = 'development' | 'staging' | 'production';
 
-/**
- * Read `themeApiUrl` and `themingWidgetVersion` from the project's
- * environment.json at build time. Uses the same lookup order as the
- * remark plugin so both always resolve from the same file.
- */
-function readThemingEnv(sourcePath: string | undefined, envKey: string): {
-    themeApiUrl: string;
-    widgetVersion: string;
-} {
-    if (!sourcePath) return { themeApiUrl: '', widgetVersion: 'latest' };
-    const root = path.resolve(sourcePath);
-    const parent = path.dirname(root);
-    const candidates = [
-        path.join(root, 'en', 'environment.json'),
-        path.join(root, 'environment.json'),
-        path.join(parent, 'environment.json'),
-        path.join(parent, 'en', 'environment.json'),
-    ];
-    const envPath = candidates.find(c => fs.existsSync(c));
-    if (!envPath) return { themeApiUrl: '', widgetVersion: 'latest' };
+// ---------------------------------------------------------------------------
+// LLM Markdown generation  (called from astro:build:done)
+// ---------------------------------------------------------------------------
+
+interface GenerateLlmsMdOptions {
+    /** Absolute path to the Astro build output directory. */
+    outDir: string;
+    /** Page slugs to convert (stripped of trailing slashes). */
+    slugs: string[];
+    /** Path to the source docs directory — used only for diagnostic warnings. */
+    docsDir: string;
+    /** Configured site URL. */
+    siteUrl: string;
+    /** Named documentation subsets to assemble into combined .txt files. */
+    llmsSets: LlmsSet[];
+}
+
+const UTF8_BOM = '\uFEFF';
+const HTML_TO_MD_CONCURRENCY = 8;
+
+function withUtf8Bom(content: string): string {
+    return UTF8_BOM + content.replace(/^\uFEFF/, '');
+}
+
+async function mapConcurrent<T, R>(
+    items: readonly T[],
+    concurrency: number,
+    worker: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+    const results: R[] = new Array(items.length);
+    let nextIndex = 0;
+    const workerCount = Math.min(concurrency, items.length);
+
+    await Promise.all(Array.from({ length: workerCount }, async () => {
+        while (nextIndex < items.length) {
+            const index = nextIndex++;
+            results[index] = await worker(items[index], index);
+        }
+    }));
+
+    return results;
+}
+
+// Drives the `api/<folder>/llms.txt` URL advertised per platform. WinUI and Uno Platform
+// are listed on the assumption that api-docs will publish these folders; if that
+// pipeline does not land, remove them so no unreachable URL is advertised.
+// See WINUI-UNO-PLAN.md §6.2.
+const API_DOCS_FOLDER_BY_PLATFORM: Partial<Record<PlatformKey, string>> = {
+    angular: 'angular',
+    react: 'react',
+    'web-components': 'webcomponents',
+    blazor: 'blazor',
+    winui: 'winui',
+    uno: 'uno-platform',
+};
+
+function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): string | undefined {
+    if (!platform || !siteUrl) return undefined;
+
+    const folder = API_DOCS_FOLDER_BY_PLATFORM[platform];
+    if (!folder) return undefined;
+
     try {
-        const data = JSON.parse(fs.readFileSync(envPath, 'utf-8'));
-        const env = data[envKey] ?? data.production ?? {};
-        return {
-            themeApiUrl: (env.themeApiUrl as string) ?? '',
-            widgetVersion: (env.themingWidgetVersion as string) ?? 'latest',
-        };
+        return `${new URL(siteUrl).origin}/api/${folder}/llms.txt`;
     } catch {
-        return { themeApiUrl: '', widgetVersion: 'latest' };
+        return undefined;
+    }
+}
+
+/**
+ * Converts all built HTML pages to Markdown and writes the LLM bundle files.
+ *
+ * Produces:
+ *   /{slug}.md        — per-page Markdown converted from the rendered HTML
+ *   /llms-full.txt    — all pages concatenated into a single file
+ *   /llms-small.txt   — same as full, but with code blocks and inline code removed
+ *   /_llms-txt/*.txt  — topic-specific bundles defined by `llmsSets`
+ */
+async function generateLlmsMdFiles({ outDir, slugs, docsDir, siteUrl, llmsSets }: GenerateLlmsMdOptions): Promise<void> {
+    console.log(`[docs-template] Generating ${slugs.length} .md files…`);
+    const mdStart = Date.now();
+
+    // Build the TurndownService converter once; reuse across all pages.
+    const td = buildHtmlToMdConverter();
+
+    let mdDone = 0;
+    const skippedSlugs: string[] = [];
+    const mdFiles = await mapConcurrent(
+        slugs,
+        HTML_TO_MD_CONCURRENCY,
+        async (slug) => {
+            const htmlPath = path.join(outDir, slug + '.html');
+            const dest = path.join(outDir, slug + '.md');
+
+            // Resolve the source MDX/MD path so warnings point developers at the
+            // file they need to edit, not the built HTML artifact.
+            const sourceRef = ['.mdx', '.md']
+                .map(ext => path.join(docsDir, slug + ext))
+                .find(f => fs.existsSync(f)) ?? path.join(docsDir, slug + '.mdx');
+
+            const md = await htmlPageToMd(htmlPath, siteUrl, td, sourceRef);
+            if (!md) { skippedSlugs.push(slug); mdDone++; return ''; }
+            await fsp.mkdir(path.dirname(dest), { recursive: true });
+            await fsp.writeFile(dest, withUtf8Bom(md), 'utf-8');
+            mdDone++;
+            if (mdDone % 50 === 0 || mdDone === slugs.length) {
+                console.log(`[docs-template]   ${mdDone}/${slugs.length} pages converted`);
+            }
+            return md;
+        }
+    );
+
+    const mdGenerated = mdFiles.filter(Boolean).length;
+    const mdElapsed = ((Date.now() - mdStart) / 1000).toFixed(1);
+    console.log(`[docs-template] .md generation complete — ${mdGenerated}/${slugs.length} pages written in ${mdElapsed}s`);
+
+    // Conversion-count guard: warn when a significant number of pages produced
+    // no Markdown — likely a layout change or missing HTML rather than pages
+    // that legitimately have no content.
+    if (skippedSlugs.length > 0) {
+        const pct = ((skippedSlugs.length / slugs.length) * 100).toFixed(1);
+        const level = skippedSlugs.length > slugs.length * 0.1 ? 'error' : 'warn';
+        const sample = skippedSlugs.slice(0, 10).join(', ');
+        const suffix = skippedSlugs.length > 10 ? `, … and ${skippedSlugs.length - 10} more` : '';
+        console[level](`[docs-template] ${skippedSlugs.length} of ${slugs.length} pages (${pct}%) produced no .md output: ${sample}${suffix}`);
+        if (level === 'error') process.exitCode = 1;
+    }
+
+    // Selector guard: if we built more than a handful of pages but extracted zero
+    // fenced code blocks, the Shiki class names likely changed and extraction is
+    // silently broken — fail loud rather than ship codeless docs.
+    // Counts all Markdown fence lines (opening and closing), then divides by 2
+    // to approximate the number of fenced code blocks.
+    const totalBlocks = mdFiles.reduce((n, md) => n + (md.match(/^`{3,}[^`\n]*$/gm) ?? []).length, 0) / 2;
+    if (slugs.length > 5 && totalBlocks === 0) {
+        console.error('[docs-template] Selector guard: 0 code blocks across all pages. Check that pre.astro-code and data-language still match the built HTML.');
+        process.exitCode = 1;
+    } else {
+        console.log(`[docs-template] Selector guard OK — ~${Math.round(totalBlocks)} code blocks across corpus`);
+    }
+
+    // ── llms-full.txt / llms-small.txt ──────────────────────────────────────
+    console.log('[docs-template] Writing llms-full.txt and llms-small.txt…');
+    const pageTexts = mdFiles.filter(Boolean);
+
+    const fullContent = pageTexts.join('\n\n---\n\n');
+    await fsp.writeFile(path.join(outDir, 'llms-full.txt'), withUtf8Bom(fullContent), 'utf-8');
+
+    // Small variant: strip fenced code blocks and inline code to reduce token count.
+    // Backreference ensures a 4-backtick block isn't closed by a nested 3-backtick line.
+    const smallContent = fullContent
+        .replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '')
+        .replace(/`[^`\n]+`/g, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    await fsp.writeFile(path.join(outDir, 'llms-small.txt'), withUtf8Bom(smallContent), 'utf-8');
+
+    // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────────
+    if (llmsSets.length > 0) {
+        const llmsTxtDir = path.join(outDir, '_llms-txt');
+        await fsp.mkdir(llmsTxtDir, { recursive: true });
+
+        await Promise.all(
+            llmsSets.map(async (set) => {
+                const matchingSlugs = slugs.filter((slug) =>
+                    set.paths.some((pattern) => {
+                        if (pattern.endsWith('*')) {
+                            return slug.startsWith(pattern.slice(0, -1));
+                        }
+                        return slug === pattern || slug.startsWith(pattern + '/');
+                    })
+                );
+
+                const setText = (
+                    await Promise.all(
+                        matchingSlugs.map(async (slug) => {
+                            try {
+                                const content = await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
+                                return content.replace(/^\uFEFF/, '');
+                            } catch { return ''; }
+                        })
+                    )
+                ).filter(Boolean).join('\n\n---\n\n');
+
+                await fsp.writeFile(
+                    path.join(llmsTxtDir, toUrlSlug(set.label) + '.txt'),
+                    withUtf8Bom(setText),
+                    'utf-8',
+                );
+            })
+        );
     }
 }
 
@@ -119,9 +372,12 @@ export interface ProductLink {
 export interface SiteMetaOptions {
     title: string;
     description?: string;
+    /** Localized site description for non-English builds. Used in the llms.txt
+     *  manifest blockquote instead of the (typically English) `description`. */
+    localizedDescription?: string;
     /** Path to the source markdown files. */
     docsDir?: string;
-    sidebar?: SidebarItem[];
+    sidebar?: SidebarEntry[];
     platform?: PlatformKey | null;
     navLang?: NavLang;
     /** Build / deployment mode. Exposed via `process.env.DOCS_BUILD_MODE`. */
@@ -146,31 +402,13 @@ export interface SiteMetaOptions {
      * ignored when no package options are available.
      */
     selectedPackage?: string;
+    /**
+     * Platform context used to resolve `<ApiLink>` components in generated `.md` files.
+     * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
+     * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
+     */
 }
 
-/**
- * Strip MDX-specific syntax from a source file so the `.md` endpoint
- * served to LLM crawlers contains clean markdown instead of JSX.
- *
- * Removes:
- *  - `import … from '…'` lines at the top of the file
- *  - Self-closing JSX components: <Sample …/>, <ApiLink …/>
- *  - Inline <style>{`…`}</style> blocks
- */
-function stripMdxForLlms(raw: string): string {
-    return raw
-        // Remove all import lines
-        .replace(/^import\s+.+from\s+['"][^'"]+['"];?\r?\n/gm, '')
-        // Remove <style>{`...`}</style> blocks (multiline)
-        .replace(/<style>\{`[\s\S]*?`\}<\/style>\s*/g, '')
-        // Remove self-closing components: <Sample … />, <ApiLink … />
-        .replace(/<(Sample|ApiLink|ComponentBlock|PlatformBlock)\b[^>]*\/>\s*/g, '')
-        // Remove paired components: <ApiLink …>…</ApiLink>
-        .replace(/<(ApiLink|ComponentBlock|PlatformBlock)\b[^>]*>[\s\S]*?<\/\1>\s*/g, '')
-        // Collapse 3+ blank lines left behind into 2
-        .replace(/\n{3,}/g, '\n\n')
-        .trim() + '\n';
-}
 
 /**
  * Astro integration that exposes site metadata as the virtual module
@@ -179,6 +417,7 @@ function stripMdxForLlms(raw: string): string {
 export function siteMetaIntegration({
     title,
     description = '',
+    localizedDescription,
     docsDir,
     sidebar,
     platform = null,
@@ -242,7 +481,14 @@ export function siteMetaIntegration({
                         css: {
                             preprocessorOptions: {
                                 scss: {
-                                    loadPaths: [path.join(process.cwd(), 'node_modules')],
+                                    // Vite installs Sass's NodePackageImporter by default, and
+                                    // Sass consults importers before `loadPaths`. That importer
+                                    // *throws* on a subpath the exports map doesn't cover instead
+                                    // of falling through, which breaks every
+                                    // `igniteui-theming/sass/...` import (see resolveScssLoadPaths).
+                                    // Clearing it puts resolution back on `loadPaths`.
+                                    importers: [createThemingSassImporter()],
+                                    loadPaths: resolveScssLoadPaths(),
                                     // The if-function deprecation originates inside
                                     // igniteui-theming (vendor code we cannot modify).
                                     silenceDeprecations: ['if-function'],
@@ -271,17 +517,8 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 `;
                                 if (id !== navResolvedId) return;
 
-                                // ── Theming env ──────────────────────────────────────────────
-                                const envKey = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'production';
-                                const { themeApiUrl, widgetVersion } = readThemingEnv(process.env.DOCS_SOURCE_PATH, envKey);
-                                const widgetScriptSrc = widgetVersion
-                                    ? `https://cdn-na.infragistics.com/igniteui/theming-widget/${widgetVersion}/igniteui-theming-widget.js`
-                                    : '';
-
                                 return [
                                     `export const platform = ${JSON.stringify(platform ?? null)};`,
-                                    `export const themeApiUrl = ${JSON.stringify(themeApiUrl)};`,
-                                    `export const widgetScriptSrc = ${JSON.stringify(widgetScriptSrc)};`,
                                 ].join('\n');
                             },
                         }],
@@ -291,6 +528,10 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
 
             'astro:server:setup'({ server }) {
                 if (!docsDir) return;
+                // Dev-mode convenience: serve raw source MDX/MD files for /{slug}.md
+                // requests so LLM clients can fetch Markdown during local development
+                // without a full production build.  The HTML→MD pipeline only runs at
+                // build time, so dev mode falls back to source content.
                 server.middlewares.use(async (req, res, next) => {
                     // Only handle requests ending in .md
                     if (!req.url?.endsWith('.md')) return next();
@@ -316,92 +557,31 @@ export const selectedPackage = ${JSON.stringify(selectedPackage)};
                 const pkgScripts = fileURLToPath(new URL('../public/scripts', import.meta.url));
                 if (fs.existsSync(pkgScripts)) copyDirSync(pkgScripts, path.join(outDir, 'scripts'));
 
-                // Write our custom llms.txt after all rendering — always wins over plugin output.
-                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections);
-                await fsp.writeFile(path.join(outDir, 'llms.txt'), llmsContent, 'utf-8');
+                // ── LLM artifacts ────────────────────────────────────────────────
+                // Write llms.txt manifest (always — even without docsDir).
+                const apiDocsUrl = mode !== 'development'
+                    ? resolveApiDocsLlmsUrl(configuredSite, platform)
+                    : undefined;
+                const llmsContent = buildLlmsTxt(configuredSite, title, description, sidebar ?? [], llmsMetaMap, llmsSets, broadSections, navLang, localizedDescription, apiDocsUrl);
+                // English metadata can also contain Unicode punctuation and symbols.
+                // Include a UTF-8 signature because static preview servers may omit charset.
+                await fsp.writeFile(path.join(outDir, 'llms.txt'), withUtf8Bom(llmsContent), 'utf-8');
 
-                if (!docsDir) return;
+                if (docsDir) {
+                    const slugs = pages
+                        .map(p => p.pathname.replace(/\/$/, ''))
+                        .filter(s => s && s !== '404' && s !== 'index');
 
-                // pages[].pathname is like "accordion/" or "charts/chart-api/" — strip trailing slash.
-                const slugs = pages
-                    .map(p => p.pathname.replace(/\/$/, ''))
-                    .filter(s => s && s !== '404' && s !== 'index');
-
-                await Promise.all(
-                    slugs.map(async (slug) => {
-                        for (const ext of ['.md', '.mdx']) {
-                            const src = path.join(docsDir, slug + ext);
-                            try {
-                                const raw = await fsp.readFile(src, 'utf-8');
-                                const dest = path.join(outDir, slug + '.md');
-                                await fsp.mkdir(path.dirname(dest), { recursive: true });
-                                await fsp.writeFile(dest, stripMdxForLlms(raw), 'utf-8');
-                                break;
-                            } catch { /* try next extension */ }
-                        }
-                    })
-                );
-
-                // ── llms-full.txt / llms-small.txt ──────────────────────────────────
-                // Read back the already-written per-page .md files and combine them.
-                const pageTexts = (
-                    await Promise.all(
-                        slugs.map(async (slug) => {
-                            try {
-                                return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
-                            } catch { return ''; }
-                        })
-                    )
-                ).filter(Boolean);
-
-                const fullContent = pageTexts.join('\n\n---\n\n');
-                await fsp.writeFile(path.join(outDir, 'llms-full.txt'), fullContent, 'utf-8');
-
-                // Small variant: strip fenced code blocks and inline code.
-                const smallContent = fullContent
-                    .replace(/^```[\s\S]*?^```/gm, '')
-                    .replace(/`[^`\n]+`/g, '')
-                    .replace(/\n{3,}/g, '\n\n')
-                    .trim();
-                await fsp.writeFile(path.join(outDir, 'llms-small.txt'), smallContent, 'utf-8');
-
-                // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────
-                if (llmsSets.length > 0) {
-                    const llmsTxtDir = path.join(outDir, '_llms-txt');
-                    await fsp.mkdir(llmsTxtDir, { recursive: true });
-
-                    await Promise.all(
-                        llmsSets.map(async (set) => {
-                            const matchingSlugs = slugs.filter((slug) =>
-                                set.paths.some((pattern) => {
-                                    if (pattern.endsWith('*')) {
-                                        return slug.startsWith(pattern.slice(0, -1));
-                                    }
-                                    return slug === pattern || slug.startsWith(pattern + '/');
-                                })
-                            );
-
-                            const setText = (
-                                await Promise.all(
-                                    matchingSlugs.map(async (slug) => {
-                                        try {
-                                            return await fsp.readFile(path.join(outDir, slug + '.md'), 'utf-8');
-                                        } catch { return ''; }
-                                    })
-                                )
-                            ).filter(Boolean).join('\n\n---\n\n');
-
-                            await fsp.writeFile(
-                                path.join(llmsTxtDir, toUrlSlug(set.label) + '.txt'),
-                                setText,
-                                'utf-8',
-                            );
-                        })
-                    );
+                    await generateLlmsMdFiles({
+                        outDir,
+                        slugs,
+                        docsDir,
+                        siteUrl: configuredSite,
+                        llmsSets,
+                    });
                 }
 
-                // Run pagefind to generate the search index from the built HTML.
-                // The index is written to <outDir>/pagefind/ and served statically.
+                // ── Pagefind search index ────────────────────────────────────────
                 console.log('[docs-template] Running pagefind…');
                 try {
                     const { index, errors: initErrors } = await pagefindCreateIndex({});
@@ -491,6 +671,9 @@ export interface CreateDocsSiteOptions {
     title: string;
     /** Short description for the llms.txt header. */
     description?: string;
+    /** Localized site description for non-English builds. Used in the llms.txt
+     *  manifest blockquote instead of the (typically English) `description`. */
+    localizedDescription?: string;
     /** Content source paths. */
     source: Partial<DocsSiteSource>;
     /** Sidebar builder options. */
@@ -548,6 +731,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         base,
         title,
         description = '',
+        localizedDescription,
         source = {},
         sidebar: sidebarOptions = {},
         platform = null,
@@ -574,6 +758,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     }
     process.env.DOCS_BUILD_MODE = mode;
     process.env.DOCS_BASE = base ? base.replace(/\/$/, '') : '';
+    process.env.DOCS_TRAILING_SLASH = (astroExtra.trailingSlash as string) ?? 'ignore';
     if (!process.env.DOCS_ENV) {
         process.env.DOCS_ENV = mode;
     }
@@ -581,6 +766,19 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     if (platform) {
         process.env.DOCS_PLATFORM = platform;
     }
+    // Locale for getEnvVars() and getGtmContainerId(). Must be set before the
+    // getGtmContainerId() call below — getEnvVars() caches on first read.
+    process.env.LANG_CODE = navLang;
+
+    // Google Tag Manager — first in <head>, as high as possible after the
+    // mandatory charset/viewport/title tags rendered by DocsLayout. Container ID
+    // is resolved per build mode (production vs. staging/development); see
+    // `getGtmContainerId()` for the resolution order.
+    const gtmContainerId = getGtmContainerId();
+    const gtmHead: HeadEntry[] = [{
+        tag: 'script',
+        content: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');`,
+    }];
 
     // Platform CDN entries come first so site-specific `head` entries can override.
     const platformHead = platform ? getPlatformHead(platform, navLang) : [];
@@ -590,6 +788,24 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css' } },
         { tag: 'script', attrs: { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', defer: true } },
     ];
+
+    // Make the sticky IG header scroll away so it no longer covers the sticky
+    // subheader.
+    const chromeHead: HeadEntry[] = [{
+        tag: 'style',
+        content:
+            '[data-astro-transition-persist="global-nav-bar"]{position:relative!important}' +
+            '.igd-chrome header.nv{position:relative;top:auto}',
+    }, {
+        // Close an open top-nav dropdown on scroll
+        tag: 'script',
+        content:
+            'if(!window.__igdNavScrollClose){window.__igdNavScrollClose=1;' +
+            'addEventListener("scroll",function(){' +
+            'if(document.querySelector(\'.nv [data-nav-trigger][aria-expanded="true"]\'))' +
+            'document.body.dispatchEvent(new MouseEvent("click",{bubbles:true}))' +
+            '},{passive:true})}',
+    }];
 
     // Auto-configure a Vite dev-server proxy so sample-widget.ts can fetch
     // /code-viewer/*.json from the local demos server without CORS issues.
@@ -624,9 +840,36 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
     return defineConfig({
         site,
         ...(base !== undefined ? { base } : {}),
+        // Astro 7 defaults to `compressHTML: 'jsx'`, which drops whitespace between
+        // inline elements entirely instead of collapsing it to a single space. That
+        // silently joins adjacent text — breadcrumb segments, badge labels and callout
+        // titles render as "Open SourceIgnite UI" / "InfoThe -y flag". Keeping the
+        // Astro 6 behaviour preserves the rendered copy; switch to 'jsx' only after
+        // auditing templates for the inline pairs that need an explicit {" "}.
+        compressHTML: true,
         ...astroExtra,
         vite: {
             ...(astroExtra as any).vite,
+            css: {
+                ...(astroExtra as any).vite?.css,
+                preprocessorOptions: {
+                    ...(astroExtra as any).vite?.css?.preprocessorOptions,
+                    scss: {
+                        // Vite installs Sass's NodePackageImporter by default, and Sass
+                        // consults importers before `loadPaths`. That importer *throws* on a
+                        // subpath the exports map doesn't cover rather than falling through,
+                        // which breaks every `igniteui-theming/sass/...` import
+                        // (see resolveScssLoadPaths). Clearing it puts resolution back on
+                        // `loadPaths`.
+                        importers: [createThemingSassImporter()],
+                        loadPaths: resolveScssLoadPaths(),
+                        // The if-function deprecation originates inside igniteui-theming
+                        // (vendor code we cannot modify).
+                        silenceDeprecations: ['if-function'],
+                        ...(astroExtra as any).vite?.css?.preprocessorOptions?.scss,
+                    },
+                },
+            },
             server: {
                 ...(astroExtra as any).vite?.server,
                 proxy: {
@@ -637,29 +880,35 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             shikiConfig: {
-                themes: {
-                    light: 'catppuccin-latte',
-                    dark: 'catppuccin-mocha',
-                },
+                theme: 'dark-plus',
                 wrap: true,
             },
             ...(astroExtra as any).markdown,
-            remarkPlugins: [
-                remarkEnvVars,
-                remarkMdLinks,
-                remarkHtmlTransforms,
-                ...((astroExtra as any).markdown?.remarkPlugins ?? []),
-            ],
-            rehypePlugins: [
-                rehypeTableWrapper,
-                rehypeHeadingAnchors,
-                ...((astroExtra as any).markdown?.rehypePlugins ?? []),
-            ],
+            // Astro 7 renders Markdown/MDX with Sätteri instead of remark/rehype.
+            // MDAST plugins run before HAST plugins, matching the old
+            // remarkPlugins-then-rehypePlugins ordering.
+            processor: satteri({
+                mdastPlugins: [
+                    remarkEnvVars,
+                    remarkMdLinks,
+                    remarkHtmlTransforms,
+                    ...((astroExtra as any).markdown?.mdastPlugins ?? []),
+                ],
+                hastPlugins: [
+                    rehypeTableWrapper,
+                    rehypeHeadingAnchors,
+                    rehypeStripEmptyParagraphs,
+                    rehypeApiReferencesGrid,
+                    rehypePagefindIgnore,
+                    ...((astroExtra as any).markdown?.hastPlugins ?? []),
+                ],
+            }),
         },
         integrations: [
             siteMetaIntegration({
                 title,
                 description,
+                localizedDescription,
                 docsDir: source.docsDir,
                 sidebar,
                 platform,
@@ -669,8 +918,9 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
-                head: [...platformHead, ...codeViewHead, ...head],
+                head: [...gtmHead, ...platformHead, ...codeViewHead, ...chromeHead, ...head],
             }),
+            igChrome({ snapshot: chromeSnapshot(mode) }),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],

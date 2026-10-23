@@ -1,0 +1,290 @@
+---
+title: "{Platform} スタイル設定およびテーマ | {Platform} アクセシビリティ | インフラジスティックス"
+description: "{ProductName} のテーマ設定エンジンがアクセシビリティをどのようにサポートするか - テキスト コントラストの自動計算、相対的なテキストのスケーリング、および色覚異常に対応したチャート パレット。"
+keywords: "{ProductName}, Infragistics, Accessibility, Contrast, WCAG, Styling, Themes, インフラジスティックス, アクセシビリティ, コントラスト, スタイル設定, テーマ"
+license: MIT
+last_updated: "2026-08-31"
+mentionedTypes: []
+_language: ja
+llms:
+  description: "{ProductName} は、実行時に WCAG のコントラストしきい値に照らしてテキスト カラーを計算し、すべてのタイプ スケールを相対値に保ち、オプトインの色覚異常対応チャート パレットを提供します。"
+---
+
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set still carries its own copy at docs/angular/src/content/en/components/themes/accessibility.mdx because this page is excluded for Angular in src/content/en/toc.json; keep the two in sync until that exclude is lifted. Never write a literal PlatformBlock tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# {ProductName} のアクセシビリティ
+
+{ProductName} のテーマ設定エンジンは、スタイル設定レイヤーにアクセシビリティを組み込んでいます。任意の背景色に対するテキスト カラーを実行時に計算して WCAG のコントラストしきい値に照らして測定し、すべてのタイプ スケールを相対単位で表現してユーザーの設定に合わせてテキストをスケーリングし、色覚異常のある読者向けのオプトインのカラー パレットを提供します。
+
+## 概要
+
+{ProductName} のアクセシビリティは、それぞれ独立して構成する 2 つのレイヤーによって提供されます。
+
+| レイヤー | 担当する範囲 | ドキュメントの場所 |
+|---|---|---|
+| **テーマ設定エンジン** (`igniteui-theming`) | カラー コントラスト、テキスト サイズ、チャートのカラー パレット、およびカスタム コントロールを支援技術から到達可能に保つスタイル設定ユーティリティ。 | このページ。 |
+| **コンポーネント ライブラリ** (`{PackageCommon}`) | キーボード操作、フォーカスの移動、ARIA のロールと状態、およびスクリーン リーダーの読み上げ。 | [アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx) および各コンポーネントのトピック。 |
+
+このページでは 1 つ目のレイヤーを扱います。テーマ設定エンジンでスタイル設定するすべてのコンポーネント (エンジンの上に独自に構築するコンポーネントを含む) に適用される機能について説明します。
+
+以下の表は、アプリケーションを最終的に使用する人に対してテーマ設定エンジンが行うことをまとめたものです。各行はアプリケーションの基盤となる入力であり、適合の結果ではありません。カラーを指定するのはユーザー自身であり、エンジンは WCAG のしきい値に照らして測定した組み合わせを生成しますが、完成した製品が適合しているかどうかの検証は引き続きユーザーの責任です。
+
+| ユーザーの状況 | テーマ設定エンジンが提供するもの |
+|---|---|
+| 色付きのボタン、チップ、バッジ上で読みやすいテキストを必要としている | 生成されるすべてのパレット カラー (指定したブランド カラーを含む) について前景色がブラウザーで計算され、構成した WCAG コントラスト レベル (デフォルトは AA) に照らして測定されます。 |
+| ブラウザーのデフォルトのフォント サイズを拡大している | すべてのタイプ スケールが相対単位で表現され、ライブラリがページのフォント サイズを固定することはありません。 |
+| 色覚異常があり、チャートを読む | 一般的な色覚異常の形態でも区別しやすいように選ばれた、オプトインのチャート パレット。 |
+| 光に敏感なため、ダーク インターフェイスを好む | 提供される 4 つのテーマそれぞれに対する完全なダーク パレット。 |
+| カスタム スタイルのフォーム コントロールでスクリーン リーダーを使用している | ネイティブ入力を視覚的に非表示にしながら、アクセシビリティ ツリーには残すスタイル設定ユーティリティ。 |
+
+## はじめる前に
+
+このページの内容のうち何に依存できるかは、3 つの前提によって決まります。
+
+**テーマ設定エンジンはスタイルを設定するものであり、セマンティクスを追加するものではありません。** ARIA ロール、キーボード処理、およびフォーカス管理は、テーマではなくコンポーネント ライブラリから提供されます。テーマを適用するだけでは、カスタム コントロールはアクセシブルになりません。
+
+**コントラストの計算は、生成されたパレット カラーに適用されます。** エンジンは、`palette()` ジェネレーターによって生成されたパレットの前景色を計算します。個々のコンポーネント テーマでは、特定の前景トークンと特定の背景トークンを手動で組み合わせている場合もあります。それらの組み合わせはテーマごとに設定されており、以下で説明するコントラストの計算によって生成されるものではありません。コンポーネント トークンを直接オーバーライドする場合は、[`contrast()`](#コントラスト比を自分で確認する) で結果を検証してください。
+
+**完成した製品の適合性はユーザー自身が検証する必要があります。** エンジンが制御するのは、パレット、計算された組み合わせ、タイプ スケールといった入力であり、アプリケーションがそれらをどのように使用するかではありません。ブランド カラーから構築したパレットは完全な適合に達することができますが、エンジンがその結果を保証することはできません。適合を表明する前に、レンダリングされた結果を確認してください。
+
+<DocsAside type="note">
+このページの機能は、テーマ設定エンジンの動作を説明するものです。製品としての {ProductName} の適合宣言ではありません。コンポーネントごとの適合情報については、[アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx) を参照してください。
+</DocsAside>
+
+## 次のステップ
+
+- パレット カラーの上にテキストを配置する場合は、前景色をハードコーディングする代わりに、[`contrast-color()`](#ブランド-カラーでテキストを読みやすく保つ) を使用します。
+- アプリケーションでチャートをレンダリングする場合は、[色覚異常に対応したチャート パレット](#色覚異常に対応したチャート-パレットを有効にする) を有効にします。
+- 独自に導入するカスタムのカラーの組み合わせは、リリース前に [`contrast()`](#コントラスト比を自分で確認する) で確認します。
+- [Theming MCP サーバー](../ai/theming-mcp.mdx) でパレットを生成する場合、サーバーはパレットの構築時にサーフェスとグレーのコントラストを WCAG のしきい値に照らして確認します。
+
+## 利用可能なツール
+
+テーマ設定エンジンは、このページで説明するアクセシビリティの動作のために、以下の Sass 関数とミックスインを公開しています。
+
+<DocsAside type="note">
+これらは Sass API です。<PlatformBlock for="Angular">[Sass を使用したテーマ設定](sass/index.mdx)</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">[Sass によるカスタマイズ](overview.mdx#sass-によるカスタマイズ)</PlatformBlock> で説明されているように、ロード パスから `igniteui-theming` を解決できる Sass ビルドが必要です。代わりにビルド済みのテーマ CSS を使用する場合でも、計算されたコントラスト カラーは利用できます。各パレット カラーを対応する `-contrast` 変数 (例: `var(--ig-primary-500-contrast)`) と組み合わせ、`--ig-contrast-level` でしきい値を設定してください。チャート パレット、`hide-default()`、および `contrast()` と `luminance()` 関数には、CSS のみの同等機能はありません。
+</DocsAside>
+
+| ツール | シグネチャ | 機能 |
+|---|---|---|
+| `contrast-color()` | `contrast-color($palette: null, $color: primary, $variant: 500, $opacity: null)` | パレット カラーに対して読みやすい前景色を返します。すべての引数は省略可能です。`$palette` を省略すると、シェードは対応する CSS 変数を通じて解決されます。 |
+| `adaptive-contrast()` | `adaptive-contrast($color)` | CSS 変数に格納されたカラーを含め、渡された任意のカラーに対して読みやすい前景色を返します。 |
+| `contrast()` | `contrast($background, $foreground)` | 2 つのカラー間の WCAG コントラスト比を返します。 |
+| `luminance()` | `luminance($color)` | カラーの相対輝度を `0` (黒) から `1` (白) の範囲で返します。 |
+| `configure-colors()` | `configure-colors($enhanced-accessibility: null)` | チャート テーマを色覚異常に対応したパレットに切り替えます。 |
+| `hide-default()` | `@include hide-default()` | ネイティブ入力を視覚的に非表示にしながら、アクセシビリティ ツリーには残します。 |
+
+## 一般的なワークフロー
+
+### ブランド カラーでテキストを読みやすく保つ
+
+パレットから取得したすべての背景には、ハードコーディングした `black` や `white` ではなく、`contrast-color()` を組み合わせます。
+
+```scss
+.my-component {
+    background: color($color: 'primary', $variant: 500);
+    color: contrast-color($color: 'primary', $variant: 500);
+}
+```
+
+テーマが既に出力している変数を使用した、プレーン CSS での同じ組み合わせ:
+
+```css
+.my-component {
+  background: var(--ig-primary-500);
+  color: var(--ig-primary-500-contrast);
+}
+```
+
+パレット由来ではないカラー (テナント カラー、ユーザー設定、実行時に設定される値など) には、`adaptive-contrast()` を使用します。
+
+```scss
+.my-component {
+    --bg: #09f;
+
+    background: var(--bg);
+    color: adaptive-contrast(var(--bg));
+}
+```
+
+`adaptive-contrast()` は相対カラー式の薄いラッパーであるため、Sass を使用しなくても同じ結果を得られます。`--y-contrast` はテーマによって定義されます。
+
+```css
+.my-component {
+  --bg: #09f;
+
+  background: var(--bg);
+  color: hsla(from color(from var(--bg) var(--y-contrast)) h 0 l / 1);
+}
+```
+
+計算はビルド時ではなくブラウザーで行われます。スタイルシートのコンパイル後に背景色が変わると、前景色もそれに合わせて再計算されるため、実行時のテーマ切り替えやテナントごとのブランディングでも組み合わせが維持されます。
+
+<DocsAside type="note">
+`adaptive-contrast()` は黒と白のどちらかを選択します。選択できる結果がこの 2 つであるため、中間色の背景に対してこの仕組みで達成できる比率は最大でも約 4.6:1 に制限されます。これは、通常のテキストに対する WCAG AA のしきい値 4.5:1 を満たしており、エンジンがデフォルトで構成されているレベルです。7:1 の AAA しきい値に達するために、この仕組みだけに頼らないでください。AAA に達するには、それを可能にする十分に明るい、または十分に暗い背景色を選択する必要があります。
+</DocsAside>
+
+### コントラスト レベルを設定する
+
+計算された前景色は、`--ig-contrast-level` CSS 変数に保持されている WCAG のしきい値に照らして測定されます。この変数のデフォルトは `var(--ig-wcag-aa)` です。`a`、`aa`、`aaa` の 3 つのレベルが事前定義されています。
+
+パレットを生成する際に、アプリケーション全体のレベルを設定します。
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+ページの一部だけレベルを引き上げるには、そのスコープで変数をオーバーライドします。
+
+```css
+.high-contrast-panel {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+コントラスト レベルは、計算された前景色が黒と白の間で切り替わる輝度のしきい値を移動させるものであり、選択できる 2 つのカラーを変更するものではありません。また、`aaa` を設定するだけで組み合わせが適合するわけではなく、それは選択した背景色によって決まります。[`contrast()`](#コントラスト比を自分で確認する) で検証してください。生成されるコントラスト変数については、[パレット](palettes.mdx) を参照してください。
+
+### ユーザーのブラウザー設定に合わせてテキストをスケーリングする
+
+構成は必要ありません。提供される 4 つのテーマのすべてのタイプ スケールは、`font-size`、`line-height`、`letter-spacing`、およびマージンを `rem()` 関数で表現しているため、出力されるすべての値はルートのフォント サイズに対する相対値になります。
+
+ライブラリは、基準サイズを読み取り可能な値として記録します。
+
+```css
+--ig-base-font-size: 16px;
+```
+
+ライブラリが `html { font-size: … }` ルールを出力することはありません。このルールを記述することは、テーマ設定システムがデフォルトのテキストを拡大しているユーザーの設定を上書きしてしまう最も一般的な原因であるため、これは重要です。ライブラリは基準サイズを読み取るだけなので、ブラウザーでより大きなデフォルト サイズを設定しているユーザーには、{ProductName} のテキストもより大きく表示されます。
+
+これは、スタイル設定レイヤーにおいて WCAG 2.1 <a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html" target="_blank" rel="noopener noreferrer">1.4.4 テキストのサイズ変更</a> (レベル AA) に対応するものです。
+
+### コントラストのしきい値を上下させる
+
+計算された前景色が黒から白に切り替わるレベルは CSS 変数に保持されているため、Sass を使用せずに変更できます。デフォルトは AA です。
+
+```css
+:root {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+Sass では、`palette()` および `adaptive-contrast()` ミックスインが `a`、`aa`、または `aaa` を直接受け取ります。
+
+### 色覚異常に対応したチャート パレットを有効にする
+
+チャートは一般に色相のみでシリーズを区別しますが、これは色覚異常のある読者には機能しません。テーマ設定エンジンには、一般的な色覚異常の形態でも区別しやすいカラーで構成された 2 つ目のチャート パレットが用意されています。
+
+このパレットは**デフォルトでは無効**です。`configure-colors()` で有効にします。
+
+```scss
+// Include at the top level, before your theme includes.
+@include configure-colors($enhanced-accessibility: true);
+```
+
+これにより、すべてのチャート テーマがアクセシブルなカラー セットを使用するようになります。チャートのブラシはテーマの生成時に設定されるため、この機能には Sass が必要です。ビルド済みのテーマ CSS には、ブラシ用の変数は公開されていません。
+
+<PlatformBlock for="Angular">
+
+{ProductName} では、同じスイッチをセットアップ時にも利用できます。
+
+```scss
+@include core($enhanced-accessibility: true);
+```
+
+</PlatformBlock>
+
+<DocsAside type="note">
+チャートが意味を伝える手段は、色だけであってはなりません。グレースケールでもチャートが機能するように、このパレットを直接ラベル、区別しやすいマーカー、または破線パターンと組み合わせてください。
+</DocsAside>
+
+### コントラスト比を自分で確認する
+
+エンジンは WCAG の相対輝度の計算式を実装して公開しているため、ライブラリが使用しているものと同じ実装で独自のカラーの選択を確認できます。
+
+```scss
+$ratio: contrast(#09f, #000);   // 7
+$lum: luminance(#09f);          // 0.3
+```
+
+コンポーネント トークンを直接オーバーライドする場合や、パレット ジェネレーターが生成していないカラーの組み合わせを導入する場合には、常にこれを使用してください。これら 2 つはコンパイル時に実行されるため、CSS に同等の機能はありません。スタイルシートで比率を計算することはできません。
+
+### スクリーン リーダーから隠さずに入力を非表示にする
+
+カスタム スタイルのチェックボックス、ラジオ、スイッチは、通常、セマンティクスとキーボード動作のために、その下にネイティブ入力を保持しています。これは `hide-default()` で非表示にします。
+
+```scss
+.my-checkbox input {
+    @include hide-default();
+}
+```
+
+このミックスインは固定された宣言のセットに展開されるため、CSS に直接記述することもできます。
+
+```css
+.my-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: none;
+  clip: rect(0, 0, 0, 0);
+  outline: 0;
+  pointer-events: none;
+  overflow: hidden;
+  appearance: none;
+}
+```
+
+このミックスインは、入力をアクセシビリティ ツリーに残したまま画面外に移動させるため、入力のロール、キーボード動作、およびスクリーン リーダーの読み上げは維持されます。代わりに `display: none` や `visibility: hidden` を使用すると、コントロールは支援技術から完全に取り除かれ、視覚に頼らずに操作するすべての人にとってコンポーネントが機能しなくなります。
+
+### ダーク テーマを使用する
+
+提供される 4 つのテーマ (Material、Bootstrap、Fluent、Indigo) にはそれぞれ、ライト パレットと並んで完全なダーク パレットが用意されています。ダーク表示は、光に敏感な人を含む一部のユーザーにとってアクセシビリティ上の必要性であるため、見た目の好みではなく、サポート対象の構成として扱ってください。選択方法については、[パレット](palettes.mdx) を参照してください。
+
+## トラブルシューティング
+
+**スタイルを変更したコンポーネントのテキストが読みにくい。** 背景トークンを置き換えたものの、それと組になる前景トークンを置き換えていない可能性があります。前景色は固定値ではなく `contrast-color()` または `adaptive-contrast()` で設定し、`contrast()` で結果を確認してください。
+
+**`$contrast-level: 'aaa'` を設定したが、カラーがあまり変わらない。** コントラスト レベルは、計算された前景色が黒と白の間で切り替わる輝度のしきい値を移動させるものです。前景色に色味を付けるものではないため、達成可能な比率を前述の上限を超えて引き上げることはできません。AAA に達するには、背景色そのものを変更してください。
+
+**アクセシブルなパレットを有効にしたが、チャートのカラーが変わらない。** `configure-colors()` は、チャート テーマが生成される前にインクルードする必要があります。インクルードをテーマのインクルードより上に移動してください。
+
+**ブラウザーのフォント サイズを大きくしてもテキストが大きくならない。** アプリケーション自身のスタイルに `html { font-size: … }` ルールや `px` 単位の `font-size` 値がないか確認してください。テーマ設定エンジンはどちらも出力しません。
+
+## その他のリソース
+
+- [パレット](palettes.mdx) — パレット カラーと、それに対応するコントラスト カラーがどのように生成されるか。
+- [タイポグラフィ](typography.mdx) — タイプ スケールとそのカスタマイズ方法。
+- [アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx) — コンポーネントごとの適合情報。
+- <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.1 クイック リファレンス</a> — このページで参照している達成基準。
+- <a href="https://www.w3.org/WAI/ARIA/apg/patterns/" target="_blank" rel="noopener noreferrer">WAI-ARIA オーサリング プラクティス</a> — インタラクション パターンごとに期待されるキーボードおよび ARIA の動作。
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Ignite UI のテーマを適用すると、アプリケーションはアクセシブルになりますか?" indicatorPosition="end">
+    いいえ。テーマ設定エンジンが担当するのは、カラー コントラスト、テキスト サイズ、およびチャート パレットです。キーボード操作、ARIA セマンティクス、およびスクリーン リーダーのサポートは、コンポーネント ライブラリと独自のマークアップから提供されます。
+  </FaqItem>
+
+  <FaqItem question="独自のブランド カラーを指定した場合でも、読みやすいテキストになりますか?" indicatorPosition="end">
+    はい。パレットを通じて使用されるカラーについては、構成したレベル (デフォルトは AA) に照らして測定されます。前景色は、実行時を含め、背景が変わるたびにブラウザーで再計算されます。手動で設定した組み合わせは計算の対象外なので、<code>contrast()</code> で検証してください。
+  </FaqItem>
+
+  <FaqItem question="コントラスト レベルの設定は、実際には何を変更しますか?" indicatorPosition="end">
+    計算された前景色が黒から白に切り替わる輝度のしきい値を移動させます。選択できる 2 つのカラーは変わらないため、この仕組みで達成できる最大の比率が上がることはありません。
+  </FaqItem>
+
+  <FaqItem question="色覚異常に対応したチャート パレットは、デフォルトで有効ですか?" indicatorPosition="end">
+    いいえ。<code>configure-colors($enhanced-accessibility: true)</code><PlatformBlock for="Angular">、またはセットアップ時に <code>core($enhanced-accessibility: true)</code></PlatformBlock> で有効にします。
+  </FaqItem>
+
+  <FaqItem question="テキストのスケーリングのために何か構成する必要はありますか?" indicatorPosition="end">
+    いいえ。すべてのタイプ スケールは既に相対値であり、ライブラリがページのフォント サイズを設定することはありません。テキストがスケーリングされない場合は、アプリケーション自身のスタイルを確認してください。
+  </FaqItem>
+</Faq>

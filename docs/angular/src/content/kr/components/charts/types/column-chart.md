@@ -23,7 +23,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Column Charts Recommendations
 
@@ -64,7 +63,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Column Chart with Multiple Series
 
@@ -77,7 +75,6 @@ The Column Chart is able to render multiple columns per category for comparison 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Column Chart Styling
 
@@ -92,7 +89,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Column Charts
 
@@ -111,7 +107,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Column Chart
 
@@ -126,7 +121,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Column Chart
 
@@ -141,7 +135,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Range Column Chart
 
@@ -158,7 +151,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Column Chart
 
@@ -173,7 +165,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

@@ -23,7 +23,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Line Chart Recommendations
 
@@ -83,7 +82,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Line Chart with Multiple Series
 
@@ -98,7 +96,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Line Chart with Live Data
 
@@ -115,7 +112,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Styling Line Chart
 
@@ -130,7 +126,6 @@ You can create this type of chart in the [`IgxCategoryChartComponent`]({environm
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Line Charts
 
@@ -147,7 +142,6 @@ The Stacked Line Chart is often used to show the change of value over time such 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Line Chart
 
@@ -162,7 +156,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Line Chart
 
@@ -177,7 +170,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Polar Line Chart
 
@@ -192,7 +184,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

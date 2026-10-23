@@ -19,7 +19,6 @@ The Angular Spreadsheet is a Angular component that allows visualizing and editi
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Dependencies
 
@@ -48,7 +47,6 @@ import { IgxSpreadsheetModule } from 'igniteui-angular-spreadsheet';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 

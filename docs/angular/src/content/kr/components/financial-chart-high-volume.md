@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/financial-chart/high-volume">
 </code-view>
 
-<div class="divider--half"></div>
 
 차트의 퍼포먼스에 영향을 주는 여러 기능 및 Angular 고유 기능이 있으므로 애플리케이션에서 퍼포먼스를 최적화할 때 이를 고려해야 합니다.
 
@@ -48,12 +47,10 @@ export class AppComponent {
  </igx-financial-chart>
 ```
 
-<div class="divider--half"></div>
 
 ## 추가 리소스
 
-<div class="divider--half"></div>
 
--   [차트 퍼포먼스](financial-chart-performance.md)
--   [실시간 데이터 바인딩](financial-chart-high-frequency.md)
--   [복수 데이터 소스 바인딩](financial-chart-multiple-data.md)
+- [차트 퍼포먼스](financial-chart-performance.md)
+- [실시간 데이터 바인딩](financial-chart-high-frequency.md)
+- [복수 데이터 소스 바인딩](financial-chart-multiple-data.md)

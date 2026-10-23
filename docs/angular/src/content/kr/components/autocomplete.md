@@ -13,7 +13,7 @@ By default, the first item is always highlighted, which provides an easy way to 
 
 The [`igx-autocomplete`]({environment:angularApiUrl}/classes/igxautocompletedirective.html) uses the [`igx-drop-down`]({environment:angularApiUrl}/classes/igxdropdowncomponent.html) as a provider for the available options, which means the available capabilities of the drop-down component can be used, these include grouping, templates and disabling of items and groups.
 </p>
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
 ### Demo
 The following sample demonstrates simple use of the `igx-autocomplete` directive, applied on an `igx-input`. The directive is provided with an `igx-drop-down` which has a defined filtering pipe.
@@ -23,7 +23,6 @@ The following sample demonstrates simple use of the `igx-autocomplete` directive
            iframe-src="{environment:demosBaseUrl}/data-entries/autocomplete/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 > [!WARNING]
 > To start using Ignite UI for Angular components in your own projects, make sure you have configured all necessary dependencies and have performed the proper setup of your project. You can learn how to do this in the [**Getting Started**](general/getting-started.md) topic.
@@ -88,30 +87,30 @@ export class AutocompleteSampleComponent {
 
 ### Keyboard Navigation
 
- - `Arrow Down`, `Arrow Up`, `Alt` + `Arrow Down`, `Alt` + `Arrow Up` will open the `drop-down`, if closed.
- - Typing in the input will open the drop-down, if it is closed.
- - `Arrow Down` - will move to the next drop-down item, if it is opened.
- - `Arrow Up` - will move to the previous drop-down item, if it is opened.
- - `Enter` will confirm the already selected item and will close the drop-down.
- - `Esc` will close the drop-down.
+- `Arrow Down`, `Arrow Up`, `Alt` + `Arrow Down`, `Alt` + `Arrow Up` will open the `drop-down`, if closed.
+- Typing in the input will open the drop-down, if it is closed.
+- `Arrow Down` - will move to the next drop-down item, if it is opened.
+- `Arrow Up` - will move to the previous drop-down item, if it is opened.
+- `Enter` will confirm the already selected item and will close the drop-down.
+- `Esc` will close the drop-down.
 
 > Note: When the autocomplete is opened, then the first item, in the list, is automatically selected. The same is valid when the list is filtered.
 
 ### Compatibility support
 
 Applying the `igxAutocomplete` directive will decorate the element with the following ARIA attributes:
- - role="combobox" - role of the element, where the directive is applied.
- - aria-autocomplete="list" - indicates that input completion suggestions are provided in the form of list
- - aria-haspopup="listbox" attribute to indicate that `igxAutocomplete` can pop-up a container to suggest values.
- - aria-expanded="true"/"false" - value depending on the collapsed state of the drop-down.
- - aria-owns="dropDownID" - id of the drop-down used for displaying suggestions.
- - aria-activedescendant="listItemId" - value is set to the id of the current active list element.
+- role="combobox" - role of the element, where the directive is applied.
+- aria-autocomplete="list" - indicates that input completion suggestions are provided in the form of list
+- aria-haspopup="listbox" attribute to indicate that `igxAutocomplete` can pop-up a container to suggest values.
+- aria-expanded="true"/"false" - value depending on the collapsed state of the drop-down.
+- aria-owns="dropDownID" - id of the drop-down used for displaying suggestions.
+- aria-activedescendant="listItemId" - value is set to the id of the current active list element.
 
 The `drop-down` component, used as provider for suggestions, will expose the following ARIA attributes:
- - role="listbox" - applied on the `igx-drop-down` component container
- - role="group" - applied on the `igx-drop-down-item-group` component container
- - role="option" - applied on the `igx-drop-down-item` component container
- - aria-disabled="true"/"false" applied on `igx-drop-down-item`, `igx-drop-down-item-group` component containers when they are disabled.
+- role="listbox" - applied on the `igx-drop-down` component container
+- role="group" - applied on the `igx-drop-down-item-group` component container
+- role="option" - applied on the `igx-drop-down-item` component container
+- aria-disabled="true"/"false" applied on `igx-drop-down-item`, `igx-drop-down-item-group` component containers when they are disabled.
 
 ### Enabling/Disabling autocomplete drop-down
 
@@ -206,7 +205,6 @@ The following sample demonstrates an autocomplete, which allows selecting a cine
 </code-view>
 
 
-<div class="divider--half"></div>
 
 In order to use the `igxAutocomplete` with groups, like in the sample above, you need to define your data in the following manner:
 
@@ -235,24 +233,21 @@ For the purpose of the sample there is a delay in the data loading, in order to 
            iframe-src="{environment:demosBaseUrl}/data-entries/autocomplete-remote/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ## API References
-<div class="divider--half"></div>
 
-* [IgxAutocompleteDirective]({environment:angularApiUrl}/classes/igxautocompletedirective.html)
-* [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
-* [IgxInputGroup]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxAutocompleteDirective]({environment:angularApiUrl}/classes/igxautocompletedirective.html)
+- [IgxDropDownComponent]({environment:angularApiUrl}/classes/igxdropdowncomponent.html)
+- [IgxInputGroup]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Additional Resources
-<div class="divider--half"></div>
 
-* [IgxDropDownComponent](drop-down.md)
-* [IgxInputGroup](input-group.md)
-* [Template Driven Forms Integration](input-group.md)
-* [Reactive Forms Integration](angular-reactive-form-validation.md)
+- [IgxDropDownComponent](drop-down.md)
+- [IgxInputGroup](input-group.md)
+- [Template Driven Forms Integration](input-group.md)
+- [Reactive Forms Integration](angular-reactive-form-validation.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

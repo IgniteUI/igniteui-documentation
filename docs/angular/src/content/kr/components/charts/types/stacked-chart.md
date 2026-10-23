@@ -21,7 +21,6 @@ The following example, you can use the drop-down to switch between all of the di
 </code-view>
 
 
-<div class="divider--half"></div>
 
 The following sections demonstrate individual types of Ignite UI for Angular Stacked Charts.
 
@@ -38,7 +37,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100 Area Chart
 
@@ -53,7 +51,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Bar Chart
 
@@ -70,7 +67,6 @@ In this example of an Stacked Bar Chart, we have a Numeric X Axis (bottom labels
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Bar Chart
 
@@ -85,7 +81,6 @@ In this example of a Stacked 100% Bar Chart, the Energy Product values are shown
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Column Chart
 
@@ -100,7 +95,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Column Chart
 
@@ -115,7 +109,6 @@ The example below shows a study made for online shopping traffic by departments 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Line Chart
 
@@ -128,7 +121,6 @@ The Stacked Line Chart is often used to show the change of value over time such 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Line Chart
 
@@ -143,7 +135,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Spline Area Chart
 
@@ -158,7 +149,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Spline Area Chart
 
@@ -173,7 +163,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Spline Chart
 
@@ -186,7 +175,6 @@ The Stacked Spline Chart is often used to show the change of value over time suc
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Spline Chart
 
@@ -201,7 +189,6 @@ You can create this type of chart in the [`IgxDataChartComponent`]({environment:
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

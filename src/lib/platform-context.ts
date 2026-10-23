@@ -1,35 +1,40 @@
 /**
  * Platform configuration implementation — the single source of truth for
- * IgniteUI platform metadata used across Angular, React, WebComponents, and Blazor docs.
+ * IgniteUI platform metadata used across the Angular, React, WebComponents,
+ * Blazor, WinUI, and Uno Platform docs.
  *
  * Types are defined in igniteui-astro-components/lib/types so components can
  * remain agnostic (reading context from Astro.locals set by middleware).
+ *
+ * `PlatformName` is sourced locally from api-platform-config.ts rather than from
+ * igniteui-astro-components, so this repo can add a platform without waiting on a
+ * package release. The package's own union is widened on its branch; once that
+ * ships, `LocalPlatformContext` below can collapse back to the package type.
+ * See WINUI-UNO-PLAN.md §8 Q3.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-export type { PlatformName, ApiPackageConfig, PlatformContext } from 'igniteui-astro-components/lib/types';
-import type { PlatformName, PlatformContext } from 'igniteui-astro-components/lib/types';
+export type { ApiPackageConfig } from 'igniteui-astro-components/lib/types';
+import type { PlatformContext as PackagePlatformContext } from 'igniteui-astro-components/lib/types';
+import { API_PLATFORM_CONFIGS, createApiPackages } from './api-platform-config.ts';
+import type { PlatformName } from './api-platform-config.ts';
+
+export type { PlatformName } from './api-platform-config.ts';
+
+/** The package's PlatformContext, widened to this repo's PlatformName union. */
+export type PlatformContext = Omit<PackagePlatformContext, 'name'> & { name: PlatformName };
+
+const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
-        lower: 'angular',
-        prefix: 'Igx',
+        lower: API_PLATFORM_CONFIGS.Angular.folder,
+        prefix: API_PLATFORM_CONFIGS.Angular.prefix,
         productName: 'Ignite UI for Angular',
         productSpinal: 'ignite-ui-angular',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            charts:      { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-charts/latest', packageId: 'igniteui-angular-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular/latest', packageId: 'igniteui-angular', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            gauges:      { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-gauges/latest', packageId: 'igniteui-angular-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-maps/latest',        packageId: 'igniteui-angular-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            excel:       { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-excel/latest',       packageId: 'igniteui-angular-excel',       noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-spreadsheet/latest', packageId: 'igniteui-angular-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-inputs/latest',      packageId: 'igniteui-angular-inputs',      noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-layouts/latest',     packageId: 'igniteui-angular-layouts',     noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            'geo-core':  { docRoot: 'https://staging.infragistics.com/api/angular/igniteui-angular-core/latest',        packageId: 'igniteui-angular-core',        noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Angular'),
         packages: {
             common: 'igniteui-angular',
             charts: 'igniteui-angular-charts',
@@ -46,26 +51,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     React: {
         name: 'React',
-        lower: 'react',
-        prefix: 'Igr',
+        lower: API_PLATFORM_CONFIGS.React.folder,
+        prefix: API_PLATFORM_CONFIGS.React.prefix,
         productName: 'Ignite UI for React',
         productSpinal: 'ignite-ui-react',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react/latest',        packageId: 'igniteui-react',               noPackagePrefix: true, preserveCase: true },
-            charts:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-charts/latest',      packageId: 'igniteui-react-charts',        noPackagePrefix: true, preserveCase: true },
-            grids:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
-            gauges:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-gauges/latest',      packageId: 'igniteui-react-gauges',        noPackagePrefix: true, preserveCase: true },
-            maps:        { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-maps/latest',        packageId: 'igniteui-react-maps',          noPackagePrefix: true, preserveCase: true },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-inputs/latest',      packageId: 'igniteui-react-inputs',        noPackagePrefix: true, preserveCase: true },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-layouts/latest',     packageId: 'igniteui-react-layouts',       noPackagePrefix: true, preserveCase: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-excel/latest',       packageId: 'igniteui-react-excel',         noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-spreadsheet/latest', packageId: 'igniteui-react-spreadsheet',   noPackagePrefix: true, preserveCase: true },
-            datasources: { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-datasources/latest', packageId: 'igniteui-react-datasources',   noPackagePrefix: true, preserveCase: true },
-            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-grids/latest',       packageId: 'igniteui-react-grids',         noPackagePrefix: true, preserveCase: true },
-            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-core/latest',        packageId: 'igniteui-react-core',          noPackagePrefix: true, preserveCase: true },
-            'data-grids': { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-data-grids/latest', packageId: 'igniteui-react-data-grids',    noPackagePrefix: true, preserveCase: true },
-            dockmanager:  { docRoot: 'https://staging.infragistics.com/api/react/igniteui-react-dockmanager/latest', packageId: 'igniteui-react-dockmanager',   noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'React'),
         packages: {
             common: '@infragistics/igniteui-react',
             charts: '@infragistics/igniteui-react-charts',
@@ -82,26 +72,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     WebComponents: {
         name: 'WebComponents',
-        lower: 'webcomponents',
-        prefix: 'Igc',
+        lower: API_PLATFORM_CONFIGS.WebComponents.folder,
+        prefix: API_PLATFORM_CONFIGS.WebComponents.prefix,
         productName: 'Ignite UI for Web Components',
         productSpinal: 'ignite-ui-web-components',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents/latest', packageId: 'igniteui-webcomponents', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            charts:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-charts/latest', packageId: 'igniteui-webcomponents-charts', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            grids:       { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-grids/latest', packageId: 'igniteui-webcomponents-grids', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            gauges:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-gauges/latest', packageId: 'igniteui-webcomponents-gauges', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            maps:        { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-maps/latest',        packageId: 'igniteui-webcomponents-maps',        noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            inputs:      { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-inputs/latest',      packageId: 'igniteui-webcomponents-inputs',      noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            layouts:     { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-layouts/latest',     packageId: 'igniteui-webcomponents-layouts',     noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            excel:       { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-excel/latest',       packageId: 'igniteui-webcomponents-excel',       noPackagePrefix: true, preserveCase: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-spreadsheet/latest', packageId: 'igniteui-webcomponents-spreadsheet', noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            datasources:  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-datasources/latest', packageId: 'igniteui-webcomponents-datasources', noPackagePrefix: true, preserveCase: true },
-            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-grid-lite/latest',                packageId: 'igniteui-grid-lite',                noPackagePrefix: true, preserveCase: true },
-            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-core/latest',       packageId: 'igniteui-webcomponents-core',       noPackagePrefix: true, preserveCase: true },
-            dockmanager:  { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-dockmanager/latest',              packageId: 'igniteui-dockmanager',              noPackagePrefix: true, preserveCase: true, classSuffix: 'Component' },
-            'data-grids': { docRoot: 'https://staging.infragistics.com/api/webcomponents/igniteui-webcomponents-data-grids/latest',  packageId: 'igniteui-webcomponents-data-grids', noPackagePrefix: true, preserveCase: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'WebComponents'),
         packages: {
             common: 'igniteui-webcomponents',
             charts: 'igniteui-webcomponents-charts',
@@ -117,24 +92,11 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
     },
     Blazor: {
         name: 'Blazor',
-        lower: 'blazor',
-        prefix: 'Igb',
+        lower: API_PLATFORM_CONFIGS.Blazor.folder,
+        prefix: API_PLATFORM_CONFIGS.Blazor.prefix,
         productName: 'Ignite UI for Blazor',
         productSpinal: 'ignite-ui-blazor',
-        apiPackages: {
-            core:        { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            charts:      { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            grids:       { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            gauges:      { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            maps:        { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest', packageId: 'IgniteUI.Blazor', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            excel:       { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.Documents.Excel/latest', packageId: 'IgniteUI.Blazor.Documents.Excel', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            spreadsheet: { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',         packageId: 'IgniteUI.Blazor',         noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            'grid-lite':  { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.GridLite/latest', packageId: 'IgniteUI.Blazor.GridLite', noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            'geo-core':   { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            'data-grids': { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            inputs:       { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-            layouts:      { docRoot: 'https://staging.infragistics.com/api/blazor/IgniteUI.Blazor/latest',          packageId: 'IgniteUI.Blazor',          noPackagePrefix: true, preserveCase: true, pascalCaseMembers: true },
-        },
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Blazor'),
         packages: {
             common: 'IgniteUI.Blazor',
             charts: 'IgniteUI.Blazor',
@@ -148,10 +110,84 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
         },
     },
+    // WinUI and Uno Platform share the XAML control surface. `packages` values are the
+    // assembly/NuGet identities; see WINUI-UNO-PLAN.md §8 Q1/Q5 for the naming
+    // decisions still outstanding.
+    WinUI: {
+        name: 'WinUI',
+        lower: API_PLATFORM_CONFIGS.WinUI.folder,
+        prefix: API_PLATFORM_CONFIGS.WinUI.prefix,
+        productName: 'Infragistics Ultimate UI for WinUI',
+        productSpinal: 'ultimate-ui-winui',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'WinUI'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.WinUI.Charts',
+            grids: 'Infragistics.WinUI.DataGrid',
+            gauges: 'Infragistics.WinUI.Gauges',
+            maps: 'Infragistics.WinUI.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
+        },
+    },
+    Uno: {
+        name: 'Uno',
+        lower: API_PLATFORM_CONFIGS.Uno.publicPath!,
+        prefix: API_PLATFORM_CONFIGS.Uno.prefix,
+        productName: 'Infragistics Ultimate UI for Uno Platform',
+        productSpinal: 'ultimate-ui-uno-platform',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Uno'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.Uno.Charts',
+            grids: 'Infragistics.Uno.DataGrid',
+            gauges: 'Infragistics.Uno.Gauges',
+            maps: 'Infragistics.Uno.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
+        },
+    },
 };
 
 let _ctx: PlatformContext | null = null;
 let _env: Record<string, string> | null = null;
+
+
+function getBuildMode(): string {
+    return process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+}
+
+function getApiDocsBaseUrl(): string {
+    const mode = getBuildMode();
+    const value = process.env.API_DOCS_BASE_URL
+        ?? (mode === 'production'
+            ? 'https://www.infragistics.com/api'
+            : 'https://staging.infragistics.com/api');
+
+    const trimmed = value.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+function getApiLinkIndexName(): string {
+    return process.env.API_LINK_INDEX_VERSION
+        ?? (getBuildMode() === 'production' ? 'prod-latest' : 'staging-latest');
+}
+
+function loadApiLinkIndex(platformSlug: string): PlatformContext['apiLinkIndex'] {
+    try {
+        const file = path.resolve(process.cwd(), 'src', 'data', 'api-link-index', platformSlug, `${getApiLinkIndexName()}.json`);
+        if (!fs.existsSync(file)) return undefined;
+        return JSON.parse(fs.readFileSync(file, 'utf-8'));
+    } catch {
+        return undefined;
+    }
+}
 
 /**
  * Returns the platform context for the current build.
@@ -159,40 +195,57 @@ let _env: Record<string, string> | null = null;
  *
  * Result is cached for the build lifetime.
  */
-export function getPlatformContext(): PlatformContext {
+function buildContext(name: PlatformName): PlatformContext {
+    const apiDocsBaseUrl = getApiDocsBaseUrl();
+    const base = PLATFORMS[name];
+    return {
+        ...base,
+        apiLinkIndex: loadApiLinkIndex(API_PLATFORM_CONFIGS[name].folder),
+        apiPackages: Object.fromEntries(
+            Object.entries(base.apiPackages).map(([key, pkg]) => [
+                key,
+                {
+                    ...pkg,
+                    docRoot: pkg.docRoot
+                        .replace(DEFAULT_API_DOCS_BASE_URL, apiDocsBaseUrl),
+                },
+            ])
+        ),
+    };
+}
+
+/**
+ * Returns the platform context for the current build.
+ *
+ * When `name` is provided it is used directly.
+ * Otherwise resolution order: PLATFORM env var → .platform.json → 'React' default.
+ *
+ * Passing an explicit name bypasses caching so each call with a different name
+ * returns the correct context. The no-arg form is cached for the build lifetime.
+ */
+export function getPlatformContext(name?: PlatformName): PlatformContext {
+    if (name) return buildContext(name);
+
     if (_ctx) return _ctx;
 
-    let name: PlatformName = 'React';
+    let resolved: PlatformName = 'React';
 
     const envPlatform = process.env.PLATFORM as PlatformName | undefined;
     if (envPlatform && PLATFORMS[envPlatform]) {
-        name = envPlatform;
+        resolved = envPlatform;
     } else {
         try {
             const cfgPath = path.resolve(process.cwd(), '.platform.json');
             if (fs.existsSync(cfgPath)) {
                 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'));
                 if (cfg.platform && PLATFORMS[cfg.platform as PlatformName]) {
-                    name = cfg.platform as PlatformName;
+                    resolved = cfg.platform as PlatformName;
                 }
             }
         } catch { /* use default */ }
     }
 
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
-    const apiHost = mode === 'production'
-        ? 'https://www.infragistics.com'
-        : 'https://staging.infragistics.com';
-    const base = PLATFORMS[name];
-    _ctx = {
-        ...base,
-        apiPackages: Object.fromEntries(
-            Object.entries(base.apiPackages).map(([key, pkg]) => [
-                key,
-                { ...pkg, docRoot: pkg.docRoot.replace('https://staging.infragistics.com', apiHost) },
-            ])
-        ),
-    };
+    _ctx = buildContext(resolved);
     return _ctx;
 }
 
@@ -209,7 +262,7 @@ export function getEnvVars(): Record<string, string> {
 
     const { name } = getPlatformContext();
     const lang = process.env.LANG_CODE ?? 'en';
-    const mode = process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
+    const mode = getBuildMode();
 
     // Primary: generated/environment.json (written by generate.mjs when present)
     try {
@@ -264,4 +317,50 @@ export function getEnvVars(): Record<string, string> {
     }
 
     return _env!;
+}
+
+/** Container IDs for one locale. `development` doubles as the fallback for unknown modes. */
+type GtmContainerIds = {
+    development: string;
+    staging: string;
+    production: string;
+    [mode: string]: string | undefined;
+};
+
+/**
+ * Built-in Google Tag Manager container IDs keyed by locale and build mode.
+ * `en` is required: it is the fallback for locales without their own set (e.g. `kr`).
+ */
+const GTM_CONTAINER_ID_DEFAULTS: { en: GtmContainerIds; [lang: string]: GtmContainerIds | undefined } = {
+    en: {
+        production: 'GTM-T65CF7',
+        staging: 'GTM-NCKNPN',
+        development: 'GTM-WLXLBZD',
+    },
+    jp: {
+        production: 'GTM-KVNSWJ',
+        staging: 'GTM-WLWSDK',
+        development: 'GTM-NNHVMC7',
+    },
+};
+
+/**
+ * Resolves the Google Tag Manager container ID for the current build.
+ *
+ * Resolution order:
+ *   1. `GTM_CONTAINER_ID` env var — explicit override.
+ *   2. `GTMContainerId` in the resolved `environment.json` (per-mode, per-locale).
+ *   3. Built-in default for the current locale and build mode.
+ */
+export function getGtmContainerId(): string {
+    if (process.env.GTM_CONTAINER_ID) return process.env.GTM_CONTAINER_ID;
+
+    const fromEnvJson = getEnvVars().GTMContainerId;
+    if (fromEnvJson) return fromEnvJson;
+
+    // LANG_CODE is set by createDocsSite() from the resolved navLang.
+    const lang = process.env.LANG_CODE ?? 'en';
+    const mode = getBuildMode();
+    const localeDefaults = GTM_CONTAINER_ID_DEFAULTS[lang] ?? GTM_CONTAINER_ID_DEFAULTS.en;
+    return localeDefaults[mode] ?? localeDefaults.development;
 }

@@ -20,33 +20,32 @@ Treemaps are not designed to convey numerical quantities; the intent is to show 
            github-src="charts/tree-map/overview">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Required Data
 
 Binding to the [`IgxTreemapComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html) contains the following data requirements:
 
--   The data source must be an array or a list of data items
--   The data source must contain at least one data item otherwise the map will not render any nodes.
--   All data items must contain at least one data column (e.g. string) which should be mapped to the [`labelMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#labelmemberpath) property.
--   All data items must contain at least one numeric data column which should be mapped using the [`valueMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#valuememberpath) property.
--   To categorize data into organized tiles you can optionally use [`parentIdMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#parentidmemberpath) and [`idMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#idmemberpath).
+- The data source must be an array or a list of data items
+- The data source must contain at least one data item otherwise the map will not render any nodes.
+- All data items must contain at least one data column (e.g. string) which should be mapped to the [`labelMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#labelmemberpath) property.
+- All data items must contain at least one numeric data column which should be mapped using the [`valueMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#valuememberpath) property.
+- To categorize data into organized tiles you can optionally use [`parentIdMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#parentidmemberpath) and [`idMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#idmemberpath).
 
 ## Layout Types
 
 The Ignite UI for Angular treemap component supports the following types algorithms:
 
--   `SliceAndDice`
--   `Squarified`
--   `Strip`
+- `SliceAndDice`
+- `Squarified`
+- `Strip`
 
 The type is defined by setting the [`layoutType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#layouttype) property. If the [`layoutType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxtreemapcomponent.html#layouttype) property is not specified, then by default, the `Stripped` type is displayed. There are different tiling algorithms when it comes to displaying the data. All algorithms have their advantages depending on the user’s needs. Some aim to obtain the best aspect ratio – the nodes are as close to rectangles as possible. Other algorithms aim to preserve the initial order of the elements – object which are close to each other in the data source are arranged near each other on the treemap.
 
--   `Stripped` layout type algorithm obtains the best aspect ratio but the objects are arranged by size.
+- `Stripped` layout type algorithm obtains the best aspect ratio but the objects are arranged by size.
 
--   `SliceAndDice` layout algorithm aims to preserve the initial order at the expense of the aspect ratio.
+- `SliceAndDice` layout algorithm aims to preserve the initial order at the expense of the aspect ratio.
 
--   `Strip` layout tiling algorithm has a better aspect ratio than the SliceAndDice and keeps a better order than Squarified.
+- `Strip` layout tiling algorithm has a better aspect ratio than the SliceAndDice and keeps a better order than Squarified.
 
 ## Layout Orientation
 
@@ -54,9 +53,9 @@ LayoutOrientation property enables the user to set the direction in which the no
 
 Note that the LayoutOrientation property works with the layout types SliceAndDice and Strip.
 
--   `Horizontal` – the child nodes are going to be stacked horizontally(SliceAndDice).
+- `Horizontal` – the child nodes are going to be stacked horizontally(SliceAndDice).
 
--   `Vertical` – the child nodes are going to be stacked vertically (SliceAndDice).
+- `Vertical` – the child nodes are going to be stacked vertically (SliceAndDice).
 
 <!-- Angular, React, WebComponents -->
 
@@ -64,8 +63,8 @@ Note that the LayoutOrientation property works with the layout types SliceAndDic
 
 When installing the chart package, the core package must also be installed.
 
--   **npm install --save igniteui-angular-core**
--   **npm install --save igniteui-angular-charts**
+- **npm install --save igniteui-angular-core**
+- **npm install --save igniteui-angular-charts**
     <!-- end: Angular, React, WebComponents -->
 
 ## Required Modules
@@ -106,4 +105,3 @@ The following code demonstrates how to setup the Treemap.
 </igx-treemap>
 ```
 
-<div class="divider--half"></div>

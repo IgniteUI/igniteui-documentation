@@ -1,426 +1,180 @@
 ---
+license: MIT
 name: xplat-docs-api-links
-description: "Reference guide for adding and fixing ApiLink components in xplat MDX documentation files. Covers pkg, type, kind, member, prefixed, suffix, and label props; platform prefix mapping (Igr/Igx/Igc/Igb); kind values from TypeDoc JSON; utility class suffix rules; excel library special rules (prefixed={false}, IgniteUI.Blazor.Documents.Excel); dock manager slot members; and MDX parse error from JSX in comments. Use when an agent needs to add, fix, or audit ApiLink calls in MDX files."
+description: "Reference guide for authoring and auditing API terms in the multi-platform docs tree. Strict-xplat topics require canonical backticked terms; other populations may use raw ApiLink components. Covers the platformType populations, the apiTerms modes, raw ApiLink props, and pkg/kind disambiguation. WHEN TO USE: adding, fixing or auditing an ApiLink or a backticked API term in xplat MDX, deciding how a page's platformType or apiTerms affects its names, or resolving a check-mdx-links ambiguity report. WHEN NOT TO USE: PlatformBlock on its own (use xplat-docs-platform-block), json-snippet blocks (use xplat-docs-json-snippets), whole-topic structure (use igniteui-doc-topics), or MDX topic frontmatter (use igniteui-topic-frontmatter)."
 user-invocable: true
 ---
 
-# AI Agent Guide — Updating ApiLink in MDX Files
+# Xplat ApiLink Guide
 
-## Context
+Here, **strict xplat** means a topic whose frontmatter explicitly says `platformType: xplat`. The
+`docs/xplat` directory is broader: it also contains `xplat-unmapped` and `web-only` topics, so its
+folder name alone does not select the strict-xplat rules.
 
-The MDX files in this folder are shared across four platforms: **Angular, React, WebComponents, Blazor**. The `<ApiLink>` component resolves to the correct platform-specific URL at build time from a single MDX source.
+## The page declares its population, and the mode follows
 
-> **Key insight:** The `type=`, `member=`, `pkg=`, and `kind=` attributes are **identical for all platforms**. Fixing an ApiLink fixes it for all four platforms simultaneously. Only the generated URL differs per platform.
+`platformType` is **required frontmatter with no default** — a missing or unknown value stops the
+build, naming the file. It decides how names in backticks are treated:
 
----
-
-## Step 1 — Locate the API Source Data
-
-The `api-docs` project (sibling to this docs repository) contains TypeDoc JSON files that are the **authoritative source** for which class owns which member. Find the project by its folder name `api-docs` — the exact path on disk depends on the machine.
-Alternatively get the source from this github repository - https://github.com/IgniteUI/api-docs
-
-### Data files by platform
-
-```
-api-docs/src/data/
-  react/
-    igniteui-react-grids.json          ← grids (Grid, Column, ColumnGroup, …)
-    igniteui-react.json                ← core components
-    igniteui-react-17.5.0.json
-    igniteui-react-18.0.0.json
-    igniteui-react-dockmanager.json
-  angular/
-    igniteui-angular-21.0.x.json       ← Angular grids + core (same package)
-    igniteui-angular-9.0.x.json
-    igniteui-angular-core.json
-    igniteui-angular-inputs.json
-    igniteui-angular-layouts.json
-  web-components/
-    igniteui-web-components-grids.json
-    igniteui-web-components.json
-    igniteui-webcomponents-charts.json
-    igniteui-grid-lite.json
-  blazor/
-    IgniteUI.Blazor.25.1.x.json
-    IgniteUI.Blazor.GridLite.25.1.x.json
-```
-
-> **Use the React grids JSON as your primary reference.** The class hierarchy and member names are consistent across all platforms. If a member is on `IgrColumn` in React, it is on `IgxColumn` in Angular and `IgcColumn` in WebComponents. The MDX `type=` uses the short unprefixed name (`Column`), so the same fix covers all platforms.
-
-### JSON structure
-
-Each JSON file is a TypeDoc reflection tree. Top-level `children` contains all exported symbols. Relevant `kind` values:
-
-| kind value | Symbol type |
-|---|---|
-| `8` | Enum |
-| `128` | Class |
-| `256` | Interface |
-| `4194304` | Type alias |
-
----
-
-## Step 2 — Understand the MDX ApiLink Syntax
-
-```mdx
-<ApiLink pkg="grids" type="TypeName" kind="class" member="memberName" prefixed={false} label="DisplayText" />
-```
-
-| Attribute | Required | Notes |
+| population | implies | what happens to a name in backticks |
 |---|---|---|
-| `pkg` | yes | Package key: `"grids"`, `"core"`, `"charts"`, etc. Same key for all platforms. |
-| `type` | yes | Short type name **without** platform prefix. E.g. `"Column"`, not `"IgrColumn"`. |
-| `kind` | **yes*** | Must match the TypeDoc symbol kind. Default is `"class"` — omit only for classes. **Always check and set this explicitly for non-class types.** |
-| `member` | no | Property or method name for the anchor. |
-| `prefixed` | no | Default `true` — adds `Igr`/`Igx`/`Igc`/`Igb` automatically. Set `false` when `type` contains `{ComponentName}` or the name is already fully-qualified. **Always `false` for excel types.** |
-| `suffix` | no | Default `true` — appends `Component` suffix for Angular DV packages. Set `false` for utility classes (FilteringOperand, SortingStrategy, SummaryOperand, all excel types). |
-| `label` | no | Override display text. |
+| `xplat` | `apiTerms: full` | resolved through the product's description metadata and the api-docs index, linked; the build fails if it does not resolve |
+| `xplat-unmapped` | `apiTerms: passthrough` | linked by rule instead of by lookup — no generator describes this API |
+| `web-only` | `apiTerms: none` | left exactly as written; no `ApiLink` is emitted |
 
-### Platform prefix mapping
+**`apiTerms` is now an override, not a per-page decision.** State it only where a page differs from
+what its population implies; 578 pages that restated the implied value no longer do. An xplat page may
+**not** state `none` — that is opting out of the treatment that makes it xplat, and
+`check-doc-scope.mjs` fails on it. A topic whose names genuinely cannot resolve is `xplat-unmapped`:
+its own population rather than an exception inside another.
 
-| Platform | Prefix | Example (type="Column") |
-|---|---|---|
-| React | `Igr` | links to `IgrColumn` |
-| Angular | `Igx` | links to `IgxColumn` |
-| WebComponents | `Igc` | links to `IgcColumn` |
-| Blazor | `Igb` | links to `IgbColumn` |
+`full` and `passthrough` both emit an `ApiLink`. `none` does not: a page that opted out is saying
+these are not API names, so linking them would be wrong rather than merely unchecked.
 
----
+Canonical means the description name, not the platform's spelling: write `` `DataChart` ``, not
+`` `XamDataChart` ``. The canonical one reads the same on every platform — which is the point of a
+shared topic — and renders as each platform's class name. `xplat-docs-json-snippets` states the same
+boundary for code blocks.
 
-## Step 3 — The Correct `type=` for Common Members
+Under `full`, `description-terms.mjs` resolves a term from the product's description metadata
+(TypeDescriptionContext) and confirms it in the platform's api-docs index; a term neither can answer
+fails the build. A member resolves against the nearest type named before it, then `mentionedTypes`;
+`Type.Member` states the owner, and `m:Name` marks a method.
 
-Most members appear under the same logical class across all platforms. The corrections below apply to all platforms.
+`docs/xplat/API-TERMS.md` is normative for all of this — the term forms, how the owning type is
+chosen, when a term should *not* resolve, and the report.
 
-### Grid-level members — `type="{ComponentName}" prefixed={false}`
+For strict-xplat source, canonical API names in backticks are required. Do not hand-author
+`<ApiLink>`: generation emits it after choosing the target platform's spelling and URL. Use the
+leading-backslash escape inside backticks for a name that must remain code but cannot be resolved,
+for example `` `\defineComponents` ``. If a link genuinely cannot be represented as a term, the
+narrow exception is `<ApiLink raw ... />`; the `raw` attribute records the deliberate exception and
+is required by `check-doc-scope.mjs`.
 
-These are on `IgrGridBaseDirective` / `IgrGrid` in React (equivalents in other platforms):
+### Authoring and auditing tools
 
-```
-addRow, advancedFilteringExpressionsTree, allowAdvancedFiltering, allowFiltering,
-batchEditing, beginAddRowById, beginAddRowByIndex, cellMergeMode, cellSelection,
-clipboardOptions, closeAdvancedFilteringDialog, columnSelection, columnWidth,
-deleteRow, deselectAllRows, disableSummaries, enableSummaries,
-excelStyleHeaderIconTemplate, filterMode, filterStrategy, filteringExpressionsTree,
-findNext, height, lastSearchInfo, mergeStrategy, moving, openAdvancedFilteringDialog,
-pinRow, pinning, primaryKey, rowClasses, rowDraggable, rowEditable, rowHeight,
-rowSelection, rowStyles, selectAllRows, selectedRows, showSummaryOnCollapse,
-sort, sortStrategy, sortingExpressions, summaryCalculationMode, summaryPosition,
-summaryRowHeight, toolbar, totalItemCount, unpinRow, updateCell, updateRow, width
-```
-
-### Column members — `type="Column"` (drop `prefixed={false}`)
-
-On `IgrColumn` in React / `IgxColumn` in Angular / `IgcColumn` in WebComponents / `IgbColumn` in Blazor:
-
-```
-cellClasses, cellStyles, colEnd, colStart, dataType, disableHiding, disablePinning,
-editable, filterable, filteringIgnoreCase, formatter, groupable, hasSummary,
-header, hidden, maxWidth, minWidth, pinned, pipeArgs, resizable,
-rowEnd, rowStart, searchable, selectable, sortable, sortingIgnoreCase,
-summaryFormatter, visibleWhenCollapsed
+```sh
+npm run check-mdx-links                        # resolution, ambiguities, broken links; --platform= narrows
+npm run check-api-links                        # the generated registry's own report
+node docs/xplat/scripts/check-doc-scope.mjs --lang=en   # platformType, apiTerms, the raw exception
 ```
 
-### ColumnGroup-only members — `type="ColumnGroup"` (drop `prefixed={false}`)
+**No tool rewrites prose into `<ApiLink>`.** The two that did, `resolve-api-links.mjs` and
+`fix-api-link-attrs.mjs`, have been removed: they froze one platform's spelling into a source file
+that serves six, which is the problem canonical backticked terms exist to solve. Author the term and
+let generation resolve it.
 
-Only on `IgrColumnGroup` (not `IgrColumn`):
+
+## Strict-Xplat Markup
+
+Use canonical backticked names and let generation resolve package, kind, prefix, suffix, URL, and
+member anchors:
+
+```mdx
+`Grid`
+`Grid.RowSelection`
+`CategoryChart`
+```
+
+Qualified `Type.Member` is for a member whose owner cannot be settled safely from prose context.
+Prefer the unqualified canonical member where the context already names its type.
+
+## Raw ApiLink Props Outside Strict Xplat
+
+- `type`: required unprefixed symbol name.
+- `member`: optional member/property/method/enum value.
+- `label`: optional display text.
+- `pkg`: disambiguation only. Add it when `check-mdx-links` reports that the same symbol exists in multiple packages.
+- `kind`: use for Sass (`kind="sass"`) or when the registry report proves a TypeDoc symbol needs narrowing.
+- `raw`: strict-xplat-only exception marker for a link that cannot be represented by a canonical term.
+
+Do not add `exclude`, `excludePrefixFor`, or `excludeSuffixFor`.
+
+Avoid adding `prefixed={false}` or `suffix={false}` in new MDX. Those are legacy
+fallback overrides, not the normal registry-based workflow.
+
+## PlatformBlock
+
+Use `PlatformBlock` only when the visible content or actual API symbol differs by
+platform:
+
+```mdx
+<PlatformBlock for="Angular">
+  `IGridState`
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+  `GridState`
+</PlatformBlock>
+```
+
+Do not use PlatformBlock just to work around prefix/suffix/package URL rules.
+Those should be handled by the registry or by `pkg` disambiguation.
+
+## Validation
+
+Run registry checks before making manual API-link assumptions:
+
+```bash
+npm run check-mdx-links:broken:angular
+npm run check-mdx-links:broken:react
+npm run check-mdx-links:broken:wc
+npm run check-mdx-links:broken:blazor
+npm run check-mdx-links:broken:winui
+npm run check-mdx-links:broken:uno
+```
+
+Every `check-mdx-links` and `check-api-links` family has all six platform variants — plain, `:report`
+and `:broken` — so there is no platform you have to drop to the raw script for. `--platform=` takes
+`angular`, `react`, `wc`, `blazor`, `winui` or `uno`; omitting it covers all six.
+
+`check-api-links` reads built output under `dist/<platform>`, so build the platform first or it has
+nothing to read.
+
+A platform whose API documentation is not published yet fails these checks on **HTTP 404**, not on
+anything wrong in the MDX — the term resolved, the page it points at does not exist on the host. That
+is the current state for WinUI and Uno. The `:broken` variants are `--resolve-only` and make no HTTP
+requests, so use those to check the source itself while a platform's API docs are still coming.
+
+Interpret common statuses:
+
+- `missing`: the symbol was not found in the latest platform registry.
+- `member-missing`: the symbol exists, but the requested member was not found.
+- `ambiguous`: the symbol exists in multiple packages; add `pkg`.
+- `dynamic`: the link uses a template value such as `{ComponentName}` and cannot be resolved statically.
+- `sass`: Sass links are intentionally outside the TypeDoc registry.
+
+For `member-missing`, inspect the registry before editing. Some APIs expose
+platform-specific member names, for example React `dataSource` versus older
+source prose that says `itemsSource`.
+
+### Ambiguity appears when the packages move, and only the build catches it
+
+`check-mdx-links` reads the registry; the *build* resolves every link while rendering. A symbol that
+was unambiguous can stop being so when a new product package adds a platform-prefixed twin, and then
+the astro build fails at render time with the page it died on:
 
 ```
-collapsible, collapsibleIndicatorTemplate, expanded
+[ApiLink] Ambiguous API symbol "DateRangeDescriptor.rangeType" matched registry candidate
+"IgbDateRangeDescriptor". Add pkg= or kind= to disambiguate.
 ```
 
-### Row members — `type="RowDirective"` (drop `prefixed={false}`)
+For a raw link outside strict xplat, the fix is `pkg=`. For a strict-xplat term, use an exact
+canonical spelling, a qualified `Type.Member`, `global::Type`, or correct the API map. Two habits
+follow from that:
 
-When the prose refers to a **row object** (not a column):
+- When resolving one ambiguity, check the page's other references to that symbol too.
+- After a package or beta bump, build every platform rather than trusting the link report —
+  `npm run xplat:build:{angular,react,webcomponents,blazor,winui,uno}`. All six exist; each stops at
+  the *first* ambiguity, so a clean report is not a clean build.
 
-```
-pinned, pin, unpin, data, index, key, delete, update, inEditMode, expanded
-```
+CI surfaces these in the **CI** and **Check Relative Links** jobs rather than a link-named one, since
+both generate the content before doing their own work.
 
-> **Context matters:** `pinned` is on **both** `IgrColumn` and `IgrRowDirective`. Read the surrounding sentence — "column pinning" → `type="Column"`, "row pinning … the Row" → `type="RowDirective"`.
+## Related
 
-### Special types
-
-| Member(s) | `type=` | `kind=` | Notes |
-|---|---|---|---|
-| `enabled`, `copyHeaders`, `copyFormatters`, `separator` | `ClipboardOptions` | `"interface"` | Clipboard options interface |
-| `editValue` | `CellType` | `"interface"` | Cell in edit mode |
-| `validation` | `CellType` or `RowType` | `"interface"` | Read context to decide |
-| `getState`, `applyState`, `getStateAsString`, `applyStateFromString` | `GridState` | `"class"` | State persistence component |
-| `freezeHeaders`, `ignoreMultiColumnHeaders` | `ExporterOptionsBase` | `"class"` | Exporter options |
-| `perPage` | `Paginator` | `"class"` | Pagination component |
-| `chunkSize`, `startIndex` | `ForOfState` | `"class"` | Virtual scrolling state |
-| `caseSensitive`, `exactMatch` | `BaseSearchInfo` | `"class"` | Search API parameters |
-| `insertAtIndex` in column pin event | `PinColumnEventArgsDetail` | `"class"` | Pin order change event arg |
-| `insertAtIndex` in row pin event | `PinRowEventArgsDetail` | `"class"` | Row pin order change event arg |
-
----
-
-## Step 4 — Always Verify and Set `kind=`
-
-The `kind=` attribute maps directly to the URL segment (`/classes/`, `/interfaces/`, `/enums/`, `/types/`). The wrong `kind=` produces a **404**. The default is `"class"` — only omit `kind=` when you are certain the type is a class.
-
-### How to determine `kind` from the TypeDoc JSON
-
-Check the `kind` field on the top-level symbol in the JSON:
-
-| JSON `kind` value | MDX `kind=` |
+| document | covers |
 |---|---|
-| `128` | `"class"` *(default — can be omitted)* |
-| `256` | `"interface"` — **must set explicitly** |
-| `8` | `"enum"` — **must set explicitly** |
-| `4194304` | `"type"` — **must set explicitly** |
-| `64` | `"function"` — **must set explicitly** |
-| `32` | `"variable"` — **must set explicitly** |
-
-### Examples by kind
-
-```mdx
-<!-- kind=128 (Class) — omit kind= -->
-<ApiLink pkg="grids" type="Column" member="sortable" />
-<ApiLink pkg="grids" type="GridState" member="getState" />
-
-<!-- kind=256 (Interface) — must add kind="interface" -->
-<ApiLink pkg="grids" type="ClipboardOptions" kind="interface" member="copyHeaders" />
-<ApiLink pkg="grids" type="CellType" kind="interface" member="editValue" />
-<ApiLink pkg="grids" type="RowType" kind="interface" />
-
-<!-- kind=8 (Enum) — must add kind="enum" -->
-<ApiLink pkg="grids" type="GridSelectionMode" kind="enum" prefixed={false} />
-
-<!-- kind=4194304 (Type alias) — must add kind="type" -->
-<ApiLink pkg="grids" type="GridCellMergeMode" kind="type" prefixed={false} />
-```
-
-### Agent rule: check `kind` before writing every ApiLink
-
-Before writing or fixing any `<ApiLink>`:
-1. Look up the symbol in the TypeDoc JSON.
-2. Check its `kind` value.
-3. If `kind != 128`, set `kind=` explicitly.
-4. Never assume `"class"` without verifying.
-
----
-
-## Step 5 — The `prefixed` Rule
-
-The `prefixed` prop (default `true`) controls whether the platform class prefix (`Igr`/`Igx`/`Igc`/`Igb`) is prepended to `type` automatically.
-
-**Keep `prefixed={false}`** when:
-- `type="{ComponentName}"` — the template variable already expands to the full prefixed class name at build time (e.g. `IgrGrid`)
-- The type name is already fully qualified with a prefix (e.g. `"ExcelExporterService"` — Angular-only service)
-- The symbol genuinely has no platform prefix (standalone functions, certain enums used as literals)
-- **All excel library types** — `Workbook`, `Worksheet`, `WorksheetTable`, etc. never have a platform prefix
-
-**Remove `prefixed={false}` (use the default)** when:
-- You change `type` from `"{ComponentName}"` to a concrete short name like `"Column"`, `"ColumnGroup"`, `"GridState"`, etc.
-- The prefix will be added automatically: `Column` → `IgrColumn` (React), `IgxColumn` (Angular), `IgcColumn` (WebComponents), `IgbColumn` (Blazor)
-
-### Examples
-
-```mdx
-<!-- {ComponentName} template variable — keep prefixed={false} -->
-<ApiLink pkg="grids" type="{ComponentName}" member="rowEditable" prefixed={false} />
-
-<!-- Concrete short name — omit prefixed (default true) -->
-<ApiLink pkg="grids" type="Column" member="sortable" />
-<ApiLink pkg="grids" type="ColumnGroup" member="collapsible" />
-<ApiLink pkg="grids" type="GridState" member="getState" />
-
-<!-- Angular-only service — no prefix exists for React/WC/Blazor, keep prefixed={false} -->
-<ApiLink pkg="grids" type="ExcelExporterService" prefixed={false} />
-
-<!-- Excel library — always prefixed={false} -->
-<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
-<ApiLink pkg="excel" prefixed={false} type="Workbook" />
-```
-
----
-
-## Step 5b — The `suffix` Rule (Angular Utility Classes)
-
-Angular's `grids` package appends `Component` to all **UI component** class names in the TypeDoc URL:
-`IgxGrid` → `IgxGridComponent`, `IgxColumn` → `IgxColumnComponent`.
-
-**Utility and strategy classes do NOT carry this suffix** and will produce a 404 if the suffix is appended.
-
-### Add `suffix={false}` for utility / non-component classes
-
-```mdx
-<!-- Wrong — Angular resolves to IgxStringFilteringOperandComponent (404) -->
-<ApiLink pkg="grids" type="StringFilteringOperand" />
-
-<!-- Correct — resolves to IgxStringFilteringOperand -->
-<ApiLink pkg="grids" type="StringFilteringOperand" suffix={false} />
-```
-
-### Classes that NEED `suffix={false}`
-
-- All `*FilteringOperand` classes: `BooleanFilteringOperand`, `NumberFilteringOperand`, `StringFilteringOperand`, `DateFilteringOperand`, `DateTimeFilteringOperand`, `TimeFilteringOperand`
-- All `*SummaryOperand` classes: `SummaryOperand`, `NumberSummaryOperand`, `DateSummaryOperand`
-- Strategy classes: `DefaultSortingStrategy`, `NoopSortingStrategy`, `NoopFilteringStrategy`, `GridSortingStrategy`
-- Any class that is instantiated in code (not placed in a template)
-
-### Classes that keep the default (`suffix` omitted or `true`)
-
-- UI component classes: `Column`, `ColumnGroup`, `Grid`, `TreeGrid`, `HierarchicalGrid`
-- Any class that maps to a rendered element (`<igx-column>`, `<igx-grid>`, etc.)
-
-### Rule of thumb
-
-> If you call it in code like `StringFilteringOperand.instance()` → needs `suffix={false}`.  
-> If you put it in a template like `<igx-column>` → keep the default.
-
----
-
-## Step 6 — Angular-Only Members
-
-Some members exist only in Angular and have no equivalent in React/WebComponents/Blazor. These are typically:
-- Angular template directives (`cellEditor`, `cellEditorExit`, `rowEdit`, `rowEditEnter`, etc. — Angular uses event binding syntax `(rowEdit)`)
-- Angular services (`ExcelExporterService`, `PdfExporterService`)
-- Angular reactive forms integration (`formGroupCreated`, `markAsTouched`)
-
-For these, keep `type="{ComponentName}"` with `prefixed={false}`. The React JSON will not have them (they appear as `onRowEdit`, `onCellEdit`, etc. in React). This is expected — **do not treat "NOT IN JSON" as an error** for these cases.
-
-React renames all events with an `on` prefix: `rowEdit` → `onRowEdit`, `columnPin` → `onColumnPin`, `contextMenu` → `onContextMenu`, etc.
-
----
-
-## Step 7 — Excel Library Types
-
-Excel library types (`Workbook`, `Worksheet`, `WorksheetTable`, `WorksheetCell`, `Formula`, `DisplayOptions`, `SortSettings`, etc.) are utility classes — they carry **no platform prefix** and **no `Component` suffix** on any platform.
-
-**Always** use `prefixed={false}` for `pkg="excel"`:
-
-```mdx
-<ApiLink pkg="excel" prefixed={false} type="WorksheetTable" />
-<ApiLink pkg="excel" prefixed={false} type="Workbook" />
-<ApiLink pkg="excel" prefixed={false} type="SortSettings" />
-```
-
-The Blazor excel package is **not** the main `IgniteUI.Blazor` package — it is `IgniteUI.Blazor.Documents.Excel`. This is already configured in `platform-context.ts`. Do not change it to `IgniteUI.Blazor`.
-
-### `platform-context.ts` excel entry (Blazor — correct)
-```typescript
-excel: {
-  docRoot: 'https://staging.infragistics.com/blazor-apis-new/blazor/IgniteUI.Blazor.Documents.Excel/25.1.x',
-  packageId: 'IgniteUI.Blazor.Documents.Excel',
-  noPackagePrefix: true,
-  preserveCase: true,
-  pascalCaseMembers: true
-}
-```
-
-Do **not** add `classSuffix: 'Component'` to the `excel` entry for any platform.
-
----
-
-## Step 7b — Dock Manager Slot Members
-
-Dock manager slot names are members of the `DockManager` class, in `pkg="core"`:
-
-```mdx
-<ApiLink pkg="core" type="DockManager" member="closeButton" label="closeButton" />
-<ApiLink pkg="core" type="DockManager" member="maximizeButton" label="maximizeButton" />
-<ApiLink pkg="core" type="DockManager" member="minimizeButton" label="minimizeButton" />
-<ApiLink pkg="core" type="DockManager" member="pinButton" label="pinButton" />
-<ApiLink pkg="core" type="DockManager" member="unpinButton" label="unpinButton" />
-<ApiLink pkg="core" type="DockManager" member="paneHeaderCloseButton" label="paneHeaderCloseButton" />
-<ApiLink pkg="core" type="DockManager" member="tabHeaderCloseButton" label="tabHeaderCloseButton" />
-<ApiLink pkg="core" type="DockManager" member="moreTabsButton" label="moreTabsButton" />
-<ApiLink pkg="core" type="DockManager" member="moreOptionsButton" label="moreOptionsButton" />
-<ApiLink pkg="core" type="DockManager" member="splitterHandle" label="splitterHandle" />
-```
-
-WC API reference: `https://staging.infragistics.com/wc-apis-new/wc/igniteui-dockmanager/latest/classes/IgcDockManagerComponent/`
-
----
-
-## Step 7c — MDX Parse Error: JSX in Comments
-
-JSX expressions (`{500}`, `{true}`) inside `{/* */}` MDX comments cause:
-`Cannot read properties of undefined (reading 'start')`
-
-Fix: replace JSX numeric props with string values inside comments:
-
-```mdx
-{/* Bad */}
-{/* <Sample src="/foo" height={500} />*/}
-
-{/* Good */}
-{/* <Sample src="/foo" height="500" /> */}
-```
-
----
-
-## Step 8 — Fix Pattern
-
-### Column-level fix
-
-Before:
-```mdx
-<ApiLink pkg="grids" type="{ComponentName}" member="sortable" prefixed={false} />
-```
-
-After:
-```mdx
-<ApiLink pkg="grids" type="Column" member="sortable" />
-```
-
-### Interface fix
-
-Before:
-```mdx
-<ApiLink pkg="grids" type="{ComponentName}" member="enabled" prefixed={false} />
-```
-
-After:
-```mdx
-<ApiLink pkg="grids" type="ClipboardOptions" kind="interface" member="enabled" />
-```
-
-### Wrong class fix
-
-Before:
-```mdx
-<ApiLink pkg="grids" type="{ComponentName}" member="getState" prefixed={false} />
-```
-
-After:
-```mdx
-<ApiLink pkg="grids" type="GridState" member="getState" />
-```
-
----
-
-## Step 9 — Adding API Reference Entries
-
-If a page references a type not yet in `## API References`, add individual `<ApiLink>` tags — one per type:
-
-```mdx
-## API References
-
-<ApiLink pkg="grids" type="{ComponentName}" prefixed={false} />
-<ApiLink pkg="grids" type="Column" />
-<ApiLink pkg="grids" type="ColumnGroup" />
-<ApiLink pkg="grids" kind="interface" type="ClipboardOptions" />
-```
-
-Rules:
-- One `<ApiLink>` per type — no arrays
-- Use `prefixed={false}` only for `{ComponentName}` or fully-qualified names
-
-## Key Files
-
-| File | Role |
-|---|---|
-| `src/components/mdx/ApiLink.astro` | ApiLink component — URL generation logic |
-| `src/lib/platform-context.ts` | Platform config, `docRoot` URLs per platform, prefix mapping |
-| `api-docs/src/data/react/igniteui-react-grids.json` | TypeDoc JSON — React grids (primary reference) |
-| `api-docs/src/data/react/igniteui-react.json` | TypeDoc JSON — React core |
-| `api-docs/src/data/angular/igniteui-angular-21.0.x.json` | TypeDoc JSON — Angular |
-| `api-docs/src/data/web-components/igniteui-web-components-grids.json` | TypeDoc JSON — WebComponents grids |
-| `api-docs/src/data/blazor/IgniteUI.Blazor.25.1.x.json` | TypeDoc JSON — Blazor |
-
-## Related Skills
-
-- [`xplat-docs-platform-block`](../xplat-docs-platform-block/SKILL.md) — PlatformBlock usage and audit guide
+| `docs/xplat/API-TERMS.md` | normative: modes, term forms, the report |
+| `xplat-docs-json-snippets` skill | stating a component as JSON so every platform's code is generated |
+| `xplat-docs-platform-block` skill | `PlatformBlock` itself |

@@ -23,7 +23,6 @@ The following sample demonstrates how setting multiple properties on the same ga
 </code-view>
 
 
-<div class="divider--half"></div>
 
 <!-- Angular, React, WebComponents -->
 
@@ -55,7 +54,6 @@ import { IgxRadialGauge } from 'igniteui-angular-gauges';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 
@@ -82,7 +80,6 @@ The following code demonstrates how create a radial gauge containing a needle an
 </igx-radial-gauge>
 ```
 
-<div class="divider--half"></div>
 
 ## Backing
 

@@ -1,8 +1,10 @@
-import path from 'node:path';
+﻿import path from 'node:path';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { SIDEBAR_BADGE_VARIANTS } from 'docs-template/sidebar';
+import { emitsFor, forMatches } from 'docs-template/lib/platform-groups';
 import mdx from '@astrojs/mdx';
 
 // ---------------------------------------------------------------------------
@@ -48,26 +50,11 @@ if (docsEnv !== 'development' && docsEnv !== 'staging' && docsEnv !== 'productio
 const mode: DocsMode = docsEnv;
 
 const PLATFORMS = IGDOCS_PLATFORMS;
-
-const PLATFORM_META: Record<string, { title: string; description: string }> = {
-    Angular:       { title: 'Ignite UI for Angular',       description: 'Reference docs for Ignite UI for Angular.'       },
-    React:         { title: 'Ignite UI for React',         description: 'Reference docs for Ignite UI for React.'         },
-    WebComponents: { title: 'Ignite UI for Web Components', description: 'Reference docs for Ignite UI for Web Components.' },
-    Blazor:        { title: 'Ignite UI for Blazor',        description: 'Reference docs for Ignite UI for Blazor.'        },
+const localizedDescriptionSuffix: Partial<Record<NavLang, string>> = {
+    jp: 'のコンポーネントと API リファレンス ドキュメントです。',
+    kr: ' 컴포넌트 및 API 참조 문서입니다.',
 };
 
-const PLATFORM_KEY: Record<string, string> = {
-    Angular: 'angular', React: 'react', WebComponents: 'web-components', Blazor: 'blazor',
-};
-
-const PLATFORM_SITE: Record<string, string> = {
-    Angular:       'https://www.infragistics.com/products/ignite-ui-angular/angular/components',
-    React:         'https://www.infragistics.com/products/ignite-ui-react/react/components',
-    WebComponents: 'https://www.infragistics.com/products/ignite-ui-web-components/web-components/components',
-    Blazor:        'https://www.infragistics.com/products/ignite-ui-blazor/blazor/components',
-};
-
-const meta      = PLATFORM_META[platform] ?? PLATFORM_META['React'];
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
 
 // Resolved once at config time, used by vitePluginPlatformTokens to substitute
@@ -161,8 +148,8 @@ function inlinePlatformBlocks(content: string, plat: string): string {
 
         // Opener comes first — append literal text up to it
         result += content.slice(pos, openPos);
-        const platforms = openMatch![1].split(',').map((s: string) => s.trim());
-        const keep      = platforms.includes(plat);
+        // `for` accepts platform names and group aliases (Web, NonWeb) alike.
+        const keep      = forMatches(plat, openMatch![1]);
         const bodyStart = openPos + openMatch![0].length;
 
         // Walk forward to find the correctly nested closing tag
@@ -295,16 +282,43 @@ function buildFilteredToc(): string {
     function filterNodes(nodes: any[]): any[] {
         if (!Array.isArray(nodes)) return [];
         return nodes
-            .filter(n => !Array.isArray(n.exclude) || !n.exclude.includes(platform))
+            // `include` (allowlist, wins) and `exclude` (blacklist); both accept
+            // group aliases such as Web / NonWeb. See src/lib/platform-groups.ts.
+            .filter(n => emitsFor(platform, n))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ exclude, ...rest }) => {
+            .flatMap(({ exclude, include, platforms, ...rest }) => {
+                // Apply platform-specific badge overrides, e.g.:
+                //   "platforms": { "Blazor": { "new": false, "preview": true } }
+                if (platforms && typeof platforms === 'object' && platforms[platform]) {
+                    const override = platforms[platform];
+                    for (const key of SIDEBAR_BADGE_VARIANTS) {
+                        if (key in override) rest[key] = override[key];
+                    }
+                }
+                // WinUI and Uno are premium product families. Mark every emitted link so the
+                // navigation metadata and its visible badge communicate that consistently.
+                if ((platform === 'WinUI' || platform === 'Uno') && rest.href) {
+                    rest.premium = true;
+                }
                 if (typeof rest.name === 'string') {
                     for (const [token, value] of Object.entries(tokens)) {
                         rest.name = (rest.name as string).replaceAll(token, value);
                     }
                 }
                 if (Array.isArray(rest.items)) rest.items = filterNodes(rest.items);
-                return rest;
+
+                // The source toc models Data Grid as one link with nested features. On the XAML
+                // sites its preceding header is already the single top-level "Data Grid" section,
+                // so flatten this wrapper into Overview + feature links instead of rendering a
+                // redundant Data Grid group inside the Data Grid section.
+                if ((platform === 'WinUI' || platform === 'Uno') &&
+                    rest.href === 'grids/data-grid/overview.mdx' && Array.isArray(rest.items)) {
+                    const { items, ...overview } = rest;
+                    overview.name = lang === 'jp' ? '概要' : 'Overview';
+                    return [overview, ...items];
+                }
+
+                return [rest];
             });
     }
 
@@ -336,6 +350,7 @@ export default createDocsSite({
     base: mode !== 'development' ? p.base : undefined,
     title: p.title,
     description: p.description,
+    localizedDescription: localizedDescriptionSuffix[lang] ? `${p.title}${localizedDescriptionSuffix[lang]}` : undefined,
     platform: p.key,
     navLang: lang,
     mode,
@@ -356,22 +371,42 @@ export default createDocsSite({
         })),
     packages: Object.values(PLATFORMS)
         .filter(p => p.lang === lang)
-        .map(({ label, key, base: b }) => ({
+        .map(({ label, key, base, root }) => ({
             label,
             value: key,
-            href: mode === 'production' ? `${PROD_HOST}${b}/` : `${STAGING_HOST}${b}/`,
+            href: mode === 'production' ? `${PROD_HOST}${base}${root}` : `${STAGING_HOST}${base}${root}`,
         })),
     selectedPackage: p.key,
     head: [
         { tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? p.base : ''}/favicon.ico`, type: 'image/x-icon' } },
     ],
-    integrations: [mdx()],
+    integrations: [
+        mdx(),
+        {
+            name: 'watch-docs-template',
+            hooks: {
+                'astro:server:setup': ({ server }) => {
+                    server.watcher.add(path.resolve(__dirname, '../../src'));
+                },
+            },
+        },
+    ],
     vite: {
-        plugins: [vitePluginPlatformTokens()],
+        plugins: [
+            vitePluginPlatformTokens(),
+        ],
         resolve: {
             alias: {
                 '@xplat-images': path.resolve(__dirname, 'src/assets/images'),
             },
+        },
+        server: {
+            fs: { strict: false },
+            ...(mode === 'development' && platform === 'Blazor' && demosBaseUrl ? {
+                proxy: {
+                    '/code-viewer': { target: demosBaseUrl, changeOrigin: true, secure: false },
+                },
+            } : {}),
         },
     },
 });

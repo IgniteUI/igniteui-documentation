@@ -1,0 +1,29 @@
+---
+import './Feature.scss';
+
+interface Props {
+    /** Heading displayed above the details */
+    title?: string;
+    /** Image URL — used when not using the named `image` slot */
+    src?: string;
+    /** Image alt text */
+    alt?: string;
+    /** Image title/tooltip attribute */
+    imageTitle?: string;
+    /** Image position relative to details. Default is 'left' */
+    imagePosition?: 'left' | 'center' | 'right';
+}
+
+const { title, src, alt, imageTitle, imagePosition = 'left' } = Astro.props;
+const hasImageSlot = Astro.slots.has('image');
+---
+
+<div class:list={['feature', `feature--image-${imagePosition}`]}>
+    <div class="feature__image">
+        {hasImageSlot ? <slot name="image" /> : <img src={src} alt={alt} title={imageTitle} loading="lazy" class="responsive-img" />}
+    </div>
+    <div class="feature__details">
+        {title && <h3 class="feature__title">{title}</h3>}
+        <slot />
+    </div>
+</div>

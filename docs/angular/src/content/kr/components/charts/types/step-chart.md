@@ -21,7 +21,6 @@ You can create Angular Step Area Chart in the [`IgxCategoryChartComponent`]({env
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Step Line Chart
 
@@ -36,7 +35,6 @@ You can create Step Line Chart in the [`IgxCategoryChartComponent`]({environment
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Step Chart Styling
 
@@ -49,7 +47,6 @@ If you need Step Charts with more features such as composite other series, you c
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

@@ -9,18 +9,16 @@ keywords: Ignite UI for Angular, UI controls, Angular widgets, web widgets, UI w
 The Ignite UI for Angular Action Strip component provides an overlay area containing one or more actions allowing additional UI and functionality to be shown on top of a specific target container upon user interaction e.g. hover. The container should be positioned relatively as the Action Strip attempts to overlay it and is itself positioned absolutely. Despite overlapped by an Action Strip, the main interactions and user access to the target container remain available.
 </p>
 
-<div class="divider--half"></div>
 
 #### Demo
 
 
-<code-view style="height: 400px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/action-strip-paragraph/" >
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ### Usage
 To initialize and position the Action Strip correctly, it needs to be inside a relatively positioned container:
@@ -57,8 +55,8 @@ For scenarios where more than three action items will be shown, it is best to us
 ```
 
 
-<code-view style="height: 400px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 400px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/action-strip-paragraph-menu/" >
 </code-view>
 
@@ -90,11 +88,12 @@ This can be utilized via grid action components and we are providing two default
     </igx-action-strip>
 </igx-grid>
 ```
+
 >Note: These components inherit [`IgxGridActionsBaseDirective`]({environment:angularApiUrl}/classes/igxgridactionsbasedirective.html) and when creating a custom grid action component, it should also inherit `IgxGridActionsBaseDirective`.
 
 
-<code-view style="height: 600px;" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height: 600px;"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/grid/grid-action-strip/" >
 </code-view>
 
@@ -102,10 +101,13 @@ This can be utilized via grid action components and we are providing two default
 ### Styling
 
 To customize the Action Strip, you first need to import the `index` file, where all styling functions and mixins are located.
+
 ```scss
 @import '~igniteui-angular/lib/core/styles/themes/index'
 ```
+
 Next, we have to create a new theme that extends the `action-strip-theme` and pass the parameters which we'd like to change:
+
 ```scss
 $custom-strip: action-strip-theme(
     $background: rgba(150, 133, 143, 0.4),
@@ -119,19 +121,21 @@ $custom-strip: action-strip-theme(
 The last step is to include the newly created component theme in our application.
 
 When `$legacy-support` is set to `false`(default), include the component css variables like this:
+
 ```scss
 @include css-vars($custom-strip);
 ```
 
 When `$legacy-support` is set to `true`, include the component theme like this:
+
 ```scss
 @include action-strip($custom-strip);
 ```
 
 
-<code-view style="height: 400px;" 
+<code-view style="height: 400px;"
            no-theming
-           data-demos-base-url="{environment:demosBaseUrl}" 
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/menus/action-strip-styling/" >
 </code-view>
 
@@ -140,26 +144,25 @@ When `$legacy-support` is set to `true`, include the component theme like this:
 ### API and Style References
 
 For more detailed information regarding the Action Strip API, refer to the following links:
-* [`IgxActionStripComponent API`]({environment:angularApiUrl}/classes/igxactionstripcomponent.html)
+- [`IgxActionStripComponent API`]({environment:angularApiUrl}/classes/igxactionstripcomponent.html)
 
 The following built-in CSS styles helped us achieve this Action Strip layout:
 
-* [`IgxActionStripComponent Styles`]({environment:sassApiUrl}/themes#function-action-strip-theme)
+- [`IgxActionStripComponent Styles`]({environment:sassApiUrl}/themes#function-action-strip-theme)
 
 Additional components and/or directives that can be used within the Action Strip:
 
-* [`IgxGridActionsBaseDirective `]({environment:angularApiUrl}/classes/igxgridactionsbasedirective.html)
-* [`IgxGridPinningActionsComponent`]({environment:angularApiUrl}/classes/igxgridpinningactionscomponent.html)
-* [`IgxGridEditingActionsComponent`]({environment:angularApiUrl}/classes/igxgrideditingactionscomponent.html)
-* [`IgxDividerDirective`]({environment:angularApiUrl}/classes/igxdividerdirective.html)
+- [`IgxGridActionsBaseDirective`]({environment:angularApiUrl}/classes/igxgridactionsbasedirective.html)
+- [`IgxGridPinningActionsComponent`]({environment:angularApiUrl}/classes/igxgridpinningactionscomponent.html)
+- [`IgxGridEditingActionsComponent`]({environment:angularApiUrl}/classes/igxgrideditingactionscomponent.html)
+- [`IgxDividerDirective`]({environment:angularApiUrl}/classes/igxdividerdirective.html)
 
 
-<div class="divider"></div>
+<igc-divider></igc-divider>
 
-###Additional Resources
+### Additional Resources
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

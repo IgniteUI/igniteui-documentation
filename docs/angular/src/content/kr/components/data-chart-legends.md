@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/data-chart/legends">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 범례 개요
 

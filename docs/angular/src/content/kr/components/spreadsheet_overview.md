@@ -17,15 +17,14 @@ The Angular Spreadsheet is a Angular component that allows visualizing and editi
            github-src="excel/spreadsheet/overview">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## Dependencies
 
 When installing the spreadsheet package, the core and excel package must also be installed.
 
--   **npm install --save igniteui-angular-core**
--   **npm install --save igniteui-angular-excel**
--   **npm install --save igniteui-angular-spreadsheet**
+- **npm install --save igniteui-angular-core**
+- **npm install --save igniteui-angular-excel**
+- **npm install --save igniteui-angular-spreadsheet**
 
 ## Required Modules
 
@@ -46,7 +45,6 @@ import { IgxSpreadsheetModule } from 'igniteui-angular-spreadsheet';
 export class AppModule {}
 ```
 
-<div class="divider--half"></div>
 
 ## Usage
 

@@ -1,0 +1,61 @@
+---
+import './BrowserList.scss';
+
+import chromeUrl  from '../../../assets/chrome.svg?url';
+import edgeUrl    from '../../../assets/edge.svg?url';
+import firefoxUrl from '../../../assets/firefox.svg?url';
+import safariUrl  from '../../../assets/safari.svg?url';
+
+/**
+ * BrowserList.astro
+ *
+ * Renders a list of supported browsers with their brand icons.
+ * Icons are loaded via <img> (not inline SVG) to avoid gradient-ID
+ * conflicts that occur when multiple SVGs share IDs like "a", "b", "c".
+ *
+ * Usage in MDX:
+ *   import BrowserList from 'docs-template/components/mdx/BrowserList.astro';
+ *
+ *   <BrowserList />
+ *
+ * Override the default set via the `browsers` prop:
+ *   <BrowserList browsers={["Chrome", "Firefox"]} />
+ *
+ * Supported browser names (case-insensitive prefix match):
+ *   "Chrome", "Edge", "Firefox", "Safari"
+ *   Any name without a matching icon is rendered as text only.
+ */
+
+interface Props {
+    /** Browser names to display. Defaults to the four major evergreen browsers. */
+    browsers?: string[];
+}
+
+const {
+    browsers = ['Chrome', 'Edge / Edge Chromium', 'Firefox', 'Safari'],
+} = Astro.props;
+
+const ICON_MAP: Record<string, string> = {
+    chrome:  chromeUrl,
+    edge:    edgeUrl,
+    firefox: firefoxUrl,
+    safari:  safariUrl,
+};
+
+function iconFor(name: string): string | undefined {
+    const key = name.trim().toLowerCase().split(/[\s/]/)[0];
+    return ICON_MAP[key];
+}
+---
+
+<ul class="browser-list">
+    {browsers.map(name => {
+        const icon = iconFor(name);
+        return (
+            <li class="browser-list__item">
+                {icon && <img class="browser-list__icon" src={icon} alt="" aria-hidden="true" width="20" height="20" />}
+                <span>{name}</span>
+            </li>
+        );
+    })}
+</ul>

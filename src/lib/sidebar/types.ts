@@ -6,6 +6,7 @@
  * Do not duplicate these types locally; keep this file as a thin re-export.
  */
 
+export { SIDEBAR_BADGE_VARIANTS } from 'igniteui-astro-components/lib/sidebar/types';
 export type {
   SidebarEntry,
   SidebarGroup,

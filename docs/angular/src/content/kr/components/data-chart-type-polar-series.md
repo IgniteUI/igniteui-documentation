@@ -20,7 +20,6 @@ _language: kr
            github-src="charts/data-chart/polar-chart-types">
 </code-view>
 
-<div class="divider--half"></div>
 
 ## 폴라 시리즈의 유형
 
@@ -50,9 +49,9 @@ _language: kr
 
 폴라 시리즈에는 다음과 같은 데이터 요구 사항이 있습니다:
 
--   데이터 소스는 배열 또는 데이터 항목 목록이어야 함
--   데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 폴라 시리즈를 렌더링하지 않습니다.
--   모든 데이터 항목에는 폴라 시리즈의 `AngleMemberPath` 및 `RadiusMemberPath` 속성(예: [`IgxPolarAreaSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpolarareaseriescomponent.html))을 사용하여 매핑하는 숫자 데이터 열이 2개 이상 있어야 합니다
+- 데이터 소스는 배열 또는 데이터 항목 목록이어야 함
+- 데이터 소스에는 하나 이상의 데이터 항목이 포함되어야 하며 그렇지 않을 경우에는 차트가 폴라 시리즈를 렌더링하지 않습니다.
+- 모든 데이터 항목에는 폴라 시리즈의 `AngleMemberPath` 및 `RadiusMemberPath` 속성(예: [`IgxPolarAreaSeriesComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpolarareaseriescomponent.html))을 사용하여 매핑하는 숫자 데이터 열이 2개 이상 있어야 합니다
 
 폴라 좌표계의 데이터 점의 위치는  "극"이라고 하는 고정 방향에서의 각도(각도 좌표)와 고정점(데카르트 좌표의 원점과 유사)에서의 거리(반경 좌표)로 결정됩니다. 극에서 시작하여 바깥 쪽을 향하는 선은 각도 축의 격자선([`IgxNumericAngleAxisComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxnumericangleaxiscomponent.html))이며, 극을 둘러싸는 동심원은 반경 축의 격자선([`IgxNumericRadiusAxisComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxnumericradiusaxiscomponent.html))입니다
 
@@ -119,8 +118,8 @@ import { IgxDataChartPolarModule } from 'igniteui-angular-charts';
 
 ## 추가 리소스
 
--   [축 유형](data-chart-axis-types.md)
--   [축 공유](data-chart-axis-sharing.md)
--   [차트 범례](data-chart-legends.md)
--   [시리즈 마커](data-chart-series-markers.md)
--   [시리즈 유형](data-chart-series-types.md)
+- [축 유형](data-chart-axis-types.md)
+- [축 공유](data-chart-axis-sharing.md)
+- [차트 범례](data-chart-legends.md)
+- [시리즈 마커](data-chart-series-markers.md)
+- [시리즈 유형](data-chart-series-types.md)

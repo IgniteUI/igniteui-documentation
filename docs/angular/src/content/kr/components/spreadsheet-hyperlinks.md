@@ -19,7 +19,6 @@ The Angular Spreadsheet component allows display of pre-existing hyperlinks in y
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Hyperlinks Overview
 

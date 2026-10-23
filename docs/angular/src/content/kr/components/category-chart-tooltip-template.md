@@ -18,7 +18,6 @@ _language: kr
            github-src="charts/category-chart/tooltip-template">
 </code-view>
 
-<div class="divider--half"></div>
 
 도구 설명 콘텐츠는 다음의 코드와 같이 도구 설명 템플릿을 생성하여 사용자 정의화됩니다.
 

@@ -5,6 +5,8 @@ title: Angular Grid Paging | Angular Pagination Table | Infragistics
 description: Configure Angular pagination and create custom pages in the Angular table by Ignite UI, get data for the requested pages with variety of angular events.
 keywords: angular pagination, igniteui for angular, infragistics
 license: commercial
+llms:
+  description: "Pagination is used to split a large set of data into a sequence of pages that have similar content."
 ---
 
 </ComponentBlock>
@@ -16,6 +18,8 @@ description: Configure Angular pagination and create custom pages in the Angular
 keywords: angular pagination, igniteui for angular, infragistics
 license: commercial
 _canonicalLink: grid/paging
+llms:
+  description: "Pagination is used to split a large set of data into a sequence of pages that have similar content."
 ---
 
 </ComponentBlock>
@@ -46,7 +50,6 @@ The following example represents {ComponentTitle} pagination and exposes the opt
 
 <Sample src="/hierarchical-grid/hierarchical-grid-paging" height={580} alt="Angular Pagination Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 Adding a [`igx-paginator`](/paginator) component will control whether the feature is present, you can enable/disable it by using a simple `*ngIf` with a toggle property. The <ApiLink type="Paginator" member="perPage" label="perPage" /> input controls the visible records per page. Let’s update our {ComponentTitle} to enable paging:
@@ -178,11 +181,14 @@ Due to certain limitations in how the child grids of an IgxHierarchicalGrid are 
 <Sample src="/hierarchical-grid/hierarchical-grid-reusable-paginator" height={600} alt="" />
 </ComponentBlock>
 
-<div class="divider--half"></div>
 
 ## Remote Paging
 
-Remote paging can be achieved by declaring a service, responsible for data fetching and a component, which will be responsible for the Grid construction and data subscription. For more detailed information, check the [`{ComponentTitle} Remote Data Operations`](/{igPath}/remote-data-operations#remote-paging) topic.
+Remote paging can be achieved by declaring a service, responsible for data fetching and a component, which will be responsible for the Grid construction and data subscription.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+For more detailed information, check the [`{ComponentTitle} Remote Data Operations`](/{igPath}/remote-data-operations#remote-paging) topic.
+</ComponentBlock>
 
 <ComponentBlock for="Grid">
 
@@ -193,7 +199,7 @@ In some cases you may want to define your own paging behavior and this is when w
 
 ## Styling
 
-To get started with styling the paginator, we need to import the `index` file, where all the theme functions and component mixins live:
+To get started with styling the paginator, we need to import the `index` file, where all the theme functions and the `tokens()` mixin are exported:
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -202,62 +208,22 @@ To get started with styling the paginator, we need to import the `index` file, w
 // @import '~igniteui-angular/lib/core/styles/themes/index';
 ```
 
-Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> and accepts the `$text-color`, `$background-color` and the `$border-color` parameters.
+Following the simplest approach, we create a new theme that extends the <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> and accepts the `$foreground`, `$background`, `$border-color` and `$accent-color` parameters.
 
 ```scss
-$dark-paginator: paginator-theme(
-  $text-color: #d0ab23;,
-  $background-color: #231c2c,
-  $border-color: #d0ab23;
+$paginator-theme: paginator-theme(
+  $foreground: #ff570f,
+  $background: #130425FF,
+  $border-color: #ff570f,
+  $accent-color: #ff570f,
 );
 ```
 
-As seen, the `paginator-theme` only controls colors for the paging container, but does not affect the buttons in the pager UI. To style those buttons, let's create a new icon button theme:
+After that we can **include** the newly created theme.
 
 ```scss
-$dark-button: flat-icon-button-theme(
-  $foreground: #d0ab23,
-  $hover-foreground: #231c2c,
-  $hover-background: #d0ab23,
-  $focus-foreground: #231c2c,
-  $focus-background: #d0ab23,
-  $disabled-foreground: #9b7829
-);
-```
-
-<DocsAside type="info">
-Instead of hardcoding the color values like we just did, we can achieve greater flexibility in terms of colors by using the <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> and <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> functions. Please refer to [`Palettes`](/themes/sass/palettes) topic for detailed guidance on how to use them.
-</DocsAside>
-
-The last step is to **include** the component mixins, each with its respective theme:
-
-```scss
-:host {
-    @include tokens($dark-paginator);
-
-    .igx-grid-paginator__pager {
-        @include tokens($dark-button);
-    }
-}
-```
-
-<DocsAside type="info">
-We include the created **icon-button-theme** within `.igx-paginator__pager`, so that only the paginator buttons would be styled. Otherwise other icon buttons in the grid would be affected too.
-</DocsAside>
-
-<DocsAside type="info">
-If the component is using an [`Emulated`](/themes/sass/component-themes#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep` in order to style the components which are inside the paging container, like the button:
-</DocsAside>
-
-```scss
-:host {
-  @include tokens($dark-paginator);
-
-  igx-paginator {
-    ::ng-deep {
-      @include tokens($dark-button);
-    }
-  }
+igx-paginator {
+  @include tokens($paginator-theme);
 }
 ```
 
@@ -267,7 +233,6 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 
 <Sample src="/grid/custom-grid-paging-style" height={560} alt="" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 <ComponentBlock for="HierarchicalGrid">
@@ -288,17 +253,15 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 
 
 ## API References
-
 - <ApiLink type="{ComponentApiType}" />
 - <ApiLink kind="sass" module="themes" type="function-grid-theme" label="{ComponentName}Component Styles" />
 - <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="IgxGridPaginator Styles" />
-
 ## Additional Resources
 
-<div class="divider--half"></div>
 
 - [{ComponentTitle} overview](/{igPath}/{ComponentMainTopic})
 - [Paginator](/paginator)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
 - [Virtualization and Performance](/{igPath}/virtualization)
 - [Filtering](/{igPath}/filtering)
 - [Sorting](/{igPath}/sorting)
@@ -307,8 +270,8 @@ If the component is using an [`Emulated`](/themes/sass/component-themes#view-enc
 - [Column Pinning](/{igPath}/column-pinning)
 - [Column Resizing](/{igPath}/column-resizing)
 - [Selection](/{igPath}/selection)
+</ComponentBlock>
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

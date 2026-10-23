@@ -3,6 +3,8 @@ title: Editing and Validation in Angular {ComponentTitle} - Infragistics
 description: Validate the input of the users in grid and notify them if it's valid or not while using Angular {ComponentTitle}. See demos & examples!
 keywords: angular validation, ignite ui for angular, infragistics
 license: commercial
+llms:
+  description: "The {ComponentTitle}'s editing exposes a built-in validation mechanism of user input when editing cells/rows."
 ---
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -37,19 +39,16 @@ The following sample demonstrates how to use the prebuilt `required`, `email` an
 
 <Sample src="/grid/grid-validator-service" height={600} alt="Angular {ComponentTitle} Validation Basic Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
 
 <Sample src="/tree-grid/tree-grid-validator-service" height={600} alt="Angular {ComponentTitle} Validation Basic Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="HierarchicalGrid">
 
 <Sample src="/hierarchical-grid/hierarchical-grid-validator-service" height={680} alt="Angular {ComponentTitle} Validation Basic Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 
@@ -122,10 +121,10 @@ You can decide to write your own validator function, or use one of the [built-in
 The grid exposes a validation service via the <ApiLink type="Grid" member="validation" label="validation" /> property.
 That service has the following public APIs:
 
-- <ApiLink type="GridValidationService" suffix={false} member="valid" label="valid" /> - returns if the grid validation state is valid.
-- <ApiLink type="GridValidationService" suffix={false} member="getInvalid" label="getInvalid" /> - returns records with invalid states.
-- <ApiLink type="GridValidationService" suffix={false} member="clear" label="clear" /> - clears state for record by id or clears all state if no id is provided.
-- <ApiLink type="GridValidationService" suffix={false} member="markAsTouched" label="markAsTouched" /> - marks the related record/field as touched.
+- <ApiLink type="GridValidationService" member="valid" label="valid" /> - returns if the grid validation state is valid.
+- <ApiLink type="GridValidationService" member="getInvalid" label="getInvalid" /> - returns records with invalid states.
+- <ApiLink type="GridValidationService" member="clear" label="clear" /> - clears state for record by id or clears all state if no id is provided.
+- <ApiLink type="GridValidationService" member="markAsTouched" label="markAsTouched" /> - marks the related record/field as touched.
 
 Invalid states will persist until the validation errors in them are fixed according to the validation rule or they are cleared.
 
@@ -135,9 +134,9 @@ Validation will be triggered in the following scenarios:
 
 - While editing via the cell editor based on the grid's <ApiLink type="Grid" member="validationTrigger" label="validationTrigger" />. Either on `change` while typing in the editor, or on `blur` when the editor loses focus or closes.
 - When updating cells/rows via the API - <ApiLink type="Grid" member="updateRow" label="updateRow" />, <ApiLink type="Grid" member="updateCell" label="updateCell" /> etc..
-- When using batch editing and the <ApiLink type="TransactionService" suffix={false} member="undo" label="undo" />/<ApiLink type="TransactionService" suffix={false} member="redo" label="redo" /> API of the transaction service.
+- When using batch editing and the <ApiLink type="TransactionService" member="undo" label="undo" />/<ApiLink type="TransactionService" member="redo" label="redo" /> API of the transaction service.
 
-<DocsAside type="note">
+<DocsAside type="info">
 Validation will not trigger for records that have not been edited via user input or via the editing API. Visual indicators on the cell will only shown if the related input is considered touched - either via user interaction or via the `markAsTouched` API of the validation service.
 </DocsAside>
 
@@ -190,7 +189,7 @@ This is useful in scenarios where you want to add your own custom error message 
 
 In some cases you may want to disallow submitting an invalid value in the data.
 In that scenarios you can use the <ApiLink type="Grid" member="cellEdit" label="cellEdit" /> or <ApiLink type="Grid" member="rowEdit" label="rowEdit" /> events and cancel the event in case the new value is invalid.
-Both events' arguments have a <ApiLink kind="interface" prefixed={false} suffix={false} type="IGridEditEventArgs" member="valid" /> property and can be canceled accordingly. How it is used can be seen in the [Cross-field Validation example](#cross-field-example)
+Both events' arguments have a <ApiLink kind="interface" type="IGridEditEventArgs" member="valid" /> property and can be canceled accordingly. How it is used can be seen in the [Cross-field Validation example](#cross-field-example)
 
 <ComponentBlock for="Grid">
 
@@ -234,19 +233,16 @@ The below example demonstrates the above-mentioned customization options.
 
 <Sample src="/grid/grid-validator-service-extended" height={570} alt="Angular {ComponentTitle} Custom Validation Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="TreeGrid">
 
 <Sample src="/tree-grid/tree-grid-validator-service-extended" height={570} alt="Angular {ComponentTitle} Custom Validation Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 <ComponentBlock for="HierarchicalGrid">
 
 <Sample src="/hierarchical-grid/hierarchical-grid-validator-service-extended" height={640} alt="Angular {ComponentTitle} Custom Validation Example" />
 
-<div class="divider--half"></div>
 </ComponentBlock>
 
 ## Cross-field validation
@@ -597,7 +593,6 @@ The below sample demonstrates the cross-field validation in action.
 <Sample src="/tree-grid/tree-grid-cross-field-validator-service" height={620} alt="Angular {ComponentTitle} Cross-field Validation Example" />
 </ComponentBlock>
 
-<div class="divider--half"></div>
 
 ## Styling
 
@@ -660,7 +655,9 @@ public cellStyles = {
 
 ```html
 <igx-grid [rowStyles]="rowStyles">
-  <igx-column field="ReorderLevel" header="ReorderLever" required [cellClasses]="cellStyles">
+  <igx-column field="ReorderLevel" header="Reorder Level" required [cellClasses]="cellStyles">
+  </igx-column>
+</igx-grid>
 ```
 
 </ComponentBlock>
@@ -690,9 +687,12 @@ public cellStyles = {
 ```html
 <igx-hierarchical-grid [rowStyles]="rowStyles">
   <igx-column field="Artist" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
-  ...
+  </igx-column>
   <igx-row-island [key]="'Albums'" [rowStyles]="rowStyles">
     <igx-column field="Album" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
+    </igx-column>
+  </igx-row-island>
+</igx-hierarchical-grid>
 ```
 
 </ComponentBlock>
@@ -717,6 +717,8 @@ public cellStyles = {
 ```html
 <igx-tree-grid [rowStyles]="rowStyles">
   <igx-column *ngFor="let c of columns" [field]="c.field" [dataType]="c.dataType" [header]="c.label" [required]="c.required" [cellClasses]="cellStyles">
+  </igx-column>
+</igx-tree-grid>
 ```
 
 </ComponentBlock>
@@ -745,15 +747,12 @@ public cellStyles = {
 
 </ComponentBlock>
 
-<div class="divider--half"></div>
 
 
 ## API References
-
-- <ApiLink type="BaseTransactionService" suffix={false} />
+- <ApiLink type="BaseTransactionService" />
 - <ApiLink type="Grid" />
 - <ApiLink type="Column" />
-
 ## Known Issues and Limitations
 
 |Limitation|Description|
@@ -764,12 +763,13 @@ public cellStyles = {
 
 - [Build CRUD operations with igxGrid](/general/how-to/how-to-perform-crud)
 - [{ComponentTitle} Overview](/{igPath}/{ComponentMainTopic})
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
 - [{ComponentTitle} Editing](/{igPath}/editing)
+</ComponentBlock>
 - [{ComponentTitle} Row Editing](/{igPath}/row-editing)
 - [{ComponentTitle} Row Adding](/{igPath}/row-adding)
 - [{ComponentTitle} Transactions](/{igPath}/batch-editing)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

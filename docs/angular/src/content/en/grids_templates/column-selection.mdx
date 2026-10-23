@@ -5,6 +5,8 @@ title: Angular Grid Column Selection - Ignite UI for Angular
 description: Learn how to configure column selection with Ignite UI for Angular Data grid. This makes grid interactions much easier and faster than ever.
 keywords: column selection, igniteui for angular, infragistics
 license: commercial
+llms:
+  description: "The Column selection feature provides an easy way to select an entire column with a single click."
 ---
 
 </ComponentBlock>
@@ -16,6 +18,8 @@ description: Learn how to configure column selection with Ignite UI for Angular 
 keywords: column selection, igniteui for angular, infragistics
 license: commercial
 _canonicalLink: grid/column-selection
+llms:
+  description: "The Column selection feature provides an easy way to select an entire column with a single click."
 ---
 
 </ComponentBlock>
@@ -27,6 +31,8 @@ description: Learn how to configure column selection with Ignite UI for Angular 
 keywords: column selection, igniteui for angular, infragistics
 license: commercial
 _canonicalLink: grid/column-selection
+llms:
+  description: "The Column selection feature provides an easy way to select an entire column with a single click."
 ---
 
 </ComponentBlock>
@@ -42,7 +48,6 @@ The Column selection feature provides an easy way to select an entire column wit
 
 ## Angular Column Selection Example
 
-<div class="divider--half"></div>
 
 The sample below demonstrates the three types of {ComponentTitle}'s **column selection** behavior. Use the _column selection_ dropdown below to enable each of the available selection modes.
 <ComponentBlock for="Grid">
@@ -60,18 +65,17 @@ The sample below demonstrates the three types of {ComponentTitle}'s **column sel
 
 <Sample src="/{ComponentDemoBasePath}/column-selection" height={570} alt="Angular Column Selection Example" />
 
-<div class="divider--half"></div>
 
 ## Basic usage
 
-The column selection feature can be enabled through the <ApiLink type="{ComponentApiType}" member="columnSelection" label="columnSelection" /> input, which takes <ApiLink kind="variable" type="GridSelectionMode" prefixed={false} /> values.
+The column selection feature can be enabled through the <ApiLink type="{ComponentApiType}" member="columnSelection" label="columnSelection" /> input, which takes <ApiLink kind="variable" type="GridSelectionMode" /> values.
 
 ## Interactions
 
 The default selection mode is `none`. If set to `single` or `multiple` all of the presented columns will be <ApiLink type="Column" member="selectable" label="selectable" />. With that being said, in order to select a column, we just need to click on one, which will mark it as <ApiLink type="Column" member="selected" label="selected" />. If the column is not selectable, no selection style will be applied on the header, while hovering.
 
 <DocsAside type="info">
-[`Multi-column Headers`](multi-column-headers) don't reflect on the <ApiLink type="Column" member="selectable" label="selectable" /> input. The <ApiLink type="ColumnGroup" /> is <ApiLink type="Column" member="selectable" label="selectable" />, if at least one of its children has the selection behavior enabled. In addition, the component is marked as <ApiLink type="ColumnGroup" member="selected" label="selected" /> if all of its `selectable` descendants are <ApiLink type="Column" member="selected" label="selected" />.
+[`Multi-column Headers`](/{igPath}/multi-column-headers) don't reflect on the <ApiLink type="Column" member="selectable" label="selectable" /> input. The <ApiLink type="ColumnGroup" /> is <ApiLink type="Column" member="selectable" label="selectable" />, if at least one of its children has the selection behavior enabled. In addition, the component is marked as <ApiLink type="ColumnGroup" member="selected" label="selected" /> if all of its `selectable` descendants are <ApiLink type="Column" member="selected" label="selected" />.
 </DocsAside>
 
 <ComponentBlock for="Grid">
@@ -89,7 +93,6 @@ The default selection mode is `none`. If set to `single` or `multiple` all of th
 
 <Sample src="/{ComponentDemoBasePath}/column-group-selection" height={570} alt="" />
 
-<div class="divider--half"></div>
 
 ## Keyboard combinations
 
@@ -114,7 +117,7 @@ More information regarding the API manipulations could be found in the [`API Ref
 
 ## Styling
 
-Before diving into the styling options, the core module and all component mixins need to be imported.
+Before diving into the styling options, the theming module needs to be imported.
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -133,14 +136,22 @@ Following the simplest approach, let's define our custom **theme**.
 <ComponentBlock for="TreeGrid">
 
 ```scss
-$custom-grid-theme: grid-theme(
-  $row-selected-background: #011627,
-  $row-selected-text-color: #ecaa53,
-  $row-selected-hover-background: #011627,
-  $header-selected-text-color: #ecaa53,
-  $header-selected-background: #011627,
-  $expand-icon-color: #ecaa53,
-  $expand-icon-hover-color: #b64b80
+$background: #0b0119;
+$foreground: #eeece1;
+$accent: #f6b560;
+
+$grid-theme: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+  
+  $row-selected-background: #012724,
+  $row-selected-text-color: $accent,
+  $header-selected-text-color: $accent,
+  $header-selected-background: #012427,
+  
+  $row-selected-hover-background: hsl(from #012427 h s 10%),
+  $row-selected-hover-text-color: $accent,
 );
 ```
 
@@ -148,29 +159,33 @@ $custom-grid-theme: grid-theme(
 <ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
 
 ```scss
+$background: #011627;
+$accent: #ecaa53;
+
 $custom-grid-theme: grid-theme(
-  $row-selected-background: #011627,
-  $row-selected-text-color: #ecaa53,
-  $row-selected-hover-background: #011627,
-  $header-selected-text-color: #ecaa53,
-  $header-selected-background: #011627
+  $row-selected-background: $background,
+  $row-selected-text-color: $accent,
+  $row-selected-hover-background: hsl(from $background h s 10%),
+  $row-selected-hover-text-color: $accent,
+  $header-selected-text-color: $accent,
+  $header-selected-background: $background,
 );
 ```
 
 </ComponentBlock>
 
-
 The <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> accepts several parameters but those are the five responsible for changing the appearance of all selected columns:
 
 - **$row-selected-background** - sets the background of the selected fraction.
 - **$row-selected-text-color** - sets the text color of the selected fraction
-- **$row-selected-hover-background** - sets the color of the hovered cell or bunch of cells.
+- **$row-selected-hover-background** - sets the color of the hovered cell or group of cells.
+- **$row-selected-hover-text-color** - sets the text color of the hovered cell or group of cells.
 - **$header-selected-text-color** - sets the text color of the selected column header
 - **$header-selected-background** - sets the background color of the selected column header.
 
 ### Using CSS Variables
 
-The last step is to include the custom `igx-grid` theme.
+The last step is to **include** the custom grid theme.
 
 ```scss
 :host {
@@ -185,11 +200,9 @@ The last step is to include the custom `igx-grid` theme.
 <DocsAside type="info">
 The sample will not be affected by the selected global theme from `Change Theme`.
 </DocsAside>
-<div class="divider--half"></div>
 
 ## <a name="api-references"></a>API References
 
-<div class="divider--half"></div>
 The column selection UI has a few more APIs to explore, which are listed below.
 
 - <ApiLink type="{ComponentApiType}" />
@@ -218,7 +231,7 @@ The column selection UI has a few more APIs to explore, which are listed below.
 
 <ApiLink type="{ComponentApiType}" /> events:
 
-- <ApiLink type="{ComponentApiType}" member="onColumnsSelectionChange" label="onColumnsSelectionChange" />
+- <ApiLink type="{ComponentApiType}" member="columnSelectionChanging" label="columnSelectionChanging" />
 
 ## Additional Resources
 
@@ -234,7 +247,6 @@ The column selection UI has a few more APIs to explore, which are listed below.
 - [Column Resizing](/{igPath}/column-resizing)
 - [Virtualization and Performance](/{igPath}/virtualization)
 
-<div class="divider--half"></div>
 Our community is active and always welcoming to new ideas.
 
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)

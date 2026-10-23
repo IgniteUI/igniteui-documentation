@@ -23,7 +23,6 @@ You can create Angular Category Area Chart in the [`IgxCategoryChartComponent`](
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Area Chart Recommendations
 
@@ -68,7 +67,6 @@ Angular Area Chart is often used to show the change of value over time such as t
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Area Chart with Multiple Series
 
@@ -81,7 +79,6 @@ Similarly to how you can show multiple [Line Chart](line-chart.md) and [Spline C
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Area Chart Styling
 
@@ -94,7 +91,6 @@ Area charts often have semi-transparent fill for their areas, thicker li
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Area Charts
 
@@ -111,7 +107,6 @@ The Angular Step Area Chart belongs to a group of category charts and it is rend
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Advanced Types of Area Charts
 
@@ -128,7 +123,6 @@ The Angular Range Area Chart allows you show the area as a range between two v
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Area Chart
 
@@ -141,7 +135,6 @@ The Angular Stacked Area Chars is rendered using a collection of points connecte
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Area Chart
 
@@ -154,7 +147,6 @@ The Angular Stacked 100% Area Chart allows you represent your data as part of a 
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked Spline Area Chart
 
@@ -167,7 +159,6 @@ The Angular Stacked Spline Area Chart is rendered using a collection of points c
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Stacked 100% Spline Area Chart
 
@@ -180,7 +171,6 @@ The Angular Stacked 100% Spline Area Chart is identical to the Stacked Spline Ar
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Radial Area Chart
 
@@ -193,7 +183,6 @@ The Angular Radial Area Chart belongs to a group of [Radial Chart](radial-chart.
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Polar Area Chart
 
@@ -206,7 +195,6 @@ The Angular Polar Area Chart belongs to a group of [Polar Chart](polar-chart.md)
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Angular Polar Spline Area Chart
 
@@ -219,7 +207,6 @@ The Angular Polar Spline Area Chart belongs to a group of [Polar Chart](polar-ch
 </code-view>
 
 
-<div class="divider--half"></div>
 
 ## Additional Resources
 

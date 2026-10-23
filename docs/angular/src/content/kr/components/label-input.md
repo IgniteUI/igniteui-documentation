@@ -9,16 +9,14 @@ _language: kr
 <p class="highlight">
 The Ignite UI for Angular Input and Label directives are used to create single-line or multi-line text elements. They help to cover common scenarios when dealing with form inputs.
 </p>
-<div class="divider--half"></div>
 
 ### Label & Input Demo
 
-<code-view style="height:100px" 
-           data-demos-base-url="{environment:demosBaseUrl}" 
+<code-view style="height:100px"
+           data-demos-base-url="{environment:demosBaseUrl}"
            iframe-src="{environment:demosBaseUrl}/data-entries/input-group-sample-2/" >
 </code-view>
 
-<div class="divider--half"></div>
 
 ### Usage
 The default styling of the Label and Input directives follows the text fields specification in the Material Design
@@ -57,7 +55,6 @@ And the result is:
 <div class="sample-container loading" style="height:100px">
 <iframe id="input-group-sample-1-frame" data-src='{environment:demosBaseUrl}/data-entries/input-group-sample-1' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
 </div>
-<div class="divider--half"></div>
 
 The [`igxInput`]({environment:angularApiUrl}/classes/igxinputdirective.html) directive could be applied to `<input>` and `<textarea>` HTML elements. We support both single-line and multi-line text fields.
 
@@ -76,7 +73,6 @@ In the demonstration of the code below you can see we receive an asterisk next t
 <div class="sample-container loading" style="height:100px">
 <iframe id="input-group-sample-2-frame" data-src='{environment:demosBaseUrl}/data-entries/input-group-sample-2' width="100%" height="100%" seamless frameBorder="0" class="lazyload"></iframe>
 </div>
-<div class="divider--half"></div>
 
 #### Data Binding
 Ignite UI for Angular Input supports one-way and two-way data-binding. Let's add a two-way data-binding to our input. Here is the code in our component:
@@ -101,15 +97,15 @@ and in our markup:
 You can read about the Input Group component in a separate topic [here](input-group.md).
 
 ## API References
-* [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
-* [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
+- [IgxInputDirective]({environment:angularApiUrl}/classes/igxinputdirective.html)
+- [IgxInputGroupComponent]({environment:angularApiUrl}/classes/igxinputgroupcomponent.html)
 
 ## Additional Resources
 Related topics:
 
-* [Input Group](input-group.md)
+- [Input Group](input-group.md)
 
 Our community is active and always welcoming to new ideas.
 
-* [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
-* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
