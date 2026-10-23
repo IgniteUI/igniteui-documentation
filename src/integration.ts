@@ -350,6 +350,15 @@ export interface ProductLink {
     platform?: PlatformKey;
 }
 
+/** One entry per topic: package value (platform key) -> slug of the topic on that platform's site. */
+export type TopicMap = Array<Record<string, string>>;
+
+/** The topic map shared by every docs site in this repo: `src/data/platform-topic-map.json`. */
+function readTopicMap(): TopicMap {
+    const file = fileURLToPath(new URL('./data/platform-topic-map.json', import.meta.url));
+    return JSON.parse(fs.readFileSync(file, 'utf-8')).topics;
+}
+
 export interface SiteMetaOptions {
     title: string;
     description?: string;
@@ -384,6 +393,12 @@ export interface SiteMetaOptions {
      */
     selectedPackage?: string;
     /**
+     * Topics kept when switching packages in the DocsSubHeader. Each entry maps package values
+     * to the slug of the same topic on that package's site, resolved against the package's `base`.
+     * Every other switch goes to the package's `href`.
+     */
+    topicMap?: TopicMap;
+    /**
      * Platform context used to resolve `<ApiLink>` components in generated `.md` files.
      * When provided, ApiLinks are rendered as markdown links pointing to the correct API docs URL.
      * When omitted, ApiLinks fall back to inline code (`` `TypeName.member` ``).
@@ -409,6 +424,7 @@ export function siteMetaIntegration({
     head = [],
     packages = [],
     selectedPackage = '',
+    topicMap = [],
 }: SiteMetaOptions = {} as SiteMetaOptions): AstroIntegration {
     const llmsMetaMap = docsDir
         ? buildLlmsMetaMap(docsDir, sidebar ?? [])
@@ -495,6 +511,7 @@ export const trailingSlash = ${JSON.stringify(configuredTrailingSlash)};
 export const navLang = ${JSON.stringify(navLang)};
 export const packages = ${JSON.stringify(packages)};
 export const selectedPackage = ${JSON.stringify(selectedPackage)};
+export const topicMap = ${JSON.stringify(topicMap)};
 `;
                                 if (id !== navResolvedId) return;
 
@@ -691,12 +708,14 @@ export interface CreateDocsSiteOptions {
     productLinks?: ProductLink[];
     /**
      * Items for the DocsSubHeader package/platform selector. When `packages` is empty, the selector is hidden.
-     * Give an entry a `base` (root URL of its docs site) to keep the current topic when switching to it;
-     * its `href` is used when that topic does not exist there.
+     * An entry's `base` (root URL of its docs site) is where `topicMap` slugs resolve; its `href` is
+     * where every other switch goes.
      */
     packages?: Array<string | { label: string; value?: string; href?: string; base?: string }>;
     /** Initially selected package value when `packages` is provided (must match one of `packages`). */
     selectedPackage?: string;
+    /** Topics kept when switching packages. Defaults to `src/data/platform-topic-map.json`. */
+    topicMap?: TopicMap;
     /** Extra Astro integrations appended after the built-in ones. */
     integrations?: AstroIntegration[];
     /** Any remaining keys are spread into `defineConfig` (markdown, image, build, …). */
@@ -725,6 +744,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         productLinks = [],
         packages = [],
         selectedPackage = '',
+        topicMap = readTopicMap(),
         head = [],
         llmsSets = [] as LlmsSet[],
         integrations: extraIntegrations = [],
@@ -885,6 +905,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 productLinks,
                 packages,
                 selectedPackage,
+                topicMap,
                 head: [...gtmHead, ...platformHead, ...codeViewHead, ...head],
             }),
             ...(base ? [createBasePrependIntegration(base)] : []),

@@ -22,6 +22,8 @@ declare module 'virtual:docs-template/site-meta' {
   export const packages: Array<string | { label: string; value?: string; href?: string; base?: string }>;
   /** Initially selected package. Empty string when not configured. */
   export const selectedPackage: string;
+  /** Topics kept when switching packages: package value -> slug of the topic on that package's site. */
+  export const topicMap: Array<Record<string, string>>;
 }
 
 declare module 'virtual:docs-template/nav-html' {
