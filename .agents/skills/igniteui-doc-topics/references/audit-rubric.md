@@ -1,7 +1,6 @@
 # Audit rubric
 
-Version: v7 · 2026-10-22 · igniteui doc-skill set. Before editing, confirm this version line against
-`.agents/CHANGELOG.md`.
+Version: v7 · 2026-10-22 · igniteui doc-skill set. Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 The audit workflow, the checkable rules for **audit mode**, and the report format to produce. Every
 finding maps to a concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fix.
@@ -204,10 +203,7 @@ Run the compass on each section; flag content that has drifted out of the sectio
   approach (standalone) — reorder so current is first, legacy after and marked as such.
 - F3 (Suggestion) The **Styling** section doesn't open with a `<Sample>` of the styled result, or its
   first subsection isn't `### Sass Theming`.
-- F4 (Suggestion) **Getting Started** repeats the generic install boilerplate (the `ng add` command
-  with the "install the library first / read getting started" prose that is identical on every page)
-  instead of compressing it to a **one-line prerequisite link** and leading with the component-specific
-  import. Blazor's bare `builder.Services.AddIgniteUIBlazor()` snippet is not boilerplate here (see F9).
+- F4 (Suggestion) **Getting Started** repeats the generic install boilerplate (the `ng add` command with the "install the library first / read getting started" prose that is identical on every page) instead of compressing it to a **one-line prerequisite link** and leading with the component-specific import. Blazor's bare `builder.Services.AddIgniteUIBlazor()` snippet is not boilerplate here (see F9).
 - F5 (Warning) An inline Properties/Styling-Variables table has rows not verified from source, or is
   presented as generated when the repo has no generator (curated + `<ApiLink>` is the current rule).
 - F6 (Warning) A version-migration note lives inside a code-fence comment, or legacy/alternative setup
@@ -223,11 +219,7 @@ Run the compass on each section; flag content that has drifted out of the sectio
   across themes, only the default values differ — so per-theme tabs document a difference that doesn't
   exist, and defaults are per-theme data for the generated API reference. Fix: collapse to **one
   two-column table (variable · what it changes)**.
-- F9 (Warning) A Blazor **Getting Started** presents a component module (`typeof(Igb…Module)`) as a
-  required step, or lists the modules of other components the content uses. Components load their own
-  module on first render → show the bare `builder.Services.AddIgniteUIBlazor()` snippet and the
-  component's own module as optional (house-style, *Blazor module registration*). Feature modules no
-  component loads stay required.
+- F9 (Warning) A Blazor **Getting Started** presents a component module (`typeof(Igb…Module)`) as a required step, or lists the modules of other components the content uses. Components load their own module on first render → show the bare `builder.Services.AddIgniteUIBlazor()` snippet and the component's own module as optional (house-style, *Blazor module registration*). Feature modules no component loads stay required.
 
 ## Report format
 

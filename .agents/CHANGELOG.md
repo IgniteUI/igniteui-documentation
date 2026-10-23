@@ -4,11 +4,7 @@ Version: v7 · 2026-10-22 · igniteui doc-skill set.
 
 ## v7 · 2026-10-22
 
-Teaches the set that Blazor module registration is optional: a component loads its own module the
-first time it renders. Under v6 an author led a Blazor Getting Started with "register the X module",
-listed every other component's module, and F4 flagged the bare `AddIgniteUIBlazor()` call the topics
-repeat on purpose. Decision: IgniteUI/igniteui-documentation#946, which applies the pattern to the
-Blazor topics in the same change.
+Teaches the set that Blazor module registration is optional: a component loads its own module the first time it renders. Under v6 an author led a Blazor Getting Started with "register the X module", listed every other component's module, and F4 flagged the bare `AddIgniteUIBlazor()` call the topics repeat on purpose. Decision: IgniteUI/igniteui-documentation#946, which applies the pattern to the Blazor topics in the same change.
 
 ### Changed
 

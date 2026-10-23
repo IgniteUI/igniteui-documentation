@@ -1,8 +1,6 @@
 # Ignite UI house style
 
-Version: v7 · 2026-10-22 · igniteui doc-skill set (v7 added the Blazor module-registration rule;
-v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative
-field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
+Version: v7 · 2026-10-22 · igniteui doc-skill set (v7 added the Blazor module-registration rule; v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
 `diataxis-cheatsheet.md` (the *why*); the section→mode map is the "Diátaxis mode" column of the
@@ -514,13 +512,7 @@ audits the body side.
   page; each component page shows only its own import. Keep the prerequisite as a single linked line
   (optionally with an inline `ng add` token) so a cold-landing reader or AI still has the pointer — just
   not the repeated paragraph.
-- **Blazor module registration.** A Blazor component loads its own module the first time it renders,
-  so Getting Started shows the bare `builder.Services.AddIgniteUIBlazor()` call (the one setup step a
-  Blazor component page repeats), then names the component's own module as **optional**, linked to
-  the **Component Modules** section of the general getting-started topic. Don't list the modules of
-  other components the content uses. List as required only feature modules that no component
-  loads (chart interactivity, the Dashboard Tile's visualizations). Canonical example:
-  `inputs/badge.mdx`.
+- **Blazor module registration.** A Blazor component loads its own module the first time it renders, so Getting Started shows the bare `builder.Services.AddIgniteUIBlazor()` call (the one setup step a Blazor component page repeats), then names the component's own module as **optional**, linked to the **Component Modules** section of the general getting-started topic. Don't list the modules of other components the content uses. List as required only feature modules that no component loads (chart interactivity, the Dashboard Tile's visualizations). Canonical example: `inputs/badge.mdx`.
 - **Styling leads with the result.** The Styling section opens with a `<Sample>` of the styled
   outcome, then the tables; its first subsection is `### Sass Theming` (the Sass theme workflow), then
   the other approaches (`### Tailwind`, `### Custom sizing`, …).
