@@ -356,6 +356,21 @@ translating all new or modified English prose into natural, fluent Japanese.
 - Preserve all existing Japanese translations in unchanged sections of the
   file; only modify the parts that correspond to the English diff.
 
+**Wording rules:**
+
+- Keep component names in English, as the English source writes them:
+  "Avatar のクライアント リソース モジュール", not 「アバターの…」.
+- A code span that is a complete example takes 「のように」:
+  "`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると", not
+  「…に指定して」. 「に」 means putting something into the span.
+- Give each alternative its own verb: 「起動時に登録するか、後から
+  `Register` メソッドで登録します」, not 「起動時または後から `Register`
+  メソッドで登録します」.
+- When an English sentence changes, re-translate the changed clause with the
+  existing Japanese sentence as context, reusing the terms it already uses
+  (for example 任意, 「(…を参照)」), and keep its logical links: a condition
+  stays conditional (「すると」), a contrast keeps 「ただし」.
+
 **Special rule for `toc.json`:**
 
 When the changed file is `docs/xplat/src/content/en/toc.json`, apply
