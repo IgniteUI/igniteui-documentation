@@ -12,6 +12,7 @@ platformType: xplat
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DownloadCard from 'docs-template/components/mdx/DownloadCard.astro';
 import DownloadCardGroup from 'docs-template/components/mdx/DownloadCardGroup.astro';
 import { Image } from 'astro:assets';
@@ -643,6 +644,36 @@ public void ConfigureServices(IServiceCollection services)
 ```razor
 <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
 <script src="_framework/blazor.server.js"></script>
+```
+
+### Component Modules
+
+Calling `builder.Services.AddIgniteUIBlazor()` is all most apps need: each component loads its client resources the first time it renders. Register modules explicitly to:
+
+- have a component's resources ready when the app starts, before the component first renders;
+- use a component that is created only on the client, for example by a JavaScript template, where no Razor component requests its module;
+- enable features that no component requests on its own, such as chart interactivity (<ApiLink raw type="DataChartInteractivityModule" />) or the `*FullModule` bundles, all in the **{PackageCore}** package.
+
+List the modules in `\AddIgniteUIBlazor`, which loads them when the Ignite UI runtime starts:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbBadgeModule),
+    typeof(IgbDataChartInteractivityModule)
+);
+```
+
+Or register a module later, with the injected runtime:
+
+```razor
+@inject IIgniteUIBlazor IgniteUIBlazor
+
+@code {
+    protected override void OnInitialized()
+    {
+        IgbBadgeModule.Register(IgniteUIBlazor);
+    }
+}
 ```
 
 ## Add Ignite UI for Blazor Component
