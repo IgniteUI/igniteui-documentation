@@ -1,0 +1,311 @@
+---
+title: "{Platform} {ComponentTitle} テーマ設定 - {ProductName}"
+description: {ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色の 3 色だけで作成できます。派生する --ig-grid-* トークンは、grid-theme()、Theming MCP、またはテーマ プレイグラウンドで生成します。
+keywords: "{Platform} {ComponentTitle} テーマ設定, {Platform} {ComponentTitle} スタイル設定, グリッド テーマ, grid-theme, 派生トークン, theming mcp, css 変数, {ProductName}, Infragistics, インフラジスティックス"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid", "PivotGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridTheming}"
+_language: ja
+llms:
+  description: "{ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色から作成でき、その他すべての --ig-grid-* の色はそこから派生します。派生トークンは grid-theme() (Sass)、Theming MCP、またはテーマ プレイグラウンドで生成します。これらがない場合、各プロパティは独立しています。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} テーマ設定
+
+{ComponentTitle} のテーマは、**背景**、**前景**、**アクセント**の 3 色だけで作成でき、ヘッダー、行、境界線、集計、ツールバー、ページネーター、フィルタリング ポップアップなど、その他すべての色はこれらから派生します。派生した色を手動で記述する必要はありません。<PlatformBlock for="WebComponents, React">`grid-theme()`、</PlatformBlock>[Theming MCP](../../ai/theming-mcp.mdx)、または[テーマ プレイグラウンド](#お試しください)で生成できます。
+
+派生の仕組みはコンポーネントではなく、生成されたテーマ側にあります。デフォルトでは、各 `--ig-grid-*` プロパティは独立しており、{ComponentTitle} のその部分のみを変更します。詳細については、[個別のプロパティの微調整](#個別のプロパティの微調整)を参照してください。
+
+<DocsAside type="info">
+グリッドごとに個別のトークン セットがあるわけではありません。Grid、Tree Grid、Hierarchical Grid、Pivot Grid はすべて同じ `--ig-grid-*` カスタム プロパティを読み取るため、同じテーマをそのままいずれにも適用できます。
+</DocsAside>
+
+## {Platform} {ComponentTitle} テーマ設定の例
+
+以下の 4 つのテーマはカスタム テーマで、このサンプル用に作成されたものであり、ライブラリには含まれていません。これらは生成された派生トークンの同一ブロックを共有しているため、各テーマはプライマリ トークンといくつかのサーフェスと境界線の色のみを設定します。テーマを切り替えると、生成されたテーマでこれらの少数の値がどこまで影響するかがわかります。
+
+<ComponentBlock for="Grid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={720} alt="{Platform} {ComponentTitle} テーマ設定の例" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={710} alt="{Platform} {ComponentTitle} テーマ設定の例" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={630} alt="{Platform} {ComponentTitle} テーマ設定の例" />
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+<Sample iframeOnly noBorder={false} src="/{ComponentSample}/theming" height={650} alt="{Platform} {ComponentTitle} テーマ設定の例" />
+
+</ComponentBlock>
+
+## テーマの作成
+
+生成されたテーマは、クラスで宣言された `--ig-grid-*` カスタム プロパティのブロックです。このブロックには 3 つのプライマリ トークンと、それらに基づく CSS 式として記述されたその他すべてのトークンが含まれます。
+
+```css
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-header-text-color: var(--ig-grid-foreground);
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  /* … and the rest of the token set */
+}
+```
+
+ツールチェーンに合った方法を選択してください。どの方法でも同じトークン セットが生成されます。
+
+<PlatformBlock for="WebComponents, React">
+
+### Sass
+
+プロジェクトで Sass をコンパイルしている場合は、`grid-theme()` 関数を使用すると、テーマ エンジンがトークン セットを記述します。使用するには、まずテーマ パッケージをインストールします。
+
+```bash
+npm install igniteui-theming
+```
+
+次に、テーマ関数と `tokens()` ミックスインをエクスポートするパッケージをインポートします。
+
+```scss
+@use "igniteui-theming" as *;
+```
+
+続いて、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> でテーマを宣言し、影響を与える要素にインクルードします。
+
+```scss
+.my-grid {
+  @include tokens(grid-theme(
+    $background: #08002e,
+    $accent-color: #ff7d52
+  ));
+}
+```
+
+各パラメーターは同名のトークンに対応します (`$background` は `--ig-grid-background`、`$accent-color` は `--ig-grid-accent-color`)。指定しなかったトークンは、設定したトークンに基づく式として出力されます。
+
+</PlatformBlock>
+
+### Theming MCP
+
+[Ignite UI Theming MCP](../../ai/theming-mcp.mdx) は、AI アシスタントを通じてテーマを生成します。CSS 出力を依頼すると、すぐに使用できるカスタム プロパティが返されるため、ローカルの Sass ツールチェーンは必要ありません。
+
+<PlatformBlock for="Blazor">
+これは Blazor プロジェクトに推奨される方法です。プロンプトでプラットフォームを指定します。
+
+> 「Blazor プラットフォームを使用して、背景色 #08002e、アクセント色 #ff7d52 で `.my-grid` クラス用の CSS グリッド テーマを作成して。」
+
+生成された CSS を `wwwroot/css/app.css` に追加します。
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+> 「背景色 #08002e、アクセント色 #ff7d52 で `.my-grid` クラス用の CSS グリッド テーマを作成して。」
+
+</PlatformBlock>
+
+### テーマ プレイグラウンド
+
+このトピックの最後にある[テーマ プレイグラウンド](#お試しください)では、選択した色のトークン セットを生成します。**[Show code]** を選択すると、完全な CSS ブロックをコピーできます。
+
+### テーマを最新の状態に保つ
+
+生成された CSS ブロックは、生成時のライブラリ バージョンのスナップショットです。グリッド テーマの新しい変更を取り込むには、{ProductName} のアップグレード後に再生成してください。<PlatformBlock for="WebComponents, React">`grid-theme()` を使用する場合は、`igniteui-theming` を他の {ProductName} パッケージと一緒にアップグレードして再ビルドしてください。これは別のパッケージであるため、コンポーネントだけをアップグレードしても更新されません。</PlatformBlock>Theming MCP またはプレイグラウンドを使用する場合は、同じプロンプトまたは色で再度実行し、ブロックを置き換えてください。
+
+## テーマの適用
+
+{ComponentTitle} にクラスを適用します。
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Class="my-grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="PivotGrid">
+
+{ComponentTitle} は独自の `class` 属性を管理するため、代わりにコンテナー要素にテーマ クラスを設定します。トークンは内部の {ComponentTitle} に継承されます。
+
+<PlatformBlock for="WebComponents">
+```html
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<div className="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<div class="my-grid">
+    <{ComponentSelector}></{ComponentSelector}>
+</div>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+クラスを適用するとテーマは完成です。{ComponentTitle} はコーラル色のアクセントを持つダーク インディゴになり、テキスト、ヘッダー、行の境界線、ホバー状態、選択の色合い、ポップアップの外観はすべてこれら 2 つの値から計算されています。以降は、プライマリ トークンを変更するだけで済みます。
+
+<DocsAside type="note">
+プライマリ トークンは、派生トークンと同じ要素またはその祖先で宣言してください。カスタム プロパティの `var()` 参照は、プロパティが宣言された要素で解決されるため、その要素の子孫に設定されたプライマリ トークンは派生ブロックでは無視されます。
+</DocsAside>
+
+## プライマリ トークン
+
+生成されたテーマでは、{ComponentTitle} は 3 つのプライマリ トークンで構築され、その他すべての色はそれらに従います。
+
+| トークン | 生成されたテーマで制御する内容 |
+| -- | -- |
+| `--ig-grid-background` | コンポーネント全体が構築されるサーフェス。その他すべてのサーフェスとデフォルトの前景色はここから派生します。 |
+| `--ig-grid-foreground` | テキストとアイコン。設定されていない場合は、背景からコントラストによって派生します。 |
+| `--ig-grid-accent-color` | インタラクティブな色: ソート インジケーター、選択、ホバーの色合い、フォーカス。 |
+
+`--ig-grid-foreground` はプライマリとして記載されていますが、設定が必要になることはほとんどありません。そのままにすると、背景に対するコントラストで選択されるため、暗い背景では明るいテキスト、明るい背景では暗いテキストが、2 つ目の宣言なしで生成されます。
+
+## 派生の仕組み
+
+生成されたテーマの派生トークンは固定色ではありません。それぞれがプライマリ トークンに基づく CSS 式です。
+
+```css
+.my-grid {
+  --ig-grid-foreground: hsla(from color(from var(--ig-grid-background) var(--y-contrast)) h 0 l/1);
+  --ig-grid-header-background: color-mix(in srgb, var(--ig-grid-foreground) 6%, var(--ig-grid-background));
+  --ig-grid-row-hover-background: color-mix(in srgb, var(--ig-grid-accent-color) 8%, var(--ig-grid-row-odd-background));
+  --ig-grid-sorted-header-icon-color: hsl(from var(--ig-grid-accent-color) h s l/0.7);
+}
+```
+
+これにより、2 つのことが成り立ちます。1 つ目は、プライマリ トークンを変更すると、CSS カスタム プロパティを通じて実行時にも下流のすべてが再計算されることです。2 つ目は、どのような値を指定してもトークン間の関係が維持されるため、テーマ自体の整合性が崩れないことです。どちらも、生成されたトークンが宣言されている間のみ有効です。削除すると、すべてのプロパティが再び独立した状態に戻ります。
+
+## さらに詳しく
+
+生成されたテーマでは、一部のトークンはそれ自体が派生のルートです。そのトークンを宣言すると背景から切り離されるため、その上に表示されるものは新しい値から派生させる必要があります。
+
+`--ig-grid-header-background` が最もわかりやすい例です。そのままにすると `--ig-grid-background` から混合され、ヘッダー テキストは `--ig-grid-foreground` に従います。これを宣言すると、ヘッダー テキストはヘッダー背景自体に対するコントラストを取るように再派生されます。
+
+```css
+.my-grid {
+  --ig-grid-header-background: #ff7d52;
+  --ig-grid-header-text-color: hsla(from color(from var(--ig-grid-header-background) var(--y-contrast)) h 0 l/1);
+}
+```
+
+<DocsAside type="note">
+サーフェスを背景に追従させたくない場合にのみ、これらを使用してください。ほとんどの派生トークンはそのままにしておくのが最適です。上書きすると、テーマの他の部分と連動し続けるはずの値が固定されてしまいます。
+</DocsAside>
+
+## 構造
+
+色はテーマの半分にすぎません。密度と丸みは、グリッド トークンではなくグローバルなデザイン システム トークンによって制御されるため、グリッド トークンと一緒に設定します。
+
+```css
+.my-grid {
+  --ig-size: var(--ig-size-small);   /* small | medium | large */
+  --ig-radius-factor: 0;             /* 0 to 1 */
+}
+```
+
+グリッド線もテーマ トークンです。線を非表示にするには、削除するのではなく背後のサーフェスの色に合わせます。これにより、テーマ間で行のメトリクスが変わりません。
+
+```css
+.my-grid {
+  /* horizontal dividers, blended away */
+  --ig-grid-row-border-color: var(--ig-grid-background);
+  /* vertical dividers, drawn in the same color the theme derives for rows */
+  --ig-grid-body-column-border-color-odd: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+  --ig-grid-body-column-border-color-even: hsl(from color-mix(in srgb, var(--ig-grid-foreground) 16%, var(--ig-grid-background)) h s l/0.38);
+}
+```
+
+## 個別のプロパティの微調整
+
+デフォルトでは、すべての `--ig-grid-*` プロパティは独立しています。それぞれがベース パレットに対して解決されるため (たとえば Material テーマでは、ヘッダーは `var(--ig-grid-header-background, var(--ig-gray-100))` を読み取ります)、1 つの上書きは {ComponentTitle} のその部分のみを変更し、デザインの残りの部分には影響しません。これにより、的を絞った調整を安全かつ予測可能に行えます。
+
+```css
+.my-grid {
+  --ig-grid-header-background: #120b3d;
+  --ig-grid-header-text-color: #ffffff;
+}
+```
+
+プライマリ トークンにも同じ独立性が適用されます。生成されたテーマがない場合、`--ig-grid-background` と `--ig-grid-accent-color` は通常のプロパティであり、{ComponentTitle} の他の部分には反映**されません**。
+
+```css
+/* The background changes, the header stays gray. */
+.my-grid {
+  --ig-grid-background: #08002e;
+  --ig-grid-accent-color: #ff7d52;
+}
+```
+
+数色から {ComponentTitle} 全体のスタイルを設定するには、[テーマを作成](#テーマの作成)します。
+
+## お試しください
+
+色を変更して、ヘッダー、行、集計、ページネーター、フィルタリング ポップアップにどこまで影響するか確認してください。グリッドを切り替えて同じトークンがすべてで機能することを確認し、**[Show code]** を選択して、プライマリ トークンとすべての派生トークンを含む完全な CSS ブロックをコピーしてください。
+
+<Sample iframeOnly fullscreenBtn noBorder={false} src="/grids/playground/grid-theme-playground" height={700} alt="{Platform} グリッド テーマ プレイグラウンド" />
+
+## API リファレンス
+
+- <ApiLink type="{ComponentName}" />
+<PlatformBlock for="WebComponents, React">
+- <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />
+</PlatformBlock>
+
+## その他のリソース
+
+<ComponentBlock for="Grid">
+- [{ComponentTitle} 概要](../data-grid.mdx)
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+- [{ComponentTitle} 概要](overview.mdx)
+</ComponentBlock>
+- [パレット](../../themes/palettes.mdx)
+- [タイポグラフィ](../../themes/typography.mdx)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [サイズ](size.mdx)
+- [条件付きスタイル設定](conditional-cell-styling.mdx)
+</ComponentBlock>
+
+コミュニティは活発で、常に新しいアイデアを歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
