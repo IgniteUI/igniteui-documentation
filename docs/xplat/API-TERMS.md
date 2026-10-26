@@ -95,6 +95,12 @@ someone says otherwise.
 For a name that exists on one platform only, a `PlatformBlock` is better than an escape: it is real
 API, so it should be linked where it exists and absent where it does not.
 
+A name the description metadata doesn't cover can still be real API: Blazor's `Igb*Module` classes
+have reference pages, for example. Where the prose means that class, link it inside the
+`PlatformBlock` with `<ApiLink raw type="DataChartInteractivityModule" />`, which resolves through the
+api-docs index instead of the descriptions. The report says when a rejected name is such a class; the
+escape is still right where the name means something else.
+
 ## Reading the report
 
 `generate.mjs` reports every term it could not resolve, grouped by cause, and fails the run:
