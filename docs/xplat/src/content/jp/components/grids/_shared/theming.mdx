@@ -1,6 +1,6 @@
 ---
 title: "{Platform} {ComponentTitle} テーマ設定 - {ProductName}"
-description: {ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色の 3 色だけで作成できます。grid-theme()、Theming MCP、またはテーマ プレイグラウンドで派生した --ig-grid-* トークンを生成します。
+description: {ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色の 3 色だけで作成できます。派生する --ig-grid-* トークンは、grid-theme()、Theming MCP、またはテーマ プレイグラウンドで生成します。
 keywords: "{Platform} {ComponentTitle} テーマ設定, {Platform} {ComponentTitle} スタイル設定, グリッド テーマ, grid-theme, 派生トークン, theming mcp, css 変数, {ProductName}, Infragistics, インフラジスティックス"
 license: commercial
 mentionedTypes: [{ComponentApiMembers}]
@@ -9,7 +9,7 @@ namespace: Infragistics.Controls
 _canonicalLink: "{CanonicalLinkToGridTheming}"
 _language: ja
 llms:
-  description: "{ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色から作成でき、他のすべての --ig-grid-* の色は派生します。派生トークンは grid-theme() (Sass)、Theming MCP、またはテーマ プレイグラウンドで生成します。これらがない場合、各プロパティは独立しています。"
+  description: "{ProductName} {ComponentTitle} のテーマは、背景色、前景色、アクセント色から作成でき、その他すべての --ig-grid-* の色はそこから派生します。派生トークンは grid-theme() (Sass)、Theming MCP、またはテーマ プレイグラウンドで生成します。これらがない場合、各プロパティは独立しています。"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
@@ -24,7 +24,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 派生の仕組みはコンポーネントではなく、生成されたテーマ側にあります。デフォルトでは、各 `--ig-grid-*` プロパティは独立しており、{ComponentTitle} のその部分のみを変更します。詳細については、[個別のプロパティの微調整](#個別のプロパティの微調整)を参照してください。
 
 <DocsAside type="info">
-グリッドごとに個別のトークン セットがあるわけではありません。Grid、Tree Grid、Hierarchical Grid、Pivot Grid はすべて同じ `--ig-grid-*` カスタム プロパティを読み取るため、同じテーマを変更せずにいずれにも適用できます。
+グリッドごとに個別のトークン セットがあるわけではありません。Grid、Tree Grid、Hierarchical Grid、Pivot Grid はすべて同じ `--ig-grid-*` カスタム プロパティを読み取るため、同じテーマをそのままいずれにも適用できます。
 </DocsAside>
 
 ## {Platform} {ComponentTitle} テーマ設定の例
@@ -74,7 +74,7 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ### Sass
 
-プロジェクトが Sass をコンパイルする場合、テーマ エンジンは `grid-theme()` 関数を使用してトークン セットを記述できます。使用するには、まずテーマ パッケージをインストールします。
+プロジェクトで Sass をコンパイルしている場合は、`grid-theme()` 関数を使用すると、テーマ エンジンがトークン セットを記述します。使用するには、まずテーマ パッケージをインストールします。
 
 ```bash
 npm install igniteui-theming
@@ -86,7 +86,7 @@ npm install igniteui-theming
 @use "igniteui-theming" as *;
 ```
 
-次に、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> でテーマを宣言し、影響を与える要素にインクルードします。
+続いて、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> でテーマを宣言し、影響を与える要素にインクルードします。
 
 ```scss
 .my-grid {
@@ -212,11 +212,11 @@ npm install igniteui-theming
 }
 ```
 
-これにより、2 つのことが成り立ちます。1 つ目は、プライマリ トークンを変更すると、CSS カスタム プロパティを通じて実行時にも下流のすべてが再計算されることです。2 つ目は、指定した値に関係なく関係が維持されるため、テーマ自体の整合性が崩れないことです。どちらも、生成されたトークンが宣言されている間のみ有効です。削除すると、すべてのプロパティが再び独立した状態に戻ります。
+これにより、2 つのことが成り立ちます。1 つ目は、プライマリ トークンを変更すると、CSS カスタム プロパティを通じて実行時にも下流のすべてが再計算されることです。2 つ目は、どのような値を指定してもトークン間の関係が維持されるため、テーマ自体の整合性が崩れないことです。どちらも、生成されたトークンが宣言されている間のみ有効です。削除すると、すべてのプロパティが再び独立した状態に戻ります。
 
 ## さらに詳しく
 
-生成されたテーマでは、一部のトークンはそれ自体が派生のルートです。そのトークンを宣言すると背景から切り離され、それに依存するものは新しい値から派生するようになります。
+生成されたテーマでは、一部のトークンはそれ自体が派生のルートです。そのトークンを宣言すると背景から切り離されるため、その上に表示されるものは新しい値から派生させる必要があります。
 
 `--ig-grid-header-background` が最もわかりやすい例です。そのままにすると `--ig-grid-background` から混合され、ヘッダー テキストは `--ig-grid-foreground` に従います。これを宣言すると、ヘッダー テキストはヘッダー背景自体に対するコントラストを取るように再派生されます。
 
@@ -275,7 +275,7 @@ npm install igniteui-theming
 }
 ```
 
-いくつかの色から {ComponentTitle} 全体のスタイルを設定するには、[テーマを作成](#テーマの作成)します。
+数色から {ComponentTitle} 全体のスタイルを設定するには、[テーマを作成](#テーマの作成)します。
 
 ## お試しください
 
