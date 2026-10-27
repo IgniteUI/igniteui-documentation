@@ -89,9 +89,14 @@ Here's an excerpt of the `primary` color as declared in the Light Material Palet
 }
 ```
 
-All primary color variants are derived from one base variable color variant `--ig-primary-500`. The same goes for the other color variables `--ig-secondary-500`, `--ig-surface-500`, etc. The other variants are generated through the relative color function `hsl()` which takes the main variable color variant `500` and changes its `saturation` and `lightness` according to the variable variant which is assigned on (`600`,`700`, etc.). We decided to use this approach as it allows us to modify all variants of the `primary`, `secondary`, `surface` and other colors at runtime.
+How the variants of a color relate to each other depends on what kind of palette is being used:
 
-Alongside the numbered variants, each color exposes a `seed` variable that holds the base color the palette was generated from, unchanged. For `primary`, `secondary`, and the other chromatic colors the seed matches the `500` variant. For `gray` it does not: `--ig-gray-seed` records the color the grayscale was derived from - black or white, chosen from the surface color's luminance - while `--ig-gray-500` is a generated mid-tone.
+- **Built-in palettes** - Material, Fluent, Bootstrap, and Indigo, in their light and dark variants - derive every variant of a color from its `500` variant. The other variants are generated through relative color CSS functions such as `hsl()`, which take the `500` variant and adjust its `saturation` and `lightness` for each variant (`600`, `700`, etc.), as shown above. Overriding `--ig-primary-500` at runtime therefore recolors the whole `primary` family.
+- **Palettes you generate** with the `palette()` Sass function from `igniteui-theming` use the "fitted" shade generator by default. It places each variant by contrast and emits it as a plain color value, so overriding `500` at runtime changes only that one variant.
+
+The `surface` color doesn't follow the numbered pattern. It is organized in named layers, and components read `--ig-surface-base` rather than `--ig-surface-500`. See [Surface Layers](#surface-layers).
+
+Alongside the numbered variants, each color exposes a `seed` variable that holds the base color the palette was generated from, unchanged. In the built-in palettes, the seed of `primary`, `secondary`, and the other chromatic colors matches the `500` variant. In palettes generated with `palette()`, the `500` variant is placed by contrast, so it usually differs from the seed. The gray color is different in both cases: `--ig-gray-seed` records the color the grayscale was derived from - black or white, chosen from the surface color’s luminance - while `--ig-gray-500` is a generated mid-tone.
 
 The contrast colors are calculated at CSS runtime from the base color's luminance and the chosen contrast level, picking the more readable of black or white. Because the calculation is part of the cascade, changing the main color variant (`500`) updates its contrast colors with it - no manual step is required.
 
@@ -101,7 +106,7 @@ The threshold is held in `--ig-contrast-level`, which defaults to `var(--ig-wcag
 
 ## Defining Palettes
 
-If you wanted to change the color variants for a color from the palette, you can do so by overriding its `500` color variant. For instance, changing the primary colors is as easy as writing:
+If you want to change the color variants for a color in a built-in palette, override its `500` color variant. For instance, changing the primary colors is as easy as writing:
 
 ```css
 :root {
@@ -111,7 +116,7 @@ If you wanted to change the color variants for a color from the palette, you can
 
 This will automatically update all the other primary variants.
 
-You will notice that color variants for each color are monochromatic. This is because all color variants are generated with the relative color function `hsl()`.
+You will notice that color variants for each color are monochromatic. This is because in the built-in palettes all color variants are generated with the relative color function `hsl()`.
 
 ```css
 :root {
@@ -119,11 +124,15 @@ You will notice that color variants for each color are monochromatic. This is be
 }
 ```
 
+<DocsAside type="info">
+Overriding the `500` variant regenerates the other variants only in the built-in palettes. In a palette generated with `palette()`, the variants are plain values, so overriding `500` changes only that variant. To rebrand a generated palette, generate a new palette from the new color with `palette()` and swap it in. If you need your exact brand color in your own styles, reference the `seed` variable, such as `--ig-primary-seed`, rather than the `500` variant.
+</DocsAside>
+
 ## Scoping
 
 We've seen that overriding colors in the palette is relatively easy. The _global_ palette can be updated by scoping color variants to the `:root` selector in the `styles.css` file of our application.
 
-Let's say your corporate primary color is `#9f349c` and you want to create primary variants for it. All you need to do is to replace the `--ig-primary-500` variable with the desired color in any color value type - RGB, HEX, etc.
+The following examples use a built-in palette. Let's say your corporate primary color is `#9f349c` and you want to create primary variants for it. All you need to do is to replace the `--ig-primary-500` variable with the desired color in any color value type - RGB, HEX, etc.
 
 ```css
 :root {
@@ -149,6 +158,32 @@ Apart from having a single global palette, you can also create several palettes 
 
 Then you can simply overhaul the colors in your application by changing the value of the class attribute from `blue-theme` to `red-theme`.
 
+## Surface Layers
+
+The `surface` color is organized in named layers instead of numbered variants. Components read these layers, starting with `--ig-surface-base` for the page background:
+
+| Variable | Used for |
+| --- | --- |
+| `--ig-surface-base` | The page background - your surface color |
+| `--ig-surface-sunken` | Recessed areas |
+| `--ig-surface-raised` | Cards and panels that sit above the page |
+| `--ig-surface-overlay` | Menus, dialogs, and popovers |
+| `--ig-surface-container` | A translucent tint layered on top of a surface - 3% black in light themes, 3% white in dark themes |
+
+Each layer has a matching `-contrast` variable, such as `--ig-surface-base-contrast`, to use as the foreground color on that layer. A layer that has no room to move resolves to `base`. On a pure white base, for example, `raised` and `overlay` are also white, so use borders or [elevations](elevations.mdx) to separate them.
+
+To change the background color at runtime, override `--ig-surface-base`:
+
+```css
+:root {
+  --ig-surface-base: #fafafa;
+}
+```
+
+<DocsAside type="warning">
+Components read `--ig-surface-base`, not `--ig-surface-500`, so overriding `--ig-surface-500` no longer changes component backgrounds. The numbered surface variants (`--ig-surface-50` through `--ig-surface-900`) are still emitted, but they are deprecated and will be removed in a future major version.
+</DocsAside>
+
 ## Dark vs. Light
 
 Palettes in {ProductName} dictate whether a theme is going to be light or dark. The two colors that have the biggest impact on that are `gray` and `surface`. See, the `gray` color variants in all themes are based on either a very light color shade, like `#fff`, or a very dark one like `#222`. Light themes have `gray` variants based on dark shades of gray, while dark themes are the opposite - all `gray` variants are a shade of white. These `gray` colors will be displayed against another color, usually the `surface` color. The `surface` color should always be on the opposite end of the `gray` in the gray scale to ensure themes look good.
@@ -161,7 +196,7 @@ To make this a bit clearer, below is the complete list of all `gray` and `surfac
 :root {
   //...
   /* surface is set to light color*/
-  --ig-surface-500: white;
+  --ig-surface-base: white;
   //...
   /* grays are based on dark gray to contrast the surface color */
   --ig-gray-500: hsl(0, 0%, 62%);
@@ -175,7 +210,7 @@ To make this a bit clearer, below is the complete list of all `gray` and `surfac
 :root {
   //...
   /* surface is set to dark color*/
-  --ig-surface-500: #222;
+  --ig-surface-base: #222;
   //...
   /* grays are based on light gray to contrast the surface color */
   --ig-gray-500: hsl(0, 0%, 74%);
@@ -187,7 +222,7 @@ Be mindful when changing the `gray` and `surface` color variants as they are use
 
 ## Other Colors
 
-So far we've covered the `primary`, `secondary`, `gray`, and `surface` color variants and how you can override them. There are four more colors - `info`, `success`, `warn`, and `error`. They are usually used to set the colors in different states. For example, the `igc-input-group` component uses these colors in its input validation states. They can be changed as the other color variants, all we need to do it to set the `500` variant and all of the other variants will be generated.
+So far we've covered the `primary`, `secondary`, `gray`, and `surface` color variants and how you can override them. There are four more colors - `info`, `success`, `warn`, and `error`. They are usually used to set the colors in different states. For example, the `igc-input-group` component uses these colors in its input validation states. They can be changed as the other color variants - in the built-in palettes, all we need to do is to set the `500` variant and all of the other variants will be generated.
 
 ```css
 :root {
