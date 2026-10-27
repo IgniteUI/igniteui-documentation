@@ -1,0 +1,28 @@
+name: Agent skills
+
+permissions:
+  contents: read
+
+# Deliberately no `paths:` filter. The mistake this guard most needs to catch is a skill added in
+# the wrong place — `.codex/skills/`, a root `skills/`, a resurrected `.ai/` — and a path filter
+# listing the *correct* locations would skip the job for exactly those changes. The check needs no
+# dependencies and finishes in about a second, so it runs on every pull request.
+on:
+  pull_request:
+    branches: [master, vnext]
+
+jobs:
+  agent-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Validates the contract in .agents/skills/skill-authoring/SKILL.md: skills live in a
+      # canonical directory, frontmatter is complete and within the Agent Skills spec limits, no
+      # name is claimed twice, and the generated .claude/skills/ pointers are in sync.
+      - name: Validate agent skills and pointers
+        run: npm run skills:check
