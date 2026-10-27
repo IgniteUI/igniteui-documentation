@@ -279,6 +279,20 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
 };
 
+/** Desktop platforms — `PLATFORM_GROUPS.NonWeb` in lib/platform-groups.ts. */
+const NON_WEB_PLATFORMS = new Set<PlatformKey>(['winui', 'uno']);
+
+/**
+ * Platforms offered by the DocsSubHeader platform switcher: the web platforms
+ * in the same language. Empty for a desktop platform, which hides the switcher —
+ * each desktop product stands alone, with nothing sensible to switch to.
+ */
+export function getSwitcherPlatforms(current: PlatformKey, lang: NavLang): PlatformMeta[] {
+    if (NON_WEB_PLATFORMS.has(current)) return [];
+    return Object.values(IGDOCS_PLATFORMS)
+        .filter(p => p.lang === lang && !NON_WEB_PLATFORMS.has(p.key));
+}
+
 /**
  * Returns an array of `head` entries for the given platform.
  * Pass the result directly to `createDocsSite({ head: getPlatformHead(...) })`.
