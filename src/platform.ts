@@ -16,6 +16,8 @@
  *
  */
 
+import { PLATFORM_GROUPS } from './lib/platform-groups';
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -279,8 +281,11 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
     },
 };
 
-/** Desktop platforms — `PLATFORM_GROUPS.NonWeb` in lib/platform-groups.ts. */
-const NON_WEB_PLATFORMS = new Set<PlatformKey>(['winui', 'uno']);
+/**
+ * Desktop platforms, from `PLATFORM_GROUPS.NonWeb`. The group holds platform
+ * names (`WinUI`) and a desktop `PlatformKey` is the name lowercased (`winui`).
+ */
+const NON_WEB_PLATFORMS = new Set<string>(PLATFORM_GROUPS.NonWeb.map(name => name.toLowerCase()));
 
 /**
  * Platforms offered by the DocsSubHeader platform switcher: the web platforms
