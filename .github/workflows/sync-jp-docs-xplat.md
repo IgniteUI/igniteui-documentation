@@ -358,8 +358,18 @@ translating all new or modified English prose into natural, fluent Japanese.
 
 **Wording rules:**
 
-- Keep component names in English, as the English source writes them:
-  "Avatar のクライアント リソース モジュール", not 「アバターの…」.
+- Component names. Before translating, read
+  `docs/translation/jp-component-names.md` with `cat`. It lists the Japanese
+  reading of each component name.
+  - When the name refers to the Ignite UI component itself, keep it in
+    English as the English source writes it: "Avatar のクライアント リソース
+    モジュール", not 「アバターの…」.
+  - When the word names the UI element as a common noun, write its reading
+    from the list: 「アバターを表示するには Avatar コンポーネントを使用します」,
+    not 「Avatar を表示するには…」.
+  - In the H1, put the reading in parentheses right after the English name:
+    `# {Platform} Badge (バッジ) コンポーネントの概要`, not
+    `# {Platform} Badge コンポーネントの概要`. The list covers the exceptions.
 - A code span that is a complete example takes 「のように」:
   "`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると", not
   「…に指定して」. 「に」 means putting something into the span.
