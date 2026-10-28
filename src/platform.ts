@@ -16,6 +16,8 @@
  *
  */
 
+import { PLATFORM_GROUPS } from './lib/platform-groups';
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -278,6 +280,23 @@ export const IGDOCS_PLATFORMS: Record<string, PlatformMeta> = {
         description: 'Component documentation for Infragistics Ultimate UI for Uno Platform.',
     },
 };
+
+/**
+ * Desktop platforms, from `PLATFORM_GROUPS.NonWeb`. The group holds platform
+ * names (`WinUI`) and a desktop `PlatformKey` is the name lowercased (`winui`).
+ */
+const NON_WEB_PLATFORMS = new Set<string>(PLATFORM_GROUPS.NonWeb.map(name => name.toLowerCase()));
+
+/**
+ * Platforms offered by the DocsSubHeader platform switcher: the web platforms
+ * in the same language. Empty for a desktop platform, which hides the switcher —
+ * each desktop product stands alone, with nothing sensible to switch to.
+ */
+export function getSwitcherPlatforms(current: PlatformKey, lang: NavLang): PlatformMeta[] {
+    if (NON_WEB_PLATFORMS.has(current)) return [];
+    return Object.values(IGDOCS_PLATFORMS)
+        .filter(p => p.lang === lang && !NON_WEB_PLATFORMS.has(p.key));
+}
 
 /**
  * Returns an array of `head` entries for the given platform.
