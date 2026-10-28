@@ -358,18 +358,48 @@ translating all new or modified English prose into natural, fluent Japanese.
 
 **Wording rules:**
 
-- Keep component names in English, as the English source writes them:
-  "Avatar のクライアント リソース モジュール", not 「アバターの…」.
-- A code span that is a complete example takes 「のように」:
-  "`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると", not
-  「…に指定して」. 「に」 means putting something into the span.
-- Give each alternative its own verb: 「起動時に登録するか、後から
+- Component names. Before translating, read
+  `docs/translation/jp-component-names.md` with `cat`. It lists the Japanese
+  reading of each component name.
+  - When the name refers to the Ignite UI component itself, keep it in
+    English as the English source writes it. Write "Avatar のクライアント
+    リソース モジュール", not 「アバターの…」.
+  - When the word names the UI element as a common noun, write its reading
+    from the list. Write 「アバターを表示するには Avatar コンポーネントを使用します」,
+    not 「Avatar を表示するには…」.
+  - In the H1, put the reading in parentheses right after the English name.
+    Write `# {Platform} Badge (バッジ) コンポーネントの概要`, not
+    `# {Platform} Badge コンポーネントの概要`. The list covers the exceptions.
+- Choose the particle after a code span by the role the span plays.
+  - The span is where a value goes (a property, a parameter, a method).
+    Use 「に」. Write 「`Height` プロパティに `300px` を指定します」.
+  - The span is the means. Use 「で」. Write
+    「`IgbBadgeModule.Register(IgniteUIBlazor)` で登録します」.
+  - The span already contains the value and shows the finished code, often
+    after "as in", "like", "for example", or "list X in". Use 「のように」.
+    Write 「`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると」,
+    not 「…に指定すると」. With 「に」, the reader looks for another value to
+    put into code that is already complete.
+  - Do not use 「のように」 for the one exact form the reader must write. It
+    reads as one example among many.
+- When alternatives joined by "or" carry different details (a means, a
+  condition, a time), give each alternative its own verb, so each detail
+  stays with its own alternative. Write 「起動時に登録するか、後から
   `Register` メソッドで登録します」, not 「起動時または後から `Register`
-  メソッドで登録します」.
-- When an English sentence changes, re-translate the changed clause with the
-  existing Japanese sentence as context, reusing the terms it already uses
-  (for example 任意, 「(…を参照)」), and keep its logical links: a condition
-  stays conditional (「すると」), a contrast keeps 「ただし」.
+  メソッドで登録します」. The second reads as if both ways use the
+  `Register` method.
+- When the alternatives share the same verb and details, keep 「または」.
+  Write 「`Width` または `Height` を設定します」.
+- When an English sentence changes, edit the existing Japanese sentence.
+  Do not translate the new English sentence from scratch. Change only the
+  words that the English change affects, and keep the rest as it is.
+  - Keep the terms it uses. If it says 任意 for "optional", keep 任意, even
+    though a fresh translation might choose オプション.
+  - Keep the logical links it has, such as 「ただし」 or a condition with
+    「と」, even when the English does not say them. Drop a link only when
+    the English change removes the relation behind it.
+- For a new sentence, use the terms that the rest of the Japanese file
+  uses for the same English words.
 
 **Special rule for `toc.json`:**
 
@@ -379,6 +409,10 @@ structural changes (added/removed/reordered entries, changed `href`,
 `docs/xplat/src/content/jp/toc.json`, and translate only the `name:` values
 of any new or modified entries into Japanese. Do **not** modify `name:`
 values of entries that were not touched by the English diff.
+
+When a `name:` value is a component name, write its reading from
+`docs/translation/jp-component-names.md`, not the English name. Write
+"アバター", not "Avatar".
 
 **If creating a new Japanese file:**
 
