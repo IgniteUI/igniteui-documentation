@@ -370,9 +370,18 @@ translating all new or modified English prose into natural, fluent Japanese.
   - In the H1, put the reading in parentheses right after the English name.
     Write `# {Platform} Badge (バッジ) コンポーネントの概要`, not
     `# {Platform} Badge コンポーネントの概要`. The list covers the exceptions.
-- A code span that is a complete example takes 「のように」:
-  "`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると", not
-  「…に指定して」. 「に」 means putting something into the span.
+- Choose the particle after a code span by the role the span plays.
+  - The span is where a value goes (a property, a parameter, a method).
+    Use 「に」. Write 「`Height` プロパティに `300px` を指定します」.
+  - The span is the means. Use 「で」. Write
+    「`IgbBadgeModule.Register(IgniteUIBlazor)` で登録します」.
+  - The span already contains the value and shows the finished code, often
+    after "as in", "like", "for example", or "list X in". Use 「のように」.
+    Write 「`AddIgniteUIBlazor(typeof(IgbBadgeModule))` のように指定すると」,
+    not 「…に指定すると」. With 「に」, the reader looks for another value to
+    put into code that is already complete.
+  - Do not use 「のように」 for the one exact form the reader must write. It
+    reads as one example among many.
 - Give each alternative its own verb: 「起動時に登録するか、後から
   `Register` メソッドで登録します」, not 「起動時または後から `Register`
   メソッドで登録します」.
