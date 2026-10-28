@@ -382,9 +382,14 @@ translating all new or modified English prose into natural, fluent Japanese.
     put into code that is already complete.
   - Do not use 「のように」 for the one exact form the reader must write. It
     reads as one example among many.
-- Give each alternative its own verb: 「起動時に登録するか、後から
+- When alternatives joined by "or" carry different details (a means, a
+  condition, a time), give each alternative its own verb, so each detail
+  stays with its own alternative. Write 「起動時に登録するか、後から
   `Register` メソッドで登録します」, not 「起動時または後から `Register`
-  メソッドで登録します」.
+  メソッドで登録します」. The second reads as if both ways use the
+  `Register` method.
+- When the alternatives share the same verb and details, keep 「または」.
+  Write 「`Width` または `Height` を設定します」.
 - When an English sentence changes, re-translate the changed clause with the
   existing Japanese sentence as context, reusing the terms it already uses
   (for example 任意, 「(…を参照)」), and keep its logical links: a condition
