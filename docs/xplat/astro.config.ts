@@ -2,7 +2,7 @@
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { IGDOCS_PLATFORMS, getSwitcherPlatforms, type NavLang } from 'docs-template/platform';
 import { SIDEBAR_BADGE_VARIANTS } from 'docs-template/sidebar';
 import { emitsFor, forMatches } from 'docs-template/lib/platform-groups';
 import mdx from '@astrojs/mdx';
@@ -369,8 +369,7 @@ export default createDocsSite({
             href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
             platform: key,
         })),
-    packages: Object.values(PLATFORMS)
-        .filter(p => p.lang === lang)
+    packages: getSwitcherPlatforms(p.key, lang)
         .map(({ label, key, base, root }) => ({
             label,
             value: key,
