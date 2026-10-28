@@ -1,9 +1,6 @@
 # Create workflow
 
-Version: v6 · 2026-10-20 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged;
-restructured into this reference so the workflow can evolve without touching the router. Blueprints,
-mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from
-`audit-rubric.md` before delivering.
+Version: v7 · 2026-10-22 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged; restructured into this reference so the workflow can evolve without touching the router. Blueprints, mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from `audit-rubric.md` before delivering.
 
 ## Steps
 

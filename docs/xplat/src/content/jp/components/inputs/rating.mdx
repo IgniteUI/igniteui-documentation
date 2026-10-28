@@ -1,98 +1,136 @@
 ---
-title: "{Platform} Rating"
-description: "{ProductName} Rating を使用すると、ユーザーは Unicode シンボル、SVG、またはアイコンを使用してフィードバックを表示および提供できます。"
-keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Rating components, {Platform} Rating controls, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} Rating コンポーネント, {Platform} Rating コントロール"
+title: "{Platform} Rating (評価) コンポーネント"
+description: "{ProductName} Rating は、星またはカスタム シンボルのスケールでスコアを選択または表示するフォーム関連の入力で、半星単位のステップに対応します。"
+keywords: "{Platform} Rating, {ProductName}, 星評価, 半星評価, 評価シンボル"
 license: MIT
-mentionedTypes: ["Rating"]
+last_updated: "2026-10-07"
+relatedComponents: ["Slider", "RadioGroup"]
+mentionedTypes: ["Rating", "RatingSymbol"]
 _language: ja
 llms:
-  description: "{ProductName} Rating コンポーネントで Unicode シンボル、SVG、またはアイコンを使用した評価とフィードバックを実装する方法を説明します。"
+  description: "{ProductName} Rating は、ユーザーが星またはカスタム シンボルのスケールでスコアを表示および選択できるフォーム関連のコンポーネントです。"
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import ratingAnatomy from '@xplat-images/anatomy-content-light/rating-lt-a.png';
+import ratingDoSymbol from '@xplat-images/rating/rating-do-1.png';
+import ratingDoNotSymbol from '@xplat-images/rating/rating-do-not-1.png';
+import ratingDoContrast from '@xplat-images/rating/rating-do-2.png';
+import ratingDoNotContrast from '@xplat-images/rating/rating-do-not-2.png';
 
+# Rating (評価)
 
+{ProductName} Rating は、ユーザーが星またはカスタム シンボルのスケールでスコアを表示および選択できるフォーム関連のコンポーネントです。
 
-# {Platform} Rating (評価) の概要
+<PlatformBlock for="Angular">
 
-{ProductName} 評価コンポーネントを使用すると、ユーザーはフィードバックを表示して提供できます。
+Angular では、Rating は `igniteui-webcomponents` の `igc-rating` Web コンポーネントです。`IgcFormControlDirective` を使用して Angular フォームにバインドします。
 
-<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating の基本的な例" />
+</PlatformBlock>
 
+<PlatformBlock for="React,WebComponents,Blazor">
 
+Rating は、半星などの小数値、ホバー プレビュー、個別シンボルの単一選択、およびキーボードによる完全な入力をサポートします。
 
+</PlatformBlock>
+
+## ライブ デモ
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating の概要の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating の概要の例" />
+
+</PlatformBlock>
+
+## 構造
+
+Rating はラベルと値で構成されます。値は評価スケールの数値です。ラベルは `label` を設定すると表示されます。`max` を設定すると、シンボルの数を変更できます (既定値は 5)。
+
+<Anatomy
+  class="rating-anatomy"
+  name="Rating"
+  description="Rating コンポーネントは、ラベルと、現在の値まで塗りつぶされるシンボルの行を表示します。"
+  src={ratingAnatomy.src}
+  alt="ラベルと、塗りつぶされた星、部分的に塗りつぶされた星、空の星のシンボルを示す Rating の構造"
+/>
+
+<style>{`
+  .rating-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .rating-anatomy .igd-anatomy__image {
+    max-width: 257.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. ラベル (オプション):</strong> ユーザーが何を評価しているかを説明します<br />
+<strong>2. Rating アイコン:</strong> 選択された項目を示します<br />
+<strong>3. Rating アイコン:</strong> 半分選択された項目を示します<br />
+<strong>4. Rating アイコン:</strong> 選択されていない項目を示します</span>
+
+`igc-rating` 要素は、ラベルと、シンボルを保持するスライダーをレンダリングします。シンボルが投影されていない場合は、`max` の各ポイントに対して 1 つの星をレンダリングします。
+
+```text
+igc-rating
+└─ #shadow-root
+   ├─ label[part="label"]                    // hidden when label isn't set
+   └─ div[part="base"][role="slider"]
+      ├─ div[part="symbols"]                 // aria-hidden="true"
+      │  └─ slot[name="symbol"]              // projected igc-rating-symbol elements
+      │     └─ igc-rating-symbol × max       // default stars when nothing is projected
+      │        └─ #shadow-root
+      │           ├─ div[part="symbol full"]   // star_filled icon, clipped to the value
+      │           └─ div[part="symbol empty"]  // star_outlined icon, clipped to the rest
+      └─ label[part="value-label"]
+         └─ slot[name="value-label"]         // hidden when the slot is empty
+```
+
+各 `igc-rating-symbol` は、既定のスロットを `full` パートに、`empty` スロットを `empty` パートにレンダリングします。
+
+## はじめに
+
+{Platform} Rating を使用するには、基本的なプロジェクト設定について <PlatformBlock for="Angular">[{ProductName} はじめに](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} はじめに](../general-getting-started.mdx)</PlatformBlock> トピックに従い、対象プラットフォーム用のコンポーネントを追加します。
 
 <PlatformBlock for="WebComponents">
 
-
-
-まず、次のコマンドを実行して {ProductName} をインストールする必要があります:
+**{PackageCommon}** パッケージをインストールします。
 
 ```cmd
-npm install {PackageWebComponents}
+npm install {PackageCommon}
 ```
 
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-
-まず、次のコマンドを実行して、対応する {ProductName} npm パッケージをインストールする必要があります:
-
-```cmd
-npm install igniteui-react
-```
-
-
-</PlatformBlock>
-
-
-<ApiLink pkg="core" type="Rating" /> を使用する前に、次のように登録する必要があります:
-
-
-<PlatformBlock for="Blazor">
-
-
-```csharp
-// in Program.cs file
-
-builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule));
-```
-
-また、<ApiLink pkg="core" type="Rating" /> コンポーネントにスタイルを適用するために、追加の CSS ファイルをリンクする必要があります。以下は、**Blazor WebAssembly** プロジェクトの **wwwroot/index.html** ファイルまたは **Blazor Server** プロジェクトの **Pages/_Host.cshtml** ファイルに配置する必要があります:
-
-```razor
-<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
-```
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="WebComponents">
-
+次に、<ApiLink pkg="core" type="Rating" />、そのテーマ CSS をインポートし、コンポーネントを登録します。この登録により、`igc-rating-symbol` 要素と `igc-icon` 要素も登録されます。
 
 ```ts
-import { defineComponents, IgcRatingComponent } from "igniteui-webcomponents";
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 defineComponents(IgcRatingComponent);
 ```
 
-{ProductName} の完全な概要については、[作業の開始](../general-getting-started.mdx)トピックを参照してください。
-
-
 </PlatformBlock>
-
-
 
 <PlatformBlock for="React">
 
+**{PackageCommon}** パッケージをインストールします。
+
+```cmd
+npm install {PackageCommon}
+```
+
+次に、<ApiLink pkg="core" type="Rating" /> ラッパーとテーマ CSS をインポートします。
 
 ```tsx
 import { IgrRating } from 'igniteui-react';
@@ -101,431 +139,1259 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 
-<ApiLink pkg="core" type="Rating" /> の使用を開始する最も簡単な方法は次のとおりです:
+{ProductName} のサービスを登録します。
 
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Rating" /> のクライアント リソース モジュールである <ApiLink pkg="core" type="RatingModule" /> の登録は**任意**です。コンポーネントは初めてレンダリングされるときにリソースを読み込みます。ただし、`builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule))` のように指定すると、リソースを事前に読み込んだり、クライアント側でのみ作成される要素に対応したりできます ([コンポーネント モジュール](../general-getting-started.mdx#コンポーネント-モジュール)を参照)。
+
+次に、ホスト ページにテーマ スタイルシートを追加します。
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+プロジェクトで {ProductName} をまだ使用していない場合は、`ng add igniteui-angular` を実行します。次に、Rating を提供する **{PackageComponents}** パッケージをインストールします。
+
+```cmd
+npm install {PackageComponents}
+```
+
+`IgcRatingComponent` を登録し、`igc-rating` をレンダリングする Angular コンポーネントに `CUSTOM_ELEMENTS_SCHEMA` を追加します。
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
+
+@Component({
+    selector: 'app-product-rating',
+    template: '<igc-rating label="Rate this product"></igc-rating>',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ProductRatingComponent {}
+```
+
+{ProductName} テーマは `igc-rating` にスタイルを設定するため、Rating は `theme()` ミックスインで含めたテーマに従います。
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+登録後、ラベル付きで <ApiLink pkg="core" type="Rating" /> をレンダリングします。
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
-
 ```html
-<igc-rating></igc-rating>
+<igc-rating label="Rate this product"></igc-rating>
 ```
 
 </PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-```razor
-<IgbRating></IgbRating>
-```
-
-</PlatformBlock>
-
-
 
 <PlatformBlock for="React">
 
-
 ```tsx
-  <IgrRating></IgrRating>
+<IgrRating label="Rate this product" />
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 
-これにより、データの入力と読み取りに使用できる 5 つ星の評価コンポーネントが作成されます。
+```razor
+<IgbRating Label="Rate this product" />
+```
 
-## カスタム シンボルの使用
+</PlatformBlock>
 
-<ApiLink pkg="core" type="Rating" /> コンポーネントを使用すると、デフォルトの星シンボルの代わりにカスタム シンボルを使用できます。SVG、アイコン、または別の Unicode シンボルなどの別のシンボルを使用する場合は、<ApiLink pkg="core" type="Rating" /> の開く括弧と閉じる括弧の間に <ApiLink pkg="core" type="RatingSymbol" /> コンポーネントを配置する必要があります。
+Rating は 5 つの星をレンダリングし、値 0 から開始します。
 
+## 使用方法
+
+{Platform} Rating は、製品、サービス、または体験のスコアを収集する場合や、ユーザーが変更できない平均スコアを表示する場合に使用します。
+
+### ホバー プレビュー
+
+`hoverPreview` を設定すると、ユーザーがクリックする前に、ポインターの下の値までシンボルが塗りつぶされます。ポインターがシンボルから離れると、{Platform} Rating は元の値を表示します。読み取り専用または無効な Rating では、プレビューは表示されません。
 
 <PlatformBlock for="WebComponents">
 
+プレビューがオンの間、Rating はポインターの下の値とともに `igcHover` を発行します。
 
 ```html
-<igc-rating>
-  <igc-rating-symbol> <div>💙</div> <div slot="empty">💙</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>💙</div> <div slot="empty">💙</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>💙</div> <div slot="empty">💙</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>💙</div> <div slot="empty">💙</div> </igc-rating-symbol>
+<igc-rating hover-preview label="Rate this article"></igc-rating>
+<span id="hint"></span>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+const hint = document.getElementById('hint')!;
+
+rating.addEventListener('igcHover', (event) => {
+  hint.textContent = `${event.detail} stars`;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+プレビューがオンの間、Rating はポインターの下の値とともに `onHover` を呼び出します。
+
+```tsx
+<IgrRating
+  hoverPreview={true}
+  label="Rate this article"
+  onHover={(e: CustomEvent<number>) => setHint(`${e.detail} stars`)}
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+プレビューがオンの間、Rating はポインターの下の値とともに `Hover` を発生させます。
+
+```razor
+<IgbRating HoverPreview="true" Label="Rate this article" Hover="OnHover" />
+
+@code {
+    private string Hint { get; set; }
+
+    private void OnHover(IgbNumberEventArgs e)
+    {
+        Hint = $"{e.Detail} stars";
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+プレビューがオンの間、Rating はポインターの下の値とともに `igcHover` を発行します。
+
+```html
+<igc-rating hover-preview label="Rate this article" (igcHover)="onHover($event)"></igc-rating>
+```
+
+```ts
+public hint = '';
+
+public onHover(event: Event) {
+    this.hint = `${(event as CustomEvent<number>).detail} stars`;
+}
+```
+
+</PlatformBlock>
+
+### リセット
+
+既定では、現在の値をクリックしても値は保持されます。`allowReset` を設定すると、ユーザーが現在の値を再度クリックしたときに {Platform} Rating が 0 にリセットされます。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating allowReset={true} label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating AllowReset="true" Label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+### 読み取り専用
+
+`readOnly` を設定すると、すべてのレビューの平均など、ユーザーが変更できないスコアを表示します。値は範囲内の任意の数値にでき、たとえば 4.3 の場合は 4 つのシンボルと 5 つ目の 30% が塗りつぶされます。読み取り専用の {Platform} Rating はタブ順序に残ります<PlatformBlock for="React,WebComponents,Angular">。また、支援技術は読み取り専用として通知します</PlatformBlock>。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating readOnly={true} value={4.3} label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating ReadOnly="true" Value="4.3" Label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+### レイアウト
+
+`label` プロパティは、シンボルの上に表示ラベルをレンダリングし、支援技術に対して {Platform} Rating に名前を付けます。現在のスコアなど、シンボルの横にカスタム コンテンツを表示するには、`value-label` スロットに配置します。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating value="4" label="Rate this product">
+  <span slot="value-label">4 of 5</span>
 </igc-rating>
 ```
 
-</PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-```razor
-<IgbRating>
-  <IgbRatingSymbol> <div>💙</div> <div slot="empty">💙</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>💙</div> <div slot="empty">💙</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>💙</div> <div slot="empty">💙</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>💙</div> <div slot="empty">💙</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>💙</div> <div slot="empty">💙</div> </IgbRatingSymbol>
-</IgbRating>
-```
+値との同期を保つには、`igcChange` ハンドラーでスロットのコンテンツを更新します。
 
 </PlatformBlock>
-
-
 
 <PlatformBlock for="React">
 
-
 ```tsx
-  <IgrRating className="size-large" label="Rate Experience" step={.5} hoverPreview={true}>
-    <IgrRatingSymbol>
-        <IgrIcon name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-        <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-      <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-       <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
-    <IgrRatingSymbol>
-       <IgrIcon  name='heart' collection="material"></IgrIcon>
-    </IgrRatingSymbol>
+<IgrRating value={score} label="Rate this product" onChange={(e: CustomEvent<number>) => setScore(e.detail)}>
+  <span slot="value-label">{score} of 5</span>
 </IgrRating>
 ```
 
 </PlatformBlock>
 
-
-<Sample src="/inputs/rating/custom" height={150} alt="{Platform} Rating カスタム シンボルの例" />
-
-
-
-> 評価コンポーネントの開く括弧と閉じる括弧間の評価記号の数によって、最大値が決まります。
-
-## 単一選択
-{ProductName} 評価コンポーネントには、ユーザーがさまざまな評価値に対してさまざまなアイコン / 要素を提供できる単一選択モードがあります。この場合、アイコン / 要素の 1 つだけを選択して、ユーザーからのフィードバックを反映させることができます。
-
-
-<PlatformBlock for="WebComponents">
-
-
-```html
-<igc-rating single>
-  <igc-rating-symbol> <div>😣</div> <div slot="empty">😣</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>😣</div> <div slot="empty">😣</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>😣</div> <div slot="empty">😣</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>😣</div> <div slot="empty">😣</div> </igc-rating-symbol>
-  <igc-rating-symbol> <div>😣</div> <div slot="empty">😣</div> </igc-rating-symbol>
-</igc-rating>
-```
-
-</PlatformBlock>
-
-
-
 <PlatformBlock for="Blazor">
 
-
 ```razor
-<IgbRating>
-  <IgbRatingSymbol> <div>😣</div> <div slot="empty">😣</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>😣</div> <div slot="empty">😣</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>😣</div> <div slot="empty">😣</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>😣</div> <div slot="empty">😣</div> </IgbRatingSymbol>
-  <IgbRatingSymbol> <div>😣</div> <div slot="empty">😣</div> </IgbRatingSymbol>
+<IgbRating @bind-Value="Score" Label="Rate this product">
+    <span slot="value-label">@Score of 5</span>
 </IgbRating>
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 
+```html
+<igc-rating [value]="score" label="Rate this product" (igcChange)="onScoreChange($event)">
+  <span slot="value-label">{{ score }} of 5</span>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+すべての {Platform} Rating にアクセシブルな名前を付け、スケールに合った言葉で値を説明してください。
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+Rating に表示用の `label` がない場合は、`aria-label` を設定するか、`igniteui-webcomponents` 7.4.1 以降では `<label>` 要素を関連付けます。支援技術は、既定で値を "3 of 5" として読み上げます。このテキストを置き換えるには `valueFormat` を設定します。Rating は `{0}` を値に、`{1}` を `max` に置き換えるため、テキストのローカライズも可能です。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+支援技術は、既定で値を "3 of 5" として読み上げます。このテキストを置き換えるには <ApiLink pkg="core" type="Rating" member="ValueFormat" label="ValueFormat" /> を設定します。Rating は `{0}` を値に、`{1}` を `Max` に置き換えるため、テキストのローカライズも可能です。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="React">
 
+```tsx
+<IgrRating aria-label="Delivery speed" valueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Delivery speed" ValueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+`label` を未設定のままにするとラベルが非表示になります。または、`value-label` スロットを使用してスコアを表示します。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-layout" showThemePicker height={200} noBorder={false} spacing="md" alt="ラベルのオンとオフの {Platform} Rating" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/layout" showThemePicker height={200} noBorder={false} spacing="md" alt="ラベルのオンとオフの {Platform} Rating" />
+
+</PlatformBlock>
+
+### 操作状態
+
+{Platform} Rating は既定で有効です。無効にするには `disabled` を設定します。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
 
 ```tsx
-<IgrRating single={true}>
-  <IgrRatingSymbol>
-      <div>😣</div>
-      <div slot="empty">😣</div>
+<IgrRating disabled={true} value={3} label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Disabled="true" Value="3" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="有効、読み取り専用、無効の状態の {Platform} Rating" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="有効、読み取り専用、無効の状態の {Platform} Rating" />
+
+</PlatformBlock>
+
+### 空/満たされた状態
+
+{Platform} Rating の `value` は、シンボルがどの程度満たされるかを設定します。既定値の 0 ではすべてのシンボルが空になり、`max` と等しい値ではすべてのシンボルが満たされます。
+
+<PlatformBlock for="WebComponents">
+
+値と最大値を属性として設定し、`igcChange` をリッスンしてユーザーが選択した値を取得します。
+
+```html
+<igc-rating value="3" max="10" label="Rate this movie"></igc-rating>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+
+rating.addEventListener('igcChange', (event) => {
+  console.log(`New rating: ${event.detail}`);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+値を状態に保持し、`onChange` ハンドラーで更新します。
+
+```tsx
+import { useState } from 'react';
+import { IgrRating } from 'igniteui-react';
+
+export default function MovieRating() {
+  const [score, setScore] = useState(3);
+
+  return (
+    <IgrRating
+      value={score}
+      max={10}
+      label="Rate this movie"
+      onChange={(e: CustomEvent<number>) => setScore(e.detail)}
+    />
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`@bind-Value` で値をバインドします。
+
+```razor
+<IgbRating @bind-Value="Score" Max="10" Label="Rate this movie" />
+
+@code {
+    private double Score { get; set; } = 3;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+値をプロパティとしてバインドし、`igcChange` ハンドラーで更新します。
+
+```html
+<igc-rating [value]="score" max="10" label="Rate this movie" (igcChange)="onScoreChange($event)"></igc-rating>
+```
+
+```ts
+public score = 3;
+
+public onScoreChange(event: Event) {
+    this.score = (event as CustomEvent<number>).detail;
+}
+```
+
+</PlatformBlock>
+
+`step` を `0.5` に設定すると、ユーザーは半星を選択できます。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating step={0.5} value={3.5} label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Step="0.5" Value="3.5" Label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-states" showThemePicker height={200} noBorder={false} spacing="md" alt="空、半分、満たされた状態の {Platform} Rating" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/states" showThemePicker height={200} noBorder={false} spacing="md" alt="空、半分、満たされた状態の {Platform} Rating" />
+
+</PlatformBlock>
+
+### サイズ
+
+Rating には、小、中、大の 3 つのサイズがあります。小、中、大のサイズでは、それぞれ 18px、24px、36px のシンボルがレンダリングされ、{Platform} Rating は既定で中サイズを使用します。サイズを選択するには、CSS 変数 `--ig-size` を `--ig-size-small`、`--ig-size-medium`、または `--ig-size-large` に設定します。これらのプリセット以外のサイズにするには、`--ig-rating-symbol-size` を設定します。
+
+```css
+.rating-small {
+  --ig-size: var(--ig-size-small);
+}
+
+.rating-large {
+  --ig-size: var(--ig-size-large);
+}
+
+.rating-custom {
+  --ig-rating-symbol-size: 3rem;
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating className="rating-large" label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Class="rating-large" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} Rating のサイズの例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} Rating のサイズの例" />
+
+</PlatformBlock>
+
+### シンボル
+
+既定では、{Platform} Rating は星のアイコンをレンダリングします。他のシンボルを使用するには、スケールの各ポイントに対して <PlatformBlock for="Angular">`igc-rating-symbol` 要素</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RatingSymbol" /></PlatformBlock> を 1 つずつ Rating の内側に配置します。各評価シンボルは、値が覆う部分に既定のスロット コンテンツを、残りの部分に `empty` スロット コンテンツを表示します。そのため、同じコンテンツであっても両方のスロットを埋めてください。評価シンボルの数が `max` を設定し、Rating は設定した `max` を無視します。
+
+<PlatformBlock for="WebComponents">
+
+次の Rating は、登録済みのハート アイコンを使用します。最初に、[Icon](../layouts/icon.mdx) トピックで説明されているようにアイコンを登録します。
+
+```html
+<igc-rating label="Rate this recipe">
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+次の Rating は、登録済みのハート アイコンを使用します。最初に、[Icon](../layouts/icon.mdx) トピックで説明されているようにアイコンを登録します。
+
+```tsx
+import { IgrIcon, IgrRating, IgrRatingSymbol } from 'igniteui-react';
+
+<IgrRating label="Rate this recipe">
+  {[1, 2, 3, 4, 5].map((i) => (
+    <IgrRatingSymbol key={i}>
+      <IgrIcon name="favorite" collection="material" />
+      <IgrIcon name="favorite_border" collection="material" slot="empty" />
     </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <div>😣</div>
-      <div slot="empty">😣</div>
-    </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <div>😣</div>
-      <div slot="empty">😣</div>
-    </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <div>😣</div>
-      <div slot="empty">😣</div>
-    </IgrRatingSymbol>
-  <IgrRatingSymbol>
-      <div>😣</div>
-      <div slot="empty">😣</div>
-    </IgrRatingSymbol>
+  ))}
 </IgrRating>
 ```
 
 </PlatformBlock>
 
-
-<Sample src="/inputs/rating/single-selection" height={150} alt="{Platform} 単一選択による {Platform} Rating" />
-
-
-
-> `step` 属性は単一選択モードでは機能しないことに注意してください。
-
-## 空および選択済み
-{ProductName} 評価コンポーネントを使用すると、ユーザーは単一の評価値の空の状態と選択された状態に異なるアイコン / 要素を使用できます。シンボルを宣言するときは、たとえ同じであっても、スロットごとに 2 つのアイコン (空とフル) を提供することが必須です。次に例を示します。
-
-
-<PlatformBlock for="WebComponents">
-
-
-```html
-<igc-rating-symbol>
-  <igc-icon collection="default" name="bandage"></igc-icon>
-  <igc-icon collection="default" name="bacteria" slot="empty"></igc-icon>
-</igc-rating-symbol>
-```
-
-</PlatformBlock>
-
-
-
 <PlatformBlock for="Blazor">
 
+次の Rating は、登録済みのハート アイコンを使用します。最初に、[Icon](../layouts/icon.mdx) トピックで説明されているようにアイコンを登録します。
 
 ```razor
-<IgbRatingSymbol>
-  <IgbIcon Collection="material" IconName="bandage"></IgbIcon>
-  <IgbIcon Collection="material" IconName="bacteria" slot="empty"></IgbIcon>
-</IgbRatingSymbol>
+<IgbRating Label="Rate this recipe">
+    @for (var i = 0; i < 5; i++)
+    {
+        <IgbRatingSymbol>
+            <IgbIcon IconName="favorite" Collection="material" />
+            <IgbIcon IconName="favorite_border" Collection="material" slot="empty" />
+        </IgbRatingSymbol>
+    }
+</IgbRating>
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 
+次の Rating は、`igniteui-webcomponents` の `registerIconFromText` で登録したハート アイコンを使用します。Rating は `igc-icon` 要素のサイズをシンボル サイズに合わせるため、評価シンボルには `igc-icon` を使用してください。
 
-<PlatformBlock for="React">
-
-
-```tsx
-<IgrRatingSymbol>
-    <div><IgrIcon name='bandage' collection="material"></IgrIcon></div>
-    <div slot='empty'><IgrIcon name='bacteria' collection="material"></IgrIcon></div>
-</IgrRatingSymbol>
+```html
+<igc-rating label="Rate this recipe">
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <igc-rating-symbol>
+      <igc-icon name="favorite" collection="material"></igc-icon>
+      <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+    </igc-rating-symbol>
+  }
+</igc-rating>
 ```
 
 </PlatformBlock>
 
+Rating は、テーマの満たされたシンボルと空のシンボルの色で、アイコンとテキストに色を付けます。`empty` スロット内のアイコン以外のコンテンツはグレースケールでレンダリングされるため、両方のスロットに同じ絵文字を入れると、選択済みまたは空のように見えます。
 
-<Sample src="/inputs/rating/empty" height={150} alt="{Platform} 空および選択状態の {Platform} Rating" />
+### 単一選択
 
-
-
-## 構成
-
-### Single (単一)
-
-評価の <ApiLink pkg="core" type="Rating" member="single" label="Single" /> ビジュアル モードをオンにします。フィードバック絵文字の顔など、固有の値を伝える記号を使用する場合に便利です。
-
-### Value (値)
-
-<ApiLink pkg="core" type="Rating" member="value" label="Value" /> 属性は、コンポーネントの現在の値を設定します。
-
-### Label (ラベル)
-
-<ApiLink pkg="core" type="Rating" member="label" label="Label" /> 属性を使用すると、評価コンポーネントのラベル値を設定できます。
-
-### 値の形式
-[aria-valuetext (英語)](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-valuetext) を設定する書式文字列。そのすべてのインスタンスは、コントロールの現在の値に置き換えられます。スクリーン リーダーにとって重要であり、ローカライズに役立ちます。
-
-### Max Value (最大値)
-
-<ApiLink pkg="core" type="Rating" member="max" label="Max" /> 属性は、評価コンポーネントの最大許容値を設定します。
-
-### Step (ステップ)
-
-<ApiLink pkg="core" type="Rating" member="step" label="Step" /> 属性は、2 つのシンボル間の許容されるステップの割合を設定します。評価記号を半分に分割する場合に便利です。
-
-### Hover Preview (ホバー プレビュー)
-
+`single` を設定すると、選択されたシンボルのみが満たされて表示されます。単一選択は、表情のスケールなど、各シンボルが 1 つの個別の値を表す場合に使用します。単一選択では、{Platform} Rating は `step` を 1 とし、小数値を切り上げます。
 
 <PlatformBlock for="WebComponents">
 
-
-`hover-preview` 属性により、ホバー時にユーザー選択の可能な結果がコンポーネントに表示されます。選択した値が何であるかについて即座にフィードバックしたい場合に便利です。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-<ApiLink pkg="core" type="Rating" member="hoverPreview" label="HoverPreview" /> 属性により、ホバー時にユーザー選択の可能な結果がコンポーネントに表示されます。選択した値が何であるかについて即座にフィードバックしたい場合に便利です。
+```html
+<igc-rating single label="How was your experience?">
+  <igc-rating-symbol><span>😣</span><span slot="empty">😣</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😔</span><span slot="empty">😔</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😐</span><span slot="empty">😐</span></igc-rating-symbol>
+  <igc-rating-symbol><span>🙂</span><span slot="empty">🙂</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😆</span><span slot="empty">😆</span></igc-rating-symbol>
+</igc-rating>
+```
 
 </PlatformBlock>
-
-
 
 <PlatformBlock for="React">
 
+```tsx
+const faces = ['😣', '😔', '😐', '🙂', '😆'];
 
-`hoverPreview` 属性により、ホバー時にユーザー選択の可能な結果がコンポーネントに表示されます。選択した値が何であるかについて即座にフィードバックしたい場合に便利です。
+<IgrRating single={true} label="How was your experience?">
+  {faces.map((face) => (
+    <IgrRatingSymbol key={face}>
+      <span>{face}</span>
+      <span slot="empty">{face}</span>
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
 
 </PlatformBlock>
 
+<PlatformBlock for="Blazor">
 
-### Read-Only (読み取り専用)
+```razor
+<IgbRating Single="true" Label="How was your experience?">
+    @foreach (var face in Faces)
+    {
+        <IgbRatingSymbol>
+            <span>@face</span>
+            <span slot="empty">@face</span>
+        </IgbRatingSymbol>
+    }
+</IgbRating>
 
-<ApiLink pkg="core" type="Rating" member="readOnly" label="ReadOnly" /> 属性を使用すると、ユーザーは <ApiLink pkg="core" type="Rating" /> を読み取り専用モードで設定できます。この属性は、コンポーネントを情報提供のみを目的として使用する場合に役立ちます。
+@code {
+    private readonly string[] Faces = { "😣", "😔", "😐", "🙂", "😆" };
+}
+```
 
-### Disabled (無効)
+</PlatformBlock>
 
-<ApiLink pkg="core" type="Rating" member="disabled" label="Disabled" /> 属性はコンポーネントを無効にし、マウスやキーボードを使用して値を選択することを不可能にします。
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating single label="How was your experience?">
+  @for (face of faces; track face) {
+    <igc-rating-symbol>
+      <span>{{ face }}</span>
+      <span slot="empty">{{ face }}</span>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+```ts
+public faces = ['😣', '😔', '😐', '🙂', '😆'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### フォーム
+
+{Platform} Rating は、フォーム関連の要素です。`<form>` 内では、`name` に指定した名前で値をテキストとして送信します。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+フォームのリセットにより、`value` 属性で設定された値が復元されます。
+
+```html
+<form>
+  <igc-rating name="score" value="4" label="Rate your stay"></igc-rating>
+  <button type="submit">Send</button>
+  <button type="reset">Reset</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log(new FormData(e.currentTarget).get('score'));
+  }}
+>
+  <IgrRating name="score" label="Rate your stay" />
+  <button type="submit">Send</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### フォーム
+
+Blazor の `EditForm` コンポーネントを使用し、Rating の値を `@bind-Value` でモデルのプロパティにバインドします。このバインディングは、ユーザーが値を変更したときに `ValueChanged` イベントを通じてモデルを更新します。
+
+```razor
+<EditForm Model="Review" OnSubmit="Submit">
+    <IgbRating @bind-Value="Review.Score" Label="Rate your stay" />
+    <button type="submit">Send</button>
+</EditForm>
+
+@code {
+    private ReviewModel Review { get; set; } = new();
+
+    private void Submit()
+    {
+        // Review.Score holds the value that the user selected.
+    }
+
+    public class ReviewModel
+    {
+        public double Score { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### フォーム
+
+Rating を `ngModel` または `formControlName` にバインドするには、Angular の `ControlValueAccessor` インターフェイスの実装が必要です。{ProductName} は、これをスタンドアロンの `IgcFormControlDirective` として提供しており、`ngModel` または `formControlName` を持つ `igc-rating` 要素にアタッチされます。`FormsModule` または `ReactiveFormsModule` とともにインポートします。
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    selector: 'app-review-form',
+    template: `
+        <form>
+            <igc-rating name="userRating" [(ngModel)]="review.rating" label="Your rating"></igc-rating>
+        </form>
+    `,
+    imports: [FormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ReviewFormComponent {
+    public review = { rating: 0 };
+}
+```
+
+リアクティブ フォームでは、`formControlName` で Rating をバインドします。
+
+```html
+<form [formGroup]="reviewForm">
+  <igc-rating formControlName="rating" label="Your rating"></igc-rating>
+</form>
+```
+
+ディレクティブは `igcChange` でモデルを更新し、Rating がフォーカスを失ったときにコントロールを touched としてマークし、フォーム コントロールを無効にしたときに Rating を無効にします。
+
+</PlatformBlock>
+
+Rating には `required` 検証がありません。スコアを必須にするには、データを送信する前に値が 0 より大きいことを確認してください。
+
+### 使用すべき場合と使用すべきでない場合
+
+星は非常によく知られたランキング シンボルであり、他のシンボルは評価スケールとして認識されない場合があります。星をカスタム シンボルに置き換える場合は、その目的が明確であることを確認してください。同じ色の似た色合いや、色収差を生じる組み合わせなど、コントラストの低い色は避けてください。アイコンの選択は強調され、視覚的に明確に区別できる外観である必要があります。
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoSymbol} alt="Rate your experience ラベルの下で、5 つのオレンジ色の星のうち 4 つが選択されている Rating" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotSymbol} alt="星の代わりに円の中のひし形シンボルを使用している Rating" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">推奨</p>
+    <p style="margin: 0;">星、またはユーザーが評価スケールとして連想するシンボルを使用します。</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">非推奨</p>
+    <p style="margin: 0;">スコアとしての意味が明確でないシンボルは避けます。</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoContrast} alt="灰色の枠線の星 1 つと区別しやすい、4 つの選択されたオレンジ色の星を持つ Rating" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotContrast} alt="選択された薄い灰色の星が、灰色の空の星と区別しにくい Rating" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">推奨</p>
+    <p style="margin: 0;">選択されたシンボルを、空のシンボルから際立たせます。</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">非推奨</p>
+    <p style="margin: 0;">選択されたシンボルと空のシンボルに似た色合いを使用するのは避けます。</p>
+  </div>
+</div>
+
+## プロパティ
+
+{Platform} Rating は、次のプロパティを公開します。完全な型定義については、API リファレンスを参照してください。
+
+| 名前 | 型 | 既定値 | 説明 |
+| --- | --- | --- | --- |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="value" label="value" /></PlatformBlock><PlatformBlock for="Angular">[`value`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#value)</PlatformBlock> | `number` | `0` | 現在の値。0 から最大値までです。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="max" label="max" /></PlatformBlock><PlatformBlock for="Angular">[`max`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#max)</PlatformBlock> | `number` | `5` | 最大値および既定のシンボルの数。投影された評価シンボルがある場合は、その数に設定されます。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="step" label="step" /></PlatformBlock><PlatformBlock for="Angular">[`step`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#step)</PlatformBlock> | `number` | `1` | 値の最小変化量。0.001 から 1 までです。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="label" label="label" /></PlatformBlock><PlatformBlock for="Angular">[`label`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#label)</PlatformBlock> | `string` | — | 表示ラベル。Rating の名前にもなります。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="valueFormat" label="valueFormat" /></PlatformBlock><PlatformBlock for="Angular">[`valueFormat`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#valueFormat)</PlatformBlock> | `string` | — | `aria-valuetext` の形式。`{0}` は値、`{1}` は最大値を表します。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="hoverPreview" label="hoverPreview" /></PlatformBlock><PlatformBlock for="Angular">[`hoverPreview`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#hoverPreview)</PlatformBlock> | `boolean` | `false` | Rating がポインターの下の値をプレビューするかどうか。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="readOnly" label="readOnly" /></PlatformBlock><PlatformBlock for="Angular">[`readOnly`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#readOnly)</PlatformBlock> | `boolean` | `false` | ユーザーが値を変更できないかどうか。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="single" label="single" /></PlatformBlock><PlatformBlock for="Angular">[`single`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#single)</PlatformBlock> | `boolean` | `false` | 選択されたシンボルのみを満たされた状態で表示するかどうか。 |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="allowReset" label="allowReset" /></PlatformBlock><PlatformBlock for="Angular">[`allowReset`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#allowReset)</PlatformBlock> | `boolean` | `false` | 現在の値をクリックしたときに Rating を 0 にリセットするかどうか。 |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock><PlatformBlock for="Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#disabled)</PlatformBlock> | `boolean` | `false` | Rating を無効にするかどうか。 |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="React">`invalid`</PlatformBlock><PlatformBlock for="Angular">[`invalid`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#invalid)</PlatformBlock> | `boolean` | `false` | `ig-invalid` カスタム状態により、Rating を無効としてマークします。Rating テーマはこの状態にスタイルを設定しません。 |
+<PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="name" label="name" /></PlatformBlock><PlatformBlock for="React">`name`</PlatformBlock><PlatformBlock for="Angular">[`name`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#name)</PlatformBlock> | `string` | — | フォームが値を送信するときの名前。 |</PlatformBlock>
 
 ## メソッド
 
-### Step Up (ステップアップ)
+{Platform} Rating は、次のメソッドを公開します。ステップ メソッドは、変更イベントを発行せずに値を変更します。
 
-<ApiLink pkg="core" type="Rating" member="stepUp" label="StepUp" /> メソッドは、コンポーネントの値を `n` ステップずつ増やします。`step` 係数によって決定されます。
-
-### Step Down (ステップダウン)
-
-<ApiLink pkg="core" type="Rating" member="stepDown" label="StepDown" /> メソッドは、コンポーネントの値を `n` ステップ分減らします。`step` 係数によって決定されます。
+| メソッド | 説明 |
+| --- | --- |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUp" label="StepUp" />, <ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | 指定したステップ数だけ値を増やします。<PlatformBlock for="Angular,React,WebComponents">数値の既定値は 1 です。</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDown" label="StepDown" />, <ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | 指定したステップ数だけ値を減らします。<PlatformBlock for="Angular,React,WebComponents">数値の既定値は 1 です。</PlatformBlock> |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="React">`checkValidity`</PlatformBlock><PlatformBlock for="Angular">[`checkValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#checkValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="CheckValidity" label="CheckValidity" />, <ApiLink pkg="core" type="Rating" member="CheckValidityAsync" label="CheckValidityAsync" /></PlatformBlock> | 値が有効かどうかを返し、無効な場合は `invalid` を発行します。 |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="React">`reportValidity`</PlatformBlock><PlatformBlock for="Angular">[`reportValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#reportValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="ReportValidity" label="ReportValidity" />, <ApiLink pkg="core" type="Rating" member="ReportValidityAsync" label="ReportValidityAsync" /></PlatformBlock> | 値が有効かどうかを返し、無効な場合はブラウザーの検証メッセージを表示します。 |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="setCustomValidity" label="setCustomValidity" /></PlatformBlock><PlatformBlock for="React">`setCustomValidity`</PlatformBlock><PlatformBlock for="Angular">[`setCustomValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#setCustomValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="SetCustomValidity" label="SetCustomValidity" />, <ApiLink pkg="core" type="Rating" member="SetCustomValidityAsync" label="SetCustomValidityAsync" /></PlatformBlock> | カスタム検証メッセージを設定します。メッセージが空でない間、Rating は無効になります。 |
 
 ## イベント
 
+{Platform} Rating は、次のイベントを発行します。値を設定したりメソッドを呼び出したりしたときには、イベントを発行しません。
 
-<PlatformBlock for="WebComponents">
-
-
-<ApiLink pkg="core" type="Rating" /> コンポーネントは、`igcHover` と `igcChange` の 2 つの個別のイベントを発行します。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-<ApiLink pkg="core" type="Rating" /> コンポーネントは、`Hover` と `Change` の 2 つの個別のイベントを発行します。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-<ApiLink pkg="core" type="Rating" /> コンポーネントは、`hover` と `change` の 2 つの個別のイベントを発行します。
-
-</PlatformBlock>
-
-
-### Hover Event (ホバー イベント)
-
-
-<PlatformBlock for="WebComponents">
-
-
-`igcHover` イベントは、シンボルにカーソルを合わせると発生します。マウス カーソルの下にあるシンボルの値を提供します。カスタム値ラベルと読み出しを作成するのに役立ちます。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-`Hover` イベントは、シンボルにカーソルを合わせると発生します。マウス カーソルの下にあるシンボルの値を提供します。カスタム値ラベルと読み出しを作成するのに役立ちます。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-`hover` イベントは、シンボルにカーソルを合わせると発生します。マウス カーソルの下にあるシンボルの値を提供します。カスタム値ラベルと読み出しを作成するのに役立ちます。
-
-</PlatformBlock>
-
-
-### Change Event (変更イベント)
-
-
-<PlatformBlock for="WebComponents">
-
-
-選択した値が変更されると、`igcChange` イベントが発生します。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="Blazor">
-
-
-選択した値が変更されると、`Change` イベントが発生します。
-
-</PlatformBlock>
-
-
-
-<PlatformBlock for="React">
-
-
-選択した値が変更されると、`change` イベントが発生します。
-
-</PlatformBlock>
-
+| 名前 | 型 | 説明 |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents,Angular">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | ユーザーが値を変更したときに発行されます。イベントの detail には新しい値が含まれます。 |
+| <PlatformBlock for="WebComponents,Angular">`igcHover`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onHover" label="onHover" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Hover" label="Hover" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | ホバー プレビューがオンで、ポインターが別の値に移動したときに発行されます。イベントの detail にはポインターの下の値が含まれます。 |
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="Rating" member="ValueChanged" label="ValueChanged" /> | `EventCallback<double>` | 新しい値とともに発行されます。`@bind-Value` を通じて使用します。 |</PlatformBlock>
 
 ## スタイル設定
 
-<ApiLink pkg="core" type="Rating" /> コンポーネントは、その内部要素のほとんどすべての CSS パーツを公開します。次の表に、公開されているすべての CSS パーツを示します。
+{Platform} Rating は、色とシンボル サイズをテーマから取得します。次の CSS 変数で変更できます。
 
-|名前|説明|
-|--|--|
-| `base` | すべての評価要素を保持するメイン ラッパー。 |
-| `label` | ラベルのパーツ。 |
-| `value-label` | 値ラベルのパーツ。 |
-| `symbols` | すべての評価記号のラッパー。 |
-| `symbol` | カプセル化されたデフォルト シンボルのパーツ。 |
-| `full` | カプセル化された完全なシンボルのパーツ。 |
-| `empty` | カプセル化された空のシンボルのパーツ。 |
+| 変数 | 変更内容 |
+| --- | --- |
+| `--ig-rating-symbol-full-color` | 満たされたシンボル (既定の星、アイコン、テキスト) の色。 |
+| `--ig-rating-symbol-empty-color` | 空のシンボルの色。 |
+| `--ig-rating-label-color` | ラベルの色。 |
+| `--ig-rating-value-label` | 値ラベルの色。 |
+| `--ig-rating-symbol-size` | シンボルのサイズ。 |
+| `--ig-size` | サイズのプリセット: `--ig-size-small`、`--ig-size-medium`、または `--ig-size-large`。 |
+| `--ig-rating-disabled-full-symbol-color` | Rating が無効なときの、満たされたシンボルの色。 |
+| `--ig-rating-disabled-empty-symbol-color` | Rating が無効なときの、空のシンボルの色。 |
+| `--ig-rating-disabled-label-color` | Rating が無効なときの、ラベルと値ラベルの色。 |
+| `--ig-rating-symbol-full-filter` | Rating が無効なときの、絵文字など、アイコン以外の満たされたシンボルの CSS フィルター。 |
+| `--ig-rating-symbol-empty-filter` | Rating が無効なときの、絵文字など、アイコン以外の空のシンボルの CSS フィルター。 |
 
-```css
-igc-rating::part(full) {
-  color: var(--ig-primary-500)
-}
+`igc-rating` 要素は、次の CSS パートを公開します。
 
-igc-rating::part(empty) {
-  color: var(--ig-secondary-200);
+| パート | スタイルを設定する対象 |
+| --- | --- |
+| `base` | シンボルと値ラベルを保持するスライダー。 |
+| `label` | ラベル。 |
+| `value-label` | `value-label` スロットのコンテナー。 |
+| `symbols` | すべてのシンボルのコンテナー。 |
+| `symbol` | 各既定シンボル。 |
+| `full` | 各既定シンボルの満たされたレイヤー。 |
+| `empty` | 各既定シンボルの空のレイヤー。 |
+
+`igc-rating` 要素がエクスポートするのは、既定の星の `symbol`、`full`、`empty` パートのみです。投影された評価シンボルにスタイルを設定するには、`igc-rating-symbol` 要素の `symbol`、`full`、`empty` パートを使用します。
+
+### Sass テーマ
+
+<PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`rating-theme`</PlatformBlock> 関数でテーマを作成し、`tokens()` ミックスインで含めます。この関数は `$symbol-full-color`、`$symbol-empty-color`、`$label-color`、`$symbol-size` などのパラメーターを受け取り、ミックスインは、含めたスコープに対応する `--ig-rating-*` 変数を出力します。
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:host {
+  @include tokens($custom-rating-theme);
 }
 ```
 
-<Sample src="/inputs/rating/styling" height={150} alt="{Platform} Rating スタイル設定の例" />
+</PlatformBlock>
 
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Sass 関数は `igniteui-theming` パッケージから提供されます。Sass のセットアップについては、[テーマ](../themes/overview.mdx)トピックを参照してください。
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:root {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS 変数
+
+Sass ビルド ステップなしでローカルにスタイルを設定する必要がある場合は、Rating またはコンテナーに CSS 変数を設定し、その他のスタイルには CSS パートを使用します。
+
+```css
+igc-rating {
+  --ig-rating-symbol-full-color: #e41c77;
+  --ig-rating-symbol-empty-color: #a9b8cc;
+}
+
+igc-rating::part(label) {
+  font-weight: 600;
+}
+
+igc-rating-symbol::part(empty) {
+  opacity: 0.6;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating のスタイル設定の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating のスタイル設定の例" />
+
+</PlatformBlock>
+
+### Tailwind によるスタイル設定
+
+CSS 変数を設定する Tailwind の任意プロパティを使用して、{Platform} Rating にスタイルを設定できます。最初に、<PlatformBlock for="Angular">[Tailwind をセットアップ](../themes/misc/tailwind-classes.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Tailwind をセットアップ](../themes/tailwind.mdx)</PlatformBlock>してください。
+
+<PlatformBlock for="WebComponents,Angular">
+
+```html
+<igc-rating
+  label="Rate this product"
+  class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating
+  label="Rate this product"
+  className="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" Class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating の Tailwind スタイル設定の例" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Rating の Tailwind スタイル設定の例" />
+
+</PlatformBlock>
+
+## アクセシビリティ
+
+{Platform} Rating はスライダーです。ユーザーは Tab キーで移動し、矢印キーで値を変更し、ARIA 属性を通じて値を聞き取ります。
+
+### キーボード操作
+
+{Platform} Rating は、内部のスライダー要素 (`base` パート) のみがフォーカスを受け取るため、タブ ストップは 1 つです。無効な Rating はタブ順序から外れます。読み取り専用の Rating はタブ順序に残りますが、次のキーを無視するため、ページのスクロールなど、ブラウザーの既定の動作がそのまま維持されます。
+
+| キー | 動作 |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | 次または前のフォーカス可能な要素にフォーカスを移動します。Rating はこれらのキーを処理しないため、フォーカスがトラップされることはありません。 |
+| <kbd>Arrow Right</kbd> | 値を 1 ステップ増やします。右から左のレイアウトでは減らします。 |
+| <kbd>Arrow Left</kbd> | 値を 1 ステップ減らします。右から左のレイアウトでは増やします。 |
+| <kbd>Arrow Up</kbd> | 値を 1 ステップ増やします。 |
+| <kbd>Arrow Down</kbd> | 値を 1 ステップ減らします。 |
+| <kbd>Home</kbd> | 値を 1 ステップに設定します。これはクリックで選択できる最小値です。 |
+| <kbd>End</kbd> | 値を最大値に設定します。 |
+
+{Platform} Rating は、`keydown` でこれらのキーを次のように処理します。
+
+- 既定の動作を防止するため、Rating にフォーカスがある間、矢印キー、Home、End でページはスクロールしません。
+- キーを押し続けると、その動作が繰り返されます。
+- Shift、Ctrl、Alt、Meta と同時に押したキーは何も行いません。
+- 値は 0 から最大値の間に保たれます。値が境界を超えるキーは、値を保持し、イベントを発行しません。
+- 値を変更する各キーは、変更イベントを発行します。
+
+ポインターでは、クリックすると、ポインターの下の値が次のステップに切り上げられて選択されます。読み取り専用または無効な Rating は、クリックを無視します。
+
+### スクリーン リーダー / ARIA
+
+{Platform} Rating は、`slider` ロールを持つフォーカス可能な要素 (`base` パート) を 1 つレンダリングします。その `tabindex` は `0` で、Rating が無効な場合は `-1` になり、次の値の属性を持ちます。
+
+| 属性 | 値 |
+| --- | --- |
+| `aria-valuemin` | `0` |
+| `aria-valuemax` | 最大値 |
+| `aria-valuenow` | `4.3` などの小数を含む値 |
+| `aria-valuetext` | 既定では "3 of 5"、または `valueFormat` のテキスト |
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+`igniteui-webcomponents` 7.3.0 以降では、スライダーは `aria-disabled` と `aria-readonly` も設定して、無効状態と読み取り専用状態を公開します。7.4.1 以降では、スライダーは次のうち最初に該当するものからアクセシブルな名前を取得します。
+
+1. ホストの `aria-labelledby` 属性。
+2. `for` でバインドされた、または Rating を囲んでいる `<label>` 要素。ラベルをクリックするとスライダーにフォーカスが移ります。
+3. `label` プロパティ。スライダーが `aria-labelledby` で参照する表示ラベルをレンダリングします。
+4. ホストの `aria-label` 属性。`label` プロパティが設定されている場合、スライダーはこれを無視します。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`Label` プロパティは、スライダーが `aria-labelledby` で参照する表示ラベルをレンダリングし、これによりスライダーにアクセシブルな名前が付きます。
+
+</PlatformBlock>
+
+{Platform} Rating は、支援技術に対して次のようにも動作します。
+
+- `symbols` パートは `aria-hidden="true"` を設定するため、投影されたアイコンや絵文字を含むシンボルは非表示になり、代替テキストは不要です。値は、`aria-valuenow` と `aria-valuetext` を通じてのみ支援技術に伝わります。
+- `value-label` スロットはスライダーの内部にレンダリングされます。スクリーン リーダーは `aria-valuetext` から値を読み上げるため、スロットのコンテンツではなく `valueFormat` で値を説明してください。
+- Rating はライブ リージョンを使用しません。変更された値は、スライダーの属性を通じてのみ支援技術に伝わります。
+- Rating は `aria-invalid` を設定しないため、カスタム検証メッセージは無効状態として公開されません。
+
+### アクセシビリティ準拠
+
+Infragistics は、{ProductName} のアクセシビリティ サポートについて、Section 508 と WCAG 2.1 ガイドライン領域を[アクセシビリティ準拠](../interactivity/accessibility-compliance.mdx)トピックで説明しています。
+
+| 基準 | コンポーネントの準拠方法 |
+| --- | --- |
+| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | シンボルは支援技術から非表示になり、スライダーは `aria-valuetext` を通じて値をテキストとして公開します。 |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | `label` プロパティの表示ラベルは、`aria-labelledby` を通じてスライダーに関連付けられます。 |
+| [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | 既定のシンボルは、スケールの選択された部分に塗りつぶされた星を、それ以外に枠線の星を表示するため、値が色だけに依存しません。 |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 矢印キー、Home、End で値が変更されるため、ユーザーはポインターなしで評価できます。 |
+| [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | Rating はタブ ストップが 1 つで、Tab キーを処理しないため、Tab と Shift + Tab でフォーカスを外に移動できます。 |
+| [2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | Rating テーマは、フォーカスされたスライダーからブラウザーのフォーカス インジケーターを削除しません。 |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | スライダーは、`slider` ロール、`aria-valuenow` と `aria-valuetext` による値、および指定した名前を公開します。<PlatformBlock for="React,WebComponents,Angular">`igniteui-webcomponents` 7.3.0 以降では、無効状態と読み取り専用状態も公開します。</PlatformBlock> |
+
+ユーザー側の責任:
+
+- すべての Rating に名前を付けます (`label` プロパティ<PlatformBlock for="React,WebComponents,Angular">、関連付けられた `<label>` 要素、または `aria-label`</PlatformBlock>)。[レイアウト](#レイアウト)を参照してください。
+- "3 of 5" がスケールを説明していない場合や、ページが別の言語を使用する場合は、`valueFormat` を設定します。
+- カスタム シンボルでは、満たされたシンボルと空のシンボルを、色だけでなく形や塗りつぶしでも区別できるようにし、[1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast) の要件に従って、背景に対して 3:1 以上のコントラスト比を維持します。
+- `base` パートのスタイルを変更する場合は、表示されるフォーカス インジケーターを維持します。
+- ポインターのターゲットを十分な大きさに保ちます。各値は、1 つのシンボルの幅、またはステップが 0.5 の場合はシンボルの半分の幅のターゲットです。小サイズは 18px のシンボルをレンダリングし、[2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum) の 24 x 24 CSS ピクセルを下回るため、ポインターおよびタッチ入力には中サイズまたは大サイズを推奨します。
+- キーボード ユーザーには見えないため、ホバー プレビューだけに情報を載せないでください。
+- カスタム検証メッセージで Rating を検証する場合は、Rating は `aria-invalid` を設定しないため、[3.3.1 Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification) の要件に従って、Rating の横にメッセージをテキストとして表示してください。
+
+[WAI-ARIA スライダー パターン](https://www.w3.org/WAI/ARIA/apg/patterns/slider/)との相違点:
+
+- <kbd>Home</kbd> は、値を `aria-valuemin` (0) ではなく 1 ステップに設定します。0 にするには <kbd>Arrow Down</kbd> を使用します。
+- Rating は、パターンでオプションのキーとされている <kbd>Page Up</kbd> と <kbd>Page Down</kbd> をサポートしません。
+
+## トラブルシューティング
+
+{Platform} Rating が期待どおりに動作しない場合は、次の回答を参照してください。
+
+### 値を設定しても change イベントが発生しないのはなぜですか?
+
+{Platform} Rating は、ユーザー入力 (クリックまたはキー) に対してのみ change イベントを発行します。コードで値を設定したり、ステップ メソッドを呼び出したりすると、イベントなしで値が変更されるため、値を設定する場所で独自の状態を更新してください。
+
+### 現在の値をクリックしても Rating がリセットされないのはなぜですか?
+
+{Platform} Rating は、`allowReset` を設定しない限り、現在の値をクリックしても値を保持します。`igniteui-webcomponents` 4.7.0 より前は、現在の値をクリックすると常に Rating がリセットされました。アップグレード後もその動作を維持するには、`allowReset` を設定します。
+
+### hover イベントが発生しないのはなぜですか?
+
+{Platform} Rating は、`hoverPreview` がオンの間のみ hover イベントを発行し、Rating が読み取り専用または無効な場合は発行しません。イベントを受け取るには `hoverPreview` を設定します。
 
 ## API リファレンス
 
+{Platform} Rating の API リファレンスには、対象プラットフォームの完全な API サーフェスが記載されています。
 
-<ApiLink pkg="core" type="Rating" /><br />
-<ApiLink pkg="core" type="RatingSymbol" /><br />
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Rating" />
+- <ApiLink pkg="core" type="RatingSymbol" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [`IgcRatingComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent)
+- [`IgcRatingSymbolComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingSymbolComponent)
+- <ApiLink type="IgcFormControlDirective" prefixed={false} suffix={false} label="IgcFormControlDirective" />
+- <ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" />
+
+</PlatformBlock>
+
+## 依存関係
+
+{Platform} Rating には、色とシンボル サイズを適用するテーマが必要です。フレームワーク固有のセットアップについては、<PlatformBlock for="Angular">[**はじめに**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**はじめに**](../general-getting-started.mdx)</PlatformBlock>を参照してください。
+
+<PlatformBlock for="Angular">
+
+Rating には `igniteui-webcomponents` パッケージが必要で、Angular フォームのバインディングには `IgcFormControlDirective` が必要です。{ProductName} の `theme()` ミックスインは、`$exclude` パラメーターで `igc-rating` を除外しない限り、`igc-rating` のスタイルを含みます。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`IgcRatingComponent` の登録により、Rating がレンダリングする `igc-rating-symbol` 要素と `igc-icon` 要素も登録されます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+評価シンボルに `IgbIcon` 要素を配置する場合は、`IgbIconModule` も登録してください。
+
+</PlatformBlock>
 
 ## その他のリソース
 
-- [{ProductName} **フォーラム (英語)**]({ForumsLink})
-- [{ProductName} **GitHub (英語)**]({GithubLink})
+次のリソースでは、{Platform} Rating に関するその他のガイダンスとプロジェクト サポートを提供しています。
+
+- [Rating - Design System Component](https://www.infragistics.com/products/indigo-design/help/components/rating)
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 関連コンポーネント
+
+{Platform} Rating は、シンボルのスケールでスコアを収集します。入力に別の形式が必要な場合は、次のコンポーネントを使用します。
+
+- <PlatformBlock for="Angular">[Slider](../slider/slider.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Slider](./slider.mdx)</PlatformBlock> - 価格や音量など、連続した範囲から正確な数値を選択する場合に Slider を使用します。
+- <PlatformBlock for="Angular">[Radio Group](../radio-button.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Radio Group](./radio.mdx)</PlatformBlock> - Poor、Fair、Good など、各オプションにテキスト ラベルが必要な場合に Radio Group を使用します。
+- [Icon](../layouts/icon.mdx) - Rating のカスタム シンボルを描画するには Icon を使用します。
+
+## FAQ
+
+ここでは、{Platform} Rating のセットアップ、アクセシビリティ、使用シナリオに関するよくある質問に回答します。
+
+<Faq>
+  <FaqItem question="ユーザーは半星を選択できますか?" indicatorPosition="end">
+    はい。{Platform} Rating の `step` プロパティを `0.5` に設定すると、左から右のレイアウトでは星の左半分をクリックして半分の値を選択できます。その後、矢印キーで {Platform} Rating の値が 0.5 ステップで変化します。
+  </FaqItem>
+  <FaqItem question="ユーザーが変更できない平均評価を表示するにはどうすればよいですか?" indicatorPosition="end">
+    {Platform} Rating の `readOnly` プロパティを設定し、値を 4.3 などの平均値に設定します。{Platform} Rating は、小数値に対してシンボルを部分的に塗りつぶし、フォーカス可能なままで、クリックとキーを無視します。
+  </FaqItem>
+  <FaqItem question="Rating はキーボード ユーザーやスクリーン リーダー ユーザーにとってアクセシブルですか?" indicatorPosition="end">
+    はい。{Platform} Rating は `slider` ロールを持つ単一のタブ ストップで、矢印キー、Home、End で値を変更でき、スクリーン リーダーは `aria-valuetext` を通じて値を読み上げます。`label` プロパティまたは `aria-label` で {Platform} Rating にアクセシブルな名前を付け、`valueFormat` で値を言葉で説明してください。
+  </FaqItem>
+  <FaqItem question="Rating はフォームで動作しますか?" indicatorPosition="end">
+    <PlatformBlock for="Angular">はい。`igniteui-angular/directives` から `IgcFormControlDirective` をインポートして、Angular の Rating を `ngModel` または `formControlName` にバインドします。このディレクティブは、ユーザーが値を変更したときにモデルを更新し、フォーム コントロールを無効にしたときに Rating を無効にします。</PlatformBlock><PlatformBlock for="React,WebComponents">はい。{Platform} Rating はフォーム関連の要素であるため、`<form>` は `name` に指定した名前で値を送信します。無効な `<fieldset>` も {Platform} Rating を無効にします。</PlatformBlock><PlatformBlock for="Blazor">はい。Blazor の Rating を Blazor の `EditForm` に配置し、`@bind-Value` でその値をモデルのプロパティにバインドします。このバインディングは、ユーザーが値を変更したときに `ValueChanged` イベントを通じてモデルを更新します。</PlatformBlock>
+  </FaqItem>
+</Faq>
