@@ -410,6 +410,10 @@ structural changes (added/removed/reordered entries, changed `href`,
 of any new or modified entries into Japanese. Do **not** modify `name:`
 values of entries that were not touched by the English diff.
 
+When a `name:` value is a component name, write its reading from
+`docs/translation/jp-component-names.md`, not the English name. Write
+"アバター", not "Avatar".
+
 **If creating a new Japanese file:**
 
 - Mirror the full English file and translate all prose into Japanese.
