@@ -3,7 +3,7 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
-import { IGDOCS_PLATFORMS, type NavLang } from 'docs-template/platform';
+import { IGDOCS_PLATFORMS, getSwitcherPlatforms, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
 import mdx from '@astrojs/mdx';
 import type { Plugin } from 'vite';
@@ -109,8 +109,7 @@ export default createDocsSite({
 			href: mode === 'production' ? `${PROD_HOST}${b}` : `${STAGING_HOST}${b}`,
 			platform: key,
 		})),
-	packages: Object.values(IGDOCS_PLATFORMS)
-		.filter(p => p.lang === docsLang)
+	packages: getSwitcherPlatforms('angular', docsLang)
 		.map(({ label, key, base, root }) => ({
 			label,
 			value: key,
