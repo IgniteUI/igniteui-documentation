@@ -390,10 +390,16 @@ translating all new or modified English prose into natural, fluent Japanese.
   `Register` method.
 - When the alternatives share the same verb and details, keep 「または」.
   Write 「`Width` または `Height` を設定します」.
-- When an English sentence changes, re-translate the changed clause with the
-  existing Japanese sentence as context, reusing the terms it already uses
-  (for example 任意, 「(…を参照)」), and keep its logical links: a condition
-  stays conditional (「すると」), a contrast keeps 「ただし」.
+- When an English sentence changes, edit the existing Japanese sentence.
+  Do not translate the new English sentence from scratch. Change only the
+  words that the English change affects, and keep the rest as it is.
+  - Keep the terms it uses. If it says 任意 for "optional", keep 任意, even
+    though a fresh translation might choose オプション.
+  - Keep the logical links it has, such as 「ただし」 or a condition with
+    「と」, even when the English does not say them. Drop a link only when
+    the English change removes the relation behind it.
+- For a new sentence, use the terms that the rest of the Japanese file
+  uses for the same English words.
 
 **Special rule for `toc.json`:**
 
