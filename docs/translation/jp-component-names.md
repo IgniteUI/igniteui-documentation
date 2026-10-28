@@ -66,6 +66,39 @@ The JP sync workflows use this list when they translate component names. The JP 
 | Card | カード | |
 | Icon | アイコン | |
 | Tree | ツリー | |
+| Single Select ComboBox | 単一選択のコンボボックス | |
+| Bottom Navigation | 下部のナビゲーション | |
+| Date Time Editor | 日付/時刻エディター | |
+| Layout Manager | レイアウト マネージャー | |
+| Text Highlight | テキスト強調表示 | |
+| Label & Input | ラベル & 入力 | |
+| Action Strip | アクション ストリップ | |
+| Autocomplete | オートコンプリート | |
+| Color Editor | カラー エディター | |
+| Virtual ForOf | 仮想 ForOf | |
+| Month Picker | 月ピッカー | |
+| Input Group | 入力グループ | |
+| Time Picker | タイム ピッカー | |
+| Breadcrumbs | パンくずリスト | |
+| Mask Input | マスク入力 | |
+| List View | リスト ビュー | |
+| Drop Down | ドロップダウン | |
+| Paginator | ページネーター | |
+| QR Code | QR コード | |
+| Select | 選択 | |
+| Toggle | トグル | |
+| Input | 入力 | |
+| Chat | チャット | |
+| List | リスト | |
+| Mask | マスク | |
+| Virtual Scroll | 仮想スクロール | |
+| Color Picker | カラー ピッカー | |
+| Highlight | ハイライト | |
+| Switch | スイッチ | |
+| Multi-Column Combo Box | 複数列コンボボックス | |
+| ComboBox | コンボボックス | |
+| Sparkline | スパークライン | |
+| Map | マップ | |
 
 ## H1s with a longer name
 
