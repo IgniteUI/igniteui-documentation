@@ -22,15 +22,15 @@ import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBloc
 
 オープン ソース ライブラリには以下が含まれます。
 
-- **IgniteUI.Blazor.Lite** - オープン ソース UI コンポーネントを含む軽量パッケージ
-- **IgniteUI.Blazor.GridLite** - 軽量でオープン ソースのデータ グリッド コンポーネント
+- [**IgniteUI.Blazor.Lite**](https://www.nuget.org/packages/IgniteUI.Blazor.Lite) - オープン ソース UI コンポーネントを含む軽量パッケージ ([GitHub]({GithubLink}))
+- [**IgniteUI.Blazor.GridLite**](https://www.nuget.org/packages/IgniteUI.Blazor.GridLite) - 軽量でオープン ソースのデータ グリッド コンポーネント ([GitHub]({GithubLinkLite}))
 
 ## 新しい Blazor プロジェクトの作成
 
-- Visual Studio を起動し、スタート ページで **[新しいプロジェクトの作成]** をクリックし、**Blazor Server App**、**Blazor WebAssembly App**、**Blazor Web App** などの Blazor テンプレートを選択して **[次へ]** をクリックします。
+- Visual Studio を起動し、スタート ページで **[新しいプロジェクトの作成]** をクリックし、**Blazor Web App**、**Blazor WebAssembly Standalone App**、または **.NET MAUI Blazor Hybrid App** テンプレートを選択して **[次へ]** をクリックします。
 
 <DocsAside type="info" title="情報">
-**Blazor Server App** を使用する場合は、コンポーネントが使用されるページに `@rendermode InteractiveServer` を追加してください。
+**Blazor Web App** では、コンポーネントに **InteractiveServer**、**InteractiveWebAssembly**、または **InteractiveAuto** のインタラクティブ レンダー モードが必要です。コンポーネントを使用するページ (例: `@rendermode InteractiveServer`) で設定するか、**Components/App.razor** でグローバルに設定します。静的サーバー側レンダリングは現在サポートされていません。
 </DocsAside>
 
 - プロジェクト名と場所を入力し、**[次へ]** をクリックします。
@@ -61,27 +61,19 @@ dotnet add package IgniteUI.Blazor.Lite
 
 ## IgniteUI.Blazor.Lite の登録
 
-### .NET 6 以降のアプリケーション
-
-1 - **Program.cs** ファイルを開き、**builder.Services.AddIgniteUIBlazor** 関数を呼び出して Ignite UI for Blazor サービスを登録します。
+1 - **Program.cs** ファイル (.NET MAUI Blazor Hybrid アプリでは **MauiProgram.cs**) を開き、**builder.Services.AddIgniteUIBlazor** 関数を呼び出して Ignite UI for Blazor サービスを登録します。WebAssembly または Auto レンダー モードの Blazor Web App では、サーバー プロジェクトとクライアント プロジェクトの両方の **Program.cs** で登録します。
 
 <PlatformBlock for="Blazor">
 
-```razor
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-
+```csharp
 builder.Services.AddIgniteUIBlazor();
-
-var app = builder.Build();
 ```
 
 </PlatformBlock>
 
-2 - **_Imports.razor** ファイルに **IgniteUI.Blazor.Controls** 名前空間を追加します。
+各コンポーネントは初めてレンダリングされるときにクライアント リソースを読み込むため、コンポーネント モジュールの指定は任意です ([コンポーネント モジュール](./general-getting-started.mdx#コンポーネント-モジュール)を参照)。
+
+2 - **_Imports.razor** ファイルに **IgniteUI.Blazor.Controls** 名前空間を追加します (クライアント プロジェクトがある Blazor Web App では両方のプロジェクトに追加します)。
 
 <PlatformBlock for="Blazor">
 
@@ -91,7 +83,7 @@ var app = builder.Build();
 
 </PlatformBlock>
 
-3 - プロジェクト タイプに基づいて適切な場所にスタイル シートを追加します。
+3 - アプリのホスト ページの **`<head>`** 要素にスタイル シートを追加します。Blazor Web App の場合は **Components/App.razor**、スタンドアロンの Blazor WebAssembly アプリまたは Blazor Hybrid アプリの場合は **wwwroot/index.html** です。
 
 <PlatformBlock for="Blazor">
 
@@ -99,16 +91,6 @@ var app = builder.Build();
 <head>
     <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 </head>
-```
-
-</PlatformBlock>
-
-4 - スクリプト参照を追加します。
-
-<PlatformBlock for="Blazor">
-
-```razor
-<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
 ```
 
 </PlatformBlock>
@@ -143,6 +125,15 @@ Ignite UI for Blazor コンポーネントを razor ページに追加します�
 
 軽量パッケージに含まれるコンポーネントの詳細については、[オープン ソースとプレミアム コンポーネント](./general-open-source-vs-premium.mdx) トピックを参照してください。
 
+## IgniteUI.Blazor.GridLite のインストール
+
+Grid Lite を追加するには、**IgniteUI.Blazor.GridLite** パッケージをインストールします。
+
+```cmd
+dotnet add package IgniteUI.Blazor.GridLite
+```
+
+グリッド自体にはサービスの登録は必要ありません。上記で追加した Lite のテーマがグリッドにも適用されます。
 
 Grid Lite の機能と構成の詳細については、[Grid Lite の概要](./grid-lite/overview.mdx)トピックを参照してください。
 

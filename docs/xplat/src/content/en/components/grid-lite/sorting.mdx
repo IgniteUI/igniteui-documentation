@@ -231,8 +231,12 @@ gridRef.current.sortingOptions = { mode: 'single' };
 <PlatformBlock for="Blazor">
 
 ```razor
-// Enable single-column sorting
-grid.SortingOptions = new IgbGridLiteSortingOptions { Mode = GridLiteSortingMode.Single };
+<IgbGridLite Data="@data" SortingOptions="@sortingOptions" />
+
+@code {
+    // Enable single-column sorting
+    private IgbGridLiteSortingOptions sortingOptions = new() { Mode = GridLiteSortingMode.Single };
+}
 ```
 
 </PlatformBlock>
@@ -340,27 +344,23 @@ type SortingExpression<T> = {
 
 <PlatformBlock for="Blazor">
 
-```razor
+```csharp
 public class IgbGridLiteSortingExpression
 {
     /// <summary>
     /// The target column.
     /// </summary>
-    [JsonPropertyName("key")]
-    public string Key { get; set; }
+    public required string Key { get; set; }
 
     /// <summary>
     /// Sort direction for this operation.
     /// </summary>
-    [JsonPropertyName("direction")]
     public GridLiteSortingDirection Direction { get; set; }
 
     /// <summary>
     /// Whether the sort operation should be case sensitive.
     /// If not provided, the value is resolved based on the column sort configuration.
     /// </summary>
-    [JsonPropertyName("caseSensitive")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CaseSensitive { get; set; }
 }
 ```
@@ -387,9 +387,9 @@ The `sort()` method accepts either a single expression or an array of sort expre
 <PlatformBlock for="Blazor">
 
 
-The {GridLiteTitle} exposes two main approaches for applying sort operations from its API. Either through the `Sort()`/`ClearSort()` methods or through the `SortingExpressions` property.
+The {GridLiteTitle} exposes two main approaches for applying sort operations from its API. Either through the `SortAsync()`/`ClearSortAsync()` methods or through the `SortingExpressions` property.
 
-The `Sort()` method accepts either a single expression or an array of sort expression and then sorts the grid data based on those expressions.
+The `SortAsync()` method accepts either a single expression or a collection of sort expressions and then sorts the grid data based on those expressions.
 
 </PlatformBlock>
 
@@ -434,10 +434,10 @@ gridRef.current.sort([
 
 ```razor
 // Single
-await grid.Sort(new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending });
+await grid.SortAsync(new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending });
 
 // Multiple
-await grid.Sort(new IgbGridLiteSortingExpression[]
+await grid.SortAsync(new IgbGridLiteSortingExpression[]
 {
     new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
     new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Descending }
@@ -459,7 +459,7 @@ on the passed arguments.
 <PlatformBlock for="Blazor">
 
 
-The `ClearSort()` method, as the name implies, clears the sort state of a single column or the whole grid component, depending
+The `ClearSortAsync()` method, as the name implies, clears the sort state of a single column or the whole grid component, depending
 on the passed arguments.
 
 </PlatformBlock>
@@ -498,10 +498,10 @@ gridRef.current.clearSort();
 
 ```razor
 // Clear the sort state for the `Price` column.
-await grid.ClearSort("Price");
+await grid.ClearSortAsync("Price");
 
 // Clear the sort state of the grid.
-await grid.ClearSort();
+await grid.ClearSortAsync();
 ```
 
 </PlatformBlock>
@@ -522,7 +522,7 @@ sort state in the grid, but the most useful property is the ability to set initi
 <PlatformBlock for="Blazor">
 
 
-The `SortingExpressions` property is very similar in behavior to the `Sort()` method call. It exposes a declarative way to control
+The `SortingExpressions` property is very similar in behavior to the `SortAsync()` method call. It exposes a declarative way to control
 sort state in the grid, but the most useful property is the ability to set initial sort state when the {GridLiteTitle} is first rendered.
 
 </PlatformBlock>
@@ -576,19 +576,31 @@ return (
 For example:
 
 ```razor
-private IgbGridLiteSortingExpression[] sortState = new[]
-{
-    new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
-    new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Ascending, CaseSensitive = true }
-};
+<IgbGridLite Data="@data" SortingExpressions="sortState" />
 
-<IgbGridLite SortingExpressions="sortState" />
+@code {
+    private IgbGridLiteSortingExpression[] sortState = new[]
+    {
+        new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
+        new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Ascending, CaseSensitive = true }
+    };
+}
 ```
 
 </PlatformBlock>
 
 
+<PlatformBlock for="React, WebComponents">
+
 It can be used to get the current sort state of the component and do additional processing depending on another state in your application.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The `SortingExpressions` parameter sets the sort state; it does not follow the changes users make through the UI. To track the sort state, handle the `Sorted` event: its `Expression` is the sort expression of the column that was sorted.
+
+</PlatformBlock>
 
 
 <PlatformBlock for="WebComponents">
@@ -618,9 +630,15 @@ saveUserSortState(state);
 <PlatformBlock for="Blazor">
 
 ```razor
-var state = grid.SortingExpressions;
-// Save the current sort state
-SaveUserSortState(state);
+<IgbGridLite Data="@data" Sorted="OnSorted" />
+
+@code {
+    private void OnSorted(IgbGridLiteSortedEventArgs args)
+    {
+        // Save the sort state of the column
+        SaveUserSortState(args.Expression);
+    }
+}
 ```
 
 </PlatformBlock>
@@ -656,9 +674,9 @@ gridRef.current.addEventListener('sorted', (event: CustomEvent<SortingExpression
 <PlatformBlock for="Blazor">
 
 
-When a sorting operation is performed through the UI, the component raises `Sorting` and `Sorted` events. The `Sorting` event is cancellable and if cancelled will stop the current sort operation.
+When a sorting operation is performed through the UI, the component raises the `Sorting` event with the sort expression of the operation. It is a notification: it cannot cancel or change the operation.
 
-After the grid applies the new sorting state, a `Sorted` event is raised. It contains the expression which was used in the last sort operation and it is not cancellable.
+After the grid applies the new sorting state, a `Sorted` event is raised. It contains the expression which was used in the last sort operation.
 
 ```razor
 <IgbGridLite Sorting="OnSorting" Sorted="OnSorted" />
@@ -679,7 +697,17 @@ After the grid applies the new sorting state, a `Sorted` event is raised. It con
 </PlatformBlock>
 
 
+<PlatformBlock for="React, WebComponents">
+
 In the following sample, when you try to sort the **Name** and **Rating** columns, the operation will be cancelled. Watch the event log below to see it in action.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+In the following sample, sort the columns and watch the event log below for the `Sorting` and `Sorted` events.
+
+</PlatformBlock>
 
 <Sample src="/{GridLiteSample}/sort-config-events" height={600} alt="{Platform} {GridLiteTitle} Sorting Config Events" />
 
@@ -725,34 +753,9 @@ gridRef.current.dataPipelineConfiguration = { sort: (params: DataPipelineParams<
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-Using the <ApiLink type="DataPipelineConfiguration" /> property, you can provide a custom hook which will be called each time a sort operation is about to run. The callback is passed a <ApiLink type="DataPipelineParams" /> object.
 
 ```razor
-public class DataPipelineParams
-{
-    /// <summary>
-    /// The current data state of the grid.
-    /// </summary>
-    [JsonPropertyName("data")]
-    public object[] Data { get; set; }
-
-    /// <summary>
-    /// The type of data operation being performed.
-    /// </summary>
-    [JsonPropertyName("type")]
-    public string Type { get; set; } // "sort" or "filter"
-}
-```
-
-```razor
-grid.DataPipelineConfiguration = new DataPipelineParams
-{
-    Sort = async (params) =>
-    {
-        // Custom sort logic
-        return await Task.FromResult(params.Data);
-    }
-};
+<!-- Remote data operations TBD in Blazor -->
 ```
 
 </PlatformBlock>

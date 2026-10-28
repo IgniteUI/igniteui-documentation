@@ -540,7 +540,7 @@ is called, how regions are declared, and what `requires` and `lifetime` do.
 | `SnippetEmitterSpike/notes/SNIPPET-COLLAPSE-DECISIONS.md` (dev-tools) | every decision made while collapsing these topics, and why |
 | `SnippetEmitterSpike/collapse-tools/` (dev-tools) | the tools that do a collapse — planning it, mirroring it to `jp`, auditing it |
 | `code-gen-library/README.md` (examples) | writing library items |
-| `AI-AGENT-PLATFORM-BLOCK.md` | `PlatformBlock` itself |
+| [`xplat-docs-platform-block`](../../.github/skills/xplat-docs-platform-block/SKILL.md) | `PlatformBlock` itself |
 
 ---
 

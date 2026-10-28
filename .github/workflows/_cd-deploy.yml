@@ -44,11 +44,46 @@ jobs:
         with:
           node-version: '24.x'
 
+      - name: Checkout Uno sample routes for WinUI and Uno docs
+        if: inputs.platform == 'winui' || inputs.platform == 'uno'
+        uses: actions/checkout@v7
+        with:
+          repository: Infragistics/uno-samples
+          ref: ${{ env.BUILD_TYPE == 'production' && 'main' || 'vnext' }}
+          path: .uno-samples
+          token: ${{ secrets.CLASSIC_PAT_GITHUB }}
+
+      - name: Select Uno sample registry
+        if: inputs.platform == 'winui' || inputs.platform == 'uno'
+        run: echo "UNO_SAMPLES_REGISTRY=$GITHUB_WORKSPACE/.uno-samples/browser/SamplesBrowser/SampleRegistry.cs" >> "$GITHUB_ENV"
+
+      - name: Check Uno embed generation
+        if: inputs.platform == 'winui' || inputs.platform == 'uno'
+        run: node --test docs/xplat/scripts/lib/uno-samples.test.mjs
+
       - name: Install dependencies
         run: npm ci
 
+      # Generating a topic emits its json-snippet fences, which the product's code generating
+      # renderer does — it ships in igniteui-webcomponents-core, so this needs nothing but npm.
+      # Angular needs it too: its build generates the topics it takes from xplat first.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
       - name: Build Documentation for ${{ inputs.platform }} (${{ inputs.locale }})
         run: npm run build:${{ env.BUILD_TYPE }}:${{ inputs.platform }}:${{ inputs.locale }}
+
+      - name: Validate Uno sample embeds
+        if: inputs.platform == 'winui' || inputs.platform == 'uno'
+        env:
+          PLATFORM: ${{ inputs.platform }}
+          LOCALE: ${{ inputs.locale }}
+        run: |
+          DIST_DIR="dist/$PLATFORM$([[ "$LOCALE" == 'en' ]] && echo '' || echo "-$LOCALE")"
+          node scripts/check-uno-sample-links.mjs --site="$DIST_DIR" --environment="$BUILD_TYPE" --registry="$UNO_SAMPLES_REGISTRY"
 
       - name: Package build
         run: |

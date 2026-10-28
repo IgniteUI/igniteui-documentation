@@ -198,9 +198,13 @@ gridRef.current.sortingOptions = { mode: 'single' };
 
 <PlatformBlock for="Blazor">
 
-```csharp
-// 単一列のソートを有効にします
-grid.SortingOptions = new IgbGridLiteSortingOptions { Mode = GridLiteSortingMode.Single };
+```razor
+<IgbGridLite Data="@data" SortingOptions="@sortingOptions" />
+
+@code {
+    // 単一列のソートを有効にします
+    private IgbGridLiteSortingOptions sortingOptions = new() { Mode = GridLiteSortingMode.Single };
+}
 ```
 
 </PlatformBlock>
@@ -301,21 +305,17 @@ public class IgbGridLiteSortingExpression
     /// <summary>
     /// ターゲット列。
     /// </summary>
-    [JsonPropertyName("key")]
-    public string Key { get; set; }
+    public required string Key { get; set; }
 
     /// <summary>
     /// この操作のソート方向。
     /// </summary>
-    [JsonPropertyName("direction")]
     public GridLiteSortingDirection Direction { get; set; }
 
     /// <summary>
     /// ソート操作で大文字と小文字を区別するかどうかを指定します。
     /// この値が指定されていない場合、列のソート構成に基づいて解決されます。
     /// </summary>
-    [JsonPropertyName("caseSensitive")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CaseSensitive { get; set; }
 }
 ```
@@ -336,9 +336,9 @@ public class IgbGridLiteSortingExpression
 
 <PlatformBlock for="Blazor">
 
-{GridLiteTitle} は、ソート操作を API から適用するために 2 つの方法を提供します。`Sort()`/`ClearSort()` メソッドを使用するか、`SortingExpressions` プロパティを使用します。
+{GridLiteTitle} は、ソート操作を API から適用するために 2 つの方法を提供します。`SortAsync()`/`ClearSortAsync()` メソッドを使用するか、`SortingExpressions` プロパティを使用します。
 
-`Sort()` メソッドは、単一式または複数のソート式の配列を受け取り、それらに基づいてグリッド データをソートします。
+`SortAsync()` メソッドは、単一式または複数のソート式のコレクションを受け取り、それらに基づいてグリッド データをソートします。
 
 </PlatformBlock>
 
@@ -378,10 +378,10 @@ gridRef.current.sort([
 
 ```csharp
 // 単一
-await grid.Sort(new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending });
+await grid.SortAsync(new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending });
 
 // 複数
-await grid.Sort(new IgbGridLiteSortingExpression[]
+await grid.SortAsync(new IgbGridLiteSortingExpression[]
 {
     new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
     new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Descending }
@@ -398,7 +398,7 @@ await grid.Sort(new IgbGridLiteSortingExpression[]
 
 <PlatformBlock for="Blazor">
 
-`ClearSort()` メソッドは、その名の通り、渡された引数に応じて、単一列またはグリッド コンポーネント全体のソート状態をクリアします。
+`ClearSortAsync()` メソッドは、その名の通り、渡された引数に応じて、単一列またはグリッド コンポーネント全体のソート状態をクリアします。
 
 </PlatformBlock>
 
@@ -432,10 +432,10 @@ gridRef.current.clearSort();
 
 ```csharp
 // `Price` 列のソート状態をクリアします。
-await grid.ClearSort("Price");
+await grid.ClearSortAsync("Price");
 
 // グリッドのソート状態をクリアします。
-await grid.ClearSort();
+await grid.ClearSortAsync();
 ```
 
 </PlatformBlock>
@@ -450,7 +450,7 @@ await grid.ClearSort();
 
 <PlatformBlock for="Blazor">
 
-`SortingExpressions` プロパティは `Sort()` メソッド呼び出しと非常に似た動作をします。これはグリッド内のソート状態を制御する宣言的な方法を公開していますが、最も便利なのは、{GridLiteTitle} が最初にレンダリングされるときに初期ソート状態を設定できることです。
+`SortingExpressions` プロパティは `SortAsync()` メソッド呼び出しと非常に似た動作をします。これはグリッド内のソート状態を制御する宣言的な方法を公開していますが、最も便利なのは、{GridLiteTitle} が最初にレンダリングされるときに初期ソート状態を設定できることです。
 
 </PlatformBlock>
 
@@ -495,18 +495,30 @@ return (
 例:
 
 ```razor
-private IgbGridLiteSortingExpression[] sortState = new[]
-{
-    new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
-    new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Ascending, CaseSensitive = true }
-};
+<IgbGridLite Data="@data" SortingExpressions="sortState" />
 
-<IgbGridLite SortingExpressions="sortState" />
+@code {
+    private IgbGridLiteSortingExpression[] sortState = new[]
+    {
+        new IgbGridLiteSortingExpression { Key = "Price", Direction = GridLiteSortingDirection.Descending },
+        new IgbGridLiteSortingExpression { Key = "Name", Direction = GridLiteSortingDirection.Ascending, CaseSensitive = true }
+    };
+}
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="React, WebComponents">
+
 これを使用すると、コンポーネントの現在のソート状態を取得し、アプリケーション内の別の状態に応じて追加の処理を実行できます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`SortingExpressions` パラメーターはソート状態を設定しますが、ユーザーが UI で行った変更には追従しません。ソート状態を追跡するには、`Sorted` イベントを処理します。その `Expression` は、ソートされた列のソート式です。
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
@@ -532,10 +544,16 @@ saveUserSortState(state);
 
 <PlatformBlock for="Blazor">
 
-```csharp
-var state = grid.SortingExpressions;
-// 現在のソート状態を保存します
-SaveUserSortState(state);
+```razor
+<IgbGridLite Data="@data" Sorted="OnSorted" />
+
+@code {
+    private void OnSorted(IgbGridLiteSortedEventArgs args)
+    {
+        // 列のソート状態を保存します
+        SaveUserSortState(args.Expression);
+    }
+}
 ```
 
 </PlatformBlock>
@@ -565,9 +583,9 @@ gridRef.current.addEventListener('sorted', (event: CustomEvent<SortingExpression
 
 <PlatformBlock for="Blazor">
 
-UI を通じてソート操作が実行されると、コンポーネントは `Sorting` および `Sorted` イベントを発生させます。`Sorting` イベントはキャンセル可能で、キャンセルすると現在のソート操作が停止します。
+UI を通じてソート操作が実行されると、コンポーネントは操作のソート式を含む `Sorting` イベントを発生させます。これは通知であり、操作をキャンセルしたり変更したりすることはできません。
 
-グリッドが新しいソート状態を適用した後、`Sorted` イベントが発生します。このイベントには最後のソート操作で使用された式が含まれ、キャンセルはできません。
+グリッドが新しいソート状態を適用した後、`Sorted` イベントが発生します。このイベントには最後のソート操作で使用された式が含まれます。
 
 ```razor
 <IgbGridLite Sorting="OnSorting" Sorted="OnSorted" />
@@ -587,7 +605,17 @@ UI を通じてソート操作が実行されると、コンポーネントは `
 
 </PlatformBlock>
 
+<PlatformBlock for="React, WebComponents">
+
 次のサンプルでは、**Name** と **Rating** 列のソートを試みると操作がキャンセルされます。下記のイベント ログで動作を確認してください。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+次のサンプルで列をソートし、下記のイベント ログで `Sorting` および `Sorted` イベントを確認してください。
+
+</PlatformBlock>
 
 <Sample src="/{GridLiteSample}/sort-config-events" height={600} alt="{Platform} {GridLiteTitle} ソート構成イベント" />
 
@@ -630,34 +658,9 @@ gridRef.current.dataPipelineConfiguration = { sort: (params: DataPipelineParams<
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-<ApiLink type="DataPipelineConfiguration" /> プロパティを使用すると、ソート操作が実行されるたびに呼び出されるカスタム フックを提供できます。コールバックには <ApiLink type="DataPipelineParams" /> オブジェクトが渡されます。
 
-```csharp
-public class DataPipelineParams
-{
-    /// <summary>
-    /// グリッドの現在のデータ状態。
-    /// </summary>
-    [JsonPropertyName("data")]
-    public object[] Data { get; set; }
-
-    /// <summary>
-    /// 実行されるデータ操作の種類。
-    /// </summary>
-    [JsonPropertyName("type")]
-    public string Type { get; set; } // "sort" または "filter"
-}
-```
-
-```csharp
-grid.DataPipelineConfiguration = new DataPipelineParams
-{
-    Sort = async (params) =>
-    {
-        // カスタム ソート ロジック
-        return await Task.FromResult(params.Data);
-    }
-};
+```razor
+<!-- Remote data operations TBD in Blazor -->
 ```
 
 </PlatformBlock>

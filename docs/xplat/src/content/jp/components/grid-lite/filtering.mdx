@@ -176,41 +176,43 @@ public class IgbGridLiteFilterExpression
     /// <summary>
     /// フィルター操作の対象となる列です。
     /// </summary>
-    [JsonPropertyName("key")]
-    public string Key { get; set; }
+    public required string Key { get; set; }
 
     /// <summary>
-    /// 適用するフィルター条件です。条件名 (string) または FilterOperation を指定できます。
+    /// 適用するフィルター条件の名前です。有効な名前は列の DataType によって異なります。
     /// </summary>
-    [JsonPropertyName("condition")]
-    public object Condition { get; set; }
+    public required string Condition { get; set; }
 
     /// <summary>
     /// フィルター条件関数で使用されるフィルター値です。
     /// 単項条件の場合はオプションです。
     /// </summary>
-    [JsonPropertyName("searchTerm")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object SearchTerm { get; set; }
+    public object? SearchTerm { get; set; }
 
     /// <summary>
-    /// この式がフィルター操作でどのように解決されるべきかを指定します。
-    /// 'and' - レコードはすべての条件を満たす必要があります。
-    /// 'or' - レコードは少なくとも 1 つの条件を満たす必要があります。
+    /// この式が列の他の式に対してどのように解決されるかを指定します。
+    /// And - レコードはすべての条件を満たす必要があります。
+    /// Or - レコードは少なくとも 1 つの条件を満たす必要があります。
     /// </summary>
-    [JsonPropertyName("criteria")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Criteria { get; set; } // "and" または "or"
+    public GridLiteFilterCriteria? Criteria { get; set; }
 
     /// <summary>
     /// フィルター操作で大文字と小文字を区別するかどうかを指定します。
     /// 指定されていない場合、値は列のフィルター構成に基づいて解決されます。
     /// </summary>
-    [JsonPropertyName("caseSensitive")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CaseSensitive { get; set; }
 }
 ```
+
+列が受け入れる条件名は、その列の `DataType` によって異なります。`DataType` が指定されていない列は `String` として扱われます。
+
+| `DataType` | 条件名 |
+| :--------- | :----- |
+| `String`   | `contains`, `doesNotContain`, `startsWith`, `endsWith`, `equals`, `doesNotEqual`, `empty`, `notEmpty` |
+| `Number`   | `equals`, `doesNotEqual`, `greaterThan`, `lessThan`, `greaterThanOrEqual`, `lessThanOrEqual`, `empty`, `notEmpty` |
+| `Boolean`  | `all`, `true`, `false`, `empty`, `notEmpty` |
+
+`Boolean` の条件、`empty` および `notEmpty` には `SearchTerm` は必要ありません。
 
 </PlatformBlock>
 
@@ -226,9 +228,9 @@ public class IgbGridLiteFilterExpression
 
 <PlatformBlock for="Blazor">
 
-{GridLiteTitle} は、API からフィルター操作を適用する 2 つの方法を提供します。`GridLite.Filter()`/`GridLite.ClearFilter()` メソッドまたは <ApiLink type="GridLite" member="filterExpressions" label="GridLite.FilterExpressions" /> プロパティのいずれかを使用します。
+{GridLiteTitle} は、API からフィルター操作を適用する 2 つの方法を提供します。`FilterAsync()`/`ClearFilterAsync()` メソッドまたは <ApiLink type="GridLite" member="filterExpressions" label="GridLite.FilterExpressions" /> プロパティのいずれかを使用します。
 
-`Filter()` メソッドは、単一の式またはフィルター式の配列を受け入れ、それらの式に基づいてグリッド データをフィルターします。
+`FilterAsync()` メソッドは、単一の式またはフィルター式のコレクションを受け入れ、それらの式に基づいてグリッド データをフィルターします。
 
 </PlatformBlock>
 
@@ -268,13 +270,13 @@ gridRef.current.filter([
 
 ```csharp
 // 単一
-await grid.Filter(new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "contains", SearchTerm = "George" });
+await grid.FilterAsync(new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "contains", SearchTerm = "George" });
 
 // 複数
-await grid.Filter(new IgbGridLiteFilterExpression[]
+await grid.FilterAsync(new IgbGridLiteFilterExpression[]
 {
     new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "startsWith", SearchTerm = "a" },
-    new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "startsWith", SearchTerm = "g", Criteria = "or" }
+    new IgbGridLiteFilterExpression { Key = "FirstName", Condition = "startsWith", SearchTerm = "g", Criteria = GridLiteFilterCriteria.Or }
 });
 ```
 
@@ -288,7 +290,7 @@ await grid.Filter(new IgbGridLiteFilterExpression[]
 
 <PlatformBlock for="Blazor">
 
-`ClearFilter()` メソッドは、その名前が示すように、渡された引数に応じて、単一の列またはグリッド コンポーネント全体のフィルター状態をクリアします。
+`ClearFilterAsync()` メソッドは、その名前が示すように、渡された引数に応じて、単一の列またはグリッド コンポーネント全体のフィルター状態をクリアします。
 
 </PlatformBlock>
 
@@ -322,10 +324,10 @@ gridRef.current.clearFilter();
 
 ```csharp
 // `Age` 列のフィルター状態をクリアします。
-grid.ClearFilter("Age");
+await grid.ClearFilterAsync("Age");
 
 // グリッドのフィルター状態をクリアします。
-grid.ClearFilter();
+await grid.ClearFilterAsync();
 ```
 
 </PlatformBlock>
@@ -334,19 +336,21 @@ grid.ClearFilter();
 
 <PlatformBlock for="Blazor">
 
-`FilterExpressions` プロパティの動作は、`Filter()` メソッド呼び出しと非常に似ています。これはグリッド内のフィルター状態を制御する宣言的な方法を公開していますが、最も便利なのは、{GridLiteTitle} コンポーネントが最初にレンダリングされるときに初期フィルター状態を設定できることです。
+`FilterExpressions` プロパティの動作は、`FilterAsync()` メソッド呼び出しと非常に似ています。これはグリッド内のフィルター状態を制御する宣言的な方法を公開していますが、最も便利なのは、{GridLiteTitle} コンポーネントが最初にレンダリングされるときに初期フィルター状態を設定できることです。
 
 例:
 
 ```razor
-private IgbGridLiteFilterExpression[] filterState = new[]
-{
-    new IgbGridLiteFilterExpression { Key = "Age", Condition = "greaterThan", SearchTerm = 21 },
-    // 単項条件のため `SearchTerm` は不要です。
-    new IgbGridLiteFilterExpression { Key = "Active", Condition = "true" }
-};
+<IgbGridLite Data="users" FilterExpressions="filterState" />
 
-<IgbGridLite FilterExpressions="filterState" />
+@code {
+    private IgbGridLiteFilterExpression[] filterState = new[]
+    {
+        new IgbGridLiteFilterExpression { Key = "Age", Condition = "greaterThan", SearchTerm = 21 },
+        // 単項条件のため `SearchTerm` は不要です。
+        new IgbGridLiteFilterExpression { Key = "Active", Condition = "true" }
+    };
+}
 ```
 
 </PlatformBlock>
@@ -392,7 +396,17 @@ return(
 
 </PlatformBlock>
 
+<PlatformBlock for="React, WebComponents">
+
 このプロパティを使用してコンポーネントの現在のフィルター状態を取得し、アプリケーション内の別の状態に応じて追加の処理を行うこともできます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`FilterExpressions` パラメーターはフィルター状態を設定しますが、ユーザーが UI で行った変更には追従しません。現在のフィルター状態を取得するには、`Filtered` イベントを処理します。その `State` には、`Key` で指定された列のフィルター式が含まれます。
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
@@ -418,10 +432,16 @@ saveUserFilterState(state);
 
 <PlatformBlock for="Blazor">
 
-```csharp
-var state = grid.FilterExpressions;
-// 現在のフィルター状態を保存します。
-SaveUserFilterState(state);
+```razor
+<IgbGridLite Data="users" Filtered="OnFiltered" />
+
+@code {
+    private void OnFiltered(IgbGridLiteFilteredEventArgs args)
+    {
+        // 列の現在のフィルター状態を保存します。
+        SaveUserFilterState(args.Key, args.State);
+    }
+}
 ```
 
 </PlatformBlock>
@@ -438,9 +458,9 @@ UI を通じてフィルター操作が実行されると、コンポーネン�
 
 <PlatformBlock for="Blazor">
 
-UI を通じてフィルター操作が実行されると、コンポーネントは `Filtering` および `Filtered` イベントを発生させます。`Filtering` イベントはキャンセル可能で、キャンセルすると現在のフィルター操作が停止します。
+UI を通じてフィルター操作が実行されると、コンポーネントは `Filtering` イベントを発生させます。このイベントには、列のフィルター式と変更の種類 (`Add`、`Modify`、`Remove`) が含まれます。これは通知であり、操作をキャンセルしたり変更したりすることはできません。
 
-グリッドが新しいフィルター状態を適用すると、`Filtered` イベントが発生します。対象列のフィルター状態を含み、このイベントはキャンセルできません。
+グリッドが新しいフィルター状態を適用すると、`Filtered` イベントが発生します。対象列のフィルター状態が含まれます。
 
 </PlatformBlock>
 
@@ -524,34 +544,9 @@ gridRef.current.dataPipelineConfiguration = { filter: (params: DataPipelineParam
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
-<ApiLink type="DataPipelineConfiguration" /> プロパティを使用すると、フィルター操作が実行されるたびに呼び出されるカスタム フックを提供できます。コールバックには <ApiLink type="DataPipelineParams" /> オブジェクトが渡されます。
 
 ```razor
-public class DataPipelineParams
-{
-    /// <summary>
-    /// グリッドの現在のデータ状態です。
-    /// </summary>
-    [JsonPropertyName("data")]
-    public object[] Data { get; set; }
-
-    /// <summary>
-    /// 実行されるデータ操作の種類です。
-    /// </summary>
-    [JsonPropertyName("type")]
-    public string Type { get; set; } // "sort" または "filter"
-}
-```
-
-```razor
-grid.DataPipelineConfiguration = new DataPipelineConfiguration
-{
-    Filter = async (params) =>
-    {
-        // カスタム フィルター ロジック
-        return await Task.FromResult(params.Data);
-    }
-};
+<!-- Remote data operations TBD in Blazor -->
 ```
 
 </PlatformBlock>
