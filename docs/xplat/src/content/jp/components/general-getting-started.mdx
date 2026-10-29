@@ -12,6 +12,7 @@ platformType: xplat
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DownloadCard from 'docs-template/components/mdx/DownloadCard.astro';
 import DownloadCardGroup from 'docs-template/components/mdx/DownloadCardGroup.astro';
 import { Image } from 'astro:assets';
@@ -714,6 +715,36 @@ public void ConfigureServices(IServiceCollection services)
 ```razor
 <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
 <script src="_framework/blazor.server.js"></script>
+```
+
+#### コンポーネント モジュール
+
+ほとんどのアプリでは `builder.Services.AddIgniteUIBlazor()` を呼び出すだけで十分です。各コンポーネントは、初めてレンダリングされるときにクライアント リソースを読み込みます。次の場合は、モジュールを明示的に登録します。
+
+- アプリの起動時に、コンポーネントが初めてレンダリングされる前にリソースを準備しておく場合。
+- JavaScript テンプレートなどによってクライアント側でのみ作成され、どの Razor コンポーネントからもモジュールが要求されないコンポーネントを使用する場合。
+- チャートのインタラクティビティ (<ApiLink raw type="DataChartInteractivityModule" />)、`*FullModule` バンドルなど、どのコンポーネントからも要求されない機能を有効にする場合。これらはすべて **{PackageCore}** パッケージに含まれています。
+
+`\AddIgniteUIBlazor` にモジュールを指定すると、Ignite UI ランタイムの起動時に読み込まれます。
+
+```csharp
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbBadgeModule),
+    typeof(IgbDataChartInteractivityModule)
+);
+```
+
+または、挿入されたランタイムを使用して、後からモジュールを登録します。
+
+```razor
+@inject IIgniteUIBlazor IgniteUIBlazor
+
+@code {
+    protected override void OnInitialized()
+    {
+        IgbBadgeModule.Register(IgniteUIBlazor);
+    }
+}
 ```
 
 ### Ignite UI for Blazor コンポーネントの追加
