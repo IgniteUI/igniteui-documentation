@@ -74,7 +74,7 @@ The main elements include a title, a body, and action buttons.
   }
 `}</style>
 
-<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Title:</strong> should be brief and clearly describe the dialogs’s task or purpose<br />
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Title:</strong> should be brief and clearly describe the dialog’s task or purpose<br />
 <strong>2. Body:</strong> contains the information and/or controls needed to complete the dialog’s task. It can include message text and components<br />
 <strong>3. Action Buttons:</strong> the main actions needed to complete or cancel the dialog task</span>
 
@@ -1281,7 +1281,7 @@ The {Platform} Dialog also handles these pointer and form actions:
 The Angular Dialog manages the focus as follows:
 
 - When the dialog opens with built-in buttons, each button gets the `igxFocus` directive bound to `isOpen`, so the right button gets the focus, or the left button when it's the only one.
-- When the dialog opens without built-in buttons, the focus doesn't move into the dialog. Move it yourself, for example with `[igxFocus]="dialog.isOpen"` on the first control in the content.
+- When the dialog opens without built-in buttons, the focus moves to the `div.igx-dialog` container. To focus the first control in the content instead, add `[igxFocus]="dialog.isOpen"` to it.
 - While the dialog is open, the `igxFocusTrap` directive on the `div.igx-dialog` container handles Tab and Shift + Tab.
 - When the dialog closes, the focus doesn't return to the element that opened it.
 
@@ -1317,7 +1317,7 @@ The {Platform} Dialog renders the following roles and attributes:
 | Element | Role | Attributes |
 | --- | --- | --- |
 | `div[part="backdrop"]` | — | `aria-hidden="true"` while the dialog is closed. The element is empty and decorative. |
-| `dialog[part="base"]` | `dialog` | `aria-labelledby` that points to the `title` part, and `aria-label` when you set `aria-label` on the `igc-dialog` element. |
+| `dialog[part="base"]` | `dialog` | `aria-labelledby` that points to the `title` part. When you set `aria-label` on the `igc-dialog` element, the dialog gets that `aria-label`, and `aria-labelledby` holds the label text instead of the `id` of the `title` part, so the `aria-label` names the dialog. |
 | `header[part="title"]` | — | The `id` that `aria-labelledby` points to. Hidden when the dialog has no title. |
 | The default OK button | `button` | The name "OK". |
 
@@ -1362,7 +1362,7 @@ Infragistics documents {ProductName} accessibility support for Section 508 and W
 | [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The role of the dialog exposes the window, and `aria-labelledby` links the dialog to its title.<PlatformBlock for="Angular"> The role depends on the built-in buttons.</PlatformBlock> |
 | [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Tab and Shift + Tab reach every control in the dialog, Enter and Space activate the buttons, and Escape closes the dialog. |
 | [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | Escape closes the dialog by default, so keyboard users can leave it with a standard key. |
-| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | <PlatformBlock for="React,WebComponents,Blazor">The focus moves into the dialog when it opens and returns to the previously focused element when it closes.</PlatformBlock><PlatformBlock for="Angular">The built-in buttons get the focus when the dialog opens, and the focus trap keeps Tab and Shift + Tab inside the dialog while it's open.</PlatformBlock> |
+| [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | <PlatformBlock for="React,WebComponents,Blazor">The focus moves into the dialog when it opens and returns to the previously focused element when it closes.</PlatformBlock><PlatformBlock for="Angular">The focus moves into the dialog when it opens, to a built-in button or to the dialog container, and the focus trap keeps Tab and Shift + Tab inside the dialog while it's open.</PlatformBlock> |
 | [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The dialog exposes its role and a name from its title. |
 
 Your responsibilities:
@@ -1370,7 +1370,7 @@ Your responsibilities:
 - Give every dialog a title that names its task, as the [Do/Don't](#dodont) guidance shows.<PlatformBlock for="React,WebComponents,Blazor"> For a dialog without a title, set `aria-label` on the dialog.</PlatformBlock><PlatformBlock for="Angular"> For a projected title, bind `[id]="dialog.titleId"` on it.</PlatformBlock>
 - Keep a button that closes the dialog, especially when you turn off closing on Escape.
 - When you override the theme colors, keep a contrast ratio of at least 4.5:1 between the text and the background of the dialog, as [1.4.3 Contrast (Minimum)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum) requires.
-<PlatformBlock for="Angular">- Move the focus into a dialog without built-in buttons when it opens, and return the focus to the element that opened the dialog in the handler of `closed`.</PlatformBlock>
+<PlatformBlock for="Angular">- Return the focus to the element that opened the dialog in the handler of `closed`.</PlatformBlock>
 
 ## Troubleshooting
 
@@ -1423,7 +1423,7 @@ The Angular Dialog passes `closeOnEscape`, `closeOnOutsideSelect`, and `isModal`
 
 <PlatformBlock for="Angular">
 
-- A dialog without built-in buttons doesn't move the focus into itself when it opens, and the dialog doesn't return the focus to the element that opened it.
+- The dialog doesn't return the focus to the element that opened it when it closes.
 - The modal dialog doesn't make the rest of the page inert for assistive technology.
 - The focus trap moves the focus in DOM order and ignores positive `tabindex` values ([igniteui-angular#13299](https://github.com/IgniteUI/igniteui-angular/issues/13299)).
 - The dialog stops the propagation of the clicks inside it, so a third-party menu in the dialog that closes on document clicks stays open ([igniteui-angular#13849](https://github.com/IgniteUI/igniteui-angular/issues/13849)).
