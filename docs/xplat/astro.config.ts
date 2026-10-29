@@ -374,6 +374,9 @@ export default createDocsSite({
             label,
             value: key,
             href: mode === 'production' ? `${PROD_HOST}${base}${root}` : `${STAGING_HOST}${base}${root}`,
+            // Switching goes to the current page under `base`; the web server redirects pages
+            // missing on that platform to its getting started page (`href`).
+            base: mode === 'production' ? `${PROD_HOST}${base}` : `${STAGING_HOST}${base}`,
         })),
     selectedPackage: p.key,
     head: [
