@@ -1,47 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
-import { getNavConfig, getPlatformHead, IGDOCS_PLATFORMS, PLATFORM_DEFS, type PlatformKey } from './platform.ts';
+import { getPlatformHead, IGDOCS_PLATFORMS, PLATFORM_DEFS, type PlatformKey } from './platform.ts';
 
 const PLATFORM_KEYS = Object.keys(PLATFORM_DEFS) as PlatformKey[];
 const IG_PLATFORMS = PLATFORM_KEYS.filter(key => key !== 'appbuilder');
 
-describe('getNavConfig', () => {
-    it.each(IG_PLATFORMS)('points %s at the Infragistics nav endpoint', platform => {
-        expect(getNavConfig(platform)).toEqual({
-            navType: 'infragistics',
-            navUrl: 'https://www.infragistics.com/navigation',
-        });
-    });
-
-    it.each(IG_PLATFORMS)('uses the Japanese host for %s in jp', platform => {
-        expect(getNavConfig(platform, 'jp')).toEqual({
-            navType: 'infragistics',
-            navUrl: 'https://jp.infragistics.com/navigation',
-        });
-    });
-
-    it.each(IG_PLATFORMS)('falls back to the English host for %s in kr', platform => {
-        expect(getNavConfig(platform, 'kr').navUrl).toBe('https://www.infragistics.com/navigation');
-    });
-
-    it.each(['en', 'jp', 'kr'])('keeps the AppBuilder endpoint locale-independent in %s', lang => {
-        expect(getNavConfig('appbuilder', lang)).toEqual({
-            navType: 'appbuilder',
-            navUrl: 'https://www.appbuilder.dev/header-footer-export',
-        });
-    });
-
-    it.each(['en', 'jp', 'kr'])('returns no nav for a null platform in %s', lang => {
-        expect(getNavConfig(null, lang)).toEqual({ navType: 'none', navUrl: null });
-    });
-
-    it('returns no nav for an unknown platform', () => {
-        expect(getNavConfig('mystery')).toEqual({ navType: 'none', navUrl: null });
-    });
-
-    it('defaults to the English host when no locale is given', () => {
-        expect(getNavConfig('angular').navUrl).toBe('https://www.infragistics.com/navigation');
-    });
-});
+const LEGACY_NAV_CSS = 'https://www.infragistics.com/css/navigation.css';
+const LEGACY_NAV_JS = 'https://www.infragistics.com/assets/modern/scripts/navigation.js';
 
 describe('getPlatformHead', () => {
     it.each(PLATFORM_KEYS)('opens the head of %s with the platform meta tag', platform => {
@@ -51,13 +15,22 @@ describe('getPlatformHead', () => {
         expect(head[0]).toEqual({ tag: 'meta', attrs: { property: 'docs:platform', content: platform } });
     });
 
-    it.each(IG_PLATFORMS)('includes the shared Infragistics navigation assets for %s', platform => {
+    it.each(IG_PLATFORMS)('leaves the legacy navigation assets out of an English %s build', platform => {
         const head = getPlatformHead(platform);
         const hrefs = head.map(entry => entry.attrs?.['href']);
         const srcs = head.map(entry => entry.attrs?.['src']);
 
-        expect(hrefs).toContain('https://www.infragistics.com/css/navigation.css');
-        expect(srcs).toContain('https://www.infragistics.com/assets/modern/scripts/navigation.js');
+        expect(hrefs).not.toContain(LEGACY_NAV_CSS);
+        expect(srcs).not.toContain(LEGACY_NAV_JS);
+    });
+
+    it.each(IG_PLATFORMS)('adds the legacy navigation assets to a Japanese %s build', platform => {
+        const head = getPlatformHead(platform, 'jp');
+        const hrefs = head.map(entry => entry.attrs?.['href']);
+        const srcs = head.map(entry => entry.attrs?.['src']);
+
+        expect(hrefs).toContain(LEGACY_NAV_CSS);
+        expect(srcs).toContain(LEGACY_NAV_JS);
     });
 
     it('includes the AppBuilder mega-menu assets instead for appbuilder', () => {
@@ -67,7 +40,7 @@ describe('getPlatformHead', () => {
 
         expect(hrefs).toContain('https://staging.appbuilder.dev/wp-includes/css/dashicons.min.css');
         expect(srcs).toContain('https://staging.appbuilder.dev/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=3.3.1');
-        expect(hrefs).not.toContain('https://www.infragistics.com/css/navigation.css');
+        expect(hrefs).not.toContain(LEGACY_NAV_CSS);
     });
 
     it('carries the bootstrap cascade layer as an inline style', () => {
@@ -88,8 +61,8 @@ describe('getPlatformHead', () => {
         }
     });
 
-    it('ignores the locale argument', () => {
-        expect(getPlatformHead('angular', 'jp')).toEqual(getPlatformHead('angular', 'en'));
+    it('keeps the AppBuilder head locale-independent', () => {
+        expect(getPlatformHead('appbuilder', 'jp')).toEqual(getPlatformHead('appbuilder', 'en'));
     });
 });
 

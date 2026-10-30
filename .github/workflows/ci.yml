@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Use Node.js 24.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: 'npm'
@@ -33,14 +33,14 @@ jobs:
 
     strategy:
       matrix:
-        platform: ['angular', 'react', 'webcomponents', 'blazor']
+        platform: ['angular', 'react', 'webcomponents', 'blazor', 'winui', 'uno']
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Use Node.js 24.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: 'npm'
@@ -48,9 +48,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Generating a topic emits its json-snippet fences, which the product's code generating
+      # renderer does — it ships in igniteui-webcomponents-core, so this needs nothing but npm.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
       - name: Build ${{ matrix.platform }}
         run: npm run xplat:build:${{ matrix.platform }}
+        env:
+          DOCS_TOC_STRICT: 'true'
 
       - name: Build Angular Unique
         if: matrix.platform == 'angular'
         run: npm run angular:build
+        env:
+          DOCS_TOC_STRICT: 'true'

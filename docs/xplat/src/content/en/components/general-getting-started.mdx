@@ -6,6 +6,7 @@ last_updated: "2025-04-06"
 mentionedTypes: []
 llms:
   description: "{ProductName} is a complete set of UI widgets, components, and Figma UI kits for {Platform} by Infragistics."
+platformType: xplat
 ---
 
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
@@ -72,7 +73,7 @@ If you want to get a guided experience through the available options, you can in
 ig
 ```
 
-Then choose `React` as the framework and `Ignite UI for React TS` as the project type. Select **Side Navigation** or **Side Navigation Mini** to start with a navigation layout. After either navigation template is selected, the wizard asks whether to add authentication. The **Empty** template does not show the authentication option. You can then add a specific component/view or select `Complete & Run`.
+Then choose `\React` as the framework and `Ignite UI for React TS` as the project type. Select **Side Navigation** or **Side Navigation Mini** to start with a navigation layout. After either navigation template is selected, the wizard asks whether to add authentication. The **Empty** template does not show the authentication option. You can then add a specific component/view or select `Complete & Run`.
 
 Or create a project directly in one command, for example:
 
@@ -120,7 +121,6 @@ npm install igniteui-react-grids --save
 #### Importing Component Modules
 
 Then we can import the required modules of the components we want to use. Let's do this for the Grid and Column components that we will also use in the template. We also need to import one of the themes.
-
 
 ```ts
 import { IgrGrid, IgrColumn } from 'igniteui-react-grids';
@@ -228,7 +228,7 @@ In order to use the Ignite UI Web Components in your application you should inst
 npm install igniteui-webcomponents
 ```
 
-Next you will need to import the components that you want to use in your `index.ts` file. You could import one or more components using the <ApiLink type="defineComponents" /> function like this:
+Next you will need to import the components that you want to use in your `\index.ts` file. You could import one or more components using the `\defineComponents` function like this:
 
 ```ts
 import { defineComponents, IgcAvatarComponent, IgcBadgeComponent } from 'igniteui-webcomponents';
@@ -236,7 +236,7 @@ import { defineComponents, IgcAvatarComponent, IgcBadgeComponent } from 'igniteu
 defineComponents(IgcAvatarComponent, IgcBadgeComponent);
 ```
 
-You could also import all of the components using the <ApiLink type="defineAllComponents" /> function:
+You could also import all of the components using the `\defineAllComponents` function:
 
 ```ts
 import { defineAllComponents } from 'igniteui-webcomponents';
@@ -646,9 +646,194 @@ public void ConfigureServices(IServiceCollection services)
 <script src="_framework/blazor.server.js"></script>
 ```
 
+### Component Modules
+
+Calling `builder.Services.AddIgniteUIBlazor()` is all most apps need: each component loads its client resources the first time it renders. Register modules explicitly to:
+
+- have a component's resources ready when the app starts, before the component first renders;
+- use a component that is created only on the client, for example by a JavaScript template, where no Razor component requests its module;
+- enable features that no component requests on its own, such as chart interactivity (<ApiLink raw type="DataChartInteractivityModule" />) or the `*FullModule` bundles, all in the **{PackageCore}** package.
+
+List the modules in `\AddIgniteUIBlazor`, which loads them when the Ignite UI runtime starts:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbBadgeModule),
+    typeof(IgbDataChartInteractivityModule)
+);
+```
+
+Or register a module later, with the injected runtime:
+
+```razor
+@inject IIgniteUIBlazor IgniteUIBlazor
+
+@code {
+    protected override void OnInitialized()
+    {
+        IgbBadgeModule.Register(IgniteUIBlazor);
+    }
+}
+```
+
 ## Add Ignite UI for Blazor Component
 
 Add an Ignite UI for Blazor component to your razor page:
+</PlatformBlock>
+
+<PlatformBlock for="WinUI">
+# Getting Started With {ProductName}
+
+This topic provides step-by-step instructions for creating {Platform} applications with {ProductName}
+using Visual Studio.
+
+## Prerequisites
+
+- Visual Studio 2022 with the **Windows application development** workload
+- The **Windows App SDK**, which the project template installs as the `\Microsoft.WindowsAppSDK` package
+- A project targeting `net9.0-windows10.0.19041.0` or later
+
+## Create a New {Platform} Project
+
+Start Visual Studio 2022, click **Create a new project**, select the **Blank App, Packaged (WinUI 3 in
+Desktop)** template, and click **Next**. Provide a project name and location, and click **Create**.
+
+## Install {ProductName}
+
+{ProductName} is delivered via NuGet packages. In Visual Studio, open the NuGet package manager by selecting **Tools** → **NuGet Package Manager** →
+**Manage NuGet Packages for Solution**, then install the packages for the controls you intend to use.
+Every package needs **Infragistics.WinUI.Core**:
+
+| Package | Controls | Namespace to declare |
+| --- | --- | --- |
+| `\Infragistics.WinUI.Core` | required by all of the below | `\Infragistics.Controls` |
+| `\Infragistics.WinUI.Charts` | charts and graphs | `\Infragistics.Controls.Charts` |
+| `\Infragistics.WinUI.DataGrid` | the data grid | `\Infragistics.Controls.Grids` |
+| `\Infragistics.WinUI.Gauges` | radial, linear and bullet gauges | `\Infragistics.Controls.Gauges` |
+| `\Infragistics.WinUI.Maps` | the geographic map | `\Infragistics.Controls.Maps` |
+| `\Infragistics.WinUI.Inputs` | inputs and editors | `\Infragistics.Controls.Inputs` |
+| `\Infragistics.WinUI.Layouts` | toolbars and layout panels | `\Infragistics.Controls.Layouts` |
+| `\Infragistics.WinUI.Dashboards` | the dashboard tile | `\Infragistics.Controls.Dashboards` |
+| `\Infragistics.WinUI.Sparkline` | the sparkline | `\Infragistics.Controls.Charts` |
+| `\Infragistics.WinUI.TreeMap` | the treemap | `\Infragistics.Controls.Charts` |
+| `\Infragistics.WinUI.DataVisualization` | shared support for the visualization controls | — |
+| `\Infragistics.WinUI.SkiaSharp` | optional SkiaSharp rendering backend | — |
+
+Licensed users take these from the Infragistics private NuGet feed. Add it as a package source in
+Visual Studio under **Tools** → **NuGet Package Manager** → **Package Manager Settings**, with the
+source set to `https://packages.infragistics.com/nuget/licensed/v3/index.json`.
+
+## Declare the Namespaces
+
+Each package of controls lives in its own namespace, and a XAML file declares the ones it uses. WinUI and
+Uno Platform uses the `using:` form:
+
+```xml
+<Window
+    xmlns:ig="using:Infragistics.Controls"
+    xmlns:igCharts="using:Infragistics.Controls.Charts"
+    xmlns:igDataGrids="using:Infragistics.Controls.Grids"
+    xmlns:igGauges="using:Infragistics.Controls.Gauges"
+    xmlns:igMaps="using:Infragistics.Controls.Maps"
+    xmlns:igDashboards="using:Infragistics.Controls.Dashboards"
+    xmlns:igInputs="using:Infragistics.Controls.Inputs"
+    xmlns:igLayouts="using:Infragistics.Controls.Layouts">
+</Window>
+```
+
+You only need the ones a file actually uses. Every code snippet in these topics is written with these
+prefixes, so a snippet showing `igDataGrids:XamDataGrid` needs the `\igDataGrids` declaration above.
+
+## Add Your First Component
+
+With the package installed and its namespace declared, a control is markup like any other. This adds a
+radial gauge to a window, using the `\igGauges` prefix declared above:
+
+```json-snippet source="/gauges/radial-gauge/needle"
+{
+    "type": "RadialGauge",
+    "name": "gauge",
+    "value": 50,
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "interval": 10
+}
+```
+
+Run the project and the gauge draws its scale, tick marks and needle at 50. Each control's own topic
+starts from a block like this one and adds the properties that topic is about.
+
+</PlatformBlock>
+
+<PlatformBlock for="Uno">
+# Getting Started With {ProductName}
+
+{ProductName} runs on Uno Platform through its own set of packages. The controls, their properties and
+their XAML are the same ones the WinUI topics show; what differs is how the project is created and which
+packages exist.
+
+## Prerequisites
+
+Uno Platform has its own solution templates and its own prerequisite check rather than a single Visual
+Studio workload, and both move faster than this topic can. Follow the Uno Platform
+[Getting Started](https://platform.uno/docs/articles/get-started.html) guide to create a project and to
+run `uno-check`, then come back here to add {ProductName}.
+
+## Install {ProductName}
+
+{ProductName} is delivered via NuGet packages. Every package needs **Infragistics.Uno.Core**:
+
+| Package | Controls | Namespace to declare |
+| --- | --- | --- |
+| `\Infragistics.Uno.Core` | required by all of the below | `\Infragistics.Controls` |
+| `\Infragistics.Uno.Charts` | charts and graphs | `\Infragistics.Controls.Charts` |
+| `\Infragistics.Uno.DataGrid` | the data grid | `\Infragistics.Controls.Grids` |
+| `\Infragistics.Uno.Gauges` | radial, linear and bullet gauges | `\Infragistics.Controls.Gauges` |
+| `\Infragistics.Uno.DataVisualization` | shared support for the visualization controls | — |
+
+A WebAssembly head takes the `Infragistics.Uno.Wasm.*` packages instead: **Infragistics.Uno.Wasm.Core**,
+**Infragistics.Uno.Wasm.Charts** and **Infragistics.Uno.Wasm.DataVisualization**.
+
+This is a narrower set than WinUI's. The geographic map, dashboard tile, inputs, layouts, sparkline and
+treemap have no Uno Platform package, so a topic covering those has no Uno Platform code to show.
+
+Licensed users take these from the Infragistics private NuGet feed. Add it as a package source in
+Visual Studio under **Tools** → **NuGet Package Manager** → **Package Manager Settings**, with the
+source set to `https://packages.infragistics.com/nuget/licensed/v3/index.json`.
+
+## Declare the Namespaces
+
+Uno Platform uses the same `using:` form WinUI does, and the same namespaces:
+
+```xml
+<Page
+    xmlns:ig="using:Infragistics.Controls"
+    xmlns:igCharts="using:Infragistics.Controls.Charts"
+    xmlns:igDataGrids="using:Infragistics.Controls.Grids"
+    xmlns:igGauges="using:Infragistics.Controls.Gauges">
+</Page>
+```
+
+Declare only the ones a file uses. Every code snippet in these topics is written with these prefixes.
+
+## Add Your First Control
+
+```json-snippet source="/gauges/radial-gauge/needle"
+{
+    "type": "RadialGauge",
+    "name": "gauge",
+    "value": 50,
+    "minimumValue": 0,
+    "maximumValue": 80,
+    "interval": 10
+}
+```
+
+Run the project and the gauge draws its scale, tick marks and needle at 50.
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
 
 ```razor
 <IgbCard style="width:350px">

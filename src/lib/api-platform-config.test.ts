@@ -111,6 +111,8 @@ describe('PLATFORM_MAP', () => {
             react: 'React',
             wc: 'WebComponents',
             blazor: 'Blazor',
+            winui: 'WinUI',
+            uno: 'Uno',
         });
     });
 
