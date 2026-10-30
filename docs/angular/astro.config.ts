@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, getSwitcherPlatforms, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
+import { angularOverlayRoot } from '../../scripts/lib/angular-content-roots.mjs';
 import mdx from '@astrojs/mdx';
 import type { Plugin } from 'vite';
 
@@ -47,6 +48,13 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
+// Topics generated from the shared cross-platform source, read in place out of
+// the xplat generator's output. They override the Angular tree for any slug they
+// provide; there is no overlay for a language the generator does not emit (kr).
+// The layout and excludes live in scripts/lib/angular-content-roots.mjs, shared
+// with the link checkers, and createDocsSite publishes the resulting root list
+// as DOCS_SOURCE_PATHS for src/content.config.ts.
+const xplatOverlay = angularOverlayRoot(docsLang);
 
 // ── @xplat-images resolution ──────────────────────────────────────────────
 // Topics generated from the xplat source import their images as
@@ -122,6 +130,7 @@ export default createDocsSite({
 	source: {
 		tocPath: `${componentsDocsDir}/toc.json`,
 		docsDir: componentsDocsDir,
+		overlayDirs: [xplatOverlay],
 	},
 	head: [
 		{ tag: 'link', attrs: { rel: 'icon', href: `${mode !== 'development' ? base : ''}/favicon.ico`, type: 'image/x-icon' } },

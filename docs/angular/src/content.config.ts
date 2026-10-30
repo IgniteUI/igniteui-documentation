@@ -1,19 +1,5 @@
 import { z } from 'astro/zod';
 import { createDocsCollection } from 'docs-template/content';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-// src/ → project root
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-
-let lang = 'en';
-try {
-	const cfg = JSON.parse(readFileSync(path.join(root, '.platform.json'), 'utf8'));
-	lang = cfg.lang ?? lang;
-} catch { /* use defaults */ }
-
-const docsDir = path.join(root, 'src', 'content', lang, 'components');
 
 const tableOfContentsSchema = z.object({
         tableOfContents: z
@@ -27,6 +13,8 @@ const tableOfContentsSchema = z.object({
                 .optional(),
 });
 
+// No source is passed: astro.config.ts owns the root list (the Angular tree plus
+// the xplat overlay), and createDocsSite publishes it as DOCS_SOURCE_PATHS.
 export const collections = {
-        docs: createDocsCollection(docsDir, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
+        docs: createDocsCollection(undefined, { exclude: ['**/*.md'], extendSchema: tableOfContentsSchema }),
 };
