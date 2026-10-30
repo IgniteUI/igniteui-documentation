@@ -19,8 +19,9 @@
  *   import { z } from 'astro:content';
  *   import { createDocsCollection } from 'docs-template/content';
  *
+ *   // Leaving the source undefined keeps the roots createDocsSite published.
  *   export const collections = {
- *     docs: createDocsCollection(process.env.DOCS_SOURCE_PATH, {
+ *     docs: createDocsCollection(undefined, {
  *       exclude: ['internal/**', 'draft.md'],
  *       extendSchema: z.object({ myCustomField: z.string().optional() }),
  *     }),
@@ -48,10 +49,6 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { docRootsFromEnv, toRootList, type DocsContentRoot } from './lib/doc-roots.ts';
 
-// The canonical root helpers live in `lib/doc-roots.ts` — re-exported here so a
-// consuming `content.config.ts` can read the root list `createDocsSite`
-// published (`docRootsFromEnv()`) from the same module it already imports.
-export { docRootsFromEnv } from './lib/doc-roots.ts';
 export type { DocsContentRoot, ResolvedDocRoot } from './lib/doc-roots.ts';
 
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
@@ -178,20 +175,19 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
         return owner !== undefined && owner < rootIndex;
     };
 
+    const ownEntries = (): Array<[string, unknown]> =>
+        [...store.entries()].filter(([id]: [string]) => ownsEntry(id));
+
     return {
         ...store,
         keys: () => [...store.keys()].filter(ownsEntry),
-        entries: () => [...store.entries()].filter(([id]: [string]) => ownsEntry(id)),
-        values: () => [...store.entries()].filter(([id]: [string]) => ownsEntry(id)).map(([, v]: [string, unknown]) => v),
+        entries: ownEntries,
+        values: () => ownEntries().map(([, v]) => v),
         // Hiding another root's entry keeps the two files from being compared
         // against each other, which is what would otherwise emit a
         // duplicate-slug warning for a slug that is deliberately shadowed.
-        //
-        // Reading one's own entry also *claims* the id. The loader calls `get`
-        // for every file it walks, but only calls `set` when the content
-        // actually changed, so claiming here is the only thing that records the
-        // winner on a warm load — without it the next root would see an
-        // unclaimed id and overwrite the page it is supposed to be shadowed by.
+        // Reading one's own entry also claims the id — see the warm-load note
+        // at the top of this section.
         get: (id: string) => {
             if (takenByOther(id)) return undefined;
             switch (ownership(id)) {
@@ -391,18 +387,15 @@ interface CreateDocsCollectionOptions {
  *   `.md`/`.mdx` files, or a list of such directories **ordered highest
  *   precedence first**: when the same slug exists in more than one root, the
  *   earliest root in the list provides the page and the rest are ignored.
- *   Defaults to `process.env.DOCS_SOURCE_PATH` if omitted.
+ *   Defaults to the root list `createDocsSite` published (`DOCS_SOURCE_PATHS`,
+ *   falling back to `DOCS_SOURCE_PATH`) if omitted.
  * @param options - Optional exclude patterns and schema extension.
  */
 export function createDocsCollection(
     sourceDir?: DocsContentRoot | DocsContentRoot[],
     { exclude = [], extendSchema }: CreateDocsCollectionOptions = {},
 ) {
-    const configured = sourceDir ?? process.env.DOCS_SOURCE_PATH;
-    const roots = toRootList(
-        (Array.isArray(configured) ? configured : [configured])
-            .filter((r): r is DocsContentRoot => Boolean(r)),
-    ).filter(r => Boolean(r.dir));
+    const roots = sourceDir ? toRootList(sourceDir) : docRootsFromEnv();
 
     if (roots.length === 0) {
         throw new Error(
@@ -414,7 +407,7 @@ export function createDocsCollection(
     const toNegated = (patterns: string[]) => patterns.map(p => (p.startsWith('!') ? p : `!${p}`));
 
     const loaders = roots.map(({ dir, exclude: rootExclude }) => ({
-        root: path.resolve(dir),
+        root: dir,
         loader: glob({
             base: pathToFileURL(dir.endsWith('/') ? dir : dir + '/'),
             pattern: [
@@ -453,5 +446,5 @@ export function createDocsCollection(
  *   export { collections };
  */
 export const collections = {
-    docs: createDocsCollection(docRootsFromEnv()),
+    docs: createDocsCollection(),
 };

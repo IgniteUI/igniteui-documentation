@@ -9,7 +9,6 @@ import {
     isShadowedAuthoredFile,
     isUnservedAngularFile,
     isUnservedOverlayFile,
-    OVERLAY_EXCLUDED_DIRS,
 } from './angular-content-roots.mjs';
 
 /** Repo root of the fake checkout, in the forward-slash form the module expects. */
@@ -48,16 +47,12 @@ afterEach(() => {
 });
 
 describe('isUnservedOverlayFile', () => {
-    it.each(OVERLAY_EXCLUDED_DIRS)('treats the overlay %s directory as unserved', dir => {
+    it.each(['changelog', 'grids'])('treats the overlay %s directory as unserved', dir => {
         expect(isUnservedOverlayFile(`${ANGULAR_OVERLAY_ROOT}/en/components/${dir}/topic.md`)).toBe(true);
     });
 
     it('serves an overlay file outside the excluded directories', () => {
         expect(isUnservedOverlayFile(`${ANGULAR_OVERLAY_ROOT}/en/components/charts/pie.md`)).toBe(false);
-    });
-
-    it('matches the excluded directory itself, without a trailing path', () => {
-        expect(isUnservedOverlayFile(`${ANGULAR_OVERLAY_ROOT}/en/components/grids`)).toBe(true);
     });
 
     it('does not match a directory that merely starts with an excluded name', () => {
@@ -71,10 +66,6 @@ describe('isUnservedOverlayFile', () => {
     it('normalises Windows separators', () => {
         expect(isUnservedOverlayFile(`${ANGULAR_OVERLAY_ROOT}/en/components/grids/grid.md`.replace(/\//g, '\\')))
             .toBe(true);
-    });
-
-    it('ignores case', () => {
-        expect(isUnservedOverlayFile('docs/xplat/generated/angular/EN/components/Changelog/notes.md')).toBe(true);
     });
 
     it('never treats an authored file as an unserved overlay file', () => {

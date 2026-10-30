@@ -123,7 +123,7 @@ function matchesGlob(pattern: string, relPath: string): boolean {
  * An excluded path is treated as absent: the next root gets a chance to supply
  * the slug, exactly as the content loader resolves it.
  */
-export function isExcludedFromRoot(root: ResolvedDocRoot, relPath: string): boolean {
+export function isExcludedFromRoot(root: Pick<ResolvedDocRoot, 'exclude'>, relPath: string): boolean {
     if (!root.exclude.length) return false;
     const normalized = relPath.replace(/\\/g, '/');
     return root.exclude.some(pattern => matchesGlob(pattern, normalized));
@@ -150,7 +150,7 @@ export function resolveDocRoots(
 
     for (const entry of ordered) {
         const root = normalizeRoot(entry);
-        if (!root.dir || seen.has(root.dir)) continue;
+        if (seen.has(root.dir)) continue;
         seen.add(root.dir);
         if (fs.existsSync(root.dir)) roots.push(root);
     }
@@ -169,40 +169,18 @@ export function toRootList(
     return list.filter(Boolean).map(normalizeRoot);
 }
 
-/** The bare directory paths of a root list, for consumers that only need those. */
-export function rootDirs(roots: readonly DocsContentRoot[]): string[] {
-    return toRootList(roots).map(r => r.dir);
-}
-
-/**
- * Returns the absolute path of the first root that contains `relPath`,
- * or `undefined` when no root does. Paths a root excludes are skipped, so a
- * root never answers for a page the site does not serve from it.
- */
-export function findInRoots(
-    roots: readonly DocsContentRoot[],
-    relPath: string,
-): string | undefined {
-    for (const root of toRootList(roots)) {
-        if (isExcludedFromRoot(root, relPath)) continue;
-        const candidate = path.join(root.dir, relPath);
-        if (fs.existsSync(candidate)) return candidate;
-    }
-    return undefined;
-}
-
 /**
  * Returns the first existing file among `relPaths`, searched root-by-root in
  * precedence order. Each root is fully checked before moving to the next, so an
  * overlay's `.md` beats the base's `.mdx` — matching how the loader resolves a
- * slug that exists in both roots. Excluded paths are skipped, for the same
- * reason as in `findInRoots`.
+ * slug that exists in both roots. Paths a root excludes are skipped, so a root
+ * never answers for a page the site does not serve from it.
  */
 export function findFirstInRoots(
-    roots: readonly DocsContentRoot[],
+    roots: readonly ResolvedDocRoot[],
     relPaths: readonly string[],
 ): string | undefined {
-    for (const root of toRootList(roots)) {
+    for (const root of roots) {
         for (const relPath of relPaths) {
             if (isExcludedFromRoot(root, relPath)) continue;
             const candidate = path.join(root.dir, relPath);
@@ -221,13 +199,13 @@ export function findFirstInRoots(
  * The longest matching root wins, so nested roots behave sensibly.
  */
 export function rootForFile(
-    roots: readonly DocsContentRoot[],
+    roots: readonly ResolvedDocRoot[],
     filePath: string,
 ): string | undefined {
     const abs = path.resolve(filePath);
     let best: string | undefined;
 
-    for (const { dir } of toRootList(roots)) {
+    for (const { dir } of roots) {
         const withSep = dir.endsWith(path.sep) ? dir : dir + path.sep;
         if (!abs.startsWith(withSep)) continue;
         if (!best || dir.length > best.length) best = dir;

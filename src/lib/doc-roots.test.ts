@@ -6,11 +6,9 @@ import {
     DOC_ROOTS_ENV,
     docRootsFromEnv,
     findFirstInRoots,
-    findInRoots,
     isExcludedFromRoot,
     normalizeRoot,
     resolveDocRoots,
-    rootDirs,
     rootForFile,
     serializeDocRoots,
     toRootList,
@@ -210,45 +208,6 @@ describe('toRootList', () => {
     });
 });
 
-describe('rootDirs', () => {
-    it('returns the bare directories in order', () => {
-        expect(rootDirs([tmp, { dir: path.join(tmp, 'overlay') }]))
-            .toEqual([path.resolve(tmp), path.resolve(path.join(tmp, 'overlay'))]);
-    });
-
-    it('returns an empty list for an empty root list', () => {
-        expect(rootDirs([])).toEqual([]);
-    });
-});
-
-describe('findInRoots', () => {
-    it('returns the file from the first root that has it', () => {
-        const overlay = makeDir('overlay');
-        const base = makeDir('base');
-        const wanted = makeFile(overlay, 'a.mdx');
-        makeFile(base, 'a.mdx');
-
-        expect(findInRoots([overlay, base], 'a.mdx')).toBe(wanted);
-    });
-
-    it('falls through to the next root when the first excludes the path', () => {
-        const overlay = makeDir('overlay');
-        const base = makeDir('base');
-        makeFile(overlay, 'changelog/a.mdx');
-        const wanted = makeFile(base, 'changelog/a.mdx');
-
-        expect(findInRoots([{ dir: overlay, exclude: ['changelog/**'] }, base], 'changelog/a.mdx')).toBe(wanted);
-    });
-
-    it('returns undefined when no root has the file', () => {
-        expect(findInRoots([makeDir('base')], 'missing.mdx')).toBeUndefined();
-    });
-
-    it('returns undefined for an empty root list', () => {
-        expect(findInRoots([], 'a.mdx')).toBeUndefined();
-    });
-});
-
 describe('findFirstInRoots', () => {
     it('checks a root against every candidate before moving to the next root', () => {
         const overlay = makeDir('overlay');
@@ -258,7 +217,7 @@ describe('findFirstInRoots', () => {
 
         // The overlay's `.md` wins over the base's `.mdx` even though `.mdx`
         // comes first in the candidate list.
-        expect(findFirstInRoots([overlay, base], ['a.mdx', 'a.md'])).toBe(wanted);
+        expect(findFirstInRoots(toRootList([overlay, base]), ['a.mdx', 'a.md'])).toBe(wanted);
     });
 
     it('prefers the earlier candidate within one root', () => {
@@ -266,7 +225,7 @@ describe('findFirstInRoots', () => {
         const wanted = makeFile(base, 'a.mdx');
         makeFile(base, 'a.md');
 
-        expect(findFirstInRoots([base], ['a.mdx', 'a.md'])).toBe(wanted);
+        expect(findFirstInRoots(toRootList([base]), ['a.mdx', 'a.md'])).toBe(wanted);
     });
 
     it('skips candidates the root excludes', () => {
@@ -276,13 +235,13 @@ describe('findFirstInRoots', () => {
         const wanted = makeFile(base, 'changelog/a.mdx');
 
         expect(findFirstInRoots(
-            [{ dir: overlay, exclude: ['changelog/**'] }, base],
+            toRootList([{ dir: overlay, exclude: ['changelog/**'] }, base]),
             ['changelog/a.mdx', 'changelog/a.md'],
         )).toBe(wanted);
     });
 
     it('returns undefined when no candidate exists anywhere', () => {
-        expect(findFirstInRoots([makeDir('base')], ['a.mdx', 'a.md'])).toBeUndefined();
+        expect(findFirstInRoots(toRootList([makeDir('base')]), ['a.mdx', 'a.md'])).toBeUndefined();
     });
 });
 
@@ -290,25 +249,25 @@ describe('rootForFile', () => {
     it('returns the root a file lives under', () => {
         const base = makeDir('base');
 
-        expect(rootForFile([base], path.join(base, 'grids', 'a.mdx'))).toBe(path.resolve(base));
+        expect(rootForFile(toRootList([base]), path.join(base, 'grids', 'a.mdx'))).toBe(path.resolve(base));
     });
 
     it('picks the longest matching root when roots are nested', () => {
         const outer = makeDir('outer');
         const inner = makeDir(path.join('outer', 'inner'));
 
-        expect(rootForFile([outer, inner], path.join(inner, 'a.mdx'))).toBe(path.resolve(inner));
+        expect(rootForFile(toRootList([outer, inner]), path.join(inner, 'a.mdx'))).toBe(path.resolve(inner));
     });
 
     it('does not match a directory that only shares a name prefix', () => {
         const base = makeDir('base');
         const sibling = makeDir('base-other');
 
-        expect(rootForFile([base], path.join(sibling, 'a.mdx'))).toBeUndefined();
+        expect(rootForFile(toRootList([base]), path.join(sibling, 'a.mdx'))).toBeUndefined();
     });
 
     it('returns undefined for a file outside every root', () => {
-        expect(rootForFile([makeDir('base')], path.join(tmp, 'elsewhere', 'a.mdx'))).toBeUndefined();
+        expect(rootForFile(toRootList([makeDir('base')]), path.join(tmp, 'elsewhere', 'a.mdx'))).toBeUndefined();
     });
 
     it('returns undefined for an empty root list', () => {

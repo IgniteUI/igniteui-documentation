@@ -37,8 +37,9 @@ import {
     ANGULAR_AUTHORED_ROOT,
     ANGULAR_OVERLAY_ROOT,
     getRootGroup,
-    isShadowedAuthoredFile,
+    isUnservedAngularFile,
     isUnservedOverlayFile,
+    keepExistingRoots,
 } from './lib/angular-content-roots.mjs';
 import { emitsFor } from '../src/lib/platform-groups.ts';
 
@@ -58,37 +59,13 @@ const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
-/**
- * Drops roots that are not on disk, so a language the xplat generator does not
- * emit (`kr`) simply has no overlay rather than a hard failure. Losing an en/jp
- * overlay, though, silently shrinks coverage: its generated topics are skipped,
- * and links and toc entries pointing at them report a false "not found" — so
- * each missing language is called out.
- */
-function keepExisting(dirs) {
-    if (dirs.includes(ANGULAR_OVERLAY_ROOT)) {
-        const missing = ['en', 'jp'].filter(lang => !existsSync(`${ANGULAR_OVERLAY_ROOT}/${lang}`));
-        if (missing.length) {
-            console.warn(
-                `[warn] "${ANGULAR_OVERLAY_ROOT}" is missing ${missing.join(' and ')} — that part of the xplat Angular overlay was not scanned.\n` +
-                '       Links in its generated topics are unchecked, and links or toc entries pointing at\n' +
-                '       those topics may report a false "not found". Generate it first:\n' +
-                missing
-                    .map(lang => `         npm run ${lang === 'en' ? 'xplat:generate' : 'xplat:generate:jp'} --prefix docs/angular`)
-                    .join('\n')
-            );
-        }
-    }
-    return dirs.filter(d => existsSync(d));
-}
-
 function getSrcDirs() {
     if (args.src) return [String(args.src)];
     // The Angular site overlays the xplat generator's Angular output on its own
     // content instead of copying it in, so both trees have to be scanned — and
     // links may point across them (see lib/angular-content-roots.mjs).
     if (PLATFORM === 'angular') {
-        return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]);
+        return keepExistingRoots([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]);
     }
     if (PLATFORM === 'xplat' || (PLATFORM && XPLAT_PLATFORMS.has(PLATFORM))) {
         // Scan source for _shared/ template links, plus the React/WC/Blazor
@@ -107,7 +84,7 @@ function getSrcDirs() {
         console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor`);
         process.exit(1);
     }
-    return keepExisting([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
+    return keepExistingRoots([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
 }
 
 // File walking
@@ -213,7 +190,7 @@ function blankInapplicablePlatformBlocks(content, platforms) {
  */
 function platformSetForFile(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    if (normalized.includes('docs/angular/src/') || normalized.includes('docs/xplat/generated/Angular/')) {
+    if (normalized.includes('docs/angular/src/') || normalized.includes(`${ANGULAR_OVERLAY_ROOT}/`)) {
         return new Set(['Angular']);
     }
     if (normalized.includes('docs/xplat/src/')) {
@@ -331,11 +308,6 @@ function getLangRoot(filePath) {
     const m = normalized.match(/^(.*\/(?:content|generated\/[^/]+)\/(?:en|jp|kr))\//i);
     return m ? m[1] + '/' : null;
 }
-
-// `OVERLAY_ROOT_GROUPS`, `getRootGroup`, `isUnservedOverlayFile` and
-// `isShadowedAuthoredFile` live in scripts/lib/angular-content-roots.mjs — the
-// single description of what the Angular site actually serves, shared with
-// check-mdx-links.mjs.
 
 /** Legacy docfx extension on a doc URL, e.g. /themes/palettes.html */
 const LEGACY_HTML_RE = /\.html?$/i;
@@ -528,7 +500,7 @@ const srcDirs = getSrcDirs();
 // the latter are on disk but never served, so their links belong to no page.
 filesToScan = srcDirs
     .flatMap(d => walkMdx(resolve(d)))
-    .filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
+    .filter(f => !isUnservedAngularFile(f));
 scanDescription = `source dirs: ${srcDirs.join(', ')}`;
 
 console.log(`\nScanning for relative links`);

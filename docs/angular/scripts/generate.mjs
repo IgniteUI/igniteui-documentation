@@ -9,7 +9,7 @@ const LANG = get('--lang=') ?? process.env.DOCS_LANG ?? 'en';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-// Write .platform.json so content.config.ts and getPlatformContext() resolve correctly
+// Write .platform.json so getPlatformContext() resolves correctly
 writeFileSync(path.join(ROOT, '.platform.json'), JSON.stringify({ platform: 'Angular', lang: LANG }, null, 2));
 console.log(`[generate] lang: ${LANG}`);
 

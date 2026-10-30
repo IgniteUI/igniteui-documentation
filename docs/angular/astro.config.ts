@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createDocsSite, type DocsMode } from 'docs-template/integration';
 import { IGDOCS_PLATFORMS, getSwitcherPlatforms, type NavLang } from 'docs-template/platform';
 import { generateGridTopics } from './src/scripts/generate-grids.mjs';
+import { angularOverlayRoot } from '../../scripts/lib/angular-content-roots.mjs';
 import mdx from '@astrojs/mdx';
 import type { Plugin } from 'vite';
 
@@ -47,20 +48,13 @@ const site = mode === 'production' ? `${PROD_HOST}${base}`
 const docsDir = path.join(__dirname, 'src', 'content', docsLang);
 const componentsDocsDir = path.join(docsDir, 'components');
 const templatesDir = path.join(docsDir, 'grids_templates');
-// Topics generated from the shared cross-platform source, read straight out of
-// the xplat generator's output. They override the Angular tree for any slug
-// they provide, and nothing is ever copied into src/content — so the tracked
-// content tree never accumulates build output. Absent for languages the xplat
-// generator does not emit (kr), in which case there is simply no overlay.
-//
-// changelog/ and grids/ stay Angular-owned: xplat emits them too, but the site
-// never serves those copies. This is the single source of truth for the overlay
-// — createDocsSite publishes it as DOCS_SOURCE_PATHS, and src/content.config.ts
-// reads it back from there.
-const xplatOverlay = {
-	dir: path.join(__dirname, '..', 'xplat', 'generated', 'Angular', docsLang, 'components'),
-	exclude: ['changelog/**', 'grids/**'],
-};
+// Topics generated from the shared cross-platform source, read in place out of
+// the xplat generator's output. They override the Angular tree for any slug they
+// provide; there is no overlay for a language the generator does not emit (kr).
+// The layout and excludes live in scripts/lib/angular-content-roots.mjs, shared
+// with the link checkers, and createDocsSite publishes the resulting root list
+// as DOCS_SOURCE_PATHS for src/content.config.ts.
+const xplatOverlay = angularOverlayRoot(docsLang);
 
 // ── @xplat-images resolution ──────────────────────────────────────────────
 // Topics generated from the xplat source import their images as

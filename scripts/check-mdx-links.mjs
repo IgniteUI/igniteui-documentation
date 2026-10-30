@@ -42,8 +42,9 @@ import {
 import {
     ANGULAR_AUTHORED_ROOT,
     ANGULAR_OVERLAY_ROOT,
-    isShadowedAuthoredFile,
-    isUnservedOverlayFile,
+    isUnservedAngularFile,
+    keepExistingRoots,
+    OVERLAY_GENERATE_SCRIPTS,
 } from './lib/angular-content-roots.mjs';
 
 // CLI args
@@ -83,22 +84,6 @@ const DEFAULT_SRC = PLATFORM === 'angular'
 // existsSync() filter here would drop it before it is ever written and silently
 // shrink Angular coverage. Existence is resolved at scan time instead.
 const CONFIGURED_SRC_DIRS = args.src ? [String(args.src)] : DEFAULT_SRC;
-let SRC_DIRS      = CONFIGURED_SRC_DIRS;
-let SRC_DIR       = SRC_DIRS.join(', ');
-
-/** Drops configured roots that are still absent at scan time, warning about each. */
-function resolveSrcDirs(dirs) {
-    return dirs.filter(d => {
-        if (existsSync(d)) return true;
-        const hint = d === ANGULAR_OVERLAY_ROOT
-            ? '\n       Generate it first:\n' +
-              '         npm run xplat:generate --prefix docs/angular\n' +
-              '         npm run xplat:generate:jp --prefix docs/angular'
-            : '';
-        console.warn(`\n[warn] Source root "${d}" does not exist — skipping it.${hint}`);
-        return false;
-    });
-}
 const API_LINK_INDEX_VERSION = String(args.index ?? process.env.API_LINK_INDEX_VERSION ?? (process.env.NODE_ENV === 'production' ? 'prod-latest' : 'staging-latest'));
 
 const PLATFORM_CONFIGS = API_PLATFORM_CONFIGS;
@@ -612,12 +597,7 @@ function runRequiredNpmScript(script, prefix, description) {
 
 // For Angular: regenerate the xplat Angular MDX the site overlays before scanning
 if (PLATFORM === 'angular' && !NO_SYNC) {
-    const generateScripts = [
-        ['en', 'xplat:generate'],
-        ['jp', 'xplat:generate:jp'],
-    ];
-
-    for (const [lang, script] of generateScripts) {
+    for (const [lang, script] of Object.entries(OVERLAY_GENERATE_SCRIPTS)) {
         runRequiredNpmScript(script, 'docs/angular', `Refreshing Angular generated content (lang=${lang})`);
     }
     console.log();
@@ -633,8 +613,8 @@ if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !NO_SYNC && !args.src) {
 
 // Resolved here, *after* any generate step above, so a root that only exists
 // once generation has run is still picked up.
-SRC_DIRS = resolveSrcDirs(CONFIGURED_SRC_DIRS);
-SRC_DIR = SRC_DIRS.join(', ');
+const SRC_DIRS = keepExistingRoots(CONFIGURED_SRC_DIRS);
+const SRC_DIR = SRC_DIRS.join(', ');
 
 console.log(`\nScanning sources in "${SRC_DIR}"`);
 console.log(`Platforms: ${targetPlatforms.join(', ')}\n`);
@@ -645,7 +625,7 @@ if (PLATFORM === 'angular') {
     // changelog/ are on disk but never served, and an authored topic whose slug
     // xplat also provides is shadowed — xplat always wins.
     const beforeFilter = mdxFiles.length;
-    mdxFiles = mdxFiles.filter(f => !isUnservedOverlayFile(f) && !isShadowedAuthoredFile(f));
+    mdxFiles = mdxFiles.filter(f => !isUnservedAngularFile(f));
     console.log(`  Overlay filter      : ${beforeFilter - mdxFiles.length} unserved MDX file(s) skipped\n`);
 }
 if (XPLAT_GENERATE_SCRIPTS[PLATFORM] && !args.src) {
