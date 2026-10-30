@@ -46,9 +46,8 @@ interface TocItem extends Partial<Record<SidebarBadgeVariant, boolean>> {
 function docExists(docsDir: string, href: string, exclude: RegExp[]): boolean {
     if (!href) return false;
     if (exclude?.some((p) => p.test(href))) return false;
-    // Check the href as-is, then also with .md ↔ .mdx swapped so that toc.json
-    // entries like "charts/chart-features.md" resolve even when the file on disk
-    // is "charts/chart-features.mdx" (and vice-versa).
+    // Check the href as-is, then also with .md ↔ .mdx swapped as a safety net
+    // (toc.json uses .mdx, but this guards against any stale .md hrefs).
     if (fs.existsSync(path.join(docsDir, href))) return true;
     const alt = href.endsWith('.mdx')
         ? href.slice(0, -4) + '.md'
@@ -143,6 +142,48 @@ function convertTocItem(
     return null;
 }
 
+interface MissingTocTarget {
+    name: string;
+    href: string;
+}
+
+/**
+ * Every named TOC entry whose href points at a file that does not exist
+ * exactly the entries `convertTocItem()` silently drops. Hrefs matched by
+ * `exclude` are dropped on purpose, so they are not reported.
+ */
+function findMissingTargets(
+    docsDir: string,
+    items: TocItem[],
+    exclude: RegExp[],
+    missing: MissingTocTarget[] = [],
+): MissingTocTarget[] {
+    for (const item of items) {
+        if (!item.name) continue;
+        if (item.href && !exclude.some((p) => p.test(item.href!)) && !docExists(docsDir, item.href, exclude)) {
+            missing.push({ name: item.name, href: item.href });
+        }
+        if (item.items?.length) findMissingTargets(docsDir, item.items, exclude, missing);
+    }
+    return missing;
+}
+
+/**
+ * Warns about TOC entries left out of the sidebar because their target file is
+ * missing, or throws when `strict` is set so CI fails instead of shipping a
+ * sidebar with silently vanished links.
+ */
+function reportMissingTargets(tocPath: string, missing: MissingTocTarget[], strict: boolean): void {
+    if (!missing.length) return;
+    const noun = missing.length === 1 ? 'entry points' : 'entries point';
+    const message =
+        `[igniteui-documentation] ${tocPath}: ${missing.length} toc ${noun} to a missing file and ` +
+        `${missing.length === 1 ? 'was' : 'were'} left out of the sidebar:\n` +
+        missing.map(({ name, href }) => `  - ${name} → ${href}`).join('\n');
+    if (strict) throw new Error(message);
+    console.warn(message);
+}
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -154,26 +195,45 @@ export interface BuildSidebarFromTocOptions {
     docsDir: string;
     /** Extra patterns to exclude (matched against the `href`). */
     exclude?: RegExp[];
+    /**
+     * Throw instead of warning when a TOC entry points at a missing file.
+     * Defaults to `DOCS_TOC_STRICT=true`, which CI sets.
+     */
+    strict?: boolean;
 }
 
 /**
  * Reads a JSON TOC file and converts it to a sidebar array.
  */
-export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSidebarFromTocOptions): SidebarEntry[] {
+export function buildSidebarFromToc({
+    tocPath,
+    docsDir,
+    exclude = [],
+    strict = process.env.DOCS_TOC_STRICT === 'true',
+}: BuildSidebarFromTocOptions): SidebarEntry[] {
     if (!tocPath || !fs.existsSync(tocPath)) return [];
     const tocRaw = fs.readFileSync(tocPath, 'utf-8');
     const tocItems: TocItem[] = JSON.parse(tocRaw);
+
+    reportMissingTargets(tocPath, findMissingTargets(docsDir, tocItems, exclude), strict);
 
     const sidebar: SidebarEntry[] = [];
     let currentGroup: SidebarGroup | null = null;
     let currentGroupSortable = false;
 
+    // A header is a section only if something is in it. The toc is flat, so a header's pages are
+    // the links after it, and the per-platform filter can remove all of them while keeping the
+    // header (every page under Data Entry & Display is web-only, for example, so on WinUI and Uno
+    // nothing follows it). An empty group renders as a section with nothing to open.
+    const closeGroup = (group: SidebarGroup) => {
+        if (group.items.length === 0) return;
+        if (currentGroupSortable) sortGroupItems(group);
+        sidebar.push(group);
+    };
+
     for (const item of tocItems) {
         if (item.header) {
-            if (currentGroup) {
-                if (currentGroupSortable) sortGroupItems(currentGroup);
-                sidebar.push(currentGroup);
-            }
+            if (currentGroup) closeGroup(currentGroup);
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             currentGroupSortable = item.sortable === true;
@@ -196,9 +256,6 @@ export function buildSidebarFromToc({ tocPath, docsDir, exclude = [] }: BuildSid
         else sidebar.push(entry);
     }
 
-    if (currentGroup) {
-        if (currentGroupSortable) sortGroupItems(currentGroup);
-        sidebar.push(currentGroup);
-    }
+    if (currentGroup) closeGroup(currentGroup);
     return sidebar;
 }

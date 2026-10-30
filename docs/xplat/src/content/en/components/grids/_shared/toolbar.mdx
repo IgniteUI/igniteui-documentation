@@ -1361,7 +1361,7 @@ The following sample demonstrates how to add an additional button to the toolbar
 <PlatformBlock for="WebComponents, Blazor, React">
 ## Styling
 
-In addition to the predefined themes, the grid could be further customized by setting some of the available [CSS properties](../theming-grid.md).
+In addition to the predefined themes, the grid could be further customized by setting some of the available CSS properties. To build a complete theme from just a few colors, see the [theming topic](theming.mdx).
 In case you would like to change some of the colors, you need to set a class for the grid first:
 
 <PlatformBlock for="WebComponents">
@@ -1427,7 +1427,6 @@ Now, create a new theme that extends the <ApiLink type="function-grid-toolbar-th
 
 ```scss
 $dark-grid-toolbar-theme: grid-toolbar-theme(
-    $palette: $my-dark-palette,
     $background-color: $my-dark-color,
     $title-text-color: color($my-dark-palette, 'secondary'),
     $dropdown-background: $my-dark-color,
@@ -1438,7 +1437,6 @@ To theme the column actions menus of the toolbar, we have to change the theme of
 
 ```scss
 $dark-column-actions-theme: column-actions-theme(
-    $palette: $my-dark-palette,
     $title-color: color($my-dark-palette, 'secondary'),
     $background-color: color($my-dark-palette, 'surface')
 );
@@ -1447,20 +1445,18 @@ $dark-column-actions-theme: column-actions-theme(
 Since the column actions are using other components - igx-button, igx-checkbox, and igx-input-group, we need to change their themes to match our new toolbar theme.
 
 ```scss
-$dark-button-theme: button-theme(
-    $palette: $my-dark-palette,
-    $outlined-background: color($my-dark-palette, 'secondary'),
-    $outlined-hover-background: color($my-dark-palette, 'grays', 100),
-    $outlined-hover-text-color: color($my-dark-palette, 'secondary')
+$dark-button-theme: outlined-button-theme(
+    $background: color($my-dark-palette, 'secondary'),
+    $hover-background: color($my-dark-palette, 'gray', 100),
+    $hover-foreground: color($my-dark-palette, 'secondary')
 );
 
 $dark-checkbox-theme: checkbox-theme(
-    $palette: $my-dark-palette,
     $tick-color: $my-dark-color,
 );
 
 $dark-input-group-theme: input-group-theme(
-    $palette: $my-dark-palette
+    $filled-text-color: color($my-dark-palette, 'secondary')
 );
 ```
 
@@ -1482,16 +1478,16 @@ If `$legacy-support` is set to `false(default)`, include the component css varia
 
 ```scss
 :host {
-    @include css-vars($dark-grid-toolbar-theme);
-    @include css-vars($dark-column-actions-theme);
-    @include css-vars($dark-checkbox-theme);
-    @include css-vars($dark-input-group-theme);
-    @include css-vars($dark-button-theme);
+    @include tokens($dark-grid-toolbar-theme);
+    @include tokens($dark-column-actions-theme);
+    @include tokens($dark-checkbox-theme);
+    @include tokens($dark-input-group-theme);
+    @include tokens($dark-button-theme);
 }
 ```
 
 <DocsAside type="info">
-If the component is using an [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
+If the component is using an [Emulated](../themes/styles.mdx#view-encapsulation) ViewEncapsulation, it is necessary to `penetrate` this encapsulation using `::ng-deep`:
 </DocsAside>
 
 ```scss

@@ -32,6 +32,11 @@ interface Props {
 
 const { title, description, label, href, note, logo = true, variant = 'default', backgroundImage, overlay } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const resolvedHref = href.startsWith('/') && !href.startsWith('//')
+    ? `${base}${href}`
+    : href;
+
 const resolvedLogo = logo === true ? logoUrl : (typeof logo === 'string' ? logo : null);
 const isHorizontal = variant === 'horizontal';
 
@@ -60,7 +65,7 @@ const overlayColor = typeof overlay === 'string' ? overlay : undefined;
             {description && <p class="cta-area__description">{description}</p>}
         </div>
         <div class="cta-area__action">
-            <a class="cta-area__btn no-external-icon" href={href}>{label}</a>
+            <a class="cta-area__btn no-external-icon" href={resolvedHref}>{label}</a>
             {note && <p class="cta-area__note">{note}</p>}
         </div>
     </div>

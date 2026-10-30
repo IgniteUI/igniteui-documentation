@@ -1,16 +1,29 @@
 /**
  * Platform configuration implementation — the single source of truth for
- * IgniteUI platform metadata used across Angular, React, WebComponents, and Blazor docs.
+ * IgniteUI platform metadata used across the Angular, React, WebComponents,
+ * Blazor, WinUI, and Uno Platform docs.
  *
  * Types are defined in igniteui-astro-components/lib/types so components can
  * remain agnostic (reading context from Astro.locals set by middleware).
+ *
+ * `PlatformName` is sourced locally from api-platform-config.ts rather than from
+ * igniteui-astro-components, so this repo can add a platform without waiting on a
+ * package release. The package's own union is widened on its branch; once that
+ * ships, `LocalPlatformContext` below can collapse back to the package type.
+ * See WINUI-UNO-PLAN.md §8 Q3.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-export type { PlatformName, ApiPackageConfig, PlatformContext } from 'igniteui-astro-components/lib/types';
-import type { PlatformName, PlatformContext } from 'igniteui-astro-components/lib/types';
+export type { ApiPackageConfig } from 'igniteui-astro-components/lib/types';
+import type { PlatformContext as PackagePlatformContext } from 'igniteui-astro-components/lib/types';
 import { API_PLATFORM_CONFIGS, createApiPackages } from './api-platform-config.ts';
+import type { PlatformName } from './api-platform-config.ts';
+
+export type { PlatformName } from './api-platform-config.ts';
+
+/** The package's PlatformContext, widened to this repo's PlatformName union. */
+export type PlatformContext = Omit<PackagePlatformContext, 'name'> & { name: PlatformName };
 
 const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
@@ -97,6 +110,49 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/igniteui-blazor-examples/tree/master/samples',
         },
     },
+    // WinUI and Uno Platform share the XAML control surface. `packages` values are the
+    // assembly/NuGet identities; see WINUI-UNO-PLAN.md §8 Q1/Q5 for the naming
+    // decisions still outstanding.
+    WinUI: {
+        name: 'WinUI',
+        lower: API_PLATFORM_CONFIGS.WinUI.folder,
+        prefix: API_PLATFORM_CONFIGS.WinUI.prefix,
+        productName: 'Infragistics Ultimate UI for WinUI',
+        productSpinal: 'ultimate-ui-winui',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'WinUI'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.WinUI.Charts',
+            grids: 'Infragistics.WinUI.DataGrid',
+            gauges: 'Infragistics.WinUI.Gauges',
+            maps: 'Infragistics.WinUI.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
+        },
+    },
+    Uno: {
+        name: 'Uno',
+        lower: API_PLATFORM_CONFIGS.Uno.publicPath!,
+        prefix: API_PLATFORM_CONFIGS.Uno.prefix,
+        productName: 'Infragistics Ultimate UI for Uno Platform',
+        productSpinal: 'ultimate-ui-uno-platform',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'Uno'),
+        packages: {
+            common: 'Infragistics.Core',
+            charts: 'Infragistics.Uno.Charts',
+            grids: 'Infragistics.Uno.DataGrid',
+            gauges: 'Infragistics.Uno.Gauges',
+            maps: 'Infragistics.Uno.Maps',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/winui-samples',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
+        },
+    },
 };
 
 let _ctx: PlatformContext | null = null;
@@ -144,7 +200,7 @@ function buildContext(name: PlatformName): PlatformContext {
     const base = PLATFORMS[name];
     return {
         ...base,
-        apiLinkIndex: loadApiLinkIndex(base.lower),
+        apiLinkIndex: loadApiLinkIndex(API_PLATFORM_CONFIGS[name].folder),
         apiPackages: Object.fromEntries(
             Object.entries(base.apiPackages).map(([key, pkg]) => [
                 key,
@@ -261,4 +317,50 @@ export function getEnvVars(): Record<string, string> {
     }
 
     return _env!;
+}
+
+/** Container IDs for one locale. `development` doubles as the fallback for unknown modes. */
+type GtmContainerIds = {
+    development: string;
+    staging: string;
+    production: string;
+    [mode: string]: string | undefined;
+};
+
+/**
+ * Built-in Google Tag Manager container IDs keyed by locale and build mode.
+ * `en` is required: it is the fallback for locales without their own set (e.g. `kr`).
+ */
+const GTM_CONTAINER_ID_DEFAULTS: { en: GtmContainerIds; [lang: string]: GtmContainerIds | undefined } = {
+    en: {
+        production: 'GTM-T65CF7',
+        staging: 'GTM-NCKNPN',
+        development: 'GTM-WLXLBZD',
+    },
+    jp: {
+        production: 'GTM-KVNSWJ',
+        staging: 'GTM-WLWSDK',
+        development: 'GTM-NNHVMC7',
+    },
+};
+
+/**
+ * Resolves the Google Tag Manager container ID for the current build.
+ *
+ * Resolution order:
+ *   1. `GTM_CONTAINER_ID` env var — explicit override.
+ *   2. `GTMContainerId` in the resolved `environment.json` (per-mode, per-locale).
+ *   3. Built-in default for the current locale and build mode.
+ */
+export function getGtmContainerId(): string {
+    if (process.env.GTM_CONTAINER_ID) return process.env.GTM_CONTAINER_ID;
+
+    const fromEnvJson = getEnvVars().GTMContainerId;
+    if (fromEnvJson) return fromEnvJson;
+
+    // LANG_CODE is set by createDocsSite() from the resolved navLang.
+    const lang = process.env.LANG_CODE ?? 'en';
+    const mode = getBuildMode();
+    const localeDefaults = GTM_CONTAINER_ID_DEFAULTS[lang] ?? GTM_CONTAINER_ID_DEFAULTS.en;
+    return localeDefaults[mode] ?? localeDefaults.development;
 }

@@ -19,15 +19,15 @@ This topic provides step-by-step instructions for creating Blazor applications w
 
 The open-source libraries include:
 
-- **IgniteUI.Blazor.Lite** - A lightweight package containing open-source UI components
-- **IgniteUI.Blazor.GridLite** - A lightweight, open-source data grid component
+- [**IgniteUI.Blazor.Lite**](https://www.nuget.org/packages/IgniteUI.Blazor.Lite) - A lightweight package containing open-source UI components ([GitHub]({GithubLink}))
+- [**IgniteUI.Blazor.GridLite**](https://www.nuget.org/packages/IgniteUI.Blazor.GridLite) - A lightweight, open-source data grid component ([GitHub]({GithubLinkLite}))
 
 ## Create a New Blazor Project
 
-- Start Visual Studio and click **Create a new project** on the start page, select a Blazor template such as **Blazor Server App**, **Blazor WebAssembly App**, or **Blazor Web App**, and click **Next**.
+- Start Visual Studio and click **Create a new project** on the start page, select the **Blazor Web App**, **Blazor WebAssembly Standalone App** or **.NET MAUI Blazor Hybrid App** template, and click **Next**.
 
 <DocsAside type="info">
-When using **Blazor Server App**, ensure you add `@rendermode InteractiveServer` in the pages where the components are used.
+In a **Blazor Web App**, the components need an interactive render mode: **InteractiveServer**, **InteractiveWebAssembly** or **InteractiveAuto**. Set it on the pages that use the components (for example `@rendermode InteractiveServer`) or globally in **Components/App.razor**. Static server-side rendering is not currently supported.
 </DocsAside>
 
 - Provide a project name and location, then click **Next**.
@@ -58,27 +58,19 @@ dotnet add package IgniteUI.Blazor.Lite
 
 ## Register IgniteUI.Blazor.Lite
 
-### .NET 6 and Later Applications
-
-1 - Open the **Program.cs** file and register the Ignite UI for Blazor Service by calling **builder.Services.AddIgniteUIBlazor** function:
+1 - Open the **Program.cs** file (**MauiProgram.cs** in a .NET MAUI Blazor Hybrid app) and register the Ignite UI for Blazor Service by calling **builder.Services.AddIgniteUIBlazor** function. In a Blazor Web App with the WebAssembly or Auto render mode, do this in the **Program.cs** of both the server and the client project:
 
 <PlatformBlock for="Blazor">
 
-```razor
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-
+```csharp
 builder.Services.AddIgniteUIBlazor();
-
-var app = builder.Build();
 ```
 
 </PlatformBlock>
 
-2 - Add the **IgniteUI.Blazor.Controls** namespace in the **_Imports.razor** file:
+Each component loads its client resources the first time it renders, so listing component modules is optional (see [Component Modules](./general-getting-started.mdx#component-modules)).
+
+2 - Add the **IgniteUI.Blazor.Controls** namespace in the **_Imports.razor** file (in both projects of a Blazor Web App with a client project):
 
 <PlatformBlock for="Blazor">
 
@@ -88,7 +80,7 @@ var app = builder.Build();
 
 </PlatformBlock>
 
-3 - Add the Style Sheet in the appropriate location based on your project type:
+3 - Add the Style Sheet in the **`<head>`** element of the app's host page: **Components/App.razor** in a Blazor Web App, or **wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app:
 
 <PlatformBlock for="Blazor">
 
@@ -96,16 +88,6 @@ var app = builder.Build();
 <head>
     <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 </head>
-```
-
-</PlatformBlock>
-
-4 - Add Script Reference:
-
-<PlatformBlock for="Blazor">
-
-```razor
-<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
 ```
 
 </PlatformBlock>
@@ -138,12 +120,21 @@ Add an Ignite UI for Blazor component to your razor page, for example:
 
 </PlatformBlock>
 
-For more detailed information about which components are included in the light package, see the - [Open-Source vs Premium Components](general-open-source-vs-premium.md) topic.
+For more detailed information about which components are included in the light package, see the [Open-Source vs Premium Components](./general-open-source-vs-premium.mdx) topic.
 
+## Install IgniteUI.Blazor.GridLite
 
-For more detailed information about Grid Lite features and configuration, see the [Grid Lite Overview](grid-lite/overview.md) topic.
+To add Grid Lite, install the **IgniteUI.Blazor.GridLite** package:
+
+```cmd
+dotnet add package IgniteUI.Blazor.GridLite
+```
+
+The grid needs no service registration of its own, and the Lite theme added above styles it too.
+
+For more detailed information about Grid Lite features and configuration, see the [Grid Lite Overview](./grid-lite/overview.mdx) topic.
 
 ## Additional Resources
 
-- [Open-Source vs Premium Components](general-open-source-vs-premium.md)
-- [Grid Lite Overview](grid-lite/overview.md)
+- [Open-Source vs Premium Components](./general-open-source-vs-premium.mdx)
+- [Grid Lite Overview](./grid-lite/overview.mdx)

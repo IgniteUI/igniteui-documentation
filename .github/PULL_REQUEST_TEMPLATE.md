@@ -4,7 +4,7 @@ Closes #
  
  - [ ] check topic's TOC/menu and paragraph headings
  - [ ] Include TOC topic labels in the topic content when it has a valuable update, is new, or is considered `preview` / `beta`
- - [ ] link to other topics using `../relative/path.md`
+ - [ ] link to other topics using `./page.mdx` or `../relative/path.mdx` (`.mdx` extension required)
  - [ ] at the References section at the end of the topic add links to topics, samples, etc
  - [ ] reference API documentation instead of adding a section with API
 

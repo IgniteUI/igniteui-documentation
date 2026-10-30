@@ -2,7 +2,8 @@
  * Remark plugin: environment variable substitution.
  *
  * Replaces `{environment:key}` tokens in markdown text, link URLs, image URLs,
- * and inline HTML with values from the project's environment.json.
+ * inline HTML and MDX JSX attribute values with values from the project's
+ * environment.json.
  *
  * Resolution order for environment.json:
  *   1. {DOCS_SOURCE_PATH}/en/environment.json
@@ -14,7 +15,8 @@
  * DOCS_ENV (or NODE_ENV) selects the env block: development | staging | production.
  */
 
-import { visit } from 'unist-util-visit';
+import { defineMdastPlugin } from 'satteri';
+import type { MdastVisitorContext, MdxJsxFlowElement, MdxJsxTextElement } from 'satteri';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -25,6 +27,8 @@ const DOCCONFIG_PLATFORM_MAP: Record<string, string> = {
   react: 'React',
   'web-components': 'WebComponents',
   blazor: 'Blazor',
+  winui: 'WinUI',
+  uno: 'Uno',
 };
 
 // Lazy-loaded, cached per DOCS_SOURCE_PATH value.
@@ -87,31 +91,50 @@ export function replaceEnvVars(str: string): string {
   return str.replace(ENV_PATTERN, (_match, key) => env[key] ?? `{environment:${key}}`);
 }
 
-/** Remark plugin that substitutes `{environment:key}` tokens in the markdown AST. */
+/**
+ * Sätteri MDAST plugin that substitutes `{environment:key}` tokens.
+ *
+ * Exported as a factory so Sätteri calls it once per compile; the
+ * `loadEnv()` cache is module-level and intentionally shared across documents.
+ */
 export function remarkEnvVars() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (tree: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
-      if (node.type === 'text' && node.value) {
-        node.value = replaceEnvVars(node.value);
-      }
-      if (node.type === 'link' && node.url) {
-        node.url = replaceEnvVars(node.url);
-      }
-      if (node.type === 'image' && node.url) {
-        node.url = replaceEnvVars(node.url);
-      }
-      if (node.type === 'html' && node.value) {
-        node.value = replaceEnvVars(node.value);
-      }
-      if ((node.type === 'mdxJsxTextElement' || node.type === 'mdxJsxFlowElement') && Array.isArray(node.attributes)) {
-        for (const attr of node.attributes) {
-          if (attr.type === 'mdxJsxAttribute' && typeof attr.value === 'string') {
-            attr.value = replaceEnvVars(attr.value);
-          }
-        }
-      }
-    });
-  };
+  return defineMdastPlugin({
+    name: 'env-vars',
+    text(node, ctx) {
+      const value = replaceEnvVars(node.value);
+      if (value !== node.value) ctx.setProperty(node, 'value', value);
+    },
+    html(node, ctx) {
+      const value = replaceEnvVars(node.value);
+      if (value !== node.value) ctx.setProperty(node, 'value', value);
+    },
+    link(node, ctx) {
+      const url = replaceEnvVars(node.url);
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+    image(node, ctx) {
+      const url = replaceEnvVars(node.url);
+      if (url !== node.url) ctx.setProperty(node, 'url', url);
+    },
+    mdxJsxFlowElement: replaceJsxAttributeEnvVars,
+    mdxJsxTextElement: replaceJsxAttributeEnvVars,
+  });
+}
+
+/**
+ * MDX parses inline tags such as `<a href="{environment:key}/...">` as JSX
+ * elements, not `html` nodes, so their string attribute values need their own
+ * pass. `setProperty` can't encode an attribute array, so the element is
+ * replaced instead; passing the original `children` keeps them intact.
+ */
+function replaceJsxAttributeEnvVars(node: Readonly<MdxJsxFlowElement | MdxJsxTextElement>, ctx: MdastVisitorContext) {
+  let changed = false;
+  const attributes = node.attributes.map(attr => {
+    if (attr.type !== 'mdxJsxAttribute' || typeof attr.value !== 'string') return attr;
+    const value = replaceEnvVars(attr.value);
+    if (value === attr.value) return attr;
+    changed = true;
+    return { ...attr, value };
+  });
+  if (changed) ctx.replaceNode(node, { ...node, attributes, children: node.children });
 }
