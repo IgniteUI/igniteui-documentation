@@ -2,7 +2,8 @@
  * Remark plugin: environment variable substitution.
  *
  * Replaces `{environment:key}` tokens in markdown text, link URLs, image URLs,
- * and inline HTML with values from the project's environment.json.
+ * inline HTML and MDX JSX attribute values with values from the project's
+ * environment.json.
  *
  * Resolution order for environment.json:
  *   1. {DOCS_SOURCE_PATH}/en/environment.json
@@ -15,6 +16,7 @@
  */
 
 import { defineMdastPlugin } from 'satteri';
+import type { MdastVisitorContext, MdxJsxFlowElement, MdxJsxTextElement } from 'satteri';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -114,5 +116,25 @@ export function remarkEnvVars() {
       const url = replaceEnvVars(node.url);
       if (url !== node.url) ctx.setProperty(node, 'url', url);
     },
+    mdxJsxFlowElement: replaceJsxAttributeEnvVars,
+    mdxJsxTextElement: replaceJsxAttributeEnvVars,
   });
+}
+
+/**
+ * MDX parses inline tags such as `<a href="{environment:key}/...">` as JSX
+ * elements, not `html` nodes, so their string attribute values need their own
+ * pass. `setProperty` can't encode an attribute array, so the element is
+ * replaced instead; passing the original `children` keeps them intact.
+ */
+function replaceJsxAttributeEnvVars(node: Readonly<MdxJsxFlowElement | MdxJsxTextElement>, ctx: MdastVisitorContext) {
+  let changed = false;
+  const attributes = node.attributes.map(attr => {
+    if (attr.type !== 'mdxJsxAttribute' || typeof attr.value !== 'string') return attr;
+    const value = replaceEnvVars(attr.value);
+    if (value === attr.value) return attr;
+    changed = true;
+    return { ...attr, value };
+  });
+  if (changed) ctx.replaceNode(node, { ...node, attributes, children: node.children });
 }
