@@ -1,41 +1,129 @@
 ---
-title: "{Platform} Tooltip | Infragistics"
-description: The {ProductName} Tooltip component provides us with the ability to easily create a tooltip and attach it into an element.
-keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Tooltip components"
+title: "{Platform} Tooltip Component"
+description: "The {ProductName} Tooltip shows supplementary information about an element in a small popup next to it while the user interacts with that element."
+keywords: "{Platform} Tooltip, {ProductName}, tooltip, sticky tooltip, tooltip placement, tooltip arrow, tooltip triggers"
 license: MIT
-mentionedTypes: ["Tooltip", "PopoverPlacement"]
+last_updated: "2026-10-16"
+relatedComponents: ["Dialog", "Snackbar", "Toast"]
+mentionedTypes: ["Tooltip"]
 llms:
-  description: "The {ProductName} Tooltip component provides a way to display a tooltip for a specific element."
+  description: "The {ProductName} Tooltip is a component that shows supplementary information about an element in a small popup next to it while the user interacts with that element, for example while hovering over it."
 ---
-import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import tooltipAnatomy from '@xplat-images/anatomy-content-light/tooltip-lt-a.png';
+import tooltipDoPosition from '@xplat-images/tooltip/tooltip-do-1.png';
+import tooltipDoNotPosition from '@xplat-images/tooltip/tooltip-do-not-1.png';
 
+# Tooltip
 
-# {Platform} Tooltip
+The {ProductName} Tooltip is a component that shows supplementary information about an element in a small popup next to it while the user interacts with that element, for example while hovering over it.
 
-The {ProductName} Tooltip component provides a way to display a tooltip for a specific element. A tooltip is a popup that displays information related to an element, usually when the element receives keyboard focus or when the mouse hovers over it.
+<PlatformBlock for="Angular">
 
-## {ProductName} Tooltip Example
+The Angular Tooltip is a pair of directives. The `igxTooltip` directive marks the element that holds the information, and the `igxTooltipTarget` directive marks the element that the tooltip describes and shows the tooltip when the user hovers over that element.
 
-<Sample src="/inputs/tooltip/overview" height={140} alt="{Platform} Tooltip Example" />
+</PlatformBlock>
 
+<PlatformBlock for="React,WebComponents,Blazor">
 
-### Getting Started
+The Tooltip attaches to an anchor element through its `anchor` property, shows the text or the content that you place in it, and positions itself next to the anchor.
 
+</PlatformBlock>
+
+## Live Demo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-overview" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tooltip example with placement options and switches for the close button and the arrow" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/overview" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tooltip example with placement options and switches for the close button and the arrow" />
+
+</PlatformBlock>
+
+## Anatomy
+
+The main elements include a container, a target, an arrow, a tooltip text, and a close button.
+
+<Anatomy
+  class="tooltip-anatomy"
+  name="Tooltip"
+  description="The Tooltip component shows a short text and an optional close button in a container, with an optional arrow that points to its target."
+  src={tooltipAnatomy.src}
+  alt="Tooltip anatomy showing the container, the target, the arrow, the tooltip text, and the close button"
+/>
+
+<style>{`
+  .tooltip-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .tooltip-anatomy .igd-anatomy__image {
+    max-width: 285px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Container:</strong> contains short text and close button (optional)<br />
+<strong>2. Target:</strong> the UI element that triggers and anchors the tooltip, indicating what the tooltip content is describing<br />
+<strong>3. Arrow (optional):</strong> It gives the tooltip an indication which element it refers to.<br />
+<strong>4. Tooltip Text:</strong> a text label identifying an element, such as a description of its function.<br />
+<strong>5. Close Button (optional):</strong> pressing it closes the sticky tooltip</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The `igc-tooltip` element renders a popover with a container for the content, the close button, and the arrow:
+
+```text
+igc-tooltip                                   // role="tooltip", or role="status" when sticky
+└─ #shadow-root
+   └─ igc-popover                             // positions the tooltip next to the anchor
+      └─ div[part="base"]                     // part="base simple-text" when the message property is shown
+         ├─ slot                              // the content of the tooltip, falls back to the message property
+         ├─ slot[name="close-button"]         // rendered only when the tooltip is sticky
+         └─ div#arrow[part="bottom"]          // rendered only with the arrow, the part follows the placement
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+While the Angular Tooltip is open, the overlay moves the element with the `igxTooltip` directive into a wrapper at its place in the DOM, in the top layer of the page:
+
+```text
+div.igx-overlay__wrapper[popover="manual"]
+└─ div.igx-overlay__content
+   └─ [igxTooltip].igx-tooltip                // role="tooltip", or role="status" when sticky
+      ├─ your content
+      ├─ span.igx-tooltip--bottom[data-arrow] // hidden unless hasArrow is set, the class follows the placement
+      └─ igx-tooltip-close-button             // rendered only when the tooltip is sticky
+```
+
+While the tooltip is closed, the element stays in place with the `igx-tooltip--hidden` class and `aria-hidden="true"`.
+
+</PlatformBlock>
+
+## Getting Started
+
+To use the {Platform} Tooltip, follow the <PlatformBlock for="Angular">[{ProductName} Getting Started](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Getting Started](../general-getting-started.mdx)</PlatformBlock> topic for the basic project setup, then add the component for your target platform.
 
 <PlatformBlock for="WebComponents">
 
-
-
-To start using the <ApiLink pkg="core" type="Tooltip" />, first, you need to install the Ignite UI for Web Components by running the following command:
+Install the **{PackageCommon}** package:
 
 ```cmd
-npm install {PackageWebComponents}
+npm install {PackageCommon}
 ```
 
-After that, you need to import the <ApiLink pkg="core" type="Tooltip" />, its necessary CSS, and register its module, as follows:
+Then import the <ApiLink pkg="core" type="Tooltip" />, its theme CSS, and register the component:
 
 ```ts
 import { defineComponents, IgcTooltipComponent } from 'igniteui-webcomponents';
@@ -44,36 +132,26 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 defineComponents(IgcTooltipComponent);
 ```
 
-
 </PlatformBlock>
-
-
 
 <PlatformBlock for="React">
 
-
-
-To start using the <ApiLink pkg="core" type="Tooltip" />, first, you need to install the Ignite UI for React by running the following command:
+Install the **{PackageCommon}** package:
 
 ```cmd
-npm install igniteui-react
+npm install {PackageCommon}
 ```
 
-After that, you need to import the <ApiLink pkg="core" type="Tooltip" /> component and its necessary CSS as follows:
+Then import the <ApiLink pkg="core" type="Tooltip" /> wrapper, the `IgrButton` wrapper for the anchor of the example below, and the theme CSS:
 
 ```tsx
-import { IgrTooltip } from 'igniteui-react';
+import { IgrButton, IgrTooltip } from 'igniteui-react';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 ```
 
-
 </PlatformBlock>
 
-
-
 <PlatformBlock for="Blazor">
-
-
 
 Register the {ProductName} services:
 
@@ -85,28 +163,49 @@ builder.Services.AddIgniteUIBlazor();
 
 Registering <ApiLink pkg="core" type="TooltipModule" />, the client resource module of the <ApiLink pkg="core" type="Tooltip" />, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbTooltipModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
 
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Tooltip" /> component. The following needs to be placed in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App):
+Then link the theme CSS file in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App):
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
 ```
 
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+If your project doesn't use {ProductName} yet, run `ng add igniteui-angular`. Then import the `IGX_TOOLTIP_DIRECTIVES` token and add it to the `imports` of your component. The token holds the <ApiLink type="TooltipDirective" label="igxTooltip" /> and the <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> directives. The example below also imports the `IgxButtonDirective` for the target:
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_TOOLTIP_DIRECTIVES, IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxButtonDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+        <button igxButton="outlined" [igxTooltipTarget]="saveTooltip">Save</button>
+        <span #saveTooltip="tooltip" igxTooltip>Save the changes to the server</span>
+    `,
+    imports: [IGX_TOOLTIP_DIRECTIVES, IgxButtonDirective]
+})
+export class HomeComponent {}
+```
+
+The `igxTooltip` directive is exported as `tooltip`, so the `#saveTooltip="tooltip"` template reference variable holds the directive, and the `igxTooltipTarget` directive of the button shows it.
 
 </PlatformBlock>
 
+<PlatformBlock for="React,WebComponents,Blazor">
 
-For a complete introduction to the {ProductName}, read the [**Getting Started**](../general-getting-started.mdx) topic.
+After registration, render the <ApiLink pkg="core" type="Tooltip" /> and set its `anchor` to the `id` of the element that it describes:
 
-Now you can start with a basic configuration of the {Platform} <ApiLink pkg="core" type="Tooltip" />.
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-tooltip anchor="hover-button">
-  Congrats you've hovered the button!
-</igc-tooltip>
-
-<igc-button id="hover-button">Hover me</igc-button>
+<igc-button id="save-button" variant="outlined">Save</igc-button>
+<igc-tooltip anchor="save-button">Save the changes to the server</igc-tooltip>
 ```
 
 </PlatformBlock>
@@ -114,11 +213,8 @@ Now you can start with a basic configuration of the {Platform} <ApiLink pkg="cor
 <PlatformBlock for="React">
 
 ```tsx
-<IgrTooltip anchor="hover-button">
-  Congrats you have hovered the button!
-</IgrTooltip>
-
-<IgrButton id="hover-button">Hover me</IgrButton>
+<IgrButton id="save-button" variant="outlined">Save</IgrButton>
+<IgrTooltip anchor="save-button">Save the changes to the server</IgrTooltip>
 ```
 
 </PlatformBlock>
@@ -126,27 +222,70 @@ Now you can start with a basic configuration of the {Platform} <ApiLink pkg="cor
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbTooltip Anchor="hover-button">
-  Congrats you have hovered the button!
-</IgbTooltip>
-
-<IgbButton id="hover-button">Hover me</IgbButton>
+<IgbButton id="save-button" Variant="ButtonVariant.Outlined">Save</IgbButton>
+<IgbTooltip Anchor="save-button">Save the changes to the server</IgbTooltip>
 ```
 
 </PlatformBlock>
 
 ## Usage
 
-### Tooltip target
+Use the {Platform} Tooltip to show additional information that describes another component or its purpose in the user interface in a transient way. It becomes visible upon user interaction and may disappear after certain time or upon user interaction.
 
-To attach a tooltip to the desired element, use the <ApiLink pkg="core" type="Tooltip" member="anchor" label="Anchor" /> property of the <ApiLink pkg="core" type="Tooltip" /> and set it to the ID of the target element.
+### Variants
+
+Depending on the elements they display the Tooltip can be any of the following types:
+
+- Tooltip with Arrow and no Close Button
+- Tooltip with Arrow and Close Button
+- Tooltip with no Arrow and no Close Button
+- Tooltip with no Arrow and Close Button
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Set <ApiLink pkg="core" type="Tooltip" member="withArrow" label="withArrow" /> to show the arrow. Set <ApiLink pkg="core" type="Tooltip" member="sticky" label="sticky" /> to show the close button: a sticky tooltip ignores the hide triggers, such as the pointer leaving the anchor, and stays open until the user clicks the close button or presses Escape:
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-button id="target-button">Hover me</igc-button>
-<igc-tooltip anchor="target-button">
-  Congrats you've hovered the button!
+<igc-tooltip anchor="arrow-target" with-arrow>Tooltip message</igc-tooltip>
+<igc-tooltip anchor="sticky-target" with-arrow sticky>Tooltip message</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="arrow-target" withArrow={true}>Tooltip message</IgrTooltip>
+<IgrTooltip anchor="sticky-target" withArrow={true} sticky={true}>Tooltip message</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTooltip Anchor="arrow-target" WithArrow="true">Tooltip message</IgbTooltip>
+<IgbTooltip Anchor="sticky-target" WithArrow="true" Sticky="true">Tooltip message</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+To replace the default close button, place your own element in the `close-button` slot. A click anywhere in the slot closes the tooltip, so a native `button` keeps the close action available to keyboard users:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tooltip anchor="sticky-target" sticky>
+  Tooltip message
+  <button slot="close-button" type="button" aria-label="Close">Got it</button>
 </igc-tooltip>
 ```
 
@@ -155,9 +294,9 @@ To attach a tooltip to the desired element, use the <ApiLink pkg="core" type="To
 <PlatformBlock for="React">
 
 ```tsx
-<IgrButton id="target-button">Hover me</IgrButton>
-<IgrTooltip anchor="target-button">
-  Congrats you have hovered the button!
+<IgrTooltip anchor="sticky-target" sticky={true}>
+  Tooltip message
+  <button slot="close-button" type="button" aria-label="Close">Got it</button>
 </IgrTooltip>
 ```
 
@@ -166,42 +305,325 @@ To attach a tooltip to the desired element, use the <ApiLink pkg="core" type="To
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbButton id="target-button">Hover me</IgbButton>
-<IgbTooltip Anchor="target-button">
-  Congrats you have hovered the button!
+<IgbTooltip Anchor="sticky-target" Sticky="true">
+    Tooltip message
+    <button slot="close-button" type="button" aria-label="Close">Got it</button>
 </IgbTooltip>
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 
-<PlatformBlock for="WebComponents, React">
+Set <ApiLink type="TooltipTargetDirective" member="hasArrow" label="hasArrow" /> on the target to show the arrow. Set <ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" /> to show the close button: a sticky tooltip ignores the hide triggers, such as the pointer leaving the target, and stays open until the user clicks the close button or presses Escape. To replace the icon of the close button, pass a template to <ApiLink type="TooltipTargetDirective" member="closeTemplate" label="closeButtonTemplate" />, which renders only while the tooltip is sticky:
 
+```html
+<igx-icon [igxTooltipTarget]="arrowTooltip" [hasArrow]="true">info</igx-icon>
+<span #arrowTooltip="tooltip" igxTooltip>Tooltip message</span>
 
-You can also specify the target by passing the element instance directly:
+<igx-icon [igxTooltipTarget]="stickyTooltip" [hasArrow]="true" [sticky]="true" [closeButtonTemplate]="closeIcon">help</igx-icon>
+<span #stickyTooltip="tooltip" igxTooltip>Tooltip message</span>
+
+<ng-template #closeIcon>
+  <igx-icon>cancel</igx-icon>
+</ng-template>
+```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-variants" showThemePicker height={240} noBorder={false} spacing="md" alt="{Platform} Tooltip with and without an arrow and a close button" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/variants" showThemePicker height={240} noBorder={false} spacing="md" alt="{Platform} Tooltip with and without an arrow and a close button" />
+
+</PlatformBlock>
+
+### Position
+
+Depending on the position according to its target the Tooltip can be any of the following types:
+
+- Top: The Tooltip shows above the target.
+- Right: The Tooltip shows to the right of the target.
+- Left: The Tooltip shows to the left of the target.
+- Bottom: The Tooltip shows below the target.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Set <ApiLink pkg="core" type="Tooltip" member="placement" label="placement" /> to position the tooltip. The default is `bottom`. Each of the `top`, `right`, `bottom`, and `left` values also has a `-start` and an `-end` variant, which aligns the tooltip with the start or the end of the anchor. When the tooltip doesn't fit on the chosen side, it flips to the opposite side. Set <ApiLink pkg="core" type="Tooltip" member="offset" label="offset" /> to change the distance between the tooltip and the anchor, which is `6` pixels by default:
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-tooltip id="tooltip">
-  Congrats you've hovered the button!
-</igc-tooltip>
-<igc-button id="hover-button">Hover me</igc-button>
+<igc-tooltip anchor="target" placement="top">Tooltip message Top</igc-tooltip>
+<igc-tooltip anchor="target" placement="right-start" offset="12">Tooltip message Right</igc-tooltip>
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="target" placement="top">Tooltip message Top</IgrTooltip>
+<IgrTooltip anchor="target" placement="right-start" offset={12}>Tooltip message Right</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTooltip Anchor="target" Placement="PopoverPlacement.Top">Tooltip message Top</IgbTooltip>
+<IgbTooltip Anchor="target" Placement="PopoverPlacement.RightStart" Offset="12">Tooltip message Right</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+By default, the Angular Tooltip opens below the target, centered, at a distance of `6` pixels. Set <ApiLink type="TooltipTargetDirective" member="positionSettings" label="positionSettings" /> on the target to change the position. The tooltip merges the settings that you pass with its defaults, and it flips to the opposite side when it doesn't fit on the chosen side:
+
+```ts
+import { HorizontalAlignment, PositionSettings, VerticalAlignment } from 'igniteui-angular/core';
+
+public topPosition: PositionSettings = {
+    horizontalDirection: HorizontalAlignment.Center,
+    horizontalStartPoint: HorizontalAlignment.Center,
+    verticalDirection: VerticalAlignment.Top,
+    verticalStartPoint: VerticalAlignment.Top
+};
+```
+
+```html
+<igx-icon [igxTooltipTarget]="topTooltip" [positionSettings]="topPosition">info</igx-icon>
+<span #topTooltip="tooltip" igxTooltip>Tooltip message Top</span>
+```
+
+The [Arrow Position](#arrow-position) section lists the settings for each predefined position.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-position" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tooltip above, below, to the left, and to the right of its target" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/position" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tooltip above, below, to the left, and to the right of its target" />
+
+</PlatformBlock>
+
+### Arrow Position
+
+Depending on the position according to its target the Tooltip Arrow can be any of the following types:
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The arrow of the {Platform} Tooltip follows the `placement`. For `top`, `right`, `bottom`, and `left`, the arrow points to the center of the anchor. For the `-start` and the `-end` placements, the arrow moves toward the start or the end of the tooltip. When the tooltip flips to the opposite side, the arrow moves with it:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tooltip anchor="target" placement="bottom-start" with-arrow>
+  This is a tooltip message. This tooltip shows a long message.
+</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="target" placement="bottom-start" withArrow={true}>
+  This is a tooltip message. This tooltip shows a long message.
+</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTooltip Anchor="target" Placement="PopoverPlacement.BottomStart" WithArrow="true">
+    This is a tooltip message. This tooltip shows a long message.
+</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Tooltip positions the arrow from the `positionSettings` of the target. The arrow matches one of the following predefined positions, which the table lists with their `horizontalDirection`, `horizontalStartPoint`, `verticalDirection`, and `verticalStartPoint` values. When the settings don't match any of them, the arrow stays at the top center of the tooltip, as for the default `bottom` position:
+
+| Position | Horizontal | Horizontal start | Vertical | Vertical start |
+| --- | --- | --- | --- | --- |
+| top | `Center` | `Center` | `Top` | `Top` |
+| top-start | `Right` | `Left` | `Top` | `Top` |
+| top-end | `Left` | `Right` | `Top` | `Top` |
+| bottom | `Center` | `Center` | `Bottom` | `Bottom` |
+| bottom-start | `Right` | `Left` | `Bottom` | `Bottom` |
+| bottom-end | `Left` | `Right` | `Bottom` | `Bottom` |
+| right | `Right` | `Right` | `Middle` | `Middle` |
+| right-start | `Right` | `Right` | `Bottom` | `Top` |
+| right-end | `Right` | `Right` | `Top` | `Bottom` |
+| left | `Left` | `Left` | `Middle` | `Middle` |
+| left-start | `Left` | `Left` | `Bottom` | `Top` |
+| left-end | `Left` | `Left` | `Top` | `Bottom` |
+
+The horizontal values come from `HorizontalAlignment`, and the vertical values come from `VerticalAlignment`. The arrow works only with the <ApiLink type="TooltipPositionStrategy" />, so a `positionStrategy` that you pass in the `overlaySettings` must extend it. To place the arrow yourself, extend the `TooltipPositionStrategy` and override its `positionArrow` method, which receives the arrow element and an `ArrowFit` object with the direction of the arrow and the sizes of the arrow and the tooltip:
+
+```ts
+import { ArrowFit, TooltipPositionStrategy } from 'igniteui-angular/directives';
+import { HorizontalAlignment, OverlaySettings, PositionSettings, VerticalAlignment } from 'igniteui-angular/core';
+
+export class CustomArrowStrategy extends TooltipPositionStrategy {
+    constructor(settings?: PositionSettings) {
+        super(settings);
+    }
+
+    public override positionArrow(arrow: HTMLElement, arrowFit: ArrowFit): void {
+        Object.assign(arrow.style, {
+            left: '-0.25rem',
+            transform: 'rotate(-45deg)',
+            [arrowFit.direction!]: '-0.25rem'
+        });
+    }
+}
+
+public overlaySettings: OverlaySettings = {
+    positionStrategy: new CustomArrowStrategy({
+        horizontalDirection: HorizontalAlignment.Right,
+        horizontalStartPoint: HorizontalAlignment.Right,
+        verticalDirection: VerticalAlignment.Bottom,
+        verticalStartPoint: VerticalAlignment.Bottom
+    })
+};
+```
+
+```html
+<igx-icon [igxTooltipTarget]="customTooltip" [hasArrow]="true" [overlaySettings]="overlaySettings">info</igx-icon>
+<span #customTooltip="tooltip" igxTooltip>Tooltip message</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-arrow-position" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Tooltip arrow at the top, right, bottom, and left, at the start, the center, and the end" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/arrow-position" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Tooltip arrow at the top, right, bottom, and left, at the start, the center, and the end" />
+
+</PlatformBlock>
+
+### Custom Tooltip
+
+The content of the {Platform} Tooltip can be more than plain text. Place any elements in the tooltip, such as an avatar, an icon, or a chart, and style them as you need.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-avatar id="contact-avatar" initials="EM" shape="circle"></igc-avatar>
+
+<igc-tooltip anchor="contact-avatar" placement="right">
+  <div class="contact-card">
+    <strong>Eliza Morales</strong>
+    <span>Sales Manager</span>
+  </div>
+</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrAvatar id="contact-avatar" initials="EM" shape="circle" />
+
+<IgrTooltip anchor="contact-avatar" placement="right">
+  <div className="contact-card">
+    <strong>Eliza Morales</strong>
+    <span>Sales Manager</span>
+  </div>
+</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbAvatar id="contact-avatar" Initials="EM" Shape="AvatarShape.Circle" />
+
+<IgbTooltip Anchor="contact-avatar" Placement="PopoverPlacement.Right">
+    <div class="contact-card">
+        <strong>Eliza Morales</strong>
+        <span>Sales Manager</span>
+    </div>
+</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="EM" shape="circle" [igxTooltipTarget]="contactTooltip"></igx-avatar>
+
+<div #contactTooltip="tooltip" igxTooltip>
+  <div class="contact-card">
+    <strong>Eliza Morales</strong>
+    <span>Sales Manager</span>
+  </div>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-custom" showThemePicker height={480} noBorder={false} spacing="md" alt="{Platform} Tooltip with a chart and a contact card as its content" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/custom" showThemePicker height={480} noBorder={false} spacing="md" alt="{Platform} Tooltip with a chart and a contact card as its content" />
+
+</PlatformBlock>
+
+### Target
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The <ApiLink pkg="core" type="Tooltip" member="anchor" label="anchor" /> property of the {Platform} Tooltip sets the element that the tooltip describes. Set it to the `id` of an element in the same DOM root as the tooltip. The tooltip listens for its triggers on that element and positions itself next to it. The tooltip looks up the `id` when it connects to the page and when `anchor` changes, so for an anchor that renders after the tooltip, set `anchor` again once the anchor is in the page.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+When the anchor is in another DOM root, such as the shadow root of another component, set `anchor` to the element itself:
 
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```ts
-constructor() {
-  const anchor = document.querySelector('#hover-button') as IgcButtonComponent;
-  const tooltip = document.querySelector('#tooltip') as IgcTooltipComponent;
-  tooltip.anchor = anchor;
-}
+const tooltip = document.querySelector('igc-tooltip') as IgcTooltipComponent;
+tooltip.anchor = document.querySelector('#save-button')!;
 ```
 
 </PlatformBlock>
@@ -209,33 +631,52 @@ constructor() {
 <PlatformBlock for="React">
 
 ```tsx
-const anchor = document.querySelector('#hover-button') as IgrButton;
-const tooltip = document.querySelector('#tooltip') as IgrTooltip;
-tooltip.anchor = anchor;
+const tooltipRef = useRef<IgrTooltip>(null);
+const buttonRef = useRef<IgrButton>(null);
+
+useEffect(() => {
+  tooltipRef.current!.anchor = buttonRef.current!;
+}, []);
+
+<IgrButton ref={buttonRef}>Save</IgrButton>
+<IgrTooltip ref={tooltipRef}>Save the changes to the server</IgrTooltip>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="React">
+<PlatformBlock for="React,WebComponents,Blazor">
 
-```tsx
-<IgrTooltip id="tooltip">
-  Congrats you have hovered the button!
-</IgrTooltip>
-<IgrButton id="hover-button">Hover me</IgrButton>
+To show one tooltip for several elements, pass the element to the `show` method, as described in [Showing and Hiding in Code](#showing-and-hiding-in-code). The element stays the anchor until the tooltip hides, and then the tooltip returns to its `anchor`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> directive marks the element that the tooltip describes. Bind it to the template reference variable of an element with the `igxTooltip` directive. The target listens for the triggers and positions the tooltip next to itself. Several targets can share one tooltip: when the user moves to another target, the tooltip closes for the previous one and opens for the new one:
+
+```html
+<button igxButton="flat" [igxTooltipTarget]="sharedTooltip">Cut</button>
+<button igxButton="flat" [igxTooltipTarget]="sharedTooltip">Copy</button>
+<span #sharedTooltip="tooltip" igxTooltip>Uses the clipboard of the browser</span>
 ```
 
 </PlatformBlock>
 
-### Tooltip content
+### Content
 
-The tooltip content is defined by placing custom content between the opening and closing tags of the <ApiLink pkg="core" type="Tooltip" />.
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Tooltip shows the content that you place in it. For plain text, set <ApiLink pkg="core" type="Tooltip" member="message" label="message" /> instead. The content takes precedence over `message`, so the tooltip shows `message` only when it has no content of its own. The text from `message` wraps at a width of 200 pixels, and other content isn't limited:
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-tooltip>
-  This is my custom content here.
+<igc-tooltip anchor="save-button" message="Save the changes"></igc-tooltip>
+
+<igc-tooltip anchor="share-button" message="This text isn't shown">
+  Share the file with your team
 </igc-tooltip>
 ```
 
@@ -244,8 +685,10 @@ The tooltip content is defined by placing custom content between the opening and
 <PlatformBlock for="React">
 
 ```tsx
-<IgrTooltip>
-  Congrats you have hovered the button!
+<IgrTooltip anchor="save-button" message="Save the changes" />
+
+<IgrTooltip anchor="share-button" message="This text isn't shown">
+  Share the file with your team
 </IgrTooltip>
 ```
 
@@ -254,252 +697,905 @@ The tooltip content is defined by placing custom content between the opening and
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbTooltip>
-  Congrats you have hovered the button!
+<IgbTooltip Anchor="save-button" Message="Save the changes" />
+
+<IgbTooltip Anchor="share-button" Message="This text isn't shown">
+    Share the file with your team
 </IgbTooltip>
 ```
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
 
-<PlatformBlock for="WebComponents, React">
-
-
-Alternatively, to set simple text, you can use the <ApiLink pkg="core" type="Tooltip" member="message" label="Message" /> property.
-
-</PlatformBlock>
-
-
-<PlatformBlock for="WebComponents">
+For plain text, set the <ApiLink type="TooltipTargetDirective" member="tooltip" label="tooltip" /> input of a target that isn't bound to an `igxTooltip` element. The target creates the tooltip for you, and its text wraps at a width of 200 pixels. For other content, use an element with the `igxTooltip` directive, which isn't limited in width:
 
 ```html
-<igc-tooltip message="This is my custom content here."></igc-tooltip>
+<igx-icon igxTooltipTarget tooltip="Save the changes">save</igx-icon>
+
+<igx-icon [igxTooltipTarget]="shareTooltip">share</igx-icon>
+<div #shareTooltip="tooltip" igxTooltip>
+  <strong>Share</strong>
+  <p>Share the file with your team</p>
+</div>
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrTooltip message="This is my custom content here."></IgrTooltip>
-```
+The <ApiLink type="TooltipDirective" member="context" label="context" /> input of the tooltip holds any data that you need while you work with the tooltip in code.
 
 </PlatformBlock>
-
-
-<PlatformBlock for="WebComponents, React">
-
-
-If you use both approaches (slotted content and the <ApiLink pkg="core" type="Tooltip" member="message" label="Message" /> property), the slotted content will take priority and the <ApiLink pkg="core" type="Tooltip" member="message" label="Message" /> value will be ignored.
-
-</PlatformBlock>
-
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-button id="target-button">Hover me</igc-button>
-<igc-tooltip anchor="target-button" message="I will be hidden.">
-  I will be shown!
-</igc-tooltip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrButton id="target-button">Hover me</IgrButton>
-<IgrTooltip anchor="target-button" message="I will be hidden.">
-  I will be shown!
-</IgrTooltip>
-```
-
-</PlatformBlock>
-
-
-<PlatformBlock for="WebComponents, React">
-
-
-In this example, the slotted content (“I will be shown!”) will be displayed instead of the <ApiLink pkg="core" type="Tooltip" member="message" label="Message" /> property value.
-
-</PlatformBlock>
-
-
-The <ApiLink pkg="core" type="Tooltip" /> content can be more than just simple text. Since the <ApiLink pkg="core" type="Tooltip" /> is a regular element in the markup, you can enhance its content by adding any elements you need and styling them accordingly.
-
-<Sample src="/inputs/tooltip/rich" height={230} alt="{Platform} Rich Tooltip Example" />
-
-
-### Show/Hide delay settings
-
-If you want to control the delay before showing and hiding the <ApiLink pkg="core" type="Tooltip" />, you can use the <ApiLink pkg="core" type="Tooltip" member="showDelay" label="ShowDelay" /> and <ApiLink pkg="core" type="Tooltip" member="hideDelay" label="HideDelay" /> properties. Both properties accept a number value representing time in milliseconds.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-tooltip show-delay="600" hide-delay="800">
-  Her name is Madelyn James.
-</igc-tooltip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrTooltip showDelay="600" hideDelay="800">
-  Her name is Madelyn James.
-</IgrTooltip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbTooltip ShowDelay="600" HideDelay="800">
-  Her name is Madelyn James.
-</IgbTooltip>
-```
-
-</PlatformBlock>
-
-
-<DocsAside type="info">
-It's important to note that the Tooltip API methods — <ApiLink pkg="core" type="Tooltip" member="show" label="Show" />, <ApiLink pkg="core" type="Tooltip" member="hide" label="Hide" />, and <ApiLink pkg="core" type="Tooltip" member="toggle" label="Toggle" /> — DO NOT take the <ApiLink pkg="core" type="Tooltip" member="showDelay" label="ShowDelay" /> and <ApiLink pkg="core" type="Tooltip" member="hideDelay" label="HideDelay" /> properties into account. They act immediately when invoked.
-</DocsAside>
-
-### Placement
-
-The <ApiLink pkg="core" type="Tooltip" /> can also be positioned relative to its target element with ease. All you need to do is use the <ApiLink pkg="core" type="Tooltip" member="placement" label="Placement" /> property along with one of the <PlatformBlock for="Angular,React,WebComponents"><ApiLink pkg="core" type="PopoverPlacement" /></PlatformBlock><PlatformBlock for="Blazor"><a href="https://staging.infragistics.com/api/blazor/IgniteUI.Blazor.Lite/0.0.1/enums/PopoverPlacement"><code>PopoverPlacement</code></a></PlatformBlock> options.
-
-If the <ApiLink pkg="core" type="Tooltip" member="placement" label="Placement" /> property is not set, the default value is `Bottom`, which places the <ApiLink pkg="core" type="Tooltip" /> below the target element.
-
-Additionally, you can make the <ApiLink pkg="core" type="Tooltip" /> "sticky" using the <ApiLink pkg="core" type="Tooltip" member="sticky" label="Sticky" /> property, which adds a close button and keeps the <ApiLink pkg="core" type="Tooltip" /> visible until the user closes it manually - either by clicking the close button or pressing the `Esc` key. This behavior overrides the default hover behavior, preventing the <ApiLink pkg="core" type="Tooltip" /> from disappearing when the user stops hovering over the target element.
-
-The <ApiLink pkg="core" type="Tooltip" /> also includes an optional arrow indicator that can be configured via the <ApiLink pkg="core" type="Tooltip" member="withArrow" label="WithArrow" /> property. The arrow visually connects the tooltip to its anchor element and its position automatically adjusts based on the tooltip's <ApiLink pkg="core" type="Tooltip" member="placement" label="Placement" />.
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-button id="target-button">Hover me</igc-button>
-<igc-tooltip anchor="target-button" placement="top-start" sticky with-arrow>
-  Congrats you've hovered the button!
-</igc-tooltip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrButton id="target-button">Hover me</IgrButton>
-<IgrTooltip anchor="target-button" placement="top-start" sticky withArrow={true}>
-  Congrats you have hovered the button!
-</IgrTooltip>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbButton id="target-button">Hover me</IgbButton>
-<IgbTooltip Anchor="target-button" Placement="PopoverPlacement.TopStart" Sticky="true" DisableArrow="true">
-  Congrats you have hovered the button!
-</IgbTooltip>
-```
-
-</PlatformBlock>
-
-In the following example, you can see a demonstration of all tooltip placement options, arrow positioning behavior, and the <ApiLink pkg="core" type="Tooltip" member="sticky" label="Sticky" /> property in action:
-
-<Sample src="/inputs/tooltip/placement" height={220} alt="{Platform} Tooltip Placement Example" />
-
 
 ### Triggers
 
-By default, the <ApiLink pkg="core" type="Tooltip" /> is triggered only while hovering over the target element. However, you can change this behavior using the <ApiLink pkg="core" type="Tooltip" member="showTriggers" label="ShowTriggers" /> and <ApiLink pkg="core" type="Tooltip" member="hideTriggers" label="HideTriggers" /> properties, which allow you to control when the <ApiLink pkg="core" type="Tooltip" /> appears and disappears. These properties accept event names as values—such as `click`, `focus`, or `keypress`—letting you trigger the <ApiLink pkg="core" type="Tooltip" /> in different scenarios.
+<PlatformBlock for="React,WebComponents">
 
-<Sample src="/inputs/tooltip/triggers" height={600} alt="{Platform} Tooltip Triggers Example" />
+The <ApiLink pkg="core" type="Tooltip" member="showTriggers" label="showTriggers" /> and <ApiLink pkg="core" type="Tooltip" member="hideTriggers" label="hideTriggers" /> properties take a comma-separated list of event names that the anchor fires. With `igniteui-webcomponents` 7.3.0 and later, the {Platform} Tooltip shows on `pointerenter` and `focusin`, and hides on `pointerleave`, `click`, and `focusout`. An event in both lists toggles the tooltip:
 
+</PlatformBlock>
 
-### Advanced Example
+<PlatformBlock for="Blazor">
 
-The <ApiLink pkg="core" type="Tooltip" /> integrates seamlessly with other components, allowing you to create advanced tooltips that contain components within them.
-In the following example, you can see how we create descriptive tooltips by using the <ApiLink pkg="core" type="List" />, <ApiLink pkg="core" type="Avatar" />, <ApiLink pkg="core" type="Icon" />, <ApiLink pkg="core" type="Badge" />, <ApiLink pkg="core" type="Button" />, <ApiLink pkg="core" type="Card" /> and <ApiLink type="CategoryChart" /> components.
+The <ApiLink pkg="core" type="Tooltip" member="ShowTriggers" label="ShowTriggers" /> and <ApiLink pkg="core" type="Tooltip" member="HideTriggers" label="HideTriggers" /> parameters take a comma-separated list of event names that the anchor fires. By default, the Blazor Tooltip shows on hover and hides when the pointer leaves the anchor or the user clicks it. To show the tooltip on keyboard focus too, set both parameters and include `focusin` and `focusout`. An event in both lists toggles the tooltip:
 
-<Sample src="/inputs/tooltip/advanced" height={640} alt="{Platform} Tooltip Advanced Example" />
+</PlatformBlock>
 
+<PlatformBlock for="WebComponents">
 
-### Additional Properties
+```html
+<igc-tooltip anchor="info-button" show-triggers="click" hide-triggers="click">
+  Toggles on each click
+</igc-tooltip>
 
-Apart from the properties we've already covered, the <ApiLink pkg="core" type="Tooltip" /> component offers a variety of additional properties that allow you to further configure its behavior, position, and appearance.
+<igc-tooltip anchor="email-input" show-triggers="focusin" hide-triggers="focusout">
+  Use your work email
+</igc-tooltip>
+```
 
-|Name|Type|Description|
-|--|--|--|
-| <ApiLink pkg="core" type="Tooltip" member="open" label="Open" /> | boolean | Determines whether the tooltip is visible. |
-| <ApiLink pkg="core" type="Tooltip" member="withArrow" label="WithArrow" /> | boolean | Determines whether to render an arrow indicator for the tooltip. |
-| <ApiLink pkg="core" type="Tooltip" member="offset" label="Offset" /> | number | Sets the pixel distance between the tooltip and its <ApiLink pkg="core" type="Tooltip" member="anchor" label="Anchor" />. |
+</PlatformBlock>
 
-### Methods
+<PlatformBlock for="React">
 
-In addition to its configurable properties, the <ApiLink pkg="core" type="Tooltip" /> also exposes three methods that you can use:
+```tsx
+<IgrTooltip anchor="info-button" showTriggers="click" hideTriggers="click">
+  Toggles on each click
+</IgrTooltip>
 
-|Name|Description|
-|--|--|
-| <ApiLink pkg="core" type="Tooltip" member="show" label="Show" /> | Displays the tooltip if it’s not already shown. If a target is provided, it sets the target as a transient <ApiLink pkg="core" type="Tooltip" member="anchor" label="Anchor" />. |
-| <ApiLink pkg="core" type="Tooltip" member="hide" label="Hide" /> | Hides the tooltip if it’s not already hidden. |
-| <ApiLink pkg="core" type="Tooltip" member="toggle" label="Toggle" /> |  Toggles the tooltip between the shown and hidden states. |
+<IgrTooltip anchor="email-input" showTriggers="focusin" hideTriggers="focusout">
+  Use your work email
+</IgrTooltip>
+```
 
-## Accessibility & ARIA Support
+</PlatformBlock>
 
-The <ApiLink pkg="core" type="Tooltip" /> is built with accessibility in mind and includes the following ARIA attributes:
+<PlatformBlock for="Blazor">
 
-- `role` - When the tooltip is in its default behavior, `role="tooltip"` is applied. If the <ApiLink pkg="core" type="Tooltip" member="sticky" label="Sticky" /> property is enabled, the role changes to `status`.
-- `inert` - Dynamically toggled based on visibility. When the tooltip is hidden, it becomes inert.
-- `aria-atomic` - Set to true, ensuring that the entire tooltip content is announced when it changes.
-- `aria-live` - Set to polite, indicating to screen readers that updates should be announced only when the user is idle.
+```razor
+<IgbTooltip Anchor="save-button" ShowTriggers="pointerenter,focusin" HideTriggers="pointerleave,click,focusout">
+    Save the changes to the server
+</IgbTooltip>
 
-## Styling
+<IgbTooltip Anchor="info-button" ShowTriggers="click" HideTriggers="click">
+    Toggles on each click
+</IgbTooltip>
+```
 
-The <ApiLink pkg="core" type="Tooltip" /> component exposes two CSS parts that you can use for styling:
+</PlatformBlock>
 
-|Name|Description|
-|--|--|
-| `base` | The base wrapper of the tooltip component. |
-| `top, right, bottom, left ...` | The area containing the tooltip arrow. The part name matches the value of the tooltip placement property. |
+<PlatformBlock for="React,WebComponents,Blazor">
 
-```css
-igc-tooltip::part(base) {
-  background-color: var(--ig-primary-500);
-  color: var(--ig-primary-500-contrast);
-}
+While the tooltip is open, it also stays open while the pointer is over the tooltip itself, so users can move the pointer from the anchor to the tooltip. A click on the anchor before the show delay ends cancels the showing, unless `click` is one of the show triggers.
 
-igc-tooltip::part(bottom) {
-  border-bottom-color: var(--ig-primary-500);
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The <ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> and <ApiLink type="TooltipTargetDirective" member="hideTriggers" label="hideTriggers" /> inputs of the target take a comma-separated list of event names that the target fires. By default, the Angular Tooltip shows on `pointerenter` and hides on `pointerleave` and `click`, so it doesn't show on keyboard focus. To show it on focus, add `focusin` and `focusout`. An event in both lists toggles the tooltip:
+
+```html
+<button igxButton="outlined"
+    [igxTooltipTarget]="saveTooltip"
+    showTriggers="pointerenter,focusin"
+    hideTriggers="pointerleave,click,focusout">
+    Save
+</button>
+<span #saveTooltip="tooltip" igxTooltip>Save the changes to the server</span>
+
+<igx-icon [igxTooltipTarget]="infoTooltip" showTriggers="click" hideTriggers="click">info</igx-icon>
+<span #infoTooltip="tooltip" igxTooltip>Toggles on each click</span>
+```
+
+The triggers apply only to the target. While the tooltip is open, it also stays open while the pointer is over the tooltip itself, so users can move the pointer from the target to the tooltip. A click on the target before the show delay ends cancels the showing, unless `click` is one of the show triggers.
+
+</PlatformBlock>
+
+### Show and Hide Delays
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The <ApiLink pkg="core" type="Tooltip" member="showDelay" label="showDelay" /> and <ApiLink pkg="core" type="Tooltip" member="hideDelay" label="hideDelay" /> properties set the time in milliseconds between a trigger and the showing or the hiding of the {Platform} Tooltip. The defaults are `200` and `300`, and a negative value means no delay:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tooltip anchor="save-button" show-delay="600" hide-delay="800">
+  Save the changes to the server
+</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="save-button" showDelay={600} hideDelay={800}>
+  Save the changes to the server
+</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTooltip Anchor="save-button" ShowDelay="600" HideDelay="800">
+    Save the changes to the server
+</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The delays apply to the triggers. The methods described in the next section show and hide the tooltip without a delay.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> and <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> inputs of the target set the time in milliseconds between a trigger and the showing or the hiding of the Angular Tooltip. The defaults are `200` and `300`:
+
+```html
+<igx-icon [igxTooltipTarget]="saveTooltip" [showDelay]="600" [hideDelay]="800">save</igx-icon>
+<span #saveTooltip="tooltip" igxTooltip>Save the changes to the server</span>
+```
+
+A hide trigger adds 180 milliseconds before the hide delay starts. The delays apply to the triggers and to the close button of a sticky tooltip. The methods described in the next section show and hide the tooltip without a delay.
+
+</PlatformBlock>
+
+### Showing and Hiding in Code
+
+<PlatformBlock for="React,WebComponents">
+
+Show and hide the {Platform} Tooltip with the following methods, which ignore the delays and don't emit the opening and the closing events:
+
+- <ApiLink pkg="core" type="Tooltip" member="show" label="show" /> shows the tooltip. Pass an element or the `id` of an element to show the tooltip next to that element instead of its `anchor`, until the tooltip hides.
+- <ApiLink pkg="core" type="Tooltip" member="hide" label="hide" /> hides the tooltip.
+- <ApiLink pkg="core" type="Tooltip" member="toggle" label="toggle" /> shows the tooltip when it's hidden and hides it when it's shown.
+
+Each method returns a promise that resolves to `true` when the tooltip changes its state. The <ApiLink pkg="core" type="Tooltip" member="open" label="open" /> property also shows and hides the tooltip:
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Show and hide the Blazor Tooltip with the following methods, which ignore the delays and don't raise the opening and the closing events:
+
+- <ApiLink pkg="core" type="Tooltip" member="ShowAsync" label="ShowAsync" /> shows the tooltip. Pass the `id` of an element to show the tooltip next to that element instead of its `Anchor`, until the tooltip hides.
+- <ApiLink pkg="core" type="Tooltip" member="HideAsync" label="HideAsync" /> hides the tooltip.
+- <ApiLink pkg="core" type="Tooltip" member="ToggleAsync" label="ToggleAsync" /> shows the tooltip when it's hidden and hides it when it's shown.
+
+Each method returns `true` when the tooltip changes its state. The <ApiLink pkg="core" type="Tooltip" member="Open" label="Open" /> parameter also shows and hides the tooltip:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-button id="cut-button" variant="flat">Cut</igc-button>
+<igc-button id="copy-button" variant="flat">Copy</igc-button>
+<igc-tooltip id="clipboard-tooltip">Uses the clipboard of the browser</igc-tooltip>
+```
+
+```ts
+const tooltip = document.getElementById('clipboard-tooltip') as IgcTooltipComponent;
+
+for (const id of ['cut-button', 'copy-button']) {
+  document.getElementById(id)!.addEventListener('pointerenter', (event) => {
+    tooltip.show(event.currentTarget as Element);
+  });
+  document.getElementById(id)!.addEventListener('pointerleave', () => tooltip.hide());
 }
 ```
 
-<Sample src="/inputs/tooltip/styling" height={140} alt="{Platform} Tooltip Styling Example" />
+</PlatformBlock>
 
+<PlatformBlock for="React">
 
+```tsx
+const tooltipRef = useRef<IgrTooltip>(null);
+
+<IgrButton
+  variant="flat"
+  onPointerEnter={(event) => tooltipRef.current?.show(event.currentTarget)}
+  onPointerLeave={() => tooltipRef.current?.hide()}>
+  Cut
+</IgrButton>
+<IgrTooltip ref={tooltipRef}>Uses the clipboard of the browser</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<button id="cut-button" type="button" @onpointerenter="ShowTooltip" @onpointerleave="HideTooltip">Cut</button>
+<IgbTooltip @ref="Tooltip">Uses the clipboard of the browser</IgbTooltip>
+
+@code {
+    private IgbTooltip Tooltip { get; set; }
+
+    private async Task ShowTooltip()
+    {
+        await Tooltip.ShowAsync("cut-button");
+    }
+
+    private async Task HideTooltip()
+    {
+        await Tooltip.HideAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+When the user shows or hides the tooltip through the triggers or the close button, the {Platform} Tooltip emits the opening event before it shows and the opened event after its animation ends, and the closing and the closed events when it hides. Cancel the opening or the closing event to keep the tooltip in its current state. The Escape key emits only the closed event.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The <ApiLink pkg="core" type="Tooltip" member="Opening" label="Opening" /> and <ApiLink pkg="core" type="Tooltip" member="Closing" label="Closing" /> callbacks can't cancel the events, because they run after the browser handles them. To cancel them, set `OpeningScript` or `ClosingScript` to the name of a JavaScript function that you register with `igRegisterScript`, as the [Dialog](../notifications/dialog.mdx) topic shows for its closing event.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Show and hide the Angular Tooltip with the following methods of the target, which ignore the delays:
+
+- <ApiLink type="TooltipTargetDirective" member="showTooltip" label="showTooltip" /> shows the tooltip next to the target and emits <ApiLink type="TooltipTargetDirective" member="tooltipShow" label="tooltipShow" />.
+- <ApiLink type="TooltipTargetDirective" member="hideTooltip" label="hideTooltip" /> hides the tooltip.
+
+```html
+<igx-icon #saveTarget="tooltipTarget" [igxTooltipTarget]="saveTooltip">cloud_done</igx-icon>
+<span #saveTooltip="tooltip" igxTooltip>Your changes are saved</span>
+
+<button igxButton="contained" (click)="saveTarget.showTooltip()">Save</button>
+```
+
+The `igxTooltipTarget` directive is exported as `tooltipTarget`. The <ApiLink type="TooltipTargetDirective" member="tooltipHidden" label="tooltipHidden" /> property returns whether the tooltip is hidden. Set <ApiLink type="TooltipTargetDirective" member="tooltipDisabled" label="tooltipDisabled" /> to turn off the tooltip: the triggers and `showTooltip` don't show it, and `hideTooltip` still hides it.
+
+The target emits <ApiLink type="TooltipTargetDirective" member="tooltipShow" label="tooltipShow" /> before the show delay starts, and <ApiLink type="TooltipTargetDirective" member="tooltipHide" label="tooltipHide" /> when the tooltip starts to close. Set `cancel` to `true` in the handler to keep the tooltip in its current state:
+
+```html
+<igx-icon [igxTooltipTarget]="saveTooltip" (tooltipShow)="onTooltipShow($event)">save</igx-icon>
+<span #saveTooltip="tooltip" igxTooltip>Save the changes to the server</span>
+```
+
+```ts
+import { ITooltipShowEventArgs } from 'igniteui-angular/directives';
+
+public onTooltipShow(args: ITooltipShowEventArgs) {
+    if (this.isSaving) {
+        args.cancel = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### Scroll Strategy
+
+With `igniteui-webcomponents` 7.4.0 and later, the <ApiLink pkg="core" type="Tooltip" member="scrollStrategy" label="scrollStrategy" /> property sets what the {Platform} Tooltip does when a container of the anchor scrolls:
+
+- `hide`, the default, hides the tooltip while the anchor is fully out of view.
+- `scroll` keeps the tooltip visible and next to the anchor.
+- `close` closes the tooltip on each scroll, also when the tooltip is sticky.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tooltip anchor="row-action" scroll-strategy="close">Delete the row</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="row-action" scrollStrategy="close">Delete the row</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Overlay Configuration
+
+The Angular Tooltip opens through the [overlay service](../overlay.mdx). Besides the position, the <ApiLink type="TooltipTargetDirective" member="positionSettings" label="positionSettings" /> of the target set the open and the close animations and the `offset`. The <ApiLink type="TooltipTargetDirective" member="overlaySettings" label="overlaySettings" /> of the target change the other overlay settings, such as the scroll strategy or closing on Escape. The settings that you pass override the defaults of the tooltip:
+
+```ts
+import { useAnimation } from '@angular/animations';
+import { slideInTop, slideOutBottom } from 'igniteui-angular/animations';
+import { CloseScrollStrategy, HorizontalAlignment, OverlaySettings, PositionSettings, VerticalAlignment } from 'igniteui-angular/core';
+
+public positionSettings: PositionSettings = {
+    horizontalDirection: HorizontalAlignment.Center,
+    horizontalStartPoint: HorizontalAlignment.Center,
+    verticalDirection: VerticalAlignment.Top,
+    verticalStartPoint: VerticalAlignment.Top,
+    openAnimation: useAnimation(slideInTop, { params: { duration: '300ms' } }),
+    closeAnimation: useAnimation(slideOutBottom, { params: { duration: '300ms' } }),
+    offset: 10
+};
+
+public overlaySettings: OverlaySettings = {
+    scrollStrategy: new CloseScrollStrategy(),
+    closeOnEscape: false
+};
+```
+
+```html
+<igx-icon [igxTooltipTarget]="infoTooltip" [positionSettings]="positionSettings" [overlaySettings]="overlaySettings">info</igx-icon>
+<span #infoTooltip="tooltip" igxTooltip>Tooltip message</span>
+```
+
+By default, the tooltip uses the `AbsoluteScrollStrategy`, which keeps it next to the target while the page scrolls, and closes on Escape.
+
+</PlatformBlock>
+
+### Do/Don't
+
+When displaying a Tooltip for a given element, proper positioning is essential. The Tooltip should appear close to the element it describes, without obstructing the interface or distracting the user. Its position should ensure maximum visibility and remain fully within the screen. By default, the Tooltip appears centered just below the element; however, if this placement would cause any part of it to be cut off, it should be repositioned so that the entire Tooltip stays visible. Tooltips should not be used to convey critical information.
+
+<DoDont
+  doSrc={tooltipDoPosition}
+  doAlt="A tooltip below a date input that describes the input without covering it"
+  dontSrc={tooltipDoNotPosition}
+  dontAlt="A tooltip that covers the label of the date input it describes"
+>
+<Fragment slot="do">
+
+Keep the tooltip close to the element it describes, and reposition it when needed so the full message stays visible within the screen.
+
+</Fragment>
+<Fragment slot="dont">
+
+Avoid placing the tooltip where it gets cut off-screen, blocks key UI, or covers the item it explains
+
+</Fragment>
+</DoDont>
+
+## Properties
+
+The {Platform} Tooltip exposes the following properties. See the API reference for the complete type definitions.
+
+<PlatformBlock for="React,WebComponents">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tooltip" member="anchor" label="anchor" /> | `Element \| string` | — | The element, or the `id` of the element, that the tooltip describes. |
+| <ApiLink pkg="core" type="Tooltip" member="message" label="message" /> | `string` | `''` | Plain text that the tooltip shows when it has no content of its own. |
+| <ApiLink pkg="core" type="Tooltip" member="placement" label="placement" /> | `PopoverPlacement` | `'bottom'` | The side and the alignment of the tooltip next to the anchor. |
+| <ApiLink pkg="core" type="Tooltip" member="offset" label="offset" /> | `number` | `6` | The distance between the tooltip and the anchor, in pixels. |
+| <ApiLink pkg="core" type="Tooltip" member="withArrow" label="withArrow" /> | `boolean` | `false` | Whether the tooltip shows an arrow that points to the anchor. |
+| <ApiLink pkg="core" type="Tooltip" member="sticky" label="sticky" /> | `boolean` | `false` | Whether the tooltip shows a close button and stays open until the user closes it. |
+| <ApiLink pkg="core" type="Tooltip" member="showTriggers" label="showTriggers" /> | `string` | `pointerenter, focusin` | The events of the anchor that show the tooltip. |
+| <ApiLink pkg="core" type="Tooltip" member="hideTriggers" label="hideTriggers" /> | `string` | `pointerleave, click, focusout` | The events of the anchor that hide the tooltip. |
+| <ApiLink pkg="core" type="Tooltip" member="showDelay" label="showDelay" /> | `number` | `200` | The time between a show trigger and the showing, in milliseconds. |
+| <ApiLink pkg="core" type="Tooltip" member="hideDelay" label="hideDelay" /> | `number` | `300` | The time between a hide trigger and the hiding, in milliseconds. |
+| <ApiLink pkg="core" type="Tooltip" member="scrollStrategy" label="scrollStrategy" /> | `PopoverScrollStrategy` | `'hide'` | What the tooltip does when a container of the anchor scrolls. |
+| <ApiLink pkg="core" type="Tooltip" member="open" label="open" /> | `boolean` | `false` | Whether the tooltip is shown. |
+
+The defaults of `showTriggers` and `hideTriggers` apply to `igniteui-webcomponents` 7.3.0 and later, and `scrollStrategy` is available in `igniteui-webcomponents` 7.4.0 and later.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tooltip" member="Anchor" label="Anchor" /> | `string` | — | The `id` of the element that the tooltip describes. |
+| <ApiLink pkg="core" type="Tooltip" member="Message" label="Message" /> | `string` | — | Plain text that the tooltip shows when it has no content of its own. |
+| <ApiLink pkg="core" type="Tooltip" member="Placement" label="Placement" /> | `PopoverPlacement` | `Bottom` | The side and the alignment of the tooltip next to the anchor. |
+| <ApiLink pkg="core" type="Tooltip" member="Offset" label="Offset" /> | `double` | `6` | The distance between the tooltip and the anchor, in pixels. |
+| <ApiLink pkg="core" type="Tooltip" member="WithArrow" label="WithArrow" /> | `bool` | `false` | Whether the tooltip shows an arrow that points to the anchor. |
+| <ApiLink pkg="core" type="Tooltip" member="Sticky" label="Sticky" /> | `bool` | `false` | Whether the tooltip shows a close button and stays open until the user closes it. |
+| <ApiLink pkg="core" type="Tooltip" member="ShowTriggers" label="ShowTriggers" /> | `string` | — | The events of the anchor that show the tooltip. See [Triggers](#triggers). |
+| <ApiLink pkg="core" type="Tooltip" member="HideTriggers" label="HideTriggers" /> | `string` | — | The events of the anchor that hide the tooltip. See [Triggers](#triggers). |
+| <ApiLink pkg="core" type="Tooltip" member="ShowDelay" label="ShowDelay" /> | `double` | `200` | The time between a show trigger and the showing, in milliseconds. |
+| <ApiLink pkg="core" type="Tooltip" member="HideDelay" label="HideDelay" /> | `double` | `300` | The time between a hide trigger and the hiding, in milliseconds. |
+| <ApiLink pkg="core" type="Tooltip" member="Open" label="Open" /> | `bool` | `false` | Whether the tooltip is shown. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The table lists the inputs of the `igxTooltipTarget` directive. The rows that start with `Tooltip.` belong to the `igxTooltip` directive.
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `igxTooltipTarget` | `IgxTooltipDirective` | — | The tooltip that the target shows. |
+| <ApiLink type="TooltipTargetDirective" member="tooltip" label="tooltip" /> | `string` | — | Plain text for a tooltip that the target creates, when it isn't bound to a tooltip. |
+| <ApiLink type="TooltipTargetDirective" member="positionSettings" label="positionSettings" /> | `PositionSettings` | — | The position, the offset, and the animations. Below the target by default. |
+| <ApiLink type="TooltipTargetDirective" member="overlaySettings" label="overlaySettings" /> | `OverlaySettings` | — | The overlay settings, such as the scroll strategy. |
+| <ApiLink type="TooltipTargetDirective" member="hasArrow" label="hasArrow" /> | `boolean` | `false` | Whether the tooltip shows an arrow that points to the target. |
+| <ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" /> | `boolean` | `false` | Whether the tooltip shows a close button and stays open until the user closes it. |
+| <ApiLink type="TooltipTargetDirective" member="closeTemplate" label="closeButtonTemplate" /> | `TemplateRef` | — | The content of the close button of a sticky tooltip. |
+| <ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> | `string` | `pointerenter` | The events of the target that show the tooltip. |
+| <ApiLink type="TooltipTargetDirective" member="hideTriggers" label="hideTriggers" /> | `string` | `pointerleave, click` | The events of the target that hide the tooltip. |
+| <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> | `number` | `200` | The time between a show trigger and the showing, in milliseconds. |
+| <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> | `number` | `300` | The time between a hide trigger and the hiding, in milliseconds. |
+| <ApiLink type="TooltipTargetDirective" member="tooltipDisabled" label="tooltipDisabled" /> | `boolean` | `false` | Whether the triggers and `showTooltip` don't show the tooltip. |
+| <ApiLink type="TooltipTargetDirective" member="tooltipHidden" label="tooltipHidden" /> | `boolean` | — | Read-only. Whether the tooltip is hidden. |
+| <ApiLink type="TooltipDirective" member="id" label="Tooltip.id" /> | `string` | `igx-tooltip-0` | The `id` of the tooltip. Generated when you don't set it. |
+| <ApiLink type="TooltipDirective" member="role" label="Tooltip.role" /> | `'tooltip' \| 'status'` | `'tooltip'` | The ARIA role. The target sets `'status'` while the tooltip is sticky. |
+| <ApiLink type="TooltipDirective" member="context" label="Tooltip.context" /> | `any` | — | Any data that you store on the tooltip. |
+
+</PlatformBlock>
+
+## Methods
+
+<PlatformBlock for="React,WebComponents">
+
+The {Platform} Tooltip exposes the following methods. They ignore the delays and don't emit the opening and the closing events.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Tooltip" member="show" label="show" /> | Shows the tooltip. An element or an `id` that you pass becomes the anchor until the tooltip hides. Returns a promise that resolves to whether the tooltip was shown. |
+| <ApiLink pkg="core" type="Tooltip" member="hide" label="hide" /> | Hides the tooltip. Returns a promise that resolves to whether the tooltip was hidden. |
+| <ApiLink pkg="core" type="Tooltip" member="toggle" label="toggle" /> | Shows the tooltip when it's hidden and hides it when it's shown. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The {Platform} Tooltip exposes the following methods. They ignore the delays and don't raise the opening and the closing events.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink pkg="core" type="Tooltip" member="ShowAsync" label="ShowAsync" /> | Shows the tooltip. An `id` that you pass becomes the anchor until the tooltip hides. Returns whether the tooltip was shown. |
+| <ApiLink pkg="core" type="Tooltip" member="HideAsync" label="HideAsync" /> | Hides the tooltip. Returns whether the tooltip was hidden. |
+| <ApiLink pkg="core" type="Tooltip" member="ToggleAsync" label="ToggleAsync" /> | Shows the tooltip when it's hidden and hides it when it's shown. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Tooltip exposes the following methods. They ignore the delays.
+
+| Method | Description |
+| --- | --- |
+| <ApiLink type="TooltipTargetDirective" member="showTooltip" label="showTooltip" /> | Shows the tooltip next to the target and emits `tooltipShow`. |
+| <ApiLink type="TooltipTargetDirective" member="hideTooltip" label="hideTooltip" /> | Hides the tooltip. |
+
+</PlatformBlock>
+
+## Events
+
+The {Platform} Tooltip emits the following events.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents">`igcOpening`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tooltip" member="onOpening" label="onOpening" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tooltip" member="Opening" label="Opening" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted before the tooltip shows from a trigger. Cancel it to keep the tooltip hidden<PlatformBlock for="Blazor"> through `OpeningScript`</PlatformBlock>. |
+| <PlatformBlock for="WebComponents">`igcOpened`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tooltip" member="onOpened" label="onOpened" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tooltip" member="Opened" label="Opened" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted after the tooltip shows from a trigger and its animation ends. |
+| <PlatformBlock for="WebComponents">`igcClosing`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tooltip" member="onClosing" label="onClosing" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tooltip" member="Closing" label="Closing" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted before the tooltip hides from a trigger or the close button. Cancel it to keep the tooltip open<PlatformBlock for="Blazor"> through `ClosingScript`</PlatformBlock>. |
+| <PlatformBlock for="WebComponents">`igcClosed`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tooltip" member="onClosed" label="onClosed" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tooltip" member="Closed" label="Closed" /></PlatformBlock> | <PlatformBlock for="WebComponents,React">`CustomEvent<void>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbVoidEventArgs>`</PlatformBlock> | Emitted after the tooltip hides and its animation ends, and when the user presses Escape. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The rows that start with `Tooltip.` belong to the `igxTooltip` directive.
+
+| Name | Description |
+| --- | --- |
+| <ApiLink type="TooltipTargetDirective" member="tooltipShow" label="tooltipShow" /> | Emitted with `ITooltipShowEventArgs` before the show delay starts. Set `cancel` to keep the tooltip hidden. |
+| <ApiLink type="TooltipTargetDirective" member="tooltipHide" label="tooltipHide" /> | Emitted with `ITooltipHideEventArgs` when the tooltip starts to close. Set `cancel` to keep the tooltip open. |
+| <ApiLink type="TooltipDirective" member="opening" label="Tooltip.opening" /> | Emitted before the tooltip opens. Set `cancel` to keep it closed. |
+| <ApiLink type="TooltipDirective" member="opened" label="Tooltip.opened" /> | Emitted after the tooltip opens and its animation ends. |
+| <ApiLink type="TooltipDirective" member="closing" label="Tooltip.closing" /> | Emitted before the tooltip closes. Set `cancel` to keep it open. |
+| <ApiLink type="TooltipDirective" member="closed" label="Tooltip.closed" /> | Emitted after the tooltip closes and its animation ends. |
+
+</PlatformBlock>
+
+## Styling
+
+The {Platform} Tooltip takes its colors from the theme. Change them with the following CSS variables:
+
+| Variable | What it changes |
+| --- | --- |
+| `--ig-tooltip-background` | The background of the tooltip and the color of the arrow. |
+| `--ig-tooltip-text-color` | The text color of the tooltip. |
+| `--ig-tooltip-border-radius` | The corner radius of the tooltip. |
+| `--ig-tooltip-elevation` | The shadow of the tooltip. |
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The `igc-tooltip` element exposes the following CSS parts:
+
+| Part | What it styles |
+| --- | --- |
+| `base` | The container of the content, the close button, and the arrow. |
+| `simple-text` | The container when it shows the `message` property. |
+| `top`, `right`, `bottom`, `left` | The arrow. The part matches the side of the current placement. |
+<PlatformBlock for="React,WebComponents">| `close-button` | The default close button of a sticky tooltip, in `igniteui-webcomponents` 7.3.0 and later. |</PlatformBlock>
+
+</PlatformBlock>
+
+### Sass Theming
+
+When you modify a primary property, all related dependent properties are automatically updated to reflect the change. The primary parameter of the <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="tooltip-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`tooltip-theme`</PlatformBlock> function is `$background`, from which the theme derives the text color. Create a theme with the function and include it with the `tokens()` mixin, which emits the matching `--ig-tooltip-*` variables in the scope where you include it.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-tooltip-theme: tooltip-theme(
+  $background: #011627,
+  $border-radius: 6px
+);
+
+:host {
+  @include tokens($custom-tooltip-theme);
+}
+```
+
+The overlay keeps the open tooltip at its place in the DOM, so the variables that you include in the `:host` of your component reach the tooltip.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The Sass functions come from the `igniteui-theming` package. See the [Theming](../themes/overview.mdx) topic for the Sass setup.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-tooltip-theme: tooltip-theme(
+  $background: #011627,
+  $border-radius: 6px
+);
+
+:root {
+  @include tokens($custom-tooltip-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS Variables
+
+Set the CSS variables on a Tooltip or on a container when you need local styling without a Sass build step:
+
+```css
+.info-tooltip {
+  --ig-tooltip-background: #011627;
+  --ig-tooltip-text-color: #ecaa53;
+  --ig-tooltip-border-radius: 6px;
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Use the CSS parts for other styles:
+
+```css
+igc-tooltip::part(base) {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+igc-tooltip::part(simple-text) {
+  max-width: 320px;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-styling" height={280} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Tooltip styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/styling" height={280} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Tooltip styling example" />
+
+</PlatformBlock>
+
+### Styling with Tailwind
+
+You can style the {Platform} Tooltip with Tailwind arbitrary properties that set the `--ig-tooltip-*` CSS variables. Make sure to <PlatformBlock for="Angular">[set up Tailwind](../themes/misc/tailwind-classes.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[set up Tailwind](../themes/tailwind.mdx)</PlatformBlock> first.
+
+<PlatformBlock for="Angular">
+
+```html
+<span #infoTooltip="tooltip" igxTooltip class="[--ig-tooltip-background:#011627] [--ig-tooltip-text-color:#ECAA53]">
+  Tooltip message
+</span>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tooltip anchor="info-button" class="[--ig-tooltip-background:#011627] [--ig-tooltip-text-color:#ECAA53]">
+  Tooltip message
+</igc-tooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTooltip anchor="info-button" className="[--ig-tooltip-background:#011627] [--ig-tooltip-text-color:#ECAA53]">
+  Tooltip message
+</IgrTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTooltip Anchor="info-button" Class="[--ig-tooltip-background:#011627] [--ig-tooltip-text-color:#ECAA53]">
+    Tooltip message
+</IgbTooltip>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/interactions/tooltip-tailwind-styling" height={380} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Tooltip Tailwind styling example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/tooltip/tailwind-styling" height={380} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Tooltip Tailwind styling example" />
+
+</PlatformBlock>
+
+## Accessibility
+
+The {Platform} Tooltip describes its anchor and doesn't take the focus itself. This section lists what the tooltip renders and handles, as its template and event handlers define it.
+
+### Keyboard Interaction
+
+<PlatformBlock for="React,WebComponents">
+
+The {Platform} Tooltip listens for its show and hide triggers on the anchor. With `igniteui-webcomponents` 7.3.0 and later, the default triggers include `focusin` and `focusout`, so the following keys work when the anchor is focusable, such as a button or an input:
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moving the focus into the anchor shows the tooltip after `showDelay`. Moving the focus out of the anchor hides it after `hideDelay`, unless the tooltip is sticky. |
+| <kbd>Escape</kbd> | While a tooltip is shown, a `keydown` listener on the window hides the tooltip that opened last, wherever the focus is, also when the tooltip is sticky. The tooltip emits only the closed event, so you can't cancel this closing. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | On the anchor, the `click` that the anchor fires hides the tooltip, because `click` is a default hide trigger. On the default close button of a sticky tooltip, it hides the tooltip without a delay. |
+
+The default close button of a sticky tooltip is a native `button` in the shadow root of the `igc-tooltip` element, so it's in the tab order at the position of that element in the DOM, for example right after the anchor when the tooltip follows it.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The Blazor Tooltip listens for the show and hide triggers that you set on the anchor. The following keys work:
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Shows and hides the tooltip when the triggers include `focusin` and `focusout`, as described in [Triggers](#triggers). |
+| <kbd>Escape</kbd> | While a tooltip is shown, a `keydown` listener on the window hides the tooltip that opened last, wherever the focus is, also when the tooltip is sticky. The tooltip raises only the closed event, so you can't cancel this closing. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Tooltip also handles these pointer actions:
+
+- While the tooltip is shown, it listens for `pointerenter` and `pointerleave` on itself. The pointer over the tooltip keeps it open, and the pointer leaving the tooltip hides it after `hideDelay`, unless the tooltip is sticky.
+- A click on the anchor before the show delay ends cancels the showing, unless `click` is a show trigger.
+- A click anywhere in the `close-button` slot hides a sticky tooltip.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Tooltip listens for its show and hide triggers on the target. The default triggers are `pointerenter`, `pointerleave`, and `click`, so the tooltip doesn't show on keyboard focus until you add `focusin` and `focusout`, as described in [Triggers](#triggers). The following keys work:
+
+| Key | Action |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | With the `focusin` and `focusout` triggers, moving the focus into the target shows the tooltip after `showDelay`, and moving the focus out hides it after 180 milliseconds plus `hideDelay`, unless the tooltip is sticky. |
+| <kbd>Escape</kbd> | Closes the tooltip and emits `tooltipHide`, which you can cancel. The overlay service listens for Escape on the whole document, so the key works wherever the focus is, and it closes only the topmost open overlay. |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | On a target that fires `click`, such as a button, the click hides the tooltip, because `click` is a default hide trigger. |
+
+The close button of a sticky tooltip, `igx-tooltip-close-button`, handles only clicks. It has no `tabindex` and no role, so keyboard users close a sticky tooltip with Escape.
+
+The Angular Tooltip also handles these pointer actions:
+
+- The tooltip listens for `pointerenter` and `pointerleave` on itself. The pointer over the tooltip keeps it open, and the pointer leaving the tooltip hides it after the delays, unless the tooltip is sticky.
+- When the pointer leaves the target before the show delay ends, the tooltip doesn't show.
+- A click on the target before the show delay ends cancels the showing, unless `click` is a show trigger.
+- A click on the close button hides a sticky tooltip after `hideDelay`.
+
+</PlatformBlock>
+
+### Screen Readers / ARIA
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Tooltip renders the following roles and attributes:
+
+| Element | Role | Attributes |
+| --- | --- | --- |
+| `igc-tooltip` | `tooltip`, or `status` while sticky | `aria-live="polite"` and `aria-atomic="true"`, set through `ElementInternals`. `inert` while the show or the hide animation plays. |
+| `igc-popover` | — | `inert` while the tooltip is hidden. Its container opens as a `popover="manual"` element in the top layer of the page. |
+| The default close icon | — | `aria-hidden="true"`. |<PlatformBlock for="React,WebComponents">
+| The anchor | — | `aria-describedby` with the `id` of the tooltip, in `igniteui-webcomponents` 7.3.0 and later. The tooltip generates an `id`, such as `igc-tooltip-1`, when it has none, adds it to the references that the anchor already has, and removes it when it stops describing the anchor. |
+| `button[part="close-button"]` | `button` | `type="button"` and `aria-label="Close"`, in `igniteui-webcomponents` 7.3.0 and later. |</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+The {Platform} Tooltip exposes the following information to assistive technology:
+
+- The `aria-describedby` of the anchor makes the content of the tooltip the accessible description of the anchor. The tooltip renders its content only while it's shown, so the description includes the content only while the tooltip is open.
+- The description of the anchor of a sticky tooltip also includes "Close", the name of the default close button.
+- While the tooltip is hidden, the `igc-tooltip` element stays in the accessibility tree with its role, and its content isn't rendered.
+- A sticky tooltip has the `status` role, which is a live region. With `aria-live="polite"` and `aria-atomic="true"`, assistive technology presents the whole content when the content changes.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+The Blazor Tooltip exposes the following information to assistive technology:
+
+- The tooltip has the `tooltip` role, or the `status` role while it's sticky, which is a live region with `aria-live="polite"` and `aria-atomic="true"`.
+- While the tooltip is hidden, the `igc-tooltip` element stays in the accessibility tree with its role, and its content isn't rendered.
+- To make the tooltip the description of its anchor, give the tooltip an `id` and set `aria-describedby` on the anchor to that `id`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+The Angular Tooltip renders the following roles and attributes:
+
+| Element | Role | Attributes |
+| --- | --- | --- |
+| `[igxTooltip]` | `tooltip`, or `status` while sticky | `id`, `igx-tooltip-0` and up when you don't set one. `aria-hidden="true"` and the `igx-tooltip--hidden` class while the tooltip is closed. |
+| `igx-tooltip-close-button` | — | No role and no `tabindex`. The default `igx-icon` has `aria-hidden="true"`. |
+| `[igxTooltipTarget]` | — | No ARIA attributes. |
+
+The plain-text tooltip that the `tooltip` input of the target creates renders a `span[igxTooltip]` with the same attributes.
+
+The Angular Tooltip exposes the following information to assistive technology:
+
+- The tooltip has the `tooltip` role. While it's sticky, the target sets the `status` role, which is a live region.
+- While the tooltip is closed, `aria-hidden="true"` and the `igx-tooltip--hidden` class remove it from the accessibility tree.
+- The close button has no role and no accessible name, so assistive technology doesn't expose it as a button.
+- The target doesn't refer to the tooltip. Set `aria-describedby` on the target to the `id` of the tooltip, so that the tooltip becomes the accessible description of the target:
+
+```html
+<button igxButton="outlined" [igxTooltipTarget]="saveTooltip" aria-describedby="save-tooltip">Save</button>
+<span #saveTooltip="tooltip" igxTooltip id="save-tooltip">Save the changes to the server</span>
+```
+
+</PlatformBlock>
+
+### Accessibility Compliance
+
+Infragistics documents {ProductName} accessibility support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) topic.
+
+| Criterion | How the component complies |
+| --- | --- |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The tooltip has the `tooltip` role.<PlatformBlock for="React,WebComponents"> With `igniteui-webcomponents` 7.3.0 and later, the anchor refers to it with `aria-describedby`.</PlatformBlock> |
+| [1.4.13 Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus) | Escape hides the tooltip without moving the pointer or the focus, the tooltip stays open while the pointer is over it, and it stays open until a hide trigger fires or the user dismisses it. |<PlatformBlock for="React,WebComponents">
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | With `igniteui-webcomponents` 7.3.0 and later, the tooltip shows when its anchor gets the focus, and the default close button of a sticky tooltip is a focusable `button`. |</PlatformBlock>
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | The tooltip exposes the `tooltip` role, or the `status` role while it's sticky.<PlatformBlock for="React,WebComponents"> The default close button has the name "Close".</PlatformBlock> |
+
+Your responsibilities:
+
+- Don't put critical information or the only way to complete a task in a tooltip, as the [Do/Don't](#dodont) guidance says.
+- Use a focusable anchor, such as a button or an input, so that keyboard users can reach the tooltip.<PlatformBlock for="Angular,Blazor"> Add `focusin` and `focusout` to the triggers, as described in [Triggers](#triggers).</PlatformBlock><PlatformBlock for="Angular,Blazor">
+- Set `aria-describedby` on the anchor to the `id` of the tooltip.</PlatformBlock>
+- Don't place links or other controls in a tooltip that hides when the pointer or the focus leaves the anchor. Make the tooltip sticky, or use a <PlatformBlock for="Angular">[Dialog](../dialog.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Dialog](../notifications/dialog.mdx)</PlatformBlock> instead.
+- When you override the theme colors, keep a contrast ratio of at least 4.5:1 between the text and the background of the tooltip, as [1.4.3 Contrast (Minimum)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum) requires.
 
 ## API References
 
+The {Platform} Tooltip API reference lists the complete API surface for the target platform.
 
-<ApiLink pkg="core" type="Tooltip" /><br />
-<ApiLink pkg="core" type="Avatar" /><br />
-<ApiLink pkg="core" type="Button" /><br />
-<ApiLink pkg="core" type="Icon" /><br />
-<ApiLink pkg="core" type="Card" /><br />
-<ApiLink pkg="core" type="Input" /><br />
-<ApiLink pkg="core" type="Badge" /><br />
-<ApiLink pkg="core" type="List" /><br />
-<ApiLink type="CategoryChart" /><br />
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Tooltip" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink type="TooltipDirective" />
+- <ApiLink type="TooltipTargetDirective" />
+- <ApiLink type="TooltipPositionStrategy" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="tooltip-theme" />
+
+</PlatformBlock>
+
+## Dependencies
+
+The {Platform} Tooltip requires a theme to apply its colors and sizes. See the framework-specific setup in <PlatformBlock for="Angular">[**Getting Started**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Getting Started**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+The Angular Tooltip renders through the [overlay service](../overlay.mdx), and the `igxTooltip` and the `igxTooltipTarget` directives extend the [`igxToggle` and `igxToggleAction`](../toggle.mdx) directives. The default close button uses the `igx-icon` component.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The registration of the `IgcTooltipComponent` also registers the `igc-popover` element that positions the tooltip and the `igc-icon` element of the default close button. Register the components that you use as anchors or place in the tooltip, such as the Button, separately.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registering the modules of the components that you use as anchors or place in the tooltip, such as the `IgbButtonModule`, is optional as well: each component loads its client resources the first time it renders (see [Component Modules](../general-getting-started.mdx#component-modules)).
+
+</PlatformBlock>
 
 ## Additional Resources
 
+The following resources provide more {Platform} Tooltip guidance and project support:
+
+- [Tooltip - Design System Component](https://www.infragistics.com/products/indigo-design/help/components/tooltip)
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
+
+## Related Components
+
+The {Platform} Tooltip describes an element while the user interacts with it. Use these components for messages that aren't tied to an element or that need an action:
+
+- <PlatformBlock for="Angular">[Dialog](../dialog.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Dialog](../notifications/dialog.mdx)</PlatformBlock> - Use Dialog for critical information or a decision that the user must make before continuing.
+- <PlatformBlock for="Angular">[Snackbar](../snackbar.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Snackbar](../notifications/snackbar.mdx)</PlatformBlock> - Use Snackbar for a brief message about an operation, with an optional action.
+- <PlatformBlock for="Angular">[Toast](../toast.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Toast](../notifications/toast.mdx)</PlatformBlock> - Use Toast for a brief message that disappears on its own and needs no action.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="Why does the Tooltip stay open when the pointer moves from the anchor to the tooltip?" indicatorPosition="end">
+    The {Platform} Tooltip listens for `pointerenter` and `pointerleave` on itself while it's open, so the pointer over the tooltip keeps the tooltip open, and the tooltip hides after the hide delay when the pointer leaves it. This lets users read longer content and select its text. To hide the {Platform} Tooltip only through code or the close button, make it sticky.
+  </FaqItem>
+  <FaqItem question="How do I keep the Tooltip open until the user closes it?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Set `sticky` to `true` on the `igxTooltipTarget`. A sticky Angular Tooltip shows a close button, ignores the hide triggers, and closes when the user clicks the close button or presses Escape. Use `closeButtonTemplate` to change the content of the close button.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Set `sticky` on the {Platform} Tooltip. A sticky tooltip shows a close button, ignores the hide triggers, and hides when the user clicks the close button or presses Escape. Place your own element in the `close-button` slot to replace the default close button.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="How do I use one Tooltip for several elements?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Bind the same `igxTooltip` reference to the `igxTooltipTarget` of each element. When the user moves to another target, the Angular Tooltip closes for the previous target and opens next to the new one, with the settings of the new target, such as `hasArrow` and `sticky`.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">The `anchor` of the {Platform} Tooltip takes one element, so show the tooltip from the event handlers of the other elements and pass the element or its `id` to the show method. The element stays the anchor until the {Platform} Tooltip hides, and then the tooltip returns to its `anchor`.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="How do I change the width of the Tooltip?" indicatorPosition="end">
+    <PlatformBlock for="Angular">The plain text from the `tooltip` input of the target wraps at a width of 200 pixels, and an element with the `igxTooltip` directive isn't limited in width. Set the `width` or the `max-width` of the element with the `igxTooltip` directive to size the Angular Tooltip.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">The text from the `message` property of the {Platform} Tooltip wraps at a width of 200 pixels, which the `simple-text` part sets, and the content that you place in the tooltip isn't limited in width. Override the limit with `igc-tooltip::part(simple-text) { max-width: 320px; }`, or set the width of the content.</PlatformBlock>
+  </FaqItem>
+</Faq>
