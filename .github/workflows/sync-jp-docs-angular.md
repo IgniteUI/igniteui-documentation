@@ -329,6 +329,51 @@ translating all new or modified English prose into natural, fluent Japanese.
 - Preserve all existing Japanese translations in unchanged sections of the
   file; only modify the parts that correspond to the English diff.
 
+**Wording rules:**
+
+- Component names. Before translating, read
+  `docs/translation/jp-component-names.md` with `cat`. It lists the Japanese
+  reading of each component name.
+  - When the name refers to the Ignite UI component itself, keep it in
+    English as the English source writes it. Write 「Avatar の `shape`
+    プロパティ」, not 「アバターの…」.
+  - When the word names the UI element as a common noun, write its reading
+    from the list. Write 「アバターを表示するには Avatar コンポーネントを使用します」,
+    not 「Avatar を表示するには…」.
+  - In the H1, put the reading in parentheses right after the English name.
+    Write `# Angular Badge (バッジ) コンポーネントの概要`, not
+    `# Angular Badge コンポーネントの概要`. The list covers the exceptions.
+- Choose the particle after a code span by the role the span plays.
+  - The span is where a value goes (a property, a parameter, a method).
+    Use 「に」. Write 「`height` プロパティに `'300px'` を指定します」.
+  - The span is the means. Use 「で」. Write
+    「`ng add igniteui-angular` でインストールします」.
+  - The span already contains the value and shows the finished code, often
+    after "as in", "like", "for example", or "list X in". Use 「のように」.
+    Write 「`<igx-badge type="success">` のように指定すると」, not
+    「…に指定すると」. With 「に」, the reader looks for another value to
+    put into code that is already complete.
+  - Do not use 「のように」 for the one exact form the reader must write. It
+    reads as one example among many.
+- When alternatives joined by "or" carry different details (a means, a
+  condition, a time), give each alternative its own verb, so each detail
+  stays with its own alternative. Write 「テンプレートから開くか、後から
+  `open()` メソッドで開きます」, not 「テンプレートまたは後から `open()`
+  メソッドで開きます」. The second reads as if both ways use the `open()`
+  method.
+- When the alternatives share the same verb and details, keep 「または」.
+  Write 「`width` または `height` を設定します」.
+- When an English sentence changes, edit the existing Japanese sentence.
+  Do not translate the new English sentence from scratch. Change only the
+  words that the English change affects, and keep the rest as it is.
+  - Keep the terms it uses. If it says 任意 for "optional", keep 任意, even
+    though a fresh translation might choose オプション.
+  - Keep the logical links it has, such as 「ただし」 or a condition with
+    「と」, even when the English does not say them. Drop a link only when
+    the English change removes the relation behind it.
+- For a new sentence, use the terms that the rest of the Japanese file
+  uses for the same English words.
+
 **Special rule for `toc.json` files:**
 
 When the changed file is a TOC JSON file (`toc.json` or
@@ -337,6 +382,10 @@ entries, changed `href`, `new`, `updated`, `header`, or `sortable` values) to
 the corresponding Japanese TOC, and translate only the `name:` values of any
 new or modified entries into Japanese. Do **not** modify `name:` values of
 entries that were not touched by the English diff.
+
+When a `name:` value is a component name, keep it in English as the English
+TOC writes it. Write "Avatar", not "アバター". Translate other names, such as
+"Virtual Drop Down" to "仮想ドロップダウン".
 
 **If creating a new Japanese file:**
 
