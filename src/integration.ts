@@ -84,8 +84,11 @@ const razorComponentTags = {
     name: 'razor-component-tags',
     scopeName: 'razor.component-tags',
     injectTo: ['text.aspnetcorerazor'],
-    // Not inside C# (`List<Product>` in `@code`) or comments.
-    injectionSelector: 'L:text.aspnetcorerazor -source.cs -comment',
+    // Only markup handled by the HTML grammar: not code (`List<Product>` in `@code`), comments,
+    // attribute values, Razor expressions (`@(a <B)`), or `@if`/`@foreach` bodies, whose tags
+    // the razor grammar handles itself.
+    injectionSelector:
+        'L:text.aspnetcorerazor -source -comment -string -meta.expression -meta.structure.razor.csharp.codeblock',
     repository: {},
     patterns: [
         {
