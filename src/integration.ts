@@ -72,26 +72,33 @@ import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-p
 import { igChrome } from 'igniteui-astro-components/chrome';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
-import darkPlus from '@shikijs/themes/dark-plus';
 
 /**
- * `dark-plus`, with Razor components colored as types instead of errors.
+ * Scopes Razor component tags (`<PageTitle>`, `<IgbGrid>`) the way VS Code's C# extension does.
  *
- * Shiki's razor grammar tokenizes markup with the HTML grammar, which scopes any tag
- * outside the HTML spec (`<PageTitle>`, `<IgbGrid>`) as
- * `invalid.illegal.unrecognized-tag`, and `dark-plus` paints `invalid` red. The color
- * is the one the tsx grammar gives React components (`support.class.component`, which
- * the theme styles through its `support.class` rule).
+ * The razor grammar leaves those tags to the HTML grammar, which scopes any tag outside the
+ * HTML spec as `invalid.illegal.unrecognized-tag.html`, and themes style that as an error.
+ * VS Code recolors them from the language server; without one, the grammar has to.
  */
-const componentTagColor = darkPlus.tokenColors?.find(({ scope }) =>
-    (Array.isArray(scope) ? scope : scope?.split(',').map(s => s.trim()))?.includes('support.class'),
-)?.settings.foreground ?? '#4ec9b0';
-
-const codeTheme = {
-    ...darkPlus,
-    tokenColors: [
-        ...(darkPlus.tokenColors ?? []),
-        { scope: 'invalid.illegal.unrecognized-tag', settings: { foreground: componentTagColor } },
+const razorComponentTags = {
+    name: 'razor-component-tags',
+    scopeName: 'razor.component-tags',
+    injectTo: ['text.aspnetcorerazor'],
+    // Not inside C# (`List<Product>` in `@code`) or comments.
+    injectionSelector: 'L:text.aspnetcorerazor -source.cs -comment',
+    repository: {},
+    patterns: [
+        {
+            begin: '(</?)([A-Z][A-Za-z0-9_.]*)(?=[ \\t\\n/>])',
+            beginCaptures: {
+                1: { name: 'punctuation.definition.tag.begin.html' },
+                2: { name: 'entity.name.class.element.component' },
+            },
+            end: '/?>',
+            endCaptures: { 0: { name: 'punctuation.definition.tag.end.html' } },
+            name: 'meta.tag.component.razor',
+            patterns: [{ include: 'text.html.basic#attribute' }],
+        },
     ],
 };
 
@@ -906,7 +913,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             shikiConfig: {
-                theme: codeTheme,
+                theme: 'dark-plus',
+                langs: [razorComponentTags],
                 wrap: true,
             },
             ...(astroExtra as any).markdown,
