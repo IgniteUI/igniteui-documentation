@@ -15,6 +15,18 @@ cd igniteui-documentation
 npm install
 ```
 
+Then build the snippet emitter once. Every dev and build command generates content from
+`docs/xplat`, and that generation stops with `no snippet emitter found` until it has been built:
+
+```bash
+cd docs/xplat/scripts/snippet-emitter
+npm install && npm run build
+```
+
+Rebuild it after pulling a change to `docs/xplat/scripts/snippet-emitter/`. See
+[the snippet emitter README](docs/xplat/scripts/snippet-emitter/README.md) for what it is and for
+the other ways to provide one.
+
 ## Project Structure
 
 ```text
