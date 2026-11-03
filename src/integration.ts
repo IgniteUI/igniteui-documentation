@@ -72,6 +72,28 @@ import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-p
 import { igChrome } from 'igniteui-astro-components/chrome';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+import darkPlus from '@shikijs/themes/dark-plus';
+
+/**
+ * `dark-plus`, with Razor components colored as types instead of errors.
+ *
+ * Shiki's razor grammar tokenizes markup with the HTML grammar, which scopes any tag
+ * outside the HTML spec (`<PageTitle>`, `<IgbGrid>`) as
+ * `invalid.illegal.unrecognized-tag`, and `dark-plus` paints `invalid` red. The color
+ * is the one the tsx grammar gives React components (`support.class.component`, which
+ * the theme styles through its `support.class` rule).
+ */
+const componentTagColor = darkPlus.tokenColors?.find(({ scope }) =>
+    (Array.isArray(scope) ? scope : scope?.split(',').map(s => s.trim()))?.includes('support.class'),
+)?.settings.foreground ?? '#4ec9b0';
+
+const codeTheme = {
+    ...darkPlus,
+    tokenColors: [
+        ...(darkPlus.tokenColors ?? []),
+        { scope: 'invalid.illegal.unrecognized-tag', settings: { foreground: componentTagColor } },
+    ],
+};
 
 /**
  * The Infragistics header/footer, a snapshot of the marketing site's own
@@ -884,7 +906,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             shikiConfig: {
-                theme: 'dark-plus',
+                theme: codeTheme,
                 wrap: true,
             },
             ...(astroExtra as any).markdown,
