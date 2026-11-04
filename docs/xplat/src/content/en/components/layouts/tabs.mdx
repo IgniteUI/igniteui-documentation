@@ -3,7 +3,7 @@ title: "{Platform} Tabs Component"
 description: "The {ProductName} Tabs organizes related content into tabs, shows the content of the selected tab, and adds scroll buttons when the tabs don't fit."
 keywords: "{Platform} Tabs, {ProductName}, tab header, tab panel, scroll buttons"
 license: MIT
-last_updated: "2026-10-13"
+last_updated: "2026-11-03"
 relatedComponents: ["Stepper", "Accordion"]
 mentionedTypes: ["Tabs", "Tab"]
 llms:
@@ -85,7 +85,7 @@ The main elements include tabs and a content area.
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-The `igc-tabs` element renders the header strip and the scroll buttons. Each `igc-tab` renders its own header and content, and the Tabs places the content of all tabs below the header strip:
+The `igc-tabs` element renders the header strip and the scroll buttons. Each `igc-tab` renders its own header and content, and `igc-tabs` places the content of all tabs below the header strip<PlatformBlock for="WebComponents">, or beside it when the tab headers form a column</PlatformBlock>:
 
 ```text
 igc-tabs[role="tablist"]
@@ -106,7 +106,7 @@ igc-tabs[role="tablist"]
          │           └─ slot                           // the content of the tab
          ├─ igc-icon-button[part="end-scroll-button"]   // rendered when the headers overflow
          └─ div[part="selected-indicator"]
-            └─ span                                    // moves under the selected tab header
+            └─ span                                    // follows the selected tab header
 ```
 
 </PlatformBlock>
@@ -467,6 +467,12 @@ The <PlatformBlock for="Angular"><ApiLink pkg="core" type="Tabs" member="tabAlig
 - `end`: each tab header is as wide as its content, and the headers end at the end edge of the Tabs.
 - `justify`: the tab headers stretch to fill the width of the Tabs. Use it for the Content Fit mode.
 
+<PlatformBlock for="Angular,WebComponents">
+
+When the tab headers form a column (see [Header Position](#header-position)), the alignment applies along the height of the {Platform} Tabs: `start` places the tab headers at the top, `center` in the middle, and `end` at the bottom. With `justify`, the tab headers fill the height of the column<PlatformBlock for="WebComponents">, and each tab header gets an equal share of it</PlatformBlock><PlatformBlock for="Angular">: each tab header grows by an equal share of the free height, so a taller tab header stays taller</PlatformBlock>. When the tab headers don't fit, they start at the top and the column scrolls, whatever the alignment.
+
+</PlatformBlock>
+
 <PlatformBlock for="WebComponents">
 
 ```html
@@ -522,6 +528,12 @@ The <PlatformBlock for="Angular"><ApiLink pkg="core" type="Tabs" member="tabAlig
 
 When the tab headers don't fit, the {Platform} Tabs shows a scroll button at each end of the header strip, which is the Fixed mode. A scroll button scrolls the strip to the next tab header that is out of view in its direction, and it's disabled when the strip is scrolled to that end. When the user selects a tab, the Tabs scrolls its header into view.
 
+<PlatformBlock for="Angular,WebComponents">
+
+In a column of tab headers, the scroll buttons appear above and below the headers when the headers don't fit in the height of the {Platform} Tabs. [Header Position](#header-position) describes how the column gets its height.
+
+</PlatformBlock>
+
 <PlatformBlock for="Angular">
 
 <Sample src="/layouts/tabs-responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs in the Content Fit and the Fixed modes" />
@@ -531,6 +543,120 @@ When the tab headers don't fit, the {Platform} Tabs shows a scroll button at eac
 <PlatformBlock for="React,WebComponents,Blazor">
 
 <Sample src="/layouts/tabs/responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs in the Content Fit and the Fixed modes" />
+
+</PlatformBlock>
+
+{/*
+headerPosition: igniteui-react and IgniteUI.Blazor don't have it yet, so its content is gated to
+Angular and WebComponents. When they ship it, add React and Blazor snippets and samples to the
+Header Position section below, add a row to the Blazor Properties table, and add React and Blazor
+to every Angular,WebComponents and WebComponents block about the header position or a column of
+tab headers: Anatomy, Responsiveness, Header Position, Properties, Styling, Keyboard Interaction,
+Screen Readers / ARIA, Accessibility Compliance, API References and FAQ.
+*/}
+
+<PlatformBlock for="Angular,WebComponents">
+
+### Header Position
+
+By default, the {Platform} Tabs shows the tab headers in a row above the content. Set <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> to `start` or `end` to show them in a column beside the content, also known as vertical tabs:
+
+- `top` (default): the tab headers form a row above the content.
+- `start`: the tab headers form a column before the content in the text direction, which is on the left in a left-to-right layout and on the right in a right-to-left layout.
+- `end`: the tab headers form a column after the content in the text direction, which is on the right in a left-to-right layout and on the left in a right-to-left layout.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs header-position="start" style="height: 11rem">
+  <igc-tab label="Profile">
+    <p>Update your name, photo, and contact details.</p>
+  </igc-tab>
+  <igc-tab label="Security">
+    <p>Change your password and sign-in options.</p>
+  </igc-tab>
+  <igc-tab label="Notifications">
+    <p>Choose which updates you receive by email.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+In HTML, set the `header-position` attribute. In code, assign the `headerPosition` property. The `TabsHeaderPosition` type describes its values:
+
+```ts
+import type { TabsHeaderPosition } from 'igniteui-webcomponents';
+
+const tabs = document.querySelector('igc-tabs')!;
+const position: TabsHeaderPosition = 'end';
+tabs.headerPosition = position;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs headerPosition="start" style="height: 11rem">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>Update your name, photo, and contact details.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Security</span></igx-tab-header>
+    <igx-tab-content>Change your password and sign-in options.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Notifications</span></igx-tab-header>
+    <igx-tab-content>Choose which updates you receive by email.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+To bind the position, type the bound value as `IgxTabsHeaderPosition`. `IgxTabsHeaderPosition` is also a constant that holds the three values:
+
+```ts
+import { IgxTabsHeaderPosition } from 'igniteui-angular/tabs';
+
+public position: IgxTabsHeaderPosition = IgxTabsHeaderPosition.end;
+```
+
+```html
+<igx-tabs [headerPosition]="position">...</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular,WebComponents">
+
+In a column of tab headers:
+
+- The tab headers keep their horizontal labels, and each tab header takes the width of the column. The column is as wide as its widest tab header, from 90px to 360px, and a longer label wraps.<PlatformBlock for="WebComponents"> Each tab header keeps the minimum height of a tab header in a row.</PlatformBlock>
+- The selected indicator is beside the selected tab header, on the side that faces the content. The Bootstrap theme has no selected indicator: a border line separates the tab headers from the content, and the selected tab header is open toward the content<PlatformBlock for="Angular">, with its rounded corners on the outer side</PlatformBlock>. In the Indigo theme, the border line of the tab headers is on the side that faces the content.
+- Users move between the tab headers with Arrow Up and Arrow Down. See [Keyboard Interaction](#keyboard-interaction).
+
+Without a height, the {Platform} Tabs grows to fit the column of tab headers or the content of the selected tab, whichever is taller, and shows all the tab headers. To limit the height, set a `height` or a `max-height` on the {Platform} Tabs, or place the component in a container that gives it a height. The content of a taller tab then scrolls inside the component, and when the tab headers don't fit, scroll buttons appear above and below them.<PlatformBlock for="WebComponents"> A `max-height` on a container doesn't limit the {Platform} Tabs, so set it on the component. The mouse wheel and touch don't scroll the tab headers of a column, but the scroll buttons and the keyboard do.</PlatformBlock>
+
+You can change `headerPosition` at run time. The {Platform} Tabs keeps the selected tab and the focus, and doesn't emit <PlatformBlock for="Angular">selection events</PlatformBlock><PlatformBlock for="WebComponents">the change event</PlatformBlock>.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Tab items that drive the router have no `igx-tab-content`, and the `router-outlet` is outside the Angular Tabs, so the routed views don't appear beside a column of tab headers. Place the Tabs and the `router-outlet` side by side in your layout.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-header-position" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs with the tab headers in a column on the start and the end side of the content" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tabs/header-position" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs with the tab headers in a column on the start and the end side of the content" />
 
 </PlatformBlock>
 
@@ -853,7 +979,8 @@ The {Platform} Tabs exposes the following properties. See the API reference for 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | How the tab headers are arranged in the header strip. |
-| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Whether moving the focus to a tab header with the keyboard also selects the tab. |
+<PlatformBlock for="WebComponents">| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | The side of the content on which the tab headers are placed: a row above the content, or a column before or after it. The matching attribute is `header-position`. |
+</PlatformBlock>| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Whether moving the focus to a tab header with the keyboard also selects the tab. |
 | <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" /> | <PlatformBlock for="WebComponents">`IgcTabComponent \| null`</PlatformBlock><PlatformBlock for="React">`IgrTab \| null`</PlatformBlock> | `null` | Read-only. The selected tab. |
 | <ApiLink pkg="core" type="Tabs" member="selected" label="selected" /> | `string` | `''` | Read-only. The `label` of the selected tab, or its `id` when the tab has no `label`. |
 | <ApiLink pkg="core" type="Tabs" member="tabs" label="tabs" /> | <PlatformBlock for="WebComponents">`IgcTabComponent[]`</PlatformBlock><PlatformBlock for="React">`IgrTab[]`</PlatformBlock> | — | Read-only. The tabs that are direct children of the Tabs. |
@@ -881,6 +1008,7 @@ The {Platform} Tabs exposes the following properties. See the API reference for 
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> | `number` | `-1` | The index of the selected tab item. When no tab item is selected and the tab items have content, the Tabs selects the first tab item. Supports two-way binding. |
 | <ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | How the tab headers are arranged in the header strip. |
+| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | The side of the content on which the tab headers are placed: a row above the content, or a column before or after it. |
 | <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Whether moving the focus to a tab header with the keyboard also selects the tab. |
 | <ApiLink pkg="core" type="Tabs" member="disableAnimation" label="disableAnimation" /> | `boolean` | `false` | Whether the content animation on selection change is turned off. |
 | <ApiLink pkg="core" type="Tabs" member="selectedItem" label="selectedItem" /> | `IgxTabItemDirective` | — | Read-only. The selected tab item. |
@@ -956,7 +1084,7 @@ The {Platform} Tabs takes its colors from the theme. Change them with the follow
 | `--ig-tabs-item-active-icon-color` | The icon color of the selected tab header. |
 | `--ig-tabs-item-disabled-color` | The text color of a disabled tab header. |
 | `--ig-tabs-item-disabled-icon-color` | The icon color of a disabled tab header. |
-| `--ig-tabs-indicator-color` | The color of the indicator under the selected tab header. |
+| `--ig-tabs-indicator-color` | The color of the indicator of the selected tab header. |
 | `--ig-tabs-button-background` | The background of the scroll buttons. |
 | `--ig-tabs-button-color` | The icon color of the scroll buttons. |
 | `--ig-tabs-button-hover-background` | The background of a hovered scroll button. |
@@ -969,9 +1097,9 @@ The `igc-tabs` element exposes the following CSS parts:
 
 | Part | What it styles |
 | --- | --- |
-| `start-scroll-button` | The start scroll button. |
-| `end-scroll-button` | The end scroll button. |
-| `selected-indicator` | The indicator under the selected tab header. |
+| `start-scroll-button` | The start scroll button<PlatformBlock for="WebComponents">, which is above the tab headers in a column</PlatformBlock>. |
+| `end-scroll-button` | The end scroll button<PlatformBlock for="WebComponents">, which is below the tab headers in a column</PlatformBlock>. |
+| `selected-indicator` | The indicator of the selected tab header. |
 
 The `igc-tab` element exposes the following CSS parts:
 
@@ -1150,18 +1278,26 @@ The header strip of the {Platform} Tabs is a single tab stop: only the selected 
 | Key | Action |
 | --- | --- |
 | <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves the focus out of the header strip, to the content of the selected tab or to the previous focusable element. The Tabs doesn't handle these keys. |
-| <kbd>Arrow Right</kbd> | Moves the focus to the next enabled tab header, and from the last one to the first. In a right-to-left layout, moves it to the previous one. With the `auto` activation, also selects the tab. |
-| <kbd>Arrow Left</kbd> | Moves the focus to the previous enabled tab header, and from the first one to the last. In a right-to-left layout, moves it to the next one. With the `auto` activation, also selects the tab. |
-| <kbd>Home</kbd> | Moves the focus to the first enabled tab header. With the `auto` activation, also selects the tab. |
+| <kbd>Arrow Right</kbd> | Moves the focus to the next enabled tab header, and from the last one to the first. In a right-to-left layout, moves it to the previous one. With the `auto` activation, also selects the tab.<PlatformBlock for="WebComponents"> Does nothing in a column of tab headers.</PlatformBlock> |
+| <kbd>Arrow Left</kbd> | Moves the focus to the previous enabled tab header, and from the first one to the last. In a right-to-left layout, moves it to the next one. With the `auto` activation, also selects the tab.<PlatformBlock for="WebComponents"> Does nothing in a column of tab headers.</PlatformBlock> |
+<PlatformBlock for="WebComponents">| <kbd>Arrow Down</kbd> | In a column of tab headers, moves the focus to the next enabled tab header, and from the last one to the first. The direction is the same in a right-to-left layout. With the `auto` activation, also selects the tab. |
+| <kbd>Arrow Up</kbd> | In a column of tab headers, moves the focus to the previous enabled tab header, and from the first one to the last. The direction is the same in a right-to-left layout. With the `auto` activation, also selects the tab. |
+</PlatformBlock>| <kbd>Home</kbd> | Moves the focus to the first enabled tab header. With the `auto` activation, also selects the tab. |
 | <kbd>End</kbd> | Moves the focus to the last enabled tab header. With the `auto` activation, also selects the tab. |
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | Selects the focused tab. |
 
 The {Platform} Tabs handles these keys on `keydown`:
 
-- It prevents their default action, so the arrow keys, Home, End, and Space don't scroll the page.
+- It prevents their default action, so the arrow keys that move the focus, Home, End, and Space don't scroll the page.
 - A key that you hold doesn't repeat its action.
 - A key that you press together with Shift, Ctrl, Alt, or Meta does nothing.
 - The Tabs scrolls the header that receives the focus into view.
+
+<PlatformBlock for="WebComponents">
+
+The {Platform} Tabs doesn't handle Arrow Up and Arrow Down in a row of tab headers, or Arrow Right and Arrow Left in a column, so these keys keep their default action, for example scrolling the page.
+
+</PlatformBlock>
 
 With a pointer, a click on a tab header focuses and selects the tab. A disabled tab ignores clicks. The scroll buttons aren't in the tab order.
 
@@ -1174,11 +1310,15 @@ Only the selected tab header of the Angular Tabs is in the tab order, so the hea
 | Key | Action |
 | --- | --- |
 | <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves the focus out of the header strip, to the content of the selected tab or to the previous focusable element. The Tabs doesn't handle these keys. |
-| <kbd>Arrow Right</kbd> | Moves the focus to the next enabled tab header, and from the last one to the first. In a right-to-left layout, moves it to the previous one. With the `auto` activation, also selects the tab. |
-| <kbd>Arrow Left</kbd> | Moves the focus to the previous enabled tab header, and from the first one to the last. In a right-to-left layout, moves it to the next one. With the `auto` activation, also selects the tab. |
+| <kbd>Arrow Right</kbd> | Moves the focus to the next enabled tab header, and from the last one to the first. In a right-to-left layout, moves it to the previous one. With the `auto` activation, also selects the tab. Does nothing in a column of tab headers. |
+| <kbd>Arrow Left</kbd> | Moves the focus to the previous enabled tab header, and from the first one to the last. In a right-to-left layout, moves it to the next one. With the `auto` activation, also selects the tab. Does nothing in a column of tab headers. |
+| <kbd>Arrow Down</kbd> | In a column of tab headers, moves the focus to the next enabled tab header, and from the last one to the first. The direction is the same in a right-to-left layout. With the `auto` activation, also selects the tab. |
+| <kbd>Arrow Up</kbd> | In a column of tab headers, moves the focus to the previous enabled tab header, and from the first one to the last. The direction is the same in a right-to-left layout. With the `auto` activation, also selects the tab. |
 | <kbd>Home</kbd> | Moves the focus to the first enabled tab header. With the `auto` activation, also selects the tab. |
 | <kbd>End</kbd> | Moves the focus to the last enabled tab header. With the `auto` activation, also selects the tab. |
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | With the `manual` activation, selects the focused tab by clicking its header. |
+
+The Angular Tabs doesn't handle Arrow Up and Arrow Down in a row of tab headers, or Arrow Right and Arrow Left in a column, so these keys keep their default action, for example scrolling the page.
 
 With a pointer, a click on a tab header selects the tab when the tab item has content. A disabled tab header ignores clicks. The scroll buttons aren't in the tab order.
 
@@ -1192,7 +1332,7 @@ The {Platform} Tabs renders the following roles and attributes:
 
 | Element | Role | Attributes |
 | --- | --- | --- |
-| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`, set through element internals |
+| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`<PlatformBlock for="WebComponents">, or `aria-orientation="vertical"` in a column of tab headers</PlatformBlock>, set through element internals |
 | The `tab-header` part of each tab | `tab` | `aria-selected`, `aria-disabled`, `aria-controls` that points to the content of the tab, `aria-posinset`, and `aria-setsize` |
 | The `tab-body` part of each tab | `tabpanel` | `aria-labelledby` that points to the header of the tab |
 
@@ -1211,7 +1351,7 @@ The Angular Tabs renders the following roles and attributes:
 
 | Element | Role | Attributes |
 | --- | --- | --- |
-| The `div.igx-tabs-header__wrapper` element in the header | `tablist` | — |
+| The `div.igx-tabs-header__wrapper` element in the header | `tablist` | `aria-orientation="horizontal"`, or `aria-orientation="vertical"` in a column of tab headers |
 | `igx-tab-header` | `tab` | `aria-selected`, `aria-disabled`, and, when the tab item has content, an `id` and `aria-controls` that points to the content |
 | `igx-tab-content` | `tabpanel` | `aria-labelledby` that points to the header of the tab item |
 
@@ -1231,7 +1371,7 @@ Infragistics documents {ProductName} accessibility support for Section 508 and W
 | Criterion | How the component complies |
 | --- | --- |
 | [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | The `tablist`, `tab`, and `tabpanel` roles expose the structure, and each tab panel is labeled by its tab header through `aria-labelledby`. |
-| [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | In the Material, Fluent, and Indigo themes, the selected tab header shows an indicator line under it, so the selection doesn't depend on color alone. |
+| [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | In the Material, Fluent, and Indigo themes, the selected tab header shows an indicator line under it<PlatformBlock for="Angular,WebComponents">, or beside it in a column of tab headers</PlatformBlock>, so the selection doesn't depend on color alone. |
 | [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | The arrow keys, Home, and End move between the tab headers, and Enter and Space select the focused tab<PlatformBlock for="Angular"> with the `manual` activation</PlatformBlock>. |
 | [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | The Tabs doesn't handle the Tab key, so Tab and Shift + Tab move the focus out of the header strip. |
 | [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | The header strip is a single tab stop, followed by the content of the selected tab. |
@@ -1252,13 +1392,15 @@ The {Platform} Tabs API reference lists the complete API surface for the target 
 <PlatformBlock for="React,WebComponents,Blazor">
 
 - <ApiLink pkg="core" type="Tabs" />
-- <ApiLink pkg="core" type="Tab" />
+<PlatformBlock for="WebComponents">- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="Tabs.headerPosition" />
+</PlatformBlock>- <ApiLink pkg="core" type="Tab" />
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
 - <ApiLink pkg="core" type="Tabs" label="IgxTabsComponent" />
+- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="IgxTabsComponent.headerPosition" />
 - <ApiLink pkg="core" type="TabItem" label="IgxTabItemComponent" />
 - <ApiLink pkg="core" type="TabHeader" label="IgxTabHeaderComponent" />
 - <ApiLink pkg="core" type="TabContent" label="IgxTabContentComponent" />
@@ -1323,4 +1465,7 @@ These questions cover common {Platform} Tabs setup, accessibility, and usage sce
   <FaqItem question="Should I use the Tabs for a checkout or another step-by-step process?" indicatorPosition="end">
     No. The {Platform} Tabs organizes related information that users can open in any order, and it doesn't communicate an order of steps. Use the {Platform} Stepper for a sequential process, such as a checkout or a configuration wizard.
   </FaqItem>
+  <PlatformBlock for="Angular,WebComponents"><FaqItem question="How do I create vertical tabs?" indicatorPosition="end">
+    Set the `headerPosition` property<PlatformBlock for="WebComponents"> (the `header-position` attribute in HTML)</PlatformBlock> of the {Platform} Tabs to `start` or `end` to show the tab headers in a column before or after the content. In a column, users move between the tab headers with Arrow Up and Arrow Down. Give the {Platform} Tabs a height to keep its size fixed; when the tab headers don't fit, scroll buttons appear above and below them.
+  </FaqItem></PlatformBlock>
 </Faq>
