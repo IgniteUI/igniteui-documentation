@@ -1,0 +1,357 @@
+---
+title: "{Platform} 右から左 (RTL) サポート"
+description: "{ProductName} コンポーネントは、HTML の dir 属性によって右から左 (RTL) のレイアウトをサポートし、両方の方向に同じテーマを使用します。"
+keywords: "{ProductName}, Infragistics, RTL, 右から左, dir 属性, 反転, キーボード ナビゲーション"
+license: MIT
+last_updated: "2026-10-27"
+platformType: web-only
+mentionedTypes: ["Icon"]
+_language: ja
+llms:
+  description: "{ProductName} コンポーネントは右から左 (RTL) のレイアウトをサポートします。ページに dir=\"rtl\" を設定すると、コンポーネントのレイアウトとキーボード操作の大部分が反転します。RTL 用の別のテーマは必要ありません。"
+---
+{/*This topic serves Angular, React, Web Components and Blazor. The Angular doc set generates its copy from this file, so the Angular path is listed in docs/angular/src/content/en/.gitignore. Never write a literal platform block tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# 右から左 (RTL) サポート
+
+{ProductName} コンポーネントは右から左 (RTL) のレイアウトをサポートします。ページに `dir="rtl"` を設定すると、コンポーネントのレイアウトとキーボード操作の大部分が反転します。RTL 用の別のテーマは必要ありません。
+
+## 概要
+
+{ProductName} は、標準の HTML `dir` 属性から方向を取得します。方向を設定するプロパティを持つコンポーネントはなく、テーマの RTL 版もありません。既に読み込んでいるテーマが両方の方向に対応します。
+
+| レイヤー | 方向に従う仕組み |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **スタイル** | コンポーネントのスタイルは、`margin-inline-start` などの CSS 論理プロパティと方向セレクターを使用するため、方向が変わるとすぐにレイアウトが反転します。 |
+| **操作** | Carousel、Slider、Stepper、Tabs など、水平方向のキーボード操作またはポインター操作を持つコンポーネントは、ユーザーが操作したときに方向を読み取ります。RTL では、<kbd>Arrow Left</kbd> キーと <kbd>Arrow Right</kbd> キーが読み順の方向に従います。 |
+
+一部のコンポーネントは、方向に部分的にしか従いません。{Platform} での該当コンポーネントは、[既知の制限](#既知の制限)に記載されています。
+
+## はじめる前に
+
+**RTL はレイアウトを反転するもので、テキストを翻訳するものではありません。** `dir` 属性が変更するのは読み順の方向のみです。<PlatformBlock for="Angular">コンポーネントの文字列を別の言語で表示するには、[ローカライゼーション](../general/localization.mdx)を参照してください。</PlatformBlock><PlatformBlock for="React,WebComponents">コンポーネントの文字列を別の言語で表示するには、[ローカライゼーション](../localization.mdx)を参照してください。</PlatformBlock>
+
+**方向は 1 か所で設定します。** アプリケーション全体の場合は、`body` 要素に `dir="rtl"` を設定します。ページの一部のみを反転するには、[ページの一部に RTL を適用する](#ページの一部に-rtl-を適用する)で説明しているように、代わりにコンテナーに設定します。
+
+**独自のコンテンツにも論理プロパティが必要です。** コンポーネントは自動的に反転しますが、`margin-left` などの物理プロパティで記述したスタイルは、配置した位置に留まります。[RTL 向けに独自のコンテンツのスタイルを設定する](#rtl-向けに独自のコンテンツのスタイルを設定する)を参照してください。
+
+## 次のステップ
+
+- ホスト ページで、[アプリケーション全体で RTL を有効にします](#アプリケーション全体で-rtl-を有効にする)。
+- ユーザーが言語を変更したときに、[実行時に方向を切り替えます](#実行時に方向を切り替える)。
+- アプリケーションで使用するコンポーネントの[既知の制限](#既知の制限)を確認します。
+
+## 利用可能なツール
+
+| ツール | 場所 | 機能 |
+| -------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `dir` 属性 | 任意の HTML 要素 (通常は `body`) | 要素とその内部のすべての方向を設定します。`rtl`、`ltr`、`auto` を受け付けます。 |
+| CSS 論理プロパティ | 独自のスタイルシート | `padding-left` の代わりに `padding-inline-start` を使用するなど、読み順の方向を基準にコンテンツを配置します。 |
+| `:dir(rtl)` 擬似クラス | 独自のスタイルシート | `dir` 属性が要素自体と祖先要素のどちらにある場合でも、方向が右から左である要素に一致します。 |
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+方向を示すアイコン用に、Icon と Icon Button には <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> プロパティもあります。[方向を示す Icon を反転する](#方向を示す-icon-を反転する)を参照してください。
+
+</PlatformBlock>
+
+## 一般的なワークフロー
+
+### アプリケーション全体で RTL を有効にする
+
+ホスト ページの `body` 要素に `dir="rtl"` を設定します。ページ上のすべての {ProductName} コンポーネントが右から左にレンダリングされます。
+
+<PlatformBlock for="Angular">
+
+`src/index.html` で属性を設定します:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+アプリケーションの `index.html` で属性を設定します:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <!-- application content -->
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+ホスト ページの `body` 要素に属性を設定します。ホスト ページは、Blazor Web App では `Components/App.razor`、Blazor WebAssembly アプリでは `wwwroot/index.html`、Blazor Server アプリでは `Pages/_Host.cshtml` です。Blazor Web App の場合:
+
+```razor
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <HeadOutlet />
+</head>
+<body dir="rtl">
+    <Routes />
+    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>
+```
+
+</PlatformBlock>
+
+### 実行時に方向を切り替える
+
+ユーザーが別の言語を選択したときなど、アプリケーションの実行中に方向を変更するには、`body` 要素の `dir` 属性を設定します。コンポーネントのスタイルはすぐに更新され、コンポーネントは次にユーザーが操作したときに新しい方向を読み取ります。
+
+<PlatformBlock for="Angular">
+
+```ts
+import { Component, DOCUMENT, inject } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html'
+})
+export class AppComponent {
+    private readonly document = inject(DOCUMENT);
+
+    public setDirection(dir: 'ltr' | 'rtl') {
+        this.document.body.dir = dir;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+JavaScript 相互運用を使用して属性を設定します:
+
+```razor
+@inject IJSRuntime JS
+
+<button @onclick='() => SetDirection("rtl")'>Right to left</button>
+<button @onclick='() => SetDirection("ltr")'>Left to right</button>
+
+@code {
+    private async Task SetDirection(string dir)
+    {
+        await JS.InvokeVoidAsync("document.body.setAttribute", "dir", dir);
+    }
+}
+```
+
+</PlatformBlock>
+
+### ページの一部に RTL を適用する
+
+アラビア語やヘブライ語のコンテンツを含むパネルなど、ページの一部のみを反転するには、その部分を含む要素に `dir="rtl"` を設定し、`body` は左から右のままにします。要素内のコンポーネントは、その要素の方向に従います。
+
+次のサンプルでは、`dir="rtl"` を設定したコンテナーに Calendar を配置しています。**Change Directionality** を選択すると、コンテナーの方向が右から左と左から右の間で切り替わります。
+
+<PlatformBlock for="Angular">
+
+<Sample src="/scheduling/calendar-rtl" showThemePicker height={600} alt="右から左のコンテナー内の {Platform} Calendar と、方向を切り替えるボタン" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/scheduling/calendar/rtl" showThemePicker height={600} alt="右から左のコンテナー内の {Platform} Calendar と、方向を切り替えるボタン" />
+
+Carousel と Navigation Drawer のナビゲーション ボタン、インジケーター、スライド方向が反転するのは、`dir="rtl"` が `body` 要素またはコンポーネント自体に設定されている場合のみです。右から左のコンテナー内では、これら 2 つのコンポーネントにも `dir="rtl"` を設定します:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<div dir="rtl">
+  <igc-carousel dir="rtl"></igc-carousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<div dir="rtl">
+  <IgrCarousel dir="rtl"></IgrCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<div dir="rtl">
+    <IgbCarousel dir="rtl"></IgbCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 方向を示す Icon を反転する
+
+ほとんどのアイコンはどちらの方向でも同じように見えるため、アイコンは自動的には反転しません。矢印など、読み順の方向を指すアイコンの場合は、<ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> を設定すると、右から左のレイアウトでアイコンが水平方向に反転します。[Icon](../layouts/icon.mdx#反転-mirrored) と [Icon Button](../inputs/icon-button.mdx#mirrored-ミラー化済み) がこれをサポートしています。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 方向を示す Icon を反転する
+
+アイコンは自動的には反転せず、Angular Icon にはアイコンを反転するオプションがありません。右から左のレイアウトで方向を示すアイコンには、`arrow_forward` の代わりに `arrow_back` など、読み順の方向を指すアイコンを使用します。
+
+</PlatformBlock>
+
+### RTL 向けに独自のコンテンツのスタイルを設定する
+
+独自のコンテンツのスタイルを CSS 論理プロパティで記述すると、コンポーネントと一緒に反転します。一方の方向にのみ適用するルールには、`:dir(rtl)` 擬似クラスを使用します:
+
+```css
+.toolbar {
+  padding-inline-start: 16px; /* left in LTR, right in RTL */
+}
+
+.next-icon:dir(rtl) {
+  transform: scaleX(-1);
+}
+```
+
+## 既知の制限
+
+{ProductName} では、次のコンポーネントは方向に部分的にしか従いません。
+
+<PlatformBlock for="Angular">
+
+| コンポーネント | 方向に従わない部分 |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Grid](../grid/grid.mdx)、[Tree Grid](../treegrid/tree-grid.mdx)、[Hierarchical Grid](../hierarchicalgrid/hierarchical-grid.mdx)、[Pivot Grid](../pivotgrid/pivot-grid.mdx) | レイアウトと水平スクロールは方向に従いますが、キーボード ナビゲーションは従いません。<kbd>Arrow Left</kbd> はフォーカスを前の列に、<kbd>Arrow Right</kbd> は次の列に移動するため、RTL では <kbd>Arrow Left</kbd> でフォーカスが右に移動します。 |
+| [Calendar](../calendar.mdx) ([Date Picker](../date-picker.mdx) と [Date Range Picker](../date-range-picker.mdx) のカレンダーを含む) | どちらの方向でも、<kbd>Arrow Left</kbd> は前日に、<kbd>Arrow Right</kbd> は翌日に移動します。 |
+| [Tree](../tree.mdx) | どちらの方向でも、<kbd>Arrow Left</kbd> はノードを折りたたむか親ノードに移動し、<kbd>Arrow Right</kbd> はノードを展開します。 |
+| [Icon](../layouts/icon.mdx) | アイコンを反転するオプションがありません。[方向を示す Icon を反転する](#方向を示す-icon-を反転する)を参照してください。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| コンポーネント | 方向に従わない部分 |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Grid](../grids/data-grid.mdx)、[Tree Grid](../grids/tree-grid/overview.mdx)、[Hierarchical Grid](../grids/hierarchical-grid/overview.mdx)、[Pivot Grid](../grids/pivot-grid/overview.mdx) | レイアウトと水平スクロールは方向に従いますが、キーボード ナビゲーションは従いません。<kbd>Arrow Left</kbd> はフォーカスを前の列に、<kbd>Arrow Right</kbd> は次の列に移動するため、RTL では <kbd>Arrow Left</kbd> でフォーカスが右に移動します。 |
+| [Calendar](../scheduling/calendar.mdx) ([Date Picker](../scheduling/date-picker.mdx) と [Date Range Picker](../scheduling/date-range-picker.mdx) のカレンダーを含む) | どちらの方向でも、<kbd>Arrow Left</kbd> は前日に、<kbd>Arrow Right</kbd> は翌日に移動します。 |
+| [Carousel](../layouts/carousel.mdx)、[Navigation Drawer](../menus/navigation-drawer.mdx) | ナビゲーション ボタン、インジケーター、スライド方向が反転するのは、`dir="rtl"` が `body` 要素またはコンポーネント自体に設定されている場合のみで、`html` 要素やその他の祖先要素に設定されている場合は反転しません。 |
+
+</PlatformBlock>
+
+コンポーネントがこのページの説明どおりに方向に従わない場合は、<a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">{ProductName} の Issue トラッカー</a>で報告してください。
+
+## トラブルシューティング
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Carousel の矢印が逆方向を指すのはなぜですか?
+
+Carousel と Navigation Drawer は、`body` 要素の方向と自身の `dir` 属性を組み合わせます。`dir="rtl"` が `html` 要素にのみ設定されている場合は左から右にレンダリングされ、`body` 要素とコンポーネントの両方に設定されている場合は 2 つが打ち消し合います。`dir="rtl"` は 1 か所で設定してください。ページ全体の場合は `body` 要素に、右から左のコンテナー内のコンポーネントの場合はそのコンポーネントに設定します。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### `$direction: rtl` のコンパイルが失敗するのはなぜですか?
+
+`core()` ミックスイン (バージョン 13.1.0 より前は `igx-core()`) には、`$direction` パラメーターがなくなりました。通常のテーマが両方の方向をサポートするため、バージョン 13.2.0 でこのパラメーターは RTL 専用の `*-rtl.css` テーマ ファイルとともに削除されました。`@include igx-core($direction: rtl)` または `@include core($direction: rtl)` を `@include core()` に置き換え、通常のテーマ ファイルを使用し、[アプリケーション全体で RTL を有効にする](#アプリケーション全体で-rtl-を有効にする)で説明しているように `dir` 属性を設定してください。`ng update` を実行して 13.2.0 以降に更新すると、これら 2 つの変更が Sass に自動的に適用されます。
+
+### 実行時の方向の変更にコンポーネントが従わないのはなぜですか?
+
+21.2.0 より前のバージョンでは、アプリケーションの起動時に `body` 要素または `html` 要素から方向を 1 回だけ読み取ります。これらのバージョンでは、アプリケーションがブートストラップされる前に `dir` 属性を設定するか、21.2.0 以降に更新してください。21.2.0 以降では、ユーザーが操作するたびにコンポーネントが方向を読み取ります。
+
+</PlatformBlock>
+
+### RTL で独自のコンテンツが左側に残るのはなぜですか?
+
+`margin-left` や `float: left` などの物理プロパティを使用するスタイルは反転しません。[RTL 向けに独自のコンテンツのスタイルを設定する](#rtl-向けに独自のコンテンツのスタイルを設定する)で示しているように、`margin-inline-start` や `float: inline-start` などの論理プロパティに置き換えてください。
+
+## その他のリソース
+
+- [アクセシビリティ準拠](accessibility-compliance.mdx) — {ProductName} が対象とするアクセシビリティ標準。
+- <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/dir" target="_blank" rel="noopener noreferrer">MDN の `dir` 属性</a> — 値と継承。
+- <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values" target="_blank" rel="noopener noreferrer">MDN の CSS 論理プロパティと値</a> — 方向に合わせて反転するプロパティ。
+- <a href="https://www.w3.org/International/questions/qa-html-dir" target="_blank" rel="noopener noreferrer">HTML の構造マークアップと右から左のテキスト (W3C)</a> — ドキュメント内で方向を設定する場所。
+
+## FAQ
+
+<Faq>
+<FaqItem question="{ProductName} で RTL を有効にするにはどうすればよいですか?" indicatorPosition="end">
+ホスト ページの `body` 要素に `dir="rtl"` を設定します。{ProductName} コンポーネントは `dir` 属性から方向を取得するため、コンポーネントの設定や追加のパッケージは必要ありません。ページの一部のみを反転するには、代わりにコンテナー要素に属性を設定します。
+</FaqItem>
+
+<FaqItem question="{ProductName} で RTL を使用するには別のテーマが必要ですか?" indicatorPosition="end">
+いいえ。{ProductName} のテーマは両方の方向をサポートしており、左から右のページと右から左のページの両方に同じテーマ CSS を使用できます。<PlatformBlock for="Angular">RTL 専用の `*-rtl.css` テーマ ファイルは、バージョン 13.2.0 で削除されました。</PlatformBlock>
+</FaqItem>
+
+<FaqItem question="ページを再読み込みせずに LTR と RTL を切り替えることはできますか?" indicatorPosition="end">
+はい。`body` 要素、またはコンポーネントを含むコンテナーの `dir` 属性を変更します。{ProductName} コンポーネントのスタイルはすぐに更新され、コンポーネントは次にユーザーが操作したときに新しい方向を読み取ります。
+</FaqItem>
+
+<FaqItem question="{ProductName} のグリッドは RTL をサポートしていますか?" indicatorPosition="end">
+一部サポートしています。Grid、Tree Grid、Hierarchical Grid、Pivot Grid は、ページの方向に合わせて列を配置し、水平方向にスクロールしますが、矢印キーによるナビゲーションは反転しません。RTL では、Arrow Left でフォーカスが前の列 (右側にある列) に移動します。
+</FaqItem>
+
+<FaqItem question="RTL によって {ProductName} コンポーネントのテキストは翻訳されますか?" indicatorPosition="end">
+いいえ。`dir` 属性が変更するのは、読み順の方向とレイアウトのみです。組み込みのコンポーネント文字列の翻訳は、別のローカライゼーション手順です。
+</FaqItem>
+</Faq>
