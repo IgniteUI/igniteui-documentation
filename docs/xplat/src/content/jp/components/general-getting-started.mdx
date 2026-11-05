@@ -486,17 +486,19 @@ yarn add {PackageSpreadsheet} {PackageCore}
 
 このトピックでは、Visual Studio および Ignite UI for Blazor を使用して Blazor Web App を作成するための手順を説明します。[スタンドアロンの Blazor WebAssembly アプリ](#スタンドアロンの-blazor-webassembly-アプリ)と[既存の Blazor Server アプリ](#既存の-blazor-server-アプリ)での違いは最後に記載しています。
 
-Blazor Hybrid アプリについては [.NET MAUI を使用して Blazor Hybrid アプリを構築する](./general-getting-started-blazor-maui.mdx)、MIT ライセンスのパッケージについては[オープン ソース ライブラリの概要](./general-getting-started-oss.mdx)を参照してください。
+MIT ライセンスのパッケージについては[オープン ソース ライブラリの概要](./general-getting-started-oss.mdx)、Blazor Hybrid アプリについては [.NET MAUI を使用して Blazor Hybrid アプリを構築する](./general-getting-started-blazor-maui.mdx)を参照してください。
 
 ### 新しい Blazor Web App プロジェクトの作成
 
-Microsoft の [ASP.NET Core Blazor 用のツール](https://learn.microsoft.com/aspnet/core/blazor/tooling)では Visual Studio、Visual Studio Code、または .NET CLI で Blazor プロジェクトを作成する方法を、[ASP.NET Core を開始する](https://learn.microsoft.com/aspnet/core/get-started)では .NET CLI で初めての Blazor Web App を作成する手順を説明しています。以下の手順では Visual Studio を使用します。
+Microsoft の [Blazor チュートリアル](https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro)では、Visual Studio Code で初めての Blazor アプリを作成する手順を説明しており、Visual Studio と .NET CLI での手順へのリンクも掲載されています。以下の手順では、**ASP.NET および Web 開発** ワークロードを含む Visual Studio を使用します。
 
 Ignite UI for Blazor を既存のアプリケーションに追加する場合は、[**Ignite UI for Blazor のインストール**](#ignite-ui-for-blazor-のインストール) セクションに移動します。
 
 <DocsAside type="info" title="情報">
 .NET 8 以降、**Blazor Web App** テンプレートが **Blazor Server App** テンプレートに代わります。サーバー上で実行するアプリでは、**Server** インタラクティブ レンダー モードを選択します。
 </DocsAside>
+
+#### Visual Studio の使用
 
 Visual Studio を起動し、開始ページで **[新しいプロジェクトの作成]** をクリックし、**Blazor Web App** テンプレートを選択して、**[次へ]** をクリックします。
 
@@ -506,11 +508,18 @@ Visual Studio を起動し、開始ページで **[新しいプロジェクト�
 
 <Image src={newBlazorProjectConfiguringWebApp} alt="new-blazor-project-configuring-web-app" />
 
-**Interactive render mode** を選択します。静的サーバー側レンダリングは現在サポートされていないため、Ignite UI for Blazor コンポーネントには **Server**、**WebAssembly**、または **Auto** が必要です。**Interactivity location** では、レンダー モードを設定する場所を指定します。**Per page/component** (デフォルト) では各ページで設定し (例: `@rendermode InteractiveServer`)、**Global** では **Components/App.razor** で一度だけ設定します。その他のプロジェクト オプションを指定し、**[作成]** をクリックします。
+**[追加情報]** ダイアログで次の項目を設定します。
+
+- **Interactive render mode**: Server、WebAssembly、または Auto。静的サーバー側レンダリングは現在サポートされていないため、Ignite UI for Blazor コンポーネントにはインタラクティブ レンダー モードが必要です。
+- **Interactivity location**: Per page/component (デフォルト) では各ページでレンダー モードを設定し (例: `@rendermode InteractiveServer`)、Global では **Components/App.razor** で一度だけ設定します。
+
+その他のプロジェクト オプションを指定し、**[作成]** をクリックします。
 
 <Image src={newBlazorProjectWebAppInfo} alt="new-blazor-project-web-app-info" />
 
-または、.NET CLI でプロジェクトを作成します。この例では Server レンダー モードをグローバルに設定します。
+#### .NET CLI の使用
+
+`dotnet new blazor` コマンドでプロジェクトを作成します。この例では Server レンダー モードをグローバルに設定します。
 
 ```cmd
 dotnet new blazor -o MyBlazorApp --interactivity Server --all-interactive
@@ -518,9 +527,9 @@ dotnet new blazor -o MyBlazorApp --interactivity Server --all-interactive
 
 ### Ignite UI for Blazor のインストール
 
-Ignite UI for Blazor は、NuGet パッケージで提供されます。Blazor アプリケーションで Ignite UI for Blazor コンポーネントを使用するには、最初に適切な NuGet パッケージをインストールする必要があります。
+Ignite UI for Blazor は、NuGet パッケージで提供されます。[Infragistics NuGet フィード](./general-nuget-feed.mdx)から **IgniteUI.Blazor** をインストールするか、[NuGet.org](https://www.nuget.org/packages/IgniteUI.Blazor.Trial) から **IgniteUI.Blazor.Trial** をインストールします。
 
-Visual Studio で、**[ツール]** → **[NuGet パッケージ マネージャー]** → **[ソリューションの NuGet パッケージの管理]** を選択して、NuGet パッケージ マネージャーを開きます。パッケージをインストールするすべての対象プロジェクトを選択します。ライセンスをお持ちの場合は [Infragistics プライベート NuGet フィード](./general-nuget-feed.mdx)から **IgniteUI.Blazor** NuGet パッケージを検索してインストールし、トライアルの場合は [NuGet.org](https://www.nuget.org/packages/IgniteUI.Blazor.Trial) から **IgniteUI.Blazor.Trial** NuGet パッケージを検索してインストールします。
+WebAssembly または Auto レンダー モードの Blazor Web App では、サーバー プロジェクトはプロジェクト参照を通じてパッケージを取得するため、クライアント プロジェクトにインストールするだけで十分です。
 
 NuGet を使用した Ignite UI for Blazor のインストールの詳細については、[Ignite UI for Blazor のインストール](./general-installing-blazor.mdx) トピックを参照してください。
 
