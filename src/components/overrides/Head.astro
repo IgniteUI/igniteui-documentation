@@ -1,9 +1,16 @@
 ---
 /**
- * Head.astro — JSON-LD structured data injection
+ * Head.astro — canonical, hreflang and JSON-LD for every documentation page
  *
- * Renders a single JSON-LD `<script type="application/ld+json">` block inside
- * the document `<head>` for every documentation page using a `@graph` array:
+ * Renders, inside the document `<head>`:
+ *
+ *   • `<link rel="canonical">` — the page's own clean URL (no `.html`), the
+ *     same URL the sitemap lists.
+ *   • `<link rel="alternate" hreflang>` — this page and the same page in the
+ *     other language's docs (en ↔ ja), plus `x-default` → English. Only when the
+ *     other language's sitemap lists the page (see src/lib/language-alternates.ts).
+ *
+ * and a single JSON-LD `<script type="application/ld+json">` block using a `@graph` array:
  *
  *   • TechArticle    – headline, description, canonical URL, language,
  *                       author and publisher of the page.
@@ -14,8 +21,16 @@
  */
 import { Schema } from 'astro-seo-schema';
 import { sidebar as sidebarData, title as siteTitle, navLang } from 'virtual:docs-template/site-meta';
+import { platform as platformKey } from 'virtual:docs-template/nav-html';
 import { getBreadcrumb } from 'igniteui-astro-components/lib/sidebar/helpers';
 import type { SidebarEntry } from 'igniteui-astro-components/lib/sidebar/types';
+import {
+  HREFLANG_BY_NAV_LANG,
+  hreflangLinks,
+  loadLanguageAlternates,
+  pagePathFromSlug,
+  pageUrl as urlFor,
+} from '../../lib/language-alternates.ts';
 
 export interface Props {
   title?: string | null;
@@ -25,7 +40,21 @@ export interface Props {
 
 const { title, description, currentSlug = '' } = Astro.props;
 
-const pageUrl = Astro.url.href;
+// The served URL. Astro.url ends in `.html` (build.format 'file'), which the
+// server redirects to the clean path, so the URL is built from the site (which
+// includes the base path) and the slug, the same way the sitemap builds it.
+const siteUrl = (Astro.site?.href ?? '').replace(/\/$/, '');
+const pagePath = pagePathFromSlug(currentSlug);
+const pageUrl = siteUrl ? urlFor(siteUrl, pagePath) : Astro.url.href.replace(/\.html$/, '');
+
+// DOCS_BUILD_MODE is set by createDocsSite (src/integration.ts).
+const buildMode = process.env.DOCS_BUILD_MODE ?? 'development';
+const alternateLinks = hreflangLinks({
+  pagePath,
+  selfHreflang: HREFLANG_BY_NAV_LANG[navLang] ?? 'en',
+  selfUrl: pageUrl,
+  alternates: await loadLanguageAlternates(platformKey, navLang, buildMode),
+});
 const resolvedSidebar = sidebarData as SidebarEntry[];
 
 // Map internal locale codes to BCP-47 language tags.
@@ -82,6 +111,8 @@ if (breadcrumbItems.length > 1) {
 }
 ---
 
+<link rel="canonical" href={pageUrl} />
+{alternateLinks.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
 {graph.length > 0 && (
   <Schema
     item={{
