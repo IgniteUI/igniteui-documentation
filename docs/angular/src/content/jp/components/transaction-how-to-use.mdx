@@ -80,8 +80,12 @@ html テンプレートで <ApiLink type="List" label="igxList" /> コンポー�
         [ngClass]="{ deleted: isDeleted(item.id), edited: isEdited(item.id) }">
         <p igxListLineTitle>{{item.name}}</p>
         <p igxListLineSubTitle>Costs: {{item.price}}</p>
-        <igx-icon igxListAction (click)="onEdit()" *ngIf="item.id === 1 && item.price !== '$999'">edit</igx-icon>
-        <igx-icon igxListAction (click)="onDelete()" *ngIf="item.id === 2 && !isDeleted(item.id)">delete</igx-icon>
+        @if (item.id === 1 && item.price !== '$999') {
+            <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+        }
+        @if (item.id === 2 && !isDeleted(item.id)) {
+            <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+        }
     </igx-list-item>
     <button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>
 </igx-list>
@@ -146,7 +150,9 @@ export class TransactionBasePipe implements PipeTransform {
 2 番目のリスト アイテムには、アイテムのデータを更新する編集ボタンが含まれています。
 
 ```html
-<igx-icon igxListAction (click)="onEdit()" *ngIf="item.id === 1 && item.price !== '$999'">edit</igx-icon>
+@if (item.id === 1 && item.price !== '$999') {
+    <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+}
 ```
 
 `onEdit` イベント ハンドラー内でボタンが押されると、'UPDATE' トランザクションが作成されます。
@@ -180,7 +186,9 @@ public isEdited(id): boolean {
 3 番目のリスト アイテムには、アイテムのデータを削除する削除ボタンが含まれています。
 
 ```html
-<igx-icon igxListAction (click)="onDelete()" *ngIf="item.id === 2 && !isDeleted(item.id)">delete</igx-icon>
+@if (item.id === 2 && !isDeleted(item.id)) {
+    <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+}
 ```
 
 `onDelete` イベント ハンドラー内でボタンが押されると、'DELETE' トランザクションが作成されます。
