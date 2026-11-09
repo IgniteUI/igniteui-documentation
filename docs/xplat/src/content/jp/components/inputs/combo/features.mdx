@@ -159,6 +159,7 @@ switchDisable.addEventListener("igcChange", () => {
     Data="Data"
     ValueKey="Id"
     DisplayKey="Name"
+    @bind-Value="SelectedCities"
     DisableFiltering="@DisableFiltering"
     CaseSensitiveIcon="@CaseSensitiveIcon"
     GroupKey="@Group"
@@ -171,23 +172,21 @@ switchDisable.addEventListener("igcChange", () => {
 <IgbSwitch Change="@OnDisableClick">Disable Combo</IgbSwitch>
 
 @code {
+    private string[] SelectedCities = [];
     private bool DisableFiltering = false;
     private bool CaseSensitiveIcon = false;
     private bool Disabled = false;
 
-    public void OnDisableFilteringClick(IgbComponentBoolValueChangedEventArgs e) {
-        IgbSwitch sw = e.Parent as IgbSwitch;
-        this.DisableFiltering = sw.Checked;
+    public void OnDisableFilteringClick(IgbCheckboxChangeEventArgs e) {
+        this.DisableFiltering = e.Detail.Checked;
     }
 
-    public void OnCaseSensitiveClick(IgbComponentBoolValueChangedEventArgs e) {
-        IgbSwitch sw = e.Parent as IgbSwitch;
-        this.CaseSensitiveIcon = sw.Checked;
+    public void OnCaseSensitiveClick(IgbCheckboxChangeEventArgs e) {
+        this.CaseSensitiveIcon = e.Detail.Checked;
     }
 
-    public void OnDisableClick(IgbComponentBoolValueChangedEventArgs e) {
-        IgbSwitch sw = e.Parent as IgbSwitch;
-        this.Disabled = sw.Checked;
+    public void OnDisableClick(IgbCheckboxChangeEventArgs e) {
+        this.Disabled = e.Detail.Checked;
     }
 }
 ```
@@ -214,9 +213,8 @@ switchGroup.addEventListener("igcChange", () => {
 @code {
     private string Group = "";
 
-    public void OnGroupClick(IgbComponentBoolValueChangedEventArgs e) {
-        IgbSwitch sw = e.Parent as IgbSwitch;
-        this.Group = sw.Checked ? "Country" : "";
+    public void OnGroupClick(IgbCheckboxChangeEventArgs e) {
+        this.Group = e.Detail.Checked ? "Country" : "";
     }
 }
 ```
