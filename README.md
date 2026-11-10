@@ -4,7 +4,7 @@ This public repository contains the documentation source for the Ignite UI for A
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) v22.12.0 or higher
+- [Node.js](https://nodejs.org) v22.23.4 or higher
 - [npm](https://www.npmjs.com/)
 
 ## Getting Started
@@ -14,6 +14,18 @@ git clone https://github.com/IgniteUI/igniteui-documentation.git
 cd igniteui-documentation
 npm install
 ```
+
+Then build the snippet emitter once. Every dev and build command generates content from
+`docs/xplat`, and that generation stops with `no snippet emitter found` until it has been built:
+
+```bash
+cd docs/xplat/scripts/snippet-emitter
+npm install && npm run build
+```
+
+Rebuild it after pulling a change to `docs/xplat/scripts/snippet-emitter/`. See
+[the snippet emitter README](docs/xplat/scripts/snippet-emitter/README.md) for what it is and for
+the other ways to provide one.
 
 ## Project Structure
 
