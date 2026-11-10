@@ -699,7 +699,7 @@ builder.Services.AddIgniteUIBlazor();
 </head>
 ```
 
-4 - **Components/App.razor** ファイルで、Blazor スクリプトの前にスクリプト参照を追加します。**Assets** を介さずに直接参照します。
+4 - **Components/App.razor** ファイルで、Blazor スクリプトの前にスクリプト参照を追加します。スタイル シートとは異なり、**Assets** を介さずに直接参照します。**Assets** を介すと、コンポーネントはスタイルが適用されない状態で表示され、エラーも表示されません。
 
 ```razor
 <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
@@ -714,9 +714,11 @@ builder.Services.AddIgniteUIBlazor();
 - JavaScript テンプレートなどによってクライアント側でのみ作成され、どの Razor コンポーネントからもモジュールが要求されないコンポーネントを使用する場合。
 - チャートのインタラクティビティ (<ApiLink raw type="DataChartInteractivityModule" />)、`*FullModule` バンドルなど、どのコンポーネントからも要求されない機能を有効にする場合。これらはすべて **{PackageCore}** パッケージに含まれています。
 
-`\AddIgniteUIBlazor` にモジュールを指定すると、Ignite UI ランタイムの起動時に読み込まれます。
+`\AddIgniteUIBlazor` にモジュールを指定すると、Ignite UI ランタイムの起動時に読み込まれます。**_Imports.razor** の `@using` は Razor ファイルにのみ適用されるため、**Program.cs** には別途 `using` を追加します。
 
 ```csharp
+using IgniteUI.Blazor.Controls;
+
 builder.Services.AddIgniteUIBlazor(
     typeof(IgbBadgeModule),
     typeof(IgbDataChartInteractivityModule)
@@ -738,7 +740,7 @@ builder.Services.AddIgniteUIBlazor(
 
 ### Ignite UI for Blazor コンポーネントの追加
 
-インタラクティブ レンダー モードが設定された Razor ページに Ignite UI for Blazor コンポーネントを追加します。WebAssembly または Auto レンダー モードでは、ページをクライアント プロジェクトに配置する必要があります。
+インタラクティブ レンダー モードが設定された Razor ページに Ignite UI for Blazor コンポーネントを追加します。Interactivity location が Per page/component の場合は、`@rendermode` ディレクティブのあるページが該当します。テンプレートの **Home** ページには `@rendermode` ディレクティブがないため、Interactivity location が Per page/component の場合に **Home** ページに Ignite UI for Blazor コンポーネントを追加しても動作しません (コンポーネントはスタイルが適用されない状態で表示され、エラーも表示されません)。この場合は **Home** ページに `@rendermode` ディレクティブを設定するか、**Home** ページではない `@rendermode` ディレクティブのあるページに Ignite UI for Blazor コンポーネントを追加します。WebAssembly または Auto レンダー モードでは、ページをクライアント プロジェクトに配置する必要があります。
 
 ```razor
 <IgbCard style="width:350px">
@@ -768,7 +770,7 @@ Blazor アプリケーションをビルドして実行します。
 
 **Blazor WebAssembly Standalone App** テンプレート (`dotnet new blazorwasm`) で作成したアプリでは、すべてのコンポーネントがインタラクティブなため、レンダー モードは必要ありません。上記の手順に従い、次の点を変更します。
 
-- **wwwroot/index.html** ファイルの **`<head>`** 要素にスタイル シートを追加します。
+- **wwwroot/index.html** ファイルの **`<head>`** 要素にスタイル シートを追加します。このファイルは Razor ではなく通常の HTML のため、**Assets** を使わずに、手順 3 の直接参照の形式で記述します。
 - 手順 4 のスクリプト参照は省略します。
 
 ### 既存の Blazor Server アプリ
