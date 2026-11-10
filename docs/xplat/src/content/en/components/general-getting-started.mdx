@@ -628,7 +628,7 @@ For .NET 9 or later applications, it is recommended to use the **Assets** collec
 </head>
 ```
 
-4 - Add the script reference before the Blazor script in the **Components/App.razor** file. Reference it directly, not through **Assets**:
+4 - Add the script reference before the Blazor script in the **Components/App.razor** file. Unlike the style sheet, do not reference it through **Assets**, or the components appear as plain, unstyled content with no error. Reference it directly:
 
 ```razor
 <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
@@ -643,9 +643,11 @@ Calling `builder.Services.AddIgniteUIBlazor()` is all most apps need: each compo
 - use a component that is created only on the client, for example by a JavaScript template, where no Razor component requests its module;
 - enable features that no component requests on its own, such as chart interactivity (<ApiLink raw type="DataChartInteractivityModule" />) or the `*FullModule` bundles, all in the **{PackageCore}** package.
 
-List the modules in `\AddIgniteUIBlazor`, which loads them when the Ignite UI runtime starts:
+List the modules in `\AddIgniteUIBlazor`, which loads them when the Ignite UI runtime starts. The `@using` in **_Imports.razor** applies only to Razor files, so **Program.cs** needs its own `using`:
 
 ```csharp
+using IgniteUI.Blazor.Controls;
+
 builder.Services.AddIgniteUIBlazor(
     typeof(IgbBadgeModule),
     typeof(IgbDataChartInteractivityModule)
@@ -667,7 +669,7 @@ Or register a module later, with the injected runtime:
 
 ## Add Ignite UI for Blazor Component
 
-Add an Ignite UI for Blazor component to a razor page that has an interactive render mode. With the WebAssembly or Auto render mode, the page must be in the client project:
+Add an Ignite UI for Blazor component to a razor page that has an interactive render mode. With the Per page/component interactivity location, that is a page with a `@rendermode` directive. The template's **Home** page has no `@rendermode` directive, so with the Per page/component interactivity location, Ignite UI for Blazor components added to the **Home** page do not work (they appear as plain, unstyled content with no error). In that case, add a `@rendermode` directive to the **Home** page, or add the components to another page that has a `@rendermode` directive. With the WebAssembly or Auto render mode, the page must be in the client project:
 </PlatformBlock>
 
 <PlatformBlock for="WinUI">
@@ -852,7 +854,7 @@ Build and run the Blazor app.
 
 In an app created from the **Blazor WebAssembly Standalone App** template (`dotnet new blazorwasm`), every component is interactive, so no render mode is needed. Follow the steps above with these differences:
 
-- Add the style sheet in the **`<head>`** element of the **wwwroot/index.html** file.
+- Add the style sheet in the **`<head>`** element of the **wwwroot/index.html** file. This file is plain HTML, not Razor, so use the direct link from step 3, not the **Assets** one.
 - Skip the script reference in step 4.
 
 ## Existing Blazor Server Apps
