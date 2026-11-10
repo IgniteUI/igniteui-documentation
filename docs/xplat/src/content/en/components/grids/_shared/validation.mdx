@@ -167,9 +167,11 @@ You can define your own custom error template that will be displayed in the erro
   <ng-template igxCellValidationError let-cell='cell' let-defaultErr="defaultErrorTemplate">
       <ng-container *ngTemplateOutlet="defaultErr">
       </ng-container>
-      <div *ngIf="cell.validation.errors?.['phoneFormat']">
-        Please enter correct phone format
-      </div>
+      @if (cell.validation.errors?.['phoneFormat']) {
+        <div>
+          Please enter correct phone format
+        </div>
+      }
   </ng-template>
 </igx-column>
 ```
@@ -286,12 +288,15 @@ The different errors are displayed in a templated cell that combines all errors 
 ```html
 <igx-column field="row_valid" header=" " [editable]="false" [pinned]="true" [width]="'50px'">
     <ng-template igxCell let-cell="cell">
-        <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"  style="margin-right: '-10px';">
-            <img width="18" src="assets/images/grid/active.png"/>
-        </div>
-        <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef" style="margin-right: '-10px';">
-            <img width="18" src="assets/images/grid/expired.png"/>
-        </div>
+        @if (isRowValid(cell)) {
+            <div [igxTooltipTarget]="tooltipRef"  style="margin-right: '-10px';">
+                <img width="18" src="assets/images/grid/active.png"/>
+            </div>
+        } @else {
+            <div [igxTooltipTarget]="tooltipRef" style="margin-right: '-10px';">
+                <img width="18" src="assets/images/grid/expired.png"/>
+            </div>
+        }
         <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
             <div *ngFor="let message of stateMessage(cell)">
                 {{message}}
@@ -379,14 +384,17 @@ The multi-field errors can then be displayed in a separate pinned column.
 ```html
 <igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'50px'">
         <ng-template igxCell let-cell="cell">
-            <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"
-            >
-                <img width="18" src="assets/images/grid/active.png"/>
-            </div>
-            <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef"
-            >
-                <img width="18" src="assets/images/grid/expired.png"/>
-            </div>
+            @if (isRowValid(cell)) {
+                <div [igxTooltipTarget]="tooltipRef"
+                >
+                    <img width="18" src="assets/images/grid/active.png"/>
+                </div>
+            } @else {
+                <div [igxTooltipTarget]="tooltipRef"
+                >
+                    <img width="18" src="assets/images/grid/expired.png"/>
+                </div>
+            }
             <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
                <div *ngFor="let message of stateMessage(cell)">
                    {{message}}
@@ -483,12 +491,15 @@ The different errors are displayed in a templated cell that combines all errors 
 ```html
 <igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'150px'">
     <ng-template igxCell let-cell="cell">
-        <div *ngIf="isRowValid(cell)" [igxTooltipTarget]="tooltipRef"  style="margin: 'auto';">
-            <img width="18" src="assets/images/grid/active.png"/>
-        </div>
-        <div *ngIf="!isRowValid(cell)" [igxTooltipTarget]="tooltipRef" style="margin: 'auto';">
-            <img width="18" src="assets/images/grid/expired.png"/>
-        </div>
+        @if (isRowValid(cell)) {
+            <div [igxTooltipTarget]="tooltipRef"  style="margin: 'auto';">
+                <img width="18" src="assets/images/grid/active.png"/>
+            </div>
+        } @else {
+            <div [igxTooltipTarget]="tooltipRef" style="margin: 'auto';">
+                <img width="18" src="assets/images/grid/expired.png"/>
+            </div>
+        }
         <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
             <div *ngFor="let message of stateMessage(cell)">
                 {{message}}
