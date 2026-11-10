@@ -84,7 +84,9 @@ function getPlatforms() {
     if (PLATFORM) {
         const name = PLATFORM_MAP[PLATFORM];
         if (!name) {
-            console.error(`Unknown platform "${PLATFORM}". Use: angular, react, wc, blazor`);
+            // Derived from the map rather than written out, so adding a platform cannot leave this
+            // message claiming the new one is unsupported.
+            console.error(`Unknown platform "${PLATFORM}". Use: ${Object.keys(PLATFORM_MAP).join(', ')}`);
             process.exit(1);
         }
         return [name];

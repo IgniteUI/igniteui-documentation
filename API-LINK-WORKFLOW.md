@@ -2,6 +2,8 @@
 
 This document explains the current `ApiLink` flow from API documentation generation to MDX validation. The short version: the API registry is the source of truth for symbol URLs, member casing, package selection, and ambiguity detection.
 
+For authoring rules, use the [ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md) and the [PlatformBlock skill](.github/skills/xplat-docs-platform-block/SKILL.md).
+
 ## End-to-End Flow
 
 ```mermaid
@@ -48,14 +50,16 @@ flowchart TD
 
 ```text
 src/data/api-link-index/
-  angular/staging-latest.json
-  react/staging-latest.json
-  webcomponents/staging-latest.json
-  blazor/staging-latest.json
+  angular/{staging-latest,prod-latest}.json
+  react/{staging-latest,prod-latest}.json
+  webcomponents/{staging-latest,prod-latest}.json
+  blazor/{staging-latest,prod-latest}.json
   manifest.json
 ```
 
 `igniteui-astro-components` owns the runtime `ApiLink` component and registry lookup code used by MDX rendering.
+
+Package aliases, platform prefixes, and suffix candidates live in [src/lib/api-platform-config.ts](src/lib/api-platform-config.ts). [src/lib/platform-context.ts](src/lib/platform-context.ts) selects the registry snapshot and API documentation origin for the build environment.
 
 ## Registry Contract
 
@@ -70,7 +74,7 @@ Each registry entry describes a symbol:
 
 The registry can contain duplicate symbol keys when more than one package or kind has the same public name. This is expected. It becomes a docs problem only when an MDX `ApiLink` references the duplicate name without enough props to choose one symbol.
 
-## ApiLink Resolution Rules
+## Registry Resolution
 
 Resolution is platform-aware:
 
@@ -82,40 +86,20 @@ Resolution is platform-aware:
 
 The registry is the source of truth after a symbol is found. For example, if MDX uses a member with different casing, the rendered link uses the canonical registry member and anchor.
 
-## When to Add Props
+### Packages and Member Ownership
 
-Keep links minimal when the registry resolves one symbol:
+The registry records the package and URL for each symbol rather than constructing every URL from the platform's main package. Excel utility symbols such as `Workbook` and `WorksheetTable` have no platform prefix or component suffix:
 
-```mdx
-<ApiLink type="Calendar" />
-<ApiLink type="Grid" member="filter" />
-```
+| Platform | Excel package |
+|---|---|
+| Angular | `igniteui-angular-excel` |
+| React | `igniteui-react-excel` |
+| Web Components | `igniteui-webcomponents-excel` |
+| Blazor | `IgniteUI.Blazor.Documents.Excel` |
 
-Add `pkg` when the same symbol exists in more than one package and the package changes the target:
+The Blazor Excel package is separate from `IgniteUI.Blazor`. The registry's `u` field contains the symbol's current URL; older version-specific URLs are not the lookup contract.
 
-```mdx
-<ApiLink pkg="core" type="Calendar" />
-<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
-<ApiLink pkg="geo-core" type="NumberFormatSpecifier" />
-```
-
-Add `kind` when the same symbol name exists as a non-class type, or when the intended symbol is not a class:
-
-```mdx
-<ApiLink kind="enum" type="TransactionType" />
-```
-
-Use `PlatformBlock` when the correct package or symbol differs by platform:
-
-```mdx
-<PlatformBlock for="React">
-<ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-<ApiLink pkg="core" type="CheckboxChangeEventArgs" />
-</PlatformBlock>
-```
+Member anchors belong to the owning symbol's `m` map. A column property does not necessarily exist on the grid symbol, and an options property may belong to an interface rather than the component using those options. The registry and the upstream TypeDoc data identify the owner.
 
 ## Checker Commands
 
@@ -179,13 +163,4 @@ The report has two useful sections:
 
 Only referenced ambiguities are blockers. Duplicate registry keys are informational until MDX links to them without enough props.
 
-## Practical Fix Loop
-
-1. Run the platform check.
-2. Open the ambiguity report.
-3. For each referenced ambiguity, compare the candidate packages and kinds.
-4. Add the smallest correct disambiguation: usually `pkg`, sometimes `kind`.
-5. Use `PlatformBlock` only when one MDX line cannot be correct for all platforms.
-6. Re-run the same check until `Ambiguous ApiLinks` says `None`.
-
-For Angular `Calendar`, no `pkg` is needed in normal Angular docs because `Calendar` resolves through Angular naming conventions to `IgxCalendarComponent` before considering the duplicate raw `Calendar` registry key.
+For resolution statuses and authoring fixes, follow the [canonical ApiLink skill](.github/skills/xplat-docs-api-links/SKILL.md#validation). The checker reports whether a reference is missing, has a missing member, or is ambiguous; these are distinct from a resolved URL that fails the subsequent reachability check.

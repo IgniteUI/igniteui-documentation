@@ -19,11 +19,11 @@ declare module 'virtual:docs-template/site-meta' {
   /** Locale for the nav prefetch URL. Mirrors the value on `virtual:docs-template/nav-html`. */
   export const navLang: NavLang;
   /** Items for the DocsSubHeader package/platform selector. Empty array when not configured. */
-  export const packages: Array<string | { label: string; value?: string; href?: string }>;
+  export const packages: Array<string | { label: string; value?: string; href?: string; base?: string }>;
   /** Initially selected package. Empty string when not configured. */
   export const selectedPackage: string;
 }
 
 declare module 'virtual:docs-template/nav-html' {
-  export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'slingshot' | 'appbuilder' | null;
+  export const platform: 'igniteui' | 'angular' | 'react' | 'blazor' | 'web-components' | 'winui' | 'uno' | 'slingshot' | 'appbuilder' | null;
 }

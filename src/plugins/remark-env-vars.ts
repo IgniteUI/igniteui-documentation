@@ -25,6 +25,8 @@ const DOCCONFIG_PLATFORM_MAP: Record<string, string> = {
   react: 'React',
   'web-components': 'WebComponents',
   blazor: 'Blazor',
+  winui: 'WinUI',
+  uno: 'Uno',
 };
 
 // Lazy-loaded, cached per DOCS_SOURCE_PATH value.

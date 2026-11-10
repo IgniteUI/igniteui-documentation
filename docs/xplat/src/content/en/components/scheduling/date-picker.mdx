@@ -65,15 +65,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-To get started with the <ApiLink pkg="core" type="DatePicker" /> component, first we need to register its module as follows:
+Register the {ProductName} services:
 
 ```csharp
 // in Program.cs file
 
-builder.Services.AddIgniteUIBlazor(typeof(IgbDatePickerModule));
+builder.Services.AddIgniteUIBlazor();
 ```
 
-You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="DatePicker" /> component. The following needs to be placed in the wwwroot/index.html file in a Blazor Web Assembly project or the Pages/_Host.cshtml file in a Blazor Server project:
+Registering <ApiLink pkg="core" type="DatePickerModule" />, the client resource module of the <ApiLink pkg="core" type="DatePicker" /> component, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbDatePickerModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
+
+You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="DatePicker" /> component. The following needs to be placed in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App):
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -150,13 +152,12 @@ const date = new Date();
 
 <PlatformBlock for="Blazor">
 ```Razor
-<IgbDatePicker @ref="DatePicker" Value="@SelectedDate">
+<IgbDatePicker Value="@SelectedDate">
 </IgbDatePicker>
 
 @code {
 
     public DateTime SelectedDate { get; set; }
-    public IgbDatePicker DatePicker { get; set; }
 
     protected override void OnInitialized()
     {
@@ -437,7 +438,7 @@ In forms, we can handle the `change` event of the component and update the value
 
 <PlatformBlock for="Blazor">
 
-In forms, we can handle the `Change` event of the component and update the value of the label.
+In forms, bind the component's value with `@bind-Value`. In the sample the picker is required, and the form's `@onsubmit` handler shows the submitted date instead of reloading the page. A native reset button returns the picker to its initial value without raising a change event, so the `@onreset` handler clears the bound field.
 
 </PlatformBlock>
 

@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: ['angular', 'react', 'webcomponents', 'blazor']
+        platform: ['angular', 'react', 'webcomponents', 'blazor', 'winui', 'uno']
 
     steps:
       - name: Checkout
@@ -28,8 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # DOCS_TOC_STRICT fails the build when a toc.json entry points at a
-      # missing file, instead of silently dropping it from the sidebar.
+      # Generating a topic emits its json-snippet fences, which the product's code generating
+      # renderer does — it ships in igniteui-webcomponents-core, so this needs nothing but npm.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
       - name: Build ${{ matrix.platform }}
         run: npm run xplat:build:${{ matrix.platform }}
         env:

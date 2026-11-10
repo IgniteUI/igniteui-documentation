@@ -1,0 +1,91 @@
+name: Snippet checks
+
+# What a json-snippet has to survive before a page can ship: the schema the descriptions declare, and
+# emission on every platform — including the platforms a page is gated away from, which is where a
+# definition breaks unnoticed.
+#
+# Both jobs run the same scripts anyone runs locally:
+#   node docs/xplat/scripts/check-snippet-schema.mjs
+#   node docs/xplat/scripts/check-snippet-emission.mjs
+#
+# The examples are the commit docs/xplat/xplat-examples.lock.json states, here and locally alike. The
+# emitter is built from the published packages; locally a built dev-tools spike is used instead, when
+# someone is testing a change to the renderer.
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ master, vnext ]
+    paths:
+      - 'docs/xplat/src/content/**'
+      - 'docs/xplat/scripts/**'
+      - '.github/workflows/snippet-checks.yml'
+  workflow_dispatch:
+
+jobs:
+  snippets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # What turns a fence into a platform's code is the product's own code generating renderer,
+      # which ships in igniteui-webcomponents-core. This builds the thin wrapper around it against
+      # the published package, so nothing here needs a dev-tools checkout — see the README beside it.
+      - name: Build the snippet emitter
+        working-directory: docs/xplat/scripts/snippet-emitter
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      # The samples and the code generation library a snippet is emitted against, at the commit
+      # docs/xplat/xplat-examples.lock.json states. A change spanning both repositories points the
+      # lock at its examples branch.
+      - name: Resolve the examples checkout
+        id: examples
+        run: |
+          node docs/xplat/scripts/ci/resolve-examples.mjs --print-path >> "$GITHUB_OUTPUT"
+
+      - name: Check the schema
+        env:
+          XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
+        run: node docs/xplat/scripts/check-snippet-schema.mjs
+
+      - name: Check topic population and API-term authoring
+        run: |
+          node docs/xplat/scripts/check-doc-scope.mjs --lang=en
+          node docs/xplat/scripts/check-doc-scope.mjs --lang=jp
+
+      - name: Check desktop topics are commercially licensed
+        working-directory: docs/xplat
+        env:
+          XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
+        run: |
+          node scripts/generate.mjs --platform=WinUI --lang=en
+          node scripts/check-commercial-license.mjs --platform=WinUI --lang=en
+          node scripts/generate.mjs --platform=WinUI --lang=jp
+          node scripts/check-commercial-license.mjs --platform=WinUI --lang=jp
+          node scripts/generate.mjs --platform=Uno --lang=en
+          node scripts/check-commercial-license.mjs --platform=Uno --lang=en
+          node scripts/generate.mjs --platform=Uno --lang=jp
+          node scripts/check-commercial-license.mjs --platform=Uno --lang=jp
+
+      - name: Check emission on every platform
+        env:
+          XPLAT_EXAMPLES: ${{ steps.examples.outputs.path }}
+        run: |
+          node docs/xplat/scripts/check-snippet-emission.mjs --lang=en
+          node docs/xplat/scripts/check-snippet-emission.mjs --lang=jp

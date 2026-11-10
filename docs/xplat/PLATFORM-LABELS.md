@@ -48,7 +48,7 @@ generated/Blazor/en/components/toc.json      preview: true
 
 - The top-level badge is the **default** for any platform that has no override.
 - Entries inside `platforms` are **merged** on top for that platform only.
-- Platform names: `React`, `WebComponents`, `Blazor` (case-sensitive).
+- Platform names: `React`, `WebComponents`, `Blazor`, `WinUI`, `Uno` (case-sensitive).
 - `platforms` is stripped from the generated output — it never reaches the sidebar.
 
 ---

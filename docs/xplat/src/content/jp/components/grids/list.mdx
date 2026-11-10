@@ -66,15 +66,23 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 </PlatformBlock>
 
 
+<PlatformBlock for="WebComponents">
+
 <ApiLink pkg="core" type="List" /> を使用する前に、次のように登録する必要があります。
 
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
+
+{ProductName} のサービスを登録します。
 
 ```csharp
 // in Program.cs file
 
-builder.Services.AddIgniteUIBlazor(typeof(IgbListModule));
+builder.Services.AddIgniteUIBlazor();
 ```
+
+<ApiLink pkg="core" type="List" /> のクライアント リソース モジュールである <ApiLink pkg="core" type="ListModule" /> の登録は**任意**です。コンポーネントは初めてレンダリングされるときにリソースを読み込みます。ただし、`builder.Services.AddIgniteUIBlazor(typeof(IgbListModule))` のように指定すると、リソースを事前に読み込んだり、クライアント側でのみ作成される要素に対応したりできます ([コンポーネント モジュール](../general-getting-started.mdx#コンポーネント-モジュール)を参照)。
 
 </PlatformBlock>
 
@@ -83,7 +91,7 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbListModule));
 
 
 
-また、追加の CSS ファイルをリンクして、スタイルを <ApiLink pkg="core" type="List" /> コンポーネントに適用する必要があります。以下は、**Blazor Web Assembly** プロジェクトの **wwwroot/index.html** ファイルまたは **Blazor Server** プロジェクトの **Pages/_Host.cshtml** ファイルに配置する必要があります:
+また、追加の CSS ファイルをリンクして、スタイルを <ApiLink pkg="core" type="List" /> コンポーネントに適用する必要があります。以下は、アプリのホスト ページ (スタンドアロンの Blazor WebAssembly アプリまたは Blazor Hybrid アプリでは **wwwroot/index.html**、Blazor Server アプリでは **Pages/_Host.cshtml**、Blazor Web App では **Components/App.razor**) に配置する必要があります:
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -441,39 +449,30 @@ this.radioGroup.addEventListener('click', (radio: any) => {
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbRadioGroup Alignment="@ContentOrientation.Horizontal">
-    <IgbRadio Value="Small" label-position="after" Change="OnRadioOptionClick">Small</IgbRadio>
-    <IgbRadio Value="Medium" label-position="after" Change="OnRadioOptionClick">Medium</IgbRadio>
-    <IgbRadio Value="Large" label-position="after" Checked="true" Change="OnRadioOptionClick">Large</IgbRadio>
+<IgbRadioGroup Alignment="@ContentOrientation.Horizontal" @bind-Value="ListSize">
+    <IgbRadio name="size" Value="@("size-small")">Small</IgbRadio>
+    <IgbRadio name="size" Value="@("size-medium")">Medium</IgbRadio>
+    <IgbRadio name="size" Value="@("size-large")">Large</IgbRadio>
 </IgbRadioGroup>
 
-<IgbList style="margin-top: 10px;" Size="@ListSize" />
+<IgbList style="margin-top: 10px;" class="@ListSize" />
 
 @code {
-    public SizableComponentSize ListSize { get; set; }
+    public string ListSize { get; set; } = "size-medium";
+}
+```
 
-    public void OnRadioOptionClick(IgbComponentBoolValueChangedEventArgs e)
-    {
-        IgbRadio radio = e.Parent as IgbRadio;
-        switch (radio.Value)
-        {
-            case "Small":
-                {
-                    this.ListSize = SizableComponentSize.Small;
-                    break;
-                }
-            case "Medium":
-                {
-                    this.ListSize = SizableComponentSize.Medium;
-                    break;
-                }
-            case "Large":
-                {
-                    this.ListSize = SizableComponentSize.Large;
-                    break;
-                }
-        }
-    }
+```css
+.size-small {
+    --ig-size: var(--ig-size-small);
+}
+
+.size-medium {
+    --ig-size: var(--ig-size-medium);
+}
+
+.size-large {
+    --ig-size: var(--ig-size-large);
 }
 ```
 

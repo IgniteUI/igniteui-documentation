@@ -1,0 +1,396 @@
+---
+title: "{Platform} データ グリッド | 列選択 | インフラジスティックス"
+description: "インフラジスティックスの {ProductName} グリッド コンポーネントで UI から直接、または {Platform} コントロールを使用して列の表示/非表示機能をサポートする方法について説明します。詳細については、{ProductName} テーブル サンプルを参照してください。"
+keywords: "{Platform} Table, Data Grid, column chooser, {ProductName}, Infragistics, {Platform} テーブル, データ グリッド, 列選択, インフラジスティックス"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn", "DataGridToolbar", "Button", "ColumnChooser", "ColumnHidingAnimationMode", "ColumnShowingAnimationMode", "ColumnChooserTitle"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+llms:
+  description: "{ProductName} Data Grid は、DataGridToolbar コンポーネントまたはページのどこにでも配置できる ColumnChooser コンポーネントによって UI から列の表示/非表示を行う機能をサポートしています。"
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} Grid 列選択の概要
+
+{ProductName} Data Grid は、`DataGridToolbar` コンポーネントまたはページのどこにでも配置できる `ColumnChooser` コンポーネントによって UI から列の表示/非表示を行う機能をサポートしています。列の `IsHidden` プロパティにより、手動生成の列に対してプログラムによって列の表示/非表示を設定することができます。`IsHidden` の値は `ColumnChooser` コンポーネントに反映されます。各方法は列の表示状態を変更するために使用できます。
+
+## {Platform} Grid 列選択の例
+
+
+<Sample src="/grids/data-grid/column-chooser-toolbar" height={600} alt="{Platform} Grid 列選択の例" />
+
+
+
+<div class="divider--half"></div>
+
+
+## ツールバーの列選択 UI
+
+列選択 UI は、グリッドとは別に `DataGridToolbar` コンポーネント内でアクセスできます。このため、ツールバーの `ColumnChooser` プロパティを true に設定します。
+ツールバーは `Button` を表示し、クリックすると列選択 UI を表示します。このボタンは、非表示列の合計も表示します。ツールバーが作成されていない場合、`ColumnChooser` プロパティを有効にしても効果はなく、ボタンを非表示にします。
+
+`DataGridToolbar` は、`ToolbarTitle` プロパティを使用してツールバーにタイトルを追加、`ColumnChooserText` プロパティを設定して `Button` にテキストを配置、`ColumnChooserTitle` を設定して、タイトル ヘッダーを列選択 UI に追加などの追加プロパティを提供します。
+
+列選択は、グリッドの `ColumnHidingAnimationMode` および `ColumnShowingAnimationMode` プロパティを設定することでアニメーションで構成できます。
+
+## コード スニペット
+
+以下は、データ グリッドの列選択ツールバー UI の実装方法を示します。
+
+```json-snippet source="/grids/data-grid/column-chooser-toolbar"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "DataGridToolbar",
+            "name": "toolbar",
+            "targetGridRef": "grid",
+            "toolbarTitle": "Grid Title",
+            "columnChooser": true,
+            "columnChooserText": "Columns",
+            "columnChooserTitle": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+
+## シンプルな列選択
+
+ツールバーなしで `ColumnChooser` UIを手動で表示し、ページの任意の場所に配置するとします。マークアップでコンポーネントのインスタンスを作成して簡単に行うことができます。
+
+## サンプル
+
+
+<Sample src="/grids/data-grid/column-chooser-picker" height={600} alt="{Platform} data grid column chooser picker" />
+
+
+<div class="divider--half"></div>
+
+## コード スニペット
+
+以下は、データ グリッドの列選択 UI の実装方法を示します。
+
+```json-snippet source="/grids/data-grid/column-chooser-picker"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "ColumnChooser",
+            "name": "chooser",
+            "targetGridRef": "grid",
+            "title": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+
+
+## API リファレンス
+
+- `Button`
+- `ColumnChooserText`
+- `ColumnChooserTitle`
+- `ColumnChooser`
+- `ColumnHidingAnimationMode`
+- `ColumnShowingAnimationMode`
+- `DataGridToolbar`
