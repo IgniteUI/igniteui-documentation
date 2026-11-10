@@ -221,12 +221,19 @@ export function buildSidebarFromToc({
     let currentGroup: SidebarGroup | null = null;
     let currentGroupSortable = false;
 
+    // A header is a section only if something is in it. The toc is flat, so a header's pages are
+    // the links after it, and the per-platform filter can remove all of them while keeping the
+    // header (every page under Data Entry & Display is web-only, for example, so on WinUI and Uno
+    // nothing follows it). An empty group renders as a section with nothing to open.
+    const closeGroup = (group: SidebarGroup) => {
+        if (group.items.length === 0) return;
+        if (currentGroupSortable) sortGroupItems(group);
+        sidebar.push(group);
+    };
+
     for (const item of tocItems) {
         if (item.header) {
-            if (currentGroup) {
-                if (currentGroupSortable) sortGroupItems(currentGroup);
-                sidebar.push(currentGroup);
-            }
+            if (currentGroup) closeGroup(currentGroup);
             // Root-level header section — open by default.
             currentGroup = { label: item.name!, items: [], collapsed: collapsedForDepth(0) };
             currentGroupSortable = item.sortable === true;
@@ -249,9 +256,6 @@ export function buildSidebarFromToc({
         else sidebar.push(entry);
     }
 
-    if (currentGroup) {
-        if (currentGroupSortable) sortGroupItems(currentGroup);
-        sidebar.push(currentGroup);
-    }
+    if (currentGroup) closeGroup(currentGroup);
     return sidebar;
 }

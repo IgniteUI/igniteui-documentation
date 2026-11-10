@@ -36,6 +36,7 @@ import { snippetsIn, schemaValidator, problemsWith } from './lib/snippet-schema.
 import { fenceEmitter, libraryItemLookup, CODE_FENCE_LANG } from './lib/snippet-emit.mjs';
 import { resolveApiTerms, isWebOnly } from './lib/api-terms.mjs';
 import { loadAcknowledgedTerms } from './lib/acknowledged-terms.mjs';
+import { filterUnoSamples, reportOmittedUnoSamples } from './lib/uno-samples.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -200,7 +201,7 @@ function applyProductLicense(content) {
 }
 
 function prepareMarkdownOutput(content) {
-    return normalizeMarkdownSpacing(applyProductLicense(content));
+    return normalizeMarkdownSpacing(applyProductLicense(filterUnoSamples(content, PLATFORM)));
 }
 
 // ---------------------------------------------------------------------------
@@ -1198,3 +1199,5 @@ if (existsSync(astroCacheDir)) {
 
 reportApiTerms();
 console.log('[generate] Done.');
+
+reportOmittedUnoSamples();

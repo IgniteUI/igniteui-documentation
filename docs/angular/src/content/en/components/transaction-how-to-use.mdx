@@ -78,8 +78,12 @@ In our html template, we define an <ApiLink type="List" label="igxList" /> compo
         [ngClass]="{ deleted: isDeleted(item.id), edited: isEdited(item.id) }">
         <p igxListLineTitle>{{item.name}}</p>
         <p igxListLineSubTitle>Costs: {{item.price}}</p>
-        <igx-icon igxListAction (click)="onEdit()" *ngIf="item.id === 1 && item.price !== '$999'">edit</igx-icon>
-        <igx-icon igxListAction (click)="onDelete()" *ngIf="item.id === 2 && !isDeleted(item.id)">delete</igx-icon>
+        @if (item.id === 1 && item.price !== '$999') {
+            <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+        }
+        @if (item.id === 2 && !isDeleted(item.id)) {
+            <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+        }
     </igx-list-item>
     <button igxButton (click)="onAdd()" [disabled]="itemAdded(4)">Add New</button>
 </igx-list>
@@ -144,7 +148,9 @@ export class TransactionBasePipe implements PipeTransform {
 The second list item contains an edit button, which updates the item's data.
 
 ```html
-<igx-icon igxListAction (click)="onEdit()" *ngIf="item.id === 1 && item.price !== '$999'">edit</igx-icon>
+@if (item.id === 1 && item.price !== '$999') {
+    <igx-icon igxListAction (click)="onEdit()">edit</igx-icon>
+}
 ```
 
 When the button is pressed, inside the `onEdit` event handler, an 'UPDATE' transaction is created:
@@ -178,7 +184,9 @@ public isEdited(id): boolean {
 The third list item contains a delete button, which deletes the item's data.
 
 ```html
-<igx-icon igxListAction (click)="onDelete()" *ngIf="item.id === 2 && !isDeleted(item.id)">delete</igx-icon>
+@if (item.id === 2 && !isDeleted(item.id)) {
+    <igx-icon igxListAction (click)="onDelete()">delete</igx-icon>
+}
 ```
 
 When the button is pressed, inside `onDelete` event handler, a 'DELETE' transaction is created:
