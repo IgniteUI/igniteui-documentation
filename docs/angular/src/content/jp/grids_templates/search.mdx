@@ -170,14 +170,20 @@ public exactMatch: boolean = false;
 ```html
 <!--searchgrid.component.html-->
 
-<div class="resultsText" *ngIf="{ComponentObjectRef}.lastSearchInfo">
-    <span *ngIf="{ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0">
-        {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
-    </span>
-    <span *ngIf="{ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0">
-        No results
-    </span>
-</div>
+@if ({ComponentObjectRef}.lastSearchInfo) {
+    <div class="resultsText">
+        @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0) {
+            <span>
+                {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
+            </span>
+        }
+        @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0) {
+            <span>
+                No results
+            </span>
+        }
+    </div>
+}
 ```
 
 ### 検索ボタンの追加
@@ -291,16 +297,22 @@ export class AppModule {}
 
 <igx-input-group type="search" class="offset">
     <igx-prefix>
-        <igx-icon *ngIf="searchText.length == 0">search</igx-icon>
-        <igx-icon *ngIf="searchText.length > 0" (click)="clearSearch()">clear</igx-icon>
+        @if (searchText.length == 0) {
+            <igx-icon>search</igx-icon>
+        }
+        @if (searchText.length > 0) {
+            <igx-icon (click)="clearSearch()">clear</igx-icon>
+        }
     </igx-prefix>
 
     <input #search1 id="search1" igxInput placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="{ComponentObjectRef}.findNext(searchText, caseSensitive, exactMatch)"
         (keydown)="searchKeyDown($event)" />
 
-    <igx-suffix *ngIf="searchText.length > 0">
-        ...
-    </igx-suffix>
+    @if (searchText.length > 0) {
+        <igx-suffix>
+            ...
+        </igx-suffix>
+    }
 </igx-input-group>
 ```
 
@@ -319,16 +331,25 @@ public clearSearch() {
 ```html
 <!--searchgrid.component.html-->
 
-<igx-suffix *ngIf="searchText.length > 0">
-    <div class="resultsText" *ngIf="{ComponentObjectRef}.lastSearchInfo">
-        <span *ngIf="{ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0">
-            {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
-        </span>
-        <span *ngIf="{ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0">
-            No results
-        </span>
-    </div>
-    ...
+@if (searchText.length > 0) {
+    <igx-suffix>
+        @if ({ComponentObjectRef}.lastSearchInfo) {
+            <div class="resultsText">
+                @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length > 0) {
+                    <span>
+                        {{ {ComponentObjectRef}.lastSearchInfo.activeMatchIndex + 1 }} of {{ {ComponentObjectRef}.lastSearchInfo.matchInfoCache.length }} results
+                    </span>
+                }
+                @if ({ComponentObjectRef}.lastSearchInfo.matchInfoCache.length == 0) {
+                    <span>
+                        No results
+                    </span>
+                }
+            </div>
+        }
+        ...
+    </igx-suffix>
+}
 ```
 
 - 以下は **caseSensitive** と **exactMatch** を切り替えるチップを表示する方法です。プロパティに基づいて色が変わる 2 つのチップでチェックボックスを 置き換えます。チップをクリックすると、どちらのチップがクリックされたかによって各ハンドラー **updateSearch** または **updateExactSearch** を呼び出します。

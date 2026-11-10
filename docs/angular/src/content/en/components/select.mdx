@@ -138,9 +138,11 @@ The Select component supports the following directives applicable to the [Input 
     <igx-prefix>
         <span class="bio-prefix">BIO</span>
     </igx-prefix>
-    <igx-suffix *ngIf="selected">
-        <igx-icon (click)="clearSelection($event)">clear</igx-icon>
-    </igx-suffix>
+    @if (selected) {
+        <igx-suffix>
+            <igx-icon (click)="clearSelection($event)">clear</igx-icon>
+        </igx-suffix>
+    }
     <igx-hint>Choose a banana</igx-hint>
     <igx-select-item *ngFor="let item of items" [value]="item">
         {{item}}
@@ -184,13 +186,11 @@ Then in your template file you can iterate over the objects and access their ite
     <igx-select-item-group *ngFor="let group of greengrocery" [label]="group.label">
         <igx-select-item *ngFor="let item of group.items" [value]="item.type" [text]="item.type">
             {{item.type}}
-            <igx-icon
-                title="Local product"
-                *ngIf="item.origin === 'local'; else templateImport"
-            >local_shipping</igx-icon>
-            <ng-template #templateImport>
+            @if (item.origin === 'local') {
+                <igx-icon title="Local product">local_shipping</igx-icon>
+            } @else {
                 <igx-icon title="Import product">flight</igx-icon>
-            </ng-template>
+            }
         </igx-select-item>
     </igx-select-item-group>
 </igx-select>
