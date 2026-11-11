@@ -2,7 +2,8 @@
  * A minimal stand-in for the `LoaderContext` Astro hands a content loader.
  *
  * Only the parts the glob loader and the overlay wrapper actually touch are
- * implemented: an in-memory store, a watcher whose handlers can be fired by
+ * implemented: an in-memory store (with the real store's refusal to rewrite an
+ * entry whose digest is unchanged), a watcher whose handlers can be fired by
  * hand, a logger that records what it was told, a passthrough `parseData` and
  * an `entryTypes` map with a tiny frontmatter parser.
  */
@@ -72,6 +73,9 @@ export function createFakeContext(
         has: (id: string) => entries.has(id),
         get: (id: string) => entries.get(id),
         set: (entry: FakeEntry) => {
+            // Like Astro's store, refuse a write whose digest equals the stored
+            // entry's — the loaders have to cope with that, so the fake must too.
+            if (entry.digest && entries.get(entry.id)?.digest === entry.digest) return false;
             entries.set(entry.id, entry);
             return true;
         },

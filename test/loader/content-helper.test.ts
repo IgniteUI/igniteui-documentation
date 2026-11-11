@@ -135,6 +135,16 @@ describe('cold load', () => {
         expect(fake.entries.has('b')).toBe(true);
     });
 
+    it('serves the base page when the overlay file for the slug has no title', async () => {
+        fs.writeFileSync(path.join(overlay, 'b.mdx'), '---\ndescription: no title here\n---\nbody\n');
+        const fake = createFakeContext(tmp);
+
+        await overlayCollection().loader.load(fake.ctx);
+
+        expect(fake.title('b')).toBe('B-base');
+        expect(fake.filePathOf('b')).toBe('base/b.mdx');
+    });
+
     it('stores every file path relative to the project root', async () => {
         const fake = createFakeContext(tmp);
         await overlayCollection().loader.load(fake.ctx);
@@ -182,6 +192,58 @@ describe('warm load', () => {
 
         expect(fake.title('a')).toBe('A-base');
         expect(fake.filePathOf('a')).toBe('base/a.mdx');
+    });
+
+    // The store refuses a write whose digest is unchanged, so a takeover by a
+    // byte-identical file is the case that could leave the old owner in place.
+    it('moves a slug to the overlay when it starts providing a byte-identical copy', async () => {
+        const fake = createFakeContext(tmp);
+        const collection = overlayCollection();
+        await collection.loader.load(fake.ctx);
+        expect(fake.filePathOf('b')).toBe('base/b.mdx');
+
+        write(overlay, 'b.mdx', 'B-base');
+        await collection.loader.load(fake.ctx);
+
+        expect(fake.filePathOf('b')).toBe('overlay/b.mdx');
+    });
+
+    it('follows a slug to the overlay when the identical base copy is deleted', async () => {
+        const fake = createFakeContext(tmp);
+        const collection = overlayCollection();
+        await collection.loader.load(fake.ctx);
+
+        write(overlay, 'b.mdx', 'B-base');
+        fs.unlinkSync(path.join(base, 'b.mdx'));
+        await collection.loader.load(fake.ctx);
+
+        expect(fake.filePathOf('b')).toBe('overlay/b.mdx');
+    });
+
+    it('hands a slug to the base once the overlay file loses its title', async () => {
+        const fake = createFakeContext(tmp);
+        const collection = overlayCollection();
+        await collection.loader.load(fake.ctx);
+        expect(fake.title('a')).toBe('A-overlay');
+
+        fs.writeFileSync(path.join(overlay, 'a.mdx'), '---\ndescription: no title here\n---\nbody\n');
+        await collection.loader.load(fake.ctx);
+
+        expect(fake.title('a')).toBe('A-base');
+        expect(fake.filePathOf('a')).toBe('base/a.mdx');
+    });
+
+    it('keeps serving the base page across loads while the overlay file has no title', async () => {
+        fs.writeFileSync(path.join(overlay, 'b.mdx'), '---\ndescription: no title here\n---\nbody\n');
+        const fake = createFakeContext(tmp);
+        const collection = overlayCollection();
+        await collection.loader.load(fake.ctx);
+        fake.logs.length = 0;
+
+        await collection.loader.load(fake.ctx);
+
+        expect(fake.title('b')).toBe('B-base');
+        expect(fake.logs.filter(([level]) => level !== 'info')).toEqual([]);
     });
 });
 
@@ -282,6 +344,13 @@ describe('watcher', () => {
         await fake.trigger('add', file);
 
         expect(fake.title('b')).toBe('B-overlay');
+    });
+
+    it('lets a newly added overlay file take a slug over when it is byte-identical', async () => {
+        const file = write(overlay, 'b.mdx', 'B-base');
+        await fake.trigger('add', file);
+
+        expect(fake.filePathOf('b')).toBe('overlay/b.mdx');
     });
 
     it('leaves the winner in place when a shadowed base file is deleted', async () => {

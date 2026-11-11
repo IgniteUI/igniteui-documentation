@@ -54,6 +54,12 @@ export type { DocsContentRoot, ResolvedDocRoot } from './lib/doc-roots.ts';
 /** Sentinel value placed on entries that have no title so we can remove them after loading. */
 const SKIP_TITLE = '\x00skip';
 
+/** True for an entry with no usable title — a file that is not a page. */
+function isUntitled(entry: unknown): boolean {
+    const title = (entry as { data?: { title?: unknown } } | undefined)?.data?.title;
+    return !title || title === SKIP_TITLE;
+}
+
 /**
  * Wraps a loader so that after it populates the store, any entry whose
  * title equals the SKIP_TITLE sentinel is silently removed.
@@ -65,10 +71,7 @@ function withTitleFilter(baseLoader: any): any {
         load: async (ctx: any) => {
             await baseLoader.load(ctx);
             for (const id of [...ctx.store.keys()]) {
-                const entry = ctx.store.get(id);
-                if (!entry?.data?.title || entry.data.title === SKIP_TITLE) {
-                    ctx.store.delete(id);
-                }
+                if (isUntitled(ctx.store.get(id))) ctx.store.delete(id);
             }
         },
     };
@@ -89,7 +92,13 @@ function withTitleFilter(baseLoader: any): any {
 //     is silently skipped instead of overwriting the winner (and without
 //     tripping Astro's duplicate-slug warning, which fires inside the loader
 //     between its `get` and its `set`);
-//   • `set()` is refused for ids a higher-precedence root has claimed.
+//   • `set()` is refused for ids a higher-precedence root has claimed, and for
+//     a file with no title: `withTitleFilter` would remove that entry anyway,
+//     so it must not take the slug from a lower root that can serve it;
+//   • `set()` removes another root's entry for the id before writing. Astro's
+//     store refuses a write whose digest equals the stored entry's, so without
+//     this a byte-identical file taking a slug over would leave the previous
+//     root's entry — and its file path — in place.
 //
 // Ownership is decided by the entry's own `filePath`, not just by what a root
 // wrote during this pass: on a *warm* load the glob loader returns early — with
@@ -214,6 +223,16 @@ function scopeStore(store: any, options: ScopeStoreOptions): any {
         },
         set: (entry: { id: string }) => {
             if (takenByHigher(entry.id)) return false;
+            // Not a page: store nothing, and give up whatever this root
+            // already holds for the id so a lower root can serve the slug.
+            if (isUntitled(entry)) {
+                if (ownership(entry.id) === 'mine') store.delete(entry.id);
+                if (claimed.get(entry.id) === rootIndex) claimed.delete(entry.id);
+                return false;
+            }
+            // Taking the slug over: drop the other root's entry first, or an
+            // equal digest would make the store keep it (see above).
+            if (ownership(entry.id) === 'other') store.delete(entry.id);
             claimed.set(entry.id, rootIndex);
             return store.set(entry);
         },
