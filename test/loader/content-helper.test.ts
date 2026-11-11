@@ -185,6 +185,65 @@ describe('warm load', () => {
     });
 });
 
+// Astro only clears the store when the content config file or the Astro config
+// changes, and neither carries the root list — so a store populated for one set
+// of roots (another language, say) is handed as-is to a load for another.
+describe('warm load after the roots change', () => {
+    let replacement: string;
+
+    beforeEach(() => {
+        seed();
+        write(overlay, 'only-overlay.mdx', 'Only-overlay');
+        replacement = path.join(tmp, 'replacement');
+        write(replacement, 'a.mdx', 'A-replacement');
+    });
+
+    it('drops a page only the replaced overlay root provided', async () => {
+        const fake = createFakeContext(tmp);
+        await overlayCollection().loader.load(fake.ctx);
+        expect(fake.title('only-overlay')).toBe('Only-overlay');
+
+        await createDocsCollection([replacement, base]).loader.load(fake.ctx);
+
+        expect(fake.entries.has('only-overlay')).toBe(false);
+    });
+
+    it('serves the slugs of a replaced overlay root from the new roots', async () => {
+        const fake = createFakeContext(tmp);
+        await overlayCollection().loader.load(fake.ctx);
+        fake.logs.length = 0;
+
+        await createDocsCollection([replacement, base]).loader.load(fake.ctx);
+
+        expect(fake.title('a')).toBe('A-replacement');
+        expect(fake.title('d')).toBe('D-base-md');
+        expect(fake.title('b')).toBe('B-base');
+        expect(fake.logs.filter(([level]) => level !== 'info')).toEqual([]);
+    });
+
+    it('drops every page of the old roots when all of them are replaced', async () => {
+        const fake = createFakeContext(tmp);
+        await overlayCollection().loader.load(fake.ctx);
+
+        const otherBase = path.join(tmp, 'other-base');
+        write(otherBase, 'z.mdx', 'Z-other-base');
+        await createDocsCollection([replacement, otherBase]).loader.load(fake.ctx);
+
+        expect([...fake.entries.keys()].sort()).toEqual(['a', 'z']);
+        expect(fake.filePathOf('a')).toBe('replacement/a.mdx');
+    });
+
+    it('keeps an entry that has no file path for the last root to sweep', async () => {
+        const fake = createFakeContext(tmp);
+        fake.entries.set('pathless', { id: 'pathless', data: { title: 'Pathless' } });
+
+        await overlayCollection().loader.load(fake.ctx);
+
+        // Swept by the last root's own cleanup, exactly once — not left behind.
+        expect(fake.entries.has('pathless')).toBe(false);
+    });
+});
+
 describe('watcher', () => {
     let fake: ReturnType<typeof createFakeContext>;
 

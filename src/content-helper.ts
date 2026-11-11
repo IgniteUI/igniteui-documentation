@@ -101,6 +101,16 @@ function withTitleFilter(baseLoader: any): any {
 // Roots are always ordered highest precedence first, so root 0 wins every
 // collision — see `src/lib/doc-roots.ts` for the convention.
 //
+// ── Roots that changed since the store was filled ───────────────────────────
+// Astro keeps the store between runs and clears it only when the Astro config
+// or the content config *file* changes. The root list is in neither — it
+// arrives through `DOCS_SOURCE_PATHS` — so a store filled for other roots
+// (another language, a relocated overlay) can be handed to a load as-is. No
+// scoped view owns an entry from a root that is no longer configured, so no
+// root's sweep would ever delete it and the page would keep being served.
+// `overlayLoader` therefore drops those entries before the roots load; a slug
+// one of the current roots still provides is simply loaded again.
+//
 // ── Dev-server watching ──────────────────────────────────────────────────────
 // Each glob loader registers its own `add`/`change`/`unlink` handlers on the
 // shared file watcher, and each handler only reacts to paths under its own
@@ -285,6 +295,16 @@ function overlayLoader(loaders: Array<{ root: string; loader: any }>): any {
             const configRoot = ctx.config?.root ? fileURLToPath(ctx.config.root) : process.cwd();
             const claimed = new Map<string, number>();
             const changeHandlers: WatchHandler[][] = loaders.map(() => []);
+
+            // Drop cached entries loaded from a root that is no longer
+            // configured — see "Roots that changed" above. Entries without a
+            // file path are left for the last root, which sweeps them itself.
+            for (const id of [...ctx.store.keys()]) {
+                const source = entrySourcePath(ctx.store.get(id), configRoot);
+                if (source && !rootsWithSep.some(root => source.startsWith(root))) {
+                    ctx.store.delete(id);
+                }
+            }
 
             /**
              * A file under root `rootIndex` was deleted. Re-sync the same
