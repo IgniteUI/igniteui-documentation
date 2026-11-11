@@ -20,7 +20,17 @@ if (!existsSync(sourceDir)) {
   process.exit(1);
 }
 
+// Grid topics that Angular takes from xplat even though it keeps its own grids/ content.
+// Paths are relative to the generated language folder.
+const xplatGridTopics = new Set([
+  'components/grids/data-grid.mdx',
+]);
+
 function shouldCopy(src) {
+  const rel = relative(sourceDir, src).replace(/\\/g, '/');
+  if (xplatGridTopics.has(rel)) {
+    return true;
+  }
   // Skip grids folder (Angular has its own)
   if (src.includes('/grids/') || src.includes('\\grids\\')) {
     return false;
@@ -128,5 +138,5 @@ cpSync(sourceDir, targetDir, {
 const normalizedFiles = normalizeCopiedMarkdownFiles(sourceDir, targetDir);
 
 console.log(' Generated content synced successfully');
-console.log(' Excluded: grids/, changelog/, toc files');
+console.log(` Excluded: grids/ (except ${[...xplatGridTopics].join(', ')}), changelog/, toc files`);
 console.log(` Normalized markdown spacing in ${normalizedFiles} file(s)`);
