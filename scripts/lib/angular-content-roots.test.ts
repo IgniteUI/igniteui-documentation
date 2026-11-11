@@ -9,6 +9,7 @@ import {
     isShadowedAuthoredFile,
     isUnservedAngularFile,
     isUnservedOverlayFile,
+    requireAngularOverlayRoot,
 } from './angular-content-roots.mjs';
 
 /** Repo root of the fake checkout, in the forward-slash form the module expects. */
@@ -152,5 +153,26 @@ describe('getRootGroup', () => {
 
     it('returns an empty list for an empty root', () => {
         expect(getRootGroup('')).toEqual([]);
+    });
+});
+
+describe('requireAngularOverlayRoot', () => {
+    it('returns the overlay root, excludes included, when it is on disk', () => {
+        const root = requireAngularOverlayRoot('en', repo);
+
+        expect(root.dir.replace(/\\/g, '/')).toBe(`${overlay('en')}/components`);
+        expect(root.exclude).toEqual(['changelog/**', 'grids/**']);
+    });
+
+    it('throws for a generated language whose overlay is missing, naming the command', () => {
+        fs.rmSync(overlay('jp'), { recursive: true, force: true });
+
+        expect(() => requireAngularOverlayRoot('jp', repo)).toThrow(/npm run xplat:generate:jp --prefix docs\/angular/);
+    });
+
+    it('does not throw for a language the generator does not emit', () => {
+        expect(fs.existsSync(overlay('kr'))).toBe(false);
+
+        expect(() => requireAngularOverlayRoot('kr', repo)).not.toThrow();
     });
 });

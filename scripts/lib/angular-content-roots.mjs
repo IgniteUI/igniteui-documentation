@@ -44,11 +44,32 @@ export const OVERLAY_GENERATE_SCRIPTS = { en: 'xplat:generate', jp: 'xplat:gener
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 /** The overlay content root for `lang`, as `createDocsSite` takes it in `source.overlayDirs`. */
-export function angularOverlayRoot(lang) {
+export function angularOverlayRoot(lang, repoRoot = REPO_ROOT) {
     return {
-        dir: join(REPO_ROOT, ANGULAR_OVERLAY_ROOT, lang, 'components'),
+        dir: join(repoRoot, ANGULAR_OVERLAY_ROOT, lang, 'components'),
         exclude: [...ANGULAR_OVERLAY_EXCLUDE],
     };
+}
+
+/**
+ * `angularOverlayRoot(lang)`, after checking the overlay is on disk when it has
+ * to be. `createDocsSite` drops a root that does not exist, so a language the
+ * generator emits (`OVERLAY_GENERATE_SCRIPTS`) with no output would build a site
+ * that is silently missing every xplat topic — that is an error naming the
+ * command that generates it. A language the generator does not emit (`kr`) has
+ * no overlay by design and passes through.
+ */
+export function requireAngularOverlayRoot(lang, repoRoot = REPO_ROOT) {
+    const root = angularOverlayRoot(lang, repoRoot);
+    const script = OVERLAY_GENERATE_SCRIPTS[lang];
+    if (script && !existsSync(root.dir)) {
+        throw new Error(
+            `[angular-content-roots] The xplat overlay for "${lang}" is not on disk: ${root.dir}\n` +
+            'Without it the Angular site would be built without its xplat topics. Generate it first:\n' +
+            `  npm run ${script} --prefix docs/angular`,
+        );
+    }
+    return root;
 }
 
 /** Forward-slash form of a path, for matching against the repo-relative roots. */
