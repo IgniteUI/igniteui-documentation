@@ -70,6 +70,7 @@ import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-tab
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { igChrome } from 'igniteui-astro-components/chrome';
+import { igShikiConfig } from 'igniteui-astro-components/code-theme';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
 
@@ -916,9 +917,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             shikiConfig: {
-                theme: 'dark-plus',
+                ...igShikiConfig,
                 langs: [razorComponentTags],
-                wrap: true,
             },
             ...(astroExtra as any).markdown,
             // Astro 7 renders Markdown/MDX with Sätteri instead of remark/rehype.
