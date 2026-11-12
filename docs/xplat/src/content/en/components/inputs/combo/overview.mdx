@@ -153,7 +153,7 @@ Install the **{PackageCommon}** package:
 npm install {PackageCommon}
 ```
 
-Then import the <ApiLink type="Combo" />, its theme CSS, and register the component. The registration also registers the input, icon, and popover elements that the Combo renders:
+Then import the <ApiLink type="Combo" />, its theme CSS, and register the component. The registration also registers the input, icon, checkbox, and popover elements that the Combo renders:
 
 ```ts
 import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
@@ -468,9 +468,11 @@ await combo.toggle();
 ```tsx
 const comboRef = useRef<IgrCombo>(null);
 
-comboRef.current.show();
-comboRef.current.hide();
-comboRef.current.toggle();
+const open = () => comboRef.current?.show();
+const close = () => comboRef.current?.hide();
+const toggle = () => comboRef.current?.toggle();
+
+return <IgrCombo ref={comboRef} data={cities} valueKey="id" displayKey="name" />;
 ```
 
 </PlatformBlock>
@@ -558,7 +560,7 @@ The {Platform} Combo is form-associated. Set `required` to require at least one 
 
 <PlatformBlock for="Angular">
 
-The Angular Combo takes its validation state from the form control that it is bound to, through `ngModel` or a reactive form. Set the <ApiLink type="Combo" member="valid" label="valid" /> property to an `IgxInputState` value to set the state in code. Put the guidance or the error message in an `igx-hint`:
+The Angular Combo takes its validation state from the form control that it is bound to, through `ngModel` or a reactive form. Set the <ApiLink type="Combo" member="valid" label="valid" /> property to an `IgxInputState` value to set the state in code. The Angular Combo has no built-in warn state, so the sample shows it with a CSS class. Put the guidance or the error message in an `igx-hint`:
 
 ```html
 <igx-combo type="border" [data]="countries" valueKey="id" displayKey="name" [(ngModel)]="selection" required>
@@ -652,10 +654,10 @@ combo.filteringOptions = { filterKey: 'name', caseSensitive: false, matchDiacrit
 
 <PlatformBlock for="Angular">
 
-Set the text of the empty search input with <ApiLink type="Combo" member="searchPlaceholder" label="searchPlaceholder" />, show a button that toggles case-sensitive filtering with <ApiLink type="Combo" member="showSearchCaseIcon" label="showSearchCaseIcon" />, and hide the search input with <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" />. The <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> input sets the key that the search filters by and whether the filtering is case-sensitive:
+Set the text of the empty search input with the `igx_combo_filter_search_placeholder` entry of <ApiLink type="Combo" member="resourceStrings" label="resourceStrings" />, show a button that toggles case-sensitive filtering with <ApiLink type="Combo" member="showSearchCaseIcon" label="showSearchCaseIcon" />, and hide the search input with <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" />. The <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> input sets the key that the search filters by and whether the filtering is case-sensitive:
 
 ```html
-<igx-combo [data]="cities" displayKey="name" searchPlaceholder="Search cities" [showSearchCaseIcon]="true"
+<igx-combo [data]="cities" displayKey="name" [resourceStrings]="{ igx_combo_filter_search_placeholder: 'Search cities' }" [showSearchCaseIcon]="true"
            [filteringOptions]="{ filteringKey: 'name', caseSensitive: false }">
 </igx-combo>
 ```
@@ -716,7 +718,7 @@ The {Platform} Combo exposes its selected items through its value, and methods t
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-The `value` holds the selected items as their `valueKey` values, or as object references when there is no `valueKey`. Set it to select items when the Combo first renders. The `select` and `deselect` methods take an array of items; called without items, they select or deselect all items:
+The `value` holds the selected items as their `valueKey` values, or as object references when there is no `valueKey`. Set it to select items when the Combo first renders. The `select` and `deselect` methods take an array of items; with an empty array, they select or deselect all items:
 
 </PlatformBlock>
 
@@ -740,14 +742,14 @@ console.log(combo.value); // the ids of the selected items
 
 ```tsx
 // select and deselect items by their ids, because the valueKey is 'id'
-comboRef.current.select(['BG01', 'BG02']);
-comboRef.current.deselect(['BG01']);
+comboRef.current?.select(['BG01', 'BG02']);
+comboRef.current?.deselect(['BG01']);
 
 // select and deselect all items
-comboRef.current.select([]);
-comboRef.current.deselect([]);
+comboRef.current?.select([]);
+comboRef.current?.deselect([]);
 
-console.log(comboRef.current.value); // the ids of the selected items
+console.log(comboRef.current?.value); // the ids of the selected items
 ```
 
 </PlatformBlock>
@@ -756,7 +758,7 @@ console.log(comboRef.current.value); // the ids of the selected items
 
 ```razor
 @code {
-    private IgbCombo<object> Combo;
+    private IgbCombo<string> Combo;
 
     public void SelectCities() => Combo.Select(new object[] { "BG01", "BG02" });
 
@@ -888,7 +890,7 @@ The {Platform} Combo exposes the following properties. See the API reference for
 | <ApiLink type="Combo" member="groupKey" label="groupKey" /> | `string` | — | The field that groups the options. |
 | <ApiLink type="Combo" member="type" label="type" /> | `IgxInputGroupType` | `'box'` | The type of the input field: `box`, `border`, or `line`. |
 | <ApiLink type="Combo" member="placeholder" label="placeholder" /> | `string` | — | The text that the input field shows when no item is selected. |
-| <ApiLink type="Combo" member="searchPlaceholder" label="searchPlaceholder" /> | `string` | — | The text that the empty search input shows. |
+| <ApiLink type="Combo" member="resourceStrings" label="resourceStrings" /> | `IComboResourceStrings` | — | The texts of the Combo, including the one that the empty search input shows. |
 | <ApiLink type="Combo" member="disabled" label="disabled" /> | `boolean` | `false` | Whether the Combo is disabled. |
 | <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" /> | `boolean` | `false` | Whether the search input is hidden. |
 | <ApiLink type="Combo" member="showSearchCaseIcon" label="showSearchCaseIcon" /> | `boolean` | `false` | Whether the search input shows the button that toggles case-sensitive filtering. |
@@ -1404,7 +1406,7 @@ These questions cover common {Platform} Combo setup, selection, and usage scenar
     <PlatformBlock for="Angular">Bind the Angular Combo with `[(ngModel)]` or a form control to an array of `valueKey` values, or call the `select` method with the items. Without a `valueKey`, the Angular Combo uses references to the objects in its `data`.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Set the `value` of the {Platform} Combo to an array of `valueKey` values, or call the `select` method with the items. Without a `valueKey`, the {Platform} Combo uses references to the objects in its `data`.</PlatformBlock>
   </FaqItem>
   <FaqItem question="Can the Combo allow only one selected item?" indicatorPosition="end">
-    <PlatformBlock for="Angular">The Angular Combo always allows multiple selection. Use the Simple Combo when users must select a single item; it also lets users type in the input field to filter the list.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Yes. Set `singleSelect` on the {Platform} Combo, and users select one item and filter the list from the input field instead of the search input. See the Single Selection topic.</PlatformBlock>
+    <PlatformBlock for="Angular">The Angular Combo always allows multiple selection. Use the Simple Combo when users must select a single item; it also lets users type in the input field to filter the list.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Yes. Set `singleSelect` on the {Platform} Combo, and users select one item and filter the list from the input field instead of the search input. See the [Single Selection](./single-selection.mdx) topic.</PlatformBlock>
   </FaqItem>
   <FaqItem question="How do I group the options of the Combo?" indicatorPosition="end">
     Set the `groupKey` of the {Platform} Combo to the field that holds the group of each option. The {Platform} Combo shows a header for each group and sorts the groups.
