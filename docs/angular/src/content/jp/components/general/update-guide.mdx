@@ -67,7 +67,7 @@ ng update @angular/cli
 
 ## 22.2.x から 22.3.x の場合
 
-Ignite UI for Angular 22.3.0 は Ignite UI Theming 30 (`igniteui-theming`) を使用します。その `palette()` 関数は、デフォルトで新しい `fitted` ジェネレーターを使用してパレットを作成します。`fitted` ジェネレーターはコントラストに基づいてすべてのシェードを配置し、固定の色として出力するため、`palette()` 呼び出しのコンパイル結果は以前とは異なる色になります。`$light-material-palette` などの定義済みパレットとビルド済みの CSS テーマは `legacy` ジェネレーターを維持しており、変更はありません。両方のジェネレーターについては、[パレット生成](../themes/palette-generation.mdx)を参照してください。
+Ignite UI for Angular 22.3.0 は Ignite UI Theming 30 (`igniteui-theming`) を使用します。Ignite UI Theming 30 の `palette()` 関数は、デフォルトで新しい `fitted` ジェネレーターを使用してパレットを作成します。`fitted` ジェネレーターはコントラストに基づいてすべてのシェードを配置し、固定の色として出力するため、同じ `palette()` 呼び出しでも、コンパイル後の色が以前とは変わります。`$light-material-palette` などの事前定義されたパレットとビルド済みの CSS テーマは `legacy` ジェネレーターを維持しており、変更はありません。両方のジェネレーターについては、[パレット生成](../themes/palette-generation.mdx)を参照してください。
 
 `ng update` のマイグレーションは、`.scss` ファイルと `.sass` ファイル内の、ジェネレーターを選択していないすべての `palette()` 関数呼び出しに `$generator: 'legacy'` を追加します。これにより、パレットの色は維持されます。
 
@@ -90,17 +90,17 @@ $my-palette: palette(
 
 マイグレーションは、パレットを CSS 変数として出力するミックスイン `@include palette(...)` を変更しません。また、`palette($args...)` のように引数を展開する呼び出しには引数を追加できません。そのような呼び出しは、`ng update` の出力の最後にファイルと行番号とともに報告されるため、展開するマップに `generator: 'legacy'` を手動で追加してください。
 
-パレットを `fitted` ジェネレーターに移行するには、`$generator` 引数を削除します。引数を渡さずにすべての `palette()` 呼び出しで `legacy` ジェネレーターを維持するには、ほかのモジュールがテーマ ライブラリを読み込むより前に、テーマ ライブラリを設定します。
+パレットを `fitted` ジェネレーターに移行するには、`$generator` 引数を削除します。引数を渡さずにすべての `palette()` 呼び出しで `legacy` ジェネレーターを使い続けるには、テーマ ライブラリがほかのモジュールから読み込まれる前に、次のように設定します。
 
 ```scss
 @use "igniteui-theming" with ($shade-generator: 'legacy');
 @use "igniteui-angular/theming" as *;
 ```
 
-コンポーネント テーマは、背景を `--ig-surface-500` ではなく `base` サーフェス ロール (`--ig-surface-base`) から取得するようになりました。すべてのパレットは `base`、`sunken`、`raised`、`overlay`、`container` のサーフェス ロールを出力します。番号付きのサーフェス シェードは非推奨です。パレットはどちらのジェネレーターでも引き続きそれらを出力し、`fitted` パレットでは `--ig-surface-500` が `--ig-surface-base` を指しますが、今後のリリースで削除されます。次の項目を手動で確認してください。
+コンポーネント テーマは、背景を `--ig-surface-500` ではなく `base` サーフェス ロール (`--ig-surface-base`) から取得するようになりました。すべてのパレットは `base`、`sunken`、`raised`、`overlay`、`container` のサーフェス ロールを出力します。番号付きのサーフェス シェードは非推奨になりました。現在はどちらのジェネレーターでも引き続き出力され、`fitted` パレットでは `--ig-surface-500` が `--ig-surface-base` を参照しますが、番号付きのシェードは今後のリリースで削除されます。次の項目を手動で確認してください。
 
 - 実行時に `--ig-surface-500` を上書きしている場合 (たとえば、セクションをダークなサーフェスに切り替える場合) は、代わりに `--ig-surface-base` を上書きし、使用している場合は `--ig-surface-raised`、`--ig-surface-overlay`、`--ig-surface-sunken` も上書きしてください。[パレット](../themes/palettes.mdx#ダークとライト)を参照してください。
-- 独自のスタイルが `--ig-surface-500` または `color($color: 'surface', $variant: 500)` を読み取っている場合、当面は引き続き動作します。番号付きのシェードが削除される前に、`base` を返す `color($color: 'surface')` などのサーフェス ロールに移行してください。
+- 独自のスタイルで `--ig-surface-500` または `color($color: 'surface', $variant: 500)` を参照している場合も、当面はそのまま動作します。番号付きのシェードが削除される前に、`base` を返す `color($color: 'surface')` などのサーフェス ロールに移行してください。
 - 手動で作成したパレット マップを渡す場合は、その `surface` エントリにサーフェス ロールを追加してください。[カスタム パレット マップ](../themes/sass/palettes.mdx#カスタム-パレット-マップ)を参照してください。
 
 ## 21.1.x から 22.0.x の場合
