@@ -70,8 +70,41 @@ import { rehypeTableWrapper } from 'igniteui-astro-components/plugins/rehype-tab
 import { rehypeHeadingAnchors } from 'igniteui-astro-components/plugins/rehype-heading-anchors';
 import { rehypePagefindIgnore } from 'igniteui-astro-components/plugins/rehype-pagefind-ignore';
 import { igChrome } from 'igniteui-astro-components/chrome';
+import { igShikiConfig } from 'igniteui-astro-components/code-theme';
 import { rehypeStripEmptyParagraphs } from './plugins/rehype-strip-empty-paragraphs';
 import { rehypeApiReferencesGrid } from './plugins/rehype-api-references-grid';
+
+/**
+ * Scopes Razor component tags (`<PageTitle>`, `<IgbGrid>`) the way VS Code's C# extension does.
+ *
+ * The razor grammar leaves those tags to the HTML grammar, which scopes any tag outside the
+ * HTML spec as `invalid.illegal.unrecognized-tag.html`, and themes style that as an error.
+ * VS Code recolors them from the language server; without one, the grammar has to.
+ */
+const razorComponentTags = {
+    name: 'razor-component-tags',
+    scopeName: 'razor.component-tags',
+    injectTo: ['text.aspnetcorerazor'],
+    // Only markup handled by the HTML grammar: not code (`List<Product>` in `@code`), comments,
+    // attribute values, Razor expressions (`@(a <B)`), or `@if`/`@foreach` bodies, whose tags
+    // the razor grammar handles itself.
+    injectionSelector:
+        'L:text.aspnetcorerazor -source -comment -string -meta.expression -meta.structure.razor.csharp.codeblock',
+    repository: {},
+    patterns: [
+        {
+            begin: '(</?)([A-Z][A-Za-z0-9_.]*)(?=[ \\t\\n/>])',
+            beginCaptures: {
+                1: { name: 'punctuation.definition.tag.begin.html' },
+                2: { name: 'entity.name.class.element.component' },
+            },
+            end: '/?>',
+            endCaptures: { 0: { name: 'punctuation.definition.tag.end.html' } },
+            name: 'meta.tag.component.razor',
+            patterns: [{ include: 'text.html.basic#attribute' }],
+        },
+    ],
+};
 
 /**
  * The Infragistics header/footer, a snapshot of the marketing site's own
@@ -884,8 +917,8 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
         },
         markdown: {
             shikiConfig: {
-                theme: 'dark-plus',
-                wrap: true,
+                ...igShikiConfig,
+                langs: [razorComponentTags],
             },
             ...(astroExtra as any).markdown,
             // Astro 7 renders Markdown/MDX with Sätteri instead of remark/rehype.
