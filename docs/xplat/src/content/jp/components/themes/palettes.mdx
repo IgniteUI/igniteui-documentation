@@ -33,7 +33,7 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 すべてのバリアントには、`--ig-primary-500-contrast` のような対応する `-contrast` 変数があり、構成された WCAG レベルでそのシェードに対して読みやすい方の黒または白に解決されます。
 
 <DocsAside type="info" title="情報">
-コントラスト カラーは、対応するシェードからブラウザーによって計算される CSS 相対カラーであるため、シェードをオーバーライドすると、そのコントラスト カラーも一緒に更新されます。半透明の `container` は例外で、そのコントラスト カラーは `base` の上に重ねたコンテナーから計算されます (その上のテキストはこれに対して読み取られます)。そのため、どちらの変更にも追従します。
+コントラスト カラーは、対応するシェードからブラウザーによって計算される CSS 相対カラーであるため、シェードをオーバーライドすると、そのコントラスト カラーも一緒に更新されます。半透明の `container` は例外です。コンテナー上のテキストは `base` に重なった状態の色の上に表示されるため、コントラスト カラーもその重なった色から計算されます。そのため、`container` と `base` のどちらを変更しても追従します。
 </DocsAside>
 
 以下は、Light Material パレットの `primary` ファミリの抜粋です:
@@ -58,7 +58,7 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 各ファミリは、パレットの生成元となったカラーを変更せずに保持する `seed` 変数も公開します。ビルド済みのテーマでは、`primary`、`secondary`、およびその他のカラー ファミリの seed は `500` バリアントと一致します。`gray` では一致しません。`--ig-gray-seed` はグレースケールの派生元となったカラー (サーフェス カラーの輝度から選択された黒または白) を記録し、`--ig-gray-500` は生成された中間トーンです。
 
 <DocsAside type="info" title="情報">
-しきい値は `--ig-contrast-level` に保持されており、デフォルトは `var(--ig-wcag-aa)` です。任意のスコープでオーバーライドして、`var(--ig-wcag-a)` または `var(--ig-wcag-aaa)` に切り替えることができます。<PlatformBlock for="React, WebComponents, Blazor"> ビルド済みの CSS を使用する代わりに Sass からテーマをコンパイルする場合、`palette` および `adaptive-contrast` ミックスインは `a`、`aa`、または `aaa` を直接受け取ります。[アクセシビリティ](accessibility.mdx)を参照してください。</PlatformBlock>
+コントラストのしきい値は `--ig-contrast-level` に保持されており、デフォルトは `var(--ig-wcag-aa)` です。任意のスコープでオーバーライドして、`var(--ig-wcag-a)` または `var(--ig-wcag-aaa)` に切り替えることができます。<PlatformBlock for="React, WebComponents, Blazor">ビルド済みの CSS を使用する代わりに Sass からテーマをコンパイルする場合、`palette` および `adaptive-contrast` ミックスインは `a`、`aa`、または `aaa` を直接受け取ります。[アクセシビリティ](accessibility.mdx)を参照してください。</PlatformBlock>
 </DocsAside>
 
 <PlatformBlock for="Angular">
@@ -73,18 +73,18 @@ Sass では、`palette()` および `adaptive-contrast()` ミックスインは 
 
 ## パレットの生成方法
 
-ビルド済みの CSS テーマに含まれるものを含め、すべての {ProductName} パレットは、`igniteui-theming` Sass ライブラリの `palette()` 関数によって生成されます。<PlatformBlock for="React, WebComponents, Blazor"> ビルド済みのパレットを使用するのに Sass は必要ありませんが、その作成方法を知ると変数の動作を理解できます。</PlatformBlock>この関数には 2 つのジェネレーターがあり、実行時の動作が異なる CSS 変数を生成します:
+ビルド済みの CSS テーマに含まれるものを含め、すべての {ProductName} パレットは、`igniteui-theming` Sass ライブラリの `palette()` 関数によって生成されます。<PlatformBlock for="React, WebComponents, Blazor">ビルド済みのパレットを使用するのに Sass は必要ありませんが、その作成方法を知ると変数の動作を理解できます。</PlatformBlock>この関数には 2 つのジェネレーターがあり、実行時の動作が異なる CSS 変数を生成します:
 
 | ジェネレーター | シェードの出力形式 | 使用場所 |
 |---|---|---|
 | `legacy` | `500` の CSS 相対カラー。`--ig-primary-500` をオーバーライドすると、ブラウザーですべてのプライマリ シェードが更新されます。 | すべてのビルド済み CSS テーマと、事前定義された Sass パレット。 |
 | `fitted` | コントラスト ターゲットに合わせて解決された固定カラー。1 つの変数をオーバーライドしても、そのシェードのみが変更されます。 | Sass の `palette()` で生成するパレット (デフォルト)。 |
 
-`legacy` ジェネレーターは、`500` シェードの彩度と明度に固定値を乗算するため、シェードの品質は `500` カラーの明るさまたは暗さに依存します。非常に暗い、または非常に淡い `500` では、シェードが近接したり、白に解決されたりします。ブランド カラーが非常に暗い、または非常に淡い場合は、代わりに Sass で `fitted` ジェネレーターを使用してパレットを生成してください。これはコントラスト スケールに合わせて各ファミリを構築するため、そのようなシードでも 10 個の異なるシェードが生成されます。[パレット生成](palette-generation.mdx)では、両方のジェネレーターについて説明し、パレットの生成方法を示します。<PlatformBlock for="Angular"> [Sass によるパレット](sass/palettes.mdx)では、各ワークフローを詳しく説明しています。</PlatformBlock>
+`legacy` ジェネレーターは、`500` シェードの彩度と明度に固定値を乗算するため、シェードの品質は `500` カラーの明るさまたは暗さに依存します。非常に暗い、または非常に淡い `500` では、シェードが近接したり、白に解決されたりします。ブランド カラーが非常に暗い、または非常に淡い場合は、代わりに Sass で `fitted` ジェネレーターを使用してパレットを生成してください。これはコントラスト スケールに合わせて各ファミリを構築するため、そのようなシードでも 10 個の異なるシェードが生成されます。[パレット生成](palette-generation.mdx)では、両方のジェネレーターについて説明し、パレットの生成方法を示します。<PlatformBlock for="Angular">[Sass によるパレット](sass/palettes.mdx)では、各ワークフローを詳しく説明しています。</PlatformBlock>
 
-<Sample src="/themes/palettes/shades" wc fitContent iframeOnly alt="{Platform} palettes: a prebuilt palette's families through the legacy and fitted generators" />
+<Sample src="/themes/palettes/shades" wc fitContent iframeOnly alt="{Platform} パレット: ビルド済みパレットの各ファミリを legacy と fitted の各ジェネレーターで生成した比較" />
 
-このトピックの残りの部分では、実行時のオーバーライドについて説明します。これは、ビルド済みのテーマなど、`legacy` ジェネレーターで構築されたパレットでのみ新しいシェードを派生させます。
+このトピックの残りの部分では、実行時のオーバーライドについて説明します。オーバーライドで新しいシェードが派生するのは、ビルド済みのテーマなど、`legacy` ジェネレーターで構築されたパレットだけです。
 
 ## パレットの定義
 
@@ -116,7 +116,7 @@ Sass では、`palette()` および `adaptive-contrast()` ミックスインは 
 }
 ```
 
-オーバーライドを他のセレクターにスコープすると、複数のパレットを並行して実行できます。たとえば、青と赤のパレットをクラスで定義します:
+オーバーライドを他のセレクターにスコープすると、複数のパレットを使い分けられます。たとえば、青と赤のパレットをクラスで定義します:
 
 ```css
 /* styles.css */
@@ -138,7 +138,7 @@ Sass では、`palette()` および `adaptive-contrast()` ミックスインは 
 
 </PlatformBlock>
 
-クラスを `blue-theme` から `red-theme` に変更すると、要素内のすべてのパレットが切り替わります。
+クラスを `blue-theme` から `red-theme` に変更すると、その要素の中のパレットがまとめて切り替わります。
 
 同じ方法で、単一のコンポーネントのパレット カラーを変更できます。たとえば、Material の Avatar は背景を `gray` の `400` シェードから取得するため、Avatar でそのシェードをオーバーライドすると、パレットの残りの部分に影響を与えずに背景を変更できます:
 
@@ -175,7 +175,7 @@ igc-avatar {
 
 各レイヤーには、そのレイヤー上の前景色用に、`--ig-surface-base-contrast` のような対応する `-contrast` 変数があります。
 
-動く余地のないレイヤーは `base` に解決されます。たとえば、純白の base では、`raised` と `overlay` も白になるため、ページから区別するには境界線または[エレベーション](elevations.mdx)を使用します。レイヤーの生成方法については、[パレット生成](palette-generation.mdx#surface-roles)を参照してください。
+動く余地のないレイヤーは `base` に解決されます。たとえば、純白の base では、`raised` と `overlay` も白になるため、ページから区別するには境界線または[エレベーション](elevations.mdx)を使用します。レイヤーの生成方法については、[パレット生成](palette-generation.mdx#サーフェス-ロール)を参照してください。
 
 ## ダークとライト
 
@@ -233,7 +233,7 @@ igc-avatar {
 
 ## その他のカラー
 
-`info`、`success`、`warn`、`error` ファミリは、<PlatformBlock for="Angular">`igx-input-group`</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igc-input`</PlatformBlock> の検証状態など、状態のカラーを設定します。これらを変更するには `500` バリアントをオーバーライドすると、各ファミリの残りもそれに追従します:
+`info`、`success`、`warn`、`error` ファミリは、<PlatformBlock for="Angular">`igx-input-group`</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igc-input`</PlatformBlock> の検証状態など、状態のカラーを設定します。これらの色を変更するには、`500` バリアントをオーバーライドします。各ファミリのほかのシェードも、それに合わせて変わります:
 
 ```css
 :root {
