@@ -407,39 +407,30 @@ this.radioGroup.addEventListener('click', (radio: any) => {
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbRadioGroup Alignment="@ContentOrientation.Horizontal">
-  <IgbRadio Value="Small" label-position="after" Change="OnRadioOptionClick">Small</IgbRadio>
-  <IgbRadio Value="Medium" label-position="after" Change="OnRadioOptionClick">Medium</IgbRadio>
-  <IgbRadio Value="Large" label-position="after" Checked="true" Change="OnRadioOptionClick">Large</IgbRadio>
+<IgbRadioGroup Alignment="@ContentOrientation.Horizontal" @bind-Value="ListSize">
+    <IgbRadio name="size" Value="@("size-small")">Small</IgbRadio>
+    <IgbRadio name="size" Value="@("size-medium")">Medium</IgbRadio>
+    <IgbRadio name="size" Value="@("size-large")">Large</IgbRadio>
 </IgbRadioGroup>
 
-<IgbList style="margin-top: 10px;" Size="@ListSize" />
+<IgbList style="margin-top: 10px;" class="@ListSize" />
 
 @code {
-  public SizableComponentSize ListSize { get; set; }
+    public string ListSize { get; set; } = "size-medium";
+}
+```
 
-  public void OnRadioOptionClick(IgbComponentBoolValueChangedEventArgs e)
-  {
-    IgbRadio radio = e.Parent as IgbRadio;
-    switch (radio.Value)
-    {
-      case "Small":
-      {
-        this.ListSize = SizableComponentSize.Small;
-        break;
-      }
-      case "Medium":
-      {
-        this.ListSize = SizableComponentSize.Medium;
-        break;
-      }
-      case "Large":
-      {
-        this.ListSize = SizableComponentSize.Large;
-        break;
-      }
-    }
-  }
+```css
+.size-small {
+    --ig-size: var(--ig-size-small);
+}
+
+.size-medium {
+    --ig-size: var(--ig-size-medium);
+}
+
+.size-large {
+    --ig-size: var(--ig-size-large);
 }
 ```
 
