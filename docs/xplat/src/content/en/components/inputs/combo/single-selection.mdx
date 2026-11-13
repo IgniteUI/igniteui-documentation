@@ -33,7 +33,7 @@ The Angular single selection Combo is the Simple Combo, the `igx-simple-combo` c
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-Set <ApiLink type="Combo" member="singleSelect" label="singleSelect" /> on the {Platform} Combo to switch it to single selection. The input field becomes editable and filters the list as users type, the search input of the dropdown is hidden, and the options show no checkboxes.
+Set <PlatformBlock for="React,WebComponents"><ApiLink type="Combo" member="singleSelect" label="singleSelect" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="SingleSelect" label="SingleSelect" /></PlatformBlock> on the {Platform} Combo to switch it to single selection. The input field becomes editable and filters the list as users type, the search input of the dropdown is hidden, and the options show no checkboxes.
 
 </PlatformBlock>
 
@@ -111,7 +111,7 @@ igc-combo[single-select]
    │     │  └─ slot[name="empty"]
    │     └─ div[part="footer"]
    │        └─ slot[name="footer"]
-   └─ igc-validator[part="helper-text"]              // the helper text and the validation messages
+   └─ igc-validator#combo-helper-text               // the helper text and the validation messages, exported as the "helper-text" part
 ```
 
 </PlatformBlock>
@@ -289,7 +289,7 @@ The Simple Combo Input provides selection between a border type for a more struc
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-The {Platform} Combo uses the box type by default. Set `outlined` for the border type. The box type is a style of the Material theme: in the Bootstrap, Fluent, and Indigo themes, both types look the same.
+The {Platform} Combo uses the box type by default. Set `outlined` for the border type. The box type is a style of the Material theme: in the Bootstrap, Fluent, and Indigo themes, both types look the same, so the samples show the box type only in the Material theme.
 
 </PlatformBlock>
 
@@ -322,7 +322,7 @@ The {Platform} Combo uses the box type by default. Set `outlined` for the border
 
 <PlatformBlock for="Angular">
 
-The Angular Simple Combo uses the box type by default. Set the <ApiLink type="SimpleCombo" member="type" label="type" /> input to `border` for the border type. Add the label with the `igxLabel` directive and the left icon with an `igx-prefix`:
+The Angular Simple Combo uses the box type by default. Set the <ApiLink type="SimpleCombo" member="type" label="type" /> input to `border` for the border type. The box type is a style of the Material theme: in the Bootstrap, Fluent, and Indigo themes, both types look the same, so the samples show the box type only in the Material theme. Add the label with the `igxLabel` directive and the left icon with an `igx-prefix`. The `IGX_SIMPLE_COMBO_DIRECTIVES` token holds both, but not the icon, so add the `IgxIconComponent` to the `imports` of your component:
 
 ```html
 <igx-simple-combo type="border" placeholder="Select a value" [data]="options">
@@ -444,7 +444,7 @@ Clicking the input field or the toggle opens the dropdown, and typing in the inp
 <PlatformBlock for="WebComponents">
 
 ```ts
-const combo = document.querySelector('igc-combo');
+const combo = document.getElementById('countries') as IgcComboComponent;
 
 await combo.show();
 await combo.hide();
@@ -458,9 +458,11 @@ await combo.toggle();
 ```tsx
 const comboRef = useRef<IgrCombo>(null);
 
-comboRef.current.show();
-comboRef.current.hide();
-comboRef.current.toggle();
+const open = () => comboRef.current?.show();
+const close = () => comboRef.current?.hide();
+const toggle = () => comboRef.current?.toggle();
+
+return <IgrCombo ref={comboRef} singleSelect data={countries} valueKey="id" displayKey="name" />;
 ```
 
 </PlatformBlock>
@@ -548,7 +550,7 @@ The {Platform} Combo is form-associated. Set `required` to require a selected it
 
 <PlatformBlock for="Angular">
 
-The Angular Simple Combo takes its validation state from the form control that it is bound to, through `ngModel` or a reactive form. Set the <ApiLink type="SimpleCombo" member="valid" label="valid" /> property to an `IgxInputState` value to set the state in code. Put the guidance or the error message in an `igx-hint`:
+The Angular Simple Combo takes its validation state from the form control that it is bound to, through `ngModel` or a reactive form. Set the <ApiLink type="SimpleCombo" member="valid" label="valid" /> property to an `IgxInputState` value to set the state in code. The Angular Simple Combo has no built-in warn state, so the sample shows it with a CSS class. Put the guidance or the error message in an `igx-hint`:
 
 ```html
 <igx-simple-combo type="border" [data]="countries" valueKey="id" displayKey="name" [(ngModel)]="selection" required>
@@ -706,12 +708,12 @@ console.log(combo.value); // ['BG'] while Bulgaria is selected, [] after the des
 
 ```tsx
 // select the item matching the 'BG' value of the value key field
-comboRef.current.select('BG');
+comboRef.current?.select('BG');
 
 // deselect it
-comboRef.current.deselect('BG');
+comboRef.current?.deselect('BG');
 
-console.log(comboRef.current.value); // ['BG'] while Bulgaria is selected, [] after the deselection
+console.log(comboRef.current?.value); // ['BG'] while Bulgaria is selected, [] after the deselection
 ```
 
 </PlatformBlock>
@@ -846,7 +848,7 @@ Typing in the input field of the {Platform} Single Selection Combo opens the dro
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-Set `disableFiltering` to keep the whole list while users type. The `filteringOptions` object sets the key that the text filters by, and whether the filtering is case-sensitive and matches diacritics. When the text matches no option and the Combo loses the focus, the input field is cleared.
+Set `disableFiltering` to keep the whole list while users type. The `filteringOptions` object sets the key that the text filters by, and whether the filtering is case-sensitive and matches diacritics. When the Combo loses the focus without a selected option, the input field is cleared.
 
 </PlatformBlock>
 
@@ -869,14 +871,14 @@ combo.filteringOptions = { filterKey: 'name', caseSensitive: false, matchDiacrit
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" SingleSelect="true" DisableFiltering="false" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+<IgbCombo T="string" SingleSelect="true" DisableFiltering="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
-Set <ApiLink type="SimpleCombo" member="disableFiltering" label="disableFiltering" /> to keep the whole list while users type, and <ApiLink type="SimpleCombo" member="showSearchCaseIcon" label="showSearchCaseIcon" /> to show a button in the input field that toggles case-sensitive filtering. The <ApiLink type="SimpleCombo" member="filteringOptions" label="filteringOptions" /> input sets the key that the text filters by and whether the filtering is case-sensitive, and <ApiLink type="SimpleCombo" member="filterFunction" label="filterFunction" /> replaces the filtering with your own. When the text matches no option and the Simple Combo loses the focus, the input field is cleared:
+Set <ApiLink type="SimpleCombo" member="disableFiltering" label="disableFiltering" /> to keep the whole list while users type, and <ApiLink type="SimpleCombo" member="showSearchCaseIcon" label="showSearchCaseIcon" /> to show a button in the input field that toggles case-sensitive filtering. The <ApiLink type="SimpleCombo" member="filteringOptions" label="filteringOptions" /> input sets the key that the text filters by and whether the filtering is case-sensitive, and <ApiLink type="SimpleCombo" member="filterFunction" label="filterFunction" /> replaces the filtering with your own. When the Simple Combo loses the focus without a selected option, the input field is cleared:
 
 ```html
 <igx-simple-combo [data]="countries" displayKey="name" [showSearchCaseIcon]="true"
@@ -1203,7 +1205,7 @@ igc-combo::part(item selected) {
 
 ### Styling with Tailwind
 
-You can style the {Platform} Single Selection Combo using our custom Tailwind utility classes. Make sure to <PlatformBlock for="Angular">[set up Tailwind](../../themes/misc/tailwind-classes.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[set up Tailwind](../../themes/tailwind.mdx)</PlatformBlock> first.
+You can style the {Platform} Single Selection Combo using our custom Tailwind utility classes. Make sure to [set up Tailwind](../../themes/tailwind.mdx) first.
 
 <PlatformBlock for="Angular">
 
