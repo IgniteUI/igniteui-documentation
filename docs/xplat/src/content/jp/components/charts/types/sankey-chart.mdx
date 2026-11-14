@@ -1,0 +1,605 @@
+---
+title: "{Platform} サンキー チャート | データ視覚化 | インフラジスティックス"
+description: "{Platform} サンキー チャートは、ステージ間の重み付けされたフローを、ノードのバンドと、各フローの値に比例した幅のリボンで結んで描画します。"
+keywords: "{Platform} Charts, Sankey Chart, Sankey Diagram, Flow Chart, Alluvial Chart, Dependency Wheel, Infragistics, {Platform} チャート, サンキー チャート, サンキー図, フロー チャート, インフラジスティックス"
+license: commercial
+mentionedTypes: ["DataChart", "SankeySeries", "RadialSankeySeries", "FlowSeries", "FlowStyleMapping", "SankeyLayoutAdapter", "SankeyNodeAlignment", "SankeyLinkAggregationMode", "SankeyRibbonShape", "SankeyHighlightScope", "SankeyDataLegendScope", "CalloutLayer", "DataToolTipLayer", "DataLegend", "CategoryXAxis", "NumericYAxis", "CategoryAngleAxis", "ProportionalCategoryAngleAxis", "NumericRadiusAxis"]
+namespace: Infragistics.Controls.Charts
+_language: ja
+llms:
+  description: "{ProductName} サンキー チャートは、ステージ間の重み付けされたフローを描画する DataChart シリーズです。ノードは積み重ねられたバンド、リンクは幅が各フローの値に比例するリボンです。"
+platformType: xplat
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} サンキー チャート
+
+{ProductName} サンキー チャートは、ある量が 1 つのステージから次のステージへどのように流れるかを示します。各ノードは通過する量を高さとするバンドで、各リンクは運ぶフローに比例した幅のリボンです。そのため、最大のフローがどこへ向かい、どこで分岐または合流するかが一目でわかります。このチャートは `DataChart` 内に配置される `SankeySeries` で、チャートの軸、ツールチップ、ハイライト、選択、アニメーション、注釈レイヤーを使用します。
+
+## {Platform} サンキー チャートの例
+
+次の例は、月間予算を必需品、嗜好品、貯蓄に分け、さらにそれぞれの使い道に分けます。軸は非表示で、`CalloutLayer` ですべてのノードにラベルを付けています。
+
+<Sample src="/charts/data-chart/sankey-budget-showcase" height={600} alt="{Platform} Sankey Chart Example" />
+
+このサンプルを気に入りましたか? 完全な {ProductName} ツールキットを入手して、独自のアプリの構築を開始しましょう。<a href="{environment:infragisticsBaseUrl}/products/{ProductSpinal}/download">無料体験版をダウンロードしてください。</a>
+
+## サンキー チャートの推奨事項
+
+### {Platform} サンキー チャートはプロジェクトに適していますか?
+
+サンキー チャートは、ステージを通って移動し、各移動の大きさが重要なデータに適しています。たとえば、収入から支出への資金、エネルギー源から用途へのエネルギー、ランディング ページからコンバージョンへの訪問者、地域から販売チャネルへの注文などです。すべてのフローは端から端まで幅が保たれるため、このチャートは部分と、それらがどのように再結合するかの両方を示します。
+
+### サンキー チャートのユース ケース
+
+- 予算とキャッシュ フロー - 収入を支出や貯蓄のカテゴリに分割。
+- エネルギー、資材、リソースの収支。
+- 分岐するパスを持つカスタマー ジャーニーとコンバージョン ファネル。
+- 地域、製品、チャネルなど、複数のカテゴリ ディメンションにわたる 1 つの母集団の内訳 (アルビアル チャート)。
+
+### サンキー チャートを使用しない場合
+
+- データにステージや方向がない - 全体に対する部分を示すには、[円チャート](pie-chart.mdx)または[ツリーマップ](treemap-chart.mdx)を使用してください。
+- 正確な値を比較する必要がある - [棒チャート](bar-chart.mdx)または[縦棒チャート](column-chart.mdx)の方が正確に読み取れます。
+- 同程度の大きさの小さなフローが多数ある - リボンが細くなり、区別しにくくなります。
+
+### サンキー チャートのデータ構造
+
+サンキー チャートは、2 種類のレコードを読み取ります。
+
+- **リンク** - フローごとに 1 レコードで、ソース ノード、ターゲット ノード、値を指定します。サンキー チャートには、必ずこれらが必要です。
+- **ノード** - ノードごとに 1 レコードで、その ID、ラベル、所属するステージ (レイヤー) を持ちます。これらは任意です。指定しない場合、シリーズはリンクからノードとそのレイヤーを導出します。
+
+ノードの値は、入力合計と出力合計のうち大きい方です。そのため、受け取ったものをすべて渡すノードは、両側のフローとまったく同じ高さになります。値が有限の数値ではないリンクはスキップされ、リボンは描画されません。
+
+ステージはカテゴリ軸に沿って 1 ステージにつき 1 カテゴリで並び、積み重ねられたノードの値は数値軸に沿って並びます。
+
+## {Platform} サンキー チャートのデータ バインディング
+
+### ノードとリンク
+
+ノードをシリーズのデータ ソースにバインドし、リンクを `linkSource` にバインドします。ノードのフィールドは `nodeIdMemberPath`、`nodeLabelMemberPath`、`nodeLayerMemberPath` で指定し、リンクのフィールドは `linkSourceMemberPath`、`linkTargetMemberPath`、`linkValueMemberPath` で指定します。リンクのソースとターゲットにはノード ID を指定し、ノードのレイヤーは `CategoryXAxis` 上のステージの 0 から始まるインデックスです。
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyHouseholdStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "dataSourceRef": "SankeyHouseholdNodes",
+                    "nodeIdMemberPath": "Id",
+                    "nodeLabelMemberPath": "Label",
+                    "nodeLayerMemberPath": "Layer",
+                    "linkSourceRef": "SankeyHouseholdLinks",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+各リンクが固有の安定した ID を持つ場合は、`linkIdMemberPath` を設定します。シリーズはデータが変更されたときにリンクを ID で照合するため、編集されたリンクは古い形状から新しい形状へアニメーションします。
+
+### リンクのみ
+
+シリーズにリンクがあるがノードがない場合、またはノードにレイヤーがない場合、シリーズは個別のソースとターゲットからノードを作成し、それぞれにレイヤーを割り当てます。ノードのラベルは、リンクで使用されている ID です。
+
+<Sample src="/charts/data-chart/sankey-edge-list" height={600} alt="{Platform} Sankey Chart from an Edge List" />
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                }
+            ]
+        }
+    }
+}
+```
+
+次の 2 つのプロパティが、レイアウトの導出方法を制御します。ノードに明示的なレイヤーがある場合、どちらも適用されません。
+
+| プロパティ | 値 | 効果 |
+|---|---|---|
+| `nodeAlignment` | `Left` (既定)、`Right`、`Justify`、`Center` | ノードを配置するレイヤー。`Left` は各ノードをできるだけ早いレイヤーに、`Right` はできるだけ遅いレイヤーに配置します。`Justify` はソースを最初のレイヤーに保ち、出力リンクのないすべてのノードを最後のレイヤーに移動します。`Center` は各ノードを両者の中間に配置します。 |
+| `linkAggregation` | `Aggregate` (既定)、`Separate` | 同じソースとターゲットを持つ複数のレコードを、合計を運ぶ 1 つのリボンにするか、それぞれ 1 つのリボンにするか。 |
+
+### カテゴリの行 (アルビアル チャート)
+
+各行がカテゴリの組み合わせと件数であるテーブルをチャート化するには、シリーズの `layoutAdapter` に `SankeyLayoutAdapter` を割り当てます。アダプターのリンク データ ソースにテーブルを設定し、カテゴリ列を順に `dimensionMemberPaths` に列挙して、件数の列を `linkValueMemberPath` に指定します。各列がステージになり、列内の個別の値がそれぞれノードになり、各行は連続する列の値同士をリンクします。
+
+<Sample src="/charts/data-chart/sankey-alluvial" height={600} alt="{Platform} Alluvial Sankey Chart" />
+
+```json-snippet source="/charts/data-chart/sankey-alluvial"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryXAxis",
+                    "name": "xAxis",
+                    "dataSourceRef": "SankeyOrderStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericYAxis",
+                    "name": "yAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "name": "sankey",
+                    "xAxisRef": "xAxis",
+                    "yAxisRef": "yAxis",
+                    "layoutAdapter": {
+                        "type": "SankeyLayoutAdapter",
+                        "linkItemsSourceRef": "SankeyOrderChannels",
+                        "dimensionMemberPaths": [ "Region", "Product", "Channel" ],
+                        "linkValueMemberPath": "Orders"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+`layoutAdapter` が割り当てられている場合、シリーズはアダプターのノードとリンクを描画し、自身のデータ ソースとリンク バインディングは無視します。
+
+## {Platform} サンキー チャートの構成
+
+### ノードの間隔
+
+`nodeGap` は、1 つのステージに積み重ねられたノード間のスペースを設定します。既定では、シリーズはデータからギャップを選択します。最も混み合ったステージのギャップが最大ステージの合計の約 4 分の 1 を占め、単一のギャップが合計の 4% を超えないようにします。自分で設定するには、ピクセルではなく、値のサイズに応じた数値軸の単位で指定します。`0` を指定すると、バンドが隙間なく積み重ねられます。ノードの多いステージほどギャップが多くなるため、混み合ったステージではリボンがより広がります。
+
+```json-snippet source="/charts/data-chart/sankey-edge-list"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "nodeGap": 250,
+            "$nodeGap": "+doc:markup"
+        }
+    ]
+}
+```
+
+### ノード ラベル
+
+軸のラベルはノードではなくステージを示します。すべてのノードにラベルを付けるには、シリーズを対象とする `CalloutLayer` を追加し、`isAutoCalloutBehaviorEnabled` をオンにして、`useValueForAutoCalloutLabels` を false に設定します。これにより、各コールアウトに値ではなくノードのラベルが表示されます。`useItemColorForOutline` は、各コールアウトの枠線をノードの色にします。最後のステージのラベルの余白を確保するには、チャートの `plotAreaMarginRight` を大きくします。シリーズは各ラベルをノードの横に配置します。余裕がある場合は右側に、それ以外の場合は左側に配置します。位置をさらに制限するには、レイヤーの `allowedPositions` を設定します。
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "name": "chart",
+    "plotAreaMarginRight": 180,
+    "$plotAreaMarginRight": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "name": "sankey"
+        },
+        {
+            "type": "CalloutLayer",
+            "$type": "+doc:markup",
+            "name": "nodeLabels",
+            "targetSeriesRef": "sankey",
+            "isAutoCalloutBehaviorEnabled": true,
+            "useValueForAutoCalloutLabels": false,
+            "useItemColorForOutline": true,
+            "calloutStrokeThickness": 2,
+            "calloutTextColor": "Black",
+            "calloutBackground": "White"
+        }
+    ]
+}
+```
+
+### ツールチップ
+
+`DataToolTipLayer` を追加すると、カーソル付近のフローを説明できます。ツールチップは、カテゴリ ツールチップが最も近いカテゴリに固定されるのとほぼ同様に、最も近いノードに固定されます。見出しにノードのラベルが表示され、カーソルがあるノードの側にあるリボンごとに 1 行と、合計が一覧表示されます。
+
+- ノードの左側では、行はそのノードに流入するリボンで、それぞれ流入元のノードの名前が付きます。
+- ノードの右側では、行はそのノードから流出するリボンで、それぞれ流出先のノードの名前が付きます。
+- 左側のソースなど、その側にリボンがないノードでは、反対側が一覧表示されます。
+
+2 つのステージの中間点を過ぎると、次のステージのノードが最も近くなります。その後、ツールチップはそれらに移動し、そこに到達する同じリボンを説明します。
+
+シリーズの `dataToolTipScope` プロパティで、ツールチップが対象とする範囲を変更できます。
+
+- `Node` (既定) は、最も近いノードを説明します。
+- `Stage` は、最も近いステージのすべてのノードを、それぞれ個別のグループとして説明します。
+- `Element` は、カーソル下の、またはカーソルに最も近いノードまたはリボンのみを説明します。
+
+レイヤーの個別グループ化モードでは、一覧表示された各リボンに、そのリボンを指す個別のツールチップが表示されます。`DataLegend` は、代わりにシリーズの `dataLegendScope` プロパティに従い、既定は `Stage` です。
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "title": "Monthly Budget",
+            "$title": "+doc:markup"
+        },
+        {
+            "type": "DataToolTipLayer",
+            "$type": "+doc:markup",
+            "name": "tooltips"
+        }
+    ]
+}
+```
+
+### 軸の非表示
+
+サンキー チャートは通常、軸線、グリッド線、値ラベルがない方が読みやすくなります。両方の軸で、`areLabelsVisible` を false に、`tickLength` を `0` に、`stroke` と `majorStroke` を `\Transparent` に設定します。
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "CategoryXAxis",
+            "$type": "+doc:markup",
+            "name": "xAxis",
+            "dataSourceRef": "SankeyHouseholdStages",
+            "label": "Stage",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        },
+        {
+            "type": "NumericYAxis",
+            "$type": "+doc:markup",
+            "name": "yAxis",
+            "areLabelsVisible": false,
+            "tickLength": 0,
+            "stroke": "Transparent",
+            "majorStroke": "Transparent"
+        }
+    ]
+}
+```
+
+## {Platform} サンキー チャートのスタイル設定
+
+次の例は、3 つのノードをラベルで、1 つを値で色分けし、リボンを一定の幅で描画し、ノードの角を丸め、ノードまたはリボンにカーソルを合わせるとチャートの残りの部分をフェードさせます。
+
+<Sample src="/charts/data-chart/sankey-styling" height={600} alt="{Platform} Sankey Chart Styling" />
+
+### ノードとリボンの色
+
+`useItemWiseColors` は、チャートのパレットから各ノードに固有の色を割り当てます。これを使用しない場合、すべてのノードにシリーズの `brush` と `outline` が使用されます。各リボンは、ソース ノードの塗りつぶしと枠線で描画されます。`areaFillOpacity` はリボンの透明度を、`thickness` はノードとリボンの枠線の幅を設定します。
+
+```json-snippet source="/charts/data-chart/sankey-budget-showcase"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "$useItemWiseColors": "+doc:markup",
+            "areaFillOpacity": 0.7,
+            "$areaFillOpacity": "+doc:markup",
+            "thickness": 0,
+            "$thickness": "+doc:markup"
+        }
+    ]
+}
+```
+
+### スタイル マッピング
+
+`styleMappings` は、ノードを宣言的に色分けします。各 `FlowStyleMapping` は、`nodeLabel`、`minimumValue` から `maximumValue` までの値の範囲 (両端を含む)、またはその両方でノードに一致し、`fill` と `outline` を適用します。ノードから出力されるリボンにも、これらが適用されます。ノードに最初に一致したマッピングが優先され、一致したノードにはアイテムごとの色の代わりにマッピングの色が使用されます。そのため、すべてのノードをパレットで色分けしたうえで、一部のノードだけを個別に指定できます。コードで要素のスタイルを変更するには、代わりにシリーズの `assigningStyle` イベントを処理します。
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "useItemWiseColors": true,
+            "styleMappings": [
+                { "type": "FlowStyleMapping", "nodeLabel": "Savings", "fill": "#2E7D32", "outline": "#2E7D32" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Housing", "fill": "#1565C0", "outline": "#1565C0" },
+                { "type": "FlowStyleMapping", "nodeLabel": "Discretionary", "fill": "#EF6C00", "outline": "#EF6C00" },
+                { "type": "FlowStyleMapping", "minimumValue": 9000, "maximumValue": 10000, "fill": "#6A1B9A", "outline": "#6A1B9A" }
+            ]
+        }
+    ]
+}
+```
+
+### リボンの形状とノードの角
+
+`ribbonShape` は、リボンの形状を設定します。`Curved` (既定) は典型的な S 字カーブで、急なカーブでは見かけ上の幅が狭くなります。`Straightened` は早めに斜めになり、狭まり方が小さくなります。`UniformWidth` は、リボンの全長にわたって同じ幅を保ちます。どの形状でもノードとの接点は同じであるため、リボンは接続するバンドと揃ったままです。`radiusX` と `radiusY` はノード バンドの角を丸めます。どちらも既定値は `0` です。
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "ribbonShape": "UniformWidth",
+            "$ribbonShape": "+doc:markup",
+            "radiusX": 4,
+            "$radiusX": "+doc:markup",
+            "radiusY": 4,
+            "$radiusY": "+doc:markup"
+        }
+    ]
+}
+```
+
+### ハイライト
+
+ポインターが重なっている要素をハイライトするには、チャートの `highlightingMode` を設定します。`highlightScope` は、一緒にハイライトされる対象を決定します。`ConnectedFlow` (既定) は、ホバーしたノードとそのノードに出入りするすべてのリボン、およびホバーしたリボンとそのリボンが結ぶ 2 つのノードをハイライトします。`Element` は、ホバーしたノードまたはリボンのみをハイライトします。
+
+```json-snippet source="/charts/data-chart/sankey-styling"
+{
+    "type": "DataChart",
+    "$type": "+doc:markup",
+    "highlightingMode": "FadeOthersSpecific",
+    "$highlightingMode": "+doc:markup",
+    "highlightingBehavior": "DirectlyOver",
+    "$highlightingBehavior": "+doc:markup",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "highlightScope": "ConnectedFlow",
+            "$highlightScope": "+doc:markup"
+        }
+    ]
+}
+```
+
+## {Platform} サンキー チャートのハイライト値
+
+ハイライト値のオーバーレイは、すべてのリンクについて 2 番目の値を、元のリボンの中央に重ねた細いリボンとして最初の値の上に描画します。たとえば、全体と比較したフィルター済みのサブセットを示します。2 番目の値を `highlightedLinkValueMemberPath` に指定し、`highlightedValuesDisplayMode` を `Overlay` に設定します。2 番目の値がリンクとは別のコレクションにある場合は、`highlightedLinkSource` にバインドします。
+
+<Sample src="/charts/data-chart/sankey-highlighted-overlay" height={600} alt="{Platform} Sankey Chart Highlighted Values" />
+
+```json-snippet source="/charts/data-chart/sankey-highlighted-overlay"
+{
+    "type": "DataChart",
+    "series": [
+        {
+            "type": "SankeySeries",
+            "$type": "+doc:markup",
+            "linkSourceRef": "SankeyIncomeFlow",
+            "linkSourceMemberPath": "Source",
+            "linkTargetMemberPath": "Target",
+            "linkValueMemberPath": "Value",
+            "highlightedLinkValueMemberPath": "Highlighted",
+            "$highlightedLinkValueMemberPath": "+doc:markup",
+            "highlightedValuesDisplayMode": "Overlay",
+            "$highlightedValuesDisplayMode": "+doc:markup"
+        }
+    ]
+}
+```
+
+## {Platform} サンキー チャートのアニメーション
+
+フローが変更されると、シリーズは古いリボンとノードから新しいものへアニメーションできます。`transitionDuration` にアニメーションの長さをミリ秒単位で設定します。既定値は `0` で、アニメーションなしです。その場合、データへのインプレースの変更がアニメーションします。別の `linkSource` を割り当てたとき、または `linkValueMemberPath` を別の値の列に向けたときにもアニメーションさせるには、`shouldAnimateOnDataSourceSwap` を true に設定します。各リボンがそれぞれの前の形状からアニメーションするように、データのすべてのバージョンで各リンクを識別するフィールドを `linkIdMemberPath` に設定します。新しいフローによって数値軸の範囲が変わる場合は、シリーズが再スケールを通してもアニメーションするように、チャートの `animateSeriesWhenAxisRangeChanges` を true に設定します。
+
+次の例は、月ごとに 1 つの値の列を保持します。エディターで月を選択すると、`linkValueMemberPath` がその月の列に設定され、フローが新しい値へアニメーションします。
+
+<Sample src="/charts/data-chart/sankey-monthly-flow" height={650} alt="{Platform} Sankey Chart Animated by Month" />
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "$type": "+doc:markup",
+            "animateSeriesWhenAxisRangeChanges": true,
+            "$animateSeriesWhenAxisRangeChanges": "+doc:markup",
+            "series": [
+                {
+                    "type": "SankeySeries",
+                    "$type": "+doc:markup",
+                    "linkSourceRef": "SankeyBudgetMonths",
+                    "linkIdMemberPath": "Id",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "July",
+                    "shouldAnimateOnDataSourceSwap": true,
+                    "transitionDuration": 1000
+                }
+            ]
+        }
+    }
+}
+```
+
+```json-snippet source="/charts/data-chart/sankey-monthly-flow" channel="handlersImports...handler"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "editor": {
+            "type": "PropertyEditorPanel",
+            "name": "editor",
+            "targetRef": "chart",
+            "descriptionType": "DataChart",
+            "properties": [
+                {
+                    "type": "PropertyEditorPropertyDescription",
+                    "propertyPath": "MonthHandler",
+                    "name": "MonthEditor",
+                    "label": "Month",
+                    "shouldOverrideDefaultEditor": true,
+                    "valueType": "EnumValue",
+                    "dropDownNames": [ "July", "August", "September" ],
+                    "dropDownValues": [ "July", "August", "September" ],
+                    "primitiveValue": "July",
+                    "changedRef": "EditorChangeSankeyMonth",
+                    "$changedRef": "+doc:handler"
+                }
+            ]
+        },
+        "content": {
+            "type": "DataChart",
+            "name": "chart"
+        }
+    }
+}
+```
+
+## {Platform} ラジアル サンキー チャート
+
+`RadialSankeySeries` は、同じフローを円の周りに、依存関係ホイールのスタイルで描画します。ステージは角度に、ノード バンドは円弧になり、リボンはそれらの間を弧を描いて結びます。`SankeySeries` と同じデータおよび同じプロパティを使用しますが、カテゴリ軸と数値軸の代わりに `CategoryAngleAxis` と `NumericRadiusAxis` を使用します。ノード ラベルをリングの外側に配置するには、`CalloutLayer` の `calloutCollisionMode` を `RadialOutsideEnd` に設定します。
+
+<Sample src="/charts/data-chart/radial-sankey-showcase" height={700} alt="{Platform} Radial Sankey Chart" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-showcase"
+{
+    "descriptions": {
+        "content": {
+            "type": "DataChart",
+            "name": "chart",
+            "axes": [
+                {
+                    "type": "CategoryAngleAxis",
+                    "name": "angleAxis",
+                    "dataSourceRef": "SankeyIncomeStages",
+                    "label": "Stage"
+                },
+                {
+                    "type": "NumericRadiusAxis",
+                    "name": "radiusAxis"
+                }
+            ],
+            "series": [
+                {
+                    "type": "RadialSankeySeries",
+                    "name": "radialSankey",
+                    "angleAxisRef": "angleAxis",
+                    "radiusAxisRef": "radiusAxis",
+                    "linkSourceRef": "SankeyIncomeFlow",
+                    "linkSourceMemberPath": "Source",
+                    "linkTargetMemberPath": "Target",
+                    "linkValueMemberPath": "Value"
+                },
+                {
+                    "type": "CalloutLayer",
+                    "name": "nodeLabels",
+                    "targetSeriesRef": "radialSankey",
+                    "isAutoCalloutBehaviorEnabled": true,
+                    "useValueForAutoCalloutLabels": false,
+                    "calloutCollisionMode": "RadialOutsideEnd"
+                }
+            ]
+        }
+    }
+}
+```
+
+### 比例ステージ
+
+`CategoryAngleAxis` では、すべてのステージが円を均等に分け合います。ステージのサイズを変えるには、`ProportionalCategoryAngleAxis` を使用し、`valueMemberPath` に重みの列を指定します。各ステージが円に占める割合は、その重みに比例します。
+
+<Sample src="/charts/data-chart/radial-sankey-proportional-stages" height={700} alt="{Platform} Radial Sankey Chart with Proportional Stages" />
+
+```json-snippet source="/charts/data-chart/radial-sankey-proportional-stages"
+{
+    "type": "DataChart",
+    "axes": [
+        {
+            "type": "ProportionalCategoryAngleAxis",
+            "$type": "+doc:markup",
+            "name": "angleAxis",
+            "dataSourceRef": "SankeyIncomeStageWeights",
+            "label": "Stage",
+            "valueMemberPath": "Weight"
+        }
+    ]
+}
+```
+
+ハイライト値のオーバーレイは、ラジアル シリーズでも同じように動作します。
+
+<Sample src="/charts/data-chart/radial-sankey-highlighted-overlay" height={700} alt="{Platform} Radial Sankey Chart Highlighted Values" />
+
+## その他のリソース
+
+- [チャート注釈](../features/chart-annotations.mdx)
+- [チャート ハイライト](../features/chart-highlighting.mdx)
+- [ラジアル チャート](radial-chart.mdx)
+- [ツリーマップ](treemap-chart.mdx)
+
+## API リファレンス
+
+- `DataChart`
+- `SankeySeries`
+- `RadialSankeySeries`
+- `SankeyLayoutAdapter`
+- `FlowStyleMapping`
+- `CalloutLayer`
+- `DataToolTipLayer`
+- `DataLegend`
+- `CategoryXAxis`
+- `NumericYAxis`
+- `CategoryAngleAxis`
+- `ProportionalCategoryAngleAxis`
+- `NumericRadiusAxis`
