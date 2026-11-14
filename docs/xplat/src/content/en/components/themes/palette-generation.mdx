@@ -105,7 +105,17 @@ The `surface` family is not a ramp of shades. A surface describes where somethin
 | `overlay` | `--ig-surface-overlay` | A floating layer such as a menu or dialog, a larger step toward white. |
 | `container` | `--ig-surface-container` | A translucent layer: black over a light surface, white over a dark one. |
 
-A role that has no room to move resolves to the base color: on a pure white surface, `raised` and `overlay` are white too, and borders or elevations carry the separation. Both generators emit the same roles, and component themes reference `surface` through them; `color($color: 'surface')` returns `base` by default. The contrast color of the translucent `container` is measured on the container laid over `base`, since that is what text on it is read against.
+A role that does not have enough room to move resolves to the base color: on a pure white surface, `raised` and `overlay` are white too, and on a pure black surface, `sunken` is black too. Borders or elevations then carry the separation. The same can happen on surfaces close to white or black, even when there is a little room left:
+
+| `base` | `sunken` | `raised` | `overlay` |
+|---|---|---|---|
+| `rgb(255, 255, 255)` | `rgb(247, 247, 247)` | Same as `base` | Same as `base` |
+| `rgb(240, 240, 245)` | `rgb(234, 232, 237)` | `rgb(250, 249, 254)` | Same as `base` |
+| `rgb(0, 0, 0)` | Same as `base` | `rgb(13, 13, 13)` | `rgb(23, 23, 23)` |
+
+If each role needs its own color, choose a surface seed slightly further from white or black and check the generated `--ig-surface-*` variables.
+
+Both generators emit the same roles, and component themes reference `surface` through them; `color($color: 'surface')` returns `base` by default. The contrast color of the translucent `container` is measured on the container laid over `base`, since that is what text on it is read against.
 
 Every palette also emits the numbered `surface` shades, such as `--ig-surface-500`, so that styles written against them keep resolving. They are deprecated and will be removed in a future release. In a `fitted` palette, `--ig-surface-500` points to `--ig-surface-base` and the other numbered shades derive from it; in a `legacy` palette, they derive from the surface seed as before.
 
@@ -248,6 +258,8 @@ To switch every `palette()` call in the build, configure the module before anyth
 **Why does overriding `--ig-primary-500` no longer change the other primary shades?** The palette was generated with the `fitted` generator, which emits every shade as a fixed color instead of a relative color of `500`. Regenerate the palette in Sass with the new seed, or generate it with `$generator: 'legacy'` if you need runtime derivation from `500`.
 
 **Should I still use `--ig-surface-500`?** No. The numbered surface shades are deprecated and kept only for compatibility. Map each reference to the role that matches its purpose, usually `--ig-surface-base` for the page background.
+
+**Why are `--ig-surface-raised` and `--ig-surface-overlay` the same color as `--ig-surface-base`?** The surface seed is too close to white for those roles to have enough room to move, so they resolve to `base`. This happens on white and on other surfaces close to it. Separate the layers with borders or [elevations](elevations.mdx), or choose a slightly darker surface seed if each role must have its own color. See [Surface Roles](#surface-roles).
 
 **What does `Shade "gray-900" wanted 18.232:1 but its hue only reaches 15.68:1` mean?** The scale asks for more contrast than the color and its anchor allow, most often a surface-anchored gray scale on a dark surface. The generator used the closest shade it could reach. Lower the top of the range, or anchor the scale to `'white'`.
 
