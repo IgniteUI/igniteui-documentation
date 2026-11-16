@@ -3,7 +3,7 @@ title: "{Platform} Combo Features"
 description: "The {Platform} Combo binds to local data, filters its options as the user types, groups them by a data field, and can be disabled."
 keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} Combo Features, {Platform} Combo Data Binding, {Platform} Combo Filtering, {Platform} Combo Grouping"
 license: MIT
-last_updated: "2026-11-09"
+last_updated: "2026-11-16"
 platformType: web-only
 mentionedTypes: ["Combo"]
 llms:
@@ -22,6 +22,12 @@ The {Platform} Combo binds to local data, filters its options as the user types,
 <PlatformBlock for="Angular">
 
 The Combo can also load its data from a remote service in chunks, accept custom values, and show its list with custom overlay settings.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+The Combo can also load its options from a remote service one page at a time.
 
 </PlatformBlock>
 
@@ -219,6 +225,109 @@ When the Combo is bound to remote data that loads in chunks, and the data items 
 <DocsAside type="info">
 When binding the Combo to remote data, set the `valueKey` property to a property that is unique to each item.
 </DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+### Remote Binding
+
+The {Platform} Combo can load its options from a remote service one page at a time. The service searches and pages on the server, and the Combo shows a placeholder for each item that isn't loaded yet. The sample below loads products from a remote service while the user scrolls and searches:
+
+<Sample src="/inputs/combo/remote-binding" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Combo that loads products from a remote service page by page" />
+
+<DocsAside type="info">
+Remote binding requires `igniteui-webcomponents` 7.5.0 or later.
+</DocsAside>
+
+#### Binding the Combo to a Remote Service
+
+Import `bindComboDataSource()` from `igniteui-webcomponents/extras/combo-data-source`, and pass it the Combo and a source with a `load()` function. The binding calls `load()` for each page with a request that holds `searchText`, `caseSensitive`, `startIndex` and `count`, and with an `AbortSignal`. Return the items of the page and the total count of the matching items:
+
+```html
+<igc-combo id="combo" label="Products" value-key="ProductID" display-key="ProductName"></igc-combo>
+```
+
+```ts
+import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
+import { bindComboDataSource } from 'igniteui-webcomponents/extras/combo-data-source';
+
+defineComponents(IgcComboComponent);
+
+interface Product {
+    ProductID: number;
+    ProductName: string;
+}
+
+const url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Products';
+const combo = document.getElementById('combo') as IgcComboComponent<Product>;
+
+const binding = bindComboDataSource(combo, {
+    // Loads one page of the products that match the search text.
+    load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+            // Double the apostrophes for OData, then encode the text for the URL.
+            const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+            query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data['@odata.count'] };
+    }
+}, {
+    // The service returns up to 20 products per request.
+    pageSize: 20
+});
+```
+
+The binding switches the Combo to remote filtering and makes the requests:
+
+- It loads the first page when the user opens a list that has no items, and again after the user stops typing in the search input.
+- It appends the next page when the user scrolls near the end of the loaded items.
+- It aborts a request that a newer search makes stale, through the signal that `load()` passes to `fetch()`.
+- It sets the `totalItemCount` property of the Combo to the total count, and its `loading` property while a search waits or a page loads.
+
+While the Combo holds fewer items than `totalItemCount`, its list shows a placeholder for each item to load, so the scrollbar shows the full length of the results. While `loading` is set, the Combo shows a spinner in place of its toggle icon. Replace the spinner through the `loading` slot, and style the spinner and the placeholders through the `loading` and `placeholder` CSS parts.
+
+The third argument of `bindComboDataSource()` configures the binding:
+
+| Option | Default | Description |
+|---|---|---|
+| `pageSize` | `50` | The smallest number of items that a request loads. A source can return fewer, for example up to the page limit of the server, and the Combo then requests the rest. |
+| `debounce` | `300` | The pause in the typing, in milliseconds, before a search loads. |
+| `loadOnOpen` | `true` | Whether the first page loads when the user opens a list that has no items. |
+| `onError` | - | Receives the error of a failed request. The Combo keeps its items. |
+
+`bindComboDataSource()` returns a binding with two methods. `refresh()` loads the first page of the current search again; call it after you change `filteringOptions.caseSensitive` in code. `dispose()` removes the listeners, aborts the requests in flight, and gives the Combo back its filtering mode.
+
+#### Remote Filtering Mode
+
+`bindComboDataSource()` uses only the public API of the Combo. To make the requests yourself, set the `mode` of <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> to `remote`:
+
+```ts
+combo.filteringOptions = { mode: 'remote' };
+```
+
+In remote mode, the Combo leaves the search to your service:
+
+- The Combo no longer filters its options. Read `detail.searchText` of the `igcSearchInput` event, search on the server, and set <ApiLink type="Combo" member="data" label="data" /> to the first page of the results. The server does the matching, so send `filteringOptions.caseSensitive` with the search.
+- When the user scrolls near the end of `data`, the `igcDataRequest` event asks for `detail.count` more items at `detail.startIndex`. Append them to `data`.
+- Set `totalItemCount` to the total count of the results, and `loading` while a request runs.
+
+#### Handling Selection
+
+Set <ApiLink type="Combo" member="valueKey" label="valueKey" /> when the Combo loads remote data. Each page creates new objects, and the Combo matches the selected items with them by the value of that key. A new `data` keeps the selection: the selected items stay selected when a search returns results that don't hold them, and show as selected again when a later page or search holds them.
+
+To select values whose items no page has loaded yet, such as the values of a saved filter, add a `resolve()` function to the source of `bindComboDataSource()`. The binding calls it with those values, and selects the items it returns.
+
+The Combo can't tell whether the server deleted a selected item or only hasn't sent its page. When you load live data again, call <ApiLink type="Combo" member="deselect" label="deselect()" /> for the selected items that the server no longer has.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
 
 ### Custom Overlay Settings
 
