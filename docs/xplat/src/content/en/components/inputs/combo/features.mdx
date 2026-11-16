@@ -25,7 +25,7 @@ The Combo can also load its data from a remote service in chunks, accept custom 
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React,WebComponents">
 
 The Combo can also load its options from a remote service one page at a time.
 
@@ -35,7 +35,7 @@ The Combo can also load its options from a remote service one page at a time.
 
 <PlatformBlock for="Angular">
 
-<Sample src="/lists/combo-features" showThemePicker height={472} noBorder={false} spacing="md" alt="{Platform} Combo with switches for filtering, the case-sensitive icon, custom values, grouping and the disabled state" />
+<Sample src="/lists/combo-features" showThemePicker height={496} noBorder={false} alt="{Platform} Combo with switches for filtering, the case-sensitive icon, custom values, grouping and the disabled state" />
 
 </PlatformBlock>
 
@@ -228,7 +228,7 @@ When binding the Combo to remote data, set the `valueKey` property to a property
 
 </PlatformBlock>
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React,WebComponents">
 
 ### Remote Binding
 
@@ -236,13 +236,33 @@ The {Platform} Combo can load its options from a remote service one page at a ti
 
 <Sample src="/inputs/combo/remote-binding" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Combo that loads products from a remote service page by page" />
 
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
 <DocsAside type="info">
 Remote binding requires `igniteui-webcomponents` 7.5.0 or later.
 </DocsAside>
 
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<DocsAside type="info">
+Remote binding requires a version of `igniteui-react` that depends on `igniteui-webcomponents` 7.5.0 or later.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
 #### Binding the Combo to a Remote Service
 
 Import `bindComboDataSource()` from `igniteui-webcomponents/extras/combo-data-source`, and pass it the Combo and a source with a `load()` function. The binding calls `load()` for each page with a request that holds `searchText`, `caseSensitive`, `startIndex` and `count`, and with an `AbortSignal`. Return the items of the page and the total count of the matching items:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
 
 ```html
 <igc-combo id="combo" label="Products" value-key="ProductID" display-key="ProductName"></igc-combo>
@@ -283,6 +303,54 @@ const binding = bindComboDataSource(combo, {
 });
 ```
 
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+In React, pass the element that the `ref` of `IgrCombo` holds, and dispose the binding when the component unmounts:
+
+```tsx
+import { useEffect, useRef } from "react";
+import { IgrCombo } from "igniteui-react";
+import { bindComboDataSource } from "igniteui-webcomponents/extras/combo-data-source";
+
+const url = "https://services.odata.org/V4/Northwind/Northwind.svc/Products";
+
+export default function RemoteCombo() {
+  const comboRef = useRef<IgrCombo>(null);
+
+  useEffect(() => {
+    const binding = bindComboDataSource(comboRef.current!, {
+      // Loads one page of the products that match the search text.
+      load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+          // Double the apostrophes for OData, then encode the text for the URL.
+          const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+          query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data["@odata.count"] };
+      }
+    }, {
+      // The service returns up to 20 products per request.
+      pageSize: 20
+    });
+
+    return () => binding.dispose();
+  }, []);
+
+  return <IgrCombo ref={comboRef} label="Products" valueKey="ProductID" displayKey="ProductName" />;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
 The binding switches the Combo to remote filtering and makes the requests:
 
 - It loads the first page when the user opens a list that has no items, and again after the user stops typing in the search input.
@@ -307,9 +375,26 @@ The third argument of `bindComboDataSource()` configures the binding:
 
 `bindComboDataSource()` uses only the public API of the Combo. To make the requests yourself, set the `mode` of <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> to `remote`:
 
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
 ```ts
 combo.filteringOptions = { mode: 'remote' };
 ```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// In an effect, once the Combo has rendered.
+comboRef.current!.filteringOptions = { mode: "remote" };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
 
 In remote mode, the Combo leaves the search to your service:
 
