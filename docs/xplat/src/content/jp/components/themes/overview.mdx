@@ -4,6 +4,7 @@ description: インフラジスティックスの {Platform} コンポーネン�
 keywords: "{ProductName}, インフラジスティックス, テーマ, スタイル設定"
 license: MIT
 mentionedTypes: ["ConfigureTheme"]
+last_updated: "2026-10-09"
 _language: ja
 llms:
   description: "{ProductName} には、Bootstrap、Material、Fluent、Indigo の 4 つの異なるテーマが付属しています。"
@@ -95,7 +96,18 @@ configureTheme("material", "dark");
 
 上記のテーマ ファイルはビルド済みの CSS であり、このセクションのトピックでは CSS 変数をオーバーライドしてカスタマイズします。[パレット](palettes.mdx)、[タイポグラフィ](typography.mdx)、[エレベーション](elevations.mdx)、および[構成](configuration.mdx)を参照してください。この方法ではビルド構成は不要で、ほとんどのカスタマイズに対応できます。
 
-一部の機能は、変数を通じてではなくコンパイル時に実行されるため、Sass からのみ利用できます。[アクセシビリティ](accessibility.mdx)トピックのコントラスト関数とチャート パレット関数が主な例です。これらを使用するには、`igniteui-theming` をインストールしてインポートします:
+ビルド済みのテーマは、すべての {ProductName} テーマの基盤となる Sass ライブラリ `igniteui-theming` からコンパイルされており、同じライブラリをアプリケーションでも使用できます。一部の機能は、変数を通じてではなくコンパイル時に実行されるため、このライブラリからのみ利用できます:
+
+- 独自のシード カラーからのパレットの生成。[パレット生成](palette-generation.mdx)で説明しています。
+- [アクセシビリティ](accessibility.mdx)トピックのコントラスト関数とチャート パレット関数。
+
+`igniteui-theming` を使用した Sass ビルドはプレーンな CSS を生成します。これは `--ig-*` 変数のスタイルシートで、独自の CSS オーバーライドと同じように、テーマ ファイルの後に読み込みます。フレームワークには Sass コンパイラーを実行する手段だけが必要です。両方のパッケージをインストールします:
+
+```cmd
+npm install igniteui-theming sass --save-dev
+```
+
+次に、`.scss` ファイルでライブラリをインポートします:
 
 ```scss
 @use 'igniteui-theming' as *;
@@ -105,15 +117,75 @@ configureTheme("material", "dark");
 
 // Required for $material-elevations and $indigo-elevations
 @use 'igniteui-theming/sass/elevations/presets' as *;
+
+:root {
+  @include palette(palette($primary: #0099ff, $secondary: #df1b74, $surface: #ffffff));
+}
 ```
 
+### スタイルシートのコンパイル
+
+<PlatformBlock for="React">
+
+`sass` パッケージをインストールすると、Vite と Next.js は `.scss` インポートをコンパイルします。テーマ ファイルの後にスタイルシートをインポートします:
+
+```tsx
+import 'igniteui-react-grids/grids/themes/light/bootstrap.css';
+import './theme.scss';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`sass` パッケージをインストールすると、Vite は `.scss` インポートをコンパイルし、webpack は `sass-loader` を通じて同様に処理します。テーマ ファイルの後にスタイルシートをインポートします:
+
+```ts
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+import './theme.scss';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor プロジェクトには JavaScript バンドラーがないため、npm スクリプトやビルド前の手順などから Sass コマンド ラインでスタイルシートをコンパイルし、結果を `wwwroot` に書き込みます:
+
+```cmd
+npx sass --load-path=node_modules Styles/theme.scss wwwroot/css/theme.css
+```
+
+ホスト ページで、テーマ ファイルの後にコンパイル済みファイルをリンクします:
+
+```html
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+<link href="css/theme.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+ほかのビルド ツールや Sass コマンド ラインでも、同じように使用できます。Sass をコンパイルする仕組みがない場合は、Sass コマンド ラインを別の手順として実行し、出力を通常の CSS ファイルと同じように読み込みます:
+
+```cmd
+npx sass --load-path=node_modules src/theme.scss public/theme.css
+```
+
+</PlatformBlock>
+
 <DocsAside type="note">
-`@use 'igniteui-theming' as *;` が解決されない場合は、Sass コンパイラーのロード パスに `node_modules` が含まれていません。Vite では `css.preprocessorOptions.scss.loadPaths` を、Next.js では `sassOptions.loadPaths` を設定してください。
+`@use 'igniteui-theming' as *;` が解決されない場合は、Sass コンパイラーのロード パスに `node_modules` が含まれていません。Sass コマンド ラインには `--load-path=node_modules` を渡すか、Vite では `css.preprocessorOptions.scss.loadPaths` を、Next.js では `sassOptions.loadPaths` を設定してください。
 </DocsAside>
+
+### Sass ツールチェーンを使用しない場合
+
+出力をアプリケーションと一緒に再ビルドする必要はありません。スタイルシートを一度コンパイルして CSS をコミットし、Sass を変更したときにのみ再コンパイルします。[Theming MCP サーバー](../ai/theming-mcp.mdx)でも、ローカルの Sass コンパイラーなしで、パレットとコンポーネント テーマをすぐに使用できる CSS として生成できます。
 
 <PlatformBlock for="React, WebComponents">
 
 ## API リファレンス
 
+<ApiLink type="configureTheme" />
 
-<PlatformBlock for="Angular,React,WebComponents"><ApiLink type="configureTheme" /><br /></PlatformBlock>
+</PlatformBlock>
