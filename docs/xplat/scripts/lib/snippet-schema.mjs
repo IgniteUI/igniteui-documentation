@@ -117,7 +117,12 @@ export function schemaValidator(api, examplesRoot, { onProgress = () => {} } = {
     // each site rather than compile it once and call it.
     const ajv = new Ajv({ allErrors: true, strict: false, validateFormats: false, inlineRefs: false });
     ajv.addMetaSchema(draft06);
-    ajv.addSchema(schema, 'snippets');
+    // Registered as its definitions alone, without the root's own keywords. The first $ref into a
+    // registered schema makes ajv compile that schema's root, and this root reaches the Description
+    // union over every type: an anyOf whose branches each nest one level deeper in the generated
+    // code. At the 897 branches of 7.1.1-beta.19 that overflows V8's parser stack on Windows, and
+    // nothing here validates against the root anyway: validatorFor compiles one definition at a time.
+    ajv.addSchema({ $schema: schema.$schema, definitions: schema.definitions }, 'snippets');
 
     const compiled = new Map();
     const validatorFor = (type) => {
