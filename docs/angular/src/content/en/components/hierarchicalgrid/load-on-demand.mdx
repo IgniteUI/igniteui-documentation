@@ -54,7 +54,7 @@ Finally, let's turn the <ApiLink type="Grid" member="autoGenerate" label="autoGe
 The template file `hierarchical-grid-lod.component.html`, after all changes added, would look like this:
 
 ```html
-    <igx-hierarchical-grid #hGrid [data]="remoteData" [isLoading]="true" [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'580px'" [width]="'100%'" [igxPreventDocumentScroll]="true" [allowAdvancedFiltering]="true" [schema]="schema" (advancedFilteringExpressionsTreeChange)="refreshRootGridData()">
+    <igx-hierarchical-grid #hGrid [data]="remoteData" [isLoading]="true" [primaryKey]="'customerId'" [autoGenerate]="false" [height]="'580px'" [width]="'100%'" [igxPreventDocumentScroll]="true" [allowAdvancedFiltering]="true" (advancedFilteringExpressionsTreeChange)="refreshRootGridData()">
             <igx-grid-toolbar></igx-grid-toolbar>
 
             <igx-column field="customerId" [dataType]="'string'"></igx-column>
@@ -63,17 +63,17 @@ The template file `hierarchical-grid-lod.component.html`, after all changes adde
             <igx-column field="contactTitle" [dataType]="'string'"></igx-column>
 
         <igx-row-island #rowIsland1 [key]="'Orders'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
-            <igx-column field="orderId"></igx-column>
-            <igx-column field="customerId"></igx-column>
-            <igx-column field="shipVia"></igx-column>
-            <igx-column field="freight"></igx-column>
+            <igx-column field="orderId" [dataType]="'number'"></igx-column>
+            <igx-column field="customerId" [dataType]="'string'"></igx-column>
+            <igx-column field="shipVia" [dataType]="'string'"></igx-column>
+            <igx-column field="freight" [dataType]="'number'"></igx-column>
 
-            <igx-row-island #rowIsland2 [key]="'Details'" [primaryKey]="'orderId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
-                <igx-column field="orderId"></igx-column>
-                <igx-column field="productId"></igx-column>
-                <igx-column field="unitPrice"></igx-column>
-                <igx-column field="quantity"></igx-column>
-                <igx-column field="discount"></igx-column>
+            <igx-row-island #rowIsland2 [key]="'Details'" [primaryKey]="'productId'" [autoGenerate]="false" (gridCreated)="gridCreated($event)">
+                <igx-column field="orderId" [dataType]="'number'"></igx-column>
+                <igx-column field="productId" [dataType]="'number'"></igx-column>
+                <igx-column field="unitPrice" [dataType]="'number'"></igx-column>
+                <igx-column field="quantity" [dataType]="'number'"></igx-column>
+                <igx-column field="discount" [dataType]="'number'"></igx-column>
             </igx-row-island>
         </igx-row-island>
     </igx-hierarchical-grid>
@@ -81,47 +81,9 @@ The template file `hierarchical-grid-lod.component.html`, after all changes adde
 
 ### Advanced filtering
 
-In order to use Advanced Filtering in the `IgxHierarchicalGrid` with load on demand, you need to set the <ApiLink type="HierarchicalGrid" member="schema" label="schema" /> property of the grid to an entity with hierarchical structure, specifying child entities and fields with their data types. This ensures that filtering expressions with nested queries can be created even before any child grid data is loaded and that the grid can correctly interpret and apply these filters to the data.
+The Advanced Filtering dialog of the `IgxHierarchicalGrid` takes its fields from the columns declared on the root grid and on each row island. This includes nested row islands whose child data is not loaded yet, so filtering expressions with nested queries can be created before any child grid is expanded.
 
-In our case, this is the correct hierarchical structure:
-
-```TypeScript
-public schema: EntityType[] = [
-    {
-        name: 'Customers',
-        fields: [
-            { field: 'customerId', dataType: 'string' },
-            { field: 'companyName', dataType: 'string' },
-            { field: 'contactName', dataType: 'string' },
-            { field: 'contactTitle', dataType: 'string' }
-        ],
-        childEntities: [
-            {
-                name: 'Orders',
-                fields: [
-                    { field: 'customerId', dataType: 'string' },
-                    { field: 'orderId', dataType: 'number' },
-                    { field: 'employeeId', dataType: 'number' },
-                    { field: 'shipVia', dataType: 'string' },
-                    { field: 'freight', dataType: 'number' }
-                ],
-                childEntities: [
-                    {
-                        name: 'Details',
-                        fields: [
-                            { field: 'orderId', dataType: 'number' },
-                            { field: 'productId', dataType: 'number' },
-                            { field: 'unitPrice', dataType: 'number' },
-                            { field: 'quantity', dataType: 'number' },
-                            { field: 'discount', dataType: 'number' }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-];
-```
+The dialog offers the conditions and the editor that match the `dataType` of a column, and a column without a `dataType` is treated as a string. Only the declared columns are available in the dialog.
 
 #### Setting initial filter
 
@@ -137,7 +99,7 @@ public ngOnInit() {
         ignoreCase: false,
         condition: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo'),
         conditionName: IgxNumberFilteringOperand.instance().condition('greaterThanOrEqualTo').name,
-        searchVal: '500'
+        searchVal: 500
     });
 
     const customersTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Customers', ['customerId', 'companyName', 'contactName', 'contactTitle']);
@@ -158,14 +120,15 @@ We will be communicating with the endpoint over HTTP protocol using the XMLHttpR
 
 #### Getting root grid data
 
-The [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html) provides us with a POST endpoint that accepts an `IFilteringExpressionsTree` as a parameter and we will use it in order to take advantage of the Advanced Filtering functionality in the `IgxHierarchicalGrid` and filter records in the root grid. We will do this in `refreshRootGridData` method:
+The [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html) provides us with a POST endpoint that accepts an `IFilteringExpressionsTree` as a parameter and we will use it in order to take advantage of the Advanced Filtering functionality in the `IgxHierarchicalGrid` and filter records in the root grid. The endpoint needs the name of the root table in the `entity` of the expression tree. An expression tree that is created or edited in the Advanced Filtering dialog has no `entity` for the root grid, because the grid does not know that name, so we set it when we send the request. We will do this in `refreshRootGridData` method:
 
 ```typescript
 public refreshRootGridData() {
     const tree = this.hGrid.advancedFilteringExpressionsTree;
     this.hGrid.isLoading = true;
     if (tree) {
-        this.http.post(`${API_ENDPOINT}/QueryBuilder/ExecuteQuery`, tree).subscribe(data =>{
+        const query = { ...tree, entity: 'Customers' };
+        this.http.post(`${API_ENDPOINT}/QueryBuilder/ExecuteQuery`, query).subscribe(data =>{
             this.remoteData = Object.values(data)[0];
             this.hGrid.isLoading = false;
             this.hGrid.cdr.detectChanges();
@@ -210,7 +173,7 @@ public gridCreated(event: IGridCreatedEventArgs) {
 }
 
 private buildUrl(event: IGridCreatedEventArgs) {
-    const parentKey = (event.grid.parent as any).key ?? this.schema[0].name;
+    const parentKey = (event.grid.parent as any).key ?? 'Customers';
     const url = `${API_ENDPOINT}/${parentKey}/${event.parentID}/${event.owner.key}`;
     return url;
 }
