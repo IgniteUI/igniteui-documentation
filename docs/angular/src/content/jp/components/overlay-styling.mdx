@@ -1,6 +1,6 @@
 ---
-title: オーバーレイ スタイリング - MITライセンス
-description: IgniteUI for Angular Overlay Service は、表示される要素にスタイルを適切に適用およびスコープする方法についての詳細なチュートリアル。
+title: Angular オーバーレイ スタイリング | MITライセンス
+description: IgniteUI for Angular Overlay Service を使用して表示される要素に、スタイルを適切に適用してスコープする方法を詳しく説明します。
 keywords: Ignite UI for Angular, Angular Overlay Service, Angular UI controls, Overlay Service, View Encapsulation Example, Sass scoped styles in Angular, web widgets, UI widgets, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library
 license: MIT
 _language: ja
@@ -13,20 +13,23 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
+
 # オーバーレイ スタイリング
 
 <div class="highlight">
 
-[`IgxOverlayService`](/overlay) は、ページ コンテンツの上にコンテンツを表示するために使用されます。Ignite UI for Angular コンポーネントの多くは、[ドロップダウン](/drop-down)、[コンボ](/inputs/combo/overview)、[日付ピッカー](/date-picker)などのオーバーレイを使用しているため、オーバーレイがコンテンツを表示する方法を理解することが重要です。
-他の要素上にコンテンツを表示するために、サービスはコンテンツを特別なアウトレット コンテナーに移します (デフォルトではドキュメントの本体の最後にアタッチされています)。この動作は、[特定のコンテナーにスコープされた](#スコープ-コンポーネント-スタイル) スタイルに影響を与える可能性があります。
+
+[`IgxOverlayService`](/overlay) は、ページ コンテンツの上にコンテンツを表示するために使用されます。[Drop Down](/drop-down)、[Combo](/inputs/combo/overview)、[Date Picker](/date-picker) など、Ignite UI for Angular の多くのコンポーネントがオーバーレイを使用しているため、オーバーレイがコンテンツを表示する方法を理解することが重要です。
+他の要素の上にコンテンツを表示するために、サービスはコンテンツを特別なアウトレット コンテナーに移動します (デフォルトではドキュメントの本体の最後にアタッチされています)。この動作は、[特定のコンテナーにスコープされた](#スコープ-オーバーレイ-スタイル)スタイルに影響を与える可能性があります。
 </div>
+<hr/>
 
 ## オーバーレイ コンポーネントのスタイル設定
 
-ほとんどの場合、[グローバル](/themes/sass/global-themes) テーマのスタイルはオーバーレイ アウトレットの影響を受けません。例として、グローバル <ApiLink kind="sass" module="themes" type="mixin-tokens" label="tokens" code={true} /> ミックスインで[スタイル設定された](/drop-down#スタイル設定)ドロップダウンを見てみましょう。
+グローバル スタイルシートから出力されたテーマは、どのオーバーレイ アウトレット内のコンテンツにも影響を与えることができます。たとえば、次の [Drop Down](/drop-down#スタイル設定) テーマは、Sass のルートでユニバーサルなトークンの上書きを出力します。これらの上書きは、ドキュメントの本体にアタッチされたドロップダウン コンテンツで使用できます。
 
 ```html
-<!-- overlay-styling.component.html -->
+{/* overlay-styling.component.html */}
 <igx-drop-down #customDropDown height="350px">
     <igx-drop-down-item *ngFor="let item of items" [value]="item.id">
         {{ item.name }}
@@ -35,27 +38,23 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 ```
 
 ```scss
+// styles.scss
 @use "igniteui-angular/theming" as *;
-
-// 重要: Ignite UI for Angular 13 より前のバージョンは、次を使用してください。
-// @import '~igniteui-angular/lib/core/styles/themes/index';
 
 $my-drop-down-theme: drop-down-theme(
   $background-color: #efefef
 );
 
-:host {
-  @include tokens($my-drop-down-theme);
-}
+@include tokens($my-drop-down-theme);
 ```
 
-グローバル スタイルはスコープされたルール下では生成されず、カプセル化の影響も受けないため、サービスがオーバーレイ アウトレットに移動した `igx-drop-down-item` など、ページ上の任意の要素と一致できます。
+これらのユニバーサルな上書きはグローバルであるため、オーバーレイ サービスがドロップダウン コンテンツをアウトレットに移動した後も、ドロップダウン コンテンツはこれらの上書きを使用できます。
 
 ## スコープ コンポーネント スタイル
 
-オーバーレイに表示される要素のスタイルをスコーピングする際に DOM のオーバーレイ `アウトレット`の位置を指定する必要があります。スコープが設定された CSS ルールには、要素の特定の階層構造が必要です - オーバーレイ コンテンツが、適用するスタイルの正しいコンテキストで表示されることを確認してください。
+ローカル テーマが影響を与えられるのは、そのコンテナーから継承するオーバーレイ コンテンツ、またはテーマが生成したセレクターに一致するオーバーレイ コンテンツだけです。`body` の最後にあるデフォルトのアウトレットにアタッチされたコンテンツは、それを開いたコンポーネントの子孫ではありません。
 
-たとえば、`igx-combo` を取り上げます。コンボは独自のビュー内でコンテンツを定義するため、項目の[スタイル設定](/inputs/combo/overview#styling)は `igx-drop-down` テーマを使用します。
+たとえば、`igx-combo` の項目の[スタイル](/inputs/combo/overview#スタイル設定)は、ドロップダウン テーマを使用します。このコンポーネント ローカルのテーマは、Combo のアウトレットをホストの下に移動した後に有効になります。
 
 ```scss
 // overlay-styling.component.scss
@@ -65,22 +64,13 @@ $my-drop-down-theme: drop-down-theme(
 }
 ```
 
-<DocsAside type="info" title="情報">
-コンポーネントが [`Emulated`](/themes/sass/component-themes#表示のカプセル化) ViewEncapsulation を使用している場合、スタイルを適用するには `::ng-deep` を使用してこのカプセル化を解除する必要があります。
+<DocsAside type="warning" title="警告">
+`::ng-deep` を使用しても、デタッチされたアウトレットにトークンは継承されません。オーバーレイのテーマをグローバルに出力するか、アウトレットをテーマが適用されたコンテナーの下に移動してください。特殊なカスタマイズでスコープ モードを使用していて、アウトレットを移動しても生成されたセレクターがネストされたオーバーレイ コンテンツに一致しない場合は、アウトレットの移動に加えて `::ng-deep` も必要になることがあります。
 </DocsAside>
 
-```scss
-// overlay-styling.component.scss
-:host {
-  ::ng-deep { 
-    @include tokens($my-drop-down-theme);
-  }
-}
-```
+オーバーレイ コンテナーをレンダリングする場所を制御するには、<ApiLink kind="interface" type="OverlaySettings" member="outlet" /> プロパティを使用します。
 
-コンボのリスト内項目は、コンポーネント `ホスト`の子孫ではありません。現在、ドキュメント本体の最後にあるデフォルトのオーバーレイ アウトレットに表示されています。変更するには、`overlaySettings` の <ApiLink kind="interface" type="OverlaySettings" member="outlet" /> プロパティを使用します。`outlet` は、オーバーレイ コンテナーをレンダリングする場所を制御します。
-
-以下でコンテナーを配置する要素への参照を渡すことができます。
+ここでは、コンテナーを配置する要素への参照を渡すことができます。
 
 ```html
 <igx-combo [data]="items" valueKey="name" displayKey="name" [overlaySettings]="{ outlet: element, modal: true }">
@@ -95,14 +85,16 @@ export class OverlayStylingComponent {
 }
 ```
 
-コンボのアイテムのリストがコンポーネントのホスト**内**に適切にレンダリングされます。つまり、カスタムテーマが有効になります。
+これで、Combo の項目リストがコンポーネントのホスト**内**に適切にレンダリングされるため、カスタム テーマが有効になります。
+
 
 <Sample src="/interactions/overlay-styling-simple" height={400} alt="" />
 
+
 ## オーバーレイのスタイル設定
 
-`ViewEncapsulation` がオーバーレイの `outlet` プロパティとどのように連携するかを説明しました。次にオーバーレイ ラッパー自体のスタイルを設定する方法を示します。
-<ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" code={true} /> は、単一のプロパティ - `$background-color` を公開します。これは、オーバーレイが `modal: true` に設定されている場合、背景の色に影響します。
+`ViewEncapsulation` がオーバーレイの `outlet` プロパティとどのように連携するかを説明しました。次に、オーバーレイ ラッパー自体のスタイルを設定する方法を示します。
+<ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" code={true} /> は、単一のプロパティ `$background-color` を公開します。このプロパティは、オーバーレイが `modal: true` に設定されている場合の背景の色に影響します。
 
 ### グローバル スタイル
 
@@ -114,30 +106,14 @@ $my-overlay-theme: overlay-theme(
   $background-color: rgba(0, 153, 255, 0.3)
 );
 
-:host {
-  @include tokens($my-overlay-theme);
-}
+@include tokens($my-overlay-theme);
 ```
 
-これで、**すべて**のモーダル オーバーレイの背景が紫色になります。
-
-<DocsAside type="info" title="情報">
-コンポーネントが [`Emulated`](/themes/sass/component-themes#表示のカプセル化) ViewEncapsulation を使用している場合、スタイルを適用するには `::ng-deep` を使用してこのカプセル化を解除する必要があります。
-</DocsAside>
-
-```scss
-// overlay-styling.component.scss
-:host {
-  ::ng-deep { 
-    @include tokens($my-overlay-theme);
-  }
-}
-```
+これで、**すべて**のモーダル オーバーレイの背景が紫色になります。このテーマはグローバルに出力されるため、Angular の View Encapsulation や `::ng-deep` は関係しません。
 
 ### スコープ オーバーレイ スタイル
 
-特定のコンポーネントの下に**のみ**特定の背景をオーバーレイに表示したい場合は、テーマを[スコープできます](#スコープ-コンポーネント-スタイル)。モーダル オーバーレイをスコープする場合、オーバーレイ アウトレットを移動する必要がありますが、これにはいくつかの[制限](/overlay#前提事項と制限)があります。
-オーバーフロークリッピング、z-index、およびビューポートの問題のリスクを最小限に抑えるために、より高いレベルのコンポーネントでのみモーダルオーバーレイのアウトレットを使用することをお勧めします。
+特定のコンテナーの下でのみオーバーレイに特定の背景を適用するには、オーバーレイのアウトレットをそのコンテナーの下に移動し、そこでテーマをスコープします。カスタム アウトレットにはいくつかの[制限](/overlay#仮定と制限)があります。オーバーフローによるクリッピング、重なり順、およびビューポートの問題を軽減するために、カスタム アウトレットは上位レベルのコンポーネントで使用してください。
 
 ```scss
 // styles.scss
@@ -149,12 +125,12 @@ $my-overlay-theme: overlay-theme(
 
 ## API リファレンス
 
-- [IgniteUI for Angular - テーマ ライブラリ](themes/index.mdx)
+- [IgniteUI for Angular - テーマ ライブラリ](/themes)
 - <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay スタイル" />
 
 ## その他のリソース
 
-- [IgniteUI for Angular - テーマ ライブラリ](themes/index.mdx)
+- [IgniteUI for Angular - テーマ ライブラリ](/themes)
 - [オーバーレイ メイン トピック](/overlay)
 - [配置ストラテジ](/overlay-position)
 - [スクロール ストラテジ](/overlay-scroll)
