@@ -1,87 +1,51 @@
 ---
 title: "{Platform} スタイル設定およびテーマ | {Platform} パレット | インフラジスティックス"
-description:
-keywords: "{ProductName}, Infragistics, Palettes, Styling, インフラジスティックス, パレット, スタイル設定"
+description: "{ProductName} のパレットは、シード カラーから生成される CSS 変数のセットで、すべてのコンポーネントにカラーを提供し、実行時にオーバーライドできます。"
+keywords: "{ProductName}, Infragistics, Palettes, Styling, CSS variables, color variables, surface roles, contrast colors, インフラジスティックス, パレット, スタイル設定"
 license: MIT
 mentionedTypes: []
 _language: ja
 llms:
-  description: "{ProductName} のパレットでは、8 つの基本色 (primary、secondary、surface、gray、info、success、warn、error) に対して、80 を超えるカラー バリエーションが CSS 変数として提供されます。"
+  description: "{ProductName} のパレットは、シード カラーから生成される --ig-* CSS 変数のセットで、すべてのコンポーネント テーマのカラーを提供します。"
+last_updated: "2026-10-14"
 ---
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
-
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
 
 # {ProductName} のパレット
 
-{ProductName} は、アプリケーションで一貫した方法でカラーを更新できる CSS 変数を公開します。
+{ProductName} のパレットは、シード カラーから生成される `--ig-*` CSS 変数のセットで、すべてのコンポーネント テーマのカラーを提供します。
 
 ## 概要
 
-{ProductName} のパレットでは、8 つの基本色 (`primary`、`secondary`、`surface`、`gray`、`info`、`success`、`warn`、`error`) に対して、80 を超えるカラー バリエーションが CSS 変数として提供されます。
+{ProductName} のパレットには、`primary`、`secondary`、`gray`、`surface`、`info`、`success`、`warn`、`error` の 8 つのカラー ファミリがあります。各ファミリは、そのシェードを `--ig-<family>-<variant>` という名前の CSS 変数として公開します (例: `--ig-primary-500`)。
 
-`primary`、`secondary`、および `gray` カラーは [2014 Material Design カラー パレット (英語)](https://material.io/design/color/the-color-system.html#tools-for-picking-colors) に則っています。これらのカラーが以下のバリエーションを含みます:
+| ファミリ | バリアント |
+|---|---|
+| `primary`、`secondary`、`info`、`success`、`warn`、`error` | `50`、`100`、`200`、`300`、`400`、`500`、`600`、`700`、`800`、`900`、`A100`、`A200`、`A400`、`A700`、`seed` |
+| `gray` | `50`–`900`、`seed` |
+| `surface` | `base`、`sunken`、`raised`、`overlay`、`container`、`seed` |
 
-<style>{`
-.palette-table td, .palette-table th {
-  border: 1px solid;
-  padding: 0.5rem;
-}
-.palette-table {
-  margin-bottom: 1rem;
-}
-`}</style>
-<table class="palette-table">
-    <tr>
-        <th colspan="10" style="text-align: center !important">All</th>
-        <th colspan="4" style="text-align: center !important"><b>Primary & Secondary Only</b></th>
-    </tr>
-    <tr>
-        <td>50</td>
-        <td>100</td>
-        <td>200</td>
-        <td>300</td>
-        <td>400</td>
-        <td>500</td>
-        <td>600</td>
-        <td>700</td>
-        <td>800</td>
-        <td>900</td>
-        <td><b>A100</b></td>
-        <td><b>A200</b></td>
-        <td><b>A400</b></td>
-        <td><b>A700</b></td>
-    </tr>
-</table>
+番号付きのシェードは、最も明るい `50` から最も暗い `900` まで続きます。`A100`–`A700` のアクセント シェードは、強調に使用する鮮やかなバリアントです。`surface` ファミリはシェードではなくレイヤーを表します。`base` はページおよびコンポーネントの背景で、`sunken`、`raised`、`overlay` はそれを基準としたレイヤー、`container` は半透明の塗りつぶしです。パレットには互換性のために番号付きの `surface` シェードも含まれますが、非推奨であり、コンポーネント テーマはロールを読み取ります。
 
-
-上記の表に示すように、`gray` カラーには `A100`、`A200`、`A400`、および `A700` バリエーションは含まれませんが、`primary` および `secondary` カラーには 14 カラー バリエーションすべてが含まれます。2014 Material Design カラー パレットに含まれない `info`、`success`、`warn`、`error`、`surface` の 5つのカラーを追加しました。
-
-上記のカラーに加えて、各カラー バリエーションに **Level AA** [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) 準拠の `contrast` カラーも含まれています。つまり、対応する `contrast` カラー バリエーションをベースカラー バリエーションの前景カラーとして安全に使用できます。
+すべてのバリアントには、`--ig-primary-500-contrast` のような対応する `-contrast` 変数があり、構成された WCAG レベルでそのシェードに対して読みやすい方の黒または白に解決されます。
 
 <DocsAside type="info" title="情報">
-コントラスト カラーは、対応するシェード カラーから実行時に計算される CSS 相対カラーであるため、ベース カラー バリエーションをオーバーライドすると、そのコントラスト カラーも一緒に更新されます。
+コントラスト カラーは、対応するシェードからブラウザーによって計算される CSS 相対カラーであるため、シェードをオーバーライドすると、そのコントラスト カラーも一緒に更新されます。半透明の `container` は例外です。コンテナー上のテキストは `base` に重なった状態の色の上に表示されるため、コントラスト カラーもその重なった色から計算されます。そのため、`container` と `base` のどちらを変更しても追従します。
 </DocsAside>
 
-以下は、Light Material パレットで宣言された `primary` カラーの抜粋です。
+以下は、Light Material パレットの `primary` ファミリの抜粋です:
 
 ```css
 :root {
-  //...
   --ig-primary-500: #09f;
   --ig-primary-500-contrast: hsla(from color(from var(--ig-primary-500) var(--y-contrast)) h 0 l / 1);
-  --ig-primary-seed: #09f;
   --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
   --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l / 1);
-  --ig-primary-700: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.81));
-  //...
-  --ig-secondary-400: hsl(from var(--ig-secondary-500) h calc(s * 0.875) calc(l * 1.08));
-  --ig-secondary-400-contrast: hsla(from color(from var(--ig-secondary-400) var(--y-contrast)) h 0 l / 1);
-  --ig-secondary-500: #df1b74;
-  --ig-secondary-500-contrast: hsla(from color(from var(--ig-secondary-500) var(--y-contrast)) h 0 l / 1);
-  --ig-secondary-600: hsl(from var(--ig-secondary-500) h calc(s * 1.26) calc(l * 0.89));
-  --ig-secondary-600-contrast: hsla(from color(from var(--ig-secondary-600) var(--y-contrast)) h 0 l / 1);
-  //...
+  --ig-primary-seed: #09f;
+  /* ... */
   --ig-wcag-a: 0.31;
   --ig-wcag-aa: 0.185;
   --ig-wcag-aaa: 0.178;
@@ -91,19 +55,40 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 }
 ```
 
-すべてのプライマリ カラー バリエーションは、1 つの基本変数カラー バリエーション `--ig-primary-500` から派生します。他のカラー変数 (`--ig-secondary-500`、`--ig-surface-500` など) にも同様のことが当てはまります。他のバリエーションは、メイン変数カラー バリエーション `500` を受け取り、割り当てられた変数バリエーション (`600`、`700` など) に応じて `saturation` と `lightness` を変更する相対カラー関数 `hsl()` によって生成されます。`primary`、`secondary`、`surface`、またはその他のカラーのすべてのバリエーションを実行時に変更できるため、この方法を使用することにしました。
-
-番号付きのバリエーションに加えて、各カラーは、パレットの生成元となったベース カラーを変更せずに保持する `seed` 変数を公開します。`primary`、`secondary`、およびその他の有彩色では、seed は `500` バリエーションと一致します。`gray` では一致しません。`--ig-gray-seed` はグレースケールの派生元となったカラー (サーフェス カラーの輝度から選択された黒または白) を記録し、`--ig-gray-500` は生成された中間トーンです。
-
-コントラスト カラーは、ベース カラーの輝度と選択されたコントラスト レベルから CSS 実行時に計算され、黒と白のうち読みやすい方が選択されます。この計算はカスケードの一部であるため、メイン カラー バリエーション (`500`) を変更すると、そのコントラスト カラーも一緒に更新されます。手動での操作は必要ありません。
+各ファミリは、パレットの生成元となったカラーを変更せずに保持する `seed` 変数も公開します。ビルド済みのテーマでは、`primary`、`secondary`、およびその他のカラー ファミリの seed は `500` バリアントと一致します。`gray` では一致しません。`--ig-gray-seed` はグレースケールの派生元となったカラー (サーフェス カラーの輝度から選択された黒または白) を記録し、`--ig-gray-500` は生成された中間トーンです。
 
 <DocsAside type="info" title="情報">
-しきい値は `--ig-contrast-level` に保持されており、デフォルトは `var(--ig-wcag-aa)` です。任意のスコープでオーバーライドして、`var(--ig-wcag-a)` または `var(--ig-wcag-aaa)` に切り替えることができます。ビルド済みの CSS を使用する代わりに Sass からテーマをコンパイルする場合、`palette` および `adaptive-contrast` ミックスインは `a`、`aa`、または `aaa` を直接受け取ります。[アクセシビリティ](accessibility.mdx)を参照してください。
+コントラストのしきい値は `--ig-contrast-level` に保持されており、デフォルトは `var(--ig-wcag-aa)` です。任意のスコープでオーバーライドして、`var(--ig-wcag-a)` または `var(--ig-wcag-aaa)` に切り替えることができます。<PlatformBlock for="React, WebComponents, Blazor">ビルド済みの CSS を使用する代わりに Sass からテーマをコンパイルする場合、`palette` および `adaptive-contrast` ミックスインは `a`、`aa`、または `aaa` を直接受け取ります。[アクセシビリティ](accessibility.mdx)を参照してください。</PlatformBlock>
 </DocsAside>
+
+<PlatformBlock for="Angular">
+
+Sass では、`palette()` および `adaptive-contrast()` ミックスインは `'a'`、`'aa'`、または `'aaa'` を直接受け取ります:
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+</PlatformBlock>
+
+## パレットの生成方法
+
+ビルド済みの CSS テーマに含まれるものを含め、すべての {ProductName} パレットは、`igniteui-theming` Sass ライブラリの `palette()` 関数によって生成されます。<PlatformBlock for="React, WebComponents, Blazor">ビルド済みのパレットを使用するのに Sass は必要ありませんが、その作成方法を知ると変数の動作を理解できます。</PlatformBlock>この関数には 2 つのジェネレーターがあり、実行時の動作が異なる CSS 変数を生成します:
+
+| ジェネレーター | シェードの出力形式 | 使用場所 |
+|---|---|---|
+| `legacy` | `500` の CSS 相対カラー。`--ig-primary-500` をオーバーライドすると、ブラウザーですべてのプライマリ シェードが更新されます。 | すべてのビルド済み CSS テーマと、事前定義された Sass パレット。 |
+| `fitted` | コントラスト ターゲットに合わせて解決された固定カラー。1 つの変数をオーバーライドしても、そのシェードのみが変更されます。 | Sass の `palette()` で生成するパレット (デフォルト)。 |
+
+`legacy` ジェネレーターは、`500` シェードの彩度と明度に固定値を乗算するため、シェードの品質は `500` カラーの明るさまたは暗さに依存します。非常に暗い、または非常に淡い `500` では、シェードが近接したり、白に解決されたりします。ブランド カラーが非常に暗い、または非常に淡い場合は、代わりに Sass で `fitted` ジェネレーターを使用してパレットを生成してください。これはコントラスト スケールに合わせて各ファミリを構築するため、そのようなシードでも 10 個の異なるシェードが生成されます。[パレット生成](palette-generation.mdx)では、両方のジェネレーターについて説明し、パレットの生成方法を示します。<PlatformBlock for="Angular">[Sass によるパレット](sass/palettes.mdx)では、各ワークフローを詳しく説明しています。</PlatformBlock>
+
+<Sample src="/themes/palettes/shades" wc fitContent iframeOnly alt="{Platform} パレット: ビルド済みパレットの各ファミリを legacy と fitted の各ジェネレーターで生成した比較" />
+
+このトピックの残りの部分では、実行時のオーバーライドについて説明します。オーバーライドで新しいシェードが派生するのは、ビルド済みのテーマなど、`legacy` ジェネレーターで構築されたパレットだけです。
 
 ## パレットの定義
 
-パレットにあるカラー バリエーションを変更したい場合は、その `500` カラー バリエーションをオーバーライドできます。たとえば、プライマリ カラーを変更するのは簡単です。
+ファミリのカラーを変更するには、その `500` バリアントをオーバーライドします。そのファミリの他の番号付きシェードとアクセント シェードはすべて `500` の相対カラーであるため、一緒に更新されます:
 
 ```css
 :root {
@@ -111,9 +96,7 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 }
 ```
 
-これにより、他のすべてのプライマリ バリエーションが自動的に更新されます。
-
-各カラーのカラー バリエーションは単色です。これは、すべてのカラー バリエーションが相対カラー関数 `hsl()` を使用して生成されるためです。
+派生したシェードは `500` の色相を保持し、彩度と明度のみを変更するため、各ファミリは単色です:
 
 ```css
 :root {
@@ -121,11 +104,11 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 }
 ```
 
+`seed` 変数は `500` から派生しません。パレットの生成元となったカラーを記録します。`seed` ではなく、使用するシェードをオーバーライドしてください。
+
 ## スコープ
 
-パレットでカラーをオーバーライドする方法は比較的簡単です。_global_ パレットを更新するには、アプリケーションの `styles.css` ファイルの `:root` セレクターにカラー バリエーションをスコープします。
-
-たとえば、企業のプライマリ カラーが `#9f349c` で、そのプライマリ カラー バリエーションを作成するとします。必要なのは、`--ig-primary-500` 変数を、RGB、HEX などの任意のカラー値タイプの目的のカラーに置き換えることだけです。
+グローバル パレットを変更するには、アプリケーションのグローバル スタイルシートの `:root` でパレット変数をオーバーライドします。任意の CSS カラー構文を使用できます:
 
 ```css
 :root {
@@ -133,9 +116,7 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 }
 ```
 
-これにより、各基本カラー バリエーションが自動的に変更されます。
-
-単一のグローバル パレット以外に、他の CSS セレクターにスコープされる複数のパレットを作成することもできます。たとえば、青と赤のパレットをクラス セレクターにスコープできます。
+オーバーライドを他のセレクターにスコープすると、複数のパレットを使い分けられます。たとえば、青と赤のパレットをクラスで定義します:
 
 ```css
 /* styles.css */
@@ -149,47 +130,110 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 }
 ```
 
-class 属性の値を `blue-theme` から `red-theme` に変更することで、アプリケーションのカラーを簡単に変更できます。
+<PlatformBlock for="Angular">
+
+```html
+<app-component class="blue-theme"></app-component>
+```
+
+</PlatformBlock>
+
+クラスを `blue-theme` から `red-theme` に変更すると、その要素の中のパレットがまとめて切り替わります。
+
+同じ方法で、単一のコンポーネントのパレット カラーを変更できます。たとえば、Material の Avatar は背景を `gray` の `400` シェードから取得するため、Avatar でそのシェードをオーバーライドすると、パレットの残りの部分に影響を与えずに背景を変更できます:
+
+<PlatformBlock for="Angular">
+
+```css
+igx-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```css
+igc-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+
+## サーフェス レイヤー
+
+`surface` ファミリは、番号付きのシェードではなく、名前付きレイヤーのセットです。コンポーネントは、`--ig-surface-base` を先頭とするこれらのレイヤーを読み取ります:
+
+| 変数 | 用途 |
+| --- | --- |
+| `--ig-surface-base` | ページの背景 |
+| `--ig-surface-sunken` | くぼんだ領域 |
+| `--ig-surface-raised` | ページの上に置かれるカードとパネル |
+| `--ig-surface-overlay` | メニュー、ダイアログ、ポップオーバー |
+| `--ig-surface-container` | サーフェスの上の半透明レイヤー: ライト サーフェスでは黒、ダーク サーフェスでは白 |
+
+各レイヤーには、そのレイヤー上の前景色用に、`--ig-surface-base-contrast` のような対応する `-contrast` 変数があります。
+
+動く余地のないレイヤーは `base` に解決されます。たとえば、純白の base では、`raised` と `overlay` も白になるため、ページから区別するには境界線または[エレベーション](elevations.mdx)を使用します。レイヤーの生成方法については、[パレット生成](palette-generation.mdx#サーフェス-ロール)を参照してください。
 
 ## ダークとライト
 
-{ProductName} のパレットは、テーマを明るくするか暗くするかを示します。最も影響を受ける 2 つのカラーは、`gray` と `surface` です。すべてのテーマの `gray` カラー バリエーションは、`#fff` などの非常に明るい色合いか、あるいは `#222` などの非常に暗い色合いに基づきます。ライト テーマには暗い色合いの `gray` に基づいたグレー カラーのバリエーションがあり、ダーク テーマはその反対で、すべての `gray` カラー バリエーションは白い色合いです。これらの `gray` カラーは、他のカラー (通常は `surface` カラー) に対して表示されます。テーマを適切に表示するために、`surface` のカラーは常にグレースケールの `gray` の反対の明度に設定します。
+`gray` と `surface` ファミリによって、{ProductName} のパレットがライトかダークかが決まります。ライト パレットは、明るいサーフェスと暗い色から構築されたグレーを組み合わせ、ダーク パレットは、暗いサーフェスと白から構築されたグレーを組み合わせます。テキスト、境界線、アイコンはグレーからカラーを取得するため、この 2 つのファミリはグレー スケールの反対側に保つ必要があります。
 
-ライト テーマとダーク テーマの両方について、`gray` と `surface` のカラー バリエーションの完全なリストを以下に示します。
+コンポーネントの背景は `surface` ロールを読み取るため、実行時にサーフェスを変更するにはロールをオーバーライドします。ロールはどちらのジェネレーターでも固定カラーであり、`--ig-surface-500` から派生しません:
 
-**Bootstrap Light:**
+**Material Light:**
 
 ```css
 :root {
-  //...
-  /* surface is set to light color*/
-  --ig-surface-500: white;
-  //...
-  /* grays are based on dark gray to contrast the surface color */
+  /* the surface roles are light */
+  --ig-surface-base: #fff;
+  --ig-surface-raised: #fff;
+  --ig-surface-overlay: #fff;
+  --ig-surface-sunken: #f7f7f7;
+  /* grays are built from a dark color to contrast the surface */
   --ig-gray-500: hsl(0, 0%, 62%);
-  //...
 }
 ```
 
-**Bootstrap Dark:**
+**Material Dark:**
 
 ```css
 :root {
-  //...
-  /* surface is set to dark color*/
-  --ig-surface-500: #222;
-  //...
-  /* grays are based on light gray to contrast the surface color */
+  /* the surface roles are dark */
+  --ig-surface-base: #222;
+  --ig-surface-raised: #282828;
+  --ig-surface-overlay: #2f2f2f;
+  --ig-surface-sunken: #1c1c1c;
+  /* grays are built from white to contrast the surface */
   --ig-gray-500: hsl(0, 0%, 74%);
-  //...
 }
 ```
 
-`gray` と `surface` カラー バリエーションはほとんどのコンポーネントで使用されており、外観全体に大きな影響を与えるため、その変更には注意が必要です。
+<PlatformBlock for="Angular">
+
+コンポーネントは {ProductName} 22.3.0 以降でサーフェス ロールを読み取ります。以前のバージョンでは、代わりに背景として `--ig-surface-500` を読み取るため、それらのバージョンでは `--ig-surface-base` と一緒に `--ig-surface-500` もオーバーライドしてください。
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+コンポーネントは Ignite UI for Web Components 7.5.0 以降でサーフェス ロールを読み取ります。以前のバージョンでは、代わりに背景として `--ig-surface-500` を読み取るため、それらのバージョンでは `--ig-surface-base` と一緒に `--ig-surface-500` もオーバーライドしてください。
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+サーフェス ロールより前のリリースのコンポーネントは、代わりに背景として `--ig-surface-500` を読み取ります。そのようなリリースを使用している場合、またはわからない場合は、`--ig-surface-base` と一緒に `--ig-surface-500` もオーバーライドしてください。コンポーネントがロールを読み取る場合、追加の変数による悪影響はありません。
+
+</PlatformBlock>
+
+`gray` と `surface` は、ほとんどのコンポーネントで使用されており、テーマの外観全体に最も大きな影響を与えるため、その変更には注意が必要です。
 
 ## その他のカラー
 
-ここまでで、`primary`、`secondary`、`gray`、`surface` のカラー バリエーションと、それらをオーバーライドする方法を説明しました。さらに 4 つのカラーがあります - `info`、`success`、`warn`、`error`。通常、異なる状態のカラーを設定するために使用されます。たとえば、`igc-input-group` コンポーネントは、入力検証状態でこれらのカラーを使用します。これらは他のカラー バリエーションと同様に変更できます。`500` バリエーションを設定するだけで、他のすべてのバリエーションが生成されます。
+`info`、`success`、`warn`、`error` ファミリは、<PlatformBlock for="Angular">`igx-input-group`</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igc-input`</PlatformBlock> の検証状態など、状態のカラーを設定します。これらの色を変更するには、`500` バリアントをオーバーライドします。各ファミリのほかのシェードも、それに合わせて変わります:
 
 ```css
 :root {
@@ -199,3 +243,21 @@ class 属性の値を `blue-theme` から `red-theme` に変更することで�
   --ig-error-500: #ff134a;
 }
 ```
+
+## 関連リソース
+
+- [パレット生成](palette-generation.mdx)
+- [アクセシビリティ](accessibility.mdx)
+
+<PlatformBlock for="Angular">
+
+- [Sass によるパレット](sass/palettes.mdx)
+- [{ProductName} **フォーラム (英語)**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [{ProductName} **GitHub (英語)**](https://github.com/IgniteUI/igniteui-angular)
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- [テーマの概要](overview.mdx)
+
+</PlatformBlock>

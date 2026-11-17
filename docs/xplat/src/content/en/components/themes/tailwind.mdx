@@ -11,12 +11,24 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set gets this page from the xplat generator, so do not keep a copy under docs/angular.*/}
+
 # Tailwind CSS Integration with {ProductName}
 
 {ProductName} offers full theming customization through CSS variables. In this guide, you'll learn how to integrate Tailwind CSS into your project and enhance it with custom utility classes provided by the `igniteui-theming` package. These classes expose {ProductName} design tokens for colors, shadows, and typography, enabling a seamless utility-first styling experience.
-<br />
 
 ## Overview
+
+<PlatformBlock for="Angular">
+
+This guide assumes you already have **{ProductName}** installed, which includes `igniteui-theming`. If not, run:
+
+```cmd
+ng add igniteui-angular
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
 
 This guide assumes you already have **Ignite UI Theming** installed. If not, run:
 
@@ -24,22 +36,47 @@ This guide assumes you already have **Ignite UI Theming** installed. If not, run
 npm install igniteui-theming
 ```
 
+</PlatformBlock>
+
 ## Tailwind Setup
+
+<PlatformBlock for="Angular">
+
+Install Tailwind and its PostCSS plugin:
+
+```cmd
+npm install tailwindcss @tailwindcss/postcss postcss --force
+```
+
+Then create a `.postcssrc.json` file in the root of your project and add the `@tailwindcss/postcss` plugin to your PostCSS configuration:
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
 
 Start by installing Tailwind CSS, according to your chosen build tool or framework by following the [official Tailwind installation guide](https://tailwindcss.com/docs/installation).
 
-Once Tailwind is set up, import both Tailwind and the Ignite UI theming configuration in your global stylesheet.
+</PlatformBlock>
+
+Once Tailwind is set up, import both Tailwind and the Ignite UI theming configuration in your global stylesheet<PlatformBlock for="Angular"> (`styles.css` or `styles.scss`)</PlatformBlock>:
 
 ```css
-@import 'tailwindcss';
-@import 'igniteui-theming/tailwind/theme';
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/themes/base";
 ```
 
-If your project uses `sass` for styling:
+If your project uses Sass for styling, load the Ignite UI configuration first. Sass requires every `@use` rule to come before any other rule, including `@import`:
 
 ```scss
+@use "igniteui-theming/tailwind/themes/base.css";
 @import "tailwindcss";
-@use "igniteui-theming/tailwind/theme";
 ```
 
 ## Using Ignite UI Custom Utility Classes
@@ -58,7 +95,7 @@ Let’s look at how to use each.
 
 Our color utility classes are powered by tokens from each Ignite UI theme. You can apply them directly in your HTML:
 
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <h1 class="bg-primary-500 text-primary-500-contrast">This is a title</h1>
@@ -74,15 +111,13 @@ Our color utility classes are powered by tokens from each Ignite UI theme. You c
 
 </PlatformBlock>
 
-
-You can explore Tailwind’s full color system in this [topic](https://tailwindcss.com/docs/color), and apply it using the Ignite UI-provided class names.
-<br />
+You can explore Tailwind’s full color system in the [Tailwind color documentation](https://tailwindcss.com/docs/color), and apply it using the Ignite UI-provided class names.
 
 ### Shadow utility classes
 
-You can add depth using any of the predefined [elevation levels](https://www.infragistics.com/products/ignite-ui-web-components/web-components/components/themes/elevations) (from 0 to 24):
+You can add depth using any of the predefined [elevation levels](elevations.mdx) (from 0 to 24):
 
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <div class="shadow-elevation-8">Elevated container</div>
@@ -98,15 +133,14 @@ You can add depth using any of the predefined [elevation levels](https://www.inf
 
 </PlatformBlock>
 
-You can find all the shadow-related utility classes provided by Tailwind in this [topic](https://tailwindcss.com/docs/box-shadow)
-<br />
+You can find all the shadow-related utility classes provided by Tailwind in the [Tailwind box shadow documentation](https://tailwindcss.com/docs/box-shadow).
 
 ### Typography custom utility styles
 
 To apply the font, add the `font-ig` class to a top-level element. You can also define the base font size using the `text-base` utility class.
 We provide custom utility classes for each typography level (e.g., h1, h2, body-1). Use them like so:
 
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <p class="type-style-h3">This paragraph gets the h3 styles</p>
@@ -122,16 +156,38 @@ We provide custom utility classes for each typography level (e.g., h1, h2, body-
 
 </PlatformBlock>
 
+Each class applies all necessary font settings, spacing, and sizing according to the [Ignite UI type scale](typography.mdx).
 
-Each class applies all necessary font settings, spacing, and sizing according to the [Ignite UI type scale](https://www.infragistics.com/products/ignite-ui-web-components/web-components/components/themes/typography).
+<PlatformBlock for="Angular">
 
-<PlatformBlock for="WebComponents">
+<DocsAside type="info">
+These custom typography utilities only work outside of `ig-typography`. If you have to set the `ig-typography` CSS class on a top-level element, these styles won't apply.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
 
 ## Sample
 
-In the sample below, you’ll see a 404 page built entirely with Tailwind utility classes, including our "custom utilities" for "shadows", "colors", and "typography".
+In the sample below, you’ll see a 404 page built entirely with Tailwind utility classes, including our custom utilities for shadows, colors, and typography.
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+You can see how to style each component by checking out the **Styling** section in its respective documentation topic.
+</DocsAside>
+
+<Sample src="/theming/tailwind-sample" height={610} alt="{Platform} Tailwind Integration" />
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
 
 <Sample src="/layouts/tailwind/styling" height={400} alt="{Platform} Tailwind Integration" />
+
+</PlatformBlock>
+<PlatformBlock for="Angular, WebComponents">
 
 <DocsAside type="info">
 This sample is fictional and fully custom, it’s not part of the Ignite UI component library.
@@ -142,3 +198,10 @@ This sample is fictional and fully custom, it’s not part of the Ignite UI comp
 ## Summary
 
 With just a few configuration steps, you can combine Tailwind’s utility-first approach with Ignite UI’s robust design system. This integration allows you to rapidly build consistent, themed UI components using well-defined tokens for color, elevation, and typography, right from your HTML.
+
+## Additional Resources
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

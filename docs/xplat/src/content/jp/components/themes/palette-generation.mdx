@@ -1,0 +1,296 @@
+---
+title: "{Platform} スタイル設定およびテーマ | {Platform} パレット生成 | インフラジスティックス"
+description: "{ProductName} のパレット生成は、各シード カラーを、シードの色相と配置先のサーフェスに合わせてコントラスト ステップが調整されたシェードのファミリに変換します。"
+keywords: "{ProductName}, Infragistics, palette generation, fitted palettes, color scales, contrast, seed color, surface roles, Sass palette function, インフラジスティックス, パレット生成, カラー スケール, コントラスト, シード カラー"
+license: MIT
+mentionedTypes: []
+_language: ja
+llms:
+  description: "{ProductName} のパレット生成は、シード カラーを、シェード間のコントラストが予測可能なシェードのファミリに変換する igniteui-theming の palette 関数です。"
+last_updated: "2026-10-14"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# パレット生成
+
+{ProductName} のパレット生成は、シード カラーを、シェード間のコントラストが予測可能なシェードのファミリに変換する `igniteui-theming` の palette 関数です。
+
+## 概要
+
+すべての {ProductName} パレットは、少数の**シード**カラー (`primary`、`secondary`、`surface`、および任意で `gray`、`info`、`success`、`warn`、`error`) から始まります。`igniteui-theming` Sass ライブラリの `palette()` 関数は、各シードをシェードの**ファミリ**に展開します。カラー ファミリには、`50` から `900` までの 10 個の番号付きシェードと、`A100` から `A700` までの 4 個のアクセント シェードがあります。`gray` ファミリには番号付きシェード 10 個のみがあり、`surface` ファミリには番号の代わりに名前付きレイヤーがあります。すべてのシェードには対応する `-contrast` カラーもあり、シード自体は `seed` バリアントとして保持されます。
+
+<PlatformBlock for="Angular">同じ関数が {ProductName} に付属するすべてのパレットを構築し、Sass から使用できます。</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">ビルド済みの {ProductName} テーマはこの関数でコンパイルされているため、Sass を記述しなくても、表示されるカラーはこの関数によって決まります。</PlatformBlock>この関数には 2 つのジェネレーターがあります:
+
+| ジェネレーター | ファミリの構築方法 | 使用場所 |
+|---|---|---|
+| `legacy` | シードを `500` に配置し、その HSL の彩度と明度に固定値を乗算して他のシェードを求めます。シェードは `500` の CSS 相対カラーとして出力されます。 | すべてのビルド済み CSS テーマと、事前定義された Sass パレット。 |
+| `fitted` | 各シェードを WCAG コントラスト ターゲットに基づいて求め、彩度はシードの色相が表現できる範囲に収めます。各シェードは固定カラーとして出力されます。 | Sass の `palette()` で生成するパレットのデフォルト。 |
+
+このセクションの残りの部分では、`fitted` ジェネレーターの動作と、そのシェードがそのように動作する理由を説明します。
+
+### シードとスケール
+
+`legacy` ジェネレーターはすべてのシェードをシードの開始明度に結び付けるため、ファミリの品質はシードの位置に依存します。非常に暗いシード `hsl(210 80% 10%)` から開始すると、生成される最も明るいシェードは `#012d5a` であり、ファミリのすべてのシェードが暗くなります。非常に淡いシード `hsl(210 80% 90%)` から開始すると、シェード `50` から `300` までの乗算された明度が 100% を超えるため、4 つすべてが白に解決され、最も暗いシェードは `#2793ff` にしか達しません。
+
+`fitted` ジェネレーターは、シードの**特性**とファミリの**構造**を分離します。シードは色相と、ファミリのカラフルさを提供します。**スケール**は、シェードの到達範囲と間隔を提供します。同じ 2 つのシードから、`fitted` ジェネレーターはそれぞれ 10 個の異なるシェードを生成します。暗いシードからは `#e4ecf8` から `#0a1623`、淡いシードからは `#e4edf7` から `#0b1621` です。
+
+番号付きシェードはスケールから位置を取得するため、シードがそのいずれかにちょうど一致することはまれです。シードは `seed` バリアント (`--ig-primary-seed`) として引き続き利用できるため、ブランド カラーそのものが失われることはありません。彩度がほとんどないニュートラルに近いシードからは、元にない強い色味が加わることなく、わずかな色合いを残したニュートラルなファミリが生成されます。
+
+<Sample src="/themes/palettes/seeds" wc fitContent iframeOnly alt="{Platform} パレット生成: 暗いシードと淡いシードを legacy と fitted の各ジェネレーターで生成した比較" />
+
+### 色相とガマット
+
+HSL の明度が同じ 2 つのカラーが、同じ明るさに見えるわけではありません。HSL の明度 50% の黄色は、50% の青よりもはるかに明るく見えます。`fitted` ジェネレーターは、明度と彩度が知覚により近く対応する OKLCH で動作し、明度の数値ではなく WCAG コントラストですべてのシェードを測定します。
+
+カラーが持てる彩度の量は、色相と明度に依存し、白と黒に近づくにつれて狭くなります。淡い青は、表示可能な sRGB カラーのまま中間調の青と同じようにカラフルであり続けることはできません。`fitted` ジェネレーターは、色相の sRGB 境界内で各ファミリを構築します。スケールの両端に向かって彩度を絞り、各コントラスト ターゲットに到達する明度を求め、カラーを sRGB にマッピングした後でそのコントラストを測定します。アクセント シェードも同じ方法で求めますが、アクセント専用の固定コントラスト ターゲットを使い、彩度を色相が表現できる限界まで上げるため、鮮やかさが保たれます。
+
+<Sample src="/themes/palettes/sweep" wc fitContent iframeOnly alt="{Platform} パレット生成: すべての色相を両方のジェネレーターで生成した結果と sRGB ガマット境界" />
+
+### コントラスト ターゲット
+
+スケールは、カラー ファミリでは白に対して測定されるコントラスト ターゲットのリストです。デフォルトのスケール `even` は、`50` の 1.18:1 から `900` の 18.23:1 までで、各ターゲットに同じ比率を乗算して次のターゲットを求めます。2 つのシェード間のコントラストは、白に対するそれぞれのコントラストの比であるため、隣接するシェード間の比率が等しいということは、同じ距離だけ離れた任意の 2 つのシェードが同じコントラストを持つことを意味します。
+
+`even` では、5 つ離れたシェードは、[通常テキストの WCAG AA 最小値 (英語)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum)である 4.5:1 を満たします。`50` と `500`、`100` と `600`、`200` と `700`、`300` と `800`、`400` と `900` です。これにより、シードが変わっても成り立つ組み合わせのルールが得られます:
+
+```css
+.status {
+  background: var(--ig-primary-100);
+  color: var(--ig-primary-600);
+}
+```
+
+このルールは、`even` で構築されたファミリの番号付きシェードに適用されます。任意の組み合わせ、半透明のカラー、カスタム スケール、またはデフォルトの `gray` スケールには適用されません ([グレーとページ](#グレーとページ)を参照)。組み合わせに依存する場合は、必ずレンダリングされた前景色と背景色を確認してください。
+
+### スケールの形状
+
+スケールには 2 つの主なコントロールがあります。**range** は、最初と最後のシェードのコントラスト ターゲットを設定します。任意の **curve** は、CSS の `cubic-bezier()` タイミング関数と同じ 4 つの制御点を使用して、その間のシェードを再配分します。x はシェード間の位置、y は範囲内の位置です。curve がない場合、シェードは均等に配置されます。
+
+`igniteui-theming` には 4 つのプリセットが付属しています:
+
+| プリセット | 形状 | 5 ペア AA ルール |
+|---|---|---|
+| `even` | 1.18:1 から 18.23:1 までの均等な間隔。`gray` を除くすべてのファミリのデフォルト。 | 5 ペア中 5 ペア |
+| `material` | 元の Ignite UI グレースケールに合わせて調整。`gray` のデフォルト。 | 白に対して 5 ペア中 3 ペア |
+| `tailwind` | Tailwind CSS v4 の slate スケールに合わせて調整。 | 5 ペア中 5 ペア |
+| `carbon` | IBM Carbon のグレー スケールに合わせて調整。 | 5 ペア中 5 ペア |
+
+プリセットはパレットではなくリズムを借用しており、カラーはシードが提供します。カスタムの range または curve はコントラスト構造を変更するため、5 ペア ルールは自動的には成り立たなくなります。範囲が狭い場合や、シェードを近接させる curve では、ペアが 4.5:1 を下回ることがあります。
+
+<Sample src="/themes/palettes/scales" wc fitContent iframeOnly alt="{Platform} パレット生成: スケール プリセット、range、curve、anchor を編集して Sass を出力するエディター" />
+
+### グレーとページ
+
+白いページでは控えめなグレーも、暗いページでは目立つことがあります。そのため、`gray` ファミリは 3 番目のスケール設定である **anchor** を読み取り、範囲を何に対して測定するかを設定します:
+
+- `anchor: 'surface'` は、サーフェス カラーに対して測定します。シェード `50` はページに最も近いままで、番号が大きいほどページから離れます (ライト テーマでは暗く、ダーク テーマでは明るく)。これは、`even`、`tailwind`、`carbon`、および記述したスケールのデフォルトです。
+- `anchor: 'white'` は、元のグレースケールの構築方法と同様に、白に対して測定します。10 個のグレーはどのテーマでも同じカラーで、暗いサーフェスでは逆順に並び、`50` が最も暗くなります。`gray` のデフォルトである `material` プリセットはこの anchor を使用するため、既存のダーク テーマを `fitted` ジェネレーターに移行しても、コンポーネントの外観は変わりません。
+
+いずれの場合も、番号が小さいほどページとのコントラストが低くなります。`$gray` を渡さない場合、gray のシードは、ライト サーフェスでは黒、ダーク サーフェスでは白になります。
+
+anchor が `'surface'` のスケールは、サーフェスが許容するよりも高いコントラストを要求することがあります。暗いグレーのページに対する白では、白と黒の間で得られる 21:1 に到達できません。その場合、ジェネレーターは到達できる最も近いシェードを返し、結果がターゲットを 5% を超えて下回ると Sass の警告を出力します。
+
+### サーフェス ロール
+
+`surface` ファミリはシェードのランプではありません。サーフェスは、インターフェイスの中で何かがどこに位置するかを表すため、このファミリは名前付きの**ロール**のセットです:
+
+| ロール | CSS 変数 | 説明 |
+|---|---|---|
+| `base` | `--ig-surface-base` | ページの背景。サーフェス シードそのもの。 |
+| `sunken` | `--ig-surface-sunken` | ページに埋め込まれたレイヤー。黒に 1 ステップ近づけます。 |
+| `raised` | `--ig-surface-raised` | ページの上のレイヤー。白に 1 ステップ近づけます。 |
+| `overlay` | `--ig-surface-overlay` | メニューやダイアログなどの浮動レイヤー。白により大きく近づけます。 |
+| `container` | `--ig-surface-container` | 半透明のレイヤー。ライト サーフェスでは黒、ダーク サーフェスでは白。 |
+
+動く余地のないロールは base カラーに解決されます。純白のサーフェスでは、`raised` と `overlay` も白になり、境界線またはエレベーションで区別します。どちらのジェネレーターも同じロールを出力し、コンポーネント テーマはそれらを通じて `surface` を参照します。`color($color: 'surface')` はデフォルトで `base` を返します。半透明の `container` のコントラスト カラーは、`base` に重なった状態の色に対して測定されます。コンテナー上のテキストは、実際にはこの重なった色の上に表示されるためです。
+
+すべてのパレットは、番号付きで記述されたスタイルが引き続き解決されるように、`--ig-surface-500` などの番号付きの `surface` シェードも出力します。これらは非推奨であり、将来のリリースで削除されます。`fitted` パレットでは、`--ig-surface-500` は `--ig-surface-base` を指し、他の番号付きシェードはそこから派生します。`legacy` パレットでは、従来どおりサーフェス シードから派生します。
+
+<Sample src="/themes/palettes/neutrals" wc fitContent iframeOnly alt="{Platform} パレット生成: ライト テーマとダーク テーマでのグレースケールとサーフェス ロール" />
+
+## 開始する前に
+
+2 つのジェネレーターは実行時の動作が異なるため、作業対象のパレットがどちらのジェネレーターで生成されたかを確認してください:
+
+- **ビルド済み CSS テーマと、事前定義された Sass パレット** (`$light-material-palette` など) は `legacy` ジェネレーターを使用します。そのシェードは `500` の CSS 相対カラーであるため、`--ig-primary-500` をオーバーライドすると、ビルド手順なしでブラウザーでファミリ全体が更新されます。[パレット](palettes.mdx)を参照してください。
+- **Sass の `palette()` で生成するパレット**は、デフォルトで `fitted` ジェネレーターを使用します。そのシェードはビルド時に計算される固定カラーです。1 つの変数をオーバーライドしても、そのシェードのみが変更されます。ファミリを変更するには、新しいシードでパレットを再生成します。<PlatformBlock for="Angular">[Sass によるパレット](sass/palettes.mdx)を参照してください。</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`fitted` ジェネレーターは、`igniteui-theming` 30 を使用する {ProductName} 22.3.0 以降でデフォルトです。`ng update` でアプリケーションを更新すると、マイグレーションによって既存の `palette()` 呼び出しに `$generator: 'legacy'` が追加され、カラーが維持されます。[更新ガイド](../general/update-guide.mdx)を参照してください。
+
+</PlatformBlock>
+
+パレットを生成するには、<PlatformBlock for="Angular">[Sass を使用したテーマ設定](sass/index.mdx)で説明されている Sass テーマ設定のセットアップ</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igniteui-theming` パッケージと Sass コンパイラー (「[Sass によるカスタマイズ](overview.mdx#sass-によるカスタマイズ)」を参照)</PlatformBlock>が必要です。ジェネレーターは Sass ビルド中にのみ実行され、アプリケーションには結果の CSS 変数だけが含まれます。
+
+## 次のステップ
+
+<PlatformBlock for="Angular">
+
+- パレットを生成する、スケールを選択する、または `legacy` ジェネレーターに戻す: [Sass によるパレット](sass/palettes.mdx)。
+- 実行時に CSS 変数でパレット カラーをオーバーライドする: [パレット](palettes.mdx)。
+- 生成したパレットを完全なテーマに適用する: [グローバル テーマ](sass/global-themes.mdx)。
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- 実行時に CSS 変数でパレット カラーをオーバーライドする: [パレット](palettes.mdx)。
+- Sass からのみ利用できるコントラスト関数とチャート パレット関数を使用する: [アクセシビリティ](accessibility.mdx)。
+- {ProductName} 用に Sass をセットアップする: [Sass によるカスタマイズ](overview.mdx#sass-によるカスタマイズ)。
+
+</PlatformBlock>
+
+## 利用可能なツール
+
+| ツール | 目的 |
+|---|---|
+| `palette()` 関数 | シード カラーからパレット マップを構築します。ジェネレーターと各ファミリのスケールを選択するための `$generator` と `$scales` を受け取ります。 |
+| `palette()` ミックスイン | パレット マップを `--ig-*` CSS 変数として出力します。 |
+| `$shade-generator` | ビルド内のすべての `palette()` 呼び出しのデフォルト ジェネレーターを設定します: `'fitted'` (デフォルト) または `'legacy'`。 |
+| `$scales` | スケール プリセット: `even`、`material`、`tailwind`、`carbon`。 |
+| `$family-scales` | 各ファミリのデフォルト スケール。リストにないファミリは `even` を使用し、`gray` は `material` を使用します。 |
+| `color()` および `contrast-color()` 関数 | シェードまたはそのコントラスト カラーを、CSS 変数参照として、またはパレット マップから読み取ります。 |
+
+## 一般的なワークフロー
+
+### パレットの生成
+
+`fitted` ジェネレーターでパレットを生成し、CSS 変数として出力します。<PlatformBlock for="React, WebComponents, Blazor">このスタイルシートは、その変数が優先されるように、ビルド済みテーマの後に読み込みます。</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```scss
+@use 'igniteui-theming' as *;
+```
+
+</PlatformBlock>
+
+```scss
+$brand: palette(
+  $primary: #0099ff,
+  $secondary: #df1b74,
+  $surface: #ffffff
+);
+
+:root {
+  @include palette($brand);
+}
+```
+
+パレットはビルド時に計算されるため、`$primary`、`$secondary`、`$surface` 引数は必須で、CSS 変数ではなく Sass カラーである必要があります。
+
+### スケールの選択
+
+1 つのファミリ、またはすべてのファミリに対してプリセットを指定します:
+
+```scss
+// The grays follow IBM Carbon's rhythm; every other family keeps its default
+$brand: palette(#0099ff, #df1b74, #ffffff, $scales: ('gray': 'carbon'));
+
+// Every family uses the tailwind preset
+$brand: palette(#0099ff, #df1b74, #ffffff, $scales: 'tailwind');
+```
+
+または、`range`、`curve`、`gray` の場合は `anchor` を使用してスケールをインラインで記述します:
+
+```scss
+$brand: palette(
+  #0099ff,
+  #df1b74,
+  #121212,
+  $scales: (
+    'primary': (range: 1.1 14, curve: 0.5 0 0.8 0.8),
+    'gray': (range: 1.1 14, anchor: 'white')
+  )
+);
+```
+
+### legacy ジェネレーターの維持
+
+1 つのパレットで、乗数ベースのシェードと `500` からの実行時の派生を維持します:
+
+```scss
+$brand: palette(#0099ff, #df1b74, #ffffff, $generator: 'legacy');
+```
+
+ビルド内のすべての `palette()` 呼び出しを切り替えるには、ほかのどの `@use` よりも先に、`igniteui-theming` を `with` 付きで読み込みます:
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-theming" with ($shade-generator: 'legacy');
+@use "igniteui-angular/theming" as *;
+```
+
+[Sass によるパレット](sass/palettes.mdx)では、カスタムの range、curve、anchor を含む各ワークフローを詳しく説明しています。
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```scss
+@use 'igniteui-theming' as * with ($shade-generator: 'legacy');
+```
+
+</PlatformBlock>
+
+## トラブルシューティング
+
+**`--ig-primary-500` をオーバーライドしても、他のプライマリ シェードが変更されなくなったのはなぜですか?** パレットが `fitted` ジェネレーターで生成されたためです。このジェネレーターは、すべてのシェードを `500` の相対カラーではなく固定カラーとして出力します。新しいシードで Sass のパレットを再生成するか、`500` からの実行時の派生が必要な場合は `$generator: 'legacy'` で生成してください。
+
+**`--ig-surface-500` は引き続き使用すべきですか?** いいえ。番号付きのサーフェス シェードは非推奨であり、互換性のためにのみ保持されています。それぞれの参照を、目的に合ったロールにマップしてください。通常、ページの背景には `--ig-surface-base` を使用します。
+
+**`Shade "gray-900" wanted 18.232:1 but its hue only reaches 15.68:1` とはどういう意味ですか?** スケールが、カラーとその anchor が許容するよりも高いコントラストを要求しています。最も多いのは、ダーク サーフェス上で anchor が `'surface'` のグレー スケールを使う場合です。その場合、ジェネレーターは到達できる範囲で最も近いシェードを使用しています。範囲の上限を下げるか、スケールの anchor を `'white'` にしてください。
+
+## 関連リソース
+
+- [パレット](palettes.mdx)
+- [アクセシビリティ](accessibility.mdx)
+
+<PlatformBlock for="Angular">
+
+- [Sass によるパレット](sass/palettes.mdx)
+- [Sass を使用したテーマ設定](sass/index.mdx)
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="palette() function" />
+- [{ProductName} **フォーラム (英語)**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [{ProductName} **GitHub (英語)**](https://github.com/IgniteUI/igniteui-angular)
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- [テーマの概要](overview.mdx)
+- [GitHub の `igniteui-theming` (英語)](https://github.com/IgniteUI/igniteui-theming)
+
+</PlatformBlock>
+
+## FAQ
+
+<Faq>
+  <FaqItem question="fitted ジェネレーターは、ビルド済みの {ProductName} テーマを変更しますか?" indicatorPosition="end">
+    いいえ。ビルド済みの {ProductName} テーマと、事前定義された Sass パレットは `legacy` ジェネレーターで構築されているため、そのカラーと実行時の動作は変わりません。`fitted` ジェネレーターは、Sass の `palette()` 関数で生成するパレットに適用されます。
+  </FaqItem>
+  <PlatformBlock for="React, WebComponents, Blazor">
+  <FaqItem question="{ProductName} のパレットを使用するのに Sass は必要ですか?" indicatorPosition="end">
+    いいえ。ビルド済みの {ProductName} テーマには生成済みのパレットがすでに含まれており、CSS 変数をオーバーライドして実行時に変更できます。Sass が必要になるのは、`fitted` ジェネレーターやカスタム スケールなどで新しいパレットを生成する場合のみです。
+  </FaqItem>
+  </PlatformBlock>
+  <FaqItem question="fitted パレットはデフォルトでアクセシブルですか?" indicatorPosition="end">
+    fitted パレットでコントラストが自動的に確保されるわけではありませんが、予測はしやすくなります。デフォルトの `even` スケールでは、カラー ファミリ内で 5 つ離れたシェードは通常テキストの WCAG AA 最小値 4.5:1 を満たしますが、デフォルトの `gray` スケールでは白に対してそれら 5 ペアのうち 3 ペアが満たし、カスタム スケールではさらに少なくなることがあります。使用するすべての前景色と背景色の組み合わせを、レンダリングされたインターフェイスで確認してください。
+  </FaqItem>
+  <FaqItem question="fitted パレットでは、正確なシード カラーはどこにありますか?" indicatorPosition="end">
+    fitted パレットは、各ファミリの `seed` バリアント (例: `--ig-primary-seed`) として正確なシード カラーを保持します。番号付きシェードはスケールによって配置されるため、シードは通常、`500` やその他のシェードとちょうど一致しません。
+  </FaqItem>
+  <FaqItem question="パレット生成はブラウザーで実行されますか?" indicatorPosition="end">
+    いいえ。{ProductName} のパレット生成は Sass ビルド中に実行され、アプリケーションは結果の CSS 変数のみを受け取ります。ブラウザーによって CSS 相対カラーとして解決されるのは、`-contrast` カラーだけです。
+  </FaqItem>
+</Faq>

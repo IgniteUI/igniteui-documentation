@@ -383,14 +383,20 @@ const handleOnSearchChange = (event: IgrComponentValueChangedEventArgs) => {
 - グリッドの `LastSearchInfo.ActiveMatchIndex` 値は、現在の一致 (出現) のインデックス位置です。
 
 ```html
-<div class="resultsText" *ngIf="@@igObjectRef.lastSearchInfo">
-    <span *ngIf="@@igObjectRef.lastSearchInfo.matchInfoCache.length > 0">
-        {{ @@igObjectRef.lastSearchInfo.activeMatchIndex + 1 }} of {{ @@igObjectRef.lastSearchInfo.matchInfoCache.length }} results
-    </span>
-    <span *ngIf="@@igObjectRef.lastSearchInfo.matchInfoCache.length == 0">
-        No results
-    </span>
-</div>
+@if (@@igObjectRef.lastSearchInfo) {
+    <div class="resultsText">
+        @if (@@igObjectRef.lastSearchInfo.matchInfoCache.length > 0) {
+            <span>
+                {{ @@igObjectRef.lastSearchInfo.activeMatchIndex + 1 }} of {{ @@igObjectRef.lastSearchInfo.matchInfoCache.length }} results
+            </span>
+        }
+        @if (@@igObjectRef.lastSearchInfo.matchInfoCache.length == 0) {
+            <span>
+                No results
+            </span>
+        }
+    </div>
+}
 ```
 
 </PlatformBlock>
@@ -1024,16 +1030,22 @@ public clearSearch() {
 ```html
 <igx-input-group type="search" class="offset">
     <igx-prefix>
-        <igx-icon *ngIf="searchText.length == 0">search</igx-icon>
-        <igx-icon *ngIf="searchText.length > 0" (click)="clearSearch()">clear</igx-icon>
+        @if (searchText.length == 0) {
+            <igx-icon>search</igx-icon>
+        }
+        @if (searchText.length > 0) {
+            <igx-icon (click)="clearSearch()">clear</igx-icon>
+        }
     </igx-prefix>
 
     <input #search1 id="search1" igxInput placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="@@igObjectRef.findNext(searchText, caseSensitive, exactMatch)"
         (keydown)="searchKeyDown($event)" />
 
-    <igx-suffix *ngIf="searchText.length > 0">
+    @if (searchText.length > 0) {
+        <igx-suffix>
 
-    </igx-suffix>
+        </igx-suffix>
+    }
 </igx-input-group>
 ```
 
@@ -1229,16 +1241,24 @@ public clearSearch() {
 
 <PlatformBlock for="WebComponents">
 ```html
-<igx-suffix *ngIf="searchText.length > 0">
-    <div class="resultsText" *ngIf="@@igObjectRef.lastSearchInfo">
-        <span *ngIf="@@igObjectRef.lastSearchInfo.matchInfoCache.length > 0">
-            {{ @@igObjectRef.lastSearchInfo.activeMatchIndex + 1 }} of {{ @@igObjectRef.lastSearchInfo.matchInfoCache.length }} results
-        </span>
-        <span *ngIf="@@igObjectRef.lastSearchInfo.matchInfoCache.length == 0">
-            No results
-        </span>
-    </div>
-</igx-suffix>
+@if (searchText.length > 0) {
+    <igx-suffix>
+        @if (@@igObjectRef.lastSearchInfo) {
+            <div class="resultsText">
+                @if (@@igObjectRef.lastSearchInfo.matchInfoCache.length > 0) {
+                    <span>
+                        {{ @@igObjectRef.lastSearchInfo.activeMatchIndex + 1 }} of {{ @@igObjectRef.lastSearchInfo.matchInfoCache.length }} results
+                    </span>
+                }
+                @if (@@igObjectRef.lastSearchInfo.matchInfoCache.length == 0) {
+                    <span>
+                        No results
+                    </span>
+                }
+            </div>
+        }
+    </igx-suffix>
+}
 ```
 
 ```html

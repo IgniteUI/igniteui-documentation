@@ -12,14 +12,24 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
-
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set gets this page from the xplat generator, so do not keep a copy under docs/angular.*/}
 
 # Tailwind CSS と {ProductName} の統合
 
 {ProductName} は、CSS 変数を通じてテーマを完全にカスタマイズできます。このガイドでは、Tailwind CSS をプロジェクトに統合し、`igniteui-theming` パッケージが提供するカスタム ユーティリティ クラスを活用する方法を紹介します。これらのクラスは {ProductName} のデザイン トークンをユーティリティとして公開し、カラー・シャドウ・タイポグラフィの一貫したスタイリングを可能にします。
-<br />
 
 ## 概要
+
+<PlatformBlock for="Angular">
+
+このガイドでは、`igniteui-theming` を含む **{ProductName}** がすでにインストールされていることを前提としています。そうでない場合は、次を実行します。
+
+```cmd
+ng add igniteui-angular
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
 
 このガイドでは、**Ignite UI Theming** がすでにインストールされていることを前提としています。そうでない場合は、次を実行します。
 
@@ -27,22 +37,47 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 npm install igniteui-theming
 ```
 
+</PlatformBlock>
+
 ## Tailwind のセットアップ
+
+<PlatformBlock for="Angular">
+
+Tailwind とその PostCSS プラグインをインストールします。
+
+```cmd
+npm install tailwindcss @tailwindcss/postcss postcss --force
+```
+
+次に、プロジェクトのルートに `.postcssrc.json` ファイルを作成し、PostCSS 構成に `@tailwindcss/postcss` プラグインを追加します。
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
 
 まず、[公式の Tailwind インストール ガイド](https://tailwindcss.com/docs/installation)に従って、選択したビルド ツールまたはフレームワークに応じて Tailwind CSS をインストールします。
 
-Tailwind をセットアップしたら、Tailwind と Ignite UI テーマ設定の両方をグローバル スタイルシートにインポートします。
+</PlatformBlock>
+
+Tailwind をセットアップしたら、Tailwind と Ignite UI テーマ設定の両方をグローバル スタイルシート<PlatformBlock for="Angular"> (`styles.css` または `styles.scss`)</PlatformBlock>にインポートします。
 
 ```css
-@import 'tailwindcss';
-@import 'igniteui-theming/tailwind/theme';
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/themes/base";
 ```
 
-プロジェクトでスタイル設定に `sass` を使用している場合:
+プロジェクトでスタイル設定に Sass を使用している場合は、最初に Ignite UI 構成を読み込みます。Sass では、`@use` ルールを `@import` などのほかのどのルールよりも前に書く必要があるためです。
 
 ```scss
+@use "igniteui-theming/tailwind/themes/base.css";
 @import "tailwindcss";
-@use "igniteui-theming/tailwind/theme";
 ```
 
 ## Ignite UI カスタム ユーティリティ クラスの使用
@@ -61,8 +96,7 @@ Tailwind をセットアップしたら、Tailwind と Ignite UI テーマ設定
 
 当社のカラー ユーティリティ クラスは、各 Ignite UI テーマのトークンを活用しています。これらを HTML に直接適用できます。
 
-
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <h1 class="bg-primary-500 text-primary-500-contrast">This is a title</h1>
@@ -78,16 +112,13 @@ Tailwind をセットアップしたら、Tailwind と Ignite UI テーマ設定
 
 </PlatformBlock>
 
-
-Tailwind の完全なカラー システムは[こちら](https://tailwindcss.com/docs/color)で確認でき、Ignite UI が提供するクラス名を使って適用できます。
-<br />
+Tailwind の完全なカラー システムは [Tailwind カラーのドキュメント](https://tailwindcss.com/docs/color)で確認でき、Ignite UI が提供するクラス名を使って適用できます。
 
 ### シャドウ ユーティリティ クラス
 
-定義済みの[エレベーション レベル](https://jp.infragistics.com/products/ignite-ui-web-components/web-components/components/themes/elevations) (0 ～ 24) のいずれかを使用して深度を追加できます。
+定義済みの[エレベーション レベル](elevations.mdx) (0 ～ 24) のいずれかを使用して深度を追加できます。
 
-
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <div class="shadow-elevation-8">Elevated container</div>
@@ -103,17 +134,14 @@ Tailwind の完全なカラー システムは[こちら](https://tailwindcss.co
 
 </PlatformBlock>
 
-
-Tailwind が提供するすべてのシャドウ関連のユーティリティ クラスは、[こちら](https://tailwindcss.com/docs/box-shadow)で見つけることができます。
-<br />
+Tailwind が提供するすべてのシャドウ関連のユーティリティ クラスは、[Tailwind ボックス シャドウのドキュメント](https://tailwindcss.com/docs/box-shadow)で見つけることができます。
 
 ### タイポグラフィ カスタム ユーティリティ スタイル
 
 フォントを適用するには、トップ レベルの要素に `font-ig` クラスを追加します。`text-base` ユーティリティ クラスを使用して基本フォント サイズを定義することもできます。
 各タイポグラフィ レベル (例: h1、h2、body-1) ごとにカスタム ユーティリティ クラスを提供しています。以下のように使用してください。
 
-
-<PlatformBlock for="WebComponents, Blazor">
+<PlatformBlock for="Angular, WebComponents, Blazor">
 
 ```html
 <p class="type-style-h3">This paragraph gets the h3 styles</p>
@@ -129,16 +157,38 @@ Tailwind が提供するすべてのシャドウ関連のユーティリティ �
 
 </PlatformBlock>
 
+各クラスは、[Ignite UI のタイプ スケール](typography.mdx)に応じて、必要なすべてのフォント設定、間隔、サイズを適用します。
 
-各クラスは、[Ignite UI のタイプ スケール](https://jp.infragistics.com/products/ignite-ui-web-components/web-components/components/themes/typography)に応じて、必要なすべてのフォント設定、間隔、サイズを適用します。
+<PlatformBlock for="Angular">
 
-<PlatformBlock for="WebComponents">
+<DocsAside type="info" title="情報">
+これらのカスタム タイポグラフィ ユーティリティは、`ig-typography` の外でのみ動作します。トップ レベルの要素に `ig-typography` CSS クラスを設定する必要がある場合、これらのスタイルは適用されません。
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
 
 ## サンプル
 
 以下のサンプルでは、shadows、colors、typography 用のカスタム ユーティリティを含む、Tailwind ユーティリティ クラスのみを使用して構築された 404 ページが表示されます。
 
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+<DocsAside type="info" title="情報">
+各コンポーネントのスタイル設定方法は、それぞれのドキュメント トピックの**スタイル設定**セクションで確認できます。
+</DocsAside>
+
+<Sample src="/theming/tailwind-sample" height={610} alt="{Platform} Tailwind の統合" />
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
 <Sample src="/layouts/tailwind/styling" height={400} alt="{Platform} Tailwind の統合" />
+
+</PlatformBlock>
+<PlatformBlock for="Angular, WebComponents">
 
 <DocsAside type="info" title="情報">
 このサンプルは架空の完全カスタム例であり、Ignite UI コンポーネント ライブラリの一部ではありません。
@@ -149,3 +199,10 @@ Tailwind が提供するすべてのシャドウ関連のユーティリティ �
 ## まとめ
 
 わずか数ステップの設定で、Tailwind のユーティリティ ファースト アプローチと Ignite UI の堅牢なデザイン システムを組み合わせることができます。この統合により、カラー・エレベーション・タイポグラフィのトークンを直接 HTML で活用し、一貫性のあるテーマ付き UI コンポーネントを迅速に構築できます。
+
+## 関連リソース
+
+コミュニティに参加して新しいアイデアをご提案ください。
+
+- [{ProductName} **フォーラム (英語)**]({ForumsLink})
+- [{ProductName} **GitHub (英語)**]({GithubLink})

@@ -304,12 +304,18 @@ export function getEnvVars(): Record<string, string> {
     try {
         const projectRoot = process.env.DOCS_PROJECT_ROOT ?? process.cwd();
         const docConfig = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'docConfig.json'), 'utf-8'));
-        const demosUrl: string = docConfig[name]?.samplesBrowsers?.[mode]
-            ?? docConfig[name]?.samplesBrowsers?.['development']
+        const samplesBrowser = (platform: string): string =>
+            docConfig[platform]?.samplesBrowsers?.[mode]
+            ?? docConfig[platform]?.samplesBrowsers?.['development']
             ?? '';
+        const demosUrl = samplesBrowser(name);
+        // <Sample wc> demos shared by every platform's docs. Left out when
+        // unknown: an empty string makes the sample URL relative.
+        const wcDemosUrl = samplesBrowser('WebComponents');
         _env = {
             dvDemosBaseUrl:      demosUrl,
             demosBaseUrl:        demosUrl,
+            ...(wcDemosUrl && { wcDemosBaseUrl: wcDemosUrl }),
             infragisticsBaseUrl: 'https://www.infragistics.com',
         };
     } catch {

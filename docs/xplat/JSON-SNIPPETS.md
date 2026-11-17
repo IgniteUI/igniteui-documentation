@@ -377,6 +377,11 @@ code beside it. A property holding an element or a collection is assigned throug
 emitter declares for it; a string, a number or a boolean carries its own literal, quoted where the
 language needs it.
 
+For a collection of elements the two differ. `$setInCode` builds the collection in that field and
+the markup binds to it. `$assignInCode` builds each element in the code beside the markup and adds it
+to the collection; where the property is an array, which has nothing to add to, the elements are
+gathered into a new array and assigned instead.
+
 A handler fence usually wants its imports above it, which is what the hand written block it replaced
 had: `channel="handlersImports...handler"` emits the imports, an elision, then the handler. The `...`
 is what writes the elision, and a platform whose handler needs no imports drops the region and its
