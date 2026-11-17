@@ -3,7 +3,7 @@ title: "{Platform} Tabs (タブ) コンポーネント"
 description: "{ProductName} Tabs コンポーネントは、関連するコンテンツをタブに整理し、選択したタブのコンテンツを表示します。タブが収まらない場合はスクロール ボタンが追加されます。"
 keywords: "{Platform} Tabs, {ProductName}, tab header, tab panel, scroll buttons, {Platform} タブ, タブ ヘッダー, タブ パネル, スクロール ボタン"
 license: MIT
-last_updated: "2026-11-04"
+last_updated: "2026-11-11"
 relatedComponents: ["Stepper", "Accordion"]
 mentionedTypes: ["Tabs", "Tab"]
 _language: ja
@@ -87,7 +87,7 @@ Angular Tabs コンポーネントのセレクターは `igx-tabs` です。そ�
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-`igc-tabs` 要素は、ヘッダー ストリップとスクロール ボタンをレンダリングします。各 `igc-tab` は自身のヘッダーとコンテンツをレンダリングし、Tabs コンポーネントはすべてのタブのコンテンツをヘッダー ストリップの下に配置します:
+`igc-tabs` 要素は、ヘッダー ストリップとスクロール ボタンをレンダリングします。各 `igc-tab` は自身のヘッダーとコンテンツをレンダリングし、Tabs コンポーネントはすべてのタブのコンテンツをヘッダー ストリップの下<PlatformBlock for="WebComponents">、またはタブ ヘッダーが列になる場合はその横</PlatformBlock>に配置します:
 
 ```text
 igc-tabs[role="tablist"]
@@ -108,7 +108,7 @@ igc-tabs[role="tablist"]
          │           └─ slot                           // the content of the tab
          ├─ igc-icon-button[part="end-scroll-button"]   // rendered when the headers overflow
          └─ div[part="selected-indicator"]
-            └─ span                                    // moves under the selected tab header
+            └─ span                                    // follows the selected tab header
 ```
 
 </PlatformBlock>
@@ -639,6 +639,97 @@ Tabs は、幅を調整して使用可能な水平方向のスペースを埋め
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular,WebComponents">
+
+### ヘッダー位置
+
+縦方向のタブにするには、{Platform} Tabs コンポーネントの <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> を `start` または `end` に設定します。タブ ヘッダーは、テキストの方向に沿って、コンテンツの前または後ろに列として配置されます。既定の `top` では、コンテンツの上に行として配置されます。<PlatformBlock for="Angular">`headerPosition` 入力には、`igniteui-angular` 22.3.0 以降が必要です。</PlatformBlock><PlatformBlock for="WebComponents">`headerPosition` プロパティには、`igniteui-webcomponents` 7.5.0 以降が必要です。</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs header-position="start" style="height: 11rem">
+  <igc-tab label="Profile">
+    <p>Update your name, photo, and contact details.</p>
+  </igc-tab>
+  <igc-tab label="Security">
+    <p>Change your password and sign-in options.</p>
+  </igc-tab>
+  <igc-tab label="Notifications">
+    <p>Choose which updates you receive by email.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+```ts
+import type { TabsHeaderPosition } from 'igniteui-webcomponents';
+
+const tabs = document.querySelector('igc-tabs')!;
+const position: TabsHeaderPosition = 'end';
+tabs.headerPosition = position;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs headerPosition="start" style="height: 11rem">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>Update your name, photo, and contact details.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Security</span></igx-tab-header>
+    <igx-tab-content>Change your password and sign-in options.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Notifications</span></igx-tab-header>
+    <igx-tab-content>Choose which updates you receive by email.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+`strictTemplates` では、`string` 型のバインドされた値はコンパイルされません。`IgxTabsHeaderPosition` として型指定します:
+
+```ts
+import { IgxTabsHeaderPosition } from 'igniteui-angular/tabs';
+
+public position: IgxTabsHeaderPosition = IgxTabsHeaderPosition.end;
+```
+
+```html
+<igx-tabs [headerPosition]="position">...</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular,WebComponents">
+
+高さを指定しない場合、{Platform} Tabs コンポーネントは、タブ ヘッダーの列または選択されているタブのコンテンツのうち、高いほうに合わせて伸びます。制限するには、コンポーネントに `height` または `max-height` を設定します。その場合、コンポーネントより高いタブのコンテンツは、コンポーネント内でスクロールします。<PlatformBlock for="WebComponents">コンテナーの `max-height` では、コンポーネントを制限できません。</PlatformBlock>列では、各タブ ヘッダーが列の幅いっぱいになり、<PlatformBlock for="Angular">`tabAlignment`</PlatformBlock><PlatformBlock for="WebComponents">`alignment`</PlatformBlock> は高さ方向に適用されます。マウス ホイールとタッチでは列のタブ ヘッダーをスクロールできませんが、スクロール ボタンとキーボードではスクロールできます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+タブ ヘッダーの列の横にルーティングされたビューを表示するには、Angular Tabs コンポーネントと `router-outlet` を保持する要素を `display: flex` のコンテナーに配置し、その要素に `flex: 1` と `min-width: 0` を指定します。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs。Top、Start、End ボタンで、タブ ヘッダーをコンテンツの上の行と、その開始側または終了側の列の間で移動します" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tabs/header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs。Top、Start、End ラジオ ボタンで、タブ ヘッダーをコンテンツの上の行と、その開始側または終了側の列の間で移動します" />
+
+</PlatformBlock>
+
 ### 選択
 
 <PlatformBlock for="WebComponents">
@@ -855,7 +946,8 @@ Tabs は情報を整理するのに適しており、チェックアウト プ�
 | 名前 | 型 | 既定値 | 説明 |
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | タブ ヘッダーをヘッダー ストリップ内に配置する方法。 |
-| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | キーボードでタブ ヘッダーにフォーカスを移動したときに、そのタブも選択するかどうか。 |
+<PlatformBlock for="WebComponents">| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | タブ ヘッダーを配置する位置。コンテンツの上の行、またはコンテンツの前後の列。対応する属性は `header-position` です。 |
+</PlatformBlock>| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | キーボードでタブ ヘッダーにフォーカスを移動したときに、そのタブも選択するかどうか。 |
 | <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" /> | <PlatformBlock for="WebComponents">`IgcTabComponent \| null`</PlatformBlock><PlatformBlock for="React">`IgrTab \| null`</PlatformBlock> | `null` | 読み取り専用。選択されているタブ。 |
 | <ApiLink pkg="core" type="Tabs" member="selected" label="selected" /> | `string` | `''` | 読み取り専用。選択されているタブの `label`。タブに `label` がない場合は `id`。 |
 | <ApiLink pkg="core" type="Tabs" member="tabs" label="tabs" /> | <PlatformBlock for="WebComponents">`IgcTabComponent[]`</PlatformBlock><PlatformBlock for="React">`IgrTab[]`</PlatformBlock> | — | 読み取り専用。Tabs の直接の子であるタブ。 |
@@ -883,6 +975,7 @@ Tabs は情報を整理するのに適しており、チェックアウト プ�
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> | `number` | `-1` | 選択されているタブ項目のインデックス。タブ項目が選択されておらず、タブ項目にコンテンツがある場合、Tabs コンポーネントは最初のタブ項目を選択します。双方向バインディングをサポートします。 |
 | <ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | タブ ヘッダーをヘッダー ストリップ内に配置する方法。 |
+| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | タブ ヘッダーを配置する位置。コンテンツの上の行、またはコンテンツの前後の列。 |
 | <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | キーボードでタブ ヘッダーにフォーカスを移動したときに、そのタブも選択するかどうか。 |
 | <ApiLink pkg="core" type="Tabs" member="disableAnimation" label="disableAnimation" /> | `boolean` | `false` | 選択変更時のコンテンツ アニメーションをオフにするかどうか。 |
 | <ApiLink pkg="core" type="Tabs" member="selectedItem" label="selectedItem" /> | `IgxTabItemDirective` | — | 読み取り専用。選択されているタブ項目。 |
@@ -958,7 +1051,7 @@ Tabs は情報を整理するのに適しており、チェックアウト プ�
 | `--ig-tabs-item-active-icon-color` | 選択されたタブ ヘッダーのアイコンの色。 |
 | `--ig-tabs-item-disabled-color` | 無効なタブ ヘッダーのテキストの色。 |
 | `--ig-tabs-item-disabled-icon-color` | 無効なタブ ヘッダーのアイコンの色。 |
-| `--ig-tabs-indicator-color` | 選択されたタブ ヘッダーの下にあるインジケーターの色。 |
+| `--ig-tabs-indicator-color` | 選択されたタブ ヘッダーのインジケーターの色。 |
 | `--ig-tabs-button-background` | スクロール ボタンの背景。 |
 | `--ig-tabs-button-color` | スクロール ボタンのアイコンの色。 |
 | `--ig-tabs-button-hover-background` | ホバーされたスクロール ボタンの背景。 |
@@ -973,7 +1066,7 @@ Tabs は情報を整理するのに適しており、チェックアウト プ�
 | --- | --- |
 | `start-scroll-button` | 開始スクロール ボタン。 |
 | `end-scroll-button` | 終了スクロール ボタン。 |
-| `selected-indicator` | 選択されたタブ ヘッダーの下にあるインジケーター。 |
+| `selected-indicator` | 選択されたタブ ヘッダーのインジケーター。 |
 
 `igc-tab` 要素は、次の CSS パーツを公開します:
 
@@ -1152,15 +1245,17 @@ Tailwind の任意のプロパティで `--ig-tabs-*` CSS 変数を設定しま�
 | キー | 動作 |
 | --- | --- |
 | <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | フォーカスをヘッダー ストリップの外へ、選択されているタブのコンテンツまたは前のフォーカス可能な要素に移動します。Tabs コンポーネントはこれらのキーを処理しません。 |
-| <kbd>Arrow Right</kbd> | フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。右から左へのレイアウトでは、前のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
-| <kbd>Arrow Left</kbd> | フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。右から左へのレイアウトでは、次のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
-| <kbd>Home</kbd> | フォーカスを最初の有効なタブ ヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
+| <kbd>Arrow Right</kbd> | フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。右から左へのレイアウトでは、前のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。<PlatformBlock for="WebComponents">タブ ヘッダーの列では、Tabs コンポーネントはこのキーを処理しません。</PlatformBlock> |
+| <kbd>Arrow Left</kbd> | フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。右から左へのレイアウトでは、次のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。<PlatformBlock for="WebComponents">タブ ヘッダーの列では、Tabs コンポーネントはこのキーを処理しません。</PlatformBlock> |
+<PlatformBlock for="WebComponents">| <kbd>Arrow Down</kbd> | タブ ヘッダーの列では、フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
+| <kbd>Arrow Up</kbd> | タブ ヘッダーの列では、フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
+</PlatformBlock>| <kbd>Home</kbd> | フォーカスを最初の有効なタブ ヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
 | <kbd>End</kbd> | フォーカスを最後の有効なタブ ヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | フォーカスされたタブを選択します。 |
 
 {Platform} Tabs コンポーネントは、`keydown` でこれらのキーを次のように処理します:
 
-- 既定の動作を抑止するため、矢印キー、Home、End、Space でページはスクロールしません。
+- 既定の動作を抑止するため、フォーカスを移動する矢印キー、Home、End、Space でページはスクロールしません。
 - 押し続けたキーは、動作を繰り返しません。
 - Shift、Ctrl、Alt、Meta キーと同時に押したキーは、何も行いません。
 - Tabs コンポーネントは、フォーカスを受け取ったヘッダーが表示されるようにスクロールします。
@@ -1176,8 +1271,10 @@ Angular Tabs コンポーネントでは、選択されているタブ ヘッダ
 | キー | 動作 |
 | --- | --- |
 | <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | フォーカスをヘッダー ストリップの外へ、選択されているタブのコンテンツまたは前のフォーカス可能な要素に移動します。Tabs コンポーネントはこれらのキーを処理しません。 |
-| <kbd>Arrow Right</kbd> | フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。右から左へのレイアウトでは、前のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
-| <kbd>Arrow Left</kbd> | フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。右から左へのレイアウトでは、次のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
+| <kbd>Arrow Right</kbd> | フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。右から左へのレイアウトでは、前のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。タブ ヘッダーの列では、Tabs コンポーネントはこのキーを処理しません。 |
+| <kbd>Arrow Left</kbd> | フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。右から左へのレイアウトでは、次のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。タブ ヘッダーの列では、Tabs コンポーネントはこのキーを処理しません。 |
+| <kbd>Arrow Down</kbd> | タブ ヘッダーの列では、フォーカスを次の有効なタブ ヘッダーに移動し、最後のヘッダーからは最初のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
+| <kbd>Arrow Up</kbd> | タブ ヘッダーの列では、フォーカスを前の有効なタブ ヘッダーに移動し、最初のヘッダーからは最後のヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
 | <kbd>Home</kbd> | フォーカスを最初の有効なタブ ヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
 | <kbd>End</kbd> | フォーカスを最後の有効なタブ ヘッダーに移動します。`auto` アクティブ化では、そのタブも選択します。 |
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | `manual` アクティブ化では、フォーカスされたタブのヘッダーをクリックして、そのタブを選択します。 |
@@ -1194,7 +1291,7 @@ Angular Tabs コンポーネントでは、選択されているタブ ヘッダ
 
 | 要素 | ロール | 属性 |
 | --- | --- | --- |
-| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`。要素の内部機能を通じて設定されます |
+| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`<PlatformBlock for="WebComponents">。タブ ヘッダーの列では `aria-orientation="vertical"`</PlatformBlock>。要素の内部機能を通じて設定されます |
 | 各タブの `tab-header` パーツ | `tab` | `aria-selected`、`aria-disabled`、タブのコンテンツを指す `aria-controls`、`aria-posinset`、`aria-setsize` |
 | 各タブの `tab-body` パーツ | `tabpanel` | タブのヘッダーを指す `aria-labelledby` |
 
@@ -1213,7 +1310,7 @@ Angular Tabs コンポーネントは、次のロールと属性をレンダリ�
 
 | 要素 | ロール | 属性 |
 | --- | --- | --- |
-| ヘッダー内の `div.igx-tabs-header__wrapper` 要素 | `tablist` | — |
+| ヘッダー内の `div.igx-tabs-header__wrapper` 要素 | `tablist` | `aria-orientation="horizontal"`。タブ ヘッダーの列では `aria-orientation="vertical"` |
 | `igx-tab-header` | `tab` | `aria-selected`、`aria-disabled`、およびタブ項目にコンテンツがある場合は `id` とコンテンツを指す `aria-controls` |
 | `igx-tab-content` | `tabpanel` | タブ項目のヘッダーを指す `aria-labelledby` |
 
@@ -1233,7 +1330,7 @@ Infragistics は、Section 508 と WCAG 2.1 ガイドラインの各領域に対
 | 基準 | コンポーネントの準拠方法 |
 | --- | --- |
 | [1.3.1 情報及び関係性](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | `tablist`、`tab`、`tabpanel` ロールが構造を公開し、各タブ パネルは `aria-labelledby` によってタブ ヘッダーでラベル付けされます。 |
-| [1.4.1 色の使用](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | Material、Fluent、Indigo テーマでは、選択されたタブ ヘッダーの下にインジケーター ラインが表示されるため、選択状態が色だけに依存しません。 |
+| [1.4.1 色の使用](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | Material、Fluent、Indigo テーマでは、選択されたタブ ヘッダーの下<PlatformBlock for="Angular,WebComponents">、またはタブ ヘッダーの列では横</PlatformBlock>にインジケーター ラインが表示されるため、選択状態が色だけに依存しません。 |
 | [2.1.1 キーボード](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 矢印キー、Home、End でタブ ヘッダー間を移動し、Enter と Space でフォーカスされたタブを選択します<PlatformBlock for="Angular"> (`manual` アクティブ化の場合)</PlatformBlock>。 |
 | [2.1.2 キーボード トラップなし](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | Tabs コンポーネントは Tab キーを処理しないため、Tab と Shift + Tab でフォーカスをヘッダー ストリップの外へ移動できます。 |
 | [2.4.3 フォーカス順序](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | ヘッダー ストリップは単一のタブ ストップで、その次が選択されているタブのコンテンツです。 |
@@ -1254,13 +1351,16 @@ Infragistics は、Section 508 と WCAG 2.1 ガイドラインの各領域に対
 <PlatformBlock for="React,WebComponents,Blazor">
 
 - <ApiLink pkg="core" type="Tabs" />
-- <ApiLink pkg="core" type="Tab" />
+<PlatformBlock for="WebComponents">- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="Tabs.headerPosition" />
+</PlatformBlock>- <ApiLink pkg="core" type="Tab" />
 
 </PlatformBlock>
 
 <PlatformBlock for="Angular">
 
 - <ApiLink pkg="core" type="Tabs" label="IgxTabsComponent" />
+- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="IgxTabsComponent.headerPosition" />
+- <ApiLink pkg="core" type="TabsHeaderPosition" kind="type" label="IgxTabsHeaderPosition" />
 - <ApiLink pkg="core" type="TabItem" label="IgxTabItemComponent" />
 - <ApiLink pkg="core" type="TabHeader" label="IgxTabHeaderComponent" />
 - <ApiLink pkg="core" type="TabContent" label="IgxTabContentComponent" />
@@ -1325,4 +1425,7 @@ Angular Tabs のスクロール ボタンは Icon Button と Icon を使用し�
   <FaqItem question="チェックアウトなどの段階的なプロセスに Tabs を使用すべきですか?" indicatorPosition="end">
     いいえ。{Platform} Tabs コンポーネントは、ユーザーが任意の順序で開くことができる関連情報を整理するものであり、ステップの順序を伝えません。チェックアウトや構成ウィザードなどの順次プロセスには、{Platform} Stepper を使用します。
   </FaqItem>
+  <PlatformBlock for="Angular,WebComponents"><FaqItem question="縦方向のタブを作成するにはどうすればよいですか?" indicatorPosition="end">
+    {Platform} Tabs の `headerPosition` プロパティ<PlatformBlock for="WebComponents"> (HTML では `header-position` 属性) </PlatformBlock>を `start` または `end` に設定すると、タブ ヘッダーがコンテンツの前または後ろに列として表示されます。{Platform} Tabs のサイズを固定するには、高さを指定します。
+  </FaqItem></PlatformBlock>
 </Faq>
