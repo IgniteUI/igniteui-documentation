@@ -1,359 +1,707 @@
 ---
-title: "{Platform} コンボボックス コンポーネントのテンプレート – {ProductName}"
-description: "{ProductName} コンボボックス コンポーネントのテンプレート"
-keywords: "{ProductName}, UI コントロール, {Platform} ウィジェット, web ウィジェット, UI ウィジェット, {Platform}, ネイティブ {Platform} コンポーネント スイート, ネイティブ {Platform} コントロール, ネイティブ {Platform} コンポーネント ライブラリ, {Platform} コンボボックス コンポーネントのテンプレート"
+title: "{Platform} Combo (コンボ) テンプレート"
+description: "{ProductName} Combo のテンプレートは、Combo の各領域 (項目、グループ ヘッダー、リストのヘッダーとフッター、空のリスト、トグル アイコンとクリア アイコン、入力フィールド) の既定のコンテンツを置き換えます。"
+keywords: "{Platform} Combo テンプレート, {ProductName}, コンボ項目テンプレート, コンボ グループ ヘッダー テンプレート, コンボ ヘッダー テンプレート, コンボ フッター テンプレート, コンボ空のリスト テンプレート, コンボ トグル アイコン, コンボ クリア アイコン, テンプレート化されたコンボ入力"
 license: MIT
-mentionedTypes: ["Combo"]
+last_updated: "2026-11-09"
+mentionedTypes: ["Combo", "ComboItem", "ComboHeader", "ComboList"]
 _language: ja
 llms:
-  description: "{ProductName} コンボボックス コンポーネントを使用すると、項目、グループ ヘッダー、空のリスト、アイコンなど、さまざまな領域のカスタム テンプレートを定義できます。"
+  description: "{ProductName} Combo のテンプレートは、Combo の各領域 (項目、グループ ヘッダー、リストのヘッダーとフッター、空のリスト、トグル アイコンとクリア アイコン、入力フィールド) の既定のコンテンツを置き換えます。"
 ---
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
-# {Platform} コンボボックスのテンプレート
+# Combo (コンボ) テンプレート
 
-{ProductName} コンボボックス コンポーネントを使用すると、項目、グループ ヘッダー、空のリスト、アイコンなど、さまざまな領域のカスタム テンプレートを定義できます。
+{ProductName} Combo のテンプレートは、Combo の各領域 (項目、グループ ヘッダー、リストのヘッダーとフッター、空のリスト、トグル アイコンとクリア アイコン、入力フィールド) の既定のコンテンツを置き換えます。
 
-## コンボボックス テンプレートの例
+<PlatformBlock for="Angular">
 
-<Sample src="/inputs/combo/templates" height={400} alt="{Platform} コンボ テンプレート" />
+Angular の Combo は、`igx-combo` 要素内に配置した `ng-template` 要素で各テンプレートを受け取ります。`ng-template` 要素には、Combo のテンプレート ディレクティブのいずれかを指定します。[Combo](./overview.mdx#作業の開始) トピックに示すように、これらのディレクティブは、入力フィールドをテンプレート化する `igxLabel`、`igx-prefix`、`igx-suffix`、`igx-hint` 要素とともに `IGX_COMBO_DIRECTIVES` トークンに含まれています。
 
-## テンプレート タイプ
+</PlatformBlock>
 
-### Item Template (項目テンプレート)
+<PlatformBlock for="React,WebComponents">
 
-<ApiLink type="Combo" member="itemTemplate" label="ItemTemplate" /> はカスタム テンプレートであり、定義されている場合は、オプションのリスト内の項目を描画するときに使用する必要があります。
-
-<PlatformBlock for="WebComponents">
-
-
-```ts
-import { ComboItemTemplate } from 'igniteui-webcomponents';
-
-const itemTemplate: ComboItemTemplate<City> = ({ item }) => {
-  return html`
-      <span><b>${item.name}</b> [${item.id}]</span>
-  `;
-};
-
-combo.itemTempate = itemTemplate;
-```
+{Platform} の Combo は、<ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> プロパティと <ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" /> プロパティで項目とグループ ヘッダーを描画し、その他の領域のコンテンツはスロットで受け取ります。単純なテキストや記号には `<span>` を、アイコンには [Icon](../../layouts/icon.mdx) を使用します。`header` スロットと `footer` スロットは、`<header>` 要素と `<footer>` 要素も受け取ります。
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
-Blazor アプリで項目をテンプレート化するには、別の JavaScript ファイルでテンプレートを定義する必要があります。`wwwroot` ディレクトリの下に `templates.js` という名前の新しいファイルを作成します。
+Blazor の Combo は、<ApiLink pkg="core" type="Combo<T>" member="ItemTemplateScript" label="ItemTemplateScript" /> パラメーターと <ApiLink pkg="core" type="Combo<T>" member="GroupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> パラメーターが名前で参照する JavaScript テンプレート関数で項目とグループ ヘッダーを描画し、その他の領域のコンテンツはスロットで受け取ります。単純なテキストや記号には `<span>` を、アイコンには [Icon](../../layouts/icon.mdx) を使用します。`header` スロットと `footer` スロットは、`<header>` 要素と `<footer>` 要素も受け取ります。
 
-このファイルでは、次のように新しい項目テンプレートを宣言できます。
+</PlatformBlock>
 
-```js
-const html = window.igTemplating.html;
+## ライブ デモ
 
-const itemTemplate = ({ item }) => {
-    return html`<span><b>${item.Name}</b> [${item.Id}]</span>`;
-}
+このサンプルでは、都市を地域別にグループ化した Destinations Combo を示します。各スイッチは Combo にテンプレートを 1 つずつ適用し、Combo の下の Selection リストには選択された都市が表示されます。
 
-igRegisterScript("ComboItemTemplate", itemTemplate, false);
-```
+<PlatformBlock for="Angular">
 
-`wwwroot` の下の `index.html` に `templates.js` ファイルを必ず含めてください。
+<Sample src="/lists/combo-template" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Combo テンプレートの例。Destinations Combo と、項目、ヘッダー項目、ヘッダー、フッター、空のリスト、追加、トグル アイコン、クリア アイコン、入力のテンプレートを適用するスイッチ" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/templates" showThemePicker height={560} noBorder={false} spacing="md" alt="{Platform} Combo テンプレートの例。Destinations Combo と、項目、ヘッダー項目、ヘッダー、フッター、空のリスト、トグル アイコン、クリア アイコン、入力のテンプレートを適用するスイッチ" />
+
+</PlatformBlock>
+
+## タイプ
+
+{Platform} の Combo には、描画する各領域のテンプレートがあります。<PlatformBlock for="Angular">各テンプレートはそのディレクティブで参照し、テンプレート コンテキストから Combo の項目とキーを読み取ります。</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">以下のセクションでは、各テンプレートを受け取るプロパティまたはスロットを示します。</PlatformBlock>
+
+スニペットでは、`id`、`name`、`country`、`countryCode`、`region`、UTC の `offset` を持つ目的地のデータに Combo をバインドします。`valueKey` は `id`、`displayKey` は `name`、`groupKey` は `region` です。<PlatformBlock for="Blazor">Blazor のスニペットでは、同じフィールドをパスカル ケースで使用します: `Id`、`Name`、`Country`、`CountryCode`、`Region`、`Offset`。</PlatformBlock>
+
+### Item Template (項目テンプレート)
+
+項目テンプレートは、リスト内の各オプションのコンテンツを描画します。既定では、オプションは `displayKey` の値を表示し、オプションのチェックボックスはテンプレートのコンテンツの前に残ります。
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+項目テンプレートとグループ ヘッダー テンプレートは Combo のシャドウ DOM 内に描画されるため、ページのスタイルは適用されません。コンテナーのスタイルは `item` と `group-header` の CSS パーツで設定し、コンテンツのレイアウトはインライン スタイルで指定します。Combo はテンプレートの各ルート要素をブロックとしてレイアウトするため、テンプレートのコンテンツは 1 つの要素でラップしてください。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igxComboItem` ディレクティブを使用します。テンプレートは、項目を暗黙の値として受け取り、Combo の `valueKey`、`displayKey`、`data` も受け取ります:
 
 ```html
-<body>
-    <!-- importing JS used in the razor pages -->
-    <script src="templates.js"></script>
-</body>
+<igx-combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboItem let-destination let-key="displayKey">
+        <span class="destination">
+            <img class="flag" [src]="'https://dl.infragistics.com/x/img/flags/' + destination.countryCode + '.png'" alt="" />
+            {{ destination[key] }} — {{ destination.country }} · {{ destination.id }} · {{ destination.offset }}
+        </span>
+    </ng-template>
+</igx-combo>
 ```
 
-次に、アプリケーションで <ApiLink type="Combo" member="itemTemplateScript" label="ItemTemplateScript" /> プロパティを介して宣言したテンプレートを参照できます。
+</PlatformBlock>
 
-```razor
-<IgbCombo ItemTemplateScript="ComboItemTemplate"></IgbCombo>
+<PlatformBlock for="WebComponents">
+
+<ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> プロパティに、項目を受け取って `lit-html` テンプレートを返す関数を設定します:
+
+```ts
+import { IgcComboComponent, ComboItemTemplate } from 'igniteui-webcomponents';
+import { html } from 'lit-html';
+
+const itemTemplate: ComboItemTemplate<Destination> = ({ item }) => html`
+    <span>
+        <img src="https://dl.infragistics.com/x/img/flags/${item.countryCode}.png" alt="" style="width: 1.25rem;" />
+        ${item.name} — ${item.country} · ${item.id} · ${item.offset}
+    </span>
+`;
+
+const combo = document.querySelector('igc-combo') as IgcComboComponent<Destination>;
+combo.itemTemplate = itemTemplate;
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+項目を受け取ってそのコンテンツを返す関数を、<ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> プロパティに渡します:
 
 ```tsx
-type City = {
-  name: string;
-  id: string;
-  country: string;
-};
+import { IgrCombo, ComboTemplateProps } from 'igniteui-react';
 
-const renderItemTemplate = (args: ComboTemplateProps<City>) => {
-  const item = args.item;
-
-  return (
+const renderItem = ({ item }: ComboTemplateProps<Destination>) => (
     <span>
-      <b>{item.name}</b> [{item.id}] - {item.country}
+        <img src={`https://dl.infragistics.com/x/img/flags/${item.countryCode}.png`} alt="" style={{ width: '1.25rem' }} />
+        {item.name} — {item.country} · {item.id} · {item.offset}
     </span>
-  );
-};
+);
 
-<IgrCombo
-    valueKey="id"
-    displayKey="name"
-    groupKey="country"
-    data={Cities}
-    itemTemplate={renderItemTemplate}
-></IgrCombo>
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region" itemTemplate={renderItem} />
 ```
 
 </PlatformBlock>
 
-### Group Header Template (グループ ヘッダー テンプレート)
+<PlatformBlock for="Blazor">
 
-<ApiLink type="Combo" member="groupHeaderTemplate" label="GroupHeaderTemplate" /> はカスタム テンプレートであり、定義されている場合は、オプションのリストでグループ ヘッダーを描画するときに使用する必要があります。
+テンプレートは、`wwwroot` 配下の JavaScript ファイル (たとえば `templates.js`) に定義します。テンプレートは、項目を受け取り、`igTemplating` の `html` タグで作成したテンプレートを返す関数です。`igRegisterScript` は、この関数を Combo が参照する名前で登録します:
+
+```js
+const html = window.igTemplating.html;
+
+const itemTemplate = ({ item }) => html`
+    <span>
+        <img src="https://dl.infragistics.com/x/img/flags/${item.CountryCode}.png" alt="" style="width: 1.25rem;" />
+        ${item.Name} — ${item.Country} · ${item.Id} · ${item.Offset}
+    </span>
+`;
+
+igRegisterScript("ComboItemTemplate", itemTemplate, false);
+```
+
+このファイルを `wwwroot/index.html` で読み込みます。このスクリプトはページの読み込み中に `igRegisterScript` を呼び出すため、`app.bundle.js` は Blazor スクリプトより前に読み込んでください:
+
+```html
+<body>
+    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="templates.js"></script>
+</body>
+```
+
+次に、<ApiLink pkg="core" type="Combo<T>" member="ItemTemplateScript" label="ItemTemplateScript" /> パラメーターにテンプレートの名前を設定します:
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" ItemTemplateScript="ComboItemTemplate" />
+```
+
+</PlatformBlock>
+
+### Header Item Template (ヘッダー項目テンプレート)
+
+ヘッダー項目テンプレートは、Combo に `groupKey` が設定されている場合に、各グループのヘッダーを描画します。既定では、グループ ヘッダーにグループの値が表示されます。テンプレートが受け取るのはデータ項目ではなくヘッダー レコードで、その `groupKey` フィールドにグループの値が入ります。そのため、グループ内のオプション数は、スニペットの `citiesIn` メソッドのように Combo のデータから取得します。
+
+<PlatformBlock for="Angular">
+
+`igxComboHeaderItem` ディレクティブを使用します。テンプレートは、ヘッダー レコードを暗黙の値として受け取り、Combo の `groupKey`、`valueKey`、`displayKey`、`data` も受け取ります:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboHeaderItem let-header let-key="groupKey">
+        <span class="region">
+            <strong>{{ header[key] }}</strong>
+            <span class="region-count">{{ citiesIn(header[key]) }} cities</span>
+        </span>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
+<ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" /> プロパティを設定します:
 
 ```ts
-import { ComboItemTemplate } from 'igniteui-webcomponents';
-
-const groupHeaderTemplate: ComboItemTemplate<City> = ({ item }) => {
-  return html`<div>Country of ${item.country}</div>`;
-};
+const groupHeaderTemplate: ComboItemTemplate<Destination> = ({ item }) => html`
+    <span style="display: flex; gap: 0.5rem; width: 100%;">
+        <strong>${item.region}</strong>
+        <span style="margin-inline-start: auto;">${citiesIn(item.region)} cities</span>
+    </span>
+`;
 
 combo.groupHeaderTemplate = groupHeaderTemplate;
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
-
-まず、グループ ヘッダー テンプレートを定義します。
-
-```js
-const html = window.igTemplating.html;
-
-const groupHeaderTemplate = ({ item }) => {
-    return html`<span>Country of ${item.Country}</span>`;
-}
-
-igRegisterScript('ComboGroupHeaderTemplate', groupHeaderTemplate, false)
-```
-
-次に、アプリケーションで <ApiLink type="Combo" member="groupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> プロパティを介して宣言したテンプレートを参照できます。
-
-```razor
-<IgbCombo GroupHeaderTemplateScript="ComboGroupHeaderTemplate"></IgbCombo>
-```
-
-</PlatformBlock>
-
 <PlatformBlock for="React">
 
+関数を <ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" /> プロパティに渡します:
 
 ```tsx
-<IgrCombo
-    valueKey="id"
-    displayKey="name"
-    groupKey="country"
-    data={cities}
-    groupHeaderTemplate={renderGroupHeaderTemplate}
-></IgrCombo>
+const renderGroupHeader = ({ item }: ComboTemplateProps<Destination>) => (
+    <span style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
+        <strong>{item.region}</strong>
+        <span style={{ marginInlineStart: 'auto' }}>{citiesIn(item.region)} cities</span>
+    </span>
+);
 
-const renderGroupHeaderTemplate = (args: ComboTemplateProps<City>) => {
-    return (
-  <span>Country of {args.item.country}</span>
-    );
-}
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region" groupHeaderTemplate={renderGroupHeader} />
 ```
 
 </PlatformBlock>
 
-## スロット
-カスタム テンプレート以外に、{ProductName} コンボボックス コンポーネントは、ユーザーがカスタム コンテンツをさまざまなコンボ パーツに渡すことを可能にするいくつかのスロットを公開します。
+<PlatformBlock for="Blazor">
 
-### ヘッダー スロット
-オプションのリストの上にカスタム ヘッダーをレンダリングするには、コンテンツを `header` スロットに渡します。
+テンプレートを `templates.js` に登録し、<ApiLink pkg="core" type="Combo<T>" member="GroupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> パラメーターにその名前を設定します:
+
+```js
+const groupHeaderTemplate = ({ item }) => html`
+    <span style="display: flex; gap: 0.5rem; width: 100%;">
+        <strong>${item.Region}</strong>
+        <span style="margin-inline-start: auto;">${citiesIn(item.Region)} cities</span>
+    </span>
+`;
+
+igRegisterScript("ComboGroupHeaderTemplate", groupHeaderTemplate, false);
+```
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" GroupHeaderTemplateScript="ComboGroupHeaderTemplate" />
+```
+
+</PlatformBlock>
+
+### Header Template (ヘッダー テンプレート)
+
+ヘッダー テンプレートは、検索入力とオプションのリストの間に、リストのタイトルやリストに適用するアクションなどのコンテンツを描画します。Combo は既定ではヘッダーを描画しません。
+
+<PlatformBlock for="Angular">
+
+`igxComboHeader` ディレクティブを使用します。このスニペットでは、<ApiLink type="Combo" member="selectAllItems" label="selectAllItems" /> メソッドで、検索入力によって絞り込まれて表示されているオプションを選択するボタンを追加します:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboHeader>
+        <div class="list-header">
+            <span>Destinations by region</span>
+            <button igxButton="flat" (click)="combo.selectAllItems()">Select all</button>
+        </div>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
+コンテンツを `header` スロットに渡します。このスニペットでは、引数なしで呼び出す <ApiLink type="Combo" member="select" label="select" /> メソッドで、すべてのオプションを選択するボタンを追加します。[Button](../button.mdx) トピックに示すように、Button コンポーネントを登録してください:
+
 ```html
-<igc-combo>
-  <div slot="header">Custom header content</div>
+<igc-combo id="destinations" value-key="id" display-key="name" group-key="region">
+    <header slot="header" class="list-header">
+        <span>Destinations by region</span>
+        <igc-button id="select-all" variant="flat">Select all</igc-button>
+    </header>
 </igc-combo>
 ```
 
-</PlatformBlock>
+```ts
+const combo = document.getElementById('destinations') as IgcComboComponent<Destination>;
 
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbCombo>
-    <header slot="header">
-        Header content goes here
-    </header>
-</IgbCombo>
+document.getElementById('select-all').addEventListener('click', () => combo.select());
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+コンテンツを `header` スロットに渡します。このスニペットでは、引数なしで呼び出す <ApiLink type="Combo" member="select" label="select" /> メソッドで、すべてのオプションを選択するボタンを追加します:
+
 ```tsx
-<IgrCombo>
-  <header slot="header">
-        Header content goes here
-  </header>
+const comboRef = useRef<IgrCombo>(null);
+
+<IgrCombo ref={comboRef} data={destinations} valueKey="id" displayKey="name" groupKey="region">
+    <header slot="header" className="list-header">
+        <span>Destinations by region</span>
+        <IgrButton variant="flat" onClick={() => comboRef.current?.select()}>Select all</IgrButton>
+    </header>
 </IgrCombo>
 ```
 
 </PlatformBlock>
 
-### フッター スロット
-オプションのリストの下にカスタム フッターをレンダリングするには、コンテンツを `footer` スロットに渡します。
+<PlatformBlock for="Blazor">
+
+コンテンツを `header` スロットに渡します。このスニペットでは、バインドされた値をすべての目的地の `Id` の値に設定して、すべてのオプションを選択するボタンを追加します:
+
+```razor
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <header slot="header" class="list-header">
+        <span>Destinations by region</span>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="SelectAll">Select all</IgbButton>
+    </header>
+</IgbCombo>
+
+@code {
+    private string[] SelectedDestinations { get; set; } = [];
+
+    private void SelectAll() => SelectedDestinations = Destinations.Select(d => d.Id).ToArray();
+}
+```
+
+</PlatformBlock>
+
+### Footer Template (フッター テンプレート)
+
+フッター テンプレートは、オプションのリストの下に、選択の概要や選択に適用するアクションなどのコンテンツを描画します。Combo は既定ではフッターを描画しません。
+
+<PlatformBlock for="Angular">
+
+`igxComboFooter` ディレクティブを使用します。このスニペットでは、<ApiLink type="Combo" member="selection" label="selection" /> プロパティから選択された項目数を表示し、<ApiLink type="Combo" member="deselectAllItems" label="deselectAllItems" /> メソッドで選択をクリアします:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboFooter>
+        <div class="list-footer">
+            <span>{{ combo.selection.length }} selected</span>
+            <button igxButton="flat" (click)="combo.deselectAllItems()">Clear</button>
+        </div>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
+コンテンツを `footer` スロットに渡します。このスニペットでは、`igcChange` イベントから選択された項目数を表示し、引数なしで呼び出す <ApiLink type="Combo" member="deselect" label="deselect" /> メソッドで選択をクリアします:
+
 ```html
-<igc-combo>
-  <div slot="footer">Custom footer content</div>
+<igc-combo id="destinations" value-key="id" display-key="name" group-key="region">
+    <footer slot="footer" class="list-footer">
+        <span id="selected-count">0 selected</span>
+        <igc-button id="clear" variant="flat">Clear</igc-button>
+    </footer>
 </igc-combo>
+```
+
+```ts
+const count = document.getElementById('selected-count');
+
+combo.addEventListener('igcChange', (e) => {
+    count.textContent = `${e.detail.newValue.length} selected`;
+});
+
+document.getElementById('clear').addEventListener('click', () => combo.deselect());
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+コンテンツを `footer` スロットに渡します。このスニペットでは、選択された値を state に保持し、引数なしで呼び出す <ApiLink type="Combo" member="deselect" label="deselect" /> メソッドで選択をクリアします:
+
+```tsx
+const [selected, setSelected] = useState<string[]>([]);
+
+<IgrCombo ref={comboRef} data={destinations} valueKey="id" displayKey="name" groupKey="region"
+    onChange={(e) => setSelected(e.detail.newValue as string[])}>
+    <footer slot="footer" className="list-footer">
+        <span>{selected.length} selected</span>
+        <IgrButton variant="flat" onClick={() => comboRef.current?.deselect()}>Clear</IgrButton>
+    </footer>
+</IgrCombo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
+コンテンツを `footer` スロットに渡します。このスニペットでは、バインドされた値から選択された項目数を表示し、空の配列を設定して選択をクリアします:
+
 ```razor
-<IgbCombo>
-    <footer slot="footer">
-        Footer content goes here
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <footer slot="footer" class="list-footer">
+        <span>@SelectedDestinations.Length selected</span>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="() => SelectedDestinations = []">Clear</IgbButton>
     </footer>
 </IgbCombo>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="React">
+### Empty Template (空のリスト テンプレート)
 
-```tsx
-<IgrCombo>
-  <footer slot="footer">
-        Footer content goes here
-  </footer>
-</IgrCombo>
+空のリスト テンプレートは、検索テキストに一致するオプションがない場合、または Combo にデータがない場合に、リストの代わりに描画されます。既定では、Combo はリストが空であることを示すメッセージを表示します。
+
+<PlatformBlock for="Angular">
+
+`igxComboEmpty` ディレクティブを使用します。テンプレートにコンテキストはないため、テンプレート参照を介して、Combo の <ApiLink type="Combo" member="searchValue" label="searchValue" /> プロパティから検索テキストを読み取ります。<ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> が設定されている場合、追加項目は空のコンテンツの下に残ります:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" [allowCustomValues]="true">
+    <ng-template igxComboEmpty>
+        <span class="empty-list">No city matches "{{ combo.searchValue }}". Add it below, or try another spelling.</span>
+    </ng-template>
+</igx-combo>
 ```
 
 </PlatformBlock>
 
-### 空のリスト スロット
-フィルタリング操作で結果が返されない場合にカスタム コンテンツをレンダリングするには、`empty` スロットを使用します。
-
 <PlatformBlock for="WebComponents">
 
+コンテンツを `empty` スロットに渡します:
+
 ```html
-<igc-combo>
-  <div slot="empty">¯\_(ツ)_/¯</div>
+<igc-combo value-key="id" display-key="name" group-key="region">
+    <span slot="empty" class="empty-list">No city matches your search. Try another spelling.</span>
 </igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+コンテンツを `empty` スロットに渡します:
+
+```tsx
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region">
+    <span slot="empty" className="empty-list">No city matches your search. Try another spelling.</span>
+</IgrCombo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
+コンテンツを `empty` スロットに渡します:
+
 ```razor
-<IgbCombo>
-    <div slot="empty">¯\_(ツ)_/¯</div>
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <span slot="empty" class="empty-list">No city matches your search. Try another spelling.</span>
 </IgbCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Add Template (追加テンプレート)
+
+追加テンプレートは、<ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> が設定され、検索テキストに一致するオプションがない場合に、Angular の Combo が空のリスト コンテンツの下に表示する追加項目を描画します。既定では、追加項目は "Add item" というラベルのボタンです。追加項目をクリックするか、追加項目で <kbd>Enter</kbd> キーを押すと、キャンセル可能な <ApiLink type="Combo" member="addition" label="addition" /> イベントが発生し、`valueKey` フィールドと `displayKey` フィールドに検索テキストを持つ項目が追加されて選択されます。
+
+`igxComboAddItem` ディレクティブを使用し、テンプレート参照を介して <ApiLink type="Combo" member="searchValue" label="searchValue" /> プロパティから検索テキストを読み取ります:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" [allowCustomValues]="true">
+    <ng-template igxComboAddItem>
+        <button igxButton="outlined">Add "{{ combo.searchValue }}" as a destination</button>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+### Toggle Icon Template (トグル アイコン テンプレート)
+
+トグル アイコン テンプレートは、入力フィールド内のトグル ボタン (ドロップダウンを開閉するボタン) のアイコンを置き換えます。
+
+<PlatformBlock for="Angular">
+
+`igxComboToggleIcon` ディレクティブを使用します。テンプレートは、ドロップダウンが折りたたまれているかどうかも暗黙の値として受け取るため、状態に応じて変化するアイコンを作成できます。[Icon](../../layouts/icon.mdx) トピックに示すように、最初にアイコンを登録してください:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name">
+    <ng-template igxComboToggleIcon>
+        <igx-icon family="material" name="flight"></igx-icon>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+アイコンを `toggle-icon` スロットに渡します。スロットのコンテンツは、ドロップダウンが閉じているときも開いているときも表示されます。[Icon](../../layouts/icon.mdx) トピックに示すように、最初にアイコンを登録してください:
+
+```ts
+import { registerIconFromText } from 'igniteui-webcomponents';
+
+registerIconFromText('flight', flightIcon, 'material');
+```
+
+```html
+<igc-combo value-key="id" display-key="name">
+    <igc-icon slot="toggle-icon" name="flight" collection="material"></igc-icon>
+</igc-combo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+アイコンを `toggle-icon` スロットに渡します。スロットのコンテンツは、ドロップダウンが閉じているときも開いているときも表示されます。[Icon](../../layouts/icon.mdx) トピックに示すように、最初にアイコンを登録してください:
+
 ```tsx
-<IgrCombo>
-  <div slot="empty">¯\_(ツ)_/¯</div>
+import { IgrCombo, IgrIcon, registerIconFromText } from 'igniteui-react';
+
+registerIconFromText('flight', flightIcon, 'material');
+
+<IgrCombo data={destinations} valueKey="id" displayKey="name">
+    <IgrIcon slot="toggle-icon" name="flight" collection="material" />
 </IgrCombo>
-```
-
-</PlatformBlock>
-
-### トグル アイコン スロット
-コンボ入力のトグル アイコンは、`toggle-icon` スロットを介して変更することもできます。
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-combo>
-  <igc-icon name="down" slot="toggle-icon"></igc-icon>
-</igc-combo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
+アイコンを `toggle-icon` スロットに渡します。スロットのコンテンツは、ドロップダウンが閉じているときも開いているときも表示されます。[Icon](../../layouts/icon.mdx) トピックに示すように、最初にアイコンを登録してください:
+
 ```razor
-<IgbCombo>
-    <IgbIcon name="down" slot="toggle-icon"></IgbIcon>
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+    <IgbIcon slot="toggle-icon" @ref="IconRef" IconName="flight" Collection="material" />
 </IgbCombo>
+
+@code {
+    private IgbIcon IconRef { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && this.IconRef != null)
+        {
+            await this.IconRef.EnsureReady();
+            await this.IconRef.RegisterIconFromTextAsync("flight", FlightIcon, "material");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+### Clear Icon Template (クリア アイコン テンプレート)
+
+クリア アイコン テンプレートは、入力フィールド内のクリア ボタンのアイコンを置き換えます。Combo は、項目が選択されている場合にのみクリア ボタンを表示します<PlatformBlock for="React,WebComponents,Blazor">。`disableClear` が設定されている場合は非表示になります</PlatformBlock>。
+
+<PlatformBlock for="Angular">
+
+`igxComboClearIcon` ディレクティブを使用します:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name">
+    <ng-template igxComboClearIcon>
+        <igx-icon>close</igx-icon>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+アイコンを `clear-icon` スロットに渡します:
+
+```html
+<igc-combo value-key="id" display-key="name">
+    <igc-icon slot="clear-icon" name="close" collection="material"></igc-icon>
+</igc-combo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+アイコンを `clear-icon` スロットに渡します:
+
 ```tsx
-<IgrCombo>
-  <span slot="toggle-icon">
-    <IgrIcon name="down" collection="material"></IgrIcon>
-  </span>
+<IgrCombo data={destinations} valueKey="id" displayKey="name">
+    <IgrIcon slot="clear-icon" name="close" collection="material" />
 </IgrCombo>
-```
-
-</PlatformBlock>
-
-### クリア アイコン スロット
-クリア アイコンは、`clear-icon` スロットを介して変更できます。
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-combo>
-  <igc-icon name="clear" slot="clear-icon"></igc-icon>
-</igc-combo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
+アイコンを `clear-icon` スロットに渡します:
+
 ```razor
-<IgbCombo>
-    <IgbIcon name="clear" slot="clear-icon"></IgbIcon>
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+    <IgbIcon slot="clear-icon" IconName="close" Collection="material" />
 </IgbCombo>
+```
+
+</PlatformBlock>
+
+### Templated Input (テンプレート化された入力)
+
+Combo の入力フィールドは、<PlatformBlock for="Angular">[Input Group](../../input-group.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Input](../input.mdx)</PlatformBlock> と同様に、ラベル、テキストの前後のコンテンツ、およびその下のヘルパー テキストを受け取ります。
+
+<PlatformBlock for="Angular">
+
+ラベルは `igxLabel` ディレクティブで、テキストの前後のコンテンツは `igx-prefix` 要素と `igx-suffix` 要素で、ヘルパー テキストは `igx-hint` 要素で追加します。サフィックスのコンテンツは、クリア ボタンとトグル ボタンの前に描画されます:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" placeholder="Pick one or more cities">
+    <label igxLabel>Destinations</label>
+    <igx-prefix><igx-icon>place</igx-icon></igx-prefix>
+    <igx-suffix><igx-badge [value]="combo.selection.length"></igx-badge></igx-suffix>
+    <igx-hint>{{ combo.selection.length }} of {{ destinations.length }} destinations selected</igx-hint>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`label` 属性を設定し、テキストの前後のコンテンツを `prefix` スロットと `suffix` スロットに、ヘルパー テキストを `helper-text` スロットに渡します。`suffix` スロットは、クリア アイコンの後、トグル アイコンの前に描画されます:
+
+```html
+<igc-combo value-key="id" display-key="name" label="Destinations" placeholder="Pick one or more cities">
+    <igc-icon slot="prefix" name="place" collection="material"></igc-icon>
+    <igc-badge slot="suffix">2</igc-badge>
+    <span slot="helper-text">2 of 19 destinations selected</span>
+</igc-combo>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
+`label` プロパティを設定し、テキストの前後のコンテンツを `prefix` スロットと `suffix` スロットに、ヘルパー テキストを `helper-text` スロットに渡します。`suffix` スロットは、クリア アイコンの後、トグル アイコンの前に描画されます:
+
 ```tsx
-<IgrCombo>
-  <span slot="clear-icon">
-    <IgrIcon name="clear" collection="material"></IgrIcon>
-  </span>
+<IgrCombo data={destinations} valueKey="id" displayKey="name" label="Destinations" placeholder="Pick one or more cities">
+    <IgrIcon slot="prefix" name="place" collection="material" />
+    <IgrBadge slot="suffix">{selected.length}</IgrBadge>
+    <span slot="helper-text">{selected.length} of {destinations.length} destinations selected</span>
 </IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`Label` パラメーターを設定し、テキストの前後のコンテンツを `prefix` スロットと `suffix` スロットに、ヘルパー テキストを `helper-text` スロットに渡します。`suffix` スロットは、クリア アイコンの後、トグル アイコンの前に描画されます:
+
+```razor
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" Label="Destinations" Placeholder="Pick one or more cities">
+    <IgbIcon slot="prefix" IconName="place" Collection="material" />
+    <IgbBadge slot="suffix">@SelectedDestinations.Length</IgbBadge>
+    <span slot="helper-text">@SelectedDestinations.Length of @Destinations.Count destinations selected</span>
+</IgbCombo>
 ```
 
 </PlatformBlock>
 
 ## API リファレンス
 
-<ApiLink type="Combo" /><br />
+{Platform} Combo の API リファレンスには、対象プラットフォームの完全な API が記載されています。
+
+<PlatformBlock for="React,WebComponents">
+
+- <ApiLink type="Combo" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- <ApiLink pkg="core" type="Combo<T>" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink type="Combo" label="IgxComboComponent" />
+- <ApiLink type="InputGroup" />
+
+</PlatformBlock>
 
 ## その他のリソース
 
+次のリソースでは、{Platform} Combo に関するその他のガイダンスとプロジェクトのサポートを提供します:
+
+<PlatformBlock for="Angular">
+
+- [Combo](./overview.mdx)
+- [Combo の機能](./features.mdx)
+- [Combo のリモート バインディング](./features.mdx#リモート-バインディング)
+- [Single Selection Combo](./single-selection.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- [Combo](./overview.mdx)
+- [Combo の機能](./features.mdx)
+- [Single Selection Combo](./single-selection.mdx)
+
+</PlatformBlock>
+
+- [Combo - デザイン システム コンポーネント](https://www.infragistics.com/products/indigo-design/help/components/combo)
 - [{ProductName} **フォーラム (英語)**]({ForumsLink})
 - [{ProductName} **GitHub (英語)**]({GithubLink})
