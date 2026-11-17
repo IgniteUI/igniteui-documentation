@@ -248,7 +248,7 @@ Staging deploys on its own. Production is released by hand, one platform at a ti
 
 ### Staging
 
-Every push to `vnext` or `master` builds the doc sets it touches and deploys them to staging. Running one of the four `cd-*.yml` workflows by hand deploys any branch to staging.
+Every push to `vnext` or `master` builds the doc sets it touches and deploys them to staging. Running one of the four `cd-*.yml` workflows by hand deploys any branch to staging: the one named in `branch`, or the one the workflow is run from when that is left empty.
 
 ### Production
 
