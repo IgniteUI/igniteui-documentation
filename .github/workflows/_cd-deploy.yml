@@ -11,6 +11,10 @@ on:
         description: 'Locale to build (en or jp)'
         required: true
         type: string
+      environment:
+        description: 'Where the build goes (staging or production)'
+        required: true
+        type: string
       target_ref:
         description: 'Git ref to checkout'
         required: true
@@ -22,8 +26,10 @@ on:
 permissions:
   contents: read
 
+# The caller names the environment. It is never derived from the ref being built, so that no
+# branch deploys to production just by being pushed to.
 env:
-  BUILD_TYPE: ${{ (inputs.target_ref == 'master' || inputs.target_ref == 'refs/heads/master') && 'production' || 'staging' }}
+  BUILD_TYPE: ${{ inputs.environment }}
 
 jobs:
   build-and-deploy:
@@ -31,6 +37,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check the environment
+        run: |
+          case "$BUILD_TYPE" in
+            staging|production) ;;
+            *)
+              echo "::error::environment must be 'staging' or 'production', got '$BUILD_TYPE'"
+              exit 1
+              ;;
+          esac
+
       - name: Checkout repository
         uses: actions/checkout@v7
         with:

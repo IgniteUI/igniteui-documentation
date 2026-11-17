@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch to checkout'
+        description: 'Branch to build and deploy to staging'
         type: string
         default: 'vnext'
 
@@ -31,6 +31,7 @@ jobs:
 
     uses: ./.github/workflows/_cd-deploy.yml
     with:
+      environment: staging
       locale: jp
       platform: ${{ matrix.platform }}
       target_ref: ${{ github.event.inputs.branch && (startsWith(github.event.inputs.branch, 'refs/') && github.event.inputs.branch || format('refs/heads/{0}', github.event.inputs.branch)) || github.ref }}

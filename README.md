@@ -242,6 +242,36 @@ The check is read-only and reports the source file and line for missing or malfo
 - Cross-platform topics are generated to `docs/xplat/generated/Angular/` and overlaid on the Angular content at build time — they are never copied into `docs/angular/`, and xplat wins wherever both provide the same slug. Edit the xplat source; editing an Angular copy has no effect. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
+## Deploying
+
+Staging deploys on its own. Production is released by hand, one platform at a time.
+
+### Staging
+
+Every push to `vnext` or `master` builds the doc sets it touches and deploys them to staging. Running one of the four `cd-*.yml` workflows by hand deploys any branch to staging.
+
+### Production
+
+Run **Deploy Documentation To Production** ([cd-production.yml](.github/workflows/cd-production.yml)) from the Actions tab, or from a terminal:
+
+```sh
+gh workflow run cd-production.yml -f platform=react
+```
+
+The run builds both locales of that one platform from a single commit with the production configuration and hands them over for deployment. No other platform is touched, so a platform can wait until its samples and API docs are on production.
+
+- `ref` takes a branch, tag or full commit SHA, and is the default branch when left empty. The commit must be on the default branch unless `allow_off_trunk` is set.
+- The run summary lists what the release adds to production, and warns when it would remove a change that is there now.
+- Each release is recorded as a GitHub deployment on the `production-<platform>` environment. To see the commit a platform has on production:
+
+  ```sh
+  gh api "repos/IgniteUI/igniteui-documentation/deployments?environment=production-react&per_page=1" --jq '.[0].sha'
+  ```
+
+### Fixing production between releases
+
+When the default branch already holds content a platform cannot ship yet, branch from the commit that platform has on production, cherry-pick the fix onto it, and release that branch with `allow_off_trunk` set. Land the same fix on the default branch as well, because the next release from there replaces what the fix branch deployed. Keep the fix branch until then.
+
 ## Collaboration Docs
 
 - [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
