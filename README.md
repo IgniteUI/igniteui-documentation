@@ -1,6 +1,6 @@
 # Ignite UI Documentation
 
-This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products. They are built and hosted using Astro.
+This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, Ignite UI for Web Components, Ignite UI for WinUI, and Ignite UI for Uno Platform products. They are built and hosted using Astro.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ igniteui-documentation/
 │   │   ├── public/       # Angular-specific static assets
 │   │   ├── scripts/      # Angular sync and generation scripts
 │   │   └── src/          # Angular Astro pages, MDX content, and components
-│   └── xplat/            # Shared xplat source for Blazor, React, Web Components, and Angular-generated docs
+│   └── xplat/            # Shared xplat source for React, Web Components, Blazor, WinUI, Uno, and Angular-generated docs
 │       ├── public/       # xplat static assets
 │       ├── scripts/      # xplat generation scripts
 │       └── src/          # xplat Astro pages, MDX content, assets, and libraries
@@ -65,6 +65,10 @@ Use the platform-specific commands from the root workspace:
 | Web Components Japanese | `npm run xplat:dev:webcomponents:jp`
 | Blazor | `npm run xplat:dev:blazor`
 | Blazor Japanese | `npm run xplat:dev:blazor:jp`
+| WinUI | `npm run xplat:dev:winui`
+| WinUI Japanese | `npm run xplat:dev:winui:jp`
+| Uno | `npm run xplat:dev:uno`
+| Uno Japanese | `npm run xplat:dev:uno:jp`
 
 
 ## Header and footer
