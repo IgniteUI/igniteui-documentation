@@ -574,11 +574,23 @@ Visual Studio 2022 を起動し、開始ページで **[新しいプロジェク
 
 ライセンス ユーザーは、これらのパッケージを Infragistics のプライベート NuGet フィードから取得します。Visual Studio の **[ツール]** → **[NuGet パッケージ マネージャー]** → **[パッケージ マネージャー設定]** で、ソースに `https://packages.infragistics.com/nuget/licensed/v3/index.json` を指定してパッケージ ソースとして追加します。
 
+### Infragistics プラットフォーム サービスの登録と Skia レンダリングの設定 (App.xaml.cs - OnLauched)
+
+```csharp
+
+Infragistics.Core.WinUIPlatformRegistration.Register();
+Infragistics.SkiaSharpRenderer.Use();
+
+```
+
+*注: 現在は、Skia レンダリングの使用のみが推奨されるアプローチです。*
+
 ### 名前空間の追加
 
 コントロールの各パッケージは独自の名前空間に属しており、XAML ファイルでは使用するものを宣言します。{Platform} では `using:` 形式を使用します。
 
 ```xml
+
 <Window
     xmlns:ig="using:Infragistics.Controls"
     xmlns:igCharts="using:Infragistics.Controls.Charts"
@@ -589,6 +601,7 @@ Visual Studio 2022 を起動し、開始ページで **[新しいプロジェク
     xmlns:igInputs="using:Infragistics.Controls.Inputs"
     xmlns:igLayouts="using:Infragistics.Controls.Layouts">
 </Window>
+
 ```
 
 宣言が必要なのは、ファイルで実際に使用するものだけです。これらのトピックのコード スニペットはすべてこれらのプレフィックスで記述されているため、`igDataGrids:XamDataGrid` を示すスニペットには上記の `\igDataGrids` の宣言が必要です。
@@ -631,6 +644,7 @@ Uno Platform には、単一の Visual Studio ワークロードではなく独�
 | `\Infragistics.Uno.Charts` | チャートおよびグラフ | `\Infragistics.Controls.Charts` |
 | `\Infragistics.Uno.DataGrid` | データ グリッド | `\Infragistics.Controls.Grids` |
 | `\Infragistics.Uno.Gauges` | 放射、線形、およびブレット ゲージ | `\Infragistics.Controls.Gauges` |
+| `\Infragistics.Uno.Maps` | マップ | `\Infragistics.Controls.Maps` |
 | `\Infragistics.Uno.DataVisualization` | ビジュアライゼーション コントロールの共通サポート | — |
 
 WebAssembly ヘッドでは、代わりに `Infragistics.Uno.Wasm.*` パッケージ (**Infragistics.Uno.Wasm.Core**、**Infragistics.Uno.Wasm.Charts**、**Infragistics.Uno.Wasm.DataVisualization**) を使用します。
@@ -638,6 +652,17 @@ WebAssembly ヘッドでは、代わりに `Infragistics.Uno.Wasm.*` パッケ�
 これは WinUI よりも狭いセットです。地理マップ、ダッシュボード タイル、入力、レイアウト、スパークライン、ツリーマップには Uno Platform のパッケージがないため、これらを扱うトピックには Uno Platform のコードがありません。
 
 ライセンス ユーザーは、これらのパッケージを Infragistics のプライベート NuGet フィードから取得します。Visual Studio の **[ツール]** → **[NuGet パッケージ マネージャー]** → **[パッケージ マネージャー設定]** で、ソースに `https://packages.infragistics.com/nuget/licensed/v3/index.json` を指定してパッケージ ソースとして追加します。
+
+### Infragistics プラットフォーム サービスの登録 (App.xaml.cs)
+
+```csharp
+public App()
+{
+   Infragistics.Core.UnoPlatformRegistration.Register();
+   ...
+   this.InitializeComponent();
+}
+```
 
 ### 名前空間の追加
 

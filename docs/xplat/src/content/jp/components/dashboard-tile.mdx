@@ -102,6 +102,25 @@ Dashboard Tile コンポーネントを使用する場合、以下のモジュ�
 - [{IgPrefix}LinearGauge](./linear-gauge.mdx)
 - [{IgPrefix}RadialGauge](./radial-gauge.mdx)
 
+<PlatformBlock for="WinUI,Uno">
+
+ビルドとパッケージ化では、明示的に参照されていない視覚化タイプがトリミングされる場合があります。必要なタイプを保持するには、App.xaml.cs の App コンストラクターでその機能を登録します。
+
+```csharp
+public App()
+{ 
+    WinUIDataChartDashboardTileFeature.Register();
+    WinUIPieChartDashboardTileFeature.Register();
+    WinUIRadialGaugeDashboardTileFeature.Register();
+    WinUILinearGaugeDashboardTileFeature.Register();
+    WinUIGeographicMapDashboardTileFeature.Register();
+
+    this.InitializeComponent();
+}
+```
+
+</PlatformBlock>
+
 デフォルトで選択されるデータ視覚化は、主にスキーマとバインドした `DashboardTile.DataSource` の数によって決まります。たとえば、単一の数値をバインドすると `RadialGauge` が取得されますが、互いに区別しやすい値とラベルのペアのコレクションをバインドすると `DataPieChart` が取得されます。より多くの値パスを持つ `DashboardTile.DataSource` をバインドすると、バインドされたコレクションの数に応じて、複数の列シリーズまたは線シリーズを持つ `DataChart` を受け取ります。また、`GeographicMap` を取得するために、`ShapeDataSource` または地理的ポイントを含むデータにバインドすることもできます。
 
 `DashboardTile.DataSource` をバインドするときに単一の視覚化にロックされることはなく、`VisualizationType` プロパティを設定することで、特定の視覚化を表示することをコントロールに指示できます。たとえば、特に折れ線チャートを表示したい場合は、次のように Dashboard Tile を定義できます。
