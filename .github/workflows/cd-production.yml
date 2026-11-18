@@ -1,0 +1,223 @@
+name: Deploy Documentation To Production
+run-name: Release ${{ inputs.platform }} to production from ${{ inputs.ref || github.event.repository.default_branch }}
+
+# Production is released by hand, one platform at a time. A push only ever deploys to staging (the
+# cd-*.yml workflows), so nothing reaches production without a run of this workflow.
+#
+# A run builds both locales of one platform from a single commit, hands them to the deploy workflow
+# in IgniteUI/igniteui-actions, and records the commit as a GitHub deployment on the
+# production-<platform> environment. That record is what the next run compares against.
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to release'
+        required: true
+        type: choice
+        options:
+          - angular
+          - react
+          - wc
+          - blazor
+          - winui
+          - uno
+      ref:
+        description: 'Branch, tag or full commit SHA to release. Empty releases the default branch.'
+        type: string
+      allow_off_trunk:
+        description: 'Release a commit that is not on the default branch (a fix branched from what is on production)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# One release per platform at a time. A second run waits instead of cancelling the first, which may
+# already have handed a locale over for deployment.
+concurrency:
+  group: cd-production-${{ inputs.platform }}
+  cancel-in-progress: false
+
+# Trunk is whatever the repository's default branch is, so that renaming it needs no change here.
+env:
+  TRUNK: ${{ github.event.repository.default_branch }}
+  RELEASE_REF: ${{ inputs.ref || github.event.repository.default_branch }}
+
+jobs:
+  resolve:
+    name: Resolve the release commit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: read
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+
+    steps:
+      - name: Checkout the requested ref
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_REF }}
+          fetch-depth: 0
+
+      # The ref is pinned to a commit here so that both locales build the same one even if the
+      # branch moves while the run is in progress.
+      - name: Resolve the commit and check it is on trunk
+        id: commit
+        env:
+          ALLOW_OFF_TRUNK: ${{ inputs.allow_off_trunk }}
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          git fetch --no-tags --quiet origin "+refs/heads/$TRUNK:refs/remotes/origin/$TRUNK"
+
+          if git merge-base --is-ancestor "$sha" "origin/$TRUNK"; then
+            echo "$RELEASE_REF resolves to $sha, which is on $TRUNK."
+          elif [[ "$ALLOW_OFF_TRUNK" == 'true' ]]; then
+            echo "::warning::$RELEASE_REF ($sha) is not on $TRUNK. Releasing it because allow_off_trunk is set."
+          else
+            echo "::error::$RELEASE_REF ($sha) is not on $TRUNK. Release a commit from $TRUNK, or set allow_off_trunk for a fix branched from what is on production."
+            exit 1
+          fi
+
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize what the release changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLATFORM: ${{ inputs.platform }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          set -euo pipefail
+          previous=$(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=production-$PLATFORM&per_page=1" --jq '.[0].sha // empty')
+
+          {
+            echo "## Production release: $PLATFORM"
+            echo
+            echo "- Requested ref: \`$RELEASE_REF\`"
+            echo "- Releasing: \`$SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ -z "$previous" ]]; then
+            echo "- On production now: no release recorded yet, so there is nothing to compare against" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "- On production now: \`$previous\`" >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "$previous" == "$SHA" ]]; then
+            {
+              echo
+              echo "This commit is already on production. The release rebuilds and redeploys it."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # A fix released from a branch that has since been deleted is no longer reachable from
+          # any ref, so it may be missing from the clone.
+          if ! git cat-file -e "$previous^{commit}" 2>/dev/null; then
+            git fetch --no-tags --quiet origin "$previous" 2>/dev/null || true
+          fi
+          if ! git cat-file -e "$previous^{commit}" 2>/dev/null; then
+            {
+              echo
+              echo "The commit on production could not be fetched, so the changes cannot be listed."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # What production would lose: commits it has that the release does not, leaving out merge
+          # commits and any change the release carries as a cherry-pick. A fix that was released
+          # from a branch and also landed on trunk is therefore not reported.
+          lost=(--cherry-pick --right-only --no-merges "$SHA...$previous")
+
+          added=$(git rev-list --count --first-parent "$previous..$SHA")
+          dropped=$(git rev-list --count "${lost[@]}")
+
+          {
+            echo
+            echo "### Added by this release ($added)"
+            echo
+            if (( added > 0 )); then
+              git log --first-parent -n 100 --pretty='- `%h` %s' "$previous..$SHA"
+              if (( added > 100 )); then
+                echo
+                echo "Only the newest 100 are listed."
+              fi
+            else
+              echo "Nothing."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if (( dropped > 0 )); then
+            echo "::warning::This release removes $dropped change(s) that are on production now. See the run summary."
+            {
+              echo
+              echo "### On production now but not in this release ($dropped)"
+              echo
+              echo "Expected for a rollback. Otherwise a fix was released from a branch and never reached \`$TRUNK\`."
+              echo
+              git log -n 100 --pretty='- `%h` %s' "${lost[@]}"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  deploy:
+    name: Deploy ${{ inputs.platform }} (${{ matrix.locale }})
+    needs: resolve
+    strategy:
+      matrix:
+        locale: ['en', 'jp']
+
+    uses: ./.github/workflows/_cd-deploy.yml
+    with:
+      environment: production
+      locale: ${{ matrix.locale }}
+      platform: ${{ inputs.platform }}
+      target_ref: ${{ needs.resolve.outputs.sha }}
+    secrets:
+      CLASSIC_PAT_GITHUB: ${{ secrets.CLASSIC_PAT_GITHUB }}
+
+  # The record means both locales were built and handed to the deploy workflow in
+  # IgniteUI/igniteui-actions. The deployment itself finishes there, in a run this one cannot see.
+  #
+  # It is a deployment record and not a git tag on purpose: a tag pushed with the workflow token can
+  # be rejected when the commits it moves across changed a workflow file.
+  record:
+    name: Record the release
+    needs: [resolve, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      deployments: write
+
+    steps:
+      - name: Record the commit as a deployment
+        uses: actions/github-script@v9
+        env:
+          PLATFORM: ${{ inputs.platform }}
+          SHA: ${{ needs.resolve.outputs.sha }}
+        with:
+          script: |
+            const { PLATFORM, RELEASE_REF, SHA } = process.env;
+            const environment = `production-${PLATFORM}`;
+
+            // auto_merge would try to merge the default branch into the ref being recorded, and
+            // required_contexts would refuse a commit whose checks are not all green.
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              ...context.repo,
+              ref: SHA,
+              environment,
+              description: `Released from ${RELEASE_REF}`.slice(0, 140),
+              auto_merge: false,
+              required_contexts: [],
+              production_environment: true,
+            });
+
+            await github.rest.repos.createDeploymentStatus({
+              ...context.repo,
+              deployment_id: deployment.id,
+              state: 'success',
+              log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+
+            core.notice(`${environment} is now at ${SHA}`);

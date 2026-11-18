@@ -29,7 +29,7 @@ product and locale.
   skills/                     ← canonical skills that gh-aw must see; see .agents/README.md
   instructions/               ← path-specific Copilot code review instructions
   CONTRIBUTING.md             ← contributor guide: topic structure, metadata, review flow
-  workflows/                  ← CI, CD per platform and locale, and gh-aw JP sync
+  workflows/                  ← CI, staging CD per doc set and locale, manual production CD, gh-aw JP sync
 .claude/skills/               ← generated pointers; never edited by hand
 docs/
   angular/                    ← Angular doc set (astro.config.ts, src/content/{en,jp,kr})
