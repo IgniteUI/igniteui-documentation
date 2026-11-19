@@ -23,10 +23,6 @@ import breadcrumbsDo2x from '@xplat-images/breadcrumbs/breadcrumbs-do@2x.png';
 import breadcrumbsDoNot from '@xplat-images/breadcrumbs/breadcrumbs-do-not.png';
 import breadcrumbsDoNot2x from '@xplat-images/breadcrumbs/breadcrumbs-do-not@2x.png';
 
-{/*
-Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component. Its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
-*/}
-
 # Breadcrumbs Component <Badge variant="new" />
 
 The {ProductName} Breadcrumbs component renders an ordered trail of navigation items separated by a configurable icon, communicating a user's location within a site's hierarchy and providing a way back to higher-level pages.
@@ -172,13 +168,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-Register the <ApiLink pkg="core" type="Breadcrumbs" /> and <ApiLink pkg="core" type="Breadcrumb" /> modules in **Program.cs**:
+Register the {ProductName} services:
 
 ```csharp
-builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule), typeof(IgbBreadcrumbModule));
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
 ```
 
-Link the theme stylesheet in **wwwroot/index.html** (Blazor WebAssembly) or **Pages/_Host.cshtml** (Blazor Server):
+Registering <ApiLink type="BreadcrumbsModule" />, the Breadcrumbs client resource module, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
+
+Add the theme stylesheet to your host page. If you have not set up {ProductName} yet, complete the shared [Getting Started](../general-getting-started.mdx) topic first.
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -228,7 +228,7 @@ Compose a trail by placing one breadcrumb item per level inside the Breadcrumbs 
 
 ### Current Page
 
-Mark the item that represents the currently viewed page with the <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> property. The item reflects it as an attribute and sets `aria-current="page"`, so screen readers announce the current page.
+Mark the item that represents the currently viewed page with the <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Breadcrumb" member="current" label="Current" /></PlatformBlock> property. The item reflects it as an attribute and sets `aria-current="page"`, so screen readers announce the current page.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -265,7 +265,7 @@ Mark the item that represents the currently viewed page with the <PlatformBlock 
 
 ### Shared Separator
 
-Use the <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> property on the container to set a shared separator icon for every item in the trail. The value is an icon name from the registered icon collection, and the container propagates it to each item.
+Use the <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Breadcrumbs" member="separator" label="Separator" /></PlatformBlock> property on the container to set a shared separator icon for every item in the trail. The value is an icon name from the registered icon collection, and the container propagates it to each item.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -421,7 +421,7 @@ Each breadcrumb item exposes `prefix` and `suffix` slots for supplementary conte
 ```razor
 <IgbBreadcrumbs>
   <IgbBreadcrumb>
-    <IgbIcon slot="prefix" Name="home"></IgbIcon>
+    <IgbIcon slot="prefix" IconName="home"></IgbIcon>
     <a href="/home">Home</a>
   </IgbBreadcrumb>
   <IgbBreadcrumb>
@@ -552,18 +552,43 @@ Use breadcrumbs to orient users in content-rich applications with three or more 
 
 The container exposes the shared separator, and each item exposes its state.
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" /></PlatformBlock>**
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumbs" /></PlatformBlock>**
+
+<PlatformBlock for="WebComponents, Angular, React">
 
 | Name | Type | Default | Description |
 | -- | -- | -- | -- |
-| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | The icon name used as the default separator between items. Propagated to every item in the trail. |
+| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | The icon name used as the default separator between items. Propagated to every item in the trail. |
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
 
 | Name | Type | Default | Description |
 | -- | -- | -- | -- |
-| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | Marks the item as the current page and sets `aria-current="page"`. |
-| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | Disables the item, sets `aria-disabled="true"`, and removes the slotted content from the tab sequence. |
+| <ApiLink type="Breadcrumbs" member="separator" label="Separator" /> | `string` | n/a | The icon name used as the default separator between items. Propagated to every item in the trail. When not set, the `tree_expand` icon is used. |
+
+</PlatformBlock>
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumb" /></PlatformBlock>**
+
+<PlatformBlock for="WebComponents, Angular, React">
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | Marks the item as the current page and sets `aria-current="page"`. |
+| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | Disables the item, sets `aria-disabled="true"`, and removes the slotted content from the tab sequence. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Name | Type | Default | Description |
+| -- | -- | -- | -- |
+| <ApiLink type="Breadcrumb" member="current" label="Current" /> | `bool` | `false` | Marks the item as the current page and sets `aria-current="page"`. |
+| <ApiLink type="Breadcrumb" member="disabled" label="Disabled" /> | `bool` | `false` | Disables the item, sets `aria-disabled="true"`, and removes the slotted content from the tab sequence. |
+
+</PlatformBlock>
 
 
 ## Styling
@@ -610,7 +635,7 @@ The {Platform} Breadcrumbs appearance is controlled through CSS variables, CSS p
 
 ### Style Parts
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumb" /></PlatformBlock>**
 
 | Part | What it styles |
 | -- | -- |
@@ -652,11 +677,12 @@ $my-breadcrumb-theme: breadcrumb-theme(
 
 ### Styling with Tailwind
 
-Combine Tailwind utility classes with the Breadcrumbs CSS variables for utility-first styling. [Set up Tailwind](../themes/tailwind.mdx) with the Ignite UI theme first:
+Combine Tailwind utility classes with the Breadcrumbs CSS variables for utility-first styling. [Set up Tailwind](../themes/tailwind.mdx) with the Ignite UI theme first, then import the Ignite UI utilities from `igniteui-theming`, which define the `light-breadcrumb` class:
 
 ```css
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "igniteui-theming/tailwind/utilities/bootstrap.css";
 ```
 
 <PlatformBlock for="WebComponents, Angular">
@@ -823,8 +849,8 @@ Use these API references for the complete Breadcrumbs API surface.
 
 <PlatformBlock for="React, Blazor">
 
-<ApiLink pkg="core" type="Breadcrumbs" /><br />
-<ApiLink pkg="core" type="Breadcrumb" />
+<ApiLink type="Breadcrumbs" /><br />
+<ApiLink type="Breadcrumb" />
 
 </PlatformBlock>
 
