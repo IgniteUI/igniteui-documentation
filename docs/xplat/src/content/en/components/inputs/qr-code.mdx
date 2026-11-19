@@ -26,10 +26,6 @@ import qrCodeDo2_2x from '@xplat-images/qr-code/qr-code-do2@2x.png';
 import qrCodeDoNot2 from '@xplat-images/qr-code/qr-code-do-not2.png';
 import qrCodeDoNot2_2x from '@xplat-images/qr-code/qr-code-do-not2@2x.png';
 
-{/*
-Blazor is excluded in toc.json until its QR Code wrappers ship. Its blocks below are staged and must be verified against the released wrapper APIs before removing the exclusion.
-*/}
-
 # QR Code Component <Badge variant="new" />
 
 The {ProductName} QR Code renders a scannable QR (Quick Response) code as an inline SVG, generated on the client from any string value, with customizable size, error correction, and center logo.
@@ -157,13 +153,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-Register the <ApiLink pkg="core" type="QrCode" /> module in **Program.cs**:
+Register the {ProductName} services:
 
 ```csharp
-builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
 ```
 
-Link the theme stylesheet in **wwwroot/index.html** (Blazor WebAssembly) or **Pages/_Host.cshtml** (Blazor Server):
+Registering <ApiLink type="QrCodeModule" />, the QR Code's client resource module, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
+
+Add the theme stylesheet to your host page. If you have not set up {ProductName} yet, complete the shared [Getting Started](../general-getting-started.mdx) topic first.
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -205,7 +205,7 @@ Set `value` to any string to render a scannable QR code. The component picks the
 
 ### Error Correction
 
-Use `errorLevel` to choose the `L`, `M` (default), `Q`, or `H` error correction level. Higher levels recover more of a damaged or covered code but produce a denser code. Use `version` to pin a QR version from `1` to `40` when you need predictable module dimensions; leave it unset to use the smallest version that fits `value`.
+Use `errorLevel` to choose the <PlatformBlock for="Angular,React,WebComponents">`L`, `M` (default), `Q`, or `H`</PlatformBlock><PlatformBlock for="Blazor">`Low` (`L`), `Medium` (`M`, default), `Quartile` (`Q`), or `High` (`H`)</PlatformBlock> error correction level. Higher levels recover more of a damaged or covered code but produce a denser code. Use `version` to pin a QR version from `1` to `40` when you need predictable module dimensions; leave it unset to use the smallest version that fits `value`.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -237,7 +237,7 @@ Use `errorLevel` to choose the `L`, `M` (default), `Q`, or `H` error correction 
 <IgbQrCode
   Value="https://www.infragistics.com"
   Version="4"
-  ErrorLevel="QrCodeErrorLevel.H">
+  ErrorLevel="QrErrorCorrectionLevel.High">
 </IgbQrCode>
 ```
 
@@ -348,7 +348,7 @@ The logo never covers more than the current `errorLevel` allows. At the default 
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com"
-  ErrorLevel="QrCodeErrorLevel.H"
+  ErrorLevel="QrErrorCorrectionLevel.High"
   LogoSrc="/assets/logo.png"
   LogoSize="0.5"
   LogoMargin="4">
@@ -371,7 +371,7 @@ The logo never covers more than the current `errorLevel` allows. At the default 
 
 ### Shapes
 
-Use `dotStyle` to shape the data modules and the inner finder-pattern dots, and `squareStyle` to shape the outer finder-pattern squares. Both accept `square` (default), `circle`, or `rounded`.
+Use `dotStyle` to shape the data modules and the inner finder-pattern dots, and `squareStyle` to shape the outer finder-pattern squares. Both accept <PlatformBlock for="Angular,React,WebComponents">`square` (default), `circle`, or `rounded`</PlatformBlock><PlatformBlock for="Blazor">`Square` (default), `Circle`, or `Rounded`</PlatformBlock>.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -402,8 +402,8 @@ Use `dotStyle` to shape the data modules and the inner finder-pattern dots, and 
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com"
-  DotStyle="QrCodeDotStyle.Rounded"
-  SquareStyle="QrCodeSquareStyle.Rounded">
+  DotStyle="QrDotStyle.Rounded"
+  SquareStyle="QrCornerSquareStyle.Rounded">
 </IgbQrCode>
 ```
 
@@ -436,6 +436,31 @@ const qrCode = document.querySelector('igc-qr-code') as IgcQrCodeComponent;
 
 // Downloads a 512×512 PNG from a 256px QR code.
 await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### Export
+
+Call <ApiLink type="QrCode" member="ToImageAsync" label="ToImageAsync" /> to export the QR code as a PNG, JPEG, WebP, or SVG file. The browser downloads the file, so it can't be read back into .NET. Theme colors are resolved and the logo inlined, so the export matches the rendered code.
+
+```razor
+<IgbQrCode @ref="QrCode" Value="https://www.infragistics.com" Size="256"></IgbQrCode>
+<IgbButton @onclick="DownloadAsync">Download</IgbButton>
+
+@code {
+    private IgbQrCode QrCode;
+
+    // Downloads a 512×512 PNG from a 256px QR code.
+    private Task DownloadAsync() => QrCode.ToImageAsync(new IgbQrCodeExportOptions
+    {
+        Format = QrCodeExportFormat.Png,
+        Scale = 2,
+        FileName = "my-qr-code"
+    });
+}
 ```
 
 </PlatformBlock>
@@ -501,16 +526,16 @@ The {Platform} QR Code exposes properties for the encoded value, code density, s
 
 | Name | Type | Default | Description |
 | -- | -- | -- | -- |
-| <ApiLink pkg="core" type="QrCode" member="value" label="value" /> | `string` | — | The string encoded in the QR code. |
-| <ApiLink pkg="core" type="QrCode" member="version" label="version" /> | `number` | — | The QR version (1–40). When not set, the smallest version that fits `value` is used. |
-| <ApiLink pkg="core" type="QrCode" member="errorLevel" label="errorLevel" /> | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'` | The error correction level. Also caps the logo size. |
-| <ApiLink pkg="core" type="QrCode" member="size" label="size" /> | `number` | `128` | The rendered width and height in pixels. |
-| <ApiLink pkg="core" type="QrCode" member="margin" label="margin" /> | `number` | `4` | The quiet-zone margin, in QR modules. |
-| <ApiLink pkg="core" type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | The source URL of an optional center logo image. |
-| <ApiLink pkg="core" type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | The logo size as a ratio (0–1) of the largest safe logo area. |
-| <ApiLink pkg="core" type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | The margin around the logo, in pixels. |
-| <ApiLink pkg="core" type="QrCode" member="dotStyle" label="dotStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | The shape of the data modules and the inner finder-pattern dots. |
-| <ApiLink pkg="core" type="QrCode" member="squareStyle" label="squareStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | The shape of the outer finder-pattern squares. |
+| <ApiLink type="QrCode" member="value" label="value" /> | `string` | — | The string encoded in the QR code. |
+| <ApiLink type="QrCode" member="version" label="version" /> | `number` | — | The QR version (1–40). When not set, the smallest version that fits `value` is used. |
+| <ApiLink type="QrCode" member="errorLevel" label="errorLevel" /> | <PlatformBlock for="Angular,React,WebComponents">`'L' \| 'M' \| 'Q' \| 'H'`</PlatformBlock><PlatformBlock for="Blazor">`QrErrorCorrectionLevel`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'M'`</PlatformBlock><PlatformBlock for="Blazor">`Medium`</PlatformBlock> | The error correction level. Also caps the logo size. |
+| <ApiLink type="QrCode" member="size" label="size" /> | `number` | `128` | The rendered width and height in pixels. |
+| <ApiLink type="QrCode" member="margin" label="margin" /> | `number` | `4` | The quiet-zone margin, in QR modules. |
+| <ApiLink type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | The source URL of an optional center logo image. |
+| <ApiLink type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | The logo size as a ratio (0–1) of the largest safe logo area. |
+| <ApiLink type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | The margin around the logo, in pixels. |
+| <ApiLink type="QrCode" member="dotStyle" label="dotStyle" /> | <PlatformBlock for="Angular,React,WebComponents">`'square' \| 'circle' \| 'rounded'`</PlatformBlock><PlatformBlock for="Blazor">`QrDotStyle`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'square'`</PlatformBlock><PlatformBlock for="Blazor">`Square`</PlatformBlock> | The shape of the data modules and the inner finder-pattern dots. |
+| <ApiLink type="QrCode" member="squareStyle" label="squareStyle" /> | <PlatformBlock for="Angular,React,WebComponents">`'square' \| 'circle' \| 'rounded'`</PlatformBlock><PlatformBlock for="Blazor">`QrCornerSquareStyle`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'square'`</PlatformBlock><PlatformBlock for="Blazor">`Square`</PlatformBlock> | The shape of the outer finder-pattern squares. |
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -520,6 +545,16 @@ The {Platform} QR Code exposes properties for the encoded value, code density, s
 | -- | -- | -- |
 | `toBlob()` | `Promise<Blob>` | Serializes the QR code to an `image/svg+xml` blob with theme colors resolved and the logo inlined. Rejects when `value` is not set. |
 | `toImage(options?)` | `Promise<File>` | Exports the QR code as an image file. `options` accepts `format` (`'png'` default, `'jpeg'`, `'webp'`, or `'svg'`), `scale` (default `1`), `fileName` (default `'qr-code'`), and `download` (default `false`). Rejects when `value` is not set or the options are invalid. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+## Methods
+
+| Name | Returns | Description |
+| -- | -- | -- |
+| <ApiLink type="QrCode" member="ToImageAsync" label="ToImageAsync" />, <ApiLink type="QrCode" member="ToImage" label="ToImage" /> | `Task`, `void` | Downloads the QR code as an image file. <ApiLink type="QrCodeExportOptions" /> sets `Format` (`QrCodeExportFormat.Png` default, `Jpeg`, `Webp`, or `Svg`), `Scale` (default `1`), and `FileName` (default `qr-code`). Fails when `Value` is not set or the options are invalid. |
 
 </PlatformBlock>
 
@@ -599,9 +634,10 @@ Combine Tailwind utility classes with the QR Code CSS variables. [Set up Tailwin
 ```css
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "igniteui-theming/tailwind/utilities/bootstrap.css";
 ```
 
-Apply the `light-qr-code` utility to give the QR Code its theme variables, then override individual variables with arbitrary-property classes. The `!` prefix marks the utility as important so it takes precedence over the component's default styles.
+Apply the `light-qr-code` utility from `igniteui-theming` to give the QR Code its theme variables, then override individual variables with arbitrary-property classes. The `!` prefix marks the utility as important so it takes precedence over the component's default styles.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -687,7 +723,7 @@ The rendered `<svg>` has `role="img"` and a `<title>` that screen readers announ
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com/products"
-  AriaLabel="Scan to visit our product page">
+  aria-label="Scan to visit our product page">
 </IgbQrCode>
 ```
 
@@ -736,7 +772,7 @@ The {Platform} QR Code has the following limitations.
 - The QR Code has no slots or events.
 - QR Code visual structure follows a fixed, standardized layout and is not mirrored in Right-to-Left contexts.
 
-<PlatformBlock for="WebComponents, Angular">
+<PlatformBlock for="WebComponents, Angular, Blazor">
 
 - Exports omit a logo loaded from a cross-origin URL that does not send CORS headers.
 
@@ -754,7 +790,7 @@ Use these API references for the complete QR Code API surface.
 
 <PlatformBlock for="React, Blazor">
 
-<ApiLink pkg="core" type="QrCode" />
+<ApiLink type="QrCode" />
 
 </PlatformBlock>
 

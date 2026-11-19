@@ -23,10 +23,6 @@ import colorPickerDo2x from '@xplat-images/color-picker/color-picker-do@2x.png';
 import colorPickerDoNot from '@xplat-images/color-picker/color-picker-do-not.png';
 import colorPickerDoNot2x from '@xplat-images/color-picker/color-picker-do-not@2x.png';
 
-{/*
-Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component; its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
-*/}
-
 # Color Picker Component <Badge variant="new" />
 
 The {ProductName} Color Picker is a form-associated component that lets users pick and edit a color through an interactive dropdown with a gradient canvas, hue and alpha sliders, format switching, an eye-dropper, and predefined swatches.
@@ -94,7 +90,7 @@ The {Platform} Color Picker is composed of an anchor that opens a popover dropdo
 `}</style>
 
 <span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>A - Input Color Picker</strong><br /><br />
-<strong>1. Input mode:</strong> The Color Picker rendered with `mode="input"`.<br />
+<strong>1. Input mode:</strong> The Color Picker rendered in `input` mode.<br />
 <strong>2. Color anchor/Fill:</strong> Triggers the picker dropdown and shows the currently selected color.<br />
 <strong>3. Label:</strong> The label for the input color picker.<br />
 <strong>4. Placeholder:</strong> The pattern of the active format, such as `#rrggbb`, shown while the input is empty.<br />
@@ -115,7 +111,7 @@ The {Platform} Color Picker is composed of an anchor that opens a popover dropdo
 <strong>5. Hue slider handle:</strong> A draggable marker that indicates the currently selected hue on the hue slider.<br />
 <strong>6. Copy button:</strong> Copy the currently selected color to the clipboard.<br />
 <strong>7. Eye-dropper button:</strong> Activate the eye-dropper tool for selecting colors from the screen.<br />
-<strong>8. Alpha slider:</strong> An optional opacity slider, shown when `show-alpha` is set.<br />
+<strong>8. Alpha slider:</strong> An optional opacity slider, shown when <ApiLink type="ColorPicker" member="showAlpha" label="showAlpha" /> is set.<br />
 <strong>9. Alpha slider handle:</strong> A draggable marker that indicates the currently selected alpha value on the alpha slider.<br />
 <strong>10. Opacity value:</strong> The currently selected opacity value on the alpha slider.<br />
 <strong>11. Format switcher:</strong> A dropdown for selecting the color format (`hex`, `rgb`, `hsl`).<br />
@@ -214,13 +210,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-Register the <ApiLink pkg="core" type="ColorPicker" /> module in **Program.cs**:
+Register the {ProductName} services:
 
 ```csharp
-builder.Services.AddIgniteUIBlazor(typeof(IgbColorPickerModule));
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
 ```
 
-Link the theme stylesheet in **wwwroot/index.html** (Blazor WebAssembly) or **Pages/_Host.cshtml** (Blazor Server):
+Registering <ApiLink type="ColorPickerModule" />, the Color Picker's client resource module, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbColorPickerModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
+
+Add the theme stylesheet to your host page. If you have not set up {ProductName} yet, complete the shared [Getting Started](../general-getting-started.mdx) topic first.
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -249,14 +249,14 @@ Render the Color Picker with a label:
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Label="Pick a color"></IgbColorPicker>
+<IgbColorPicker TValue="string" Label="Pick a color"></IgbColorPicker>
 ```
 
 </PlatformBlock>
 
 ## Usage
 
-Set <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> to any CSS color string: hex (with or without the leading `#`), `rgb`/`rgba`, `hsl`/`hsla`, or a named color. An empty or invalid string clears the value, and the anchor shows a checkered pattern.
+Set <ApiLink type="ColorPicker" member="value" label="value" /> to any CSS color string: hex (with or without the leading `#`), `rgb`/`rgba`, `hsl`/`hsla`, or a named color. An empty or invalid string clears the value, and the anchor shows a checkered pattern.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -277,7 +277,11 @@ Set <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> to an
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Value="#1976d2"></IgbColorPicker>
+<IgbColorPicker @bind-Value="Color"></IgbColorPicker>
+
+@code {
+    private string Color = "#1976d2";
+}
 ```
 
 </PlatformBlock>
@@ -296,7 +300,7 @@ Set <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> to an
 
 ### Mode
 
-The <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> property controls the anchor presentation. Its default value, `default`, renders a trigger button that previews the current color; `input` renders an editable text field with a color swatch prefix. Both anchors open the same picker dropdown.
+The <ApiLink type="ColorPicker" member="mode" label="mode" /> property controls the anchor presentation. Its default value, `default`, renders a trigger button that previews the current color; `input` renders an editable text field with a color swatch prefix. Both anchors open the same picker dropdown.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -317,7 +321,7 @@ The <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> propert
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Mode="ColorPickerMode.Input" Label="Background"></IgbColorPicker>
+<IgbColorPicker TValue="string" Mode="ColorPickerMode.Input" Label="Background"></IgbColorPicker>
 ```
 
 </PlatformBlock>
@@ -336,7 +340,7 @@ The <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> propert
 
 ### Format
 
-Use the <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> property to control how the color is serialized. Supported values are `hex`, `rgb`, and `hsl`. Changing the format re-serializes the existing color without altering it, so no `igcInput` or `igcChange` event is emitted.
+Use the <ApiLink type="ColorPicker" member="format" label="format" /> property to control how the color is serialized. Supported values are `hex`, `rgb`, and `hsl`. Changing the format re-serializes the existing color without altering it, so no <PlatformBlock for="Angular,React,WebComponents">`igcInput` or `igcChange`</PlatformBlock><PlatformBlock for="Blazor">`Input` or `Change`</PlatformBlock> event is emitted.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -357,12 +361,16 @@ Use the <ApiLink pkg="core" type="ColorPicker" member="format" label="format" />
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Format="ColorPickerFormat.Rgb" Value="#1976d2"></IgbColorPicker>
+<IgbColorPicker @bind-Value="Color" Format="ColorFormat.Rgb"></IgbColorPicker>
+
+@code {
+    private string Color = "#1976d2";
+}
 ```
 
 </PlatformBlock>
 
-To hide the built-in format switcher and lock the picker to a single format, set the <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> property.
+To hide the built-in format switcher and lock the picker to a single format, set the <ApiLink type="ColorPicker" member="hideFormats" label="hideFormats" /> property.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -383,7 +391,7 @@ To hide the built-in format switcher and lock the picker to a single format, set
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker HideFormats="true" Format="ColorPickerFormat.Hex"></IgbColorPicker>
+<IgbColorPicker TValue="string" HideFormats="true" Format="ColorFormat.Hex"></IgbColorPicker>
 ```
 
 </PlatformBlock>
@@ -402,7 +410,7 @@ To hide the built-in format switcher and lock the picker to a single format, set
 
 ### Alpha
 
-By default the picker edits fully opaque colors. Enable the alpha slider and its percentage input by setting the <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> property.
+By default the picker edits fully opaque colors. Enable the alpha slider and its percentage input by setting the <ApiLink type="ColorPicker" member="showAlpha" label="showAlpha" /> property.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -423,7 +431,11 @@ By default the picker edits fully opaque colors. Enable the alpha slider and its
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker ShowAlpha="true" Value="rgba(25, 118, 210, 0.5)"></IgbColorPicker>
+<IgbColorPicker @bind-Value="Color" ShowAlpha="true"></IgbColorPicker>
+
+@code {
+    private string Color = "rgba(25, 118, 210, 0.5)";
+}
 ```
 
 </PlatformBlock>
@@ -442,7 +454,7 @@ By default the picker edits fully opaque colors. Enable the alpha slider and its
 
 ### Swatches
 
-Provide a list of predefined colors through the <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> property. When set, the picker renders a swatch grid below the color inputs. Clicking a swatch applies it as the current color. There is no limit to the number of swatches you can define.
+Provide a list of predefined colors through the <ApiLink type="ColorPicker" member="swatches" label="swatches" /> property. When set, the picker renders a swatch grid below the color inputs. Clicking a swatch applies it as the current color. There is no limit to the number of swatches you can define.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -464,7 +476,7 @@ picker.swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Swatches='@(new[] { "#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50" })'></IgbColorPicker>
+<IgbColorPicker TValue="string" Swatches='@(new[] { "#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50" })'></IgbColorPicker>
 ```
 
 </PlatformBlock>
@@ -483,7 +495,7 @@ picker.swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf
 
 ### Disabled
 
-Set the <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> property to disable the Color Picker.
+Set the <ApiLink type="ColorPicker" member="disabled" label="disabled" /> property to disable the Color Picker.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -504,21 +516,25 @@ Set the <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Disabled="true" Value="#1976d2"></IgbColorPicker>
+<IgbColorPicker @bind-Value="Color" Disabled="true"></IgbColorPicker>
+
+@code {
+    private string Color = "#1976d2";
+}
 ```
 
 </PlatformBlock>
 
 ### Validation
 
-Mark the control as <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> to fail form validation when no color is selected. The component supports the standard form-associated API — <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" />, <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" />, and <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" />.
+Mark the control as <ApiLink type="ColorPicker" member="required" label="required" /> to fail form validation when no color is selected. The component supports the standard form-associated API — <ApiLink type="ColorPicker" member="checkValidity" label="checkValidity" />, <ApiLink type="ColorPicker" member="reportValidity" label="reportValidity" />, and <ApiLink type="ColorPicker" member="setCustomValidity" label="setCustomValidity" />.
 
 Show helper and validation messages under the anchor through these slots:
 
 - `helper-text` – Displays a hint or instructional message below the anchor.
 - `value-missing` – Renders custom content when the required field validation fails.
 - `invalid` – Renders custom content when the component is in an invalid state.
-- `custom-error` – Displays content when a custom validation message is set using <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity()" />.
+- `custom-error` – Displays content when a custom validation message is set using <ApiLink type="ColorPicker" member="setCustomValidity" label="setCustomValidity()" />.
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -545,10 +561,14 @@ Show helper and validation messages under the anchor through these slots:
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Required="true" Label="Brand color">
+<IgbColorPicker @bind-Value="BrandColor" Required="true" Label="Brand color">
   <span slot="helper-text">Pick the primary brand color.</span>
   <span slot="value-missing">A color is required.</span>
 </IgbColorPicker>
+
+@code {
+    private string? BrandColor;
+}
 ```
 
 </PlatformBlock>
@@ -671,40 +691,41 @@ The {Platform} Color Picker exposes properties for its content, presentation, an
 
 | Name | Type | Default | Description |
 | -- | -- | -- | -- |
-| <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> | `string` | `''` | The current color, serialized in the active format. |
-| <ApiLink pkg="core" type="ColorPicker" member="label" label="label" /> | `string` | — | The label of the anchor. In `mode="input"` it is forwarded to the anchor input's own label. |
-| <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> | `'hex' \| 'rgb' \| 'hsl'` | `'hex'` | The output format used when serializing the value string. |
-| <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> | `'default' \| 'input'` | `'default'` | Whether the anchor is a trigger button (`default`) or an editable text field with a swatch prefix (`input`). |
-| <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | Predefined color strings rendered as a selectable swatch grid. |
-| <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | Whether to hide the format switcher. |
-| <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | Whether to show the alpha slider and its percentage input. |
-| <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | Whether the control is required for form validation. |
-| <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | The disabled state of the control. |
-| <ApiLink pkg="core" type="ColorPicker" member="open" label="open" /> | `boolean` | `false` | The open state of the picker dropdown. |
-| <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> | `string` | — | The name of the control for form submission. |
-| <ApiLink pkg="core" type="ColorPicker" member="invalid" label="invalid" /> | `boolean` | `false` | Sets or returns the invalid visual state of the control. |
+| <ApiLink type="ColorPicker" member="value" label="value" /> | `string` | `''` | The current color, serialized in the active format. |
+| <ApiLink type="ColorPicker" member="label" label="label" /> | `string` | — | The label of the anchor. In `input` mode it is forwarded to the anchor input's own label. |
+| <ApiLink type="ColorPicker" member="format" label="format" /> | <PlatformBlock for="Angular,React,WebComponents">`'hex' \| 'rgb' \| 'hsl'`</PlatformBlock><PlatformBlock for="Blazor">`ColorFormat`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'hex'`</PlatformBlock><PlatformBlock for="Blazor">`ColorFormat.Hex`</PlatformBlock> | The output format used when serializing the value string. |
+| <ApiLink type="ColorPicker" member="mode" label="mode" /> | <PlatformBlock for="Angular,React,WebComponents">`'default' \| 'input'`</PlatformBlock><PlatformBlock for="Blazor">`ColorPickerMode`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'default'`</PlatformBlock><PlatformBlock for="Blazor">`ColorPickerMode.Default`</PlatformBlock> | Whether the anchor is a trigger button (`default`) or an editable text field with a swatch prefix (`input`). |
+| <ApiLink type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | Predefined color strings rendered as a selectable swatch grid. |
+| <ApiLink type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | Whether to hide the format switcher. |
+| <ApiLink type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | Whether to show the alpha slider and its percentage input. |
+| <ApiLink type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | Whether the control is required for form validation. |
+| <ApiLink type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | The disabled state of the control. |
+| <ApiLink type="ColorPicker" member="open" label="open" /> | `boolean` | `false` | The open state of the picker dropdown. |
+| <ApiLink type="ColorPicker" member="name" label="name" /> | `string` | — | The name of the control for form submission. |
+| <ApiLink type="ColorPicker" member="invalid" label="invalid" /> | `boolean` | `false` | Sets or returns the invalid visual state of the control. |
 
 ## Methods
 
 | Name | Return type | Description |
 | -- | -- | -- |
-| <ApiLink pkg="core" type="ColorPicker" member="show" label="show" /> | `Promise<boolean>` | Opens the picker dropdown without emitting `igcOpening` or `igcOpened`. |
-| <ApiLink pkg="core" type="ColorPicker" member="hide" label="hide" /> | `Promise<boolean>` | Closes the picker dropdown without emitting `igcClosing` or `igcClosed`. |
-| <ApiLink pkg="core" type="ColorPicker" member="toggle" label="toggle" /> | `Promise<boolean>` | Toggles the open state of the picker dropdown without emitting events. |
-| <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" /> | `boolean` | Checks the validity of the control without showing a message. |
-| <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" /> | `boolean` | Checks the validity of the control and reports it to the user. |
-| <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" /> | `void` | Sets a custom validation message. Pass an empty string to clear. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="show" label="show" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Show" label="Show" />, <ApiLink type="ColorPicker" member="ShowAsync" label="ShowAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`Promise<boolean>`</PlatformBlock><PlatformBlock for="Blazor">`bool`, `Task<bool>`</PlatformBlock> | Opens the picker dropdown without emitting <PlatformBlock for="Angular,React,WebComponents">`igcOpening` or `igcOpened`</PlatformBlock><PlatformBlock for="Blazor">`Opening` or `Opened`</PlatformBlock>. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="hide" label="hide" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Hide" label="Hide" />, <ApiLink type="ColorPicker" member="HideAsync" label="HideAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`Promise<boolean>`</PlatformBlock><PlatformBlock for="Blazor">`bool`, `Task<bool>`</PlatformBlock> | Closes the picker dropdown without emitting <PlatformBlock for="Angular,React,WebComponents">`igcClosing` or `igcClosed`</PlatformBlock><PlatformBlock for="Blazor">`Closing` or `Closed`</PlatformBlock>. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="toggle" label="toggle" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Toggle" label="Toggle" />, <ApiLink type="ColorPicker" member="ToggleAsync" label="ToggleAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`Promise<boolean>`</PlatformBlock><PlatformBlock for="Blazor">`bool`, `Task<bool>`</PlatformBlock> | Toggles the open state of the picker dropdown without emitting events. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="CheckValidity" label="CheckValidity" />, <ApiLink type="ColorPicker" member="CheckValidityAsync" label="CheckValidityAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`, `Task<bool>`</PlatformBlock> | Checks the validity of the control without showing a message. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="ReportValidity" label="ReportValidity" />, <ApiLink type="ColorPicker" member="ReportValidityAsync" label="ReportValidityAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`boolean`</PlatformBlock><PlatformBlock for="Blazor">`bool`, `Task<bool>`</PlatformBlock> | Checks the validity of the control and reports it to the user. |
+| <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ColorPicker" member="setCustomValidity" label="setCustomValidity" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="SetCustomValidity" label="SetCustomValidity" />, <ApiLink type="ColorPicker" member="SetCustomValidityAsync" label="SetCustomValidityAsync" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`void`</PlatformBlock><PlatformBlock for="Blazor">`void`, `Task`</PlatformBlock> | Sets a custom validation message. Pass an empty string to clear. |
 
 ## Events
 
-| Name | Cancelable | Detail | Description |
+| Name | Cancelable | <PlatformBlock for="Angular,React,WebComponents">Detail</PlatformBlock><PlatformBlock for="Blazor">Arguments</PlatformBlock> | Description |
 | -- | -- | -- | -- |
-| `igcInput` | No | `string` | Emitted on every interim change from the gradient canvas, the hue and alpha sliders, the alpha input, a swatch, or the eye-dropper. |
-| `igcChange` | No | `string` | Emitted when focus leaves the component and the color differs from the one it had when focus entered. |
-| `igcOpening` | Yes | `void` | Emitted just before the user opens the picker dropdown. Cancel with `event.preventDefault()`. |
-| `igcOpened` | No | `void` | Emitted after the user opens the picker dropdown. |
-| `igcClosing` | Yes | `void` | Emitted just before the user closes the picker dropdown. Cancel with `event.preventDefault()`. |
-| `igcClosed` | No | `void` | Emitted after the user closes the picker dropdown. |
+| <PlatformBlock for="Angular,React,WebComponents">`igcInput`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Input" label="Input" /></PlatformBlock> | No | <PlatformBlock for="Angular,React,WebComponents">`string`</PlatformBlock><PlatformBlock for="Blazor">`IgbColorPickerValueEventArgs<TValue>`</PlatformBlock> | Emitted on every interim change from the gradient canvas, the hue and alpha sliders, the alpha input, a swatch, or the eye-dropper. |
+| <PlatformBlock for="Angular,React,WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Change" label="Change" /></PlatformBlock> | No | <PlatformBlock for="Angular,React,WebComponents">`string`</PlatformBlock><PlatformBlock for="Blazor">`IgbColorPickerValueEventArgs<TValue>`</PlatformBlock> | Emitted when focus leaves the component and the color differs from the one it had when focus entered. |
+| <PlatformBlock for="Angular,React,WebComponents">`igcOpening`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Opening" label="Opening" /></PlatformBlock> | Yes | <PlatformBlock for="Angular,React,WebComponents">`void`</PlatformBlock><PlatformBlock for="Blazor">`IgbVoidEventArgs`</PlatformBlock> | Emitted just before the user opens the picker dropdown. <PlatformBlock for="Angular,React,WebComponents">Cancel with `event.preventDefault()`.</PlatformBlock><PlatformBlock for="Blazor">Cancel it with `event.preventDefault()` in a client-side handler set through <ApiLink type="ColorPicker" member="OpeningScript" label="OpeningScript" />.</PlatformBlock> |
+| <PlatformBlock for="Angular,React,WebComponents">`igcOpened`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Opened" label="Opened" /></PlatformBlock> | No | <PlatformBlock for="Angular,React,WebComponents">`void`</PlatformBlock><PlatformBlock for="Blazor">`IgbVoidEventArgs`</PlatformBlock> | Emitted after the user opens the picker dropdown. |
+| <PlatformBlock for="Angular,React,WebComponents">`igcClosing`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Closing" label="Closing" /></PlatformBlock> | Yes | <PlatformBlock for="Angular,React,WebComponents">`void`</PlatformBlock><PlatformBlock for="Blazor">`IgbVoidEventArgs`</PlatformBlock> | Emitted just before the user closes the picker dropdown. <PlatformBlock for="Angular,React,WebComponents">Cancel with `event.preventDefault()`.</PlatformBlock><PlatformBlock for="Blazor">Cancel it with `event.preventDefault()` in a client-side handler set through <ApiLink type="ColorPicker" member="ClosingScript" label="ClosingScript" />.</PlatformBlock> |
+| <PlatformBlock for="Angular,React,WebComponents">`igcClosed`</PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ColorPicker" member="Closed" label="Closed" /></PlatformBlock> | No | <PlatformBlock for="Angular,React,WebComponents">`void`</PlatformBlock><PlatformBlock for="Blazor">`IgbVoidEventArgs`</PlatformBlock> | Emitted after the user closes the picker dropdown. |
+<PlatformBlock for="Blazor">| <ApiLink type="ColorPicker" member="ValueChanged" label="ValueChanged" /> | No | `TValue` | Emitted with the new value on `Change`. Use it through `@bind-Value`. |</PlatformBlock>
 
 ## Styling
 
@@ -774,7 +795,7 @@ The {Platform} Color Picker appearance can be customized through CSS variables, 
 | `marker` | The draggable marker on the gradient canvas. |
 | `dragging` | Applied alongside `marker` while the marker is being dragged. |
 | `main-row` | The row containing the hue slider and the copy/eye-dropper buttons. |
-| `alpha-row` | The row containing the alpha slider and input, rendered when `show-alpha` is set. |
+| `alpha-row` | The row containing the alpha slider and input, rendered when <ApiLink type="ColorPicker" member="showAlpha" label="showAlpha" /> is set. |
 | `alpha-input` | The alpha percentage input. |
 | `inputs-row` | The row containing the format select and the color value input. |
 | `buttons` | The wrapper around the copy and eye-dropper buttons. |
@@ -823,11 +844,12 @@ igc-color-picker::part(picker-canvas) {
 
 ### Styling with Tailwind
 
-Style the Color Picker with the custom Tailwind utility classes from `igniteui-theming`. [Set up Tailwind](../themes/tailwind.mdx) with the Ignite UI theme first:
+Style the Color Picker with the custom Tailwind utility classes from `igniteui-theming`. [Set up Tailwind](../themes/tailwind.mdx) with the Ignite UI theme first, then import the `igniteui-theming` utilities for your theme, which define `light-color-picker`:
 
 ```css
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "igniteui-theming/tailwind/utilities/bootstrap.css";
 ```
 
 Apply the `light-color-picker` utility to give the Color Picker its theme variables, then override individual variables with arbitrary-property classes. The `!` prefix marks the utility as important so it takes precedence over the component's default theme styles.
@@ -851,7 +873,7 @@ Apply the `light-color-picker` utility to give the Color Picker its theme variab
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColorPicker Class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgbColorPicker>
+<IgbColorPicker TValue="string" Class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgbColorPicker>
 ```
 
 </PlatformBlock>
@@ -921,11 +943,23 @@ Assigning an empty, whitespace-only, or invalid string to `value` clears the col
 
 ### Why is the emitted value in a different format than what I typed?
 
-The value is always serialized in the active `format`, so an input string does not round-trip byte-for-byte. For example, typing `red` with `format="hex"` produces `#ff0000`. Set `format` to the notation you expect to read back.
+The value is always serialized in the active `format`, so an input string does not round-trip byte-for-byte. For example, typing `red` in the `hex` format produces `#ff0000`. Set `format` to the notation you expect to read back.
+
+<PlatformBlock for="Angular,React,WebComponents">
 
 ### Why is no `igcInput` emitted while I type a color?
 
 The color input commits a typed color when it changes, not on every keystroke, and a typed color emits no `igcInput`. Listen for `igcChange`, which fires when focus leaves the component with a different color.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### Why is no `Input` emitted while I type a color?
+
+The color input commits a typed color when it changes, not on every keystroke, and a typed color emits no `Input`. Handle `Change`, which fires when focus leaves the component with a different color, or bind the value with `@bind-Value`, which updates at the same time.
+
+</PlatformBlock>
 
 ### Known Limitations
 
@@ -946,7 +980,7 @@ Use these API references for the complete Color Picker API surface.
 
 <PlatformBlock for="React, Blazor">
 
-<ApiLink pkg="core" type="ColorPicker" />
+<ApiLink type="ColorPicker" />
 
 </PlatformBlock>
 
@@ -965,13 +999,22 @@ Use these resources for support and related Ignite UI documentation.
 
 <Faq>
   <FaqItem question="How do I bind the Color Picker to a form?" indicatorPosition="end">
-    Set the <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> attribute to the form field name and place the Color Picker inside a `<form>` element. The current serialized color is submitted under that name, and the control participates in `required` validation and form reset through the standard form-associated element APIs.
+    Set the <ApiLink type="ColorPicker" member="name" label="name" /> attribute to the form field name and place the Color Picker inside a `<form>` element. The current serialized color is submitted under that name, and the control participates in `required` validation and form reset through the standard form-associated element APIs.
     <PlatformBlock for="Angular">In Angular reactive forms, import `IgcFormControlDirective` and bind the Color Picker with `formControlName`. See [Using the Color Picker in Angular Reactive Forms](#using-the-color-picker-in-angular-forms).</PlatformBlock>
+    <PlatformBlock for="Blazor">In a Blazor `EditForm`, bind the value of the Color Picker to a property of your model with `@bind-Value`.</PlatformBlock>
   </FaqItem>
 
+  <PlatformBlock for="Angular,React,WebComponents">
   <FaqItem question="How is `igcInput` different from `igcChange`?" indicatorPosition="end">
     `igcInput` fires on every interim interaction with the canvas, the sliders, the alpha input, a swatch, or the eye-dropper. `igcChange` fires once, when focus leaves the Color Picker and the color differs from the one it had when focus entered, matching the semantics of the native `change` event. A color typed into the color input emits only `igcChange`.
   </FaqItem>
+  </PlatformBlock>
+
+  <PlatformBlock for="Blazor">
+  <FaqItem question="How is `Input` different from `Change`?" indicatorPosition="end">
+    `Input` fires on every interim interaction with the canvas, the sliders, the alpha input, a swatch, or the eye-dropper. `Change` fires once, when focus leaves the Color Picker and the color differs from the one it had when focus entered, matching the semantics of the native `change` event. A color typed into the color input emits only `Change`. `@bind-Value` updates the bound value on `Change`.
+  </FaqItem>
+  </PlatformBlock>
 
   <FaqItem question="Which package provides the Color Picker?" indicatorPosition="end">
     <PlatformBlock for="WebComponents, Angular">The Color Picker ships in the `igniteui-webcomponents` package, version 7.3.0 or later.</PlatformBlock>

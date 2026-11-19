@@ -24,10 +24,6 @@ import breadcrumbsDo2x from '@xplat-images/breadcrumbs/breadcrumbs-do@2x.png';
 import breadcrumbsDoNot from '@xplat-images/breadcrumbs/breadcrumbs-do-not.png';
 import breadcrumbsDoNot2x from '@xplat-images/breadcrumbs/breadcrumbs-do-not@2x.png';
 
-{/*
-Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component. Its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
-*/}
-
 # Breadcrumbs (パンくずリスト) コンポーネント <Badge variant="new" />
 
 {ProductName} Breadcrumbs コンポーネントは、設定可能なアイコンで区切られた一連のナビゲーション項目を順序付きで表示し、サイト階層内でのユーザーの現在位置を伝えるとともに、上位のページに戻るための手段を提供します。
@@ -173,13 +169,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-**Program.cs** で <ApiLink pkg="core" type="Breadcrumbs" /> および <ApiLink pkg="core" type="Breadcrumb" /> モジュールを登録します:
+{ProductName} のサービスを登録します。
 
 ```csharp
-builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule), typeof(IgbBreadcrumbModule));
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
 ```
 
-**wwwroot/index.html** (Blazor WebAssembly) または **Pages/_Host.cshtml** (Blazor Server) でテーマ スタイルシートをリンクします:
+Breadcrumbs のクライアント リソース モジュールである <ApiLink type="BreadcrumbsModule" /> の登録は**任意**です。コンポーネントは初めてレンダリングされるときにリソースを読み込みます。ただし、`builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule))` のように指定すると、リソースを事前に読み込んだり、クライアント側でのみ作成される要素に対応したりできます ([コンポーネント モジュール](../general-getting-started.mdx#コンポーネント-モジュール)を参照)。
+
+テーマ スタイルシートをホスト ページに追加します。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general-getting-started.mdx)トピックを完了してください。
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -229,7 +229,7 @@ Breadcrumbs コンテナー内に階層レベルごとに 1 つの Breadcrumb �
 
 ### 現在のページ
 
-現在表示しているページを表す項目を <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> プロパティでマークします。項目はこれを属性として反映し、`aria-current="page"` を設定するため、スクリーン リーダーは現在のページをアナウンスします。
+現在表示しているページを表す項目を <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Breadcrumb" member="current" label="Current" /></PlatformBlock> プロパティでマークします。項目はこれを属性として反映し、`aria-current="page"` を設定するため、スクリーン リーダーは現在のページをアナウンスします。
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -266,7 +266,7 @@ Breadcrumbs コンテナー内に階層レベルごとに 1 つの Breadcrumb �
 
 ### 共有の区切り記号
 
-コンテナーの <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> プロパティを使用して、パンくずリスト内のすべての項目に共通の区切り記号アイコンを設定します。値は登録済みのアイコン コレクションのアイコン名で、コンテナーがそれを各項目に伝播します。
+コンテナーの <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Breadcrumbs" member="separator" label="Separator" /></PlatformBlock> プロパティを使用して、パンくずリスト内のすべての項目に共通の区切り記号アイコンを設定します。値は登録済みのアイコン コレクションのアイコン名で、コンテナーがそれを各項目に伝播します。
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -422,7 +422,7 @@ Breadcrumbs コンテナー内に階層レベルごとに 1 つの Breadcrumb �
 ```razor
 <IgbBreadcrumbs>
   <IgbBreadcrumb>
-    <IgbIcon slot="prefix" Name="home"></IgbIcon>
+    <IgbIcon slot="prefix" IconName="home"></IgbIcon>
     <a href="/home">Home</a>
   </IgbBreadcrumb>
   <IgbBreadcrumb>
@@ -553,18 +553,43 @@ Breadcrumbs は、`hover`、`focus`、`pressed`、`disabled` などのさまざ�
 
 コンテナーは共有の区切り記号を公開し、各項目はその状態を公開します。
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" /></PlatformBlock>**
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumbs" /></PlatformBlock>**
+
+<PlatformBlock for="WebComponents, Angular, React">
 
 | 名前 | 型 | デフォルト | 説明 |
 | -- | -- | -- | -- |
-| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | 項目間のデフォルトの区切り記号として使用されるアイコン名。パンくずリスト内のすべての項目に伝播されます。 |
+| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | 項目間のデフォルトの区切り記号として使用されるアイコン名。パンくずリスト内のすべての項目に伝播されます。 |
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
 
 | 名前 | 型 | デフォルト | 説明 |
 | -- | -- | -- | -- |
-| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | 項目を現在のページとしてマークし、`aria-current="page"` を設定します。 |
-| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | 項目を無効にし、`aria-disabled="true"` を設定して、スロットに配置されたコンテンツをタブ シーケンスから除外します。 |
+| <ApiLink type="Breadcrumbs" member="separator" label="Separator" /> | `string` | n/a | 項目間のデフォルトの区切り記号として使用されるアイコン名。パンくずリスト内のすべての項目に伝播されます。設定されていない場合は、`tree_expand` アイコンが使用されます。 |
+
+</PlatformBlock>
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumb" /></PlatformBlock>**
+
+<PlatformBlock for="WebComponents, Angular, React">
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | 項目を現在のページとしてマークし、`aria-current="page"` を設定します。 |
+| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | 項目を無効にし、`aria-disabled="true"` を設定して、スロットに配置されたコンテンツをタブ シーケンスから除外します。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| 名前 | 型 | デフォルト | 説明 |
+| -- | -- | -- | -- |
+| <ApiLink type="Breadcrumb" member="current" label="Current" /> | `bool` | `false` | 項目を現在のページとしてマークし、`aria-current="page"` を設定します。 |
+| <ApiLink type="Breadcrumb" member="disabled" label="Disabled" /> | `bool` | `false` | 項目を無効にし、`aria-disabled="true"` を設定して、スロットに配置されたコンテンツをタブ シーケンスから除外します。 |
+
+</PlatformBlock>
 
 
 ## スタイル設定
@@ -611,7 +636,7 @@ Breadcrumbs は、`hover`、`focus`、`pressed`、`disabled` などのさまざ�
 
 ### スタイル パーツ
 
-**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink type="Breadcrumb" /></PlatformBlock>**
 
 | パーツ | スタイル設定の対象 |
 | -- | -- |
@@ -653,11 +678,12 @@ $my-breadcrumb-theme: breadcrumb-theme(
 
 ### Tailwind によるスタイル設定
 
-ユーティリティ ファーストのスタイル設定を行うには、Tailwind ユーティリティ クラスを Breadcrumbs の CSS 変数と組み合わせます。最初に Ignite UI テーマで [Tailwind をセットアップ](../themes/tailwind.mdx)します:
+ユーティリティ ファーストのスタイル設定を行うには、Tailwind ユーティリティ クラスを Breadcrumbs の CSS 変数と組み合わせます。最初に Ignite UI テーマで [Tailwind をセットアップ](../themes/tailwind.mdx)してから、`light-breadcrumb` クラスを定義する `igniteui-theming` の Ignite UI ユーティリティをインポートします:
 
 ```css
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "igniteui-theming/tailwind/utilities/bootstrap.css";
 ```
 
 <PlatformBlock for="WebComponents, Angular">
@@ -824,8 +850,8 @@ Breadcrumbs の完全な API サーフェスについては、これらの API �
 
 <PlatformBlock for="React, Blazor">
 
-<ApiLink pkg="core" type="Breadcrumbs" /><br />
-<ApiLink pkg="core" type="Breadcrumb" />
+<ApiLink type="Breadcrumbs" /><br />
+<ApiLink type="Breadcrumb" />
 
 </PlatformBlock>
 
