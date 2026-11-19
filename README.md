@@ -1,10 +1,10 @@
 # Ignite UI Documentation
 
-This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, and Ignite UI for Web Components products. They are built and hosted using Astro.
+This public repository contains the documentation source for the Ignite UI for Angular, Ignite UI for Blazor, Ignite UI for React, Ignite UI for Web Components, Ignite UI for WinUI, and Ignite UI for Uno Platform products. They are built and hosted using Astro.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) v22.12.0 or higher
+- [Node.js](https://nodejs.org) v22.23.4 or higher
 - [npm](https://www.npmjs.com/)
 
 ## Getting Started
@@ -15,6 +15,18 @@ cd igniteui-documentation
 npm install
 ```
 
+Then build the snippet emitter once. Every dev and build command generates content from
+`docs/xplat`, and that generation stops with `no snippet emitter found` until it has been built:
+
+```bash
+cd docs/xplat/scripts/snippet-emitter
+npm install && npm run build
+```
+
+Rebuild it after pulling a change to `docs/xplat/scripts/snippet-emitter/`. See
+[the snippet emitter README](docs/xplat/scripts/snippet-emitter/README.md) for what it is and for
+the other ways to provide one.
+
 ## Project Structure
 
 ```text
@@ -24,7 +36,7 @@ igniteui-documentation/
 │   │   ├── public/       # Angular-specific static assets
 │   │   ├── scripts/      # Angular sync and generation scripts
 │   │   └── src/          # Angular Astro pages, MDX content, and components
-│   └── xplat/            # Shared xplat source for Blazor, React, Web Components, and Angular-generated docs
+│   └── xplat/            # Shared xplat source for React, Web Components, Blazor, WinUI, Uno, and Angular-generated docs
 │       ├── public/       # xplat static assets
 │       ├── scripts/      # xplat generation scripts
 │       └── src/          # xplat Astro pages, MDX content, assets, and libraries
@@ -53,6 +65,10 @@ Use the platform-specific commands from the root workspace:
 | Web Components Japanese | `npm run xplat:dev:webcomponents:jp`
 | Blazor | `npm run xplat:dev:blazor`
 | Blazor Japanese | `npm run xplat:dev:blazor:jp`
+| WinUI | `npm run xplat:dev:winui`
+| WinUI Japanese | `npm run xplat:dev:winui:jp`
+| Uno | `npm run xplat:dev:uno`
+| Uno Japanese | `npm run xplat:dev:uno:jp`
 
 
 ## Header and footer
@@ -127,9 +143,9 @@ The `.mdx` extension enables editor Go-to-Definition (Ctrl+Click). The `remarkMd
 
 The Angular documentation is assembled from three sources before being checked:
 
-1. **xplat sync** — `docs/xplat/src/content/` is generated into platform-specific output and then copied into `docs/angular/src/content/` by the sync scripts.
+1. **xplat generation** — `docs/xplat/src/content/` is generated into platform-specific output under `docs/xplat/generated/Angular/`. The Angular site reads that directory in place as a second content root; it is never copied into `docs/angular/src/content/`.
 2. **Grid generation** — `docs/angular/src/content/en/grids_templates/` and `jp/grids_templates/` are template files shared across all four grid types (Grid, TreeGrid, HierarchicalGrid, PivotGrid). `generate.mjs` expands them into the individual component pages under `docs/angular/src/content/en/components/grid/`, `treegrid/`, `hierarchicalgrid/`, and `pivotGrid/`. These template directories are excluded from link checking (same as xplat `_shared/`).
-3. **Link check** — the checker scans the fully assembled `docs/angular/src/content/` tree.
+3. **Link check** — the checker scans both Angular content roots (`docs/angular/src/content/` and `docs/xplat/generated/Angular/`) and resolves links across them, since a topic in one root may link to a topic served from the other.
 
 The check must run **after** both steps above, otherwise it scans stale or incomplete files and misses links that only exist in generated output.
 
@@ -227,7 +243,7 @@ The check is read-only and reports the source file and line for missing or malfo
 
 - Angular content lives under `docs/angular/src/content/<locale>/`.
 - Shared xplat content lives under `docs/xplat/src/content/<locale>/`.
-- Cross-platform topics are also generated into the Angular tree at build time (by `docs/angular/scripts/sync-generated.mjs`) and are therefore **not committed** under `docs/angular/` — they are gitignored, and editing those Angular copies has no effect. Edit the xplat source instead. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
+- Cross-platform topics are generated to `docs/xplat/generated/Angular/` and overlaid on the Angular content at build time — they are never copied into `docs/angular/`, and xplat wins wherever both provide the same slug. Edit the xplat source; editing an Angular copy has no effect. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
 ## Collaboration Docs
