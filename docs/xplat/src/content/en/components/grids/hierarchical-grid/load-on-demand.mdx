@@ -756,7 +756,9 @@ useEffect(() => {
 We will get a reference to our root grid to set its data. In order to make sure that our grid is rendered before we request its data from the service and assign it, we will use the `Rendered` event. As it doesn't have any parents we can only pass that `rootLevel` is **true**, and the key for it, to the `getData` of our service. Since it returns a Promise we will need to subscribe to it:
 
 ```javascript
-igRegisterScript("OnGridRendered", () => {
+import { registerScript } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("OnGridRendered", () => {
     const grid = document.getElementById("hGrid");
 
     getData({ parentID: null, rootLevel: true, key: "Customers" }).then(
@@ -764,7 +766,7 @@ igRegisterScript("OnGridRendered", () => {
             grid.data = data;
             grid.markForCheck();
         });
-}, false)
+})
 ```
 
 </PlatformBlock>
@@ -868,7 +870,9 @@ function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
 
 
 ```javascript
-igRegisterScript("OnGridCreated", (args) => {
+import { registerScript } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("OnGridCreated", (args) => {
     const context = args.detail;
     const _parentKey = context.owner.childDataKey === "Orders" ? "Customers" : "Orders";
     const dataState = {
@@ -882,7 +886,7 @@ igRegisterScript("OnGridCreated", (args) => {
         context.grid.data = data;
         context.grid.markForCheck();
     });
-}, false)
+})
 ```
 
 </PlatformBlock>
@@ -1048,7 +1052,9 @@ function gridCreated(event: IgrGridCreatedEventArgs, _parentKey: string) {
 
 
 ```javascript
-igRegisterScript("OnGridRendered", () => {
+import { registerScript } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("OnGridRendered", () => {
     const grid = document.getElementById("hGrid");
 
     grid.isLoading = true;
@@ -1059,9 +1065,9 @@ igRegisterScript("OnGridRendered", () => {
             grid.data = data;
             grid.markForCheck();
         });
-}, false)
+})
 
-igRegisterScript("OnGridCreated", (args) => {
+registerScript("OnGridCreated", (args) => {
     const context = args.detail;
     const _parentKey = context.owner.childDataKey === "Orders" ? "Customers" : "Orders";
     const dataState = {
@@ -1078,7 +1084,7 @@ igRegisterScript("OnGridCreated", (args) => {
         context.grid.data = data;
         context.grid.markForCheck();
     });
-}, false)
+})
 ```
 
 </PlatformBlock>

@@ -195,7 +195,7 @@ However, since the render method is responsible for rendering the markers, it is
 
 ## Registering a Factory Function in the Ignite UI That Returns a Custom Drawing Object for the Marker
 
-Once the measure and render methods are implemented, call the igRegisterScript function provided by Ignite UI. This will register the function that returns an object with two methods - measure and render. Then, specify the "script name" character string in the first argument of the igRegisterScript function.
+Once the measure and render methods are implemented, register the factory function with the `registerScript` function, which you import from the `_content/IgniteUI.Blazor/api.js` module of Ignite UI for Blazor. Specify the "script name" character string in the first argument of `registerScript`, and pass `true` as the third argument: Ignite UI then calls the factory function and uses the object it returns, with its two methods - measure and render.
 
 With Ignite UI, it is identified by the “script name” specified in this first argument, regardless of the name of the actual JavaScript function.
 
@@ -203,6 +203,7 @@ With Ignite UI, it is identified by the “script name” specified in this firs
 
 ```javascript
 // in /wwwroot/customMarkerTemplateFunc.js
+import { registerScript } from './_content/IgniteUI.Blazor/api.js';
 
 function customMarkerTemplateFunc() {
     // ...
@@ -211,43 +212,21 @@ function customMarkerTemplateFunc() {
 // Register the factory function implemented above in the Ignite UI.
 // (* The "script" name specified in the first argument of this registration is used
 // regardless of the JavaScript name of the factory function.
-igRegisterScript("customMarkerTemplateFunc", customMarkerTemplateFunc);
+// `true` makes Ignite UI call the factory function and use the object it returns.
+registerScript("customMarkerTemplateFunc", customMarkerTemplateFunc, true);
 ```
 
 </PlatformBlock>
 
-The above JavaScript program is loaded into the browser. However, in order to avoid global pollution, when the above script registration is executed, the JavaScript program up to this point is wrapped in an anonymous function that is immediately executed.
+This completes the implementation on the JavaScript side. Because the file is an ES module, its functions stay in the module's own scope and do not pollute the global scope.
 
-<PlatformBlock for="Blazor">
-
-```javascript
-// in /wwwroot/customMarkerTemplateFunc.js
-
-(function() {
-    function customMarkerTemplateFunc() {
-        // ...
-    }
-    igRegisterScript("customMarkerTemplateFunc", customMarkerTemplateFunc);
-}) ();
-```
-
-</PlatformBlock>
-
-This completes the implementation on the JavaScript side.
-
-The created JavaScript program file (.js) should be included in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App) as a script element so that it can be loaded from the browser.
-
-Mind the arrangement order of the script elements in order to ensure it will be loaded after the JavaScript runtime of Ignite UI for Blazor.
+Include the created JavaScript program file (.js) in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App) as a module script element so that it can be loaded from the browser. Ignite UI for Blazor loads its own JavaScript, so no other script element is needed.
 
 <PlatformBlock for="Blazor">
 
 ```razor
-<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
-
-<!-- After JavaScript in Ignite UI for Blazor,
-load a custom drawing JavaScript program for marker display. -->
-
-<script src="customMarkerTemplateFunc.js"></script>
+<!-- Load the custom drawing JavaScript program for marker display. -->
+<script type="module" src="customMarkerTemplateFunc.js"></script>
 ```
 
 </PlatformBlock>
@@ -256,7 +235,7 @@ load a custom drawing JavaScript program for marker display. -->
 
 Finally, specify the "script name" in the series parameter to use the JavaScript program for custom rendering of markers created up to this point.
 
-There is a string parameter called MarkerTemplateScript, where you specify the script name of the JavaScript program that will perform the custom drawing of the marker. It is identified by the character string specified in the first argument when registering with the igRegisterScript function.
+There is a string parameter called MarkerTemplateScript, where you specify the script name of the JavaScript program that will perform the custom drawing of the marker. It is identified by the character string specified in the first argument when registering with the `registerScript` function.
 
 <PlatformBlock for="Blazor">
 
