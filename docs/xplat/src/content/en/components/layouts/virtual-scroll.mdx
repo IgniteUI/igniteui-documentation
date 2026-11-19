@@ -15,10 +15,10 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
-import { Image } from 'astro:assets';
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
 import virtualScrollAnatomy from '@xplat-images/anatomy-content-light/virtual-scroll-lt-a.png';
-import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do.png';
-import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not.png';
+import virtualScrollDo from '@xplat-images/virtual-scroll/virtual-scroll-do-1.png';
+import virtualScrollDoNot from '@xplat-images/virtual-scroll/virtual-scroll-do-not-1.png';
 
 # Virtual Scroll Component
 
@@ -616,101 +616,18 @@ await virtualScroll.current?.layoutComplete;
 
 The Virtual Scroll usually works as the scroll container of a long list, keeping only the items in its viewport, plus a small buffer, in the DOM. Avoid it for a list short enough to render at once, and as you write the item template, keep each item state in the data rather than in its elements: item elements are reused, so DOM state the template does not bind shows on whichever item takes the element.
 
-<style>{`
-  .vs-guidance {
-    /* The screenshots are exported at this width; the panel is capped to it so
-       the card and its label share one edge. */
-    --vs-card-width: 537px;
-
-    display: grid;
-    /* Tracks are exactly the card width, not 1fr, so the gap between the two
-       panels is the 26px of the design rather than 26px plus leftover track. */
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--vs-card-width), 100%), var(--vs-card-width)));
-
-    /* The tracks are a fixed width, so centre them when the pair is narrower
-       than the content column instead of leaving the slack on one side. */
-    justify-content: center;
-    grid-template-rows: auto auto;
-    gap: 26px;
-    align-items: stretch;
-    width: 100%;
-
-    /* Roomier than the 26px the page gives its other blocks: this one is a
-       pair of tall images, so it needs more air before the next section. */
-    margin: 0 0 48px;
-    isolation: isolate;
-  }
-
-  .vs-guidance__panel {
-    display: grid;
-    grid-row: span 2;
-    grid-template-rows: subgrid;
-    gap: 26px;
-    margin: 0;
-    min-width: 0;
-  }
-
-  .vs-guidance__frame {
-    display: grid;
-    place-items: center;
-    min-height: 0;
-  }
-
-  .vs-guidance__frame img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
-    margin: 0;
-    border-radius: 4px;
-  }
-
-  .vs-guidance__caption {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    text-align: start;
-  }
-
-  .vs-guidance__label {
-    font-weight: 600;
-  }
-
-  .vs-guidance__caption p {
-    margin: 0;
-    font-size: 14px;
-  }
-
-  .vs-guidance__panel--do .vs-guidance__label {
-    color: light-dark(var(--ig-success-700), var(--ig-success-100));
-  }
-
-  .vs-guidance__panel--dont .vs-guidance__label {
-    color: light-dark(var(--ig-error-700), var(--ig-error-300));
-  }
-`}</style>
-
-<div class="vs-guidance">
-<figure class="vs-guidance__panel vs-guidance__panel--do">
-<div class="vs-guidance__frame">
-<Image src={virtualScrollDo} alt="{Platform} Virtual Scroll showing a list of 100,000 employees" />
-</div>
-<figcaption class="vs-guidance__caption">
-<span class="vs-guidance__label">Do</span>
+<DoDont
+  doSrc={virtualScrollDo}
+  doAlt="{Platform} Virtual Scroll showing a list of 100,000 employees"
+  dontSrc={virtualScrollDoNot}
+  dontAlt="{Platform} Virtual Scroll used for a list of only five employees"
+>
+<Fragment slot="do">
 
 Use the Virtual Scroll for a long list that is too large to render at once, such as a directory, a feed, a log, or a strip of cards, including lists that load remote data while scrolling.
 
-</figcaption>
-</figure>
-<figure class="vs-guidance__panel vs-guidance__panel--dont">
-<div class="vs-guidance__frame">
-<Image src={virtualScrollDoNot} alt="{Platform} Virtual Scroll used for a list of only five employees" />
-</div>
-<figcaption class="vs-guidance__caption">
-<span class="vs-guidance__label">Don't</span>
+</Fragment>
+<Fragment slot="dont">
 
 <PlatformBlock for="Angular">
 
@@ -724,9 +641,8 @@ Render a short list directly with the [List](../grids/list.mdx). Use the [{Platf
 
 </PlatformBlock>
 
-</figcaption>
-</figure>
-</div>
+</Fragment>
+</DoDont>
 
 ## Properties
 
