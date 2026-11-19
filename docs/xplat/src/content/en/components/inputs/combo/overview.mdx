@@ -269,7 +269,7 @@ const cities = [
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" Data="Cities" ValueKey="Id" DisplayKey="Name" Placeholder="Cities" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Placeholder="Cities" />
 
 @code {
     private class City
@@ -284,8 +284,12 @@ const cities = [
         new City { Id = "BG02", Name = "Plovdiv" },
         new City { Id = "BG03", Name = "Varna" }
     };
+
+    private string[] SelectedCities { get; set; } = [];
 }
 ```
+
+The other Blazor snippets in this topic bind to the `Cities` and `SelectedCities` declared here, from which Razor infers the type arguments of the Combo.
 
 </PlatformBlock>
 
@@ -331,10 +335,10 @@ The {Platform} Combo uses the box type by default. Set `outlined` for the border
 
 ```razor
 @* Border type *@
-<IgbCombo T="object" Outlined="true" Label="Label" Placeholder="Select a value" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Outlined="true" Label="Label" Placeholder="Select a value" />
 
 @* Box type *@
-<IgbCombo T="object" Label="Label" Placeholder="Select a value" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Label="Label" Placeholder="Select a value" />
 ```
 
 </PlatformBlock>
@@ -399,7 +403,7 @@ Set `disabled` on the {Platform} Combo to show the disabled state of both the bo
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" Outlined="true" Disabled="true" Placeholder="Country" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Outlined="true" Disabled="true" Placeholder="Country" />
 ```
 
 </PlatformBlock>
@@ -491,10 +495,10 @@ return <IgrCombo ref={comboRef} data={cities} valueKey="id" displayKey="name" />
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" @ref="Combo" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+<IgbCombo @ref="Combo" @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" />
 
 @code {
-    private IgbCombo<string> Combo;
+    private IgbCombo<string, City> Combo;
 
     private async Task OpenAsync() => await Combo.ShowAsync();
 }
@@ -562,7 +566,7 @@ The {Platform} Combo is form-associated. Set `required` to require at least one 
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" Outlined="true" Required="true" Invalid="true" Placeholder="Country">
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Outlined="true" Required="true" Invalid="true" Placeholder="Country">
     <span slot="helper-text">Please select a different region</span>
 </IgbCombo>
 ```
@@ -658,7 +662,7 @@ combo.filteringOptions = { filterKey: 'name', caseSensitive: false, matchDiacrit
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" PlaceholderSearch="Search cities" CaseSensitiveIcon="true" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" PlaceholderSearch="Search cities" CaseSensitiveIcon="true" />
 ```
 
 </PlatformBlock>
@@ -707,7 +711,7 @@ The {Platform} Combo builds its list of options from the array that you bind to 
 - <ApiLink pkg="core" type="Combo<T>" member="DisplayKey" label="DisplayKey" /> - the field that the list and the input field show. When you omit it, the Combo uses the `ValueKey`.
 - <ApiLink pkg="core" type="Combo<T>" member="GroupKey" label="GroupKey" /> - the field that groups the options. Each group gets a header, and <ApiLink pkg="core" type="Combo<T>" member="GroupSorting" label="GroupSorting" /> sorts the groups in ascending or descending order. See [Grouping](./features.mdx#grouping) in the Combo Features topic.
 
-The `T` type parameter of the Blazor Combo is the type of its values. Set it to the type of the `ValueKey` field, or to the type of the options when you don't set a `ValueKey`. When you bind the `Value` with `@bind-Value`, Razor infers `T` from the bound field.
+The Blazor Combo has two type parameters. `TValue` is the type of its values: the type of the `ValueKey` field, or the type of the options when you don't set a `ValueKey`. `TItem` is the type of the options in `Data`. Bind the `Value` with `@bind-Value` and set `Data`, and Razor infers both, as in the snippets of this topic. Set them explicitly, as in `TValue="string" TItem="City"`, only when there is nothing to infer them from, such as a Combo whose data is set on the client. Code that names the type needs both arguments, such as `IgbCombo<string, City>` for an `@ref` field.
 
 </PlatformBlock>
 
@@ -773,11 +777,11 @@ console.log(comboRef.current?.value); // the ids of the selected items
 
 ```razor
 @code {
-    private IgbCombo<string> Combo;
+    private IgbCombo<string, City> Combo;
 
-    public void SelectCities() => Combo.Select(new object[] { "BG01", "BG02" });
+    public void SelectCities() => Combo.Select(new[] { "BG01", "BG02" });
 
-    public void DeselectAll() => Combo.Deselect(new object[] { });
+    public void DeselectAll() => Combo.Deselect([]);
 }
 ```
 
@@ -875,11 +879,11 @@ The {Platform} Combo exposes the following properties. See the API reference for
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| <ApiLink pkg="core" type="Combo<T>" member="Data" label="Data" /> | `object` | — | The options of the Combo. |
+| <ApiLink pkg="core" type="Combo<T>" member="Data" label="Data" /> | `IEnumerable<TItem>` | — | The options of the Combo. |
 | <ApiLink pkg="core" type="Combo<T>" member="ValueKey" label="ValueKey" /> | `string` | — | The field that identifies an option. |
 | <ApiLink pkg="core" type="Combo<T>" member="DisplayKey" label="DisplayKey" /> | `string` | — | The field that the list and the input field show. Falls back to the `ValueKey`. |
 | <ApiLink pkg="core" type="Combo<T>" member="GroupKey" label="GroupKey" /> | `string` | — | The field that groups the options. |
-| <ApiLink pkg="core" type="Combo<T>" member="Value" label="Value" /> | `T[]` | — | The selected items. |
+| <ApiLink pkg="core" type="Combo<T>" member="Value" label="Value" /> | `TValue[]` | — | The selected items. |
 | <ApiLink pkg="core" type="Combo<T>" member="Label" label="Label" /> | `string` | — | The label of the Combo. |
 | <ApiLink pkg="core" type="Combo<T>" member="Placeholder" label="Placeholder" /> | `string` | — | The text that the input field shows when no item is selected. |
 | <ApiLink pkg="core" type="Combo<T>" member="PlaceholderSearch" label="PlaceholderSearch" /> | `string` | — | The text that the empty search input shows. |
@@ -1201,7 +1205,7 @@ Set the `--ig-combo-*`, `--ig-input-group-*`, and `--ig-drop-down-*` CSS variabl
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" Class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
+<IgbCombo @bind-Value="SelectedCities" Data="Cities" ValueKey="Id" DisplayKey="Name" Class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
 ```
 
 </PlatformBlock>

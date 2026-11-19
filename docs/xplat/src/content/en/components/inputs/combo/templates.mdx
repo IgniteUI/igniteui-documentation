@@ -125,10 +125,10 @@ const renderItem = ({ item }: ComboTemplateProps<Destination>) => (
 
 <PlatformBlock for="Blazor">
 
-Define the template in a JavaScript file under `wwwroot`, for example `templates.js`. The template is a function that receives the item and returns a template made with the `html` tag of `igTemplating`, and `igRegisterScript` registers it under the name that the Combo references:
+Define the template in a JavaScript module under `wwwroot`, for example `templates.js`. The template is a function that receives the item and returns a template made with the `html` tag, and `registerScript` registers it under the name that the Combo references. Import both from the `_content/IgniteUI.Blazor/api.js` module:
 
 ```js
-const html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
 const itemTemplate = ({ item }) => html`
     <span>
@@ -137,23 +137,22 @@ const itemTemplate = ({ item }) => html`
     </span>
 `;
 
-igRegisterScript("ComboItemTemplate", itemTemplate, false);
+registerScript("ComboItemTemplate", itemTemplate);
 ```
 
-Include the file in `wwwroot/index.html`. The script calls `igRegisterScript` while the page loads, so include `app.bundle.js` before the Blazor script:
+Include the file in `wwwroot/index.html` as a module script. Module scripts run once the page is parsed, before Blazor renders the first component, so the template is registered in time:
 
 ```html
 <body>
-    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
-    <script src="templates.js"></script>
+    <script type="module" src="templates.js"></script>
 </body>
 ```
 
 Then set the <ApiLink pkg="core" type="Combo<T>" member="ItemTemplateScript" label="ItemTemplateScript" /> parameter to the name of the template:
 
 ```razor
-<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" ItemTemplateScript="ComboItemTemplate" />
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" ItemTemplateScript="ComboItemTemplate" />
 ```
 
 </PlatformBlock>
@@ -218,6 +217,8 @@ const renderGroupHeader = ({ item }: ComboTemplateProps<Destination>) => (
 Register the template in `templates.js`, and set the <ApiLink pkg="core" type="Combo<T>" member="GroupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> parameter to its name:
 
 ```js
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
 const groupHeaderTemplate = ({ item }) => html`
     <span style="display: flex; gap: 0.5rem; width: 100%;">
         <strong>${item.Region}</strong>
@@ -225,11 +226,11 @@ const groupHeaderTemplate = ({ item }) => html`
     </span>
 `;
 
-igRegisterScript("ComboGroupHeaderTemplate", groupHeaderTemplate, false);
+registerScript("ComboGroupHeaderTemplate", groupHeaderTemplate);
 ```
 
 ```razor
-<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" GroupHeaderTemplateScript="ComboGroupHeaderTemplate" />
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" GroupHeaderTemplateScript="ComboGroupHeaderTemplate" />
 ```
 
 </PlatformBlock>
@@ -440,7 +441,7 @@ Pass the content to the `empty` slot:
 Pass the content to the `empty` slot:
 
 ```razor
-<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
     <span slot="empty" class="empty-list">No city matches your search. Try another spelling.</span>
 </IgbCombo>
 ```
@@ -522,7 +523,7 @@ registerIconFromText('flight', flightIcon, 'material');
 Pass the icon to the `toggle-icon` slot. The slot content shows both when the dropdown is closed and when it is open. Register the icon first, as the [Icon](../../layouts/icon.mdx) topic shows:
 
 ```razor
-<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name">
     <IgbIcon slot="toggle-icon" @ref="IconRef" IconName="flight" Collection="material" />
 </IgbCombo>
 
@@ -589,7 +590,7 @@ Pass the icon to the `clear-icon` slot:
 Pass the icon to the `clear-icon` slot:
 
 ```razor
-<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name">
     <IgbIcon slot="clear-icon" IconName="close" Collection="material" />
 </IgbCombo>
 ```
