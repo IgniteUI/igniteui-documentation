@@ -232,7 +232,7 @@ Then link the theme CSS file in the app's host page, and render the Combo with `
 ```
 
 ```razor
-<IgbCombo T="string" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" Label="Country" />
+<IgbCombo @bind-Value="SelectedCountry" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" Label="Country" />
 
 @code {
     private class Country
@@ -247,8 +247,12 @@ Then link the theme CSS file in the app's host page, and render the Combo with `
         new Country { Id = "BE", Name = "Belgium" },
         new Country { Id = "BG", Name = "Bulgaria" }
     };
+
+    private string[] SelectedCountry { get; set; } = [];
 }
 ```
+
+The other Blazor snippets in this topic bind to the `Countries` and `SelectedCountry` declared here, from which Razor infers the type arguments of the Combo.
 
 </PlatformBlock>
 
@@ -321,10 +325,10 @@ The {Platform} Combo uses the box type by default. Set `outlined` for the border
 
 ```razor
 @* Border type *@
-<IgbCombo T="object" SingleSelect="true" Outlined="true" Label="Label" Placeholder="Select a value" />
+<IgbCombo @bind-Value="SelectedCountry" Data="Countries" ValueKey="Id" DisplayKey="Name" SingleSelect="true" Outlined="true" Label="Label" Placeholder="Select a value" />
 
 @* Box type *@
-<IgbCombo T="object" SingleSelect="true" Label="Label" Placeholder="Select a value" />
+<IgbCombo @bind-Value="SelectedCountry" Data="Countries" ValueKey="Id" DisplayKey="Name" SingleSelect="true" Label="Label" Placeholder="Select a value" />
 ```
 
 </PlatformBlock>
@@ -389,7 +393,7 @@ Set `disabled` on the {Platform} Single Selection Combo to show the disabled sta
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" SingleSelect="true" Outlined="true" Disabled="true" Placeholder="Country" />
+<IgbCombo @bind-Value="SelectedCountry" Data="Countries" ValueKey="Id" DisplayKey="Name" SingleSelect="true" Outlined="true" Disabled="true" Placeholder="Country" />
 ```
 
 </PlatformBlock>
@@ -481,10 +485,10 @@ return <IgrCombo ref={comboRef} singleSelect data={countries} valueKey="id" disp
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" @ref="Combo" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+<IgbCombo @ref="Combo" @bind-Value="SelectedCountry" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
 
 @code {
-    private IgbCombo<string> Combo;
+    private IgbCombo<string, Country> Combo;
 
     private async Task OpenAsync() => await Combo.ShowAsync();
 }
@@ -552,7 +556,7 @@ The {Platform} Combo is form-associated. Set `required` to require a selected it
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" SingleSelect="true" Outlined="true" Required="true" Invalid="true" Placeholder="Country">
+<IgbCombo @bind-Value="SelectedCountry" Data="Countries" ValueKey="Id" DisplayKey="Name" SingleSelect="true" Outlined="true" Required="true" Invalid="true" Placeholder="Country">
     <span slot="helper-text">Please select a different region</span>
 </IgbCombo>
 ```
@@ -636,7 +640,7 @@ Set `groupKey` to the field that holds the group of each option, and the {Platfo
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" SingleSelect="true" ValueKey="Id" DisplayKey="Name" GroupKey="Region" Data="Countries" />
+<IgbCombo @bind-Value="SelectedCountry" SingleSelect="true" ValueKey="Id" DisplayKey="Name" GroupKey="Region" Data="Countries" />
 ```
 
 </PlatformBlock>
@@ -732,14 +736,14 @@ console.log(comboRef.current?.value); // ['BG'] while Bulgaria is selected, [] a
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" @ref="Combo" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+<IgbCombo @ref="Combo" @bind-Value="SelectedCountry" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
 
 @code {
-    private IgbCombo<string> Combo;
+    private IgbCombo<string, Country> Combo;
 
-    public void SelectBulgaria() => Combo.Select(new object[] { "BG" });
+    public void SelectBulgaria() => Combo.Select(new[] { "BG" });
 
-    public void DeselectBulgaria() => Combo.Deselect(new object[] { "BG" });
+    public void DeselectBulgaria() => Combo.Deselect(new[] { "BG" });
 }
 ```
 
@@ -882,7 +886,7 @@ combo.filteringOptions = { filterKey: 'name', caseSensitive: false, matchDiacrit
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="string" SingleSelect="true" DisableFiltering="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+<IgbCombo @bind-Value="SelectedCountry" SingleSelect="true" DisableFiltering="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
 ```
 
 </PlatformBlock>
@@ -961,11 +965,11 @@ The {Platform} Single Selection Combo exposes the following properties. <Platfor
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | <ApiLink pkg="core" type="Combo<T>" member="SingleSelect" label="SingleSelect" /> | `bool` | `false` | Whether users select a single item and filter the list from the input field. |
-| <ApiLink pkg="core" type="Combo<T>" member="Data" label="Data" /> | `object` | — | The options of the Combo. |
+| <ApiLink pkg="core" type="Combo<T>" member="Data" label="Data" /> | `IEnumerable<TItem>` | — | The options of the Combo. |
 | <ApiLink pkg="core" type="Combo<T>" member="ValueKey" label="ValueKey" /> | `string` | — | The field that identifies an option. |
 | <ApiLink pkg="core" type="Combo<T>" member="DisplayKey" label="DisplayKey" /> | `string` | — | The field that the list and the input field show. Falls back to the `ValueKey`. |
 | <ApiLink pkg="core" type="Combo<T>" member="GroupKey" label="GroupKey" /> | `string` | — | The field that groups the options. |
-| <ApiLink pkg="core" type="Combo<T>" member="Value" label="Value" /> | `T[]` | — | The selected item, as an array with one element. |
+| <ApiLink pkg="core" type="Combo<T>" member="Value" label="Value" /> | `TValue[]` | — | The selected item, as an array with one element. |
 | <ApiLink pkg="core" type="Combo<T>" member="Label" label="Label" /> | `string` | — | The label of the Combo. |
 | <ApiLink pkg="core" type="Combo<T>" member="Placeholder" label="Placeholder" /> | `string` | — | The text that the input field shows when no item is selected. |
 | <ApiLink pkg="core" type="Combo<T>" member="Outlined" label="Outlined" /> | `bool` | `false` | Whether the Combo uses the border type. |
@@ -1265,7 +1269,7 @@ Set the `--ig-combo-*`, `--ig-input-group-*`, and `--ig-drop-down-*` CSS variabl
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbCombo T="object" SingleSelect="true" Class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
+<IgbCombo @bind-Value="SelectedCountry" Data="Countries" ValueKey="Id" DisplayKey="Name" SingleSelect="true" Class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
 ```
 
 </PlatformBlock>
