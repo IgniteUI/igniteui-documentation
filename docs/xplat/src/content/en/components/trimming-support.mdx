@@ -1,0 +1,212 @@
+---
+title: "Trimming Support"
+description: "The IgniteUI.Blazor, IgniteUI.Blazor.Lite and IgniteUI.Blazor.GridLite packages are trim-compatible. Learn which of your own data types to preserve."
+keywords: "{ProductName}, Infragistics, Open-Source, trimming, PublishTrimmed, TrimMode, DynamicDependency, DynamicallyAccessedMembers, IgniteUI.Blazor.Lite, IgniteUI.Blazor.GridLite"
+license: MIT
+platformType: web-only
+mentionedTypes: ["Grid", "Combo"]
+last_updated: "2026-11-20"
+llms:
+  description: "{ProductName} supports .NET trimming in the IgniteUI.Blazor package and the open-source IgniteUI.Blazor.Lite and IgniteUI.Blazor.GridLite packages."
+---
+
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# Trimming Support
+
+This topic provides general guidance on using {ProductName} packages in your app, when you have trimming enabled, so everything works as expected.
+
+## Overview
+
+Some library features intrinsically depend on run-time type information — most notably binding your own data to grids, charts and other data-bound components, whose items are read by reflection. Applications published with `PublishTrimmed=true` (the default for Blazor WebAssembly publish) must follow the guidance below when using them.
+
+Versions of the {ProductName} packages for which trimming support is available:
+
+| Package | Trimming | NuGet Version |
+|---|---|---|
+| `IgniteUI.Blazor` (premium) | Trim-compatible | v26.2.x and up |
+| `IgniteUI.Blazor.Lite` (open-source) | Trim-compatible | v1.0.0 and up |
+| `IgniteUI.Blazor.GridLite` (open-source) | Trim-compatible | v1.0.0 and up |
+
+## Before You Start
+
+Every {ProductName} package follows the trim analysis concepts available in .NET. To learn more on how to enable trimming for your app and guidance see [Trim self-contained deployments and executables](https://learn.microsoft.com/dotnet/core/deploying/trimming/trim-self-contained)
+
+**Your own types are not trimmed by default.** A Blazor WebAssembly publish sets `PublishTrimmed=true` with `TrimMode=partial` by default, which trims only assemblies marked `IsTrimmable`. The {ProductName} packages are trimmed, but your application's types stay intact. The guidance on this page applies when your types are trimmed too: when you set `<TrimMode>full</TrimMode>`, or when the assembly that declares them is marked `IsTrimmable`.
+
+**Use one package per project.** The `IgniteUI.Blazor` package already includes `IgniteUI.Blazor.Lite` as a dependency, which means that they share namespaces and must not be combined. See [Open-Source vs Premium](general-open-source-vs-premium.mdx) for which components each package contains.
+
+## Next Steps
+
+- Using `IgniteUI.Blazor`: [preserve your data item types](#preserve-data-item-types).
+- Using `IgniteUI.Blazor.Lite`: [preserve your Lite data item types](#preserve-lite-data-item-types).
+- Using `IgniteUI.Blazor.GridLite`: [preserve the types nested in the Grid Lite item type](#preserve-the-grid-lite-item-type).
+
+## Available Tools
+
+The following .NET mechanisms preserve the members that {ProductName} reads at run time. Every package section on this page uses them.
+
+| Tool | Where | What it does |
+|---|---|---|
+| `[DynamicDependency]` | Any method the trimmer keeps, such as a method of your root component | Keeps the listed members of a type whenever the method is kept. The recommended option: every trimming pipeline honors it. |
+| `[DynamicallyAccessedMembers]` | Your data item class, or a generic type parameter | Keeps the listed members where a `Type` value flows through annotated code. On a class, not reliable for {ProductName} data sources; see [Why are my properties still removed when the class is annotated?](#why-are-my-properties-still-removed-when-the-class-is-annotated) |
+| <a href="https://learn.microsoft.com/dotnet/core/deploying/trimming/trimming-options#root-descriptors" target="_blank" rel="noopener noreferrer">Trimmer root descriptor</a> | An XML file in your project | Lists types and members the trimmer must keep. |
+
+## Components That Preserve Their Item Types
+
+Two components take their item type as a `TItem` type parameter and preserve it themselves, so you do not need to preserve the item type you bind to them:
+
+| Component | Package | Preserved automatically |
+|---|---|---|
+| `IgbCombo` | `IgniteUI.Blazor.Lite`, also included in `IgniteUI.Blazor` | All members of the `TItem` type |
+| `IgbGridLite` | `IgniteUI.Blazor.GridLite` | The public properties of the `TItem` type |
+
+When the item type's properties are all built-in types, such as strings, numbers, dates or enums, these two components need no extra steps. They do not preserve complex types nested inside the item type, or items whose run-time type differs from `TItem`; preserve those as described in [Preserve Lite Data Item Types](#preserve-lite-data-item-types) and [Preserve the Grid Lite Item Type](#preserve-the-grid-lite-item-type).
+
+Every other {ProductName} component, including the `IgniteUI.Blazor` grids and charts, does not preserve the types you bind to it. Preserve them yourself, as described in [Preserve Data Item Types](#preserve-data-item-types).
+
+## Open-Source Packages
+
+The open-source `IgniteUI.Blazor.Lite` and `IgniteUI.Blazor.GridLite` packages are trim-compatible. If an open-source component loses data or fails in a trimmed application even though its item types are preserved, report it on the <a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">`IgniteUI.Blazor.Lite` issue tracker</a> or the <a href="{GithubLinkLite}/issues" target="_blank" rel="noopener noreferrer">`IgniteUI.Blazor.GridLite` issue tracker</a>.
+
+### Preserve Lite Data Item Types
+
+The `IgniteUI.Blazor.Lite` components read the public properties and fields of your own types at run time, through data sources such as `IgbCombo.Data` and value-carrying parameters such as `IgbTreeItem.Value`. The trimmer cannot detect this, so unused members of your types may be removed and disappear from the rendered output.
+
+`IgbCombo` preserves its declared `TItem` type itself; see [Components That Preserve Their Item Types](#components-that-preserve-their-item-types). Preserve the following types with `[DynamicDependency]`:
+
+- Complex types reachable from the item type, such as an `Address` property whose members the component renders.
+- Items whose run-time type differs from the declared item type, such as a derived type, or any item when `TItem="object"`.
+- The types you bind to parameters without a type parameter, such as `IgbTreeItem.Value`.
+
+```csharp
+[DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields, typeof(Address))]
+```
+
+Annotating the nested class itself with `[DynamicallyAccessedMembers]` does not keep its members. Use `[DynamicDependency]` instead.
+
+### Preserve the Grid Lite Item Type
+
+The `IgbGridLite` component serializes its `Data` items by reflection, keeping their C# property names, which is what lets `IgbGridLiteColumn.Field` match them with `nameof`. `IgbGridLite<TItem>` declares `TItem` with `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]`, so a grid with a concrete item type keeps that type's public properties automatically:
+
+```razor
+<IgbGridLite TItem="Product" Data="products">...</IgbGridLite>
+```
+
+A component of your own that passes its generic parameter through as `TItem` must carry the same annotation. Your application's trim analyzer reports IL2091 when it is missing:
+
+```csharp
+public partial class ProductGrid<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>
+    : ComponentBase where T : class
+{
+    // renders <IgbGridLite TItem="T" ...>
+}
+```
+
+The annotation on `TItem` covers the item type itself. Preserve the following with `[DynamicDependency]` on a method the trimmer keeps:
+
+- **Complex types reachable from the item type.** If `Product` has a `Supplier` property whose members a column shows (`Field="Supplier.Name"`), preserve the public properties of `Supplier` and of every complex type below it.
+- **Members outside the public properties.** A public field included in serialization with `[JsonInclude]`, or a non-public `[JsonInclude]` member, is not covered by the annotation.
+- **Filter values of your own types.** A filter expression's `Condition` or `SearchTerm` of a built-in type, such as a string, number, date, `Guid` or enum, needs nothing. A value of a type your application defines needs its public properties preserved.
+
+```csharp
+[DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(Supplier))]
+```
+
+### Preload Lite Component Modules
+
+Module preloading in `IgniteUI.Blazor.Lite` works unchanged in a trimmed application:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbTreeModule), typeof(IgbComboModule));
+```
+
+Every `IgniteUI.Blazor.Lite` module you pass is kept is kept no matter how the `Type` value reaches the library. Whether as a `typeof` argument, an array, the modules carried by `IgniteUIBlazorSettings` or a value computed at run time. Modules your application never references are trimmed away.
+
+
+## Premium Package
+
+The premium `IgniteUI.Blazor` package is trim-compatible for all of its target frameworks: `net8.0`, `net9.0` and `net10.0`. Several features depend on run-time type information, most notably binding your own data to the grids, charts and other data-bound components, whose items are read by reflection.
+
+### Preserve Data Item Types
+
+The `IgniteUI.Blazor` components read the public properties and fields of the objects you bind, at run time. The trimmer cannot detect this, so properties your code never references may be removed, and the matching columns, series or values disappear from the rendered output without an error. The following parameters carry your own types:
+
+- Grid data sources: `IgbGrid.Data`, `IgbTreeGrid.Data`, `IgbHierarchicalGrid.Data`, `IgbPivotGrid.Data` and `IgbDataGrid.DataSource`.
+- Chart data sources: `DataSource` on `IgbCategoryChart`, `IgbFinancialChart` and the other domain charts, and on the series and axes of `IgbDataChart`.
+- Other data-bound components, such as `IgbCombo.Data`.
+- Value-carrying parameters, such as `IgbTreeItem.Value`.
+
+Preserve each item type with a `[DynamicDependency]` attribute on a method the trimmer keeps, such as a method of your root component or of the component that binds the data:
+
+```razor
+@using System.Diagnostics.CodeAnalysis
+
+<IgbGrid Data="Orders" AutoGenerate="true"></IgbGrid>
+
+@code {
+    private List<Order> Orders = new();
+
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields, typeof(Order))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicFields, typeof(Address))]
+    protected override void OnInitialized()
+    {
+        Orders = LoadOrders();
+    }
+}
+```
+
+Preserve **every complex type reachable from the item type**, not only the root type. In the example, `Order` has an `Address` property whose members the grid renders, so `Address` needs its own attribute: the data source reflects over nested object types as it reaches them. Items whose run-time type differs from the type you preserved, such as a derived type, need their own attribute too. You can also list the types in a trimmer root descriptor.
+
+Of the components in `IgniteUI.Blazor`, only `IgbCombo` preserves its item type for you; see [Components That Preserve Their Item Types](#components-that-preserve-their-item-types).
+
+Grid editing depends on the same preserved types. Built-in cell editing and the `UpdateCell`, `AddRow` and `UpdateRow` methods, with their `Async` variants, write values back to your data items, and the trimmer gives no warning when you call them. On a grid bound to `RemoteJson` or `LocalJson`, also preserve any of your own types that you pass as values to `AddRow` or `UpdateRow`.
+
+### Preload Component Modules
+
+Module preloading works the same way in a trimmed application:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbGridModule), typeof(IgbCategoryChartModule));
+```
+
+Every `IgniteUI.Blazor` module is kept no matter how the `Type` value reaches the library. Whether as a `typeof` argument, an array, the modules carried by `IgniteUIBlazorSettings` or a value computed at run time. Modules your application never references are trimmed away. For which modules a component loads, see [Component Modules](general-getting-started.mdx#component-modules).
+
+## Troubleshooting
+
+### Why do columns or values disappear after I publish?
+
+The trimmer removed properties of your data item type that your code never references directly, because {ProductName} reads them by reflection. This happens only when your types are trimmed, with `TrimMode=full` or an application assembly marked `IsTrimmable`. Preserve the item type, and every type nested inside it, with `[DynamicDependency]`: see [Preserve Data Item Types](#preserve-data-item-types) for `IgniteUI.Blazor`, [Preserve Lite Data Item Types](#preserve-lite-data-item-types) for `IgniteUI.Blazor.Lite`, or [Preserve the Grid Lite Item Type](#preserve-the-grid-lite-item-type) for `IgniteUI.Blazor.GridLite`.
+
+### Why are my properties still removed when the class is annotated?
+
+A class-level `[DynamicallyAccessedMembers]` annotation takes effect only where a `Type` value flows through annotated code, and the {ProductName} data-source parameters take plain objects. In the `IgniteUI.Blazor` package, the annotation does not keep the members. Add a `[DynamicDependency]` attribute for the type on a method the trimmer keeps.
+
+### Why do grid edits lose values without a trim warning?
+
+This applies to the premium `IgniteUI.Blazor` package. `UpdateCell`, `UpdateCellAsync`, `AddRow`, `AddRowAsync`, `UpdateRow`, `UpdateRowAsync` and built-in cell editing read and write your data items by reflection. If the data item type, or a type nested inside it, is not preserved, the trimmer can remove the properties these methods write to. Preserve the types as described in [Preserve Data Item Types](#preserve-data-item-types).
+
+### Why does my build warn about IL2091 for a component that wraps Grid Lite?
+
+This applies to the open-source `IgniteUI.Blazor.GridLite` package. Your component passes its own generic parameter to `IgbGridLite` as `TItem`, but the parameter lacks the `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]` annotation that `TItem` requires. Add the annotation to your component's type parameter, as shown in [Preserve the Grid Lite Item Type](#preserve-the-grid-lite-item-type).
+
+## Additional Resources
+
+- [Open-Source vs Premium](general-open-source-vs-premium.mdx): the components each {ProductName} package contains.
+- [Getting Started with Open-Source Libraries](general-getting-started-oss.mdx): install and register `IgniteUI.Blazor.Lite` and `IgniteUI.Blazor.GridLite`.
+- [Grid Lite](grid-lite/overview.mdx): the open-source grid component.
+- <a href="https://learn.microsoft.com/dotnet/core/deploying/trimming/trim-self-contained" target="_blank" rel="noopener noreferrer">Trim self-contained applications (Microsoft Learn)</a>: how .NET trimming works.
+- <a href="https://learn.microsoft.com/dotnet/core/deploying/trimming/fixing-warnings" target="_blank" rel="noopener noreferrer">Introduction to trim warnings (Microsoft Learn)</a>: what IL2xxx warnings mean and how to resolve them.
+- <a href="https://learn.microsoft.com/aspnet/core/blazor/host-and-deploy/configure-trimmer" target="_blank" rel="noopener noreferrer">Configure the Trimmer for ASP.NET Core Blazor (Microsoft Learn)</a>: trimming settings for Blazor WebAssembly.
+## FAQ
+
+<Faq>
+  <FaqItem question="Is {ProductName} compatible with trimming?" indicatorPosition="end">
+    Yes. The premium `IgniteUI.Blazor` package and the open-source `IgniteUI.Blazor.Lite` and `IgniteUI.Blazor.GridLite` packages are all trim-compatible. When your own types are trimmed too, preserve the data item types you bind to {ProductName} components, because the components read those types using reflection.
+  </FaqItem>
+
+  <FaqItem question="Do I need to do anything to use {ProductName} in a trimmed Blazor WebAssembly app?" indicatorPosition="end">
+    With the default `TrimMode=partial` of a Blazor WebAssembly publish, your application's types are not trimmed and {ProductName} needs no extra steps. With `TrimMode=full`, preserve the item types you bind to {ProductName} components, and every complex type nested inside them, with a `[DynamicDependency]` attribute.
+  </FaqItem>
+</Faq>
