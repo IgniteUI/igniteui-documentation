@@ -3,14 +3,15 @@ title: "{Platform} Data Grid Component"
 description: "The {ProductName} Data Grid displays and edits flat tabular data, with sorting, filtering, grouping, paging and Excel export."
 keywords: "{Platform} Data Grid, {ProductName}, sorting, filtering, grouping, editing, paging, Excel export"
 license: commercial
-last_updated: "2026-11-20"
+last_updated: "2026-11-21"
 relatedComponents: ["TreeGrid", "HierarchicalGrid", "PivotGrid", "GridLite"]
-mentionedTypes: ["Grid", "Column", "CellType", "CellTemplateContext", "GridToolbar", "Paginator", "ColumnPipeArgs", "GridModule"]
+mentionedTypes: ["Grid", "Column", "CellType", "CellTemplateContext", "RowType", "GridToolbar", "Paginator", "ColumnPipeArgs", "GridModule"]
 namespace: Infragistics.Controls
 llms:
   description: "The {ProductName} Data Grid is a component that displays and edits flat tabular data, with sorting, filtering, grouping, editing, paging and Excel export."
 platformType: web-only
 ---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
@@ -21,6 +22,10 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
 import gridAnatomy from '@xplat-images/anatomy-content-light/grid-lt-a.png';
 import gridDoAlignment from '@xplat-images/grid/grid-do-1.png';
 import gridDoNotAlignment from '@xplat-images/grid/grid-do-not-1.png';
+import gridDoRowHeight from '@xplat-images/grid/grid-do-2.png';
+import gridDoNotRowHeight from '@xplat-images/grid/grid-do-not-2.png';
+import gridDoColumns from '@xplat-images/grid/grid-do-3.png';
+import gridDoNotColumns from '@xplat-images/grid/grid-do-not-3.png';
 
 # Data Grid
 
@@ -136,43 +141,61 @@ igx-grid.igx-grid[role="grid"]                         // aria-rowcount and aria
 
 ## Getting Started
 
-To use the {Platform} Data Grid, follow the <PlatformBlock for="Angular">[{ProductName} Getting Started](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Getting Started](../general-getting-started.mdx)</PlatformBlock> topic for the basic project setup, then add the packages, the import and the theme for your target platform.
+To use the {Platform} Data Grid, follow the <PlatformBlock for="Angular">[{ProductName} Getting Started](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Getting Started](../general-getting-started.mdx)</PlatformBlock> topic for the basic project setup.
 
 <PlatformBlock for="WebComponents">
 
-Install the **{PackageGrids}** package:
+To get started with the {Platform} Data Grid, first you need to install the `{PackageGrids}` package.
 
 ```cmd
 npm install {PackageGrids}
 ```
 
-Then import the grids bundle, which registers the `igc-grid` element and the elements that you place in it, such as `igc-column`, `igc-grid-toolbar` and `igc-paginator`, and import a theme for the grids:
+You also need to include the following import to use the grid. It registers the `igc-grid` element and the elements that you place in it, such as `igc-column`, `igc-grid-toolbar` and `igc-paginator`:
 
-```ts
+```typescript
 import 'igniteui-webcomponents-grids/grids/combined.js';
+```
+
+The corresponding styles should also be referenced. You can choose light or dark option for one of the [themes](../themes/overview.mdx) and based on your project configuration to import it:
+
+```typescript
 import 'igniteui-webcomponents-grids/grids/themes/light/bootstrap.css';
+```
+
+Or to link it:
+
+```html
+<link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/bootstrap.css'>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
-Install the **{PackageCommon}** and **{PackageGrids}** packages:
+To get started with the {Platform} Data Grid, first you need to install the `{PackageCommon}` and `{PackageGrids}` packages.
 
 ```cmd
 npm install {PackageCommon} {PackageGrids}
 ```
 
-Then import the <ApiLink type="Grid" /> and <ApiLink type="Column" /> components and a theme for the grids:
+You also need to include the following import to use the grid:
 
 ```tsx
 import { IgrGrid, IgrColumn } from 'igniteui-react-grids';
+```
+
+The corresponding styles should also be referenced. You can choose light or dark option for one of the [themes](../themes/overview.mdx) and based on your project configuration to import it:
+
+```tsx
 import 'igniteui-react-grids/grids/themes/light/bootstrap.css';
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
+
+To get started with the {Platform} Data Grid, first you need to install the {PackageCommon} package. Please refer to the [Adding NuGet Package](../general-nuget-feed.mdx) topic on adding the IgniteUI.Blazor package.
 
 Register the {ProductName} services:
 
@@ -184,13 +207,13 @@ builder.Services.AddIgniteUIBlazor();
 
 Registering <ApiLink pkg="core" type="GridModule" />, the client resource module of the <ApiLink type="Grid" />, is **optional**: the component loads its resources when it first renders. Listing it in `builder.Services.AddIgniteUIBlazor(typeof(IgbGridModule))` can be used to preload resources or to support elements created only on the client (see [Component Modules](../general-getting-started.mdx#component-modules)).
 
-Then link the grid theme in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App):
+You also need to link the grid theme in the app's host page (**wwwroot/index.html** in a standalone Blazor WebAssembly or Blazor Hybrid app, **Pages/_Host.cshtml** in a Blazor Server app, **Components/App.razor** in a Blazor Web App) to provide the necessary styles to the grid:
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/grid/light/bootstrap.css" rel="stylesheet" />
 ```
 
-Add the namespace of the components to **_Imports.razor**:
+Afterwards, you may start implementing the control by adding the following namespace to **_Imports.razor**:
 
 ```razor
 @using IgniteUI.Blazor.Controls
@@ -200,9 +223,11 @@ Add the namespace of the components to **_Imports.razor**:
 
 <PlatformBlock for="Angular">
 
-If your project doesn't use {ProductName} yet, run `ng add igniteui-angular`. Then import the `IGX_GRID_DIRECTIVES` token and add it to the `imports` of your component. The token holds the <ApiLink type="Grid" />, the column, toolbar and paginator components, and the cell, header and cell editor template directives:
+If your project doesn't use {ProductName} yet, run `ng add igniteui-angular`. Then import the [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts) token and add it to the `imports` of your component. The token holds the <ApiLink type="Grid" />, the column, toolbar and paginator components, and the cell, header and cell editor template directives. To import only the grid itself, add the `IgxGridComponent` standalone component instead:
 
-```ts
+```typescript
+// home.component.ts
+
 import { Component } from '@angular/core';
 import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 // import { IGX_GRID_DIRECTIVES } from '@infragistics/igniteui-angular/grids/grid'; for licensed package
@@ -210,7 +235,9 @@ import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 @Component({
     selector: 'app-home',
     template: `<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>`,
+    styleUrls: ['home.component.scss'],
     imports: [IGX_GRID_DIRECTIVES]
+    /* or imports: [IgxGridComponent] */
 })
 export class HomeComponent {
     public localData = [
@@ -222,7 +249,7 @@ export class HomeComponent {
 
 </PlatformBlock>
 
-To change the look of the Data Grid, see [Styling](#styling).
+For more details on how to customize the appearance of the grid, you may have a look at the [Styling](#styling) section.
 
 ### Prerequisites and Version Compatibility
 
@@ -279,12 +306,20 @@ Use the {Platform} Data Grid to display, edit and analyze records that share the
 
 ### Basic Configuration
 
-Bind the Data Grid to local data and let it generate a column for each data field:
+Now that we have the grid packages imported, let's get started with the basic configuration and bind to local data:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Id="grid1" Data="data" AutoGenerate="true"></IgbGrid>
+```
+
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
 ```html
-<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>
+<igx-grid #grid1 id="grid1" [data]="localData" [autoGenerate]="true"></igx-grid>
 ```
 
 </PlatformBlock>
@@ -292,14 +327,16 @@ Bind the Data Grid to local data and let it generate a column for each data fiel
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-grid id="grid" auto-generate="true"></igc-grid>
+<igc-grid id="grid1" auto-generate="true"></igc-grid>
 ```
 
-```ts
+```typescript
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
-const grid = document.getElementById('grid') as IgcGridComponent;
-grid.data = localData;
+constructor() {
+    let grid1 = document.getElementById("grid1") as IgcGridComponent;
+    grid1.data = data;
+}
 ```
 
 </PlatformBlock>
@@ -307,32 +344,53 @@ grid.data = localData;
 <PlatformBlock for="React">
 
 ```tsx
-<IgrGrid data={localData} autoGenerate={true}></IgrGrid>
+<IgrGrid id="grid1" autoGenerate={true} data={localData}></IgrGrid>
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+The <ApiLink type="Grid" member="id" /> property is a string value and is the unique identifier of the grid which will be auto-generated if not provided, while <ApiLink type="Grid" member="data" /> binds the grid, in this case to local data.
 
-```razor
-<IgbGrid Data="localData" AutoGenerate="true"></IgbGrid>
-```
+The <ApiLink type="Grid" member="autoGenerate" /> property tells the grid to auto generate the grid's <ApiLink type="Column" /> components based on the data source fields. It will also try to deduce the appropriate data type for the column if possible. Otherwise, the developer needs to explicitly define the columns and the mapping to the data source fields.
+
+<PlatformBlock for="Angular,React,WebComponents">
+
+The grid reads the fields and their values from the first record. A number, a Boolean, a `Date` object and a string that ends with an image file extension, such as `.png`, give number, boolean, date and image columns; any other value gives a string column.
 
 </PlatformBlock>
 
-The <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="Grid" member="data" label="data" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="Data" label="Data" /></PlatformBlock> property holds the data source. When <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="Grid" member="autoGenerate" label="autoGenerate" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="AutoGenerate" label="AutoGenerate" /></PlatformBlock> is on, the Data Grid creates a column for each field of the first record and infers the data type of the column from the value in that record.<PlatformBlock for="Angular,React,WebComponents"> A number, a Boolean, a `Date` object and a string that ends with an image file extension, such as `.png`, give number, boolean, date and image columns; any other value gives a string column.</PlatformBlock>
+<PlatformBlock for="Angular">
+
+{ProductName} includes a powerful bootstrap grid like flex-based layout system. Any modern application today is expected to follow a responsive web design approach, meaning it can gracefully adjust layout of HTML elements based on the device size, or from simply resizing the browser. A bootstrap grid layout was the most used approach in the past, but a flex-based layout system like CSS grid has become more popular, as it works in any browser. The {ProductName} Layout Directive allows vertical and horizontal flow, including content / text wrapping, justification, and alignment. The {ProductName} grid supports a responsive layout using CSS, giving you the ultimate flexibility in how the grid behaves on resize.
+
+</PlatformBlock>
+
+Each operation for grid editing includes batch operations, meaning the API gives you the option to group edits into a single server call, or you can perform grid edit / update operations as they occur with grid interactions. Along with a great developer experience as an editable grid with CRUD operations, the grid includes Excel-like keyboard navigation. Common default grid navigation is included, plus the option to override any navigation option to meet the needs of your customers. An editable grid with a great navigation scheme is critical to any modern line of business application, with the {ProductName} grid we make it easy.
+
+Following this topic you will learn more about [cell template](#cell-template) and [cell editing template](#cell-editing-template) and editing.
 
 ### Column Configuration
 
-Turn auto-generation off to declare the columns yourself. Each <ApiLink type="Column" /> defines one column and enables features for it, such as sorting and filtering:
+<ApiLink type="Column" /> is used to define the grid's columns collection and to enable features per column like **sorting** and **filtering**. Cell, header, and footer templates are also available.
+
+#### Defining Columns
+
+Let's turn the <ApiLink type="Grid" member="autoGenerate" /> property off and define the columns collection in the markup:
 
 <PlatformBlock for="Angular">
 
 ```html
-<igx-grid [data]="localData" [autoGenerate]="false" [allowFiltering]="true">
-    <igx-column field="Name" [sortable]="true"></igx-column>
-    <igx-column field="AthleteNumber" header="Athlete number" [sortable]="true" [filterable]="false"></igx-column>
-    <igx-column field="TrackProgress" header="Track progress" [filterable]="false"></igx-column>
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
+    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
+        <ng-template igxCell let-value>
+            <igx-linear-bar [striped]="false" [value]="value" [max]="100"></igx-linear-bar>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
 </igx-grid>
 ```
 
@@ -341,23 +399,18 @@ Turn auto-generation off to declare the columns yourself. Each <ApiLink type="Co
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-grid id="grid" auto-generate="false" allow-filtering="true">
-    <igc-column field="Name" sortable="true"></igc-column>
-    <igc-column field="AthleteNumber" header="Athlete number" sortable="true" filterable="false"></igc-column>
-    <igc-column field="TrackProgress" header="Track progress" filterable="false"></igc-column>
+<igc-grid id="grid1" auto-generate="false" allow-filtering="true">
+    <igc-column field="Name" sortable="true" header=" "></igc-column>
+    <igc-column field="AthleteNumber" sortable="true" header="Athlete number" filterable="false"></igc-column>
+    <igc-column id="trackProgress" field="TrackProgress" header="Track progress" filterable="false"></igc-column>
 </igc-grid>
 ```
 
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrGrid data={localData} autoGenerate={false} allowFiltering={true}>
-    <IgrColumn field="Name" sortable={true}></IgrColumn>
-    <IgrColumn field="AthleteNumber" header="Athlete number" sortable={true} filterable={false}></IgrColumn>
-    <IgrColumn field="TrackProgress" header="Track progress" filterable={false}></IgrColumn>
-</IgrGrid>
+```typescript
+constructor() {
+    var grid1 = this.grid1 = document.getElementById('grid1') as IgcGridComponent;
+    grid1.data = this.data;
+}
 ```
 
 </PlatformBlock>
@@ -374,7 +427,41 @@ Turn auto-generation off to declare the columns yourself. Each <ApiLink type="Co
 
 </PlatformBlock>
 
-A header template changes how the column header renders. For example, to show the field name in upper case:
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid id="grid1" autoGenerate={false} allowFiltering={true} data={localData}>
+    <IgrColumn field="Name" sortable={true}></IgrColumn>
+    <IgrColumn field="AthleteNumber" header="Athlete number" filterable={false} sortable={true}></IgrColumn>
+    <IgrColumn field="TrackProgress" header="Track progress" filterable={false}></IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Each of the columns of the grid can be templated separately. The column expects `ng-template` Angular grid module directives.
+
+It also exposes the <ApiLink type="CellTemplateContext" member="additionalTemplateContext" /> input that can be used for custom properties and any type of data context that you want to pass to the column itself:
+
+```html
+<igx-column [additionalTemplateContext]="contextObject">
+    <ng-template igxCell let-cell="cell" let-props="additionalTemplateContext">
+        {{ props.firstProperty }}
+    </ng-template>
+</igx-column>
+```
+
+```typescript
+public contextObject = { firstProperty: 'testValue', secondProperty: 'testValue1'};
+```
+
+</PlatformBlock>
+
+#### Header Template
+
+The header template can be set to modify the column headers. The snippets below show you how to format the header text to upper case.
 
 <PlatformBlock for="Angular">
 
@@ -394,14 +481,47 @@ A header template changes how the column header renders. For example, to show th
 <igc-column id="name" field="Name"></igc-column>
 ```
 
-```ts
+```typescript
 import { html } from 'lit-html';
 import { IgcColumnComponent, IgcColumnTemplateContext } from 'igniteui-webcomponents-grids/grids';
 
-const nameHeaderTemplate = (ctx: IgcColumnTemplateContext) => html`${ctx.column.field.toUpperCase()}`;
+constructor() {
+    var name = this.name = document.getElementById('name') as IgcColumnComponent;
+    name.headerTemplate = this.nameHeaderTemplate;
+}
 
-const name = document.getElementById('name') as IgcColumnComponent;
-name.headerTemplate = nameHeaderTemplate;
+public nameHeaderTemplate = (ctx: IgcColumnTemplateContext) => {
+    return html`
+        ${this.formatUppercase(ctx.column.field)}
+    `;
+}
+
+public formatUppercase(value: string) {
+    return value.toUpperCase();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="Name" HeaderTemplateScript="UpperCaseTemplate" />
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("UpperCaseTemplate", (ctx) => {
+
+    var html = window.igTemplating.html;
+
+    return html`${this.formatUppercase(ctx.column.field)}`;
+
+}, false)
+
+function formatUppercase(value) {
+    return value.toUpperCase();
+}
 ```
 
 </PlatformBlock>
@@ -410,7 +530,15 @@ name.headerTemplate = nameHeaderTemplate;
 
 ```tsx
 function nameHeaderTemplate(ctx: IgrColumnTemplateContext) {
-    return <>{ctx.column.field.toUpperCase()}</>;
+    return (
+        <>
+            {formatUppercase(ctx.column.field)}
+        </>
+    );
+}
+
+function formatUppercase(value: string) {
+    return value.toUpperCase();
 }
 
 <IgrColumn field="Name" headerTemplate={nameHeaderTemplate}></IgrColumn>
@@ -418,23 +546,9 @@ function nameHeaderTemplate(ctx: IgrColumnTemplateContext) {
 
 </PlatformBlock>
 
-<PlatformBlock for="Blazor">
+#### Cell Template
 
-```razor
-<IgbColumn Field="Name" HeaderTemplateScript="NameHeaderTemplate" />
-```
-
-```javascript
-//In JavaScript:
-igRegisterScript("NameHeaderTemplate", (ctx) => {
-    const html = window.igTemplating.html;
-    return html`${ctx.column.field.toUpperCase()}`;
-}, false);
-```
-
-</PlatformBlock>
-
-A cell template changes how every cell in the column renders. The template context provides the cell value (<PlatformBlock for="Angular">`$implicit`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`implicit`</PlatformBlock>) and the cell object (`cell`):
+When cell template is set it changes all the cells in the column. The context object provided in the template consists of the cell value provided implicitly (<PlatformBlock for="Angular">`$implicit`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`implicit`</PlatformBlock>) and the cell object itself (`cell`). It can be used to define a template where the cells' text could be formatted e.g. as title case.
 
 <PlatformBlock for="Angular">
 
@@ -456,34 +570,24 @@ The `uppercase` and `titlecase` pipes come from `@angular/common`. Add `UpperCas
 <igc-column id="name" field="Name"></igc-column>
 ```
 
-```ts
+```typescript
 import { html } from 'lit-html';
 import { IgcCellTemplateContext, IgcColumnComponent } from 'igniteui-webcomponents-grids/grids';
 
-function toTitleCase(value: string) {
+constructor() {
+    var name = this.name = document.getElementById('name') as IgcColumnComponent;
+    name.bodyTemplate = this.nameCellTemplate;
+}
+
+public nameCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        ${this.formatTitleCase(ctx.implicit)}
+    `;
+}
+
+public formatTitleCase(value: string) {
     return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
-
-const nameCellTemplate = (ctx: IgcCellTemplateContext) => html`${toTitleCase(ctx.implicit)}`;
-
-const name = document.getElementById('name') as IgcColumnComponent;
-name.bodyTemplate = nameCellTemplate;
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-function toTitleCase(value: string) {
-    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function nameCellTemplate(ctx: IgrCellTemplateContext) {
-    return <>{toTitleCase(ctx.implicit)}</>;
-}
-
-<IgrColumn field="Name" bodyTemplate={nameCellTemplate}></IgrColumn>
 ```
 
 </PlatformBlock>
@@ -491,96 +595,693 @@ function nameCellTemplate(ctx: IgrCellTemplateContext) {
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColumn Field="Name" BodyTemplateScript="NameCellTemplate" />
+<IgbColumn Field="Name" BodyTemplateScript="NameCellTemplate"/>
 ```
 
 ```javascript
 //In JavaScript:
 igRegisterScript("NameCellTemplate", (ctx) => {
-    const html = window.igTemplating.html;
-    return html`${toTitleCase(ctx.implicit)}`;
+    var html = window.igTemplating.html;
+
+    return html`${this.formatTitleCase(ctx.implicit)}`;
 }, false);
 
-function toTitleCase(value) {
+function formatTitleCase(value) {
     return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
 </PlatformBlock>
 
-Editor templates, changing a template at runtime and the display format of each data type are described in the [Column Types](./_shared/column-types.mdx) topic.
+<PlatformBlock for="React">
 
-### Data Binding
+```tsx
+function formatTitleCase(value: string) {
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
 
-The Data Grid binds to an array of objects. A value can be a primitive or a nested object; to show an array value, give its column a cell template. When auto-generation is on, every record must have the same keys.
+function nameCellTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            {formatTitleCase(ctx.implicit)}
+        </>
+    );
+}
 
-<PlatformBlock for="Angular,React,WebComponents">
+<IgrColumn field="Name" bodyTemplate={nameCellTemplate}></IgrColumn>
+```
 
-```ts
-const aminoAcids = [
-    { name: 'Alanine', weight: { molecular: 89.09, residue: 71.08 } },
-    { name: 'Glycine', weight: { molecular: 75.07, residue: 57.05 } }
-];
+</PlatformBlock>
+
+In the snippet above we take a reference to the implicitly provided cell value. This is sufficient if you just want to present some data and maybe apply some custom styling or pipe transforms over the value of the cell. However even more useful is to take the <ApiLink type="CellTemplateContext" member="cell" /> instance itself as shown below:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-column dataType="string" field="Name">
+        <ng-template igxCell let-cell="cell">
+            <!-- Implement row deleting inside the cell template itself -->
+            <span tabindex="0" (keydown.delete)="grid.deleteRow(cell.row.key)">{{ cell.value | titlecase }}</span>
+        </ng-template>
+    </igx-column>
+    <igx-column dataType="boolean" field="Subscription">
+        <ng-template igxCell let-cell="cell">
+            <!-- Bind the cell value through the ngModel directive and update the data source when the value is changed in the template -->
+            <input type="checkbox" [ngModel]="cell.value" (ngModelChange)="cell.update($event)" />
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid id="grid" auto-generate="false">
+    <igc-column id="name" field="Name" data-type="string"></igc-column>
+    <igc-column id="subscription" field="Subscription" data-type="boolean"></igc-column>
+</igc-grid>
+```
+
+```typescript
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    var name = this.name = document.getElementById('name') as IgcColumnComponent;
+    var subscription = this.subscription = document.getElementById('subscription') as IgcColumnComponent;
+    grid.data = this.data;
+    name.bodyTemplate = this.nameCellTemplate;
+    subscription.bodyTemplate = this.subscriptionCellTemplate;
+}
+
+public nameCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <span tabindex="0" @keydown="${(e: KeyboardEvent) => this.deleteRow(e, ctx.cell.id.rowID)}">${this.formatTitleCase(ctx.cell.value)}</span>
+    `;
+}
+
+public subscriptionCellTemplate = (ctx: IgcCellTemplateContext) => {
+    if (ctx.cell.value) {
+            return html` <input type="checkbox" checked /> `;
+    } else {
+            return html` <input type="checkbox"/> `;
+    }
+}
+
+public deleteRow(e: KeyboardEvent, rowID: any) {
+    if (e.code === "Delete") {
+        this.grid.deleteRow(rowID);
+    }
+}
+
+public formatTitleCase(value: string) {
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function nameCellTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            <span tabIndex={0} onClick={() => deleteRow(ctx.cell.id.rowID)}>
+                {formatTitleCase(ctx.cell.value)}
+            </span>
+        </>
+    );
+}
+
+function subscriptionCellTemplate(ctx: IgrCellTemplateContext) {
+    if (ctx.cell.value) {
+            return (
+                <>
+                <input type="checkbox" checked />
+                </>
+            );
+    } else {
+            return (
+                <>
+                <input type="checkbox"/>
+                </>
+            );
+    }
+}
+
+function deleteRow(rowID: any) {
+    grid.current.deleteRow(rowID);
+}
+
+function formatTitleCase(value: string) {
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+<IgrGrid id="grid" ref={grid} autoGenerate={false} data={data} primaryKey="Name">
+    <IgrColumn field="Name" dataType="string" bodyTemplate={nameCellTemplate}></IgrColumn>
+    <IgrColumn field="Subscription" dataType="boolean" bodyTemplate={subscriptionCellTemplate}></IgrColumn>
+</IgrGrid>
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="Blazor">
 
-```csharp
-public class AminoAcid
-{
-    public string Name { get; set; }
-    public AminoWeight Weight { get; set; }
+```razor
+<IgbGrid Id="grid" AutoGenerate=false>
+    <IgbColumn Field="Name" BodyTemplateScript="NameCellTemplate" />
+    <IgbColumn Field="Subscription" BodyTemplateScript="SubscriptionCellTemplate" />
+</IgbGrid>
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("NameCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`
+        <span tabindex="0" @keyup=${(e) => this.deleteRow(e, ctx.cell)}> ${this.formatTitleCase(ctx.cell.value)}</span>
+    `;
+}, false);
+
+igRegisterScript("SubscriptionCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    if (ctx.cell.value) {
+            return html` <input type="checkbox" checked /> `;
+    } else {
+            return html` <input type="checkbox"/> `;
+    }
+}, false);
+
+function deleteRow(e, cell) {
+    if (e.code === "Delete") {
+        cell.grid.deleteRow(cell.id.rowID);
+    }
 }
 
-public class AminoWeight
-{
-    public double Molecular { get; set; }
-    public double Residue { get; set; }
+function formatTitleCase(value) {
+    return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 ```
 
 </PlatformBlock>
 
-To bind to a remote service, fetch the data and assign it to the data property:
+<PlatformBlock for="Angular">
+
+When changing data through the **cell template** using `ngModel`, you need to call the appropriate API methods to make sure the value is correctly updated in the Angular grid's underlying data collection. In the snippet above, the `ngModelChange` call passes through the grid's [editing API](./_shared/cell-editing.mdx#editing-through-api) and goes through the grid's editing pipeline, properly triggering [transactions](./_shared/batch-editing.mdx) (if applicable) and handling of [summaries](./_shared/summaries.mdx), [selection](./_shared/selection.mdx), etc. However, this `ngModelChange` will fire every time the value of the cell changes, not just when the user is done editing, resulting in a lot more API calls.
+
+</PlatformBlock>
+
+<DocsAside type="info">
+The grid exposes a default handling for number, string, date and boolean column types. For example, the column will display `check` or `close` icon, instead of true/false by default, for boolean column type.
+</DocsAside>
 
 <PlatformBlock for="Angular">
 
-```ts
-import { Component, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+If the data in a cell is bound with `[(ngModel)]` and the value change is not handled, the new value will **not** be properly updated in the Angular grid's underlying data source. When dealing with cell editing with a custom template, it is strongly advised to use the cell's **cell editing template**.
 
-@Component({
-    selector: 'app-amino-acids',
-    template: `<igx-grid [data]="aminoAcids()" [autoGenerate]="true"></igx-grid>`,
-    imports: [IGX_GRID_DIRECTIVES]
-})
-export class AminoAcidsComponent {
-    private http = inject(HttpClient);
-    protected aminoAcids = toSignal(this.http.get<any[]>('/api/amino-acids'), { initialValue: [] });
-}
+</PlatformBlock>
+
+When properly implemented, the cell editing template also ensures that the cell's <ApiLink type="CellType" member="editValue" /> will correctly pass through the grid [editing event cycle](./_shared/editing.mdx#event-arguments-and-sequence).
+
+#### Cell Editing Template
+
+The column also accepts one last template that will be used when a cell is in edit mode. As with the other column templates, the provided context object is again the cell value and the cell object itself. Of course in order to make the edit-mode template accessible to end users, you need to set the <ApiLink type="Column" member="editable" /> property of the column to true.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column dataType="number" editable="true" field="Price">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
 ```
-
-The `HttpClient` needs `provideHttpClient()` in the providers of your application.
 
 </PlatformBlock>
 
 <PlatformBlock for="WebComponents">
 
-```ts
-const grid = document.getElementById('grid') as IgcGridComponent;
+```html
+<igc-column id="price" field="Price" data-type="number" editable="true"></igc-column>
+```
 
-fetch('/api/amino-acids')
-    .then(response => response.json())
-    .then(data => grid.data = data);
+```typescript
+constructor() {
+    var price = this.price = document.getElementById('price') as IgcColumnComponent;
+    price.inlineEditorTemplate = this.priceCellTemplate;
+}
+
+public priceCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <label>
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" value="${ctx.cell.value}" @change="${() => this.updateValue(ctx.cell.value)}"  />
+    `;
+}
+
+public updateValue(value: number) {
+}
 ```
 
 </PlatformBlock>
 
 <PlatformBlock for="React">
+
+```tsx
+function priceCellTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            <label>
+                Enter the new price tag
+            </label>
+            <input name="price" type="number" value={ctx.cell.value}
+                onChange={() => updateValue(ctx.cell.value)}/>
+        </>
+    );
+}
+
+function updateValue(value: number) {
+  // Custom update code
+}
+
+<IgrColumn field="Price" dataType="number" editable={true} inlineEditorTemplate={priceCellTemplate}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="Price" Editable=true DataType="GridColumnDataType.Number" InlineEditorTemplateScript="PriceCellTemplate" />
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("PriceCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+
+    return html`
+        <label>
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" value="${ctx.cell.value}"
+        @change=${(e) => this.updateValue(e, ctx.cell.value)} />
+    `;
+}, false);
+
+function updateValue(event, value) {
+}
+```
+
+</PlatformBlock>
+
+Make sure to check the API for the <ApiLink type="CellType" /> in order to get accustomed with the provided properties you can use in your templates.
+
+#### Column Template API
+
+Each of the column templates can be changed programmatically at any point through the <ApiLink type="Column" /> object itself. For example in the code below, we have declared two templates for our user data. In our TypeScript code we'll get references to the templates themselves and then based on some condition we will render the appropriate template for the column in our application.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-grid>
+    <!-- Column declarations -->
+</igx-grid>
+
+<ng-template #normalView let-value>
+    <div class="user-details">{{ value }}</div>
+    <user-details-component></user-details-component>
+</ng-template>
+
+<ng-template #smallView let-value>
+    <div class="user-details-small">{{ value }}</div>
+</ng-template>
+```
+
+```typescript
+@ViewChild("normalView", { read: TemplateRef })
+public normalView: TemplateRef<any>;
+
+@ViewChild("smallView", { read: TemplateRef })
+public smallView: TemplateRef<any>;
+
+// ...
+
+const column = this.grid.getColumnByName("User");
+// Return the appropriate template based on some condition.
+// For example saved user settings, viewport size, etc.
+column.bodyTemplate = this.smallView;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid>
+    <!-- Column declarations -->
+</igc-grid>
+```
+
+```typescript
+var user = this.user = document.getElementById('user') as IgcColumnComponent;
+// Return the appropriate template based on some condition.
+// For example saved user settings, viewport size, etc.
+user.bodyTemplate = this.smallViewTemplate;
+
+public normalViewTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <div class="user-details">${ ctx.cell.value }</div>
+        <user-details-component></user-details-component>
+    `;
+}
+
+public smallViewTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <div class="user-details-small">${ ctx.cell.value }</div>
+    `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid ref={grid}>
+    {/* Column declarations */}
+</IgrGrid>
+```
+
+```tsx
+function normalViewTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            <div className="user-details">{ ctx.cell.value }</div>
+            <UserDetailsComponent></UserDetailsComponent>
+        </>
+    );
+}
+
+function smallViewTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            <div className="user-details-small">{ ctx.cell.value }</div>
+        </>
+    );
+}
+
+const column = grid.current.getColumnByName("User");
+// Return the appropriate template based on some condition.
+// For example saved user settings, viewport size, etc.
+column.bodyTemplate = smallViewTemplate;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid ColumnInit=OnColumnInit />
+
+@code {
+    public void OnColumnInit(IgbColumnComponentEventArgs args)
+    {
+        IgbColumn column = args.Detail;
+        // Return the appropriate template based on some condition.
+        // For example saved user settings, viewport size, etc.
+        column.BodyTemplateScript = "NormalViewTemplate";
+    }
+}
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("NormalViewTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`
+        <div class="user-details">${ctx.cell.value}</div>
+        <user-details-component></user-details-component>
+    `;
+}, false);
+
+igRegisterScript("SmallViewTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`
+        <div class="user-details-small" style="color: blue">${ctx.cell.value}</div>
+    `;
+}, false);
+```
+
+</PlatformBlock>
+
+Column properties can also be set in code in the `ColumnInit` event which is emitted when the columns are initialized in the grid.
+
+<PlatformBlock for="Angular">
+
+```typescript
+public initColumns(column: IgxColumnComponent) {
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+constructor() {
+    var grid1 = this.grid1 = document.getElementById('grid1') as IgcGridComponent;
+    grid1.addEventListener('columnInit', this.initColumns);
+}
+
+public initColumns(event: CustomEvent<IgcColumnComponent>) {
+    const column: IgcColumnComponent = event.detail;
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function initColumns(event: CustomEvent<IgrColumn>) {
+    const column: IgrColumn = event.detail;
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+
+<IgrGrid onColumnInit={initColumns} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid ColumnInit=OnColumnInit />
+
+@code {
+    public void OnColumnInit(IgbColumnComponentEventArgs args)
+    {
+        IgbColumn column = args.Detail;
+        if (column.Field == "ProductName") {
+            column.Sortable = true;
+            column.Editable = true;
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+The code above will make the **ProductName** column sortable and editable and will instantiate the corresponding features UI (like inputs for editing, etc.).
+
+#### Custom Display Format
+
+There are optional parameters for formatting:
+
+- <ApiLink type="ColumnPipeArgs" member="format" /> - determines what date/time parts are displayed, defaults to `'mediumDate'`, equivalent to **'MMM d, y'**
+- <ApiLink type="ColumnPipeArgs" member="timezone" /> - the timezone offset for dates. By default uses the end-user's local system timezone
+- <ApiLink type="ColumnPipeArgs" member="digitsInfo" /> - decimal representation objects. Default to **1.0-3**
+
+To allow customizing the display format by these parameters, the <ApiLink type="Column" member="pipeArgs" /> input is exposed. A column will respect only the corresponding properties for its data type, if <ApiLink type="Column" member="pipeArgs" /> is set. Example:
+
+<PlatformBlock for="Angular">
+
+```typescript
+const pipeArgs: IColumnPipeArgs = {
+     format: 'longDate',
+     timezone: 'UTC',
+     digitsInfo: '1.1-2'
+}
+```
+
+```html
+<igx-column field="OrderDate" dataType="date" [pipeArgs]="pipeArgs"></igx-column>
+<igx-column field="UnitPrice" dataType="number" [pipeArgs]="pipeArgs"></igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column id="orderDate" field="OrderDate" data-type="date"></igc-column>
+```
+
+```typescript
+private _columnPipeArgs: any | null = null;
+    public get columnPipeArgs(): any {
+        if (this._columnPipeArgs == null)
+        {
+            var columnPipeArgs: any = {};
+            columnPipeArgs.format = "longDate";
+            columnPipeArgs.timezone = "UTC";
+            columnPipeArgs.digitsInfo = "1.2-2"
+            this._columnPipeArgs = columnPipeArgs;
+        }
+        return this._columnPipeArgs;
+    }
+
+constructor() {
+    var orderDate = this.orderDate = document.getElementById('orderDate') as IgcColumnComponent;
+    orderDate.pipeArgs = this.columnPipeArgs;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const columnPipeArgs: IgrColumnPipeArgs = {
+    format: "longDate",
+    timezone: "UTC",
+    digitsInfo: "1.2-2"
+};
+
+<IgrColumn field="OrderDate" dataType="date" pipeArgs={columnPipeArgs}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="OrderDate"
+           DataType=GridColumnDataType.Date
+           PipeArgs=@(new IgbColumnPipeArgs() { Timezone="UTC+0", Format = "longDate" }) />
+
+<IgbColumn Field="UnitPrice"
+           DataType=GridColumnDataType.Number
+           PipeArgs=@(new IgbColumnPipeArgs() { DigitsInfo="1.2-2" }) />
+```
+
+</PlatformBlock>
+
+The `OrderDate` column will respect only the <ApiLink type="ColumnPipeArgs" member="format" /> and <ApiLink type="ColumnPipeArgs" member="timezone" /> properties, while the `UnitPrice` will only respect the <ApiLink type="ColumnPipeArgs" member="digitsInfo" />.
+
+All available column data types could be found in the official [Column types topic](./_shared/column-types.mdx#default-template).
+
+### Data Binding
+
+The {Platform} Data Grid binds to an array of objects.
+
+<PlatformBlock for="Blazor">
+
+A value can be a primitive or a nested object; to show an array value, give its column a cell template. When auto-generation is on, every record must have the same keys.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular,React,WebComponents">
+
+#### Data Structure
+
+The <ApiLink type="Grid" /> handles **flat data** and nested **POJO (Plain old Java objects)**. The data structure specific for rendering is in the form:
+
+```typescript
+const OBJECT_ARRAY = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: valueN
+    },
+    // ...
+];
+
+const POJO = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: {
+          ObjectKeyN1: value1,
+          ObjectKeyN2: value2,
+          // ...
+          ObjectKeyNM: valueNM,
+        }
+    },
+    // ...
+];
+```
+
+<DocsAside type="warning">
+**The key values must not contain arrays**. To show an array value, give its column a cell template, as the [Complex Data Binding](#complex-data-binding) section shows.
+If you use <ApiLink type="Grid" member="autoGenerate" /> columns **the data keys must be identical.**
+</DocsAside>
+
+</PlatformBlock>
+
+#### Remote Data Binding
+
+<PlatformBlock for="Angular,React,WebComponents">
+
+Our {Platform} Data Grid provides unmatched data binding options and is optimized for real-time updates and smooth scrolling. With low-latency rendering, the grid ensures any UI change is displayed in an instant, including live streaming data, large datasets, and more.
+
+Before going any further with the {Platform} Data Grid we want to change the grid to bind to remote data service, which is the common scenario in large-scale applications.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+You can do this by fetching the data from a given url receiving a JSON response and assigning it to the grid's <ApiLink type="Grid" member="data" /> property that is used as the grid's data source:
+
+```html
+<igc-grid id="grid1"></igc-grid>
+```
+
+```typescript
+public fetchData(url: string): void {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => this.onDataLoaded(data));
+}
+public onDataLoaded(jsonData: any[]) {
+    var grid1 = document.getElementById("grid1") as IgcGridComponent;
+    grid1.data = jsonData;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+You can do this by fetching the data from a given url receiving a JSON response and assigning it to the grid's <ApiLink type="Grid" member="data" /> property that is used as the grid's data source:
 
 ```tsx
 import { useEffect, useState } from 'react';
@@ -601,7 +1302,127 @@ export default function AminoAcids() {
 
 </PlatformBlock>
 
+<PlatformBlock for="Angular">
+
+A good practice is to separate all data fetching related logic in a separate data service, so we are going to create a service which will handle the fetching of data from the server.
+
+Let's implement our service in a separate file
+
+```typescript
+// northwind.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+```
+
+We're importing the `Injectable` decorator which is an [essential ingredient](https://angular.dev/guide/di) in every {Platform} service definition. The `HttpClient` will provide us with the functionality to communicate with backend services. It returns an `Observable` of some result to which we will subscribe in our grid component.
+
+Since we will receive a JSON response containing an array of records, we may as well help ourselves by specifying what kind of data we're expecting to be returned in the observable by defining an interface with the correct shape. Type checking is always recommended and can save you some headaches down the road.
+
+```typescript
+// northwind.service.ts
+
+export interface NorthwindRecord {
+    ProductID: number;
+    ProductName: string;
+    SupplierID: number;
+    CategoryID: number;
+    QuantityPerUnit: string;
+    UnitPrice: number;
+    UnitsInStock: number;
+    UnitsOnOrder: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
+    CategoryName: string;
+}
+```
+
+The service itself is pretty simple consisting of one method: `fetchData` that will return an `Observable<NorthwindRecord[]>`. In cases when the request fails for any reason (server unavailable, network error, etc), the `HttpClient` will return an error. We'll leverage the `catchError` operator which intercepts an Observable that failed and passes the error to an error handler. Our error handler will log the error and return a safe value.
+
+```typescript
+// northwind.service.ts
+
+@Injectable()
+export class NorthwindService {
+    private url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get<{ value: NorthwindRecord[] }>(this.url)
+            .pipe(
+                map(response => response.value),
+                catchError(
+                    this.errorHandler('Error loading Northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+Make sure to provide the `HttpClient` with `provideHttpClient()` and to register our service as a provider in the application configuration.
+
+```typescript
+// app.config.ts
+
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { NorthwindService } from './northwind.service';
+
+export const appConfig: ApplicationConfig = {
+    providers: [
+        provideHttpClient(),
+        NorthwindService
+    ]
+};
+```
+
+After implementing the service we will inject it in our component's constructor and use it to retrieve the data. The `ngOnInit` lifecycle hook is a good place to dispatch the initial request.
+
+**Note**: In the code below, you may wonder why are we setting the _records_ property to an empty array before subscribing to the service. The Http request is asynchronous, and until it completes, the _records_ property would otherwise be _undefined_. You should either initialize it with a default value or use a `BehaviorSubject`.
+
+```typescript
+// my.component.ts
+
+@Component({
+    // ...
+})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[] = [];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+and in the template of the component:
+
+```html
+<igx-grid [data]="records">
+    <igx-column field="ProductID"></igx-column>
+    <!-- rest of the column definitions -->
+</igx-grid>
+```
+
+</PlatformBlock>
+
 <PlatformBlock for="Blazor">
+
+To bind to a remote service, fetch the data and assign it to the data property:
 
 ```razor
 @inject HttpClient Http
@@ -620,7 +1441,68 @@ export default function AminoAcids() {
 
 </PlatformBlock>
 
-To bind a column to a nested property, set the path to the property as the column field:
+<PlatformBlock for="Angular,React,WebComponents">
+
+**Note**: The grid <ApiLink type="Grid" member="autoGenerate" /> property inspects the data in order to generate the appropriate columns. When the grid is bound to a remote service, the data is usually not available until the service responds, so the grid generates the columns when the data arrives.
+
+</PlatformBlock>
+
+For real-time updates, see [Live Data](./_shared/live-data.mdx). <PlatformBlock for="Angular">For sorting, filtering and paging on the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">To load the data in chunks while the reader scrolls, or a page at a time from the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock>
+
+#### Complex Data Binding
+
+Complex Data Binding allows for seamless interaction with multi-level data, complex, real-world datasets, object-oriented data modules, etc. Using our {Platform} Data Grid, you can easily bind to complex objects (including data structures that nest deeper than one level). This happens through a path of properties in the data record.
+
+Take a look at the following data model:
+
+<PlatformBlock for="React,Angular,WebComponents">
+
+```typescript
+interface AminoAcid {
+    name: string;
+    abbreviation: {
+        short: string;
+        long: string;
+    }
+    weight: {
+        molecular: number;
+        residue: number;
+    },
+    formula: {
+        molecular: string;
+        residue: string;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public class AminoAcid
+{
+    public string Name { get; set; }
+    public AminoAbbreviation Abbreviation { get; set; }
+    public AminoWeight Weight { get; set; }
+}
+
+public class AminoAbbreviation
+{
+    public string Short { get; set; }
+    public string Long { get; set; }
+}
+
+public class AminoWeight
+{
+    public double Molecular { get; set; }
+    public double Residue { get; set; }
+}
+```
+
+</PlatformBlock>
+
+For example, in order to display the weights of a given amino acid in the grid the following snippet will suffice
 
 <PlatformBlock for="Angular">
 
@@ -628,8 +1510,6 @@ To bind a column to a nested property, set the path to the property as the colum
 <igx-column field="weight.molecular"></igx-column>
 <igx-column field="weight.residue"></igx-column>
 ```
-
-<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="{Platform} Data Grid with columns bound to nested properties of amino acid records" />
 
 </PlatformBlock>
 
@@ -660,14 +1540,37 @@ To bind a column to a nested property, set the path to the property as the colum
 
 </PlatformBlock>
 
-To show a nested object, or several fields, in one cell, use a cell template and read the record through the cell:
+<PlatformBlock for="Angular">
+
+Refer to the sample below for additional information. This type of binding supports all the default functionality that you would expect from the grid. That is all sorting and filtering operations work out of the box without any additional configuration. Same goes for grouping and editing operations with or without transactions as well as the ability to template the cells of the bound column.
+
+<DocsAside type="warning">
+The grids **do not** support this kind of binding for <ApiLink type="Grid" member="primaryKey" />, `foreignKey` and `childDataKey` properties where applicable.
+</DocsAside>
+
+<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="{Platform} Data Grid with columns bound to nested properties of amino acid records" />
+
+</PlatformBlock>
+
+An alternative way to bind complex data, or to visualize composite data (from more than one column) in the <ApiLink type="Grid" /> is to use a custom body template for the column. Generally, one can:
+
+- use the `value` of the cell, that contains the nested data
+<PlatformBlock for="Angular">- use the `cell` object in the template, from which to access the `row.data`, therefore retrieve any value from it, i.e `cell.row.data[field]` and `cell.row.data[field][nestedField]` and interpolate those in the template.
+</PlatformBlock><PlatformBlock for="React,WebComponents">- use the `cell` object in the template, from which to access the `ctx.cell.id.rowIndex` or `ctx.cell.id.rowID` to get the row via the grid's API and retrieve any value from it and interpolate those in the template.
+</PlatformBlock>
 
 <PlatformBlock for="Angular">
 
 ```html
-<igx-column field="Address" header="Address">
+<igx-column field="abbreviation.long" header="Long">
     <ng-template igxCell let-cell="cell">
-        {{ cell.row.data.City }}, {{ cell.row.data.Country }} {{ cell.row.data.PostalCode }}
+        <div>
+            <div>
+                {{ cell.value }}
+                {{ cell.row.data['name'] }}
+                {{ cell.row.data['weight']['molecular'] }}
+            </div>
+        </div>
     </ng-template>
 </igx-column>
 ```
@@ -677,17 +1580,286 @@ To show a nested object, or several fields, in one cell, use a cell template and
 <PlatformBlock for="WebComponents">
 
 ```html
-<igc-column id="address" field="Address" header="Address"></igc-column>
+<igc-column id="abbreviationLong" field="abbreviation.long"></igc-column>
 ```
 
-```ts
-const addressCellTemplate = (ctx: IgcCellTemplateContext) => {
-    const record = ctx.cell.row.data;
-    return html`${record.City}, ${record.Country} ${record.PostalCode}`;
-};
+```typescript
+constructor() {
+    var grid = (this.grid = document.getElementById("grid") as IgcGridComponent);
+    var abbreviationLong = this.abbreviationLong = document.getElementById('abbreviationLong') as IgcColumnComponent;
+    abbreviationLong.bodyTemplate = this.abbreviationLongCellTemplate;
+}
 
-const address = document.getElementById('address') as IgcColumnComponent;
-address.bodyTemplate = addressCellTemplate;
+public abbreviationLongCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <div>
+            <div>
+                ${ ctx.cell.value }
+                    ${this.getName(ctx.cell.id.rowIndex)}
+                    ${this.getWeight(ctx.cell.id.rowIndex)}
+            </div>
+        </div>
+    `;
+}
+
+public getName(rowIndex: number) {
+    return this.grid.getRowByIndex(rowIndex).data["name"];
+}
+public getWeight(rowIndex: number) {
+    return this.grid.getRowByIndex(rowIndex).data["weight"]["molecular"];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function getName(rowIndex: number) {
+    return grid.current.getRowByIndex(rowIndex).data["name"];
+}
+function getWeight(rowIndex: number) {
+    return grid.current.getRowByIndex(rowIndex).data["weight"]["molecular"];
+}
+
+function abbreviationLongCellTemplate(ctx: IgrCellTemplateContext) {
+    return (
+        <>
+            <div>
+            <div>
+                { ctx.cell.value }
+                    {getName(ctx.cell.id.rowIndex)}
+                    {getWeight(ctx.cell.id.rowIndex)}
+            </div>
+        </div>
+        </>
+    )
+}
+
+<IgrColumn field="abbreviation.long" bodyTemplate={abbreviationLongCellTemplate}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="Abbreviation.Long" BodyTemplateScript="AbbreviationLongCellTemplate"/>
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("AbbreviationLongCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`
+        <div>
+            <div>
+                ${ctx.cell.value}
+                ${this.GetName(ctx.cell)}
+                ${this.GetWeight(ctx.cell)}
+            </div>
+        </div>
+    `;
+}, false);
+
+function GetName(cell) {
+    return cell.grid.getRowByIndex(cell.id.rowIndex).data["Name"];
+
+}
+
+function GetWeight(cell) {
+    return cell.grid.getRowByIndex(cell.id.rowIndex).data["Weight"]["Molecular"];
+}
+```
+
+</PlatformBlock>
+
+Here is an example on how body template is used to display complex data. Below is the data that we are going to use:
+
+<PlatformBlock for="React,Angular,WebComponents">
+
+```typescript
+export const EMPLOYEE_DATA = [
+    {
+        Age: 55,
+        Employees: [
+            {
+                Age: 43,
+                HireDate: new Date(2011, 6, 3),
+                ID: 3,
+                Name: "Michael Burke",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 29,
+                HireDate: new Date(2009, 6, 19),
+                ID: 2,
+                Name: "Thomas Anderson",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 31,
+                HireDate: new Date(2014, 8, 18),
+                ID: 11,
+                Name: "Monica Reyes",
+                Title: "Software Development Team Lead"
+            },
+            {
+                Age: 35,
+                HireDate: new Date(2015, 9, 17),
+                ID: 6,
+                Name: "Roland Mendel",
+                Title: "Senior Software Developer"
+            }],
+        HireDate: new Date(2008, 3, 20),
+        ID: 1,
+        Name: "John Winchester",
+        Title: "Development Manager"
+    }
+]
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public class EmployeesNestedData : List<EmployeesNestedDataItem>
+{
+    public EmployeesNestedData()
+    {
+        this.Add(new EmployeesNestedDataItem()
+        {
+            Age = 55,
+            Employees = new List<EmployeesNestedDataItem_EmployeesItem>()
+            {
+                new EmployeesNestedDataItem_EmployeesItem()
+                {
+                    Age = 43,
+                    Salary = 70000,
+                    Productivity = 80,
+                    City = @"Hamburg",
+                    Country = @"Germany",
+                    Phone = @"609-444-555",
+                    HireDate = @"2011, 6, 3",
+                    ID = 3,
+                    Name = @"Michael Burke",
+                    Title = @"Senior Software Developer"
+                },
+                new EmployeesNestedDataItem_EmployeesItem()
+                {
+                    Age = 29,
+                    Salary = 60000,
+                    Productivity = 80,
+                    City = @"Munich",
+                    Country = @"Germany",
+                    Phone = @"609-333-444",
+                    HireDate = @"2009, 6, 19",
+                    ID = 2,
+                    Name = @"Thomas Anderson",
+                    Title = @"Senior Software Developer"
+                },
+                new EmployeesNestedDataItem_EmployeesItem()
+                {
+                    Age = 31,
+                    Salary = 90000,
+                    Productivity = 80,
+                    City = @"Warsaw",
+                    Country = @"Poland",
+                    Phone = @"609-222-205",
+                    HireDate = @"2014, 8, 18",
+                    ID = 11,
+                    Name = @"Monica Reyes",
+                    Title = @"Software Development Team Lead"
+                },
+                new EmployeesNestedDataItem_EmployeesItem()
+                {
+                    Age = 35,
+                    Salary = 70000,
+                    Productivity = 70,
+                    City = @"Koln",
+                    Country = @"Germany",
+                    Phone = @"609-502-525",
+                    HireDate = @"2015, 9, 17",
+                    ID = 6,
+                    Name = @"Roland Mendel",
+                    Title = @"Senior Software Developer"
+                }
+            }
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+The custom template for the column, that will render the nested data:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column field="Employees" header="Employees" [cellClasses]="{ expand: true }" width="40%">
+    <ng-template #nestedDataTemp igxCell let-people let-cell="cell">
+        <div class="employees-container">
+            @for (person of people; track person.ID) {
+                <igx-expansion-panel>
+                    <igx-expansion-panel-header iconPosition="right">
+                        <igx-expansion-panel-description>
+                            {{ person.Name }}
+                        </igx-expansion-panel-description>
+                    </igx-expansion-panel-header>
+                    <igx-expansion-panel-body>
+                        <div class="description">
+                            <igx-input-group (keydown)="stop($event)">
+                                <label igxLabel for="title">Title</label>
+                                <input type="text" name="title" igxInput [(ngModel)]="person.Title" style="text-overflow: ellipsis;" />
+                            </igx-input-group>
+                            <igx-input-group (keydown)="stop($event)" style="width: 15%;">
+                                <label igxLabel for="age">Age</label>
+                                <input type="number" name="age" igxInput [(ngModel)]="person.Age" />
+                            </igx-input-group>
+                        </div>
+                    </igx-expansion-panel-body>
+                </igx-expansion-panel>
+            }
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column id="employees" field="Employees" header="Employees" width="40%"></igc-column>
+```
+
+```typescript
+constructor() {
+    var employees = this.employees = document.getElementById('employees') as IgcColumnComponent;
+    employees.bodyTemplate = this.addressCellTemplate;
+}
+
+public addressCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+    <igc-expansion-panel>
+            <div slot="title" style="font-size: 1.1em; font-weight: bold; margin-top: 1rem; margin-bottom: 0.25rem;">
+            ${ctx.cell.value[0].Name}
+            </div>
+            <div class="description">
+                <div style="display: flex; align-items: center;">
+                    <div for="title" style="width: 2rem; margin: 0rem;">Title</div>
+                    <input id='Title' type="text" name="title" value="${ctx.cell.value[0].Title}" style="text-overflow: ellipsis;" />
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div for="age" style="width: 2rem; margin: 0rem;">Age</div>
+                    <input id='Age' type="text" name="title" value="${ctx.cell.value[0].Age}" style="text-overflow: ellipsis;" />
+                </div>
+            </div>
+        </igc-expansion-panel>
+    `;
+}
 ```
 
 </PlatformBlock>
@@ -696,11 +1868,35 @@ address.bodyTemplate = addressCellTemplate;
 
 ```tsx
 function addressCellTemplate(ctx: IgrCellTemplateContext) {
-    const record = ctx.cell.row.data;
-    return <>{record.City}, {record.Country} {record.PostalCode}</>;
+    if (ctx.cell.value != null) {
+        if (ctx.cell.value.length === 0) return <></>;
+        const value = ctx.cell.value[0];
+        return (
+          <>
+              <IgrExpansionPanel>
+                  <div slot="title" style={{fontSize: "1.1em", fontWeight: "bold", marginTop: "1rem", marginBottom: "0.25rem"}}>
+                      {value.Name}
+                  </div>
+                  <div className="description">
+                      <IgrInput type="text" label="Title" name="title" value={value.Title} style={{textOverflow: "ellipsis"}}
+                          onInput={(e: CustomEvent<string>) => {
+                              ctx.cell.value[0][e.target.label] = e.detail;
+                              grid.current.markForCheck();
+                          }} />
+                      <IgrInput type="number" label="Age" name="title" value={value.Age} style={{textOverflow: "ellipsis"}}
+                          onInput={(e: CustomEvent<string>) => {
+                              ctx.cell.value[0][e.target.label] = e.detail;
+                              grid.current.markForCheck();
+                          }} />
+                  </div>
+              </IgrExpansionPanel>
+          </>
+        );
+    }
+    return <></>;
 }
 
-<IgrColumn field="Address" header="Address" bodyTemplate={addressCellTemplate}></IgrColumn>
+<IgrColumn field="Employees" header="Employees" width="40%" bodyTemplate={addressCellTemplate}></IgrColumn>
 ```
 
 </PlatformBlock>
@@ -708,33 +1904,44 @@ function addressCellTemplate(ctx: IgrCellTemplateContext) {
 <PlatformBlock for="Blazor">
 
 ```razor
-<IgbColumn Field="Address" Header="Address" BodyTemplateScript="AddressCellTemplate" />
+<IgbColumn Header="Employees" Field="Employees" BodyTemplateScript="WebGridNestedDataCellTemplate" />
 ```
 
 ```javascript
 //In JavaScript:
-igRegisterScript("AddressCellTemplate", (ctx) => {
-    const html = window.igTemplating.html;
-    const record = ctx.cell.row.data;
-    return html`${record.City}, ${record.Country} ${record.PostalCode}`;
+igRegisterScript("WebGridNestedDataCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.keyUpHandler = function() {
+        ctx.cell.row.data[window.event.target.id] = window.event.target.value;
+    }
+    const people = ctx.cell.value;
+    if (people != null) {
+        if (people.length === 0) return html``;
+        const person = people[0];
+        return html`
+    <igc-expansion-panel>
+        <h3 slot="title">
+        ${person.Name}
+        </h3>
+        <div class="description">
+            <div>
+                <label for="title">Title</label>
+                <input id='Title' type="text" name="title" value="${person.Title}" style="text-overflow: ellipsis;" />
+            </div>
+            <div>
+                <label for="age">Age</label>
+                <input id='Age' type="text" name="title" value="${person.Age}" style="text-overflow: ellipsis;" />
+            </div>
+        </div>
+    </igc-expansion-panel>
+        `;
+    }
 }, false);
 ```
 
 </PlatformBlock>
 
-<PlatformBlock for="Angular">
-
-<Sample src="/grid/grid-composite-data-binding" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
-
-</PlatformBlock>
-
-<PlatformBlock for="React,WebComponents,Blazor">
-
-<Sample src="/{GridSample}/binding-composite-data" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
-
-</PlatformBlock>
-
-A cell template can also render an array value, such as the employees of each manager in the following sample:
+And the result from this configuration is:
 
 <PlatformBlock for="Angular">
 
@@ -748,11 +1955,375 @@ A cell template can also render an array value, such as the employees of each ma
 
 </PlatformBlock>
 
-For real-time updates, see [Live Data](./_shared/live-data.mdx). <PlatformBlock for="Angular">For sorting, filtering and paging on the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">To load the data in chunks while the reader scrolls, or a page at a time from the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock>
+#### Working with Flat Data
+
+The flat data binding approach is similar to the one that we already described above, but instead of **cell value** we are going to use the <PlatformBlock for="Angular"><ApiLink type="GridRowComponent" member="data" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="RowType" member="data" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" member="data" /></PlatformBlock> property of the <PlatformBlock for="Angular"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="React,WebComponents"><ApiLink type="RowType" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock>.
+
+Since the {Platform} grid is a component for **rendering**, **manipulating** and **preserving** data records, having access to **every data record** gives you the opportunity to customize the approach of handling it. The `data` property provides you this opportunity.
+
+Below is the data that we are going to use:
+
+<PlatformBlock for="React,Angular,WebComponents">
+
+```typescript
+export const DATA: any[] = [
+    {
+        Address: "Obere Str. 57",
+        City: "Berlin",
+        CompanyName: "Alfreds Futterkiste",
+        ContactName: "Maria Anders",
+        ContactTitle: "Sales Representative",
+        Country: "Germany",
+        Fax: "030-0076545",
+        ID: "ALFKI",
+        Phone: "030-0074321",
+        PostalCode: "12209",
+        Region: null
+    }
+]
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public class CustomersData : List<CustomersDataItem>
+{
+    public CustomersData()
+    {
+        this.Add(new CustomersDataItem()
+        {
+            ID = "ALFKI",
+            CompanyName = "Alfreds Futterkiste",
+            ContactName = "Maria Anders",
+            ContactTitle = "Sales Representative",
+            Address = "Obere Str. 57",
+            City = "Berlin",
+            Region = "East",
+            PostalCode = "12209",
+            Country = "Germany",
+            Phone = "030-0074321",
+            Fax = "030-0076545"
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+The custom template:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template #compositeTemp igxCell let-cell="cell">
+        <div class="address-container">
+        <!-- In the Address column combine the Country, City and PostCode values of the corresponding data record -->
+            <span><strong>Country:</strong> {{cell.row.data.Country}}</span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column id="address" field="Address" header="Address" width="25%" editable="true"></igc-column>
+```
+
+```typescript
+constructor() {
+    var address = this.address = document.getElementById('address') as IgcColumnComponent;
+    address.bodyTemplate = this.addressCellTemplate;
+}
+
+public addressCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <div class="address-container">
+        <!-- In the Address column combine the Country, City and PostCode values of the corresponding data record -->
+            <span><strong>Country:</strong> ${this.getCountry(ctx.cell.id.rowIndex)}</span>
+            <br/>
+            <span><strong>City:</strong> ${this.getCity(ctx.cell.id.rowIndex)}</span>
+            <br/>
+            <span><strong>Postal Code:</strong> ${this.getPostalCode(ctx.cell.id.rowIndex)}</span>
+        </div>
+    `;
+}
+
+public getCountry(rowIndex: number) {
+    return this.grid.getRowByIndex(rowIndex).data["Country"];
+}
+
+public getCity(rowIndex: number) {
+     return this.grid.getRowByIndex(rowIndex).data["City"];
+}
+
+public getPostalCode(rowIndex: number) {
+     return this.grid.getRowByIndex(rowIndex).data["PostalCode"];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function getCountry(rowIndex: number) {
+    return grid.current.getRowByIndex(rowIndex).data["Country"];
+}
+
+function getCity(rowIndex: number) {
+     return grid.current.getRowByIndex(rowIndex).data["City"];
+}
+
+function getPostalCode(rowIndex: number) {
+     return grid.current.getRowByIndex(rowIndex).data["PostalCode"];
+}
+
+function addressCellTemplate(ctx: IgrCellTemplateContext) {
+    var cell: IgrCellType = ctx.cell;
+    if (cell === undefined || cell.row === undefined || cell.row.data === undefined) {
+        return <></>;
+    }
+
+    return (
+        <>
+            <div className="address-container">
+                <div className="country-city">
+                    <span><strong>Country:</strong> {cell.row.data.Country}</span>
+                    <br/>
+                    <span><strong>City:</strong> {cell.row.data.City}</span>
+                </div>
+                <div className="phone-pscode">
+                    <span><strong>Postal Code:</strong> {cell.row.data.PostalCode}</span>
+                    <br/>
+                    <span><strong>Phone:</strong> {cell.row.data.Phone}</span>
+                </div>
+                <br />
+            </div>
+        </>
+    );
+}
+
+<IgrColumn field="Address" header="Address" width="25%" editable={true} bodyTemplate={addressCellTemplate}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Header="Address" Field="Address"
+           Editable="true"
+           BodyTemplateScript="AddressCellTemplate" />
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("AddressCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div class="address-container">
+    <div class="country-city">
+        <span><strong>Country:</strong> ${ctx.cell.row.data.Country}</span>
+        <br>
+        <span><strong>City:</strong> ${ctx.cell.row.data.City}</span>
+    </div>
+    <div class="phone-pscode">
+        <span><strong>Postal Code:</strong> ${ctx.cell.row.data.PostalCode}</span>
+        <br>
+        <span><strong>Phone:</strong> ${ctx.cell.row.data.Phone}</span>
+    </div>
+    <br />
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+Keep in mind that with the above defined template you will not be able to make editing operations, so we need an editor template.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column>
+    <ng-template igxCellEditor let-cell="cell">
+        <div class="address-container">
+            <span>
+                <strong>Country:</strong> {{cell.row.data.Country}}
+                <igx-input-group width="100%">
+                        <input igxInput [(ngModel)]="cell.row.data.Country" />
+                </igx-input-group>
+            </span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.City" />
+            </igx-input-group>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.PostalCode" />
+            </igx-input-group>
+            <br/>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column id="address" field="Address" data-type="string" width="25%" editable="true"></igc-column>
+```
+
+```typescript
+constructor() {
+    var address = this.address = document.getElementById('address') as IgcColumnComponent;
+    address.inlineEditorTemplate = this.webGridCompositeAddressEditCellTemplate;
+}
+
+public webGridCompositeAddressEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    var cell = ctx.cell as any;
+    if (cell === undefined || cell.row === undefined || cell.row.data === undefined) {
+        return html``
+    }
+
+    function keyUpHandler(event: any, ctx: IgcCellTemplateContext) {
+        var cell = ctx.cell as any;
+        if (cell !== undefined && cell.row !== undefined && cell.row.data !== undefined) {
+            cell.row.data[event.target.id] = event.target.value;
+        }
+    }
+
+    return html`<div class="address-container--edit" style="display: inline-grid">
+            <div>
+                <span><strong>Country:</strong></span>
+                <input id='Country' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Country}">
+                <br>
+                <span><strong>City:</strong></span>
+                <input id='City' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.City}">
+            </div>
+            <div>
+                <span><strong>Postal Code:</strong></span>
+                <input id='PostalCode' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.PostalCode}">
+                <br>
+                <span><strong>Phone:</strong></span>
+                <input id='Phone' @keyup=${(e: any) => keyUpHandler(e, ctx)} value="${cell.row.data.Phone}">
+            </div>
+            <br>
+        </div>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function addressEditCellTemplate(ctx: IgrCellTemplateContext) {
+    var cell: IgrCellType = ctx.cell;
+    if (cell === undefined || cell.row === undefined || cell.row.data === undefined) {
+        return <></>;
+    }
+
+    return (
+        <>
+            <div className="contact-container--edit" style={{padding: "1rem"}}>
+                <IgrInput
+                    label="Country"
+                    onInput={(e: CustomEvent<string>) => cell.row.data.Country = e.detail}
+                    value={cell.row.data.Country}
+                ></IgrInput>
+                <IgrInput
+                    label="City"
+                    onInput={(e: CustomEvent<string>) => cell.row.data.City = e.detail}
+                    value={cell.row.data.City}
+                ></IgrInput>
+                <IgrInput
+                    label="Postal Code"
+                    onInput={(e: CustomEvent<string>) => cell.row.data.PostalCode = e.detail}
+                    value={cell.row.data.PostalCode}
+                ></IgrInput>
+                <IgrInput
+                    label="Phone"
+                    onInput={(e: CustomEvent<string>) => cell.row.data.Phone = e.detail}
+                    value={cell.row.data.Phone}
+                ></IgrInput>
+            </div>
+        </>
+    );
+}
+
+<IgrColumn field="Address" dataType="string" width="25%" editable={true} inlineEditorTemplate={addressEditCellTemplate}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Header="Address" Field="Address"
+           Editable="true"
+           InlineEditorTemplateScript="AddressEditCellTemplate" />
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("AddressEditCellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.keyUpHandler = function() {
+        ctx.cell.row.data[window.event.target.id] = window.event.target.value;
+    }
+
+    return html`<div class="address-container--edit">
+    <div>
+        <span><strong>Country:</strong></span>
+        <input id='Country' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Country}">
+        <br>
+        <span><strong>City:</strong></span>
+        <input id='City' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.City}">
+    </div>
+    <div>
+        <span><strong>Postal Code:</strong></span>
+        <input id='PostalCode' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.PostalCode}">
+        <br>
+        <span><strong>Phone:</strong></span>
+        <input id='Phone' onkeyup='keyUpHandler()' value="${ctx.cell.row.data.Phone}">
+    </div>
+    <br>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+Using code snippets from previous section will result in the following example of <ApiLink type="Grid" />:
+
+<PlatformBlock for="Angular">
+
+<Sample src="/grid/grid-composite-data-binding" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/{GridSample}/binding-composite-data" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
+
+</PlatformBlock>
 
 ### Features
 
-Each feature of the {Platform} Data Grid is enabled per column or per grid and has its own topic.
+Each feature of the {Platform} Data Grid has its own topic.
 
 | Feature | What it does |
 | --- | --- |
@@ -769,10 +2340,36 @@ Each feature of the {Platform} Data Grid is enabled per column or per grid and h
 | Rows | [Row pinning](./_shared/row-pinning.mdx), [row dragging](./_shared/row-drag.mdx), [row actions](./_shared/row-actions.mdx), [master-detail](./grid/master-detail.mdx), [multi-row layout](./_shared/multi-row-layout.mdx) and [cell merging](./_shared/cell-merging.mdx). |
 | [Export](./_shared/export-excel.mdx) | Export to Excel, CSV and PDF from the [toolbar](./_shared/toolbar.mdx); [copy to the clipboard](./_shared/clipboard-interactions.mdx) and [paste from Excel](./grid/paste-excel.mdx). |
 | [Keyboard Navigation](./_shared/keyboard-navigation.mdx) | Keyboard navigation across the header and the body, with custom overrides. |
-| [State Persistence](./_shared/state-persistence.mdx) | Save and restore the sorting, filtering, grouping, paging, selection and column state. |
+| [State Persistence](./_shared/state-persistence.mdx) | Save and restore the sorting, filtering, grouping, paging, selection and column state<PlatformBlock for="Angular"> with the built-in `IgxGridStateDirective`</PlatformBlock>. |
 | [Toolbar](./_shared/toolbar.mdx) | Container for a title and for the column hiding, column pinning, advanced filtering and export actions. |
 | [Virtualization](./_shared/virtualization.mdx) | Row and column virtualization for large data sets. |
 | [Theming](./_shared/theming.mdx) | A complete theme from three colors, or individual CSS properties. |
+
+<PlatformBlock for="Angular">
+
+### Performance (Experimental)
+
+Design of the <ApiLink type="Grid" /> allows it to take advantage of the Event Coalescing feature that has Angular introduced. This feature allows for improved performance with roughly around **20%** in terms of interactions and responsiveness. This feature can be enabled on application level by setting the `eventCoalescing` and `runCoalescing` options of `provideZoneChangeDetection` to **true** in the providers of the application:
+
+```typescript
+// main.ts
+
+bootstrapApplication(AppComponent, {
+    providers: [provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true })]
+}).catch(err => console.error(err));
+```
+
+Event coalescing is an option of the zone.js-based change detection, while Angular 21 and later use zoneless change detection by default. In an NgModule-based application, pass the same provider in the `applicationProviders` option of `bootstrapModule()`.
+
+<DocsAside type="info">
+This is still in experimental feature for the `IgxGridComponent`. This means that there might be some unexpected behaviors in the Grid. In case of encountering any such behavior, please contact us on our [GitHub]({GithubLink}/discussions) page.
+</DocsAside>
+
+<DocsAside type="info">
+Enabling it can affect other parts of an Angular application that the `IgxGridComponent` is not related to.
+</DocsAside>
+
+</PlatformBlock>
 
 ### Do/Don't
 
@@ -792,6 +2389,46 @@ Align text to the left and numbers to the right in the header cells and the body
 <Fragment slot="dont">
 
 Avoid aligning numbers to the left: values of different lengths become hard to compare.
+
+</Fragment>
+</DoDont>
+
+Keep the content of every cell on one line. A cell template with content that wraps makes its row taller than the other rows, and the Data Grid measures such a row only when it scrolls into view, as [Known Limitations](#known-limitations) describes.
+
+<DoDont
+  doSrc={gridDoRowHeight}
+  doAlt="Data Grid with three rows of the same height, in which long descriptions end with an ellipsis"
+  dontSrc={gridDoNotRowHeight}
+  dontAlt="Data Grid in which a description wraps to three lines and makes its row taller than the other rows"
+>
+<Fragment slot="do">
+
+Keep cell content on one line; the Data Grid ends long text with an ellipsis.
+
+</Fragment>
+<Fragment slot="dont">
+
+Avoid cell templates that let the content wrap: the rows get different heights and the text touches the row borders.
+
+</Fragment>
+</DoDont>
+
+Show the columns that the task needs. Hide the remaining ones and let the reader show them from the [Column Hiding](./_shared/column-hiding.mdx) menu, instead of narrowing every column until its content no longer fits.
+
+<DoDont
+  doSrc={gridDoColumns}
+  doAlt="Data Grid with three columns, Product, Category and Price, that show their headers and values in full"
+  dontSrc={gridDoNotColumns}
+  dontAlt="Data Grid with six narrow columns whose headers and values are truncated to one or two letters"
+>
+<Fragment slot="do">
+
+Show a few columns that are wide enough for their headers and values.
+
+</Fragment>
+<Fragment slot="dont">
+
+Avoid squeezing every field into the visible width: the headers and the values are truncated.
 
 </Fragment>
 </DoDont>
@@ -900,11 +2537,12 @@ In HTML, set the properties through their kebab-case attributes, such as `auto-g
 
 ## Styling
 
-The {Platform} Data Grid takes its colors from the theme of the application. To restyle one grid, set its CSS properties.
+The {Platform} Data Grid takes its colors from the theme of the application.
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-Add a class to the grid:
+In addition to the predefined themes, the grid could be further customized by setting some of the available CSS properties. To build a complete theme from just a few colors, see the [theming topic](./_shared/theming.mdx).
+In case you would like to change the header background and text color, you need to set a class for the grid first:
 
 </PlatformBlock>
 
@@ -934,7 +2572,7 @@ Add a class to the grid:
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-Then set the properties for that class:
+Then set the `--header-background` and `--header-text-color` CSS properties for that class:
 
 ```css
 .grid {
@@ -966,7 +2604,9 @@ The grid theme reads the following properties on the grid element. Each one fall
 
 ### Sass Theming
 
-The recommended way to style the Angular Data Grid is the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> function with its three primary parameters: `$background` sets the background of the header and the body, `$foreground` the color of the text and the icons, and `$accent-color` the color of the interactive elements. Create a theme with the function and include it with the `tokens()` mixin:
+The easiest and recommended way to style the `igxGrid` is to use the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> and provide just the three main colors: `background`, `foreground`, and `accent-color`.
+
+These are the core theme properties. When you set them, all grid parts and internal components derive their colors from those values, resulting in a consistent appearance throughout the entire grid. Nested components such as buttons, icons, inputs, dropdowns, checkboxes, scrollbars, chips, and other helper components also derive their styling tokens from the main <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> for a unified look.
 
 ```scss
 @use "igniteui-angular/theming" as *;
@@ -982,19 +2622,19 @@ igx-grid {
 }
 ```
 
-The function has more parameters for finer control, such as `$header-background` and `$row-hover-background`.
+There are also additional parameters in the <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />, such as `$header-background` and `$row-hover-background`, that you can use if you want more specific customizations.
 
 #### Additional Themes
 
-The grid parts that open as separate components have their own themes. Use them when one of these parts must look different from the rest of the Data Grid:
+If you want more control over nested components, the grid also provides additional themes. Use them when you want a specific nested component to have a different style from the rest of the grid theme.
 
-- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> for the Excel-style filtering menu
-- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> for the toolbar
-- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> for the paginator
-- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> for the column hiding and column pinning menus
+Available standalone themes include:
+
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> for the Excel-style filtering component
+- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> for the grid toolbar component
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> for the paginator component
+- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> for the column actions component
 - <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} /> for the advanced filtering dialog
-
-Each of these functions also takes `$background`, `$foreground` and `$accent-color`:
 
 ```scss
 $excel-filtering-theme: excel-filtering-theme(
@@ -1019,19 +2659,23 @@ igx-advanced-filtering-dialog {
 }
 ```
 
+By providing only the three main colors, all parts of the component are styled consistently. These themes also expose additional parameters if you need more detailed customization.
+
 #### Nested Component Themes
 
-To restyle only the smaller components inside the Data Grid, such as its buttons, icons, inputs or chips, include their own themes with a selector that matches only those elements. The [Dependencies](#dependencies) section lists these components and their theme functions.
-
-</PlatformBlock>
+If you want to target only smaller nested components within the grid, such as buttons, icons, inputs, or chips, you can apply their standalone themes directly. Make sure your selector scope is specific enough so the provided theme affects only the intended element. The [Dependencies](#dependencies) section lists the component themes that apply inside the grid.
 
 To build a complete theme from a few colors, see the [Theming](./_shared/theming.mdx) topic.
+
+</PlatformBlock>
 
 ## Accessibility
 
 The {Platform} Data Grid can be operated with the keyboard and exposes its structure and state to assistive technology through ARIA roles and attributes.
 
 ### Keyboard Interaction
+
+Keyboard navigation of the <ApiLink type="Grid" /> provides a rich variety of keyboard interactions for the user. It enhances accessibility and allows intuitive navigation through any type of elements inside (cell, row, column header, toolbar, footer, etc.).
 
 The header row and the body of the {Platform} Data Grid are separate tab stops, and inside each of them the arrow keys move the active cell. The following keys work while the header row or the body has the focus:
 
@@ -1050,7 +2694,12 @@ The header row and the body of the {Platform} Data Grid are separate tab stops, 
 | <kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> | Collapse the group row. |
 | <kbd>Alt</kbd> + <kbd>Arrow Right</kbd> / <kbd>Alt</kbd> + <kbd>Arrow Down</kbd> | Expand the group row. |
 
-For the complete list of keys and for custom keyboard handling, see the [Keyboard Navigation](./_shared/keyboard-navigation.mdx) topic. The [Tree Grid](./tree-grid/keyboard-navigation.mdx) and the [Hierarchical Grid](./hierarchical-grid/keyboard-navigation.mdx) have keyboard navigation topics of their own, and the [blog post about grid keyboard navigation](https://www.infragistics.com/community/blogs/b/engineering/posts/grid-keyboard-navigation-accessibility) explains how it improves usability and accessibility.
+Check out these resources for more information:
+
+- [Grid Keyboard Navigation](./_shared/keyboard-navigation.mdx)
+- [Tree Grid Keyboard Navigation](./tree-grid/keyboard-navigation.mdx)
+- [Hierarchical Grid Keyboard Navigation](./hierarchical-grid/keyboard-navigation.mdx)
+- [Blog post](https://www.infragistics.com/community/blogs/b/engineering/posts/grid-keyboard-navigation-accessibility) - Improving Usability, Accessibility and ARIA Compliance with Grid keyboard navigation
 
 ### Screen Readers / ARIA
 
@@ -1173,9 +2822,11 @@ igRegisterScript("ProductHeaderTemplate", (ctx) => {
 
 ### How do I import the Data Grid in an NgModule-based application?
 
-The `IGX_GRID_DIRECTIVES` token in [Getting Started](#getting-started) is for standalone components. An application that still declares its components in NgModules can import the `IgxGridModule` from the same entry point instead, which the package keeps for backward compatibility:
+The `IGX_GRID_DIRECTIVES` token in [Getting Started](#getting-started) is for standalone components, which the Data Grid supports as of version `16.0.0`. An application that still declares its components in NgModules can import the `IgxGridModule` from the same entry point instead, which the package keeps for backward compatibility:
 
-```ts
+```typescript
+// app.module.ts
+
 import { NgModule } from '@angular/core';
 import { IgxGridModule } from 'igniteui-angular/grids/grid';
 // import { IgxGridModule } from '@infragistics/igniteui-angular/grids/grid'; for licensed package
@@ -1188,23 +2839,54 @@ export class AppModule {}
 
 </PlatformBlock>
 
+### Why doesn't the Data Grid render properly in Internet Explorer?
+
+The grid uses **css grid layout**, which is **not supported in IE without prefixing**, consequently it will not render properly.
+
+<PlatformBlock for="Angular">
+
+In [**Angular**](https://angular.dev/) most of the styles are prefixed implicitly thanks to the [Autoprefixer](https://www.npmjs.com/package/autoprefixer) plugin.
+
+For prefixing **grid layouts** however, you need to enable the [Autoprefixer](https://www.npmjs.com/package/autoprefixer) **grid property** with the comment `/* autoprefixer grid:on */`.
+
+To facilitate your work, apply the comment in the `src/styles.scss` file.
+
+```scss
+// src/styles.scss
+@use "igniteui-angular/theming" as *;
+
+@include core();
+/* autoprefixer grid:on */
+@include theme($default-palette);
+```
+
+Prior to {ProductName} version 13, import the theming library with `@import '~igniteui-angular/lib/core/styles/themes/index';` instead of the `@use` rule.
+
+### Where is the `Http` service of `@angular/http`?
+
+Before Angular 5 the `HttpClient` was located in `@angular/http` and was named `Http`. Import the `HttpClient` from `@angular/common/http`, as the [Remote Data Binding](#remote-data-binding) example does.
+
+</PlatformBlock>
+
 ## Known Limitations
 
 The {Platform} Data Grid has the following limitations.
 
 | Limitation | Description |
 | --- | --- |
-| Column widths in `%` and `px` | Mixing percentage and pixel column widths is not supported. |
-| Filtering a number column | A value that is not a number in the filter input returns `NaN`. |
-| Data Grid width and column widths | Unless the width of the Data Grid is `null`, the column widths do not determine the width of the Data Grid; the width of the Data Grid or of its parent container does. |
-| Data Grid in a container | Without a width, the Data Grid spans its parent container. |
-| Minimum column width | Resizing or auto-sizing doesn't make a column narrower than 56 px (small), 64 px (medium) or 80 px (large), depending on `--ig-size`, unless the column has a minimum width of its own. A narrower width that you set yourself applies. |
-<PlatformBlock for="Angular">| `OnPush` change detection | The Data Grid uses `ChangeDetectionStrategy.OnPush`. When a customization changes what the Data Grid shows, make sure that the Data Grid is notified about the change. |
-</PlatformBlock>| Row height and virtualization | A custom cell template that is outside the viewport does not affect the row height until it scrolls into view. |
+| Column widths set in `percentage` and `px` | Currently we do not support mixing of column widths with `%` and `px`. |
+| When trying to filter a column of type `number` | If a value different than `number` is entered into the filtering input, `NaN` is returned due to an incorrect cast. |
+| Grid `width` does not depend on the column widths | Unless the grid's `width` is `null`, the `width` of all columns does not determine the spanning of the grid itself. It is determined by the parent container dimensions or the defined grid's `width`. |
+| Grid nested in parent container | When grid's `width` is not set and it is placed in a parent container with defined dimensions, the grid spans to this container. |
+| Columns have a minimum allowed column width. Depending on the `--ig-size` CSS variable, they are as follows: <br/>"small": 56px <br/> "medium": 64px <br/> "large": 80px | Resizing or auto-sizing doesn't make a column narrower than the minimum allowed width for the corresponding `--ig-size`, unless the column has a minimum width of its own. A narrower width that you set yourself applies. |
+<PlatformBlock for="Angular">| Grid `OnPush` ChangeDetectionStrategy | The grid operates with `ChangeDetectionStrategy.OnPush` so whenever some customization appears make sure that the grid is notified about the changes that happens. |
+</PlatformBlock>| Row height is not affected by the height of cells that are not currently rendered in view. | Because of virtualization a column with a custom template (that changes the cell height) that is not in the view will not affect the row height. The row height will be affected only while the related column is scrolled in the view. |
 
 <PlatformBlock for="Angular">
 
-The Angular Data Grid uses the `igxForOf` directive internally, so the [`igxForOf` limitations](../for-of.mdx#known-limitations) apply to it too.
+<DocsAside type="info">
+`igxGrid` uses `igxForOf` directive internally hence all `igxForOf` limitations are valid for `igxGrid`. For more details see [igxForOf Known Issues](../for-of.mdx#known-limitations) section.
+</DocsAside>
 
 </PlatformBlock>
 
@@ -1219,6 +2901,7 @@ The {Platform} Data Grid API reference lists the complete API surface for the ta
 - <ApiLink type="CellType" />
 - <ApiLink type="GridToolbar" />
 - <ApiLink type="Paginator" />
+- <PlatformBlock for="React,WebComponents"><ApiLink type="RowType" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock>
 - <ApiLink type="CellTemplateContext" />
 - <ApiLink type="ColumnPipeArgs" />
 
@@ -1231,6 +2914,7 @@ The {Platform} Data Grid API reference lists the complete API surface for the ta
 - <ApiLink type="CellType" />
 - <ApiLink type="GridToolbar" />
 - <ApiLink type="Paginator" />
+- <ApiLink type="GridRowComponent" />
 - <ApiLink type="CellTemplateContext" />
 - <ApiLink type="IColumnPipeArgs" kind="interface" />
 - <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" />
@@ -1276,10 +2960,23 @@ The {Platform} Data Grid uses the following components to render its features, s
 The following resources provide more {Platform} Data Grid guidance and project support:
 
 - [Grid Sizing](./_shared/sizing.mdx)
-<PlatformBlock for="Angular">- [Build CRUD operations with the Data Grid](../general/how-to/how-to-perform-crud.mdx)
+<PlatformBlock for="React">- [{Platform} Data Grid product page](https://www.infragistics.com/products/react-data-grid)
+</PlatformBlock><PlatformBlock for="Angular">- [Build CRUD operations with the Data Grid](../general/how-to/how-to-perform-crud.mdx)
 - [Ignite UI for Angular Skills](../ai/skills.mdx), Agent Skills for grids, data operations and theming
-- [Angular Data Grid tutorial video](https://www.youtube.com/watch?v=Xv_fQVQ8fmM)
-</PlatformBlock>- [{ProductName} **Forums**]({ForumsLink})
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Learn more about creating a {Platform} Data Grid in our short tutorial video:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/Xv_fQVQ8fmM" title="{Platform} Data Grid tutorial video">
+</iframe>
+
+</PlatformBlock>
+
+Our community is active and always welcoming to new ideas.
+
+- [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
 
 ## Related Components
@@ -1298,18 +2995,18 @@ These questions cover common {Platform} Data Grid data binding, editing and perf
 
 <Faq>
   <FaqItem question="How do I bind the {Platform} Data Grid to remote data?" indicatorPosition="end">
-    Fetch the data and assign the array to the data property of the {Platform} Data Grid. When auto-generation is on, the Data Grid creates the columns when the data arrives. <PlatformBlock for="Angular">For sorting, filtering and paging on the server, handle the corresponding events as the Remote Data Operations topic shows.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">To load the data in chunks while the reader scrolls, or a page at a time, follow the Remote Data Operations topic.</PlatformBlock>
+    Fetch the data and assign the array to the data property of the {Platform} Data Grid. The [Remote Data Binding](#remote-data-binding) section shows the complete example and links to the topics about live data and server-side data operations.
   </FaqItem>
   <FaqItem question="When should I use the Tree Grid or the Hierarchical Grid instead of the Data Grid?" indicatorPosition="end">
-    The {Platform} Data Grid displays flat records. Use the Tree Grid when the records form a hierarchy with the same fields at every level, and the Hierarchical Grid when each parent record owns child records with different fields.
+    Use the Tree Grid or the Hierarchical Grid for records that form a hierarchy; the [Related Components](#related-components) section explains when each one fits.
   </FaqItem>
   <FaqItem question="How do I change what a cell of the Data Grid displays?" indicatorPosition="end">
-    Set the data type of a column of the {Platform} Data Grid to format numbers, dates, currencies and Booleans. To render your own content, give the column a cell template, which receives the cell value and the cell, and through the cell the record.
+    Set the data type of a column of the {Platform} Data Grid to format numbers, dates, currencies and Booleans, and its pipe arguments to change the format, as [Custom Display Format](#custom-display-format) shows. To render your own content, give the column a [cell template](#cell-template).
   </FaqItem>
   <FaqItem question="How do I make the Data Grid editable?" indicatorPosition="end">
-    Set a column of the {Platform} Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key.
+    Set a column of the {Platform} Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key. To replace the default editor of a column, give it a [cell editing template](#cell-editing-template).
   </FaqItem>
   <FaqItem question="Does the Data Grid handle large data sets?" indicatorPosition="end">
-    The {Platform} Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while the reader scrolls. For data that does not fit in memory, load it on demand as the Remote Data Operations topic shows.
+    The {Platform} Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while the reader scrolls. For data that does not fit in memory, load it on demand as the [Remote Data Operations](./_shared/remote-data-operations.mdx) topic shows.
   </FaqItem>
 </Faq>

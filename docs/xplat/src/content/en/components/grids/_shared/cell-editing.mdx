@@ -269,33 +269,6 @@ The cell editing template directive <ApiLink type="{ComponentName}" member="cell
 By using <ApiLink type="{ComponentName}" member="cellEditor" /> with any type of editor component, the keyboard navigation flow will be disrupted. The same applies to direct editing of the custom cell that enters edit mode. This is because the **focus** will remain on the **cell element**, not on the editor component that we've added. This is why we should take leverage of the `Focus` directive, which will move the focus directly in the in-cell component and will preserve **a fluent editing flow** of the cell/row.
 </DocsAside>
 
-#### Editing data through the cell template
-
-The cell template also provides the <ApiLink type="CellTemplateContext" member="cell" label="cell" /> instance itself, which you can use to change the data from the template:
-
-```html
-<{ComponentSelector} #grid [data]="data">
-    <igx-column dataType="string" field="Name">
-        <ng-template igxCell let-cell="cell">
-            <!-- Implement row deleting inside the cell template itself -->
-            <span tabindex="0" (keydown.delete)="grid.deleteRow(cell.row.index)">{{ cell.value | titlecase }}</span>
-        </ng-template>
-    </igx-column>
-    <igx-column dataType="boolean" field="Subscribtion">
-        <ng-template igxCell let-cell="cell">
-            <!-- Bind the cell value through the ngModel directive and update the data source when the value is changed in the template -->
-            <input type="checkbox" [ngModel]="cell.value" (ngModelChange)="cell.update($event)" />
-        </ng-template>
-    </igx-column>
-</{ComponentSelector}>
-```
-
-When changing data through the **cell template** using `ngModel`, you need to call the appropriate API methods to make sure the value is correctly updated in the Angular grid's underlying data collection. In the snippet above, the `ngModelChange` call passes through the grid's [editing API](#editing-through-api) and goes through the grid's editing pipeline, properly triggering [transactions](batch-editing.mdx)(if applicable) and handling of [summaries](summaries.mdx), [selection](selection.mdx), etc. However, this `ngModelChange` will fire every time the value of the cell changes, not just when the user is done editing, resulting in a lot more API calls.
-
-If the data in a cell is bound with `[(ngModel)]` and the value change is not handled, the new value will **not** be properly updated in the Angular grid's underlying data source. When dealing with cell editing with a custom template, it is strongly advised to use the cell's **cell editing template**.
-
-When properly implemented, the cell editing template also ensures that the cell's <ApiLink type="CellType" member="editValue" label="EditValue" /> will correctly pass through the grid [editing event cycle](editing.mdx#event-arguments-and-sequence).
-
 </PlatformBlock>
 
 <PlatformBlock for="Blazor, WebComponents">
