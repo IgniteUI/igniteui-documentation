@@ -605,7 +605,7 @@ export function tokens(tree, ctx) {
 const GENERIC_OPENING = /^(?:the following|this (?:example|topic|section)|in this example|below\b|here,)/i;
 const TOPIC_SUBJECT = /^(?:this|the following) (?:topic|article|document|section|walkthrough|procedure|tutorial|guide|help topic|reference)s?\s+/i;
 
-const plain = (ctx, node) => ctx.tokens.literal(toString(node)).replace(/\s+/g, ' ').replace(/[™®]/g, '').trim();
+const plain = (ctx, node) => ctx.tokens.literal(toString(node)).replace(/[™®]/g, '').replace(/\s+/g, ' ').replace(/\s+([.,;:])/g, '$1').trim();
 /** Paragraphs that introduce something rather than say something. */
 const isLeadIn = text => /:$/.test(text) || /\bfollowing (sections|topics)\b/i.test(text) || /^(in|code in)\b[^.]*$/i.test(text);
 
