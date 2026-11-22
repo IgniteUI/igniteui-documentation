@@ -78,7 +78,9 @@ const RESOLVE_ONLY = !!args['resolve-only'];
 // are scanned so API links in generated topics keep their coverage.
 const DEFAULT_SRC = PLATFORM === 'angular'
     ? [ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT]
-    : ['docs/xplat/src/content'];
+    : PLATFORM === 'jquery'
+        ? ['docs/jquery/src/content']
+        : ['docs/xplat/src/content'];
 // Configured, *unfiltered*: docs/xplat/generated/Angular does not exist on a
 // clean checkout and is created by the generate step further down, so an
 // existsSync() filter here would drop it before it is ever written and silently
@@ -105,7 +107,9 @@ function getPlatforms() {
         }
         return [name];
     }
-    return Object.values(PLATFORM_MAP);
+    // jQuery is a doc set of its own, not an xplat platform: its topics are checked with
+    // --platform=jquery, and the xplat topics are not checked against its registry.
+    return Object.values(PLATFORM_MAP).filter(name => name !== 'jQuery');
 }
 
 const upperFirst = (value) => value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
@@ -250,8 +254,11 @@ function resolveMember(symbol, member, platform) {
 
 // MDX parsing
 
-/** Regex to match <ApiLink ... /> or <ApiLink ...>...</ApiLink> */
-const API_LINK_RE = /<ApiLink\s+([^>]*?)\/?>(?:<\/ApiLink>)?/g;
+/**
+ * Regex to match <ApiLink ... /> or <ApiLink ...>...</ApiLink>. A quoted or braced prop value may
+ * hold `>`, as the name of a generic .NET type does (`type="Transaction<T>"`).
+ */
+const API_LINK_RE = /<ApiLink\s+((?:[^>"'{]|"[^"]*"|'[^']*'|\{[^}]*\})*?)\/?>(?:<\/ApiLink>)?/g;
 
 /** Regex to match <PlatformBlock for="...">...</PlatformBlock> including nested content */
 const PLATFORM_BLOCK_RE = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;

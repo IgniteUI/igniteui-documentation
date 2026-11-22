@@ -27,6 +27,15 @@ export type PlatformContext = Omit<PackagePlatformContext, 'name'> & { name: Pla
 
 const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
+/**
+ * Platforms whose API reference is not hosted with the others. The jQuery reference goes to
+ * igniteui.com and is not deployed yet: this origin is a placeholder. `API_DOCS_BASE_URL` still
+ * overrides it, as it does for every platform.
+ */
+const API_DOCS_BASE_URL_BY_PLATFORM: Partial<Record<PlatformName, string>> = {
+    jQuery: 'https://www.igniteui.com/api',
+};
+
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
     Angular: {
         name: 'Angular',
@@ -153,6 +162,28 @@ const PLATFORMS: Record<PlatformName, PlatformContext> = {
             repoSamples: 'https://github.com/IgniteUI/winui-samples/tree/main/samples',
         },
     },
+    // The jQuery doc set (docs/jquery). Its registry merges the JavaScript and the .NET API;
+    // `apiPackages` names one package per api-docs package, see api-platform-config.ts.
+    jQuery: {
+        name: 'jQuery',
+        lower: API_PLATFORM_CONFIGS.jQuery.folder,
+        prefix: API_PLATFORM_CONFIGS.jQuery.prefix,
+        productName: 'Ignite UI for jQuery',
+        productSpinal: 'ignite-ui-jquery',
+        apiPackages: createApiPackages(DEFAULT_API_DOCS_BASE_URL, 'jQuery'),
+        packages: {
+            common: 'ignite-ui',
+            charts: 'ignite-ui',
+            grids: 'ignite-ui',
+            gauges: 'ignite-ui',
+            maps: 'ignite-ui',
+        },
+        links: {
+            github: 'https://github.com/IgniteUI/ignite-ui',
+            forums: 'https://www.infragistics.com/community/forums/',
+            repoSamples: 'https://github.com/IgniteUI/help-samples',
+        },
+    },
 };
 
 let _ctx: PlatformContext | null = null;
@@ -163,9 +194,10 @@ function getBuildMode(): string {
     return process.env.DOCS_ENV ?? process.env.NODE_ENV ?? 'development';
 }
 
-function getApiDocsBaseUrl(): string {
+function getApiDocsBaseUrl(name?: PlatformName): string {
     const mode = getBuildMode();
     const value = process.env.API_DOCS_BASE_URL
+        ?? (name ? API_DOCS_BASE_URL_BY_PLATFORM[name] : undefined)
         ?? (mode === 'production'
             ? 'https://www.infragistics.com/api'
             : 'https://staging.infragistics.com/api');
@@ -196,7 +228,7 @@ function loadApiLinkIndex(platformSlug: string): PlatformContext['apiLinkIndex']
  * Result is cached for the build lifetime.
  */
 function buildContext(name: PlatformName): PlatformContext {
-    const apiDocsBaseUrl = getApiDocsBaseUrl();
+    const apiDocsBaseUrl = getApiDocsBaseUrl(name);
     const base = PLATFORMS[name];
     return {
         ...base,
