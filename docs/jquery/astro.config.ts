@@ -50,7 +50,4 @@ export default createDocsSite({
 		docsDir,
 	},
 	integrations: [mdx()],
-	vite: {
-		server: { fs: { strict: false } },
-	},
 });
