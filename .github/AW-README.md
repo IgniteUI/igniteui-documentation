@@ -2,14 +2,14 @@
 
 This directory contains GitHub **agentic workflows** that automatically
 translate English documentation into Japanese when changes are pushed to
-`vnext`.
+`master`.
 
 ## Workflow files
 
 | Source (`.md`) | Compiled (`.lock.yml`) | Watches |
 |---|---|---|
-| `workflows/sync-jp-docs-angular.md` | `workflows/sync-jp-docs-angular.lock.yml` | `docs/angular/src/content/en/**` on `vnext` |
-| `workflows/sync-jp-docs-xplat.md` | `workflows/sync-jp-docs-xplat.lock.yml` | `docs/xplat/src/content/en/**` on `vnext` |
+| `workflows/sync-jp-docs-angular.md` | `workflows/sync-jp-docs-angular.lock.yml` | `docs/angular/src/content/en/**` on `master` |
+| `workflows/sync-jp-docs-xplat.md` | `workflows/sync-jp-docs-xplat.lock.yml` | `docs/xplat/src/content/en/**` on `master` |
 
 The `.md` files are the human-editable source. The `.lock.yml` files are
 auto-generated and are what GitHub Actions actually executes. **Do not edit
@@ -38,7 +38,7 @@ and commit the regenerated `.lock.yml` file(s) (and `actions-lock.json` if it ch
    `.github/aw/actions-lock.json` if action SHAs changed.
 3. Commit **both** the `.md` and the `.lock.yml` together (plus
    `actions-lock.json` if it changed).
-4. Push to `vnext`.
+4. Open a pull request to `master`.
 
 For more information: https://github.github.com/gh-aw/introduction/overview/
 

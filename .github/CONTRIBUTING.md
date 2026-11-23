@@ -208,23 +208,12 @@ Localization is handled by an agentic workflow (AW) that triggers automatically 
 
 ## Fixing a bug  
 
-1.  Depending on where the bug/change/feature was found/is planned `the current version` or the `ongoing release version`, checkout a development branches from `vnext` or/and `master` branch. `vnext` is the version that is going to be used upon release (next version), and `master` is the branch with the current state (current version available on production). If the change/fix is applicable only to the ongoing release branch (`vnext`) there is no need to cherry-pick to `master` branch as the change/fix/feature will be pushed to `master` branch upon release.
+1. Create a development branch from `master`.
 2. Run lint
-3. Pull request your changes and reference the issue. Use the enforced commit message format with applicable type, scope, etc.
+3. Pull request your changes to `master` and reference the issue. Use the enforced commit message format with applicable type, scope, etc.
 4. Don't forget to make the necessary status updates, as described in the workflow section.
 
-> Note: Cherry-pick to `master` branch only bug fixes with **high or critical severity**. There is no need to cherry-pick into `master` every bug fix/change from `vnext`. A regular mass merge PRs are going to be made from `vnext` into `master`.
-
-**Example workflow for a bug with high or critical severity**
-The process will look like this:
-
-1.	Checkout new branch from `vnext`. For code example purposes let's say the new branch is called `fixing-bug-5423-vnext`.
-2.	Commit your changes to your `fixing-bug-5423-vnext` branch.
-3.	Push and PR to the `vnext` branch.
-4.	Switch to the `master` branch.
-5.  Create a new branch from `master`.  For code example purposes let's say the new branch is called `fixing-bug-5423-master`.
-6.  Cherry pick your commit from the `fixing-bug-5423-vnext` branch: `git cherry-pick fixing-bug-5423-master`
-7.  Push to your `fixing-bug-5423-master` branch and PR to the `master` branch.
+> Note: A merged change deploys to staging, and reaches production with the next release of each platform it affects. Production is released by hand, one platform at a time; see [Deploying](../README.md#deploying). A fix with **high or critical severity** that cannot wait for that release follows [Fixing production between releases](../README.md#fixing-production-between-releases).
 
 # <a name='#environment-variables'>Environment variables and template tokens</a>
 
