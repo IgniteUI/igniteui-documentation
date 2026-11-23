@@ -1,6 +1,6 @@
 # Create workflow
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.md v2 so the workflow can evolve without touching the router; steps 2, 3 and 6 changed in v8 (see `.agents/CHANGELOG.md`). Blueprints, mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from `audit-rubric.md` before delivering.
+Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.md v2 so the workflow can evolve without touching the router; steps 2, 3, 4 and 6 changed in v8 (see `.agents/CHANGELOG.md`). Blueprints, mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from `audit-rubric.md` before delivering.
 
 ## Steps
 
@@ -52,7 +52,8 @@ Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.m
    Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections.
 6. **Fill each section in its mode**, in six passes:
    - **6a — Leads and modes.** Lead every section with one plain, specific sentence that names the
-     component (and platform token where the set uses them). Keep each section in its assigned mode;
+     component (and platform token where the set uses them) — except **Live Demo**, which holds
+     only its sample (6d). Keep each section in its assigned mode;
      put reference content in tables, writing each Properties / Methods / Events row by hand and
      checking its name, type, default, and description through the verification workflow for every
      platform the row is shown for (house-style → "Reference-table contract"). Phrase Troubleshooting as the
@@ -70,8 +71,8 @@ Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.m
      `<Sample>` per platform and no text, then Usage samples for distinct tasks and property behaviors — no
      cap on their number, but each must show something no other sample on the page shows. For
      samples, use the shared Astro `Sample` component and verify its `src`, display props, and
-     descriptive `alt`, starting from the three shapes in house-style → "`<Sample>`
-     configuration". For Anatomy, import and use the shared Astro `Anatomy` component with a
+     descriptive `alt`, starting from the shapes in house-style → "`<Sample>`
+     configuration"; a Usage sample keeps its code tabs unless it only displays mocked states. For Anatomy, import and use the shared Astro `Anatomy` component with a
      verified anatomy image and alt text, then the numbered legend of the labelled parts, then the
      verified DOM tree or skeleton for each platform family (house-style → "Anatomy —
      sub-structure"). Add each image once under `docs/xplat/src/assets/images/` and import it

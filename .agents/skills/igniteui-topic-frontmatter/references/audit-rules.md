@@ -6,7 +6,8 @@ Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.m
 
 - Angular topics live under `docs/angular/src/content/<lang>/components/`.
 - xplat topics live under `docs/xplat/src/content/<lang>/components/` and may use tokens such as
-  `{Platform}`, `{ProductName}`, `{ComponentTitle}`, and `{ComponentKeywords}`.
+  `{Platform}` and `{ProductName}`. `{ComponentTitle}` and `{ComponentKeywords}` are grid-only:
+  they are defined per grid type and resolve in the grid topics alone.
 
 Keep valid platform tokens in xplat frontmatter. Do not replace them with a single concrete
 framework name unless the topic itself is framework-specific.

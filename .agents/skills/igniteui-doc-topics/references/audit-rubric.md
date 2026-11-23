@@ -66,10 +66,10 @@ content for them.
   by a non-standard heading.
 - A5 (Error) `## Live Demo` is missing near the top of the topic, appears after **Anatomy**, or the
   top preview `<Sample>` is left as a bare block instead of living inside the `## Live Demo` section.
-- A6 (Suggestion) A `<Sample>` doesn't earn its place: it repeats the state another sample on the
-  page already shows (see E2), or shows nothing the snippet above it doesn't convey. There is no cap
-  on the number of samples — never flag a topic for the count alone — and the count is per platform:
-  an Angular sample and its `igc` counterpart in sibling `<PlatformBlock>`s are one sample.
+- A6 (Suggestion) A `<Sample>` shows nothing that the snippet above it doesn't already convey.
+  There is no cap on the number of samples — never flag a topic for the count alone — and the count
+  is per platform: an Angular sample and its `igc` counterpart in sibling `<PlatformBlock>`s are one
+  sample. Near-duplicate samples are E2, not this check.
 - A7 (Warning) **Usage** does not end with `### Do/Don't`; **Do/Don't** has neither a `<DoDont>`
   block nor a `{/* TODO */}` marker for the not-yet-available images; its do/don't pairs are
   hand-written markup (a grid of `<Image>` elements, inline-styled "Do" / "Don't" labels, a single
@@ -78,7 +78,10 @@ content for them.
 - A8 (Warning) **Anatomy** is incomplete: missing its opening screenshot/GIF (or a `{/* TODO */}`
   marker for a not-yet-available asset), missing the shared Astro `<Anatomy>` component, missing
   the numbered legend for an image that labels its parts by number (or the legend's numbers or
-  names disagree with the image), or missing the verified DOM tree / skeleton.
+  names disagree with the image), or missing the verified DOM tree / skeleton. Also report an
+  `<Anatomy>` that passes `name` or `description` (not props of the component; they render
+  nothing), and a style override that caps the image with a bare pixel `max-width` instead of
+  `min(…px, 100%)` (the image overflows the frame on a narrow screen).
 - A9 (Warning) **Accessibility** is missing one of its three required `###` sub-sections —
   **Keyboard Interaction**, **Screen Readers / ARIA**, **Accessibility Compliance** — or has them out
   of order.
@@ -124,8 +127,9 @@ content for them.
 
 ### C. Diátaxis mode integrity (mode-bleed)
 Run the compass on each section; flag content that has drifted out of the section's assigned mode.
-- C1 (Warning) **Explanation inside Usage/Getting Started** outside the final **Do/Don't** subsection
-  ("The reason this works is…") — move to **Do/Don't** or a concept topic and link.
+- C1 (Warning) **Explanation inside Usage/Getting Started** ("The reason this works is…") — move it
+  to a concept topic and link. Don't move it into **Do/Don't**: that subsection holds only its short
+  design-guidance paragraph and the `<DoDont>` blocks, and that paragraph is not a C1 finding.
 - C2 (Warning) **Instruction inside a reference section** (Properties/Methods/Events telling the
   reader *how to* build something) — move to Usage; keep the table descriptive.
 - C3 (Warning) **Reference dumped into Usage** (exhaustive option lists in prose) — move to the table.
@@ -157,9 +161,10 @@ Run the compass on each section; flag content that has drifted out of the sectio
   Two traps: identity is not publication, so a topic can be `xplat` and reach no desktop platform; and
   a per-platform code block or a non-`full` `apiTerms` is a finding on an xplat topic and perfectly
   fine on a web-only one. `check-doc-scope.mjs` reports both, and house-style carries the contract.
-- D1 (Warning) `relatedComponents` lists a sibling that the **Related Components** section doesn't
-  name and link. A sibling the section adds for one platform only, inside a `<PlatformBlock>`, need
-  not be listed in `relatedComponents`.
+- D1 (Warning) `relatedComponents` and the **Related Components** section disagree: the frontmatter
+  lists a sibling that the section doesn't name and link — or vice-versa, the section names a sibling
+  that isn't listed in `relatedComponents`. One exception to the reverse case: a sibling the section
+  adds for one platform only, inside a `<PlatformBlock>`, need not be listed.
 - D2 (Warning) Missing/weak `description` or `llms.description` (not answer-shaped, not
   definition-first, page-referential ("This topic shows…"), or >~160 chars). The full field contract
   lives in house-style → "File format & frontmatter"; for a field-by-field audit, hand off to the

@@ -61,7 +61,7 @@ That works **because each *section* owns exactly one mode**:
 
 The section → mode map is the "Diátaxis mode" column of the canonical section table in
 `references/house-style.md`. Concrete mode-bleed to catch: a *why* paragraph inside **Usage**
-(→ move to Do/Don't or a concept topic, link back); "how to build X" prose inside **Properties**
+(→ move to a concept topic, link back); "how to build X" prose inside **Properties**
 (→ move to Usage; keep the table descriptive); an exhaustive option list written out in **Usage**
 prose (→ move to the table). The cheat-sheet's "two classic confusions" section explains the
 reasoning.

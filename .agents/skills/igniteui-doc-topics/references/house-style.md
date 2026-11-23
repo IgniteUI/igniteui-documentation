@@ -133,10 +133,12 @@ platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmap
   without `{Platform}` or `{ProductName}` (`title: "Grids and Tables"`). Angular-set titles follow
   the frontmatter skill's title rule (`"Angular <Component> Component"`, query-relevant terms within
   ~60 characters).
-- **`relatedComponents`** lists the close siblings a reader might pick instead. When authoring, set
-  it and cover every listed sibling in the **Related Components** section. When auditing, treat a
-  missing-but-warranted value, and a listed sibling that **Related Components** does not cover, as
-  findings (rubric D1).
+- **`relatedComponents`** lists the close siblings a reader might pick instead. The field and the
+  **Related Components** section name the same siblings: when authoring, set it and cover every
+  listed sibling in the section; a sibling the section adds for one platform only, inside a
+  `<PlatformBlock>`, is the one that need not be listed. When auditing, treat a
+  missing-but-warranted value, and a disagreement between the field and the section in either
+  direction, as findings (rubric D1).
 - **`last_updated`** is required for every topic, including category/index topics. Store the date in
   frontmatter and let the site layout render it.
 
@@ -198,8 +200,23 @@ duplicates.
     and `NonWeb` / `Xaml` (both = WinUI + Uno). Prefer `for="Web"` for web-only content so it stays
     correct as platforms grow. `Web` includes Angular, so content shared by the three `igc`-based
     platforms only is `for="React,WebComponents,Blazor"`, next to a `for="Angular"` block.
-- **Live samples** embed the same way in both sets:
-  `<Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />`
+- **Live samples** use the same `<Sample>` markup on every platform. Only the demo path differs
+  between the Angular samples and the `igc`-based ones, so each goes in its own block (from
+  `inputs/rating.mdx`):
+
+  ```mdx
+  <PlatformBlock for="Angular">
+
+  <Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+  </PlatformBlock>
+
+  <PlatformBlock for="React,WebComponents,Blazor">
+
+  <Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+  </PlatformBlock>
+  ```
 - **API links** use `<ApiLink …>` rather than hand-written URLs so they resolve per framework.
 
 ## Never fabricate API identifiers (zero-risk rule)
@@ -435,7 +452,7 @@ Choose the display config from **what the sample is showing**, not by habit:
 | `src` | — (required) | Always. Relative demo path. |
 | `alt` | — | **Always** — the iframe title for accessibility. A missing `alt` is an audit finding (E1). Describe the demo, e.g. `alt="{Platform} Tabs example with three tabs that filter a list of people by team"`. |
 | `height` | `150` | Set it to the demo's natural height. With `fitContent` it is only the loading placeholder, so the two may be combined. |
-| `chrome` | `widget` | What surrounds the demo. `widget` — code tabs and the live-edit footer — when the code *is* the lesson. `demo` — the frame without tabs or code — when the **result** is the point and the snippet above it already shows the code. `bare` — the iframe alone — for an embed that needs no frame. |
+| `chrome` | `widget` | What surrounds the demo. `widget` — code tabs and the live-edit footer — is the default and the right choice for any sample a reader might copy or open in StackBlitz. `demo` — the frame without tabs, code, or live-edit buttons — only for a demo whose code is not a usage example, such as one that fakes interaction states for display. `bare` — the iframe alone — for an embed that needs no frame. |
 | `showThemePicker` | off | The reader should be able to switch the demo between themes. Works with `widget` and `demo`, not with `bare`. |
 | `fitContent` | off | The component is small or variable-height (badge, chip, avatar, icon, switch), **or a compact standalone sub-view** (e.g. a calendar days/months/years view), and a fixed frame would waste or clip space. The iframe grows to the component's own height. |
 | `fullscreenBtn` | off | With `chrome="bare"`, for large/complex visual demos that benefit from full-screen; the `widget` footer already has the button. |
@@ -446,18 +463,24 @@ Choose the display config from **what the sample is showing**, not by habit:
 | `noBackground` | `true`; `false` with a theme picker | Pass `noBackground={false}` to draw the backdrop on a sample that has no theme picker. |
 | `lob` / `dv` / `crm` / `wc` | default base | The demo lives in the LOB, Data-Viz, CRM, or shared Web Components demos app rather than the default — **verify before setting**. |
 
-Component topics use three shapes; start from these and change a prop only for a reason:
+Component topics use these shapes; start from them and change a prop only for a reason:
 
 ```mdx
-{/* Live Demo: code tabs, theme picker */}
+{/* Live Demo and Usage: code tabs, live-edit buttons, theme picker */}
 <Sample src="…" showThemePicker height={…} noBorder={false} spacing="md" alt="…" />
-
-{/* Usage, showing the result of the snippet above it: no code tabs */}
-<Sample src="…" chrome="demo" showThemePicker height={…} noBorder={false} spacing="md" alt="…" />
 
 {/* Styling: code tabs, backdrop, no theme picker */}
 <Sample src="…" height={…} noBackground={false} noBorder={false} spacing="md" alt="…" />
+
+{/* The exception: a Usage sample that only displays mocked states — no code tabs, no live edit */}
+<Sample src="…" chrome="demo" showThemePicker height={…} noBorder={false} spacing="md" alt="…" />
 ```
+
+**Usage samples keep the code tabs by default** (Tabs, Rating, Radio, Card, Chip): the sample is
+the working version of the snippet above it, and `chrome="demo"` would also take away its StackBlitz
+and CodeSandbox buttons. Decide `chrome="demo"` sample by sample, not per topic: it fits a sample
+that fakes its states so they can be shown side by side — the state samples of the Combo topics —
+where the code behind the demo is not something a reader should copy.
 
 When the demo path differs between the Angular samples and the `igc`-based ones, put one `<Sample>`
 in each `<PlatformBlock>`.
@@ -471,8 +494,11 @@ in each `<PlatformBlock>`.
    `class`; its README in `igniteui-astro-components` is normative. Import the image from
    `@xplat-images/anatomy-content-light/` and pass `src={image.src}`. `alt` describes the parts the
    diagram labels, not merely the component name. `name` and `description` are not props of the
-   component and render nothing — don't add them. Size the frame through `class` and a scoped
-   `<style>` block only when the default doesn't fit the image.
+   component and render nothing — don't add them. When the default frame doesn't fit the image,
+   size it through `class` and a scoped `<style>` block: set `--igd-anatomy-padding` on the class,
+   and cap the image with `max-width: min(701px, 100%)`. Never a bare pixel `max-width` — it
+   overrides the component's own `max-width: 100%`, so on a narrow screen the image is wider than
+   the frame and its callouts are cut off.
 3. **Numbered legend** — one line for each number in the image: the part name in bold, "(optional)"
    where it applies, and what the part is. The numbers and names match the image exactly.
 4. **DOM tree / skeleton** — a `text` fence with the rendered elements, parts, slots, and roles,
