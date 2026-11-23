@@ -1,0 +1,295 @@
+name: Deploy Documentation To Production
+run-name: Release ${{ inputs.platform }} to production from ${{ inputs.ref || github.event.repository.default_branch }}
+
+# Production is released by hand, one platform at a time. A push only ever deploys to staging (the
+# cd-*.yml workflows), so nothing reaches production without a run of this workflow.
+#
+# A run builds both locales of one platform from a single commit, hands them to the deploy workflow
+# in IgniteUI/igniteui-actions, waits for both to be deployed, and records the commit as a GitHub
+# deployment on the production-<platform> environment. The newest successful record is what the
+# next run compares against.
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to release'
+        required: true
+        type: choice
+        options:
+          - angular
+          - react
+          - wc
+          - blazor
+          - winui
+          - uno
+      ref:
+        description: 'Branch, tag or full commit SHA to release. Empty releases the default branch.'
+        type: string
+      allow_off_trunk:
+        description: 'Release a commit that is not on the default branch (a fix branched from what is on production)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# One release per platform at a time. A second run waits instead of cancelling the first, which may
+# already have handed a locale over for deployment.
+concurrency:
+  group: cd-production-${{ inputs.platform }}
+  cancel-in-progress: false
+
+# Trunk is whatever the repository's default branch is, so that renaming it needs no change here.
+env:
+  TRUNK: ${{ github.event.repository.default_branch }}
+  RELEASE_REF: ${{ inputs.ref || github.event.repository.default_branch }}
+
+jobs:
+  resolve:
+    name: Resolve the release commit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: read
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+
+    steps:
+      - name: Checkout the requested ref
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_REF }}
+          fetch-depth: 0
+
+      # The ref is pinned to a commit here so that both locales build the same one even if the
+      # branch moves while the run is in progress.
+      - name: Resolve the commit and check it is on trunk
+        id: commit
+        env:
+          ALLOW_OFF_TRUNK: ${{ inputs.allow_off_trunk }}
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          git fetch --no-tags --quiet origin "+refs/heads/$TRUNK:refs/remotes/origin/$TRUNK"
+
+          if git merge-base --is-ancestor "$sha" "origin/$TRUNK"; then
+            echo "$RELEASE_REF resolves to $sha, which is on $TRUNK."
+          elif [[ "$ALLOW_OFF_TRUNK" == 'true' ]]; then
+            echo "::warning::$RELEASE_REF ($sha) is not on $TRUNK. Releasing it because allow_off_trunk is set."
+          else
+            echo "::error::$RELEASE_REF ($sha) is not on $TRUNK. Release a commit from $TRUNK, or set allow_off_trunk for a fix branched from what is on production."
+            exit 1
+          fi
+
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize what the release changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLATFORM: ${{ inputs.platform }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          set -euo pipefail
+
+          # Production has the newest release whose status is success. A newer record that is not
+          # a success is a release that did not finish, so production may be partly on it.
+          releases=$(gh api graphql \
+            -f owner="${GITHUB_REPOSITORY%/*}" -f name="${GITHUB_REPOSITORY#*/}" -f env="production-$PLATFORM" \
+            -f query='query($owner: String!, $name: String!, $env: String!) {
+              repository(owner: $owner, name: $name) {
+                deployments(environments: [$env], first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  nodes { commitOid latestStatus { state description } }
+                }
+              }
+            }' \
+            --jq '.data.repository.deployments.nodes[] | [(.latestStatus.state // "NONE"), .commitOid, (.latestStatus.description // "")] | @tsv')
+
+          previous=''
+          unfinished=''
+          while IFS=$'\t' read -r state sha description; do
+            [[ -n "$sha" ]] || continue
+            if [[ "$state" == 'SUCCESS' ]]; then
+              previous=$sha
+              break
+            fi
+            [[ -n "$unfinished" ]] || unfinished="\`$sha\` (${description:-no status recorded})"
+          done <<< "$releases"
+
+          {
+            echo "## Production release: $PLATFORM"
+            echo
+            echo "- Requested ref: \`$RELEASE_REF\`"
+            echo "- Releasing: \`$SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ -n "$unfinished" ]]; then
+            echo "::warning::The last release of $PLATFORM did not finish, so production may be partly on it. See the run summary."
+            echo "- **The last release did not finish:** $unfinished. Production may be partly on that commit." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          if [[ -z "$previous" ]]; then
+            echo "- On production now: no successful release recorded yet, so there is nothing to compare against" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "- On production now: \`$previous\`" >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "$previous" == "$SHA" ]]; then
+            {
+              echo
+              echo "This commit is already on production. The release rebuilds and redeploys it."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # A fix released from a branch that has since been deleted is no longer reachable from
+          # any ref, so it may be missing from the clone.
+          if ! git cat-file -e "$previous^{commit}" 2>/dev/null; then
+            git fetch --no-tags --quiet origin "$previous" 2>/dev/null || true
+          fi
+          if ! git cat-file -e "$previous^{commit}" 2>/dev/null; then
+            {
+              echo
+              echo "The commit on production could not be fetched, so the changes cannot be listed."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # What production would lose: commits it has that the release does not, leaving out merge
+          # commits and any change the release carries as a cherry-pick. A fix that was released
+          # from a branch and also landed on trunk is therefore not reported.
+          lost=(--cherry-pick --right-only --no-merges "$SHA...$previous")
+
+          added=$(git rev-list --count --first-parent "$previous..$SHA")
+          dropped=$(git rev-list --count "${lost[@]}")
+
+          {
+            echo
+            echo "### Added by this release ($added)"
+            echo
+            if (( added > 0 )); then
+              git log --first-parent -n 100 --pretty='- `%h` %s' "$previous..$SHA"
+              if (( added > 100 )); then
+                echo
+                echo "Only the newest 100 are listed."
+              fi
+            else
+              echo "Nothing."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if (( dropped > 0 )); then
+            echo "::warning::This release removes $dropped change(s) that are on production now. See the run summary."
+            {
+              echo
+              echo "### On production now but not in this release ($dropped)"
+              echo
+              echo "Expected for a rollback. Otherwise a fix was released from a branch and never reached \`$TRUNK\`."
+              echo
+              git log -n 100 --pretty='- `%h` %s' "${lost[@]}"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  deploy:
+    name: Deploy ${{ inputs.platform }} (${{ matrix.locale }})
+    needs: resolve
+    # One locale failing must not cancel the other: it may already be deploying, and the record
+    # needs to know how far each one got.
+    strategy:
+      fail-fast: false
+      matrix:
+        locale: ['en', 'jp']
+
+    uses: ./.github/workflows/_cd-deploy.yml
+    with:
+      environment: production
+      locale: ${{ matrix.locale }}
+      platform: ${{ inputs.platform }}
+      target_ref: ${{ needs.resolve.outputs.sha }}
+    secrets:
+      CLASSIC_PAT_GITHUB: ${{ secrets.CLASSIC_PAT_GITHUB }}
+
+  # The record runs whatever the deploy jobs did, and reads how far each locale got from their steps:
+  # - both deployed: a success, which the next run compares against;
+  # - one handed over but not confirmed deployed: a failure, which the next run warns about, since
+  #   production may be partly on this commit;
+  # - neither handed over: no record, since production did not change.
+  #
+  # It is a deployment record and not a git tag on purpose: a tag pushed with the workflow token can
+  # be rejected when the commits it moves across changed a workflow file.
+  record:
+    name: Record the release
+    needs: [resolve, deploy]
+    if: always() && needs.resolve.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      deployments: write
+
+    steps:
+      - name: Record the commit as a deployment
+        uses: actions/github-script@v9
+        env:
+          PLATFORM: ${{ inputs.platform }}
+          SHA: ${{ needs.resolve.outputs.sha }}
+        with:
+          script: |
+            const { PLATFORM, RELEASE_REF, SHA } = process.env;
+            const environment = `production-${PLATFORM}`;
+
+            // Step names in _cd-deploy.yml.
+            const HAND_OVER = 'Trigger Deploy Workflow in IgniteUI Actions';
+            const WAIT = 'Wait for the production deploy';
+
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              ...context.repo,
+              run_id: context.runId,
+              filter: 'latest',
+              per_page: 100,
+            });
+
+            // A deploy job is named "Deploy <platform> (<locale>) / Build and Deploy".
+            const progress = {};
+            for (const locale of ['en', 'jp']) {
+              const job = jobs.find(j => j.name.includes(`(${locale})`) && j.name.endsWith('Build and Deploy'));
+              const step = name => job?.steps?.find(s => s.name === name)?.conclusion;
+              progress[locale] =
+                step(WAIT) === 'success' ? 'deployed'
+                : step(HAND_OVER) === 'success' ? 'handed over, not confirmed'
+                : 'not handed over';
+            }
+            const detail = Object.entries(progress).map(([locale, state]) => `${locale} ${state}`).join(', ');
+            const states = Object.values(progress);
+
+            if (states.every(state => state === 'not handed over')) {
+              core.setFailed(`Nothing was handed over for deployment (${detail}). Production is unchanged, so no release is recorded.`);
+              return;
+            }
+            const complete = states.every(state => state === 'deployed');
+
+            // auto_merge would try to merge the default branch into the ref being recorded, and
+            // required_contexts would refuse a commit whose checks are not all green.
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              ...context.repo,
+              ref: SHA,
+              environment,
+              description: `Released from ${RELEASE_REF}`.slice(0, 140),
+              auto_merge: false,
+              required_contexts: [],
+              production_environment: true,
+            });
+
+            await github.rest.repos.createDeploymentStatus({
+              ...context.repo,
+              deployment_id: deployment.id,
+              state: complete ? 'success' : 'failure',
+              description: (complete ? `Released from ${RELEASE_REF}` : `Partial: ${detail}`).slice(0, 140),
+              log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+
+            if (complete) {
+              core.notice(`${environment} is now at ${SHA}`);
+            } else {
+              core.setFailed(`${environment} may be partly on ${SHA} (${detail}). Release again to finish it.`);
+            }

@@ -246,6 +246,37 @@ The check is read-only and reports the source file and line for missing or malfo
 - Cross-platform topics are generated to `docs/xplat/generated/Angular/` and overlaid on the Angular content at build time — they are never copied into `docs/angular/`, and xplat wins wherever both provide the same slug. Edit the xplat source; editing an Angular copy has no effect. See [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md#updating-of-data-visualization-related-topics).
 - Static images and assets are stored in the nearest product package when product-specific, or in the root `public/` directory when shared.
 
+## Deploying
+
+Staging deploys on its own. Production is released by hand, one platform at a time.
+
+### Staging
+
+Every push to `vnext` or `master` builds the doc sets it touches and deploys them to staging. Running one of the four `cd-*.yml` workflows by hand deploys any branch to staging: the one named in `branch`, or the one the workflow is run from when that is left empty.
+
+### Production
+
+Run **Deploy Documentation To Production** ([cd-production.yml](.github/workflows/cd-production.yml)) from the Actions tab, or from a terminal:
+
+```sh
+gh workflow run cd-production.yml -f platform=react
+```
+
+The run builds both locales of that one platform from a single commit with the production configuration, hands them over for deployment, and waits until both are deployed. No other platform is touched, so a platform can wait until its samples and API docs are on production.
+
+- `ref` takes a branch, tag or full commit SHA, and is the default branch when left empty. The commit must be on the default branch unless `allow_off_trunk` is set.
+- The run summary lists what the release adds to production, and warns when it would remove a change that is there now.
+- Each release is recorded as a GitHub deployment on the `production-<platform>` environment. A release where only one locale was deployed is recorded as failed, because production may then be partly on it. The next run warns about it, and releasing again finishes it.
+- A platform has on production the commit of its newest successful release:
+
+  ```sh
+  gh api graphql -f query='{repository(owner:"IgniteUI",name:"igniteui-documentation"){deployments(environments:["production-react"],first:30,orderBy:{field:CREATED_AT,direction:DESC}){nodes{commitOid latestStatus{state}}}}}' --jq '[.data.repository.deployments.nodes[] | select(.latestStatus.state == "SUCCESS")][0].commitOid'
+  ```
+
+### Fixing production between releases
+
+When the default branch already holds content a platform cannot ship yet, branch from the commit that platform has on production, cherry-pick the fix onto it, and release that branch with `allow_off_trunk` set. Land the same fix on the default branch as well, because the next release from there replaces what the fix branch deployed. Keep the fix branch until then.
+
 ## Collaboration Docs
 
 - [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md): day-to-day editing, generated-content behavior, and report expectations.
