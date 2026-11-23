@@ -250,8 +250,11 @@ function resolveMember(symbol, member, platform) {
 
 // MDX parsing
 
-/** Regex to match <ApiLink ... /> or <ApiLink ...>...</ApiLink> */
-const API_LINK_RE = /<ApiLink\s+([^>]*?)\/?>(?:<\/ApiLink>)?/g;
+/**
+ * Regex to match <ApiLink ... /> or <ApiLink ...>...</ApiLink>. Quoted and {expression} prop values
+ * may contain `>`, as a generic type such as `type="Combo<T>"` does.
+ */
+const API_LINK_RE = /<ApiLink\s+((?:"[^"]*"|'[^']*'|\{[^}]*\}|[^>"'{])*?)\/?>(?:<\/ApiLink>)?/g;
 
 /** Regex to match <PlatformBlock for="...">...</PlatformBlock> including nested content */
 const PLATFORM_BLOCK_RE = /<PlatformBlock\s+for="([^"]+)">([\s\S]*?)<\/PlatformBlock>/g;
