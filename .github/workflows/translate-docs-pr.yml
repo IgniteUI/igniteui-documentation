@@ -1,0 +1,337 @@
+# Translates a pull request's English changes into Spanish, Brazilian Portuguese
+# and Korean, inside the pull request itself, before it merges into `vnext`: the
+# way Marketing-Infragistics (translate-pr.yml) and the other marketing sites do.
+# Japanese is not here: it keeps its own reviewed pull request
+# (translate-jp-docs.yml, translations/ja → vnext), for the Japanese team.
+#
+#   1. Someone opens or updates a pull request into `vnext` that changes English
+#      content (docs/angular/src/content/en/**, docs/xplat/src/content/en/**).
+#   2. This workflow translates the English pages that changed, for each project
+#      that has the language (its content folder and its manifests), and commits
+#      the pages with the language's files in translation/ (memory, manifests) to
+#      the pull request's branch.
+#   3. That commit re-runs the pull request's checks: "Translations up to date
+#      (es, pt-BR, ko)" (check-jp-translation.yml) confirms nothing is left, and
+#      "CI (docs translations)" (ci-jp.yml) builds the sites of each language the
+#      commit changed.
+#
+# Only the sentences that changed go to the model; the rest come from the
+# language's memory (translation/memory/<locale>.json). People's corrections in
+# translation/memory/<locale>.human.json win over the model. A translated page a
+# person edited by hand is never overwritten: the comment lists it. A page whose
+# English was deleted is deleted with its manifest.
+#
+# SECURITY. `pull_request_target` runs THIS file as it is on `vnext`, never the
+# pull request's copy, and it holds the credentials (a GitHub App token that can
+# push here, and an AWS role that can only call Claude on Bedrock). So it never
+# runs anything from the pull request: the pull request is checked out as files,
+# read by the translation tool, which is IgniteUI/translation-tools pinned to a
+# reviewed commit (TOOLS_REF). The one file of this repo the tool executes,
+# docs/angular/src/scripts/grid-configs.mjs (the grid list; it imports nothing),
+# is replaced by vnext's copy before the tool runs, and never committed. No npm
+# install or build of the pull request happens here; ci-jp.yml does that, with no
+# secrets. Pull requests from forks are skipped.
+#
+# It only ever pushes to the pull request's own branch, never to vnext or master
+# or a translations/* branch, and the commit may only touch the three languages'
+# content folders and their own files in translation/. The App token is created
+# after the tool has run, so the tool never has it; AWS credentials are cleared
+# from the steps after it.
+#
+# TRANSLATION MEMORY lives in this repo (translation/memory/<locale>.json). Each
+# run commits the sentences it learned to the pull request, so two open pull
+# requests that both add sentences can conflict on that file: take either side
+# (or both); the next run fills in whatever is missing.
+#
+# Needs (an admin sets these; translation/README.md, "Setting it up"):
+#   repository variable TRANSLATE_ENABLED = true   (until then nothing runs)
+#   environment `intl-translate`, deployment branches: `vnext`
+#     vars.AWS_TRANSLATE_ROLE_ARN    a role that can only invoke Claude on Bedrock
+#     vars.TRANSLATE_APP_ID          Cross-Org-GitHub-App, installed on this repo
+#     secrets.TRANSLATE_APP_KEY      and on IgniteUI/translation-tools
+#   repository variables (optional)
+#     TRANSLATE_MAX_TOKENS           cap per project per language per run (default 3,000,000)
+#     BEDROCK_MODEL                  default global.anthropic.claude-haiku-5-5
+
+name: Translate (es, pt-BR, ko)
+
+on:
+  pull_request_target:
+    branches: [vnext]
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - 'docs/angular/src/content/en/**'
+      - 'docs/xplat/src/content/en/**'
+
+permissions: {}
+
+# A newer push makes this run's work stale. The bot's own push re-runs it, finds
+# nothing to translate and stops.
+concurrency:
+  group: translate-docs-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  BASE_BRANCH: vnext
+  TOOLS_REPO: IgniteUI/translation-tools
+  # The same commit as TOOLS_REF in translate-jp-docs.yml and
+  # check-jp-translation.yml; move all three together.
+  TOOLS_REF: SET-ME-TO-THE-TRANSLATION-TOOLS-MERGE-COMMIT
+  # locale:content-folder
+  LANGUAGES: 'es:es pt-BR:pt-BR ko:kr'
+
+jobs:
+  translate:
+    # Drafts wait until they are ready; forks never get the credentials; the
+    # Japanese pull request (and any translations/* branch) is not translated.
+    if: >-
+      vars.TRANSLATE_ENABLED == 'true' &&
+      !github.event.pull_request.draft &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.base.ref == 'vnext' &&
+      github.event.pull_request.head.ref != 'vnext' &&
+      github.event.pull_request.head.ref != 'master' &&
+      !startsWith(github.event.pull_request.head.ref, 'translations/')
+    runs-on: ubuntu-latest
+    environment: intl-translate
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      id-token: write   # the AWS role; writes to GitHub go through the App token
+    steps:
+      # The job condition already excludes these; checked again here so a later
+      # edit to that condition cannot quietly open the protected branches.
+      - name: Refuse protected branches, check the tool is pinned
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          case "$HEAD_REF" in
+            vnext|master|translations/*) echo "::error::will not commit to $HEAD_REF"; exit 1 ;;
+          esac
+          [[ "$HEAD_REF" =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "::error::unexpected branch name"; exit 1; }
+          if ! [[ "$TOOLS_REF" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::TOOLS_REF in this workflow must be the full commit SHA of IgniteUI/translation-tools (the merge commit of its reviewed pull request). It is '$TOOLS_REF'."
+            exit 1
+          fi
+
+      - name: App token (read the translation tool)
+        id: tools-app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.TRANSLATE_APP_ID }}
+          private-key: ${{ secrets.TRANSLATE_APP_KEY }}
+          owner: IgniteUI
+          repositories: translation-tools
+          permission-contents: read
+
+      - name: Check out the translation tool (pinned)
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.TOOLS_REPO }}
+          ref: ${{ env.TOOLS_REF }}
+          path: tools
+          token: ${{ steps.tools-app.outputs.token }}
+          persist-credentials: false
+
+      # vnext's copy of the one file the tool executes.
+      - name: Check out vnext (trusted grid list)
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          path: base
+          sparse-checkout: docs/angular/src/scripts/grid-configs.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      # The pull request's files, read as data. Read-only token, not kept.
+      - name: Check out the pull request (files only)
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: site
+          persist-credentials: false
+
+      - name: Use vnext's grid list
+        run: |
+          f=docs/angular/src/scripts/grid-configs.mjs
+          [ -f "base/$f" ] || { echo "::error::$f is missing on $BASE_BRANCH"; exit 1; }
+          cp "base/$f" "site/$f"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install the translation tool
+        run: npm ci --prefix tools --omit=dev --ignore-scripts
+
+      # A page deleted in English goes from each language too, with its
+      # manifest. Before any credentials. Listed in the comment.
+      - name: Remove translations of deleted English pages
+        working-directory: site
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          for lf in $LANGUAGES; do
+            l=${lf%%:*}; folder=${lf#*:}
+            for p in angular xplat; do
+              m="translation/manifest/$l/$p"
+              [ -d "$m" ] || continue
+              (cd "$m" && find . -type f -name '*.json' | sed 's#^\./##; s#\.json$##' | sort) | while read -r rel; do
+                [[ "$rel" == en/* ]] && ! [[ "/$rel/" == */./* || "/$rel/" == */../* ]] || { echo "::warning::skipped manifest $m/$rel.json"; continue; }
+                [ -e "docs/$p/src/content/$rel" ] && continue
+                tr="docs/$p/src/content/$folder/${rel#en/}"
+                rm -f "$tr" "$m/$rel.json"
+                echo "$l: removed $tr (its English is gone)"
+                echo "- \`$(printf '%s' "$tr" | tr -d '`')\`" >> "$RUNNER_TEMP/out/deleted.md"
+              done
+            done
+          done
+
+      - name: AWS credentials (Claude on Bedrock only)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd  # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_TRANSLATE_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: translate-docs-pr-${{ github.event.pull_request.number }}
+          role-duration-seconds: 3600
+
+      - name: Translate
+        working-directory: site
+        env:
+          BEDROCK_MODEL: ${{ vars.BEDROCK_MODEL || 'global.anthropic.claude-haiku-5-5' }}
+          MAX_TOKENS: ${{ vars.TRANSLATE_MAX_TOKENS || '3000000' }}
+        run: |
+          out="$RUNNER_TEMP/out"
+          for lf in $LANGUAGES; do
+            l=${lf%%:*}; folder=${lf#*:}
+            for p in angular xplat; do
+              # Only a project that has the language: its content folder and its manifests.
+              if ! [ -d "docs/$p/src/content/$folder" ] || ! [ -d "translation/manifest/$l/$p" ]; then
+                echo "$l $p: not translated in this repo"; continue
+              fi
+              echo "::group::$l $p"
+              node "$GITHUB_WORKSPACE/tools/translate.mjs" --en "docs/$p" --out "docs/$p/src/content" \
+                --docs "$folder" --locale "$l" --source en \
+                --scope "translation/scope/$l.json" \
+                --memory "translation/memory/$l.json" \
+                --fixes "translation/memory/$l.human.json" \
+                --manifest-dir "translation/manifest/$l/$p" \
+                --engine bedrock --max-tokens "$MAX_TOKENS" --report-md "$out/$l-$p.md"
+              echo "::endgroup::"
+            done
+          done
+
+      - name: Commit (translations only)
+        id: commit
+        working-directory: site
+        env:
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # vnext's grid list was put in only for the tool: never part of the commit.
+          git checkout -- docs/angular/src/scripts/grid-configs.mjs
+          paths=()
+          locales=(); folders=()
+          for lf in $LANGUAGES; do
+            l=${lf%%:*}; folder=${lf#*:}
+            locales+=("$l"); folders+=("$folder")
+            for p in angular xplat; do
+              d="docs/$p/src/content/$folder"
+              if [ -e "$d" ] || [ -n "$(git ls-files -- "$d" | head -1)" ]; then paths+=("$d"); fi
+            done
+            for d in "translation/memory/$l.json" "translation/memory/$l.human.json" "translation/manifest/$l"; do
+              if [ -e "$d" ] || [ -n "$(git ls-files -- "$d" | head -1)" ]; then paths+=("$d"); fi
+            done
+          done
+          if [ ${#paths[@]} -eq 0 ] || ! git status --porcelain -- "${paths[@]}" | grep -q .; then
+            echo "Nothing to translate." >> "$GITHUB_STEP_SUMMARY"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git add -A -- "${paths[@]}"
+          # Anything else staged means something wrote where it must not: stop
+          # rather than push it.
+          L=$(IFS='|'; echo "${locales[*]}"); F=$(IFS='|'; echo "${folders[*]}")
+          allowed="^(docs/(angular|xplat)/src/content/($F)/|translation/(memory/($L)(\\.human)?\\.json|manifest/($L)/.+)\$)"
+          changed=$(git diff --cached --name-only)
+          outside=$(printf '%s\n' "$changed" | grep -v '^$' | grep -Ev "$allowed" || true
+                    printf '%s\n' "$changed" | grep -E '(^|/)\.\.?(/|$)' || true)
+          if [ -n "$outside" ]; then echo "::error::refusing to commit outside the translated folders:"; echo "$outside"; exit 1; fi
+          git -c user.name="translation-bot" -c user.email="translation-bot@users.noreply.github.com" \
+            commit -q -m "translate: es, pt-BR, ko for ${PR_SHA:0:8}"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Created only now: the tool ran without it. Limited to this repo.
+      - name: App token (push to the pull request branch, comment on it)
+        if: steps.commit.outputs.changed == 'true'
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.TRANSLATE_APP_ID }}
+          private-key: ${{ secrets.TRANSLATE_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Push to the pull request branch
+        id: push
+        if: steps.commit.outputs.changed == 'true'
+        working-directory: site
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          TOKEN: ${{ steps.app.outputs.token }}
+          # Not needed here; cleared so nothing in this step holds them.
+          AWS_ACCESS_KEY_ID: ''
+          AWS_SECRET_ACCESS_KEY: ''
+          AWS_SESSION_TOKEN: ''
+        run: |
+          case "$HEAD_REF" in vnext|master|translations/*) echo "::error::will not push to $HEAD_REF"; exit 1 ;; esac
+          auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
+          echo "::add-mask::$auth"
+          # The header is passed for this one command only; it is never written
+          # to the checkout's git config. --force-with-lease: only if the branch
+          # is still at the commit that was translated. A newer push re-runs this
+          # workflow, so a refusal here is not an error.
+          if git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" \
+               push --force-with-lease="refs/heads/$HEAD_REF:$PR_SHA" \
+               "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$HEAD_REF"; then
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::the branch moved; the run for the newer push translates it"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PR: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          AWS_ACCESS_KEY_ID: ''
+          AWS_SECRET_ACCESS_KEY: ''
+          AWS_SESSION_TOKEN: ''
+        run: |
+          out="$RUNNER_TEMP/out"
+          {
+            echo "Translated this pull request's English changes into Spanish, Brazilian Portuguese and Korean and committed them here."
+            echo "Nothing to review: **Translations up to date (es, pt-BR, ko)** and **CI (docs translations)** confirm them. A translated page someone edited by hand is not changed; it is listed under *Needs a person* in the details."
+            echo
+            if [ -s "$out/deleted.md" ]; then
+              echo "**Removed** with their English page:"
+              echo
+              cat "$out/deleted.md"
+              echo
+            fi
+            echo "<details><summary>Details</summary>"
+            echo
+            for f in "$out"/*-*.md; do [ -f "$f" ] && { cat "$f"; echo; }; done
+            echo "</details>"
+          } > "$out/comment.md"
+          # GitHub refuses a comment over 65,536 characters.
+          if [ "$(wc -c < "$out/comment.md")" -gt 60000 ]; then
+            head -c 60000 "$out/comment.md" | sed '$d' > "$out/comment.cut"
+            printf '\n\n</details>\n\nThe rest is on the run page: %s\n' "$RUN_URL" >> "$out/comment.cut"
+            mv "$out/comment.cut" "$out/comment.md"
+          fi
+          cat "$out/comment.md" >> "$GITHUB_STEP_SUMMARY"
+          gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body-file "$out/comment.md"

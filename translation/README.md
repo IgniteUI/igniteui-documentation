@@ -27,27 +27,56 @@ still do the Japanese work.
 
 ## How it works
 
+Two flows. Spanish, Brazilian Portuguese and Korean are translated **inside each English pull
+request**, before it merges, as on the marketing sites (Marketing-Infragistics' `translate-pr.yml`).
+Japanese is translated **after** the English merges, in its own pull request, which the Japanese
+team reviews.
+
 ```
-English pull request merges into vnext (a push touching docs/<project>/src/content/en/**)
+English pull request into vnext (it changes docs/<project>/src/content/en/**)
+        │
+        ├─► Translate (es, pt-BR, ko)  (.github/workflows/translate-docs-pr.yml)
+        │     translation-tools at a pinned commit; the changed sentences to the model, the rest
+        │     from memory; commits the es/, pt-BR/, kr/ pages and their translation/ files to THE
+        │     SAME pull request, as the Cross-Org-GitHub-App, and comments what it did
+        │   checks on the pull request: "Translations up to date (es, pt-BR, ko)"
+        │   (check-jp-translation.yml) and "CI (docs translations)" (ci-jp.yml: builds each
+        │   language site the commit changed)
+        ▼
+merge into vnext: English, Spanish, Portuguese and Korean together
         │
         ▼
-Translate docs (.github/workflows/translate-jp-docs.yml), one matrix leg per language
-        │  translation-tools at a pinned commit, once per project the push changed
-        │  that the language has
+Translate docs (Japanese)  (.github/workflows/translate-jp-docs.yml)
+        │
         ▼
-branch translations/<locale> ──► ONE pull request per language into vnext, updated by every run:
-        │   translations/ja     "[jp-sync] Japanese translation of English changes"             (labels translation, japanese, automation)
-        │   translations/es     "[es-sync] Spanish translation of English changes"              (translation, spanish, automation)
-        │   translations/pt-BR  "[pt-br-sync] Brazilian Portuguese translation of English changes" (translation, portuguese, automation)
-        │   translations/ko     "[kr-sync] Korean translation of English changes"               (translation, korean, automation)
-        ├─ each language's reviewers: edit pages in GitHub, or in the Translation Manager (its saves
-        │  are commits on the same branch; corrections go to memory/<locale>.human.json)
+branch translations/ja ──► ONE pull request into vnext, updated by every run:
+        │   "[jp-sync] Japanese translation of English changes"  (labels translation, japanese, automation)
+        ├─ the Japanese team: edit pages in GitHub, or in the Translation Manager (its saves are commits
+        │  on the same branch; corrections go to memory/ja.human.json)
+        │  checks: "Japanese up to date" (check-jp-translation.yml), "CI (docs translations)"
         ▼
 merge into vnext ──► the sites deploy as today (Japanese: cd-angular-jp.yml, cd-xplat-jp.yml)
 ```
 
-The languages run side by side and never wait on or cancel each other; within a language, one
-run at a time.
+### Spanish, Brazilian Portuguese and Korean: in the English pull request
+
+- **When:** a pull request into `vnext` from a branch of this repo, not a draft, that changes
+  English content. Every push to it runs again; only what is still untranslated goes to the model,
+  so the bot's own commit re-runs it and finds nothing to do.
+- **What it commits:** only the three languages' content folders and their memory and manifests
+  (`memory/<locale>.json`, `memory/<locale>.human.json`, `manifest/<locale>/`); anything else stops
+  the run. A page deleted in English is deleted in each language, with its manifest.
+- **Nothing to review:** the comment lists what was translated. A translated page someone edited by
+  hand is not changed (listed under *Needs a person*), and *Translations up to date* fails until its
+  English change is carried over.
+- **Two open pull requests** that both add sentences can conflict on `memory/<locale>.json`: take
+  either side (or both), the next run fills in whatever is missing.
+- **Safety:** `pull_request_target` runs `vnext`'s copy of the workflow; the pull request is
+  read as files. The one file of this repo the tool executes,
+  `docs/angular/src/scripts/grid-configs.mjs`, is replaced by `vnext`'s copy before the tool runs
+  and is never committed.
+
+### Japanese: its own pull request
 
 - **A run** first brings `translations/<locale>` up to date with `vnext` (a merge; the memory files
   merge by sentence with the tool's `merge-memory.mjs`, both sides kept). Any other conflict stops
@@ -73,16 +102,18 @@ run at a time.
   (`ci-jp.yml`: the build of the sites the change reaches, in the pull request's language; a
   language's xplat topics ship on its Angular site too, so an xplat change builds both), and the checks every pull request already has:
   `npm run check:llms-metadata` (English and Japanese, `lint.yml`) and the relative links
-  (`check-relative-links.yml`, which generates the Japanese too). Both checks find the language from
-  the branch name, against the four branches above; any other branch runs nothing.
+  (`check-relative-links.yml`, which generates the Japanese too). On a `translations/*` branch
+  both checks find the language from the branch name.
 - **A page someone edited** keeps the edit. When its English changes, the run lists it under
   *Needs a person* and the language's *up to date* check fails until the change is carried over: in
   the Translation Manager (a save records the page as the translation of the current English), or
   with a run in `pages` mode for that page (redone from memory and the model: the edit is replaced,
   so keep what should stay as a correction in `memory/<locale>.human.json`). Re-adopting a single
   page is not a fix: `--adopt` recounts the memory's wordings, and on one page it would skew them.
-- **By hand** (Actions → *Translate docs* → Run workflow): the languages (`ja`, `es`, `pt-BR`,
-  `ko`, space- or comma-separated, or `all`, the default); both projects or one; mode
+- **By hand** (Actions → *Translate docs (Japanese)* → Run workflow): the languages (`ja`, the
+  default; `es`, `pt-BR`, `ko` only to catch up, e.g. after an English change that reached `vnext`
+  without its translation: that opens a one-off `translations/<locale>` pull request), space- or
+  comma-separated, or `all`; both projects or one; mode
   `out-of-date` (everything out of date), `dry-run` (the report only: no model, no push), or `pages`
   (redo the listed English files, `docs/<project>/src/content/en/…`, comma-separated, in each
   language picked: a person's edits on them are replaced).
@@ -236,9 +267,14 @@ accepted answer stays in English and is listed. Then build the language
 | `docs/angular/package.json`, `docs/xplat/package.json`, root `package.json` | a copy of every `:jp` script with the language's suffix |
 | `src/integration.ts` | `CHROME_LOCALE`, if the marketing site has a header and footer in that language, and its snapshots in `ig-chrome/<staging\|production>-<locale>/` (README, *Header and footer*) |
 | `translation/scope/<locale>.json` | a copy of `scope/ja.json` |
-| `translate-jp-docs.yml` | the `languages` allow-list and *The language* step |
-| `check-jp-translation.yml` | the branch table |
-| `ci-jp.yml` | the branch table, `paths` and the script suffix |
+| `scripts/check-relative-links.mjs` | the folder in `LANGUAGES` |
+| `check-relative-links.yml` | the language in the *Generate* steps (`xplat:generate:<l>`, `generate:<l>`, the xplat `generate:<platform>:<l>`) |
+| `cspell.json` | `docs/*/src/content/<folder>/**` in `ignorePaths`, for a language in Latin script (the spellcheck is English) |
+| `docs/angular/src/content/<folder>/.gitignore` | a copy of `en/.gitignore` (the generated grid topics are build output) |
+| `translate-docs-pr.yml` (translated in the English pull request) | `LANGUAGES` (`<locale>:<folder>`); the job's name |
+| `translate-jp-docs.yml` (its own reviewed pull request, as Japanese) | the `languages` allow-list and *The language* step |
+| `check-jp-translation.yml` | `LANGUAGES` of the *in-pull-request* job, or the branch table for its own pull request |
+| `ci-jp.yml` | the branch table, the folder list, `paths` and the script suffix |
 | `cd-angular-en.yml`, `cd-xplat-en.yml`, `cd-angular-jp.yml`, `cd-xplat-jp.yml` | `**/<folder>/**` in `paths-ignore`, so a translation merge does not redeploy English or Japanese |
 
 Changing the workflows is a change to `.github/workflows/`, reviewed like any other. A language
@@ -252,29 +288,28 @@ and `jp` only.
    docs repo is in the IgniteUI organization: the trust policy names
    `repo:IgniteUI/igniteui-documentation:environment:intl-translate`.
 2. **GitHub App:** the Cross-Org-GitHub-App installed on this repo (contents and pull requests:
-   write; it pushes `translations/ja`, `translations/es`, `translations/pt-BR` and
-   `translations/ko` so the pull requests' checks run) and on
+   write; it pushes the Spanish, Portuguese and Korean translations to each English pull
+   request's branch, and `translations/ja`, so the pull requests' checks run) and on
    IgniteUI/translation-tools (contents: read; private, the workflows check it out). Steps:
    translation-tools `github-app/README.md`.
 3. **Environment** `intl-translate`, deployment branches: `vnext` only, holding the variables
    `AWS_TRANSLATE_ROLE_ARN` and `TRANSLATE_APP_ID` and the secret `TRANSLATE_APP_KEY`.
-   The *&lt;Language&gt; up to date* checks run on `pull_request_target`, whose ref is `vnext`, so they can use it;
-   nothing else can.
-4. **`TOOLS_REF`** in `translate-jp-docs.yml` and `check-jp-translation.yml`: the full SHA of the
-   translation-tools commit to run (the merge commit of the pull request that adds `--docs` and
-   `merge-memory.mjs`), the same in both, in a pull request here. Until then both stop at their
-   first step.
-5. **Labels** `spanish`, `portuguese` and `korean` (next to the existing `translation`,
-   `japanese` and `automation`): a pull request whose label is missing is opened unlabelled, with
-   a warning in the run.
+   *Translate (es, pt-BR, ko)* and the *up to date* checks run on `pull_request_target`, whose ref is
+   `vnext`, so they can use it; nothing else can.
+4. **`TOOLS_REF`** in `translate-docs-pr.yml`, `translate-jp-docs.yml` and
+   `check-jp-translation.yml`: the full SHA of the translation-tools commit to run (the merge commit
+   of the pull request that adds `--docs` and `merge-memory.mjs`), the same in all three, in a pull
+   request here. Until then they stop at their first step.
+5. **Labels** `translation`, `japanese` and `automation` exist already. (`spanish`, `portuguese`,
+   `korean` are only needed for a catch-up pull request run by hand; one whose label is missing is
+   opened unlabelled, with a warning.)
 6. **Switch over** (below), then the repository variable `TRANSLATE_ENABLED` = `true` (it turns on
    every language at once). Optional repository variables: `BEDROCK_MODEL` (default
    `global.anthropic.claude-haiku-5-5`), `TRANSLATE_MAX_TOKENS` (per project per language per run,
    default 3,000,000).
-7. After a few good runs, make the *&lt;Language&gt; up to date* checks (*Japanese up to date*,
-   *Spanish up to date*, *Brazilian Portuguese up to date*, *Korean up to date*) and the
-   *CI (docs translations)* builds required checks for pull requests into `vnext` (they run only on
-   the translation pull requests).
+7. After a few good runs, make *Translations up to date (es, pt-BR, ko)* a required check for pull
+   requests into `vnext` (an English change cannot merge without its Spanish, Portuguese and Korean),
+   and *Japanese up to date* and the *CI (docs translations)* builds required too.
 
 ## Switching over from the sync-jp-docs-* workflows
 
@@ -291,9 +326,10 @@ pull requests would rewrite the same Japanese pages.
    `--adopt` for Angular, then xplat, from a checkout with LF line endings), and merge that in a
    pull request. Every Japanese page merged since 20 Nov 2026 is then recorded as the translation of
    today's English; without it, each would count as edited by a person.
-4. Set `TRANSLATE_ENABLED` = `true`, then run *Translate docs* by hand in `dry-run` mode (all
-   languages): it should report nothing out of date. From then on, every English push updates the
-   `translations/ja` pull request, and those of the other languages.
+4. Set `TRANSLATE_ENABLED` = `true`, then run *Translate docs (Japanese)* by hand in `dry-run` mode
+   (`all` languages): it should report nothing out of date. From then on, every English pull request
+   gets its Spanish, Portuguese and Korean in it, and every English merge updates the
+   `translations/ja` pull request.
 5. Change the Japanese line in `AGENTS.md` and the localization paragraph of
    `.github/CONTRIBUTING.md` to describe the new flow only.
 

@@ -1,34 +1,33 @@
-# Keeps the docs translations in step with the English, with
-# IgniteUI/translation-tools (translation/README.md). One matrix leg per
-# language:
+# The Japanese docs translation, reviewed by the Japanese team, with
+# IgniteUI/translation-tools (translation/README.md). Spanish, Brazilian
+# Portuguese and Korean are not translated here: translate-docs-pr.yml
+# translates them inside each English pull request, before it merges.
 #
 #   locale  content folder  pull request (branch → vnext)  title tag      label
 #   ja      jp              translations/ja                [jp-sync]      japanese
-#   es      es              translations/es                [es-sync]      spanish
-#   pt-BR   pt-BR           translations/pt-BR             [pt-br-sync]   portuguese
-#   ko      kr              translations/ko                [kr-sync]      korean
+#
+# When English content reaches `vnext`, this translates what changed into
+# Japanese and updates ONE pull request, `translations/ja` → `vnext`, labelled
+# translation, automation and japanese (like the [jp-sync] pull requests of the
+# sync-jp-docs-* workflows it replaces). Nothing is merged automatically: the
+# Japanese team reviews it in GitHub or in the Translation Manager, whose saves
+# are commits on the same branch.
 #
 # A language runs for a project (docs/angular, docs/xplat) only when the project
 # has its content folder (docs/<project>/src/content/<folder>/) and its
-# manifests (translation/manifest/<locale>/<project>/): so xplat runs for ja
-# only today, and starts for another language by itself once it is seeded.
-#
-# When English content reaches `vnext`, each leg translates what changed and
-# updates ONE pull request for its language, `translations/<locale>` → `vnext`,
-# labelled translation, automation and the language (the Japanese one like the
-# [jp-sync] pull requests of the sync-jp-docs-* workflows it replaces). Each
-# language has its own reviewers. Nothing is merged automatically: people review
-# the pull request in GitHub or in the Translation Manager, whose saves are
-# commits on the same branch.
+# manifests (translation/manifest/<locale>/<project>/).
 #
 # How it runs:
 #   · a push to `vnext` that changes English content (docs/<project>/src/content/en/**,
-#     the toc.json files included): every language runs for the project(s) the
-#     push changed, and translates every page of that project that is out of date;
-#   · by hand (Actions → Translate docs → Run workflow): the languages to run
-#     (default all), both projects or one; "out-of-date" translates everything
-#     out of date, "dry-run" only reports, "pages" redoes the pages listed (a
-#     person's edits on them are replaced).
+#     the toc.json files included): Japanese runs for the project(s) the push
+#     changed, and translates every page of that project that is out of date;
+#   · by hand (Actions → Translate docs (Japanese) → Run workflow): the languages
+#     to run (default ja), both projects or one; "out-of-date" translates
+#     everything out of date, "dry-run" only reports, "pages" redoes the pages
+#     listed (a person's edits on them are replaced). Run by hand for es, pt-BR or
+#     ko, it opens a one-off catch-up pull request for that language
+#     (translations/<locale>), e.g. after an English change that reached vnext
+#     without its translation; normally there is nothing to catch up.
 #
 # It cannot trigger itself. It pushes to `translations/<locale>` only, never to
 # `vnext`, and it starts only on a push to `vnext` that changes en/. When a
@@ -81,7 +80,7 @@
 # both would translate the same English push into Japanese (translation/README.md,
 # "Switching over").
 
-name: Translate docs
+name: Translate docs (Japanese)
 
 on:
   push:
@@ -92,9 +91,9 @@ on:
   workflow_dispatch:
     inputs:
       languages:
-        description: 'Languages, space- or comma-separated: ja, es, pt-BR, ko, or all'
+        description: 'Languages, space- or comma-separated: ja, es, pt-BR, ko, or all (es, pt-BR and ko are normally translated in each English pull request)'
         type: string
-        default: 'all'
+        default: 'ja'
       projects:
         description: 'Projects'
         type: choice
@@ -123,8 +122,8 @@ env:
   TOOLS_REF: SET-ME-TO-THE-TRANSLATION-TOOLS-MERGE-COMMIT
 
 jobs:
-  # The languages this run translates: all on a push; on a run by hand, the ones
-  # picked, each checked against the four known.
+  # The languages this run translates: Japanese on a push; on a run by hand, the
+  # ones picked, each checked against the four known.
   languages:
     if: vars.TRANSLATE_ENABLED == 'true'
     runs-on: ubuntu-latest
@@ -138,7 +137,7 @@ jobs:
           IN_LANGUAGES: ${{ inputs.languages }}
         run: |
           all=(ja es pt-BR ko)
-          want="${IN_LANGUAGES:-all}"
+          want="${IN_LANGUAGES:-ja}"
           read -ra words <<< "${want//,/ }"
           picked=()
           for w in "${words[@]}"; do
@@ -386,7 +385,7 @@ jobs:
 
       - name: AWS credentials (Claude on Bedrock only)
         if: inputs.mode != 'dry-run' && steps.projects.outputs.list != ''
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd  # v6.3.0
         with:
           role-to-assume: ${{ vars.AWS_TRANSLATE_ROLE_ARN }}
           aws-region: us-east-1

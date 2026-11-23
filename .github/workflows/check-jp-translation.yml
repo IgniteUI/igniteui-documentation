@@ -1,8 +1,15 @@
-# <Language> up to date: on a translation pull request (translations/<locale>
-# → vnext, translate-jp-docs.yml), every page of that language is the
-# translation of the current English, or a person's edit of one. Fails, and
-# lists the pages, when:
-#   - an English page is newer than its translation (the Translate docs run has
+# Two checks, by the pull request's branch:
+#
+#   Translations up to date (es, pt-BR, ko)   every pull request into vnext but a
+#     translations/* one: Spanish, Brazilian Portuguese and Korean have the
+#     translation of the pull request's English (translate-docs-pr.yml commits it
+#     to the pull request; this confirms it). Fails until that commit is there.
+#   <Language> up to date   a translation pull request (translations/<locale> →
+#     vnext, translate-jp-docs.yml; normally translations/ja): every page of that
+#     language is the translation of the current English, or a person's edit.
+#
+# Each fails, and lists the pages, when:
+#   - an English page is newer than its translation (the translation run has
 #     not got to it, stopped at its token cap, or could not write it);
 #   - a translated page someone edited by hand has an English change to carry
 #     over (the run's comment on the pull request shows the English diff);
@@ -11,10 +18,9 @@
 # The tool's own `--check`, a dry run: no model, no writes. Runs on every commit
 # to the pull request, the reviewers' and the Translation Manager's included.
 #
-# The language comes from the pull request's branch, matched against a fixed
-# list (translations/ja, translations/es, translations/pt-BR, translations/ko);
-# any other branch runs nothing. The check is named for the language
-# ("Japanese up to date", "Spanish up to date", …).
+# For a translations/* branch, the language comes from the branch, matched
+# against a fixed list (translations/ja, translations/es, translations/pt-BR,
+# translations/ko), and the check is named for it ("Japanese up to date", …).
 #
 # The other checks the pull request needs and that use no secrets already run
 # on it: lint.yml (`npm run check:llms-metadata`, which reads English and
@@ -26,15 +32,17 @@
 #
 # SECURITY. IgniteUI/translation-tools is private, so reading it needs the App
 # key, and so this runs on `pull_request_target`: THIS file as it is on vnext,
-# never the pull request's copy. It runs only for the four translation branches
-# of this repo, and only the tool, pinned (TOOLS_REF). The branch name is never
+# never the pull request's copy, for pull requests from branches of this repo
+# only, and it runs only the tool, pinned (TOOLS_REF). The branch name is never
 # put in a script: it is passed through the environment and compared with the
-# four known names. The pull request is checked out as files, without
-# credentials, and before the tool runs a check refuses a pull request that
-# changes anything outside its language's content folder and that language's
-# own files in translation/: the one file of this repo the tool executes
-# (docs/angular/src/scripts/grid-configs.mjs) is then vnext's, reviewed. No npm
-# install or build of the pull request happens here.
+# known names. The pull request is checked out as files, without credentials.
+# The one file of this repo the tool executes
+# (docs/angular/src/scripts/grid-configs.mjs) is always vnext's, reviewed: for a
+# translations/* branch a check first refuses a pull request that changes
+# anything outside its language's content folder and its own files in
+# translation/; for any other pull request vnext's copy replaces the pull
+# request's before the tool runs. No npm install or build of the pull request
+# happens here.
 
 name: Check docs translations
 
@@ -200,5 +208,111 @@ jobs:
           done
           if [ "$fail" = 1 ]; then
             echo "::error::Some $LANG_NAME pages are not the translation of the current English. Run Translate docs for $LOCALE (Actions → Run workflow), or for a page under \"edited by a person\", carry the English change over by hand."
+            exit 1
+          fi
+
+  # Every other pull request into vnext: the languages translated inside the pull
+  # request itself (translate-docs-pr.yml). Japanese is not checked here: its
+  # translation comes later, in the translations/ja pull request.
+  in-pull-request:
+    name: Translations up to date (es, pt-BR, ko)
+    if: >-
+      vars.TRANSLATE_ENABLED == 'true' &&
+      !startsWith(github.event.pull_request.head.ref, 'translations/') &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: intl-translate
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      BASE_BRANCH: vnext
+      LANGUAGES: 'es:es pt-BR:pt-BR ko:kr'
+    steps:
+      - name: The translation tool is pinned
+        run: |
+          if ! [[ "$TOOLS_REF" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::TOOLS_REF in this workflow must be the full commit SHA of IgniteUI/translation-tools (the same as in translate-jp-docs.yml). It is '$TOOLS_REF'."
+            exit 1
+          fi
+
+      - name: App token (read the translation tool)
+        id: tools-app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.TRANSLATE_APP_ID }}
+          private-key: ${{ secrets.TRANSLATE_APP_KEY }}
+          owner: IgniteUI
+          repositories: translation-tools
+          permission-contents: read
+
+      - name: Check out the translation tool (pinned)
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.TOOLS_REPO }}
+          ref: ${{ env.TOOLS_REF }}
+          path: tools
+          token: ${{ steps.tools-app.outputs.token }}
+          persist-credentials: false
+
+      # vnext's copy of the one file of this repo the tool executes.
+      - name: Check out vnext (trusted grid list)
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          path: base
+          sparse-checkout: docs/angular/src/scripts/grid-configs.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Check out the pull request (files only)
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: site
+          persist-credentials: false
+
+      - name: Use vnext's grid list
+        run: |
+          f=docs/angular/src/scripts/grid-configs.mjs
+          [ -f "base/$f" ] || { echo "::error::$f is missing on $BASE_BRANCH"; exit 1; }
+          cp "base/$f" "site/$f"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install the translation tool
+        run: npm ci --prefix tools --omit=dev --ignore-scripts
+
+      # The same command as the Translate run, with --check: a dry run, no model,
+      # no credentials. Exits 1 when work is left.
+      - name: Every English change is translated
+        working-directory: site
+        run: |
+          fail=0
+          for lf in $LANGUAGES; do
+            l=${lf%%:*}; folder=${lf#*:}
+            for p in angular xplat; do
+              if ! [ -d "docs/$p/src/content/$folder" ] || ! [ -d "translation/manifest/$l/$p" ]; then
+                echo "$l $p: not translated in this repo"; continue
+              fi
+              node "$GITHUB_WORKSPACE/tools/translate.mjs" --en "docs/$p" --out "docs/$p/src/content" \
+                --docs "$folder" --locale "$l" --source en \
+                --scope "translation/scope/$l.json" \
+                --memory "translation/memory/$l.json" \
+                --fixes "translation/memory/$l.human.json" \
+                --manifest-dir "translation/manifest/$l/$p" \
+                --check > "$RUNNER_TEMP/check-$l-$p.log" 2>&1 || {
+                  fail=1
+                  echo "## $l $p"
+                  if grep -q 'not translated for the current English' "$RUNNER_TEMP/check-$l-$p.log"; then
+                    sed -n '/not translated for the current English/,$p' "$RUNNER_TEMP/check-$l-$p.log"
+                  else tail -20 "$RUNNER_TEMP/check-$l-$p.log"; fi
+                }
+            done
+          done
+          if [ "$fail" = 1 ]; then
+            echo "::error::Some pages are not translated for this pull request's English yet. **Translate (es, pt-BR, ko)** commits them to this pull request: wait for it, or re-run it if it failed. A page listed as edited by a person needs the English change carried over by hand."
             exit 1
           fi

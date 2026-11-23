@@ -1,12 +1,15 @@
-# The build, in its language, of what a translation pull request
-# (translations/<locale> → vnext, translate-jp-docs.yml) changed. ci.yml builds
-# the English only; a page the tool or a reviewer broke in a translation would
+# The build of the translated sites a pull request changes. ci.yml builds the
+# English only; a page the tool or a reviewer broke in a translation would
 # otherwise first fail in that language's deploy after the merge.
 #
-# The language comes from the pull request's branch, matched against a fixed
-# list (translations/ja, translations/es, translations/pt-BR, translations/ko);
-# any other branch builds nothing. Only the sites the change reaches, built as
-# the deploys build them:
+# Which languages:
+#   · a translation pull request (translations/<locale> → vnext,
+#     translate-jp-docs.yml; normally translations/ja): its language, from the
+#     branch, matched against a fixed list;
+#   · any other pull request: each language whose content folder it changes,
+#     e.g. the Spanish, Portuguese and Korean pages translate-docs-pr.yml
+#     commits to an English pull request.
+# Only the sites the change reaches, built as the deploys build them:
 # for ja (jp/), es (es/), pt-BR (pt-BR/) and ko (kr/) alike:
 #     docs/angular/src/content/<folder>/**  the Angular site
 #                                     (npm run angular:build:jp|es|pt-br|kr)
@@ -21,10 +24,9 @@
 # do (a translated page missing from its toc.json then fails here).
 #
 # SECURITY. `pull_request`: the pull request's own code runs, with the
-# repository's read-only token and no secrets. Runs only for the four
-# translation branches of this repo, once TRANSLATE_ENABLED is true. The branch
-# name is never put in a script: it is passed through the environment and
-# compared with the four known names.
+# repository's read-only token and no secrets. Runs once TRANSLATE_ENABLED is
+# true. The branch name is never put in a script: it is passed through the
+# environment and compared with the known names.
 
 name: CI (docs translations)
 
@@ -50,13 +52,9 @@ concurrency:
 
 jobs:
   sites:
-    if: >-
-      vars.TRANSLATE_ENABLED == 'true' &&
-      startsWith(github.event.pull_request.head.ref, 'translations/') &&
-      github.event.pull_request.head.repo.full_name == github.repository
+    if: vars.TRANSLATE_ENABLED == 'true'
     runs-on: ubuntu-latest
     outputs:
-      folder: ${{ steps.sites.outputs.folder }}
       list: ${{ steps.sites.outputs.list }}
     steps:
       - uses: actions/checkout@v7
@@ -70,26 +68,29 @@ jobs:
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          # The language folders to look at: a translation branch's own, or all.
           case "$HEAD_REF" in
-            translations/ja)    folder=jp ;;
-            translations/es)    folder=es ;;
-            translations/pt-BR) folder=pt-BR ;;
-            translations/ko)    folder=kr ;;
-            *) echo "Not a translation branch: $(printf '%q' "$HEAD_REF"). Nothing to build."
-               echo "list=[]" >> "$GITHUB_OUTPUT"; exit 0 ;;
+            translations/ja)    folders=(jp) ;;
+            translations/es)    folders=(es) ;;
+            translations/pt-BR) folders=(pt-BR) ;;
+            translations/ko)    folders=(kr) ;;
+            translations/*) echo "Not a known translation branch: $(printf '%q' "$HEAD_REF"). Nothing to build."
+               echo 'list=[]' >> "$GITHUB_OUTPUT"; exit 0 ;;
+            *) folders=(jp es pt-BR kr) ;;
           esac
           changed=$(git diff --name-only "$(git merge-base "$BASE_SHA" HEAD)" HEAD)
+          # One entry per build, <folder>:<site>.
           list=()
-          if grep -q "^docs/xplat/src/content/$folder/" <<< "$changed"; then
-            list=(angular react webcomponents blazor winui uno)
-          fi
-          if [ ${#list[@]} -eq 0 ] && grep -q "^docs/angular/src/content/$folder/" <<< "$changed"; then
-            list=(angular)
-          fi
+          for folder in "${folders[@]}"; do
+            if grep -q "^docs/xplat/src/content/$folder/" <<< "$changed"; then
+              for site in angular react webcomponents blazor winui uno; do list+=("$folder:$site"); done
+            elif grep -q "^docs/angular/src/content/$folder/" <<< "$changed"; then
+              list+=("$folder:angular")
+            fi
+          done
           json=$(printf '%s\n' "${list[@]}" | sed '/^$/d' | node -e 'console.log(JSON.stringify(require("fs").readFileSync(0, "utf8").split("\n").filter(Boolean)))')
-          echo "folder=$folder" >> "$GITHUB_OUTPUT"
           echo "list=$json" >> "$GITHUB_OUTPUT"
-          echo "Builds ($folder): $json"
+          echo "Builds: $json"
 
   build:
     needs: sites
@@ -99,8 +100,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: ${{ fromJSON(needs.sites.outputs.list) }}
-    name: Build ${{ matrix.site }} (${{ needs.sites.outputs.folder }})
+        build: ${{ fromJSON(needs.sites.outputs.list) }}
+    name: Build ${{ matrix.build }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -122,11 +123,11 @@ jobs:
           npm install --no-audit --no-fund
           npm run build
 
-      - name: Build ${{ matrix.site }} (${{ needs.sites.outputs.folder }})
+      - name: Build ${{ matrix.build }}
         env:
-          SITE: ${{ matrix.site }}
-          FOLDER: ${{ needs.sites.outputs.folder }}
+          BUILD: ${{ matrix.build }}
         run: |
+          FOLDER=${BUILD%%:*}; SITE=${BUILD#*:}
           # The scripts' language suffix; both values come from fixed lists.
           case "$FOLDER" in
             jp) suffix=jp ;; es) suffix=es ;; pt-BR) suffix=pt-br ;; kr) suffix=kr ;;

@@ -299,13 +299,17 @@ function isAbsoluteDocLink(url) {
     return true;
 }
 
+/** The docs' content folders, English first (translation/README.md). */
+const LANGUAGES = ['en', 'jp', 'kr', 'es', 'pt-BR'];
+const LANG_ROOT_RE = new RegExp(`^(.*/(?:content|generated/[^/]+)/(?:${LANGUAGES.join('|')}))/`, 'i');
+
 /**
  * Given a file path, returns the language-specific content root
  * e.g. 'docs/angular/src/content/en/' or null if not determinable.
  */
 function getLangRoot(filePath) {
     const normalized = filePath.replace(/\\/g, '/');
-    const m = normalized.match(/^(.*\/(?:content|generated\/[^/]+)\/(?:en|jp|kr))\//i);
+    const m = normalized.match(LANG_ROOT_RE);
     return m ? m[1] + '/' : null;
 }
 
@@ -647,7 +651,7 @@ function getTocTargets() {
     const targets = [];
 
     if (!PLATFORM || PLATFORM === 'angular') {
-        for (const lang of ['en', 'jp']) {
+        for (const lang of LANGUAGES) {
             const langRoot = resolve(cwd, ANGULAR_AUTHORED_ROOT, lang) + '/';
             const toc = resolve(langRoot, 'components', 'toc.json');
             if (existsSync(toc)) targets.push({ toc, langRoots: getRootGroup(langRoot), platform: null });
@@ -656,7 +660,7 @@ function getTocTargets() {
 
     if (!PLATFORM || PLATFORM === 'xplat' || XPLAT_PLATFORMS.has(PLATFORM)) {
         for (const platform of ['React', 'WebComponents', 'Blazor']) {
-            for (const lang of ['en', 'jp']) {
+            for (const lang of LANGUAGES) {
                 const toc = resolve(cwd, 'docs/xplat/src/content', lang, 'toc.json');
                 const dir = resolve(cwd, 'docs/xplat/generated', platform, lang) + '/';
                 if (!existsSync(toc) || !existsSync(dir)) continue;
