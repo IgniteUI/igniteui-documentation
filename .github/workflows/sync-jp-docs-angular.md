@@ -1,7 +1,7 @@
 ---
 name: Sync Japanese Documentation (Angular)
 description: >
-  Monitors pushes to the vnext branch and keeps the Japanese documentation
+  Monitors pushes to the master branch and keeps the Japanese documentation
   (docs/angular/src/content/jp) in sync with changes made to the English
   documentation (docs/angular/src/content/en). For each modified English file,
   the agent translates the updated content into Japanese and creates a pull
@@ -9,7 +9,7 @@ description: >
 
 on:
   push:
-    branches: [vnext]
+    branches: [master]
     paths:
       - "docs/angular/src/content/en/**"
   workflow_dispatch:
@@ -36,7 +36,7 @@ safe-outputs:
     title-prefix: "[jp-sync] "
     labels: [translation, japanese, automation]
     draft: false
-    base-branch: vnext
+    base-branch: master
     if-no-changes: ignore
 
 timeout-minutes: 30
@@ -47,7 +47,7 @@ timeout-minutes: 30
 You are a technical documentation translator. Your task is to keep the Japanese
 documentation under `docs/angular/src/content/jp` in sync with the changes
 recently pushed to the English documentation under
-`docs/angular/src/content/en` on the `vnext` branch.
+`docs/angular/src/content/en` on the `master` branch.
 
 ## Context
 
@@ -127,7 +127,7 @@ github get_commit --owner IgniteUI --repo igniteui-documentation --sha <sha-from
 
 This is the only source for the changed-file list. For a merge commit GitHub
 reports the diff against the first parent, and a squash merge is the squashed
-change itself, so either way the response is exactly what landed on `vnext`.
+change itself, so either way the response is exactly what landed on `master`.
 Do not substitute a pull request's file list for it: a `(#NNN)` in the subject
 is no proof that the push was that pull request's merge, and the pull
 request's files are the same changes anyway.
@@ -418,7 +418,7 @@ JSON object. The pull request should:
   commit author, or `Original author: @login` when the pull request author
   was used for a merge commit — so the PR can be manually assigned to the
   correct person.
-- Target the `vnext` branch.
+- Target the `master` branch.
 
 If no English files under `docs/angular/src/content/en/` were changed in this
 push, **or** all changed files were filtered out because they are not
