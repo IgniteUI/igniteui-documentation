@@ -3,8 +3,8 @@ title: "{Platform} Data Grid Component"
 description: "The {ProductName} Data Grid displays and edits flat tabular data, with sorting, filtering, grouping, paging and Excel export."
 keywords: "{Platform} Data Grid, {ProductName}, sorting, filtering, grouping, editing, paging, Excel export"
 license: commercial
-last_updated: "2026-11-21"
-relatedComponents: ["TreeGrid", "HierarchicalGrid", "PivotGrid", "GridLite"]
+last_updated: "2026-11-23"
+relatedComponents: ["TreeGrid", "HierarchicalGrid", "PivotGrid", "GridLite", "List"]
 mentionedTypes: ["Grid", "Column", "CellType", "CellTemplateContext", "RowType", "GridToolbar", "Paginator", "ColumnPipeArgs", "GridModule"]
 namespace: Infragistics.Controls
 llms:
@@ -29,7 +29,7 @@ import gridDoNotColumns from '@xplat-images/grid/grid-do-not-3.png';
 
 # Data Grid
 
-The {ProductName} Data Grid (<ApiLink type="Grid" />) displays and edits flat tabular data: an array of records, one row per record. It is the grid to start with for lists of orders, customers, transactions and any other data that has one row per record. You enable features such as sorting, filtering, grouping, editing, paging and Excel export per column or per grid, and the Data Grid virtualizes its rows and columns by default.
+The {ProductName} Data Grid (<PlatformBlock for="React,Blazor"><ApiLink type="Grid" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="Grid" label="IgcGridComponent" /></PlatformBlock><PlatformBlock for="Angular"><ApiLink type="Grid" label="IgxGridComponent" /></PlatformBlock>) displays and edits flat tabular data: an array of records, one row per record. It is the grid to start with for lists of orders, customers and transactions. You enable features such as sorting, filtering, grouping, editing, paging and Excel export per column or per grid, and the Data Grid virtualizes its rows and columns by default.
 
 For hierarchical data, use the [Tree Grid](./tree-grid/overview.mdx) or the [Hierarchical Grid](./hierarchical-grid/overview.mdx), which offer most of the same features. To summarize data in a cross-tabular layout, use the [Pivot Grid](./pivot-grid/overview.mdx).
 
@@ -43,13 +43,13 @@ The selector of the Angular Data Grid is `igx-grid`, and each `igx-column` in it
 
 <PlatformBlock for="Angular">
 
-<Sample src="/grid/grid-overview" showThemePicker height={682} noBorder={false} spacing="sm" alt="{Platform} Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
+<Sample src="/grid/grid-overview" showThemePicker height={682} noBorder={false} spacing="md" alt="{Platform} Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
 
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-<Sample src="/{GridSample}/overview-inventory" showThemePicker height={682} noBorder={false} spacing="sm" alt="{Platform} Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
+<Sample src="/{GridSample}/overview-inventory" showThemePicker height={682} noBorder={false} spacing="md" alt="{Platform} Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
 
 </PlatformBlock>
 
@@ -173,21 +173,27 @@ Or to link it:
 <link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/bootstrap.css'>
 ```
 
+Cell and header templates use Lit's `html` tag; `{PackageGrids}` installs `lit`, which includes `lit-html`, and you add `lit-html` to your own dependencies when you import from it directly.
+
 </PlatformBlock>
 
 <PlatformBlock for="React">
 
-Install the `{PackageCommon}` and `{PackageGrids}` packages:
+Install the `{PackageGrids}` package:
 
 ```cmd
-npm install {PackageCommon} {PackageGrids}
+npm install {PackageGrids}
 ```
+
+The components that you place in cell templates, such as the Input and the Icon, come from `{PackageCommon}`; install it when you use them.
 
 Import the grid:
 
 ```tsx
 import { IgrGrid, IgrColumn } from 'igniteui-react-grids';
 ```
+
+`IgrGrid` wraps the `igc-grid` web component. Its cell and header templates are functions that return JSX, with the template context as the first argument.
 
 Reference the grid styles as well. Choose the light or the dark variant of one of the [themes](../themes/overview.mdx) and import it:
 
@@ -253,57 +259,6 @@ export class HomeComponent {
 
 </PlatformBlock>
 
-To change the look of the Data Grid, see [Styling](#styling).
-
-### Prerequisites and Version Compatibility
-
-The {Platform} Data Grid needs the following packages.
-
-<PlatformBlock for="WebComponents">
-
-| Requirement | Value |
-| --- | --- |
-| Package | `igniteui-webcomponents-grids`. Importing `igniteui-webcomponents-grids/grids/combined.js` registers the grid elements. |
-| Cell and header templates | Lit's `html` tag from `lit-html`. `igniteui-webcomponents-grids` installs `lit`, which includes `lit-html`; add `lit-html` to your own dependencies when you import it directly. |
-| Themes | `bootstrap.css`, `fluent.css`, `indigo.css` and `material.css` in `igniteui-webcomponents-grids/grids/themes/light/` and `igniteui-webcomponents-grids/grids/themes/dark/`. |
-| License | The package is licensed under the Infragistics Ultimate license, and the Data Grid is a Premium component. See [Open-Source vs Premium](../general-open-source-vs-premium.mdx). |
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-| Requirement | Value |
-| --- | --- |
-| Package | `igniteui-react-grids`, which wraps the `igc-grid` web component. Version 19.11.0 installs `igniteui-webcomponents-grids` 7.4.x as a dependency. |
-| Other components | `igniteui-react` provides the components that you place in cell templates, such as the Input and the Icon. |
-| Cell and header templates | Functions that return JSX. The template context is the first argument of the function. |
-| Themes | `bootstrap.css`, `fluent.css`, `indigo.css` and `material.css` in `igniteui-react-grids/grids/themes/light/` and `igniteui-react-grids/grids/themes/dark/`. |
-| License | `igniteui-react-grids` is licensed under the Infragistics Ultimate license, and the Data Grid is a Premium component. See [Open-Source vs Premium](../general-open-source-vs-premium.mdx). |
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-| Requirement | Value |
-| --- | --- |
-| Package | `IgniteUI.Blazor` (or `IgniteUI.Blazor.Trial`) |
-| Target frameworks | `IgniteUI.Blazor` 26.1.98 targets .NET 8, .NET 9 and .NET 10. |
-| Themes | `bootstrap.css`, `fluent.css`, `indigo.css` and `material.css` in `_content/IgniteUI.Blazor/themes/grid/light/` and `_content/IgniteUI.Blazor/themes/grid/dark/`. |
-| License | The package is licensed under the Infragistics Ultimate software license agreement, and the Data Grid is a Premium component. See [Open-Source vs Premium](../general-open-source-vs-premium.mdx). |
-
-</PlatformBlock>
-
-<PlatformBlock for="Angular">
-
-| Requirement | Value |
-| --- | --- |
-| Package | `igniteui-angular` |
-| Entry point | `igniteui-angular/grids/grid` |
-| Angular | `igniteui-angular` 22.3.0 declares Angular 22 as a peer dependency: `@angular/core`, `@angular/common`, `@angular/forms` and `@angular/animations`. |
-| License | `igniteui-angular` is dual-licensed, and the grids are under the Infragistics commercial license. The Data Grid is a Premium component. See [Open-Source vs Premium](../general/open-source-vs-premium.mdx). |
-
-</PlatformBlock>
-
 ## Usage
 
 Use the {Platform} Data Grid to display, edit and analyze records that share the same fields.
@@ -362,8 +317,6 @@ With <ApiLink type="Grid" member="autoGenerate" />, the grid creates a <ApiLink 
 The Data Grid is a data component, not a page layout grid. For a responsive, Bootstrap-like page layout, {ProductName} has the flex-based [Layout Manager](../layout.mdx) directives. The size of the Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](./_shared/sizing.mdx).
 
 </PlatformBlock>
-
-The Data Grid edits cells and rows. It applies each edit as it is made, or collects the edits and commits them together with [batch editing](./_shared/batch-editing.mdx). It also has Excel-like [keyboard navigation](#keyboard-interaction), which you can override. The [Cell Template](#cell-template) and [Cell Editing Template](#cell-editing-template) sections show how to customize what a cell displays and how it is edited.
 
 ### Column Configuration
 
@@ -457,7 +410,7 @@ public contextObject = { firstProperty: 'testValue', secondProperty: 'testValue1
 
 #### Header Template
 
-A header template replaces the content of the column header. The snippets below format the header text in upper case:
+A header template replaces the content of the column header. The snippet below formats the header text in upper case:
 
 <PlatformBlock for="Angular">
 
@@ -544,7 +497,7 @@ function formatUppercase(value: string) {
 
 #### Cell Template
 
-A cell template applies to all cells of the column. Its context is the cell value, provided implicitly (<PlatformBlock for="Angular">`$implicit`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`implicit`</PlatformBlock>), and the cell object (`cell`). The snippets below format the cell text in title case:
+A cell template applies to all cells of the column. Its context is the cell value, provided implicitly (<PlatformBlock for="Angular">`$implicit`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`implicit`</PlatformBlock>), and the cell object (`cell`). The snippet below formats the cell text in title case:
 
 <PlatformBlock for="Angular">
 
@@ -1037,7 +990,7 @@ igRegisterScript("SmallViewTemplate", (ctx) => {
 
 </PlatformBlock>
 
-You can also set column properties in the `ColumnInit` event, which the grid emits when it initializes each column:
+You can also set column properties in the <PlatformBlock for="WebComponents">`columnInit`</PlatformBlock><PlatformBlock for="React">`onColumnInit`</PlatformBlock><PlatformBlock for="Blazor">`ColumnInit`</PlatformBlock><PlatformBlock for="Angular"><ApiLink type="Grid" member="columnInit" /></PlatformBlock> event, which the grid emits when it initializes each column:
 
 <PlatformBlock for="Angular">
 
@@ -1209,32 +1162,7 @@ A value can be a primitive or a nested object; to show an array value, give its 
 
 #### Data Structure
 
-The <ApiLink type="Grid" /> displays flat records and records with nested objects. It expects the data in this form:
-
-```typescript
-const OBJECT_ARRAY = [{
-        ObjectKey1: value1,
-        ObjectKey2: value2,
-        // ...
-        ObjectKeyN: valueN
-    },
-    // ...
-];
-
-const POJO = [{
-        ObjectKey1: value1,
-        ObjectKey2: value2,
-        // ...
-        ObjectKeyN: {
-          ObjectKeyN1: value1,
-          ObjectKeyN2: value2,
-          // ...
-          ObjectKeyNM: valueNM,
-        }
-    },
-    // ...
-];
-```
+The <ApiLink type="Grid" /> displays flat records and records with nested objects.
 
 <DocsAside type="warning">
 **The key values must not contain arrays**. To show an array value, give its column a cell template, as the [Complex Data Binding](#complex-data-binding) section shows.
@@ -1245,9 +1173,13 @@ If you use <ApiLink type="Grid" member="autoGenerate" /> columns **the data keys
 
 #### Remote Data Binding
 
-<PlatformBlock for="WebComponents">
+<PlatformBlock for="React,WebComponents,Blazor">
 
 To bind the grid to a remote service, fetch the data and assign the response to the <ApiLink type="Grid" member="data" /> property:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
 
 ```html
 <igc-grid id="grid1"></igc-grid>
@@ -1268,8 +1200,6 @@ public onDataLoaded(jsonData: any[]) {
 </PlatformBlock>
 
 <PlatformBlock for="React">
-
-To bind the grid to a remote service, fetch the data and assign the response to the <ApiLink type="Grid" member="data" /> property:
 
 ```tsx
 import { useEffect, useState } from 'react';
@@ -1406,8 +1336,6 @@ Bind the grid to `records` in the template of the component:
 
 <PlatformBlock for="Blazor">
 
-To bind to a remote service, fetch the data and assign it to the data property:
-
 ```razor
 @inject HttpClient Http
 
@@ -1431,7 +1359,7 @@ With <ApiLink type="Grid" member="autoGenerate" />, the grid generates the colum
 
 </PlatformBlock>
 
-For real-time updates, see [Live Data](./_shared/live-data.mdx). <PlatformBlock for="Angular">For sorting, filtering and paging on the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">To load the data in chunks while the reader scrolls, or a page at a time from the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock>
+For real-time updates, see [Live Data](./_shared/live-data.mdx). <PlatformBlock for="Angular">For sorting, filtering and paging on the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">To load the data in chunks while users scroll, or a page at a time from the server, see [Remote Data Operations](./_shared/remote-data-operations.mdx).</PlatformBlock>
 
 #### Complex Data Binding
 
@@ -1532,7 +1460,7 @@ Sorting, filtering, grouping, editing with or without transactions, and cell tem
 The grids **do not** support this kind of binding for <ApiLink type="Grid" member="primaryKey" />, `foreignKey` and `childDataKey` properties where applicable.
 </DocsAside>
 
-<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="{Platform} Data Grid with columns bound to nested properties of amino acid records" />
+<Sample src="/grid/grid-nested-data-binding-2" height={460} noBorder={false} spacing="md" alt="{Platform} Data Grid with columns bound to nested properties of amino acid records" />
 
 </PlatformBlock>
 
@@ -1665,37 +1593,13 @@ A larger example shows nested employee records in one column. It uses this data:
 ```typescript
 export const EMPLOYEE_DATA = [
     {
-        Age: 55,
         Employees: [
             {
                 Age: 43,
-                HireDate: new Date(2011, 6, 3),
                 ID: 3,
                 Name: "Michael Burke",
                 Title: "Senior Software Developer"
-            },
-            {
-                Age: 29,
-                HireDate: new Date(2009, 6, 19),
-                ID: 2,
-                Name: "Thomas Anderson",
-                Title: "Senior Software Developer"
-            },
-            {
-                Age: 31,
-                HireDate: new Date(2014, 8, 18),
-                ID: 11,
-                Name: "Monica Reyes",
-                Title: "Software Development Team Lead"
-            },
-            {
-                Age: 35,
-                HireDate: new Date(2015, 9, 17),
-                ID: 6,
-                Name: "Roland Mendel",
-                Title: "Senior Software Developer"
             }],
-        HireDate: new Date(2008, 3, 20),
         ID: 1,
         Name: "John Winchester",
         Title: "Development Manager"
@@ -1720,53 +1624,8 @@ public class EmployeesNestedData : List<EmployeesNestedDataItem>
                 new EmployeesNestedDataItem_EmployeesItem()
                 {
                     Age = 43,
-                    Salary = 70000,
-                    Productivity = 80,
-                    City = @"Hamburg",
-                    Country = @"Germany",
-                    Phone = @"609-444-555",
-                    HireDate = @"2011, 6, 3",
                     ID = 3,
                     Name = @"Michael Burke",
-                    Title = @"Senior Software Developer"
-                },
-                new EmployeesNestedDataItem_EmployeesItem()
-                {
-                    Age = 29,
-                    Salary = 60000,
-                    Productivity = 80,
-                    City = @"Munich",
-                    Country = @"Germany",
-                    Phone = @"609-333-444",
-                    HireDate = @"2009, 6, 19",
-                    ID = 2,
-                    Name = @"Thomas Anderson",
-                    Title = @"Senior Software Developer"
-                },
-                new EmployeesNestedDataItem_EmployeesItem()
-                {
-                    Age = 31,
-                    Salary = 90000,
-                    Productivity = 80,
-                    City = @"Warsaw",
-                    Country = @"Poland",
-                    Phone = @"609-222-205",
-                    HireDate = @"2014, 8, 18",
-                    ID = 11,
-                    Name = @"Monica Reyes",
-                    Title = @"Software Development Team Lead"
-                },
-                new EmployeesNestedDataItem_EmployeesItem()
-                {
-                    Age = 35,
-                    Salary = 70000,
-                    Productivity = 70,
-                    City = @"Koln",
-                    Country = @"Germany",
-                    Phone = @"609-502-525",
-                    HireDate = @"2015, 9, 17",
-                    ID = 6,
-                    Name = @"Roland Mendel",
                     Title = @"Senior Software Developer"
                 }
             }
@@ -1929,13 +1788,13 @@ The result:
 
 <PlatformBlock for="Angular">
 
-<Sample src="/grid/grid-nested-data-binding" height={460} alt="{Platform} Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
+<Sample src="/grid/grid-nested-data-binding" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
 
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-<Sample src="/{GridSample}/binding-nested-data-1" height={460} alt="{Platform} Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
+<Sample src="/{GridSample}/binding-nested-data-1" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
 
 </PlatformBlock>
 
@@ -2293,13 +2152,13 @@ The result:
 
 <PlatformBlock for="Angular">
 
-<Sample src="/grid/grid-composite-data-binding" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
+<Sample src="/grid/grid-composite-data-binding" showThemePicker height={550} noBorder={false} spacing="md" alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
 
 </PlatformBlock>
 
 <PlatformBlock for="React,WebComponents,Blazor">
 
-<Sample src="/{GridSample}/binding-composite-data" height={550} alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
+<Sample src="/{GridSample}/binding-composite-data" showThemePicker height={550} noBorder={false} spacing="md" alt="{Platform} Data Grid with contact and address columns whose cells combine several fields of the record" />
 
 </PlatformBlock>
 
@@ -2316,7 +2175,7 @@ Each feature of the {Platform} Data Grid has its own topic.
 | [Search](./_shared/search.mdx) | Text search across the grid with highlighting, case sensitivity and exact match. |
 <PlatformBlock for="Angular">| [Paging](./_shared/paging.mdx) | Built-in paginator, custom paginator templates and remote paging. |
 </PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">| [Paging](./_shared/paging.mdx) | Built-in paginator and [remote paging](./_shared/remote-data-operations.mdx#remote-paging). |
-</PlatformBlock>| [Editing](./_shared/editing.mdx) | [Cell editing](./_shared/cell-editing.mdx), [row editing](./_shared/row-editing.mdx), [row adding](./_shared/row-adding.mdx), editing templates, validation and an API for create, update and delete operations. |
+</PlatformBlock>| [Editing](./_shared/editing.mdx) | [Cell editing](./_shared/cell-editing.mdx), [row editing](./_shared/row-editing.mdx), [row adding](./_shared/row-adding.mdx), [batch editing](./_shared/batch-editing.mdx), editing templates, validation and an API for create, update and delete operations. |
 | [Selection](./_shared/selection.mdx) | [Row](./_shared/row-selection.mdx), [cell](./_shared/cell-selection.mdx) and [column](./_shared/column-selection.mdx) selection in single, multiple and none modes. |
 | Columns | [Hiding](./_shared/column-hiding.mdx), [moving](./_shared/column-moving.mdx), [pinning](./_shared/column-pinning.mdx), [resizing](./_shared/column-resizing.mdx), [column data types](./_shared/column-types.mdx), [multi-column headers](./_shared/multi-column-headers.mdx) and [collapsible column groups](./_shared/collapsible-column-groups.mdx). |
 | Rows | [Row pinning](./_shared/row-pinning.mdx), [row dragging](./_shared/row-drag.mdx), [row actions](./_shared/row-actions.mdx), [master-detail](./grid/master-detail.mdx), [multi-row layout](./_shared/multi-row-layout.mdx) and [cell merging](./_shared/cell-merging.mdx). |
@@ -2351,7 +2210,7 @@ Event coalescing is experimental for the `IgxGridComponent` and can cause unexpe
 
 ### Do/Don't
 
-Align the content of the header cells and the body cells by data type: text to the left and numbers to the right, which is the default for number, currency and percent columns. Keep cell content on one line, so that all rows have the same height, and show only the columns that the task needs; the reader can show the rest from the [Column Hiding](./_shared/column-hiding.mdx) menu.
+Align the content of the header cells and the body cells by data type: text to the left and numbers to the right, which is the default for number, currency and percent columns. Keep cell content on one line, so that all rows have the same height, and show only the columns that the task needs; users can show the rest from the [Column Hiding](./_shared/column-hiding.mdx) menu.
 
 <DoDont
   doSrc={gridDoAlignment}
@@ -2430,9 +2289,9 @@ The {Platform} Data Grid and its columns expose the following core properties. S
 | <ApiLink type="Column" member="header" label="Column.header" /> | `string` | `''` | The header text. When it is empty, the header shows the field. |
 | <ApiLink type="Column" member="dataType" label="Column.dataType" /> | `GridColumnDataType` | `'string'` | The data type: `string`, `number`, `boolean`, `date`, `dateTime`, `time`, `currency`, `percent` or `image`. It sets the display format, the editor and the filtering conditions of the column. |
 | <ApiLink type="Column" member="width" label="Column.width" /> | `string` | — | The width in pixels or percent. When it isn't set, the column shares the width that the other columns leave free. |
-| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether the reader can sort by the column. |
+| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether users can sort by the column. |
 | <ApiLink type="Column" member="filterable" label="Column.filterable" /> | `boolean` | `true` | Whether the column can be filtered when filtering is on. |
-| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether the reader can group by the column. |
+| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether users can group by the column. |
 | <ApiLink type="Column" member="editable" label="Column.editable" /> | `boolean` | — | Whether the cells of the column can be edited. When it isn't set, it follows `rowEditable`. |
 | <ApiLink type="Column" member="pinned" label="Column.pinned" /> | `boolean` | `false` | Whether the column is pinned, so that it stays in view during horizontal scrolling. |
 | <ApiLink type="Column" member="hidden" label="Column.hidden" /> | `boolean` | `false` | Whether the column is hidden. |
@@ -2466,9 +2325,9 @@ In HTML, set the properties through their kebab-case attributes, such as `auto-g
 | <ApiLink type="Column" member="Header" label="IgbColumn.Header" /> | `string` | — | The header text. When it is empty, the header shows the field. |
 | <ApiLink type="Column" member="DataType" label="IgbColumn.DataType" /> | `GridColumnDataType` | `String` | The data type: `String`, `Number`, `Boolean`, `Date`, `DateTime`, `Time`, `Currency`, `Percent` or `Image`. It sets the display format, the editor and the filtering conditions of the column. |
 | <ApiLink type="Column" member="Width" label="IgbColumn.Width" /> | `string` | — | The width in pixels or percent. When it isn't set, the column shares the width that the other columns leave free. |
-| <ApiLink type="Column" member="Sortable" label="IgbColumn.Sortable" /> | `bool` | `false` | Whether the reader can sort by the column. |
+| <ApiLink type="Column" member="Sortable" label="IgbColumn.Sortable" /> | `bool` | `false` | Whether users can sort by the column. |
 | <ApiLink type="Column" member="Filterable" label="IgbColumn.Filterable" /> | `bool` | `true` | Whether the column can be filtered when filtering is on. |
-| <ApiLink type="Column" member="Groupable" label="IgbColumn.Groupable" /> | `bool` | `false` | Whether the reader can group by the column. |
+| <ApiLink type="Column" member="Groupable" label="IgbColumn.Groupable" /> | `bool` | `false` | Whether users can group by the column. |
 | <ApiLink type="Column" member="Editable" label="IgbColumn.Editable" /> | `bool` | — | Whether the cells of the column can be edited. When it isn't set, it follows `RowEditable`. |
 | <ApiLink type="Column" member="Pinned" label="IgbColumn.Pinned" /> | `bool` | `false` | Whether the column is pinned, so that it stays in view during horizontal scrolling. |
 | <ApiLink type="Column" member="Hidden" label="IgbColumn.Hidden" /> | `bool` | `false` | Whether the column is hidden. |
@@ -2498,9 +2357,9 @@ In HTML, set the properties through their kebab-case attributes, such as `auto-g
 | <ApiLink type="Column" member="header" label="Column.header" /> | `string` | `''` | The header text. When it is empty, the header shows the field. |
 | <ApiLink type="Column" member="dataType" label="Column.dataType" /> | `GridColumnDataType` | `'string'` | The data type: `string`, `number`, `boolean`, `date`, `dateTime`, `time`, `currency`, `percent` or `image`. It sets the display format, the editor and the filtering conditions of the column. |
 | <ApiLink type="Column" member="width" label="Column.width" /> | `string` | — | The width in pixels or percent. When it isn't set, the column shares the width that the other columns leave free. |
-| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether the reader can sort by the column. |
+| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether users can sort by the column. |
 | <ApiLink type="Column" member="filterable" label="Column.filterable" /> | `boolean` | `true` | Whether the column can be filtered when filtering is on. |
-| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether the reader can group by the column. |
+| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether users can group by the column. |
 | <ApiLink type="Column" member="editable" label="Column.editable" /> | `boolean` | — | Whether the cells of the column can be edited. When it isn't set, it follows `rowEditable`. |
 | <ApiLink type="Column" member="pinned" label="Column.pinned" /> | `boolean` | `false` | Whether the column is pinned, so that it stays in view during horizontal scrolling. |
 | <ApiLink type="Column" member="hidden" label="Column.hidden" /> | `boolean` | `false` | Whether the column is hidden. |
@@ -2511,51 +2370,7 @@ In HTML, set the properties through their kebab-case attributes, such as `auto-g
 
 ## Styling
 
-The {Platform} Data Grid takes its colors from the theme of the application.
-
-<PlatformBlock for="React,WebComponents,Blazor">
-
-Besides the predefined themes, you can customize the grid with its CSS properties. To build a complete theme from a few colors, see the [Theming](./_shared/theming.mdx) topic.
-To change the header background and text color, give the grid a class:
-
-</PlatformBlock>
-
-<PlatformBlock for="WebComponents">
-
-```html
-<igc-grid class="grid"></igc-grid>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React">
-
-```tsx
-<IgrGrid className="grid"></IgrGrid>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="Blazor">
-
-```razor
-<IgbGrid Class="grid"></IgbGrid>
-```
-
-</PlatformBlock>
-
-<PlatformBlock for="React,WebComponents,Blazor">
-
-Then set the `--header-background` and `--header-text-color` CSS properties for that class:
-
-```css
-.grid {
-    --header-background: #494949;
-    --header-text-color: #FFF;
-}
-```
-
-The grid theme reads the following properties on the grid element. Each one falls back to a global property with the `--ig-grid-` prefix, such as `--ig-grid-header-background`, which you can set on any ancestor of the Data Grid:
+The {Platform} Data Grid takes its colors from the theme of the application. Change them with the following CSS variables, which the grid theme reads on the grid element. Each one falls back to a global variable with the `--ig-grid-` prefix, such as `--ig-grid-header-background`, which you can set on any ancestor of the Data Grid:
 
 | Variable | What it changes |
 | --- | --- |
@@ -2572,7 +2387,7 @@ The grid theme reads the following properties on the grid element. Each one fall
 | `--row-border-color` | The color of the border below each row. |
 | `--grid-border-color` | The color of the border around the Data Grid. |
 
-</PlatformBlock>
+To build a complete theme from a few colors, see the [Theming](./_shared/theming.mdx) topic.
 
 <PlatformBlock for="Angular">
 
@@ -2637,9 +2452,52 @@ Each of these themes also takes three main colors and has further parameters for
 
 To style smaller nested components, such as buttons, icons, inputs or chips, apply their own themes inside the grid, with a selector specific enough to reach only the intended element. The [Dependencies](#dependencies) section lists these themes.
 
-To build a complete theme from a few colors, see the [Theming](./_shared/theming.mdx) topic.
+</PlatformBlock>
+
+### CSS Variables
+
+To change the header background and text color, give the grid a class:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-grid class="grid"></igx-grid>
+```
 
 </PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid class="grid"></igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+Then set the `--header-background` and `--header-text-color` variables for that class:
+
+```css
+.grid {
+    --header-background: #494949;
+    --header-text-color: #FFF;
+}
+```
 
 ## Accessibility
 
@@ -2702,8 +2560,6 @@ The {Platform} Data Grid also behaves as follows for assistive technology:
 
 - The focus stays on the header row or on the body while the active cell moves, and `aria-activedescendant` points to the active column header or cell.
 - Only the rows and the columns in view are in the DOM. `aria-rowindex` and `aria-colindex` give each rendered cell its position in the data.
-
-You supply the accessible name of the Data Grid, for example with `aria-label` on the grid element, and accessible names for icon-only content in your cell and header templates.
 
 ### Accessibility Compliance
 
@@ -2828,7 +2684,6 @@ The {Platform} Data Grid has the following limitations.
 | Column widths in `%` and `px` | Mixing percentage and pixel column widths is not supported. |
 | Filtering a number column | A value that is not a number in the filter input returns `NaN`. |
 | Data Grid width and column widths | Unless the `width` of the Data Grid is `null`, the column widths do not determine the width of the Data Grid; the width of the Data Grid or of its parent container does. |
-| Data Grid in a container | Without a width, the Data Grid spans its parent container. |
 | Minimum column width | Resizing or auto-sizing doesn't make a column narrower than 56 px (small), 64 px (medium) or 80 px (large), depending on `--ig-size`, unless the column has a minimum width of its own. A narrower width that you set yourself applies. |
 <PlatformBlock for="Angular">| `OnPush` change detection | The Data Grid uses `ChangeDetectionStrategy.OnPush`. When a customization changes what the Data Grid shows, make sure that the Data Grid is notified about the change. |
 </PlatformBlock>| Row height and virtualization | A custom cell template that is outside the viewport does not affect the row height until it scrolls into view. |
@@ -2925,8 +2780,6 @@ This short tutorial video shows how to create the {Platform} Data Grid:
 
 </PlatformBlock>
 
-Our community is active and always welcoming to new ideas.
-
 - [{ProductName} **Forums**]({ForumsLink})
 - [{ProductName} **GitHub**]({GithubLink})
 
@@ -2958,6 +2811,6 @@ These questions cover common {Platform} Data Grid data binding, editing and perf
     Set a column of the {Platform} Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key. To replace the default editor of a column, give it a [cell editing template](#cell-editing-template).
   </FaqItem>
   <FaqItem question="Does the Data Grid handle large data sets?" indicatorPosition="end">
-    The {Platform} Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while the reader scrolls. For data that does not fit in memory, load it on demand as the [Remote Data Operations](./_shared/remote-data-operations.mdx) topic shows.
+    The {Platform} Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while users scroll. For data that does not fit in memory, load it on demand as the [Remote Data Operations](./_shared/remote-data-operations.mdx) topic shows.
   </FaqItem>
 </Faq>

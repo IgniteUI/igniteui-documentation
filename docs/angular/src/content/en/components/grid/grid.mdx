@@ -3,8 +3,8 @@ title: Angular Data Grid | Build Fast Angular Tables | Infragistics
 description: "The Ignite UI for Angular Data Grid displays and edits flat tabular data, with sorting, filtering, grouping, paging and Excel export."
 keywords: angular data grid, angular grid component, angular data grid component, angular table component, angular data table component, angular table, angular UI components, ignite ui for angular
 license: commercial
-last_updated: "2026-11-21"
-relatedComponents: ["TreeGrid", "HierarchicalGrid", "PivotGrid", "GridLite"]
+last_updated: "2026-11-23"
+relatedComponents: ["TreeGrid", "HierarchicalGrid", "PivotGrid", "GridLite", "List"]
 llms:
   description: "The Ignite UI for Angular Data Grid is a component that displays and edits flat tabular data, with sorting, filtering, grouping, editing, paging and Excel export."
 ---
@@ -26,7 +26,7 @@ import gridDoNotColumns from '@xplat-images/grid/grid-do-not-3.png';
 
 # Data Grid
 
-The Ignite UI for Angular Data Grid (<ApiLink type="Grid" />) displays and edits flat tabular data: an array of records, one row per record. It is the grid to start with for lists of orders, customers, transactions and any other data that has one row per record. You enable features such as sorting, filtering, grouping, editing, paging and Excel export per column or per grid, and the Data Grid virtualizes its rows and columns by default.
+The Ignite UI for Angular Data Grid (<ApiLink type="Grid" label="IgxGridComponent" />) displays and edits flat tabular data: an array of records, one row per record. It is the grid to start with for lists of orders, customers and transactions. You enable features such as sorting, filtering, grouping, editing, paging and Excel export per column or per grid, and the Data Grid virtualizes its rows and columns by default.
 
 For hierarchical data, use the [Tree Grid](/treegrid/tree-grid) or the [Hierarchical Grid](/hierarchicalgrid/hierarchical-grid), which offer most of the same features. To summarize data in a cross-tabular layout, use the [Pivot Grid](/pivotgrid/pivot-grid).
 
@@ -34,7 +34,7 @@ The selector of the Angular Data Grid is `igx-grid`, and each `igx-column` in it
 
 ## Live Demo
 
-<Sample src="/grid/grid-overview" showThemePicker height={682} noBorder={false} spacing="sm" alt="Angular Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
+<Sample src="/grid/grid-overview" showThemePicker height={682} noBorder={false} spacing="md" alt="Angular Data Grid example with an inventory of organic foods grouped by category, with a toolbar, cell templates, row editing and paging" />
 
 ## Anatomy
 
@@ -114,19 +114,6 @@ export class HomeComponent {
 }
 ```
 
-To change the look of the Data Grid, see [Styling](#styling).
-
-### Prerequisites and Version Compatibility
-
-The Angular Data Grid needs the following packages.
-
-| Requirement | Value |
-| --- | --- |
-| Package | `igniteui-angular` |
-| Entry point | `igniteui-angular/grids/grid` |
-| Angular | `igniteui-angular` 22.3.0 declares Angular 22 as a peer dependency: `@angular/core`, `@angular/common`, `@angular/forms` and `@angular/animations`. |
-| License | `igniteui-angular` is dual-licensed, and the grids are under the Infragistics commercial license. The Data Grid is a Premium component. See [Open-Source vs Premium](/general/open-source-vs-premium). |
-
 ## Usage
 
 Use the Angular Data Grid to display, edit and analyze records that share the same fields.
@@ -142,8 +129,6 @@ Add the `igx-grid` element to the template of your component and bind its data:
 The <ApiLink type="Grid" member="data" /> property binds the grid, here to a local array of objects. With <ApiLink type="Grid" member="autoGenerate" />, the grid creates a <ApiLink type="Column" /> for each field of the first record and infers its data type: a number, a Boolean, a `Date` object and a string that ends with an image file extension, such as `.png`, give number, boolean, date and image columns, and any other value gives a string column. To set the columns and their mapping to the data fields yourself, [define the columns](#column-configuration).
 
 The Data Grid is a data component, not a page layout grid. For a responsive, Bootstrap-like page layout, Ignite UI for Angular has the flex-based [Layout Manager](/layout) directives. The size of the Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](/grid/sizing).
-
-The Data Grid edits cells and rows. It applies each edit as it is made, or collects the edits and commits them together with [batch editing](/grid/batch-editing). It also has Excel-like [keyboard navigation](#keyboard-interaction), which you can override. The [Cell Template](#cell-template) and [Cell Editing Template](#cell-editing-template) sections show how to customize what a cell displays and how it is edited.
 
 ### Column Configuration
 
@@ -237,7 +222,7 @@ When a cell template changes the value with `ngModel`, update it through the gri
 The grid has default templates for the number, string, date and boolean column types. A boolean column, for example, shows a `check` or a `close` icon instead of true/false.
 </DocsAside>
 
-A value bound with `[(ngModel)]` whose change you don't handle is **not** written to the data of the grid. For editing with a custom template, use the [cell editing template](#cell-editing-template): it passes the cell's `editValue` through the grid's [editing event cycle](/grid/editing#event-arguments-and-sequence).
+A value bound with `[(ngModel)]` whose change you don't handle is **not** written to the data of the grid. For editing with a custom template, use the [cell editing template](#cell-editing-template): it passes the cell's <ApiLink kind="interface" type="CellType" member="editValue" /> through the grid's [editing event cycle](/grid/editing#event-arguments-and-sequence).
 
 #### Cell Editing Template
 
@@ -338,32 +323,7 @@ The Angular Data Grid binds to an array of objects.
 
 #### Data Structure
 
-The <ApiLink type="Grid" /> displays flat records and records with nested objects. It expects the data in this form:
-
-```typescript
-const OBJECT_ARRAY = [{
-        ObjectKey1: value1,
-        ObjectKey2: value2,
-        // ...
-        ObjectKeyN: valueN
-    },
-    // ...
-];
-
-const POJO = [{
-        ObjectKey1: value1,
-        ObjectKey2: value2,
-        // ...
-        ObjectKeyN: {
-          ObjectKeyN1: value1,
-          ObjectKeyN2: value2,
-          // ...
-          ObjectKeyNM: valueNM,
-        }
-    },
-    // ...
-];
-```
+The <ApiLink type="Grid" /> displays flat records and records with nested objects.
 
 <DocsAside type="warning">
 **The key values must not contain arrays**. To show an array value, give its column a cell template, as the [Complex Data Binding](#complex-data-binding) section shows.
@@ -521,10 +481,10 @@ To display the weights of an amino acid, set the path as the field of the column
 Sorting, filtering, grouping, editing with or without transactions, and cell templates all work with a column bound this way, without additional configuration.
 
 <DocsAside type="warning">
-The grids **do not** support this kind of binding for `primary key`, `foreign key` and `child key` properties where applicable.
+The grids **do not** support this kind of binding for <ApiLink type="Grid" member="primaryKey" />, `foreignKey` and `childDataKey` properties where applicable.
 </DocsAside>
 
-<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="Angular Data Grid with columns bound to nested properties of amino acid records" />
+<Sample src="/grid/grid-nested-data-binding-2" height={460} noBorder={false} spacing="md" alt="Angular Data Grid with columns bound to nested properties of amino acid records" />
 
 Another way to show complex data, or to combine several fields in one column, is a cell template. In the template you can use:
 
@@ -550,37 +510,13 @@ A larger example shows nested employee records in one column. It uses this data:
 ```typescript
 export const EMPLOYEE_DATA = [
     {
-        Age: 55,
         Employees: [
             {
                 Age: 43,
-                HireDate: new Date(2011, 6, 3),
                 ID: 3,
                 Name: "Michael Burke",
                 Title: "Senior Software Developer"
-            },
-            {
-                Age: 29,
-                HireDate: new Date(2009, 6, 19),
-                ID: 2,
-                Name: "Thomas Anderson",
-                Title: "Senior Software Developer"
-            },
-            {
-                Age: 31,
-                HireDate: new Date(2014, 8, 18),
-                ID: 11,
-                Name: "Monica Reyes",
-                Title: "Software Development Team Lead"
-            },
-            {
-                Age: 35,
-                HireDate: new Date(2015, 9, 17),
-                ID: 6,
-                Name: "Roland Mendel",
-                Title: "Senior Software Developer"
             }],
-        HireDate: new Date(2008, 3, 20),
         ID: 1,
         Name: "John Winchester",
         Title: "Development Manager"
@@ -623,7 +559,7 @@ The cell template that renders the nested data:
 
 The result:
 
-<Sample src="/grid/grid-nested-data-binding" height={460} alt="Angular Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
+<Sample src="/grid/grid-nested-data-binding" showThemePicker height={460} noBorder={false} spacing="md" alt="Angular Data Grid with an Employees column whose cells list nested employee records in expansion panels" />
 
 #### Working with Flat Data
 
@@ -696,7 +632,7 @@ This template only displays the fields; to edit them, add a cell editing templat
 
 The result:
 
-<Sample src="/grid/grid-composite-data-binding" height={550} alt="Angular Data Grid with contact and address columns whose cells combine several fields of the record" />
+<Sample src="/grid/grid-composite-data-binding" showThemePicker height={550} noBorder={false} spacing="md" alt="Angular Data Grid with contact and address columns whose cells combine several fields of the record" />
 
 ### Features
 
@@ -710,7 +646,7 @@ Each feature of the Angular Data Grid has its own topic.
 | [Summaries](/grid/summaries) | Column summaries in the grid footer with built-in and custom summary operands. |
 | [Search](/grid/search) | Text search across the grid with highlighting, case sensitivity and exact match. |
 | [Paging](/grid/paging) | Built-in paginator, custom paginator templates and [remote paging](/grid/paging#remote-paging). |
-| [Editing](/grid/editing) | [Cell editing](/grid/cell-editing), [row editing](/grid/row-editing), [row adding](/grid/row-adding), editing templates, [validation](/grid/validation) and an API for create, update and delete operations. |
+| [Editing](/grid/editing) | [Cell editing](/grid/cell-editing), [row editing](/grid/row-editing), [row adding](/grid/row-adding), [batch editing](/grid/batch-editing), editing templates, [validation](/grid/validation) and an API for create, update and delete operations. |
 | [Selection](/grid/selection) | [Row](/grid/row-selection), [cell](/grid/cell-selection) and [column](/grid/column-selection) selection in single, multiple and none modes. |
 | Columns | [Hiding](/grid/column-hiding), [moving](/grid/column-moving), [pinning](/grid/column-pinning), [resizing](/grid/column-resizing), [column data types](/grid/column-types), [multi-column headers](/grid/multi-column-headers) and [collapsible column groups](/grid/collapsible-column-groups). |
 | Rows | [Row pinning](/grid/row-pinning), [row dragging](/grid/row-drag), [row actions](/grid/row-actions), [master-detail](/grid/master-detail), [multi-row layout](/grid/multi-row-layout) and [cell merging](/grid/cell-merging). |
@@ -741,7 +677,7 @@ Event coalescing is experimental for the `IgxGridComponent` and can cause unexpe
 
 ### Do/Don't
 
-Align the content of the header cells and the body cells by data type: text to the left and numbers to the right, which is the default for number, currency and percent columns. Keep cell content on one line, so that all rows have the same height, and show only the columns that the task needs; the reader can show the rest from the [Column Hiding](/grid/column-hiding) menu.
+Align the content of the header cells and the body cells by data type: text to the left and numbers to the right, which is the default for number, currency and percent columns. Keep cell content on one line, so that all rows have the same height, and show only the columns that the task needs; users can show the rest from the [Column Hiding](/grid/column-hiding) menu.
 
 <DoDont
   doSrc={gridDoAlignment}
@@ -818,9 +754,9 @@ The Angular Data Grid and its columns expose the following core properties. See 
 | <ApiLink type="Column" member="header" label="Column.header" /> | `string` | `''` | The header text. When it is empty, the header shows the field. |
 | <ApiLink type="Column" member="dataType" label="Column.dataType" /> | `GridColumnDataType` | `'string'` | The data type: `string`, `number`, `boolean`, `date`, `dateTime`, `time`, `currency`, `percent` or `image`. It sets the display format, the editor and the filtering conditions of the column. |
 | <ApiLink type="Column" member="width" label="Column.width" /> | `string` | — | The width in pixels or percent. When it isn't set, the column shares the width that the other columns leave free. |
-| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether the reader can sort by the column. |
+| <ApiLink type="Column" member="sortable" label="Column.sortable" /> | `boolean` | `false` | Whether users can sort by the column. |
 | <ApiLink type="Column" member="filterable" label="Column.filterable" /> | `boolean` | `true` | Whether the column can be filtered when filtering is on. |
-| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether the reader can group by the column. |
+| <ApiLink type="Column" member="groupable" label="Column.groupable" /> | `boolean` | `false` | Whether users can group by the column. |
 | <ApiLink type="Column" member="editable" label="Column.editable" /> | `boolean` | — | Whether the cells of the column can be edited. When it isn't set, it follows `rowEditable`. |
 | <ApiLink type="Column" member="pinned" label="Column.pinned" /> | `boolean` | `false` | Whether the column is pinned, so that it stays in view during horizontal scrolling. |
 | <ApiLink type="Column" member="hidden" label="Column.hidden" /> | `boolean` | `false` | Whether the column is hidden. |
@@ -829,7 +765,24 @@ The Angular Data Grid and its columns expose the following core properties. See 
 
 ## Styling
 
-The Angular Data Grid takes its colors from the theme of the application.
+The Angular Data Grid takes its colors from the theme of the application. Change them with the following CSS variables, which the grid theme reads on the grid element. Each one falls back to a global variable with the `--ig-grid-` prefix, such as `--ig-grid-header-background`, which you can set on any ancestor of the Data Grid:
+
+| Variable | What it changes |
+| --- | --- |
+| `--header-background` | The background of the header row. |
+| `--header-text-color` | The text color of the column headers. |
+| `--header-border-color` | The color of the header borders. |
+| `--content-background` | The background of the body. |
+| `--content-text-color` | The text color of the cells. |
+| `--row-odd-background` | The background of the odd rows. |
+| `--row-even-background` | The background of the even rows. |
+| `--row-hover-background` | The background of the row under the pointer. |
+| `--row-selected-background` | The background of a selected row. |
+| `--cell-selected-background` | The background of a selected cell. |
+| `--row-border-color` | The color of the border below each row. |
+| `--grid-border-color` | The color of the border around the Data Grid. |
+
+To build a complete theme from a few colors, see the [Theming](/grid/theming) topic.
 
 ### Sass Theming
 
@@ -892,7 +845,22 @@ Each of these themes also takes three main colors and has further parameters for
 
 To style smaller nested components, such as buttons, icons, inputs or chips, apply their own themes inside the grid, with a selector specific enough to reach only the intended element. The [Dependencies](#dependencies) section lists these themes.
 
-To build a complete theme from a few colors, see the [Theming](/grid/theming) topic.
+### CSS Variables
+
+To change the header background and text color, give the grid a class:
+
+```html
+<igx-grid class="grid"></igx-grid>
+```
+
+Then set the `--header-background` and `--header-text-color` variables for that class:
+
+```css
+.grid {
+    --header-background: #494949;
+    --header-text-color: #FFF;
+}
+```
 
 ## Accessibility
 
@@ -945,8 +913,6 @@ The Angular Data Grid also behaves as follows for assistive technology:
 
 - The focus stays on the header row or on the body while the active cell moves, and `aria-activedescendant` points to the active column header or cell.
 - Only the rows and the columns in view are in the DOM. `aria-rowindex` and `aria-colindex` give each rendered cell its position in the data.
-
-You supply the accessible name of the Data Grid, for example with `aria-label` on the grid element, and accessible names for icon-only content in your cell and header templates.
 
 ### Accessibility Compliance
 
@@ -1011,7 +977,6 @@ The Angular Data Grid has the following limitations.
 | Column widths in `%` and `px` | Mixing percentage and pixel column widths is not supported. |
 | Filtering a number column | A value that is not a number in the filter input returns `NaN`. |
 | Data Grid width and column widths | Unless the <ApiLink type="Grid" member="width" /> of the Data Grid is `null`, the column widths do not determine the width of the Data Grid; the width of the Data Grid or of its parent container does. |
-| Data Grid in a container | Without a width, the Data Grid spans its parent container. |
 | `OnPush` change detection | The Data Grid uses `ChangeDetectionStrategy.OnPush`. When a customization changes what the Data Grid shows, make sure that the Data Grid is notified about the change. |
 | Minimum column width | Resizing or auto-sizing doesn't make a column narrower than 56 px (small), 64 px (medium) or 80 px (large), depending on `--ig-size`, unless the column has a minimum width of its own. A narrower width that you set yourself applies. |
 | Row height and virtualization | A custom cell template that is outside the viewport does not affect the row height until it scrolls into view. |
@@ -1063,8 +1028,6 @@ This short tutorial video shows how to create an Angular Data Grid:
 <iframe width="100%" height="600" src="https://www.youtube.com/embed/Xv_fQVQ8fmM" title="Angular Data Grid tutorial video">
 </iframe>
 
-Our community is active and always welcoming to new ideas.
-
 - [Ignite UI for Angular **Forums**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
 - [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
 
@@ -1096,6 +1059,6 @@ These questions cover common Angular Data Grid data binding, editing and perform
     Set a column of the Angular Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key. To replace the default editor of a column, give it a [cell editing template](#cell-editing-template).
   </FaqItem>
   <FaqItem question="Does the Data Grid handle large data sets?" indicatorPosition="end">
-    The Angular Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while the reader scrolls. For data that does not fit in memory, load it on demand as the [Remote Data Operations](/grid/remote-data-operations) topic shows.
+    The Angular Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while users scroll. For data that does not fit in memory, load it on demand as the [Remote Data Operations](/grid/remote-data-operations) topic shows.
   </FaqItem>
 </Faq>
