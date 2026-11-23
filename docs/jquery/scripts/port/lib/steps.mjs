@@ -369,9 +369,11 @@ export function topicLinks(tree, ctx) {
 
 /**
  * Embedded samples (`<div class="embed-sample">[title](%%SamplesEmbedUrl%%/<path>)</div>`) become
- * `<Sample>` in its bare-iframe mode, which needs no code service, on the samples site path the
- * embed named. Sample links keep pointing at the samples site through `{environment:demosBaseUrl}`
- * (the token step).
+ * `<Sample>` in its bare-iframe mode, which needs no code service. The iframe shows the page the
+ * old help showed as the embed's Result tab: the sample's own `index.html` in the published help
+ * samples, which `demosBaseUrl` points at (IgniteUI/help-samples on GitHub Pages, per volume and
+ * language). Sample links keep pointing at the samples site through
+ * `{environment:samplesBrowserUrl}` (the token step).
  */
 export function samples(tree, ctx) {
     visitParents(tree, 'mdxJsxFlowElement', (node, ancestors) => {
@@ -390,7 +392,7 @@ export function samples(tree, ctx) {
         ctx.sampleEmbeds.push(m[1]);
         replaceNode(parent, node, {
             type: 'mdxJsxFlowElement', name: 'Sample', position: node.position, children: [],
-            attributes: [attr('src', `/${m[1]}`), exprAttr('height', '500'), attr('alt', alt), attr('chrome', 'bare'), attr('fullscreenBtn', null)],
+            attributes: [attr('src', `/${m[1]}/index.html`), exprAttr('height', '500'), attr('alt', alt), attr('chrome', 'bare'), attr('fullscreenBtn', null)],
         });
         ctx.usesComponents.add('Sample');
         handled(ctx, 'samples', 'embedded samples → Sample');

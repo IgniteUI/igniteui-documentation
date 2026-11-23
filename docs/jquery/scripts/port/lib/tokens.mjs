@@ -15,10 +15,11 @@ import fs from 'node:fs';
 
 /** Token name → environment key, for the tokens that stand for a URL. */
 export const URL_TOKENS = {
-    SamplesUrl: 'demosBaseUrl',
+    // The samples site. `demosBaseUrl` is the base <Sample> embeds from, a different host here.
+    SamplesUrl: 'samplesBrowserUrl',
     SamplesEmbedUrl: 'helpSamplesUrl',
     // The old tool defined NewSamplesUrl as SamplesUrl.
-    NewSamplesUrl: 'demosBaseUrl',
+    NewSamplesUrl: 'samplesBrowserUrl',
     DesignerUrl: 'designerUrl',
     HelpRootUrl: 'helpRootUrl',
     jQueryApiUrl: 'jQueryApiUrl',
