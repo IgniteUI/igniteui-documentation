@@ -1,6 +1,6 @@
 # Diátaxis cheat-sheet
 
-Version: v7 · 2026-10-22 · igniteui doc-skill set (content unchanged; version line added for the set-wide match check). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
+Version: v8 · 2026-11-20 · igniteui doc-skill set (v8 added the note that inline tables are hand-written; otherwise unchanged). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 Condensed from https://diataxis.fr (tutorials, how-to, reference, explanation, compass).
 This is the *reasoning layer*. For how the four modes attach to Ignite UI sections, see
@@ -49,7 +49,9 @@ with flow. Omit the unnecessary; usability beats completeness. Title says exactl
 Neutral, authoritative technical description of the machinery — properties, methods, events, options.
 Structured to mirror the code. Austere: you *consult* it, you don't read it. No instruction, no
 opinion, no explanation — link out for those. Tables and examples are ideal. Best when
-auto-generated from the typed source so it never drifts.
+auto-generated from the typed source so it never drifts. (That is the full API reference. The inline
+tables in an Ignite UI topic are written by hand and verified row by row — see `house-style.md` →
+"Reference-table contract".)
 
 ### Explanation — understanding-oriented
 Discursive treatment of a topic that permits reflection. Higher, wider view than the other three.
