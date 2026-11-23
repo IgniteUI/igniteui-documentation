@@ -1,6 +1,6 @@
 # Ignite UI house style
 
-Version: v7 · 2026-10-22 · igniteui doc-skill set (v7 added the Blazor module-registration rule; v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
+Version: v8 · 2026-11-20 · igniteui doc-skill set (v8 made `### Prerequisites and Version Compatibility`, Troubleshooting and Known Limitations content-driven and aligned Do/Don't, the H1 and title, the doc sets, Styling, `<Sample>`, Anatomy and the reference tables with the topics rewritten since v7; v7 added the Blazor module-registration rule; v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
 `diataxis-cheatsheet.md` (the *why*); the section→mode map is the "Diátaxis mode" column of the
@@ -14,8 +14,9 @@ canonical section table below.
 - [Never fabricate API identifiers (zero-risk rule)](#never-fabricate-api-identifiers-zero-risk-rule)
 - [Verification workflow](#verification-workflow)
 - [Component topic — canonical section order](#component-topic--canonical-section-order) — incl. FAQ
-  component, reference-table contract, Usage coverage, Indigo.Design suggestions, Live Demo contract,
-  `<Sample>` configuration, Accessibility sub-structure
+  component, Do/Don't contract, reference-table contract, Usage coverage, Indigo.Design suggestions,
+  Live Demo contract, `<Sample>` configuration, Anatomy sub-structure, Accessibility sub-structure
+  and compliance index row
 - [Overview topics](#overview-topics) — concept/guide and category/index blueprints
 - [Naming reconciliation (drift → standard)](#naming-reconciliation-drift--standard)
 - [Entity terminology (canonical names)](#entity-terminology-canonical-names)
@@ -33,8 +34,31 @@ canonical section table below.
 
 | Doc set | Frameworks | Path (vnext) | Layout | One topic = |
 |---|---|---|---|---|
-| **Angular** | Angular only | `docs/angular/src/content/en/components/` | flat `*.mdx` | one framework |
-| **xplat** | React · Web Components · Blazor · WinUI · Uno | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, all five frameworks** |
+| **xplat** | Angular · React · Web Components · Blazor · WinUI · Uno | `docs/xplat/src/content/en/components/<category>/` | categorized `*.mdx` | **one file, every platform the topic ships for** |
+| **Angular** | Angular only | `docs/angular/src/content/en/components/` | flat `*.mdx` | one framework — a topic not yet moved to xplat, or Angular-only |
+
+**Most Angular component topics still live in the Angular tree. A topic moves to the xplat tree
+when it is rewritten to this standard** — the move is part of the rewrite, not a separate
+migration. Write the standardized topic in the xplat tree with its Angular content in
+`<PlatformBlock for="Angular">`; the build then generates the Angular page from the xplat file
+(`docs/xplat/generated/Angular/`, overlaid on the Angular content, xplat winning on the same slug).
+The move is finished only when all of these are done, in the same change:
+
+1. **Delete the old Angular `.mdx`.** A copy left behind is dead content that the next author edits
+   by mistake.
+2. **Repoint every link to it.** Search both trees for the old path: other Angular topics and the
+   grid templates, xplat topics that link the Angular page from a `<PlatformBlock for="Angular">`,
+   and the links inside the moved topic itself, whose relative paths now start from a different
+   folder (Tabs links `../general/getting-started.mdx` for Angular and
+   `../general-getting-started.mdx` for the other platforms).
+3. **Update both tables of contents.** In `docs/angular/src/content/en/components/toc.json`, change
+   the entry's `href` to the xplat path (`tabs.mdx` → `layouts/tabs.mdx`); in
+   `docs/xplat/src/content/en/toc.json`, remove `"exclude": ["Angular"]` from the entry.
+4. **Run `npm run check-relative-links:ci`** and fix what it reports.
+
+Until a topic is rewritten, its Angular file is the live source, and a small fix to it (a typo, a
+link, one snippet) is made there, in place. A topic stays in the Angular tree for good only when it
+has no xplat counterpart and is not getting one (an Angular-only component, the grid templates).
 
 The **same section list, order, and names apply to both sets.** Differences are mechanical only (see
 Per-framework mechanics), never the shape of the page. **Dependencies** appears in both sets — it
@@ -52,7 +76,7 @@ Topics are **Astro `.mdx`**. Frontmatter is YAML. Observed + target fields:
 
 ```yaml
 ---
-title: "{ComponentTitle}"   # xplat component title; the layout appends the resolved product name
+title: "{Platform} Rating Component"   # xplat component title; the layout appends the site title
 description: "…"           # <=~160 chars, definition-first ("X is a … that …"); complete sentences, never ellipsis-truncated
 keywords: "…"              # comma-separated; legacy/internal — every keyword appears in the body
 license: MIT
@@ -60,7 +84,7 @@ mentionedTypes: ["Rating"] # xplat: API types referenced on the page
 llms:
   description: "…"         # AI-facing one-liner; defines the component, not the page — the exact text an assistant quotes
 last_updated: "YYYY-MM-DD" # required for every topic; rendered by the site layout
-relatedComponents: [Toast, Banner]   # TARGET field — drives the Usage Do/Don't trigger (see below)
+relatedComponents: [Slider, RadioGroup]   # the siblings the Related Components section must cover (see below)
 platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmapped | web-only
 ---
 ```
@@ -100,36 +124,51 @@ platformType: xplat        # xplat: REQUIRED, no default — xplat | xplat-unmap
 - **Body support:** every capability named in `description`, `llms.description`, or `keywords` is
   supported by the finished body. Content-bearing fields are generated from the finished body, never
   from imagination (see `create-workflow.md`, step 4).
-- **`title`** uses `"{ComponentTitle}"` for xplat topics because the layout appends the resolved
-  product name to the HTML title. Do not add a framework-specific suffix or duplicate the framework in
-  the component phrase. Angular-set titles follow the frontmatter skill's title rule
-  (`"Angular <Component> Component"`, query-relevant terms within ~60 characters).
-- **`relatedComponents`** is the revision-2 trigger and is **not yet in the repo**. When authoring to
-  target, set it. When auditing, treat a missing-but-warranted value as a finding, and a set value
-  with no **Usage** → **Do/Don't** guidance as a hard error.
+- **`title`** is `"{Platform} ‹Component› Component"` for xplat component topics
+  (`"{Platform} Tabs Component"`); a sub-topic names its own subject the same way
+  (`"{Platform} Combo Templates"`). The layout appends ` | ‹site title›` to the HTML title, so add no
+  category or brand suffix (`| Layouts | Infragistics`). `{ComponentTitle}` is not a general title
+  token: it exists only in the grid templates (`grids/_shared/`, Angular `grids_templates/`), where
+  it resolves to the grid type. An xplat category/index topic uses the plain category name only,
+  without `{Platform}` or `{ProductName}` (`title: "Grids and Tables"`). Angular-set titles follow
+  the frontmatter skill's title rule (`"Angular <Component> Component"`, query-relevant terms within
+  ~60 characters).
+- **`relatedComponents`** lists the close siblings a reader might pick instead. The field and the
+  **Related Components** section name the same siblings: when authoring, set it and cover every
+  listed sibling in the section; a sibling the section adds for one platform only, inside a
+  `<PlatformBlock>`, is the one that need not be listed. When auditing, treat a
+  missing-but-warranted value, and a disagreement between the field and the section in either
+  direction, as findings (rubric D1).
 - **`last_updated`** is required for every topic, including category/index topics. Store the date in
-  frontmatter and let the site layout render it. For xplat component topics, use the tokenized component title convention. For xplat
-  category/index topics, use the plain category name only, without `{Platform}` or `{ProductName}`
-  in `title` (for example, `title: "Grids and Tables"`).
+  frontmatter and let the site layout render it.
 
 ### MDX imports (declare what you use)
 
 ```mdx
 import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
-import { Image } from 'astro:assets';  // when embedding repo-owned images
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import { Image } from 'astro:assets';  // when embedding other repo-owned images
 import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
 import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';  // xplat only
 import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
 import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import tabsAnatomy from '@xplat-images/anatomy-content-light/tabs-lt-a.png';  // repo-owned images
 ```
+
+**Images are added once, under `docs/xplat/src/assets/images/`**, and imported through the
+`@xplat-images` alias. The Angular build resolves the same alias to that shared folder, so a topic
+generated for Angular needs no copy under `docs/angular/src/content/en/images/`. A file placed there
+with the same relative path *overrides* the shared one — that is for localized screenshots, not for
+duplicates.
 
 ## Per-framework mechanics
 
 - **Prefixes differ by framework/library — don't assume one for all:**
-  - **Angular** → native **`igniteui-angular`**, **`igx-`** tags / **`Igx…Component`** classes. The
-    Angular doc set documents this library.
+  - **Angular** → native **`igniteui-angular`**, **`igx-`** tags / **`Igx…Component`** classes. Angular
+    content documents this library, in the Angular tree and in an xplat `<PlatformBlock for="Angular">`
+    alike.
   - **Web Components** → **`igniteui-webcomponents`**, **`igc-`** tags / **`Igc…Component`** classes.
   - **React** → **`igniteui-react`**, a **wrapper around the `igc`** web components.
   - **Blazor** → **`igniteui-blazor`**, a **wrapper around the `igc`** web components.
@@ -138,24 +177,46 @@ import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
   - **Uno Platform** → the same **`Infragistics.*`** NuGet packages and **`Xam…`** XAML classes as WinUI.
 - **Net effect:** the **web xplat platforms (React / WC / Blazor) are entirely `igc`-based** — WC is
   `igc` directly; React and Blazor wrap it. **WinUI and Uno are native XAML/.NET (`Xam…`), not
-  `igc`-based.** The **Angular doc set is `igx`**.
+  `igc`-based.** **Angular is `igx`**.
 - **Exception — WC-first components in the Angular docs.** Some newer components are built as web
   components and surfaced in the Angular docs via the `igc` element rather than a native `igx` one
-  (verified: the Angular **Rating** topic installs `igniteui-webcomponents`, registers
-  `IgcRatingComponent`, and renders `<igc-rating>`). So **don't assume `igx` for every Angular topic** —
-  verify the tag/class per component.
+  (verified: the Angular block of the **Rating** topic, `inputs/rating.mdx`, registers
+  `IgcRatingComponent` from `igniteui-webcomponents` and renders `<igc-rating>`). So **don't assume
+  `igx` for every Angular block** — verify the tag/class per component.
 - **Angular set:** plain prose, no platform tokens. Registers and renders whichever the component is
   (`igx-…` native, or the `igc-…` WC for the exceptions above).
-- **xplat set:** the *same file* serves React / WC / Blazor / WinUI / Uno via:
-  - **Tokens** the build resolves: `{Platform}`, `{ProductName}`, `{PackageWebComponents}`,
-    `{PackageReact}`, `{PackageBlazor}`, etc. Use them in title/description/keywords/headings and prose
-    — never hard-code "React" where a token belongs.
+- **xplat set:** the *same file* serves Angular / React / WC / Blazor / WinUI / Uno via:
+  - **Tokens** the build resolves: `{Platform}`, `{ProductName}`, `{PackageCommon}` (the platform's
+    main package — `igniteui-angular`, `igniteui-react`, `igniteui-webcomponents`), `{ForumsLink}`,
+    `{GithubLink}`, etc. `docs/xplat/docConfig.json` defines them per platform; a token it doesn't
+    define for a platform is published as literal text, so use only the ones listed there (there is
+    no `{PackageReact}` or `{PackageBlazor}`). Use tokens in title/description/keywords/headings and
+    shared prose — never hard-code "React" where a token belongs. Inside a block for a single
+    platform the name may be written out ("The Angular Tabs component…" in
+    `<PlatformBlock for="Angular">`): there it is a fact, not a hard-coded guess.
   - **`<PlatformBlock for="WebComponents">…</PlatformBlock>`** to wrap framework-specific content
-    (install commands, imports, snippets). `for` values: `React`, `WebComponents`, `Blazor`,
-    `WinUI`, `Uno`, plus the group aliases `Web` (the four web platforms) and `NonWeb` / `Xaml`
-    (both = WinUI + Uno). Prefer `for="Web"` for web-only content so it stays correct as platforms grow.
-- **Live samples** embed the same way in both sets:
-  `<Sample src="/inputs/rating/basic" height={150} alt="{Platform} Rating Basic Example" />`
+    (install commands, imports, snippets). `for` values: `Angular`, `React`, `WebComponents`,
+    `Blazor`, `WinUI`, `Uno`, plus the group aliases `Web` (Angular + React + WebComponents + Blazor)
+    and `NonWeb` / `Xaml` (both = WinUI + Uno). Prefer `for="Web"` for web-only content so it stays
+    correct as platforms grow. `Web` includes Angular, so content shared by the three `igc`-based
+    platforms only is `for="React,WebComponents,Blazor"`, next to a `for="Angular"` block.
+- **Live samples** use the same `<Sample>` markup on every platform. Only the demo path differs
+  between the Angular samples and the `igc`-based ones, so each goes in its own block (from
+  `inputs/rating.mdx`):
+
+  ```mdx
+  <PlatformBlock for="Angular">
+
+  <Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+  </PlatformBlock>
+
+  <PlatformBlock for="React,WebComponents,Blazor">
+
+  <Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Rating overview example" />
+
+  </PlatformBlock>
+  ```
 - **API links** use `<ApiLink …>` rather than hand-written URLs so they resolve per framework.
 
 ## Never fabricate API identifiers (zero-risk rule)
@@ -164,19 +225,23 @@ The skill's job is structure and prose, **not** to invent the API surface. Do **
 tag, class, package name, property, method, event, CSS part, or theming variable. A plausible-but-wrong
 name that a reader copies is worse than an obvious gap.
 
-- Use an identifier **only** when it is verified — from the component's typed API source, an existing
-  topic, or the user. The naming patterns are known (Angular `igx-<name>` / `Igx<Name>Component`; WC and
+- Use an identifier **only** when it is verified — through the Verification workflow below, or
+  stated by the user. An identifier that appears in an existing topic is evidence to check, not
+  proof. The naming patterns are known (Angular `igx-<name>` / `Igx<Name>Component`; WC and
   its React/Blazor wrappers `igc-<name>` / `Igc<Name>Component`), but the pattern is not a licence to
   guess — confirm the exact prefix *and* `<name>` per component (some Angular topics are `igc` — see the
   exception above).
 - When you must reference an unverified identifier, write a visible placeholder instead of a guess:
-  `‹VERIFY: exact export name›`. For a table, emit the fixed column headers and a single injection note
-  — invent no rows.
+  `‹VERIFY: exact export name›`. In a table, leave the unverified row out or mark its cell
+  `‹VERIFY: …›` — invent no rows, and never leave an empty table for a build step to fill (see the
+  *Reference-table contract*).
 - This applies equally to React/Blazor wrapper symbols: they resolve to the `igc` core, so prefer the
   verified `igc` usage and mark any wrapper-specific class you can't confirm with `‹VERIFY:…›`.
 - **`<ApiLink>` targets are identifiers too.** A `type` that exists in the source is not enough — it
-  must have a generated reference page, and the only reliable check is an existing `<ApiLink>` with that
-  `type` elsewhere in the doc set. Abstract/base classes in particular (e.g. `ButtonBase`) may appear in
+  must resolve in the platform's API registry. Check it with `npm run check-mdx-links:broken:‹platform›`
+  (`angular`, `react`, `wc`, `blazor`), which reads the registry and reports `missing` and
+  `member-missing` targets; the `xplat-docs-api-links` skill owns the details. An existing
+  `<ApiLink>` with that `type` elsewhere in the doc set is a hint, not the check. Abstract/base classes in particular (e.g. `ButtonBase`) may appear in
   `mentionedTypes` yet have no page — the rendered link (e.g. `IgrButtonBase`) points nowhere. Link base-class
   members through the concrete component instead (`type="Button" member="href"`), and list only the concrete
   component under **API References**.
@@ -191,11 +256,27 @@ not a source of truth.
 2. **Verify public API facts through MCP first.** Use the Ignite UI/API docs MCP source for component
    types, properties, methods, events, and API-link targets.
 3. **If MCP is unavailable, use the official platform API docs.**
+   - Angular: `https://www.infragistics.com/api/angular/`
    - React: `https://www.infragistics.com/api/react/`
    - Web Components: `https://www.infragistics.com/api/webcomponents/`
    - Blazor: `https://www.infragistics.com/api/blazor`
 4. **Use typed source only for details the API docs do not expose.** Examples: rendered DOM, slots,
    parts, key handlers, theme `.scss` `@param` comments, precedence rules, and deprecation markers.
+   **Where the component source is:**
+   - **Web Components, and the React and Blazor wrappers around them** —
+     `IgniteUI/igniteui-webcomponents` → `src/components/‹name›/` (for Tabs: `tabs.ts`, `tab.ts`).
+     The render template, the initial ARIA, and the key bindings are in those component files.
+     This repo's `node_modules/igniteui-webcomponents/components/‹name›/` holds the compiled build
+     of the installed version, enough for a quick check.
+   - **Native Angular** — `IgniteUI/igniteui-angular` →
+     `projects/igniteui-angular/‹entry-point›/src/` (for Tabs: `tabs/src/tabs/`, with
+     `tabs.component.ts` and `tabs.component.html`). It is not installed in this repo; read it from
+     a clone or on GitHub.
+   - **A wrapper can bundle an older `igc` build than the repository's head** — the Blazor Chip and
+     Radio topics record such gaps. Confirm the bundled version before stating a recent behavior
+     for React or Blazor.
+
+   If the source cannot be read, the fact is `‹VERIFY: …›`, not a guess.
 5. **Use official framework docs for framework behavior.** Examples: Angular standalone defaults,
    control-flow syntax, React conventions, and Blazor conventions.
 6. **Mark unresolved facts visibly.** Use `‹VERIFY: exact fact/source needed›` or flag the issue in the
@@ -208,27 +289,29 @@ project work.
 ## Component topic — canonical section order
 
 Required = every component topic, always this order. Conditional = only when relevant, but always in
-this slot. **These names are the only allowed H2s.** Anything feature-specific becomes a sub-heading
+this slot. **A conditional section or subsection with nothing verified to say is omitted, never
+padded** — an empty or filler section costs the reader more than a missing heading. **These names
+are the only allowed H2s.** Anything feature-specific becomes a sub-heading
 under **Usage**, never a new top-level section.
 
 | # | Section (`##`) | Required? | Diátaxis mode | Contents |
 |---|---|---|---|---|
-| 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is **`‹Component› Component`** — **no** framework prefix, **no** "Overview" suffix (the framework lives in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. Every topic, including category/index topics, must contain `last_updated` in frontmatter; the date is rendered by the site layout and must not be added as visible topic text. |
-| 2 | **Live Demo** | required | demonstration (action) | A `## Live Demo` section containing exactly one `<Sample>` of the simplest useful state, before **Anatomy**. Keep this section sample-only unless a one-sentence setup is truly needed. |
-| 3 | **Anatomy** | required for component topics | orientation (reference) | Use the shared Astro `<Anatomy>` component with a verified anatomy image, `name`, `description`, and `alt`; follow it with the verified **DOM tree / skeleton** (rendered elements, parts, slots). If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
-| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration** and include the required `### Prerequisites and Version Compatibility` subsection for verified package, framework, and version guidance. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. **Blazor:** module registration is optional — see *Blazor module registration* below. |
-| 5 | **Usage** | required | how-to + explanation | Add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`; it uses inline **When to use:** and **When not to use:** labels, not nested headings, and includes the matching guidance image from the Indigo.Design documentation or a `{/* TODO */}` marker when the asset is not available. Styling content belongs in **Styling**, not here. |
+| 1 | *Title + one-line definition* (`#` + lead ¶) | required | orient / reference | H1 is the bare component name, **`‹Component›`** (`# Tabs`, `# Radio Group`) — **no** framework prefix, **no** "Component" or "Overview" suffix (the framework and "Component" live in the SEO `title`). Follow with one plain sentence: what it is, what problem it solves. Mirror `llms.description`. Every topic, including category/index topics, must contain `last_updated` in frontmatter; the date is rendered by the site layout and must not be added as visible topic text. |
+| 2 | **Live Demo** | required | demonstration (action) | A `## Live Demo` section, before **Anatomy**, containing exactly one `<Sample>` per platform of the simplest useful state. The section is sample-only: no lead sentence, no other text. |
+| 3 | **Anatomy** | required for component topics | orientation (reference) | Use the shared Astro `<Anatomy>` component with a verified anatomy image (`src`) and an `alt` that describes the labelled parts; follow it with the **numbered legend** of those parts, then the verified **DOM tree / skeleton** (rendered elements, parts, slots) — see *Anatomy — sub-structure* below. If the visual asset doesn't exist yet, leave a `{/* TODO */}` marker rather than a broken image, but still include the section and verified skeleton. |
+| 4 | **Getting Started** | required | how-to | **Lead with the component-specific import/registration.** Add a `### Prerequisites and Version Compatibility` subsection **only when the reader must know something before starting** — a verified minimum version for a documented feature, a platform package that ships an older build of the component, an extra package or peer dependency. Never add it to restate the package name or "the version used in the samples"; with nothing to say, omit the heading. Compress the generic library install to a **single prerequisite line linking the general getting-started topic**; **don't** repeat identical install boilerplate. Show the **current** registration first; put legacy setup after, marked as legacy. **Blazor:** module registration is optional — see *Blazor module registration* below. |
+| 5 | **Usage** | required | how-to + explanation | Add property-focused sub-sections that showcase every public input with a minimal snippet and, when a verified demo exists and adds visual value, a `<Sample>`. Give standalone properties their own sub-section (`Shape`, not `Avatar Shape`); group only tightly coupled properties that form one behavior (for example, content-source priority such as `src`, `alt`, `initials`, and default slot content). The final Usage subsection must be `### Do/Don't`: one short guidance paragraph, then one `<DoDont>` block for each do/don't pair of the matching Indigo.Design guidance, or a `{/* TODO */}` marker when the images are not available — see the *Do/Don't contract* below. Styling content belongs in **Styling**, not here. |
 | 6 | **Properties** | required | reference | Table: name · type · default · description. (Replaces "Configuration".) |
 | 7 | **Methods** | conditional | reference | Table of callable actions. |
 | 8 | **Events** | conditional | reference | Table of emitted events. |
-| 9 | **Styling** | required when applicable | how-to + reference | **Open with a `<Sample>` of the styled result** + one intro line, then the **Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**) and styleable-parts table. Subsections cover each approach — **first `### Sass Theming`** (the primary Sass theme workflow), then others (e.g. `### Tailwind`, `### Custom sizing`). All styling content lives here, not under Usage. |
+| 9 | **Styling** | required when applicable | how-to + reference | **Open with one intro line and the Styling Variables table** (**one table** — variable · what it changes; **no default-value column, no per-theme tabs**), then the styleable-parts table(s) for the platforms that expose CSS parts. Subsections cover each approach, in this order: **`### Sass Theming`** (the primary Sass theme workflow), **`### CSS Variables`**, **`### Styling with Tailwind`**. Show the styled result as a `<Sample>` inside the subsection whose snippet produces it, after the snippet. All styling content lives here, not under Usage. |
 | 10 | **Accessibility** | required | reference | Three sub-sections, in order: **Keyboard Interaction** (key→action table), **Screen Readers / ARIA**, **Accessibility Compliance** (conformance evidence — see the sub-structure spec below). |
-| 11 | **Troubleshooting** | conditional (required when version-migration or legacy-setup notes exist) | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. |
-| 12 | **Known Limitations** | required | reference | Verified platform-independent limitations and boundaries of the component. Use a top-level section when standalone; when the limitations directly support troubleshooting guidance, place them as a `### Known Limitations` subsection inside `## Troubleshooting`. Do not use this content for troubleshooting fixes or unsupported claims. |
+| 11 | **Troubleshooting** | conditional — only when a verified, component-specific gotcha exists, or version-migration / legacy-setup notes need a home | how-to | Gotchas phrased as the reader's real question; answer as cause → fix. **Collect version-migration notes, deprecations, and legacy/alternative approaches here** — not buried in code-fence comments or scattered asides. With nothing real to answer, omit the section: no intro-only section, no generic or invented entries. |
+| 12 | **Known Limitations** | conditional — only when a verified limitation exists | reference | Verified platform-independent limitations and boundaries of the component. Use a top-level section when standalone; when the limitations directly support troubleshooting guidance, place them as a `### Known Limitations` subsection inside `## Troubleshooting`. Do not use this content for troubleshooting fixes or unsupported claims. With no verified limitation, omit the section: never fill it with generic boundaries ("is not an interactive component") or with guidance that belongs in **Do/Don't** or **Related Components**. |
 | 13 | **API References** | required | reference | `<ApiLink>` out to the full generated reference; don't duplicate it. |
 | 14 | **Dependencies** | required | reference | Themes, styles, or supporting components the component relies on to render or function — modules to import (Angular) or supporting components/themes (xplat). |
 | 15 | **Additional Resources** | required | navigation | Forums, GitHub, related topics. |
-| 16 | **Related Components** | required | navigation / decision support | Verified sibling components and concise links explaining when they are a better fit. |
+| 16 | **Related Components** | required | navigation / decision support | Verified sibling components and concise links explaining when they are a better fit ("Use Stepper when users complete a sequence of steps"). Covers every sibling listed in `relatedComponents`; this is where "when not to use this component" lives. |
 | 17 | **FAQ** | required | reference / how-to | Frequently asked, component-specific questions; render them with `Faq` and `FaqItem`, keep answers concise, and move troubleshooting diagnosis to **Troubleshooting**. |
 
 ### FAQ component
@@ -279,21 +362,40 @@ Then select from the inventory:
   sentences, repeat the component noun, and avoid undocumented defaults, browser support, or
   conformance promises.
 
-**When Not to Use trigger:** every component topic ends **Usage** with `### Do/Don't`. This subsection
-must include the matching guidance image from the Indigo.Design documentation before the guidance
-text. Use a repo-owned image import with `<Image>`; if the visual asset does not exist yet, leave a
-`{/* TODO */}` marker rather than a broken image. The subsection must also include inline **When to
-use:** and **When not to use:** labels, not nested headings. When `relatedComponents` is non-empty,
-**When not to use:** must name the specific better-fit sibling(s) by name and link them; when it's
-empty (standalone primitives like Badge/Divider), **When not to use:** states the boundary without
-inventing a sibling.
+**Do/Don't contract:** every component topic ends **Usage** with `### Do/Don't`. It holds
+design-usage guidance — how to use the component well — taken from the matching Indigo.Design
+component documentation, in this shape:
 
-**Reference-table contract:** Properties / Methods / Events tables are **generated from the same typed
-API source** as the full reference — not hand-typed. Inline tables = the core knobs for fast scanning;
-**API References** links to the complete set. One source, so nothing drifts. **When authoring, do not
-hand-write or invent rows:** emit the fixed column headers (`name · type · default · description`) and a
-single build-injection note, and leave the row values to the generator. Inventing a plausible property
-or event name is exactly the failure this contract exists to prevent.
+- **One short paragraph** that states the guidance in prose.
+- **One `<DoDont>` block for each do/don't pair.** `doSrc` / `dontSrc` are repo-owned images imported
+  from `@xplat-images/‹component›/` (`tabs-do-1.png`, `tabs-do-not-1.png`); `doAlt` / `dontAlt`
+  describe what each screenshot shows; the `do` and `dont` slots say in one sentence each why that
+  panel is the one to follow or avoid. All four props and both slots are required — the build throws
+  without them. Leave a blank line inside each `<Fragment slot="…">` so its text parses as Markdown.
+  The component's README in `igniteui-astro-components` is normative for its props.
+- **No images yet:** leave a `{/* TODO */}` marker rather than a broken image or hand-written
+  do/don't markup (a grid of `<Image>` elements, inline-styled "Do" / "Don't" labels).
+
+No headings, code, install steps, or property tables inside the subsection, and no inline **When to
+use:** / **When not to use:** labels — that pattern is retired. **Which component to use instead is
+not Do/Don't content: it lives in Related Components.** When `relatedComponents` is non-empty,
+**Related Components** names each listed sibling, links it, and says when it is the better fit; when
+it is empty (standalone primitives like Badge/Divider), the section states no sibling rather than
+inventing one. Canonical example: `layouts/tabs.mdx`.
+
+**Reference-table contract:** Properties / Methods / Events tables are **written by hand and
+verified row by row** — no build step generates or injects them; only the full API reference is
+generated, and **API References** links to it. Inline tables = the core knobs for fast scanning, not
+the whole surface. For every row, check the name, the type, the default, and the description through
+the Verification workflow — the API docs for the public surface, the typed source for what they
+don't expose — for **each platform the row is shown for**: names, casing, types, and defaults differ
+between Angular, the `igc`-based platforms, and Blazor, so one platform's row is never proof for
+another. Link the name with `<ApiLink>` wherever the member resolves in that platform's registry;
+a name that has no reference entry (a Web Components DOM event such as `igcChange`) stays as code.
+A row you cannot
+verify is left out or marked `‹VERIFY: …›` — inventing a plausible property or event name is exactly
+the failure this contract exists to prevent. Never emit an empty table with a "generated at build"
+note: nothing fills it.
 
 **Usage coverage contract:** use property-focused sub-sections to demonstrate every public input.
 Prefer one sub-section per standalone property; group
@@ -316,41 +418,93 @@ If the Indigo.Design topic or asset cannot be reached, state that limitation and
 verified Ignite UI API/source.
 
 **Live Demo contract:** every component topic has a `## Live Demo` section immediately after the
-intro and before **Anatomy**. It contains exactly one top preview `<Sample>` of the simplest useful
-state so the page table of contents exposes the demo as a navigable section. Do not leave the top
-sample as a bare block between the intro and Anatomy. Add Usage samples only for distinct,
+intro and before **Anatomy**. It contains exactly one top preview `<Sample>` per platform of the
+simplest useful state, so the page table of contents exposes the demo as a navigable section, and
+**nothing else**: the section is sample-only, with no lead sentence — the H1 definition directly
+above it already says what the component is, and the sample's `alt` describes the demo. Do not
+leave the top sample as a bare block between the intro and Anatomy. Add Usage samples for distinct,
 user-facing tasks or property-focused behaviors (selection, editing, sorting, validation,
-templating, styling, shape, content, sizing). Soft max **5 samples/page**; up to 5 is fine, and only
-clear sprawl past that warrants splitting into focused topics.
+templating, styling, shape, content, sizing).
+
+**There is no cap on the number of samples.** A thorough component topic carries one for most Usage
+subsections — Tabs has 8 per platform, Combo 10. Count per platform: an Angular `<Sample>` and its
+`igc` counterpart in sibling `<PlatformBlock>`s are one sample. What a sample must do is earn its
+place: show a state or behavior that no other sample on the page shows and that the snippet alone
+does not convey. Split a topic by subject, when a feature family deserves a page of its own — never
+to get under a count.
 
 ### `<Sample>` configuration — pick the props deliberately
 
 `<Sample>` renders a live demo (iframe + source-code tabs + live-edit buttons). **`src` is required and must
 point at a real demo path** — treat it like any other identifier under the zero-risk rule: never invent or
-guess a `src`, an `lob`/`dv`/`crm` base, or a path; use one only when it's verified from the sample project
+guess a `src`, an `lob`/`dv`/`crm`/`wc` base, or a path; use one only when it's verified from the sample project
 or an existing topic, else leave a `‹VERIFY: demo path›` marker. Never hand-edit the demo's code — that lives
 in the separate sample project.
+
+**The component's README in `igniteui-astro-components` (`src/components/mdx/Sample/README.md`) is
+normative for the props and their defaults**; this section says only which to choose. `iframeOnly`
+and `hideCode` are deprecated and removed in 2.0.0 — write `chrome="bare"` and `chrome="demo"`.
 
 Choose the display config from **what the sample is showing**, not by habit:
 
 | Prop | Default | Use it when… |
 |---|---|---|
 | `src` | — (required) | Always. Relative demo path. |
-| `alt` | — | **Always** — the iframe title for accessibility. A missing `alt` is an audit finding (E1). Describe the demo, e.g. `alt="Angular Calendar range selection"`. |
-| `height` | `400` | The demo's natural height isn't ~400px. Match the content. **Mutually exclusive with `fitContent`** — set one or the other, never both. |
-| `fitContent` | off | The component is small or variable-height (badge, chip, avatar, icon, switch), **or a compact standalone sub-view** (e.g. a calendar days/months/years view), and a fixed frame would waste or clip space. The iframe grows to the component's own height, so **do not also set `height`** — drop it entirely. Ignores `resizable`. |
-| `iframeOnly` | off | The **result** is the point and the source isn't instructive — purely visual demos, or a Styling preview whose styling is applied upstream (not in copyable code). Drops the code tabs/footer. Keep the tabs when the code *is* the lesson (e.g. a Sass `calendar-theme` snippet). |
-| `fullscreenBtn` | off | Paired with `iframeOnly` for large/complex visual demos that benefit from full-screen. |
-| `resizable` | off | Responsiveness is the lesson (grids, layout, splitter, dock manager) — lets the reader drag the width. Ignored with `fitContent`. |
+| `alt` | — | **Always** — the iframe title for accessibility. A missing `alt` is an audit finding (E1). Describe the demo, e.g. `alt="{Platform} Tabs example with three tabs that filter a list of people by team"`. |
+| `height` | `150` | Set it to the demo's natural height. With `fitContent` it is only the loading placeholder, so the two may be combined. |
+| `chrome` | `widget` | What surrounds the demo. `widget` — code tabs and the live-edit footer — is the default and the right choice for any sample a reader might copy or open in StackBlitz. `demo` — the frame without tabs, code, or live-edit buttons — only for a demo whose code is not a usage example, such as one that fakes interaction states for display. `bare` — the iframe alone — for an embed that needs no frame. |
+| `showThemePicker` | off | The reader should be able to switch the demo between themes. Works with `widget` and `demo`, not with `bare`. |
+| `fitContent` | off | The component is small or variable-height (badge, chip, avatar, icon, switch), **or a compact standalone sub-view** (e.g. a calendar days/months/years view), and a fixed frame would waste or clip space. The iframe grows to the component's own height. |
+| `fullscreenBtn` | off | With `chrome="bare"`, for large/complex visual demos that benefit from full-screen; the `widget` footer already has the button. |
+| `resizable` | off | Responsiveness is the lesson (grids, layout, splitter, dock manager) — lets the reader drag the width. Combines with `fitContent`. |
 | `position` | — | A small component would otherwise sit in the top-left; align it (`center`, etc.). |
-| `spacing` | — | The demo needs breathing room around the iframe (`sm`/`md`/`lg` = 8/16/32px). |
-| `noBorder` | off | The default border competes with the demo visually. Cosmetic — use sparingly. |
-| `lob` / `dv` / `crm` | default base | The demo lives in the LOB, Data-Viz, or CRM demos app rather than the default — **verify before setting**. |
+| `spacing` | `none` | The demo needs breathing room around the iframe (`sm`/`md`/`lg` = 8/16/32px). |
+| `noBorder` | `true` | Pass `noBorder={false}` to draw the border whenever the tabs or the footer render (`widget`, `demo`). |
+| `noBackground` | `true`; `false` with a theme picker | Pass `noBackground={false}` to draw the backdrop on a sample that has no theme picker. |
+| `lob` / `dv` / `crm` / `wc` | default base | The demo lives in the LOB, Data-Viz, CRM, or shared Web Components demos app rather than the default — **verify before setting**. |
 
-Defaults are right for most Usage samples: `<Sample src="…" height={…} alt="…" />`. Reach for the extra props
-only when the component type calls for it — the `## Live Demo` preview and standard task demos keep the code tabs (no
-`iframeOnly`); the **Styling** section still opens with a styled-result `<Sample>`, using `iframeOnly` only
-when its styling isn't shown as copyable code.
+Component topics use these shapes; start from them and change a prop only for a reason:
+
+```mdx
+{/* Live Demo and Usage: code tabs, live-edit buttons, theme picker */}
+<Sample src="…" showThemePicker height={…} noBorder={false} spacing="md" alt="…" />
+
+{/* Styling: code tabs, backdrop, no theme picker */}
+<Sample src="…" height={…} noBackground={false} noBorder={false} spacing="md" alt="…" />
+
+{/* The exception: a Usage sample that only displays mocked states — no code tabs, no live edit */}
+<Sample src="…" chrome="demo" showThemePicker height={…} noBorder={false} spacing="md" alt="…" />
+```
+
+**Usage samples keep the code tabs by default** (Tabs, Rating, Radio, Card, Chip): the sample is
+the working version of the snippet above it, and `chrome="demo"` would also take away its StackBlitz
+and CodeSandbox buttons. Decide `chrome="demo"` sample by sample, not per topic: it fits a sample
+that fakes its states so they can be shown side by side — the state samples of the Combo topics —
+where the code behind the demo is not something a reader should copy.
+
+When the demo path differs between the Angular samples and the `igc`-based ones, put one `<Sample>`
+in each `<PlatformBlock>`.
+
+### Anatomy — sub-structure
+
+`## Anatomy` carries four parts, in this order. Canonical example: `layouts/tabs.mdx`.
+
+1. **Lead sentence** naming the component and its main parts.
+2. **`<Anatomy>`** with the anatomy image. The component takes `src`, `alt`, and an optional
+   `class`; its README in `igniteui-astro-components` is normative. Import the image from
+   `@xplat-images/anatomy-content-light/` and pass `src={image.src}`. `alt` describes the parts the
+   diagram labels, not merely the component name. `name` and `description` are not props of the
+   component and render nothing — don't add them. When the default frame doesn't fit the image,
+   size it through `class` and a scoped `<style>` block: set `--igd-anatomy-padding` on the class,
+   and cap the image with `max-width: min(701px, 100%)`. Never a bare pixel `max-width` — it
+   overrides the component's own `max-width: 100%`, so on a narrow screen the image is wider than
+   the frame and its callouts are cut off.
+3. **Numbered legend** — one line for each number in the image: the part name in bold, "(optional)"
+   where it applies, and what the part is. The numbers and names match the image exactly.
+4. **DOM tree / skeleton** — a `text` fence with the rendered elements, parts, slots, and roles,
+   verified from the component template. One lead sentence before each tree; a `//` comment marks
+   an element that renders only under a condition. When the `igc`-based platforms and Angular render
+   different DOM, give each its own tree in its `<PlatformBlock>`.
 
 ### Accessibility — required sub-structure
 
@@ -364,7 +518,9 @@ the component template/render method and typed source for the rendered native el
 `aria-*` attributes, focus/tab-order conditions, disabled handling, and indeterminate or validation
 state mapping. Inspect keyboard and pointer event handlers to derive the key-to-action table and
 state transitions. Inspect the public API registry to verify property and event names, then map each
-fact to the platform that actually implements it.
+fact to the platform that actually implements it. The repositories and folders to read are listed in
+the Verification workflow, step 4. Read the `igc` source and the Angular source **separately**: they
+render different DOM and handle different keys, so a fact from one is never proof for the other.
 
 - Treat rendered template/source as the authority for DOM, roles, ARIA attributes, and default state
   behavior; treat the topic's existing prose as evidence to re-check, never as the source.
@@ -385,9 +541,13 @@ fact to the platform that actually implements it.
    provides (from source), plus what the reader must supply (e.g. `aria-label` when the visible
    content doesn't describe the action).
 3. **`### Accessibility Compliance`** — the conformance evidence, in this shape:
-   - **Lead sentence** naming the conformance target (WCAG version + level; Section 508 / EN 301 549
-     where applicable). This is a product-level claim — state it only from an official Infragistics
-     statement; otherwise write `‹VERIFY: conformance target›`.
+   - **Lead sentence** that links the product-level statement instead of restating it. The xplat
+     `interactivity/accessibility-compliance.mdx` topic records the standards {ProductName} targets
+     (WCAG 2.1 Level AA, Section 508, EN 301 549) and calls itself a support summary, not a formal
+     conformance statement. Point at it — "Infragistics documents {ProductName} accessibility
+     support for Section 508 and WCAG 2.1 guideline areas in the [Accessibility Compliance](…)
+     topic." — and claim no conformance level for the component itself. A target that topic does
+     not state is `‹VERIFY: conformance target›`.
    - **Conformance table** — two columns: **Criterion · How the component complies**. List only the
      WCAG success criteria *relevant to this component*, each row grounded in behavior already
      verified on this page (the keyboard table, the ARIA facts, the typed source). Link each
@@ -417,11 +577,28 @@ fact to the platform that actually implements it.
    strength: no blanket "fully accessible" / "WCAG compliant" sentence, ever; every table row traces
    to observable, verified behavior; product-level claims come only from an official source.
 
+#### Compliance index row
+
+The **Component Support** section of `interactivity/accessibility-compliance.mdx` indexes what each
+component's documentation covers, in two tables: one inside `<PlatformBlock for="Angular">` and one
+inside `<PlatformBlock for="React, WebComponents, Blazor">`. Whenever a topic gains or changes its
+**Accessibility** section, update the component's row in the same change, **in every table the
+component appears in**:
+
+- Set **Keyboard interaction** and **Screen reader / ARIA** to `Documented` only for what the
+  section really covers on that platform; leave `Not documented yet` where it does not.
+- Point the component link and the **Reference** cell at the topic's `#accessibility` anchor.
+
+Row shape: `| [Tabs](../layouts/tabs.mdx#accessibility) | Documented | Documented | [Accessibility](../layouts/tabs.mdx#accessibility) |`.
+A stale row — still `Not documented yet`, or linking a retired anchor such as `#keyboard-navigation`
+or a deleted Angular file — tells readers the component has no accessibility documentation.
+
 ## Overview topics
 
 **5a. Concept / guide overview** (Diátaxis: *explanation*) — e.g. "Theming concepts":
 Title + intro → **Overview** → **Before You Start** → **Next Steps** → **Available Tools** →
-**Common Workflows** → **Troubleshooting** → **Additional Resources** → optional **FAQ**. Use an
+**Common Workflows** → optional **Troubleshooting** (only with a verified problem to answer) →
+**Additional Resources** → optional **FAQ**. Use an
 accordion for FAQ content when a compact question-and-answer block is useful.
 
 **5b. Category / index overview** (Diátaxis: *reference/navigation* — a map) — e.g. "Charts overview":
@@ -447,19 +624,21 @@ a single "Why {ProductName}" section — never thread it through instructional c
 
 | Seen in the wild | Standard name |
 |---|---|
-| "Angular X Component Overview"; "X Component Overview"; "{Platform} X Component Overview" (H1) | **`X Component`** (H1 — drop framework + "Overview") |
+| "Angular X Component Overview"; "X Component Overview"; "{Platform} X Component Overview" (H1) | **`X`** (H1 — drop the framework, "Component", and "Overview"; `# Tabs`) |
 | Setup; "Getting Started with…"; "Getting Started with Ignite UI for Angular X" | **Getting Started** |
 | Code Snippet; Examples; "Using the … Component"; "{Platform} X Example"; "Angular X Example" | **Usage** |
 | "Avatar Shape"; "‹Component› ‹Feature›" (Usage sub-heading) | **`‹Feature›`** (drop the component name) |
 | Configuration | **Properties** |
-| "X vs Y"; "Choosing Between X and Y"; Behavior; Feature Integration | **Do/Don't** (as the final `###` under **Usage**) |
-| top-level `## When to Use` / `## When Not to Use`; `### When to Use` / `### When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`** | Inline **When to use:** / **When not to use:** labels inside the final **Usage** subsection, `### Do/Don't` |
+| "X vs Y"; "Choosing Between X and Y" | **Related Components** (each sibling linked, with when it is the better fit) |
+| Behavior; Feature Integration | **Do/Don't** (as the final `###` under **Usage**) |
+| top-level `## When to Use` / `## When Not to Use`; `### When to Use` / `### When Not to Use`; **When to Use / When Not to Use nested under `## Anatomy`**; inline **When to use:** / **When not to use:** labels under `### Do/Don't` | No heading and no label: what the component is for goes in the **Usage** lead sentence, design guidance in `### Do/Don't` as `<DoDont>` blocks, and the better-fit sibling in **Related Components** |
 | Summary (as lead-in) | intro ¶ or **Overview** |
 | Keyboard Navigation | **Accessibility** |
 | WAI-ARIA Support; Compliance; Section 508; Accessibility Statement | **`### Accessibility Compliance`** (under **Accessibility**) |
 | Best Practices; Do's and Don'ts; Guidelines; Recommendations | **Do/Don't** (as the final `###` under **Usage**) |
 | Theming (H2) | **Styling** (H2); the Sass approach becomes `### Sass Theming` under it |
-| Known Issues and Limitations; Limitations; Known Issues | **Known Limitations** (a required top-level section; it may live as `### Known Limitations` under **Troubleshooting** only when the limitations directly support that troubleshooting guidance — see section 12. Troubleshooting *fixes* found under a limitations heading move to **Troubleshooting**.) |
+| `### Tailwind`; `### Tailwind Styling` (under **Styling**) | **`### Styling with Tailwind`** |
+| Known Issues and Limitations; Limitations; Known Issues | **Known Limitations** (a conditional top-level section, present only when verified limitations exist; it may live as `### Known Limitations` under **Troubleshooting** only when the limitations directly support that troubleshooting guidance — see section 12. Troubleshooting *fixes* found under a limitations heading move to **Troubleshooting**.) |
 | API; API Reference (singular) | **API References** |
 | Theming Dependencies | **Dependencies** |
 
@@ -488,10 +667,10 @@ audits the body side.
 ## Write-for-both-audiences rules (people + AI assistants)
 
 1. **One job per section** — self-contained; no "as mentioned above." A section must make sense landed-on cold.
-2. **Lead each section with one plain, specific sentence that names the component** (with the platform token where the set uses them) before any table/code — skip empty boilerplate. Sections are the retrieval chunks; a chunk that never names its subject is invisible to the query that should retrieve it.
+2. **Lead each section with one plain, specific sentence that names the component** (with the platform token where the set uses them) before any table/code — skip empty boilerplate. **Live Demo** is the one exception: it is sample-only. Sections are the retrieval chunks; a chunk that never names its subject is invisible to the query that should retrieve it.
 3. **Use the standard section names everywhere** — "Accessibility" always means the same thing.
-4. **Phrase guidance/troubleshooting as real questions** — When-Not-to-Use is the highest-value content for answer accuracy; name the sibling explicitly.
-5. **Reference lives in tables**, generated from the typed source.
+4. **Phrase guidance/troubleshooting as real questions** — the better-fit redirect in **Related Components** is the highest-value content for answer accuracy; name the sibling explicitly.
+5. **Reference lives in tables**, every row verified through the Verification workflow.
 6. **Strong `description` / `llms.description`** — <~160 chars, answer-shaped, definition-first; `llms.description` defines the component, not the page (full contract in "File format & frontmatter").
 7. **Document theming variables** — variable · what it changes, in **one table for all themes**. No default-value column: defaults are per-theme values that live in the generated API reference, not the topic.
 
@@ -513,9 +692,10 @@ audits the body side.
   (optionally with an inline `ng add` token) so a cold-landing reader or AI still has the pointer — just
   not the repeated paragraph.
 - **Blazor module registration.** A Blazor component loads its own module the first time it renders, so Getting Started shows the bare `builder.Services.AddIgniteUIBlazor()` call (the one setup step a Blazor component page repeats), then names the component's own module as **optional**, linked to the **Component Modules** section of the general getting-started topic. Don't list the modules of other components the content uses. List as required only feature modules that no component loads (chart interactivity, the Dashboard Tile's visualizations). Canonical example: `inputs/badge.mdx`.
-- **Styling leads with the result.** The Styling section opens with a `<Sample>` of the styled
-  outcome, then the tables; its first subsection is `### Sass Theming` (the Sass theme workflow), then
-  the other approaches (`### Tailwind`, `### Custom sizing`, …).
+- **Styling leads with the reference and shows the result where it is produced.** The Styling
+  section opens with an intro line and the variables and parts tables; its subsections are
+  `### Sass Theming` (the Sass theme workflow), `### CSS Variables`, and `### Styling with Tailwind`,
+  in that order. Each styled-result `<Sample>` sits in the subsection whose snippet produces it.
 - **One styling table — never per-theme tabs, never default values.** In the `theming` repo every
   theme schema `extend`s the same base schema and only overrides *values* (e.g. `$material-switch`,
   `$fluent-switch`, `$indigo-switch` all extend `$light-switch`; `$bootstrap-switch` extends
@@ -546,12 +726,10 @@ audits the body side.
   in code-fence comments, and don't scatter legacy/alternative setup (e.g. NgModule) across the page.
   Collect them in **Troubleshooting**, each phrased as question → cause → fix. Getting Started and
   code samples show only the current, recommended path.
-- **Curated (not generated) reference tables — for now.** No build-time generator injects inline
-  Properties/Styling-Variables tables yet (only the full API reference is generated, reached via
-  `<ApiLink>`). Until one exists, hand-author a **small core** table whose every row is **verified
-  from source** (typed component for props; the `@param` doc-comments in the component's
-  `_…-theme.scss` for styling vars) and link `<ApiLink>` for the complete set. The zero-risk rule
-  still applies: no unverified rows.
+- **Styling Variables tables are curated by hand too.** The *Reference-table contract* above covers
+  Properties / Methods / Events; the same holds here. Hand-author a **small core** table whose every
+  row is **verified from source** — the `@param` doc-comments in the component's `_…-theme.scss` —
+  and link `<ApiLink>` for the complete set. The zero-risk rule still applies: no unverified rows.
 
 ## Voice & tone
 
