@@ -245,7 +245,6 @@ import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 @Component({
     selector: 'app-home',
     template: `<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>`,
-    styleUrls: ['home.component.scss'],
     imports: [IGX_GRID_DIRECTIVES]
     /* or imports: [IgxGridComponent] */
 })
@@ -312,12 +311,6 @@ The <ApiLink type="Grid" member="id" /> property is the unique identifier of the
 
 With <ApiLink type="Grid" member="autoGenerate" />, the grid creates a <ApiLink type="Column" /> for each field of the first record and infers its data type<PlatformBlock for="Angular,React,WebComponents">: a number, a Boolean, a `Date` object and a string that ends with an image file extension, such as `.png`, give number, boolean, date and image columns, and any other value gives a string column</PlatformBlock>. To set the columns and their mapping to the data fields yourself, [define the columns](#column-configuration).
 
-<PlatformBlock for="Angular">
-
-The Data Grid is a data component, not a page layout grid. For a responsive, Bootstrap-like page layout, {ProductName} has the flex-based [Layout Manager](../layout.mdx) directives. The size of the Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](./_shared/sizing.mdx).
-
-</PlatformBlock>
-
 ### Column Configuration
 
 Each <ApiLink type="Column" /> in the columns collection of the grid defines one column and the features enabled for it, such as **sorting** and **filtering**, and can have cell, header and footer templates.
@@ -329,17 +322,10 @@ To define the columns yourself, leave <ApiLink type="Grid" member="autoGenerate"
 <PlatformBlock for="Angular">
 
 ```html
-<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
-    (selected)="selectCell($event)" [allowFiltering]="true">
-    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
-    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
-    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
-        <ng-template igxCell let-value>
-            <igx-linear-bar [striped]="false" [value]="value" [max]="100"></igx-linear-bar>
-        </ng-template>
-    </igx-column>
-    <igx-paginator [perPage]="6">
-    </igx-paginator>
+<igx-grid [data]="localData" [autoGenerate]="false" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true"></igx-column>
+    <igx-column field="AthleteNumber" header="Athlete number" [sortable]="true" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false"></igx-column>
 </igx-grid>
 ```
 
@@ -458,15 +444,14 @@ public formatUppercase(value: string) {
 <IgbColumn Field="Name" HeaderTemplateScript="UpperCaseTemplate" />
 ```
 
+The `*Script` parameters name templates that a JavaScript file in **wwwroot** registers. The file is an ES module: it imports `registerScript` and `html` from `./_content/IgniteUI.Blazor/api.js`, and the host page loads it with `<script type="module">` after the Blazor script.
+
 ```javascript
-//In JavaScript:
-igRegisterScript("UpperCaseTemplate", (ctx) => {
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-    var html = window.igTemplating.html;
-
-    return html`${this.formatUppercase(ctx.column.field)}`;
-
-}, false)
+registerScript("UpperCaseTemplate", (ctx) => {
+    return html`${formatUppercase(ctx.column.field)}`;
+});
 
 function formatUppercase(value) {
     return value.toUpperCase();
@@ -548,12 +533,11 @@ public formatTitleCase(value: string) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("NameCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-    return html`${this.formatTitleCase(ctx.implicit)}`;
-}, false);
+registerScript("NameCellTemplate", (ctx) => {
+    return html`${formatTitleCase(ctx.implicit)}`;
+});
 
 function formatTitleCase(value) {
     return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
@@ -657,7 +641,7 @@ public formatTitleCase(value: string) {
 function nameCellTemplate(ctx: IgrCellTemplateContext) {
     return (
         <>
-            <span tabIndex={0} onClick={() => deleteRow(ctx.cell.id.rowID)}>
+            <span tabIndex={0} onKeyDown={(e) => { if (e.code === "Delete") deleteRow(ctx.cell.id.rowID); }}>
                 {formatTitleCase(ctx.cell.value)}
             </span>
         </>
@@ -706,22 +690,21 @@ function formatTitleCase(value: string) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("NameCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
-    return html`
-        <span tabindex="0" @keyup=${(e) => this.deleteRow(e, ctx.cell)}> ${this.formatTitleCase(ctx.cell.value)}</span>
-    `;
-}, false);
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-igRegisterScript("SubscriptionCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+registerScript("NameCellTemplate", (ctx) => {
+    return html`
+        <span tabindex="0" @keyup=${(e) => deleteRow(e, ctx.cell)}> ${formatTitleCase(ctx.cell.value)}</span>
+    `;
+});
+
+registerScript("SubscriptionCellTemplate", (ctx) => {
     if (ctx.cell.value) {
             return html` <input type="checkbox" checked /> `;
     } else {
             return html` <input type="checkbox"/> `;
     }
-}, false);
+});
 
 function deleteRow(e, cell) {
     if (e.code === "Delete") {
@@ -790,11 +773,9 @@ public priceCellTemplate = (ctx: IgcCellTemplateContext) => {
         <label>
             Enter the new price tag
         </label>
-        <input name="price" type="number" value="${ctx.cell.value}" @change="${() => this.updateValue(ctx.cell.value)}"  />
+        <input name="price" type="number" value="${ctx.cell.value}"
+            @input="${(e: Event) => ctx.cell.editValue = (e.target as HTMLInputElement).valueAsNumber}" />
     `;
-}
-
-public updateValue(value: number) {
 }
 ```
 
@@ -809,14 +790,10 @@ function priceCellTemplate(ctx: IgrCellTemplateContext) {
             <label>
                 Enter the new price tag
             </label>
-            <input name="price" type="number" value={ctx.cell.value}
-                onChange={() => updateValue(ctx.cell.value)}/>
+            <input name="price" type="number" defaultValue={ctx.cell.value}
+                onChange={(e) => ctx.cell.editValue = e.target.valueAsNumber}/>
         </>
     );
-}
-
-function updateValue(value: number) {
-  // Custom update code
 }
 
 <IgrColumn field="Price" dataType="number" editable={true} inlineEditorTemplate={priceCellTemplate}></IgrColumn>
@@ -831,21 +808,17 @@ function updateValue(value: number) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("PriceCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
+registerScript("PriceCellTemplate", (ctx) => {
     return html`
         <label>
             Enter the new price tag
         </label>
         <input name="price" type="number" value="${ctx.cell.value}"
-        @change=${(e) => this.updateValue(e, ctx.cell.value)} />
+            @input=${(e) => ctx.cell.editValue = e.target.valueAsNumber} />
     `;
-}, false);
-
-function updateValue(event, value) {
-}
+});
 ```
 
 </PlatformBlock>
@@ -971,21 +944,20 @@ column.bodyTemplate = smallViewTemplate;
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("NormalViewTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("NormalViewTemplate", (ctx) => {
     return html`
         <div class="user-details">${ctx.cell.value}</div>
         <user-details-component></user-details-component>
     `;
-}, false);
+});
 
-igRegisterScript("SmallViewTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+registerScript("SmallViewTemplate", (ctx) => {
     return html`
         <div class="user-details-small" style="color: blue">${ctx.cell.value}</div>
     `;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -993,6 +965,10 @@ igRegisterScript("SmallViewTemplate", (ctx) => {
 You can also set column properties in the <PlatformBlock for="WebComponents">`columnInit`</PlatformBlock><PlatformBlock for="React">`onColumnInit`</PlatformBlock><PlatformBlock for="Blazor">`ColumnInit`</PlatformBlock><PlatformBlock for="Angular"><ApiLink type="Grid" member="columnInit" /></PlatformBlock> event, which the grid emits when it initializes each column:
 
 <PlatformBlock for="Angular">
+
+```html
+<igx-grid [data]="localData" (columnInit)="initColumns($event)"></igx-grid>
+```
 
 ```typescript
 public initColumns(column: IgxColumnComponent) {
@@ -1063,11 +1039,23 @@ This makes the **ProductName** column sortable and editable, and the grid shows 
 
 #### Custom Display Format
 
+<PlatformBlock for="Angular">
+
+The grid formats the values of date, number, currency and percent columns with the Angular [`DatePipe`](https://angular.dev/api/common/DatePipe), [`DecimalPipe`](https://angular.dev/api/common/DecimalPipe), [`CurrencyPipe`](https://angular.dev/api/common/CurrencyPipe) and [`PercentPipe`](https://angular.dev/api/common/PercentPipe). Formatting changes only what the column displays; data operations use the values in your data source. The format follows the <ApiLink type="Grid" member="locale" /> of the grid, which falls back to the application locale (`'en-US'` by default); see [Setting up the locale of your app](https://angular.dev/guide/i18n/locale-id).
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+The {Platform} Data Grid formats the values of date, number, currency and percent columns for display, following the <ApiLink type="Grid" member="locale" /> of the grid. Formatting changes only what the column displays; sorting, filtering and the other data operations use the values in your data. The [Column Types](./_shared/column-types.mdx#default-template) topic describes the format options of each column type.
+
+</PlatformBlock>
+
 The optional formatting parameters are:
 
-- <ApiLink type="ColumnPipeArgs" member="format" /> - determines what date/time parts are displayed, defaults to `'mediumDate'`, equivalent to **'MMM d, y'**
+- <ApiLink type="ColumnPipeArgs" member="format" /> - determines what date/time parts are displayed, defaults to `'mediumDate'`, equivalent to `'MMM d, y'`
 - <ApiLink type="ColumnPipeArgs" member="timezone" /> - the timezone offset for dates. By default uses the end-user's local system timezone
-- <ApiLink type="ColumnPipeArgs" member="digitsInfo" /> - decimal representation objects. Default to **1.0-3**
+- <ApiLink type="ColumnPipeArgs" member="digitsInfo" /> - decimal representation objects. Default to `'1.0-3'`
 
 Set them through the <ApiLink type="Column" member="pipeArgs" /> property of the column. A column uses only the parameters that apply to its data type:
 
@@ -1092,25 +1080,21 @@ const pipeArgs: IColumnPipeArgs = {
 
 ```html
 <igc-column id="orderDate" field="OrderDate" data-type="date"></igc-column>
+<igc-column id="unitPrice" field="UnitPrice" data-type="number"></igc-column>
 ```
 
 ```typescript
-private _columnPipeArgs: any | null = null;
-    public get columnPipeArgs(): any {
-        if (this._columnPipeArgs == null)
-        {
-            var columnPipeArgs: any = {};
-            columnPipeArgs.format = "longDate";
-            columnPipeArgs.timezone = "UTC";
-            columnPipeArgs.digitsInfo = "1.2-2"
-            this._columnPipeArgs = columnPipeArgs;
-        }
-        return this._columnPipeArgs;
-    }
+public columnPipeArgs: IgcColumnPipeArgs = {
+    format: "longDate",
+    timezone: "UTC",
+    digitsInfo: "1.2-2"
+};
 
 constructor() {
-    var orderDate = this.orderDate = document.getElementById('orderDate') as IgcColumnComponent;
+    const orderDate = document.getElementById('orderDate') as IgcColumnComponent;
+    const unitPrice = document.getElementById('unitPrice') as IgcColumnComponent;
     orderDate.pipeArgs = this.columnPipeArgs;
+    unitPrice.pipeArgs = this.columnPipeArgs;
 }
 ```
 
@@ -1126,6 +1110,7 @@ const columnPipeArgs: IgrColumnPipeArgs = {
 };
 
 <IgrColumn field="OrderDate" dataType="date" pipeArgs={columnPipeArgs}></IgrColumn>
+<IgrColumn field="UnitPrice" dataType="number" pipeArgs={columnPipeArgs}></IgrColumn>
 ```
 
 </PlatformBlock>
@@ -1146,7 +1131,11 @@ const columnPipeArgs: IgrColumnPipeArgs = {
 
 A date column, such as `OrderDate`, uses only <ApiLink type="ColumnPipeArgs" member="format" /> and <ApiLink type="ColumnPipeArgs" member="timezone" />, and a number column, such as `UnitPrice`, uses only <ApiLink type="ColumnPipeArgs" member="digitsInfo" />.
 
+<PlatformBlock for="Angular">
+
 The [Column Types](./_shared/column-types.mdx#default-template) topic lists all column data types.
+
+</PlatformBlock>
 
 ### Data Binding
 
@@ -1222,115 +1211,32 @@ export default function AminoAcids() {
 
 <PlatformBlock for="Angular">
 
-To bind the grid to remote data, keep the data fetching in a separate service. The example below creates one for the Northwind products:
+To bind the grid to a remote service, request the data with `httpResource` and assign its value to the <ApiLink type="Grid" member="data" /> property. `httpResource` sends the request when the component is created and keeps the response in a signal:
 
 ```typescript
-// northwind.service.ts
+// products.component.ts
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-```
+import { Component } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 
-The [`Injectable`](https://angular.dev/guide/di) decorator makes the class a service, and the `HttpClient` requests the data and returns an `Observable` that the grid component subscribes to.
-
-The response is a JSON array of records, so describe a record with an interface to get type checking:
-
-```typescript
-// northwind.service.ts
-
-export interface NorthwindRecord {
+interface Product {
     ProductID: number;
     ProductName: string;
-    SupplierID: number;
-    CategoryID: number;
-    QuantityPerUnit: string;
     UnitPrice: number;
-    UnitsInStock: number;
-    UnitsOnOrder: number;
-    ReorderLevel: number;
-    Discontinued: boolean;
-    CategoryName: string;
 }
-```
-
-The service has one method, `fetchData`, which returns an `Observable<NorthwindRecord[]>`. When the request fails, the `catchError` operator passes the error to a handler that logs it and returns a safe value:
-
-```typescript
-// northwind.service.ts
-
-@Injectable()
-export class NorthwindService {
-    private url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
-
-    constructor(private http: HttpClient) {}
-
-    public fetchData(): Observable<NorthwindRecord[]> {
-        return this.http
-            .get<{ value: NorthwindRecord[] }>(this.url)
-            .pipe(
-                map(response => response.value),
-                catchError(
-                    this.errorHandler('Error loading Northwind data', [])
-                )
-            );
-    }
-
-    private errorHandler<T>(message: string, result: T) {
-        return (error: any): Observable<any> => {
-            console.error(`${message}: ${error.message}`);
-            return of(result as T);
-        };
-    }
-}
-```
-
-Provide the `HttpClient` with `provideHttpClient()` and register the service in the application configuration:
-
-```typescript
-// app.config.ts
-
-import { ApplicationConfig } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { NorthwindService } from './northwind.service';
-
-export const appConfig: ApplicationConfig = {
-    providers: [
-        provideHttpClient(),
-        NorthwindService
-    ]
-};
-```
-
-Inject the service in the component and request the data in the `ngOnInit` lifecycle hook. The request is asynchronous, so `records` starts as an empty array; without an initial value it would be `undefined` until the response arrives (a `BehaviorSubject` works as well):
-
-```typescript
-// my.component.ts
 
 @Component({
-    // ...
+    selector: 'app-products',
+    template: `<igx-grid [data]="products.hasValue() ? products.value() : []" [autoGenerate]="true"></igx-grid>`,
+    imports: [IGX_GRID_DIRECTIVES]
 })
-export class MyComponent implements OnInit {
-
-    public records: NorthwindRecord[] = [];
-
-    constructor(private northwindService: NorthwindService) {}
-
-    ngOnInit() {
-        this.northwindService.fetchData().subscribe((records) => this.records = records);
-    }
+export class ProductsComponent {
+    protected readonly products = httpResource<Product[]>(() => '/api/products');
 }
 ```
 
-Bind the grid to `records` in the template of the component:
-
-```html
-<igx-grid [data]="records">
-    <igx-column field="ProductID"></igx-column>
-    <!-- rest of the column definitions -->
-</igx-grid>
-```
+The template reads `value()` only after `hasValue()`, because `value()` throws when the request fails. `httpResource` uses the `HttpClient`, which Angular provides by default; add `provideHttpClient()` to the providers of the application only to configure it, for example with interceptors. For a step-by-step walkthrough with a data service, see [A Complete Guide to Angular Grid and Angular App Development](../general/angular-grid-overview-guide.mdx).
 
 </PlatformBlock>
 
@@ -1560,19 +1466,19 @@ function abbreviationLongCellTemplate(ctx: IgrCellTemplateContext) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("AbbreviationLongCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AbbreviationLongCellTemplate", (ctx) => {
     return html`
         <div>
             <div>
                 ${ctx.cell.value}
-                ${this.GetName(ctx.cell)}
-                ${this.GetWeight(ctx.cell)}
+                ${GetName(ctx.cell)}
+                ${GetWeight(ctx.cell)}
             </div>
         </div>
     `;
-}, false);
+});
 
 function GetName(cell) {
     return cell.grid.getRowByIndex(cell.id.rowIndex).data["Name"];
@@ -1751,9 +1657,9 @@ function addressCellTemplate(ctx: IgrCellTemplateContext) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("WebGridNestedDataCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("WebGridNestedDataCellTemplate", (ctx) => {
     window.keyUpHandler = function() {
         ctx.cell.row.data[window.event.target.id] = window.event.target.value;
     }
@@ -1779,7 +1685,7 @@ igRegisterScript("WebGridNestedDataCellTemplate", (ctx) => {
     </igc-expansion-panel>
         `;
     }
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -1968,9 +1874,9 @@ function addressCellTemplate(ctx: IgrCellTemplateContext) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("AddressCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AddressCellTemplate", (ctx) => {
     return html`<div class="address-container">
     <div class="country-city">
         <span><strong>Country:</strong> ${ctx.cell.row.data.Country}</span>
@@ -1984,7 +1890,7 @@ igRegisterScript("AddressCellTemplate", (ctx) => {
     </div>
     <br />
 </div>`;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -2119,9 +2025,9 @@ function addressEditCellTemplate(ctx: IgrCellTemplateContext) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("AddressEditCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AddressEditCellTemplate", (ctx) => {
     window.keyUpHandler = function() {
         ctx.cell.row.data[window.event.target.id] = window.event.target.value;
     }
@@ -2143,7 +2049,7 @@ igRegisterScript("AddressEditCellTemplate", (ctx) => {
     </div>
     <br>
 </div>`;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -2332,9 +2238,9 @@ In HTML, set the properties through their kebab-case attributes, such as `auto-g
 | <ApiLink type="Column" member="Pinned" label="IgbColumn.Pinned" /> | `bool` | `false` | Whether the column is pinned, so that it stays in view during horizontal scrolling. |
 | <ApiLink type="Column" member="Hidden" label="IgbColumn.Hidden" /> | `bool` | `false` | Whether the column is hidden. |
 | <ApiLink type="Column" member="BodyTemplate" label="IgbColumn.BodyTemplate" /> | `RenderFragment<IgbCellTemplateContext>` | — | A Razor template for the cells of the column. |
-| <ApiLink type="Column" member="BodyTemplateScript" label="IgbColumn.BodyTemplateScript" /> | `string` | — | The name of a JavaScript cell template that you register with `igRegisterScript`. |
+| <ApiLink type="Column" member="BodyTemplateScript" label="IgbColumn.BodyTemplateScript" /> | `string` | — | The name of a JavaScript cell template that you register with `registerScript`. |
 | <ApiLink type="Column" member="HeaderTemplate" label="IgbColumn.HeaderTemplate" /> | `RenderFragment<IgbColumnTemplateContext>` | — | A Razor template for the column header. |
-| <ApiLink type="Column" member="HeaderTemplateScript" label="IgbColumn.HeaderTemplateScript" /> | `string` | — | The name of a JavaScript header template that you register with `igRegisterScript`. |
+| <ApiLink type="Column" member="HeaderTemplateScript" label="IgbColumn.HeaderTemplateScript" /> | `string` | — | The name of a JavaScript header template that you register with `registerScript`. |
 
 </PlatformBlock>
 
@@ -2644,12 +2550,12 @@ function productHeaderTemplate(ctx: IgrColumnTemplateContext) {
 ```
 
 ```javascript
-//In JavaScript:
-igRegisterScript("ProductHeaderTemplate", (ctx) => {
-    const html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("ProductHeaderTemplate", (ctx) => {
     return html`<span>${ctx.column.header}</span>
         <button type="button" draggable="false" @click=${() => (ctx.column.hasSummary = !ctx.column.hasSummary)}>Summary</button>`;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -2795,22 +2701,18 @@ The {Platform} Data Grid displays flat records. Use these components when the da
 
 ## FAQ
 
-These questions cover common {Platform} Data Grid data binding, editing and performance scenarios.
+These questions cover the license of the {Platform} Data Grid,<PlatformBlock for="Angular"> page layout,</PlatformBlock> custom cell editors and column widths.
 
 <Faq>
-  <FaqItem question="How do I bind the {Platform} Data Grid to remote data?" indicatorPosition="end">
-    Fetch the data and assign the array to the data property of the {Platform} Data Grid. The [Remote Data Binding](#remote-data-binding) section shows the complete example and links to the topics about live data and server-side data operations.
+  <FaqItem question="Is the {Platform} Data Grid free?" indicatorPosition="end">
+    <PlatformBlock for="Angular">No. The Angular Data Grid is a Premium component: `igniteui-angular` is dual-licensed, and the grids are under the Infragistics commercial license, which customer-facing deployments require. The free, open-source grid is [Grid Lite](../grid-lite/overview.mdx), released under the MIT license. [Open-Source vs Premium](../general/open-source-vs-premium.mdx) lists the open-source and the Premium components.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">No. The {Platform} Data Grid is a Premium component under the Infragistics Ultimate license, and customer-facing deployments require a commercial license. The free, open-source grid is [Grid Lite](../grid-lite/overview.mdx), released under the MIT license. [Open-Source vs Premium](../general-open-source-vs-premium.mdx) lists the open-source and the Premium components.</PlatformBlock>
+  </FaqItem><PlatformBlock for="Angular"><FaqItem question="Is the Angular Data Grid a page layout grid?" indicatorPosition="end">
+    No. The Angular Data Grid is a data component that displays records in rows and columns; it doesn't arrange the content of a page. For a responsive, Bootstrap-like page layout, {ProductName} has the flex-based [Layout Manager](../layout.mdx) directives. The size of the Angular Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](./_shared/sizing.mdx).
+  </FaqItem></PlatformBlock>
+  <FaqItem question="Why doesn't my custom cell editor save its value?" indicatorPosition="end">
+    The {Platform} Data Grid saves the `editValue` of the cell when editing ends, not the value of the input in your editing template. <PlatformBlock for="Angular">Bind the editor to it, for example with `[(ngModel)]="cell.editValue"`, as the [cell editing template](#cell-editing-template) shows.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Set `editValue` from the input event of the editor, as the [cell editing template](#cell-editing-template) shows.</PlatformBlock> With a custom editor, the {Platform} Data Grid doesn't convert the value to a number, so a number column needs a number in `editValue`. Pressing Escape ends editing without saving `editValue`.
   </FaqItem>
-  <FaqItem question="When should I use the Tree Grid or the Hierarchical Grid instead of the Data Grid?" indicatorPosition="end">
-    Use the Tree Grid or the Hierarchical Grid for records that form a hierarchy; the [Related Components](#related-components) section explains when each one fits.
-  </FaqItem>
-  <FaqItem question="How do I change what a cell of the Data Grid displays?" indicatorPosition="end">
-    Set the data type of a column of the {Platform} Data Grid to format numbers, dates, currencies and Booleans, and its pipe arguments to change the format, as [Custom Display Format](#custom-display-format) shows. To render your own content, give the column a [cell template](#cell-template).
-  </FaqItem>
-  <FaqItem question="How do I make the Data Grid editable?" indicatorPosition="end">
-    Set a column of the {Platform} Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key. To replace the default editor of a column, give it a [cell editing template](#cell-editing-template).
-  </FaqItem>
-  <FaqItem question="Does the Data Grid handle large data sets?" indicatorPosition="end">
-    The {Platform} Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while users scroll. For data that does not fit in memory, load it on demand as the [Remote Data Operations](./_shared/remote-data-operations.mdx) topic shows.
+  <FaqItem question="Why is a column of the {Platform} Data Grid wider or narrower than expected?" indicatorPosition="end">
+    When a column has a minimum or a maximum width, the {Platform} Data Grid keeps the width of the column within that range. A column without a width shares the free width of the grid, down to 136 px, and the grid scrolls horizontally when the columns don't fit. A width in percent is a share of the width of the grid, so when the width of the {Platform} Data Grid is `null`, a percent column gets the minimum width instead; percent and pixel widths can't be mixed in one grid. See [Grid Sizing](./_shared/sizing.mdx).
   </FaqItem>
 </Faq>

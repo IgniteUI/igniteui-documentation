@@ -102,7 +102,6 @@ import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 @Component({
     selector: 'app-home',
     template: `<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>`,
-    styleUrls: ['home.component.scss'],
     imports: [IGX_GRID_DIRECTIVES]
     /* or imports: [IgxGridComponent] */
 })
@@ -128,8 +127,6 @@ Add the `igx-grid` element to the template of your component and bind its data:
 
 The <ApiLink type="Grid" member="data" /> property binds the grid, here to a local array of objects. With <ApiLink type="Grid" member="autoGenerate" />, the grid creates a <ApiLink type="Column" /> for each field of the first record and infers its data type: a number, a Boolean, a `Date` object and a string that ends with an image file extension, such as `.png`, give number, boolean, date and image columns, and any other value gives a string column. To set the columns and their mapping to the data fields yourself, [define the columns](#column-configuration).
 
-The Data Grid is a data component, not a page layout grid. For a responsive, Bootstrap-like page layout, Ignite UI for Angular has the flex-based [Layout Manager](/layout) directives. The size of the Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](/grid/sizing).
-
 ### Column Configuration
 
 Each <ApiLink type="Column" /> in the <ApiLink type="Grid" member="columns" /> collection of the grid defines one column and the features enabled for it, such as **sorting** and **filtering**, and can have cell, header and footer templates.
@@ -139,17 +136,10 @@ Each <ApiLink type="Column" /> in the <ApiLink type="Grid" member="columns" /> c
 To define the columns yourself, leave <ApiLink type="Grid" member="autoGenerate" /> off and declare them in the markup:
 
 ```html
-<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
-    (selected)="selectCell($event)" [allowFiltering]="true">
-    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
-    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
-    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
-        <ng-template igxCell let-value>
-            <igx-linear-bar [striped]="false" [value]="value" [max]="100"></igx-linear-bar>
-        </ng-template>
-    </igx-column>
-    <igx-paginator [perPage]="6">
-    </igx-paginator>
+<igx-grid [data]="localData" [autoGenerate]="false" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true"></igx-column>
+    <igx-column field="AthleteNumber" header="Athlete number" [sortable]="true" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false"></igx-column>
 </igx-grid>
 ```
 
@@ -277,6 +267,10 @@ column.bodyTemplate = this.smallView;
 
 You can also set column properties in the <ApiLink type="Grid" member="columnInit" /> event, which the grid emits when it initializes each column:
 
+```html
+<igx-grid [data]="localData" (columnInit)="initColumns($event)"></igx-grid>
+```
+
 ```typescript
 public initColumns(column: IgxColumnComponent) {
     if (column.field === 'ProductName') {
@@ -332,115 +326,32 @@ If you use <ApiLink type="Grid" member="autoGenerate" /> columns **the data keys
 
 #### Remote Data Binding
 
-To bind the grid to remote data, keep the data fetching in a separate service. The example below creates one for the Northwind products:
+To bind the grid to a remote service, request the data with `httpResource` and assign its value to the <ApiLink type="Grid" member="data" /> property. `httpResource` sends the request when the component is created and keeps the response in a signal:
 
 ```typescript
-// northwind.service.ts
+// products.component.ts
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-```
+import { Component } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
 
-The [`Injectable`](https://angular.dev/guide/di) decorator makes the class a service, and the `HttpClient` requests the data and returns an `Observable` that the grid component subscribes to.
-
-The response is a JSON array of records, so describe a record with an interface to get type checking:
-
-```typescript
-// northwind.service.ts
-
-export interface NorthwindRecord {
+interface Product {
     ProductID: number;
     ProductName: string;
-    SupplierID: number;
-    CategoryID: number;
-    QuantityPerUnit: string;
     UnitPrice: number;
-    UnitsInStock: number;
-    UnitsOnOrder: number;
-    ReorderLevel: number;
-    Discontinued: boolean;
-    CategoryName: string;
 }
-```
-
-The service has one method, `fetchData`, which returns an `Observable<NorthwindRecord[]>`. When the request fails, the `catchError` operator passes the error to a handler that logs it and returns a safe value:
-
-```typescript
-// northwind.service.ts
-
-@Injectable()
-export class NorthwindService {
-    private url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
-
-    constructor(private http: HttpClient) {}
-
-    public fetchData(): Observable<NorthwindRecord[]> {
-        return this.http
-            .get<{ value: NorthwindRecord[] }>(this.url)
-            .pipe(
-                map(response => response.value),
-                catchError(
-                    this.errorHandler('Error loading northwind data', [])
-                )
-            );
-    }
-
-    private errorHandler<T>(message: string, result: T) {
-        return (error: any): Observable<any> => {
-            console.error(`${message}: ${error.message}`);
-            return of(result as T);
-        };
-    }
-}
-```
-
-Provide the `HttpClient` with `provideHttpClient()` and register the service in the application configuration:
-
-```typescript
-// app.config.ts
-
-import { ApplicationConfig } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { NorthwindService } from './northwind.service';
-
-export const appConfig: ApplicationConfig = {
-    providers: [
-        provideHttpClient(),
-        NorthwindService
-    ]
-};
-```
-
-Inject the service in the component and request the data in the `ngOnInit` lifecycle hook. The request is asynchronous, so `records` starts as an empty array; without an initial value it would be `undefined` until the response arrives (a `BehaviorSubject` works as well):
-
-```typescript
-// my.component.ts
 
 @Component({
-    // ...
+    selector: 'app-products',
+    template: `<igx-grid [data]="products.hasValue() ? products.value() : []" [autoGenerate]="true"></igx-grid>`,
+    imports: [IGX_GRID_DIRECTIVES]
 })
-export class MyComponent implements OnInit {
-
-    public records: NorthwindRecord[] = [];
-
-    constructor(private northwindService: NorthwindService) {}
-
-    ngOnInit() {
-        this.northwindService.fetchData().subscribe((records) => this.records = records);
-    }
+export class ProductsComponent {
+    protected readonly products = httpResource<Product[]>(() => '/api/products');
 }
 ```
 
-Bind the grid to `records` in the template of the component:
-
-```html
-<igx-grid [data]="records">
-    <igx-column field="ProductID"></igx-column>
-    <!-- rest of the column definitions -->
-</igx-grid>
-```
+The template reads `value()` only after `hasValue()`, because `value()` throws when the request fails. `httpResource` uses the `HttpClient`, which Angular provides by default; add `provideHttpClient()` to the providers of the application only to configure it, for example with interceptors. For a step-by-step walkthrough with a data service, see [A Complete Guide to Angular Grid and Angular App Development](/general/angular-grid-overview-guide).
 
 With <ApiLink type="Grid" member="autoGenerate" />, the grid generates the columns when the data arrives from the service.
 
@@ -1043,22 +954,19 @@ The Angular Data Grid displays flat records. Use these components when the data 
 
 ## FAQ
 
-These questions cover common Angular Data Grid data binding, editing and performance scenarios.
+These questions cover the license of the Angular Data Grid, page layout, custom cell editors and column widths.
 
 <Faq>
-  <FaqItem question="How do I bind the Angular Data Grid to remote data?" indicatorPosition="end">
-    Fetch the data and assign the array to the data property of the Angular Data Grid. The [Remote Data Binding](#remote-data-binding) section shows the complete example and links to the topics about live data and server-side data operations.
+  <FaqItem question="Is the Angular Data Grid free?" indicatorPosition="end">
+    No. The Angular Data Grid is a Premium component: `igniteui-angular` is dual-licensed, and the grids are under the Infragistics commercial license, which customer-facing deployments require. The free, open-source grid is [Grid Lite](/grid-lite/overview), released under the MIT license. [Open-Source vs Premium](/general/open-source-vs-premium) lists the open-source and the Premium components.
   </FaqItem>
-  <FaqItem question="When should I use the Tree Grid or the Hierarchical Grid instead of the Data Grid?" indicatorPosition="end">
-    Use the Tree Grid or the Hierarchical Grid for records that form a hierarchy; the [Related Components](#related-components) section explains when each one fits.
+  <FaqItem question="Is the Angular Data Grid a page layout grid?" indicatorPosition="end">
+    No. The Angular Data Grid is a data component that displays records in rows and columns; it doesn't arrange the content of a page. For a responsive, Bootstrap-like page layout, Ignite UI for Angular has the flex-based [Layout Manager](/layout) directives. The size of the Angular Data Grid itself follows its container and its `width` and `height`; see [Grid Sizing](/grid/sizing).
   </FaqItem>
-  <FaqItem question="How do I change what a cell of the Data Grid displays?" indicatorPosition="end">
-    Set the data type of a column of the Angular Data Grid to format numbers, dates, currencies and Booleans, and its pipe arguments to change the format, as [Custom Display Format](#custom-display-format) shows. To render your own content, give the column a [cell template](#cell-template).
+  <FaqItem question="Why doesn't my custom cell editor save its value?" indicatorPosition="end">
+    The Angular Data Grid saves the `editValue` of the cell when editing ends, not the value of the input in your editing template. Bind the editor to it, for example with `[(ngModel)]="cell.editValue"`, as the [cell editing template](#cell-editing-template) shows. With a custom editor, the Angular Data Grid doesn't convert the value to a number, so a number column needs a number in `editValue`. Pressing Escape ends editing without saving `editValue`.
   </FaqItem>
-  <FaqItem question="How do I make the Data Grid editable?" indicatorPosition="end">
-    Set a column of the Angular Data Grid as editable to edit single cells, or turn on row editing to edit a row and confirm it as a whole. Editing rows through the API or with row editing requires a primary key. To replace the default editor of a column, give it a [cell editing template](#cell-editing-template).
-  </FaqItem>
-  <FaqItem question="Does the Data Grid handle large data sets?" indicatorPosition="end">
-    The Angular Data Grid virtualizes rows and columns: it renders only the cells in the viewport and reuses them while users scroll. For data that does not fit in memory, load it on demand as the [Remote Data Operations](/grid/remote-data-operations) topic shows.
+  <FaqItem question="Why is a column of the Angular Data Grid wider or narrower than expected?" indicatorPosition="end">
+    When a column has a minimum or a maximum width, the Angular Data Grid keeps the width of the column within that range. A column without a width shares the free width of the grid, down to 136 px, and the grid scrolls horizontally when the columns don't fit. A width in percent is a share of the width of the grid, so when the width of the Angular Data Grid is `null`, a percent column gets the minimum width instead; percent and pixel widths can't be mixed in one grid. See [Grid Sizing](/grid/sizing).
   </FaqItem>
 </Faq>
