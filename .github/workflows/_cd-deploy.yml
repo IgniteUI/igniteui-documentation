@@ -116,6 +116,11 @@ jobs:
           path: ${{ env.BUILD_TYPE }}_${{ inputs.platform }}_${{ inputs.locale }}.zip
           retention-days: 1
 
+      # A minute early, so that clock skew between this runner and GitHub cannot hide the run.
+      - name: Note the hand-over time
+        if: env.BUILD_TYPE == 'production'
+        run: echo "HANDED_OVER_AT=$(date -u -d '-1 minute' +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
       - name: Trigger Deploy Workflow in IgniteUI Actions
         uses: actions/github-script@v9
         with:
@@ -136,3 +141,43 @@ jobs:
                 locale: "${{ inputs.locale }}"
               }
             });
+
+      # A production deploy is waited for, so that this job, and the release record built from it,
+      # succeed only once the locale is on production. cd-production.yml runs one release per
+      # platform at a time, so the first run with this title after the hand-over is this one.
+      - name: Wait for the production deploy
+        if: env.BUILD_TYPE == 'production'
+        timeout-minutes: 90
+        env:
+          GH_TOKEN: ${{ secrets.CLASSIC_PAT_GITHUB }}
+          TITLE: Deploy ${{ inputs.platform }} Documentation ${{ inputs.locale }} on production
+        run: |
+          set -euo pipefail
+          runs=repos/IgniteUI/igniteui-actions/actions/workflows/igniteui-docs-cd.yml/runs
+
+          run_id=''
+          for _ in $(seq 60); do
+            run_id=$(gh api "$runs?event=repository_dispatch&created=>=$HANDED_OVER_AT&per_page=50" \
+              --jq '[.workflow_runs[] | select(.display_title == $ENV.TITLE)] | sort_by(.created_at) | .[0].id // empty' || true)
+            [[ -n "$run_id" ]] && break
+            sleep 10
+          done
+          if [[ -z "$run_id" ]]; then
+            echo "::error::No \"$TITLE\" run started in IgniteUI/igniteui-actions within 10 minutes of the hand-over."
+            exit 1
+          fi
+
+          url="https://github.com/IgniteUI/igniteui-actions/actions/runs/$run_id"
+          echo "Waiting for $url"
+          status=''
+          conclusion=''
+          until [[ "$status" == 'completed' ]]; do
+            sleep 20
+            read -r status conclusion < <(gh api "repos/IgniteUI/igniteui-actions/actions/runs/$run_id" --jq '"\(.status) \(.conclusion // "")"' || true) || true
+          done
+
+          if [[ "$conclusion" != 'success' ]]; then
+            echo "::error::The production deploy ended with \"$conclusion\": $url"
+            exit 1
+          fi
+          echo "Deployed: $url"

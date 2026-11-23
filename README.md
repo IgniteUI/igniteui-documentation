@@ -262,14 +262,15 @@ Run **Deploy Documentation To Production** ([cd-production.yml](.github/workflow
 gh workflow run cd-production.yml -f platform=react
 ```
 
-The run builds both locales of that one platform from a single commit with the production configuration and hands them over for deployment. No other platform is touched, so a platform can wait until its samples and API docs are on production.
+The run builds both locales of that one platform from a single commit with the production configuration, hands them over for deployment, and waits until both are deployed. No other platform is touched, so a platform can wait until its samples and API docs are on production.
 
 - `ref` takes a branch, tag or full commit SHA, and is the default branch when left empty. The commit must be on the default branch unless `allow_off_trunk` is set.
 - The run summary lists what the release adds to production, and warns when it would remove a change that is there now.
-- Each release is recorded as a GitHub deployment on the `production-<platform>` environment. To see the commit a platform has on production:
+- Each release is recorded as a GitHub deployment on the `production-<platform>` environment. A release where only one locale was deployed is recorded as failed, because production may then be partly on it. The next run warns about it, and releasing again finishes it.
+- A platform has on production the commit of its newest successful release:
 
   ```sh
-  gh api "repos/IgniteUI/igniteui-documentation/deployments?environment=production-react&per_page=1" --jq '.[0].sha'
+  gh api graphql -f query='{repository(owner:"IgniteUI",name:"igniteui-documentation"){deployments(environments:["production-react"],first:30,orderBy:{field:CREATED_AT,direction:DESC}){nodes{commitOid latestStatus{state}}}}}' --jq '[.data.repository.deployments.nodes[] | select(.latestStatus.state == "SUCCESS")][0].commitOid'
   ```
 
 ### Fixing production between releases

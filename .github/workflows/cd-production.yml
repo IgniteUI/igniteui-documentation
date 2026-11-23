@@ -5,8 +5,9 @@ run-name: Release ${{ inputs.platform }} to production from ${{ inputs.ref || gi
 # cd-*.yml workflows), so nothing reaches production without a run of this workflow.
 #
 # A run builds both locales of one platform from a single commit, hands them to the deploy workflow
-# in IgniteUI/igniteui-actions, and records the commit as a GitHub deployment on the
-# production-<platform> environment. That record is what the next run compares against.
+# in IgniteUI/igniteui-actions, waits for both to be deployed, and records the commit as a GitHub
+# deployment on the production-<platform> environment. The newest successful record is what the
+# next run compares against.
 
 on:
   workflow_dispatch:
@@ -90,7 +91,30 @@ jobs:
           SHA: ${{ steps.commit.outputs.sha }}
         run: |
           set -euo pipefail
-          previous=$(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=production-$PLATFORM&per_page=1" --jq '.[0].sha // empty')
+
+          # Production has the newest release whose status is success. A newer record that is not
+          # a success is a release that did not finish, so production may be partly on it.
+          releases=$(gh api graphql \
+            -f owner="${GITHUB_REPOSITORY%/*}" -f name="${GITHUB_REPOSITORY#*/}" -f env="production-$PLATFORM" \
+            -f query='query($owner: String!, $name: String!, $env: String!) {
+              repository(owner: $owner, name: $name) {
+                deployments(environments: [$env], first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  nodes { commitOid latestStatus { state description } }
+                }
+              }
+            }' \
+            --jq '.data.repository.deployments.nodes[] | [(.latestStatus.state // "NONE"), .commitOid, (.latestStatus.description // "")] | @tsv')
+
+          previous=''
+          unfinished=''
+          while IFS=$'\t' read -r state sha description; do
+            [[ -n "$sha" ]] || continue
+            if [[ "$state" == 'SUCCESS' ]]; then
+              previous=$sha
+              break
+            fi
+            [[ -n "$unfinished" ]] || unfinished="\`$sha\` (${description:-no status recorded})"
+          done <<< "$releases"
 
           {
             echo "## Production release: $PLATFORM"
@@ -99,8 +123,13 @@ jobs:
             echo "- Releasing: \`$SHA\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
+          if [[ -n "$unfinished" ]]; then
+            echo "::warning::The last release of $PLATFORM did not finish, so production may be partly on it. See the run summary."
+            echo "- **The last release did not finish:** $unfinished. Production may be partly on that commit." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
           if [[ -z "$previous" ]]; then
-            echo "- On production now: no release recorded yet, so there is nothing to compare against" >> "$GITHUB_STEP_SUMMARY"
+            echo "- On production now: no successful release recorded yet, so there is nothing to compare against" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
 
@@ -165,7 +194,10 @@ jobs:
   deploy:
     name: Deploy ${{ inputs.platform }} (${{ matrix.locale }})
     needs: resolve
+    # One locale failing must not cancel the other: it may already be deploying, and the record
+    # needs to know how far each one got.
     strategy:
+      fail-fast: false
       matrix:
         locale: ['en', 'jp']
 
@@ -178,16 +210,21 @@ jobs:
     secrets:
       CLASSIC_PAT_GITHUB: ${{ secrets.CLASSIC_PAT_GITHUB }}
 
-  # The record means both locales were built and handed to the deploy workflow in
-  # IgniteUI/igniteui-actions. The deployment itself finishes there, in a run this one cannot see.
+  # The record runs whatever the deploy jobs did, and reads how far each locale got from their steps:
+  # - both deployed: a success, which the next run compares against;
+  # - one handed over but not confirmed deployed: a failure, which the next run warns about, since
+  #   production may be partly on this commit;
+  # - neither handed over: no record, since production did not change.
   #
   # It is a deployment record and not a git tag on purpose: a tag pushed with the workflow token can
   # be rejected when the commits it moves across changed a workflow file.
   record:
     name: Record the release
     needs: [resolve, deploy]
+    if: always() && needs.resolve.result == 'success'
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       deployments: write
 
     steps:
@@ -200,6 +237,36 @@ jobs:
           script: |
             const { PLATFORM, RELEASE_REF, SHA } = process.env;
             const environment = `production-${PLATFORM}`;
+
+            // Step names in _cd-deploy.yml.
+            const HAND_OVER = 'Trigger Deploy Workflow in IgniteUI Actions';
+            const WAIT = 'Wait for the production deploy';
+
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              ...context.repo,
+              run_id: context.runId,
+              filter: 'latest',
+              per_page: 100,
+            });
+
+            // A deploy job is named "Deploy <platform> (<locale>) / Build and Deploy".
+            const progress = {};
+            for (const locale of ['en', 'jp']) {
+              const job = jobs.find(j => j.name.includes(`(${locale})`) && j.name.endsWith('Build and Deploy'));
+              const step = name => job?.steps?.find(s => s.name === name)?.conclusion;
+              progress[locale] =
+                step(WAIT) === 'success' ? 'deployed'
+                : step(HAND_OVER) === 'success' ? 'handed over, not confirmed'
+                : 'not handed over';
+            }
+            const detail = Object.entries(progress).map(([locale, state]) => `${locale} ${state}`).join(', ');
+            const states = Object.values(progress);
+
+            if (states.every(state => state === 'not handed over')) {
+              core.setFailed(`Nothing was handed over for deployment (${detail}). Production is unchanged, so no release is recorded.`);
+              return;
+            }
+            const complete = states.every(state => state === 'deployed');
 
             // auto_merge would try to merge the default branch into the ref being recorded, and
             // required_contexts would refuse a commit whose checks are not all green.
@@ -216,8 +283,13 @@ jobs:
             await github.rest.repos.createDeploymentStatus({
               ...context.repo,
               deployment_id: deployment.id,
-              state: 'success',
+              state: complete ? 'success' : 'failure',
+              description: (complete ? `Released from ${RELEASE_REF}` : `Partial: ${detail}`).slice(0, 140),
               log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });
 
-            core.notice(`${environment} is now at ${SHA}`);
+            if (complete) {
+              core.notice(`${environment} is now at ${SHA}`);
+            } else {
+              core.setFailed(`${environment} may be partly on ${SHA} (${detail}). Release again to finish it.`);
+            }
