@@ -37,6 +37,9 @@ export function writeReports(dir, { report, perTopic, tokens, selected, total, s
     fs.writeFileSync(path.join(dir, 'report.json'), `${JSON.stringify(out, null, 2)}\n`);
     fs.writeFileSync(path.join(dir, 'undecided.json'), `${JSON.stringify(Object.fromEntries(steps.map(s => [s, report[s].undecided])), null, 2)}\n`);
 
+    // A Markdown table cell: the backslash first, so that the escape of `|` is not itself escaped.
+    const cell = text => String(text).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+
     const md = [];
     md.push(`# jQuery topic port: run report`, '');
     md.push(`Topics converted: ${selected} of ${total}. Compile with both compilers: ${out.compile.ok}; fail: ${out.compile.failed}; converter errors: ${out.compile.converterErrors}.`, '');
@@ -46,13 +49,13 @@ export function writeReports(dir, { report, perTopic, tokens, selected, total, s
         const handled = Object.entries(s.handled);
         if (handled.length) {
             md.push('| Handled | Count |', '|---|---:|');
-            for (const [k, v] of handled) md.push(`| ${k.replace(/\|/g, '\\|')} | ${v} |`);
+            for (const [k, v] of handled) md.push(`| ${cell(k)} | ${v} |`);
             md.push('');
         }
         const undecidedEntries = Object.entries(s.undecided);
         if (undecidedEntries.length) {
             md.push('| Not decided | Count | Topics | Example |', '|---|---:|---:|---|');
-            for (const [k, v] of undecidedEntries) md.push(`| ${k.replace(/\|/g, '\\|')} | ${v.count} | ${v.topics} | ${String(v.examples[0] ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ').slice(0, 160)} |`);
+            for (const [k, v] of undecidedEntries) md.push(`| ${cell(k)} | ${v.count} | ${v.topics} | ${cell(String(v.examples[0] ?? '').slice(0, 160))} |`);
             md.push('');
         }
     }

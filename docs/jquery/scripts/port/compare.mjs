@@ -74,7 +74,13 @@ function countSource(file) {
         else if (node.type === 'tableRow') c.tableRows++;
         else if (node.type === 'blockquote' && noteLike(node)) c.notes++;
         else if (node.type === 'html') {
-            countHtml(node.value.replace(/<!--[\s\S]*?-->/g, ''), c);
+            // Until nothing changes: removing one comment can leave another one behind.
+            let html = node.value;
+            for (let before; before !== html;) {
+                before = html;
+                html = html.replace(/<!--[\s\S]*?-->/g, '');
+            }
+            countHtml(html, c);
             // Markdown links written inside HTML blocks, which the old renderer rendered.
             for (const m of node.value.matchAll(/\]\(([^)\s]+)\)/g)) {
                 if (m[1].startsWith('#') || m[1].startsWith('%%SamplesEmbedUrl%%')) continue;
