@@ -1,0 +1,263 @@
+---
+title: "Como habilitar operações CRUD no Angular."
+description: "O que é CRUD no Angular? Como criar um serviço CRUD no Angular e usá-lo para executar operações CRUD com os dados da grade? Saiba mais aqui."
+_language: pt-BR
+llms:
+  description: "CRUD é uma sigla da programação de computadores que significa as operações CREATE, READ, UPDATE e DELETE, que podem ser realizadas em uma coleção de dados."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# O que é CRUD
+
+CRUD é uma sigla da programação de computadores que significa as operações CREATE, READ, UPDATE e DELETE, que podem ser realizadas em uma coleção de dados. No mundo da computação, quando falamos de aplicações CRUD, essa é a principal diferença em relação às aplicações que oferecem apenas dados somente leitura aos usuários.
+
+## CRUD no Angular
+
+Ao falar de CRUD no Angular, ou de operações CRUD no Angular, é importante observar que o armazenamento dos dados fica em um servidor remoto. A aplicação Angular não pode acessar diretamente a camada de dados; por isso, ela precisa se comunicar com ela por meio de uma Web API que oferece endpoints para as operações CRUD, por exemplo:
+
+| API                   | Operação                               | Métodos HTTP |
+| :-------------------- | :-------------------------------------- | :----------- |
+| "api/entities"        | READ de todas as entidades                       | GET          |
+| "api/entities/id"     | READ da entidade com o id correspondente   | GET          |
+| "api/entities/update" | UPDATE da entidade com o id correspondente | PUT / PATCH  |
+| "api/entities/create" | CREATE de uma nova entidade                     | POST         |
+| "api/entities/delete" | DELETE da entidade com o id correspondente | DELETE       |
+
+Observe que as operações CRUD também correspondem, conceitualmente, aos métodos HTTP usados para se comunicar com APIs via HTTP.
+
+Todo o código que vai trabalhar com a API mencionada acima pode ser abstraído em um serviço Angular. Esse serviço é injetável e pode ser reutilizado por qualquer componente que precise executar operações CRUD sobre o mesmo banco de dados. Uma boa prática é escrever esse serviço da forma mais genérica possível, tornando-o adequado para reutilização em muitos componentes e também em servidores diferentes.
+
+Um exemplo genérico desse serviço terá esta aparência:
+
+
+```typescript
+@Injectable()
+export class CRUDService {
+  /** See https://angular.io/api/common/http/HttpClient */
+  constructor(private http: HttpClient) { }
+
+  /** Gets all entities from server */
+  public getData() {
+      return this.http.get(`${this.serverURL}\api\entities`);
+  }
+
+  /** Gets entity with corresponding id */
+  public getRecord(id) {
+      return this.http.get(`${this.serverURL}\api\entities\${id}`);
+  }
+
+  /** Creates entity from body */
+  public add(entity) {
+      return this.http.post(`${this.serverURL}\api\entities\create`, entity);
+  }
+
+  /* Updates entity with data from body */
+  public update(entity) {
+      return this.http.put(`${this.serverURL}\api\entities\update`, entity);
+  }
+
+  /** Deletes the corresponding entity */
+  public delete(entity) {
+      return this.http.delete(`${this.serverURL}\api\entities\delete`, entity);
+  }
+}
+```
+
+O que falta no serviço acima é a configuração de filtragem, ordenação, paginação etc. Dependendo da implementação exata da API dos endpoints, as requisições ao servidor podem precisar de parâmetros opcionais para tratar a filtragem, a ordenação e a paginação para você. Veja as nossas [Operações de dados remotos](../../grid/remote-data-operations.mdx) para demonstrações acompanhadas de exemplos de código.
+
+Para mais exemplos e orientações, consulte o tutorial [HTTP Services](https://angular.io/tutorial/toh-pt6) na documentação oficial do Angular.
+
+
+## Operações CRUD com a grade
+
+Habilitar CRUD na grade significa fornecer uma UI para que os usuários executem essas operações CRUD de dentro da grade. Isso é bastante fácil: a grade oferece, prontas para uso, a UI de [**Edição de células**](/grid/cell-editing), [**Edição de linhas**](/grid/row-editing), [**Adição de linhas**](/grid/row-adding) e **Exclusão de linhas**, além de uma API poderosa para fazer isso por conta própria. Em seguida, queremos pegar o resultado de cada ação de edição e comunicá-lo ao método correspondente do nosso serviço CRUD, preservando assim todas as alterações no banco de dados original. Ao concluir isso, podemos dizer que a grade está habilitada para CRUD.
+
+
+Esta seção é escrita como um tutorial de como fazer, sobre como habilitar operações CRUD na grade, acompanhado de trechos de código que você pode copiar e colar no seu código.
+
+
+## Como fazer
+
+Vamos primeiro habilitar o comportamento rowEditing, trazer a UI de que precisamos para as ações de edição, aproveitando o `IgxActionStrip` (veja mais sobre [`IgxActionStrip`](/action-strip)), e anexar os manipuladores de eventos:
+
+```html
+<igx-grid 
+    primaryKey="ID"
+    [rowEditable]="true"
+    (rowAdded)="rowAdded($event)"
+    (rowDeleted)="rowDeleted($event)"
+    (rowEditDone)="rowEditDone($event)">
+
+  <igx-action-strip #actionstrip>
+      <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+  </igx-action-strip>
+</igx-grid>
+```
+
+No componente Angular, injete o serviço de dados usando DI. Agora estamos prontos para usar o serviço para executar operações CRUD completas na nossa camada de dados:
+
+```typescript
+constructor(private crudService: CRUDService) { }
+
+public rowDeleted(event: IRowDataEventArgs) {
+    this._crudService.delete(event.data).subscribe((rec) => {
+        // notification or do any additional handling
+        this.snackbar.open(`Row with ID of ${rec.ID} was deleted.`);
+    });
+}
+
+public rowAdded(event: IRowDataEventArgs) {
+    this._crudService.add(event.data);
+}
+
+public rowEditDone(event: IGridEditDoneEventArgs) {
+    this._crudService.update(event.newValue);
+}
+```
+
+No exemplo acima, apenas chamamos os métodos correspondentes e passamos os dados lidos dos argumentos do evento. A maioria dos endpoints da API retorna a entidade atualizada, adicionada ou excluída, o que indica que a requisição foi bem-sucedida.
+
+Uma boa prática é adicionar validação, notificando os usuários de que todas as ações foram concluídas com sucesso ou de que ocorreu um erro. Nesse caso, você pode querer passar também manipuladores para as notificações de erro e de conclusão:
+
+```typescript
+this._crudService.delete(event.data).subscribe({
+    next: (data: any) => {
+      console.log('success');
+    },
+    error: err => {
+      console.log(err);
+    },
+    complete: () => {
+      console.log('Complete notification')
+    }
+});
+```
+
+<DocsAside type="info">
+Os exemplos acima se baseiam na UI padrão da grade para as ações de edição. Outra abordagem válida é fornecer a sua própria UI externa. Nesse caso, responder às interações do usuário com a UI deve funcionar com a API de edição da grade (**certifique-se de que a grade tenha uma primaryKey definida**). Veja a seção [**API**](/general/how-to/how-to-perform-crud#api-de-edição) para referência.
+</DocsAside>
+
+<DocsAside type="info">
+Certifique-se de seguir as boas práticas e de evitar qualquer diferença entre os seus dados locais e o banco de dados do servidor. Por exemplo, você pode decidir primeiro fazer uma requisição ao servidor para excluir um registro, mas, se a requisição falhar, não exclua os dados da grade local:
+</DocsAside>
+
+```typescript
+this._crudService.delete(event.data).subscribe({
+    next: (data: any) => {
+      this.grid.getRowByKey(event.data[this.grid.primaryKey]).delete();
+    },
+    error: err => {
+      console.log(err); // notify and don't delete the grid row
+    }
+});
+```
+
+## Demonstração
+
+Veja a demonstração criada seguindo estas orientações. Experimente e teste os exemplos de personalização para adequar a solução ao seu cenário da melhor forma possível.
+
+<Sample src="/grid/grid-crud" height={410} alt="" />
+
+## Personalizações
+
+A API rica da grade permite personalizar o processo de edição de quase qualquer forma para atender às suas necessidades. Isso inclui, entre outros:
+
+- [**Edição em lote**](/general/how-to/how-to-perform-crud#edição-em-lote): habilite a edição em lote para agrupar todas as atualizações e confirmar tudo com uma única requisição.
+- [**Templates**](/general/how-to/how-to-perform-crud#templates): adicione templates para a edição de células ou use a sua própria UI externa para edição de linhas/células, adição de linhas e exclusão de linhas.
+- [**Eventos**](/general/how-to/how-to-perform-crud#eventos): monitore o fluxo de edição e reaja de acordo. Anexar manipuladores de eventos para todos os eventos emitidos durante a edição permitirá que você:
+  - valide os dados por célula
+  - valide os dados por linha
+  - solicite ao usuário o tipo de entrada esperado
+  - cancele o processamento posterior, com base nas regras de negócio
+  - confirme manualmente as alterações
+- [**API rica**](/general/how-to/how-to-perform-crud#api-de-edição)
+
+## Edição em lote
+
+- Habilite a **edição em lote** para manter as suas atualizações no cliente e confirmar todas elas com uma única requisição. A atualização em lote é habilitada definindo a opção `batchEditing` como true:
+
+ ```html
+ <igx-grid [batchEditing]="'true'" ...>
+ ```
+
+Acesse [Edição em lote](/grid/batch-editing) para mais detalhes e exemplos de demonstração.
+
+## Templates
+
+Você pode ver e saber mais sobre os templates padrão de edição de células no [tópico geral de edição](/grid/editing#templates-de-edição).
+
+Se você quiser fornecer um template personalizado que será aplicado quando uma célula estiver no modo de edição, pode usar o <ApiLink type="CellTemplateDirective" label="diretiva igxCellEditor" />. Para isso, você precisa passar um `ng-template` marcado com a diretiva `igxCellEditor` e vincular corretamente o seu controle personalizado ao <ApiLink type="GridCell" member="editValue" label="cell.editValue" />:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+Para mais informações e demonstrações, veja o tópico [Edição de células](/grid/cell-editing).
+
+## Eventos
+
+A grade expõe um grande conjunto de eventos que oferecem maior controle sobre a experiência de edição. Esses eventos são disparados durante o ciclo de vida da [**Edição de linhas**](/grid/row-editing) e da [**Edição de células**](/grid/cell-editing) - ao iniciar, confirmar ou cancelar a ação de edição.
+
+| Evento                                                                                      | Descrição                                                                                                                                               | Argumentos                                                                                    | Cancelável |
+| :----------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- | :---------- |
+| <ApiLink type="Grid" member="rowEditEnter" label="rowEditEnter" /> | Se `rowEditing` estiver habilitado, é disparado quando uma linha entra no modo de edição | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEditEnter" label="cellEditEnter" /> | Disparado quando uma célula **entra no modo de edição** (depois de `rowEditEnter`) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEdit" label="cellEdit" /> | Se o valor for alterado, é disparado logo **antes** de o valor de uma célula ser **confirmado** (por exemplo, ao pressionar `Enter`) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEditDone" label="cellEditDone" /> | Se o valor for alterado, é disparado **depois** de uma célula ser editada e o valor da célula ser **confirmado** | <ApiLink type="IGridEditDoneEventArgs" kind="interface" /> | `false` |
+| <ApiLink type="Grid" member="cellEditExit" label="cellEditExit" /> | Disparado quando uma célula **sai do modo de edição** | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEdit" label="rowEdit" /> | Se `rowEditing` estiver habilitado, é disparado logo antes de o valor de uma linha em modo de edição ser **confirmado** (por exemplo, ao clicar no botão `Done` do Row Editing Overlay) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="rowEditDone" label="rowEditDone" /> | Se `rowEditing` estiver habilitado, é disparado **depois** de uma linha ser editada e o valor da nova linha ser **confirmado**. | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEditExit" label="rowEditExit" /> | Se `rowEditing` estiver habilitado, é disparado quando uma linha **sai do modo de edição** | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+
+Acesse [Eventos](/grid/editing#argumentos-e-sequência-de-eventos) para mais detalhes e exemplos de demonstração.
+
+## API de edição
+
+A atualização de dados na grade é feita por meio de métodos expostos pela própria grade:
+
+- <ApiLink type="Grid" member="updateRow" label="updateRow" />
+- <ApiLink type="Grid" member="updateCell" label="updateCell" />
+- <ApiLink type="Grid" member="deleteRow" label="deleteRow" />
+- <ApiLink type="Grid" member="addRow" label="addRow" />
+
+e pelo método `update` exposto pelas instâncias <ApiLink type="GridCell" /> e <ApiLink type="GridRow" />:
+
+```typescript
+// Through the grid methods
+this.grid.updateRow(newData, rowKey);
+this.grid.updateCell(newData, rowKey, columnField);
+this.grid1.deleteRow(0);
+this.grid.addRow(data);
+
+// Through the methods exposed by cell/row
+this.grid.getCellByColumn(rowIndex, columnField).update(newData);
+this.grid.getCellByKey(rowKey, columnField).value = newData;
+this.grid.getRowByKey(rowID).update(newData);
+this.grid.getRowByKey(rowID).delete();
+```
+
+Mais detalhes e informações sobre o uso da API da grade podem ser encontrados na seção [Operações CRUD de edição de células](/grid/cell-editing#operações-crud).
+
+## Conclusão
+
+Habilitar CRUD de forma robusta é um marco importante para qualquer aplicação orientada a dados. Para simplificar todo o processo, criamos o IgxGrid com os recursos de CRUD em mente, oferecendo UI pronta para uso e APIs flexíveis. Como isso vai beneficiar você? Vai economizar muito tempo na implementação de CRUD em qualquer banco de dados. E, quando falamos de aplicações modernas orientadas a dados, tudo se resume a robustez, velocidade e flexibilidade.
+
+## Referências da API
+- <ApiLink type="Grid" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="ActionStrip" />
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />

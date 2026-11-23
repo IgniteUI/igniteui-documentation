@@ -123,9 +123,21 @@ const razorComponentTags = {
  *
  *   ig-chrome/production  from www.infragistics.com        production builds
  *   ig-chrome/staging     from astro-staging.infragistics.com  everything else
+ *
+ * A translated build takes the header/footer of the marketing site in its
+ * language, when the repo has that snapshot: ig-chrome/<mode>-<locale>
+ * (production-es, staging-ko, production-pt-BR, …; the marketing site's locale
+ * names). Without one it renders the English snapshot. Japanese keeps the
+ * chrome DocsLayout fetches from jp.infragistics.com.
  */
-const chromeSnapshot = (mode: string) =>
-    fileURLToPath(new URL(`../ig-chrome/${mode === 'production' ? 'production' : 'staging'}`, import.meta.url));
+const CHROME_LOCALE: Partial<Record<NavLang, string>> = { es: 'es', kr: 'ko', 'pt-BR': 'pt-BR' };
+const chromeSnapshot = (mode: string, navLang: NavLang = 'en') => {
+    const env = mode === 'production' ? 'production' : 'staging';
+    const folder = (name: string) => fileURLToPath(new URL(`../ig-chrome/${name}`, import.meta.url));
+    const locale = CHROME_LOCALE[navLang];
+    const translated = locale ? folder(`${env}-${locale}`) : null;
+    return translated && fs.existsSync(path.join(translated, 'fragment.html')) ? translated : folder(env);
+};
 
 /**
  * Absolute directories of every installed `igniteui-theming` copy, nearest first.
@@ -997,7 +1009,7 @@ export function createDocsSite(options: CreateDocsSiteOptions = {} as CreateDocs
                 selectedPackage,
                 head: [...gtmHead, ...platformHead, ...codeViewHead, ...chromeHead, ...head],
             }),
-            igChrome({ snapshot: chromeSnapshot(mode) }),
+            igChrome({ snapshot: chromeSnapshot(mode, navLang) }),
             ...(base ? [createBasePrependIntegration(base)] : []),
             ...extraIntegrations,
         ],

@@ -1,0 +1,398 @@
+---
+title: "Componente Angular Datepicker – Ignite UI for Angular - Licença MIT" 
+description: "Saiba como usar uma funcionalidade para selecionar uma data em um calendário na sua aplicação web com o componente Angular Datepicker do Ignite UI. Experimente agora." 
+keywords: "angular datepicker, componente angular datepicker, componentes de UI angular, componente angular, ignite ui for angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Angular Date Picker é um componente rico em recursos, usado para informar uma data por meio de entrada de texto manual ou escolher valores de data em uma caixa de diálogo de calendário que aparece."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Date Picker
+
+O Angular Date Picker é um componente rico em recursos, usado para informar uma data por meio de entrada de texto manual ou escolher valores de data em uma caixa de diálogo de calendário que aparece. Leve e simples de usar, o Date Picker no Angular permite que os usuários naveguem até a data desejada com várias opções de visualização - mês, ano, década. Há as propriedades usuais min, max e required para adicionar validação.
+
+O componente Ignite UI for Angular Date Picker permite que os usuários escolham uma única data por meio de uma lista suspensa de calendário em visualização mensal ou de um campo de entrada editável. O Angular Date Picker também oferece suporte a um modo de diálogo para seleção apenas pelo calendário, formatação de data sensível ao idioma e personalizável e integração com validação.
+
+## Exemplo de Angular Date Picker
+
+Abaixo você pode ver um exemplo que demonstra como o Angular Date Picker funciona quando os usuários podem escolher uma data por meio de entrada de texto manual e clicar no ícone de calendário à esquerda para navegar até ela. Veja como renderizá-lo.
+
+{/*TODO: date picker sample with several options enabled*/}
+<Sample src="/scheduling/datepicker-sample-1" height={550} alt="Exemplo de Angular Datepicker" />
+
+<hr/>
+
+## Primeiros passos com o Date Picker do Ignite UI for Angular
+
+Para começar com o componente Date Picker do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxDatePickerModule` no arquivo **app.module.ts**.
+
+<DocsAside type="info">
+Como o seletor usa o <ApiLink type="Calendar" label="**IgxCalendarComponent**" />, ele também depende do **BrowserAnimationsModule**, então esse módulo também precisa ser adicionado ao módulo:
+</DocsAside>
+
+```typescript
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxDatePickerModule } from 'igniteui-angular/date-picker';
+// import { IgxDatePickerModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDatePickerModule, BrowserAnimationsModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o <ApiLink type="DatePickerComponent" /> como uma dependência independente, ou usar o token [`IGX_DATE_PICKER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/date-picker/src/date-picker/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IGX_DATE_PICKER_DIRECTIVES } from 'igniteui-angular/date-picker';
+// import { IGX_DATE_PICKER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-date-picker>
+        <label igxLabel>Date</label>
+    </igx-date-picker>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, IGX_DATE_PICKER_DIRECTIVES]
+    /* or imports: [BrowserAnimationsModule, IgxDatePickerComponent, IgxLabelDirective] */
+})
+export class HomeComponent {}
+```
+
+
+Agora que você importou o módulo ou as diretivas do Date Picker do Ignite UI for Angular, pode começar a usar o componente `igx-date-picker`.
+
+## Usando o componente Angular Date Picker
+
+### Exibir o Date Picker
+
+Para instanciar um Date Picker em seu estado padrão `dropdown`, use o código a seguir:
+
+```html
+<igx-date-picker>
+    <label igxLabel>Date</label>
+</igx-date-picker>
+```
+
+### Opções
+
+O <ApiLink type="DatePickerComponent" /> pode ser vinculado a um `date` ou a um `string`.
+
+```html
+<igx-date-picker [value]="date"></igx-date-picker>
+```
+
+```typescript
+public date = new Date(2000, 0, 1);
+```
+
+Se uma string for vinculada ao seletor, ela precisa ser uma string somente com a data, no formato `ISO 8601`:
+
+```html
+<igx-date-picker [value]="'2000-01-01'"></igx-date-picker>
+```
+
+Mais informações sobre isso podem ser encontradas em [Seção ISO do DateTime Editor](/date-time-editor#iso).
+
+A vinculação bidirecional é possível por meio de `ngModel`:
+
+```html
+<igx-date-picker [(ngModel)]="date"></igx-date-picker>
+```
+
+Assim como por meio da entrada <ApiLink type="DatePicker" member="value" label="value" />:
+
+```html
+<igx-date-picker [(value)]="date"></igx-date-picker>
+```
+
+Além disso, `formControlName` pode ser definido no seletor, para usá-lo em um formulário reativo:
+
+```html
+<form [formGroup]="form">
+    <igx-date-picker formControlName="datePicker"></igx-date-picker>
+</form>
+```
+
+```typescript
+export class SampleFormComponent {
+    // ...
+    public form: FormGroup;
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            datePicker: ['', Validators.required]
+        });
+    }
+}
+```
+
+<DocsAside type="info">
+O seletor sempre retorna um valor `Date`; isso significa que, se ele estiver vinculado a um modelo ou vinculado bidirecionalmente a uma variável string, depois que uma nova data for escolhida, ela será do tipo `Date`.
+</DocsAside>
+
+### Projeção de componentes
+
+O <ApiLink type="DatePicker" /> permite a projeção de componentes filhos que o <ApiLink type="InputGroup" /> oferece suporte (com exceção de <ApiLink type="InputDirective" />) - [`igxLabel`](/label-input), [`igx-hint / IgxHint`](/input-group#dicas), [`igx-prefix / igxPrefix`](/input-group#prefixo-e-sufixo), [`igx-suffix / igxSuffix`](/input-group#prefixo-e-sufixo). Informações mais detalhadas sobre isso podem ser encontradas no tópico [Label e Input](/label-input).
+
+```html
+<igx-date-picker #datePicker>
+    <igx-icon igxSuffix (click)="datePicker.open()">keyboard_arrow_down</igx-icon>
+</igx-date-picker>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+O trecho acima vai adicionar um ícone de alternância extra no final da entrada, logo depois do ícone padrão de limpeza. Isso não remove o ícone padrão de alternância, porque prefixos e sufixos podem ser empilhados um após o outro.
+
+#### Personalizando os ícones de alternância e de limpeza
+
+O <ApiLink type="DatePicker" /> pode ser configurado com <ApiLink type="PickerToggle" /> e <ApiLink type="PickerClear" />. Eles podem ser usados para alterar os ícones de alternância e de limpeza sem precisar adicionar seus próprios manipuladores de clique.
+
+```html
+ <igx-date-picker>
+    <label igxLabel>Select a Date</label>
+    <igx-picker-toggle igxPrefix>
+        <igx-icon>calendar_view_day</igx-icon>
+    </igx-picker-toggle>
+    <igx-picker-clear igxSuffix>
+        <igx-icon>delete</igx-icon>
+    </igx-picker-clear>
+</igx-date-picker>
+```
+
+#### Botões de ação personalizados
+
+Os botões de ação do seletor podem ser modificados de duas formas:
+
+- o texto do botão pode ser alterado usando as propriedades de entrada <ApiLink type="DatePicker" member="todayButtonLabel" label="todayButtonLabel" /> e <ApiLink type="DatePicker" member="cancelButtonLabel" label="cancelButtonLabel" />:
+
+```html
+<igx-date-picker [todayButtonLabel]="'今日'" [cancelButtonLabel]="'キャンセル'"></igx-date-picker>
+```
+
+- os botões inteiros podem ser transformados em template usando a diretiva <ApiLink type="PickerActionsDirective" />:
+Com ela, você ganha acesso ao [`calendar`](/calendar) do date picker e a todos os seus membros:
+
+```html
+<igx-date-picker>
+    <ng-template igxPickerActions let-calendar>
+        <button igxButton="flat" (click)="calendar.viewDate = today">Today</button>
+    </ng-template>
+</igx-date-picker>
+```
+
+### Navegação pelo teclado
+
+Abrir e fechar a UI do calendário do <ApiLink type="DatePicker" /> pelo teclado está disponível apenas no modo `dropdown` e pode ser acionado pelas combinações de teclas abaixo:
+
+| Teclas                               | Descrição                                                                                   |
+| :--------------------------------- | :-------------------------------------------------------------------------------------------- |
+| <kbd>Space</kbd>                   | Exibe o pop-up do calendário e lhe dá o foco                                                   |
+| <kbd>Alt</kbd> + <kbd>&darr;</kbd> | Exibe o pop-up do calendário e lhe dá o foco                                                   |
+| <kbd>Esc</kbd>                     | Fecha o pop-up do calendário e foca o campo de entrada                                        |
+| <kbd>Enter</kbd>                   | Fecha o pop-up do calendário, selecionando a data com foco, e move o foco para o campo de entrada |
+| <kbd>Alt</kbd> + <kbd>&uarr;</kbd> | Fecha o pop-up do calendário e foca o campo de entrada                                        |
+
+Como o <ApiLink type="DatePicker" /> usa o [`IgxDateTimeEditorDirective`](/date-time-editor), ele herda a navegação pelo teclado dele.
+
+## Exemplos
+
+### Modo de diálogo
+
+O <ApiLink type="DatePicker" /> também oferece suporte a um modo `dialog`:
+
+```html
+<igx-date-picker [mode]="'dialog'"></igx-date-picker>
+```
+
+<Sample src="/scheduling/datepicker-sample-2" height={540} alt="" />
+
+<hr/>
+
+### Formato de exibição e de entrada
+
+<ApiLink type="DatePicker" member="inputFormat" label="inputFormat" /> e <ApiLink type="DatePicker" member="displayFormat" label="displayFormat" /> são propriedades que podem ser definidas para fazer o editor do seletor seguir um formato especificado. A propriedade <ApiLink type="DatePicker" member="inputFormat" label="inputFormat" /> é usada quando o seletor está no modo `dropdown` e controla a máscara editável da entrada, bem como o seu placeholder (se nenhum for definido). Além disso, o <ApiLink type="DatePicker" member="inputFormat" label="inputFormat" /> é baseado na localidade; então, se nenhum for informado, o seletor usará o do navegador.
+
+Vale notar que o Angular Date Picker Component do Ignite UI sempre adiciona um zero à esquerda nas partes `date` e `month` quando elas são informadas em um formato que não o tem, por exemplo, `d/M/yy` se torna `dd/MM/yy`. Isso se aplica apenas durante a edição.
+
+Já o <ApiLink type="DatePicker" member="displayFormat" label="displayFormat" /> usa o [`DatePipe`](https://angular.io/api/common/DatePipe) do Angular e é usado para formatar a entrada do seletor quando ela não está com foco. Se nenhum <ApiLink type="DatePicker" member="displayFormat" label="displayFormat" /> for informado, o seletor usará o <ApiLink type="DatePicker" member="inputFormat" label="inputFormat" /> como o seu <ApiLink type="DatePicker" member="displayFormat" label="displayFormat" />.
+Como alternativa, se a propriedade <ApiLink type="DatePicker" member="inputFormat" label="inputFormat" /> não estiver definida, o formato de entrada será inferido a partir de <ApiLink type="DatePicker" member="displayFormat" label="displayFormat" />, caso ele possa ser interpretado como contendo apenas partes numéricas de data e hora.
+
+Mais informações sobre isso podem ser encontradas na seção de exemplos [`IgxDateTimeEditor`](/date-time-editor#exemplos).
+
+<Sample src="/scheduling/datepicker-sample-3" height={680} alt="" />
+
+<hr/>
+
+<DocsAside type="info">
+O `IgxDatePicker` agora oferece suporte a entrada IME. Quando a composição termina, o controle converte os números de caracteres largos em caracteres ASCII.
+</DocsAside>
+
+### Incremento e decremento
+
+O <ApiLink type="DatePicker" /> expõe os métodos <ApiLink type="DatePicker" member="increment" label="increment" /> e <ApiLink type="DatePicker" member="decrement" label="decrement" />. Ambos vêm de [`IgxDateTimeEditorDirective`](/date-time-editor#increment-decrement) e podem ser usados para incrementar e decrementar uma <ApiLink type="DatePart" kind="enum" /> específica da data definida no momento.
+
+```html
+<igx-date-picker #datePicker>
+    <igx-icon igxPrefix (click)="datePicker.increment(DatePart.Month, 3)">keyboard_arrow_up</igx-icon>
+    <igx-icon igxPrefix (click)="datePicker.decrement(DatePart.Year, 4)">keyboard_arrow_down</igx-icon>
+</igx-date-picker>
+```
+
+Ele também tem a propriedade de entrada <ApiLink type="DatePicker" member="spinDelta" label="spinDelta" />, que pode ser usada para incrementar ou decrementar uma parte específica da data definida no momento.
+
+```html
+<igx-date-picker [spinDelta]="{date: 2, month: 3, year: 4}"></igx-date-picker>
+```
+
+### Em formulários Angular
+
+O <ApiLink type="DatePicker" /> oferece suporte a todas as diretivas do [FormsModule](https://angular.io/api/forms/FormsModule) principal, do [NgModel](https://angular.io/api/forms/NgModel) e do [ReactiveFormsModule](https://angular.io/api/forms/ReactiveFormsModule) ([`FormControl`](https://angular.io/api/forms/FormControl), [`FormGroup`](https://angular.io/api/forms/FormGroup), etc.). Isso também inclui as funções de [Forms Validators](https://angular.io/api/forms/Validators). Além disso, as propriedades <ApiLink type="DatePicker" member="minValue" label="minValue" /> e <ApiLink type="DatePicker" member="maxValue" label="maxValue" /> do componente atuam como validadores de formulário.
+
+Você pode ver o <ApiLink type="DatePicker" /> em um formulário reativo visitando o tópico [Integração com formulários reativos](/angular-reactive-form-validation).
+
+#### Usando date picker e time picker juntos
+
+Em alguns casos, quando o IgxDatePicker e o [`IgxTimePicker`](/time-picker) são usados juntos, podemos precisar que eles sejam vinculados ao mesmo valor de objeto Date.
+
+Para isso, em formulários orientados a template, use `ngModel` para vincular os dois componentes ao mesmo objeto Date.
+
+<Sample src="/scheduling/template-driven-form" height={540} alt="" />
+
+<hr/>
+
+Em formulários reativos, podemos tratar o evento <ApiLink type="DatePicker" member="valueChange" label="valueChange" /> de cada componente e atualizar o valor do outro.
+
+<Sample src="/scheduling/reactive-form" height={540} alt="" />
+
+<hr/>
+
+### Configurações específicas do calendário
+
+O <ApiLink type="DatePicker" /> usa o [`IgxCalendarComponent`](/calendar), e você pode modificar algumas das suas configurações por meio das propriedades que o seletor de data expõe. Algumas delas incluem <ApiLink type="DatePicker" member="displayMonthsCount" label="displayMonthsCount" />, que permite exibir mais de um calendário quando o seletor é expandido; <ApiLink type="DatePicker" member="weekStart" label="weekStart" />, que determina o primeiro dia da semana; <ApiLink type="DatePicker" member="showWeekNumbers" label="showWeekNumbers" />, que mostra o número de cada semana do ano; e outras.
+
+Para personalizar o conteúdo das células de dia do calendário, por exemplo, para mostrar indicadores de eventos, adicione um `ng-template` marcado com a diretiva `igxCalendarDay` dentro do `igx-date-picker`. O seletor de data passa o template para o seu calendário. A diretiva está incluída em `IGX_DATE_PICKER_DIRECTIVES`, ou você pode importar `IgxCalendarDayTemplateDirective` separadamente. Para o contexto do template e o comportamento das células de dia, veja [Template de dia](/calendar#template-de-dia) no tópico do calendário.
+
+```html
+<igx-date-picker [value]="date">
+    <ng-template igxCalendarDay let-date>
+        {{ date.getDate() }}
+        @if (hasEvents(date)) {
+            <span class="day__dot"></span>
+        }
+    </ng-template>
+</igx-date-picker>
+```
+
+## Internacionalização
+
+A localização do <ApiLink type="DatePicker" /> pode ser controlada pela sua entrada <ApiLink type="DatePicker" member="locale" label="locale" />. Além disso, usando os templates `igxCalendarHeader` e `igxCalendarSubheader`, fornecidos pelo <ApiLink type="Calendar" />, você pode especificar a aparência do seu cabeçalho e do subcabeçalho. Mais informações sobre como usar esses templates podem ser encontradas na seção [Templates](/calendar#templates) do tópico do calendário.
+
+Veja como ficaria um Angular Date Picker com a definição de localidade japonesa:
+
+```html
+<igx-date-picker locale="ja-JP" [value]="date">
+  <ng-template igxCalendarHeader let-format>
+    {{ format.month.combined | titlecase }}{{format.day.combined }}{{ format.weekday.combined }}
+  </ng-template>
+  <ng-template igxCalendarSubheader let-format>
+    <span (click)="format.yearView()">{{ format.year.combined }}</span>
+    <span (click)="format.monthView()">{{ format.month.combined | titlecase }}</span>
+  </ng-template>
+</igx-date-picker>
+```
+
+## Estilização
+
+Para começar a estilizar o date picker, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+O Angular Date Picker usa o tema do calendário; então, precisamos criar um novo tema que estenda o <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" code={true} />. Ao definir o `$header-background`, o tema calcula automaticamente as cores necessárias para as outras propriedades, garantindo um design visualmente equilibrado e acessível.
+
+```scss
+$custom-datepicker-theme: calendar-theme(
+  $header-background: #57a5cd,
+);
+```
+
+O último passo é passar o tema personalizado do Date Picker:
+
+```scss
+:host {
+    @include tokens($custom-datepicker-theme);
+}
+```
+
+<DocsAside type="info">
+Em alguns templates de componentes, o Emulated View Encapsulation ainda pode impedir que as declarações de token geradas cheguem aos elementos aninhados do Ignite UI. Se o tema não tiver efeito, use `::ng-deep` conforme mostrado abaixo ou mova o tema para uma folha de estilos global.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep {
+    @include tokens($custom-datepicker-theme);
+  }
+}
+```
+
+<Sample src="/scheduling/datepicker-styling-sample" height={500} alt="" />
+
+## Referências da API
+<hr/>
+- <ApiLink type="DatePicker" />
+- <ApiLink type="DateTimeEditorDirective" />
+- <ApiLink type="Calendar" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Estilos do IgxCalendarComponent" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />
+- <ApiLink type="InputGroup" />
+## Dependências de tema
+
+<hr/>
+
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema do IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+
+## Recursos adicionais
+
+- [Time Picker](/time-picker)
+- [Date Time Editor](/date-time-editor)
+- [Date Range Picker](/date-range-picker)
+- [Integração com formulários reativos](/angular-reactive-form-validation)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,155 @@
+---
+title: "Angular 이벤트 처리 | 이벤트 바인딩 | WPF에서 Angular로 가이드 | Infragistics"
+description: "Angular 이벤트 바인딩과 자체 Angular 사용자 지정 이벤트를 만드는 방법을 알아보십시오. Angular가 이를 위해 DOM 이벤트를 사용하고 사용자 입력을 처리하는 방식을 확인하십시오."
+keywords: handling angular events, ignite ui for angular, infragistics
+_language: ko
+llms:
+  description: "The Angular events are emitted as a response to user interactions."
+---
+
+# Angular 이벤트 처리하기
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/V1Futz4W400">
+</iframe>
+
+Angular 이벤트는 사용자 상호 작용에 대한 응답으로 발생합니다. Angular 이벤트가 발생하면 해당 이벤트 처리 로직이 실행됩니다. WPF는 라우팅된 이벤트, CLR 이벤트, 커맨드를 제공합니다. 반면 Angular에는 DOM 이벤트가 있습니다.
+
+WPF에서 버튼의 클릭 이벤트에 응답하는 간단한 예는 다음과 같습니다:
+
+```xml
+<Button Click="Button_Click">Click Me</Button>
+```
+
+```csharp
+private void Button_Click(object sender, RoutedEventArgs e)
+{
+    Console.WriteLine("Hello World");
+}
+```
+
+Angular에서 같은 작업은 다음과 같습니다:
+
+```html
+<button (click)="onClicked()">Click Me</button>
+```
+
+```typescript
+onClicked() {
+    console.log('Hello World');
+}
+```
+
+WPF에서는 보낸 사람(sender)과 이벤트 인수 같은 이벤트 정보를 얻는 데 익숙합니다. Angular에서는 `$event` 변수를 사용할 수 있습니다. 이 변수는 호출된 이벤트에 대한 정보를 제공합니다.
+
+```html
+<button (click)="onClicked($event)">Click Me</button>
+```
+
+```typescript
+onClicked(event) {
+    console.log(event.target);
+}
+```
+
+때로는 이벤트 객체를 전달하는 것이 그다지 유용하지 않을 수 있습니다. 대신 페이지에 있는 `input`의 값을 전달하고 싶을 수 있습니다.
+
+```html
+<input #messageInput/>
+<button (click)="onClicked(messageInput.value)">Click Me</button>
+```
+
+```typescript
+onClicked(message) {
+    console.log(message);
+}
+```
+
+Enter 키를 누를 때 입력의 값을 출력하고 싶다고 가정해 봅시다. Angular에서는 다음과 같이 할 수 있습니다:
+
+```html
+<input #messageInput (keyup)="onInputKeyup($event, messageInput.value)"/>
+```
+
+```typescript
+onInputKeyup(event, message) {
+    if (event.keyCode === 13) {
+        console.log(message);
+    }
+}
+```
+
+놀랍게도 Angular에는 이를 하는 훨씬 쉬운 방법이 있습니다. `keyup.enter` 의사 이벤트에 바인딩할 수 있습니다. 이 방식을 사용하면 이벤트 핸들러는 사용자가 Enter 키를 누를 때만 호출됩니다.
+
+```html
+<input #messageInput (keyup.enter)="onInputKeyup(messageInput.value)"/>
+```
+
+```typescript
+onInputKeyup(message) {
+    console.log(message);
+}
+```
+
+## 컴포넌트의 이벤트에 응답하기
+
+WPF에서 사용자 지정 컨트롤을 만들 때, 종종 다음과 같이 기본 이벤트를 확장하거나 수정해야 합니다:
+
+```csharp
+public class MyControl : Control
+{
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
+        // Place your custom logic here
+    }
+}
+```
+
+Angular에서는 [HostListener](https://angular.io/api/core/HostListener) 데코레이터를 사용하여 이와 비슷한 결과를 얻을 수 있습니다.
+
+```typescript
+@Component({
+    selector: 'app-my-component',
+    templateUrl: './my.component.html',
+    styleUrls: ['./my.component.css']
+})
+export class MyComponent {
+    @HostListener('mousedown', ['$event'])
+    onMouseDown(event) {
+        // place your custom logic here
+    }
+}
+```
+
+## 자체 이벤트 만들기
+
+때로는 자체 이벤트를 정의해야 합니다. WPF에서는 CLR 이벤트 또는 라우팅된 이벤트를 정의할 수 있습니다. WPF의 CLR 이벤트 간단한 예를 살펴보겠습니다:
+
+```csharp
+public event EventHandler<TaskEventArgs> TaskCompleted;
+
+...
+this.TaskCompleted(this, new TaskEventArgs());
+```
+
+Angular에서 자체 이벤트를 정의하려면 [Output](https://angular.io/api/core/Output) 데코레이터로 표시된 [EventEmitter](https://angular.io/api/core/EventEmitter) 속성을 정의해야 합니다.
+
+```typescript
+@Output()
+taskCompleted = new EventEmitter<TaskEventArgs>();
+
+...
+this.taskCompleted.emit(new TaskEventArgs());
+```
+
+## 추가 리소스
+
+- [데스크톱에서 웹으로: Angular 이벤트 바인딩으로 이벤트에 응답하기](https://www.youtube.com/watch?v=V1Futz4W400&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j&index=6)
+- [Angular 사용자 입력](https://angular.io/guide/user-input)
+- [컴포넌트 상호 작용: 부모가 자식 이벤트를 수신](https://angular.io/guide/component-interaction#parent-listens-for-child-event)
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

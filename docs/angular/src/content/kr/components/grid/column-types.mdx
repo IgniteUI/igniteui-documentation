@@ -1,0 +1,284 @@
+---
+title: "Angular의 열 데이터 유형 - Ignite UI for Angular"
+description: "미리 정의된 열 데이터 유형인 숫자, 문자열, 날짜, 불리언, 통화, 백분율 열 중에서 선택하여 Angular의 셀 및 편집 템플릿을 처리하십시오."
+keywords: column data type, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Grid은(는) 숫자, 문자열, 날짜, 불리언, 통화 및 백분율 열 데이터 유형을 기본적으로 처리하며, 이를 바탕으로 기본 템플릿과 편집 템플릿의 모양이 결정됩니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 열 유형
+
+Ignite UI for Angular Grid은(는) _숫자_, _문자열_, _날짜_, _불리언_, _통화_ 및 _백분율_ 열 데이터 유형을 기본적으로 처리하며, 이를 바탕으로 기본 템플릿과 편집 템플릿의 모양이 결정됩니다.
+
+## Angular 열 유형 예제
+
+<Sample src="/grid/grid-column-data-types" height={550} alt="" />
+
+## 기본 템플릿
+
+데이터 유형별 템플릿을 활성화하려면 열의 <ApiLink type="Column" member="dataType" label="dataType" /> 입력을 설정해야 합니다. 그렇지 않으면 열 dataType의 기본값인 문자열 열로 처리됩니다. 각 유형의 기본 템플릿이 무엇인지 살펴보겠습니다.
+
+### 문자열
+
+이 열 <ApiLink type="Column" member="dataType" label="dataType" />은(는) 셀 값의 모양이나 형식을 바꾸지 않습니다.
+
+### Number
+
+<ApiLink type="Column" member="dataType" label="dataType" />이(가) _숫자_로 설정되면, 셀 값은 애플리케이션 또는 그리드의 <ApiLink type="Grid" member="locale" label="locale" /> 설정과 <ApiLink type="Column" member="pipeArgs" label="pipeArgs" /> 속성이 지정된 경우 그것을 기준으로 형식이 지정됩니다. 그러면 숫자 형식은 이들을 기준으로 바뀌며, 예를 들어 다음이 바뀔 수 있습니다:
+
+- 소수점 이하 자릿수
+- `,` 또는 `.`가 있는 소수점 구분 기호
+
+```ts
+public options = {
+  digitsInfo: '1.4-4',
+};
+public formatOptions = this.options;
+```
+
+```html
+<igx-column [pipeArgs]="formatOptions" [dataType]="'number'">
+</igx-column>
+```
+
+### DateTime, Date 및 Time
+
+날짜 부분(예: 일, 월, 년)의 모양은 <ApiLink type="Grid" member="locale" label="locale" /> 형식 또는 <ApiLink type="Column" member="pipeArgs" label="pipeArgs" /> 입력을 기준으로 설정됩니다. 파이프 인수를 사용하여 사용자 지정 [날짜 형식](https://angular.io/api/common/DatePipe#pre-defined-format-options)이나 [시간대](https://angular.io/api/common/DatePipe#parameters)를 지정할 수 있습니다:
+
+- **format** - 날짜 형식의 기본값은 'mediumDate'입니다. 사용 가능한 다른 옵션으로는 'short', 'long', 'shortDate', 'fullDate', 'longTime', 'fullTime' 등이 있습니다. 사용 가능한 모든 [미리 정의된 Angular 형식 옵션](https://angular.io/api/common/DatePipe#pre-defined-format-options)(레거시)의 전체 목록입니다.
+- **timezone** - 기본값은 사용자의 로컬 시스템 시간대입니다. 시간대 오프셋 또는 표준 GMT/UTC나 대륙별 미국 시간대 약어도 전달할 수 있습니다. 세계 어디에서든 해당 위치의 시간을 표시하는 다양한 시간대 예는 다음과 같습니다:
+
+<DocsAside type="info">
+20.2.x부터 Angular 지역화를 비활성화한 경우, 사용 가능한 형식 옵션 목록은 새 [지역화 주제](../general/localization.mdx#formatting)에서 찾을 수 있습니다.
+</DocsAside>
+
+```ts
+public formatDateOptions = {
+    /** The date/time components that a date column will display, using predefined options or a custom format string. */
+    /** e.g 'dd/mm/yyyy' or 'shortDate' **/
+    format: 'longDate',
+    /** A timezone offset (such as '+0430'), or a standard UTC/GMT or continental US timezone abbreviation. */
+    timezone: 'GMT'
+};
+public formatOptions = this.options;
+```
+
+```html
+<igx-column [pipeArgs]="formatDateOptions" [dataType]="'date'">
+</igx-column>
+```
+
+사용 가능한 시간대:
+
+| 시간대                  | 값                     |
+|---------------------------| ------------------------- |
+| Alpha Time Zone           |'UTC+1'                    |
+| Australian Central Time   |'UTC+9:30/ +10:30'         |
+| Arabia Standard Time      |'UTC+3'                    |
+| Central Standard Time     |'UTC-6'                    |
+| China Standard Time       |'UTC+8'                    |
+| Delta Time Zone           |'UTC+4'                    |
+| Greenwich Mean Time       |'UTC+0'                    |
+| Gulf Standard Time        |'UTC+4'                    |
+| Hawaii Standard Time      |'UTC-10'                   |
+| India Standard Time       |'UTC+4'                    |
+
+Grid은(는) _Date 객체_, _숫자(밀리초)_, _ISO 날짜-시간 문자열_ 형식의 날짜 값을 받습니다. 이 섹션에서는 [사용자 지정 표시 형식을 구성하는 방법](/grid/grid#사용자-지정-표시-형식)을 보여 줍니다.
+
+샘플에서 볼 수 있듯이, 특정 열 유형에 사용할 수 있는 형식을 보여 주기 위해 서로 다른 형식 옵션을 지정했습니다. 예를 들어 아래에서 Date 객체의 _시간_ 부분에 대한 형식 옵션을 찾을 수 있습니다:
+
+```ts
+// Time format with equivalent example
+public timeFormats = [
+    { format: 'shortTime', eq: 'h:mm a' },
+    { format: 'mediumTime', eq: 'h:mm:ss a' },
+    { format: 'longTime', eq: 'h:mm:ss a z' },
+    { format: 'fullTime', eq: 'h:mm:ss a zzzz' },
+];
+```
+
+#### 셀 편집
+
+열 유형에 따라 셀 편집을 할 때 서로 다른 편집기가 나타납니다:
+
+- dateTime - <ApiLink type="DateTimeEditorDirective" />이(가) 사용됩니다. 이 편집기는 DateTime 객체의 입력 요소 부분에 대한 마스크 안내를 제공합니다.
+- date - <ApiLink type="DatePicker" />이(가) 사용됩니다.
+- time - <ApiLink type="TimePicker" />이(가) 사용됩니다.
+
+#### 필터링
+
+빠른 필터링/Excel 스타일 필터링의 경우에도 위에 나열된 것과 같은 편집기가 사용됩니다. 각 유형이 노출하는 필터링 연산자는 다음과 같습니다:
+
+- dateTime 및 date - Equals, Does Not Equal, Before, After, Today, Yesterday, This Month, Last Month, Next Month, This Year, Last Year, Next Year, Empty, Not Empty, Null, Not Null;
+- time - At, Not At, Before, After, At or Before, At or After, Empty, Not Empty, Null, Not Null;
+
+#### 요약
+
+사용 가능한 요약 연산자는 **Count**, **Earliest**(날짜/시간) 및 **Latest**(날짜/시간)입니다.
+
+#### 정렬
+
+Time 유형 열은 객체의 시간 부분을 기준으로 정렬되며, ms는 무시됩니다.
+Date 유형 열은 날짜 부분을 기준으로 정렬되며, 시간 부분은 무시합니다.
+DateTime 열은 전체 날짜를 기준으로 정렬됩니다
+
+### 불리언
+
+기본 템플릿은 불리언 값을 시각화하기 위해 Material 아이콘을 사용합니다. _false_ 값에는 'clear' 아이콘을, _true_ 값에는 'check' 아이콘을 사용합니다. 편집 템플릿은 <ApiLink type="Checkbox" label="igx-checkbox" /> 컴포넌트를 사용합니다.
+
+```html
+<igx-column [dataType]="'boolean'">
+</igx-column>
+```
+
+### 통화
+
+#### 기본 템플릿
+
+기본 템플릿은 통화 기호가 앞 또는 뒤에 붙은 숫자 값을 표시합니다. 통화 기호의 위치와 숫자 값의 형식 지정은 제공된 애플리케이션 [`LOCALE_ID`](https://angular.io/api/core/LOCALE_ID) 또는 Grid <ApiLink type="Grid" member="locale" label="locale" />를 기준으로 합니다.
+
+_LOCALE_ID 사용하기_
+
+```ts
+
+...
+
+ @Component({
+    selector: 'app-component.sample',
+    templateUrl: 'grid-component.sample.html',
+    providers: [{provide: LOCALE_ID, useValue: 'fr-FR' }]
+})
+```
+
+_그리드의 locale 사용하기_
+
+```html
+<igx-grid [locale]="'fr-FR'" [data]="data">
+</igx-grid>
+```
+
+<ApiLink type="Column" member="pipeArgs" label="pipeArgs" /> 입력을 사용하면 최종 사용자는 _소수점_, _currencyCode_, _display_를 기준으로 숫자 형식을 사용자 지정할 수 있습니다.
+
+```ts
+public options = {
+  digitsInfo: '3.4-4',
+  currencyCode: 'USD',
+  display: 'symbol-narrow'
+};
+public formatOptions = this.options;
+```
+
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatOptions"
+    [dataType]="'currency'">
+</igx-column>
+```
+
+| 매개변수                 | 설명                                                |
+|---------------------------| -------------------------                                  |
+| digitsInfo                | 통화 값의 소수 표현을 나타냅니다        |
+| currencyCode              | ISO 4217 통화 코드                                     |
+| display*                  | 좁은 기호 또는 넓은 기호로 값을 표시합니다                |
+
+*display - 기본 en-US locale에서 USD 코드는 좁은 기호 $ 또는 넓은 기호 US$로 표현할 수 있습니다.
+
+셀 값을 편집할 때 _통화 기호_가 접미사 또는 접두사로 보입니다. 이에 대한 자세한 내용은 공식 [셀 편집 주제](/grid/cell-editing#셀-편집-템플릿)에서 찾을 수 있습니다.
+
+### 백분율
+
+기본 템플릿은 기본 숫자 값에 해당하는 백분율을 표시합니다. 표시되는 셀 값은 표시 계수 '100'을 곱한 결과입니다. 예를 들어 기본 계수가 100이고 셀에 전달된 "값"이 0.123이면, 표시되는 셀 값은 "12.3%"가 됩니다.
+
+셀 편집의 경우 값은 데이터 소스 값과 같으며 표시 계수는 '1'입니다. 셀을 편집하는 동안에는 백분율 값의 미리 보기가 접미사 요소로 표시됩니다. 예를 들어 '0.0547'을 편집하는 동안 미리 보기 요소에는 '5.47%'가 표시됩니다.
+
+```ts
+public options = {
+    /**
+    * Decimal representation options, specified by a string in the following format:
+    * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+    * `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+    * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+    * `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+    */
+    digitsInfo: '2.2-3'
+};
+public formatPercentOptions = this.options;
+```
+
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatPercentOptions"
+    [dataType]="'percent'">
+</igx-column>
+```
+
+<DocsAside type="info">
+위쪽/아래쪽 화살표 키를 사용하면 값은 digitsInfo - minFractionDigits(소수점 이하 최소 자릿수, 기본값은 0)를 기준으로 한 단계씩 증가/감소합니다
+</DocsAside>
+
+### 이미지
+
+기본 템플릿은 데이터에서 가져온 값을 기본 이미지 템플릿의 이미지 소스로 사용합니다. 기본 이미지 템플릿은 이미지 파일의 이름을 추출하여 접근성 요구 사항을 충족하도록 이미지의 `alt` 속성으로 설정합니다. 표시되는 셀 크기는 렌더링되는 이미지의 크기에 맞게 조정되므로, 큰 이미지도 여전히 렌더링되며 그리드 행은 이미지 열의 이미지만큼 커진다는 점을 기억하십시오. 이미지 유형 열에서는 필터링, 정렬, 그룹화가 기본적으로 꺼져 있습니다. 이들을 활성화하려면 데이터 작업을 수행하는 사용자 지정 전략을 제공해야 합니다.
+
+```html
+<igx-column [dataType]="'image'">
+</igx-column>
+```
+
+<ApiLink type="Grid" member="autoGenerate" label="auto-generating" /> 열이 있는 경우, 그리드는 첫 번째 데이터 레코드의 값을 분석합니다. 값이 문자열 유형이고 이미지 확장자(gif, jpg, jpeg, tiff, png, webp, bmp)로 끝나는 URL 패턴과 일치하면, 그 열은 자동으로 `dataType === GridColumnDataType.Image`(으)로 표시되며 기본 이미지 템플릿이 렌더링됩니다.
+
+## 기본 편집 템플릿
+
+[Grid 편집 주제](/grid/editing#편집-템플릿)의 편집 템플릿 부분을 참조하십시오
+
+## 사용자 지정 편집 템플릿과 포매터
+
+사용자 지정 템플릿과 열 포매터 정의는 설정된 열 데이터 유형보다 항상 우선합니다:
+
+### 사용자 지정 템플릿
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="false">
+    <igx-column [field]="'UnitsInStock'" [dataType]="'currency'" [pipeArgs]="formatOptions" [editable]="true">
+        <ng-template igxCellEditor let-value>
+            {{ value | currency:'USD':'symbol':'1.0-0'}}
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+### 열 포매터
+
+```ts
+ // Through column formatter property
+public formatCurrency(value: number) {
+    return `Dollar sign ${value.toFixed(0)}`;
+}
+
+public init(column: IgxColumnComponent) {
+    switch (column.field) {
+        case 'UnitsInStock':
+            column.formatter = this.formatCurrency;
+            break;
+        default:
+            return;
+}
+```
+
+## API 참조
+- <ApiLink type="GridCell" />
+- 열 <ApiLink type="Column" member="pipeArgs" label="pipeArgs" />
+- Grid <ApiLink type="Grid" member="locale" label="locale" />
+- 열 <ApiLink type="Column" member="dataType" label="dataType" />
+## 추가 리소스
+
+- 사용자 지정 템플릿에 대해서는 [셀 편집 주제](/grid/cell-editing#셀-편집-템플릿)를 참조하십시오
+- [Grid 개요 주제](/grid/grid)
+- [편집 주제](/grid/editing)
+- [요약 주제](/grid/summaries)

@@ -1,0 +1,241 @@
+---
+title: "{Platform} 데이터 그리드 | 열 요약 | Infragistics"
+description: "Infragistics {Platform} 그리드 컴포넌트의 열 요약 기능을 사용하여 개수, 최댓값, 최솟값 등 요약된 데이터를 표시하십시오. {ProductName} 테이블 데모를 확인하십시오!"
+keywords: "{Platform} 테이블, 데이터 그리드, 열, 요약, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "SummaryScope", "GroupSummaryDisplayMode"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridSummaries}"
+_language: ko
+llms:
+  description: "{ProductName} 데이터 테이블/데이터 그리드는 열 요약을 지원합니다."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 열 요약
+
+{ProductName} 데이터 테이블/데이터 그리드는 열 요약을 지원합니다. 경우에 따라 최종 사용자는 그리드에 표시되는 데이터의 양에 압도될 수 있으며, 종종 데이터의 요약을 찾고 싶어 합니다. 또한 최종 사용자는 특정 열의 데이터에서 추가 정보를 얻고 싶어 할 수도 있습니다. 요약은 최종 사용자가 이를 달성하도록 돕습니다. `SummaryScope` 속성을 설정하여 요약을 활성화할 수 있습니다.
+
+## {Platform} 열 요약 예제
+
+
+<Sample src="/grids/data-grid/column-summaries" height={600} alt="{Platform} 열 요약 예제" />
+
+
+
+<div class="divider--half"></div>
+
+## 요약 범위 속성
+
+{Platform} 데이터 그리드는 `SummaryScope` 속성을 사용하여 구성할 수 있는 네 가지 요약 설정을 지원합니다. 아래에 나열되고 설명되어 있습니다:
+
+- `Root`: 요약이 적용된 열에 대해 그리드의 모든 행에 대한 총합계를 표시합니다.
+- `Groups`: 그룹화된 행에 특화되어 있으며, 특정 그룹의 모든 행에 대한 총합계를 표시합니다.
+- `Both`: `Groups`와 `Root` 옵션을 동시에 사용합니다.
+- `None`: 그리드의 요약을 비활성화합니다.
+
+## 그룹 요약 표시 모드 속성
+
+{Platform} 데이터 그리드는 요약이 표시되는 위치를 구성하는 것을 지원합니다. `GroupSummaryDisplayMode` 속성을 사용하여 이를 구성할 수 있습니다. 이 속성의 여러 옵션은 아래에 나열되고 설명되어 있습니다:
+
+- **List**: 그룹 요약을 걸쳐 있는 그룹 머리글의 평면 목록으로 렌더링합니다.
+- **Cells**: 그룹 머리글을 셀로 렌더링하며, 요약 값은 해당 열에 맞춰 셀 안에 렌더링됩니다. 이 옵션을 사용하면 그리드는 열당 하나의 요약만 표시합니다.
+- **RowTop**: 그룹 요약을 그룹 위쪽의 요약 행으로 렌더링합니다.
+- **RowBottom**: 그룹 요약을 그룹 아래쪽의 요약 행으로 렌더링합니다.
+- **None**: 그룹 요약 렌더링을 비활성화합니다.
+
+## 코드 조각
+
+```json-snippet source="/grids/data-grid/column-summaries"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "isGroupCollapsable": true,
+            "groupHeaderDisplayMode": "Combined",
+            "summaryScope": "Root",
+            "groupSummaryDisplayMode": "RowTop",
+            "height": "100%",
+            "width": "100%",
+            "groupDescriptions": [
+                {
+                    "type": "ColumnGroupDescription",
+                    "field": "ProductName",
+                    "displayName": "ProductName"
+                }
+            ],
+            "summaryDescriptions": [
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductName",
+                    "operand": "Count"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductPrice",
+                    "operand": "Min"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "ProductPrice",
+                    "operand": "Max"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderItems",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderValue",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderValue",
+                    "operand": "Average"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderDate",
+                    "operand": "Min",
+                    "calculatorDisplayName": "First"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "OrderDate",
+                    "operand": "Max",
+                    "calculatorDisplayName": "Last"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "Profit",
+                    "operand": "Sum"
+                },
+                {
+                    "type": "ColumnSummaryDescription",
+                    "field": "Profit",
+                    "operand": "Average"
+                }
+            ],
+            "columns": [
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 130
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 140
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Totals",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 160
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 140
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Country",
+                    "headerText": "Ship Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 170
+                    }
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+
+## API 참조
+
+- `DataGrid`
+- `GroupSummaryDisplayMode`
+- `SummaryScope`

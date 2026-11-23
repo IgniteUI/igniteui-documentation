@@ -1,0 +1,380 @@
+---
+title: "Biblioteca de Excel de {Platform} | Uso de hojas de cálculo | Infragistics"
+description: "Use la biblioteca de Excel de Infragistics {Platform} para introducir datos trabajando con las filas y las celdas de la hoja de cálculo y estableciendo sus valores correspondientes. ¡Transfiera fácilmente datos desde Excel de {ProductName} a su aplicación!"
+keywords: "Biblioteca de Excel, hoja de cálculo, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "DisplayOptions", "WorksheetFilterSettings", "IWorksheetCellFormat"]
+_language: es
+llms:
+  description: "La hoja de cálculo (Worksheet) del motor de Excel de Infragistics {Platform} es donde se guardan sus datos."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Uso de hojas de cálculo
+
+La <ApiLink type="Worksheet" /> del motor de Excel de Infragistics {Platform} es donde se guardan sus datos. Puede introducir datos trabajando con las filas y las celdas de la hoja de cálculo y estableciendo sus valores correspondientes. La <ApiLink type="Worksheet" /> le permite filtrar, ordenar y personalizar los formatos de las celdas, como se muestra a continuación.
+
+## Ejemplo de uso de hojas de cálculo de {Platform}
+
+
+<Sample src="/excel/excel-library/operations-on-worksheets" height={200} alt="Ejemplo de uso de hojas de cálculo de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+El siguiente código muestra las importaciones necesarias para usar los fragmentos de código siguientes:
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { Worksheet } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { Color } from "{PackageCore}";
+
+import { CustomFilterCondition } from "{PackageExcel}";
+import { ExcelComparisonOperator } from "{PackageExcel}";
+import { FormatConditionTextOperator } from "{PackageExcel}";
+import { OrderedSortCondition } from "{PackageExcel}";
+import { RelativeIndex } from "{PackageExcel}";
+import { SortDirection } from "{PackageExcel}";
+import { WorkbookColorInfo } from "{PackageExcel}";
+```
+
+</PlatformBlock>
+
+
+## Configurar las líneas de cuadrícula
+Las líneas de cuadrícula se usan para separar visualmente las celdas de la hoja de cálculo. Puede mostrar u ocultar las líneas de cuadrícula y también cambiar su color.
+
+Puede mostrar u ocultar las líneas de cuadrícula usando la propiedad <ApiLink type="DisplayOptions" member="showGridlines" label="ShowGridlines" /> de <ApiLink type="DisplayOptions" /> de la hoja de cálculo. El siguiente código muestra cómo ocultar las líneas de cuadrícula de su hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showGridlines = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowGridlines = false;
+```
+
+</PlatformBlock>
+
+Puede configurar el color de las líneas de cuadrícula usando la propiedad <ApiLink type="DisplayOptions" member="gridlineColor" label="GridlineColor" /> de <ApiLink type="DisplayOptions" /> de la hoja de cálculo. El siguiente código muestra cómo cambiar las líneas de cuadrícula de su hoja de cálculo a rojo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.gridlineColor = "Red";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.GridlineColor = Core.Graphics.Colors.Red;
+```
+
+</PlatformBlock>
+
+## Configurar los encabezados
+Los encabezados de columna y de fila se usan para identificar visualmente columnas y filas. También se usan para resaltar visualmente la celda o la región de celdas seleccionada en ese momento.
+
+Puede mostrar u ocultar los encabezados de columna y de fila usando la propiedad <ApiLink type="DisplayOptions" member="showRowAndColumnHeaders" label="ShowRowAndColumnHeaders" /> de <ApiLink type="DisplayOptions" /> de la hoja de cálculo. El siguiente código muestra cómo ocultar los encabezados de fila y de columna:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showRowAndColumnHeaders = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowRowAndColumnHeaders = false;
+```
+
+</PlatformBlock>
+
+## Configurar la edición de la hoja de cálculo
+De forma predeterminada, los <ApiLink type="Worksheet" /> que guarde serán editables. Puede deshabilitar la edición de una hoja de cálculo protegiéndola mediante el método <ApiLink type="Workbook" member="protect" label="Protect" /> del objeto <ApiLink type="Worksheet" />. Este método tiene muchos argumentos `bool` anulables que determinan qué elementos están protegidos; una de estas opciones es permitir la edición de objetos, que, si se establece en **false**, impedirá la edición de la hoja de cálculo.
+
+El siguiente código muestra cómo deshabilitar la edición en su hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+También puede usar el método <ApiLink type="Workbook" member="protect" label="Protect" /> del objeto <ApiLink type="Worksheet" /> para proteger una hoja de cálculo frente a cambios estructurales.
+
+Cuando se establece la protección, puede establecer la propiedad <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> del objeto <ApiLink type="IWorksheetCellFormat" /> en celdas, filas, regiones de celdas combinadas o columnas individuales para anular la protección de la hoja de cálculo en esos objetos. Por ejemplo, si necesita que todas las celdas de una hoja de cálculo sean de solo lectura excepto las de una columna, puede proteger la hoja y después establecer la propiedad <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> del objeto <ApiLink type="IWorksheetCellFormat" /> en **false** en un objeto <ApiLink type="WorksheetColumn" /> concreto. Esto permitirá a los usuarios editar las celdas de la columna mientras se deshabilita la edición de las demás celdas de la hoja de cálculo.
+
+El siguiente código muestra cómo puede hacerlo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+worksheet.columns(0).cellFormat.locked = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+worksheet.Columns[0].CellFormat.Locked = ExcelDefaultableBoolean.False;
+```
+
+</PlatformBlock>
+
+## Filtrar regiones de la hoja de cálculo
+El filtrado se hace estableciendo una condición de filtro en un <ApiLink type="WorksheetFilterSettings" /> de la hoja de cálculo, que puede obtenerse de la propiedad <ApiLink type="Worksheet" member="filterSettings" label="FilterSettings" /> del objeto <ApiLink type="Worksheet" />. Las condiciones de filtro solo se vuelven a aplicar cuando se añaden, eliminan o modifican, o cuando se llama al método <ApiLink type="WorksheetFilterSettings" member="reapplyFilters" label="ReapplyFilters" /> de la hoja de cálculo. No se evalúan constantemente a medida que cambian los datos de la región.
+
+Puede especificar la región a la que se aplica el filtro usando el método <ApiLink type="WorksheetFilterSettings" member="setRegion" label="SetRegion" /> del objeto <ApiLink type="WorksheetFilterSettings" />.
+
+A continuación se muestra una lista de métodos y sus descripciones que puede usar para añadir un filtro a una hoja de cálculo:
+
+| Método        | Descripción |
+| --------------|-------------|
+|<ApiLink type="WorksheetFilterSettings" member="applyAverageFilter" label="ApplyAverageFilter" />|Representa un filtro que puede filtrar datos según si están por debajo o por encima del promedio de todo el rango de datos.|
+|<ApiLink type="WorksheetFilterSettings" member="applyDatePeriodFilter" label="ApplyDatePeriodFilter" />|Representa un filtro que puede filtrar fechas de un mes o trimestre de cualquier año.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFillFilter" label="ApplyFillFilter" />|Representa un filtro que filtrará las celdas según sus rellenos de fondo. Este filtro especifica un único CellFill. Las celdas con este relleno serán visibles en el rango de datos. Todas las demás celdas se ocultarán.|
+|`ApplyFixedValuesFilter`|Representa un filtro que puede filtrar celdas según valores concretos y fijos, que se permite mostrar.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFontColorFilter" label="ApplyFontColorFilter" />|Representa un filtro que filtrará las celdas según sus colores de fuente. Este filtro especifica un único color. Las celdas con este color de fuente serán visibles en el rango de datos. Todas las demás celdas se ocultarán.|
+|<ApiLink type="WorksheetFilterSettings" member="applyIconFilter" label="ApplyIconFilter" />|Representa un filtro que puede filtrar celdas según su icono de formato condicional.|
+|<ApiLink type="WorksheetFilterSettings" member="applyRelativeDateRangeFilter" label="ApplyRelativeDateRangeFilter" />|Representa un filtro que puede filtrar celdas de fecha según fechas relativas al momento en que se aplicó el filtro.|
+|<ApiLink type="WorksheetFilterSettings" member="applyTopOrBottomFilter" label="ApplyTopOrBottomFilter" />|Representa un filtro que puede dejar visibles las celdas de la parte superior o inferior de los valores ordenados.|
+|<ApiLink type="WorksheetFilterSettings" member="applyYearToDateFilter" label="ApplyYearToDateFilter" />|Representa un filtro que puede dejar visibles celdas de fecha si las fechas se producen entre el inicio del año en curso y el momento en que se evalúa el filtro.|
+|<ApiLink type="WorksheetFilterSettings" member="applyCustomFilter" label="ApplyCustomFilter" />|Representa un filtro que puede filtrar datos según una o dos condiciones personalizadas. Estas dos condiciones de filtro pueden combinarse con una operación lógica "and" o una operación lógica "or".|
+
+Puede usar el siguiente fragmento de código como ejemplo para añadir un filtro a una región de la hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.filterSettings.setRegion("Sheet1!A1:A10");
+worksheet.filterSettings.applyAverageFilter(0, AverageFilterType.AboveAverage);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.FilterSettings.SetRegion("Sheet1!A1:A10");
+worksheet.FilterSettings.ApplyAverageFilter(0, Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+```
+
+</PlatformBlock>
+
+## Inmovilizar y dividir paneles
+Puede inmovilizar filas en la parte superior de la hoja de cálculo o columnas a la izquierda usando las funciones de inmovilización de paneles. Las filas y columnas inmovilizadas permanecen visibles en todo momento mientras el usuario se desplaza. Las filas y columnas inmovilizadas se separan del resto de la hoja de cálculo mediante una única línea continua, que no puede eliminarse.
+
+Para habilitar la inmovilización de paneles, debe establecer la propiedad <ApiLink type="DisplayOptions" member="panesAreFrozen" label="PanesAreFrozen" /> de <ApiLink type="DisplayOptions" /> del objeto <ApiLink type="Worksheet" /> en **true**. Después puede especificar las filas o columnas que se inmovilizarán usando las propiedades `FrozenRows` y `FrozenColumns` de las opciones de visualización <ApiLink type="DisplayOptions" member="frozenPaneSettings" label="FrozenPaneSettings" />, respectivamente.
+
+También puede especificar la primera fila del panel inferior o la primera columna del panel derecho usando las propiedades `FirstRowInBottomPane` y `FirstColumnInRightPane`, respectivamente.
+
+El siguiente fragmento de código muestra cómo usar las funciones de inmovilización de paneles en una hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.panesAreFrozen = true;
+
+worksheet.displayOptions.frozenPaneSettings.frozenRows = 3;
+worksheet.displayOptions.frozenPaneSettings.frozenColumns = 1;
+
+worksheet.displayOptions.frozenPaneSettings.firstColumnInRightPane = 2;
+worksheet.displayOptions.frozenPaneSettings.firstRowInBottomPane = 6;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.PanesAreFrozen = true;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenRows = 3;
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenColumns = 3;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FirstColumnInRightPane = 2;
+worksheet.DisplayOptions.FrozenPaneSettings.FirstRowInBottomPane = 6;
+```
+
+</PlatformBlock>
+
+## Establecer el nivel de zoom de la hoja de cálculo
+Puede cambiar el nivel de zoom de cada hoja de cálculo de forma independiente usando la propiedad <ApiLink type="WorksheetDisplayOptions" member="magnificationInNormalView" label="MagnificationInNormalView" /> de <ApiLink type="DisplayOptions" /> del objeto <ApiLink type="Worksheet" />. Esta propiedad recibe un valor entre 10 y 400 y representa el porcentaje de zoom que desea aplicar.
+
+El siguiente código muestra cómo puede hacerlo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.magnificationInNormalView = 300;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.MagnificationInNormalView = 300;
+```
+
+</PlatformBlock>
+
+## Ordenación a nivel de hoja de cálculo
+
+La ordenación se hace estableciendo una condición de ordenación en un objeto a nivel de hoja de cálculo, en columnas o filas. Puede ordenar columnas o filas de forma ascendente o descendente.
+
+Esto se hace especificando una región y un tipo de ordenación en el objeto <ApiLink type="Worksheet" /> de <ApiLink type="WorksheetSortSettings" />, al que puede accederse mediante la propiedad <ApiLink type="Worksheet" member="sortSettings" label="SortSettings" /> de la hoja.
+
+Las condiciones de ordenación de una hoja solo se vuelven a aplicar cuando se añaden, eliminan o modifican, o cuando se llama al método <ApiLink type="WorksheetFilterSettings" member="reapplySortConditions" label="ReapplySortConditions" /> de la hoja de cálculo. Las columnas o filas se ordenarán dentro de la región. "Rows" es el tipo de ordenación predeterminado.
+
+El siguiente fragmento de código muestra cómo aplicar una ordenación a una región de celdas de una hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.sortSettings.sortConditions().addItem(new RelativeIndex(0), new OrderedSortCondition(SortDirection.Ascending));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.SortSettings.SortConditions.Add(new RelativeIndex(0), new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending));
+```
+
+</PlatformBlock>
+
+## Protección de la hoja de cálculo
+Puede proteger una hoja de cálculo llamando al método <ApiLink type="Workbook" member="protect" label="Protect" /> del objeto <ApiLink type="Worksheet" />. Este método expone muchos parámetros `bool` anulables que le permiten restringir o permitir las siguientes operaciones del usuario:
+
+- Edición de celdas.
+- Edición de objetos, como formas, comentarios, gráficos u otros controles.
+- Edición de escenarios.
+- Filtrado de datos.
+- Formato de celdas.
+- Inserción, eliminación y formato de columnas.
+- Inserción, eliminación y formato de filas.
+- Inserción de hipervínculos.
+- Ordenación de datos.
+- Uso de tablas dinámicas.
+
+Puede quitar la protección de la hoja de cálculo llamando al método <ApiLink type="Workbook" member="unprotect" label="Unprotect" /> del objeto <ApiLink type="Worksheet" />.
+
+El siguiente fragmento de código muestra cómo habilitar la protección de todas las operaciones del usuario indicadas arriba:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+## Formato condicional de la hoja de cálculo
+
+Puede configurar el formato condicional de un objeto <ApiLink type="Worksheet" /> usando los numerosos métodos "Add" que expone la colección <ApiLink type="Worksheet" member="conditionalFormats" label="ConditionalFormats" /> de esa hoja de cálculo. El primer parámetro de estos métodos "Add" es la región `string` de la hoja de cálculo a la que quiere aplicar el formato condicional.
+
+Muchos de los formatos condicionales que puede añadir a su hoja de cálculo tienen una propiedad <ApiLink type="IWorksheetCellFormat" /> que determina el aspecto que deben tener los elementos <ApiLink type="WorksheetCell" /> cuando se cumple la condición de ese formato condicional. Por ejemplo, puede usar las propiedades asociadas a esta propiedad <ApiLink type="IWorksheetCellFormat" />, como <ApiLink type="IWorksheetCellFormat" member="fill" label="Fill" /> y <ApiLink type="IWorksheetCellFormat" member="font" label="Font" />, para determinar la configuración del fondo y de la fuente de sus celdas en un formato condicional concreto, respectivamente.
+
+Hay algunos formatos condicionales que no tienen una propiedad <ApiLink type="IWorksheetCellFormat" />, ya que su visualización en la celda de la hoja de cálculo se comporta de forma distinta. Estos formatos condicionales son <ApiLink type="DataBarConditionalFormat" />, <ApiLink type="ColorScaleConditionalFormat" /> y <ApiLink type="IconSetConditionalFormat" />.
+
+Al cargar un <ApiLink type="Workbook" /> preexistente desde Excel, los formatos se conservan al cargar ese <ApiLink type="Workbook" />. Lo mismo ocurre al guardar el <ApiLink type="Workbook" /> en un archivo de Excel.
+
+El siguiente ejemplo de código muestra el uso de formatos condicionales en una hoja de cálculo:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var color = new Color();
+color.colorString = "Red";
+
+var format = worksheet.conditionalFormats().addAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage);
+format.cellFormat.font.colorInfo = new WorkbookColorInfo(color);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+var format = worksheet.ConditionalFormats.AddAverageCondition("A1:A10", Documents.Excel.ConditionalFormatting.FormatConditionAboveBelow.AboveAverage);
+format.CellFormat.Font.ColorInfo = new WorkbookColorInfo(Core.Graphics.Colors.Red);
+```
+
+</PlatformBlock>
+
+
+## Referencias de API
+<ApiLink type="IWorksheetCellFormat" />
+<ApiLink type="ColorScaleConditionalFormat" />
+<ApiLink type="DataBarConditionalFormat" />
+<ApiLink type="DisplayOptions" />
+<ApiLink type="Workbook" />
+<ApiLink type="WorksheetCell" />
+<ApiLink type="WorksheetColumn" />
+<ApiLink type="WorksheetFilterSettings" />
+<ApiLink type="WorksheetSortSettings" />
+<ApiLink type="Worksheet" />

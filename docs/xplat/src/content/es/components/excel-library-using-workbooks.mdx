@@ -1,0 +1,155 @@
+---
+title: "Biblioteca de Excel de {Platform} | Uso de libros de trabajo | Infragistics"
+description: "Use la biblioteca de Excel de Infragistics {Platform} para crear libros de trabajo y hojas de cálculo, introducir datos y exportar los datos a Microsoft® Excel. ¡Consulte los tutoriales de Excel de {ProductName} para más información!"
+keywords: "Biblioteca de Excel, libros de trabajo, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook"]
+_language: es
+llms:
+  description: "El motor de Excel de Infragistics {Platform} le permite guardar datos en Microsoft® Excel® y cargar datos desde él."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Uso de libros de trabajo
+
+El motor de Excel de Infragistics {Platform} le permite guardar datos en Microsoft® Excel® y cargar datos desde él. Puede crear libros de trabajo y hojas de cálculo, introducir datos y exportar los datos a Excel usando las distintas clases de la biblioteca. El motor de Excel de Infragistics {Platform} facilita exportar los datos de su aplicación como una hoja de cálculo de Excel, así como importar datos de Excel a su aplicación.
+
+## Ejemplo de uso de libros de trabajo de {Platform}
+
+
+<Sample src="/excel/excel-library/operations-on-workbooks" height={500} alt="Ejemplo de uso de libros de trabajo de {Platform}" />
+
+
+
+
+## Cambiar la fuente predeterminada
+
+Primero, cree una nueva instancia de <ApiLink type="IWorkbookFont" />. Después, añada la nueva fuente a la colección <ApiLink type="Workbook" member="styles" label="Styles" /> del <ApiLink type="Workbook" />. Este estilo contiene las propiedades predeterminadas de todas las celdas del libro de trabajo, salvo que se especifique lo contrario en una fila, una columna o una celda. Cambiar las propiedades del estilo cambiará las propiedades de formato de celda predeterminadas del libro de trabajo.
+
+```ts
+var workbook = new Workbook();
+var font: IWorkbookFont;
+font = workbook.styles().normalStyle.styleFormat.font;
+font.name = "Times New Roman";
+font.height = 16 * 20;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var font = workbook.Styles.NormalStyle.StyleFormat.Font;
+font.Name = "Times New Roman";
+font.Height = 16 * 20;
+```
+
+</PlatformBlock>
+
+## Establecer las propiedades del libro de trabajo
+
+Las propiedades de documento de Microsoft Excel® proporcionan información que ayuda a organizar y seguir sus documentos. Puede usar la biblioteca de Excel de Infragistics {Platform} para establecer estas propiedades mediante la propiedad <ApiLink type="Workbook" member="documentProperties" label="DocumentProperties" /> del objeto <ApiLink type="Workbook" />. Las propiedades disponibles son:
+
+- <ApiLink type="DocumentProperties" member="author" label="Author" />
+
+- <ApiLink type="DocumentProperties" member="title" label="Title" />
+
+- <ApiLink type="DocumentProperties" member="subject" label="Subject" />
+
+- <ApiLink type="DocumentProperties" member="keywords" label="Keywords" />
+
+- <ApiLink type="DocumentProperties" member="category" label="Category" />
+
+- <ApiLink type="DocumentProperties" member="status" label="Status" />
+
+- <ApiLink type="DocumentProperties" member="comments" label="Comments" />
+
+- <ApiLink type="DocumentProperties" member="company" label="Company" />
+
+- <ApiLink type="DocumentProperties" member="manager" label="Manager" />
+
+El siguiente código muestra cómo crear un libro de trabajo y establecer sus propiedades de documento `title` y `status`.
+
+```ts
+var workbook = new Workbook();
+workbook.documentProperties.title = "Expense Report";
+workbook.documentProperties.status = "Complete";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.DocumentProperties.Title = "Expense Report";
+workbook.DocumentProperties.Status = "Complete";
+```
+
+</PlatformBlock>
+
+## Protección del libro de trabajo
+
+La función de protección del libro de trabajo le permite proteger la estructura del libro. Es decir, la capacidad de un usuario de añadir, renombrar, eliminar, ocultar y reordenar las hojas de cálculo de ese libro.
+
+La protección no se aplica a través del modelo de objetos del motor de Excel de Infragistics. Es responsabilidad de la interfaz que visualiza este modelo de objetos respetar estos ajustes de protección y permitir o restringir al usuario las operaciones correspondientes.
+
+La protección se aplica a un libro de trabajo invocando su método `protect`.
+
+Cuando un <ApiLink type="Workbook" /> está protegido sin contraseña, el usuario final puede desproteger el <ApiLink type="Workbook" /> en Excel sin tener que introducir una contraseña. Para desproteger un <ApiLink type="Workbook" /> mediante programación, puede usarse el método `unprotect`.
+
+Cuando un <ApiLink type="Workbook" /> está protegido, los valores de las propiedades de la instancia <ApiLink type="WorkbookProtection" /> de la propiedad `protection` de este <ApiLink type="Workbook" /> indican las operaciones deshabilitadas.
+
+Si <ApiLink type="Workbook" member="isProtected" label="IsProtected" /> ya es true, el método `protect` se ignorará.
+
+```ts
+var workbook = new Workbook();
+workbook.protect(false, false);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.Protect(false, false);
+```
+
+</PlatformBlock>
+
+Compruebe si un libro de trabajo tiene protección. Esta propiedad de solo lectura devuelve true si el libro tiene alguna protección establecida mediante las sobrecargas del método Protect.
+
+```ts
+var workbook = new Workbook();
+var protect = workbook.isProtected;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var protect = workbook.IsProtected;
+```
+
+</PlatformBlock>
+
+Esta propiedad de solo lectura devuelve un objeto de tipo WorkbookProtection, que contiene propiedades para obtener cada ajuste de protección individualmente.
+
+```ts
+var workbook = new Workbook();
+var protection = workbook.protection;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var protect = workbook.Protection;
+```
+
+</PlatformBlock>
+
+
+## Referencias de API
+<ApiLink type="DocumentProperties" />
+<ApiLink type="WorkbookProtection" />
+<ApiLink type="Workbook" />

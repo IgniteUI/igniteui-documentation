@@ -1,0 +1,176 @@
+---
+title: "Angular 구조 디렉티브 | ngIf, ngswitch | WPF에서 Angular 가이드 | Infragistics"
+description: "Angular 애플리케이션의 뷰에 요소를 추가하고 제거하기 위해 ngIf, ngswitch, ngFor 같은 Angular 9의 구조 디렉티브를 사용하는 방법을 알아보십시오"
+keywords: angular structural directives, ignite ui for angular, infragistics
+_language: ko
+llms:
+  description: "WPF에서 시각 트리 요소의 모양을 제어할 때 가장 일반적인 방법은 바인딩과 가시성 컨버터를 사용하는 것이며, 이에는 추가 로직과 정적 리소스가 필요합니다."
+---
+
+# Angular 구조 디렉티브
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/vQe7R78Od8k">
+</iframe>
+
+WPF에서 시각 트리 요소의 모양을 제어할 때 가장 일반적인 방법은 바인딩과 가시성 컨버터를 사용하는 것이며, 이에는 추가 로직과 정적 리소스가 필요합니다. Angular에도 DOM 요소의 모양이나 동작을 바꾸는 비슷한 기법인 Angular 디렉티브가 있습니다. Angular `directives` 타입 중 하나가 `structural directives`이며, 이는 DOM 요소를 추가하거나 제거하여 DOM 레이아웃을 바꿉니다.
+
+이 항목에서는 다음 세 가지 구조 디렉티브 - `ngIf`, `ngSwitch`, `ngFor`를 보여 줍니다. 이름에서 알 수 있듯이, 각각은 C# 구조에 비유할 수 있습니다. `ngIf`는 C#의 "if-else" 코드 블록과 같고, `ngSwitch`는 C#의 switch-case 문과 같으며, 마지막으로 `ngFor`은(는) C#의 "for-loop"와 정확히 같습니다.
+
+## `ngIf` 디렉티브
+
+이 디렉티브들을 하나씩 살펴보겠으며, 먼저 `ngIf`부터 시작하겠습니다. 이 디렉티브는 불리언 조건에 따라 요소를 보이거나 숨길 수 있게 합니다. 이름을 담은 h2 태그가 있는 "div" 요소를 만드는 것부터 시작하겠습니다.
+
+```html
+<div>
+  <h2>John</h2>
+</div>
+```
+
+이를 저장하면 브라우저에 John이라는 이름이 렌더링됩니다. 하지만 이 h2 태그의 가시성 조건을 어떤 불리언 표현식에 기반하고 싶다고 가정해 보겠습니다. 예를 들어 "isFirstName"이라는 속성을 추가하고 false로 설정하겠습니다. isFirstName이 true일 때 div를 렌더링하도록 하려면 다음 구문을 사용해야 합니다 `*ngIf = "isFirstName"`.
+
+```typescript
+public isFirstName = false;
+```
+
+``` html
+<div *ngIf="isFirstName">
+  <h2>John</h2>
+</div>
+```
+
+파일을 저장하면 isFirstName이 false이므로 이름이 브라우저에 더 이상 렌더링되지 않는 것을 볼 수 있습니다. 하지만 isFirstName을 true로 바꾸면 "John" 이름이 브라우저에 렌더링됩니다. isFirstName을 다시 false로 설정하면 이름이 더 이상 브라우저에 렌더링되지 않고 대신 비어 있는 것을 알 수 있습니다. 이것이 `ngif` 문의 기본 동작입니다. 표현식이 true이면 제공된 템플릿을 렌더링하고, 그렇지 않으면 비어 있습니다.
+
+WPF에서 같은 동작을 구현하려면 가시성 컨버터를 사용해야 합니다. 코드는 다음과 비슷하게 보일 것입니다:
+
+```cs
+public bool IsFirstName { get; set; }
+public Sample()
+  {
+      InitializeComponent();
+      this.DataContext = this;
+      this.IsFirstName = true;
+  }
+```
+
+```xml
+<UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+</UserControl.Resources>
+<Grid>
+  <Label Visibility="{Binding Path=IsFirstName, Converter={StaticResource VisibleIfTrueConverter}}">John</Label>
+</Grid>
+```
+
+Angular에서는 훨씬 쉽고 더 직관적입니다.
+
+요구 사항을 하나 만들어 보겠습니다. `isFirstName` 속성이 false이면 대신 성(last name)을 제공해야 한다는 것입니다. 이를 위해 `ngIf` 디렉티브의 "else" 절을 활용하겠습니다. 먼저 성을 담은 "h2" 태그를 정의하는 `ng-template`를 만듭니다. `ng-template`는 DOM의 일부는 아니지만 `ngIf` 디렉티브 같은 코드를 통해 추가할 수 있는 콘텐츠를 정의하도록 해 주는 자리 표시자일 뿐입니다. 하지만 이를 디렉티브에서 사용하려면 "lastname" 같은 템플릿 참조 변수 이름을 붙여야 합니다. 이제 `ng-template`에 이름을 붙였으니 `ngIf` 디렉티브로 가서 "**; else lastname**"을 추가하고 저장하겠습니다. "isFirstName"이 false이므로, **else lastname을 사용하라**는 뜻이며, 즉 성을 담은 템플릿을 사용하고 있다는 뜻입니다.
+
+```html
+<div *ngIf="isFirstName; else lastname">
+  <h2>John</h2>
+</div>
+<ng-template #lastname>
+  <h2>Doe</h2>
+</ng-template>
+```
+
+이번에는 다른 방식으로 쓸 수 있습니다. "**isFirstName; then firstname; else lastname**"이라고 쓸 수 있습니다. 이를 위해서는 "firstname"이라는 또 다른 템플릿을 만들어야 합니다.
+
+```html
+<div *ngIf="isFirstName; then firstname; else lastname">
+</div>
+<ng-template #firstname>
+  <h2>John</h2>
+</ng-template>
+<ng-template #lastname>
+  <h2>Doe</h2>
+</ng-template>
+```
+
+"isFirstName"을 true로 바꾸면 브라우저에 이름이 렌더링됩니다. `ngIf` 디렉티브 사용에 관한 마지막 팁은 표현식이 단일 속성으로 제한되지 않는다는 것입니다. 표현식 전체가 불리언 결과를 반환하는 한 여러 속성 및/또는 함수를 사용할 수 있습니다. 예를 들어 `" && isValid || getIsValidName()"` 같은 논리 연산자도 사용할 수 있습니다.
+
+## `ngSwitch` 디렉티브
+
+다음으로 설명할 디렉티브는 `ngSwitch` 디렉티브입니다. 이 디렉티브를 사용하면 한 표현식을 여러 표현식과 비교하여 어떤 템플릿을 추가하거나 제거할지 결정할 수 있습니다.
+자동차 제조사를 나타내는 "h2" 요소 Chevy, Ford, GMC가 있다고 가정해 봅시다. typescript 파일에서 기본값 "Chevy"로 정의한 "make" 속성의 값을 기준으로 이 중 하나의 항목만 표시하고 싶습니다. 이를 위해 `ngSwitch` 디렉티브를 다음 구문 `[ngSwitch] = expression`과 함께 사용해야 합니다. 여기서 표현식은 "make" 속성입니다. "h2" 태그를 감싸는 "div" 요소에 이것만 추가하는 것으로는 충분하지 않습니다. WPF에서와 마찬가지로 각 "h2" 요소에 몇 가지 "case" 문을 추가해야 합니다. 그 구문은 `*ngSwitchCase = expression`입니다. 이 경우 텍스트와 직접 비교하므로 값 주위에 작은따옴표를 넣으며, 그 결과 최종 코드는 `*ngSwitchCase = "'Chevy'"` /나머지 두 값도 비슷하게/가 됩니다.
+
+```typescript
+make = "Chevy";
+```
+
+```html
+<div [ngSwitch]="make">
+  <h2 *ngSwitchCase="'Chevy'">Chevy</h2>
+  <h2 *ngSwitchCase="'Ford'">Ford</h2>
+  <h2 *ngSwitchCase="'GMC'">GMC</h2>
+</div>
+```
+
+저장하면 "make" 속성의 값이 "Chevy"로 설정되어 있으므로 브라우저에는 Chevy 옵션만 보입니다. 값을 "GMC"로 바꾸고 저장하면 GMC 옵션만 브라우저에 렌더링됩니다. 이제 사용할 수 없는 옵션, 예를 들어 "Lambo"를 추가하면 어떻게 될까요? 어떤 조건과도 일치하지 않으므로 아무것도 렌더링되지 않습니다. C#에서 switch 문을 사용할 때는 case뿐 아니라 기본값도 있습니다. Angular에서도 같습니다. "Not Found" 텍스트가 있는 다른 옵션을 추가하고 `*ngSwitchDefault`로 표시하면, 다른 값이 하나도 발견되지 않을 때 기본값 역할을 합니다.
+
+```html
+<h2 *ngSwitchDefault>Not Found</h2>
+```
+
+이 경우 Lambo를 찾으면 Lambo 옵션이 없으므로 기본 case인 "Not found"로 전환되고, "Not found"가 브라우저에 렌더링됩니다. 한 가지 짚고 넘어갈 점은 이것들이 표현식이라는 것입니다. 따라서 전달하는 표현식과 일치하는 결과를 반환하기만 하면 함수도 사용할 수 있습니다. 아주 간단합니다!
+
+## `ngFor` 디렉티브
+
+다음은 `ngFor` 디렉티브입니다. 이 디렉티브를 사용하면 객체 컬렉션을 순회하면서 그 컬렉션의 각 항목에 대해 템플릿을 추가할 수 있습니다. typescript 파일에 객체 컬렉션을 추가하는 것부터 시작하겠습니다. 이를 제조사 배열이라고 부르고 Chevy, Ford, GMC, Dodge를 추가하겠습니다. 다음으로 "div"를 만들고, 각 "div"마다 제조사 이름을 나열하는 "h2" 태그를 만들겠습니다. 이를 위해 `ngFor` 디렉티브를 사용하겠습니다. 그 구문은 `*ngFor="let make of makes"`입니다. 이것은 "let make" 부분에서 정의한 "make" 속성을 보간으로 사용하여 "h2" 태그에 출력할 수 있도록 해 줍니다.
+
+```typescript
+makes = ["Chevy", "Ford", "GMC", "Dodge"];
+```
+
+```html
+<div *ngFor="let make of makes">
+  <h2>{{ make }}</h2>
+</div>
+```
+
+모든 것이 잘 되었다면 배열의 각 항목마다 브라우저에 h2 태그로 표시되는 것을 볼 수 있을 것입니다. 또한 `ngFor` 디렉티브는 다음과 같이 컬렉션에 대한 더 많은 정보를 얻을 수 있는 몇 가지 도우미 항목을 제공합니다:
+
+- "index as i" - 각 항목의 인덱스가 무엇인지 알 수 있습니다
+
+```html
+<div *ngFor="let make of makes; index as i">
+  <h2>{{ i }} - {{ make }}</h2>
+</div>
+```
+
+- "first as f" - 항목이 컬렉션의 첫 번째 항목인지 알 수 있습니다
+
+```html
+<div *ngFor="let make of makes; first as f">
+  <h2>{{ f }} - {{ make }}</h2>
+</div>
+```
+
+- "last as l" - 컬렉션의 마지막 행 또는 마지막 항목도 알 수 있습니다
+
+```html
+<div *ngFor="let make of makes; last as l">
+  <h2>{{ l }} - {{ make }}</h2>
+</div>
+```
+
+- "odd as o" 또는 "even as e" - 컬렉션의 항목이 홀수 위치인지 짝수 위치인지 알 수 있습니다
+
+```html
+<div *ngFor="let make of makes; odd as o">
+  <h2>{{ o }} - {{ make }}</h2>
+</div>
+```
+
+이렇게 간단하게 Angular 애플리케이션의 뷰에 요소를 추가하고 제거할 수 있습니다. 구조 디렉티브를 사용하기만 하면 됩니다.
+
+## 추가 리소스
+
+- [데스크톱에서 웹으로: Angular의 구조 디렉티브](https://www.youtube.com/watch?v=vQe7R78Od8k&t)
+- [Angular 구조 디렉티브](https://angular.io/guide/structural-directives)
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

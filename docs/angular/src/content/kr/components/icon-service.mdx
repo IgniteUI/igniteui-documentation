@@ -1,0 +1,452 @@
+---
+title: "Angular Icon Service – Ignite UI for Angular | Infragistics | MIT 라이선스"
+description: "개발자는 Ignite UI for Angular Icon Service를 사용하여 다양한 아이콘과 글꼴 세트를 통합하고, 사용자 지정 색상 등을 적용하여 상호 교환 가능하게 사용할 수 있습니다." 
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular 아이콘 컴포넌트, Angular 아이콘 컨트롤, Angular 아이콘 서비스"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Icon Service를 사용하면 개발자는 다양한 소스의 새 아이콘을 UI에 추가할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Icon Service 개요
+
+<div class="highlight">
+Ignite UI for Angular Icon Service를 사용하면 개발자는 다양한 소스의 새 아이콘을 UI에 추가할 수 있습니다.
+</div>
+
+## 소개
+
+Ignite UI for Angular Icon Service는 사용자가 아이콘 계열을 만들고 관리할 수 있도록 여러 메서드를 제공합니다.
+
+아이콘 서비스는 Ignite UI for Angular 패키지에서 직접 import할 수 있습니다.
+
+```ts
+import { IgxIconComponent } from 'igniteui-angular/icon';
+import { IgxIconService } from 'igniteui-angular/core';
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    imports: [ IgxIconComponent ]
+})
+export class AppComponent implements OnInit {
+    constructor(public iconService: IgxIconService) {}
+}
+```
+
+<Sample src="/data-display/icon-service" height={180} alt="Icon Service 예제" />
+
+### 아이콘 계열 추가하기
+
+기본적으로 Icon Service는 기본 계열을 `material`(으)로 설정합니다.
+
+새 아이콘 계열을 추가하려면 아이콘 서비스의 `setFamily` 메서드를 사용합니다. 이 메서드는 `igx-icon` 컴포넌트가 렌더링해야 할 아이콘에 대해 알려 주는 메타데이터가 포함된 계열 항목을 만듭니다.
+
+`setFamily` 메서드가 어떻게 동작하는지 설명하기 위해 실제 예를 사용해 보겠습니다:
+
+```ts
+/** 
+* The icon service associates a given family name (provided by the user) 
+* with a specific CSS class (as documented in the providing icon font) 
+* and corresponding icon name (documented in the icon font).
+* NOTE: Material is already the default family.
+*/ 
+iconService.setFamily('material', { className: 'material-icons', type: 'liga' });
+iconService.setFamily('fa-solid', { className: 'fas', type: 'font', prefix: 'fa' });
+```
+
+위 예는 두 개의 아이콘 계열 'material'과 'fa-solid'를 만듭니다. 이들의 유형은 다른데, `material` 계열은 `liga`(으)로, `fa-solid` 계열은 `font`(으)로 등록됩니다. 둘의 차이점은 `igx-icon` 컴포넌트가 이들을 렌더링하는 방식입니다. 일반적으로 [Font Awesome](https://fontawesome.com/)은 클래스 이름을 사용하여 **글꼴** 계열의 코드 포인트를 지정하므로, 그래서 유형을 `font`(으)로 설정했습니다. 아이콘을 렌더링하기 위해 코드 포인트에 의존해야 할 때마다 유형을 `font`(으)로 설정해야 합니다. [Material Icons](https://material.io/icons) 계열도 여전히 글꼴 계열이지만, 아이콘을 표시하는 표준 방식은 특정 코드 포인트를 가리키는 클래스 이름이 아니라 `ligature` 이름을 제공하는 것입니다. 따라서 유형을 `liga`(으)로 설정해야 합니다. 세 번째 계열 유형인 `svg`도 있으며, 이는 아이콘 서비스를 통해 등록된 SVG로 구성되는 아이콘 계열을 위해 예약되어 있습니다.
+
+위의 두 글꼴 계열을 등록했으므로, 이제 `igx-icon` 컴포넌트를 통해 표준화된 방식으로 그 아이콘을 사용할 수 있습니다:
+
+```html
+<igx-icon family="material" name="home"></igx-icon>
+<igx-icon family="fa-solid" name="car"></igx-icon>
+```
+
+
+<DocsAside type="info">
+`igx-icon`로 기본 `material` 계열의 아이콘을 렌더링하려면, `index.html`에 다음 링크를 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+`material` 계열의 경우 이름으로 리가처 `name`를 사용했고, `fa-solid` 계열의 경우 이름으로 `className`를 지정했다는 것을 눈치채셨을 것입니다. 이 이름은 `fa-car`이지만, 이전 단계에서 아이콘 계열을 등록할 때 지정한 `fa-` 접두사는 뺍니다.
+
+### SVG 아이콘 추가하기
+
+Ignite UI for Angular Icon Service를 사용하면 SVG 이미지를 계열과 연결하고 이름을 지정할 수 있으므로, 글꼴 기반 아이콘과 같은 방식으로 `igx-icon` 컴포넌트를 통해 포함할 수 있습니다. SVG는 문자열이나 SVG 에셋의 절대 URI를 통해 해석되어야 합니다.
+
+```ts
+// Add a new 'material' icon called 'my-icon' from an SVG file
+iconService.addSvgIcon('my-icon', 'my-icon.svg', 'material');
+
+// Add a new 'fa-solid' icon called 'my-icon' from string 
+iconService.addSvgIconFromText('my-icon', '<svg>...</svg>', 'fa-solid');
+```
+
+나중에 마크업에서:
+
+```html
+<igx-icon family="material" name="my-icon"></igx-icon>
+<igx-icon family="fa-solid" name="my-icon"></igx-icon>
+```
+
+`liga` 및 `font` 유형의 계열에 사용자 지정 SVG 아이콘을 추가하고 있다는 점에 유의하십시오. 이는 `addSvgIcon` 및 `addSvgIconFromText` 메서드가 아이콘을 암시적으로 `svg` 유형으로 등록하여 `igx-icon` 컴포넌트가 SVG를 올바르게 렌더링할 수 있기 때문에 가능합니다.
+
+## 메타 계열
+
+Ignite UI for Angular Icon Service를 사용하면 글꼴 아이콘 계열을 설정하거나 공통 상위 아래 SVG를 추가하여 추가된 아이콘을 결합하는 가상 계열 맵을 만들 수 있으므로, 아이콘을 더 쉽게 참조할 수 있습니다.
+
+```ts
+// The `setIconRef` sets an icon reference in the icon map,
+// assuming material and fa-solid have been added as families,
+iconService.setIconRef('home', 'my-family', { family: 'material', name: 'home' });
+iconService.setIconRef('home-alt', 'my-family', { family: 'fa-solid', name: 'home' });
+iconService.setIconRef('car', 'my-family', { family: 'fa-solid', name: 'car' });
+```
+
+나중에 마크업에서:
+
+```html
+<igx-icon family="my-family" name="home"></igx-icon>
+<igx-icon family="my-family" name="home-alt"></igx-icon>
+<igx-icon family="my-family" name="car"></igx-icon>
+```
+
+## 아이콘 가져오기
+
+주어진 `family`과 아이콘 `name`에 대한 아이콘을 가져와서 원래 아이콘의 `type`, `name`, `family`, `className`을(를) 읽을 수 있습니다.
+
+```ts
+const { family, className, name, type } = iconService.getIcon('my-family', 'car');
+
+console.log(family); // -> 'fa-solid'
+console.log(className); // -> 'fas'
+console.log(name); // -> 'fa-car'
+console.log(type); // -> 'font'
+```
+
+## 내부 사용
+
+Ignite UI for Angular 18.1.0 버전부터 Icon Service에 새 아이콘 계열을 만들고, 이를 CSS 클래스, 유형, 심지어 접두사와 연결할 수 있는 새 `setFamily` 메서드를 추가했습니다. 또한 내부적으로 사용되는 아이콘은 이제 모두 별칭이 지정된 이름을 가진 새 `default` 계열에서 참조로 선언됩니다(아래 표 참조).
+
+| 별칭                            | 대상 아이콘           | 대상 계열 |
+| :------------------------------- | :-------------------- | :------------ |
+| **add**                          | add                   | material      |
+| **add_child**                    | add-child             | imx-icons     |
+| **add_row**                      | add-row               | imx-icons     |
+| **arrow_back**                   | arrow_back            | material      |
+| **arrow_drop_down**              | arrow_drop_up         | material      |
+| **arrow_forward**                | arrow_forward         | material      |
+| **arrow_next**                   | chevron_right         | material      |
+| **arrow_prev**                   | chevron_left          | material      |
+| **case_sensitive**               | case-sensitive        | imx-icons     |
+| **carousel_next**                | arrow_forward         | material      |
+| **carousel_prev**                | arrow_back            | material      |
+| **chevron_left**                 | chevron_left          | material      |
+| **chevron_right**                | chevron_right         | material      |
+| **clock**                        | access_time           | material      |
+| **close**                        | close                 | material      |
+| **collapse**                     | expand_less           | material      |
+| **confirm**                      | check                 | material      |
+| **date_range**                   | date_range            | material      |
+| **delete**                       | delete                | material      |
+| **drag_indicator**               | drag_indicator        | material      |
+| **edit**                         | edit                  | material      |
+| **error**                        | error                 | material      |
+| **expand**                       | expand_more           | material      |
+| **expand_more**                  | expand_more           | material      |
+| **file_download**                | file_download         | material      |
+| **filter_all**                   | select-all            | imx-icons     |
+| **filter_before**                | is-before             | imx-icons     |
+| **filter_contains**              | contains              | imx-icons     |
+| **filter_does_not_contain**      | does-not-contain      | imx-icons     |
+| **filter_empty**                 | is-empty              | imx-icons     |
+| **filter_equal**                 | equals                | imx-icons     |
+| **filter_false**                 | is-false              | imx-icons     |
+| **filter_greater_than**          | greater-than          | imx-icons     |
+| **filter_greater_than_or_equal** | greater-than-or-equal | imx-icons     |
+| **filter_in**                    | is-in                 | imx-icons     |
+| **filter_last_month**            | last-month            | imx-icons     |
+| **filter_last_year**             | last-year             | imx-icons     |
+| **filter_less_than**             | less-than             | imx-icons     |
+| **filter_less_than_or_equal**    | less-than-or-equal    | imx-icons     |
+| **filter_next_month**            | next-month            | imx-icons     |
+| **filter_next_year**             | next-year             | imx-icons     |
+| **filter_not_empty**             | not-empty             | imx-icons     |
+| **filter_not_equal**             | not-equal             | imx-icons     |
+| **filter_not_null**              | is-not-null           | imx-icons     |
+| **filter_null**                  | is-null               | imx-icons     |
+| **filter_starts_with**           | starts-with           | imx-icons     |
+| **filter_this_month**            | this-month            | imx-icons     |
+| **filter_this_year**             | this-year             | imx-icons     |
+| **filter_today**                 | today                 | imx-icons     |
+| **filter_true**                  | is-true               | imx-icons     |
+| **filter_yesterday**             | yesterday             | imx-icons     |
+| **first_page**                   | first_page            | material      |
+| **group_work**                   | group_work            | material      |
+| **hide**                         | visibility_off        | material      |
+| **import_export**                | import_export         | material      |
+| **input_collapse**               | arrow_drop_up         | material      |
+| **input_clear**                  | clear                 | material      |
+| **input_expand**                 | arrow_drop_down       | material      |
+| **jump_down**                    | jump-down             | imx-icons     |
+| **jump_up**                      | jump-up               | imx-icons     |
+| **last_page**                    | last_page             | material      |
+| **more_vert**                    | more_vert             | material      |
+| **next**                         | navigate_next         | material      |
+| **pin**                          | pin-left              | imx-icons     |
+| **prev**                         | navigate_before       | material      |
+| **refresh**                      | refresh               | material      |
+| **remove**                       | cancel                | material      |
+| **search**                       | search                | material      |
+| **selected**                     | done                  | material      |
+| **show**                         | visibility            | material      |
+| **sort_asc**                     | arrow_upward          | material      |
+| **sort_desc**                    | arrow_downward        | material      |
+| **functions**                    | functions             | material      |
+| **table_rows**                   | table_rows            | material      |
+| **today**                        | calendar_today        | material      |
+| **tree_collapse**                | expand_more           | material      |
+| **tree_expand**                  | chevron_right         | material      |
+| **unfold_less**                  | unfold_less           | material      |
+| **unfold_more**                  | unfold_more           | material      |
+| **unpin**                        | unpin-left            | imx-icons     |
+| **view_column**                  | view_column           | material      |
+
+사용자 지정 템플릿을 만드는 대신 내부 아이콘을 참조로 바꾸려면, combo 및 select 컴포넌트의 펼치기/접기 아이콘을 다음과 같이 교체할 수 있습니다:
+
+```ts
+iconService.setIconRef('input_expand', 'default', {
+    name: 'arrow_downward',
+    family: 'material',
+});
+
+iconService.setIconRef('input_collapse', 'default', {
+    name: 'arrow_upward',
+    family: 'material',
+});
+```
+
+이렇게 하면 모든 combo 및 select 컴포넌트에서 펼치기 및 접기 아이콘이 `material` 글꼴 계열의 각각 `arrow_downward` 및 `arrow_upward` 리가처로 설정됩니다.
+
+각 컴포넌트가 사용하는 모든 아이콘의 내역은 다음과 같습니다:
+
+<style dangerouslySetInnerHTML={{__html: `
+.table-responsive tbody tr td:first-of-type {
+    width: 25%;
+    min-width: fit-content;
+}
+`}} />
+
+### Action Strip
+
+| Icon          | 설명             |
+| :------------ | :---------------------- |
+| **add_child** | 팝업 메뉴에서 사용됩니다. |
+| **add_row**   | 팝업 메뉴에서 사용됩니다. |
+| **more_vert** | 팝업 메뉴에서 사용됩니다. |
+
+### Calendar
+
+| Icon           | 설명                                             |
+| :------------- | :------------------------------------------------------ |
+| **arrow_prev** | 월/연도 사이를 이동하기 위해 헤더에서 사용됩니다. |
+| **arrow_next** | 월/연도 사이를 이동하기 위해 헤더에서 사용됩니다. |
+
+### Carousel
+
+| Icon              | 설명                         |
+| :---------------- | :---------------------------------- |
+| **carousel_prev** | 슬라이드 사이를 이동하는 데 사용됩니다. |
+| **carousel_next** | 슬라이드 사이를 이동하는 데 사용됩니다. |
+
+### Chip
+
+| Icon         | 설명                               |
+| :----------- | :---------------------------------------- |
+| **selected** | 칩이 선택되었음을 나타내는 데 사용됩니다. |
+| **remove**   | 제거 버튼에 사용됩니다.               |
+
+### Combo (Simple Combo 포함)
+
+| Icon               | 설명                                                  |
+| :----------------- | :----------------------------------------------------------- |
+| **case_sensitive** | 대소문자 구분 필터링을 나타내고 전환하는 데 사용됩니다.        |
+| **input_clear**    | 지우기 버튼에 사용됩니다.                                   |
+| **input_expand**   | combo 메뉴가 접혀 있을 때 토글 버튼에 사용됩니다. |
+| **input_collapse** | combo 메뉴가 펼쳐져 있을 때 토글 버튼에 사용됩니다.  |
+
+### Date Picker
+
+| Icon            | 설명                                          |
+| :-------------- | :--------------------------------------------------- |
+| **today**       | 선택기를 여는 토글 버튼에 사용됩니다. |
+| **input_clear** | 지우기 버튼에 사용됩니다.                           |
+
+### Date Range Picker
+
+| Icon           | 설명                                          |
+| :------------- | :--------------------------------------------------- |
+| **date_range** | 선택기를 여는 토글 버튼에 사용됩니다. |
+
+### Expansion Panel
+
+| Icon         | 설명                                                   |
+| :----------- | :------------------------------------------------------------ |
+| **expand**   | 펼친 상태를 트리거하는 토글 버튼에 사용됩니다.  |
+| **collapse** | 접힌 상태를 트리거하는 토글 버튼에 사용됩니다. |
+
+### Grid
+
+| Icon                | 설명                                                                |
+| :------------------ | :------------------------------------------------------------------------- |
+| **add**             | Excel 필터 메뉴에서 필터 항목을 추가하는 데 사용됩니다.                             |
+| **arrow_back**      | 여러 UI 요소에서 열을 뒤로 이동하는 데 사용됩니다.                 |
+| **arrow_drop_down** | 여러 버튼에서 전환 가능한 메뉴를 나타내는 데 사용됩니다.                      |
+| **arrow_forward**   | 여러 UI 요소에서 열을 앞으로 이동하는 데 사용됩니다.                  |
+| **cancel**          | 여러 UI 요소에서 작업을 취소하는 데 사용됩니다.                      |
+| **chevron_right**   | Excel 스타일 필터링처럼 펼칠 수 있는 메뉴를 나타내는 데 사용됩니다.      |
+| **close**           | 펼쳐진 메뉴를 닫는 데 사용됩니다.                                            |
+| **confirm**         | 작업을 확인하는 데 사용됩니다.                                              |
+| **drag_indicator**  | 항목을 끌 수 있음을 나타내는 손잡이를 표시하는 데 사용됩니다.                  |
+| **error**           | 편집 가능한 셀에서 잘못된 데이터 입력을 나타내는 데 사용됩니다.                   |
+| **expand_more**     | Excel 필터 메뉴에서 더 많은 필터를 추가했음을 나타내는 데 사용됩니다. |
+| **file_download**   | Excel 필터 내보내기 도구에서 사용됩니다.                                         |
+| **filter_***        | 여러 필터링 연산자에 사용됩니다.                                       |
+| **group_work**      | 그룹화 드롭 영역에서 사용됩니다.                                            |
+| **hide**            | 여러 UI 요소에서 열을 숨기는 데 사용됩니다.                            |
+| **import_export**   | 피벗 데이터 선택기에서 이동하는 데 사용됩니다.                                |
+| **input_clear**     | 입력 필드에서 입력 데이터를 지우는 데 사용됩니다.                              |
+| **next**            | 필터링 행 메뉴에서 칩 사이를 이동하는 데 사용됩니다.                  |
+| **pin**             | 여러 UI 요소에서 열 고정에 사용됩니다.                            |
+| **prev**            | 필터링 행 메뉴에서 칩 사이를 이동하는 데 사용됩니다.                  |
+| **remove**          | 여러 UI 요소에서 제거 표시기로 사용됩니다.                        |
+| **refresh**         | 필터링 행 메뉴에서 필터를 다시 불러오는 데 사용됩니다.                      |
+| **selected**        | 여러 UI 요소에서 활성 선택을 나타내는 데 사용됩니다.                 |
+| **show**            | 여러 UI 요소에서 열을 표시하는 데 사용됩니다.                           |
+| **sort_asc**        | 여러 UI 요소에서 정렬 방향을 나타내는 데 사용됩니다.                 |
+| **sort_desc**       | 여러 UI 요소에서 정렬 방향을 나타내는 데 사용됩니다.                 |
+| **functions**       | 피벗 그리드와 데이터 선택기에서 사용됩니다.                                 |
+| **table_rows**      | 피벗 그리드 데이터 선택기에서 사용됩니다.                                      |
+| **tree_collapse**   | 트리 형태 구조에서 세부 정보를 줄여 보여 주는 데 사용됩니다.                          |
+| **tree_expand**     | 트리 형태 구조에서 세부 정보를 더 많이 보여 주는 데 사용됩니다.                          |
+| **unpin**           | 여러 UI 요소에서 열 고정에 사용됩니다.                            |
+| **unfold_less**     | 계층형 그리드에서 모든 행을 접는 데 사용됩니다.                        |
+| **unfold_more**     | 계층형 그리드에서 모든 행을 펼치는 데 사용됩니다.                          |
+| **view_column**     | 피벗 데이터 선택기에서 사용됩니다.                                           |
+
+### Input Group
+
+| Icon            | 설명                |
+| :-------------- | :------------------------- |
+| **input_clear** | 지우기 버튼에 사용됩니다. |
+
+### Paginator
+
+| Icon           | 설명                                                  |
+| :------------- | :----------------------------------------------------------- |
+| **first_page** | 첫 페이지로 이동하는 버튼에 사용됩니다.    |
+| **last_page**  | 마지막 페이지로 이동하는 버튼에 사용됩니다.     |
+| **prev**       | 이전 페이지로 이동하는 버튼에 사용됩니다. |
+| **next**       | 다음 페이지로 이동하는 버튼에 사용됩니다.     |
+
+### Query Builder
+
+| Icon         | 설명                                              |
+| :----------- | :------------------------------------------------------- |
+| **add**      | 새 필터 항목을 추가하는 버튼에 사용됩니다.        |
+| **close**    | 상황에 맞는 메뉴를 닫는 버튼에 사용됩니다.      |
+| **edit**     | 필터 항목을 편집하는 버튼에 사용됩니다.           |
+| **confirm**  | 새 필터 항목 추가를 확인하는 버튼에 사용됩니다. |
+| **ungroup**  | 필터 항목의 그룹을 해제하는 버튼에 사용됩니다.            |
+| **delete**   | 필터 항목을 삭제하는 버튼에 사용됩니다.             |
+| **filter_*** | 여러 필터링 연산자에 사용됩니다.                     |
+
+
+### Select
+
+| Icon               | 설명                                                   |
+| :----------------- | :------------------------------------------------------------ |
+| **input_expand**   | select 메뉴가 접혀 있을 때 토글 버튼에 사용됩니다. |
+| **input_collapse** | select 메뉴가 펼쳐져 있을 때 토글 버튼에 사용됩니다.  |
+
+### Tabs
+
+| Icon     | 설명                                                 |
+| :------- | :---------------------------------------------------------- |
+| **prev** | 이전 탭으로 이동하는 버튼에 사용됩니다. |
+| **next** | 다음 탭으로 이동하는 버튼에 사용됩니다.     |
+
+
+### Time Picker
+
+| Icon      | 설명                                          |
+| :-------- | :--------------------------------------------------- |
+| **clock** | 선택기를 여는 토글 버튼에 사용됩니다. |
+
+### Tree
+
+| Icon              | 설명                                          |
+| :---------------- | :--------------------------------------------------- |
+| **tree_expand**   | 선택기를 여는 토글 버튼에 사용됩니다. |
+| **tree_collapse** | 선택기를 여는 토글 버튼에 사용됩니다. |
+
+## API
+
+Ignite UI for Angular Icon Service에서 사용할 수 있는 모든 메서드의 간단한 요약은 다음과 같습니다.
+
+### 계열 추가
+
+```ts
+setFamily(name: string, meta: IconFamilyMeta): IgxIconService;
+```
+
+### 아이콘 참조
+
+아이콘 맵에 아직 없는 경우에만 설정:
+
+```ts
+addIconRef(name: string, family: string, icon: IconMeta): void;
+```
+
+아이콘 맵에 아이콘 참조를 설정합니다(이미 있으면 덮어씁니다):
+
+```ts
+setIconRef(name: string, family: string, icon: IconMeta): void;
+```
+
+아이콘 참조 가져오기
+
+```ts
+getIconRef(family: string, name: string): IconReference;
+```
+
+### SVG 아이콘
+
+URI에서:
+
+```ts
+addSvgIcon(name: string, url: string, family: string, stripMeta = false): void;
+```
+
+문자열에서:
+
+```ts
+addSvgIconFromText(name: string, iconText: string, family: string, stripMeta = false): void;
+```
+
+## API 참조
+<hr/>
+- <ApiLink type="IconService" />
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,80 @@
+---
+title: "Agregação de dados baseada na seleção em grade Angular - Ignite UI for Angular"
+description: "Saiba como agregar dados selecionados em uma grade com o Ignite UI. Obtenha agregações de conteúdo instantâneas nos dados virtualizados e uma API rica para o seu próximo projeto."
+keywords: "Agregação de dados, seleção, ignite ui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "Com o exemplo ilustrado a seguir, você pode ver como a seleção múltipla é usada, junto com funções de resumo personalizadas, para exibir agregações com base nos valores selecionados no rodapé da grade."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Agregação de dados baseada na seleção em grade Angular
+
+Com o exemplo ilustrado a seguir, você pode ver como a seleção múltipla é usada, junto com funções de resumo personalizadas, para exibir agregações com base nos valores selecionados no rodapé da grade.
+
+## Visão geral do tópico
+
+Para obter a funcionalidade de agregações baseadas na seleção, você pode usar o nosso recurso [Seleção da Grade](/grid/selection), junto com os [Resumos da Grade](/grid/summaries).
+Os Resumos permitem personalizar a funcionalidade básica do recurso de resumo, estendendo uma das classes base, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" /> ou <ApiLink type="DateSummaryOperand" />, dependendo do tipo de dado da coluna e das suas necessidades.
+
+## Seleção
+
+Para começar a trabalhar com os dados do intervalo selecionado na grade, você precisará assinar os eventos que notificam mudanças na seleção da grade. Isso pode ser feito assinando o evento <ApiLink type="Grid" member="selected" /> e o evento <ApiLink type="Grid" member="rangeSelected" />. É preciso vincular a ambos, porque o recurso de Seleção diferencia entre selecionar uma única célula e selecionar um intervalo de células.
+
+Na lógica de assinatura dos eventos, você pode extrair os dados selecionados usando a função <ApiLink type="Grid" member="getSelectedData" /> da grade e passar os dados selecionados para o operando de resumo personalizado.
+
+
+## Resumo
+
+Dentro da classe de resumo personalizada, você precisará diferenciar os tipos de dados da grade. Por exemplo, no cenário abaixo, há quatro colunas diferentes, cujo tipo de dado é adequado para resumos personalizados. São elas: Preço unitário, Unidades em estoque, status de descontinuado e Data do pedido.
+O método `operate` da classe derivada de `IgxSummaryOperand` é onde você vai processar os dados, começando por categorizá-los em diferentes grupos com base nos tipos de dados:
+
+```typescript
+const numberData = data.filter(rec => typeof rec === "number");
+const boolData = data.filter(rec => typeof rec === "boolean");
+const dates = data.filter(rec => isDate(rec));
+```
+
+<DocsAside type="info">
+Tenha em mente que `isDate` é uma função personalizada.
+</DocsAside>
+
+Depois de agrupar os tipos de dados de acordo, você pode prosseguir para a agregação em si. Para isso, você pode usar os métodos já expostos de `IgxNumberSummaryOperand` e `IgxDateSummaryOperand`.
+Depois disso, você precisará colocar os dados agregados no mesmo array, que será retornado ao template.
+Para a visualização dos dados, você pode querer usar o `<igx-grid-footer>`, que, em combinação com a classe `custom-summaries`, dará a aparência natural do Resumo.
+
+
+### Demonstração
+
+Altere a seleção para ver os resumos do intervalo selecionado no momento.
+
+
+<Sample src="/grid/grid-selection-custom-summaries" height={560} alt="" />
+
+
+## Referências da API
+- <ApiLink type="Grid" label="API do IgxGridComponent" />
+- <ApiLink type="GridCell" label="API do IgxGridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+## Recursos adicionais
+
+
+- [Visão geral da Grid](/grid/grid)
+- <ApiLink type="GridSelectionService" label="Serviço de seleção" />
+- [Seleção de linhas](/grid/row-selection)
+- [Seleção de células](/grid/cell-selection)
+- <ApiLink type="NumberSummaryOperand" />
+- <ApiLink type="DateSummaryOperand" />
+- [Resumos](/grid/summaries)
+- [Paginação](/grid/paging)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

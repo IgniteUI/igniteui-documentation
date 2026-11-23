@@ -77,7 +77,9 @@ Start there rather than guessing. In short:
 - **Every topic needs `llms.description`** in every conditional frontmatter block. The build enforces
   40-300 characters for English, 20-300 for Japanese.
 - **Japanese topics are machine-synced** by the gh-aw workflows in `.github/workflows/`. Do not
-  hand-edit a JP topic to match an English change unless the task is specifically a JP fix.
+  hand-edit a JP topic to match an English change unless the task is specifically a JP fix. Once
+  it is enabled, `translate-jp-docs.yml` (IgniteUI/translation-tools) replaces them: see
+  `translation/README.md`.
 
 ## Checks
 

@@ -1,0 +1,707 @@
+---
+title: "Plantillas del Combo de {Platform}"
+description: "Las plantillas del Combo de {ProductName} sustituyen el contenido predeterminado de las áreas del Combo: los elementos, los encabezados de grupo, el encabezado y el pie de la lista, la lista vacía, los iconos de alternancia y de borrar, y el campo de entrada."
+keywords: "Plantillas del Combo de {Platform}, {ProductName}, plantilla de elemento del combo, plantilla de encabezado de grupo del combo, plantilla de encabezado del combo, plantilla de pie del combo, plantilla de lista vacía del combo, icono de alternancia del combo, icono de borrar del combo, entrada del combo con plantilla"
+license: MIT
+last_updated: "2026-11-09"
+mentionedTypes: ["Combo", "ComboItem", "ComboHeader", "ComboList"]
+_language: es
+llms:
+  description: "Las plantillas del Combo de {ProductName} sustituyen el contenido predeterminado de las áreas del Combo: los elementos, los encabezados de grupo, el encabezado y el pie de la lista, la lista vacía, los iconos de alternancia y de borrar, y el campo de entrada."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Plantillas del Combo
+
+Las plantillas del Combo de {ProductName} sustituyen el contenido predeterminado de las áreas del Combo: los elementos, los encabezados de grupo, el encabezado y el pie de la lista, la lista vacía, los iconos de alternancia y de borrar, y el campo de entrada.
+
+<PlatformBlock for="Angular">
+
+El Combo de Angular recibe cada plantilla como un elemento `ng-template` con una de sus directivas de plantilla, colocado dentro del elemento `igx-combo`. Las directivas vienen con el token `IGX_COMBO_DIRECTIVES`, como muestra el tema [Combo](./overview.mdx#primeros-pasos), junto con los elementos `igxLabel`, `igx-prefix`, `igx-suffix` y `igx-hint` que aplican plantilla al campo de entrada.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+El Combo de {Platform} renderiza sus elementos y encabezados de grupo mediante las propiedades <ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> y <ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" />, y toma el contenido de las otras áreas mediante sus slots. Use un `<span>` para texto o símbolos sencillos, y un [Icon](../../layouts/icon.mdx) para iconos. Los slots `header` y `footer` también aceptan los elementos `<header>` y `<footer>`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+El Combo de Blazor renderiza sus elementos y encabezados de grupo mediante funciones de plantilla de JavaScript que los parámetros <ApiLink pkg="core" type="Combo<T>" member="ItemTemplateScript" label="ItemTemplateScript" /> y <ApiLink pkg="core" type="Combo<T>" member="GroupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> referencian por nombre, y toma el contenido de las otras áreas mediante sus slots. Use un `<span>` para texto o símbolos sencillos, y un [Icon](../../layouts/icon.mdx) para iconos. Los slots `header` y `footer` también aceptan los elementos `<header>` y `<footer>`.
+
+</PlatformBlock>
+
+## Demostración en vivo
+
+La muestra presenta un combo de Destinations con ciudades agrupadas por región. Cada interruptor aplica una plantilla al combo, y la lista de Selección situada debajo del combo muestra las ciudades seleccionadas.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/combo-template" showThemePicker height={560} noBorder={false} spacing="md" alt="Ejemplo de plantillas del Combo de {Platform} con un combo de Destinations e interruptores que aplican las plantillas de elemento, de elemento de encabezado, de encabezado, de pie, de vacío, de añadir, de icono de alternancia, de icono de borrar y de entrada" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/templates" showThemePicker height={560} noBorder={false} spacing="md" alt="Ejemplo de plantillas del Combo de {Platform} con un combo de Destinations e interruptores que aplican las plantillas de elemento, de elemento de encabezado, de encabezado, de pie, de vacío, de icono de alternancia, de icono de borrar y de entrada" />
+
+</PlatformBlock>
+
+## Tipos
+
+El Combo de {Platform} tiene una plantilla para cada área que renderiza. <PlatformBlock for="Angular">Haga referencia a cada plantilla mediante su directiva, y lea el elemento y las claves del Combo desde el contexto de la plantilla.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Las siguientes secciones muestran la propiedad o el slot que recibe cada plantilla.</PlatformBlock>
+
+Los fragmentos enlazan el Combo a destinos que tienen un `id`, un `name`, un `country`, un `countryCode`, un `region` y un `offset` UTC, con `id` como `valueKey`, `name` como `displayKey`, y `region` como `groupKey`.<PlatformBlock for="Blazor"> Los fragmentos de Blazor usan los mismos campos en PascalCase: `Id`, `Name`, `Country`, `CountryCode`, `Region` y `Offset`.</PlatformBlock>
+
+### Plantilla de elemento
+
+La plantilla de elemento renderiza el contenido de cada opción de la lista. De forma predeterminada, una opción muestra su valor `displayKey`, y la casilla de verificación de la opción se mantiene delante del contenido de la plantilla.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Las plantillas de elemento y de encabezado de grupo se renderizan dentro del shadow DOM del Combo, donde no llegan los estilos de la página. Dé estilo a sus contenedores mediante las partes CSS `item` y `group-header`, y disponga su contenido con estilos en línea. El Combo dispone cada elemento raíz de una plantilla como un bloque, así que envuelva el contenido de una plantilla en un único elemento.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboItem`. La plantilla recibe el elemento como su valor implícito, junto con el `valueKey`, el `displayKey` y el `data` del Combo:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboItem let-destination let-key="displayKey">
+        <span class="destination">
+            <img class="flag" [src]="'https://dl.infragistics.com/x/img/flags/' + destination.countryCode + '.png'" alt="" />
+            {{ destination[key] }} — {{ destination.country }} · {{ destination.id }} · {{ destination.offset }}
+        </span>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Establezca la propiedad <ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> en una función que recibe el elemento y devuelve una plantilla `lit-html`:
+
+```ts
+import { IgcComboComponent, ComboItemTemplate } from 'igniteui-webcomponents';
+import { html } from 'lit-html';
+
+const itemTemplate: ComboItemTemplate<Destination> = ({ item }) => html`
+    <span>
+        <img src="https://dl.infragistics.com/x/img/flags/${item.countryCode}.png" alt="" style="width: 1.25rem;" />
+        ${item.name} — ${item.country} · ${item.id} · ${item.offset}
+    </span>
+`;
+
+const combo = document.querySelector('igc-combo') as IgcComboComponent<Destination>;
+combo.itemTemplate = itemTemplate;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase a la propiedad <ApiLink type="Combo" member="itemTemplate" label="itemTemplate" /> una función que recibe el elemento y devuelve su contenido:
+
+```tsx
+import { IgrCombo, ComboTemplateProps } from 'igniteui-react';
+
+const renderItem = ({ item }: ComboTemplateProps<Destination>) => (
+    <span>
+        <img src={`https://dl.infragistics.com/x/img/flags/${item.countryCode}.png`} alt="" style={{ width: '1.25rem' }} />
+        {item.name} — {item.country} · {item.id} · {item.offset}
+    </span>
+);
+
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region" itemTemplate={renderItem} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Defina la plantilla en un archivo JavaScript dentro de `wwwroot`, por ejemplo, `templates.js`. La plantilla es una función que recibe el elemento y devuelve una plantilla hecha con la etiqueta `html` de `igTemplating`, y `igRegisterScript` la registra con el nombre al que hace referencia el Combo:
+
+```js
+const html = window.igTemplating.html;
+
+const itemTemplate = ({ item }) => html`
+    <span>
+        <img src="https://dl.infragistics.com/x/img/flags/${item.CountryCode}.png" alt="" style="width: 1.25rem;" />
+        ${item.Name} — ${item.Country} · ${item.Id} · ${item.Offset}
+    </span>
+`;
+
+igRegisterScript("ComboItemTemplate", itemTemplate, false);
+```
+
+Incluya el archivo en `wwwroot/index.html`. El script llama a `igRegisterScript` mientras se carga la página, así que incluya `app.bundle.js` antes del script de Blazor:
+
+```html
+<body>
+    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="templates.js"></script>
+</body>
+```
+
+Después, establezca el parámetro <ApiLink pkg="core" type="Combo<T>" member="ItemTemplateScript" label="ItemTemplateScript" /> con el nombre de la plantilla:
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" ItemTemplateScript="ComboItemTemplate" />
+```
+
+</PlatformBlock>
+
+### Plantilla de elemento de encabezado
+
+La plantilla de elemento de encabezado renderiza el encabezado de cada grupo cuando el Combo tiene un `groupKey`. De forma predeterminada, un encabezado de grupo muestra el valor del grupo. La plantilla recibe un registro de encabezado, no un elemento de datos: su campo `groupKey` contiene el valor del grupo, así que un recuento de las opciones del grupo proviene de los datos del Combo, como hace el método `citiesIn` de los fragmentos.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboHeaderItem`. La plantilla recibe el registro de encabezado como su valor implícito, junto con el `groupKey`, el `valueKey`, el `displayKey` y el `data` del Combo:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboHeaderItem let-header let-key="groupKey">
+        <span class="region">
+            <strong>{{ header[key] }}</strong>
+            <span class="region-count">{{ citiesIn(header[key]) }} cities</span>
+        </span>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Establezca la propiedad <ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" />:
+
+```ts
+const groupHeaderTemplate: ComboItemTemplate<Destination> = ({ item }) => html`
+    <span style="display: flex; gap: 0.5rem; width: 100%;">
+        <strong>${item.region}</strong>
+        <span style="margin-inline-start: auto;">${citiesIn(item.region)} cities</span>
+    </span>
+`;
+
+combo.groupHeaderTemplate = groupHeaderTemplate;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase la función a la propiedad <ApiLink type="Combo" member="groupHeaderTemplate" label="groupHeaderTemplate" />:
+
+```tsx
+const renderGroupHeader = ({ item }: ComboTemplateProps<Destination>) => (
+    <span style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
+        <strong>{item.region}</strong>
+        <span style={{ marginInlineStart: 'auto' }}>{citiesIn(item.region)} cities</span>
+    </span>
+);
+
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region" groupHeaderTemplate={renderGroupHeader} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre la plantilla en `templates.js`, y establezca el parámetro <ApiLink pkg="core" type="Combo<T>" member="GroupHeaderTemplateScript" label="GroupHeaderTemplateScript" /> con su nombre:
+
+```js
+const groupHeaderTemplate = ({ item }) => html`
+    <span style="display: flex; gap: 0.5rem; width: 100%;">
+        <strong>${item.Region}</strong>
+        <span style="margin-inline-start: auto;">${citiesIn(item.Region)} cities</span>
+    </span>
+`;
+
+igRegisterScript("ComboGroupHeaderTemplate", groupHeaderTemplate, false);
+```
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region" GroupHeaderTemplateScript="ComboGroupHeaderTemplate" />
+```
+
+</PlatformBlock>
+
+### Plantilla de encabezado
+
+La plantilla de encabezado renderiza contenido entre el campo de búsqueda y la lista de opciones, como un título de la lista o una acción que se aplica a ella. El Combo no renderiza ningún encabezado de forma predeterminada.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboHeader`. El fragmento añade un botón que selecciona las opciones que muestra el campo de búsqueda, mediante el método <ApiLink type="Combo" member="selectAllItems" label="selectAllItems" />:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboHeader>
+        <div class="list-header">
+            <span>Destinations by region</span>
+            <button igxButton="flat" (click)="combo.selectAllItems()">Select all</button>
+        </div>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Pase el contenido al slot `header`. El fragmento añade un botón que selecciona todas las opciones, mediante el método <ApiLink type="Combo" member="select" label="select" /> llamado sin argumento. Registre el componente Button, como muestra el tema [Button](../button.mdx):
+
+```html
+<igc-combo id="destinations" value-key="id" display-key="name" group-key="region">
+    <header slot="header" class="list-header">
+        <span>Destinations by region</span>
+        <igc-button id="select-all" variant="flat">Select all</igc-button>
+    </header>
+</igc-combo>
+```
+
+```ts
+const combo = document.getElementById('destinations') as IgcComboComponent<Destination>;
+
+document.getElementById('select-all').addEventListener('click', () => combo.select());
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase el contenido al slot `header`. El fragmento añade un botón que selecciona todas las opciones, mediante el método <ApiLink type="Combo" member="select" label="select" /> llamado sin argumento:
+
+```tsx
+const comboRef = useRef<IgrCombo>(null);
+
+<IgrCombo ref={comboRef} data={destinations} valueKey="id" displayKey="name" groupKey="region">
+    <header slot="header" className="list-header">
+        <span>Destinations by region</span>
+        <IgrButton variant="flat" onClick={() => comboRef.current?.select()}>Select all</IgrButton>
+    </header>
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Pase el contenido al slot `header`. El fragmento añade un botón que selecciona todas las opciones estableciendo el valor enlazado en los valores `Id` de todos los destinos:
+
+```razor
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <header slot="header" class="list-header">
+        <span>Destinations by region</span>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="SelectAll">Select all</IgbButton>
+    </header>
+</IgbCombo>
+
+@code {
+    private string[] SelectedDestinations { get; set; } = [];
+
+    private void SelectAll() => SelectedDestinations = Destinations.Select(d => d.Id).ToArray();
+}
+```
+
+</PlatformBlock>
+
+### Plantilla de pie
+
+La plantilla de pie renderiza contenido debajo de la lista de opciones, como un resumen de la selección o una acción que se aplica a ella. El Combo no renderiza ningún pie de forma predeterminada.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboFooter`. El fragmento muestra el número de elementos seleccionados desde la propiedad <ApiLink type="Combo" member="selection" label="selection" />, y borra la selección mediante el método <ApiLink type="Combo" member="deselectAllItems" label="deselectAllItems" />:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" groupKey="region">
+    <ng-template igxComboFooter>
+        <div class="list-footer">
+            <span>{{ combo.selection.length }} selected</span>
+            <button igxButton="flat" (click)="combo.deselectAllItems()">Clear</button>
+        </div>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Pase el contenido al slot `footer`. El fragmento muestra el número de elementos seleccionados desde el evento `igcChange`, y borra la selección mediante el método <ApiLink type="Combo" member="deselect" label="deselect" /> llamado sin argumento:
+
+```html
+<igc-combo id="destinations" value-key="id" display-key="name" group-key="region">
+    <footer slot="footer" class="list-footer">
+        <span id="selected-count">0 selected</span>
+        <igc-button id="clear" variant="flat">Clear</igc-button>
+    </footer>
+</igc-combo>
+```
+
+```ts
+const count = document.getElementById('selected-count');
+
+combo.addEventListener('igcChange', (e) => {
+    count.textContent = `${e.detail.newValue.length} selected`;
+});
+
+document.getElementById('clear').addEventListener('click', () => combo.deselect());
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase el contenido al slot `footer`. El fragmento mantiene los valores seleccionados en el estado, y borra la selección mediante el método <ApiLink type="Combo" member="deselect" label="deselect" /> llamado sin argumento:
+
+```tsx
+const [selected, setSelected] = useState<string[]>([]);
+
+<IgrCombo ref={comboRef} data={destinations} valueKey="id" displayKey="name" groupKey="region"
+    onChange={(e) => setSelected(e.detail.newValue as string[])}>
+    <footer slot="footer" className="list-footer">
+        <span>{selected.length} selected</span>
+        <IgrButton variant="flat" onClick={() => comboRef.current?.deselect()}>Clear</IgrButton>
+    </footer>
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Pase el contenido al slot `footer`. El fragmento muestra el número de elementos seleccionados desde el valor enlazado, y borra la selección estableciéndolo en una matriz vacía:
+
+```razor
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <footer slot="footer" class="list-footer">
+        <span>@SelectedDestinations.Length selected</span>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="() => SelectedDestinations = []">Clear</IgbButton>
+    </footer>
+</IgbCombo>
+```
+
+</PlatformBlock>
+
+### Plantilla vacía
+
+La plantilla vacía se renderiza en lugar de la lista cuando el texto de búsqueda no coincide con ninguna opción, o cuando el Combo no tiene datos. De forma predeterminada, el Combo muestra un mensaje indicando que la lista está vacía.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboEmpty`. La plantilla no tiene contexto, así que lea el texto de búsqueda de la propiedad <ApiLink type="Combo" member="searchValue" label="searchValue" /> del Combo mediante una referencia de plantilla. Cuando <ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> está establecido, el elemento de añadir permanece debajo del contenido vacío:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" [allowCustomValues]="true">
+    <ng-template igxComboEmpty>
+        <span class="empty-list">No city matches "{{ combo.searchValue }}". Add it below, or try another spelling.</span>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Pase el contenido al slot `empty`:
+
+```html
+<igc-combo value-key="id" display-key="name" group-key="region">
+    <span slot="empty" class="empty-list">No city matches your search. Try another spelling.</span>
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase el contenido al slot `empty`:
+
+```tsx
+<IgrCombo data={destinations} valueKey="id" displayKey="name" groupKey="region">
+    <span slot="empty" className="empty-list">No city matches your search. Try another spelling.</span>
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Pase el contenido al slot `empty`:
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name" GroupKey="Region">
+    <span slot="empty" class="empty-list">No city matches your search. Try another spelling.</span>
+</IgbCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Plantilla de añadir
+
+La plantilla de añadir renderiza el elemento de añadir que el Combo de Angular muestra debajo del contenido de la lista vacía cuando <ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> está establecido y el texto de búsqueda no coincide con ninguna opción. De forma predeterminada, el elemento de añadir es un botón con la etiqueta "Add item". Al hacer clic en el elemento de añadir, o al pulsar <kbd>Enter</kbd> sobre él, se emite el evento <ApiLink type="Combo" member="addition" label="addition" /> cancelable, se añade un elemento cuyos campos `valueKey` y `displayKey` contienen el texto de búsqueda, y se selecciona.
+
+Use la directiva `igxComboAddItem`, y lea el texto de búsqueda de la propiedad <ApiLink type="Combo" member="searchValue" label="searchValue" /> mediante una referencia de plantilla:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" [allowCustomValues]="true">
+    <ng-template igxComboAddItem>
+        <button igxButton="outlined">Add "{{ combo.searchValue }}" as a destination</button>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+### Plantilla del icono de alternancia
+
+La plantilla del icono de alternancia sustituye el icono del botón de alternancia del campo de entrada, que abre y cierra el desplegable.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboToggleIcon`. La plantilla también recibe como valor implícito si el desplegable está contraído, para un icono que cambie con el estado. Registre antes el icono, como muestra el tema [Icon](../../layouts/icon.mdx):
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name">
+    <ng-template igxComboToggleIcon>
+        <igx-icon family="material" name="flight"></igx-icon>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Pase el icono al slot `toggle-icon`. El contenido del slot se muestra tanto cuando el desplegable está cerrado como cuando está abierto. Registre antes el icono, como muestra el tema [Icon](../../layouts/icon.mdx):
+
+```ts
+import { registerIconFromText } from 'igniteui-webcomponents';
+
+registerIconFromText('flight', flightIcon, 'material');
+```
+
+```html
+<igc-combo value-key="id" display-key="name">
+    <igc-icon slot="toggle-icon" name="flight" collection="material"></igc-icon>
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase el icono al slot `toggle-icon`. El contenido del slot se muestra tanto cuando el desplegable está cerrado como cuando está abierto. Registre antes el icono, como muestra el tema [Icon](../../layouts/icon.mdx):
+
+```tsx
+import { IgrCombo, IgrIcon, registerIconFromText } from 'igniteui-react';
+
+registerIconFromText('flight', flightIcon, 'material');
+
+<IgrCombo data={destinations} valueKey="id" displayKey="name">
+    <IgrIcon slot="toggle-icon" name="flight" collection="material" />
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Pase el icono al slot `toggle-icon`. El contenido del slot se muestra tanto cuando el desplegable está cerrado como cuando está abierto. Registre antes el icono, como muestra el tema [Icon](../../layouts/icon.mdx):
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+    <IgbIcon slot="toggle-icon" @ref="IconRef" IconName="flight" Collection="material" />
+</IgbCombo>
+
+@code {
+    private IgbIcon IconRef { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && this.IconRef != null)
+        {
+            await this.IconRef.EnsureReady();
+            await this.IconRef.RegisterIconFromTextAsync("flight", FlightIcon, "material");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+### Plantilla del icono de borrar
+
+La plantilla del icono de borrar sustituye el icono del botón de borrar del campo de entrada. El Combo muestra el botón de borrar solo cuando tiene una selección<PlatformBlock for="React,WebComponents,Blazor">, y lo oculta cuando `disableClear` está establecido</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+Use la directiva `igxComboClearIcon`:
+
+```html
+<igx-combo [data]="destinations" valueKey="id" displayKey="name">
+    <ng-template igxComboClearIcon>
+        <igx-icon>close</igx-icon>
+    </ng-template>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Pase el icono al slot `clear-icon`:
+
+```html
+<igc-combo value-key="id" display-key="name">
+    <igc-icon slot="clear-icon" name="close" collection="material"></igc-icon>
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Pase el icono al slot `clear-icon`:
+
+```tsx
+<IgrCombo data={destinations} valueKey="id" displayKey="name">
+    <IgrIcon slot="clear-icon" name="close" collection="material" />
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Pase el icono al slot `clear-icon`:
+
+```razor
+<IgbCombo T="string" Data="Destinations" ValueKey="Id" DisplayKey="Name">
+    <IgbIcon slot="clear-icon" IconName="close" Collection="material" />
+</IgbCombo>
+```
+
+</PlatformBlock>
+
+### Entrada con plantilla
+
+El campo de entrada del Combo admite una etiqueta, contenido antes y después de su texto, y un texto de ayuda debajo, de la misma forma que lo hace el <PlatformBlock for="Angular">[Input Group](../../input-group.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Input](../input.mdx)</PlatformBlock> .
+
+<PlatformBlock for="Angular">
+
+Añada la etiqueta con la directiva `igxLabel`, el contenido antes y después del texto con los elementos `igx-prefix` y `igx-suffix`, y el texto de ayuda con el elemento `igx-hint`. El contenido de sufijo se renderiza antes de los botones de borrar y de alternancia:
+
+```html
+<igx-combo #combo [data]="destinations" valueKey="id" displayKey="name" placeholder="Pick one or more cities">
+    <label igxLabel>Destinations</label>
+    <igx-prefix><igx-icon>place</igx-icon></igx-prefix>
+    <igx-suffix><igx-badge [value]="combo.selection.length"></igx-badge></igx-suffix>
+    <igx-hint>{{ combo.selection.length }} of {{ destinations.length }} destinations selected</igx-hint>
+</igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Establezca el atributo `label`, pase el contenido antes y después del texto a los slots `prefix` y `suffix`, y el texto de ayuda al slot `helper-text`. El slot `suffix` se renderiza después del icono de borrar y antes del icono de alternancia:
+
+```html
+<igc-combo value-key="id" display-key="name" label="Destinations" placeholder="Pick one or more cities">
+    <igc-icon slot="prefix" name="place" collection="material"></igc-icon>
+    <igc-badge slot="suffix">2</igc-badge>
+    <span slot="helper-text">2 of 19 destinations selected</span>
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Establezca la propiedad `label`, pase el contenido antes y después del texto a los slots `prefix` y `suffix`, y el texto de ayuda al slot `helper-text`. El slot `suffix` se renderiza después del icono de borrar y antes del icono de alternancia:
+
+```tsx
+<IgrCombo data={destinations} valueKey="id" displayKey="name" label="Destinations" placeholder="Pick one or more cities">
+    <IgrIcon slot="prefix" name="place" collection="material" />
+    <IgrBadge slot="suffix">{selected.length}</IgrBadge>
+    <span slot="helper-text">{selected.length} of {destinations.length} destinations selected</span>
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Establezca el parámetro `Label`, pase el contenido antes y después del texto a los slots `prefix` y `suffix`, y el texto de ayuda al slot `helper-text`. El slot `suffix` se renderiza después del icono de borrar y antes del icono de alternancia:
+
+```razor
+<IgbCombo @bind-Value="SelectedDestinations" Data="Destinations" ValueKey="Id" DisplayKey="Name" Label="Destinations" Placeholder="Pick one or more cities">
+    <IgbIcon slot="prefix" IconName="place" Collection="material" />
+    <IgbBadge slot="suffix">@SelectedDestinations.Length</IgbBadge>
+    <span slot="helper-text">@SelectedDestinations.Length of @Destinations.Count destinations selected</span>
+</IgbCombo>
+```
+
+</PlatformBlock>
+
+## Referencias de API
+
+La referencia de la API del Combo de {Platform} enumera la superficie completa de la API para la plataforma de destino.
+
+<PlatformBlock for="React,WebComponents">
+
+- <ApiLink type="Combo" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- <ApiLink pkg="core" type="Combo<T>" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink type="Combo" label="IgxComboComponent" />
+- <ApiLink type="InputGroup" />
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+Los siguientes recursos ofrecen más orientación sobre el Combo de {Platform} y soporte para el proyecto:
+
+<PlatformBlock for="Angular">
+
+- [Combo](./overview.mdx)
+- [Funciones del Combo](./features.mdx)
+- [Enlace remoto del Combo](./features.mdx#enlace-remoto)
+- [Combo de selección única](./single-selection.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- [Combo](./overview.mdx)
+- [Funciones del Combo](./features.mdx)
+- [Combo de selección única](./single-selection.mdx)
+
+</PlatformBlock>
+
+- [Combo - Componente del sistema de diseño](https://www.infragistics.com/products/indigo-design/help/components/combo)
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

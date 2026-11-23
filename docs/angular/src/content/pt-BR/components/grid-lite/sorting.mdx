@@ -1,0 +1,232 @@
+---
+title: "Angular Grid Lite Sorting | Ignite UI for Angular | Licença MIT"
+description: "Experimente o Angular Grid Lite com operações de ordenação, personalização de ordenação e ordenação remota para o Angular Grid Lite. Veja demonstrações e exemplos e crie a sua próxima aplicação."
+keywords: "ordenação, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "O Grid Lite oferece suporte a operações de ordenação na sua fonte de dados."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Operações de ordenação
+
+O Grid Lite oferece suporte a operações de ordenação na sua fonte de dados. A ordenação dos dados é controlada por coluna, permitindo ter colunas ordenáveis e não ordenáveis, enquanto a própria grade controla certos comportamentos de ordenação. Por padrão, a ordenação de uma coluna fica desabilitada, a menos que seja configurada explicitamente com a propriedade `sortable` da coluna.
+
+```html
+<igx-grid-lite-column
+  field="price"
+  sortable
+></igx-grid-lite-column>
+```
+
+Você também pode controlar se as operações de ordenação para colunas de string devem diferenciar maiúsculas de minúsculas, usando a propriedade `sortingCaseSensitive`.
+
+```html
+<igx-grid-lite-column 
+  field="name" 
+  sortable
+  sortingCaseSensitive
+></igx-grid-lite-column>
+```
+
+Para uma lógica de comparação personalizada, defina a propriedade `sortConfiguration` com uma função `comparer`:
+
+```typescript
+column.sortable = true;
+column.sortConfiguration = {
+  /**
+   * Custom comparer function which will be used for sort operations for this column.
+   * In the following sample, we compare the `name` values based on their length.
+   */
+  comparer: (a, b) => a.length - b.length
+};
+```
+
+<Sample src="/grid-lite/sorting-simple" height={510} alt="Angular Grid Lite Sorting Config" />
+
+## Ordenação simples e múltipla
+
+A grade oferece suporte à ordenação de uma única coluna e de várias colunas. A ordenação de várias colunas vem habilitada por padrão e pode ser configurada pela propriedade `sortingOptions` da grade. A propriedade `mode` aceita `'single'` ou `'multiple'` como valores.
+
+```typescript
+grid.sortingOptions = { mode: 'single' };
+```
+
+<DocsAside type="info">
+O comportamento de ordenação de uma ou várias colunas controla como os usuários finais interagem com o Grid Lite. A ordenação pela API com várias expressões continuará funcionando quando a ordenação simples estiver habilitada.
+</DocsAside>
+
+### Ordenação em três estados
+
+O componente Grid Lite tem ordenação em três estados, que está sempre habilitada. Os usuários finais vão alternar pelos seguintes estados de direção ao clicar nos cabeçalhos de colunas ordenáveis:
+
+```text
+ascending -> descending -> none -> ascending
+```
+
+onde `none` é o estado inicial dos dados, ou seja, sem nenhuma ordenação aplicada pela grade.
+
+### Indicadores de ordenação
+
+Quando a ordenação de várias colunas está habilitada, os cabeçalhos das colunas exibem um indicador de ordenação, que é um número que representa a ordem em que as operações de ordenação foram aplicadas.
+
+O exemplo a seguir mostra a propriedade `sortingOptions` da grade e como ela controla o comportamento de ordenação da grade.
+
+<Sample src="/grid-lite/sorting-grid-config" height={600} alt="Angular Grid Lite Sorting Config Grid" />
+
+## Modelo de ordenação
+
+O bloco de construção das operações de ordenação no componente Grid Lite é o `SortingExpression`, que tem as seguintes propriedades:
+
+```typescript
+type SortingExpression<T> = {
+  /**
+   * The `key` of the target column for the sort operation.
+   */
+  key: keyof T;
+  /**
+   * The sort direction for the operation.
+   */
+  direction: 'ascending' | 'descending' | 'none';
+  /**
+   * Should the operation be case sensitive. Applies to the default string type.
+   * If not explicitly passed, it will use the value from the target column sort configuration if applicable.
+   */
+  caseSensitive?: boolean;
+  /**
+   * Specifies a custom comparer function for the operation.
+   * Will use the value from the target column sort configuration if applicable.
+   */
+  comparer?: SortComparer<T, T[keyof T]>;
+};
+```
+
+A grade consome essas expressões para os métodos e a configuração da sua API de ordenação, e as produz para os eventos e para o seu estado de ordenação quando
+um usuário final interage com o componente. Veja abaixo mais informações.
+
+## API de ordenação
+
+O componente Grid Lite expõe duas abordagens principais para aplicar operações de ordenação a partir da sua API: pelos métodos `sort()`/`clearSort()` ou pela propriedade `sortingExpressions`.
+
+O método `sort()` aceita uma única expressão ou um array de expressões de ordenação e depois ordena os dados da grade com base nessas expressões.
+
+```typescript
+// Single
+grid.sort({ key: 'price', direction: 'descending' });
+
+// Multiple
+grid.sort([
+  { key: 'price', direction: 'descending' },
+  { key: 'name', direction: 'descending' },
+]);
+```
+
+O método `clearSort()`, como o nome indica, limpa o estado de ordenação de uma única coluna ou de toda a grade, dependendo
+dos argumentos informados.
+
+```typescript
+// Clear the sort state for the `price` column.
+grid.clearSort('price');
+
+// Clear the sort state of the grid.
+grid.clearSort();
+```
+
+### Estado inicial de ordenação
+
+A propriedade `sortingExpressions` tem comportamento muito semelhante à chamada do método `sort()`. Ela expõe uma forma declarativa de controlar
+o estado de ordenação da grade, mas a propriedade mais útil é a possibilidade de definir o estado inicial de ordenação quando o Grid Lite é renderizado pela primeira vez.
+
+Por exemplo:
+
+```typescript
+protected sortState: IgxGridLiteSortingExpression<Products>[] = [
+    { key: 'price', direction: 'descending' },
+    { key: 'name', direction: 'ascending', caseSensitive: true },
+];
+```
+
+```html
+<igx-grid-lite [sortingExpressions]="sortState"></igx-grid-lite>
+```
+
+Ela pode ser usada para obter o estado de ordenação atual do componente e fazer processamento adicional, dependendo de outro estado da sua aplicação.
+
+```typescript
+const state = grid.sortingExpressions;
+// Save the current sort state
+saveUserSortState(state);
+```
+
+## Eventos
+
+Quando uma operação de ordenação é realizada pela UI, o componente emite um evento personalizado `sorting`. A propriedade `detail` é a expressão de ordenação que será aplicada pelo Grid Lite. O evento é cancelável e, se for cancelado, interrompe a operação de ordenação atual.
+
+Depois que a grade aplica o novo estado de ordenação, um evento `sorted` é emitido. Ele contém a expressão que foi usada na última operação de ordenação, e não é cancelável.
+
+```html
+<igx-grid-lite (sorting)="onSorting($event)" (sorted)="onSorted($event)"></igx-grid-lite>
+```
+
+```typescript
+onSorting(event: IgxSortingEvent) { ... }
+onSorted(event: IgxSortedEvent) { ... }
+```
+
+No exemplo a seguir, quando você tenta ordenar as colunas **Name** e **Rating**, a operação será cancelada. Acompanhe o log de eventos abaixo para vê-la em ação.
+
+<Sample src="/grid-lite/sorting-events" height={510} alt="Angular Grid Lite Sorting Config Events" />
+
+## Operações de ordenação remotas
+
+Nos casos em que a ordenação precisa ser feita remotamente, ou quando você quer salvar o estado/os dados atuais em algum servidor, o Grid Lite expõe um gancho em que você pode implementar e personalizar esse comportamento.
+
+Usando a propriedade <ApiLink type="GridLite" member="dataPipelineConfiguration" label="dataPipelineConfiguration" />, você pode fornecer um gancho personalizado, que será chamado sempre que uma operação de ordenação estiver prestes a ser executada. O callback recebe um objeto **`DataPipelineParams`**.
+
+```typescript
+export type DataPipelineParams<T extends object> = {
+  /**
+   * The current data state of the grid.
+   */
+  data: T[];
+  /**
+   * The grid component itself.
+   */
+  grid: GridLite<T>;
+  /**
+   * The type of data operation being performed.
+   */
+  type: 'sort' | 'filter';
+};
+```
+
+```typescript
+grid.dataPipelineConfiguration = { sort: (params: DataPipelineParams<T>) => T[] | Promise<T[]> };
+```
+
+O callback personalizado pode ser assíncrono, pois a grade vai aguardá-lo até que ele seja resolvido.
+
+O exemplo a seguir simula uma operação de ordenação remota, refletindo o endpoint REST gerado com base no estado de ordenação do componente.
+
+<Sample src="/grid-lite/sorting-pipeline" height={510} alt="Angular Grid Lite Sorting Config Pipeline" />
+
+## Referências da API
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## Recursos adicionais
+
+- [Configuração de colunas](/grid-lite/column-configuration)
+- [Filtragem](/grid-lite/filtering)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Grid Lite  **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

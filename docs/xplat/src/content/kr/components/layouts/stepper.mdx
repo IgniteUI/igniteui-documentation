@@ -1,0 +1,467 @@
+---
+title: "{Platform} Stepper 컴포넌트 - {ProductName}"
+description: "{Platform} Stepper 컴포넌트는 콘텐츠를 프로세스로 시각화하고 논리적인 단계로 나누어 진행 상황을 보여 주는 데 사용됩니다. 무료로 사용해 보십시오."
+keywords: "{Platform} Stepper, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["Stepper"]
+_language: ko
+llms:
+  description: "{Platform} Stepper 컴포넌트는 마법사 같은 워크플로를 제공하며, 번호가 매겨진 단계를 통해 진행 상황을 보여 주는 데 사용됩니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import stepperStep from '@xplat-images/stepper/stepper-step.png';
+import stepperContenttop from '@xplat-images/stepper/stepper-contentTop.png';
+
+
+# {Platform} Stepper 개요
+
+{Platform} Stepper 컴포넌트는 마법사 같은 워크플로를 제공하며, 번호가 매겨진 단계를 통해 진행 상황을 보여 주는 데 사용됩니다. 개발자는 긴 콘텐츠를 논리적인 단계의 순서로 나눌 수 있으며, 이를 통해 최종 사용자가 전체 과정을 더 쉽게 탐색할 수 있습니다. {Platform} Stepper는 세로 또는 가로 선으로 표시됩니다. {Platform} Stepper에는 단계 유효성 검사, 스타일 지정, 방향 및 키보드 탐색 같은 여러 기능이 있습니다.
+
+## {Platform} Stepper 예제
+
+아래 {ProductName} Stepper 예제는 컴포넌트가 실제로 동작하는 모습을 보여 줍니다. 여러 연속 단계를 거치며 최종 사용자가 주문 세부 정보를 구성하는 과정을 시각화합니다.
+
+<Sample src="/layouts/stepper/linear" height={430} alt="{Platform} 선형 Stepper 예제" />
+
+## {Platform} Stepper 시작하기
+
+<PlatformBlock for="WebComponents">
+
+먼저 다음 명령을 실행하여 {ProductName}를 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+<ApiLink pkg="core" type="Stepper" />를 사용하기 전에 다음과 같이 등록해야 합니다:
+
+```ts
+import { defineComponents, IgcStepperComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcStepperComponent);
+```
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+먼저 다음 명령을 실행하여 해당 {ProductName} npm 패키지를 설치해야 합니다:
+
+```cmd
+npm install igniteui-react
+```
+
+그다음 다음과 같이 <ApiLink pkg="core" type="Stepper" />와 필요한 CSS를 import해야 합니다:
+
+```tsx
+import { IgrStepper, IgrStep } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Stepper의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="StepperModule" />을(를) 등록하는 것은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbStepperModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 만들어지는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+<ApiLink pkg="core" type="Stepper" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+이제 {Platform} <ApiLink pkg="core" type="Stepper" />와 그 단계에 대한 기본 구성부터 시작할 수 있습니다.
+
+## {Platform} Stepper 사용 방법
+<ApiLink pkg="core" type="Step" />은(는) <ApiLink pkg="core" type="Stepper" />에 속하는 모든 단계를 나타냅니다. 단계는 <ApiLink pkg="core" type="Step" member="Invalid" label="Step.Invalid" />, <ApiLink pkg="core" type="Step" member="Active" label="Step.Active" />, <ApiLink pkg="core" type="Step" member="Optional" label="Step.Optional" />, <ApiLink pkg="core" type="Step" member="Disabled" label="Step.Disabled" /> 및 <ApiLink pkg="core" type="Step" member="Complete" label="Step.Complete" /> 속성을 제공하며, 이를 통해 비즈니스 요구 사항에 따라 단계 상태를 구성할 수 있습니다.
+
+### {Platform} Stepper 선언
+
+단계는 다음과 같은 방식으로 선언할 수 있습니다:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-stepper>
+    <igc-step>
+       <span slot="title">Step 1</span>
+    </igc-step>
+    <igc-step>
+       <span slot="title">Step 2</span>
+    </igc-step>
+</igc-stepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbStepper>
+    <IgbStep>
+       <span slot="title">Step 1</span>
+    </IgbStep>
+     <IgbStep>
+       <span slot="title">Step 2</span>
+    </IgbStep>
+</IgbStepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrStepper>
+    <IgrStep>
+       <span slot="title">Step 1</span>
+    </IgrStep>
+     <IgrStep>
+       <span slot="title">Step 2</span>
+    </IgrStep>
+</IgrStepper>
+```
+
+</PlatformBlock>
+
+각 단계에서 사용자는 `indicator`, `title` 및 `subtitle` 슬롯을 사용하여 표시기, 제목 및 부제목을 구성할 수 있습니다.
+
+`title` 및 `subtitle` 슬롯에는 제목 요소(`<h1>`–`<h6>`) 대신 `<span>` 요소를 사용하는 것을 권장합니다. 제목 요소에는 컴포넌트가 의도한 타이포그래피와 레이아웃을 방해할 수 있는 글꼴 크기, 줄 높이, 여백 같은 기본 스타일이 있습니다. `<span>`를 사용하면 컴포넌트 스타일을 깔끔하게 상속받는 중립적인 컨테이너를 얻을 수 있습니다.
+
+`indicator` 슬롯에는 기호나 이모지 표시기를 위해 `<span>` 요소를 사용하고, 아이콘 표시기를 위해서는 [`<igc-icon>`](../layouts/icon.mdx) 컴포넌트를 사용하는 것을 권장합니다.
+
+<DocsAside type="info">
+`default` <ApiLink pkg="core" type="Step" /> 슬롯은 단계의 콘텐츠를 렌더링합니다.
+</DocsAside>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-stepper>
+    <igc-step>
+       <igc-icon slot="indicator" iconName="home"></igc-icon>
+       <span slot="title">Home</span>
+       <span slot="subtitle">Home Sub Title</span>
+       <div>
+          Step Content
+       </div>
+    </igc-step>
+</igc-stepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbStepper>
+    <IgbStep>
+       <IgbIcon slot="indicator" IconName="home" Collection="material" />
+       <span slot="title">Home</span>
+       <span slot="subtitle">Home Sub Title</span>
+       <div>
+          Step Content
+          ...
+       </div>
+    </IgbStep>
+</IgbStepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrStepper>
+    <IgrStep>
+        <IgrIcon slot="indicator" name="home" collection="material" />
+        <span slot="title">Home</span>
+        <span slot="subtitle">Home Sub Title</span>
+        <div>
+            Step Content
+            ...
+        </div>
+    </IgrStep>
+</IgrStepper>
+```
+
+</PlatformBlock>
+
+<Image src={stepperStep} alt="stepper-step" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 500px" />
+
+### {Platform} Stepper의 방향
+
+노출된 <ApiLink pkg="core" type="Stepper" member="orientation" label="Orientation" /> 속성으로 stepper 방향을 사용자 지정할 수 있습니다. **가로** 또는 **세로**로 설정할 수 있습니다.
+
+**가로 Stepper 방향**
+
+**가로**가 <ApiLink pkg="core" type="Stepper" /> 방향 속성의 기본값입니다.
+
+{Platform} stepper가 가로 방향일 때는 단계 콘텐츠를 단계 헤더 위에 표시할지 아래에 표시할지 정할 수 있습니다. 이는 기본값이 **false**인 <ApiLink pkg="core" type="Stepper" /> <ApiLink pkg="core" type="Stepper" member="contentTop" label="ContentTop" /> 불리언 속성을 설정하여 구성할 수 있습니다. 이 속성을 활성화하면 단계 콘텐츠가 단계 헤더 위에 표시됩니다.
+
+<Image src={stepperContenttop} alt="stepper-contentTop" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 800px" />
+
+**세로 Stepper 방향**
+
+가로 레이아웃에서 세로 레이아웃으로 쉽게 전환할 수 있습니다. 기본 방향을 변경하려면 <ApiLink pkg="core" type="Stepper" member="orientation" label="Orientation" /> 속성을 **세로**로 설정하십시오.
+
+아래 샘플은 런타임에 stepper 방향과 제목 위치를 어떻게 변경할 수 있는지 보여 줍니다.
+
+<Sample src="/layouts/stepper/orientation" height={528} alt="{Platform} Stepper 방향 예제" />
+
+### 단계 상태
+
+{Platform} <ApiLink pkg="core" type="Stepper" />는 다섯 가지 단계 상태를 지원하며, 각 상태는 기본적으로 다른 스타일을 적용합니다:
+
+- **active** - 단계가 현재 표시 중인지 여부를 결정합니다. 설계상 사용자가 어떤 단계의 active 속성을 명시적으로 **true**로 설정하지 않으면, 처음 활성화되는 단계는 비활성화되지 않은 첫 번째 단계입니다.
+- **disabled** - 단계와 상호 작용할 수 없는지 여부를 결정합니다. 기본적으로 단계의 disabled 속성은 **false**로 설정되어 있습니다.
+- **invalid** - 단계가 유효한지 여부를 결정합니다. 이 값에 따라 선형 stepper 모드에서 사용자가 앞으로 이동할 수 있는지 결정됩니다. 기본값은 **false**입니다.
+- **optional** - 기본적으로 단계의 optional 속성은 **false**로 설정되어 있습니다. 선형 stepper에서 단계의 유효성이 필요하지 않다면 optional 속성을 활성화하여 단계의 유효성과 관계없이 앞으로 이동할 수 있습니다.
+- **complete** - 기본적으로 단계의 complete 속성은 **false**를 반환합니다. 하지만 사용자는 필요에 따라 complete 속성을 설정하여 이 기본 완료 동작을 재정의할 수 있습니다. 단계가 완료로 표시되면 기본적으로 단계 헤더의 스타일이 바뀔 뿐 아니라, 완료된 단계와 다음 단계 사이 진행 선의 스타일도 바뀝니다.
+
+### 선형 {Platform} Stepper
+
+{Platform} <ApiLink pkg="core" type="Stepper" />는 <ApiLink pkg="core" type="Stepper" member="linear" label="Linear" /> 속성을 사용하여 단계 흐름을 설정할 수 있는 기능을 제공합니다. 기본적으로 linear는 **false**로 설정되어 있으며, 사용자는 <ApiLink pkg="core" type="Stepper" />에서 비활성화되지 않은 모든 단계를 선택할 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-stepper linear="true">
+    <igc-step>
+        <span slot="title">Step 1</span>
+    </igc-step>
+    <igc-step>
+        <span slot="title">Step 2</span>
+    </igc-step>
+</igc-stepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbStepper Linear="true">
+    <IgbStep>
+        <span slot="title">Step 1</span>
+    </IgbStep>
+     <IgbStep>
+        <span slot="title">Step 2</span>
+    </IgbStep>
+</IgbStepper>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrStepper linear={true}>
+    <IgrStep>
+        <span slot="title">Step 1</span>
+    </IgrStep>
+     <IgrStep>
+        <span slot="title">Step 2</span>
+    </IgrStep>
+</IgrStepper>
+```
+
+</PlatformBlock>
+
+linear 속성을 **true**로 설정하면, stepper는 다음 단계로 진행하기 전에 현재 선택적이지 않은 단계가 유효해야 합니다.
+
+현재 선택 사항이 아닌 단계가 유효하지 않으면, 현재 단계를 검증하기 전에는 다음 단계로 넘어갈 수 없습니다.
+
+<DocsAside type="info">
+앞으로 이동하기 위해 선택 사항 단계의 유효성은 고려되지 않습니다.
+</DocsAside>
+
+### 단계 상호 작용
+
+<ApiLink pkg="core" type="Stepper" />은(는) 단계 상호 작용을 위해 다음 API 메서드를 제공합니다:
+- **navigateTo** – 지정된 인덱스의 단계를 활성화합니다.
+- **next** - 비활성화되지 않은 다음 단계를 활성화합니다.
+- **prev** – 비활성화되지 않은 이전 단계를 활성화합니다.
+- **reset** – stepper를 초기 상태로 재설정합니다.
+
+<DocsAside type="info">
+reset 메서드는 stepper를 초기 상태, 즉 첫 번째 단계를 활성화한 상태로 재설정합니다. 단계의 콘텐츠는 지우지 않습니다. 이는 직접 처리해야 합니다.
+</DocsAside>
+
+### 단계 사용자 지정하기
+
+{ProductName} Stepper를 사용하면 제목, 표시기 등에 대해 다양한 옵션을 구성할 수 있습니다.
+
+이는 <ApiLink pkg="core" type="Stepper" />의 <ApiLink pkg="core" type="Stepper" member="stepType" label="StepType" /> 속성으로 설정할 수 있습니다. 다음 값을 사용합니다:
+- 전체 **(기본값)**
+- 표시기
+- 제목
+
+**full**
+
+제목과 부제목이 정의되어 있으면, 이 설정에서는 표시기와 제목이 모두 렌더링됩니다.
+
+사용자는 단계의 제목 위치도 정의할 수 있으므로, 단계 표시기의 앞, 뒤, 위 또는 아래에 배치할 수 있습니다.
+사용자는 <ApiLink pkg="core" type="Stepper" member="titlePosition" label="TitlePosition" /> 속성을 사용하여 제목 위치를 구성할 수 있습니다. 다음 값을 사용합니다:
+- undefined **(기본값)**
+- end
+- start
+- bottom
+- top
+
+{Platform} <ApiLink pkg="core" type="Stepper" />가 가로 방향이고 제목 위치가 **정의되지 않은** 경우, 제목은 표시기 **아래**에 표시됩니다.
+
+방향이 세로로 설정되고 제목 위치가 **정의되지 않은** 경우, 제목은 표시기 **뒤**에 표시됩니다.
+
+<DocsAside type="info">
+**titlePosition** 속성은 stepper의 stepType 속성이 **full**로 설정된 경우 **에만** 적용됩니다.
+</DocsAside>
+
+**indicator**
+
+단계에 대해 표시기만 표시하려면 stepType 옵션을 **indicator**로 설정하십시오.
+
+단계 표시기는 어떤 콘텐츠도 지원하지만, 크기는 항상 **24픽셀**이라는 제약이 있습니다. 이를 고려하여 단계 표시기로는 <ApiLink pkg="core" type="Icon" /> 또는 <ApiLink pkg="core" type="Avatar" />을(를) 사용하는 것을 권장합니다.
+
+**제목**
+
+단계에 대해 제목만 표시하려면 stepType 옵션을 **title**로 설정하십시오.
+
+이렇게 하면 부제목이 정의되어 있을 경우, 부제목도 단계 제목 아래에 렌더링됩니다.
+
+<DocsAside type="info">
+이 컨테이너는 크기 제한 없이 필요에 따라 다시 템플릿화할 수 있습니다. 예를 들어 그 안에 24픽셀보다 큰 표시기를 추가할 수 있습니다.
+</DocsAside>
+
+아래 샘플은 노출된 모든 단계 유형과 그것을 바꾸는 방법을 보여 줍니다:
+
+<Sample src="/layouts/stepper/steptypes" height={300} alt="{Platform} Step 유형 예제" />
+
+### 동적 단계 높이
+
+<ApiLink pkg="core" type="Stepper" />이(가) 가로 방향일 때 콘텐츠 영역의 높이는 콘텐츠가 가장 많은 단계에 의해 결정됩니다. 다른 모든 단계는 이 고정 높이를 공유하므로, 콘텐츠가 적은 단계에서는 빈 공간이 보일 수 있습니다.
+
+고정 높이를 재정의하고 콘텐츠 영역이 활성 단계의 콘텐츠에 맞춰 조정되도록 하려면 **--body-grid-rows** CSS 변수를 **0fr**(기본값은 **1fr**)로 설정하십시오:
+
+```css
+igc-stepper {
+  --body-grid-rows: 0fr;
+}
+```
+
+<Sample src="/layouts/stepper/step-height" height={490} alt="{Platform} 콘텐츠 높이 예제" />
+
+### Stepper 애니메이션
+
+{Platform} <ApiLink pkg="core" type="Stepper" /> 애니메이션은 최종 사용자가 정의된 단계와 상호 작용할 때 아름다운 경험을 제공합니다. 사용 가능한 애니메이션 옵션은 stepper의 방향에 따라 다릅니다.
+
+stepper가 가로 방향이면 기본적으로 `slide` 애니메이션을 사용하도록 구성됩니다. 대안으로 `fade`도 지원합니다. 애니메이션은 <ApiLink pkg="core" type="Stepper" member="horizontalAnimation" label="HorizontalAnimation" /> 입력으로 구성합니다.
+
+세로 방향 레이아웃에서는 <ApiLink pkg="core" type="Stepper" member="verticalAnimation" label="VerticalAnimation" /> 속성으로 애니메이션 유형을 정의할 수 있습니다. 기본값은 `grow`로 설정되어 있으며, 사용자는 `fade`으로도 설정할 수 있습니다.
+
+두 애니메이션 유형 입력 모두를 `none`(으)로 설정하면 stepper 애니메이션이 비활성화됩니다.
+
+<ApiLink pkg="core" type="Stepper" /> 컴포넌트에서는 단계 사이 전환 지속 시간도 구성할 수 있습니다. 이는 숫자를 인수로 받는 <ApiLink pkg="core" type="Stepper" member="animationDuration" label="AnimationDuration" /> 속성으로 설정하며, 두 방향에 공통으로 적용됩니다. 기본값은 320ms입니다.
+
+<Sample src="/layouts/stepper/animations" height={600} alt="{Platform} Stepper 애니메이션 예제" />
+
+## 키보드 탐색
+
+{ProductName} Stepper는 최종 사용자에게 다양한 키보드 상호 작용을 제공합니다. 이 기능은 기본적으로 활성화되어 있으며, 최종 사용자가 단계 사이를 쉽게 이동할 수 있게 합니다.
+{Platform} <ApiLink pkg="core" type="Stepper" /> 탐색은 [W3 접근성 표준](https://www.w3.org/WAI/ARIA/apg/patterns/tabpanel/)을 준수하며 사용하기 편리합니다.
+
+**키 조합**
+
+- <kbd>TAB</kbd> - 다음 탭 가능한 요소로 포커스를 이동합니다.
+- <kbd>SHIFT</kbd> + <kbd>TAB</kbd> - 이전 탭 가능한 요소로 포커스를 이동합니다.
+- <kbd>↓</kbd> - stepper가 **세로 방향**일 때 다음 접근 가능한 단계의 헤더로 포커스를 이동합니다.
+- <kbd>↑</kbd> - stepper가 **세로 방향**일 때 이전 접근 가능한 단계의 헤더로 포커스를 이동합니다.
+- <kbd>←</kbd> - 두 방향 모두에서 이전 접근 가능한 단계의 헤더로 포커스를 이동합니다.
+- <kbd>→</kbd> - 두 방향 모두에서 다음 접근 가능한 단계의 헤더로 포커스를 이동합니다.
+- <kbd>HOME</kbd> - stepper에서 첫 번째 활성화된 단계의 헤더로 포커스를 이동합니다.
+- <kbd>END</kbd> - stepper에서 마지막 활성화된 단계의 헤더로 포커스를 이동합니다.
+- <kbd>ENTER</kbd> 또는 <kbd>SPACE</kbd> - 현재 포커스가 있는 단계를 활성화합니다.
+
+## {Platform} Stepper 스타일 지정
+
+아래 나열된 노출된 CSS 파트 중 일부를 사용하여 <ApiLink pkg="core" type="Step" />의 모양을 바꿀 수 있습니다:
+
+| 파트 이름 | 설명 |
+| ---------|------------ |
+| `header-container` | 단계 헤더와 구분선을 감싸는 래퍼입니다. |
+| `disabled` | 비활성 상태를 나타냅니다. header-container에 적용됩니다. |
+| `complete-start` | 현재 단계의 완료 상태를 나타냅니다. header-container에 적용됩니다. |
+| `complete-end` | 이전 단계의 완료 상태를 나타냅니다. header-container에 적용됩니다. |
+| `optional` | 선택적 상태를 나타냅니다. header-container에 적용됩니다. |
+| `invalid` | 유효하지 않은 상태를 나타냅니다. header-container에 적용됩니다. |
+| `top` | 제목이 표시기 위에 있어야 함을 나타냅니다. header-container에 적용됩니다. |
+| `bottom` | 제목이 표시기 아래에 있어야 함을 나타냅니다. header-container에 적용됩니다. |
+| `start` | 제목이 표시기 앞에 있어야 함을 나타냅니다. header-container에 적용됩니다. |
+| `end` | 제목이 표시기 뒤에 있어야 함을 나타냅니다. header-container에 적용됩니다. |
+| `header` | 단계의 표시기와 텍스트를 감싸는 래퍼입니다. |
+| `indicator` | 단계의 표시기입니다. |
+| `text` | 단계의 제목과 부제목을 감싸는 래퍼입니다. |
+| `empty` | 단계에 제목과 부제목이 제공되지 않았음을 나타냅니다. text에 적용됩니다. |
+| `title` | 단계의 제목입니다. |
+| `subtitle` | 단계의 부제목입니다. |
+| `body` | 단계 콘텐츠를 감싸는 래퍼입니다. |
+| `content` | 단계의 콘텐츠입니다. |
+
+이러한 CSS 파트를 사용하면 다음과 같이 <ApiLink pkg="core" type="Stepper" /> 컴포넌트의 모양을 사용자 지정할 수 있습니다:
+
+```css
+igc-step::part(title) {
+  color: var(--ig-primary-500);
+}
+igc-step[active]::part(indicator) {
+  background-color: var(--ig-primary-500);
+}
+igc-step::part(indicator) {
+  background-color: var(--ig-surface-500);
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/stepper/styling" height={300} alt="{Platform} Stepper 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,Blazor">
+
+<Sample src="/layouts/stepper/styling" height={600} alt="{Platform} Stepper 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## API 참조
+
+<ApiLink pkg="core" type="Stepper" /><br />
+<ApiLink pkg="core" type="Step" /><br />
+<ApiLink pkg="core" type="Avatar" /><br />
+<ApiLink pkg="core" type="Icon" /><br />
+
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

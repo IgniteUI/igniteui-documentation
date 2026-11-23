@@ -1,0 +1,176 @@
+---
+title: "Directivas estructurales de Angular | ngIf, ngswitch | Guía de WPF a Angular | Infragistics"
+description: "Aprenda a usar las directivas estructurales de Angular 9, como ngIf, ngswitch y ngFor, para añadir y quitar elementos de su vista en su aplicación de Angular"
+keywords: "directivas estructurales de angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "Para controlar el aspecto de los elementos del árbol visual en WPF, la forma más habitual es usar el enlace y un convertidor de visibilidad, lo que requiere lógica adicional y recursos estáticos."
+---
+
+# Directivas estructurales de Angular
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/vQe7R78Od8k">
+</iframe>
+
+Cuando se trata de controlar la apariencia de los elementos del árbol visual en WPF, la forma más común es usar el enlace de datos y un convertidor de visibilidad, lo que requiere cierta lógica adicional y recursos estáticos. Angular también tiene una técnica similar, que cambia la apariencia o el comportamiento de un elemento del DOM: las directivas de Angular. Uno de los tipos de `directives` de Angular es el de `structural directives`, que cambian el diseño del DOM agregando o quitando elementos del DOM.
+
+En este tema vamos a mostrar tres directivas estructurales: `ngIf`, `ngSwitch` y `ngFor`. Como indican sus nombres, cada una de ellas puede compararse con una estructura de C#. `ngIf` equivale a un bloque de código "if-else" de C#, `ngSwitch` equivale a la sentencia switch-case de C# y, por último, `ngFor` es exactamente lo mismo que un "for-loop" de C#.
+
+## Directiva `ngIf`
+
+Veamos cada una de estas directivas, empezando por `ngIf`. Esta directiva permite mostrar u ocultar elementos según una condición booleana. Empezaremos creando un elemento "div" con una etiqueta "h2" que contiene un nombre.
+
+```html
+<div>
+  <h2>John</h2>
+</div>
+```
+
+Si guardamos esto, el navegador mostrará el nombre John. Sin embargo, supongamos que tenemos una expresión booleana en la que queremos basar la visibilidad de esta etiqueta "h2". Por ejemplo, vamos a añadir una propiedad llamada "isFirstName" y a establecerla en false. Para indicar que el div se renderice cuando isFirstName sea igual a true, usaremos la siguiente sintaxis `*ngIf = "isFirstName"`.
+
+```typescript
+public isFirstName = false;
+```
+
+``` html
+<div *ngIf="isFirstName">
+  <h2>John</h2>
+</div>
+```
+
+Una vez guardados los archivos, como isFirstName es false, veremos que el nombre ya no se renderiza en el navegador. Sin embargo, si cambiamos isFirstName a true, el nombre "John" se renderizará en el navegador. Si volvemos a establecer isFirstName en false, veremos que el nombre ya no se renderiza y, en su lugar, queda vacío. Ese es el comportamiento predeterminado de la sentencia `ngif`: si la expresión es true, se renderiza la plantilla indicada; en caso contrario, queda vacío.
+
+Si quisiéramos conseguir el mismo comportamiento con WPF, tendríamos que usar un convertidor de visibilidad. El código tendría un aspecto parecido al siguiente:
+
+```cs
+public bool IsFirstName { get; set; }
+public Sample()
+  {
+      InitializeComponent();
+      this.DataContext = this;
+      this.IsFirstName = true;
+  }
+```
+
+```xml
+<UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+</UserControl.Resources>
+<Grid>
+  <Label Visibility="{Binding Path=IsFirstName, Converter={StaticResource VisibleIfTrueConverter}}">John</Label>
+</Grid>
+```
+
+En Angular es mucho más fácil y directo.
+
+Establezcamos un requisito: si la propiedad `isFirstName` es false, queremos mostrar en su lugar un apellido. Para ello, vamos a aprovechar la cláusula "else" de la directiva `ngIf`. Empecemos creando un `ng-template` que defina una etiqueta "h2" con el apellido. Un `ng-template` es simplemente un marcador de posición que permite definir contenido que no forma parte del DOM, pero que puede añadirse mediante código, como con la directiva `ngIf`. Pero, para usarlo en la directiva, necesitamos darle un nombre de variable de referencia de plantilla, como "lastname". Ahora que hemos nombrado nuestro `ng-template`, vamos a nuestra directiva `ngIf`, añadimos "**; else lastname**" y guardamos. Como "isFirstName" es false, estamos diciendo **que use en su lugar el apellido**, es decir, que usamos la plantilla con el apellido.
+
+```html
+<div *ngIf="isFirstName; else lastname">
+  <h2>John</h2>
+</div>
+<ng-template #lastname>
+  <h2>Doe</h2>
+</ng-template>
+```
+
+Otra forma de escribir esto es decir "**isFirstName; then firstname; else lastname**". Para hacerlo, necesitamos crear otra plantilla llamada "firstname".
+
+```html
+<div *ngIf="isFirstName; then firstname; else lastname">
+</div>
+<ng-template #firstname>
+  <h2>John</h2>
+</ng-template>
+<ng-template #lastname>
+  <h2>Doe</h2>
+</ng-template>
+```
+
+Si cambiamos "isFirstName" a true, el nombre se renderizará en el navegador. Y un último consejo sobre el uso de la directiva `ngIf`: la expresión no se limita a una sola propiedad. Puede usar varias propiedades o funciones, siempre que la expresión en conjunto devuelva un resultado booleano. Por ejemplo, incluso podemos usar operadores lógicos como `" && isValid || getIsValidName()"`.
+
+## Directiva `ngSwitch`
+
+La siguiente directiva que vamos a tratar es `ngSwitch`. Esta permite comparar una expresión con varias expresiones para decidir qué plantillas añadir o quitar.
+Supongamos que tenemos elementos "h2" que representan marcas de coches: Chevy, Ford y GMC. Queremos mostrar solo uno de estos elementos según el valor de una propiedad "make" que hemos definido en nuestro archivo TypeScript con un valor predeterminado de "Chevy". Para lograrlo, debemos usar la directiva `ngSwitch` con la siguiente sintaxis `[ngSwitch] = expression`, donde la expresión es nuestra propiedad "make". Añadir esto al elemento "div" que envuelve las etiquetas "h2" no basta. Como en WPF, necesitamos añadir algunas sentencias "case" a cada elemento "h2". La sintaxis para ello es `*ngSwitchCase = expression`. En este caso, comparamos directamente con texto, así que pondremos comillas simples alrededor del valor, lo que significa que el resultado final sería `*ngSwitchCase = "'Chevy'"` /similar para los otros dos valores/.
+
+```typescript
+make = "Chevy";
+```
+
+```html
+<div [ngSwitch]="make">
+  <h2 *ngSwitchCase="'Chevy'">Chevy</h2>
+  <h2 *ngSwitchCase="'Ford'">Ford</h2>
+  <h2 *ngSwitchCase="'GMC'">GMC</h2>
+</div>
+```
+
+Una vez guardado, solo veremos la opción Chevy renderizada en el navegador, porque el valor de nuestra propiedad "make" está establecido en "Chevy". Si la cambiamos, por ejemplo a "GMC", y guardamos, solo se renderizará la opción GMC en el navegador. Ahora bien, ¿qué pasa si añadimos una opción que no está disponible, por ejemplo "Lambo"? No se renderizaría nada, porque no coincide con ninguna de nuestras condiciones. Cuando usamos normalmente una sentencia switch en C#, tenemos no solo el case, sino también un valor predeterminado. Lo mismo existe en Angular: podemos añadir otra opción con el texto "Not Found" y marcarla con `*ngSwitchDefault`, que actuará como valor predeterminado si no se encuentra ninguno de los demás valores.
+
+```html
+<h2 *ngSwitchDefault>Not Found</h2>
+```
+
+En este caso, si buscamos Lambo, no tenemos la opción Lambo, así que pasamos al caso predeterminado, que es "Not found", y "Not found" se renderiza en el navegador. Hay que señalar que estas son expresiones, así que podemos usar incluso una función, siempre que devuelva un resultado que coincida con la expresión que pasamos. ¡Muy sencillo!
+
+## Directiva `ngFor`
+
+A continuación está la directiva `ngFor`. Esta directiva permite recorrer una colección de objetos y añadir una plantilla para cada elemento de esa colección. Empecemos añadiendo una colección de objetos en nuestro archivo TypeScript. La llamaremos un array de marcas, y añadiremos Chevy, Ford, GMC y Dodge. A continuación, crearemos un "div" y, para cada "div", crearemos una etiqueta "h2" que muestre el nombre de esa marca. Para ello usaremos la directiva `ngFor`: la sintaxis es `*ngFor="let make of makes"`. Eso nos permite usar la interpolación con la propiedad "make" definida mediante la parte "let make" de la expresión e imprimirla en la etiqueta "h2".
+
+```typescript
+makes = ["Chevy", "Ford", "GMC", "Dodge"];
+```
+
+```html
+<div *ngFor="let make of makes">
+  <h2>{{ make }}</h2>
+</div>
+```
+
+Si todo ha ido bien, deberíamos ver que, para cada elemento del array, usamos una etiqueta h2 para representarlo en el navegador. Además, la directiva `ngFor` proporciona algunos elementos auxiliares que permiten obtener más información sobre esa colección, como:
+
+- "index as i": permite determinar el índice de cada elemento
+
+```html
+<div *ngFor="let make of makes; index as i">
+  <h2>{{ i }} - {{ make }}</h2>
+</div>
+```
+
+- "first as f": permite saber si el elemento es el primero de la colección
+
+```html
+<div *ngFor="let make of makes; first as f">
+  <h2>{{ f }} - {{ make }}</h2>
+</div>
+```
+
+- "last as l": también puede obtener la última fila o el último elemento de la colección
+
+```html
+<div *ngFor="let make of makes; last as l">
+  <h2>{{ l }} - {{ make }}</h2>
+</div>
+```
+
+- "odd as o" o "even as e": permiten determinar si el elemento de la colección ocupa una posición impar o par
+
+```html
+<div *ngFor="let make of makes; odd as o">
+  <h2>{{ o }} - {{ make }}</h2>
+</div>
+```
+
+Así de fácil es añadir y quitar elementos de la vista en su aplicación de Angular: basta con usar una directiva estructural y ya está.
+
+## Recursos adicionales
+
+- [De escritorio a web: directivas estructurales en Angular](https://www.youtube.com/watch?v=vQe7R78Od8k&t)
+- [Directivas estructurales de Angular](https://angular.io/guide/structural-directives)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

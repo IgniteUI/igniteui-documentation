@@ -1,0 +1,373 @@
+---
+title: "Angular Grid 검색 필터 - Ignite UI for Angular"
+description: "Ignite UI for Angular Data grid로 빠른 그리드 검색을 수행하십시오. 그리드의 가상화된 데이터에서 즉각적인 콘텐츠 검색을 허용하면서 더 나은 UX를 제공합니다."
+keywords: Content search, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Angular Grid 검색은 데이터 컬렉션에서 값을 찾는 과정을 가능하게 합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 검색 필터
+
+Angular Grid 검색은 데이터 컬렉션에서 값을 찾는 과정을 가능하게 합니다. 검색 입력 상자, 버튼, 키보드 탐색 및 기타 유용한 기능으로 이 기능을 더 쉽게 설정할 수 있으며, 그렇게 하면 사용자 경험이 더 좋아집니다. 브라우저는 기본적으로 콘텐츠 검색 기능을 제공하지만, 대부분의 경우 Grid은(는) 화면 밖에 있는 열과 행을 가상화합니다. 이런 경우 브라우저 기본 그리드 검색은 DOM에 없는 가상화된 셀의 데이터를 검색할 수 없습니다. 우리는 Ignite UI for Angular의 테이블 기반 그리드를 Grid의 **가상화된 콘텐츠**를 검색할 수 있는 **검색 API**로 확장했습니다.
+
+## Angular 검색 예제
+
+다음 예제는 모든 열과 행을 검색할 수 있는 검색 입력 상자와 각 열에 대한 특정 필터링 옵션이 있는 Grid을(를) 보여 줍니다.
+
+<Sample src="/grid/grid-search-sample" height={600} alt="Angular 검색 예제" />
+
+## Angular 검색 사용법
+
+### 그리드 설정
+
+먼저 그리드를 만들고 데이터에 바인딩하겠습니다. 또한 사용할 컴포넌트에 대해 몇 가지 사용자 지정 스타일도 추가하겠습니다!
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-grid #grid1 id="grid1" [data]="data" [autoGenerate]="false" [allowFiltering]="true">
+    <igx-column [field]="'IndustrySector'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'IndustryGroup'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'SectorType'" dataType="string" [sortable]="true"></igx-column>
+    <igx-column [field]="'KRD'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'MarketNotion'" dataType="number" [sortable]="true"></igx-column>
+    <igx-column [field]="'Date'" dataType="date" [sortable]="true"></igx-column>
+</igx-grid>
+```
+
+```css
+/* searchgrid.component.css */
+
+.grid__wrapper {
+    margin: 15px;
+}
+
+.offset {
+    margin-bottom: 15px;
+}
+
+.resultsText {
+    font-size: 0.875rem;
+}
+
+.chips {
+    margin-left: 5px;
+}
+
+.searchButtons {
+    margin-left: 5px;
+}
+```
+
+좋습니다. 이제 Grid의 검색 API를 준비하겠습니다! 현재 검색된 텍스트를 저장하고, 검색이 대소문자를 구분하는지 및/또는 정확히 일치하는지 여부를 저장하는 데 사용할 수 있는 몇 가지 속성을 만들 수 있습니다.
+
+```typescript
+// searchgrid.component.ts
+
+public searchText: string = '';
+public caseSensitive: boolean = false;
+public exactMatch: boolean = false;
+```
+
+### Angular 검색 상자 입력
+
+이제 검색 입력을 만들어 보겠습니다! **searchText**를 새로 만든 입력에 ngModel로 바인딩하고 ngModelChange 이벤트를 구독하면, 사용자가 **searchText**를 수정할 때마다 이를 감지할 수 있습니다. 이를 통해 Grid의 <ApiLink type="Grid" member="findNext" label="findNext" /> 및 <ApiLink type="Grid" member="findPrev" label="findPrev" /> 메서드를 사용하여 **searchText**의 모든 일치 항목을 강조하고, 다음/이전 항목으로 스크롤할 수 있습니다(호출한 메서드에 따라 다름).
+
+<ApiLink type="Grid" member="findNext" label="findNext" />과 <ApiLink type="Grid" member="findPrev" label="findPrev" /> 메서드는 모두 세 개의 인수를 받습니다:
+
+- `text`: **문자열**(찾고 있는 텍스트)
+- (선택 사항) `caseSensitive`: **불리언**(검색이 대소문자를 구분해야 하는지 여부, 기본값은 false)
+- (선택 사항) `exactMatch`: **불리언**(검색이 정확히 일치해야 하는지 여부, 기본값은 false)
+
+정확히 일치하는 방식으로 검색할 때, 검색 API는 대소문자 구분까지 고려하여 **searchText**와 완전히 일치하는 셀 값만 결과로 강조합니다. 예를 들어 '_software_'와 '_Software_'는 대소문자 구분을 무시하면 정확히 일치합니다.
+
+위 메서드들은 **숫자** 값을 반환합니다(Grid에 주어진 문자열이 포함된 횟수).
+
+```html
+<!--searchgrid.component.html-->
+
+<input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="grid.findNext(searchText, caseSensitive, exactMatch)" />
+```
+
+### 결과 개수 표시
+
+현재 일치 항목의 위치와 전체 결과 개수도 표시해 보겠습니다! 이를 위해 그리드의 `lastSearchInfo` 속성을 사용할 수 있습니다. 이 속성은 **find** 메서드를 사용할 때 자동으로 업데이트됩니다.
+
+- `grid.lastSearchInfo.matchInfoCache.length` 값은 전체 결과 개수를 줍니다.
+- `grid.lastSearchInfo.activeMatchIndex` 값은 현재 일치 항목(match)의 인덱스 위치를 줍니다.
+
+```html
+<!--searchgrid.component.html-->
+
+@if (grid.lastSearchInfo) {
+    <div class="resultsText">
+        @if (grid.lastSearchInfo.matchInfoCache.length > 0) {
+            <span>
+                {{ grid.lastSearchInfo.activeMatchIndex + 1 }} of {{ grid.lastSearchInfo.matchInfoCache.length }} results
+            </span>
+        }
+        @if (grid.lastSearchInfo.matchInfoCache.length == 0) {
+            <span>
+                No results
+            </span>
+        }
+    </div>
+}
+```
+
+### 검색 버튼 추가하기
+
+검색 결과 사이를 자유롭게 검색하고 이동할 수 있도록, 버튼의 각 클릭 이벤트 핸들러 안에서 <ApiLink type="Grid" member="findNext" label="findNext" />과 <ApiLink type="Grid" member="findPrev" label="findPrev" /> 메서드를 호출하는 버튼 몇 개를 만들어 보겠습니다.
+
+```html
+<!--searchgrid.component.html-->
+
+<div class="searchButtons">
+    <input type="button" value="Previous" (click)="grid.findPrev(searchText, caseSensitive, exactMatch)" />
+    <input type="button" value="Next" (click)="grid.findNext(searchText, caseSensitive, exactMatch)" />
+</div>
+```
+
+### 키보드 검색 추가하기
+
+사용자가 키보드의 화살표 키와 Enter 키로 결과를 탐색하도록 할 수도 있습니다. 이를 위해 검색 입력의 **keydown** 이벤트를 처리하여, preventDefault() 메서드로 입력의 기본 커서 이동을 막고, 사용자가 누른 키에 따라 <ApiLink type="Grid" member="findNext" label="findNext" />/<ApiLink type="Grid" member="findPrev" label="findPrev" /> 메서드를 호출할 수 있습니다.
+
+```html
+<!--searchgrid.component.html-->
+
+<input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="grid.findNext(searchText, caseSensitive, exactMatch)"
+       (keydown)="searchKeyDown($event)" />
+```
+
+```typescript
+// searchgrid.component.ts
+
+public searchKeyDown(ev) {
+    if (ev.key === 'Enter' || ev.key === 'ArrowDown' || ev.key === 'ArrowRight') {
+        ev.preventDefault();
+        this.grid.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+    } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') {
+        ev.preventDefault();
+        this.grid.findPrev(this.searchText, this.caseSensitive, this.exactMatch);
+    }
+}
+```
+
+### 대소문자 구분 및 정확히 일치
+
+이제 사용자가 검색이 대소문자를 구분해야 하는지 및/또는 정확히 일치해야 하는지 선택할 수 있도록 하겠습니다. 이를 위해 간단한 체크박스 입력을 사용할 수 있으며, **caseSensitive** 및 **exactMatch** 속성을 각각 입력의 **checked** 속성에 바인딩하고, **change** 이벤트를 처리하여 속성을 토글하고 <ApiLink type="Grid" member="findNext" label="findNext" /> 메서드를 호출하면 됩니다.
+
+```html
+<!--searchgrid.component.html-->
+
+<span>Case sensitive</span>
+<input type="checkbox" [checked]="caseSensitive" (change)="updateSearch()">
+
+<span>Exact match</span>
+<input type="checkbox" [checked]="exactMatch" (change)="updateExactSearch()">
+```
+
+```typescript
+// searchgrid.component.ts
+
+public updateSearch() {
+    this.caseSensitive = !this.caseSensitive;
+    this.grid.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+}
+
+public updateExactSearch() {
+    this.exactMatch = !this.exactMatch;
+    this.grid.findNext(this.searchText, this.caseSensitive, this.exactMatch);
+}
+```
+
+### 유지
+
+Grid을 필터링하고 정렬하거나, 심지어 레코드를 추가하고 제거하고 싶다면 어떻게 될까요? 그런 작업을 한 후에도 현재 검색의 강조는 자동으로 업데이트되며, **searchText**와 일치하는 모든 텍스트 위에 계속 유지됩니다! 또한 검색은 페이징과도 함께 작동하며, Grid의 <ApiLink type="Paginator" member="perPage" label="perPage" /> 속성을 바꿔도 강조가 유지됩니다.
+
+### 아이콘 추가하기
+
+다른 컴포넌트를 사용하면 풍부한 사용자 인터페이스를 만들고 전체 검색 막대의 디자인을 개선할 수 있습니다! 검색 입력의 왼쪽에는 멋진 검색 또는 삭제 아이콘을, 검색 옵션을 위한 칩 몇 개를, 그리고 오른쪽에는 탐색용 버튼을 두고, 그 버튼에는 Material Design 아이콘과 멋진 Ripple 스타일을 조합할 수 있습니다. 더 세련된 디자인을 위해 이 컴포넌트들을 input group 안에 감쌀 수 있습니다.
+이를 위해 [**IgxInputGroup**](/input-group), [**IgxIcon**](/layouts/icon), [**IgxRipple**](/ripple), [**IgxButton**](inputs/button) 및 [**IgxChip**](/inputs/chip) 모듈을 가져오겠습니다.
+
+```typescript
+// app.module.ts
+
+...
+
+    IgxGridModule,
+    IgxInputGroupModule,
+    IgxIconModule,
+    IgxRippleModule,
+    IgxButtonModule,
+    IgxChipsModule
+} from 'igniteui-angular';
+// import { 
+//    IgxInputGroupModule,
+//    IgxIconModule,
+//    IgxRippleModule,
+//    IgxButtonModule,
+//    IgxChipsModule
+// } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, IgxIconModule, IgxRippleModule, IgxButtonModule, IgxChipsModule],
+})
+export class AppModule {}
+```
+
+마지막으로 새 컴포넌트로 템플릿을 업데이트하겠습니다!
+
+모든 컴포넌트를 [**IgxInputGroup**](../input-group.mdx) 안에 감싸겠습니다. 왼쪽에는 검색 아이콘과 삭제/지우기 아이콘 사이를 전환하겠습니다(검색 입력이 비어 있는지에 따라 다름). 가운데에는 입력 자체를 배치하겠습니다. 또한 삭제 아이콘을 클릭할 때마다 **searchText**를 업데이트하고, Grid의 <ApiLink type="Grid" member="clearSearch" label="clearSearch" /> 메서드를 호출하여 강조를 지우겠습니다.
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-input-group type="search" class="offset">
+    <igx-prefix>
+        @if (searchText.length == 0) {
+            <igx-icon>search</igx-icon>
+        }
+        @if (searchText.length > 0) {
+            <igx-icon (click)="clearSearch()">clear</igx-icon>
+        }
+    </igx-prefix>
+
+    <input #search1 id="search1" igxInput placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="grid.findNext(searchText, caseSensitive, exactMatch)"
+        (keydown)="searchKeyDown($event)" />
+
+    @if (searchText.length > 0) {
+        <igx-suffix>
+            ...
+        </igx-suffix>
+    }
+</igx-input-group>
+```
+
+```typescript
+// searchgrid.component.ts
+
+public clearSearch() {
+    this.searchText = '';
+    this.grid.clearSearch();
+}
+```
+
+input group의 오른쪽에는 다음 목적을 가진 세 개의 별도 컨테이너를 만들겠습니다:
+
+- 검색 결과를 표시하기 위한 컨테이너입니다.
+
+```html
+<!--searchgrid.component.html-->
+
+@if (searchText.length > 0) {
+    <igx-suffix>
+        @if (grid.lastSearchInfo) {
+            <div class="resultsText">
+                @if (grid.lastSearchInfo.matchInfoCache.length > 0) {
+                    <span>
+                        {{ grid.lastSearchInfo.activeMatchIndex + 1 }} of {{ grid.lastSearchInfo.matchInfoCache.length }} results
+                    </span>
+                }
+                @if (grid.lastSearchInfo.matchInfoCache.length == 0) {
+                    <span>
+                        No results
+                    </span>
+                }
+            </div>
+        }
+    </igx-suffix>
+}
+```
+
+- **caseSensitive** 및 **exactMatch** 속성을 토글하는 칩 몇 개를 표시하기 위한 컨테이너입니다. 체크박스는 이 속성에 따라 색이 바뀌는 멋진 칩 두 개로 바꾸었습니다. 칩을 클릭할 때마다 클릭한 칩에 따라 해당 핸들러인 **updateSearch** 또는 **updateExactSearch**를 호출합니다.
+
+```html
+<!--searchgrid.component.html-->
+
+    ...
+    <div class="chips">
+        <igx-chips-area>
+            <igx-chip (click)="updateSearch()" [color]="caseSensitive? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                <span>Case Sensitive</span>
+            </igx-chip>
+            <igx-chip (click)="updateExactSearch()" [color]="exactMatch? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                <span>Exact Match</span>
+            </igx-chip>
+        </igx-chips-area>
+    </div>
+    ...
+```
+
+- 검색 탐색 버튼의 경우, 입력을 Material 아이콘이 있는 Ripple 스타일 버튼으로 바꾸었습니다. 클릭 이벤트 핸들러는 그대로 두며, <ApiLink type="Grid" member="findNext" label="findNext" />/<ApiLink type="Grid" member="findPrev" label="findPrev" /> 메서드를 호출합니다.
+
+```html
+<!--searchgrid.component.html-->
+
+<igx-suffix>
+    <div class="searchButtons">
+        <button igxIconButton="flat" igxRipple igxRippleCentered="true" (click)="grid.findPrev(searchText, caseSensitive, exactMatch)">
+            <igx-icon fontSet="material">navigate_before</igx-icon>
+        </button>
+        <button igxIconButton="flat" igxRipple igxRippleCentered="true" (click)="grid.findNext(searchText, caseSensitive, exactMatch)">
+            <igx-icon fontSet="material">navigate_next</igx-icon>
+        </button>
+    </div>
+</igx-suffix>
+```
+
+## 알려진 제한 사항
+
+|제한 사항|설명|
+|--- |--- |
+|템플릿이 있는 셀에서 검색하기|검색 기능의 강조는 기본 셀 템플릿에서만 작동합니다. 사용자 지정 셀 템플릿이 있는 열이 있으면 강조가 작동하지 않으므로, 열 포매터 같은 다른 방법을 사용하거나, 그 열의 <ApiLink type="Column" member="searchable" label="searchable" /> 속성을 false로 설정해야 합니다.|
+|원격 가상화| 원격 가상화를 사용하면 검색이 올바르게 작동하지 않습니다|
+|잘린 텍스트가 있는 셀| 셀의 텍스트가 너무 커서 말줄임표로 잘리고, 찾고 있는 텍스트가 잘린 부분에 있으면, 그 셀로 스크롤하고 일치 개수에 포함하지만 아무것도 강조되지 않습니다 |
+
+## API 참조
+이 문서에서는 Grid을(를) 위해 검색 결과 사이를 이동하는 추가 기능을 갖춘 우리만의 검색 막대를 구현했습니다. 또한 아이콘, 칩, 입력 같은 추가 Ignite UI for Angular 컴포넌트도 사용했습니다. 검색 API는 아래에 나열되어 있습니다.
+<ApiLink type="Grid" /> 메서드:
+- <ApiLink type="Grid" member="findNext" label="findNext" />
+- <ApiLink type="Grid" member="findPrev" label="findPrev" />
+- <ApiLink type="Grid" member="clearSearch" label="clearSearch" />
+- <ApiLink type="Grid" member="refreshSearch" label="refreshSearch" />
+<ApiLink type="GridCell" /> 메서드:
+<ApiLink type="Column" /> 속성:
+- <ApiLink type="Column" member="searchable" label="searchable" />
+<ApiLink type="ISearchInfo" kind="interface" />
+사용된 관련 API를 가진 추가 컴포넌트 및/또는 디렉티브:
+- <ApiLink type="InputGroup" />
+- <ApiLink type="Icon" />
+- <ApiLink type="RippleDirective" />
+- <ApiLink type="ButtonDirective" />
+- <ApiLink type="Chip" />
+스타일:
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroupComponent 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIconComponent 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRippleDirective 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButtonDirective 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="IgxChipComponent 스타일" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [필터링](/grid/filtering)
+- [페이징](/grid/paging)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

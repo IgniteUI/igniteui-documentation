@@ -1,0 +1,89 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Série proporcional de dispersão | Vinculação de dados | Infragistics"
+description: "Use a série proporcional de dispersão do mapa {Platform} da Infragistics para plotar marcadores nos pontos geográficos especificados pelos dados do seu aplicativo. Saiba mais sobre as séries do mapa {ProductName}!"
+keywords: "Mapa {Platform}, série proporcional de dispersão, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "Series"]
+_language: pt-BR
+llms:
+  description: "No componente de mapa {Platform}, você pode usar a GeographicProportionalSymbolSeries para plotar bolhas ou marcadores proporcionais nas localizações geográficas especificadas pelos dados do seu aplicativo."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Mapa de bolhas geográfico de {Platform}
+
+No componente de mapa {Platform}, você pode usar o `GeographicProportionalSymbolSeries` para plotar bolhas ou marcadores proporcionais nas localizações geográficas especificadas pelos dados do seu aplicativo. Essa série de mapa pode ser útil para destacar pontos de interesse no seu caso de negócio, como lojas de departamento, armazéns ou escritórios. Você também pode usar essa série de mapa em um sistema de gestão de frota ou em um sistema GPS, para o rastreamento dinâmico de veículos.
+
+## {Platform} Exemplo de mapa de bolhas geográfico
+
+
+<Sample src="/maps/geo-map/type-scatter-bubble-series" height={500} alt="{Platform} Exemplo de uso da série proporcional de dispersão" />
+
+
+
+
+A demonstração acima mostra a série `GeographicProportionalSymbolSeries` e como especificar as opções de vinculação de dados da série. A seleção automática de marcadores é configurada junto com a lógica de prevenção de colisão de marcadores, e as cores do contorno e do preenchimento dos marcadores também são especificadas.
+
+## Resumo da configuração
+Assim como outros tipos de séries de dispersão no controle de mapa, a série `GeographicProportionalSymbolSeries` tem a propriedade `dataSource`, que pode ser vinculada a um array de objetos. Além disso, cada item de dados na fonte de itens deve ter duas colunas de dados que armazenam as coordenadas geográficas de longitude e latitude e usa as propriedades `longitudeMemberPath` e `latitudeMemberPath` para mapear essas colunas de dados. As configurações de `radiusScale` e `radiusMemberPath` definem o raio das bolhas.
+
+A tabela a seguir resume as propriedades da série `GeographicProportionalSymbolSeries` usadas na vinculação de dados.
+
+| Propriedade|Tipo|Descrição |
+| ---|---|--- |
+| `dataSource`|qualquer|Obtém ou define a fonte de itens |
+| `longitudeMemberPath`|string|Usa a propriedade DataSource para determinar a localização dos valores de longitude nos itens atribuídos |
+| `latitudeMemberPath`|string|Usa a propriedade DataSource para determinar a localização dos valores de latitude nos itens atribuídos |
+| `radiusMemberPath`|string|Define o caminho a usar para obter os valores de raio da série. |
+| `radiusScale`|`SizeScale`|Obtém ou define a propriedade de escala de raio da série de bolhas atual. |
+| `minimumValue`|qualquer|Configura o valor mínimo para calcular os subintervalos de valores. |
+| `maximumValue`|qualquer|Configura o valor máximo para calcular os subintervalos de valores. |
+
+## Trecho de código
+
+```json-snippet source="/maps/geo-map/type-scatter-bubble-series" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "map",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicProportionalSymbolSeries",
+            "name": "WorldCitiesSeries",
+            "dataSourceRef": "WorldCities",
+            "markerType": "Circle",
+            "radiusScale": {
+                "type": "SizeScale",
+                "minimumValue": 4,
+                "maximumValue": 60
+            },
+            "fillScale": {
+                "type": "ValueBrushScale",
+                "brushes": [
+                    "rgba(14, 194, 14, 0.4)",
+                    "rgba(252, 170, 32, 0.4)",
+                    "rgba(252, 32, 32, 0.4)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            },
+            "fillMemberPath": "Population",
+            "radiusMemberPath": "Population",
+            "latitudeMemberPath": "Y",
+            "longitudeMemberPath": "X",
+            "markerOutline": "rgba(0,0,0,0.3)"
+        }
+    ]
+}
+```
+
+
+## Referências da API
+
+`GeographicProportionalSymbolSeries`<br />
+`radiusScale`<br />

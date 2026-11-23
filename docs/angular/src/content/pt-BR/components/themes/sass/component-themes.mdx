@@ -1,0 +1,254 @@
+---
+title: "Temas de componentes"
+description: "O componente Ignite UI for Angular Theming é desenvolvido em SASS, com uma API de baixa complexidade que permite redefinir o estilo de um componente, de vários componentes ou de todo o conjunto."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Component, Angular Theming"
+_language: pt-BR
+llms:
+  description: "Os temas de componentes permitem alterar os estilos de instâncias específicas de componentes, substituindo o tema definido globalmente."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Temas de componentes
+
+<div class="highlight">
+Os temas de componentes permitem alterar os estilos de instâncias específicas de componentes, substituindo o tema definido globalmente.
+</div>
+
+## Visão geral
+
+<hr/>
+
+Os temas de componentes do Ignite UI for Angular usam propriedades personalizadas do CSS. Cada componente entrega o seu CSS estrutural no próprio pacote, enquanto as funções de tema do Sass e o mixin `tokens()` geram os valores dos tokens de design consumidos por esses estilos. Isso mantém o CSS do componente com eliminação de código não utilizado (tree-shakable) e permite que as aplicações substituam os temas em tempo de execução sem regenerar as regras estruturais.
+
+<igc-divider></igc-divider>
+
+## Criando temas
+
+<hr/>
+
+Um tema de componente tem duas partes:
+
+- **A função de tema do componente** — normaliza os valores fornecidos e retorna um mapa de tema.
+- **O mixin `tokens()`** — consome esse mapa e emite propriedades personalizadas do CSS, em modo global ou com escopo.
+
+Os antigos mixins de wrapper por componente deixaram de existir a partir do Ignite UI for Angular 22.1.0. Use `tokens()` para todos os temas de componentes.
+
+### O mixin de tokens
+
+O modo determina se `tokens()` emite substituições universais ou as variáveis locais completas consumidas pela folha de estilos estrutural de um componente.
+
+**Modo global (padrão)** — emite tokens universais `--ig-{component}-{property}`. As referências var() locais são reescritas para os seus equivalentes globais, para que os valores derivados (por exemplo, `adaptive-contrast`) sejam resolvidos corretamente em qualquer escopo. Expressões de tamanho são ignoradas; em vez disso, você deve passar valores concretos.
+
+```scss
+// Input:
+@include tokens(avatar-theme($background: red));
+
+// Output:
+:root {
+  --ig-avatar-background: red;
+  /* ... remaining avatar properties ... */
+}
+```
+
+**Modo com escopo** — emite variáveis locais do componente (`--{property}`) com uma cadeia de fallback que vai do prefixo configurado (`--igx-*`) até os tokens universais (`--ig-*`) e, por fim, o padrão do esquema. Quando chamado a partir da raiz da folha de estilos, é usado o seletor do mapa do tema. Quando chamado dentro de outro seletor, as declarações são emitidas para o seletor atual e para o seletor do componente.
+
+```scss
+// Input (from root):
+@include tokens(avatar-theme($background: red), $mode: 'scoped');
+
+// Output:
+igx-avatar {
+  --background: var(--igx-avatar-background, var(--ig-avatar-background, red));
+  /* ... remaining avatar properties ... */
+}
+
+
+// Input (from within a selector):
+.my-theme {
+  @include tokens(avatar-theme($background: red), $mode: 'scoped');
+}
+
+// Output:
+.my-theme,
+.my-theme igx-avatar {
+  --background: var(--igx-avatar-background, var(--ig-avatar-background, red));
+  /* ... */
+}
+```
+
+Use o modo global padrão para substituições universais que devem se aplicar a toda a aplicação ou ser herdadas por várias instâncias de componentes. O componente deve continuar incluído na saída [`theme()`](/themes/sass/global-themes) global, para que as suas declarações locais possam consumir os tokens universais.
+
+Definindo um tema de avatar:
+
+```scss
+// Change the background of the avatar to purple.
+$avatar-purple-theme: avatar-theme(
+  $background: purple,
+);
+
+// Pass the theme to tokens() in its default global mode.
+@include tokens($avatar-purple-theme);
+```
+
+O código emite substituições universais `--ig-avatar-*` em `:root`. Se outra chamada global `tokens()` para o avatar aparecer depois, a ordem normal da cascata faz com que os valores posteriores prevaleçam.
+
+Por exemplo:
+
+```scss
+// ...
+@include tokens($avatar-purple-theme);
+
+// Later
+$avatar-royalblue-theme: avatar-theme(
+  $background: royalblue,
+);
+
+@include tokens($avatar-royalblue-theme);
+```
+
+No código acima, o tema global de fato passa a ser o `$avatar-royalblue-theme`, pois ele sobrescreve quaisquer mixins `tokens` incluídos anteriormente.
+
+Use `$mode: 'scoped'` somente quando o tema precisar emitir declarações locais do componente que ainda não são fornecidas pelo tema global. Casos típicos incluem componentes excluídos de `theme()`, expressões de dimensionamento locais do componente, mapas de tema cujos múltiplos seletores precisem de declarações locais, e temas que estabeleçam um esquema diferente ou uma variante clara/escura. Passe o `$schema` dessa variante para a função de tema do componente.
+
+Não escolha o modo com escopo apenas porque `tokens()` está aninhado em um seletor ou substitui uma chamada `css-vars()`. Se o componente permanecer na saída `theme()` global, o modo global padrão normalmente fornece a substituição pretendida pela cadeia de fallback de tokens universais. Use o modo com escopo somente depois de constatar que a personalização depende de declarações que o modo padrão não emite.
+
+Overlays desanexados não herdam as substituições de tokens do componente que os abriu. Emita a substituição globalmente ou mova a saída para baixo do contêiner com tema. Use o modo com escopo somente se a personalização do overlay também exigir declarações locais do componente que o tema global não fornece. Veja [Estilização de overlay](/overlay-styling).
+
+<igc-divider></igc-divider>
+
+## Escopando temas
+
+<hr/>
+
+Como vimos no exemplo anterior, ao adicionar vários temas direcionados ao mesmo componente no mesmo nível, o último mixin de tema prevalece. Isso se deve à forma como a cascata do CSS funciona. Se você quiser ter dois ou mais temas direcionados ao mesmo tipo de componente, precisará restringi-los a um seletor. Por exemplo, podemos criar vários temas `igx-avatar` e restringi-los a seletores CSS específicos que poderemos usar depois na marcação do componente.
+
+```scss
+// ...
+// CSS class selectors
+.avatar-royalblue {
+  @include tokens($avatar-royalblue-theme);
+}
+
+.avatar-purple {
+  @include tokens($avatar-purple-theme);
+}
+```
+
+Em um template de componente:
+
+```html
+<div class="avatar-royalblue">
+
+  <igx-avatar initials="AZ"></igx-avatar>
+</div>
+
+<div class="avatar-purple">
+
+  <igx-avatar icon="home"></igx-avatar>
+</div>
+```
+
+<DocsAside type="note">
+Alguns componentes aplicam tema aos componentes que renderizam e declaram esses tokens no próprio host: o [Grid](../../grid/theming.mdx), o Tree Grid, o Hierarchical Grid, o Pivot Grid, o [Query Builder](../../query-builder.mdx), o [Excel Style Filtering](../../grid/excel-style-filtering.mdx), a interface de [ocultação e fixação de colunas](../../grid/column-hiding.mdx), o [Paginator](../../paginator.mdx) e a Grid Toolbar. Tokens com escopo em um ancestral não chegam aos componentes contidos neles. Aplique o tema ao componente pai, ou direcione o componente interno diretamente, por exemplo `.promo igx-checkbox` ou `.promo .igx-tooltip`. Veja [Componentes dentro do Grid](../../grid/theming.mdx#componentes-dentro-do-grid).
+</DocsAside>
+
+<igc-divider></igc-divider>
+
+## Camadas de cascata
+
+<hr/>
+
+Os estilos estruturais, as substituições do design system e os tokens derivados/contextuais são divididos entre os pacotes dos componentes e a predefinição global. O Ignite UI os declara na seguinte ordem de [camadas de cascata](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer): `ig.reset` → `ig.base` → `ig.material`/`ig.bootstrap`/`ig.fluent`/`ig.indigo` → `ig.derived`. Uma camada posterior prevalece sobre uma anterior, independentemente da ordem de carregamento dos pacotes.
+
+Envolva um stylesheet de reset ou normalize de terceiros em `ig.reset`, para que ele não consiga sobrescrever os estilos de componentes ou de tipografia:
+
+```scss
+@layer ig.reset {
+  @import "minireset.css";
+}
+```
+
+<DocsAside type="warning">
+As regras de aplicação sem camada têm precedência sobre as regras em camadas do Ignite UI. Mantenha as substituições comuns da aplicação sem camada, a não ser que você queira intencionalmente que elas participem da ordem de camadas do Ignite UI.
+</DocsAside>
+
+## Encapsulamento de visualização
+
+<hr/>
+
+Até aqui, exploramos formas de criar temas com escopo global, incluídos em um único arquivo Sass. No entanto, isso nem sempre é desejável, e, em alguns casos, você vai querer que o arquivo Sass fique vinculado a um componente específico. Nesses casos, precisamos considerar o encapsulamento de visualização e, especificamente, a forma como ele é emulado no Angular.
+
+A equipe do Angular adotou 3 estratégias de encapsulamento de visualização — Emulated (padrão), ShadowDom e None. Para saber mais sobre cada uma dessas estratégias, consulte a [documentação do Angular](https://angular.dev/api/core/ViewEncapsulation). Vamos analisar com mais atenção como tratar a estilização de componentes do Ignite UI for Angular que fazem parte de componentes pais com encapsulamento de visualização.
+
+Afinal, o que significa o encapsulamento de visualização `Emulated`? Esse tipo de encapsulamento não aproveita a especificação do Shadow DOM; em vez disso, usa uma forma de vincular os estilos a um componente e aos seus filhos, aplicando um atributo identificador único no elemento host.
+
+Vamos ver um exemplo usando variáveis CSS. Vamos criar um tema de avatar vinculado a um componente pai específico.
+
+Aqui está o nosso componente simples:
+
+```typescript
+import { Component, Input } from "@angular/core";
+
+@Component({
+  selector: "app-avatar",
+  styleUrls: ["./app-avatar.component.scss"],
+  template: `<igx-avatar [initials]="initials"></igx-avatar>`,
+})
+export class AvatarComponent extends Component {
+  @Input() public initials = "AZ";
+}
+```
+
+E é assim que fica a nossa folha de estilos Sass:
+
+```scss
+// app-avatar.component.scss
+
+// Import the theming module
+@use "igniteui-angular/theming" as *;
+
+// !IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+$avatar-royalblue-theme: avatar-theme(
+  $background: royalblue,
+);
+
+:host {
+  @include tokens($avatar-royalblue-theme);
+}
+```
+
+As variáveis universais de avatar são declaradas neste host e herdadas pelo seu avatar. Os atributos de encapsulamento gerados pelo Angular ainda podem impedir que os seletores emitidos por temas de componentes mais complexos correspondam a elementos aninhados ou internos. Se um tema local não tiver efeito, use `::ng-deep` em volta dessa inclusão ou mova-a para uma folha de estilos global. O tema permanece limitado a esta subárvore `app-avatar`, a menos que seja emitido globalmente.
+
+Os limites do Shadow DOM e as saídas de overlay desanexadas exigem que o tema seja emitido onde o alvo possa herdar dele ou onde seus seletores possam corresponder.
+
+A instância acima também poderia ser obtida sem usar Sass. Basta definir o valor da variável CSS `--ig-avatar-background` com a cor desejada:
+
+```css
+/* app-avatar.component.css */
+:host {
+  --ig-avatar-background: royalblue;
+}
+```
+
+## Visão geral da API
+
+<hr/>
+
+- <ApiLink kind="sass" module="themes" type="mixin-theme" label="Tema global" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Tema do avatar" />
+
+## Recursos adicionais
+
+<hr/>
+
+Saiba como configurar um tema global:
+
+- [Temas globais](/themes/sass/global-themes)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

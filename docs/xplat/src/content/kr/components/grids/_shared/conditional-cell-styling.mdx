@@ -1,0 +1,1325 @@
+---
+title: "{Platform} {ComponentTitle} 조건부 셀 스타일 지정 - {ProductName}"
+description: "사용자가 서로 다른 셀을 빠르게 식별할 수 있도록 하십시오. 다양한 셀 스타일을 정의하십시오. {Platform} {ComponentTitle}의 조건부 셀 스타일 지정을 사용하여 셀이 두드러지도록 만드십시오."
+keywords: "조건부 스타일 지정, {Platform}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridConditionalCellStyling}"
+_language: ko
+llms:
+  description: "{Platform} {ComponentTitle}의 {ProductName} 조건부 스타일 지정 기능을 사용하면 행 또는 셀 수준에서 사용자 지정 스타일을 적용할 수 있습니다."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 조건부 스타일 지정
+
+{Platform} {ComponentTitle}의 {ProductName} 조건부 스타일 지정 기능을 사용하면 행 또는 셀 수준에서 사용자 지정 스타일을 적용할 수 있습니다.  <ApiLink type="{ComponentName}" /> 조건부 스타일 지정 기능은 특정 조건을 충족하는 데이터를 시각적으로 강조하거나 두드러지게 표시하는 데 사용되며, 이를 통해 사용자는 그리드에서 중요한 정보나 추세를 더 쉽게 식별할 수 있습니다.
+
+## {ComponentTitle} 조건부 행 스타일
+
+{ProductName}의 <ApiLink type="{ComponentName}" /> 컴포넌트는 사용자 지정 규칙에 따라 행을 **조건부로 스타일 지정**하는 두 가지 방법을 제공합니다.
+
+- <ApiLink type="{ComponentName}" /> 컴포넌트에 <ApiLink type="{ComponentName}" member="rowClasses" /> 입력을 설정하면;
+- <ApiLink type="{ComponentName}" /> 컴포넌트에 <ApiLink type="{ComponentName}" member="rowStyles" /> 입력을 설정하면;
+
+이 항목의 뒷부분에서 두 방법을 모두 더 자세히 다루겠습니다.
+
+### 행 클래스 사용하기
+
+<ApiLink type="{ComponentName}" member="rowClasses" /> 입력을 설정하고 사용자 지정 규칙을 정의하여 <ApiLink type="{ComponentName}" /> 행의 스타일을 조건부로 지정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="data" [height]="'600px'" [width]="'100%'" [rowClasses]="rowClasses">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} AutoGenerate="true" Id="grid" Data="CustomersData" Name="grid" RowClassesScript="RowClassesHandler" @ref="grid">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" height="600px" width="100%">
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName};
+    grid.rowClasses = this.rowClasses;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} id="grid" height="600px" width="100%" rowClasses={rowClasses}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<ApiLink type="{ComponentName}" member="rowClasses" /> 입력은 키-값 쌍을 담은 객체 리터럴을 받으며, 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다.
+
+<PlatformBlock for="Angular">
+```typescript
+public rowClasses = {
+    activeRow: this.activeRowCondition
+};
+
+public activeRowCondition = (row: RowType) => this.grid?.navigation.activeNode?.row === row.index;
+
+```
+
+```scss
+// sample.component.scss
+
+::ng-deep {
+ .activeRow {
+    border: 2px solid #fc81b8;
+    border-left: 3px solid #e41c77;
+ }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("RowClassesHandler", () => {
+    return {
+        activeRow: (row) => row.index % 2 === 0
+    };
+}, true);
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```ts
+public rowClasses = {
+    activeRow: (row: IgcRowType) => row.index % 2 === 0
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rowClasses = {
+    activeRow: (row: IgrRowType) => row.index % 2 === 0
+}
+```
+</PlatformBlock>
+
+```css
+.activeRow {
+    border-top: 2px solid #fc81b8;
+    border-left: 3px solid #e41c77;
+}
+```
+
+<PlatformBlock for="Angular">
+사용자 지정 스타일이 현재 컴포넌트와 그 하위 항목까지 적용되도록 하려면 **::ng-deep** 또는 **ViewEncapsulation.Non**을 사용하십시오.
+</PlatformBlock>
+
+### 데모
+
+<Sample src="/{ComponentSample}/row-classes" height={600} alt="{Platform} {ComponentTitle} 행 클래스" />
+
+
+### 행 스타일 사용하기
+
+<ApiLink type="{ComponentName}" /> 컨트롤은 데이터 행의 조건부 스타일 지정을 허용하는 <ApiLink type="{ComponentName}" member="rowStyles" /> 속성을 노출합니다. <ApiLink type="{ComponentName}" member="rowClasses" />와 마찬가지로, 키가 스타일 속성이고 값이 평가할 식인 객체 리터럴을 받습니다. 또한 조건 없이 일반 스타일을 적용할 수도 있습니다.
+
+> <ApiLink type="{ComponentName}" member="rowStyles" />과(와) <ApiLink type="{ComponentName}" member="rowClasses" />의 콜백 시그니처는 다음과 같습니다:
+
+<PlatformBlock for="Angular">
+```ts
+(row: RowType) => boolean
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+(row: IgcRowType) => boolean
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+(row: IgrRowType) => boolean
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+(row) => boolean
+```
+</PlatformBlock>
+
+스타일을 정의해 보겠습니다:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
+```typescript
+public rowStyles = {
+    'background': (row: IgcRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000088' : '#00000000',
+    'border': (row: IgcRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '2px solid' : '1px solid',
+    'border-color': (row: IgcRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000099' : '#E9E9E9'
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rowStyles = {
+    'background': (row: IgrRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000088' : '#00000000',
+    'border': (row: IgrRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '2px solid' : '1px solid',
+    'border-color': (row: IgrRowType) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000099' : '#E9E9E9'
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("WebGridRowStylesHandler", () => {
+    return {
+        'background': (row) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000088' : '#00000000',
+        'border': (row) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '2px solid' : '1px solid',
+        'border-color': (row) => (+row.data['Change'] < 0 && +row.data['AnnualChange'] < 0) ? '#FF000099' : '#E9E9E9'
+    };
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid1 [data]="data | async" [height]="'500px'" width="100%"
+        [autoGenerate]="false" [allowFiltering]="true" [rowStyles]="rowStyles">
+</igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid AutoGenerate="true" Id="grid" Data="CustomersData" Name="grid" RowStylesScript="WebGridRowStylesHandler" @ref="grid">
+</IgbGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid id="grid" height="600px" width="100%" rowStyles={rowStyles}>
+</IgrGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid1" height="500px" width="100%"
+        auto-generate="false" allow-filtering="true">
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var grid1 = this.grid1 = document.getElementById('grid1') as IgcGridComponent;
+    grid1.rowStyles = this.rowStyles;
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```typescript
+public background = (row: RowType) => row.data.data['Title'] === 'CEO' ? '#6c757d' :
+    row.data.data['Title'].includes('President') ? '#adb5bd' : row.data.data['Title'].includes('Director') ?  '#ced4da' :
+    row.data.data['Title'].includes('Manager') ? '#dee2e6' :
+    row.data.data['Title'].includes('Lead') ? '#e9ecef' :
+    row.data.data['Title'].includes('Senior') ? '#f8f9fa' : null;
+
+public rowStyles = {
+    background: this.background,
+    'border-left': (row: RowType) => row.data.data['Title'] === 'CEO' || row.data.data['Title'].includes('President') ?
+        '2px solid' : null,
+    'border-color': (row: RowType) => row.data.data['Title'] === 'CEO' ? '#495057' : null,
+    color: (row: RowType) => row.data.data['Title'] === 'CEO' ? '#fff' : null
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+public rowStyles = {
+    'background': (row: IgcRowType) => row.data['Title'] === 'CEO' ? '#6c757d' :
+        row.data['Title'].includes('President') ? '#adb5bd' :
+        row.data['Title'].includes('Director') ? '#ced4da' :
+        row.data['Title'].includes('Manager') ? '#dee2e6' :
+        row.data['Title'].includes('Lead') ? '#e9ecef' :
+        row.data['Title'].includes('Senior') ? '#f8f9fa' : null,
+    'border-left': (row: IgcRowType) => row.data.data['Title'] === 'CEO' || row.data.data['Title'].includes('President') ?
+        '2px solid' : null,
+    'border-color': (row: IgcRowType) => row.data.data['Title'] === 'CEO' ? '#495057' : null,
+    color: (row: IgcRowType) => row.data.data['Title'] === 'CEO' ? '#fff' : null
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("WebTreeGridRowStylesHandler", () => {
+    return {
+        'background': (row) => row.data['Title'] === 'CEO' ? '#6c757d' :
+            row.data['Title'].includes('President') ? '#adb5bd' :
+            row.data['Title'].includes('Director') ? '#ced4da' :
+            row.data['Title'].includes('Manager') ? '#dee2e6' :
+            row.data['Title'].includes('Lead') ? '#e9ecef' :
+            row.data['Title'].includes('Senior') ? '#f8f9fa' : null,
+        'border-left': (row) => row.data['Title'] === 'CEO' || row.data['Title'].includes('President') ? '2px solid' : null,
+        'border-color': (row) => row.data['Title'] === 'CEO' ? '#495057' : null,
+        'color': (row) => row.data['Title'] === 'CEO' ? '#fff' : null
+    };
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const rowStyles = {
+    'background': (row: IgrRowType) => row.data['Title'] === 'CEO' ? '#6c757d' :
+        row.data['Title'].includes('President') ?'#adb5bd' :
+        row.data['Title'].includes('Director') ? '#ced4da' :
+        row.data['Title'].includes('Manager') ? '#dee2e6' :
+        row.data['Title'].includes('Lead') ? '#e9ecef' :
+        row.data['Title'].includes('Senior') ? '#f8f9fa' : null,
+    'border-left': (row: IgrRowType) => row.data['Title'] === 'CEO' || row.data['Title'].includes('President') ? '2px solid' : null,
+    'border-color': (row: IgrRowType) => row.data['Title'] === 'CEO' ? '#495057' : null,
+    'color': (row: IgrRowType) => row.data['Title'] === 'CEO' ? '#fff' : null
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<!-- sample.component.html -->
+<igx-tree-grid #treeGrid [data]="data" [moving]="true" primaryKey="ID" foreignKey="ParentID"
+        width="100%" height="550px" [rowStyles]="rowStyles">
+</igx-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="treeGrid" moving="true" primary-key="ID" foreign-key="ParentID"
+        width="100%" height="550px">
+</igc-tree-grid>
+```
+
+```ts
+constructor() {
+    var treeGrid = this.treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    treeGrid.rowStyles = this.rowStyles;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid AutoGenerate="true" PrimaryKey="ID" ForeignKey="ParentID" Data="Data" RowStylesScript="WebTreeGridRowStylesHandler">
+</IgbTreeGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrTreeGrid autoGenerate={true} primaryKey="ID" foreignKey="ParentID" data={data} rowStyles={rowStyles}>
+</IgrTreeGrid>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+public rowStyles = {
+    background:(row: RowType) => row.data['HasGrammyAward'] ? '#eeddd3' : '#f0efeb',
+    'border-left': (row: RowType) => row.data['HasGrammyAward'] ? '2px solid #dda15e' : null
+};
+
+public childRowStyles = {
+    'border-left': (row: RowType) => row.data['BillboardReview'] > 70 ? '3.5px solid #dda15e' : null
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+const rowStyles = {
+    background:(row: RowType) => row.data['HasGrammyAward'] ? '#eeddd3' : '#f0efeb',
+    'border-left': (row: RowType) => row.data['HasGrammyAward'] ? '2px solid #dda15e' : null
+};
+
+const childRowStyles = {
+    'border-left': (row: RowType) => row.data['BillboardReview'] > 70 ? '3.5px solid #dda15e' : null
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("WebGridRowStylesHandler", () => {
+    return {
+        background:(row: RowType) => row.data['HasGrammyAward'] ? '#eeddd3' : '#f0efeb',
+        'border-left': (row: RowType) => row.data['HasGrammyAward'] ? '2px solid #dda15e' : null
+    };
+}, true);
+
+igRegisterScript("WebGridChildRowStylesHandler", () => {
+    return {
+        'border-left': (row: RowType) => row.data['BillboardReview'] > 70 ? '3.5px solid #dda15e' : null
+    };
+}, true);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid  #hierarchicalGrid [data]="localdata" [autoGenerate]="false"
+        [height]="'580px'" [width]="'100%'" [rowStyles]="rowStyles">
+        <igx-row-island [key]="'Albums'" [autoGenerate]="false" [rowStyles]="childRowStyles">
+        </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid AutoGenerate="true" RowStylesScript="WebGridRowStylesHandler"
+        Height="580px" Width="100%">
+        <IgbRowIsland ChildDataKey="Albums" AutoGenerate="true" RowStylesScript="WebGridChildRowStylesHandler">
+        </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid id="hierarchicalGrid" auto-generate="true"
+        height="580px" width="100%">
+        <igc-row-island id="rowIsland1" child-data-key="Albums" auto-generate="true" >
+        </igc-row-island>
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var hierarchicalGrid = this.hierarchicalGrid = document.getElementById('hierarchicalGrid') as IgcHierarchicalGridComponent;
+    var rowIsland1 = this.rowIsland1 = document.getElementById('rowIsland1') as IgcRowIslandComponent;
+    hierarchicalGrid.rowStyles = this.rowStyles;
+    rowIsland1.rowStyles = this.childRowStyles;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid autoGenerate={true} rowStyles={rowStyles}
+        height="580px" width="100%">
+        <IgrRowIsland childDataKey="Albums" autoGenerate={true} rowStyles={childRowStyles}>
+        </IgrRowIsland>
+</IgrHierarchicalGrid>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+### 데모
+
+<Sample src="/{ComponentSample}/row-styles" height={620} alt="{Platform} {ComponentTitle} 행 스타일" />
+
+
+## {ComponentTitle} 조건부 셀 스타일
+
+## 개요
+
+{ProductName}의 <ApiLink type="{ComponentName}" /> 컴포넌트는 사용자 지정 규칙에 따라 셀을 **조건부로 스타일 지정**하는 두 가지 방법을 제공합니다.
+
+- <ApiLink type="Column" /> 입력 <ApiLink type="Column" member="cellClasses" />을(를) 키-값 쌍을 담은 객체 리터럴로 설정합니다. 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다. 그 결과 셀에 편리한 Material 스타일이 적용됩니다.
+
+### 셀 클래스 사용하기
+<ApiLink type="Column" /> <ApiLink type="Column" member="cellClasses" /> 입력을 설정하고 사용자 지정 규칙을 정의하여 <ApiLink type="{ComponentName}" /> 셀의 스타일을 조건부로 지정할 수 있습니다.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<igx-column field="BeatsPerMinute" dataType="number" [cellClasses]="beatsPerMinuteClasses"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="beatsPerMin" field="BeatsPerMinute" data-type="number"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var beatsPerMin = this.beatsPerMin = document.getElementById('beatsPerMin') as IgcColumnComponent;
+    beatsPerMin.cellClasses = this.beatsPerMinuteClasses;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="BeatsPerMinute" CellClassesScript="CellClassesHandler">
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="BeatsPerMinute" dataType="number" cellClasses={beatsPerMinuteClasses}></IgrColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="grammyNominations" field="GrammyNominations" data-type="number"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var grammyNominations = document.getElementById('grammyNominations') as IgcColumnComponent;
+    grammyNominations.cellClasses = this.grammyNominationsCellClassesHandler;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="BeatsPerMinute" CellClassesScript="GrammyNominationsCellClassesHandler">
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="BeatsPerMinute" dataType="number" cellClasses={grammyNominationsCellClassesHandler}></IgrColumn>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column field="UnitPrice" header="Unit Price" [dataType]="'number'" [cellClasses] = "priceClasses">
+    <ng-template igxCell let-cell="cell" let-val>
+        @if (cell.row.data.UnitPrice == 0) {
+            <span>-</span>
+        }
+        @if (cell.row.data.UnitPrice != 0) {
+            <span>${{val}}</span>
+        }
+    </ng-template>
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="unitPrice" field="UnitPrice" header="Unit Price" data-type="currency"></igc-column>
+```
+
+```ts
+constructor() {
+    var unitPrice = this.UnitPrice = document.getElementById('unitPrice') as IgcColumnComponent;
+    unitPrice.cellClasses = this.unitPriceCellClasses;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="UnitPrice" Header="Unit Price" DataType="GridColumnDataType.Currency" CellClassesScript="UnitPriceCellClassesHandler">
+</IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="UnitPrice" header="Unit Price" dataType="currency" cellClasses={unitPriceCellClasses}>
+</IgrColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+
+<ApiLink type="Column" member="cellClasses" /> 입력은 키-값 쌍을 담은 객체 리터럴을 받으며, 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+
+private upFontCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] > 95;
+}
+
+private downFontCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 95;
+}
+
+public beatsPerMinuteClasses = {
+    downFont: this.downFontCondition,
+    upFont: this.upFontCondition
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const upFontCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] > 95;
+}
+
+const downFontCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 95;
+}
+
+const beatsPerMinuteClasses = {
+    downFont: downFontCondition,
+    upFont: upFontCondition
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("CellClassesHandler", () => {
+    return {
+        downFont: (rowData, columnKey, cellValue, rowIndex) => rowData[columnKey] <= 95,
+        upFont: (rowData, columnKey, cellValue, rowIndex) => rowData[columnKey] > 95
+    };
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```scss
+// sample.component.scss
+
+::ng-deep {
+    .upFont {
+        color: green;
+    }
+
+    .downFont {
+        color: red;
+    }
+}
+
+```
+</PlatformBlock>
+
+```css
+.upFont {
+    color: green !important;
+}
+
+.downFont {
+    color: red !important;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public grammyNominationsCellClassesHandler = {
+    downFont: (rowData: any, columnKey: any): boolean => rowData[columnKey] < 5,
+    upFont: (rowData: any, columnKey: any): boolean => rowData[columnKey] >= 6
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const grammyNominationsCellClassesHandler = {
+    downFont: (rowData: any, columnKey: any): boolean => rowData[columnKey] < 5,
+    upFont: (rowData: any, columnKey: any): boolean => rowData[columnKey] >= 6
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("GrammyNominationsCellClassesHandler", () => {
+    return {
+        downFont: (rowData, columnKey) => rowData[columnKey] < 5,
+        upFont: (rowData, columnKey) => rowData[columnKey] >= 6
+    };
+}, true);
+```
+</PlatformBlock>
+
+```css
+.upFont {
+    color: green !important;
+}
+
+.downFont {
+    color: red !important;
+}
+```
+
+</ComponentBlock>
+
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+private downPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 5;
+}
+
+private upPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] > 5;
+}
+
+public unitPriceCellClasses = {
+    downPrice: this.downPriceCondition,
+    upPrice: this.upPriceCondition
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("UnitPriceCellClassesHandler", () => {
+    return {
+        downPrice: (rowData, columnKey) => rowData[columnKey] <= 5,
+        upPrice: (rowData, columnKey) => rowData[columnKey] > 5,
+    };
+}, true);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const upPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] > 5;
+}
+
+const downPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 5;
+}
+
+const unitPriceCellClasses = {
+    downPrice: downPriceCondition,
+    upPrice: upPriceCondition
+};
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```scss
+::ng-deep {
+    .upPrice {
+        color: red;
+    }
+
+    .downPrice {
+        color: green;
+    }
+}
+```
+
+</PlatformBlock>
+
+```css
+.upPrice {
+    color: red !important;
+}
+
+.downPrice {
+    color: green !important;
+}
+```
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+사용자 지정 스타일이 현재 컴포넌트와 그 하위 항목까지 적용되도록 하려면 **::ng-deep** 또는 **ViewEncapsulation.None**을 사용하십시오.
+</PlatformBlock>
+
+### 데모
+
+<Sample src="/{ComponentSample}/conditional-cell-style-1" height={600} alt="{Platform} {ComponentTitle} 조건부 셀 스타일 1" />
+
+
+- <ApiLink type="Column" /> 입력 <ApiLink type="Column" member="cellStyles" />`를 사용하면 키가 스타일 속성이고 값이 평가할 식인 객체 리터럴을 받습니다.
+
+> `cellStyles`과(와) `cellClasses`의 콜백 시그니처는 이제 다음과 같이 바뀌었습니다:
+
+<PlatformBlock for="Angular">
+```ts
+(rowData: any, columnKey: string, cellValue: any, rowIndex: number) => boolean
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+(rowData, columnKey, cellValue, rowIndex) => boolean
+```
+</PlatformBlock>
+
+### 셀 스타일 사용하기
+
+열은 열 셀의 조건부 스타일 지정을 허용하는 <ApiLink type="Column" member="cellStyles" label="CellStyles" /> 속성을 노출합니다. <ApiLink type="Column" member="cellClasses" />와 마찬가지로, 키가 스타일 속성이고 값이 평가할 식인 객체 리터럴을 받습니다. 또한 조건 없이 일반 스타일을 간단히 적용할 수도 있습니다.
+
+
+스타일을 정의해 보겠습니다:
+
+
+<PlatformBlock for="Angular">
+```typescript
+public oddColStyles = {
+    background: 'linear-gradient(to right, #b993d6, #8ca6db)',
+    color: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? 'white' : 'gray',
+    animation: '0.75s popin'
+};
+
+public evenColStyles = {
+    background: 'linear-gradient(to right, #8ca6db, #b993d6)',
+    color: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? 'gray' : 'white',
+    animation: '0.75s popin'
+};
+
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("WebGridCellStylesHandler", () => {
+    return {
+        background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+        color: (rowData, columnKey, cellValue, rowIndex) => {
+            if (columnKey === "Position") {
+                switch (cellValue) {
+                    case "up": return "#28a745";
+                    case "down": return "#dc3545";
+                    case "current": return "#17a2b8"
+                }
+            }
+        }
+    };
+}, true);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public webGridCellStylesHandler = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "Position") {
+            switch (cellValue) {
+                case "up": return "#28a745";
+                case "down": return "#dc3545";
+                case "current": return "#17a2b8"
+            }
+        }
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const webGridCellStyles = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "Position") {
+            switch (cellValue) {
+                case "up": return "#28a745";
+                case "down": return "#dc3545";
+                case "current": return "#17a2b8"
+            }
+        }
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+`ngOnInit`에서는 미리 정의된 `Columns` 컬렉션의 각 열에 대해 <ApiLink type="Column" member="cellStyles" label="CellStyles" /> 구성을 추가하며, 이는 <ApiLink type="{ComponentName}" /> 열을 동적으로 만드는 데 사용됩니다.
+
+```ts
+public ngOnInit() {
+    this.data = athletesData;
+    this.columns = [
+        { field: 'Id' },
+        { field: 'Position' },
+        { field: 'Name' },
+        { field: 'AthleteNumber' },
+        { field: 'CountryName' }
+    ];
+
+    this.applyCSS();
+}
+
+public applyCSS() {
+    this.columns.forEach((column, index) => {
+        column.cellStyles = (index % 2 === 0 ? this.evenColStyles : this.oddColStyles);
+    });
+}
+
+public updateCSS(css: string) {
+    this.oddColStyles = {...this.oddColStyles, ...JSON.parse(css)};
+    this.evenColStyles = {...this.evenColStyles, ...JSON.parse(css)};
+    this.applyCSS();
+}
+```
+
+```html
+<igx-grid
+    #grid1 [data]="data"
+    primaryKey="ID"
+    width="80%"
+    height="300px">
+    <igx-column *ngFor="let c of columns"
+        [field]="c.field"
+        [header]="c.field"
+        [cellStyles]="c.cellStyles">
+    </igx-column>
+</igx-grid>
+```
+
+`popin` 애니메이션 정의하기
+
+```scss
+// component.scss
+@keyframes popin {
+    0% {
+        opacity: 0.1;
+        transform: scale(.75, .75);
+        filter: blur(3px) invert(1);
+    }
+
+    50% {
+        opacity: .5;
+        filter: blur(1px);
+    }
+
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+        filter: none;
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn CellStylesScript="WebGridCellStylesHandler">
+</IgbColumn>
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="col1">
+</igc-column>
+```
+
+```ts
+constructor() {
+    var col1 = document.getElementById('col1') as IgcColumnComponent;
+    col1.cellStyles = this.webGridCellStylesHandler;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn cellStyles={webGridCellStyles}></IgrColumn>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```ts
+public webTreeGridCellStylesHandler = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "UnitPrice") {
+            if (cellValue > 10) return "#dc3545";
+            if (cellValue < 5) return "#28a745";
+            if (cellValue >= 5 && cellValue <= 10) return "#17a2b8";
+        }
+    }
+}
+```
+
+```html
+<igc-column id="col1">
+</igc-column>
+```
+
+```ts
+constructor() {
+    var col1 = document.getElementById('col1') as IgcColumnComponent;
+    col1.cellStyles = this.webTreeGridCellStylesHandler;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("WebTreeGridCellStylesHandler", () => {
+    return {
+        background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+        color: (rowData, columnKey, cellValue, rowIndex) => {
+            if (columnKey === "UnitPrice") {
+                if (cellValue > 10) return "#dc3545";
+                if (cellValue < 5) return "#28a745";
+                if (cellValue >= 5 && cellValue <= 10) return "#17a2b8";
+            }
+        }
+    };
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn CellStylesScript="WebTreeGridCellStylesHandler">
+</IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const webTreeGridCellStyles = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "UnitPrice") {
+            if (cellValue > 10) return "#dc3545";
+            if (cellValue < 5) return "#28a745";
+            if (cellValue >= 5 && cellValue <= 10) return "#17a2b8";
+        }
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn cellStyles={webTreeGridCellStyles}></IgrColumn>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("CellStylesHandler", () => {
+    return {
+        background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+        color: (rowData, columnKey, cellValue, rowIndex) => {
+            if (columnKey === "Debut") {
+                return cellValue > 2000 ? "#28a745" : "#dc3545";
+            }
+            return undefined;
+        }
+    };
+}, true);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public cellStylesHandler = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "Debut") {
+            return cellValue > 2000 ? "#28a745" : "#dc3545";
+        }
+        return undefined;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellStylesHandler = {
+    background: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? "#EFF4FD" : null,
+    color: (rowData, columnKey, cellValue, rowIndex) => {
+        if (columnKey === "Debut") {
+            return cellValue > 2000 ? "#28a745" : "#dc3545";
+        }
+        return undefined;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+`ngOnInit`에서는 미리 정의된 `Columns` 컬렉션의 각 열에 대해 <ApiLink type="Column" member="cellStyles" label="CellStyles" /> 구성을 추가하며, 이는 <ApiLink type="{ComponentName}" /> 열을 동적으로 만드는 데 사용됩니다.
+
+```ts
+public ngOnInit() {
+    this.data = athletesData;
+    this.columns = [
+        { field: 'Id' },
+        { field: 'Position' },
+        { field: 'Name' },
+        { field: 'AthleteNumber' },
+        { field: 'CountryName' }
+    ];
+
+    this.applyCSS();
+}
+
+public applyCSS() {
+    this.columns.forEach((column, index) => {
+        column.cellStyles = (index % 2 === 0 ? this.evenColStyles : this.oddColStyles);
+    });
+}
+
+public updateCSS(css: string) {
+    this.oddColStyles = {...this.oddColStyles, ...JSON.parse(css)};
+    this.evenColStyles = {...this.evenColStyles, ...JSON.parse(css)};
+    this.applyCSS();
+}
+```
+
+```html
+<igx-grid
+    #grid1 [data]="data"
+    primaryKey="ID"
+    width="80%"
+    height="300px">
+    <igx-column *ngFor="let c of columns"
+        [field]="c.field"
+        [header]="c.field"
+        [cellStyles]="c.cellStyles">
+    </igx-column>
+</igx-grid>
+```
+
+`popin` 애니메이션 정의하기
+
+```scss
+// component.scss
+@keyframes popin {
+    0% {
+        opacity: 0.1;
+        transform: scale(.75, .75);
+        filter: blur(3px) invert(1);
+    }
+
+    50% {
+        opacity: .5;
+        filter: blur(1px);
+    }
+
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+        filter: none;
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn CellStylesScript="CellStylesHandler">
+</IgbColumn>
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="col1">
+</igc-column>
+```
+
+```ts
+constructor() {
+    var col1 = document.getElementById('col1') as IgcColumnComponent;
+    col1.cellStyles = this.cellStylesHandler;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn cellStyles={cellStylesHandler}></IgrColumn>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+### 데모
+
+<Sample src="/{ComponentSample}/conditional-cell-style-2" height={620} alt="{Platform} {ComponentTitle} 조건부 셀 스타일 2" />
+
+
+## 알려진 문제와 제한 사항
+
+- (서로 다른 열의) 같은 조건에 바인딩된 셀이 있고 그중 하나가 업데이트되면, 조건이 충족될 때 다른 셀은 새 값을 기준으로 업데이트되지 않습니다.
+
+<PlatformBlock for="Angular, WebComponents">
+나머지 셀에도 변경 사항을 적용하려면 확인 과정이 필요합니다. 아래 예제에서 이를 수행하는 방법을 보여 줍니다.
+
+```ts
+public backgroundClasses = {
+    myBackground: (rowData: any, columnKey: string) => {
+        return rowData.Col2 < 10;
+    }
+};
+
+public editDone(evt) {
+    this.Col1.cellClasses = {...this.backgroundClasses};
+}
+```
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid1 [data]="data" height="500px" width="100%" (onCellEdit)="editDone($event)">
+  <igx-column field="Col1" dataType="number" [cellClasses]="backgroundClasses"></igx-column>
+  <igx-column field="Col2" dataType="number" [editable]="true" [cellClasses]="backgroundClasses"></igx-column>
+  <igx-column field="Col3" header="Col3" dataType="string" [cellClasses]="backgroundClasses"></igx-column>
+</igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" height="500px" width="100%" >
+  <igc-column id="Col1" field="Col1" data-type="number"></igc-column>
+  <igc-column id="Col2" field="Col2" data-type="number" editable="true"></igc-column>
+  <igc-column id="Col3" field="Col3" header="Col3" data-type="string"></igc-column>
+</{ComponentSelector}>
+```
+
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid1') as {ComponentName};
+    var Col1 = this.Col1 = document.getElementById('Col1') as IgcColumnComponent;
+    var Col2 = this.Col2 = document.getElementById('Col2') as IgcColumnComponent;
+    var Col3 = this.Col3 = document.getElementById('Col3') as IgcColumnComponent;
+    grid.data = this.data;
+    grid.onCellEdit = this.editDone;
+    Col1.cellClasses = this.backgroundClasses;
+    Col2.cellClasses = this.backgroundClasses;
+    Col3.cellClasses = this.backgroundClasses;
+}
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, TreeGrid">
+<PlatformBlock for="React">
+```tsx
+const backgroundClasses = {
+    myBackground: (rowData: any, columnKey: string) => {
+        return rowData.Col2 < 10;
+    }
+};
+
+const editDone = (event: IgrGridEditEventArgs) => {
+    backgroundClasses = {...backgroundClasses};
+}
+
+<{ComponentSelector} id="grid1" height="500px" width="100%" onCellEdit={editDone}>
+  <IgrColumn id="Col1" field="Col1" dataType="number" cellClasses={backgroundClasses}></IgrColumn>
+  <IgrColumn id="Col2" field="Col2" dataType="number" editable={true} cellClasses={backgroundClasses}></IgrColumn>
+  <IgrColumn id="Col3" field="Col3" header="Col3" dataType="string" cellClasses={backgroundClasses}></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+## API 참조
+
+<ApiLink type="{ComponentName}" /><br />
+<ApiLink type="Column" /><br />
+
+## 추가 리소스
+
+<ComponentBlock for="Grid">
+- [가상화와 성능](virtualization.mdx)
+- [편집](editing.mdx)
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 이동](column-moving.mdx)
+- [열 고정](column-pinning.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [열 숨기기](column-hiding.mdx)
+- [선택](selection.mdx)
+- [검색](search.mdx)
+- [다중 열 머리글](multi-column-headers.mdx)
+- [크기](size.mdx)
+</ComponentBlock>
+
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

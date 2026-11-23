@@ -1,0 +1,338 @@
+---
+title: "Componente de directiva de máscara de Angular | Ignite UI for Angular | Licencia MIT"
+description: "Con la directiva Mask de Ignite UI for Angular, el desarrollador puede controlar la entrada del usuario y dar formato al valor visible según reglas de máscara configurables, lo que ofrece distintas opciones de entrada y facilidad de uso y configuración."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library, directiva de máscara de Angular, Mask, Directive, Mask Editor, Angular Mask Editor"
+license: MIT
+_language: es
+llms:
+  description: "Al aplicar la directiva igxMask a un campo de entrada de texto, el desarrollador puede controlar la entrada del usuario y dar formato al valor visible, según reglas de máscara configurables."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de la directiva Angular Mask
+
+Al aplicar la directiva <ApiLink type="MaskDirective" label="igxMask" /> a un **campo de entrada de texto**, el desarrollador puede controlar la entrada del usuario y dar formato al valor visible, según reglas de máscara configurables. Ofrece distintas opciones de entrada y facilidad de uso y configuración.
+
+## Ejemplo de máscara de Angular
+
+<Sample src="/data-display/mask-sample-2" height={100} alt="Ejemplo de máscara de Angular" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Mask
+
+Para empezar con la directiva Ignite UI for Angular Mask, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxMaskModule` y `IgxInputGroupModule` en su archivo **app.module.ts**.
+
+<DocsAside type="info">
+La directiva <ApiLink type="MaskDirective" label="igxMask" /> se usa en una entrada de tipo **text**.
+</DocsAside>
+
+```typescript
+// app.module.ts
+
+...
+import { IgxMaskModule } from 'igniteui-angular/input-group';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxMaskModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxMaskModule, IgxInputGroupModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxMaskDirective` como dependencia independiente.
+
+```typescript
+// home.component.ts
+
+import { IgxMaskDirective, IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IgxMaskDirective, IGX_INPUT_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <igx-prefix>
+            <igx-icon>phone</igx-icon>
+        </igx-prefix>
+        <label igxLabel>Phone</label>
+        <input igxInput type="text" [igxMask]="'(####) 00-00-00 Ext. 9999'"/>
+    </igx-input-group>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxMaskDirective, IGX_INPUT_GROUP_DIRECTIVES]
+})
+export class HomeComponent {}
+```
+
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Ahora que ha importado el módulo o la directiva de Ignite UI for Angular Mask, puede empezar a usar la directiva `igxMask`.
+
+## Uso de la máscara de Angular
+
+### Reglas de máscara integradas admitidas
+
+<hr/>
+
+| Carácter de máscara | Descripción                                         |
+| :------------- | :-------------------------------------------------- |
+| 0              | requiere un dígito (0-9)                              |
+| 9              | requiere un dígito (0-9) o un espacio                   |
+| #              | requiere un dígito (0-9), o el signo más (+) o menos (-) |
+| L              | requiere una letra (a-Z)                             |
+| ?              | requiere una letra (a-Z) o un espacio                  |
+| A              | requiere un carácter alfanumérico (0-9, a-Z)                 |
+| a              | requiere un carácter alfanumérico (0-9, a-Z) o un espacio      |
+| &              | cualquier carácter del teclado (excepto el espacio)            |
+| C              | cualquier carácter del teclado                              |
+
+### Aplicar máscara a la entrada
+
+En el siguiente ejemplo, aplicamos a una entrada una máscara de número de teléfono con extensión.
+
+```html
+{/*sample.component.html*/}
+
+<igx-input-group>
+    <igx-prefix>
+        <igx-icon>phone</igx-icon>
+    </igx-prefix>
+    <label igxLabel>Phone</label>
+    <input igxInput type="text" [igxMask]="'(####) 00-00-00 Ext. 9999'"/>
+</igx-input-group>
+```
+
+Si está configurado correctamente, debería ver la demostración en su navegador.
+
+<DocsAside type="info">
+El `IgxMaskDirective` admite la entrada IME y actualiza la máscara cuando termina la composición.
+</DocsAside>
+
+### Enlazar al valor con formato o al valor sin procesar
+
+Use la entrada <ApiLink type="MaskDirective" member="includeLiterals" label="includeLiterals" /> para configurar qué valor de la entrada (con formato o sin procesar) se enlaza en su formulario cuando se aplica una máscara concreta. De forma predeterminada, <ApiLink type="MaskDirective" member="includeLiterals" label="includeLiterals" /> está establecido en _false_ y se usa el valor sin procesar.
+
+```html
+{/*sample.component.html*/}
+
+<igx-switch [(ngModel)]="includeLiterals" (change)="clear()">
+    Include Literals
+</igx-switch>
+
+<igx-input-group>
+    <label igxLabel>
+        Social Security Number
+    </label>
+    <input #ssn name="socialSecurityNumber" type="text"
+        igxInput
+        [igxMask]="'###-##-####'"
+        [(ngModel)]="socialSecurityNumber"
+        [includeLiterals]="includeLiterals" />
+</igx-input-group>
+
+@if (socialSecurityNumber.length > 0) {
+    <p>Value: {{ socialSecurityNumber }}</p>
+}
+```
+
+```typescript
+// sample.component.ts
+
+public socialSecurityNumber: string = '123-45-6789';
+public includeLiterals: boolean = true;
+
+public clear() {
+    if (this.includeLiterals === false){
+        this.socialSecurityNumber = '123-45-6789';
+    } else {
+        this.socialSecurityNumber = '';
+    }
+}
+```
+
+<Sample src="/data-display/mask-sample-3" height={160} alt="" />
+
+### Validar los valores con máscara
+
+Además de establecer una máscara en una entrada, también puede validar el valor introducido. El siguiente ejemplo implementa máscaras, validación y notificación de datos no válidos usando la directiva Mask y el componente Snack Bar.
+
+```html
+{/*sample.component.html*/}
+
+<igx-input-group>
+    <label igxLabel for="birthday">Birthday</label>
+    <input igxInput #dateInput [igxMask]="'00/00/0000'" [igxTextSelection]="true" name="birthday" type="text"
+        (blur)="validateDate(dateInput, snackbar)" />
+</igx-input-group>
+
+<igx-snackbar #snackbar></igx-snackbar>
+```
+
+```typescript
+// sample.component.ts
+
+public validateDate(dateInput, snackbar) {
+    if (!this.isDateValid(dateInput.value)) {
+        this.notify(snackbar, 'Invalid Date', dateInput);
+    }
+}
+
+private isDateValid(date) {
+    return (new Date(date).toLocaleString() !== 'Invalid Date');
+}
+
+private notify(snackbar, message, input) {
+    snackbar.message = message;
+    snackbar.show();
+}
+```
+
+<Sample src="/data-display/mask-sample-1" height={120} alt="" />
+
+<hr/>
+
+### Selección de texto
+
+Puede forzar al componente a seleccionar todo el texto de la entrada al recibir el foco usando <ApiLink type="TextSelectionDirective" />. Encontrará más información sobre `igxTextSelection` en [Label & Input](/label-input#foco-y-selección-de-texto).
+
+Importe `IgxTextSelectionModule` en su archivo **app.module.ts**:
+
+```typescript
+...
+import { ..., IgxTextSelectionModule } from 'igniteui-angular/input-group';
+// import { ..., IgxTextSelectionModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxTextSelectionModule]
+    ...
+})
+export class AppModule {}
+```
+
+Después, añada esto a la plantilla:
+
+```html
+<igx-input-group>
+    <input igxInput [igxMask]="'###-##-####'" [igxTextSelection]="true"/>
+</igx-input-group>
+```
+
+Puede ver cómo funciona esto en el ejemplo anterior.
+
+<DocsAside type="info">
+Para que el componente funcione correctamente, es fundamental establecer `igxTextSelection` después de la directiva `igxMask`. El motivo es que ambas directivas operan sobre el evento `focus` de la entrada, así que la selección del texto debe producirse después de establecer la máscara.
+</DocsAside>
+
+### Aplicar formato adicional al recibir y perder el foco
+
+Además del comportamiento predeterminado de la máscara, el usuario puede implementar sus propios pipes personalizados y aprovechar las propiedades de entrada <ApiLink type="MaskDirective" member="focusedValuePipe" label="focusedValuePipe" /> y <ApiLink type="MaskDirective" member="displayValuePipe" label="displayValuePipe" /> para transformar el valor en la salida deseada cuando la entrada recibe o pierde el foco. Esto no afecta al valor del modelo subyacente. ¡Veamos cómo lograrlo!
+
+Implemente dos pipes que añadan o eliminen un signo '%' al final del valor mostrado:
+
+```typescript
+@Pipe({ name: 'displayFormat' })
+export class DisplayFormatPipe implements PipeTransform {
+    public transform(value: any): string {
+        if (value !== null && value !== undefined) {
+            value = value.toString().trim();
+            if (!value.endsWith('%')) {
+                value += ' %';
+            }
+        }
+        return value;
+    }
+}
+
+@Pipe({ name: 'inputFormat' })
+export class InputFormatPipe implements PipeTransform {
+    public transform(value: any): string {
+        if (value !== null && value !== undefined) {
+            value = value.toString().replace(/%/g, '').trim();
+        }
+        return value;
+    }
+}
+```
+
+Pase una instancia de cada pipe a las propiedades de entrada <ApiLink type="MaskDirective" member="focusedValuePipe" label="focusedValuePipe" /> y <ApiLink type="MaskDirective" member="displayValuePipe" label="displayValuePipe" /> de la siguiente manera:
+
+```typescript
+public value = 100;
+public displayFormat = new DisplayFormatPipe();
+public inputFormat = new InputFormatPipe();
+```
+
+```html
+<igx-input-group>
+    <label igxLabel>Increase</label>
+    <input
+        igxInput
+        type="text"
+        [(ngModel)]="value"
+        [igxMask]="'000'"
+        [igxTextSelection]="true"
+        [focusedValuePipe]="inputFormat"
+        [displayValuePipe]="displayFormat"
+    />
+</igx-input-group>
+```
+
+Como resultado, se añadirá un signo '%' al valor al perder el foco (es decir, cuando el usuario hace clic fuera de la entrada), y se eliminará en cuanto la entrada reciba el foco.
+
+<Sample src="/data-display/mask-sample-4" height={100} alt="" />
+
+### Añadir un marcador de posición
+
+El usuario también puede aprovechar la propiedad de entrada <ApiLink type="MaskDirective" member="placeholder" label="placeholder" />, que cumple la función del atributo nativo placeholder de la entrada. Si no se proporciona un valor para <ApiLink type="MaskDirective" member="placeholder" label="placeholder" />, se usa el valor establecido para la máscara.
+
+```typescript
+value = null;
+```
+
+```html
+<igx-input-group>
+    <label igxLabel>Date</label>
+    <input igxInput
+    type="text"
+    [(ngModel)]="value"
+    [igxMask]="'00/00/0000'"
+    [placeholder]="'dd/mm/yyyy'"/>
+</igx-input-group>
+```
+
+<Sample src="/data-display/mask-sample-5" height={100} alt="" />
+
+## Referencias de API
+<hr/>
+- <ApiLink type="InputDirective" />
+- <ApiLink type="InputGroup" />
+- <ApiLink type="MaskDirective" />
+- <ApiLink type="Snackbar" />
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

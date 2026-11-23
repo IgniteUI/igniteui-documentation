@@ -22,7 +22,7 @@ process.chdir(path.join(__dirname, '../..'));
 // ── Build mode and language ──────────────────────────────────────────────────
 // DOCS_ENV: 'development' | 'staging' | 'production'  (preferred, default: 'development')
 // NODE_ENV: fallback — do NOT set to 'staging'; Vite derives import.meta.env.DEV from it.
-// DOCS_LANG: 'en' | 'jp' | 'kr'                       (default: 'en')
+// DOCS_LANG: 'en' | 'jp' | 'kr' | 'es' | 'pt-BR'                     (default: 'en')
 const docsEnv = process.env.DOCS_ENV || process.env.NODE_ENV || 'development';
 const docsLang = (process.env.DOCS_LANG || 'en') as NavLang;
 
@@ -93,6 +93,8 @@ function xplatImages(): Plugin {
 const localizedDescription: Partial<Record<NavLang, string>> = {
 	jp: 'Ignite UI for Angular のコンポーネントと API リファレンス ドキュメントです。',
 	kr: 'Ignite UI for Angular 컴포넌트 및 API 참조 문서입니다.',
+	es: 'Documentación de componentes y referencia de API de Ignite UI for Angular.',
+	'pt-BR': 'Documentação de componentes e referência de API do Ignite UI for Angular.',
 };
 
 // ── Pre-build steps (run before Astro starts) ────────────────────────────────

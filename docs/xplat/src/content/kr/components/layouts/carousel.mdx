@@ -1,0 +1,1335 @@
+---
+title: "Carousel"
+description: "탐색, 표시기, 애니메이션 및 자동 전환이 있는 슬라이드 기반 콘텐츠를 보여 주려면 {ProductName} Carousel 컴포넌트를 사용하십시오."
+keywords: "{ProductName}, UI 컨트롤, {Platform} 위젯, 웹 위젯, UI 위젯, {Platform}, Native {Platform} 컴포넌트 스위트, Native {Platform} 컨트롤, Native {Platform} 컴포넌트 라이브러리, {Platform} Carousel 컴포넌트, {Platform} Carousel 컨트롤"
+license: MIT
+mentionedTypes: ["Carousel", "CarouselSlide", "CarouselIndicator", "Icon", "Input", "Button"]
+relatedComponents: ["Tabs", "Stepper"]
+last_updated: "2026-08-17"
+_language: ko
+llms:
+  description: "{ProductName} Carousel은 탐색 컨트롤과 표시기를 갖춘 이미지, 카드 또는 기타 콘텐츠를 보여 주는 슬라이드 기반 레이아웃 컴포넌트입니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import carouselAnatomy from '@xplat-images/anatomy-content-light/carousel-lt-a.png';
+import carouselDo1 from '@xplat-images/carousel/carousel_do1.png';
+import carouselDo1_2x from '@xplat-images/carousel/carousel_do1@2x.png';
+import carouselDo2 from '@xplat-images/carousel/carousel_do2.png';
+import carouselDo2_2x from '@xplat-images/carousel/carousel_do2@2x.png';
+import carouselDoNot1 from '@xplat-images/carousel/carousel_do_not1.png';
+import carouselDoNot1_2x from '@xplat-images/carousel/carousel_do_not1@2x.png';
+import carouselDoNot2 from '@xplat-images/carousel/carousel_do_not2.png';
+import carouselDoNot2_2x from '@xplat-images/carousel/carousel_do_not2@2x.png';
+
+# Carousel 컴포넌트
+
+{ProductName} Carousel은 탐색 컨트롤과 표시기를 갖춘 이미지, 카드 또는 기타 콘텐츠를 보여 주는 슬라이드 기반 레이아웃 컴포넌트입니다.
+
+사용자가 선택적 애니메이션, 사용자 지정 탐색 및 자동 전환과 함께 관련된 소규모 슬라이드 모음을 한 번에 하나씩 살펴봐야 할 때 Carousel을 사용하십시오.
+
+## 라이브 데모
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/overview" showThemePicker height={500} noBackground={true} noBorder={false} alt="{Platform} Carousel 개요 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-overview-sample" showThemePicker height={500} noBackground={true} noBorder={true} alt="Angular Carousel 개요 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+Carousel 컴포넌트는 호스트 요소, 프로젝션된 슬라이드, 탐색 컨트롤 및 활성 슬라이드를 선택하는 표시기로 구성됩니다.
+
+<Anatomy
+  class="carousel-anatomy"
+  name="{Platform} Carousel 구성 요소"
+  description="캐러셀 구성 요소 다이어그램은 슬라이드 영역, 탐색 컨트롤 및 표시기에 레이블을 표시합니다."
+  src={carouselAnatomy.src}
+  alt="{Platform} Carousel 구성 요소: 슬라이드 영역, 탐색 컨트롤 및 표시기"
+/>
+
+<style>{`
+  .carousel-anatomy {
+    --igd-anatomy-padding: 48px 32px;
+  }
+
+  .carousel-anatomy .igd-anatomy__image {
+    max-width: 420px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 슬라이드:</strong> 캐러셀에서 순환하는 콘텐츠 패널이며, 각각 이미지, 텍스트 또는 미디어를 표시합니다.<br />
+<strong>2. 탐색 아이콘 버튼:</strong> 이전 및 다음 슬라이드로 이동합니다.<br />
+<strong>3. 표시기:</strong> 전체 슬라이드 수를 보여 주고 현재 활성 슬라이드를 강조합니다.</span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-carousel                     // host - coordinates slides, navigation, and indicators
+|- igc-carousel-slide             // slide item
+|- igc-carousel-indicator          // optional custom indicator for a slide
+|- [slot="previous-button"]        // optional custom previous navigation content
+`- [slot="next-button"]            // optional custom next navigation content
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-carousel                     // host - coordinates slides, navigation, and indicators
+|- igx-slide                      // slide item
+|- ng-template[igxCarouselIndicator]   // optional custom indicator template
+|- ng-template[igxCarouselPrevButton]  // optional previous navigation template
+`- ng-template[igxCarouselNextButton]  // optional next navigation template
+```
+
+</PlatformBlock>
+
+## 시작하기
+
+슬라이드를 선언하기 전에 {Platform}에는 carousel 컴포넌트, slide 컴포넌트 및 테마 스타일시트가 필요합니다.
+
+<PlatformBlock for="Angular">
+
+애플리케이션에 Carousel을 추가하기 전에 [시작하기](../general/getting-started.mdx) 항목에 따라 {ProductName}을(를) 설치하고 테마를 구성하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+애플리케이션에 Carousel을 추가하기 전에 [시작하기](../general-getting-started.mdx) 항목에 따라 {ProductName}을(를) 설치하고 테마를 구성하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<ApiLink pkg="core" type="Carousel" /> 컴포넌트와 그 테마를 import하고 등록하십시오.
+
+```ts
+import { defineComponents, IgcCarouselComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcCarouselComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Carousel 래퍼 컴포넌트와 테마 스타일시트를 가져오십시오.
+
+```tsx
+import { IgrCarousel, IgrCarouselSlide } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Carousel의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="CarouselModule" />을(를) 등록하는 것은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbCarouselModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 만들어지는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+애플리케이션 호스트 페이지에 테마 스타일시트를 추가하십시오.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Carousel 디렉티브와 Ignite UI 테마 스타일시트를 가져오십시오.
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_CAROUSEL_DIRECTIVES } from 'igniteui-angular/carousel';
+
+@Component({
+    selector: 'app-carousel-sample',
+    imports: [IGX_CAROUSEL_DIRECTIVES],
+    template: `
+        <igx-carousel>
+            <igx-slide>
+                <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+            </igx-slide>
+        </igx-carousel>
+    `,
+})
+export class CarouselSampleComponent {}
+```
+
+</PlatformBlock>
+
+## 사용법
+
+{Platform} Carousel은 호스트 안에 슬라이드 컴포넌트를 배치한 다음 레이아웃에 필요한 탐색, 표시기 및 전환 동작을 활성화하여 구성합니다.
+
+### 슬라이드
+
+<ApiLink pkg="core" type="Carousel" /> 선택기를 사용하여 슬라이드를 감싸십시오. 슬라이드에는 이미지, 텍스트, 양식 또는 기타 컴포넌트가 포함될 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/ignite-ui-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/ignite-ui-charts.png" alt="Ignite UI Charts" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### 활성 슬라이드
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+캐러셀이 렌더링될 때 선택되어야 하는 슬라이드에 <ApiLink pkg="core" type="CarouselSlide" member="active" label="active" /> 속성을 설정하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        ...
+    </igc-carousel-slide>
+    <igc-carousel-slide active>
+        ...
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        ...
+    </IgrCarouselSlide>
+    <IgrCarouselSlide active={true}>
+        ...
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        ...
+    </IgbCarouselSlide>
+    <IgbCarouselSlide Active="true">
+        ...
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+캐러셀이 렌더링될 때 선택되어야 하는 슬라이드에 <ApiLink type="Slide" member="active" label="active" /> 입력을 설정하십시오.
+
+```html
+<igx-carousel>
+    <igx-slide>
+        ...
+    </igx-slide>
+    <igx-slide [active]="true">
+        ...
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+활성 슬라이드가 설정되지 않으면 첫 번째 슬라이드가 기본적으로 활성화됩니다. 초기 렌더링이나 이후 업데이트 중에 여러 슬라이드가 활성화되면 마지막으로 활성화된 슬라이드가 사용됩니다.
+</DocsAside>
+
+### 구성
+
+캐러셀 구성 속성을 사용하여 순환, 표시기 위치, 탐색 표시 여부 및 방향을 제어하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/configuration" showThemePicker height={460} noBackground={false} alt="{Platform} Carousel 구성 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-configuration-sample" showThemePicker height={460} noBackground={false} alt="Angular Carousel 구성 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Carousel" member="disableLoop" label="disableLoop" /> 속성은 마지막 슬라이드에서 첫 번째 슬라이드로, 또는 첫 번째 슬라이드에서 마지막 슬라이드로 이동하는 순환 동작을 비활성화합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel disable-loop="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel disableLoop={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel DisableLoop="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Carousel" member="loop" label="loop" /> 입력을 사용하여 캐러셀이 마지막 슬라이드에서 첫 번째 슬라이드로, 또는 첫 번째 슬라이드에서 마지막 슬라이드로 순환할지 여부를 제어하십시오.
+
+```html
+<igx-carousel [loop]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<ApiLink pkg="core" type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> 속성을 사용하여 표시기의 위치를 변경하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel indicators-orientation="start">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel indicatorsOrientation={CarouselIndicatorsOrientation.Start}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel IndicatorsOrientation="@CarouselIndicatorsOrientation.Start">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel indicatorsOrientation="start">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+표시기를 숨기려면 <ApiLink pkg="core" type="Carousel" member="hideIndicators" label="hideIndicators" />을(를), 탐색 버튼을 숨기려면 <ApiLink pkg="core" type="Carousel" member="hideNavigation" label="hideNavigation" />을(를) 사용하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel hide-navigation="true" hide-indicators="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel hideNavigation={true} hideIndicators={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel HideNavigation="true" HideIndicators="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+표시기를 숨기려면 <ApiLink type="Carousel" member="indicators" label="indicators" />을(를), 탐색 버튼을 숨기려면 <ApiLink type="Carousel" member="navigation" label="navigation" />을(를) 사용하십시오.
+
+```html
+<igx-carousel [navigation]="false" [indicators]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<ApiLink pkg="core" type="Carousel" member="vertical" label="vertical" /> 속성을 사용하여 캐러셀을 세로 모드로 표시하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel vertical="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel vertical={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel Vertical="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel [vertical]="true">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### 사용자 지정 표시기
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="CarouselIndicator" /> 컴포넌트를 사용하여 기본 표시기 콘텐츠를 대체하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-indicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </igc-carousel-indicator>
+    <igc-carousel-indicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </igc-carousel-indicator>
+    <igc-carousel-slide>
+        <img src="assets/images/card/media/the_red_ice_forest.jpg" alt="Red ice forest" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/card/media/yosemite.jpg" alt="Yosemite" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgrCarouselIndicator>
+    <IgrCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgrCarouselIndicator>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgbCarouselIndicator>
+    <IgbCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgbCarouselIndicator>
+    <IgbCarouselSlide>
+        <img src="assets/images/card/media/the_red_ice_forest.jpg" alt="Red ice forest" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/card/media/yosemite.jpg" alt="Yosemite" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+사용자 지정 표시기마다 기본 표시기 콘텐츠와 `active` 슬롯 콘텐츠를 모두 제공하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="CarouselIndicatorDirective" /> 템플릿 디렉티브를 사용하여 기본 표시기 콘텐츠를 대체하십시오.
+
+```html
+<igx-carousel>
+    <ng-template igxCarouselIndicator let-slide>
+        <div [ngClass]="{ selected: slide.current === current }"></div>
+    </ng-template>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### 사용자 지정 탐색 버튼
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+`previous-button` 및 `next-button` 슬롯을 사용하여 사용자 지정 탐색 버튼 콘텐츠를 제공하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-icon slot="previous-button" name="previous" collection="material"></igc-icon>
+    <igc-icon slot="next-button" name="next" collection="material"></igc-icon>
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrIcon slot="previous-button" name="previous" collection="material"></IgrIcon>
+    <IgrIcon slot="next-button" name="next" collection="material"></IgrIcon>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbIcon slot="previous-button" IconName="previous" Collection="material"></IgbIcon>
+    <IgbIcon slot="next-button" IconName="next" Collection="material"></IgbIcon>
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+기본 탐색 컨트롤이 디자인에 맞지 않을 때는 이 슬롯에 텍스트, SVG 또는 <ApiLink pkg="core" type="Icon" /> 콘텐츠를 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="CarouselPrevButtonDirective" /> 및 <ApiLink type="CarouselNextButtonDirective" /> 템플릿 디렉티브를 사용하여 사용자 지정 탐색 버튼 콘텐츠를 제공하십시오.
+
+```html
+<igx-carousel>
+    <ng-template igxCarouselPrevButton let-disabled>
+        <button igxButton="fab" igxRipple="white" [disabled]="disabled">
+            <igx-icon fontSet="material">navigate_before</igx-icon>
+        </button>
+    </ng-template>
+    <ng-template igxCarouselNextButton let-disabled>
+        <button igxButton="fab" igxRipple="white" [disabled]="disabled">
+            <igx-icon fontSet="material">navigate_next</igx-icon>
+        </button>
+    </ng-template>
+    ...
+</igx-carousel>
+```
+
+기본 탐색 컨트롤이 디자인에 맞지 않을 때는 이 템플릿에 텍스트, SVG 또는 <ApiLink type="Icon" /> 콘텐츠를 사용하십시오.
+
+</PlatformBlock>
+
+### 슬라이드 콘텐츠
+
+캐러셀의 각 단계에 더 풍부한 콘텐츠가 필요하면 슬라이드 안에 양식, 이미지 및 기타 컴포넌트를 배치하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <igc-input type="text" placeholder="Username">
+                    <igc-icon slot="prefix" name="person"></igc-icon>
+                </igc-input>
+                <igc-input type="password" placeholder="Password">
+                    <igc-icon slot="prefix" name="password"></igc-icon>
+                </igc-input>
+                <igc-button type="reset">Sign In</igc-button>
+            </form>
+        </div>
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <IgrInput type="text" placeholder="Username">
+                    <IgrIcon slot="prefix" name="person"></IgrIcon>
+                </IgrInput>
+                <IgrInput type="password" placeholder="Password">
+                    <IgrIcon slot="prefix" name="password"></IgrIcon>
+                </IgrInput>
+                <IgrButton type="reset">
+                    <span>Sign In</span>
+                </IgrButton>
+            </form>
+        </div>
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <IgbInput DisplayType="@InputType.Text" Placeholder="Username">
+                    <IgbIcon slot="prefix" IconName="person" Collection="material"></IgbIcon>
+                </IgbInput>
+                <IgbInput DisplayType="@InputType.Password" Placeholder="Password">
+                    <IgbIcon slot="prefix" IconName="password" Collection="material"></IgbIcon>
+                </IgbInput>
+                <IgbButton DisplayType="@ButtonBaseType.Reset">Sign In</IgbButton>
+            </form>
+        </div>
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/carousel/components" showThemePicker height={480} noBackground={false} alt="컴포넌트가 포함된 {Platform} Carousel 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel>
+    <igx-slide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <igx-input-group>
+                    <igx-prefix>
+                        <igx-icon>person</igx-icon>
+                    </igx-prefix>
+                    <input igxInput type="text" placeholder="Username" />
+                </igx-input-group>
+                <igx-input-group>
+                    <igx-prefix>
+                        <igx-icon>password</igx-icon>
+                    </igx-prefix>
+                    <input igxInput type="password" placeholder="Password" />
+                </igx-input-group>
+                <button igxButton="contained" type="reset">Sign In</button>
+            </form>
+        </div>
+    </igx-slide>
+</igx-carousel>
+```
+
+<Sample src="/layouts/carousel-components-sample" showThemePicker height={500} noBackground={false} alt="컴포넌트가 포함된 Angular Carousel 예제" />
+
+</PlatformBlock>
+
+### 애니메이션
+
+슬라이드 전환 애니메이션을 변경하려면 <ApiLink pkg="core" type="Carousel" member="animationType" label="animationType" /> 속성을 설정하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel animation-type="fade">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel animationType="fade">
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel AnimationType="@CarouselAnimationType.Fade">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel animationType="fade">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+애니메이션을 비활성화하려면 <ApiLink pkg="core" type="Carousel" member="animationType" label="animationType" /> 속성을 `none`(으)로 설정하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/animations" showThemePicker height={500} noBackground={false} alt="{Platform} Carousel 애니메이션 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-animations" showThemePicker height={460} noBackground={false} alt="Angular Carousel 애니메이션 예제" />
+
+</PlatformBlock>
+
+### 터치 제스처
+
+스와이프 탐색이 구성된 슬라이드 전환과 일치해야 하는 터치 지원 기기에서는 Carousel을 사용하십시오.
+
+<PlatformBlock for="Angular">
+
+팬 제스처를 비활성화해야 할 때는 <ApiLink type="Carousel" member="gesturesSupport" label="gesturesSupport" /> 입력을 `false`(으)로 설정하십시오.
+
+```html
+<igx-carousel [gesturesSupport]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### 자동 전환
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+자동 슬라이드쇼를 만들려면 <ApiLink pkg="core" type="Carousel" member="interval" label="interval" /> 속성을 설정하십시오.
+
+포인터 또는 키보드 상호 작용 중에도 자동 전환을 계속해야 할 때는 <ApiLink pkg="core" type="Carousel" member="disablePauseOnInteraction" label="disablePauseOnInteraction" />을(를) `true`(으)로 설정하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel interval="2000" disable-pause-on-interaction="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel interval={2000} disablePauseOnInteraction={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel Interval="2000" DisablePauseOnInteraction="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+자동 슬라이드쇼를 만들려면 <ApiLink type="Carousel" member="interval" label="interval" /> 입력을 설정하고, 상호 작용 중에 전환이 멈추지 않아야 하면 <ApiLink type="Carousel" member="pause" label="pause" />을(를) `false`(으)로 설정하십시오.
+
+```html
+<igx-carousel [interval]="2000" [pause]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+캐러셀 콘텐츠 위에 마우스를 올리거나 키보드 포커스를 캐러셀 콘텐츠 안으로 옮기면 자동 전환이 일시 중지됩니다. 포인터나 키보드 포커스가 캐러셀을 벗어나면 자동 전환이 다시 시작됩니다.
+</DocsAside>
+
+### 썸네일 표시기
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+각 표시기가 해당 슬라이드를 미리 보여 줘야 할 때는 썸네일 이미지가 있는 사용자 지정 표시기를 사용하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel disable-pause-on-interaction="true" hide-navigation="true" vertical="true" interval="2000" animation-type="fade">
+    <igc-carousel-indicator>
+        <img class="blurred" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail" />
+        <img slot="active" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail active" />
+    </igc-carousel-indicator>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/WonderfulCoast.png" alt="Wonderful coast" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const images = [
+    {
+        src: "assets/images/carousel/WonderfulCoast.png",
+        alt: "Wonderful Coast",
+    },
+];
+
+<IgrCarousel disablePauseOnInteraction={true} hideNavigation={true} interval={2000} vertical={true} animationType="fade">
+    {images.map((image, index) => (
+        <React.Fragment key={index}>
+            <IgrCarouselSlide>
+                <img src={image.src} alt={image.alt} />
+            </IgrCarouselSlide>
+            <IgrCarouselIndicator>
+                <img
+                    className="blurred"
+                    src={image.src.replace(".png", "Thumb.png")}
+                    alt={`${image.alt} thumbnail`}
+                    width="50"
+                    height="60"
+                />
+                <img
+                    slot="active"
+                    src={image.src.replace(".png", "Thumb.png")}
+                    alt={`${image.alt} thumbnail active`}
+                    width="50"
+                    height="60"
+                />
+            </IgrCarouselIndicator>
+        </React.Fragment>
+    ))}
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel DisablePauseOnInteraction="true"
+             HideNavigation="true"
+             Interval="2000"
+             Vertical="true"
+             AnimationType="@CarouselAnimationType.Fade">
+    <IgbCarouselIndicator>
+        <img class="blurred" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail" />
+        <img slot="active" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail active" />
+    </IgbCarouselIndicator>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/WonderfulCoast.png" alt="Wonderful coast" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/carousel/thumbnail" showThemePicker height={470} noBackground={false} alt="{Platform} Carousel 썸네일 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+표시기가 해당 슬라이드를 미리 보여 줘야 할 때는 각 표시기마다 썸네일 이미지를 넣은 <ApiLink type="CarouselIndicatorDirective" /> 템플릿 디렉티브를 사용하십시오.
+
+```html
+<igx-carousel [navigation]="false" [pause]="false" [interval]="2000" [vertical]="true" animationType="fade">
+    <ng-template igxCarouselIndicator let-slide>
+        <img
+            [class.blurred]="!slide.active"
+            [src]="slides[slide.index].thumbnail"
+            [alt]="slides[slide.index].alt + ' thumbnail'"
+            width="50"
+            height="60" />
+    </ng-template>
+
+    @for (slide of slides; track slide.image) {
+        <igx-slide>
+            <img class="slide-image" [src]="slide.image" [alt]="slide.alt" />
+        </igx-slide>
+    }
+</igx-carousel>
+```
+
+<Sample src="/layouts/carousel-thumbnail" showThemePicker height={470} noBackground={false} alt="Angular Carousel 썸네일 표시기 예제" />
+
+</PlatformBlock>
+
+### 사용 여부
+
+**사용 시기:** 사용자가 한 번에 하나씩 살펴보는 관련된 시각 또는 혼합 콘텐츠 슬라이드를 간결한 묶음으로 보여 줘야 할 때 Carousel을 사용하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**사용하지 말아야 할 때:** 기본 탐색, 길고 순차적인 워크플로 또는 나란히 비교해야 하는 콘텐츠에는 Carousel을 사용하지 마십시오. 이름이 있는 섹션 사이를 전환하려면 [탭](./tabs.mdx)을, 단계별 순차 작업에는 [Stepper](./stepper.mdx)를 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**사용하지 말아야 할 때:** 기본 탐색, 길고 순차적인 워크플로 또는 나란히 비교해야 하는 콘텐츠에는 Carousel을 사용하지 마십시오. 이름이 있는 섹션 사이를 전환하려면 [탭](./tabs.mdx)을, 단계별 순차 작업에는 [Stepper](../stepper.mdx)를 사용하십시오.
+
+</PlatformBlock>
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">사용</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">사용하지 않음</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDo1} srcset={`${carouselDo1.src} 1x, ${carouselDo1_2x.src} 2x`} alt="{Platform} Carousel 권장 사항" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDoNot1} srcset={`${carouselDoNot1.src} 1x, ${carouselDoNot1_2x.src} 2x`} alt="{Platform} Carousel 비권장 사항" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDo2} srcset={`${carouselDo2.src} 1x, ${carouselDo2_2x.src} 2x`} alt="시각적 슬라이드가 있는 {Platform} Carousel 권장 사항" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDoNot2} srcset={`${carouselDoNot2.src} 1x, ${carouselDoNot2_2x.src} 2x`} alt="밀도 높은 콘텐츠가 있는 {Platform} Carousel 비권장 사항" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+## 속성
+
+다음 Carousel 속성은 슬라이드 기반 레이아웃에서 가장 자주 사용되는 구성을 다룹니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="CarouselSlide" member="active" label="active" /> | `boolean` | `false` | 슬라이드를 활성 상태로 표시합니다. |
+| <ApiLink pkg="core" type="Carousel" member="disableLoop" label="disableLoop" /> | `boolean` | `false` | 첫 번째 슬라이드와 마지막 슬라이드 사이의 순환을 비활성화합니다. |
+| <ApiLink pkg="core" type="Carousel" member="disablePauseOnInteraction" label="disablePauseOnInteraction" /> | `boolean` | API 보기 | 포인터 또는 키보드 상호 작용 시 자동 전환이 일시 중지되지 않도록 유지합니다. |
+| <ApiLink pkg="core" type="Carousel" member="hideIndicators" label="hideIndicators" /> | `boolean` | `false` | 슬라이드 표시기를 숨깁니다. |
+| <ApiLink pkg="core" type="Carousel" member="hideNavigation" label="hideNavigation" /> | `boolean` | `false` | 이전 및 다음 탐색 버튼을 숨깁니다. |
+| <ApiLink pkg="core" type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> | `CarouselIndicatorsOrientation` | API 보기 | 표시기의 위치를 제어합니다. |
+| <ApiLink pkg="core" type="Carousel" member="interval" label="interval" /> | `number` | API 보기 | 자동 전환 간격을 밀리초 단위로 설정합니다. |
+| <ApiLink pkg="core" type="Carousel" member="vertical" label="vertical" /> | `boolean` | `false` | 캐러셀을 세로 방향으로 표시합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <ApiLink type="Carousel" member="loop" label="loop" /> | `boolean` | `true` | 첫 번째 슬라이드와 마지막 슬라이드 사이의 순환을 활성화합니다. |
+| <ApiLink type="Carousel" member="navigation" label="navigation" /> | `boolean` | `true` | 이전 및 다음 탐색 버튼을 표시하거나 숨깁니다. |
+| <ApiLink type="Carousel" member="indicators" label="indicators" /> | `boolean` | `true` | 슬라이드 표시기를 표시하거나 숨깁니다. |
+| <ApiLink type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> | `string` | API 보기 | 표시기의 위치를 제어합니다. |
+| <ApiLink type="Carousel" member="interval" label="interval" /> | `number` | API 보기 | 자동 전환 간격을 밀리초 단위로 설정합니다. |
+| <ApiLink type="Carousel" member="pause" label="pause" /> | `boolean` | API 보기 | 상호 작용 시 자동 전환이 일시 중지되는지 여부를 제어합니다. |
+| <ApiLink type="Carousel" member="vertical" label="vertical" /> | `boolean` | `false` | 캐러셀을 세로 방향으로 표시합니다. |
+| <ApiLink type="Carousel" member="gesturesSupport" label="gesturesSupport" /> | `boolean` | API 보기 | 팬 제스처를 활성화하거나 비활성화합니다. |
+| <ApiLink type="Carousel" member="animationType" label="animationType" /> | `string` | API 보기 | 슬라이드 전환 애니메이션을 설정합니다. |
+
+</PlatformBlock>
+
+## 스타일링
+
+캐러셀은 노출된 파트, 사용자 지정 표시기 콘텐츠 및 사용자 지정 탐색 슬롯을 통해 스타일을 지정할 수 있습니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/styling" height={480} noBackground={false} alt="{Platform} Carousel 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-styling" height={460} noBackground={false} alt="Angular Carousel 스타일 지정 예제" />
+
+</PlatformBlock>
+
+### Sass 테마 지정
+
+캐러셀에 애플리케이션 전체에서 일관되게 유지되어야 하는 테마 수준의 변경이 필요하면 Sass 테마를 사용하십시오.
+
+`$button-background`과(와) `$indicator-background`을(를) 기본 테마 매개변수로 사용하십시오. 테마는 이들로부터 관련 상호 작용 상태의 색상을 도출합니다. 특정 세부 조정에는 나머지 매개변수를 사용하십시오.
+
+| 매개변수 | 설명 |
+| --- | --- |
+| `$button-background` | 비활성 상태의 이전 및 다음 탐색 버튼 배경에 대한 기본 매개변수입니다. |
+| `$indicator-background` | 표시기 컨테이너 배경에 대한 기본 매개변수입니다. |
+| `$slide-background` | 각 슬라이드의 배경색입니다. |
+| `$button-hover-background` | 마우스를 올렸을 때의 탐색 버튼 배경입니다. |
+| `$button-disabled-background` | 비활성화되었을 때의 탐색 버튼 배경입니다. |
+| `$button-arrow-color` | 비활성 상태의 탐색 화살표 색입니다. |
+| `$button-hover-arrow-color` | 마우스를 올렸을 때의 탐색 화살표 색입니다. |
+| `$button-focus-arrow-color` | 포커스를 받았을 때의 탐색 화살표 색입니다. |
+| `$button-disabled-arrow-color` | 비활성화되었을 때의 탐색 화살표 색입니다. |
+| `$button-border-color` | 비활성 상태의 탐색 버튼 테두리 색입니다. |
+| `$button-hover-border-color` | 마우스를 올렸을 때의 탐색 버튼 테두리 색입니다. |
+| `$button-focus-border-color` | 포커스를 받았을 때의 탐색 버튼 테두리 색입니다. |
+| `$button-disabled-border-color` | 비활성화되었을 때의 탐색 버튼 테두리 색입니다. |
+| `$label-indicator-background` | 텍스트 기반 표시기 레이블의 배경색입니다. |
+| `$indicator-dot-color` | 비활성 상태의 표시기 점 색입니다. |
+| `$indicator-hover-dot-color` | 마우스를 올렸을 때의 표시기 점 색입니다. |
+| `$indicator-focus-color` | 포커스를 받았을 때의 표시기 점과 테두리 색입니다. |
+| `$indicator-border-color` | 비활성 상태의 표시기 테두리 색입니다. |
+| `$indicator-active-dot-color` | 활성 표시기 점 색입니다. |
+| `$indicator-active-border-color` | 활성 표시기 테두리 색입니다. |
+| `$indicator-active-hover-dot-color` | 마우스를 올렸을 때의 활성 표시기 점과 테두리 색입니다. |
+| `$button-shadow` | 탐색 버튼 아래의 높이 또는 그림자입니다. |
+| `$border-radius` | 탐색 버튼과 표시기 컨테이너의 테두리 반경입니다. |
+
+### 파트와 슬롯
+
+특정 Carousel 영역에만 사용자 지정 콘텐츠나 로컬 스타일이 필요하다면 노출된 슬롯과 파트를 사용하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| 영역 | 사용자 지정 대상 |
+| --- | --- |
+| `previous-button` 슬롯 | 이전 탐색 버튼의 콘텐츠를 대체합니다. |
+| `next-button` 슬롯 | 다음 탐색 버튼의 콘텐츠를 대체합니다. |
+| <ApiLink pkg="core" type="CarouselIndicator" /> | 기본 슬라이드 표시기 콘텐츠를 대체합니다. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| 영역 | 사용자 지정 대상 |
+| --- | --- |
+| <ApiLink type="CarouselPrevButtonDirective" /> | 이전 탐색 버튼의 콘텐츠를 대체합니다. |
+| <ApiLink type="CarouselNextButtonDirective" /> | 다음 탐색 버튼의 콘텐츠를 대체합니다. |
+| <ApiLink type="CarouselIndicatorDirective" /> | 기본 슬라이드 표시기 콘텐츠를 대체합니다. |
+
+</PlatformBlock>
+
+### Tailwind로 스타일링하기
+
+Ignite UI 컴포넌트 토큰과 함께 유틸리티 우선 레이아웃 스타일이 필요하면 {ProductName} Carousel과 함께 Tailwind 유틸리티 클래스를 사용하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/tailwind-styling" height={480} noBackground={false} alt="{Platform} Carousel Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-tailwind-styling" height={460} noBackground={false} alt="Angular Carousel Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} Carousel은 키보드 사용자와 보조 기술 사용자를 위해 캐러셀, 슬라이드 및 표시기 시맨틱을 노출합니다.
+
+### 키보드 상호 작용
+
+| 키 | 동작 |
+| --- | --- |
+| <kbd>Space</kbd> 또는 <kbd>Enter</kbd> | 포커스가 있는 탐색 버튼을 활성화합니다. |
+| <kbd>왼쪽 화살표</kbd> | 표시기 포커스를 이전 슬라이드 표시기로 이동합니다. 오른쪽에서 왼쪽으로 쓰는 모드에서는 다음 표시기로 이동합니다. |
+| <kbd>오른쪽 화살표</kbd> | 표시기 포커스를 다음 슬라이드 표시기로 이동합니다. 오른쪽에서 왼쪽으로 쓰는 모드에서는 이전 표시기로 이동합니다. |
+| <kbd>Home</kbd> | 표시기 포커스를 첫 번째 슬라이드 표시기로 이동합니다. 오른쪽에서 왼쪽으로 쓰는 모드에서는 마지막 표시기로 이동합니다. |
+| <kbd>End</kbd> | 표시기 포커스를 마지막 슬라이드 표시기로 이동합니다. 오른쪽에서 왼쪽으로 쓰는 모드에서는 첫 번째 표시기로 이동합니다. |
+
+### 화면 읽기 프로그램 / ARIA
+
+Carousel은 호스트, 슬라이드, 표시기 및 탐색 컨트롤에 대해 ARIA 역할과 상태를 제공합니다.
+
+| 요소 | 역할 또는 속성 | 목적 |
+| --- | --- | --- |
+| Carousel 호스트 | `role="region"` 및 `aria-roledescription="carousel"` | Carousel을 탐색 가능한 콘텐츠 영역으로 식별합니다. |
+| 슬라이드 컨테이너 | `aria-live="polite"` 또는 `aria-live="off"` | 자동 재생이 활성화되지 않은 경우 슬라이드 변경을 알립니다. |
+| 슬라이드 | `role="tabpanel"`, `aria-roledescription="slide"`, `aria-label` | 각 슬라이드와 세트 안에서의 위치를 식별합니다. |
+| 표시기 컨테이너 | `role="tablist"` | 슬라이드 표시기를 그룹화합니다. |
+| 표시기 | `role="tab"`, `aria-label`, `aria-selected` | 표시기가 나타내는 슬라이드와 선택 여부를 식별합니다. |
+| 탐색 버튼 | `aria-label` | 이전 및 다음 슬라이드 작업의 이름을 지정합니다. |
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| --- | --- |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html) | 탐색 버튼과 표시기는 키보드 조작을 지원합니다. |
+| [2.1.2 키보드 트랩 없음](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) | Carousel의 키보드 상호 작용은 포커스가 컴포넌트 안에 계속 머물러 있을 필요가 없습니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) | 호스트, 슬라이드, 표시기 및 탐색 컨트롤은 역할, 이름 및 선택 상태를 노출합니다. |
+
+애플리케이션 작성자는 여전히 의미 있는 슬라이드 콘텐츠, 이미지 대체 텍스트, 그리고 사용자 지정 표시기 또는 탐색 콘텐츠에 충분한 명암비를 제공해야 합니다.
+
+## API 참조
+
+생성된 API 참조에는 Carousel, 슬라이드, 표시기 및 지원 컴포넌트 API 전체가 나열되어 있습니다.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Carousel" />
+<ApiLink pkg="core" type="CarouselSlide" />
+<ApiLink pkg="core" type="CarouselIndicator" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Input" />
+<ApiLink pkg="core" type="Button" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Carousel" />
+<ApiLink type="Slide" />
+<ApiLink type="CarouselIndicatorDirective" />
+<ApiLink type="CarouselPrevButtonDirective" />
+<ApiLink type="CarouselNextButtonDirective" />
+<ApiLink type="Icon" />
+<ApiLink type="InputGroup" />
+<ApiLink type="ButtonDirective" />
+
+</PlatformBlock>
+
+## 종속성
+
+Carousel 예제는 슬라이드 및 표시기 유형, 테마 스타일시트, 그리고 슬라이드나 탐색 슬롯 안에 나타나는 경우 입력, 아이콘 및 버튼 지원 컴포넌트에 의존합니다.
+
+## 추가 리소스
+
+더 넓은 제품 지원과 소스 정보는 다음 리소스를 사용하십시오.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+Carousel이 상호 작용 모델에 가장 적합하지 않을 때는 다음 관련 레이아웃 컴포넌트를 사용하십시오.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- [탭](./tabs.mdx) - 슬라이드 방식의 탐색 없이 이름이 있는 섹션 사이를 전환해야 할 때 Tabs를 사용하십시오.
+- [Stepper](./stepper.mdx) - 안내된 순차 단계를 완료해야 할 때 Stepper를 사용하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [탭](./tabs.mdx) - 슬라이드 방식의 탐색 없이 이름이 있는 섹션 사이를 전환해야 할 때 Tabs를 사용하십시오.
+- [Stepper](../stepper.mdx) - 안내된 순차 단계를 완료해야 할 때 Stepper를 사용하십시오.
+
+</PlatformBlock>
+
+## FAQ
+
+<Faq>
+  <FaqItem question="캐러셀은 자동 재생되어야 합니까?" indicatorPosition="end">
+    가능하면 수동 탐색을 우선하십시오. 캐러셀이 자동으로 회전한다면 사용자가 각 슬라이드를 읽고 상호 작용할 충분한 시간을 가질 수 있도록 일시 중지와 재개 방법을 분명하게 제공하십시오.
+  </FaqItem>
+  <FaqItem question="사용자가 캐러셀에 마우스를 올리거나 포커스를 두면 어떻게 되어야 합니까?" indicatorPosition="end">
+    사용자가 캐러셀의 콘텐츠를 읽거나 상호 작용하는 동안에는 자동 회전을 일시 중지하십시오. 사용자가 명시적으로 계속하기를 선택하기 전까지 재개하지 마십시오.
+  </FaqItem>
+  <FaqItem question="캐러셀에는 슬라이드가 몇 개나 있어야 합니까?" indicatorPosition="end">
+    묶음을 작고 집중적으로 유지하십시오. 관련 슬라이드의 짧은 묶음은 숨겨진 콘텐츠가 있는 긴 순서보다 찾고 훑어보기 쉽습니다.
+  </FaqItem>
+  <FaqItem question="슬라이드에 양식, 버튼 또는 여러 작업을 넣을 수 있습니까?" indicatorPosition="end">
+    대화형 콘텐츠의 포커스 순서가 예측 가능하고, 사용자가 상호 작용하는 동안 슬라이드가 바뀌지 않는다면 가능합니다. 작업은 슬라이드의 주요 작업에 집중하십시오.
+  </FaqItem>
+  <FaqItem question="표시기 점은 대화형이어야 합니까?" indicatorPosition="end">
+    표시기가 개별 슬라이드로의 직접 탐색을 나타낸다면 대화형으로 만드십시오. 그러면 이전 또는 다음을 반복해서 선택하지 않고도 사용자가 특정 콘텐츠에 바로 갈 수 있습니다.
+  </FaqItem>
+  <FaqItem question="캐러셀 대신 정적 레이아웃을 언제 사용해야 합니까?" indicatorPosition="end">
+    사용자가 항목을 비교하거나, 모든 항목을 읽거나, 특정 항목을 바로 찾아야 할 때는 정적 목록, 그리드, 탭 또는 Stepper를 사용하십시오. 캐러셀은 관련 콘텐츠의 간결한 순서에 가장 적합합니다.
+  </FaqItem>
+</Faq>

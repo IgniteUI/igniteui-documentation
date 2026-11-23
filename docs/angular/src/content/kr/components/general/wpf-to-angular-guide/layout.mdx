@@ -1,0 +1,263 @@
+---
+title: "Angular 페이지 레이아웃 요소 | WPF에서 Angular 가이드 | Infragistics"
+description: "Flexbox 및 Grid 같은 CSS 기능을 사용하는 심층 튜토리얼로 Angular 애플리케이션의 페이지 레이아웃을 사용자 지정하는 방법을 알아보십시오." 
+keywords: angular page layout elements, ignite ui for angular, infragistics
+_language: ko
+llms:
+  description: "WPF에서는 애플리케이션의 요소를 배치하려면 요소를 Panel 안에 넣어야 합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import wpfStackpanel from '../../../images/general/wpf_stackpanel.png';
+import angularStackpanel from '../../../images/general/angular_stackpanel.png';
+import wpfWrappanel from '../../../images/general/wpf_wrappanel.png';
+import angularWrappanel from '../../../images/general/angular_wrappanel.png';
+import wpfGrid from '../../../images/general/wpf_grid.png';
+import angularGrid from '../../../images/general/angular_grid.png';
+import angularGridSpan from '../../../images/general/angular_grid_span.png';
+
+# 페이지 레이아웃
+
+WPF에서는 애플리케이션의 요소를 배치하려면 요소를 [`Panel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.panel?view=netframework-4.8) 안에 넣어야 합니다. 패널은 자식 요소의 배치를 제어하는 컨테이너 요소입니다. Angular에서는 페이지 레이아웃과 그 자식 요소를 사용자 지정하려면 CSS를 사용해야 합니다. WPF의 대표적인 패널 몇 가지를 살펴보고, CSS로 비슷한 레이아웃을 얻는 방법을 알아보겠습니다.
+
+## StackPanel
+
+[`StackPanel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.stackpanel?view=netframework-4.8)은(는) 자식 요소를 가로 또는 세로 방향으로 배치할 수 있는 단일 줄로 정렬합니다. StackPanel에 버튼 몇 개를 추가하여 WPF에서 어떻게 보이는지 살펴보겠습니다:
+
+```xml
+<StackPanel>
+    <Button>1</Button>
+    <Button>2</Button>
+    <Button>3</Button>
+    <Button>4</Button>
+    <Button>5</Button>
+</StackPanel>
+```
+
+<Image src={wpfStackpanel} alt="WPF StackPanel" class="responsive-img" />
+
+Angular에서 비슷한 레이아웃을 얻으려면 CSS Flexbox 레이아웃을 사용할 수 있습니다. Flexible Box Layout Module은 유연하고 반응형인 레이아웃 구조를 설계할 수 있게 하는 강력한 메커니즘입니다. Flexbox 레이아웃을 사용하려면 [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) 속성을 `flex`(으)로 설정한 컨테이너를 정의해야 합니다. 또한 항목을 세로로 쌓으려면 [`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) 속성을 `column`(으)로 설정해야 합니다.
+
+```html
+<div class="flex-container">
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+```
+
+```css
+.flex-container {
+    display: flex;
+    flex-flow: column;
+}
+```
+
+브라우저에서 최종 결과는 다음과 같습니다:
+
+<Image src={angularStackpanel} alt="Angular StackPanel" class="responsive-img" />
+
+[`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) 속성의 기본값은 `row`이며, 이는 WPF에서 Horizontal 방향의 StackPanel과 같습니다. Flexbox는 `row-reverse` 및 `column-reverse` 방향도 지원하며, 각각 항목을 오른쪽에서 왼쪽으로, 아래에서 위로 쌓습니다.
+
+## WrapPanel
+
+[`WrapPanel`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.wrappanel?view=netframework-4.8)은(는) 자식 요소를 왼쪽에서 오른쪽으로 순서대로 배치하며, 포함 상자의 가장자리에서 콘텐츠를 다음 줄로 넘깁니다. 이후 순서는 Orientation 속성 값에 따라 위에서 아래로 또는 오른쪽에서 왼쪽으로 순차적으로 배치됩니다. WrapPanel에 버튼 몇 개를 추가하여 WPF에서 어떻게 보이는지 살펴보겠습니다:
+
+```xml
+<WrapPanel>
+    <WrapPanel.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="150"></Setter>
+        </Style>
+    </WrapPanel.Resources>
+    <Button>1</Button>
+    <Button>2</Button>
+    <Button>3</Button>
+    <Button>4</Button>
+    <Button>5</Button>
+</WrapPanel>
+```
+
+<Image src={wpfWrappanel} alt="WPF WrapPanel" class="responsive-img" />
+
+Angular에서 비슷한 결과를 얻으려면 다시 Flexbox 레이아웃을 사용합니다. StackPanel의 경우와 마찬가지로 [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) 속성을 `flex`(으)로 설정해야 하며, 또한 [`flex-wrap`](https://www.w3schools.com/cssref/css3_pr_flex-wrap.asp) 속성을 `wrap`(으)로 설정해야 합니다.
+
+```html
+<div class="flex-container">
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+```
+
+```css
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+button {
+    width: 150px;
+}
+```
+
+브라우저에서 최종 결과는 다음과 같습니다:
+
+<Image src={angularWrappanel} alt="Angular WrapPanel" class="responsive-img" />
+
+Orientation="Vertical"을 가진 WrapPanel과 비슷한 결과를 얻으려면 [`flex-direction`](https://www.w3schools.com/cssref/css3_pr_flex-direction.asp) 속성을 `column`(으)로 설정해야 합니다. [`flex-flow`](https://www.w3schools.com/cssref/css3_pr_flex-flow.asp) 속성은 `flex-direction` 및 `flex-wrap` 속성을 함께 설정하는 축약 속성입니다.
+
+```css
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+```
+
+Flexbox는 항목 정렬을 위한 몇 가지 CSS 속성을 더 지원합니다. 이에 대해서는 이 [튜토리얼](https://www.w3schools.com/css/css3_flexbox.asp)에서 더 알아볼 수 있습니다.
+
+## Grid
+
+[`Grid`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.grid?view=netframework-4.8)은(는) 열과 행으로 이루어진 유연한 그리드 영역을 정의합니다. Grid에 버튼 몇 개를 추가하여 WPF에서 어떻게 보이는지 살펴보겠습니다:
+
+```xml
+<Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+        <RowDefinition Height="50" />
+    </Grid.RowDefinitions>
+    <Button Grid.RowSpan="2" Grid.ColumnSpan="2">1</Button>
+    <Button Grid.Column="2">2</Button>
+    <Button Grid.Row="1" Grid.Column="2">3</Button>
+    <Button Grid.Row="2">4</Button>
+    <Button Grid.Row="2" Grid.Column="1">5</Button>
+    <Button Grid.Row="2" Grid.Column="2">6</Button>
+    <Button Grid.Row="3" Grid.ColumnSpan="3">7</Button>
+</Grid>
+```
+
+<Image src={wpfGrid} alt="WPF Grid" class="responsive-img" />
+
+Angular에서는 행과 열을 가진 그리드 기반 레이아웃 시스템을 제공하는 CSS Grid Layout Module을 사용할 수 있습니다. Grid 레이아웃을 사용하려면 [`display`](https://www.w3schools.com/cssref/pr_class_display.asp) 속성을 `grid` 또는 `inline-grid`(으)로 설정한 컨테이너를 정의해야 합니다.
+
+```html
+<div class="grid-container">
+
+    <button class="button1">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button class="button7">7</button>
+</div>
+```
+
+```css
+.grid-container {
+    display: grid;
+}
+```
+
+<DocsAside type="info">
+CSS Grid Layout은 Internet Explorer 11 같은 이전 브라우저에서는 [지원되지 않습니다](https://caniuse.com/#feat=css-grid).
+</DocsAside>
+
+이제 [`grid-template-columns`](https://www.w3schools.com/cssref/pr_grid-template-columns.asp) 속성을 사용하여 그리드의 열을 정의하겠습니다.
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+```
+
+너비가 `auto`인 세 개의 열을 정의했으며, 이는 세 열의 너비가 같다는 뜻입니다. WPF의 star 크기 조정과 비슷하게 사용 가능한 공간을 비례로 나누고 싶다면, CSS의 유연한 크기 단위 `fr`를 사용할 수 있습니다. 다음 코드 스니펫은 두 개의 열을 정의하며, 첫 번째 열은 사용 가능한 공간의 1배를, 두 번째 열은 2배를 받습니다:
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+```
+
+이제 [`grid-template-rows`](https://www.w3schools.com/cssref/pr_grid-template-columns.asp) 속성을 사용하여 각각 높이 50px인 행을 추가하겠습니다.
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 50px 50px 50px 50px;
+}
+```
+
+지금 애플리케이션을 열면 다음과 같이 보입니다:
+
+<Image src={angularGrid} alt="Angular Grid" class="responsive-img" />
+
+WPF 그리드와 CSS 그리드 사이에는 중요한 차이가 하나 있습니다. WPF에서는 Grid.Row와 Grid.Column의 기본값이 0이지만, CSS 그리드 레이아웃은 자식에게 다음 사용 가능한 행과 열을 자동으로 할당합니다.
+
+이제 첫 번째와 일곱 번째 버튼에 열과 행 span을 적용해 보겠습니다. 이를 위해 [`grid-row`](https://www.w3schools.com/cssref/pr_grid-row.asp) 및 [`grid-column`](https://www.w3schools.com/cssref/pr_grid-column.asp) 속성을 사용합니다.
+
+```css
+.button1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.button7 {
+    grid-column: 1 / span 3;
+}
+```
+
+먼저 시작 행/열을 지정하고, `/` 기호 뒤에 끝 행/열이나 항목이 span할 행/열의 개수를 지정할 수 있습니다. WPF와 달리 CSS 그리드의 열 번호는 0부터가 아니라 첫 행/열이 1입니다.
+
+다음은 전체 CSS와 브라우저에서의 최종 결과입니다:
+
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 50px 50px 50px 50px;
+}
+
+.button1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.button7 {
+    grid-column: 1 / span 3;
+}
+```
+
+<Image src={angularGridSpan} alt="Angular Grid Span" class="responsive-img" />
+
+`grid-row`과 `grid-column` 속성은 [`grid-row-start`](https://www.w3schools.com/cssref/pr_grid-row-start.asp), [`grid-row-end`](https://www.w3schools.com/cssref/pr_grid-row-end.asp), [`grid-column-start`](https://www.w3schools.com/cssref/pr_grid-column-start.asp), [`grid-column-end`](https://www.w3schools.com/cssref/pr_grid-column-end.asp) 속성의 축약 속성입니다. CSS 그리드 컨테이너와 항목 속성에 대해서는 **추가 자료** 섹션의 튜토리얼에서 더 알아볼 수 있습니다.
+
+## 추가 리소스
+
+- [CSS Flexbox](https://www.w3schools.com/css/css3_flexbox.asp)
+- [CSS Grid 소개](https://www.w3schools.com/css/css_grid.asp)
+- [CSS Grid 컨테이너](https://www.w3schools.com/css/css_grid_container.asp)
+- [CSS Grid 항목](https://www.w3schools.com/css/css_grid_item.asp)
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

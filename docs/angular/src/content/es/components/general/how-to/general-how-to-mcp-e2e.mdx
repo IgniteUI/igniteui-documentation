@@ -1,0 +1,258 @@
+---
+title: "Cree una aplicación de extremo a extremo con Ignite UI CLI MCP e Ignite UI Theming MCP - Ignite UI for Angular"
+description: "Siga un flujo de trabajo completo de Ignite UI for Angular con Ignite UI CLI MCP e Ignite UI Theming MCP: empiece por la CLI, conecte ambos servidores MCP, cree o amplíe la aplicación mediante el chat, haga preguntas de documentación y aplique un tema personalizado."
+keywords: "Angular, Ignite UI for Angular, Infragistics, Ignite UI CLI MCP, Ignite UI Theming MCP, MCP, Model Context Protocol, IA, flujo de trabajo, temas, indicación"
+_language: es
+llms:
+  description: "Ignite UI CLI MCP e Ignite UI Theming MCP trabajan juntos para que un asistente de IA genere la estructura, amplíe y aplique temas a una aplicación de Ignite UI for Angular mediante indicaciones en el chat."
+---
+
+# Cree una aplicación de extremo a extremo con Ignite UI CLI MCP e Ignite UI Theming MCP
+
+<p class="highlight">Ignite UI CLI MCP e Ignite UI Theming MCP trabajan juntos para que un asistente de IA genere la estructura, amplíe y aplique temas a una aplicación de Ignite UI for Angular mediante indicaciones en el chat. CLI MCP se encarga de la creación de proyectos, el trabajo con componentes y las preguntas de documentación. Theming MCP se encarga de las paletas, los temas, los tokens y los flujos de trabajo de estilos. Este tema muestra el proceso completo en un único flujo claro.</p>
+
+<igc-divider></igc-divider>
+
+## Cómo se reparten las responsabilidades entre CLI MCP y Theming MCP
+
+CLI MCP y Theming MCP son dos servidores MCP independientes con transporte STDIO, con responsabilidades distintas y que no se solapan en un flujo de desarrollo de Ignite UI for Angular.
+
+| Tarea                                          | Servidor      |
+| ------------------------------------------------ | ----------- |
+| Crear y generar la estructura del proyecto            | CLI MCP     |
+| Añadir o actualizar componentes de Ignite UI for Angular   | CLI MCP     |
+| Consultar las API y la documentación de los componentes           | CLI MCP     |
+| Generar paletas de colores y variaciones de tonos     | Theming MCP |
+| Crear y aplicar configuraciones de temas globales     | Theming MCP |
+| Generar tokens de diseño a nivel de componente           | Theming MCP |
+| Ajustar el espaciado, el tamaño y el radio de borde        | Theming MCP |
+
+Ninguno de los dos servidores ejecuta pasos de forma autónoma: el asistente de IA invoca las herramientas de MCP solo en respuesta a sus indicaciones. CLI MCP no genera ni modifica archivos de temas ni de Sass. Theming MCP no genera la estructura de componentes, no modifica la lógica de la aplicación ni responde preguntas de documentación. Ambos servidores requieren un cliente MCP compatible con transporte STDIO; no se pueden usar desde una interfaz de chat solo en el navegador.
+
+## Lo que necesita
+
+Antes de empezar, asegúrese de tener:
+
+- **Node.js** instalado para que `npx` esté disponible
+- un cliente de IA compatible con MCP
+- acceso a Internet para resolver el paquete `npx` la primera vez que se usa
+- una carpeta para el proyecto
+
+Este recorrido funciona mejor con una configuración **primero la CLI**, porque Ignite UI CLI genera la estructura del proyecto y prepara automáticamente la primera configuración de MCP para VS Code.
+
+Si todavía necesita la referencia detallada de configuración de cada cliente, consulte [Angular Schematics e Ignite UI CLI](../cli-overview.mdx) y [Ignite UI Theming MCP](../../ai/theming-mcp.mdx).
+
+## Paso 1: empezar con Ignite UI CLI
+
+El punto de partida recomendado es crear primero el proyecto con Ignite UI CLI.
+
+Puede ejecutar Ignite UI CLI de cualquiera de estas dos maneras:
+
+### Instalación global
+
+```bash
+npm install -g igniteui-cli
+```
+
+Así dispone del comando `ig` en cualquier sesión de terminal.
+
+### Sin instalación global
+
+```bash
+npx ig new
+```
+
+Esto ejecuta la CLI a través de `npx` en lugar de un comando `ig` global.
+
+Puede usar el **modo guiado** si quiere que la CLI le acompañe por las opciones:
+
+```bash
+ig new
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx ig new
+```
+
+También puede usar un comando directo cuando ya conozca la configuración del proyecto.
+
+Para Angular:
+
+```bash
+ig new my-app --framework=angular
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx ig new my-app --framework=angular
+```
+
+Qué ocurre a continuación:
+
+- Ignite UI CLI crea la estructura del proyecto
+- se instalan los paquetes necesarios del proyecto
+- para la ruta primero la CLI, VS Code también recibe una `.vscode/mcp.json` inicial
+
+## Paso 2: conectar CLI MCP y Theming MCP
+
+Una vez creado el proyecto, asegúrese de que ambos servidores MCP estén disponibles en su cliente de IA.
+
+### VS Code
+
+```json
+{
+  "servers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+### Cursor, Claude Desktop, Claude Code, JetBrains y otros clientes MCP
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Tras guardar la configuración, vuelva a abrir o reinicie el cliente de IA y confirme que `igniteui-cli` y `igniteui-theming` están disponibles.
+
+## Paso 3: deje que el asistente revise el proyecto
+
+Cuando ambos servidores MCP estén en marcha, abra un chat nuevo y empiece dando al asistente contexto a nivel de proyecto.
+
+Indicaciones útiles:
+
+> _"Revise este proyecto y explique la estructura actual antes de que empecemos a añadir funciones."_
+
+> _"Explíqueme qué se ha creado, cuáles son los puntos de entrada principales y dónde deben añadirse las páginas nuevas."_
+
+Qué ocurre a continuación:
+
+- CLI MCP inspecciona el proyecto generado o el existente
+- el asistente resume la estructura
+- ya tiene un punto de partida común para los siguientes pasos
+
+## Paso 4: añadir una función real mediante el chat
+
+Cuando la estructura del proyecto esté clara, pida una función concreta.
+
+Ejemplo de indicación:
+
+> _"Añada una página de Pedidos con una cuadrícula de Ignite UI for Angular. Incluya columnas para el ID de pedido, el nombre del cliente, la fecha del pedido y el importe total, y enlace la cuadrícula a datos de ejemplo."_
+
+Indicación de seguimiento:
+
+> _"Active el filtrado, la ordenación y la paginación en la cuadrícula de Pedidos, y mantenga la disposición de la página coherente con el resto de la aplicación."_
+
+Qué ocurre a continuación:
+
+- CLI MCP añade o actualiza la página correcta
+- el asistente crea o actualiza el código del componente
+- la función se integra en la estructura existente de la aplicación
+
+Puede seguir con ajustes más pequeños:
+
+> _"Añada una barra de herramientas sencilla encima de la cuadrícula y mantenga la disposición compacta."_
+
+## Paso 5: hacer preguntas de documentación en la misma sesión
+
+No necesita salir de la conversación para consultar las API de los componentes.
+
+Ejemplos de indicaciones:
+
+> _"¿Qué opciones de filtrado admite la cuadrícula de Angular y cuáles encajan mejor en una tabla de pedidos sencilla?"_
+
+> _"¿Qué eventos expone el componente combo y cuál debo usar para los cambios de selección?"_
+
+> _"¿Qué componente de Ignite UI for Angular encaja mejor en una disposición con navegación lateral, y por qué?"_
+
+Qué ocurre a continuación:
+
+- CLI MCP responde a la pregunta con herramientas que conocen la documentación
+- puede seguir inmediatamente con una petición de implementación
+
+Por ejemplo:
+
+> _"Aplique el enfoque de filtrado recomendado a la cuadrícula de Pedidos actual."_
+
+## Paso 6: aplicar un tema personalizado
+
+Una vez que la estructura de la aplicación y la función principal estén listas, cambie a Theming MCP en el mismo chat.
+
+Ejemplo de indicación:
+
+> _"Aplique un tema profesional a la aplicación. Use un azul intenso como color primario, un ámbar cálido como color secundario y mantenga el espaciado compacto."_
+
+Qué ocurre a continuación:
+
+- Theming MCP genera la paleta y la configuración del tema
+- el asistente actualiza los archivos de tema o de estilos correctos
+- el estilo de la aplicación sigue alineado con la estructura actual
+
+Puede refinar el tema aún más con indicaciones más concretas:
+
+> _"Haga que el encabezado de la cuadrícula use el color primario, aumente ligeramente la altura de las filas y mantenga el resto de la página visualmente limpio."_
+
+> _"Muéstreme los tonos generados de las paletas primaria y secundaria antes de refinar el estilo de la cuadrícula."_
+
+## Paso 7: seguir iterando
+
+La parte más valiosa de este flujo de trabajo es que puede seguir alternando entre el trabajo en el proyecto, las preguntas de documentación y los temas en una sola conversación.
+
+Ejemplos de indicaciones:
+
+> _"Mantenga la estructura actual de la página de Pedidos, pero simplifique la disposición y haga el área de filtros más compacta."_
+
+> _"Use el tema actual, pero haga que las tarjetas del panel y el espaciado de la cuadrícula sean más coherentes con el resto de la aplicación."_
+
+> _"Revise los archivos generados y explique los principales cambios que ha hecho en el proyecto, los componentes y el tema."_
+
+Qué ocurre a continuación:
+
+- CLI MCP se encarga de los ajustes del proyecto y de los componentes
+- Theming MCP se encarga de los ajustes del tema y de los tokens
+- el asistente mantiene conectado todo el flujo de trabajo de principio a fin
+
+## Conclusiones del tema
+
+Este flujo de trabajo funciona bien cuando quiere mantener la configuración del proyecto, el trabajo con componentes, las consultas de documentación y los temas en una misma sesión de chat.
+
+Utilícelo cuando:
+
+- quiera partir de una estructura de proyecto real en lugar de fragmentos de código aislados
+- prevea alternar entre la implementación y las preguntas de documentación
+- quiera que la estructura del proyecto y el aspecto visual evolucionen juntos
+
+En la práctica, el patrón más eficaz es usar CLI MCP para los cambios en el proyecto y en los componentes, detenerse en las preguntas de documentación cuando haga falta y, después, usar Theming MCP para refinar el resultado sin salir de la misma conversación.
+
+## Temas relacionados
+
+- [Angular Schematics e Ignite UI CLI](../cli-overview.mdx)
+- [Ignite UI Theming MCP](../../ai/theming-mcp.mdx)
+- [Skills de Ignite UI for Angular](../../ai/skills.mdx)
+
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,376 @@
+---
+title: "Angular Grid 크기 조정 - Ignite UI for Angular"
+description: "Angular 그리드 크기 조정이 어떻게 작동하는지 이해하고, 사용자가 가질 수 있는 다양한 시나리오를 수용하기 위해 너비와 높이를 사용하는 방법을 알아보십시오."
+keywords: angular grid sizing, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "사용자가 가질 수 있는 많은 시나리오를 수용하기 위해 Grid의 크기를 조정하는 방법은 여러 가지가 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import columnsDefaultGridwidthNullV2 from '../../images/grid_sizing/columns-default-gridWidth-null-v2.jpg';
+import widthNullNoScrollV2 from '../../images/grid_sizing/width-null-no-scroll-v2.jpg';
+import widthNullScrollV2 from '../../images/grid_sizing/width-null-scroll-v2.jpg';
+import widthNullParentScrollV2 from '../../images/grid_sizing/width-null-parent-scroll-v2.jpg';
+import widthColsScrollbarV2 from '../../images/grid_sizing/width-cols-scrollbar-v2.jpg';
+import widthColsScrollParentNoscrollV2 from '../../images/grid_sizing/width-cols-scroll-parent-noscroll-v2.jpg';
+import widthColsScrollParentScrollV2 from '../../images/grid_sizing/width-cols-scroll-parent-scroll-v2.jpg';
+import widthPercent100PV2 from '../../images/grid_sizing/width-percent-100p-v2.jpg';
+import widthPercentParent100PV2 from '../../images/grid_sizing/width-percent-parent-100p-v2.jpg';
+import widthPercent150PParentNoscrollV2 from '../../images/grid_sizing/width-percent-150p-parent-noscroll-v2.jpg';
+import widthPercent150PParentScrollV2 from '../../images/grid_sizing/width-percent-150p-parent-scroll-v2.jpg';
+import heightNull14RowsV2 from '../../images/grid_sizing/height-null-14rows-v2.jpg';
+import heightNull24RowsV2 from '../../images/grid_sizing/height-null-24rows-v2.jpg';
+import heightNull24RowsParentNoscrollV2 from '../../images/grid_sizing/height-null-24rows-parent-noscroll-v2.jpg';
+import heightNull24RowsParentScrollV2 from '../../images/grid_sizing/height-null-24rows-parent-scroll-v2.jpg';
+import height500Px4RowsV2 from '../../images/grid_sizing/height-500px-4rows-v2.jpg';
+import height500Px14RowsV2 from '../../images/grid_sizing/height-500px-14rows-v2.jpg';
+import height700Px14RowsParentNoscrollV2 from '../../images/grid_sizing/height-700px-14rows-parent-noscroll-v2.jpg';
+import height700Px14RowsParentScrollV2 from '../../images/grid_sizing/height-700px-14rows-parent-scroll-v2.jpg';
+import heightUndefined7RowsV2 from '../../images/grid_sizing/height-undefined-7rows-v2.jpg';
+import heightUndefined14RowsV2 from '../../images/grid_sizing/height-undefined-14rows-v2.jpg';
+import heightPercent100Parent800PxV2 from '../../images/grid_sizing/height-percent-100-parent-800px-v2.jpg';
+import heightPercent130PParentNoscrollV2 from '../../images/grid_sizing/height-percent-130p-parent-noscroll-v2.jpg';
+import heightPercent130PParentScrollV2 from '../../images/grid_sizing/height-percent-130p-parent-scroll-v2.jpg';
+import heightPercent100Parent100V2 from '../../images/grid_sizing/height-percent-100-parent-100-v2.jpg';
+import columnsDefaultAllRowSelectorsV2 from '../../images/grid_sizing/columns-default-all-row-selectors-v2.jpg';
+import columnsDefaultAllMin136PxV2 from '../../images/grid_sizing/columns-default-all-min-136px-v2.jpg';
+import columnsDefaultFirstRest100PxV2 from '../../images/grid_sizing/columns-default-first-rest-100px-v2.jpg';
+import columnsDefaultAllFirst100PxV2 from '../../images/grid_sizing/columns-default-all-first-100px-v2.jpg';
+import columns150PxEmptyAreaV2 from '../../images/grid_sizing/columns-150px-empty-area-v2.jpg';
+import columns150PxExtraAreaV2 from '../../images/grid_sizing/columns-150px-extra-area-v2.jpg';
+import columnsPercentLess100PV2 from '../../images/grid_sizing/columns-percent-less-100p-v2.jpg';
+import columnsPercent100PV2 from '../../images/grid_sizing/columns-percent-100p-v2.jpg';
+import columnsPercentBigger100PV2 from '../../images/grid_sizing/columns-percent-bigger-100p-v2.jpg';
+import columnsPercentGridwidthNullV2 from '../../images/grid_sizing/columns-percent-gridWidth-null-v2.jpg';
+import hgridWidthPercentagesV2 from '../../images/grid_sizing/hgrid-width-percentages-v2.jpg';
+import hgridHeightPercentagesV2 from '../../images/grid_sizing/hgrid-height-percentages-v2.jpg';
+
+# Angular Grid 크기 조정
+
+사용자가 가질 수 있는 많은 시나리오를 수용하기 위해 <ApiLink type="Grid" />의 크기를 조정하는 방법은 여러 가지가 있습니다. 어떤 것은 간단하지만, 다른 것은 더 복잡할 수 있으므로 각각을 더 깊이 살펴보겠습니다. `width`와 `height`을(를) 따로 설정하는 방법을 살펴보겠습니다. 예를 들어 각각에 백분율을 사용할 때는 차이가 있기 때문입니다.
+
+<ApiLink type="Grid" />의 테두리와 패딩 크기는 너비/높이 크기 계산에 포함되며, 이를 [Border box](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing) 크기 조정이라고도 합니다. 이는 모든 시나리오에 적용됩니다.
+
+<DocsAside type="info">
+사용자가 Border box 크기 조정을 재정의하면, <ApiLink type="Grid" />이(가) 올바르게 크기 조정될 것을 보장할 수 없습니다.
+</DocsAside>
+
+## 너비
+
+`width` 입력에 값이 할당되지 않은 경우 기본값은 `100%`이며, <ApiLink type="Grid" />은(는) 사용 가능한 공간을 채우려고 합니다. 그리드가 이에 어떻게 반응하는지는 `Percentages` 섹션에서 확인할 수 있습니다.
+
+<DocsAside type="info">
+<ApiLink type="Grid" /> 자체의 `width` 스타일을 수동으로 설정하면 예상치 못한 동작이 생깁니다.
+</DocsAside>
+
+### Null
+
+그리드의 `width`은(는) `null` 값을 받을 수 있으며, 이를 설정하면 모든 열이 DOM에 렌더링됩니다. 열 가상화가 적용되지 않으므로 그리드는 가로 스크롤바가 없도록 적절히 크기가 조정됩니다.
+
+- 열이 6개이고 어느 열에도 너비가 정의되어 있지 않으면, 그리드의 `width`은(는) `816px`이(가) 됩니다. 이 시나리오에서는 각 열이 기본적으로 `136px`의 `width`을(를) 할당받기 때문입니다. 열이 백분율로 `width`을(를) 가진 경우에도 같은 일이 일어납니다. 세로 스크롤바가 렌더링되거나 추가 열을 렌더링하는 기능이 있으면, 그 너비도 더해집니다.
+
+    <Image src={columnsDefaultGridwidthNullV2} alt="열 기본 그리드 너비 Null" style="width: 80%" />
+
+- 열이 6개이고 열 너비가 `200px`(으)로 설정되어 있으면, 열들은 창에 맞고 모두 보입니다:
+
+    <Image src={widthNullNoScrollV2} alt="너비 Null 스크롤 없음" style="width: 80%" />
+
+- 열이 더 많거나 너비가 더 큰 열이 브라우저 화면 밖으로 나가더라도 모두 렌더링됩니다. 같은 수의 열을 두되 각 열의 너비를 `300px`(으)로 설정해 보겠습니다. 모든 열이 브라우저 화면 영역에 맞지 않으므로, 네이티브 스크롤바가 생깁니다. 다음 예제가 바로 이 시나리오를 보여 줍니다:
+
+    <Image src={widthNullScrollV2} alt="너비 Null 스크롤" style="width: 80%" />
+
+- 그리드에 어떤 종류의 상위 요소가 있고 그 요소에 overflow가 설정되어 있지 않다면, 여전히 모든 열이 보이도록 렌더링됩니다. 그렇지 않고 상위 요소에 overflow `auto` 또는 `scroll`가 있다면, 그 상위 요소의 스크롤바가 네이티브로 렌더링됩니다. 다음 예제에서는 더 쉽게 볼 수 있도록 상위 요소의 높이를 더 크게 했습니다.
+
+    <Image src={widthNullParentScrollV2} alt="너비 Null 상위 스크롤" style="width: 80%" />
+
+<DocsAside type="info">
+이 동작 때문에 그리드 데이터에 열이 너무 많으면, 모든 열이 가상화 없이 렌더링되므로 브라우저 성능에 큰 영향을 줄 수 있습니다.
+</DocsAside>
+
+### 픽셀
+
+<ApiLink type="Grid" /> `width` 입력을 픽셀로 설정하면, 전체 그리드 크기가 그 값으로 고정되며 정적으로 유지됩니다. 브라우저 크기 조정이나 DOM 변경에는 반응하지 않습니다. 다만 그리드 콘텐츠는 이와 다릅니다:
+
+- 너비를 픽셀로 설정했을 때 그리드가 가로 스크롤바를 렌더링하려면, 그 콘텐츠 너비가 지정된 그리드 `width`을(를) 넘어서야 합니다. 예를 들어 열의 결합 너비가 `1200px`을(를) 넘도록 해 보겠습니다. 이 경우 가로 스크롤바가 렌더링됩니다.
+
+    <Image src={widthColsScrollbarV2} alt="너비 열 스크롤바" style="width: 80%" />
+
+- 그리드에 상위 요소가 있는 시나리오에서는, 스크롤바를 렌더링할지 여부가 상위 요소의 스타일에 따라 달라집니다. 그리드 자체와 관련된 나머지 모든 것은 그대로 유지됩니다. 상위 요소의 너비가 그리드의 너비보다 작고 overflow 스타일이 `auto` 또는 `scroll`로 설정되어 있으면, 네이티브로 스크롤바를 렌더링합니다. 예를 들어 상위 요소에 `width`이(가) `1000px`(으)로 설정되어 있고 <ApiLink type="Grid" /> `width`이(가) 여전히 `1200px`라면, 아래 그림과 비슷하게 보입니다:
+
+    <Image src={widthColsScrollParentNoscrollV2} alt="너비 열 스크롤 상위 스크롤 없음" style="width: 80%" />
+    <Image src={widthColsScrollParentScrollV2} alt="너비 열 스크롤 상위 스크롤" style="width: 80%" />
+
+### 백분율
+
+<ApiLink type="Grid" />의 `width`을(를) 백분율로 설정하면, 그리드는 상위 요소의 너비에 맞춰 크기가 정해집니다. 상위 요소에 너비가 지정되어 있지 않으면, <ApiLink type="Grid" />은(는) 브라우저 창을 기준으로 크기가 정해집니다.
+
+- 예를 들어 그리드의 `width` 입력을 `100%`(으)로 설정하고 상위 요소가 없다면, 브라우저 창의 사용 가능한 너비의 100%를 채웁니다. 창 크기를 조정하면 그리드도 그에 맞춰 크기가 조정됩니다.
+
+    <Image src={widthPercent100PV2} alt="너비 백분율 100%" style="width: 80%" />
+
+- 그리드의 너비를 `100%`(으)로 설정했고 너비가 `1200px`로 지정된 상위 요소가 있다면, 그리드는 그 요소를 기준으로 크기가 정해지며 최종 너비는 `1200px`이(가) 됩니다.
+
+    <Image src={widthPercentParent100PV2} alt="너비 백분율 상위 100%" style="width: 80%" />
+
+- `width`이(가) `1000px`인 상위 요소가 있고 그리드의 `width`을(를) `150%`(으)로 설정했다면, 계산된 그리드 너비는 `1500px`이(가) 됩니다. 이 경우 그리드는 여전히 완전히 보이도록 렌더링되지만, 상위 요소의 `overflow: auto`을(를) 설정하면 그 상위 요소가 자체적으로 스크롤바를 렌더링합니다.
+
+    <Image src={widthPercent150PParentNoscrollV2} alt="너비 백분율 150% 상위 스크롤 없음" style="width: 80%" />
+    <Image src={widthPercent150PParentScrollV2} alt="너비 백분율 150% 상위 스크롤" style="width: 80%" />
+
+## 높이
+
+<ApiLink type="Grid" />에 높이가 정의되어 있지 않으면 기본적으로 `100%`(으)로 설정됩니다. DOM 구조에 따라 그리드가 어떻게 반응하는지는 `Percentages` 섹션에서 확인할 수 있습니다.
+
+<DocsAside type="info">
+<ApiLink type="Grid" /> 자체의 `height` 스타일을 수동으로 설정하면 예상치 못한 동작이 생깁니다.
+</DocsAside>
+
+### Null
+
+<ApiLink type="Grid" /> `height` 입력은 `null` 값을 받을 수 있으며, 이를 설정하면 행이 몇 개든 스크롤바 없이 모든 행이 표시됩니다. 이 경우 그리드는 어쨌든 모든 행을 렌더링하므로 세로 가상화는 없습니다.
+
+- 데이터에 행이 14개 있는 경우, 그리드는 14개를 모두 렌더링하고, 그리드 안에 빈 공간 없이 모두 보이도록 크기가 조정됩니다.
+
+    <Image src={heightNull14RowsV2} alt="높이 Null 14행" style="width: 80%" />
+
+- 대신 행이 24개라면, 그리드는 여전히 모든 행을 렌더링하지만 너무 많아서 브라우저 경계를 넘어섭니다. 그래서 브라우저가 기본적으로 세로 스크롤바를 렌더링하여, 사용자가 나머지 행으로 스크롤할 수 있습니다.
+
+    <Image src={heightNull24RowsV2} alt="높이 Null 24행" style="width: 80%" />
+
+- 정의된 `height`이 있는 상위 요소가 있으면, 그리드는 여전히 모든 행을 렌더링하며 영향을 받지 않습니다. 상위 요소의 `height`이(가) `650px`이라고 해 보겠습니다. 그 요소의 `overflow`을(를) `auto` 또는 `scroll`(으)로 설정하면, 세로 스크롤바를 렌더링하지만 그리드는 여전히 영향을 받지 않습니다:
+
+    <Image src={heightNull24RowsParentNoscrollV2} alt="높이 Null 24행 상위 스크롤 없음" style="width: 80%" />
+    <Image src={heightNull24RowsParentScrollV2} alt="높이 Null 24행 상위 스크롤" style="width: 80%" />
+
+<DocsAside type="info">
+이 동작 때문에 그리드 데이터에 행이 너무 많으면, 모든 행이 가상화 없이 렌더링되므로 브라우저 성능에 큰 영향을 줄 수 있습니다.
+</DocsAside>
+
+### 픽셀
+
+<ApiLink type="Grid" /> `height`을(를) 픽셀로 설정하는 것이 더 직관적입니다. 그리드는 모든 경우에 그 특정 크기로 크기가 정해지며, 이는 `width`을(를) 픽셀로 설정하는 방식과 비슷합니다.
+
+- 예를 들어 데이터가 4행일 때 높이 `500px`을(를) 설정하면, 그리드는 그 크기에 맞게 배치되며, 4행으로는 보이는 영역을 채우기에 부족하므로 일부 빈 공간이 생기는 것이 예상됩니다.
+
+    <Image src={height500Px4RowsV2} alt="높이 500px 4행" style="width: 80%" />
+
+- `height`을(를) 픽셀로 설정했을 때 행의 개수가 그리드의 보이는 영역을 넘으면 세로 스크롤바가 렌더링됩니다. 예를 들어 `500px` 높이가 설정되고 행이 14개인 그리드는 다음과 같이 렌더링됩니다:
+
+    <Image src={height500Px14RowsV2} alt="높이 500px 14행" style="width: 80%" />
+
+- 정의된 `height`이 있는 상위 요소가 있으면, `overflow`이(가) `auto` 또는 `scroll`로 설정되어 있지 않은 한 그리드는 여전히 완전히 보입니다. 그렇지 않으면 스크롤바를 렌더링합니다.
+
+    <Image src={height700Px14RowsParentNoscrollV2} alt="높이 700px 14행 상위 스크롤 없음" style="width: 80%" />
+    <Image src={height700Px14RowsParentScrollV2} alt="높이 700px 14행 상위 스크롤" style="width: 80%" />
+
+### 백분율
+
+`height` 입력을 백분율로 설정하면 <ApiLink type="Grid" />은(는) 상위 요소의 높이를 기준으로 크기가 정해집니다. 상위 요소의 `height`이(가) 픽셀이나 백분율로 설정되어 있으면, 그리드는 상위 요소의 크기를 기준으로 크기가 정해집니다.
+
+상위 요소에 정의된 높이가 없으면, 브라우저는 처음에 그 요소에 높이를 할당하지 않고 자식과 그 크기를 기준으로 크기를 정합니다. 그래서 그리드는 백분율 크기 조정을 적용할 기준 높이가 무엇인지 알 방법이 없습니다. 이런 이유로 최대 10행까지 렌더링하며, 그보다 행이 많으면 세로 스크롤바를 렌더링합니다. 그렇지 않으면 그리드는 렌더링된 행의 개수에 맞춰집니다. 이 시나리오는 다음 예제에서 더 자세히 살펴보겠습니다.
+
+`width`을(를) `1200px`(으)로 설정하고 상위 요소에는 어떤 크기도 적용되지 않은 상태라고 해 보겠습니다:
+
+- 행이 10개 미만이면, 그리드는 마지막 행과 보이는 영역의 아래쪽 사이에 빈 공간 없이 모든 행을 보이는 영역에 맞추려고 합니다. 예를 들어 그리드 데이터가 7행으로 구성되어 있다고 해 보겠습니다. 그리드는 세로 스크롤바 없이, 그리드 안에 빈 공간 없이 7행을 모두 렌더링합니다.
+
+    <Image src={heightUndefined7RowsV2} alt="높이 정의되지 않음 7행" style="width: 80%" />
+
+- 행이 10개를 넘으면, 나머지 행을 위해 세로 스크롤바가 렌더링되며, 어느 때든 10행만 보일 수 있습니다. 다음 예제에서는 행 수만 14로 늘렸습니다.
+
+    <Image src={heightUndefined14RowsV2} alt="높이 정의되지 않음 14행" style="width: 80%" />
+
+- 상위 요소의 높이를 `800px`(으)로 설정하고 <ApiLink type="Grid" />의 높이를 `100%`(으)로 설정하면, 이는 그리드가 `800px`의 100 퍼센트 크기로 조정된다는 뜻입니다.
+
+    <Image src={heightPercent100Parent800PxV2} alt="높이 백분율 100% 상위 800px" style="width: 80%" />
+
+- <ApiLink type="Grid" /> `height`을(를) `100%`보다 큰 숫자로 설정하고 상위 요소에 높이가 있다면, 상위 요소가 스크롤바를 렌더링하려면 다시 `overflow`을(를) `auto` 또는 `scroll`(으)로 설정해야 합니다. 그렇지 않으면 그리드는 완전히 보이며 상위 요소의 크기에 상대적으로 크기가 정해집니다.
+
+    <Image src={heightPercent130PParentNoscrollV2} alt="높이 백분율 130% 상위 스크롤 없음" style="width: 80%" />
+    <Image src={heightPercent130PParentScrollV2} alt="높이 백분율 130% 상위 스크롤" style="width: 80%" />
+
+- 브라우저 창 기준으로 그리드의 크기를 `100%`(으)로 맞추려면, `body`와 상위 그리드 요소의 높이를 모두 `100%`(으)로 설정해야 합니다. 이 경우 상위 요소의 크기를 정할 수 있고, 브라우저 크기가 바뀌면 그리드도 그에 맞춰 크기가 조정됩니다.
+
+    <Image src={heightPercent100Parent100V2} alt="높이 백분율 100% 상위 100%" style="width: 80%" />
+
+## 열 크기 조정
+
+그리드 자체의 크기에 따라, 그 안의 열도 다르게 크기가 정해질 수 있으며, 이는 그리드에 가로 스크롤바가 렌더링되는지 여부에 영향을 줄 수 있습니다. 열은 픽셀이나 백분율로 너비를 설정하거나, 아무것도 설정하지 않아 자동 크기 조정될 수 있습니다. 이 섹션에서는 이 시나리오들을 더 깊이 살펴보겠습니다.
+
+### 기본값
+
+기본적으로 열의 너비가 지정되지 않으면 자동 크기 조정을 시도하여, 그리드 보기 영역에 빈 공간이 있으면 그 공간을 채웁니다. 자동 크기 조정된 열의 최소 너비는 `136px`이므로, 그 열에 사용 가능한 영역이 `136px`보다 작으면 그 크기로 기본 설정됩니다.
+
+이런 시나리오에서 그리드의 크기가 바뀌면, 열 너비도 그 변화를 반영하도록 업데이트되므로 새로 생긴 빈 공간을 채웁니다.
+
+- 열에 지정된 `width`이 없고 <ApiLink type="Grid" />에 `width`이(가) `null`(으)로 설정되어 있으면, 그 열은 최소 `136px`(으)로 크기가 정해집니다. 즉, `width`과 `null`이 있고 너비가 없는 열이 6개인 그리드에서 각 열은 `136px`(으)로 크기가 정해집니다.
+
+    <Image src={columnsDefaultGridwidthNullV2} alt="너비 Null인 기본 열 그리드" style="width: 80%" />
+
+- 자동 크기 조정되는 열이 여러 개이면 사용 가능한 공간을 서로 동등하게 나눕니다. 즉, 열이 6개이고 빈 영역이 `1200px`이라면, 각 열은 `200px`(으)로 크기가 정해집니다.
+
+    <Image src={columnsDefaultAllRowSelectorsV2} alt="열 기본 모든 행 선택기" style="width: 80%" />
+
+- 사용 가능한 빈 공간이 있어서 각 자동 크기 조정 열이 `136px`보다 작아지면, 모든 자동 크기 조정 열은 `136px`(으)로 기본 설정되며 그리드는 가로 스크롤바를 렌더링합니다. 다음 예제에서는 자동 크기 조정 열이 12개이고, 그리드 `width`을(를) `1000px`(으)로 설정해 보겠습니다.
+
+    <Image src={columnsDefaultAllMin136PxV2} alt="열 기본 모두 최소 136px" style="width: 80%" />
+
+- `width`이(가) 지정되지 않은 열이 있지만, 다른 모든 열은 픽셀이나 백분율로 `width`을(를) 가지고 있으면, 그 열도 사용 가능한 공간을 채우려고 합니다. 예를 들어 첫 번째 열에 너비가 설정되지 않았고 나머지 5개 열은 `width`이(가) `100px`라면, 첫 번째 열이 나머지 공간을 채웁니다.
+
+    <Image src={columnsDefaultFirstRest100PxV2} alt="열 기본 첫 번째 나머지 100px" style="width: 80%" />
+
+- `width`이(가) 지정되지 않은 열이 여러 개인 경우도 마찬가지로, 모두 사용 가능한 공간을 서로 동등하게 나눕니다. 다음 그림에서는 첫 번째 열의 `width`이(가) `100px`(으)로 설정되어 있습니다.
+
+    <Image src={columnsDefaultAllFirst100PxV2} alt="열 기본 모두 첫 번째 100px" style="width: 80%" />
+
+<DocsAside type="info">
+행 선택기 체크박스 열 같은 기능 열은 추가 공간을 채우며, 이 공간은 열을 자동 크기 조정할 때 고려됩니다.
+</DocsAside>
+
+### 픽셀
+
+열에 픽셀 단위의 특정 `width`이(가) 설정되어 있으면, 수동으로 크기를 바꾸지 않는 한 그 크기를 유지합니다. 열들의 결합 `width`은(는) 정적이므로, <ApiLink type="Grid" /> `width`보다 작을 수도 있고 넘을 수도 있습니다.
+
+- 모든 열의 결합 `width`이(가) <ApiLink type="Grid" /> `width`보다 작으면, 열들이 채울 수 없는 빈 영역이 그리드 안에 생깁니다. 이것이 <ApiLink type="Grid" />의 예상 동작입니다. 다음 예제에서는 열이 `150px` 너비를 가지고 있습니다.
+
+    <Image src={columns150PxEmptyAreaV2} alt="열 150px 빈 영역 결과" style="width: 80%" />
+
+- 모든 열의 결합 `width`이(가) 실제 <ApiLink type="Grid" /> `width`보다 크면 가로 스크롤바가 렌더링됩니다. 다음 예제에서는 열 6개 각각의 너비가 `300px`이고 그리드의 너비가 `1200px`이므로, 결합된 열이 `600px`만큼 넘쳐서 경계를 벗어납니다.
+
+    <Image src={columns150PxExtraAreaV2} alt="열 150px 여분 영역 결과" style="width: 80%" />
+
+### Auto
+
+열이 `auto`(으)로 설정되면, 그 크기는 열에서 가장 긴 단어에 맞춰 조정됩니다. 어떤 셀은 값이 매우 짧고 다른 셀은 매우 길면 빈 영역이 생길 수 있습니다. 이 시나리오에서는 열의 모든 셀이 가장 긴 값을 가진 셀의 너비를 차지하도록 조정됩니다.
+
+<Image src={columns150PxEmptyAreaV2} alt="열 자동 너비" style="width: 80%" />
+
+### 백분율
+
+열에 백분율로 `width`이(가) 설정되어 있으면, 그 크기는 그리드 크기에 상대적으로 계산됩니다. 픽셀 너비가 작동하는 방식과 비슷하지만, 열에 반응성도 제공하므로 그리드의 크기가 바뀌면 열도 그에 맞춰 크기가 바뀝니다.
+
+- 모든 열의 결합 너비가 `100%`보다 작으면, 픽셀로 설정했을 때와 비슷하게 열이 덮지 않는 빈 그리드 영역이 생길 수 있습니다.
+
+    <Image src={columnsPercentLess100PV2} alt="열 백분율 100% 미만" style="width: 80%" />
+
+- 결합 너비가 정확히 `100%`이면, 열들이 그리드의 사용 가능한 모든 공간을 채웁니다.
+
+    <Image src={columnsPercent100PV2} alt="열 백분율 100%" style="width: 80%" />
+
+- 결합 너비가 `100%`을(를) 넘으면, 사용자가 보이지 않는 열도 볼 수 있도록 가로 스크롤바가 렌더링됩니다.
+
+    <Image src={columnsPercentBigger100PV2} alt="열 백분율 100% 초과" style="width: 80%" />
+
+- 열이 백분율로 설정되어 있고 그리드 `width`이(가) `null`(으)로 설정되어 있으면, 각 열에 `width`의 `136px`을(를) 적용합니다. 그리드 자체에는 `width`이(가) 없고, `width`이(가) `null`일 때 크기가 정해지기 위해 콘텐츠에 의존하므로, 열을 그리드에 상대적으로 크기 조정할 수 없기 때문입니다. 다음 예제에서는 6개 열 모두에 `width`이(가) `50%`(으)로 설정되어 있습니다:
+
+    <Image src={columnsPercentGridwidthNullV2} alt="너비 Null인 백분율 열 그리드" style="width: 80%" />
+
+## 그리드 셀 간격 조절
+
+<ApiLink type="Grid" />은(는) [크기](/grid/display-density) 설정을 기준으로 내부 간격을 자동으로 맞춥니다. 간격 제어를 위한 CSS 사용자 지정 속성을 사용하면 그리드 머리글과 본문 셀의 패딩과 마진을 더 사용자 지정할 수 있습니다.
+
+### 전역 그리드 간격
+
+애플리케이션의 모든 그리드 셀의 간격을 줄이거나 늘리려면:
+
+```css
+/* Reduce all grid spacing by 20% */
+igx-grid {
+    --ig-spacing: 0.8;
+}
+
+/* Increase spacing for better touch accessibility */
+igx-grid {
+    --ig-spacing: 1.2;
+}
+```
+
+### 그리드별 간격
+
+특정 그리드 인스턴스의 간격을 조정하려면:
+
+```css
+/* Make a particular grid more compact */
+.my-compact-grid {
+    --ig-spacing: 0.6;
+}
+
+/* Give a specific grid more breathing room */
+.my-spacious-grid {
+    --ig-spacing: 1.4;
+}
+```
+
+### 방향별 간격 제어
+
+가로 간격과 세로 간격을 독립적으로 제어할 수 있습니다:
+
+```css
+/* Reduce only horizontal spacing (left/right padding) */
+.my-grid {
+    --ig-spacing-inline: 0.5;
+    --ig-spacing-block: 1.0; /* Keep vertical spacing normal */
+}
+
+/* Adjust vertical spacing for tighter row spacing */
+.my-grid {
+    --ig-spacing-inline: 1.0; /* Keep horizontal spacing normal */
+    --ig-spacing-block: 0.7; /* Reduce vertical spacing (if applicable) */
+}
+```
+
+### 크기별 간격
+
+그리드의 표시 밀도에 따라 서로 다른 간격 배수를 적용할 수 있습니다:
+
+```css
+.my-grid {
+    /* Compact density gets very tight spacing */
+    --ig-spacing-small: 0.5;
+
+    /* Medium density uses normal spacing */
+    --ig-spacing-medium: 1.0;
+
+    /* Comfortable density gets extra spacing */
+    --ig-spacing-large: 1.3;
+}
+```
+
+### 머리글 셀과 본문 셀의 간격
+
+간격 속성은 머리글 셀과 본문 셀 모두에 영향을 주지만, 필요하면 각각을 구체적으로 대상으로 할 수 있습니다:
+
+```css
+/* Reduce padding in header cells specifically */
+.my-grid igx-grid-header {
+    --ig-spacing: 0.7;
+}
+
+/* Adjust spacing in data cells */
+.my-grid igx-grid-cell {
+    --ig-spacing: 0.9;
+}
+```
+
+<DocsAside type="info">
+이 간격 조정은 그리드의 표시 밀도와 함께 작동합니다. 간격 배수는 그리드가 compact, cozy, comfortable 밀도 모드인지에 따라 이미 정해진 기본 간격 값에 적용됩니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="Grid" />
+
+_<ApiLink type="GridRow" />
+
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

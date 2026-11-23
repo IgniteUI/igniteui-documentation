@@ -1,0 +1,152 @@
+---
+title: "Angular Hierarchical Grid의 열 고정 - Ignite UI for Angular"
+description: "다음 앱을 개발할 때 Ignite UI for Angular의 고정 기능을 사용하고 싶으십니까? 풍부한 API로 열을 쉽게 잠그거나 열 순서를 바꾸십시오."
+keywords: lock column, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/column-pinning
+_language: ko
+llms:
+  description: "하나의 열 또는 여러 열을 Angular UI Grid의 왼쪽 또는 오른쪽에 고정할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Hierarchical Grid 열 고정
+
+하나의 열 또는 여러 열을 Angular UI Grid의 왼쪽 또는 오른쪽에 고정할 수 있습니다. Ignite UI for Angular의 **열 고정**을 사용하면 최종 사용자는 특정 열 순서로 열을 잠가 두어, Hierarchical Grid을(를) 가로로 스크롤하는 동안에도 그 열을 계속 볼 수 있습니다. Material UI Grid에는 내장된 열 고정 UI가 있으며, 이는 Hierarchical Grid의 도구 모음을 통해 사용하여 열의 고정 상태를 바꿀 수 있습니다. 또한 사용자 지정 UI를 정의하고 열 고정 API를 통해 열의 고정 상태를 바꿀 수도 있습니다.
+
+## Angular Hierarchical Grid 열 고정 예제
+
+<Sample src="/hierarchical-grid/hierarchical-grid-toolbar-pinning" height={510} alt="Angular Hierarchical Grid 열 고정 예제" />
+
+## 열 고정 API
+
+열 고정은 <ApiLink type="Column" label="igx-column" />의 `pinned` 입력을 통해 제어됩니다. 고정된 열은 기본적으로 Hierarchical Grid의 왼쪽에 렌더링되며, Hierarchical Grid 본문에서 고정되지 않은 열을 가로로 스크롤해도 고정된 상태를 유지합니다.
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" #hierarchicalGrid>
+    <igx-column [field]="Artist" [width]="200px" [pinned]="true"></igx-column>
+    <igx-column [field]="Debut" [width]="200px"></igx-column>
+</igx-hierarchical-grid>
+```
+
+또한 <ApiLink type="HierarchicalGrid" />의 Hierarchical Grid의 <ApiLink type="HierarchicalGrid" member="pinColumn" label="pinColumn" /> 또는 <ApiLink type="HierarchicalGrid" member="unpinColumn" label="unpinColumn" /> 메서드를 사용하여 필드 이름으로 열을 고정하거나 고정 해제할 수도 있습니다:
+
+```typescript
+this.hierarchicalGrid.pinColumn('Artist');
+this.hierarchicalGrid.unpinColumn('Debut');
+```
+
+두 메서드 모두 각 작업의 성공 여부를 나타내는 불리언 값을 반환합니다. 일반적으로 실패하는 이유는 해당 열이 이미 원하는 상태이기 때문입니다.
+
+열은 가장 오른쪽에 있는 고정된 열의 오른쪽에 고정됩니다. 고정된 열의 순서를 바꾸려면 <ApiLink type="HierarchicalGrid" member="columnPin" label="columnPin" /> 이벤트를 구독하고, 이벤트 인수의 <ApiLink kind="interface" type="IPinColumnEventArgs" member="insertAtIndex" /> 속성을 원하는 위치 인덱스로 바꾸면 됩니다.
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" 
+        (columnPin)="columnPinning($event)" #hierarchicalGrid>
+</igx-hierarchical-grid> 
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Artist') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+## 고정 위치
+
+<ApiLink type="HierarchicalGrid" member="pinning" label="pinning" /> 구성 옵션을 통해 열 고정 위치를 바꿀 수 있습니다. 이를 통해 열 위치를 Start 또는 End로 설정할 수 있습니다.
+End로 설정하면 열은 고정되지 않은 열 다음에 그리드의 끝에 렌더링됩니다. 고정되지 않은 열은 가로로 스크롤할 수 있고, 고정된 열은 오른쪽에 고정된 상태를 유지합니다.
+
+```html
+<igx-hierarchical-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-hierarchical-grid>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
+```
+
+### 데모
+
+<Sample src="/hierarchical-grid/hierarchical-grid-sample-right-pinning" height={510} alt="" />
+
+### 양쪽에서 열 고정
+또한 각 열의 고정 위치를 따로 지정할 수 있어, 편의를 위해 그리드의 양쪽에 열을 고정하고 데이터 집합을 더 쉽게 최적화할 수 있습니다. 아래 데모를 참조하십시오. 열을 고정하려면, 머리글을 클릭하여 열을 선택한 다음 도구 모음에 추가된 고정 버튼을 사용하거나, 열을 다른 고정된 열로 끌어다 놓으면 됩니다.
+
+<Sample src="/hierarchical-grid/hierarchical-grid-both-sides-pinning" height={510} alt="" />
+
+## 사용자 지정 열 고정 UI
+
+사용자 지정 UI를 정의하고 관련 API를 통해 열의 고정 상태를 바꿀 수 있습니다.
+
+도구 모음 대신, 최종 사용자가 클릭하여 특정 열의 고정 상태를 바꿀 수 있는 고정 아이콘을 열 머리글에 정의하고 싶다고 해 보겠습니다.
+이는 사용자 지정 아이콘이 있는 열의 머리글 템플릿을 만들어 할 수 있습니다.
+
+```html
+<ng-template igxHeader let-column #pinTemplate>
+    <div class="title-inner">
+        <span style="float:left">{{column.header || column.field}}</span>
+        <igx-icon class="pin-icon" [class.pinned]="column.pinned" [class.unpinned]="!column.pinned" fontSet="fas" name="fa-thumbtack"
+            (click)="toggleColumn(column)"></igx-icon>
+    </div>
+</ng-template>
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="localdata" [autoGenerate]="false"
+    [height]="'500px'" [width]="'100%'" #hierarchicalGrid>
+    <igx-column field="CompanyName" header="Company Name" [headerTemplate]="pinTemplate" width="200px" [pinned]="true"></igx-column>
+    <igx-column field="ContactName" header="Contact Name" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+    <igx-column field="ContactTitle" header="Contact Title" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="false">
+        <igx-column field="OrderDate" header="Order Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="RequiredDate" header="Required Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShippedDate" header="Shipped Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShipVia" header="Ship Via" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+        <igx-row-island [key]="'OrderDetails'" [autoGenerate]="false">
+            <igx-column field="UnitPrice" header="Unit Price" width="150px"></igx-column>
+            <igx-column field="Quantity" width="150px"></igx-column>
+            <igx-column field="Discount" width="150px"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+사용자 지정 아이콘을 클릭하면 열의 API 메서드를 사용하여 관련 열의 고정 상태를 바꿀 수 있습니다.
+
+```typescript
+public toggleColumn(col: ColumnType) {
+    col.pinned ? col.unpin() : col.pin();
+}
+```
+
+### 데모
+
+<Sample src="/hierarchical-grid/hierarchical-grid-pinning" height={510} alt="" />
+
+## 고정 제한 사항
+
+- 열 너비를 백분율(%)로 명시적으로 설정하면, 고정된 열이 있을 때 Hierarchical Grid 본문과 머리글 콘텐츠가 어긋납니다. 열 고정이 올바르게 작동하려면 열 너비는 픽셀(px)이거나 Hierarchical Grid가 자동으로 할당해야 합니다.
+
+## API 참조
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="Column" />
+## 추가 리소스
+
+- [Hierarchical Grid 개요](/hierarchicalgrid/hierarchical-grid)
+- [가상화와 성능](/hierarchicalgrid/virtualization)
+- [페이징](/hierarchicalgrid/paging)
+- [필터링](/hierarchicalgrid/filtering)
+- [정렬](/hierarchicalgrid/sorting)
+- [요약](/hierarchicalgrid/summaries)
+- [열 이동](/hierarchicalgrid/column-moving)
+- [열 크기 조정](/hierarchicalgrid/column-resizing)
+- [선택](/hierarchicalgrid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

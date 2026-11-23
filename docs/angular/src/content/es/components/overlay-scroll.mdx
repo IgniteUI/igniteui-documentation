@@ -1,0 +1,106 @@
+---
+title: "Angular Overlay Service - Estrategias de desplazamiento - Licencia MIT" 
+description: "Explicación y ejemplo sobre la interfaz IScrollStrategy del Overlay Service y las clases que la implementan."
+license: MIT
+_language: es
+llms:
+  description: "La estrategia de desplazamiento determina cómo se gestiona el desplazamiento en el IgxOverlayService proporcionado."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Estrategias de desplazamiento
+
+La estrategia de desplazamiento determina cómo se gestiona el desplazamiento en el `IgxOverlayService` proporcionado. Hay cuatro estrategias de desplazamiento:
+
+1. **NoOperation**: no hace nada.
+2. **Block**: el evento se cancela y el componente no se desplaza con la ventana.
+3. **Close**: usa una tolerancia y cierra un componente expandido al desplazarse si se supera la tolerancia.
+4. **Absolute**: desplaza todo.
+
+## Uso
+
+Cada estrategia de desplazamiento tiene los siguientes métodos:
+
+- <ApiLink kind="interface" type="IScrollStrategy" member="initialize" />: inicializa la estrategia de desplazamiento. Necesita una referencia al documento, al servicio de superposición y al id del componente renderizado
+- <ApiLink kind="interface" type="IScrollStrategy" member="attach" />: adjunta la estrategia de desplazamiento al elemento especificado o al documento
+- <ApiLink kind="interface" type="IScrollStrategy" member="detach" />: desvincula la estrategia de desplazamiento
+
+```typescript
+this.scrollStrategy.initialize(document, overlayService, id);
+this.scrollStrategy.attach();
+this.scrollStrategy.detach();
+```
+
+<hr/>
+
+### Primeros pasos
+
+La estrategia de desplazamiento se pasa como propiedad en el parámetro <ApiLink kind="interface" type="OverlaySettings" /> cuando se llama al método <ApiLink type="OverlayService" member="attach" label="overlay.attach()" />:
+
+```typescript
+// Initializing and using overlay settings
+const overlaySettings: OverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new AbsoluteScrollStrategy(), //Passes the scroll strategy
+    modal: true,
+    closeOnOutsideClick: true
+}
+const overlayId = overlay.attach(dummyElement, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+Para cambiar la estrategia de desplazamiento usada por la superposición, sobrescriba la propiedad <ApiLink kind="interface" type="IScrollStrategy" /> del objeto <ApiLink kind="interface" type="OverlaySettings" /> que se pasa a la superposición. Si una estrategia ya estaba adjunta, debe desvincular el ID generado anteriormente:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// to override the scroll strategy
+const newOverlaySettings = Object.assing({}, overlaySettings);
+Object.assing(newOverlaySettings, {
+    scrollStrategy: new CloseScrollStrategy()
+})
+const overlayId = overlay.attach(dummyElement, newOverlaySettings);
+overlay.show(overlayId);
+```
+
+<hr/>
+
+### Dependencias
+
+Para usar cualquiera de las estrategias de desplazamiento, impórtela así:
+
+```typescript
+import { NoOpScrollStrategy } from "./scroll/NoOpScrollStrategy";
+```
+
+### Estrategias de desplazamiento
+
+Las estrategias de desplazamiento pueden pasarse al objeto <ApiLink kind="interface" type="OverlaySettings" /> para determinar cómo debe gestionar el desplazamiento la superposición.
+La demostración siguiente ilustra la diferencia entre las distintas <ApiLink kind="interface" type="IScrollStrategy" />:
+
+<Sample src="/interactions/overlay-scroll-sample-2" height={400} alt="" />
+
+<hr/>
+
+## Modal
+
+El objeto <ApiLink kind="interface" type="OverlaySettings" /> también permite pasar una propiedad booleana (<ApiLink kind="interface" type="OverlaySettings" member="modal" />). Esta controla cómo se mostrará la superposición:
+
+- Si la propiedad <ApiLink kind="interface" type="OverlaySettings" member="modal" /> es `false`, el elemento se adjuntará al primer plano del DOM, pero todo seguirá activo e interactivo, por ejemplo, el desplazamiento, los clics, etc.
+- Si la propiedad <ApiLink kind="interface" type="OverlaySettings" member="modal" /> es `true`, el elemento se adjuntará al primer plano del DOM y un bloqueador de superposición se colocará detrás, deteniendo la propagación de todos los eventos:
+
+<Sample src="/interactions/overlay-scroll-sample-1" height={400} alt="" />
+
+<hr/>
+
+## Referencias de API
+- <ApiLink type="IScrollStrategy" kind="interface" />
+## Recursos adicionales
+
+- [Tema principal de superposiciones](/overlay)
+- [Estrategias de posicionamiento](/overlay-position)
+- [Tema de estilos](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />

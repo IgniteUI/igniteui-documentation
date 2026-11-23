@@ -1,0 +1,147 @@
+---
+title: "시작하기 | {ProductName} 오픈 소스 라이브러리 | Infragistics"
+description: "Grid Lite를 포함한 경량 MIT 라이선스 컴포넌트로 앱을 만들려면 Infragistics의 오픈 소스 {Platform} 컴포넌트를 사용하십시오. 지금 사용해 보십시오."
+keywords: "{ProductName}, Infragistics, 시작하기, 오픈 소스, MIT 라이선스"
+mentionedTypes: []
+_language: ko
+llms:
+  description: "{ProductName}는 MIT 라이선스에 따라 오픈 소스 UI 컴포넌트를 제공합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import gettingStartedBlazorCard from '@xplat-images/general/getting-started-blazor-card.jpg';
+
+# 오픈 소스 라이브러리 시작하기
+
+이 항목은 Visual Studio를 사용하여 Ignite UI for Blazor 오픈 소스 라이브러리로 Blazor 애플리케이션을 만드는 단계별 안내를 제공합니다.
+
+## 개요
+
+{ProductName}는 MIT 라이선스에 따라 오픈 소스 UI 컴포넌트를 제공합니다. 이 경량 패키지는 상업용 라이선스 없이도 최신 웹 애플리케이션을 만드는 데 필요한 기본 기능을 제공합니다.
+
+오픈 소스 라이브러리에는 다음이 포함됩니다:
+
+- [**IgniteUI.Blazor.Lite**](https://www.nuget.org/packages/IgniteUI.Blazor.Lite) - 오픈 소스 UI 컴포넌트를 포함하는 경량 패키지입니다([GitHub]({GithubLink}))
+- [**IgniteUI.Blazor.GridLite**](https://www.nuget.org/packages/IgniteUI.Blazor.GridLite) - 경량 오픈 소스 데이터 그리드 컴포넌트입니다([GitHub]({GithubLinkLite}))
+
+## 새 Blazor 프로젝트 만들기
+
+- Visual Studio를 시작하고 시작 페이지에서 **새 프로젝트 만들기**를 클릭한 후, **Blazor Web App**, **Blazor WebAssembly Standalone App** 또는 **.NET MAUI Blazor Hybrid App** 템플릿을 선택하고 **다음**을 클릭하십시오.
+
+<DocsAside type="info">
+**Blazor Web App**에서 컴포넌트에는 대화형 렌더 모드가 필요합니다: **InteractiveServer**, **InteractiveWebAssembly** 또는 **InteractiveAuto**. 컴포넌트를 사용하는 페이지(예: `@rendermode InteractiveServer`)에 설정하거나 **Components/App.razor**에서 전역으로 설정하십시오. 정적 서버 측 렌더링은 현재 지원되지 않습니다.
+</DocsAside>
+
+- 프로젝트 이름과 위치를 입력한 후 **다음**을 클릭하십시오.
+
+- 추가 프로젝트 옵션을 지정하고 **만들기**를 클릭하십시오.
+
+## IgniteUI.Blazor.Lite 설치
+
+IgniteUI.Blazor.Lite 패키지에는 NuGet으로 제공되는 오픈 소스 UI 컴포넌트가 포함되어 있습니다.
+
+<DocsAside type="info">
+같은 프로젝트에서 **IgniteUI.Blazor**(또는 **IgniteUI.Blazor.Trial**)와 **IgniteUI.Blazor.Lite** 패키지를 함께 사용하지 마십시오. 두 패키지는 같은 네임스페이스를 사용하고 중복된 컴포넌트를 포함하므로, 둘 중 하나만 사용해야 합니다.
+</DocsAside>
+
+Visual Studio에서 **도구** → **NuGet 패키지 관리자** → **솔루션용 NuGet 패키지 관리**를 선택하여 NuGet 패키지 관리자를 여십시오. **IgniteUI.Blazor.Lite** NuGet 패키지를 검색하여 설치하십시오. WebAssembly 또는 Auto 렌더 모드의 Blazor Web App에서는 클라이언트 프로젝트에 설치하면 충분하며, 서버 프로젝트는 프로젝트 참조를 통해 이를 가져옵니다.
+
+또는 패키지 관리자 콘솔을 통해 설치하십시오:
+
+```cmd
+Install-Package IgniteUI.Blazor.Lite
+```
+
+또는 .NET CLI를 통해 설치하십시오:
+
+```cmd
+dotnet add package IgniteUI.Blazor.Lite
+```
+
+## IgniteUI.Blazor.Lite 등록
+
+1 - **Program.cs** 파일(.NET MAUI Blazor Hybrid 앱에서는 **MauiProgram.cs**)을 열고 **builder.Services.AddIgniteUIBlazor** 함수를 호출하여 Ignite UI for Blazor 서비스를 등록하십시오. WebAssembly 또는 Auto 렌더 모드의 Blazor Web App에서는 서버 프로젝트와 클라이언트 프로젝트 모두의 **Program.cs**에서 이 작업을 수행하십시오:
+
+<PlatformBlock for="Blazor">
+
+```csharp
+builder.Services.AddIgniteUIBlazor();
+```
+
+</PlatformBlock>
+
+각 컴포넌트는 처음 렌더링될 때 클라이언트 리소스를 로드하므로, 컴포넌트 모듈을 나열하는 것은 선택 사항입니다([컴포넌트 모듈](./general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+2 - **_Imports.razor** 파일에 **IgniteUI.Blazor.Controls** 네임스페이스를 추가하십시오(클라이언트 프로젝트가 있는 Blazor Web App의 두 프로젝트 모두에서):
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+3 - 앱의 호스트 페이지에 있는 **`<head>`** 요소에 스타일시트를 추가하십시오. Blazor Web App에서는 **Components/App.razor**에, 독립형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**에 추가합니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<head>
+    <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+</head>
+```
+
+</PlatformBlock>
+
+## OSS Blazor 컴포넌트 사용하기
+
+Razor 페이지에 Ignite UI for Blazor 컴포넌트를 추가하십시오. WebAssembly 또는 Auto 렌더 모드의 Blazor Web App에서는 페이지가 클라이언트 프로젝트에 있어야 합니다. 예:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard style="width:350px">
+    <IgbCardMedia>
+        <img src="https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=350&q=80" />
+    </IgbCardMedia>
+    <IgbCardHeader>
+        <h4>Jane Doe</h4>
+        <h6>Professional Photographer</h6>
+    </IgbCardHeader>
+    <IgbCardContent>Hi! I'm Jane, photographer and filmmaker.
+        Photography is a way of feeling, of touching,
+        of loving. What you have caught on film is captured forever...
+        it remembers little things, long after you have
+        forgotten everything.</IgbCardContent>
+    <IgbCardActions>
+        <IgbButton>More Info</IgbButton>
+    </IgbCardActions>
+</IgbCard>
+```
+
+Blazor 앱을 빌드하고 실행하십시오.
+
+<Image src={gettingStartedBlazorCard} alt="getting-started-blazor-card" />
+
+</PlatformBlock>
+
+경량 패키지에 포함된 컴포넌트에 대한 더 자세한 정보는 [오픈 소스와 프리미엄 컴포넌트](./general-open-source-vs-premium.mdx) 항목을 참조하십시오.
+
+## IgniteUI.Blazor.GridLite 설치
+
+Grid Lite를 추가하려면 같은 프로젝트에 **IgniteUI.Blazor.GridLite** 패키지를 설치하십시오:
+
+```cmd
+dotnet add package IgniteUI.Blazor.GridLite
+```
+
+그리드는 자체 서비스 등록이 필요 없으며, 위에서 추가한 Lite 테마도 그리드에 스타일을 적용합니다.
+
+Grid Lite 기능과 구성에 대한 더 자세한 정보는 [Grid Lite 개요](./grid-lite/overview.mdx) 항목을 참조하십시오.
+
+## 추가 리소스
+
+- [오픈 소스와 프리미엄 컴포넌트](./general-open-source-vs-premium.mdx)
+- [Grid Lite 개요](./grid-lite/overview.mdx)

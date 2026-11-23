@@ -1,0 +1,238 @@
+---
+title: "MAKER Framework | Orquestación de IA de Ignite UI"
+description: "MAKER Framework es un servidor MCP de orquestación de IA multiagente de Infragistics que descompone tareas complejas en planes de pasos validados mediante votación basada en consenso entre los proveedores OpenAI, Anthropic y Google AI."
+keywords: "{Platform}, {ProductName}, Infragistics, MAKER, multiagente, orquestación de IA, MCP, Model Context Protocol, votación por consenso, planificar y ejecutar, descomposición de tareas"
+license: MIT
+_canonicalLink: "{environment:dvUrl}/components/ai/maker-framework"
+mentionedTypes: []
+_language: es
+llms:
+  description: "MAKER Framework (@igniteui/maker-mcp) es un servidor MCP de orquestación de IA multiagente de Infragistics que descompone tareas complejas en planes de pasos validados y ejecutables, mediante un algoritmo de votación basado en consenso entre varios agentes de IA."
+---
+
+# MAKER Framework
+
+MAKER Framework (`@igniteui/maker-mcp`) es un servidor MCP de orquestación de IA multiagente de Infragistics que descompone tareas complejas en planes de pasos validados y ejecutables, mediante un algoritmo de votación basado en consenso entre varios agentes de IA. MAKER son las siglas de Maximal Agentic decomposition (descomposición agéntica máxima), first-to-ahead-by-K Error correction (corrección de errores por primer candidato con ventaja K) y Red-flagging (marcado de señales de alerta). El framework se basa en el artículo de investigación _Solving a million-step LLM task with zero errors_ del Cognizant AI Lab. Se ejecuta como servidor MCP mediante `npx` desde el registro `@igniteui` de GitHub Packages, y se conecta a cualquier cliente de IA compatible con MCP a través del transporte STDIO. Una vez conectado, el asistente de IA puede invocar tres herramientas (`plan`, `execute` y `plan_and_execute`) para ejecutar tareas de largo recorrido con detección y corrección automáticas de errores.
+
+MAKER Framework no es una herramienta de andamiaje de componentes de Ignite UI. Para la creación de proyectos de Ignite UI, la generación de componentes y las consultas de documentación, use el [servidor CLI MCP](cli-mcp.mdx). MAKER es independiente del framework: no se dirige específicamente a Angular, React, Blazor ni Web Components, y no lee ni modifica por sí solo los archivos fuente del proyecto. Requiere al menos una clave de API de un proveedor de IA (OpenAI, Anthropic o Google AI) y un token de acceso personal de GitHub con el ámbito `read:packages` para el registro `@igniteui`.
+
+## Cómo funciona MAKER
+
+MAKER Framework funciona en dos fases secuenciales: planificación y ejecución. Cada fase usa un conjunto específico de clientes de IA internos y aplica el mismo mecanismo de votación basado en consenso para validar los resultados antes de avanzar.
+
+En la **fase de planificación**, un cliente de planificación propone lotes de pasos (tamaño de lote configurable, 3 por defecto). Después, un cliente de votación del plan ejecuta una votación "first-to-ahead-by-K": varios agentes de IA votan "Sí", "No" o "Fin" sobre los pasos propuestos. Una propuesta se acepta cuando un resultado supera a los demás en K votos. Las propuestas rechazadas incluyen los motivos del rechazo en el siguiente reintento, lo que impulsa un refinamiento continuo hasta que el plan está completo o se alcanza el límite de reintentos.
+
+En la **fase de ejecución**, el framework procesa el plan de pasos validado en lotes configurables. Un cliente de ejecución ejecuta cada lote y produce un estado actualizado. Un cliente de votación de la ejecución valida el nuevo estado frente al estado anterior y a la tarea original, usando el mismo algoritmo de votación con margen K. Las ejecuciones rechazadas se reintentan con retroalimentación. El estado final acumulado es el resultado de la tarea.
+
+La capa de validación de señales de alerta (red-flag) funciona durante ambas fases. Cada solicitud a un cliente de IA se envuelve en una llamada protegida que ejecuta validadores configurables sobre la respuesta antes de que entre en el sistema de votación. Las respuestas mal formadas o demasiado breves se reintentan con el mensaje de error añadido a la indicación. Se pueden añadir validadores personalizados implementando `IAIRedFlagValidator`.
+
+## Instalar el servidor MCP de MAKER
+
+MAKER se publica en GitHub Packages bajo el ámbito `@igniteui` y requiere una configuración única del registro. Ejecute el siguiente comando una vez en su equipo:
+
+```bash
+npm config set @igniteui:registry https://npm.pkg.github.com
+```
+
+A continuación, abra `~/.npmrc` (Windows: `%USERPROFILE%\.npmrc`) y añada su token de acceso personal de GitHub con el ámbito `read:packages`:
+
+```ini
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
+```
+
+Una vez configurado el registro, el servidor MCP se ejecuta mediante `npx` sin una instalación global aparte. El binario nativo (unos 50 MB) se descarga y se guarda en caché la primera vez que se ejecuta. Los inicios posteriores son inmediatos.
+
+## Conectar con su cliente de IA
+
+Añada la entrada del servidor `maker` al archivo de configuración de MCP de su cliente de IA. El bloque `env` pasa la clave de su proveedor de IA; configure solo las claves de los proveedores que utilice.
+
+### VS Code (GitHub Copilot)
+
+Añada en `.vscode/mcp.json` de su espacio de trabajo:
+
+```json
+{
+  "servers": {
+    "maker": {
+      "command": "npx",
+      "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+      "env": {
+        "Executor__AIProviderKeys__OpenAI": "<your-openai-key>"
+      }
+    }
+  }
+}
+```
+
+Cambie Copilot Chat al modo Agente y confirme que `plan`, `execute` y `plan_and_execute` aparecen en la lista de herramientas.
+
+### Claude Desktop
+
+1. Abra el archivo de configuración de Claude Desktop:
+    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+2. Añada la entrada `maker` al bloque `mcpServers`:
+
+    ```json
+    {
+      "mcpServers": {
+        "maker": {
+          "command": "npx",
+          "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+          "env": {
+            "Executor__AIProviderKeys__Anthropic": "<your-anthropic-key>"
+          }
+        }
+      }
+    }
+    ```
+
+3. Reinicie Claude Desktop. El primer inicio descarga el binario nativo (unos 30 s con una conexión habitual).
+
+### Cursor, Claude Code, JetBrains y otros clientes MCP
+
+Cualquier cliente que admita MCP con transporte STDIO usa el mismo bloque `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "maker": {
+      "command": "npx",
+      "args": ["-y", "@igniteui/maker-mcp", "--stdio"],
+      "env": {
+        "Executor__AIProviderKeys__OpenAI": "<your-openai-key>"
+      }
+    }
+  }
+}
+```
+
+## Configurar el servidor MCP de MAKER
+
+Toda la configuración de MAKER se proporciona mediante variables de entorno. La convención de nombres usa doble guion bajo (`__`) como separador de secciones. Pase las variables en el bloque `env` de la configuración de su cliente MCP.
+
+### Claves de proveedores de IA
+
+Configure al menos una clave de proveedor. Puede configurar claves para varios proveedores a la vez y asignar distintos proveedores a distintos clientes internos.
+
+| Variable de entorno                  | Descripción       |
+| ------------------------------------- | ----------------- |
+| `Executor__AIProviderKeys__OpenAI`    | Clave de API de OpenAI    |
+| `Executor__AIProviderKeys__Anthropic` | Clave de API de Anthropic |
+| `Executor__AIProviderKeys__Google`    | Clave de API de Google AI |
+
+### Seleccionar modelos por cliente interno
+
+MAKER usa cuatro clientes internos de IA: `Planning`, `PlanVoting`, `Execution` y `ExecutionVoting`. Cada cliente puede apuntar a un proveedor y un modelo distintos. Los valores predeterminados usan `gpt-5.1` de OpenAI para los cuatro clientes.
+
+Para combinar proveedores y equilibrar coste y calidad, configure las variables `Provider` y `Model` por cliente:
+
+```json
+"env": {
+  "Executor__AIProviderKeys__OpenAI":             "<openai-key>",
+  "Executor__AIProviderKeys__Anthropic":          "<anthropic-key>",
+  "Executor__Clients__Planning__Provider":        "Anthropic",
+  "Executor__Clients__Planning__Model":           "claude-opus-4-5",
+  "Executor__Clients__PlanVoting__Provider":      "OpenAI",
+  "Executor__Clients__PlanVoting__Model":         "gpt-4.1-mini",
+  "Executor__Clients__Execution__Provider":       "Anthropic",
+  "Executor__Clients__Execution__Model":          "claude-opus-4-5",
+  "Executor__Clients__ExecutionVoting__Provider": "OpenAI",
+  "Executor__Clients__ExecutionVoting__Model":    "gpt-4.1-mini"
+}
+```
+
+Valores válidos de `Provider`: `OpenAI`, `Anthropic`, `Google`.
+
+### Conectar servidores MCP externos
+
+MAKER puede conectarse a servidores MCP externos como proveedores de herramientas, poniendo sus herramientas a disposición del cliente de ejecución. Configure cada servidor con un nombre, una descripción, una URL y una clave de API opcional, usando variables de entorno indexadas:
+
+```json
+"env": {
+  "Executor__McpServers__0__Name":        "igniteui-cli",
+  "Executor__McpServers__0__Description": "Ignite UI CLI scaffolding and documentation tools",
+  "Executor__McpServers__0__Url":         "https://mcp.example.com/igniteui-cli"
+}
+```
+
+Incremente el índice (`0`, `1`, `2`, ...) para registrar servidores adicionales.
+
+### Ajustar el tamaño del lote y el umbral de votación
+
+Cada llamada a una herramienta MCP acepta los parámetros `batchSize` y `k` en lenguaje natural. Indíquelos en su indicación al invocar las herramientas.
+
+| Parámetro   | Valor predeterminado | Descripción                                                                                                            |
+| ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `batchSize` | `3`     | Pasos propuestos o ejecutados en cada ronda de votación. Los valores bajos dan más control; los valores altos mejoran el rendimiento.         |
+| `k`         | `10`    | Umbral de margen de consenso. Los valores altos exigen un acuerdo más sólido entre los agentes de votación antes de aceptar un resultado. |
+
+Reduzca `k` (3-5) para tareas exploratorias y más rápidas. Aumente `k` (15-20) para tareas críticas en las que la corrección importa más que el coste en tokens.
+
+## Herramientas disponibles
+
+El servidor MCP de MAKER expone tres herramientas al agente de IA conectado.
+
+| Herramienta               | Descripción                                                               |
+| ------------------ | ------------------------------------------------------------------------- |
+| `plan`             | Descomponer una tarea en una lista de pasos ordenada y validada, sin ejecutarla |
+| `execute`          | Ejecutar una lista de pasos generada por `plan`, con votación por consenso en cada lote   |
+| `plan_and_execute` | Planificar y ejecutar en una sola llamada, con eventos de progreso en tiempo real entre fases     |
+
+Use `plan` seguido de `execute` cuando quiera revisar y validar el plan de pasos antes de la ejecución. Use `plan_and_execute` para ejecuciones desatendidas en las que no es necesario revisar el plan.
+
+## Flujos de trabajo habituales
+
+### Tarea de una sola vez
+
+Invoque `plan_and_execute` directamente con la configuración predeterminada:
+
+> Use plan_and_execute para escribir una comparación detallada de REST frente a GraphQL para una entrada de blog técnica.
+
+### Revisar el plan antes de ejecutarlo
+
+Use `plan` para revisar los pasos y, a continuación, páselos a `execute`:
+
+> 1. Use plan para crear un plan de migración de un esquema de PostgreSQL a un diseño multitenant.
+> 2. Muéstreme los pasos.
+> 3. Use execute con esos pasos para llevar a cabo el script de migración.
+
+### Ejecución de alta confianza para tareas críticas
+
+Aumente `k` para exigir un consenso más sólido:
+
+> Use plan_and_execute con batchSize=3 y k=15 para revisar este contrato inteligente en busca de vulnerabilidades de seguridad.
+
+### Tarea exploratoria de bajo coste
+
+Reduzca ambos parámetros para minimizar el uso de tokens:
+
+> Use plan_and_execute con batchSize=3 y k=3 para redactar un README de proyecto para una herramienta CLI de Node.js.
+
+## Plataformas compatibles
+
+El binario nativo se distribuye para cuatro plataformas. El binario correcto se selecciona y se guarda en caché automáticamente la primera vez que se ejecuta.
+
+| Plataforma | Arquitectura          | RID         |
+| -------- | --------------------- | ----------- |
+| Windows  | x64                   | `win-x64`   |
+| macOS    | x64 (Intel)           | `osx-x64`   |
+| macOS    | arm64 (Apple Silicon) | `osx-arm64` |
+| Linux    | x64                   | `linux-x64` |
+
+El binario para ARM Linux no está empaquetado actualmente. Para solicitar soporte para otra plataforma, abra una incidencia en [github.com/IgniteUI/MAKER](https://github.com/IgniteUI/MAKER).
+
+La ubicación de la caché del binario se puede cambiar con la variable de entorno `MAKER_MCP_CACHE`. Las rutas predeterminadas de la caché son `%LOCALAPPDATA%\maker-mcp\{version}\{rid}\` en Windows y `~/.cache/maker-mcp/{version}/{rid}/` en macOS y Linux.
+
+## Recursos adicionales
+
+- [Descripción general del desarrollo asistido por IA](ai-assisted-development-overview.mdx)
+- [Agent Skills](./skills.mdx)
+- [Ignite UI CLI MCP](./cli-mcp.mdx)
+- [Ignite UI Theming MCP](./theming-mcp.mdx)
+
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

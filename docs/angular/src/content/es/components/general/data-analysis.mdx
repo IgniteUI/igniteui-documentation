@@ -1,0 +1,205 @@
+---
+title: "Capacidades de análisis de datos | Angular Universal | Ignite UI for Angular | Infragistics"
+description: "Cómo usar la funcionalidad de integración de gráficos con Ignite UI for Angular y disponer de los medios de análisis de datos para alcanzar mejores objetivos de negocio."
+keywords: "análisis de datos, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "El análisis de datos es el proceso de examinar, transformar y organizar datos de una forma específica para generar información útil a partir de ellos."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import dataAnalysisButton from '../../images/general/data-analysis-button.png';
+import dataBarsFormatting from '../../images/general/data-bars-formatting.png';
+import colorScaleFormatting from '../../images/general/color-scale-formatting.png';
+import top10Percent from '../../images/general/top-10-percent.png';
+import uniqueValuesFormatting from '../../images/general/unique-values-formatting.png';
+import containsFormatting from '../../images/general/contains-formatting.png';
+
+# Análisis de datos
+
+El análisis de datos es el proceso de examinar, transformar y organizar datos de una forma específica para generar información útil a partir de ellos. También permite llegar a determinados resultados y conclusiones mediante el razonamiento analítico y lógico.
+
+<DocsAside type="info">
+Esta funcionalidad se incorporará a **Ignite UI for Angular** como paquete externo, para facilitar la configuración y reducir al mínimo el código necesario
+</DocsAside>
+
+## Análisis de datos con DockManager
+
+Realice un `cell range selection` o un `column selection` para habilitar el `Chart types view` según los datos seleccionados. Esta vista forma parte del panel derecho de [Dock Manager](/dock-manager). Desde allí puede:
+
+- Elegir un tipo de gráfico específico y visualizarlo en un panel aparte.
+- O usar el botón contextual `Data Analysis` para mostrar distintas opciones de formato de texto.
+
+<Sample src="/grid-dynamic-chart-data/data-analysis-dock-manager" height={580} lob iframeOnly fullscreenBtn />
+
+<DocsAside type="info">
+El [componente web Dock Manager](/dock-manager) permite gestionar la disposición de la aplicación mediante paneles, y permite a los usuarios finales personalizarla aún más anclando, redimensionando, moviendo y ocultando paneles. Después de seleccionar los datos, cree un par de gráficos y ancle (arrastrando) cada uno a las zonas disponibles
+</DocsAside>
+
+Tenga en cuenta lo siguiente (relacionado con el ejemplo):
+
+- Al seleccionar nuevos datos, los datos del gráfico se actualizarán.
+- Si se aplica una selección por rango de varias celdas, solo estará disponible la funcionalidad de `Text formatting`.
+- Si los datos seleccionados no son compatibles con ninguno de los gráficos, se mostrará un mensaje de advertencia "Datos incompatibles".
+
+## Paquete de análisis de datos
+
+Puede empezar a usar esta funcionalidad siguiendo los pasos siguientes. Tenga en cuenta que el paquete **igniteui-angular-extras** solo está disponible a través de nuestro [feed privado de npm](https://packages.infragistics.com/npm/js-licensed/). Si tiene una [licencia comercial válida](/general/ignite-ui-licensing#acuerdos-de-licencia), tendrá acceso al feed privado.
+
+Empecemos con:
+
+- Instalar el paquete en su aplicación
+
+```cmd
+npm install @infragistics/igniteui-angular-extras
+```
+
+- Instalar las dependencias peer del paquete
+
+```cmd
+npm install @infragistics/igniteui-angular igniteui-angular-core igniteui-angular-charts
+```
+
+- Después de instalar los paquetes, haga lo siguiente:
+  - Añada `IgxExtrasModule` a su app.module.ts
+  - Aplique las directivas `igxChartIntegration`, `igxConditionalFormatting` y `igxContextMenu` a su cuadrícula
+
+```html
+<igx-grid #grid1 igxChartIntegration igxConditionalFormatting igxContextMenu
+    [data]="localData" [autoGenerate]="true">
+    <igx-paginator>
+    </igx-paginator>
+</igx-grid>
+```
+
+¡Y listo! Ahora puede realizar una **selección por rango de celdas** y seguir el flujo de análisis de datos.
+
+## Botón de análisis de datos
+
+El botón de análisis de datos es el punto de salida para visualizar los datos seleccionados de distintas formas:
+
+<Image src={dataAnalysisButton} alt="Botón de análisis de datos" class="responsive-img" />
+
+De este modo, cada selección por rango realizada en la cuadrícula puede analizarse con un solo clic.
+
+El botón se muestra en cada selección por rango, en la **esquina inferior derecha** de la selección, y se oculta cuando la selección no está activa. El desplazamiento horizontal y vertical vuelve a colocar el botón para que siempre se muestre en su posición designada.
+
+## Integración de gráficos
+
+Esta sección presenta la integración del Grid con la funcionalidad de gráficos, que permite al usuario final visualizar un gráfico basado en los datos seleccionados del Grid y elegir distintos tipos de gráfico si es necesario.
+
+El gráfico se mostrará al seleccionar un rango de celdas y hacer clic en el botón de mostrar análisis.
+
+<DocsAside type="info">
+La opción de crear un gráfico solo está disponible cuando hay valores numéricos en los datos seleccionados.
+</DocsAside>
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+Actualmente admitimos los siguientes tipos de gráfico:
+
+- [Gráfico de columnas](/charts/types/column-chart),
+[Gráfico de áreas](/charts/types/stacked-chart),
+[Gráfico de líneas](/charts/types/line-chart),
+[Gráfico de barras](/charts/types/line-chart),
+- [Gráfico apilado](/charts/types/stacked-chart),
+[Gráfico apilado al 100 %](/charts/types/stacked-chart),
+- [Gráfico circular](/charts/types/pie-chart),
+[Gráfico de dispersión](/charts/types/stacked-chart),
+[Gráfico de burbujas](/charts/types/bubble-chart)
+ Para mostrar un gráfico de burbujas significativo, desactivamos la vista previa cuando los datos no tienen un formato válido.
+
+## Formato condicional de celdas
+
+Si tiene un Grid con miles de filas de datos, sería muy difícil ver patrones y tendencias solo examinando la información en bruto. De forma similar a los gráficos y a los sparklines, `Conditional formatting` ofrece otra forma de visualizar datos y facilitar su comprensión.
+
+Sobre el formato condicional: permite aplicar formatos como colores y barras de datos a las celdas según `their value` en la selección por rango. El [ejemplo siguiente](#demostración) muestra cómo configurar el Grid para aplicar `Conditional Formatting`. Depende de `Conditional formatting selection type` qué condición se mostrará `rules`. A continuación encontrará los estilos predefinidos (preajustes) que puede usar para aplicar rápidamente formato condicional a sus datos. El formato de un rango se borra al aplicar formato a otro rango o con el botón de borrar. El botón de borrar solo está activo cuando hay un formato aplicado.
+
+### Selección de rango numérico
+
+- `Data Bars`: las barras de datos le ayudan a identificar números mayores y menores, como los productos más y menos vendidos. Este preajuste facilita mucho visualizar valores en un rango de celdas seleccionadas. Una barra más larga representa un valor mayor. Una celda con valor 0 no tiene barra de datos; el resto de celdas se rellenan proporcionalmente. Los valores positivos se muestran con el color `green` y los valores negativos se mostrarán `red`
+
+<Image src={dataBarsFormatting} alt="Formato de barras de datos" class="responsive-img" />
+
+> `Lowest threshold`: por debajo del 33 % del valor máximo de celda en la selección por rango.
+`Highest threshold`: por encima del 66 % del valor máximo de celda en la selección por rango.
+
+<Image src={colorScaleFormatting} alt="Formato de escala de color" class="responsive-img" />
+
+- `Top 10%`: use este preajuste para resaltar los valores equivalentes al 10 % superior de los datos seleccionados.
+
+<Image src={top10Percent} alt="Formato del 10 % superior" class="responsive-img" />
+
+- `Greater than`: este preajuste marca todos los valores `Greater than the average`
+- `Duplicate values`: marca todos los valores duplicados.
+- `Unique values`: se marcarán todos los valores de celda que sean únicos (con color de fondo `blue`).
+
+<Image src={uniqueValuesFormatting} alt="Formato de valores únicos" class="responsive-img" />
+
+- `Empty`: marca todas las celdas con valores `undefined`
+
+### Selección de rango de texto
+
+- `Text contains`: marca todas las celdas que contienen el valor de la celda de `top-left most selected cell`. Ejemplo:
+
+<Image src={containsFormatting} alt="Formato de texto que contiene" class="responsive-img" />
+
+- `Duplicate values`: marca todos los valores duplicados.
+- `Unique values`: se marcarán todos los valores de celda que sean únicos (con color de fondo `blue`).
+- `Empty`: marca todas las celdas con valores `undefined`
+
+### Demostración
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+## API del paquete de análisis de datos
+
+### IgxConditionalFormattingDirective
+
+<hr/>
+
+| API | Descripción | Argumentos |
+|---------|:-------------:|-----------:|
+| `ConditionalFormattingType` | Un **enum** que representa los tipos de formato condicional | |
+| `IFormatColors` | Una **interfaz** que representa los colores de formato | |
+| `formatter`: **string** | Una propiedad de **entrada** que establece u obtiene el tipo de formato actual | |
+| `formatColors` | Una propiedad de **entrada** que establece u obtiene los colores de formato actuales | `val`: _IFormatColors_ |
+| `onFormattersReady`| Un **evento** que emite los `formatting types` aplicables a los datos seleccionados, cuando se determinan. | |
+| `formatCells` | Aplica formato condicional a las celdas seleccionadas. Uso: <br/> **this.conditionalFormatting.formatCells(ConditionalFormattingType.dataBars)** | `formatterName`: **string**, `formatRange`?: <ApiLink type="GridSelectionRange" kind="interface" /> [ ], <br /> `reset`: boolean (**true** de forma predeterminada) |
+| `clearFormatting` | Quita el formato condicional de las celdas seleccionadas. Uso: <br /> **this.conditionalFormatting.clearFormatting()** | |
+
+### IgxChartIntegrationDirective
+
+<hr/>
+
+| API | Descripción | Argumentos |
+|---------|-------------|-----------|
+| `CHART_TYPE` | Un **enum** que representa los tipos de gráfico admitidos | |
+| `OPTIONS_TYPE` | Un **enum** que representa el tipo de opciones admitido, que puede aplicarse a un componente de gráfico| |
+| `IOptions` | Una **interfaz** para las opciones de propiedades del gráfico | |
+| `chartFactory`| Crea un componente de gráfico según el tipo de gráfico indicado. Uso: <br /> **this.chartIntegration.chartFactory(CHART_TYPE.COLUMN_GROUPED, this.viewContainerRef)** | `type`: **any[ ]**, viewContainerRef: [`ViewContainerRef`](https://angular.io/api/core/ViewContainerRef) |
+| `setChartComponentOptions` | Establece las opciones de propiedades de un componente de gráfico. Uso: <br /> `this.chartIntegration.setChartComponentOptions(CHART_TYPE.PIE, OPTIONS_TYPE.CHART, &#123;allowSliceExplosion: true, sliceClick: (evt) => &#123; evt.args.isExploded = !evt.args.isExploded; &#125; &#125;)` | `chart`: _CHART_TYPE_, `optionsType`: _OPTIONS_TYPE_, `options`: _IOptions_ |
+| `getAvailableCharts` | Devuelve los tipos de gráfico habilitados | |
+| `enableCharts` | Habilita los tipos de gráfico indicados. De forma predeterminada, todos los tipos de gráfico están habilitados | `types`: _CHART_TYPE_ [ ] |
+| `disableCharts` | Deshabilita los tipos de gráfico indicados | `types`: _CHART_TYPE_ [ ] |
+| `onChartTypesDetermined` | Un **evento** que se emite cuando se determinan los tipos de gráfico aplicables a `chartData`. Este evento emite un objeto de tipo `IDeterminedChartTypesArgs`, que tiene 2 propiedades: <br /> `chartsAvailabilty`: _Map&lt;CHART_TYPE, boolean&gt;_: los tipos de gráfico habilitados o deshabilitados; <br /> `chartsForCreation`: _CHART_TYPE[]_: los tipos de gráfico aplicables a `chartData` | |
+| `onChartCreationDone` | Un evento que se emite cuando se crea un gráfico. Este evento emite el componente de gráfico que se ha creado | |
+| `chartData`: **any[ ]** | Una propiedad de **entrada** que establece u obtiene los datos de los gráficos | `selectedData`: **any[ ]** |
+| `useLegend`: **boolean** | Una **entrada** que habilita o deshabilita el uso de la leyenda para todos los tipos de gráfico. De forma predeterminada está establecida en **true** | |
+| `defaultLabelMemberPath`: **string** | Una propiedad de **entrada** que establece u obtiene la ruta predeterminada del miembro de etiqueta para los gráficos. De forma predeterminada, la ruta del miembro de etiqueta se determina según los datos proporcionados. <br />( **si los registros de datos proporcionados tienen propiedades con valores de cadena, el nombre de la primera propiedad de cadena del primer registro de datos de `chartData` se seleccionará como ruta del miembro de etiqueta para los gráficos; si no, la ruta del miembro de etiqueta tendrá el valor _'Index'_.** ) <br/> | |
+| `scatterChartYAxisValueMemberPath`: **string** | Una propiedad de **entrada** que establece u obtiene la ruta predeterminada del miembro de radio para el gráfico de burbujas de dispersión. **Si no se establece, la ruta predeterminada del miembro de valor del eje Y será el primer nombre de propiedad numérica del primer registro de datos de `chartData`** | `path`: **string** |
+| `bubbleChartRadiusMemberPath`: **string** | Una propiedad de **entrada** que establece u obtiene la ruta predeterminada del miembro de radio para el gráfico de burbujas de dispersión. **Si no se establece, la ruta predeterminada del miembro de radio será el segundo nombre de propiedad numérica del primer registro de datos de `chartData`** | `path`: **string** |
+
+## Recursos útiles
+
+<hr/>
+
+- [Guía de Angular Universal](https://angular.io/guide/universal)
+- [Ignite UI Starter Kit](https://github.com/IgniteUI/ng-universal-example)
+- [Terminología del renderizado del lado del servidor](https://developers.google.com/web/updates/2019/02/rendering-on-the-web)
+- [Primeros pasos con Ignite UI for Angular](/general/getting-started)
+- [Guía de Ignite UI CLI](/general/cli/step-by-step-guide-using-cli)
+- [Guía de Ignite UI for Angular Schematics](/general/cli/step-by-step-guide-using-angular-schematics)

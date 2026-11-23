@@ -1,0 +1,145 @@
+---
+title: "Angular Pivot Grid Custom Remote | Tabelas dinâmicas | Infragistics"
+description: "Crie pivot grids e tabelas dinâmicas Angular rápidos e responsivos com o Ignite UI for Angular. Realize análises complexas de dados por meio de dados dinâmicos."
+keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid customization, pivot grid remote, pivot remote
+license: commercial
+_language: pt-BR
+llms:
+  description: "In scenarios where the pivot data is already grouped and aggregated from a remote service and there's no need for further processing on the client, the pivot grid can be configured to use a custom empty strategy that will skip data processing on the client and allow it to."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Operações remotas do Angular Pivot Grid
+
+Em cenários em que os dados dinâmicos já estão agrupados e agregados por um serviço remoto, e não é necessário nenhum processamento adicional no cliente, o pivot grid pode ser configurado para usar uma estratégia vazia personalizada, que ignora o processamento de dados no cliente e exibe diretamente os dados como estão:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+}
+```
+
+O exemplo a seguir mostra como tratar cenários em que os dados já estão agregados e como a sua estrutura deve ser:
+<Sample src="/pivot-grid/pivot-grid-noop" height={530} alt="Exemplo de Angular Pivot Grid com agregações predefinidas personalizadas" />
+
+Os usuários podem obter determinados cenários alimentando o pivot grid com dados já agregados.
+Há alguns requisitos sobre como os dados devem ser estruturados e algumas particularidades sobre hierarquias na visualização dinâmica. Por exemplo, para declarar uma hierarquia na dimensão `rows`:
+
+```typescript
+rows: [
+    {
+        memberName: 'AllProducts',
+        memberFunction: () => 'All Products',
+        enabled: true,
+        childLevel: {
+            memberName: 'ProductCategory',
+            enabled: true
+        }
+    }
+]
+```
+
+E um exemplo dos dados agregados seria:
+
+```typescript
+public aggregatedData = [
+    {
+        ProductCategory: 'All', AllProducts: 'All Products', All: 1000, 'All-Bulgaria': 774, 'All-USA': 829, 'All-Uruguay': 524, AllProducts_records: [
+            { ProductCategory: 'Clothing', 'All-Bulgaria': 774, 'All-USA': 296, 'All-Uruguay': 456 },
+            { ProductCategory: 'Bikes', 'All-Uruguay': 68 },
+            { ProductCategory: 'Accessories', 'All-USA': 293 },
+            { ProductCategory: 'Components', 'All-USA': 240 }
+        ]
+    }
+];
+```
+
+O Pivot grid fornece as chaves de objeto que usa para fazer os seus cálculos dinâmicos.
+
+- `children` - Campo que armazena os filhos para a construção da hierarquia. Ele representa um mapa dos valores agrupados e de todos os pivotGridRecords baseados nesse valor. Pode ser usado em cenários muito específicos, em que é necessário fazer algo durante a criação das hierarquias. Não é preciso alterar isso para uso comum.
+- `records` - Campo que armazena a referência aos registros de dados originais. Pode ser visto no exemplo acima - `AllProducts_records`. Evite definir campos nos dados com o mesmo nome desta propriedade. Se os seus registros de dados tiverem a propriedade `records`, você pode especificar um valor diferente e exclusivo para ela usando `pivotKeys`.
+- `aggregations` - Campo que armazena os valores de agregação. Ele é aplicado durante a criação das hierarquias e também não deve ser alterado em cenários comuns.
+- `level` - Campo que armazena o nível de dimensão com base na sua hierarquia. Evite definir campos nos dados com o mesmo nome desta propriedade. Se os seus registros de dados tiverem a propriedade `level`, você pode especificar um valor diferente e exclusivo para ela usando `pivotKeys`.
+- `columnDimensionSeparator` - Separador usado ao gerar os valores exclusivos dos campos de coluna. É o traço (`-`) do exemplo acima - `All-Bulgaria`.
+- `rowDimensionSeparator` - Separador usado ao gerar os valores exclusivos dos campos de linha. É o sublinhado (`_`) do exemplo acima - `AllProducts_records`. Ele é usado ao criar os campos `records` e `level`.
+
+Todos eles são armazenados na propriedade `pivotKeys`, que faz parte de `PivotConfiguration`, e podem ser usados para alterar as chaves dinâmicas padrão.
+Esses são os valores padrão:
+
+```typescript
+export const DEFAULT_PIVOT_KEYS = {
+    aggregations: 'aggregations', records: 'records', children: 'children', level: 'level',
+    rowDimensionSeparator: '_', columnDimensionSeparator: '-'
+};
+```
+
+Definir `NoopPivotDimensionsStrategy` para `columnStrategy` e `rowStrategy` ignora o agrupamento e a agregação de dados feitos pelos pipes de dados, mas o pivot grid ainda precisa de declarações para as linhas, colunas, valores e filtros, para renderizar a visualização dinâmica como esperado:
+
+```typescript
+public pivotConfig: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'AllProducts',
+            memberFunction: () => 'All Products',
+            enabled: true,
+            childLevel: {
+                memberName: 'ProductCategory',
+                enabled: true
+            }
+        }
+    ],
+    columns: [
+        {
+            memberName: 'All',
+            enabled: true,
+            childLevel: {
+                memberName: 'Country',
+                enabled: true
+            }
+        }
+    ],
+    values: [
+        {
+            member: 'UnitsSold',
+            aggregate: {
+                aggregator: IgxPivotNumericAggregate.sum,
+                key: 'sum',
+                label: 'Sum'
+            },
+            enabled: true
+        },
+    ]
+}
+```
+
+É importante que os dados correspondam à configuração. Para obter os melhores resultados, nenhum campo adicional deve ser incluído nos dados agregados, e nenhum campo dos dados fornecidos deve ficar sem declaração como linha ou coluna. O componente `IgxPivotGrid` cria os seus dados com base em `PivotConfiguration`, e espera-se que a configuração e os dados agregados correspondam entre si.
+
+Da mesma forma, para outras operações remotas de dados, como ordenação e filtragem, o processamento de dados pode ser ignorado definindo as estratégias vazias correspondentes - `filterStrategy`, `sortStrategy`:
+
+```html
+<igx-pivot-grid [filterStrategy]="noopFilterStrategy" [sortStrategy]="noopSortStrategy" ...>
+</igx-pivot-grid>
+```
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+## Referências da API
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+## Recursos adicionais
+
+
+- [Recursos do Angular Pivot Grid](/pivotgrid/pivot-grid-features)
+- [Visão geral do Angular Pivot Grid](/pivotgrid/pivot-grid)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

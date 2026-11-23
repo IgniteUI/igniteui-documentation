@@ -1,0 +1,191 @@
+---
+title: "Angular Grid 정렬 - Ignite UI for Angular"
+description: "Ignite for Angular UI 그리드의 Angular 정렬 기능을 시작하십시오! 정렬 가능한 열을 혼합하여 구성하고 데이터 레코드의 표시 순서를 바꾸십시오."
+keywords: angular sort, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Grid에서 데이터 정렬은 열 단위로 활성화되므로, igx-grid은(는) 정렬 가능한 열과 정렬할 수 없는 열을 섞어 가질 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 정렬
+
+Ignite UI for Angular Grid에서 데이터 정렬은 열 단위로 활성화되므로, **igx-grid**은(는) 정렬 가능한 열과 정렬할 수 없는 열을 섞어 가질 수 있습니다. Angular 정렬 작업을 수행하면 지정된 기준에 따라 레코드의 표시 순서를 바꿀 수 있습니다.
+
+<DocsAside type="info">
+지금까지는 그룹화와 정렬이 함께 동작했습니다. 13.2 버전에서는 그룹화를 정렬과 분리하는 새 동작이 도입되었습니다. 예를 들어 그룹화를 지워도 그리드의 정렬 표현식은 지워지지 않으며, 그 반대도 마찬가지입니다. 다만 열이 정렬되고 그룹화되어 있다면 그룹화 표현식이 우선합니다.
+</DocsAside>
+
+## Angular Grid 정렬 개요 예제
+
+<Sample src="/grid/grid-sorting-sample" height={550} alt="Angular Grid 정렬 개요 예제" />
+
+이는 <ApiLink type="Column" member="sortable" label="sortable" /> 입력을 통해 할 수 있습니다. Grid 정렬에서는 대소문자를 구분하는 정렬을 하기 위해 <ApiLink type="Column" member="sortingIgnoreCase" label="sortingIgnoreCase" /> 속성을 설정할 수도 있습니다:
+
+```html
+<igx-column field="ProductName" header="Product Name" [dataType]="'string'" sortable="true"></igx-column>
+```
+
+## 정렬 표시기
+
+정렬된 열이 일정 개수 이상 있으면, 정렬 순서가 표시되지 않을 때 매우 혼란스러울 수 있습니다.
+
+**IgxGrid**은(는) 정렬된 각 열의 인덱스를 표시하여 이 문제에 대한 해결책을 제공합니다.
+
+<Sample src="/grid/grid-sorting-indicators" height={550} alt="" />
+
+## API를 통한 정렬
+
+Grid <ApiLink type="Grid" member="sort" label="sort" /> 메서드를 사용하여 Grid API로 어떤 열이든 또는 여러 열의 조합이든 정렬할 수 있습니다:
+
+```typescript
+import { SortingDirection } from 'igniteui-angular/grids/core';
+// import { SortingDirection } from '@infragistics/igniteui-angular'; for licensed package
+
+// Perform a case insensitive ascending sort on the ProductName column.
+this.grid.sort({ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true });
+
+// Perform sorting on both the ProductName and Price columns.
+this.grid.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+```
+
+<DocsAside type="info">
+정렬은 우리의 <ApiLink type="DefaultSortingStrategy" /> 알고리즘을 사용하여 수행됩니다. 어떤 <ApiLink type="Column" member="sortStrategy" label="IgxColumnComponent" />나 <ApiLink type="ISortingExpression" kind="interface" member="strategy" label="ISortingExpression" />도 <ApiLink type="ISortingStrategy" kind="interface" />의 사용자 지정 구현을 대체 알고리즘으로 사용할 수 있습니다. 이는 예를 들어 복잡한 템플릿 열이나 이미지 열에 대해 사용자 지정 정렬을 정의해야 할 때 유용합니다.
+</DocsAside>
+
+필터링 동작과 마찬가지로, <ApiLink type="Grid" member="clearsort" label="clearSort" /> 메서드를 사용하여 정렬 상태를 지울 수 있습니다:
+
+```typescript
+// Removes the sorting state from the ProductName column
+this.grid.clearSort('ProductName');
+
+// Removes the sorting state from every column in the Grid
+this.grid.clearSort();
+```
+
+<DocsAside type="info">
+**Grid**의 <ApiLink type="Grid" member="sortStrategy" label="sortStrategy" />은(는) **열**의 <ApiLink type="Column" member="sortStrategy" label="sortStrategy" />과 다른 유형입니다. 서로 다른 범위에서 작동하며 서로 다른 매개변수를 노출하기 때문입니다.
+</DocsAside>
+
+<DocsAside type="info">
+정렬 작업은 Grid의 기본 데이터 소스를 **변경하지 않습니다**.
+</DocsAside>
+
+## 초기 정렬 상태
+
+Grid의 <ApiLink type="Grid" member="sortingExpressions" label="sortingExpressions" /> 속성에 정렬 식의 배열을 전달하여 Grid의 초기 정렬 상태를 설정할 수 있습니다.
+
+```typescript
+public ngAfterViewInit(): void {
+    this.grid.sortingExpressions = [
+        {
+            dir: SortingDirection.Asc, fieldName: 'CategoryName',
+            ignoreCase: true, strategy: DefaultSortingStrategy.instance()
+        }
+    ];
+}
+```
+
+<DocsAside type="info">
+<ApiLink type="Column" member="dataType" label="dataType" /> `Date`의 열이 `string` 유형의 값을 사용하면, Grid은(는) 이를 `Date` 객체로 구문 분석하지 않으며, Grid `sorting`이(가) 기대대로 작동하지 않습니다. `string` 객체를 사용하고 싶다면, 값을 `Date` 객체로 구문 분석하기 위해 애플리케이션 수준에서 추가 로직을 구현해야 합니다.
+</DocsAside>
+
+## 원격 정렬
+
+Grid은(는) 원격 정렬을 지원하며, 이는 [`Grid Remote Data Operations`](/grid/remote-data-operations) 주제에서 보여 줍니다.
+
+## 정렬 표시기 템플릿
+
+열 머리글의 정렬 표시기 아이콘은 템플릿을 사용하여 사용자 지정할 수 있습니다. 모든 정렬 상태(오름차순, 내림차순, 없음)에 대한 정렬 표시기를 템플릿화하기 위해 다음 디렉티브를 사용할 수 있습니다:
+
+- `IgxSortHeaderIconDirective` - 정렬이 적용되지 않았을 때 정렬 아이콘을 다시 템플릿화합니다.
+
+```html
+<ng-template igxSortHeaderIcon>
+    <igx-icon>unfold_more</igx-icon>
+</ng-template>
+```
+
+- `IgxSortAscendingHeaderIconDirective` - 열이 오름차순으로 정렬되었을 때 정렬 아이콘을 다시 템플릿화합니다.
+
+```html
+<ng-template igxSortAscendingHeaderIcon>
+    <igx-icon>expand_less</igx-icon>
+</ng-template>
+```
+
+- `IgxSortDescendningHeaderIconDirective` - 열이 내림차순으로 정렬되었을 때 정렬 아이콘을 다시 템플릿화합니다.
+
+```html
+<ng-template igxSortDescendingHeaderIcon>
+    <igx-icon>expand_more</igx-icon>
+</ng-template>
+```
+
+## 스타일링
+
+정렬 동작의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 간단한 방법으로, <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />을(를) 확장하고 `$sorted-header-icon-color` 및 `sortable-header-icon-hover-color` 매개변수를 받는 새 테마를 만듭니다.
+
+```scss
+$custom-theme: grid-theme(
+  $sorted-header-icon-color: #ffb06a,
+  $sortable-header-icon-hover-color: black
+);
+```
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 직접 하드코딩하는 대신, <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 및 <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> 함수를 사용하면 색상을 훨씬 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](/themes/sass/palettes) 항목을 참조하십시오.
+</DocsAside>
+
+마지막 단계는 `tokens()`으로 컴포넌트 테마를 적용하는 것입니다:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+### 데모
+
+<Sample src="/grid/grid-sorting-styling" height={550} alt="" />
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink type="ISortingExpression" kind="interface" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [페이징](/grid/paging)
+- [필터링](/grid/filtering)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

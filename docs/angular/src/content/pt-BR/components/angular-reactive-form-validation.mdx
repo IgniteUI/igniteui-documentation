@@ -1,0 +1,195 @@
+---
+title: "Validação de formulários reativos do Angular – Ignite UI for Angular"
+description: "A validação de formulários do Angular é um processo de verificar se os dados inseridos pelo usuário em um formulário web estão corretos. Veja como fazer isso com os formulários reativos do Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componentes Combo do Angular, Formulários reativos do Angular, Formulários do Angular"
+_language: pt-BR
+llms:
+  description: "Os formulários reativos no Angular oferecem acesso direto ao modelo de objeto de formulário subjacente, com uma abordagem imutável e explícita para o tratamento das entradas do formulário."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Validação de formulários reativos do Angular
+
+## O que são formulários reativos no Angular?
+
+Os formulários reativos no Angular oferecem acesso direto ao modelo de objeto de formulário subjacente, com uma abordagem imutável e explícita para o tratamento das entradas do formulário. À medida que os valores dessas entradas mudam ao longo do tempo, o estado do formulário é gerenciado pelos formulários reativos, em vez de depender de métodos fixos ou rígidos.
+
+Isso significa que, sempre que uma alteração é disparada no modelo de dados, os chamados operadores observáveis retornam um novo modelo de dados, em vez de atualizar repetidamente o já existente. E isso mantém o estado do formulário limpo.
+
+Os formulários reativos do Angular são considerados extremamente escaláveis, reutilizáveis e robustos, devido a:
+
+**Imutabilidade**
+
+Os formulários reativos no Angular oferecem uma estrutura de dados imutável ou fixa. Quando o estado do modelo subjacente é alterado, você obtém uma nova "versão" desse modelo, já atualizada. Ela tem novos valores, mas continua alinhada com todos os controles de UI em qualquer momento.
+
+**Melhor testabilidade**
+
+Testar com formulários reativos é bem simples e exige menos configuração. Em aplicativos grandes, isso é muito vantajoso. Aqui, você tem acesso síncrono aos fluxos de entrada e a possibilidade de testar o formulário e os modelos de dados sem precisar renderizar a UI.
+
+**Previsibilidade**
+
+Os formulários reativos são construídos sobre fluxos observáveis que acompanham cada alteração única no formulário e permitem acessar os valores das entradas de forma síncrona (graças ao fluxo de dados bem estruturado). Isso, por sua vez, torna os formulários reativos altamente previsíveis.
+
+**Fluxo de dados consistente e estruturado**
+
+O fluxo de dados nos formulários reativos do Angular é bem estruturado, porque a lógica do formulário é conduzida pela classe do componente. Isso permite adicionar funções de validação diretamente à instância FormControl na classe do componente. Sempre que ocorre uma alteração, o Angular chama essas funções.
+
+
+## O que é a validação de formulários do Angular?
+
+A validação de formulários do Angular é um processo técnico essencial que verifica se qualquer entrada fornecida pelo usuário em um formulário web está correta e completa. Você pode gerenciar a validação com uma abordagem orientada a template ou com formulários reativos do Angular. Com base no que foi informado, o formulário vai permitir que o usuário prossiga ou vai exibir uma mensagem de erro específica para ajudá-lo a entender onde errou ao preencher os dados.
+
+Dependendo de qual validador falhou, a mensagem de erro na tela dá um retorno indicando o que está errado e exatamente o que precisa ser preenchido ou digitado novamente. Em geral, os aplicativos usam formulários para permitir que os usuários realizem tarefas de entrada de dados, como cadastrar-se, fazer login, atualizar perfis online, enviar informações sensíveis e muito mais.
+
+O Angular executa a validação do formulário sempre que o valor de uma entrada do formulário é alterado, para confirmar se os dados preenchidos pelo usuário no formulário web estão corretos e completos. Para fazer isso corretamente, o Angular chama uma lista de validadores, que são executados a cada alteração que ocorre.
+
+A validação da entrada do usuário na UI pode ser feita com formulários orientados a template ou com formulários reativos do Angular. Ambos são construídos sobre as seguintes classes base:
+
+- FormControl
+- FormGroup
+- FormArray
+- ControlValueAccessor
+
+## Validação de formulários reativos do Angular
+
+Os formulários reativos oferecem uma abordagem orientada a modelo para gerenciar as entradas do formulário, cujos valores mudam ao longo do tempo. Como os formulários reativos são construídos sobre uma classe de componente, a validação de formulários reativos do Angular acontece adicionando funções de validação diretamente ao modelo de controle do formulário na classe do componente.
+
+Quando o valor é válido, os validadores retornam `null`. Se o valor for inválido, os validadores geram um conjunto de erros, e você pode exibir uma mensagem de erro específica na tela.
+
+Existem validadores integrados, como `required`, `minlength`, `maxlength` etc. No entanto, você também pode criar os seus próprios validadores.
+
+Um validador reativo personalizado simples pode ter esta aparência:
+
+```typescript
+import { Directive, OnInit } from '@angular/core';
+import { Validator, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
+
+@Directive({
+    selector: '[dateValueValidator]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: DateValueValidatorDirective, multi: true }]
+})
+export class DateValueValidatorDirective implements Validator {
+    public validate(control: AbstractControl): ValidationErrors | null {
+        if (!this.isDate(control.value)) {
+            return { value: true };
+        }
+
+        return null;
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+Um validador também pode ser assíncrono:
+
+```typescript
+import { Directive, OnInit } from '@angular/core';
+import { AsyncValidator, NG_ASYNC_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+
+@Directive({
+    selector: '[dateValueAsyncValidator]',
+    providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: DateValueAsyncValidatorDirective, multi: true }]
+})
+export class DateValueAsyncValidatorDirective implements AsyncValidator {
+    public validate(control: AbstractControl): Observable<ValidationErrors | null> {
+        if (!this.isDate(control.value)) {
+            return of({ value: true });
+        }
+
+        return of(null);
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+## Exemplo de validação de formulário reativo do Angular
+
+Vamos ver como você pode configurar a validação de formulário reativo na prática, com este exemplo de validação de formulário do Angular.
+
+É uma demonstração rápida de um formulário de reserva de ingressos para cinema bem comum. Ela mostra o que acontece se um ou vários campos do formulário estiverem incompletos, e você pode ver como a mensagem de erro específica é exibida.
+
+Para fins do nosso exemplo de validação de formulário reativo do Angular, os campos obrigatórios são: filme, nome completo, e-mail e gênero. Enquanto todos não forem preenchidos, você não conseguirá prosseguir com a reserva, e o `book button` permanecerá desabilitado.
+
+Assim, se você informar o título do filme, o nome completo, o telefone e o e-mail, eles serão destacados em verde. Mas se você esquecer de selecionar `favorite genre`, este campo será destacado em vermelho, indicando que a entrada de valores está incompleta. Quando todos os valores estiverem corretos, o campo será destacado em verde, indicando que as entradas estão corretas. O `book button` será ativado e o formulário poderá ser enviado com sucesso em seguida.
+
+<Sample src="/data-entries/reactive-forms" height={850} alt="Exemplo de integração de formulários reativos do Angular" />
+
+<hr/>
+
+## Validação de grupo de formulários do Angular
+
+Grupos de formulário são, basicamente, um conjunto de vários `FormControlls` relacionados que permitem acessar o estado dos controles encapsulados. A validação de grupos de formulário do Angular ajuda você a acompanhar o valor dos controles do grupo ou de um formulário, bem como a validação do estado do controle do formulário. `FormGroup` é usado com `FormControl`.
+
+## Por que você precisaria de validação personalizada de formulários no Angular?
+
+Com validadores personalizados, você pode tratar funcionalidades diferentes e garantir que os valores de um formulário atendam a determinados critérios, o que às vezes não é possível usando apenas os validadores integrados. Se você quer validar um número de telefone ou um padrão específico de senha, é melhor criar um validador personalizado e contar com a validação personalizada de formulários do Angular.
+
+Com formulários reativos, gerar um desses validadores é tão fácil quanto escrever uma nova função. E, para formulários orientados a modelo (como o formulário reativo no Angular), criamos funções de validação personalizadas e as enviamos ao construtor `FormControl`.
+
+A seguir, você pode ver como escrever e implementar um validador personalizado de formulário no seu formulário reativo.
+
+```typescript
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+
+@Component({/* ... */})
+export class MyComponent implements OnInit {
+    public form: FormGroup;
+
+    public ngOnInit(): void {
+        this.form = new FormGroup({
+            datePicker: new FormControl('', [Validators.required, this.dateValidator(new Date())])
+        });
+    }
+
+    private dateValidator(val: Date): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (this.isDate(control.value)
+                || this.valGreaterThanDate(control.value, val)) {
+                return { value: true };
+            }
+
+            return null;
+        }
+    }
+
+    private valGreaterThanDate(value: Date, date: Date): boolean {
+        const value1 = new Date(value).setHours(0, 0, 0, 0);
+        const value2 = new Date(date).setHours(0, 0, 0, 0);
+        return value.getTime() > date.getTime();
+    }
+
+    private isDate(value: unknown): value is Date {
+        return value instanceof Date
+            && !isNaN(value.getTime());
+    }
+}
+```
+
+## Recursos adicionais
+
+<hr/>
+
+Tópicos relacionados:
+
+- [Combo](/inputs/combo/overview)
+- [Select](/select)
+- [Input Group](/input-group)
+- [Date Picker](/date-picker)
+- [Time Picker](/time-picker)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

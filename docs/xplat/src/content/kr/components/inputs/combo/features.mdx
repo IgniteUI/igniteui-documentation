@@ -1,0 +1,846 @@
+---
+title: "{Platform} 콤보 기능"
+description: "{Platform} 콤보는 로컬 데이터에 바인딩되고, 사용자가 입력할 때 옵션을 필터링하며, 데이터 필드로 그룹화하고, 비활성화할 수 있습니다."
+keywords: "{ProductName}, UI 컨트롤, {Platform} 위젯, 웹 위젯, UI 위젯, {Platform}, 네이티브 {Platform} 컴포넌트 스위트, 네이티브 {Platform} 컨트롤, 네이티브 {Platform} 컴포넌트 라이브러리, {Platform} 콤보 기능, {Platform} 콤보 데이터 바인딩, {Platform} 콤보 필터링, {Platform} 콤보 그룹화"
+license: MIT
+last_updated: "2026-11-16"
+platformType: web-only
+mentionedTypes: ["Combo"]
+_language: ko
+llms:
+  description: "{Platform} 콤보는 로컬 데이터에 바인딩되고, 사용자가 입력할 때 옵션을 필터링하며, 데이터 필드로 그룹화하고, 비활성화할 수 있습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# 콤보 컴포넌트 기능
+
+{Platform} 콤보는 로컬 데이터에 바인딩되고, 사용자가 입력할 때 옵션을 필터링하며, 데이터 필드로 그룹화하고, 비활성화할 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+콤보는 원격 서비스에서 데이터를 조각 단위로 로드하고, 사용자 지정 값을 받으며, 사용자 지정 오버레이 설정으로 목록을 표시할 수도 있습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+콤보는 원격 서비스에서 옵션을 한 번에 한 페이지씩 로드할 수도 있습니다.
+
+</PlatformBlock>
+
+## 라이브 데모
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/combo-features" showThemePicker height={496} noBorder={false} alt="필터링, 대소문자 구분 아이콘, 사용자 지정 값, 그룹화, 비활성화 상태 스위치가 있는 {Platform} 콤보" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/features" showThemePicker height={496} noBorder={false} alt="필터링, 대소문자 구분 아이콘, 그룹화, 비활성화 상태 스위치가 있는 {Platform} 콤보" />
+
+</PlatformBlock>
+
+## 기능
+
+### 데이터 바인딩
+
+다음 스니펫은 <ApiLink type="Combo" member="data" label="data" /> 속성을 통해 {Platform} 콤보를 미국 주 목록(로컬)에 바인딩하며, 각 주의 코드를 저장하고 이름을 표시합니다. 콤보가 각 항목에서 읽는 키는 콤보 개요 항목의 [데이터 바인딩](./overview.mdx#데이터-바인딩)에 설명되어 있습니다.
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { usStates } from './states-data';
+
+export class ComboDataBindingComponent {
+    // Items such as { id: 'CT', name: 'Connecticut', region: 'New England' }
+    public usStates = usStates;
+}
+```
+
+```html
+<igx-combo [data]="usStates" valueKey="id" displayKey="name"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo id="combo" value-key="id" display-key="name"></igc-combo>
+```
+
+```ts
+import { IgcComboComponent } from 'igniteui-webcomponents';
+import { UsState, usStates } from './ComboData';
+
+// Items such as { id: 'CT', name: 'Connecticut', region: 'New England' }
+const combo = document.getElementById('combo') as IgcComboComponent<UsState>;
+combo.data = usStates;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo @bind-Value="selectedStates" Data="usStates" ValueKey="Id" DisplayKey="Name" />
+
+@code {
+    // Items such as new UsState { Id = "CT", Name = "Connecticut", Region = "New England" }
+    private List<UsState> usStates = UsStatesData.States;
+    private string[] selectedStates = [];
+}
+```
+
+`IgbCombo`는 `Data`와 `@bind-Value`로부터 값 유형을 추론합니다. 이 항목의 나머지 Blazor 스니펫에서는 이를 생략하므로, 스니펫을 복사할 때 다시 추가하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { IgrCombo } from "igniteui-react";
+import { usStates } from "./ComboData";
+
+// Items such as { id: "CT", name: "Connecticut", region: "New England" }
+<IgrCombo data={usStates} valueKey="id" displayKey="name" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 원격 바인딩
+
+콤보는 데이터를 원격 서비스에서 조각 단위로 로드할 수 있습니다. 사용자가 스크롤하는 항목을 <ApiLink type="Combo" member="dataPreLoad" label="dataPreLoad" /> 이벤트를 통해 요청하면, 서비스는 그 항목들만 반환합니다. 아래 샘플은 사용자가 스크롤하고 검색하는 동안 원격 서비스에서 제품을 로드합니다:
+
+<Sample src="/lists/combo-remote" showThemePicker height={560} noBorder={false} spacing="md" alt="원격 서비스에서 조각 단위로 제품을 로드하는 {Platform} 콤보" />
+
+#### 원격 서비스 정의하기
+
+원격 서비스는 서버에서 항목을 요청 시 로드합니다. 콤보는 로드할 첫 항목의 인덱스와 로드할 항목 수를 담는 <ApiLink type="Combo" member="virtualizationState" label="virtualizationState" /> 속성을 노출합니다. 서버의 모든 항목에 맞게 스크롤바 크기를 정하려면 <ApiLink type="Combo" member="totalItemCount" label="totalItemCount" /> 속성을 전체 개수로 설정하십시오.
+
+다음 서비스에는 콤보의 상태와 검색 텍스트로부터 요청을 만드는 `getData()` 메서드가 있으며, 로드된 항목을 옵저버블로 내보냅니다:
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { IForOfState } from 'igniteui-angular/directives';
+// import { IForOfState } from '@infragistics/igniteui-angular/directives'; for licensed package
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable()
+export class RemoteNWindService {
+    private http = inject(HttpClient);
+    private url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Products';
+
+    public remoteData = new BehaviorSubject<any[]>([]);
+
+    public getData(state: IForOfState, searchText: string, cb?: (data: any) => void) {
+        return this.http.get(this.buildUrl(state, searchText)).subscribe((data: any) => {
+            this.remoteData.next(data.value);
+            cb?.(data);
+        });
+    }
+
+    // Requests the chunk of items the Combo shows, and the total count of the matching items.
+    private buildUrl(state: IForOfState, searchText: string): string {
+        let query = `?$skip=${state.startIndex}&$top=${state.chunkSize}&$count=true`;
+        if (searchText) {
+            // Double the apostrophes for OData, then encode the text for the URL.
+            const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+            query += `&$filter=contains(ProductName, '${text}')`;
+        }
+        return `${this.url}${query}`;
+    }
+}
+```
+
+#### ComboBox를 원격 서비스에 바인딩하기
+
+`async` 파이프를 사용하여 서비스의 옵저버블을 콤보에 바인딩하고, 콤보가 <ApiLink type="Combo" member="dataPreLoad" label="dataPreLoad" />를 발생시키거나 검색 텍스트가 바뀔 때마다 새 항목 묶음을 요청하십시오:
+
+```html
+<igx-combo #remoteCombo
+    [data]="rData | async"
+    valueKey="ProductID"
+    displayKey="ProductName"
+    (dataPreLoad)="onDataPreLoad()"
+    (searchInputUpdate)="onSearchInputUpdate($event)">
+    <label igxLabel>Products</label>
+</igx-combo>
+```
+
+```typescript
+// The size of the first chunk, requested before the Combo reports how many items it shows.
+const FIRST_CHUNK_SIZE = 10;
+
+// The component lists RemoteNWindService in its providers, and the application
+// providers include provideHttpClient(), which the service needs.
+export class ComboRemoteComponent implements OnInit {
+    @ViewChild('remoteCombo', { static: true })
+    public remoteCombo: IgxComboComponent;
+
+    private remoteService = inject(RemoteNWindService);
+    public rData = this.remoteService.remoteData;
+    private searchText = '';
+
+    public ngOnInit() {
+        this.loadChunk({ startIndex: 0, chunkSize: FIRST_CHUNK_SIZE });
+    }
+
+    // The Combo asks for the next chunk while the user scrolls.
+    public onDataPreLoad() {
+        this.loadChunk(this.remoteCombo.virtualizationState);
+    }
+
+    // The server filters the items: request the first chunk of the matching ones.
+    public onSearchInputUpdate(event: IComboSearchInputEventArgs) {
+        this.searchText = event.searchText;
+        this.loadChunk({ startIndex: 0, chunkSize: FIRST_CHUNK_SIZE });
+    }
+
+    private loadChunk(state: IForOfState) {
+        this.remoteService.getData(state, this.searchText, (data) => {
+            // The total count sizes the scrollbar for all the items, not only the loaded chunk.
+            this.remoteCombo.totalItemCount = data['@odata.count'];
+        });
+    }
+}
+```
+
+#### 선택 처리
+
+콤보가 조각 단위로 로드되는 원격 데이터에 바인딩되고 데이터 항목이 객체인 경우에는 <ApiLink type="Combo" member="valueKey" label="valueKey" /> 속성을 설정하십시오. 설정하지 않으면 콤보는 [콤보 항목](./overview.mdx#데이터-바인딩)에 설명된 대로 선택된 항목을 로드된 항목과 참조로 비교합니다. 서비스가 로드하는 조각마다 새 객체가 만들어지므로, 콤보는 선택된 항목을 그것들과 맞출 수 없습니다.
+
+<DocsAside type="info">
+콤보를 원격 데이터에 바인딩할 때는 `valueKey` 속성을 각 항목마다 고유한 속성으로 설정하십시오.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### 원격 바인딩
+
+{Platform} 콤보는 원격 서비스에서 옵션을 한 번에 한 페이지씩 로드할 수 있습니다. 서비스는 서버에서 검색하고 페이지를 나누며, 콤보는 아직 로드되지 않은 각 항목에 대해 자리 표시자를 보여 줍니다. 아래 샘플은 사용자가 스크롤하고 검색하는 동안 원격 서비스에서 제품을 로드합니다:
+
+<Sample src="/inputs/combo/remote-binding" showThemePicker height={560} noBorder={false} spacing="md" alt="원격 서비스에서 페이지 단위로 제품을 로드하는 {Platform} 콤보" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<DocsAside type="info">
+원격 바인딩에는 `igniteui-webcomponents` 7.5.0 이상이 필요합니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<DocsAside type="info">
+원격 바인딩에는 `igniteui-webcomponents` 7.5.0 이상에 의존하는 `igniteui-react` 버전이 필요합니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+#### 콤보를 원격 서비스에 바인딩하기
+
+`igniteui-webcomponents/extras/combo-data-source`에서 `bindComboDataSource()`를 import하고, 콤보와 `load()` 함수를 가진 소스를 전달하십시오. 바인딩은 페이지마다 `load()`를 호출하며, 요청에는 `searchText`, `caseSensitive`, `startIndex`, `count`이 담기고, `AbortSignal`도 함께 전달됩니다. 페이지의 항목과 일치하는 항목의 전체 개수를 반환하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo id="combo" label="Products" value-key="ProductID" display-key="ProductName"></igc-combo>
+```
+
+```ts
+import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
+import { bindComboDataSource } from 'igniteui-webcomponents/extras/combo-data-source';
+
+defineComponents(IgcComboComponent);
+
+interface Product {
+    ProductID: number;
+    ProductName: string;
+}
+
+const url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Products';
+const combo = document.getElementById('combo') as IgcComboComponent<Product>;
+
+const binding = bindComboDataSource(combo, {
+    // Loads one page of the products that match the search text.
+    load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+            // Double the apostrophes for OData, then encode the text for the URL.
+            const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+            query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data['@odata.count'] };
+    }
+}, {
+    // The service returns up to 20 products per request.
+    pageSize: 20
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+React에서는 `IgrCombo`의 `ref`가 보유한 요소를 전달하고, 컴포넌트가 언마운트될 때 바인딩을 해제하십시오:
+
+```tsx
+import { useEffect, useRef } from "react";
+import { IgrCombo } from "igniteui-react";
+import { bindComboDataSource } from "igniteui-webcomponents/extras/combo-data-source";
+
+const url = "https://services.odata.org/V4/Northwind/Northwind.svc/Products";
+
+export default function RemoteCombo() {
+  const comboRef = useRef<IgrCombo>(null);
+
+  useEffect(() => {
+    const binding = bindComboDataSource(comboRef.current!, {
+      // Loads one page of the products that match the search text.
+      load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+          // Double the apostrophes for OData, then encode the text for the URL.
+          const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+          query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data["@odata.count"] };
+      }
+    }, {
+      // The service returns up to 20 products per request.
+      pageSize: 20
+    });
+
+    return () => binding.dispose();
+  }, []);
+
+  return <IgrCombo ref={comboRef} label="Products" valueKey="ProductID" displayKey="ProductName" />;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+이 바인딩은 콤보를 원격 필터링으로 전환하고 요청을 보냅니다:
+
+- 항목이 없는 목록을 사용자가 열면 첫 페이지를 로드하고, 사용자가 검색 입력에 입력을 멈춘 후에 다시 로드합니다.
+- 사용자가 로드된 항목의 끝에 가까이 스크롤하면 다음 페이지를 덧붙입니다.
+- `load()`가 `fetch()`에 전달하는 신호를 통해, 더 새로운 검색으로 오래된 요청이 되면 그 요청을 중단합니다.
+- 검색이 대기하거나 페이지가 로드되는 동안 콤보의 `totalItemCount` 속성을 전체 개수로, 그리고 `loading` 속성을 설정합니다.
+
+콤보가 `totalItemCount`보다 적은 항목을 보유하는 동안, 목록은 로드될 각 항목에 대해 자리 표시자를 보여 주므로 스크롤바는 결과의 전체 길이를 나타냅니다. `loading`가 설정되어 있는 동안 콤보는 토글 아이콘 대신 스피너를 보여 줍니다. `loading` 슬롯을 통해 스피너를 대체하고, `loading` 및 `placeholder` CSS 파트를 통해 스피너와 자리 표시자의 스타일을 지정하십시오.
+
+`bindComboDataSource()`의 세 번째 인수는 바인딩을 구성합니다:
+
+| 옵션 | 기본값 | 설명 |
+|---|---|---|
+| `pageSize` | `50` | 요청 하나가 로드하는 항목의 최소 개수입니다. 소스는 예를 들어 서버의 페이지 한도까지 더 적게 반환할 수 있으며, 그러면 콤보는 나머지를 요청합니다. |
+| `debounce` | `300` | 검색이 로드되기 전 입력이 멈추는 시간(밀리초)입니다. |
+| `loadOnOpen` | `true` | 사용자가 항목이 없는 목록을 열 때 첫 페이지를 로드할지 여부입니다. |
+| `onError` | - | 실패한 요청의 오류를 받습니다. 콤보는 자신의 항목을 유지합니다. |
+
+`bindComboDataSource()`는 두 메서드를 가진 바인딩을 반환합니다. `refresh()`는 현재 검색의 첫 페이지를 다시 로드합니다. 코드에서 `filteringOptions.caseSensitive`를 바꾼 후에 호출하십시오. `dispose()`는 리스너를 제거하고, 진행 중인 요청을 중단하며, 콤보에 필터링 모드를 되돌려 줍니다.
+
+#### 원격 필터링 모드
+
+`bindComboDataSource()`는 콤보의 공개 API만 사용합니다. 요청을 직접 만들려면 <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" />의 `mode`를 `remote`로 설정하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+combo.filteringOptions = { mode: 'remote' };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// In an effect, once the Combo has rendered.
+comboRef.current!.filteringOptions = { mode: "remote" };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+원격 모드에서는 콤보가 검색을 서비스에 맡깁니다:
+
+- 콤보는 더 이상 옵션을 필터링하지 않습니다. `igcSearchInput` 이벤트의 `detail.searchText`를 읽고, 서버에서 검색한 다음 결과의 첫 페이지로 <ApiLink type="Combo" member="data" label="data" />를 설정하십시오. 매칭은 서버가 수행하므로, 검색과 함께 `filteringOptions.caseSensitive`를 보내십시오.
+- 사용자가 `data`의 끝에 가까이 스크롤하면 `igcDataRequest` 이벤트가 `detail.startIndex`에서 `detail.count`개의 항목을 더 요청합니다. 이를 `data`에 덧붙이십시오.
+- `totalItemCount`를 결과의 전체 개수로, 요청이 실행되는 동안에는 `loading`를 설정하십시오.
+
+#### 선택 처리
+
+콤보가 원격 데이터를 로드할 때는 <ApiLink type="Combo" member="valueKey" label="valueKey" />를 설정하십시오. 각 페이지는 새 객체를 만들며, 콤보는 그 키의 값으로 선택된 항목을 그것들과 맞춥니다. 새 `data`는 선택을 유지합니다. 선택된 항목은 검색 결과에 그 항목이 없을 때에도 선택된 상태로 남고, 이후 페이지나 검색에 그 항목이 나오면 다시 선택된 것으로 표시됩니다.
+
+아직 어떤 페이지에서도 로드되지 않은 항목의 값을 선택하려면, 예를 들어 저장된 필터의 값처럼 `bindComboDataSource()`의 소스에 `resolve()` 함수를 추가하십시오. 바인딩은 그 값들과 함께 이 함수를 호출하고, 함수가 반환하는 항목을 선택합니다.
+
+콤보는 서버가 선택된 항목을 삭제했는지, 아니면 그 페이지를 보내지 않았는지 구별할 수 없습니다. 실시간 데이터를 다시 로드할 때, 서버에 더 이상 없는 선택된 항목에 대해 <ApiLink type="Combo" member="deselect" label="deselect()" />를 호출하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 사용자 지정 오버레이 설정
+
+콤보는 항목 목록을 오버레이에 표시하며, 이는 <ApiLink type="Combo" member="overlaySettings" label="overlaySettings" /> 입력에 <ApiLink kind="interface" type="OverlaySettings" label="OverlaySettings" />를 전달하여 구성할 수 있습니다. 콤보는 이 설정을 자체 기본값 위에 병합하므로, 바꿀 설정만 지정하십시오. 다음 설정은 목록을 뒤의 페이지를 흐리게 하는 모달로 만들고, 사용자가 바깥을 클릭하면 닫습니다:
+
+```typescript
+import { OverlaySettings } from 'igniteui-angular/core';
+// import { OverlaySettings } from '@infragistics/igniteui-angular/core'; for licensed package
+
+export class ComboOverlayComponent {
+    public overlaySettings: OverlaySettings = {
+        modal: true,
+        closeOnOutsideClick: true
+    };
+}
+```
+
+```html
+<igx-combo [data]="people" [overlaySettings]="overlaySettings"></igx-combo>
+```
+
+<Sample src="/lists/combo-overlay" showThemePicker height={512} noBorder={false} spacing="md" alt="뒤의 페이지를 흐리게 하는 모달 목록이 있는 {Platform} 콤보" />
+
+<DocsAside type="info">
+기본적으로 콤보는 <ApiLink type="AutoPositionStrategy" />를 사용해 목록을 배치하며, 이는 공간이 부족하지 않으면 입력 아래에, 부족하면 위에 목록을 엽니다.
+</DocsAside>
+
+</PlatformBlock>
+
+### 필터링
+
+{Platform} 콤보는 드롭다운의 검색 입력에 사용자가 입력하는 동안 옵션 목록을 필터링합니다. 필터링은 기본적으로 켜져 있습니다. 끄려면 <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" />를 설정하십시오. 이때 검색 입력도 숨겨집니다.
+
+<PlatformBlock for="Angular">
+
+사용자가 검색을 대소문자 구분과 대소문자 무시 사이에서 전환하게 하려면 <ApiLink type="Combo" member="showSearchCaseIcon" label="showSearchCaseIcon" />을 설정하십시오. 그러면 콤보는 검색 입력에 대소문자 구분 아이콘을 표시합니다. 필터링이 비활성화되어 있으면 검색 입력이 숨겨지므로 아이콘은 효과가 없습니다.
+
+```html
+<!-- Shows the case-sensitive icon in the search input -->
+<igx-combo [showSearchCaseIcon]="true"></igx-combo>
+
+<!-- Turns filtering off, which also hides the search input -->
+<igx-combo [disableFiltering]="true"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+사용자가 검색을 대소문자 구분과 대소문자 무시 사이에서 전환하게 하려면 <ApiLink type="Combo" member="caseSensitiveIcon" label="caseSensitiveIcon" />을 설정하십시오. 그러면 콤보는 검색 입력에 대소문자 구분 아이콘을 표시합니다. 필터링이 비활성화되어 있으면 검색 입력이 숨겨지므로 아이콘은 효과가 없습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<!-- Shows the case-sensitive icon in the search input -->
+<igc-combo case-sensitive-icon></igc-combo>
+
+<!-- Turns filtering off, which also hides the search input -->
+<igc-combo disable-filtering></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* Shows the case-sensitive icon in the search input *@
+<IgbCombo CaseSensitiveIcon="true" />
+
+@* Turns filtering off, which also hides the search input *@
+<IgbCombo DisableFiltering="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Shows the case-sensitive icon in the search input
+<IgrCombo caseSensitiveIcon={true} />
+
+// Turns filtering off, which also hides the search input
+<IgrCombo disableFiltering={true} />
+```
+
+</PlatformBlock>
+
+#### 필터링 옵션
+
+<ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> 속성은 {Platform} 콤보가 검색 텍스트와 일치하는 방식을 구성합니다:
+
+<PlatformBlock for="Angular">
+
+- `filteringKey` - 검색할 데이터 필드입니다. 기본값은 `displayKey`로 설정된 필드입니다.
+- `caseSensitive` - 검색이 대소문자를 구분할지 여부입니다. 기본값은 `false`입니다. 대소문자 구분 아이콘이 이 값을 전환합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- `filterKey` - 검색할 데이터 필드입니다. 기본값은 `displayKey`로 설정된 필드입니다.
+- `caseSensitive` - 검색이 대소문자를 구분할지 여부입니다. 기본값은 `false`입니다. 대소문자 구분 아이콘이 이 값을 전환합니다.
+- `matchDiacritics` - 악센트 문자가 자기 자신하고만 일치할지 여부입니다. 그래서 `é`는 `e`와 일치하지 않습니다. 기본값은 `false`입니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor에서는 `IgbFilteringOptions` 객체를 통해 이 옵션을 설정하십시오. 예: `FilterKey`, `CaseSensitive`, `MatchDiacritics`.
+
+</PlatformBlock>
+
+다음 스니펫은 각 주의 이름 대신 지역을 검색하고, 검색을 대소문자 구분으로 만듭니다:
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { IComboFilteringOptions } from 'igniteui-angular/combo';
+// import { IComboFilteringOptions } from '@infragistics/igniteui-angular/combo'; for licensed package
+
+export class ComboDemo {
+    public filteringOptions: IComboFilteringOptions = {
+        filteringKey: 'region',
+        caseSensitive: true
+    };
+}
+```
+
+```html
+<igx-combo [filteringOptions]="filteringOptions"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+combo.filteringOptions = {
+    filterKey: 'region',
+    caseSensitive: true
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo FilteringOptions="@filteringOptions" />
+
+@code {
+    private IgbFilteringOptions filteringOptions = new IgbFilteringOptions
+    {
+        FilterKey = "Region",
+        CaseSensitive = true
+    };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo filteringOptions={{ filterKey: "region", caseSensitive: true }} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 사용자 지정 값
+
+<ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> 속성을 사용하면 사용자가 데이터에 없는 항목을 추가할 수 있습니다. 검색 텍스트와 일치하는 항목이 없으면 드롭다운에 **항목 추가** 버튼이 표시되며, 이 버튼은 검색 텍스트를 새 항목으로 데이터에 추가합니다.
+
+```html
+<igx-combo [allowCustomValues]="true"></igx-combo>
+```
+
+</PlatformBlock>
+
+### 검색 입력 포커스
+
+{Platform} 콤보의 드롭다운이 열리면 검색 입력에 포커스가 갑니다.
+
+<PlatformBlock for="Angular">
+
+대신 항목 목록에 포커스를 주려면 <ApiLink type="Combo" member="autoFocusSearch" label="autoFocusSearch" /> 속성을 `false`로 설정하십시오. 모바일 기기에서는 드롭다운과 함께 소프트웨어 키보드가 열리지 않게 해 줍니다.
+
+```html
+<igx-combo [autoFocusSearch]="false"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+대신 옵션 목록에 포커스를 주려면 <ApiLink type="Combo" member="autofocusList" label="autofocusList" />을 설정하십시오. 모바일 기기에서는 드롭다운과 함께 소프트웨어 키보드가 열리지 않게 해 줍니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus-list></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo AutofocusList="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo autofocusList={true} />
+```
+
+</PlatformBlock>
+
+### 그룹화
+
+{Platform} 콤보의 옵션을 그 필드의 각 값마다 머리글 아래로 그룹화하려면 <ApiLink type="Combo" member="groupKey" label="groupKey" />을 데이터 항목의 필드로 설정하십시오:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-combo groupKey="region"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-key="region"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor에서 키는 `Region`과 같은 C# 속성의 이름입니다:
+
+```razor
+<IgbCombo GroupKey="Region" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupKey="region" />
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+<ApiLink type="Combo" member="groupKey" label="groupKey" /> 속성은 데이터 항목이 객체인 경우에만 적용됩니다.
+</DocsAside>
+
+#### 정렬 방향
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Combo" member="groupSortingDirection" label="groupSortingDirection" /> 속성은 콤보에서 그룹의 순서를 설정합니다. `SortingDirection.Asc`(기본값)은 오름차순으로, `SortingDirection.Desc`는 내림차순으로 정렬하며, `SortingDirection.None`는 그룹이 처음 등장한 데이터의 순서를 유지합니다. 각 그룹 안의 항목은 데이터에서의 순서를 유지합니다.
+
+```typescript
+import { SortingDirection } from 'igniteui-angular/core';
+// import { SortingDirection } from '@infragistics/igniteui-angular/core'; for licensed package
+
+export class ComboDemo {
+    public groupSortingDirection = SortingDirection.Desc;
+}
+```
+
+```html
+<igx-combo groupKey="region" [groupSortingDirection]="groupSortingDirection"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<ApiLink type="Combo" member="groupSorting" label="groupSorting" /> 속성은 {Platform} 콤보에서 그룹의 순서를 설정합니다. `asc`(기본값)은 오름차순으로, `desc`는 내림차순으로 정렬하며, `none`는 그룹이 처음 등장한 데이터의 순서를 유지합니다. 각 그룹 안의 항목은 데이터에서의 순서를 유지합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-sorting="desc"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Blazor에서는 `GroupingDirection` 값으로 설정하십시오: `Asc`, `Desc` 또는 `None`.
+
+```razor
+<IgbCombo GroupSorting="GroupingDirection.Desc" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupSorting="desc" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 지우기 버튼
+
+{Platform} 콤보는 옵션이 하나 이상 선택되어 있는 동안 입력에 지우기 버튼을 표시하며, 버튼을 클릭하면 선택이 지워집니다. 버튼을 숨기려면 <ApiLink type="Combo" member="disableClear" label="disableClear" />를 설정하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo disable-clear></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo DisableClear="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo disableClear={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 자동 포커스
+
+페이지가 로드될 때 {Platform} 콤보에 포커스를 주려면 <ApiLink type="Combo" member="autofocus" label="autofocus" />을 설정하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Autofocus="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+React에서는 `autoFocus` prop을 사용하십시오:
+
+```tsx
+<IgrCombo autoFocus={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### 스크롤 전략
+
+<ApiLink type="Combo" member="scrollStrategy" label="scrollStrategy" /> 속성은 드롭다운이 열려 있는 동안 {Platform} 콤보 주변의 컨테이너가 스크롤될 때 콤보의 드롭다운이 어떻게 할지 설정합니다. `hide`(기본값)은 입력이 보이지 않을 때 드롭다운을 숨기고, `scroll`는 드롭다운을 열어 두고 입력에 붙여 두며, `close`는 드롭다운을 닫습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo scroll-strategy="close"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo scrollStrategy="close" />
+```
+
+</PlatformBlock>
+
+## API 참조
+
+{Platform} 콤보 API 참조 전체는 다음을 참조하십시오:
+
+- <ApiLink type="Combo" />
+
+<PlatformBlock for="Angular">
+
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-combo-theme" label="IgxComboComponent 테마" />
+
+</PlatformBlock>
+
+## 추가 리소스
+
+콤보에 대해 더 알아보려면 다음 {Platform} 자료를 사용하십시오:
+
+- [콤보 개요](./overview.mdx)
+- [콤보 템플릿](./templates.mdx)
+- [단일 선택 콤보](./single-selection.mdx)
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

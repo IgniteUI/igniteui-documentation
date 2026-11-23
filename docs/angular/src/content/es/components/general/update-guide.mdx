@@ -1,0 +1,1675 @@
+---
+title: "Guía de actualización | Ignite UI for Angular | Infragistics"
+description: "Consulte este artículo sobre cómo actualizar la biblioteca Ignite UI for Angular a una versión más reciente."
+keywords: "ignite ui for angular, actualización, paquete npm, componentes de material"
+last_updated: "2026-10-12"
+_language: es
+llms:
+  description: "En el versionado de Ignite UI for Angular, el primer número coincide siempre con la versión principal de Angular que admite el código, y el segundo está reservado para las versiones principales."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Guía de actualización
+
+En el [versionado](https://github.com/IgniteUI/igniteui-angular/wiki/Ignite-UI-for-Angular-versioning) de Ignite UI for Angular, el primer número coincide siempre con la versión principal de Angular que admite el código, y el segundo está reservado para las versiones principales. Pueden introducirse cambios importantes entre las versiones principales.
+Puede encontrar una lista completa de los cambios de cada versión de **Ignite UI for Angular** en el [CHANGELOG](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md) del producto.
+
+El paquete Ignite UI for Angular también admite la migración automática de versiones mediante los schematics `ng update`. Estos intentarán migrar todos los cambios importantes posibles (selectores, clases y propiedades @Input/@Output renombrados); sin embargo, puede que sigan existiendo cambios que no se puedan migrar. Normalmente están relacionados con la lógica TypeScript de la aplicación y se describen [más abajo](#cambios-manuales-adicionales).
+
+Ejecute primero el comando [**`ng update`**](https://angular.io/cli/update), que analizará su aplicación y las actualizaciones disponibles de sus paquetes.
+
+```cmd
+ng update
+```
+
+Para actualizar el paquete con licencia de **Ignite UI for Angular**, ejecute el siguiente comando:
+
+```cmd
+ng update @infragistics/igniteui-angular
+```
+
+Para actualizar el paquete gratuito de **Ignite UI for Angular**, ejecute el siguiente comando:
+
+```cmd
+ng update igniteui-angular
+```
+
+Cuando actualice `@infragistics/igniteui-angular` o `igniteui-angular`, se recomienda actualizar también los paquetes `@angular/core`, `@angular/cli` y `igniteui-cli` a sus versiones correspondientes.
+Para actualizar el paquete **Ignite UI CLI**, ejecute el siguiente comando:
+
+```cmd
+ng update igniteui-cli
+```
+
+Para actualizar el paquete **Angular Core**, ejecute el siguiente comando:
+
+```cmd
+ng update @angular/core
+```
+
+Para actualizar el paquete **Angular CLI**, use el siguiente comando:
+
+```cmd
+ng update @angular/cli
+```
+
+<DocsAside type="info">
+Si el comando `ng update` falla por incompatibilidades de dependencias de paquetes, revierta la actualización, elimine la carpeta `node_modules` y vuelva a ejecutar la actualización con el indicador `--force`.
+</DocsAside>
+
+## Cambios manuales adicionales
+
+Por desgracia, no todos los cambios pueden actualizarse automáticamente. Los cambios siguientes se dividen en secciones según aparecen en las versiones, así que, si necesita alguna actualización, empiece por su versión actual y aplique las siguientes de abajo hacia arriba.
+
+Por ejemplo: si está actualizando de la versión 6.2.4 a la 7.1.0, empiece por la sección "From 6.x ..", aplique esos cambios y continúe hacia arriba:
+
+## De 22.2.x a 22.3.x
+
+Ignite UI for Angular 22.3.0 usa Ignite UI Theming 30 (`igniteui-theming`), cuya función `palette()` genera paletas con un nuevo generador `fitted` de forma predeterminada. El generador `fitted` coloca cada tono según el contraste y lo emite como un color fijo, por lo que una llamada a `palette()` se compila con colores distintos a los de antes. Las paletas predefinidas, como `$light-material-palette`, y los temas CSS prediseñados siguen usando el generador `legacy` y no cambian. [Generación de paletas](../themes/palette-generation.mdx) explica ambos generadores.
+
+La migración `ng update` añade `$generator: 'legacy'` a cada llamada a la función `palette()` de sus archivos `.scss` y `.sass` que todavía no elija un generador, para que sus paletas conserven sus colores:
+
+```scss
+// Before
+$my-palette: palette(
+  $primary: #0099ff,
+  $secondary: #df1b74,
+  $surface: #ffffff
+);
+
+// After
+$my-palette: palette(
+  $primary: #0099ff,
+  $secondary: #df1b74,
+  $surface: #ffffff,
+  $generator: 'legacy'
+);
+```
+
+La migración deja sin cambios `@include palette(...)`, el mixin que emite una paleta como variables CSS. No puede añadir el argumento a una llamada que pase sus argumentos con spread, como `palette($args...)`. Al final de la salida de `ng update` informa de cada una de esas llamadas, con su archivo y su línea, así que añada usted mismo `generator: 'legacy'` al mapa del spread.
+
+Para pasar una paleta al generador `fitted`, elimine el argumento `$generator`. Para mantener el generador `legacy` en todas las llamadas a `palette()` sin pasar el argumento, configure la biblioteca de temas antes de que cualquier otra cosa la cargue:
+
+```scss
+@use "igniteui-theming" with ($shade-generator: 'legacy');
+@use "igniteui-angular/theming" as *;
+```
+
+Los temas de componente toman ahora su fondo del rol de superficie `base`, `--ig-surface-base`, en lugar de `--ig-surface-500`. Cada paleta emite los roles de superficie: `base`, `sunken`, `raised`, `overlay` y `container`. Los tonos de superficie numerados están obsoletos: las paletas los siguen emitiendo con ambos generadores, y una paleta `fitted` apunta `--ig-surface-500` a `--ig-surface-base`, pero se eliminarán en una versión futura. Revise lo siguiente manualmente:
+
+- Si sobrescribe `--ig-surface-500` en tiempo de ejecución, por ejemplo para cambiar una sección a una superficie oscura, sobrescriba en su lugar `--ig-surface-base`, junto con `--ig-surface-raised`, `--ig-surface-overlay` y `--ig-surface-sunken` donde los use. Consulte [Paletas](../themes/palettes.mdx#dark-vs-light).
+- Si sus propios estilos leen `--ig-surface-500` o `color($color: 'surface', $variant: 500)`, seguirán funcionando por ahora. Muévalos a un rol de superficie, como `color($color: 'surface')`, que devuelve `base`, antes de que se eliminen los tonos numerados.
+- Si pasa un mapa de paleta escrito a mano, añada los roles de superficie a su entrada `surface`. Consulte [Mapas de paleta personalizados](../themes/sass/palettes.mdx#mapas-de-paleta-personalizados).
+
+## De 22.0.x a 22.1.x
+
+Ignite UI for Angular 22.1.0 termina la migración al mixin `tokens()` y traslada los estilos estructurales de cada componente a su propio bundle. La migración `ng update` realiza automáticamente los siguientes cambios sintácticos:
+
+- Sustituye los mixins contenedores de Sass por componente que se han eliminado (`avatar`, `badge`, `banner`, `card`, `dialog`, `tabs`, los mixins de cuadrícula y de pivot, y el resto de contenedores que estaban obsoletos) por `tokens()`.
+- Elimina las llamadas a los mixins `-typography` por componente eliminados, como `badge-typography`, `dialog-typography` y `checkbox-typography`. La tipografía se aplica ahora mediante tokens de componente. Consulte [Tipografía](/themes/sass/typography#tipografía-de-componentes) para las sobrescrituras específicas de cada componente.
+- Elimina las importaciones profundas de Sass de parciales estructurales, como `igniteui-angular/lib/core/styles/components/avatar/avatar-component`, y sus llamadas `component()` correspondientes. Los estilos estructurales se incluyen ahora automáticamente en el bundle del componente.
+- Renombra las importaciones directas y los usos de `IgxDividerDirective` a `IgxDividerComponent`. `IgxDividerModule` no se ve afectado.
+
+Revise manualmente las llamadas `tokens()` migradas. La migración no puede determinar si un mixin contenedor representaba una sobrescritura de token universal ordinaria o si dependía de declaraciones locales de componente. Mantenga el modo global generado por defecto, salvo que las pruebas o la estructura del tema demuestren que se necesitan declaraciones locales. En ese caso concreto, añada `$mode: 'scoped'`:
+
+```scss
+// Before
+.my-avatar {
+  @include avatar(avatar-theme($background: red));
+}
+
+// After
+.my-avatar {
+  @include tokens(
+    avatar-theme($background: red),
+    $mode: 'scoped'
+  );
+}
+```
+
+Empiece con el modo global predeterminado, incluso al sustituir la mayoría de las llamadas a `css-vars()`. Si el componente sigue en la salida global de `theme()`, sus declaraciones locales pueden consumir los tokens universales y normalmente no se necesita ningún modo con ámbito.
+
+Use el modo con ámbito solo cuando la salida predeterminada no proporcione las declaraciones locales del componente que necesita la personalización. Los casos típicos son:
+
+- El contenedor eliminado establecía un tema local completo cuyo comportamiento no se conserva solo con las sobrescrituras de tokens universales.
+- El componente aparece en la lista `$exclude` del mixin global `theme()`. En ese caso, el tema global no emite las declaraciones locales que consume la hoja de estilos estructural del componente.
+- El tema usa expresiones de tamaño locales al componente. El modo global omite intencionadamente los valores de tamaño que dependen de variables de tamaño locales.
+- El mapa del tema contiene varios selectores, como el host del componente y un selector de ghost u overlay. Las superposiciones separadas deben tematizarse desde un selector que pueda coincidir con la superposición en su outlet, normalmente en una hoja de estilos global.
+- El tema local cambia el sistema de diseño o la variante clara/oscura. Pase la `$schema` correspondiente a la función de tema del componente para que el modo con ámbito emita los metadatos de tema correctos.
+
+No añada el modo con ámbito de forma indiscriminada. Mantenga el modo global predeterminado para las sobrescrituras ordinarias de `--ig-<component>-*`, ya sean de toda la aplicación o restringidas por un selector. El componente debe seguir incluido en la salida global de `theme()`, para que sus declaraciones locales puedan consumir esos tokens universales:
+
+```scss
+@include tokens(
+  avatar-theme(
+    $schema: $dark-material-schema,
+    $background: var(--ig-primary-500)
+  )
+);
+```
+
+El modo con ámbito no elimina universalmente la necesidad de `::ng-deep`. El encapsulado de vista emulado de Angular puede seguir impidiendo que los selectores generados para elementos anidados o internos coincidan. Conserve `::ng-deep` cuando las pruebas demuestren que es necesario, o traslade esa inclusión del tema a una hoja de estilos global. En el caso de una superposición separada, `::ng-deep` por sí solo no basta: el tema debe coincidir o heredarse en el outlet de la superposición.
+
+Los estilos de Ignite UI usan ahora el orden de cascada `ig.reset` → `ig.base` → la capa del sistema de diseño activo (`ig.material`, `ig.bootstrap`, `ig.fluent` o `ig.indigo`) → `ig.derived`. Si su aplicación carga una hoja de estilos de reset o normalize, colóquela en la capa de reset de menor precedencia para que no pueda sobrescribir los estilos de los componentes:
+
+```scss
+@layer ig.reset {
+  @import "minireset.css";
+}
+```
+
+Para más detalles, consulte [Temas de componentes](/themes/sass/component-themes) y [Temas globales](/themes/sass/global-themes#excluir-componentes).
+
+## De 21.1.x a 22.0.x
+
+Angular ya no incluye `HammerModule` para los gestos táctiles. Para mantener las interacciones táctiles (arrastre, deslizamiento, toque) en los componentes de Ignite UI for Angular, cargue HammerJS como script global mediante el array `scripts` de su `angular.json`:
+
+```json
+"architect": {
+  "build": {
+    "options": {
+      "scripts": [
+        "node_modules/hammerjs/hammer.min.js"
+      ]
+    }
+  }
+}
+```
+
+Una vez cargado globalmente, Ignite UI for Angular detecta automáticamente `window.Hammer` y lo usa para gestionar los gestos táctiles; no se necesitan importaciones ni registros de módulos adicionales.
+
+## De 21.0.x a 21.1.x
+
+La versión 21.1.0 incluye un nuevo mixin `tokens` que puede usarse en lugar del mixin `css-vars`, ya obsoleto, de nuestro framework de temas de Sass. En apariencia es un cambio cosmético; sin embargo, el nuevo mixin `tokens` genera tokens de tema de componente globales universales que funcionan en todos nuestros frameworks de Ignite UI. El mixin `css-vars` está ahora obsoleto y se eliminará en una versión futura, así que le recomendamos cambiar al nuevo mixin `tokens` cuanto antes.
+
+El mixin `tokens` genera tokens de variables CSS para los componentes en los modos `global` o `scoped`, con una cadena de reserva universal `--ig-*` y la reescritura correcta de las referencias a tokens locales.
+
+**Modo global** (predeterminado): emite tokens universales `--ig-{component}-{property}`. Las referencias locales `var()` se reescriben a sus equivalentes globales para que los valores derivados (por ejemplo, `adaptive-contrast`) se resuelvan correctamente en cualquier ámbito. Las expresiones de tamaño se omiten; pase valores concretos en su lugar.
+
+```scss
+// Input:
+@include tokens(avatar-theme($background: red));
+
+// Output:
+:root {
+  --ig-avatar-background: red;
+  /* ... remaining avatar properties ... */
+}
+```
+
+**Modo con ámbito**: emite variables con ámbito de componente (`--{property}`) con una cadena de reserva: prefijo configurado (`--igx-*`) -> universal (`--ig-*`) -> valor predeterminado del esquema. Cuando se llama desde la raíz de la hoja de estilos, se usa la `selector` del tema para crear la regla. Cuando se llama dentro de un selector, tanto el selector actual como el selector del componente reciben las variables. En esencia, produce el mismo resultado que el mixin `css-vars`, ya obsoleto.
+
+```scss
+// Input (from root):
+@include tokens(avatar-theme($background: red), $mode: 'scoped');
+
+// Output:
+igx-avatar {
+  --background: var(--igx-avatar-background, var(--ig-avatar-background, red));
+  /* ... remaining avatar properties ... */
+}
+```
+
+```scss
+// Input (from within a selector):
+.my-theme {
+  @include tokens(avatar-theme($background: red), $mode: 'scoped');
+}
+
+// Output:
+.my-theme,
+.my-theme igx-avatar {
+  --background: var(--igx-avatar-background, var(--ig-avatar-background, red));
+  /* ... */
+}
+```
+
+<DocsAside type="info">
+En el modo con ámbito, la propiedad `selector` del mapa de tema generado es necesaria para determinar el selector del componente y acotar correctamente las variables. Si el mixin se llama desde la raíz de la hoja de estilos, la regla generada usará el valor interno `selector` del tema. Si se llama desde dentro de un selector, tanto ese selector como el del componente recibirán las variables.
+</DocsAside>
+
+```scss
+// Global override:
+:root {
+  @include tokens(avatar-theme($background: orange));
+}
+// Result: --ig-avatar-background: orange;
+
+// Scoped consumption (no explicit override):
+@include tokens(avatar-theme($schema: $schema), $mode: 'scoped');
+// Result: --background resolves through var(--igx-avatar-background, var(--ig-avatar-background, #000))
+//         and picks up the global orange value from --ig-avatar-background.
+```
+
+<DocsAside type="info">
+**Las sobrescrituras globales fluyen hacia el modo con ámbito.** Como las variables con ámbito recurren a los tokens `--ig-*`, al establecer un token global en `:root` se propagará a todas las instancias con ámbito:
+</DocsAside>
+
+## De 20.x a 21.0.x
+
+### Compatibilidad con múltiples puntos de entrada
+
+La versión 21.0.0 introduce **múltiples puntos de entrada** para un mejor tree-shaking y división de código. El punto de entrada principal (`igniteui-angular`) sigue siendo totalmente compatible con versiones anteriores, pero se recomienda migrar a los puntos de entrada granulares para obtener tamaños de bundle óptimos.
+
+**Cambios principales:**
+- Componentes organizados en puntos de entrada dedicados (por ejemplo, `igniteui-angular/grids/grid`, `igniteui-angular/button`)
+- Algunos componentes se han trasladado (directivas de entrada, autocompletado, grupo de radio)
+- Cambio de nombre de tipo: `Direction` → `CarouselAnimationDirection`
+
+**Migración:**
+
+Al actualizar, se le pedirá que migre las importaciones automáticamente:
+
+```cmd
+ng update igniteui-angular
+```
+
+Elija **"Yes"** cuando se le pida, o migre más tarde con:
+
+```cmd
+ng update igniteui-angular --migrate-only --from=20.1.0 --to=21.0.0
+```
+
+Para ver todos los detalles sobre los puntos de entrada, las opciones de migración, los cambios importantes y los ejemplos de uso, consulte la [guía de división de código y múltiples puntos de entrada](/general/code-splitting-and-multiple-entry-points).
+
+### Refactorización de la inyección de dependencias
+
+Toda la inyección de dependencias interna usa ahora la API `inject()`. Esto normalmente no afecta al código de la aplicación, pero si extiende componentes o servicios de Ignite UI, es posible que tenga que actualizar sus constructores para usar `inject()` en lugar de parámetros del constructor.
+
+## De 17.2.x a 18.0.x
+
+### Cambios importantes
+
+- En la versión 18.0.x se elimina la propiedad obsoleta `displayDensity` en favor de la propiedad personalizada de CSS `--ig-size`. Para más información, consulte la guía de actualización [de 16.0.x a 16.1.x](#de-160x-a-161x).
+
+### General
+
+- `IgxPivotGrid`
+
+### Cambios importantes
+
+- La propiedad `showPivotConfigurationUI` de pivot grid se ha modificado y ampliado a `pivotUI`.
+
+```html
+// version 17.2.x
+<igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfig" [showPivotConfigurationUI]="false">
+</igx-pivot-grid>
+
+// version 18.0.x
+<igx-pivot-grid [data]="data" [pivotConfiguration]="pivotConfig" [pivotUI]="{ showConfiguration: false }">
+</igx-pivot-grid>
+```
+
+## De 17.0.x a 17.1.x
+
+### General
+
+- `IgxGrid`, `IgxTreeGrid`, `IgxHierarchicalGrid`
+  - **Cambios importantes**
+    - Los eventos `rowAdd` y `rowDelete` emiten ahora un argumento de evento de tipo `IRowDataCancelableEventArgs` en lugar de `IGridEditEventArgs`. Las dos interfaces siguen siendo compatibles, pero las propiedades `cellID`, `newValue`, `oldValue`, `isAddRow` son redundantes en estos eventos y están obsoletas en `IRowDataCancelableEventArgs`, y se eliminarán en una versión futura. Al cambiar a las interfaces nuevas correctas, deberían aparecer los usos obsoletos que pueden eliminarse sin riesgo.
+  - **Obsolescencias**
+    - La propiedad `rowID` está obsoleta en las siguientes interfaces: `IGridEditDoneEventArgs`, `IPathSegment`, `IRowToggleEventArgs`, `IPinRowEventArgs`, `IgxAddRowParent` y se eliminará en una versión futura. Use `rowKey` en su lugar.
+    - La propiedad `primaryKey` está obsoleta en las siguientes interfaces: `IRowDataEventArgs`, `IGridEditDoneEventArgs`. Use `rowKey` en su lugar.
+    - La propiedad `data` está obsoleta en la siguiente interfaz: `IRowDataEventArgs`. Use `rowData` en su lugar.
+
+### Cambios importantes
+
+- En la versión 17.1.x, el tipo `icon` de la directiva `igxButton` se ha cambiado por la directiva `igxIconButton` de tipo `flat`. Hay migraciones automáticas disponibles y se aplicarán en `ng update`. Sin embargo, algunas de las propiedades de entrada de `igxButton` que antes podían usarse con botones de tipo `icon` no pueden aplicarse a los `igxIconButton` recién creados. Si ha usado las propiedades `igxButtonColor` o `igxButtonBackground` con un botón de tipo `icon`, debe actualizarlo de la siguiente manera:
+
+```html
+// version 17.0.x
+<button igxButton="icon" [igxButtonBackground]="'red'">
+    <igx-icon fontSet="material">search</igx-icon>
+</button>
+
+// version 17.1.x
+<button igxIconButton="flat" [style.background]="'red'">
+    <igx-icon fontSet="material">search</igx-icon>
+</button>
+```
+
+**NOTA**: los usuarios deben añadir manualmente `IgxIconButtonDirective` a sus importaciones:
+
+```typescript
+import { IgxIconButtonDirective } from 'igniteui-angular';
+
+@Component({
+    ...
+    imports: [IgxIconButtonDirective]
+})
+```
+
+## De 16.1.x a 17.0.x
+
+### General
+
+- En la versión 17.0, Angular ha eliminado los paquetes `@nguniversal/*`. Si el proyecto usa estos paquetes, una llamada estándar a `ng update` provocará un error en las migraciones de `igniteui-angular` debido a `package-lock.json` modificados incorrectamente; más detalles en [el issue #13668](https://github.com/IgniteUI/igniteui-angular/issues/13668). Para actualizar a `17.0.x`, hay que seguir uno de los pasos adicionales siguientes:
+  - Elimine el archivo `package-lock.json` antes de ejecutar `ng update`
+  - Ejecute `npm dedupe --legacy-peer-deps` antes de ejecutar `ng update igniteui-angular`
+
+**Cambio importante**
+
+- En los argumentos del evento `selectionChanging` de `IgxCombo`, el tipo `IComboSelectionChangingEventArgs` tiene estos cambios:
+  - Las propiedades `newSelection` y `oldSelection` se han renombrado a `newValue` y `oldValue`, respectivamente, para reflejar mejor su función. Al igual que `value` de Combo, emitirán los valores de propiedad especificados o los elementos de datos completos según se haya establecido `valueKey` o no. Hay migraciones automáticas disponibles y se aplicarán en `ng update`.
+  - Se exponen dos propiedades nuevas, `newSelection` y `oldSelection`, en lugar de las anteriores, que ya no se ven afectadas por `valueKey` y emiten de forma coherente los elementos de `data` de Combo.
+  - Las propiedades `added` y `removed` contienen ahora siempre elementos de datos, con independencia de si `valueKey` está establecido. Así se alinean con las propiedades `newSelection` y `oldSelection` actualizadas.
+
+Si su código del manejador del evento `selectionChanging` dependía de leer `valueKeys` desde el argumento del evento, actualícelo de la siguiente manera:
+
+```typescript
+  // version 16.1.x
+  public handleSelectionChanging(e: IComboSelectionChangingEventArgs): void {
+    this.addedItems = e.added;
+    this.removedItems = e.removed;
+  }
+
+  // version 17.0.x
+  public handleSelectionChanging(e: IComboSelectionChangingEventArgs): void {
+    this.addedItems = e.added.map(i => {
+       return i[e.owner?.valueKey]
+    });
+    this.removedItems = e.removed.map(i => {
+       return i[e.owner?.valueKey]
+    });
+  }
+```
+
+- `getCurrentResourceStrings` se ha eliminado. Use en su lugar las importaciones de cadenas de componente específicas.
+  - Por ejemplo, las cadenas en EN proceden de `igniteui-angular`: `import { GridResourceStringsEN } from 'igniteui-angular';`
+  - Por ejemplo, las cadenas en DE u otros idiomas proceden de `igniteui-angular-i18n`: `import { GridResourceStringsDE } from 'igniteui-angular-i18n';`
+
+    Puede encontrar ejemplos de uso en la documentación actualizada de [Localización (i18n)](/general/localization).
+
+## De 16.0.x a 16.1.x
+
+### General
+
+#### **Cambios no importantes**
+
+- Nos alejamos del token de inyección `DisplayDensityToken` como forma de establecer el tamaño de los componentes, en favor de una forma más sencilla y robusta: las propiedades personalizadas de CSS. Por ese motivo, el token de inyección `DisplayDensityToken` está ahora obsoleto. Esto afecta a todos los componentes que exponen la propiedad de entrada `displayDensity`. El token y las propiedades de entrada se eliminarán en la versión 17.0.0. Le recomendamos hacer lo siguiente:
+
+Elimine todas las declaraciones en las que se proporciona `DisplayDensityToken`:
+
+```typescript
+// *.component.ts
+// remove the provider declaration for `DisplayDensityToken`
+providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: DisplayDensity.compact } }],
+```
+
+Elimine todos los enlaces o asignaciones programáticas a la propiedad de entrada `displayDensity`:
+
+```html
+{/* Remove `[displayDensity]="'compact'"` */}
+<igx-grid [displayDensity]="'compact'">...</igx-grid>
+```
+
+En su lugar, use la propiedad personalizada de CSS `--ig-size` para obtener el mismo resultado que con `displayDensity`:
+
+```css
+/* 
+Add --ig-size to a component or global file.
+Available values are:
+  - compact: --ig-size-small
+  - cosy: --ig-size-medium
+  - comfortable: --ig-size-large
+*/
+igx-grid {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+## De 15.1.x a 16.0.x
+
+- La actualización a Angular 16 incluye cambios en el funcionamiento interno de `NgModules`. Antes, añadir un módulo que dependía internamente de otro hacía que las declaraciones de ambos estuvieran disponibles en su aplicación. Ese comportamiento no era intencionado y Angular 16 lo cambia. Si su aplicación dependía de este comportamiento (por ejemplo, si solo importaba un módulo que contiene muchas dependencias internas, como `IgxGridModule`, y usaba componentes que vienen con ellas), tendrá que añadir manualmente los módulos de cada componente que use su aplicación por separado.
+
+- **Cambios importantes**
+- En la versión 16.0.x se eliminan todas las propiedades de la cuadrícula relacionadas con la paginación. El comportamiento de la paginación se configura y controla ahora íntegramente mediante `IgxPaginatorComponent`.
+Para activar la paginación en la cuadrícula, inicialice `IgxPaginatorComponent` en la cuadrícula, establezca las propiedades de entrada relacionadas y adjunte los manejadores de eventos al propio paginador:
+
+```html
+<igx-grid ...>
+    <igx-paginator #paginator [totalRecords]="totalRecords" [perPage]="25" (pageChange)="pageChange($event)" (perPageChange)="perPageChange($event)">
+    </igx-paginator>
+</igx-grid>
+```
+
+```typescript
+@ViewChild('grid', { static: true }) private grid: IgxGridComponent;
+@ViewChild('paginator', { static: true }) private paginator: IgxPaginatorComponent;
+
+// prior version 16.0.x
+public onButtonClick(event) {
+    this.grid.nextPage();
+    this.grid.previousPage();
+    this.grid.paginate(0);
+}
+
+// from version 16.0.x
+public onButtonClick(event) {
+    this.paginator.nextPage();
+    this.paginator.previousPage();
+    this.paginator.paginate(0);
+}
+```
+
+- En la versión 16.0.x se elimina el método de cuadrícula `getCellByColumnVisibleIndex(rowIndex: number, index: number)`. En su lugar, use: `getCellByKey(rowSelector: any, columnField: string)` o `getCellByColumn(rowIndex: number, columnField: string)`. Ejemplo:
+
+```typescript
+ // prior version 16.0.x
+ const cell = grid.getCellByColumnVisibleIndex(rowIndex, columnIndex);
+
+ // after version 16.0.x
+ const rowKey = grid.getRowByIndex(rowIndex).key;
+ const columnField = grid.getColumnByVisibleIndex(columnIndex).field;
+ const cell = grid.getCellByKey(rowKey, columnField);
+ const cell = grid.getCellByColumn(rowIndex, columnField);
+```
+
+## De 15.0.x a 15.1.x
+
+- **Cambio importante**
+- Ha cambiado el tipo de los argumentos de `rowSelectionChanging`. Ahora las colecciones `oldSelection`, `newSelection`, `added` y `removed`, que forman parte de la interfaz `IRowSelectionEventArgs`, ya no contienen las claves de fila de los elementos seleccionados (cuando la cuadrícula tiene establecido un primaryKey), sino que en todos los casos se emiten los datos de la fila. Cuando la cuadrícula trabaja con datos remotos y se establece un `primaryKey`, para las filas seleccionadas que no forman parte actualmente de la vista de la cuadrícula se emitirá un objeto de datos de fila parcial.
+
+Si su código del manejador del evento `rowSelectionChanging` dependía de leer primaryKeys desde el argumento del evento, actualícelo de la siguiente manera:
+
+```typescript
+  // prior version 15.1.x
+  public handleRowSelection(e: IRowSelectionEventArgs): void {
+    this.selectedRows = e.newSelection;
+  }
+
+  // after version 15.1.x
+  public handleRowSelection(e: IRowSelectionEventArgs): void {
+    this.selectedRows = e.newSelection.map(rec => {
+       return rec[e.owner?.primaryKey]
+    });
+  }
+```
+
+- **Cambio de comportamiento**
+Cuando se elimina de la cuadrícula la fila seleccionada, no se emite el evento `rowSelectionChanging`.
+
+- **Cambio visual**
+- En la versión 15.1, el tamaño de los componentes de entrada ha aumentado. Esto se nota más al usar el tema Material, ya que así se ajusta a la especificación de Material. Si su aplicación se ve afectada negativamente por el cambio, puede usar la entrada displayDensity y establecerla en un valor más denso, por ejemplo de comfortable a cozy, o de cozy a compact.
+
+  **Ejemplo**
+
+```html
+    <igx-input-group displayDensity="cosy">
+        ...
+    </igx-input-group>
+
+    <igx-select displayDensity="cosy">
+        ...
+    </igx-select>
+
+    <igx-combo displayDensity="cosy">
+        
+    </igx-combo>
+
+    <igx-simple-combo displayDensity="cosy">
+        ...
+    </igx-simple-combo>
+```
+
+- En la versión 15.1, los componentes select y combo tienen ahora un fondo alrededor del icono de alternancia. Puede cambiar el fondo y el color del icono usando SCSS o CSS.
+
+    **Ejemplo**
+
+    ```scss
+    $my-select: select-theme(
+        $toggle-button-background: red,
+        $toggle-button-foreground: #fff,
+    );
+
+    $my-combo: combo-theme(
+        $toggle-button-background: red,
+        $toggle-button-foreground: #fff,
+    );
+
+    @include css-vars($my-select);
+    @include css-vars($my-combo);
+    ```
+
+    **Ejemplo**
+
+    ```css
+    .igx-select {
+        --igx-select-toggle-button-background: red;
+        --igx-select-toggle-button-foreground: #fff;
+    }
+    
+    .igx-combo {
+        --igx-combo-toggle-button-background: red;
+        --igx-combo-toggle-button-foreground: #fff;
+    }
+    ```
+
+## De 14.2.x a 15.0.x
+
+### General
+
+- `igxGrid`, `igxHierarchicalGrid`, `igxTreeGrid`
+  - Los parámetros de las plantillas de cuadrícula tienen ahora tipos para su contexto. Esto también puede provocar problemas si la aplicación está en modo de plantilla estricto y usa un tipo incorrecto. Referencias a la plantilla que pueden requerir conversión:
+    - `IgxColumnComponent` - <ApiLink type="ColumnType" kind="interface" /> (por ejemplo, el parámetro column de `igxFilterCellTemplate`)
+    - `IgxGridCell` - <ApiLink type="CellType" kind="interface" /> (por ejemplo, el parámetro cell de la plantilla `igxCell`)
+- Ignite UI for Angular depende de [igniteui-theming](https://github.com/IgniteUI/igniteui-theming). Añada la siguiente configuración del preprocesador en su archivo `angular.json`.
+
+```json
+ "build": {
+   "options": {
+     "stylePreprocessorOptions": {
+  "includePaths": ["node_modules"]
+     }
+   }
+ }
+```
+
+- **Cambio importante**: todas las variables CSS globales de configuración de temas, colores, elevaciones y tipografía han cambiado su prefijo de `--igx` a `--ig`. Este cambio no afecta a las variables globales de componente;
+
+    **Ejemplo**:
+
+    En la versión 14.2.x:
+
+    ```css
+    :root {
+        --igx-typography: 'Titillium Web', sans-serif; 
+    }
+    ```
+
+    En la versión 15.0.x esto pasa a ser:
+
+    ```css
+    :root {
+        --ig-typography: 'Titillium Web', sans-serif; 
+    }
+    ```
+
+### Temas
+
+- **Cambio importante**: el argumento de entrada `grays` ha pasado a llamarse `gray`.<br />
+Así afectará esto al código existente:
+
+    En la versión 14.2.x:
+
+    ```scss
+    $my-palette: palette(
+        $primary: #09f,
+        $secondary: #e41c77,
+        $grays: #000
+    );
+
+    .my-class {
+        background: color($color: 'grays', $variant: 300);
+        color: contrast-color($color: 'grays', $variant: 300);
+        border-color: hsl(var(--igx-grays-500));
+    }
+    ```
+
+    En la versión 15.0.x y posteriores:
+
+    ```scss
+    $my-palette: palette(
+        $primary: #09f,
+        $secondary: #e41c77,
+        $gray: #000
+    );
+    
+    .my-class {
+        background: color($color: 'gray', $variant: 300);
+        color: contrast-color($color: 'gray', $variant: 300);
+        border-color: hsl(var(--ig-gray-500));
+    }
+    ```
+
+- **Cambio importante**: **la generación de variables CSS** de una paleta se hace ahora con el **mixin palette**, en lugar del **mixin palette-vars**.
+
+- **Cambio importante**: la **función palette** **requiere que se pase un color de superficie**, mientras que pasar un valor para el color `gray` es opcional. Si no se proporciona un valor para el color base gris, se generará automáticamente según la luminosidad del color de superficie: un color de superficie claro produce un color base gris negro (#000), mientras que un color de superficie oscuro genera un color base gris blanco (#fff). Al generar una paleta, tenga en cuenta que ya no hay valores predeterminados para los colores **info, success, error y warn**. Si quiere usarlos, debe establecerlos explícitamente. También puede tomar esos colores de una paleta existente si no quiere definir los valores usted mismo.
+
+  #### Ejemplo
+
+    ```scss
+    $my-palette: palette(
+        $primary: #09f,
+        $secondary: #e41c77,
+        $surface: #fff,
+        $info: color($light-material-palette, 'info'),
+        $success: color($light-material-palette, 'success'),
+        $error: color($light-material-palette, 'error'),
+        $warn: color($light-material-palette, 'warn'),
+    );
+
+    @include palette($my-palette);
+    ```
+
+- **Cambio importante**: **el parámetro palette se ha eliminado de todos los temas de componente.** Puede **usar el mixin palette** para aplicar con ámbito una paleta personalizada en un tema de componente personalizado. Como dejamos de admitir IE11, todos los temas de componente hacen referencia a las variables CSS globales de colores, elevaciones, tipografía, etc., por lo que ya no es necesario pasar una paleta personalizada a un tema de componente.
+
+    Generar un tema personalizado con una paleta personalizada:
+
+    ```scss
+    // app.component.scss
+
+    $my-palette: palette(
+        $primary: royalblue,
+        $secondary: orange,
+        $surface: white
+    );
+
+    $avatar: avatar-theme(
+        $background: color($color: 'primary'), 
+        $color: contrast-color($color: 'primary')
+    );
+
+    :host ::ng-deep {
+        // Include the custom palette in the scope of the app component.
+        // It will have a higher specificity than the global palette.
+        @include palette($my-palette):
+        
+        .my-avatar {
+            @include avatar($avatar);
+        }
+    }
+    ```
+
+### Tipografía
+
+- **Cambio importante**: el mixin **type-style** ya no acepta type-scale como parámetro, solo el nombre de la categoría.
+
+    En la versión 14.2.x y anteriores:
+
+    ```scss
+    .my-class {
+        @include type-style($type-scale: $my-type-scale, $category: h1);
+    }
+    ```
+
+    En la versión 15.0.x y posteriores:
+
+    ```scss
+    .my-class {
+        @include type-style(h1);
+    }
+    ```
+
+### Elevaciones
+
+- **Cambio importante**: la **función elevation** tiene ahora un único argumento con nombre: **$name (el nombre de la elevación)**.
+- **Cambio importante**: la **función elevations** se ha eliminado; ahora puede configurar los colores de las elevaciones con el mixin `configure-elevations`.
+
+    En la versión 14.2.x y anteriores:
+
+    ```scss
+    .my-class {
+        box-shadow: elevation($elevations, $elevation: 8);
+    }
+    ```
+
+    En la versión 15.0.x y posteriores:
+
+    ```scss
+    .my-class {
+        box-shadow: elevation(8);
+    }
+    ```
+
+### Barra de herramientas de la cuadrícula
+
+- **Cambio importante**: `IgxGridToolbarTitleDirective` y `IgxGridToolbarActionsDirective` se han convertido en componentes, y solo conservan el selector de elemento. En las aplicaciones que usan el marcado de elemento preferido `<igx-grid-toolbar-title>` y `<igx-grid-toolbar-actions>` no debería haber ningún cambio funcional. Las aplicaciones que usan las directivas `igxGridToolbarTitle` y `igxGridToolbarActions` en otros elementos deberán convertirlas a los elementos mencionados:
+
+    _De:_
+
+    ```html
+    <igx-grid-toolbar>
+        <span igxGridToolbarTitle>Title</span>
+        <div igxGridToolbarActions>
+            ...
+        
+        </div>
+    </igx-grid-toolbar>
+    ```
+
+    _A:_
+
+    ```html
+    <igx-grid-toolbar>
+        <igx-grid-toolbar-title>Title</igx-grid-toolbar-title>
+        <igx-grid-toolbar-actions>
+            ...
+        </igx-grid-toolbar-actions>
+    </igx-grid-toolbar>
+    ```
+
+## De 13.1.x a 13.2.x
+
+### Temas
+
+- **Cambio importante**: se han eliminado todas las hojas de estilos específicas de RTL. Los temas de Ignite UI admiten ahora la dirección RTL de forma predeterminada. Los usuarios que usaban antes temas `*-rtl.css` específicos deben cambiar a los archivos de tema normales.
+
+## De 13.0.x a 13.1.x
+
+### General
+
+- `igxGrid`, `igxHierarchicalGrid`, `igxTreeGrid`
+  - **Cambio importante**: la propiedad `movable` de las columnas está obsoleta. Use en su lugar la propiedad `moving` expuesta por la cuadrícula:
+
+    ```html
+    <igx-grid [moving]="true">
+    </igx-grid>
+    ```
+
+- `IgxHierarchicalGrid`
+  - **Cambio importante**: el servicio de API pública de los componentes igxHierarchicalGrid e igxRowIsland `hgridAPI` se ha renombrado a `gridAPI`.
+- `IgxToast`
+  - **Cambio importante**: se ha eliminado la propiedad obsoleta `position` de `igx-toast`. Recomendamos usar la propiedad `positionSettings` de la siguiente manera:
+
+    ```typescript
+    @ViewChild('toast', { static: true }) public toast: IgxToastComponent;
+
+    public ngOnInit(): void {
+        this.toast.positionSettings.verticalDirection = VerticalAlignment.Middle;
+    }
+    ```
+
+## De 12.2.x a 13.0.x
+
+### General
+
+- `IE discontinued support`
+- `IgxDialog`
+  - **Cambio importante**: la animación predeterminada de apertura y cierre de positionSettings se ha cambiado a `fadeIn`/`fadeOut`.
+- `igxGrid`, `igxHierarchicalGrid`, `igxTreeGrid`
+  - **Cambio importante**: se han eliminado las siguientes entradas obsoletas: `showToolbar`, `toolbarTitle`, `columnHiding`, `columnHidingTitle`, `hiddenColumnsText`, `columnPinning`, `columnPinningTitle`, `pinnedColumnsText`. Use `IgxGridToolbarComponent`, `IgxGridToolbarHidingComponent`, `IgxGridToolbarPinningComponent` en su lugar.
+  - **Cambio importante**: al añadir el componente `igx-toolbar`, ahora debe especificar manualmente las funciones que quiere habilitar: ocultación de columnas, anclaje y exportación a Excel. El filtrado avanzado puede habilitarse mediante la propiedad de entrada `allowAdvancedFiltering` de la cuadrícula, pero se recomienda habilitarlo de forma declarativa con marcado, como las demás funciones.
+  - **Cambio importante**: el evento `rowSelected` se ha renombrado a `rowSelectionChanging` para reflejar mejor su función.
+  - **Cambio importante**: el evento `columnSelected` se ha renombrado a `columnSelectionChanging` para reflejar mejor su función.
+  - **Cambio importante**: `columnsCollection` se ha eliminado. Use `columns` en su lugar. Si en algunos casos `columns` devuelve un array vacío, consulte las columnas con `ViewChildren` y acceda a ellas en `ngAfterViewInit`:
+
+    ```typescript
+    @ViewChildren(IgxColumnComponent, { read: IgxColumnComponent })
+    public columns: QueryList<IgxColumnComponent>;
+    ```
+
+  - **Cambio importante**: al aplicar una directiva personalizada en la cuadrícula, inyecte el token `IGX_GRID_BASE` en el constructor para obtener una referencia a la cuadrícula que la aloja:
+
+    ```html
+    <igx-grid customDirective ...></igx-grid>
+    ```
+
+    ```typescript
+    @Directive({
+        selector: '[customDirective]'
+    })
+    export class customDirective {
+
+    constructor(@Host() @Optional() @Inject(IGX_GRID_BASE) grid: IgxGridBaseDirective) { }
+    ```
+
+- `RowDirective`, `RowType`
+  - **Cambio importante**: las propiedades `rowData` y `rowID` se han eliminado de `RowDirective` y de las clases que implementan la interfaz `RowType`. Use `data` y `key` en su lugar. Use `ng update` para la migración automática. La migración automática no podrá detectar algunos ejemplos de las plantillas en las que el objeto de contexto de la plantilla no está tipado:
+
+    ```html
+    <ng-template igxCell let-cell="cell">
+        <span>{{ cell.rowID }}</span>
+        <span>{{ cell.row.rowData.ProductID }}</span>
+    </ng-template>
+    ```
+
+    Actualice manualmente estas plantillas a
+
+    ```html
+    <span>{{ cell.key }}</span>
+    <span>{{ cell.row.data.ProductID }}</span>
+    ```
+
+- `igxGrid`
+  - Se expone una entrada `groupStrategy` que funciona de forma similar a `sortStrategy` y permite personalizar el comportamiento de agrupación de la cuadrícula.
+- `IgxCsvExporterService`, `IgxExcelExporterService`
+  - Ya no es necesario proporcionar los servicios de exportación en la aplicación, porque ahora se inyectan a nivel raíz.
+- `IgxGridToolbarPinningComponent`, `IgxGridToolbarHidingComponent`
+  - Se expone una nueva entrada `buttonText` que establece el texto que se muestra dentro del botón desplegable de la barra de herramientas.
+- `IgxCombo`
+  - Se ha añadido la entrada `groupSortingDirection`, que permite establecer el criterio de ordenación de los grupos.
+- `IgxGrid`, `IgxTreeGrid`, `IgxHierarchicalGrid`
+  - Se han añadido directivas nuevas para volver a crear con plantilla los indicadores de ordenación de los encabezados: `IgxSortHeaderIconDirective`, `IgxSortAscendingHeaderIconDirective` y `IgxSortDescendingHeaderIconDirective`.
+- `IgxDialog`
+  - Se ha añadido la entrada `focusTrap` para establecer si el foco de la tecla Tab queda atrapado dentro del diálogo al abrirlo. El valor predeterminado es `true`.
+- `IgxColumnActionsComponent`
+  - **Cambio importante**: se ha eliminado la siguiente entrada
+    - La entrada `columns`. Use en su lugar la entrada `igxGrid` `columns`.
+- `IgxCarousel`
+  - **Cambios importantes**: el tipo de animación del carrusel `CarouselAnimationType` se ha renombrado a `HorizontalAnimationType`.
+- `IgxGridStateDirective`: ahora admite la propiedad de columna `disableHiding` y grupos de columnas
+
+### Temas
+
+- La propiedad `color` del componente Icon está obsoleta. Use la propiedad CSS `style.color` para cambiar su color predeterminado. Ejemplos:
+
+```html
+<igx-icon [style.color]="'#e41c77'">home</igx-icon>
+```
+
+```html
+<igx-icon style.color="{{ col.hasSummary ? '#e41c77' : '' }}">functions</igx-icon>
+```
+
+- Módulos de Sass:
+El motor de temas ha pasado a usar [módulos de Sass](https://sass-lang.com/documentation/at-rules/use). Este cambio significa que todas las funciones de la biblioteca de temas (temas de componente, etc.), los mixins (mixins de componente, etc.) y las variables se `forwarded` ahora desde un único archivo. Para usar correctamente la biblioteca de temas de Sass, su proyecto debe usar Dart Sass versión 1.33.0 o posterior, y cambiar todas las importaciones de la biblioteca de temas de:
+
+```scss
+// free version
+@import '~igniteui-angular/lib/core/styles/themes/index';
+
+// licensed version
+@import '~@infragistics/igniteui-angular/lib/core/styles/themes/index';
+```
+
+a:
+
+```scss
+// free version
+@use 'igniteui-angular/theming' as *;
+
+// licensed version:
+@use '@infragistics/igniteui-angular/theming' as *;
+```
+
+Si quiere importar toda la biblioteca de temas una sola vez y usarla después en otros archivos de Sass de la aplicación, asegúrese de reexportarla. Los archivos de Sass importados no se reexportan automáticamente.
+
+Antes:
+
+```scss
+// _variables.scss
+// free version
+@import '~igniteui-angular/lib/core/styles/themes/index';
+
+// licensed version
+@import '~@infragistics/igniteui-angular/lib/core/styles/themes/index';
+
+// _other-file.scss
+@import 'variables';
+```
+
+Después:
+
+```scss
+// _variables.scss
+// free versioin
+@use 'igniteui-angular/theming' as *;
+@forward 'igniteui-angular/theming';
+
+// licensed version
+@use '@infragistics/igniteui-angular/theming' as *;
+@forward '@infragistics/igniteui-angular/theming';
+
+// _other-file.scss
+@use 'variables' as *;
+```
+
+- Paletas y esquemas:
+
+- Las variables CSS de paleta ya no hacen referencia a valores HEX; ahora representan una lista de 3 valores H, S y L, lo que significa que deben pasarse a las funciones CSS `hsl` o `hsla`.
+
+Antes:
+
+```scss
+.some-class {
+    background: var(--igx-surface-500); // returns HEX color
+}
+```
+
+Después:
+
+```scss
+.some-class {
+    background: hsl(var(--igx-surface-500)); // returns a list of H, S, L
+}
+```
+
+Esto se hizo para que las paletas puedan cambiarse en tiempo de ejecución usando solo variables CSS. Así, el canal alfa de un color de paleta concreto puede modificarse en tiempo de ejecución sin afectar al color de la paleta subyacente.
+
+- Asegúrese de pasar la paleta y el esquema de componente correctos a sus temas globales y de componente personalizados. Si quiere crear un tema oscuro global, asegúrese de elegir un tono de gris más claro, por ejemplo:
+
+```scss
+$my-dark-palette: palette(
+    $primary: olive,
+    $secondary: yellow,
+    $grays: #fff
+);
+
+@include dark-theme($palette: $my-dark-palette);
+```
+
+Del mismo modo, los temas claros requieren un tono de gris más oscuro y un esquema de color claro.
+
+Si no ha excluido ningún tema de componente del tema global, pero aun así quiere crear sus propios temas de sustitución usando el mixin `css-vars`, asegúrese de que al tema se le pase la paleta correcta y el esquema correspondiente:
+
+```scss
+$my-custom-grid: grid-theme(
+    $palette: $my-dark-palette,
+    $schema: $dark-schema
+);
+
+@include css-vars($my-custom-grid);
+```
+
+- Temas de componente excluidos:
+
+Si ha excluido algunos temas de componente del tema global y ha creado temas de sustitución personalizados, asegúrese de que se incluye el mixin del componente y de que se le pasa el tema de componente correcto:
+
+```scss
+$my-dark-palette: palette(
+    ...
+    $exclude: ('igx-grid')
+);
+
+$my-custom-grid: grid-theme(
+    $palette: $my-dark-palette,
+    $schema: $dark-schema
+);
+
+// Ensuregrid is included:
+@include grid($my-custom-grid);
+```
+
+Si sus temas de componente personalizados se declaran en un archivo Sass de componente independiente, distinto del `styles.scss` global, asegúrese de que también se incluya el mixin `core`.
+
+```scss
+// free version
+@use 'igniteui-angular/theming' as *;
+
+// licensed version
+@use '@infragistics/igniteui-angular/theming' as *;
+
+// Include the core module mixin.
+@include core();
+
+// Create your theme.
+$my-custom-grid: grid-theme(
+    $palette: $my-dark-palette,
+    $schema: $dark-schema
+);
+
+// Include your custom theme styles.
+@include grid($my-custom-grid);
+```
+
+Para comprender mejor el sistema de módulos de Sass, puede leer [este excelente artículo](https://css-tricks.com/introducing-sass-modules/) de [Miriam Suzanne](https://css-tricks.com/author/miriam/);
+
+## De 12.0.x a 12.1.x
+
+### Cuadrículas
+
+- Cambios importantes:
+  - <ApiLink type="Paginator" />: ha cambiado la forma en que se crea el paginador en la cuadrícula. Ahora es un componente independiente proyectado en el árbol de la cuadrícula. Por tanto, la propiedad `[paging]="true"` se ha eliminado de todas las cuadrículas, y todas las demás propiedades del paginador de la cuadrícula están obsoletas. Se recomienda seguir las indicaciones para habilitar las funciones de `Grid Paging` que se describen en el tema [Paginación](/grid/paging).
+  - Se introducen <ApiLink type="PageSizeSelector" /> y <ApiLink type="PageNavigation" /> para facilitar la implementación de cualquier contenido personalizado:
+
+    ```html
+    <igx-paginator #paginator>
+        <igx-paginator-content>
+            <igx-page-size></igx-page-size>
+            [My custom text]
+            <igx-page-nav></igx-page-nav>
+        </igx-paginator-content>
+    </igx-paginator>
+    ```
+
+  - La API del componente de paginación cambió durante la refactorización y muchas de las propiedades antiguas están ahora obsoletas. Por desgracia, proporcionar una migración adecuada para algunos de estos cambios es complicado, por decirlo suavemente, así que cualquier error debe gestionarse a nivel de aplicación.
+  - Las siguientes propiedades están obsoletas en la cuadrícula:
+    - paging, perPage page, totalPages, isFirstPage, isLastPage, pageChange, perPageChange, pagingDone
+  - Los siguientes métodos también están obsoletos:
+    - nextPage()
+    - previousPage()
+  - La siguiente propiedad se ha eliminado:
+    - paginationTemplate: para definir una plantilla personalizada, use `igx-paginator-content`
+  - Particularidades de HierarchicalGrid: para habilitar la paginación en RowIslands es necesario usar la siguiente directiva `*igxPaginator`:
+
+    ```html
+    <igx-hierarchical-grid #hGrid >
+        <igx-column *ngFor="let c of hColumns" [field]="c.field">
+        </igx-column>
+        <igx-row-island [key]="'childData'" [autoGenerate]="true">
+            <igx-row-island [key]="'childData'" [autoGenerate]="true">
+                <igx-paginator *igxPaginator></igx-paginator>
+            </igx-row-island>
+            <igx-paginator *igxPaginator></igx-paginator>
+        </igx-row-island>
+        <igx-row-island [key]="'childData2'" [autoGenerate]="true">
+            <igx-paginator *igxPaginator></igx-paginator>
+        </igx-row-island>
+
+        <igx-paginator></igx-paginator>
+    </igx-hierarchical-grid>
+    ```
+
+  - Aunque la migración trasladará el contenido de su plantilla al contenido de `igx-paginator-content`, puede que no resuelva todos los enlaces de plantilla. Asegúrese de revisar sus archivos de plantilla después de la migración. Los siguientes enlaces deben cambiarse manualmente, ya que estas propiedades se han eliminado (`pagerEnabled`, `pagerHidden`, `dropdownEnabled`, `dropdownHidden`):
+
+    _De:_
+
+    ```html
+    <igx-paginator #paginator
+        [pagerEnabled]="!isPagerDisabled" [pagerHidden]="isPagerHidden"
+        [dropdownHidden]="isDropdownHidden">
+    </igx-paginator>
+    ```
+
+    _A:_
+
+    ```html
+    <igx-paginator #paginator *ngIf="!isPagerDisabled">
+        <igx-paginator-content>
+            <igx-page-size *ngIf="isDropdownHidden"></igx-page-size>
+            <igx-page-nav *ngIf="isPagerHidden"></igx-page-nav>
+        </igx-paginator-content>
+    </igx-paginator>
+    ```
+
+  - IgxGridCellComponent, IgxTreeGridCellComponent, IgxHierarchicalGridCellComponent e IgxGridExpandableCellComponent ya no se exponen en la API pública. Consulte las secciones siguientes para ver la guía detallada de actualización a los nuevos `IgxGridCell`.
+
+- Obsolescencias de la cuadrícula:
+  - El patrón de DI para proporcionar `IgxGridTransaction` está obsoleto. Lo siguiente seguirá funcionando, pero se recomienda refactorizarlo, ya que **probablemente se eliminará** en una versión futura:
+
+    ```typescript
+    @Component({
+        template: `<igx-grid [data]="data">
+        ...
+        </igx-grid>`,
+        providers: [{ provide: IgxGridTransaction, useClass: IgxTransactionService }],
+        ...
+    })
+    export class MyCustomComponent {
+        ...
+    }
+    ```
+
+    Para conseguir el comportamiento anterior, debe usar la entrada [`batchEditing`](/grid/batch-editing) recién añadida:
+
+    ```typescript
+    @Component({
+        template: `<igx-grid [data]="data" [batchEditing]="true">
+        ...
+        </igx-grid>`
+        ...
+    })
+    export class MyCustomComponent {
+        ...
+    }
+    ```
+
+  - `getCellByColumnVisibleIndex` está ahora obsoleto y se eliminará en la próxima versión principal. Use `getCellByKey`, `getCellByColumn` en su lugar.
+
+### Migración de IgxGridCell
+
+- _IgxGridCellComponent_, _IgxTreeGridCellComponent_, _IgxHierarchicalGridCellComponent_, _IgxGridExpandableCellComponent_ ya no se exponen en la API pública.
+
+- Las API públicas que antes devolvían una instancia de uno de los anteriores devuelven ahora una instancia de <ApiLink type="GridCell" />:
+
+```ts
+const cell = grid.getCellByColumn(0, 'ProductID');     // returns IgxGridCell
+const cell = grid.getCellByKey('ALFKI', 'ProductID');  // returns IgxGridCell
+const cell = grid.getCellByColumnVisibleIndex(0, 0);   // returns IgxGridCell
+const rowCells = grid.getRowByIndex(0).cells;          // returns IgxGridCell[]
+const selectedCells = grid.selectedCells;              // returns IgxGridCell[]
+const cells = grid.getColumnByName('ProductID').cells; // returns IgxGridCell[]
+```
+
+- La propiedad `cell` de los argumentos del evento `IGridCellEventArgs` emitidos por los eventos _cellClick_, _selected_, _contextMenu_ y _doubleClick_ es ahora una instancia de <ApiLink type="GridCell" />
+- La propiedad `let-cell` de la plantilla de celda es ahora `IgxGridCell`.
+- `getCellByColumnVisibleIndex` está ahora obsoleto y se eliminará en la próxima versión principal. Use `getCellByKey`, `getCellByColumn` en su lugar.
+
+Tenga en cuenta:
+
+- _ng update_ migrará los usos de _IgxGridCellComponent_, _IgxTreeGridCellComponent_, _IgxHierarchicalGridCellComponent_ y _IgxGridExpandableCellComponent_, como importaciones, tipados y conversiones. Si algún lugar de su código que usa alguno de los anteriores no se migra, elimine el tipado o la conversión, o cámbielo por <ApiLink type="GridCell" />.
+- _getCellByIndex_ y otros métodos devolverán undefined si la fila en ese índice no es una fila de datos, sino IgxGroupByRow, IgxSummaryRow, una fila de detalles, etc.
+
+### Temas
+
+Debido a las quejas relacionadas con las advertencias de compilación (véase [#9793](https://github.com/IgniteUI/igniteui-angular/issues/9793)), ahora usamos la función [`math.div`](https://sass-lang.com/documentation/modules/math#div); esta funcionalidad es compatible con [Dart Sass](https://sass-lang.com/dart-sass) desde la versión 1.33.0 en adelante.
+
+#### Solución
+
+Si por algún motivo ve errores de compilación de Sass que indican que `math.div` no es una función conocida, significa que está usando una versión obsoleta de Sass en su proyecto.
+
+1. Actualice a la última versión de Angular usando `ng update`: Angular 12.1.0 o posterior usa el compilador dart-sass de forma predeterminada.
+
+    ```sh
+    ng update [options]
+    ```
+
+    Si por algún motivo no usa Ignite UI/Angular CLI, tendrá que reemplazar `node-sass` por `sass` en su proyecto de Node.
+
+    ```sh
+    npm uninstall node-sass
+    npm install sass --save-dev
+    ```
+
+2. Si por algún motivo no puede actualizar a la última versión de Angular con el método anterior, puede volver al método antiguo de división de Sass estableciendo un indicador global en su archivo Sass:
+
+    ```scss
+    $__legacy-libsass: true;
+    ```
+
+## De 11.1.x a 12.0.x
+
+### Temas
+
+- Cambios importantes:
+  - El tema `IgxAvatar` se ha simplificado. El número de parámetros del tema (`avatar-theme`) se ha reducido de forma notable y ya no incluye los parámetros con prefijo (`icon-*`, `initials-*`, `image-*`) ni los parámetros con sufijo (`border-radius-*`). Las actualizaciones realizadas con `ng update` migrarán los temas de avatar existentes, pero puede que sea necesario hacer algunos ajustes adicionales para compensar la ausencia de los parámetros con prefijo y sufijo.
+
+    Tendrá que modificar de la siguiente manera los temas de avatar específicos por tipo que ya tenga:
+
+    Por ejemplo, esto:
+
+    ```scss
+    $avatar-theme: avatar-theme(
+        $initials-background: blue,
+        $initials-color: orange,
+        $icon-background: blue,
+        $icon-color: orange,
+    );
+
+    @include avatar($avatar-theme);
+    ```
+
+    Debe transformarse en esto:
+
+    ```scss
+    $initials-avatar: avatar-theme(
+        $background: blue,
+        $color: orange,
+    );
+
+    $icon-avatar: avatar-theme(
+        $background: blue,
+        $color: orange,
+    );
+
+    .initials-avatar {
+        @include avatar($initials-avatar);
+    }
+
+    .icon-avatar {
+        @include avatar($icon-avatar);
+    }
+    ```
+
+  - El tema de `IgxButton` se ha simplificado. El número de parámetros del tema (`button-theme`) se ha reducido de forma significativa y ya no incluye parámetros con prefijo (`flat-*`, `raised-*`, etc.). Las actualizaciones realizadas con `ng update` migrarán los temas de botón existentes, pero puede ser necesario algún ajuste adicional para compensar la ausencia de los parámetros con prefijo.
+
+    Para conseguir el mismo resultado que con el fragmento de código siguiente.
+
+    ```html
+    <button igxButton="raised">Raised button</button>
+    <button igxButton="outlined">Outlined button</button>
+    ```
+
+    ```scss
+    $my-button-theme: button-theme(
+        $raised-background: red,
+        $outlined-outline-color: green
+    );
+
+    @include css-vars($my-button-theme);
+    ```
+
+    Tiene que crear un tema independiente para cada tipo de botón y acotarlo a un selector CSS.
+
+    ```html
+    <div class="my-raised-btn">
+
+    <button igxButton="raised">Raised button</button>
+    
+    </div>
+    <div class="my-outlined-btn">
+
+        <button igxButton="outlined">Outlined button</button>
+    
+    </div>
+    ```
+
+    ```scss
+    $my-raised-button: button-theme(
+        $background: red
+    );
+
+    $my-outlined-button: button-theme(
+        $border-color: red
+    );
+
+    .my-raised-btn {
+        @include css-vars($my-raised-button);
+     }
+
+    .my-outlined-btn {
+        @include css-vars($my-outlined-button);
+    }
+    ```
+
+    Como puede ver, dado que los parámetros `button-theme` tienen ahora los mismos nombres para cada tipo de botón, tenemos que acotar nuestros temas de botón a un selector CSS para tener colores distintos según el tipo.
+
+    Aquí puede ver todos los <ApiLink kind="sass" module="themes" type="function-button-theme" label="propiedades disponibles" /> de `button-theme`
+
+  - El mixin `typography` ya no se incluye implícitamente con `core`. Para usar nuestros estilos de tipografía, tiene que incluir el mixin explícitamente después de `core` y antes de `theme`:
+
+    ```scss
+    // in styles.scss
+
+    @include core();
+
+    @include typography(
+        $font-family: $material-typeface,
+        $type-scale: $material-type-scale
+    );
+
+    @include theme();
+    ```
+
+    <DocsAside type="info">
+    El mixin `core` siempre debe incluirse primero.
+    </DocsAside>
+
+    Para cada tema incluido en Ignite UI for Angular, proporcionamos variables específicas `font-family` y `type-scale` que puede usar:
+
+| **Tema** | **Familia tipográfica**     | **Escala tipográfica**        |
+| :-------- | :------------------ | :-------------------- |
+| Material  | $material-typeface  | $material-type-scale  |
+| Fluent    | $fluent-typeface    | $fluent-type-scale    |
+| Bootstrap | $bootstrap-typeface | $bootstrap-type-scale |
+| Indigo    | $indigo-typeface    | $indigo-type-scale    |
+
+### Componente IgxBottomNav
+
+<ApiLink type="BottomNav" label="**IgxBottomNavComponent**" /> se ha rediseñado por completo para ofrecer una forma más flexible y descriptiva de definir los encabezados y el contenido de las pestañas. Se recomienda actualizar mediante **ng update** para migrar las definiciones existentes de **igx-bottom-nav** a las nuevas.
+
+- Plantilla
+  - La nueva estructura define componentes de elemento de navegación inferior, cada uno de los cuales envuelve un componente de encabezado y un componente de contenido. Los encabezados suelen contener un icono ([`Material guidelines`](https://material.io/components/bottom-navigation#usage)), pero también pueden tener una etiqueta o cualquier otro contenido personalizado.
+  - Para dar estilo al encabezado, introdujimos dos directivas nuevas: `igxBottomNavHeaderLabel` y `igxBottomNavHeaderIcon`.
+  - Como el componente de encabezado ahora permite añadir cualquier contenido, se ha eliminado la directiva `igxTab`, que antes se usaba para volver a crear con plantilla el encabezado de la pestaña, porque ya no es necesaria.
+  - Cuando el componente se usa en un escenario de navegación, la directiva `routerLink` debe asociarse al componente de encabezado.
+
+    ```html
+    <igx-bottom-nav>
+        <igx-bottom-nav-item>
+            <igx-bottom-nav-header>
+                <igx-icon igxBottomNavHeaderIcon>folder</igx-icon>
+                <span igxBottomNavHeaderLabel>Tab 1</span>
+            </igx-bottom-nav-header>
+            <igx-bottom-nav-content>
+                Content 1
+            </igx-bottom-nav-content>
+        </igx-bottom-nav-item>
+        ...
+    </igx-bottom-nav>
+    ```
+
+- Cambios en la API
+  - Se han eliminado las propiedades `id`, `itemStyle`, `panels`, `viewTabs`, `contentTabs` y `tabs`. Actualmente, la propiedad <ApiLink type="BottomNav" member="items" label="items" /> devuelve la colección de pestañas.
+  - Se han cambiado las siguientes propiedades:
+    - La propiedad `isSelected` del elemento de pestaña se ha renombrado a `selected`.
+    - La propiedad `selectedTab` se ha renombrado a <ApiLink type="BottomNav" member="selectedItem" label="selectedItem" />.
+  - Se han eliminado los eventos `onTabSelected` y `onTabDeselected`. Hemos introducido tres eventos nuevos, <ApiLink type="BottomNav" member="selectedIndexChanging" label="selectedIndexChanging" />, <ApiLink type="BottomNav" member="selectedIndexChange" label="selectedIndexChange" /> y <ApiLink type="BottomNav" member="selectedItemChange" label="selectedItemChange" />, que ofrecen más flexibilidad y control sobre la selección de las pestañas. Por desgracia, proporcionar una migración adecuada para estos cambios de eventos es complicado, por decirlo suavemente, así que cualquier error debe gestionarse a nivel de proyecto.
+
+### Componente IgxTabs
+
+<ApiLink type="Tabs" label="**IgxTabsComponent**" /> se ha rediseñado por completo para ofrecer una forma más flexible y descriptiva de definir los encabezados y el contenido de las pestañas. Se recomienda actualizar mediante **ng update** para migrar las definiciones existentes de **igx-tabs** a las nuevas.
+
+- Plantilla
+  - La nueva estructura define componentes de elemento de pestaña, cada uno de los cuales envuelve un componente de encabezado y un componente de contenido. Los encabezados suelen contener un icono y una etiqueta, pero también pueden tener cualquier otro contenido personalizado.
+  - Para dar estilo al encabezado, introdujimos dos directivas nuevas: `igxTabHeaderLabel` y `igxTabHeaderIcon`.
+  - Como el componente de encabezado ahora permite añadir cualquier contenido, se ha eliminado la directiva `igxTab`, que antes se usaba para volver a crear con plantilla el encabezado de la pestaña, porque ya no es necesaria.
+  - Cuando el componente se usa en un escenario de navegación, la directiva `routerLink` debe asociarse al componente de encabezado.
+
+    ```html
+    <igx-tabs>
+        <igx-tab-item>
+            <igx-tab-header>
+                <igx-icon igxTabHeaderIcon>folder</igx-icon>
+                <span igxTabHeaderLabel>Tab 1</span>
+            </igx-tab-header>
+            <igx-tab-content>
+                <h1>Tab 1 Content</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </igx-tab-content>
+        </igx-tab-item>
+    ...
+    </igx-tabs>
+    ```
+
+- Cambios en la API
+  - Se han eliminado las propiedades `id`, `groups`, `viewTabs`, `contentTabs` y `tabs`. Actualmente, la propiedad <ApiLink type="Tabs" member="items" label="items" /> devuelve la colección de pestañas.
+  - Se han cambiado las siguientes propiedades:
+    - La propiedad `isSelected` del elemento de pestaña se ha renombrado a <ApiLink type="TabItem" member="selected" label="selected" />.
+    - La propiedad `selectedTabItem` se ha acortado a <ApiLink type="Tabs" member="selectedItem" label="selectedItem" />.
+    - La propiedad `type`, con sus opciones contentFit y fixed, ya no está disponible. El modo de tamaño y posicionamiento del encabezado se controla ahora mediante la propiedad de entrada <ApiLink type="Tabs" member="tabAlignment" label="tabAlignment" />, que acepta cuatro valores distintos: start (predeterminado), center, end y justify. El antiguo tipo `contentFit` corresponde al valor de alineación actual `start`, y el antiguo tipo `fixed` corresponde al valor actual `justify`.
+  - Se han eliminado los eventos `tabItemSelected` y `tabItemDeselected`. Hemos introducido tres eventos nuevos, <ApiLink type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" />, <ApiLink type="Tabs" member="selectedindexchange" label="selectedIndexChange" /> y <ApiLink type="Tabs" member="selectedIndexChange" label="selectedItemChange" />, que ofrecen más flexibilidad y control sobre la selección de las pestañas. Por desgracia, proporcionar una migración adecuada para estos cambios de eventos es complicado, por decirlo suavemente, así que cualquier error debe gestionarse a nivel de proyecto.
+
+### IgxGridComponent, IgxTreeGridComponent, IgxHierarchicalGridComponent
+
+- _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_, _IgxGridGroupByRowComponent_ ya no se exponen en la API pública.
+- Las API públicas que antes devolvían una instancia de uno de los anteriores devuelven ahora objetos que implementan la interfaz pública <ApiLink type="RowType" kind="interface" />:
+
+```ts
+const row = grid.getRowByIndex(0);
+const row = grid.getRowByKey(2);
+const row = cell.row;
+```
+
+Aunque la API pública de <ApiLink type="RowType" kind="interface" /> es la misma que la que antes exponían _IgxRowComponent_ y otros, tenga en cuenta:
+
+- El método _toggle_, expuesto por _IgxHierarchicalRowComponent_, no está disponible. Use la propiedad <ApiLink kind="interface" type="RowType" member="expanded" /> para todos los tipos de fila:
+
+```ts
+grid.getRowByIndex(0).expanded = false;
+```
+
+*row.rowData_ y _row.rowID_ están obsoletos y se eliminarán por completo en la versión 13. Use en su lugar _row.data_ y _row.key_.
+
+- La propiedad _row_ de los argumentos del evento emitidos por _onRowPinning_, y la propiedad _dragData_ de los argumentos del evento emitidos por _onRowDragStart_ y _onRowDragEnd_, implementan ahora <ApiLink type="RowType" kind="interface" />
+- _ng update_ migrará la mayoría de los usos de _IgxGridRowComponent_, _IgxTreeGridRowComponent_, _IgxHierarchicalRowComponent_ y _IgxGridGroupByRowComponent_, como importaciones, tipados y conversiones. Si algún lugar de su código que usa alguno de los anteriores no se migra, elimine el tipado o la conversión, o cámbielo por <ApiLink type="RowType" kind="interface" />.
+- _getRowByIndex_ devolverá ahora un objeto <ApiLink type="RowType" kind="interface" /> si la fila de ese índice es una fila de resumen (antes devolvía _undefined_). _row.isSummaryRow_ y _row.isGroupByRow_ devuelven true si la fila del índice es una fila de resumen o una fila de agrupación.
+
+### IgxInputGroupComponent
+
+- Se ha eliminado la propiedad `disabled`. Era una propiedad engañosa, ya que el estado del input group siempre lo gestionaba el `igxInput` subyacente.
+  - Al ejecutar `ng update` se tratarán todos los casos en los que `[disabled]` se usó como `@Input` en las plantillas.
+  - Si hace referencia a la propiedad en un archivo `.ts`:
+
+    ```typescript
+    export class CustomComponent {
+        public inputGroup: IgxInputGroupComponent
+        ...
+        this.inputGroup.disabled = false;
+    }
+    ```
+
+    actualice manualmente su código para hacer referencia a la propiedad `disabled` de la directiva de entrada subyacente:
+
+    ```typescript
+    export class CustomComponent {
+        public input: IgxInputDirective
+        ...
+        this.input.disabled = false;
+    }
+    ```
+
+### IgxDateTimeDirective, IgxDatePickerComponent, IgxTimePickerComponent, IgxDateRangePickerComponent
+
+- La propiedad `value` de IgxDateTimeDirective, IgxDatePickerComponent, IgxTimePickerComponent e IgxDateRangePickerComponent acepta ahora el formato de cadena ISO 8601. Esto significa que el tipo de `value` puede ser `Date` o `string`.
+- La propiedad `inputFormat` de IgxDateTimeDirective, IgxDatePickerComponent, IgxTimePickerComponent e IgxDateRangePickerComponent ya no acepta `y` para la parte del año. Debe cambiarlo a `yy`.
+
+## De 10.2.x a 11.0.x
+
+- IgxGrid, IgxTreeGrid, IgxHierarchicalGrid
+  - Ha cambiado la forma en que se crea la barra de herramientas en la cuadrícula. Ahora es un componente independiente proyectado en el árbol de la cuadrícula. Por tanto, la propiedad `showToolbar` se ha eliminado de todas las cuadrículas, y todas las demás propiedades relacionadas con la barra de herramientas de la cuadrícula están obsoletas.
+    Se recomienda seguir la forma recomendada de habilitar las funciones de la barra de herramientas que se describe en el tema [Barra de herramientas](/grid/toolbar).
+  - La directiva `igxToolbarCustomContent` se ha eliminado. Aunque la migración trasladará el contenido de su plantilla al contenido de la barra de herramientas, no intenta resolver los enlaces de plantilla. Asegúrese de revisar sus archivos de plantilla después de la migración.
+  - La API del componente de barra de herramientas cambió durante la refactorización y muchas de las propiedades antiguas se han eliminado. Por desgracia, proporcionar una migración adecuada para estos cambios es complicado, por decirlo suavemente, así que cualquier error debe gestionarse a nivel de proyecto.
+
+## De 10.0.x a 10.1.x
+
+- IgxGrid, IgxTreeGrid, IgxHierarchicalGrid
+  - Como hemos eliminado las directivas `IgxExcelStyleSortingTemplateDirective`, `IgxExcelStyleHidingTemplateDirective`, `IgxExcelStyleMovingTemplateDirective`, `IgxExcelStylePinningTemplateDirective` y `IgxExcelStyleSelectingTemplateDirective` que se usaban para crear con plantilla algunas partes del menú de filtro de estilo Excel, puede usar las directivas nuevas para crear con plantilla las áreas de operaciones de columna y de filtro: `IgxExcelStyleColumnOperationsTemplateDirective` y `IgxExcelStyleFilterOperationsTemplateDirective`. También hemos expuesto todos los componentes internos del menú de filtro de estilo Excel para que puedan usarse dentro de plantillas personalizadas. Encontrará más información sobre las nuevas directivas de plantilla en el tema [Filtrado al estilo Excel](/grid/excel-style-filtering#plantillas).
+- IgxGrid
+  - El método `selectedRows()` se ha refactorizado y convertido en una propiedad de entrada llamada. Este cambio importante permite cambiar fácilmente el estado de selección de la cuadrícula en tiempo de ejecución. También se admite la preselección de filas. Todos los lugares en los que se llama al método `selectedRows()` deben reescribirse sin paréntesis.
+  - El enlace a la propiedad de entrada `selectedRows` podría tener este aspecto:
+
+    ```typescript
+    public mySelectedRows = [0, 1, 2];
+    ```
+
+    ```html
+    <igx-grid [data]="myData" rowSelection="multiple"
+        primaryKey="ID" [selectedRows]="mySelectedRows">
+        {/* ... */}
+    </igx-grid>
+    ```
+
+## De 9.0.x a 10.0.x
+
+- IgxDropdown
+  - La propiedad display del elemento de la lista desplegable ha cambiado de `flex` a `block`. Lo hemos hecho para que el texto truncado esté habilitado de forma predeterminada. Debido a ese cambio, si el contenido del elemento de la lista desplegable tiene algo más que texto, la disposición debe gestionarse a nivel de aplicación.
+
+  - El siguiente ejemplo muestra cómo dar estilo a un elemento de la lista desplegable con un icono y contenido de texto para que queden alineados verticalmente.
+
+    ```html
+    <igx-drop-down-item>
+        <div class="my-styles">
+
+            <igx-icon>alarm</igx-icon>
+            <span>item text</span>
+        
+    </div>
+    </igx-drop-down-item>
+    ```
+
+    ```scss
+    .my-styles {
+        display: flex;
+        align-items: center;
+
+        span {
+          margin-left: 8px;
+        }
+    }
+    ```
+
+## De 8.x.x a 9.0.x
+
+Debido a un cambio importante en Angular 9, los providers de Hammer ya no se añaden implícitamente. Por eso, los componentes siguientes requieren que `HammerModule` se importe en el módulo raíz de la aplicación para que las interacciones **táctiles** funcionen como se espera:
+
+- igxGrid
+- igxHierarchicalGrid
+- igxTreeGrid
+- igxList
+- igxNavigationDrawer
+- igxTimePicker
+- igxDatePicker
+- igxMonthPicker
+- _igxSlider_*
+- igxCalendar
+- igxCarousel
+
+> **\* Nota** - igxSlider requiere HammerModule para _**todas**_ las interacciones del usuario.
+
+Puede usar el siguiente fragmento de código para actualizar el archivo del módulo raíz de su aplicación.
+
+```typescript
+import { HammerModule } from "@angular/platform-browser";
+
+@NgModule({
+    ...
+    imports: [
+        ...
+        HammerModule
+    ]
+})
+```
+
+Debido a cambios de nombre realizados en algunos de los `Enumerations` que exportamos, es necesario actualizar manualmente sus miembros. Esta es la lista de todos los cambios que requieren una actualización manual:
+
+- AvatarType.`DEFAULT` -> IgxAvatarType.`CUSTOM`
+- Type.`DEFAULT` -> IgxBadgeType.`PRIMARY`
+- IgxCardType.`DEFAULT` -> IgxCardType.`ELEVATED`
+- IgxCardActionsLayout.`DEFAULT` -> IgxCardActionsLayout.`START`
+- IgxDividerType.`DEFAULT` -> IgxDividerType.`SOLID`
+- IgxProgressType.`DANGER` -> IgxProgressType.`ERROR`
+
+El proceso `ng update` actualizará todos los nombres de enumeración, como `AvatarType`, `Type`, etc., a `IgxAvatarType` y `IgxBadgeType`, respectivamente. Todos los demás nombres de miembros de enumeración permanecen sin cambios.
+
+## De 8.1.x a 8.2.x
+
+- IgxDrag
+  - Como las entradas `hideBaseOnDrag` y `visible` están quedando obsoletas, para conseguir la misma funcionalidad en su aplicación puede usar cualquier forma de ocultar el elemento base que proporcione Angular. Un ejemplo es establecer el estilo `visibility` en `hidden`, ya que solo lo hará invisible y conservará el espacio que ocupa en el DOM:
+
+    ```html
+    <div igxDrag [ngStyle]="{ 'visibility': targetDragged ? 'hidden' : 'visible' }"
+        (dragStart)="onDragStarted($event)" (dragEnd)="onDragEnded($event)">
+        Drag me!
+    
+    </div>
+    ```
+
+    ```typescript
+    public targetDragged = false;
+
+    public onDragStarted(event) {
+        this.targetDragged = true;
+    }
+
+    public onDragEnded(event) {
+        this.targetDragged = false;
+    }
+    ```
+
+  - Como `animateOnRelease` y `dropFinished()` también están quedando obsoletos, cualquier uso del método `dropFinished()` debe sustituirse por `transitionToOrigin()`. De lo contrario, tendría que llamar a `transitionToOrigin()` según el momento en que quiera que el elemento arrastrado vuelva a su ubicación original. Tenga en cuenta que, si cambia la posición en el DOM del elemento arrastrado, su ubicación original también cambiará en consecuencia.
+
+- IgxDrop
+  - Como la estrategia de colocación predeterminada que proporciona la directiva `IxgDrop` ya no se aplica por defecto, para seguir teniendo el mismo comportamiento debe establecer la nueva entrada `dropStrategy` en la implementación `IgxAppendDropStrategy` proporcionada.
+
+    ```html
+    <div igxDrop [dropStrategy]="appendStrategy"></div>
+    ```
+
+    ```typescript
+    import { IgxAppendDropStrategy } from 'igniteui-angular';
+    // import { IgxAppendDropStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+    public appendStrategy = IgxAppendDropStrategy;
+    ```
+
+  - Cualquier uso de las interfaces `IgxDropEnterEventArgs` y `IgxDropLeaveEventArgs` debe sustituirse por `IDragBaseEventArgs`.
+  - Además, cualquier uso de la interfaz `IgxDropEventArgs` debe sustituirse por `IDropDroppedEventArgs`.
+
+- IgxRowDragDirective
+  - `IRowDragStartEventArgs` y `IRowDragEndEventArgs` tienen ahora los nombres de sus argumentos cambiados para que quede más claro a qué se refieren. El argumento `owner` se renombra a `dragDirective`.
+    El argumento `owner` proporciona ahora una referencia al componente propietario. Si su código era así:
+
+    ```typescript
+    public dragStart(event) {
+        const directive = event.owner;
+    }
+    ```
+
+    A partir de la versión 8.2.x debe actualizarse a:
+
+    ```typescript
+    public dragStart(event) {
+        const directive = event.dragDirective;
+        const grid = event.owner;
+    }
+    ```
+
+- IgxCombo
+  - Ha cambiado la forma en que [`igx-combo`](/inputs/combo/overview) gestiona la selección y el enlace de datos.
+
+  - Si se define la entrada [`valueKey`] del combo, el control buscará esa propiedad concreta en el array de elementos de datos pasado al realizar la selección.
+**Todos** los eventos de selección se gestionan con el valor de la propiedad `valueKey` de los elementos de datos.
+    Todos los combos que tengan especificado `valueKey` deben tener su selección o enlace bidireccional formado solo por los valores de la propiedad del objeto indicada en la entrada:
+
+    ```html
+    <igx-combo [data]="cities" valueKey="id" displayKey="name"></igx-combo>
+    ```
+
+    ```typescript
+    export class MyExampleCombo {
+        public data: { name: string, id: string }[] = [{ name: 'London', id: 'UK01' }, { name: 'Sofia', id: 'BG01' }, ...];
+        ...
+        selectFavorites() {
+            // Selection is handled with the data entries' id properties
+            this.combo.selectItems(['UK01', 'BG01']);
+        }
+    }
+    ```
+
+  - Si el combo **no** tiene definido `valueKey`, **todos** los eventos de selección se gestionan mediante **igualdad (===)**.
+    Todos los combos que **no** tienen especificado `valueKey` deben gestionar su selección o enlace bidireccional mediante **referencias** a sus elementos de datos:
+
+    ```html
+    <igx-combo [data]="cities" displayKey="name"></igx-combo>
+    ```
+
+    ```typescript
+    export class MyExampleCombo {
+        public data: { name: string, id: string }[] = [{ name: 'London', id: 'UK01' }, { name: 'Sofia', id: 'BG01' }, ...];
+        ...
+        selectFavorites() {
+            // Selection is handled with references to the data entries
+            this.combo.selectItems([this.data[0], this.data[1]]);
+        }
+    }
+    ```
+
+    Puede leer más sobre cómo configurar el combo en el [readme](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/src/lib/combo/README.md#value-binding) y en la [documentación oficial](/inputs/combo/overview#value-and-selection).
+
+## De 8.0.x a 8.1.x
+
+- El componente `igx-paginator` se introduce como componente independiente y también se usa en los componentes Grid.
+Tenga en cuenta que, si ha establecido `paginationTemplate`, es posible que tenga que modificar su CSS para mostrar correctamente la paginación. Esto se debe a que la plantilla ya no se aplica dentro de un contenedor específico de paginación con reglas CSS para centrar el contenido, así que puede que tenga que añadirlas manualmente.
+El estilo debería ser parecido a:
+
+```html
+<igx-grid #grid [data]="data" [paging]="true" [perPage]="10" [paginationTemplate]="pager">
+</igx-grid>
+<ng-template #pager>
+    <div class="pagination-container"></div>
+</ng-template>
+```
+
+```css
+.pagination-container {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+```
+
+## De 7.3.x a 8.0.x
+
+- Al actualizar, si aparece el siguiente error `Package "@angular/compiler-cli" has an incompatible peer dependency to "typescript" (requires ">=3.1.1 <3.3", would install "3.4.5").`, primero debe actualizar el paquete `@angular/core`. Esto está relacionado con este [problema conocido de Angular CLI](https://github.com/angular/angular-cli/issues/13095)
+- Al actualizar el paquete `igniteui-angular`, si aparece el siguiente error `Package "igniteui-angular" has an incompatible peer dependency to "web-animations-js" (requires "^2.3.1", would install "2.3.2-pr208")`, debe actualizar usando `ng update igniteui-angular --force`. Esto puede ocurrir si actualiza `@angular/core` y `@angular/cli` antes de actualizar `igniteui-angular`.
+
+## De 7.2.x o 7.3.x a 7.3.4
+
+- Si usa el método `filterGlobal` de `IgxGrid`, `IgxTreeGrid` o `IgxHierarchicalGrid`, debe saber que el parámetro `condition` ya no es opcional. Cuando se llama al método `filterGlobal` con una condición no válida, no se borrarán los filtros existentes de todas las columnas.
+
+## De 7.1.x a 7.2.x
+
+- Si usa un IgxCombo con `combo.value`, debe saber que ahora `combo.value` es solo un getter.
+- Si usa `IgxTextHighlightDirective`, debe saber que la propiedad de entrada `page` está obsoleta. Las propiedades `rowIndex`, `columnIndex` y `page` de la interfaz `IActiveHighlightInfo` también están obsoletas. En su lugar se han añadido las propiedades opcionales `row` y `column`.
+- Si usa `button-theme`, debe saber que `$button-roundness` se ha sustituido, para cada tipo de botón, por: `$flat-border-radius`, `$raised-border-radius`, `$outline-border-radius`, `$fab-border-radius`, `$icon-border-radius`.
+
+## De 7.0.x a 7.1.x
+
+- Si usa un IgxGrid con resúmenes en su aplicación, debe saber que ahora el método `IgxSummaryOperand.operate()` se llama con datos vacíos para calcular la altura necesaria de la fila de resumen. En el caso de operandos de resumen personalizados, el método debe devolver siempre un array de IgxSummaryResult con la longitud adecuada.
+
+ Antes de la versión 7.1:
+
+```typescript
+export class CustomSummary extends IgxNumberSummaryOperand {
+ public operate(data?: any[]): IgxSummaryResult[] {
+  return [{
+   key: 'average',
+   label: 'average',
+   summaryResult: IgxNumberSummaryOperand.average(data).toFixed(2)
+  }];
+ }
+}
+```
+
+ Desde la versión 7.1:
+
+```typescript
+export class CustomSummary extends IgxNumberSummaryOperand {
+ public operate(data?: any[]): IgxSummaryResult[] {
+  return [{
+   key: 'average',
+   label: 'average',
+   summaryResult: data.length ?  IgxNumberSummaryOperand.average(data).toFixed(2) : null
+  }];
+ }
+}
+```
+
+## De 6.0.x a 6.1.x
+
+- Si usa un control IgxCombo en su aplicación y ha establecido la opción `itemsMaxWidth`, debe cambiar esta opción a `itemsWidth`

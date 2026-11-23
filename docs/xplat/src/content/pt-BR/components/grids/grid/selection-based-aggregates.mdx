@@ -1,0 +1,88 @@
+---
+title: "Agregação de dados baseada na seleção da Grid {Platform} - {ProductName}"
+description: "Saiba como agregar dados selecionados em uma grade com o Ignite UI. Obtenha agregações de conteúdo instantâneas nos dados virtualizados e uma API rica para o seu próximo projeto."
+keywords: "Agregação de dados, seleção, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics {Platform}, infragistics"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+_language: pt-BR
+llms:
+  description: "Com o exemplo ilustrado a seguir, você pode ver como a seleção múltipla é usada, junto com funções de resumo personalizadas, para exibir agregações com base nos valores selecionados no rodapé da grade."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Agregação de dados baseada na seleção da Grid {Platform}
+
+Com o exemplo ilustrado a seguir, você pode ver como a seleção múltipla é usada, junto com funções de resumo personalizadas, para exibir agregações com base nos valores selecionados no rodapé da grade.
+
+## Visão geral do tópico
+
+Para obter a funcionalidade de agregados baseados na seleção, você pode usar nosso recurso `Grid Selection`, junto com o `Grid Summaries`.
+Os resumos permitem personalizar a funcionalidade básica do recurso de resumos, estendendo uma das classes base, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" />.html) ou <ApiLink type="DateSummaryOperand" />, de acordo com o tipo de dado da coluna e com as suas necessidades.
+
+## Seleção
+Para começar a trabalhar com os dados do intervalo selecionado na grade, você precisará assinar os eventos que notificam mudanças na seleção da grade. Isso pode ser feito assinando o evento `selected` e o evento `rangeSelected`. É preciso vincular a ambos, porque o recurso de Seleção diferencia entre selecionar uma única célula e selecionar um intervalo de células.
+
+Na lógica de assinatura dos eventos, você pode extrair os dados selecionados usando a função `getSelectedData`.html#getSelectedData) da grade e passar os dados selecionados para o operando de total personalizado.
+
+
+## Resumo
+Dentro da classe de resumo personalizada, você precisará diferenciar os tipos de dados da grade. Por exemplo, no cenário abaixo, há quatro colunas diferentes, cujo tipo de dado é adequado para resumos personalizados. São elas: Preço unitário, Unidades em estoque, status de descontinuado e Data do pedido.
+O método `operate` da classe derivada de <ApiLink type="SummaryOperand" /> é onde você vai processar os dados, começando por categorizá-los em diferentes grupos com base nos tipos de dados:
+
+```typescript
+const numberData = data.filter(rec => typeof rec === "number");
+const boolData = data.filter(rec => typeof rec === "boolean");
+const dates = data.filter(rec => isDate(rec));
+```
+
+<DocsAside type="info">
+Tenha em mente que `isDate` é uma função personalizada.
+</DocsAside>
+
+Depois de agrupar os tipos de dados de acordo, você pode prosseguir para a própria agregação. Para isso, você pode usar os métodos já expostos de <ApiLink type="NumberSummaryOperand" /> e <ApiLink type="DateSummaryOperand" />.
+Depois disso, você deve colocar os dados agregados no mesmo array, que será retornado ao template.
+Para a visualização dos dados, você pode querer usar o rodapé da grade, que, em combinação com a classe `custom-summaries`, dará a aparência natural do total.
+
+
+<PlatformBlock for="Angular">
+
+
+
+### Demonstração
+Altere a seleção para ver os resumos do intervalo selecionado no momento.
+
+{/*NOTE this sample is differed*/}
+
+<Sample src="/{GridSample}/data-summary-custom-selection" height={560} alt="Resumo de dados personalizado por seleção do {Platform} {GridTitle}" />
+
+
+
+
+</PlatformBlock>
+
+
+## Referências da API
+
+
+<ApiLink type="Grid" /><br />
+<ApiLink type="CellType" /><br />
+
+## Recursos adicionais
+
+- [Visão geral da Grid](../data-grid.mdx)
+- [Selection Service]({environment:{Platform}ApiUrl}/classes/gridselectionservice.html)
+- [Seleção de linhas](../_shared/row-selection.mdx)
+- [Seleção de células](../_shared/cell-selection.mdx)
+- [NumberSummaryOperand]({environment:{Platform}ApiUrl}/classes/numbersummaryoperand.html)
+- [DateSummaryOperand]({environment:{Platform}ApiUrl}/classes/datesummaryoperand.html)
+- [Resumos](../_shared/summaries.mdx)
+- [Paginação](../_shared/paging.mdx)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

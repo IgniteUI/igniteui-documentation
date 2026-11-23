@@ -1,0 +1,107 @@
+---
+title: "{Platform} 스타일 지정 및 테마 | {Platform} 테마 | 테마 전환 | Infragistics"
+description: "Infragistics의 {Platform} 컴포넌트를 사용하여 앱을 만들고, 세계에서 가장 빠른 가상화된 실시간 {Platform} 데이터 그리드와 스트리밍 금융, 비즈니스, 재무 차트로 데이터 시각화를 개선하십시오."
+keywords: "{ProductName}, Infragistics, 테마, 스타일 지정"
+license: MIT
+mentionedTypes: ["ConfigureTheme"]
+_language: ko
+llms:
+  description: "{ProductName}의 테마는 여러 CSS 변수를 변경하여 사용자 지정할 수 있습니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {ProductName}에서 테마 사용자 지정하기
+
+{ProductName}의 테마는 여러 CSS 변수를 변경하여 사용자 지정할 수 있습니다. 해당 변수를 덮어쓰면 팔레트, 타이포그래피, 높이감(elevation), 둥근 정도, 크기 및 간격을 사용자 지정할 수 있습니다.
+
+## 개요
+
+다음 섹션에서는 팔레트, 타이포그래피, 높이감을 다루며, 이 섹션에서는 변수 하나를 수정하여 전역 수준에서 컴포넌트 스타일에 영향을 주는 옵션을 다룹니다.
+
+
+## 둥근 정도
+
+모든 컴포넌트는 어느 정도의 둥근 정도(border-radius)를 정의합니다. 아바타와 배지처럼 컴포넌트 모양을 설정하는 속성을 제공하는 컴포넌트도 있지만, 버튼처럼 border-radius를 테마 안에서 내부적으로만 정의하는 컴포넌트도 있습니다. 이런 경우에는 `--ig-radius-factor` CSS 변수 값을 수정하여 해당 컴포넌트의 border-radius를 조정할 수 있습니다. 전역으로는 `:root` 범위에서 수정할 수 있고, 컴포넌트별로도 수정할 수 있습니다. 이 변수는 0과 1 사이의 유리수 값을 받습니다. 값을 0으로 설정하면 border radius가 사실상 0이 됩니다. 값을 1로 설정하면 미리 정의된 초기 border radius가 됩니다. 0.5처럼 0과 1 사이의 값은 컴포넌트 스타일시트에 정의된 기본 border radius의 50%로 설정됩니다.
+
+예:
+
+```css
+/* Set the border-radius for all components to 50% of their default value. */
+:root {
+  --ig-radius-factor: .5;
+}
+```
+
+```css
+/* Set the border-radius of the button component to 0. */
+igc-button {
+  --ig-radius-factor: 0;
+}
+```
+
+## 높이감(Elevation)
+
+전역 둥근 정도와 마찬가지로, 일부 컴포넌트는 내부 높이감(box-shadow)을 정의합니다. 각 컴포넌트의 box-shadow를 개별적으로 덮어쓰면 모든 컴포넌트를 평평하게 만드는 일이 번거로울 수 있습니다. `--ig-elevation-factor` CSS 변수를 수정하면 모든 컴포넌트의 box-shadow 동작을 바꿀 수 있습니다. 이 변수는 0과 1 사이의 유리수 값을 받습니다. 값을 0으로 설정하면 모든 컴포넌트의 box-shadow가 사실상 none이 됩니다. 값을 1로 설정하면 높이감 값이 미리 정의된 초기 box-shadow 값으로 설정됩니다. 0.5처럼 0과 1 사이의 값은 box-shadow 강도를 컴포넌트 스타일시트에 정의된 원래 값의 50%로 설정합니다.
+
+```css
+/* Set the elevation for all components to 50% of their original box-shadow values. */
+:root {
+  --ig-elevation-factor: .5;
+}
+```
+
+## 크기
+
+일부 컴포넌트는 가변 크기를 지원합니다. `small`, `medium`, `large`의 기본 크기는 컴포넌트 스타일시트에 설정되어 있습니다. `--ig-size` CSS 변수를 사용하면 모든 컴포넌트의 크기를 한꺼번에 또는 개별적으로 바꿀 수 있습니다. 가능한 값은 `var(--ig-size-small)`, `var(--ig-size-medium)`, `var(--ig-size-large)`입니다.
+
+애플리케이션의 모든 컴포넌트에 특정 크기를 설정하려면 `:root` 범위에서 `--ig-size` 변수를 정의하십시오.
+
+예:
+
+```css
+:root {
+  --ig-size: var(--ig-size-small);
+}
+```
+
+또는 특정 컴포넌트만 대상으로 하려면 변수의 범위를 해당 컴포넌트의 태그 선택기로 지정하십시오.
+
+```css
+igc-avatar {
+  --ig-size: var(--ig-size-medium);
+}
+```
+
+## 간격
+
+간격(Spacing)은 컴포넌트 테마가 설정하는 컴포넌트 내부의 패딩과 여백을 뜻합니다. 간격은 가로(인라인)와 세로(블록) 모두일 수 있습니다. 컴포넌트마다 모든 패딩과 여백 값을 직접 덮어쓰지 않고도 컴포넌트 안의 다양한 요소에 대한 패딩을 쉽게 제어할 수 있습니다. 이는 `--ig-spacing` CSS 변수로 수행합니다. 이 변수에는 양의 유리수 값을 설정할 수 있으며, 간격은 그에 맞춰 조정됩니다. 기본값은 1이며, 이는 컴포넌트 스타일시트에 설정된 기본 가로/세로 패딩과 여백을 나타냅니다. 값을 1.5로 바꾸면 모든 간격이 1.5배, 즉 150%로 조정됩니다. 반대로 값을 0으로 설정하면 모든 요소가 서로 붙어 패딩과 여백이 사실상 없어집니다. 간격 배율은 size 속성과 함께 작동하며 그에 맞춰 조정됩니다.
+
+일부 컴포넌트는 간격을 한 방향(가로 또는 세로)으로만 바꿀 수 있고, 다른 컴포넌트는 두 방향에 각각 다른 간격 값을 지정할 수 있습니다.
+
+모든 컴포넌트의 간격을 바꾸려면 `:root` 범위에서 그 값을 덮어쓰십시오.
+
+예:
+
+```css
+/* Increase the spacing for all components to 150%. */
+:root {
+  --ig-spacing: 1.5;
+}
+```
+
+단일 컴포넌트의 간격만 바꾸려면 변수의 범위를 해당 컴포넌트의 태그 선택기로 지정하십시오.
+
+```css
+/* Reduce the spacing for the drop-down elements to 50% of their original value. */
+igc-dropdown {
+  --ig-spacing: 0.5;
+}
+```
+
+앞에서 말했듯이, 이를 지원하는 컴포넌트는 가로와 세로 간격을 개별적으로 제어할 수 있습니다. `--ig-spacing-inline`(가로) 및 `--ig-spacing-block`(세로) 변수를 수정하면 됩니다. 원리는 `--ig-spacing` 변수와 같습니다. `--ig-spacing` 변수만 수정하면 두 방향의 간격이 같은 양만큼 바뀝니다.
+
+
+## API 참조
+
+<ApiLink type="configureTheme" /><br />

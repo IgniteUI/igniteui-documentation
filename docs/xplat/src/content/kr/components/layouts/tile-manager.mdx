@@ -1,0 +1,758 @@
+---
+title: "{Platform} Tile Manager 컴포넌트 - {ProductName}"
+description: "{Platform} Tile Manager 컴포넌트는 콘텐츠를 개별 타일에 표시할 수 있게 합니다."
+keywords: "{Platform} Tile Manager, {ProductName}, Infragistics, UI 컨트롤, {Platform} 위젯, 웹 위젯, UI 위젯, {Platform}, Native {Platform} 컴포넌트 스위트, Native {Platform} 컨트롤, Native {Platform} 컴포넌트 라이브러리, 레이아웃 컴포넌트"
+license: MIT
+mentionedTypes: ["TileManager", "Tile"]
+_language: ko
+llms:
+  description: "{ProductName} Tile Manager 컴포넌트는 콘텐츠를 개별 타일에 표시할 수 있게 합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import tileManagerActions from '@xplat-images/tile-manager-actions.png';
+
+
+# {Platform} Tile Manager 개요
+
+{ProductName} Tile Manager 컴포넌트는 콘텐츠를 개별 타일에 표시할 수 있게 합니다. 사용자는 타일의 위치를 바꾸고 크기를 조정하여 이와 상호 작용할 수 있으며, 자신의 기본 설정에 따라 콘텐츠의 레이아웃과 모양을 자유롭게 사용자 지정할 수 있습니다. 이러한 유연성은 콘텐츠를 더 개인화되고 효율적인 방식으로 보고 관리할 수 있게 하여 사용자 경험을 향상합니다.
+
+## {Platform} Tile Manager 예제
+
+다음 {ProductName} Tile Manager 예제는 컴포넌트가 실제로 동작하는 모습을 보여 줍니다.
+
+<Sample src="/layouts/tile-manager/overview" height={752} alt="{Platform} Tile Manager 예제" />
+
+<DocsAside type="warning">
+iframe 권한 정책 때문에, 이 예제의 전체 화면 버튼은 오른쪽 위 모서리의 'Expand to fullscreen' 버튼을 클릭하여 예제를 독립 모드로 열었을 때만 작동합니다.
+</DocsAside>
+
+## 사용법
+
+<ApiLink pkg="core" type="TileManager" />은(는) 기본 타일 레이아웃 동작을 제공하며, 최대화 또는 일반 상태에서 타일의 배치를 관리합니다. 타일은 서로 독립적으로 크기를 지정할 수 있으며, 복잡한 레이아웃을 구성하는 데 사용할 수 있습니다. 최종 사용자는 타일을 끌어 놓아 순서를 바꿀 수 있어 유연하고 직관적인 경험을 제공합니다.
+
+Tile Manager는 사용할 수 있는 두 가지 컴포넌트를 제공합니다:
+
+- <ApiLink pkg="core" type="Tile" /> - Tile Manager 안에 표시되는 개별 타일을 나타내는 컴포넌트입니다.
+- <ApiLink pkg="core" type="TileManager" /> - 모든 타일 컴포넌트를 담고 있는 기본 컴포넌트로, 전체 타일 레이아웃의 컨테이너 역할을 합니다.
+
+### 시작하기
+
+<PlatformBlock for="WebComponents">
+
+Tile Manager를 사용하려면 먼저 다음 명령을 실행하여 {ProductName}을(를) 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Tile Manager를 사용하려면 먼저 다음 명령을 실행하여 {ProductName}을(를) 설치해야 합니다:
+
+```cmd
+npm install igniteui-react
+```
+
+</PlatformBlock>
+
+Tile Manager를 사용하기 전에 다음과 같이 가져와야 합니다:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { defineComponents, IgcTileManagerComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcTileManagerComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { IgrTile, IgrTileManager } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Tile Manager의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="TileManagerModule" />을(를) 등록하는 것은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbTileManagerModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 만들어지는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+<ApiLink pkg="core" type="TileManager" /> 컴포넌트에 스타일을 적용하려면 추가 CSS 파일도 연결해야 합니다. 다음 내용을 애플리케이션의 호스트 페이지에 넣어야 합니다(독립 실행형 Blazor WebAssembly 또는 Blazor Hybrid 앱에서는 **wwwroot/index.html**, Blazor Server 앱에서는 **Pages/_Host.cshtml**, Blazor Web App에서는 **Components/App.razor**):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+이제 {Platform} Tile Manager의 기본 구성부터 시작할 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager>
+  <igc-tile>
+    <p>Tile 1</p>
+  </igc-tile>
+  <igc-tile>
+    <p>Tile 2</p>
+  </igc-tile>
+  <igc-tile>
+    <p>Tile 3</p>
+  </igc-tile>
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager>
+  <IgbTile>
+    <p>Tile 1</p>
+  </IgbTile>
+  <IgbTile>
+    <p>Tile 2</p>
+  </IgbTile>
+  <IgbTile>
+    <p>Tile 3</p>
+  </IgbTile>
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager>
+  <IgrTile>
+    <p>Tile 1</p>
+  </IgrTile>
+  <IgrTile>
+    <p>Tile 2</p>
+  </IgrTile>
+  <IgrTile>
+    <p>Tile 3</p>
+  </IgrTile>
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+## 레이아웃
+
+### 열과 행
+
+Tile Manager의 그리드 열 수를 지정할 수 있습니다. 이를 위해 <ApiLink pkg="core" type="TileManager" member="columnCount" label="ColumnCount" /> 속성을 원하는 열 수로 설정하십시오. 숫자가 1보다 작거나 속성이 설정되지 않으면 Tile Manager는 맞을 수 있는 만큼 열을 만듭니다. 각 열은 최소 200px 너비이며, 사용 가능한 공간을 균등하게 나누도록 늘어납니다. 뷰포트 크기가 바뀌면 타일도 공간을 최대한 활용하도록 다시 배치됩니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager column-count="2">
+  <igc-tile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 3 header</span>
+    <p>Tile 3 Content</p>
+  </igc-tile>
+  ...
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager columnCount={2}>
+  <IgrTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 3 header</span>
+    <p>Tile 3 Content</p>
+  </IgrTile>
+  ...
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager ColumnCount="2">
+  <IgbTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 3 header</span>
+    <p>Tile 3 Content</p>
+  </IgbTile>
+  ...
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+이 코드 조각에서 Tile Manager의 타일 세 개는 2개 행과 2개 열로 배치됩니다.
+
+### 간격
+
+Tile Manager에서 사용할 수 있는 또 다른 속성은 타일 사이의 공간을 정의하는 <ApiLink pkg="core" type="TileManager" member="gap" label="Gap" /> 속성입니다. <ApiLink pkg="core" type="TileManager" member="gap" label="Gap" /> 속성의 값은 숫자 뒤에 길이 단위(예: px, rem, em 등)가 와야 합니다. 이 값은 타일 사이의 가로 간격(너비)과 세로 간격(높이) 모두에 적용됩니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager gap="20px">
+  <igc-tile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </igc-tile>
+  ...
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager gap="20px">
+  <IgrTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgrTile>
+  ...
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager Gap="20px">
+  <IgbTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgbTile>
+  ...
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+### 최소 너비와 높이
+
+Tile Manager에서 열의 최소 너비(<ApiLink pkg="core" type="TileManager" member="minColumnWidth" label="MinColumnWidth" />)와 행의 최소 높이(<ApiLink pkg="core" type="TileManager" member="minRowHeight" label="MinRowHeight" />)를 설정하는 속성도 있습니다. 간격 속성과 마찬가지로 이 속성의 값도 숫자 뒤에 길이 단위가 와야 합니다. 이 값은 Tile Manager의 모든 열의 최소 너비와 모든 행의 최소 높이를 정의합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager min-column-width="200px" min-row-height="150px">
+  <igc-tile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </igc-tile>
+  ...
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager minColumnWidth="200px" minRowHeight="150px">
+  <IgrTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgrTile>
+  ...
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager MinColumnWidth="200px" MinRowHeight="150px">
+  <IgbTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgbTile>
+  ...
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+### 예제
+
+<Sample src="/layouts/tile-manager/columngap" height={631} alt="{Platform} Tile Manager 열 예제" />
+
+## Tile 컴포넌트
+
+Tile 컴포넌트에는 타일마다 개별적으로 설정할 수 있는 속성이 있습니다. 그중 일부는 다음과 같습니다:
+
+- <ApiLink pkg="core" type="Tile" member="colSpan" label="ColSpan" /> 속성은 레이아웃에서 타일이 가로로 몇 개의 열을 차지할지 지정하여 가로 크기를 제어할 수 있게 합니다.
+- <ApiLink pkg="core" type="Tile" member="rowSpan" label="RowSpan" /> 속성은 타일이 세로로 몇 개의 행을 차지할지 결정하여 레이아웃 안에서 타일의 높이를 조정합니다.
+- <ApiLink type="ColumnState" member="colStart" label="ColStart" /> 속성은 타일이 배치되는 시작 열을 지정합니다.
+- <ApiLink pkg="core" type="Tile" member="rowStart" label="RowStart" /> 속성은 타일이 배치되는 시작 행을 지정합니다.
+- <ApiLink pkg="core" type="Tile" member="disableFullscreen" label="DisableFullscreen" /> 속성은 기본 전체 화면 작업 버튼을 숨깁니다.
+- <ApiLink pkg="core" type="Tile" member="disableMaximize" label="DisableMaximize" /> 속성은 기본 최대화 전환 작업 버튼을 숨깁니다.
+- <ApiLink pkg="core" type="Tile" member="disableResize" label="DisableResize" /> 속성은 사용자가 타일의 크기를 조정하지 못하도록 합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager>
+  <igc-tile col-span="2" disable-resize>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </igc-tile>
+  ...
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager>
+  <IgrTile colSpan={2} disableResize={true}>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgrTile>
+  ...
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager>
+  <IgbTile ColSpan="2" DisableResize="true">
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgbTile>
+  ...
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+Tile 컴포넌트는 사용할 수 있는 여러 슬롯도 노출합니다:
+
+| 슬롯 이름 | 설명 |
+| ---------|------------ |
+| `title` | 타일 헤더의 콘텐츠입니다. |
+| `fullscreen-action` | 기본 전체 화면 작업 콘텐츠를 덮어씁니다. |
+| `maximize-action` | 기본 최대화 작업 콘텐츠를 덮어씁니다. |
+| `actions` | 기본 작업 뒤에 렌더링되는 사용자 지정 콘텐츠입니다. |
+| `side-adorner` | 기본 가로 크기 조정 어도너를 덮어씁니다. |
+| `corner-adorner` | 기본 대각선 크기 조정 어도너를 덮어씁니다. |
+| `bottom-adorner` | 기본 세로 크기 조정 어도너를 덮어씁니다. |
+
+`title` 슬롯을 사용할 때는 제목 요소(`<h1>`–`<h6>`) 대신 `<span>` 요소를 사용하는 것을 권장합니다. 제목 요소에는 컴포넌트가 의도한 타이포그래피와 레이아웃을 방해할 수 있는 글꼴 크기, 줄 높이, 여백 같은 기본 스타일이 있습니다. `<span>`를 사용하면 컴포넌트 스타일을 깔끔하게 상속받는 중립적인 컨테이너를 얻을 수 있습니다.
+
+`fullscreen-action`, `maximize-action`, `actions`, `side-adorner`, `corner-adorner` 및 `bottom-adorner` 슬롯을 사용할 때는 사용자 지정 아이콘에 [`<igc-icon>`](../layouts/icon.mdx) 또는 [`<igc-icon-button>`](../inputs/icon-button.mdx) 컴포넌트를 사용하는 것을 권장합니다.
+
+### 헤더 영역 작업
+
+기본적으로 헤더 영역에는 두 개의 작업 버튼이 포함됩니다:
+
+- `maximize` 버튼은 타일의 콘텐츠를 Tile Manager의 전체 너비로 확장하여 콘텐츠를 더 넓게 볼 수 있게 합니다.
+- `fullscreen` 버튼은 타일이 사용자의 브라우저에서 전체 화면 모드로 열리도록 합니다.
+
+<Image src={tileManagerActions} alt="tile-manager-actions" />
+
+두 버튼 중 하나만 표시하려면 <ApiLink pkg="core" type="Tile" member="disableMaximize" label="DisableMaximize" /> 또는 <ApiLink pkg="core" type="Tile" member="disableFullscreen" label="DisableFullscreen" /> 속성 중 하나를 설정하면 됩니다. 모양을 사용자 지정하려면 최대화 버튼에는 `maximize-action` 슬롯을, 전체 화면 버튼에는 `fullscreen-action` 슬롯을 사용할 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager>
+  <igc-tile disable-fullscreen>
+    <igc-icon-button slot="maximize-actions" name="north_east" collection="material">
+    </igc-icon-button>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager>
+  <IgrTile disableFullscreen={true}>
+    <IgrIconButton slot="maximize-actions" name="north_east" collection="material">
+    </IgrIconButton>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager>
+  <IgbTile DisableFullscreen="true">
+    <IgbIconButton slot="maximize-actions" IconName="north_east" Collection="material">
+    </IgbIconButton>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+두 작업 버튼을 모두 비활성화하고 원하는 대로 사용자 지정 버튼을 만들 수도 있습니다.
+
+<Sample src="/layouts/tile-manager/actions" height={730} alt="{Platform} Tile Manager 작업 예제" />
+
+이 예제에서는 Ignite UI Icon Button 컴포넌트를 사용하여 사용자 지정 작업 버튼을 만들었습니다.
+
+## 크기 조정
+
+Tile Manager의 크기 조정은 세 가지 다른 크기 조정 어도너를 사용하여 타일의 크기를 바꿀 수 있는 기능입니다.
+
+- **측면 어도너**: 열 범위를 변경하여 너비를 조정합니다.
+- **하단 어도너**: 행 범위를 변경하여 높이를 조정합니다.
+- **모서리 어도너**: 너비와 높이를 동시에 조정합니다.
+
+부드러운 크기 조정을 위해 타일의 크기를 직접 바꾸지 않고 고스트 요소를 사용합니다. 이 요소는 원래 타일 위에 나타나며, 크기 조정이 시작될 때 현재 크기를 표시하고, 사용자가 크기 조정 핸들 중 하나를 끄는 동안 실시간으로 업데이트됩니다.
+
+<DocsAside type="info">
+고스트 요소가 사용 가능한 그리드 공간을 넘으면 그리드 한계 안에서 가능한 가장 큰 범위에 자동으로 맞춰집니다.
+</DocsAside>
+
+Tile Manager는 타일의 크기가 바뀌면 빈 공간이 최소화되도록 자동으로 다시 배치합니다. 그래서 타일을 키우면 인접한 타일이 새 위치로 밀려날 수 있고, 줄이면 생긴 틈을 다른 타일이 동적으로 채울 수 있습니다. 이를 통해 Tile Manager는 타일이 겹치지 않으면서 가능한 한 촘촘하게 유지되고, 모든 이동은 정의된 그리드 구조 안에서 이루어집니다.
+
+<ApiLink pkg="core" type="TileManager" member="resizeMode" label="ResizeMode" /> 속성을 사용하여 Tile Manager에서 크기 조정이 적용되는 방식을 제어할 수 있습니다. 이 속성은 `none`, `hover` 또는 `always`로 설정할 수 있으며, 이는 크기 조정 어도너가 언제 보이는지를 결정합니다. 기본값은 `none`이며, 이 경우 타일의 크기를 조정할 수 없습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager resize-mode='hover'>
+  <igc-tile>
+    <p>Tile 1</p>
+  </igc-tile>
+  <igc-tile>
+    <p>Tile 2</p>
+  </igc-tile>
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager resizeMode="hover">
+  <IgrTile>
+    <p>Tile 1</p>
+  </IgrTile>
+  <IgrTile>
+    <p>Tile 2</p>
+  </IgrTile>
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager ResizeMode="TileManagerResizeMode.Hover">
+  <IgbTile>
+    <p>Tile 1</p>
+  </IgbTile>
+  <IgbTile>
+    <p>Tile 2</p>
+  </IgbTile>
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+아래 예제에서 세 가지 상태의 차이를 볼 수 있습니다:
+
+<Sample src="/layouts/tile-manager/resize" height={522} alt="{Platform} Tile Manager 크기 조정 예제" />
+
+### 스냅
+
+타일은 전체 그리드 단위로 크기가 바뀌므로, 열이나 행 전체 단위로만 늘어나거나 줄어들 수 있습니다. 고스트 요소는 확장할 때 절반 지점을 넘으면 다음 열이나 행에 스냅되고, 축소할 때 절반 지점을 넘으면 이전 열이나 행에 스냅됩니다. 이는 모든 어도너(하단, 측면, 모서리)에 적용되므로 타일은 항상 그리드에 맞춰 정렬됩니다.
+
+그리드 간격도 고려되므로 크기 조정 중에도 레이아웃이 일관되게 유지됩니다.
+
+### 제한 사항
+
+크기 조정 과정에는 몇 가지 제약과 제한이 있습니다:
+
+- 타일은 정의된 최소 너비 또는 높이(<ApiLink pkg="core" type="TileManager" member="minColumnWidth" label="MinColumnWidth" />, <ApiLink pkg="core" type="TileManager" member="minRowHeight" label="MinRowHeight" />)보다 작게 크기를 조정할 수 없습니다.
+- 타일은 그리드에서 사용 가능한 최대 가로 공간을 넘을 수 없습니다.
+
+## 순서 변경
+
+끌어서 놓기 기능을 사용하여 Tile Manager에서 타일의 순서를 바꿀 수 있습니다. 기본적으로 타일은 끌 수 없습니다. 이 기능을 활성화하려면 Tile Manager의 <ApiLink pkg="core" type="TileManager" member="dragMode" label="DragMode" /> 속성을 `tile` 또는 `tile-header`으로 설정하십시오.
+
+- `tile` 옵션을 사용하면 개별 타일의 아무 곳이나 클릭한 채로 누르고 있어 끌기를 시작할 수 있습니다.
+- `tile-header` 옵션을 사용하면 타일의 헤더 영역에서만 클릭한 채로 누르고 있어 끌기 과정을 시작할 수 있습니다.
+
+<DocsAside type="info">
+타일이 최대화 또는 전체 화면 상태에 있는 동안에는 끌 수 없습니다.
+</DocsAside>
+
+크기 조정과 마찬가지로, 끌어서 놓기 과정을 시작하면 잡은 타일 아래에 고스트 요소가 나타납니다. 타일을 끄는 동안 고스트 요소가 함께 움직이며 다른 타일의 순서를 실시간으로 동적으로 바꿉니다. 이를 통해 타일을 놓았을 때 타일 그리드가 어떻게 보일지 미리 볼 수 있습니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile-manager drag-mode="tile-header">
+  <igc-tile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </igc-tile>
+  <igc-tile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </igc-tile>
+</igc-tile-manager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTileManager dragMode="tile-header">
+  <IgrTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgrTile>
+  <IgrTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgrTile>
+</IgrTileManager>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTileManager DragMode="TileManagerDragMode.TileHeader">
+  <IgbTile>
+    <span slot="title">Tile 1 header</span>
+    <p>Tile 1 Content</p>
+  </IgbTile>
+  <IgbTile>
+    <span slot="title">Tile 2 header</span>
+    <p>Tile 2 Content</p>
+  </IgbTile>
+</IgbTileManager>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/tile-manager/dragndrop" height={550} alt="{Platform} Tile Manager 끌어서 놓기 예제" />
+
+## 직렬화
+
+Tile Manager는 타일의 레이아웃을 관리하는 데 도움이 되는 메서드를 제공합니다:
+
+- <ApiLink pkg="core" type="TileManager" member="saveLayout" label="SaveLayout" /> 메서드를 사용하면 Tile Manager에서 현재 타일 배열을 저장할 수 있습니다. 이 메서드는 모든 타일의 현재 순서, 크기 및 위치를 캡처하므로 나중에 정확히 이 구성으로 복원할 수 있습니다.
+- <ApiLink pkg="core" type="TileManager" member="loadLayout" label="LoadLayout" /> 메서드를 사용하면 이전에 저장한 레이아웃을 불러올 수 있습니다. 호출하면 타일이 레이아웃을 저장했을 때의 정확한 상태로 복원되며, 여기에는 순서, 크기 및 위치가 포함됩니다.
+
+<Sample src="/layouts/tile-manager/layout" height={560} alt="{Platform} Tile Manager 레이아웃 예제" />
+
+## 스타일링
+
+두 컴포넌트 <ApiLink pkg="core" type="TileManager" />과(와) <ApiLink pkg="core" type="Tile" />의 모양도 사용자 지정할 수 있습니다.
+<ApiLink pkg="core" type="TileManager" />은(는) Tile Manager의 기본 래퍼 스타일을 지정하는 데 사용할 수 있는 CSS 속성 `base` 하나만 노출합니다.
+<ApiLink pkg="core" type="Tile" />은(는) 사용할 수 있는 여러 CSS 속성을 노출합니다:
+
+| 파트 이름 | 설명 |
+| ---------|------------ |
+| `base` | 타일 컴포넌트를 감싸는 컨테이너입니다. |
+| `header` | 제목 및 작업 파트를 포함한 타일의 헤더 컨테이너입니다. |
+| `title` | 제목 컨테이너. |
+| `actions` | 작업 컨테이너입니다. |
+| `content-container` | 타일의 기본 슬롯을 감싸는 컨테이너입니다. |
+| `trigger-side` | 가로 어도너입니다. |
+| `trigger` | 대각선 어도너 |
+| `trigger-bottom` | 세로 어도너입니다. |
+
+이 CSS 파트를 사용하면 다음과 같이 두 컴포넌트의 모양을 사용자 지정할 수 있습니다:
+
+```css
+igc-tile-manager::part(base) {
+  background-color: var(--ig-surface-900);
+}
+
+igc-tile::part(content-container) {
+  color: var(--ig-secondary-200);
+}
+
+igc-tile::part(header) {
+  background-color: var(--ig-gray-300);
+}
+
+igc-tile::part(title) {
+  color: var(--ig-primary-400);
+}
+
+igc-tile:nth-child(n+2)::part(trigger-side),
+igc-tile:nth-child(n+2)::part(trigger-bottom) {
+  background-color: var(--ig-success-500);
+}
+
+igc-tile:nth-child(n+2)::part(trigger) {
+  background-color: var(--ig-error-500);
+}
+```
+
+`side-adorner`, `corner-adorner`, `bottom-adorner` 슬롯을 사용하면 어도너의 아이콘을 사용자 지정 아이콘으로 바꿀 수도 있습니다. 예를 들면 다음과 같습니다:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tile>
+  <igc-icon slot="side-adorner" class="side" name="indicator"></igc-icon>
+  <igc-icon slot="corner-adorner" class="corner" name="indicator"></igc-icon>
+  <igc-icon slot="bottom-adorner" class="bottom" name="indicator"></igc-icon>
+  <span slot="title">Tile header</span>
+</igc-tile>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTile>
+  <IgrIcon slot="side-adorner" className="side" name="indicator"></IgrIcon>
+  <IgrIcon slot="corner-adorner" className="corner" name="indicator"></IgrIcon>
+  <IgrIcon slot="bottom-adorner" className="bottom" name="indicator"></IgrIcon>
+  <span slot="title">Tile header</span>
+</IgrTile>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTile>
+  <IgbIcon slot="side-adorner" Class="side" IconName="indicator"></IgbIcon>
+  <IgbIcon slot="corner-adorner" Class="corner" IconName="indicator"></IgbIcon>
+  <IgbIcon slot="bottom-adorner" Class="bottom" IconName="indicator"></IgbIcon>
+  <span slot="title">Tile header</span>
+</IgbTile>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/tile-manager/styling" height={520} alt="{Platform} Tile Manager 스타일 지정 예제" />
+
+## API 참조
+
+- <ApiLink pkg="core" type="TileManager" />
+- <ApiLink pkg="core" type="Tile" />
+- [`Styling & Themes`](../themes/overview.mdx)
+
+## 추가 리소스
+
+- <ApiLink pkg="core" type="Tile" />
+- <ApiLink pkg="core" type="TileManager" />
+- <ApiLink pkg="core" type="Tile" />
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+

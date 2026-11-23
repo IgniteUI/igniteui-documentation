@@ -1,0 +1,479 @@
+---
+title: "{Platform} {ComponentTitle} 열 재정렬 및 이동 - {ProductName}"
+description: "드래그 앤 드롭(마우스 또는 터치 제스처) 또는 {Platform} 열 이동 API를 사용하여 사용자 지정 열 순서를 설정하고 열 재정렬을 활성화합니다. {ProductName}를 사용해 보십시오!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridColumnMoving}"
+_language: ko
+llms:
+  description: "{ProductName}의 {Platform} {ComponentTitle} 열 이동 기능을 사용하면 열을 빠르고 쉽게 재정렬할 수 있습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {ComponentTitle} 열 순서 변경 및 이동
+
+{ProductName}의 {Platform} {ComponentTitle} 열 이동 기능을 사용하면 열을 빠르고 쉽게 재정렬할 수 있습니다. 열 이동 API를 통하거나 마우스 또는 터치 제스처로 헤더를 다른 위치로 끌어다 놓아 수행할 수 있습니다. {Platform} {ComponentTitle}에서는 고정된 열과 고정되지 않은 열, 그리고 [다중 열 헤더](multi-column-headers.mdx)에 대해서도 열 이동을 활성화할 수 있습니다.
+
+<DocsAside type="info">
+열과 열 그룹 사이의 순서 변경은 두 항목이 계층에서 같은 수준에 있고 둘 다 같은 그룹 안에 있을 때만 허용됩니다. 열/열 그룹 사이의 이동은 최상위 수준의 열이라면 허용됩니다.
+</DocsAside>
+
+<DocsAside type="info">
+열 헤더에 템플릿이 적용되어 있고 열 이동이 활성화되어 있거나 해당 열을 그룹화할 수 있는 경우, 템플릿 요소에는 **draggable** 특성을 **false**로 설정해야 합니다!
+</DocsAside>
+
+<PlatformBlock for="Angular">
+이렇게 하면 요소에서 발생하는 모든 이벤트에 대한 처리기를 연결할 수 있으며, 그렇지 않으면 이벤트가 `igxDrag` 디렉티브에 의해 소비됩니다.
+</PlatformBlock>
+
+
+<DocsAside type="info">
+고정 영역이 최대 허용 너비(전체 <ApiLink type="{ComponentName}" /> 너비의 80%)를 초과하면, 시각적 단서로 최종 사용자에게 드롭 작업이 허용되지 않으며 고정할 수 없다는 것을 알려 줍니다. 즉, 고정 영역에 열을 드롭할 수 없습니다.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```html
+<ng-template igxHeader>
+    <igx-icon [attr.draggable]="false" (click)="onClick()"></igx-icon>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    public RenderFragment<IgbColumnTemplateContext> headerTemplate => (context) =>
+    {
+        return @<IgbIcon Collection="fas" IconName="fa-thumbtack" draggable="false" @onclick="() => onClick()"></IgbIcon>;
+    };
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public headerTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <igc-icon draggable="false" @click="${() => this.onClick()}"></igc-icon>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const headerTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+    <>
+       <IgrIcon draggable={false} onClick={onClick}></IgrIcon>
+    </>
+    );
+}
+```
+</PlatformBlock>
+
+## {Platform} {ComponentTitle} 열 이동 개요 예제
+
+<Sample src="/{ComponentSample}/column-moving-options" height={650} alt="{Platform} {ComponentTitle} 열 이동 개요 예제" />
+
+
+
+## 개요
+
+**열 이동** 기능은 그리드 단위로 활성화되므로, <ApiLink type="{ComponentName}" />은(는) 이동 가능한 열과 이동 불가능한 열을 모두 가질 수 있습니다. 이는 <ApiLink type="{ComponentName}" />의 <ApiLink type="{ComponentName}" member="moving" /> 입력을 통해 설정합니다.
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector} [moving]="true"></{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Moving=true></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} moving="true"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} moving={true}></{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [moving]="true">
+    ...
+    <{RowIslandSelector} [moving]="true"></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Moving=true>
+    ...
+    <{RowIslandSelector} Moving=true></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} moving="true">
+    ...
+    <{RowIslandSelector} moving="true"></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} moving={true}>
+    ...
+    <{RowIslandSelector} moving={true}></{RowIslandSelector}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+## API
+
+끌어서 놓기 기능 외에도 열 이동 기능은 열 이동/재정렬을 프로그래밍 방식으로 수행할 수 있는 API 메서드를 제공합니다:
+
+<ApiLink type="GridBaseDirective" member="moveColumn" /> - 열을 다른 열(대상) 앞이나 뒤로 이동합니다. 첫 번째 매개변수는 이동할 열이고, 두 번째 매개변수는 대상 열입니다. 또한 선택적인 세 번째 매개변수 `Position`(<ApiLink type="DropPosition" /> 값을 나타냄)를 받으며, 이는 열을 대상 열 앞에 둘지 뒤에 둘지를 결정합니다.
+
+
+<PlatformBlock for="React, Angular, WebComponents">
+```typescript
+// Move the ID column after the Name column
+const idColumn = grid.getColumnByName("ID");
+const nameColumn = grid.getColumnByName("Name");
+
+grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public async void HandleClick()
+    {
+        IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
+        IgbColumn Col2 = await this.grid.GetColumnByVisibleIndexAsync(1);
+        this.Grid.MoveColumn(Col1,Col2, DropPosition.AfterDropTarget);
+    }
+```
+
+</PlatformBlock>
+
+
+<ApiLink type="Column" member="move" label="Move" /> - 열을 지정된 보이는 인덱스로 이동합니다. 전달된 인덱스 매개변수가 잘못되었거나(음수이거나 열 개수를 초과하는 경우), 열이 이 인덱스로 이동하는 것이 허용되지 않는 경우(다른 그룹 안인 경우), 아무 작업도 수행되지 않습니다.
+
+<PlatformBlock for="WebComponents">
+```typescript
+// Move the ID column at 3rd position.
+const idColumn = grid.getColumnByName("ID");
+idColumn.move(3);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+    public async void HandleClick()
+    {
+        IgbColumn Col1 = await this.grid.GetColumnByVisibleIndexAsync(0);
+        this.Col1.Move(3);
+    }
+```
+</PlatformBlock>
+
+참고로 열 이동 기능을 사용할 때, <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock> 이벤트는 작업이 성공한 경우 발생합니다. 또한 끌어서 놓기 기능과 달리 열 이동 기능을 사용할 때는 <ApiLink type="{ComponentName}" member="moving" /> 속성을 true로 설정할 필요가 없습니다.
+
+## 이벤트
+
+열의 끌어서 놓기 작업에 연결할 수 있도록 열 이동과 관련된 여러 이벤트가 있습니다. 이러한 이벤트는 다음과 같습니다 <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingStart" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingStart" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingStart" /></PlatformBlock>, `ColumnMoving` 및 <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock>.
+
+다음 <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnMovingEnd" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnMovingEnd" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnMovingEnd" /></PlatformBlock> 이벤트를 <ApiLink type="{ComponentName}" />에서 구독하여 열이 새 위치에 놓일 때 사용자 지정 로직을 구현할 수 있습니다. 예를 들어 다음 코드 스니펫에서 **Category** 열을 **Change On Year(%)** 열 뒤에 놓는 것을 취소할 수 있습니다.
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #dataGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
+    <igx-column [field]="'Category'"></igx-column>
+    <igx-column [field]="'Change On Year(%)'" [dataType]="'number'" ></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="dataGrid" auto-generate="false" moving="true">
+    <igc-column field="Category"></igc-column>
+    <igc-column field="Change On Year(%)" data-type="number" ></igc-column>
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var dataGrid = this.dataGrid = document.getElementById('dataGrid') as {ComponentName}Component;
+    dataGrid.data = this.data;
+    dataGrid.addEventListener("columnMovingEnd", this.onColumnMovingEnd);
+}
+```
+
+```typescript
+public onColumnMovingEnd(event) {
+    if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+<PlatformBlock for="React">
+```tsx
+const onColumnMovingEnd = (event: IgrColumnMovingEndEventArgs) => {
+   if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}
+
+<{ComponentSelector} autoGenerate={false} moving={true} data={data} onColumnMovingEnd={onColumnMovingEnd}>
+    <IgrColumn field="Category"></IgrColumn>
+    <IgrColumn field="Change On Year(%)" dataType="number"></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+    <{ComponentSelector} ShowGroupArea="true" @ref='Grid' Width="100%" Height="100%"
+             AllowFiltering=true
+             FilterMode="FilterMode.ExcelStyleFilter"
+             AutoGenerate=true
+             Data=northwindEmployees
+             Moving="true"
+             ColumnMovingEndScript='onColumnMovingEnd'>
+    </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("onColumnMovingEnd", (event) => {
+    if (event.detail.source.field === "Category" && event.detail.target.field === "Change On Year(%)") {
+        event.detail.cancel = true;
+    }
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 스타일링
+
+<ApiLink type="{ComponentName}" /> 열 이동 헤더의 스타일링을 시작하려면 모든 테마 함수와 컴포넌트 믹스인이 있는 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+가장 간단한 방법으로, <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />을(를) 확장하고 `$ghost-header-background`, `$ghost-header-text-color` 및 `$ghost-header-icon-color` 매개변수를 받는 새 테마를 만듭니다.
+
+```scss
+// Define dark theme for the column moving
+$dark-grid-column-moving-theme: grid-theme(
+    $ghost-header-text-color: #F4D45C,
+    $ghost-header-background: #575757,
+    $ghost-header-icon-color: #f4bb5c
+);
+```
+
+마지막 단계는 각 컴포넌트 믹스인을 해당 테마와 함께 **포함**하는 것입니다:
+
+```scss
+@include grid($dark-grid-column-moving-theme);
+```
+
+<DocsAside type="info">
+컴포넌트의 [**뷰 캡슐화**](/components/themes/sass/component-themes.html#view-encapsulation) 전략에 따라 `::ng-deep`를 사용하여 이 캡슐화를 `penetrate`해야 할 수 있습니다
+</DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($dark-grid-column-moving-theme);
+    }
+}
+```
+
+### 색상 팔레트 정의하기
+
+방금 한 것처럼 색상 값을 하드코딩하는 대신, <ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" />와 <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" /> 함수를 사용하면 색상에 대해 더 큰 유연성을 얻을 수 있습니다.
+
+
+**igx-palette**는 전달된 기본 색상과 보조 색상을 기반으로 색상 팔레트를 생성합니다:
+
+```scss
+$yellow-color: #F4D45C;
+$black-color: #575757;
+
+$dark-palette: palette($primary: $yellow-color, $secondary: $black-color);
+```
+
+그다음 <ApiLink type="function-igx-color" label="**igx-color**" kind="sass" module="index.html" />로 팔레트에서 색상을 쉽게 가져올 수 있습니다.
+
+```scss
+$dark-grid-column-moving-theme: grid-theme(
+    $palette: $dark-palette,
+    $ghost-header-text-color: color($dark-palette, "primary", 400),
+    $ghost-header-background: color($dark-palette, "secondary", 200),
+    $ghost-header-icon-color: color($dark-palette, "primary", 500)
+);
+```
+
+
+<DocsAside type="info">
+color와 palette는 색상을 생성하고 검색하는 강력한 함수입니다. 사용 방법에 대한 자세한 안내는 [팔레트](/components/themes/palettes.html) 토픽을 참조하십시오.
+</DocsAside>
+
+### 스키마 사용하기
+
+테마 엔진을 더 활용하면 [스키마](/components/themes/sass/schemas.html)를 활용하는 견고하고 유연한 구조를 구축할 수 있습니다. **스키마**는 테마의 레시피입니다.
+
+모든 컴포넌트에 제공되는 두 가지 사전 정의된 스키마 중 하나를 확장합니다. 여기서는 <ApiLink type="variable-_light-grid" label="light-grid" kind="sass" module="index.html" />입니다.
+
+```scss
+// Extending the dark grid schema
+$dark-grid-column-moving-schema: extend($_light-grid,
+        (
+            ghost-header-text-color:(
+               color: ("primary", 400)
+            ),
+            ghost-header-background:(
+               color: ("secondary", 200)
+            ),
+            ghost-header-icon-color:(
+               color: ("primary", 500)
+            )
+        )
+);
+```
+
+사용자 지정 스키마를 적용하려면 전역(<ApiLink type="variable-light-schema" label="light" kind="sass" module="index.html" /> 또는 <ApiLink type="variable-dark-schema" label="dark" kind="sass" module="index.html" />) 중 하나를 **확장**해야 합니다. 이는 사실상 사용자 지정 스키마가 있는 컴포넌트를 지정하는 것이며, 그런 다음 이를 해당 컴포넌트 테마에 추가합니다:
+
+```scss
+// Extending the global dark-schema
+$custom-light-schema: extend($light-schema,(
+    igx-grid: $dark-grid-column-moving-schema,
+));
+
+// Defining dark-grid-theme with the global dark schema
+$dark-grid-column-moving-theme: grid-theme(
+  $palette: $dark-palette,
+  $schema: $custom-light-schema
+);
+```
+
+위에서 설명한 것과 같은 방식으로 테마를 포함하는 것을 잊지 마십시오.
+
+### 데모
+
+
+<Sample src="/{ComponentSample}/column-moving-styles" height={650} alt="{Platform} {ComponentTitle} 그리드 이동 스타일링 예제" />
+
+
+
+<DocsAside type="info">
+이 샘플은 **테마 변경**에서 선택한 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## 스타일링
+
+사전 정의된 테마 외에도 사용 가능한 일부 CSS 속성을 설정하여 그리드를 추가로 사용자 지정할 수 있습니다. 몇 가지 색상만으로 전체 테마를 구성하려면 [테마 토픽](theming.mdx)을 참조하십시오.
+
+일부 색상을 변경하려면 먼저 그리드에 클래스를 설정해야 합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+그다음 이 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.grid {
+    --ig-grid-ghost-header-text-color: #f4d45c;
+    --ig-grid-ghost-header-background: #ad9d9d;
+    --ig-grid-ghost-header-icon-color: #f4d45c;
+}
+```
+
+### 데모
+
+<Sample src="/{ComponentSample}/column-moving-styles" height={650} alt="{Platform} {ComponentTitle} 그리드 이동 스타일링 예제" />
+
+</PlatformBlock>
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## 추가 리소스
+
+<ComponentBlock for="Grid">
+- [가상화와 성능](virtualization.mdx)
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 고정](column-pinning.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [선택](selection.mdx)
+- [검색](search.mdx)
+</ComponentBlock>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

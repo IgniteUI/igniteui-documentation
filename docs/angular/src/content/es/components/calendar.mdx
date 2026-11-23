@@ -1,0 +1,888 @@
+---
+title: "Componente Angular Calendar – Ignite UI for Angular | Licencia MIT" 
+description: "Con el componente Angular Calendar, los usuarios pueden crear calendarios intuitivos para que las aplicaciones muestren información de fechas mediante tres modos de selección diferentes. Pruébelo ahora"
+keywords: angular calendar, angular calendar component, angular UI components, angular UI library, ignite ui for angular
+license: MIT
+_language: es
+llms:
+  description: "Angular Calendar es un componente de interfaz que se usa para mostrar fechas y días en una aplicación."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Calendar
+
+Angular Calendar es un componente de interfaz que se usa para mostrar fechas y días en una aplicación. Con distintas funciones, permite a los usuarios gestionar fácilmente las funcionalidades del calendario, arrastrar y crear eventos en un calendario, navegar a una fecha concreta y mostrar eventos en la vista mensual, semanal o diaria de un calendario de Angular con un solo clic.
+
+<div class="highlight">
+
+El componente Calendar de Ignite UI for Angular, desarrollado como [componente nativo de Angular](https://angular.io/guide/architecture#components), ofrece formas sencillas e intuitivas de mostrar información de fechas, habilitar fechas o aplicar el modo de fechas desactivadas del calendario de Angular. Los usuarios pueden elegir entre tres modos de selección: selección única, selección múltiple o selección de intervalo.
+</div>
+
+## Ejemplo de Angular Calendar
+
+Creamos el siguiente ejemplo de Angular Calendar con el paquete Calendar de Ignite UI for Angular. Muestra rápidamente el aspecto y la sensación de un calendario básico, cómo los usuarios pueden elegir y resaltar una sola fecha y cómo desplazarse hacia delante y hacia atrás hasta una fecha concreta.
+
+<hr/>
+
+<Sample src="/scheduling/calendar-sample-5" height={480} alt="Ejemplo de Angular Calendar" />
+
+## Primeros pasos con Ignite UI for Angular Calendar
+
+Para empezar con el componente Ignite UI for Angular Calendar, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxCalendarModule` en el archivo **app.module.ts**.
+
+<DocsAside type="info">
+El <ApiLink type="Calendar" label="**IgxCalendarComponent**" /> también depende de [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule), por lo que también hay que añadirlo a AppModule:
+</DocsAside>
+
+```typescript
+// app.module.ts
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxCalendarModule } from 'igniteui-angular/calendar';
+// import { IgxCalendarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxCalendarModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar <ApiLink type="Calendar" label="IgxCalendarComponent" /> como dependencia independiente, o usar el token [`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/calendar/src/calendar/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IGX_CALENDAR_DIRECTIVES } from 'igniteui-angular/calendar';
+// import { IGX_CALENDAR_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-calendar></igx-calendar>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, IGX_CALENDAR_DIRECTIVES]
+    /* or imports: [BrowserAnimationsModule, IgxCalendarComponent] */
+})
+export class HomeComponent {}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Calendar, puede empezar a usar el componente `igx-calendar`.
+
+<DocsAside type="info">
+<ApiLink type="Calendar" /> usa la [API Web Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat) para la localización y el formato de las fechas.
+</DocsAside>
+Considere usar [polyfills adecuados](https://github.com/andyearnshaw/Intl.js/) si su plataforma de destino no los admite.
+
+## Uso de Angular Calendar
+
+### Calendario de Angular de selección única
+
+Crear una instancia de <ApiLink type="Calendar" label="IgxCalendarComponent" /> es tan sencillo como colocar su elemento selector en la plantilla. Esto mostrará el mes actual en el modo de calendario de selección única.
+
+```html
+{/* app.component.html */}
+{/* Single selection mode */}
+<igx-calendar></igx-calendar>
+```
+
+### Calendario de Angular de selección múltiple  
+
+Podemos cambiar fácilmente el modo predeterminado usando la propiedad <ApiLink type="Calendar" member="selection" label="selection" />:
+
+```html
+{/* app.component.html */}
+{/* Multi selection mode */}
+<igx-calendar selection="multi" [showWeekNumbers]="true"></igx-calendar>
+```
+
+<Sample src="/scheduling/calendar-sample-1" height={360} alt="" />
+
+### Selector de intervalos de Angular Calendar
+
+Siguiendo el mismo enfoque, podemos cambiar al modo de selección de intervalo:
+
+```html
+{/* app.component.html */}
+{/* Range selection mode */}
+<igx-calendar selection="range"></igx-calendar>
+```
+
+<Sample src="/scheduling/calendar-sample-8" height={480} alt="" />
+
+<DocsAside type="info">
+Tenga en cuenta que el encabezado del calendario no se muestra cuando la selección es `multi` o `range`.
+</DocsAside>
+
+### Localización y formato
+
+Por su propia naturaleza, la localización y el formato son esenciales en cualquier calendario. En <ApiLink type="Calendar" label="IgxCalendarComponent" /> se controlan y personalizan mediante las siguientes propiedades: <ApiLink type="Calendar" member="locale" label="locale" />, <ApiLink type="Calendar" member="formatoptions" label="formatOptions" />, <ApiLink type="Calendar" member="formatViews" label="formatViews" />, <ApiLink type="Calendar" member="weekStart" label="weekStart" />.
+
+Vamos a probarlas junto con otras personalizaciones de la API de <ApiLink type="Calendar" label="IgxCalendarComponent" />. Lo primero que hay que establecer es <ApiLink type="Calendar" member="weekStart" label="weekStart" />, que controla el primer día de la semana. Su valor predeterminado es 0, que corresponde al domingo, así que estableceremos el valor 1 para el lunes. En la siguiente plantilla también enlazamos las propiedades `formatOptions` y <ApiLink type="Calendar" member="formatViews" label="formatViews" /> para personalizar el formato de visualización. Por último, enlazamos la propiedad `locale` a un valor, según la elección de ubicación del usuario:
+
+```html
+{/* app.component.html */}
+<igx-select #select [(ngModel)]="locale">
+    <igx-select-item *ngFor="let locale of locales" [value]="locale">
+        {{ locale }}
+    </igx-select-item>
+</igx-select>
+
+<igx-calendar #calendar
+    [weekStart]="1"
+    [locale]="locale"
+    [formatOptions]="formatOptions"
+    [formatViews]="formatViews">
+</igx-calendar>
+```
+
+Todos los valores de las propiedades deben establecerse en el archivo AppComponent:
+
+```typescript
+// app.component.ts
+@ViewChild('calendar', { read: IgxCalendarComponent }) public calendar: IgxCalendarComponent;
+
+public formatOptions: any;
+public formatViews: any;
+public locales = ['EN', 'DE', 'FR', 'AR', 'ZH'];
+public locale = 'EN';
+
+public ngOnInit() {
+    this.formatOptions = { day: '2-digit', month: 'long', weekday: 'long', year: 'numeric' };
+    this.formatViews = { day: true, month: true, year: true };
+}
+```
+
+Si todo ha salido bien, ahora deberíamos tener un calendario con una visualización personalizada de las fechas, que además cambia la representación del idioma según la ubicación del usuario. Veámoslo:
+
+<Sample src="/scheduling/calendar-sample-2" height={580} alt="" />
+
+### Cómo desactivar fechas en Angular Calendar
+
+Esta sección muestra el uso de la funcionalidad de <ApiLink type="Calendar" member="disabledDates" label="disabledDates" />. Para ello, se pueden añadir a un array fechas individuales o intervalos y, después, pasarlos al descriptor <ApiLink type="Calendar" member="disabledDates" label="disabledDates" />.
+
+<ApiLink type="DateRangeType" kind="enum" /> se usa para especificar un intervalo que se va a desactivar.
+
+Creemos un ejemplo que desactive las fechas comprendidas entre el día 3 y el día 8 del mes actual:
+
+```typescript
+export class CalendarSample6Component {
+    @ViewChild('calendar') public calendar: IgxCalendarComponent;
+    public today = new Date(Date.now());
+    public range = [
+        new Date(this.today.getFullYear(), this.today.getMonth(), 3),
+        new Date(this.today.getFullYear(), this.today.getMonth(), 8)
+    ];
+
+    public ngOnInit() {
+        this.calendar.disabledDates = [{ type: DateRangeType.Between, dateRange: this.range }];
+    }
+}
+```
+
+Estas configuraciones deberían dar el siguiente resultado:
+
+<Sample src="/scheduling/calendar-sample-6" height={420} alt="" />
+
+### Fechas especiales
+
+La función <ApiLink type="Calendar" member="specialDates" label="specialDates" /> usa casi los mismos principios de configuración que <ApiLink type="Calendar" member="disabledDates" label="disabledDates" />. Lo que las diferencia de las fechas `disabled` es la posibilidad de seleccionar y enfocar <ApiLink type="Calendar" member="specialDates" label="specialDates" />.
+
+Añadamos algunas <ApiLink type="Calendar" member="specialDates" label="specialDates" /> a nuestro `igxCalendar`. Para ello, tenemos que crear un elemento <ApiLink type="DateRangeDescriptor" kind="interface" /> de tipo <ApiLink kind="enum" type="DateRangeType" member="Specific" /> y pasar un array de fechas como <ApiLink kind="interface" type="DateRangeDescriptor" member="dateRange" />:
+
+```typescript
+export class CalendarSample7Component {
+    @ViewChild('calendar', { static: true })
+    public calendar: IgxCalendarComponent;
+    @ViewChild('alert', { static: true })
+    public dialog: IgxDialogComponent;
+    public range = [];
+
+    public selectPTOdays(dates: Date[]) {
+        this.range = dates;
+    }
+
+    public submitPTOdays(eventArgs) {
+        this.calendar.specialDates =
+            [{ type: DateRangeType.Specific, dateRange: this.range }];
+
+        this.range.forEach((item) => {
+            this.calendar.selectDate(item);
+        });
+
+        ...
+    }
+}
+```
+
+```html
+<igx-calendar #calendar weekStart="1"
+    selection="multi"
+    (selected)="selectPTOdays($event)">
+</igx-calendar>
+<igx-dialog #alert title="Request Time Off"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="alert.close()">
+</igx-dialog>
+<button igxButton="contained" (click)="submitPTOdays($event)">Submit Request</button>
+```
+
+La siguiente demostración muestra un calendario con una opción de solicitud de vacaciones:
+
+<Sample src="/scheduling/calendar-sample-7" height={400} alt="" />
+
+### Plantillas
+
+`igx-calendar` admite plantillas para su encabezado, el título del encabezado, el subencabezado y las celdas de día. Para personalizar una parte, marque un `ng-template` dentro del calendario con la directiva de esa parte. El token `IGX_CALENDAR_DIRECTIVES` incluye todas las directivas de plantilla.
+
+| Directiva | Parte que reemplaza | Se muestra |
+| :--- | :--- | :--- |
+| `igxCalendarHeader` | La fecha del encabezado del calendario | Cuando `selection` es `single` o `range` y <ApiLink type="Calendar" member="hasHeader" label="hasHeader" /> es `true` |
+| `igxCalendarHeaderTitle` | El título situado encima de la fecha en el encabezado del calendario | Cuando `selection` es `single` o `range` y <ApiLink type="Calendar" member="hasHeader" label="hasHeader" /> es `true` |
+| `igxCalendarSubheader` | El subencabezado con el mes y el año, entre los botones de navegación | En todos los modos de selección, en las vistas de días, meses y años |
+| `igxCalendarDay` | El contenido de las celdas de día | En todos los modos de selección, para cada día visible. Consulte [Plantilla de día](#plantilla-de-día) |
+
+La siguiente demostración usa las cuatro plantillas para crear un calendario de eventos. El título del encabezado muestra el número de eventos de la fecha seleccionada, el subencabezado muestra el número de eventos del mes y cada celda de día muestra un punto por cada evento:
+
+<Sample src="/scheduling/calendar-templates" height={500} alt="Ejemplo de plantillas de Angular Calendar" />
+
+#### Plantillas de encabezado
+
+Las plantillas `igxCalendarHeader` y `igxCalendarHeaderTitle` reciben la fecha que se muestra en el encabezado: la primera fecha seleccionada o la fecha actual cuando no hay ninguna seleccionada. La plantilla `igxCalendarSubheader` recibe la fecha de vista del calendario, por lo que sigue la navegación entre meses y años.
+
+La plantilla del subencabezado reemplaza el contenido predeterminado del subencabezado en todas las vistas, incluidos los botones de mes y año que cambian entre vistas. Use la <ApiLink type="Calendar" member="activeView" label="activeView" /> del calendario para mostrar contenido adecuado a la vista actual y para cambiar entre vistas. En la demostración anterior, el subencabezado muestra el botón de mes solo en la vista de días, y el botón de año en todas las vistas:
+
+```html
+<igx-calendar #calendar [value]="selectedDate" (selected)="onSelection($event)">
+    {/* Header title: the number of events for the selected date */}
+    <ng-template igxCalendarHeaderTitle let-parts>
+        @let count = getEvents(parts.date).length;
+        <span>{{ count ? pluralize(count) : 'No events' }}</span>
+    </ng-template>
+
+    {/* Header: the selected date, composed from the formatted date parts */}
+    <ng-template igxCalendarHeader let-parts>
+        <span>{{ parts.weekday.value }}, {{ parts.month.value }} {{ parts.day.value }}</span>
+    </ng-template>
+
+    {/* Subheader: month and year buttons that switch views, plus the month's event count */}
+    <ng-template igxCalendarSubheader let-parts>
+        @if (calendar.activeView === 'month') {
+            <span
+                class="igx-calendar-picker__date"
+                tabindex="0"
+                role="button"
+                [attr.aria-label]="(parts.date | date: 'LLLL') + ', select month'"
+                (click)="calendar.activeView = 'year'"
+                (keydown.enter)="calendar.activeView = 'year'">
+                {{ parts.month.value }}
+            </span>
+        }
+        <span
+            class="igx-calendar-picker__date"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="(parts.date | date: 'yyyy') + ', select year'"
+            (click)="calendar.activeView = 'decade'"
+            (keydown.enter)="calendar.activeView = 'decade'">
+            {{ parts.year.value }}
+        </span>
+        @if (calendar.activeView === 'month') {
+            @let monthCount = getMonthEventsCount(parts.date);
+            @if (monthCount) {
+                <span class="month-badge">{{ pluralize(monthCount) }}</span>
+            }
+        }
+    </ng-template>
+</igx-calendar>
+```
+
+Los botones de mes y año reutilizan la clase `igx-calendar-picker__date`, por lo que conservan el estilo predeterminado, y establecen `tabindex`, `role` y `aria-label` para que sigan siendo accesibles desde el teclado.
+
+Las plantillas de encabezado, de título del encabezado y de subencabezado reciben el siguiente contexto como `$implicit`:
+
+| Nombre | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `date` | `Date` | La fecha de la plantilla: la fecha del encabezado para `igxCalendarHeader` y `igxCalendarHeaderTitle`, y la fecha de vista para `igxCalendarSubheader`. |
+| `index` | `number` | El índice vista de mes a la que pertenece el subencabezado cuando <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" /> es mayor que `1`. La fecha del subencabezado se desplaza este número de meses. |
+| `full` | `string` | La fecha completa, con formato según `locale` y `formatOptions` del calendario. |
+| `era`, `year`, `month`, `day`, `weekday` | `object` | La parte de la fecha, con formato según `locale` y `formatOptions` del calendario. |
+
+Cada parte de la fecha es un objeto con tres cadenas: `value` es la parte localizada, `literal` es el separador que la sigue, si lo hay, y `combined` es la unión de ambas.
+
+#### Plantilla de día
+
+Para cambiar lo que muestran las celdas de día de `igx-calendar`, por ejemplo para añadir indicadores de eventos, disponibilidad o precios, marque un `ng-template` dentro del calendario con la directiva `igxCalendarDay`. Importe `IgxCalendarDayTemplateDirective` junto con el calendario, o use el token `IGX_CALENDAR_DIRECTIVES`, que lo incluye. Si la directiva no se importa, el atributo `igxCalendarDay` se ignora y el calendario muestra el contenido de día predeterminado.
+
+```typescript
+import { IgxCalendarComponent, IgxCalendarDayTemplateDirective } from 'igniteui-angular/calendar';
+// import { IgxCalendarComponent, IgxCalendarDayTemplateDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+interface CalendarEvent {
+    title: string;
+    type: 'meeting' | 'deadline' | 'personal';
+}
+
+@Component({
+    ...
+    imports: [IgxCalendarComponent, IgxCalendarDayTemplateDirective]
+})
+export class AppComponent {
+    // Events keyed by Date.toDateString()
+    public events = new Map<string, CalendarEvent[]>();
+
+    public getEvents(date: Date): CalendarEvent[] {
+        return this.events.get(date.toDateString()) ?? [];
+    }
+
+    public pluralize(count: number): string {
+        return `${count} ${count === 1 ? 'event' : 'events'}`;
+    }
+}
+```
+
+```html
+<igx-calendar>
+    {/* Day: the date with a dot for each event */}
+    <ng-template igxCalendarDay let-date let-formattedDate="formattedDate" let-selected="selected">
+        @let events = getEvents(date);
+        <span class="day" [class.day--selected]="selected">
+            <span>{{ formattedDate }}</span>
+            <span class="day__dots">
+                @for (event of events; track $index) {
+                    <span class="day__dot day__dot--{{ event.type }}"></span>
+                }
+            </span>
+            @if (events.length) {
+                {/* Readable text for screen readers, announced as the cell description */}
+                <span class="visually-hidden">{{ pluralize(events.length) }}</span>
+            }
+        </span>
+    </ng-template>
+</igx-calendar>
+```
+
+También puede pasar la plantilla mediante la entrada `dayTemplate`. Una plantilla establecida mediante la entrada tiene prioridad sobre una marcada con `igxCalendarDay`:
+
+```html
+<igx-calendar [dayTemplate]="dayTemplate"></igx-calendar>
+
+<ng-template #dayTemplate let-date>{{ date.getDate() }}</ng-template>
+```
+
+La plantilla solo reemplaza el número del día. La celda de día conserva su selección, la navegación por teclado, los atributos ARIA y los estilos de estado (seleccionado, intervalo, actual, especial, desactivado), por lo que seleccionar un día con plantilla funciona como antes y el tema sigue dibujando el estado seleccionado. La plantilla no se muestra para los días ocultos (consulte <ApiLink type="Calendar" member="hideOutsideDays" label="hideOutsideDays" />), y se usa en todas las vistas de mes cuando <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" /> es mayor que `1`.
+
+La plantilla recibe un `IgxCalendarDayTemplateContext` con las siguientes propiedades:
+
+| Nombre | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `$implicit`, `date` | `Date` | La fecha de la celda del día. |
+| `formattedDate` | `string` | El texto predeterminado de la celda del día, con formato según `formatOptions` y `formatViews`. |
+| `selected` | `boolean` | Indica si el día se muestra como seleccionado. |
+| `disabled` | `boolean` | Indica si el día está desactivado mediante `disabledDates`. |
+| `special` | `boolean` | Indica si el día está marcado como especial mediante `specialDates`. |
+| `today` | `boolean` | Indica si el día es la fecha actual. |
+| `weekend` | `boolean` | Indica si el día es fin de semana. |
+| `currentMonth` | `boolean` | Indica si el día pertenece al mes que se muestra. |
+| `active` | `boolean` | Indica si el día es el día activo (con el foco del teclado). |
+| `firstInRange` | `boolean` | Indica si el día es el primer día del intervalo seleccionado o previsualizado. |
+| `lastInRange` | `boolean` | Indica si el día es el último día del intervalo seleccionado o previsualizado. |
+| `withinRange` | `boolean` | Indica si el día está dentro del intervalo seleccionado. Siempre es `false` salvo que `selection` sea `range`. |
+| `withinPreviewRange` | `boolean` | Indica si el día está dentro del intervalo previsualizado mientras se selecciona un intervalo. |
+
+<DocsAside type="info">
+Los lectores de pantalla anuncian la celda del día a través de su propio `aria-label` y leen el texto que renderiza la plantilla como descripción de la celda. Muestre texto legible, como "3 eventos", en lugar de solo símbolos. No ponga elementos enfocables ni interactivos en la plantilla, porque un clic en cualquier parte de la celda selecciona la fecha. Use `currentColor` o la propiedad de contexto `selected` para que el contenido siga siendo legible sobre el fondo seleccionado.
+</DocsAside>
+
+### Números de semana
+
+Ahora puede usar la entrada <ApiLink type="Calendar" member="showWeekNumbers" label="showWeekNumbers" /> para mostrar los números de semana tanto en el componente Calendar como en DatePicker.
+
+```html
+
+{/* app.component.html */}
+<igx-calendar selection="multi" [showWeekNumbers]="true"></igx-calendar>
+```
+
+La siguiente demostración muestra un calendario con los números de semana habilitados:
+
+<Sample src="/scheduling/calendar-sample-1" height={380} alt="" />
+
+## Eventos del calendario
+
+Veamos los eventos que emite el calendario:
+
+- <ApiLink type="Calendar" member="selected" label="selected" />: se emite al seleccionar fecha(s) en el calendario.
+- <ApiLink type="Calendar" member="viewDateChanged" label="viewDateChanged" />: se emite cada vez que cambia el mes o el año que se muestra; por ejemplo, al navegar al mes `next` o `previous`.
+- <ApiLink type="Calendar" member="activeViewChanged" label="activeViewChanged" />: se emite después de que cambie la vista activa; por ejemplo, después de que el usuario haga clic en la sección `month` o `year` del encabezado.
+
+```html
+{/* app.component.html */}
+<igx-calendar #calendar
+    (selected)="onSelection($event)"
+    (viewDateChanged)="viewDateChanged($event)"
+    (activeViewChanged)="activeViewChanged($event)">
+</igx-calendar>
+```
+
+El evento <ApiLink type="Calendar" member="selected" label="selected" /> es adecuado para crear lógica de validación de entradas. Use el código siguiente para avisar al usuario si la selección supera los 5 días y, a continuación, restablecer la selección:
+
+```typescript
+// app.component.ts
+...
+public onSelection(dates: Date[]) {
+    if (dates.length > 5) {
+        this.calendar.selectedDates = [];
+        // alert the user
+    }
+}
+public viewDateChanged(event: IViewDateChangeEventArgs) {
+    // use event.previousValue to get previous month/year that was presented.
+    // use event.currentValue to get current month/year that is presented.
+}
+
+public activeViewChanged(event: CalendarView) {
+    // use CalendarView[event] to get the current active view (DEFAULT, YEAR or DECADE)
+}
+```
+
+Use la demostración siguiente para probar (cambiar la selección, navegar por los meses y los años) y ver los eventos registrados en tiempo real:
+
+<Sample src="/scheduling/calendar-sample-3" height={420} alt="" />
+
+## Vistas de Angular Calendar
+
+`IgxCalendarModule` proporciona vistas independientes que se pueden usar por separado:
+
+- Vista de días de Angular Calendar  - <ApiLink type="DaysView" />
+
+<Sample src="/scheduling/calendar-days-view" height={400} alt="" />
+
+- Vista de meses de Angular Calendar  - <ApiLink type="MonthsView" />
+
+<Sample src="/scheduling/calendar-months-view" height={290} alt="" />
+
+- Vista de años de Angular Calendar  - <ApiLink type="YearsView" />
+
+<Sample src="/scheduling/calendar-years-view" height={320} alt="" />
+
+## Navegación por teclado
+
+Si recorre la página con la _tecla Tab_, tenga en cuenta que, según las [recomendaciones de accesibilidad de W3](https://www.w3.org/TR/wai-aria-practices/#layoutGrid), <ApiLink type="Calendar" label="IgxCalendarComponent" /> introduce ahora las siguientes paradas de tabulación:
+
+- Botón del mes anterior
+- Botón de selección de mes
+- Botón de selección de año
+- Botón del mes siguiente
+- Fecha seleccionada, fecha actual, primera fecha enfocable (no desactivada) vista de días
+
+En un Angular Calendar que contiene más de una fecha seleccionada, solo la primera fecha se incluye como parada de tabulación. Por ejemplo, cuando el multiselección de Angular Calendar está habilitado y ha seleccionado las fechas _13/10/2020_, _17/10/2020_ y _21/10/2020_, solo _13/10/2020_ será accesible durante la navegación con tabulación; en el selector de intervalos de Angular Calendar, solo la primera fecha del intervalo seleccionado formará parte de la _secuencia de tabulación de la página_.
+
+<DocsAside type="info">
+Cambio de comportamiento, desde _v10.2.0_: la navegación con la tecla Tab en la _vista de días_ ya no está disponible. Para desplazarse entre las fechas de la _vista de fechas_, use las _teclas de flecha_.
+</DocsAside>
+
+Cuando el componente `igxCalendar` tiene el foco, use:
+
+- La tecla <kbd>PageUp</kbd> para ir al mes anterior,
+- La tecla <kbd>PageDown</kbd> para ir al mes siguiente,
+- Las teclas <kbd>Shift</kbd> + <kbd>PageUp</kbd> para ir al año anterior,
+- Las teclas <kbd>Shift</kbd> + <kbd>PageDown</kbd> para ir al año siguiente,
+- La tecla <kbd>Home</kbd> para enfocar el primer día del mes actual o el primer mes visible
+- La tecla <kbd>End</kbd> para enfocar el último día del mes actual o el último mes visible
+
+Cuando tenga el foco el botón `prev` o el botón de mes `next` (en el subencabezado), use:
+
+- La tecla <kbd>Space</kbd> o <kbd>Enter</kbd> para desplazar a la vista el mes siguiente o anterior.
+
+Cuando tenga el foco el botón `months` (en el subencabezado), use:
+
+- La tecla <kbd>Space</kbd> o <kbd>Enter</kbd> para abrir la vista de meses.
+
+Cuando tenga el foco el botón `year` (en el subencabezado), use:
+
+- La tecla <kbd>Space</kbd> o <kbd>Enter</kbd> para abrir la vista de décadas.
+
+Cuando tenga el foco un `day` dentro del mes actual:
+
+- Use las _teclas de flecha_ para desplazarse por los días. Nota: las fechas desactivadas se omitirán.
+- El foco se mantendrá en el mes actual que está en la vista mientras se navega **desde**/**hasta** el **último día**/**primer día** del mes.
+- La navegación con teclado es continua, lo que significa que recorrerá todos los meses al navegar con las flechas.
+- Use la <kbd>tecla Enter</kbd> para seleccionar el día que tiene el foco.
+
+Cuando tenga el foco un `month` dentro de la vista de meses, use:
+
+- Las teclas de flecha para desplazarse por los meses.
+- La tecla <kbd>Home</kbd> para enfocar el primer mes de la vista de meses.
+- La tecla <kbd>End</kbd> para enfocar el último mes de la vista de meses.
+- La tecla <kbd>Enter</kbd> para seleccionar el mes que tiene el foco y cerrar la vista.
+
+Cuando tenga el foco un `year` dentro de la vista de décadas, use:
+
+- Las teclas <kbd>Arrow Up</kbd> y <kbd>Arrow Down</kbd> para desplazarse por los años,
+- La tecla <kbd>Enter</kbd> para seleccionar el año que tiene el foco y cerrar la vista.
+
+<DocsAside type="info">
+A partir de la versión 8.2.0, la navegación con teclado no enfocará los días que están fuera del mes actual, sino que cambiará el mes que se muestra.
+</DocsAside>
+
+## Calendario de varias vistas
+
+El calendario de varias vistas admite los tres tipos de selección. Use la entrada <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" /> para establecer el número de meses que se muestran, los cuales aparecerán en horizontal dentro de un contenedor flex. No hay límite para el valor máximo. Al usar un calendario de varias vistas, puede que quiera ocultar los días que no pertenecen al mes actual. Puede hacerlo con la propiedad <ApiLink type="Calendar" member="hideOutsideDays" label="hideOutsideDays" />.  La navegación con teclado avanza o retrocede a los meses siguientes o anteriores cuando están en la vista.
+
+<Sample src="/scheduling/multiview-calendar" height={500} alt="" />
+
+## Orientación del calendario
+
+La configuración de orientación permite a los usuarios elegir cómo se muestran el encabezado y la vista del calendario.
+
+### Opciones de orientación del encabezado
+
+Puede cambiar la orientación del encabezado para colocar el encabezado del calendario en horizontal (encima de la vista del calendario) o en vertical (al lado de la vista del calendario).
+Para ello, use la propiedad <ApiLink type="Calendar" member="headerOrientation" label="headerOrientation" />, estableciéndola en `horizontal` o `vertical`, respectivamente
+
+### Opciones de orientación de la vista
+
+Puede establecer la orientación de la vista para colocar los meses del calendario en horizontal (uno al lado del otro) o en vertical (uno encima de otro).
+Para ello, use la propiedad <ApiLink type="Calendar" member="orientation" label="orientation" />, estableciéndola en `horizontal` o `vertical`, respectivamente.
+
+<DocsAside type="info">
+Necesita al menos un calendario de dos vistas de meses para ver esa propiedad en funcionamiento.
+</DocsAside>
+
+```html
+<igx-calendar [monthsViewNumber]="2" [headerOrientation]="headerOrientation" [orientation]="orientation"></igx-calendar>
+```
+
+```typescript
+const orientations = ["horizontal", "vertical"] as const;
+type Orientation = (typeof orientations)[number];
+
+export class CalendarSample9Component {
+    protected orientations = Array.from(orientations, (o) => o);
+    protected headerOrientation: Orientation = "horizontal";
+    protected orientation: Orientation = "horizontal";
+
+    protected setHeaderOrientation(orientation: Orientation) {
+        this.headerOrientation = orientation;
+    }
+
+    protected setOrientation(orientation: Orientation) {
+        this.orientation = orientation;
+    }
+}
+```
+
+<Sample src="/scheduling/calendar-sample-9" height={750} alt="Ejemplo de orientación de Angular Calendar" />
+
+## Estilos
+
+### Mapa de propiedades del tema del calendario
+
+Cuando modifica las propiedades `$header-background` y `$content-background`, todas las propiedades de tema relacionadas se ajustan automáticamente para que el componente calendario tenga un estilo coherente. Consulte las tablas siguientes para ver una descripción detallada de las propiedades de tema afectadas.
+
+<div class="theme-switcher-wrapper">
+
+{/*Theme Switcher Radios and Labels*/}
+<input type="radio" name="theme" id="material" checked/>
+<label for="material" class="switch-label">Material</label>
+<input type="radio" name="theme" id="fluent"/>
+<label for="fluent" class="switch-label">Fluent</label>
+<input type="radio" name="theme" id="bootstrap"/>
+<label for="bootstrap" class="switch-label">Bootstrap</label>
+<input type="radio" name="theme" id="indigo"/>
+<label for="indigo" class="switch-label">Indigo</label>
+
+<div class="tables">
+
+    {/* Material Theme Table */}
+    <div class="theme-table material">
+
+        | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | Color del texto del encabezado del calendario |
+|  | $picker-hover-foreground | Primer plano del selector al pasar el puntero |
+|  | $picker-focus-foreground | Primer plano del selector con foco |
+|  | $navigation-hover-color | Color de la navegación al pasar el puntero |
+|  | $navigation-focus-color | Color de foco de la navegación |
+|  | $date-selected-background | Fondo de las fechas seleccionadas |
+|  | $date-selected-current-background | Fondo de la fecha actual seleccionada |
+|  | $date-selected-foreground | Primer plano de las fechas seleccionadas |
+|  | $date-selected-current-foreground | Primer plano de la fecha actual seleccionada |
+|  | $date-selected-current-border-color | Color del borde de la fecha actual seleccionada |
+|  | $date-selected-special-border-color | Color del borde de las fechas especiales seleccionadas |
+|  | $ym-selected-background | Fondo del año/mes seleccionado |
+|  | $ym-selected-hover-background | Fondo al pasar el puntero sobre el año/mes seleccionado |
+|  | $ym-selected-current-background | Fondo del año/mes actual seleccionado |
+|  | $ym-selected-current-hover-background | Fondo al pasar el puntero sobre el año/mes actual seleccionado |
+|  | $ym-selected-foreground | Primer plano del año/mes seleccionado |
+|  | $ym-selected-hover-foreground | Primer plano al pasar el puntero sobre el año/mes seleccionado |
+|  | $ym-selected-current-foreground | Primer plano del año/mes actual seleccionado |
+|  | $ym-selected-current-hover-foreground | Primer plano al pasar el puntero sobre el año/mes actual seleccionado |
+| **$content-background** | $content-foreground | Color del texto y de los iconos dentro del área de contenido del calendario |
+|  | $weekend-color | Color de las fechas de fin de semana |
+|  | $inactive-color | Color de las fechas fuera del intervalo activo |
+|  | $weekday-color | Color de las etiquetas de los días laborables |
+|  | $picker-background | Fondo del selector |
+|  | $date-hover-background | Fondo de las fechas con el puntero encima |
+|  | $date-hover-foreground | Primer plano de las fechas con el puntero encima |
+|  | $date-focus-background | Fondo de las fechas con foco |
+|  | $date-focus-foreground | Primer plano de las fechas con foco |
+|  | $date-current-background | Fondo de la fecha actual |
+|  | $date-current-foreground | Primer plano de la fecha actual |
+|  | $date-current-border-color | Color del borde de la fecha actual |
+|  | $ym-current-background | Fondo del año/mes actual |
+|  | $ym-current-hover-background | Fondo al pasar el puntero sobre el año/mes actual |
+|  | $ym-current-foreground | Primer plano del año/mes actual |
+|  | $ym-current-hover-foreground | Primer plano al pasar el puntero sobre el año/mes actual |
+|  | $date-selected-range-background | Fondo del intervalo seleccionado |
+|  | $date-selected-range-foreground | Primer plano de los intervalos de fechas seleccionados |
+|  | $date-selected-current-range-background | Fondo de los intervalos de fechas actuales seleccionados |
+|  | $date-selected-current-range-hover-background | Fondo al pasar el puntero sobre los intervalos de fechas actuales seleccionados |
+|  | $date-selected-current-range-focus-background | Fondo con foco de los intervalos de fechas actuales seleccionados |
+|  | $date-selected-current-range-foreground | Primer plano de los intervalos de fechas actuales seleccionados |
+|  | $date-special-foreground | Primer plano de las fechas especiales |
+|  | $date-special-border-color | Color del borde de las fechas especiales |
+|  | $date-special-hover-border-color | Color del borde al pasar el puntero sobre las fechas especiales |
+|  | $date-special-focus-foreground | Primer plano con foco de las fechas especiales |
+|  | $date-special-range-foreground | Primer plano de los intervalos de fechas especiales |
+|  | $date-special-range-border-color | Color del borde de los intervalos de fechas especiales |
+|  | $date-special-range-hover-background | Fondo al pasar el puntero sobre los intervalos de fechas especiales |
+|  | $date-selected-special-border-color | Color del borde de las fechas especiales seleccionadas |
+|  | $date-selected-special-hover-border-color | Color del borde al pasar el puntero sobre las fechas especiales seleccionadas |
+|  | $date-selected-special-focus-border-color | Color del borde con foco de las fechas especiales seleccionadas |
+|  | $date-disabled-foreground | Primer plano de las fechas desactivadas |
+|  | $date-disabled-range-foreground | Primer plano de los intervalos desactivados |
+| **$date-border-radius** | $date-range-border-radius | Controla el radio del borde de los intervalos de fechas. |
+|  | $date-current-border-radius | Controla el radio del borde de la fecha actual. |
+|  | $date-special-border-radius | Controla el radio del borde de las fechas especiales. |
+|  | $date-border-radius | Si no se especifica y `$date-range-border-radius` está establecido, se usa el valor de `$date-range-border-radius`. |
+
+</div>
+        {/* Fluent Theme Table */}
+        <div class="theme-table fluent">
+
+            | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | Color del texto del encabezado del calendario |
+|  | $picker-hover-foreground | Primer plano del selector al pasar el puntero |
+|  | $picker-focus-foreground | Primer plano del selector con foco |
+|  | $date-current-background | Fondo de la fecha actual |
+|  | $date-current-hover-foreground | Primer plano al pasar el puntero sobre la fecha actual |
+|  | $date-current-focus-foreground | Primer plano con foco de la fecha actual |
+|  | $date-selected-current-foreground | Primer plano de la fecha seleccionada actualmente |
+|  | $date-selected-current-hover-foreground | Primer plano al pasar el puntero sobre la fecha seleccionada actualmente |
+|  | $date-selected-current-focus-foreground | Primer plano con foco de la fecha seleccionada actualmente |
+|  | $date-special-border-color | Color del borde de las fechas especiales |
+|  | $date-special-hover-foreground | Primer plano al pasar el puntero sobre las fechas especiales |
+|**$content-background** | $content-foreground | Color del texto y de los iconos dentro del área de contenido del calendario |
+|  | $weekend-color | Color de las fechas de fin de semana |
+|  | $inactive-color | Color de las fechas fuera del intervalo activo |
+|  | $weekday-color | Color de las etiquetas de los días laborables |
+|  | $picker-background | Fondo del selector |
+|  | $date-hover-background | Fondo de las fechas con el puntero encima |
+|  | $date-hover-foreground | Primer plano de las fechas con el puntero encima |
+|  | $date-focus-background | Fondo de las fechas con foco |
+|  | $date-focus-foreground | Primer plano de las fechas con foco |
+|  | $date-selected-background | Fondo de las fechas seleccionadas |
+|  | $date-selected-hover-background | Fondo al pasar el puntero sobre las fechas seleccionadas |
+|  | $date-selected-focus-background | Fondo con foco de las fechas seleccionadas |
+|  | $date-selected-foreground | Primer plano de las fechas seleccionadas |
+|  | $date-selected-hover-foreground | Primer plano al pasar el puntero sobre las fechas seleccionadas |
+|  | $date-selected-focus-foreground | Primer plano con foco de las fechas seleccionadas |
+|  | $date-selected-range-background | Fondo de los intervalos de fechas seleccionados |
+|  | $date-selected-range-foreground | Primer plano de los intervalos de fechas seleccionados |
+|  | $date-disabled-foreground | Primer plano de las fechas desactivadas |
+|  | $date-disabled-range-foreground | Primer plano de los intervalos desactivados |
+| **$date-border-radius** | $date-range-border-radius | Controla el radio del borde de los intervalos de fechas. |
+|  | $date-current-border-radius | Controla el radio del borde de la fecha actual. |
+|  | $date-special-border-radius | Controla el radio del borde de las fechas especiales. |
+|  | $date-border-radius | Si no se especifica y `$date-range-border-radius` está establecido, se usa el valor de `$date-range-border-radius`. |
+
+</div>
+        {/* Bootstrap Theme Table */}
+        <div class="theme-table bootstrap">
+
+            | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | Color del texto del encabezado del calendario |
+|  | $picker-background | Fondo del selector |
+|  | $picker-hover-foreground | Primer plano del selector al pasar el puntero |
+|  | $weekday-color | Color de las etiquetas de los días laborables |
+|  | $picker-focus-foreground | Primer plano del selector con foco |
+|  | $date-special-border-color | Color del borde de las fechas especiales |
+|  | $date-special-focus-foreground | Primer plano con foco de las fechas especiales |
+| **$content-background** | $content-foreground | Color del texto y de los iconos dentro del área de contenido del calendario |
+|  | $weekend-color | Color de las fechas de fin de semana |
+|  | $inactive-color | Color de las fechas fuera del intervalo activo |
+|  | $weekday-color | Color de las etiquetas de los días laborables |
+|  | $date-hover-background | Fondo de las fechas con el puntero encima |
+|  | $date-hover-foreground | Primer plano de las fechas con el puntero encima |
+|  | $date-focus-background | Fondo de las fechas con foco |
+|  | $date-focus-foreground | Primer plano de las fechas con foco |
+|  | $date-current-background | Fondo de la fecha actual |
+|  | $date-current-foreground | Primer plano de la fecha actual |
+|  | $date-current-border-color | Color del borde de la fecha actual |
+|  | $date-selected-background | Fondo de las fechas seleccionadas |
+|  | $date-selected-current-background | Fondo de la fecha seleccionada actualmente |
+|  | $date-selected-foreground | Primer plano de las fechas seleccionadas |
+|  | $date-selected-current-foreground | Primer plano de la fecha seleccionada actualmente |
+|  | $date-selected-special-border-color | Color del borde de las fechas especiales seleccionadas |
+|  | $date-selected-special-hover-border-color | Color del borde al pasar el puntero sobre las fechas especiales seleccionadas |
+|  | $date-selected-special-focus-border-color | Color del borde con foco de las fechas especiales seleccionadas |
+|  | $date-selected-range-background | Fondo de los intervalos de fechas seleccionados |
+|  | $date-selected-range-foreground | Primer plano de los intervalos de fechas seleccionados |
+|  | $date-disabled-foreground | Primer plano de las fechas desactivadas |
+|  | $date-disabled-range-foreground | Primer plano de los intervalos desactivados |
+| **$date-border-radius** | $date-range-border-radius | Controla el radio del borde de los intervalos de fechas. |
+|  | $date-current-border-radius | Controla el radio del borde de la fecha actual. |
+|  | $date-special-border-radius | Controla el radio del borde de las fechas especiales. |
+|  | $date-border-radius | Si no se especifica y `$date-range-border-radius` está establecido, se usa el valor de `$date-range-border-radius`. |
+
+</div>
+        {/* Indigo Theme Table */}
+        <div class="theme-table indigo">
+
+            | Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | Color del texto del encabezado del calendario |
+|  | $picker-background | Fondo del selector |
+|  | $picker-hover-foreground | Primer plano del selector al pasar el puntero |
+|  | $picker-focus-foreground | Primer plano del selector con foco |
+|  | $navigation-hover-color | Color de la navegación al pasar el puntero |
+|  | $navigation-focus-color | Color de foco de la navegación |
+|  | $date-current-background | Fondo de la fecha actual |
+|  | $date-current-border-color | Color del borde de la fecha actual |
+|  | $date-current-hover-background | Fondo de la fecha actual con el puntero encima |
+|  | $date-current-hover-border-color | Color del borde de la fecha actual con el puntero encima |
+|  | $date-current-focus-background | Fondo de la fecha actual con foco |
+|  | $date-current-focus-border-color | Color del borde de la fecha actual con foco |
+|  | $date-current-foreground | Primer plano de la fecha actual |
+|  | $date-current-hover-foreground | Primer plano de la fecha actual con el puntero encima |
+|  | $date-current-focus-foreground | Primer plano de la fecha actual con foco |
+|  | $date-selected-current-border-color | Color del borde de la fecha seleccionada actualmente |
+| **$content-background** | $content-foreground | Color del texto y de los iconos dentro del área de contenido del calendario |
+|  | $weekend-color | Color de las fechas de fin de semana |
+|  | $inactive-color | Color de las fechas fuera del intervalo activo |
+|  | $weekday-color | Color de las etiquetas de los días laborables |
+|  | $date-hover-background | Fondo de las fechas con el puntero encima |
+|  | $date-hover-foreground | Primer plano de las fechas con el puntero encima |
+|  | $date-focus-background | Fondo de las fechas con foco |
+|  | $date-focus-foreground | Primer plano de las fechas con foco |
+|  | $date-selected-background | Fondo de las fechas seleccionadas |
+|  | $date-selected-current-background | Fondo de la fecha seleccionada actualmente |
+|  | $date-selected-foreground | Primer plano de las fechas seleccionadas |
+|  | $date-selected-current-foreground | Primer plano de la fecha seleccionada actualmente |
+|  | $date-selected-current-border-color | Color del borde de la fecha seleccionada actualmente |
+|  | $date-selected-range-background | Fondo de los intervalos de fechas seleccionados |
+|  | $date-selected-range-foreground | Primer plano de los intervalos de fechas seleccionados |
+|  | $date-selected-current-range-background | Fondo de la fecha actual dentro de un intervalo seleccionado |
+|  | $date-selected-current-range-hover-background | Fondo al pasar el puntero sobre la fecha actual dentro de un intervalo seleccionado |
+|  | $date-selected-current-range-foreground | Primer plano de la fecha actual dentro de un intervalo seleccionado |
+|  | $date-disabled-foreground | Primer plano de las fechas desactivadas |
+|  | $date-disabled-range-foreground | Primer plano de los intervalos desactivados |
+| **$date-border-radius** | $date-range-border-radius | Controla el radio del borde de los intervalos de fechas. |
+|  | $date-current-border-radius | Controla el radio del borde de la fecha actual. |
+|  | $date-special-border-radius | Controla el radio del borde de las fechas especiales. |
+|  | $date-border-radius | Si no se especifica y `$date-range-border-radius` está establecido, se usa el valor de `$date-range-border-radius`. |
+
+</div>
+
+</div>
+</div>{/* .theme-switcher-wrapper */}
+
+Para empezar a dar estilo al calendario, tenemos que importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" code={true} /> y, al especificar solo los parámetros `$header-background` y `$content-background`, el tema calculará automáticamente los colores de estado y los primeros planos con contraste adecuados. Por supuesto, sigue siendo libre de sobrescribir cualquiera de los parámetros del tema con valores personalizados si lo necesita.
+
+```scss
+$custom-calendar-theme: calendar-theme(
+  $header-background: #ecaa53,
+  $content-background: #011627,
+);
+```
+
+El último paso es pasar el tema personalizado del calendario:
+
+```scss
+:host {
+    @include tokens($custom-calendar-theme);
+}
+```
+
+<Sample src="/scheduling/calendar-styling-sample" height={500} alt="" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo a `calendar` usando nuestras clases de utilidad personalizadas de Tailwind. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-calendar`, `dark-calendar`.
+
+Una vez aplicadas, estas clases habilitan los cálculos dinámicos del tema. A partir de ahí, puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Después de los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" />. La sintaxis es la siguiente:
+
+```html
+<igx-calendar
+class="!light-calendar
+![--header-background:#4F6A5A]
+![--content-background:#A3C7B2]"
+[weekStart]="1">
+</igx-calendar>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su calendario debería tener este aspecto:
+
+<Sample src="/scheduling/calendar-tailwind-styling-sample" height={500} iframeOnly />
+
+## Referencias de API
+<hr/>
+- <ApiLink type="Calendar" />
+- <ApiLink type="Calendar" member="activeDate" label="activeDate" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Estilos de IgxCalendarComponent" />
+- <ApiLink type="DateRangeType" kind="enum" />
+- <ApiLink type="DateRangeDescriptor" kind="interface" />
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

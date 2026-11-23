@@ -1,0 +1,61 @@
+---
+title: "Estilo y temas de {Platform} | Temas de {Platform} | Cambio de tema | Infragistics"
+description: "Use los componentes {Platform} de Infragistics para crear aplicaciones y mejorar la visualización de datos con la cuadrícula de datos {Platform} virtualizada y en tiempo real más rápida del mundo, y con gráficos financieros, empresariales y de streaming."
+keywords: "{ProductName}, Infragistics, temas, estilo"
+license: MIT
+mentionedTypes: ["ConfigureTheme"]
+_language: es
+llms:
+  description: "Los componentes de {ProductName} permiten a los usuarios modificar varias partes de su hoja de estilos exponiendo variables CSS y partes CSS."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import avatarMarkup from '@xplat-images/avatar-markup.png';
+
+
+# Personalizar los estilos de componente en {ProductName}
+
+Los componentes de {ProductName} permiten a los usuarios modificar varias partes de su hoja de estilos exponiendo [variables CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) y [partes CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/::part).
+
+## Partes CSS
+
+Además de los métodos para personalizar las distintas partes del tema del componente, como colores, sombras, tipografía, redondeado, tamaño y espaciado, mencionados en las secciones anteriores de esta documentación, puede ensuciarse las manos sobrescribiendo secciones concretas de la hoja de estilos de cada componente, dirigiéndose a partes específicas. Todos los componentes exponen varias partes CSS que permiten añadir o sobrescribir estilos definidos internamente para el componente.
+
+Las partes que expone un componente aparecen en la documentación de API de cada componente. Si le gusta explorar y prefiere un enfoque más práctico al código, siempre puede consultarlas con la herramienta de inspección de su navegador preferido.
+Por ejemplo, si quiere saber qué partes expone el avatar, basta con hacer clic derecho sobre el componente en el navegador y elegir "Inspeccionar" (en Chrome). Esto abre el inspector web y muestra el marcado del elemento personalizado en la pestaña de elementos. Debería ver algo parecido a la captura siguiente.
+
+<Image src={avatarMarkup} alt="marcado del avatar" class="responsive-img" />
+
+Verá que <ApiLink pkg="core" type="Avatar" /> expone 4 partes: `base`, `icon`, `image` y `initials`, según el tipo de avatar. Esas partes le permiten sobrescribir estilos definidos dentro de su ámbito.
+
+Así que, si quisiera cambiar el color de las iniciales al color primario de su paleta, puede sobrescribir la propiedad color en `base` o en `initials` de esta forma:
+
+```css
+igc-avatar::part(base) {
+  color: var(--ig-primary-500);
+}
+```
+
+Puede usar el mismo enfoque para modificar o añadir cualquier propiedad en la parte `base` o en cualquier otra parte de cualquier otro componente.
+
+## Variables CSS
+
+Un enfoque alternativo sería modificar las variables CSS responsables de distintas partes del estilo del componente. Convenientemente, el avatar estiliza sus iniciales con una variable de la paleta existente. Mirándola con atención, vemos que la variable de color es `--ig-gray-800`. Modificar el valor de esta variable en el ámbito del avatar también nos permitiría cambiar el color de las iniciales.
+
+```css
+igc-avatar {
+  --ig-gray-800: hsl(0, 0%, 62%);
+}
+```
+
+Reescribir el valor de la variable `--ig-gray-800` hace lo mismo que el ejemplo anterior sin sobrescribir explícitamente la propiedad color. Este enfoque funciona, pero puede resultar confuso seguir de dónde procede el color si se inspecciona la propiedad color de forma aislada. Por eso se recomienda sobrescribir la propiedad color en la parte base.
+
+## Conclusión
+
+Una vez conocidas las partes CSS y las variables CSS, y combinadas con los demás métodos de la documentación, debería poder ajustar el aspecto de todos los componentes a su gusto.
+
+
+## Referencias de API
+
+<ApiLink type="configureTheme" /><br />

@@ -1,0 +1,187 @@
+---
+title: "{Platform} Dock Manager | 데스크톱 통합 | Infragistics"
+description: "Infragistics의 {Platform} dock manager 컴포넌트를 사용하면 다중 창 Electron 데스크톱 애플리케이션의 레이아웃을 관리할 수 있습니다. {ProductName} dock manager 튜토리얼을 확인하십시오!"
+keywords: "dock manager, 레이아웃, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DockManager", "DocumentHost", "DockManagerLayout", "DockManagerPaneType", "ContentPane", "SplitPane", "TabGroupPane", "PinnedLocation", "PaneHeaderElement"]
+_language: ko
+llms:
+  description: "Infragistics {Platform} Dock Manager 컴포넌트는 다중 창 Electron 데스크톱 애플리케이션에서 각 창의 레이아웃을 관리하는 데 사용할 수 있습니다. 패널을 창 밖으로 끌어 새 창을 만들고, 패널을 한 창에서 다른 창으로 끌어 놓을 수도 있습니다."
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import dockmanagerElectronApp from '@xplat-images/dockmanager-electron-app.gif';
+
+
+# {Platform} Dock Manager 데스크톱 통합
+
+Infragistics {Platform} Dock Manager 컴포넌트는 다중 창 [Electron](https://www.electronjs.org/) 데스크톱 애플리케이션에서 각 창의 레이아웃을 관리하고, 창 밖으로 패널을 끌어 새 창을 만들며, 한 창에서 다른 창으로 패널을 끌어다 놓는 데 사용할 수 있습니다. 이러한 애플리케이션의 샘플 구현은 다음 리포지토리에서 찾을 수 있습니다: https://github.com/IgniteUI/dock-manager-electron-app
+
+{/*TODO: Add a gif of the application and a link to download the exe*/}
+<Image src={dockmanagerElectronApp} alt="{Platform} Dock Manager 데스크톱 통합" class="responsive-img" />
+
+## 구현
+
+이 애플리케이션 구현의 가장 중요한 부분을 살펴보겠습니다.
+
+### 프로젝트 구조
+
+[Electron Forge](https://www.electronforge.io/) CLI 도구와 그 [Typescript + Webpack](https://www.electronforge.io/templates/typescript-+-webpack-template) 템플릿을 사용하여 Electron 애플리케이션을 만들었습니다. Electron에는 메인 프로세스와 렌더러 프로세스라는 두 가지 유형의 프로세스가 있습니다.
+- 메인 프로세스는 **BrowserWindow** 인스턴스를 만들어 웹 페이지를 생성합니다. 각 **BrowserWindow** 인스턴스는 자신의 렌더러 프로세스에서 웹 페이지를 실행합니다.
+- 렌더러 프로세스는 해당 웹 페이지만 관리합니다.
+
+**index.ts** 스크립트는 메인 프로세스를 실행하는 Electron 애플리케이션의 진입점을 지정합니다. 애플리케이션 코드의 대부분은 렌더러 프로세스에서 실행되는 **renderer.ts** 파일에 있습니다. **index.html**은 웹 페이지의 콘텐츠를 나타냅니다. 웹 페이지의 스타일은 **index.css** 파일에 있습니다.
+
+### Dock Manager 설정
+
+Dock Manager 패키지를 설치한 후 **renderer.ts** 파일에서 **defineCustomElements()**를 사용하여 Dock Manager 컴포넌트를 등록했습니다. 이렇게 하면 **index.html** 파일에 **`<igc-dockmanager>`**을(를) 추가할 수 있습니다.
+
+Dock Manager 패널 콘텐츠에는 서로 다른 URL을 호스팅하는 **iframe** 요소를 사용했습니다. 이 예제에서 이러한 URL은 [Ignite UI for Angular](https://www.infragistics.com/products/ignite-ui-angular) 샘플을 가리킵니다. **iframe** 요소는 자체적으로 완결되어 있으므로 한 창에서 다른 창으로 쉽게 옮길 수 있습니다.
+
+### 끌어서 놓기
+
+패널을 애플리케이션 창 밖으로 끌 수 있도록 내장된 끌어서 놓기를 애플리케이션 내부 부동 패널을 만드는 기능 대신 [HTML 끌어서 놓기 API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API)를 기반으로 한 사용자 지정 구현으로 바꿨습니다. 헤더 요소가 DOM에 연결될 때 발생하는 `PaneHeaderConnected` 및 `TabHeaderConnected` 이벤트를 구독했습니다. 헤더 요소가 연결되면 내장 <ApiLink type="PaneHeaderElement" member="dragService" label="DragService" />을(를) 재설정하고 `DragStart` 및 `DragEnd` 이벤트 리스너를 연결합니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const paneHeaderConnected = (event: CustomEvent<IgcPaneHeaderConnectionEventArgs>) => {
+    const element = event.detail.element;
+    element.dragService.destroy();
+    element.dragService = null;
+    element.draggable = true;
+    element.ondragstart = ev => {
+        paneHeaderDragStart(event.detail.pane, ev);
+    };
+    element.ondragend = ev => {
+        paneHeaderDragEnd(ev);
+    };
+}
+
+dockManager.addEventListener('paneHeaderConnected', paneHeaderConnected);
+```
+
+</PlatformBlock>
+
+
+`PaneHeaderDragStart` 함수에서는 끌기 작업이 시작되었음을 알리기 위해 Dock Manager 컴포넌트의 <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" /> 속성을 설정합니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const paneHeaderDragStart = async (pane: IgcContentPane, event: DragEvent) => {
+    event.dataTransfer.dropEffect = 'move';
+    dockManager.draggedPane = pane;
+    // ...
+}
+```
+
+</PlatformBlock>
+
+`document` 요소의 `DragOver` 및 `drop` 이벤트를 구독했습니다. `DragOver` 리스너에서는 <ApiLink type="DockManager" member="dropPosition" label="DropPosition" /> 속성을 설정하여 마우스가 Dock Manager 위로 끌리고 있음을 알립니다. 그러면 Dock Manager가 도킹 표시기를 표시합니다.
+
+```ts
+const handleDocumentDragOver = (event: DragEvent) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    dockManager.dropPosition = {
+      x: event.clientX,
+      y: event.clientY
+    };
+}
+
+document.addEventListener('dragover', handleDocumentDragOver);
+document.addEventListener('drop', handleDocumentDrop);
+```
+
+`paneHeaderDragEnd` 함수에서는 패널이 애플리케이션 창 밖에 놓였는지 확인하고, 그 경우 `droppedOutOfWindow` 함수를 호출합니다.
+
+```ts
+const paneHeaderDragEnd = async (event: DragEvent) => {
+    event.preventDefault();
+    // ...
+
+    // dropped outside of the application
+    if (event.dataTransfer.dropEffect === 'none') {
+        await droppedOutOfWindow(event);
+    }
+    // ...
+}
+```
+
+패널 헤더가 문서 안에 놓이면 `DropPane` 메서드를 호출하여 끌던 패널이 놓였음을 Dock Manager에 알립니다. 패널이 도킹 표시기 위에 놓이면 이 메서드는 **true**를 반환합니다. 패널이 끌기를 시작한 것과 같은 창에 놓이면 패널은 자동으로 새 위치에 도킹됩니다. 하지만 다른 창에 놓이면 `droppedInAnotherWindow` 함수를 호출하여 먼저 원본 Dock Manager에서 패널을 제거한 다음 새 Dock Manager에 추가합니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const handleDocumentDrop = async (event: DragEvent) => {
+    const contentId = (dockManager.draggedPane as IgcContentPane).contentId;
+
+    const docked = await dockManager.dropPane();
+
+    if (docked) {
+        const contentElement = dockManager.querySelector('[slot=' + contentId + ']');
+
+        // if the content element is missing from the current dock manager it means it comes from another window
+        if (!contentElement) {
+            await droppedInAnotherWindow();
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+패널이 현재 창 밖에 놓이면 해당 Dock Manager 컴포넌트에서 <ApiLink type="DockManager" member="draggedPane" label="DraggedPane" />을(를) 제거하고 레이아웃을 업데이트해야 합니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const draggedPane = dockManager.draggedPane as IgcContentPane;
+await dockManager.removePane(draggedPane);
+dockManager.layout = { ...dockManager.layout };
+```
+
+</PlatformBlock>
+
+다음으로 패널 콘텐츠 요소를 새 창으로 옮겨야 합니다. 이를 위해 [document.adoptNode()](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode) 메서드를 사용합니다. 이 메서드는 콘텐츠 요소 노드를 새 문서로 옮긴 다음 새 Dock Manager 컴포넌트의 자식으로 추가할 수 있게 합니다.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const contentElement = dockManager.querySelector('[slot=' + draggedPane.contentId + ']');
+const newDocument = childWindow.document;
+const newDockManager = newDocument.getElementById('dockManager') as IgcDockManagerComponent;
+const adoptedNode = newDocument.adoptNode(contentElement);
+newDockManager.appendChild(adoptedNode);
+```
+
+</PlatformBlock>
+
+### 창 관리
+
+렌더러 프로세스에서 새 창을 열기 위해 기본 [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) 메서드를 사용합니다. **index.ts**에서 `BrowserWindow`를 만들 때 `nativeWindowOpen` 옵션을 **true**로 설정했습니다. 이렇게 하면 자식 `Window` 객체와 그 `document`에 직접 접근할 수 있습니다. 렌더러 프로세스에서 창을 여는 방법은 이 Electron [항목](https://www.electronjs.org/docs/api/window-open)에서 자세히 읽을 수 있습니다. `nativeWindowOpen` 옵션은 아직 실험적 기능이라는 점에 유의하십시오.
+
+```ts
+mainWindow = new BrowserWindow({
+    height: 800,
+    width: 1000,
+    webPreferences: {
+        nativeWindowOpen: true
+    }
+});
+```
+
+이 애플리케이션에서는 메인 창(`IMainDockManagerWindow`) 또는 자식 창(`IChildDockManagerWindow`) 중 하나일 수 있는 `IDockManagerWindow` 유형을 구현했습니다. 메인 창은 애플리케이션 시작 시 만들어지는 창이며, 모든 자식 창에 대한 참조를 가집니다. 자식 창은 패널이 창 밖으로 놓일 때 만들어지며, 애플리케이션의 메인 창에 대한 참조를 가집니다.
+
+전체 소스 코드는 [저장소](https://github.com/IgniteUI/dock-manager-electron-app)를 복제하십시오.
+
+
+## API 참조
+
+<ApiLink type="DockManager" /><br />
+<ApiLink type="DocumentHost" /><br />
+<ApiLink type="DockManagerLayout" /><br />
+<ApiLink type="ContentPane" /><br />

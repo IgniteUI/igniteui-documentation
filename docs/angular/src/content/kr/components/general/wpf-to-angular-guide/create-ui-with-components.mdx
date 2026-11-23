@@ -1,0 +1,103 @@
+---
+title: "Angular 컴포넌트로 사용자 인터페이스 만들기 | WPF에서 Angular 가이드 | Infragistics"
+description: "Angular 컴포넌트로 Angular 애플리케이션에 사용자 인터페이스를 만드는 방법을 알아보십시오. 비슷한 WPF 컴포넌트가 Angular에서 어떻게 대응되는지 확인하십시오."
+keywords: create user interface with an angular component, ignite ui for angular, infragistics
+_language: ko
+llms:
+  description: "Angular 애플리케이션에서 사용자 인터페이스를 만들 때는 Angular 컴포넌트를 사용하여 그 과정을 쉽게 할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import componentStructure from '../../../images/general/component_structure.png';
+import componentCodeBehind from '../../../images/general/component_code_behind.png';
+import sampleComponent from '../../../images/general/sample_component.png';
+
+# Angular 컴포넌트로 사용자 인터페이스 만들기
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/z1SZUezpRXY">
+</iframe>
+
+Angular 애플리케이션에서 사용자 인터페이스를 만들 때는 Angular 컴포넌트를 사용하여 그 과정을 쉽게 할 수 있습니다.
+
+Angular에서 UI를 만드는 것은 WPF에서 만드는 것과 매우 비슷합니다. 보통 UserControl 클래스로 표현되는 사용자 컨트롤을 사용합니다. `UserControl`은(는) 마크업과 코드를 재사용 가능한 컨테이너로 묶어, 같은 인터페이스와 기능을 여러 곳에서 사용할 수 있게 합니다. 이 사용자 컨트롤에는 UI 마크업용 .xaml 파일과 로직용 C# 파일이 있고, 이 컨트롤의 모든 종류의 스타일 정보를 담는 리소스 딕셔너리도 있을 수 있습니다. Angular에서는 `Component`라고 부르는 것을 사용합니다. 컴포넌트에는 UI 마크업에 쓰이는 html 파일이 있고, 속성과 로직에 쓰이는 typescript 파일이 있으며, 모든 스타일 정보에는 CSS 파일을 사용합니다. 이 둘이 얼마나 비슷한지 살펴보겠습니다.
+
+<Image src={componentStructure} alt="컴포넌트 구조" class="responsive-img" />
+
+왼쪽에는 `Sample`이라는 사용자 컨트롤이 있는 WPF 애플리케이션이 있습니다. 또한 스타일 정보를 담은 `SampleResources`라는 리소스 딕셔너리도 있습니다.
+오른쪽에는 `AppComponent`가 있는 Angular 애플리케이션이 있습니다. Angular 앱 컴포넌트를 WPF 애플리케이션의 샘플 사용자 컨트롤과 비교해 보겠습니다.
+
+먼저 앱 컴포넌트 typescript 파일을 열어 보겠습니다. 이 파일은 컴포넌트의 코드 비하인드라고 생각할 수 있습니다. 그렇게 생각하는 이유는 WPF에서 `Sample` 사용자 컨트롤의 코드 비하인드인 Sample.xaml.cs를 열면 많은 유사점을 볼 수 있기 때문입니다.
+
+<Image src={componentCodeBehind} alt="컴포넌트 코드 비하인드" class="responsive-img" />
+
+먼저 `AppComponent`이라는 이름의 내보내는 클래스가 있는 것을 볼 수 있습니다. 이 AppComponent에는 title이라는 속성도 있습니다. 따라서 이 클래스 안에서 컴포넌트가 실행되는 데 필요한 모든 속성, 메서드, 이벤트를 정의합니다. 이는 사용자 컨트롤과 거의 완전히 같습니다. `Sample`라는 클래스가 있고, 이 클래스 안에서 사용자 컨트롤이 동작하는 데 필요한 모든 속성, 메서드, 이벤트를 정의합니다.
+
+다음으로 typescript 파일에서 몇 줄 위로 올라가 `@` 기호와 Component라는 낯선 문법을 살펴보겠습니다. 이것은 데코레이터라고 부릅니다. 이 데코레이터는 Angular에게 우리가 내보내는 이 클래스를 어떻게 다룰지 알려 줍니다. 여기서는 이를 컴포넌트로 다루며, 컴포넌트로 다루기 때문에 데코레이터에 일부 정보를 제공해야 합니다. 정보를 보기 전에 typescript 파일의 맨 윗줄 `import { Component } from '@angular/core'`을(를) 살펴보겠습니다. 이는 using 문과 같다고 생각할 수 있습니다. 기본적으로 이 컴포넌트가 동작하는 데 필요한 객체를 import하는 것입니다. 여기서는 이 컴포넌트를 위해 데코레이터를 사용할 수 있도록 `@angular/core` 모듈에서 `Component`을(를) import합니다. 이는 사용자 컨트롤의 코드 비하인드 안에 있는 using 문과 매우 비슷합니다. C#에서는 사용자 컨트롤이 동작하는 데 필요한 클래스 내부의 객체를 찾고 사용하기 위해 `using` 문을 사용합니다.
+
+이제 컴포넌트 데코레이터 안으로 다시 들어가 보겠습니다.
+
+- 4번째 줄의 코드는 셀렉터라고 합니다. 셀렉터는 HTML에서 이 요소를 어떻게 정의할지 결정하는 데 도움을 줍니다. 이 셀렉터는 `app-root`라고 불리며, index.html을 열면 body 안에 `app-root` 요소가 있는 것을 볼 수 있습니다. 그 요소는 컴포넌트 데코레이터에 정의된 셀렉터를 사용하여 이 컴포넌트의 인스턴스를 정의합니다.
+- 다음으로 5번째 줄에는 템플릿 URL이라고 불리는 것이 있습니다. 이는 이 컴포넌트의 시각적 렌더링을 나타내는 html 파일인 `app.component.html`을(를) 가리킵니다. 이는 WPF 사용자 컨트롤의 `Sample.xaml` 파일과 매우 비슷합니다. XAML이 이 컨트롤의 렌더링 방식을 나타내는 마크업입니다.
+- 6번째 줄에는 스타일 URL이 있습니다. 스타일 URL은 CSS 파일을 가리킵니다. 이 파일은 컴포넌트의 스타일 정보를 나타냅니다. `app.component.css` 파일을 열면 여기에는 스타일 정보가 없다는 것을 볼 수 있지만, CSS 파일을 리소스 딕셔너리와 직접 대응되는 것으로 생각할 수 있습니다. XAML의 리소스 딕셔너리는 사용자 컨트롤 또는 사용자 컨트롤 안의 요소에 대한 모든 스타일 정보를 담아 디자인에 맞게 렌더링되도록 합니다. CSS에서 하는 것과 정확히 같습니다.
+
+## 컴포넌트 생성하기
+
+이제 Angular 컴포넌트가 WPF 사용자 컨트롤과 얼마나 비슷한지 보았으니, 새 컴포넌트를 만들어 애플리케이션에 추가해 보겠습니다. 데스크톱 개발자라면 WPF에서 새 사용자 컨트롤을 추가하고 싶을 때 프로젝트에서 마우스 오른쪽 버튼을 클릭하고 **Add > User Control**을 선택하면 됩니다. 하지만 Visual Studio Code에서 같은 일을 하려고 하면 그 옵션이 없습니다. 새 파일과 새 폴더만 있습니다. 따라서 터미널로 가서 Angular CLI를 사용하여 컴포넌트를 생성해야 합니다. 터미널을 열려면 `Control + Backtick`을(를) 입력하십시오. 터미널에서 generate를 뜻하는 **NG G**, 컴포넌트를 뜻하는 **C**를 입력한 다음, 컴포넌트의 이름을 제공하면 됩니다. 예: `sample`.
+
+```cmd
+ng g c sample
+```
+
+명령이 완료되면 여러 가지 일이 일어난 것을 볼 수 있습니다. 먼저 컴포넌트에 준 이름과 같은 이름의 새 폴더가 생깁니다. 또한 html 파일, SPEC 파일, typescript 파일, CSS 파일 이렇게 네 개의 새 파일이 생깁니다. 그리고 `app.module.ts` 파일도 업데이트되었습니다.
+
+<Image src={sampleComponent} alt="샘플 컴포넌트" class="responsive-img" />
+
+새로 만든 컴포넌트가 들어 있는 `sample` 폴더를 보십시오. 컴포넌트에 필요한 세 파일이 모두 있고, 추가로 이 SPEC 파일도 있습니다. 이것은 테스트 파일이며 이 문서에서는 필요하지 않으므로 지금은 다루지 않겠습니다. 또한 app.module.ts도 수정되어 NgModule의 `declarations` 섹션에 샘플 컴포넌트가 추가되었습니다.
+<DocsAside type="info">
+이것은 중요합니다. 새 컴포넌트를 만들 때마다 NG 모듈의 declarations 섹션에 선언해야 합니다. 이 섹션은 본질적으로 어떤 컴포넌트가 이 모듈에 속하는지 나타냅니다.
+</DocsAside>
+
+`sample.component.ts` 파일로 돌아가 보겠습니다. 위에서 다룬 `app.component.ts` 파일과 매우 비슷해 보입니다. 여기에는 컴포넌트를 import하는 import 문이 있습니다. 셀렉터를 `app-sample`(으)로 정의하는 컴포넌트 데코레이터가 있습니다. 템플릿 URL은 `sample.component.html`이고 스타일 URL은 `sample.component.css`입니다.
+
+`sample works!`라는 문장이 있는 html 파일을 열어 보겠습니다. 애플리케이션을 시작할 때 이것을 보고 싶으므로 app.component.html로 가겠습니다. 제목을 제외한 대부분의 초기 마크업을 지우고 `<app-sample></app-sample>`을(를) 추가하겠습니다.
+
+```html
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <app-sample></app-sample>
+</div>
+```
+
+## 애플리케이션 실행하기
+
+터미널에 `npm start`을(를) 입력하면 애플리케이션이 컴파일되고 빌드되어 브라우저에서 실행됩니다. 모든 것이 잘 되었다면 브라우저에서 애플리케이션이 실행되고 있어야 합니다. `welcome to app` - 앱 컴포넌트의 마크업이 보이고, 그다음 `sample works!`이(가) 보입니다. 이는 방금 추가한 샘플 컴포넌트의 마크업입니다.
+이제 텍스트를 'This sample works very well!'로 바꿔서 샘플 컴포넌트를 조금 변경해 보겠습니다.
+
+```html
+  This sample works very well!
+```
+
+저장하고 브라우저를 확인하면 샘플 컴포넌트를 렌더링하는 HTML을 실제로 편집하고 있다는 것을 볼 수 있습니다.
+컴포넌트의 스타일을 지정하려면 스타일 URL을 확인해야 합니다. 따라서 `sample.component.css` 파일을 열고 단락 태그의 색상을 빨간색으로 만들어 보겠습니다.
+
+```css
+p {
+    color: red;
+}
+```
+
+저장하고 브라우저를 열면 CSS 파일의 스타일이 샘플 컴포넌트에 적용된 것을 볼 수 있습니다.
+
+## 추가 리소스
+
+- [데스크톱에서 웹으로: Angular 컴포넌트로 UI 만들기](https://www.youtube.com/watch?v=z1SZUezpRXY&t)
+- [Angular 컴포넌트 소개](https://angular.io/guide/architecture-components)
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

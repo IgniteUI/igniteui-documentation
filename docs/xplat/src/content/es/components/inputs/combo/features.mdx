@@ -1,0 +1,846 @@
+---
+title: "Funciones de {Platform} Combo"
+description: "El Combo de {Platform} se enlaza a datos locales, filtra sus opciones a medida que el usuario escribe, las agrupa por un campo de datos y puede deshabilitarse."
+keywords: "{ProductName}, controles de interfaz, widgets de {Platform}, widgets web, widgets de interfaz, {Platform}, suite de componentes nativos de {Platform}, controles nativos de {Platform}, biblioteca de componentes nativos de {Platform}, funciones de Combo de {Platform}, enlace de datos de Combo de {Platform}, filtrado de Combo de {Platform}, agrupación de Combo de {Platform}"
+license: MIT
+last_updated: "2026-11-16"
+platformType: web-only
+mentionedTypes: ["Combo"]
+_language: es
+llms:
+  description: "El Combo de {Platform} se enlaza a datos locales, filtra sus opciones a medida que el usuario escribe, las agrupa por un campo de datos y puede deshabilitarse."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Funciones del componente Combo
+
+El Combo de {Platform} se enlaza a datos locales, filtra sus opciones a medida que el usuario escribe, las agrupa por un campo de datos y puede deshabilitarse.
+
+<PlatformBlock for="Angular">
+
+El Combo también puede cargar sus datos desde un servicio remoto por fragmentos, aceptar valores personalizados y mostrar su lista con opciones de superposición personalizadas.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+El Combo también puede cargar sus opciones desde un servicio remoto una página cada vez.
+
+</PlatformBlock>
+
+## Demostración en vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/combo-features" showThemePicker height={496} noBorder={false} alt="Combo de {Platform} con interruptores para el filtrado, el icono de distinción de mayúsculas, los valores personalizados, la agrupación y el estado deshabilitado" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/features" showThemePicker height={496} noBorder={false} alt="Combo de {Platform} con interruptores para el filtrado, el icono de distinción de mayúsculas, la agrupación y el estado deshabilitado" />
+
+</PlatformBlock>
+
+## Funciones
+
+### Enlace de datos
+
+Los siguientes fragmentos enlazan el Combo de {Platform} a una lista local de estados de EE. UU. mediante su propiedad <ApiLink type="Combo" member="data" label="data" />, guardando el código de cada estado y mostrando su nombre. Las claves que el Combo lee de cada elemento se describen en [Enlace de datos](./overview.mdx#enlace-de-datos) en el tema de descripción general del Combo.
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { usStates } from './states-data';
+
+export class ComboDataBindingComponent {
+    // Items such as { id: 'CT', name: 'Connecticut', region: 'New England' }
+    public usStates = usStates;
+}
+```
+
+```html
+<igx-combo [data]="usStates" valueKey="id" displayKey="name"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo id="combo" value-key="id" display-key="name"></igc-combo>
+```
+
+```ts
+import { IgcComboComponent } from 'igniteui-webcomponents';
+import { UsState, usStates } from './ComboData';
+
+// Items such as { id: 'CT', name: 'Connecticut', region: 'New England' }
+const combo = document.getElementById('combo') as IgcComboComponent<UsState>;
+combo.data = usStates;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo @bind-Value="selectedStates" Data="usStates" ValueKey="Id" DisplayKey="Name" />
+
+@code {
+    // Items such as new UsState { Id = "CT", Name = "Connecticut", Region = "New England" }
+    private List<UsState> usStates = UsStatesData.States;
+    private string[] selectedStates = [];
+}
+```
+
+`IgbCombo` deduce su tipo de valor a partir de `Data` y `@bind-Value`. Los fragmentos de Blazor del resto de este tema los omiten, así que añádalos de nuevo al copiar un fragmento.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { IgrCombo } from "igniteui-react";
+import { usStates } from "./ComboData";
+
+// Items such as { id: "CT", name: "Connecticut", region: "New England" }
+<IgrCombo data={usStates} valueKey="id" displayKey="name" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Enlace remoto
+
+El Combo puede cargar sus datos desde un servicio remoto por fragmentos: solicita los elementos a los que el usuario se desplaza mediante el evento <ApiLink type="Combo" member="dataPreLoad" label="dataPreLoad" />, y el servicio devuelve solo esos elementos. El siguiente ejemplo carga productos desde un servicio remoto mientras el usuario se desplaza y busca:
+
+<Sample src="/lists/combo-remote" showThemePicker height={560} noBorder={false} spacing="md" alt="Combo de {Platform} que carga productos desde un servicio remoto por fragmentos" />
+
+#### Definir el servicio remoto
+
+Un servicio remoto carga los elementos bajo demanda desde un servidor. El Combo expone su propiedad <ApiLink type="Combo" member="virtualizationState" label="virtualizationState" />, que contiene el índice del primer elemento que hay que cargar y el número de elementos que hay que cargar. Para dimensionar la barra de desplazamiento con todos los elementos del servidor, establezca la propiedad <ApiLink type="Combo" member="totalItemCount" label="totalItemCount" /> con su recuento total.
+
+El siguiente servicio tiene un método `getData()` que construye la petición a partir del estado del Combo y de su texto de búsqueda, y emite los elementos cargados mediante un observable:
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { IForOfState } from 'igniteui-angular/directives';
+// import { IForOfState } from '@infragistics/igniteui-angular/directives'; for licensed package
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable()
+export class RemoteNWindService {
+    private http = inject(HttpClient);
+    private url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Products';
+
+    public remoteData = new BehaviorSubject<any[]>([]);
+
+    public getData(state: IForOfState, searchText: string, cb?: (data: any) => void) {
+        return this.http.get(this.buildUrl(state, searchText)).subscribe((data: any) => {
+            this.remoteData.next(data.value);
+            cb?.(data);
+        });
+    }
+
+    // Requests the chunk of items the Combo shows, and the total count of the matching items.
+    private buildUrl(state: IForOfState, searchText: string): string {
+        let query = `?$skip=${state.startIndex}&$top=${state.chunkSize}&$count=true`;
+        if (searchText) {
+            // Double the apostrophes for OData, then encode the text for the URL.
+            const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+            query += `&$filter=contains(ProductName, '${text}')`;
+        }
+        return `${this.url}${query}`;
+    }
+}
+```
+
+#### Enlazar ComboBox a un servicio remoto
+
+Enlace el observable del servicio al Combo con el pipe `async`, y solicite un nuevo fragmento de elementos cada vez que el Combo lance <ApiLink type="Combo" member="dataPreLoad" label="dataPreLoad" /> o cambie el texto de búsqueda:
+
+```html
+<igx-combo #remoteCombo
+    [data]="rData | async"
+    valueKey="ProductID"
+    displayKey="ProductName"
+    (dataPreLoad)="onDataPreLoad()"
+    (searchInputUpdate)="onSearchInputUpdate($event)">
+    <label igxLabel>Products</label>
+</igx-combo>
+```
+
+```typescript
+// The size of the first chunk, requested before the Combo reports how many items it shows.
+const FIRST_CHUNK_SIZE = 10;
+
+// The component lists RemoteNWindService in its providers, and the application
+// providers include provideHttpClient(), which the service needs.
+export class ComboRemoteComponent implements OnInit {
+    @ViewChild('remoteCombo', { static: true })
+    public remoteCombo: IgxComboComponent;
+
+    private remoteService = inject(RemoteNWindService);
+    public rData = this.remoteService.remoteData;
+    private searchText = '';
+
+    public ngOnInit() {
+        this.loadChunk({ startIndex: 0, chunkSize: FIRST_CHUNK_SIZE });
+    }
+
+    // The Combo asks for the next chunk while the user scrolls.
+    public onDataPreLoad() {
+        this.loadChunk(this.remoteCombo.virtualizationState);
+    }
+
+    // The server filters the items: request the first chunk of the matching ones.
+    public onSearchInputUpdate(event: IComboSearchInputEventArgs) {
+        this.searchText = event.searchText;
+        this.loadChunk({ startIndex: 0, chunkSize: FIRST_CHUNK_SIZE });
+    }
+
+    private loadChunk(state: IForOfState) {
+        this.remoteService.getData(state, this.searchText, (data) => {
+            // The total count sizes the scrollbar for all the items, not only the loaded chunk.
+            this.remoteCombo.totalItemCount = data['@odata.count'];
+        });
+    }
+}
+```
+
+#### Gestión de la selección
+
+Cuando el Combo está enlazado a datos remotos que se cargan por fragmentos, y los elementos de datos son objetos, establezca la propiedad <ApiLink type="Combo" member="valueKey" label="valueKey" />. Sin ella, el Combo compara los elementos seleccionados con los elementos cargados por referencia, como se describe en el [tema del Combo](./overview.mdx#enlace-de-datos). Cada fragmento que carga el servicio crea objetos nuevos, así que el Combo no puede emparejar los elementos seleccionados con ellos.
+
+<DocsAside type="info">
+Cuando enlace el Combo a datos remotos, establezca la propiedad `valueKey` en una propiedad única de cada elemento.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### Enlace remoto
+
+El Combo de {Platform} puede cargar sus opciones desde un servicio remoto una página cada vez. El servicio busca y pagina en el servidor, y el Combo muestra un marcador de posición para cada elemento que aún no se ha cargado. El siguiente ejemplo carga productos desde un servicio remoto mientras el usuario se desplaza y busca:
+
+<Sample src="/inputs/combo/remote-binding" showThemePicker height={560} noBorder={false} spacing="md" alt="Combo de {Platform} que carga productos desde un servicio remoto página a página" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<DocsAside type="info">
+El enlace remoto requiere `igniteui-webcomponents` 7.5.0 o posterior.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<DocsAside type="info">
+El enlace remoto requiere una versión de `igniteui-react` que dependa de `igniteui-webcomponents` 7.5.0 o posterior.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+#### Enlazar el Combo a un servicio remoto
+
+Importe `bindComboDataSource()` desde `igniteui-webcomponents/extras/combo-data-source` y páselo al Combo junto con un origen que tenga una función `load()`. El enlace llama a `load()` para cada página con una petición que contiene `searchText`, `caseSensitive`, `startIndex` y `count`, y con un `AbortSignal`. Devuelva los elementos de la página y el recuento total de los elementos coincidentes:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo id="combo" label="Products" value-key="ProductID" display-key="ProductName"></igc-combo>
+```
+
+```ts
+import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
+import { bindComboDataSource } from 'igniteui-webcomponents/extras/combo-data-source';
+
+defineComponents(IgcComboComponent);
+
+interface Product {
+    ProductID: number;
+    ProductName: string;
+}
+
+const url = 'https://services.odata.org/V4/Northwind/Northwind.svc/Products';
+const combo = document.getElementById('combo') as IgcComboComponent<Product>;
+
+const binding = bindComboDataSource(combo, {
+    // Loads one page of the products that match the search text.
+    load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+            // Double the apostrophes for OData, then encode the text for the URL.
+            const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+            query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data['@odata.count'] };
+    }
+}, {
+    // The service returns up to 20 products per request.
+    pageSize: 20
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+En React, pase el elemento que contiene el `ref` de `IgrCombo`, y destruya el enlace cuando el componente se desmonte:
+
+```tsx
+import { useEffect, useRef } from "react";
+import { IgrCombo } from "igniteui-react";
+import { bindComboDataSource } from "igniteui-webcomponents/extras/combo-data-source";
+
+const url = "https://services.odata.org/V4/Northwind/Northwind.svc/Products";
+
+export default function RemoteCombo() {
+  const comboRef = useRef<IgrCombo>(null);
+
+  useEffect(() => {
+    const binding = bindComboDataSource(comboRef.current!, {
+      // Loads one page of the products that match the search text.
+      load: async ({ searchText, startIndex, count }, signal) => {
+        let query = `?$skip=${startIndex}&$top=${count}&$count=true`;
+        if (searchText) {
+          // Double the apostrophes for OData, then encode the text for the URL.
+          const text = encodeURIComponent(searchText.replace(/'/g, "''"));
+          query += `&$filter=contains(ProductName, '${text}')`;
+        }
+
+        // The signal lets a newer search abort this request.
+        const response = await fetch(`${url}${query}`, { signal });
+        const data = await response.json();
+        return { items: data.value, totalCount: data["@odata.count"] };
+      }
+    }, {
+      // The service returns up to 20 products per request.
+      pageSize: 20
+    });
+
+    return () => binding.dispose();
+  }, []);
+
+  return <IgrCombo ref={comboRef} label="Products" valueKey="ProductID" displayKey="ProductName" />;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+El enlace cambia el Combo al filtrado remoto y realiza las peticiones:
+
+- Carga la primera página cuando el usuario abre una lista que no tiene elementos, y de nuevo después de que el usuario deje de escribir en el campo de búsqueda.
+- Añade la página siguiente cuando el usuario se desplaza cerca del final de los elementos cargados.
+- Cancela una petición que una búsqueda más reciente deja obsoleta, mediante la señal que `load()` pasa a `fetch()`.
+- Establece la propiedad `totalItemCount` del Combo con el recuento total, y su propiedad `loading` mientras una búsqueda espera o una página se carga.
+
+Mientras el Combo tenga menos elementos que `totalItemCount`, su lista muestra un marcador de posición para cada elemento por cargar, de modo que la barra de desplazamiento muestra la longitud completa de los resultados. Mientras `loading` esté establecido, el Combo muestra un indicador de carga en lugar de su icono de alternancia. Sustituya el indicador de carga mediante el slot `loading`, y dé estilo al indicador y a los marcadores de posición mediante las partes CSS `loading` y `placeholder`.
+
+El tercer argumento de `bindComboDataSource()` configura el enlace:
+
+| Opción | Valor predeterminado | Descripción |
+|---|---|---|
+| `pageSize` | `50` | El número mínimo de elementos que carga una petición. Un origen puede devolver menos, por ejemplo, hasta el límite de página del servidor, y entonces el Combo solicita el resto. |
+| `debounce` | `300` | La pausa al escribir, en milisegundos, antes de que cargue una búsqueda. |
+| `loadOnOpen` | `true` | Indica si la primera página se carga cuando el usuario abre una lista que no tiene elementos. |
+| `onError` | - | Recibe el error de una petición fallida. El Combo conserva sus elementos. |
+
+`bindComboDataSource()` devuelve un enlace con dos métodos. `refresh()` vuelve a cargar la primera página de la búsqueda actual; llámelo después de cambiar `filteringOptions.caseSensitive` en el código. `dispose()` elimina los listeners, cancela las peticiones en curso y devuelve al Combo su modo de filtrado.
+
+#### Modo de filtrado remoto
+
+`bindComboDataSource()` usa solo la API pública del Combo. Para hacer las peticiones usted mismo, establezca `mode` de <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> en `remote`:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+combo.filteringOptions = { mode: 'remote' };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// In an effect, once the Combo has rendered.
+comboRef.current!.filteringOptions = { mode: "remote" };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+En el modo remoto, el Combo deja la búsqueda en manos de su servicio:
+
+- El Combo ya no filtra sus opciones. Lea `detail.searchText` del evento `igcSearchInput`, busque en el servidor y establezca <ApiLink type="Combo" member="data" label="data" /> con la primera página de los resultados. El servidor hace la coincidencia, así que envíe `filteringOptions.caseSensitive` junto con la búsqueda.
+- Cuando el usuario se desplaza cerca del final de `data`, el evento `igcDataRequest` pide `detail.count` elementos más en `detail.startIndex`. Añádalos a `data`.
+- Establezca `totalItemCount` con el recuento total de los resultados, y `loading` mientras se ejecuta una petición.
+
+#### Gestión de la selección
+
+Establezca <ApiLink type="Combo" member="valueKey" label="valueKey" /> cuando el Combo cargue datos remotos. Cada página crea objetos nuevos, y el Combo empareja los elementos seleccionados con ellos por el valor de esa clave. Un `data` nuevo mantiene la selección: los elementos seleccionados siguen seleccionados cuando una búsqueda devuelve resultados que no los contienen, y vuelven a mostrarse como seleccionados cuando una página o una búsqueda posterior los contiene.
+
+Para seleccionar valores cuyos elementos todavía no ha cargado ninguna página, como los valores de un filtro guardado, añada una función `resolve()` al origen de `bindComboDataSource()`. El enlace la llama con esos valores y selecciona los elementos que devuelve.
+
+El Combo no puede saber si el servidor eliminó un elemento seleccionado o simplemente no ha enviado su página. Cuando vuelva a cargar datos en vivo, llame a <ApiLink type="Combo" member="deselect" label="deselect()" /> para los elementos seleccionados que el servidor ya no tiene.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Ajustes personalizados de superposición
+
+El Combo muestra su lista de elementos en una superposición, que puede configurar pasando <ApiLink kind="interface" type="OverlaySettings" label="OverlaySettings" /> a la entrada <ApiLink type="Combo" member="overlaySettings" label="overlaySettings" />. El Combo combina estos ajustes con sus valores predeterminados, así que establezca solo los que quiera cambiar. Los siguientes ajustes hacen que la lista sea modal, lo que atenúa la página que hay detrás, y la cierran cuando el usuario hace clic fuera:
+
+```typescript
+import { OverlaySettings } from 'igniteui-angular/core';
+// import { OverlaySettings } from '@infragistics/igniteui-angular/core'; for licensed package
+
+export class ComboOverlayComponent {
+    public overlaySettings: OverlaySettings = {
+        modal: true,
+        closeOnOutsideClick: true
+    };
+}
+```
+
+```html
+<igx-combo [data]="people" [overlaySettings]="overlaySettings"></igx-combo>
+```
+
+<Sample src="/lists/combo-overlay" showThemePicker height={512} noBorder={false} spacing="md" alt="Combo de {Platform} con una lista modal que atenúa la página que hay detrás" />
+
+<DocsAside type="info">
+De forma predeterminada, el Combo posiciona su lista con <ApiLink type="AutoPositionStrategy" />, que abre la lista debajo de la entrada, o encima de ella cuando no hay suficiente espacio.
+</DocsAside>
+
+</PlatformBlock>
+
+### Filtrado
+
+El Combo de {Platform} filtra su lista de opciones a medida que el usuario escribe en el campo de búsqueda del desplegable. El filtrado está activado de forma predeterminada. Establezca <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" /> para desactivarlo, lo que también oculta el campo de búsqueda.
+
+<PlatformBlock for="Angular">
+
+Para que los usuarios cambien la búsqueda entre distinguir y no distinguir mayúsculas, establezca <ApiLink type="Combo" member="showSearchCaseIcon" label="showSearchCaseIcon" />. El Combo muestra entonces un icono de distinción de mayúsculas en su campo de búsqueda. El icono no tiene efecto mientras el filtrado está deshabilitado, porque el campo de búsqueda está oculto.
+
+```html
+<!-- Shows the case-sensitive icon in the search input -->
+<igx-combo [showSearchCaseIcon]="true"></igx-combo>
+
+<!-- Turns filtering off, which also hides the search input -->
+<igx-combo [disableFiltering]="true"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para que los usuarios cambien la búsqueda entre distinguir y no distinguir mayúsculas, establezca <ApiLink type="Combo" member="caseSensitiveIcon" label="caseSensitiveIcon" />. El Combo muestra entonces un icono de distinción de mayúsculas en su campo de búsqueda. El icono no tiene efecto mientras el filtrado está deshabilitado, porque el campo de búsqueda está oculto.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<!-- Shows the case-sensitive icon in the search input -->
+<igc-combo case-sensitive-icon></igc-combo>
+
+<!-- Turns filtering off, which also hides the search input -->
+<igc-combo disable-filtering></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* Shows the case-sensitive icon in the search input *@
+<IgbCombo CaseSensitiveIcon="true" />
+
+@* Turns filtering off, which also hides the search input *@
+<IgbCombo DisableFiltering="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Shows the case-sensitive icon in the search input
+<IgrCombo caseSensitiveIcon={true} />
+
+// Turns filtering off, which also hides the search input
+<IgrCombo disableFiltering={true} />
+```
+
+</PlatformBlock>
+
+#### Opciones de filtrado
+
+La propiedad <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> configura cómo el Combo de {Platform} compara el texto de búsqueda:
+
+<PlatformBlock for="Angular">
+
+- `filteringKey`: el campo de datos en el que se busca. Por defecto, el campo establecido por `displayKey`.
+- `caseSensitive`: indica si la búsqueda distingue entre mayúsculas y minúsculas. Por defecto, `false`. El icono de distinción de mayúsculas alterna este valor.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- `filterKey`: el campo de datos en el que se busca. Por defecto, el campo establecido por `displayKey`.
+- `caseSensitive`: indica si la búsqueda distingue entre mayúsculas y minúsculas. Por defecto, `false`. El icono de distinción de mayúsculas alterna este valor.
+- `matchDiacritics`: indica si las letras acentuadas coinciden solo consigo mismas, de modo que `é` no coincide con `e`. Por defecto, `false`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+En Blazor, establezca estas opciones mediante un objeto `IgbFilteringOptions`, como `FilterKey`, `CaseSensitive` y `MatchDiacritics`.
+
+</PlatformBlock>
+
+El siguiente fragmento busca en la región de cada estado en lugar de en su nombre, y hace que la búsqueda distinga entre mayúsculas y minúsculas:
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { IComboFilteringOptions } from 'igniteui-angular/combo';
+// import { IComboFilteringOptions } from '@infragistics/igniteui-angular/combo'; for licensed package
+
+export class ComboDemo {
+    public filteringOptions: IComboFilteringOptions = {
+        filteringKey: 'region',
+        caseSensitive: true
+    };
+}
+```
+
+```html
+<igx-combo [filteringOptions]="filteringOptions"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+combo.filteringOptions = {
+    filterKey: 'region',
+    caseSensitive: true
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo FilteringOptions="@filteringOptions" />
+
+@code {
+    private IgbFilteringOptions filteringOptions = new IgbFilteringOptions
+    {
+        FilterKey = "Region",
+        CaseSensitive = true
+    };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo filteringOptions={{ filterKey: "region", caseSensitive: true }} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### Valores personalizados
+
+La propiedad <ApiLink type="Combo" member="allowCustomValues" label="allowCustomValues" /> permite a los usuarios añadir elementos que faltan en los datos. Cuando el texto de búsqueda no coincide con ningún elemento, el desplegable muestra un botón **Add item**, que añade el texto de búsqueda a los datos como un nuevo elemento.
+
+```html
+<igx-combo [allowCustomValues]="true"></igx-combo>
+```
+
+</PlatformBlock>
+
+### Foco en el campo de búsqueda
+
+Cuando se abre el desplegable del Combo de {Platform}, su campo de búsqueda recibe el foco.
+
+<PlatformBlock for="Angular">
+
+Establezca la propiedad <ApiLink type="Combo" member="autoFocusSearch" label="autoFocusSearch" /> en `false` para enfocar en su lugar la lista de elementos. En los dispositivos móviles, esto evita que el teclado virtual se abra junto con el desplegable.
+
+```html
+<igx-combo [autoFocusSearch]="false"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Establezca <ApiLink type="Combo" member="autofocusList" label="autofocusList" /> para enfocar en su lugar la lista de opciones. En los dispositivos móviles, esto evita que el teclado virtual se abra junto con el desplegable.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus-list></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo AutofocusList="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo autofocusList={true} />
+```
+
+</PlatformBlock>
+
+### Agrupación
+
+Establezca <ApiLink type="Combo" member="groupKey" label="groupKey" /> en un campo de los elementos de datos para agrupar las opciones del Combo de {Platform} bajo un encabezado para cada valor de ese campo:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-combo groupKey="region"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-key="region"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+En Blazor, la clave es el nombre de la propiedad de C#, como `Region`:
+
+```razor
+<IgbCombo GroupKey="Region" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupKey="region" />
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+La propiedad <ApiLink type="Combo" member="groupKey" label="groupKey" /> solo surte efecto cuando los elementos de datos son objetos.
+</DocsAside>
+
+#### Dirección de ordenación
+
+<PlatformBlock for="Angular">
+
+La propiedad <ApiLink type="Combo" member="groupSortingDirection" label="groupSortingDirection" /> establece el orden de los grupos en el Combo: `SortingDirection.Asc` (el predeterminado) los ordena de forma ascendente, `SortingDirection.Desc` de forma descendente, y `SortingDirection.None` los mantiene en el orden en que aparecen sus primeros elementos en los datos. Los elementos dentro de cada grupo conservan su orden en los datos.
+
+```typescript
+import { SortingDirection } from 'igniteui-angular/core';
+// import { SortingDirection } from '@infragistics/igniteui-angular/core'; for licensed package
+
+export class ComboDemo {
+    public groupSortingDirection = SortingDirection.Desc;
+}
+```
+
+```html
+<igx-combo groupKey="region" [groupSortingDirection]="groupSortingDirection"></igx-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+La propiedad <ApiLink type="Combo" member="groupSorting" label="groupSorting" /> establece el orden de los grupos en el Combo de {Platform}: `asc` (el predeterminado) los ordena de forma ascendente, `desc` de forma descendente, y `none` los mantiene en el orden en que aparecen sus primeros elementos en los datos. Los elementos dentro de cada grupo conservan su orden en los datos.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-sorting="desc"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+En Blazor, establézcalo con un valor `GroupingDirection`: `Asc`, `Desc` o `None`.
+
+```razor
+<IgbCombo GroupSorting="GroupingDirection.Desc" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupSorting="desc" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Botón de borrar
+
+El Combo de {Platform} muestra un botón de borrar en su entrada mientras haya al menos una opción seleccionada, y al hacer clic en el botón se borra la selección. Establezca <ApiLink type="Combo" member="disableClear" label="disableClear" /> para ocultar el botón:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo disable-clear></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo DisableClear="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo disableClear={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Enfoque automático
+
+Establezca <ApiLink type="Combo" member="autofocus" label="autofocus" /> para enfocar el Combo de {Platform} cuando se cargue la página:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Autofocus="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+En React, use la prop `autoFocus`:
+
+```tsx
+<IgrCombo autoFocus={true} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### Estrategia de desplazamiento
+
+La propiedad <ApiLink type="Combo" member="scrollStrategy" label="scrollStrategy" /> establece lo que hace el desplegable del Combo de {Platform} cuando se desplaza un contenedor que rodea al Combo mientras el desplegable está abierto: `hide` (el predeterminado) oculta el desplegable mientras la entrada está fuera de la vista, `scroll` mantiene el desplegable abierto y unido a la entrada, y `close` lo cierra.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo scroll-strategy="close"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo scrollStrategy="close" />
+```
+
+</PlatformBlock>
+
+## Referencias de API
+
+Consulte la referencia completa de la API del Combo de {Platform}:
+
+- <ApiLink type="Combo" />
+
+<PlatformBlock for="Angular">
+
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-combo-theme" label="Tema de IgxComboComponent" />
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+Use los siguientes recursos de {Platform} para saber más sobre el Combo:
+
+- [Descripción general del Combo](./overview.mdx)
+- [Plantillas del Combo](./templates.mdx)
+- [Combo de selección única](./single-selection.mdx)
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

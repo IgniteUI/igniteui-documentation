@@ -1,0 +1,188 @@
+---
+title: "Diretivas Angular Label e Input - Licença MIT" 
+description: "Com as diretivas Label e Input do Ignite UI for Angular, os desenvolvedores podem decorar e estilizar elementos de entrada de uma linha ou de várias linhas, adicionar estilos CSS extras e integrar com outros controles."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, componentes de UI Angular, Native Angular Components Library, componente Angular Label, controle Angular Label, componente Angular Input, controle Angular Input, componente Input, controle Input, componente Label, controle Label, diretiva Angular Input, diretiva Angular Label, Formulários Angular, Formulários reativos Angular, validação de formulários Angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "As diretivas Input e Label do Ignite UI for Angular são usadas para decorar e estilizar elementos de entrada de uma linha ou de várias linhas em um componente igx-input-group."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral das diretivas Angular Label e Input
+
+As diretivas Input e Label do Ignite UI for Angular são usadas para decorar e estilizar elementos de entrada de uma linha ou de várias linhas em um componente `igx-input-group`.
+
+## Exemplo de Angular Label e Input
+
+<Sample src="/data-entries/input-group-sample-1" height={100} alt="Exemplo de Angular Label e Input" />
+
+<hr/>
+
+## Primeiros passos com o Label e Input do Ignite UI for Angular
+
+Para começar com as diretivas Label e Input do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxInputGroupModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { FormsModule } from '@angular/forms';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxInputGroupModule, FormsModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` você pode importar `IgxLabelDirective`, `IgxInputDirective` e `IgxInputGroupComponent` como dependências standalone, ou usar o token [`IGX_INPUT_GROUP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/input-group/src/input-group/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IGX_INPUT_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <igx-input-group>
+      <input igxInput name="fullName" type="text" [(ngModel)]="fullName" />
+      <label igxLabel for="fullName">Full Name</label>
+    </igx-input-group>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_INPUT_GROUP_DIRECTIVES, FormsModule],
+  /* or imports: [IgxInputGroupComponent, IgxLabelDirective, IgxInputDirective, FormsModule] */
+})
+export class HomeComponent {
+  public fullName = 'John Doe';
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Input Group do Ignite UI for Angular, pode começar a usar as diretivas `igxLabel` e `igxInput` e o componente `igx-input-group`.
+
+## Usando o Label e Input do Angular
+
+A estilização padrão das diretivas Label e Input segue a especificação de campos de texto das [**diretrizes**](https://material.io/guidelines/components/text-fields.html) do Material Design.
+
+Para usar as diretivas <ApiLink type="InputDirective" label="igxInput" /> e <ApiLink type="LabelDirective" label="igxLabel" />, você precisa envolvê-las em um contêiner `<igx-input-group>`:
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+A diretiva `igxInput` pode ser aplicada aos elementos HTML `<input>` e `<textarea>`, tanto em campos de texto de uma linha quanto de várias linhas.
+
+### Validação
+
+Podemos validar um `input` usando o atributo <ApiLink type="InputDirective" member="required" label="required" />. Isso vai adicionar um asterisco ao lado do rótulo, indicando que este campo deve ser preenchido. A entrada ficará verde/vermelha dependendo de a validação ser aprovada ou reprovada.
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" required="required" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+<Sample src="/data-entries/input-group-sample-2" height={100} alt="" />
+
+<hr/>
+
+### Vinculação de dados
+
+A diretiva Input do Ignite UI for Angular oferece suporte tanto à vinculação de dados unidirecional quanto bidirecional. O código a seguir ilustra como adicionar uma vinculação de dados bidirecional usando o `NgModel`:
+
+```typescript
+public user = {
+    fullName: ""
+};
+
+```
+
+no nosso markup:
+
+```html
+<igx-input-group>
+  <input igxInput name="fullName" type="text" [(ngModel)]="user.fullName" required="required"/>
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+### Foco e seleção de texto
+
+Você pode adicionar lógica para forçar o `focus` em elementos de entrada usando a diretiva <ApiLink type="FocusDirective" />.
+
+```html
+<igx-input-group>
+  <input igxInput [igxFocus]="isFocused" name="fullName" type="text" />
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+```
+
+<DocsAside type="info">
+Para usar a diretiva <ApiLink type="FocusDirective" />, você precisa importar o <ApiLink type="FocusDirective" />.
+</DocsAside>
+
+Se quiser que o texto de um elemento de entrada, marcado com `igxInput`, seja selecionado ao receber o foco, você precisa habilitar a diretiva <ApiLink type="TextSelectionDirective" />.
+
+```html
+<igx-input-group>
+  <input igxInput [igxTextSelection]="true" [igxFocus]="isFocused" name="fullName" type="text"/>
+  <label igxLabel for="fullName">Full Name</label>
+</igx-input-group>
+
+<igx-input-group>
+  <input igxInput [igxTextSelection]="true" name="email" type="text" />
+  <label igxLabel for="email">Email</label>
+</igx-input-group>
+```
+
+<DocsAside type="info">
+Para usar a diretiva <ApiLink type="TextSelectionDirective" />, você precisa importar o <ApiLink type="TextSelectionDirective" />.
+</DocsAside>
+
+<Sample src="/data-entries/input-text-selection" height={130} alt="" />
+
+<hr/>
+
+## Input Group
+
+O componente Input Group do Ignite UI for Angular ajuda os desenvolvedores a criar formulários fáceis de usar e esteticamente agradáveis. Para mais informações, você pode ler a [documentação do Input Group](/input-group).
+
+## Referências da API
+<hr/>
+- <ApiLink type="LabelDirective" />
+- <ApiLink type="InputDirective" />
+- <ApiLink type="InputGroup" />
+## Recursos adicionais
+
+<hr/>
+
+Tópicos relacionados:
+
+- [Input Group](/input-group)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,448 @@
+---
+title: "Angular Hierarchical Data Grid | Tabla de Material | Ignite UI for Angular | Infragistics"
+description: "Aprenda a usar el data grid de Ignite UI for Angular, basado en Angular Table, y a crear un componente Angular sensible al tacto con una variedad de eventos de Angular."
+keywords: "angular hierarchical data grid, angular hierarchical table, componente angular hierarchical data grid, componente angular hierarchical table, componentes de interfaz de angular, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El Hierarchical Data Grid de Ignite UI for Angular sirve para mostrar y manipular datos tabulares jerárquicos."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import unfoldLessIconScreenshot from '../../images/unfold_less_icon_screenshot.jpg';
+
+
+# Información general del componente Angular Hierarchical Data Grid
+
+El Hierarchical Data Grid de Ignite UI for Angular sirve para mostrar y manipular datos tabulares jerárquicos. Enlace rápidamente sus datos con muy poco código o use una variedad de eventos para personalizar distintos comportamientos. Este componente ofrece un amplio conjunto de funciones, como la selección de datos, el filtrado al estilo de Excel, la ordenación, la paginación, las plantillas, el movimiento de columnas, el anclaje de columnas, la exportación a Excel, CSV y PDF, y mucho más. El Hierarchical Grid se basa en el componente Flat Grid y amplía su funcionalidad permitiendo expandir o contraer las filas del grid padre, para mostrar los grids hijos correspondientes cuando se necesita información más detallada.
+
+## Ejemplo de Angular Hierarchical Data Grid
+
+En este ejemplo de grid de Angular puede ver cómo los usuarios pueden visualizar conjuntos jerárquicos de datos y usar plantillas de celda para añadir otros componentes visuales, como [Sparkline](/charts/types/sparkline-chart).
+
+<Sample lob src="/hierarchical-grid/hierarchical-grid-resizing" height={520} alt="Ejemplo de Angular Hierarchical Data Grid" />
+
+
+## Primeros pasos con Ignite UI for Angular Hierarchical Data Grid
+
+Para empezar a usar el componente Ignite UI for Angular Hierarchical Data Grid, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxHierarchicalGridModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxHierarchicalGridModule } from 'igniteui-angular/grids/hierarchical-grid';
+// import { IgxHierarchicalGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxHierarchicalGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxHierarchicalGridComponent` como dependencia independiente, o usar el token [`IGX_HIERARCHICAL_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/hierarchical-grid/src/hierarchical-grid.module.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_HIERARCHICAL_GRID_DIRECTIVES } from 'igniteui-angular/grids/hierarchical-grid';
+// import { IGX_HIERARCHICAL_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-hierarchical-grid #hierarchicalGrid [data]="singers" [autoGenerate]="true">
+        <igx-row-island [key]="'Albums'" [autoGenerate]="true">
+            <igx-row-island [key]="'Songs'" [autoGenerate]="true">
+            </igx-row-island>
+        </igx-row-island>
+        <igx-row-island [key]="'Tours'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-hierarchical-grid>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_HIERARCHICAL_GRID_DIRECTIVES]
+    /* or imports: [IgxHierarchicalGridComponent, IgxRowIslandComponent] */
+})
+export class HomeComponent {
+    public singers: Artist [];
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Hierarchical Grid, puede empezar a usar el componente `igx-hierarchical-grid`.
+
+## Uso de Angular Hierarchical Data Grid
+
+### Enlace de datos
+
+`igx-hierarchical-grid` deriva de `igx-grid` y comparte la mayor parte de su funcionalidad. La principal diferencia es que permite definir varios niveles de jerarquía. Se configuran mediante una etiqueta independiente dentro de la definición de `igx-hierarchical-grid`, llamada `igx-row-island`. El componente `igx-row-island` define la configuración de cada grid hijo para el nivel concreto. También se admiten varias islas de filas por nivel.
+El Hierarchical Grid admite dos formas de enlazar datos:
+
+### Usar datos jerárquicos
+
+Si la aplicación carga todos los datos jerárquicos como un array de objetos que hace referencia a arrays de objetos hijos, el Hierarchical Grid puede configurarse para leerlos y enlazarlos automáticamente. Este es un ejemplo de origen de datos jerárquico con la estructura correcta:
+
+```javascript
+export const singers = [{
+    "Artist": "Naomí Yepes",
+    "Photo": "assets/images/hgrid/naomi.png",
+    "Debut": "2011",
+    "Grammy Nominations": 6,
+    "Grammy Awards": 0,
+    "Tours": [{
+        "Tour": "Faithful Tour",
+        "Started on": "Sep-12",
+        "Location": "Worldwide",
+        "Headliner": "NO",
+        "Toured by": "Naomí Yepes"
+    }],
+    "Albums": [{
+        "Album": "Dream Driven",
+        "Launch Date": new Date("August 25, 2014"),
+        "Billboard Review": "81",
+        "US Billboard 200": "1",
+        "Artist": "Naomí Yepes",
+        "Songs": [{
+            "No.": "1",
+            "Title": "Intro",
+            "Released": "*",
+            "Genre": "*",
+            "Album": "Dream Driven"
+        }]
+    }]
+}];
+```
+
+Cada `igx-row-island` debe especificar la clave de la propiedad que contiene los datos hijos.
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [data]="singers" [autoGenerate]="true">
+    <igx-row-island [key]="'Albums'" [autoGenerate]="true">
+        <igx-row-island [key]="'Songs'" [autoGenerate]="true">
+        </igx-row-island>
+    </igx-row-island>
+    <igx-row-island [key]="'Tours'" [autoGenerate]="true">
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+<DocsAside type="info">
+Tenga en cuenta que, en lugar de `data`, el usuario solo configura el `key` que `igx-hierarchical-grid` necesita leer para establecer los datos automáticamente.
+</DocsAside>
+
+### Usar la carga a demanda
+
+La mayoría de las aplicaciones se diseñan para cargar la menor cantidad de datos posible al principio, lo que acelera la carga. En esos casos, `igx-hierarchical-grid` puede configurarse para que servicios creados por el usuario le proporcionen datos a demanda. La siguiente configuración usa un `@Output` especial y una nueva plantilla de carga en curso para ofrecer una carga a demanda completa.
+
+```html
+<!-- hierarchicalGridSample.component.html -->
+
+<igx-hierarchical-grid #hGrid [primaryKey]="'CustomerID'" [autoGenerate]="true" [height]="'600px'" [width]="'100%'">
+    <igx-row-island [key]="'Orders'" [primaryKey]="'OrderID'" [autoGenerate]="true"  (gridCreated)="gridCreated($event, 'CustomerID')">
+        <igx-row-island [key]="'Order_Details'" [primaryKey]="'ProductID'" [autoGenerate]="true" (gridCreated)="gridCreated($event, 'OrderID')">
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+```typescript
+//  hierarchicalGridSample.component.ts
+
+@Component({...})
+export class HierarchicalGridLoDSampleComponent implements AfterViewInit {
+    @ViewChild("hGrid")
+    public hGrid: IgxHierarchicalGridComponent;
+
+    constructor(private remoteService: RemoteLoDService) { }
+
+    public ngAfterViewInit() {
+        this.hGrid.isLoading = true;
+        this.remoteService.getData({ parentID: null, rootLevel: true, key: "Customers" }).subscribe((data) => {
+            this.hGrid.isLoading = false;
+            this.hGrid.data = data;
+            this.hGrid.cdr.detectChanges();
+        });
+    }
+
+    public gridCreated(event: IGridCreatedEventArgs, _parentKey: string) {
+        const dataState = {
+            key: event.owner.key,
+            parentID: event.parentID,
+            parentKey: _parentKey,
+            rootLevel: false
+        };
+        event.grid.isLoading = true;
+        this.remoteService.getData(dataState).subscribe(
+            (data) => {
+                event.grid.isLoading = false;
+                event.grid.data = data;
+                event.grid.cdr.detectChanges();
+            }
+        );
+    }
+}
+```
+
+```typescript
+// remote-load-on-demand.service.ts
+
+@Injectable()
+export class RemoteLoDService {
+    public url = `https://services.odata.org/V4/Northwind/Northwind.svc/`;
+
+    constructor(private http: HttpClient) { }
+
+    public getData(dataState?: any): Observable<any[]> {
+        return this.http.get(this.buildUrl(dataState)).pipe(
+            map((response) => response["value"])
+        );
+    }
+
+    public buildUrl(dataState) {
+        let qS = "";
+        if (dataState) {
+            qS += `${dataState.key}?`;
+
+            if (!dataState.rootLevel) {
+                if (typeof dataState.parentID === "string") {
+                    qS += `$filter=${dataState.parentKey} eq '${dataState.parentID}'`;
+                } else {
+                    qS += `$filter=${dataState.parentKey} eq ${dataState.parentID}`;
+                }
+            }
+        }
+        return `${this.url}${qS}`;
+    }
+}
+```
+
+## Mostrar/ocultar los indicadores de expansión de las filas
+
+Si tiene una forma de indicar si una fila tiene hijos antes de expandirla, puede usar la propiedad de entrada <ApiLink type="TreeGrid" member="hasChildrenKey" />. Así puede proporcionar una propiedad booleana de los objetos de datos que indique si debe mostrarse un indicador de expansión.
+
+```html
+<igx-hierarchical-grid #grid [data]="data" primaryKey="ID" hasChildrenKey="hasChildren">
+        ...
+</igx-hierarchical-grid>
+```
+
+Tenga en cuenta que establecer la propiedad <ApiLink type="HierarchicalGrid" member="haschildrenkey" /> no es obligatorio. Si no la proporciona, se mostrarán indicadores de expansión en cada fila.
+
+Además, si quiere mostrar u ocultar el indicador de expandir/contraer todo del encabezado, puede usar la propiedad <ApiLink type="HierarchicalGrid" member="showExpandAll" />.
+Esta interfaz está deshabilitada de forma predeterminada por motivos de rendimiento, y no se recomienda habilitarla en grids con muchos datos o con carga a demanda.
+
+## Funciones
+
+Las funciones del grid pueden habilitarse y configurarse mediante el marcado `igx-row-island`; se aplican a cada grid que se crea para él. Cambiar las opciones en tiempo de ejecución a través de la instancia de la isla de filas las cambia para cada uno de los grids que ha generado.
+
+```html
+<igx-hierarchical-grid [data]="localData" [autoGenerate]="false"
+    [allowFiltering]='true' [height]="'600px'" [width]="'800px'" #hGrid>
+    <igx-column field="ID" [pinned]="true" [filterable]='true'></igx-column>
+    <igx-column-group header="Information">
+        <igx-column field="ChildLevels"></igx-column>
+        <igx-column field="ProductName" hasSummary='true'></igx-column>
+    </igx-column-group>
+    <igx-row-island [key]="'childData'" [autoGenerate]="false" [rowSelection]="'multiple'" #layout1>
+        <igx-column field="ID" [hasSummary]='true' [dataType]="'number'"></igx-column>
+        <igx-column-group header="Information2">
+            <igx-column field="ChildLevels"></igx-column>
+            <igx-column field="ProductName"></igx-column>
+        </igx-column-group>
+        <igx-paginator *igxPaginator [perPage]="5"></igx-paginator>
+    </igx-row-island>
+    <igx-paginator>
+    </igx-paginator>
+</igx-hierarchical-grid>
+```
+
+Las siguientes funciones del grid trabajan a nivel de cada grid, lo que significa que cada instancia de grid las gestiona de forma independiente del resto de grids:
+
+- Ordenación
+- Filtrado
+- Paginación
+- Encabezados de varias columnas
+- Ocultación
+- Anclaje
+- Movimiento
+- Resúmenes
+- Búsqueda
+
+Las funciones de selección y navegación funcionan de forma global para todo el `igx-hierarchical-grid`
+
+- Selección
+    La selección no permite que haya celdas seleccionadas en dos grids hijos distintos a la vez.
+- Navegación
+    Al navegar hacia arriba o hacia abajo, si el elemento siguiente o anterior es un grid hijo, la navegación continuará en el grid hijo relacionado, marcando la celda relacionada como seleccionada y enfocada. Si la celda hija está fuera del viewport visible actual, se desplaza a la vista para que la celda seleccionada esté siempre visible.
+
+## Botón Contraer todo
+
+El Hierarchical Grid permite a los usuarios contraer cómodamente todas sus filas expandidas pulsando el botón "Collapse All" de la esquina superior izquierda. Además, cada grid hijo que contiene otros grids y que es a su vez un Hierarchical Grid también tiene ese botón, de modo que el usuario puede contraer solo un grid concreto de la jerarquía:
+
+<Image src={unfoldLessIconScreenshot} alt="Icono Contraer todo" class="responsive-img" />
+
+## Dimensionamiento
+
+Consulte el tema [Dimensionamiento de Grid](/hierarchicalgrid/sizing).
+
+## Operaciones CRUD
+
+<DocsAside type="info">
+Una diferencia importante respecto al Data Grid plano es que cada instancia de una isla de filas dada comparte la misma instancia del servicio de transacciones y acumula el mismo registro de transacciones. Para habilitar la funcionalidad CRUD, los usuarios deben inyectar `IgxHierarchicalTransactionServiceFactory`.
+</DocsAside>
+
+Las llamadas a los métodos de la API CRUD deben hacerse igualmente a través de cada instancia de grid por separado.
+
+Consulte el tema práctico [Crear operaciones CRUD con igxGrid](/general/how-to/how-to-perform-crud).
+
+## Estilos
+
+El igxHierarchicalGrid permite dar estilo mediante [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). La <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> de la cuadrícula expone una gran variedad de propiedades que permiten personalizar todas las funciones de la cuadrícula.
+
+En los pasos siguientes repasamos cómo personalizar el estilo de igxHierarchicalGrid.
+
+### Importar el tema global
+
+Para empezar a personalizar el grid jerárquico, debe importar el archivo `index`, donde se encuentran todas las funciones de estilo y los mixins.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definir un tema personalizado
+
+A continuación, debe crear un tema personalizado; la forma más sencilla y recomendada de dar estilo a `igx-hierarchical-grid` es usar <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y proporcionar solo los tres colores principales: `background`, `foreground` y `accent-color`.
+
+<DocsAside type="info">
+No existe una función específica de `sass` para el grid jerárquico.
+</DocsAside>
+
+Estas son las propiedades de tema principales. Al establecerlas, todas las partes de la cuadrícula y los componentes internos derivan sus colores de esos valores, lo que da como resultado un aspecto coherente en toda la cuadrícula. Los componentes anidados, como botones, iconos, entradas, listas desplegables, casillas, barras de desplazamiento, chips y otros componentes auxiliares, también derivan sus tokens de estilo del <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal para lograr un aspecto unificado.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+### Aplicar el tema personalizado
+
+La forma más sencilla de aplicar su tema es con una sentencia `sass` `@include` en el archivo de estilos global:
+
+```scss
+:host {
+  @include tokens($custom-grid);
+}
+```
+
+Para que el tema personalizado afecte solo a un componente concreto, puede mover todos los estilos que acaba de definir desde el archivo de estilos global al archivo de estilos del componente personalizado (incluida la importación del archivo `index`).
+De este modo, gracias al [`ViewEncapsulation`](https://angular.io/api/core/Component#encapsulation) de Angular, sus estilos solo se aplicarán a su componente personalizado.
+
+### Demostración
+
+<Sample src="/hierarchical-grid/hierarchical-grid-styling" height={630} alt="Demostración de estilos del grid jerárquico de Angular" />
+
+Además, hay parámetros adicionales en <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que puede usar si quiere personalizaciones más específicas.
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Rendimiento (experimental)
+
+El diseño de `igxHierarchicalGrid` le permite aprovechar la función de fusión de eventos (Event Coalescing) que Angular introdujo. Esta función mejora el rendimiento, con una mejora aproximada de **`20%`** en cuanto a interacciones y capacidad de respuesta. Esta función puede habilitarse a nivel de aplicación simplemente estableciendo las propiedades `ngZoneEventCoalescing` y `ngZoneRunCoalescing` en `true` en el método `bootstrapModule`:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+Esta función sigue siendo experimental para `igxHierarchicalGrid`. Esto significa que podrían producirse comportamientos inesperados en el Hierarchical Grid. Si encuentra alguno de esos comportamientos, póngase en contacto con nosotros en nuestra página de [GitHub](https://github.com/IgniteUI/igniteui-angular/discussions).
+</DocsAside>
+
+<DocsAside type="info">
+Habilitarla puede afectar a otras partes de una aplicación Angular que no están relacionadas con `igxHierarchicalGrid`.
+</DocsAside>
+
+## Limitaciones conocidas
+
+| Limitación | Descripción                                                 |
+| :--------- | :---------------------------------------------------------- |
+| Agrupar por   | El Hierarchical Grid no admite la función Group By. |
+
+<DocsAside type="info">
+`igxHierarchicalGrid` usa internamente la directiva `igxForOf`, por lo que todas las limitaciones de `igxForOf` son válidas para `igxHierarchicalGrid`. Para más detalles, consulte la sección [Problemas conocidos de igxForOf](/for-of#limitaciones-conocidas).
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink type="RowIsland" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="HierarchicalGridRow" />
+- <ApiLink type="GridCell" />
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema de IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema de IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="Tema IgxChip" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema de IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema de IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema de IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-action-strip-theme" label="Tema de IgxActionStrip" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="Tema IgxSnackBar" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="Tema IgxBadge" />
+
+## Recursos adicionales
+
+
+- [Dimensionamiento de Grid](/hierarchicalgrid/sizing)
+- [Virtualización y rendimiento](/hierarchicalgrid/virtualization)
+- [Paginación](/hierarchicalgrid/paging)
+- [Filtrado](/hierarchicalgrid/filtering)
+- [Ordenación](/hierarchicalgrid/sorting)
+- [Resúmenes](/hierarchicalgrid/summaries)
+- [Movimiento de columnas](/hierarchicalgrid/column-moving)
+- [Anclaje de columnas](/hierarchicalgrid/column-pinning)
+- [Redimensionado de columnas](/hierarchicalgrid/column-resizing)
+- [Selección](/hierarchicalgrid/selection)
+- [Ignite UI for Angular Skills](/ai/skills): Agent Skills para cuadrículas, operaciones de datos y temas
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

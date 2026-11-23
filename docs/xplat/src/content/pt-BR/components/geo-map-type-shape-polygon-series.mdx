@@ -1,0 +1,66 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Série de polígonos de forma | Infragistics"
+description: "Use a série de polígonos de forma do mapa {Platform} da Infragistics para renderizar formas de países ou regiões definidas por localizações geográficas. Saiba mais sobre as séries do mapa {ProductName}!"
+keywords: "Mapa {Platform}, série de polígonos de forma, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+_language: pt-BR
+llms:
+  description: "No componente de mapa {Platform}, você pode usar a GeographicShapeSeries para exibir dados geoespaciais usando polígonos de forma, em um contexto geográfico."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Mapa de polígonos geográfico de {Platform}
+
+No componente de mapa {Platform}, você pode usar o `GeographicShapeSeries` para exibir dados geoespaciais usando polígonos de forma, em um contexto geográfico. Este tipo de série geográfica é frequentemente usado para renderizar as formas de países ou regiões definidas por localizações geográficas.
+
+## {Platform} Exemplo de mapa de polígonos geográfico
+
+
+<Sample src="/maps/geo-map/type-shape-polygon-series" height={500} alt="{Platform} Exemplo de uso da série de polígonos de forma" />
+
+
+
+
+O `GeographicShapeSeries` funciona de forma muito semelhante ao `GeographicPolylineSeries`, exceto que os dados geoespaciais são renderizados com polígonos, em vez de polilinhas.
+
+## Requisitos de dados
+Assim como outros tipos de séries geográficas no controle de mapa, o `GeographicShapeSeries` tem a propriedade `dataSource`, que pode ser vinculada a um array de objetos. Além disso, cada item de dados desse objeto deve ter uma coluna de dados que armazena uma ou várias formas, usando um array de arrays de objetos com valores x e y que representam localizações geográficas. Essa coluna de dados é então mapeada para a propriedade `ShapeMemberPath`. O `GeographicShapeSeries` usa os pontos dessa coluna de dados mapeada para plotar polígonos no controle de mapa.
+
+Quando as formas vêm diretamente de um arquivo de forma e não precisam ser remodeladas antes, a série pode receber um `ShapefileDataSource` próprio, que lê os pontos dos registros por conta própria. É isso que o código abaixo faz; o [Vinculando arquivos de forma](./geo-map-binding-shp-file.mdx) aborda o outro caminho, em que um manipulador transforma cada registro em um objeto seu e mapeia o `ShapeMemberPath` para ele.
+
+## Trecho de código
+O código a seguir dá ao `GeographicShapeSeries` um `ShapefileDataSource` apontando para um arquivo de forma com os países do mundo, e desenha todos os países contidos nele.
+
+```json-snippet source="/maps/geo-map/type-shape-polygon-series"
+{
+    "type": "GeographicMap",
+    "name": "map",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicShapeSeries",
+            "name": "GeographicShapeSeries1",
+            "shapefileDataSource": {
+                "type": "ShapeDataSource",
+                "shapefileSource": "https://static.infragistics.com/xplatform/shapes/world_countries_all.shp",
+                "databaseSource": "https://static.infragistics.com/xplatform/shapes/world_countries_all.dbf"
+            },
+            "outline": "black",
+            "thickness": 0.5,
+            "markerCollisionAvoidance": "Omit"
+        }
+    ]
+}
+```
+
+
+## Referências da API
+`GeographicPolylineSeries`
+`GeographicShapeSeries`
+`ShapefileRecord`

@@ -1,0 +1,269 @@
+---
+title: "Agent Skills | Skills de IA | Desenvolvimento assistido por IA | Ignite UI for Angular | Infragistics"
+description: "Saiba como usar Agent Skills para turbinar o desenvolvimento assistido por IA com os componentes, as grades, as operações de dados e o tema do Ignite UI for Angular."
+keywords: "Ignite UI for Angular, agent skills, desenvolvimento assistido por IA, github copilot, cursor, windsurf, claude, gemini cli, junie"
+last_updated: "2026-04-24"
+_language: pt-BR
+llms:
+  description: "O Ignite UI for Angular inclui Agent Skills - arquivos de conhecimento estruturados que ensinam assistentes de programação com IA (GitHub Copilot, Cursor, Windsurf, Claude, Gemini CLI, JetBrains Junie, etc.) a trabalhar com o Ignite UI for Angular."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Agent Skills do Ignite UI for Angular
+
+O Ignite UI for Angular inclui **[Agent Skills](https://agentskills.io/)** - arquivos de conhecimento estruturados que ensinam assistentes de programação com IA (GitHub Copilot, Cursor, Windsurf, Claude, Gemini CLI, JetBrains Junie, etc.) a trabalhar com o Ignite UI for Angular. Esses arquivos de skill oferecem orientações sensíveis ao contexto sobre componentes, grades, operações de dados e tema, permitindo que seu assistente de IA gere código preciso e idiomático, que segue as boas práticas.
+
+<DocsAside type="info">
+O cenário de ferramentas de IA está evoluindo rapidamente. Os locais de descoberta de skills e as opções de distribuição podem mudar à medida que as ferramentas e as IDEs são atualizadas. Consulte sempre a documentação oficial da sua ferramenta ou agente específico para obter as informações mais recentes.
+</DocsAside>
+
+## Skills disponíveis
+
+Os arquivos de skill ficam no diretório [`skills/`](https://github.com/IgniteUI/igniteui-angular/tree/master/skills) do repositório do Ignite UI for Angular:
+
+| Skill | Caminho | Descrição |
+|:------|:-----|:------------|
+| Componentes e layout | [`skills/igniteui-angular-components/SKILL.md`](https://github.com/IgniteUI/igniteui-angular/blob/master/skills/igniteui-angular-components/SKILL.md) | Componentes standalone, controles de formulário, sobreposições, layout |
+| Grades de dados | [`skills/igniteui-angular-grids/SKILL.md`](https://github.com/IgniteUI/igniteui-angular/blob/master/skills/igniteui-angular-grids/SKILL.md) | Grade, Tree Grid, Hierarchical Grid, Pivot Grid, ordenação, filtragem, agrupamento, paginação, dados remotos |
+| Tema e estilização | [`skills/igniteui-angular-theming/SKILL.md`](https://github.com/IgniteUI/igniteui-angular/blob/master/skills/igniteui-angular-theming/SKILL.md) | Paletas, tipografia, elevações, temas de componentes, servidor MCP |
+| Gerar a partir de design de imagem | [`skills/igniteui-angular-generate-from-image-design/SKILL.md`](https://github.com/IgniteUI/igniteui-angular/blob/master/skills/igniteui-angular-generate-from-image-design/SKILL.md) | Crie aplicativos Angular a partir de capturas de tela, mockups e wireframes usando componentes do Ignite UI |
+
+<DocsAside type="info">
+A partir do Ignite UI for Angular **21.1.0**, esses skills são descobertos automaticamente quando colocados no caminho de skills do seu agente (por exemplo, `.claude/skills`, `.agents/skills`, `.cursor/rules/`). Esta versão traz uma migração opcional para adicionar esses skills ao seu projeto automaticamente.
+</DocsAside>
+
+## Locais dos skills
+
+Cada ferramenta de programação com IA descobre skills em diretórios específicos. Coloque seus arquivos de skill no local apropriado para que seu assistente de IA possa encontrá-los e usá-los automaticamente. A convenção geral `.agents/skills/` é compatível com várias ferramentas, enquanto cada ferramenta também tem seus próprios diretórios específicos.
+
+### Geral (`.agents/skills/`)
+
+O diretório `.agents/skills/` é uma convenção entre agentes compatível com várias ferramentas, incluindo [VS Code com Copilot](https://code.visualstudio.com/docs/copilot/customization/agent-skills), [OpenAI Codex](https://developers.openai.com/codex/skills), [Cursor](https://cursor.com/docs/skills), [Gemini CLI](https://geminicli.com/docs/cli/skills/#skill-discovery-tiers), [Antigravity](https://antigravity.google/docs/skills) e [Windsurf](https://docs.windsurf.com/windsurf/cascade/skills#skill-scopes). Copie os diretórios de skill para `.agents/skills/` na raiz do seu projeto:
+
+```
+.agents/
+  skills/
+    igniteui-angular-components/
+      SKILL.md
+    igniteui-angular-grids/
+      SKILL.md
+    igniteui-angular-theming/
+      SKILL.md
+    igniteui-angular-generate-from-image-design/
+      SKILL.md
+```
+
+Para skills em nível de usuário (globais), disponíveis em todos os projetos, use `~/.agents/skills/`.
+
+### GitHub Copilot
+
+[O GitHub Copilot](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills) descobre skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Projeto | `.github/skills/`, `.claude/skills/` |
+| Pessoal | `~/.copilot/skills/`, `~/.claude/skills/` (somente o agente de codificação do Copilot e o GitHub Copilot CLI) |
+
+> **Dica:** No [VS Code](https://code.visualstudio.com/docs/copilot/customization/agent-skills), esses locais também incluem o `.agents/skills/` geral e o `~/.agents/skills/`, e você pode configurar locais de skill adicionais usando a configuração `chat.agentSkillsLocations`.
+
+### Claude
+
+[O Claude](https://code.claude.com/docs/en/skills#where-skills-live) descobre skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Projeto | `.claude/skills/` |
+| Pessoal | `~/.claude/skills/` |
+
+### Cursor
+
+[O Cursor](https://cursor.com/docs/skills#skill-directories) descobre skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Projeto | `.agents/skills/`, `.cursor/skills/` |
+| Usuário (global) | `~/.cursor/skills/` |
+
+### Gemini CLI e Antigravity
+
+[O Gemini CLI](https://geminicli.com/docs/cli/skills/#skill-discovery-tiers) e o [Antigravity](https://antigravity.google/docs/skills) descobrem skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Workspace | `.gemini/skills/`, `.agents/skills/` |
+| Usuário | `~/.gemini/skills/`, `~/.agents/skills/` |
+
+> **Dica:** Use o comando de barra `/skills` no Gemini CLI para ver e gerenciar os skills instalados.
+
+### Junie (IDEs JetBrains)
+
+[O Junie](https://junie.jetbrains.com/docs/agent-skills.html) descobre skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Projeto | `.junie/skills/` |
+| Usuário | `~/.junie/skills/` |
+
+### Windsurf
+
+[O Windsurf](https://docs.windsurf.com/windsurf/cascade/skills#skill-scopes) descobre skills em:
+
+| Escopo | Local |
+|:------|:---------|
+| Workspace | `.windsurf/skills/`, `.agents/skills/` |
+| Global | `~/.codeium/windsurf/skills/`, `~/.agents/skills/` |
+
+---
+
+## Instalando skills
+
+Use uma das opções abaixo para baixar os arquivos de skill e colocá-los no [local de skill](#locais-dos-skills) apropriado para o seu assistente de IA.
+
+### **Opção A - Use o Ignite UI CLI**
+
+O comando `ai-config` configura os servidores MCP, copia os arquivos de skill específicos de cada framework para o diretório de skills de cada agente e configura os arquivos de instrução - tudo em uma única etapa. Use `--assistants` para escolher quais assistentes de programação recebem a configuração MCP e `--agents` para escolher quais agentes recebem os arquivos de skill. Arquivos existentes só são atualizados se o conteúdo tiver mudado. Se nenhum parâmetro for informado, o comando entra no modo interativo, pedindo para você selecionar os assistentes e agentes. Para as opções disponíveis, consulte a tabela abaixo.
+
+```bash
+ig ai-config --assistants generic --agents claude
+```
+
+Use `--agents` com vários valores para atingir vários agentes de uma vez:
+
+```bash
+ig ai-config --assistants generic vscode --agents claude copilot cursor
+```
+
+| Opção | Valores | Padrão |
+|------|--------|---------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | Solicitado de forma interativa |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | Solicitado de forma interativa |
+
+**Usando o Angular Schematics:**
+
+```bash
+ng generate @igniteui/angular-schematics:ai-config --assistants cursor --agents claude copilot
+```
+
+Isso também registra o servidor MCP `@angular/cli` junto com os servidores do Ignite UI.
+
+<DocsAside type="info">
+Se você instalou o Ignite UI for Angular manualmente e quer copiar os skills sem executar `ai-config`, os arquivos de skill também estão disponíveis em `node_modules`. Para copiá-los para o seu projeto (por exemplo, para `.agents/skills/`), execute:
+</DocsAside>
+
+**macOS / Linux / Windows (PowerShell)**
+
+```bash
+cp -r node_modules/igniteui-angular/skills/. .agents/skills/
+```
+
+**Windows (Prompt de Comando)**
+
+```cmd
+robocopy node_modules\igniteui-angular\skills .agents\skills /E
+```
+
+Ou copie diretórios de skill individuais, conforme necessário:
+
+**macOS / Linux / Windows (PowerShell)**
+
+```bash
+cp -r node_modules/igniteui-angular/skills/igniteui-angular-components .agents/skills/
+cp -r node_modules/igniteui-angular/skills/igniteui-angular-grids .agents/skills/
+cp -r node_modules/igniteui-angular/skills/igniteui-angular-theming .agents/skills/
+cp -r node_modules/igniteui-angular/skills/igniteui-angular-generate-from-image-design .agents/skills/
+```
+
+**Windows (Prompt de Comando)**
+
+```cmd
+robocopy node_modules\igniteui-angular\skills\igniteui-angular-components .agents\skills\igniteui-angular-components /E
+robocopy node_modules\igniteui-angular\skills\igniteui-angular-grids .agents\skills\igniteui-angular-grids /E
+robocopy node_modules\igniteui-angular\skills\igniteui-angular-theming .agents\skills\igniteui-angular-theming /E
+robocopy node_modules\igniteui-angular\skills\igniteui-angular-generate-from-image-design .agents\skills\igniteui-angular-generate-from-image-design /E
+```
+
+### **Opção B - Use o `GitHub CLI`**
+
+O GitHub CLI pode ser usado para baixar os arquivos de skill diretamente do repositório do Ignite UI for Angular. Execute os comandos a seguir na raiz do seu projeto para iniciar o processo de instalação:
+
+```bash
+gh skill install IgniteUI/igniteui-angular
+```
+
+Você será solicitado a selecionar quais skills instalar e os Agentes de destino para os arquivos de skill no seu projeto. Em seguida, o CLI baixa e coloca o skill selecionado de acordo com os Agentes escolhidos.
+
+Para atualizar os skills depois, execute o seguinte comando:
+
+```bash
+gh skill update IgniteUI/igniteui-angular
+```
+
+### **Opção C - Use o CLI `gemini skills`**
+
+O comando `gemini skills install` instala skills diretamente de um repositório Git. Ele oferece suporte a dois escopos:
+
+- **Escopo de usuário** (padrão) - instala os skills globalmente para a sua conta de usuário, disponibilizando-os em todos os projetos. Os skills são colocados em `~/.gemini/skills/` ou `~/.agents/skills/`.
+- **Escopo de workspace** - instala os skills localmente no diretório do projeto atual, em `.agents/skills/`, limitando-os apenas a esse projeto.
+
+**Instalar no escopo de usuário (padrão):**
+
+```bash
+gemini skills install https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-components
+gemini skills install https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-grids
+gemini skills install https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-theming
+gemini skills install https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-generate-from-image-design
+```
+
+**Instalar no escopo de workspace:**
+
+```bash
+gemini skills install --scope workspace https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-components
+gemini skills install --scope workspace https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-grids
+gemini skills install --scope workspace https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-theming
+gemini skills install --scope workspace https://github.com/IgniteUI/igniteui-angular.git --path skills/igniteui-angular-generate-from-image-design
+```
+
+Depois de instalados, os arquivos de skill ficam disponíveis no local correspondente e serão descobertos automaticamente pelos assistentes de IA compatíveis.
+
+### **Opção D - Use o CLI `npx skills`**
+
+O `skills` CLI é uma ferramenta interativa que baixa e instala skills diretamente no seu projeto. Execute o seguinte comando na raiz do seu projeto:
+
+```bash
+npx skills add IgniteUI/igniteui-angular
+```
+
+O CLI vai guiar você por uma série de perguntas para:
+
+1. Selecionar quais skills instalar (componentes, tema etc.).
+2. Escolher o local de destino dos arquivos de skill no seu projeto (por exemplo, `.agents/skills/`, `.github/skills/`).
+3. Baixar e gravar automaticamente os arquivos de skill selecionados.
+
+Depois de concluído, os skills estão prontos para uso - sem necessidade de copiar arquivos manualmente.
+
+> **Observação:** Requer Node.js e conexão com a internet. O comando baixa os arquivos de skill mais recentes do repositório [IgniteUI/igniteui-angular](https://github.com/IgniteUI/igniteui-angular).
+
+---
+
+## Servidor Theming MCP
+
+O **skill de tema** inclui instruções de configuração do servidor MCP `igniteui-theming`, que dá aos assistentes de IA acesso a ferramentas de tema em tempo real, como geração de paletas e criação de scaffolding de temas de componentes. Veja o [arquivo do skill de tema](https://github.com/IgniteUI/igniteui-angular/blob/master/skills/igniteui-angular-theming/SKILL.md) para as etapas de configuração no VS Code, Cursor, Claude Desktop e IDEs JetBrains.
+
+Para mais informações sobre o Theming MCP, consulte a documentação do [Ignite UI Theming MCP](/ai/theming-mcp).
+
+## Recursos adicionais
+
+<hr/>
+
+- <a href="https://www.infragistics.com/products/ignite-ui-angular/angular/components/general/getting-started">Primeiros passos com o Ignite UI for Angular</a>
+- <a href="https://www.infragistics.com/products/ignite-ui-angular/angular/components/general/cli-overview">Angular Schematics e Ignite UI CLI</a>
+- [Desenvolvimento assistido por IA com Ignite UI](./ai-assisted-development-overview.mdx)
+- [Ignite UI CLI MCP](./cli-mcp.mdx)
+- [Ignite UI Theming MCP](./theming-mcp.mdx)
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

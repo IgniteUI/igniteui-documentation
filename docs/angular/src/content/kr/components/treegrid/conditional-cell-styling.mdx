@@ -1,0 +1,369 @@
+---
+title: "Angular Tree Grid의 조건부 셀 스타일 - Ignite UI for Angular"
+description: "사용자가 서로 다른 셀을 빠르게 구별할 수 있게 하십시오. 다양한 셀 스타일을 정의하십시오. Angular Data Grid의 조건부 셀 스타일을 사용하여 셀이 돋보이도록 만드십시오."
+keywords: conditional styling, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/conditional-cell-styling
+_language: ko
+llms:
+  description: "IgxTreeGrid 컴포넌트에서 사용자 지정 스타일이 필요하다면, 행 또는 셀 수준에서 그렇게 할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Tree Grid 조건부 스타일
+
+IgxTreeGrid 컴포넌트에서 사용자 지정 스타일이 필요하다면, 행 또는 셀 수준에서 그렇게 할 수 있습니다.
+
+## Tree Grid 조건부 행 스타일
+
+Ignite UI for Angular의 IgxTreeGrid 컴포넌트는 사용자 지정 규칙을 기반으로 **행의 조건부 스타일**을 지정하는 두 가지 방법을 제공합니다.
+
+- IgxTreeGrid 컴포넌트에 <ApiLink type="TreeGrid" member="rowClasses" label="rowClasses" /> 입력을 설정하면;
+- IgxTreeGrid 컴포넌트에 <ApiLink type="TreeGrid" member="rowStyles" label="rowStyles" /> 입력을 설정하면;
+
+이 주제에서는 그 두 가지를 더 자세히 다루겠습니다.
+
+### rowClasses 사용하기
+
+<ApiLink type="TreeGrid" member="rowClasses" label="rowClasses" /> 입력을 설정하고 사용자 지정 규칙을 정의하여 IgxTreeGrid 행의 스타일을 조건부로 지정할 수 있습니다.
+
+```html
+<!-- sample.component.html -->
+<igx-tree-grid #treeGrid [data]="data" [height]="'600px'" [width]="'100%'" [rowClasses]="rowClasses">
+    ...
+</igx-tree-grid>
+```
+
+<ApiLink type="TreeGrid" member="rowClasses" label="rowClasses" /> 입력은 키-값 쌍을 담은 객체 리터럴을 받으며, 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다.
+
+```typescript
+// sample.component.ts
+
+public rowClasses = {
+  activeRow: this.activeRowCondition
+};
+
+public activeRowCondition = (row: RowType) => this.grid?.navigation.activeNode?.row === row.index;
+```
+
+```scss
+// sample.component.scss
+
+::ng-deep {
+ .activeRow {
+  border: 2px solid #fc81b8;
+  border-left: 3px solid #e41c77;
+ }
+}
+```
+
+<DocsAside type="info">
+사용자 지정 스타일을 현재 컴포넌트와 그 하위 항목까지 강제로 적용하려면 **`::ng-deep`** 또는 **`ViewEncapsulation.None`**를 사용하십시오.
+</DocsAside>
+
+### 데모
+
+<Sample src="/tree-grid/tree-grid-classes" height={600} alt="" />
+
+### rowStyles 사용하기
+
+열은 이제 데이터 행의 조건부 스타일 지정을 허용하는 `rowStyles` 속성을 노출합니다. `rowClasses`와 마찬가지로 객체 리터럴을 받으며, 키는 스타일 속성이고 값은 평가할 식입니다. 또한 (조건 없이) 일반 스타일도 적용할 수 있습니다.
+
+> `rowStyles`과(와) `rowClasses`의 콜백 시그니처는 다음과 같습니다:
+
+```ts
+(row: RowType) => boolean
+```
+
+스타일을 정의해 보겠습니다:
+
+```typescript
+// component.ts
+public background = (row: RowType) => row.data['Title'] === 'CEO' ? '#6c757d' :
+    row.data['Title'].includes('President') ? '#adb5bd' :
+    row.data['Title'].includes('Director') ?  '#ced4da' :
+    row.data['Title'].includes('Manager') ? '#dee2e6' :
+    row.data['Title'].includes('Lead') ? '#e9ecef' :
+    row.data['Title'].includes('Senior') ? '#f8f9fa' : null;
+
+public rowStyles = {
+    background: this.background,
+    'border-left': (row: RowType) => row.data['Title'] === 'CEO' || row.data['Title'].includes('President') ?
+        '2px solid' : null,
+    'border-color': (row: RowType) => row.data['Title'] === 'CEO' ? '#495057' : null,
+    color: (row: RowType) => row.data['Title'] === 'CEO' ? '#fff' : null
+};
+```
+
+```html
+<!-- sample.component.html -->
+<igx-tree-grid #treeGrid [data]="data" [moving]="true" primaryKey="ID" foreignKey="ParentID"
+        width="100%" height="550px" [rowStyles]="rowStyles">
+    ...
+</igx-tree-grid>
+```
+
+### 데모
+
+<Sample src="/tree-grid/tree-grid-styles-sample" height={600} alt="" />
+
+## Tree Grid 조건부 셀 스타일
+
+## 개요
+
+Ignite UI for Angular의 IgxTreeGrid 컴포넌트는 사용자 지정 규칙을 기반으로 **셀의 조건부 스타일**을 지정하는 두 가지 방법을 제공합니다.
+
+- <ApiLink type="Column" /> 입력 <ApiLink type="Column" member="cellClasses" label="cellClasses" />을(를) 키-값 쌍을 담은 객체 리터럴로 설정합니다. 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다. 그 결과 셀에 편리한 Material 스타일이 적용됩니다.
+
+```ts
+// component.ts file
+public beatsPerMinuteClasses = {
+    downFont: this.downFontCondition,
+    upFont: this.upFontCondition
+};
+...
+
+private downFontCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 95;
+}
+```
+
+```scss
+// component.scss file
+.upFont {
+  color: red;
+}
+
+.downFont {
+  color: green;
+}
+```
+
+### cellClasses 사용하기
+
+<ApiLink type="Column" /> <ApiLink type="Column" member="cellClasses" label="cellClasses" /> 입력을 설정하고 사용자 지정 규칙을 정의하여 IgxTreeGrid 셀의 스타일을 조건부로 지정할 수 있습니다.
+
+```html
+<!-- sample.component.html -->
+<igx-column field="UnitPrice" header="Unit Price" [dataType]="'currency'" [pipeArgs]="formatOptions" [cellClasses]="priceClasses"></igx-column>
+```
+
+<ApiLink type="Column" member="cellClasses" label="cellClasses" /> 입력은 키-값 쌍을 담은 객체 리터럴을 받으며, 키는 CSS 클래스의 이름이고 값은 불리언을 반환하는 콜백 함수 또는 불리언 값입니다.
+
+```typescript
+// sample.component.ts
+
+private upPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] > 5;
+}
+
+private downPriceCondition = (rowData: any, columnKey: any): boolean => {
+    return rowData[columnKey] <= 5;
+}
+
+public priceClasses = {
+    downPrice: this.downPriceCondition,
+    upPrice: this.upPriceCondition
+};
+```
+
+```scss
+// sample.component.scss
+
+::ng-deep {
+    .upPrice {
+        color: red;
+    }
+
+    .downPrice {
+        color: green;
+    }
+}
+```
+
+<DocsAside type="info">
+사용자 지정 스타일을 현재 컴포넌트와 그 하위 항목까지 강제로 적용하려면 **`::ng-deep`** 또는 **`ViewEncapsulation.None`**를 사용하십시오.
+</DocsAside>
+
+### 데모
+
+<Sample src="/tree-grid/treegrid-conditional-cell-style" height={600} alt="" />
+
+- <ApiLink type="Column" /> 입력 <ApiLink type="Column" member="cellStyles" label="cellStyles" />을(를) 사용합니다. 이는 키가 스타일 속성이고 값이 평가할 식인 객체 리터럴을 받습니다.
+
+```ts
+public styles = {
+    'background': 'linear-gradient(180deg, #dd4c4c 0%, firebrick 100%)',
+    'text-shadow': '1px 1px 2px rgba(25,25,25,.25)',
+    'animation': '0.25s ease-in-out forwards alternate popin'
+};
+```
+
+> `cellStyles`과(와) `cellClasses`의 콜백 시그니처는 이제 다음과 같이 바뀌었습니다:
+
+```ts
+(rowData: any, columnKey: string, cellValue: any, rowIndex: number) => boolean
+```
+
+### cellStyles 사용하기
+
+열은 이제 열 셀의 조건부 스타일 지정을 허용하는 `cellStyles` 속성을 노출합니다. `cellClasses`와 마찬가지로 객체 리터럴을 받으며, 키는 스타일 속성이고 값은 평가할 식입니다. 또한 (조건 없이) 일반 스타일도 쉽게 적용할 수 있습니다.
+
+[위 샘플](#데모)에서 우리는 다음을 만들었습니다:
+
+- 열 인덱스를 기준으로 적용되는 두 가지 서로 다른 스타일.
+- 짝수/홀수 행을 기준으로 `text color`도 바꿉니다.
+
+> `cellStyles`의 콜백 시그니처는 다음과 같습니다:
+
+```ts
+(rowData: any, columnKey: string, cellValue: any, rowIndex: number) => boolean
+```
+
+스타일을 정의해 보겠습니다:
+
+```typescript
+// component.ts
+public oddColStyles = {
+    background: 'linear-gradient(to right, #b993d6, #8ca6db)',
+    color: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? 'white' : 'gray',
+    animation: '0.75s popin'
+};
+
+public evenColStyles = {
+    background: 'linear-gradient(to right, #8ca6db, #b993d6)',
+    color: (rowData, columnKey, cellValue, rowIndex) => rowIndex % 2 === 0 ? 'gray' : 'white',
+    animation: '0.75s popin'
+};
+```
+
+`ngOnInit`에서는 미리 정의된 `columns` 컬렉션의 각 열에 대해 `cellStyles` 구성을 추가하며, 이는 IgxTreeGrid 열을 동적으로 만드는 데 사용됩니다.
+
+```ts
+// component.ts
+public ngOnInit() {
+    this.data = ORDERS_DATA;
+     this.columns = [
+        { field: 'ID' },
+        { field: 'Name' },
+        { field: 'UnitPrice' },
+        { field: 'OrderDate' }
+    ];
+
+    this.applyCSS();
+}
+```
+
+```ts
+public applyCSS() {
+    this.columns.forEach((column, index) => {
+        column.cellStyles = (index % 2 === 0 ? this.evenColStyles : this.oddColStyles);
+    });
+}
+
+public updateCSS(css: string) {
+    this.oddColStyles = {...this.oddColStyles, ...JSON.parse(css)};
+    this.evenColStyles = {...this.evenColStyles, ...JSON.parse(css)};
+    this.applyCSS();
+}
+```
+
+```html
+//component.html
+<igx-tree-grid
+    #grid1 [data]="data"
+    primaryKey="ID" foreignKey="ParentID"
+    height="350px">
+    <igx-column *ngFor="let c of columns"
+        [field]="c.field"
+        [header]="c.header"
+        [cellStyles]="c.cellStyles">
+    </igx-column>
+</igx-tree-grid>
+```
+
+`popin` 애니메이션 정의하기
+
+```scss
+// component.scss
+@keyframes popin {
+    0% {
+        opacity: 0.1;
+        transform: scale(.75, .75);
+        filter: blur(3px) invert(1);
+    }
+
+    50% {
+        opacity: .5;
+        filter: blur(1px);
+    }
+
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+        filter: none;
+    }
+}
+```
+
+### 데모
+
+<Sample src="/tree-grid/tree-grid-cell-cellStyling" height={600} alt="" />
+
+## 알려진 문제와 제한 사항
+
+- (서로 다른 열에서) 같은 조건에 바인딩된 셀이 있고 그중 하나가 업데이트되면, 조건이 충족되더라도 나머지 셀은 새 값에 따라 업데이트되지 않습니다.
+나머지 셀에 변경 사항을 적용하려면 파이프 검사를 수행해야 합니다. 아래 예제는 <ApiLink type="Grid" member="cellEdit" label="cellEdit" /> 이벤트에서 `spread operator(...)`을(를) 사용하여 이를 수행하는 방법을 보여 줍니다. 이는 원본 객체를 새 인스턴스로 복사하여 순수 파이프가 실행되도록 합니다.
+
+```ts
+public backgroundClasses = {
+    myBackground: (rowData: any, columnKey: string) => {
+        return rowData.Col2 < 10;
+    }
+};
+...
+
+editDone(evt) {
+    this.backgroundClasses = {...this.backgroundClasses};
+}
+
+```
+
+```html
+<igx-tree-grid #grid1 [data]="data" height="500px" width="100%" (cellEdit)="editDone($event)">
+  <igx-column field="Col1" dataType="number" [cellClasses]="backgroundClasses"></igx-column>
+  <igx-column field="Col2" dataType="number" [editable]="true" [cellClasses]="backgroundClasses"></igx-column>
+  <igx-column field="Col3" header="Col3" dataType="string" [cellClasses]="backgroundClasses"></igx-column>
+</igx-tree-grid>
+```
+
+## API 참조
+- <ApiLink type="Column" />
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="IgxTreeGridComponent 스타일" />
+## 추가 리소스
+
+- [Tree Grid 개요](/treegrid/tree-grid)
+- [가상화와 성능](/treegrid/virtualization)
+- [편집](/treegrid/editing)
+- [페이징](/treegrid/paging)
+- [필터링](/treegrid/filtering)
+- [정렬](/treegrid/sorting)
+- [요약](/treegrid/summaries)
+- [열 이동](/treegrid/column-moving)
+- [열 고정](/treegrid/column-pinning)
+- [열 크기 조정](/treegrid/column-resizing)
+- [열 숨기기](/treegrid/column-hiding)
+- [선택](/treegrid/selection)
+- [검색](/treegrid/search)
+- [도구 모음](/treegrid/toolbar)
+- [다중 열 머리글](/treegrid/multi-column-headers)
+- [크기](/treegrid/display-density)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

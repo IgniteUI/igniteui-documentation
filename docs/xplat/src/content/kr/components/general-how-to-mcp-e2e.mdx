@@ -1,0 +1,281 @@
+---
+title: "Ignite UI CLI MCP와 Ignite UI Theming MCP로 앱 종단 간 빌드하기 - {ProductName}"
+description: "Ignite UI CLI MCP와 Ignite UI Theming MCP로 {ProductName} 종단 간 작업 흐름을 따라가십시오. CLI를 먼저 시작하고, 두 MCP 서버를 연결하며, 채팅으로 앱을 만들거나 확장하고, 문서 질문을 하고, 사용자 지정 테마를 적용합니다."
+keywords: "{Platform}, {ProductName}, Infragistics, Ignite UI CLI MCP, Ignite UI Theming MCP, MCP, Model Context Protocol, AI, 작업 흐름, 테마 지정, 프롬프트"
+license: MIT
+_canonicalLink: "{environment:dvUrl}/components/general-how-to-mcp-e2e"
+mentionedTypes: []
+_language: ko
+llms:
+  description: "Ignite UI CLI MCP와 Ignite UI Theming MCP는 함께 작동하여 AI 어시스턴트가 채팅 프롬프트를 통해 {ProductName} 애플리케이션을 스캐폴딩하고, 확장하며, 테마를 지정할 수 있게 합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+# Ignite UI CLI MCP와 Ignite UI Theming MCP로 애플리케이션 end-to-end 구축하기
+
+<p class="highlight">Ignite UI CLI MCP와 Ignite UI Theming MCP는 함께 작동하여 AI 어시스턴트가 채팅 프롬프트를 통해 {ProductName} 애플리케이션을 스캐폴딩하고, 확장하며, 테마를 지정할 수 있게 합니다. CLI MCP는 프로젝트 생성, 컴포넌트 작업, 문서 질문을 처리합니다. Theming MCP는 팔레트, 테마, 토큰, 스타일 작업 흐름을 처리합니다. 이 항목은 전체 과정을 하나의 명확한 흐름으로 보여 줍니다.</p>
+
+<igc-divider></igc-divider>
+
+## CLI MCP와 Theming MCP의 역할 분담
+
+CLI MCP와 Theming MCP는 Ignite UI for Angular 개발 작업 흐름에서 서로 겹치지 않는 별개의 책임을 가진, STDIO 전송을 사용하는 두 개의 독립된 MCP 서버입니다.
+
+| 담당 영역                                          | 서버      |
+| ------------------------------------------------ | ----------- |
+| 프로젝트 구조 생성 및 스캐폴딩            | CLI MCP     |
+| {Platform} 컴포넌트 추가 또는 업데이트하기              | CLI MCP     |
+| 컴포넌트 API 및 문서 조회           | CLI MCP     |
+| 색상 팔레트 및 명도 변형 생성     | Theming MCP |
+| 전역 테마 구성 생성 및 적용     | Theming MCP |
+| 컴포넌트 수준 디자인 토큰 생성           | Theming MCP |
+| 간격, 크기, 테두리 반경 조정        | Theming MCP |
+
+두 서버 모두 단계를 자율적으로 실행하지 않습니다. AI 어시스턴트는 사용자의 프롬프트에 응답할 때만 MCP 도구를 호출합니다. CLI MCP는 테마 또는 Sass 파일을 생성하거나 수정하지 않습니다. Theming MCP는 컴포넌트를 스캐폴딩하거나 애플리케이션 로직을 수정하거나 문서 질문에 답하지 않습니다. 두 서버 모두 STDIO 전송을 지원하는 MCP 클라이언트가 필요하며, 브라우저 전용 채팅 인터페이스에서는 사용할 수 없습니다.
+
+## 필요한 것
+
+시작하기 전에 다음을 준비하십시오:
+
+- `npx`을(를) 사용할 수 있도록 **Node.js**가 설치되어 있어야 합니다
+- MCP를 지원하는 AI 클라이언트
+- 처음 사용할 때 `npx` 패키지를 확인하고 내려받을 수 있도록 인터넷 접속
+- 프로젝트용 폴더
+
+Ignite UI CLI가 프로젝트를 스캐폴딩하고 VS Code용 첫 MCP 구성을 자동으로 준비하므로, 이 안내는 **CLI 우선** 설정에서 가장 잘 동작합니다.
+
+각 클라이언트에 대한 자세한 설정 참조가 필요하다면 [Ignite UI CLI MCP](./ai/cli-mcp.mdx)와 [Ignite UI Theming MCP](./ai/theming-mcp.mdx)를 참조하십시오.
+
+## 1단계: Ignite UI CLI로 시작하기
+
+권장 시작점은 먼저 Ignite UI CLI로 프로젝트를 만드는 것입니다.
+
+Ignite UI CLI는 다음 두 가지 방법 중 하나로 실행할 수 있습니다:
+
+### 전역 설치
+
+```bash
+npm install -g igniteui-cli
+```
+
+이렇게 하면 모든 터미널 세션에서 `ig` 명령을 사용할 수 있습니다.
+
+### 전역 설치 없이
+
+```bash
+npx ig new
+```
+
+전역 `ig` 명령 대신 `npx`을 통해 CLI를 실행합니다.
+
+CLI가 옵션을 단계별로 안내하기를 원하면 **안내 모드**를 사용할 수 있습니다:
+
+```bash
+ig new
+```
+
+이에 해당하는 `npx` 형식:
+
+```bash
+npx ig new
+```
+
+프로젝트 설정을 이미 알고 있다면 직접 명령을 사용할 수도 있습니다.
+
+<PlatformBlock for="React">
+React의 경우:
+
+```bash
+ig new my-app --framework=react
+```
+
+이에 해당하는 `npx` 형식:
+
+```bash
+npx ig new my-app --framework=react
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+Web Components의 경우:
+
+```bash
+ig new my-app --framework=webcomponents
+```
+
+이에 해당하는 `npx` 형식:
+
+```bash
+npx ig new my-app --framework=webcomponents
+```
+
+</PlatformBlock>
+
+다음에 일어나는 일:
+
+- Ignite UI CLI가 프로젝트 구조를 만듭니다
+- 필요한 프로젝트 패키지가 설치됩니다
+- CLI 우선 방법에서는 VS Code에도 초기 `.vscode/mcp.json`이(가) 추가됩니다
+
+## 2단계: CLI MCP와 Theming MCP 연결하기
+
+프로젝트를 만든 후에는 두 MCP 서버가 모두 AI 클라이언트에서 사용 가능한지 확인하십시오.
+
+### VS Code
+
+```json
+{
+  "servers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+### Cursor, Claude Desktop, Claude Code, JetBrains 및 기타 MCP 클라이언트
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+구성을 저장한 후 AI 클라이언트를 다시 열거나 다시 시작하고, `igniteui-cli`과(와) `igniteui-theming`를 모두 사용할 수 있는지 확인하십시오.
+
+## 3단계: 어시스턴트가 프로젝트를 검토하게 하기
+
+두 MCP 서버가 모두 실행되면 새 채팅을 열고 어시스턴트에게 프로젝트 수준의 컨텍스트를 제공하는 것으로 시작하십시오.
+
+유용한 프롬프트:
+
+> _"기능을 추가하기 전에 이 프로젝트를 검토하고 현재 구조를 설명해 주세요."_
+
+> _"무엇이 만들어졌는지, 주요 진입점은 무엇인지, 새 페이지는 어디에 추가해야 하는지 알려 주세요."_
+
+다음에 일어나는 일:
+
+- CLI MCP가 생성되었거나 기존의 프로젝트를 확인합니다
+- 어시스턴트가 구조를 요약합니다
+- 이제 다음 단계를 위한 공통 출발점이 생겼습니다
+
+## 4단계: 채팅으로 실제 기능 추가하기
+
+프로젝트 구조가 명확해지면 구체적인 기능을 요청하십시오.
+
+예시 프롬프트:
+
+> _"{ProductName} 그리드가 있는 주문 페이지를 추가해 주세요. 주문 ID, 고객 이름, 주문 날짜, 총액 열을 포함하고, 그리드를 샘플 데이터에 바인딩해 주세요."_
+
+후속 프롬프트:
+
+> _"Orders 그리드에 필터링, 정렬, 페이징을 활성화하고 페이지 레이아웃은 앱의 나머지 부분과 일관되게 유지해 주세요."_
+
+다음에 일어나는 일:
+
+- CLI MCP가 올바른 페이지를 추가하거나 업데이트합니다
+- 어시스턴트가 컴포넌트 코드를 만들거나 업데이트합니다
+- 기능이 기존 앱 구조에 통합됩니다
+
+더 작은 개선 작업으로 계속할 수 있습니다:
+
+> _"그리드 위에 간단한 도구 모음을 추가하고 레이아웃은 간결하게 유지해 주세요."_
+
+## 5단계: 같은 세션에서 문서 질문하기
+
+컴포넌트 API를 찾아보기 위해 대화를 떠날 필요가 없습니다.
+
+예시 프롬프트:
+
+> _"{Platform} 그리드는 어떤 필터링 옵션을 지원하며, 간단한 주문 표에 가장 적합한 것은 무엇입니까?"_
+
+> _"combo 컴포넌트는 어떤 이벤트를 노출하며, 선택 변경에는 어떤 이벤트를 사용해야 합니까?"_
+
+> _"측면 탐색 레이아웃에 가장 적합한 {ProductName} 컴포넌트는 무엇이며, 그 이유는 무엇입니까?"_
+
+다음에 일어나는 일:
+
+- CLI MCP가 문서를 인식하는 도구를 사용하여 질문에 답합니다
+- 바로 이어서 구현 요청을 할 수 있습니다
+
+예를 들면:
+
+> _"권장 필터링 방식을 현재 Orders 그리드에 적용해 주세요."_
+
+## 6단계: 사용자 지정 테마 적용하기
+
+앱 구조와 주요 기능이 갖춰지면, 같은 채팅에서 Theming MCP를 사용하십시오.
+
+예시 프롬프트:
+
+> _"앱에 전문적인 테마를 적용해 주세요. 기본 색상은 짙은 파란색, 보조 색상은 따뜻한 호박색을 사용하고, 간격은 촘촘하게 유지해 주세요."_
+
+다음에 일어나는 일:
+
+- Theming MCP가 팔레트와 테마 구성을 생성합니다
+- 어시스턴트가 올바른 테마 또는 스타일 파일을 업데이트합니다
+- 앱 스타일이 현재 구조와 계속 일치합니다
+
+더 구체적인 프롬프트로 테마를 추가로 다듬을 수 있습니다:
+
+> _"그리드 헤더에 기본 색상을 사용하고, 행 높이를 약간 높이며, 나머지 페이지는 시각적으로 깔끔하게 유지해 주세요."_
+
+> _"그리드 스타일을 다듬기 전에 생성된 기본 및 보조 팔레트의 명도 단계를 보여 주세요."_
+
+## 7단계: 반복 계속하기
+
+이 작업 흐름의 가장 큰 장점은 하나의 대화에서 프로젝트 작업, 문서 질문, 테마 설정 사이를 계속 오갈 수 있다는 점입니다.
+
+예시 프롬프트:
+
+> _"현재 Orders 페이지 구조는 유지하되, 레이아웃을 단순화하고 필터 영역을 더 간결하게 만들어 주세요."_
+
+> _"현재 테마는 그대로 사용하되, 대시보드 카드와 그리드 간격이 앱의 나머지 부분과 더 일관되도록 해 주세요."_
+
+> _"생성된 파일을 검토하고 제가 한 주요 프로젝트, 컴포넌트, 테마 변경 사항을 설명해 주세요."_
+
+다음에 일어나는 일:
+
+- CLI MCP는 프로젝트와 컴포넌트의 세부 조정을 담당합니다
+- Theming MCP는 테마와 토큰의 세부 조정을 담당합니다
+- 어시스턴트가 전체 작업 흐름을 처음부터 끝까지 연결된 상태로 유지합니다
+
+## 주요 내용
+
+이 작업 흐름은 프로젝트 설정, 컴포넌트 작업, 문서 조회, 테마 설정을 하나의 채팅 세션에서 유지하고 싶을 때 잘 맞습니다.
+
+다음과 같을 때 사용하십시오:
+
+- 고립된 코드 조각이 아니라 실제 프로젝트 스캐폴드에서 시작하고 싶을 때
+- 구현과 문서 질문을 번갈아 하게 될 것으로 예상될 때
+- 프로젝트 구조와 시각 스타일이 함께 발전하기를 원할 때
+
+실제로 가장 효과적인 방식은 프로젝트와 컴포넌트 변경에는 CLI MCP를 사용하고, 필요할 때 문서 질문으로 잠시 멈춘 다음, 같은 대화를 떠나지 않고 Theming MCP로 결과를 다듬는 것입니다.
+
+## 관련 항목
+
+- [Ignite UI 기반 AI 지원 개발](./ai/ai-assisted-development-overview.mdx)
+- [{ProductName} 스킬](./ai/skills.mdx)
+- [Ignite UI CLI MCP](./ai/cli-mcp.mdx)
+- [Ignite UI Theming MCP](./ai/theming-mcp.mdx)
+
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

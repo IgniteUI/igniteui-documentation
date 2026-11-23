@@ -1,0 +1,168 @@
+---
+title: "Edición por lotes en Angular | Transaction Service | Ignite UI for Angular | Infragistics"
+description: "Conozca la jerarquía de la clase Transaction Service, que permite implementar la edición por lotes al ejecutar operaciones CRUD de Angular en sus componentes."
+keywords: "edición por lotes, igniteui for angular, infragistics"
+_language: es
+llms:
+  description: "La Transaction es el bloque de construcción principal del servicio Transaction."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Jerarquía de clases del servicio Transaction
+
+## Transaction, State, Transaction Log
+
+La Transaction es el bloque de construcción principal de <ApiLink type="TransactionService" label="Servicio Transaction" />. Una Transaction es, en realidad, cada operación que ejecuta sobre los datos. La interfaz <ApiLink type="Transaction" kind="interface" /> define tres propiedades: <ApiLink kind="interface" type="Transaction" member="id" />, <ApiLink kind="interface" type="Transaction" member="newValue" /> y <ApiLink kind="interface" type="Transaction" member="type" />.
+
+El <ApiLink kind="interface" type="Transaction" member="id" /> de una Transaction debe ser único por cada registro de datos y define el registro al que afecta esta transacción. El <ApiLink kind="enum" type="TransactionType" member="Type" /> puede ser cualquiera de los tres tipos de transacción: `ADD`, `DELETE` y `UPDATE`, según la operación que ejecute. El <ApiLink kind="interface" type="Transaction" member="newValue" /> contiene el valor del nuevo registro si está añadiendo una transacción `ADD`. Si está actualizando un registro existente, el <ApiLink kind="interface" type="Transaction" member="newValue" /> contendría solo los cambios. Puede haber varias transacciones de tipo `UPDATE` con el mismo id. Si está eliminando un registro, el <ApiLink kind="interface" type="Transaction" member="newValue" /> contendrá el valor del registro eliminado.
+
+Puede ver un ejemplo de cómo se ve añadir cada tipo de transacción en el tema [Cómo usar el servicio Transaction](/transaction-how-to-use).
+
+Cada vez que añade una Transaction, se añade al registro de transacciones y a la pila de deshacer. Todos los cambios del registro de transacciones se acumulan después por registro. A partir de ese momento, el servicio mantiene un <ApiLink type="State" kind="interface" /> agregado. El <ApiLink type="State" kind="interface" /> se compone de registros únicos, y cada registro puede ser de uno de los tipos de transacción admitidos mencionados antes.
+
+Al añadir transacciones, puede activar las transacciones pendientes llamando a <ApiLink kind="interface" type="TransactionService" member="startpending" />. Todas las transacciones posteriores se acumularán en una única transacción hasta que llame a <ApiLink kind="interface" type="TransactionService" member="endpending" />. Si pasa `true` a <ApiLink kind="interface" type="TransactionService" member="endpending" />, todas las transacciones acumuladas se añadirán como una única transacción en el registro de transacciones y en la pila de deshacer.
+
+## Uso de igxBaseTransaction
+
+
+Nuestro módulo de grid ofrece una implementación muy básica del servicio Transaction (<ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />), solo con la funcionalidad de sesión pendiente que permite la función de edición de filas. Mediante <ApiLink kind="interface" type="TransactionService" member="startpending" /> y <ApiLink kind="interface" type="TransactionService" member="endpending" />, la edición de filas puede combinar varias operaciones por celda en un único cambio. Esto significa que editar varias celdas de un mismo registro crea una única transacción, y solo tiene que gestionar el evento de edición de fila.
+
+Como el estado acumulado es un objeto parcial, también podemos usar el servicio para comprobar qué celda se ha editado y construir la interfaz en torno a ello.
+
+<ApiLink type="BaseTransactionService" label="igxBaseTransactionService" /> no tiene pila de deshacer, por lo que no proporciona la funcionalidad de deshacer/rehacer.
+
+En los temas siguientes se incluye un ejemplo detallado de cómo puede usar <ApiLink type="BaseTransactionService" label="igxBaseTransactionService" /> para habilitar la edición de filas:
+
+- [Edición de filas en Grid](/grid/row-editing)
+- [Edición de filas en Tree Grid](/treegrid/row-editing)
+- [Edición de filas en Hierarchical Grid](/hierarchicalgrid/row-editing)
+
+## Información general sobre igxTransactionService e igxHierarchicalTransactionService
+
+<ApiLink type="TransactionService" /> y <ApiLink type="HierarchicalTransactionFactory" /> son middlewares inyectables que implementan la interfaz <ApiLink kind="interface" type="TransactionService" label="Servicio Transaction" />. Un componente puede usarlos para acumular cambios sin afectar a los datos subyacentes. El proveedor expone una API para _acceder_, _manipular_ (deshacer y rehacer) y _descartar o confirmar_ uno o todos los cambios en los datos.
+
+En un ejemplo más concreto, <ApiLink type="TransactionService" /> y <ApiLink type="HierarchicalTransactionFactory" /> pueden funcionar tanto con la edición de celdas como con la edición de filas de [`IgxGrid`](/grid/grid). La transacción de la edición de una celda se añade cuando la celda sale del modo de edición. Cuando empieza la edición de una fila, el grid pone su servicio de transacciones en estado pendiente llamando a <ApiLink kind="interface" type="TransactionService" member="startpending" />. Cada celda editada se añade al registro de transacciones pendientes y no al registro principal de transacciones. Cuando la fila sale del modo de edición, todos los cambios se añaden al registro principal de transacciones y al registro de deshacer como una única transacción.
+
+En ambos casos (edición de celdas y edición de filas), el estado de las ediciones de la cuadrícula consiste en todas las filas actualizadas, añadidas y eliminadas, y sus últimos estados. Estos pueden inspeccionarse, manipularse y enviarse después de una vez o por id. Los cambios se recogen para celdas o filas individuales, según el modo de edición, y se acumulan por fila o registro de datos.
+
+## Uso de igxTransactionService
+
+<ApiLink type="TransactionService" /> extiende <ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />.
+
+Si quiere que su componente use transacciones al realizar operaciones de datos, debe definir <ApiLink type="TransactionService" /> como proveedor en el array `providers` de su componente.
+
+<ApiLink type="TransactionService" /> proporciona una pila de deshacer, así que puede aprovechar la funcionalidad de deshacer/rehacer. La pila de deshacer es, en realidad, un array que contiene arrays de transacciones. Al usar <ApiLink type="TransactionService" />, puede comprobar el accesor <ApiLink type="TransactionService" member="canundo" label="canUndo" /> para saber si hay transacciones en la pila de deshacer. Si las hay, puede usar el método <ApiLink type="TransactionService" member="undo" label="undo" /> para eliminar la última transacción y <ApiLink type="TransactionService" member="redo" label="redo" /> para aplicar la última transacción deshecha.
+
+Puede encontrar un ejemplo detallado de cómo se implementa igxGrid con edición por lotes en el tema siguiente:
+
+- [Edición por lotes en Grid](/grid/batch-editing)
+
+## Uso de igxHierarchicalTransactionService
+
+<ApiLink type="HierarchicalTransactionFactory" /> extiende <ApiLink type="TransactionService" />.
+
+<ApiLink type="HierarchicalTransactionFactory" /> está diseñado para gestionar las relaciones entre padres e hijos (úselo cuando tenga una estructura de datos jerárquica, como <ApiLink type="TreeGrid" label="igxTreeGrid" />, por ejemplo). El servicio garantiza que un nuevo registro se añadirá en el lugar esperado al añadir una transacción `ADD`. Cuando elimina un registro padre, sus hijos pasarán al nivel jerárquico superior o se eliminarán junto con su padre, según la implementación. Puede consultar la propiedad <ApiLink type="TreeGrid" member="cascadeondelete" label="cascadeOnDelete" /> del tree grid para ver un ejemplo concreto: según su valor, eliminar un registro padre tendrá efectos distintos en sus hijos.
+
+En su aplicación, puede que quiera gestionar el escenario en el que el usuario intenta añadir un registro hijo a un registro padre que ya está eliminado y espera a que se confirme la transacción. El servicio Transaction no permitirá añadir un registro a un padre que va a eliminarse, y se mostrará un mensaje de error en la consola. Sin embargo, puede comprobar si un padre va a eliminarse e implementar su propia alerta para el usuario con el código siguiente:
+
+```typescript
+    const state = this.transactions.getState(parentRecordID);
+    if (state && state.type === TransactionType.DELETE) {
+        // Implement your logic here
+    }
+```
+
+Puede encontrar ejemplos detallados de cómo se implementan <ApiLink type="TreeGrid" label="igxTreeGrid" /> y <ApiLink type="HierarchicalGrid" label="igxHierarchicalGrid" /> con edición por lotes en los temas siguientes:
+
+- [Edición por lotes en Tree Grid](/treegrid/batch-editing)
+- [Edición por lotes en Hierarchical Grid](/hierarchicalgrid/batch-editing)
+
+## Factoría de transacciones
+
+En la implementación concreta de las transacciones dentro de las cuadrículas de Ignite UI for Angular, se usa una factoría para instanciar el servicio de transacciones adecuado, según el valor de <ApiLink type="Grid" member="batchediting" label="batchEditing" /> de la cuadrícula. Hay dos factorías de transacciones independientes: <ApiLink type="FlatTransactionFactory" /> (usada para [`Grid`](/grid/batch-editing) y [`Hierarchical Grid`](/hierarchicalgrid/batch-editing)) y <ApiLink type="HierarchicalTransactionFactory" /> (usada para [Tree Grid](/treegrid/batch-editing)). Ambas clases exponen solo un método, `create`, que devuelve una nueva instancia del [tipo](#información-general-sobre-igxtransactionservice-e-igxhierarchicaltransactionservice) adecuado. El parámetro que se pasa (`TRANSACTION_TYPE`) se usa internamente: `None` se usa cuando `batchEditing` es **false** y `Base` cuando la edición por lotes está habilitada. Se usa un `enum` (en lugar de un `true` con un flag `false`), porque permite ampliarlo.
+
+## Uso de la factoría de transacciones
+
+Tanto <ApiLink type="FlatTransactionFactory" /> como <ApiLink type="HierarchicalTransactionFactory" /> se proporcionan en `root` y se exponen en la API pública. Si quiere instanciar una nueva instancia de un servicio de transacciones, según alguna comprobación arbitraria, puede usar una factoría de transacciones.
+
+En el ejemplo siguiente puede ver cómo instanciar distintos servicios de transacciones según un flag arbitrario (`hasUndo`):
+
+```typescript
+import { IgxFlatTransactionFactory, TRANSACTION_TYPE } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory, TRANSACTION_TYPE } from '@infragistics/igniteui-angular'; for licensed package
+
+export class MyCustomComponent {
+    ...
+    constructor(private transactionFactory: IgxFlatTransactionFactory) {}
+    ...
+    public transaction!: IgxTransactionService<Transaction, State>;
+
+    public set hasUndo(val: boolean) {
+        if (val) {
+            this.transactions = this.transactionFactory.create(TRANSACTION_TYPE.Base);
+        } else {
+            this.transactions = this.transactionFactory.create(TRANSACTION_TYPE.None);
+        }
+    }
+}
+```
+
+Ambas clases de factoría pueden extenderse y sobrescribirse en la jerarquía de DI (usando el array `providers`) para proporcionar su propia implementación personalizada. Esto, junto con el hecho de que todas las clases que instancian las factorías también son públicas, le da un gran control sobre lo que se proporciona a los componentes que usan implementaciones de transacciones internamente.
+
+Por ejemplo, para sobrescribir el servicio de transacciones que usa internamente `IgxGridComponent`, puede hacer lo siguiente:
+
+Primero, defina una clase de factoría personalizada
+
+```typescript
+import { IgxFlatTransactionFactory, TRANSACTION_TYPE, IgxBaseTransactionService,
+TransactionService, Transaction, State } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory, TRANSACTION_TYPE, IgxBaseTransactionService,
+// TransactionService, Transaction, State } from '@infragistics/igniteui-angular'; for licensed package
+
+class CustomTransactionService extends IgxBaseTransactionService {
+    ...
+}
+
+export class CustomTransactionFactory extends IgxFlatTransactionFactory {
+    ...
+    create(type: TRANSACTION_TYPE): TransactionService<Transaction, State> {
+        if (type === TRANSACTION_TYPE.Base) {
+            return new CustomTransactionService();
+        }
+        super.create(type);
+    }
+}
+
+```
+
+Después, en el array `providers` de su componente, sobrescriba `IgxFlatTransactionFactory` (usado por `igx-grid`) con su implementación personalizada.
+
+```typescript
+import { IgxFlatTransactionFactory } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory } from '@infragistics/igniteui-angular'; for licensed package
+import { CustomTransactionFactory } from '../custom-factory.ts';
+
+@Component({
+    selector: 'app-grid-view',
+    template: `<igx-grid [batchEditing]="true" [data]="data" [autoGenerate]="true"></igx-grid>`,
+    providers: [{ provide: IgxFlatTransactionFactory, useClass: CustomTransactionFactory }]
+})
+
+export class GridViewComponent {
+    ...
+}
+```
+
+Ahora, cuando `batchEditing` se establece en `true`, el grid recibirá una instancia de `CustomTransactionService`.
+
+## Recursos adicionales
+
+<hr/>
+
+- <ApiLink kind="interface" type="TransactionService" label="API del servicio Transaction" />
+- [Servicio Transaction](/transaction)
+- [Cómo usar el servicio Transaction](/transaction-how-to-use)
+- [Edición por lotes en Grid](/grid/batch-editing)
+- [Edición por lotes en Tree Grid](/treegrid/batch-editing)
+- [Edición por lotes en Hierarchical Grid](/hierarchicalgrid/batch-editing)

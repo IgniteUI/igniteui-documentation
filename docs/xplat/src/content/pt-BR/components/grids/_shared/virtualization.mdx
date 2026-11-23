@@ -1,0 +1,119 @@
+---
+title: "Virtualização e desempenho do {Platform} {ComponentTitle} - {ProductName}"
+description: "A virtualização do {ProductName} é o mecanismo central por trás da velocidade e do desempenho da grade ao lidar com grandes conjuntos de dados. Experimente gratuitamente!"
+keywords: "{Platform} {ComponentTitle}, desempenho de {ComponentTitle}, virtualização de tabela de dados, {ProductName}"
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridVirtualization}"
+_language: pt-BR
+llms:
+  description: "No {ProductName}, o controle {ComponentName} virtualiza seu conteúdo tanto na vertical quanto na horizontal."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Virtualização e desempenho do {Platform} {ComponentTitle}
+
+No {ProductName}, o controle <ApiLink type="{ComponentName}" /> virtualiza seu conteúdo tanto na vertical quanto na horizontal.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+## Exemplo de virtualização e desempenho do {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/data-performance-virtualization" height={550} alt="Exemplo de virtualização e desempenho do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+
+## Habilitando a virtualização
+
+O <ApiLink type="{ComponentName}" /> agora otimiza a renderização do DOM e o consumo de memória, renderizando apenas o que está visível no momento na área de visualização e trocando os dados exibidos conforme o usuário rola os dados horizontal ou verticalmente. O <ApiLink type="{ComponentName}" /> de <ApiLink type="{ComponentName}" member="width" /> e <ApiLink type="{ComponentName}" member="height" /> têm como padrão `100%`, o que ativa a virtualização quando o conteúdo exibido não cabe no espaço disponível e são necessárias barras de rolagem na vertical ou na horizontal.
+
+No entanto, também é possível definir explicitamente o <ApiLink type="{ComponentName}" /> de <ApiLink type="{ComponentName}" member="width" /> e/ou <ApiLink type="{ComponentName}" member="height" /> como `null`, o que significa que a dimensão correspondente será determinada pelo tamanho total dos itens internos. Nenhuma barra de rolagem será exibida e todos os itens serão renderizados ao longo da respectiva dimensão (colunas, se <ApiLink type="{ComponentName}" member="width" /> for `null`, e linhas, se <ApiLink type="{ComponentName}" member="height" /> for `null`).
+
+O tamanho dos blocos de dados é determinado por:
+
+- A altura da linha para a virtualização vertical (de linhas). Ela é determinada pela opção <ApiLink type="{ComponentName}" member="rowHeight" /> e é de 50 (px) por padrão.
+- As larguras individuais das colunas em pixels para a virtualização horizontal (de colunas). Elas podem ser determinadas definindo uma largura explícita para cada componente de coluna, ou definindo a opção <ApiLink type="{ComponentName}" /> do <ApiLink type="{ComponentName}" member="columnWidth" />, que será aplicada a todas as colunas que não tenham largura explícita definida.
+
+Na maioria dos casos, deixar o grid aplicar o seu comportamento padrão, sem definir dimensões, produzirá o layout desejado. Para as larguras das colunas, isso é determinado pela quantidade de colunas, pelas colunas com largura definida e pela largura calculada do contêiner do <ApiLink type="{ComponentName}" />. O grid tentará encaixar todas as colunas no espaço disponível, desde que a largura que tenta atribuir não fique abaixo de 136 (px). Nesses casos, as colunas sem largura atribuída receberão a largura mínima de 136 (px), e será exibida uma barra de rolagem horizontal. O grid será virtualizado horizontalmente.
+
+Definir explicitamente larguras de colunas em porcentagens (%) criará, na maioria dos casos, um grid que não é virtualizado horizontalmente, já que não terá uma barra de rolagem horizontal.
+
+<PlatformBlock for="Angular">
+## Virtualização remota
+
+O <ApiLink type="{ComponentName}" /> oferece suporte à virtualização remota, demonstrada no tópico [Operações com dados remotos](remote-data-operations.mdx).
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+## Templates
+
+Ao precisar personalizar um dos templates existentes na grade, o Blazor oferece duas formas de definir um template:
+
+- por meio de um template do lado do servidor, usando a propriedade correspondente do componente (ou seja, a propriedade <ApiLink type="Column" member="bodyTemplate" label="BodyTemplate" />) ou declarativamente com o nome do template. Por exemplo:
+
+```razor
+<IgbColumn>
+    <BodyTemplate>
+        Template content here
+    </BodyTemplate>
+</IgbColumn>
+```
+
+Isso renderizará o template depois de solicitá-lo e resolvê-lo no servidor.
+
+- por meio de um template do cliente, usando o equivalente em `Script` da propriedade (ou seja, `BodyTemplateScript`) para defini-la com o nome da função handler do lado do cliente, por exemplo:
+
+```razor
+<IgbColumn BodyTemplateScript="CellTemplate">
+</IgbColumn>
+```
+
+```javascript
+igRegisterScript("CellTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`Template content here`;
+}, false);
+
+```
+
+O handler então renderiza o template lit fornecido diretamente no DOM, conforme necessário.
+
+<DocsAside type="info">
+Embora as duas abordagens sejam válidas, os templates do lado do servidor exigem uma requisição de ida e volta ao servidor para obter e resolver o template personalizado antes de renderizá-lo no cliente. Por isso, a abordagem de template do cliente é mais otimizada e recomendada, especialmente em cenários com muitos templates que precisam de atualizações frequentes, pois pode haver um atraso perceptível entre a interação do usuário e a atualização do template.
+</DocsAside>
+
+</PlatformBlock>
+
+## Limitações da virtualização
+
+No macOS, a barra de rolagem horizontal não fica visível quando a opção do sistema "Mostrar barras de rolagem apenas ao rolar" está definida como true (que é o valor padrão). Isso acontece porque o contêiner de linhas do <ApiLink type="{ComponentName}" /> tem overflow definido como hidden. Altere a opção para "Sempre" e a barra de rolagem aparecerá.
+
+## Perguntas frequentes
+
+### Por que ter dimensões no {ComponentTitle} é necessário para que a virtualização funcione?
+
+Sem informações sobre os tamanhos do contêiner e dos itens antes de renderizá-los, definir a largura ou a altura de uma barra de rolagem, ou determinar quais itens devem estar na visualização quando você rola para uma posição aleatória do <ApiLink type="{ComponentName}" />, é impreciso. Quaisquer suposições sobre as dimensões reais poderiam levar a um comportamento não natural da barra de rolagem e, em última instância, a uma experiência subótima para o usuário final. Por isso, definir as dimensões correspondentes é obrigatório para que a virtualização tenha efeito.
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

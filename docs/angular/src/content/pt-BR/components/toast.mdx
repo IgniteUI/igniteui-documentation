@@ -1,0 +1,295 @@
+---
+title: "Componente Angular Toast – Ignite UI for Angular | Infragistics | Licença MIT"
+description: "Com o componente Toast do Ignite UI for Angular, os usuários podem receber mensagens rápidas e não interativas dentro da aplicação."
+keywords: "componente Angular Toast, controle Angular Toast, Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, componentes de UI Angular, Native Angular Components Library"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O componente Toast do Ignite UI for Angular fornece mensagens informativas e de aviso que se ocultam automaticamente, não são interativas e não podem ser dispensadas pelo usuário."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do componente Angular Toast
+
+<div class="highlight">
+O componente Toast do Ignite UI for Angular fornece mensagens informativas e de aviso que se ocultam automaticamente, não são interativas e não podem ser dispensadas pelo usuário. As notificações podem ser exibidas na parte inferior, no meio ou no topo da página.
+</div>
+
+## Exemplo do Angular Toast
+
+<Sample src="/notifications/toast-sample-2" height={300} alt="Exemplo do Angular Toast" />
+
+<hr/>
+
+## Primeiros passos com o Ignite UI for Angular Toast
+
+Para começar com o componente Ignite UI for Angular Toast, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](./general/getting-started.mdx).
+
+O próximo passo é importar o `IgxToastModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxToastModule } from 'igniteui-angular/toast';
+// import { IgxToastModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxToastModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` você pode importar o `IgxToastComponent` como uma dependência independente.
+
+```typescript
+// home.component.ts
+
+import { IgxToastComponent } from 'igniteui-angular/toast';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+// import { IgxToastComponent, IgxButtonDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button igxButton="contained" (click)="toast.open()">Show notification</button>
+    <igx-toast #toast>Notification displayed</igx-toast>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxToastComponent, IgxButtonDirective]
+    /* or imports: [IgxTimePickerComponent, IgxButtonDirective] */
+})
+export class HomeComponent {
+    public time: Date;
+}
+```
+
+Agora que você importou o módulo ou o componente Ignite UI for Angular Toast, pode começar a usar o componente `igx-toast`.
+
+## Usando o Angular Toast
+
+### Exibindo o Toast
+
+Para exibir o componente toast, use o seu método <ApiLink type="Toast" member="open" label="open()" /> e chame-o ao clicar em um botão. Você pode passar o conteúdo do toast dentro do elemento.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="toast.open()">Show notification</button>
+<igx-toast #toast>Notification displayed</igx-toast>
+```
+
+Outra forma de definir o conteúdo do toast é passar diretamente a mensagem como parâmetro para o método <ApiLink type="Toast" member="open" label="open()" />.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="toast.open('Notification displayed')">Show notification</button>
+<igx-toast #toast></igx-toast>
+```
+
+O método <ApiLink type="Toast" member="open" label="open()" /> também pode ser usado no arquivo AppComponent para gerenciar o valor da mensagem.
+
+```typescript
+// app.component.ts
+@ViewChild('toast', { read: IgxToastComponent }) public toast: IgxToastComponent;
+
+public message: any;
+
+public ngOnInit() {
+    this.message = 'Display message';
+}
+
+public showMessage() {
+    this.toast.open(this.message);
+}
+```
+
+## Exemplos
+
+### Ocultar/Ocultar automaticamente
+
+Depois de aberto, o toast desaparece após um período especificado pela entrada <ApiLink type="Toast" member="displayTime" label="displayTime" />, que é definida inicialmente como 4000 milissegundos. Esse comportamento vem habilitado por padrão, mas você pode alterá-lo definindo <ApiLink type="Toast" member="autoHide" label="autoHide" /> como **false**. Dessa forma, o toast permanece visível. Usando o método <ApiLink type="Toast" member="close" label="close()" /> do toast, você pode fechar o componente.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="toast.open()">Show Toast</button>
+<button igxButton="contained" (click)="toast.close()">Hide Toast</button>
+<igx-toast #toast [autoHide]="false">Notification displayed</igx-toast>
+```
+
+Se o exemplo estiver configurado corretamente, o toast aparecerá quando o botão _Show_ for clicado. No primeiro componente, o recurso de ocultação automática fica desativado, e o toast desaparece ao clicar no botão 'Hide'.
+Nos outros dois componentes, você pode ver em ação como passar mensagens diferentes pelo método <ApiLink type="Toast" member="open" label="open()" /> e usar a projeção de conteúdo.
+
+<Sample src="/notifications/toast-sample-3" height={450} alt="" />
+
+### Tempo de exibição
+
+Use <ApiLink type="Toast" member="displayTime" label="displayTime" /> e defina um intervalo em milissegundos para configurar por quanto tempo o componente toast fica visível.
+
+```html
+{/*sample.component.html*/}
+
+<button igxButton="contained" (click)="toast.open()">Show notification</button>
+<igx-toast #toast displayTime="1000">Notification displayed</igx-toast>
+```
+
+Se o exemplo estiver configurado corretamente, o toast se oculta automaticamente mais rapidamente.
+
+<Sample src="/notifications/toast-sample-4/" height={200} iframeOnly />
+
+### Posicionamento
+
+Use a propriedade <ApiLink type="Toast" member="positionSettings" label="positionSettings" /> para configurar onde o toast aparece. Por padrão, ele é exibido na parte inferior da página. No exemplo abaixo, definimos que a notificação apareça na posição superior.
+
+```html
+{/*sample.component.html*/}
+<div>
+    <button igxButton="contained" (click)="open(toast)">Show notification on top</button>
+    <igx-toast #toast>Notification displayed</igx-toast>
+</div>
+```
+
+```typescript
+// sample.component.ts
+import { VerticalAlignment } from 'igniteui-angular/core';
+// import { VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+...
+public open(toast) {
+    toast.positionSettings.verticalDirection = VerticalAlignment.Top;
+    toast.open();
+}
+...
+```
+
+<Sample src="/notifications/toast-sample-5" height={300} alt="" />
+
+<hr/>
+
+## Estilização
+
+### Mapa de propriedades de tema do Toast
+
+Quando você modifica uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança:
+
+<table>
+  <thead>
+    <tr>
+      <th>Propriedade primária</th>
+      <th>Propriedade dependente</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>$background</strong></td>
+      <td>$text-color</td>
+      <td>A cor do texto usada no toast.</td>
+    </tr>
+    <tr>
+      <td><strong>$text-color</strong></td>
+      <td>$border-color</td>
+      <td>A cor da borda usada no toast.</td>
+    </tr>
+  </tbody>
+</table>
+
+Para começar a estilizar o toast, precisamos importar o arquivo index, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-toast-theme" label="toast-theme" code={true} /> e fornece os parâmetros `$background`, `$text-color` e `$border-radius`.
+
+```scss
+$custom-toast-theme: toast-theme(
+  $text-color: #ffcd0f,
+  $background: #292826,
+  $border-radius: 12px
+);
+```
+
+<DocsAside type="info">
+Em vez de definir os valores de cor diretamente, como acabamos de fazer, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> e <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte o tópico [`Palettes`](./themes/sass/palettes.mdx) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+A última etapa é passar o tema personalizado do toast:
+
+```scss
+:host {
+  @include tokens($custom-toast-theme);
+}
+```
+
+### Demonstração
+
+<Sample src="/notifications/toast-style" height={600} alt="" />
+
+### Estilizando com Tailwind
+
+Você pode estilizar o toast usando as nossas classes utilitárias personalizadas do Tailwind. Antes, certifique-se de [configurar o Tailwind](./themes/tailwind.mdx).
+
+Junto com a importação do Tailwind na sua folha de estilos global, você pode aplicar os utilitários de tema desejados da seguinte forma:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+O arquivo de utilitários inclui as variantes de tema `light` e `dark`.
+
+- Use as classes `light-*` para o tema claro.
+- Use as classes `dark-*` para o tema escuro.
+- Acrescente o nome do componente depois do prefixo, por exemplo, `light-toast`, `dark-toast`.
+
+Depois de aplicadas, essas classes habilitam cálculos dinâmicos de tema. A partir daí, você pode substituir as variáveis CSS geradas usando `arbitrary properties`. Depois dos dois-pontos, informe qualquer formato de cor CSS válido (HEX, variável CSS, RGB etc.).
+
+Você pode encontrar a lista completa de propriedades em <ApiLink kind="sass" module="themes" type="function-toast-theme" label="Tema do IgxToast" />. A sintaxe é a seguinte:
+
+```html
+<igx-toast
+  class="!light-toast ![--background:#90B69F]">
+  ...
+</igx-toast>
+```
+
+<DocsAside type="info">
+O ponto de exclamação (`!`) é obrigatório para garantir que a classe utilitária tenha precedência. O Tailwind aplica estilos em camadas e, sem marcar esses estilos como importantes, eles serão sobrescritos pelo tema padrão do componente.
+</DocsAside>
+
+No final, o seu toast deve ficar assim:
+
+<Sample src="/notifications/toast-tailwind-style/" height={200} iframeOnly />
+
+<hr/>
+
+## Referências da API
+<hr/>
+- <ApiLink type="Toast" />
+- <ApiLink kind="sass" module="themes" type="function-toast-theme" label="Estilos do IgxToastComponent" />
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

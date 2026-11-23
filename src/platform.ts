@@ -45,7 +45,13 @@ export type PlatformKey =
     | 'appbuilder';
 
 /** Locale code for nav/API requests and UI string lookups. */
-export type NavLang = 'en' | 'jp' | 'kr';
+export type NavLang = 'en' | 'jp' | 'kr' | 'es' | 'pt-BR';
+
+/**
+ * The language tag of each content folder (BCP 47): what `<html lang>` and the
+ * structured data say. The folder names `jp` and `kr` are not language tags.
+ */
+export const LANGUAGE_TAGS: Record<NavLang, string> = { en: 'en', jp: 'ja', kr: 'ko', es: 'es', 'pt-BR': 'pt-BR' };
 
 /**
  * Theme identifier used by nav/footer components.

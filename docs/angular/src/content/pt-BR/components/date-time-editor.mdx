@@ -1,0 +1,268 @@
+---
+title: "Componente Angular Date Time Editor | Ignite UI for Angular | Licença MIT"
+description: "A diretiva Date Time Editor do Ignite UI for Angular permite que o usuário trabalhe com data e hora usando um objeto Date."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, diretiva Angular Date Time Editor, controle Angular Date Time Directive, Date Time Editor, Angular Date Time Directive"
+license: MIT
+_language: pt-BR
+llms:
+  description: "A diretiva Date Time Editor do Ignite UI for Angular permite que o usuário defina e edite a data e a hora em um elemento de entrada escolhido."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Diretiva Angular Date Time Editor
+
+<div class="highlight">
+A diretiva Date Time Editor do Ignite UI for Angular permite que o usuário defina e edite a data e a hora em um elemento de entrada escolhido. O usuário pode editar a parte da data ou da hora, usando uma entrada editável com máscara. Além disso, é possível especificar um formato de exibição e de entrada desejado, bem como valores mínimo e máximo para usar a validação.
+</div>
+
+## Exemplo da diretiva Angular Date Time Editor
+
+<Sample src="/scheduling/datetime-basic" height={100} alt="Exemplo da diretiva Angular Date Time Editor" />
+
+<hr/>
+
+## Primeiros passos com a diretiva Angular Date Time Editor
+
+Para começar com a diretiva Date Time Editor do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxDateTimeEditorModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDateTimeEditorModule } from 'igniteui-angular/directives';
+// import { IgxDateTimeEditorModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDateTimeEditorModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` você pode importar o `IgxDateTimeEditorDirective` como uma dependência independente.
+
+```typescript
+// home.component.ts
+
+import { IgxDateTimeEditorDirective } from 'igniteui-angular/directives';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IgxDateTimeEditorDirective, IGX_INPUT_GROUP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <input type="text" igxInput igxDateTimeEditor [value]="date" />
+    </igx-input-group>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxDateTimeEditorDirective, IGX_INPUT_GROUP_DIRECTIVES]
+})
+export class HomeComponent {
+    public date = new Date();
+}
+```
+
+Agora que você importou o módulo ou a diretiva do Date Time Editor do Ignite UI for Angular, pode começar a usar a diretiva `igxDateTimeEditor`.
+
+## Usando a diretiva Angular Date Time Editor
+
+Para usar uma entrada como editor de data e hora, defina a diretiva igxDateTimeEditor e um objeto de data válido como valor. Para ter a aparência e o comportamento completos do editor, envolva a entrada em um [igx-input-group](/input-group). Isso permitirá aproveitar não apenas as seguintes diretivas <ApiLink type="InputDirective" label="igxInput" />, [`igxLabel`](/label-input), [`igx-prefix`](/input-group#prefixo-e-sufixo), [`igx-suffix`](/input-group#prefixo-e-sufixo), [`igx-hint`](/input-group#dicas), mas também cobrirá cenários comuns ao lidar com entradas de formulário.
+
+### Vinculação
+
+Um cenário básico de configuração, definindo um objeto Date como <ApiLink type="DateTimeEditorDirective" member="value" label="value" />:
+
+```typescript
+public date = new Date();
+```
+
+```html
+<igx-input-group>
+    <input type="text" igxInput igxDateTimeEditor [value]="date" />
+</igx-input-group>
+```
+
+Para criar uma vinculação de dados bidirecional, defina um `ngModel`:
+
+```html
+<igx-input-group>
+    <input type="text" igxInput igxDateTimeEditor [(ngModel)]="date"/>
+</igx-input-group>
+```
+
+<hr/>
+
+#### <a name="iso">Vinculação a strings ISO</a>
+
+O `IgxDateTimeEditorDirective` aceita strings [`ISO 8601`](https://tc39.es/ecma262/#sec-date-time-string-format).
+
+A string pode ser uma string `ISO` completa, no formato `YYYY-MM-DDTHH:mm:ss.sssZ`, ou pode ser separada em partes somente de data e somente de hora.
+
+##### Somente data
+
+Se uma string somente de data for vinculada à diretiva, ela precisa seguir o formato - `YYYY-MM-DD`. Isso se aplica apenas ao vincular um valor string à diretiva; o <ApiLink type="DateTimeEditorDirective" member="inputFormat" label="inputFormat" /> continua sendo usado ao digitar valores no editor, e não precisa estar no mesmo formato. Além disso, ao vincular uma string somente de data, a diretiva evita deslocamentos de horário, forçando a hora a ser `T00:00:00`.
+
+##### Somente hora
+
+Strings somente de hora normalmente não são definidas na especificação `ECMA`; no entanto, para permitir que a diretiva seja integrada a cenários que exigem soluções somente de hora, ela oferece suporte ao formato de 24 horas - `HH:mm:ss`. O formato de 12 horas não é suportado. Observe também que isso se aplica apenas a _valores vinculados_.
+
+##### String ISO completa
+
+Se uma string `ISO` completa for vinculada, a diretiva a interpretará somente se todos os elementos exigidos por [`Date.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#date_time_string_format) forem informados.
+
+Todos os valores falsos, incluindo `InvalidDate`, serão interpretados como `null`. Strings `ISO` incompletas, somente de data, somente de hora ou completas serão interpretadas como `InvalidDate`.
+
+### Navegação pelo teclado
+
+A diretiva Date Time Editor tem uma navegação pelo teclado intuitiva, que facilita incrementar, decrementar ou pular entre diferentes DateParts, entre outras ações, sem precisar tocar no mouse.
+
+- <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>Arrow Left</kbd> / <kbd>Right</kbd> - navega entre as seções da data. Com <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>Right</kbd> vai para o fim da seção. Se já estiver ali, vai para o fim da próxima seção, se houver. Funciona de forma semelhante na direção oposta.
+
+- <kbd>Arrow Up</kbd> / <kbd>Down</kbd> - incrementa/decrementa as partes da data. Veja <ApiLink type="DateTimeEditorDirective" member="spinLoop" label="spinLoop" /> relacionado
+
+- <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>;</kbd> - define o dia e a hora atuais no editor.
+
+## Exemplos
+
+### Formato de exibição e de entrada
+
+O <ApiLink type="DateTimeEditorDirective" /> oferece suporte a diferentes formatos de exibição e de entrada.
+
+Ele usa o [`DatePipe`](https://angular.io/api/common/DatePipe) do Angular, o que permite oferecer suporte a opções de formato predefinidas, como `shortDate` e `longDate`. Ele também pode aceitar uma string de formato montada com caracteres compatíveis com o `DatePipe`, por exemplo, `EE/MM/yyyy`. Observe que formatos como `shortDate`, `longDate` etc. só podem ser usados como <ApiLink type="DateTimeEditorDirective" member="displayFormat" label="displayFormat" />. Além disso, se nenhum <ApiLink type="DateTimeEditorDirective" member="displayFormat" label="displayFormat" /> for informado, o editor usará o <ApiLink type="DateTimeEditorDirective" member="inputformat" label="inputFormat" /> como o seu <ApiLink type="DateTimeEditorDirective" member="displayFormat" label="displayFormat" />.
+Como alternativa, se a propriedade <ApiLink type="DateTimeEditorDirective" member="inputFormat" label="inputFormat" /> não estiver definida, o formato de entrada será inferido a partir de <ApiLink type="DateTimeEditorDirective" member="displayFormat" label="displayFormat" />, caso ele possa ser interpretado como contendo apenas partes numéricas de data e hora.
+
+Para definir um formato de entrada específico, passe-o como string para a diretiva IgxDateTimeEditor. Isso define tanto o formato de entrada esperado do usuário quanto a [máscara](/mask) do editor. Além disso, o <ApiLink type="DateTimeEditorDirective" member="inputFormat" label="inputFormat" /> é baseado na localidade; então, se nenhum for informado, o editor usará o do navegador.
+
+```html
+<igx-input-group>
+    <input type="text" igxInput [displayFormat]="'shortDate'" [igxDateTimeEditor]="'dd/MM/yyyy'" [(ngModel)]="date"/>
+</igx-input-group>
+```
+
+A tabela abaixo mostra os formatos compatíveis com a propriedade <ApiLink type="DateTimeEditorDirective" member="inputFormat" label="inputFormat" /> da diretiva:
+
+|  Formato | Descrição                                                                 |
+| :------ | :-------------------------------------------------------------------------- |
+| `d`     | Dia, que será completado com um zero à esquerda durante a edição.                    |
+| `dd`    | Dia com zero à esquerda definido explicitamente.                                   |
+| `M`     | Mês, que será completado com um zero à esquerda durante a edição.                   |
+| `MM`    | Mês com zero à esquerda definido explicitamente.                                  |
+| `yy`    | Formato de ano curto.                                                          |
+| `yyyy`  | Formato de ano completo.                                                           |
+| `h`     | Horas no formato de 12 horas, que serão completadas com um zero à esquerda durante a edição. |
+| `hh`    | Horas no formato de 12 horas com zero à esquerda definido explicitamente.                |
+| `H`     | Horas no formato de 24 horas, que serão completadas com um zero à esquerda durante a edição. |
+| `HH`    | Horas no formato de 24 horas, com zero à esquerda definido explicitamente.               |
+| `m`     | Minutos, que serão completados com um zero à esquerda durante a edição.                 |
+| `mm`    | Minutos com zero à esquerda definido explicitamente.                                |
+| `tt`    | Seção AM/PM para o formato de 12 horas.                                           |
+
+<DocsAside type="info">
+A diretiva `IgxDateTimeEditorDirective` oferece suporte a entrada IME. Ao digitar em um idioma asiático, o controle exibe as composições do método de entrada e as listas de candidatos diretamente na área de edição do controle, e reorganiza imediatamente o texto ao redor quando a composição termina.
+</DocsAside>
+
+### Valor mínimo e máximo
+
+Você pode especificar as propriedades <ApiLink type="DateTimeEditorDirective" member="minValue" label="minValue" /> e <ApiLink type="DateTimeEditorDirective" member="maxValue" label="maxValue" /> para restringir a entrada e controlar a validade do ngModel.
+
+```typescript
+public minDate = new Date(2020, 1, 15);
+public maxDate = new Date(2020, 11, 1);
+```
+
+```html
+<igx-input-group>
+    <input type="text" igxInput igxDateTimeEditor [minValue]="minDate" [maxValue]="maxDate" [(ngModel)]="date"/>
+</igx-input-group>
+
+```
+
+As entradas <ApiLink type="DateTimeEditorDirective" member="minValue" label="minValue" /> e <ApiLink type="DateTimeEditorDirective" member="minValue" label="minValue" /> também podem ser do tipo `string`; veja [Vinculação a strings ISO](#iso).
+
+### Incremento e decremento <a name="increment-decrement"></a>
+
+A diretiva <ApiLink type="DateTimeEditorDirective" label="igxDateTimeEditor" /> expõe os métodos públicos <ApiLink type="DateTimeEditorDirective" member="increment" label="increment" /> e <ApiLink type="DateTimeEditorDirective" member="decrement" label="decrement" />. Eles incrementam ou decrementam uma <ApiLink type="DatePart" kind="enum" /> específica da data e hora definidas no momento e podem ser usados de algumas formas.
+
+No primeiro cenário, se nenhuma <ApiLink type="DatePart" kind="enum" /> específica for passada para o método, uma <ApiLink type="DatePart" kind="enum" /> padrão será incrementada ou decrementada, com base no <ApiLink type="DateTimeEditorDirective" member="inputFormat" label="inputFormat" /> especificado e na implementação interna da diretiva. No segundo cenário, você pode especificar explicitamente qual <ApiLink type="DatePart" kind="enum" /> manipular, já que isso pode atender a requisitos diferentes.
+Além disso, ambos os métodos aceitam um parâmetro opcional `delta` do tipo `number`, que pode ser usado para definir o passo de incremento/decremento.
+
+Você pode comparar os dois no exemplo a seguir:
+<Sample src="/scheduling/datetime-advanced" height={150} alt="" />
+
+<hr/>
+
+Além disso, <ApiLink type="DateTimeEditorDirective" member="spinDelta" label="spinDelta" /> é uma propriedade de entrada do tipo <ApiLink type="DateTimeEditorDirective" label="DatePartDeltas" /> e pode ser usada para aplicar um delta diferente a cada segmento de data e hora. Ele é aplicado ao girar com o teclado, bem como ao girar com os métodos <ApiLink type="DateTimeEditorDirective" member="increment" label="increment" /> e <ApiLink type="DateTimeEditorDirective" member="decrement" label="decrement" />, desde que eles não tenham o parâmetro `delta` informado, já que ele terá precedência sobre <ApiLink type="DateTimeEditorDirective" member="spinDelta" label="spinDelta" />.
+
+### Em formulários Angular
+
+A diretiva Date Time Editor oferece suporte a todas as diretivas de formulário do FormsModule principal [`NgModel`](https://angular.io/api/forms/NgModel) e [`ReactiveFormsModule`](https://angular.io/api/forms/ReactiveFormsModule) (FormControl, FormGroup, etc.). Isso também inclui as funções [Forms `Validators`](https://angular.io/api/forms/Validators). O exemplo a seguir ilustra o uso do validador `required` em um formulário orientado a template.
+
+<DocsAside type="info">
+Se necessário, você pode voltar a um estado válido tratando o evento `validationFailed` e alterando a propriedade `newValue` dos argumentos disponíveis.
+</DocsAside>
+
+Exemplo de formulário orientado a template:
+
+```html
+<form>
+    <igx-input-group>
+        <input igxInput type="text" [(ngModel)]="date" name="form" required
+            (valueChanged)="onValueChanged($event)" (validationFailed)="onValidationFailed($event)"
+            [igxDateTimeEditor]="'dd/MM/yyyy'" [minValue]="minDate" [maxValue]="maxDate" [isSpinLoop]="false" />
+    </igx-input-group>
+</form>
+<hr/>
+```
+
+### Seleção de texto
+
+Você pode forçar o componente a selecionar todo o texto da entrada ao receber o foco, usando <ApiLink type="TextSelectionDirective" />. Encontre mais informações sobre <ApiLink type="TextSelectionDirective" /> em [Label e Input](/label-input#foco-e-seleção-de-texto).
+
+```html
+<igx-input-group>
+    <input igxInput [igxDateTimeEditor]="'dd/MM/yyyy'" [igxTextSelection]="true"/>
+</igx-input-group>
+```
+
+<DocsAside type="info">
+Para que o componente funcione corretamente, é fundamental definir <ApiLink type="TextSelectionDirective" /> depois da diretiva <ApiLink type="DateTimeEditorDirective" label="igxDateTimeEditor" />. O motivo é que ambas as diretivas operam no evento `focus` da entrada; então a seleção de texto deve acontecer depois que a máscara for definida.
+</DocsAside>
+
+## Estilização
+
+Para mais detalhes, veja [`Input Group styling guide`](/input-group#estilização).
+<hr/>
+
+## Referências da API
+- <ApiLink type="DateTimeEditorDirective" />
+- <ApiLink type="HintDirective" />
+- <ApiLink type="InputDirective" />
+- <ApiLink type="InputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Estilos do IgxInputGroupComponent" />
+<hr/>
+## Recursos adicionais
+
+Tópicos relacionados:
+
+- [Máscara](/mask)
+- [Label e Input](/label-input)
+- [Integração com formulários reativos](/angular-reactive-form-validation)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

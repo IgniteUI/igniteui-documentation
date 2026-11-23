@@ -1,0 +1,151 @@
+---
+title: "Tamaño | Ignite UI for Angular" 
+description: "Ignite UI for Angular ofrece una forma de establecer la propiedad de tamaño a nivel de aplicación o de componente." 
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Components, Native Angular Controls, Native Angular Components Library, tamaño"
+_language: es
+llms:
+  description: "La configuración del tamaño puede mejorar notablemente la representación visual de grandes cantidades de datos."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Tamaño
+
+La configuración del tamaño puede mejorar notablemente la representación visual de grandes cantidades de datos. En Ignite UI for Angular ofrecemos un conjunto de opciones predefinidas:
+
+- **large**
+- **medium**
+- **small**
+
+Mediante la propiedad personalizada de CSS `--ig-size`, puede configurar el tamaño a nivel de aplicación o de componente.
+
+## Ejemplo de tamaño de Angular
+
+<Sample src="/theming/density" height={250} alt="Ejemplo de tamaño de Angular" />
+
+<hr/>
+
+<DocsAside type="info">
+Para empezar a usar los componentes de Ignite UI for Angular en sus propios proyectos, asegúrese de haber configurado todas las dependencias necesarias y de haber realizado la configuración adecuada de su proyecto. Puede aprender a hacerlo en el tema [**instalación**](https://www.infragistics.com/products/ignite-ui-angular/getting-started#installation).
+</DocsAside>
+
+## Uso
+
+**Establecer el tamaño a nivel de aplicación o de componente**
+
+Para establecer el tamaño, use la propiedad personalizada de CSS `--ig-size`. Puede establecer el tamaño de todos los componentes de su aplicación aplicando la propiedad mencionada al elemento body.
+
+Los valores disponibles para `--ig-size` son `--ig-size-small`, `--ig-size-medium` y `--ig-size-large`.
+
+```css
+body {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+Para establecer el tamaño a nivel de componente, apunte al selector del elemento. Por ejemplo, para establecer el tamaño del input group en `small`, puede hacer lo siguiente:
+
+```css
+igx-input-group {
+    --ig-size: var(--ig-size-small);
+}
+```
+
+## Cómo funciona el tamaño con propiedades personalizadas de CSS
+
+El sistema de tamaños de Ignite UI funciona mediante un conjunto de propiedades personalizadas de CSS que ajustan automáticamente las dimensiones y el espaciado de los componentes. Cuando cambia la propiedad `--ig-size`, los componentes detectan ese cambio automáticamente y aplican los valores de tamaño adecuados.
+
+### Variables de detección de tamaño
+
+Los componentes usan varias propiedades personalizadas de CSS para detectar los cambios de tamaño y reaccionar a ellos:
+
+- `--component-size`: asigna la `--ig-size` global a un valor numérico (1=small, 2=medium, 3=large)
+- `--is-small`: vale 1 cuando el componente tiene tamaño small; 0 en caso contrario
+- `--is-medium`: vale 1 cuando el componente tiene tamaño medium; 0 en caso contrario.  
+- `--is-large`: vale 1 cuando el componente tiene tamaño large; 0 en caso contrario.
+
+Estas variables se calculan automáticamente mediante expresiones matemáticas de CSS y cambian cada vez que se modifica `--ig-size`.
+
+### Constantes de tamaño
+
+El sistema de temas define tres constantes de tamaño:
+
+- `--ig-size-small` (valor: 1)
+- `--ig-size-medium` (valor: 2)  
+- `--ig-size-large` (valor: 3).
+
+## Incorporar el tamaño en sus propios componentes
+
+Puede hacer que sus componentes personalizados reaccionen a los cambios de tamaño usando las utilidades de Sass de Ignite UI. Estas utilidades generan, entre bastidores, las propiedades personalizadas de CSS y las expresiones matemáticas necesarias.
+
+### Uso del mixin y de la función Sizable
+
+Así se crea un componente que responde al ajuste global de tamaño:
+
+```html
+<div class="my-responsive-element"></div>
+```
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+.my-responsive-element {
+    // The sizable mixin sets up size detection CSS custom properties
+    @include sizable();
+
+    // Connect to the global size system
+    --component-size: var(--ig-size, var(--ig-size-large));
+
+    // Use the sizable function for responsive sizing
+    --size: #{sizable(10px, 20px, 30px)};
+    width: var(--size);
+    height: var(--size);
+}
+```
+
+### Cómo funciona el sistema Sizable entre bastidores
+
+Cuando usa `@include sizable()`, se generan propiedades personalizadas de CSS que detectan el tamaño actual del componente:
+
+```css
+.my-responsive-element {
+    --is-large: clamp(0, (var(--component-size, 1) + 1) - var(--ig-size-large, 3), 1);
+    --is-medium: min(
+        clamp(0, (var(--component-size, 1) + 1) - var(--ig-size-medium, 2), 1),
+        clamp(0, var(--ig-size-large, 3) - var(--component-size, 1), 1)
+    );
+    --is-small: clamp(0, var(--ig-size-medium, 2) - var(--component-size, 1), 1);
+}
+```
+
+La función `sizable(10px, 20px, 30px)` genera una expresión de CSS que selecciona automáticamente el valor adecuado:
+
+```css
+--size: max(
+    calc(var(--is-large, 1) * 30px),
+    calc(var(--is-medium, 1) * 20px), 
+    calc(var(--is-small, 1) * 10px)
+);
+```
+
+Este enfoque matemático, que usa las funciones `clamp()`, `min()`, `max()` y `calc()`, permite que los componentes cambien automáticamente entre valores de tamaño según la configuración actual de `--ig-size`.
+
+## Referencias de API
+<igc-divider></igc-divider>
+- <ApiLink kind="sass" module="themes" type="mixin-sizable" label="Temas: mixin Sizable" />
+- <ApiLink kind="sass" module="themes" type="function-sizable" label="Temas: función Sizable" />
+### Funciones de tamaño y espaciado
+- <ApiLink kind="sass" module="utilities" type="function-pad" label="Utilidades: Pad" />
+- <ApiLink kind="sass" module="utilities" type="function-pad-inline" label="Utilidades: Pad Inline" />
+- <ApiLink kind="sass" module="utilities" type="function-pad-block" label="Utilidades: Pad Block" />
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

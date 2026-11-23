@@ -1,0 +1,138 @@
+---
+title: ".NET MAUI로 Blazor Hybrid 앱 만들기 - Ignite UI for Blazor"
+description: "이 글은 Ignite UI for Blazor를 사용하여 .NET MAUI로 Blazor Hybrid 앱을 만드는 단계별 방법을 설명합니다. 지금 사용해 보십시오!"
+keywords: "{ProductName}, Infragistics, 시작하기"
+mentionedTypes: []
+_language: ko
+llms:
+  description: "Visual Studio와 .NET MAUI를 사용하여 Ignite UI for Blazor로 Blazor Hybrid 앱을 만드는 단계별 안내입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import newBlazorProjectMaui from '@xplat-images/general/new-blazor-project-maui.jpg';
+import newBlazorProjectConfigureMaui from '@xplat-images/general/new-blazor-project-configure-maui.jpg';
+import gettingStartedBlazorCardWindows from '@xplat-images/general/getting-started-blazor-card-windows.jpg';
+
+# 시작하기: .NET MAUI로 Blazor Hybrid 앱 만들기
+
+이 항목은 Visual Studio를 사용하여 Ignite UI for Blazor로 .NET MAUI Blazor 애플리케이션을 만드는 단계별 안내를 제공합니다.
+
+## Blazor Hybrid란 무엇입니까?
+
+Blazor Hybrid는 Blazor Server와 Blazor WebAssembly 사이에 있는 방식입니다. 데스크톱 및 모바일 네이티브 클라이언트 프레임워크의 기능을 결합하므로 개발, 코드, 프로세스가 단순해집니다. 이 기술을 사용하면 네이티브 클라이언트 애플리케이션을 만들 때 C# 및 .NET 기술을 적용할 수 있습니다.
+
+하지만 앱에 사용하려면 .NET MAUI가 필요합니다.
+
+## .NET MAUI란 무엇입니까?
+
+.NET MAUI(.NET Multi-platform App UI)는 단일 공유 코드베이스로 네이티브 데스크톱 및 모바일 앱을 만들기 위한 오픈 소스 크로스 플랫폼 프레임워크입니다. 이를 사용하면 C#과 XAML로 Android, iOS, macOS, Windows를 포함한 여러 기기와 운영 체제에서 실행되는 Blazor 애플리케이션을 더 쉽게 개발할 수 있습니다.
+
+
+## 사전 요구 사항
+
+- Visual Studio 2022 17.12 이상, **.NET Multi-platform App UI 개발** 워크로드 포함
+
+자세한 내용은 [.NET MAUI 설치](https://learn.microsoft.com/dotnet/maui/get-started/installation) 항목을 참조하십시오.
+
+## .Net Maui 및 Ignite UI for Blazor로 Blazor Hybrid 앱 만들기 및 실행하기
+
+아래 단계는 새 .NET MAUI Blazor 프로젝트를 만드는 방법을 설명합니다. 기존 애플리케이션에 Ignite UI for Blazor를 추가하려면 [**Ignite UI for Blazor 패키지 설치**](#ignite-ui-for-blazor-설치) 섹션으로 가십시오.
+
+Visual Studio를 시작하고 시작 페이지에서 **새 프로젝트 만들기**를 클릭한 후, **.NET MAUI Blazor Hybrid App** 템플릿을 선택하고 **다음**을 클릭하십시오.
+
+<Image src={newBlazorProjectMaui} alt="new-blazor-project-maui" />
+
+프로젝트 이름과 위치를 입력하고 **다음**을 클릭하십시오.
+
+<Image src={newBlazorProjectConfigureMaui} alt="new-blazor-project-configure-maui" />
+
+**추가 정보** 대화 상자에서 프레임워크 버전을 선택하고 **만들기**를 클릭하십시오.
+
+## Ignite UI for Blazor 설치
+
+Ignite UI for Blazor는 NuGet 패키지로 제공됩니다. [Infragistics NuGet 피드](./general-nuget-feed.mdx)에서 **IgniteUI.Blazor**를, 또는 [NuGet.org](https://www.nuget.org/packages/IgniteUI.Blazor.Trial)에서 **IgniteUI.Blazor.Trial**을 설치하십시오.
+
+NuGet을 사용하여 Ignite UI for Blazor를 설치하는 자세한 방법은 [Ignite UI for Blazor 설치](./general-installing-blazor.mdx) 항목을 읽어 보십시오.
+
+## Ignite UI for Blazor 등록
+
+1 - **MauiProgram.cs** 파일을 열고 **builder.Services.AddIgniteUIBlazor** 함수를 호출하여 Ignite UI for Blazor 서비스를 등록하십시오:
+
+```cs
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        // ...
+        builder.Services.AddMauiBlazorWebView();
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+#endif
+
+        //register IgniteUI for Blazor
+        builder.Services.AddIgniteUIBlazor();
+        return builder.Build();
+    }
+}
+```
+
+2 - **_Imports.razor** 파일에 **IgniteUI.Blazor.Controls** 네임스페이스를 추가하십시오:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+3 - **wwwroot/index.html** 파일의 **`<head>`** 요소에 스타일시트를 추가하십시오:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<head>
+    <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+</head>
+```
+
+</PlatformBlock>
+
+## Ignite UI for Blazor 컴포넌트 추가
+
+Razor 페이지에 Ignite UI for Blazor 컴포넌트를 추가하십시오:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard style="width:350px">
+    <IgbCardMedia>
+        <img src="https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=350&q=80" />
+    </IgbCardMedia>
+    <IgbCardHeader>
+        <h4>Jane Doe</h4>
+        <h6>Professional Photographer</h6>
+    </IgbCardHeader>
+    <IgbCardContent>Hi! I'm Jane, photographer and filmmaker.
+        Photography is a way of feeling, of touching,
+        of loving. What you have caught on film is captured forever...
+        it remembers little things, long after you have
+        forgotten everything.</IgbCardContent>
+    <IgbCardActions>
+        <IgbButton>More Info</IgbButton>
+    </IgbCardActions>
+</IgbCard>
+```
+
+</PlatformBlock>
+
+Windows용 .NET MAUI Blazor 앱을 빌드하고 실행하십시오.
+
+<Image src={gettingStartedBlazorCardWindows} alt="getting-started-blazor-card-windows" />
+
+<DocsAside type="info">
+.NET MAUI로 크로스 플랫폼 애플리케이션을 빌드하는 자세한 방법은 [Microsoft 문서](https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?pivots=devices-android)를 방문하십시오.
+</DocsAside>

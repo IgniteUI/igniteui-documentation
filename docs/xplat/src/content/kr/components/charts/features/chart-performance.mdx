@@ -1,0 +1,750 @@
+---
+title: "{Platform} 차트 성능 | 데이터 시각화 | Infragistics"
+description: "Infragistics의 {Platform} 차트 성능"
+keywords: "{Platform} 차트, 성능, Infragistics"
+license: commercial
+mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "DataChart", "FinancialChartVolumeType", "FinancialChartZoomSliderType", "FinancialChartYAxisMode", "NumericAxisBase"]
+namespace: Infragistics.Controls.Charts
+_language: ko
+llms:
+  description: "{Platform} 차트는 수백만 개의 데이터 포인트를 렌더링하고 몇 밀리초마다 업데이트하는 높은 성능에 최적화되어 있습니다."
+platformType: xplat
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} 차트 성능
+
+{Platform} 차트는 수백만 개의 데이터 포인트를 렌더링하고 몇 밀리초마다 업데이트하는 높은 성능에 최적화되어 있습니다. 하지만 차트 성능에 영향을 주는 몇 가지 차트 기능이 있으므로, 애플리케이션의 성능을 최적화할 때 이를 고려해야 합니다. 이 항목은 애플리케이션에서 {Platform} 차트가 가능한 한 빠르게 작동하도록 안내합니다.
+
+## {Platform} 차트 성능 예제
+
+다음 예제는 {Platform} 차트의 두 가지 고성능 시나리오를 보여 줍니다.
+
+## {Platform} 고빈도 차트
+
+고빈도 시나리오에서 {Platform} 차트는 실시간으로 또는 지정된 밀리초 간격으로 업데이트되는 데이터 항목을 렌더링할 수 있습니다. 터치 기기에서 차트와 상호 작용하는 중에도 지연, 화면 깜박임, 시각적 지연이 전혀 없습니다. 다음 샘플은 고빈도 시나리오의 `CategoryChart`를 보여 줍니다.
+
+<Sample src="/charts/category-chart/high-frequency" height={400} alt="{Platform} 고빈도 차트" />
+
+
+
+
+## {Platform} 대용량 차트
+
+대용량 시나리오에서 {Platform} 차트는 100만 개의 데이터 포인트를 렌더링할 수 있으며, 최종 사용자가 확대/축소하거나 차트 콘텐츠를 탐색할 때도 부드러운 성능을 유지합니다. 다음 샘플은 대용량 시나리오의 `CategoryChart`를 보여 줍니다.
+
+<Sample src="/charts/category-chart/high-volume" height={400} alt="{Platform} 대용량 차트" />
+
+
+
+## 일반 성능 지침
+
+이 섹션에는 {Platform} 차트의 오버헤드와 처리 업데이트를 증가시키는 지침과 차트 기능이 나열되어 있습니다.
+
+### 데이터 크기
+
+많은 수의 데이터 포인트(예: 10,000개 이상)를 가진 데이터 소스를 플롯해야 하는 경우, 해당 목적을 위해 특별히 설계된 다음 유형의 시리즈 중 하나와 함께 {Platform} `DataChart`를 사용하는 것을 권장합니다.
+<PlatformBlock for="Web">
+- [카테고리 점 차트](../types/point-chart.mdx) 또는 [산점 마커 차트](../types/scatter-chart.mdx#{PlatformLower}-산점도-마커-차트) 대신 [산점 HD 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-고밀도-차트)</PlatformBlock>
+- [카테고리 선 차트](../types/line-chart.mdx#{PlatformLower}-선-차트-예제) 또는 [산점 선 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-선-차트) 대신 [산점 폴리라인 차트](../types/shape-chart.mdx#{PlatformLower}-산점-폴리라인-차트)
+- [카테고리 영역 차트](../types/area-chart.mdx#{PlatformLower}-영역-차트-예제) 또는 [열 차트](../types/column-chart.mdx#{PlatformLower}-열-차트-예제) 대신 [산점 다각형 차트](../types/shape-chart.mdx#{PlatformLower}-산점도-다각형-차트)
+
+### 데이터 구조
+
+{Platform} 차트는 데이터 포인트 배열의 배열을 `DataSource` 속성에 바인딩하여 여러 데이터 소스를 렌더링하는 것을 지원하지만, 여러 데이터 소스를 각 데이터 항목이 하나의 데이터 열 대신 여러 데이터 열을 포함하는 단일 데이터 소스로 평탄화하면 차트 속도가 훨씬 빨라집니다. 예를 들면 다음과 같습니다:
+
+<PlatformBlock for="Xaml">
+
+```csharp
+this.CategoryChart.ItemsSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+this.CategoryChart.DataSource = FlattenDataSource.Create();
+this.FinancialChart.DataSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+```ts
+this.CategoryChart.dataSource = FlattenDataSource.create();
+this.FinancialChart.dataSource = FlattenDataSource.create();
+
+export class FlattenDataSource {
+    public static create(): any[] {
+        const data: any[] = [];
+        data.push({ "Year": "1996", "USA": 148, "CHN": 110 });
+        data.push({ "Year": "2000", "USA": 142, "CHN": 115 });
+        return data;
+    }
+}
+// instead of this data structure:
+export class MultiDataSources {
+    public static create(): any[] {
+        const dataSource1: any[] = [];
+        dataSource1.push({ "Year": "1996", "Value": 148 });
+        dataSource1.push({ "Year": "2000", "Value": 142 });
+        const dataSource2: any[] = [];
+        dataSource2.push({ "Year": "1996", "Value": 110 });
+        dataSource2.push({ "Year": "2000", "Value": 115 });
+        const multipleSources: any[] = [dataSource1, dataSource2];
+        return multipleSources;
+    }
+}
+```
+
+</PlatformBlock>
+
+### 데이터 필터링
+
+{Platform} `CategoryChart`<PlatformBlock for="Web"> 그리고 `FinancialChart` 컨트롤에는</PlatformBlock><PlatformBlock for="WinUI, Uno"> 컨트롤에는</PlatformBlock> 데이터를 분석하고 차트 시리즈를 생성하는 내장 데이터 어댑터가 있습니다. 하지만 실제로 렌더링하려는 데이터 열만 필터링하도록 `includedProperties`와 `excludedProperties`를 사용하면 더 빠르게 작동합니다. 예를 들면 다음과 같습니다.
+
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "CategoryChart",
+            "name": "Chart",
+            "includedProperties": [
+                "Year",
+                "USA",
+                "RUS"
+            ],
+            "$includedProperties": "+perf:code",
+            "excludedProperties": [
+                "CHN",
+                "FRN",
+                "GER"
+            ],
+            "$excludedProperties": "+perf:code"
+        }
+    }
+}
+```
+
+## 차트 성능 지침
+
+### 차트 유형
+
+[선 차트](../types/line-chart.mdx)처럼 더 단순한 차트 유형은 데이터 포인트 사이에 스플라인 선을 복잡하게 보간하는 [스플라인 차트](../types/spline-chart.mdx)보다 성능이 빠릅니다. 따라서 {Platform}의 `CategoryChart.chartType` 속성을 사용해야 합니다. `CategoryChart`<PlatformBlock for="Web"> 또는 `FinancialChart`</PlatformBlock> 컨트롤을 사용하여 더 빠르게 렌더링되는 차트 유형을 선택하십시오. 또는 {Platform} `DataChart` 컨트롤에서 시리즈 유형을 더 빠른 시리즈로 변경할 수 있습니다.
+
+다음 표는 각 차트 그룹 내에서 성능이 빠른 순서에서 느린 순서로 차트 유형을 나열합니다:
+
+| 차트 그룹     | 차트 유형 |
+| ----------------|--------------------------------- |
+| 파이 차트       | - [파이 차트](../types/pie-chart.mdx) <br /> - [도넛 차트](../types/donut-chart.mdx) <br /> - [방사형 파이 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-파이-차트) |
+| 선 차트      | - [카테고리 선 차트](../types/line-chart.mdx#{PlatformLower}-선-차트-예제) <br /> - [카테고리 스플라인 차트](../types/spline-chart.mdx#{PlatformLower}-스플라인-차트-예제) <br /> - [계단형 선 차트](../types/step-chart.mdx#{PlatformLower}-계단형-선-차트) <br /> - [방사형 선 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-선-차트) <br /> - [극좌표 선 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-선-차트) <br /> - [산점 선 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-선-차트) <br /> - [산점 폴리라인 차트](../types/shape-chart.mdx#{PlatformLower}-산점-폴리라인-차트) (\*)  <br /> - [산점 등고선 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-등고선-차트) <br /> - [누적 선 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-선-차트) <br /> - [누적 100% 선 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-선-차트) <br /> |
+| 영역 차트      | - [카테고리 영역 차트](../types/area-chart.mdx#{PlatformLower}-영역-차트-예제) <br /> - [계단형 영역 차트](../types/step-chart.mdx#{PlatformLower}-계단형-영역-차트) <br /> - [범위 영역 차트](../types/area-chart.mdx#{PlatformLower}-범위-영역-차트) <br /> - [방사형 영역 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-영역-차트) <br /> - [극좌표 영역 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-영역-차트) <br /> - [산점 다각형 차트](../types/shape-chart.mdx#{PlatformLower}-산점도-다각형-차트) (\*) <br /> - [산점 영역 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-영역-차트) <br /> - [누적 영역 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-영역-차트) <br /> - [누적 100% 영역 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-영역-차트) <br /> |
+| 열 차트    | - [열 차트](../types/column-chart.mdx#{PlatformLower}-열-차트-예제) <br /> - [막대 차트](../types/bar-chart.mdx#{PlatformLower}-막대-차트-예제) <br /> - [폭포 차트](../types/column-chart.mdx#{PlatformLower}-폭포-차트) <br /> - [범위 열 차트](../types/column-chart.mdx#{PlatformLower}-범위-열-차트) <br /> - [범위 막대 차트](../types/bar-chart.mdx#{PlatformLower}-범위-막대-차트) <br /> - [방사형 열 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-열-차트) <br /> - [누적 열 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-열-차트) <br /> - [누적 막대 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-막대-차트) <br /> - [누적 100% 열 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-열-차트) <br /> - [누적 100% 막대 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-막대-차트) |
+| 스플라인 차트    | - [카테고리 스플라인 차트](../types/spline-chart.mdx#{PlatformLower}-스플라인-차트-예제) <br /> - [극좌표 스플라인 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-스플라인-차트) <br /> - [산점 스플라인 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-스플라인-차트) <br /> - [누적 스플라인 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-스플라인-차트) <br /> - [누적 100% 스플라인 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-스플라인-차트) <br /> |
+| 점 차트     | - [카테고리 점 차트](../types/point-chart.mdx) <br /><PlatformBlock for="Web"> - [산점 HD 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-고밀도-차트)  <br /></PlatformBlock> - [산점 마커 차트](../types/scatter-chart.mdx#{PlatformLower}-산점도-마커-차트) <br /> - [산점 버블 차트](../types/bubble-chart.mdx) <br /> - [극좌표 마커 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-마커-차트) <br /> |<PlatformBlock for="Web">
+| 금융 차트 | - [선 모드의 주식 차트](../types/stock-chart.mdx) <br /> - [열 모드의 주식 차트](../types/stock-chart.mdx) <br /> - [막대 모드의 주식 차트](../types/stock-chart.mdx) <br /> - [캔들 모드의 주식 차트](../types/stock-chart.mdx) <br /> - [오버레이가 있는 주식 차트](../types/stock-chart.mdx) <br /> - [줌 창이 있는 주식 차트](../types/stock-chart.mdx) <br /> - [볼륨 창이 있는 주식 차트](../types/stock-chart.mdx#볼륨-창) <br /> - [지표 창이 있는 주식 차트](../types/stock-chart.mdx#지표-창) <br /> |</PlatformBlock>
+| 산점도 차트   | <PlatformBlock for="Web">- [산점 HD 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-고밀도-차트) <br /> </PlatformBlock>- [산점 마커 차트](../types/scatter-chart.mdx#{PlatformLower}-산점도-마커-차트) <br /> - [산점 선 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-선-차트) <br /> - [산점 버블 차트](../types/bubble-chart.mdx) <br /> - [산점 스플라인 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-스플라인-차트) <br /> - [산점 영역 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-영역-차트) <br /> - [산점 등고선 차트](../types/scatter-chart.mdx#{PlatformLower}-산점-등고선-차트) <br /> - [산점 폴리라인 차트](../types/shape-chart.mdx#{PlatformLower}-산점-폴리라인-차트) (\*) <br /> - [산점 다각형 차트](../types/shape-chart.mdx#{PlatformLower}-산점도-다각형-차트) (\*) <br /> |
+| 방사형 차트    | - [방사형 선 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-선-차트) <br /> - [방사형 영역 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-영역-차트) <br /> - [방사형 파이 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-파이-차트) <br /> - [방사형 열 차트](../types/radial-chart.mdx#{PlatformLower}-방사형-열-차트) <br /> |
+| 극좌표 차트     | - [극좌표 마커 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-마커-차트) <br /> - [극좌표 선 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-선-차트) <br /> - [극좌표 영역 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-영역-차트) <br /> - [극좌표 스플라인 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-스플라인-차트) <br /> - [극좌표 스플라인 영역 차트](../types/polar-chart.mdx#{PlatformLower}-극좌표-스플라인-영역-차트) <br /> |
+| 누적 차트   | - [누적 선 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-선-차트) <br /> - [누적 영역 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-영역-차트) <br /> - [누적 열 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-열-차트) <br /> - [누적 막대 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-막대-차트) <br /> - [누적 스플라인 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-스플라인-차트) <br /> - [누적 100% 선 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-선-차트) <br /> - [누적 100% 영역 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-영역-차트) <br /> - [누적 100% 열 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-열-차트) <br /> - [누적 100% 막대 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-막대-차트) <br /> - [누적 100% 스플라인 차트](../types/stacked-chart.mdx#{PlatformLower}-누적-100-스플라인-차트) <br /> |
+
+
+\* 차트에 바인딩된 데이터 소스가 많은 경우 [산점 다각형 차트](../types/shape-chart.mdx)와 [산점 폴리라인 차트](../types/shape-chart.mdx)가 다른 차트보다 성능이 더 좋다는 점에 유의하십시오. 자세한 내용은 [시리즈 컬렉션](#시리즈-컬렉션) 섹션을 참조하십시오. 그 밖의 경우에는 다른 차트 유형이 더 빠릅니다.
+
+### 차트 애니메이션
+
+[차트 애니메이션](chart-animations.mdx)을 활성화하면 {Platform} 차트에서 전환 진입 애니메이션이 재생되는 동안 최종 렌더링되는 시리즈가 약간 지연됩니다.
+
+### 차트 주석
+
+콜아웃 주석, 십자선 주석, 최종 값 주석과 같은 [차트 주석](chart-annotations.mdx)을 활성화하면 {Platform} 차트의 성능이 약간 저하됩니다.
+
+### 차트 강조 표시
+
+[차트 강조](chart-highlighting.mdx)를 활성화하면 {Platform} 차트의 성능이 약간 저하됩니다.
+
+### 차트 범례
+
+런타임에 범례에 매핑된 시리즈 또는 데이터 항목의 제목이 자주 변경되면, {Platform} 차트에 범례를 추가하는 것이 성능을 저하시킬 수 있습니다.
+
+### 차트 마커
+
+{Platform} 차트에서 [마커](chart-markers.mdx)는 차트의 레이아웃 복잡성을 증가시키고 특정 정보를 얻기 위해 데이터 바인딩을 수행하므로 차트 성능에 특히 큰 부담이 됩니다. 또한 데이터 포인트가 많거나 바인딩된 데이터 소스가 많으면 마커가 성능을 저하시킵니다. 따라서 마커가 필요하지 않다면 차트에서 제거해야 합니다.
+
+이 코드 조각은 {Platform} 차트에서 마커를 제거하는 방법을 보여 줍니다.
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "CategoryChart",
+    "name": "Chart",
+    "$comments": { "markerTypes": "on CategoryChart or FinancialChart" },
+    "markerTypes": [ "None" ],
+    "$markerTypes": "+perf:code"
+}
+```
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "DataChart",
+    "name": "Chart",
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "LineSeries",
+            "$comments": { "markerType": "on LineSeries of DataChart" },
+            "markerType": "None",
+            "$markerType": "+perf:code"
+        }
+    ]
+}
+```
+
+
+### 차트 해상도
+
+`DomainChart.resolution` 속성을 더 높은 값으로 설정하면 성능은 향상되지만, 플롯된 시리즈 선의 그래픽 충실도는 낮아집니다. 따라서 충실도가 허용할 수 없는 수준이 될 때까지 값을 높일 수 있습니다.
+
+이 코드 조각은 {Platform} 차트에서 해상도를 낮추는 방법을 보여 줍니다.
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "CategoryChart",
+    "name": "Chart",
+    "$comments": { "resolution": "on CategoryChart" },
+    "resolution": 10,
+    "$resolution": "+perf:code"
+}
+```
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "DataChart",
+    "name": "Chart",
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "LineSeries",
+            "$comments": { "resolution": "on LineSeries of DataChart" },
+            "resolution": 10,
+            "$resolution": "+perf:code"
+        }
+    ]
+}
+```
+
+
+### 차트 오버레이
+
+[차트 오버레이](chart-overlays.mdx)를 활성화하면 {Platform} 차트의 성능이 약간 저하됩니다.
+
+### 차트 추세선
+
+[차트 추세선](chart-trendlines.mdx)을 활성화하면 {Platform} 차트의 성능이 약간 저하됩니다.
+
+### 축 유형
+
+데이터 포인트 사이의 시간 범위에 따른 간격이 중요하지 않다면, 날짜/시간을 지원하는 x축의 사용은 권장하지 않습니다. 대신 서수/카테고리 축을 사용해야 하는데, 데이터를 병합하는 방식이 더 효율적이기 때문입니다. 또한 서수/카테고리 축은 시간 기반 x축처럼 데이터를 정렬하지 않습니다.
+
+<DocsAside type="info">
+`CategoryChart`는 이미 서수/카테고리 축을 사용하므로 해당 속성을 변경할 필요가 없습니다.
+</DocsAside>
+<PlatformBlock for="Web">
+이 코드 조각은 `FinancialChart`와 `DataChart` 컨트롤에서 서수/카테고리 x축을 설정하는 방법을 보여 줍니다.
+
+```json-snippet
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "financialChart": {
+            "type": "FinancialChart",
+            "xAxisMode": "Ordinal"
+        },
+        "dataChart": {
+            "type": "DataChart",
+            "axes": [
+                { "type": "CategoryXAxis", "label": "Time" }
+            ]
+        }
+    }
+}
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+이 코드 조각은 `DataChart` 컨트롤에서 서수/카테고리 x축을 설정하는 방법을 보여 줍니다.
+
+```json-snippet
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "dataChart": {
+            "type": "DataChart",
+            "axes": [
+                { "type": "CategoryXAxis", "label": "Time" }
+            ]
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+
+### 축 간격
+
+기본적으로 {Platform} 차트는 데이터 범위를 기준으로 `yAxisInterval`를 자동으로 계산합니다. 따라서 축 눈금선과 축 레이블이 너무 많이 렌더링되지 않도록 축 간격을 특히 작은 값으로 설정하는 것은 피해야 합니다. 또한 많은 축 눈금선이나 축 레이블이 필요하지 않다면, `yAxisInterval` 속성을 자동으로 계산된 축 간격보다 큰 값으로 늘리는 것을 고려할 수 있습니다.
+
+<DocsAside type="info">
+축 보조 간격을 설정하면 차트 성능이 저하되므로 권장하지 않습니다.
+</DocsAside>
+
+이 코드 조각은 {Platform} 차트에서 축 주 간격을 설정하는 방법을 보여 줍니다.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisInterval": 5,
+        "yAxisInterval": 50
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisInterval": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "interval": 5
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "interval": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisInterval": 5,
+        "yAxisInterval": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "interval": 5
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "interval": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### 축 척도
+
+로그 척도에서 축 범위와 축 레이블 값을 계산하는 것보다 필요한 작업이 적으므로, 성능을 높이려면 `yAxisIsLogarithmic` 속성을 false로 설정하는 것을 권장합니다.
+
+### 축 레이블 표시 여부
+
+마커와 마찬가지로 축 레이블도 템플릿과 바인딩을 사용하며 데이터 컨텍스트가 자주 변경될 수 있으므로 비용이 많이 듭니다. 레이블을 사용하지 않는다면, 축 레이블의 수를 줄이기 위해 레이블을 숨기거나 간격을 늘려야 합니다.
+
+이 코드 조각은 {Platform} 차트에서 축 레이블을 숨기는 방법을 보여 줍니다.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelVisibility": "Collapsed"
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelVisibility": "Collapsed"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelVisibility": "Collapsed"
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelVisibility": "Collapsed"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### 축 레이블 축약
+
+{Platform} 차트는 `yAxisAbbreviateLargeNumbers`를 true로 설정하면 축 레이블에 표시되는 큰 숫자(예: 10,000개 이상)의 축약을 지원합니다. 대신 데이터 항목의 큰 값을 공통 인수로 나누어 사전 처리한 다음, `yAxisTitle`를 데이터 값의 축약에 사용한 인수를 나타내는 문자열로 설정하는 것을 권장합니다.
+
+이 코드 조각은 {Platform} 차트에서 축 제목을 설정하는 방법을 보여 줍니다.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "NumericYAxis",
+                "title": "In millions of Dollars"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "NumericYAxis",
+                "title": "In millions of Dollars"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### 축 레이블 범위
+
+런타임에 {Platform} 차트는 가장 긴 값을 가진 레이블을 기준으로 y축 레이블의 범위를 조정합니다. 데이터 범위가 변경되어 레이블을 자주 업데이트해야 하는 경우 차트 성능이 저하될 수 있습니다. 따라서 차트 성능을 개선하려면 디자인 시점에 레이블 범위를 설정하는 것을 권장합니다.
+
+다음 코드 조각은 {Platform} 차트에서 y축 레이블의 고정 범위를 설정하는 방법을 보여 줍니다.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelExtent": 50
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelExtent": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelExtent": 50
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelExtent": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### 축의 기타 시각 요소
+
+추가 축 시각 요소(예: 축 제목)를 활성화하거나 기본값을 변경하면 {Platform} 차트의 성능이 저하될 수 있습니다.
+
+예를 들어 `CategoryChart`에서 다음 속성을 변경하는 경우<PlatformBlock for="Web"> 또는 `FinancialChart`</PlatformBlock> 컨트롤:
+
+| 축 시각 요소          | X축 속성 | Y축 속성 |
+| ---------------------|-------------------|------------------- |
+| 모든 축 시각 요소      | `xAxisInterval`<br />  `xAxisMinorInterval` | `yAxisInterval`<br />  `yAxisMinorInterval` |
+| 축 눈금 표시       | `xAxisTickStroke` <br />  `xAxisTickStrokeThickness`<br />  `xAxisTickLength`<br />  | `yAxisTickStroke` <br />  `yAxisTickStrokeThickness`<br />  `yAxisTickLength`<br /> |
+| 축 주 눈금선 | `xAxisMajorStroke`<br />  `xAxisMajorStrokeThickness`<br />   | `yAxisMajorStroke`<br />  `yAxisMajorStrokeThickness`<br /> |
+| 축 보조 눈금선 | `xAxisMinorStroke`<br />  `xAxisMinorStrokeThickness`<br />   | `yAxisMinorStroke`<br />  `yAxisMinorStrokeThickness`<br /> |
+| 축 주 선       | `xAxisStroke`<br />  `xAxisStrokeThickness`<br />   | `yAxisStroke`<br />  `yAxisStrokeThickness`<br /> |
+| 축 제목          | `xAxisTitle`<br />  `xAxisTitleAngle`<br />    | `yAxisTitle`<br />  `yAxisTitleAngle`<br /> |
+| 축 띠          | `xAxisStrip`<br />   | `yAxisStrip`<br /> |
+
+
+또는 `DataChart` 컨트롤에서 `Axis`의 속성을 변경하는 경우:
+
+| 축 시각 요소          | 축 속성 |
+| ---------------------|------------------- |
+| 모든 축 시각 요소     | `Interval`, `MinorInterval` |
+| 축 눈금 표시       | `tickStroke`, `tickStrokeThickness`, `tickLength` |
+| 축 주 눈금선 | `majorStroke`, `majorStrokeThickness` |
+| 축 보조 눈금선 | `minorStroke`, `minorStrokeThickness` |
+| 축 주 선       | `Axis.stroke`, `strokeThickness` |
+| 축 제목          | `chartTitle`, `TitleAngle` |
+| 축 띠          | `Axis.strip` |
+
+<PlatformBlock for="Web">
+## 금융 차트의 성능
+
+위의 성능 지침 외에도 {Platform} `FinancialChart` 컨트롤에는 성능에 영향을 주는 다음과 같은 고유 기능이 있습니다.
+
+### Y축 모드
+
+`yAxisMode` 옵션을 `Numeric`로 설정하면 `LineSeries.percentChange` 모드를 사용할 때보다 작업이 적게 필요하므로 성능이 향상되며 권장합니다.
+
+### 차트 창
+
+`indicatorTypes` 및 `overlayTypes` 옵션을 사용하여 많은 창을 설정하면 성능이 저하될 수 있으므로, 몇 개의 금융 지표와 하나의 금융 오버레이를 사용하는 것을 권장합니다.
+
+### Zoom Slider
+
+`zoomSliderType` 옵션을 `None`로 설정하면 차트 성능이 향상되고, 다른 지표와 볼륨 창을 위한 세로 공간이 늘어납니다.
+
+### 볼륨 유형
+
+`volumeType` 속성을 설정하면 차트 성능에 다음과 같은 영향을 줄 수 있습니다:
+
+- `None` - 볼륨 창을 표시하지 않으므로 비용이 가장 적게 듭니다.
+- `Line` - 렌더링 비용이 더 많이 드는 볼륨 유형이며, 많은 데이터 포인트를 렌더링하거나 많은 데이터 소스를 플롯할 때 권장합니다.
+- `Area` - `Line` 볼륨 유형보다 렌더링 비용이 더 많이 듭니다.
+- `Column` - `Area` 볼륨 유형보다 렌더링 비용이 더 많이 들며, 1~3개 주식의 볼륨 데이터를 렌더링할 때 권장합니다.
+</PlatformBlock>
+## 데이터 차트의 성능
+
+일반 성능 지침 외에도 {Platform} `DataChart` 컨트롤에는 성능에 영향을 주는 다음과 같은 고유 기능이 있습니다.
+
+### 축 컬렉션
+
+`DataChart` 컨트롤의 `Axes` 컬렉션에 축을 너무 많이 추가하면 차트 성능이 저하되므로, 시리즈 간에 [축 공유](chart-axis-layouts.mdx#축-공유-예제)를 권장합니다.
+
+### 시리즈 컬렉션
+
+또한 {Platform} `DataChart` 컨트롤의 `Series` 컬렉션에 시리즈를 많이 추가하면, 각 시리즈가 자체 렌더링 캔버스를 가지므로 렌더링 오버헤드가 늘어납니다. 데이터 차트에 시리즈가 10개를 넘는 경우 특히 중요합니다. 여러 데이터 소스를 평탄화된 데이터 소스로 결합한 다음([데이터 구조](#데이터-구조) 섹션 참조), 다음 시리즈의 조건부 스타일 지정 기능을 사용하는 것을 권장합니다:
+
+| 느린 성능 시나리오 | 조건부 스타일 지정을 사용하는 빠른 시나리오 |
+| ----------------------------|---------------------------------------- |
+| `LineSeries`의 10개 이상         | 단일 `ScatterLineSeries` |
+| `LineSeries`의 20개 이상         | 단일 `ScatterPolylineSeries` |
+| `ScatterLineSeries`의 10개 이상  | 단일 `ScatterPolylineSeries` |
+| `PointSeries`의 10개 이상        | 단일 `ScatterSeries` |<PlatformBlock for="Web">
+| `PointSeries`의 20개 이상        | 단일 `HighDensityScatterSeries` |
+| `ScatterSeries`의 20개 이상      | 단일 `HighDensityScatterSeries` |</PlatformBlock>
+| `AreaSeries`의 10개 이상         | 단일 `ScatterPolygonSeries` |
+| `ColumnSeries`의 10개 이상       | 단일 `ScatterPolygonSeries` |
+
+
+## 추가 리소스
+
+관련 차트 유형에 대한 자세한 내용은 다음 항목에서 확인할 수 있습니다:
+
+- [영역 차트](../types/area-chart.mdx)
+- [막대 차트](../types/bar-chart.mdx)
+- [버블 차트](../types/bubble-chart.mdx)
+- [열 차트](../types/column-chart.mdx)
+- [도넛 차트](../types/donut-chart.mdx)
+- [파이 차트](../types/pie-chart.mdx)
+- [점 차트](../types/point-chart.mdx)
+- [극좌표 차트](../types/polar-chart.mdx)
+- [방사형 차트](../types/radial-chart.mdx)
+- [도형 차트](../types/shape-chart.mdx)
+- [스플라인 차트](../types/spline-chart.mdx)
+- [산점도 차트](../types/scatter-chart.mdx)
+- [누적 차트](../types/stacked-chart.mdx)
+- [계단형 차트](../types/shape-chart.mdx)<PlatformBlock for="Web">
+- [주식 차트](../types/stock-chart.mdx)</PlatformBlock>
+- [차트 애니메이션](chart-animations.mdx)
+- [차트 주석](chart-annotations.mdx)
+- [차트 강조 표시](chart-highlighting.mdx)
+- [차트 마커](chart-markers.mdx)
+- [차트 오버레이](chart-overlays.mdx)
+- [차트 추세선](chart-trendlines.mdx)
+
+
+## API 참조
+`CategoryChart`<PlatformBlock for="Web">
+`FinancialChart`</PlatformBlock>
+`DataChart`

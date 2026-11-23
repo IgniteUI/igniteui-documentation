@@ -1,0 +1,715 @@
+---
+title: "Edição e validação do {Platform} {ComponentTitle} - {ProductName}"
+description: "Valide os dados digitados pelos usuários na grade e notifique-os se forem válidos ou não, usando {Platform} {ComponentTitle}. Confira demos e exemplos!"
+keywords: "validação {Platform}, {ProductName}, infragistics,"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "A {Platform} {ComponentName} oferece edição com um mecanismo de validação integrado para os dados digitados pelo usuário ao editar células ou linhas."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Edição e validação do {Platform} {ComponentTitle}
+
+A {Platform} {ComponentName} oferece edição com um mecanismo de validação integrado para os dados digitados pelo usuário ao editar células ou linhas. Ela estende a funcionalidade de validação de formulários para permitir uma integração mais fácil com uma funcionalidade bem conhecida. Quando o estado do editor muda, indicadores visuais são aplicados à célula editada na `{ComponentName}`.
+
+## Configuração
+
+### Configurar por meio de configuração orientada por template
+
+Estendemos alguns dos validadores de {Platform} Forms para funcionar diretamente com a <ApiLink type="Column" />. Os mesmos validadores estão disponíveis como atributos, para serem definidos de forma declarativa em <ApiLink type="Column" />. Os seguintes validadores são suportados de imediato:
+
+- Required
+- Mínimo
+- Máximo
+- Email
+- MinLength
+- MaxLength
+- Pattern
+
+Para validar que a entrada de uma coluna foi preenchida e que o valor será formatado como e-mail, você pode usar as diretivas correspondentes:
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="email" [header]="User E-mail" required email></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="email" header="User E-mail" required="true" email="true"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+O exemplo a seguir demonstra como usar as diretivas de validadores pré-construídas `Required`, `Email` e `Min` em um `{ComponentName}`.
+
+<Sample src="/{ComponentSample}/data-validator-service" height={600} alt="Exemplo básico de validação do {Platform} {ComponentTitle}" />
+
+### Configurar por meio de Reactive Forms
+
+Expomos o <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> que será usado para validação quando a edição começar em uma linha ou célula por meio de um evento <ApiLink type="{ComponentName}" member="formGroupCreated" />. Você pode modificá-lo adicionando seus próprios validadores para os campos relacionados:
+
+<ComponentBlock for="Grid">
+```html
+<{ComponentInstance} (formGroupCreated)='formCreateHandler($event)' ...>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```html
+<igx-hierarchical-grid (formGroupCreated)='formCreateHandler($event)' ...>
+```
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```html
+<igx-tree-grid (formGroupCreated)='formCreateHandler($event)' ...>
+```
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+```ts
+    public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
+        const formGroup = args.formGroup;
+        const orderDateRecord = formGroup.get('OrderDate');
+        const requiredDateRecord = formGroup.get('RequiredDate');
+        const shippedDateRecord = formGroup.get('ShippedDate');
+
+        orderDateRecord.addValidators(this.futureDateValidator());
+        requiredDateRecord.addValidators(this.pastDateValidator());
+        shippedDateRecord.addValidators(this.pastDateValidator());
+    }
+
+```
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```ts
+   public formCreateHandler(args: IGridFormGroupCreatedEventArgs) {
+        const formGroup = args.formGroup;
+        const hireDateRecord = formGroup.get('HireDate');
+        hireDateRecord.addValidators([this.futureDateValidator(), this.pastDateValidator()]);
+    }
+```
+
+</ComponentBlock>
+
+Você pode optar por escrever sua própria função validadora ou usar uma das [funções validadoras {Platform} integradas](https://{Platform}.io/guide/form-validation#built-in-validator-functions).
+
+</PlatformBlock>
+
+## API do serviço de validação
+
+A grade expõe um serviço de validação por meio da propriedade <ApiLink type="{ComponentName}" member="validation" />.
+
+Esse serviço tem as seguintes APIs públicas:
+
+- `Valid` - retorna se o estado de validação do grid é válido.
+- `GetInvalid` - retorna os registros com estados inválidos.
+- `Clear` - limpa o estado de um registro pelo id ou limpa todos os estados se nenhum id for informado.
+- <ApiLink type="{ComponentName}" member="markAsTouched" /> - marca o registro/campo relacionado como tocado.
+
+Estados inválidos persistem até que os erros de validação neles sejam corrigidos de acordo com a regra de validação ou sejam limpos.
+
+## Gatilhos de validação
+
+A validação será disparada nos seguintes cenários:
+
+- Durante a edição pelo editor de célula, com base na <ApiLink type="GridValidationTrigger" /> do grid. Seja em `Change` enquanto se digita no editor, seja em `Blur` quando o editor perde o foco ou é fechado.
+- Ao atualizar células ou linhas por meio da API - <ApiLink type="{ComponentName}" member="updateRow" />, <ApiLink type="{ComponentName}" member="updateCell" /> etc.
+- Ao usar a edição em lote e a API `Undo`/`Redo` do serviço de transações.
+
+<DocsAside type="info">
+A validação não será disparada para registros que não foram editados pela entrada do usuário ou pela API de edição. Os indicadores visuais na célula só serão exibidos se a entrada relacionada for considerada tocada — seja por interação do usuário, seja pela API <ApiLink type="{ComponentName}" member="markAsTouched" /> do serviço de validação.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+## Opções de personalização de validação do {Platform} {ComponentTitle}
+
+### Definir um validador personalizado
+
+Você pode definir a sua própria diretiva de validação para usar em uma <ApiLink type="Column" /> no template.
+
+```ts
+@Directive({
+    selector: '[phoneFormat]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: PhoneFormatDirective, multi: true }]
+})
+export class PhoneFormatDirective extends Validators {
+    @Input('phoneFormat')
+    public phoneFormatString = '';
+
+    public validate(control: AbstractControl): ValidationErrors | null {
+        return this.phoneFormatString ? phoneFormatValidator(new RegExp(this.phoneFormatString, 'i'))(control)
+            : null;
+    }
+}
+```
+
+Depois de definida e adicionada ao módulo da sua aplicação, você pode defini-la de forma declarativa para uma coluna específica do grid:
+
+```html
+<igx-column phoneFormat="\+\d{1}\-(?!0)(\d{3})\-(\d{3})\-(\d{4})\b"></igx-column>
+```
+
+### Alterar o template de erro padrão
+
+Você pode definir seu próprio template de erro, que será exibido no tooltip de erro quando a célula entrar em estado inválido. Isso é útil em cenários em que você quer adicionar sua própria mensagem de erro ou alterar de outra forma a aparência ou o conteúdo da mensagem.
+
+```html
+<igx-column>
+  <ng-template igxCellValidationError let-cell='cell' let-defaultErr="defaultErrorTemplate">
+      <ng-container *ngTemplateOutlet="defaultErr">
+      </ng-container>
+      @if (cell.validation.errors?.['phoneFormat']) {
+        <div>
+          Please enter correct phone format
+        </div>
+      }
+  </ng-template>
+</igx-column>
+```
+
+### Impedir a saída do modo de edição em estado inválido
+
+Em alguns casos, você pode querer impedir o envio de um valor inválido aos dados. Nesse cenário, você pode usar os eventos <ApiLink type="{ComponentName}" member="cellEdit" /> ou <ApiLink type="{ComponentName}" member="rowEdit" /> e cancelar o evento caso o novo valor seja inválido.
+
+Os argumentos de ambos os eventos têm uma propriedade `Valid` e podem ser cancelados de acordo.
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentInstance} (cellEdit)='cellEdit($event)'>
+```
+</PlatformBlock>
+
+```ts
+public cellEdit(evt) {
+  if (!evt.valid) {
+    evt.cancel = true;
+  }
+}
+```
+
+### Exemplo
+
+O exemplo abaixo demonstra as opções de personalização mencionadas acima.
+
+<Sample src="/{ComponentSample}/data-validator-service-extended" height={570} alt="Exemplo de validação personalizada do {Platform} {ComponentTitle}" />
+
+
+
+### Validação entre campos
+
+Em alguns cenários, a validação de um campo pode depender do valor de outro campo do registro.
+
+Nesse caso, um validador personalizado pode ser usado para comparar os valores do registro por meio de sua <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock>.
+
+<ComponentBlock for="Grid">
+O exemplo a seguir demonstra uma validação entre campos de diferentes campos do mesmo registro. Ele verifica a validade das datas em relação à data atual e entre a data ativa e a data de criação do registro, além da proporção de negócios ganhos/perdidos de cada funcionário. Todos os erros são reunidos em uma coluna fixada separada, que mostra que o registro é inválido e exibe os erros relacionados.
+
+As próximas linhas de código mostram a função validadora entre campos, que contém as comparações e define os erros relacionados a elas.
+
+<PlatformBlock for="Blazor">
+```razor
+private rowValidator(): ValidatorFn {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+        let returnObject = {};
+        const createdOnRecord = formGroup.get('created_on');
+        const lastActiveRecord = formGroup.get('last_activity');
+        const winControl = formGroup.get('deals_won');
+        const loseControl = formGroup.get('deals_lost');
+        const actualSalesControl = formGroup.get('actual_sales');
+
+        // Validate dates
+        const curDate = new Date();
+        if (new Date(createdOnRecord.value) > curDate) {
+            // The created on date should not be greater than current date.
+            returnObject['createdInvalid'] =  true;
+        }
+        if (new Date(lastActiveRecord.value) > curDate) {
+            // The last active date should not be greater than current date.
+            returnObject['lastActiveInvalid'] = true;
+        }
+        if (new Date(createdOnRecord.value) > new Date(lastActiveRecord.value)) {
+            // The created on date should not be greater than last active date.
+            returnObject['createdLastActiveInvalid'] = true;
+        }
+
+        // Validate deals
+        const dealsRatio = this.calculateDealsRatio(winControl.value, loseControl.value);
+        if (actualSalesControl.value === 0 && dealsRatio > 0) {
+            // If the actual sales value is 0 but there are deals made.
+            returnObject['salesZero'] = true;
+        }
+        if (actualSalesControl.value > 0 && dealsRatio === 0) {
+            // If the deals ratio based on deals won is 0 but the actual sales is bigger than 0.
+            returnObject['salesNotZero'] = true;
+        }
+
+        return returnObject;
+    };
+}
+
+public calculateDealsRatio(dealsWon, dealsLost) {
+    if (dealsLost === 0) return dealsWon + 1;
+    return Math.round(dealsWon / dealsLost * 100) / 100;
+}
+
+```
+</PlatformBlock>
+
+O validador entre campos pode ser adicionado ao <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> da linha, a partir do evento `FormGroupCreated`, que retorna o novo <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> para cada linha ao entrar no modo de edição:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentInstance} #grid1 [data]="transactionData" [width]="'100%'" [height]="'480px'" [autoGenerate]="false"
+        [batchEditing]="true" [rowEditable]="true" [primaryKey]="'id'"
+        (formGroupCreated)='formCreateHandler($event)'>
+    <!-- ... -->
+</{ComponentInstance}>
+```
+
+</PlatformBlock>
+
+```typescript
+public formCreateHandler(evt: IGridFormGroupCreatedEventArgs) {
+    evt.formGroup.addValidators(this.rowValidator());
+}
+```
+
+Os diferentes erros são exibidos em uma célula com template que combina todos os erros em um único tooltip. Dependendo do estado de validade da linha, é exibido um ícone diferente:
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [pinned]="true" [width]="'50px'">
+    <ng-template igxCell let-cell="cell">
+        @if (isRowValid(cell)) {
+            <div [igxTooltipTarget]="tooltipRef"  style="margin-right: '-10px';">
+                <img width="18" src="assets/images/grid/active.png"/>
+            </div>
+        } @else {
+            <div [igxTooltipTarget]="tooltipRef" style="margin-right: '-10px';">
+                <img width="18" src="assets/images/grid/expired.png"/>
+            </div>
+        }
+        <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+            <div *ngFor="let message of stateMessage(cell)">
+                {{message}}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+As mensagens de erro são reunidas na função `StateMessage`, que coleta os erros de cada célula (porque cada coluna pode ter validações de formulário com template) e depois verifica os erros da própria linha, que vêm do `RowValidator` personalizado.
+
+```typescript
+public stateMessage(cell: IgxGridCell) {
+    const messages = [];
+    const row = cell.row;
+    const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+    cellValidationErrors.forEach(cell => {
+        if (cell.validation.errors) {
+            if (cell.validation.errors.required) {
+                messages.push(`The \`${cell.column.header}\` column is required.`);
+            }
+            // Other cell errors ...
+        }
+    });
+
+    if (row.validation.errors?.createdInvalid) {
+        messages.push(`The \`Date of Registration\` date cannot be in the future.`);
+    }
+    // Other cross-field errors...
+
+    return messages;
+}
+```
+
+O exemplo abaixo demonstra a validação entre campos em funcionamento.
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={560} alt="Exemplo de validação entre campos do {Platform} {ComponentTitle}" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+Validadores entre campos podem ser adicionados ao formGroup no evento `FormGroupCreated`. Neles, vários campos podem ser comparados quanto à validade.
+
+```ts
+  public formCreateCustomerHandler(event: IGridFormGroupCreatedEventArgs) {
+        const formGroup = event.formGroup;
+        formGroup.addValidators(this.addressValidator());
+    }
+
+    public formCreateOrderHandler(event: IGridFormGroupCreatedEventArgs) {
+        const formGroup = event.formGroup;
+        formGroup.addValidators(this.dateValidator());
+    }
+
+    public addressValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const formGroup = control;
+            let returnObject = {};
+            const city = formGroup.get('City');
+            const country = formGroup.get('Country');
+            const validCities = this.countryData.get(country.value);
+            if (!validCities || !validCities[city.value]) {
+                returnObject['invalidAddress'] = true;
+            }
+            return returnObject;
+        }
+    }
+
+    public dateValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const formGroup = control;
+            let returnObject = {};
+            const orderDate = formGroup.get('OrderDate').value;
+            const shippedDate = formGroup.get('ShippedDate').value;
+            if (new Date(shippedDate) < new Date(orderDate)) {
+                returnObject['invalidRange'] = true;
+            }
+            return returnObject;
+        }
+    }
+```
+
+Os erros de múltiplos campos podem então ser exibidos em uma coluna fixada separada.
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'50px'">
+        <ng-template igxCell let-cell="cell">
+            @if (isRowValid(cell)) {
+                <div [igxTooltipTarget]="tooltipRef"
+                >
+                    <img width="18" src="assets/images/grid/active.png"/>
+                </div>
+            } @else {
+                <div [igxTooltipTarget]="tooltipRef"
+                >
+                    <img width="18" src="assets/images/grid/expired.png"/>
+                </div>
+            }
+            <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+               <div *ngFor="let message of stateMessage(cell)">
+                   {{message}}
+               </div>
+            </div>
+        </ng-template>
+    </igx-column>
+```
+
+Os erros e as mensagens detalhadas podem ser determinados com base na validade da linha e da célula.
+
+```ts
+    public isRowValid(cell: IgxGridCell) {
+        const hasErrors = !!cell.row.validation.errors || cell.row.cells.some(x => !!x.validation.errors);
+        return !hasErrors;
+    }
+
+    public stateMessage(cell: IgxGridCell) {
+        const messages = [];
+        const row = cell.row;
+        if  (row.validation.errors?.invalidAddress) {
+            messages.push('The address information is invalid. City does not match the Country.');
+        }
+        if  (row.validation.errors?.invalidRange) {
+            messages.push('The ShippedDate cannot be before the OrderDate.');
+        }
+        const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+        if (cellValidationErrors && cellValidationErrors.length > 0) {
+            const fields = cellValidationErrors.map(x => x.column.field).join(',');
+            messages.push('The following fields are required: ' + fields);
+        }
+
+        if (messages.length === 0) {
+            // no errors
+            return ['Valid'];
+        }
+        return messages;
+    }
+```
+
+O exemplo abaixo demonstra a validação entre campos em uma `{ComponentName}`, tanto para os dados raiz quanto para os dados filhos.
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={530} alt="Exemplo de validação entre campos do {Platform} {ComponentTitle}" />
+
+
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+O exemplo a seguir demonstra uma validação entre campos de diferentes campos do mesmo registro. Ele verifica se a cidade informada para uma pessoa pertence ao país atualmente definido, e vice-versa. Também verifica se a pessoa já tinha 18 anos na época em que foi contratada.
+
+As próximas linhas de código mostram a função validadora entre campos, que contém as comparações descritas acima e define os erros relacionados.
+
+```ts
+private rowValidator(): ValidatorFn {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+        let returnObject = {};
+
+        const age = formGroup.get('Age');
+        const hireDate = formGroup.get('HireDate');
+        if ((new Date().getFullYear() - new Date(hireDate.value).getFullYear()) + 18 >= age.value) {
+            returnObject['ageLessHireDate'] = true;
+        }
+
+        const city = formGroup.get('City');
+        const country = formGroup.get('Country');
+        const validCities = this.countryData.get(country.value);
+        if (!validCities || !validCities[city.value]) {
+            returnObject['invalidAddress'] = true;
+        }
+
+        return returnObject;
+    };
+}
+```
+
+O validador entre campos pode ser adicionado ao <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> da linha, a partir do evento `FormGroupCreated`, que retorna o novo <PlatformBlock for="Angular"><ApiLink type="IGridFormGroupCreatedEventArgs" member="formGroup" label="FormGroup" /></PlatformBlock><PlatformBlock for="WebComponents,Blazor"><ApiLink type="FormGroup" /></PlatformBlock> para cada linha ao entrar no modo de edição:
+
+```html
+<igx-tree-grid igxPreventDocumentScroll #treeGrid [batchEditing]="true" [data]="data" primaryKey="ID"
+    foreignKey="ParentID" [width]="'100%'" [height]="'500px'" [rowEditable]="true" [pinning]="pinningConfig"
+    (formGroupCreated)="formCreateHandler($event)">
+</igx-tree-grid>
+```
+
+```typescript
+public formCreateHandler(evt: IGridFormGroupCreatedEventArgs) {
+    evt.formGroup.addValidators(this.rowValidator());
+}
+```
+
+Os diferentes erros são exibidos em uma célula com template que combina todos os erros em um único tooltip. Dependendo do estado de validade da linha, é exibido um ícone diferente:
+
+```html
+<igx-column field="row_valid" header=" " [editable]="false" [dataType]="'number'" [pinned]="true" [width]="'150px'">
+    <ng-template igxCell let-cell="cell">
+        @if (isRowValid(cell)) {
+            <div [igxTooltipTarget]="tooltipRef"  style="margin: 'auto';">
+                <img width="18" src="assets/images/grid/active.png"/>
+            </div>
+        } @else {
+            <div [igxTooltipTarget]="tooltipRef" style="margin: 'auto';">
+                <img width="18" src="assets/images/grid/expired.png"/>
+            </div>
+        }
+        <div #tooltipRef="tooltip" igxTooltip [style.width]="'max-content'">
+            <div *ngFor="let message of stateMessage(cell)">
+                {{message}}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+As mensagens de erro são reunidas na função `StateMessage`, que coleta os erros de cada célula (porque cada coluna pode ter validações de formulário com template) e depois verifica os erros da própria linha, que vêm do `RowValidator` personalizado.
+
+```typescript
+public stateMessage(cell: IgxGridCell) {
+    const messages = [];
+    const row = cell.row;
+    const cellValidationErrors = row.cells.filter(x => !!x.validation.errors);
+    cellValidationErrors.forEach(cell => {
+        if (cell.validation.errors) {
+            if (cell.validation.errors.required) {
+                messages.push(`The \`${cell.column.header}\` column is required.`);
+            }
+            // Other cell errors...
+        }
+    });
+
+    if (row.validation.errors?.ageLessHireDate) {
+        messages.push(`\`Age\` cannot be less than 18 when the person was hired.`);
+    }
+    if (row.validation.errors?.invalidAddress) {
+        messages.push(`Selected \`City\` does not match the \`Country\`.`);
+    }
+
+    if (messages.length === 0 && this.isRowValid(cell)) {
+        messages.push('OK');
+    }
+
+    return messages;
+}
+```
+
+O exemplo abaixo demonstra a validação entre campos em funcionamento.
+
+<Sample src="/{ComponentSample}/data-validator-service-cross-field" height={570} alt="Exemplo de validação entre campos do {Platform} {ComponentTitle}" />
+
+
+
+</ComponentBlock>
+
+## Estilização
+
+Usando a [{ProductName} Theme Library](../themes/index.mdx), podemos alterar os estilos de validação padrão durante a edição.
+
+No exemplo abaixo, usaremos o template exposto para a mensagem de validação, que aparece em um tooltip, e substituiremos a cor de erro para modificar a aparência padrão da validação.
+Também estilizaremos o fundo das linhas inválidas para destacá-las mais.
+
+### Importar o tema
+
+A forma mais fácil de estilizar e acessar as variáveis CSS é definir estilos no arquivo de estilos globais do nosso `app` (normalmente `styles.scss`).
+O primeiro passo é importar o arquivo `themes/index` - isso nos dá acesso a todas as ferramentas poderosas do framework Sass {ProductName}:
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### Incluir os estilos
+Para alterar a cor de erro, você pode usar a variável CSS `--ig-error-500`:
+
+```scss
+--ig-error-500: 34, 80%, 63%;
+```
+
+### Templates personalizados
+Alterar o template de erro padrão permite definir classes e estilos personalizados:
+
+```html
+<ng-template igxCellValidationError let-cell='cell' let-defaultErr='defaultErrorTemplate'>
+    <div class="validator-container">
+        <ng-container *ngTemplateOutlet="defaultErr">
+        </ng-container>
+    </div>
+</ng-template>
+```
+
+### Estilos de linha e célula inválidas
+
+Linhas e células fornecem uma API para que os desenvolvedores saibam se uma linha ou célula é inválida e quais tipos de erro estão ativos.
+<ComponentBlock for="Grid">
+
+```ts
+public rowStyles = {
+    background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        const pKey = this.grid.primaryKey;
+        const cell = this.grid.getCellByKey(rowData[pKey], columnKey);
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+
+```html
+<{ComponentInstance} [rowStyles]="rowStyles">
+    <igx-column field="ReorderLevel" header="Reorder Level" required [cellClasses]="cellStyles">
+    </igx-column>
+</{ComponentInstance}>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```ts
+public rowStyles = {
+    background: (row: RowType) => row.validation.status === 'INVALID' ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        let cell = this.hierarchicalGrid.getCellByKey(rowData, columnKey);
+        // search in child grids
+        if (!cell) {
+            for (let grid of this.childGrid.gridAPI.getChildGrids()) {
+                cell = grid.getCellByKey(rowData, columnKey);
+                if (cell) break;
+            }
+        }
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+
+```html
+<igx-hierarchical-grid [rowStyles]="rowStyles">
+    <igx-column field="Artist" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
+    <!--...-->
+    </igx-column>
+    <igx-row-island [key]="'Albums'" [rowStyles]="rowStyles">
+        <igx-column field="Album" [editable]="true" [dataType]="'string'" required [cellClasses]="cellStyles">
+        </igx-column>
+    </igx-row-island>
+    <!--...-->
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+public rowStyles = {
+    background: (row: RowType) => row.cells.find(c => c.validation.errors !== null && c.validation.errors !== undefined) ? '#FF000033' : '#00000000'
+};
+public cellStyles = {
+    'invalid-cell': (rowData, columnKey) => {
+        const pKey = this.treeGrid.primaryKey;
+        const cell = this.treeGrid.getCellByKey(rowData[pKey], columnKey);
+        return cell && cell.validation.status === 'INVALID';
+    }
+}
+```
+</PlatformBlock>
+
+```html
+<igx-tree-grid [rowStyles]="rowStyles">
+        <igx-column *ngFor="let c of columns" [field]="c.field" [dataType]="c.dataType" [header]="c.label" [required]="c.required" [cellClasses]="cellStyles">
+        </igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/data-validation-style" height={560} alt="Estilo de validação de dados do {Platform} {ComponentTitle}" />
+
+
+</PlatformBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+<PlatformBlock for="Angular">
+- [Criar operações CRUD com o igxGrid](../general/how-to/how-to-perform-crud.mdx)
+
+- [Edição do {ComponentTitle}](editing.mdx)
+- [Edição de linha do {ComponentTitle}](row-editing.mdx)
+- [Adição de linha do {ComponentTitle}](row-adding.mdx)
+- [{ComponentTitle} Transactions](batch-editing.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+- [Edição do {ComponentTitle}](editing.mdx)
+- [Edição de linha do {ComponentTitle}](row-editing.mdx)
+- [Adição de linha do {ComponentTitle}](row-adding.mdx)
+- [{ComponentTitle} Transactions](batch-editing.mdx)
+</ComponentBlock>
+
+</PlatformBlock>
+
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,263 @@
+---
+title: "{Platform} 스타일 지정 및 테마 | {Platform} 팔레트 | Infragistics"
+description: "{ProductName} 팔레트는 시드 색에서 생성되어 모든 컴포넌트에 색을 주고 실행 중에 덮어쓸 수 있는 CSS 변수의 집합입니다."
+keywords: "{ProductName}, Infragistics, 팔레트, 스타일 지정, CSS 변수, 색 변수, 표면 역할, 명암 대비 색"
+license: MIT
+mentionedTypes: []
+_language: ko
+llms:
+  description: "{ProductName} 팔레트는 시드 색에서 생성되어 모든 컴포넌트 테마의 색을 제공하는 --ig-* CSS 변수의 집합입니다."
+last_updated: "2026-10-14"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# {ProductName}의 팔레트
+
+{ProductName} 팔레트는 시드 색에서 생성되어 모든 컴포넌트 테마의 색을 제공하는 `--ig-*` CSS 변수의 집합입니다.
+
+## 개요
+
+{ProductName} 팔레트에는 여덟 개의 색 계열이 있습니다: `primary`, `secondary`, `gray`, `surface`, `info`, `success`, `warn`, `error`. 각 계열은 음영을 `--ig-<family>-<variant>` 형식의 CSS 변수로 노출하며, 예를 들면 `--ig-primary-500`입니다.
+
+| 계열 | 변형 |
+|---|---|
+| `primary`, `secondary`, `info`, `success`, `warn`, `error` | `50`, `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`, `A100`, `A200`, `A400`, `A700`, `seed` |
+| `gray` | `50`–`900`, `seed` |
+| `surface` | `base`, `sunken`, `raised`, `overlay`, `container`, `seed` |
+
+번호가 매겨진 음영은 가장 밝은 `50`부터 가장 어두운 `900`까지 이어집니다. `A100`–`A700` 강조 음영은 강조를 위한 선명한 변형입니다. `surface` 계열은 음영이 아니라 레이어를 나타냅니다. `base`은(는) 페이지와 컴포넌트의 배경이고, `sunken`, `raised`, `overlay`은(는) 그에 상대적인 레이어이며, `container`은(는) 반투명 채우기입니다. 팔레트에는 호환성을 위한 번호 매겨진 `surface` 음영도 포함되지만, 컴포넌트 테마가 읽는 역할로 대체되어 더 이상 권장되지 않습니다.
+
+모든 변형에는 `--ig-primary-500-contrast`처럼 짝을 이루는 `-contrast` 변수가 있으며, 이는 구성된 WCAG 수준에서 그 음영 위에서 더 잘 읽히는 검정 또는 흰색으로 해석됩니다.
+
+<DocsAside type="info">
+명암 대비 색은 브라우저가 음영을 기준으로 계산하는 CSS 상대 색이므로, 음영을 덮어쓰면 그 명암 대비 색도 함께 업데이트됩니다. 반투명 `container`은 예외입니다. 그 명암 대비 색은 `base` 위에 놓인 컨테이너에서 계산되며, 그 위의 텍스트가 바로 그 색을 기준으로 읽히므로 둘 중 어느 쪽이 바뀌어도 따라갑니다.
+</DocsAside>
+
+다음은 밝은 Material 팔레트의 `primary` 계열 일부입니다:
+
+```css
+:root {
+  --ig-primary-500: #09f;
+  --ig-primary-500-contrast: hsla(from color(from var(--ig-primary-500) var(--y-contrast)) h 0 l / 1);
+  --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
+  --ig-primary-600-contrast: hsla(from color(from var(--ig-primary-600) var(--y-contrast)) h 0 l / 1);
+  --ig-primary-seed: #09f;
+  /* ... */
+  --ig-wcag-a: 0.31;
+  --ig-wcag-aa: 0.185;
+  --ig-wcag-aaa: 0.178;
+  --ig-contrast-level: var(--ig-wcag-aa);
+  --y: clamp(0, (y / var(--ig-contrast-level) - 1) * -infinity, 1);
+  --y-contrast: xyz-d65 var(--y) var(--y) var(--y);
+}
+```
+
+각 계열은 팔레트가 생성된 원래 색을 그대로 담는 `seed` 변수도 노출합니다. 미리 빌드된 테마에서는 `primary`, `secondary` 및 다른 색 계열의 시드가 `500` 변형과 일치합니다. `gray`의 경우에는 일치하지 않습니다. `--ig-gray-seed`은(는) 회색이 파생된 원래 색을 기록하며, 표면 색의 휘도에서 검정 또는 흰색으로 선택된 값입니다. 반면 `--ig-gray-500`은(는) 생성된 중간 톤입니다.
+
+<DocsAside type="info">
+명암 대비 임계값은 `--ig-contrast-level`에 담겨 있으며, 기본값은 `var(--ig-wcag-aa)`입니다. 임의의 범위에서 덮어써서 `var(--ig-wcag-a)` 또는 `var(--ig-wcag-aaa)`로 전환할 수 있습니다.<PlatformBlock for="React, WebComponents, Blazor"> 미리 빌드된 CSS 대신 Sass에서 테마를 컴파일한다면, `palette` 및 `adaptive-contrast` 믹스인은 `a`, `aa`, `aaa`을(를) 직접 받습니다. [접근성](accessibility.mdx)을 참조하십시오.</PlatformBlock>
+</DocsAside>
+
+<PlatformBlock for="Angular">
+
+Sass에서 `palette()` 및 `adaptive-contrast()` 믹스인은 `'a'`, `'aa'`, `'aaa'`을(를) 직접 받습니다:
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+</PlatformBlock>
+
+## 팔레트가 생성되는 방식
+
+미리 빌드된 CSS 테마의 팔레트를 포함한 모든 {ProductName} 팔레트는 `igniteui-theming` Sass 라이브러리의 `palette()` 함수로 생성됩니다.<PlatformBlock for="React, WebComponents, Blazor"> 미리 빌드된 팔레트를 사용하는 데 Sass는 필요하지 않지만, 어떻게 만들어지는지 알면 변수가 어떻게 동작하는지 이해할 수 있습니다.</PlatformBlock> 이 함수에는 두 개의 생성기가 있으며, 실행 시 서로 다르게 동작하는 CSS 변수를 만듭니다:
+
+| 생성기 | 음영은 다음으로 출력됩니다 | 사용처 |
+|---|---|---|
+| `legacy` | `500`의 CSS 상대 색입니다. `--ig-primary-500`을(를) 덮어쓰면 브라우저에서 모든 기본 음영이 업데이트됩니다. | 모든 미리 빌드된 CSS 테마와 미리 정의된 Sass 팔레트입니다. |
+| `fitted` | 명암 대비 목표에 맞춰 풀린 고정 색입니다. 변수 하나를 덮어쓰면 그 음영만 바뀝니다. | 기본적으로 Sass에서 `palette()`로 생성하는 팔레트입니다. |
+
+`legacy` 생성기는 `500` 음영의 채도와 명도에 고정된 값을 곱하므로, 음영의 품질은 `500` 색이 얼마나 밝거나 어두운지에 따라 달라집니다. 매우 어둡거나 매우 밝은 `500`은(는) 서로 모이거나 흰색으로 해석되는 음영을 만듭니다. 브랜드 색이 매우 어둡거나 매우 밝다면, 대신 Sass에서 `fitted` 생성기로 팔레트를 생성하십시오. 이 생성기는 각 계열을 명암 대비 척도에 맞춰 만들므로, 그런 시드에서도 열 개의 서로 다른 음영이 나옵니다. [팔레트 생성](palette-generation.mdx)에서는 두 생성기를 모두 설명하고 팔레트를 생성하는 방법을 보여 줍니다.<PlatformBlock for="Angular"> [Sass로 팔레트 만들기](sass/palettes.mdx)는 각 작업 흐름을 자세히 다룹니다.</PlatformBlock>
+
+<Sample src="/themes/palettes/shades" wc fitContent iframeOnly alt="{Platform} 팔레트: 미리 빌드된 팔레트의 계열을 레거시 생성기와 fitted 생성기로 비교한 결과" />
+
+이 항목의 나머지 부분은 실행 시 덮어쓰기를 설명합니다. 이는 미리 빌드된 테마처럼 `legacy` 생성기로 만든 팔레트에서만 새 음영을 파생합니다.
+
+## 팔레트 정의하기
+
+`500` 변형을 덮어써서 색 계열을 바꾸십시오. 계열의 다른 모든 번호 음영과 강조 음영은 `500`의 상대 색이므로 함께 업데이트됩니다:
+
+```css
+:root {
+  --ig-primary-500: #09f;
+}
+```
+
+파생된 음영은 `500`의 색조를 유지하고 채도와 명도만 바뀌므로, 각 계열은 단색입니다:
+
+```css
+:root {
+  --ig-primary-600: hsl(from var(--ig-primary-500) h calc(s * 1.26) calc(l * 0.89));
+}
+```
+
+`seed` 변수는 `500`에서 파생되지 않으며, 팔레트가 만들어진 원래 색을 기록합니다. `seed`이(가) 아니라 사용하는 음영을 덮어쓰십시오.
+
+## 범위 지정
+
+전역 팔레트를 바꾸려면 애플리케이션의 전역 스타일시트에서 `:root`에 팔레트 변수를 덮어쓰십시오. 모든 CSS 색 문법을 사용할 수 있습니다:
+
+```css
+:root {
+  --ig-primary-500: #9f349c;
+}
+```
+
+여러 팔레트를 나란히 실행하려면 덮어쓰기를 다른 선택기에 범위 지정하십시오. 예를 들어 클래스에 파란색과 빨간색 팔레트를 정의합니다:
+
+```css
+/* styles.css */
+
+.blue-theme {
+  --ig-primary-500: #0008ff;
+}
+
+.red-theme {
+  --ig-primary-500: #ff0400;
+}
+```
+
+<PlatformBlock for="Angular">
+
+```html
+<app-component class="blue-theme"></app-component>
+```
+
+</PlatformBlock>
+
+요소 안의 모든 것의 팔레트를 바꾸려면 클래스를 `blue-theme`에서 `red-theme`로 바꾸십시오.
+
+같은 방식으로 단일 컴포넌트의 팔레트 색도 바꿀 수 있습니다. 예를 들어 Material 아바타는 배경을 `gray` `400` 음영에서 가져오므로, 아바타에서 그 음영을 덮어쓰면 팔레트의 나머지에는 영향을 주지 않고 배경만 바뀝니다:
+
+<PlatformBlock for="Angular">
+
+```css
+igx-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```css
+igc-avatar {
+  --ig-gray-400: #efefef;
+}
+```
+
+</PlatformBlock>
+
+## 표면 레이어
+
+`surface` 계열은 번호가 매겨진 음영이 아니라 이름이 붙은 레이어의 집합입니다. 컴포넌트는 `--ig-surface-base`부터 시작하여 이 레이어를 읽습니다:
+
+| 변수 | 사용처 |
+| --- | --- |
+| `--ig-surface-base` | 페이지 배경 |
+| `--ig-surface-sunken` | 들어간 영역 |
+| `--ig-surface-raised` | 페이지 위에 놓인 카드와 패널 |
+| `--ig-surface-overlay` | 메뉴, 대화 상자, 팝오버 |
+| `--ig-surface-container` | 표면 위의 반투명 레이어입니다. 밝은 표면 위에서는 검정, 어두운 표면 위에서는 흰색입니다 |
+
+각 레이어에는 그 레이어 위의 전경색에 쓰이는 `--ig-surface-base-contrast` 같은 짝 `-contrast` 변수가 있습니다.
+
+전체 단계를 위한 여유가 없는 레이어는 `base`(으)로 해석됩니다. 예를 들어 흰색과 그에 가까운 다른 밝은 표면에서는 `raised`과(와) `overlay`이(가) 기본 색과 같아질 수 있으므로, 테두리나 [높이감](elevations.mdx)을 사용하여 페이지와 구분하십시오. [팔레트 생성](palette-generation.mdx#표면-역할)에서는 레이어가 어떻게 생성되는지 설명합니다.
+
+## 어두운 테마 vs. 밝은 테마
+
+`gray`과 `surface` 계열은 {ProductName} 팔레트가 밝은지 어두운지를 결정합니다. 밝은 팔레트는 밝은 표면과 어두운 색으로 만든 회색을 짝짓고, 어두운 팔레트는 어두운 표면과 흰색으로 만든 회색을 짝짓습니다. 텍스트, 테두리, 아이콘은 회색에서 색을 가져오므로, 두 계열은 회색 척도의 반대쪽 끝에 머물러야 합니다.
+
+컴포넌트 배경은 `surface` 역할을 읽으므로, 실행 중에 표면을 바꾸려면 역할을 덮어쓰십시오. 역할은 두 생성기 모두에서 고정 색이며, `--ig-surface-500`에서 파생되지 않습니다:
+
+**Material 밝은 테마:**
+
+```css
+:root {
+  /* the surface roles are light */
+  --ig-surface-base: #fff;
+  --ig-surface-raised: #fff;
+  --ig-surface-overlay: #fff;
+  --ig-surface-sunken: #f7f7f7;
+  /* grays are built from a dark color to contrast the surface */
+  --ig-gray-500: hsl(0, 0%, 62%);
+}
+```
+
+**Material 어두운 테마:**
+
+```css
+:root {
+  /* the surface roles are dark */
+  --ig-surface-base: #222;
+  --ig-surface-raised: #282828;
+  --ig-surface-overlay: #2f2f2f;
+  --ig-surface-sunken: #1c1c1c;
+  /* grays are built from white to contrast the surface */
+  --ig-gray-500: hsl(0, 0%, 74%);
+}
+```
+
+<PlatformBlock for="Angular">
+
+{ProductName} 22.3.0부터 컴포넌트는 표면 역할을 읽습니다. 이전 버전은 배경으로 `--ig-surface-500`을(를) 대신 읽으므로, 그 버전에서는 `--ig-surface-base`과(와) 함께 `--ig-surface-500`도 덮어쓰십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Ignite UI for Web Components 7.5.0부터 컴포넌트는 표면 역할을 읽습니다. 이전 버전은 배경으로 `--ig-surface-500`을(를) 대신 읽으므로, 그 버전에서는 `--ig-surface-base`과(와) 함께 `--ig-surface-500`도 덮어쓰십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+표면 역할이 도입되기 이전 릴리스의 컴포넌트는 배경으로 `--ig-surface-500`을(를) 대신 읽습니다. 그런 릴리스를 사용 중이거나 확실하지 않다면, `--ig-surface-base`과(와) 함께 `--ig-surface-500`도 덮어쓰십시오. 컴포넌트가 역할을 읽기 시작하면 추가 변수는 해가 되지 않습니다.
+
+</PlatformBlock>
+
+`gray`과(와) `surface`은(는) 조심스럽게 바꾸십시오. 대부분의 컴포넌트가 이를 사용하며, 테마 전체 모습에 가장 큰 영향을 줍니다.
+
+## 기타 색
+
+`info`, `success`, `warn`, `error` 계열은 다음 상태의 유효성 검사 상태처럼 상태의 색을 정합니다: <PlatformBlock for="Angular">`igx-input-group`</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">`igc-input`</PlatformBlock>. 이들을 바꾸려면 각 `500` 변형을 덮어쓰십시오. 그러면 계열의 나머지도 따라갑니다:
+
+```css
+:root {
+  --ig-info-500: #1377d5;
+  --ig-success-500: #4eb862;
+  --ig-warn-500: #faa419;
+  --ig-error-500: #ff134a;
+}
+```
+
+## 추가 리소스
+
+- [팔레트 생성](palette-generation.mdx)
+- [접근성](accessibility.mdx)
+
+<PlatformBlock for="Angular">
+
+- [Sass로 팔레트 만들기](sass/palettes.mdx)
+- [{ProductName} **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [{ProductName} **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- [테마 개요](overview.mdx)
+
+</PlatformBlock>

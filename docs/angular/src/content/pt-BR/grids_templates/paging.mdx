@@ -1,0 +1,280 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Angular Grid Paginação | Tabela de paginação Angular | Infragistics"
+description: "Configure a paginação do Angular e crie páginas personalizadas na tabela Angular pelo Ignite UI, obtendo dados das páginas solicitadas com diversos eventos do Angular."
+keywords: "paginação angular, igniteui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "A paginação é usada para dividir um grande conjunto de dados em uma sequência de páginas com conteúdo semelhante."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Angular Grid Paginação | Tabela de paginação Angular | Infragistics"
+description: "Configure a paginação do Angular e crie páginas personalizadas na tabela Angular pelo Ignite UI, obtendo dados das páginas solicitadas com diversos eventos do Angular."
+keywords: "paginação angular, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/paging
+_language: pt-BR
+llms:
+  description: "A paginação é usada para dividir um grande conjunto de dados em uma sequência de páginas com conteúdo semelhante."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Paginação do {ComponentTitle} do Angular
+
+A paginação é usada para dividir um grande conjunto de dados em uma sequência de páginas com conteúdo semelhante. A paginação de tabelas Angular melhora a experiência do usuário e a interação com os dados. A paginação do {ComponentTitle} é configurável por meio de um componente separado, projetado na árvore do grid com a definição de uma tag `igx-paginator`, de forma semelhante à adição de uma coluna. Como em qualquer tabela Angular, a paginação no {ComponentTitle} oferece suporte a templates para páginas personalizadas.
+
+## Exemplo de paginação do Angular
+
+O exemplo a seguir representa a paginação do {ComponentTitle} e expõe as opções de uso do `items per page` e como a paginação pode ser habilitada. O usuário também pode navegar rapidamente pelas páginas do {ComponentTitle} pelos botões "Go to last page" e "Go to first page".
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-paging-sample" height={550} alt="Exemplo de paginação do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-paging" height={550} alt="Exemplo de paginação do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-paging" height={580} alt="Exemplo de paginação do Angular" />
+
+</ComponentBlock>
+
+Adicionar um componente [`igx-paginator`](/paginator) controlará se o recurso está presente; você pode habilitá-lo/desabilitá-lo usando um simples bloco `@if` com uma propriedade de alternância. A entrada <ApiLink type="Paginator" member="perPage" label="perPage" /> controla os registros visíveis por página. Vamos atualizar o nosso {ComponentTitle} para habilitar a paginação:
+
+```html
+<{ComponentSelector} #{ComponentObjectRef} [data]="data" [height]="'500px'" [width]="'100%'">
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</{ComponentSelector}>
+```
+
+Exemplo:
+
+```html
+<igx-paginator #paginator [totalRecords]="20">
+    <igx-paginator-content>
+        <div id="numberPager" style="justify-content: center;">
+            <button [disabled]="paginator.isFirstPage" (click)="paginator.previousPage()" igxButton="flat">
+                PREV
+            </button>
+            <span>
+               Page {{paginator.page}} of {{paginator.totalPages}}
+            </span>
+            <button [disabled]="paginator.isLastPage" (click)="paginator.nextPage()" igxButton="flat">
+                NEXT
+            </button>
+        </div>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+<ComponentBlock for="Grid">
+
+## Paginação com Group By
+
+As linhas de grupo participam do processo de paginação junto com as linhas de dados. Elas contam para o tamanho de página de cada página. As linhas recolhidas não são incluídas no processo de paginação.
+A integração entre paginação e Group By é descrita no tópico [Group By](/{igPath}/groupby#angular-grid-group-by-com-paginação).
+</ComponentBlock>
+
+## Uso
+
+<ComponentBlock for="Grid">
+
+O componente `igx-paginator` é usado junto com o componente `igx-grid` no exemplo abaixo, mas você pode usá-lo com qualquer outro componente, caso precise de funcionalidade de paginação.
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-paginator #paginator [(page)]="grid.page" [totalRecords]="grid.totalRecords" [(perPage)]="10"
+            [selectOptions]="selectOptions">
+    </igx-paginator>
+</igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+O componente `igx-paginator` é usado junto com o componente `igx-tree-grid` no exemplo abaixo, mas você pode usá-lo com qualquer outro componente, caso precise de funcionalidade de paginação.
+
+```html
+<igx-tree-grid #treeGrid [data]="data">
+    <igx-paginator #paginator [(page)]="treeGrid.page" [totalRecords]="treeGrid.length" [(perPage)]="10"
+            [selectOptions]="selectOptions">
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+O componente `igx-paginator` é usado junto com o componente `igx-hierarchical-grid` no exemplo abaixo, mas você pode usá-lo com qualquer outro componente, caso precise de funcionalidade de paginação.
+
+```html
+<igx-hierarchical-grid>
+    <igx-column *ngFor="let c of hColumns" [field]="c.field">
+    </igx-column>
+    <igx-row-island [key]="'childData'" [autoGenerate]="true">
+        <igx-row-island [key]="'childData'" [autoGenerate]="true">
+            <igx-paginator *igxPaginator></igx-paginator>
+        </igx-row-island>
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+    <igx-row-island [key]="'childData2'" [autoGenerate]="true">
+        <igx-paginator *igxPaginator></igx-paginator>
+    </igx-row-island>
+
+    <igx-paginator></igx-paginator>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+### Configuração do paginador dentro de grids filhos
+
+Devido a certas limitações na forma como os grids filhos de um IgxHierarchicalGrid são implementados e como o escopo de DI funciona, ao definir um componente paginador dentro das tags igx-row-island, sempre use a diretiva IgxPaginator no próprio paginador. Isso garantirá que o grid filho tenha a instância correta do paginador como referência:
+
+```html
+<igx-hierarchical-grid>
+    ...
+    <igx-row-island>
+        ...
+        <igx-grid-toolbar *igxPaginator>
+           ...
+        </igx-grid-toolbar>
+    </igx-row-island>
+    ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+### Demonstração do componente paginador
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-pager-sample" height={600} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-reusable-paginator" height={600} alt="" />
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-reusable-paginator" height={600} alt="" />
+</ComponentBlock>
+
+
+## Paginação remota
+
+A paginação remota pode ser obtida declarando um serviço, responsável pela obtenção dos dados, e um componente, responsável pela construção do Grid e pela assinatura dos dados.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Para informações mais detalhadas, consulte o tópico [`{ComponentTitle} Remote Data Operations`](/{igPath}/remote-data-operations#paginação-remota).
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+## Paginação remota com template personalizado
+
+Em alguns casos, você pode querer definir o seu próprio comportamento de paginação, e é aí que podemos aproveitar o `igx-paginator-content` e adicionar a nossa lógica personalizada junto com ele. [Esta seção](/{igPath}/remote-data-operations#paginação-remota-com-igx-paginator-content-personalizado) explica como vamos estender o exemplo de paginação remota para demonstrar isso.
+</ComponentBlock>
+
+## Estilização
+
+Para começar a estilizar o paginador, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Seguindo a abordagem mais simples, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> e aceita os parâmetros `$foreground`, `$background`, `$border-color` e `$accent-color`.
+
+```scss
+$paginator-theme: paginator-theme(
+  $foreground: #ff570f,
+  $background: #130425FF,
+  $border-color: #ff570f,
+  $accent-color: #ff570f,
+);
+```
+
+Depois disso, podemos **incluir** o tema recém-criado.
+
+```scss
+igx-paginator {
+  @include tokens($paginator-theme);
+}
+```
+
+<ComponentBlock for="Grid">
+
+### Exemplo de estilo de paginação
+
+<Sample src="/grid/custom-grid-paging-style" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+### Demonstração
+
+<Sample src="/hierarchical-grid/hierarchical-grid-paging-style" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+### Demonstração
+
+<Sample src="/tree-grid/treegrid-paging-style" height={560} alt="" />
+
+</ComponentBlock>
+
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do componente {ComponentName}" />
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="Estilos do IgxGridPaginator" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Paginador](/paginator)
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Virtualização e desempenho](/{igPath}/virtualization)
+- [Filtragem](/{igPath}/filtering)
+- [Ordenação](/{igPath}/sorting)
+- [Resumos](/{igPath}/summaries)
+- [Movimentação de colunas](/{igPath}/column-moving)
+- [Fixação de colunas](/{igPath}/column-pinning)
+- [Redimensionamento de colunas](/{igPath}/column-resizing)
+- [Seleção](/{igPath}/selection)
+</ComponentBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

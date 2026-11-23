@@ -1,0 +1,102 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 산점 영역 시리즈 | 데이터 바인딩 | Infragistics"
+description: "Infragistics {Platform} 지도의 산점 영역 시리즈를 사용하여 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 색상이 있는 영역 표면을 그리십시오. {ProductName} 지도의 시리즈에 대해 자세히 알아보십시오!"
+keywords: "{Platform} 지도, 산점 영역 시리즈, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "GeographicScatterAreaSeries", "CustomPaletteColorScale", "Series"]
+_language: ko
+llms:
+  description: "{Platform} 지도 컴포넌트에서는 GeographicScatterAreaSeries를 사용하여, 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 지리적 맥락에서 색상이 있는 표면을 그릴 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 지리 영역 지도
+
+{Platform} 지도 컴포넌트에서는 `GeographicScatterAreaSeries`를 사용하여, 각 점에 숫자 값이 할당된 경도 및 위도 데이터의 삼각분할을 기반으로 지리적 맥락에서 색상이 있는 표면을 그릴 수 있습니다. 이 유형의 지리 시리즈는 기온, 강수량, 인구 분포, 대기 오염 등 지리적 위치로 정의되는 흩어진 데이터를 렌더링하는 데 유용합니다.
+
+## {Platform} 지리 영역 지도 예제
+
+
+<Sample src="/maps/geo-map/type-scatter-area-series" height={500} alt="{Platform} 산점 영역 시리즈 사용 예제" />
+
+
+
+
+`GeographicScatterAreaSeries`는 `GeographicContourLineSeries`와 매우 비슷하게 작동하지만, 같은 값을 가진 데이터 점을 잇는 등고선 대신 데이터를 보간되고 색이 칠해진 표면으로 표현한다는 점이 다릅니다.
+
+## 데이터 요구 사항
+지도 컴포넌트의 다른 유형의 지리 시리즈와 마찬가지로, `GeographicScatterAreaSeries`에도 객체의 배열에 바인딩할 수 있는 `DataSource` 속성이 있습니다. 또한 ItemsSource의 각 항목에는 지리 경도와 위도 좌표를 저장하는 두 개의 데이터 열과, 지리적 위치와 연결된 값을 저장하는 하나의 데이터 열, 총 세 개의 데이터 열이 있어야 합니다. 지리 시리즈의 `LongitudeMemberPath`, `LatitudeMemberPath`, `ColorMemberPath` 속성이 이 데이터 열을 식별합니다.
+`GeographicScatterAreaSeries`는 `TrianglesSource` 속성에 삼각분할이 설정되지 않았다면 ItemsSource의 항목에 대해 내장된 데이터 삼각분할을 자동으로 수행합니다. 하지만 삼각분할 계산은 매우 시간이 많이 걸릴 수 있으므로, 특히 데이터 항목이 많을 때 이 속성에 TriangulationSource를 지정하면 런타임 성능이 더 좋아집니다.
+
+## 데이터 바인딩
+다음 표는 데이터 바인딩에 사용되는 GeographicScatterAreaSeries의 속성을 요약합니다.
+
+| 속성 이름  | 속성 유형   | 설명   |
+|--------------|---------------| ---------------|
+|`DataSource`|any|`trianglesSource` 속성이 삼각분할 데이터를 제공하지 않으면 삼각분할을 수행할 데이터 항목의 소스입니다.|
+|`longitudeMemberPath`|string|`DataSource`에 바인딩된 모든 항목의 경도를 포함하는 속성의 이름입니다.|
+|`latitudeMemberPath`|string|`DataSource`에 바인딩된 모든 항목의 위도를 포함하는 속성의 이름입니다.|
+|`colorMemberPath`|string|각 데이터 항목의 위도와 경도 좌표에 있는 값을 포함하는 속성의 이름입니다. 이 숫자 값은 `ColorScale` 속성이 설정되면 색상으로 변환됩니다.|
+|`trianglesSource`|any|삼각분할 데이터의 소스입니다. `\TriangulationSource` 객체의 Triangles를 이 속성에 설정하면 런타임 성능과 지리 시리즈 렌더링이 모두 개선됩니다.|
+|`triangleVertexMemberPath1`|string|`trianglesSource` 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+|`triangleVertexMemberPath2`|string|`trianglesSource` 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+|`triangleVertexMemberPath3`|string|`trianglesSource` 항목의 속성 이름으로, 각 삼각형에 대해 ItemsSource에서 첫 번째 꼭짓점 점의 인덱스를 포함합니다. 이 속성을 설정하는 것은 필수가 아닙니다. 사용자 지정 삼각분할 로직이 제공되지 않는 한 기본적으로 사용됩니다.|
+
+## 색상 척도
+`GeographicScatterAreaSeries`의 ColorScale 속성을 사용하여 점의 색상 값을 결정하고 지리 시리즈의 표면을 채웁니다. 색상은 삼각분할 데이터에 픽셀 단위 삼각형 래스터라이저를 적용하여 표면의 모양 주위에서 부드럽게 보간됩니다. 표면 렌더링은 픽셀 단위로 이루어지므로, 색상 척도는 브러시 대신 색상을 사용합니다.
+제공되는 `CustomPaletteColorScale` 클래스는 대부분의 색상 지정 요구를 충족해야 하지만, 사용자 지정 색상 지정 로직을 위해 애플리케이션은 ColorScale 기본 클래스를 상속할 수 있습니다.
+
+다음 표는 GeographicScatterAreaSeries의 표면 색상 지정에 영향을 주는 `CustomPaletteColorScale`의 속성을 나열합니다.
+
+| 속성 이름  | 속성 유형   | 설명   |
+|--------------|---------------| ---------------|
+|`CustomPaletteColorScale.palette`| `ObservableCollection<Color>` |선택하거나 그 사이를 보간할 색상의 컬렉션을 가져오거나 설정합니다.|
+|`interpolationMode`|`ColorScaleInterpolationMode`|Palette에서 색상을 가져오는 메서드를 가져오거나 설정합니다.|
+|`maximumValue`|double|색상을 할당할 가장 높은 값입니다. 이 값보다 큰 값은 모두 Transparent가 됩니다.|
+|`minimumValue`|double|색상을 할당할 가장 낮은 값입니다. 이 값보다 작은 값은 모두 Transparent가 됩니다.|
+
+## 코드 조각
+다음 코드는 세계의 지표 온도를 나타내는 삼각분할 데이터에 `GeographicScatterAreaSeries`를 바인딩하는 방법을 보여 줍니다.
+
+```json-snippet channel="auto" include="bindingImports" source="/maps/geo-map/type-scatter-area-series"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "$setInCode": { "series": ["angular", "react", "webComponents"] },
+    "$assignInCode": { "series": ["angular", "react", "webComponents"] },
+    "series": [
+        {
+            "type": "GeographicScatterAreaSeries",
+            "name": "areaSeries",
+            "dataSourceRef": "WorldTemperatures",
+            "longitudeMemberPath": "Lon",
+            "latitudeMemberPath": "Lat",
+            "colorMemberPath": "Value",
+            "$setInCode": { "colorScale": ["blazor"] },
+            "colorScale": {
+                "type": "CustomPaletteColorScale",
+                "palette": [
+                    "rgba(32, 146, 252, 0.5)",
+                    "rgba(14, 194, 14, 0.5)",
+                    "rgba(252, 120, 32, 0.5)",
+                    "rgba(252, 32, 32, 0.5)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            }
+        }
+    ]
+}
+```
+
+
+## API 참조
+`ColorScale`
+`CustomPaletteColorScale`
+`GeographicContourLineSeries`
+`GeographicScatterAreaSeries`

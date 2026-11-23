@@ -92,6 +92,14 @@ otherwise.
 
 - **Japanese builds** keep the legacy chrome fetched from
   `jp.infragistics.com/navigation` until a Japanese fragment is published.
+- **Spanish, Korean and Portuguese builds** render the marketing site's header
+  and footer in their language, from `ig-chrome/<staging|production>-<es|ko|pt-BR>/`
+  (the marketing site's locale names; the `kr` build reads `-ko`). A language
+  without its folder renders the English snapshot. The marketing deploy does not
+  publish or sync these yet (its export is English only), so they were made by
+  hand from a local marketing build with `SITE_LOCALE=<locale>` and the export
+  switched on, then `scripts/chrome-sync.mjs --out ig-chrome/<mode>-<locale>`.
+  They go stale when the marketing header changes, until that export exists.
 - A missing or invalid snapshot **fails the build**, naming the folder.
 - **Don't edit `ig-chrome/` by hand.** The marketing site's deploy (its
   `sync-chrome` job) runs `scripts/chrome-sync.mjs` on what it just deployed and

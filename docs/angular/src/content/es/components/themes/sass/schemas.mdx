@@ -1,0 +1,182 @@
+---
+title: "Esquemas"
+description: "Los esquemas de tema de Ignite UI for Angular le permiten crear recetas para los temas de componente."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library" 
+_language: es
+llms:
+  description: "Los esquemas son una forma sencilla y declarativa de enumerar todas las propiedades que usa un tema de componente."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Esquemas
+
+<div class="highlight">
+Los esquemas son una forma sencilla y declarativa de enumerar todas las propiedades que usa un tema de componente.
+</div>
+
+<hr/>
+
+## Descripción general
+
+Los esquemas son como recetas. Son mapas Sass simples, parecidos a JSON, que nos permiten definir todas las propiedades que puede usar un tema. Esas propiedades pueden ser colores, niveles de elevación, redondeo, etc. Todo lo que consume un tema puede describirse como un `schema`, y después pasarse al tema global o al de componente. Un esquema de componente puede extender un esquema de componente existente y sobrescribir sus propiedades.
+
+**Los esquemas deben usarse cuando quiera cambiar las propiedades predeterminadas del tema de un componente de forma que no dupliquen reglas de estilo CSS ni variables CSS**.
+
+Veamos el esquema del avatar Material claro:
+
+```scss
+$light-avatar: (
+    background: (
+        color: (
+            'gray',
+            400,
+            0.54,
+        ),
+    ),
+    color: (
+        color: (
+            'gray',
+            800,
+            0.96,
+        ),
+    ),
+    icon-color: (
+        color: (
+            'gray',
+            800,
+            0.96,
+        ),
+    ),
+    border-radius: rem(8px),
+    size: (
+        sizable: (
+            rem(40px),
+            rem(64px),
+            rem(88px),
+        ),
+    ),
+    default-size: 1,
+);
+```
+
+Como puede ver en el ejemplo anterior, el esquema de componente define las propiedades que consume <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Tema de avatar" />. Solo prescribe los colores que debe usar el avatar, sin hacer referencia a un mapa de paleta de colores concreto.
+
+Tomemos como ejemplo la propiedad `background`. Le indica al tema del avatar cuál debe ser el fondo predeterminado.
+
+_A `background` se le puede asignar cualquier valor, es decir, un valor que puede asignarse a la propiedad CSS `background-color`._ También puede asignar un mapa a `background`, como en el ejemplo anterior. Cuando asigna un mapa a la propiedad `background`, el mapa debe contener funciones como nombres de clave (por ejemplo, `color`) y, como valores de esas claves, los argumentos de las funciones. Hacemos esto para poder resolver los valores más adelante, cuando se compile el tema del avatar. Verá que, como no sabemos qué paleta puede pasarle un usuario al tema del avatar, debemos poder resolverla después, solo cuando se conozca la paleta.
+
+<hr/>
+
+## Extender esquemas
+
+Como ya vio en el ejemplo anterior, los esquemas son mapas simples y, por tanto, pueden extenderse sobrescribiendo algunas de sus propiedades. Puede que quiera _extender_ el esquema del avatar Material cambiando solo su propiedad `background`, sin tener que copiar manualmente todas las demás propiedades. Esto se hace fácilmente con la función `extend` que proporcionamos.
+
+```scss
+$my-avatar-schema: extend($light-avatar, (
+    background: limegreen
+));
+```
+
+Ahora el valor de `$my-avatar-schema` contendrá todas las propiedades de `$_light-avatar`, pero el valor de `background` será `limegreen`.
+
+## Esquemas predefinidos
+
+Ofrecemos esquemas claros y oscuros predefinidos que usamos en nuestros preajustes de tema:
+
+- Esquemas claros
+  - `$light-material-schema`
+  - `$light-fluent-schema`
+  - `$light-bootstrap-schema`
+  - `$light-indigo-schema`
+- Esquemas oscuros
+  - `$dark-material-schema`
+  - `$dark-fluent-schema`
+  - `$dark-bootstrap-schema`
+  - `$dark-indigo-schema`
+
+Usamos los esquemas claros y oscuros de forma correspondiente con las paletas claras y oscuras para crear los temas de componente. Por ejemplo, usar `$light-material-schema` junto con `$light-material-palette` nos permite crear todos los temas de componente Material claros. Y a la inversa: usar `$dark-material-schema` junto con `$dark-material-palette` nos da los temas de componente Material oscuros.
+
+## Consumir esquemas
+
+Hasta ahora hemos mostrado qué es un esquema de componente y cómo se puede crear uno, pero no hemos hablado de cómo usar los esquemas en su proyecto Sass.
+
+Los esquemas de componente individuales se agrupan en un mapa de esquemas global para todos los componentes que tenemos. Así, el esquema `$light-avatar` se guarda en la variable `$material-avatar`, que luego se usa en el `$light-material-schema` global. El mapa `$light-material-schema` contiene los nombres de todos los componentes como claves, y sus esquemas correspondientes como valores. El `$light-material-schema` tiene un aspecto similar a este:
+
+```scss
+$light-material-schema: (
+    action-strip: $material-action-strip,
+    avatar: $material-avatar,
+    badge: $material-badge,
+    ...
+);
+```
+
+Hacemos esto para poder pasar todo el `$light-material-schema` al mixin `theme`. Así, por ejemplo, si quisiéramos modificar el `$light-material-schema` reemplazando el esquema de componente predeterminado que usa el componente avatar, podríamos hacer lo siguiente:
+
+```scss
+$my-light-schema: extend($light-material-schema, (
+    avatar: $my-avatar-schema
+));
+```
+
+Ahora podemos pasar todo eso al mixin del tema global:
+
+```scss
+// styles.scss
+@include theme(
+    $schema: $my-light-schema,
+    $palette: $default-palette
+);
+```
+
+Los avatares de su tema global usarán ahora el color limegreen para su fondo.
+
+Algunos esquemas de componente, como el esquema de botón, tienen definiciones de propiedades para el redondeo. Esto significa que puede cambiar el redondeo predeterminado de todos los botones.
+
+Veamos cómo los temas de componente individuales pueden usar el esquema que creamos antes.
+
+```scss
+$my-avatar-theme: avatar-theme(
+    $schema: $my-avatar-schema
+);
+```
+
+Actualmente, el caso de uso más común de los esquemas es cuando queremos que un elemento específico tenga un tema distinto del global.
+Por ejemplo, si tuviéramos `$light-material-schema` aplicado a nuestro tema global y quisiéramos que solo un componente avatar concreto usara `$light-indigo-schema`, podemos hacer lo siguiente:
+
+```scss
+// We only get the avatar part of the light-indigo-schema
+$indigo-avatar: map.get($light-indigo-schema, avatar);
+
+// We include the specific schema to a class which we can then set on the avatar component that we want
+.indigo-avatar {
+    @include tokens(
+        avatar-theme(
+            $schema: $indigo-avatar
+        ),
+        $mode: 'scoped'
+    );
+}
+```
+
+## Conclusiones
+
+Aunque los esquemas requieren un conocimiento más profundo de nuestra biblioteca de temas que las funciones y los mixins de tema, permiten declarar temas de componente sin aumentar el tamaño del CSS generado. Otra ventaja de usar esquemas es lo reutilizables y extensibles que son, ya que son mapas Sass simples. Puede combinar esquemas de componente para crear esquemas de tema global.
+
+Usamos los esquemas internamente para crear variaciones que dan lugar a distintos temas preempaquetados para Material, Bootstrap, Fluent e Indigo.
+
+## Descripción general de la API
+
+- <ApiLink kind="sass" module="schemas" type="variable-light-material-schema" label="Esquema de componentes claros" />
+- <ApiLink kind="sass" module="schemas" type="variable-dark-material-schema" label="Esquema de componentes oscuros" />
+- <ApiLink kind="sass" module="themes" type="mixin-theme" label="Tema global" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Tema de avatar" />
+
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

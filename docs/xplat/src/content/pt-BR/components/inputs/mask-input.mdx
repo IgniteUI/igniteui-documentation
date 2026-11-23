@@ -1,0 +1,286 @@
+---
+title: "{Platform} MaskInput | Infragistics"
+description: "O {Platform} MaskInput da Infragistics permite que o usuário controle a entrada e formate o valor visível com base em regras de máscara configuráveis"
+keywords: "input {Platform}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["MaskInput"]
+_language: pt-BR
+llms:
+  description: "O {ProductName} Mask Input é um campo de input que permite ao desenvolvedor controlar a entrada do usuário e formatar o valor visível, com base em regras configuráveis."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+## Visão geral do {Platform} Mask Input
+
+O {ProductName} Mask Input é um campo de input que permite ao desenvolvedor controlar a entrada do usuário e formatar o valor visível, com base em regras configuráveis. Ele oferece diferentes opções de input e facilidade de uso e de configuração.
+
+### Exemplo de {Platform} Mask Input
+
+<Sample src="/inputs/mask-input/overview" height={150} alt="Exemplo de visão geral do {Platform} Mask Input" />
+
+
+## Uso
+
+
+<PlatformBlock for="WebComponents">
+
+
+Primeiro, você precisa instalar o {ProductName} executando o seguinte comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Antes de usar o <ApiLink pkg="core" type="MaskInput" />, você precisa registrá-lo da seguinte forma:
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { defineComponents, IgcMaskInputComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcMaskInputComponent);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+Primeiro, você precisa instalar o pacote npm correspondente {ProductName} executando o seguinte comando:
+
+```cmd
+npm install igniteui-react
+```
+
+Em seguida, você precisará importar o <ApiLink pkg="core" type="MaskInput" />, o CSS necessário e registrar o seu módulo, assim:
+
+```tsx
+import { IgrMaskInput } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrMaskInput mask="00000">
+    <span slot="prefix">
+        <IgrIcon ref={iconLocationRef} name="location" collection="material"></IgrIcon>
+    </span>
+    <span slot="helper-text">ZIP Code</span>
+</IgrMaskInput>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink pkg="core" type="MaskInputModule" />, o módulo de recurso do cliente de <ApiLink pkg="core" type="MaskInput" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbMaskInputModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](../general-getting-started.mdx#módulos-do-componente)).
+
+Você também precisará vincular um arquivo CSS adicional para aplicar o estilo ao componente <ApiLink pkg="core" type="MaskInput" />. O seguinte deve ser colocado na página host da aplicação (**wwwroot/index.html** em uma aplicação Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em uma aplicação Blazor Server, **Components/App.razor** em uma aplicação Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+
+</PlatformBlock>
+
+
+Para uma introdução completa ao {ProductName}, leia o tópico [**Primeiros passos**](../general-getting-started.mdx).
+
+### Regras de máscara
+A tabela abaixo mostra as regras de máscara integradas suportadas:
+
+| Caractere de máscara | Descrição |
+| :--- | :--- |
+| 0 | Caractere de dígito [0-9]. A entrada é obrigatória. |
+| 9 | Caractere de dígito [0-9]. A entrada é opcional. |
+| # | Caractere de dígito [0-9], mais o sinal de adição (+) ou de subtração (-). A entrada é obrigatória. |
+| L | Caractere de letra. A entrada é obrigatória. |
+| ? | Caractere de letra. A entrada é opcional. |
+| A | Caractere alfanumérico (letra ou dígito). A entrada é obrigatória. |
+| a | Caractere alfanumérico (letra ou dígito). A entrada é opcional. |
+| & | Qualquer caractere do teclado. A entrada é obrigatória. |
+| C | Qualquer caractere do teclado. A entrada é opcional. |
+| \ | Escapa um sinalizador da máscara e o transforma em um literal. |
+
+Esses sinalizadores também participam da validação do componente; ou seja, o input fica inválido se algumas, mas não todas, as posições obrigatórias forem preenchidas (nenhuma posição preenchida, ou valor vazio, continua sendo responsabilidade de <ApiLink pkg="core" type="MaskInput" member="required" label="required" />). Isso se aplica tanto a inputs independentes quanto a inputs incluídos em um formulário.
+
+### Aplicando a máscara
+
+Aplicar a máscara é bem simples. Basta fornecer um padrão predeterminado à propriedade <ApiLink pkg="core" type="MaskInput" member="mask" label="Mask" /> do input.
+
+No exemplo abaixo, aplicaremos uma máscara para um número de telefone com código de ramal.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-mask-input id="mask-input" mask="(####) 00-00-00 Ext. 9999">
+    <igc-icon name="phone" slot="prefix"></igc-icon>
+    <span slot="helper-text">Phone number</span>
+</igc-mask-input>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrMaskInput mask="(####) 00-00-00 Ext. 9999">
+    <span slot="prefix">
+        <IgrIcon ref={iconPhoneRef} name="phone" collection="material"></IgrIcon>
+    </span>
+    <span slot="helper-text">Phone number</span>
+</IgrMaskInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbMaskInput @ref="MaskInputRef" Mask="(####) 00-00-00 Ext. 9999">
+    <IgbIcon IconName="phone" Collection="material" slot="prefix"></IgbIcon>
+    <span slot="helper-text">Phone number</span>
+</IgbMaskInput>
+```
+
+</PlatformBlock>
+
+Depois disso, você deverá ver o seguinte no seu navegador:
+
+<Sample src="/inputs/mask-input/applying-mask" height={150} alt="Exemplo de aplicação de máscara no {Platform} Mask Input" />
+
+
+
+
+### Caractere de prompt
+
+Os desenvolvedores podem personalizar o símbolo de prompt usado nas partes não preenchidas da máscara. Para isso, basta fornecer qualquer caractere à propriedade <ApiLink pkg="core" type="MaskInput" member="prompt" label="Prompt" />:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-mask-input id="mask-input" mask="(####) 00-00-00 Ext. 9999" prompt="-"></igc-mask-input>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrMaskInput mask="(####) 00-00-00 Ext. 9999" prompt="-"></IgrMaskInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbMaskInput @ref="MaskInputRef" Mask="(####) 00-00-00 Ext. 9999" Prompt="-"></IgbMaskInput>
+```
+
+</PlatformBlock>
+
+Por padrão, o caractere `prompt` é o **sublinhado**.
+
+### Placeholder
+
+Os desenvolvedores também podem usar a propriedade <ApiLink pkg="core" type="MaskInput" member="placeholder" label="Placeholder" />, que tem a mesma finalidade do atributo placeholder nativo de input. Se nenhum valor for informado para o placeholder, o valor da máscara é usado em seu lugar.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-mask-input id="mask-input" mask="00/00/0000" placeholder="dd/MM/yyyy"></igc-mask-input>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrMaskInput mask="00/00/0000" placeholder="dd/MM/yyyy"></IgrMaskInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbMaskInput @ref="MaskInputRef" Mask="00/00/0000" Placeholder="dd/MM/yyyy"></IgbMaskInput>
+```
+
+</PlatformBlock>
+
+### Modos de valor
+
+O <ApiLink pkg="core" type="MaskInput" /> expõe a propriedade <ApiLink pkg="core" type="MaskInput" member="valueMode" label="ValueMode" />, que permite escolher entre as opções `raw` e `withFormatting` para configurar qual valor do input (formatado ou bruto) será vinculado no seu formulário quando uma máscara específica for aplicada. Por padrão, <ApiLink pkg="core" type="MaskInput" member="valueMode" label="ValueMode" /> é definido como `raw`. Experimente você mesmo no exemplo abaixo:
+
+<Sample src="/inputs/mask-input/value-modes" height={150} alt="Exemplo dos modos de valor do {Platform} Mask Input" />
+
+
+## Estilização
+
+O componente <ApiLink pkg="core" type="MaskInput" /> expõe partes CSS para quase todos os seus elementos internos. A tabela a seguir lista todas as partes CSS expostas:
+
+|Nome|Descrição|
+|--|--|
+| `container` | O wrapper principal que contém todos os elementos de input principais. |
+| `input` | O elemento de input nativo. |
+| `label` | O elemento de rótulo nativo. |
+| `prefix` | O wrapper do prefixo. |
+| `suffix` | O wrapper do sufixo. |
+| `helper-text` | O wrapper do texto de ajuda. |
+
+```css
+igc-mask-input::part(input) {
+  background-color: var(--ig-primary-100);
+  border-color: var(--ig-secondary-500);
+  box-shadow: none;
+}
+
+igc-mask-input::part(input)::placeholder {
+  color: var(--ig-primary-100-contrast);
+}
+```
+
+<Sample src="/inputs/mask-input/styling" height={150} alt="Exemplo de estilização do {Platform} Mask Input" />
+
+
+## Premissas e limitações
+
+- O input mascarado não expõe um atributo _type_, pois é sempre um input do tipo **text**.
+- O comportamento de desfazer/refazer não é suportado no momento.
+
+
+## Referências da API
+<ApiLink pkg="core" type="Input" />
+<ApiLink pkg="core" type="MaskInput" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Radio" />
+<ApiLink pkg="core" type="RadioGroup" />
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

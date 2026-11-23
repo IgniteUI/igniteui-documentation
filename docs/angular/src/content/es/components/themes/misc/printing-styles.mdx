@@ -1,0 +1,58 @@
+---
+title: "Diseño de impresión"
+description:
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, estilos de impresión, @media print" 
+_language: es
+llms:
+  description: "El motor de temas de Ignite UI for Angular proporciona algunos estilos de impresión predeterminados, que garantizan que nuestros componentes tengan, como mínimo, lo imprescindible para verse en papel igual que en la página web."
+---
+
+# Estilos de impresión
+
+<div class="highlight">
+El motor de temas de Ignite UI for Angular proporciona algunos estilos de impresión predeterminados, que garantizan que nuestros componentes tengan, como mínimo, lo imprescindible para verse en papel igual que en la página web.
+</div>
+<hr/>
+
+## Cómo usar los estilos de impresión
+
+Para asegurarse de que los componentes sean totalmente visibles en el papel, debe comprobar que tengan el mismo tamaño que el documento de impresión o uno menor; de lo contrario, quedarán recortados.
+
+Por `default`, los `printing styles` se incorporan al `compiled CSS`.
+Si no tiene previsto imprimir, le sugerimos desactivarlos para reducir el tamaño del CSS generado.
+
+Puede hacerlo en el archivo `SCSS` de su tema:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+// Turn the print styles off by setting the $print-layout param to false.
+@include core($print-layout: false)
+
+// Add the theme and the palette.
+@include theme($default-palette);
+```
+
+Desde **v13.2** decidimos no ocultar ningún componente de forma predeterminada, ya que no sabemos qué partes quiere que sean visibles en el papel; eso lo dejamos en sus manos.
+
+Para quitar un fragmento o un componente completo de la página impresa, puede añadir la clase .igx-no-print al elemento o componente que no quiere imprimir o, si no tiene acceso al DOM, puede apuntar directamente a esa etiqueta o clase y establecer display: none.
+
+Supongamos que no puede acceder a un botón en el DOM para añadirle `.igx-no-print`.
+Aun así puede ocultar ese botón de los estilos de impresión usando SCSS.
+
+```scss
+@media print {
+    [igxButton] {
+        display: none;
+    }
+}
+```
+
+Aquí se usa @media print para asegurarse de que los estilos que escriba dentro solo surtan efecto al imprimir.
+
+Si quiere imprimir en blanco y negro, puede usar la clase `.igx-bw-print` en cualquier elemento, y ese elemento y todo lo que contiene se mostrarán en blanco y negro al imprimirse.
+
+Para imprimir la [`igx-grid`](/grid/grid) le recomendamos usar la función [`export to excel`](/grid/export-excel) o hacer una captura de pantalla de la cuadrícula e imprimirla.

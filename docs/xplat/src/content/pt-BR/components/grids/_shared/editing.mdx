@@ -1,0 +1,219 @@
+---
+title: "Edição do {Platform} {ComponentTitle} - {ProductName}"
+description: "Tenha uma API pública poderosa e uma forma fácil de realizar manipulações de dados, como criar, atualizar ou excluir registros. Veja as opções de edição do {Platform} {ComponentTitle}!"
+keywords: "manipulação de dados, {Platform}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridEditing}"
+_language: pt-BR
+llms:
+  description: "O recurso de Edição de células do {ProductName} em {Platform} {ComponentTitle} oferece uma forma fácil de realizar operações de manipulação de dados, como criar, atualizar e excluir registros."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Edição do {Platform} {ComponentTitle}
+
+O recurso de Edição de células do {ProductName} em {Platform} {ComponentTitle} oferece uma forma fácil de realizar operações de manipulação de dados, como criar, atualizar e excluir registros. A <ApiLink type="{ComponentName}" /> oferece uma API pública poderosa que permite personalizar a forma como essas operações são executadas. As fases da manipulação de dados são:
+- [Edição de células](cell-editing.mdx)
+- [Edição de linha](row-editing.mdx)
+- Edição em lote (em breve)
+
+<PlatformBlock for="Angular">
+Além disso, a **edição de células** expõe vários editores padrão com base no tipo de dado da coluna, que podem ser facilmente personalizados por meio da [diretiva CellEditor](cell-editing.mdx#cell-editing-templates) ou das [diretivas de linha](row-editing.mdx#customizing-row-editing-overlay).
+
+</PlatformBlock>
+
+## Configuração
+
+Para especificar qual modo de edição deve ser habilitado, o <ApiLink type="{ComponentName}" /> expõe as seguintes propriedades booleanas: <ApiLink type="Column" member="editable" /> e <ApiLink type="{ComponentName}" member="rowEditable" />.
+
+A propriedade <ApiLink type="Column" member="editable" /> permite especificar as seguintes opções:
+
+- **false** - a edição da coluna correspondente será desabilitada. Este é o valor padrão.
+- **true** - a edição da coluna correspondente será habilitada.
+
+>Tenha em mente que, se a coluna não for editável, você ainda pode modificar o seu valor pela API pública exposta pelo <ApiLink type="{ComponentName}" />.
+
+A propriedade <ApiLink type="{ComponentName}" member="rowEditable" /> permite especificar as seguintes opções:
+
+- **false** - a edição de linhas na grade correspondente será desabilitada. Este é o valor padrão.
+- **true** - a edição de linhas na grade correspondente será habilitada.
+
+Na <ApiLink type="{ComponentName}" />, se você definir a propriedade <ApiLink type="{ComponentName}" member="rowEditable" /> como true, e a propriedade <ApiLink type="Column" member="editable" /> não estiver explicitamente definida para nenhuma coluna, a edição será habilitada para todas as colunas, exceto a **chave primária**.
+
+A [edição em lote](batch-editing.mdx) no grid pode ser habilitada tanto para o modo de [edição de célula](cell-editing.mdx) quanto para o modo de [edição de linha](row-editing.mdx). Para configurar a edição em lote, é necessário fornecer ao grid um **TransactionService**.
+
+
+- **Edição de célula e em lote** - nesse cenário, cada modificação de cada célula é preservada separadamente, e as operações de desfazer/refazer estão disponíveis no nível da célula;
+- **Edição de linha e em lote** - nesse cenário, as modificações são preservadas no nível da linha; por isso, as operações de desfazer/refazer não funcionarão para cada célula modificada, mas para o conjunto de células de cada linha.
+
+### Templates de edição
+
+ Se você quiser usar templates de edição específicos para o tipo de dado, deve especificar a propriedade <ApiLink type="Column" member="dataType" /> da coluna. Vejamos agora quais são os templates padrão para cada tipo:
+
+- Para o tipo de dado `string`, o template padrão usa <ApiLink pkg="core" type="Input" />.
+- Para o tipo de dado `number`, o template padrão usa <ApiLink pkg="core" type="Input" /> type="number"; portanto, se você tentar atualizar a célula com um valor que não possa ser convertido em número, a sua alteração será descartada e o valor da célula será definido como 0.
+- Para o tipo de dado `date`, o template padrão usa <ApiLink pkg="core" type="DatePicker" />
+- Para o tipo de dado `dateTime`, o template padrão usa <ApiLink pkg="core" type="DatePicker" />. Este editor oferece orientações de máscara para os elementos de entrada que fazem parte do objeto DateTime.
+- Para o tipo de dado `time`, o template padrão usa <ApiLink pkg="core" type="DateTimeInput" />.
+- Para o tipo de dado `boolean`, o template padrão usa <ApiLink pkg="core" type="Checkbox" />.
+- Para o tipo de dado `currency`, o template padrão usa <ApiLink pkg="core" type="Input" /> com configuração de prefixo/sufixo com base nas configurações de localidade da aplicação ou do grid.
+- Para o tipo de dado `percent`, o template padrão usa <ApiLink pkg="core" type="Input" /> com um elemento de sufixo que mostra uma prévia do valor editado em porcentagem.
+<ComponentBlock for="Grid">
+- Para templates personalizados, veja o [tópico de edição de célula](cell-editing.mdx#exemplo-de-edição-de-células-e-templates-de-edição-do-{PlatformLower}-grid)
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Todos os tipos de dados de coluna disponíveis podem ser encontrados no tópico oficial [Tipos de coluna](column-types.mdx#template-padrão).
+</ComponentBlock>
+
+### Argumentos e sequência de eventos
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+A grade expõe um grande conjunto de eventos que oferecem maior controle sobre a experiência de edição. Esses eventos são disparados durante o ciclo de vida da [**Edição de linhas**](row-editing.mdx) e da [**Edição de células**](cell-editing.mdx) - ao iniciar, confirmar ou cancelar a ação de edição.
+</ComponentBlock>
+
+ | Evento           | Descrição                                                                                                                                               | Argumentos                  | Cancelável |
+ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------- |
+ | <ApiLink type="{ComponentName}" member="rowEditEnter" />  | Se `RowEditing` estiver habilitado, é disparado quando uma linha entra no modo de edição                                                                                             | <ApiLink type="GridEditEventArgs" />    | **true**    |
+ | <ApiLink type="{ComponentName}" member="cellEditEnter" /> | Disparado quando uma célula **entra no modo de edição** (depois de <ApiLink type="{ComponentName}" member="rowEditEnter" />)                                                                                             | <ApiLink type="GridEditEventArgs" />     | **true**    |
+ | <ApiLink type="{ComponentName}" member="cellEdit" />      | Se o valor for alterado, é disparado logo **antes** de o valor de uma célula ser **confirmado** (por exemplo, ao pressionar <kbd>ENTER</kbd>)                                                     | <ApiLink type="GridEditEventArgs" />     | **true**    |
+ | <ApiLink type="{ComponentName}" member="cellEditDone" />  | Se o valor for alterado, é disparado **depois** de uma célula ser editada e o valor da célula ser **confirmado**                                                             | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink type="{ComponentName}" member="cellEditExit" />  | Disparado quando uma célula **sai do modo de edição**                                                                                                                     | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink type="{ComponentName}" member="rowEdit" />       | Se `RowEditing` estiver habilitado, é disparado logo antes de o valor de uma linha em modo de edição ser **confirmado** (por exemplo, ao clicar no botão `Done` do Row Editing Overlay) | <ApiLink type="GridEditEventArgs" />     | **true**    |
+ | <ApiLink type="{ComponentName}" member="rowEditDone" />   | Se `RowEditing` estiver habilitado, é disparado **depois** de uma linha ser editada e o valor da nova linha ser **confirmado**.                                             | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+ | <ApiLink type="{ComponentName}" member="rowEditExit" />   | Se `RowEditing` estiver habilitado, é disparado quando uma linha **sai do modo de edição**                                                                                          | <ApiLink type="GridEditDoneEventArgs" /> | **false**   |
+
+### Cancelamento de evento
+
+- <ApiLink type="{ComponentName}" member="rowEditEnter" /> - nem `Row` nem `Cell` entrarão no modo de edição.
+- <ApiLink type="{ComponentName}" member="cellEditEnter" /> - Impede a entrada na edição de célula. Se <ApiLink type="{ComponentName}" member="rowEditable" /> estiver habilitado, a edição de linha será acionada, embora a edição de célula continue proibida.
+- <ApiLink type="{ComponentName}" member="cellEdit" /> - permitido `Cell` e/ou `Row` editar; ao clicar no botão **Concluído** ou em **Enter**, o valor ou a transação da linha não são confirmados. A edição de células e a edição de linhas não serão fechadas até que o botão **Cancelar** seja clicado.
+- <ApiLink type="{ComponentName}" member="rowEdit" /> - É possível confirmar a célula, mas não a linha inteira. A linha permanecerá em modo de edição, e a transação da linha será considerada aberta. Clicar em **Done** não confirma nem fecha a linha. O botão **Cancel** fecha o processo de edição e a transação sem confirmar as alterações.
+
+O exemplo a seguir demonstra, na prática, a sequência de execução da edição:
+
+<Sample src="/{ComponentSample}/editing-lifecycle" height={620} alt="{Platform} {ComponentTitle} ciclo de vida da edição" />
+
+
+### Integração de recursos
+Enquanto uma célula/linha está em modo de edição, o usuário pode interagir com o grid de várias formas. A tabela a seguir especifica como determinada interação afeta a edição atual:
+
+| {ComponentTitle} | Filtragem | Ordenação | Paginação | Movimentação | Fixação | Ocultação | GroupBy | Redimensionamento | Escape | Enter |  F2   |  Tab  | Clique na célula | Adicionar nova linha/Excluir/Editar |
+| ---------------- | :-------: | :-----: | :----: | :----: | :-----: | :----: | :-----: | :------: | :----: | :---: | :---: | :---: | :--------: | :---------------------: |
+| Manter modo de edição   |           |         |        |        |         |        |         |    ✔     |        |       |       |       |            |                         |
+| Sair do modo de edição   |     ✔     |    ✔    |   ✔    |   ✔    |    ✔    |   ✔    |    ✔    |          |   ✔    |   ✔   |   ✔   |   ✔   |     ✔      |            ✔            |
+| Confirmar           |           |         |        |        |         |        |         |          |        |   ✔   |   ✔   |   ✔   |     ✔      |            ✔            |
+| Descartar          |     ✔     |    ✔    |   ✔    |   ✔    |    ✔    |   ✔    |    ✔    |          |   ✔    |       |       |       |            |                         |
+
+Como visto na tabela, todas as interações, exceto o redimensionamento de uma coluna, encerrarão a edição e descartarão os novos valores. Se o novo valor for confirmado, isso pode ser feito pelo desenvolvedor no evento "-ing" correspondente do recurso.
+
+Exemplo de como confirmar novos valores se o usuário tentar ordenar a coluna enquanto uma célula/linha está em modo de edição:
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid [data]="localData" [primaryKey]="'ProductID'" (sorting)="onSorting($event)">
+</{ComponentSelector}>
+```
+
+```typescript
+public onSorting(event: ISortingEventArgs) {
+    this.grid.endEdit(true);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" >
+</{ComponentSelector}>
+```
+
+```typescript
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.addEventListener("sorting", this.onSorting);
+}
+
+public onSorting(event: IgcSortingEventArgs) {
+    var grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.endEdit(true);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}
+    Id="grid"
+    SortingScript="SortingHandler"
+    RowEditable="true">
+</{ComponentSelector}>
+```
+
+```javascript
+//In JavaScript
+function SortingHandler() {
+    grid.endEdit(true);
+}
+igRegisterScript("SortingHandler", SortingHandler, false);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+function onSorting(args: IgrSortingEventArgs) {
+    const grid = args.target as {ComponentSelector};
+    grid.endEdit(true);
+}
+
+<{ComponentSelector} data={localData} primaryKey="ProductID" onSorting={onSorting}>
+</{ComponentSelector}>
+
+```
+
+</PlatformBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+<PlatformBlock for="Angular, WebComponents, React">
+- [Tipos de dados de coluna](column-types.mdx#template-padrão)
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+- [Tipos de dados de coluna](column-types.mdx#template-padrão)
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+- [Pesquisa](search.mdx)
+
+</ComponentBlock>
+
+</PlatformBlock>

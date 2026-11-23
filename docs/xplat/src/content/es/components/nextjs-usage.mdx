@@ -1,0 +1,311 @@
+---
+title: "Use componentes {ProductName} en una aplicación de Next.js | Infragistics"
+description: "Use los componentes {Platform} de Infragistics para crear aplicaciones y mejorar la visualización de datos con la cuadrícula de datos y los gráficos {Platform} más rápidos del mundo en Next.js."
+keywords: "{ProductName} Next.js, componentes {ProductName} en Next.js, Infragistics"
+mentionedTypes: []
+_language: es
+llms:
+  description: "Descubra la integración perfecta de {ProductName} en su proyecto de Next.js."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import DownloadCard from 'docs-template/components/mdx/DownloadCard.astro';
+import DownloadCardGroup from 'docs-template/components/mdx/DownloadCardGroup.astro';
+import { Image } from 'astro:assets';
+import nodejs from '@xplat-images/general/nodejs.svg';
+import vsCode from '@xplat-images/general/vs-code.svg';
+import geoMap from '@xplat-images/general/geo-map.png';
+
+
+# Integrar {ProductName} con Next.js
+
+Descubra la integración perfecta de {ProductName} en su proyecto de Next.js. Este tema está pensado para ayudar a los desarrolladores a aprovechar al máximo los componentes {Platform} de Infragistics, al tiempo que usan las funciones de Next.js para crear aplicaciones full stack robustas y de alto rendimiento.
+
+## Requisitos previos
+
+1. Instale Node.js.
+2. Instale Visual Studio Code.
+
+<DownloadCardGroup>
+  <DownloadCard src={nodejs} alt="nodejs" href="https://nodejs.org/en/download/" label="DESCARGAR NODE" />
+  <DownloadCard src={vsCode} alt="vs-code" href="https://code.visualstudio.com/download" label="DESCARGAR VS CODE" />
+</DownloadCardGroup>
+
+## Crear un proyecto nuevo de Next.js
+
+Con los requisitos previos anteriores instalados, podemos crear una nueva aplicación de Next.js.
+
+1 - Abra **VS Code**, seleccione el menú **Terminal** y después la opción **Nueva terminal**.
+
+2 - Escriba los siguientes comandos en una ventana de terminal:
+
+```cmd
+npx create-next-app@latest MyAppName
+cd MyAppName
+```
+
+## Actualizar una aplicación de Next.js existente
+
+Si quiere usar {ProductName} en un proyecto de Next.js existente (uno que ya tenga de antes), le tenemos cubierto. Solo tiene que ejecutar estos comandos:
+
+```cmd
+npm install --save {PackageCommon}
+npm install --save {PackageCharts} {PackageCore}
+npm install --save {PackageExcel} {PackageCore}
+npm install --save {PackageGauges} {PackageCore}
+npm install --save {PackageGrids} {PackageCore}
+npm install --save {PackageMaps} {PackageCore}
+npm install --save {PackageSpreadsheet} {PackageCore}
+```
+
+O bien
+
+```cmd
+yarn add {PackageCharts} {PackageCore}
+yarn add {PackageExcel} {PackageCore}
+yarn add {PackageGauges} {PackageCore}
+yarn add {PackageGrids} {PackageCore}
+yarn add {PackageMaps} {PackageCore}
+yarn add {PackageSpreadsheet} {PackageCore}
+```
+
+Esto instalará automáticamente los paquetes de {ProductName}, junto con todas sus dependencias, las importaciones de fuentes y las referencias de estilos en el proyecto existente.
+
+## Importar los módulos de componentes
+
+En primer lugar, debemos importar los módulos necesarios de los componentes que queremos usar. Lo haremos para el componente [**GeographicMap**](./geo-map.mdx).
+
+<PlatformBlock for="React">
+
+```ts
+"use client"
+import { IgrGeographicMapModule, IgrGeographicMap } from 'igniteui-react-maps';
+import { IgrDataChartInteractivityModule } from 'igniteui-react-charts';
+
+IgrGeographicMapModule.register();
+IgrDataChartInteractivityModule.register();
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Es importante tener en cuenta que los componentes {ProductName} usan funciones exclusivas del cliente, como el estado y los eventos del navegador. Los componentes de Infragistics funcionarán como se espera dentro de los componentes de cliente de Next.js, porque tienen la directiva "use client", pero no funcionarán dentro de los componentes de servidor.
+</DocsAside>
+
+## Usar los componentes
+
+¡Ahora ya podemos usar el mapa {ProductName} en nuestro componente de Next.js! Vamos a definirlo:
+
+<PlatformBlock for="React">
+
+```tsx
+function App() {
+  return (
+    <div style={{ height: "100%", width: "100%" }}>
+      <IgrGeographicMap
+        width="800px"
+        height="500px"
+        zoomable="true" />
+    </div>
+  );
+}
+```
+
+</PlatformBlock>
+
+## Ejecutar la aplicación
+
+Por último, podemos ejecutar nuestra nueva aplicación con uno de los siguientes comandos:
+
+```cmd
+npm run dev
+```
+
+Después de ejecutar este comando, su proyecto se compilará y se servirá localmente en su equipo. Se abrirá automáticamente en su navegador predeterminado, y podrá usar los componentes {ProductName} en su proyecto.
+
+El resultado final debería parecerse a esta captura de pantalla:
+
+<Image src={geoMap} alt="geo-map" />
+
+## Usar {Platform} en los componentes de servidor de Next.js
+
+Como se ha indicado antes, la mayoría de los componentes de {Platform} dependen del estado y de los eventos del navegador, por lo que no son compatibles con el uso directo en los componentes de servidor. No obstante, si necesita usarlos así, los componentes de Infragistics pueden envolverse en sus respectivos componentes de cliente.
+
+<PlatformBlock for="React">
+
+```tsx
+'use client'
+import { IgrGeographicMap } from 'igniteui-react-maps';
+IgrGeographicMapModule.register();
+
+export default IgrGeographicMap;
+```
+
+</PlatformBlock>
+
+Después, en un componente de servidor de Next.js, IgrGeographicMap puede usarse directamente:
+
+<PlatformBlock for="React">
+
+```tsx
+import IgrGeographicMap from './wrapped-geographic-map';
+
+function App() {
+  return (
+    <div style={{ height: "100%", width: "100%" }}>
+      <IgrGeographicMap
+        width="800px"
+        height="500px"
+        zoomable="true" />
+    </div>
+  );
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+La mayoría de los componentes de {ProductName} pueden quedar sin envolver, ya que se espera que se usen dentro de otros componentes de cliente. Por tanto, no es necesario envolver todos los componentes de Infragistics.
+</DocsAside>
+
+## Importación dinámica de componentes de {ProductName}
+
+La carga diferida facilita mejorar el rendimiento de la carga inicial de una aplicación, ya que reduce la cantidad de JavaScript necesaria para renderizar una ruta. Permite aplazar la carga de las bibliotecas importadas e incluirlas en el bundle del cliente solo cuando hacen falta. Con `next/dynamic` puede implementar la carga diferida:
+
+<PlatformBlock for="React">
+
+```tsx
+"use client";
+import "igniteui-webcomponents/themes/light/bootstrap.css";
+import dynamic from "next/dynamic";
+
+export default function DynamicButtonComponent() {
+  const IgButton = dynamic(
+    async () => {
+      const { IgrButton, IgrButtonModule } = await import("igniteui-react");
+      IgrButtonModule.register();
+      return IgrButton;
+    }
+  );
+
+  return (
+      <IgButton variant="contained">
+        <span key="title">Click me</span>
+      </IgButton>
+  );
+}
+```
+
+</PlatformBlock>
+
+Sin embargo, si se usa un componente más complejo como [**IgrGrid**](./grids/data-grid.mdx), que normalmente contiene componentes hijos, es esencial no importar dinámicamente cada componente hijo por separado. El componente debe usarse así:
+
+<PlatformBlock for="React">
+
+```tsx
+"use client";
+import dynamic from "next/dynamic";
+import CustomersDataLocal from "./CustomersDataLocal.json";
+import "igniteui-react-grids/grids/combined";
+import "igniteui-react-grids/grids/themes/light/bootstrap.css";
+
+export default function GridDynamicComponent() {
+  const IgnGrid = dynamic(
+    async () => {
+      const {
+        IgrGrid,
+        IgrGridModule,
+        IgrColumn,
+        IgrGridToolbar,
+        IgrGridToolbarTitle,
+        IgrGridToolbarActions,
+        IgrGridToolbarPinning,
+      } = await import("igniteui-react-grids");
+      IgrGridModule.register();
+
+      const IgGrid = ({ ...props }) => {
+        return (
+          <IgrGrid {...props}>
+            <IgrGridToolbar>
+              <IgrGridToolbarTitle></IgrGridToolbarTitle>
+              <IgrGridToolbarActions>
+                <IgrGridToolbarPinning></IgrGridToolbarPinning>
+              </IgrGridToolbarActions>
+            </IgrGridToolbar>
+            <IgrColumn field="ID" header="ID" hidden="true"></IgrColumn>
+            <IgrColumn
+              field="CompanyName"
+              header="Company Name"
+              width="300px"
+            ></IgrColumn>
+            <IgrColumn
+              field="ContactName"
+              header="Contact Name"
+              width="200px"
+              pinned="true"
+            ></IgrColumn>
+            <IgrColumn
+              field="ContactTitle"
+              header="Contact Title"
+              width="200px"
+              pinned="true"
+            ></IgrColumn>
+            <IgrColumn
+              field="Address"
+              header="Address"
+              width="300px"
+            ></IgrColumn>
+            <IgrColumn field="City" header="City" width="120px"></IgrColumn>
+            <IgrColumn field="Region" header="Region" width="120px"></IgrColumn>
+            <IgrColumn
+              field="PostalCode"
+              header="Postal Code"
+              width="150px"
+            ></IgrColumn>
+            <IgrColumn field="Phone" header="Phone" width="150px"></IgrColumn>
+            <IgrColumn field="Fax" header="Fax" width="150px"></IgrColumn>
+          </IgrGrid>
+        );
+      };
+      return IgGrid;
+    }
+  );
+
+  return <IgnGrid data={CustomersDataLocal}></IgnGrid>;
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Implementar la carga diferida de componentes puede mejorar el rendimiento, pero conviene usarla solo cuando los componentes no sean visibles de inmediato en la página.
+</DocsAside>
+
+## Limitaciones
+
+- Si su proyecto de Next.js usa enrutamiento de páginas (Page routing), debe transpilar los paquetes {ProductName} usando las opciones `next.config.js`. Su configuración debe contener lo siguiente:
+
+<PlatformBlock for="React">
+
+```tsx
+const nextConfig = {
+    transpilePackages: ['igniteui-react'],
+    experimental: {
+        esmExternals: "loose",
+    }
+}
+```
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+- [Ignite UI for React](../components/general-getting-started.mdx)
+- [Descripción general de Grid](../components/grids/data-grid.mdx)
+- [Documentación de Next.js](https://nextjs.org/docs)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

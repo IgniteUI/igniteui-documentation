@@ -1,0 +1,321 @@
+---
+title: "Arrastrar y soltar en Angular | IgniteUI for Angular | Infragistics | Licencia MIT"
+description: "Aprenda a usar las directivas de arrastrar y soltar de Angular para mover elementos por la página."
+keywords: "Arrastrar y soltar en Angular, directivas de arrastrar y soltar de Angular, componentes de interfaz de Angular, Ignite UI for Angular, Infragistics"
+license: MIT
+_language: es
+llms:
+  description: "Las directivas de arrastrar y soltar de Ignite UI for Angular permiten arrastrar elementos por la página."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de las directivas de arrastrar y soltar de Angular
+
+<div class="highlight">
+Las directivas de arrastrar y soltar de Ignite UI for Angular permiten arrastrar elementos por la página. Entre las funciones admitidas están el arrastre libre, el uso de un controlador de arrastre, la imagen fantasma de arrastre, las animaciones y varias estrategias de colocación.
+</div>
+
+## Ejemplo de arrastrar y soltar en Angular
+
+Arrastre el icono de arrastrar y soltar para reposicionarlo.
+
+<Sample src="/interactions/icons-sample" height={325} alt="Ejemplo de arrastrar y soltar en Angular" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Drag and Drop
+
+Para empezar con las directivas de arrastrar y soltar de Ignite UI for Angular, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxDragDropModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDragDropModule } from 'igniteui-angular/directives';
+// import { IgxDragDropModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDragDropModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxDragDirective` y `IgxDropDirective` como dependencias independientes, o usar el token [`IGX_DRAG_DROP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/drag-drop/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_DRAG_DROP_DIRECTIVES } from 'igniteui-angular/directives';
+// import { IGX_DRAG_DROP_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <div igxDrag>Drag me
+</div>
+    <div igxDrop>Drop here
+</div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_DRAG_DROP_DIRECTIVES]
+    /* or imports: [IgxDragDirective, IgxDropDirective] */
+})
+export class HomeComponent {}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Drag and Drop, puede empezar a usar las directivas `igxDrag` y `igxDrop`.
+
+## Uso de la directiva de arrastre de Angular
+
+Cuando un elemento de su aplicación Angular necesita arrastrarse de un lugar a otro de la página, la directiva <ApiLink type="DragDirective" label="igxDrag" /> está diseñada para lograr este comportamiento. Combinada con la directiva <ApiLink type="DropDirective" label="igxDrop" />, también se puede colocar el elemento arrastrado, de modo que tenga una aplicación totalmente interactiva.
+
+### Fundamentos del arrastre
+
+Una operación de arrastre comienza cuando el usuario desliza el dedo o el puntero al menos 5 px en cualquier dirección. Esto se puede personalizar mediante la entrada <ApiLink type="DragDirective" member="dragTolerance" label="dragTolerance" />. En caso contrario, la interacción se considera un clic y se dispara un evento `dragClick`.
+
+Cuando empieza el arrastre, se dispara el evento <ApiLink type="DragDirective" member="dragStart" label="dragStart" />. Para evitar que se produzca cualquier movimiento real, el evento se puede cancelar estableciendo la propiedad <ApiLink kind="interface" type="IDragStartEventArgs" member="cancel" /> en `true`.
+
+Antes de que se realice cualquier movimiento real, también se dispara el evento <ApiLink type="DragDirective" member="dragMove" label="dragMove" />, que contiene la última posición y la siguiente posición del puntero. Se dispara cada vez que se detecta un movimiento al arrastrar un elemento.
+
+Cuando el usuario suelta el ratón o el contacto táctil, el elemento fantasma del arrastre se elimina del DOM y se emite el evento <ApiLink type="DragDirective" member="dragEnd" label="dragEnd" />.
+
+<DocsAside type="info">
+Debido a la naturaleza del evento <ApiLink type="DragDirective" member="dragMove" label="dragMove" />, puede dispararse muchas veces en poco tiempo, lo que puede provocar problemas de rendimiento en operaciones complejas que se realicen al dispararse.
+</DocsAside>
+
+### Arrastrar con imagen fantasma
+
+La directiva <ApiLink type="DragDirective" label="igxDrag" /> se puede aplicar a cualquier elemento del DOM simplemente añadiéndola a su plantilla.
+
+```html
+<div igxDrag>Drag me
+</div>
+```
+
+El comportamiento predeterminado de la directiva `igxDrag` consiste en dejar sin modificar el elemento base y crear un elemento fantasma cuando el usuario realiza la operación de arrastre.
+
+Antes de que el fantasma se muestre en la página, se dispara un evento <ApiLink type="DragDirective" member="ghostCreate" label="ghostCreate" /> que contiene información del elemento fantasma que se va a añadir. El evento se dispara justo después del evento <ApiLink type="DragDirective" member="dragStart" label="dragStart" />. Si se cancela <ApiLink type="DragDirective" member="dragStart" label="dragStart" />, no se creará ningún fantasma y el evento <ApiLink type="DragDirective" member="ghostCreate" label="ghostCreate" /> no se disparará en consecuencia.
+
+Justo antes de que el fantasma vaya a eliminarse, se disparará el evento <ApiLink type="DragDirective" member="ghostDestroy" label="ghostDestroy" />.
+
+### Personalizar el fantasma
+
+El elemento fantasma es, de forma predeterminada, una copia del elemento base en el que se usa `igxDrag`. Se puede personalizar proporcionando directamente una referencia de plantilla a la entrada <ApiLink type="DragDirective" member="ghostTemplate" label="ghostTemplate" />.
+
+```html
+<div class="email-content flexlist"
+ igxDrag
+ [ghostTemplate]="customGhost">
+ <div class="sender">
+
+  {{email.sender}} 
+ 
+</div>
+ <div class="email-title">
+
+  {{email.title}}
+ 
+</div>
+</div>
+<ng-template #customGhost>
+ <div class="dragGhost">
+
+  <igx-icon fontSet="material">email</igx-icon> 
+  Moving {{ draggedElements }} item{{ (draggedElements > 1 ? 's' : '')}}
+ 
+</div>
+</ng-template>
+
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+### Arrastrar sin fantasma
+
+Si quiere mover el elemento base al que se aplica la directiva `igxDrag`, puede hacerlo estableciendo la entrada <ApiLink type="DragDirective" member="ghost" label="ghost" /> en `false`. Así no se renderizará ningún elemento fantasma adicional, y si necesita aplicar un estilo personalizado al arrastrar un elemento, puede aplicarlo directamente al elemento base.
+
+```html
+<div igxDrag [ghost]="false">Drag me
+</div>
+```
+
+### Arrastrar usando un controlador
+
+Puede especificar un elemento hijo de `igxDrag` para arrastrar, ya que, de forma predeterminada, se usa todo el elemento para realizar esa acción. Esto se puede hacer con la directiva `igxDragHandle`, que se puede aplicar a varios elementos dentro de `igxDrag`.
+
+```html
+<div
+    igxDrag 
+    [ghost]="false"
+    [dragTolerance]="0"
+    (dragMove)=onDragMove($event)>
+    <igx-icon igxDragHandle fontSet="material" class="dialogHandle">drag_indicator</igx-icon>
+    <div class="igx-dialog__window">
+
+    
+</div>
+</div>
+```
+
+Arrastre el diálogo usando el controlador en la siguiente demostración.
+
+<Sample src="/interactions/drag-dialog-sample" height={325} alt="" />
+
+<hr/>
+
+### Animaciones
+
+Cuando se está arrastrando un elemento, no se aplican animaciones de forma predeterminada.
+
+Puede aplicar una animación de transición a `igxDrag` en cualquier momento, pero se recomienda hacerlo cuando termina el arrastre o cuando el elemento no se está arrastrando. Esto se puede lograr con los métodos <ApiLink type="DragDirective" member="transitionToOrigin" label="transitionToOrigin" /> y <ApiLink type="DragDirective" member="transitionTo" label="transitionTo" />.
+
+El método <ApiLink type="DragDirective" member="transitionToOrigin" label="transitionToOrigin" />, como sugiere su nombre, anima el elemento que se está arrastrando, o su fantasma, hasta la posición inicial, donde empezó el arrastre. El método <ApiLink type="DragDirective" member="transitionTo" label="transitionTo" /> anima el elemento hasta una ubicación concreta relativa a la página (es decir, `pageX` y `pageY`) o hasta la posición de un elemento especificado. Si el elemento no se está arrastrando en ese momento, se animará igualmente o se creará un fantasma y se animará hasta la posición deseada.
+
+Ambas funciones tienen argumentos que puede establecer para personalizar la animación de transición y definir la duración, la función de temporización o el retraso. Si se establece una ubicación inicial concreta, el elemento se animará desde allí.
+
+Cuando termina la animación de transición, si se ha creado un fantasma, se eliminará y la directiva `igxDrag` volverá a su estado inicial. Si no se ha creado ningún fantasma, el elemento conservará su posición. En ambos casos, se disparará el evento <ApiLink type="DragDirective" member="transitioned" label="transitioned" />, según la duración de la animación. Si no se aplica ninguna animación, se disparará de inmediato.
+
+Puede tener otros tipos de animaciones que impliquen transformaciones de elementos. Esto se puede hacer como con cualquier otro elemento, usando las animaciones de Angular o las animaciones CSS directas, aplicadas al elemento base `igxDrag` o a su fantasma. Si quiere aplicarlas al fantasma, tendrá que definir un fantasma personalizado y aplicar las animaciones a su elemento.
+
+Reordene los elementos de la lista usando el controlador de arrastre. Mientras arrastra un elemento de la lista, los demás elementos se reordenarán con animación.
+
+<Sample src="/interactions/list-reorder-sample" height={380} alt="" />
+
+<hr/>
+
+### Ignorar elementos arrastrables
+
+Si el usuario quiere tener hijos interactivos del elemento principal que tengan una instancia de igxDrag, puede establecer la directiva <ApiLink type="DragIgnoreDirective" /> para que sean ignorados por igxDrag y no realicen ninguna acción de arrastre. Así, estos elementos seguirán siendo totalmente interactivos y recibirán todos los eventos del ratón.
+
+```html
+<div [igxDrag]="myData">
+    <span>Drag me!</span>
+    <igx-icon igxDragIgnore fontSet="material" (click)="remove()">bin</igx-icon>
+</div>
+```
+
+## Uso de la directiva de colocación de Angular
+
+Cuando un elemento que se arrastra con la directiva <ApiLink type="DragDirective" label="igxDrag" /> necesita colocarse en un área, se puede usar <ApiLink type="DropDirective" label="igxDrop" /> para lograr este comportamiento. Proporciona eventos que puede usar para determinar si un elemento está entrando en los límites del elemento al que se aplica y si se suelta dentro de él.
+
+La directiva <ApiLink type="DropDirective" label="igxDrop" /> se puede aplicar a cualquier elemento del DOM, igual que la directiva <ApiLink type="DragDirective" label="igxDrag" />.
+
+De forma predeterminada, la directiva <ApiLink type="DropDirective" label="igxDrop" /> no aplica ninguna lógica para modificar la posición del elemento arrastrado en el DOM. Por eso necesita especificar una <ApiLink type="DropDirective" member="dropStrategy" label="dropStrategy" /> o aplicar una lógica personalizada. Las estrategias de colocación se tratan en la sección siguiente.
+
+### Estrategias de colocación
+
+`igxDrop` incluye 4 estrategias de colocación: `Default`, `Prepend`, `Insert` y `Append`:
+
+- `Default`: no realiza ninguna acción cuando un elemento se suelta sobre un elemento `igxDrop` y se implementa como una clase llamada <ApiLink type="DefaultDropStrategy" />.
+
+- `Append`: inserta siempre el elemento soltado como último hijo y se implementa como una clase llamada <ApiLink type="AppendDropStrategy" />.
+
+- `Prepend`: inserta siempre el elemento soltado como primer hijo y se implementa como una clase llamada <ApiLink type="PrependDropStrategy" />.
+
+- `Insert`: inserta el elemento arrastrado en la última posición. Si, cuando se soltó, había un hijo debajo del elemento, el elemento instanciado con `igxDrag` se insertará en la posición de ese hijo y los demás hijos se desplazarán. Se implementa como una clase llamada <ApiLink type="InsertDropStrategy" />.
+
+La forma de aplicar una estrategia es establecer la entrada `dropStrategy` en una de las clases indicadas arriba. El valor proporcionado tiene que ser un tipo y no una instancia, ya que `igxDrop` necesita crear y gestionar la instancia por sí mismo.
+
+```typescript
+public appendStrategy = IgxAppendDropStrategy;
+```
+
+```html
+<div igxDrop [dropStrategy]="appendStrategy"></div>
+```
+
+#### Cancelar una estrategia de colocación
+
+Al usar una estrategia de colocación concreta, su comportamiento se puede cancelar en los eventos <ApiLink type="DropDirective" member="dropped" label="dropped" /> estableciendo la propiedad `cancel` en true. El evento `dropped` es específico de `igxDrop`. Si no tiene aplicada una estrategia de colocación a `igxDrop`, cancelar el evento no tendría efectos secundarios.
+
+_Ejemplo:_
+
+```html
+<div igxDrag></div>
+{/* ... */}
+<div igxDrop (dropped)="onDropped($event)"></div>
+```
+
+```typescript
+public onDropped(event) {
+    event.cancel = true;
+}
+```
+
+Si quiere implementar su propia lógica de colocación, le recomendamos enlazar el evento `dropped` y ejecutar la lógica allí, o bien extender la clase `IgxDefaultDropStrategy`.
+
+### Vincular el elemento de arrastre con el elemento de colocación
+
+Usando las entradas <ApiLink type="DragDirective" member="dragChannel" label="dragChannel" /> y <ApiLink type="DropDirective" member="dropChannel" label="dropChannel" /> en las directivas `igxDrag` y `igxDrop` respectivamente, puede vincular distintos elementos para que interactúen solo entre sí. Por ejemplo, si un elemento `igxDrag` necesita restringirse para que solo pueda soltarse sobre un elemento `igxDrop` concreto, y no sobre todos los disponibles, esto se logra fácilmente asignándoles el mismo canal.
+
+```html
+<div igxDrag [dragChannel]="['Mammals', 'Land']"> Human 
+</div>
+<div igxDrag [dragChannel]="['Mammals', 'Water']"> Dolphin 
+</div>
+<div igxDrag [dragChannel]="['Insects', 'Air']"> Butterfly 
+</div>
+<div igxDrag [dragChannel]="['Insects', 'Land']"> Ant 
+</div>
+
+<div igxDrop [dropChannel]="['Mammals']"> Mammals 
+</div>
+<div igxDrop [dropChannel]="['Insects']"> Insects 
+</div>
+<div igxDrop [dropChannel]="['Land']"> Land 
+</div>
+```
+
+
+Arrastre los correos electrónicos de la derecha a las carpetas de la izquierda.
+
+<Sample src="/interactions/email-sample" height={340} alt="" />
+
+<hr/>
+
+## Configuración avanzada
+
+Como `igxDrag` y `igxDrop` combinados se pueden usar en muchos escenarios de aplicación distintos y complejos, el siguiente ejemplo muestra cómo se pueden usar en un tablero Kanban.
+
+El usuario puede reordenar las tarjetas de cada columna. Para ello, se asigna también un área de colocación a cada tarjeta, de modo que podemos detectar cuándo otra tarjeta ha entrado en su área e intercambiarlas en tiempo de ejecución, para ofrecer una mejor experiencia de usuario.
+
+No sería un tablero Kanban sin la posibilidad de mover tarjetas entre columnas. Una tarjeta se puede mover directamente de una columna a otra, en una posición concreta. Esto se logra aquí con un objeto ficticio, que crea un área visual donde se colocará la tarjeta si se suelta. El objeto ficticio se elimina cuando termina el arrastre de una tarjeta o cuando esta sale de otra columna.
+
+Arrastre elementos por el tablero Kanban.
+
+<Sample src="/interactions/kanban-sample" height={700} alt="" />
+
+<hr/>
+
+## API
+
+- <ApiLink type="DragDirective" />
+- <ApiLink type="DropDirective" />
+- <ApiLink type="DefaultDropStrategy" />
+- <ApiLink type="AppendDropStrategy" />
+- <ApiLink type="PrependDropStrategy" />
+- <ApiLink type="InsertDropStrategy" />
+
+## Referencias
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

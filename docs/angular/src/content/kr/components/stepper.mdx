@@ -1,0 +1,473 @@
+---
+title: "Angular Stepper 컴포넌트 – Ignite UI for Angular - MIT 라이선스" 
+description: "Angular Stepper 컴포넌트를 사용하여 콘텐츠를 하나의 프로세스로 시각화하고, 콘텐츠를 논리적인 단계로 나누어 진행 상황을 보여 주십시오. 방법을 알아보십시오."
+keywords: "Angular Stepper 컴포넌트, Angular Wizard 컴포넌트, Angular Stepper 컨트롤, Angular Wizard 컨트롤, Angular UI 컴포넌트, Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Infragistics"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular Stepper는 콘텐츠를 하나의 프로세스로 시각화하고, 콘텐츠를 연속적인 단계로 나누어 진행 상황을 보여 주는 매우 사용자 지정 가능한 컴포넌트입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import stepperStep from '../images/stepper/stepper-step.png';
+import stepperContenttop from '../images/stepper/stepper-contentTop.png';
+
+# Angular Stepper 컴포넌트 개요
+
+Ignite UI for Angular Stepper는 콘텐츠를 하나의 프로세스로 시각화하고, 콘텐츠를 연속적인 단계로 나누어 진행 상황을 보여 주는 매우 사용자 지정 가능한 컴포넌트입니다. 세로 또는 가로 선으로 나타납니다. [Angular 컴포넌트 라이브러리](https://www.infragistics.com/products/ignite-ui-angular)에서 제공되는 stepper 컴포넌트는 마법사와 같은 워크플로를 제공하며, 단계 검증, 스타일 지정, 방향, 키보드 탐색 같은 여러 기능을 지원합니다.
+
+## Angular Stepper 예제
+
+이 Angular Stepper 예제에서는 사용자가 신용카드를 맞춤 설정하고 다섯 가지 논리적인 단계, 즉 카드 유형 선택, 사업 정보 추가, 개인 정보 입력, 배송 정보 입력, 확인을 거치는 과정을 볼 수 있습니다.
+참고로 Angular stepper 데모의 네 번째 단계는 사용자가 두 번째 단계에서 우편 주소가 사업장 실제 주소와 다르다는 뜻으로 체크박스를 선택한 경우에만 활성화됩니다.
+
+<Sample src="/layouts/stepper-overview-sample" height={725} alt="Angular Stepper 예제" />
+
+<hr/>
+
+다음은 Angular Reactive Forms를 사용하여 위 기능을 구현하는 방법을 보여 주는 샘플입니다.
+
+<Sample src="/layouts/stepper-sample-reactive-forms" height={725} alt="Reactive Forms를 사용한 Angular Stepper 예제" />
+
+## Ignite UI for Angular Stepper 시작하기
+
+Ignite UI for Angular Stepper 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxStepperModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxStepperModule } from 'igniteui-angular/stepper';
+// import { IgxStepperModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxStepperModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxStepperComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_STEPPER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/stepper/src/stepper/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { FormsModule } from '@angular/forms';
+import { IGX_STEPPER_DIRECTIVES } from 'igniteui-angular/stepper';
+// import { IGX_STEPPER_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `<igx-stepper>
+        <igx-step> 
+            <p igxStepTitle>Step 1</p>
+        </igx-step>
+        <igx-step> 
+            <p igxStepTitle>Step 2</p>
+        </igx-step>
+    </igx-stepper>`,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_STEPPER_DIRECTIVES, FormsModule]
+    /* or imports: [IgxStepperComponent, FormsModule] */
+})
+export class HomeComponent {
+    public task: Task;
+}
+```
+
+이제 Angular Stepper 모듈 또는 디렉티브를 가져왔으므로 `igx-stepper`과(와) 그 단계들의 기본 구성을 시작할 수 있습니다.
+이제 Angular Stepper 모듈 또는 디렉티브를 가져왔으므로 `igx-stepper`과(와) 그 단계들의 기본 구성을 시작할 수 있습니다.
+
+## Angular Stepper 사용하기
+
+<ApiLink type="Step" />은(는) <ApiLink type="Stepper" />에 속한 각 단계를 나타냅니다. 단계는 <ApiLink type="Step" member="isValid" label="isValid" />, <ApiLink type="Step" member="active" label="active" />, <ApiLink type="Step" member="optional" label="optional" />, <ApiLink type="Step" member="disabled" label="disabled" /> 및 <ApiLink type="Step" member="completed" label="completed" /> 속성을 제공하며, 이를 통해 비즈니스 요구 사항에 따라 단계 상태를 구성할 수 있습니다.
+
+### Stepper 선언하기
+
+이제 stepper 모듈을 가져왔으므로 구성을 시작해 보겠습니다.
+
+단계는 다음 방법 중 하나를 사용하여 선언할 수 있습니다.
+
+- 데이터 세트 반복하기
+
+```html
+<igx-stepper>
+    <igx-step *ngFor="let step of stepsData" [disabled]=”step.disabled”>
+        <igx-icon igxStepIndicator>
+   {{step.indicator}}
+        </igx-icon>
+
+        <p igxStepTitle>
+   {{step.title}}
+        </p>
+    </igx-step>
+</igx-stepper>
+```
+
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+- 정적 단계 만들기
+
+```html
+<igx-stepper>
+    <igx-step> 
+       <p igxStepTitle>Step 1</p>
+    </igx-step>
+    <igx-step> 
+       <p igxStepTitle>Step 2</p>
+    </igx-step>
+</igx-stepper>
+```
+
+각 단계에 대해 사용자는 다음과 같이 `igxStepIndicator`, `igxStepTitle`, `igxStepSubtitle` 및 `igxStepContent` 디렉티브를 사용하여 표시기, 제목, 부제목 및 콘텐츠를 구성할 수 있습니다:
+
+```html
+<igx-stepper>
+    <igx-step>
+       <igx-icon igxStepIndicator>home</igx-icon>
+       <p igxStepTitle>Home</p>
+       <p igxStepSubtitle>Home Sub Title</p>
+       <div igxStepContent>
+          ...
+       </div>
+    </igx-step>
+</igx-stepper>
+```
+
+<Image src={stepperStep} alt="Ignite UI for Angular Stepper 단계 구조" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 500px" />
+
+### Stepper 방향 변경하기
+
+노출된 <ApiLink type="Stepper" member="orientation" label="orientation" /> 속성을 통해 stepper 방향을 사용자 지정할 수 있습니다. 이 속성은 `IgxStepperOrientation` 열거형의 값을 받습니다 - `Horizontal` _(기본값)_ 또는 `Vertical`.
+
+**가로 Stepper 방향**
+
+`horizontal`은(는) `igx-stepper` <ApiLink type="Stepper" member="orientation" label="orientation" /> 속성의 기본값입니다.
+stepper가 가로 방향일 때는 단계의 콘텐츠를 단계 머리글 위에 표시할지 아래에 표시할지 정할 수 있습니다. 이는 <ApiLink type="Stepper" /> <ApiLink type="Stepper" member="contentTop" label="contentTop" /> 불리언 속성을 설정하여 할 수 있으며, 이 속성의 기본값은 `false`입니다. 이 속성을 활성화하면 단계의 콘텐츠가 단계 머리글 위에 표시됩니다.
+
+<Image src={stepperContenttop} alt="Ignite UI for Angular Stepper에서 Stepper 위에 렌더링된 콘텐츠" class="responsive-img" style="margin-bottom:10px; -webkit-box-shadow: 4px 4px 4px 4px #ccc; -moz-box-shadow: 4px 4px 4px 4px #ccc; box-shadow: 4px 4px 4px 4px #ccc; max-width: 800px" />
+
+**세로 Stepper 방향**
+
+가로 레이아웃에서 세로 레이아웃으로 쉽게 바꿀 수 있습니다. 기본 방향을 바꾸려면 <ApiLink type="Stepper" member="orientation" label="orientation" /> 속성을 `vertical`(으)로 설정하십시오.
+
+```html
+<igx-stepper [orientation]="'vertical'">
+ <igx-step>    
+    …   
+ </igx-step>
+
+ <igx-step>    
+    …   
+ </igx-step>
+</igx-stepper>
+```
+
+아래 샘플은 stepper의 <ApiLink type="Stepper" member="orientation" label="orientation" />과(와) [제목 위치](/stepper#단계-사용자-지정하기)를 실행 중에 바꿀 수 있는 방법을 보여 줍니다.
+
+<Sample src="/layouts/stepper-label-position-and-orientation-sample" height={528} alt="Angular Stepper 방향 예제" />
+
+<hr/>
+
+### 단계 상태
+
+<ApiLink type="Stepper" />은(는) 네 가지 단계 상태를 지원하며, 각 상태는 기본적으로 서로 다른 스타일을 적용합니다:
+
+- <ApiLink type="Step" member="active" label="**active**" /> - 단계가 현재 표시 중인지 여부를 결정합니다. 설계상 사용자가 어떤 단계의 active 속성을 명시적으로 `true`로 설정하지 않으면, 처음 활성화되는 단계는 비활성화되지 않은 첫 번째 단계입니다.
+- <ApiLink type="Step" member="disabled" label="**disabled**" /> - 단계와 상호 작용할 수 있는지 여부를 결정합니다. 기본적으로 단계의 disabled 속성은 `false`(으)로 설정되어 있습니다.
+- <ApiLink type="Step" member="optional" label="**optional**" /> - 기본적으로 단계의 optional 속성은 `false`(으)로 설정되어 있습니다. 선형 stepper에서 단계의 유효성이 필요하지 않다면, optional 속성을 활성화하여 단계의 유효성과 관계없이 앞으로 이동할 수 있게 할 수 있습니다.
+- <ApiLink type="Step" member="completed" label="**completed**" /> - 기본적으로 단계의 completed 속성은 `false`을(를) 반환합니다. 하지만 사용자는 필요에 따라 completed 속성을 설정하여 이 기본 완료 동작을 재정의할 수 있습니다. 단계가 완료로 표시되면 기본적으로 단계 머리글의 스타일뿐 아니라, 완료된 단계와 다음 단계 사이의 진행 선 스타일도 바뀝니다. 두 스타일 모두 노출된 <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="CSS 변수" />을(를) 사용하여 수정할 수 있습니다.
+
+<ApiLink type="Stepper" />은(는) 양방향 바인딩이 가능한 <ApiLink type="Step" member="isValid" label="**isValid**" /> 속성을 통해 각 단계에 대한 검증 로직을 설정할 수 있는 기회를 제공합니다. 이 속성의 값에 따라 선형 stepper 모드에서 사용자가 앞으로 이동할 수 있는지가 결정됩니다.
+기본적으로 단계의 <ApiLink type="Step" member="isValid" label="isValid" /> 속성은 `true`(으)로 설정되어 있습니다.
+
+### 선형 Stepper
+
+`igx-stepper`은(는) <ApiLink type="Stepper" member="linear" label="linear" /> 속성을 사용하여 단계의 흐름을 설정할 수 있는 기회를 제공합니다. 기본적으로 linear는 `false`(으)로 설정되어 있으며, 사용자는 <ApiLink type="Stepper" />에서 비활성화되지 않은 모든 단계를 선택할 수 있습니다.
+
+<ApiLink type="Stepper" member="linear" label="linear" /> 속성이 `true`(으)로 설정되면, stepper는 다음 단계로 진행하기 전에 현재 선택 사항이 아닌 단계가 유효해야 한다고 요구합니다.
+
+현재 선택 사항이 아닌 단계가 유효하지 않으면, 현재 단계를 검증하기 전에는 다음 단계로 넘어갈 수 없습니다.
+
+<DocsAside type="info">
+앞으로 이동하기 위해 선택 사항 단계의 유효성은 고려되지 않습니다.
+</DocsAside>
+
+다음 예제는 선형 stepper를 구성하는 방법을 보여 줍니다:
+
+<Sample src="/layouts/stepper-linear-sample" height={430} alt="Angular 선형 Stepper 예제" />
+
+<hr/>
+
+### 단계 상호 작용
+
+<ApiLink type="Stepper" />은(는) 단계 상호 작용을 위해 다음 API 메서드를 제공합니다:
+
+- <ApiLink type="Stepper" member="navigateTo" label="**navigateTo**" /> – 지정된 인덱스의 단계를 활성화합니다.
+- <ApiLink type="Stepper" member="next" label="**next**" /> - 다음의 비활성화되지 않은 단계를 활성화합니다.
+- <ApiLink type="Stepper" member="prev" label="**prev**" /> – 이전의 비활성화되지 않은 단계를 활성화합니다.
+- <ApiLink type="Stepper" member="reset" label="**reset**" /> – stepper를 초기 상태로 재설정합니다.
+
+<DocsAside type="info">
+reset 메서드는 단계의 콘텐츠를 지우지 않습니다. 이는 수동으로 해야 합니다.
+</DocsAside>
+
+### 단계 사용자 지정하기
+
+Ignite UI for Angular Stepper를 사용하면 제목, 표시기 등에 대해 다양한 옵션을 구성할 수 있습니다.
+
+이는 <ApiLink type="Stepper" />의 <ApiLink type="Stepper" member="stepType" label="stepType" /> 속성을 통해 할 수 있습니다. 이 속성은 `IgxStepType` 열거형의 값을 받습니다:
+
+- 전체 _(기본값)_
+- 표시기
+- 제목
+
+**전체**
+
+제목과 부제목이 정의되어 있으면, 이 설정에서는 표시기와 제목이 모두 렌더링됩니다.
+
+사용자는 또한 단계의 제목 위치를 정의할 수 있으므로, 단계 표시기의 앞, 뒤, 위 또는 아래에 배치할 수 있습니다.
+사용자는 <ApiLink type="Stepper" member="titlePosition" label="titlePosition" /> 속성을 사용하여 제목 위치를 구성할 수 있습니다. 두 속성 모두 `IgxStepperTitlePosition` 열거형의 값을 받습니다:
+
+- end
+- start
+- bottom
+- top
+
+`igx-stepper`이(가) 가로 방향일 때 제목 위치의 기본값은 `bottom`입니다.
+
+방향이 세로 레이아웃으로 설정되면 제목 위치는 기본적으로 `end`입니다.
+
+<DocsAside type="info">
+<ApiLink type="Stepper" member="titlePosition" label="titlePosition" /> 속성은 stepper의 <ApiLink type="Stepper" member="stepType" label="stepType" /> 속성이 `full`(으)로 설정된 **경우에만** 적용됩니다.
+</DocsAside>
+
+**표시기**
+
+단계에 대해 표시기만 표시하려면 <ApiLink type="Stepper" member="stepType" label="stepType" /> 옵션을 `indicator`(으)로 설정하십시오.
+
+단계 표시기는 모든 콘텐츠를 지원하지만, 크기는 항상 **24픽셀**이어야 한다는 제한이 있습니다. 이를 고려하여, 단계 표시기로는 [IgxIconComponent](/layouts/icon) 또는 [IgxAvatarComponent](layouts/avatar.mdx)를 사용하는 것을 권장합니다.
+
+**제목**
+
+단계에 대해 제목만 표시하려면 <ApiLink type="Stepper" member="stepType" label="stepType" /> 옵션을 `title`(으)로 설정하십시오.
+
+이렇게 하면 부제목이 정의되어 있을 경우, 부제목도 단계 제목 아래에 렌더링됩니다.
+
+<DocsAside type="info">
+이 컨테이너는 크기 제한 없이 필요에 따라 다시 템플릿화할 수 있습니다. 예를 들어 그 안에 24픽셀보다 큰 표시기를 추가할 수 있습니다.
+</DocsAside>
+
+아래 샘플은 노출된 모든 단계 유형과 그것을 바꾸는 방법을 보여 줍니다:
+
+<Sample src="/layouts/stepper-steptypes-sample" height={300} alt="Angular 단계 유형 예제" />
+
+<hr/>
+
+<ApiLink type="Stepper" />은(는) 활성, 유효하지 않음, 완료된 단계에 대해 렌더링되는 표시기를 사용자 지정할 수 있게도 합니다. 이는 `igxStepActiveIndicator`, `igxStepInvalidIndicator` 및 `igxStepCompletedIndicator` 디렉티브를 통해 할 수 있습니다:
+
+```html
+<igx-stepper>
+    <ng-template igxStepActiveIndicator>
+       <igx-icon>edit</igx-icon>
+    </ng-template>
+
+    <ng-template igxStepInvalidIndicator>
+       <igx-icon>error</igx-icon>
+    </ng-template>
+
+    <ng-template igxStepCompletedIndicator>
+       <igx-icon>check</igx-icon>
+    </ng-template>
+    ...
+</igx-stepper>
+```
+
+<DocsAside type="info">
+이 템플릿은 관련 상태를 가진 모든 단계에 적용됩니다.
+</DocsAside>
+
+### Angular Stepper 애니메이션
+
+Angular Stepper 애니메이션은 최종 사용자가 정의된 단계와 상호 작용하는 아름다운 경험을 제공합니다. 사용 가능한 애니메이션 옵션은 stepper의 방향에 따라 다릅니다.
+
+stepper가 **가로 방향**일 때는 기본적으로 `slide` 애니메이션을 사용하도록 구성됩니다. 대안으로 `fade`도 지원합니다. 애니메이션은 <ApiLink type="Stepper" member="horizontalAnimationType" label="horizontalAnimationType" /> 입력을 통해 구성됩니다.
+
+**세로 방향** 레이아웃에서는 <ApiLink type="Stepper" member="verticalAnimationType" label="verticalAnimationType" /> 속성을 사용하여 애니메이션 유형을 정의할 수 있습니다. 기본값은 `grow`이며, 사용자는 이를 `fade`(으)로도 설정할 수 있습니다.
+
+`none`을(를) 두 애니메이션 유형 입력 모두에 설정하면 stepper 애니메이션이 비활성화됩니다.
+
+<ApiLink type="Stepper" />을(를) 사용하면 단계 사이 전환의 지속 시간을 구성할 수 있습니다. 이는 <ApiLink type="Stepper" member="animationDuration" label="animationDuration" /> 속성을 통해 할 수 있으며, 이 속성은 숫자를 인수로 받고 두 방향 모두에 공통으로 적용됩니다.
+
+## 키보드 탐색
+
+Angular Stepper는 최종 사용자에게 다양한 키보드 상호 작용을 제공합니다. 이 기능은 기본적으로 활성화되어 있으며, 최종 사용자가 단계 사이를 쉽게 이동할 수 있게 합니다.
+<ApiLink type="Stepper" /> 탐색은 [W3 접근성 표준](https://www.w3.org/WAI/ARIA/apg/example-index/tabs/tabs-manual.html#accessibilityfeatures)을 준수하며 사용하기 편리합니다.
+
+**키 조합**
+
+- <kbd>Tab</kbd> - 다음 탭 가능한 요소로 포커스를 이동합니다
+- <kbd>Shift + Tab</kbd> - 이전 탭 가능한 요소로 포커스를 이동합니다
+- <kbd>Arrow Down</kbd> - `igx-stepper`이(가) **세로 방향**일 때 다음 접근 가능한 단계의 머리글로 포커스를 이동합니다
+- <kbd>Arrow Up</kbd> - `igx-stepper`이(가) **세로 방향**일 때 이전 접근 가능한 단계의 머리글로 포커스를 이동합니다
+- <kbd>Arrow Left</kbd> - 두 방향 모두에서 이전 접근 가능한 단계의 머리글로 포커스를 이동합니다
+- <kbd>Arrow Right</kbd> - 두 방향 모두에서 다음 접근 가능한 단계의 머리글로 포커스를 이동합니다
+- <kbd>Home</kbd> - `igx-stepper`에서 활성화된 첫 번째 단계의 머리글로 포커스를 이동합니다
+- <kbd>End</kbd> - `igx-stepper`에서 활성화된 마지막 단계의 머리글로 포커스를 이동합니다
+- <kbd>Enter / Space</kbd> - 현재 포커스된 단계를 활성화합니다
+
+ <DocsAside type="info">
+ 설계상 사용자가 단계 머리글에서 <kbd>Tab</kbd> 키를 누르면 포커스가 단계 콘텐츠 컨테이너로 이동합니다. 컨테이너를 건너뛰어야 한다면 개발자는 콘텐츠 컨테이너 `[tabIndex]="-1"`을(를) 설정해야 합니다.
+ </DocsAside>
+
+Stepper 컴포넌트는 로우 코드 [드래그 앤 드롭 App Builder™](https://www.infragistics.com/products/appbuilder)에서도 사용할 수 있습니다.
+
+## Angular Stepper 스타일 지정
+
+### Stepper 테마 속성 맵
+
+기본 속성을 수정하면, 관련된 모든 종속 속성이 변경 사항을 반영하도록 자동으로 업데이트됩니다:
+
+| 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$step-background** | $step-hover-background | 마우스 오버 시 단계 머리글의 배경입니다 |
+|  | $step-focus-background | 포커스 시 단계 머리글의 배경입니다 |
+|  | $indicator-background | 단계 표시기의 배경 색상입니다 |
+|  | $title-color | 단계 제목의 색상입니다 |
+|  | $subtitle-color | 단계 부제목의 색상입니다 |
+|  | $current-step-background | 현재 단계 머리글의 배경입니다 |
+|  | $invalid-step-background | 유효하지 않은 단계 머리글의 배경입니다 |
+|  | $complete-step-background | 완료된 단계 머리글의 배경입니다 |
+|  | $disabled-indicator-background | 비활성화된 단계의 표시기 배경입니다 |
+|  | $disabled-title-color | 비활성화된 단계의 제목 색상입니다 |
+|  | $disabled-subtitle-color | 비활성화된 단계의 부제목 색상입니다 |
+|  | $step-separator-color | 단계 사이의 구분선 테두리 색상입니다 |
+| **$indicator-background** | $indicator-outline | 단계 표시기의 외곽선 색상입니다 |
+|  | $indicator-color | 단계 표시기의 텍스트 색상입니다 |
+| **$current-step-background** | $current-step-hover-background | 마우스 오버 시 현재 단계 머리글의 배경입니다 |
+|  | $current-step-focus-background | 포커스 시 현재 단계 머리글의 배경입니다 |
+|  | $current-indicator-background | 현재 단계 표시기의 배경 색상입니다 |
+|  | $current-title-color | 현재 단계 제목의 색상입니다 |
+|  | $current-subtitle-color | 현재 단계 부제목의 색상입니다 |
+| **$invalid-indicator-background** | $invalid-indicator-outline | 유효하지 않은 단계 표시기의 외곽선 색상입니다 |
+|  | $invalid-indicator-color | 유효하지 않은 단계 표시기의 색상입니다 |
+|  | $invalid-title-color | 유효하지 않은 단계 제목의 색상입니다 |
+|  | $invalid-subtitle-color | 유효하지 않은 단계 부제목의 색상입니다 |
+|  | $invalid-title-hover-color | 마우스 오버 시 유효하지 않은 단계 제목의 색상입니다 |
+|  | $invalid-subtitle-hover-color | 마우스 오버 시 유효하지 않은 단계 부제목의 색상입니다 |
+|  | $invalid-title-focus-color | 포커스 시 유효하지 않은 단계 제목의 색상입니다 |
+|  | $invalid-subtitle-focus-color | 포커스 시 유효하지 않은 단계 부제목의 색상입니다 |
+| **$complete-step-background** | $complete-step-hover-background | 마우스 오버 시 완료된 단계 머리글의 배경입니다 |
+|  | $complete-step-focus-background | 포커스 시 완료된 단계 머리글의 배경입니다 |
+|  | $complete-indicator-background | 완료된 단계 표시기의 배경 색상입니다 |
+|  | $complete-indicator-color | 완료된 단계 표시기의 색상입니다 |
+|  | $complete-title-color | 완료된 단계 제목의 색상입니다 |
+|  | $complete-subtitle-color | 완료된 단계 부제목의 색상입니다 |
+|  | $complete-title-hover-color | 마우스 오버 시 완료된 단계 제목의 색상입니다 |
+|  | $complete-subtitle-hover-color | 마우스 오버 시 완료된 단계 부제목의 색상입니다 |
+|  | $complete-title-focus-color | 포커스 시 완료된 단계 제목의 색상입니다 |
+|  | $complete-subtitle-focus-color | 포커스 시 완료된 단계 부제목의 색상입니다 |
+
+[Ignite UI for Angular 테마 적용](/themes)을 사용하면 `igx-stepper`의 모양을 크게 바꿀 수 있습니다.
+
+먼저 테마 엔진이 제공하는 함수를 사용하려면 스타일 파일에서 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 간단한 방법으로, <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="stepper-theme" />을(를) 확장하고 몇 가지 기본 매개변수만 제공하는 새 테마를 만듭니다. 이 테마는 상태별 색상과 접근성을 고려한 대비 전경색을 포함하여 필요한 모든 스타일을 자동으로 생성합니다. 모양을 더 세밀하게 제어하고 싶다면 사용할 수 있는 매개변수를 재정의할 수도 있습니다.
+
+```scss
+$stepper-theme: stepper-theme(
+  $step-background: #351e65,
+  $current-indicator-background: #f6cd28,
+
+  $border-radius-step-header: 16px,
+  $border-radius-indicator: 10px 4px 10px 4px,
+);
+```
+
+마지막 단계는 컴포넌트의 테마를 포함하는 것입니다.
+
+```scss
+:host {
+    @include tokens($custom-stepper-theme);
+}
+```
+
+### 데모
+
+아래 샘플은 [Ignite UI for Angular 테마 적용](/themes)을 통해 적용한 간단한 스타일을 보여 줍니다.
+
+<Sample src="/layouts/stepper-styling-sample" height={264} alt="Angular Stepper 스타일 지정 예제" />
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 stepper의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-stepper`, `dark-stepper`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-stepper-theme" label="stepper-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<igx-stepper
+  class="!light-stepper ![--step-background:#7B9E89] ![--border-radius-step-header:6px]">
+  ...
+</igx-stepper>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 stepper는 다음과 같이 보여야 합니다:
+
+<Sample src="/layouts/stepper-tailwind-styling-sample/" height={200} iframeOnly />
+
+<hr/>
+
+## API 참조
+
+- <ApiLink type="Stepper" />
+- <ApiLink type="Step" />
+
+## 추가 리소스
+
+우리 커뮤니티는 활발하며 항상 새로운 아이디어를 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

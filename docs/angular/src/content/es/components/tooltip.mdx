@@ -1,0 +1,607 @@
+---
+title: "Componente Angular Tooltip | Ignite UI for Angular | Licencia MIT"
+description: "Las directivas Tooltip y Tooltip Target de Ignite UI for Angular permiten crear una información emergente y asociarla a un elemento."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, conjunto de componentes nativos de Angular, controles nativos de Angular, biblioteca de componentes nativos de Angular, directivas de Angular Tooltip, controles de Angular Tooltip, Angular Tooltip, tooltip, tooltip target"
+license: MIT
+_language: es
+llms:
+  description: "Las directivas igxTooltip e igxTooltipTarget le permiten crear una información emergente totalmente personalizable y asociarla a cualquier elemento de su página."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de la directiva Angular Tooltip
+
+Las directivas <ApiLink type="TooltipDirective" label="igxTooltip" /> y <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> le permiten crear una información emergente totalmente personalizable y asociarla a cualquier elemento de su página.
+Aunque la mayoría de las informaciones emergentes tienen un número limitado de posiciones disponibles, con la directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> puede especificar cualquier posición que quiera en la página, manteniéndola en relación con el destino (ancla), y además puede configurar otras opciones de superposición, como estrategias de desplazamiento y animaciones personalizadas.
+
+## Ejemplo de Angular Tooltip
+
+<Sample src="/interactions/tooltip-simple" height={150} alt="Ejemplo de Angular Tooltip" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Tooltip
+
+Para empezar a usar la directiva Ignite UI for Angular Tooltip, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxTooltipModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule],
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxTooltipDirective` como dependencia independiente, o usar el token [`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_TOOLTIP_DIRECTIVES } from 'igniteui-angular/directives';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <igx-avatar
+      class="avatar"
+      #target="tooltipTarget"
+      [igxTooltipTarget]="tooltipRef"
+      src="assets/images/avatar/10.jpg"
+      size="medium"
+      shape="circle"
+    >
+    </igx-avatar>
+
+    <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent],
+  /* or imports: [IgxTooltipDirective, IgxTooltipTargetDirective, IgxAvatarComponent] */
+})
+export class HomeComponent {}
+```
+
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Tooltip, puede empezar a usar la directiva `igxTooltip`.
+
+## Uso de Angular Tooltip
+
+Supongamos que queremos crear una información emergente de texto sencilla como la de arriba. En nuestro caso, usamos nuestro magnífico [`IgxAvatar`](layouts/avatar.mdx) como elemento, así que empezamos importando primero `IgxAvatarModule`.
+
+```typescript
+// app.module.ts
+
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxTooltipModule, IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule, IgxAvatarModule],
+})
+export class AppModule {}
+```
+
+### Destino de la información emergente
+
+El avatar será nuestro destino y solo tenemos que aplicarle la directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />, que básicamente marca nuestro elemento como uno que tiene una información emergente.
+
+- La directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> extiende la directiva <ApiLink type="ToggleActionDirective" label="igxToggleAction" />.
+- La directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> se exporta con el nombre **tooltipTarget**.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<igx-avatar
+  class="avatar"
+  #target="tooltipTarget"
+  igxTooltipTarget
+  src="assets/images/avatar/10.jpg"
+  size="medium"
+  shape="circle">
+</igx-avatar>
+```
+
+### Tooltip
+
+Ahora creemos el elemento de la información emergente en sí. Como queremos una información emergente de texto sencilla, definiremos un elemento div normal con texto dentro y le aplicaremos la directiva <ApiLink type="TooltipDirective" label="igxTooltip" />, que lo marca como información emergente.
+
+- La directiva <ApiLink type="TooltipDirective" label="igxTooltip" /> extiende la directiva <ApiLink type="ToggleDirective" label="igxToggle" />.
+- La directiva <ApiLink type="TooltipDirective" label="igxTooltip" /> se exporta con el nombre **tooltip**.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+### Asociar la información emergente al destino
+
+Ahora que tenemos definidos tanto el destino como la información emergente, solo queda asignar la referencia de la información emergente al selector <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> del destino.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<igx-avatar
+  class="avatar"
+  #target="tooltipTarget"
+  [igxTooltipTarget]="tooltipRef"
+  src="assets/images/avatar/10.jpg"
+  size="medium"
+  shape="circle">
+</igx-avatar>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+Si todo ha ido bien, debería ver el ejemplo que se muestra en la sección [Demostración de Tooltip](#ejemplo-de-angular-tooltip).
+
+### Información emergente enriquecida
+
+El contenido de <ApiLink type="TooltipDirective" label="igxTooltip" /> puede ser algo más que texto sencillo. Como la información emergente es un elemento normal del marcado, puede enriquecer su contenido añadiendo los elementos que necesite y dándoles estilo.
+
+Ampliemos el uso de <ApiLink type="TooltipDirective" label="igxTooltip" /> y usémoslo para ofrecer más detalles sobre una ubicación concreta de un mapa. Usaremos un div sencillo para representar nuestro mapa, el [`IgxAvatar`](layouts/avatar.mdx) para un logotipo en nuestra información emergente y el [`IgxIcon`](/layouts/icon) para el icono de ubicación de nuestro mapa. Para ello, obtendremos sus módulos respectivos.
+
+```typescript
+// app.module.ts
+
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+import { IgxIconModule } from 'igniteui-angular/icon';
+// import { IgxTooltipModule, IgxAvatarModule, IgxIconModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule, IgxAvatarModule, IgxIconModule],
+})
+export class AppModule {}
+```
+
+También usaremos los siguientes estilos en nuestra aplicación:
+
+```css
+/* richTooltip.component.css */
+
+.location:hover {
+  cursor: pointer;
+}
+
+.map {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 252px;
+  background-image: url(assets/images/card/media/infragisticsMap.png);
+  border: 1px solid #d4d4d4;
+}
+
+.locationTooltip {
+  width: 310px;
+  background-color: var(--ig-grays-700);
+  padding: 3px;
+  font-size: 13px;
+}
+
+.locationTooltipContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 10px;
+  min-width: 25px;
+  width: 45px;
+  height: 45px;
+}
+```
+
+Empecemos creando nuestro mapa. Necesitamos un div sencillo que tenga como fondo una imagen con un mapa. Además, añadiremos un icono que indique la posición de nuestra ubicación. Como queremos ofrecer más detalles sobre esta ubicación, el icono será, evidentemente, el destino de la información emergente.
+
+```html
+{/*richTooltip.component.html*/}
+
+<div class="map">
+
+  <igx-icon
+    class="location"
+    [style.color]="'blue'"
+    fontSet="material"
+    [igxTooltipTarget]="locationTooltip"
+    >location_on</igx-icon>
+  ...
+</div>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+¡Ahora la información emergente! Para su contenido, crearemos un contenedor que se llenará con algunos elementos de texto informativo y un avatar. Después, simplemente asociaremos la información emergente al destino e incluiremos un bonito estilo CSS.
+
+```html
+{/*richTooltip.component.html*/}
+
+<div class="wrapper">
+
+  <div class="map">
+
+    <igx-icon
+      class="location"
+      [style.color]="'blue'"
+      fontSet="material"
+      [igxTooltipTarget]="locationTooltip"
+      >location_on</igx-icon>
+
+    <div class="locationTooltip" #locationTooltip="tooltip" igxTooltip>
+      <div class="locationTooltipContent">
+
+        <igx-avatar
+          class="logo"
+          src="assets/images/card/avatars/igLogo.png"
+          size="medium"
+          shape="square">
+        </igx-avatar>
+        <div>
+          <div>Infragistics Inc. HQ
+</div>
+          <div>2 Commerce Dr, Cranbury, NJ 08512, USA
+</div>
+        
+</div>
+      
+</div>
+    
+</div>
+  
+</div>
+</div>
+```
+
+Si todo ha ido bien, así deberían verse nuestra ubicación y la información emergente:
+
+<Sample src="/interactions/tooltip-rich" height={300} alt="" />
+
+<hr/>
+
+### Ejemplo avanzado
+
+La información emergente se integra sin problemas con otros componentes, lo que le permite crear informaciones emergentes avanzadas que contienen componentes en su interior.
+En el ejemplo siguiente puede ver cómo creamos informaciones emergentes descriptivas usando los componentes <ApiLink type="List" />, <ApiLink type="Avatar" />, <ApiLink type="Icon" />, <ApiLink type="Badge" />, <ApiLink type="ButtonDirective" />, <ApiLink type="Card" /> y [`IgxCategoryChart`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_charts.igxcategorychartcomponent.html).
+
+<Sample src="/interactions/tooltip-advanced" height={640} alt="" />
+
+<hr/>
+
+### Configuración del retardo al mostrar y ocultar
+
+¿Y si queremos controlar el tiempo que debe transcurrir antes de mostrar y ocultar la información emergente? Para ello podemos usar las propiedades <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> y <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> de la directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />. Ambas propiedades son de tipo **number** y reciben el tiempo en milisegundos.
+
+<DocsAside type="info">
+El comportamiento de interacción de la interfaz integrado de <ApiLink type="TooltipTargetDirective" /> funciona teniendo en cuenta los valores de las propiedades <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> y <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" />. Mostrar y ocultar la información emergente mediante la API o la API de <ApiLink type="TooltipDirective" /> NO tiene en cuenta los valores de las propiedades <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> y <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" />. Si es necesario, esa lógica tendría que implementarse manualmente según las necesidades específicas de la aplicación.
+</DocsAside>
+
+### Disparadores
+
+De forma predeterminada, <ApiLink type="TooltipDirective" label="igxTooltip" /> solo se activa al pasar el ratón sobre <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />. Sin embargo, puede cambiar este comportamiento con las propiedades <ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> y <ApiLink type="TooltipTargetDirective" member="hidetriggers" label="hideTriggers" />, que le permiten controlar cuándo aparece y desaparece <ApiLink type="TooltipDirective" label="igxTooltip" />. Estas propiedades aceptan nombres de eventos como valores, como `click`, `focus` u `keypress`, lo que le permite activar <ApiLink type="TooltipDirective" label="igxTooltip" /> en distintos escenarios.
+
+<Sample src="/interactions/tooltip-triggers" height={540} alt="" />
+
+<DocsAside type="info">
+Establecer <ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> y <ApiLink type="TooltipTargetDirective" member="hidetriggers" label="hideTriggers" /> solo tiene efecto cuando se interactúa con <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />, no con el propio <ApiLink type="TooltipDirective" label="igxTooltip" />. Los disparadores de evento predeterminados de <ApiLink type="TooltipDirective" label="igxTooltip" /> son `pointerenter` y `pointerleave`.
+</DocsAside>
+
+### Configuración de la superposición
+
+Las directivas <ApiLink type="TooltipDirective" label="igxTooltip" /> y <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> usan [`IgxOverlayService`](/overlay) para abrir y cerrar el respectivo elemento de información emergente.
+
+La directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> expone una propiedad <ApiLink type="TooltipTargetDirective" member="positionsettings" label="positionSettings" /> que puede usarse para personalizar las animaciones de nuestra información emergente, su posición en la interfaz y mucho más. Si no se establece esta propiedad, se usarán los ajustes de posición predeterminados.
+
+Para personalizar aún más la información emergente, use la propiedad <ApiLink type="TooltipTargetDirective" member="overlaysettings" label="overlaySettings" /> (heredada de <ApiLink type="ToggleActionDirective" label="igxToggleAction" />).
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [positionSettings]="positionSettings" [overlaySettings]="overlaySettings">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+```ts
+public positionSettings: PositionSettings = {
+  horizontalDirection: HorizontalAlignment.Left,
+  horizontalStartPoint: HorizontalAlignment.Left,
+  verticalDirection: VerticalAlignment.Top,
+  verticalStartPoint: VerticalAlignment.Bottom,
+  openAnimation: useAnimation(slideInTop, { params: { duration: '2000ms' } }),
+  closeAnimation: useAnimation(slideOutBottom, { params: { duration: '2000ms'} }),
+  offset: 10
+}
+
+public overlaySettings: OverlaySettings = {
+  closeOnEscape: false,
+};
+```
+
+<DocsAside type="info">
+Cualquier propiedad que se establezca mediante <ApiLink type="TooltipTargetDirective" member="positionsettings" label="positionSettings" /> o <ApiLink type="TooltipTargetDirective" member="overlaysettings" label="overlaySettings" /> sustituirá la misma propiedad de los ajustes predeterminados y tendrá un impacto directo en la información emergente.
+</DocsAside>
+
+### Propiedades adicionales
+
+Además de las propiedades que ya hemos tratado, <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> ofrece una serie de propiedades adicionales que le permiten configurar con más detalle el comportamiento y el aspecto de la información emergente.
+
+Puede hacer que la información emergente sea "fija" usando la propiedad <ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" />, que añade un botón de cierre y mantiene la información emergente visible hasta que el usuario la cierre manualmente, ya sea haciendo clic en el botón de cierre o pulsando la tecla `Esc`. Este comportamiento sustituye al comportamiento predeterminado al pasar el ratón, de modo que la información emergente no desaparece cuando el usuario deja de pasar el ratón sobre el elemento de destino.
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [sticky]="true">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+Para personalizar el botón de cierre predeterminado, use la propiedad <ApiLink type="TooltipTargetDirective" member="closetemplate" label="closeButtonTemplate" />.
+
+```html
+
+<igx-icon [igxTooltipTarget]="tooltipRef" [sticky]="true" [closeButtonTemplate]="customTemplate">
+  info
+</igx-icon>
+
+<ng-template #customTemplate>
+  <igx-icon>cancel</igx-icon>
+</ng-template>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+<DocsAside type="info">
+Cualquier contenido personalizado añadido mediante `closeButtonTemplate` solo se muestra cuando la información emergente está en modo fijo.
+</DocsAside>
+
+Además, puede añadir un indicador de flecha a la información emergente usando la propiedad <ApiLink type="TooltipTargetDirective" member="hasarrow" label="hasArrow" />.
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [hasArrow]="true">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+El elemento de flecha se posiciona según los ajustes de posición proporcionados. Si las direcciones y los puntos de inicio no corresponden a ninguno de los [valores de posición predefinidos](#valores-de-posición-predefinidos), la flecha se coloca en el centro superior de la información emergente (posición predeterminada de la información emergente `bottom`).
+
+#### Valores de posición predefinidos
+
+| Posición     | Dirección horizontal       | Punto de inicio horizontal     | Dirección vertical       | Punto de inicio vertical     |
+| :----------- | :------------------------- | :------------------------- | :----------------------- | :----------------------- |
+| top          | HorizontalAlignment.Center | HorizontalAlignment.Center | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| top-start    | HorizontalAlignment.Right  | HorizontalAlignment.Left   | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| top-end      | HorizontalAlignment.Left   | HorizontalAlignment.Right  | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| bottom       | HorizontalAlignment.Center | HorizontalAlignment.Center | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| bottom-start | HorizontalAlignment.Right  | HorizontalAlignment.Left   | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| bottom-end   | HorizontalAlignment.Left   | HorizontalAlignment.Right  | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| right        | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Middle | VerticalAlignment.Middle |
+| right-start  | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Bottom | VerticalAlignment.Top    |
+| right-end    | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Top    | VerticalAlignment.Bottom |
+| left         | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Middle | VerticalAlignment.Middle |
+| left-start   | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Bottom | VerticalAlignment.Top    |
+| left-end     | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Top    | VerticalAlignment.Bottom |
+
+
+En el ejemplo siguiente puede ver una demostración de todas las opciones de posición y del comportamiento de posicionamiento de la flecha en acción:
+
+<Sample src="/interactions/tooltip-placement" height={220} alt="" />
+
+<hr/>
+
+#### Personalizar la posición de la flecha
+
+Para personalizar la posición de la flecha, puede sobrescribir el método `positionArrow(arrow: HTMLElement, arrowFit: ArrowFit)`.
+
+Por ejemplo:
+
+```ts
+export class CustomStrategy extends TooltipPositionStrategy {
+  constructor(settings?: PositionSettings) {
+    super(settings);
+  }
+
+  public override positionArrow(arrow: HTMLElement, arrowFit: ArrowFit): void {
+    Object.assign(arrow.style, {
+      left: '-0.25rem',
+      transform: 'rotate(-45deg)',
+      [arrowFit.direction]: '-0.25rem',
+    });
+  }
+}
+
+public overlaySettings: OverlaySettings = {
+  positionStrategy: new CustomStrategy({
+    horizontalDirection: HorizontalAlignment.Right,
+    horizontalStartPoint: HorizontalAlignment.Right,
+    verticalDirection: VerticalAlignment.Bottom,
+    verticalStartPoint: VerticalAlignment.Bottom,
+  })
+};
+```
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [hasArrow]="true" [overlaySettings]="overlaySettings">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+## Estilos
+
+Para empezar a dar estilo a la información emergente, debemos importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="tooltip-theme" code={true} /> y proporciona los parámetros `$text-color`, `$background` y `$border-radius`.
+
+```scss
+$dark-tooltip: tooltip-theme(
+  $text-color: #ecaa53,
+  $background: #011627,
+  $border-radius: 6px,
+);
+```
+
+<DocsAside type="info">
+Para dar estilo a cualquier componente adicional que se use como parte del contenido de la información emergente (como [`IgxButton`](./inputs/button.mdx), [`IgxSwitch`](./inputs/switch.mdx), etc.), debe crearse un tema adicional específico para ese componente y colocarse solo dentro del ámbito de la información emergente (así no afecta al resto de la aplicación).
+</DocsAside>
+
+Como la información emergente usa [`IgxOverlayService`](/overlay), para que nuestro tema personalizado llegue hasta la información emergente que queremos dar estilo, proporcionaremos un punto de salida específico donde se colocará la información emergente en el DOM cuando sea visible.
+
+```html
+<igx-avatar
+  #target="tooltipTarget"
+  [igxTooltipTarget]="tooltipRef"
+  [igxToggleOutlet]="outlet"
+>
+</igx-avatar>
+
+<div #outlet="overlay-outlet" igxOverlayOutlet>
+  <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+</div>
+```
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+:host {
+  @include tokens($dark-tooltip);
+}
+```
+
+Así, nuestra información emergente con estilo debería verse de esta forma:
+
+### Demostración
+
+<Sample src="/interactions/tooltip-style" height={200} alt="" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo a la información emergente con nuestras clases de utilidad de Tailwind. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de Tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-tooltip`, `dark-tooltip`.
+
+Una vez aplicadas, estas clases permiten cálculos dinámicos del tema. Después puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Tras los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="Tema IgxTooltip" />. La sintaxis es la siguiente:
+
+```html
+<div
+  class="!light-tooltip ![--background:#90B69F]"
+  #tooltipRef="tooltip"
+  igxTooltip>
+  Her name is Madelyn James
+</div>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su información emergente debería verse así:
+
+<Sample src="/interactions/tooltip-tailwind-style/" height={100} iframeOnly />
+
+<hr/>
+
+## Accesibilidad
+
+<ApiLink type="TooltipDirective" label="igxTooltip" /> se ha creado teniendo en cuenta la accesibilidad e incluye las siguientes propiedades y atributos ARIA:
+
+- Propiedad <ApiLink type="TooltipDirective" member="id" label="id" />: se genera automáticamente si el desarrollador no la establece.
+- <ApiLink type="TooltipDirective" member="role" label="role" />: cuando la información emergente tiene su comportamiento predeterminado, se aplica `role="tooltip"`. Si la propiedad <ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" /> está habilitada, el rol cambia a `status`.
+- `aria-hidden`: se actualiza automáticamente según si la información emergente está visible o no.
+
+Al establecer el atributo **aria-describedby** del destino con el <ApiLink type="TooltipDirective" member="id" label="id" /> de su información emergente correspondiente, se proporciona una referencia al elemento de la información emergente. Esto da a los lectores de pantalla la información necesaria para leer el contenido de la información emergente cuando el usuario final la activa.
+
+Hay que tener especial cuidado en los siguientes escenarios:
+
+- El contenido de la información emergente es demasiado complejo para interpretarse automáticamente.
+- La información emergente se usa con un comportamiento implementado manualmente (por ejemplo, mostrar u ocultar manualmente) en lugar del integrado.
+- El elemento de destino no puede recibir el foco.
+
+## Notas y limitaciones
+
+| Limitación                          | Descripción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Estrategia de posición personalizada con flecha | La directiva <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> usa <ApiLink type="TooltipPositionStrategy" /> para posicionar la información emergente y el elemento de flecha. Si se usa una <ApiLink kind="interface" type="OverlaySettings" member="positionstrategy" /> personalizada y <ApiLink type="TooltipTargetDirective" member="hasarrow" label="hasArrow" /> se establece en `true`, la estrategia personalizada debe extender <ApiLink type="TooltipPositionStrategy" />. De lo contrario, la flecha no se mostrará.|
+
+
+## Referencias de API
+En este artículo hemos aprendido a crear, configurar y dar estilo a informaciones emergentes atractivas para los elementos de nuestra página. También hemos usado algunos componentes adicionales de Ignite UI for Angular, como iconos y avatares, para mejorar el diseño de nuestra aplicación. Las API correspondientes se enumeran a continuación:
+- <ApiLink type="TooltipDirective" />
+- <ApiLink type="TooltipTargetDirective" />
+Componentes y/o directivas adicionales que se han usado:
+- <ApiLink type="Avatar" />
+- <ApiLink type="Icon" />
+- <ApiLink type="ToggleDirective" />
+- <ApiLink type="ToggleActionDirective" />
+Estilos:
+- <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="Estilos de IgxTooltipDirective" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Estilos de IgxAvatarComponent" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Estilos de IgxIconComponent" />
+<igc-divider></igc-divider>
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

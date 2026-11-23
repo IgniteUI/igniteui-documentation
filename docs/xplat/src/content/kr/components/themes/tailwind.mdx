@@ -1,0 +1,208 @@
+---
+title: "{Platform}용 Tailwind 통합"
+description: "Ignite UI 테마 엔진의 사용자 지정 유틸리티 클래스로 Tailwind CSS를 통합하는 방법을 알아보십시오. 이 가이드는 설정 과정을 안내하고, 유틸리티 우선 방식으로 색, 타이포그래피, 그림자에 디자인 토큰을 사용하는 방법을 보여 줍니다."
+keywords: "{ProductName}, Infragistics, 테마, 스타일 지정, Tailwind CSS, 사용자 지정 CSS, 유틸리티 클래스, 테마 엔진, 타이포그래피, 그림자, 색"
+license: MIT
+mentionedTypes: ["ConfigureTheme"]
+_language: ko
+llms:
+  description: "{ProductName}은(는) CSS 변수를 통해 전체 테마 사용자 지정을 제공합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set gets this page from the xplat generator, so do not keep a copy under docs/angular.*/}
+
+# {ProductName}과(와) 함께하는 Tailwind CSS 통합
+
+{ProductName}은(는) CSS 변수를 통해 전체 테마 사용자 지정을 제공합니다. 이 가이드에서는 프로젝트에 Tailwind CSS를 통합하고, `igniteui-theming` 패키지가 제공하는 사용자 지정 유틸리티 클래스로 이를 보강하는 방법을 배웁니다. 이 클래스들은 색, 그림자, 타이포그래피의 {ProductName} 디자인 토큰을 노출하므로, 유틸리티 우선 스타일 지정을 매끄럽게 할 수 있습니다.
+
+## 개요
+
+<PlatformBlock for="Angular">
+
+이 가이드는 `igniteui-theming`이(가) 포함된 **{ProductName}**이(가) 이미 설치되어 있다고 가정합니다. 설치되어 있지 않다면 다음을 실행하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+이 가이드는 **Ignite UI Theming**이 이미 설치되어 있다고 가정합니다. 설치되어 있지 않다면 다음을 실행하십시오:
+
+```cmd
+npm install igniteui-theming
+```
+
+</PlatformBlock>
+
+## Tailwind 설정
+
+<PlatformBlock for="Angular">
+
+Tailwind와 그 PostCSS 플러그인을 설치하십시오:
+
+```cmd
+npm install tailwindcss @tailwindcss/postcss postcss --force
+```
+
+그다음 프로젝트 루트에 `.postcssrc.json` 파일을 만들고 PostCSS 구성에 `@tailwindcss/postcss` 플러그인을 추가하십시오:
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+선택한 빌드 도구나 프레임워크에 맞춰 [Tailwind 공식 설치 가이드](https://tailwindcss.com/docs/installation)를 따라 Tailwind CSS를 먼저 설치하십시오.
+
+</PlatformBlock>
+
+Tailwind를 설정한 후, 전역 스타일시트에서 Tailwind와 Ignite UI 테마 구성을 모두 가져오십시오<PlatformBlock for="Angular"> (`styles.css` 또는 `styles.scss`)</PlatformBlock>:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/themes/base";
+```
+
+프로젝트가 스타일 지정에 Sass를 사용한다면, Ignite UI 구성을 먼저 로드하십시오. Sass에서는 모든 `@use` 규칙이 `@import`을(를) 포함한 다른 모든 규칙보다 먼저 와야 합니다:
+
+```scss
+@use "igniteui-theming/tailwind/themes/base.css";
+@import "tailwindcss";
+```
+
+## Ignite UI 사용자 지정 유틸리티 클래스 사용하기
+
+`igniteui-theming` 패키지에는 유틸리티 클래스를 통해 Ignite UI 디자인 토큰을 노출하는 사용자 지정 Tailwind 구성이 포함되어 있습니다. 여기에는 다음에 대한 지원이 포함됩니다:
+
+- 색과 명암 대비 색
+
+- 높이감(그림자)
+
+- 타이포그래피 스타일
+
+각각을 어떻게 사용하는지 살펴보겠습니다.
+
+### 색 유틸리티 클래스
+
+색 유틸리티 클래스는 각 Ignite UI 테마의 토큰으로 구동됩니다. HTML에서 직접 적용할 수 있습니다:
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<h1 class="bg-primary-500 text-primary-500-contrast">This is a title</h1>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<h1 className="bg-primary-500 text-primary-500-contrast">This is a title</h1>
+```
+
+</PlatformBlock>
+
+Tailwind의 전체 색 체계는 [Tailwind 색 문서](https://tailwindcss.com/docs/color)에서 확인할 수 있으며, Ignite UI가 제공하는 클래스 이름을 사용하여 적용할 수 있습니다.
+
+### 그림자 유틸리티 클래스
+
+미리 정의된 [높이감 수준](elevations.mdx)(0부터 24까지) 중 아무거나 사용하여 깊이감을 줄 수 있습니다:
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<div class="shadow-elevation-8">Elevated container</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<div className="shadow-elevation-8">Elevated container</div>
+```
+
+</PlatformBlock>
+
+Tailwind가 제공하는 모든 그림자 관련 유틸리티 클래스는 [Tailwind box shadow 문서](https://tailwindcss.com/docs/box-shadow)에서 확인할 수 있습니다.
+
+### 타이포그래피 사용자 지정 유틸리티 스타일
+
+글꼴을 적용하려면 최상위 요소에 `font-ig` 클래스를 추가하십시오. `text-base` 유틸리티 클래스를 사용하여 기본 글꼴 크기를 정의할 수도 있습니다.
+각 타이포그래피 수준(예: h1, h2, body-1)에 맞는 사용자 지정 유틸리티 클래스를 제공합니다. 다음과 같이 사용하십시오:
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<p class="type-style-h3">This paragraph gets the h3 styles</p>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<p className="type-style-h3">This paragraph gets the h3 styles</p>
+```
+
+</PlatformBlock>
+
+각 클래스는 [Ignite UI 타입 스케일](typography.mdx)에 따라 필요한 모든 글꼴 설정, 간격 및 크기를 적용합니다.
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+이 사용자 지정 타이포그래피 유틸리티는 `ig-typography` 바깥에서만 작동합니다. 최상위 요소에 `ig-typography` CSS 클래스를 설정해야 한다면 이 스타일은 적용되지 않습니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+
+## 샘플
+
+아래 샘플에서는 그림자, 색, 타이포그래피를 위한 사용자 지정 유틸리티를 포함하여 Tailwind 유틸리티 클래스만으로 만든 404 페이지를 볼 수 있습니다.
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+각 컴포넌트의 스타일을 지정하는 방법은 해당 문서 항목의 **스타일 지정** 섹션에서 확인할 수 있습니다.
+</DocsAside>
+
+<Sample src="/theming/tailwind-sample" height={610} alt="{Platform} Tailwind 통합" />
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tailwind/styling" height={400} alt="{Platform} Tailwind 통합" />
+
+</PlatformBlock>
+<PlatformBlock for="Angular, WebComponents">
+
+<DocsAside type="info">
+이 샘플은 가상의 것으로 완전히 사용자 지정된 것이며, Ignite UI 컴포넌트 라이브러리의 일부가 아닙니다.
+</DocsAside>
+
+</PlatformBlock>
+
+## 요약
+
+몇 단계의 구성만으로 Tailwind의 유틸리티 우선 방식과 Ignite UI의 견고한 디자인 시스템을 결합할 수 있습니다. 이 통합을 사용하면 HTML에서 바로 색, 높이감, 타이포그래피의 잘 정의된 토큰을 사용하여 일관되고 테마가 적용된 UI 컴포넌트를 빠르게 만들 수 있습니다.
+
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

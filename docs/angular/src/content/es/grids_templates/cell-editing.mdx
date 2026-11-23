@@ -1,0 +1,692 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Edición de celdas en Angular Data Grid: Ignite UI for Angular"
+description: "El Grid usa edición dentro de la celda. Tiene una plantilla de edición de celdas predeterminada, pero también le permite definir sus propias plantillas personalizadas para la acción de actualizar datos. ¡Pruébelo ahora!"
+keywords: "manipulación de datos, ignite ui for angular, infragistics, edición al estilo de Excel"
+license: commercial
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular ofrece potentes capacidades de manipulación de datos y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Edición de celdas en Angular TreeGrid: Ignite UI for Angular"
+description: "El Grid usa edición dentro de la celda. Tiene una plantilla de edición de celdas predeterminada, pero también le permite definir sus propias plantillas personalizadas para la acción de actualizar datos. ¡Pruébelo ahora!"
+keywords: "manipulación de datos, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/cell-editing
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular ofrece potentes capacidades de manipulación de datos y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Edición de celdas en Angular HierarchicalGrid: Ignite UI for Angular"
+description: "El Grid usa edición dentro de la celda. Tiene una plantilla de edición de celdas predeterminada, pero también le permite definir sus propias plantillas personalizadas para la acción de actualizar datos. ¡Pruébelo ahora!"
+keywords: "manipulación de datos, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/cell-editing
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular ofrece potentes capacidades de manipulación de datos y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Edición de celdas de {ComponentTitle} en Angular
+
+El componente {ComponentTitle} de Ignite UI for Angular ofrece potentes capacidades de manipulación de datos y una API potente para las operaciones CRUD de Angular. De forma predeterminada, {ComponentTitle} usa la edición **dentro de la celda** y se muestran distintos editores según el tipo de datos de la columna, gracias a la **plantilla de edición de celdas predeterminada**. Además, puede definir sus propias plantillas personalizadas para las acciones de actualización de datos y para sustituir el comportamiento predeterminado al confirmar o descartar cualquier cambio.
+
+## Ejemplo de edición de celdas y plantillas de edición de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing" height={650} alt="Ejemplo de edición de celdas y plantillas de edición de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing" height={950} alt="Ejemplo de edición de celdas y plantillas de edición de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing" height={660} alt="Ejemplo de edición de celdas y plantillas de edición de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Al usar `igxCellEditor` con cualquier tipo de componente de editor, el flujo de navegación por teclado se verá interrumpido. Lo mismo ocurre con la edición directa de la celda personalizada que entra en modo de edición. Esto se debe a que `focus` permanecerá en `cell element`, no en el componente de editor que hemos añadido ([`igxSelect`](/select), [`igxCombo`](/inputs/combo/overview), etc.). Por eso debemos aprovechar la directiva `igxFocus`, que moverá el foco directamente al componente dentro de la celda y conservará `a fluent editing flow` de la celda o fila.
+</DocsAside>
+
+## Edición de celdas
+
+### Edición a través de la interfaz
+
+Puede entrar en el modo de edición de una celda específica cuando una celda editable tiene el foco, de una de las siguientes formas:
+
+- con doble clic;
+- con un clic simple: el clic simple solo entrará en el modo de edición si la celda seleccionada anteriormente estaba en modo de edición y la celda seleccionada actualmente es editable. Si la celda seleccionada anteriormente no estaba en modo de edición, el clic simple solo selecciona la celda sin entrar en el modo de edición;
+- al pulsar una tecla `Enter`;
+- al pulsar una tecla `F2`;
+
+Puede salir del modo de edición **sin confirmar** los cambios de una de las siguientes formas:
+
+- al pulsar una tecla `Escape`;
+- al realizar operaciones de _ordenación_, _filtrado_, _búsqueda_ y _ocultación_;
+
+Puede salir del modo de edición y **confirmar** los cambios de una de las siguientes formas:
+
+- al pulsar una tecla `Enter`;
+- al pulsar una tecla `F2`;
+- al pulsar una tecla `Tab`;
+- con un clic simple en otra celda: cuando hace clic en otra celda de {ComponentTitle}, sus cambios se enviarán.
+- las operaciones como la paginación, el redimensionamiento, el anclaje o el movimiento salen del modo de edición y los cambios se envían.
+
+<DocsAside type="info">
+La celda permanece en modo de edición cuando se desplaza vertical u horizontalmente, o cuando se hace clic fuera de {ComponentTitle}. Esto es válido tanto para la edición de celdas como para la edición de filas.
+</DocsAside>
+
+### Edición a través de la API
+
+También puede modificar el valor de una celda mediante la API {ComponentName}, pero solo si se ha definido la clave primaria:
+
+<ComponentBlock for="Grid">
+
+```typescript
+public updateCell() {
+    this.grid1.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public updateCell() {
+    this.treeGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public updateCell() {
+    this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+</ComponentBlock>
+
+Otra forma de actualizar una celda es directamente mediante el método <ApiLink type="GridCell" member="update" label="update" /> de <ApiLink type="GridCell" />:
+
+<ComponentBlock for="Grid">
+
+```typescript
+public updateCell() {
+    const cell = this.grid1.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.grid1.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public updateCell() {
+    const cell = this.treeGrid.getCellByColumn(rowIndex, 'Age');
+    // You can also get cell by rowID if primary key is defined
+    // const cell = this.treeGrid.getCellByKey(rowID, 'Age');
+    cell.update(9999);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public updateCell() {
+    const cell = this.hierarchicalGrid.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.hierarchicalGrid.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+
+</ComponentBlock>
+
+### Plantillas de edición de celdas
+
+Puede ver y conocer más sobre las plantillas de edición de celdas predeterminadas en el tema [edición general](/{igPath}/editing#plantillas-de-edición).
+
+Si quiere proporcionar una plantilla personalizada que se aplique cuando una celda esté en modo de edición, puede usar <ApiLink type="CellTemplateDirective" label="directiva igxCellEditor`" />. Para ello, tiene que pasar un `ng-template` marcado con la directiva `igxCellEditor` y enlazar correctamente su control personalizado a <ApiLink type="GridCell" member="editValue" label="cell.editValue" />:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+Este código se usa en el ejemplo siguiente, que implementa un [`IgxSelectComponent`](/select) en las celdas de las columnas `Race`, `Class` y `Alignment`.
+
+<Sample src="/grid/grid-select" height={625} alt="" />
+
+
+<DocsAside type="info">
+Cualquier cambio realizado en el <ApiLink type="GridCell" member="editValue" label="editValue" /> de la celda en modo de edición activará el [evento de edición](/{igPath}/editing#argumentos-del-evento-y-secuencia) adecuado al salir y se aplicará al [estado de transacciones](/{igPath}/batch-editing) (si las transacciones están habilitadas).
+</DocsAside>
+
+<DocsAside type="info">
+La plantilla de celda [`igxCell`](/grid/grid#plantilla-de-celda) controla cómo se muestran las celdas de una columna fuera del modo de edición.
+La directiva de plantilla de edición de celdas `igxCellEditor` gestiona cómo se muestran las celdas de una columna en modo de edición y controla el valor de edición de la celda editada.
+</DocsAside>
+
+<DocsAside type="info">
+Al usar `igxCellEditor` con cualquier tipo de componente de editor, el flujo de navegación por teclado se verá interrumpido. Lo mismo ocurre con la edición directa de la celda personalizada que entra en modo de edición. Esto se debe a que `focus` permanecerá en `cell element`, no en el componente de editor que hemos añadido ([`igxSelect`](/select), [`igxCombo`](/inputs/combo/overview), etc.). Por eso debemos aprovechar la directiva `igxFocus`, que moverá el foco directamente al componente dentro de la celda y conservará `a fluent editing flow` de la celda o fila.
+</DocsAside>
+
+
+Para más información sobre cómo configurar las columnas y sus plantillas, puede consultar la documentación de [configuración de columnas de Grid](/grid/grid#configuración-de-columnas-del-grid-de-angular).
+
+<ComponentBlock for="Grid">
+
+### Edición al estilo de Excel de {ComponentTitle}
+
+Con la edición al estilo de Excel, el usuario puede desplazarse por las celdas como lo haría en Excel, y editarlas muy rápidamente.
+
+Esta funcionalidad personalizada puede implementarse usando los eventos de la cuadrícula. Primero nos conectamos a los eventos keydown de la cuadrícula y, a partir de ahí, podemos implementar dos funciones:
+
+- Modo de edición constante
+
+```typescript
+public keydownHandler(event) {
+  const key = event.keyCode;
+  const grid = this.grid;
+  const activeElem = grid.navigation.activeNode;
+
+  if(
+    (key >= 48 && key <= 57) ||
+    (key >= 65 && key <= 90) ||
+    (key >= 97 && key <= 122)){
+        // Number or Alphabet upper case or Alphabet lower case
+        const columnName = grid.getColumnByVisibleIndex(activeElem.column).field;
+        const cell = grid.getCellByColumn(activeElem.row, columnName);
+        if (cell && !cell.editMode) {
+            cell.editMode = true;
+            cell.editValue = event.key;
+            this.shouldAppendValue = true;
+        } else if (cell && cell.editMode && this.shouldAppendValue) {
+            event.preventDefault();
+            cell.editValue = cell.editValue + event.key;
+            this.shouldAppendValue = false;
+        }
+    }
+}
+```
+
+- Navegación con `Enter` / `Shift+Enter`
+
+```typescript
+if (key == 13) {
+    let thisRow = activeElem.row;
+    const column = activeElem.column;
+    const rowInfo = grid.dataView;
+
+    // to find the next eiligible cell, we will use a custom method that will check the next suitable index
+    let nextRow = this.getNextEditableRowIndex(thisRow, rowInfo, event.shiftKey);
+
+    // and then we will navigate to it using the grid's built in method navigateTo
+    this.grid.navigateTo(nextRow, column, (obj) => {
+        obj.target.activate();
+        this.grid.clearCellSelection();
+        this.cdr.detectChanges();
+    });
+}
+```
+
+Las partes clave para encontrar el siguiente índice válido serían:
+
+```typescript
+//first we check if the currently selected cell is the first or the last
+if (currentRowIndex < 0 || (currentRowIndex === 0 && previous) || (currentRowIndex >= dataView.length - 1 && !previous)) {
+return currentRowIndex;
+}
+// in case using shift + enter combination, we look for the first suitable cell going up the field
+if(previous){
+return  dataView.findLastIndex((rec, index) => index < currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+}
+// or for the next one down the field
+return dataView.findIndex((rec, index) => index > currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+```
+
+Consulte el ejemplo completo para más referencia:
+
+### Ejemplo de edición al estilo de Excel en Angular Grid
+
+<Sample src="/grid/grid-editing-excel-style" height={550} alt="Ejemplo de edición al estilo de Excel en Angular Grid" />
+
+Las principales ventajas de este enfoque son:
+
+- Modo de edición constante: al escribir mientras una celda está seleccionada, se entra de inmediato en el modo de edición con el valor escrito, reemplazando el existente
+- Las filas que no son de datos se omiten al navegar con `Enter` / `Shift+Enter`. Esto permite a los usuarios recorrer sus valores rápidamente.
+
+</ComponentBlock>
+
+## Operaciones CRUD
+
+<DocsAside type="info">
+Tenga en cuenta que, al realizar alguna **operación CRUD**, todos los pipes aplicados, como **filtrado**, **ordenación** y **agrupación**, se volverán a aplicar y su vista se actualizará automáticamente.
+</DocsAside>
+
+<ApiLink type="{ComponentApiType}" /> proporciona una API sencilla para las operaciones CRUD básicas.
+
+### Añadir un nuevo registro
+
+El componente {ComponentTitle} expone el método <ApiLink type="{ComponentApiType}" member="addRow" label="addRow" />, que añade los datos proporcionados al propio origen de datos.
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = this.getNewRecord();
+this.grid.addRow(record);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public addNewChildRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    // And specifying the parentRowID.
+    const record = this.getNewRecord();
+    this.treeGrid.addRow(record, 1);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+public addRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    const record = this.getNewRecord();
+    this.hierarchicalGrid.addRow(record, 1);
+}
+```
+
+</ComponentBlock>
+
+### Actualizar datos en {ComponentTitle}
+
+Los datos de {ComponentTitle} se actualizan mediante los métodos <ApiLink type="{ComponentApiType}" member="updateRow" label="updateRow" /> y <ApiLink type="{ComponentApiType}" member="updateCell" label="updateCell" />, pero **solo si se ha definido la clave primaria de la cuadrícula**. También puede actualizar directamente el valor de una celda o de una fila mediante sus respectivos métodos `update`.
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Updating the whole row
+this.grid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.grid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.grid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+// Updating the whole row
+this.treeGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Tree Grid API
+this.treeGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.treeGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+// Updating the whole row
+this.hierarchicalGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.hierarchicalGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.hierarchicalGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</ComponentBlock>
+
+### Eliminar datos de {ComponentTitle}
+
+Tenga en cuenta que el método <ApiLink type="{ComponentApiType}" member="deleteRow" label="deleteRow()" /> eliminará la fila especificada solo si se ha definido la clave primaria.
+
+<ComponentBlock for="Grid">
+
+```typescript
+// Delete row through Grid API
+this.grid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.grid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+// Delete row through Tree Grid API
+this.treeGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.treeGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</ComponentBlock>
+Estos métodos pueden vincularse a interacciones del usuario que no tienen que estar relacionadas con **{ComponentSelector}**; por ejemplo, un clic en un botón:
+
+```html
+<button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
+```
+
+
+### Validación de celdas en el evento de edición
+
+Usando los eventos de edición del grid podemos cambiar la forma en que el usuario interactúa con el grid.
+En este ejemplo validaremos una celda según los datos introducidos en ella, enlazándonos al evento <ApiLink type="{ComponentApiType}" member="cellEdit" label="cellEdit" />. Si el nuevo valor de la celda no cumple nuestros criterios predefinidos, evitaremos que llegue al origen de datos cancelando el evento (`event.cancel = true`). También mostraremos un mensaje de error personalizado usando [`IgxToast`](../toast.mdx).
+
+Lo primero que debemos hacer es enlazarnos al evento de la cuadrícula:
+
+```html
+<{ComponentSelector} (cellEdit)="handleCellEdit($event)"
+...>
+...
+</{ComponentSelector}>
+```
+
+El `cellEdit` se emite cada vez que el valor de **cualquier** celda está a punto de confirmarse. En la definición de nuestro `handleCellEdit` debemos asegurarnos de comprobar nuestra columna específica antes de realizar cualquier acción:
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class MyGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'Ordered') {
+            const rowData = event.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+
+Si el valor introducido en una celda de la columna **Ordered** es mayor que la cantidad disponible (el valor de **Units in Stock**), la edición se cancelará y se mostrará un toast con un mensaje de error.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+export class MyTreeGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'Age') {
+            if (event.newValue < 18) {
+                event.cancel = true;
+                this.toast.message = 'Employees must be at least 18 years old!';
+                this.toast.open();
+            }
+        } else if (column.field === 'HireDate') {
+            if (event.newValue > new Date().getTime()) {
+                event.cancel = true;
+                this.toast.message = 'The employee hire date must be in the past!';
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+
+Aquí validamos dos columnas. Si el usuario intenta establecer un valor no válido para la **edad** de un empleado (menor de 18) o para su **fecha de contratación** (una fecha futura), la edición se cancelará (el valor no se enviará) y se mostrará un toast con un mensaje de error.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class MyHGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs) {
+        const today = new Date();
+        const column = event.column;
+        if (column.field === 'Debut') {
+            if (event.newValue > today.getFullYear()) {
+                this.toast.message = 'The debut date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        } else if (column.field === 'LaunchDate') {
+            if (event.newValue > new Date()) {
+                this.toast.message = 'The launch date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        }
+    }
+}
+```
+
+Aquí validamos dos columnas. Si el usuario intenta cambiar el año de **debut** de un artista o la **fecha de lanzamiento** de un álbum, el grid no permitirá ninguna fecha posterior a hoy.
+</ComponentBlock>
+
+El resultado de aplicar la validación anterior a nuestro `{ComponentSelector}` puede verse en la demostración siguiente:
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-events" height={650} alt="" />
+
+</ComponentBlock>
+
+## Estilos
+
+{ComponentName} permite dar estilo a sus celdas mediante [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). La <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> de la cuadrícula expone una amplia gama de propiedades que permiten dar estilo a muchos aspectos diferentes de la cuadrícula.
+
+En los pasos siguientes veremos cómo dar estilo a la celda de la cuadrícula en modo de edición y cómo limitar el alcance de esos estilos.
+
+Para usar el [`Ignite UI Theming Library`](/themes/sass/component-themes), primero debemos importar el archivo de tema `index` en nuestros estilos globales:
+
+### Importar la biblioteca de estilos
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Ahora podemos usar todas las funciones que expone el motor de temas de Ignite UI for Angular.
+
+### Definir una paleta
+
+Una vez importado correctamente el archivo index, creamos una paleta personalizada que podemos usar. Definamos tres colores que nos gusten y usémoslos para construir una paleta con [`palette`](/themes/palettes):
+
+```scss
+$white: #fff;
+$blue: #4567bb;
+$gray: #efefef;
+
+$color-palette: palette(
+  $primary: $white, 
+  $secondary: $blue, 
+  $surface: $gray
+);
+```
+
+### Definir temas
+
+Ahora podemos definir el tema usando nuestra paleta. Las celdas se estilan mediante <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />, así que podemos usarlo para generar un tema para nuestro {ComponentName}:
+
+```scss
+$grid-theme: grid-theme(
+  $cell-editing-background: $blue,
+  $cell-editing-foreground: $white,
+  $cell-active-border-color: $blue,
+  $cell-edited-value-color: $white,
+  $edit-mode-color: color($color: "secondary", $variant: 200)
+);
+```
+
+### Aplicar el tema
+
+El último paso es **incluir** la paleta personalizada y los temas de la cuadrícula.
+
+<ComponentBlock for="Grid">
+
+```scss
+igx-grid {
+  @include palette($color-palette);
+  @include tokens($grid-theme);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```scss
+igx-tree-grid {
+  @include palette($color-palette);
+  @include tokens($grid-theme);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```scss
+igx-hierarchical-grid {
+  @include palette($color-palette);
+  @include tokens($grid-theme);
+}
+```
+
+</ComponentBlock>
+
+### Demostración
+
+Además de los pasos anteriores, también podemos dar estilo a los controles que se usan en las plantillas de edición de las celdas: [`input-group`](/input-group#estilos), [`datepicker`](/date-picker#estilos) y [`checkbox`](/inputs/checkbox#styling)
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-editing-style" height={650} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-editing-style" height={950} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-style" height={660} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="GridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+_<ApiLink type="GridRow" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+_ <ApiLink type="TreeGridRow" />
+</ComponentBlock>
+- <ApiLink type="InputDirective" />
+- <ApiLink type="DatePicker" />
+- <ApiLink kind="sass" module="themes" type="function-date-picker-theme" label="Estilos de IgxDatePickerComponent" />
+- <ApiLink type="Checkbox" />
+- <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="Estilos de IgxCheckboxComponent" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />
+## Recursos adicionales
+
+
+- [Crear operaciones CRUD con igxGrid](/general/how-to/how-to-perform-crud)
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+- [Búsqueda](/{igPath}/search)
+</ComponentBlock>

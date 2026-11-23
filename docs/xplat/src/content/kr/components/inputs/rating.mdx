@@ -1,0 +1,1397 @@
+---
+title: "{Platform} 평점 컴포넌트"
+description: "{ProductName} 평점은 별 또는 사용자 지정 기호의 척도에서 점수를 선택하거나 보는 폼 연결 입력으로, 반 개 단위 증감을 지원합니다."
+keywords: "{Platform} 평점, {ProductName}, 별점, 반 별 평점, 평점 기호"
+license: MIT
+last_updated: "2026-10-07"
+relatedComponents: ["Slider", "RadioGroup"]
+mentionedTypes: ["Rating", "RatingSymbol"]
+_language: ko
+llms:
+  description: "{ProductName} 평점은 사용자가 별 또는 사용자 지정 기호 척도에서 점수를 보고 선택할 수 있게 하는 폼 연결 컴포넌트입니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import ratingAnatomy from '@xplat-images/anatomy-content-light/rating-lt-a.png';
+import ratingDoSymbol from '@xplat-images/rating/rating-do-1.png';
+import ratingDoNotSymbol from '@xplat-images/rating/rating-do-not-1.png';
+import ratingDoContrast from '@xplat-images/rating/rating-do-2.png';
+import ratingDoNotContrast from '@xplat-images/rating/rating-do-not-2.png';
+
+# Rating
+
+{ProductName} 평점은 사용자가 별 또는 사용자 지정 기호 척도에서 점수를 보고 선택할 수 있게 하는 폼 연결 컴포넌트입니다.
+
+<PlatformBlock for="Angular">
+
+Angular에서 평점은 `igniteui-webcomponents`의 `igc-rating` 웹 컴포넌트입니다. `IgcFormControlDirective`로 Angular 폼에 바인딩하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+평점은 반 별과 그 밖의 소수 값, 마우스 오버 미리 보기, 구별되는 기호의 단일 선택, 완전한 키보드 입력을 지원합니다.
+
+</PlatformBlock>
+
+## 라이브 데모
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} 평점 개요 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/overview" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} 평점 개요 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+평점은 레이블과 값으로 구성되며, 값은 척도의 숫자입니다. `label`를 설정하면 레이블이 표시됩니다. 기호 개수(기본값 5)를 바꾸려면 `max`를 설정하십시오.
+
+<Anatomy
+  class="rating-anatomy"
+  name="Rating"
+  description="평점 컴포넌트는 레이블과, 현재 값까지 채워지는 기호의 줄을 보여 줍니다."
+  src={ratingAnatomy.src}
+  alt="레이블과 채워진 별, 부분적으로 채워진 별, 빈 별 기호를 보여 주는 평점 구조"
+/>
+
+<style>{`
+  .rating-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .rating-anatomy .igd-anatomy__image {
+    max-width: 257.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. 레이블(선택 사항):</strong> 사용자가 무엇을 평가하는지 설명합니다<br />
+<strong>2. 평점 아이콘:</strong> 선택된 항목을 나타냅니다<br />
+<strong>3. 평점 아이콘:</strong> 반쯤 선택된 항목을 나타냅니다<br />
+<strong>4. 평점 아이콘:</strong> 선택되지 않은 항목을 나타냅니다</span>
+
+`igc-rating` 요소는 레이블과 기호를 담는 슬라이더를 렌더링합니다. 프로젝션된 기호가 없으면 `max`의 각 점마다 별 하나를 렌더링합니다:
+
+```text
+igc-rating
+└─ #shadow-root
+   ├─ label[part="label"]                    // hidden when label isn't set
+   └─ div[part="base"][role="slider"]
+      ├─ div[part="symbols"]                 // aria-hidden="true"
+      │  └─ slot[name="symbol"]              // projected igc-rating-symbol elements
+      │     └─ igc-rating-symbol × max       // default stars when nothing is projected
+      │        └─ #shadow-root
+      │           ├─ div[part="symbol full"]   // star_filled icon, clipped to the value
+      │           └─ div[part="symbol empty"]  // star_outlined icon, clipped to the rest
+      └─ label[part="value-label"]
+         └─ slot[name="value-label"]         // hidden when the slot is empty
+```
+
+각 `igc-rating-symbol`는 기본 슬롯을 `full` 파트에, `empty` 슬롯을 `empty` 파트에 렌더링합니다.
+
+## 시작하기
+
+{Platform} 평점을 사용하려면  <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음, 대상 플랫폼에 맞게 컴포넌트를 추가하십시오.
+
+<PlatformBlock for="WebComponents">
+
+**{PackageCommon}** 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageCommon}
+```
+
+그다음 <ApiLink pkg="core" type="Rating" />, 테마 CSS를 import하고 컴포넌트를 등록하십시오. 등록하면 `igc-rating-symbol`와 `igc-icon` 요소도 함께 등록됩니다:
+
+```ts
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcRatingComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+**{PackageCommon}** 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageCommon}
+```
+
+그다음 <ApiLink pkg="core" type="Rating" /> 래퍼와 테마 CSS를 import하십시오:
+
+```tsx
+import { IgrRating } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Rating" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="RatingModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbRatingModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+그다음 호스트 페이지에 테마 스타일시트를 추가하십시오:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+프로젝트에서 아직 {ProductName}를 사용하지 않는다면 `ng add igniteui-angular`를 실행하십시오. 그다음 평점을 제공하는 **{PackageComponents}** 패키지를 설치하십시오:
+
+```cmd
+npm install {PackageComponents}
+```
+
+`IgcRatingComponent`를 등록하고, `igc-rating`를 렌더링하는 Angular 컴포넌트에 `CUSTOM_ELEMENTS_SCHEMA`를 추가하십시오:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
+
+@Component({
+    selector: 'app-product-rating',
+    template: '<igc-rating label="Rate this product"></igc-rating>',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ProductRatingComponent {}
+```
+
+{ProductName} 테마는 `igc-rating`의 스타일을 지정하므로, 평점은 `theme()` 믹스인으로 포함한 테마를 따릅니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+등록한 후에는 레이블과 함께 <ApiLink pkg="core" type="Rating" />를 렌더링하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+평점은 별 다섯 개를 렌더링하며, 값 0에서 시작합니다.
+
+## 사용법
+
+제품, 서비스, 경험에 대한 점수를 수집하거나 사용자가 바꿀 수 없는 평균 점수를 보여 줄 때 {Platform} 평점을 사용하십시오.
+
+### 마우스 오버 미리 보기
+
+사용자가 클릭하기 전에 포인터 아래 값까지 기호를 채우려면 `hoverPreview`를 설정하십시오. 포인터가 기호 밖으로 나가면 {Platform} 평점은 다시 자신의 값을 보여 줍니다. 읽기 전용이나 비활성화된 평점은 미리 보기를 보여 주지 않습니다.
+
+<PlatformBlock for="WebComponents">
+
+미리 보기가 켜져 있는 동안 평점은 포인터 아래 값과 함께 `igcHover`를 발생시킵니다:
+
+```html
+<igc-rating hover-preview label="Rate this article"></igc-rating>
+<span id="hint"></span>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+const hint = document.getElementById('hint')!;
+
+rating.addEventListener('igcHover', (event) => {
+  hint.textContent = `${event.detail} stars`;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+미리 보기가 켜져 있는 동안 평점은 포인터 아래 값과 함께 `onHover`를 호출합니다:
+
+```tsx
+<IgrRating
+  hoverPreview={true}
+  label="Rate this article"
+  onHover={(e: CustomEvent<number>) => setHint(`${e.detail} stars`)}
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+미리 보기가 켜져 있는 동안 평점은 포인터 아래 값과 함께 `Hover`를 발생시킵니다:
+
+```razor
+<IgbRating HoverPreview="true" Label="Rate this article" Hover="OnHover" />
+
+@code {
+    private string Hint { get; set; }
+
+    private void OnHover(IgbNumberEventArgs e)
+    {
+        Hint = $"{e.Detail} stars";
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+미리 보기가 켜져 있는 동안 평점은 포인터 아래 값과 함께 `igcHover`를 발생시킵니다:
+
+```html
+<igc-rating hover-preview label="Rate this article" (igcHover)="onHover($event)"></igc-rating>
+```
+
+```ts
+public hint = '';
+
+public onHover(event: Event) {
+    this.hint = `${(event as CustomEvent<number>).detail} stars`;
+}
+```
+
+</PlatformBlock>
+
+### 초기화
+
+기본적으로 현재 값을 클릭하면 값이 유지됩니다. 사용자가 현재 값을 다시 클릭할 때 {Platform} 평점을 0으로 재설정하려면 `allowReset`을 설정하십시오.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating allowReset={true} label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating AllowReset="true" Label="Rate this song" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating allow-reset label="Rate this song"></igc-rating>
+```
+
+</PlatformBlock>
+
+### 읽기 전용
+
+모든 리뷰의 평균처럼 사용자가 바꿀 수 없는 점수를 보여 주려면 `readOnly`을 설정하십시오. 값은 범위 안의 아무 숫자나 될 수 있으므로, 4.3이면 기호 네 개와 다섯 번째 기호의 30%가 채워집니다. 읽기 전용 {Platform} 평점은 탭 순서에 남으며<PlatformBlock for="React,WebComponents,Angular">, 보조 기술은 이를 읽기 전용으로 알립니다</PlatformBlock>.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating readOnly={true} value={4.3} label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating ReadOnly="true" Value="4.3" Label="Average rating" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating readonly value="4.3" label="Average rating"></igc-rating>
+```
+
+</PlatformBlock>
+
+### 레이아웃
+
+`label` 속성은 기호 위에 보이는 레이블을 렌더링하고, 보조 기술을 위해 {Platform} 평점의 이름을 지정합니다. 현재 점수처럼 기호 옆에 사용자 지정 콘텐츠를 보여 주려면 `value-label` 슬롯에 넣으십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating value="4" label="Rate this product">
+  <span slot="value-label">4 of 5</span>
+</igc-rating>
+```
+
+값과 동기화되도록 `igcChange` 핸들러에서 슬롯 콘텐츠를 업데이트하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating value={score} label="Rate this product" onChange={(e: CustomEvent<number>) => setScore(e.detail)}>
+  <span slot="value-label">{score} of 5</span>
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating @bind-Value="Score" Label="Rate this product">
+    <span slot="value-label">@Score of 5</span>
+</IgbRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating [value]="score" label="Rate this product" (igcChange)="onScoreChange($event)">
+  <span slot="value-label">{{ score }} of 5</span>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+모든 {Platform} 평점에 접근 가능한 이름을 부여하고, 척도에 맞는 말로 그 값을 설명하십시오.
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+평점에 보이는 `label`가 없으면 그것에 `aria-label`를 설정하거나, `igniteui-webcomponents` 7.4.1 이상에서는 `<label>` 요소를 그것과 연결하십시오. 보조 기술은 기본적으로 값을 "3 of 5"로 읽습니다. 이 텍스트를 바꾸려면 `valueFormat`를 설정하십시오. 평점은 `{0}`을 값으로, `{1}`을 `max`로 바꾸며, 이렇게 하면 텍스트를 지역화할 수도 있습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+보조 기술은 기본적으로 값을 "3 of 5"로 읽습니다. 이 텍스트를 바꾸려면 <ApiLink pkg="core" type="Rating" member="ValueFormat" label="ValueFormat" />을 설정하십시오. 평점은 `{0}`를 값으로, `{1}`을 `Max`로 바꾸며, 이렇게 하면 텍스트를 지역화할 수도 있습니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating aria-label="Delivery speed" valueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Delivery speed" ValueFormat="{0} out of {1} stars" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating aria-label="Delivery speed" value-format="{0} out of {1} stars"></igc-rating>
+```
+
+</PlatformBlock>
+
+레이블을 숨기려면 `label`을 설정하지 않은 상태로 두거나, 점수를 보여 주려면 `value-label` 슬롯을 사용하십시오.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-layout" showThemePicker height={200} noBorder={false} spacing="md" alt="레이블이 켜져 있을 때와 꺼져 있을 때의 {Platform} 평점" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/layout" showThemePicker height={200} noBorder={false} spacing="md" alt="레이블이 켜져 있을 때와 꺼져 있을 때의 {Platform} 평점" />
+
+</PlatformBlock>
+
+### 상호 작용 상태
+
+{Platform} 평점은 기본적으로 활성화되어 있습니다. 끄려면 `disabled`를 설정하십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating disabled={true} value={3} label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Disabled="true" Value="3" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating disabled value="3" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="활성화, 읽기 전용, 비활성화 상태의 {Platform} 평점" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/interaction-states" showThemePicker height={200} noBorder={false} spacing="md" alt="활성화, 읽기 전용, 비활성화 상태의 {Platform} 평점" />
+
+</PlatformBlock>
+
+### 비어 있음/채워짐 상태
+
+{Platform} 평점의 `value`는 기호가 얼마나 채워져 있는지를 설정합니다. 기본값인 0은 모든 기호를 비워 보여 주고, `max`와 같은 값은 모든 기호를 채워 보여 줍니다.
+
+<PlatformBlock for="WebComponents">
+
+값과 최댓값을 어트리뷰트로 설정하고, 사용자가 선택한 값을 얻으려면 `igcChange`를 구독하십시오:
+
+```html
+<igc-rating value="3" max="10" label="Rate this movie"></igc-rating>
+```
+
+```ts
+const rating = document.querySelector('igc-rating')!;
+
+rating.addEventListener('igcChange', (event) => {
+  console.log(`New rating: ${event.detail}`);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+값을 상태에 보관하고 `onChange` 핸들러에서 업데이트하십시오:
+
+```tsx
+import { useState } from 'react';
+import { IgrRating } from 'igniteui-react';
+
+export default function MovieRating() {
+  const [score, setScore] = useState(3);
+
+  return (
+    <IgrRating
+      value={score}
+      max={10}
+      label="Rate this movie"
+      onChange={(e: CustomEvent<number>) => setScore(e.detail)}
+    />
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`@bind-Value`로 값을 바인딩하십시오:
+
+```razor
+<IgbRating @bind-Value="Score" Max="10" Label="Rate this movie" />
+
+@code {
+    private double Score { get; set; } = 3;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+값을 속성으로 바인딩하고, `igcChange` 핸들러에서 업데이트하십시오:
+
+```html
+<igc-rating [value]="score" max="10" label="Rate this movie" (igcChange)="onScoreChange($event)"></igc-rating>
+```
+
+```ts
+public score = 3;
+
+public onScoreChange(event: Event) {
+    this.score = (event as CustomEvent<number>).detail;
+}
+```
+
+</PlatformBlock>
+
+사용자가 반 별을 선택할 수 있도록 `step`을 `0.5`로 설정하십시오:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating step={0.5} value={3.5} label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Step="0.5" Value="3.5" Label="Rate your stay" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating step="0.5" value="3.5" label="Rate your stay"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-states" showThemePicker height={200} noBorder={false} spacing="md" alt="비어 있음, 반쯤 채워짐, 가득 찬 상태의 {Platform} 평점" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/states" showThemePicker height={200} noBorder={false} spacing="md" alt="비어 있음, 반쯤 채워짐, 가득 찬 상태의 {Platform} 평점" />
+
+</PlatformBlock>
+
+### 크기
+
+평점은 작음, 보통, 큼의 세 가지 크기로 제공됩니다. 작음, 보통, 큼 크기는 각각 18px, 24px, 36px 기호를 렌더링하며, {Platform} 평점은 기본적으로 보통 크기를 사용합니다. 크기를 고르려면 `--ig-size` CSS 변수를 `--ig-size-small`, `--ig-size-medium`, `--ig-size-large` 중 하나로 설정하십시오. 이 프리셋 밖의 크기가 필요하면 `--ig-rating-symbol-size`을 설정하십시오:
+
+```css
+.rating-small {
+  --ig-size: var(--ig-size-small);
+}
+
+.rating-large {
+  --ig-size: var(--ig-size-large);
+}
+
+.rating-custom {
+  --ig-rating-symbol-size: 3rem;
+}
+```
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating className="rating-large" label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Class="rating-large" Label="Rate this product" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating class="rating-large" label="Rate this product"></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} 평점 크기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/size" showThemePicker height={250} noBorder={false} spacing="md" alt="{Platform} 평점 크기 예제" />
+
+</PlatformBlock>
+
+### 기호
+
+기본적으로 {Platform} 평점은 별 아이콘을 렌더링합니다. 다른 기호를 사용하려면 평점 안에 척도의 각 점마다 <PlatformBlock for="Angular">`igc-rating-symbol` 요소를 하나씩 놓으십시오</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="RatingSymbol" /></PlatformBlock> 각 평점 기호는 값이 덮는 기호 부분에는 기본 슬롯 콘텐츠를, 나머지 부분에는 `empty` 슬롯 콘텐츠를 보여 주므로, 같은 콘텐츠라도 두 슬롯을 모두 채우십시오. 평점 기호의 개수가 `max`를 정하며, 평점은 설정하신 `max`를 무시합니다.
+
+<PlatformBlock for="WebComponents">
+
+다음 평점은 등록된 하트 아이콘을 사용합니다. [아이콘](../layouts/icon.mdx) 항목에 나온 대로 아이콘을 먼저 등록하십시오:
+
+```html
+<igc-rating label="Rate this recipe">
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+  <igc-rating-symbol>
+    <igc-icon name="favorite" collection="material"></igc-icon>
+    <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+  </igc-rating-symbol>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+다음 평점은 등록된 하트 아이콘을 사용합니다. [아이콘](../layouts/icon.mdx) 항목에 나온 대로 아이콘을 먼저 등록하십시오:
+
+```tsx
+import { IgrIcon, IgrRating, IgrRatingSymbol } from 'igniteui-react';
+
+<IgrRating label="Rate this recipe">
+  {[1, 2, 3, 4, 5].map((i) => (
+    <IgrRatingSymbol key={i}>
+      <IgrIcon name="favorite" collection="material" />
+      <IgrIcon name="favorite_border" collection="material" slot="empty" />
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+다음 평점은 등록된 하트 아이콘을 사용합니다. [아이콘](../layouts/icon.mdx) 항목에 나온 대로 아이콘을 먼저 등록하십시오:
+
+```razor
+<IgbRating Label="Rate this recipe">
+    @for (var i = 0; i < 5; i++)
+    {
+        <IgbRatingSymbol>
+            <IgbIcon IconName="favorite" Collection="material" />
+            <IgbIcon IconName="favorite_border" Collection="material" slot="empty" />
+        </IgbRatingSymbol>
+    }
+</IgbRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+다음 평점은 `igniteui-webcomponents`의 `registerIconFromText`로 등록한 하트 아이콘을 사용합니다. 평점이 `igc-icon` 요소의 크기를 기호 크기에 맞추므로, 평점 기호에는 `igc-icon`를 사용하십시오:
+
+```html
+<igc-rating label="Rate this recipe">
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <igc-rating-symbol>
+      <igc-icon name="favorite" collection="material"></igc-icon>
+      <igc-icon name="favorite_border" collection="material" slot="empty"></igc-icon>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+</PlatformBlock>
+
+평점은 아이콘과 텍스트의 색상을 테마의 채워진 기호 색상과 빈 기호 색상으로 지정합니다. Icon이 아닌 콘텐츠를 `empty` 슬롯에 렌더링할 때는 회색조로 렌더링하므로, 두 슬롯에 같은 이모지를 넣으면 선택된 것처럼 또는 빈 것처럼 보입니다.
+
+### 단일 선택
+
+`single`을 설정하면 선택된 기호만 채워져 보입니다. 각각 서로 다른 하나의 값을 나타내는 기호, 예를 들어 표정 척도에는 단일 선택을 사용하십시오. 단일 선택에서 {Platform} 평점은 `step`를 1로 사용하며, 소수 값은 올림합니다.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-rating single label="How was your experience?">
+  <igc-rating-symbol><span>😣</span><span slot="empty">😣</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😔</span><span slot="empty">😔</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😐</span><span slot="empty">😐</span></igc-rating-symbol>
+  <igc-rating-symbol><span>🙂</span><span slot="empty">🙂</span></igc-rating-symbol>
+  <igc-rating-symbol><span>😆</span><span slot="empty">😆</span></igc-rating-symbol>
+</igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const faces = ['😣', '😔', '😐', '🙂', '😆'];
+
+<IgrRating single={true} label="How was your experience?">
+  {faces.map((face) => (
+    <IgrRatingSymbol key={face}>
+      <span>{face}</span>
+      <span slot="empty">{face}</span>
+    </IgrRatingSymbol>
+  ))}
+</IgrRating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Single="true" Label="How was your experience?">
+    @foreach (var face in Faces)
+    {
+        <IgbRatingSymbol>
+            <span>@face</span>
+            <span slot="empty">@face</span>
+        </IgbRatingSymbol>
+    }
+</IgbRating>
+
+@code {
+    private readonly string[] Faces = { "😣", "😔", "😐", "🙂", "😆" };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igc-rating single label="How was your experience?">
+  @for (face of faces; track face) {
+    <igc-rating-symbol>
+      <span>{{ face }}</span>
+      <span slot="empty">{{ face }}</span>
+    </igc-rating-symbol>
+  }
+</igc-rating>
+```
+
+```ts
+public faces = ['😣', '😔', '😐', '🙂', '😆'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+### 폼
+
+{Platform} 평점은 폼 연결 요소입니다. `<form>` 안에서 그 값은 `name` 아래에 텍스트로 제출됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+폼 재설정은 `value` 어트리뷰트가 설정한 값을 복원합니다:
+
+```html
+<form>
+  <igc-rating name="score" value="4" label="Rate your stay"></igc-rating>
+  <button type="submit">Send</button>
+  <button type="reset">Reset</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log(new FormData(e.currentTarget).get('score'));
+  }}
+>
+  <IgrRating name="score" label="Rate your stay" />
+  <button type="submit">Send</button>
+</form>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### 폼
+
+Blazor `EditForm` 컴포넌트를 사용하고, `@bind-Value`로 평점의 값을 모델의 속성에 바인딩하십시오. 사용자가 값을 바꾸면 바인딩은 `ValueChanged` 이벤트를 통해 모델을 업데이트합니다:
+
+```razor
+<EditForm Model="Review" OnSubmit="Submit">
+    <IgbRating @bind-Value="Review.Score" Label="Rate your stay" />
+    <button type="submit">Send</button>
+</EditForm>
+
+@code {
+    private ReviewModel Review { get; set; } = new();
+
+    private void Submit()
+    {
+        // Review.Score holds the value that the user selected.
+    }
+
+    public class ReviewModel
+    {
+        public double Score { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 폼
+
+`ngModel` 또는 `formControlName`로 평점을 바인딩하려면 Angular에 `ControlValueAccessor` 인터페이스의 구현이 필요합니다. {ProductName}는 이를 독립형 `IgcFormControlDirective`로 제공하며, 이는 `ngModel` 또는 `formControlName`을 사용하는 `igc-rating` 요소에 연결됩니다. `FormsModule` 또는 `ReactiveFormsModule`과 함께 import하십시오:
+
+```ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    selector: 'app-review-form',
+    template: `
+        <form>
+            <igc-rating name="userRating" [(ngModel)]="review.rating" label="Your rating"></igc-rating>
+        </form>
+    `,
+    imports: [FormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class ReviewFormComponent {
+    public review = { rating: 0 };
+}
+```
+
+반응형 폼에서는 `formControlName`로 평점을 바인딩하십시오:
+
+```html
+<form [formGroup]="reviewForm">
+  <igc-rating formControlName="rating" label="Your rating"></igc-rating>
+</form>
+```
+
+이 디렉티브는 `igcChange`에서 모델을 업데이트하고, 평점이 포커스를 잃으면 컨트롤을 터치됨으로 표시하며, 폼 컨트롤을 비활성화하면 평점도 비활성화합니다.
+
+</PlatformBlock>
+
+평점에는 `required` 유효성 검사가 없습니다. 점수를 필수로 하려면 데이터를 제출하기 전에 값이 0보다 큰지 확인하십시오.
+
+### 사용 여부
+
+별은 매우 잘 알려진 순위 기호이며, 사람들이 다른 기호를 평점 척도와 연결하지 않을 수 있습니다. 별을 사용자 지정 기호로 바꾼다면 그 목적이 분명한지 확인하십시오. 같은 색의 비슷한 명암이나 색수차를 일으키는 조합처럼 대비가 나쁜 색은 피하십시오. 아이콘 선택은 강조되어야 하며 시각적으로 뚜렷하게 구별되어야 합니다.
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoSymbol} alt="”Rate your experience” 레이블 아래에 주황색 별 다섯 개 중 네 개가 선택된 평점" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotSymbol} alt="별 대신 원 안의 다이아몬드 기호를 사용하는 평점" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">사용</p>
+    <p style="margin: 0;">사용자가 평점 척도와 연결하는 별이나 다른 기호를 사용하십시오.</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">사용하지 않음</p>
+    <p style="margin: 0;">점수로서의 의미가 분명하지 않은 기호는 피하십시오.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0 16px;">
+  <Image src={ratingDoContrast} alt="회색 빈 별 하나와 뚜렷하게 구별되는 주황색 선택 별 네 개가 있는 평점" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+  <Image src={ratingDoNotContrast} alt="회색 빈 별과 구별하기 어려운 연회색 선택 별이 있는 평점" class="responsive-img" style="display: block; width: 100%; height: auto;" />
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div>
+    <p style="color: light-dark(var(--ig-success-700), var(--ig-success-100)); font-weight: 600; margin: 0 0 8px;">사용</p>
+    <p style="margin: 0;">선택된 기호가 빈 기호와 뚜렷하게 구별되도록 하십시오.</p>
+  </div>
+  <div>
+    <p style="color: light-dark(var(--ig-error-700), var(--ig-error-300)); font-weight: 600; margin: 0 0 8px;">사용하지 않음</p>
+    <p style="margin: 0;">선택된 기호와 빈 기호에 비슷한 명암을 쓰지 마십시오.</p>
+  </div>
+</div>
+
+## 속성
+
+{Platform} 평점은 다음 속성을 노출합니다. 전체 타입 정의는 API 참조를 확인하십시오.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="value" label="value" /></PlatformBlock><PlatformBlock for="Angular">[`value`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#value)</PlatformBlock> | `number` | `0` | 0부터 최댓값까지의 현재 값입니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="max" label="max" /></PlatformBlock><PlatformBlock for="Angular">[`max`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#max)</PlatformBlock> | `number` | `5` | 최댓값과 기본 기호의 개수입니다. 프로젝션된 평점 기호가 있으면 그 개수로 설정됩니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="step" label="step" /></PlatformBlock><PlatformBlock for="Angular">[`step`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#step)</PlatformBlock> | `number` | `1` | 값의 가장 작은 변화량으로, 0.001부터 1까지입니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="label" label="label" /></PlatformBlock><PlatformBlock for="Angular">[`label`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#label)</PlatformBlock> | `string` | — | 보이는 레이블이며, 평점의 이름도 됩니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="valueFormat" label="valueFormat" /></PlatformBlock><PlatformBlock for="Angular">[`valueFormat`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#valueFormat)</PlatformBlock> | `string` | — | `aria-valuetext`의 형식입니다. `{0}`는 값을, `{1}`은 최댓값을 나타냅니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="hoverPreview" label="hoverPreview" /></PlatformBlock><PlatformBlock for="Angular">[`hoverPreview`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#hoverPreview)</PlatformBlock> | `boolean` | `false` | 평점이 포인터 아래 값을 미리 보여 줄지 여부입니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="readOnly" label="readOnly" /></PlatformBlock><PlatformBlock for="Angular">[`readOnly`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#readOnly)</PlatformBlock> | `boolean` | `false` | 사용자가 값을 바꿀 수 없는지 여부입니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="single" label="single" /></PlatformBlock><PlatformBlock for="Angular">[`single`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#single)</PlatformBlock> | `boolean` | `false` | 선택된 기호만 채워져 보일지 여부입니다. |
+| <PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="allowReset" label="allowReset" /></PlatformBlock><PlatformBlock for="Angular">[`allowReset`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#allowReset)</PlatformBlock> | `boolean` | `false` | 현재 값을 클릭하면 평점이 0으로 재설정되는지 여부입니다. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock><PlatformBlock for="Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#disabled)</PlatformBlock> | `boolean` | `false` | 평점이 비활성화되었는지 여부입니다. |
+| <PlatformBlock for="WebComponents,Blazor"><ApiLink pkg="core" type="Rating" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="React">`invalid`</PlatformBlock><PlatformBlock for="Angular">[`invalid`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#invalid)</PlatformBlock> | `boolean` | `false` | `ig-invalid` 사용자 지정 상태로 평점을 유효하지 않음으로 표시합니다. 평점 테마는 이 상태를 스타일링하지 않습니다. |
+<PlatformBlock for="Angular,React,WebComponents">| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="name" label="name" /></PlatformBlock><PlatformBlock for="React">`name`</PlatformBlock><PlatformBlock for="Angular">[`name`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#name)</PlatformBlock> | `string` | — | 폼이 값을 제출할 때 사용하는 이름입니다. |</PlatformBlock>
+
+## 메서드
+
+{Platform} 평점은 다음 메서드를 노출합니다. 단계 메서드는 change 이벤트를 발생시키지 않고 값을 바꿉니다.
+
+| 메서드 | 설명 |
+| --- | --- |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepUp" label="stepUp" /></PlatformBlock><PlatformBlock for="Angular">[`stepUp`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepUp)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepUp" label="StepUp" />, <ApiLink pkg="core" type="Rating" member="StepUpAsync" label="StepUpAsync" /></PlatformBlock> | 값을 주어진 단계 수만큼 증가시킵니다.<PlatformBlock for="Angular,React,WebComponents"> 단계 수의 기본값은 1입니다.</PlatformBlock> |
+| <PlatformBlock for="React,WebComponents"><ApiLink pkg="core" type="Rating" member="stepDown" label="stepDown" /></PlatformBlock><PlatformBlock for="Angular">[`stepDown`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#stepDown)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="StepDown" label="StepDown" />, <ApiLink pkg="core" type="Rating" member="StepDownAsync" label="StepDownAsync" /></PlatformBlock> | 값을 주어진 단계 수만큼 감소시킵니다.<PlatformBlock for="Angular,React,WebComponents"> 단계 수의 기본값은 1입니다.</PlatformBlock> |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="React">`checkValidity`</PlatformBlock><PlatformBlock for="Angular">[`checkValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#checkValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="CheckValidity" label="CheckValidity" />, <ApiLink pkg="core" type="Rating" member="CheckValidityAsync" label="CheckValidityAsync" /></PlatformBlock> | 값이 유효한지 반환하며, 유효하지 않으면 `invalid`를 발생시킵니다. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="React">`reportValidity`</PlatformBlock><PlatformBlock for="Angular">[`reportValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#reportValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="ReportValidity" label="ReportValidity" />, <ApiLink pkg="core" type="Rating" member="ReportValidityAsync" label="ReportValidityAsync" /></PlatformBlock> | 값이 유효한지 반환하며, 유효하지 않으면 브라우저 유효성 검사 메시지를 표시합니다. |
+| <PlatformBlock for="WebComponents"><ApiLink pkg="core" type="Rating" member="setCustomValidity" label="setCustomValidity" /></PlatformBlock><PlatformBlock for="React">`setCustomValidity`</PlatformBlock><PlatformBlock for="Angular">[`setCustomValidity`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent#setCustomValidity)</PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="SetCustomValidity" label="SetCustomValidity" />, <ApiLink pkg="core" type="Rating" member="SetCustomValidityAsync" label="SetCustomValidityAsync" /></PlatformBlock> | 사용자 지정 유효성 검사 메시지를 설정합니다. 메시지가 비어 있지 않은 동안 평점은 유효하지 않습니다. |
+
+## 이벤트
+
+{Platform} 평점은 다음 이벤트를 발생시킵니다. 값을 설정하거나 메서드를 호출할 때는 발생하지 않습니다.
+
+| 이름 | 타입 | 설명 |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents,Angular">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | 사용자가 값을 바꾸면 발생합니다. 이벤트 세부 정보에는 새 값이 들어 있습니다. |
+| <PlatformBlock for="WebComponents,Angular">`igcHover`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Rating" member="onHover" label="onHover" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Rating" member="Hover" label="Hover" /></PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`CustomEvent<number>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbNumberEventArgs>`</PlatformBlock> | 마우스 오버 미리 보기가 켜져 있고 포인터가 다른 값으로 이동하면 발생합니다. 이벤트 세부 정보에는 포인터 아래 값이 들어 있습니다. |
+<PlatformBlock for="Blazor">| <ApiLink pkg="core" type="Rating" member="ValueChanged" label="ValueChanged" /> | `EventCallback<double>` | 새 값과 함께 발생합니다. `@bind-Value`를 통해 사용합니다. |</PlatformBlock>
+
+## 스타일링
+
+{Platform} 평점은 색상과 기호 크기를 테마에서 가져옵니다. 다음 CSS 변수로 바꾸십시오:
+
+| 변수 | 변경되는 내용 |
+| --- | --- |
+| `--ig-rating-symbol-full-color` | 채워진 기호의 색상입니다. 기본 별, 아이콘, 텍스트를 포함합니다. |
+| `--ig-rating-symbol-empty-color` | 빈 기호의 색상입니다. |
+| `--ig-rating-label-color` | 레이블의 색상입니다. |
+| `--ig-rating-value-label` | 값 레이블의 색상입니다. |
+| `--ig-rating-symbol-size` | 기호의 크기입니다. |
+| `--ig-size` | 크기 프리셋입니다: `--ig-size-small`, `--ig-size-medium`, `--ig-size-large` 중 하나. |
+| `--ig-rating-disabled-full-symbol-color` | 평점이 비활성화되었을 때 채워진 기호의 색상입니다. |
+| `--ig-rating-disabled-empty-symbol-color` | 평점이 비활성화되었을 때 빈 기호의 색상입니다. |
+| `--ig-rating-disabled-label-color` | 평점이 비활성화되었을 때 레이블과 값 레이블의 색상입니다. |
+| `--ig-rating-symbol-full-filter` | 평점이 비활성화되었을 때, 이모지처럼 아이콘이 아닌 채워진 기호에 적용되는 CSS 필터입니다. |
+| `--ig-rating-symbol-empty-filter` | 평점이 비활성화되었을 때, 이모지처럼 아이콘이 아닌 빈 기호에 적용되는 CSS 필터입니다. |
+
+`igc-rating` 요소는 다음 CSS 파트를 노출합니다:
+
+| 파트 | 스타일을 지정하는 대상 |
+| --- | --- |
+| `base` | 기호와 값 레이블을 담고 있는 슬라이더입니다. |
+| `label` | 레이블입니다. |
+| `value-label` | `value-label` 슬롯의 컨테이너입니다. |
+| `symbols` | 모든 기호의 컨테이너입니다. |
+| `symbol` | 각 기본 기호입니다. |
+| `full` | 각 기본 기호의 채워진 레이어입니다. |
+| `empty` | 각 기본 기호의 빈 레이어입니다. |
+
+`igc-rating` 요소는 기본 별에 대해서만 `symbol`, `full`, `empty` 파트를 내보냅니다. 프로젝션된 평점 기호의 스타일을 지정하려면 `igc-rating-symbol` 요소의 `symbol`, `full`, `empty` 파트를 사용하십시오.
+
+### Sass 테마 지정
+
+다음 함수로 테마를 만들고 <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`rating-theme`</PlatformBlock> 함수를 `tokens()` 믹스인과 함께 포함하십시오. 이 함수는 `$symbol-full-color`, `$symbol-empty-color`, `$label-color`, `$symbol-size` 같은 매개변수를 받으며, 믹스인은 포함된 위치의 범위에서 일치하는 `--ig-rating-*` 변수를 내보냅니다.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:host {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Sass 함수는 `igniteui-theming` 패키지에서 제공됩니다. Sass 설정은 [테마 지정](../themes/overview.mdx) 항목을 참조하십시오.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-rating-theme: rating-theme(
+  $symbol-full-color: #e41c77,
+  $symbol-empty-color: #a9b8cc,
+  $label-color: #344b65
+);
+
+:root {
+  @include tokens($custom-rating-theme);
+}
+```
+
+</PlatformBlock>
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 평점 또는 컨테이너에 CSS 변수를 설정하고, 다른 스타일에는 CSS 파트를 사용하십시오:
+
+```css
+igc-rating {
+  --ig-rating-symbol-full-color: #e41c77;
+  --ig-rating-symbol-empty-color: #a9b8cc;
+}
+
+igc-rating::part(label) {
+  font-weight: 600;
+}
+
+igc-rating-symbol::part(empty) {
+  opacity: 0.6;
+}
+```
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} 평점 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/styling" height={200} noBackground={false} noBorder={false} spacing="md" alt="{Platform} 평점 스타일 지정 예제" />
+
+</PlatformBlock>
+
+### Tailwind로 스타일링하기
+
+CSS 변수를 설정하는 Tailwind 임의 속성으로 {Platform} 평점의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](../themes/tailwind.mdx)하십시오:
+
+<PlatformBlock for="WebComponents,Angular">
+
+```html
+<igc-rating
+  label="Rate this product"
+  class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+></igc-rating>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrRating
+  label="Rate this product"
+  className="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]"
+/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbRating Label="Rate this product" Class="[--ig-rating-symbol-full-color:#7B9E89] [--ig-rating-symbol-size:2rem]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/rating-tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} 평점 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/rating/tailwind-styling" height={300} noBackground={false} noBorder={false} spacing="md" alt="{Platform} 평점 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} 평점은 슬라이더입니다. 사용자는 Tab 키로 도달하고, 화살표 키로 값을 바꾸며, ARIA 어트리뷰트를 통해 값을 들을 수 있습니다.
+
+### 키보드 상호 작용
+
+{Platform} 평점은 하나의 탭 정지 지점입니다. 포커스를 받는 것은 그 안의 슬라이더 요소인 `base` 파트뿐이기 때문입니다. 비활성화된 평점은 탭 순서에서 빠집니다. 읽기 전용 평점은 탭 순서에 남지만 다음 키를 무시하므로, 페이지 스크롤 같은 기본 브라우저 동작이 그대로 유지됩니다.
+
+| 키 | 동작 |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | 다음 또는 이전 포커스 가능 요소로 포커스를 옮깁니다. 평점은 이 키들을 처리하지 않으므로 포커스를 가두지 않습니다. |
+| <kbd>오른쪽 화살표</kbd> | 값을 한 단계 증가시킵니다. 오른쪽에서 왼쪽으로 쓰는 레이아웃에서는 감소시킵니다. |
+| <kbd>왼쪽 화살표</kbd> | 값을 한 단계 감소시킵니다. 오른쪽에서 왼쪽으로 쓰는 레이아웃에서는 증가시킵니다. |
+| <kbd>위 화살표</kbd> | 값을 한 단계 증가시킵니다. |
+| <kbd>아래 화살표</kbd> | 값을 한 단계 감소시킵니다. |
+| <kbd>Home</kbd> | 클릭으로 선택할 수 있는 가장 낮은 값인 한 단계로 값을 설정합니다. |
+| <kbd>End</kbd> | 값을 최댓값으로 설정합니다. |
+
+{Platform} 평점은 `keydown`에서 다음 키를 처리합니다:
+
+- 기본 동작을 막으므로, 평점에 포커스가 있는 동안 화살표 키, Home, End가 페이지를 스크롤하지 않습니다.
+- 누르고 있는 키는 그 동작을 반복합니다.
+- Shift, Ctrl, Alt, Meta와 함께 누른 키는 아무 동작도 하지 않습니다.
+- 값은 0과 최댓값 사이에 머뭅니다. 값을 경계 너머로 옮기는 키는 값을 유지하며 이벤트를 발생시키지 않습니다.
+- 값을 바꾸는 각 키는 change 이벤트를 발생시킵니다.
+
+포인터를 사용할 때 클릭은 포인터 아래 값을 다음 단계로 올림하여 선택합니다. 읽기 전용이나 비활성화된 평점은 클릭을 무시합니다.
+
+### 화면 읽기 프로그램 / ARIA
+
+{Platform} 평점은 포커스를 받을 수 있는 요소 하나, 즉 `base` 파트를 `slider` 역할로 렌더링합니다. 그 `tabindex`는 `0`이며, 평점이 비활성화되면 `-1`이 됩니다. 또한 다음 값 어트리뷰트를 가집니다:
+
+| 어트리뷰트 | 값 |
+| --- | --- |
+| `aria-valuemin` | `0` |
+| `aria-valuemax` | 최댓값 |
+| `aria-valuenow` | `4.3`와 같은 소수를 포함한 값 |
+| `aria-valuetext` | 기본적으로 "3 of 5", 또는 `valueFormat` 텍스트 |
+
+<PlatformBlock for="React,WebComponents,Angular">
+
+`igniteui-webcomponents` 7.3.0 이상에서는 슬라이더가 `aria-disabled`와 `aria-readonly`도 설정하여 비활성화 상태와 읽기 전용 상태를 노출합니다. 7.4.1 이상에서는 슬라이더가 다음 중 첫 번째 것에서 접근 가능한 이름을 가져옵니다:
+
+1. 호스트의 `aria-labelledby` 어트리뷰트입니다.
+2. `for`를 통해 바인딩되거나 평점을 감싸는 `<label>` 요소입니다. 레이블을 클릭하면 슬라이더에 포커스가 갑니다.
+3. `label` 속성입니다. 보이는 레이블을 렌더링하며, 슬라이더는 `aria-labelledby`를 통해 이를 참조합니다.
+4. 호스트의 `aria-label` 어트리뷰트입니다. `label` 속성이 설정되면 슬라이더는 이를 무시합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+`Label` 속성은 보이는 레이블을 렌더링하며, 슬라이더는 `aria-labelledby`를 통해 이를 참조하여 접근 가능한 이름을 얻습니다.
+
+</PlatformBlock>
+
+{Platform} 평점은 보조 기술에 대해 다음과 같이 동작합니다:
+
+- `symbols` 파트는 `aria-hidden="true"`를 설정하므로, 프로젝션된 아이콘과 이모지를 포함한 기호는 숨겨지며 텍스트 대체 수단이 필요하지 않습니다. 값은 `aria-valuenow`와 `aria-valuetext`를 통해서만 보조 기술에 전달됩니다.
+- `value-label` 슬롯은 슬라이더 안에 렌더링됩니다. 화면 읽기 프로그램은 `aria-valuetext`에서 값을 읽으므로, 슬롯 콘텐츠 대신 `valueFormat`로 값을 설명하십시오.
+- 평점은 라이브 영역을 사용하지 않습니다. 바뀐 값은 슬라이더 어트리뷰트를 통해서만 보조 기술에 전달됩니다.
+- 평점은 `aria-invalid`을 설정하지 않으므로, 사용자 지정 유효성 검사 메시지는 유효하지 않은 상태로 노출되지 않습니다.
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| --- | --- |
+| [1.1.1 비텍스트 콘텐츠](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | 기호는 보조 기술에서 숨겨지며, 슬라이더는 `aria-valuetext`를 통해 값을 텍스트로 노출합니다. |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | `label` 속성의 보이는 레이블은 `aria-labelledby`를 통해 슬라이더와 연결됩니다. |
+| [1.4.1 색상 사용](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | 기본 기호는 척도의 선택된 부분에는 채워진 별을, 나머지에는 윤곽선만 있는 별을 보여 주므로, 값이 색상에만 의존하지 않습니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 화살표 키, Home, End는 값을 바꾸므로, 사용자는 포인터 없이도 평가할 수 있습니다. |
+| [2.1.2 키보드 트랩 없음](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | 평점은 하나의 탭 정지 지점이며 Tab 키를 처리하지 않으므로, Tab과 Shift + Tab은 포커스를 평점 밖으로 옮깁니다. |
+| [2.4.7 포커스 표시](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | 평점 테마는 포커스된 슬라이더에서 브라우저의 포커스 표시기를 제거하지 않습니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | 슬라이더는 `slider` 역할, `aria-valuenow`와 `aria-valuetext`를 통한 값, 그리고 여러분이 제공한 이름을 노출합니다.<PlatformBlock for="React,WebComponents,Angular"> `igniteui-webcomponents` 7.3.0 이상에서는 비활성화 상태와 읽기 전용 상태도 노출합니다.</PlatformBlock> |
+
+사용자의 책임:
+
+- 모든 평점에 `label` 속성으로 이름을 지정하십시오<PlatformBlock for="React,WebComponents,Angular">, 연결된 `<label>` 요소, 또는 `aria-label`</PlatformBlock>. [레이아웃](#레이아웃)을 참조하십시오.
+- "3 of 5"가 척도를 설명하지 않거나, 페이지가 다른 언어를 사용할 때는 `valueFormat`를 설정하십시오.
+- 사용자 지정 기호를 사용할 때는 채워진 기호와 빈 기호가 색상만이 아니라 모양이나 채움에서도 다르게 하고, [1.4.11 비텍스트 대비](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast)가 요구하는 대로 배경과 최소 3:1의 대비 비율을 유지하십시오.
+- `base` 파트의 스타일을 다시 지정할 때는 보이는 포커스 표시기를 유지하십시오.
+- 포인터 대상을 충분히 크게 유지하십시오. 각 값은 기호 하나만큼 넓은 대상이며, 0.5 단계일 때는 기호 반 개만큼 넓은 대상입니다. 작음 크기는 18px 기호를 렌더링하는데, 이는 [2.5.8 대상 크기(최소)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum)의 CSS 픽셀 24×24보다 작으므로, 포인터와 터치 입력에는 보통 또는 큼 크기를 선호하십시오.
+- 마우스 오버 미리 보기에만 정보를 넣지 마십시오. 키보드 사용자는 그것을 보지 못하기 때문입니다.
+- 사용자 지정 유효성 검사 메시지로 평점을 검증할 때는, 평점이 `aria-invalid`를 설정하지 않으므로 [3.3.1 오류 식별](https://www.w3.org/WAI/WCAG21/Understanding/error-identification)이 요구하는 대로 평점 옆에 텍스트로도 메시지를 보여 주십시오.
+
+[WAI-ARIA 슬라이더 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/slider/)과의 차이점:
+
+- <kbd>Home</kbd>은 값을 `aria-valuemin`(0)이 아니라 한 단계로 설정합니다. 0에 도달하려면 <kbd>Arrow Down</kbd>를 사용하십시오.
+- 평점은 패턴이 선택 사항 키로 나열하는 <kbd>Page Up</kbd>과 <kbd>Page Down</kbd>을 지원하지 않습니다.
+
+## 문제 해결
+
+{Platform} 평점이 예상대로 동작하지 않을 때 이 답변들을 사용하십시오.
+
+### 값을 설정하면 change 이벤트가 발생하지 않는 이유는 무엇입니까?
+
+{Platform} 평점은 사용자 입력, 즉 클릭이나 키에 대해서만 change 이벤트를 발생시킵니다. 코드에서 값을 설정하거나 단계 메서드를 호출하면 이벤트 없이 값이 바뀌므로, 값을 설정하는 곳에서 자신의 상태를 업데이트하십시오.
+
+### 현재 값을 클릭해도 평점이 재설정되지 않는 이유는 무엇입니까?
+
+{Platform} 평점은 `allowReset`를 설정하지 않는 한, 현재 값을 클릭해도 값을 유지합니다. `igniteui-webcomponents` 4.7.0 이전에는 현재 값을 클릭하면 항상 평점이 재설정되었습니다. 업그레이드 후에도 그 동작을 유지하려면 `allowReset`를 설정하십시오.
+
+### 마우스 오버 이벤트가 발생하지 않는 이유는 무엇입니까?
+
+{Platform} 평점은 `hoverPreview`가 켜져 있을 때만 마우스 오버 이벤트를 발생시키며, 읽기 전용이거나 비활성화된 평점에서는 발생시키지 않습니다. 이벤트를 받으려면 `hoverPreview`를 설정하십시오.
+
+## API 참조
+
+{Platform} 평점 API 참조에는 대상 플랫폼의 전체 API 표면이 나와 있습니다.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Rating" />
+- <ApiLink pkg="core" type="RatingSymbol" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [`IgcRatingComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingComponent)
+- [`IgcRatingSymbolComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcRatingSymbolComponent)
+- <ApiLink type="IgcFormControlDirective" prefixed={false} suffix={false} label="IgcFormControlDirective" />
+- <ApiLink kind="sass" module="themes" type="function-rating-theme" label="rating-theme" />
+
+</PlatformBlock>
+
+## 종속성
+
+{Platform} 평점은 색상과 기호 크기를 적용하기 위해 테마가 필요합니다. 프레임워크별 설정은 다음에서 확인하십시오 <PlatformBlock for="Angular">[**시작하기**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**시작하기**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+평점에는 `igniteui-webcomponents` 패키지가 필요하고, Angular 폼 바인딩에는 `IgcFormControlDirective`가 필요합니다. {ProductName}의 `theme()` 믹스인은 `$exclude` 매개변수로 `igc-rating`을 제외하지 않는 한 `igc-rating` 스타일을 포함합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+`IgcRatingComponent`을 등록하면 평점이 렌더링하는 `igc-rating-symbol`와 `igc-icon` 요소도 함께 등록됩니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+평점 기호 안에 `IgbIcon` 요소를 배치한다면 `IgbIconModule`도 함께 등록하십시오.
+
+</PlatformBlock>
+
+## 추가 리소스
+
+다음 자료에서 추가 {Platform} 평점 안내와 프로젝트 지원을 확인할 수 있습니다:
+
+- [평점 - 디자인 시스템 컴포넌트](https://www.infragistics.com/products/indigo-design/help/components/rating)
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+{Platform} 평점은 기호 척도에서 점수를 수집합니다. 입력에 다른 형태가 필요할 때는 다음 컴포넌트를 사용하십시오:
+
+- <PlatformBlock for="Angular">[Slider](../slider/slider.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Slider](./slider.mdx)</PlatformBlock> - 가격이나 음량처럼 연속된 범위에서 정확한 숫자를 고를 때는 Slider를 사용하십시오.
+- [Radio Group](./radio.mdx) - 각 옵션에 Poor, Fair, Good 같은 텍스트 레이블이 필요할 때 Radio Group을 사용하십시오.
+- [Icon](../layouts/icon.mdx) - 평점의 사용자 지정 기호를 그릴 때 Icon을 사용하십시오.
+
+## FAQ
+
+다음 질문은 {Platform} 평점의 일반적인 설정, 접근성, 사용 시나리오를 다룹니다.
+
+<Faq>
+  <FaqItem question="사용자가 반 별을 선택할 수 있습니까?" indicatorPosition="end">
+    예. {Platform} 평점의 `step` 속성을 `0.5`로 설정하면, 왼쪽에서 오른쪽으로 쓰는 레이아웃에서 별의 왼쪽 절반을 클릭하면 반 값이 선택됩니다. 그다음 화살표 키는 {Platform} 평점의 값을 0.5 단위로 바꿉니다.
+  </FaqItem>
+  <FaqItem question="사용자가 바꿀 수 없는 평균 평점은 어떻게 보여 주나요?" indicatorPosition="end">
+    {Platform} 평점의 `readOnly` 속성을 설정하고 값을 4.3 같은 평균으로 설정하십시오. {Platform} 평점은 소수 값에 대해 기호를 부분적으로 채우며, 포커스를 받을 수 있는 상태를 유지하고, 클릭과 키를 무시합니다.
+  </FaqItem>
+  <FaqItem question="평점은 키보드 사용자와 화면 읽기 프로그램 사용자에게 접근 가능합니까?" indicatorPosition="end">
+    예. {Platform} 평점은 `slider` 역할을 가진 하나의 탭 정지 지점이며, 화살표 키, Home, End로 값을 바꾸고, 화면 읽기 프로그램은 `aria-valuetext`를 통해 값을 읽습니다. `label` 속성 또는 `aria-label`로 {Platform} 평점에 접근 가능한 이름을 부여하고, `valueFormat`를 설정하여 값을 말로 설명하십시오.
+  </FaqItem>
+  <FaqItem question="평점은 폼과 함께 작동합니까?" indicatorPosition="end">
+    <PlatformBlock for="Angular">예. `igniteui-angular/directives`에서 `IgcFormControlDirective`를 import하여 Angular 평점을 `ngModel` 또는 `formControlName`에 바인딩하십시오. 디렉티브는 사용자가 값을 바꿀 때 모델을 업데이트하고, 폼 컨트롤을 비활성화하면 평점도 비활성화합니다.</PlatformBlock><PlatformBlock for="React,WebComponents">예. {Platform} 평점은 폼 연결 요소이므로, `<form>`는 그 값을 `name` 아래에 제출합니다. 비활성화된 `<fieldset>`는 {Platform} 평점도 비활성화합니다.</PlatformBlock><PlatformBlock for="Blazor">예. Blazor 평점을 Blazor `EditForm` 안에 배치하고, `@bind-Value`로 그 값을 모델의 속성에 바인딩하십시오. 사용자가 값을 바꾸면 바인딩은 `ValueChanged` 이벤트를 통해 모델을 업데이트합니다.</PlatformBlock>
+  </FaqItem>
+</Faq>

@@ -1,0 +1,163 @@
+---
+title: "{Platform} 트리 그리드 | 가장 빠른 {Platform} 트리 테이블 | Infragistics"
+description: "{ProductName} Tree Grid는 상위 행이 펼쳐질 때 요청 시 하위 데이터를 로드하는 데 필요한 도구를 제공합니다. 이렇게 하면 데이터 양이 크게 줄어들며, 사용자가 필요할 때만 데이터를 가져올 수 있습니다."
+keywords: "{Platform} 트리 그리드, igniteui for {Platform}, infragistics"
+license: commercial
+mentionedTypes: ["TreeGrid"]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "Ignite UI for {Platform} Tree Grid는 사용자가 가능한 한 빨리 볼 수 있도록 서버에서 가져올 데이터를 최소한으로 요구하는 방식으로 렌더링할 수 있습니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Tree Grid 필요 시 로드
+
+Ignite UI for {Platform} Tree Grid는 사용자가 가능한 한 빨리 볼 수 있도록 서버에서 가져올 데이터를 최소한으로 요구하는 방식으로 렌더링할 수 있습니다. 그런 다음 사용자가 행을 펼친 후에야 해당 상위 행의 하위 항목이 로드됩니다. 요청 시 로드(Load on Demand)라고도 하는 이 메커니즘은 모든 원격 데이터와 함께 쉽게 구성할 수 있습니다.
+
+## {Platform} 트리 그리드 요청 시 로드 예제
+
+<Sample src="/{TreeGridSample}/load-on-demand" height={700} alt="{Platform} 트리 그리드 요청 시 로드 예제" />
+
+
+## 사용법
+
+요청 시 로드 기능은 두 가지 유형의 Tree Grid 데이터 소스, 즉 기본 키 및 외래 키 방식과 하위 컬렉션 방식 모두와 호환됩니다. Tree Grid에는 루트 수준 데이터만 로드하고, 데이터 소스 유형 중 하나에 필요한 키를 지정하면 됩니다. 사용자가 행을 펼칠 때 하위 행을 로드하기 위해, Tree Grid는 콜백 입력 속성 <ApiLink type="TreeGrid" member="loadChildrenOnDemand" label="LoadChildrenOnDemand" />를 제공합니다.
+
+
+<PlatformBlock for="Angular">
+
+
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren">
+</igx-tree-grid>
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+```html
+<igc-tree-grid id="treeGrid"></igc-tree-grid>
+```
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+    };
+}
+```
+
+LoadChildrenOnDemand 콜백은 두 개의 매개변수를 제공합니다:
+
+- parentID - 펼쳐지고 있는 상위 행의 ID입니다.
+- done - 서버에서 자식이 가져와졌을 때 자식과 함께 호출해야 하는 콜백입니다.
+
+```typescript
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    this.getData(parentID, (children) => done(children));
+}
+```
+
+
+</PlatformBlock>
+
+
+사용자가 확장 아이콘을 클릭하면 그 자리에 로딩 표시기가 나타납니다. done 콜백이 호출되면 로딩 표시기가 사라지고 하위 항목이 로드됩니다. Tree Grid는 하위 항목을 기반 데이터 소스에 추가하고, 필요한 키를 자동으로 채웁니다.
+
+### 확장 표시기 표시 여부
+
+펼치기 전에 행에 자식이 있는지 알 수 있는 정보를 제공할 방법이 있다면 <ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> 입력 속성을 사용할 수 있습니다. 이렇게 하면 펼치기 표시기를 표시할지 여부를 나타내는 불리언 속성을 데이터 객체에서 제공할 수 있습니다.
+
+
+<PlatformBlock for="Angular">
+
+
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+        [loadChildrenOnDemand]="loadChildren" hasChildrenKey="hasEmployees">
+        ...
+</igx-tree-grid>
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tree-grid id="treeGrid" primary-key="ID" foreign-key="ParentID" has-children-key="hasEmployees"></igc-tree-grid>
+```
+
+</PlatformBlock>
+
+<ApiLink type="HierarchicalGridBaseDirective" member="hasChildrenKey" label="HasChildrenKey" /> 속성을 설정할 필요는 없습니다. 제공하지 않으면 각 행에 확장 표시기가 표시됩니다. 하위 항목이 없는 행을 펼친 후에도 undefined 또는 빈 배열로 done 콜백을 호출해야 합니다. 이 경우 로딩 표시기가 사라진 후에는 확장 표시기가 다시 나타나지 않습니다.
+
+### 사용자 지정 로딩 표시기
+
+
+<PlatformBlock for="WebComponents">
+
+
+자신만의 사용자 지정 로딩 표시기를 제공하려면 <ApiLink type="TreeGrid" member="rowLoadingIndicatorTemplate" label="RowLoadingIndicatorTemplate" /> 옵션을 사용하여 사용자 지정 템플릿을 설정할 수 있습니다. 다음 코드 조각은 이를 설정하는 방법을 보여 줍니다:
+
+```ts
+constructor() {
+    var treeGrid = document.getElementById("treeGrid") as IgcTreeGridComponent;
+    treeGrid.data = this.employeesFlatData;
+    treeGrid.rowLoadingIndicatorTemplate = this.rowLoadingTemplate;
+    treeGrid.loadChildrenOnDemand = (parentID: any, done: (children: any[]) => void) => {
+               this.getData(parentID, (children) => done(children));
+    };
+
+}
+public rowLoadingTemplate() {
+    return html`<igc-icon name="loop" collection="material"></igc-icon>`;
+}
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Angular">
+
+
+자신만의 사용자 지정 로딩 표시기를 제공하려면 ng-template을 만들고 RowLoadingIndicator 디렉티브로 표시하면 됩니다. 다음 코드 조각은 이러한 사용자 지정 템플릿을 정의하는 방법을 보여 줍니다:
+
+```html
+<igx-tree-grid>
+    <ng-template igxRowLoadingIndicator>
+        <igx-icon fontSet="material">loop</igx-icon>
+    </ng-template>
+</igx-tree-grid>
+```
+
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="TreeGrid" />
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

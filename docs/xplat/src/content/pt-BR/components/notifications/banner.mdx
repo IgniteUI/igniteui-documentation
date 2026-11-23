@@ -1,0 +1,686 @@
+---
+title: "Banner do {Platform} | Infragistics"
+description: "Com o componente Banner do {ProductName}, os desenvolvedores podem integrar facilmente uma mensagem curta e não intrusiva (com ações opcionais) em aplicações para celular e desktop."
+keywords: "{ProductName}, controles de UI, widgets {Platform}, widgets web, widgets de UI, {Platform}, Suíte de componentes nativos {Platform}, Controles nativos {Platform}, Biblioteca de componentes nativos {Platform}, componentes Banner do {Platform}"
+license: MIT
+mentionedTypes: ["Banner"]
+_language: pt-BR
+llms:
+  description: "O componente Banner do {ProductName} oferece uma forma fácil de exibir uma mensagem de destaque aos usuários da aplicação, de maneira menos transitória que um snackbar e menos intrusiva que um dialog."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Visão geral do Banner do {Platform}
+
+O componente Banner do {ProductName} oferece uma forma fácil de exibir uma mensagem de destaque aos usuários da aplicação, de maneira menos transitória que um snackbar e menos intrusiva que um dialog. Ele também pode indicar ações a tomar com base no contexto da mensagem.
+
+## Exemplo de Banner do {ProductName}
+
+<Sample src="/notifications/banner/banner-sample-1" height={530} alt="Exemplo de Banner do {Platform}" />
+
+
+## Uso
+
+
+<PlatformBlock for="WebComponents">
+
+
+Primeiro, você precisa instalar o {ProductName} executando o seguinte comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Em seguida, você precisará importar o <ApiLink pkg="core" type="Banner" />, o CSS necessário e registrar o seu módulo, assim:
+
+```ts
+import { defineComponents, IgcBannerComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcBannerComponent);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+Primeiro, você precisa instalar o pacote npm correspondente {ProductName} executando o seguinte comando:
+
+```cmd
+npm install igniteui-react
+```
+
+Em seguida, você precisará importar o <ApiLink pkg="core" type="Banner" /> e o CSS necessário, assim:
+
+```tsx
+import { IgrBanner } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink pkg="core" type="BannerModule" />, o módulo de recurso do cliente de <ApiLink pkg="core" type="Banner" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbBannerModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](../general-getting-started.mdx#módulos-do-componente)).
+
+Você também precisará vincular um arquivo CSS adicional para aplicar o estilo ao componente <ApiLink pkg="core" type="Banner" />. O seguinte deve ser colocado na página host da aplicação (**wwwroot/index.html** em uma aplicação Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em uma aplicação Blazor Server, **Components/App.razor** em uma aplicação Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+
+Para uma introdução completa ao {ProductName}, leia o tópico [**Primeiros passos**](../general-getting-started.mdx).
+
+### Mostrar o banner
+
+Para exibir o componente de banner, use o método <ApiLink pkg="core" type="Banner" member="show" label="Show" /> e chame-o ao clicar em um botão. O banner aparece em relação ao local onde o elemento foi inserido no template da página, deslocando todo o restante do conteúdo. Normalmente, ele mostra algum conteúdo não intrusivo que exige interação mínima do usuário para ser descartado.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-button onclick="banner.show()">Show Banner</igc-button>
+
+<igc-banner id="banner">
+    You are currently offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrButton onClick={() => bannerRef.current.show()}>
+    <span>Show Banner</span>
+</IgrButton>
+
+<IgrBanner ref={bannerRef}>
+    <span>You are currently offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbButton @onclick="ShowBanner">Show Banner</IgbButton>
+
+<IgbBanner @ref="bannerRef">
+    You are currently offline.
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void ShowBanner()
+    {
+        this.bannerRef.ShowAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<DocsAside type="info">
+O <ApiLink pkg="core" type="Banner" /> inclui um botão de ação padrão `OK`, que fecha o banner.
+</DocsAside>
+
+
+## Exemplos
+
+O componente <ApiLink pkg="core" type="Banner" /> permite criar templates para o seu conteúdo, mantendo-se o mais fiel possível às diretrizes de banner do material design.
+
+### Alterando a mensagem do banner
+
+Configurar a mensagem exibida no banner é fácil - basta alterar o conteúdo que você passa para a tag `{BannerSelector}`. O texto aparecerá na área de banner especificada, e o banner usará seu template padrão para exibi-lo. A seguir, vamos alterar o conteúdo do nosso banner de exemplo para algo um pouco mais descritivo:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    You have lost connection to the internet. This app is offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <span>You have lost connection to the internet. This app is offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    You have lost connection to the internet. This app is offline.
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+### Adicionando um ícone
+
+Um <ApiLink pkg="core" type="Icon" /> pode ser exibido no banner usando o slot `prefix` do banner. O ícone sempre fica posicionado no início da mensagem do banner.
+
+
+<DocsAside type="info">
+Se vários elementos <ApiLink pkg="core" type="Icon" /> forem inseridos, o banner tentará posicionar todos eles no início. Recomenda-se fortemente passar somente um <ApiLink pkg="core" type="Icon" /> diretamente para o banner.
+</DocsAside>
+
+Para passar um <ApiLink pkg="core" type="Icon" /> para o seu banner, use o slot `prefix`:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon slot="prefix" IconName="signal_wifi_off" Collection="material"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+Se quiser usar um <ApiLink pkg="core" type="Icon" /> na mensagem do banner, basta inseri-lo no conteúdo do banner:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    You have lost connection to the internet. This app is offline.
+    <igc-icon name="signal_wifi_off"></igc-icon>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <IgrIcon name="signal_wifi_off"></IgrIcon>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    You have lost connection to the internet. This app is offline.
+    <IgbIcon IconName="signal_wifi_off" Collection="material"></IgbIcon>
+</IgbBanner>
+```
+
+</PlatformBlock>
+
+### Alterando o botão do banner
+
+O <ApiLink pkg="core" type="Banner" /> expõe o slot `actions` para criar templates para os botões do banner. Isso permite substituir o botão padrão do banner (`OK`) e adicionar ações personalizadas definidas pelo usuário.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <igc-button onclick="banner.toggle()">
+            <igc-ripple></igc-ripple>
+            Toggle Banner
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <div slot="actions">
+        <IgrButton variant="flat" onClick={() => bannerRef.current.toggle()}>
+            <IgrRipple />
+            <span>Toggle Banner</span>
+        </IgrButton>
+    </div>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon slot="prefix" IconName="signal_wifi_off" Collection="material"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="OnButtonClick">
+            Toggle Banner
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void OnButtonClick()
+    {
+        this.bannerRef.ToggleAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+<Sample src="/notifications/banner/banner-sample-2" height={530} alt="Exemplo de Banner do {Platform}" />
+
+
+### Vinculação a eventos
+
+O componente banner emite os eventos `Closing` e `Closed` quando é fechado. O evento `Closing` é cancelável: ele usa a interface [`CustomEvent`](https://developer.mozilla.org/docs/Web/API/CustomEvent), e o objeto emitido tem a sua propriedade `cancelable` definida como **true**. Se cancelarmos o evento `Closing`, a ação final correspondente e o evento não serão disparados: o banner não será fechado e o evento `Closed` não será emitido.
+
+Para cancelar o evento de fechamento, chame o método [`preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault).
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    ...
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const banner = document.getElementById('banner') as IgcBannerComponent;
+
+banner.addEventListener('igcClosing', (event) => {
+  event.preventDefault();
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner onClosing={(event) => event.preventDefault()}>
+    ...
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner id="banner">
+    ...
+</IgbBanner>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("handleClosing");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```javascript
+//In JavaScript:
+function handleClosing() {
+    const banner = document.getElementById('banner');
+
+    banner.addEventListener('igcClosing', (event) => {
+        event.preventDefault();
+    });
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Se as alterações acima forem aplicadas, o banner nunca será fechado, pois o evento de fechamento é sempre cancelado.
+</DocsAside>
+
+## Exemplo avançado
+
+Vamos criar um banner com dois botões personalizados: um para dispensar a notificação e outro para ativar a conexão. Podemos passar manipuladores de ação personalizados usando o slot `actions`:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-banner id="banner">
+    <igc-icon slot="prefix" name="signal_wifi_off"></igc-icon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <igc-button onclick="banner.hide()">
+            <igc-ripple></igc-ripple>
+            Continue Offline
+        </igc-button>
+        <igc-button id="button">
+            <igc-ripple></igc-ripple>
+            Turn On Wifi
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBanner ref={bannerRef}>
+    <IgrIcon slot="prefix" name="signal_wifi_off"></IgrIcon>
+    <span>You have lost connection to the internet. This app is offline.</span>
+    <div slot="actions">
+        <IgrButton variant="flat" onClick={() => bannerRef.current.hide()}>
+            <IgrRipple />
+            <span>Continue Offline</span>
+        </IgrButton>
+        <IgrButton variant="flat" onClick={refreshBanner}>
+            <IgrRipple />
+            <span>Turn On Wifi</span>
+        </IgrButton>
+    </div>
+</IgrBanner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBanner @ref="bannerRef">
+    <IgbIcon IconName="signal_wifi_off" Collection="material" slot="prefix"></IgbIcon>
+    You have lost connection to the internet. This app is offline.
+    <div slot="actions">
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="HideBanner">
+            Continue Offline
+            <IgbRipple />
+        </IgbButton>
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="RefreshBanner">
+            Turn On Wifi
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+
+    private void HideBanner()
+    {
+        this.bannerRef.HideAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+> De acordo com as diretrizes do [Material Design](https://material.io/design/components/banners.html#anatomy) do Google, um banner deve ter no máximo 2 botões. O <ApiLink pkg="core" type="Banner" /> não limita explicitamente o número de elementos sob o slot `actions`, mas é altamente recomendado usar até 2 se você quiser aderir às diretrizes do material design.
+
+
+A opção de dispensar (**Continuar offline**) não precisa de nenhuma lógica adicional, então pode simplesmente chamar o método <ApiLink pkg="core" type="Banner" member="hide" label="Hide" />. Já a ação de confirmação (**Ligar o Wi-Fi**) exige alguma lógica adicional; por isso, precisamos defini-la no componente. Em seguida, adicionaremos um listener de evento para o evento `click`. O último passo é chamar o método `refreshBanner()` a cada mudança, o que alternará o banner conforme o valor de `wifiState`.
+
+A navbar terá um ícone de Wi-Fi, e também adicionaremos um listener de evento para o seu evento `click`. Como o método `refreshBanner()` é chamado a cada mudança, o ícone não só alternará o banner, como também mudará de acordo com o estado da conexão:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-navbar>
+  <h1>Gallery</h1>
+  <igc-icon id="icon" slot="end" name="signal_wifi_off"></igc-icon>
+</igc-navbar>
+
+<igc-banner id="banner">
+    ...
+    <div slot="actions">
+        ...
+        <igc-button id="button">
+            <igc-ripple></igc-ripple>
+            Turn On Wifi
+        </igc-button>
+    </div>
+</igc-banner>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+private banner: IgcBannerComponent;
+private icon: IgcIconComponent;
+private button: IgcButtonComponent;
+
+private wifiState: boolean = false;
+
+constructor() {
+    this.banner = document.getElementById('banner') as IgcBannerComponent;
+    this.icon = document.getElementById('icon') as IgcIconComponent;
+    this.button = document.getElementById('button') as IgcButtonComponent;
+
+    this.icon.addEventListener('click', () => this.refreshBanner());
+    this.button.addEventListener('click', () => this.refreshBanner());
+}
+
+public refreshBanner() {
+    if (!this.wifiState) {
+        this.icon.name = 'signal_wifi_4_bar';
+        this.banner.hide();
+    } else {
+        this.icon.name = 'signal_wifi_off';
+        this.banner.show();
+    }
+    this.wifiState = !this.wifiState;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const bannerRef = useRef<IgrBanner>(null);
+const iconRef = useRef<IgrIcon>(null);
+
+const [wifiState, setWifiState] = useState(false);
+const [iconName, setIconName] = useState("signal_wifi_off");
+
+const refreshBanner = () => {
+    const nextWifiState = !wifiState;
+    setWifiState(nextWifiState);
+    setIconName(nextWifiState ? "signal_wifi_4_bar" : "signal_wifi_off");
+
+    if (nextWifiState) {
+        bannerRef.current.hide();
+    } else {
+        bannerRef.current.show();
+    }
+}
+
+return(
+    <>
+        <IgrNavbar>
+            <h1>Gallery</h1>
+            <IgrIcon ref={iconRef} name={iconName} slot="end" onClick={refreshBanner}></IgrIcon>
+        </IgrNavbar>
+
+        <IgrBanner ref={bannerRef}>
+            ...
+            <div slot="actions">
+                ...
+                <IgrButton variant="flat" onClick={refreshBanner}>
+                    <IgrRipple />
+                    <span>Turn On Wifi</span>
+                </IgrButton>
+            </div>
+        </IgrBanner>
+    </>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbNavbar>
+    <h1>Gallery</h1>
+    <IgbIcon @ref="iconRef" IconName="@iconName" Collection="material" slot="end" @onclick="RefreshBanner"></IgbIcon>
+</IgbNavbar>
+
+<IgbBanner @ref="bannerRef">
+    ...
+    <div slot="actions">
+        ...
+        <IgbButton Variant="ButtonVariant.Flat" @onclick="RefreshBanner">
+            Turn On Wifi
+            <IgbRipple />
+        </IgbButton>
+    </div>
+</IgbBanner>
+
+@code {
+    private IgbBanner bannerRef;
+    private string iconName = "signal_wifi_off";
+    private bool wifiState = false;
+
+    private void RefreshBanner()
+    {
+        if (!this.wifiState)
+        {
+            this.iconName = "signal_wifi_4_bar";
+            this.bannerRef.HideAsync();
+        }
+        else
+        {
+            this.iconName = "signal_wifi_off";
+            this.bannerRef.ShowAsync();
+        }
+        this.wifiState = !this.wifiState;
+    }
+}
+```
+
+</PlatformBlock>
+
+Por fim, vamos adicionar um <ApiLink pkg="core" type="Toast" />, exibindo uma mensagem sobre o estado do Wi-Fi. Os resultados do banner com template podem ser vistos na demonstração abaixo:
+
+<Sample src="/notifications/banner/banner-advanced-sample" height={530} alt="Exemplo de Banner do {Platform}" />
+
+
+## Estilização
+
+O componente <ApiLink pkg="core" type="Banner" /> expõe várias partes CSS que dão controle total sobre o seu estilo:
+
+|Nome|Descrição|
+|--|--|
+| `base` | O wrapper base do componente banner. |
+| `spacer` | O wrapper interno que define o espaço ao redor do banner. |
+| `message` | A parte que contém o texto e a ilustração. |
+| `illustration` | A parte que contém o ícone/ilustração do banner. |
+| `content` | A parte que contém o conteúdo de texto do banner. |
+| `actions` | A parte que contém os botões de ação do banner. |
+
+```css
+igc-banner::part(spacer) {
+  background: var(--ig-surface-600);
+}
+
+igc-banner::part(illustration) {
+  color: var(--ig-surface-600-contrast);
+}
+
+igc-banner::part(content) {
+  color: var(--ig-gray-900);
+}
+```
+
+<Sample src="/notifications/banner/banner-styling" height={530} alt="Exemplo de Banner do {Platform}" />
+
+
+## Referências da API
+
+
+<ApiLink pkg="core" type="Banner" /><br />
+<ApiLink pkg="core" type="Card" /><br />
+<ApiLink pkg="core" type="Icon" /><br />
+<ApiLink pkg="core" type="Navbar" /><br />
+<ApiLink pkg="core" type="Toast" /><br />
+<ApiLink pkg="core" type="Ripple" /><br />
+
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

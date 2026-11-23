@@ -1,0 +1,1511 @@
+---
+title: "Componente Combo de seleção única {Platform}"
+description: "O Combo de seleção única {ProductName} é um Combo no qual os usuários selecionam uma opção e filtram a lista suspensa pesquisável digitando no campo de input."
+keywords: "Combo de seleção única {Platform}, {ProductName}, combo de seleção única, combo simples, combobox, dropdown pesquisável, filtragem de combo"
+license: MIT
+last_updated: "2026-11-05"
+relatedComponents: ["Combo", "Select", "Dropdown"]
+mentionedTypes: ["Combo", "ComboItem", "ComboHeader", "ComboList"]
+_language: pt-BR
+llms:
+  description: "O Combo de seleção única {ProductName} é um Combo no qual os usuários selecionam uma opção e filtram a lista suspensa pesquisável digitando no campo de input."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import comboAnatomy from '@xplat-images/anatomy-content-light/single-select-combo-lt-a.png';
+import comboDoAlignment from '@xplat-images/combo/single-select-combo-do-1.png';
+import comboDoNotAlignment from '@xplat-images/combo/single-select-combo-do-not-1.png';
+
+# Combo de seleção única
+
+O Combo de seleção única {ProductName} é um Combo no qual os usuários selecionam uma opção e filtram a lista suspensa pesquisável digitando no campo de input.
+
+<PlatformBlock for="Angular">
+
+O Combo de seleção única do Angular é o Combo simples, o componente `igx-simple-combo`. Ele faz o binding, agrupa e aplica template às suas opções como o Combo, e permite que os usuários digitem no campo de input para filtrar a lista ou informar um valor personalizado.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Defina <PlatformBlock for="React,WebComponents"><ApiLink type="Combo" member="singleSelect" label="singleSelect" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="SingleSelect" label="SingleSelect" /></PlatformBlock> no Combo {Platform} para alterá-lo para seleção única. O campo de input se torna editável e filtra a lista conforme os usuários digitam, o input de pesquisa do dropdown fica oculto e as opções não mostram caixas de seleção.
+
+</PlatformBlock>
+
+<DocsAside type="info">
+O Combo tem duas opções de layout: Combo com seleção única (Combo simples) e Combo (seleção múltipla).
+</DocsAside>
+
+## Demo ao vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-overview" showThemePicker height={420} noBorder={false} spacing="md" alt="Exemplo de Combo de seleção única {Platform} com um Combo de País que lista países europeus no dropdown aberto" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-overview" showThemePicker height={420} noBorder={false} spacing="md" alt="Exemplo de Combo de seleção única {Platform} com um Combo de País que lista países europeus no dropdown aberto" />
+
+</PlatformBlock>
+
+## Anatomia
+
+O Combo simples tem duas partes: um Input que contém a seleção atual ou um placeholder, e um Dropdown que é exibido para selecionar uma opção de uma lista predefinida.
+
+<Anatomy
+  class="combo-anatomy"
+  name="Combo de seleção única"
+  description="O Combo simples tem duas partes: um Input que contém a seleção atual ou um placeholder, e um Dropdown que é exibido para selecionar uma opção de uma lista predefinida."
+  src={comboAnatomy.src}
+  alt="Anatomia do Combo de seleção única, mostrando o contêiner do input com o seu rótulo, ícone à esquerda, placeholder, dica e alternância, e o dropdown aberto com o seu cabeçalho, item selecionado e lista"
+/>
+
+<style>{`
+  .combo-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .combo-anatomy .igd-anatomy__image {
+    max-width: 801px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Contêiner do input:</strong> exibe os elementos de valor e de input<br />
+<strong>2. Rótulo (opcional):</strong> texto que descreve o que o usuário deve selecionar<br />
+<strong>3. Ícone à esquerda (opcional):</strong> um ícone inicial opcional que acrescenta contexto ao campo<br />
+<strong>4. Texto de dica:</strong> texto de ajuda exibido abaixo do campo para orientação extra<br />
+<strong>5. Texto de placeholder:</strong> texto padrão exibido quando nenhum valor está selecionado<br />
+<strong>6. Alternância:</strong> usada para abrir ou fechar a lista de opções<br />
+<strong>7. Cabeçalho do dropdown:</strong> usado para agrupar ou descrever as opções do dropdown<br />
+<strong>8. Item selecionado:</strong> item selecionado na lista do dropdown<br />
+<strong>9. Lista do dropdown:</strong> exibe a lista de opções selecionáveis</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+No modo de seleção única, o elemento `igc-combo` renderiza um campo de input editável, oculta o input de pesquisa do dropdown e renderiza as opções sem caixas de seleção:
+
+```text
+igc-combo[single-select]
+└─ #shadow-root
+   ├─ igc-popover
+   │  ├─ igc-input#target[slot="anchor"]            // the editable input field, exported as the "input" part
+   │  │  ├─ slot[name="prefix"]
+   │  │  ├─ span[part="clear-icon"]                  // shown when the Combo has a value
+   │  │  ├─ slot[name="suffix"]
+   │  │  └─ span[part="toggle-icon"]
+   │  └─ div[part="list-wrapper"]                    // the dropdown
+   │     ├─ div[part="filter-input"][hidden]         // the search input is hidden
+   │     ├─ div[part="header"]
+   │     │  └─ slot[name="header"]
+   │     ├─ igc-virtual-scroll#dropdown[part="list"][role="listbox"]
+   │     │  ├─ igc-combo-header[part="group-header"] // one for each group
+   │     │  └─ igc-combo-item[part="item"][hide-checkbox] // one for each option
+   │     ├─ div[part="empty"]                        // shown when the list has no options
+   │     │  └─ slot[name="empty"]
+   │     └─ div[part="footer"]
+   │        └─ slot[name="footer"]
+   └─ igc-validator#combo-helper-text               // the helper text and the validation messages, exported as the "helper-text" part
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O elemento `igx-simple-combo` renderiza um campo de input editável em um input group e a sua lista do dropdown em um overlay. Ele não tem input de pesquisa:
+
+```text
+igx-simple-combo
+├─ igx-input-group
+│  ├─ [igxLabel]
+│  ├─ igx-prefix
+│  ├─ input[igxInput][role="combobox"]          // editable, filters the list
+│  ├─ igx-suffix.igx-combo__clear-button        // shown when the Combo has a value
+│  ├─ igx-suffix                                // the case-sensitive icon, shown with showSearchCaseIcon
+│  ├─ igx-suffix.igx-combo__toggle-button
+│  └─ igx-hint
+└─ igx-combo-drop-down                          // the dropdown, shown in an overlay
+   └─ div.igx-drop-down__list-scroll[role="listbox"]
+      └─ div.igx-combo
+         ├─ [igxComboHeader] template
+         ├─ div.igx-combo__content              // the options
+         │  └─ igx-combo-item[role="option"]    // role="group" for the group headers
+         ├─ div.igx-combo__add                  // the empty message and the add item button
+         │  └─ igx-combo-add-item[role="button"] // shown with allowCustomValues
+         └─ [igxComboFooter] template
+```
+
+</PlatformBlock>
+
+## Primeiros passos
+
+Para usar o Combo de seleção única {Platform}, siga o <PlatformBlock for="Angular">[{ProductName} Primeiros passos](../../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeiros passos](../../general-getting-started.mdx)</PlatformBlock> tópico para a configuração básica do projeto e, em seguida, adicione o componente para a sua plataforma de destino.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O modo de seleção única é um modo do Combo; por isso, o pacote, o registro e o CSS do tema são os do [Combo](./overview.mdx#primeiros-passos).
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe o <ApiLink type="Combo" />, o CSS do seu tema e registre o componente:
+
+```ts
+import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcComboComponent);
+```
+
+Renderize o Combo com o atributo `single-select` e vincule o seu `data`:
+
+```html
+<igc-combo id="countries" single-select value-key="id" display-key="name" label="Country"></igc-combo>
+```
+
+```ts
+const combo = document.getElementById('countries') as IgcComboComponent;
+
+combo.data = [
+    { id: 'BY', name: 'Belarus' },
+    { id: 'BE', name: 'Belgium' },
+    { id: 'BG', name: 'Bulgaria' }
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe o wrapper <ApiLink type="Combo" /> e o CSS do tema, e renderize o Combo com `singleSelect`:
+
+```tsx
+import { IgrCombo } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+const countries = [
+  { id: 'BY', name: 'Belarus' },
+  { id: 'BE', name: 'Belgium' },
+  { id: 'BG', name: 'Bulgaria' }
+];
+
+<IgrCombo singleSelect data={countries} valueKey="id" displayKey="name" label="Country" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar o <ApiLink pkg="core" type="ComboModule" />, o módulo de recursos do cliente do <ApiLink pkg="core" type="Combo<T>" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Veja [Módulos de componente](../../general-getting-started.mdx#módulos-do-componente).
+
+Em seguida, vincule o arquivo CSS do tema na página host da aplicação e renderize o Combo com `SingleSelect`:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+```razor
+<IgbCombo T="string" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" Label="Country" />
+
+@code {
+    private class Country
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    private List<Country> Countries = new()
+    {
+        new Country { Id = "BY", Name = "Belarus" },
+        new Country { Id = "BE", Name = "Belgium" },
+        new Country { Id = "BG", Name = "Bulgaria" }
+    };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Se o seu projeto ainda não usa o {ProductName}, execute `ng add igniteui-angular`. Em seguida, importe o token `IGX_SIMPLE_COMBO_DIRECTIVES` e adicione-o ao `imports` do seu componente. O token contém o <ApiLink type="SimpleCombo" label="IgxSimpleComboComponent" /> e as suas diretivas de template:
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_SIMPLE_COMBO_DIRECTIVES } from 'igniteui-angular/simple-combo';
+// import { IGX_SIMPLE_COMBO_DIRECTIVES } from '@infragistics/igniteui-angular/simple-combo'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+        <igx-simple-combo [data]="countries" valueKey="id" displayKey="name" placeholder="Country"></igx-simple-combo>
+    `,
+    imports: [IGX_SIMPLE_COMBO_DIRECTIVES]
+})
+export class HomeComponent {
+    public countries = [
+        { id: 'BY', name: 'Belarus' },
+        { id: 'BE', name: 'Belgium' },
+        { id: 'BG', name: 'Bulgaria' }
+    ];
+}
+```
+
+</PlatformBlock>
+
+## Uso
+
+Use o Combo de seleção única {Platform} quando os usuários escolherem exatamente uma opção de uma lista que precisem pesquisar, como um país ou uma cidade.
+
+### Tipo (tema Material)
+
+No tema Material, o Input do Combo simples oferece a escolha entre um tipo com borda, para uma percepção mais estruturada sobre fundos de cor sólida, e um tipo em caixa, mais adequado quando colocado sobre uma imagem vívida para melhorar a legibilidade. Os temas Bootstrap, Fluent e Indigo desenham os dois tipos da mesma forma; por isso, os outros exemplos deste tópico mostram o tipo em caixa somente no tema Material.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Combo {Platform} usa o tipo em caixa por padrão. Defina `outlined` para o tipo com borda:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<!-- Border type -->
+<igc-combo single-select outlined label="Label" placeholder="Select a value"></igc-combo>
+
+<!-- Box type -->
+<igc-combo single-select label="Label" placeholder="Select a value"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+{/* Border type */}
+<IgrCombo singleSelect outlined label="Label" placeholder="Select a value" />
+
+{/* Box type */}
+<IgrCombo singleSelect label="Label" placeholder="Select a value" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@* Border type *@
+<IgbCombo T="object" SingleSelect="true" Outlined="true" Label="Label" Placeholder="Select a value" />
+
+@* Box type *@
+<IgbCombo T="object" SingleSelect="true" Label="Label" Placeholder="Select a value" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular usa o tipo em caixa por padrão. Defina o input <ApiLink type="SimpleCombo" member="type" label="type" /> como `border` para o tipo com borda. Adicione o rótulo com a diretiva `igxLabel` e o ícone à esquerda com um `igx-prefix`. O token `IGX_SIMPLE_COMBO_DIRECTIVES` contém ambos, mas não o ícone; por isso, adicione o `IgxIconComponent` ao `imports` do seu componente:
+
+```html
+<!-- Border type -->
+<igx-simple-combo type="border" placeholder="Select a value" [data]="options">
+  <label igxLabel>Label</label>
+  <igx-prefix><igx-icon>language</igx-icon></igx-prefix>
+</igx-simple-combo>
+
+<!-- Box type -->
+<igx-simple-combo type="box" placeholder="Select a value" [data]="options">
+  <label igxLabel>Label</label>
+</igx-simple-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Adicione o rótulo com a propriedade `label`, e o ícone à esquerda no slot `prefix`. Registre o ícone primeiro, conforme descrito no tópico [Ícone](../../layouts/icon.mdx).
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-type" chrome="demo" height={450} noBackground={false} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tipos com borda e em caixa do tema Material, com os seus dropdowns abertos" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-type" chrome="demo" height={450} noBackground={false} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tipos com borda e em caixa do tema Material, com os seus dropdowns abertos" />
+
+</PlatformBlock>
+
+### Estados desabilitados
+
+Defina `disabled` no Combo de seleção única {Platform} para mostrar o estado desabilitado do tipo com borda e do tipo em caixa.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo single-select outlined disabled placeholder="Country"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo singleSelect outlined disabled placeholder="Country" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="object" SingleSelect="true" Outlined="true" Disabled="true" Placeholder="Country" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-simple-combo type="border" [disabled]="true" placeholder="Country" [data]="countries"></igx-simple-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-disabled" chrome="demo" showThemePicker height={460} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tipos com borda e em caixa, habilitado e desabilitado, com e sem valor" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-disabled" chrome="demo" showThemePicker height={460} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tipos com borda e em caixa, habilitado e desabilitado, com e sem valor" />
+
+</PlatformBlock>
+
+### Tamanho
+
+O Combo está disponível em três tamanhos: Large, Medium e Small. O Dropdown ajusta automaticamente as suas dimensões para corresponder à variante de tamanho selecionada. Defina o tamanho com a variável CSS `--ig-size`:
+
+```css
+.small {
+  --ig-size: var(--ig-size-small);
+}
+
+.large {
+  --ig-size: var(--ig-size-large);
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Combo {Platform} é medium por padrão.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-size" chrome="demo" showThemePicker height={700} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tamanhos small, medium e large, nos tipos com borda e em caixa, com os seus dropdowns abertos" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-size" chrome="demo" showThemePicker height={700} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos tamanhos small, medium e large, nos tipos com borda e em caixa, com os seus dropdowns abertos" />
+
+</PlatformBlock>
+
+### Estados de interação
+
+O componente Combo oferece suporte a cinco estados para as variantes habilitadas: Idle, Idle & Hover, Filled, Filled & Hover e Focused, além de três estados de validação: Success, Warn e Error.
+
+Clicar no campo de input ou na alternância abre o dropdown, e digitar no campo de input o abre e filtra a lista. Para abrir e fechar o dropdown por código, use a <PlatformBlock for="React,WebComponents">propriedade `open` ou os métodos `show`, `hide` e `toggle`</PlatformBlock><PlatformBlock for="Blazor">parâmetro `Open` ou os métodos `ShowAsync`, `HideAsync` e `ToggleAsync`</PlatformBlock><PlatformBlock for="Angular">métodos `open`, `close` e `toggle`</PlatformBlock>:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const combo = document.getElementById('countries') as IgcComboComponent;
+
+await combo.show();
+await combo.hide();
+await combo.toggle();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const comboRef = useRef<IgrCombo>(null);
+
+const open = () => comboRef.current?.show();
+const close = () => comboRef.current?.hide();
+const toggle = () => comboRef.current?.toggle();
+
+return <IgrCombo ref={comboRef} singleSelect data={countries} valueKey="id" displayKey="name" />;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="string" @ref="Combo" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+
+@code {
+    private IgbCombo<string> Combo;
+
+    private async Task OpenAsync() => await Combo.ShowAsync();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```ts
+@ViewChild(IgxSimpleComboComponent, { static: true })
+public combo: IgxSimpleComboComponent;
+
+public openCombo(): void {
+    this.combo.open();
+}
+```
+
+</PlatformBlock>
+
+O exemplo a seguir mostra os estados lado a lado. Hover e foco vêm do ponteiro e do teclado; por isso, o exemplo ativa os estilos de hover e de foco do tema para os seus combos apenas de exibição.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-states" chrome="demo" showThemePicker height={460} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos estados idle, com hover, preenchido, com foco e aberto" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-states" chrome="demo" showThemePicker height={460} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos estados idle, com hover, preenchido, com foco e aberto" />
+
+</PlatformBlock>
+
+### Estados de validação
+
+Todo designer experiente usa restrições com sabedoria para limitar a entrada do usuário e evitar estados inválidos; daí a disponibilidade de estilos de validação. Por meio dos estilos de validação disponíveis, o Input do Combo é consistente com o padrão <PlatformBlock for="Angular">[Input](../../input-group.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Input](../input.mdx)</PlatformBlock> e preparado para designs sofisticados que exibem visuais de sucesso, aviso e erro.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Combo {Platform} é associado a formulários. Defina `required` para exigir um item selecionado, e `invalid` para exibir o estado de erro. Coloque a orientação ou a mensagem de erro no slot `helper-text`. No modo de seleção única, o valor do formulário é o valor `valueKey` do item selecionado. O Combo não tem estados de sucesso ou de aviso integrados. O exemplo mostra os estados de sucesso e de aviso como Combos inválidos que usam a cor de sucesso ou de aviso do tema no lugar da cor de erro.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo single-select outlined required invalid placeholder="Country">
+  <span slot="helper-text">Please select a different region</span>
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo singleSelect outlined required invalid placeholder="Country">
+  <span slot="helper-text">Please select a different region</span>
+</IgrCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="object" SingleSelect="true" Outlined="true" Required="true" Invalid="true" Placeholder="Country">
+    <span slot="helper-text">Please select a different region</span>
+</IgbCombo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular obtém o seu estado de validação do controle de formulário ao qual está vinculado, por meio de `ngModel` ou de um formulário reativo. Defina a propriedade <ApiLink type="SimpleCombo" member="valid" label="valid" /> com um valor `IgxInputState` para definir o estado por código. O Combo simples do Angular não tem um estado de aviso próprio; por isso, o exemplo o mostra com o estilo de aviso do seu input group. Coloque a orientação ou a mensagem de erro em um `igx-hint`:
+
+```html
+<igx-simple-combo type="border" [data]="countries" valueKey="id" displayKey="name" [(ngModel)]="selection" required>
+  <igx-hint>Please select a different region</igx-hint>
+</igx-simple-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-validation" chrome="demo" showThemePicker height={340} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos estados de sucesso, aviso e erro, nos tipos com borda e em caixa" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-validation" chrome="demo" showThemePicker height={340} noBorder={false} spacing="md" alt="Combo de seleção única {Platform} nos estados de sucesso, aviso e erro, nos tipos com borda e em caixa" />
+
+</PlatformBlock>
+
+### Tamanho do dropdown
+
+O Dropdown usado pelo Combo vem com o dimensionamento adequado para os Combos Large, Medium e Small, de forma semelhante ao componente <PlatformBlock for="Angular">[Dropdown](../../drop-down.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Dropdown](../dropdown.mdx)</PlatformBlock> normal. O dropdown obtém o seu tamanho do Combo; por isso, defina a variável `--ig-size` no Combo.
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular também expõe os inputs <ApiLink type="SimpleCombo" member="itemHeight" label="itemHeight" /> e <ApiLink type="SimpleCombo" member="itemsMaxHeight" label="itemsMaxHeight" /> para a altura dos itens e da lista:
+
+```html
+<igx-simple-combo [data]="countries" [itemHeight]="40" [itemsMaxHeight]="160"></igx-simple-combo>
+```
+
+</PlatformBlock>
+
+O exemplo a seguir mostra apenas os dropdowns, sem os seus campos de input.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-dropdown-size" chrome="demo" showThemePicker height={360} noBorder={false} spacing="md" alt="Dropdowns do Combo de seleção única {Platform} nos tamanhos small, medium e large" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-dropdown-size" chrome="demo" showThemePicker height={360} noBorder={false} spacing="md" alt="Dropdowns do Combo de seleção única {Platform} nos tamanhos small, medium e large" />
+
+</PlatformBlock>
+
+### Itens do dropdown
+
+O Dropdown usado pelo Combo simples oferece dois tipos de item: cabeçalho e item de seleção única. Ambos estão disponíveis nos tamanhos Large, Medium e Small. Por meio dos cabeçalhos, é possível organizar os itens em grupos.
+
+Defina `groupKey` como o campo que guarda o grupo de cada opção, e o Combo de seleção única {Platform} mostra um cabeçalho para cada grupo. As opções do modo de seleção única não mostram caixas de seleção. Para alterar o conteúdo dos itens e dos cabeçalhos, veja o tópico [Templates do Combo](./templates.mdx).
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo single-select value-key="id" display-key="name" group-key="region"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo singleSelect valueKey="id" displayKey="name" groupKey="region" data={countries} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="string" SingleSelect="true" ValueKey="Id" DisplayKey="Name" GroupKey="Region" Data="Countries" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-simple-combo [data]="countries" valueKey="id" displayKey="name" groupKey="region"></igx-simple-combo>
+```
+
+</PlatformBlock>
+
+O exemplo a seguir mostra um cabeçalho e um item em cada tamanho.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-dropdown-items" chrome="demo" showThemePicker height={252} noBorder={false} spacing="md" alt="Cabeçalho e item do dropdown do Combo de seleção única {Platform} nos tamanhos small, medium e large" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-dropdown-items" chrome="demo" showThemePicker height={252} noBorder={false} spacing="md" alt="Cabeçalho e item do dropdown do Combo de seleção única {Platform} nos tamanhos small, medium e large" />
+
+</PlatformBlock>
+
+### Estados dos itens do dropdown
+
+Um item do dropdown do Combo de seleção única {Platform} está idle, com hover ou com foco, e cada um desses estados tem uma variante selecionada. O tema do dropdown também tem cores para um item desabilitado.
+
+O exemplo a seguir mostra os estados lado a lado. Hover e foco vêm do ponteiro e do teclado; por isso, o exemplo ativa os estilos de hover, de foco e de desabilitado do tema para os seus itens apenas de exibição.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-dropdown-items-states" chrome="demo" showThemePicker height={244} noBorder={false} spacing="md" alt="Item do dropdown do Combo de seleção única {Platform} nos estados idle, com hover, com foco e desabilitado, não selecionado e selecionado" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-dropdown-items-states" chrome="demo" showThemePicker height={244} noBorder={false} spacing="md" alt="Item do dropdown do Combo de seleção única {Platform} nos estados idle, com hover, com foco e desabilitado, não selecionado e selecionado" />
+
+</PlatformBlock>
+
+### Vinculação de dados
+
+O Combo de seleção única {Platform} faz o binding das suas opções da mesma forma que o Combo: vincule `data` a um array e defina `valueKey`, `displayKey` e `groupKey` quando o array contiver objetos. Veja [Data Binding](./overview.mdx#vinculação-de-dados) no tópico do Combo.
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular também faz binding a um serviço remoto e carrega os seus dados sob demanda. Vincule `data` ao bloco carregado e trate o evento <ApiLink type="SimpleCombo" member="dataPreLoad" label="dataPreLoad" /> para carregar o próximo bloco, conforme descrito em [Binding remoto](./features.mdx#binding-remoto) no tópico Recursos do Combo.
+
+</PlatformBlock>
+
+### Valor e seleção
+
+O Combo de seleção única {Platform} mantém um item selecionado e o expõe por meio do seu valor e da sua API de seleção.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+A `value` mantém o item selecionado como um array com um elemento: o seu valor `valueKey`, ou a referência do objeto quando não há `valueKey`. Defina-a para selecionar um item quando o Combo for renderizado pela primeira vez. O método `select` seleciona um único item e desmarca o anterior; por isso, passe um item. O método `deselect` o desmarca. Chamado sem um item, `select` limpa a seleção no modo de seleção única:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+// select the item matching the 'BG' value of the value key field
+combo.select('BG');
+
+// deselect it
+combo.deselect('BG');
+
+console.log(combo.value); // ['BG'] while Bulgaria is selected, [] after the deselection
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// select the item matching the 'BG' value of the value key field
+comboRef.current?.select('BG');
+
+// deselect it
+comboRef.current?.deselect('BG');
+
+console.log(comboRef.current?.value); // ['BG'] while Bulgaria is selected, [] after the deselection
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="string" @ref="Combo" SingleSelect="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+
+@code {
+    private IgbCombo<string> Combo;
+
+    public void SelectBulgaria() => Combo.Select(new object[] { "BG" });
+
+    public void DeselectBulgaria() => Combo.Deselect(new object[] { "BG" });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Combo emite <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React">`onChange`</PlatformBlock><PlatformBlock for="Blazor">`Change`</PlatformBlock> antes de o usuário alterar a seleção. O seu detalhe contém o novo valor, os itens alterados e o tipo da mudança, e cancelá-lo mantém a seleção.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular oferece suporte a binding bidirecional com `[(ngModel)]` e funciona em formulários orientados por template e reativos. O valor vinculado é um único item: o seu valor `valueKey`, ou a referência do objeto quando não há `valueKey`. A propriedade <ApiLink type="SimpleCombo" member="selection" label="selection" /> retorna o item selecionado, o método <ApiLink type="SimpleCombo" member="select" label="select" /> seleciona um item, e o método <ApiLink type="SimpleCombo" member="deselect" label="deselect" /> limpa a seleção:
+
+```html
+<igx-simple-combo [data]="countries" valueKey="id" displayKey="name" [(ngModel)]="selectedCountry"></igx-simple-combo>
+```
+
+```ts
+export class CountriesComponent {
+    @ViewChild(IgxSimpleComboComponent, { static: true })
+    public combo: IgxSimpleComboComponent;
+
+    public selectedCountry = 'BG';
+
+    public selectBelgium(): void {
+        this.combo.select('BE');
+    }
+
+    public clear(): void {
+        this.combo.deselect();
+    }
+}
+```
+
+O Combo simples do Angular emite <ApiLink type="SimpleCombo" member="selectionChanging" label="selectionChanging" /> antes de a seleção mudar, e <ApiLink type="SimpleCombo" member="selectionChanged" label="selectionChanged" /> depois disso. Os argumentos do evento contêm o valor antigo e o novo, o item antigo e o novo, e o texto de exibição do campo de input; definir `cancel` em `selectionChanging` mantém a seleção:
+
+```html
+<igx-simple-combo [data]="countries" valueKey="id" displayKey="name" (selectionChanging)="onCountryChanging($event)"></igx-simple-combo>
+```
+
+```ts
+public onCountryChanging(event: ISimpleComboSelectionChangingEventArgs): void {
+    if (event.newValue === 'BY') {
+        event.cancel = true;
+    }
+}
+```
+
+O evento `selectionChanging` também conduz um cenário em cascata, no qual a seleção de um Combo simples carrega os dados do próximo, por exemplo, um combo de país, de região e de cidade. Trate o evento `selectionChanging` de cada Combo simples para carregar os dados do próximo e limpar a sua seleção:
+
+```html
+<igx-simple-combo #country
+    [data]="countriesData"
+    (selectionChanging)="countryChanging($event)"
+    placeholder="Choose Country..."
+    [(ngModel)]="selectedCountry"
+    displayKey="name">
+</igx-simple-combo>
+<igx-simple-combo #region
+    [data]="regionData"
+    (selectionChanging)="regionChanging($event)"
+    placeholder="Choose Region..."
+    [(ngModel)]="selectedRegion"
+    displayKey="name"
+    [disabled]="regionData.length === 0">
+</igx-simple-combo>
+<igx-simple-combo #city
+    [data]="citiesData"
+    placeholder="Choose City..."
+    [(ngModel)]="selectedCity"
+    displayKey="name"
+    [disabled]="citiesData.length === 0">
+</igx-simple-combo>
+```
+
+```ts
+export class SimpleComboCascadingComponent implements OnInit {
+    public selectedCountry: Country;
+    public selectedRegion: Region;
+    public selectedCity: City;
+    public countriesData: Country[];
+    public regionData: Region[] = [];
+    public citiesData: City[] = [];
+
+    public ngOnInit(): void {
+        this.countriesData = getCountries(['United States', 'Japan', 'United Kingdom']);
+    }
+
+    public countryChanging(e: ISimpleComboSelectionChangingEventArgs) {
+        this.selectedCountry = e.newSelection as Country;
+        this.regionData = getCitiesByCountry([this.selectedCountry?.name])
+            .map(c => ({ name: c.region, country: c.country }))
+            .filter((v, i, a) => a.findIndex(r => r.name === v.name) === i);
+        this.selectedRegion = null;
+        this.selectedCity = null;
+        this.citiesData = [];
+    }
+
+    public regionChanging(e: ISimpleComboSelectionChangingEventArgs) {
+        this.selectedRegion = e.newSelection as Region;
+        this.citiesData = getCitiesByCountry([this.selectedCountry?.name])
+            .filter(c => c.region === this.selectedRegion?.name);
+        this.selectedCity = null;
+    }
+}
+```
+
+O tópico [Grade com Combos em cascata](../../grid/cascading-combos.mdx) mostra o mesmo cenário na edição de células do Data Grid.
+
+</PlatformBlock>
+
+### Filtragem
+
+Digitar no campo de input do Combo de seleção única {Platform} abre o dropdown e filtra a lista para as opções que contêm o texto. A primeira correspondência se torna a opção ativa; por isso, <kbd>Enter</kbd> a seleciona.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Defina `disableFiltering` para manter a lista inteira enquanto os usuários digitam. O objeto `filteringOptions` define a chave pela qual o texto filtra, e se a filtragem diferencia maiúsculas de minúsculas e considera diacríticos. Quando o Combo perde o foco sem uma opção selecionada, o campo de input é limpo.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+combo.filteringOptions = { filterKey: 'name', caseSensitive: false, matchDiacritics: true };
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo singleSelect filteringOptions={{ filterKey: 'name', caseSensitive: false, matchDiacritics: true }} />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="string" SingleSelect="true" DisableFiltering="true" Data="Countries" ValueKey="Id" DisplayKey="Name" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Defina <ApiLink type="SimpleCombo" member="disableFiltering" label="disableFiltering" /> para manter a lista inteira enquanto os usuários digitam, e <ApiLink type="SimpleCombo" member="showSearchCaseIcon" label="showSearchCaseIcon" /> para exibir um botão no campo de input que alterna a filtragem com diferenciação de maiúsculas e minúsculas. O input <ApiLink type="SimpleCombo" member="filteringOptions" label="filteringOptions" /> define a chave pela qual o texto filtra e se a filtragem diferencia maiúsculas de minúsculas, e <ApiLink type="SimpleCombo" member="filterFunction" label="filterFunction" /> substitui a filtragem por uma própria. Quando o Combo simples perde o foco sem uma opção selecionada, o campo de input é limpo:
+
+```html
+<igx-simple-combo [data]="countries" displayKey="name" [showSearchCaseIcon]="true"
+                  [filteringOptions]="{ filteringKey: 'name', caseSensitive: false }">
+</igx-simple-combo>
+```
+
+Defina <ApiLink type="SimpleCombo" member="allowCustomValues" label="allowCustomValues" /> para permitir que os usuários informem um valor que não está na lista. Quando o texto não corresponde a nenhuma opção, o dropdown mostra um botão de adicionar item, e <kbd>Enter</kbd> nele adiciona o texto como um novo item e o seleciona. O Combo simples emite <ApiLink type="SimpleCombo" member="addition" label="addition" /> antes de adicionar o item:
+
+```html
+<igx-simple-combo [data]="countries" displayKey="name" valueKey="id" [allowCustomValues]="true" (addition)="onAddition($event)"></igx-simple-combo>
+```
+
+</PlatformBlock>
+
+### Faça/Não faça
+
+Ao usar o Combo simples, o seu input e o seu dropdown devem ter a mesma largura, e as suas bordas esquerda e direita devem coincidir. Quanto à forma como o dropdown é exibido quando o Combo simples recebe foco, mostre-o sempre por cima do conteúdo que vem depois do Combo simples que dispara a sua exibição. Os Combos não empurram o conteúdo como os painéis de expansão fazem.
+
+<DoDont
+  doSrc={comboDoAlignment}
+  doAlt="Um combo de seleção única de País aberto, cujo dropdown tem a mesma largura do seu input e cobre os campos abaixo dele"
+  dontSrc={comboDoNotAlignment}
+  dontAlt="Um Combo de País aberto, cujo dropdown é mais estreito que o seu input e está deslocado para a direita"
+>
+<Fragment slot="do">
+
+Alinhe o dropdown ao input, para que ambos tenham a mesma largura e bordas esquerda e direita coincidentes.
+
+</Fragment>
+<Fragment slot="dont">
+
+Evite um dropdown mais estreito que o input ou deslocado para fora do alinhamento, pois isso quebra a conexão visual entre os dois.
+
+</Fragment>
+</DoDont>
+
+
+## Propriedades
+
+O Combo de seleção única {Platform} expõe as propriedades a seguir. <PlatformBlock for="React,WebComponents,Blazor">O modo de seleção única é um modo do Combo; por isso, o tópico [Combo](./overview.mdx#propriedades) lista o conjunto completo.</PlatformBlock> Veja a referência da API para as definições completas dos tipos.
+
+<PlatformBlock for="React,WebComponents">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink type="Combo" member="singleSelect" label="singleSelect" /> | `boolean` | `false` | Se os usuários selecionam um único item e filtram a lista a partir do campo de input. |
+| <ApiLink type="Combo" member="data" label="data" /> | `T[]` | `[]` | As opções do Combo. |
+| <ApiLink type="Combo" member="valueKey" label="valueKey" /> | `string` | — | O campo que identifica uma opção. |
+| <ApiLink type="Combo" member="displayKey" label="displayKey" /> | `string` | — | O campo que a lista e o campo de input mostram. Usa `valueKey` como alternativa. |
+| <ApiLink type="Combo" member="groupKey" label="groupKey" /> | `string` | — | O campo que agrupa as opções. |
+| <ApiLink type="Combo" member="value" label="value" /> | `ComboValue<T>[]` | `[]` | O item selecionado, como um array com um valor `valueKey` ou uma referência de objeto. |
+| <ApiLink type="Combo" member="label" label="label" /> | `string` | — | O rótulo do Combo. |
+| <ApiLink type="Combo" member="placeholder" label="placeholder" /> | `string` | — | O texto que o campo de input mostra quando nenhum item está selecionado. |
+| <ApiLink type="Combo" member="outlined" label="outlined" /> | `boolean` | `false` | Se o Combo usa o tipo com borda. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="open" label="open" /></PlatformBlock><PlatformBlock for="React">`open`</PlatformBlock> | `boolean` | `false` | Se o dropdown está aberto. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="disabled" label="disabled" /></PlatformBlock><PlatformBlock for="React">`disabled`</PlatformBlock> | `boolean` | `false` | Se o Combo está desabilitado. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="required" label="required" /></PlatformBlock><PlatformBlock for="React">`required`</PlatformBlock> | `boolean` | `false` | Se o Combo exige um item selecionado para ser válido. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="invalid" label="invalid" /></PlatformBlock><PlatformBlock for="React">`invalid`</PlatformBlock> | `boolean` | `false` | Se o Combo mostra o seu estado inválido. |
+| <ApiLink type="Combo" member="disableFiltering" label="disableFiltering" /> | `boolean` | `false` | Se digitar no campo de input deixa a lista sem filtro. |
+| <ApiLink type="Combo" member="filteringOptions" label="filteringOptions" /> | `FilteringOptions<T>` | — | A chave pela qual o texto filtra, e se a filtragem diferencia maiúsculas de minúsculas e considera diacríticos. |
+| <ApiLink type="Combo" member="disableClear" label="disableClear" /> | `boolean` | `false` | Se o botão de limpar está oculto. |
+| <ApiLink type="Combo" member="selection" label="selection" /> | `T[]` | — | Somente leitura. O item selecionado como objeto da `data`, em um array com um elemento. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Combo<T>" member="SingleSelect" label="SingleSelect" /> | `bool` | `false` | Se os usuários selecionam um único item e filtram a lista a partir do campo de input. |
+| <ApiLink pkg="core" type="Combo<T>" member="Data" label="Data" /> | `object` | — | As opções do Combo. |
+| <ApiLink pkg="core" type="Combo<T>" member="ValueKey" label="ValueKey" /> | `string` | — | O campo que identifica uma opção. |
+| <ApiLink pkg="core" type="Combo<T>" member="DisplayKey" label="DisplayKey" /> | `string` | — | O campo que a lista e o campo de input mostram. Usa `ValueKey` como alternativa. |
+| <ApiLink pkg="core" type="Combo<T>" member="GroupKey" label="GroupKey" /> | `string` | — | O campo que agrupa as opções. |
+| <ApiLink pkg="core" type="Combo<T>" member="Value" label="Value" /> | `T[]` | — | O item selecionado, como um array com um elemento. |
+| <ApiLink pkg="core" type="Combo<T>" member="Label" label="Label" /> | `string` | — | O rótulo do Combo. |
+| <ApiLink pkg="core" type="Combo<T>" member="Placeholder" label="Placeholder" /> | `string` | — | O texto que o campo de input mostra quando nenhum item está selecionado. |
+| <ApiLink pkg="core" type="Combo<T>" member="Outlined" label="Outlined" /> | `bool` | `false` | Se o Combo usa o tipo com borda. |
+| <ApiLink pkg="core" type="Combo<T>" member="Open" label="Open" /> | `bool` | `false` | Se o dropdown está aberto. |
+| <ApiLink pkg="core" type="Combo<T>" member="Disabled" label="Disabled" /> | `bool` | `false` | Se o Combo está desabilitado. |
+| <ApiLink pkg="core" type="Combo<T>" member="Required" label="Required" /> | `bool` | `false` | Se o Combo exige um item selecionado para ser válido. |
+| <ApiLink pkg="core" type="Combo<T>" member="Invalid" label="Invalid" /> | `bool` | `false` | Se o Combo mostra o seu estado inválido. |
+| <ApiLink pkg="core" type="Combo<T>" member="DisableFiltering" label="DisableFiltering" /> | `bool` | `false` | Se digitar no campo de input deixa a lista sem filtro. |
+| <ApiLink pkg="core" type="Combo<T>" member="DisableClear" label="DisableClear" /> | `bool` | `false` | Se o botão de limpar está oculto. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink type="SimpleCombo" member="data" label="data" /> | `any[]` | — | As opções do Combo simples. |
+| <ApiLink type="SimpleCombo" member="valueKey" label="valueKey" /> | `string` | — | O campo que identifica uma opção. |
+| <ApiLink type="SimpleCombo" member="displayKey" label="displayKey" /> | `string` | — | O campo que a lista e o campo de input mostram. Usa `valueKey` como alternativa. |
+| <ApiLink type="SimpleCombo" member="groupKey" label="groupKey" /> | `string` | — | O campo que agrupa as opções. |
+| <ApiLink type="SimpleCombo" member="type" label="type" /> | `IgxInputGroupType` | `'box'` | O tipo do campo de input: `box`, `border` ou `line`. |
+| <ApiLink type="SimpleCombo" member="placeholder" label="placeholder" /> | `string` | — | O texto que o campo de input mostra quando nenhum item está selecionado. |
+| <ApiLink type="SimpleCombo" member="disabled" label="disabled" /> | `boolean` | `false` | Se o Combo simples está desabilitado. |
+| <ApiLink type="SimpleCombo" member="disableFiltering" label="disableFiltering" /> | `boolean` | `false` | Se digitar no campo de input deixa a lista sem filtro. |
+| <ApiLink type="SimpleCombo" member="showSearchCaseIcon" label="showSearchCaseIcon" /> | `boolean` | `false` | Se o campo de input mostra o botão que alterna a filtragem com diferenciação de maiúsculas e minúsculas. |
+| <ApiLink type="SimpleCombo" member="filteringOptions" label="filteringOptions" /> | `IComboFilteringOptions` | — | A chave pela qual o texto filtra, e se a filtragem diferencia maiúsculas de minúsculas. |
+| <ApiLink type="SimpleCombo" member="allowCustomValues" label="allowCustomValues" /> | `boolean` | `false` | Se os usuários podem adicionar o texto do campo de input como um novo item. |
+| <ApiLink type="SimpleCombo" member="disableClear" label="disableClear" /> | `boolean` | `false` | Se o botão de limpar está oculto. |
+| <ApiLink type="SimpleCombo" member="itemHeight" label="itemHeight" /> | `number` | — | A altura dos itens da lista. |
+| <ApiLink type="SimpleCombo" member="itemsMaxHeight" label="itemsMaxHeight" /> | `number` | — | A altura máxima da lista. |
+| <ApiLink type="SimpleCombo" member="valid" label="valid" /> | `IgxInputState` | `INITIAL` | O estado de validação do Combo simples. |
+| <ApiLink type="SimpleCombo" member="selection" label="selection" /> | `any` | — | Somente leitura. O item selecionado. |
+| <ApiLink type="SimpleCombo" member="value" label="value" /> | `any` | — | Somente leitura. O valor `valueKey` do item selecionado, ou o próprio item quando não há `valueKey`. |
+
+</PlatformBlock>
+
+## Métodos
+
+O Combo de seleção única {Platform} expõe os métodos a seguir.
+
+<PlatformBlock for="React,WebComponents">
+
+| Método | Descrição |
+| --- | --- |
+| <ApiLink type="Combo" member="select" label="select" /> | Seleciona o item que você passa, pelo seu valor `valueKey` ou por referência, e desmarca o anterior. Limpa a seleção quando você não passa nada. |
+| <ApiLink type="Combo" member="deselect" label="deselect" /> | Desmarca o item que você passa, pelo seu valor `valueKey` ou por referência. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="show" label="show" /></PlatformBlock><PlatformBlock for="React">`show`</PlatformBlock> | Abre o dropdown. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="hide" label="hide" /></PlatformBlock><PlatformBlock for="React">`hide`</PlatformBlock> | Fecha o dropdown. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="toggle" label="toggle" /></PlatformBlock><PlatformBlock for="React">`toggle`</PlatformBlock> | Abre o dropdown quando está fechado, e o fecha quando está aberto. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="checkValidity" label="checkValidity" /></PlatformBlock><PlatformBlock for="React">`checkValidity`</PlatformBlock> | Retorna se o Combo satisfaz as suas restrições de validação. |
+| <PlatformBlock for="WebComponents"><ApiLink type="Combo" member="reportValidity" label="reportValidity" /></PlatformBlock><PlatformBlock for="React">`reportValidity`</PlatformBlock> | Verifica a validade do Combo e mostra o seu estado inválido quando ele falha. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Método | Descrição |
+| --- | --- |
+| <ApiLink pkg="core" type="Combo<T>" member="Select" label="Select" /> | Seleciona o item que você passa e desmarca o anterior. Limpa a seleção quando você passa um array vazio. |
+| <ApiLink pkg="core" type="Combo<T>" member="Deselect" label="Deselect" /> | Desmarca o item que você passa. |
+| <ApiLink pkg="core" type="Combo<T>" member="ShowAsync" label="ShowAsync" /> | Abre o dropdown. |
+| <ApiLink pkg="core" type="Combo<T>" member="HideAsync" label="HideAsync" /> | Fecha o dropdown. |
+| <ApiLink pkg="core" type="Combo<T>" member="ToggleAsync" label="ToggleAsync" /> | Abre o dropdown quando está fechado, e o fecha quando está aberto. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Método | Descrição |
+| --- | --- |
+| <ApiLink type="SimpleCombo" member="select" label="select" /> | Seleciona o item que você passa e desmarca o anterior. |
+| <ApiLink type="SimpleCombo" member="deselect" label="deselect" /> | Limpa a seleção. |
+| <ApiLink type="SimpleCombo" member="open" label="open" /> | Abre o dropdown. |
+| <ApiLink type="SimpleCombo" member="close" label="close" /> | Fecha o dropdown. |
+| <ApiLink type="SimpleCombo" member="toggle" label="toggle" /> | Abre o dropdown quando está fechado, e o fecha quando está aberto. |
+
+</PlatformBlock>
+
+## Eventos
+
+O Combo de seleção única {Platform} emite os eventos a seguir.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Nome | Descrição |
+| --- | --- |
+| <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink type="Combo" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="Change" label="Change" /></PlatformBlock> | Emitido antes de o usuário alterar a seleção. O detalhe do evento contém o novo valor, os itens alterados e o tipo da mudança. Cancele o evento para manter a seleção. |
+| <PlatformBlock for="WebComponents">`igcOpening`</PlatformBlock><PlatformBlock for="React"><ApiLink type="Combo" member="onOpening" label="onOpening" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="Opening" label="Opening" /></PlatformBlock> | Emitido antes de o usuário abrir o dropdown. Cancelável. |
+| <PlatformBlock for="WebComponents">`igcOpened`</PlatformBlock><PlatformBlock for="React"><ApiLink type="Combo" member="onOpened" label="onOpened" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="Opened" label="Opened" /></PlatformBlock> | Emitido depois que o dropdown abre por uma ação do usuário. |
+| <PlatformBlock for="WebComponents">`igcClosing`</PlatformBlock><PlatformBlock for="React"><ApiLink type="Combo" member="onClosing" label="onClosing" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="Closing" label="Closing" /></PlatformBlock> | Emitido antes de o usuário fechar o dropdown. Cancelável. |
+| <PlatformBlock for="WebComponents">`igcClosed`</PlatformBlock><PlatformBlock for="React"><ApiLink type="Combo" member="onClosed" label="onClosed" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Combo<T>" member="Closed" label="Closed" /></PlatformBlock> | Emitido depois que o dropdown fecha por uma ação do usuário. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nome | Descrição |
+| --- | --- |
+| <ApiLink type="SimpleCombo" member="selectionChanging" label="selectionChanging" /> | Emitido com <ApiLink type="ISimpleComboSelectionChangingEventArgs" kind="interface" label="ISimpleComboSelectionChangingEventArgs" /> antes de a seleção mudar. Defina `cancel` para manter a seleção. |
+| <ApiLink type="SimpleCombo" member="selectionChanged" label="selectionChanged" /> | Emitido com <ApiLink type="ISimpleComboSelectionChangedEventArgs" kind="interface" label="ISimpleComboSelectionChangedEventArgs" /> depois que a seleção é confirmada. |
+| <ApiLink type="SimpleCombo" member="opening" label="opening" /> | Emitido antes de o dropdown abrir. Cancelável. |
+| <ApiLink type="SimpleCombo" member="opened" label="opened" /> | Emitido depois que o dropdown abre. |
+| <ApiLink type="SimpleCombo" member="closing" label="closing" /> | Emitido antes de o dropdown fechar. Cancelável. |
+| <ApiLink type="SimpleCombo" member="closed" label="closed" /> | Emitido depois que o dropdown fecha. |
+| <ApiLink type="SimpleCombo" member="searchInputUpdate" label="searchInputUpdate" /> | Emitido quando o texto do campo de input muda. |
+| <ApiLink type="SimpleCombo" member="addition" label="addition" /> | Emitido antes de os usuários adicionarem um valor personalizado à lista. |
+| <ApiLink type="SimpleCombo" member="dataPreLoad" label="dataPreLoad" /> | Emitido quando a lista rola até opções que ainda não foram carregadas, para o binding remoto. |
+
+</PlatformBlock>
+
+## Estilização
+
+O Combo simples oferece a flexibilidade combinada de estilização das suas partes de input e de dropdown. Há opções para a cor dos elementos de texto do input, o estilo e a cor da borda. Para o dropdown, é possível alterar a cor de fundo, ou usar as várias opções relacionadas aos itens do Dropdown do Combo simples, com as suas cores de fundo e de texto.
+
+Altere as cores dos botões de alternância e de limpar do Combo de seleção única {Platform} com as variáveis CSS a seguir:
+
+| Variável | o que muda |
+| --- | --- |
+| `--ig-combo-toggle-button-background` | O fundo do botão de alternância. |
+| `--ig-combo-toggle-button-foreground` | A cor do ícone do botão de alternância. |
+| `--ig-combo-toggle-button-foreground-filled` | A cor do ícone do botão de alternância quando o Combo tem um valor. |
+| `--ig-combo-toggle-button-background-focus` | O fundo do botão de alternância quando o Combo está com foco. |
+| `--ig-combo-toggle-button-foreground-focus` | A cor do ícone do botão de alternância quando o Combo está com foco. |
+| `--ig-combo-toggle-button-background-disabled` | O fundo do botão de alternância quando o Combo está desabilitado. |
+| `--ig-combo-toggle-button-foreground-disabled` | A cor do ícone do botão de alternância quando o Combo está desabilitado. |
+| `--ig-combo-clear-button-background` | O fundo do botão de limpar. |
+| `--ig-combo-clear-button-foreground` | A cor do ícone do botão de limpar. |
+| `--ig-combo-empty-list-placeholder-color` | A cor do texto que a lista vazia mostra. |
+
+O campo de input obtém as suas cores das variáveis `--ig-input-group-*`, e o dropdown das variáveis `--ig-drop-down-*`; por isso, você pode definir todas no Combo. O modo de seleção única não mostra caixas de seleção; por isso, as variáveis `--ig-checkbox-*` não têm efeito.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O elemento `igc-combo` expõe as partes CSS a seguir no modo de seleção única:
+
+| Parte | o que estiliza |
+| --- | --- |
+| `input` | O campo de input. |
+| `native-input` | O input nativo do campo de input. |
+| `label` | O rótulo. |
+| `prefix` | O contêiner do slot `prefix`. |
+| `suffix` | O contêiner do slot `suffix`. |
+| `toggle-icon` | O botão de alternância. `filled` é adicionado quando o Combo tem um valor. |
+| `clear-icon` | O botão de limpar. |
+| `helper-text` | O texto de ajuda. |
+| `list-wrapper` | O dropdown. |
+| `header` | O contêiner do slot `header`. |
+| `list` | A lista de opções. |
+| `group-header` | Cada cabeçalho de grupo na lista. |
+| `item` | Cada opção na lista. `active` e `selected` são adicionados às opções ativa e selecionada. |
+| `empty` | O contêiner do slot `empty`. |
+| `footer` | O contêiner do slot `footer`. |
+
+</PlatformBlock>
+
+### Temas em Sass
+
+Ao modificar uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança. O parâmetro primário da <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-combo-theme" label="combo-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`combo-theme`</PlatformBlock> função é `$toggle-button-background`, a partir do qual o tema deriva as cores do botão de alternância em todos os estados. Crie os temas do Combo e do seu dropdown, e inclua-os com o mixin `tokens()`, que emite as variáveis CSS correspondentes no escopo em que for incluído.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-combo-theme: combo-theme(
+  $toggle-button-background: #e0e0e0
+);
+
+$custom-drop-down-theme: drop-down-theme(
+  $background-color: #e6f2ff,
+  $selected-item-background: #4ca7e3
+);
+
+:host {
+  @include tokens($custom-combo-theme);
+  @include tokens($custom-drop-down-theme);
+}
+```
+
+O Combo simples do Angular exibe o seu dropdown em um overlay. Dependendo da encapsulação de view e de onde está o outlet do overlay, um tema incluído em `:host` pode não chegar ao dropdown. Veja o tópico [Estilização do overlay](../../overlay-styling.mdx).
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+As funções Sass vêm do pacote `igniteui-theming`. Veja o tópico [Temas](../../themes/overview.mdx) para a configuração do Sass.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-combo-theme: combo-theme(
+  $toggle-button-background: #e0e0e0
+);
+
+$custom-drop-down-theme: drop-down-theme(
+  $background-color: #e6f2ff,
+  $selected-item-background: #4ca7e3
+);
+
+:root {
+  @include tokens($custom-combo-theme);
+  @include tokens($custom-drop-down-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variáveis CSS
+
+Defina as variáveis CSS em um Combo ou em um contêiner quando precisar de estilização local, sem uma etapa de build com Sass:
+
+```css
+.styled-combo {
+  --ig-input-group-border-color: #1377d5;
+  --ig-combo-toggle-button-background: #e0e0e0;
+  --ig-drop-down-background-color: #e6f2ff;
+  --ig-drop-down-selected-item-background: #4ca7e3;
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Use as partes CSS para outros estilos:
+
+```css
+igc-combo::part(group-header) {
+  color: #005dcc;
+}
+
+igc-combo::part(item selected) {
+  color: #000;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-styling" height={340} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do Combo de seleção única {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-styling" height={340} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do Combo de seleção única {Platform}" />
+
+</PlatformBlock>
+
+### Estilizando com Tailwind
+
+Você pode estilizar o Combo de seleção única {Platform} usando as nossas classes utilitárias personalizadas do Tailwind. Certifique-se de <PlatformBlock for="Angular,React,WebComponents,Blazor">[configurar o Tailwind](../../themes/tailwind.mdx)</PlatformBlock> primeiro.
+
+<PlatformBlock for="Angular">
+
+Importe os utilitários do Ignite UI na sua folha de estilos global:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+Use a classe `light-combo` ou `dark-combo` para o tema correspondente, e sobrescreva as variáveis CSS geradas com propriedades arbitrárias:
+
+```html
+<igx-simple-combo class="!light-combo ![--toggle-button-background:#e5ebf3] ![--clear-button-foreground:#212121]">
+  ...
+</igx-simple-combo>
+```
+
+O ponto de exclamação (`!`) dá precedência ao utilitário do Tailwind sobre os estilos padrão do tema do Combo simples.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Defina as variáveis CSS `--ig-combo-*`, `--ig-input-group-*` e `--ig-drop-down-*` com propriedades arbitrárias do Tailwind:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo single-select class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]">
+</igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo singleSelect className="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo T="object" SingleSelect="true" Class="[--ig-input-group-border-color:#a9b8cc] [--ig-combo-toggle-button-background:#e5ebf3] [--ig-drop-down-background-color:#f3f6fa]" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/lists/simple-combo-tailwind-styling" height={360} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização com Tailwind do Combo de seleção única {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/combo/single-select-tailwind-styling" height={360} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização com Tailwind do Combo de seleção única {Platform}" />
+
+</PlatformBlock>
+
+## Acessibilidade
+
+O Combo de seleção única {Platform} usa as funções do padrão WAI-ARIA combobox: o campo de input editável é um `combobox` que controla uma `listbox` de opções, e os usuários filtram a lista digitando e selecionam uma opção pelo teclado.
+
+### Interação por teclado
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O campo de input do Combo de seleção única {Platform} é uma parada de tabulação, e o foco permanece nele enquanto os usuários digitam. As teclas a seguir funcionam enquanto o Combo tem o foco:
+
+| Tecla | Ação |
+| --- | --- |
+| Caracteres imprimíveis | No campo de input, abre o dropdown, filtra a lista e ativa a primeira correspondência. |
+| <kbd>Seta para baixo</kbd> / <kbd>Alt</kbd> + <kbd>Seta para baixo</kbd> | No campo de input, abre o dropdown, move o foco para a lista e ativa a primeira opção. Na lista, ativa a próxima opção. |
+| <kbd>Seta para cima</kbd> | No campo de input, fecha o dropdown. Na lista, ativa a opção anterior. A partir da primeira opção, fecha o dropdown e move o foco para o campo de input. |
+| <kbd>Home</kbd> / <kbd>End</kbd> | Na lista, ativa a primeira ou a última opção. |
+| <kbd>Space</kbd> | Na lista, seleciona a opção ativa, ou a desmarca quando ela já está selecionada. |
+| <kbd>Enter</kbd> | Com uma opção ativa, a seleciona, fecha o dropdown e move o foco para o campo de input com o seu texto selecionado. |
+| <kbd>Escape</kbd> | Quando o dropdown está aberto, fecha-o e move o foco para o campo de input. Quando o dropdown está fechado, limpa a seleção. |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Quando o dropdown está aberto, seleciona a opção ativa, fecha o dropdown e move o foco para o próximo ou o anterior elemento focável. |
+
+Um Combo desabilitado ignora essas teclas.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O campo de input do Combo simples do Angular é uma parada de tabulação, e o foco permanece nele enquanto os usuários digitam. As teclas a seguir funcionam enquanto o Combo simples tem o foco:
+
+| Tecla | Ação |
+| --- | --- |
+| Caracteres imprimíveis | No campo de input, abre o dropdown, filtra a lista e dá foco à primeira correspondência. |
+| <kbd>Seta para baixo</kbd> / <kbd>Alt</kbd> + <kbd>Seta para baixo</kbd> | No Combo simples fechado, abre o dropdown. No Combo simples aberto, move o foco para a lista: para a opção selecionada ou para a primeira opção. Na lista, move para a próxima opção, e da última opção para o botão de adicionar item quando ele é exibido. |
+| <kbd>Seta para cima</kbd> | Na lista, move para a opção anterior. A partir da primeira opção, move o foco de volta para o campo de input e seleciona o seu texto. |
+| <kbd>Alt</kbd> + <kbd>Seta para cima</kbd> | Na lista, fecha o dropdown e move o foco para o campo de input. |
+| <kbd>Home</kbd> / <kbd>End</kbd> | Na lista, move para a primeira ou a última opção. |
+| <kbd>Space</kbd> | Na lista, seleciona ou desmarca a opção com foco. |
+| <kbd>Enter</kbd> | No campo de input, com uma opção com foco que corresponde ao texto, seleciona-a e fecha o dropdown. Na lista, seleciona a opção com foco, fecha o dropdown e move o foco para o campo de input. No botão de adicionar item, adiciona o texto do campo de input como um novo item e o seleciona. |
+| <kbd>Backspace</kbd> / <kbd>Delete</kbd> | No campo de input, limpa a seleção. |
+| <kbd>Escape</kbd> | Quando o dropdown está aberto, fecha-o. Quando o dropdown está fechado, limpa a seleção e mantém o foco no campo de input. |
+| <kbd>Tab</kbd> | Quando o dropdown está aberto, seleciona a opção com foco que corresponde ao texto, fecha o dropdown e move o foco para o próximo elemento focável. |
+
+</PlatformBlock>
+
+### Leitores de tela / ARIA
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O Combo de seleção única {Platform} renderiza as funções e os atributos a seguir:
+
+| Elemento | Função | Atributos |
+| --- | --- | --- |
+| O campo de input | `combobox` | `aria-haspopup="listbox"`, `aria-expanded`, `aria-disabled`, `aria-controls` que aponta para a lista e, com um texto de ajuda, `aria-describedby` que aponta para ela |
+| A parte `list` | `listbox` | `aria-multiselectable="false"`, `aria-labelledby` que aponta para o campo de input, e `aria-activedescendant` que aponta para a opção ativa |
+| Cada parte `item` | `option` | `aria-selected`, `aria-posinset` e `aria-setsize` |
+| A parte `clear-icon` | `button` | `aria-label` das strings de recurso |
+
+O Combo de seleção única {Platform} também se comporta da seguinte forma para as tecnologias assistivas:
+
+- O campo de input obtém o seu nome acessível a partir do `label`. Sem um rótulo, ele recebe um nome das strings de recurso que informa se uma opção está selecionada.
+- O campo de input é editável, e o texto que os usuários digitam é o filtro da lista.
+- A opção ativa é anunciada por meio de `aria-activedescendant` enquanto o foco permanece na lista.
+- O conteúdo do dropdown fechado é `inert`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular renderiza as funções e os atributos a seguir:
+
+| Elemento | Função | Atributos |
+| --- | --- | --- |
+| O input do campo de input | `combobox` | `aria-haspopup="listbox"`, `aria-autocomplete="list"`, `aria-readonly="false"`, `aria-expanded`, `aria-controls` que aponta para a lista, `aria-labelledby` e `aria-label` |
+| O dropdown | `listbox` | `aria-labelledby` que aponta para o elemento `igxLabel` ou para o elemento `ariaLabelledBy` |
+| O contêiner das opções | — | `aria-activedescendant` que aponta para a opção com foco |
+| Cada opção | `option` | `aria-selected` |
+| Cada cabeçalho de grupo | `group` | — |
+| O botão de limpar | — | `aria-label` das strings de recurso |
+| O botão de adicionar item | `button` | `aria-label` das strings de recurso |
+
+O campo de input obtém o seu nome acessível a partir do `igxLabel` ou do input <ApiLink type="SimpleCombo" member="ariaLabelledBy" label="ariaLabelledBy" />. Sem eles, recebe um nome das strings de recurso que informa se uma opção está selecionada.
+
+</PlatformBlock>
+
+### Conformidade de acessibilidade
+
+A Infragistics documenta o suporte de acessibilidade do {ProductName} para as áreas das diretrizes da Seção 508 e da WCAG 2.1 no tópico [Conformidade de acessibilidade](../../interactivity/accessibility-compliance.mdx).
+
+| Critério | Como o componente atende |
+| --- | --- |
+| [1.3.1 Informações e relações](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | As funções `combobox`, `listbox` e `option` expõem a estrutura, e a lista é rotulada por <PlatformBlock for="Angular">o elemento `igxLabel` ou o elemento `ariaLabelledBy`</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">o campo de input</PlatformBlock>. |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Digitar filtra a lista, as teclas de seta abrem o dropdown e percorrem as opções, e Enter seleciona a opção ativa. |
+| [2.1.2 Sem armadilha de teclado](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | Tab fecha o dropdown e move o foco para fora do Combo. |
+| [4.1.2 Nome, função, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | O campo de input expõe a função `combobox`, um nome a partir do rótulo e o seu estado expandido por meio de `aria-expanded`. Cada opção expõe o seu estado selecionado por meio de `aria-selected`. |
+
+Suas responsabilidades:
+
+- Dê a cada Combo um rótulo que nomeie o que os usuários selecionam. Veja [Tipo](#tipo-tema-material).
+- Ao sobrescrever as cores do tema, mantenha uma razão de contraste de pelo menos 3:1 para as bordas e o indicador de foco, conforme exige o [1.4.11 Contraste de conteúdo não textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast).
+- Mostre a mensagem de erro no texto de ajuda, e não apenas pela cor. Veja [Estados de validação](#estados-de-validação).
+
+## Limitações conhecidas
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- O modo de seleção única oculta o input de pesquisa do dropdown; por isso, `placeholderSearch`, `caseSensitiveIcon` e `autofocusList` não têm efeito.
+- O Combo {Platform} não adiciona valores personalizados. Quando o texto do campo de input não corresponde a nenhuma opção, o Combo limpa o campo de input ao perder o foco.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- Quando o Combo simples do Angular é vinculado a um array de primitivos que contém `undefined`, a lista não mostra `undefined`. Quando o campo `valueKey` de um objeto é `undefined`, a lista mostra o item, mas os usuários não conseguem selecioná-lo.
+- Quando o Combo simples do Angular é vinculado com `ngModel` e está `required`, os valores `null`, `undefined` e `''` não podem ser selecionados.
+- Quando o Combo simples do Angular é vinculado a um serviço remoto e tem uma seleção predefinida, o campo de input fica em branco até que os dados sejam carregados.
+- A lista usa o [Virtual Scroll](../../layouts/virtual-scroll.mdx#limitações-conhecidas); por isso, as limitações dele se aplicam. A lista renderiza somente as opções visíveis, e o código que consulta o DOM encontra apenas essas opções.
+
+</PlatformBlock>
+
+## Referências da API
+
+A referência da API do Combo de seleção única {Platform} lista a superfície completa da API para a plataforma de destino.
+
+<PlatformBlock for="React,WebComponents">
+
+- <ApiLink type="Combo" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- <ApiLink pkg="core" type="Combo<T>" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink type="SimpleCombo" label="IgxSimpleComboComponent" />
+- <ApiLink type="DropDown" />
+- <ApiLink type="InputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-combo-theme" label="combo-theme" />
+
+</PlatformBlock>
+
+## Dependências
+
+O Combo de seleção única {Platform} exige um tema para aplicar as suas cores e tamanhos. Veja a configuração específica do framework em <PlatformBlock for="Angular">[**Primeiros passos**](../../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeiros passos**](../../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+O Combo simples do Angular usa o Drop Down, o Input Group, o Icon e o Overlay. Os temas deles estilizam as suas partes:
+
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="icon-theme" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="overlay-theme" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+O registro do `IgcComboComponent` também registra os elementos que o Combo renderiza. Registre separadamente os componentes que você coloca nos slots do Combo, como o Icon.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+O Combo do Blazor e os componentes que você coloca nos seus slots, como o Icon, carregam os seus módulos na primeira vez em que são renderizados. Veja [Módulos de componente](../../general-getting-started.mdx#módulos-do-componente).
+
+</PlatformBlock>
+
+## Recursos adicionais
+
+Os recursos a seguir oferecem mais orientações sobre o Combo de seleção única {Platform} e suporte ao projeto:
+
+<PlatformBlock for="Angular">
+
+- [Combo](./overview.mdx)
+- [Recursos do Combo](./features.mdx)
+- [Binding remoto do Combo](./features.mdx#binding-remoto)
+- [Templates do Combo](./templates.mdx)
+- [Grade com Combos em cascata](../../grid/cascading-combos.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- [Combo](./overview.mdx)
+- [Recursos do Combo](./features.mdx)
+- [Templates do Combo](./templates.mdx)
+
+</PlatformBlock>
+
+- [Combo - Componente do design system](https://www.infragistics.com/products/indigo-design/help/components/combo)
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+O Combo de seleção única {Platform} permite que os usuários pesquisem uma lista e selecionem uma opção. Use estes componentes quando a seleção funcionar de outra forma:
+
+- [Combo](./overview.mdx) - use o Combo quando os usuários selecionarem mais de uma opção.
+- <PlatformBlock for="Angular">[Select](../../select.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Select](../select.mdx)</PlatformBlock> - Use Select quando os usuários escolherem uma única opção em uma lista curta que não precisa de pesquisa.
+- <PlatformBlock for="Angular">[Dropdown](../../drop-down.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Dropdown](../dropdown.mdx)</PlatformBlock> - Use Dropdown para mostrar uma lista de ações ou opções a partir de um botão ou de outro elemento.
+
+## Perguntas frequentes
+
+Estas perguntas cobrem cenários comuns de configuração, seleção e uso do Combo de seleção única {Platform}.
+
+<Faq>
+  <FaqItem question="Como faço o Combo selecionar um único item?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Use o Combo simples do Angular, o componente `igx-simple-combo`, em vez do Combo. O Combo simples seleciona um item e permite que os usuários digitem no campo de input para filtrar a lista.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Defina `singleSelect` no Combo {Platform}. O Combo então seleciona um item por vez, permite que os usuários digitem no campo de input para filtrar a lista, e oculta o input de pesquisa e as caixas de seleção do dropdown.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Como defino o item selecionado do Combo de seleção única?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Vincule o Combo simples do Angular com `[(ngModel)]` ou com um controle de formulário a um único valor `valueKey`, ou chame o método `select` com o item. Sem um `valueKey`, o Combo simples usa uma referência ao objeto no seu `data`.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Defina a `value` do Combo {Platform} como um array com o valor `valueKey` do item, ou chame o método `select` com o item. Sem um `valueKey`, o Combo {Platform} usa uma referência ao objeto no seu `data`.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Os usuários podem informar um valor que não está na lista?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Sim. Defina `allowCustomValues` no Combo simples do Angular, e o dropdown mostra um botão de adicionar item quando o texto não corresponde a nenhuma opção. O Combo simples adiciona o texto como um novo item e o seleciona.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Não. O Combo {Platform} seleciona opções somente da sua `data`. Quando o texto no campo de input não corresponde a nenhuma opção, o Combo limpa o campo de input ao perder o foco.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Por que digitar no Combo de seleção única não filtra a lista?" indicatorPosition="end">
+    <PlatformBlock for="Angular">O Combo simples do Angular filtra pelo campo `displayKey`. Verifique se `disableFiltering` não está definido, e se `filteringOptions` ou `filterFunction` correspondem ao campo que a lista mostra.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">O Combo {Platform} filtra pelo campo `displayKey`, ou pelo `filterKey` do seu `filteringOptions`. Verifique se `disableFiltering` não está definido, e se a chave nomeia um campo das opções.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Devo usar o Combo de seleção única ou o Select?" indicatorPosition="end">
+    Use o Combo de seleção única {Platform} quando a lista for longa e os usuários precisarem pesquisá-la digitando. Use o Select {Platform} para uma lista curta da qual os usuários escolhem uma opção sem pesquisar.
+  </FaqItem>
+</Faq>

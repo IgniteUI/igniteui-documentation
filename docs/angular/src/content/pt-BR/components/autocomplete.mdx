@@ -1,0 +1,295 @@
+---
+title: "Componente Angular Autocomplete – Ignite UI for Angular - Licença MIT" 
+description: "A diretiva Angular Autocomplete oferece uma forma de aprimorar um campo de texto exibindo um painel com opções sugeridas pelo desenvolvedor. Experimente agora."
+keywords: "componente Angular Autocomplete, diretiva Angular Autocomplete, controle Angular Autocomplete, Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, componentes de UI Angular, Native Angular Components Library"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O Angular Autocomplete é uma diretiva de caixa de pesquisa que permite aos usuários encontrar, filtrar e selecionar facilmente um item de uma lista de sugestões enquanto digitam."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral da diretiva Angular Autocomplete
+
+O Angular Autocomplete é uma diretiva de caixa de pesquisa que permite aos usuários encontrar, filtrar e selecionar facilmente um item de uma lista de sugestões enquanto digitam. Rico em recursos, oferece suporte a vinculação de dados simples, filtragem, agrupamento, opções de personalização da UI e outras funcionalidades integradas, para que os desenvolvedores possam criar uma experiência de pesquisa com preenchimento automático intuitiva.
+
+<div class="highlight">
+
+A diretiva <ApiLink type="AutocompleteDirective" label="igxAutocomplete" /> oferece uma forma de aprimorar um campo de texto exibindo um <ApiLink type="DropDown" label="igxDropDown" /> com opções sugeridas, fornecidas pelo desenvolvedor. As sugestões aparecem assim que você começa a digitar no campo de texto ou usa as teclas `Arrow Up`/`Arrow Down`.
+</div>
+
+## Exemplo de Angular Autocomplete
+
+O exemplo de Angular Autocomplete abaixo gera uma lista suspensa de sugestões conforme os usuários começam a digitar o nome de uma cidade na caixa de texto.
+
+<Sample src="/data-entries/autocomplete" height={400} alt="Exemplo de Angular Autocomplete" />
+
+<hr/>
+
+## Primeiros passos com o Autocomplete do Ignite UI for Angular
+
+Para começar com o Ignite UI for Angular para [componentes Angular](https://www.infragistics.com/products/ignite-ui-angular) e, em particular, com a diretiva Autocomplete, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o **IgxAutocompleteModule** e o **IgxDropDownModule** no nosso **app.module**. Se <ApiLink type="AutocompleteDirective" label="igxAutocomplete" /> for aplicado a um <ApiLink type="InputDirective" label="igxInput" />, o **igxInputGroupModule** também é necessário:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxAutocompleteModule, IgxDropDownModule } from 'igniteui-angular/drop-down';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxAutocompleteModule, IgxDropDownModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [
+        ..., 
+        IgxAutocompleteModule,
+        IgxDropDownModule,
+        IgxInputGroupModule,
+        ....
+    ],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` você pode importar o `IgxAutocompleteDirective` como uma diretiva standalone.
+
+```typescript
+// home.component.ts
+
+...
+import { IgxAutocompleteDirective, IGX_DROP_DOWN_DIRECTIVES } from 'igniteui-angular/drop-down';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IgxAutocompleteDirective, IGX_INPUT_GROUP_DIRECTIVES, IGX_DROP_DOWN_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <input igxInput name="towns" type="text" [igxAutocomplete]="townsPanel" />
+        <label igxLabel for="towns">Towns</label>
+    </igx-input-group>
+    <igx-drop-down #townsPanel>
+        <igx-drop-down-item *ngFor="let town of towns">
+            {{town}}
+        </igx-drop-down-item>
+    </igx-drop-down>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxAutocompleteDirective, IGX_INPUT_GROUP_DIRECTIVES, IGX_DROP_DOWN_DIRECTIVES]
+})
+export class HomeComponent {}
+```
+
+Agora que você importou o módulo ou a diretiva do Action Strip do Ignite UI for Angular, pode começar com uma configuração básica do componente `igxAutocomplete`.
+
+## Usando o Angular Autocomplete
+
+Para aplicar a funcionalidade de preenchimento automático a um campo, adicione a diretiva `igxAutocomplete`, referenciando a lista suspensa:
+
+```html
+<igx-input-group>
+    <input igxInput name="towns" type="text" [igxAutocomplete]="townsPanel" />
+    <label igxLabel for="towns">Towns</label>
+</igx-input-group>
+<igx-drop-down #townsPanel>
+    <igx-drop-down-item *ngFor="let town of towns">
+        {{town}}
+    </igx-drop-down-item>
+</igx-drop-down>
+```
+
+Adicione a lista que será exibida na lista suspensa. Se quiser que a lista seja filtrada enquanto você digita, use a interface **PipeTransform**.
+
+```typescript
+import { Component, Pipe, PipeTransform } from '@angular/core';
+
+@Component({
+    selector: 'app-autocomplete-sample',
+    styleUrls: ['autocomplete.sample.css'],
+    templateUrl: `autocomplete.sample.html`
+})
+export class AutocompleteSampleComponent {
+    constructor() {
+        this.towns = [ 'New York', 'Washington, D.C.', 'London', 'Berlin', 'Sofia', 'Rome', 'Kiev',
+            'Copenhagen', 'Paris', 'Barcelona', 'Vienna', 'Athens', 'Dublin', 'Yerevan',
+            'Oslo', 'Helsinki', 'Stockholm', 'Prague', 'Istanbul', 'El Paso', 'Florence', 'Moscow' ];
+    }
+}
+
+@Pipe({ name: 'startsWith' })
+export class AutocompletePipeStartsWith implements PipeTransform {
+    public transform(collection: any[], term = '') {
+        return collection.filter((item) => item.toString().toLowerCase().startsWith(term.toString().toLowerCase()));
+    }
+}
+```
+
+<DocsAside type="info">
+A <ApiLink type="AutocompleteDirective" label="igxAutocomplete" /> usa o <ApiLink type="DropDown" label="igxDropDown" /> como provedor das opções disponíveis, o que significa que todos os recursos do componente de lista suspensa podem ser usados no autocomplete.
+</DocsAside>
+
+### Desabilitar o Angular Autocomplete
+
+Você pode desabilitar o autocomplete do Angular usando a entrada <ApiLink type="AutocompleteDirective" member="disabled" label="IgxAutocompleteDisabled" />:
+
+```html
+<igx-input-group>
+    <input igxInput name="towns" type="text"
+        [igxAutocomplete]='townsPanel'
+        [igxAutocompleteDisabled]="disabled"/>
+    <label igxLabel for="towns">Towns</label>
+</igx-input-group>
+```
+
+### Configurações do Autocomplete
+
+O posicionamento da lista suspensa, a estratégia de rolagem e o outlet do `igx-autocomplete` podem ser configurados usando <ApiLink type="AutocompleteDirective" member="autocompleteSettings" label="IgxAutocompleteSettings" />.
+
+No exemplo a seguir de Angular Autocomplete, vamos posicionar a lista suspensa acima do campo e desabilitar as animações de abertura e fechamento. Para isso, usamos o `ConnectedPositioningStrategy`:
+
+```html
+<igx-input-group class="autocomplete">
+    <label igxLabel for="cinema">Cinema</label>
+    <input igxInput name="cinema" type="text"
+    [igxAutocomplete]="townsPanel"
+    [igxAutocompleteSettings]="settings"/>
+</igx-input-group>
+<igx-drop-down #townsPanel maxHeight="300px">
+    <igx-drop-down-item-group *ngFor="let town of towns" [label]="town.name">
+        <igx-drop-down-item *ngFor="let cinema of town.cinemas" [value]="cinema">
+            {{cinema}}
+        </igx-drop-down-item>
+    </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+```typescript
+export class AutocompleteComponent {
+    public settings = {
+        positionStrategy: new ConnectedPositioningStrategy({
+            closeAnimation: null,
+            openAnimation: null,
+            verticalDirection: VerticalAlignment.Top,
+            verticalStartPoint: VerticalAlignment.Top
+        })
+    };
+
+    public towns = [
+        {
+          name: 'New York',
+          cinemas: [
+            'Regal Cinemas',
+            'Village East Cinema',
+            'Roxy Cinema',
+            'The Paris Theatre'
+        ]},
+        {
+            name: 'Los Angeles',
+            cinemas: [
+                'Arc Light',
+                'Pacific Cinerama Dome',
+                'New Beverly Cinema',
+                'Downtown Independent'
+        ]},
+        {
+            name: 'Seattle',
+            cinemas: [
+                'Central Cinema',
+                'Grand Illusion Cinema',
+                'Ark Lodge Cinemas',
+                'Skyway Outdoor Cinema'
+        ]}
+    ];
+}
+```
+
+<DocsAside type="info">
+A estratégia de posicionamento padrão é `AutoPositionStrategy`, e a lista suspensa é aberta de acordo com o espaço disponível.
+</DocsAside>
+
+Se tudo correu bem, você deve ver isto no seu navegador:
+
+<Sample src="/data-entries/movie" height={500} alt="" />
+
+<hr/>
+
+## Navegação pelo teclado
+
+<hr/>
+
+- <kbd>⬆</kbd> / <kbd>⬇</kbd> ou digitar no campo abrirá a lista suspensa, se ela estiver fechada.
+- <kbd>⬇</kbd> - move para o próximo item da lista suspensa.
+- <kbd>⬆</kbd> - move para o item anterior da lista suspensa.
+- <kbd>ENTER</kbd> confirma o item já selecionado e fecha a lista suspensa.
+- <kbd>ESC</kbd> fecha a lista suspensa.
+
+<DocsAside type="info">
+Quando o autocomplete do Angular é aberto, o primeiro item da lista é selecionado automaticamente. O mesmo vale quando a lista é filtrada.
+</DocsAside>
+
+Veja também como nosso [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder) simplifica toda a jornada do design ao código em 80%, usando componentes Angular reais.
+
+## Suporte à compatibilidade
+
+Aplicar a diretiva `igxAutocomplete` vai decorar o elemento com os seguintes atributos ARIA:
+
+- role="combobox" - papel do elemento ao qual a diretiva é aplicada.
+- aria-autocomplete="list" - indica que as sugestões de preenchimento da entrada são fornecidas na forma de lista
+- atributo aria-haspopup="listbox" para indicar que `igxAutocomplete` pode abrir um contêiner para sugerir valores.
+- aria-expanded="true"/"false" - valor de acordo com o estado recolhido da lista suspensa.
+- aria-owns="dropDownID" - id da lista suspensa usada para exibir as sugestões.
+- aria-activedescendant="listItemId" - o valor é definido como o id do elemento de lista ativo no momento.
+
+O componente `drop-down`, usado como provedor das sugestões, expõe os seguintes atributos ARIA:
+
+- role="listbox" - aplicado ao contêiner do componente `igx-drop-down`
+- role="group" - aplicado ao contêiner do componente `igx-drop-down-item-group`
+- role="option" - aplicado ao contêiner do componente `igx-drop-down-item`
+- aria-disabled="true"/"false" aplicado aos contêineres dos componentes `igx-drop-down-item` e `igx-drop-down-item-group` quando estão desabilitados.
+
+## Estilização
+
+Cada componente tem seu próprio tema.
+
+Para estilizar o `igxAutocomplete`, você precisa estilizar os componentes que o contêm. No nosso caso, são o <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" /> e o <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" />.
+
+Veja as seções de estilização do [`igxInputGroup`](/input-group#estilização) e do [`igxDropdown`](/drop-down#estilização) para entender melhor como estilizar esses dois componentes.
+
+## Referência da API
+
+<hr/>
+
+- <ApiLink type="AutocompleteDirective" />
+- <ApiLink type="DropDown" />
+- <ApiLink type="InputGroup" />
+
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+
+## Recursos adicionais
+
+<hr/>
+
+- [IgxDropDown](/drop-down)
+- [IgxInputGroup](/input-group)
+- [Integração com formulários orientados a template](/input-group)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

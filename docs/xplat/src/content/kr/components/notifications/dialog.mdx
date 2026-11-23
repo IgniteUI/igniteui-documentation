@@ -1,0 +1,231 @@
+---
+title: "{Platform} Dialog | Infragistics"
+description: "{ProductName} Dialog 컴포넌트를 사용하면 개발자가 앱 콘텐츠 위 가운데에 대화 상자 창을 쉽게 통합할 수 있습니다."
+keywords: "{ProductName}, UI 컨트롤, {Platform} 위젯, 웹 위젯, UI 위젯, {Platform}, Native {Platform} 컴포넌트 스위트, Native {Platform} 컨트롤, Native {Platform} 컴포넌트 라이브러리, {Platform} Dialog 컴포넌트"
+license: MIT
+mentionedTypes: ["Dialog"]
+_language: ko
+llms:
+  description: "{ProductName} Dialog 컴포넌트는 일부 정보를 표시하거나 사용자에게 작업 또는 확인을 요청하는 데 사용됩니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} Dialog 개요
+
+{ProductName} Dialog 컴포넌트는 일부 정보를 표시하거나 사용자에게 작업 또는 확인을 요청하는 데 사용됩니다. 모달 창에 표시되므로, 대화 상자를 닫는 특정 작업이 수행되기 전까지 사용자는 기본 앱과 상호 작용할 수 없습니다.
+
+## {ProductName} Dialog 예제
+
+이 샘플은 {Platform}에서 Dialog 컴포넌트를 만드는 방법을 보여 줍니다.
+
+<Sample src="/notifications/dialog/overview" height={400} alt="{Platform} Dialog 예제" />
+
+
+
+
+### 사용법
+
+
+<PlatformBlock for="WebComponents">
+
+
+먼저 다음 명령을 실행하여 {ProductName}를 설치해야 합니다:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { defineComponents, IgcDialogComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcDialogComponent);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+
+먼저 다음 명령을 실행하여 해당 {ProductName} npm 패키지를 설치해야 합니다:
+
+```cmd
+npm install igniteui-react
+```
+
+그다음 다음과 같이 {Platform} <ApiLink pkg="core" type="Dialog" />와 필요한 CSS를 가져와야 합니다:
+
+```tsx
+import { IgrDialog } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+
+</PlatformBlock>
+
+
+{ProductName}에 대한 전체 소개는 [**시작하기**](../general-getting-started.mdx) 항목을 읽어 보십시오.
+
+
+<PlatformBlock for="Blazor">
+
+
+{ProductName} 서비스를 등록합니다:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+<ApiLink pkg="core" type="Dialog" />의 클라이언트 리소스 모듈인 <ApiLink pkg="core" type="DialogModule" /> 등록은 **선택 사항**입니다. 컴포넌트는 처음 렌더링될 때 리소스를 로드합니다. `builder.Services.AddIgniteUIBlazor(typeof(IgbDialogModule))`에 나열하면 리소스를 미리 로드하거나 클라이언트에서만 생성되는 요소를 지원할 수 있습니다([컴포넌트 모듈](../general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+
+대화 상자 컴포넌트를 표시하는 가장 간단한 방법은 버튼 클릭 시 <ApiLink pkg="core" type="Dialog" member="show" label="Show" /> 메서드를 호출하는 것입니다.
+
+<PlatformBlock for="Blazor">
+
+```razor
+<div class="container vertical">
+    <IgbButton @onclick="OnDialogShow" Variant=@ButtonVariant.Contained>Show Dialog</IgbButton>
+    <IgbDialog @ref="DialogRef" Title="Confirmation">
+        <p>Are you sure you want to delete the Annual_Report_2016.pdf and Annual_Report_2017.pdf files?</p>
+        <IgbButton slot="footer" @onclick="OnDialogHide" Variant=@ButtonVariant.Flat>Cancel</IgbButton>
+        <IgbButton slot="footer" @onclick="OnDialogHide" Variant=@ButtonVariant.Flat>OK</IgbButton>
+    </IgbDialog>
+</div>
+
+@code {
+    public IgbDialog DialogRef;
+    public async Task OnDialogShow()
+    {
+        if (this.DialogRef != null)
+            await this.DialogRef.ShowAsync();
+    }
+    public async Task OnDialogHide()
+    {
+        if (this.DialogRef != null)
+            await this.DialogRef.HideAsync();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-button onclick="dialog.show()" variant="contained">Show Dialog</igc-button>
+
+<igc-dialog id="dialog" title="Confirmation">
+    <p>Are you sure you want to delete the Annual_Report_2016.pdf and Annual_Report_2017.pdf files?</p>
+    <igc-button slot="footer" onclick="dialog.close()" variant="flat">Cancel</igc-button>
+    <igc-button slot="footer" onclick="dialog.close()" variant="flat">OK</igc-button>
+</igc-dialog>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrButton variant="contained" clicked={this.onDialogShow}>
+    <span>Show Dialog</span>
+</IgrButton>
+
+<IgrDialog ref={this.onDialogRef}>
+    <span>Dialog Message</span>
+</IgrDialog>
+
+public onDialogRef(dialog: IgrDialog) {
+    if (!dialog) { return; }
+    this.dialogRef = dialog;
+}
+
+public onDialogShow() {
+    if (this.dialogRef) {
+        this.dialogRef.show();
+    }
+}
+```
+
+</PlatformBlock>
+
+<ApiLink pkg="core" type="Dialog" /> 컴포넌트는 <ApiLink pkg="core" type="Dialog" member="open" label="Open" /> 속성을 제공하며, 이를 통해 애플리케이션 시나리오에 맞게 상태를 구성할 수 있습니다.
+
+<ApiLink pkg="core" type="Dialog" member="title" label="Title" /> 속성을 사용하여 대화 상자의 제목을 설정하십시오. 다만 `title` 슬롯에 콘텐츠가 제공되면 해당 슬롯이 속성보다 우선합니다.
+
+`footer` 슬롯을 통해 대화 상자의 아래쪽 부분에 작업 버튼이나 추가 정보를 배치할 수 있습니다. 여기에 콘텐츠를 추가하지 않으면 클릭 시 Dialog를 닫는 기본 `OK` 버튼이 표시됩니다. 이 버튼을 표시하지 않으려면 <ApiLink pkg="core" type="Dialog" member="hideDefaultAction" label="HideDefaultAction" /> 속성을 **true**로 설정하십시오. 기본값은 **false**입니다.
+
+### 닫기
+
+기본적으로 사용자가 `ESC`을(를) 누르면 Dialog가 자동으로 닫힙니다. <ApiLink pkg="core" type="Dialog" member="keepOpenOnEscape" label="KeepOpenOnEscape" /> 속성을 사용하여 이 동작을 막을 수 있습니다. 기본값은 **false**입니다. 대화 상자 안에 열린 드롭다운(또는 내부에서 `ESC`을(를) 처리해야 하는 다른 요소)이 있으면, `ESC`을(를) 한 번 누르면 드롭다운이 닫히고 다시 누르면 대화 상자가 닫힙니다.
+
+대화 상자 바깥을 클릭할 때 대화 상자를 닫을지 구성하려면 <ApiLink type="OverlaySettings" member="closeOnOutsideClick" label="CloseOnOutsideClick" /> 속성을 사용하십시오. 기본값은 **false**입니다.
+
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+
+
+<Sample src="/notifications/dialog/closing-variations" height={400} alt="{Platform} Dialog 닫기 변형" />
+
+
+
+</PlatformBlock>
+
+
+### 폼
+
+양식 요소에 `method="dialog"` 속성이 있으면 대화 상자를 닫을 수 있습니다. 양식을 제출하면 대화 상자가 닫힙니다.
+
+<Sample src="/notifications/dialog/form" height={500} alt="{Platform} Dialog 양식 예제" />
+
+
+
+## 스타일링
+
+<ApiLink pkg="core" type="Dialog" /> 컴포넌트는 스타일을 완전히 제어할 수 있도록 여러 CSS 파트를 노출합니다:
+
+|이름|설명|
+|--|--|
+| `base` | 대화 상자의 기본 래퍼입니다. |
+| `title` | 제목 컨테이너. |
+| `footer` | 푸터 컨테이너입니다. |
+| `content` | 콘텐츠 컨테이너입니다. |
+
+```css
+igc-dialog::part(content) {
+  background: var(--ig-secondary-800);
+  color: var(--ig-secondary-800-contrast);
+}
+
+igc-dialog::part(title),
+igc-dialog::part(footer) {
+  background: var(--ig-secondary-800);
+  color: var(--ig-warn-500);
+}
+```
+
+<Sample src="/notifications/dialog/styling" height={400} alt="{Platform} Dialog 스타일 지정 예제" />
+
+
+
+
+## API 참조
+<ApiLink pkg="core" type="Dialog" />
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

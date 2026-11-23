@@ -1,0 +1,350 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Añadir filas en Angular Data Grid: Ignite UI for Angular"
+description: "Aprenda a usar y personalizar la función integrada de añadir filas con Ignite UI for Angular. Capacidades CRUD y adición de filas intuitiva en la cuadrícula. ¡Vea ejemplos!"
+keywords: "añadir filas, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la adición de filas en línea y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Añadir filas en {ComponentTitle} de Angular: Ignite UI for Angular"
+description: "Aprenda a usar y personalizar la función integrada de añadir filas con Ignite UI for Angular. Capacidades CRUD y adición de filas intuitiva en la cuadrícula. ¡Vea ejemplos!"
+keywords: "añadir filas, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-adding
+_language: es
+llms:
+  description: "El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la adición de filas en línea y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Añadir filas en {ComponentTitle} de Angular
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la adición de filas en línea y una API potente para las operaciones CRUD de Angular. Añada un componente [Action Strip](/action-strip) con las acciones de edición habilitadas en la plantilla de la cuadrícula, pase el cursor sobre una fila y use el botón proporcionado, o pulse <kbd>ALT</kbd> + <kbd>+</kbd> para mostrar la interfaz de adición de filas.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la adición de filas en línea y una API potente para las operaciones CRUD de Angular. Añada un componente [Action Strip](/action-strip) con las acciones de edición habilitadas en la plantilla de la cuadrícula, pase el cursor sobre una fila y use el botón proporcionado, pulse <kbd>ALT</kbd> + <kbd>+</kbd> para mostrar la interfaz de adición de filas, o <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>+</kbd> para mostrar la interfaz de añadir un hijo a la fila seleccionada.
+</ComponentBlock>
+
+## Ejemplo de adición de filas en {ComponentTitle} de Angular
+
+El ejemplo siguiente muestra cómo habilitar la adición nativa de filas en {ComponentTitle}. Cambiar el valor de una celda y después hacer clic o navegar a otra celda de la misma fila no actualiza el valor de la fila hasta que se confirma con el botón **Hecho**, o se descarta con el botón **Cancelar**.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-add-row" height={520} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-add-row" height={520} alt="Ejemplo de adición de filas en {ComponentTitle} de Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-add-row" height={510} alt="Ejemplo de adición de filas en {ComponentTitle} de Angular" />
+
+</ComponentBlock>
+
+## Uso de la adición de filas
+
+Para empezar, importe `{ComponentName}Module` en el archivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+...
+import { {ComponentName}Module } from 'igniteui-angular';
+
+@NgModule({
+    ...
+    imports: [..., {ComponentName}Module],
+    ...
+})
+export class AppModule {}
+```
+
+A continuación, defina un {ComponentTitle} con el origen de datos enlazado y <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> establecido en true, y un componente [Action Strip](../action-strip.mdx) con las acciones de edición habilitadas. La entrada <ApiLink type="GridEditingActions" member="addRow" label="addRow" /> controla la visibilidad del botón que muestra la interfaz de adición de filas.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [primaryKey]="'ProductID'" [autoGenerate]="false" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" dataType="number"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" dataType="number"></igx-column>
+    <igx-column field="ProductName" header="Product Name" dataType="string"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" dataType="number"></igx-column>
+    <igx-column field="OrderDate" dataType="date"></igx-column>
+    <igx-column field="Discontinued" header="Discontinued" dataType="boolean"></igx-column>
+    
+    <igx-action-strip #actionstrip>
+        <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid igxPreventDocumentScroll [data]="data"
+    primaryKey="ID" foreignKey="ParentID" [rowEditable]="true">
+    <igx-column [field]="'Name'" dataType="string"></igx-column>
+    <igx-column [field]="'Title'" dataType="string"></igx-column>
+    <igx-column [field]="'HireDate'" dataType="date"></igx-column>
+    <igx-column [field]="'OnPTO'" dataType="boolean" width="130px">
+        <ng-template igxCell let-cell="cell" let-val>
+            <igx-icon [color]="cell.row.data.OnPTO? 'red': 'green'">account_circle</igx-icon>
+        </ng-template>
+    </igx-column>
+    <igx-column [field]="'Age'" dataType="number"></igx-column>
+    <igx-action-strip #actionstrip>
+        <igx-grid-editing-actions [addRow]="true" [addChild]="actionstrip.context?.treeRow.level < 2">
+        </igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid igxPreventDocumentScroll [data]="localdata"
+    [autoGenerate]="false" [primaryKey]="'Debut'" [rowEditable]="true">
+    <igx-column field="Artist" [dataType]="'string'"></igx-column>
+    <igx-column field="HasGrammyAward" header="Has Grammy Award?" [dataType]="'boolean'">
+    </igx-column>
+    <igx-column field="Debut" dataType="number"></igx-column>
+    <igx-column field="GrammyNominations" header="Grammy Nominations" dataType="number"></igx-column>
+    <igx-column field="GrammyAwards" header="Grammy Awards" dataType="number"></igx-column>
+
+    <igx-action-strip #actionstrip1>
+        <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+    </igx-action-strip>
+
+    <igx-row-island [key]="'Albums'" [autoGenerate]="false" [primaryKey]="'USBillboard200'" [rowEditable]="true">
+        <igx-column field="Album" [dataType]="'string'"></igx-column>
+        <igx-column field="LaunchDate" header="Launch Date" [dataType]="'date'"></igx-column>
+        <igx-column field="BillboardReview" header="Billboard Review" dataType="number"></igx-column>
+        <igx-column field="USBillboard200" header="US Billboard 200" dataType="number"></igx-column>
+        <igx-row-island [key]="'Songs'" [autoGenerate]="false" [primaryKey]="'Number'" [rowEditable]="true">
+            <igx-column field="Number" header="No." dataType="number"></igx-column>
+            <igx-column field="Title" [dataType]="'string'"></igx-column>
+            <igx-column field="Released" [dataType]="'date'"></igx-column>
+            <igx-column field="Genre" [dataType]="'string'"></igx-column>
+
+            <igx-action-strip #actionstrip3>
+                <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+            </igx-action-strip>
+
+        </igx-row-island>
+
+        <igx-action-strip #actionstrip2>
+            <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+        </igx-action-strip>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Establecer la clave primaria es obligatorio para las operaciones de adición de filas.
+</DocsAside>
+
+<DocsAside type="info">
+De forma predeterminada, todas las columnas excepto la clave primaria son editables en la interfaz de adición de filas. Si quiere deshabilitar la edición de una columna concreta, debe establecer la entrada <ApiLink type="Column" member="editable" label="editable" /> de la columna en `false`.
+</DocsAside>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+<DocsAside type="info">
+La entrada IgxGridEditingActions que controla la visibilidad del botón de añadir fila puede usar el contexto del Action Strip (de tipo <ApiLink type="RowType" kind="interface" />) para ajustar los registros para los que se muestra el botón.
+</DocsAside>
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<DocsAside type="info">
+Las entradas IgxGridEditingActions que controlan la visibilidad de los botones de añadir fila y de añadir hijo pueden usar el contexto del Action Strip (de tipo <ApiLink type="RowType" kind="interface" />) para ajustar los registros para los que se muestran los botones.
+</DocsAside>
+</ComponentBlock>
+
+El <ApiLink type="BaseTransactionService" /> interno se proporciona automáticamente para {ComponentTitle}. Guarda los cambios pendientes de celdas hasta que el estado de la fila se envía o se cancela.
+
+## Iniciar la adición de filas mediante programación
+
+{ComponentTitle} permite mostrar mediante programación la interfaz de añadir fila usando dos métodos públicos distintos. Uno acepta un ID de fila para especificar la fila debajo de la que debe mostrarse la interfaz, y otro funciona por índice. Puede usar estos métodos para mostrar la interfaz en cualquier punto de la vista de datos actual. No se admite cambiar de página ni especificar una fila que, por ejemplo, esté filtrada.
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+Usar `beginAddRowById` requiere que especifique la fila que se usará como contexto para la operación mediante su rowID (PK). El método funciona entonces como si el usuario final hubiera hecho clic en el botón de añadir fila del Action Strip para la fila especificada, mostrando la interfaz debajo de ella. También puede hacer que la interfaz aparezca como la primera fila del grid pasando `null` como primer parámetro.
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+Usar `beginAddRowById` requiere que especifique la fila que se usará como contexto para la operación mediante su rowID (PK). El método funciona entonces como si el usuario final hubiera hecho clic en el botón de añadir fila del Action Strip para la fila especificada, mostrando la interfaz debajo de ella. El segundo parámetro controla si la fila se añade como hija de la fila de contexto o como hermana. También puede hacer que la interfaz aparezca como la primera fila del grid pasando `null` como primer parámetro.
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+```typescript
+this.grid.beginAddRowById('ALFKI');  // spawns the add row UI under the row with PK 'ALFKI'
+this.grid.beginAddRowById(null);     // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+this.treeGrid.beginAddRowById('ALFKI', true);   // spawns the add row UI to add a child for the row with PK 'ALFKI'
+this.treeGrid.beginAddRowById(null);            // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+El método `beginAddRowByIndex` funciona de forma similar, pero requiere que especifique el índice _en_ el que debe mostrarse la interfaz. Los valores permitidos van de 0 al tamaño de la vista de datos menos 1.
+
+```typescript
+this.grid.beginAddRowByIndex(10);   // spawns the add row UI at index 10
+this.grid.beginAddRowByIndex(0);    // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+El método `beginAddRowByIndex` funciona de forma similar, pero la fila que se usará como contexto se especifica por índice.
+
+```typescript
+this.treeGrid.beginAddRowByIndex(10, true);   // spawns the add row UI to add a child for the row at index 10
+this.treeGrid.beginAddRowByIndex(null);       // spawns the add row UI as the first record
+```
+
+</ComponentBlock>
+
+## Posicionamiento
+
+- La posición predeterminada de la interfaz de añadir fila es debajo de la fila para la que el usuario final hizo clic en el botón de añadir fila.
+
+- {ComponentTitle} se desplaza automáticamente para mostrar por completo la interfaz de añadir fila.
+
+- La superposición de la interfaz de añadir fila mantiene su posición durante el desplazamiento.
+
+## Comportamiento
+
+La interfaz de añadir fila tiene el mismo comportamiento que la de edición de filas, ya que están diseñadas para ofrecer una experiencia de edición coherente a los usuarios finales. Consulte el tema [{ComponentTitle} Row Editing](/{igPath}/row-editing) para más información.
+
+Después de añadir una nueva fila a través de la interfaz de adición de filas, su posición o visibilidad se determina según el estado de ordenación, filtrado y agrupación de {ComponentTitle}. En un {ComponentTitle} que no tiene ninguno de estos estados aplicados, aparece como el último registro. Se muestra brevemente un snackbar con un botón que el usuario final puede usar para desplazar {ComponentTitle} hasta su posición si no está a la vista.
+
+## Navegación por teclado
+
+- <kbd>ALT</kbd> + <kbd>+</kbd>: entra en el modo de edición para añadir una fila
+<ComponentBlock for="TreeGrid">
+
+- <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>+</kbd>: entra en el modo de edición para añadir un hijo
+</ComponentBlock>
+
+- <kbd>ESC</kbd> sale del modo de adición de filas sin enviar ningún cambio
+
+- <kbd>TAB</kbd> mueve el foco de una celda editable de la fila a la siguiente, y desde la celda editable más a la derecha a los botones CANCEL y DONE. La navegación desde el botón DONE va a la celda editable más a la izquierda de la fila que se está editando.
+
+## Integración de funciones
+
+- Cualquier operación de adición de filas se detendrá si cambia la vista de datos de {ComponentTitle}. Los cambios realizados por el usuario final se envían. Las operaciones que cambian la vista de datos incluyen, entre otras, la ordenación, la agrupación, el filtrado, la paginación, etc.
+
+- Los resúmenes se actualizan después de terminar la operación de añadir fila. Lo mismo ocurre con las demás funciones que dependen de la vista de datos, como la ordenación, el filtrado, etc.
+<ComponentBlock for="HierarchicalGrid">
+
+- Al mostrar la interfaz en Hierarchical Grids, cualquier disposición hija que esté expandida actualmente para una fila en la que el usuario final hace clic en el botón de añadir fila se contrae.
+</ComponentBlock>
+
+
+## Personalizar la superposición de añadir fila
+
+### Personalizar el texto
+
+Es posible personalizar el texto de la superposición de añadir fila usando `igxRowAddTextDirective`.
+
+```html
+<ng-template igxRowAddText>
+ Adding Row
+</ng-template>
+ ```
+
+### Personalizar los botones
+
+Es posible personalizar los botones de la superposición de edición de filas usando `igxRowEditActionsDirective`.
+Si quiere que los botones formen parte de la navegación por teclado, cada uno de ellos debe tener `igxRowEditTabStopDirective`.
+
+ ```html
+ <ng-template igxRowEditActions let-endRowEdit>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+</ng-template>
+ ```
+
+<DocsAside type="info">
+Usar la directiva `igxRowEditActions` cambiará las acciones de edición tanto de los botones de la superposición de edición como de la de adición.
+</DocsAside>
+
+## Escenarios remotos
+
+En la mayoría de los escenarios de datos remotos, la asignación de la clave primaria se produce en la solicitud de creación al servidor. En este caso, los registros añadidos en el cliente no tendrán el valor final de la clave primaria hasta que se guarden en la base de datos del servidor. En ese caso, la forma recomendada de gestionar esta actualización en {ComponentTitle} es la siguiente:
+
+- Si {ComponentTitle} no usa transacciones.
+
+    Cuando la solicitud de creación se completa correctamente y devuelve los datos del registro añadido, puede reemplazar el id de ese registro en la instancia de registro de datos local.
+
+- Si {ComponentTitle} usa transacciones.
+
+    Cuando la solicitud de creación o de actualización por lotes se completa correctamente y devuelve las instancias de registro añadidas (con sus ids generados por la base de datos), las transacciones ADD relacionadas deben borrarse del registro de transacciones usando el método de la API <ApiLink kind="interface" type="TransactionService" member="clear" />. Esto es necesario porque la transacción local tendrá un campo id generado, que puede ser distinto del creado en la base de datos, así que deben borrarse. Después puede añadir el registro o registros incluidos en la respuesta a la instancia de datos local.
+
+Así se garantiza que los ids generados de forma remota siempre se reflejen en los datos locales, y que las operaciones posteriores de actualización o eliminación apunten a los ids de registro correctos.
+
+## Estilos
+
+La interfaz de añadir fila comprende los botones de las acciones de edición de `IgxActionStrip`, los editores y la superposición de edición, así como el snackbar que permite a los usuarios finales desplazarse hasta la fila recién añadida. Para dar estilo a estos componentes puede consultar las guías completas de sus respectivos temas:
+
+- [Edición de filas de {ComponentTitle}](/{igPath}/row-editing#estilos)
+- [IgxSnackbar](/snackbar#estilos)
+- [IgxActionStrip](/action-strip#estilos)
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" />
+- <ApiLink type="{ComponentApiType}" member="rowEditEnter" label="rowEditEnter" />
+- <ApiLink type="{ComponentApiType}" member="rowEdit" label="rowEdit" />
+- <ApiLink type="{ComponentApiType}" member="rowEditDone" label="rowEditDone" />
+- <ApiLink type="{ComponentApiType}" member="rowEditExit" label="rowEditExit" />
+- <ApiLink type="{ComponentApiType}" member="endEdit" label="endEdit" />
+- <ApiLink type="{ComponentApiType}" member="primaryKey" label="primaryKey" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink type="ActionStrip" />
+- <ApiLink type="GridEditingActions" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Edición de {ComponentTitle}](/{igPath}/editing)
+</ComponentBlock>
+- [{ComponentTitle} Transactions](/{igPath}/batch-editing)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,98 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 지도 탐색 | Infragistics"
+description: "마우스 또는 터치를 사용하여 가로로 좌우 이동하고 가로 및 세로로 확대/축소하며 Infragistics {Platform} 지도를 탐색하십시오. {ProductName} 지도의 탐색 기능에 대해 알아보십시오!"
+keywords: "{Platform} 지도, 탐색, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap"]
+
+_language: ko
+llms:
+  description: "GeographicMap 컨트롤의 탐색은 기본적으로 활성화되어 있으며, 지도 콘텐츠의 확대/축소와 이동을 허용합니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 지도 콘텐츠 탐색하기
+
+`GeographicMap` 컨트롤의 탐색은 기본적으로 활성화되어 있으며, 지도 콘텐츠의 확대/축소와 이동을 허용합니다. 하지만 이 동작은 `Zoomable` 속성을 사용하여 변경할 수 있습니다. 지도는 동기화된 확대/축소만 허용한다는 점, 즉 종횡비를 유지한 채 지도 콘텐츠의 크기를 조정한다는 점을 아는 것이 중요합니다. 따라서 가로로 크기를 조정하지 않고 세로로만 지도 콘텐츠의 크기를 조정할 수 없으며, 그 반대도 마찬가지입니다.
+
+## {Platform} 지도 콘텐츠 탐색하기 예제
+
+
+<Sample src="/maps/geo-map/navigation" height={500} alt="{Platform} 지도 콘텐츠 탐색하기 예제" />
+
+
+
+
+## 지리 좌표
+
+다음 좌표로 경계가 정해진 지리 영역 안에서 지도 콘텐츠를 탐색합니다:
+- 경도 180°E(음수)부터 180°W(양수)까지 가로 방향
+- 위도 85°S(음수)부터 85°N(양수)까지 세로 방향
+
+다음 코드 조각은 지리 좌표를 사용하여 지도를 탐색하는 방법을 보여 줍니다:
+
+```json-snippet channel="eventHandlers"
+{
+    "descriptions": {
+        "content": { "type": "GeographicMap", "name": "geoMap", "height": "100%", "width": "100%", "zoomable": true }
+    },
+    "onViewInit": [ "MapNavigationOnViewInit" ]
+}
+```
+
+
+## 창 좌표
+
+또한 다음 상대 좌표로 경계가 정해진 창 사각형 안에서 지도 콘텐츠를 탐색할 수 있습니다:
+- 가로 방향으로 0.0부터 1.0 값까지
+- 세로 방향으로 0.0부터 1.0 값까지
+
+다음 코드 조각은 상대 창 좌표를 사용하여 지도를 탐색하는 방법을 보여 줍니다:
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "windowRect": { "left": 0.1, "top": 0.1, "width": 0.5, "height": 0.5 },
+    "$windowRect": "+nav:code"
+}
+```
+
+또는
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "windowPositionHorizontal": 0.1,
+    "$windowPositionHorizontal": "+nav:code",
+    "windowPositionVertical": 0.1,
+    "$windowPositionVertical": "+nav:code",
+    "windowScale": 0.5,
+    "$windowScale": "+nav:code"
+}
+```
+
+
+## 속성
+다음 표는 `GeographicMap` 컨트롤의 탐색에 사용할 수 있는 속성을 요약합니다:
+
+| 속성 이름  | 속성 유형   | 설명   |
+|----------------|-----------------|---------------|
+|`WindowRect`| {RectType} | 지도 콘텐츠의 보기 가능한 영역에서 탐색 창의 새 위치와 크기를 설정합니다. 값이 0, 0, 1, 1인 {RectType}는 탐색 창에서 전체 지도 콘텐츠를 축소하여 보여 줍니다. |
+|`windowScale`| 숫자 | 지도 컨트롤에서 탐색 창의 새 크기를 설정합니다. `WindowRect` 속성에 저장된 Width 또는 Height 중 가장 작은 값과 같습니다 |
+|`windowPositionHorizontal`| 숫자 | 지도 컨트롤의 왼쪽 가장자리에서 탐색 창 앵커 점의 새 가로 위치를 설정합니다. `WindowRect` 속성의 Left에 저장된 값과 같습니다. |
+|`windowPositionVertical`| 숫자 | 지도 컨트롤의 위쪽 가장자리에서 탐색 창 앵커 점의 새 세로 위치를 설정합니다. `WindowRect` 속성의 Top에 저장된 값과 같습니다. |
+|`actualWindowRect`| {RectType} | 지도 콘텐츠의 보기 가능한 영역에서 탐색 창의 현재 위치와 크기를 나타냅니다. 값이 0, 0, 1, 1인 {RectType}는 탐색 창에 전체 지도 콘텐츠를 표시합니다.  |
+|`actualWindowScale`| 숫자 | 지도 컨트롤에서 탐색 창의 현재 크기를 나타냅니다. `actualWindowRect` 속성에 저장된 Width 또는 Height 중 가장 작은 값과 같습니다 |
+|`actualWindowPositionHorizontal`| 숫자 | 지도 컨트롤의 왼쪽 가장자리에서 탐색 창 앵커 점의 현재 가로 위치를 나타냅니다. `actualWindowRect` 속성의 Left에 저장된 값과 같습니다. |
+|`actualWindowPositionVertical`| 숫자 | 지도 컨트롤의 위쪽 가장자리에서 탐색 창 앵커 점의 세로 위치를 나타냅니다. `actualWindowRect` 속성의 Top에 저장된 값과 같습니다. |
+
+
+## API 참조
+`GeographicMap`

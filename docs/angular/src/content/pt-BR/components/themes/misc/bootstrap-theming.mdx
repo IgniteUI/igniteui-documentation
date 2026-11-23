@@ -1,0 +1,384 @@
+---
+title: "Temas Bootstrap"
+description:
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, temas, bootstrap"
+_language: pt-BR
+llms:
+  description: "O mecanismo de temas do Ignite UI for Angular permite ser usado em conjunto com outras bibliotecas de componentes, como a popular NG Bootstrap, baseada na marcação e no CSS do Bootstrap."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import igxCards from '../../../images/igx-cards.png';
+import igxDialog from '../../../images/igx-dialog.png';
+import ngbAccordion from '../../../images/ngb-accordion.png';
+import darkVariant from '../../../images/dark-variant.png';
+
+# Temas Bootstrap
+
+<div class="highlight">
+
+O mecanismo de temas do Ignite UI for Angular permite ser usado em conjunto com outras bibliotecas de componentes, como a popular [`NG Bootstrap`](https://ng-bootstrap.github.io/), baseada na marcação e no CSS do Bootstrap.
+</div>
+<hr/>
+
+## Visão geral
+
+O Ignite UI for Angular é um conjunto completo de widgets de UI, componentes e kits de UI do Figma baseados em Material, além de diretivas de suporte para Angular, que permitem aos desenvolvedores criar aplicações modernas e de alto desempenho. Nosso mecanismo de temas é fácil de usar e permite granularidade de tema em diferentes níveis, desde um único componente, vários componentes ou todo o conjunto. Por isso, alguns usuários querem aproveitá-lo não apenas com os componentes do Ignite UI, mas também com outras bibliotecas. Neste artigo, vamos ver o uso do Ignite UI em conjunto com os componentes do Ng Bootstrap.
+
+## Demonstração
+
+<Sample src="/theming/bootstrap-sample" height={1000} alt="" />
+
+<hr/>
+
+## Uso básico
+
+### Adicionar o NG Bootstrap
+
+Se você usa o Angular CLI e já tem um projeto Angular, pode instalar o NG Bootstrap com o comando abaixo:
+
+```cmd
+ng add @ng-bootstrap/ng-bootstrap
+```
+
+Depois de instalado, você precisa importar o módulo principal do NG Bootstrap no seu arquivo _app.module.ts_:
+
+```ts
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+@NgModule({
+    imports: [
+        ...,
+        NgbModule,
+        ...
+    ]
+)}
+```
+
+Neste ponto, a sua aplicação está pronta para usar os componentes do NG Bootstrap. Você pode encontrar mais informações sobre o uso da biblioteca Bootstrap na [`official documentation`](https://ng-bootstrap.github.io/#/getting-started) deles.
+
+### Adicionar o Ignite UI for Angular
+
+Para instalar o pacote do Ignite UI for Angular junto com todas as suas dependências, importações de fontes e referências de estilos, execute o seguinte comando no seu projeto:
+
+```cmd
+ng add igniteui-angular
+```
+
+Depois, você pode usar os componentes do Ignite UI importando os respectivos módulos no seu arquivo _app.module.ts_:
+
+```ts
+// manually addition of the Igx Avatar component 
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...,
+        IgxAvatarModule,
+        ...
+    ]
+)}
+```
+
+Siga o tópico [`Getting Started`](/general/getting-started) para uma introdução completa ao uso do Ignite UI for Angular em projetos existentes. Mais informações sobre como importar e usar cada um dos nossos componentes, com exemplos guiados, podem ser encontradas na documentação do componente.
+
+## Componentes
+
+Vamos ver como é feito o nosso exemplo de demonstração. Ele é uma mistura de componentes do Ignite UI e do NG Bootstrap, estilizados para se encaixar bem em uma única aplicação. A navegação no nosso exemplo é criada usando o [`navbar`](https://getbootstrap.com/docs/4.0/components/navbar/) do bootstrap, junto com <ApiLink type="ButtonDirective" label="igx-buttons" /> e <ApiLink type="Avatar" label="igx-avatar" />. O [`dropdown`](https://ng-bootstrap.github.io/#/components/dropdown/examples) abaixo do botão Campaigns também vem da biblioteca bootstrap. Abaixo da navegação, usamos o componente <ApiLink type="Card" label="igx-card" /> para exibir algumas estatísticas. Dentro dos cards, colocamos vários itens — <ApiLink type="Avatar" label="igx-avatars" /> e <ApiLink type="Icon" label="igx-icons" />, bem como [`buttons`](https://getbootstrap.com/docs/4.0/components/buttons/) e [`ngb-ratings`](https://ng-bootstrap.github.io/#/components/rating/examples) do bootstrap.
+
+<Image src={igxCards} alt="Cards do Ignite UI for Angular" />
+
+Ao clicar nos botões `More`, você verá o <ApiLink type="Dialog" label="igx-dialog" />:
+
+<Image src={igxDialog} alt="Dialog do Ignite UI for Angular" />
+
+Em seguida, adicionamos um [`ngb-accordion`](https://ng-bootstrap.github.io/#/components/accordion/examples) que mostra informações sobre cartões de crédito. No seu conteúdo, há um <ApiLink type="List" label="igx-list" /> e um `igx-button`.
+
+<Image src={ngbAccordion} alt="Accordion do NG Bootstrap" />
+Por fim, inserimos um `icon button` do Ignite UI for Angular no canto superior direito, que altera o tema de todo o aplicativo:  
+
+<Image src={darkVariant} alt="Tema da variante escura" />
+
+## Estilização
+
+Para começar a estilizar componentes usando o mecanismo de temas do Ignite UI, crie um arquivo scss com o nome que preferir, que será o arquivo base do seu tema global. Vamos chamar este arquivo de `_variables.scss`. Em seguida, precisamos importar o arquivo `index`, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+// _variables.scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Paletas
+
+A biblioteca Bootstrap usa um mapa Sass chamado [`$theme-colors`](https://getbootstrap.com/docs/4.0/getting-started/theming/#theme-colors) para fornecer uma paleta composta por oito cores:
+
+```scss
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+);
+```
+
+A função <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> do Ignite UI for Angular gera um mapa de paleta de cores que inclui as cores `primary`, `secondary`, `gray`, `info`, `success`, `warn` e `error`, e as suas variantes de cor. A nossa paleta bootstrap predefinida, por sua vez, é composta de sete cores:
+
+```scss
+$bootstrap-palette: palette(
+    $primary: #0d6efd,
+    $secondary: #6c757d,
+    $info: #0dcaf0,
+    $success: #198754,
+    $warn: #ffc107,
+    $error: #dc3545,
+    $surface: #f8f9fa
+);
+```
+
+Como você pode ver, a maioria das cores da paleta Bootstrap coincide com as cores definidas na paleta Bootstrap do Ignite UI for Angular. Por isso, podemos simplesmente mapear as cores do tema Bootstrap para as cores da nossa paleta bootstrap clara ou escura.
+
+Primeiro, vamos definir variáveis Sass que extraem valores da <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="$light-bootstrap-palette" code={true} />:
+
+```scss
+// Colors from the Ignite UI light bootstrap color palette
+$light-primary: color($light-bootstrap-palette, "primary");
+$light-secondary: color($light-bootstrap-palette, "secondary");
+$light-success: color($light-bootstrap-palette, "success");
+$light-info: color($light-bootstrap-palette, "info");
+$light-warning: color($light-bootstrap-palette, "warn");
+$light-danger: color($light-bootstrap-palette, "error");
+```
+
+Depois disso, vamos criar uma nova paleta de cores que será usada no modo escuro do exemplo:
+
+```scss
+// Defining custom color palette
+$custom-dark-palette: palette(
+    $primary: #ecaa53,
+    $secondary: #011627,
+    $gray: #fff,
+    $surface: #222
+);
+
+// Creating Sass variables for primary and secondary colors
+$dark-primary: color($custom-dark-palette, "primary");
+$dark-secondary: color($custom-dark-palette, "secondary");
+```
+
+<DocsAside type="info">
+Visite a nossa seção [`palettes with Sass`](/themes/sass/palettes) para saber mais sobre as paletas fornecidas pelo Ignite UI for Angular e aprender a criar uma nova.
+</DocsAside>
+
+### Temas
+
+Para alternar entre o modo `light` e o `dark`, adicionamos uma classe personalizada ao elemento `host`, que será alterada ao clicar em um botão. No nosso arquivo de estilos, vamos incluir paletas de cores diferentes com escopo em cada classe.
+
+#### Modo claro
+
+O Ignite UI for Angular vem com temas predefinidos inspirados na biblioteca [Bootstrap 4](https://getbootstrap.com/). Para usá-los, primeiro você precisa incluir o nosso mixin `core` e, em seguida, o mixin de tema integrado — <ApiLink kind="sass" module="themes" type="mixin-bootstrap-light-theme" label="bootstrap-light-theme" />. Também usaremos a nossa paleta bootstrap predefinida — <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="$light-bootstrap-palette" />.
+
+A cor de fundo da aplicação precisa ser definida explicitamente no elemento host. No nosso exemplo, queremos usar a cor `surface` da paleta passada.
+
+Neste ponto, precisamos modificar o mapa `$theme-colors` do Bootstrap com as variáveis Sass que criamos antes:
+
+```scss
+// Make sure you always include thecore mixin first
+@include core();
+
+:host {
+    &.light {
+        // The background color of the application in light mode
+        background: color($light-bootstrap-palette, 'surface');
+
+        ::ng-deep {
+            // Applying the igx predefined light bootstrap palette and theme
+            @include bootstrap-light-theme($light-bootstrap-palette);
+
+            $theme-colors: (
+                "primary": $light-primary,
+                "secondary": $light-secondary,
+                "success": $light-success,
+                "info": $light-info,
+                "warning": $light-warning,
+                "danger": $light-danger
+            );
+        }
+    }
+}
+```
+
+As cores `light` e `dark` do mapa `$theme-colors`, que não têm valores correspondentes nas paletas do Ignite UI, também podem ser substituídas por valores a seu critério. Por exemplo:
+
+```scss
+$custom-light: color($light-bootstrap-palette, "gray", 100);
+$custom-dark: color($light-bootstrap-palette, "gray", 800);
+
+:host {
+    &.light {
+        ::ng-deep {
+            $theme-colors: (
+                "light": $custom-light,
+                "dark": $custom-dark,
+            );
+        }
+    }
+}
+```
+
+#### Modo escuro
+
+Para a nossa variante escura, vamos usar a `$custom-dark-palette` recém-criada. Precisamos incluí-la nos estilos da classe `dark` e também modificar o mapa `$theme-colors` com os novos valores.
+
+Todos os componentes do Ignite UI for Angular usam cores da paleta passada; por isso, eles se encaixam bem no modo escuro sem ajustes adicionais. No entanto, precisamos fazer mais algumas alterações de estilo nos componentes do ng-bootstrap:
+
+```scss
+:host {
+    &.dark {
+        // The background color of the application in dark mode
+        background: color($custom-dark-palette, 'surface');
+
+        ::ng-deep {
+            // Applying our custom dark palette 
+            @include bootstrap-dark-theme($custom-dark-palette);
+
+            // Overriding bootstrap button colors with colors from the custom dark palette
+            .igx-card-actions .btn-primary {
+                background-color: $dark-primary;
+                border-color: $dark-primary;
+
+                &:hover {
+                    background-color: color($custom-dark-palette, 'primary', 600);
+                }
+            }
+
+            // Overriding ngb-accordion colors with colors from the custom dark palette
+            .accordion {
+                .accordion-header,
+                .accordion-button {
+                    background-color: color($custom-dark-palette, 'gray', 200);
+                    color: color($custom-dark-palette, 'gray', 900);
+                }
+
+                .accordion-item {
+                    background-color: color($custom-dark-palette, 'surface');
+                    border-color: color($custom-dark-palette, 'gray', 300);
+                }
+            }
+
+            // Overriding bootstrap dropdown colors with colors from the custom dark palette
+            .dropdown .dropdown-menu {
+                background-color: color($custom-dark-palette, 'surface');
+                border-color: color($custom-dark-palette, 'gray', 300);
+
+                .dropdown-item {
+                    color: color($custom-dark-palette, 'gray', 800);
+
+                    &:hover {
+                        background-color: color($custom-dark-palette, 'gray', 200);
+                    }
+                }
+            }
+            
+            // Modifying the bootstrap color map
+            $theme-colors: (
+                "primary": $dark-primary,
+                "secondary": $dark-secondary
+            );
+        }
+    }
+}
+```
+
+Por fim, precisamos importar a biblioteca Bootstrap — _importe-a sempre por último!_
+
+```scss
+:host {
+    ::ng-deep {
+        // Importing Bootstrap .scss file
+        // Make sure you always import it last
+        @import "~bootstrap/scss/bootstrap";
+    }
+}
+```
+
+Quando terminarmos de modificar o mapa `$theme-colors`, os componentes bootstrap já usarão as cores da `$light-bootstrap-palette` igx para o modo claro, e `$custom-dark-palette` para o modo escuro.
+
+<DocsAside type="warning">
+Certifique-se de colocar o código acima dentro do seletor `::ng-deep` para `penetrate` o encapsulamento [`Emulated`](/themes/sass/component-themes#encapsulamento-de-visualização) de ViewEncapsulation.
+</DocsAside>
+
+### Gerar classe
+
+A `navbar` do bootstrap usa classes CSS para a sua cor de fundo. No nosso exemplo, queremos que essa cor mude de acordo com o tema selecionado; por isso, vamos usar o mixin `color-classes`. Ele gerará nomes de classes CSS para todas as cores de uma determinada propriedade e paleta de cores, com prefixo e sufixo opcionais anexados ao nome da classe. Para a demonstração, incluiremos o mixin duas vezes: uma para o modo claro, com a respectiva `$light-bootstrap-palette` como primeiro valor, e outra para o modo escuro, com a `$custom-dark-palette`:
+
+```scss
+:host {
+    &.light {
+        @include color-classes(
+            $palette: $light-bootstrap-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+
+    &.dark {
+        @include color-classes(
+            $palette: $custom-dark-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+}
+```
+
+Em seguida, adicione uma classe CSS ao seu componente navbar seguindo o padrão "bg - cor da paleta - variante da cor". No nosso aplicativo de exemplo, estamos usando `bg-gray-200`.
+
+### Tipografia
+
+O Ignite UI for Angular expõe quatro escalas tipográficas padrão para cada um dos seus temas, que podem ser usadas dentro do mixin <ApiLink kind="sass" module="typography" type="mixin-typography" label="typography" code={true} /> para definir os estilos globais de tipografia de uma aplicação. No nosso exemplo, vamos aplicar as `typeface` e `type-scale` predefinidas do bootstrap, mas você pode criar escalas personalizadas, se quiser.
+
+```scss
+:host {
+    @include typography($font-family: $bootstrap-typeface, $type-scale: $bootstrap-type-scale);
+}
+```
+
+## Referências da API
+
+- <ApiLink kind="sass" module="palettes" type="variable-light-bootstrap-palette" label="Paleta bootstrap clara" />
+- <ApiLink kind="sass" module="palettes" type="variable-dark-bootstrap-palette" label="Paleta bootstrap escura" />
+- <ApiLink kind="sass" module="themes" type="mixin-bootstrap-light-theme" label="Tema bootstrap claro" />
+- <ApiLink kind="sass" module="themes" type="mixin-bootstrap-dark-theme" label="Tema bootstrap escuro" />
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="Função de paleta" />
+- <ApiLink kind="sass" module="typography" type="mixin-typography" label="Mixin de tipografia" />
+
+## Tópicos relacionados
+
+- [Paletas](/themes/sass/palettes)
+- [Temas de componentes](/themes/sass/component-themes)
+- [Tipografia](/themes/sass/typography)
+- [Componente Avatar](../../layouts/avatar.mdx)
+- [Componente Button](inputs/button)
+- [Componente Dialog](/dialog)
+- [Componente Icon](/layouts/icon)
+- [Componente List](/list)
+
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

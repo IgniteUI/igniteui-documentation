@@ -1,0 +1,358 @@
+---
+title: "{Platform} 오른쪽에서 왼쪽으로(RTL) 지원"
+description: "{ProductName} 컴포넌트는 HTML dir 어트리뷰트를 통해 오른쪽에서 왼쪽으로(RTL) 레이아웃을 지원하며, 두 방향 모두 같은 테마를 사용합니다."
+keywords: "{ProductName}, Infragistics, RTL, 오른쪽에서 왼쪽으로, dir 어트리뷰트, 미러링, 키보드 탐색"
+license: MIT
+last_updated: "2026-10-27"
+platformType: web-only
+mentionedTypes: ["Icon"]
+_language: ko
+llms:
+  description: "{ProductName} 컴포넌트는 오른쪽에서 왼쪽으로(RTL) 레이아웃을 지원합니다. 페이지에 dir=\"rtl\"을 설정하면 컴포넌트가 레이아웃과 대부분의 키보드 상호 작용을 미러링하며, 별도의 RTL 테마는 필요하지 않습니다."
+---
+
+{/*This topic serves Angular, React, Web Components and Blazor. The Angular doc set generates its copy from this file, so the Angular path is listed in docs/angular/src/content/en/.gitignore. Never write a literal platform block tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# 오른쪽에서 왼쪽으로(RTL) 지원
+
+{ProductName} 컴포넌트는 오른쪽에서 왼쪽으로(RTL) 레이아웃을 지원합니다. 페이지에 `dir="rtl"`를 설정하면 컴포넌트가 레이아웃과 대부분의 키보드 상호 작용을 미러링하며, 별도의 RTL 테마는 필요하지 않습니다.
+
+## 개요
+
+{ProductName}은 방향을 표준 HTML `dir` 어트리뷰트에서 가져옵니다. 어떤 컴포넌트에도 방향 속성은 없으며, 테마의 RTL 버전도 없습니다. 이미 로드한 테마가 두 방향 모두에 사용됩니다.
+
+| 계층 | 방향을 따르는 방식 |
+|---|---|
+| **스타일** | 컴포넌트 스타일은 `margin-inline-start` 같은 CSS 논리 속성과 방향 선택자를 사용하므로, 방향이 바뀌는 즉시 레이아웃이 미러링됩니다. |
+| **상호 작용** | Carousel, Slider, Stepper, Tabs처럼 가로 키보드 또는 포인터 상호 작용이 있는 컴포넌트는 사용자가 상호 작용할 때 방향을 읽습니다. RTL에서는 <kbd>Arrow Left</kbd>와 <kbd>Arrow Right</kbd> 키가 읽는 방향을 따릅니다. |
+
+일부 컴포넌트는 방향을 부분적으로만 따릅니다. {Platform}에 대해 [알려진 제한 사항](#알려진-제한-사항)에 목록이 있습니다.
+
+## 시작하기 전에
+
+**RTL은 레이아웃을 미러링하며, 텍스트를 번역하지 않습니다.** `dir` 어트리뷰트는 읽기 방향만 바꿉니다. <PlatformBlock for="Angular">컴포넌트 문자열을 다른 언어로 표시하려면 [지역화](../general/localization.mdx)를 참조하십시오.</PlatformBlock><PlatformBlock for="React,WebComponents">컴포넌트 문자열을 다른 언어로 표시하려면 [지역화](../localization.mdx)를 참조하십시오.</PlatformBlock>
+
+**방향은 한 곳에서 설정하십시오.** 애플리케이션 전체에 대해서는 `body` 요소에 `dir="rtl"`를 설정하십시오. 페이지의 일부만 미러링하려면 [페이지 일부에 RTL 적용하기](#페이지-일부에-rtl-적용하기)에 설명된 대로 대신 컨테이너에 설정하십시오.
+
+**자신의 콘텐츠에도 논리 속성이 필요합니다.** 컴포넌트는 스스로 미러링되지만, `margin-left` 같은 물리 속성으로 작성한 스타일은 놓인 자리에 그대로 남습니다. [RTL을 위해 자신의 콘텐츠 스타일 지정하기](#rtl을-위해-자신의-콘텐츠-스타일-지정하기)를 참조하십시오.
+
+## 다음 단계
+
+- [호스트 페이지에서 애플리케이션 전체에 RTL을 활성화하십시오](#애플리케이션-전체에-rtl-활성화하기).
+- [사용자가 언어를 바꿀 때 실행 중에 방향을 전환하십시오](#실행-중-방향-전환하기).
+- 애플리케이션이 사용하는 컴포넌트의 [알려진 제한 사항](#알려진-제한-사항)을 확인하십시오.
+
+## 사용 가능한 도구
+
+| 도구 | 위치 | 하는 일 |
+|---|---|---|
+| `dir` 속성 | 모든 HTML 요소, 보통 `body` | 요소와 그 안의 모든 것의 방향을 설정합니다. `rtl`, `ltr`, `auto`를 받습니다. |
+| CSS 논리 속성 | 사용자의 스타일시트 | `padding-left` 대신 `padding-inline-start` 같이 읽기 방향을 기준으로 콘텐츠를 배치하십시오. |
+| `:dir(rtl)` 의사 클래스 | 사용자의 스타일시트 | `dir` 어트리뷰트가 요소에 있든 상위 요소에 있든, 방향이 오른쪽에서 왼쪽인 요소와 일치합니다. |
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+방향이 있는 아이콘의 경우, Icon과 Icon Button에도 <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" /> 속성이 있습니다. [방향성 아이콘 미러링하기](#방향성-아이콘-미러링하기)를 참조하십시오.
+
+</PlatformBlock>
+
+## 일반적인 작업 흐름
+
+### 애플리케이션 전체에 RTL 활성화하기
+
+호스트 페이지의 `body` 요소에 `dir="rtl"`를 설정하십시오. 페이지의 모든 {ProductName} 컴포넌트가 오른쪽에서 왼쪽으로 렌더링됩니다.
+
+<PlatformBlock for="Angular">
+
+`src/index.html`에 어트리뷰트를 설정하십시오:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+애플리케이션의 `index.html`에 어트리뷰트를 설정하십시오:
+
+```html
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <title>My App</title>
+  </head>
+  <body dir="rtl">
+    <!-- application content -->
+  </body>
+</html>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+호스트 페이지의 `body` 요소에 어트리뷰트를 설정하십시오. Blazor Web App에서는 `Components/App.razor`, Blazor WebAssembly 앱에서는 `wwwroot/index.html`, Blazor Server 앱에서는 `Pages/_Host.cshtml`입니다. Blazor Web App에서는 다음과 같습니다:
+
+```razor
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <base href="/" />
+    <HeadOutlet />
+</head>
+<body dir="rtl">
+    <Routes />
+    <script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>
+```
+
+</PlatformBlock>
+
+### 실행 중 방향 전환하기
+
+애플리케이션이 실행되는 동안 방향을 바꾸려면, 예를 들어 사용자가 다른 언어를 고를 때, `body` 요소의 `dir` 어트리뷰트를 설정하십시오. 컴포넌트 스타일이 즉시 업데이트되며, 컴포넌트는 사용자가 다음에 상호 작용할 때 새 방향을 읽습니다.
+
+<PlatformBlock for="Angular">
+
+```ts
+import { Component, DOCUMENT, inject } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html'
+})
+export class AppComponent {
+    private readonly document = inject(DOCUMENT);
+
+    public setDirection(dir: 'ltr' | 'rtl') {
+        this.document.body.dir = dir;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+function setDirection(dir: 'ltr' | 'rtl') {
+  document.body.dir = dir;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+JavaScript 상호 운용으로 어트리뷰트를 설정하십시오:
+
+```razor
+@inject IJSRuntime JS
+
+<button @onclick='() => SetDirection("rtl")'>Right to left</button>
+<button @onclick='() => SetDirection("ltr")'>Left to right</button>
+
+@code {
+    private async Task SetDirection(string dir)
+    {
+        await JS.InvokeVoidAsync("document.body.setAttribute", "dir", dir);
+    }
+}
+```
+
+</PlatformBlock>
+
+### 페이지 일부에 RTL 적용하기
+
+페이지의 일부만 미러링하려면, 예를 들어 아랍어나 히브리어 콘텐츠가 있는 패널처럼, 그것을 담은 요소에 `dir="rtl"`를 설정하고 `body`는 왼쪽에서 오른쪽으로 그대로 두십시오. 요소 안의 컴포넌트는 그 요소의 방향을 따릅니다.
+
+다음 샘플은 `dir="rtl"`이 설정된 컨테이너에 Calendar를 배치합니다. **방향 바꾸기**를 선택하면 컨테이너를 오른쪽에서 왼쪽과 왼쪽에서 오른쪽 사이에서 전환합니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/scheduling/calendar-rtl" showThemePicker height={600} alt="오른쪽에서 왼쪽 컨테이너의 {Platform} 캘린더와 방향을 전환하는 버튼" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/scheduling/calendar/rtl" showThemePicker height={600} alt="오른쪽에서 왼쪽 컨테이너의 {Platform} 캘린더와 방향을 전환하는 버튼" />
+
+Carousel과 Navigation Drawer는 `dir="rtl"`가 `body` 요소나 컴포넌트 자체에 있을 때만 탐색 버튼, 표시기, 슬라이드 방향을 미러링합니다. 오른쪽에서 왼쪽 컨테이너 안에서는 이 두 컴포넌트에도 `dir="rtl"`를 설정하십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<div dir="rtl">
+  <igc-carousel dir="rtl"></igc-carousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<div dir="rtl">
+  <IgrCarousel dir="rtl"></IgrCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<div dir="rtl">
+    <IgbCarousel dir="rtl"></IgbCarousel>
+</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### 방향성 아이콘 미러링하기
+
+대부분의 아이콘은 두 방향 모두에서 같아 보이므로, 아이콘은 자동으로 미러링되지 않습니다. 화살표처럼 읽는 방향을 가리키는 아이콘의 경우, 오른쪽에서 왼쪽 레이아웃에서 뒤집히도록 <ApiLink pkg="core" type="Icon" member="mirrored" label="mirrored" />를 설정하십시오. [Icon](../layouts/icon.mdx#좌우-반전)과 [Icon Button](../inputs/icon-button.mdx#좌우-반전)이 이를 지원합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### 방향성 아이콘 미러링하기
+
+아이콘은 자동으로 미러링되지 않으며, Angular Icon에는 아이콘을 미러링하는 옵션이 없습니다. 오른쪽에서 왼쪽 레이아웃의 방향성 아이콘에는 `arrow_forward` 대신 `arrow_back`처럼 읽는 방향을 가리키는 아이콘을 사용하십시오.
+
+</PlatformBlock>
+
+### RTL을 위해 자신의 콘텐츠 스타일 지정하기
+
+자신의 콘텐츠 스타일은 CSS 논리 속성으로 작성하여, 컴포넌트와 함께 미러링되도록 하십시오. 한 방향에서만 적용되는 규칙에는 `:dir(rtl)` 의사 클래스를 사용하십시오:
+
+```css
+.toolbar {
+  padding-inline-start: 16px; /* left in LTR, right in RTL */
+}
+
+.next-icon:dir(rtl) {
+  transform: scaleX(-1);
+}
+```
+
+## 알려진 제한 사항
+
+다음 컴포넌트는 {ProductName}에서 방향을 부분적으로만 따릅니다.
+
+<PlatformBlock for="Angular">
+
+| 컴포넌트 | 방향을 따르지 않는 것 |
+|---|---|
+| [Grid](../grid/grid.mdx), [Tree Grid](../treegrid/tree-grid.mdx), [Hierarchical Grid](../hierarchicalgrid/hierarchical-grid.mdx), [Pivot Grid](../pivotgrid/pivot-grid.mdx) | 레이아웃과 가로 스크롤은 방향을 따르지만, 키보드 탐색은 따르지 않습니다. <kbd>Arrow Left</kbd>는 포커스를 이전 열로, <kbd>Arrow Right</kbd>는 다음 열로 옮기므로, RTL에서는 <kbd>Arrow Left</kbd>가 포커스를 오른쪽으로 옮깁니다. |
+| [Date Picker](../date-picker.mdx)와 [Date Range Picker](../date-range-picker.mdx)의 캘린더를 포함한 [Calendar](../calendar.mdx) | <kbd>Arrow Left</kbd>는 두 방향 모두에서 이전 날짜로, <kbd>Arrow Right</kbd>는 다음 날짜로 이동합니다. |
+| [Tree](../tree.mdx) | <kbd>Arrow Left</kbd>는 두 방향 모두에서 노드를 접거나 상위 항목으로 이동하고, <kbd>Arrow Right</kbd>는 노드를 펼칩니다. |
+| [아이콘](../layouts/icon.mdx) | 아이콘을 미러링하는 옵션이 없습니다. [방향성 아이콘 미러링하기](#방향성-아이콘-미러링하기)를 참조하십시오. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| 컴포넌트 | 방향을 따르지 않는 것 |
+|---|---|
+| [Grid](../grids/data-grid.mdx), [Tree Grid](../grids/tree-grid/overview.mdx), [Hierarchical Grid](../grids/hierarchical-grid/overview.mdx), [Pivot Grid](../grids/pivot-grid/overview.mdx) | 레이아웃과 가로 스크롤은 방향을 따르지만, 키보드 탐색은 따르지 않습니다. <kbd>Arrow Left</kbd>는 포커스를 이전 열로, <kbd>Arrow Right</kbd>는 다음 열로 옮기므로, RTL에서는 <kbd>Arrow Left</kbd>가 포커스를 오른쪽으로 옮깁니다. |
+| [Date Picker](../scheduling/date-picker.mdx)와 [Date Range Picker](../scheduling/date-range-picker.mdx)의 캘린더를 포함한 [Calendar](../scheduling/calendar.mdx) | <kbd>Arrow Left</kbd>는 두 방향 모두에서 이전 날짜로, <kbd>Arrow Right</kbd>는 다음 날짜로 이동합니다. |
+| [Carousel](../layouts/carousel.mdx), [Navigation Drawer](../menus/navigation-drawer.mdx) | 탐색 버튼, 표시기, 슬라이드 방향은 `dir="rtl"`가 `body` 요소나 컴포넌트 자체에 있을 때만 미러링되며, `html` 요소나 다른 상위 요소에 있을 때는 미러링되지 않습니다. |
+
+</PlatformBlock>
+
+컴포넌트가 이 페이지에 설명된 대로 방향을 따르지 않으면, <a href="{GithubLink}/issues" target="_blank" rel="noopener noreferrer">{ProductName} 이슈 트래커</a>에 보고하십시오.
+
+## 문제 해결
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Carousel 화살표가 반대 방향을 가리키는 이유는 무엇입니까?
+
+Carousel과 Navigation Drawer는 `body` 요소의 방향을 자신의 `dir` 어트리뷰트와 결합합니다. `dir="rtl"`가 `html` 요소에만 있으면 왼쪽에서 오른쪽으로 렌더링되고, `body` 요소와 컴포넌트 둘 다에 있으면 두 값이 서로 상쇄됩니다. `dir="rtl"`는 한 곳에서만 설정하십시오. 페이지 전체라면 `body` 요소에, 오른쪽에서 왼쪽 컨테이너 안의 컴포넌트라면 컴포넌트에 설정하십시오.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+### `$direction: rtl`가 컴파일되지 않는 이유는 무엇입니까?
+
+`core()` 믹스인은 13.1.0 이전에는 `igx-core()`라고 불렸으며, 더 이상 `$direction` 매개변수를 가지지 않습니다. 일반 테마가 두 방향을 모두 지원하므로, 버전 13.2.0에서 RTL 전용 `*-rtl.css` 테마 파일과 함께 이것이 제거되었습니다. `@include igx-core($direction: rtl)` 또는 `@include core($direction: rtl)`를 `@include core()`로 바꾸고, 일반 테마 파일을 사용하며, [애플리케이션 전체에 RTL 활성화하기](#애플리케이션-전체에-rtl-활성화하기)에 설명된 대로 `dir` 어트리뷰트를 설정하십시오. `ng update`를 13.2.0 이상으로 실행하면 Sass를 이 두 가지 변경으로 자동 수정합니다.
+
+### 컴포넌트가 실행 중 방향 변경을 따르지 않는 이유는 무엇입니까?
+
+21.2.0 이전 버전은 애플리케이션이 시작될 때 `body` 또는 `html` 요소에서 방향을 한 번 읽습니다. 그 버전에서는 애플리케이션이 부트스트랩되기 전에 `dir` 어트리뷰트를 설정하거나, 컴포넌트가 사용자가 상호 작용할 때마다 방향을 읽는 21.2.0 이상으로 업데이트하십시오.
+
+</PlatformBlock>
+
+### RTL에서 제 콘텐츠가 계속 왼쪽에 남아 있는 이유는 무엇입니까?
+
+`margin-left`나 `float: left` 같은 물리 속성을 사용하는 스타일은 미러링되지 않습니다. [RTL을 위해 자신의 콘텐츠 스타일 지정하기](#rtl을-위해-자신의-콘텐츠-스타일-지정하기)에 나온 대로 `margin-inline-start`나 `float: inline-start` 같은 논리 속성으로 바꾸십시오.
+
+## 추가 리소스
+
+- [접근성 준수](accessibility-compliance.mdx) — {ProductName}가 목표로 하는 접근성 표준.
+- <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/dir" target="_blank" rel="noopener noreferrer">MDN의 `dir` 어트리뷰트</a> — 값과 상속.
+- <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values" target="_blank" rel="noopener noreferrer">MDN의 CSS 논리 속성과 값</a> — 방향에 따라 미러링되는 속성.
+- <a href="https://www.w3.org/International/questions/qa-html-dir" target="_blank" rel="noopener noreferrer">HTML의 구조적 마크업과 오른쪽에서 왼쪽 텍스트(W3C)</a> — 문서에서 방향을 설정하는 위치.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="{ProductName}에서 RTL은 어떻게 활성화합니까?" indicatorPosition="end">
+    호스트 페이지의 `body` 요소에 `dir="rtl"`를 설정하십시오. {ProductName} 컴포넌트는 `dir` 어트리뷰트에서 방향을 가져오므로, 컴포넌트 설정이나 추가 패키지가 필요하지 않습니다. 페이지의 일부만 미러링하려면 대신 컨테이너 요소에 어트리뷰트를 설정하십시오.
+  </FaqItem>
+
+  <FaqItem question="{ProductName}에서 RTL을 위해 별도의 테마가 필요합니까?" indicatorPosition="end">
+    아니요. {ProductName} 테마는 두 방향을 모두 지원하며, 같은 테마 CSS가 왼쪽에서 오른쪽 페이지와 오른쪽에서 왼쪽 페이지 모두에 사용됩니다. <PlatformBlock for="Angular">RTL 전용 `*-rtl.css` 테마 파일은 버전 13.2.0에서 제거되었습니다.</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="페이지를 다시 로드하지 않고 LTR과 RTL을 전환할 수 있습니까?" indicatorPosition="end">
+    예. `body` 요소 또는 컴포넌트를 담은 컨테이너의 `dir` 어트리뷰트를 바꾸십시오. {ProductName} 컴포넌트 스타일이 즉시 업데이트되며, 컴포넌트는 사용자가 다음에 상호 작용할 때 새 방향을 읽습니다.
+  </FaqItem>
+
+  <FaqItem question="{ProductName} 그리드는 RTL을 지원합니까?" indicatorPosition="end">
+    일부만 지원합니다. Grid, Tree Grid, Hierarchical Grid, Pivot Grid는 열을 배치하고 페이지 방향으로 가로 스크롤하지만, 화살표 키 탐색은 미러링되지 않습니다. RTL에서 왼쪽 화살표는 포커스를 오른쪽에 있는 이전 열로 옮깁니다.
+  </FaqItem>
+
+  <FaqItem question="RTL이 {ProductName} 컴포넌트의 텍스트를 번역합니까?" indicatorPosition="end">
+    아니요. `dir` 어트리뷰트는 읽기 방향과 레이아웃만 바꿉니다. 기본 제공 컴포넌트 문자열을 번역하는 것은 별도의 지역화 단계입니다.
+  </FaqItem>
+</Faq>

@@ -1,0 +1,194 @@
+---
+title: "Angular Tree Grid 그룹화 | 여러 필드로 그룹화 | Infragistics"
+description: "Angular 테이블에서 데이터 레코드를 시각화할 수 있도록 Angular 그룹화를 구성하고, 그룹화된 데이터를 별도의 편리한 열 그룹에서 시각화하십시오."
+keywords: angular group by, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "계층이 아닌 데이터가 있고 하나 이상의 열로 그룹화하면서 상위 행을 집계된 값으로 채우고 싶다면, TreeGrid와 treeGridGrouping 파이프, 그리고 선택자 igx-tree-grid-group-by-area를 가진 UI 컴포넌트를 사용할 수 있습니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Tree Grid 그룹화
+
+계층이 아닌 데이터가 있고 하나 이상의 열로 **그룹화**하면서 상위 행을 **집계된 값**으로 채우고 싶다면, <ApiLink type="TreeGrid" />와 `treeGridGrouping` 파이프, 그리고 선택자 `igx-tree-grid-group-by-area`를 가진 UI 컴포넌트를 사용할 수 있습니다.
+
+`treeGridGrouping` 파이프는 제공된 매개변수를 기준으로 데이터를 그룹화하며, 결과 계층은 별도의 열에 표시됩니다. 집계가 제공되면 파이프는 생성된 상위 행에 대한 집계 값도 계산할 수 있습니다. 템플릿에서 파이프를 사용하는 예는 다음과 같습니다:
+
+```html
+<igx-tree-grid #grid 
+               [data]="data | treeGridGrouping:groupingExpressions:groupKey:childDataKey:grid:aggregations"
+               [childDataKey]="childDataKey"
+               [sortStrategy]="sorting">
+</igx-tree-grid>
+```
+
+파이프의 인수는 다음과 같습니다:
+
+- groupingExpressions - 계층을 생성하는 데 사용되는 필드와 각 그룹의 정렬 세부 정보에 대한 정보를 담은 <ApiLink kind="interface" type="IGroupingExpression" /> 객체의 배열
+- groupKey - 생성된 계층 열의 이름을 나타내는 문자열 값
+- childDataKey - 생성된 상위 행의 자식 컬렉션이 저장되는 필드를 나타내는 문자열 값
+- grid - 그룹화에 사용되는 `IgxTreeGridComponent`
+- aggregations(선택 사항) - 집계 함수에 대한 정보를 담은 `ITreeGridAggregation` 객체의 배열
+
+선택자가 `igx-tree-grid-group-by-area`인 UI 컴포넌트는 그룹화에 사용되는 열과 관련된 UI 상호 작용을 처리합니다. 템플릿에서 컴포넌트를 사용하는 예는 다음과 같습니다:
+
+```html
+<igx-tree-grid-group-by-area
+    [grid]='grid'
+    [(expressions)]='groupingExpressions'
+    [hideGroupedColumns]='true'>
+</igx-tree-grid-group-by-area>
+```
+
+컴포넌트의 입력은 다음과 같습니다:
+
+- grid - 그룹화에 사용되는 `IgxTreeGridComponent`
+- expressions - 계층을 생성하는 데 사용되는 필드를 담은 <ApiLink kind="interface" type="IGroupingExpression" /> 객체의 배열
+- hideGroupedColumns - 그룹화를 수행한 열을 숨길지 여부를 나타내는 불리언 값
+- dropAreaTemplate - 기본 드롭 영역 템플릿을 재정의하는 데 사용할 수 있는 드롭 영역의 템플릿
+- dropAreaMessage - 기본 드롭 영역 템플릿의 기본 메시지를 재정의하는 데 사용할 수 있는 문자열
+
+<DocsAside type="info">
+정렬이 올바르게 작동하려면 `IgxTreeGridComponent`의 `sortStrategy` 속성을 `IgxGroupedTreeGridSorting`의 인스턴스로 설정해야 합니다.
+</DocsAside>
+
+## Angular Tree Grid 그룹화 예제
+
+<Sample lob src="/treegrid-finjs" height={850} alt="Angular Tree Grid 그룹화 예제" />
+
+
+### 구현
+
+이 샘플에서는 그룹화를 위해 `treeGridGrouping` 파이프와 선택자 `igx-tree-grid-group-by-area`를 가진 UI 컴포넌트를 사용합니다. 데이터는 **"category"**, **"type"** 및 **"contract"** 필드로 그룹화됩니다. 결과 계층은 새로 만든 **"categories"** 열에 표시됩니다. 파이프는 또한 **"price"**, **"change"** 및 **"changeP"** 열에 대해 생성된 상위 행의 집계 값을 계산합니다.
+
+```html
+<igx-tree-grid #grid1
+    [data]="data$ | async | treeGridGrouping:groupingExpressions:groupColumnKey:childDataKey:grid1:aggregations"
+    [childDataKey]="childDataKey"
+    [sortStrategy]="sorting">
+    <igx-tree-grid-group-by-area
+        [grid]="grid1"
+        [(expressions)]="groupingExpressions"
+        [hideGroupedColumns]="true">
+    </igx-tree-grid-group-by-area>
+    <igx-column [field]="groupColumnKey"></igx-column>
+</igx-tree-grid>
+```
+
+그룹화 식과 집계가 어떻게 정의되는지는 다음과 같습니다:
+
+```typescript
+public groupingExpressions: IGroupingExpression[] = [
+    { fieldName: 'category', dir: 2, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'type', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'contract', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() }
+];
+public aggregations: ITreeGridAggregation[] = [
+    {
+        aggregate: (parent: any, data: any[]) => data.map((r) => r.change).reduce((ty, u) => ty + u, 0),
+        field: 'change'
+    },
+    {
+        aggregate: (parent: any, data: any[]) => data.map((r) => r.price).reduce((ty, u) => ty + u, 0),
+        field: 'price'
+    },
+    {
+        aggregate: (parent: any, data: any[]) => parent.change / (parent.price - parent.change) * 100,
+        field: 'changeP'
+    }
+];
+public childDataKey = 'children';
+public groupColumnKey = 'categories';
+public sorting = IgxGroupedTreeGridSorting.instance();
+```
+
+## Angular Tree Grid 그룹화 필요 시 로드 예제
+
+<Sample src="/tree-grid/treegrid-group-by-load-on-demand" height={850} alt="Angular Tree Grid 그룹화 필요 시 로드 예제" />
+
+
+### 구현
+
+이 샘플에서는 데이터를 여러 부분으로 나누어 로드합니다. 처음에는 최상위 범주만 표시되고, 상위 행을 펼치면 그다음 자식 데이터가 제공됩니다. 이 방식에 대한 자세한 정보는 [Tree Grid 필요 시 로드](/treegrid/load-on-demand) 주제를 참조하십시오. 데이터는 **"ShipCountry"**, **"ShipCity"** 및 **"Discontinued"** 필드로 그룹화되며, 결과 계층은 별도의 열에 표시됩니다. 그룹화는 원격 서비스에서 수행됩니다. 데이터는 수정되고, 최종 데이터를 계층 보기에 표시하는 데 사용되는 해당 자식 키와 상위 키가 할당됩니다. 이 서비스의 작동 방식에 대한 자세한 정보는 `remoteService.ts` 파일의 `TreeGridGroupingLoadOnDemandService` 클래스를 살펴보십시오.
+
+필요 시 로드를 사용하는 방법의 예는 다음과 같습니다:
+
+```html
+    <igx-tree-grid #treeGrid
+        [data]="data"
+        [loadChildrenOnDemand]="loadChildren"
+        [primaryKey]="primaryKey"
+        [foreignKey]="foreignKey"
+        [hasChildrenKey]="hasChildrenKey">
+        <igx-tree-grid-group-by-area
+            [grid]="treeGrid"
+            [(expressions)]="groupingExpressions"
+            (expressionsChange)="onExpressionsChange($event)"
+            [hideGroupedColumns]="true">
+        </igx-tree-grid-group-by-area>
+        <igx-column [field]="groupColumnKey"></igx-column>
+</igx-tree-grid>
+```
+
+사용자가 행을 펼칠 때 자식 행을 로드하기 위해 Tree Grid는 콜백 입력 속성 <ApiLink type="TreeGrid" member="loadChildrenOnDemand" />을(를) 제공합니다. 자식 데이터는 서버에서 가져와 그룹화 매개변수를 기준으로 요청된 상위 행에 할당됩니다.
+
+```typescript
+public groupingExpressions: IGroupingExpression[] = [
+    { fieldName: 'ShipCountry', dir: 2, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'ShipCity', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() },
+    { fieldName: 'Discontinued', dir: 1, ignoreCase: true, strategy: DefaultSortingStrategy.instance() }
+];
+public primaryKey = 'id';
+public foreignKey = 'parentId';
+public hasChildrenKey = 'children';
+public groupColumnKey = '';
+
+private dataService = new TreeGridGroupingLoadOnDemandService();
+
+public ngOnInit() {
+    this.reloadData();
+}
+
+public loadChildren = (parentID: any, done: (children: any[]) => void) => {
+    const groupingParameters = this.assembleGroupingParameters();
+    this.dataService.getData(parentID, this.hasChildrenKey, groupingParameters, (children) => done(children));
+};
+
+private reloadData() {
+    this.treeGrid.isLoading = true;
+    this.treeGrid.expansionStates.clear();
+    const groupingParameters = this.assembleGroupingParameters();
+    this.dataService.getData(null, this.hasChildrenKey, groupingParameters, (children) => {
+        this.data = children;
+        this.treeGrid.isLoading = false;
+        this.treeGrid.reflow();
+    });
+}
+```
+
+## 알려진 제한 사항
+
+| 제한 사항                                 | 설명                                                                                                                                                                                                                                          |
+| :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 일괄 편집에서는 그룹화가 업데이트되지 않습니다 | 일괄 편집(`batchEditing=true`)이 활성화된 상태에서 Tree Grid Group By를 사용할 때, 그룹화에 사용되는 열 값을 편집해도 그룹화는 자동으로 업데이트되지 않습니다. 그룹화는 트랜잭션을 커밋한 후에만 업데이트됩니다. |
+
+## API 참조
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+
+- [TreeGrid 개요](/treegrid/tree-grid)
+- [TreeGrid 요약](/treegrid/summaries)
+- [Grid 요약](/grid/summaries)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

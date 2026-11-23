@@ -1,0 +1,920 @@
+---
+title: "Angular 데이터 그리드 | 빠른 Angular 테이블 만들기 | Infragistics"
+description: "Ignite UI for Angular로 매우 빠르고 반응형인 Angular 데이터 그리드와 테이블을 만들어 보십시오. 편집, 필터링, 데이터 바인딩 등 많은 기능을 지원합니다. 지금 사용해 보십시오!"
+keywords: angular data grid, angular grid component, angular data grid component, angular table component, angular data table component, angular table, angular UI components, ignite ui for angular
+license: commercial
+_language: ko
+llms:
+  description: "Angular 데이터 그리드는 데이터를 표 형식으로 표시하는 컴포넌트입니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import landingGridPage from '../../images/general/landing-grid-page.png';
+
+<style dangerouslySetInnerHTML={{__html: `.sample-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.sample-column {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 0 25%;
+    align-content: flex-start;
+    min-width: 280px;
+}
+
+.tabbar-wrapper {
+    width: inherit;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.tabbar-wrapper > p {
+    padding-right: 20px
+}`}} />
+
+# Angular 데이터 그리드 컴포넌트 개요
+
+<div class="sample-content">
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <p>Angular 데이터 그리드는 데이터를 표 형식으로 표시하는 컴포넌트입니다. 현대적인 그리드는 복잡하며, 보통 데이터 선택, Excel 스타일 필터링, 정렬, 페이징, 그룹화, 템플릿, 열 이동, 열 고정, Excel, CSV 또는 PDF 형식으로의 내보내기 등 많은 기능을 포함합니다.</p>
+            <p>Ignite UI Angular 데이터 그리드는 이러한 기본 그리드 기능을 모두 다루며, 일괄 편집, 상태 유지, 키보드 탐색 같은 고급 기능도 제공합니다. 다양한 데이터 소스와 원활하게 통합되도록 보장하며, 이 컴포넌트는 최고의 성능과 확장성을 제공하므로 대용량 데이터 세트를 처리하는 앱이나 실시간 업데이트를 빠르게 필요로 하는 앱에 이상적입니다.</p>
+        </div>
+    </article>
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <div class="tab-content">
+                <Image src={landingGridPage} alt="Angular 데이터 그리드" class="b-lazy responsive-img" />
+                </div>
+        </div>
+    </article>
+</div>
+
+## Angular 데이터 그리드 예제
+
+Boston Marathon 2021 – 이 angular 그리드 예제에서는 사용자가 기본 필터링과 Excel 스타일 필터링, 실시간 데이터 정렬을 사용하고, [Sparkline](/charts/types/sparkline-chart) 컴포넌트, [Circular Progress Indicator](/circular-progress) 컴포넌트, [아이콘](/layouts/icon)을 포함하는 그리드 요약과 셀 템플릿을 사용하는 방법을 볼 수 있습니다. 이 데모에는 [Angular Pagination](/grid/paging)의 일부인 사용자 지정 페이징과 페이지당 항목 수 사용도 포함되어 있습니다.
+
+
+<Sample lob src="/grid/grid" height={700} alt="Angular 데이터 그리드 예제" />
+
+
+## Ignite UI for Angular 데이터 그리드 시작하기
+
+Ignite UI for Angular 데이터 그리드 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxGridModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxGridModule } from 'igniteui-angular/grids/grid';
+// import { IgxGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxGridComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+// import { IGX_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_GRID_DIRECTIVES]
+    /* or imports: [IgxGridComponent] */
+})
+export class HomeComponent {
+    public data: Product [];
+}
+```
+
+이제 Ignite UI for Angular Grid 모듈 또는 디렉티브를 가져왔으므로, `igx-grid` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+## Angular 데이터 그리드 사용하기
+
+```html
+<igx-grid #grid1 id="grid1" [data]="localData" [autoGenerate]="true"></igx-grid>
+```
+
+**data** 속성은 그리드를 바인딩하며, 이 경우 로컬 객체 배열에 바인딩합니다.
+
+<ApiLink type="Grid" member="autoGenerate" /> 속성은 `igx-grid`에게 데이터 소스 필드를 기준으로 그리드의 <ApiLink type="Column" />을(를) 자동으로 생성하도록 지시합니다. 가능하면 열에 적합한 데이터 타입도 추론하려고 시도합니다. 개발자는 또한 [열을 명시적으로 정의](#angular-그리드-열-구성)하고 데이터 소스 필드와의 매핑을 지정할 수도 있습니다.
+
+## Angular 부트스트랩 그리드 정의
+
+<p>Ignite UI for Angular에는 강력한 부트스트랩 그리드와 비슷한 플렉스 기반 레이아웃 시스템이 포함되어 있습니다. 오늘날 모든 최신 애플리케이션은 반응형 웹 디자인 방식을 따를 것으로 기대되며, 이는 기기 크기나 브라우저 크기 조정에 따라 HTML 요소의 레이아웃을 자연스럽게 조정할 수 있다는 뜻입니다. Angular 부트스트랩 그리드 레이아웃은 과거에 가장 많이 사용된 방식이었지만, 모든 브라우저에서 동작하는 CSS 그리드 같은 플렉스 기반 레이아웃 시스템이 더 널리 쓰이게 되었습니다. Ignite UI for Angular 레이아웃 디렉티브는 콘텐츠/텍스트 줄바꿈, 정렬, 맞춤을 포함한 세로 및 가로 흐름을 허용합니다. Ignite UI for Angular 그리드는 CSS를 사용한 반응형 레이아웃을 지원하므로, 크기를 조정할 때 그리드가 동작하는 방식을 최대한 유연하게 설정할 수 있습니다.</p>
+
+## Angular 그리드 스타일링 구성
+
+<DocsAside type="info">
+<ApiLink type="Grid" />은(는) **CSS 그리드 레이아웃**을 사용하며, 이는 **접두사 없이는 IE에서 지원되지 않으므로** 올바르게 렌더링되지 않습니다.
+</DocsAside>
+
+[**Angular**](https://angular.io/)에서는 [Autoprefixer](https://www.npmjs.com/package/autoprefixer) 플러그인 덕분에 대부분의 스타일에 접두사가 자동으로 붙습니다.
+
+하지만 **그리드 레이아웃**에 접두사를 붙이려면 `/* autoprefixer grid:on */` 주석과 함께 [Autoprefixer](https://www.npmjs.com/package/autoprefixer) **grid 속성**을 활성화해야 합니다.
+
+작업을 쉽게 하려면 `src/styles.scss` 파일에 주석을 적용하십시오.
+
+ ```scss
+// src/styles.scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+/* autoprefixer grid:on */
+@include theme($default-palette);
+ ```
+
+## 편집 가능한 Angular 그리드
+
+<p>Angular 그리드 편집의 각 작업에는 일괄 작업이 포함됩니다. 즉 API를 통해 편집 내용을 하나의 서버 호출로 묶을 수 있으며, 그리드 상호 작용과 함께 편집/업데이트 작업을 발생하는 대로 수행할 수도 있습니다. CRUD 작업이 가능한 편집 가능한 Angular 그리드로서 뛰어난 개발자 경험과 더불어, Angular 그리드에는 Excel과 비슷한 키보드 탐색도 포함되어 있습니다. 일반적인 기본 그리드 탐색이 포함되어 있으며, 고객의 요구에 맞추기 위해 어떤 탐색 옵션이든 재정의할 수 있습니다. 훌륭한 탐색 방식을 갖춘 Angular의 편집 가능한 그리드는 모든 최신 라인 오브 비즈니스 애플리케이션에 매우 중요하며, Ignite UI 그리드로 이를 쉽게 만들 수 있습니다.</p>
+
+이 항목을 따라가면 [셀 템플릿](/grid/grid#셀-템플릿)과 [셀 편집 템플릿](/grid/grid#셀-편집-템플릿), 그리고 편집에 대해 더 알아볼 수 있습니다.
+
+## Angular 그리드 열 구성
+
+<ApiLink type="Column" />은(는) 그리드의 <ApiLink type="Grid" member="columns" /> 컬렉션을 정의하고, **정렬**과 **필터링** 같은 열별 기능을 활성화하는 데 사용됩니다. 셀, 헤더, 푸터 템플릿도 사용할 수 있습니다.
+
+### 열 정의하기
+
+<ApiLink type="Grid" member="autoGenerate" /> 속성을 끄고 마크업에서 열 컬렉션을 정의해 보겠습니다:
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
+    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
+        <ng-template igxCell let-value>
+            <igx-linear-bar [stripped]="false" [value]="value" [max]="100"></igx-linear-bar>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
+</igx-grid>
+```
+
+
+그리드의 각 열은 개별적으로 템플릿으로 만들 수 있습니다. 열은 `ng-template` Angular 그리드 모듈 디렉티브를 기대합니다.
+
+또한 사용자 지정 속성과, 열 자체에 전달하고 싶은 모든 종류의 데이터 컨텍스트에 사용할 수 있는 <ApiLink type="Column" member="additionalTemplateContext" /> 입력을 노출합니다:
+
+```html
+<igx-column [additionalTemplateContext]="contextObject">
+    <ng-template igxCell let-cell="cell" let-props="additionalTemplateContext">
+        {{ props.firstProperty }}
+    </ng-template>
+</igx-column>
+```
+
+```ts
+public contextObject = { firstProperty: 'testValue', secondProperty: 'testValue1'};
+```
+
+### 헤더 템플릿
+
+`igxHeader`은(는) 열 객체 자체를 컨텍스트로 제공하며 열 헤더를 대상으로 합니다.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxHeader let-column>
+        {{ column.field | uppercase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+<DocsAside type="info">
+그룹화/이동 기능과 함께 헤더 템플릿을 사용하면 _열 헤더 영역_이 **드래그 가능**해지며, 헤더 템플릿의 사용자 지정 요소는 **드래그 불가능**으로 표시하기 전까지 접근할 수 없습니다. 아래 예를 참조하십시오.
+</DocsAside>
+
+```html
+<igx-column #col field="ProductName" header="Product Name"
+    [groupable]="true" [hasSummary]="true">
+    <ng-template igxHeader let-col>
+        <div class="text">{{col.field}}</div>
+        <igx-icon (click)="toggleSummary(col)" [attr.draggable]="false">functions
+        </igx-icon>
+    </ng-template>
+</igx-column>
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+보시다시피 _false_로 설정된 **draggable** 속성을 추가하고 있습니다.
+
+### 셀 템플릿
+
+`igxCell`은(는) 열의 모든 셀에 제공된 템플릿을 적용합니다. 템플릿에 제공되는 컨텍스트 객체는 암시적으로 제공되는 셀 값과 셀 객체 자체로 구성됩니다. 아래 예처럼 셀이 콘텐츠에 따라 커질 수 있는 템플릿을 정의하는 데 사용할 수 있습니다.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxCell let-value>
+        {{ value | titlecase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+위 스니펫에서는 암시적으로 제공되는 셀 값에 대한 참조를 "가져옵니다". 단순히 일부 데이터를 보여 주거나 셀 값에 사용자 지정 스타일이나 파이프 변환을 적용하려면 이것으로 충분합니다. 하지만 아래와 같이 <ApiLink kind="interface" type="CellType" /> 인스턴스 자체를 가져오면 더욱 유용합니다:
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-column dataType="string" field="Name">
+        <ng-template igxCell let-cell="cell">
+            <!-- Implement row deleting inside the cell template itself -->
+            <span tabindex="0" (keydown.delete)="grid.deleteRow(cell.row.index)">{{ cell.value | titlecase }}</span>
+        </ng-template>
+    </igx-column>
+    <igx-column dataType="boolean" field="Subscribtion">
+        <ng-template igxCell let-cell="cell">
+            <!-- Bind the cell value through the ngModel directive and update the data source when the value is changed in the template -->
+            <input type="checkbox" [ngModel]="cell.value" (ngModelChange)="cell.update($event)" />
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+`ngModel`를 사용하여 **셀 템플릿**을 통해 데이터를 변경할 때는 Angular 그리드의 기반 데이터 컬렉션에 값이 올바르게 업데이트되도록 적절한 API 메서드를 호출해야 합니다. 위 스니펫에서 `ngModelChange` 호출은 그리드의 [편집 API](/grid/cell-editing#api를-통한-편집)를 거치고 그리드의 편집 파이프라인을 통과하여, 필요하면 [트랜잭션](/grid/batch-editing)을 올바르게 트리거하고 [요약](/grid/summaries), [선택](/grid/selection) 등을 처리합니다. 하지만 이 `ngModelChange`은 사용자가 편집을 마쳤을 때뿐 아니라 셀 값이 바뀔 때마다 발생하므로 API 호출이 훨씬 많아집니다.
+
+<DocsAside type="info">
+그리드는 숫자, 문자열, 날짜, 불리언 열 타입에 대한 기본 처리를 제공합니다. 예를 들어 불리언 열 타입의 경우, 기본적으로 true/false 대신 `check` 또는 `close` 아이콘을 표시합니다.
+</DocsAside>
+
+셀의 데이터가 `[(ngModel)]`에 바인딩되어 있고 값 변경을 처리하지 않으면, 새 값이 Angular 그리드의 기반 데이터 소스에 올바르게 업데이트되지 **않습니다**. 사용자 지정 템플릿으로 셀 편집을 다룰 때는 셀의 **셀 편집 템플릿**을 사용할 것을 강력히 권장합니다.
+
+제대로 구현되면, 셀 편집 템플릿은 셀의 `editValue`이(가) 그리드의 [편집 이벤트 주기](/grid/editing#이벤트-인수와-순서)를 올바르게 통과하도록 보장하기도 합니다.
+
+### 셀 편집 템플릿
+
+열은 셀이 편집 모드에 있을 때 사용되는 마지막 템플릿도 받습니다. 다른 열 템플릿과 마찬가지로 제공되는 컨텍스트 객체는 다시 셀 값과 셀 객체 자체입니다. 물론 최종 사용자가 편집 모드 템플릿에 접근할 수 있도록 하려면, <ApiLink type="Column" />의 <ApiLink type="Column" member="editable" /> 속성을 `true`(으)로 설정해야 합니다.
+
+```html
+<igx-column dataType="number" editable="true" field="Price">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
+```
+
+템플릿에서 사용할 수 있는 속성에 익숙해지도록 <ApiLink kind="interface" type="CellType" />의 API를 반드시 확인하십시오.
+
+### 열 템플릿 API
+
+각 열 템플릿은 <ApiLink type="Column" /> 객체 자체를 통해 언제든지 프로그래밍 방식으로 변경할 수 있습니다. 예를 들어 아래 코드에서는 사용자 데이터에 대해 두 개의 템플릿을 선언했습니다. TypeScript 코드에서 템플릿 자체에 대한 참조를 가져온 다음, 어떤 조건에 따라 애플리케이션의 열에 적절한 템플릿을 렌더링합니다.
+
+```html
+<igx-grid>
+    <!-- Column declarations -->
+</igx-grid>
+
+<ng-template #normalView let-value>
+    <div class="user-details">{{ value }}</div>
+    <user-details-component></user-details-component>
+</ng-template>
+
+<ng-template #smallView let-value>
+    <div class="user-details-small">{{ value }}</div>
+</ng-template>
+```
+
+```typescript
+@ViewChild("normalView", { read: TemplateRef })
+public normalView: TemplateRef<any>;
+
+@ViewChild("smallView", { read: TemplateRef })
+public smallView: TemplateRef<any>;
+
+....
+
+const column = this.grid.getColumnByName("User");
+// Return the appropriate template based on some conditiion.
+// For example saved user settings, viewport size, etc.
+column.bodyTemplate = this.smallView;
+```
+
+열 속성은 그리드에서 열이 초기화될 때 발생하는 <ApiLink type="Grid" member="columnInit" /> 이벤트에서 코드로도 설정할 수 있습니다.
+
+```typescript
+public initColumns(column: IgxGridColumn) {
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+```
+
+위 코드는 **ProductName** 열을 정렬 가능하고 편집 가능하게 만들며, 해당 기능의 UI(예: 편집용 입력 등)를 인스턴스화합니다.
+
+### 사용자 지정 표시 형식
+
+날짜, 숫자, 통화, 백분율 열의 모든 값은 Angular [`DatePipe`](https://angular.io/api/common/DatePipe), [`DecimalPipe`](https://angular.io/api/common/DecimalPipe), [`CurrencyPipe`](https://angular.io/api/common/CurrencyPipe), [`PercentPipe`](https://angular.io/api/common/PercentPipe)을(를) 통해 각각 변환됩니다. 이는 원래 값을 수정하지 않고 열에 표시되는 값만 바꿉니다. 따라서 모든 데이터 작업과 조작은 데이터 소스의 값을 기준으로 이루어진다는 점을 기억하십시오. 기본적으로 값은 그리드 <ApiLink type="Grid" member="locale" />에 따라 표시됩니다(지정하지 않으면 애플리케이션 로캘로 대체되며, 기본값은 `'en-US'`입니다).
+
+자세한 내용은 [앱의 로캘 설정하기](https://angular.io/guide/i18n#setting-up-the-locale-of-your-app)를 참조하십시오.
+
+또한 서식 지정을 위한 선택적 매개변수도 있습니다:
+
+- `format` - 표시되는 날짜/시간 부분을 결정하며, 기본값은 `'mediumDate'`이고, 이는 `'MMM d, y'`와 같습니다
+- `timezone` - 날짜의 시간대 오프셋입니다. 기본적으로 최종 사용자의 로컬 시스템 시간대를 사용합니다
+- `digitsInfo` - 소수 표현 객체입니다. 기본값은 `'1.0-3'`입니다
+
+이 매개변수로 표시 형식을 사용자 지정할 수 있도록 <ApiLink type="Column" member="pipeArgs" /> 입력이 노출되어 있습니다. `pipeArgs`가 설정되어 있다면, 열은 자신의 데이터 타입에 해당하는 속성만 따릅니다. 예:
+
+```typescript
+const pipeArgs: IColumnPipeArgs = {
+     format: 'longDate',
+     timezone: 'UTC',
+     digitsInfo: '1.1-2'
+}
+```
+
+```html
+<igx-column field="OrderDate" dataType="date" [pipeArgs]="pipeArgs"></igx-column>
+<igx-column field="UnitPrice" dataType="number" [pipeArgs]="pipeArgs"></igx-column>
+```
+
+`OrderDate` 열은 `format`과 `timezone` 속성만 따르며, `UnitPrice`은(는) `digitsInfo`만 따릅니다. 자세한 내용은 [앱 지역화하기](https://angular.io/guide/i18n)의 공식 Angular 문서를 참조하십시오.
+
+사용 가능한 모든 열 데이터 타입은 공식 [열 타입 항목](/grid/column-types#기본-템플릿)에서 찾을 수 있습니다.
+
+## Angular 그리드 데이터 구조
+
+<ApiLink type="Grid" />은(는) **평면 데이터**와 중첩된 **POJO(Plain old Java objects)**를 처리합니다. 렌더링에 특화된 데이터 구조는 다음 형태입니다:
+
+```typescript
+const OBJECT_ARRAY = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: valueN
+    },
+    // ...
+  }];
+
+const POJO = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: {
+          ObjectKeyN1: value1,
+          ObjectKeyN2: value2,
+          // ...
+          ObjectKeyNM: valueNM,
+        }
+    },
+    // ...
+  }];
+
+```
+
+<DocsAside type="warning">
+**키 값에는 배열이 포함되면 안 됩니다**.
+<ApiLink type="Grid" member="autoGenerate" /> 열을 사용한다면 **데이터 키가 동일해야 합니다.**
+</DocsAside>
+
+## Angular 그리드 데이터 바인딩
+
+그리드를 더 다루기 전에, 대규모 애플리케이션에서 흔한 시나리오인 원격 데이터 서비스에 바인딩하도록 Angular 그리드를 변경하겠습니다. 데이터 가져오기와 관련된 모든 로직을 별도의 데이터 서비스로 분리하는 것이 좋은 방법이므로, 서버에서 데이터 가져오기를 처리할 서비스를 만들겠습니다.
+
+별도의 파일에 서비스를 구현해 보겠습니다
+
+```typescript
+// northwind.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, map } from 'rxjs/operators';
+```
+
+모든 Angular 서비스 정의에서 [필수 요소](https://angular.io/guide/dependency-injection)인 `Injectable` 데코레이터를 import하고 있습니다. `HttpClient`은(는) 백엔드 서비스와 통신하는 기능을 제공합니다. 이는 `Observable`의 결과를 반환하며, 그리드 컴포넌트에서 이를 구독하게 됩니다.
+
+**참고**: Angular 5 이전에는 `HttpClient`가 `@angular/http`에 있었고 `Http`라는 이름이었습니다.
+
+레코드 배열을 담은 JSON 응답을 받게 되므로, 올바른 형태의 인터페이스를 정의하여 Observable에서 어떤 종류의 데이터가 반환될지 명시하면 도움이 됩니다. 타입 검사는 항상 권장되며, 나중에 많은 문제를 막아 줄 수 있습니다.
+
+```typescript
+// northwind.service.ts
+
+export interface NorthwindRecord {
+    ProductID: number;
+    ProductName: string;
+    SupplierID: number;
+    CategoryID: number;
+    QuantityPerUnit: string;
+    UnitPrice: number;
+    UnitsInStock: number;
+    UnitsOnOrder: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
+    CategoryName: string;
+}
+```
+
+서비스 자체는 `Observable<NorthwindRecord[]>`을(를) 반환하는 `fetchData` 메서드 하나로 이루어진 매우 간단한 구조입니다. 어떤 이유로든 요청이 실패하면(서버 사용 불가, 네트워크 오류 등) `HttpClient`은(는) 오류를 반환합니다. 실패한 _Observable_을 가로채서 오류를 오류 처리기로 전달하는 `catchError` 연산자를 활용하겠습니다. 우리의 오류 처리기는 오류를 기록하고 안전한 값을 반환합니다.
+
+```typescript
+// northwind.service.ts
+
+@Injectable()
+export class NorthwindService {
+    private url = 'http://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get(this.url)
+            .pipe(
+                map(response => response['value']),
+                catchError(
+                    this.errorHandler('Error loading northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+애플리케이션 모듈에서 `HttpClientModule`과 우리의 서비스를 모두 import하고, 서비스를 provider로 등록해야 합니다.
+
+```typescript
+// app.module.ts
+
+import { HttpClientModule } from '@angular/common/http';
+...
+import { NorthwindService } from './northwind.service';
+
+@NgModule({
+    imports: [
+        ...
+        HttpClientModule
+        ...
+    ],
+    providers: [
+        NorthwindService
+    ]
+})
+export class AppModule {}
+```
+
+서비스를 구현한 후에는 컴포넌트의 생성자에 주입하여 데이터를 가져오는 데 사용합니다. `ngOnInit` 수명 주기 훅은 초기 요청을 보내기에 좋은 위치입니다.
+
+**참고**: 아래 코드에서 서비스를 구독하기 전에 _records_ 속성을 빈 배열로 설정하는 이유가 궁금할 수 있습니다. Http 요청은 비동기이며, 완료될 때까지 _records_ 속성은 _undefined_이므로, 그리드가 이에 바인딩하려고 할 때 오류가 발생합니다. 기본값으로 초기화하거나 `BehaviorSubject`를 사용해야 합니다.
+
+```typescript
+// my.component.ts
+
+@Component({...})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.records = [];
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+그리고 컴포넌트의 템플릿에서:
+
+```html
+    <igx-grid [data]="records">
+        <igx-column field="ProductId"></igx-column>
+        <!-- rest of the column definitions -->
+        ...
+    </igx-grid>
+```
+
+**참고**: 현재로서는 원격 데이터에 바인딩할 때 그리드의 <ApiLink type="Grid" member="autoGenerate" /> 속성은 피하는 것이 가장 좋습니다. 이 속성은 데이터를 검사하고 적절한 열을 생성하기 위해 데이터가 이미 있다고 가정합니다. 원격 서비스가 응답하기 전에는 보통 그렇지 않으므로, 그리드는 오류를 발생시킵니다. 원격 서비스에 바인딩할 때 <ApiLink type="Grid" member="autoGenerate" />을(를) 사용할 수 있게 하는 것은 향후 버전의 로드맵에 있습니다.
+
+## 복합 데이터 바인딩
+
+<ApiLink type="Grid" />은(는) 데이터 레코드 안의 속성 "경로"를 통해 복합 객체(한 단계보다 깊게 중첩된 것 포함)에 대한 바인딩을 지원합니다.
+
+다음 데이터 모델을 살펴보십시오:
+
+```typescript
+interface AminoAcid {
+    name: string;
+    abbreviation: {
+        short: string;
+        long: string;
+    }
+    weight: {
+        molecular: number;
+        residue: number;
+    },
+    formula: {
+        molecular: string;
+        residue: string;
+    }
+    ...
+}
+```
+
+예를 들어 그리드에 특정 아미노산의 무게를 표시하려면 다음 스니펫이면 충분합니다
+
+```html
+<igx-column field="weight.molecular"></igx-column>
+<igx-column field="weight.residue"></igx-column>
+```
+
+추가 정보는 아래 샘플을 참조하십시오. 이 유형의 바인딩은 그리드에서 기대할 수 있는 기본 기능을 모두 지원합니다.
+즉 추가 구성 없이도 모든 정렬과 필터링 작업이 바로 동작합니다. 트랜잭션 사용 여부와 관계없이 그룹화와 편집 작업도 마찬가지이며, 바인딩된 열의 셀을 템플릿으로 만들 수도 있습니다.
+
+<DocsAside type="warning">
+그리드는 해당되는 경우 `primary key`, `foreign key`, `child key` 속성에 대해 이 종류의 바인딩을 **지원하지 않습니다**.
+</DocsAside>
+
+
+<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="Angular 그리드 중첩 데이터 예제" />
+
+
+복합 데이터를 바인딩하거나 (둘 이상의 열에서 온) 복합 데이터를 **IgxGrid**에서 시각화하는 다른 방법은 열에 사용자 지정 본문 템플릿을 사용하는 것입니다. 일반적으로 다음과 같이 할 수 있습니다:
+    - 중첩된 데이터를 포함하는 셀의 `value`을(를) 사용합니다
+    - 템플릿에서 `cell` 객체를 사용하여 `row.data`에 접근하고, 그로부터 값을 가져옵니다. 예를 들어 `cell.row.data[field]`와 `cell.row.data[field][nestedField]`입니다
+
+그리고 그것들을 템플릿에서 보간합니다.
+
+```html
+<igx-column field="abbreviation.long" header="Long">
+    <ng-template igxCell let-cell="cell">
+        <div>
+            <div>
+                {{ cell.value }}
+                {{ cell.row.data['name'] }}
+                {{ cell.row.data['weight']['molecular'] }}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+사용할 데이터는 다음과 같습니다:
+
+```typescript
+export const EMPLOYEE_DATA = [
+    {
+        Age: 55,
+        Employees: [
+            {
+                Age: 43,
+                HireDate: new Date(2011, 6, 3),
+                ID: 3,
+                Name: "Michael Burke",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 29,
+                HireDate: new Date(2009, 6, 19),
+                ID: 2,
+                Name: "Thomas Anderson",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 31,
+                HireDate: new Date(2014, 8, 18),
+                ID: 11,
+                Name: "Monica Reyes",
+                Title: "Software Development Team Lead"
+            },
+            {
+                Age: 35,
+                HireDate: new Date(2015, 9, 17),
+                ID: 6,
+                Name: "Roland Mendel",
+                Title: "Senior Software Developer"
+            }],
+        HireDate: new Date(2008, 3, 20),
+        ID: 1,
+        Name: "John Winchester",
+        Title: "Development Manager"
+    },
+...
+```
+
+중첩된 데이터를 렌더링할 열의 사용자 지정 템플릿:
+
+```html
+...
+ <igx-column field="Employees" header="Employees" [cellClasses]="{ expand: true }" width="40%">
+        <ng-template #nestedDataTemp igxCell let-people let-cell="cell">
+            <div class="employees-container">
+                <igx-expansion-panel *ngFor="let person of people">
+                    <igx-expansion-panel-header iconPosition="right">
+                        <igx-expansion-panel-description>
+                            {{ person.Name }}
+                        </igx-expansion-panel-description>
+                    </igx-expansion-panel-header>
+                    <igx-expansion-panel-body>
+                        <div class="description">
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small)">
+                                <label igxLabel for="title">Title</label>
+                                <input type="text" name="title" igxInput [(ngModel)]="person.Title" style="text-overflow: ellipsis;" />
+                            </igx-input-group>
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small); width: 15%;">
+                                <label igxLabel for="age">Age</label>
+                                <input type="number" name="age" igxInput [(ngModel)]="person.Age" />
+                            </igx-input-group>
+                        </div>
+                    </igx-expansion-panel-body>
+                </igx-expansion-panel>
+            </div>
+        </ng-template>
+ </igx-column>
+...
+```
+
+이 구성의 결과는 다음과 같습니다:
+
+
+<Sample src="/grid/grid-nested-data-binding" height={460} alt="Angular 그리드 중첩 데이터 바인딩 예제" />
+
+
+### 평면 데이터 다루기
+
+평면 데이터 바인딩 방식은 앞에서 설명한 것과 비슷하지만, **셀 값** 대신 <ApiLink type="GridRow" />의 <ApiLink type="GridRow" member="data" /> 속성을 사용합니다.
+
+Angular 그리드는 데이터 레코드를 **렌더링**하고, **조작**하고, **보존**하는 컴포넌트이므로, **모든 데이터 레코드**에 접근할 수 있다면 이를 처리하는 방식을 사용자 지정할 기회가 생깁니다. <ApiLink type="GridRow" member="data" /> 속성이 그러한 기회를 제공합니다.
+
+사용할 데이터는 다음과 같습니다:
+
+```typescript
+export const DATA: any[] = [
+    {
+        Address: "Obere Str. 57",
+        City: "Berlin",
+        CompanyName: "Alfreds Futterkiste",
+        ContactName: "Maria Anders",
+        ContactTitle: "Sales Representative",
+        Country: "Germany",
+        Fax: "030-0076545",
+        ID: "ALFKI",
+        Phone: "030-0074321",
+        PostalCode: "12209",
+        Region: null
+    },
+...
+]
+```
+
+사용자 지정 템플릿:
+
+```html
+...
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template #compositeTemp igxCell let-cell="cell">
+        <div class="address-container">
+        // In the Address column combine the Country, City and PostCode values of the corresponding data record
+            <span><strong>Country:</strong> {{cell.row.data.Country}}</span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+위에서 정의한 템플릿으로는 편집 작업을 할 수 없다는 점을 기억하십시오. 따라서 편집기 템플릿이 필요합니다.
+
+```html
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template  igxCellEditor let-cell="cell">
+        <div class="address-container">
+            <span>
+                <strong>Country:</strong> {{cell.row.data.Country}}
+                <igx-input-group width="100%">
+                        <input igxInput [(ngModel)]="cell.row.data.Country" />
+                </igx-input-group>
+            </span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.City" />
+            </igx-input-group>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.PostalCode" />
+            </igx-input-group>
+        </div>
+    </ng-template>
+</igx-column>
+...
+```
+
+결과는 다음과 같습니다:
+
+
+<Sample src="/grid/grid-composite-data-binding" height={550} alt="Angular 그리드 복합 데이터 바인딩 예제" />
+
+
+## 키보드 탐색
+
+그리드의 키보드 탐색은 사용자에게 다양한 키보드 상호 작용을 제공합니다. 접근성을 높이고, 내부의 모든 종류의 요소(셀, 행, 열 헤더, 도구 모음, 푸터 등)를 직관적으로 탐색할 수 있게 합니다.
+더 많은 정보를 위해 다음 자료를 확인하십시오:
+
+- [그리드 키보드 탐색](/grid/keyboard-navigation)
+- [Tree Grid 키보드 탐색](/treegrid/keyboard-navigation)
+- [Hierarchical Grid 키보드 탐색](/hierarchicalgrid/keyboard-navigation)
+- [블로그 글](https://www.infragistics.com/community/blogs/b/engineering/posts/grid-keyboard-navigation-accessibility) - 그리드 키보드 탐색으로 사용성, 접근성, ARIA 준수 개선하기
+
+## 상태 유지
+
+새로 내장된 [`IgxGridState`](/grid/state-persistence) 디렉티브를 사용하면 상태 유지 프레임워크를 그 어느 때보다 쉽게 구현할 수 있습니다.
+
+## 크기 조정
+
+[그리드 크기 조정](/grid/sizing) 항목을 참조하십시오.
+
+## 성능(실험적)
+
+`IgxGridComponent`의 설계는 Angular가 도입한 이벤트 병합(Event Coalescing) 기능을 활용할 수 있게 합니다. 이 기능은 상호 작용과 반응성 면에서 대략 **`20%`** 정도의 성능 향상을 가능하게 합니다. 이 기능은 `bootstrapModule` 메서드에서 `ngZoneEventCoalescing`와 `ngZoneRunCoalescing` 속성을 `true`(으)로 설정하기만 하면 애플리케이션 수준에서 활성화할 수 있습니다:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+이는 `IgxGridComponent`에 대해 아직 실험적인 기능입니다. 따라서 그리드에서 예기치 않은 동작이 있을 수 있습니다. 그러한 동작을 만나면 [Github](https://github.com/IgniteUI/igniteui-angular/discussions) 페이지를 통해 문의해 주십시오.
+</DocsAside>
+
+<DocsAside type="info">
+이를 활성화하면 `IgxGridComponent`과 관련 없는 Angular 애플리케이션의 다른 부분에도 영향을 줄 수 있습니다.
+</DocsAside>
+
+## 알려진 제한 사항
+
+| 제한 사항                                                                                                                                                                           | 설명                                                                                                                                                                                                                                                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `percentage`과 `px`에서 설정한 열 너비                                                                                                                                           | 현재 `%`과 `px`의 열 너비를 섞어 사용하는 것은 지원하지 않습니다.                                                                                                                                                                                                                                    |
+| `number` 타입의 열을 필터링하려고 할 때                                                                                                                                      | 필터링 입력에 `number`이(가) 아닌 값을 입력하면, 잘못된 캐스트 때문에 `NaN`이(가) 반환됩니다.                                                                                                                                                                                       |
+|그리드 <ApiLink type="Grid" member="width" />은(는) 열 너비에 의존하지 않습니다 | 모든 열의 <ApiLink type="Column" member="width" />은(는) 그리드 자체의 범위를 결정하지 않습니다. 그리드의 범위는 상위 컨테이너의 크기 또는 정의된 그리드의 <ApiLink type="Grid" member="width" />에 의해 결정됩니다.|
+|상위 컨테이너에 중첩된 그리드 | 그리드의 <ApiLink type="Grid" member="width" />이(가) 설정되지 않고 크기가 정의된 상위 컨테이너에 배치되면, 그리드는 이 컨테이너 크기만큼 펼쳐집니다.|
+| 그리드 `OnPush` ChangeDetectionStrategy                                                                                                                                                | 그리드는 `ChangeDetectionStrategy.OnPush`(으)로 동작하므로, 사용자 지정이 나타날 때마다 그리드에 변경 사항이 통지되도록 하십시오.                                                                                                                                        |
+| 열에는 허용되는 최소 너비가 있습니다. [`--ig-size`] CSS 변수의 값에 따라 다음과 같습니다: <br/>"small": 56px <br/> "medium": 64px <br/> "large ": 80px | 허용되는 최소값보다 작은 너비를 설정하더라도 렌더링된 요소에는 영향을 주지 않습니다. 요소는 해당 [`--ig-size`]에 대해 허용되는 최소 너비로 렌더링됩니다. 이는 가로 가상화와 함께 예기치 않은 동작을 일으킬 수 있으므로 지원되지 않습니다.                       |
+| 행 높이는 현재 보기에 렌더링되지 않은 셀의 높이에 영향을 받지 않습니다.                                                                                           | 가상화 때문에 보기에 없는 열의 사용자 지정 템플릿(셀 높이를 바꾸는 템플릿)은 행 높이에 영향을 주지 않습니다. 행 높이는 관련 열이 보기에서 스크롤될 때만 영향을 받습니다.                                                                   |
+
+<DocsAside type="info">
+`igxGrid`은(는) 내부적으로 `igxForOf` 디렉티브를 사용하므로, 모든 `igxForOf` 제한 사항이 `igxGrid`에도 적용됩니다. 자세한 내용은 [igxForOf 알려진 문제](/for-of#알려진-제한-사항) 섹션을 참조하십시오.
+</DocsAside>
+
+## 테마
+
+`igxGrid`의 스타일을 지정하는 가장 쉽고 권장되는 방법은 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />를 사용하고 `background`, `foreground`, `accent-color` 세 가지 주요 색상만 제공하는 것입니다.
+
+이것들은 핵심 테마 속성입니다. 이를 설정하면 모든 그리드 부분과 내부 컴포넌트가 그 값에서 색상을 파생하므로, 그리드 전체에 걸쳐 일관된 모양을 얻습니다. 버튼, 아이콘, 입력, 드롭다운, 체크박스, 스크롤바, 칩 및 기타 보조 컴포넌트 같은 중첩 컴포넌트도 통일된 모양을 위해 주요 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 스타일 토큰을 파생합니다.
+
+```scss
+$custom-grid: grid-theme(
+  $background: #292826,
+  $foreground: #eeece1,
+  $accent-color: #ffcd0f,
+);
+
+igx-grid {
+  @include tokens($custom-grid);
+}
+```
+
+보다 구체적인 사용자 지정이 필요하다면 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 사용할 수 있는 추가 매개변수도 있습니다.
+
+### 추가 테마
+
+중첩 컴포넌트를 더 세밀하게 제어하고 싶다면, 그리드는 추가 테마도 제공합니다. 특정 중첩 컴포넌트가 나머지 그리드 테마와 다른 스타일을 갖기를 원할 때 사용하십시오.
+
+사용 가능한 독립형 테마는 다음과 같습니다:
+
+- Excel 스타일 필터링 컴포넌트용 <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} />
+- 그리드 도구 모음 컴포넌트용 <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} />
+- 페이지네이터 컴포넌트용 <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} />
+- 열 작업 컴포넌트용 <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} />
+- 고급 필터링 대화 상자용 <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} />
+
+```scss
+$excel-filtering-theme: excel-filtering-theme(
+  $background: #3c6eda,
+  $foreground: #f5f5f5,
+  $accent-color: #8e11fb
+);
+
+$query-builder-theme: query-builder-theme(
+  $background: #f59906,
+  $foreground: #050505,
+  $accent-color: #443209
+);
+
+igx-grid-excel-style-filtering,
+.igx-excel-filter__secondary {
+  @include tokens($excel-filtering-theme);
+}
+
+igx-advanced-filtering-dialog {
+  @include tokens($query-builder-theme);
+}
+```
+
+세 가지 주요 색상만 제공하면 컴포넌트의 모든 부분이 일관되게 스타일 지정됩니다. 더 자세한 사용자 지정이 필요하면 이 테마들은 추가 매개변수도 노출합니다.
+
+### 중첩 컴포넌트 테마
+
+버튼, 아이콘, 입력, 칩처럼 그리드 안의 더 작은 중첩 컴포넌트만 대상으로 하려면, 해당 독립형 테마를 직접 적용할 수 있습니다. 제공된 테마가 의도한 요소에만 영향을 주도록 셀렉터 범위를 충분히 구체적으로 지정하십시오.
+
+일부 컴포넌트 테마는 다음과 같습니다:
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 테마" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroup 테마" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="IgxChip 테마" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple 테마" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton 테마" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 테마" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown 테마" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendar 테마" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="IgxSnackBar 테마" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadge 테마" />
+
+## API 참조
+
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
+
+## 튜토리얼 동영상
+
+짧은 튜토리얼 동영상에서 Angular 데이터 그리드 만들기에 대해 더 알아보십시오:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/Xv_fQVQ8fmM">
+</iframe>
+
+## 추가 리소스
+
+
+- [그리드 크기 조정](/grid/sizing)
+- [가상화와 성능](/grid/virtualization)
+- [페이징](/grid/paging)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+- [열 데이터 타입](/grid/column-types#기본-템플릿)
+- [igxGrid로 CRUD 작업 구현하기](/general/how-to/how-to-perform-crud)
+- [Ignite UI for Angular Skills](/ai/skills) — 그리드, 데이터 작업, 테마를 위한 Agent Skills
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

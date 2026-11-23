@@ -1,0 +1,308 @@
+---
+title: "Estilo y temas de {Platform} | Generación de paletas de {Platform} | Infragistics"
+description: "La generación de paletas de {ProductName} convierte cada color semilla en una familia de tonos cuyos pasos de contraste se ajustan al matiz de la semilla y a la superficie sobre la que se colocan."
+keywords: "{ProductName}, Infragistics, generación de paletas, paletas ajustadas, escalas de color, contraste, color semilla, roles de superficie, función de paleta de Sass"
+license: MIT
+mentionedTypes: []
+_language: es
+llms:
+  description: "La generación de paletas de {ProductName} es la función de paleta de igniteui-theming que convierte los colores semilla en familias de tonos con un contraste predecible entre ellos."
+last_updated: "2026-10-14"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# Generación de paletas
+
+La generación de paletas de {ProductName} es la función de paleta `igniteui-theming` que convierte los colores semilla en familias de tonos con un contraste predecible entre ellos.
+
+## Descripción general
+
+Cada paleta de {ProductName} empieza con un puñado de colores **semilla**: `primary`, `secondary`, `surface` y, opcionalmente, `gray`, `info`, `success`, `warn` y `error`. La función `palette()` de la biblioteca de Sass `igniteui-theming` expande cada semilla en una **familia** de tonos. Las familias de color reciben diez tonos numerados, de `50` a `900`, y cuatro tonos de acento, de `A100` a `A700`. La familia `gray` recibe solo los diez tonos numerados, y la familia `surface` recibe capas con nombre en lugar de números. Cada tono también recibe un color `-contrast` correspondiente, y la propia semilla se conserva como variante `seed`.
+
+<PlatformBlock for="Angular">La misma función construye cada paleta que se distribuye con {ProductName}, y usted puede usarla desde Sass.</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">Los temas prediseñados de {ProductName} se compilan con esta función, así que determina los colores que ve aunque nunca escriba Sass.</PlatformBlock> La función tiene dos generadores:
+
+| Generador | Cómo construye una familia | Dónde se encuentra |
+|---|---|---|
+| `legacy` | Coloca la semilla en `500` y multiplica su saturación y su luminosidad HSL por valores fijos para llegar a los demás tonos. Emite los tonos como colores relativos CSS de `500`. | Todos los temas CSS prediseñados y las paletas de Sass predefinidas. |
+| `fitted` | Calcula cada tono para un objetivo de contraste WCAG, ajustado a cuánto color puede contener el matiz de la semilla. Emite cada tono como un color fijo. | El valor predeterminado para cualquier paleta que genere con `palette()` en Sass. |
+
+El resto de esta sección explica cómo funciona el generador `fitted` y por qué sus tonos se comportan como lo hacen.
+
+### Semillas y escalas
+
+El generador `legacy` vincula cada tono a la luminosidad inicial de la semilla, lo que hace que la calidad de una familia dependa de dónde esté situada la semilla. Partiendo de una semilla muy oscura, `hsl(210 80% 10%)`, el tono más claro que produce es `#012d5a`, así que todos los tonos de la familia son oscuros. Partiendo de una semilla muy pálida, `hsl(210 80% 90%)`, la luminosidad multiplicada de los tonos `50` a `300` supera el 100 %, así que los cuatro se resuelven en blanco, y el tono más oscuro solo llega a `#2793ff`.
+
+El generador `fitted` separa el **carácter** de la semilla de la **estructura** de la familia. La semilla aporta el matiz y cuánto color tiene la familia. Una **escala** aporta hasta dónde llegan los tonos y cómo están espaciados. A partir de las mismas dos semillas, el generador `fitted` produce diez tonos distintos en cada caso: de `#e4ecf8` a `#0a1623` desde la semilla oscura, y de `#e4edf7` a `#0b1621` desde la pálida.
+
+Como los tonos numerados toman sus posiciones de la escala, la semilla rara vez cae exactamente en uno de ellos. Se mantiene disponible como variante `seed`, `--ig-primary-seed`, de modo que el color de marca exacto nunca se pierde. Una semilla casi neutra, con casi nada de croma, produce una familia neutra que conserva su ligero matiz en lugar de adquirir un tono fuerte arbitrario.
+
+<Sample src="/themes/palettes/seeds" wc fitContent iframeOnly alt="Generación de paletas de {Platform}: una semilla oscura y otra pálida a través de los generadores heredado y ajustado" />
+
+### Matiz y gama
+
+Dos colores con la misma luminosidad HSL no se ven igual de claros: un amarillo al 50 % de luminosidad HSL parece mucho más claro que un azul al 50 %. El generador `fitted` trabaja en OKLCH, donde la luminosidad y el croma siguen la percepción más de cerca, y mide cada tono por su contraste WCAG en lugar de por un valor de luminosidad.
+
+La cantidad de croma que puede tener un color depende de su matiz y de su luminosidad, y se estrecha hacia el blanco y el negro. Un azul pálido no puede mantenerse tan colorido como un azul de tono medio y seguir siendo un color sRGB representable. El generador `fitted` construye cada familia dentro del límite sRGB de su matiz: reduce el croma hacia ambos extremos de la escala, calcula la luminosidad que alcanza cada objetivo de contraste, y mide ese contraste después de trasladar el color a sRGB. Los tonos de acento se calculan de la misma forma frente a objetivos de contraste fijos propios, en el borde de lo que el matiz puede contener, lo que les mantiene vivos.
+
+<Sample src="/themes/palettes/sweep" wc fitContent iframeOnly alt="Generación de paletas de {Platform}: todos los matices a través de ambos generadores, con el límite de la gama sRGB" />
+
+### Objetivos de contraste
+
+Una escala es una lista de objetivos de contraste, medidos frente al blanco para las familias de color. La escala predeterminada, `even`, va de 1,18:1 en `50` a 18,23:1 en `900`, y multiplica cada objetivo por la misma proporción para obtener el siguiente. Como el contraste entre dos tonos es la proporción de sus contrastes frente al blanco, proporciones iguales entre vecinos significan que dos tonos cualesquiera separados la misma distancia tienen el mismo contraste entre ellos.
+
+Con `even`, los tonos separados cinco posiciones superan el [mínimo WCAG AA para texto normal](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum) de 4,5:1: `50` con `500`, `100` con `600`, `200` con `700`, `300` con `800` y `400` con `900`. Eso le da una regla de emparejamiento que sigue funcionando cuando cambia la semilla:
+
+```css
+.status {
+  background: var(--ig-primary-100);
+  color: var(--ig-primary-600);
+}
+```
+
+La regla cubre los tonos numerados de una familia construida con `even`. No cubre pares arbitrarios, colores translúcidos, una escala personalizada ni la escala predeterminada `gray` (consulte [Grays and the Page](#grises-y-la-página)). Compruebe el primer plano y el fondo renderizados siempre que dependa de un par.
+
+### Formas de escala
+
+Una escala tiene dos controles principales. El **rango** establece los objetivos de contraste del primer y del último tono. La **curva** opcional redistribuye los tonos entre ellos, usando los mismos cuatro puntos de control que una función de temporización CSS `cubic-bezier()`: x es la posición a lo largo de los tonos, e y es la posición dentro del rango. Sin curva, los tonos se espacian de forma uniforme.
+
+`igniteui-theming` incluye cuatro preajustes:
+
+| Preajuste | Forma | Regla AA de cinco pares |
+|---|---|---|
+| `even` | Espaciado uniforme de 1,18:1 a 18,23:1. El valor predeterminado para todas las familias excepto `gray`. | 5 de 5 pares |
+| `material` | Ajustado a la escala de grises original de Ignite UI. El valor predeterminado para `gray`. | 3 de 5 pares sobre blanco |
+| `tailwind` | Ajustado a la escala slate de Tailwind CSS v4. | 5 de 5 pares |
+| `carbon` | Ajustado a la escala de grises de IBM Carbon. | 5 de 5 pares |
+
+Los preajustes toman un ritmo, no una paleta: su semilla sigue aportando el color. Un rango o una curva personalizados cambian la estructura del contraste, así que la regla de cinco pares ya no se cumple automáticamente. Un rango más estrecho, o una curva que agrupe los tonos, puede bajar un par por debajo de 4,5:1.
+
+<Sample src="/themes/palettes/scales" wc fitContent iframeOnly alt="Generación de paletas de {Platform}: preajustes de escala, rango, curva y editor de anclas con salida de Sass" />
+
+### Grises y la página
+
+Un gris que resulta sutil sobre una página blanca puede resultar llamativo sobre una oscura, así que la familia `gray` lee un tercer ajuste de escala, su **ancla**, que establece frente a qué se mide el rango:
+
+- `anchor: 'surface'` mide frente al color de superficie. El tono `50` se mantiene más cerca de la página, y los números más altos se alejan de ella: más oscuros en un tema claro, más claros en un tema oscuro. Es el valor predeterminado para `even`, `tailwind`, `carbon` y cualquier escala que usted escriba.
+- `anchor: 'white'` mide frente al blanco, igual que se construyó la escala de grises original. Los diez grises son los mismos colores en todos los temas; sobre una superficie oscura van en sentido inverso, de modo que `50` es el más oscuro. El preajuste `material`, el valor predeterminado para `gray`, usa esta ancla, así que pasar un tema oscuro existente al generador `fitted` mantiene el aspecto de sus componentes.
+
+En cualquier caso, los números bajos significan bajo contraste con la página. Cuando no se pasa `$gray`, la semilla gris es negra sobre una superficie clara y blanca sobre una oscura.
+
+Una escala anclada a la superficie puede pedir más contraste del que la superficie permite: el blanco sobre una página gris oscura no puede alcanzar el 21:1 disponible entre blanco y negro. El generador devuelve entonces el tono más cercano que puede alcanzar y emite una advertencia de Sass cuando el resultado se desvía de su objetivo más de un 5 %.
+
+### Roles de superficie
+
+La familia `surface` no es una escala de tonos. Una superficie describe dónde se sitúa algo en la interfaz, así que la familia es un conjunto de **roles** con nombre:
+
+| Rol | Variable CSS | Describe |
+|---|---|---|
+| `base` | `--ig-surface-base` | El fondo de la página: la propia semilla de la superficie. |
+| `sunken` | `--ig-surface-sunken` | Una capa empotrada en la página, un paso hacia el negro. |
+| `raised` | `--ig-surface-raised` | Una capa por encima de la página, un paso hacia el blanco. |
+| `overlay` | `--ig-surface-overlay` | Una capa flotante, como un menú o un diálogo, con un paso mayor hacia el blanco. |
+| `container` | `--ig-surface-container` | Una capa translúcida: negra sobre una superficie clara, blanca sobre una oscura. |
+
+Un rol que no tiene espacio suficiente para moverse se resuelve en el color base: sobre una superficie blanca pura, `raised` y `overlay` también son blancos, y sobre una superficie negra pura, `sunken` también es negro. Entonces, los bordes o las elevaciones aportan la separación. Lo mismo puede ocurrir en superficies cercanas al blanco o al negro, incluso cuando queda un poco de margen:
+
+| `base` | `sunken` | `raised` | `overlay` |
+|---|---|---|---|
+| `rgb(255, 255, 255)` | `rgb(247, 247, 247)` | Igual que `base` | Igual que `base` |
+| `rgb(240, 240, 245)` | `rgb(234, 232, 237)` | `rgb(250, 249, 254)` | Igual que `base` |
+| `rgb(0, 0, 0)` | Igual que `base` | `rgb(13, 13, 13)` | `rgb(23, 23, 23)` |
+
+Si cada rol necesita su propio color, elija una semilla de superficie un poco más alejada del blanco o del negro y revise las variables `--ig-surface-*` generadas.
+
+Ambos generadores emiten los mismos roles, y los temas de componente hacen referencia a `surface` a través de ellos; `color($color: 'surface')` devuelve `base` de forma predeterminada. El color de contraste del `container` translúcido se mide sobre el contenedor colocado encima de `base`, ya que es frente a eso como se lee el texto que contiene.
+
+Cada paleta también emite los tonos numerados `surface`, como `--ig-surface-500`, para que los estilos escritos con ellos sigan resolviéndose. Están obsoletos y se eliminarán en una versión futura. En una paleta `fitted`, `--ig-surface-500` apunta a `--ig-surface-base`, y los demás tonos numerados derivan de él; en una paleta `legacy`, derivan de la semilla de la superficie como antes.
+
+<Sample src="/themes/palettes/neutrals" wc fitContent iframeOnly alt="Generación de paletas de {Platform}: grises y roles de superficie en temas claro y oscuro" />
+
+## Antes de empezar
+
+Averigüe qué generador produjo la paleta con la que trabaja, porque los dos se comportan de forma distinta en tiempo de ejecución:
+
+- **Temas CSS prediseñados y paletas de Sass predefinidas** (`$light-material-palette` y las demás) usan el generador `legacy`. Sus tonos son colores relativos CSS de `500`, así que sobrescribir `--ig-primary-500` actualiza toda la familia en el navegador, sin ningún paso de compilación. Consulte [Palettes](palettes.mdx).
+- **Paletas que genera con `palette()` en Sass** usan el generador `fitted` de forma predeterminada. Sus tonos son colores fijos calculados en la compilación. Sobrescribir una variable cambia solo ese tono; para cambiar una familia, regenere la paleta con una semilla nueva.<PlatformBlock for="Angular"> Consulte [Palettes with Sass](sass/palettes.mdx).</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+El generador `fitted` es el predeterminado desde {ProductName} 22.3.0, que usa `igniteui-theming` 30. Cuando actualiza una aplicación con `ng update`, la migración añade `$generator: 'legacy'` a sus llamadas `palette()` existentes para que conserven sus colores; consulte la [Update Guide](../general/update-guide.mdx).
+
+</PlatformBlock>
+
+Generar una paleta requiere <PlatformBlock for="Angular">la configuración de temas con Sass descrita en [Theming with Sass](sass/index.mdx)</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">el paquete `igniteui-theming` y un compilador de Sass; consulte [Customizing with Sass](overview.mdx#personalizar-con-sass)</PlatformBlock>. El generador se ejecuta por completo durante la compilación de Sass; la aplicación solo distribuye las variables CSS resultantes.
+
+## Próximos pasos
+
+<PlatformBlock for="Angular">
+
+- Genere una paleta, elija escalas o vuelva a activar el generador `legacy`: [Palettes with Sass](sass/palettes.mdx).
+- Sobrescriba los colores de la paleta con variables CSS en tiempo de ejecución: [Palettes](palettes.mdx).
+- Aplique una paleta generada a un tema completo: [Global Themes](sass/global-themes.mdx).
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- Sobrescriba los colores de la paleta con variables CSS en tiempo de ejecución: [Palettes](palettes.mdx).
+- Use las funciones de contraste y de paleta de gráficos a las que solo llega Sass: [Accessibility](accessibility.mdx).
+- Configure Sass para {ProductName}: [Customizing with Sass](overview.mdx#personalizar-con-sass).
+
+</PlatformBlock>
+
+## Herramientas disponibles
+
+| Herramienta | Finalidad |
+|---|---|
+| Función `palette()` | Construye un mapa de paleta a partir de colores semilla. Recibe `$generator` y `$scales` para elegir el generador y la escala de cada familia. |
+| Mixin `palette()` | Emite un mapa de paleta como variables CSS `--ig-*`. |
+| `$shade-generator` | Establece el generador predeterminado para cada llamada a `palette()` en la compilación: `'fitted'` (predeterminado) o `'legacy'`. |
+| `$scales` | Los preajustes de escala: `even`, `material`, `tailwind` y `carbon`. |
+| `$family-scales` | La escala predeterminada de cada familia. Las familias no enumeradas usan `even`; `gray` usa `material`. |
+| Funciones `color()` y `contrast-color()` | Leen un tono, o su color de contraste, como referencia a una variable CSS o desde un mapa de paleta. |
+
+## Flujos de trabajo habituales
+
+### Generar una paleta
+
+Genere una paleta con el generador `fitted` y emítala como variables CSS.<PlatformBlock for="React, WebComponents, Blazor"> Cargue esta hoja de estilos después del tema prediseñado para que sus variables tengan prioridad.</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```scss
+@use 'igniteui-theming' as *;
+```
+
+</PlatformBlock>
+
+```scss
+$brand: palette(
+  $primary: #0099ff,
+  $secondary: #df1b74,
+  $surface: #ffffff
+);
+
+:root {
+  @include palette($brand);
+}
+```
+
+Los argumentos `$primary`, `$secondary` y `$surface` son obligatorios y deben ser colores de Sass, no variables CSS, porque la paleta se calcula en la compilación.
+
+### Elegir una escala
+
+Nombre un preajuste para una familia, o para todas las familias a la vez:
+
+```scss
+// The grays follow IBM Carbon's rhythm; every other family keeps its default
+$brand: palette(#0099ff, #df1b74, #ffffff, $scales: ('gray': 'carbon'));
+
+// Every family uses the tailwind preset
+$brand: palette(#0099ff, #df1b74, #ffffff, $scales: 'tailwind');
+```
+
+O describa una escala en línea con un `range`, un `curve` y, para `gray`, un `anchor`:
+
+```scss
+$brand: palette(
+  #0099ff,
+  #df1b74,
+  #121212,
+  $scales: (
+    'primary': (range: 1.1 14, curve: 0.5 0 0.8 0.8),
+    'gray': (range: 1.1 14, anchor: 'white')
+  )
+);
+```
+
+### Mantener el generador heredado
+
+Mantenga los tonos basados en multiplicadores, y la derivación en tiempo de ejecución desde `500`, para una paleta:
+
+```scss
+$brand: palette(#0099ff, #df1b74, #ffffff, $generator: 'legacy');
+```
+
+Para cambiar cada llamada a `palette()` en la compilación, configure el módulo antes de que cualquier otra cosa lo cargue:
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-theming" with ($shade-generator: 'legacy');
+@use "igniteui-angular/theming" as *;
+```
+
+[Palettes with Sass](sass/palettes.mdx) cubre cada flujo de trabajo en detalle, incluidos los rangos, las curvas y las anclas personalizados.
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+```scss
+@use 'igniteui-theming' as * with ($shade-generator: 'legacy');
+```
+
+</PlatformBlock>
+
+## Solución de problemas
+
+**¿Por qué sobrescribir `--ig-primary-500` ya no cambia los demás tonos primarios?** La paleta se generó con el generador `fitted`, que emite cada tono como un color fijo en lugar de como un color relativo de `500`. Regenere la paleta en Sass con la nueva semilla, o genérela con `$generator: 'legacy'` si necesita la derivación en tiempo de ejecución desde `500`.
+
+**¿Debo seguir usando `--ig-surface-500`?** No. Los tonos numerados de superficie están obsoletos y solo se conservan por compatibilidad. Asigne cada referencia al rol que corresponda a su propósito, normalmente `--ig-surface-base` para el fondo de la página.
+
+**¿Por qué `--ig-surface-raised` y `--ig-surface-overlay` tienen el mismo color que `--ig-surface-base`?** La semilla de la superficie está demasiado cerca del blanco para que esos roles tengan espacio suficiente para moverse, así que se resuelven en `base`. Esto ocurre sobre el blanco y sobre otras superficies cercanas a él. Separe las capas con bordes o [elevaciones](elevations.mdx), o elija una semilla de superficie un poco más oscura si cada rol debe tener su propio color. Consulte [Surface Roles](#roles-de-superficie).
+
+**¿Qué significa `Shade "gray-900" wanted 18.232:1 but its hue only reaches 15.68:1`?** La escala pide más contraste del que permiten el color y su ancla, lo más habitual es una escala de grises anclada a la superficie sobre una superficie oscura. El generador usó el tono más cercano que pudo alcanzar. Baje la parte superior del rango, o ancle la escala a `'white'`.
+
+## Recursos adicionales
+
+- [Paletas](palettes.mdx)
+- [Accesibilidad](accessibility.mdx)
+
+<PlatformBlock for="Angular">
+
+- [Paletas con Sass](sass/palettes.mdx)
+- [Temas con Sass](sass/index.mdx)
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="palette() function" />
+- [{ProductName} **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [{ProductName} **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+- [Themes Overview](overview.mdx)
+- [`igniteui-theming` en GitHub](https://github.com/IgniteUI/igniteui-theming)
+
+</PlatformBlock>
+
+## Preguntas frecuentes
+
+<Faq>
+  <FaqItem question="¿El generador ajustado cambia los temas prediseñados de {ProductName}?" indicatorPosition="end">
+    No. Los temas prediseñados de {ProductName} y las paletas de Sass predefinidas se construyen con el generador `legacy`, así que sus colores y su comportamiento en tiempo de ejecución no cambian. El generador `fitted` se aplica a las paletas que genere con la función `palette()` en Sass.
+  </FaqItem>
+  <PlatformBlock for="React, WebComponents, Blazor">
+  <FaqItem question="¿Necesito Sass para usar las paletas de {ProductName}?" indicatorPosition="end">
+    No. Los temas prediseñados de {ProductName} ya contienen una paleta generada, y puede cambiarla en tiempo de ejecución sobrescribiendo variables CSS. Sass solo es necesario para generar una paleta nueva, por ejemplo con el generador `fitted` o con una escala personalizada.
+  </FaqItem>
+  </PlatformBlock>
+  <FaqItem question="¿Es accesible por defecto una paleta ajustada?" indicatorPosition="end">
+    Una paleta ajustada hace que el contraste sea predecible, pero no automático. Con la escala predeterminada `even`, los tonos separados cinco posiciones dentro de una familia de color superan el mínimo WCAG AA de 4,5:1 para texto normal, pero la escala predeterminada `gray` lo supera solo en tres de esos cinco pares sobre blanco, y las escalas personalizadas pueden superarlo en menos. Compruebe cada par de primer plano y fondo que use en la interfaz renderizada.
+  </FaqItem>
+  <FaqItem question="¿Dónde está el color semilla exacto en una paleta ajustada?" indicatorPosition="end">
+    Una paleta ajustada conserva el color semilla exacto como variante `seed` de cada familia, por ejemplo `--ig-primary-seed`. Los tonos numerados los coloca la escala, así que la semilla normalmente no coincide exactamente con `500` ni con ningún otro tono.
+  </FaqItem>
+  <FaqItem question="¿La generación de paletas se ejecuta en el navegador?" indicatorPosition="end">
+    No. La generación de paletas de {ProductName} se ejecuta durante la compilación de Sass, y la aplicación recibe solo las variables CSS resultantes. Solo los colores `-contrast` los resuelve el navegador, como colores relativos CSS.
+  </FaqItem>
+</Faq>

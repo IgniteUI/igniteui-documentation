@@ -1,0 +1,896 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Angular Data Grid의 행 끌기 - Ignite UI for Angular"
+description: "Angular Data Grid의 행 끌기는 마우스로 행을 끌어서 빠르게 재배열하는 데 사용됩니다. 프로젝트에서 행 끌기를 구성하는 방법을 확인하십시오."
+keywords: angular drag component, material component, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular {ComponentTitle}에서 RowDrag는 루트 {ComponentSelector} 컴포넌트에서 초기화되며, rowDraggable 입력을 통해 구성할 수 있습니다."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Angular Tree Grid의 행 끌기 - Ignite UI for Angular"
+description: "Angular Tree Grid의 행 끌기는 마우스로 행을 끌어서 빠르게 재배열하는 데 사용됩니다. 프로젝트에서 행 끌기를 구성하는 방법을 확인하십시오."
+keywords: angular drag component, material component, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/row-drag
+_language: ko
+llms:
+  description: "Ignite UI for Angular {ComponentTitle}에서 RowDrag는 루트 {ComponentSelector} 컴포넌트에서 초기화되며, rowDraggable 입력을 통해 구성할 수 있습니다."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Angular Hierarchical Grid의 행 끌기 - Ignite UI for Angular"
+description: "Angular Hierarchical Grid의 행 끌기는 마우스로 행을 끌어서 빠르게 재배열하는 데 사용됩니다. 프로젝트에서 행 끌기를 구성하는 방법을 확인하십시오."
+keywords: angular drag component, material component, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/row-drag
+_language: ko
+llms:
+  description: "Ignite UI for Angular {ComponentTitle}에서 RowDrag는 루트 {ComponentSelector} 컴포넌트에서 초기화되며, rowDraggable 입력을 통해 구성할 수 있습니다."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle}의 행 끌기
+
+Ignite UI for Angular {ComponentTitle}에서 **RowDrag**는 루트 `{ComponentSelector}` 컴포넌트에서 초기화되며, <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" /> 입력을 통해 구성할 수 있습니다. 행 끌기를 활성화하면 사용자가 행을 끌기 시작할 수 있는 행 끌기 핸들이 제공됩니다.
+
+## Angular {ComponentTitle} 행 끌기 예제
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-base" height={550} alt="Angular {ComponentTitle} 행 끌기 예제" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag-base" height={560} alt="Angular {ComponentTitle} 행 끌기 예제" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-row-drag-base" height={560} alt="Angular {ComponentTitle} 행 끌기 예제" />
+
+</ComponentBlock>
+
+## 구성
+
+`{ComponentSelector}`에서 행 끌기를 활성화하려면, 그리드의 <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />을(를) **`true`**(으)로 설정하기만 하면 됩니다. 이것이 활성화되면 각 행에 행 끌기 핸들이 표시됩니다. 이 핸들을 사용하여 행 끌기를 시작할 수 있습니다.
+
+```html
+<{ComponentSelector} [rowDraggable]="true">
+ ...
+</{ComponentSelector}>
+```
+
+끌기 핸들을 클릭하고 버튼을 누른 채 _커서를 움직이면_ 그리드의 <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" /> 이벤트가 발생합니다. 언제든 클릭을 떼면 <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" /> 이벤트가 발생합니다.
+
+아래에서 `{ComponentSelector}`이(가) 행 끌기를 지원하도록 구성하는 방법과 드롭 이벤트를 올바르게 처리하는 방법에 대한 단계별 안내를 찾을 수 있습니다.
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+이 예제에서는 그리드에서 지정된 영역으로 행을 끌고, 드롭할 때 그 행을 그리드에서 제거하는 것을 다룹니다.
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+이 예제에서는 행을 한 그리드에서 다른 그리드로 끌고, 첫 번째 데이터 소스에서 제거한 다음 두 번째 데이터 소스에 추가하는 것을 다룹니다.
+</ComponentBlock>
+
+### 드롭 영역
+
+행 끌기를 활성화하는 것은 꽤 쉬웠지만, 이제 행을 _드롭_하는 방법을 구성해야 합니다.
+[`igxDrop` 디렉티브](/drag-drop)를 사용하여 행을 드롭할 위치를 정의할 수 있습니다.
+
+먼저 앱 모듈에서 `IgxDragDropModule`을(를) 가져와야 합니다:
+
+```typescript
+import { ..., IgxDragDropModule } from 'igniteui-angular/directives';
+// import { ..., IgxDragDropModule } from '@infragistics/igniteui-angular'; for licensed package
+...
+@NgModule({
+    imports: [..., IgxDragDropModule]
+})
+```
+
+그다음 템플릿에서 디렉티브의 선택자를 사용하여 드롭 영역을 정의합니다:
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```html
+<div class="drop-area" igxDrop (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)"
+(dropped)="onDropAllowed($event)">
+    <igx-icon>delete</igx-icon>
+    <div>Drag a row here to delete it</div>
+</div>
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+이 경우 드롭 영역은 행을 드롭할 두 번째 그리드 전체가 됩니다.
+
+```html
+<igx-grid #targetGrid igxDrop [data]="data2" [autoGenerate]="false" [emptyGridTemplate]="dragHereTemplate"
+    (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)" (dropped)="onDropAllowed($event)" [primaryKey]="'ID'">
+    ...
+</igx-grid>
+```
+
+그리드는 처음에 비어 있으므로, 사용자에게 더 의미 있는 템플릿도 정의합니다:
+
+```html
+<ng-template #dragHereTemplate>
+    Drop a row to add it to the grid
+</ng-template>
+```
+
+</ComponentBlock>
+
+<ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" /> 이벤트의 `animation` 매개변수를 사용하여, 행이 드롭 불가능한 영역에 드롭될 때 애니메이션을 활성화할 수 있습니다. true로 설정하면, 드롭 불가능한 영역 위에 드롭되었을 때 끌린 행이 원래 위치로 애니메이션되며 돌아갑니다.
+
+다음과 같이 애니메이션을 활성화할 수 있습니다:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onRowDragEnd(args) {
+        args.animation = true;
+    }
+
+}
+```
+
+### 드롭 영역 이벤트 핸들러
+
+템플릿에서 드롭 영역을 정의했으면, 컴포넌트의 `.ts` 파일에서 `igxDrop`의 <ApiLink type="DropDirective" member="enter" label="enter" />, <ApiLink type="DropDirective" member="leave" label="leave" /> 및 <ApiLink type="DropDirective" member="dropped" label="dropped" /> 이벤트에 대한 핸들러를 선언해야 합니다.
+
+먼저 `enter`과 `leave` 핸들러를 살펴보겠습니다. 이 메서드들에서는 사용자에게 행을 드롭할 수 있는 영역 위에 있다는 것을 알리기 위해 끌기 _고스트_의 아이콘만 바꾸려고 합니다:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    public onEnterAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.ALLOW);
+    }
+
+    public onLeaveAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.DEFAULT);
+    }
+
+    private changeGhostIcon(ghost, icon: string) {
+        if (ghost) {
+            const currentIcon = ghost.querySelector('.igx-grid__drag-indicator > igx-icon');
+            if (currentIcon) {
+                currentIcon.innerText = icon;
+            }
+        }
+    }
+}
+```
+
+`changeGhostIcon` **private** 메서드는 끌기 고스트 안의 아이콘만 바꿉니다. 이 메서드의 로직은 아이콘을 담은 요소를 찾고(끌기 표시기 컨테이너에 적용된 `igx-grid__drag-indicator` 클래스를 사용하여), 그 요소의 내부 텍스트를 전달된 텍스트로 바꿉니다.
+아이콘 자체는 [`material` 글꼴 세트](https://material.io/tools/icons/)에서 가져오며, 별도의 **`enum`**에 정의되어 있습니다:
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'remove'
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'add'
+}
+```
+
+</ComponentBlock>
+
+다음으로, 사용자가 실제로 드롭 영역 안에서 행을 _드롭_할 때 무엇이 일어나야 하는지 정의해야 합니다.
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onDropAllowed(args: IDropDroppedEventArgs) {
+        const draggedRow: RowType = args.dragData;
+        draggedRow.delete();
+    }
+
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+행이 드롭되면, 행의 <ApiLink type="GridRow" label="delete()" /> 메서드를 호출하기만 하면 됩니다
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+행이 드롭되면, 행의 <ApiLink type="{ComponentApiType}Row" label="delete()" /> 메서드를 호출하기만 하면 됩니다
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    @ViewChild('sourceGrid', { read: IgxGridComponent }) public sourceGrid: IgxGridComponent;
+    @ViewChild('targetGrid', { read: IgxGridComponent }) public targetGrid: IgxGridComponent;
+
+    public onDropAllowed(args) {
+        this.targetGrid.addRow(args.dragData.data);
+        this.sourceGrid.deleteRow(args.dragData.key);
+    }
+}
+```
+
+`ViewChild` 데코레이터를 통해 각 그리드에 대한 참조를 정의하고, 다음과 같이 드롭을 처리합니다:
+
+- 드롭되는 행의 데이터를 담은 행을 `targetGrid`에 추가합니다
+- 끌린 행을 `sourceGrid`에서 제거합니다
+</ComponentBlock>
+
+<DocsAside type="info">
+이벤트 인수(`args.dragData.data`)나 다른 행 속성의 행 데이터를 사용할 때는, 행 전체가 인수에 참조로 전달된다는 점에 유의하십시오. 따라서 원본 그리드의 데이터와 구별하고 싶다면 필요한 데이터를 복제해야 합니다.
+</DocsAside>
+
+### 끌기 고스트 템플릿화하기
+
+끌기 고스트는 `{ComponentSelector}`의 본문 안에 있는 `<ng-template>`에 적용된 `IgxRowDragGhost` 디렉티브를 사용하여 템플릿화할 수 있습니다:
+
+```html
+<{ComponentSelector}>
+...
+   <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon>
+        </div>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+행 끌기와 다중 선택을 활성화한 `{ComponentSelector}`에서 구성의 결과는 아래에서 볼 수 있습니다. 데모는 현재 끌리고 있는 행의 개수를 보여 줍니다:
+
+#### 예제 데모
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-multiple-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+끌기 고스트는 모든 그리드 수준에서 템플릿화할 수 있으므로, 여러 개의 고스트 템플릿을 두거나 단일 행 아일랜드에만 템플릿을 제공하는 것도 가능합니다.
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon> 
+        </div>
+    </ng-template>
+    <igx-row-island>
+        ...
+        <ng-template IgxRowDragGhost>
+            <img src="smile.gif" height="42" width="42">
+        </ng-template>
+    </igx-row-island>
+...
+</{ComponentSelector}>
+```
+
+<Sample src="/hierarchical-grid/hierarchical-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+### 끌기 아이콘 템플릿화하기
+
+행 끌기 핸들 아이콘은 그리드의 <ApiLink type="{ComponentApiType}" member="dragIndicatorIconTemplate" label="dragIndicatorIconTemplate" />을(를) 사용하여 템플릿화할 수 있습니다. 우리가 만들고 있는 예제에서는 아이콘을 기본 아이콘(`drag_indicator`)에서 `drag_handle`(으)로 바꾸겠습니다.
+이를 위해 `igxDragIndicatorIcon`를 사용하여 `{ComponentSelector}`의 본문 안에 템플릿을 전달할 수 있습니다:
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxDragIndicatorIcon>
+        <igx-icon>drag_handle</igx-icon>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+새 아이콘 템플릿을 설정했으면, `changeIcon` 메서드로 올바르게 바뀌도록 `DragIcon enum`의 `DEFAULT` 아이콘도 조정해야 합니다:
+
+```typescript
+enum DragIcon {
+    DEFAULT = "drag_handle",
+    ...
+}
+```
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+### 드롭 영역 스타일 지정하기
+
+드롭 핸들러가 올바르게 구성되었다면, 남은 일은 드롭 영역을 조금 스타일링하는 것뿐입니다:
+
+```css
+.drop-area {
+    width: 160px;
+    height: 160px;
+    background-color: #d3d3d3;
+    border: 1px dashed #131313;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    text-align: center;
+    margin: 8px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    width: 100%;
+}
+```
+
+결과는 아래 데모에서 볼 수 있습니다:
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+드롭 핸들러가 올바르게 구성되었다면 준비가 끝난 것입니다!
+구성의 결과는 아래에서 볼 수 있습니다:
+</ComponentBlock>
+
+#### 예제 데모
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-to-grid" height={550} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+## 애플리케이션 데모
+
+<ComponentBlock for="Grid">
+
+### 행 끌기 이벤트 사용하기
+
+다음 데모는 행 끌기 이벤트 정보를 사용하여, 행이 드롭된 사용자 지정 컴포넌트와 원본 그리드 자체의 두 상태를 모두 바꾸는 방법을 보여 줍니다.
+그리드에서 달을 끌어 해당 행성으로 드롭해 보십시오. 행 끌기 고스트 배경은 마우스가 올라간 행성에 따라 동적으로 바뀝니다. 성공하면 그리드의 행이 선택되고, 그 행에 대한 끌기는 비활성화됩니다. 행성을 클릭하면 유용한 정보가 표시됩니다.
+
+<Sample src="/grid/grid-row-drag" height={560} alt="" />
+
+<DocsAside type="info">
+위 데모에서 사용된 행 끌기 고스트에 적용된 클래스는 ::ng-deep 수정자를 사용하는데, 행 끌기는 내부 그리드 기능이며 CSS 캡슐화 때문에 애플리케이션 수준에서는 접근할 수 없기 때문입니다.
+</DocsAside>
+</ComponentBlock>
+
+### 행 재정렬 데모
+
+그리드의 행 끌기 이벤트와 `igxDrop` 디렉티브의 도움으로, 행을 끌어서 순서를 바꿀 수 있는 그리드를 만들 수 있습니다.
+
+모든 작업이 그리드 본문 _안에서_ 일어나므로, `igxDrop` 디렉티브를 그곳에 연결해야 합니다:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid [data]="data" [rowDraggable]="true" [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+    ...
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid igxPreventDocumentScroll  #treeGrid [data]="localData" [rowDraggable]="true" foreignKey="ParentID"
+    [primaryKey]="'ID'" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="dropInGrid($event)">
+    ...
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #grid [data]="localData" [primaryKey]="'id'"
+    [rowDraggable]="true" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="rowDrop($event)">
+    ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+그리드에 `primaryKey`이(가) 지정되어 있는지 확인하십시오! 로직에는 행을 올바르게 재정렬할 수 있도록 행의 고유 식별자가 필요합니다.
+</DocsAside>
+
+`rowDraggable`을(를) 활성화하고 드롭 영역을 정의한 후에는, 드롭 이벤트에 대한 간단한 핸들러를 구현해야 합니다. 행을 끌 때 다음을 확인하십시오:
+<ComponentBlock for="Grid">
+
+- 행이 그리드 안에 드롭되었는가?
+- 그렇다면 끌린 행은 _다른_ 어떤 행 위에 드롭되었는가?
+- _대상_ 행을 찾았으면, `data` 배열에서 두 레코드의 위치를 서로 바꾸십시오
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+- 행이 펼쳐져 있는가? 그렇다면 접으십시오.
+- 행이 그리드 안에 드롭되었는가?
+- 그렇다면 끌린 행은 _다른_ 어떤 행 위에 드롭되었는가?
+- _대상_ 행을 찾았으면, `data` 배열에서 두 레코드의 위치를 서로 바꾸십시오
+- 행이 처음에 선택되어 있었는가? 그렇다면 선택된 상태로 표시하십시오.
+</ComponentBlock>
+
+아래에서 컴포넌트의 `.ts` 파일에 이것이 구현된 모습을 볼 수 있습니다:
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class GridRowReorderComponent {
+    public onDropAllowed(args) {
+        const event = args.originalEvent;
+        const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+            { x: event.clientX, y: event.clientY });
+        if (currRowIndex === -1) { return; }
+        this.grid.deleteRow(args.dragData.key);
+        this.data.splice(currRowIndex, 0, args.dragData.data);
+    }
+
+    private getCurrentRowIndex(rowList, cursorPosition) {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.indexOf(this.data.find((r) => r.rowID === row.rowID));
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+export class TreeGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            this.treeGrid.collapseRow(targetrow.key);
+        }
+    }
+
+    public dropInGrid(args: IDropDroppedEventArgs): void {
+        const draggedRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(draggedRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        const row = this.catchCursorPosOnElem(this.treeGrid.rowList.toArray(), cursorPosition);
+        if (!row) { return; }
+        if (row.data.ParentID === -1) {
+            this.performDrop(draggedRow, row).ParentID = -1;
+        } else {
+            if (row.data.ParentID === draggedrow.data.ParentID) {
+                this.performDrop(draggedRow, row);
+            } else {
+                const rowIndex = this.getRowIndex(draggedrow.data);
+                this.localData[rowIndex].ParentID = row.data.ParentID;
+            }
+        }
+        if (draggedRow.selected) {
+            this.treeGrid.selectRows([this.treeGrid.rowList.toArray()
+                .find((r) => r.rowID === draggedrow.key).rowID], false);
+        }
+
+        this.localData = [...this.localData];
+    }
+
+    private performDrop(
+        draggedRow: IgxTreeGridRowComponent, targetRow: IgxTreeGridRowComponent) {
+        const draggedRowIndex = this.getRowIndex(draggedrow.data);
+        const targetRowIndex: number = this.getRowIndex(targetrow.data);
+        if (draggedRowIndex === -1 || targetRowIndex === -1) { return; }
+        this.localData.splice(draggedRowIndex, 1);
+        this.localData.splice(targetRowIndex, 0, draggedrow.data);
+        return this.localData[targetRowIndex];
+    }
+
+    private getRowIndex(rowData: any): number {
+        return this.localData.indexOf(rowData);
+    }
+
+    private catchCursorPosOnElem(rowListArr: IgxTreeGridRowComponent[], cursorPosition: Point)
+        : IgxTreeGridRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            }
+        }
+
+        return null;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class HGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            targetRow.expanded = false;
+        }
+    }
+
+    public rowDrop(args: IDropDroppedEventArgs): void {
+        const targetRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(targetRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        // const parent: IgxHierarchicalGridComponent = (draggedRow as any).grid;
+        // const parent = args.drag.ghostContext.grid;
+        const parent = this.hGrid;
+        const rowIndex: number = this.getTargetRowIndex(parent.rowList.toArray(), cursorPosition);
+        if (rowIndex === -1) { return; }
+        const wasSelected = draggedRow.selected;
+        draggedRow.delete();
+        parent.data.splice(rowIndex, 0, draggedRow.data);
+        if (wasSelected) {
+            parent.selectRows([parent.rowList.toArray()
+                .find((r) => r.rowID === draggedRow.key).rowID], false);
+        }
+    }
+
+    private getTargetRowIndex(rowListArr: RowType[], cursorPosition: Point): number {
+        const targetElem: IgxHierarchicalRowComponent = this.catchCursorPosOnElem(rowListArr, cursorPosition);
+        return rowListArr.indexOf(rowListArr.find((r) => r.rowData.id === targetElem.rowData.id));
+    }
+
+    private catchCursorPosOnElem(rowListArr: any[], cursorPosition: Point)
+        : IgxHierarchicalRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            } else if (row === rowListArr[rowListArr.length - 1] && cursorPosition.y > rowRect.bottom) {
+                return row;
+            }
+        }
+    }
+}
+```
+
+</ComponentBlock>
+
+이 몇 가지 간단한 단계로, 끌어서 놓기를 통해 행의 순서를 바꿀 수 있는 그리드를 구성했습니다! 위 코드가 실제로 작동하는 모습은 다음 데모에서 볼 수 있습니다.
+<ComponentBlock for="Grid">
+
+끌기 아이콘을 누른 채 있으면 그리드 안의 어디로든 행을 옮길 수 있습니다:
+
+<Sample src="/grid/grid-row-reorder" height={830} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+행 선택도 활성화되어 있으며, 끌린 행을 드롭할 때 선택 상태가 유지된다는 점에 유의하십시오.
+
+<Sample src="/tree-grid/tree-grid-row-reordering" height={560} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+행 선택도 활성화되어 있으며, 끌린 행을 드롭할 때 선택 상태가 유지된다는 점에 유의하십시오.
+
+<Sample src="/hierarchical-grid/hierarchical-row-reorder" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### 행 끌기 시나리오에서 UX 개선하기
+
+커서 아래에 있는 행 인덱스를 알 수 있으면, 풍부한 사용자 지정 기능을 구축하고 애플리케이션의 UX를 개선할 기회를 얻습니다. 예를 들어 그리드 위에서 끌린 행의 위치에 따라 끌기 고스트를 바꾸거나 드롭 표시기를 표시할 수 있습니다. 그렇게 달성할 수 있는 또 다른 유용한 동작은, 행을 끄는 동안 그리드의 가장자리에 도달하면 그리드를 위나 아래로 스크롤하는 것입니다.
+
+아래에는 행의 위치를 알면 구현할 수 있는 몇 가지 사용자 지정 구현의 예시 코드 조각이 있습니다.
+
+#### 커서 위치에 따라 끌기 고스트 바꾸기
+
+아래 코드 조각에서는 끌기 고스트 안의 텍스트를 바꿔서, 마우스가 올라간 행의 이름을 표시하는 방법을 볼 수 있습니다.
+
+먼저 끌기 고스트에 사용할 템플릿을 지정하십시오. `dropName` 속성은 동적으로 바뀌며, 커서가 올라가 있는 행의 이름을 가져옵니다:
+
+```html
+<ng-template igxRowDragGhost>
+    <div class="customGhost">
+        <div>{{ dropName }}</div>
+    </div>
+</ng-template>
+```
+
+그다음 현재 올라가 있는 행의 인스턴스를 반환하는 메서드를 정의하십시오([행 재정렬 데모](#행-재정렬-데모)에서 사용한 것과 비슷합니다):
+
+```typescript
+class MyRowGhostComponent {
+    private getRowDataAtPoint(rowList: IgxGridRowComponent[], cursorPosition: Point): any {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.find((r) => r.rowID === row.rowID);
+            }
+        }
+        return null;
+    }
+}
+```
+
+마지막으로, 끌린 행에 대해 발생하는 <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective.dragMove" /> 이벤트를 처리하는 데 사용할 메서드를 만듭니다. 이 메서드는 `igxRowDragGhost` 템플릿에서 사용하는 속성의 값을 바꾸고 강제로 다시 렌더링합니다.
+끌고 있는 특정 행의 `dragMove` 이벤트만 구독하고, 행이 드롭될 때마다 구독을 해제하여 메모리 누수를 막고 싶습니다.
+
+```typescript
+class MyRowGhostComponent {
+    public ngAfterViewInit(): void {
+        this.grid.rowDragStart.pipe(takeUntil(this.destroy$)).subscribe(this.onRowDragStart.bind(this));
+    }
+
+    private onRowDragStart(e: IRowDragStartEventArgs) {
+        if (e !== null) {
+            this._draggedRow = e.dragData.rowData;
+        }
+        const directive = e.dragDirective;
+        directive.dragMove
+            .pipe(takeUntil(this.grid.rowDragEnd))
+            .subscribe(this.onDragMove.bind(this));
+    }
+
+    private onDragMove(args: IDragMoveEventArgs) {
+        const cursorPosition = this.getCursorPosition(args.originalEvent);
+        const hoveredRowData = this.getRowDataAtPoint(
+            this.grid.rowList.toArray(),
+            cursorPosition
+        );
+        if (!hoveredRowData) {
+            args.cancel = true;
+            return;
+        }
+        const rowID = hoveredRowData.ID;
+        if (rowID !== null) {
+            let newName = this.dropName;
+            if (rowID !== -1) {
+                const targetRow = this.grid.rowList.find((e) => {
+                    return e.rowData.ID === rowID;
+                });
+                newName = targetRow?.rowData.Name;
+            }
+            if (newName !== this.dropName) {
+                this.dropName = newName;
+                args.owner.cdr.detectChanges();
+            }
+        }
+    }
+}
+
+```
+
+#### 커서 위치에 따라 드롭 표시기 표시하기
+
+다음 섹션의 데모에서는 끌린 행이 드롭될 위치를 표시하는 표시기를 보여 줍니다. 이 표시기는 원하는 대로 사용자 지정할 수 있습니다. 끌린 행이 드롭될 위치에 놓이는 자리 표시자 행일 수도 있고, 끌린 행이 현재 올라가 있는 행의 위 또는 아래에 드롭될지를 나타내는 테두리 스타일일 수도 있습니다.
+
+커서 위치를 추적하기 위해, 행을 끌기 시작할 때 <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective" />의 `dragMove` 이벤트에 바인딩합니다.
+
+<DocsAside type="info">
+그리드에 `primaryKey`이(가) 지정되어 있는지 확인하십시오! 로직에는 행을 올바르게 재정렬할 수 있도록 행의 고유 식별자가 필요합니다.
+</DocsAside>
+
+```typescript
+public ngAfterViewInit() {
+  this.grid.rowDragStart
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(this.handleRowStart.bind(this));
+}
+
+private handleRowStart(e: IRowDragStartEventArgs): void {
+  if (e !== null) {
+    this._draggedRow = e.dragData.data;
+  }
+  const directive = e.dragDirective;
+  directive.dragMove
+    .pipe(takeUntil(this.grid.rowDragEnd))
+    .subscribe(this.handleDragMove.bind(this));
+}
+
+private handleDragMove(event: IDragMoveEventArgs): void {
+  this.handleOver(event);
+}
+
+private handleOver(event: IDragMoveEventArgs) {
+  const ghostRect = event.owner.ghostElement.getBoundingClientRect();
+  const rowIndex = this.getRowIndexAtPoint(this.grid.rowList.toArray(), {
+    x: ghostRect.x,
+    y: ghostRect.y
+  });
+  if (rowIndex === -1) {
+    return;
+  }
+  const rowElement = this.grid.rowList.find(
+    e => e.rowData.ID === this.grid.data[rowIndex].ID
+  );
+  if (rowElement) {
+    this.changeHighlightedElement(rowElement.element.nativeElement);
+  }
+}
+
+private clearHighlightElement(): void {
+  if (this.highlightedRow !== undefined) {
+    this.renderer.removeClass(this.highlightedRow, 'underlined-class');
+  }
+}
+
+private setHightlightElement(newElement: HTMLElement) {
+  this.renderer.addClass(newElement, 'underlined-class');
+  this.highlightedRow = newElement;
+}
+
+private changeHighlightedElement(newElement: HTMLElement) {
+  if (newElement !== undefined) {
+    if (newElement !== this.highlightedRow) {
+      this.clearHighlightElement();
+      this.setHightlightElement(newElement);
+    } else {
+      return;
+    }
+  }
+}
+```
+
+
+#### 행 끌기 중 그리드 스크롤하기
+
+매우 유용한 시나리오는 끌린 행이 그리드의 위쪽이나 아래쪽 경계에 도달할 때 그리드를 스크롤할 수 있는 것입니다. 이를 통해 그리드의 행 개수가 스크롤바를 필요로 할 때도 현재 뷰포트 밖에서 행의 순서를 바꿀 수 있습니다.
+
+아래는 뷰포트의 가장자리에 도달했는지 확인하고, 필요하면 스크롤하기 위해 사용하는 두 메서드의 예입니다. `isGridScrolledToEdge`은(는) 그리드를 스크롤할 방향을 나타내는 매개변수 하나를 받으며("Down"은 1, "Up"은 -1), 그 방향의 마지막 행에 도달했으면 `true`을(를) 반환합니다. `scrollGrid` 메서드는 방향(1 또는 -1)으로 그리드를 스크롤하려고 시도하며, 그리드가 이미 _그 가장자리_에 있으면 아무 작업도 하지 않습니다.
+
+```typescript
+class MyGridScrollComponent {
+    private isGridScrolledToEdge(dir: 1 | -1): boolean {
+        if (this.grid.data[0] === this.grid.rowList.first.data && dir === -1) {
+            return true;
+        }
+        if (
+            this.grid.data[this.grid.data.length - 1] === this.grid.rowList.last.data &&
+            dir === 1
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private scrollGrid(dir: 1 | -1): void {
+        if (!this.isGridScrolledToEdge(dir)) {
+            if (dir === 1) {
+                this.grid.verticalScrollContainer.scrollNext();
+            } else {
+                this.grid.verticalScrollContainer.scrollPrev();
+            }
+        }
+    }
+}
+
+```
+
+이전 예제에서처럼 특정 행의 `dragMove` 이벤트를 계속 구독합니다. `dragMove`는 커서가 실제로 움직일 때만 발생하므로, 행이 가장자리 중 하나에 있을 때 사용자가 마우스를 **움직이지 않더라도** 그리드를 자동 스크롤하는 간단한 방법이 필요합니다. 이를 위해 `500ms`마다 그리드를 자동 스크롤하는 `interval`를 설정하는 추가 메서드를 사용하겠습니다.
+
+포인터가 그리드의 가장자리에 도달하면 `interval`을(를) 만들고 구독하며, 마우스가 움직이거나 행이 드롭될 때마다(커서 위치와 관계없이) 그 `interval`에서 `unsubscribe`합니다.
+
+```typescript
+class MyGridScrollComponent {
+    public ngAfterViewInit() {
+        this.grid.rowDragStart
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(this.onDragStart.bind(this));
+        this.grid.rowDragEnd
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.unsubInterval());
+    }
+
+    private onDragMove(event: IDragMoveEventArgs): void {
+        this.unsubInterval();
+        const dir = this.isPointOnGridEdge(event.pageY);
+        if (!dir) {
+            return;
+        }
+        this.scrollGrid(dir);
+        if (!this.intervalSub) {
+            this.interval$ = interval(500);
+            this.intervalSub = this.interval$.subscribe(() => this.scrollGrid(dir));
+        }
+    }
+
+    private unsubInterval(): void {
+        if (this.intervalSub) {
+            this.intervalSub.unsubscribe();
+            this.intervalSub = null;
+        }
+    }
+}
+```
+
+다음은 위에서 설명한 두 시나리오의 예입니다. 드롭 표시기를 보여 주고, 경계의 가장자리에 도달하면 뷰포트를 스크롤합니다.
+
+<Sample src="/grid/grid-drop-indicator" height={830} alt="" />
+</ComponentBlock>
+
+
+
+## 제한 사항
+
+`rowDraggable` 디렉티브에는 현재 알려진 제한 사항이 없습니다.
+
+## API 참조
+- <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />
+- <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" />
+- <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />
+- <ApiLink type="{ComponentApiType}" />
+## 추가 리소스
+
+
+- [{ComponentTitle} 개요](/{igPath}/{ComponentMainTopic})
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,280 @@
+---
+title: "Biblioteca de Excel de {Platform} | Hoja de cálculo de datos y tabla | Infragistics"
+description: "Use la biblioteca de Excel de Infragistics {Platform} para trabajar con datos de hojas de cálculo mediante las funciones de Microsoft Excel. Descubra lo fácil que es transferir datos desde Excel a su aplicación con la biblioteca de Excel de {ProductName}."
+keywords: "Biblioteca de Excel, {ProductName}, Infragistics, libro de trabajo"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "Cell", "Formula"]
+_language: es
+llms:
+  description: "La biblioteca de Excel de Infragistics {Platform} le permite trabajar con datos de hojas de cálculo mediante objetos de hoja de cálculo de Microsoft® Excel® conocidos, como Workbook, Worksheet, Cell, Formula y muchos más."
+platformType: xplat-unmapped
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Información general de la biblioteca de Excel de {Platform}
+
+La biblioteca de Excel de Infragistics {Platform} le permite trabajar con datos de hojas de cálculo mediante objetos de hoja de cálculo de Microsoft® Excel® conocidos, como <ApiLink type="Workbook" />, <ApiLink type="Worksheet" />, <ApiLink type="WorksheetCell" label="Cell" />, <ApiLink type="Formula" /> y muchos más. La biblioteca de Excel de Infragistics {Platform} le facilita representar los datos de su aplicación en una hoja de cálculo de Excel, así como transferir datos desde Excel a su aplicación.
+
+## Ejemplo de la biblioteca de Excel de {Platform}
+
+
+<Sample src="/excel/excel-library/overview" height={100} alt="Ejemplo de la biblioteca de Excel de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## Dependencias
+Al instalar el paquete de Excel, también debe instalarse el paquete principal.
+
+```cmd
+npm install --save {PackageCore}
+npm install --save {PackageExcel}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Módulos de componentes
+
+La biblioteca de Excel de {Platform} requiere los siguientes módulos:
+
+```ts
+// app.module.ts
+import { IgxExcelModule } from 'igniteui-angular-excel';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxExcelModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+## Módulos de componentes
+
+La biblioteca de Excel de {Platform} requiere los siguientes módulos:
+
+```ts
+import { IgrExcelModule } from 'igniteui-react-excel';
+
+IgrExcelModule.register();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+## Módulos de componentes
+
+La biblioteca de Excel de {Platform} requiere los siguientes módulos:
+
+```ts
+// Module Manager for registering the modules of the excel library
+import { ModuleManager } from 'igniteui-webcomponents-core';
+import { IgcExcelModule  } from 'igniteui-webcomponents-excel';
+
+// register the modules
+ModuleManager.register(
+    IgcExcelModule
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Angular">
+## Implementación de los módulos
+
+
+- **IgxExcelCoreModule**: contiene el modelo de objetos y gran parte de la infraestructura de Excel
+- **IgxExcelFunctionsModule**: contiene la mayoría de las funciones para la evaluación de fórmulas, como Sum, Average, Min, Max, etc. La ausencia de este módulo no causará problemas con el análisis de fórmulas si la fórmula va a calcularse. Por ejemplo, si aplica una fórmula como "=SUM(A1:A5)" y pide el Value de la celda, obtendrá un error #NAME!. No es una excepción lanzada, sino un objeto que representa un error concreto, ya que las fórmulas pueden dar lugar a errores.
+- **IgxExcelXlsModule**: contiene la lógica de carga y guardado de archivos xls (y tipos relacionados), es decir, los WorkbookFormats relacionados con Excel 97 a 2003.
+- **IgxExcelXlsxModule**: contiene la lógica de carga y guardado de archivos xlsx (y tipos relacionados), es decir, los WorkbookFormats relacionados con Excel 2007 y StrictOpenXml.
+- **IgxExcelModule**: hace referencia a los otros 4 módulos y, básicamente, garantiza que toda la funcionalidad esté cargada y disponible.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+## Requisitos
+
+Para usar la biblioteca de Excel de {Platform}, debe añadir el paquete NuGet de la biblioteca de Excel de esta manera:
+
+```cmd
+> dotnet add package IgniteUI.Blazor.Documents.Excel
+```
+
+Añada la siguiente instrucción using:
+
+```razor
+@using Infragistics.Documents.Excel
+```
+
+Si usa un proyecto Blazor WebAssembly (WASM), hay un par de pasos adicionales:
+
+- Añada una referencia al siguiente script en el archivo wwwroot/index.html:
+
+```razor
+<script src="_content/IgniteUI.Blazor.Documents.Excel/excel.js"></script>
+```
+
+- Establezca la propiedad estática <ApiLink type="Workbook" member="InProcessRuntime" label="Workbook.InProcessRuntime" /> en el entorno de ejecución actual. Esto puede hacerse usando el siguiente código:
+
+```razor
+@using Microsoft.JSInterop
+
+@code {
+
+    [Inject]
+    public IJSRuntime Runtime { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Workbook.InProcessRuntime = (IJSInProcessRuntime)this.Runtime;
+    }
+}
+```
+
+
+</PlatformBlock>
+
+
+## Versiones compatibles de Microsoft Excel
+A continuación se muestra una lista de las versiones de Excel compatibles.**
+
+- Microsoft Excel 97
+
+- Microsoft Excel 2000
+
+- Microsoft Excel 2002
+
+- Microsoft Excel 2003
+
+- Microsoft Excel 2007
+
+- Microsoft Excel 2010
+
+- Microsoft Excel 2013
+
+- Microsoft Excel 2016
+
+<DocsAside type="info">
+Por el momento, la biblioteca de Excel no admite el formato de libro de trabajo binario de Excel (.xlsb).
+</DocsAside>
+
+## Cargar y guardar libros de trabajo
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+Ahora que el módulo de la biblioteca de Excel está importado, el siguiente paso es cargar un libro de trabajo.
+
+En el siguiente fragmento de código, se usa una clase externa [ExcelUtility](./excel-utility.mdx) para guardar y cargar un <ApiLink type="Workbook" />.
+
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Ahora que el paquete de la biblioteca de Excel está instalado, el siguiente paso es cargar un libro de trabajo.
+
+</PlatformBlock>
+
+Para cargar y guardar objetos <ApiLink type="Workbook" />, puede usar el método `Save` del objeto <ApiLink type="Workbook" /> real, así como su método estático `Load`.
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { WorkbookSaveOptions } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { ExcelUtility } from "ExcelUtility";
+
+var workbook = ExcelUtility.load(file);
+ExcelUtility.save(workbook, "fileName");
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+protected override void OnInitialized()
+{
+    var memoryStream = new System.IO.MemoryStream();
+    workbook.Save(memoryStream);
+
+    memoryStream.Position = 0;
+    var bytes = memoryStream.ToArray();
+    this.SaveFile(bytes, "fileName.xlsx", string.Empty);
+}
+
+private void SaveFile(byte[] bytes, string fileName, string mime)
+{
+    if (this.Runtime is WebAssemblyJSRuntime wasmRuntime)
+      wasmRuntime.InvokeUnmarshalled<string, string, byte[], bool>("BlazorDownloadFileFast", fileName, mime, bytes);
+    else if (this.Runtime is IJSInProcessRuntime inProc)
+      inProc.InvokeVoid("BlazorDownloadFile", fileName, mime, bytes);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Gestión del heap
+
+Debido al tamaño de la biblioteca de Excel, se recomienda deshabilitar la generación de mapas de código fuente.
+
+Modifique `angular.json` estableciendo la opción `vendorSourceMap` en architect => build => options y en serve => options:
+
+```ts
+    "architect": {
+        "build": {
+          "builder": "...",
+          "options": {
+            "vendorSourceMap": false,
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+                  // ...
+          },
+              // ...
+        },
+        "serve": {
+          "builder": "...",
+          "options": {
+            "vendorSourceMap": false,
+            "browserTarget": "my-app:build"
+          },
+              // ...
+        },
+        // ...
+      }
+```
+
+</PlatformBlock>
+
+
+## Referencias de API
+<ApiLink type="Worksheet" />
+<ApiLink type="Workbook" />

@@ -1,0 +1,218 @@
+---
+title: "Angular 파이 차트 | 데이터 시각화 도구 | Infragistics"
+description: "Infragistics의 Angular 파이 차트를 사용하여 범주형 데이터를 표시하는 다채로운 파이 차트를 만드십시오. Ignite UI for Angular 파이 차트의 구성 가능한 요소에 대해 알아보십시오!"
+keywords: Angular charts, pie chart, Ignite UI for Angular, Infragistics, data binding, slice selection, slice explosion, animation
+license: commercial
+mentionedTypes: ['XamPieChart','SliceSelectionMode','PieSliceOthersContext']
+_language: ko
+llms:
+  description: "Ignite UI for Angular 파이 차트 컴포넌트는 원형 영역을 여러 구역으로 나눈 파이 차트를 렌더링하는 전용 컴포넌트입니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular 파이 차트 개요
+
+Ignite UI for Angular 파이 차트 컴포넌트는 원형 영역을 여러 구역으로 나눈 파이 차트를 렌더링하는 전용 컴포넌트입니다. 각 구역의 호 길이는 기본 데이터 값에 비례합니다.
+
+이 컨트롤은 범주형 데이터를 나타내는 데 사용됩니다. 범주가 몇 개뿐이고 각 범주가 전체 데이터에서 비교적 큰 비율을 차지할 때 가장 효과적입니다.
+
+## Angular 파이 차트 예제
+
+<Sample src="/charts/pie-chart-overview" height={350} alt="Angular 파이 차트 예제" />
+
+<hr/>
+
+{/*Angular, React, WebComponents*/}
+
+## 종속성
+
+차트 컴포넌트를 설치할 때는 코어 패키지도 함께 설치해야 합니다.
+
+<pre style="background:#141414;color:white;display:inline-block;padding:16x;margin-top:10px;font-family:'Consolas';border-radius:5px;width:100%">
+npm install --save igniteui-angular-core
+npm install --save igniteui-angular-charts
+</pre>
+
+{/*end: Angular, React, WebComponents*/}
+
+## 필수 모듈
+
+[`IgxPieChartComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartcomponent.html)에는 다음 모듈이 필요합니다:
+
+```ts
+// app.module.ts
+
+import { IgxPieChartModule } from 'igniteui-angular-charts';
+
+@NgModule({
+    imports: [
+        // ...
+        IgxPieChartModule,
+        // ...
+    ]
+})
+export class AppModule {}
+```
+
+<hr/>
+
+## 사용법
+
+이제 파이 차트 모듈을 가져왔으므로, 다음 단계는 데이터에 바인딩하는 것입니다.
+파이 차트를 만들려면 먼저 바인딩할 데이터가 있어야 합니다. 다음 코드 조각은 간단한 데이터 소스를 만드는 방법을 보여 줍니다.
+
+```ts
+var data = [
+    { MarketShare: 30, Company: "Google",    },
+    { MarketShare: 30, Company: "Apple",     },
+    { MarketShare: 15, Company: "Microsoft", },
+    { MarketShare: 15, Company: "Samsung",   },
+    { MarketShare: 10, Company: "Other",     },
+];
+```
+
+다음 코드는 위의 데이터에 파이 차트를 바인딩하는 방법을 보여 줍니다.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare">
+</igx-pie-chart>
+```
+
+<hr/>
+
+## 범례
+
+파이 차트 컴포넌트 옆에 범례를 표시하려면 ItemLegend를 만들어 [`IgxLegendComponent`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxlegendcomponent.html) 속성에 할당해야 합니다. 그런 다음 [`legendLabelMemberPath`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legendlabelmemberpath)을(를) 사용하여 각 파이 조각에 대해 범례 안에 표시할 데이터 모델의 속성을 지정할 수 있습니다.
+
+추가로 [`legendItemTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditemtemplate) 및 [`legendItemBadgeTemplate`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#legenditembadgetemplate) 속성과 ItemLegend의 여러 글꼴 속성을 사용하여 범례 항목의 모양을 더 사용자 지정할 수 있습니다.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               valueMemberPath="MarketShare"
+               labelMemberPath="Company"
+               legendLabelMemberPath="Company"
+               [legend]="PieChartLegend">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-legend" height={350} alt="" />
+
+<hr/>
+
+## 기타 범주
+
+파이 차트 컴포넌트의 기본 데이터에 작은 값을 가진 항목이 많이 들어 있는 경우가 있습니다. 이때 기타 범주를 사용하면 여러 데이터 값을 자동으로 합산하여 하나의 조각으로 표시할 수 있습니다
+
+아래 샘플에서는 [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold)이(가) 2로 설정되고, [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype)은(는) Number로 설정되어 있습니다. 따라서 값이 2 이하인 항목은 "기타" 범주에 할당됩니다.
+
+[`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype)을(를) Percent로 설정하면, [`othersCategoryThreshold`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorythreshold)은(는) 값이 아니라 백분율로 해석됩니다. 즉, 값이 모든 항목 값 합계의 2% 미만인 항목이 기타 범주에 할당됩니다. 애플리케이션에 가장 적합한 [`othersCategoryType`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#otherscategorytype)을(를) 사용하면 됩니다.
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               labelMemberPath="Company"
+               valueMemberPath="MarketShare"
+               othersCategoryThreshold="2"
+               othersCategoryType="Number"
+               othersCategoryText="Others">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-others" height={350} alt="" />
+
+<hr/>
+
+## 분리(Explosion)
+
+파이 차트 컴포넌트는 개별 파이 조각의 분리를 지원하며, 선택 상태를 수정하고 사용자 지정 로직을 구현할 수 있는 `SliceClick` 이벤트도 지원합니다
+
+```html
+<igx-pie-chart [dataSource]="data"
+               width="100%"
+               height="100%"
+               allowSliceExplosion="true"
+               sliceClick="piechart_SliceClick">
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-explosion" height={350} alt="" />
+
+<hr/>
+
+## 선택
+
+파이 차트는 기본 동작으로 마우스 클릭을 통한 조각 선택을 지원합니다. [`selectedItems`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selecteditems) 속성을 사용하여 선택된 조각을 확인할 수 있습니다. 선택된 조각은 강조 표시됩니다.
+
+파이 차트가 사용할 모드를 설정하는 [`selectionMode`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiechartbasecomponent.html#selectionmode) 속성이 있습니다. 기본값은 [`Single`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#single)입니다. 선택을 비활성화하려면 이 속성을 [`Manual`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/enums/sliceselectionmode.html#manual)(으)로 설정하십시오.
+
+파이 차트 컴포넌트는 세 가지 선택 모드를 지원합니다.
+
+- Single - 모드가 single로 설정되면 한 번에 하나의 조각만 선택할 수 있습니다. 새 조각을 선택하면 이전에 선택된 조각은 선택이 해제되고 새 조각이 선택됩니다.
+- Multiple - 모드가 Multiple로 설정되면 여러 조각을 동시에 선택할 수 있습니다. 조각을 클릭하면 선택되며, 다른 조각을 클릭하면 그 조각도 선택되고 이전 조각은 선택된 상태로 남습니다.
+- Manual - 모드가 Manual로 설정되면 선택이 비활성화됩니다.
+
+파이 차트 컴포넌트에는 선택과 관련된 이벤트가 4개 있습니다:
+
+- SelectedItemChanging
+- SelectedItemChanged
+- SelectedItemsChanging
+- SelectedItemsChanged
+
+"Changing"으로 끝나는 이벤트는 취소할 수 있는 이벤트입니다. 즉, 이벤트 인수의 `Cancel` 속성을 true로 설정하여 조각의 선택을 중단할 수 있습니다. true로 설정하면 연관된 속성이 업데이트되지 않으며 해당 조각은 선택되지 않습니다. 이는 조각 안의 데이터에 따라 사용자가 특정 조각을 선택하지 못하도록 하고 싶을 때 유용합니다.
+
+기타 조각을 클릭하는 경우, 파이 차트는 [`IgxPieSliceOthersContext`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igxpiesliceotherscontext.html)이라는 객체를 반환합니다. 이 객체에는 기타 조각에 포함된 데이터 항목의 목록이 들어 있습니다.
+
+```html
+<igx-pie-chart [dataSource]="data"
+            width="100%"
+            height="100%"
+            selectionMode="multiple"
+            selectedSliceStroke = "white"
+            selectedSliceFill= "rgb(143,143,143)"
+            selectedSliceOpacity =1.0
+            selectedSliceStrokeThickness=2>
+</igx-pie-chart>
+```
+
+<Sample src="/charts/pie-chart-selection" height={350} alt="" />
+
+<hr/>
+
+## 애니메이션
+
+`radiusFactor` 속성을 설정하여 파이 차트를 부드럽게 애니메이션할 수 있으며, 이는 차트의 반지름을 확대/축소합니다. 또한 `startAngle` 속성을 설정하면 회전하는 동안 차트 각도가 계속 증가하도록 차트를 기울일 수 있습니다.
+
+아래 코드에서 radiusFactor는 차트 크기를 0.25%씩 키우고, startAngle은 차트를 1도씩 회전시킵니다. radiusFactor와 startAngle이 최대 한계에 도달하면 애니메이션 플래그를 재설정하고 인터벌을 지워 애니메이션을 중지합니다.
+
+```ts
+window.setInterval(() => this.tick(), 15);
+
+public tick(): void {
+    if (this.isAnimating) {
+        if (this.chart.radiusFactor < 1.0)
+            this.chart.radiusFactor += 0.0025;
+
+        if (this.chart.startAngle < 360)
+            this.chart.startAngle++;
+
+        if (this.chart.radiusFactor >= 1.0 &&
+            this.chart.startAngle >= 360) {
+            this.isAnimating = false;
+            window.clearInterval(this.interval);
+        }
+    }
+}
+```
+
+<Sample src="/charts/pie-chart-animation" height={350} alt="" />
+
+<hr/>

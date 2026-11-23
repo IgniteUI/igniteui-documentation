@@ -1,0 +1,466 @@
+---
+title: "Directiva Angular Text Highlight | Ignite UI for Angular | Licencia MIT"
+description: "La directiva TextHighlight de Ignite UI for Angular puede usarse para resaltar partes de un texto y mantener un resaltado activo en una de ellas."
+keywords: "Angular TextHighlight Directive, Angular Text Highlight Directive, IgxTextHighlight Directive, Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Components, componentes de interfaz de Angular, Native Angular Components Library"
+license: MIT
+_language: es
+llms:
+  description: "La directiva TextHighlightDirective y el servicio IgxTextHighlightService de Ignite UI for Angular se usan para resaltar partes de un texto, y ofrecen opciones para búsquedas que distinguen mayúsculas y minúsculas y para resaltar solo las coincidencias exactas."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general de la directiva Angular Text Highlight
+
+La <ApiLink type="TextHighlightDirective" /> y el `IgxTextHighlightService` de Ignite UI for Angular se usan para resaltar partes de un texto, y ofrecen opciones para búsquedas que distinguen mayúsculas y minúsculas y para resaltar solo las coincidencias exactas. Permiten al desarrollador mantener un resaltado activo, que puede ser cualquiera de las partes ya resaltadas.
+
+## Ejemplo de la directiva Angular Text Highlight
+
+<Sample src="/data-display/text-highlight-1" height={260} alt="Ejemplo de la directiva Angular TextHighlight" />
+
+<hr/>
+
+## Primeros pasos con la directiva Ignite UI for Angular Text Highlight
+
+Para empezar con la directiva Text Highlight de Ignite UI for Angular, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](./general/getting-started.mdx).
+
+El siguiente paso es importar `IgxTextHighlightModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+...
+import { IgxTextHighlightModule } from 'igniteui-angular/directives';
+// import { IgxTextHighlightModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTextHighlightModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxTextHighlightDirective` como dependencia independiente.
+
+```typescript
+// home.component.ts
+
+import { IgxTextHighlightDirective, IgxTextHighlightService } from 'igniteui-angular/directives';
+// import { IgxTextHighlightDirective, IgxTextHighlightService } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <div
+      igxTextHighlight
+      [value]="html"
+      [groupName]="'group1'"
+      [containerClass]="'search-text'"
+      class="search-text"
+    >
+      {{ html }}
+    
+</div>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IgxTextHighlightDirective],
+})
+export class HomeComponent {
+  constructor(public textHighlightService: IgxTextHighlightService) {}
+}
+```
+
+Ahora que ha importado el módulo o la directiva de Ignite UI for Angular Text Highlight, puede empezar a usar `igxTextHighlight`.
+
+## Uso de la directiva Angular Text Highlight
+
+Vamos a crear un cuadro de búsqueda que podamos usar para resaltar distintas partes del texto. Usaremos el componente [InputGroup](./input-group.mdx) de Ignite UI for Angular, en el que añadiremos una entrada de texto con botones para borrar las coincidencias, buscar la siguiente, buscar la anterior, y un botón para indicar si la búsqueda distinguirá mayúsculas y minúsculas. También tiene una etiqueta que muestra cuántas coincidencias se han encontrado.
+
+```html
+<div class="search-container">
+
+  <igx-input-group type="search" class="input-group">
+    <igx-prefix>
+      @if (searchText.length == 0) {
+        <igx-icon>search</igx-icon>
+      }
+      @if (searchText.length > 0) {
+        <igx-icon (click)="clearSearch()">clear</igx-icon>
+      }
+    </igx-prefix>
+
+    <input
+      #search1
+      id="search1"
+      igxInput
+      placeholder="Search"
+      autocomplete="off"
+      [(ngModel)]="searchText"
+      (ngModelChange)="onTextboxChange()"
+      (keydown)="searchKeyDown($event)"/>
+    <igx-suffix>
+      <div class="caseSensitiveButton">
+
+        <button
+          igxIconButton="flat"
+          igxRipple
+          igxRippleCentered="true"
+          (click)="updateSearch()"
+          [style.background]="caseSensitive ? 'rgb(73, 180, 254)' : 'transparent'">
+          <igx-icon class="caseSensitiveIcon" fontSet="material">text_fields</igx-icon>
+        </button>
+      
+</div>
+      @if (searchText.length > 0) {
+        <span>
+          @if (matchCount > 0) {
+            {{ index + 1 }} of {{ matchCount }} results
+          }
+          @if (matchCount == 0) {
+            No results
+          }
+        </span>
+      }
+
+      <div class="searchButtons">
+
+        <button
+          igxIconButton="flat"
+          igxRipple
+          igxRippleCentered="true"
+          (click)="findPrev()"
+          [disabled]="!canMoveHighlight">
+          <igx-icon fontSet="material">navigate_before</igx-icon>
+        </button>
+        <button
+          igIconButton="flat"
+          igxRipple
+          igxRippleCentered="true"
+          (click)="findNext()"
+          [disabled]="!canMoveHighlight">
+          <igx-icon fontSet="material">navigate_next</igx-icon>
+        </button>
+      
+</div>
+    </igx-suffix>
+  </igx-input-group>
+</div>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Después, añadiremos un div con texto y la directiva IgxTextHighlight. Tenga en cuenta que, como necesitamos enlazar la entrada de valor con el texto del div, también usaremos la interpolación para el texto del div.
+
+```html
+<div
+  igxTextHighlight
+  [value]="html"
+  [groupName]="'group1'"
+  [containerClass]="'search-text'"
+  class="search-text">
+   {{html}}
+</div>
+```
+
+En el archivo .ts de nuestro componente, primero tenemos que añadir los siguientes campos, que se usan para los enlaces en la plantilla de nuestro componente:
+
+```typescript
+@Component({
+    ...
+})
+export class HomeComponent {
+    public html = '...';
+
+    @ViewChild(IgxTextHighlightDirective, {read: IgxTextHighlightDirective})
+    public highlight: IgxTextHighlightDirective;
+
+    public searchText: string = '';
+    public matchCount: number = 0;
+    public caseSensitive: boolean = false;
+    public index: number = 0;
+
+    public get canMoveHighlight() {
+        return this.matchCount > 1;
+    }
+}
+```
+
+A continuación, tenemos que añadir los siguientes métodos, que permitirán al usuario aplicar los resaltados del texto que ha escrito en el cuadro de búsqueda y mover el resaltado activo.
+
+```typescript
+@Component({
+    ...
+})
+export class HomeComponent {
+    constructor(public textHighlightService: IgxTextHighlightService) {}
+
+    public searchKeyDown(ev) {
+        if (this.searchText) {
+            if (ev.key === 'Enter' || ev.key === 'ArrowDown' || ev.key === 'ArrowRight') {
+                ev.preventDefault();
+                this.findNext();
+            } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') {
+                ev.preventDefault();
+                this.findPrev();
+            }
+        }
+    }
+
+    public onTextboxChange() {
+        this.index = 0;
+        this.find(0);
+    }
+
+    public updateSearch() {
+        this.caseSensitive = !this.caseSensitive;
+        this.find(0);
+    }
+
+    public clearSearch() {
+        this.searchText = '';
+        this.find(0);
+    }
+
+    private findNext() {
+        this.find(1);
+    }
+
+    private findPrev() {
+        this.find(-1);
+    }
+
+    private find(increment: number) {
+        if (this.searchText) {
+            this.matchCount = this.highlight.highlight(this.searchText, this.caseSensitive);
+            this.index += increment;
+
+            this.index = this.index < 0 ? this.matchCount - 1 : this.index;
+            this.index = this.index > this.matchCount - 1 ? 0 : this.index;
+
+            if (this.matchCount) {
+                this.textHighlightService.setActiveHighlight('group1', {
+                    columnIndex: 0,
+                    index: this.index,
+                    page: 0,
+                    rowIndex: 0
+                });
+            }
+        } else {
+            this.highlight.clearHighlight();
+        }
+    }
+}
+```
+
+Si el ejemplo está configurado correctamente, el resultado final debería tener este aspecto:
+
+<Sample src="/data-display/text-highlight-1" height={260} alt="" />
+
+<igc-divider></igc-divider>
+
+## Búsqueda en varios elementos
+
+La <ApiLink type="TextHighlightDirective" label="igxTextHighlight" /> le permite buscar en varios elementos que comparten un único resaltado activo. Esto se consigue teniendo el mismo valor de <ApiLink type="TextHighlightDirective" member="groupName" label="groupName" /> en varias directivas TextHighlight. Para configurar el ejemplo, reutilizaremos el cuadro de búsqueda del ejemplo anterior, pero esta vez añadiremos dos elementos div. Las entradas <ApiLink type="TextHighlightDirective" member="column" label="column" /> y <ApiLink type="TextHighlightDirective" member="row" label="row" /> son útiles cuando tiene varios elementos, y en nuestro caso el segundo div tiene un valor de fila distinto.
+
+```html
+<div
+  igxTextHighlight
+  [groupName]="'group1'"
+  [row]="0"
+  [containerClass]="'search-text'"
+  [value]="firstParagraph"
+  class="search-text">
+   {{firstParagraph}}
+</div>
+<div
+  igxTextHighlight
+  [groupName]="'group1'"
+  [row]="1"
+  [containerClass]="'search-text'"
+  [value]="secondParagraph"
+  class="search-text">
+   {{secondParagraph}}
+</div>
+```
+
+En el archivo .ts tenemos los campos `firstParagraph` y `secondParagraph`, que están enlazados a las entradas de valor respectivas de las directivas de text highlight. Además, ahora usaremos ViewChildren en lugar de ViewChild para obtener todos los resaltados de nuestra plantilla.
+
+```typescript
+public firstParagraph = "...";
+
+public secondParagraph = "...";
+
+@ViewChildren(IgxTextHighlightDirective)
+public highlights;
+```
+
+El resto del código del archivo .ts es idéntico al del ejemplo de un solo elemento, con la excepción del método find. Los cambios en este método son necesarios porque ahora tenemos varios elementos, pero el código de ahí puede usarse independientemente del número de directivas TextHighlight que tenga en la página.
+
+```typescript
+@Component({
+    ...
+})
+export class HomeComponent {
+    constructor(public textHighlightService: IgxTextHighlightService) {}
+
+    private find(increment: number) {
+        if (this.searchText) {
+            let count = 0;
+            const matchesArray = [];
+
+            this.highlights.forEach((h) => {
+                count += h.highlight(this.searchText, this.caseSensitive);
+                matchesArray.push(count);
+            });
+
+            this.matchCount = count;
+
+            this.index += increment;
+            this.index = this.index < 0 ? this.matchCount - 1 : this.index;
+            this.index = this.index > this.matchCount - 1 ? 0 : this.index;
+
+            if (this.matchCount) {
+                let row;
+
+                for (let i = 0; i < matchesArray.length; i++) {
+                    if (this.index < matchesArray[i]) {
+                        row = i;
+                        break;
+                    }
+                }
+
+                const actualIndex = row === 0 ? this.index : this.index - matchesArray[row - 1];
+
+                this.textHighlightService.setActiveHighlight('group1', {
+                    index: actualIndex,
+                    rowIndex: row
+                });
+            }
+        } else {
+            this.highlights.forEach((h) => {
+                h.clearHighlight();
+            });
+            this.matchCount = 0;
+        }
+    }
+}
+```
+
+<Sample src="/data-display/text-highlight-2" height={400} alt="" />
+
+<igc-divider></igc-divider>
+
+## Estilos
+
+La directiva <ApiLink type="TextHighlightService" /> puede tener estilo para cambiar el color y el fondo de todas las apariciones de la cadena indicada. Para empezar, tenemos que importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-highlight-theme" label="highlight-theme" code={true} /> y acepta los parámetros `$resting-background`, `$resting-color`, `$active-background` y `$active-color`.
+
+```scss
+$dark-highlight: highlight-theme(
+  $resting-background: #ffcd0f,
+  $resting-color: #292826,
+  $active-background: #292826,
+  $active-color: #ffcd0f,
+);
+```
+
+Los parámetros `$resting-background` y `$resting-color` se aplicarán a todas las apariciones resaltadas, excepto a la cadena resaltada activa, que tendrá el estilo basado en los parámetros `$active-background` y `$active-color`.
+
+El último paso es **incluir** el tema recién creado.
+
+```scss
+:host {
+  @include tokens($dark-highlight);
+}
+```
+
+<DocsAside type="info">
+Las sobrescrituras de tokens normalmente se heredan a través del encapsulado de vista emulado, pero los selectores generados y los selectores CSS personalizados del siguiente ejemplo pueden seguir necesitando `::ng-deep` cuando apuntan a elementos de resaltado creados fuera de la plantilla propia del componente.
+</DocsAside>
+
+### Estilos personalizados
+
+Digamos que queremos proporcionar un estilo aún más rico a las partes resaltadas del texto. Para ello, podemos aprovechar las entradas <ApiLink type="TextHighlightDirective" member="cssclass" label="cssClass" /> y <ApiLink type="TextHighlightDirective" member="activecssclass" label="activeCssClass" /> de la directiva <ApiLink type="TextHighlightService" />. Podemos combinar estas clases con los estilos de <ApiLink kind="sass" module="themes" type="function-highlight-theme" label="highlight-theme" code={true} /> y ofrecer una experiencia excelente a nuestros usuarios.
+
+Solo tenemos que crear un par de clases CSS con algunas propiedades y asignarlas mediante las entradas anteriores:
+
+```html
+<div
+  igxTextHighlight
+  [cssClass]="'custom-highlight'"
+  [activeCssClass]="'custom-active-highlight'">
+   {{html}}
+</div>
+```
+
+
+```scss
+// cssClass
+.custom-highlight {
+  border: 1px solid #ffcd0f;
+}
+// activeCssClass
+.custom-active-highlight {
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
+}
+```
+
+Como se ha mencionado antes, también podemos combinarlas con un tema:
+
+```scss
+:host {
+  ::ng-deep {
+    @include tokens($dark-highlight);  
+    
+    .custom-highlight {
+      border: 1px solid #ffcd0f;
+    }  
+
+    .custom-active-highlight {
+      box-shadow: 0 0 3px 0 rgba(0,0,0, .5);
+    }
+  }
+}
+```
+
+### Demostración
+
+<Sample src="/data-display/text-highlight-style" height={300} alt="" />
+
+<igc-divider></igc-divider>
+
+## Referencias de API
+Para información más detallada sobre la API de la directiva TextHighlight, consulte el siguiente enlace:
+- <ApiLink type="TextHighlightService" />
+Componentes adicionales que se han usado:
+- <ApiLink type="InputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Estilos de IgxInputGroupComponent" code={true} />
+<igc-divider></igc-divider>
+## Recursos adicionales
+
+- [Búsqueda en la cuadrícula](./grid/search.mdx)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

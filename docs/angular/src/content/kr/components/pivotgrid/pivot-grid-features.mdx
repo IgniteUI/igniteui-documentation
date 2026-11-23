@@ -1,0 +1,226 @@
+---
+title: "Angular Pivot Grid 기능 | 피벗 테이블 | Infragistics"
+description: "Ignite UI for Angular로 빠르고 반응성이 뛰어난 Angular 피벗 그리드와 테이블을 만드십시오. 피벗 데이터를 통해 복잡한 데이터 분석을 수행하십시오."
+keywords: angular pivot grid, Angular pivot table, ignite ui for angular, pivot grid features, pivot features
+license: commercial
+_language: ko
+llms:
+  description: "피벗 그리드와 플랫 그리드 컴포넌트 클래스는 공통 기반 클래스를 상속하므로 일부 기능과 특징을 공유합니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Pivot Grid 기능
+
+피벗 그리드와 플랫 그리드 컴포넌트 클래스는 공통 기반 클래스를 상속하므로 일부 기능과 특징을 공유합니다.
+
+<DocsAside type="info">
+일부 기능은 피벗 테이블의 맥락에서 의미 있는 동작을 하지 않으므로 `IgxPivotGrid`에서 활성화할 수 없습니다. 여기에는 다음이 포함됩니다:
+
+- CRUD 작업
+- 그룹화
+- 행/열 고정
+- 요약
+- 페이징
+</DocsAside>
+
+Pivot Grid 컴포넌트에는 아래에 설명된 차원과 관련된 추가 기능이 있습니다.
+
+<Sample src="/pivot-grid/pivot-grid-features" height={870} alt="Angular Pivot Grid와 Pivot Selector 예제" />
+
+## 차원 필터링
+
+모든 차원(필터, 행, 열)은 칩 UI 또는 API를 통해 필터링할 수 있습니다. 이 기능은 내장되어 있으며 기본적으로 활성화되어 있습니다.
+
+<DocsAside type="info">
+필터링 차원을 사용하여 피벗 보기의 일부가 아닌 데이터 값을 걸러 낼 수 있습니다.
+</DocsAside>
+
+필터링 UI는 차원 칩의 필터 아이콘을 통해 열 수 있으며, 고유한 차원 값을 Excel 스타일로 필터링할 수 있게 합니다.
+
+<DocsAside type="info">
+모든 필터링 칩을 표시할 공간이 충분하지 않으면, 피벗 그리드는 잘려 나간 칩을 드롭다운에 표시합니다. 최종 사용자는 그곳에서 칩에 접근하고 조작할 수 있습니다.
+</DocsAside>
+
+차원은 `pivotConfiguration`의 차원 구성에서 차원의 `filter` 속성을 사용하여 처음부터 필터링할 수도 있습니다.
+관련 필터 조건과 함께 새 `FilteringExpressionsTree`로 설정할 수 있습니다. 예를 들어:
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+## 차원 정렬
+
+`rows` 또는 `columns`의 차원 값은 관련 칩이나 API를 통해 정렬할 수 있습니다. 이 기능은 내장되어 있으며 기본적으로 활성화되어 있습니다.
+
+관련 칩을 클릭하면 차원이 정렬되며, 그 결과 차원 값이 오름차순 또는 내림차순으로 정렬됩니다.
+
+차원 정의의 `sortDirection` 속성을 통해 처음부터 정렬을 적용할 수도 있습니다.
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+## 차원 크기 조절
+
+행 차원은 열 크기 조절과 비슷하게, 셀의 오른쪽 가장자리에 있는 크기 조절 표시기를 통해 크기를 조절할 수 있습니다.
+크기 조절 표시기를 더블 클릭하거나 관련 API - `autoSizeRowDimension`을(를) 사용하여 자동 크기 조절도 할 수 있습니다.
+
+차원 정의에서 제공되는 `width` 속성으로 처음부터 다른 크기를 설정할 수도 있습니다:
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+<DocsAside type="info">
+버전 `18.0.0`부터 IgniteUI for Angular의 행 차원 `width`을(를) `auto`(으)로 설정할 수도 있습니다.
+</DocsAside>
+
+## 차원 선택
+
+Pivot Grid는 기본 그리드와 같은 방식으로 활성화되는 단일 선택을 지원합니다. 예를 들어:
+
+```html
+<igx-pivot-grid #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+여러 행이나 열에 걸치는 그룹을 만드는 행 또는 열 차원이 여러 개 있는 경우, 선택 항목은 선택된 그룹에 속한 모든 셀에 적용됩니다.
+
+## 초압축 모드
+
+`IgxPivotGrid` 컴포넌트는 `superCompactMode` `@Input`을(를) 제공합니다. 화면에 많은 셀이 한꺼번에 표시되어야 하는 경우에 적합합니다. 활성화되면 이 옵션은 피벗 그리드의 `ig-size` 변수를 무시합니다. `superCompactMode`을(를) 활성화하면 `superCompactMode` 옵션이 없는 각 하위 컴포넌트(예: `IgxChip`)의 `ig-size` 변수도 `ig-size-small`(으)로 설정됩니다.
+
+```html
+<igx-pivot-grid [superCompactMode]="true"></igx-pivot-grid>
+```
+
+## 추가 요약 열
+
+`column` 차원이 계층을 정의하면, 피벗 그리드는 그룹 안의 모든 열의 집계를 누적하는 추가 요약/합계 열을 렌더링합니다. 그룹이 접혀 있으면 요약 열만 남습니다. 그룹이 펼쳐지면 추가 요약 열이 그룹의 끝에 나타납니다.
+
+## 행 차원 머리글
+
+버전 `18.0.0`부터 IgniteUI for Angular의 행 차원 값 머리글은 `pivotUI` 옵션을 통해 활성화할 수 있습니다:
+
+```html
+<igx-pivot-grid [pivotUI]="{ showRowHeaders: true }">
+</igx-pivot-grid>
+```
+
+## 행 차원 레이아웃
+
+`IgxPivotGridComponent`은(는) 행 차원 렌더링의 두 가지 방식을 지원합니다. 이는 `pivotUI` 옵션의 `rowLayout` 속성을 설정하여 제어할 수 있습니다.
+
+```html
+  <igx-pivot-grid [pivotUI]="pivotUI">
+  </igx-pivot-grid>
+```
+
+```typescript
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal };
+```
+
+그리드의 기본 레이아웃은 `Vertical`입니다. 이 모드에서는 차원의 계층이 세로로 펼쳐집니다. 대안은 `Horizontal`입니다. 이 모드에서는 단일 행 차원의 하위 항목을 펼치면 같은 상위 다중 행 레이아웃 안에서 가로로 표시됩니다. 아래 샘플에서 두 모드를 전환하여 비교할 수 있습니다.
+
+`Horizontal` 모드에서는 상위 행이 접혀 있지 않으면 상위 행 차원의 집계가 보이지 않습니다.
+행 요약에 상위 차원을 표시하려면 관련 차원의 `horizontalSummary` 속성을 활성화할 수 있습니다.
+
+```ts
+rows: [
+    {
+        memberFunction: () => 'All Products',
+        memberName: 'AllProducts',
+        enabled: true,
+        horizontalSummary: true,
+        width: "150px",
+        childLevel: {
+            //...
+        }
+    }
+]
+```
+
+또한 `pivotUI` 옵션의 `horizontalSummariesPosition` 속성으로 요약의 위치를 바꿀 수 있습니다. `Top`(기본값) 또는 `Bottom`로 설정할 수 있습니다.
+
+```ts
+public pivotUI: IPivotUISettings = { rowLayout: PivotRowLayoutType.Horizontal, horizontalSummariesPosition: PivotSummaryPosition.Bottom };
+```
+
+<DocsAside type="info">
+행 요약 관련 옵션 - `horizontalSummary` 및 `horizontalSummariesPosition`은(는) `Horizontal` 레이아웃 모드에만 적용됩니다.
+</DocsAside>
+
+<Sample src="/pivot-grid/pivot-grid-layout" height={870} alt="가로 행 차원 레이아웃이 있는 Angular Pivot Grid" />
+
+## 상호 작용
+
+### 키보드 탐색
+
+`IgxPivotGrid`의 키보드 탐색은 `IgxGrid`에서의 방식과 비슷하게 동작합니다. 피벗 그리드는 세 영역으로 나뉩니다 - `rows`, `columns`, `values`. 탐색 목적에서 `rows`과(와) `columns` 영역은 머리글로 간주되며, `values` 영역은 본문입니다.
+키보드 화살표는 현재 영역 안에서만 활성 요소를 이동할 수 있게 합니다.
+
+### 차원 끌어서 놓기
+
+차원은 끌어서 놓을 수 있는 칩으로 표시됩니다.
+모든 칩은 끌어서 놓기로 영역 안에서 순서를 바꿀 수 있습니다.
+`rows`, `column`, `filter`(차원 칩)의 칩은 어느 영역에서든 다른 영역의 어느 위치로든 옮길 수 있습니다.
+이 영역들의 칩은 `values` 영역으로 옮길 수 없고, `values` 영역의 칩은 어떤 차원 영역으로도 옮길 수 없습니다.
+
+<DocsAside type="info">
+Pivot Grid의 칩은 Pivot Data Selector로 옮길 수 없으며, Pivot Data Selector의 항목은 Pivot Grid로 옮길 수 없습니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="PivotDataSelector" />
+## 추가 리소스
+
+
+- [Angular Pivot Grid 개요](/pivotgrid/pivot-grid)
+- [Angular Pivot Grid 사용자 지정 집계](/pivotgrid/pivot-grid-custom)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

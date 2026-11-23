@@ -1,0 +1,278 @@
+---
+title: "Guía completa de Angular Grid y desarrollo de aplicaciones Angular"
+description: "Los grids y gráficos de datos modernos pueden ser complejos e incluir una amplia gama de funciones. Conozca los grids de Angular y el desarrollo de aplicaciones Angular con nuestra guía completa."
+keywords: "angular, desarrollo de aplicaciones angular, infragistics"
+license: commercial 
+_language: es
+llms:
+  description: "Conozca Angular Data Grid y cómo usarlo consultando esta sección informativa, que forma parte de nuestro tema Información general del grid."
+---
+
+import { Image } from 'astro:assets';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import scrolling from '../../images/general/scrolling.gif';
+
+
+# Guía completa de Angular Grid y desarrollo de aplicaciones Angular
+
+_Conozca Angular Data Grid y cómo usarlo [consultando esta sección informativa](/grids-and-lists#qué-es-una-cuadrícula-de-datos-de-angular), que forma parte de nuestro tema Información general del grid._
+
+## Ignite UI: nuestro framework para el desarrollo de aplicaciones Angular
+
+Ignite UI for Angular es un conjunto avanzado de herramientas de Infragistics que incluye componentes de interfaz con muchas funciones y alto rendimiento, como grids de datos y otros componentes, como gráficos, mapas de visualización de datos, editores y más.
+
+El grid de datos de Ignite UI Angular está entre los más rápidos del sector y lo utilizan muchas de las principales empresas financieras y de seguros.
+
+Basado en el framework Angular de Google, Ignite UI ofrece más de 50 componentes de interfaz y componentes basados en Material, y más de 50 tipos de gráfico, incluido el gráfico financiero.
+
+Entre sus muchas ventajas, Ignite UI for Angular ofrece una integración sencilla, un desarrollo y diseño rápidos, y compatibilidad responsiva entre navegadores.
+
+## Instalación y creación de un proyecto
+
+Puede instalar Ignite UI for Angular con Angular CLI o con la [Ignite UI CLI](/general/cli/getting-started-with-cli). Para empezar rápidamente con Angular CLI, ejecute el siguiente comando:
+
+`ng add igniteui-angular`
+
+Es la opción preferida cuando necesita añadir Ignite UI for Angular a una [aplicación Angular existente](/general/getting-started#instalar-ignite-ui-for-angular).
+
+Si está creando una aplicación nueva desde cero, le recomendamos el siguiente enfoque:
+
+`npm install –g igniteui-cli`
+
+Una vez instalado igniteui cli, puede crear fácilmente una aplicación siguiendo la [experiencia guiada de la CLI usando Ignite UI CLI](/general/cli/step-by-step-guide-using-cli) o los [Schematics de Ignite UI for Angular](/general/cli/step-by-step-guide-using-angular-schematics), que genera una aplicación configurada que el usuario final puede ejecutar con un único comando:
+
+`ig`
+
+Use este amplio conjunto de comandos de la CLI para realizar otras funciones, como generar un proyecto de Ignite UI y añadir un nuevo componente, así como compilar y servir toda la aplicación.
+
+## Importar dependencias
+
+Para importar las dependencias del producto, recomendamos encarecidamente usar Ignite UI CLI. Basta con usar `ng add igniteui-angular` para instalar en su proyecto el paquete Ignite UI for Angular, junto con todas sus dependencias, importaciones de fuentes, preferencias de estilos y mucho más.
+
+Para empezar a usar los componentes de Ignite UI for Angular sin Ignite UI CLI, asegúrese de haber configurado todas las dependencias necesarias y de haber realizado correctamente la configuración de su proyecto. Puede aprender a hacerlo manualmente en el tema [Primeros pasos](/general/getting-started).
+
+## Añadir componentes a una plantilla
+
+Cuando termine de configurar el entorno de desarrollo, puede seguir añadiendo y configurando otros componentes de Ignite UI. Así es como usar [nuestros schematics](/general/cli-overview) para añadir un grid con una configuración básica y añadir plantillas a algunas de nuestras columnas.
+
+```html
+<igx-grid #grid1 [data]="localData" height="600px" (selected)="cellSelection($event)">
+    <igx-column header="Rank" headerClasses="myClass" width="115px" field="Id" sortable="true" [filterable]="false"></igx-column>
+    <igx-column field="Name" header="Athlete" width="280"></igx-column>
+    <igx-column field="Speed" header="Speed" [width]="'190px'" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" sortable="true" header="Track Progress" [filterable]="false">
+        <ng-template igxCell let-val>
+            <div class="linear-bar-container">
+
+                <igx-linear-bar [textVisibility]="false" class="cell__inner_2" [value]="val"></igx-linear-bar>
+            
+</div>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+El grid en sí consta de distintos componentes, como IgxColumnComponent, que se usa para definir la colección de columnas del grid y para habilitar funciones por columna, como la ordenación y la paginación.
+
+Cada una de las columnas del grid puede tener una plantilla por separado. La columna espera etiquetas ng-template decoradas con una de las directivas del módulo del grid.
+
+## Configurar sus componentes
+
+Ahora que ha definido columnas en nuestro Grid, puede establecer distintas plantillas de celda, de encabezado y de pie de la siguiente manera:
+
+- La directiva IgxHeader se dirige al encabezado de la columna, proporcionando como contexto el propio objeto de columna.
+
+ ```html
+ <igx-column field="Name">
+    <ng-template igxHeader let-column>
+        {{ column.field | uppercase }}
+    </ng-template>
+</igx-column>
+ ```
+
+- igxCell aplica la plantilla proporcionada a todas las celdas de la columna. El objeto de contexto proporcionado en la plantilla está formado por el valor de la celda, proporcionado implícitamente, y por el propio objeto de celda.
+
+- La columna también acepta una última plantilla que se usará cuando una celda esté en modo de edición. Como con las demás plantillas de columna, el objeto de contexto proporcionado es, de nuevo, el valor de la celda y el propio objeto de celda
+
+```html
+ <igx-column field="Price" [dataType]="'number'" editable="true">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
+```
+
+## Añadir datos a sus tablas y gráficos
+
+Aunque algunas aplicaciones Angular usan datos estáticos, la mayor parte del desarrollo de aplicaciones actual usa datos almacenados en una base de datos. El enlace de datos de Angular, que es el proceso de establecer una conexión entre la interfaz de la aplicación y los datos que muestra, es fácil de implementar para permitir tablas dinámicas. Puede configurar el grid para enlazarlo a un servicio de datos remoto, que es el escenario habitual en aplicaciones a gran escala. Una buena práctica es separar toda la lógica relacionada con la obtención de datos en un servicio de datos aparte. Esta es una forma de crear un servicio que gestione la obtención de datos del servidor:
+
+El servicio en sí es bastante sencillo y consta de un método: fetchData, que devolverá un `Observable<NorthwindRecord[]>`.
+
+```typescript
+
+@Injectable()
+export class NorthwindService {
+    private url = 'http://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get(this.url)
+            .pipe(
+                map(response => response['value']),
+                catchError(
+                    this.errorHandler('Error loading northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+Después de implementar el servicio, querrá inyectarlo en el constructor de su componente y usarlo para recuperar los datos. El hook de ciclo de vida ngOnInit es un buen lugar para lanzar la solicitud inicial
+
+```typescript
+
+@Component({
+    ...
+})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.records = [];
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+```html
+<igx-grid [data]="records">
+    <igx-column field="ProductId"></igx-column>
+    {/* rest of the column definitions */}
+    ...
+</igx-grid>
+```
+
+Consulte nuestro tema [Enlace de datos](/grid/grid#enlace-de-datos-del-grid-de-angular) para obtener información más detallada.
+
+La misma técnica de enlace de datos es aplicable a otros componentes de Ignite UI, como igxDataChart.
+
+```html
+ <igx-data-chart [dataSource]="data"
+                 width="700px"
+                 height="500px">
+    <igx-numeric-x-axis name="xAxis" isLogarithmic="true" ></igx-numeric-x-axis>
+    <igx-numeric-y-axis name="yAxis" isLogarithmic="true" ></igx-numeric-y-axis>
+    <igx-bubble-series
+        name="series1"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        xMemberPath="population"
+        yMemberPath="gdpTotal"
+        radiusMemberPath="gdpPerCapita"
+        [dataSource]="data"  ></igx-bubble-series>
+ </igx-data-chart>
+```
+
+Establecer un origen de datos en el componente de gráfico se aplicará a todas las series, pero también puede establecer orígenes de datos distintos en cada serie añadida al data chart.
+
+## Ordenación, filtrado y paginación
+
+Los grids de datos de Angular admiten una ordenación, un filtrado y una paginación sencillos. Con API completas y una configuración intuitiva de las funciones, usar los componentes de Ignite UI for Angular nunca ha sido tan fácil.
+
+```html
+<igx-grid #grid1 (sortingDone)="removeSorting($event)"
+        [data]="data"
+        [allowFiltering]="true">   
+    <igx-column field="OrderID" header="Order ID">
+    </igx-column>
+    <igx-column field="CategoryName" header="Category Name" [dataType]="'string'" sortable="true">
+    </igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+El Grid ofrece tres tipos de filtrado con condiciones de filtrado personalizadas:
+
+- [Fila de filtro](/grid/filtering) por columna con la estrategia de filtrado predeterminada incluida de serie, así como todas las condiciones de filtrado estándar.
+
+- [Filtrado al estilo de Excel](/grid/excel-style-filtering), con un menú configurable de funciones como ordenación, movimiento, anclaje y ocultación.
+
+- [Filtrado avanzado](/grid/advanced-filtering) que proporciona un cuadro de diálogo que permite crear grupos con condiciones de filtrado en todas las columnas.
+
+Nuestra [versión de Angular 9](https://www.infragistics.com/community/blogs/b/infragistics/posts/ignite-ui-for-angular-9-0-0-release "Ignite UI for Angular 9.0.0 Release") incluye muchas funciones clave nuevas: desde el análisis de datos y una visualización avanzada, hasta la persistencia del estado de la cuadrícula y un widget de temas.
+
+## Dar estilo a sus componentes
+
+Ignite UI tiene las capacidades de estilo más expresivas de los principales frameworks de Angular.
+
+Con solo unas pocas líneas de código, puede cambiar fácilmente el tema de sus componentes. Desarrollada en SASS, la API es sencilla y permite un nivel de detalle del tema en distintos niveles: desde un único componente, varios componentes o todo el conjunto.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+$primary-color: #2ab759; // Some green shade I like
+$secondary-color: #f96a88; // Watermelon pink
+
+$my-color-palette: palette(
+    $primary: $primary-color,
+    $secondary: $secondary-color
+);
+
+// IMPORTANT: Make sure you always includecore first!
+@include core();
+// Pass the color palette we generated to thetheme mixin
+@include theme($my-color-palette);
+```
+
+Como Ignite UI for Angular basa el diseño de sus componentes en los [principios de Material Design](https://material.io/guidelines/material-design/introduction.html "Introduction to Material Design"), intentamos acercar al máximo los colores, tamaños, tipografía y el aspecto general de nuestros componentes a los creados por Google. Ejemplo:
+
+
+<Sample crm src="" height={477} alt="Ejemplo de demostración de CRM en Angular" iframeOnly fullscreenBtn />
+<p style="margin: 0;padding-top: 0.5rem">¿Le gusta este ejemplo? Acceda a nuestro conjunto completo de herramientas para Angular y empiece a crear sus propias aplicaciones en minutos. <a class="no-external-icon mchNoDecorate trackCTA" target="_blank" href="https://www.infragistics.com/products/ignite-ui-angular/download" data-xd-ga-action="Download" data-xd-ga-label="Ignite UI for Angular">Descárguelo gratis.</a></p>
+
+## Análisis de datos con Ignite UI
+
+El conjunto de herramientas Ignite Angular UI también incluye [capacidades de análisis de datos](/general/data-analysis). Nos esforzamos por ofrecerle todas las capacidades empresariales que necesitará para crear grandes experiencias para sus clientes. Por eso ahora ofrecemos directivas que le darán una experiencia más parecida a la de Excel. Por ejemplo, al seleccionar una parte de los datos, ahora puede hacer clic en un botón y realizar un análisis rápido de ese subconjunto de datos.
+
+<Sample src="/grid-dynamic-chart-data/data-analysis" height={750} lob iframeOnly fullscreenBtn />
+
+## Herramientas para la generación de código y el diseño
+
+Ignite UI for Angular forma parte del [sistema de diseño Indigo.Design](https://www.infragistics.com/products/indigo-design/help/video-tutorials.html "Indigo Design System"), que le permite [generar código Angular nativo](https://www.infragistics.com/products/indigo-design/help/codegen/vscode-plugin.html "Visual Studio Plugin") a partir de diseños creados en Figma con el [kit de interfaz Indigo.Design](https://www.infragistics.com/products/indigo-design/help/creating-an-artboard.html "Indigo Design Creating an artboard"). Puede generar un grid apto para móviles o con mucha densidad de datos, compatible con distintos modos de edición y filtrado, pero también puede usar muchas de las funciones populares del grid, como la ordenación, la paginación, los resúmenes y la agrupación. Además, en cada columna puede especificar distintas operaciones, como mover, redimensionar, ocultar y anclar, para resolver los escenarios más sofisticados de manipulación de datos en tiempo de diseño y obtener una interfaz de usuario con píxeles perfectos en cuestión de minutos.
+
+## Pruebas de rendimiento
+
+Los componentes de grid, en general, están pensados para visualizar grandes cantidades de datos tabulares. En cuanto al rendimiento, nuestro Grid destaca en el tiempo de carga, el rendimiento en tiempo de ejecución y el rendimiento percibido.  
+
+Para cumplir los requisitos de una aplicación web en cuanto al tiempo de carga y al rendimiento en tiempo de ejecución, es importante virtualizar los elementos del Document Object Model (DOM) que se renderizan, y reemplazar o reutilizar los elementos del DOM cuando el usuario se desplaza vertical y horizontalmente por el contenedor del componente. El igxGrid tiene un excelente rendimiento de desplazamiento en tiempo de ejecución, sin desgarros visuales, así como un buen rendimiento percibido (definido por la facilidad de uso general de su software). Este es un ejemplo en GIF del rendimiento de desplazamiento:
+
+<div>
+<Image src={scrolling} alt="Rendimiento de desplazamiento" class="b-lazy responsive-img" style="-webkit-box-shadow: 8px 9px 9px 5px #ccc; -moz-box-shadow: 8px 9px 9px 5px #ccc; box-shadow: 8px 9px 9px 5px #ccc;" />
+</div>
+
+<hr/>
+
+Consulte nuestro Grid y vea lo fácil que es encontrar y navegar hasta la función que quiere usar, o lo atractivo que sería su aspecto y comportamiento en su aplicación.
+
+Para saber más sobre esto, consulte nuestro artículo [Rendimiento de software medio (web)](https://medium.com/ignite-ui/software-performance-web-61158c8583d "Web Software Performance").

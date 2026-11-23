@@ -1,0 +1,196 @@
+---
+title: "Mapa de {Platform} | Herramientas de visualización de datos | Mostrar imágenes de ESRI | Infragistics"
+description: "Use {Platform} de Infragistics para mostrar imágenes de los mapas de ESRI. ¡Vea los tutoriales del mapa de {ProductName}!"
+keywords: "Mapa de {Platform}, ESRI, {ProductName}, Infragistics, origen de teselas de imagen, fondo del mapa"
+license: commercial
+mentionedTypes: ["GeographicMap"]
+_language: es
+llms:
+  description: "ArcGISOnlineMapImagery es un servicio gratuito de mapas de imágenes geográficas creado por la empresa Esri."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform}: mostrar imágenes de los mapas de Esri
+
+El `ArcGISOnlineMapImagery` es un servicio gratuito de mapas de imágenes geográficas creado por la empresa <a href="https://www.esri.com/" target="_blank">Esri</a>. Ofrece más de 40 estilos de teselas de imágenes geográficas del mundo y algunas teselas temáticas de los EE. UU. Este servicio de imágenes geográficas puede consultarse directamente en el sitio web <a href="https://services.arcgisonline.com/ArcGIS/rest/services" target="_blank">www.arcgisonline.com</a>.
+
+## Ejemplo de {Platform}: mostrar imágenes de los mapas de Esri
+
+
+<Sample src="/maps/geo-map/display-esri-imagery" height={500} alt="Ejemplo de {Platform}: mostrar imágenes de los mapas de Esri" />
+
+
+
+
+## Fragmento de código
+El siguiente fragmento de código muestra cómo mostrar {Platform} teselas de imágenes geográficas de los servidores de imágenes de Esri en `GeographicMap` usando la clase `ArcGISOnlineMapImagery`.
+
+```json-snippet source="/maps/geo-map/display-esri-imagery"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "oceansMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "ArcGISOnlineMapImagery",
+        "name": "oceansMapImagery",
+        "mapServerUri": "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer"
+    },
+    "$type": "+doc:markup"
+}
+```
+
+```json-snippet source="/maps/geo-map/display-esri-imagery" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "oceansMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "ArcGISOnlineMapImagery",
+        "name": "oceansMapImagery",
+        "mapServerUri": "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer"
+    },
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
+
+## Utilidad de Esri
+Como alternativa, puede usar [EsriUtility](./geo-map-resources-esri.mdx), que define todos los estilos proporcionados por los servidores de imágenes de Esri.
+
+<PlatformBlock for="Angular">
+
+```ts
+import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
+import { IgxArcGISOnlineMapImagery } from 'igniteui-angular-maps';
+import { EsriUtility, EsriStyle } from './EsriUtility';
+// ...
+public geoMap: IgxGeographicMapComponent;
+
+const tileSource = new IgxArcGISOnlineMapImagery();
+tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldOceansMap);
+
+this.geoMap.backgroundContent = tileSource;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrGeographicMap } from 'igniteui-react-maps';
+import { IgrArcGISOnlineMapImagery } from 'igniteui-react-maps';
+import { EsriUtility, EsriStyle } from './EsriUtility';
+// ...
+const tileSource = new IgrArcGISOnlineMapImagery();
+tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldOceansMap);
+
+const geoMap = new IgrGeographicMap({ name: "geoMap" });
+geoMap.backgroundContent = tileSource;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { IgcGeographicMap } from 'igniteui-webcomponents-maps';
+import { IgcArcGISOnlineMapImagery } from 'igniteui-webcomponents-maps';
+import { EsriUtility, EsriStyle } from './EsriUtility';
+// ...
+const tileSource = new IgcArcGISOnlineMapImagery();
+tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldOceansMap);
+
+const geoMap = document.getElementById("geoMap") as IgcGeographicMapComponent
+geoMap.backgroundContent = tileSource;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using IgniteUI.Blazor.Controls
+
+
+<IgbGeographicMap Height="100%" Width="100%"
+    Zoomable="true"
+    BackgroundContent="EsriImagery" />
+
+protected override void OnInitialized()
+{
+    IgbArcGISOnlineMapImagery imagery = new IgbArcGISOnlineMapImagery()
+    {
+        MapServerUri = EsriStyle.WorldOceansMap
+    };
+
+    this.EsriImagery = imagery;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Xaml">
+
+```xml
+<igMaps:XamGeographicMap
+    Zoomable="true"
+    BackgroundContent="EsriImagery" />
+```
+
+</PlatformBlock>
+
+
+## Referencias de API
+`ArcGISOnlineMapImagery`
+`GeographicMap`

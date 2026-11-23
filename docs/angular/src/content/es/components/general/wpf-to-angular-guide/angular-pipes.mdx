@@ -1,0 +1,109 @@
+---
+title: "Transformar datos con pipes de Angular | Guía de WPF a Angular | Infragistics"
+description: "Aprenda cómo los pipes de Angular pueden transformar datos de un valor a otro, como los convertidores de WPF. Angular proporciona pipes predefinidos para las transformaciones de datos habituales."
+keywords: "transformar datos con pipes de angular, ignite ui for angular, infragistics"
+_language: es
+llms:
+  description: "Puede usar los pipes de Angular para transformar datos de un valor a otro."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Transformar datos con pipes de Angular
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/Gmz5kio50FE">
+</iframe>
+
+Puede usar los pipes de Angular para transformar datos de un valor a otro. Esta técnica es similar a los convertidores de WPF.
+
+En WPF, para transformar datos de un valor a otro, se usa un [IValueConverter](https://docs.microsoft.com/en-us/dotnet/api/system.windows.data.ivalueconverter?view=netframework-4.8). Para transformar datos en una aplicación Angular, usaremos un [Pipe](https://angular.io/api/core/Pipe). El pipe es muy parecido al convertidor de WPF. Recibe datos como entrada y después los transforma en la salida deseada para mostrarla.
+
+Angular proporciona varios pipes predefinidos para las transformaciones de datos más habituales. Por ejemplo, si quiere que un texto de encabezado aparezca en mayúsculas, puede usar el [UpperCasePipe](https://angular.io/api/common/UpperCasePipe). Usar un pipe es muy sencillo: después de su expresión, escriba el operador de pipe `|` seguido del nombre del pipe.
+
+```html
+<h2>{{ header | uppercase }}</h2>
+```
+
+Lo realmente interesante de los pipes de Angular, comparados con un convertidor de WPF, es que puede usar más de un pipe a la vez. Por ejemplo, puede usar un [DatePipe](https://angular.io/api/common/DatePipe) y un [UpperCasePipe](https://angular.io/api/common/UpperCasePipe) para dar a la fecha un formato fácil de leer y ponerla en mayúsculas:
+
+```html
+<h2>{{ birthday | date | uppercase }}</h2>
+```
+
+Además, también podemos pasar parámetros al pipe. Por ejemplo, el [DatePipe](https://angular.io/api/common/DatePipe) tiene parámetros como el formato, la zona horaria y la configuración regional.
+
+```html
+<h2>{{ birthday | date:"MM/dd/yy" }}</h2>
+```
+
+## Crear su propio pipe
+
+Además de usar los pipes predefinidos, Angular le permite definir sus propios pipes. Veamos la implementación de un convertidor de WPF que sustituye una cadena por otra.
+
+```csharp
+public class ReplaceConverter : IValueConverter
+{
+    public string OldValue { get; set; }
+    public string NewValue { get; set; }
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var strValue = value.ToString();
+        return strValue.Replace(this.OldValue, this.NewValue);
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+```
+
+```xml
+<Window.Resources>
+    <local:ReplaceConverter OldValue=" " NewValue="-" x:Key="replaceConverter"></local:ReplaceConverter>
+</Window.Resources>
+<Grid>
+    <TextBlock Text="{Binding Path=Name, Mode=OneWay, Converter={StaticResource replaceConverter}}"></TextBlock>
+</Grid>
+```
+
+Para hacer lo mismo en Angular, tenemos que definir una clase que implemente la interfaz [PipeTransform](https://angular.io/api/core/PipeTransform) y tenga el decorador [@Pipe](https://angular.io/api/core/Pipe).
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'replace'
+})
+export class ReplacePipe implements PipeTransform {
+
+    transform(value: string, oldValue: string, newValue: string): string {
+        return value.replace(oldValue, newValue);
+    }
+}
+```
+
+```html
+<span>{{ name | replace:" ":"-" }}</span>
+```
+
+<DocsAside type="info">
+Tenga en cuenta que, para poder usar el pipe en la plantilla HTML del componente, debe añadirlo a las declaraciones del módulo.
+</DocsAside>
+
+<DocsAside type="info">
+Una diferencia importante entre el pipe de Angular y el convertidor de WPF es que el pipe de Angular solo funciona con enlace unidireccional, a diferencia del convertidor de WPF, que tiene el método [ConvertBack](https://docs.microsoft.com/en-us/dotnet/api/system.windows.data.ivalueconverter.convertback?view=netframework-4.8).
+</DocsAside>
+
+## Recursos adicionales
+
+- [De escritorio a web: transformar datos con pipes de Angular](https://www.youtube.com/watch?v=Gmz5kio50FE&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j&index=9)
+- [Pipes de Angular](https://angular.io/guide/pipes)
+- [Lista de pipes de Angular predefinidos](https://angular.io/api?type=pipe)
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,235 @@
+---
+title: "Componente Angular Action Strip – Ignite UI for Angular | Infragistics | Licença MIT" 
+description: "O Action Strip representa uma área de modelo para uma ou mais ações. O Action Strip precisa estar dentro de um contêiner relativo, pois ele vai sobrepô-lo."
+keywords: "componente Angular Action Strip, diretiva Angular Action Strip, controle Angular Action Strip, Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, componentes de UI Angular"
+license: MIT
+_language: pt-BR
+llms:
+  description: "O componente Action Strip do Ignite UI for Angular fornece uma área de sobreposição com uma ou mais ações, permitindo que elementos de UI e funcionalidades adicionais sejam exibidos sobre um contêiner de destino específico após a interação do usuário, por exemplo, ao passar o mouse."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral da diretiva Angular Action Strip
+
+<div class="highlight">
+
+O componente Action Strip do Ignite UI for Angular fornece uma área de sobreposição com uma ou mais ações, permitindo que elementos de UI e funcionalidades adicionais sejam exibidos sobre um contêiner de destino específico após a interação do usuário, por exemplo, ao passar o mouse. O contêiner deve ter posicionamento relativo, pois o Action Strip tenta sobrepô-lo e ele próprio tem posicionamento absoluto. Mesmo sobreposto por um Action Strip, as principais interações e o acesso do usuário ao contêiner de destino continuam disponíveis.
+</div>
+
+## Exemplo de Angular Action Strip
+
+<Sample src="/menus/action-strip-paragraph" height={400} alt="Exemplo de Angular Action Strip" />
+
+<hr/>
+
+## Primeiros passos com o Action Strip do Ignite UI for Angular
+
+Para começar com o componente Action Strip do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxActionStripModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxActionStripModule } from 'igniteui-angular/action-strip';
+// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxActionStripModule],
+    ...
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxActionStripComponent` como uma dependência independente, ou usar o token [`IGX_ACTION_STRIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/action-strip/src/action-strip/public_api.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+...
+import { IGX_ACTION_STRIP_DIRECTIVES } from 'igniteui-angular/action-strip';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+import { IgxIconComponent } from 'igniteui-angular/icon';
+// import { IGX_ACTION_STRIP_DIRECTIVES, IgxButtonDirective, IgxIconComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <div style="width:100px; height:100px;">
+        <igx-action-strip>
+            <button igxButton (click)="makeTextBold()">
+                <igx-icon>format_bold</igx-icon>
+            </button>
+        </igx-action-strip>
+    <div>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_ACTION_STRIP_DIRECTIVES, IgxButtonDirective, IgxIconComponent]
+    /* or imports: [IgxActionStripComponent, IgxButtonDirective, IgxIconComponent] */
+})
+export class HomeComponent {}
+```
+
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Agora que você importou o módulo ou as diretivas do Action Strip do Ignite UI for Angular, pode começar com uma configuração básica do componente `igx-action-strip`.
+
+## Usando o componente Angular Action Strip
+
+Para inicializar e posicionar o Action Strip corretamente, ele precisa estar dentro de um contêiner com posicionamento relativo:
+
+```html
+<div style="position:relative; width:100px; height:100px;">
+  <igx-action-strip>
+    <button igxButton (click)="makeTextBold()">
+      <igx-icon>format_bold</igx-icon>
+    </button>
+  </igx-action-strip>
+</div>
+```
+
+Por padrão, o Action Strip não fica visível, mas isso pode ser configurado pela propriedade @Input <ApiLink type="ActionStrip" member="hidden" label="hidden" />.
+
+### Aparência do menu
+
+Para cenários em que mais de três itens de ação serão exibidos, é melhor usar a diretiva <ApiLink type="ActionStripMenuItemDirective" />. Qualquer item dentro do Action Strip marcado com a diretiva estrutural `*igxActionStripMenuItem` será exibido em um menu suspenso, revelado ao alternar o botão de mais opções, ou seja, os três pontos que representam a última ação.
+
+```html
+<div style="position:relative; width:100px; height:100px;">
+  <igx-action-strip>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextLeft()">
+      <igx-icon>format_align_left</igx-icon>
+    </button>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextCenter()">
+      <igx-icon>format_align_center</igx-icon>
+    </button>
+    <button *igxActionStripMenuItem igxButton (click)="alignTextRight()">
+      <igx-icon>format_align_right</igx-icon>
+    </button>
+  </igx-action-strip>
+</div>
+```
+
+<Sample src="/menus/action-strip-paragraph-menu" height={400} alt="" />
+
+### Reutilizando o Action Strip
+
+A mesma instância do Action Strip pode ser usada em vários lugares do documento, desde que as ações não precisem ficar visíveis simultaneamente para eles.
+O Action Strip pode mudar seu contêiner pai, o que é possível alterando o <ApiLink type="ActionStrip" member="context" label="context" />.
+A melhor forma de fazer isso é pelo método de API <ApiLink type="ActionStrip" member="show" label="show" />, passando o `context` como argumento. O `context` deve ser uma instância de um componente e deve ter uma propriedade `element` acessível do tipo `ElementRef`.
+
+<DocsAside type="info">
+O método de API `show` usa o [Renderer2 do Angular](https://angular.io/api/core/Renderer2) para anexar o Action Strip a esse `element`.
+</DocsAside>
+
+## Uso em grades
+
+O Action Strip fornece funcionalidades e UI adicionais para o IgxGrid.
+Isso pode ser usado por meio de componentes de ação da grade, e fornecemos dois padrões:
+
+- <ApiLink type="GridEditingActions" /> - inclui funcionalidades e UI relacionadas à edição da grade. Permite alternar rapidamente o modo de edição para células ou linhas, dependendo do valor da opção `rowEditable` da grade e de a exclusão de linhas ser permitida.
+- <ApiLink type="GridPinningActions" /> - inclui funcionalidades e UI relacionadas à fixação de linhas da grade. Permite fixar linhas rapidamente e navegar entre as linhas fixadas e suas contrapartes desabilitadas.
+
+```html
+<igx-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+  <igx-column *ngFor="let c of columns" [field]="c.field"> </igx-column>
+
+  <igx-action-strip #actionStrip>
+    <igx-grid-pinning-actions></igx-grid-pinning-actions>
+    <igx-grid-editing-actions></igx-grid-editing-actions>
+  </igx-action-strip>
+</igx-grid>
+```
+
+<DocsAside type="info">
+Esses componentes herdam de <ApiLink type="GridActionsBaseDirective" /> e, ao criar um componente de ação de grade personalizado, ele também deve herdar de `IgxGridActionsBaseDirective`.
+</DocsAside>
+<DocsAside type="info">
+Quando `IgxActionStripComponent` é um componente filho da grade, passar o mouse sobre uma linha mostra a UI automaticamente.
+</DocsAside>
+
+<Sample src="/grid/grid-action-strip" height={600} alt="" />
+
+<DocsAside type="info">
+Mais informações sobre como usar o ActionStrip no componente de grade podem ser encontradas na [documentação de Ações de linha da grade](./grid/row-actions.mdx).
+</DocsAside>
+
+## Estilização
+
+Para personalizar o Action Strip, primeiro é preciso importar o arquivo `index`, onde estão localizadas todas as funções de estilo e mixins.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Em seguida, precisamos criar um novo tema que estenda o `action-strip-theme` e passar os parâmetros que queremos alterar:
+
+```scss
+$custom-strip: action-strip-theme(
+  $background: rgba(109, 121, 147, 0.2),
+  $actions-background: rgba(#011627, 0.9),
+  $actions-border-radius: 0
+);
+```
+
+O último passo é incluir o tema de componente recém-criado em nosso aplicativo.
+
+```scss
+:host {
+  @include tokens($custom-strip);
+}
+```
+
+<Sample src="/menus/action-strip-styling" height={400} alt="" />
+
+## Referências de API e estilo
+
+Para informações mais detalhadas sobre a API do Action Strip, consulte os links a seguir:
+
+- <ApiLink type="ActionStrip" />
+
+Os seguintes estilos CSS integrados nos ajudaram a obter este layout do Action Strip:
+
+- <ApiLink kind="sass" module="themes" type="function-action-strip-theme" label="Estilos do IgxActionStripComponent" code={true} />
+
+Componentes e/ou diretivas adicionais que podem ser usados dentro do Action Strip:
+
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />
+- <ApiLink type="Divider" />
+
+<igc-divider></igc-divider>
+
+## Dependências de tema
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema do IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+
+## Recursos adicionais
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

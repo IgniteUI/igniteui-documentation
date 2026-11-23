@@ -1,0 +1,295 @@
+---
+title: "Angular Autocomplete 컴포넌트 – Ignite UI for Angular - MIT 라이선스" 
+description: "Angular Autocomplete 디렉티브는 개발자가 제공한 추천 옵션 패널을 표시하여 텍스트 입력을 향상시키는 방법을 제공합니다. 지금 사용해 보십시오."
+keywords: "Angular Autocomplete 컴포넌트, Angular Autocomplete 디렉티브, Angular Autocomplete 컨트롤, Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library"
+license: MIT
+_language: ko
+llms:
+  description: "Angular Autocomplete는 사용자가 입력하는 동안 추천 목록에서 항목을 쉽게 찾고, 필터링하고, 선택할 수 있도록 하는 검색 상자 디렉티브입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Autocomplete 디렉티브 개요
+
+Angular Autocomplete는 사용자가 입력하는 동안 추천 목록에서 항목을 쉽게 찾고, 필터링하고, 선택할 수 있도록 하는 검색 상자 디렉티브입니다. 기능이 풍부하여 원활한 데이터 바인딩, 필터링, 그룹화, UI 사용자 지정 옵션 및 기타 내장 기능을 지원하므로, 개발자는 직관적인 자동 완성 검색 환경을 만들 수 있습니다.
+
+<div class="highlight">
+
+<ApiLink type="AutocompleteDirective" label="igxAutocomplete" /> 디렉티브는 개발자가 제공한 추천 옵션이 담긴 <ApiLink type="DropDown" label="igxDropDown" />을(를) 표시하여 텍스트 입력을 향상시키는 방법을 제공합니다. 추천 항목은 텍스트 입력에 입력을 시작하거나 `Arrow Up`/`Arrow Down` 키를 사용하면 나타납니다.
+</div>
+
+## Angular Autocomplete 예제
+
+아래 Angular Autocomplete 예제는 사용자가 입력창에 도시 이름을 입력하기 시작하면 드롭다운 추천 목록을 생성합니다.
+
+<Sample src="/data-entries/autocomplete" height={400} alt="Angular Autocomplete 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Autocomplete 시작하기
+
+[Angular 컴포넌트](https://www.infragistics.com/products/ignite-ui-angular), 특히 Autocomplete 디렉티브에 대해 Ignite UI for Angular를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module**에서 **IgxAutocompleteModule**과 **IgxDropDownModule**을 가져오는 것입니다. <ApiLink type="AutocompleteDirective" label="igxAutocomplete" />이(가) <ApiLink type="InputDirective" label="igxInput" />에 적용되면 **igxInputGroupModule**도 필요합니다:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxAutocompleteModule, IgxDropDownModule } from 'igniteui-angular/drop-down';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxAutocompleteModule, IgxDropDownModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [
+        ..., 
+        IgxAutocompleteModule,
+        IgxDropDownModule,
+        IgxInputGroupModule,
+        ....
+    ],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxAutocompleteDirective`을(를) 독립형 디렉티브로 가져올 수 있습니다.
+
+```typescript
+// home.component.ts
+
+...
+import { IgxAutocompleteDirective, IGX_DROP_DOWN_DIRECTIVES } from 'igniteui-angular/drop-down';
+import { IGX_INPUT_GROUP_DIRECTIVES } from 'igniteui-angular/input-group';
+// import { IgxAutocompleteDirective, IGX_INPUT_GROUP_DIRECTIVES, IGX_DROP_DOWN_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-input-group>
+        <input igxInput name="towns" type="text" [igxAutocomplete]="townsPanel" />
+        <label igxLabel for="towns">Towns</label>
+    </igx-input-group>
+    <igx-drop-down #townsPanel>
+        <igx-drop-down-item *ngFor="let town of towns">
+            {{town}}
+        </igx-drop-down-item>
+    </igx-drop-down>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxAutocompleteDirective, IGX_INPUT_GROUP_DIRECTIVES, IGX_DROP_DOWN_DIRECTIVES]
+})
+export class HomeComponent {}
+```
+
+이제 Ignite UI for Angular Action Strip 모듈 또는 디렉티브를 가져왔으므로, `igxAutocomplete` 컴포넌트의 기본 구성부터 시작할 수 있습니다.
+
+## Angular Autocomplete 사용하기
+
+입력에 자동 완성 기능을 적용하려면 드롭다운을 참조하는 `igxAutocomplete` 디렉티브를 추가하십시오:
+
+```html
+<igx-input-group>
+    <input igxInput name="towns" type="text" [igxAutocomplete]="townsPanel" />
+    <label igxLabel for="towns">Towns</label>
+</igx-input-group>
+<igx-drop-down #townsPanel>
+    <igx-drop-down-item *ngFor="let town of towns">
+        {{town}}
+    </igx-drop-down-item>
+</igx-drop-down>
+```
+
+드롭다운에 표시될 목록을 추가하십시오. 입력하는 동안 목록을 필터링하려면 **PipeTransform** 인터페이스를 사용하십시오.
+
+```typescript
+import { Component, Pipe, PipeTransform } from '@angular/core';
+
+@Component({
+    selector: 'app-autocomplete-sample',
+    styleUrls: ['autocomplete.sample.css'],
+    templateUrl: `autocomplete.sample.html`
+})
+export class AutocompleteSampleComponent {
+    constructor() {
+        this.towns = [ 'New York', 'Washington, D.C.', 'London', 'Berlin', 'Sofia', 'Rome', 'Kiev',
+            'Copenhagen', 'Paris', 'Barcelona', 'Vienna', 'Athens', 'Dublin', 'Yerevan',
+            'Oslo', 'Helsinki', 'Stockholm', 'Prague', 'Istanbul', 'El Paso', 'Florence', 'Moscow' ];
+    }
+}
+
+@Pipe({ name: 'startsWith' })
+export class AutocompletePipeStartsWith implements PipeTransform {
+    public transform(collection: any[], term = '') {
+        return collection.filter((item) => item.toString().toLowerCase().startsWith(term.toString().toLowerCase()));
+    }
+}
+```
+
+<DocsAside type="info">
+<ApiLink type="AutocompleteDirective" label="igxAutocomplete" />은(는) 사용 가능한 옵션의 공급자로 <ApiLink type="DropDown" label="igxDropDown" />을(를) 사용하므로, 드롭다운 컴포넌트의 모든 기능을 자동 완성에서도 사용할 수 있습니다.
+</DocsAside>
+
+### Angular Autocomplete 비활성화하기
+
+<ApiLink type="AutocompleteDirective" member="disabled" label="IgxAutocompleteDisabled" /> 입력을 사용하여 Angular Autocomplete를 비활성화할 수 있습니다:
+
+```html
+<igx-input-group>
+    <input igxInput name="towns" type="text"
+        [igxAutocomplete]='townsPanel'
+        [igxAutocompleteDisabled]="disabled"/>
+    <label igxLabel for="towns">Towns</label>
+</igx-input-group>
+```
+
+### Autocomplete 설정
+
+`igx-autocomplete` 드롭다운의 위치 지정, 스크롤 전략 및 아웃렛은 <ApiLink type="AutocompleteDirective" member="autocompleteSettings" label="IgxAutocompleteSettings" />를 사용하여 구성할 수 있습니다.
+
+다음 Angular Autocomplete 예제에서는 드롭다운을 입력 위에 위치시키고 열기 및 닫기 애니메이션을 비활성화합니다. 이를 위해 `ConnectedPositioningStrategy`을 사용합니다:
+
+```html
+<igx-input-group class="autocomplete">
+    <label igxLabel for="cinema">Cinema</label>
+    <input igxInput name="cinema" type="text"
+    [igxAutocomplete]="townsPanel"
+    [igxAutocompleteSettings]="settings"/>
+</igx-input-group>
+<igx-drop-down #townsPanel maxHeight="300px">
+    <igx-drop-down-item-group *ngFor="let town of towns" [label]="town.name">
+        <igx-drop-down-item *ngFor="let cinema of town.cinemas" [value]="cinema">
+            {{cinema}}
+        </igx-drop-down-item>
+    </igx-drop-down-item-group>
+</igx-drop-down>
+```
+
+```typescript
+export class AutocompleteComponent {
+    public settings = {
+        positionStrategy: new ConnectedPositioningStrategy({
+            closeAnimation: null,
+            openAnimation: null,
+            verticalDirection: VerticalAlignment.Top,
+            verticalStartPoint: VerticalAlignment.Top
+        })
+    };
+
+    public towns = [
+        {
+          name: 'New York',
+          cinemas: [
+            'Regal Cinemas',
+            'Village East Cinema',
+            'Roxy Cinema',
+            'The Paris Theatre'
+        ]},
+        {
+            name: 'Los Angeles',
+            cinemas: [
+                'Arc Light',
+                'Pacific Cinerama Dome',
+                'New Beverly Cinema',
+                'Downtown Independent'
+        ]},
+        {
+            name: 'Seattle',
+            cinemas: [
+                'Central Cinema',
+                'Grand Illusion Cinema',
+                'Ark Lodge Cinemas',
+                'Skyway Outdoor Cinema'
+        ]}
+    ];
+}
+```
+
+<DocsAside type="info">
+기본 위치 지정 전략은 `AutoPositionStrategy`이며, 드롭다운은 사용 가능한 공간에 따라 열립니다.
+</DocsAside>
+
+모든 과정이 올바르게 진행되었다면 브라우저에서 다음과 같은 화면이 보여야 합니다:
+
+<Sample src="/data-entries/movie" height={500} alt="" />
+
+<hr/>
+
+## 키보드 탐색
+
+<hr/>
+
+- 드롭다운이 닫혀 있는 경우 <kbd>⬆</kbd> / <kbd>⬇</kbd>를 누르거나 입력창에 입력하면 드롭다운이 열립니다.
+- <kbd>⬇</kbd> - 다음 드롭다운 항목으로 이동합니다.
+- <kbd>⬆</kbd> - 이전 드롭다운 항목으로 이동합니다.
+- <kbd>ENTER</kbd>를 누르면 이미 선택된 항목이 확정되고 드롭다운이 닫힙니다.
+- <kbd>ESC</kbd>를 누르면 드롭다운이 닫힙니다.
+
+<DocsAside type="info">
+Angular Autocomplete가 열리면 목록의 첫 번째 항목이 자동으로 선택됩니다. 목록이 필터링된 경우에도 같은 방식이 적용됩니다.
+</DocsAside>
+
+또한 [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder)가 실제 Angular 컴포넌트를 사용하여 디자인에서 코드까지의 과정을 80% 간소화하는 방법도 확인할 수 있습니다.
+
+## 호환성 지원
+
+`igxAutocomplete` 디렉티브를 적용하면 요소에 다음 ARIA 속성이 설정됩니다:
+
+- role="combobox" - 디렉티브가 적용된 요소의 역할입니다.
+- aria-autocomplete="list" - 입력 자동 완성 추천이 목록 형태로 제공됨을 나타냅니다
+- aria-haspopup="listbox" 속성은 `igxAutocomplete`이(가) 값을 추천하기 위해 컨테이너를 팝업으로 표시할 수 있음을 나타냅니다.
+- aria-expanded="true"/"false" - 드롭다운의 접힘 상태에 따라 달라지는 값입니다.
+- aria-owns="dropDownID" - 추천 항목을 표시하는 데 사용되는 드롭다운의 ID입니다.
+- aria-activedescendant="listItemId" - 현재 활성 목록 요소의 ID로 설정되는 값입니다.
+
+추천 항목의 공급자로 사용되는 `drop-down` 컴포넌트는 다음 ARIA 속성을 노출합니다:
+
+- role="listbox" - `igx-drop-down` 컴포넌트 컨테이너에 적용됩니다
+- role="group" - `igx-drop-down-item-group` 컴포넌트 컨테이너에 적용됩니다
+- role="option" - `igx-drop-down-item` 컴포넌트 컨테이너에 적용됩니다
+- aria-disabled="true"/"false"는 비활성화된 경우 `igx-drop-down-item`, `igx-drop-down-item-group` 컴포넌트 컨테이너에 적용됩니다.
+
+## 스타일링
+
+모든 컴포넌트는 자체 테마를 가집니다.
+
+`igxAutocomplete`의 스타일을 지정하려면 이를 포함하는 컴포넌트의 스타일을 지정해야 합니다. 이 경우 포함하는 컴포넌트는 <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" />과(와) <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" />입니다.
+
+이 두 컴포넌트의 스타일을 지정하는 방법을 더 잘 이해하려면 [`igxInputGroup`](/input-group#스타일링) 및 [`igxDropdown`](/drop-down#스타일링) 스타일링 섹션을 참조하십시오.
+
+## API 참조
+
+<hr/>
+
+- <ApiLink type="AutocompleteDirective" />
+- <ApiLink type="DropDown" />
+- <ApiLink type="InputGroup" />
+
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown 테마" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroup 테마" />
+
+## 추가 리소스
+
+<hr/>
+
+- [IgxDropDown](/drop-down)
+- [IgxInputGroup](/input-group)
+- [템플릿 기반 폼 통합](/input-group)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

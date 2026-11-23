@@ -1,0 +1,243 @@
+---
+title: "Uso del modelo de Query Builder"
+description: "Angular Query Builder proporciona un modelo en formato JSON serializable y deserializable, que facilita la creación de consultas SQL. Pruébelo ahora."
+keywords: "componente Angular Query Builder, control Angular Query Builder, Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library"
+license: commercial
+_language: es
+llms:
+  description: "Angular Query Builder proporciona un modelo en formato JSON serializable y deserializable, que facilita la creación de consultas SQL."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Uso del modelo de Query Builder
+
+Angular Query Builder proporciona un modelo en formato JSON serializable y deserializable, que facilita la creación de consultas SQL.
+
+## Descripción general
+
+Este ejemplo de Angular Query Builder muestra cómo el árbol de expresiones <ApiLink type="QueryBuilder" /> puede usarse para solicitar datos de un endpoint [Northwind WebAPI](https://data-northwind.indigo.design/swagger/index.html) y establecerlos como origen de datos <ApiLink type="Grid" />.
+
+<Sample src="/interactions/query-builder-request-sample" height={700} alt="" />
+
+## Modelo de Query Builder
+
+Para establecer un árbol de expresiones en <ApiLink type="QueryBuilder" />, tiene que definir un <ApiLink type="FilteringExpressionsTree" />. Cada <ApiLink type="FilteringExpressionsTree" /> debe tener una lógica de filtrado que represente cómo debe resolverse un registro de datos frente al árbol. Según el caso de uso, puede pasar un nombre de campo, un nombre de entidad y un array de campos de devolución. Si deben devolverse todos los campos de una entidad, la propiedad `returnFields` puede establecerse en ['*']:
+
+```ts
+const tree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Entity A', ['*']);
+```
+
+Una vez creado el <ApiLink type="FilteringExpressionsTree" /> raíz, para añadir condiciones, grupos o subconsultas hay que establecer su propiedad `filteringOperands` en un array de <ApiLink type="IFilteringExpression" kind="interface" /> (una expresión sencilla o un grupo) o <ApiLink type="IFilteringExpressionsTree" kind="interface" /> (subconsulta).
+Cada <ApiLink type="IFilteringExpression" kind="interface" /> y <ApiLink type="IFilteringExpressionsTree" kind="interface" /> debe tener un `fieldName`, que es el nombre de la columna donde se coloca la expresión de filtrado, y un `condition` de tipo <ApiLink type="IFilteringOperation" kind="interface" /> o un `conditionName`. Si es necesario, también puede establecer las propiedades `searchVal`, `searchTree` de tipo <ApiLink type="IExpressionTree" kind="interface" /> y `ignoreCase`.
+
+- Definir una **expresión** sencilla:
+
+```ts
+tree.filteringOperands.push({
+            fieldName: 'Name',
+            conditionName: IgxStringFilteringOperand.instance().condition('endsWith').name,
+            searchVal: 'a'
+        });
+```
+
+- Definir un **grupo** de expresiones:
+
+```ts
+const group = new FilteringExpressionsTree(FilteringLogic.Or, undefined, 'Entity A', ['*']);
+group.filteringOperands.push({
+    fieldName: 'Name',
+    conditionName: IgxStringFilteringOperand.instance().condition('endsWith').name,
+    searchVal: 'a'
+});
+group.filteringOperands.push({
+    fieldName: 'DateTime created',
+    conditionName: IgxDateFilteringOperand.instance().condition('today').name
+});
+tree.filteringOperands.push(group);
+```
+
+- Definir una **subconsulta**:
+
+```ts
+const innerTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Entity B', ['Number']);
+innerTree.filteringOperands.push({
+    fieldName: 'Number',
+    conditionName: 'equals',
+    searchVal: 123
+});
+ tree.filteringOperands.push({
+    fieldName: 'Id',
+    conditionName: 'inQuery',
+    searchTree: innerTree
+});
+```
+
+El modelo puede serializarse y deserializarse en formato JSON, lo que facilita su transferencia entre el cliente y el servidor:
+
+```ts
+JSON.stringify(tree, null, 2);
+```
+
+## Uso de subconsultas
+
+En el contexto de <ApiLink type="QueryBuilder" />, los operadores _IN / NOT-IN_ se usan con la nueva funcionalidad de subconsulta expuesta en la cláusula _WHERE_.
+
+<DocsAside type="info">
+Una subconsulta es una consulta anidada dentro de otra consulta, que se usa para recuperar datos que servirán como condición de la consulta externa.
+</DocsAside>
+
+Al seleccionar el operador _IN / NOT-IN_ en un `FilteringExpression` se creará una subconsulta. Después de elegir una entidad y una columna que devolver, comprueba si el valor de la columna especificada en la consulta externa coincide o no con alguno de los valores devueltos por la subconsulta.
+
+El siguiente árbol de expresiones:
+
+```ts
+const innerTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Products', ['supplierId']);
+innerTree.filteringOperands.push({
+    fieldName: 'supplierId',
+    conditionName: IgxNumberFilteringOperand.instance().condition('greaterThan').name,
+    searchVal: 10
+});
+
+const tree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Suppliers', ['supplierId']);
+tree.filteringOperands.push({
+    fieldName: 'supplierId',
+    conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+    searchTree: innerTree
+});
+```
+
+Podría serializarse llamando a:
+
+```ts
+JSON.stringify(tree, null, 2);
+```
+
+Se transferiría como:
+
+```
+{
+  "filteringOperands": [
+    {
+      "fieldName": "supplierId",
+      "condition": {
+        "name": "inQuery",
+        "isUnary": false,
+        "isNestedQuery": true,
+        "iconName": "in"
+      },
+      "conditionName": "inQuery",
+      "searchVal": null,
+      "searchTree": {
+        "filteringOperands": [
+          {
+            "fieldName": "supplierId",
+            "condition": {
+              "name": "greaterThan",
+              "isUnary": false,
+              "iconName": "filter_greater_than"
+            },
+            "conditionName": "greaterThan",
+            "searchVal": 10,
+            "searchTree": null
+          }
+        ],
+        "operator": 0,
+        "entity": "Suppliers",
+        "returnFields": [
+          "supplierId"
+        ]
+      }
+    }
+  ],
+  "operator": 0,
+  "entity": "Products",
+  "returnFields": [
+    "supplierId"
+  ]
+}
+```
+
+## Ejemplo de SQL
+
+Veamos un ejemplo práctico de cómo puede usarse el componente Ignite UI for Angular Query Builder para crear consultas SQL.
+
+En el ejemplo siguiente tenemos 3 `entities` con los nombres 'Suppliers', 'Categories' y 'Products'.
+
+Supongamos que queremos encontrar todos los proveedores que suministran productos de la categoría 'Beverages'. Como los datos están distribuidos en todas las entidades, podemos aprovechar el operador _IN_ y realizar la tarea creando subconsultas. Cada subconsulta se representa mediante un `FilteringExpressionsTree` y puede convertirse en una consulta SQL mediante el método `transformExpressionTreeToSqlQuery(tree: IExpressionTree)`.
+
+En primer lugar, creamos un `categoriesTree` que devolverá el `categoryId` del registro donde `name` es `Beverages`. Esta es la subconsulta más interna:
+
+```ts
+const categoriesTree = new FilteringExpressionsTree(0, undefined, 'Categories', ['categoryId']);
+categoriesTree.filteringOperands.push({
+    fieldName: 'name',
+    conditionName: IgxStringFilteringOperand.instance().condition('equals').name,
+    searchVal: 'Beverages'
+});
+```
+
+La consulta SQL correspondiente a este `FilteringExpressionsTree` tendrá este aspecto:
+
+```
+SELECT categoryId FROM Categories WHERE name = 'Beverages'
+```
+
+Después creamos un `productsTree` que devolverá el campo `supplierId` de `categoriesTree` para los registros donde `categoryId` coincida con el `categoryId` devuelto por la subconsulta más interna. Lo hacemos estableciendo la condición `inQuery` y el `searchTree` correspondiente. Esta es la subconsulta intermedia:
+
+```ts
+const productsTree = new FilteringExpressionsTree(0, undefined, 'Products', ['supplierId']);
+productsTree.filteringOperands.push({
+    fieldName: 'categoryId',
+    conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+    searchTree: categoriesTree
+});
+```
+
+Este es el estado actualizado de la consulta SQL:
+
+```
+SELECT supplierId FROM Products WHERE categoryId IN (
+    SELECT categoryId FROM Categories WHERE name = 'Beverages'
+  )
+```
+
+Por último, creamos un `suppliersTree` que devolverá todos los campos de la entidad `Suppliers` donde `supplierId` coincida con cualquiera de los `supplierId` devueltos por la subconsulta intermedia. Esta es la consulta más externa:
+
+```ts
+const suppliersTree = new FilteringExpressionsTree(0, undefined, 'Suppliers', ['*']);
+suppliersTree.filteringOperands.push({
+    fieldName: 'supplierId',
+    conditionName: IgxStringFilteringOperand.instance().condition('inQuery').name,
+    searchTree: productsTree
+});
+```
+
+Nuestra consulta SQL ya está completa:
+
+```
+SELECT * FROM Suppliers WHERE supplierId IN (
+  SELECT supplierId FROM Products WHERE categoryId IN (
+      SELECT categoryId FROM Categories WHERE name = 'Beverages'
+    )
+)
+```
+
+Ahora podemos establecer la propiedad `expressionsTree` de `IgxQueryBuilderComponent` en `suppliersTree`. Además, cada cambio en la consulta provoca una nueva solicitud al endpoint, y los datos resultantes que se muestran en la cuadrícula se actualizan.
+
+<Sample src="/interactions/query-builder-sql-sample" height={700} alt="" />
+
+## Referencias de API
+<hr/>
+- <ApiLink type="QueryBuilder" />
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="Estilos de IgxQueryBuilderComponent" />
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

@@ -1,0 +1,139 @@
+---
+title: "{Platform} 데이터 그리드 | 열 정렬 | Infragistics"
+description: "Infragistics {Platform} 그리드 컴포넌트의 정렬 기능을 사용하여, 풍부한 API와 데이터 정렬로 정렬 가능한 열과 정렬할 수 없는 열을 조합하여 구성하십시오. {ProductName} 튜토리얼을 확인하십시오!"
+keywords: "{Platform} 테이블, 데이터 그리드, 열, 정렬, 행, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "HeaderClickAction"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridSorting}"
+_language: ko
+llms:
+  description: "{ProductName} 데이터 테이블/데이터 그리드는 단일 열 정렬, 다중 열 정렬, 3단계 열 정렬 구성을 통해 오름차순 및 내림차순 열 정렬을 지원합니다."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 그리드 정렬 개요
+
+{ProductName} 데이터 테이블/데이터 그리드는 단일 열 정렬, 다중 열 정렬, 3단계 열 정렬 구성을 통해 오름차순 및 내림차순 열 정렬을 지원합니다.
+
+## {Platform} 그리드 정렬 예제
+
+
+<Sample src="/grids/data-grid/column-sorting" height={600} alt="{Platform} 그리드 정렬 예제" />
+
+
+
+<div class="divider--half"></div>
+
+## 코드 조각
+
+`HeaderClickAction` 속성을 사용하면 {Platform} 데이터 그리드에서 하나 또는 여러 열을 오름차순 또는 내림차순으로 정렬할 수 있습니다. TriState가 활성화되어 있다면 열에 적용된 정렬을 제거할 수도 있습니다.
+
+- `SortByMultipleColumns`
+- `SortByMultipleColumnsTriState`
+- `SortByOneColumnOnly`
+- `SortByOneColumnOnlyTriState`
+
+```json-snippet source="/grids/data-grid/column-sorting"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "RealEstateData",
+            "headerClickAction": "SortByMultipleColumns",
+            "height": "100%",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+## API를 통한 정렬
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrColumnSortDescription } from 'igniteui-react-data-grids';
+import { ListSortDirection } from 'igniteui-react-core';
+```
+
+
+```ts
+public onGridRef(grid: IgrDataGrid) {
+    this.grid = grid;
+}
+// ...
+let colSortDesc = new IgrColumnSortDescription();
+colSortDesc.field = "UnitsInStock";
+colSortDesc.sortDirection = ListSortDirection.Descending;
+this.grid.sortDescriptions.add(colSortDesc);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { IgcColumnSortDescription } from 'igniteui-webcomponents-data-grids';
+import { ListSortDirection } from 'igniteui-webcomponents-core';
+
+let grid1 = (document.getElementById("grid") as IgcDataGridComponent);
+grid1.dataSource = data;
+
+let colSortDesc = new IgcColumnSortDescription();
+colSortDesc.field = "UnitsInStock";
+colSortDesc.sortDirection = ListSortDirection.Descending;
+grid1.sortDescriptions.add(colSortDesc);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    // Using the ref property above:
+    private IgbDataGrid grid;
+    private IgbDataGrid DataGridRef
+    {
+        get { return grid; }
+        set
+        {
+            grid = value;
+            OnGridRefChanged();
+            StateHasChanged();
+        }
+    }
+
+    private void OnGridRefChanged()
+    {
+        if (this.DataGridRef != null)
+        {
+            this.DataGridRef.SortDescriptions.Add(new ColumnSortDescription()
+            {
+                Field = "Property",
+                SortDirection = ListSortDirection.Descending
+            });
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+## API 참조
+
+- `HeaderClickAction`
+- `SortByMultipleColumnsTriState`
+- `SortByMultipleColumns`
+- `SortByOneColumnOnlyTriState`

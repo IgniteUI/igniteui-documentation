@@ -1,0 +1,170 @@
+---
+title: "Template de célula do Angular Grid Lite | Ignite UI for Angular | Licença MIT"
+description: "Configure e personalize renderizadores de célula personalizados do Grid Lite. Crie aplicações com o nosso Angular Grid Lite de código aberto. Experimente agora."
+keywords: "template de célula, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "Por padrão, a grade usa o campo da coluna para renderizar o valor como uma string dentro da célula."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Template de célula da coluna
+
+Por padrão, a grade usa o campo da coluna para renderizar o valor como uma string dentro da célula. Isso serve para cenários básicos, mas, se você quiser personalizar a saída renderizada ou se a saída final for uma combinação de diferentes campos de dados, pode personalizar o template da célula.
+
+Para isso, use **`<ng-template>`** dentro de `<igx-grid-lite-column>...</igx-grid-lite-column>` de uma coluna na qual você quer transformar o conteúdo em template.
+
+```html
+<igx-grid-lite-column field="avatar" header="Avatar">
+    <ng-template igxGridLiteCell let-value>
+        <igx-avatar shape="circle" alt="User avatar" [src]="value">
+        </igx-avatar>
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+Você também precisa importar <ApiLink type="GridLiteCellTemplateDirective" />
+
+```typescript
+import { IgxGridLiteComponent, IgxGridLiteColumnComponent, IgxGridLiteCellTemplateDirective } from 'igniteui-angular/grids/lite';
+```
+
+E adicioná-lo ao array `imports`
+
+```typescript
+imports: [ IgxGridLiteCellTemplateDirective ]
+```
+
+## Usar como função formatadora
+
+Para o cenário simples em que é necessária alguma formatação, basta retornar o valor formatado. Aqui está um exemplo para exibir um valor numérico no formato de moeda da localidade:
+
+```typescript
+public formatter = new Intl.NumberFormat('en-150', {
+  style: 'currency',
+  currency: 'EUR'
+});
+
+/** Return the custom currency format for a value `value = 123456.789` */
+protected formatCurrency = (value: number) => {
+  return this.formatter.format(value); // => "€123,456.79"
+};
+```
+
+Você também pode combinar valores de diferentes campos da fonte de dados.
+{/*TODO:
+Refer to the API documentation for **`GridLiteCellContext`** for more information.*/}
+
+```typescript
+public formatter = new Intl.NumberFormat('en-150', {
+  style: 'currency',
+  currency: 'EUR'
+});
+
+/** Return the total earned money from a product in custom currency */
+protected formatCurrency = (value: number, unitsSold: number) => {
+  return this.formatter.format(value * unitsSold);
+};
+```
+
+```html
+<igx-grid-lite-column field="price" header="Price" dataType="number">
+    <ng-template igxGridLiteCell let-value let-row="row">
+        {{formatCurrency(value, row.data.sold)}}
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+## Templates DOM personalizados
+
+Além de usar componentes de **`igniteui-angular`** dentro do **`<ng-template>`**, você também pode criar o seu próprio template DOM, que será renderizado dentro do contêiner da célula.
+
+Você pode transformar em template qualquer elemento DOM padrão, bem como web components de outras bibliotecas. Por exemplo, nos trechos de código a seguir, estamos usando o componente rating de **`igniteui-webcomponents`**. Para usá-lo corretamente, precisamos seguir algumas etapas descritas abaixo.
+
+```typescript
+// Import external components for the custom template
+import {
+    defineComponents,
+    IgcRatingComponent
+} from 'igniteui-webcomponents';
+
+// Define them so that we can use them in our sample
+defineComponents(
+    IgcRatingComponent
+);
+```
+
+```html
+{/* Use the rating component from Web Components in your template */}
+<igx-grid-lite-column field="rating" header="Customer Rating" dataType="number">
+    <ng-template igxGridLiteCell let-value>
+        <igc-rating
+            [value]="value"
+            readonly
+            min="0"
+            max="5">
+        </igc-rating>
+    </ng-template>
+</igx-grid-lite-column>
+```
+
+<DocsAside type="info">
+Tenha em mente que quanto mais complexo e elaborado for o template, maior será o custo de desempenho. Evite estruturas DOM complexas se o desempenho for importante.
+</DocsAside>
+
+## Objeto de contexto da célula
+
+O renderizador de célula personalizado recebe como parâmetro um objeto <ApiLink type="GridLiteCellTemplateContext" /> com as seguintes propriedades:
+
+
+```typescript
+/**
+ * Context object for the row cell template callback.
+ */
+export interface IgxGridLiteCellTemplateContext<T extends object> {
+  /**
+   * The cell element parent of the template.
+   */
+  parent: GridLiteCell<T>;
+  /**
+   * The row element containing the cell.
+   */
+  row: GridLiteRow<T>;
+  /**
+   * The current configuration for the column.
+   */
+  column: ColumnConfiguration<T, K>;
+  /**
+   * The value from the data source for this cell.
+   */
+  value: PropertyType<T, K>;
+  
+  $implicit: PropertyType<T, K>;
+}
+```
+
+<Sample src="/grid-lite/column-config-simple" height={510} alt="Configuração básica de colunas do Angular Grid Lite" />
+
+## Referências da API
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+- <ApiLink type="GridLiteCellTemplateDirective" />
+
+## Recursos adicionais
+
+- [Configuração de colunas](/grid-lite/column-configuration)
+- [Ordenação](/grid-lite/sorting)
+- [Filtragem](/grid-lite/filtering)
+- [Tema e estilização](/grid-lite/theming)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Grid Lite  **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

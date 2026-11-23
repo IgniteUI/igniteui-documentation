@@ -1,0 +1,307 @@
+---
+title: "{Platform} {PivotGridTitle} 기능 | 피벗 테이블 | Infragistics"
+description: "{ProductName}로 빠르고 반응성이 뛰어난 {Platform} {PivotGridTitle}와 테이블을 만들고, 피벗 데이터를 통해 복잡한 데이터 분석을 수행하십시오."
+keywords: "{Platform}, {PivotGridTitle}, material 피벗 테이블, {ProductName}, 그리드 기능, 피벗 기능"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "피벗 그리드와 평면 그리드 컴포넌트는 공통 기반을 상속하므로 일부 기능과 특징을 공유합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {PivotGridTitle} 기능
+
+피벗 그리드와 평면 그리드 컴포넌트는 공통 기반을 상속하므로 일부 기능과 특징을 공유합니다.
+
+<DocsAside type="info">
+일부 기능은 피벗 테이블의 맥락에서 의미 있는 동작을 하지 않으므로 <ApiLink type="PivotGrid" />에서 활성화할 수 없습니다. 여기에는 다음이 포함됩니다:
+- CRUD 작업
+- 그룹화
+- 행/열 고정
+- 요약
+- 페이징
+</DocsAside>
+
+{PivotGridTitle} 컴포넌트는 아래에 설명된 것처럼 크기와 관련된 추가 기능과 특징을 가지고 있습니다.
+
+<Sample src="/{PivotGridSample}/features" height={700} alt="{Platform} {PivotGridTitle} 피벗 선택기 예제" />
+
+
+
+
+<PlatformBlock for="Angular">
+
+
+## 차원 필터링
+
+모든 차원(필터, 행, 열)은 칩 UI 또는 API를 통해 필터링할 수 있습니다. 이 기능은 내장되어 있으며 기본적으로 활성화되어 있습니다.
+
+<DocsAside type="info">
+필터링 차원을 사용하여 피벗 보기의 일부가 아닌 데이터 값을 걸러 낼 수 있습니다.
+</DocsAside>
+
+필터링 UI는 차원 칩의 필터 아이콘을 통해 열 수 있으며, 고유한 차원 값을 Excel 스타일로 필터링할 수 있게 합니다.
+
+<DocsAside type="info">
+모든 필터링 칩을 표시할 공간이 충분하지 않으면, {PivotGridTitle}는 잘린 칩을 드롭다운에 표시합니다. 최종 사용자는 그곳에서 칩에 액세스하고 조작할 수 있습니다.
+</DocsAside>
+
+차원은 <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />의 차원 구성에서 차원의 `filter` 속성을 사용하여 처음부터 필터링할 수도 있습니다.
+관련 필터 조건과 함께 새 <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" />로 설정할 수 있습니다. 예를 들어:
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+## 차원 정렬
+
+`rows` 또는 `columns`의 차원 값은 관련 칩이나 API를 통해 정렬할 수 있습니다. 이 기능은 내장되어 있으며 기본적으로 활성화되어 있습니다.
+
+관련 칩을 클릭하면 차원이 정렬되며, 그 결과 차원 값이 오름차순 또는 내림차순으로 정렬됩니다.
+
+차원 정의의 `sortDirection` 속성을 통해 처음부터 정렬을 적용할 수도 있습니다.
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        SortDirection = SortingDirection.Asc
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+const dimension: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    sortDirection: SortingDirection.Asc
+};
+```
+
+</PlatformBlock>
+
+
+## 차원 크기 조정
+
+행 차원은 열 크기 조절과 비슷하게, 셀의 오른쪽 가장자리에 있는 크기 조절 표시기를 통해 크기를 조절할 수 있습니다.
+크기 조절 표시기를 더블 클릭하거나 관련 API - <ApiLink type="PivotGrid" member="autoSizeRowDimension" label="AutoSizeRowDimension" />을(를) 사용하여 자동 크기 조절도 할 수 있습니다.
+
+차원 정의에서 제공되는 <ApiLink type="PivotGrid" member="width" label="Width" /> 속성으로 처음부터 다른 크기를 설정할 수도 있습니다:
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        Width = "400px"
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+const igrPivotDimension2: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    width = "400px"
+};
+```
+
+</PlatformBlock>
+
+
+## 차원 선택
+
+{PivotGridTitle}는 기본 그리드와 같은 방식으로 활성화되는 단일 선택을 지원합니다. 예:
+
+
+<PlatformBlock for="Angular">
+
+
+```html
+<{PivotGridSelector} #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<{PivotGridSelector} id="grid" row-selection="single">
+</{PivotGridSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} PivotConfiguration="PivotConfiguration"
+        Data="PivotSalesData"
+        Name="grid"
+        RowSelection=GridSelectionMode.Single
+        @ref="grid">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} rowSelection="single">
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+여러 행이나 열에 걸치는 그룹을 만드는 행 또는 열 차원이 여러 개 있는 경우, 선택 항목은 선택된 그룹에 속한 모든 셀에 적용됩니다.
+
+## 초압축 모드
+<ApiLink type="PivotGrid" /> 컴포넌트는 <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" /> 입력을 제공합니다. 이는 화면에 많은 셀이 한꺼번에 있어야 하는 경우에 적합합니다. 활성화하면 이 옵션은 {PivotGridTitle}의 `--ig-size` CSS 변수를 무시합니다. <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" />를 활성화하면 <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" /> 옵션이 없는 각 하위 컴포넌트(예: <ApiLink pkg="core" type="Chip" />)의 `--ig-size`도 `small`로 설정됩니다.
+
+<PlatformBlock for="Angular">
+
+
+```html
+<{PivotGridSelector} [superCompactMode]="true"></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<{PivotGridSelector} super-compact-mode="true"></{PivotGridSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} SuperCompactMode=true></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} superCompactMode={true}>
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+## 추가 요약 열
+
+`column` 차원이 계층을 정의하면, {PivotGridTitle}는 그룹 안의 모든 열의 집계를 누적하는 추가 요약/합계 열을 렌더링합니다. 그룹이 접히면 요약 열만 남습니다. 그룹이 펼쳐지면 추가 요약 열이 그룹의 끝에 나타납니다.
+
+## 상호 작용
+
+### 키보드 탐색
+
+`{PivotGridSelector}`의 키보드 탐색은 `{GridSelector}`의 탐색과 비슷하게 동작합니다. {PivotGridTitle}는 `rows`, `columns`, `values`의 세 영역으로 나뉩니다. `rows`와 `columns` 영역은 탐색 목적상 머리글로 간주되며, `values` 영역은 본문입니다.
+키보드 화살표는 현재 영역 안에서만 활성 요소를 탐색할 수 있게 합니다.
+
+### 차원 끌기 및 놓기
+차원은 끌어서 놓을 수 있는 칩으로 표시됩니다.
+모든 칩은 끌어서 놓기로 영역 안에서 순서를 바꿀 수 있습니다.
+`rows`, `column`, `filter`(차원 칩)의 칩은 어느 영역에서든 다른 영역의 어느 위치로든 옮길 수 있습니다.
+이 영역들의 칩은 `values` 영역으로 옮길 수 없고, `values` 영역의 칩은 어떤 차원 영역으로도 옮길 수 없습니다.
+
+<DocsAside type="info">
+{PivotGridTitle}의 칩은 피벗 데이터 선택기로 이동할 수 없으며, 피벗 데이터 선택기의 항목은 {PivotGridTitle}로 이동할 수 없습니다.
+</DocsAside>
+
+
+## API 참조
+<ApiLink type="PivotGrid" />
+<ApiLink type="PivotDataSelector" />
+## 추가 리소스
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+

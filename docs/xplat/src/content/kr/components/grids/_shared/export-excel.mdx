@@ -1,0 +1,314 @@
+---
+title: "{Platform} {ComponentTitle} 내보내기 - {ProductName}"
+description: "{ProductName} {ComponentTitle} 내보내기를 사용하면 필터링, 정렬, 현재 그리드 상태와 같은 기능을 유지한 채 그리드 데이터를 Excel, CSV, PDF 형식으로 내보낼 수 있습니다."
+keywords: "{Platform}, {ComponentTitle}, {ComponentTitle}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridExportExcel}"
+_language: ko
+llms:
+  description: "{ProductName} {ComponentTitle}는 그리드 도구 모음 내보내기 컴포넌트를 통해 데이터 내보내기 기능을 제공합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 내보내기
+
+<PlatformBlock for="Blazor, React, WebComponents">
+{ProductName} {ComponentTitle}는 그리드 도구 모음 내보내기 컴포넌트를 통해 데이터 내보내기 기능을 제공합니다. 표시된 데이터를 Excel, CSV 또는 PDF 형식으로 내보낼 수 있습니다. Excel 내보내기는 필터링과 정렬을 지원하는 MS Excel 표 형식을 사용합니다. 내보내기를 활성화하려면 <ApiLink type="GridToolbarExporter" />를 그리드의 도구 모음 안에 배치하십시오. 기본적으로 모든 내보내기 형식이 활성화되어 있습니다.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+{Platform} {ComponentTitle}의 {ProductName} 내보내기 서비스는 데이터를 Excel 및 PDF 형식으로 내보낼 수 있습니다. 내보내기 기능은 <ApiLink type="ExcelExporterService" /> 및 <ApiLink type="PdfExporterService" /> 클래스에 포함되어 있습니다. Excel 내보내기는 필터링과 정렬을 지원하는 MS Excel 표 형식을 사용하는 반면, PDF 내보내기는 그리드의 현재 상태를 그대로 담습니다. 내보내기를 시작하려면 <ApiLink type="ExcelExporterService" /> 또는 <ApiLink type="PdfExporterService" />의 `Export` 메서드를 호출하고, 첫 번째 인수로 <ApiLink type="{ComponentName}" /> 컴포넌트를 전달하십시오.
+</PlatformBlock>
+
+## {Platform} 내보내기 예제
+
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} 내보내기 예제" />
+
+
+<PlatformBlock for="Angular">
+## {ComponentTitle} 데이터 내보내기
+
+IgniteUI Excel 및 PDF 내보내기 도구를 사용하려면, 먼저 app.module.ts 파일에서 <ApiLink type="ExcelExporterService" /> 및/또는 <ApiLink type="PdfExporterService" />를 import하고 서비스를 `providers` 배열에 추가하십시오:
+
+```ts
+// app.module.ts
+import { ExcelExporterService, PdfExporterService } from 'igniteui-{Platform}';
+
+@NgModule({
+  providers: [ ExcelExporterService, PdfExporterService ]
+})
+
+export class AppModule {}
+```
+
+<DocsAside type="info">
+v12.2.1 이후에는 내보내기 서비스가 root에 제공되므로, 더 이상 AppModule providers에 선언할 필요가 없습니다.
+</DocsAside>
+
+내보내기를 시작하려면 컴포넌트 템플릿의 버튼 핸들러를 사용할 수 있습니다.
+
+```html
+<{ComponentTitle} #{ComponentTitle} [data]="localData" [autoGenerate]="true"></{ComponentTitle}>
+<button (click)="exportButtonHandler()">Export {ComponentTitle} to Excel</button>
+<button (click)="exportPdfButtonHandler()">Export {ComponentTitle} to PDF</button>
+```
+
+<ApiLink type="ExcelExporterService" /> 또는 <ApiLink type="PdfExporterService" /> 형식의 생성자 인수를 정의하여 내보내기 서비스에 액세스할 수 있으며, {Platform} 프레임워크가 서비스 인스턴스를 제공합니다. Excel 또는 PDF로 데이터를 내보내려면 `Export` 메서드를 호출하고 첫 번째 인수로 {ComponentTitle} 컴포넌트를 전달하십시오.
+
+다음 코드는 컴포넌트 파일에서 내보내기 과정을 실행합니다:
+
+```ts
+// component.ts
+import { ExcelExporterService, ExcelExporterOptions, PdfExporterService, PdfExporterOptions } from 'igniteui-{Platform}';
+import { {ComponentName} } from 'igniteui-{Platform}';
+
+@ViewChild('{ComponentName}') public {ComponentName}: {ComponentName};
+
+constructor(private excelExportService: ExcelExporterService, private pdfExportService: PdfExporterService) {
+}
+
+public exportButtonHandler() {
+  this.excelExportService.export(this.{ComponentName}, new ExcelExporterOptions('ExportedDataFile'));
+}
+
+public exportPdfButtonHandler() {
+  this.pdfExportService.export(this.{ComponentName}, new PdfExporterOptions('ExportedDataFile'));
+}
+```
+
+모든 것이 제대로 작동하면 {ComponentTitle} 컴포넌트와 두 개의 내보내기 버튼이 보여야 합니다. 해당 버튼을 누르면 내보내기 과정이 시작되고, 브라우저가 <ApiLink type="{ComponentName}" /> 컴포넌트의 데이터를 Excel 또는 PDF 형식으로 담은 "ExportedDataFile.xlsx" 또는 "ExportedDataFile.pdf" 파일을 다운로드합니다.
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+## {ComponentTitle} 데이터 내보내기
+
+내보내기를 시작하려면 컴포넌트 템플릿의 버튼 핸들러를 사용할 수 있습니다.
+
+```Razor
+<IgbGrid data="localData"/>
+<button @onclick="exportButtonHandler">Export to Excel</button>
+<button @onclick="exportPdfButtonHandler">Export to PDF</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 모든 데이터 내보내기
+
+**페이징**과 같은 원격 작업을 사용하면 그리드가 전체 데이터 세트에 한 번에 액세스하지 못할 수 있습니다. 이런 경우에는 [Excel 내보내기 서비스](../exporter-excel.mdx)를 사용하고, 가능하다면 전체 데이터 컬렉션을 전달하는 것을 권장합니다. 예:
+
+```ts
+public exportButtonHandler() {
+  this.excelExportService.exportData(this.localData, new ExcelExporterOptions('ExportedDataFile'));
+}
+```
+
+원격 데이터에 대해 PDF 다운로드를 제공하는 경우, 먼저 전체 데이터 세트를 가져온 다음 `export`를 호출하여 문서가 사용자가 기대하는 모습과 일치하도록 하는 것을 고려하십시오.
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+## 그룹화된 데이터 내보내기
+
+그룹화된 데이터를 내보내려면 <ApiLink type="{ComponentName}" />를 하나 이상의 열로 그룹화하십시오. 브라우저는 선택한 열로 그룹화된, <ApiLink type="{ComponentName}" /> 컴포넌트의 데이터를 Excel 형식으로 담은 "ExportedDataFile.xlsx" 파일을 다운로드합니다. 예제는 항목 시작 부분에서 확인할 수 있습니다.
+
+<PlatformBlock for="Angular">
+<Sample src="/{ComponentSample}/excel-exporting" height={750} alt="{Platform} {ComponentTitle} 그룹화된 데이터 Excel 내보내기 예제" />
+</PlatformBlock>
+
+</ComponentBlock>
+
+## 다중 열 머리글 그리드 내보내기
+
+정의된 [다중 열 머리글](multi-column-headers.mdx)이 있는 <ApiLink type="{ComponentName}" />를 내보낼 수 있습니다. 모든 머리글은 <ApiLink type="{ComponentName}" />에 표시된 대로 내보낸 Excel 파일에 반영됩니다. 정의된 다중 열 머리글을 내보낸 데이터에서 제외하려면 `ExporterOption`를 설정하십시오 <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="ignoreMultiColumnHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="ignoreMultiColumnHeaders" /></PlatformBlock> `true`로 설정하십시오.
+
+
+<DocsAside type="info">
+Excel 표는 다중 열 머리글을 지원하지 않으므로, 내보낸 `{ComponentName}`는 표 형식으로 서식이 지정되지 않습니다.
+</DocsAside>
+
+<DocsAside type="info">
+Excel 표는 다중 열 머리글을 지원하지 않으므로, 내보낸 <ApiLink type="{ComponentName}" />는 표 형식으로 서식이 지정되지 않습니다.
+</DocsAside>
+
+<DocsAside type="info">
+<ApiLink type="GridToolbarExporter" />는 최종 사용자가 사용할 수 있는 내보내기 형식을 제어하는 방법을 보여 주도록 구성되어 있습니다. 도구 모음 내보내기 옵션을 사용하여 Excel, CSV 또는 PDF 버튼을 전환하십시오:
+- `export-excel`, `export-csv`, `export-pdf`
+- `exportExcel`, `exportCsv`, `exportPdf`
+- <ApiLink type="GridToolbarExporter" member="exportExcel" label="ExportExcel" />, `ExportCsv`, `ExportPdf`
+</DocsAside>
+
+<Sample src="/{ComponentSample}/multi-column-headers-export" height={750} alt="{Platform} {ComponentTitle} 다중 열 머리글 내보내기" />
+
+## 고정된 열 머리글이 있는 그리드 내보내기
+
+기본적으로 Excel Exporter 서비스는 스크롤 가능한(고정되지 않은) 열 헤더로 그리드를 내보냅니다. 많은 시나리오에서 사용자가 레코드를 스크롤하는 동안에도 항상 보이도록 내보낸 Excel 파일 상단의 모든 헤더를 고정하려 할 수 있습니다. 이를 위해 `ExporterOption`를 설정하십시오 <PlatformBlock for="Angular"><ApiLink type="IGridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="WebComponents"><ApiLink type="ExporterOptionsBase" member="freezeHeaders" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridToolbarExportEventArgs" member="freezeHeaders" /></PlatformBlock> `true`로 설정하십시오.
+
+<DocsAside type="info">
+PDF 내보내기는 문서 맨 위에 열 머리글 행을 자동으로 포함하므로, 독자가 파일을 열거나 인쇄할 때도 같은 맥락을 유지합니다.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```ts
+public exportButtonHandler() {
+    const exporterOptions = new ExcelExporterOptions('ExportedDataFile');
+    exporterOptions.freezeHeaders = true;
+    this.excelExportService.export(this.grid, exporterOptions);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid, TreeGrid">
+```ts
+constructor() {
+  var gridToolbarExporter1 = document.getElementById('gridToolbarExporter1') as IgcGridToolbarExporterComponent;
+  gridToolbarExporter1.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: any): void {
+  args.detail.options.freezeHeaders = true;
+}
+
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="HierarchicalGrid">
+```ts
+constructor() {
+  var hGridToolbarExporter = document.getElementById('hGridToolbarExporter') as IgcGridToolbarExporterComponent;
+  hGridToolbarExporter.addEventListener("exportStarted", this.webGridExportEventFreezeHeaders);
+}
+
+public webGridExportEventFreezeHeaders(args: CustomEvent<IgcExporterEvent>): void {
+  args.detail.options.freezeHeaders = true;
+}
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+function exportEventFreezeHeaders(args: IgrExporterEventArgs) {
+    args.detail.options.freezeHeaders = true;
+  }
+
+<IgrGridToolbar>
+  <IgrGridToolbarActions>
+    <IgrGridToolbarExporter onExportStarted={exportEventFreezeHeaders}></IgrGridToolbarExporter>
+  </IgrGridToolbarActions>
+</IgrGridToolbar>
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="HierarchicalGrid">
+```razor
+ <{ComponentSelector}>
+    <IgbGridToolbar>
+      <IgbGridToolbarActions>
+        <IgbGridToolbarExporter
+          ExportExcel="true" ExportStartedScript="WebHierarchicalGridExportEventFreezeHeaders">
+        </IgbGridToolbarExporter>
+      </IgbGridToolbarActions>
+    </IgbGridToolbar>
+ </{ComponentSelector}>
+
+igRegisterScript("WebHierarchicalGridExportEventFreezeHeaders", (ev) => {
+    ev.detail.options.freezeHeaders = false;
+}, false);
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+## 내보내는 콘텐츠 사용자 지정하기
+
+위 예제에서 Excel 내보내기 서비스는 사용 가능한 모든 데이터를 내보냅니다. 하지만 행이나 열 전체를 내보내지 않으려는 상황이 있을 수 있습니다. 이를 위해 각각 열과 행마다 발생하는 <ApiLink type="{ComponentName}" member="columnExporting" /> 및/또는 <ApiLink type="{ComponentName}" member="rowExporting" /> 이벤트를 구독하고, 이벤트 인수 객체의 `cancel` 속성을 `true`로 설정하여 이벤트를 취소하십시오.
+
+다음 예제는 헤더가 "Age"이고 인덱스가 1인 열을 내보내기에서 제외합니다:
+
+```ts
+// component.ts
+
+this.excelExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.excelExportService.export(this.{ComponentTitle}, new ExcelExporterOptions('ExportedDataFile'));
+```
+
+<ApiLink type="{ComponentName}" /> 컴포넌트의 데이터를 내보낼 때, 내보내기 과정은 행 필터링과 열 숨기기 같은 기능을 고려하여 <ApiLink type="{ComponentName}" />에 보이는 데이터만 내보냅니다. <ApiLink type="ExcelExporterOptions" /> 또는 <ApiLink type="PdfExporterOptions" /> 객체의 속성을 설정하면 필터링된 행이나 숨겨진 열을 포함하도록 내보내기 서비스를 구성할 수 있습니다.
+</PlatformBlock>
+
+## 알려진 제한 사항
+
+<ComponentBlock for="Grid">
+|제한 사항|설명|
+|--- |--- |
+|워크시트 최대 크기|Excel이 지원하는 최대 워크시트 크기는 1,048,576행 by 16,384열입니다.|
+|셀 스타일 지정|Excel 내보내기 서비스는 셀 컴포넌트에 적용된 사용자 지정 스타일의 내보내기를 지원하지 않습니다. 이런 경우에는 [Excel 라이브러리](../../excel-library.mdx) 사용을 권장합니다.|
+|넓은 PDF 레이아웃|매우 넓은 그리드는 PDF의 열이 페이지에 맞도록 줄어들게 할 수 있습니다. 문서를 읽기 쉽게 유지하려면, 내보내기 전에 열 너비를 적용하거나 우선순위가 낮은 필드를 숨기십시오.|
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+|제한 사항|설명|
+|--- |--- |
+|계층 수준|Excel 내보내기 서비스는 최대 8단계의 계층 구조를 만들 수 있습니다.|
+|워크시트 최대 크기|Excel이 지원하는 최대 워크시트 크기는 1,048,576행 by 16,384열입니다.|
+|셀 스타일 지정|Excel 내보내기 서비스는 셀 컴포넌트에 적용된 사용자 지정 스타일의 내보내기를 지원하지 않습니다. 이런 경우에는 [Excel 라이브러리](../../excel-library.mdx) 사용을 권장합니다.|
+|넓은 PDF 레이아웃|매우 넓은 그리드는 PDF의 열이 페이지에 맞도록 줄어들게 할 수 있습니다. 문서를 읽기 쉽게 유지하려면, 내보내기 전에 열 너비를 적용하거나 우선순위가 낮은 필드를 숨기십시오.|
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+|제한 사항|설명|
+|--- |--- |
+|계층 수준|Excel 내보내기 서비스는 최대 8단계의 계층 구조를 만들 수 있습니다.|
+|워크시트 최대 크기|Excel이 지원하는 최대 워크시트 크기는 1,048,576행 by 16,384열입니다.|
+|고정된 열 내보내기|내보낸 Excel 파일에서는 고정된 열이 고정되지 않고, 그리드에 나타나는 것과 같은 순서로 표시됩니다.|
+|넓은 PDF 레이아웃|매우 넓은 그리드는 PDF의 열이 페이지에 맞도록 줄어들게 할 수 있습니다. 문서를 읽기 쉽게 유지하려면, 내보내기 전에 열 너비를 적용하거나 우선순위가 낮은 필드를 숨기십시오.|
+</ComponentBlock>
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

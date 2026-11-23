@@ -1,0 +1,200 @@
+---
+title: "Superposiciones de gráficos de {Platform} | Herramientas de visualización de datos | Superposición de valores | Infragistics"
+description: "Use la característica de superposición de valores del control de gráfico {ProductName} de Infragistics para colocar líneas horizontales o verticales en un único valor numérico. ¡Descubra nuestros tipos de gráfico {ProductName}!"
+keywords: "Gráficos {Platform}, data chart, superposición de valores, {ProductName}, Infragistics"
+license: commercial
+
+mentionedTypes: ["DataChart", "ValueOverlay", "CategoryChart", "FinancialChart"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "El DataChart {Platform} permite colocar líneas horizontales o verticales en un único valor numérico que defina con ValueOverlay."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+
+
+# Superposiciones de gráficos de {Platform}
+
+La {Platform} `DataChart` permite colocar líneas horizontales o verticales en un único valor numérico que defina con `ValueOverlay`. Esto puede ayudarle a visualizar datos como la media o la mediana de una serie concreta.
+
+## Ejemplo de superposición de valores de {Platform}
+
+El siguiente ejemplo muestra un [gráfico de columnas](../types/column-chart.mdx) con algunas superposiciones de valores horizontales representadas.
+
+<Sample src="/charts/data-chart/series-value-overlay" height={600} alt="Ejemplo de superposición de valores de {Platform}" />
+
+
+
+
+## Propiedades de la superposición de valores de {Platform}
+
+A diferencia de otros tipos de serie que usan `DataSource` para el enlace de datos, la superposición de valores usa una propiedad `Value` para enlazar un único valor numérico. Además, la superposición de valores requiere que defina un único `ValueOverlay.axis` para usar. Si usa un eje X, la superposición de valores será una línea vertical, y si usa un eje Y, será una línea horizontal.
+
+Cuando use un eje X o Y numérico, la propiedad `Value` debe reflejar el valor numérico real del eje donde quiera dibujar la superposición de valores. Cuando use un eje X o Y de categoría, `Value` debe reflejar el índice de la categoría en la que quiera que aparezca la superposición de valores.
+
+Cuando use la superposición de valores con un eje angular numérico, aparecerá como una línea desde el centro del gráfico, y cuando use un eje de radio numérico, aparecerá como un círculo.
+
+Las propiedades de apariencia de `ValueOverlay` se heredan de `Series`, por lo que `ValueOverlay.brush` y `ValueOverlay.thickness`, por ejemplo, están disponibles y funcionan igual que en otros tipos de serie.
+
+También es posible mostrar una anotación en el eje sobre `ValueOverlay` para mostrar el valor de la superposición en el eje correspondiente. Para ello, puede establecer la propiedad `isAxisAnnotationEnabled` en true.
+
+## Capa de valor de {Platform}
+
+Los componentes de gráfico {Platform} también permiten usar líneas de valor para destacar distintos puntos focales de sus datos, como los valores mínimo, máximo y medio.
+
+Aplicar `ValueLayer` en el <PlatformBlock for="Web">los componentes `CategoryChart` y `FinancialChart`</PlatformBlock><PlatformBlock for="WinUI, Uno">el componente `CategoryChart`</PlatformBlock> se hace estableciendo la propiedad `valueLines` en el gráfico. Esta propiedad recibe una colección de la enumeración `ValueLayerValueMode`. Puede combinar varias capas de valor en el mismo gráfico añadiendo varias enumeraciones `ValueLayerValueMode` a la colección `valueLines` del gráfico.
+
+En `DataChart`, esto se hace añadiendo un `ValueLayer` a la colección `Series` del gráfico y, a continuación, estableciendo la propiedad `ValueLayer` en una de las enumeraciones `ValueLayerValueMode`. A continuación se indica cada una de estas enumeraciones y su significado:
+
+- `Auto`: el modo de valor predeterminado de la enumeración `ValueLayerValueMode`.
+- `Average`: aplica potencialmente varias líneas de valor para destacar el valor medio de cada serie representada en el gráfico.
+- `GlobalAverage`: aplica una única línea de valor para destacar la media de todos los valores de las series del gráfico.
+- `GlobalMaximum`: aplica una única línea de valor para destacar el valor máximo absoluto de todos los valores de las series del gráfico.
+- `GlobalMinimum`: aplica una única línea de valor para destacar el valor mínimo absoluto de todos los valores de las series del gráfico.
+- `Maximum`: aplica potencialmente varias líneas de valor para destacar el valor máximo de cada serie representada en el gráfico.
+- `Minimum`: aplica potencialmente varias líneas de valor para destacar el valor mínimo de cada serie representada en el gráfico.
+
+Si quiere evitar que una serie concreta se tenga en cuenta al usar el elemento `ValueLayer`, puede establecer la propiedad `targetSeries` en la capa. Esto obligará a la capa a apuntar a la serie que defina. Puede tener tantos elementos `ValueLayer` como quiera dentro de una única `DataChart`.
+
+El siguiente ejemplo muestra el uso de los distintos `valueLines` en `CategoryChart`:
+
+<Sample src="/charts/category-chart/value-lines" height={600} alt="Ejemplo de líneas de valor de {Platform}" />
+
+
+<PlatformBlock for="Web">
+## Superposiciones financieras de {Platform}
+
+También puede representar superposiciones e indicadores financieros integrados en {Platform} [Stock Chart](../types/stock-chart.mdx).
+</PlatformBlock>
+## Texto de superposición del gráfico <Badge variant="preview" />
+
+{Platform} `ValueOverlay`, `ValueLayer` y todas las capas de anotación de datos pueden representar texto de superposición personalizado dentro del área de trazado del componente DataChart. Puede usar este texto de superposición para anotar eventos importantes (por ejemplo, informes trimestrales de la empresa) en el eje X, o valores importantes en el eje Y, en relación con las capas.
+
+Por ejemplo, puede usar `DataAnnotationSliceLayer`, `ValueOverlay` y `ValueLayer` para mostrar texto de superposición.
+
+<Sample src="/charts/data-chart/data-annotation-multiple-with-overlay-text" height={600} alt="Varios textos de superposición de {Platform}" />
+
+
+### Dar estilo al texto de superposición
+
+Este ejemplo de código muestra cómo dar estilo y personalizar el texto de superposición en
+`DataAnnotationSliceLayer`, `ValueOverlay` y `ValueLayer`.
+
+
+```json-snippet channel="auto" source="/charts/data-chart/data-annotation-multiple-with-overlay-text"
+{
+    "type": "DataChart",
+    "$styleOptions": { "preferNameBindings": true },
+    "name": "chart",
+    "plotAreaMarginBottom": 50,
+    "axes": [
+        {
+            "type": "CategoryXAxis",
+            "name": "xAxis",
+            "dataSourceRef": "StockTesla",
+            "label": "Date",
+            "labelTopMargin": 5,
+            "labelBottomMargin": 15
+        },
+        {
+            "type": "NumericYAxis",
+            "name": "yAxis",
+            "labelExtent": 60,
+            "labelHorizontalAlignment": "Center",
+            "labelRightMargin": 5,
+            "minimumValue": 0,
+            "maximumValue": 550
+        }
+    ],
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "series1",
+            "title": "Stock Price",
+            "xAxisRef": "xAxis",
+            "yAxisRef": "yAxis",
+            "dataSourceRef": "StockTesla",
+            "valueMemberPath": "Open",
+            "showDefaultTooltip": true,
+            "markerType": "None",
+            "brush": "black"
+        },
+        {
+            "type": "ValueOverlay",
+            "name": "valueOverlay",
+            "value": 435,
+            "brush": "green",
+            "isAxisAnnotationEnabled": true,
+            "thickness": 2,
+            "dashArray": [ 2, 4 ],
+            "axisRef": "yAxis",
+            "overlayText": "OverlayText on ValueOverlay",
+            "overlayTextLocation": "OutsideBottomCenter"
+        },
+        {
+            "type": "ValueLayer",
+            "name": "valueLayer",
+            "valueMode": "Average",
+            "brush": "purple",
+            "thickness": 2,
+            "dashArray": [ 2, 4 ],
+            "targetAxisRef": "yAxis",
+            "isAxisAnnotationEnabled": true,
+            "overlayText": "OverlayText on ValueLayer (Average)",
+            "overlayTextLocation": "OutsideBottomCenter"
+        },
+        {
+            "type": "DataAnnotationSliceLayer",
+            "$type": {
+                "blazor": "+doc:code",
+                "webComponents": ["+doc:markup", "+doc:bindingFields", "+doc:bindingInit", "+doc:bindingCode"],
+                "default": "+doc:markup"
+            },
+            "name": "AnnoLayer",
+            "dataSourceRef": "AnnotationSliceMultiOverlayData",
+            "$dataSourceRef": { "webComponents": "+doc:bindingCode" },
+            "targetAxisRef": "yAxis",
+            "brush": "green",
+            "thickness": 2,
+            "annotationTextColor": "white",
+            "annotationLabelMemberPath": "Label",
+            "annotationValueMemberPath": "Value",
+            "overlayText": "OverlayText on DataAnnotationSliceLayer",
+            "overlayTextMemberPath": "Label",
+            "overlayTextLocation": "OutsideBottomCenter",
+            "overlayTextColor": "red",
+            "overlayTextBackground": "green",
+            "overlayTextBorderColor": "black",
+            "overlayTextBorderThickness": 1,
+            "overlayTextBorderRadius": 4,
+            "overlayTextHorizontalMargin": 0,
+            "overlayTextHorizontalPadding": 2,
+            "overlayTextVerticalMargin": 20,
+            "overlayTextVerticalPadding": 2
+        }
+    ]
+}
+```
+
+
+## Recursos adicionales
+
+Puede encontrar más información sobre tipos de gráfico relacionados en estos temas:
+
+- [Anotaciones de gráficos](chart-annotations.mdx)
+- [Column Chart](../types/area-chart.mdx)
+- [Line Chart](../types/line-chart.mdx)<PlatformBlock for="Web">
+- [Gráfico bursátil](../types/stock-chart.mdx)</PlatformBlock>
+
+
+## Referencias de API
+`DataChart`
+`ValueOverlay`
+`ValueLayer`
+`ValueLayerValueMode`
+`CategoryChart`<PlatformBlock for="Web">
+`FinancialChart`</PlatformBlock>

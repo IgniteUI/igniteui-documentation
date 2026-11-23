@@ -1,0 +1,522 @@
+---
+title: "Localização (i18n) - Native Angular | Ignite UI for Angular"
+description: "O mecanismo de localização do Ignite UI for Angular oferece a possibilidade de alterar/localizar as strings dos componentes."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components"
+_language: pt-BR
+llms:
+  description: "A partir da versão 21.1.0, esta é a forma recomendada de aplicar localização aos componentes do Ignite UI for Angular."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Localização (i18n)
+
+## Localização (i18n)
+
+<DocsAside type="info">
+A partir da versão 21.1.0, esta é a forma recomendada de aplicar localização aos componentes do Ignite UI for Angular.
+</DocsAside>
+
+Com a nossa nova localização, introduzimos mais recursos com menos exigências, tanto para as strings de localização quanto para a formatação de todas as localidades disponíveis. A formatação agora se baseia nos padrões introduzidos pela API `Intl`.
+
+Atualmente, o Ignite UI for Angular traz strings de recursos para os seguintes idiomas: `Bulgarian`, `Czech`, `Danish`, `Dutch`, `English`, `French`, `German`, `Hungarian`, `Italian`, `Japanese`, `Korean`, `Norwegian`, `Polish`, `Portuguese`, `Romanian`, `Spanish`, `Swedish`, `Turkish`, `Traditional Chinese (zh-Hant)` e `Simplified Chinese (zh-Hans)`. Eles estão disponíveis pelo pacote `igniteui-angular-i18n`, exceto o inglês, que vem como localização padrão em `igniteui-angular`.
+
+### Exemplo de localização do Angular
+
+<Sample src="/services/localization-all-resources" height={550} alt="Exemplo de localização do Angular" />
+
+<DocsAside type="info">
+O hindi (HI) incluído no exemplo serve apenas para ilustração e para destacar a possibilidade de passar um objeto de localização personalizado. Neste exemplo, há apenas algumas strings localizadas para o resumo. Mais detalhes na seção [Strings de recursos localizadas personalizadas](#strings-de-recursos-localizadas-personalizadas), abaixo.
+</DocsAside>
+
+### Localidade
+
+Por localidade, nos referimos às strings gerais que definem os diferentes idiomas e regiões do mundo. No nosso caso, elas se baseiam na definição de tags [BCP 47](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag), e a maioria das básicas é descrita no [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry); para uma lista de idiomas, você também pode consultar o `[padrão de idiomas ISO 639](https://www.loc.gov/standards/iso639-2/).
+
+Ela afeta tanto a formatação de datas e números quanto as strings de recursos localizadas que os nossos componentes usam. A localidade padrão dos componentes do Ignite UI for Angular é `en-US`.
+
+Há várias formas de definir a localidade: globalmente ou por componente.
+
+#### API global
+
+Você pode definir a localidade que será usada globalmente com o método `setCurrentI18n`, que vem do pacote `igniteui-angular`. Isso afetará tanto a formatação quanto as strings de recursos registradas usadas em todos os nossos componentes. Para mais sobre strings de recursos, veja [Strings de recursos localizadas](#strings-de-recursos-localizadas)
+
+```ts
+setCurrentI18n('de');
+```
+
+Oferecemos suporte a toda a gama de localidades possíveis compatíveis com `Intl`. Se você informar uma localidade inválida ou não compatível, será usada por enquanto a localidade padrão `en-US`, até que você a troque por uma válida.
+
+Em geral, você deve registrar os seus recursos para os idiomas, regiões e scripts das tags que pretende usar, para que os seus componentes também fiquem localizados. Para mais informações, veja a seção [Regiões e scripts](#regiões-e-scripts).
+
+#### Atributo `lang`
+
+Com esta abordagem, podemos definir a localização pelo atributo global `lang` da tag `HTML`. Esse atributo é observado e, se for alterado, todos os componentes renderizados atualizam as suas strings de recursos para o idioma definido no momento. Todas as regras relativas à tag usada se aplicam conforme descrito acima.
+
+<DocsAside type="info">
+Isso funciona apenas no nível raiz e não funcionará para elementos internos da página.
+</DocsAside>
+
+```html
+<html lang="ja">
+    <head>
+        <title>My app</title>
+    </head>
+    <body></body>
+</html>
+```
+
+#### API do Angular
+
+Você também pode usar o token integrado do Angular [LOCALE_ID](https://angular.dev/api/core/LOCALE_ID) para definir a localidade de toda a aplicação. A tag informada vai funcionar da mesma forma para os nossos componentes que na forma como a nossa API trata.
+
+#### Por componente
+
+Cada componente também terá sua própria propriedade `locale`, que você pode especificar e que, então, não será afetada pela localidade global.
+
+```html
+<igx-grid [data]="data" locale="ja">
+    <igx-column field="ProductName" header="Product Name" [groupable]="true"></igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [groupable]="true"></igx-column>
+</igx-grid>
+```
+
+### Formatação
+
+Como mencionado, a localidade afeta a formatação em todos os componentes do Ignite UI for Angular que renderizam datas, números e algumas strings relacionadas. Antes, era preciso importar as [variantes globais do Angular](https://angular.dev/guide/i18n/import-global-variants) dos dados de localidade fornecidos para poder usá-las no seu aplicativo. Isso não é mais necessário: os dados já vêm incorporados à nossa localização por padrão, e você não precisa importar nem registrar nada para que funcione.
+
+Como estamos apenas apresentando este recurso, a forma do Angular ainda está disponível e funciona exatamente como antes, sendo ainda o padrão, se você já a estiver usando.
+
+Se você está apenas começando, basta adicionar o método `provideIgniteIntl()` à configuração do seu app, o que garante que você use a nova formatação, mesmo que tenha os dados de localidade do Angular importados:
+
+```ts
+export const appConfig: ApplicationConfig = {
+    providers: [
+        //...
+        provideIgniteIntl()
+    ]
+};
+```
+
+#### Formatos de data
+
+Componentes como o IgxGrid ou o IgxDatePicker permitem especificar o formato de data (no caso da grade, por coluna). As listas abaixo mostram as opções disponíveis, que você pode definir ou usar para criar o seu próprio formato personalizado.
+
+Opções de formato predefinidas disponíveis:
+
+| Opção       | Equivalente a                     | Exemplos (dados na localidade en-US)              |
+| :----------- | :-------------------------------- | :-------------------------------------------- |
+| 'short'      | 'M/d/yy, h:mm a'                  | 6/15/15, 9:03 AM                              |
+| 'medium'     | 'MMM d, y, h:mm:ss a'             | Jun 15, 2015, 9:03:01 AM                      |
+| 'long'       | 'MMMM d, y, h:mm:ss a z'          | 15 de junho de 2015 às 9:03:01 AM GMT+1             |
+| 'full'       | 'EEEE, MMMM d, y, h:mm:ss a zzzz' | Segunda-feira, 15 de junho de 2015 às 9:03:01 AM GMT+01:00 |
+| 'shortDate'  | 'M/d/yy'                          | 6/15/15                                       |
+| 'mediumDate' | 'MMM d, y'                        | Jun 15, 2015                                  |
+| 'longDate'   | 'MMMM d, y'                       | June 15, 2015                                 |
+| 'fullDate'   | 'EEEE, MMMM d, y'                 | Monday, June 15, 2015                         |
+| 'shortTime'  | 'h:mm a'                          | 9:03 AM                                       |
+| 'mediumTime' | 'h:mm:ss a'                       | 9:03:01 AM                                    |
+| 'longTime'   | 'h:mm:ss a z'                     | 9:03:01 AM GMT+1                              |
+| 'fullTime'   | 'h:mm:ss a zzzz'                  | 9:03:01 AM GMT+01:00                          |
+
+Opções de formato personalizadas:
+
+| Campo de data                   | Valor                              | Descrição                                  | Exemplo                     |
+| :--------------------------- | :--------------------------------- | :------------------------------------------- | :-------------------------- |
+| Dia da semana                      | c, cc, ccc, E, EE, EEE             | Versão curta do dia da semana                 | Tue                         |
+|                              | cccc, EEEE                         | Versão longa do dia da semana                  | Tuesday                     |
+|                              | ccccc, EEEEE                       | Versão estreita do dia da semana                | T                           |
+| Dia                          | d                                  | Exibição numérica (um dígito quando possível) | 1, 10                       |
+|                              | dd                                 | Sempre 2 dígitos (com zero à esquerda)                 | 01, 10                      |
+| Mês                        | M, L                               | Exibição numérica (um dígito quando possível) | 8, 12                       |
+|                              | MM, LL                             | Sempre 2 dígitos (com zero à esquerda)                 | 08, 12                      |
+|                              | MMM, LLL                           | Nome curto do mês                             | Oct                         |
+|                              | MMMM, LLLL                         | Nome longo do mês                              | October                     |
+|                              | MMMMM, LLLLL                       | Nome estreito do mês                            | O                           |
+| Ano                         | y, yyy, yyyy                       | Exibição numérica                              | 1, 24, 632, 2025            |
+|                              | yy                                 | Exibição com 2 dígitos (com zero à esquerda quando possível)  | 01, 24, 32, 25              |
+| Ano ISO 8601                | Y, YYY, YYYY                       | Exibição numérica                              | 1, 24, 632, 2025            |
+|                              | YY                                 | Exibição com 2 dígitos (com zero à esquerda quando possível)  | 01, 24, 32, 25              |
+| Era                          | G, GG, GGG                         | Exibição curta                                | AD, BC                      |
+|                              | GGGG                               | Exibição longa                                 |  Anno Domini, Antes de Cristo |
+|                              | GGGGG                              | Exibição estreita                               | A, B                        |
+| Minuto                       | m                                  | Numérico (um dígito quando possível)         | 1, 5, 22                    |
+|                              | mm                                 | Exibição com 2 dígitos (com zero à esquerda)                | 01, 05, 22                  |
+| Hora 1-12                    | h                                  | Numérico (um dígito quando possível)         | 8, 12                       |
+|                              | hh                                 | 2 dígitos (com zero à esquerda)                        | 08, 13                      |
+| Hora 0-23                    | H                                  | Numérico (um dígito quando possível)         | 8, 21                       |
+|                              | HH                                 | 2 dígitos  (com zero à esquerda)                       | 08, 21                      |
+| Hora 0-11                    | K                                  | Numérico (um dígito quando possível)         | 0, 11                       |
+|                              | KK                                 | 2 dígitos (com zero à esquerda)                        | 00, 11                      |
+| Segundo                       | s                                  | Numérico (um dígito quando possível)         | 0...59                      |
+|                              | ss                                 | 2 dígitos (com zero à esquerda)                        | 00...59                     |
+| Segundos fracionários           | S                                  | Numérico para 1 dígito                          | 0...9                       |
+|                              | SS                                 | Numérico para 2 dígitos                         | 00...99                     |
+|                              | SSS                                | Numérico para 3 dígitos                         | 000...999                   |
+| Período do dia - abreviado | a, t                               | Sempre em minúsculas                            | am, pm                      |
+|                              | aa, aaa, tt, ttt                   | Sempre em maiúsculas                            | AM, PM                      |
+|                              | aaaa, tttt                         | Maiúsculas/minúsculas com base na localidade                         | am, pm, AM, PM              |
+|                              | aaaaa, ttttt                       | Sempre em minúsculas, na versão estreita                     | a, p                        |
+| Período do dia - estendido    | b, bb, bbb, B, BB, BBB             | Exibição curta. Com base na localidade `Intl`        | en-GB: à noite             |
+|                              | bbbb, BBBB                         | Exibição longa. Com base na localidade `Intl`         | en-GB: à noite             |
+|                              | bbbbb, BBBBB                       | Exibição estreita. Com base na localidade `Intl`       | en-GB: à noite             |
+| Fuso horário                     | z, zz, zzz, Z, ZZ, ZZZ, O, OO, OOO | Exibição curta                                | GMT+4                       |
+|                              | zzzz, ZZZZ, OOOO                   | Exibição longa                                 | GMT+0430                    |
+
+### Strings de recursos localizadas
+
+Todos os componentes do Ignite UI for Angular são exibidos em inglês por padrão, mas também podem ser exibidos em qualquer um dos idiomas listados no topo. Há três formas de fazer isso globalmente e uma forma por componente. Para qualquer idioma que ainda não esteja disponível, é possível fornecer uma tradução personalizada para cada string de recurso disponível pela nossa API.
+
+As traduções das strings dos componentes são armazenadas em strings de recursos e precisam ser registradas no nosso sistema de localização para que o componente possa usá-las.
+
+Para isso, primeiro você precisa instalar o pacote `igniteui-angular-i18n`, que contém as strings de recursos localizadas para todos os idiomas:
+
+```
+npm install igniteui-angular-i18n --save-dev
+```
+
+Depois disso, você precisa registrar cada idioma que deseja disponibilizar. Digamos alemão e japonês:
+
+```ts
+import { IgxResourceStringsDE, IgxResourceStringsJA } from 'igniteui-angular-i18n';
+
+registerI18n(IgxResourceStringsDE, 'de');
+registerI18n(IgxResourceStringsJA, 'ja');
+```
+
+Você também precisa informar a qual localidade elas se aplicam. Se não for informada uma tag válida, serão definidos os recursos para a localidade padrão 'en-US'.
+
+#### Regiões e scripts
+
+Levamos em conta o `language + region` ou o `language + script` da localidade que você usou para registrar os seus recursos, já que são os mais usados. Eles são separados por `-`, e região/script normalmente são definidos na segunda ou terceira posição. Por exemplo, `en-US` e `en-GB` ou `en-Latn`.
+
+Se você não usar região ou script, os recursos registrados se aplicarão a todas as localidades que usam o idioma `en`, por exemplo. A menos que você defina recursos também para as regiões e os scripts. Nesse caso, apenas para aqueles que você não definiu será retornado o recurso de `en`.
+
+Ao registrar recursos, o script tem prioridade maior do que a região. Recomendamos, em geral, usar região ou script, sem misturar os dois ao mesmo tempo. Assim, fica mais fácil gerenciar e saber qual deles está disponível e deve ser usado, com base na localidade que você definir.
+
+De qualquer forma, se você usar os dois, vamos tomar como exemplo o idioma `en` com a região `GB` e o script `Latn`. Se você definir recursos para a região e para o script, como `en-GB` e `en-Latn`, e depois definir a sua localidade com região e script iguais a `en-Latn-GB`, vamos buscar primeiro os recursos do script. Se ele não estiver disponível, retornaremos a região disponível, a menos que você defina explicitamente a sua localidade como `en-Latn`, claro. Se não houver recursos registrados para nenhum dos dois, usaremos o padrão de `en`, se disponível.
+
+### Personalizar um componente
+
+Se você quiser que um componente específico da sua aplicação use os recursos já registrados globalmente, mas com uma localização diferente, ou substitua completamente as strings de recursos dele, pode fazer isso da seguinte forma.
+
+#### Idioma e formatação
+
+Se você quiser definir uma localização diferente da global para um componente, pode fazer isso definindo a propriedade `locale`. Isso afetará o idioma das strings de recursos usadas, bem como a formatação, já que ambos estão vinculados.
+
+Com esta abordagem, você já deve ter os recursos de string disponíveis registrados globalmente:
+
+```ts
+import { IgxResourceStringsJA } from 'igniteui-angular-i18n';
+
+registerI18n(IgxResourceStringsJA, 'ja');
+```
+
+Ao definir a propriedade `locale` do componente, a localidade global em uso será substituída:
+
+```html
+<igx-grid [data]="data" locale="ja">
+    <igx-column field="ProductName" header="Product Name" [groupable]="true"></igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [groupable]="true"></igx-column>
+</igx-grid>
+```
+
+##### Somente o idioma
+
+Se você quiser alterar apenas o idioma do componente, sem alterar a localidade, pode até definir as strings de recursos de cada componente usando a propriedade `resourceStrings`, que substituirá as que são usadas globalmente:
+
+```html
+<igx-grid [data]="data" [resourceStrings]="resourcesDE">
+    <igx-column field="ProductName" header="Product Name" [groupable]="true"></igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [groupable]="true"></igx-column>
+</igx-grid>
+```
+
+É preciso garantir que você use o tipo correto de string de recurso para o componente que quer substituir. Cada componente tem o seu próprio conjunto de strings de recursos. Neste caso, para a grade em alemão:
+
+```ts
+import { GridResourceStringsDE } from 'igniteui-angular-i18n';
+
+// Inside App Component:
+public resourcesDE = GridResourceStringsDE;
+```
+
+### Strings de recursos localizadas personalizadas
+
+Se você quiser localizar a sua aplicação, mas não fornecemos strings de recursos para o idioma que você usa e quiser fornecer a sua própria tradução, sempre é possível informar uma string de recurso personalizada. Você pode fazer isso globalmente ou por componente (usando a propriedade `resourceStrings`).
+
+<DocsAside type="info">
+Sinta-se à vontade para contribuir com mais idiomas para o pacote [`igniteui-i18n-resources`](https://github.com/IgniteUI/igniteui-i18n/tree/master/projects/igniteui-i18n-resources). Os `igniteui-angular-i18n` são baseados neles.
+</DocsAside>
+
+Você pode usar o tipo `IResourceStrings` fornecido para todos os componentes e obter tipagem para as strings de recursos usadas:
+
+```ts
+import { IResourceStrings } from 'igniteui-angular';
+
+export const customResourcesForAll: IResourceStrings = {
+    //...
+};
+registerI18n(customResourcesForAll, 'custom');
+```
+
+Ou, separadamente, para um componente específico, neste caso as grades:
+
+```ts
+import { IGridResourceStrings } from 'igniteui-angular';
+
+export const customGridResources: IGridResourceStrings = {
+    grid_summary_count: 'गणना',
+    grid_summary_min: 'न्यून',
+    grid_summary_max: 'अधिक',
+    grid_summary_sum: 'योग',
+    grid_summary_average: 'औसत'
+};
+
+```
+
+Você pode até misturar como quiser as strings de recursos já existentes com as que deseja personalizar, mesmo para o inglês padrão:
+
+```ts
+import { IResourceStrings, CalendarResourceStringsEN, DatePickerResourceStringsEN } from 'igniteui-angular';
+
+export const customResources: IResourceStrings = Object.assign(
+    {},
+    CalendarResourceStringsEN,
+    DatePickerResourceStringsEN,
+    {
+        grid_summary_count: 'Custom count',
+        grid_summary_min: 'Minium',
+        grid_summary_max: 'Maximum',
+        grid_summary_sum: 'Custom summary'
+    }
+);
+registerI18n(customResources, 'en');
+
+```
+
+<DocsAside type="info">
+Os últimos exemplos definem apenas strings de recursos específicas. Isso significa que as demais usarão o inglês por padrão, caso não estejam disponíveis para os componentes em uso.
+</DocsAside>
+
+### Strings de recursos disponíveis
+
+- [IgxResourceStringsBG](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/BG/resources.ts)
+- [IgxResourceStringsCS](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/CS/resources.ts)
+- [IgxResourceStringsDA](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/DA/resources.ts)
+- [IgxResourceStringsDE](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/DE/resources.ts)
+- [IgxResourceStringsES](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ES/resources.ts)
+- [IgxResourceStringsFR](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/FR/resources.ts)
+- [IgxResourceStringsHU](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/HU/resources.ts)
+- [IgxResourceStringsIT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/IT/resources.ts)
+- [IgxResourceStringsJA](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/JA/resources.ts)
+- [IgxResourceStringsKO](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/KO/resources.ts)
+- [IgxResourceStringsNB](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/NB/resources.ts)
+- [IgxResourceStringsNL](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/NL/resources.ts)
+- [IgxResourceStringsPL](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/PL/resources.ts)
+- [IgxResourceStringsPT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/PT/resources.ts)
+- [IgxResourceStringsRO](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/RO/resources.ts)
+- [IgxResourceStringsSV](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/SV/resources.ts)
+- [IgxResourceStringsTR](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/TR/resources.ts)
+- [IgxResourceStringsZHHANS](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ZH-HANS/resources.ts)
+- [IgxResourceStringsZHHANT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ZH-HANT/resources.ts)
+
+
+## Localização legada (i18n)
+
+<DocsAside type="info">
+Esta é uma forma antiga de tratar a localização, recomendada até a versão 21.0.x. Sugerimos usar a nova forma disponível acima se você estiver usando versões mais recentes. Ela continuará funcionando até aviso em contrário.
+</DocsAside>
+
+Atualmente, o Ignite UI for Angular traz strings de recursos para os seguintes idiomas e scripts: búlgaro, tcheco, dinamarquês, holandês, inglês, francês, alemão, húngaro, italiano, japonês, coreano, norueguês, polonês, português, romeno, espanhol, sueco, turco, chinês tradicional (zh-Hant) e chinês simplificado (zh-Hans). Eles estão disponíveis pelo pacote `igniteui-angular-i18n`, exceto o inglês, que vem como localização padrão em `igniteui-angular`.
+
+Com apenas algumas linhas de código, os usuários podem alterar facilmente as strings de localização dos componentes do Ignite UI for Angular.
+
+### Exemplo de localização do Angular
+
+<Sample src="/services/localization-all-resources-old" height={550} alt="Exemplo de localização do Angular" />
+
+<DocsAside type="info">
+O hindi (HI) incluído no exemplo serve apenas para ilustração e para destacar a possibilidade de passar um objeto de localização personalizado. Neste exemplo, há apenas algumas strings localizadas para o resumo. Mais detalhes na seção [Use seus próprios recursos localizados](#use-seus-próprios-recursos-localizados), abaixo.
+</DocsAside>
+
+### Uso
+
+### Carregar recursos localizados do pacote npm
+
+Você pode localizar uma aplicação em um dos idiomas disponíveis no pacote `igniteui-angular-i18n` da seguinte forma:
+
+Instale o pacote executando `npm install igniteui-angular-i18n --save-dev`
+
+Importe as strings de recursos do idioma desejado e altere as strings de uma instância do componente, usando a entrada `resourceStrings` do componente.
+
+```html
+<igx-grid [data]="data" [resourceStrings]="resourcesDE" [locale]="locale">
+    <igx-grid-toolbar>
+        <igx-grid-toolbar-title>German Locale</igx-grid-toolbar-title>
+    </igx-grid-toolbar>
+    <igx-column field="ProductName" header="Product Name" [groupable]="true">
+    </igx-column>
+    <igx-column field="QuantityPerUnit" header="Quantity Per Unit" [groupable]="true">
+    </igx-column>
+    <igx-column field="UnitPrice" header="Unit Price" [sortable]="true" [hasSummary]="true"
+        [dataType]="'currency'" [groupable]="true">
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'" [groupable]="true">
+    </igx-column>
+    <igx-column field="Discontinued" header="Discontinued" [dataType]="'boolean'" [groupable]="true">
+    </igx-column>
+</igx-grid>
+```
+
+```typescript
+import { Component } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+
+import localeDE from '@angular/common/locales/de';
+import { GridResourceStringsDE } from 'igniteui-angular-i18n';
+
+@Component({
+    selector: 'app-locale',
+    styleUrls: ['./locale.component.scss'],
+    templateUrl: 'locale.component.html'
+})
+export class LocaleComponent implements OnInit {
+    public resourcesDE = GridResourceStringsDE;
+    public locale = 'DE';
+    public data: any[];
+
+    constructor() {
+        registerLocaleData(localeDE);
+    }
+}
+```
+
+Como alternativa, você pode chamar a função `changei18n()` passando o objeto de recurso correspondente para alterar a localização de todos os componentes.
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { changei18n } from "igniteui-angular/core";
+import { IgxResourceStringsJA } from 'igniteui-angular-i18n';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit {
+    public ngOnInit(): void {
+        changei18n(IgxResourceStringsJA);
+    }
+}
+```
+
+<DocsAside type="info">
+Sinta-se à vontade para contribuir com mais idiomas para o pacote [`igniteui-angular-i18n`](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n)!
+</DocsAside>
+
+#### Use seus próprios recursos localizados
+
+A função `changei18n` espera um objeto `IResourceStrings`. Se o idioma que você quer usar não estiver disponível no pacote `igniteui-angular-i18n`, ou se você simplesmente quiser alterar uma string específica, pode passar um objeto personalizado com as suas strings de recursos para o idioma e os componentes de que precisa. Isso alterará o i18n global dos componentes do igniteui-angular.
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { changei18n, IGridResourceStrings } from "igniteui-angular/core";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit {
+    public partialCustomHindi: IGridResourceStrings;
+
+    public ngOnInit(): void {
+        this.partialCustomHindi = {
+            igx_grid_summary_count: 'गणना',
+            igx_grid_summary_min: 'न्यून',
+            igx_grid_summary_max: 'अधिक',
+            igx_grid_summary_sum: 'योग',
+            igx_grid_summary_average: 'औसत'
+        };
+        // This will change all grid application instances' strings to the newly provided ones
+        changei18n(this.partialCustomHindi);
+    }
+}
+```
+
+Como alternativa, você pode obter todas as strings de recursos de componentes atualmente disponíveis. Há um objeto para cada componente, contendo as strings localizáveis. Os valores podem ser substituídos para serem localizados, e o objeto pode então ser passado como parâmetro para a função `changei18n`.
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { changei18n, GridResourceStringsEN, TimePickerResourceStringsEN } from "igniteui-angular/core";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit {
+    public ngOnInit(): void {
+        const currentRS = {
+            ...GridResourceStringsEN,
+            ...TimePickerResourceStringsEN
+        };
+
+        for (const key of Object.keys(currentRS)) {
+            currentRS[key] = '[Localized] '+ currentRS[key];
+        }
+
+        changei18n(currentRS);
+    }
+}
+```
+
+#### Localizar strings específicas para uma instância específica de um componente
+
+Se apenas uma única instância de `igx-grid` deve ser localizada, há uma forma de fazer isso. Deve-se usar a propriedade `resourceStrings` e defini-la como uma nova instância do tipo `IGridResourceStrings`.
+
+```typescript
+const newGridRes: IGridResourceStrings = {
+    igx_grid_filter: '[Localized]Filter',
+    igx_grid_filter_row_close: '[Localized]Close'
+}
+
+this.grid.resourceStrings = newGridRes;
+```
+
+### Strings de recursos disponíveis
+
+- [IgxResourceStringsBG](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/BG/resources.ts)
+- [IgxResourceStringsCS](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/CS/resources.ts)
+- [IgxResourceStringsDA](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/DA/resources.ts)
+- [IgxResourceStringsDE](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/DE/resources.ts)
+- [IgxResourceStringsES](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ES/resources.ts)
+- [IgxResourceStringsFR](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/FR/resources.ts)
+- [IgxResourceStringsHU](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/HU/resources.ts)
+- [IgxResourceStringsIT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/IT/resources.ts)
+- [IgxResourceStringsJA](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/JA/resources.ts)
+- [IgxResourceStringsKO](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/KO/resources.ts)
+- [IgxResourceStringsNB](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/NB/resources.ts)
+- [IgxResourceStringsNL](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/NL/resources.ts)
+- [IgxResourceStringsPL](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/PL/resources.ts)
+- [IgxResourceStringsPT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/PT/resources.ts)
+- [IgxResourceStringsRO](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/RO/resources.ts)
+- [IgxResourceStringsSV](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/SV/resources.ts)
+- [IgxResourceStringsTR](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/TR/resources.ts)
+- [IgxResourceStringsZHHANS](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ZH-HANS/resources.ts)
+- [IgxResourceStringsZHHANT](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n/src/i18n/ZH-HANT/resources.ts)
+
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+- [Ignite UI for Angular **ResourceStrings**](https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular-i18n)

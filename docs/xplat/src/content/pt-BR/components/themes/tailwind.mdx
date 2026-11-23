@@ -1,0 +1,208 @@
+---
+title: "Integração do Tailwind com o {Platform}"
+description: "Saiba como integrar o Tailwind CSS com classes utilitárias personalizadas do mecanismo de temas do Ignite UI. Este guia orienta a configuração e mostra como usar tokens de design para cores, tipografia e sombras em uma abordagem utility-first."
+keywords: "{ProductName}, Infragistics, Temas, Estilização, Tailwind CSS, CSS personalizado, classes utilitárias, mecanismo de temas, tipografia, sombras, cores"
+license: MIT
+mentionedTypes: ["ConfigureTheme"]
+_language: pt-BR
+llms:
+  description: "O {ProductName} oferece personalização completa de temas por meio de variáveis CSS."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set gets this page from the xplat generator, so do not keep a copy under docs/angular.*/}
+
+# Integração do Tailwind CSS com o {ProductName}
+
+O {ProductName} oferece personalização completa de temas por meio de variáveis CSS. Neste guia, você aprenderá a integrar o Tailwind CSS ao seu projeto e a complementá-lo com classes utilitárias personalizadas fornecidas pelo pacote `igniteui-theming`. Essas classes expõem tokens de design {ProductName} para cores, sombras e tipografia, permitindo uma experiência de estilização utility-first sem interrupções.
+
+## Visão geral
+
+<PlatformBlock for="Angular">
+
+Este guia pressupõe que você já tem **{ProductName}** instalado, que inclui `igniteui-theming`. Se não tiver, execute:
+
+```cmd
+ng add igniteui-angular
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+Este guia pressupõe que você já tem o **Ignite UI Theming** instalado. Se não tiver, execute:
+
+```cmd
+npm install igniteui-theming
+```
+
+</PlatformBlock>
+
+## Configuração do Tailwind
+
+<PlatformBlock for="Angular">
+
+Instale o Tailwind e o seu plugin PostCSS:
+
+```cmd
+npm install tailwindcss @tailwindcss/postcss postcss --force
+```
+
+Em seguida, crie um arquivo `.postcssrc.json` na raiz do seu projeto e adicione o plugin `@tailwindcss/postcss` à sua configuração do PostCSS:
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="React, WebComponents, Blazor">
+
+Comece instalando o Tailwind CSS de acordo com a sua ferramenta de build ou framework, seguindo o [guia oficial de instalação do Tailwind](https://tailwindcss.com/docs/installation).
+
+</PlatformBlock>
+
+Depois que o Tailwind estiver configurado, importe o Tailwind e a configuração de temas do Ignite UI na sua folha de estilo global<PlatformBlock for="Angular"> (`styles.css` ou `styles.scss`)</PlatformBlock>:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/themes/base";
+```
+
+Se o seu projeto usa Sass para a estilização, carregue primeiro a configuração do Ignite UI. O Sass exige que toda regra `@use` venha antes de qualquer outra regra, inclusive de `@import`:
+
+```scss
+@use "igniteui-theming/tailwind/themes/base.css";
+@import "tailwindcss";
+```
+
+## Usando as classes utilitárias personalizadas do Ignite UI
+
+O pacote `igniteui-theming` inclui uma configuração personalizada do Tailwind que expõe os tokens de design do Ignite UI por meio de classes utilitárias. Elas incluem suporte a:
+
+- Cores e cores de contraste
+
+- Elevação (sombras)
+
+- Estilos tipográficos
+
+Vamos ver como usar cada um.
+
+### Classes utilitárias de cor
+
+Nossas classes utilitárias de cor são alimentadas pelos tokens de cada tema do Ignite UI. Você pode aplicá-las diretamente no seu HTML:
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<h1 class="bg-primary-500 text-primary-500-contrast">This is a title</h1>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<h1 className="bg-primary-500 text-primary-500-contrast">This is a title</h1>
+```
+
+</PlatformBlock>
+
+Você pode explorar o sistema completo de cores do Tailwind na [documentação de cores do Tailwind](https://tailwindcss.com/docs/color) e aplicá-lo usando os nomes de classe fornecidos pelo Ignite UI.
+
+### Classes utilitárias de sombra
+
+Você pode adicionar profundidade usando qualquer um dos [níveis de elevação](elevations.mdx) predefinidos (de 0 a 24):
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<div class="shadow-elevation-8">Elevated container</div>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<div className="shadow-elevation-8">Elevated container</div>
+```
+
+</PlatformBlock>
+
+Você pode encontrar todas as classes utilitárias relacionadas a sombras fornecidas pelo Tailwind na [documentação de box shadow do Tailwind](https://tailwindcss.com/docs/box-shadow).
+
+### Estilos utilitários personalizados de tipografia
+
+Para aplicar a fonte, adicione a classe `font-ig` a um elemento de nível superior. Você também pode definir o tamanho base da fonte usando a classe utilitária `text-base`.
+Fornecemos classes utilitárias personalizadas para cada nível de tipografia (por exemplo, h1, h2, body-1). Use-as assim:
+
+<PlatformBlock for="Angular, WebComponents, Blazor">
+
+```html
+<p class="type-style-h3">This paragraph gets the h3 styles</p>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```html
+<p className="type-style-h3">This paragraph gets the h3 styles</p>
+```
+
+</PlatformBlock>
+
+Cada classe aplica todas as configurações necessárias de fonte, espaçamento e dimensionamento de acordo com a [escala de tipo do Ignite UI](typography.mdx).
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+Esses utilitários personalizados de tipografia funcionam somente fora de `ig-typography`. Se você precisar definir a classe CSS `ig-typography` em um elemento de nível superior, esses estilos não serão aplicados.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents">
+
+## Exemplo
+
+No exemplo abaixo, você verá uma página 404 construída inteiramente com classes utilitárias do Tailwind, incluindo os nossos utilitários personalizados para sombras, cores e tipografia.
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+Você pode ver como estilizar cada componente consultando a seção **Estilização** no respectivo tópico da documentação.
+</DocsAside>
+
+<Sample src="/theming/tailwind-sample" height={610} alt="Integração do Tailwind com o {Platform}" />
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tailwind/styling" height={400} alt="Integração do Tailwind com o {Platform}" />
+
+</PlatformBlock>
+<PlatformBlock for="Angular, WebComponents">
+
+<DocsAside type="info">
+Este exemplo é fictício e totalmente personalizado; não faz parte da biblioteca de componentes do Ignite UI.
+</DocsAside>
+
+</PlatformBlock>
+
+## Resumo
+
+Com apenas alguns passos de configuração, você pode combinar a abordagem utility-first do Tailwind com o sistema de design robusto do Ignite UI. Essa integração permite criar rapidamente componentes de interface consistentes e temáticos, usando tokens bem definidos de cor, elevação e tipografia, diretamente no seu HTML.
+
+## Recursos adicionais
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

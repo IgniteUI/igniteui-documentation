@@ -1,0 +1,236 @@
+---
+title: "Cuadrícula tipo Excel de Angular: pegar desde Excel | Infragistics"
+description: "Configure la cuadrícula de Angular para pegar datos desde Excel usando una API potente y eficaz con menos código, y use la API completa para exportar fácilmente los datos seleccionados de la cuadrícula."
+keywords: "exportar seleccionados, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "La cuadrícula de Ignite UI for Angular puede leer datos de Excel copiados al portapapeles."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Pegar desde Excel en Angular Grid
+
+La <ApiLink type="Grid" /> de Ignite UI for Angular puede leer datos de Excel copiados al portapapeles. En esta sección le mostraremos cómo hacerlo con algo de código personalizado.
+
+## Ejemplo de pegar desde Excel en Angular
+
+Este ejemplo muestra cómo pegar datos desde Excel en la tabla de Material UI de `igxGrid`.
+Para trabajar con el ejemplo, abra cualquier hoja de cálculo de Excel, copie algunas filas y péguelas en la cuadrícula con el teclado (Ctrl + V, Shift + Insert, Command + V).
+
+En la parte superior hay un botón desplegable con 2 opciones:
+<ol>
+<li>"Paste data as new rows": en este modo, cualquier dato copiado desde Excel se añadirá a la cuadrícula como filas nuevas</li>
+<li>"Paste starting from active cell": en este modo, los datos de la cuadrícula se sobrescribirán.</li>
+</ol>
+
+Los datos nuevos tras el pegado se muestran en cursiva.
+
+
+<Sample src="/grid/grid-paste" height={570} alt="Ejemplo de pegar desde Excel en Angular" />
+
+<igc-divider></igc-divider>
+
+## Uso
+
+Debe añadir la directiva `paste-handler` (su código está en la sección siguiente) a `igxGrid` y gestionar su evento `onDataProcessed`. El evento `onDataProcessed` tiene un parámetro que le da acceso a los datos de Excel en forma de array. Para la referencia, consulte los métodos `addRecords` y `updateRecords`.
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'505px'" [autoGenerate]="false" paste-handler (onDataProcessed)="dataPasted($event)" [primaryKey]="'ID'">
+    <igx-column [field]="'Name'"></igx-column>
+    <igx-column [field]="'Title'"></igx-column>
+    <igx-column [field]="'Phone'"></igx-column>
+    <igx-column [field]="'Country'"></igx-column>
+</igx-grid>
+```
+
+```typescript
+    public dataPasted(processedData) {
+        if (this.pasteMode === "Paste data as new records") {
+            this.addRecords(processedData);
+        } else {
+            this.updateRecords(processedData);
+        }
+    }
+
+    public addRecords(processedData: any[]) {
+        const columns = this.grid1.visibleColumns;
+        const pk = this.grid1.primaryKey;
+        const addedData = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            for (const col of columns) {
+                rowData[col.field] = curentDataRow[col.visibleIndex];
+            }
+            // generate PK
+            rowData[pk] = this.grid1.data.length + 1;
+            this.grid1.addRow(rowData);
+            addedData.push(rowData);
+            this.grid1.cdr.detectChanges();
+        }
+        // scroll to last added row
+        this.grid1.verticalScrollContainer.scrollTo(this.grid1.data.length);
+
+        this.grid1.verticalScrollContainer.chunkLoad.pipe(take(1)).subscribe(() => {
+            this.clearStyles();
+            for (const data of addedData) {
+                const row = this.grid1.getRowByKey(data[pk]);
+                if (row) {
+                    row.nativeElement.style["font-style"] = "italic";
+                    row.nativeElement.style.color = "gray";
+                }
+            }
+        });
+    }
+    public updateRecords(processedData: any[]) {
+        const cell = this.grid1.selectedCells[0];
+        const pk = this.grid1.primaryKey;
+        if (!cell) { return; }
+        const rowIndex = cell.row.index;
+        // const rowPkValue = cell.row.data[pk];
+        const cellIndex = cell.column.visibleIndex;
+        const columns = this.grid1.visibleColumns;
+        let index = 0;
+        const updatedRecsPK = [];
+        for (const curentDataRow of processedData) {
+            const rowData = {};
+            const dataRec = this.grid1.data[rowIndex + index];
+            const rowPkValue = dataRec ? dataRec[pk] : this.grid1.data.length + 1;
+            rowData[pk] = rowPkValue;
+            for (let j = 0; j < columns.length; j++) {
+                let currentCell;
+                if (j >= cellIndex) {
+                    currentCell = curentDataRow.shift();
+                }
+                const colKey = columns[j].field;
+                rowData[colKey] = currentCell || (!!dataRec ? dataRec[colKey] : null);
+            }
+            if (!dataRec) {
+                // no rec to update, add instead
+                rowData[pk] = rowPkValue;
+                this.grid1.addRow(rowData);
+                continue;
+            }
+            this.grid1.updateRow(rowData, rowPkValue);
+            this.grid1.cdr.detectChanges();
+            updatedRecsPK.push(rowPkValue);
+            index++;
+        }
+
+        this.clearStyles();
+        for (const pkVal of updatedRecsPK) {
+            const row = this.grid1.getRowByKey(pkVal);
+            if (row) {
+            row.nativeElement.style["font-style"] = "italic";
+            row.nativeElement.style.color = "gray";
+            }
+        }
+    }
+
+    protected clearStyles() {
+        for (const row of this.grid1.rowList.toArray()) {
+            row.nativeElement.style["font-style"] = "";
+            row.nativeElement.style.color = "";
+        }
+    }
+```
+
+<igc-divider></igc-divider>
+
+## Directiva de gestión del pegado
+
+Esta es la implementación de `paste-handler`. El código crea un elemento DOM `textarea` que se usa para recibir los datos pegados desde el portapapeles. Cuando se pegan los datos en `textarea`, la directiva los analiza en un array y después emite un evento personalizado `onDataProcessed` pasando los datos analizados.
+
+```typescript
+import { Directive, EventEmitter, HostListener, Output} from "@angular/core";
+
+@Directive({ selector: "[paste-handler]" })
+export class PasteHandler {
+    public textArea;
+
+    @Output()
+    public onDataProcessed = new EventEmitter<any>();
+
+    public ngOnInit(): void {
+        const div = document.createElement("div");
+        const divStyle = div.style;
+        divStyle.position = "fixed";
+        document.body.appendChild(div);
+        this.textArea = document.createElement("textarea");
+        const style = this.textArea.style;
+        style.opacity = "0";
+        style.height = "0px";
+        style.width = "0px";
+        style.overflow = "hidden";
+        div.appendChild(this.textArea);
+
+        this.textArea.addEventListener("paste", (eventArgs) => { this.onPaste(eventArgs); });
+    }
+
+    @HostListener("focusin", ["$event"])
+    public focusIn(eventArgs) {
+    }
+
+    @HostListener("keydown", ["$event"])
+    public ControlV(eventArgs) {
+        const ctrl = eventArgs.ctrlKey;
+        const key = eventArgs.keyCode;
+        // Ctrl-V || Shift-Ins || Cmd-V
+        if ((ctrl || eventArgs.metaKey) && key === 86 || eventArgs.shiftKey && key === 45) {
+            this.textArea.focus();
+        }
+    }
+
+    public onPaste(eventArgs) {
+    let data;
+    const clData = "clipboardData";
+
+    // get clipboard data - from window.cliboardData for IE or from the original event's arguments.
+    if (window[clData]) {
+        window.event.returnValue = false;
+        data = window[clData].getData("text");
+    } else {
+        data = eventArgs[clData].getData("text/plain");
+    }
+
+    // process the clipboard data
+    const processedData = this.processData(data);
+
+    this.onDataProcessed.emit(processedData);
+    }
+
+    public processData(data) {
+        const pasteData = data.split("\n");
+        for (let i = 0; i < pasteData.length; i++) {
+            pasteData[i] = pasteData[i].split("\t");
+            // Check if last row is a dummy row
+            if (pasteData[pasteData.length - 1].length === 1 && pasteData[pasteData.length - 1][0] === "") {
+                pasteData.pop();
+            }
+            // remove empty data
+            if (pasteData.length === 1 &&
+                 pasteData[0].length === 1 &&
+                  (pasteData[0][0] === "" || pasteData[0][0] === "\r")) {
+                    pasteData.pop();
+            }
+        }
+        return pasteData;
+    }
+}
+
+```
+
+## Referencias de API
+- <ApiLink type="Grid" />
+## Recursos adicionales
+
+
+- [Exportador de Excel](/grid/export-excel): use el servicio Excel Exporter para exportar datos a Excel desde IgxGrid. También ofrece la opción de exportar solo los datos seleccionados de IgxGrid. La funcionalidad de exportación está encapsulada en la clase IgxExcelExporterService y los datos se exportan en formato de tabla de MS Excel. Este formato permite funciones como el filtrado, la ordenación, etc. Para hacerlo, debe invocar el método export de IgxExcelExporterService y pasar el componente IgxGrid como primer argumento.
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

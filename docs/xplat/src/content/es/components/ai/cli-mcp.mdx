@@ -1,0 +1,460 @@
+---
+title: "Ignite UI CLI MCP | Infragistics"
+description: "Use el servidor Ignite UI CLI MCP para crear proyectos {ProductName}, añadir componentes y responder preguntas sobre la API a través de su asistente de IA."
+keywords: "{Platform}, {ProductName}, Infragistics, Ignite UI CLI MCP, Ignite UI Theming MCP, MCP, Model Context Protocol, AI, agent, GitHub Copilot, Cursor, Claude, JetBrains"
+license: MIT
+_canonicalLink: "{environment:dvUrl}/components/ai/cli-mcp"
+last_updated: "2026-04-24"
+mentionedTypes: []
+_language: es
+llms:
+  description: "Ignite UI CLI MCP es un servidor de Model Context Protocol (MCP) que permite a los asistentes de IA crear andamiajes de proyectos, modificar aplicaciones existentes, crear y actualizar componentes y responder preguntas de documentación para aplicaciones {ProductName}."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+# Ignite UI CLI MCP
+
+<p class="highlight">Ignite UI CLI MCP es un servidor <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) que permite a los asistentes de IA crear andamiajes de proyectos, modificar aplicaciones existentes, crear y actualizar componentes y responder preguntas de documentación para aplicaciones {ProductName}. Conecte Ignite UI CLI MCP a su editor, a su repositorio de GitHub o a su cliente de IA de escritorio, y describa lo que quiere: el asistente usa las herramientas de la CLI por usted.</p>
+
+<igc-divider></igc-divider>
+
+## Descripción general
+
+Ignite UI CLI MCP da a los asistentes de IA acceso directo a la creación de la estructura de proyectos de Ignite UI CLI, a la generación de componentes, a la modificación de proyectos y a flujos de trabajo con conocimiento de la documentación, mediante el chat o el modo agente. El servidor funciona junto con [Ignite UI Theming MCP](./theming-mcp.mdx). CLI MCP se encarga de los flujos de trabajo de proyectos y componentes, mientras que Theming MCP se encarga de paletas, temas, tokens y estilos. La mayoría de los equipos conectan ambos servidores en la misma sesión de su cliente de IA.
+
+La ruta de configuración recomendada es empezar primero con Ignite UI CLI. Esa ruta crea el proyecto, instala los paquetes necesarios y le pide que elija qué clientes y agentes de IA quiere configurar. También puede empezar desde una carpeta vacía y dejar que el asistente cree el proyecto mediante MCP, o conectar MCP a un proyecto que ya exista.
+
+**Ejemplos de indicaciones para probar una vez conectado:**
+
+> _"Cree un proyecto {ProductName} nuevo en esta carpeta, use los valores predeterminados recomendados y añada una página de panel inicial con datos de ejemplo."_
+
+> _"Añada una página nueva con una cuadrícula a este proyecto, conéctela a datos de ejemplo y mantenga la estructura de navegación actual."_
+
+> _"¿Qué propiedades y eventos expone el componente combo y cuáles son los más útiles para un desplegable con búsqueda?"_
+
+> _"Actualice el proyecto existente para añadir un diseño de navegación lateral y conserve las páginas y rutas actuales."_
+
+## Requisitos previos
+
+Antes de configurar el servidor MCP, asegúrese de tener:
+
+- **Node.js** (v18 o posterior) instalado: proporciona el comando `npx` que se usa para iniciar el servidor.
+- Un **cliente de IA con compatibilidad con MCP**: por ejemplo, VS Code con GitHub Copilot, el agente en la nube de GitHub Copilot, Cursor, Claude Desktop, Claude Code o un IDE de JetBrains con el complemento AI Assistant.
+- Acceso a Internet para resolver el paquete `npx` la primera vez que se inicia el servidor.
+- Uno de los siguientes puntos de partida:
+  - una carpeta vacía para un proyecto nuevo
+  - un proyecto creado con Ignite UI CLI
+  - un proyecto {ProductName} existente en el que quiere seguir trabajando
+
+Si quiere las herramientas de temas en la misma sesión del cliente y `igniteui-theming` aún no está disponible en su proyecto, ejecute:
+
+```bash
+npm install igniteui-theming
+```
+
+## Configurar Ignite UI CLI MCP para su cliente de IA
+
+El servidor MCP se inicia mediante `npx`. No se necesita ninguna instalación aparte además de Node.js y del acceso al paquete `igniteui-cli`.
+
+El comando de inicio canónico es:
+
+```bash
+npx -y igniteui-cli mcp
+```
+
+<DocsAside type="info">
+El indicador `-y` le indica a `npx` que confirme automáticamente la solicitud de descarga del paquete, para que el servidor pueda iniciarse sin intervención manual.
+</DocsAside>
+
+### Elija una ruta de configuración
+
+Puede empezar con Ignite UI CLI MCP de tres maneras:
+
+> **Recomendado: primero la CLI**
+> Cree el proyecto primero con Ignite UI CLI usando `ig new` o el comando `npx --package igniteui-cli igniteui new` equivalente. Es la configuración más sencilla, porque Ignite UI CLI crea el proyecto, instala los paquetes necesarios y le pide que elija a qué clientes de IA configurar para MCP y para qué agentes configurar los archivos de skills. Después, solo tiene que revisar la configuración generada y abrir el proyecto en su cliente de IA.
+
+> **Carpeta vacía**
+> Empiece con una carpeta completamente vacía, añada la configuración de MCP manualmente y, a continuación, pida al asistente que cree el proyecto mediante el chat. Esta ruta resulta útil cuando quiere que MCP dirija el proceso de creación del proyecto desde el principio, en lugar de ejecutar primero la CLI usted mismo.
+
+> **Proyecto existente**
+> Añada la configuración de MCP a un proyecto que ya tiene y continúe trabajando en el código actual. Ejecute `ig ai-config` (o `ng generate @igniteui/angular-schematics:ai-config` para proyectos de Angular) para escribir la configuración de MCP de los clientes de IA seleccionados y copiar los Agent Skills en su proyecto. El comando le pide que elija qué clientes y agentes configurar.
+
+Las tres rutas usan los mismos servidores MCP. La diferencia está solo en cómo se prepara el proyecto antes de empezar a dar indicaciones:
+
+- en la ruta **primero la CLI**, Ignite UI CLI crea el proyecto y prepara por usted la primera configuración de MCP
+- en la ruta de **carpeta vacía**, usted crea primero la configuración de MCP y deja que el asistente cree el proyecto después
+- en la ruta de **proyecto existente**, ejecute `ig ai-config` para escribir la configuración de MCP de los clientes seleccionados y copiar automáticamente los Agent Skills
+
+En todos los casos, una vez que los servidores MCP estén conectados y visibles en su cliente de IA, el asistente puede seguir trabajando en la misma sesión.
+
+Si va a crear un proyecto con Ignite UI CLI primero, puede ejecutar la CLI de cualquiera de estas dos maneras:
+
+- **Instalación global**
+
+  ```bash
+  npm install -g igniteui-cli
+  ```
+
+  Así dispone del comando `ig` en cualquier sesión de terminal, y es la opción más clara si piensa crear y generar proyectos con regularidad.
+
+- **Sin instalación global**
+
+  ```bash
+  npx --package igniteui-cli igniteui new
+  ```
+
+  Esto ejecuta la CLI a través de `npx` en lugar de un comando `ig` global.
+
+Para la ruta **primero la CLI**, puede crear el proyecto en modo guiado o con un comando directo.
+
+Utilice el modo guiado cuando quiera que la CLI le acompañe por las opciones disponibles:
+
+```bash
+ig new
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx --package igniteui-cli igniteui new
+```
+
+Utilice un comando directo cuando ya conozca la configuración del proyecto:
+
+<PlatformBlock for="Angular">
+
+```bash
+ig new my-app --framework=angular --type=igx-ts --template=empty
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx ig new my-app --framework=angular --type=igx-ts --template=empty
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```bash
+ig new my-app --framework=react --type=igr-ts --template=side-nav
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx ig new my-app --framework=react --template=side-nav
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```bash
+ig new my-app --framework=webcomponents --template=side-nav
+```
+
+Forma `npx` equivalente:
+
+```bash
+npx ig new my-app --framework=webcomponents --template=side-nav
+```
+
+</PlatformBlock>
+
+En el modo guiado, Ignite UI CLI pide el nombre del proyecto, el framework, la plantilla, el tema y si quiere añadir un componente o completar la configuración. En el modo directo, usted indica el framework y las opciones admitidas en el propio comando.
+
+<PlatformBlock for="React, WebComponents">
+Para más detalles sobre las plantillas de proyecto, las opciones de los comandos de la CLI y los comandos de andamiaje de componentes, como `ig add`, consulte la [documentación de Ignite UI CLI](../general-cli-overview.mdx).
+</PlatformBlock>
+
+### VS Code
+
+GitHub Copilot en VS Code admite servidores MCP mediante un archivo de configuración a nivel de espacio de trabajo. Ejecute `ig ai-config` (o `ng generate @igniteui/angular-schematics:ai-config`) desde la raíz de su proyecto para generar este archivo automáticamente. Para configurarlo manualmente, cree o edite `.vscode/mcp.json` en la raíz de su proyecto:
+
+```json
+{
+  "servers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Si creó el proyecto primero con Ignite UI CLI, revise el archivo `.vscode/mcp.json` generado y confirme que aparecen las dos entradas.
+
+Una vez guardado, abra el panel de chat de GitHub Copilot, cambie al modo **Agent** y las herramientas de Ignite UI CLI MCP estarán disponibles.
+
+<DocsAside type="info">
+La compatibilidad con MCP en VS Code requiere GitHub Copilot y VS Code 1.99 o posterior.
+</DocsAside>
+
+### Cursor
+
+Cursor admite la configuración de MCP con ámbito de proyecto. Cree o edite `.cursor/mcp.json` en la raíz de su proyecto:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Los servidores se detectarán automáticamente cuando abra una nueva sesión de chat de Cursor.
+
+<DocsAside type="info">
+También puede configurar los servidores MCP de forma global en **Configuración → MCP** de Cursor.
+</DocsAside>
+
+### Claude Desktop
+
+Añada los servidores al archivo de configuración de Claude Desktop:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Reinicie Claude Desktop después de guardar. Verá un indicador de servidor MCP (icono de controles deslizantes) en el área de entrada del chat, que confirma que las herramientas de MCP están activas.
+
+### Claude Code
+
+Claude Code admite servidores MCP a través de su CLI y de un archivo `.mcp.json` con ámbito de proyecto. Para compartir la configuración con su equipo, cree o edite `.mcp.json` en la raíz de su proyecto:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"]
+    },
+    "igniteui-theming": {
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+    }
+  }
+}
+```
+
+Como alternativa, puede añadir los servidores desde la línea de comandos solo para su entorno local:
+
+```bash
+claude mcp add igniteui-cli -- npx -y igniteui-cli mcp
+claude mcp add igniteui-theming -- npx -y igniteui-theming igniteui-theming-mcp
+```
+
+Utilice el comando `/mcp` dentro de Claude Code para verificar que los servidores están conectados.
+
+### IDE de JetBrains
+
+JetBrains AI Assistant admite servidores MCP a través de la configuración del IDE:
+
+1. Abra **Configuración** (o **Preferencias** en macOS).
+
+2. Vaya a **Herramientas → AI Assistant → Model Context Protocol (MCP)**.
+
+3. Haga clic en **+ Añadir** y elija **Como JSON** o use los campos del formulario.
+
+4. Introduzca la siguiente configuración:
+
+   ```json
+   {
+     "mcpServers": {
+       "igniteui-cli": {
+         "command": "npx",
+         "args": ["-y", "igniteui-cli", "mcp"]
+       },
+       "igniteui-theming": {
+         "command": "npx",
+         "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"]
+       }
+     }
+   }
+   ```
+
+5. Haga clic en **Aceptar** y reinicie AI Assistant.
+
+<DocsAside type="info">
+La compatibilidad con MCP requiere que el complemento AI Assistant esté instalado y habilitado en su IDE de JetBrains.
+</DocsAside>
+
+### Otros clientes MCP
+
+Para cualquier otro cliente compatible con MCP, use el transporte STDIO con estos comandos de inicio:
+
+```bash
+npx -y igniteui-cli mcp
+npx -y igniteui-theming igniteui-theming-mcp
+```
+
+### GitHub
+
+El agente en la nube de GitHub Copilot admite la configuración de MCP a nivel de repositorio. En su repositorio:
+
+1. Abra la página principal del repositorio.
+2. Haga clic en **Settings**.
+3. En la barra lateral, vaya a **Copilot** y luego a **Cloud agent**.
+4. Pegue su JSON en la sección **MCP configuration**.
+5. Haga clic en **Save**.
+
+Utilice una configuración de repositorio como esta:
+
+```json
+{
+  "mcpServers": {
+    "igniteui-cli": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"],
+      "tools": ["*"]
+    },
+    "igniteui-theming": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "igniteui-theming", "igniteui-theming-mcp"],
+      "tools": ["*"]
+    }
+  }
+}
+```
+
+Esta configuración resulta útil cuando quiere que el agente en la nube de GitHub use directamente las mismas herramientas de CLI MCP y Theming MCP desde el contexto del repositorio.
+
+## Herramientas disponibles
+
+El servidor MCP expone un conjunto de herramientas que la IA usa automáticamente según sus indicaciones. Usted nunca llama directamente a estas herramientas. Describa lo que quiere en el chat y el asistente elegirá la adecuada. Esta tabla está aquí para que sepa qué está disponible antes de empezar.
+
+Para obtener la lista actualizada con los parámetros vigentes, pregunte:
+
+> _"¿Qué herramientas proporciona Ignite UI CLI MCP?"_
+
+Esta es una breve descripción de cada herramienta:
+
+| Herramienta                      | Descripción                                                                                                                                                          |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `list_components`         | Enumera la documentación disponible de los componentes de Ignite UI para un framework. Acepta un filtro opcional por palabra clave (coincidencia de subcadena sin distinguir mayúsculas de minúsculas en el nombre, las palabras clave y el resumen). |
+| `get_doc`                 | Obtiene el contenido completo en Markdown de una documentación concreta de componente por su nombre en kebab-case (por ejemplo, `grid-editing`, `combo-overview`). Incluye ejemplos de código, tablas y enlaces.    |
+| `search_docs`             | Búsqueda de texto completo en la documentación de Ignite UI para un framework. Devuelve hasta 20 resultados ordenados por relevancia, con fragmentos.                                                               |
+| `get_project_setup_guide` | Devuelve la guía de configuración del proyecto para crear un proyecto nuevo en un framework concreto, con los pasos de la CLI y las instrucciones de instalación.                                    |
+| `search_api`              | Busca entradas de API por palabra clave o nombre de componente en Angular, React, Blazor y Web Components.                                                                         |
+| `get_api_reference`       | Devuelve la referencia completa de la API de un componente o clase concretos, con propiedades, métodos y eventos. Admite Angular, React, Blazor y Web Components.            |
+
+En términos generales, las herramientas de CLI MCP ayudan a:
+
+- crear proyectos nuevos
+- trabajar en proyectos existentes
+- añadir y modificar componentes
+- actualizar la estructura y la configuración del proyecto
+- responder preguntas de documentación y de API
+
+<DocsAside type="info">
+La detección del framework se basa en los prefijos de los componentes: `for Angular`, `for React`, `for Web Components`, `for Blazor`. El asistente detecta automáticamente el framework correcto a partir de sus archivos abiertos o del contexto de la indicación.
+</DocsAside>
+
+El servidor de theming añade los flujos de trabajo de estilos, temas, paletas y tokens a la misma sesión del cliente.
+
+## Flujos de trabajo habituales
+
+Los siguientes escenarios de configuración muestran cuándo usar cada punto de partida.
+
+### Configuración con primero la CLI
+
+Cree el proyecto primero con Ignite UI CLI cuando quiera la configuración guiada más rápida. `ig new` le pide que seleccione qué clientes de IA configurar para MCP y para qué agentes configurar los archivos de skills.
+
+Escenarios de ejemplo:
+
+- _"Quiero crear primero un proyecto nuevo con Ignite UI CLI, abrir el proyecto generado en VS Code y seguir desde ahí con MCP."_
+- _"Ya sé que quiero un proyecto de React, así que quiero crearlo con la CLI y luego usar MCP para añadir páginas y componentes."_
+
+### Configuración con carpeta vacía
+
+Empiece desde una carpeta vacía cuando quiera que el asistente cree el proyecto desde el chat, después de añadir usted mismo la configuración de MCP.
+
+Escenarios de ejemplo:
+
+- _"Tengo una carpeta completamente vacía y quiero que el asistente cree todo el proyecto desde el chat una vez conectado MCP."_
+- _"No quiero ejecutar primero Ignite UI CLI manualmente. Quiero que MCP dirija el primer paso de creación del proyecto."_
+
+### Configuración con proyecto existente
+
+Conecte MCP a un proyecto existente cuando quiera conservar la base de código actual y usar el asistente para cambios en el proyecto, trabajo con componentes y preguntas de documentación.
+
+Escenarios de ejemplo:
+
+- _"Ya tengo un proyecto y solo quiero añadir MCP para que el asistente me ayude a actualizar páginas y componentes."_
+- _"El proyecto ya existe y, sobre todo, quiero hacer preguntas de documentación y de API mientras trabajo en el código actual."_
+
+## Solución de problemas
+
+**`npx` no se reconoce**
+
+Node.js no está instalado o no está disponible en el entorno de terminal actual. Instale Node.js desde [nodejs.org](https://nodejs.org) y compruebe la instalación con `node --version`.
+
+**`ig` no se reconoce**
+
+Si quiere usar el comando global `ig`, instale primero Ignite UI CLI con `npm install -g igniteui-cli`. Si no quiere una instalación global, use en su lugar la forma `npx --package igniteui-cli igniteui ...`.
+
+**Las herramientas de MCP no aparecen tras guardar la configuración**
+
+Recargue el espacio de trabajo, vuelva a abrir el editor o reinicie el cliente de IA. Algunos clientes requieren un reinicio completo para detectar los nuevos archivos de configuración de MCP.
+
+**Un servidor no se inicia**
+
+Compruebe que el contenido de la configuración coincide exactamente con los ejemplos, incluidos los nombres de las claves y el orden de los argumentos.
+
+**El proyecto se creó, pero MCP no está configurado para uno de sus clientes de IA**
+
+`ig new` le pide que seleccione qué clientes configurar. Si omitió un cliente al crear el proyecto, ejecute `ig ai-config` y seleccione los clientes que faltan cuando se le pida.
+
+**El asistente trabaja en una carpeta incorrecta o no encuentra los archivos del proyecto**
+
+Asegúrese de que el cliente de IA apunta a la raíz del proyecto. Si usa un cliente basado en editor, abra la carpeta raíz del proyecto. Si usa un cliente de escritorio o orientado al chat, ponga la carpeta correcta del proyecto disponible como contexto de la sesión.
+
+**La configuración con carpeta vacía no se comporta como se espera**
+
+Compruebe que la carpeta está realmente vacía antes de empezar. Si la carpeta ya contiene archivos de proyecto, use la ruta de proyecto existente en lugar de tratarla como un espacio de trabajo vacío nuevo.
+
+**La configuración de MCP de GitHub se rechaza**
+
+Valide que el JSON usa la estructura `mcpServers` y que cada entrada de servidor local incluye `type`, `command` y `args`. Si incluye el campo `tools`, use nombres de herramientas válidos o `["*"]`.
+
+## Recursos adicionales
+
+- [Desarrollo asistido por IA con Ignite UI](./ai-assisted-development-overview.mdx)
+- [Skills de {ProductName}](./skills.mdx)
+- [Ignite UI Theming MCP](./theming-mcp.mdx)
+
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

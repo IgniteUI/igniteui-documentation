@@ -1,0 +1,311 @@
+---
+title: "Next.js 애플리케이션에서 {ProductName} 컴포넌트 사용하기 | Infragistics"
+description: "Infragistics의 {Platform} 컴포넌트를 사용하여 앱을 만들고, Next.js에서 세계에서 가장 빠른 {Platform} 데이터 그리드와 차트로 데이터 시각화를 개선하십시오."
+keywords: "{ProductName} Next.js, Next.js의 {ProductName} 컴포넌트, Infragistics"
+mentionedTypes: []
+_language: ko
+llms:
+  description: "Next.js 프로젝트에 {ProductName}을(를) 매끄럽게 통합하는 방법을 살펴보십시오."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import DownloadCard from 'docs-template/components/mdx/DownloadCard.astro';
+import DownloadCardGroup from 'docs-template/components/mdx/DownloadCardGroup.astro';
+import { Image } from 'astro:assets';
+import nodejs from '@xplat-images/general/nodejs.svg';
+import vsCode from '@xplat-images/general/vs-code.svg';
+import geoMap from '@xplat-images/general/geo-map.png';
+
+
+# {ProductName}을(를) Next.js와 통합하기
+
+Next.js 프로젝트에 {ProductName}을(를) 매끄럽게 통합하는 방법을 살펴보십시오. 이 항목은 개발자가 Infragistics {Platform} 컴포넌트를 최대한 활용하면서, 견고하고 성능이 좋은 풀스택 애플리케이션을 만들기 위해 Next.js의 기능을 사용하도록 돕기 위해 작성되었습니다.
+
+## 사전 요구 사항
+
+1. Node.js를 설치하십시오.
+2. Visual Studio Code를 설치하십시오.
+
+<DownloadCardGroup>
+  <DownloadCard src={nodejs} alt="nodejs" href="https://nodejs.org/en/download/" label="NODE 다운로드" />
+  <DownloadCard src={vsCode} alt="vs-code" href="https://code.visualstudio.com/download" label="VS CODE 다운로드" />
+</DownloadCardGroup>
+
+## 새 Next.js 프로젝트 만들기
+
+위의 사전 요구 사항을 설치했다면 새 Next.js 애플리케이션을 만들 수 있습니다.
+
+1 - **VS Code**를 열고 **터미널** 메뉴에서 **새 터미널** 옵션을 선택하십시오.
+
+2 - 터미널 창에 다음 명령을 입력하십시오:
+
+```cmd
+npx create-next-app@latest MyAppName
+cd MyAppName
+```
+
+## 기존 Next.js 앱 업데이트하기
+
+이전에 만든 기존 Next.js 프로젝트에서 {ProductName}을(를) 사용하려면 다음 명령만 실행하면 됩니다:
+
+```cmd
+npm install --save {PackageCommon}
+npm install --save {PackageCharts} {PackageCore}
+npm install --save {PackageExcel} {PackageCore}
+npm install --save {PackageGauges} {PackageCore}
+npm install --save {PackageGrids} {PackageCore}
+npm install --save {PackageMaps} {PackageCore}
+npm install --save {PackageSpreadsheet} {PackageCore}
+```
+
+또는
+
+```cmd
+yarn add {PackageCharts} {PackageCore}
+yarn add {PackageExcel} {PackageCore}
+yarn add {PackageGauges} {PackageCore}
+yarn add {PackageGrids} {PackageCore}
+yarn add {PackageMaps} {PackageCore}
+yarn add {PackageSpreadsheet} {PackageCore}
+```
+
+이 명령은 {ProductName}의 패키지와 모든 종속성, 글꼴 가져오기, 스타일 참조를 기존 프로젝트에 자동으로 설치합니다.
+
+## 컴포넌트 모듈 가져오기
+
+먼저 사용하려는 컴포넌트의 필수 모듈을 가져와야 합니다. [**GeographicMap**](./geo-map.mdx) 컴포넌트에 대해 이 작업을 진행하겠습니다.
+
+<PlatformBlock for="React">
+
+```ts
+"use client"
+import { IgrGeographicMapModule, IgrGeographicMap } from 'igniteui-react-maps';
+import { IgrDataChartInteractivityModule } from 'igniteui-react-charts';
+
+IgrGeographicMapModule.register();
+IgrDataChartInteractivityModule.register();
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+{ProductName} 컴포넌트는 상태와 브라우저 이벤트 같은 클라이언트 전용 기능을 사용한다는 점에 유의하십시오. Infragistics 컴포넌트는 "use client" 디렉티브가 있으므로 클라이언트 Next.js 컴포넌트 안에서 예상대로 작동하지만, 서버 컴포넌트 안에서는 작동하지 않습니다.
+</DocsAside>
+
+## 컴포넌트 사용하기
+
+이제 Next.js 컴포넌트에서 {ProductName} 맵 컴포넌트를 사용할 준비가 되었습니다. 이를 정의해 보겠습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+function App() {
+  return (
+    <div style={{ height: "100%", width: "100%" }}>
+      <IgrGeographicMap
+        width="800px"
+        height="500px"
+        zoomable="true" />
+    </div>
+  );
+}
+```
+
+</PlatformBlock>
+
+## 애플리케이션 실행하기
+
+마지막으로 다음 명령 중 하나를 사용하여 새 애플리케이션을 실행할 수 있습니다:
+
+```cmd
+npm run dev
+```
+
+이 명령을 실행하면 프로젝트가 빌드되어 컴퓨터에서 로컬로 제공됩니다. 기본 브라우저에서 자동으로 열리며, 프로젝트에서 {ProductName} 컴포넌트를 사용할 수 있습니다.
+
+최종 결과는 다음 스크린샷과 비슷하게 보여야 합니다:
+
+<Image src={geoMap} alt="geo-map" />
+
+## Next.js 서버 컴포넌트에서 {Platform} 사용하기
+
+앞에서 말했듯이 {Platform}의 대부분의 컴포넌트는 상태와 브라우저 이벤트에 의존하므로 서버 컴포넌트에서 직접 사용하기에는 적합하지 않습니다. 그럼에도 이런 방식으로 사용해야 한다면, Infragistics 컴포넌트를 각각의 클라이언트 컴포넌트로 감싸서 사용할 수 있습니다.
+
+<PlatformBlock for="React">
+
+```tsx
+'use client'
+import { IgrGeographicMap } from 'igniteui-react-maps';
+IgrGeographicMapModule.register();
+
+export default IgrGeographicMap;
+```
+
+</PlatformBlock>
+
+그다음 Next.js 서버 컴포넌트에서 IgrGeographicMap을 직접 사용할 수 있습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+import IgrGeographicMap from './wrapped-geographic-map';
+
+function App() {
+  return (
+    <div style={{ height: "100%", width: "100%" }}>
+      <IgrGeographicMap
+        width="800px"
+        height="500px"
+        zoomable="true" />
+    </div>
+  );
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+대부분의 {ProductName} 컴포넌트는 다른 클라이언트 컴포넌트 안에서 사용될 것으로 예상되므로 감싸지 않은 상태로 둘 수 있습니다. 따라서 Infragistics 컴포넌트를 모두 감쌀 필요는 없습니다.
+</DocsAside>
+
+## {ProductName} 컴포넌트의 동적 가져오기
+
+지연 로딩을 사용하면 경로를 렌더링하는 데 필요한 JavaScript 양이 줄어들어 애플리케이션의 초기 로딩 성능을 높일 수 있습니다. 가져온 라이브러리의 로딩을 미루고 필요할 때만 클라이언트 번들에 포함할 수 있습니다. `next/dynamic`을(를) 사용하면 지연 로딩을 구현할 수 있습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+"use client";
+import "igniteui-webcomponents/themes/light/bootstrap.css";
+import dynamic from "next/dynamic";
+
+export default function DynamicButtonComponent() {
+  const IgButton = dynamic(
+    async () => {
+      const { IgrButton, IgrButtonModule } = await import("igniteui-react");
+      IgrButtonModule.register();
+      return IgrButton;
+    }
+  );
+
+  return (
+      <IgButton variant="contained">
+        <span key="title">Click me</span>
+      </IgButton>
+  );
+}
+```
+
+</PlatformBlock>
+
+하지만 일반적으로 하위 컴포넌트를 포함하는 [**IgrGrid**](./grids/data-grid.mdx)처럼 더 복잡한 컴포넌트를 사용할 때는 모든 하위 컴포넌트를 하나씩 동적으로 가져오면 안 됩니다. 컴포넌트는 다음과 같이 사용해야 합니다:
+
+<PlatformBlock for="React">
+
+```tsx
+"use client";
+import dynamic from "next/dynamic";
+import CustomersDataLocal from "./CustomersDataLocal.json";
+import "igniteui-react-grids/grids/combined";
+import "igniteui-react-grids/grids/themes/light/bootstrap.css";
+
+export default function GridDynamicComponent() {
+  const IgnGrid = dynamic(
+    async () => {
+      const {
+        IgrGrid,
+        IgrGridModule,
+        IgrColumn,
+        IgrGridToolbar,
+        IgrGridToolbarTitle,
+        IgrGridToolbarActions,
+        IgrGridToolbarPinning,
+      } = await import("igniteui-react-grids");
+      IgrGridModule.register();
+
+      const IgGrid = ({ ...props }) => {
+        return (
+          <IgrGrid {...props}>
+            <IgrGridToolbar>
+              <IgrGridToolbarTitle></IgrGridToolbarTitle>
+              <IgrGridToolbarActions>
+                <IgrGridToolbarPinning></IgrGridToolbarPinning>
+              </IgrGridToolbarActions>
+            </IgrGridToolbar>
+            <IgrColumn field="ID" header="ID" hidden="true"></IgrColumn>
+            <IgrColumn
+              field="CompanyName"
+              header="Company Name"
+              width="300px"
+            ></IgrColumn>
+            <IgrColumn
+              field="ContactName"
+              header="Contact Name"
+              width="200px"
+              pinned="true"
+            ></IgrColumn>
+            <IgrColumn
+              field="ContactTitle"
+              header="Contact Title"
+              width="200px"
+              pinned="true"
+            ></IgrColumn>
+            <IgrColumn
+              field="Address"
+              header="Address"
+              width="300px"
+            ></IgrColumn>
+            <IgrColumn field="City" header="City" width="120px"></IgrColumn>
+            <IgrColumn field="Region" header="Region" width="120px"></IgrColumn>
+            <IgrColumn
+              field="PostalCode"
+              header="Postal Code"
+              width="150px"
+            ></IgrColumn>
+            <IgrColumn field="Phone" header="Phone" width="150px"></IgrColumn>
+            <IgrColumn field="Fax" header="Fax" width="150px"></IgrColumn>
+          </IgrGrid>
+        );
+      };
+      return IgGrid;
+    }
+  );
+
+  return <IgnGrid data={CustomersDataLocal}></IgnGrid>;
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+컴포넌트에 지연 로딩을 구현하면 성능을 높일 수 있지만, 컴포넌트가 페이지에서 바로 보이지 않을 때만 사용하는 것이 좋습니다.
+</DocsAside>
+
+## 제한 사항
+
+- Next.js 프로젝트가 Page 라우팅을 사용한다면 `next.config.js` 옵션을 사용하여 {ProductName} 패키지를 트랜스파일해야 합니다. 설정에는 다음 내용이 포함되어야 합니다:
+
+<PlatformBlock for="React">
+
+```tsx
+const nextConfig = {
+    transpilePackages: ['igniteui-react'],
+    experimental: {
+        esmExternals: "loose",
+    }
+}
+```
+
+</PlatformBlock>
+
+## 추가 리소스
+
+- [Ignite UI for React](../components/general-getting-started.mdx)
+- [그리드 개요](../components/grids/data-grid.mdx)
+- [Next.js 문서](https://nextjs.org/docs)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

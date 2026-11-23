@@ -1,0 +1,550 @@
+---
+title: "Angular Grid 원격 데이터 작업 - Ignite UI for Angular"
+description: "Ignite UI for Angular로 원격 필터링, 원격 정렬, 원격 스크롤 같은 Angular 원격 데이터 작업을 사용하여 서버에서 데이터를 로드하기 시작하십시오."
+keywords: angular remote data operations, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Grid은(는) 원격 가상화, 원격 정렬, 원격 필터링 등 원격 데이터 작업을 지원합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 원격 데이터 작업
+
+Ignite UI for Angular Grid은(는) 원격 가상화, 원격 정렬, 원격 필터링 등 원격 데이터 작업을 지원합니다. 이를 통해 개발자는 서버에서 이러한 작업을 수행하고, 생성된 데이터를 가져와 Grid에 표시할 수 있습니다.
+
+## Angular Grid 원격 데이터 작업 개요 예제
+
+<Sample src="/grid/grid-remote-filtering" height={500} alt="Angular Grid 원격 데이터 작업 개요 예제" />
+
+기본적으로 Grid은(는) 데이터 작업을 수행하기 위해 자체 로직을 사용합니다.
+Grid이(가) 노출하는 특정 입력과 이벤트를 활용하여 이러한 작업을 원격으로 수행하고, 그 결과 데이터를 Grid에 전달할 수 있습니다.
+
+## 원격 가상화
+
+<ApiLink type="Grid" />은(는) 데이터 청크를 원격 서비스에서 요청하는 시나리오를 지원하며, 내부적으로 사용하는 <ApiLink type="ForOfDirective" label="igxForOf" /> 디렉티브에 구현된 동작을 노출합니다.
+
+이 기능을 사용하려면, 받은 인수에 따라 적절한 요청을 하도록 <ApiLink type="Grid" member="dataPreLoad" label="dataPreLoad" /> 출력을 구독하고, 서비스에서 가져온 해당 정보로 공개 <ApiLink type="Grid" /> 속성 <ApiLink type="Grid" member="totalItemCount" label="totalItemCount" />을(를) 설정해야 합니다.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [autoGenerate]="false"
+          (dataPreLoad)="processData(false)"
+          (sortingDone)="processData(true)">
+    <igx-column [field]="'ProductID'" [sortable]="true"></igx-column>
+    <igx-column [field]="'ProductName'" [sortable]="true"></igx-column>
+    <igx-column [field]="'UnitPrice'" [dataType]="'number'" [formatter]="formatCurrency" [sortable]="true"></igx-column>
+</igx-grid>
+```
+
+```typescript
+public ngAfterViewInit() {
+    this.grid.isLoading = true;
+
+    this._remoteService.getData(this.grid.virtualizationState, this.grid.sortingExpressions[0], true, (data) => {
+            this.grid.totalItemCount = data['@odata.count'];
+            this.grid.isLoading = false;
+    });
+}
+
+public processData(reset) {
+    if (this.prevRequest) {
+        this.prevRequest.unsubscribe();
+    }
+
+    this._prevRequest = this._remoteService.getData(this.grid.virtualizationState,
+        this.grid.sortingExpressions[0], reset, () => {
+        ...
+        this.cdr.detectChanges();
+    });
+}
+```
+
+데이터를 요청할 때는 <ApiLink kind="interface" type="IForOfState" member="startIndex" />와 <ApiLink kind="interface" type="IForOfState" member="chunkSize" /> 속성을 제공하는 <ApiLink type="IForOfState" kind="interface" /> 인터페이스를 사용해야 합니다.
+
+<DocsAside type="info">
+첫 번째 <ApiLink kind="interface" type="IForOfState" member="chunkSize" />은 항상 0이며, 구체적인 애플리케이션 시나리오에 따라 여러분이 결정해야 합니다.
+</DocsAside>
+
+### 원격 가상화 데모
+
+<Sample src="/grid/grid-sample-4" height={550} alt="Angular Grid 원격 데이터 작업 개요 예제" />
+
+## 무한 스크롤
+
+ 엔드포인트에서 청크 단위로 데이터를 가져와야 하는 시나리오에서 많이 쓰이는 설계가 이른바 무한 스크롤입니다. 데이터 그리드에서는 최종 사용자가 맨 아래까지 스크롤하면서 로드된 데이터가 계속 늘어나는 것이 특징입니다. 다음 단락에서는 사용 가능한 API를 사용하여 `IgxGrid`에서 무한 스크롤을 쉽게 구현하는 방법을 설명합니다.
+
+무한 스크롤을 구현하려면 데이터를 청크 단위로 가져와야 합니다. 이미 가져온 데이터는 로컬에 저장해야 하며, 청크의 길이와 청크의 개수를 결정해야 합니다. 또한 그리드에서 마지막으로 보이는 데이터 행의 인덱스도 추적해야 합니다. 이렇게 `startIndex`과 `chunkSize` 속성을 사용하면, 사용자가 위로 스크롤하여 이미 가져온 데이터를 보여 줘야 하는지, 아니면 아래로 스크롤하여 엔드포인트에서 더 많은 데이터를 가져와야 하는지 판단할 수 있습니다.
+
+가장 먼저 할 일은 `ngAfterViewInit` 라이프사이클 훅을 사용하여 데이터의 첫 번째 청크를 가져오는 것입니다. `totalItemCount` 속성을 설정하는 것이 중요합니다. 그래야 그리드가 스크롤바 크기를 올바르게 설정할 수 있습니다.
+
+```typescript
+public ngAfterViewInit() {
+    this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+        if (request.data) {
+            this.grid.totalItemCount = this.page * this.pageSize;
+            this.grid.data = this._remoteService.getCachedData({startIndex: 0, chunkSize: 10});
+            this.totalItems = request.data['@odata.count'];
+            this.totalPageCount = Math.ceil(this.totalItems / this.pageSize);
+            this.grid.isLoading = false;
+        }
+    });
+}
+```
+
+또한 `dataPreLoad` 출력을 구독해야 합니다. 그래야 그리드가 현재 로드된 청크가 아니라 다른 청크를 표시하려고 할 때 필요한 데이터를 제공할 수 있습니다. 이벤트 핸들러에서는 새 데이터를 가져올지, 아니면 이미 로컬에 캐시된 데이터를 반환할지 결정해야 합니다.
+
+```typescript
+public handlePreLoad() {
+    const isLastChunk = this.grid.totalItemCount ===
+                        this.grid.virtualizationState.startIndex + this.grid.virtualizationState.chunkSize;
+    // when last chunk reached load another page of data
+    if (isLastChunk) {
+        if (this.totalPageCount === this.page) {
+            this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+            return;
+        }
+        this.page++;
+        this.grid.isLoading = true;
+        this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+            if (request.data) {
+                this.grid.totalItemCount = Math.min(this.page * this.pageSize, this.totalItems);
+                this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+                this.grid.isLoading = false;
+            }
+        });
+    } else {
+        this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+    }
+}
+```
+
+### 무한 스크롤 데모
+
+<Sample src="/grid/grid-sample-5" height={510} alt="" />
+
+## 원격 정렬/필터링
+
+원격 정렬과 필터링을 제공하려면, 받은 인수에 따라 적절한 요청을 하도록 <ApiLink type="Grid" member="dataPreLoad" label="dataPreLoad" />, <ApiLink type="Grid" member="sortingExpressionsChange" label="sortingExpressionsChange" /> 및 <ApiLink type="Grid" member="filteringexpressionstreechange" label="filteringExpressionsTreeChange" /> 출력을 구독해야 합니다. 또한 서비스에서 가져온 해당 정보로 공개 <ApiLink type="Grid" /> 속성 <ApiLink type="Grid" member="totalItemCount" label="totalItemCount" />을(를) 설정해야 합니다.
+
+또한 **rxjs**의 `debounceTime` 함수를 활용합니다. 이 함수는 원본 Observable에서 다른 발행 없이 특정 시간이 지난 후에만 값을 발행합니다. 이렇게 하면 사용자가 중간에 끼어들지 않고 지정된 시간이 지났을 때만 원격 작업이 트리거됩니다.
+
+```typescript
+const DEBOUNCE_TIME = 300;
+...
+public ngAfterViewInit() {
+    ...
+    this.grid.dataPreLoad.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+
+    this.grid.filteringExpressionsTreeChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData(true);
+    });
+
+    this.grid.sortingExpressionsChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+}
+```
+
+원격 정렬과 필터링이 제공되는 경우 보통 그리드의 내장 정렬과 필터링은 필요하지 않습니다. 그리드의 <ApiLink type="Grid" member="sortStrategy" label="sortStrategy" /> 및 <ApiLink type="Grid" member="filterStrategy" label="filterStrategy" /> 입력을 각각 `NoopSortingStrategy` 및 `NoopFilteringStrategy` 인스턴스로 설정하여 이들을 비활성화할 수 있습니다.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [height]="'500px'" [width]="'100%'" [autoGenerate]='false'
+        [filterStrategy]="noopFilterStrategy"
+        [sortStrategy]="noopSortStrategy"
+        [allowFiltering]="true">
+    ...
+</igx-grid>
+```
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+<DocsAside type="info">
+원격 데이터를 요청할 때 필터링 작업은 대소문자를 구분합니다.
+</DocsAside>
+
+### 원격 정렬/필터링 데모
+
+위 코드의 결과는 이 문서 시작 부분의 [데모](#angular-grid-원격-데이터-작업-개요-예제) 섹션에서 볼 수 있습니다.
+
+### 고유 열 값 전략
+
+Excel 스타일 필터링 대화 상자 안의 목록 항목은 각 열의 고유 값을 나타냅니다. Grid은(는) 기본적으로 데이터 소스를 기준으로 이 값들을 생성합니다. 원격 필터링의 경우, 그리드 데이터에는 서버의 모든 데이터가 들어 있지 않습니다. 고유 값을 수동으로 제공하고 필요할 때 로드하려면, Grid의 <ApiLink type="Grid" member="uniqueColumnValuesStrategy" label="uniqueColumnValuesStrategy" /> 입력을 활용할 수 있습니다. 이 입력은 실제로 세 개의 인수를 제공하는 메서드입니다:
+
+- **column** - 해당 열 인스턴스입니다.
+- **filteringExpressionsTree** - 해당 열을 기준으로 축소된 필터링 식 트리입니다.
+- **done** - 서버에서 새로 생성된 열 값을 가져왔을 때 그 값과 함께 호출해야 하는 콜백입니다.
+
+개발자는 **column** 및 **filteringExpressionsTree** 인수가 제공하는 정보를 기준으로 필요한 고유 열 값을 수동으로 생성한 다음 **done** 콜백을 호출할 수 있습니다.
+
+<DocsAside type="info">
+<ApiLink type="Grid" member="uniqueColumnValuesStrategy" label="uniqueColumnValuesStrategy" /> 입력이 제공되면, Excel 스타일 필터링의 기본 고유 값 생성 프로세스는 사용되지 않습니다.
+</DocsAside>
+
+```html
+<igx-grid #grid1 [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    ...
+</igx-grid>
+```
+
+```typescript
+public columnValuesStrategy = (column: ColumnType,
+                               columnExprTree: IFilteringExpressionsTree,
+                               done: (uniqueValues: any[]) => void) => {
+    // Get specific column data.
+    this.remoteValuesService.getColumnData(column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+### 고유 열 값 전략 데모
+
+<Sample src="/grid/grid-excel-style-filtering-load-on-demand" height={800} alt="" />
+
+Excel 스타일 필터링에 사용자 지정 로딩 템플릿을 제공하려면 `igxExcelStyleLoading` 디렉티브를 사용할 수 있습니다:
+
+```html
+<igx-grid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    ...
+    <ng-template igxExcelStyleLoading>
+        Loading ...
+    </ng-template>
+</igx-grid>
+```
+
+## 원격 페이징
+
+페이징 기능은 원격 데이터와 함께 작동할 수 있습니다. 이를 보여 주기 위해 먼저 데이터 가져오기를 담당할 서비스를 선언하겠습니다. 페이지 수를 계산하려면 전체 데이터 항목 수가 필요합니다. 이 로직을 서비스에 추가하겠습니다.
+
+```typescript
+@Injectable()
+export class RemotePagingService {
+    public remoteData: BehaviorSubject<any[]>;
+    public dataLenght: BehaviorSubject<number> = new BehaviorSubject(0);
+    public url = 'https://www.igniteui.com/api/products';
+
+    constructor(private http: HttpClient) {
+        this.remoteData = new BehaviorSubject([]) as any;
+    }
+
+    public getData(index?: number, perPage?: number): any {
+        let qS = '';
+
+        if (perPage) {
+            qS = `?$skip=${index}&$top=${perPage}&$count=true`;
+        }
+
+        this.http
+            .get(`${this.url + qS}`).pipe(
+                map((data: any) => data)
+            ).subscribe((data) => this.remoteData.next(data));
+    }
+
+    public getDataLength(): any {
+        return this.http.get(this.url).pipe(
+            map((data: any) => data.length)
+        );
+    }
+}
+```
+
+서비스를 선언한 후에는 Grid 구성과 데이터 구독을 담당할 컴포넌트를 만들어야 합니다.
+
+```typescript
+export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy {
+    public data: Observable<any[]>;
+    private _dataLengthSubscriber;
+
+    constructor(private remoteService: RemoteService) {}
+
+    public ngOnInit() {
+        this.data = this.remoteService.remoteData.asObservable();
+
+        this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+            this.totalCount = data;
+            this.grid1.isLoading = false;
+        });
+    }
+
+    public ngOnDestroy() {
+        if (this._dataLengthSubscriber) {
+            this._dataLengthSubscriber.unsubscribe();
+        }
+    }
+}
+```
+
+이제 `igx-paginator`이(가) 제공하는 기본 페이징 템플릿을 사용하거나, 직접 _사용자 지정 페이징 템플릿_을 설정할 수 있습니다. 먼저 _기본 페이징 템플릿_을 사용하여 원격 페이징을 설정하는 데 무엇이 필요한지 살펴보겠습니다.
+
+### 기본 템플릿을 사용하는 원격 페이징
+
+_기본 페이징 템플릿_을 사용하려면 Paginator의 <ApiLink type="Paginator" member="totalRecords" label="totalRecords" /> 속성을 설정해야 합니다. 그래야 그리드가 원격 레코드 전체를 기준으로 _전체 페이지 수_를 계산할 수 있습니다. 원격 페이지네이션을 수행할 때 Paginator는 현재 페이지의 데이터만 그리드에 전달하므로, 그리드는 제공된 데이터 소스를 페이지로 나누려고 하지 않습니다. 따라서 그리드의 <ApiLink type="Grid" member="pagingMode" label="pagingMode" /> 속성을 _GridPagingMode.remote_로 설정해야 합니다. 또한 원격 서비스에서 데이터를 가져오기 위해 <ApiLink type="Paginator" member="pagingDone" label="pagingDone" /> 또는 <ApiLink type="Paginator" member="perPageChange" label="perPageChange" /> 이벤트를 구독해야 하며, 어떤 이벤트를 사용할지는 사용 사례에 따라 다릅니다.
+
+```html
+<igx-grid #grid1 [data]="data | async" [isLoading]="isLoading" [pagingMode]="mode">
+    <igx-column field="ID"></igx-column>
+    ...
+    <igx-paginator [(page)]="page" [(perPage)]="perPage"  [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)">
+    </igx-paginator>
+</igx-grid>
+```
+
+```typescript
+public totalCount = 0;
+public data: Observable<any[]>;
+public mode = GridPagingMode.remote;
+public isLoading = true;
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _dataLengthSubscriber;
+
+public set perPage(val: number) {
+    this._perPage = val;
+    this.paginate(0);
+}
+
+public ngOnInit() {
+    this.data = this.remoteService.remoteData.asObservable();
+
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data: any) => {
+        this.totalCount = data;
+        this.grid1.isLoading = false;
+    });
+}
+
+public ngAfterViewInit() {
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+<Sample src="/grid/remote-paging-default-template" height={620} alt="" />
+
+### 사용자 지정 igx-paginator-content가 있는 원격 페이징
+
+사용자 지정 paginator 콘텐츠를 정의할 때는, 요청된 페이지에 대한 데이터만 가져오도록 콘텐츠를 정의하고, 선택된 페이지와 항목 <ApiLink type="Paginator" member="perPage" label="perPage" />에 따라 원격 서비스에 올바른 **skip** 및 **top** 매개변수를 전달해야 합니다. 예제 구성을 쉽게 하기 위해 `<igx-paginator>`을(를) 사용하겠습니다. 그리고 소개된 <ApiLink type="PageSizeSelector" />와 <ApiLink type="PageNavigation" />도 함께 사용합니다 - `igx-page-size`은(는) 페이지당 드롭다운과 레이블을 추가하고, `igx-page-nav`은(는) 탐색 작업 버튼과 레이블을 추가합니다.
+
+```html
+<igx-paginator #paginator
+    [totalRecords]="totalCount"
+    [(page)]="page"
+    [(perPage)]="perPage"
+    [selectOptions]="selectOptions"
+    (pageChange)="paginate($event)"
+    (perPageChange)="perPageChange($event)">
+    <igx-paginator-content>
+     <igx-page-size></igx-page-size>
+        [This is my custom content]
+     <igx-page-nav></igx-page-nav>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _perPage = 15;
+private _dataLengthSubscriber: { unsubscribe: () => void; } | undefined;
+
+constructor(private remoteService: RemotePagingService) { }
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+
+public perPageChange(perPage: number) {
+    const skip = this.page * perPage;
+    const top = perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+<DocsAside type="info">
+원격 페이징이 올바르게 구성되려면 `GridPagingMode.Remote`을(를) 설정해야 합니다:
+</DocsAside>
+
+```html
+<igx-grid #grid1 [data]="data | async" width="100%" height="580px" [pagingMode]="mode"></igx-grid>
+...
+public mode = GridPagingMode.Remote;
+```
+
+마지막 단계는 요구 사항에 따라 paginator 콘텐츠를 선언하는 것입니다.
+
+```html
+<igx-paginator-content>
+    <igx-page-size></igx-page-size>
+    [This is my custom content]
+    <igx-page-nav></igx-page-nav>
+</igx-paginator-content>
+```
+
+위의 모든 변경 후에는 다음과 같은 결과가 나옵니다.
+
+<Sample src="/grid/grid-remote-paging-sample" height={620} alt="" />
+
+### 사용자 지정 paginator가 있는 원격 페이징
+
+경우에 따라 자신만의 페이징 동작을 정의하고 싶을 수 있으며, 이때 Paging 템플릿을 활용하고 사용자 지정 로직을 함께 추가할 수 있습니다. 이를 보여 주기 위해 원격 페이징 예제를 확장하겠습니다:
+
+<Sample src="/grid/grid-custom-remote-paging-sample" height={620} alt="" />
+
+아래에는 자신만의 `next` 및 `previous` 페이지 동작을 구현하기 위해 정의한 메서드가 있습니다.
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public nextPage() {
+    this.firstPage = false;
+    this.page++;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page + 1 >= this.totalPages) {
+        this.lastPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public previousPage() {
+    this.lastPage = false;
+    this.page--;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page <= 0) {
+        this.firstPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public paginate(page: number, recalculate = false) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    if (recalculate) {
+        this.totalPages = Math.ceil(this.totalCount / this.perPage);
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+    this.remoteService.getData(skip, top);
+    this.buttonDeselection(this.page, this.totalPages);
+}
+```
+
+### 원격 페이징과 일괄 편집
+
+지금까지의 예제로 원격 데이터와 함께 IgxGrid을(를) 설정하는 방법을 명확히 했습니다. 이제 [일괄 편집 주제/가이드](/grid/batch-editing)를 따라 그리드에 일괄 편집을 활성화하는 데 집중해 보겠습니다.
+
+샘플을 계속하기 전에 현재의 사용 사례를 명확히 하는 것이 좋습니다. 페이지네이션이 서버에서 이루어지면, 그리드에는 현재 페이지의 데이터만 들어 있으며, 새 행을 추가하면(일괄 편집으로) 새로 추가된 행이 그리드가 현재 가지고 있는 데이터와 이어 붙습니다. 따라서 서버가 특정 페이지에 대해 데이터를 반환하지 않으면, 그리드의 데이터 소스는 새로 추가된 행만으로 구성되며, 그리드는 정의된 페이지네이션 설정(page, perPage)을 기준으로 이를 페이지로 나눕니다.
+
+```typescript
+public ngOnInit() {
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+        this.totalCount = data;
+        this._recordOnServer = data;
+        this._totalPagesOnServer = Math.floor(this.totalCount / this.perPage);
+        this.grid1.isLoading = false;
+    });
+}
+```
+
+이 사용 사례를 올바르게 처리하려면 몇 가지 사용자 지정 로직을 구현해야 합니다.
+먼저 서버에 있는 전체 레코드 수를 알아야 합니다. 이를 바탕으로 서버의 전체 데이터 페이지 수를 계산하고(`this._totalPagesOnServer` 참조), 그 값을 기준으로 사용자 지정 페이지네이션 로직을 구현하겠습니다.
+
+```typescript
+
+public paginate(page: number) {
+    this.grid1.endEdit(true);
+    if (page > this._totalPagesOnServer) {
+        if (this.page !== this._totalPagesOnServer) {
+            const skipEl = this._totalPagesOnServer * this.perPage;
+            this.remoteService.getData(skipEl, this.perPage);
+        }
+        this.page = page - this._totalPagesOnServer;
+        this.page = page;
+        return;
+    } else {
+        this.page = 0;
+    }
+    this.page = page;
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+
+```
+
+**paginate** 메서드에서 볼 수 있듯이, 사용자 지정 페이지네이션 로직은 `_totalPagesOnServer` 값을 기준으로 수행됩니다.
+
+#### 일괄 편집을 사용한 원격 페이징 데모
+
+<Sample src="/grid/remote-paging-batch-editing" height={620} alt="" />
+
+## 알려진 문제와 제한 사항
+
+- 그리드에 `primaryKey`이(가) 설정되어 있지 않고 원격 데이터 시나리오가 활성화되어 있으면(페이징, 정렬, 필터링, 스크롤이 표시할 데이터를 가져오기 위해 원격 서버에 요청을 트리거할 때), 데이터 요청이 완료된 후 행은 다음 상태를 잃게 됩니다:
+  - 행 선택
+  - 행 펼치기/접기
+  - 행 편집
+  - 행 고정
+- 원격 데이터 시나리오에서 그리드에 `primaryKey`이(가) 설정되어 있으면, 현재 데이터 뷰 밖에 있는 행에 대해 <ApiLink kind="interface" type="IRowSelectionEventArgs" member="oldSelection" /> 이벤트 인수는 행 데이터 객체 전체를 담지 않습니다. 이 경우 `rowSelectionChanging.oldSelection` 객체는 `primaryKey` 필드 하나만 가집니다. 현재 데이터 뷰에 있는 나머지 행에 대해서는 `rowSelectionChanging.oldSelection`에 행 데이터 전체가 들어 있습니다.
+
+## API 참조
+- <ApiLink type="Paginator" label="IgxPaginatorComponent API" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+- [페이징](/grid/paging)
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

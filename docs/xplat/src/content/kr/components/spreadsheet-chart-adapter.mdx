@@ -1,0 +1,229 @@
+---
+title: "{Platform} Spreadsheet | 차트 어댑터 | Infragistics"
+description: "Infragistics의 {Platform} 스프레드시트 컨트롤에서 세로 막대형, 꺾은선형, 영역형 같은 차트를 표시하십시오. {ProductName} 스프레드시트에 차트를 통합하는 방법을 알아보십시오!"
+keywords: "Excel 스프레드시트, 차트 어댑터, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Spreadsheet", "Worksheet", "WorksheetShapeCollection", "WorksheetChart"]
+_language: ko
+llms:
+  description: "{Platform} Spreadsheet 컴포넌트를 사용하면 스프레드시트에 차트를 표시할 수 있습니다."
+platformType: xplat-unmapped
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Spreadsheet 차트 어댑터
+
+{Platform} Spreadsheet 컴포넌트를 사용하면 <ApiLink type="Spreadsheet" />에 차트를 표시할 수 있습니다.
+
+## {Platform} Spreadsheet 차트 어댑터 예제
+
+<Sample src="/excel/spreadsheet/adapter-chart" height={500} alt="{Platform} Spreadsheet 차트 어댑터 예제" />
+
+
+## 차트 어댑터 개요
+
+사용
+<ApiLink type="SpreadsheetChartAdapterBase" />
+을(를) 사용하면 스프레드시트에 차트를 표시할 수 있습니다. 스프레드시트 차트 어댑터는 Infragistics.Documents.Excel.WorksheetChart 인스턴스를 기반으로 스프레드시트의 차트 요소를 만들고 초기화합니다.
+
+워크시트에 WorksheetChart를 추가하려면 워크시트의 Shapes 컬렉션에 있는 <ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> 메서드를 사용해야 합니다. Excel에서 차트를 추가하는 자세한 방법은 아래에서 확인할 수 있습니다.
+
+단계별 설명은 다음과 같습니다:
+
+1. 프로젝트에 SpreadsheetChartAdapterModule 참조를 추가하십시오
+2. SpreadsheetChartAdapter 클래스의 인스턴스를 만들어 Spreadsheet에 할당하십시오
+3. 앱을 실행하고 차트가 포함된 워크시트를 로드하십시오.
+
+## 지원되는 차트 유형
+
+Spreadsheet ChartAdapter가 지원하는 차트 유형은 Line, Area, Column, Doughnut를 포함하여 35개가 넘습니다. 전체 목록은 여기에서 확인하십시오:
+
+- 열 차트
+  - 묶은 세로 막대형
+  - 누적 세로 막대형
+  - 100% 누적 세로 막대형
+- 선 차트
+  - Line
+  - 표식이 있는 꺾은선형
+  - 누적 꺾은선형
+  - 표식이 있는 누적 꺾은선형
+  - 100% 누적 꺾은선형
+  - 표식이 있는 100% 누적 꺾은선형
+- 파이 차트
+- 도넛형 차트
+- 가로 막대형 차트
+  - 묶은 가로 막대형
+  - 누적 가로 막대형
+  - 100% 누적 가로 막대형
+  - 영역 차트
+  - Area
+  - 누적 영역형
+  - 100% 누적 영역형
+- XY(산점도) 및 거품형 차트
+  - 산점도(표식만)
+  - 부드러운 선이 있는 산점도
+  - 부드러운 선과 표식이 있는 산점도
+  - 직선이 있는 산점도
+  - 직선과 표식이 있는 산점도
+  - 거품형(효과 없음)
+  - Bubble3DEffect
+- 주가 차트
+  - 고가-저가-종가
+  - 시가-고가-저가-종가
+  - 거래량-고가-저가-종가
+  - 거래량-시가-고가-저가-종가
+- 방사형 차트
+  - 표식 없는 방사형
+  - 표식이 있는 방사형
+  - 채워진 방사형
+- 복합 차트
+  - xAxis를 공유하는 세로 막대형 및 꺾은선형 차트
+  - 세로 막대형, 꺾은선형 및 두 번째 xAxis 차트
+  - 누적 영역형 및 세로 막대형
+  - 사용자 지정 조합
+
+## 종속성
+
+<DocsAside type="info">
+
+다음 코드 조각에서는 외부 [ExcelUtility](./excel-utility.mdx) 클래스를 사용하여 <ApiLink type="Spreadsheet" member="workbook" label="Workbook" />를 저장하고 불러옵니다.
+</DocsAside>
+
+차트를 추가하도록 {Platform} 스프레드시트 컨트롤을 설정할 때는 다음과 같이 <ApiLink type="SpreadsheetChartAdapter" /> 클래스를 가져와야 합니다:
+
+<PlatformBlock for="Angular">
+
+```ts
+import { IgxSpreadsheetChartAdapterModule } from 'igniteui-angular-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-angular-spreadsheet-chart-adapter';
+
+import { ChartTitle, ChartType, FormattedString, Workbook } from 'igniteui-angular-excel';
+import { ExcelUtility } from "ExcelUtility";
+import { Worksheet } from 'igniteui-angular-excel';
+import { WorksheetCell } from 'igniteui-angular-excel';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrExcelXlsxModule } from 'igniteui-react-excel';
+import { IgrExcelCoreModule } from 'igniteui-react-excel';
+import { IgrExcelModule } from 'igniteui-react-excel';
+
+import { IgrSpreadsheetChartAdapterModule } from 'igniteui-react-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-react-spreadsheet-chart-adapter';
+
+import { ExcelUtility } from "ExcelUtility";
+
+import { Worksheet } from 'igniteui-react-excel';
+import { WorksheetCell } from 'igniteui-react-excel';
+import { ChartType, ChartTitle, FormattedString, Workbook } from 'igniteui-react-excel';
+
+IgrExcelCoreModule.register();
+IgrExcelModule.register();
+IgrExcelXlsxModule.register();
+IgrSpreadsheetModule.register();
+IgrSpreadsheetChartAdapterModule.register();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+// Module Manager for registering the modules of the chart
+import { ModuleManager } from 'igniteui-webcomponents-core';
+
+import { IgcExcelXlsxModule } from 'igniteui-webcomponents-excel';
+import { IgcExcelCoreModule } from 'igniteui-webcomponents-excel';
+import { IgcExcelModule } from 'igniteui-webcomponents-excel';
+
+import { IgcSpreadsheetChartAdapterModule } from 'igniteui-webcomponents-spreadsheet-chart-adapter';
+import { SpreadsheetChartAdapter } from 'igniteui-webcomponents-spreadsheet-chart-adapter';
+
+import { ExcelUtility } from "ExcelUtility";
+
+import { Worksheet } from 'igniteui-webcomponents-excel';
+import { WorksheetCell } from 'igniteui-webcomponents-excel';
+import { ChartType, ChartTitle, FormattedString, Workbook } from 'igniteui-webcomponents-excel';
+
+// register the modules
+ModuleManager.register(
+    IgcExcelCoreModule,
+    IgcExcelModule,
+    IgcExcelXlsxModule,
+    IgcSpreadsheetModule,
+    IgcSpreadsheetChartAdapterModule
+);
+```
+
+</PlatformBlock>
+
+## 코드 조각
+
+다음 코드 조각은 <ApiLink type="Spreadsheet" /> 컨트롤에서 현재 보고 있는 워크시트에 차트를 추가하는 방법을 보여 줍니다:
+
+```typescript
+this.spreadsheet.chartAdapter = new SpreadsheetChartAdapter();
+
+ExcelUtility.loadFromUrl(process.env.PUBLIC_URL + "/ExcelFiles/ChartData.xlsx").then((w) => {
+    this.spreadsheet.workbook = w;
+
+    const sheet: Worksheet = this.spreadsheet.workbook.worksheets(0);
+
+    sheet.defaultColumnWidth = 500 * 20;
+    sheet.rows(0).height = 150 * 20;
+
+    const cell1: WorksheetCell = sheet.getCell("A1");
+    const cell2: WorksheetCell = sheet.getCell("B1");
+    const cell3: WorksheetCell = sheet.getCell("C1");
+    const cell4: WorksheetCell = sheet.getCell("D1");
+
+    const dataCellAddress = "A4:D6";
+
+    const chart1 = sheet.shapes().addChart(ChartType.Line, cell1, { x: 0, y: 0 }, cell1, { x: 100, y: 100 });
+
+    const title: {Platform} ChartTitle = new ChartTitle();
+    title.text = new FormattedString("Line Chart");
+    chart1.chartTitle = title;
+
+    chart1.setSourceData(dataCellAddress, true);
+
+    const chart2 = sheet.shapes().addChart(ChartType.ColumnClustered, cell2, { x: 0, y: 0 }, cell2, { x: 100, y: 100 });
+
+    const title2: ChartTitle = new ChartTitle();
+    title2.text = new FormattedString("Column Chart");
+    chart2.chartTitle = title2;
+
+    chart2.setSourceData(dataCellAddress, true);
+
+    const chart3 = sheet.shapes().addChart(ChartType.Area, cell3, { x: 0, y: 0 }, cell3, { x: 100, y: 100 });
+
+    const title3: ChartTitle = new ChartTitle();
+    title3.text = new FormattedString("Area Chart");
+    chart3.chartTitle = title3;
+
+    chart3.setSourceData(dataCellAddress, true);
+
+    const chart4 = sheet.shapes().addChart(ChartType.Pie, cell4, { x: 0, y: 0 }, cell4, { x: 100, y: 100 });
+
+    const title4: ChartTitle = new ChartTitle();
+    title4.text = new FormattedString("Pie Chart");
+    chart4.chartTitle = title4;
+
+    chart4.setSourceData(dataCellAddress, true);
+});
+```
+
+
+## API 참조
+
+<ApiLink type="SpreadsheetChartAdapterBase" />
+<br />
+<ApiLink type="Spreadsheet" /><br />
+<ApiLink type="Workbook" /><br />

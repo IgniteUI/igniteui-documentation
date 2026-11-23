@@ -1,0 +1,354 @@
+---
+title: "Angular Overlay Service – Ignite UI for Angular | Infragistics | Licencia MIT"
+description: "Proporciona un servicio que permite a los desarrolladores posicionar el contenido por encima de todos los demás contenidos de componentes o HTML de la página. Incluye una API robusta que permite una configuración precisa del servicio."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componente Angular Overlay Service"
+license: MIT
+_language: es
+llms:
+  description: "El servicio de superposición ofrece una forma fácil y rápida de renderizar contenido dinámicamente en primer plano de una aplicación."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Superposición
+
+<div class="highlight">
+
+El servicio de superposición ofrece una forma fácil y rápida de renderizar contenido dinámicamente en primer plano de una aplicación. El contenido que se renderiza, así como la forma en que se renderiza (por ejemplo, la ubicación, las animaciones y los comportamientos de desplazamiento y clic), son muy configurables y se adaptan a todos los escenarios posibles.
+El servicio de superposición está totalmente integrado en la directiva toggle.
+</div>
+<hr/>
+
+## Ejemplo de superposición de Angular
+
+<Sample src="/interactions/overlay-sample-main-1" height={350} alt="Ejemplo de superposición de Angular" />
+
+<hr/>
+
+## Primeros pasos
+
+Primero tenemos que importar <ApiLink type="OverlayService" /> en el componente e `inject` una referencia a él en el constructor del componente:
+
+```typescript
+
+import { Inject } from '@angular/core'
+import { IgxOverlayService } from 'igniteui-angular';
+
+...
+
+export class MyOverlayComponent {
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService
+    ) {}
+}
+
+...
+```
+
+## Mostrar contenido
+
+El servicio de superposición puede usarse para mostrar dinámicamente un `HTMLNode` o incluso un componente de Angular, adjuntándolo al DOM de la superposición.
+
+Una vez establecida una referencia al servicio de superposición, puede usarse para mostrar u ocultar contenido dinámicamente. Por ejemplo, podemos pasar un componente de Angular al método `attach`. Esto generará un ID único, que podemos pasar al método `show` para mostrar el componente. Al mostrar un componente de Angular, hay que pasar un segundo parámetro obligatorio `ViewContainerRef` en el método `attach`.
+
+```typescript
+
+// my-overlay-component.component.ts
+import { MyDynamicComponent } from '../my-dynamic-component/my-dynamic-component.component';
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService,
+        private viewContainerRef: ViewContainerRef
+    ) {}
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+
+```
+
+Si queremos pasar a <ApiLink type="OverlayService" /> un `ElementRef` que ya existe en la página, podemos hacerlo así:
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+<div>
+    <img #exampleImage width='200px' src='../assets/example.png' title='Click Me!'>
+</div>
+```
+
+```typescript
+// my-overlay-component.component.ts
+import { Inject, ViewChild } from '@angular/core'
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    @ViewChild('exampleImage', {read: ElementRef})
+    private exampleImage: ElementRef;
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(this.exampleImage);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+<hr/>
+
+El método <ApiLink type="OverlayService" member="attach" label="attach()" /> del servicio de superposición tiene dos sobrecargas:
+
+- `attach(element, settings?)`
+- `attach(component, viewContainerRef, settings?)`
+
+El primer parámetro de ambas sobrecargas es obligatorio y representa el contenido que se mostrará en la superposición. Hay varios escenarios de cómo puede pasarse el contenido:
+
+- Una definición de componente: al pasar un componente como primer argumento, el servicio de superposición crea una nueva instancia de ese componente y adjunta dinámicamente su `ElementRef` al DOM de `overlay`. Este método también acepta un segundo parámetro obligatorio `ViewContainerRef`, que es una referencia al contenedor donde se insertará la vista host del componente creado.
+- Una `ElementRef` a un elemento existente del DOM (ilustrada en el ejemplo anterior): cualquier vista que ya esté renderizada en la página puede pasarse a través del servicio de superposición y renderizarse en el DOM de la superposición.
+
+En ambos casos, el método <ApiLink type="OverlayService" member="attach" label="attach()" /> hará lo siguiente:
+
+- Obtener la referencia a la vista pasada desde Angular
+- Desvincular la vista del DOM y dejar un ancla en su lugar
+- Volver a adjuntar la vista a la superposición usando los <ApiLink type="OverlaySettings" kind="interface" /> proporcionados o, en su defecto, los de la superposición predeterminada
+
+Llamar después a <ApiLink type="OverlayService" member="show" label="show(id)" /> reproducirá la animación de apertura, si la hay, y mostrará el contenido adjunto. Llamar a <ApiLink type="OverlayService" member="hide" label="hide(id)" /> reproducirá la animación de cierre, si la hay, y ocultará el contenido adjunto.
+
+Por último, al llamar al método <ApiLink type="OverlayService" member="detach" label="detach(id)" /> se volverá a adjuntar la vista a su ubicación original en el DOM. Si se pasó un componente al método <ApiLink type="OverlayService" member="attach" label="attach()" />, llamar a <ApiLink type="OverlayService" member="detach" label="detach(id)" /> destruirá la instancia creada.
+
+<hr/>
+
+## Adjuntar componentes
+
+En la siguiente demostración, podemos pasar el componente [IgxCard](/layouts/card#live-demo) a través del método <ApiLink type="OverlayService" member="attach" label="attach()" /> del servicio de superposición para generar un ID. Después llamamos al método <ApiLink type="OverlayService" member="show" label="show()" /> con el ID proporcionado para adjuntar dinámicamente la tarjeta al DOM en un contenedor modal.
+
+<Sample src="/interactions/overlay-sample-main-1" height={400} alt="" />
+
+<hr/>
+
+## Ajustes de superposición
+
+El método <ApiLink type="OverlayService" member="attach" label="attach()" /> también acepta un objeto del tipo <ApiLink type="OverlaySettings" kind="interface" />, que configura la forma en que se muestra el contenido. Si no se proporciona ningún objeto de este tipo, el servicio de superposición usará sus ajustes predeterminados para renderizar el contenido pasado.
+
+Por ejemplo, si queremos que el contenido se posicione en relación con un elemento, podemos pasar un <ApiLink kind="interface" type="OverlaySettings" member="target" /> y un <ApiLink kind="interface" type="OverlaySettings" member="positioningStrategy" /> distintos al método <ApiLink type="OverlayService" member="attach" label="attach()" />, por ejemplo <ApiLink type="ConnectedPositioningStrategy" />. Para configurar cómo se muestra el componente, primero tenemos que crear un objeto <ApiLink type="OverlaySettings" kind="interface" />:
+
+```typescript
+// my-overlay-component.component.ts
+// import the ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+...
+export class MyOverlayComponent {
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                target: this.myAnchorButton.nativeElement,
+                positionStrategy: new ConnectedPositioningStrategy()
+            });
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+<button #myAnchorButton (click)="showInOverlay()">Show Overlay</button>
+</div>
+```
+
+Al hacer clic en el botón, ahora se mostrará `MyDynamicComponent` posicionado en relación con el botón.
+
+## Ajustes predefinidos de superposición
+
+Los métodos <ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> y <ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> ofrecen una forma sencilla de crear un <ApiLink type="OverlaySettings" kind="interface" /> basado en conjuntos de ajustes predefinidos.
+
+El método <ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> crea <ApiLink type="OverlaySettings" kind="interface" /> no modales con <ApiLink type="GlobalPositionStrategy" /> o <ApiLink type="ContainerPositionStrategy" /> en caso de que se proporcione el parámetro `outlet`. La enumeración `AbsolutePosition` define las posiciones posibles entre las que elegir: `Center`, `Top` o `Bottom`. La posición predeterminada es `Center`.
+
+```typescript
+const globalOverlaySettings = IgxOverlayService.createAbsoluteOverlaySettings(AbsolutePosition.Top);
+```
+
+El método <ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> crea <ApiLink type="OverlaySettings" kind="interface" /> con <ApiLink type="AutoPositionStrategy" />, <ApiLink type="ConnectedPositioningStrategy" /> o <ApiLink type="ElasticPositionStrategy" />. Acepta el destino, la posición y la estrategia. El `target` es el punto de anclaje o el elemento donde se muestra el componente. La `position` es una enumeración `RelativePosition` con las siguientes opciones: `Above`, `Below`, `Before`, `After` y `Default`. La opción `Default` coloca el elemento debajo del destino, alineado a la izquierda. La estrategia de posicionamiento puede establecerse mediante la enumeración `RelativePositionStrategy`, cuyo valor predeterminado es `Auto`.
+
+```typescript
+const targetElement = this.myAnchorButton.nativeElement;
+const connectedOverlaySettings = IgxOverlayService.createRelativeOverlaySettings(
+        targetElement,
+        RelativePosition.Above,
+        RelativePositionStrategy.Connected);
+```
+
+### Demostración
+
+<Sample src="/interactions/overlay-preset-settings-sample" height={750} alt="" />
+
+<hr/>
+
+## Ocultar la superposición
+
+El método <ApiLink type="OverlayService" member="hide" label="hide(id)" /> oculta el contenido de la superposición. Todos los elementos renderizados por el servicio de superposición tienen un ID único, asignado por el servicio. El método <ApiLink type="OverlayService" member="attach" label="attach()" /> devuelve el identificador del contenido renderizado. Para ocultar el contenido, este ID debe pasarse al método <ApiLink type="OverlayService" member="hide" label="hide(id)" /> de la superposición. Para ocultar todas las superposiciones, puede llamarse al método <ApiLink type="OverlayService" member="hideAll" label="hideAll()" />.
+
+Cuando el contenido renderizado ya no sea necesario, debe llamarse al método <ApiLink type="OverlayService" member="detach" label="detach(id)" />. Este método elimina el contenido de la superposición y, si procede, lo vuelve a adjuntar a su ubicación original en el DOM. El método <ApiLink type="OverlayService" member="detach" label="detach(id)" /> también acepta como parámetro obligatorio el ID generado por el método <ApiLink type="OverlayService" member="attach" label="attach()" />. Para eliminar todas las superposiciones, puede llamarse al método <ApiLink type="OverlayService" member="detachAll" label="detachAll()" />.
+
+Podemos modificar el método de superposición definido anteriormente para que no solo muestre, sino también oculte el elemento de la superposición
+
+```typescript
+// my-overlay-component.component.ts
+// add an import for the definition of ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyOverlayComponent implements OnDestroy {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+    private _overlayShown = false; // Is the component rendered in the Overlay?
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+
+    public toggleOverlay() {
+        if (!this._overlayShown) { // If the element is not visible, show it
+            //  generate ID
+            if (!this._overlayId) {
+                this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                    target: this.myAnchorButton.nativeElement,
+                    positionStrategy: new ConnectedPositioningStrategy({
+                        closeOnOutsideClick: false, // overlay will not close on outside clicks
+                        modal: false // overlay content will not be rendered in a modal dialog
+                    }) // The attach method returns an ID that can be used to reference the shown content
+                });
+            }
+
+            this.overlayService.show(this._overlayId);
+        } else {
+            this.overlayService.hide(this._overlayId); // If element if visible, hide it
+        }
+        this._overlayShown = !this._overlayShown;
+    }
+
+    // finally detach overlay content
+    public ngOnDestroy(): void {
+        if (this._overlayId) {
+            this.overlayService.detach(this._overlayId);
+            delete this._overlayId;
+        }
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button #myAnchorButton (click)="toggleOverlay()">Toggle Overlay</button>
+</div>
+```
+
+## Ajustes de adjuntar
+
+Usando el parámetro <ApiLink kind="interface" type="OverlaySettings" /> del método <ApiLink type="OverlayService" member="attach" label="attach()" />, podemos cambiar la forma en que se muestra el contenido; por ejemplo, dónde se posiciona el contenido, cómo debe comportarse el desplazamiento y si el contenedor es modal o no
+
+<Sample src="/interactions/overlay-sample-main-2" height={400} alt="" />
+
+<hr/>
+
+Si **no** se configura ningún <ApiLink kind="interface" type="OverlaySettings" />, el elemento alternado recibe la **configuración de visualización predeterminada**:
+
+```typescript
+defaultOverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new NoOpScrollStrategy(),
+    modal: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: false
+};
+```
+
+<hr/>
+
+## Integración con igxToggle
+
+El <ApiLink type="ToggleDirective" /> está totalmente integrado con <ApiLink type="OverlayService" />. Por tanto, el método <ApiLink type="ToggleDirective" member="toggle" label="toggle()" /> de la directiva Toggle permite pasar ajustes de superposición personalizados al alternar el contenido.
+
+A continuación se muestra un ejemplo de cómo pasar ajustes de configuración al método de toggle:
+
+```html
+{/* In example.component.html */}
+<div>
+    <button igxToggle (click)="callToggle()">Click me!</button>
+    <div [style.visibility]="collapsed ? 'hidden ' : 'visible'">
+        This content is toggle-able!
+    
+</div>
+</div>
+```
+
+```typescript
+// example.component.ts
+@Component({
+    selector: `example-component`,
+    template: `example.component.html`
+})
+export class ExampleComponent {
+    @ViewChild(IgxToggleDirective)
+    private toggleDirective: IgxToggleDirective;
+
+    public get collapsed(): boolean {
+        return this.toggleDirective.collapsed;
+    }
+
+    public callToggle(): void {
+        const overlaySettings: OverlaySettings = {
+            positionStrategy: new AutoPositionStrategy(),
+            scrollStrategy: new BlockScrollStrategy(),
+            modal: true,
+            closeOnOutsideClick: false
+        }
+        this.toggleDirective.toggle(overlaySettings)
+    }
+}
+```
+
+<hr/>
+
+## Supuestos y limitaciones
+
+Si muestra la superposición en un outlet, y el outlet es hijo de un elemento con transform, perspective o filter establecido en el CSS, no podrá mostrar la superposición modal. El motivo es que, si se establece alguna de esas propiedades CSS, el navegador crea un nuevo bloque contenedor y la superposición queda limitada a ese bloque contenedor, como se describe en la [documentación de position de MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed).
+
+## Referencias de API
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />
+## Recursos adicionales
+
+- [Estrategias de posicionamiento](/overlay-position)
+- [Estrategias de desplazamiento](/overlay-scroll)
+- [Tema de estilos](/overlay-styling)

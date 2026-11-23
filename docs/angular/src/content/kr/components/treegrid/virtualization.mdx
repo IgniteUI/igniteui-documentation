@@ -1,0 +1,63 @@
+---
+title: "Angular Grid 가상화 및 성능 - Ignite UI for Angular"
+description: "Ignite UI for Angular 가상화 디렉티브는 대규모 데이터 집합을 처리할 때 그리드의 속도와 성능을 뒷받침하는 핵심 메커니즘입니다. 무료로 체험해 보십시오!"
+keywords: angular data grid, grid performance, data table virtualization, ignite ui for angular
+license: commercial
+_canonicalLink: grid/virtualization
+_language: ko
+llms:
+  description: "Ignite UI for Angular에서 TreeGrid 컨트롤은 이제 igxForOf 디렉티브를 사용하며, 콘텐츠를 세로와 가로 방향 모두에서 가상화합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Tree Grid 가상화 및 성능
+
+Ignite UI for Angular에서 <ApiLink type="TreeGrid" /> 컨트롤은 이제 <ApiLink type="ForOfDirective" label="igxForOf" /> 디렉티브를 사용하며, 콘텐츠를 세로와 가로 방향 모두에서 가상화합니다.
+
+## 가상화 활성화하기
+
+<ApiLink type="ForOfDirective" label="igxForOf" /> 디렉티브를 활용하여 IgxTreeGrid은(는) 현재 보기 영역에 보이는 것만 렌더링하고, 사용자가 데이터를 가로/세로로 스크롤하는 동안 표시되는 데이터를 교체함으로써 DOM 렌더링과 메모리 사용을 최적화합니다. <ApiLink type="TreeGrid" />의 <ApiLink type="TreeGrid" member="width" label="width" />과 <ApiLink type="TreeGrid" member="height" label="height" />의 기본값은 `100%`이며, 이는 표시되는 콘텐츠가 사용 가능한 공간에 들어가지 않고 세로 또는 가로 스크롤바가 필요한 경우 가상화를 활성화합니다. 그러나 Tree Grid의 <ApiLink type="TreeGrid" member="width" label="width" /> 및/또는 <ApiLink type="TreeGrid" member="height" label="height" />를 명시적으로 `null`(으)로 설정할 수도 있습니다. 이 경우 해당 차원은 내부 항목들의 전체 크기로 결정됩니다. 그러면 스크롤바는 표시되지 않으며 모든 항목이 해당 차원을 따라 렌더링됩니다(<ApiLink type="TreeGrid" member="width" label="width" />이 `null`이면 열, <ApiLink type="TreeGrid" member="height" label="height" />이 `null`이면 행).
+
+데이터 청크의 크기는 다음에 따라 결정됩니다:
+
+- 세로(행) 가상화를 위한 행 높이입니다. 이는 <ApiLink type="TreeGrid" member="rowheight" label="rowHeight" /> 옵션으로 결정되며, 기본값은 50(px)입니다.
+- 가로(열) 가상화를 위한 개별 열 너비(픽셀)입니다. 각 열 컴포넌트에 명시적 너비를 설정하거나, Tree Grid의 <ApiLink type="TreeGrid" member="columnWidth" label="columnWidth" /> 옵션을 설정하여 정할 수 있으며, 후자는 명시적 너비가 설정되지 않은 모든 열에 적용됩니다.
+
+대부분의 경우 차원을 설정하지 않고 그리드가 기본 동작을 적용하도록 두면 원하는 레이아웃이 나옵니다. 열 너비는 열의 개수, 너비가 설정된 열, 그리고 Tree Grid 컨테이너의 계산된 너비로 결정됩니다. 그리드는 할당하려는 너비가 136(px) 아래로 떨어지지 않는 한, 모든 열을 사용 가능한 공간 안에 맞추려고 합니다. 그런 경우 너비가 할당되지 않은 열은 최소 136(px)을 받고 가로 스크롤바가 표시됩니다. 그리드는 가로로 가상화됩니다.
+
+열 너비를 백분율(%)로 명시적으로 설정하면, 대부분의 경우 가로 스크롤바가 없으므로 가로로 가상화되지 않은 그리드가 만들어집니다.
+
+## 가상화 제한 사항
+
+- "Show scrollbars only when scrolling" 시스템 옵션이 true(기본값)로 설정되어 있으면 Mac OS에서는 가로 스크롤바가 보이지 않습니다. 이는 Tree Grid의 행 컨테이너 overflow가 hidden으로 설정되어 있기 때문입니다. 옵션을 "Always"로 바꾸면 스크롤바가 나타납니다.
+
+## FAQ
+
+### 가상화가 작동하려면 Tree Grid에 차원이 필요한 이유는 무엇입니까?
+
+항목을 렌더링하기 전에 컨테이너와 항목의 크기 정보가 없으면, 스크롤바의 너비나 높이를 설정하거나 Tree Grid의 임의의 위치로 스크롤할 때 어떤 항목이 보기에 있어야 하는지 판단하는 것이 잘못됩니다. 실제 차원에 대한 어떤 가정이든 스크롤바의 부자연스러운 동작을 일으키고, 결국 최종 사용자에게 최적이 아닌 경험을 줄 수 있습니다. 이것이 가상화가 적용되려면 관련 차원을 설정하는 것이 강제되는 이유입니다.
+
+## API 참조
+- <ApiLink type="TreeGrid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxTreeGridComponent 스타일" />
+- <ApiLink type="Column" />
+- <ApiLink type="ForOfDirective" />
+- <ApiLink type="IForOfState" kind="interface" />
+## 추가 리소스
+
+- [Tree Grid 개요](/treegrid/tree-grid)
+- [페이징](/treegrid/paging)
+- [필터링](/treegrid/filtering)
+- [정렬](/treegrid/sorting)
+- [요약](/treegrid/summaries)
+- [열 이동](/treegrid/column-moving)
+- [열 고정](/treegrid/column-pinning)
+- [열 크기 조정](/treegrid/column-resizing)
+- [선택](/treegrid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

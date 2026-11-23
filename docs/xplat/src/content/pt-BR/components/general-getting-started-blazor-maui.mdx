@@ -1,0 +1,138 @@
+---
+title: "Crie um aplicativo Blazor Hybrid com .NET MAUI - Ignite UI for Blazor"
+description: "Este artigo fornece instruções passo a passo sobre como criar um aplicativo Blazor Hybrid com .NET MAUI usando o Ignite UI for Blazor. Experimente agora!"
+keywords: "{ProductName}, Infragistics, Introdução"
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "Instruções passo a passo para criar um aplicativo Blazor Hybrid com o Ignite UI for Blazor, usando o Visual Studio e o .NET MAUI."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import newBlazorProjectMaui from '@xplat-images/general/new-blazor-project-maui.jpg';
+import newBlazorProjectConfigureMaui from '@xplat-images/general/new-blazor-project-configure-maui.jpg';
+import gettingStartedBlazorCardWindows from '@xplat-images/general/getting-started-blazor-card-windows.jpg';
+
+# Introdução: crie um aplicativo Blazor Hybrid com .NET MAUI
+
+Este tópico fornece instruções passo a passo para criar aplicativos .NET MAUI Blazor com o Ignite UI for Blazor usando o Visual Studio.
+
+## O que é o Blazor Hybrid?
+
+O Blazor Hybrid fica entre o Blazor Server e o Blazor WebAssembly. Ele simplifica o desenvolvimento, o código e os processos, pois reúne os recursos dos frameworks nativos de clientes para desktop e dispositivos móveis. Essa tecnologia permite aplicar as suas habilidades em C# e .NET na criação de aplicativos nativos de cliente.
+
+Mas, para poder usá-lo nos seus aplicativos, você precisa do .NET MAUI.
+
+## O que é o .NET MAUI?
+
+.NET MAUI (.NET Multi-platform App UI) é um framework multiplataforma, de código aberto, para criar aplicativos nativos de desktop e de dispositivos móveis a partir de uma única base de código compartilhada. Com ele, você pode desenvolver mais facilmente aplicativos Blazor que rodam em diferentes dispositivos e sistemas operacionais, incluindo Android, iOS, macOS e Windows, usando C# e XAML.
+
+
+## Pré-requisitos
+
+- Visual Studio 2022 17.12 ou superior, com a carga de trabalho **.NET Multi-platform App UI development**
+
+Para mais informações, consulte o tópico [Instalação do .NET MAUI](https://learn.microsoft.com/dotnet/maui/get-started/installation).
+
+## Criar e executar um aplicativo Blazor Hybrid com .Net Maui e Ignite UI for Blazor
+
+As etapas abaixo descrevem como criar um novo projeto .NET MAUI Blazor. Se você quiser adicionar o Ignite UI for Blazor a um aplicativo existente, vá para a seção [**Instalar o pacote do Ignite UI for Blazor**](#instalar-o-ignite-ui-for-blazor).
+
+Inicie o Visual Studio e clique em **Criar um novo projeto** na página inicial, selecione o modelo **.NET MAUI Blazor Hybrid App** e clique em **Avançar**.
+
+<Image src={newBlazorProjectMaui} alt="new-blazor-project-maui" />
+
+Informe um nome e um local para o projeto e clique em **Avançar**.
+
+<Image src={newBlazorProjectConfigureMaui} alt="new-blazor-project-configure-maui" />
+
+Na caixa de diálogo **Informações adicionais**, selecione a versão do framework e clique em **Criar**.
+
+## Instalar o Ignite UI for Blazor
+
+O Ignite UI for Blazor é distribuído por meio de pacotes NuGet. Instale o **IgniteUI.Blazor** do [Infragistics NuGet Feed](./general-nuget-feed.mdx) ou o **IgniteUI.Blazor.Trial** do [NuGet.org](https://www.nuget.org/packages/IgniteUI.Blazor.Trial).
+
+Para obter mais informações sobre como instalar o Ignite UI for Blazor usando o NuGet, leia o tópico [Instalando o Ignite UI for Blazor](./general-installing-blazor.mdx).
+
+## Registrar o Ignite UI for Blazor
+
+1 - Abra o arquivo **MauiProgram.cs** e registre o serviço do Ignite UI for Blazor chamando a função **builder.Services.AddIgniteUIBlazor**:
+
+```cs
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        // ...
+        builder.Services.AddMauiBlazorWebView();
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+#endif
+
+        //register IgniteUI for Blazor
+        builder.Services.AddIgniteUIBlazor();
+        return builder.Build();
+    }
+}
+```
+
+2 - Adicione o namespace **IgniteUI.Blazor.Controls** no arquivo **_Imports.razor**:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+3 - Adicione a folha de estilos no elemento **`<head>`** do arquivo **wwwroot/index.html**:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<head>
+    <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+</head>
+```
+
+</PlatformBlock>
+
+## Adicionar um componente do Ignite UI for Blazor
+
+Adicione um componente do Ignite UI for Blazor à sua página razor:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard style="width:350px">
+    <IgbCardMedia>
+        <img src="https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=350&q=80" />
+    </IgbCardMedia>
+    <IgbCardHeader>
+        <h4>Jane Doe</h4>
+        <h6>Professional Photographer</h6>
+    </IgbCardHeader>
+    <IgbCardContent>Hi! I'm Jane, photographer and filmmaker.
+        Photography is a way of feeling, of touching,
+        of loving. What you have caught on film is captured forever...
+        it remembers little things, long after you have
+        forgotten everything.</IgbCardContent>
+    <IgbCardActions>
+        <IgbButton>More Info</IgbButton>
+    </IgbCardActions>
+</IgbCard>
+```
+
+</PlatformBlock>
+
+Compile e execute o aplicativo .NET MAUI Blazor para Windows.
+
+<Image src={gettingStartedBlazorCardWindows} alt="getting-started-blazor-card-windows" />
+
+<DocsAside type="info">
+Para mais informações sobre como criar aplicativos multiplataforma com .NET MAUI, visite a [Documentação da Microsoft](https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?pivots=devices-android).
+</DocsAside>

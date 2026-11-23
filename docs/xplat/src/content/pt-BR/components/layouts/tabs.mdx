@@ -1,0 +1,1440 @@
+---
+title: "Componente {Platform} Tabs"
+description: "O componente {ProductName} Tabs organiza conteúdos relacionados em abas, mostra o conteúdo da aba selecionada e adiciona botões de rolagem quando as abas não cabem."
+keywords: "{Platform} Tabs, {ProductName}, cabeçalho de aba, painel de aba, botões de rolagem"
+license: MIT
+last_updated: "2026-11-11"
+relatedComponents: ["Stepper", "Accordion"]
+mentionedTypes: ["Tabs", "Tab"]
+_language: pt-BR
+llms:
+  description: "O componente {ProductName} Tabs organiza conteúdos relacionados no mesmo nível hierárquico em abas e mostra o conteúdo da aba selecionada."
+platformType: web-only
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import DoDont from 'igniteui-astro-components/components/mdx/DoDont.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import tabsAnatomy from '@xplat-images/anatomy-content-light/tabs-lt-a.png';
+import tabsDoInformation from '@xplat-images/tabs/tabs-do-1.png';
+import tabsDoNotWorkflow from '@xplat-images/tabs/tabs-do-not-1.png';
+import tabsDoContent from '@xplat-images/tabs/tabs-do-2.png';
+import tabsDoNotMixedContent from '@xplat-images/tabs/tabs-do-not-2.png';
+
+# Tabs
+
+O componente {ProductName} Tabs organiza conteúdos relacionados no mesmo nível hierárquico em abas e mostra o conteúdo da aba selecionada.
+
+<PlatformBlock for="Angular">
+
+O seletor do componente Tabs do Angular é `igx-tabs`. Cada `igx-tab-item` dentro dele contém um cabeçalho de aba e o conteúdo que o componente Tabs mostra quando a aba é selecionada.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Cada aba contém o seu cabeçalho e o seu conteúdo em um único elemento. O componente Tabs oferece suporte à navegação pelo teclado e mostra botões de rolagem quando os cabeçalhos das abas não cabem.
+
+</PlatformBlock>
+
+## Demo ao vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-overview" showThemePicker height={380} noBorder={false} spacing="md" alt="Exemplo de {Platform} Tabs com três abas que filtram uma lista de pessoas por equipe" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/overview" showThemePicker height={380} noBorder={false} spacing="md" alt="Exemplo de {Platform} Tabs com três abas que filtram uma lista de pessoas por equipe" />
+
+</PlatformBlock>
+
+## Anatomia
+
+O componente {Platform} Tabs é formado por um contêiner com itens de aba, botões de rolagem opcionais e uma área de conteúdo para a aba selecionada.
+
+<Anatomy
+  class="tabs-anatomy"
+  name="Tabs"
+  description="O componente Tabs mostra uma linha de cabeçalhos de aba acima da área de conteúdo da aba selecionada."
+  src={tabsAnatomy.src}
+  alt="Anatomia das abas, mostrando os botões de rolagem, as abas inativas e ativa, uma aba com ícones à esquerda, no topo e à direita, e a área de conteúdo"
+/>
+
+<style>{`
+  .tabs-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .tabs-anatomy .igd-anatomy__image {
+    max-width: 701px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Contêiner de abas:</strong> agrupa e alinha todos os itens de aba<br />
+<strong>2. Botão do cabeçalho (opcional):</strong> setas de navegação aparecem para as abas que não estão visíveis no contêiner de abas<br />
+<strong>3. Rótulo:</strong> texto que nomeia a aba e indica qual conteúdo ela abre<br />
+<strong>4. Item de aba ativo:</strong> um único elemento de aba selecionável que está ativo<br />
+<strong>5. Ícone à esquerda (opcional):</strong> ícone exibido antes do rótulo para dar contexto à aba<br />
+<strong>6. Ícone no topo (opcional):</strong> ícone exibido acima do rótulo para dar contexto à aba<br />
+<strong>7. Ícone à direita (opcional):</strong> ícone exibido depois do rótulo para dar contexto à aba<br />
+<strong>8. Área de conteúdo:</strong> o painel em que o conteúdo da aba selecionada é exibido</span>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O elemento `igc-tabs` renderiza a faixa de cabeçalhos e os botões de rolagem. Cada `igc-tab` renderiza o seu próprio cabeçalho e conteúdo, e o componente Tabs posiciona o conteúdo de todas as abas abaixo da faixa de cabeçalhos<PlatformBlock for="WebComponents">, ou ao lado dela quando os cabeçalhos das abas formam uma coluna</PlatformBlock>:
+
+```text
+igc-tabs[role="tablist"]
+└─ #shadow-root
+   └─ div[part="tabs"]                                 // the scrollable header strip
+      └─ div[part="inner"]
+         ├─ igc-icon-button[part="start-scroll-button"] // rendered when the headers overflow
+         ├─ slot                                       // the igc-tab elements
+         │  └─ igc-tab
+         │     └─ #shadow-root
+         │        ├─ div[part="tab-header"][role="tab"]
+         │        │  └─ div[part="base"]
+         │        │     ├─ slot[name="prefix"][part="prefix"]
+         │        │     ├─ div[part="content"]
+         │        │     │  └─ slot[name="label"]        // falls back to the label property
+         │        │     └─ slot[name="suffix"][part="suffix"]
+         │        └─ div[part="tab-body"][role="tabpanel"] // visible only for the selected tab
+         │           └─ slot                           // the content of the tab
+         ├─ igc-icon-button[part="end-scroll-button"]   // rendered when the headers overflow
+         └─ div[part="selected-indicator"]
+            └─ span                                    // follows the selected tab header
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O elemento `igx-tabs` renderiza a faixa de cabeçalhos a partir do `igx-tab-header` de cada item de aba e a área de conteúdo a partir do `igx-tab-content` de cada item de aba:
+
+```text
+igx-tabs.igx-tabs
+├─ div.igx-tabs-header
+│  ├─ button.igx-tabs-header-button                 // start scroll button, hidden when the headers fit
+│  ├─ div.igx-tabs-header__content
+│  │  └─ div.igx-tabs-header__wrapper[role="tablist"]
+│  │     ├─ div.igx-tabs-header-scroll
+│  │     │  └─ igx-tab-header[role="tab"]          // one for each igx-tab-item
+│  │     │     ├─ [igxPrefix]
+│  │     │     ├─ div.igx-tab-header__inner        // [igxTabHeaderIcon] above [igxTabHeaderLabel]
+│  │     │     └─ [igxSuffix]
+│  │     └─ div.igx-tabs-header__active-indicator
+│  └─ button.igx-tabs-header-button                 // end scroll button, hidden when the headers fit
+└─ div.igx-tabs-content
+   └─ igx-tab-content[role="tabpanel"]             // one for each igx-tab-item; renders its content only when selected
+```
+
+</PlatformBlock>
+
+## Primeiros passos
+
+Para usar o {Platform} Tabs, siga o <PlatformBlock for="Angular">[{ProductName} Primeiros passos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeiros passos](../general-getting-started.mdx)</PlatformBlock> tópico para a configuração básica do projeto e, em seguida, adicione o componente para a sua plataforma de destino.
+
+<PlatformBlock for="WebComponents">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe o <ApiLink pkg="core" type="Tabs" />, o CSS do seu tema e registre o componente. O registro também registra os elementos `igc-tab` e `igc-icon-button`:
+
+```ts
+import { defineComponents, IgcTabsComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcTabsComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Instale o pacote **{PackageCommon}**:
+
+```cmd
+npm install {PackageCommon}
+```
+
+Em seguida, importe os wrappers <ApiLink pkg="core" type="Tabs" /> e <ApiLink pkg="core" type="Tab" /> e o CSS do tema:
+
+```tsx
+import { IgrTabs, IgrTab } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+O registro de <ApiLink pkg="core" type="TabsModule" />, o módulo de recurso do cliente de <ApiLink pkg="core" type="Tabs" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbTabsModule))` pode ser usado para pré-carregar recursos ou para dar suporte a elementos criados somente no cliente (veja [Módulos do componente](../general-getting-started.mdx#módulos-do-componente)).
+
+Em seguida, vincule o arquivo CSS do tema na página host da aplicação (**wwwroot/index.html** em uma aplicação Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em uma aplicação Blazor Server, **Components/App.razor** em uma aplicação Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Se o seu projeto ainda não usa o {ProductName}, execute `ng add igniteui-angular`. Em seguida, importe o token `IGX_TABS_DIRECTIVES` e adicione-o ao `imports` do seu componente. O token traz o <ApiLink pkg="core" type="Tabs" />, os componentes de item de aba, cabeçalho e conteúdo, as diretivas de rótulo e ícone do cabeçalho, e as diretivas de prefixo e sufixo:
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_TABS_DIRECTIVES } from 'igniteui-angular/tabs';
+// import { IGX_TABS_DIRECTIVES } from '@infragistics/igniteui-angular/tabs'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+        <igx-tabs>
+            <igx-tab-item>
+                <igx-tab-header>
+                    <span igxTabHeaderLabel>Overview</span>
+                </igx-tab-header>
+                <igx-tab-content>The overview content.</igx-tab-content>
+            </igx-tab-item>
+            <igx-tab-item>
+                <igx-tab-header>
+                    <span igxTabHeaderLabel>Details</span>
+                </igx-tab-header>
+                <igx-tab-content>The details content.</igx-tab-content>
+            </igx-tab-item>
+        </igx-tabs>
+    `,
+    imports: [IGX_TABS_DIRECTIVES]
+})
+export class HomeComponent {}
+```
+
+Quando nenhum item de aba está selecionado e os itens de aba têm conteúdo, o componente Tabs do Angular seleciona o primeiro item de aba na inicialização.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Depois do registro, renderize o <ApiLink pkg="core" type="Tabs" /> com um <ApiLink pkg="core" type="Tab" /> para cada seção. O rótulo de uma aba se torna o seu cabeçalho, e os filhos da aba se tornam o seu conteúdo:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Overview">
+    <p>The overview content.</p>
+  </igc-tab>
+  <igc-tab label="Details">
+    <p>The details content.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Overview">
+    <p>The overview content.</p>
+  </IgrTab>
+  <IgrTab label="Details">
+    <p>The details content.</p>
+  </IgrTab>
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Overview">
+        <p>The overview content.</p>
+    </IgbTab>
+    <IgbTab Label="Details">
+        <p>The details content.</p>
+    </IgbTab>
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Quando nenhuma aba está selecionada na primeira renderização, o componente {Platform} Tabs seleciona a primeira aba habilitada. Se você depois definir `selected` como `false` na aba selecionada, nenhuma aba ficará selecionada.
+
+</PlatformBlock>
+
+## Uso
+
+Use o {Platform} Tabs para organizar diferentes visões das mesmas informações ou para alternar entre conjuntos de dados semelhantes ou relacionados.
+
+### Tipo
+
+As abas estão disponíveis em dois tipos: Short, que mostra somente texto por padrão, com a opção de ter ícones de prefixo e sufixo; e Tall, que também tem um terceiro ícone adicional acima do texto.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para uma aba short, defina o `label` da aba. Para uma aba tall, coloque um Icon e um `<span>` no slot `label`, e o componente Tabs mostra o ícone acima do texto. O slot `label` tem precedência sobre a propriedade `label`. Registre os ícones primeiro, conforme descrito no tópico [Icon](./icon.mdx):
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Cart"></igc-tab>
+  <igc-tab label="Shipping"></igc-tab>
+</igc-tabs>
+
+<igc-tabs>
+  <igc-tab>
+    <igc-icon slot="label" name="shopping_basket" collection="material"></igc-icon>
+    <span slot="label">Cart</span>
+  </igc-tab>
+  <igc-tab>
+    <igc-icon slot="label" name="delivery" collection="material"></igc-icon>
+    <span slot="label">Shipping</span>
+  </igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Cart" />
+  <IgrTab label="Shipping" />
+</IgrTabs>
+
+<IgrTabs>
+  <IgrTab>
+    <IgrIcon slot="label" name="shopping_basket" collection="material" />
+    <span slot="label">Cart</span>
+  </IgrTab>
+  <IgrTab>
+    <IgrIcon slot="label" name="delivery" collection="material" />
+    <span slot="label">Shipping</span>
+  </IgrTab>
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Cart" />
+    <IgbTab Label="Shipping" />
+</IgbTabs>
+
+<IgbTabs>
+    <IgbTab>
+        <IgbIcon slot="label" IconName="shopping_basket" Collection="material" />
+        <span slot="label">Cart</span>
+    </IgbTab>
+    <IgbTab>
+        <IgbIcon slot="label" IconName="delivery" Collection="material" />
+        <span slot="label">Shipping</span>
+    </IgbTab>
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Para mostrar conteúdo antes e depois do rótulo, como um ícone ou um badge, coloque-o nos slots `prefix` e `suffix` da aba:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tab>
+  <igc-icon slot="prefix" name="inbox" collection="material"></igc-icon>
+  <span slot="label">Inbox</span>
+  <igc-badge slot="suffix">12</igc-badge>
+</igc-tab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTab>
+  <IgrIcon slot="prefix" name="inbox" collection="material" />
+  <span slot="label">Inbox</span>
+  <IgrBadge slot="suffix">12</IgrBadge>
+</IgrTab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTab>
+    <IgbIcon slot="prefix" IconName="inbox" Collection="material" />
+    <span slot="label">Inbox</span>
+    <IgbBadge slot="suffix">12</IgbBadge>
+</IgbTab>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Para uma aba short, coloque um `<span>` com a diretiva <ApiLink pkg="core" type="TabHeaderLabelDirective" label="igxTabHeaderLabel" /> em `igx-tab-header`. Para uma aba tall, adicione também um `igx-icon` com a diretiva <ApiLink pkg="core" type="TabHeaderIconDirective" label="igxTabHeaderIcon" />, e o componente Tabs mostra o ícone acima do texto. Adicione `IgxIconComponent` ao `imports` do seu componente, ao lado de `IGX_TABS_DIRECTIVES`:
+
+```html
+<igx-tabs>
+  <igx-tab-item>
+    <igx-tab-header>
+      <igx-icon igxTabHeaderIcon>shopping_basket</igx-icon>
+      <span igxTabHeaderLabel>Cart</span>
+    </igx-tab-header>
+    <igx-tab-content>The cart content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header>
+      <igx-icon igxTabHeaderIcon>local_shipping</igx-icon>
+      <span igxTabHeaderLabel>Shipping</span>
+    </igx-tab-header>
+    <igx-tab-content>The shipping content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+Para mostrar conteúdo antes e depois do rótulo, como um ícone ou um badge, adicione-o ao `igx-tab-header` com as diretivas `igxPrefix` e `igxSuffix`. O badge abaixo também precisa de `IgxBadgeComponent` no `imports`:
+
+```html
+<igx-tab-header>
+  <igx-icon igxPrefix>inbox</igx-icon>
+  <span igxTabHeaderLabel>Inbox</span>
+  <igx-badge igxSuffix [value]="12"></igx-badge>
+</igx-tab-header>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-type" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tabs nos tipos short e tall" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/type" showThemePicker height={360} noBorder={false} spacing="md" alt="{Platform} Tabs nos tipos short e tall" />
+
+</PlatformBlock>
+
+### Responsividade
+
+As abas podem ser Content Fit, para preencher o espaço horizontal disponível adaptando a largura, ou Fixed, com botões de rolagem para navegar por um grande número de itens de aba. Isso permite caber mais conteúdo do que é normalmente possível com o outro modo no mesmo espaço total.
+
+O <PlatformBlock for="Angular"><ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor"><ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /></PlatformBlock> A propriedade define como o componente {Platform} Tabs organiza os cabeçalhos das abas:
+
+- `start` (padrão): cada cabeçalho de aba tem a largura do seu conteúdo, e os cabeçalhos começam na borda inicial do Tabs.
+- `center`: cada cabeçalho de aba tem a largura do seu conteúdo, e os cabeçalhos ficam centralizados.
+- `end`: cada cabeçalho de aba tem a largura do seu conteúdo, e os cabeçalhos terminam na borda final do Tabs.
+- `justify`: os cabeçalhos das abas se estendem para preencher a largura do Tabs. Use-o para o modo Content Fit.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs alignment="justify">
+  <igc-tab label="Podcasts"></igc-tab>
+  <igc-tab label="Playlists"></igc-tab>
+  <igc-tab label="Genres"></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs alignment="justify">
+  <IgrTab label="Podcasts" />
+  <IgrTab label="Playlists" />
+  <IgrTab label="Genres" />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Alignment="TabsAlignment.Justify">
+    <IgbTab Label="Podcasts" />
+    <IgbTab Label="Playlists" />
+    <IgbTab Label="Genres" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs tabAlignment="justify">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Podcasts</span></igx-tab-header>
+    <igx-tab-content>The podcasts content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Playlists</span></igx-tab-header>
+    <igx-tab-content>The playlists content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+Quando os cabeçalhos das abas não cabem, o componente {Platform} Tabs mostra um botão de rolagem em cada extremidade da faixa de cabeçalhos, que é o modo Fixed. Um botão de rolagem desloca a faixa até o próximo cabeçalho de aba que está fora da visão, na sua direção, e fica desabilitado quando a faixa chega a essa extremidade. Quando o usuário seleciona uma aba, o componente Tabs desloca o seu cabeçalho para a área visível.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs nos modos Content Fit e Fixed" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/responsiveness" showThemePicker height={350} noBorder={false} spacing="md" alt="{Platform} Tabs nos modos Content Fit e Fixed" />
+
+</PlatformBlock>
+
+### Quantidade
+
+Na maioria dos cenários, as abas precisam conter entre dois e cinco itens. Se o seu caso de uso exigir mais de cinco abas, considere o modo Fixed explicado acima.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Você pode adicionar e remover abas em tempo de execução. Uma aba que você adiciona com `selected` definido se torna a aba selecionada, e, quando você remove a aba selecionada, o componente {Platform} Tabs seleciona a primeira aba habilitada.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Você pode adicionar e remover itens de aba em tempo de execução, por exemplo com `@for`. Quando você remove o item de aba selecionado, o componente Tabs do Angular seleciona o item de aba que ocupa o seu índice ou o último item de aba, se o removido era o último.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-amount" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs com duas, cinco e mais de cinco abas" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/amount" showThemePicker height={460} noBorder={false} spacing="md" alt="{Platform} Tabs com duas, cinco e mais de cinco abas" />
+
+</PlatformBlock>
+
+### Estados
+
+Os itens de aba oferecem suporte aos estados Ativo, Inativo, Ativo e hover, Inativo e hover e Desabilitado. Em Tabs há sempre uma aba ativa e um número qualquer de abas inativas e desabilitadas.
+
+Defina `selected` em uma aba para torná-la a aba ativa, e `disabled` para desativá-la. Os usuários não podem selecionar uma aba desabilitada, e a navegação pelo teclado a ignora.<PlatformBlock for="React,WebComponents,Blazor"> Quando você desabilita a aba selecionada, o componente {Platform} Tabs seleciona a primeira aba habilitada.</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs>
+  <igc-tab label="Overview"></igc-tab>
+  <igc-tab label="Activity" selected></igc-tab>
+  <igc-tab label="Billing" disabled></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs>
+  <IgrTab label="Overview" />
+  <IgrTab label="Activity" selected={true} />
+  <IgrTab label="Billing" disabled={true} />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs>
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Activity" Selected="true" />
+    <IgbTab Label="Billing" Disabled="true" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Overview</span></igx-tab-header>
+    <igx-tab-content>The overview content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item selected>
+    <igx-tab-header><span igxTabHeaderLabel>Activity</span></igx-tab-header>
+    <igx-tab-content>The activity content.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item disabled>
+    <igx-tab-header><span igxTabHeaderLabel>Billing</span></igx-tab-header>
+    <igx-tab-content>The billing content.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-states" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Tabs com abas ativa, inativa, em hover e desabilitada" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/states" showThemePicker height={300} noBorder={false} spacing="md" alt="{Platform} Tabs com abas ativa, inativa, em hover e desabilitada" />
+
+</PlatformBlock>
+
+{/*
+headerPosition: igniteui-react and IgniteUI.Blazor don't have it yet, so its content is gated to
+Angular and WebComponents. When they ship it, add React and Blazor snippets and samples to the
+Header Position section below, add a row to the Blazor Properties table, and add React and Blazor
+to every Angular,WebComponents and WebComponents block about the header position or a column of
+tab headers: Anatomy, Header Position, Properties, Keyboard Interaction, Screen Readers / ARIA,
+Accessibility Compliance, API References and FAQ.
+*/}
+
+<PlatformBlock for="Angular,WebComponents">
+
+### Posição do cabeçalho
+
+Defina <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> no componente {Platform} Tabs como `start` ou `end` para abas verticais: uma coluna de cabeçalhos de aba antes ou depois do conteúdo, na direção do texto. O padrão, `top`, mantém os cabeçalhos em uma linha acima do conteúdo. <PlatformBlock for="Angular">A entrada `headerPosition` exige o `igniteui-angular` 22.3.0 ou posterior.</PlatformBlock><PlatformBlock for="WebComponents">A propriedade `headerPosition` exige o `igniteui-webcomponents` 7.5.0 ou posterior.</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs header-position="start" style="height: 11rem">
+  <igc-tab label="Profile">
+    <p>Update your name, photo, and contact details.</p>
+  </igc-tab>
+  <igc-tab label="Security">
+    <p>Change your password and sign-in options.</p>
+  </igc-tab>
+  <igc-tab label="Notifications">
+    <p>Choose which updates you receive by email.</p>
+  </igc-tab>
+</igc-tabs>
+```
+
+```ts
+import type { TabsHeaderPosition } from 'igniteui-webcomponents';
+
+const tabs = document.querySelector('igc-tabs')!;
+const position: TabsHeaderPosition = 'end';
+tabs.headerPosition = position;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs headerPosition="start" style="height: 11rem">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>Update your name, photo, and contact details.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Security</span></igx-tab-header>
+    <igx-tab-content>Change your password and sign-in options.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Notifications</span></igx-tab-header>
+    <igx-tab-content>Choose which updates you receive by email.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+Com `strictTemplates`, um valor vinculado digitado como `string` não compila. Digite-o como `IgxTabsHeaderPosition`:
+
+```ts
+import { IgxTabsHeaderPosition } from 'igniteui-angular/tabs';
+
+public position: IgxTabsHeaderPosition = IgxTabsHeaderPosition.end;
+```
+
+```html
+<igx-tabs [headerPosition]="position">...</igx-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular,WebComponents">
+
+Sem uma altura, o componente {Platform} Tabs cresce conforme a sua coluna de cabeçalhos de aba ou o conteúdo da aba selecionada, o que for mais alto. Para limitá-lo, defina um `height` ou um `max-height` no componente. O conteúdo de uma aba mais alta passa então a rolar dentro do componente.<PlatformBlock for="WebComponents"> Um `max-height` em um contêiner não limita o componente.</PlatformBlock> Em uma coluna, cada cabeçalho de aba ocupa a largura da coluna, e <PlatformBlock for="Angular">`tabAlignment`</PlatformBlock><PlatformBlock for="WebComponents">`alignment`</PlatformBlock> se aplica ao longo da altura. A roda do mouse e o toque não rolam os cabeçalhos de aba de uma coluna, mas os botões de rolagem e o teclado rolam.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Para mostrar visões roteadas ao lado de uma coluna de cabeçalhos de aba, coloque o componente Tabs do Angular e um elemento que contém o `router-outlet` em um contêiner com `display: flex`, e dê a esse elemento `flex: 1` e `min-width: 0`.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs com os botões Top, Start e End, que movem os cabeçalhos das abas entre uma linha acima do conteúdo e uma coluna no lado inicial ou final dele" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+<Sample src="/layouts/tabs/header-position" showThemePicker height={340} noBorder={false} spacing="md" alt="{Platform} Tabs com os botões de opção Top, Start e End, que movem os cabeçalhos das abas entre uma linha acima do conteúdo e uma coluna no lado inicial ou final dele" />
+
+</PlatformBlock>
+
+### Seleção
+
+<PlatformBlock for="WebComponents">
+
+O componente {Platform} Tabs emite `igcChange` com a aba recém-selecionada quando o usuário seleciona uma aba com um clique ou com uma tecla. Para selecionar uma aba pelo código, chame <ApiLink pkg="core" type="Tabs" member="select" label="select" /> com a aba, ou com o seu `id` ou `label`. Leia a aba selecionada em <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" />:
+
+```html
+<igc-tabs>
+  <igc-tab id="overview" label="Overview"></igc-tab>
+  <igc-tab id="details" label="Details"></igc-tab>
+</igc-tabs>
+```
+
+```ts
+const tabs = document.querySelector('igc-tabs')!;
+
+tabs.addEventListener('igcChange', (event) => {
+  console.log(`Selected: ${event.detail.label}`);
+});
+
+tabs.select('details');
+console.log(tabs.selectedTab?.label); // "Details"
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+O componente {Platform} Tabs chama `onChange` com a aba recém-selecionada quando o usuário seleciona uma aba com um clique ou com uma tecla. Para selecionar uma aba pelo código, chame <ApiLink pkg="core" type="Tabs" member="select" label="select" /> com a aba, ou com o seu `id` ou `label`:
+
+```tsx
+import { useRef } from 'react';
+import { IgrTab, IgrTabs } from 'igniteui-react';
+
+export default function ProfileTabs() {
+  const tabsRef = useRef<IgrTabs>(null);
+
+  return (
+    <>
+      <IgrTabs ref={tabsRef} onChange={(e: CustomEvent<IgrTab>) => console.log(e.detail.label)}>
+        <IgrTab label="Overview" />
+        <IgrTab label="Details" />
+      </IgrTabs>
+      <button onClick={() => tabsRef.current?.select('Details')}>Show details</button>
+    </>
+  );
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+O componente {Platform} Tabs dispara `Change` com a aba recém-selecionada quando o usuário seleciona uma aba com um clique ou com uma tecla. Para selecionar uma aba pelo código, chame <ApiLink pkg="core" type="Tabs" member="SelectAsync" label="SelectAsync" /> com o `id` ou o `Label` da aba:
+
+```razor
+<IgbTabs @ref="Tabs" Change="OnTabChange">
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Details" />
+</IgbTabs>
+
+<button @onclick="ShowDetails">Show details</button>
+
+@code {
+    private IgbTabs Tabs { get; set; }
+
+    private async Task ShowDetails()
+    {
+        await Tabs.SelectAsync("Details");
+    }
+
+    private void OnTabChange(IgbTabComponentEventArgs e)
+    {
+        Console.WriteLine(e.Detail.Label);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Selecionar uma aba pelo código, ou definir `selected` em uma aba, altera a seleção sem o evento de mudança. O componente Tabs ignora abas desabilitadas e valores que não correspondem a nenhuma aba.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Vincule <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> para ler e definir o índice da aba selecionada. O componente Tabs do Angular emite <ApiLink pkg="core" type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" /> antes de a seleção mudar, e você pode cancelar a mudança no seu manipulador:
+
+```html
+<igx-tabs [(selectedIndex)]="selectedIndex" (selectedIndexChanging)="onSelectedIndexChanging($event)">
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Profile</span></igx-tab-header>
+    <igx-tab-content>The profile form.</igx-tab-content>
+  </igx-tab-item>
+  <igx-tab-item>
+    <igx-tab-header><span igxTabHeaderLabel>Billing</span></igx-tab-header>
+    <igx-tab-content>The billing form.</igx-tab-content>
+  </igx-tab-item>
+</igx-tabs>
+```
+
+```ts
+import { ITabsSelectedIndexChangingEventArgs } from 'igniteui-angular/tabs';
+
+public selectedIndex = 0;
+public hasUnsavedChanges = false;
+
+public onSelectedIndexChanging(event: ITabsSelectedIndexChangingEventArgs) {
+    if (this.hasUnsavedChanges) {
+        event.cancel = true;
+    }
+}
+```
+
+Depois que a seleção muda, o componente Tabs do Angular emite <ApiLink pkg="core" type="Tabs" member="selectedItemChange" label="selectedItemChange" /> com o item de aba anterior e o novo. Esses eventos também são disparados quando você define `selectedIndex` pelo código.
+
+</PlatformBlock>
+
+### Ativação
+
+Por padrão, o componente {Platform} Tabs seleciona uma aba assim que as teclas de seta, Home ou End movem o foco para o seu cabeçalho. Defina <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> como `manual` para mover apenas o foco com essas teclas e selecionar a aba em foco com Enter ou Espaço. Use a ativação manual quando mostrar o conteúdo de uma aba for lento, por exemplo quando ela carrega dados.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs activation="manual">
+  <igc-tab label="Overview"></igc-tab>
+  <igc-tab label="Reports"></igc-tab>
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs activation="manual">
+  <IgrTab label="Overview" />
+  <IgrTab label="Reports" />
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Activation="TabsActivation.Manual">
+    <IgbTab Label="Overview" />
+    <IgbTab Label="Reports" />
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tabs activation="manual">
+  ...
+</igx-tabs>
+```
+
+</PlatformBlock>
+
+### Faça/Não faça
+
+As abas são adequadas para organizar informações; evite usá-las para desenhar fluxos de trabalho e ações que seguem uma sequência lógica, por exemplo um processo de checkout ou um assistente de configuração. Ao usar abas short, nunca combine uma aba de texto com uma aba de ícone na mesma barra. Escolha um dos dois modos de conteúdo e use-o de forma consistente em todos os itens da barra.
+
+<DoDont
+  doSrc={tabsDoInformation}
+  doAlt="Abas chamadas Produtos, Carrinho e Pedidos acima da imagem de um produto"
+  dontSrc={tabsDoNotWorkflow}
+  dontAlt="Abas chamadas Extras, Pagamento e Endereço usadas como as etapas de um fluxo de pedido"
+>
+<Fragment slot="do">
+
+Use abas para organizar informações relacionadas.
+
+</Fragment>
+<Fragment slot="dont">
+
+Evite abas para as etapas de um fluxo de trabalho sequencial, como um processo de checkout.
+
+</Fragment>
+</DoDont>
+
+<DoDont
+  doSrc={tabsDoContent}
+  doAlt="Abas chamadas Podcasts, Playlists e Gêneros, todas com rótulos de texto"
+  dontSrc={tabsDoNotMixedContent}
+  dontAlt="Abas que combinam os rótulos de texto Podcasts e Playlists com uma aba de ícone de nota musical"
+>
+<Fragment slot="do">
+
+Use o mesmo modo de conteúdo, texto ou ícones, para todas as abas de uma barra.
+
+</Fragment>
+<Fragment slot="dont">
+
+Evite combinar abas de texto e abas de ícone na mesma barra.
+
+</Fragment>
+</DoDont>
+
+## Propriedades
+
+O componente {Platform} Tabs expõe as propriedades a seguir. Consulte a referência da API para as definições completas de tipo.
+
+<PlatformBlock for="React,WebComponents">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="alignment" label="alignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | Como os cabeçalhos das abas são organizados na faixa de cabeçalhos. |
+<PlatformBlock for="WebComponents">| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | Onde os cabeçalhos das abas são posicionados: uma linha acima do conteúdo, ou uma coluna antes ou depois dele. O atributo correspondente é `header-position`. |
+</PlatformBlock>| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Se mover o foco para um cabeçalho de aba com o teclado também seleciona a aba. |
+| <ApiLink pkg="core" type="Tabs" member="selectedTab" label="selectedTab" /> | <PlatformBlock for="WebComponents">`IgcTabComponent \| null`</PlatformBlock><PlatformBlock for="React">`IgrTab \| null`</PlatformBlock> | `null` | Somente leitura. A aba selecionada. |
+| <ApiLink pkg="core" type="Tabs" member="selected" label="selected" /> | `string` | `''` | Somente leitura. O `label` da aba selecionada ou o seu `id`, quando a aba não tem `label`. |
+| <ApiLink pkg="core" type="Tabs" member="tabs" label="tabs" /> | <PlatformBlock for="WebComponents">`IgcTabComponent[]`</PlatformBlock><PlatformBlock for="React">`IgrTab[]`</PlatformBlock> | — | Somente leitura. As abas que são filhas diretas do Tabs. |
+| <ApiLink pkg="core" type="Tab" member="label" label="Tab.label" /> | `string` | `''` | O texto do cabeçalho da aba. O slot `label` tem precedência sobre ele. |
+| <ApiLink pkg="core" type="Tab" member="selected" label="Tab.selected" /> | `boolean` | `false` | Se a aba está selecionada. |
+| <ApiLink pkg="core" type="Tab" member="disabled" label="Tab.disabled" /> | `boolean` | `false` | Se a aba está desabilitada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="Alignment" label="Alignment" /> | `TabsAlignment` | `Start` | Como os cabeçalhos das abas são organizados na faixa de cabeçalhos. |
+| <ApiLink pkg="core" type="Tabs" member="Activation" label="Activation" /> | `TabsActivation` | `Auto` | Se mover o foco para um cabeçalho de aba com o teclado também seleciona a aba. |
+| <ApiLink pkg="core" type="Tab" member="Label" label="IgbTab.Label" /> | `string` | — | O texto do cabeçalho da aba. O slot `label` tem precedência sobre ele. |
+| <ApiLink pkg="core" type="Tab" member="Selected" label="IgbTab.Selected" /> | `bool` | `false` | Se a aba está selecionada. |
+| <ApiLink pkg="core" type="Tab" member="Disabled" label="IgbTab.Disabled" /> | `bool` | `false` | Se a aba está desabilitada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nome | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndex" label="selectedIndex" /> | `number` | `-1` | O índice do item de aba selecionado. Quando nenhum item de aba está selecionado e os itens de aba têm conteúdo, o componente Tabs seleciona o primeiro item de aba. Oferece suporte a vinculação bidirecional. |
+| <ApiLink pkg="core" type="Tabs" member="tabAlignment" label="tabAlignment" /> | `'start' \| 'end' \| 'center' \| 'justify'` | `'start'` | Como os cabeçalhos das abas são organizados na faixa de cabeçalhos. |
+| <ApiLink pkg="core" type="Tabs" member="headerPosition" label="headerPosition" /> | `'top' \| 'start' \| 'end'` | `'top'` | Onde os cabeçalhos das abas são posicionados: uma linha acima do conteúdo, ou uma coluna antes ou depois dele. |
+| <ApiLink pkg="core" type="Tabs" member="activation" label="activation" /> | `'auto' \| 'manual'` | `'auto'` | Se mover o foco para um cabeçalho de aba com o teclado também seleciona a aba. |
+| <ApiLink pkg="core" type="Tabs" member="disableAnimation" label="disableAnimation" /> | `boolean` | `false` | Se a animação do conteúdo na mudança de seleção está desativada. |
+| <ApiLink pkg="core" type="Tabs" member="selectedItem" label="selectedItem" /> | `IgxTabItemDirective` | — | Somente leitura. O item de aba selecionado. |
+| <ApiLink pkg="core" type="Tabs" member="items" label="items" /> | `QueryList<IgxTabItemDirective>` | — | Somente leitura. Os itens de aba do Tabs. |
+| <ApiLink pkg="core" type="TabItem" member="selected" label="TabItem.selected" /> | `boolean` | `false` | Se o item de aba está selecionado. Oferece suporte a vinculação bidirecional. |
+| <ApiLink pkg="core" type="TabItem" member="disabled" label="TabItem.disabled" /> | `boolean` | `false` | Se o item de aba está desabilitado. |
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+## Métodos
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents">
+
+O componente {Platform} Tabs expõe o método a seguir. Ele altera a seleção sem emitir o evento de mudança.
+
+| Método | Descrição |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="select" label="select" /> | Seleciona a aba que você passa, ou a aba cujo `id` ou `label` corresponde à string que você passa. Ignora abas desabilitadas e strings que não correspondem a nenhuma aba. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+O componente {Platform} Tabs expõe os métodos a seguir. Cada método também tem uma versão síncrona sem o sufixo `Async`.
+
+| Método | Descrição |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="SelectAsync" label="SelectAsync" /> | Seleciona a aba cujo `id` ou `Label` corresponde à string que você passa, sem disparar `Change`. Ignora abas desabilitadas e strings que não correspondem a nenhuma aba. |
+| <ApiLink pkg="core" type="Tabs" member="GetSelectedAsync" label="GetSelectedAsync" /> | Retorna o `Label` da aba selecionada ou o seu `id`, quando a aba não tem `Label`. |
+
+</PlatformBlock>
+
+## Eventos
+
+O componente {Platform} Tabs emite os eventos a seguir.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+| Nome | Tipo | Descrição |
+| --- | --- | --- |
+| <PlatformBlock for="WebComponents">`igcChange`</PlatformBlock><PlatformBlock for="React"><ApiLink pkg="core" type="Tabs" member="onChange" label="onChange" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink pkg="core" type="Tabs" member="Change" label="Change" /></PlatformBlock> | <PlatformBlock for="WebComponents">`CustomEvent<IgcTabComponent>`</PlatformBlock><PlatformBlock for="React">`CustomEvent<IgrTab>`</PlatformBlock><PlatformBlock for="Blazor">`EventCallback<IgbTabComponentEventArgs>`</PlatformBlock> | Emitido quando o usuário seleciona uma aba com um clique ou com uma tecla. O detalhe do evento contém a aba selecionada. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nome | Descrição |
+| --- | --- |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndexChanging" label="selectedIndexChanging" /> | Emitido com <ApiLink type="ITabsSelectedIndexChangingEventArgs" kind="interface" label="ITabsSelectedIndexChangingEventArgs" /> antes de o índice selecionado mudar. Defina `cancel` para manter a aba atual, ou altere `newIndex` para selecionar outra aba. |
+| <ApiLink pkg="core" type="Tabs" member="selectedIndexChange" label="selectedIndexChange" /> | Emitido com o novo índice, um `number`, depois que o índice selecionado muda. Habilita a vinculação bidirecional `[(selectedIndex)]`. |
+| <ApiLink pkg="core" type="Tabs" member="selectedItemChange" label="selectedItemChange" /> | Emitido com <ApiLink type="ITabsSelectedItemChangeEventArgs" kind="interface" label="ITabsSelectedItemChangeEventArgs" />, que contém o item de aba anterior e o novo, depois que o item de aba selecionado muda. |
+| <ApiLink pkg="core" type="TabItem" member="selectedChange" label="TabItem.selectedChange" /> | Emitido com um `boolean` quando o item de aba é selecionado ou desselecionado. Habilita a vinculação bidirecional `[(selected)]`. |
+
+</PlatformBlock>
+
+## Estilização
+
+O componente {Platform} Tabs obtém suas cores do tema. Altere-as com as variáveis CSS a seguir:
+
+| Variável | o que muda |
+| --- | --- |
+| `--ig-tabs-item-background` | O fundo dos cabeçalhos das abas. |
+| `--ig-tabs-item-text-color` | A cor do texto dos cabeçalhos das abas. |
+| `--ig-tabs-item-icon-color` | A cor do ícone dos cabeçalhos das abas. |
+| `--ig-tabs-item-hover-background` | O fundo de um cabeçalho de aba em hover ou em foco. |
+| `--ig-tabs-item-hover-color` | A cor do texto de um cabeçalho de aba em hover ou em foco. |
+| `--ig-tabs-item-active-background` | O fundo do cabeçalho da aba selecionada. |
+| `--ig-tabs-item-active-color` | A cor do texto do cabeçalho da aba selecionada. |
+| `--ig-tabs-item-active-icon-color` | A cor do ícone do cabeçalho da aba selecionada. |
+| `--ig-tabs-item-disabled-color` | A cor do texto de um cabeçalho de aba desabilitado. |
+| `--ig-tabs-item-disabled-icon-color` | A cor do ícone de um cabeçalho de aba desabilitado. |
+| `--ig-tabs-indicator-color` | A cor do indicador do cabeçalho da aba selecionada. |
+| `--ig-tabs-button-background` | O fundo dos botões de rolagem. |
+| `--ig-tabs-button-color` | A cor do ícone dos botões de rolagem. |
+| `--ig-tabs-button-hover-background` | O fundo de um botão de rolagem em hover. |
+| `--ig-tabs-button-disabled-color` | A cor do ícone de um botão de rolagem desabilitado. |
+<PlatformBlock for="Angular">| `--ig-tabs-header-background` | O fundo da faixa de cabeçalho atrás dos cabeçalhos das abas. |</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O elemento `igc-tabs` expõe as partes CSS a seguir:
+
+| Parte | o que estiliza |
+| --- | --- |
+| `start-scroll-button` | O botão de rolagem inicial. |
+| `end-scroll-button` | O botão de rolagem final. |
+| `selected-indicator` | O indicador do cabeçalho da aba selecionada. |
+
+O elemento `igc-tab` expõe as partes CSS a seguir:
+
+| Parte | o que estiliza |
+| --- | --- |
+| `tab-header` | O cabeçalho da aba. |
+| `prefix` | O contêiner do slot `prefix`. |
+| `content` | O contêiner do slot `label`. |
+| `suffix` | O contêiner do slot `suffix`. |
+| `tab-body` | O conteúdo da aba, visível somente para a aba selecionada. |
+
+</PlatformBlock>
+
+### Temas em Sass
+
+Quando você altera uma propriedade primária, todas as propriedades dependentes relacionadas são atualizadas automaticamente para refletir a mudança. Os parâmetros primários da <PlatformBlock for="Angular"><ApiLink kind="sass" module="themes" type="function-tabs-theme" label="tabs-theme" code={true} /></PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">`tabs-theme`</PlatformBlock> função são `$item-background`, a partir do qual o tema deriva as cores de todos os estados das abas, e `$item-active-color`, a partir do qual ele deriva a cor do indicador. Crie um tema com a função e inclua-o com o mixin `tokens()`, que emite as variáveis `--ig-tabs-*` correspondentes no escopo em que você o incluir.
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-tabs-theme: tabs-theme(
+  $item-background: #292826,
+  $item-active-color: #f4d45c
+);
+
+:host {
+  @include tokens($custom-tabs-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+As funções Sass vêm do pacote `igniteui-theming`. Veja o tópico [Temas](../themes/overview.mdx) para a configuração do Sass.
+
+```scss
+@use "igniteui-theming" as *;
+
+$custom-tabs-theme: tabs-theme(
+  $item-background: #292826,
+  $item-active-color: #f4d45c
+);
+
+:root {
+  @include tokens($custom-tabs-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variáveis CSS
+
+Defina as variáveis CSS em um componente Tabs ou em um contêiner quando precisar de estilização local sem uma etapa de build com Sass:
+
+```css
+.profile-tabs {
+  --ig-tabs-item-active-color: #e41c77;
+  --ig-tabs-indicator-color: #e41c77;
+}
+```
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Use as partes CSS para outros estilos:
+
+```css
+igc-tab::part(tab-header) {
+  font-weight: 600;
+}
+
+igc-tabs::part(selected-indicator) {
+  opacity: 0.8;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do {Platform} Tabs" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/styling" height={400} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do {Platform} Tabs" />
+
+</PlatformBlock>
+
+### Estilizando com Tailwind
+
+Você pode estilizar o {Platform} Tabs com as nossas classes utilitárias personalizadas do Tailwind. Certifique-se de [configurar o Tailwind](../themes/tailwind.mdx) primeiro.
+
+<PlatformBlock for="Angular">
+
+Importe os utilitários do Ignite UI na sua folha de estilos global:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+Use a classe `light-tabs` ou `dark-tabs` para o tema correspondente, e sobrescreva as variáveis CSS geradas com propriedades arbitrárias:
+
+```html
+<igx-tabs class="!light-tabs ![--item-background:#011627] ![--item-active-color:#FF8040]">
+  ...
+</igx-tabs>
+```
+
+O ponto de exclamação (`!`) dá ao utilitário do Tailwind precedência sobre os estilos padrão do tema do Tabs.
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+Defina as variáveis CSS `--ig-tabs-*` com propriedades arbitrárias do Tailwind:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-tabs class="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+  ...
+</igc-tabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrTabs className="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+  ...
+</IgrTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbTabs Class="[--ig-tabs-item-background:#011627] [--ig-tabs-item-active-color:#FF8040] [--ig-tabs-indicator-color:#FF8040]">
+    ...
+</IgbTabs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/tabs-tailwind-styling" height={290} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do {Platform} Tabs com Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/tabs/tailwind-styling" height={290} noBackground={false} noBorder={false} spacing="md" alt="Exemplo de estilização do {Platform} Tabs com Tailwind" />
+
+</PlatformBlock>
+
+## Acessibilidade
+
+O componente {Platform} Tabs usa os papéis do padrão de abas WAI-ARIA: os usuários chegam aos cabeçalhos das abas com a tecla Tab, movem-se entre eles com as teclas de seta e selecionam uma aba para mostrar o seu conteúdo.
+
+### Interação por teclado
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+A faixa de cabeçalhos do componente {Platform} Tabs é uma única parada de tabulação: apenas o cabeçalho da aba selecionada está na ordem de tabulação, ou o primeiro cabeçalho de aba habilitado quando nenhuma aba está selecionada. O conteúdo da aba selecionada é a próxima parada de tabulação. As teclas a seguir funcionam enquanto um cabeçalho de aba tem o foco:
+
+| Tecla | Ação |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Move o foco para fora da faixa de cabeçalhos, para o conteúdo da aba selecionada ou para o elemento focável anterior. O componente Tabs não trata essas teclas. |
+| <kbd>Seta para a direita</kbd> | Move o foco para o próximo cabeçalho de aba habilitado, e do último para o primeiro. Em um layout da direita para a esquerda, move-o para o anterior. Com a ativação `auto`, também seleciona a aba.<PlatformBlock for="WebComponents"> Em uma coluna de cabeçalhos de aba, o componente Tabs não trata esta tecla.</PlatformBlock> |
+| <kbd>Seta para a esquerda</kbd> | Move o foco para o cabeçalho de aba habilitado anterior, e do primeiro para o último. Em um layout da direita para a esquerda, move-o para o próximo. Com a ativação `auto`, também seleciona a aba.<PlatformBlock for="WebComponents"> Em uma coluna de cabeçalhos de aba, o componente Tabs não trata esta tecla.</PlatformBlock> |
+<PlatformBlock for="WebComponents">| <kbd>Seta para baixo</kbd> | Em uma coluna de cabeçalhos de aba, move o foco para o próximo cabeçalho de aba habilitado, e do último para o primeiro. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>Seta para cima</kbd> | Em uma coluna de cabeçalhos de aba, move o foco para o cabeçalho de aba habilitado anterior, e do primeiro para o último. Com a ativação `auto`, também seleciona a aba. |
+</PlatformBlock>| <kbd>Home</kbd> | Move o foco para o primeiro cabeçalho de aba habilitado. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>End</kbd> | Move o foco para o último cabeçalho de aba habilitado. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>Enter</kbd> / <kbd>Espaço</kbd> | Seleciona a aba em foco. |
+
+O componente {Platform} Tabs trata estas teclas em `keydown`:
+
+- Ele impede a ação padrão delas, para que as teclas de seta que movem o foco, Home, End e Espaço não rolem a página.
+- Uma tecla que você mantém pressionada não repete a sua ação.
+- Uma tecla que você pressiona junto com Shift, Ctrl, Alt ou Meta não faz nada.
+- O componente Tabs rola o cabeçalho que recebe o foco para a área visível.
+
+Com um ponteiro, um clique em um cabeçalho de aba foca e seleciona a aba. Uma aba desabilitada ignora cliques. Os botões de rolagem não estão na ordem de tabulação.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Somente o cabeçalho da aba selecionada do componente Tabs do Angular está na ordem de tabulação; assim, a faixa de cabeçalhos é uma única parada de tabulação. Quando nenhum item de aba está selecionado, nenhum cabeçalho de aba está na ordem de tabulação. O conteúdo da aba selecionada é a próxima parada de tabulação. As teclas a seguir funcionam enquanto um cabeçalho de aba tem o foco:
+
+| Tecla | Ação |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> | Move o foco para fora da faixa de cabeçalhos, para o conteúdo da aba selecionada ou para o elemento focável anterior. O componente Tabs não trata essas teclas. |
+| <kbd>Seta para a direita</kbd> | Move o foco para o próximo cabeçalho de aba habilitado, e do último para o primeiro. Em um layout da direita para a esquerda, move-o para o anterior. Com a ativação `auto`, também seleciona a aba. Em uma coluna de cabeçalhos de aba, o componente Tabs não trata esta tecla. |
+| <kbd>Seta para a esquerda</kbd> | Move o foco para o cabeçalho de aba habilitado anterior, e do primeiro para o último. Em um layout da direita para a esquerda, move-o para o próximo. Com a ativação `auto`, também seleciona a aba. Em uma coluna de cabeçalhos de aba, o componente Tabs não trata esta tecla. |
+| <kbd>Seta para baixo</kbd> | Em uma coluna de cabeçalhos de aba, move o foco para o próximo cabeçalho de aba habilitado, e do último para o primeiro. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>Seta para cima</kbd> | Em uma coluna de cabeçalhos de aba, move o foco para o cabeçalho de aba habilitado anterior, e do primeiro para o último. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>Home</kbd> | Move o foco para o primeiro cabeçalho de aba habilitado. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>End</kbd> | Move o foco para o último cabeçalho de aba habilitado. Com a ativação `auto`, também seleciona a aba. |
+| <kbd>Enter</kbd> / <kbd>Espaço</kbd> | Com a ativação `manual`, seleciona a aba em foco ao clicar no seu cabeçalho. |
+
+Com um ponteiro, um clique em um cabeçalho de aba seleciona a aba quando o item de aba tem conteúdo. Um cabeçalho de aba desabilitado ignora cliques. Os botões de rolagem não estão na ordem de tabulação.
+
+</PlatformBlock>
+
+### Leitores de tela / ARIA
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+O componente {Platform} Tabs renderiza os papéis e atributos a seguir:
+
+| Elemento | Função | Atributos |
+| --- | --- | --- |
+| `igc-tabs` | `tablist` | `aria-orientation="horizontal"`<PlatformBlock for="WebComponents">, ou `aria-orientation="vertical"` em uma coluna de cabeçalhos de aba</PlatformBlock>, definido pelos internals do elemento |
+| A parte `tab-header` de cada aba | `tab` | `aria-selected`, `aria-disabled`, `aria-controls` que aponta para o conteúdo da aba, `aria-posinset` e `aria-setsize` |
+| A parte `tab-body` de cada aba | `tabpanel` | `aria-labelledby` que aponta para o cabeçalho da aba |
+
+O componente {Platform} Tabs também se comporta da forma a seguir para a tecnologia assistiva:
+
+- Uma aba obtém o seu nome acessível do conteúdo do cabeçalho: a propriedade `label` ou o slot `label`, e o conteúdo dos slots `prefix` e `suffix`.
+- O conteúdo das abas que não estão selecionadas fica oculto e `inert`, para que a tecnologia assistiva e o teclado o ignorem.
+- Os atributos `aria-posinset` e `aria-setsize` de cada cabeçalho de aba informam aos leitores de tela a posição da aba no conjunto, como "2 de 3".
+- O componente Tabs não usa uma região ativa (live region). Uma seleção alterada chega à tecnologia assistiva pelo estado `aria-selected` e pelo foco.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O componente Tabs do Angular renderiza os papéis e atributos a seguir:
+
+| Elemento | Função | Atributos |
+| --- | --- | --- |
+| O elemento `div.igx-tabs-header__wrapper` no cabeçalho | `tablist` | `aria-orientation="horizontal"`, ou `aria-orientation="vertical"` em uma coluna de cabeçalhos de aba |
+| `igx-tab-header` | `tab` | `aria-selected`, `aria-disabled` e, quando o item de aba tem conteúdo, um `id` e um `aria-controls` que aponta para o conteúdo |
+| `igx-tab-content` | `tabpanel` | `aria-labelledby` que aponta para o cabeçalho do item de aba |
+
+O componente Tabs do Angular também se comporta da forma a seguir para a tecnologia assistiva:
+
+- Uma aba obtém o seu nome acessível do conteúdo do seu `igx-tab-header`.
+- O componente Tabs renderiza somente o conteúdo do item de aba selecionado; por isso, o conteúdo dos outros itens de aba não está no DOM.
+- Itens de aba sem `igx-tab-content`, como as abas que controlam o roteador, não recebem `id` nem `aria-controls`.
+- O componente Tabs não usa uma região ativa (live region). Uma seleção alterada chega à tecnologia assistiva pelo estado `aria-selected` e pelo foco.
+
+</PlatformBlock>
+
+### Conformidade de acessibilidade
+
+A Infragistics documenta o suporte de acessibilidade do {ProductName} para as áreas das diretrizes da Seção 508 e da WCAG 2.1 no tópico [Conformidade de acessibilidade](../interactivity/accessibility-compliance.mdx).
+
+| Critério | Como o componente atende |
+| --- | --- |
+| [1.3.1 Informações e relações](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | Os papéis `tablist`, `tab` e `tabpanel` expõem a estrutura, e cada painel de aba é rotulado pelo seu cabeçalho de aba por meio de `aria-labelledby`. |
+| [1.4.1 Uso de cor](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color) | Nos temas Material, Fluent e Indigo, o cabeçalho da aba selecionada exibe uma linha indicadora abaixo dele<PlatformBlock for="Angular,WebComponents">, ou ao lado dele em uma coluna de cabeçalhos de aba</PlatformBlock>, de modo que a seleção não dependa somente da cor. |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | As teclas de seta, Home e End movem o foco entre os cabeçalhos das abas, e Enter e Espaço selecionam a aba em foco<PlatformBlock for="Angular"> com a ativação `manual`</PlatformBlock>. |
+| [2.1.2 Sem armadilha de teclado](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap) | O componente Tabs não trata a tecla Tab; por isso, Tab e Shift + Tab movem o foco para fora da faixa de cabeçalhos. |
+| [2.4.3 Ordem de foco](https://www.w3.org/WAI/WCAG21/Understanding/focus-order) | A faixa de cabeçalhos é uma única parada de tabulação, seguida pelo conteúdo da aba selecionada. |
+| [2.4.7 Foco visível](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible) | O cabeçalho de aba em foco assume as cores de hover do tema, para se destacar dos outros cabeçalhos de aba. |
+| [4.1.2 Nome, função, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | Cada cabeçalho de aba expõe o papel `tab`, um nome a partir do seu conteúdo e os seus estados selecionado e desabilitado por meio de `aria-selected` e `aria-disabled`. |
+
+Suas responsabilidades:
+
+- Dê a cada aba um rótulo de texto que nomeie o seu conteúdo. Uma aba obtém o seu nome acessível do conteúdo do cabeçalho; por isso, um cabeçalho somente com ícone precisa apenas de uma alternativa textual. Consulte [Tipo](#tipo).
+- Ao sobrescrever as cores do tema, mantenha uma razão de contraste de pelo menos 3:1 entre o indicador selecionado e o fundo, como exige o [1.4.11 Contraste de elementos não textuais](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast), e mantenha o cabeçalho de aba em foco distinto dos demais cabeçalhos.
+- Não use Tabs para as etapas de um processo sequencial. Use um Stepper, que comunica a ordem das etapas.
+<PlatformBlock for="Angular">- Mantenha um item de aba selecionado, para que os usuários de teclado possam chegar à faixa de cabeçalhos, e defina a ativação `manual` para as abas que controlam o roteador.</PlatformBlock>
+
+## Referências da API
+
+A referência da API do {Platform} Tabs lista a superfície completa da API para a plataforma de destino.
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+- <ApiLink pkg="core" type="Tabs" />
+<PlatformBlock for="WebComponents">- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="Tabs.headerPosition" />
+</PlatformBlock>- <ApiLink pkg="core" type="Tab" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- <ApiLink pkg="core" type="Tabs" label="IgxTabsComponent" />
+- <ApiLink pkg="core" type="Tabs" member="headerPosition" label="IgxTabsComponent.headerPosition" />
+- <ApiLink pkg="core" type="TabsHeaderPosition" kind="type" label="IgxTabsHeaderPosition" />
+- <ApiLink pkg="core" type="TabItem" label="IgxTabItemComponent" />
+- <ApiLink pkg="core" type="TabHeader" label="IgxTabHeaderComponent" />
+- <ApiLink pkg="core" type="TabContent" label="IgxTabContentComponent" />
+- <ApiLink pkg="core" type="TabHeaderLabelDirective" />
+- <ApiLink pkg="core" type="TabHeaderIconDirective" />
+- <ApiLink kind="sass" module="themes" type="function-tabs-theme" label="tabs-theme" />
+
+</PlatformBlock>
+
+## Dependências
+
+O componente {Platform} Tabs exige um tema para aplicar suas cores e tamanhos. Consulte a configuração específica de cada framework em <PlatformBlock for="Angular">[**Primeiros passos**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeiros passos**](../general-getting-started.mdx)</PlatformBlock>.
+
+<PlatformBlock for="Angular">
+
+Os botões de rolagem do Tabs do Angular usam o Icon Button e o Icon, e o mixin `theme()` inclui os estilos deles junto com os estilos do Tabs.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+O registro do `IgcTabsComponent` também registra o elemento `igc-tab` e o elemento `igc-icon-button` dos botões de rolagem. Registre separadamente os componentes que você coloca nas abas, como o Icon.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre separadamente os módulos dos componentes que você coloca nas abas, como o `IgbIconModule`.
+
+</PlatformBlock>
+
+## Recursos adicionais
+
+Os recursos a seguir oferecem mais orientações sobre o {Platform} Tabs e suporte ao projeto:
+
+- [Tabs - Componente do Design System](https://www.infragistics.com/products/indigo-design/help/components/tabs)
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+O componente {Platform} Tabs mostra uma seção de conteúdo relacionado por vez. Use estes componentes quando o conteúdo precisar de uma estrutura diferente:
+
+- <PlatformBlock for="Angular">[Stepper](../stepper.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[Stepper](./stepper.mdx)</PlatformBlock> - Use Stepper quando os usuários concluírem uma sequência de etapas, como um processo de checkout.
+- [Accordion](./accordion.mdx) - use Accordion quando os usuários precisarem expandir várias seções de uma lista vertical ao mesmo tempo.
+<PlatformBlock for="Angular">- [Bottom Navigation](../tabbar.mdx) - use Bottom Navigation para alternar entre as visões de nível superior de um aplicativo móvel pela parte inferior da tela.</PlatformBlock>
+
+## Perguntas frequentes
+
+Estas perguntas abordam cenários comuns de configuração, acessibilidade e uso do {Platform} Tabs.
+
+<Faq>
+  <FaqItem question="Como seleciono uma aba pelo código?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Defina a propriedade `selectedIndex` do Tabs do Angular, ou defina a entrada `selected` de um item de aba como `true`. O componente Tabs do Angular emite `selectedIndexChanging` e `selectedItemChange` para essas mudanças também.</PlatformBlock><PlatformBlock for="React,WebComponents">Chame o método `select` do {Platform} Tabs com uma aba, ou com o `id` ou o `label` de uma aba, ou defina `selected` na aba. O componente {Platform} Tabs não emite o evento de mudança para uma seleção feita pelo código.</PlatformBlock><PlatformBlock for="Blazor">Chame o método `SelectAsync` do Blazor Tabs com o `id` ou o `Label` de uma aba, ou defina `Selected` na aba. O componente Blazor Tabs não dispara `Change` para uma seleção feita pelo código.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Posso impedir que os usuários mudem para outra aba?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Sim. Trate o evento `selectedIndexChanging` do Tabs do Angular e defina `cancel` como `true` para manter a aba atual, por exemplo enquanto um formulário nela tem alterações não salvas. Para tornar uma aba indisponível o tempo todo, defina `disabled` no item de aba.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">O evento de mudança do componente {Platform} Tabs não é cancelável, porque o componente {Platform} Tabs o emite depois que a seleção muda. Defina `disabled` nas abas que os usuários não devem abrir e habilite-as quando ficarem disponíveis.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="O componente Tabs mantém no DOM o conteúdo das abas ocultas?" indicatorPosition="end">
+    <PlatformBlock for="Angular">Não. O componente Tabs do Angular adiciona ao DOM o conteúdo do item de aba selecionado e remove dele o conteúdo dos outros itens de aba. Código que consulta o DOM, como `document.querySelector`, encontra apenas o conteúdo do item de aba selecionado.</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">Sim. O componente {Platform} Tabs mantém no DOM o conteúdo de todas as abas, oculta o conteúdo das abas que não estão selecionadas e o torna `inert`, de modo que usuários e tecnologias assistivas não o alcançam até que a aba correspondente seja selecionada.</PlatformBlock>
+  </FaqItem>
+  <FaqItem question="Devo usar Tabs para um checkout ou outro processo passo a passo?" indicatorPosition="end">
+    Não. O componente {Platform} Tabs organiza informações relacionadas que os usuários podem abrir em qualquer ordem, e não comunica uma ordem de etapas. Use o {Platform} Stepper para um processo sequencial, como um checkout ou um assistente de configuração.
+  </FaqItem>
+  <PlatformBlock for="Angular,WebComponents"><FaqItem question="Como crio abas verticais?" indicatorPosition="end">
+    Defina a propriedade `headerPosition`<PlatformBlock for="WebComponents"> (o atributo `header-position` em HTML)</PlatformBlock> do {Platform} Tabs como `start` ou `end` para mostrar os cabeçalhos das abas em uma coluna antes ou depois do conteúdo. Dê ao {Platform} Tabs uma altura para manter o seu tamanho fixo.
+  </FaqItem></PlatformBlock>
+</Faq>

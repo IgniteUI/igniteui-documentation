@@ -1,0 +1,136 @@
+---
+title: "Angular Pivot Grid의 접을 수 있는 열 그룹 | Infragistics"
+description: "Angular Pivot Grid의 접을 수 있는 열 그룹을 사용하면 더 작고 간결한 데이터 집합을 표시하거나 숨길 수 있습니다. 지금 체험해 보십시오!"
+keywords: collapsible column headers, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/collapsible-column-groups
+_language: ko
+llms:
+  description: "다중 열 머리글을 사용하면 여러 수준의 중첩된 열과 열 그룹을 가질 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import expandIndicator from '../../images/general/expand_indicator.png';
+import collapsedIndicator from '../../images/general/collapsed_indicator.png';
+
+# Angular Data Grid의 접을 수 있는 열 그룹
+
+다중 열 머리글을 사용하면 여러 수준의 중첩된 열과 열 그룹을 가질 수 있습니다. 또한 각 열 그룹을 **접을 수 있는** 것으로 표시할 수 있습니다. **접을 수 있는 다중 열 머리글**을 사용하면 현재 머리글 아래의 중첩된 머리글을 접고 펼칠 수, 즉 표시하고 숨길 수 있으므로, 예를 들어 간략하거나 요약된 정보를 보여 줄 수 있습니다.
+
+## Angular Grid 접을 수 있는 열 그룹 개요 예제
+
+## 설정
+
+IgxPivotGrid과 **접을 수 있는 다중 열 머리글**을 시작하려면, 먼저 다음 명령을 입력하여 Ignite UI for Angular를 설치해야 합니다:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 app.module.ts 파일에서 `IgxPivotGridModule`을(를) 가져오는 것입니다.
+
+## 사용법
+
+_접을 수 있는 열 그룹_은 열 그룹을 더 작은 데이터 집합으로 접거나 펼칠 수 있는 방법을 제공하는 다중 열 머리글 기능의 일부입니다. 열 그룹이 접히면 열의 일부만 최종 사용자에게 표시되고, 그룹의 나머지 자식 열은 숨겨집니다. 접히거나 펼쳐진 각 열은 그리드 데이터 소스에 바인딩될 수도 있고, 바인딩되지 않아 계산될 수도 있습니다.
+
+열 그룹을 `collapsible`(으)로 정의하려면 해당 속성을 `[collapsible]="true"`(으)로 설정해야 하며, 또한 `visibleWhenCollapsed` 속성을 최소 두 개의 자식 열에 정의해야 한다는 점을 기억하십시오. 그룹이 접혔을 때 최소 하나의 열은 보여야 하고(`[visibleWhenCollapsed]="true"`), 그룹이 펼쳐졌을 때 최소 하나의 열은 숨겨져야 합니다(`[visibleWhenCollapsed]="false"`). 그렇지 않으면 **접을 수 있는 기능이 비활성화됩니다**. 일부 자식 열에 `visibleWhenCollapsed`이(가) 지정되지 않으면, 이 열은 부모의 상태가 펼쳐져 있든 접혀 있든 항상 보입니다.
+
+그럼 아래 마크업을 살펴보겠습니다:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true"> <!-- Initially the column groups will be expanded--->
+    <!--The column below will be visible when its parent is collapsed-->
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <!--The three columns below will be visible when its parent is expanded-->
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column field="FirstName" header="First Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column field="LastName" header="Last Name" [dataType]="'string'" [visibleWhenCollapsed]="false">
+    </igx-column>
+    <igx-column-group header="Customer Address"> <!--This column visibility will not be changed based on parent expand/collapsed state-->
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true">
+        </igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+이제 정리해 보겠습니다. 모든 자식 열은 세 가지 상태를 가집니다:
+
+- 부모의 펼쳐진 상태와 관계없이 항상 보일 수 있습니다;
+- 부모가 접혀 있을 때 보일 수 있습니다;
+- 부모가 접혀 있을 때 숨겨질 수 있습니다;
+
+접을 수 있는 것으로 지정된 열 그룹의 초기 상태는 `[expanded]="true"`입니다. 하지만 `[expanded]="false"` 속성을 설정하여 이 동작을 쉽게 바꿀 수 있습니다.
+
+## 펼치기/접기 표시기 템플릿
+
+igxGrid의 기본 펼치기 표시기는 다음과 같습니다:
+
+ <Image src={expandIndicator} alt="펼치기 표시기" class="responsive-img" style="width: 450px; height: 130px" />
+
+igxGrid의 기본 접기 표시기는 다음과 같습니다:
+
+<Image src={collapsedIndicator} alt="접힌 표시기" class="responsive-img" style="width: 400px; height: 130px" />
+
+또한 기본 펼치기/접기 표시기를 바꿔야 한다면, 이를 위한 간단한 방법을 두 가지 제공합니다 - 입력 속성을 사용하거나 디렉티브를 사용하는 것입니다.
+
+### 입력 속성 사용하기
+
+사용자 지정 펼치기/접기 템플릿을 정의하고 **collapsibleIndicatorTemplate** 입력 속성을 사용하여 접을 수 있는 열 그룹 각각에 제공할 수 있습니다. 아래 마크업을 확인하십시오:
+
+```html
+<ng-template #indTemplate let-column="column">
+    <igx-icon [attr.draggable]="false" >{{column.expanded ? 'remove' : 'add'}} </igx-icon>
+</ng-template>
+<igx-column-group header="Customer Information" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true" [collapsibleIndicatorTemplate]="indTemplate">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+### igxCollapsibleIndicator 디렉티브 사용하기
+
+이 동작을 구현하는 또 다른 방법은 아래 예제와 같이 igxCollapsibleIndicator 디렉티브를 사용하는 것입니다:
+
+```html
+<igx-column-group header="Customer Information" [collapsible]="true">
+    <ng-template igxCollapsibleIndicator let-column="column">
+        <igx-icon [attr.draggable]="false">{{column.expanded ? 'remove' : 'add'}}</igx-icon>
+    </ng-template>
+    <igx-column field="CustomerName" header="Fullname" [dataType]="'string'" [visibleWhenCollapsed]="true"></igx-column>
+    <igx-column field="CustomerID" header="Customer ID" [dataType]="'string'" [visibleWhenCollapsed]="false"></igx-column>
+    <igx-column-group header="Customer Address" [collapsible]="true">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="true"></igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [visibleWhenCollapsed]="false"></igx-column>
+    </igx-column-group>
+</igx-column-group>
+```
+
+<DocsAside type="info">
+접힌 그룹 옵션이 열 숨기기보다 우선한다는 점을 기억하십시오. hidden 속성을 사용하여 열을 숨기도록 선언했는데, 같은 열이 표시되어야 하는 그룹이 정의되어 있다면 그 열은 표시됩니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="Column" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+- [Pivot Grid 개요](/pivotgrid/pivot-grid)
+- [페이징](/pivotgrid/paging)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

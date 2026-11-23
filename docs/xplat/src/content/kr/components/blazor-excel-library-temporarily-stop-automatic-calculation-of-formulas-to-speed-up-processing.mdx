@@ -1,0 +1,156 @@
+---
+title: "{Platform} Excel 라이브러리 | 처리 속도를 높이기 위해 수식의 자동 계산을 일시적으로 중지 | Infragistics"
+description: "Infragistics Blazor Excel 라이브러리 – 처리 속도를 높이기 위해 수식의 자동 계산을 일시적으로 중지"
+keywords: "{Platform} excel 라이브러리, 계산, 처리 속도 향상, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: []
+_language: ko
+llms:
+  description: "특정 문서 처리 라이브러리를 사용하여 Excel 시트를 읽을 때 셀 값을 참조하거나 다시 쓰는 데 상당한 시간이 걸릴 수 있으며, 특히 Excel 시트에 수식이 있는 셀이 많은 경우 더욱 그렇습니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+
+# Blazor Excel 라이브러리 – 처리 속도를 높이기 위해 수식의 자동 계산을 일시적으로 중지
+
+특정 문서 처리 라이브러리를 사용하여 Excel 시트를 읽을 때 셀 값을 참조하거나 다시 쓰는 데 상당한 시간이 걸릴 수 있으며, 특히 Excel 시트에 수식이 있는 셀이 많은 경우 더욱 그렇습니다. 이는 특히 [Blazor WebAssembly 앱](./general-getting-started.mdx#standalone-blazor-webassembly-apps)에서 두드러집니다.
+
+하지만 [Blazor Excel 라이브러리](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library)를 사용하면 처리 속도를 높일 수 있는 방법을 찾았습니다.
+
+방법은?
+
+수식의 자동 계산을 일시적으로 비활성화하는 것입니다.
+이 간단한 방법 안내 글에서는 다음 질문에 대해 구체적으로 설명합니다:
+- Ignite UI의 Blazor Excel 라이브러리란 무엇입니까
+- Ignite UI의 Blazor 워크북이란 무엇입니까
+- Blazor Excel 라이브러리에서 처리 속도 높이기
+
+## Ignite UI의 Blazor Excel 라이브러리란 무엇입니까
+
+Infragistics Blazor Excel 라이브러리는 Microsoft® Excel®과 유사하게 스프레드시트 데이터를 빠르고 쉽게 다룰 수 있는 문서 처리 라이브러리입니다. Workbook, Worksheet, Cell, Formula 등 익숙한 스프레드시트 객체를 제공합니다.
+
+하지만 Blazor Excel 라이브러리를 사용하려면 먼저 다음 @using 문을 추가해야 합니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+```
+
+</PlatformBlock>
+
+WASM(WebAssembly) Blazor 프로젝트를 사용하는 경우 몇 가지 단계가 더 필요합니다:
+
+wwwroot/index.html 파일에 다음 스크립트에 대한 참조를 추가하십시오:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<script src="_content/IgniteUI.Blazor.Documents.Excel/excel.js"></script>
+```
+
+</PlatformBlock>
+
+정적 Workbook.InProcessRuntime을 현재 런타임으로 설정하십시오. 이는 다음 코드를 사용하여 수행할 수 있습니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Microsoft.JSInterop
+
+@code {
+    [Inject]
+    public IJSRuntime Runtime { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Workbook.InProcessRuntime = (IJSInProcessRuntime)this.Runtime;
+    }
+}
+```
+
+</PlatformBlock>
+
+## Ignite UI의 Blazor 워크북이란 무엇입니까
+
+[Ignite UI의 Blazor 워크북](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library-using-workbooks)은 여러 워크시트를 쉽게 모아 가장 효율적인 방식으로 데이터를 검색, 저장, 정리, 관리, 편집, 처리할 수 있도록 설계되었습니다. 처음부터 새 Blazor 워크북을 만들거나, 이전에 완성된 기존 문서를 가져올 수 있습니다.
+
+워크북을 만들고 제목과 상태 문서 속성을 설정하는 방법은 다음과 같습니다:
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.DocumentProperties.Title = "Expense Report";
+workbook.DocumentProperties.Status = "Complete";
+```
+
+</PlatformBlock>
+
+Infragistics Blazor Excel 엔진을 사용하면 다음을 할 수 있습니다:
+
+- Microsoft® Excel®에 데이터를 저장하고 Microsoft® Excel®에서 데이터를 불러옵니다.
+- 관련 데이터가 있는 워크시트 컬렉션을 만듭니다.
+- 라이브러리의 클래스를 사용하여 Blazor 내보내기 및 Excel 가져오기를 앱에서 관리합니다.
+- Workbook의 Styles 컬렉션에서 기본 스타일을 변경하고 새 글꼴을 추가합니다.
+- 문서를 정리하고 추적하는 데 도움이 되는 정보를 제공하는 Workbook 속성을 설정합니다. 사용 가능한 속성은 Author, Title, Subject, Keywords, Category, Status, Comments, Company, Manager입니다.
+- protect 메서드를 호출하여 워크북 구조를 보호하는 워크북 보호 기능을 활성화합니다.
+
+## Blazor Excel 라이브러리에서 처리 속도 높이기
+
+앞서 언급했듯이, 수식이 추가된 많은 셀을 처리할 때 처리 시간을 개선하는 가장 좋고 빠른 방법은 자동 수식 계산을 일시적으로 중지하는 것입니다. 그런 다음 셀 값을 참조하고 다시 쓰며, 처리가 완료되면 수식의 자동 계산을 재개합니다. 원하는 시점에 자동 계산을 다시 활성화할 수 있습니다.
+
+이 수식 자동 계산 일시 중단은 정확히 어떻게 작동합니까? 비활성화되면 셀 값을 참조하거나 다시 써도 수식이 매번 다시 계산되지 않으므로 처리 시간이 줄어듭니다.
+
+Workbook 객체의 SuspendCalculations () 및 ResumeCalculations () 메서드를 호출합니다.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+// ...
+var workbook = Workbook.Load("path-to-your-file");
+
+// Calling SuspendCalculations function will stop the automatic calculation of formulas.
+workbook.SuspendCalculations();
+
+// Here is where you read, write, etc. the cells contained in this Workbook
+// Call ResumeCalculations function to resume the automatic formula calculation.
+workbook.ResumeCalculations();
+```
+
+</PlatformBlock>
+
+하지만 이처럼 수식의 자동 계산을 일시적으로 중지하는 방법을 처리 속도 개선에 적용할 수 없는 기본 경우가 두 가지 있습니다.
+
+1. 이 방법은 자동 셀 계산을 일시적으로 중지합니다. 따라서 비즈니스 로직이 자동 수식 계산에 의존하는 경우 이 방법을 사용할 수 없을 수 있습니다. 아직 업데이트되지 않은 값을 셀이 가질 가능성이 있습니다.
+
+2. 수식 자동 계산이 긴 처리 시간의 원인이 아니라면, 이 해결 방법으로 처리 속도가 향상되기를 기대할 수 없습니다.
+
+.NET 6 이상의 [Blazor WebAssembly](https://www.infragistics.com/community/blogs/b/jason_beres/posts/blazor-server-vs-blazor-webassembly) 프로그램에서 "AOT 컴파일"을 사용하도록 설정하면, 특히 Excel 시트 처리와 같은 연산 집약적인 프로세스의 처리 속도가 향상될 것으로 예상됩니다. 하지만 AOT 컴파일에는 다음과 같은 단점이 있습니다:
+
+- 게시하는 데 너무 오래 걸립니다.
+- 출력 애플리케이션 콘텐츠의 크기가 늘어납니다.
+
+## 결론
+Excel 파일 처리는 다음 요소에 따라 상당한 시간이 걸릴 수 있습니다:
+
+- 콘텐츠
+- 처리할 데이터의 규모
+- 셀의 개수
+
+이 글의 초점은 Ignite UI for Blazor Excel 라이브러리와 워크북을 사용할 때 문서와 데이터 처리 속도를 빠르게 향상시키는 방법을 보여 주는 것이었습니다. 시연한 주요 기법은 자동 수식 계산을 비활성화하는 것이었습니다.
+
+하지만 시도해 볼 수 있는 다른 요령도 몇 가지 더 있습니다:
+
+- AOT(Ahead-Of-Time) 컴파일을 사용하십시오.
+- 서버 측에서 실행하십시오.
+
+정확한 단계는 이전 블로그 게시물인 How to Read and Write Excel Files on Blazor WebAssembly To Reduce Server Load에서 확인할 수 있습니다.
+
+## Ignite UI for Blazor란 무엇입니까?
+
+[Ignite UI for Blazor](https://www.infragistics.com/products/ignite-ui-blazor)에는 [Blazor Dock Manager](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/layouts/dock-manager), 초고속 경량 [Blazor Data Grid](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/grids/grids), 60개 이상의 고성능 차트([금융/주식 차트](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/types/stock-chart), [파이 차트](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/types/pie-chart) 등), [지리 공간 맵](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/geo-map), [다중 열 콤보박스](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/editors/multi-column-combobox) 등 전문적으로 디자인된 Blazor 컴포넌트가 포함되어 있습니다. Blazor Server, Blazor WebAssembly, .NET 6을 완벽하게 지원합니다.
+
+최신 [Ultimate 22.1 릴리스](https://www.infragistics.com/community/blogs/b/infragistics/posts/ignite-ui-for-blazor---what-s-new-in-22-1)를 통해 업데이트된 [로코드/노코드 App Builder™](https://www.infragistics.com/products/appbuilder)를 통한 코드 생성, Blazor Grid의 페이지 매김, Blazor 데이터 시각화, 툴팁 및 기타 유용한 기능과 컨트롤을 이제 활용할 수 있습니다.

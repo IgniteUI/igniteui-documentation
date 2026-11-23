@@ -1,0 +1,459 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Fixação de colunas no Angular Grid - Ignite UI for Angular"
+description: "Quer usar o recurso de fixação do Ignite UI for Angular ao desenvolver o seu próximo aplicativo? Trave colunas com facilidade ou altere a ordem das colunas com uma API completa."
+keywords: "travar coluna, ignite ui for angular, infragistics"
+license: commercial
+_language: pt-BR
+llms:
+  description: "Uma coluna ou várias colunas podem ser fixadas no lado esquerdo ou direito do Angular UI Grid."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Fixação de colunas no Angular Tree Grid - Ignite UI for Angular"
+description: "Quer usar o recurso de fixação do Ignite UI for Angular ao desenvolver o seu próximo aplicativo? Trave colunas com facilidade ou altere a ordem das colunas com uma API completa."
+keywords: "travar coluna, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-pinning
+_language: pt-BR
+llms:
+  description: "Uma coluna ou várias colunas podem ser fixadas no lado esquerdo ou direito do Angular UI Grid."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Fixação de colunas no Angular Hierarchical Grid - Ignite UI for Angular"
+description: "Quer usar o recurso de fixação do Ignite UI for Angular ao desenvolver o seu próximo aplicativo? Trave colunas com facilidade ou altere a ordem das colunas com uma API completa."
+keywords: "travar coluna, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-pinning
+_language: pt-BR
+llms:
+  description: "Uma coluna ou várias colunas podem ser fixadas no lado esquerdo ou direito do Angular UI Grid."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Fixação de colunas do {ComponentTitle} do Angular
+
+Uma coluna ou várias colunas podem ser fixadas no lado esquerdo ou direito do Angular UI Grid. A **fixação de colunas** no Ignite UI for Angular permite que os usuários finais travem colunas em uma determinada ordem, para que continuem visíveis durante a rolagem horizontal do {ComponentTitle}. A Material UI Grid tem uma interface integrada de fixação de colunas, que pode ser usada pela barra de ferramentas do {ComponentTitle} para alterar o estado de fixação das colunas. Além disso, você pode definir uma interface personalizada e alterar o estado de fixação das colunas pela API de fixação de colunas.
+
+## Exemplo de fixação de colunas do {ComponentTitle} do Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-toolbar-pinning" height={510} alt="Exemplo de fixação de colunas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-toolbar-pinning" height={630} alt="Exemplo de fixação de colunas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-toolbar-pinning" height={510} alt="Exemplo de fixação de colunas do {ComponentTitle} do Angular" />
+
+</ComponentBlock>
+
+## API de fixação de colunas
+
+A fixação de colunas é controlada pela entrada `pinned` do <ApiLink type="Column" label="igx-column" />. Por padrão, as colunas fixadas são renderizadas no lado esquerdo do {ComponentTitle} e permanecem fixas durante a rolagem horizontal das colunas não fixadas no corpo do {ComponentTitle}.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" [width]="700px" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)">
+    <igx-column [field]="Name" [pinned]="true"></igx-column>
+    <igx-column [field]="AthleteNumber"></igx-column>
+    <igx-column [field]="TrackProgress"></igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false">
+    <igx-column [field]="Name" [pinned]="true"></igx-column>
+    <igx-column [field]="Title"></igx-column>
+    <igx-column [field]="ID"></igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" #hierarchicalGrid>
+    <igx-column [field]="Artist" [width]="200px" [pinned]="true"></igx-column>
+    <igx-column [field]="Debut" [width]="200px"></igx-column>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+Você também pode usar os métodos <ApiLink type="{ComponentApiType}" member="pinColumn" label="pinColumn" /> ou <ApiLink type="{ComponentApiType}" member="unpinColumn" label="unpinColumn" /> do {ComponentTitle} do <ApiLink type="{ComponentApiType}" /> para fixar ou desfixar colunas pelo nome do campo:
+
+<ComponentBlock for="Grid">
+
+```typescript
+this.grid.pinColumn('AthleteNumber');
+this.grid.unpinColumn('Name');
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+this.treeGrid.pinColumn('Title');
+this.treeGrid.unpinColumn('Name');
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+this.hierarchicalGrid.pinColumn('Artist');
+this.hierarchicalGrid.unpinColumn('Debut');
+```
+
+</ComponentBlock>
+
+Ambos os métodos retornam um valor booleano indicando se a operação correspondente foi bem-sucedida. Normalmente, a falha ocorre porque a coluna já está no estado desejado.
+
+Uma coluna é fixada à direita da coluna fixada mais à direita. Para alterar a ordem das colunas fixadas, você pode se inscrever no evento <ApiLink type="{ComponentApiType}" member="columnPin" label="columnPin" /> e alterar a propriedade <ApiLink kind="interface" type="IPinColumnEventArgs" member="insertAtIndex" /> dos argumentos do evento para o índice de posição desejado.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-grid>
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Name') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-tree-grid>
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Name') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="false"
+        [height]="'600px'" [width]="'800px'" 
+        (columnPin)="columnPinning($event)" #hierarchicalGrid>
+</igx-hierarchical-grid> 
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Artist') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+</ComponentBlock>
+
+## Posição da fixação
+
+Você pode alterar a posição da fixação de colunas pela opção de configuração <ApiLink type="{ComponentApiType}" member="pinning" label="pinning" />. Ela permite definir a posição das colunas como Start ou End.
+Quando definida como End, as colunas são renderizadas no fim do grid, depois das colunas não fixadas. As colunas não fixadas podem ser roladas horizontalmente, enquanto as colunas fixadas permanecem fixas à direita.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #grid1 [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+```typescript
+public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
+```
+
+### Demonstração
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-sample-right-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+### Fixação de colunas nos dois lados
+Além disso, você pode especificar a posição de fixação de cada coluna separadamente, permitindo fixar colunas nos dois lados do grid, para maior conveniência e para otimizar mais facilmente os conjuntos de dados. Consulte a demonstração abaixo para mais referências. Para fixar uma coluna, selecione-a clicando em um cabeçalho e use os botões de fixação adicionados à barra de ferramentas, ou simplesmente arraste uma coluna para outra já fixada.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-toolbar-pinning-both-sides" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-both-sides-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-both-sides-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+## Interface personalizada de fixação de colunas
+
+Você pode definir a sua interface personalizada e alterar o estado de fixação das colunas pela API relacionada.
+
+Digamos que, em vez de uma barra de ferramentas, você queira definir ícones de fixação nos cabeçalhos das colunas, que o usuário final pode clicar para alterar o estado de fixação de uma coluna específica.
+Isso pode ser feito criando um template de cabeçalho para a coluna com um ícone personalizado.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'500px'">
+    <igx-column #col *ngFor="let c of columns" [field]="c.field" [header]="c.header" [width]="c.width" [pinned]='c.pinned'
+        [hidden]='c.hidden' [headerClasses]="'customHeaderSyle'">
+        <ng-template igxHeader>
+            <div class="title-inner">
+                <span style="float:left">{{col.header}}</span>
+                <igx-icon class="pin-icon" fontSet="fas" name="fa-thumbtack" (click)="toggleColumn(col)"></igx-icon>
+            </div>
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<ng-template igxHeader let-column #pinTemplate>
+    <div class="title-inner">
+        <span style="float:left">{{column.header || column.field}}</span>
+        <igx-icon class="pin-icon" [class.pinned]="column.pinned" [class.unpinned]="!column.pinned" fontSet="fas" name="fa-thumbtack"
+            (click)="toggleColumn(column)"></igx-icon>
+    </div>
+</ng-template>
+<div class="grid__wrapper">
+    <igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false" height="620px"
+        width="100%">
+        <igx-column [field]="'Name'" dataType="string" [headerTemplate]="pinTemplate" width="250px"></igx-column>
+        <igx-column [field]="'Title'" dataType="string" [headerTemplate]="pinTemplate" width="300px"></igx-column>
+        <igx-column [field]="'ID'" dataType="number" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'HireDate'" header="Hire Date" dataType="date" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Age'" dataType="number" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Address'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'City'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Country'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Fax'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'PostalCode'" header="Postal Code" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+        <igx-column [field]="'Phone'" dataType="string" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+    </igx-tree-grid>
+</div>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<ng-template igxHeader let-column #pinTemplate>
+    <div class="title-inner">
+        <span style="float:left">{{column.header || column.field}}</span>
+        <igx-icon class="pin-icon" [class.pinned]="column.pinned" [class.unpinned]="!column.pinned" fontSet="fas" name="fa-thumbtack"
+            (click)="toggleColumn(column)"></igx-icon>
+    </div>
+</ng-template>
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="localdata" [autoGenerate]="false"
+    [height]="'500px'" [width]="'100%'" #hierarchicalGrid>
+    <igx-column field="CompanyName" header="Company Name" [headerTemplate]="pinTemplate" width="200px" [pinned]="true"></igx-column>
+    <igx-column field="ContactName" header="Contact Name" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+    <igx-column field="ContactTitle" header="Contact Title" [headerTemplate]="pinTemplate" width="200px"></igx-column>
+    <igx-row-island [key]="'Orders'" [autoGenerate]="false">
+        <igx-column field="OrderDate" header="Order Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="RequiredDate" header="Required Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShippedDate" header="Shipped Date" [headerTemplate]="pinTemplate" [dataType]="'date'" width="150px"></igx-column>
+        <igx-column field="ShipVia" header="Ship Via" [headerTemplate]="pinTemplate" width="150px"></igx-column>
+        <igx-row-island [key]="'OrderDetails'" [autoGenerate]="false">
+            <igx-column field="UnitPrice" header="Unit Price" width="150px"></igx-column>
+            <igx-column field="Quantity" width="150px"></igx-column>
+            <igx-column field="Discount" width="150px"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+Ao clicar no ícone personalizado, o estado de fixação da coluna correspondente pode ser alterado usando os métodos de API da coluna.
+
+```typescript
+public toggleColumn(col: ColumnType) {
+    col.pinned ? col.unpin() : col.pin();
+}
+```
+
+### Demonstração
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-sample-pinning" height={510} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-column-pinning" height={630} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-pinning" height={510} alt="" />
+
+</ComponentBlock>
+
+## Limitações da fixação
+
+- Definir explicitamente larguras de colunas em porcentagem (%) faz com que o corpo do {ComponentTitle} e o conteúdo do cabeçalho fiquem desalinhados quando há colunas fixadas. Para que a fixação de colunas funcione corretamente, as larguras das colunas devem estar em pixels (px) ou ser atribuídas automaticamente pelo {ComponentTitle}.
+
+
+<ComponentBlock for="Grid">
+
+## Estilização
+
+O igxGrid permite a estilização por meio da [Biblioteca de temas do Ignite UI for Angular](/themes/sass/component-themes). A <ApiLink kind="sass" module="themes" type="function-grid-theme" label="theme" /> do grid expõe uma grande variedade de propriedades, que permitem personalizar todos os recursos do grid.
+
+Nas etapas abaixo, vamos percorrer os passos para personalizar a estilização da fixação do grid.
+
+### Importando o tema global
+
+Para começar a personalizar o recurso de fixação, você precisa importar o arquivo `index`, onde estão todas as funções e mixins de estilização.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Definindo um tema personalizado
+
+Em seguida, crie um novo tema que estenda o <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> e aceite os parâmetros necessários para personalizar o recurso de fixação como desejar.
+
+```scss
+$custom-theme: grid-theme(
+  $pinned-border-width: 5px,
+  $pinned-border-style: double,
+  $pinned-border-color: #ffcd0f,
+  $cell-active-border-color: #ffcd0f
+);
+```
+
+<DocsAside type="info">
+Em vez de definir os valores de cor diretamente, como acabamos de fazer, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> e <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte o tópico [`Palettes`](/themes/sass/palettes) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+### Aplicando o tema personalizado
+
+A forma mais fácil de aplicar o seu tema é com uma instrução `sass` `@include` no arquivo de estilos globais:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+### Demonstração
+
+<Sample src="/grid/grid-pinning-styling" height={506} alt="" />
+
+<DocsAside type="info">
+A demonstração não será afetada pelo tema global selecionado em `Change Theme`.
+</DocsAside>
+
+</ComponentBlock>
+
+
+## Referências da API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink type="Column" />
+## Recursos adicionais
+
+
+- [Visão geral do {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualização e desempenho](/{igPath}/virtualization)
+- [Paginação](/{igPath}/paging)
+- [Filtragem](/{igPath}/filtering)
+- [Ordenação](/{igPath}/sorting)
+- [Resumos](/{igPath}/summaries)
+- [Movimentação de colunas](/{igPath}/column-moving)
+- [Redimensionamento de colunas](/{igPath}/column-resizing)
+- [Seleção](/{igPath}/selection)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

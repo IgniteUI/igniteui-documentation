@@ -1,0 +1,290 @@
+---
+title: "Estilo y temas de {Platform} | Accesibilidad de {Platform} | Infragistics"
+description: "Cómo el motor de temas de {ProductName} admite la accesibilidad: contraste de texto automático, escalado relativo del texto y una paleta de gráficos para la deficiencia en la visión del color."
+keywords: "{ProductName}, Infragistics, accesibilidad, contraste, WCAG, estilo, temas"
+license: MIT
+last_updated: "2026-08-31"
+mentionedTypes: []
+_language: es
+llms:
+  description: "{ProductName} calcula en tiempo de ejecución los colores del texto frente a un umbral de contraste WCAG, mantiene todas las escalas tipográficas relativas e incluye una paleta de gráficos para la deficiencia en la visión del color, de uso opcional."
+---
+
+{/*This topic serves Angular, React, Web Components and Blazor. Angular-specific content sits in Angular-only platform blocks; everything else is shared. The Angular doc set gets this page from the xplat generator: sync:generated-from-xplat copies the generated output into docs/angular before every Angular build, so do not keep or edit a copy under docs/angular. Never write a literal PlatformBlock tag in prose or a comment - the generator strips blocks with a regex that does not skip comments, and an unpaired tag swallows the rest of the page.*/}
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+
+# Accesibilidad en {ProductName}
+
+El motor de temas de {ProductName} incorpora la accesibilidad en la capa de estilos: calcula un color de texto para cualquier color de fondo en tiempo de ejecución y lo mide frente a un umbral de contraste WCAG, expresa cada escala tipográfica en unidades relativas para que el texto se escale según la configuración del usuario, e incluye una paleta de colores opcional para lectores con deficiencia en la visión del color.
+
+## Descripción general
+
+La accesibilidad en {ProductName} se proporciona mediante dos capas que usted configura de forma independiente:
+
+| Capa | De qué es responsable | Dónde está documentado |
+|---|---|---|
+| **Motor de temas** (`igniteui-theming`) | Contraste de color, dimensionado del texto, paletas de colores de gráficos y las utilidades de estilo que mantienen los controles personalizados accesibles para la tecnología de asistencia. | Esta página. |
+| **Biblioteca de componentes** (`{PackageCommon}`) | Operatividad con el teclado, movimiento del foco, roles y estados ARIA, y anuncios para lectores de pantalla. | [Accessibility Compliance](../interactivity/accessibility-compliance.mdx) y cada tema de componente. |
+
+Esta página cubre la primera capa. Describe las capacidades que se aplican a cada componente al que da estilo el motor de temas, incluidos los componentes que usted construya sobre él.
+
+La tabla siguiente resume lo que hace el motor de temas para la persona que finalmente usa su aplicación. Cada fila es una entrada sobre la que se construye su aplicación, no un resultado de conformidad: usted aporta los colores, el motor genera combinaciones medidas frente a un umbral WCAG, y verificar que el producto final es conforme sigue siendo responsabilidad suya.
+
+| Una persona que… | Lo que proporciona el motor de temas |
+|---|---|
+| Necesita texto legible en botones de color, chips y badges | Un color de primer plano se calcula en el navegador para cada color de paleta generado, incluidos los colores de marca que usted proporcione, y se mide frente al nivel de contraste WCAG que configure (AA de forma predeterminada). |
+| Aumenta el tamaño de fuente predeterminado de su navegador | Cada escala tipográfica se expresa en unidades relativas, y la biblioteca nunca fija el tamaño de fuente de la página. |
+| Tiene deficiencia en la visión del color y lee gráficos | Una paleta de gráficos opcional, elegida para seguir siendo distinguible con las formas habituales de deficiencia en la visión del color. |
+| Prefiere una interfaz oscura por sensibilidad a la luz | Una paleta oscura completa para cada uno de los cuatro temas incluidos. |
+| Usa un lector de pantalla con un control de formulario con estilo personalizado | Una utilidad de estilo que oculta visualmente un input nativo, manteniéndolo en el árbol de accesibilidad. |
+
+## Antes de empezar
+
+Tres límites determinan en qué puede confiar a partir de esta página.
+
+**El motor de temas aplica estilos; no añade semántica.** Los roles ARIA, la gestión del teclado y del foco proceden de la biblioteca de componentes, no del tema. Aplicar un tema no hace accesible por sí solo un control personalizado.
+
+**El cálculo de contraste se aplica a los colores de paleta generados.** El motor calcula los colores de primer plano para las paletas producidas por el generador `palette()`. Los temas de componente individuales también pueden emparejar a mano un token de primer plano concreto con un token de fondo concreto; esos emparejamientos se establecen por tema y no los produce el cálculo de contraste descrito a continuación. Cuando sustituya directamente tokens de componente, verifique el resultado con [`contrast()`](#comprobar-usted-mismo-una-proporción-de-contraste).
+
+**La conformidad del producto final corre a cargo de usted.** El motor controla sus entradas (paletas, combinaciones calculadas, escalas tipográficas), no cómo usa su aplicación. Una paleta construida con los colores de su marca puede alcanzar la conformidad total, pero el motor no puede afirmar ese resultado por usted; confirme el resultado renderizado antes de declarar la conformidad.
+
+<DocsAside type="note">
+Las capacidades de esta página describen el comportamiento del motor de temas. No son una declaración de conformidad de {ProductName} como producto. Para la información de conformidad por componente, consulte [Accessibility Compliance](../interactivity/accessibility-compliance.mdx).
+</DocsAside>
+
+## Próximos pasos
+
+- Use [`contrast-color()`](#mantener-el-texto-legible-sobre-un-color-de-marca) siempre que coloque texto sobre un color de paleta, en lugar de codificar de forma fija un color de primer plano.
+- Active la [paleta de gráficos para la deficiencia en la visión del color](#habilitar-la-paleta-de-gráficos-para-la-deficiencia-en-la-visión-del-color) si su aplicación renderiza gráficos.
+- Pase cualquier combinación de colores personalizada que introduzca por [`contrast()`](#comprobar-usted-mismo-una-proporción-de-contraste) antes de publicarla.
+- Si genera paletas con el [servidor MCP de Theming](../ai/theming-mcp.mdx), comprueba el contraste de las superficies y los grises frente a los umbrales WCAG mientras las construye.
+
+## Herramientas disponibles
+
+El motor de temas expone estas funciones y mixins de Sass para el comportamiento de accesibilidad descrito en esta página.
+
+<DocsAside type="note">
+Estas son API de Sass: necesitan una compilación de Sass con `igniteui-theming` resoluble desde sus rutas de carga, como se describe en <PlatformBlock for="Angular">[Temas con Sass](sass/index.mdx)</PlatformBlock><PlatformBlock for="React, WebComponents, Blazor">[Personalizar con Sass](overview.mdx#personalizar-con-sass)</PlatformBlock>. Si usa en su lugar el CSS de tema prediseñado, sigue obteniendo colores de contraste calculados: empareje cada color de paleta con su variable `-contrast` correspondiente, por ejemplo `var(--ig-primary-500-contrast)`, y establezca el umbral con `--ig-contrast-level`. La paleta de gráficos, `hide-default()`, y las funciones `contrast()` y `luminance()` no tienen equivalente solo en CSS.
+</DocsAside>
+
+| Herramienta | Firma | Qué hace |
+|---|---|---|
+| `contrast-color()` | `contrast-color($palette: null, $color: primary, $variant: 500, $opacity: null)` | Devuelve un color de primer plano legible para un color de paleta. Todos los argumentos son opcionales; omita `$palette` para resolver el tono a través de su variable CSS. |
+| `adaptive-contrast()` | `adaptive-contrast($color)` | Devuelve un color de primer plano legible para cualquier color que pase, incluido uno guardado en una variable CSS. |
+| `contrast()` | `contrast($background, $foreground)` | Devuelve la proporción de contraste WCAG entre dos colores. |
+| `luminance()` | `luminance($color)` | Devuelve la luminancia relativa de un color, desde `0` (negro) hasta `1` (blanco). |
+| `configure-colors()` | `configure-colors($enhanced-accessibility: null)` | Cambia los temas de gráficos a la paleta para la deficiencia en la visión del color. |
+| `hide-default()` | `@include hide-default()` | Oculta visualmente un input nativo, manteniéndolo en el árbol de accesibilidad. |
+
+## Flujos de trabajo habituales
+
+### Mantener el texto legible sobre un color de marca
+
+Empareje cada fondo tomado de la paleta con `contrast-color()`, en lugar de un `black` o un `white` codificados de forma fija:
+
+```scss
+.my-component {
+    background: color($color: 'primary', $variant: 500);
+    color: contrast-color($color: 'primary', $variant: 500);
+}
+```
+
+La misma combinación en CSS puro, usando las variables que ya emite el tema:
+
+```css
+.my-component {
+  background: var(--ig-primary-500);
+  color: var(--ig-primary-500-contrast);
+}
+```
+
+Para un color que no procede de la paleta (un color de inquilino, una preferencia del usuario, un valor establecido en tiempo de ejecución), use `adaptive-contrast()`:
+
+```scss
+.my-component {
+    --bg: #09f;
+
+    background: var(--bg);
+    color: adaptive-contrast(var(--bg));
+}
+```
+
+`adaptive-contrast()` es un wrapper fino sobre una expresión de color relativo, así que el mismo resultado está disponible sin Sass. `--y-contrast` está definido por el tema:
+
+```css
+.my-component {
+  --bg: #09f;
+
+  background: var(--bg);
+  color: hsla(from color(from var(--bg) var(--y-contrast)) h 0 l / 1);
+}
+```
+
+El cálculo se realiza en el navegador y no en el momento de compilar. Si el color de fondo cambia después de compilar la hoja de estilos, el color de primer plano se recalcula para coincidir, de modo que la combinación se mantiene al cambiar el tema en tiempo de ejecución y con la marca personalizada por inquilino.
+
+<DocsAside type="note">
+`adaptive-contrast()` elige entre negro y blanco. Como esos son los dos resultados disponibles, la proporción que puede alcanzar el mecanismo frente a un fondo de tono medio está limitada a aproximadamente 4,6:1. Eso cumple el umbral WCAG AA de 4,5:1 para el texto normal, que es el valor predeterminado para el que está configurado el motor. No confíe solo en este mecanismo para alcanzar el umbral AAA de 7:1; alcanzar AAA requiere elegir colores de fondo lo bastante claros u oscuros para permitirlo.
+</DocsAside>
+
+### Establecer el nivel de contraste
+
+El primer plano calculado se mide frente a un umbral WCAG guardado en la variable CSS `--ig-contrast-level`, que por defecto es `var(--ig-wcag-aa)`. Hay tres niveles predefinidos: `a`, `aa` y `aaa`.
+
+Establezca el nivel para toda la aplicación al generar la paleta:
+
+```scss
+@include palette($palette, $contrast-level: 'aaa');
+```
+
+Para subir el nivel solo en una parte de la página, sustituya la variable en ese ámbito:
+
+```css
+.high-contrast-panel {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+El nivel de contraste desplaza el umbral de luminancia en el que el primer plano calculado cambia entre negro y blanco; no cambia qué dos colores pueden elegirse, y establecer `aaa` por sí solo no hace que una combinación sea conforme, eso depende de los colores de fondo que elija. Verifique con [`contrast()`](#comprobar-usted-mismo-una-proporción-de-contraste). Consulte [Palettes](palettes.mdx) para las variables de contraste generadas.
+
+### Escalar el texto con la configuración del navegador del usuario
+
+No se necesita configuración. Cada escala tipográfica de los cuatro temas incluidos expresa `font-size`, `line-height`, `letter-spacing` y los márgenes mediante la función `rem()`, de modo que todos los valores emitidos son relativos al tamaño de fuente raíz.
+
+La biblioteca registra el tamaño base como un valor que puede leerse:
+
+```css
+--ig-base-font-size: 16px;
+```
+
+Nunca emite una regla `html { font-size: … }`. Esto es importante porque escribir esa regla es la forma más habitual en que un sistema de temas anula a un usuario que ha aumentado su texto predeterminado. Como la biblioteca solo lee el tamaño base, un usuario que establece un valor predeterminado mayor en su navegador obtiene texto {ProductName} más grande.
+
+Esto aborda <a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html" target="_blank" rel="noopener noreferrer">1.4.4 Cambiar el tamaño del texto</a> de WCAG 2.1 (nivel AA) en la capa de estilos.
+
+### Subir o bajar el umbral de contraste
+
+El nivel en el que el primer plano calculado cambia de negro a blanco se guarda en una variable CSS, de modo que puede cambiarse sin Sass. Por defecto es AA:
+
+```css
+:root {
+  --ig-contrast-level: var(--ig-wcag-aaa);
+}
+```
+
+Desde Sass, los mixins `palette()` y `adaptive-contrast()` aceptan directamente `a`, `aa` o `aaa`.
+
+### Habilitar la paleta de gráficos para la deficiencia en la visión del color
+
+Los gráficos suelen distinguir series solo por el matiz, lo que no funciona para lectores con deficiencia en la visión del color. El motor de temas incluye una segunda paleta de gráficos cuyos colores siguen siendo distinguibles con las formas habituales de esa condición.
+
+La paleta está **desactivada por defecto**. Actívela con `configure-colors()`:
+
+```scss
+// Include at the top level, before your theme includes.
+@include configure-colors($enhanced-accessibility: true);
+```
+
+Entonces, todos los temas de gráficos dibujan desde el conjunto accesible. Los pinceles de los gráficos se establecen al generar el tema, así que esto requiere Sass; el CSS de tema prediseñado no expone variables para ellos.
+
+<PlatformBlock for="Angular">
+
+En {ProductName} el mismo interruptor está disponible en la configuración inicial:
+
+```scss
+@include core($enhanced-accessibility: true);
+```
+
+</PlatformBlock>
+
+<DocsAside type="note">
+El color por sí solo no debería ser la única forma en que un gráfico transmite significado. Combine esta paleta con etiquetas directas, marcadores distintos o patrones de trazo para que el gráfico también funcione en escala de grises.
+</DocsAside>
+
+### Comprobar usted mismo una proporción de contraste
+
+El motor implementa la fórmula de luminancia relativa de WCAG y la expone, de modo que puede comprobar sus propias elecciones de color con la misma implementación que usa la biblioteca:
+
+```scss
+$ratio: contrast(#09f, #000);   // 7
+$lum: luminance(#09f);          // 0.3
+```
+
+Use esto siempre que sustituya directamente un token de componente, o introduzca una combinación de colores que el generador de paletas no produjo. Estas dos funciones se ejecutan en tiempo de compilación y no tienen equivalente en CSS: una hoja de estilos no puede calcular una proporción.
+
+### Ocultar una entrada sin ocultarla a los lectores de pantalla
+
+Las casillas, los radios y los switches con estilo personalizado suelen conservar un input nativo debajo para la semántica y el comportamiento del teclado. Ocúltelo con `hide-default()`:
+
+```scss
+.my-checkbox input {
+    @include hide-default();
+}
+```
+
+El mixin se expande a un conjunto fijo de declaraciones, así que puede escribirse directamente en CSS:
+
+```css
+.my-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: none;
+  clip: rect(0, 0, 0, 0);
+  outline: 0;
+  pointer-events: none;
+  overflow: hidden;
+  appearance: none;
+}
+```
+
+El mixin saca el input de la vista mientras lo deja en el árbol de accesibilidad, de modo que conserva su rol, su comportamiento de teclado y sus anuncios para lectores de pantalla. Usar `display: none` o `visibility: hidden` en su lugar elimina el control por completo de la tecnología de asistencia y rompe el componente para cualquiera que no use la vista.
+
+### Usar un tema oscuro
+
+Cada uno de los cuatro temas incluidos (Material, Bootstrap, Fluent e Indigo) proporciona una paleta oscura completa junto a su paleta clara. La presentación oscura es una necesidad de accesibilidad para algunos usuarios, incluidos los que tienen sensibilidad a la luz, así que trátela como una configuración admitida y no como una preferencia estética. Consulte [Palettes](palettes.mdx) para saber cómo seleccionar una.
+
+## Solución de problemas
+
+**El texto de un componente que he vuelto a estilizar cuesta leerlo.** Probablemente haya sustituido un token de fondo sin sustituir su token de primer plano emparejado. Establezca el primer plano con `contrast-color()` o `adaptive-contrast()` en lugar de un valor fijo, y después confirme el resultado con `contrast()`.
+
+**Establecí `$contrast-level: 'aaa'`, pero mis colores apenas cambiaron.** El nivel de contraste desplaza el umbral de luminancia en el que el primer plano calculado cambia entre negro y blanco. No tiñe el primer plano, así que no puede elevar la proporción alcanzable por encima del límite descrito antes. Para alcanzar AAA, cambie los propios colores de fondo.
+
+**Mis colores de gráfico no cambiaron después de activar la paleta accesible.** `configure-colors()` debe incluirse antes de que se generen los temas de gráficos. Mueva la inclusión por encima de las inclusiones de sus temas.
+
+**El texto no crece cuando aumento el tamaño de fuente del navegador.** Revise los estilos de su propia aplicación en busca de una regla `html { font-size: … }` o de valores `font-size` en `px`. El motor de temas no emite ninguna de las dos cosas.
+
+## Recursos adicionales
+
+- [Palettes](palettes.mdx): cómo se generan los colores de la paleta y sus complementos de contraste.
+- [Typography](typography.mdx): las escalas tipográficas y cómo personalizarlas.
+- [Accessibility Compliance](../interactivity/accessibility-compliance.mdx): información de conformidad por componente.
+- <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.1 Quick Reference</a>: los criterios de éxito a los que se hace referencia en esta página.
+- <a href="https://www.w3.org/WAI/ARIA/apg/patterns/" target="_blank" rel="noopener noreferrer">WAI-ARIA Authoring Practices</a>: comportamiento esperado de teclado y ARIA por patrón de interacción.
+
+## Preguntas frecuentes
+
+<Faq>
+  <FaqItem question="¿Aplicar un tema de Ignite UI hace accesible mi aplicación?" indicatorPosition="end">
+    No. El motor de temas se ocupa del contraste de color, del dimensionado del texto y de las paletas de gráficos. La operatividad con el teclado, la semántica ARIA y la compatibilidad con lectores de pantalla proceden de la biblioteca de componentes y de su propio marcado.
+  </FaqItem>
+
+  <FaqItem question="¿Sigo obteniendo texto legible si proporciono mi propio color de marca?" indicatorPosition="end">
+    Sí, para los colores usados a través de la paleta, medidos frente al nivel configurado (AA de forma predeterminada). El primer plano se recalcula en el navegador cada vez que cambia el fondo, incluso en tiempo de ejecución. Las combinaciones que establezca a mano quedan fuera del cálculo; verifíquelas con <code>contrast()</code>.
+  </FaqItem>
+
+  <FaqItem question="¿Qué cambia realmente el ajuste del nivel de contraste?" indicatorPosition="end">
+    Desplaza el umbral de luminancia en el que el primer plano calculado pasa de negro a blanco. No cambia los dos colores que pueden elegirse, así que no eleva la proporción máxima que puede alcanzar el mecanismo.
+  </FaqItem>
+
+  <FaqItem question="¿Está activada por defecto la paleta de gráficos para la deficiencia en la visión del color?" indicatorPosition="end">
+    No. Actívela con <code>configure-colors($enhanced-accessibility: true)</code><PlatformBlock for="Angular">, o con <code>core($enhanced-accessibility: true)</code> en la configuración inicial</PlatformBlock>.
+  </FaqItem>
+
+  <FaqItem question="¿Necesito configurar algo para el escalado del texto?" indicatorPosition="end">
+    No. Cada escala tipográfica ya es relativa, y la biblioteca nunca establece el tamaño de fuente de la página. Revise los estilos de su propia aplicación si el texto no se escala.
+  </FaqItem>
+</Faq>

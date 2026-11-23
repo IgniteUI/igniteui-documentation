@@ -1,0 +1,147 @@
+---
+title: "Primeros pasos | Bibliotecas de código abierto de {ProductName} | Infragistics"
+description: "Use los componentes de código abierto de Infragistics {Platform} para crear aplicaciones con componentes ligeros con licencia MIT, incluido Grid Lite. Pruébelo ahora."
+keywords: "{ProductName}, Infragistics, primeros pasos, código abierto, licencia MIT"
+mentionedTypes: []
+_language: es
+llms:
+  description: "{ProductName} ofrece componentes de interfaz de código abierto con licencia MIT."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import gettingStartedBlazorCard from '@xplat-images/general/getting-started-blazor-card.jpg';
+
+# Primeros pasos con las bibliotecas de código abierto
+
+Este tema ofrece instrucciones paso a paso para crear aplicaciones Blazor con las bibliotecas de código abierto de Ignite UI for Blazor usando Visual Studio.
+
+## Descripción general
+
+{ProductName} ofrece componentes de interfaz de código abierto con licencia MIT. Estos paquetes ligeros proporcionan la funcionalidad esencial para crear aplicaciones web modernas sin necesidad de una licencia comercial.
+
+Las bibliotecas de código abierto incluyen:
+
+- [**IgniteUI.Blazor.Lite**](https://www.nuget.org/packages/IgniteUI.Blazor.Lite): un paquete ligero que contiene componentes de interfaz de código abierto ([GitHub]({GithubLink}))
+- [**IgniteUI.Blazor.GridLite**](https://www.nuget.org/packages/IgniteUI.Blazor.GridLite): un componente de cuadrícula de datos ligero y de código abierto ([GitHub]({GithubLinkLite}))
+
+## Crear un proyecto Blazor nuevo
+
+- Inicie Visual Studio, haga clic en **Crear un proyecto nuevo** en la página de inicio, seleccione la plantilla **Blazor Web App**, **Blazor WebAssembly Standalone App** o **.NET MAUI Blazor Hybrid App**, y haga clic en **Siguiente**.
+
+<DocsAside type="info">
+En una **Blazor Web App**, los componentes necesitan un modo de renderizado interactivo: **InteractiveServer**, **InteractiveWebAssembly** o **InteractiveAuto**. Establézcalo en las páginas que usan los componentes (por ejemplo, `@rendermode InteractiveServer`) o globalmente en **Components/App.razor**. Actualmente no se admite el renderizado estático en el servidor.
+</DocsAside>
+
+- Indique un nombre y una ubicación para el proyecto, y haga clic en **Siguiente**.
+
+- Especifique las opciones adicionales del proyecto y haga clic en **Crear**.
+
+## Instalar IgniteUI.Blazor.Lite
+
+El paquete IgniteUI.Blazor.Lite contiene componentes de interfaz de código abierto distribuidos mediante NuGet.
+
+<DocsAside type="info">
+No debe combinar los paquetes **IgniteUI.Blazor** (o **IgniteUI.Blazor.Trial**) y **IgniteUI.Blazor.Lite** en el mismo proyecto. Usan los mismos espacios de nombres y contienen componentes duplicados, por lo que solo debe usarse uno de ellos.
+</DocsAside>
+
+En Visual Studio, abra el administrador de paquetes NuGet seleccionando **Herramientas** → **Administrador de paquetes NuGet** → **Administrar paquetes NuGet para la solución**. Busque e instale el paquete NuGet **IgniteUI.Blazor.Lite**. En una Blazor Web App con el modo de renderizado WebAssembly o Auto, basta con instalarlo en el proyecto cliente, ya que el proyecto de servidor lo obtiene mediante la referencia al proyecto.
+
+O instálelo mediante la consola del administrador de paquetes:
+
+```cmd
+Install-Package IgniteUI.Blazor.Lite
+```
+
+O mediante la CLI de .NET:
+
+```cmd
+dotnet add package IgniteUI.Blazor.Lite
+```
+
+## Registrar IgniteUI.Blazor.Lite
+
+1 - Abra el archivo **Program.cs** (**MauiProgram.cs** en una aplicación .NET MAUI Blazor Hybrid) y registre el servicio de Ignite UI for Blazor llamando a la función **builder.Services.AddIgniteUIBlazor**. En una Blazor Web App con el modo de renderizado WebAssembly o Auto, hágalo en el **Program.cs** tanto del proyecto de servidor como del proyecto cliente:
+
+<PlatformBlock for="Blazor">
+
+```csharp
+builder.Services.AddIgniteUIBlazor();
+```
+
+</PlatformBlock>
+
+Cada componente carga sus recursos de cliente la primera vez que se renderiza, por lo que indicar los módulos de componentes es opcional (consulte [Módulos de componentes](./general-getting-started.mdx#módulos-de-componentes)).
+
+2 - Añada el espacio de nombres **IgniteUI.Blazor.Controls** en el archivo **_Imports.razor** (en ambos proyectos de una Blazor Web App con un proyecto cliente):
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+</PlatformBlock>
+
+3 - Añada la hoja de estilos en el elemento **`<head>`** de la página host de la aplicación: **Components/App.razor** en una Blazor Web App, o **wwwroot/index.html** en una aplicación Blazor WebAssembly independiente o Blazor Hybrid:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<head>
+    <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+</head>
+```
+
+</PlatformBlock>
+
+## Usar los componentes Blazor de código abierto
+
+Añada un componente de Ignite UI for Blazor a su página razor. En una Blazor Web App con el modo de renderizado WebAssembly o Auto, la página debe estar en el proyecto cliente. Por ejemplo:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCard style="width:350px">
+    <IgbCardMedia>
+        <img src="https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=350&q=80" />
+    </IgbCardMedia>
+    <IgbCardHeader>
+        <h4>Jane Doe</h4>
+        <h6>Professional Photographer</h6>
+    </IgbCardHeader>
+    <IgbCardContent>Hi! I'm Jane, photographer and filmmaker.
+        Photography is a way of feeling, of touching,
+        of loving. What you have caught on film is captured forever...
+        it remembers little things, long after you have
+        forgotten everything.</IgbCardContent>
+    <IgbCardActions>
+        <IgbButton>More Info</IgbButton>
+    </IgbCardActions>
+</IgbCard>
+```
+
+Compile y ejecute la aplicación Blazor.
+
+<Image src={gettingStartedBlazorCard} alt="getting-started-blazor-card" />
+
+</PlatformBlock>
+
+Para información más detallada sobre los componentes incluidos en el paquete ligero, consulte el tema [Componentes de código abierto frente a Premium](./general-open-source-vs-premium.mdx).
+
+## Instalar IgniteUI.Blazor.GridLite
+
+Para añadir Grid Lite, instale el paquete **IgniteUI.Blazor.GridLite** en el mismo proyecto:
+
+```cmd
+dotnet add package IgniteUI.Blazor.GridLite
+```
+
+La cuadrícula no necesita registro de servicio propio, y el tema Lite añadido anteriormente también le da estilo.
+
+Para información más detallada sobre las características y la configuración de Grid Lite, consulte el tema [Información general de Grid Lite](./grid-lite/overview.mdx).
+
+## Recursos adicionales
+
+- [Componentes de código abierto frente a Premium](./general-open-source-vs-premium.mdx)
+- [Información general de Grid Lite](./grid-lite/overview.mdx)

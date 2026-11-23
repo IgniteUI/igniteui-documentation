@@ -1,0 +1,368 @@
+---
+title: "Mesclagem de células do {Platform} {ComponentTitle} - {ProductName}"
+description: "Mescle células adjacentes com valores iguais na {ProductName} {ComponentTitle} usando o recurso de mesclagem de células. Saiba a configuração, os modos de mesclagem e veja exemplos ao vivo!"
+keywords: "mesclagem de células, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellMerging}"
+_language: pt-BR
+llms:
+  description: "O Ignite UI for {Platform} {ComponentTitle} oferece um recurso de mesclagem de células que combina duas ou mais células adjacentes com o mesmo valor em uma única célula maior."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Mesclagem de células do {Platform} {ComponentTitle}
+
+<PlatformBlock for="WebComponents, React">
+O Ignite UI for {Platform} {ComponentTitle} oferece um recurso de mesclagem de células que combina duas ou mais células adjacentes com o mesmo valor em uma única célula maior. A mesclagem é aplicada verticalmente dentro de uma coluna e ajuda a melhorar a legibilidade, reduzindo valores duplicados. O recurso pode ser configurado para mesclar células com base em valores de dados correspondentes por padrão ou aplicando uma condição personalizada.
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+O Ignite UI for {Platform} {ComponentTitle} oferece um recurso de mesclagem de células que combina duas ou mais células adjacentes com o mesmo valor em uma única célula maior. A mesclagem é aplicada verticalmente dentro de uma coluna e ajuda a melhorar a legibilidade, reduzindo valores duplicados.
+</PlatformBlock>
+## Exemplo de mesclagem de células do {Platform} {ComponentTitle}
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cell-merge" height={600} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<Sample src="/{ComponentSample}/cell-merge" height={475} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<Sample src="/{ComponentSample}/cell-merge" height={755} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+
+## Habilitando e usando a mesclagem de células
+
+A mesclagem de células no grid é controlada em dois níveis:
+- Modo de mesclagem do grid – determina quando a mesclagem é aplicada.
+- Alternância de mesclagem por coluna – determina quais colunas podem mesclar células.
+
+### Modo de mesclagem do grid
+
+O grid expõe uma propriedade <ApiLink type="{ComponentName}" member="cellMergeMode" /> que aceita valores da enumeração <ApiLink type="GridCellMergeMode" />:
+- `always` - Mescla quaisquer células adjacentes que atendam à condição de mesclagem, independentemente do estado de ordenação.
+- `onSort` - Mescla células adjacentes somente quando a coluna está ordenada **(valor padrão)**.
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} >
+    ...
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const cellMergeMode: GridCellMergeMode = 'always';
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} cell-merge-mode="always">
+    ...
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" >
+    ...
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.Always;
+}
+
+```
+</PlatformBlock>
+
+### Alternância de mesclagem por coluna
+No nível da coluna, a mesclagem pode ser habilitada ou desabilitada com a propriedade <ApiLink type="ColumnGroup" member="merge" label="merge" />.
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="OrderID" merge={true}></IgrColumn>
+<IgrColumn field="ShipperName" merge={false}></IgrColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="OrderID" merge="true"></igc-column>
+<igc-column field="ShipperName" merge="false"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="OrderID" Merge="true"></IgbColumn>
+<IgbColumn Field="ShipperName" Merge="false"></IgbColumn>
+```
+</PlatformBlock>
+
+No exemplo acima:
+- A coluna **OrderID** mesclará valores duplicados adjacentes.
+- A coluna **ShipperName** será renderizada normalmente, sem mesclagem.
+
+### Exemplo combinado
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} cellMergeMode={cellMergeMode} autoGenerate={false}>
+    <IgrColumn field="OrderID" header="Order ID" merge={true}></IgrColumn>
+    <IgrColumn field="ShipperName" header="Shipper Name" merge={true}></IgrColumn>
+    <IgrColumn field="Salesperson" header="Salesperson"></IgrColumn>
+</{ComponentSelector}>
+```
+
+
+```tsx
+const cellMergeMode: GridCellMergeMode = 'onSort';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} cell-merge-mode="onSort" auto-generate="false">
+    <igc-column field="OrderID" header="Order ID" merge="true"></igc-column>
+    <igc-column field="ShipperName" header="Shipper Name" merge="false"></igc-column>
+    <igc-column field="Salesperson" header="Salesperson"></igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data="Data" CellMergeMode="CellMergeMode" AutoGenerate="false">
+    <IgbColumn Field="OrderID" Header="Order ID" Merge="true"></IgbColumn>
+    <IgbColumn Field="ShipperName" Header="Shipper Name" Merge="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Salesperson"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private GridCellMergeMode CellMergeMode = GridCellMergeMode.OnSort;
+}
+
+```
+</PlatformBlock>
+
+Aqui, o grid está configurado para mesclar somente quando as colunas estão ordenadas, e as colunas Category e Product estão configuradas para mesclagem.
+
+<PlatformBlock for="WebComponents, React">
+## Condições de mesclagem personalizadas
+Além dos modos integrados `always` e `onSort`, o grid permite definir uma condição personalizada para mesclar células por meio da propriedade <ApiLink type="{ComponentName}" member="mergeStrategy" />. Essa estratégia controla tanto a forma como as células são comparadas quanto o cálculo dos intervalos mesclados.
+
+### Classe de estratégia de mesclagem
+Uma estratégia de mesclagem personalizada deve implementar a classe <ApiLink type="GridMergeStrategy" />:
+
+<PlatformBlock for="React">
+```ts
+export declare class IgrGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+export declare class IgcGridMergeStrategy {
+    merge: (
+        data: any[],
+        field: string,
+        comparer: (prevRecord: any, currentRecord: any, field: string) => boolean,
+        result: any[],
+        activeRowIndex?: number,
+        grid?: GridType
+    ) => any[];
+
+    comparer: (prevRecord: any, record: any, field: string) => boolean;
+}
+
+```
+</PlatformBlock>
+
+- `merge` - define como as células mescladas são produzidas.
+- `comparer` - define a condição para decidir se dois registros adjacentes devem ser mesclados.
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+### Estendendo a estratégia padrão
+
+Se você quiser personalizar apenas parte do comportamento (por exemplo, a lógica do comparador), pode estender o <ApiLink type="DefaultMergeStrategy" /> integrado e substituir os métodos relevantes.
+
+<PlatformBlock for="React">
+```ts
+export class MyCustomStrategy extends IgrDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+```ts
+export class MyCustomStrategy extends IgcDefaultMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+O `IgxTreeGrid` oferece duas estratégias integradas que implementam a interface `IGridMergeStrategy`: <ApiLink type="DefaultTreeGridMergeStrategy" /> e <ApiLink type="ByLevelTreeGridMergeStrategy" />. <ApiLink type="DefaultTreeGridMergeStrategy" /> mescla todas as células com o mesmo valor, independentemente do seu nível hierárquico. Em contraste, <ApiLink type="ByLevelTreeGridMergeStrategy" /> mescla células somente se tiverem o mesmo valor e estiverem no mesmo nível, tornando o nível uma condição obrigatória para a mesclagem.
+
+### Estendendo a estratégia padrão
+
+Se você quiser personalizar apenas parte do comportamento (por exemplo, a lógica do comparador), pode estender uma das estratégias integradas, <ApiLink type="DefaultTreeGridMergeStrategy" /> ou <ApiLink type="ByLevelTreeGridMergeStrategy" />, e substituir os métodos relevantes.
+
+<PlatformBlock for="React">
+```ts
+export class MyCustomStrategy extends IgrDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+export class MyCustomStrategy extends IgcDefaultTreeGridMergeStrategy {
+    /* Merge only cells within their respective projects */
+    public override comparer(prevRecord: any, record: any, field: string): boolean {
+        const a = prevRecord[field];
+        const b = record[field];
+        const projA = prevRecord['ProjectName'];
+        const projB = record['ProjectName'];
+        return a === b && projA === projB;
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### Aplicando uma estratégia personalizada
+Depois de definida, atribua a estratégia ao grid pela propriedade <ApiLink type="{ComponentName}" member="mergeStrategy" />:
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} data={data} mergeStrategy={customStrategy}>
+  <IgrColumn field="ActionID" merge={true}></IgrColumn>
+  <IgrColumn field="ProjectName" merge={true}></IgrColumn>
+</{ComponentSelector}>
+```
+
+```ts
+const customStrategy = new MyCustomStrategy() as IgrGridMergeStrategy;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    const grid = (this.grid = document.getElementById('grid') as IgcGridComponent);
+
+    grid.data = this.data;
+    grid.mergeStrategy = new MyCustomStrategy() as IgcGridMergeStrategy;
+    grid.cellMergeMode = 'always';
+}
+
+```
+
+### Demonstração
+</PlatformBlock>
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={600} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={425} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<Sample src="/{ComponentSample}/cell-merge-custom-sample" height={755} alt="Exemplo de mesclagem de células do {Platform} {ComponentTitle}" />
+</ComponentBlock>
+
+</PlatformBlock>
+## Integração de recursos
+Devido ao comportamento específico das células mescladas, é preciso observar como exatamente ela se relaciona com alguns outros recursos do grid:
+<ComponentBlock for="Grid">
+- **Expandir/recolher**: se um recurso (como master-detail, agrupamento etc.) gerar uma linha que não seja de dados, a mesclagem de células é interrompida e o grupo será dividido.
+</ComponentBlock>
+- **Exportação para Excel**: as células mescladas permanecem mescladas quando exportadas para o Excel.
+- **Fixação de colunas**: as células permanecem mescladas quando uma coluna é fixada e são exibidas na área fixada.
+- **Fixação de linhas**: as células são mescladas somente dentro da sua área de contenção, ou seja, células de linhas fixadas são mescladas apenas com células de outras linhas fixadas, enquanto células de linhas não fixadas são mescladas apenas com células de linhas não fixadas.
+- **Atualização/edição**: como a ativação interrompe a sequência de mesclagem, apenas uma única célula ficará em modo de edição.
+- **Seleção de linhas**: se as linhas selecionadas interceptarem células mescladas, todas as células mescladas relacionadas devem ser marcadas como parte da seleção.
+- **Navegação/ativação**: quando uma célula está ativa, todas as células mescladas na mesma linha se tornam células individuais, ou seja, a sequência de mesclagem é interrompida. Isso também inclui a ativação pela navegação por teclado.
+
+<DocsAside type="info">
+Se uma célula mesclada for clicada, a célula mais próxima da sequência de mesclagem se tornará ativa.
+</DocsAside>
+
+<ComponentBlock for="Grid">
+## Limitações
+
+|Limitações conhecidas| Descrição|
+| --- | --- |
+| A mesclagem de células não é suportada em combinação com o Layout de várias linhas. | Ambos abrangem layouts complexos que não fazem sentido quando combinados. Um aviso será exibido se essa configuração inválida for detectada. |
+</ComponentBlock>
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="{ComponentName}" member="cellMergeMode" label="CellMergeMode" />
+<ApiLink type="GridCellMergeMode" />
+<ApiLink type="GridMergeStrategy" />
+<ApiLink type="DefaultMergeStrategy" />
+## Recursos adicionais
+
+- [Filtragem](filtering.mdx)
+- [Filtragem no estilo Excel](excel-style-filtering.mdx)
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Redimensionamento de colunas](column-resizing.mdx)
+- [Seleção](selection.mdx)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

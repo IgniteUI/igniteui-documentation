@@ -1,0 +1,293 @@
+---
+title: "Primeiros passos com o Ignite UI CLI | Ignite UI for Angular | Infragistics"
+description: "Instale o Ignite UI CLI globalmente e use-o para fazer o scaffolding de projetos Angular, adicionar visualizações de componentes, executar um servidor de desenvolvimento e conectar um servidor MCP ao seu assistente de programação com IA."
+keywords: "ignite ui cli, ignite ui for angular, scaffolding angular, primeiros passos, infragistics"
+last_updated: "2026-04-21"
+_language: pt-BR
+llms:
+  description: "O Ignite UI CLI é uma ferramenta de linha de comando global e independente para fazer o scaffolding de projetos Angular, React e jQuery pré-configurados para os componentes do Ignite UI."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import play from '../../../images/general/play.svg';
+import buildCLIappGif from '../../../images/general/buildCLIapp.gif';
+
+
+
+# Primeiros passos com o Ignite UI CLI
+
+O Ignite UI CLI é uma ferramenta de linha de comando global e independente para fazer o scaffolding de projetos Angular, React e jQuery pré-configurados para os componentes do Ignite UI. Ele oferece um assistente guiado passo a passo para a configuração inicial, os comandos não interativos `new` e `add` para fluxos de trabalho em scripts, um servidor de desenvolvimento e um servidor MCP integrado para conectar assistentes de programação com IA à documentação ao vivo do Ignite UI.
+
+O CLI não substitui o Angular CLI - ele funciona junto com ele. Os projetos criados com o Ignite UI CLI são workspaces Angular padrão e são totalmente compatíveis com os comandos `ng` depois do scaffolding.
+
+## Instale o Ignite UI CLI
+
+Instale o Ignite UI CLI globalmente usando npm:
+
+```cmd
+npm install -g igniteui-cli
+```
+
+Ou, usando yarn:
+
+```cmd
+yarn global add igniteui-cli
+```
+
+Verifique a instalação:
+
+```cmd
+ig version
+```
+
+## Criar um novo projeto
+
+O Ignite UI CLI oferece dois modos para criar projetos: um assistente interativo guiado e um comando direto com argumentos.
+
+### Use o assistente guiado
+
+O assistente guiado é o ponto de partida recomendado para novos projetos. Ele pede para você escolher o tipo de projeto, o nome, o template e o tema, e depois faz o scaffolding e registra o projeto automaticamente.
+
+Para ativar o assistente:
+
+```cmd
+ig
+```
+
+ou:
+
+```cmd
+ig new
+```
+
+<div style="display:inline-block;">
+    <a style={`background: url(${buildCLIappGif.src}); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;`}
+       href="https://youtu.be/QK_NsdtdA70" target="_blank">
+        <Image src={play} alt="Reproduzir vídeo: Criando seu primeiro aplicativo com o Ignite UI CLI" style="vertical-align: middle;" />
+    </a>
+    <p style="text-align:center;">Criando seu primeiro aplicativo com o Ignite UI CLI</p>
+</div>
+
+Para um passo a passo das opções do assistente, consulte [Guia passo a passo usando o Ignite UI CLI](./step-by-step-guide-using-cli.mdx).
+
+### Crie um projeto diretamente
+
+Para criar um projeto Angular de forma não interativa, informe `angular` como framework e `igx-ts` como tipo de projeto:
+
+```cmd
+ig new my-app --framework=angular --type=igx-ts --template=side-nav
+```
+
+Você também pode especificar a configuração do assistente e dos agentes de IA durante a criação do projeto:
+
+```cmd
+ig new my-app --framework=angular --type=igx-ts --template=side-nav --assistants generic --agents claude copilot
+```
+
+Para pular totalmente a configuração de IA:
+
+```cmd
+ig new my-app --framework=angular --type=igx-ts --assistants none --agents none
+```
+
+**Sequência durante `ig new`:**
+1. Os arquivos do projeto são gerados
+2. A configuração de IA é executada dentro do diretório do novo projeto (solicita os assistentes e os agentes, a menos que as flags sejam informadas)
+3. O Git é inicializado (a menos que `--skip-git`)
+4. As dependências são instaladas (a menos que `--skip-install`)
+
+<DocsAside type="info">
+A partir do Ignite UI CLI v13.1.0, o tipo de projeto `igx-ts` gera um projeto com componentes standalone por padrão. Para usar a inicialização baseada em NgModule, defina `--type=igx-ts-legacy`.
+</DocsAside>
+
+A nova aplicação é criada em um diretório com o nome do projeto. Os seguintes templates base de projeto estão disponíveis para Angular:
+
+| ID do template   | Descrição                                                                                                                                      |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| empty         | Estrutura de projeto com roteamento e uma página inicial. A autenticação não está disponível para este template.                                               |
+| side-nav      | Estrutura de projeto com uma gaveta de navegação lateral. Oferece suporte à autenticação como complemento (veja abaixo).                                               |
+| side-nav-mini | Estrutura de projeto com uma gaveta de navegação lateral compacta. Oferece suporte à autenticação como complemento (veja abaixo).                                       |
+
+Ao usar o assistente interativo, selecionar `side-nav` ou `side-nav-mini` dispara uma pergunta adicional sobre adicionar autenticação. Os IDs de template a seguir são gerados e também podem ser usados diretamente com `ig new` para a criação não interativa - eles não aparecem na lista de templates do assistente:
+
+| ID do template        | Descrição                                                                                                                                          |
+| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| side-nav-auth      | Navegação lateral estendida com um módulo de autenticação de usuário. Veja [Template de projeto de autenticação do Angular](./auth-template.mdx) para detalhes.                |
+| side-nav-mini-auth | Navegação lateral mini estendida com um módulo de autenticação de usuário. Veja [Template de projeto de autenticação do Angular](./auth-template.mdx) para detalhes.           |
+
+Os seguintes argumentos estão disponíveis ao criar um projeto:
+
+<details>
+  <summary><u>nome</u></summary>
+  <p>
+    <code>name</code> (alias: <code>-n</code>)
+  </p>
+  <p>
+    O nome da aplicação. A aplicação é criada dentro de um diretório com o mesmo nome.
+  </p>
+</details>
+
+<details>
+  <summary><u>framework</u><span align="right"><strong>(somente Ignite UI CLI)</strong></span></summary>
+  <p>
+    <code>--framework</code> (alias: <code>-f</code>) <em>valor padrão: "jquery"</em>
+  </p>
+  <p>
+    Framework para o qual configurar o projeto. Os valores compatíveis são: jquery, angular, react.
+  </p>
+</details>
+
+<details>
+  <summary><u>tipo</u><span align="right"><strong>(somente Ignite UI CLI)</strong></span></summary>
+  <p>
+    <code>--type</code> (alias: <code>-t</code>)
+  </p>
+  <p>
+    Os tipos de projeto disponíveis dependem do framework selecionado.
+  </p>
+</details>
+
+<details>
+  <summary><u>theme</u></summary>
+  <p>
+    <code>--theme</code> (alias: <code>-th</code>)
+  </p>
+  <p>
+    Tema do projeto (depende do tipo de projeto).
+  </p>
+</details>
+
+<details>
+  <summary><u>skip-git</u></summary>
+  <p>
+    <code>--skip-git</code> (alias: <code>--sg</code>)
+  </p>
+  <p>
+    Pula a inicialização automática do repositório Git. Se omitido, é usada a propriedade de configuração global <code>skip-git</code>.
+  </p>
+</details>
+
+<details>
+  <summary><u>skip-install</u></summary>
+  <p>
+    <code>--skip-install</code> (alias: <code>--si</code>)
+  </p>
+  <p>
+    Pula a instalação inicial dos pacotes npm na criação do projeto.
+  </p>
+</details>
+
+<details>
+  <summary markdown='span'><u>template</u></summary>
+  <p>
+    <code>--template</code>
+  </p>
+  <p>
+    Especifica o template do projeto quando há vários templates para um tipo de framework. Atualmente disponível para os tipos de projeto <code>igx-ts</code> do Ignite UI for Angular.
+  </p>
+</details>
+
+## Adicionar um template de componente
+
+Para adicionar um [template disponível do Ignite UI for Angular](./component-templates.mdx) a um projeto existente, informe o ID do template e um nome para o novo componente:
+
+```cmd
+ig add grid newGrid
+```
+
+Para listar todos os templates disponíveis no diretório do seu projeto:
+
+```cmd
+ig list
+```
+
+A adição de templates é compatível com projetos criados com o Ignite UI CLI, com o Angular Schematics ou com qualquer projeto Angular CLI em que o Ignite UI for Angular foi adicionado com `ng add`. Para o assistente guiado de componentes, veja [Guia passo a passo usando o Ignite UI CLI](./step-by-step-guide-using-cli.mdx#adicionar-visualização).
+
+Os seguintes argumentos estão disponíveis ao adicionar um template:
+
+<details>
+  <summary><u>module</u></summary>
+  <p>
+    <code>--module</code> (alias: <code>-m</code>)
+  </p>
+  <p>
+    <i>Aplicável apenas em projetos Angular.</i>
+  </p>
+  <p>
+    Caminho para o arquivo <code>module.ts</code>, relativo a <code>/src/app/</code>, onde o novo componente deve ser registrado:
+  </p>
+  <code>ig add combo newCombo --module=myModule/myModule.module.ts</code>
+</details>
+
+<details>
+  <summary><u>skip-route</u></summary>
+  <p>
+    <code>--skip-route</code> (alias: <code>-srk</code>)
+  </p>
+  <p>
+    Pula a geração automática de uma rota de navegação da aplicação para o novo componente.
+  </p>
+</details>
+
+## Execute a aplicação
+
+O comando `start` compila a aplicação, inicia um servidor web local e a abre no seu navegador padrão:
+
+```cmd
+ig start
+```
+
+## Integração com assistentes de IA (MCP)
+
+O Ignite UI CLI inclui um servidor MCP (Model Context Protocol) integrado, que conecta assistentes de programação com IA - GitHub Copilot, Claude, Cursor - à documentação ao vivo dos componentes do Ignite UI e às referências de API. Depois de configurado, o seu assistente de IA pode consultar as APIs dos componentes, obter guias de configuração e gerar código preciso do Ignite UI for Angular sem trocar de contexto.
+
+Se o seu projeto foi criado com `ig new`, a configuração MCP e os Agent Skills já são gerados durante o scaffolding. Se você está trabalhando com um projeto existente, execute `ig ai-config` na raiz do projeto para configurar os servidores MCP, os arquivos de skill e os arquivos de instrução em uma única etapa:
+
+```cmd
+ig ai-config
+```
+
+O comando oferece suporte a vários assistentes de programação e agentes de IA:
+
+```cmd
+ig ai-config --assistants generic vscode --agents claude copilot
+```
+
+| Opção | Valores | Padrão |
+|------|--------|---------|
+| `--assistants` | `generic`, `vscode`, `cursor`, `gemini`, `junie`, `none` | Solicitado de forma interativa; `generic` no modo não interativo |
+| `--agents` | `generic`, `claude`, `copilot`, `cursor`, `codex`, `windsurf`, `gemini`, `junie`, `none` | Solicitado de forma interativa; `generic` + `claude` no modo não interativo |
+
+Quando executado sem flags, `ig ai-config` entra no modo interativo e pede para você selecionar os assistentes de programação e os agentes, usando SPACE para alternar e ENTER para confirmar. Os prompts espelham as etapas do assistente durante `ig new`:
+
+1. **Escolha os assistentes de programação** - selecione um ou mais destinos para a configuração do servidor MCP (Genérico, VS Code, Cursor, Gemini, Junie), ou None para pular.
+2. **Escolha os agentes de IA** - selecione um ou mais agentes para os arquivos de skill e os arquivos de instrução (Genérico, Claude, Copilot, Cursor, Codex, Windsurf, Gemini, Junie), ou None para pular.
+
+Os padrões no modo interativo são **Genérico** para os assistentes e **Genérico + Claude** para os agentes. Para detalhes sobre os prompts do assistente, veja [Guia passo a passo usando o Ignite UI CLI - Configure os assistentes de IA](./step-by-step-guide-using-cli.mdx#configure-os-assistentes-de-ia).
+
+Se você quiser configurar o seu cliente de IA manualmente, ou usar um cliente diferente do VS Code, inicie o servidor MCP diretamente:
+
+```cmd
+ig mcp
+```
+
+Para a configuração do cliente (VS Code, Claude Desktop, Cursor e outros) e a descrição completa das ferramentas disponíveis, consulte [Ignite UI CLI MCP](../../ai/cli-mcp.mdx).
+
+## Comandos do Ignite UI CLI
+
+A lista completa dos comandos disponíveis do Ignite UI CLI é mantida na [wiki do Ignite UI CLI](https://github.com/IgniteUI/igniteui-cli/wiki):
+
+| Comando                                                               | Alias | Descrição                                                                                                                                                                                          |
+| :-------------------------------------------------------------------- | :---- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ig start](https://github.com/IgniteUI/igniteui-cli/wiki/start)       |       | Compila a aplicação, inicia um servidor web e a abre no navegador padrão.                                                                                                                    |
+| [ig build](https://github.com/IgniteUI/igniteui-cli/wiki/build)       |       | Compila a aplicação em um diretório de saída.                                                                                                                                                     |
+| [ig generate](https://github.com/IgniteUI/igniteui-cli/wiki/generate) | g     | Gera um novo template personalizado para os frameworks e tipos de projeto compatíveis.                                                                                                                          |
+| [ig help](https://github.com/IgniteUI/igniteui-cli/wiki/help)         | -h    | Lista os comandos disponíveis com descrições breves.                                                                                                                                                    |
+| [ig config](https://github.com/IgniteUI/igniteui-cli/wiki/config)     |       | Lê e grava as configurações do Ignite UI CLI.                                                                                                                                               |
+| [ig doc](https://github.com/IgniteUI/igniteui-cli/wiki/doc)           |       | Pesquisa um determinado termo na base de conhecimento da Infragistics.                                                                                                                                           |
+| [ig list](https://github.com/IgniteUI/igniteui-cli/wiki/list)         | l     | Lista todos os templates do framework e do tipo especificados. Quando executado dentro de uma pasta de projeto, lista os templates do framework e do tipo do projeto, mesmo que outros valores sejam informados como argumentos. |
+| [ig test](https://github.com/IgniteUI/igniteui-cli/wiki/test)         |       | Executa os testes do projeto atual.                                                                                                                                                          |
+| ig version                                                            | -v    | Mostra a versão do Ignite UI CLI instalada localmente ou, se nenhuma instalação local for encontrada, a versão instalada globalmente.                                                                                                    |
+| ig mcp                                                                |       | Inicia o servidor Ignite UI MCP, oferecendo ferramentas de pesquisa na documentação dos componentes e de referência de API aos assistentes de IA conectados. Veja [Ignite UI CLI MCP](../../ai/cli-mcp.mdx).                          |
+| ig ai-config                                                          |       | Configura a integração com assistentes de programação com IA - configura os servidores MCP, copia os arquivos de skill e preenche os arquivos de instrução para os assistentes e agentes escolhidos.                                          |

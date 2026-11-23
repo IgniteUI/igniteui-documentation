@@ -1,0 +1,598 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Seleccionar filas en Angular Grid: Ignite UI for Angular"
+description: "Habilite la selección de filas para mejorar la experiencia de usuario y permitir que los usuarios gestionen una o varias filas. Vea lo fácil que es configurar la selección de datos por filas con Ignite UI."
+keywords: "selección de datos, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Con la selección de filas en Ignite UI for Angular, existe una columna de selector de filas que precede a todas las demás columnas de la fila."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Seleccionar filas en Angular Grid: Ignite UI for Angular"
+description: "Habilite la selección de filas para mejorar la experiencia de usuario y permitir que los usuarios gestionen una o varias filas. Vea lo fácil que es configurar la selección de datos por filas con Ignite UI."
+keywords: "selección de datos, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-selection
+_language: es
+llms:
+  description: "Con la selección de filas en Ignite UI for Angular, existe una columna de selector de filas que precede a todas las demás columnas de la fila."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Seleccionar filas en Angular Grid: Ignite UI for Angular"
+description: "Habilite la selección de filas para mejorar la experiencia de usuario y permitir que los usuarios gestionen una o varias filas. Vea lo fácil que es configurar la selección de datos por filas con Ignite UI."
+keywords: "selección de datos, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-selection
+_language: es
+llms:
+  description: "Con la selección de filas en Ignite UI for Angular, existe una columna de selector de filas que precede a todas las demás columnas de la fila."
+---
+
+</ComponentBlock>
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Selección de filas de {ComponentTitle} en Angular
+
+Con la selección de filas en Ignite UI for Angular, existe una columna de selector de filas que precede a todas las demás columnas de la fila. Cuando un usuario hace clic en el selector de la fila, esta queda seleccionada o deseleccionada, lo que permite al usuario seleccionar varias filas de datos.
+
+## Ejemplo de selección de filas en Angular
+
+<ComponentBlock for="TreeGrid">
+
+El ejemplo siguiente muestra los cuatro tipos de comportamiento de **selección de filas** de {ComponentTitle}. Use los botones de abajo para habilitar cada uno de los modos de selección disponibles. Al interactuar con cada botón se mostrará una breve descripción en un cuadro de mensaje snackbar. Use el botón de alternancia para _ocultar_ o _mostrar_ la casilla del selector de filas.
+</ComponentBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+El ejemplo siguiente muestra los tres tipos de comportamiento de **selección de filas** de {ComponentTitle}. Use los botones de abajo para habilitar cada uno de los modos de selección disponibles. Al interactuar con cada botón se mostrará una breve descripción en un cuadro de mensaje snackbar. Use el botón de alternancia para _ocultar_ o _mostrar_ la casilla del selector de filas.
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+Para obtener los elementos recién seleccionados puede usar **event.newSelection**:
+
+```ts
+public handleRowSelection(event: IRowSelectionEventArgs) {
+    this.selectedRowsCount = event.newSelection.length;
+    this.selectedRowIndex = event.newSelection[0];
+    this.snackbarRowCount.open();
+    this.snackbar.close();
+    this.logAnEvent(`=> 'rowSelectionChanging' with value: ` + JSON.stringify(event.newSelection));
+}
+```
+
+<Sample src="/grid/grid-selection" height={700} alt="Ejemplo de selección de filas en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-selection" height={700} alt="Ejemplo de selección de filas en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-selection" height={710} alt="Ejemplo de selección de filas en Angular" />
+
+</ComponentBlock>
+
+## Configuración
+
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+Para configurar la selección de filas en <ApiLink type="{ComponentApiType}" />, solo tiene que establecer la propiedad **rowSelection**. Esta propiedad acepta la enumeración **GridSelectionMode**. **GridSelectionMode** expone los tres modos siguientes: **none**, **single** y **multiple**. A continuación veremos cada uno de ellos con más detalle.
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+Para configurar la selección de filas en <ApiLink type="{ComponentApiType}" />, solo tiene que establecer la propiedad **rowSelection**. Esta propiedad acepta la enumeración **GridSelectionMode**. **GridSelectionMode** expone los cuatro modos siguientes: **none**, **single**, **multiple** y **multipleCascade**. A continuación veremos cada uno de ellos con más detalle.
+
+</ComponentBlock>
+
+### Sin selección
+
+En <ApiLink type="{ComponentApiType}" />, la selección de filas está deshabilitada de forma predeterminada; de lo contrario, sería _([rowSelection]="'none'")_. Por tanto, **no** puede seleccionar ni deseleccionar una fila mediante la interacción con la interfaz de {ComponentTitle}; la única forma de realizar estas acciones es usar los métodos de la API proporcionados.
+
+### Selección única
+
+La selección de una única fila puede configurarse fácilmente; lo único que tiene que hacer es establecer la propiedad `[rowSelection] = '"single"'`. Esto le permite **seleccionar solo una fila dentro de una cuadrícula**. Puede seleccionar una fila haciendo clic en una celda o pulsando la tecla _space_ cuando tiene el foco en una celda de la fila, y, por supuesto, también puede seleccionar una fila haciendo clic en el campo del selector de filas. Al seleccionar o deseleccionar una fila se emite el evento **rowSelectionChanging**.
+
+<ComponentBlock for="Grid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-grid [data]="remote | async" [rowSelection]="'single'" [autoGenerate]="true"
+          (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true">
+</igx-grid>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelection(args) {
+    if (args.added.length && args.added[0] === 3) {
+        args.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true"
+            [rowSelection]="'single'" [allowFiltering]="true" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-tree-grid>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelection(event) {
+    if (args.added.length && args.added[0] === 3) {
+        args.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="localdata" [autoGenerate]="true"
+        [rowSelection]="'single'" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-hierarchical-grid>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelection(event) {
+    if (args.added.lenght && args.added[0] === 3) {
+        args.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+
+### Selección múltiple
+
+Para habilitar la selección de varias filas en <ApiLink type="{ComponentApiType}" />, solo tiene que establecer la propiedad <ApiLink type="{ComponentApiType}" member="rowSelection" label="rowSelection" /> en `multiple`. Esto habilitará un campo selector de filas en cada fila y en el encabezado de {ComponentTitle}. El selector de filas permite a los usuarios seleccionar varias filas, y la selección se mantiene al desplazarse, paginar y realizar operaciones de datos, como ordenar y filtrar. La fila también puede seleccionarse haciendo clic en una celda o pulsando la tecla _space_ cuando una celda tiene el foco. Si ha seleccionado una fila y hace clic en otra mientras mantiene pulsada la tecla _shift_, se seleccionará todo el rango de filas. En este modo de selección, al hacer clic en una sola fila, las filas seleccionadas anteriormente se deseleccionan. Si _hace clic_ mientras mantiene pulsada la tecla _ctrl_, la fila se alternará y se conservará la selección anterior.
+
+<ComponentBlock for="Grid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-grid [data]="remote | async" [primaryKey]="'ProductID'" [rowSelection]="'multiple'"
+        (rowSelectionChanging)="handleRowSelection($event)" [allowFiltering]="true" [autoGenerate]="true">
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [rowSelection]="'multiple'"
+        [allowFiltering]="true" (rowSelectionChanging)="handleRowSelection($event)" >
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="true"
+        [rowSelection]="'multiple'" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+### Selección en cascada
+
+Para habilitar la selección de filas en cascada en <ApiLink type="{ComponentApiType}" />, solo tiene que establecer la propiedad <ApiLink type="{ComponentApiType}" member="rowSelection" label="rowSelection" /> en `multipleCascade`. Esto habilitará un campo selector de filas en cada fila y en el encabezado de {ComponentTitle}. El selector de filas permite a los usuarios seleccionar varias filas, lo que selecciona también a todos los hijos del árbol que hay debajo. La selección se mantiene al desplazarse, paginar y realizar operaciones de datos, como ordenar y filtrar. La fila también puede seleccionarse haciendo clic en una celda o pulsando la tecla _space_ cuando una celda tiene el foco. Si ha seleccionado una fila y _hace clic_ en otra mientras mantiene pulsada la tecla _shift_, la selección de un registro padre seleccionará todos sus hijos aunque no estén en el rango seleccionado. En este modo de selección, al _hacer clic_ en una sola fila, las filas seleccionadas anteriormente se deseleccionan. Si _hace clic_ mientras mantiene pulsada la tecla _ctrl_, la fila y sus hijos se alternarán y se conservará la selección anterior.
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="true"
+        [rowSelection]="'multipleCascade'" [allowFiltering]="true" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-tree-grid>
+```
+
+En este modo, el estado de selección de un padre depende por completo del estado de selección de sus hijos. Cuando un padre tiene algunos hijos seleccionados y otros no, su casilla queda en estado indeterminado.
+</ComponentBlock>
+
+```ts
+<!-- selectionExample.component.ts -->
+
+ public handleRowSelection(event: IRowSelectionEventArgs) {
+    // use event.newSelection to retrieve primary key/row data of latest selected row
+    this.selectedRowsCount = event.newSelection.length;
+    this.selectedRowIndex = event.newSelection[0];
+ }
+```
+
+**Notas**
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+- Para que la selección de filas y de celdas funcione correctamente mientras {ComponentTitle} tiene virtualización remota, debe proporcionarse un <ApiLink type="{ComponentApiType}" member="primarykey" label="primaryKey" />.
+</ComponentBlock>
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+
+- Cuando {ComponentTitle} tiene virtualización remota, al hacer clic en la casilla del encabezado se seleccionan o deseleccionan todos los registros que están actualmente en la cuadrícula. Cuando se cargan nuevos datos en {ComponentTitle} bajo demanda, las filas recién añadidas no quedarán seleccionadas; es una limitación, así que debe gestionar ese comportamiento por su cuenta, y puede seleccionar esas filas usando los métodos de la API proporcionados.
+</ComponentBlock>
+- La selección de filas dispara el evento <ApiLink type="{ComponentApiType}" member="rowSelectionChanging" label="rowSelectionChanging" />. Este evento le informa sobre la _nueva selección_, la _selección anterior_ y las filas que se han _añadido_ y _eliminado_ de la selección anterior. Además, el evento es _cancelable_, lo que le permite impedir la selección.
+- Cuando la selección de filas está habilitada, se muestran los selectores de filas, pero si no quiere mostrarlos, puede establecer `[hideRowSelectors] = true`.
+- Al cambiar entre los modos de selección de filas en tiempo de ejecución, se borrará el estado de selección de filas anterior.
+
+## Uso de la API
+
+### Seleccionar filas mediante programación
+
+El fragmento de código siguiente puede usarse para seleccionar una o varias filas a la vez (mediante <ApiLink type="{ComponentApiType}" member="primaryKey" label="primaryKey" />). Además, el segundo parámetro de este método es una propiedad booleana que permite elegir si la selección de filas anterior se borra o no. Por defecto, la selección anterior se conserva.
+
+<ComponentBlock for="Grid, TreeGrid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<{ComponentSelector} ... [primaryKey]="'ID'">
+...
+</{ComponentSelector}>
+...
+<button (click)="this.{ComponentObjectRef}.selectRows([1,2,5], true)">Select 1,2 and 5</button> // select rows and clear previous selection state
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<!-- selectionExample.component.html -->
+
+<{ComponentSelector} ... [primaryKey]="'artist'">
+...
+</{ComponentSelector}>
+...
+<button (click)="this.{ComponentObjectRef}.selectRows([1,2,5], false)">Select 1,2 and 5</button> // select rows and preserve previous selection state
+```
+
+</ComponentBlock>
+
+Esto añadirá a la selección {ComponentTitle} las filas que corresponden a las entradas de datos con los IDs 1, 2 y 5.
+
+### Deseleccionar filas
+
+Si necesita deseleccionar filas mediante programación, puede usar el método `deselectRows(rowIds: [])`.
+
+```html
+<!-- selectionExample.component.html -->
+
+<{ComponentSelector} ... [primaryKey]="'ID'">
+...
+</{ComponentSelector}>
+...
+<button (click)="this.{ComponentObjectRef}.deselectRows([1,2,5])">Deselect 1,2 and 5</button>
+```
+
+### Evento de selección de filas
+
+Cuando hay algún cambio en la selección de filas se emite el evento **<ApiLink type="Grid" member="rowSelectionChanging" label="rowSelectionChanging" />**. **`rowSelectionChanging`** expone los siguientes argumentos:
+
+- `oldSelection`: array de los datos de las filas que contiene el estado anterior de la selección de filas.
+- `newSelection`: array de los datos de las filas que coinciden con el nuevo estado de la selección de filas.
+- `added`: array de los datos de las filas que se añaden actualmente a la selección.
+- `removed`: array de los datos de las filas que se eliminan actualmente según el estado de selección anterior.
+- `event`: el evento original que provocó el cambio en la selección de filas.
+- `cancel`: le permite impedir el cambio en la selección de filas.
+<ComponentBlock for="HierarchicalGrid">
+
+- `owner`: si el evento se dispara desde un grid hijo, le proporciona una referencia al componente desde el que se emite el evento.
+</ComponentBlock>
+
+#### Evento de selección de filas en escenarios de datos remotos
+
+En escenarios de datos remotos, cuando el grid tiene un `primaryKey` establecido, el argumento del evento <ApiLink kind="interface" type="IRowSelectionEventArgs" member="oldSelection" /> no contendrá el objeto completo de datos de la fila para las filas que están actualmente fuera de la vista de datos. En este caso, el objeto `rowSelectionChanging.oldSelection` contendrá solo una propiedad, que es el campo `primaryKey`. Para el resto de filas, que están en la vista de datos, `rowSelectionChanging.oldSelection` contendrá los datos completos de la fila.
+
+```html
+<!-- selectionExample.component.html -->
+
+<{ComponentSelector} (rowSelectionChanging)="handleRowSelectionChange($event)">
+...
+</{ComponentSelector}>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelectionChange(args) {
+    args.cancel = true; // this will cancel the row selection
+}
+
+```
+
+### Seleccionar todas las filas
+
+Otro método de la API útil que proporciona <ApiLink type="{ComponentApiType}" /> es `selectAll(onlyFilteredData)`. De forma predeterminada, este método selecciona todas las filas de datos, pero si hay un filtro aplicado, solo selecciona las filas que cumplen el criterio del filtro. Sin embargo, si llama al método con el parámetro _false_, `selectAll(false)` siempre seleccionará todos los datos del grid, aunque haya un filtro aplicado.
+<DocsAside type="info">
+Tenga en cuenta que `selectAll()` no seleccionará las filas que se hayan eliminado.
+</DocsAside>
+
+### Deseleccionar todas las filas
+
+<ApiLink type="{ComponentApiType}" /> proporciona el método `deselectAll(onlyFilteredData)`, que de forma predeterminada deselecciona todas las filas de datos, pero si hay un filtro aplicado, solo deselecciona las filas que cumplen el criterio del filtro. Sin embargo, si llama al método con el parámetro _false_, `deselectAll(false)` siempre borrará todo el estado de selección de filas, aunque haya un filtro aplicado.
+
+### Cómo obtener las filas seleccionadas
+
+Si necesita saber qué filas están seleccionadas actualmente, puede obtener sus IDs con el getter `selectedRows`.
+
+```typescript
+
+public getSelectedRows() {
+    const currentSelection = this.{ComponentObjectRef}.selectedRows; // return array of row IDs
+}
+```
+
+Además, asignar IDs de fila a `selectedRows` le permitirá cambiar el estado de selección de la cuadrícula.
+
+<ComponentBlock for="Grid">
+
+```typescript
+public mySelectedRows = [1, 2, 3]; // an array of row IDs
+```
+
+```html
+<igx-grid primaryKey="ProductID" rowSelection="multiple" [autoGenerate]="false" [mySelectedRows]="selectedRows" [data]="data">
+    <igx-column [field]="'ProductID'"></igx-column>
+    <igx-column [field]="'ProductName'"></igx-column>
+    <igx-column [field]="'UnitsInStock'"></igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public mySelectedRows = ['Johnathan Winchester', 'Ana Sanders']; // an array of row IDs
+```
+
+```html
+<igx-tree-grid primaryKey="ID" rowSelection="multiple" [autoGenerate]="false" [selectedRows]="mySelectedRows" [data]="data">
+    <igx-column [field]="'Name'"></igx-column>
+    <igx-column [field]="'Title'"></igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+// arrays of row IDs
+public mySelectedRows = ['Naomi Yepes', 'Ahmad Nazeri'];
+public childSelectedRows = ['Initiation', 'Emergency'];
+```
+
+```html
+<igx-hierarchical-grid primaryKey="Artist" rowSelection="multiple" [autoGenerate]="false" [selectedRows]="mySelectedRows" [data]="data">
+    <igx-column field="Artist"></igx-column>
+    <igx-row-island [key]="'Albums'" rowSelection="multiple">
+        <igx-column field="Album"></igx-column>
+        <igx-column field="LaunchDate"></igx-column>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+### Plantillas de selector de filas
+
+Puede crear plantillas para los selectores de encabezado y de fila en {ComponentTitle}, y también acceder a sus contextos, que proporcionan funciones útiles para distintos escenarios.
+
+De forma predeterminada, {ComponentTitle} **gestiona todas las interacciones de selección de filas** en el contenedor padre del selector de filas o en la propia fila, dejando solo la visualización del estado para la plantilla. Sobrescribir la funcionalidad base debe hacerse, por lo general, usando el [evento `rowSelectionChanging`](#evento-de-selección-de-filas). Si implementa una plantilla personalizada con un controlador `click` que sobrescribe la funcionalidad base, debe detener la propagación del evento para conservar el estado correcto de la fila.
+
+#### Plantilla de fila
+
+Para crear una plantilla personalizada de selector de filas, dentro de `{ComponentSelector}`, declare un `<ng-template>` con la directiva `igxRowSelector`. Desde la plantilla puede acceder a la variable de contexto proporcionada implícitamente, con propiedades que le dan información sobre el estado de la fila.
+
+La propiedad `selected` indica si la fila actual está seleccionada o no, mientras que la propiedad `index` puede usarse para acceder al índice de la fila.
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    {{ rowContext.index }}
+    <igx-checkbox
+        [checked]="rowContext.selected"
+        [readonly]="true"
+    ></igx-checkbox>
+</ng-template>
+```
+
+La propiedad `rowID` puede usarse para obtener una referencia a una fila `{ComponentSelector}`. Esto es útil cuando implementa un controlador `click` en el elemento selector de filas.
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    <igx-checkbox (click)="onSelectorClick($event, rowContext.key)"></igx-checkbox>
+</ng-template>
+```
+
+En el ejemplo anterior usamos un `igx-checkbox` y enlazamos `rowContext.selected` a su propiedad `checked`. Puede verlo en acción en nuestro [`Row Numbering Demo`](#demostración-de-numeración-de-filas).
+
+<ComponentBlock for="HierarchicalGrid">
+
+<DocsAside type="info">
+Los métodos `rowContext.select()` y `rowContext.deselect()` están expuestos en el contexto de plantilla de un `{ComponentSelector}`. Facilitan la alternancia de la fila actual, especialmente en un grid hijo, cuando implementa un controlador de clic que sobrescribe la funcionalidad base.
+</DocsAside>
+</ComponentBlock>
+
+### Plantilla de encabezado
+
+Para crear una plantilla personalizada de selector de encabezado, dentro de {ComponentTitle}, declare un `<ng-template>` con la directiva `igxHeadSelector`. Desde la plantilla puede acceder a la variable de contexto proporcionada implícitamente, con propiedades que le dan información sobre el estado del encabezado.
+
+La propiedad `selectedCount` indica cuántas filas están seleccionadas actualmente, mientras que `totalCount` indica cuántas filas hay en total en {ComponentTitle}.
+
+```html
+<ng-template igxHeadSelector let-headContext>
+    {{ headContext.selectedCount }} / {{ headContext.totalCount  }}
+</ng-template>
+```
+
+Las propiedades `selectedCount` y `totalCount` pueden usarse para determinar si el selector del encabezado debe estar marcado o en estado indeterminado (parcialmente seleccionado).
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <!-- ... -->
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]=" headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</igx-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="tGridData" primaryKey="ProductID" childDataKey="Products">
+    <!-- ... -->
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]="headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="hGridData" primaryKey="ProductID">
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]="headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+
+    <igx-row-island [key]="'ProductInfo'">
+        <ng-template igxHeadSelector let-childHeadContext>
+            <!-- header template goes here -->
+        </ng-template>
+        <ng-template igxRowSelector let-childRowContext>
+            <!-- row template goes here -->
+        </ng-template>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+Cada nivel jerárquico de un `{ComponentSelector}` puede tener sus propias plantillas de fila y de encabezado.
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<DocsAside type="info">
+Los métodos `headContext.selectAll()` y `headContext.deselectAll()` están expuestos en el contexto de plantilla de un `{ComponentSelector}`. Facilitan la alternancia de todas las filas, especialmente en un grid hijo, cuando implementa un controlador de clic que sobrescribe la funcionalidad base.
+</DocsAside>
+</ComponentBlock>
+
+### Demostración de numeración de filas
+
+Esta demostración muestra el uso de selectores de encabezado y de fila personalizados. El último usa `rowContext.index` para mostrar los números de fila y un `igx-checkbox` enlazado a `rowContext.selected`.
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-selection-template-numbering" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-selection-template-numbers" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-selection-template-numbers" height={610} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Demostración de selectores de fila al estilo de Excel
+
+Esta demostración usa plantillas personalizadas para imitar selectores de encabezado y de fila al estilo de Excel.
+
+<Sample src="/grid/grid-selection-template-excel" height={550} alt="" />
+
+</ComponentBlock>
+
+### Demostración de selección condicional
+
+Esta demostración impide que algunas filas se seleccionen usando el evento `rowSelectionChanging` y una plantilla personalizada con una casilla deshabilitada para las filas no seleccionables.
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-conditional-row-selectors" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-conditional-row-selectors" height={550} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-conditional-row-selectors" height={630} alt="" />
+
+</ComponentBlock>
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" />
+<ComponentBlock for="Grid, HierarchicalGrid, PivotGrid">
+_<ApiLink type="GridRow" /></ComponentBlock>
+<ComponentBlock for="TreeGrid">
+_ <ApiLink type="TreeGridRow" />
+</ComponentBlock>
+- <ApiLink type="GridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Selección](/{igPath}/selection)
+- [Selección de celdas](/{igPath}/cell-selection)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

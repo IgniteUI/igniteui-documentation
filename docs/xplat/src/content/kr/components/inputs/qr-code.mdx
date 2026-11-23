@@ -1,0 +1,800 @@
+---
+title: "{Platform} QR 코드"
+description: "{ProductName} QR 코드는 어떤 문자열 값으로부터 클라이언트에서 생성되는, 스캔 가능한 QR(Quick Response) 코드를 인라인 SVG로 렌더링합니다. 크기, 오류 정정 수준, 가운데 로고를 사용자 지정할 수 있습니다."
+keywords: "{Platform} QR 코드, {ProductName}, QR 코드, 스캔 가능한 코드, SVG QR 코드, QR 생성기, 로고, 오류 정정"
+license: MIT
+mentionedTypes: ["QrCode"]
+last_updated: "2026-09-23"
+_language: ko
+llms:
+  description: "{ProductName} QR 코드는 어떤 문자열 값으로부터 클라이언트에서 생성되는, 스캔 가능한 QR(Quick Response) 코드를 인라인 SVG로 렌더링합니다. 크기, 오류 정정 수준, 가운데 로고를 사용자 지정할 수 있습니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import qrCodeAnatomy from '@xplat-images/anatomy-content-light/qr-code-lt-a.png';
+import qrCodeDo1 from '@xplat-images/qr-code/qr-code-do1.png';
+import qrCodeDo1_2x from '@xplat-images/qr-code/qr-code-do1@2x.png';
+import qrCodeDoNot1 from '@xplat-images/qr-code/qr-code-do-not1.png';
+import qrCodeDoNot1_2x from '@xplat-images/qr-code/qr-code-do-not1@2x.png';
+import qrCodeDo2 from '@xplat-images/qr-code/qr-code-do2.png';
+import qrCodeDo2_2x from '@xplat-images/qr-code/qr-code-do2@2x.png';
+import qrCodeDoNot2 from '@xplat-images/qr-code/qr-code-do-not2.png';
+import qrCodeDoNot2_2x from '@xplat-images/qr-code/qr-code-do-not2@2x.png';
+
+{/*
+Blazor is excluded in toc.json until its QR Code wrappers ship. Its blocks below are staged and must be verified against the released wrapper APIs before removing the exclusion.
+*/}
+
+# QR 코드 컴포넌트 <Badge variant="new" />
+
+{ProductName} QR 코드는 어떤 문자열 값으로부터 클라이언트에서 생성되는, 스캔 가능한 QR(Quick Response) 코드를 인라인 SVG로 렌더링합니다. 크기, 오류 정정 수준, 가운데 로고를 사용자 지정할 수 있습니다.
+
+## 라이브 데모
+
+{Platform} QR 코드 데모는 URL 문자열로부터 코드를 렌더링하며, 모듈 모양, 크기, 가운데 로고를 바꿔 볼 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-overview" height={595} position="center" noBackground={false} showThemePicker={true} noBorder={false} alt="Angular QR 코드 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/overview" height={620} position="center" noBackground={false} noBorder={false} showThemePicker={true} alt="{Platform} QR 코드 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+{Platform} QR 코드는 세 개의 파인더 패턴 모서리, 인코딩된 데이터 모듈, 여백 영역, 선택 사항인 가운데 로고로 이루어진 정사각형 SVG 그래픽입니다.
+
+<Anatomy
+  class="qr-code-anatomy"
+  name="QR 코드"
+  description="QR 코드의 구성 요소: 컨테이너, QR 매트릭스, 여백 영역, 선택 사항인 가운데 로고, 파인더 패턴 모서리."
+  src={qrCodeAnatomy.src}
+  alt="QR 코드 구조"
+/>
+
+<style>{`
+  .qr-code-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="qr-code"][id$="-example"]:not([id*="logo"]) .igd-sample-frame {
+    width: 100%;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. QR 코드 컨테이너:</strong> SVG를 렌더링하는 호스트 요소입니다.<br />
+<strong>2. QR 매트릭스:</strong> 대상 또는 데이터 페이로드를 저장하는 인코딩된 매트릭스입니다.<br />
+<strong>3. 여백 영역:</strong> 스캐너가 코드를 안정적으로 읽을 수 있도록 코드 주변에 두는 빈 공간입니다.<br />
+<strong>4. 가운데 로고(선택 사항):</strong> 브랜드 로고나 사용자 지정 아이콘을 표시하는 데 쓰는 선택적 가운데 컨테이너입니다.<br />
+<strong>5. 파인더 패턴 모서리:</strong> 스캐너가 코드를 올바르게 감지하고 방향을 잡도록 돕는, 모서리에 있는 정사각형 표식입니다.</span>
+
+```text
+<igc-qr-code>
+└── svg[role="img"]
+    ├── <title>                          // "QR code: <value>" or the aria-label value
+    ├── ::part(background)               // background rect
+    ├── <mask>                           // rendered when logo-src is set
+    ├── <g>                              // masked when logo-src is set
+    │   ├── ::part(dots)                 // data modules path
+    │   ├── ::part(corner-square)        // outer finder-pattern squares (×3)
+    │   └── ::part(corner-dot)           // inner finder-pattern dots (×3)
+    └── <image>                          // center logo, rendered when logo-src is set
+```
+
+## 시작하기
+
+{Platform} QR 코드를 사용하려면 다음을 완료하십시오 <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음, 컴포넌트를 등록하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+QR 코드에는 `igniteui-webcomponents` 7.3.0 이상이 필요합니다. `toBlob()` 및 `toImage()` 내보내기 메서드에는 7.3.2 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName}는 QR 코드를 웹 컴포넌트로 렌더링하므로, Angular 프로젝트에 `igniteui-webcomponents`를 설치하십시오:
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+QR 코드에는 `igniteui-react` 19.9.0 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcQrCodeComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcQrCodeComponent)과 테마를 import한 다음 컴포넌트를 등록하십시오:
+
+```ts
+import { defineComponents, IgcQrCodeComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcQrCodeComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igc-qr-code`를 렌더링하는 Angular 컴포넌트에 `CUSTOM_ELEMENTS_SCHEMA`를 추가하십시오:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="QrCode" /> 래퍼와 테마를 import하십시오:
+
+```tsx
+import { IgrQrCode } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+**Program.cs**에 <ApiLink pkg="core" type="QrCode" /> 모듈을 등록하십시오:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
+```
+
+**wwwroot/index.html**(Blazor WebAssembly) 또는 **Pages/_Host.cshtml**(Blazor Server)에 테마 스타일시트를 연결하십시오:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+값으로 QR 코드를 렌더링하십시오:
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code value="https://www.infragistics.com"></igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode value="https://www.infragistics.com"></IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode Value="https://www.infragistics.com"></IgbQrCode>
+```
+
+</PlatformBlock>
+
+기본적으로 이는 128×128 픽셀 QR 코드를 4모듈 여백, `M` 오류 정정, 정사각형 모듈과 모서리로 렌더링합니다.
+
+## 사용법
+
+`value`를 아무 문자열로 설정하면 스캔 가능한 QR 코드가 렌더링됩니다. 컴포넌트는 가장 간결한 인코딩 모드(숫자, 영숫자 또는 바이트)와 값을 담을 수 있는 가장 작은 QR 버전을 선택합니다. `value`를 지우면 SVG가 제거됩니다.
+
+### 오류 정정
+
+`errorLevel`을 사용하여 `L`, `M`(기본값), `Q`, `H` 오류 정정 수준 중에서 선택하십시오. 수준이 높을수록 손상되거나 가려진 코드를 더 많이 복구할 수 있지만 코드는 더 촘촘해집니다. 모듈 크기를 예측 가능하게 해야 할 때는 `version`을 사용해 `1`에서 `40` 사이의 QR 버전을 고정하십시오. 그렇지 않으면 설정하지 않은 상태로 두어 `value`를 담을 수 있는 가장 작은 버전을 사용하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  version="4"
+  error-level="H">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  version={4}
+  errorLevel="H">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Version="4"
+  ErrorLevel="QrCodeErrorLevel.H">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-error-correction" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular QR 코드 오류 정정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/error-correction" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} QR 코드 오류 정정 예제" />
+
+</PlatformBlock>
+
+### 크기
+
+`size`을 사용하여 렌더링된 너비와 높이를 픽셀 단위로 설정하고, `margin`을 사용하여 QR 모듈 단위로 여백 영역을 설정하십시오. 여백 영역은 `size` 안에 그려지므로, `margin`을 크게 하면 모듈이 작아집니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  size="256"
+  margin="2">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  size={256}
+  margin={2}>
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Size="256"
+  Margin="2">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-size" height={515} position="center" noBorder={false} noBackground={false} spacing="md" alt="Angular QR 코드 크기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/size" height={515} position="center" noBorder={false} spacing="md" noBackground={false} alt="{Platform} QR 코드 크기 예제" />
+
+</PlatformBlock>
+
+### 가운데 로고
+
+`logoSrc`를 설정하면 코드의 가운데에 이미지가 렌더링되며, 컴포넌트는 그 아래의 모듈을 가립니다. `logoSize`는 가장 큰 안전 로고 영역에 대한 비율로 로고 크기를 설정하며, 이 비율은 `0`부터 `1`까지입니다. 이 안전 영역은 `H` 수준에서 코드의 9%입니다. `logoMargin`은 로고 주변에 픽셀 단위의 여백을 추가합니다.
+
+로고는 현재 `errorLevel`이 허용하는 범위를 넘어 코드를 가리지 않습니다. 기본 `M` 수준에서는 약 `0.44`를 넘는 `logoSize` 값도 같은 제한된 크기로 렌더링되므로, 가장 큰 로고를 원하면 `errorLevel`를 `H`로 설정하십시오.
+
+`logoSrc`은 일반 URL과 `data:image/*` URI를 받습니다. 안전하지 않은 스킴(예: `javascript:` 또는 `vbscript:`)을 가진 소스와 이미지가 아닌 `data:` URI는 거부되며, 로고는 렌더링되지 않습니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  error-level="H"
+  logo-src="/assets/logo.png"
+  logo-size="0.5"
+  logo-margin="4">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  errorLevel="H"
+  logoSrc="/assets/logo.png"
+  logoSize={0.5}
+  logoMargin={4}>
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  ErrorLevel="QrCodeErrorLevel.H"
+  LogoSrc="/assets/logo.png"
+  LogoSize="0.5"
+  LogoMargin="4">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-logo" height={245} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular QR 코드 로고 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/logo" height={245} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} QR 코드 로고 예제" />
+
+</PlatformBlock>
+
+### 모양
+
+`dotStyle`을 사용하여 데이터 모듈과 안쪽 파인더 패턴 점의 모양을, `squareStyle`을 사용하여 바깥쪽 파인더 패턴 정사각형의 모양을 설정하십시오. 둘 다 `square`(기본값), `circle`, `rounded`를 받습니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  dot-style="rounded"
+  square-style="rounded">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  dotStyle="rounded"
+  squareStyle="rounded">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  DotStyle="QrCodeDotStyle.Rounded"
+  SquareStyle="QrCodeSquareStyle.Rounded">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-dot-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular QR 코드 점 모양 예제" />
+
+<Sample src="/data-display/qr-code-corner-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular QR 코드 모서리 모양 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/dot-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} QR 코드 점 모양 예제" />
+
+<Sample src="/inputs/qr-code/corner-shapes" height={320} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} QR 코드 모서리 모양 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+### 내보내기
+
+`toImage()`을 호출하면 QR 코드를 PNG, JPEG, WebP, SVG 파일로 내보내고, `toBlob()`를 호출하면 SVG `Blob`로 가져올 수 있습니다. 두 메서드 모두 테마 색상을 해석하고 로고를 인라인으로 넣으므로, 내보낸 결과는 렌더링된 코드와 일치합니다.
+
+```ts
+const qrCode = document.querySelector('igc-qr-code') as IgcQrCodeComponent;
+
+// Downloads a 512×512 PNG from a 256px QR code.
+await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download: true });
+```
+
+</PlatformBlock>
+
+### 사용 여부
+
+**사용할 때:** QR 코드는 인쇄물이나 정적 화면에서 페이지 열기, 앱 다운로드, 링크 확인처럼 디지털 동작으로 사용자를 빠르게 이어 줍니다.
+
+**사용하지 말아야 할 때:** 스캐너 없이 읽을 수 있어야 하는 정보에는 QR 코드를 쓰지 마십시오. 직접 버튼, 링크, 또는 짧은 URL이 대상을 더 잘 전달할 때도 피하십시오.
+
+<table class="table" style="width: 100%; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={qrCodeDo1} srcset={`${qrCodeDo1.src} 1x, ${qrCodeDo1_2x.src} 2x`} alt="제목, 행동 유도 문구, 대체 짧은 URL이 있는 QR 코드" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={qrCodeDoNot1} srcset={`${qrCodeDoNot1.src} 1x, ${qrCodeDoNot1_2x.src} 2x`} alt="링크나 버튼 없이, 필수 단계를 마치는 유일한 방법으로 제공되는 QR 코드" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>사용</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>사용하지 않음</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        대상이 분명하고 주변 여백이 충분한, 짧고 의도가 강한 동작에 QR 코드를 사용하십시오.
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        중요한 콘텐츠 자체를 QR 코드로만 제공하거나, 사용자가 쉽게 스캔할 수 없는 장소에서 QR 코드를 사용하지 마십시오.
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={qrCodeDo2} srcset={`${qrCodeDo2.src} 1x, ${qrCodeDo2_2x.src} 2x`} alt="흰색 배경의 검은색 QR 코드" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={qrCodeDoNot2} srcset={`${qrCodeDoNot2.src} 1x, ${qrCodeDoNot2_2x.src} 2x`} alt="대비가 낮은 슬레이트 배경의 밝은 QR 코드" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>사용</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>사용하지 않음</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        휴대폰 카메라가 빠르게 스캔할 수 있도록 전경은 어둡게, 배경은 밝게 유지하십시오(이상적으로는 흰색 배경에 검은색).
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        스캐너 감지에 실패하는 어두운 배경이나 대비가 낮은 브랜드 색조 위의 밝은 색 QR 코드는 피하십시오.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## 속성
+
+{Platform} QR 코드는 인코딩된 값, 코드 밀도, 크기, 로고, 모양 사용자 지정을 위한 속성을 노출합니다.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="QrCode" member="value" label="value" /> | `string` | — | QR 코드에 인코딩된 문자열입니다. |
+| <ApiLink pkg="core" type="QrCode" member="version" label="version" /> | `number` | — | QR 버전(1–40)입니다. 설정하지 않으면 `value`을 담을 수 있는 가장 작은 버전이 사용됩니다. |
+| <ApiLink pkg="core" type="QrCode" member="errorLevel" label="errorLevel" /> | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'` | 오류 정정 수준입니다. 로고 크기도 제한합니다. |
+| <ApiLink pkg="core" type="QrCode" member="size" label="size" /> | `number` | `128` | 렌더링된 너비와 높이(픽셀)입니다. |
+| <ApiLink pkg="core" type="QrCode" member="margin" label="margin" /> | `number` | `4` | QR 모듈 단위의 여백 영역입니다. |
+| <ApiLink pkg="core" type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | 선택 사항인 가운데 로고 이미지의 소스 URL입니다. |
+| <ApiLink pkg="core" type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | 가장 큰 안전 로고 영역에 대한 비율(0–1)로 나타낸 로고 크기입니다. |
+| <ApiLink pkg="core" type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | 로고 주변의 여백(픽셀)입니다. |
+| <ApiLink pkg="core" type="QrCode" member="dotStyle" label="dotStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | 데이터 모듈과 안쪽 파인더 패턴 점의 모양입니다. |
+| <ApiLink pkg="core" type="QrCode" member="squareStyle" label="squareStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | 바깥쪽 파인더 패턴 정사각형의 모양입니다. |
+
+<PlatformBlock for="WebComponents, Angular">
+
+## 메서드
+
+| 이름 | 반환 | 설명 |
+| -- | -- | -- |
+| `toBlob()` | `Promise<Blob>` | 테마 색상을 해석하고 로고를 인라인으로 넣어 QR 코드를 `image/svg+xml` 블롭으로 직렬화합니다. `value`가 설정되지 않은 경우에는 거부됩니다. |
+| `toImage(options?)` | `Promise<File>` | QR 코드를 이미지 파일로 내보냅니다. `options`은 `format`(`'png'` 기본값), `'jpeg'`, `'webp'`, `'svg'`를 받으며, `scale`(기본값 `1`), `fileName`(기본값 `'qr-code'`), `download`(기본값 `false`)를 받습니다. `value`이 설정되지 않았거나 옵션이 잘못되면 거부됩니다. |
+
+</PlatformBlock>
+
+## 스타일링
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-styling" height={300} noBackground={false} position="center" noBorder={false} spacing="md" alt="Angular QR 코드 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/styling" height={300} noBackground={false} position="center" noBorder={false} spacing="md" alt="{Platform} QR 코드 스타일 지정 예제" />
+
+</PlatformBlock>
+
+{Platform} QR 코드의 모양은 CSS 변수, CSS 파트, 테마 시스템으로 제어합니다.
+
+### 스타일 지정 변수
+
+| 변수 | 변경되는 내용 |
+| -- | -- |
+| `--ig-qr-code-background` | QR 코드의 배경색입니다. 기본값은 `white`입니다. |
+| `--ig-qr-code-dark-color` | 데이터 모듈의 색상이며, 재정의하지 않는 한 모서리 정사각형/점의 색상도 이것입니다. 기본값은 `black`입니다. |
+| `--ig-qr-code-corner-square-color` | 바깥쪽 파인더 패턴 모서리 정사각형의 색상입니다. `--ig-qr-code-dark-color`로 대체됩니다. |
+| `--ig-qr-code-corner-dot-color` | 안쪽 파인더 패턴 모서리 점의 색상입니다. `--ig-qr-code-dark-color`로 대체됩니다. |
+
+### 스타일 파트
+
+| 파트 | 스타일을 지정하는 대상 |
+| -- | -- |
+| `background` | QR 코드의 배경 사각형입니다. |
+| `dots` | QR 코드의 데이터 모듈(점)입니다. |
+| `corner-square` | 바깥쪽 파인더 패턴 모서리 정사각형입니다. |
+| `corner-dot` | 안쪽 파인더 패턴 모서리 점입니다. |
+
+### Sass 테마 지정
+
+`qr-code-theme()`로 테마를 만들고 `tokens` 믹스인에 전달하십시오.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-qr-code-theme: qr-code-theme(
+  $background: #ffffff,
+  $dark-color: #1a1a2e,
+  $corner-square-color: #c0392b,
+  $corner-dot-color: #1a1a2e
+);
+
+:root {
+  @include tokens($custom-qr-code-theme);
+}
+```
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 컴포넌트 CSS 변수를 직접 설정하십시오.
+
+```css
+igc-qr-code {
+  --ig-qr-code-background: var(--ig-gray-50);
+  --ig-qr-code-dark-color: var(--ig-primary-800);
+  --ig-qr-code-corner-square-color: var(--ig-secondary-800);
+}
+
+igc-qr-code::part(corner-dot) {
+  fill: var(--ig-success-500);
+}
+```
+
+### Tailwind로 스타일링하기
+
+Tailwind 유틸리티 클래스를 QR 코드 CSS 변수와 결합하십시오. 먼저 Ignite UI 테마와 함께 [Tailwind를 설정](../themes/tailwind.mdx)하십시오:
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+`light-qr-code` 유틸리티를 적용하여 QR 코드에 테마 변수를 부여한 다음, 임의 속성 클래스로 개별 변수를 재정의하십시오. `!` 접두사는 유틸리티를 중요하게 표시하여 컴포넌트의 기본 스타일보다 우선하도록 합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com"
+  class="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com"
+  className="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com"
+  Class="!light-qr-code [--ig-qr-code-dark-color:#1a1a1a] [--ig-qr-code-background:#f7df1e]">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-display/qr-code-tailwind-styling" height={330} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular QR 코드 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/qr-code/tailwind-styling" height={330} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} QR 코드 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} QR 코드는 화면 읽기 프로그램이 SVG의 `<title>`를 통해 읽는 정적 그래픽입니다.
+
+### 키보드 상호 작용
+
+QR 코드는 포커스를 받을 수 없으며 키보드 입력에 반응하지 않습니다.
+
+### 화면 읽기 프로그램 / ARIA
+
+렌더링된 `<svg>`에는 `role="img"`와 화면 읽기 프로그램이 읽는 `<title>`가 있습니다. 제목의 기본값은 `QR code: <value>`입니다. 더 의미 있는 문구를 읽히려면 `aria-label`을 설정하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-qr-code
+  value="https://www.infragistics.com/products"
+  aria-label="Scan to visit our product page">
+</igc-qr-code>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrQrCode
+  value="https://www.infragistics.com/products"
+  ariaLabel="Scan to visit our product page">
+</IgrQrCode>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbQrCode
+  Value="https://www.infragistics.com/products"
+  AriaLabel="Scan to visit our product page">
+</IgbQrCode>
+```
+
+</PlatformBlock>
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.1.1 비텍스트 콘텐츠](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | SVG `<title>`는 텍스트 대체 수단을 제공하며, 이는 `aria-label`에서 가져오거나 `value`로부터 도출됩니다. |
+| [1.4.11 비텍스트 대비](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast) | 흰색 배경 위의 기본 검은색 모듈은 그래픽 객체에 대한 3:1 대비 비율을 넘습니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | SVG는 `<title>`를 접근 가능한 이름으로 하여 `role="img"`을 노출합니다. |
+
+사용자의 책임:
+
+- 시각적 사용자가 스캔 후 무슨 일이 일어날지 알 수 있도록, QR 코드에 짧고 보이는 행동 유도 문구를 함께 제공하십시오.
+- 인코딩된 `value`가 불투명할 때(예: 토큰이나 짧은 식별자), 읽히는 텍스트가 의미 있도록 `aria-label`을 제공하십시오.
+- CSS 변수를 재정의할 때는 스캐너가 코드를 안정적으로 읽을 수 있도록 모듈 색상과 배경 사이의 대비를 충분히 유지하십시오.
+
+## 문제 해결
+
+{Platform} QR 코드 문제 해결 안내는 흔한 통합 및 렌더링 문제를 문제 → 원인 → 해결 형식으로 설명합니다.
+
+### QR 코드가 스캔되지 않는 이유는 무엇입니까?
+
+모듈과 배경 사이의 대비가 너무 낮거나, 화면에서 코드가 너무 작거나, 여백 영역이 너무 작을 수 있습니다. `white`의 `black` 색상을 기본값으로 되돌리고, `size`을 늘리며, 안정적인 스캔을 위해 `margin`을 최소 `4` 모듈 이상으로 사용하십시오.
+
+### 설정한 logoSize보다 로고가 작은 이유는 무엇입니까?
+
+로고는 현재 `errorLevel`의 안전 영역으로 제한됩니다. 가장 큰 로고를 허용하려면 `errorLevel`를 `H`로 설정하십시오.
+
+### 로고가 나타나지 않는 이유는 무엇입니까?
+
+`logoSrc`가 거부된 소스(안전하지 않은 스킴 또는 이미지가 아닌 `data:` URI)를 사용하거나, 이미지를 불러오지 못했습니다. 유효한 이미지 URL이나 `data:image/*` URI를 사용하십시오. 이후에 유효한 소스를 할당하면 로고가 렌더링됩니다.
+
+### QR 코드가 다크 테마로 자동 전환되지 않은 이유는 무엇입니까?
+
+밝은 글씨에 어두운 배경의 코드는 안정적으로 스캔되지 않으므로, QR 코드 색상은 전역 밝은/어두운 테마에 따라 반전되지 않습니다. UI의 다크 변형에 맞게 바꾸려면 `--ig-qr-code-background`과 `--ig-qr-code-dark-color`를 명시적으로 설정하십시오.
+
+## 알려진 제한 사항
+
+{Platform} QR 코드에는 다음과 같은 제한 사항이 있습니다.
+
+- QR 코드에는 슬롯이나 이벤트가 없습니다.
+- QR 코드의 시각 구조는 고정된 표준 레이아웃을 따르며, 오른쪽에서 왼쪽으로 쓰는 맥락에서도 좌우 반전되지 않습니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+- 내보내기는 CORS 헤더를 보내지 않는 교차 출처 URL에서 불러온 로고를 제외합니다.
+
+</PlatformBlock>
+
+## API 참조
+
+QR 코드 API의 전체 표면은 다음 API 참조를 사용하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcQrCodeComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcQrCodeComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="QrCode" />
+
+</PlatformBlock>
+
+## 종속성
+
+{Platform} QR 코드에는 테마 스타일시트가 필요하며, 이는 **시작하기**에서 추가합니다. 다른 런타임 의존성은 없습니다.
+
+## 추가 리소스
+
+지원 및 관련 Ignite UI 문서는 다음 자료를 사용하십시오.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+QR 코드는 독립된 표시 기본 요소입니다. 관련된 시각 콘텐츠가 필요하다면 다음 컴포넌트를 고려하십시오:
+
+- [아이콘](../layouts/icon.mdx) — 스캔할 필요가 없는 정적 상징 이미지에 사용합니다.
+- [아바타](../layouts/avatar.mdx) — 사람이나 개체를 나타내는 신원 이미지에 사용합니다.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="QR 코드에는 어떤 데이터를 인코딩할 수 있습니까?" indicatorPosition="end">
+    `value` 속성은 어떤 문자열이든 받습니다. 흔한 용도로는 URL, 일반 텍스트, 결제 참조, 일회용 설정 토큰, Wi-Fi 자격 증명, vCard 페이로드가 있습니다. 컴포넌트는 입력에 맞는 가장 간결한 인코딩 모드(숫자, 영숫자 또는 바이트)를 자동으로 선택합니다.
+  </FaqItem>
+
+  <FaqItem question="QR 코드를 렌더링하려면 인터넷 연결이나 외부 라이브러리가 필요합니까?" indicatorPosition="end">
+    아니요. QR 코드 컴포넌트는 `value` 문자열로부터 SVG를 클라이언트에서 완전히 생성하며, 외부 QR 생성 라이브러리에 의존하지 않습니다. 유일한 네트워크 요청은 URL에서 불러오는 가운데 로고 이미지를 위한 것입니다.
+  </FaqItem>
+
+  <FaqItem question="코드를 깨뜨리지 않으면서 가운데 로고를 얼마나 크게 만들 수 있습니까?" indicatorPosition="end">
+    `logoSize` 비율(기본값 `0.4`)은 가장 큰 안전 로고 영역에 대한 비율이며, 이 영역은 `H` 오류 정정 수준에서 코드의 9%입니다. QR 코드는 현재 `errorLevel`의 안전 영역으로 로고를 제한하므로 코드가 스캔 가능한 상태를 유지합니다. 가장 큰 로고를 허용하려면 `errorLevel`를 `H`로 설정하십시오.
+  </FaqItem>
+
+  <FaqItem question="어떤 패키지가 QR 코드를 제공합니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">QR 코드는 7.3.0 이상 버전의 `igniteui-webcomponents` 패키지에 포함되어 있습니다.</PlatformBlock>
+    <PlatformBlock for="Angular">`igniteui-angular`에는 QR 코드가 포함되어 있지 않으므로, Angular 애플리케이션은 이를 직접 설치합니다.</PlatformBlock>
+    <PlatformBlock for="React, Blazor">QR 코드는 `{PackageCommon}` 패키지에 포함되어 있습니다.</PlatformBlock>
+  </FaqItem>
+</Faq>

@@ -1,0 +1,874 @@
+---
+title: "Breadcrumbs"
+description: "{ProductName} Breadcrumbs 컴포넌트는 구성 가능한 아이콘으로 구분되는 순서가 있는 탐색 항목 경로를 렌더링하여, 사이트 계층 구조에서 사용자의 위치를 보여 주고 상위 수준 페이지로 돌아갈 방법을 제공합니다."
+keywords: "{Platform} Breadcrumbs, {ProductName}, breadcrumb, 탐색 경로, 현재 페이지, aria-current, 구분자, 접두사, 접미사"
+license: MIT
+mentionedTypes: ["Breadcrumbs", "Breadcrumb"]
+relatedComponents: ["Navbar", "NavigationDrawer"]
+last_updated: "2026-09-08"
+_language: ko
+llms:
+  description: "{ProductName} Breadcrumbs 컴포넌트는 구성 가능한 아이콘으로 구분되는 순서가 있는 탐색 항목 경로를 렌더링하여, 사이트 계층 구조에서 사용자의 위치를 보여 주고 상위 수준 페이지로 돌아갈 방법을 제공합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import breadcrumbsAnatomy from '@xplat-images/anatomy-content-light/breadcrumbs-lt-a.png';
+import breadcrumbsDo from '@xplat-images/breadcrumbs/breadcrumbs-do.png';
+import breadcrumbsDo2x from '@xplat-images/breadcrumbs/breadcrumbs-do@2x.png';
+import breadcrumbsDoNot from '@xplat-images/breadcrumbs/breadcrumbs-do-not.png';
+import breadcrumbsDoNot2x from '@xplat-images/breadcrumbs/breadcrumbs-do-not@2x.png';
+
+{/*
+Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component. Its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
+*/}
+
+# Breadcrumbs 컴포넌트 <Badge variant="new" />
+
+{ProductName} Breadcrumbs 컴포넌트는 구성 가능한 아이콘으로 구분되는 순서가 있는 탐색 항목 경로를 렌더링하여, 사이트 계층 구조에서 사용자의 위치를 보여 주고 상위 수준 페이지로 돌아갈 방법을 제공합니다.
+
+## 라이브 데모
+
+{Platform} Breadcrumbs 데모는 끝에 현재 페이지가 표시된 세 항목 경로를 보여 줍니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-overview" height={120} position="center" showThemePicker={true} noBorder={false} spacing="md" alt="Angular Breadcrumbs 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/overview" height={120} position="center" showThemePicker={true} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+{Platform} Breadcrumbs 컴포넌트는 공유 상태를 관리하고 ARIA 목록으로 렌더링되는 컨테이너와, 임의의 슬롯 콘텐츠 뒤에 구분자를 렌더링하는 하나 이상의 항목 자식 요소로 구성된 한 쌍의 요소입니다.
+
+<Anatomy
+  class="breadcrumbs-anatomy"
+  name="Breadcrumbs"
+  description="Breadcrumbs 컴포넌트는 ARIA 목록을 렌더링하는 컨테이너와, 슬롯 콘텐츠 뒤에 구분자를 렌더링하는 하나 이상의 항목으로 구성됩니다."
+  src={breadcrumbsAnatomy.src}
+  alt="Breadcrumbs 구성 요소"
+/>
+
+<style>{`
+  .breadcrumbs-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="breadcrumbs-dropdown"][id$="-example"] .igd-sample-frame {
+    height: 90%;
+  }
+
+  [id^="cw-"][id*="breadcrumbs-states"][id$="-example"] .igd-sample-frame {
+    width: 90%;
+  }
+
+  @media (max-width: 650px) {
+    [id^="cw-"][id*="breadcrumbs"][id$="-example"] .igd-sample-frame {
+      height: 90%;
+    }
+
+    [id^="cw-"][id*="breadcrumbs-wrapping"][id$="-example"] .igd-sample-frame,
+    [id^="cw-"][id*="breadcrumbs-size"][id$="-example"] .igd-sample-frame{
+      width: 90%;
+    }
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Breadcrumbs 항목:</strong> 탐색 경로 안의 단일 수준을 나타냅니다.<br />
+<strong>2. Breadcrumbs 항목 아이콘(선택 사항):</strong> 레이블의 오른쪽 또는 왼쪽에 표시할 수 있습니다.<br />
+<strong>3. 구분자:</strong> 개별 항목을 나누고 계층 구조의 방향을 나타내는 시각 요소입니다.<br />
+<strong>4. 현재 항목:</strong> 탐색 경로에서 활성 수준을 나타내며, 일반적으로 클릭할 수 없습니다.</span>
+
+```text
+<igc-breadcrumbs role="list">
+  <igc-breadcrumb role="listitem">
+    ├── ::part(label)
+    │   ├── slot="prefix"                 // optional prefix content
+    │   ├── default slot                  // main content, typically <a>
+    │   └── slot="suffix"                 // optional suffix content
+    └── ::part(separator)                 // hidden on the last item
+        └── slot="separator"              // per-item override
+  </igc-breadcrumb>
+  <!-- more <igc-breadcrumb> items ... -->
+  <igc-breadcrumb current role="listitem" aria-current="page">
+    <!-- last item, no trailing separator -->
+  </igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+## 시작하기
+
+{Platform} Breadcrumbs를 사용하려면  <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음 컴포넌트를 등록하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+Breadcrumbs 컴포넌트에는 `igniteui-webcomponents` 7.4.0 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName}은(는) Breadcrumbs를 웹 컴포넌트로 렌더링하므로 Angular 프로젝트에 `igniteui-webcomponents`을(를) 설치하십시오:
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Breadcrumbs 컴포넌트에는 `igniteui-react` 19.9.0 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent), [`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent) 및 테마를 가져온 다음 두 컴포넌트를 모두 등록하십시오:
+
+```ts
+import { defineComponents, IgcBreadcrumbsComponent, IgcBreadcrumbComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcBreadcrumbsComponent, IgcBreadcrumbComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igc-breadcrumbs`를 렌더링하는 Angular 컴포넌트에 `CUSTOM_ELEMENTS_SCHEMA`를 추가하십시오:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="Breadcrumbs" />와 <ApiLink pkg="core" type="Breadcrumb" /> 래퍼와 테마를 import하십시오:
+
+```tsx
+import { IgrBreadcrumbs, IgrBreadcrumb } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+**Program.cs**에 <ApiLink pkg="core" type="Breadcrumbs" /> 및 <ApiLink pkg="core" type="Breadcrumb" /> 모듈을 등록하십시오:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbBreadcrumbsModule), typeof(IgbBreadcrumbModule));
+```
+
+**wwwroot/index.html**(Blazor WebAssembly) 또는 **Pages/_Host.cshtml**(Blazor Server)에 테마 스타일시트를 연결하십시오:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+Breadcrumbs 컨테이너 안에 단계마다 하나의 breadcrumb 항목을 배치하여 경로를 구성하십시오. 각 항목은 기본 슬롯에 임의의 콘텐츠를 받을 수 있으며, 가장 일반적으로는 탐색을 처리하는 앵커를 넣습니다:
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/products/laptop">Laptop</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/products/laptop">Laptop</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/products/laptop">Laptop</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+## 사용법
+
+### 현재 페이지
+
+현재 보고 있는 페이지를 나타내는 항목에 다음을 표시하십시오 <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> 속성입니다. 항목은 이를 속성으로 반영하고 `aria-current="page"`을(를) 설정하므로 스크린 리더가 현재 페이지를 알려 줍니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/dashboard">Dashboard</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/dashboard">Dashboard</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/dashboard">Dashboard</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+### 공유 구분자
+
+컴포넌트 템플릿에 간단한 포함 버튼을 추가하려면 <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> 경로의 모든 항목에 공유 구분자 아이콘을 설정하려면 컨테이너의 속성을 사용하십시오. 값은 등록된 아이콘 컬렉션의 아이콘 이름이며, 컨테이너가 이 값을 각 항목에 전달합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs separator="slash">
+  <igc-breadcrumb><a href="/home">Home</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products">Products</a></igc-breadcrumb>
+  <igc-breadcrumb><a href="/home/products/laptops">Laptops</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/products/laptops/gaming">Gaming Laptop</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs separator="slash">
+  <IgrBreadcrumb><a href="/home">Home</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products">Products</a></IgrBreadcrumb>
+  <IgrBreadcrumb><a href="/home/products/laptops">Laptops</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/products/laptops/gaming">Gaming Laptop</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Separator="slash">
+  <IgbBreadcrumb><a href="/home">Home</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products">Products</a></IgbBreadcrumb>
+  <IgbBreadcrumb><a href="/home/products/laptops">Laptops</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/products/laptops/gaming">Gaming Laptop</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-custom-separator" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs 사용자 지정 구분자 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/custom-separator" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 사용자 지정 구분자 예제" />
+
+</PlatformBlock>
+
+끝에 있는 구분자는 경로의 마지막 항목에서 자동으로 숨겨지므로 직접 생략할 필요가 없습니다.
+
+### 항목별 구분자 재정의
+
+항목의 `separator` 슬롯에 콘텐츠를 배치하면 해당 항목 하나에 대해 구분자를 재정의할 수도 있습니다. 텍스트 구분자(예: `/` 또는 `›`)를 아이콘과 섞어 쓰거나, 각 경계마다 다른 구분자를 사용하려는 경우에 유용합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </igc-breadcrumb>
+  <igc-breadcrumb current><a href="/home/settings">Settings</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/home/settings">Settings</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <a href="/home">Home</a>
+    <span slot="separator">/</span>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/home/settings">Settings</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+### 접두사 및 접미사 콘텐츠
+
+각 breadcrumb 항목은 주요 콘텐츠 주변에 아이콘, 배지 또는 상태 표시기 같은 보조 콘텐츠를 위한 `prefix` 및 `suffix` 슬롯을 제공합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs>
+  <igc-breadcrumb>
+    <igc-icon slot="prefix" name="home"></igc-icon>
+    <a href="/home">Home</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb>
+    <a href="/home/profile">Mail</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb>
+    <a href="/home/profile">Messages</a>
+  </igc-breadcrumb>
+  <igc-breadcrumb current>
+    <a href="/home/inbox">Inbox</a>
+    <igc-badge slot="suffix" outlined variant="danger">3</igc-badge>
+  </igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrBreadcrumbs>
+  <IgrBreadcrumb>
+    <IgrIcon slot="prefix" name="home"></IgrIcon>
+    <a href="/home">Home</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb>
+    <a href="/home/profile">Mail</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb>
+    <a href="/home/profile">Messages</a>
+  </IgrBreadcrumb>
+  <IgrBreadcrumb current={true}>
+    <a href="/home/inbox">Inbox</a>
+    <IgrBadge slot="suffix" outlined={true} variant="danger">3</IgrBadge>
+  </IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs>
+  <IgbBreadcrumb>
+    <IgbIcon slot="prefix" Name="home"></IgbIcon>
+    <a href="/home">Home</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb>
+    <a href="/home/profile">Mail</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb>
+    <a href="/home/profile">Messages</a>
+  </IgbBreadcrumb>
+  <IgbBreadcrumb Current="true">
+    <a href="/home/inbox">Inbox</a>
+    <IgbBadge slot="suffix" Outlined="true" Variant="@StyleVariant.Danger">3</IgbBadge>
+  </IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-prefix-suffix" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs 접두사 및 접미사 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/prefix-suffix" height={120} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 접두사 및 접미사 예제" />
+
+</PlatformBlock>
+
+### 줄 바꿈 및 긴 경로
+
+컨테이너는 flex 레이아웃을 사용하여 단일 줄바꿈 행에 항목을 렌더링합니다. 경로가 사용 가능한 너비보다 길면 항목이 자동으로 다음 줄로 넘어가며, 추가 구성은 필요하지 않습니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-wrapping" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs 긴 경로 줄 바꿈 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/wrapping" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 긴 경로 줄 바꿈 예제" />
+
+</PlatformBlock>
+
+오른쪽에서 왼쪽으로 쓰는 레이아웃에서는 추가 구성 없이 구분자 아이콘이 자동으로 뒤집히므로, 아이콘 이름을 바꾸지 않아도 오른쪽을 가리키는 꺾쇠가 왼쪽을 가리키게 됩니다.
+
+### 드롭다운 통합
+
+Breadcrumbs 컴포넌트는 다음 컴포넌트와 함께 사용하여 <PlatformBlock for="Angular">[드롭다운](../drop-down.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[드롭다운](../inputs/dropdown.mdx)</PlatformBlock> 각 breadcrumb 항목에 추가 탐색 옵션을 제공할 수 있습니다. 이를 통해 사용자는 탐색 경로에서 바로 관련 페이지나 작업에 빠르게 접근할 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-dropdown" height={160} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="드롭다운이 포함된 Angular Breadcrumbs 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/dropdown" height={160} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="드롭다운이 포함된 {Platform} Breadcrumbs 예제" />
+
+</PlatformBlock>
+
+### 크기
+
+`--ig-size` 변수를 `--ig-size-small`, `--ig-size-medium` 또는 `--ig-size-large` 중 하나로 설정하여 Breadcrumbs 크기를 제어하십시오. 이를 사용하면 경로 안의 텍스트와 아이콘 크기뿐 아니라 여백도 조정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-sizes" height={200} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 크기" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/sizes" height={200} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 크기" />
+
+</PlatformBlock>
+
+### 상태
+
+Breadcrumbs는 `hover`, `focus`, `pressed`, `disabled`와 같은 다양한 시각 상태를 지원하며 `focus-hover` 및 `focus-pressed`과 같은 조합도 지원합니다. 이 상태들은 각 breadcrumb 항목의 현재 상호 작용 상태를 나타내는 데 도움이 됩니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-states" height={400} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 상태" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/states" height={400} position="center" showThemePicker={true} noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 상태" />
+
+</PlatformBlock>
+
+### 사용 여부
+
+계층이 세 수준 이상인 콘텐츠가 많은 애플리케이션에서 상위 페이지로 돌아가는 명확하고 부담 없는 경로를 제공하려면 Breadcrumbs를 사용하여 사용자의 방향을 잡아 주십시오. 단일 수준의 평평한 사이트 구조에서는 불필요한 시각적 복잡성을 만들므로 사용하지 마십시오. 진행 표시기가 필요한 순차적 단계별 프로세스에서도 사용하지 마십시오.
+
+<table class="table" style="width: 100%; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={breadcrumbsDo} srcset={`${breadcrumbsDo.src} 1x, ${breadcrumbsDo2x.src} 2x`} alt="현재 페이지가 표시된 계층 경로를 보여 주는 Breadcrumbs" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={breadcrumbsDoNot} srcset={`${breadcrumbsDoNot.src} 1x, ${breadcrumbsDoNot2x.src} 2x`} alt="계층 경로 대신 기본 탐색으로 사용되는 Breadcrumbs" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>사용</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>사용하지 않음</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        콘텐츠가 두 수준보다 깊게 중첩된 복잡한 제품에는 Breadcrumbs를 사용하십시오.
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        기본 탐색으로 Breadcrumbs를 사용하지 마십시오. 계층 구조가 한 수준뿐이라면 사용하지 마십시오.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## 속성
+
+컨테이너는 공유 구분자를 노출하며, 각 항목은 자신의 상태를 노출합니다.
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" /></PlatformBlock>**
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`separator`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent#separator)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumbs" member="separator" label="separator" /></PlatformBlock> | `string` | `'tree_expand'` | 항목 사이의 기본 구분자로 사용되는 아이콘 이름입니다. 경로의 모든 항목에 전달됩니다. |
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <PlatformBlock for="WebComponents, Angular">[`current`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#current)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="current" label="current" /></PlatformBlock> | `boolean` | `false` | 항목을 현재 페이지로 표시하고 `aria-current="page"`을(를) 설정합니다. |
+| <PlatformBlock for="WebComponents, Angular">[`disabled`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent#disabled)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" member="disabled" label="disabled" /></PlatformBlock> | `boolean` | `false` | 항목을 비활성화하고 `aria-disabled="true"`을(를) 설정하며, 슬롯 콘텐츠를 탭 순서에서 제거합니다. |
+
+
+## 스타일링
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-styling" height={140} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/styling" height={140} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs 스타일 지정 예제" />
+
+</PlatformBlock>
+
+{Platform} Breadcrumbs의 모양은 CSS 변수, CSS 파트 및 테마 시스템으로 제어됩니다.
+
+### 스타일 지정 변수
+
+| 변수 | 변경되는 내용 |
+| -- | -- |
+| `--ig-breadcrumb-text-color` | breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-icon-color` | breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-current-text-color` | 현재 선택된 breadcrumb 항목의 텍스트 색입니다. |
+| `--ig-breadcrumb-current-icon-color` | 현재 선택된 breadcrumb 항목의 아이콘 색입니다. |
+| `--ig-breadcrumb-pressed-text-color` | 눌렀을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-pressed-icon-color` | 눌렀을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-hover-text-color` | 마우스를 올렸을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-hover-icon-color` | 마우스를 올렸을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-focus-text-color` | 포커스를 받았을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-focus-icon-color` | 포커스를 받았을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-focus-underline-color` | 포커스를 받았을 때 breadcrumb의 텍스트 밑줄 색입니다. Material 테마에서만 사용됩니다. |
+| `--ig-breadcrumb-focus-border-color` | 포커스 테두리 색입니다. |
+| `--ig-breadcrumb-focus-hover-text-color` | 포커스를 받고 마우스를 올렸을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-focus-hover-icon-color` | 포커스를 받고 마우스를 올렸을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-focus-hover-underline-color` | 포커스를 받거나 마우스를 올렸을 때 breadcrumb의 텍스트 밑줄 색입니다. Material 테마에서만 사용됩니다. |
+| `--ig-breadcrumb-focus-pressed-text-color` | 포커스를 받고 눌렀을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-focus-pressed-icon-color` | 포커스를 받고 눌렀을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-focus-pressed-underline-color` | 포커스를 받고 눌렀을 때 breadcrumb의 텍스트 밑줄 색입니다. Material 테마에서만 사용됩니다. |
+| `--ig-breadcrumb-disabled-text-color` | 비활성화되었을 때 breadcrumb의 텍스트 색입니다. |
+| `--ig-breadcrumb-disabled-icon-color` | 비활성화되었을 때 breadcrumb 아이콘의 색입니다. |
+| `--ig-breadcrumb-separator-color` | breadcrumb 구분자의 색입니다. |
+
+### 스타일 파트
+
+**<PlatformBlock for="WebComponents, Angular">[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)</PlatformBlock><PlatformBlock for="React, Blazor"><ApiLink pkg="core" type="Breadcrumb" /></PlatformBlock>**
+
+| 파트 | 스타일을 지정하는 대상 |
+| -- | -- |
+| `label` | 접두사, 기본 및 접미사 슬롯을 감싸는 컨테이너입니다. |
+| `separator` | 구분자 슬롯 콘텐츠를 감싸는 컨테이너입니다. |
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 컴포넌트 CSS 변수를 직접 설정하십시오.
+
+```css
+igc-breadcrumbs {
+  --ig-breadcrumb-text-color: var(--ig-primary-50);
+  --ig-breadcrumb-icon-color: var(--ig-primary-200);
+  --ig-breadcrumb-separator-color: var(--ig-gray-200);
+}
+
+igc-breadcrumb::part(label) {
+  padding-inline: 0.25rem;
+}
+```
+
+### Sass 테마 지정
+
+Sass를 통해 Breadcrumbs의 모양을 사용자 지정하려면 <ApiLink kind="sass" module="themes" type="function-breadcrumb-theme" label="breadcrumb-theme" code={true} /> 함수를 사용하십시오.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$my-breadcrumb-theme: breadcrumb-theme(
+    $text-color: #1E2125,
+    $icon-color: #8B5BB1
+);
+
+:root {
+  @include tokens($my-breadcrumb-theme);
+}
+```
+
+### Tailwind로 스타일링하기
+
+유틸리티 우선 스타일 지정을 위해 Tailwind 유틸리티 클래스를 Breadcrumbs CSS 변수와 결합하십시오. 먼저 Ignite UI 테마로 [Tailwind를 설정](../themes/tailwind.mdx)하십시오:
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-breadcrumbs class="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+  <igc-breadcrumb current><a href="/current">Current</a></igc-breadcrumb>
+</igc-breadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```jsx
+<IgrBreadcrumbs className="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+  <IgrBreadcrumb current={true}><a href="/current">Current</a></IgrBreadcrumb>
+</IgrBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbBreadcrumbs Class="!light-breadcrumb ![--ig-breadcrumb-text-color:var(--ig-primary-50)]">
+  <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+  <IgbBreadcrumb Current="true"><a href="/current">Current</a></IgbBreadcrumb>
+</IgbBreadcrumbs>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/breadcrumbs-tailwind-styling" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="Angular Breadcrumbs Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/layouts/breadcrumbs/tailwind-styling" height={160} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} Breadcrumbs Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+느낌표(`!`)는 Tailwind 유틸리티가 컴포넌트의 기본 스타일보다 우선하도록 합니다.
+
+## 접근성
+
+{Platform} Breadcrumbs는 ARIA breadcrumb 탐색 패턴을 따릅니다. 컨테이너는 ARIA `list` 역할을 노출하고, 각 항목은 `listitem` 역할을 노출하며, 현재 항목은 `aria-current="page"`로 알려 줍니다.
+
+### 접근 가능한 탐색 랜드마크
+
+보조 기술이 탐색 랜드마크로 인식할 수 있도록 경로를 `aria-label`를 가진 `<nav>` 요소로 감싸십시오. ARIA breadcrumb 패턴에 따라 레이블은 목록이 아니라 `<nav>`에 두어야 합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<nav aria-label="Breadcrumb">
+  <igc-breadcrumbs>
+    <igc-breadcrumb><a href="/">Root</a></igc-breadcrumb>
+    <igc-breadcrumb current><a href="/products">Products</a></igc-breadcrumb>
+  </igc-breadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<nav aria-label="Breadcrumb">
+  <IgrBreadcrumbs>
+    <IgrBreadcrumb><a href="/">Root</a></IgrBreadcrumb>
+    <IgrBreadcrumb current={true}><a href="/products">Products</a></IgrBreadcrumb>
+  </IgrBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<nav aria-label="Breadcrumb">
+  <IgbBreadcrumbs>
+    <IgbBreadcrumb><a href="/">Root</a></IgbBreadcrumb>
+    <IgbBreadcrumb Current="true"><a href="/products">Products</a></IgbBreadcrumb>
+  </IgbBreadcrumbs>
+</nav>
+```
+
+</PlatformBlock>
+
+### 키보드 상호 작용
+
+Breadcrumbs 컴포넌트는 사용자 지정 키보드 처리를 구현하지 않으며, 탐색은 슬롯에 배치된 대화형 콘텐츠의 기본 동작에 의존합니다:
+
+| 키 | 동작 |
+| -- | -- |
+| `Tab` / `Shift` + `Tab` | 각 breadcrumb 항목에 슬롯으로 배치된 대화형 요소(보통 링크) 사이에서 포커스를 이동합니다. |
+| `Enter` / `Space` | 슬롯에 배치된 요소의 기본 동작에 따라 현재 포커스가 있는 링크를 활성화합니다. |
+
+### 화면 읽기 프로그램 / ARIA
+
+- `Breadcrumbs` 호스트는 `role="list"`을(를) 가집니다.
+- 각 `Breadcrumb` 호스트는 `role="listitem"`을(를) 가집니다.
+- `current`을(를) `true`(으)로 설정하면 호스트에 `aria-current="page"`이(가) 적용되며, 다시 `false`(으)로 설정하면 속성이 제거됩니다.
+- `disabled`을(를) `true`(으)로 설정하면 호스트에 `aria-disabled="true"`이(가) 적용됩니다.
+- 구분자 아이콘은 장식용이며 스크린 리더가 알려 주지 않습니다.
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | 컨테이너와 항목은 `list` / `listitem` 역할을 노출하며, 현재 항목은 `aria-current="page"`을(를) 노출합니다. |
+| [2.4.8 위치](https://www.w3.org/WAI/WCAG21/Understanding/location) | 경로는 사이트 계층 구조 안에서 현재 페이지의 위치를 시각적으로, 그리고 프로그래밍 방식으로 전달합니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | `<nav>` 래퍼가 접근성 이름을 가지며, `list`/`listitem` 역할이 구조적 시맨틱을 담당합니다. |
+
+사용자의 책임:
+
+- Breadcrumbs 컨테이너를 `<nav>` 요소로 감싸고, `"Breadcrumb"` 또는 `"Product category"`처럼 설명적인 `aria-label`을(를) 설정하십시오.
+- 스크린 리더가 하나의 현재 페이지만 알리도록, 경로마다 정확히 하나의 항목만 `current`(으)로 표시하십시오.
+- 슬롯에 배치된 각 앵커 안에 의미 있는 텍스트 레이블을 제공하십시오. 목적지를 전달하는 데 접두사 아이콘에만 의존하지 마십시오.
+
+## 문제 해결
+
+{Platform} Breadcrumbs 문제 해결 지침은 일반적인 통합 및 렌더링 문제에 대해 문제 → 원인 → 해결 형식을 따릅니다.
+
+### 일부 항목에서 구분자가 보이지 않는 이유는 무엇입니까?
+
+구분자는 경로의 마지막 항목에서 자동으로 숨겨지며, 이는 ARIA breadcrumb 패턴에 따른 의도된 동작입니다. 예상하지 못한 항목에서 구분자가 없다면 해당 항목이 컨테이너의 마지막 보이는 자식인지 확인하십시오.
+
+### 'separator'에 설정한 사용자 지정 아이콘 이름이 렌더링되지 않는 이유는 무엇입니까?
+
+구분자 아이콘은 아이콘 레지스트리에 등록되어 있어야 합니다. 경로를 렌더링하기 전에 아이콘을 등록하거나, 테마에 포함된 기본 `tree_expand` 아이콘으로 대체하십시오.
+
+### RTL에서 경로가 줄 바꿈되지 않는 이유는 무엇입니까?
+
+줄 바꿈은 RTL에만 해당하는 동작이 아니며, 전체 콘텐츠 너비가 컨테이너 너비를 초과할 때마다 발생합니다. RTL 환경에서는 시각적 순서가 뒤집히고 구분자 아이콘이 자동으로 반전됩니다. 그래도 경로가 넘친다면 상위 요소가 컨테이너가 자연스러운 너비를 가지지 못하게 막고 있는지 확인하십시오.
+
+## 알려진 제한 사항
+
+{Platform} Breadcrumbs에는 다음과 같은 플랫폼 독립적인 제한 사항이 있습니다.
+
+- Breadcrumbs 컴포넌트는 사용자 지정 키보드 처리를 구현하지 않습니다. 활성화는 각 항목에 슬롯으로 배치된 대화형 요소(보통 앵커)에 따라 달라집니다.
+- Breadcrumbs는 자체 `<nav>` 랜드마크를 렌더링하지 않으며, 이를 사용하는 애플리케이션이 `<nav aria-label="...">` 래퍼를 제공해야 합니다.
+- 컨테이너는 긴 경로를 자동으로 잘라 내지 않습니다. 좁은 너비에서 한 줄 경로가 필요한 경우에는 기본 flex 줄 바꿈과 자체 넘침 전략(예: 중간 항목을 메뉴로 접기)을 결합하십시오.
+
+## API 참조
+
+Breadcrumbs API 전체 범위는 다음 API 참조를 사용하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcBreadcrumbsComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbsComponent)<br />
+[`IgcBreadcrumbComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcBreadcrumbComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="Breadcrumbs" /><br />
+<ApiLink pkg="core" type="Breadcrumb" />
+
+</PlatformBlock>
+
+## 종속성
+
+{Platform} Breadcrumbs는 시각적 스타일을 적용하려면 테마 스타일시트가 필요합니다. 프레임워크별 설정은 **시작하기**를 참조하십시오.
+
+## 추가 리소스
+
+지원 및 관련 Ignite UI 문서는 다음 자료를 사용하십시오.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## 관련 컴포넌트
+
+탐색 영역이 단일 계층 경로보다 넓을 때는 다음 관련 컴포넌트를 사용하십시오.
+
+- <PlatformBlock for="Angular">[Navbar](../navbar.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[Navbar](../menus/navbar.mdx)</PlatformBlock> — 작업과 ID가 포함된 기본 애플리케이션 헤더용입니다.
+- <PlatformBlock for="Angular">[탐색 서랍](../navdrawer.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[탐색 서랍](../menus/navigation-drawer.mdx)</PlatformBlock> — 그룹화된 링크가 있는 고정형 또는 접을 수 있는 측면 탐색용입니다.
+
+## FAQ
+
+<Faq>
+  <FaqItem question="항목 사이의 구분자 아이콘은 어떻게 변경합니까?" indicatorPosition="end">
+    Breadcrumbs 컨테이너의 `separator` 속성을 등록된 아이콘 이름으로 설정하십시오. 컨테이너가 모든 하위 항목에 아이콘을 전달합니다. 단일 항목의 구분자만 재정의하려면 해당 항목의 `separator` 슬롯에 대체 콘텐츠를 배치하십시오.
+  </FaqItem>
+
+  <FaqItem question="마지막 구분자를 직접 숨겨야 합니까?" indicatorPosition="end">
+    아니요. Breadcrumb 항목은 경로의 마지막 항목일 때 끝 구분자를 자동으로 숨기므로, 특별한 처리 없이 반복문으로 항목을 렌더링할 수 있습니다.
+  </FaqItem>
+
+  <FaqItem question="Breadcrumbs 컴포넌트가 `<nav>` 랜드마크를 직접 렌더링합니까?" indicatorPosition="end">
+    아니요. Breadcrumbs는 `listitem` 자식 요소를 가진 ARIA `list`로 렌더링됩니다. ARIA breadcrumb 패턴에 따라, 이를 사용하는 애플리케이션이 컨테이너를 `<nav aria-label="Breadcrumb">`(또는 더 구체적인 레이블)으로 감싸서 접근 가능한 이름이 목록이 아니라 랜드마크에 있도록 해야 합니다.
+  </FaqItem>
+
+  <FaqItem question="현재 페이지는 어떻게 표시합니까?" indicatorPosition="end">
+    현재 보고 있는 페이지를 나타내는 Breadcrumb 항목에 `current` 속성을 설정하십시오. 항목은 `current`를 특성으로 반영하고 호스트에 `aria-current="page"`를 적용하므로 스크린 리더가 어느 항목이 현재 페이지인지 알려 줍니다.
+  </FaqItem>
+
+  <FaqItem question="Breadcrumbs를 설치하려면 어떤 패키지를 설치해야 합니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">Breadcrumbs는 `igniteui-webcomponents` 패키지 7.4.0 이상에 포함되어 있습니다.</PlatformBlock>
+    <PlatformBlock for="Angular">`igniteui-angular`에는 Breadcrumbs가 포함되어 있지 않으므로 Angular 애플리케이션은 이를 직접 설치합니다.</PlatformBlock>
+    <PlatformBlock for="React, Blazor">Breadcrumbs는 `{PackageCommon}` 패키지에 포함되어 있습니다.</PlatformBlock>
+  </FaqItem>
+</Faq>

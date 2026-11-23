@@ -1,0 +1,982 @@
+---
+title: "색상 선택기"
+description: "{ProductName} 색상 선택기는 폼과 연결된 컴포넌트로, 그라데이션 캔버스, 색조 및 알파 슬라이더, 형식 전환, 스포이트, 미리 정의된 색상 견본이 있는 대화형 드롭다운을 통해 사용자가 색상을 고르고 편집할 수 있게 합니다."
+keywords: "{Platform} 색상 선택기, {ProductName}, 색상 선택기, 색상 입력, hex, rgb, hsl, 알파, 견본, 스포이트, 폼 연결"
+license: MIT
+mentionedTypes: ["ColorPicker"]
+last_updated: "2026-09-23"
+_language: ko
+llms:
+  description: "{ProductName} 색상 선택기는 폼과 연결된 컴포넌트로, 그라데이션 캔버스, 색조 및 알파 슬라이더, 형식 전환, 스포이트, 미리 정의된 색상 견본이 있는 대화형 드롭다운을 통해 사용자가 색상을 고르고 편집할 수 있게 합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import colorPickerAnatomy from '@xplat-images/anatomy-content-light/color-picker-lt-a.png';
+import colorPickerDo from '@xplat-images/color-picker/color-picker-do.png';
+import colorPickerDo2x from '@xplat-images/color-picker/color-picker-do@2x.png';
+import colorPickerDoNot from '@xplat-images/color-picker/color-picker-do-not.png';
+import colorPickerDoNot2x from '@xplat-images/color-picker/color-picker-do-not@2x.png';
+
+{/*
+Blazor is excluded in toc.json until a released IgniteUI.Blazor version wraps the component; its blocks below are staged and must be verified against the released wrapper API before removing the exclusion.
+*/}
+
+# 색상 선택기 컴포넌트 <Badge variant="new" />
+
+{ProductName} 색상 선택기는 폼과 연결된 컴포넌트로, 그라데이션 캔버스, 색조 및 알파 슬라이더, 형식 전환, 스포이트, 미리 정의된 색상 견본이 있는 대화형 드롭다운을 통해 사용자가 색상을 고르고 편집할 수 있게 합니다.
+
+## 라이브 데모
+
+{Platform} 색상 선택기 데모는 현재 선택된 색상을 미리 보여 주고, 색상을 편집하거나 다른 색상을 고를 수 있는 드롭다운을 여는 앵커를 `input` 모드로 보여 줍니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-overview" height={790} position="center" noBackground={false} showThemePicker={true} alt="{Platform} 색상 선택기 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/overview" height={790} position="center" noBackground={false} showThemePicker={true} alt="{Platform} 색상 선택기 예제" />
+
+</PlatformBlock>
+
+## 구조
+
+{Platform} 색상 선택기는 색상 선택 표면을 담은 팝오버 드롭다운을 여는 앵커로 구성됩니다. 이 표면에는 그라데이션 캔버스, 색조 및 알파 슬라이더, 형식을 인식하는 색상 입력, 동작 버튼, 선택 사항인 견본 그리드가 있습니다.
+
+<Anatomy
+  class="color-picker-anatomy"
+  name="색상 선택기"
+  description="색상 선택기의 부분: 입력 및 기본 앵커, 그리고 캔버스, 슬라이더, 입력, 동작 버튼, 견본이 있는 선택기 드롭다운입니다."
+  src={colorPickerAnatomy.src}
+  alt="색상 선택기 구조"
+/>
+
+<style>{`
+  .color-picker-anatomy {
+    --igd-anatomy-padding: 0px;
+  }
+
+  [id^="cw-"][id*="color-picker"][id$="-example"]:not([id*="overview"], [id*="tailwind-styling"]) .igd-sample-frame {
+    height: 80%;
+  }
+
+  [id^="cw-"][id*="color-picker-overview"][id$="-example"] .igd-sample-frame,
+  [id^="cw-"][id*="color-picker-tailwind-styling"][id$="-example"] .igd-sample-frame {
+    height: 90%;
+  }
+
+  [id^="cw-"][id*="color-picker-overview"][id$="-example"] .igd-sample-frame {
+    width: 75%;
+  }
+
+  [id^="cw-"][id*="color-picker-swatches"][id$="-example"] .igd-sample-frame {
+    width: 80%;
+  }
+
+  [id^="cw-"][id*="color-picker-styling"][id$="-example"] .igd-sample-frame,
+  [id^="cw-"][id*="color-picker-tailwind-styling"][id$="-example"] .igd-sample-frame {
+    width: 90%;
+  }
+
+  @media (width < 580px) {
+    [id^="cw-"][id*="color-picker"][id$="-example"] .igd-sample-frame {
+      width: 90%;
+    }
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>A - 입력 색상 선택기</strong><br /><br />
+<strong>1. 입력 모드:</strong> `mode="input"`로 렌더링된 색상 선택기입니다.<br />
+<strong>2. 색상 앵커/채우기:</strong> 선택기 드롭다운을 열고 현재 선택된 색상을 보여 줍니다.<br />
+<strong>3. 레이블:</strong> 입력 색상 선택기의 레이블입니다.<br />
+<strong>4. 플레이스홀더:</strong> 입력이 비어 있을 때 표시되는 활성 형식의 패턴으로, 예를 들어 `#rrggbb`와 같습니다.<br />
+<strong>5. 접미사 컨테이너:</strong> 동작 버튼 같은 접미사 요소를 담는 컨테이너입니다.<br />
+<strong>6. 힌트:</strong> 입력 색상 선택기의 힌트 텍스트입니다.<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>B - 기본 색상 선택기</strong><br /><br />
+<strong>1. 색상 앵커:</strong> 선택기 드롭다운을 엽니다.<br />
+<strong>2. 채우기:</strong> 현재 선택된 색상을 보여 줍니다.<br />
+<strong>3. 레이블:</strong> 색상 선택기의 레이블입니다.<br />
+<strong>4. 힌트:</strong> 색상 선택기의 힌트 텍스트입니다.<br /></span>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>C - 색상 선택기 드롭다운</strong><br /><br />
+<strong>1. 색상 선택기 드롭다운:</strong> 모든 색상 선택 컨트롤을 담은 팝오버입니다.<br />
+<strong>2. 그라데이션 캔버스:</strong> 끌 수 있는 마커가 있는 HSV 채도/명도 영역입니다.<br />
+<strong>3. 색상 선택기 마커:</strong> 그라데이션 캔버스에서 현재 선택된 색상을 나타내는 끌 수 있는 마커입니다.<br />
+<strong>4. 색조 슬라이더:</strong> 기본 색상을 위한 범위 슬라이더입니다.<br />
+<strong>5. 색조 슬라이더 핸들:</strong> 색조 슬라이더에서 현재 선택된 색조를 나타내는 끌 수 있는 마커입니다.<br />
+<strong>6. 복사 버튼:</strong> 현재 선택된 색상을 클립보드에 복사합니다.<br />
+<strong>7. 스포이트 버튼:</strong> 화면에서 색상을 고르는 스포이트 도구를 활성화합니다.<br />
+<strong>8. 알파 슬라이더:</strong> `show-alpha`가 설정되면 표시되는 선택 사항인 불투명도 슬라이더입니다.<br />
+<strong>9. 알파 슬라이더 핸들:</strong> 알파 슬라이더에서 현재 선택된 알파 값을 나타내는 끌 수 있는 마커입니다.<br />
+<strong>10. 불투명도 값:</strong> 알파 슬라이더에서 현재 선택된 불투명도 값입니다.<br />
+<strong>11. 형식 전환기:</strong> 색상 형식(`hex`, `rgb`, `hsl`)을 선택하는 드롭다운입니다.<br />
+<strong>12. 색상 값:</strong> 선택된 형식(`hex`, `rgb`, `hsl`)에 따라 표시되는 현재 선택된 색상 값입니다.<br />
+<strong>13. 견본:</strong> 미리 정의된 색상 견본의 선택 사항인 그리드입니다.<br /></span>
+
+```text
+<igc-color-picker>
+└── ::part(color-picker)
+    ├── igc-popover
+    │   ├── ::part(anchor)                   // trigger button (default mode) or swatch button in the input prefix (input mode)
+    │   │                                    // also ::part(empty) with no value, ::part(input-mode) in input mode
+    │   └── ::part(picker)                   // dropdown, role="dialog"
+    │       ├── ::part(picker-canvas)        // gradient canvas
+    │       │   └── ::part(marker)           // focusable slider; also ::part(dragging) while dragged
+    │       ├── ::part(main-row)
+    │       │   ├── ::part(hue)              // hue range slider
+    │       │   └── ::part(buttons)
+    │       │       ├── ::part(copy)         // copy-to-clipboard button
+    │       │       └── ::part(eye-dropper)  // eye-dropper button
+    │       ├── ::part(alpha-row)            // rendered when show-alpha is set
+    │       │   ├── ::part(alpha)            // alpha range slider
+    │       │   └── ::part(alpha-input)      // alpha percentage input
+    │       ├── ::part(inputs-row)
+    │       │   ├── ::part(format-select)    // format switcher, hidden when hide-formats is set
+    │       │   └── color value input
+    │       └── ::part(swatches)             // rendered when swatches is non-empty
+    │           └── ::part(swatch)           // individual swatch buttons
+    ├── ::part(label)                        // default mode, rendered when label is set
+    └── helper text and validation messages
+```
+
+## 시작하기
+
+{Platform} 색상 선택기를 사용하려면 다음을 완료하십시오 <PlatformBlock for="Angular">[{ProductName} 시작하기](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="WebComponents, React, Blazor">[{ProductName} 시작하기](../general-getting-started.mdx)</PlatformBlock> 기본 프로젝트 설정 항목을 참조한 다음, 컴포넌트를 등록하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+색상 선택기에는 `igniteui-webcomponents` 7.3.0 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+{ProductName}는 색상 선택기를 웹 컴포넌트로 렌더링하므로, Angular 프로젝트에 `igniteui-webcomponents`를 설치하십시오:
+
+```cmd
+npm install igniteui-webcomponents
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+색상 선택기에는 `igniteui-react` 19.9.0 이상이 필요합니다.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcColorPickerComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcColorPickerComponent)과 테마를 import한 다음 컴포넌트를 등록하십시오:
+
+```ts
+import { defineComponents, IgcColorPickerComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcColorPickerComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+`igc-color-picker`를 렌더링하는 Angular 컴포넌트에 `CUSTOM_ELEMENTS_SCHEMA`를 추가하십시오:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ApiLink pkg="core" type="ColorPicker" /> 래퍼와 테마를 import하십시오:
+
+```tsx
+import { IgrColorPicker } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+**Program.cs**에 <ApiLink pkg="core" type="ColorPicker" /> 모듈을 등록하십시오:
+
+```csharp
+builder.Services.AddIgniteUIBlazor(typeof(IgbColorPickerModule));
+```
+
+**wwwroot/index.html**(Blazor WebAssembly) 또는 **Pages/_Host.cshtml**(Blazor Server)에 테마 스타일시트를 연결하십시오:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+레이블과 함께 색상 선택기를 렌더링하십시오:
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker label="Pick a color"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker label="Pick a color"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Label="Pick a color"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+## 사용법
+
+<ApiLink pkg="core" type="ColorPicker" member="value" label="value" />은 CSS 색상 문자열 아무것이나 설정할 수 있습니다. hex(앞의 `#`가 있거나 없음), `rgb`/`rgba`, `hsl`/`hsla`, 또는 이름 있는 색상입니다. 빈 문자열이나 잘못된 문자열은 값을 지우며, 앵커에는 체크무늬 패턴이 표시됩니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-value" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 값 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/value" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 값 예제" />
+
+</PlatformBlock>
+
+### 모드
+
+<ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> 속성은 앵커의 표시 방식을 제어합니다. 기본값인 `default`는 현재 색상을 미리 보여 주는 트리거 버튼을 렌더링합니다. `input`는 색상 견본 접두사가 있는 편집 가능한 텍스트 필드를 렌더링합니다. 두 앵커 모두 같은 선택기 드롭다운을 엽니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker mode="input" label="Background"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker mode="input" label="Background"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Mode="ColorPickerMode.Input" Label="Background"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-input" height={590} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 입력 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/input" height={590} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 입력 예제" />
+
+</PlatformBlock>
+
+### 형식
+
+<ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> 속성을 사용하여 색상을 직렬화하는 방식을 제어하십시오. 지원되는 값은 `hex`, `rgb`, `hsl`입니다. 형식을 바꾸면 기존 색상을 바꾸지 않고 다시 직렬화하므로, `igcInput` 또는 `igcChange` 이벤트는 발생하지 않습니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker format="rgb" value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker format="rgb" value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Format="ColorPickerFormat.Rgb" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+기본 제공 형식 전환기를 숨기고 선택기를 단일 형식으로 고정하려면 <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> 속성을 설정하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker hide-formats format="hex"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker hideFormats={true} format="hex"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker HideFormats="true" Format="ColorPickerFormat.Hex"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-format" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 형식 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/format" height={555} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 형식 예제" />
+
+</PlatformBlock>
+
+### 알파
+
+기본적으로 선택기는 완전히 불투명한 색상을 편집합니다. <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> 속성을 설정하여 알파 슬라이더와 백분율 입력을 활성화하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker show-alpha value="rgba(25, 118, 210, 0.5)"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker showAlpha={true} value="rgba(25, 118, 210, 0.5)"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker ShowAlpha="true" Value="rgba(25, 118, 210, 0.5)"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-alpha" height={618} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 알파 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/alpha" height={618} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 알파 예제" />
+
+</PlatformBlock>
+
+### 견본
+
+<ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> 속성을 통해 미리 정의된 색상 목록을 제공하십시오. 설정하면 선택기는 색상 입력 아래에 견본 그리드를 렌더링합니다. 견본을 클릭하면 현재 색상으로 적용됩니다. 정의할 수 있는 견본의 수에는 제한이 없습니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```ts
+const picker = document.querySelector('igc-color-picker');
+picker.swatches = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50'];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker swatches={['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#4caf50']}></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Swatches='@(new[] { "#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50" })'></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-swatches" height={717} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 견본 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/swatches" height={717} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 견본 예제" />
+
+</PlatformBlock>
+
+### 비활성화
+
+색상 선택기를 비활성화하려면 <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> 속성을 설정하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker disabled value="#1976d2"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker disabled={true} value="#1976d2"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Disabled="true" Value="#1976d2"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+### 검증
+
+색상이 선택되지 않았을 때 폼 유효성 검사가 실패하도록 컨트롤을 <ApiLink pkg="core" type="ColorPicker" member="required" label="required" />로 표시하십시오. 이 컴포넌트는 표준 폼 연결 API인 <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" />, <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" />, <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" />를 지원합니다.
+
+다음 슬롯을 통해 앵커 아래에 도움말 및 유효성 검사 메시지를 표시하십시오:
+
+- `helper-text` – 앵커 아래에 힌트나 안내 메시지를 표시합니다.
+- `value-missing` – 필수 필드 유효성 검사가 실패하면 사용자 지정 콘텐츠를 렌더링합니다.
+- `invalid` – 컴포넌트가 유효하지 않은 상태일 때 사용자 지정 콘텐츠를 렌더링합니다.
+- `custom-error` – <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity()" />를 사용하여 사용자 지정 유효성 검사 메시지가 설정되면 콘텐츠를 표시합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker required label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker required={true} label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Required="true" Label="Brand color">
+  <span slot="helper-text">Pick the primary brand color.</span>
+  <span slot="value-missing">A color is required.</span>
+</IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-states" height={585} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 상태" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/states" height={585} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 상태" />
+
+</PlatformBlock>
+
+### 크기
+
+`--ig-size` 변수를 세 가지 옵션 중 하나인 `--ig-size-small`, `--ig-size-medium`, `--ig-size-large`로 설정하여 색상 선택기 크기를 제어하십시오. 이것으로 기본 앵커와 입력 모드 앵커, 그리고 드롭다운 창의 크기를 모두 조정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-sizes" height={635} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 크기" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/sizes" height={635} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 크기" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-input-sizes" height={665} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 입력 크기" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/input-sizes" height={665} position="center" noBackground={false} noBorder={false} alt="{Platform} 색상 선택기 입력 크기" />
+
+</PlatformBlock>
+
+### 사용 여부
+
+**사용할 때:** 사용자가 시각적 편집기로 임의의 색상을 입력하거나 편집해야 하고, 그 값이 폼 제출과 유효성 검사에 참여해야 할 때 색상 선택기를 사용하십시오. 항상 명확한 레이블을 제공하고, 선택기가 다른 폼 필드와 함께 놓일 때는 `input` 모드를 선호하십시오.
+
+**사용하지 말아야 할 때:** 사용자가 작은 고정 색상 세트에서만 고르는 경우에는 그 세트를 일반 버튼이나 select로 렌더링하십시오.
+
+<table class="table" style="width: 100%; margin: 0 auto 26px;">
+  <tbody>
+    <tr>
+      <td style="width: 50%; border: none; padding: 0 13px 13px 0;"><Image src={colorPickerDo} srcset={`${colorPickerDo.src} 1x, ${colorPickerDo2x.src} 2x`} alt="그리기 브러시 색상을 고르는 데 사용되는 색상 선택기" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+      <td style="width: 50%; border: none; padding: 0 0 13px 13px;"><Image src={colorPickerDoNot} srcset={`${colorPickerDoNot.src} 1x, ${colorPickerDoNot2x.src} 2x`} alt="고정된 옵션 세트로 제공되는 제품 색상을 고르는 데 사용되는 색상 선택기" style="border: 1px solid #D2DBE8; margin: unset;"/>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; color: green;">
+        <strong>사용</strong>
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; color: red;">
+        <strong>사용하지 않음</strong>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 13px 13px 13px 0; text-align: left;">
+        그리기 도구의 브러시, 일러스트레이션 채우기, 차트 계열, 사용자 지정 테마처럼 제약 없는 창작 작업에는 전체 색상 선택기를 사용하십시오.
+      </td>
+      <td style="border: none; padding: 13px 0 13px 13px; text-align: left;">
+        사용자가 미리 정해진 팔레트에서 고르기만 하거나 고급 사용자 지정 옵션이 필요하지 않다면 색상 선택기를 사용하지 마십시오.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<PlatformBlock for="Angular">
+
+## Angular 폼에서 색상 선택기 사용하기
+
+Angular 폼에서 색상 선택기 웹 컴포넌트를 사용하고 `formControlName` 또는 `ngModel`로 바인딩하려면, Angular는 `ControlValueAccessor` 인터페이스의 구현이 필요합니다. {ProductName}는 이를 `IgcFormControlDirective`로 제공하며, 이는 요소 선택자로 지원되는 웹 컴포넌트에 연결됩니다. 22.2.0 버전부터는 `igc-rating`에 더해 `igc-color-picker`도 지원합니다.
+
+`IgcFormControlDirective`를 `ReactiveFormsModule`와 함께 import하거나, `ngModel`로 바인딩하는 경우 `FormsModule`를 import하십시오:
+
+```ts
+import { ReactiveFormsModule } from '@angular/forms';
+import { IgcFormControlDirective } from 'igniteui-angular/directives';
+// import { IgcFormControlDirective } from '@infragistics/igniteui-angular/directives'; for licensed package
+
+@Component({
+    imports: [ReactiveFormsModule, IgcFormControlDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+
+export class LabelFormComponent {...}
+```
+
+그다음 `formControlName`로 색상 선택기를 `FormControl`에 바인딩하십시오. 컨트롤은 활성 `format` 형식의 색상을 받으며, 포커스가 색상 선택기를 떠날 때 다른 색상으로 업데이트됩니다:
+
+```html
+<form [formGroup]="labelForm">
+  <igc-color-picker formControlName="color" label="Label color" required></igc-color-picker>
+</form>
+```
+
+<DocsAside type="info">
+이 디렉티브는 값 바인딩만 처리합니다. `[swatches]="swatches"` 같은 다른 색상 선택기 속성에 Angular 속성 바인딩을 사용한다면 `CUSTOM_ELEMENTS_SCHEMA`를 유지하십시오.
+</DocsAside>
+
+다음 샘플은 필수 유효성 검사가 있는 반응형 폼에서 색상 선택기를 사용합니다:
+
+<Sample src="/data-entries/color-picker-reactive-form" height={850} position="center" noBackground={false} noBorder={false} alt="반응형 폼의 Angular 색상 선택기" />
+
+</PlatformBlock>
+
+## 속성
+
+{Platform} 색상 선택기는 콘텐츠, 표시 방식, 폼 연결을 위한 속성을 노출합니다.
+
+| 이름 | 타입 | 기본값 | 설명 |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="value" label="value" /> | `string` | `''` | 활성 형식으로 직렬화된 현재 색상입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="label" label="label" /> | `string` | — | 앵커의 레이블입니다. `mode="input"`에서는 앵커 입력의 자체 레이블로 전달됩니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="format" label="format" /> | `'hex' \| 'rgb' \| 'hsl'` | `'hex'` | 값 문자열을 직렬화할 때 사용되는 출력 형식입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="mode" label="mode" /> | `'default' \| 'input'` | `'default'` | 앵커가 트리거 버튼(`default`)인지, 견본 접두사가 있는 편집 가능한 텍스트 필드(`input`)인지 여부입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="swatches" label="swatches" /> | `string[]` | `[]` | 선택 가능한 견본 그리드로 렌더링되는 미리 정의된 색상 문자열입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="hideFormats" label="hideFormats" /> | `boolean` | `false` | 형식 전환기를 숨길지 여부입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="showAlpha" label="showAlpha" /> | `boolean` | `false` | 알파 슬라이더와 백분율 입력을 표시할지 여부입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="required" label="required" /> | `boolean` | `false` | 폼 유효성 검사에서 컨트롤이 필수인지 여부입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="disabled" label="disabled" /> | `boolean` | `false` | 컨트롤의 비활성화 상태입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="open" label="open" /> | `boolean` | `false` | 선택기 드롭다운의 열림 상태입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> | `string` | — | 폼 제출에 사용되는 컨트롤의 이름입니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="invalid" label="invalid" /> | `boolean` | `false` | 컨트롤의 유효하지 않음 시각 상태를 설정하거나 반환합니다. |
+
+## 메서드
+
+| 이름 | 반환 유형 | 설명 |
+| -- | -- | -- |
+| <ApiLink pkg="core" type="ColorPicker" member="show" label="show" /> | `Promise<boolean>` | `igcOpening` 또는 `igcOpened`를 발생시키지 않고 선택기 드롭다운을 엽니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="hide" label="hide" /> | `Promise<boolean>` | `igcClosing` 또는 `igcClosed`를 발생시키지 않고 선택기 드롭다운을 닫습니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="toggle" label="toggle" /> | `Promise<boolean>` | 이벤트를 발생시키지 않고 선택기 드롭다운의 열림 상태를 토글합니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="checkValidity" label="checkValidity" /> | `boolean` | 메시지를 보여 주지 않고 컨트롤의 유효성을 확인합니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="reportValidity" label="reportValidity" /> | `boolean` | 컨트롤의 유효성을 확인하고 그 결과를 사용자에게 알립니다. |
+| <ApiLink pkg="core" type="ColorPicker" member="setCustomValidity" label="setCustomValidity" /> | `void` | 사용자 지정 유효성 검사 메시지를 설정합니다. 지우려면 빈 문자열을 전달하십시오. |
+
+## 이벤트
+
+| 이름 | 취소 가능 | 세부 정보 | 설명 |
+| -- | -- | -- | -- |
+| `igcInput` | 아니요 | `string` | 그라데이션 캔버스, 색조 및 알파 슬라이더, 알파 입력, 견본, 스포이트에서 발생하는 모든 중간 변경 시 발생합니다. |
+| `igcChange` | 아니요 | `string` | 포커스가 컴포넌트를 떠났고 색상이 포커스가 들어왔을 때의 색상과 다를 때 발생합니다. |
+| `igcOpening` | 예 | `void` | 사용자가 선택기 드롭다운을 열기 직전에 발생합니다. `event.preventDefault()`로 취소할 수 있습니다. |
+| `igcOpened` | 아니요 | `void` | 사용자가 선택기 드롭다운을 연 후에 발생합니다. |
+| `igcClosing` | 예 | `void` | 사용자가 선택기 드롭다운을 닫기 직전에 발생합니다. `event.preventDefault()`로 취소할 수 있습니다. |
+| `igcClosed` | 아니요 | `void` | 사용자가 선택기 드롭다운을 닫은 후에 발생합니다. |
+
+## 스타일링
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-styling" height={630} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} 색상 선택기 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/styling" height={630} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} 색상 선택기 스타일 지정 예제" />
+
+</PlatformBlock>
+
+{Platform} 색상 선택기의 모양은 CSS 변수, CSS 파트, 테마 시스템으로 사용자 지정할 수 있습니다.
+
+### 스타일 지정 변수
+
+| 변수 | 변경되는 내용 |
+| -- | -- |
+| `--ig-color-picker-label-color` | 색상 선택기 레이블의 색상입니다. |
+| `--ig-color-picker-label-color-invalid` | 컴포넌트가 유효하지 않을 때 레이블의 색상입니다. |
+| `--ig-color-picker-label-color-disabled` | 컴포넌트가 비활성화되었을 때 레이블의 색상입니다. |
+| `--ig-color-picker-anchor-background` | 색상 선택기 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-hover` | 마우스를 올렸을 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-focus-visible` | 포커스가 보일 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-focus-visible-hover` | 포커스가 보이고 마우스를 올렸을 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-active` | 활성 상태일 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-active-focus-visible` | 포커스가 보이는 상태로 활성화되었을 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-background-disabled` | 비활성화되었을 때 앵커의 배경색입니다. |
+| `--ig-color-picker-anchor-outline-color` | 포커스가 보일 때 앵커의 윤곽선 색상입니다. |
+| `--ig-color-picker-anchor-border-color` | 앵커의 테두리 색상입니다. |
+| `--ig-color-picker-anchor-border-color-disabled` | 비활성화되었을 때 앵커의 테두리 색상입니다. |
+| `--ig-color-picker-anchor-border-radius` | 앵커의 테두리 반경입니다. |
+| `--ig-color-picker-swatch-preview-border-color` | 앵커 안 색상 미리 보기의 테두리 색상입니다. |
+| `--ig-color-picker-picker-background` | 색상 선택기 드롭다운의 배경색입니다. |
+| `--ig-color-picker-picker-border-color` | 색상 선택기 드롭다운의 테두리 색상입니다. |
+| `--ig-color-picker-picker-border-radius` | 색상 선택기 드롭다운의 테두리 반경입니다. |
+| `--ig-color-picker-picker-canvas-border-color` | 색상 선택기 그라데이션 캔버스의 테두리 색상입니다. |
+| `--ig-color-picker-picker-elevation` | 색상 선택기 드롭다운의 그림자입니다. |
+| `--ig-color-picker-slider-track-border-color` | 색조 및 알파 슬라이더 트랙의 테두리 색상입니다. |
+| `--ig-color-picker-slider-track-border-radius` | 색조 및 알파 슬라이더 트랙의 테두리 반경입니다. |
+| `--ig-color-picker-slider-thumb-border-color` | 색조 및 알파 슬라이더 썸(thumb)의 테두리 색상입니다. |
+| `--ig-color-picker-swatch-separator-color` | 견본 그리드 위의 구분선 색상입니다. |
+| `--ig-color-picker-swatch-border-color` | 미리 정의된 색상 견본의 테두리 색상입니다. |
+| `--ig-color-picker-swatch-border-radius` | 미리 정의된 색상 견본의 테두리 반경입니다. |
+| `--ig-color-picker-swatch-size` | 미리 정의된 색상 견본의 크기입니다. |
+| `--ig-color-picker-transparency-grid-odd` | 투명도 격자의 홀수 체커 색상입니다. |
+| `--ig-color-picker-transparency-grid-even` | 투명도 격자의 짝수 체커 색상입니다. |
+| `--ig-color-picker-invalid-color` | 유효하지 않은 상태 표시기에 사용되는 색상입니다. |
+| `--ig-color-picker-marker-size` | 색상 선택기 그라데이션 캔버스의 마커 크기입니다. |
+| `--ig-color-picker-marker-elevation` | 색상 선택기 그라데이션 캔버스의 마커 그림자입니다. |
+| `--ig-color-picker-marker-color` | 색상 선택기 그라데이션 캔버스의 마커 색상입니다. |
+
+### 스타일 파트
+
+| 파트 | 스타일을 지정하는 대상 |
+| -- | -- |
+| `color-picker` | 앵커, 레이블, 도움말 텍스트를 감싸는 래퍼입니다. |
+| `anchor` | 선택기를 여는 트리거 요소입니다(기본 모드에서는 버튼, 입력 모드에서는 견본 접두사). |
+| `empty` | 색상 값이 설정되지 않았을 때 `anchor`와 함께 적용되어 체크무늬 배경을 렌더링합니다. |
+| `input-mode` | 입력 모드에서 `anchor`와 함께 적용됩니다. |
+| `label` | 기본 모드에서 앵커 위에 렌더링되는 레이블입니다. |
+| `picker` | 캔버스, 슬라이더, 입력, 견본을 담고 있는 팝오버 컨테이너입니다. |
+| `picker-canvas` | 그라데이션 캔버스입니다. |
+| `marker` | 그라데이션 캔버스에서 끌 수 있는 마커입니다. |
+| `dragging` | 마커를 끌고 있는 동안 `marker`와 함께 적용됩니다. |
+| `main-row` | 색조 슬라이더와 복사/스포이트 버튼을 담고 있는 행입니다. |
+| `alpha-row` | `show-alpha`가 설정되었을 때 렌더링되는, 알파 슬라이더와 입력을 담고 있는 행입니다. |
+| `alpha-input` | 알파 백분율 입력입니다. |
+| `inputs-row` | 형식 선택과 색상 값 입력을 담고 있는 행입니다. |
+| `buttons` | 복사 및 스포이트 버튼을 감싸는 래퍼입니다. |
+| `hue` | 색조 범위 슬라이더입니다. |
+| `alpha` | 알파(불투명도) 범위 슬라이더입니다. |
+| `copy` | 클립보드 복사 아이콘 버튼입니다. |
+| `eye-dropper` | 스포이트 아이콘 버튼입니다. |
+| `format-select` | 색상 문자열 형식을 전환하는 데 사용되는 select 컨트롤입니다. |
+| `swatches` | 미리 정의된 색상 견본의 컨테이너입니다. |
+| `swatch` | 미리 정의된 개별 색상 견본 버튼입니다. |
+
+### Sass 테마 지정
+
+Sass를 통해 색상 선택기의 모양을 사용자 지정하려면 <ApiLink kind="sass" module="themes" type="function-color-picker-theme" label="color-picker-theme" code={true} /> 함수를 사용하십시오.
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-color-picker-theme: color-picker-theme(
+  $picker-background: #e6f2ff,
+  $picker-border-color: #a9b8cc,
+  $picker-border-radius: 1rem
+);
+
+:root {
+  @include tokens($custom-color-picker-theme);
+}
+```
+
+### CSS 변수
+
+Sass 빌드 단계 없이 로컬 스타일이 필요하면 컴포넌트 CSS 변수를 직접 설정하십시오.
+
+```css
+igc-color-picker {
+  --ig-color-picker-picker-background: #e6f2ff;
+  --ig-color-picker-picker-border-color: #a9b8cc;
+  --ig-color-picker-picker-border-radius: 1rem;
+  --ig-color-picker-picker-elevation: none;
+}
+
+igc-color-picker::part(picker-canvas) {
+  border-radius: 1rem;
+}
+```
+
+### Tailwind로 스타일링하기
+
+`igniteui-theming`의 사용자 지정 Tailwind 유틸리티 클래스로 색상 선택기의 스타일을 지정하십시오. 먼저 Ignite UI 테마와 함께 [Tailwind를 설정](../themes/tailwind.mdx)하십시오:
+
+```css
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+```
+
+`light-color-picker` 유틸리티를 적용하여 색상 선택기에 테마 변수를 부여한 다음, 임의 속성 클래스로 개별 변수를 재정의하십시오. `!` 접두사는 유틸리티를 중요하게 표시하여 컴포넌트의 기본 테마 스타일보다 우선하도록 합니다.
+
+<PlatformBlock for="WebComponents, Angular">
+
+```html
+<igc-color-picker class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></igc-color-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColorPicker className="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgrColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColorPicker Class="!light-color-picker [--ig-color-picker-picker-background:#fff0eb] [--ig-color-picker-picker-border-color:#f95924]"></IgbColorPicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/color-picker-tailwind-styling" height={660} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} 색상 선택기 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/color-picker/tailwind-styling" height={660} position="center" noBackground={false} noBorder={false} spacing="md" alt="{Platform} 색상 선택기 Tailwind 스타일 지정 예제" />
+
+</PlatformBlock>
+
+## 접근성
+
+{Platform} 색상 선택기는 키보드로 조작할 수 있고 폼과 연결되는 컨트롤입니다. 앵커는 레이블이 있는 버튼(기본 모드)이거나 편집 가능한 입력(입력 모드)이며, 열린 선택기는 포커스를 가둡니다.
+
+### 키보드 상호 작용
+
+컴포넌트가 `disabled` 상태일 때는 아래 키 조작이 건너뛰어집니다.
+
+| 키 | 동작 |
+| -- | -- |
+| `Alt` + `ArrowDown` | 선택기 드롭다운을 토글합니다. |
+| `Alt` + `ArrowUp` | 선택기 드롭다운을 닫고 포커스를 앵커로 되돌립니다. |
+| `Escape` | 선택기 드롭다운을 닫고 포커스를 앵커로 되돌립니다. |
+| `Arrow` 키 | 그라데이션 캔버스 마커에 포커스가 있을 때, 누른 방향으로 마커를 한 단계씩 이동합니다. |
+| `ArrowUp` / `ArrowDown` | 알파 입력에 포커스가 있을 때 불투명도를 1%씩 늘리거나 줄입니다. |
+| `Tab` | 열린 선택기 안의 상호 작용 요소 사이에서 포커스를 이동합니다. |
+
+### 화면 읽기 프로그램 / ARIA
+
+- 앵커는 `aria-haspopup="dialog"`와 `aria-expanded`를 설정하고, `aria-describedby`를 통해 도움말 텍스트 컨테이너를 참조하여 도움말과 유효성 검사 메시지가 읽히도록 합니다.
+- 선택기 드롭다운에는 `role="dialog"`와 접근 가능한 이름 `Color picker`가 있습니다.
+- 그라데이션 캔버스 마커에는 `role="slider"`가 있으며, `aria-valuetext`를 통해 두 축을 모두 읽습니다(예: `Saturation 50%, brightness 80%`).
+- 색조 및 알파 슬라이더는 기본 `input[type="range"]` 요소이며, `aria-label`를 통해 레이블이 지정됩니다(`Hue`, `Alpha slider`).
+- 형식 전환기와 색상 값 입력에는 시각적으로 숨겨진 레이블이 있으며, 복사 및 스포이트 버튼은 시각적으로 숨겨진 텍스트를 노출합니다.
+- 각 견본 버튼은 `aria-label`를 통해 자신의 색상을 노출합니다.
+- 선택기가 열려 있는 동안에는 포커스가 그 안에 갇힙니다. 닫혀 있을 때 선택기 콘텐츠는 `inert` 상태이며 탭 순서에서 제외됩니다.
+
+### 접근성 준수
+
+Infragistics는 [접근성 준수](../interactivity/accessibility-compliance.mdx) 항목에서 Section 508 및 WCAG 2.1 지침 영역에 대한 {ProductName} 접근성 지원을 문서화합니다.
+
+| 기준 | 컴포넌트가 준수하는 방식 |
+| -- | -- |
+| [1.3.1 정보와 관계](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships) | 컴포넌트는 `aria-describedby`와 슬롯 프로젝션을 통해 레이블, 도움말 텍스트, 유효성 검사 메시지를 노출합니다. |
+| [2.1.1 키보드](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | 선택기를 열고 닫는 것, 그라데이션 마커, 슬라이더, 입력, 형식 전환기, 견본은 모두 키보드로 조작할 수 있습니다. |
+| [4.1.2 이름, 역할, 값](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | 앵커는 `aria-haspopup`와 `aria-expanded`를 노출하고, 마커는 값과 함께 `role="slider"`를 노출하며, 슬라이더는 접근 가능한 레이블을 노출하고, 견본은 `aria-label`를 통해 색상을 노출합니다. |
+
+사용자의 책임:
+
+- 화면 읽기 프로그램이 앵커를 식별할 수 있도록 `label` 속성 또는 프로젝션된 레이블을 통해 접근 가능한 레이블을 제공하십시오.
+- 필수 또는 유효하지 않음 상태를 전달하는 데 색상만 사용하지 마십시오. 유효성 검사 슬롯이나 도움말 텍스트를 사용하십시오.
+- 앵커와 선택기 표면의 테마 스타일을 재정의할 때 충분한 대비를 유지하십시오.
+
+## 문제 해결
+
+{Platform} 색상 선택기 문제 해결 안내는 흔한 통합 및 플랫폼 문제를 문제 → 원인 → 해결 형식으로 설명합니다.
+
+### 색상 값이 지워지거나 되돌아간 이유는 무엇입니까?
+
+`value`에 빈 문자열, 공백만 있는 문자열 또는 잘못된 문자열을 할당하면 이전 값을 유지하지 않고 색상이 지워집니다. 색상 입력에 입력한 잘못된 문자열은 대신 현재 색상으로 되돌아갑니다. 유효한 CSS 색상 문자열을 할당하고, 실행 환경이 `OffscreenCanvas`를 지원하는지 확인하십시오(알려진 제한 사항 참조).
+
+### 내보내진 값이 제가 입력한 것과 다른 형식인 이유는 무엇입니까?
+
+값은 항상 활성 `format`로 직렬화되므로, 입력 문자열이 바이트 단위로 그대로 돌아오지 않습니다. 예를 들어 `format="hex"` 설정에서 `red`를 입력하면 `#ff0000`가 생성됩니다. 다시 읽을 때 기대하는 표기법으로 `format`를 설정하십시오.
+
+### 색상을 입력하는 동안 `igcInput`가 발생하지 않는 이유는 무엇입니까?
+
+색상 입력은 키를 누를 때마다가 아니라 값이 바뀔 때 입력된 색상을 커밋하며, 입력된 색상은 `igcInput`를 발생시키지 않습니다. 포커스가 다른 색상과 함께 컴포넌트를 떠날 때 발생하는 `igcChange`를 구독하십시오.
+
+### 알려진 제한 사항
+
+- 스포이트 버튼은 [`EyeDropper`](https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper) API를 구현하는 브라우저에서만 활성화됩니다. 지원 여부는 컴포넌트가 생성될 때 한 번 감지됩니다.
+- 클립보드 복사는 `navigator.clipboard`와 보안 컨텍스트(HTTPS 또는 `localhost`)에 따라 달라지며, API를 사용할 수 없거나 권한이 거부된 환경에서는 아무 일도 일어나지 않습니다.
+- 컴포넌트는 모든 색상 문자열을 `OffscreenCanvas` 2D 컨텍스트를 통해 파싱합니다. `OffscreenCanvas`를 사용할 수 없는 환경에서는 모든 값이 빈 값으로 처리됩니다.
+- `Hue`, `Alpha slider`, `Open color picker`, `Copy color value to clipboard` 같은 기본 제공 접근 가능한 레이블은 영어만 제공되며 지역화되지 않습니다.
+
+## API 참조
+
+색상 선택기 API의 전체 표면은 다음 API 참조를 사용하십시오.
+
+<PlatformBlock for="WebComponents, Angular">
+
+[`IgcColorPickerComponent`]({environment:infragisticsBaseUrl}/api/webcomponents/igniteui-webcomponents/latest/classes/IgcColorPickerComponent)
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+<ApiLink pkg="core" type="ColorPicker" />
+
+</PlatformBlock>
+
+## 종속성
+
+{Platform} 색상 선택기에는 시각적 스타일을 적용하기 위해 테마 스타일시트가 필요합니다. 설정 방법은 **시작하기**를 참조하십시오.
+
+## 추가 리소스
+
+지원 및 관련 Ignite UI 문서는 다음 자료를 사용하십시오.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## FAQ
+
+<Faq>
+  <FaqItem question="색상 선택기를 폼에 바인딩하려면 어떻게 합니까?" indicatorPosition="end">
+    <ApiLink pkg="core" type="ColorPicker" member="name" label="name" /> 어트리뷰트를 폼 필드 이름으로 설정하고, 색상 선택기를 `<form>` 요소 안에 배치하십시오. 현재 직렬화된 색상이 그 이름으로 제출되며, 이 컨트롤은 표준 폼 연결 요소 API를 통해 `required` 유효성 검사와 폼 재설정에 참여합니다.
+    <PlatformBlock for="Angular">Angular 반응형 폼에서는 `IgcFormControlDirective`를 import하고 `formControlName`로 색상 선택기를 바인딩하십시오. [Angular 반응형 폼에서 색상 선택기 사용하기](#angular-폼에서-색상-선택기-사용하기)를 참조하십시오.</PlatformBlock>
+  </FaqItem>
+
+  <FaqItem question="`igcInput`과 `igcChange`는 어떻게 다른가요?" indicatorPosition="end">
+    `igcInput`는 캔버스, 슬라이더, 알파 입력, 견본, 스포이트와의 모든 중간 상호 작용마다 발생합니다. `igcChange`는 포커스가 색상 선택기를 떠나고 색상이 포커스가 들어왔을 때의 색상과 다를 때 한 번 발생하며, 이는 네이티브 `change` 이벤트의 의미 체계와 일치합니다. 색상 입력에 입력된 색상은 `igcChange`만 발생시킵니다.
+  </FaqItem>
+
+  <FaqItem question="어떤 패키지가 색상 선택기를 제공합니까?" indicatorPosition="end">
+    <PlatformBlock for="WebComponents, Angular">색상 선택기는 7.3.0 이상 버전의 `igniteui-webcomponents` 패키지에 포함되어 있습니다.</PlatformBlock>
+    <PlatformBlock for="Angular">`igniteui-angular`에는 색상 선택기가 포함되어 있지 않으므로, Angular 애플리케이션은 이를 직접 설치합니다.</PlatformBlock>
+    <PlatformBlock for="React, Blazor">색상 선택기는 `{PackageCommon}` 패키지에 포함되어 있습니다.</PlatformBlock>
+  </FaqItem>
+</Faq>

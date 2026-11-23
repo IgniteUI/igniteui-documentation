@@ -1,0 +1,298 @@
+---
+title: "Angular Virtual For 디렉티브 - MIT 라이선스"  
+description: "Ignite UI for Angular는 이제 ngFor와 비슷한 가상 igxFor 디렉티브를 제공합니다. 이 디렉티브는 DOM에 보이는 데이터 부분만 표시하여 DOM 객체 렌더링을 가상화합니다."
+keywords: "Angular Virtual ForOf 디렉티브, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library, 가상화, 성능, 가상 디렉티브, Angular Virtual For"
+license: MIT
+_language: ko
+llms:
+  description: "Ignite UI for Angular의 igxForOf 디렉티브는 대량의 데이터를 템플릿으로 만들기 위한 ngForOf의 대체 수단이며, 더 이상 사용을 권장하지 않습니다. Virtual Scroll 컴포넌트가 이를 대체합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Virtual ForOf 디렉티브 개요
+
+<DocsAside type="warning" title="사용 중단됨">
+`igxForOf` 디렉티브는 [Virtual Scroll](./layouts/virtual-scroll.mdx) 컴포넌트로 대체되어 더 이상 사용을 권장하지 않습니다. 기존 목록은 계속 동작하지만, 한 축을 가상화하는 새 목록에는 Virtual Scroll을 사용하십시오. Virtual Scroll은 런타임에 항목을 측정하므로 항목마다 크기가 다를 수 있으며, 자체 스크롤 컨테이너를 만듭니다. 기존 목록을 마이그레이션하려면 [igxForOf 목록을 Virtual Scroll로 어떻게 바꿉니까?](./layouts/virtual-scroll.mdx#how-do-i-replace-an-igxforof-list-with-the-virtual-scroll)를 참조하십시오.
+</DocsAside>
+
+<div class="highlight">
+Ignite UI for Angular의 igxForOf 디렉티브는 대량의 데이터를 템플릿으로 만들기 위한 ngForOf의 대체 수단입니다. 내부적으로 가상화를 사용하여 DOM 렌더링과 메모리 사용량을 최적화합니다.
+</div>
+
+## Angular Virtual For 디렉티브 예제
+
+<Sample src="/data-display/igx-for-sample-1" height={650} alt="Angular Virtual For 디렉티브 예제" />
+
+<igc-divider></igc-divider>
+
+## Ignite UI for Angular Virtual ForOf 디렉티브 시작하기
+
+Ignite UI for Angular <ApiLink type="ForOfDirective" member="igxForOf" label="igxFor" /> 디렉티브를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxForOfModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxForOfModule } from 'igniteui-angular/directives';
+// import { IgxForOfModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxForOfModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxForOfDirective`을(를) 독립형 종속성으로 가져올 수 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IgxForOfDirective } from 'igniteui-angular/directives';
+// import { IgxForOfDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <span #container>
+        <ng-template *igxFor="data"></ng-template>
+    </span>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IgxForOfDirective]
+})
+export class HomeComponent {
+    public data: Employee [];
+}
+```
+
+이제 Ignite UI for Angular Tree Grid 모듈 또는 디렉티브를 가져왔으므로, `igxFor` 디렉티브를 사용하기 시작할 수 있습니다.
+
+## Angular Virtual ForOf 사용하기
+
+이제 모듈 또는 디렉티브를 가져왔으니, 로컬 데이터에 바인딩되는 `igxFor`의 기본 구성부터 시작해 보겠습니다:
+
+```html
+<span #container>
+    <ng-template *igxFor="data"></ng-template>
+</span>
+```
+
+**data** 속성은 가상화된 DOM을 구성하는 데 사용되는 데이터 객체를 제공하는 배열입니다.
+
+## 예제
+
+`igxFor` 디렉티브는 데이터를 세로, 가로 또는 양방향으로 가상화하는 데 사용할 수 있습니다.
+
+가상화는 데이터를 더 작은 청크로 나누고, 사용자가 데이터를 가로/세로로 스크롤할 때 컨테이너 뷰포트에서 청크를 교체하는 방식으로 페이징과 비슷하게 동작합니다. 페이징과 다른 점은 가상화가 스크롤바의 자연스러운 동작을 모방한다는 것입니다. `igxFor` 디렉티브는 스크롤 가능한 컨테이너를 만들고 데이터의 작은 청크를 렌더링합니다. 이는 <ApiLink type="Grid" label="igxGrid" /> 안에서 사용되며, 가상 <ApiLink type="List" label="igx-list" />을(를) 만드는 데에도 사용할 수 있습니다.
+
+### 세로 가상화
+
+```html
+<igx-list>
+    <div [style.height]="'500px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+        <igx-list-item [style.width]="'calc(100% - 18px)'"
+            *igxFor="let item of data | igxFilter: fo;
+                     scrollOrientation : 'vertical';
+                     containerSize: '500px'; 
+                     itemSize: '50px'">
+            <div class="contact">
+
+                <span class="name">{{item.name}}</span>
+            
+</div>
+        </igx-list-item>
+    
+</div>
+</igx-list>
+```
+
+_**참고:**_ <ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> 템플릿의 상위 컨테이너에는 다음 CSS 규칙을 적용하는 것이 강력히 권장됩니다. 세로에는 `height`, 가로에는 `width`, 그리고 `overflow: hidden` 및 `position: relative`입니다. 부드러운 스크롤 동작은 콘텐츠 오프셋을 통해 구현되는데, 이 오프셋이 보이는 상태로 남아 있으면 페이지의 다른 부분에 시각적으로 영향을 줄 수 있기 때문입니다.
+
+### 가로 가상화
+
+```html
+<igx-list>
+    <div [style.width]="'880px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+        <igx-list-item [style.width]="'220px'"
+            *igxFor="let item of data | igxFilter: fo;
+                     scrollOrientation : 'horizontal'; 
+                     containerSize: '880px'; 
+                     itemSize: '220px'">
+            <div class="contact">
+
+                <span class="name">{{item.name}}</span>
+            
+</div>
+        </igx-list-item>
+    
+</div>
+</igx-list>
+```
+
+<Sample src="/data-display/igx-for-sample-2" height={240} alt="" />
+
+<hr/>
+
+### 가로 및 세로 가상화
+
+```html
+<table #container [style.width]='width' 
+    [style.height]='height'
+    [style.overflow]='"hidden"'
+    [style.position]='"relative"'>
+    <ng-template #scrollContainer igxFor let-rowData
+        [igxForOf]="data"
+        [igxForScrollOrientation]="'vertical'"
+        [igxForContainerSize]='height'
+        [igxForItemSize]='"50px"'>
+        <tr [style.display]="'flex'" [style.height]="'50px'">
+            <ng-template #childContainer igxFor let-col
+                [igxForOf]="cols"
+                [igxForScrollOrientation]="'horizontal'"
+                [igxForScrollContainer]="parentVirtDir"
+                [igxForContainerSize]='width'>
+                    <td [style.min-width]='col.width + "px"'>
+                        {{rowData[col.field]}}
+                    </td>
+            </ng-template>
+        </tr>
+    </ng-template>
+</table>
+```
+
+`igxFor` 디렉티브는 `igxGrid` 안에서 세로 및 가로 방향 모두의 데이터를 가상화하는 데 사용됩니다.
+
+더 자세한 정보와 데모는 [Grid Virtualization](/grid/virtualization) 항목을 참조하십시오.
+
+### 원격 서비스에 바인딩된 igxFor
+
+<ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" /> 디렉티브는 `Observable` 속성을 사용하여 원격 서비스에 바인딩할 수 있습니다. 다음 경우에는 `remoteData`입니다. 데이터 요청을 트리거하려면 `chunkLoading` 이벤트도 사용해야 합니다.
+
+```html
+<div style='height: 500px; overflow: hidden; position: relative;'>
+    <ng-template igxFor let-item [igxForOf]="remoteData | async"
+        (chunkPreload)="chunkLoading($event)"
+        [igxForScrollOrientation]="'vertical'"
+        [igxForContainerSize]='"500px"'
+        [igxForItemSize]='"50px"'
+        [igxForRemote]='true'
+        let-rowIndex="index" #virtDirRemote>
+        <div style='height:50px;'>{{item.ProductID}} : {{item.ProductName}}
+</div>
+    </ng-template>
+</div>
+```
+
+_**참고:**_ <ApiLink type="ForOfDirective" member="igxForOf" label="igxForOf" />의 인스턴스에서 <ApiLink type="ForOfDirective" member="totalItemCount" label="totalItemCount" /> 속성을 설정해야 합니다.
+
+```typescript
+this.virtDirRemote.totalItemCount = data['@odata.count'];
+```
+
+컴포넌트에서 디렉티브 인스턴스에 접근하려면 다음과 같이 `ViewChild`(으)로 표시해야 합니다:
+
+```typescript
+@ViewChild('virtDirRemote', { read: IgxForOfDirective })
+public virtDirRemote: IgxForOfDirective<any>;
+```
+
+첫 번째 청크를 로드하도록 요청한 후에는 <ApiLink type="ForOfDirective" member="totalItemCount" label="totalItemCount" />을(를) 설정할 수 있습니다:
+
+```typescript
+public ngAfterViewInit() {
+    this.remoteService.getData(this.virtDirRemote.state, (data) => {
+        this.virtDirRemote.totalItemCount = data['@odata.count'];
+    });
+}
+```
+
+데이터를 요청할 때 <ApiLink type="ForOfDirective" member="state.startindex" label="startIndex" /> 및 <ApiLink type="ForOfDirective" member="state.chunkSize" label="chunkSize" /> 속성을 제공하는 <ApiLink kind="interface" type="IForOfState" label="IgxForOfState" /> 인터페이스를 활용할 수 있습니다. 처음에는 chunkSize가 0이므로, 처음 로드되는 청크의 크기를 지정해야 합니다(가장 좋은 값은 초기 <ApiLink type="ForOfDirective" member="igxforcontainersize" label="igxForContainerSize" />를 <ApiLink type="ForOfDirective" member="igxForItemSize" label="igxForItemSize" />로 나눈 값입니다).
+
+```typescript
+public getData(data?: IForOfState, cb?: (any) => void): any {
+    var dataState = data;
+    return this.http
+        .get(this.buildUrl(dataState))
+        .map((response) => response.json())
+        .map((response) => {
+            return response;
+        })
+        .subscribe((data) => {
+            this._remoteData.next(data.value);
+            if (cb) {
+                cb(data);
+            }
+        });
+}
+
+private buildUrl(dataState: any): string {
+    let qS: string = '?', requiredChunkSize: number;
+    if (dataState) {
+        const skip = dataState.startIndex;
+            requiredChunkSize =  dataState.chunkSize === 0 ?
+            // Set initial chunk size, the best value is igxForContainerSize
+            // initially divided by igxForItemSize
+            10 : dataState.chunkSize;
+        const top = requiredChunkSize;
+        qS += `$skip=${skip}&$top=${top}&$count=true`;
+    }
+    return `${this.url}${qS}`;
+}
+```
+
+<ApiLink type="ForOfDirective" member="chunkPreload" label="chunkPreload" /> 이벤트가 발생할 때마다 새 데이터 청크를 요청해야 합니다:
+
+```typescript
+chunkLoading(evt) {
+    if(this.prevRequest){
+        this.prevRequest.unsubscribe();
+     }
+     this.prevRequest = this.remoteService.getData(evt, ()=> {
+        this.virtDirRemote.cdr.detectChanges();
+    });
+}
+```
+
+## 로컬 변수
+
+`igxFor` 디렉티브는 컨텍스트에 다음 도우미 속성을 포함합니다: `even`, `odd`, `first` 및 `last`. 이 속성들은 컬렉션에서 현재 요소의 위치를 식별하는 데 사용됩니다. 다음 코드 스니펫은 `ng-template`에서 `even` 속성을 사용하는 방법을 보여 줍니다. 모든 짝수 번째 div 요소에는 `even` 클래스가 할당됩니다:
+
+```html
+<ng-template igxFor let-item let-isEven="even"
+             [igxForOf]="data" 
+             [igxForScrollOrientation]="'vertical'" >
+    <div [ngClass]="{even: isEven}"></div>
+</ng-template>
+```
+
+## 알려진 제한 사항
+
+| 제한 사항                                                                                                            | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :-------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 초기화 후 렌더링된 템플릿의 콘텐츠 크기가 바뀌면 `scrollTo` 메서드가 올바르게 동작하지 않습니다 | 템플릿 안의 요소가 초기화 후 런타임에 바뀌는 크기를 가지면(예: 콘텐츠 프로젝션 또는 원격 요청 해결 결과 등), `scrollTo` 메서드는 올바른 인덱스로 스크롤할 수 없습니다. 이 메서드는 런타임 크기 변경이 일어나기 전의 인덱스 위치로 스크롤하므로, 나중에 크기가 바뀌면 위치가 올바르지 않게 됩니다. 가능한 해결 방법은 콘텐츠가 나중에 로드되는 경우 콘텐츠에 따라 크기가 바뀌지 않는 템플릿을 사용하는 것입니다. |
+
+## API 참조
+- <ApiLink type="ForOfDirective" />
+- <ApiLink type="Grid" />
+- <ApiLink type="List" />
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+* [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+* [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

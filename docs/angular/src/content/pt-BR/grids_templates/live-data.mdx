@@ -1,0 +1,182 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Atualizações de dados ao vivo no Angular Data Grid - Ignite UI for Angular"
+description: "Veja como o Data Grid do Ignite UI for Angular consegue lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário."
+keywords: "data grid angular, atualizações de grid angular, dados ao vivo angular"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O componente {ComponentTitle} consegue lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário."
+---
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Atualizações de dados ao vivo no Angular Tree Grid - Ignite UI for Angular"
+description: "Veja como o Tree Grid do Ignite UI for Angular consegue lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário."
+keywords: "data grid angular, atualizações de grid angular, dados ao vivo angular"
+license: commercial
+_canonicalLink: grid/live-data
+_language: pt-BR
+llms:
+  description: "O componente {ComponentTitle} consegue lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário."
+---
+
+</ComponentBlock>
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Atualizações de dados ao vivo do {ComponentTitle} do Angular
+
+O componente {ComponentTitle} consegue lidar com milhares de atualizações por segundo, mantendo-se responsivo às interações do usuário.
+
+## Exemplo de atualização de dados ao vivo do Angular
+
+O exemplo abaixo demonstra o desempenho do {ComponentTitle} quando todos os registros são atualizados várias vezes por segundo. Use os controles da UI para escolher a quantidade de registros carregados e a frequência das atualizações.
+Alimente os mesmos dados no [Line Chart](/charts/types/line-chart) para conhecer os poderosos recursos de gráficos do Ignite UI for Angular. O botão `Chart` mostrará `Category Prices per Region` dados das linhas selecionadas, e o botão da coluna `Chart` mostrará o mesmo para a linha atual.
+<ComponentBlock for="Grid">
+
+<Sample src="/grid-finjs/grid-finjs-sample?theme-switch=false" height={700} alt="Exemplo de atualização de dados ao vivo do Angular" lob />
+
+## Vinculação e atualização de dados
+
+Um serviço fornece dados ao componente quando a página é carregada e quando o controle deslizante é usado para buscar uma determinada quantidade de registros. Em um cenário real, os dados atualizados seriam consumidos do serviço; aqui, os dados são atualizados no código. Isso é feito para manter a demonstração simples e focada no seu objetivo principal: demonstrar o desempenho do grid.
+
+```html
+<igx-grid #grid [data]="data"></igx-grid>
+```
+
+```typescript
+public ngOnInit() {
+    this.localService.getData(this.volume);
+    this.volumeSlider.onValueChange.subscribe(x => this.localService.getData(this.volume);
+    this.localService.records.subscribe(x => { this.data = x; });
+}
+```
+
+Pipes do Angular são usados internamente para atualizar a visualização do grid. Uma alteração no valor de um campo de dados ou uma alteração na referência do objeto/coleção de dados acionará os pipes correspondentes. No entanto, isso não acontece com colunas vinculadas a [`complex data objects`](/{igPath}/grid#vinculação-de-dados-complexos), porque o pipe puro do Angular não detecta uma alteração em uma propriedade aninhada. Para resolver a situação, forneça uma nova referência de objeto para o objeto de dados que contém a propriedade. Exemplo:
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-column field="price.usd"></igx-column>
+</igx-grid>
+```
+
+```typescript
+private updateData(data: IRecord[]) {
+    const newData = []
+    for (const rowData of data) {
+        rowData.price = { usd: getUSD(), eur: getEUR() };
+        newData.push({...rowData});
+    }
+    this.grid.data = newData;
+}
+```
+
+## Templates
+
+A atualização da visualização funciona da mesma forma para colunas com template padrão e para colunas com template personalizado. No entanto, recomenda-se manter os templates personalizados relativamente simples. À medida que o número de elementos no template cresce, o impacto negativo no desempenho também aumenta.
+
+## Feed de dados ao vivo com o Dock Manager e os componentes igxGrid
+
+O objetivo desta demonstração é apresentar um painel financeiro com fluxo de dados em tempo real, usando um back-end de hub [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr).
+Como você pode ver, o componente igxGrid lida com facilidade com as atualizações de alta frequência vindas do servidor. O código da aplicação ASP.NET Core usando SignalR pode ser encontrado neste [repositório público no GitHub](https://github.com/IgniteUI/finjs-web-api).
+
+<Sample src="/grid-finjs-dock-manager/grid-finjs-dock-manager" height={700} alt="Exemplo de atualização de dados ao vivo no Angular com um serviço" lob />
+
+### Iniciar a conexão com o hub
+
+O signal-r.service cuida da conectividade e das atualizações dos parâmetros gerenciáveis expostos: _frequência_, _volume_ e _alternância do estado de atualização ao vivo_ (Start/Stop).
+
+```ts
+this.hubConnection = new signalR.HubConnectionBuilder()
+        .configureLogging(signalR.LogLevel.Trace)
+        .withUrl('https://www.infragistics.com/angular-apis/webapi/streamHub')
+        .build();
+    this.hubConnection
+        .start()
+        .then(() => {
+            this.hasRemoteConnection = true;
+            this.registerSignalEvents();
+            this.broadcastParams(interval, volume, live, updateAll);
+        })
+        .catch(() => {});
+```
+
+Com base na frequência especificada, um total de 30 novas atualizações será recebido pelos grids do servidor. Classes específicas de cellStyle são aplicadas às três colunas que tratam das alterações (Price, Change e Change in percent).
+
+### Frequência de atualização e volume de dados
+
+Usando o painel de Ações à esquerda, você pode gerenciar a frequência do feed de dados e o volume dos dados solicitados. Todos os grids usam a mesma fonte de dados. Sinta-se à vontade para usar os outros elementos de ação para _parar o feed de dados_, alterar o _tema da aplicação_ ou adicionar _dinamicamente um contêiner DockSlot_ com um igxGrid.
+
+Usamos o método 'updateparameters' para solicitar um novo conjunto de dados com determinada frequência. Esse método faz parte da [implementação do hub de stream](https://github.com/IgniteUI/finjs-web-api/blob/master/WebAPI/Models/StreamHub.cs#L18) do SignalR.
+
+```ts
+this.hubConnection.invoke('updateparameters', frequency, volume, live, updateAll)
+    .then(() => console.log('requestLiveData', volume))
+    .catch(err => {
+        console.error(err);
+    });
+```
+
+### Criar dinamicamente os componentes DockSlot e Grid
+
+Usando o [ComponentFactoryResolver](https://angular.io/api/core/ComponentFactoryResolver), conseguimos criar os componentes DockSlot e Grid em tempo de execução.
+
+### Componente DockManager
+
+Aproveite o WebComponent [Dock Manager](/dock-manager) e crie a sua própria webview usando painéis encaixados ou flutuantes. Para adicionar um novo painel flutuante, abra o painel de Ações à direita e clique no botão 'Add floating pane'. Arraste e solte o novo painel na posição desejada.
+
+## Referências da API
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="HierarchicalGridRow" />
+- <ApiLink type="GridCell" />
+
+## Recursos adicionais
+- [Virtualização e desempenho](/{igPath}/virtualization)
+- [Paginação](/{igPath}/paging)
+- [Filtragem](/{igPath}/filtering)
+- [Ordenação](/{igPath}/sorting)
+- [Resumos](/{igPath}/summaries)
+- [Movimentação de colunas](/{igPath}/column-moving)
+- [Fixação de colunas](/{igPath}/column-pinning)
+- [Redimensionamento de colunas](/{igPath}/column-resizing)
+- [Seleção](/{igPath}/selection)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample lob src="/treegrid-finjs" height={700} alt="Exemplo de atualização de dados ao vivo do Angular" />
+
+## Referências da API
+- <ApiLink type="TreeGrid" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="BaseTransactionService" />
+
+## Recursos adicionais
+- [Data Grid](/grid/grid)
+- [Edição de linha](/{igPath}/row-editing)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+
+</ComponentBlock>

@@ -1,0 +1,354 @@
+---
+title: "Angular Overlay Service – Ignite UI for Angular | Infragistics | MIT 라이선스"
+description: "개발자가 페이지의 다른 모든 컴포넌트/HTML 콘텐츠 위에 콘텐츠를 배치할 수 있게 해 주는 서비스를 제공합니다. 서비스를 정밀하게 구성할 수 있는 강력한 API를 갖추고 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Overlay Service 컴포넌트"
+license: MIT
+_language: ko
+llms:
+  description: "오버레이 서비스는 앱의 전경에 콘텐츠를 동적으로 렌더링하는 쉽고 빠른 방법을 제공합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# 오버레이
+
+<div class="highlight">
+
+오버레이 서비스는 앱의 전경에 콘텐츠를 동적으로 렌더링하는 쉽고 빠른 방법을 제공합니다. 렌더링할 콘텐츠와 렌더링 방식(예: 배치, 애니메이션, 스크롤 및 클릭 동작)은 매우 구성 가능하며 가능한 모든 시나리오에 맞출 수 있습니다.
+오버레이 서비스는 토글 디렉티브에 완전히 통합되어 있습니다.
+</div>
+<hr/>
+
+## Angular Overlay 예제
+
+<Sample src="/interactions/overlay-sample-main-1" height={350} alt="Angular Overlay 예제" />
+
+<hr/>
+
+## 시작하기
+
+먼저 컴포넌트에서 <ApiLink type="OverlayService" />을(를) 가져오고, 컴포넌트의 생성자에서 이에 대한 참조를 `inject`하십시오:
+
+```typescript
+
+import { Inject } from '@angular/core'
+import { IgxOverlayService } from 'igniteui-angular';
+
+...
+
+export class MyOverlayComponent {
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService
+    ) {}
+}
+
+...
+```
+
+## 콘텐츠 표시하기
+
+오버레이 서비스는 `HTMLNode`을(를) 동적으로 표시하거나 오버레이 DOM에 Angular 컴포넌트를 연결하여 표시하는 데 사용할 수 있습니다.
+
+오버레이 서비스에 대한 참조를 설정한 후에는 이를 사용하여 콘텐츠를 동적으로 표시하거나 숨길 수 있습니다. 예를 들어 `attach` 메서드에 Angular 컴포넌트를 전달할 수 있습니다. 이 메서드는 고유 ID를 생성하며, 이 ID를 `show` 메서드에 전달하여 컴포넌트를 표시할 수 있습니다. Angular 컴포넌트를 표시할 때는 `attach` 메서드에 두 번째 필수 매개변수 `ViewContainerRef`을(를) 전달해야 합니다.
+
+```typescript
+
+// my-overlay-component.component.ts
+import { MyDynamicComponent } from '../my-dynamic-component/my-dynamic-component.component';
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    constructor(
+        @Inject(IgxOverlayService) private overlayService: IgxOverlayService,
+        private viewContainerRef: ViewContainerRef
+    ) {}
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+
+```
+
+페이지에 이미 있는 `ElementRef`을(를) <ApiLink type="OverlayService" />에 전달하려면 다음과 같이 하십시오:
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+    <button (click)="showInOverlay()">Show Overlay</button>
+</div>
+<div>
+    <img #exampleImage width='200px' src='../assets/example.png' title='Click Me!'>
+</div>
+```
+
+```typescript
+// my-overlay-component.component.ts
+import { Inject, ViewChild } from '@angular/core'
+
+@Component({...})
+export class MyOverlayComponent {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    @ViewChild('exampleImage', {read: ElementRef})
+    private exampleImage: ElementRef;
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(this.exampleImage);
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+<hr/>
+
+오버레이 서비스의 <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드에는 두 가지 오버로드가 있습니다:
+
+- `attach(element, settings?)`
+- `attach(component, viewContainerRef, settings?)`
+
+두 오버로드 모두 첫 번째 매개변수는 필수이며, 오버레이에 표시될 콘텐츠를 나타냅니다. 콘텐츠를 전달하는 방법에는 몇 가지 시나리오가 있습니다:
+
+- 컴포넌트 정의 - 첫 번째 인수로 컴포넌트를 전달하면, 오버레이 서비스는 해당 컴포넌트의 새 인스턴스를 만들고 그 `ElementRef`을(를) `overlay` DOM에 동적으로 연결합니다. 이 방법은 생성된 컴포넌트의 호스트 뷰가 삽입될 컨테이너에 대한 참조인 두 번째 필수 매개변수 `ViewContainerRef`도 받습니다.
+- 기존 DOM 요소에 대한 `ElementRef`(위 샘플에서 보여 준 방식) - 페이지에 이미 렌더링된 모든 뷰는 오버레이 서비스를 통해 전달되어 오버레이 DOM에 렌더링될 수 있습니다.
+
+두 경우 모두 <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드는 다음을 수행합니다:
+
+- Angular에서 전달된 뷰에 대한 참조를 가져옵니다
+- 뷰를 DOM에서 분리하고 그 자리에 앵커를 남겨 둡니다
+- 제공된 <ApiLink type="OverlaySettings" kind="interface" />을(를) 사용하거나 기본 오버레이 컨테이너로 되돌려 뷰를 오버레이에 다시 연결합니다
+
+그다음 <ApiLink type="OverlayService" member="show" label="show(id)" />을(를) 호출하면 열기 애니메이션이 있는 경우 이를 재생하고 연결된 콘텐츠를 표시합니다. <ApiLink type="OverlayService" member="hide" label="hide(id)" />을(를) 호출하면 닫기 애니메이션이 있는 경우 이를 재생하고 연결된 콘텐츠를 숨깁니다.
+
+마지막으로 <ApiLink type="OverlayService" member="detach" label="detach(id)" /> 메서드를 호출하면 뷰가 DOM의 원래 위치에 다시 연결됩니다. <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드에 컴포넌트를 전달했다면 <ApiLink type="OverlayService" member="detach" label="detach(id)" />을(를) 호출하여 생성된 인스턴스를 파기합니다.
+
+<hr/>
+
+## 컴포넌트 연결하기
+
+아래 데모에서는 [IgxCard](/layouts/card#live-demo) 컴포넌트를 오버레이 서비스의 <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드에 전달하여 ID를 생성합니다. 그런 다음 제공된 ID로 <ApiLink type="OverlayService" member="show" label="show()" /> 메서드를 호출하여 모달 컨테이너 안의 DOM에 카드를 동적으로 연결합니다.
+
+<Sample src="/interactions/overlay-sample-main-1" height={400} alt="" />
+
+<hr/>
+
+## 오버레이 설정
+
+<ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드는 콘텐츠가 표시되는 방식을 구성하는 <ApiLink type="OverlaySettings" kind="interface" /> 유형의 객체도 받습니다. 이러한 객체를 제공하지 않으면 오버레이 서비스는 기본 설정을 사용하여 전달된 콘텐츠를 렌더링합니다.
+
+예를 들어 콘텐츠를 요소에 상대적으로 위치시키려면, <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드에 다른 <ApiLink kind="interface" type="OverlaySettings" member="target" />과(와) <ApiLink kind="interface" type="OverlaySettings" member="positioningStrategy" />을(를) 전달할 수 있습니다. 예: <ApiLink type="ConnectedPositioningStrategy" />. 컴포넌트가 표시되는 방식을 구성하려면 먼저 <ApiLink type="OverlaySettings" kind="interface" /> 객체를 만들어야 합니다:
+
+```typescript
+// my-overlay-component.component.ts
+// import the ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+...
+export class MyOverlayComponent {
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+
+    public showInOverlay() {
+        if (!this._overlayId) {
+            this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                target: this.myAnchorButton.nativeElement,
+                positionStrategy: new ConnectedPositioningStrategy()
+            });
+        }
+        this.overlayService.show(this._overlayId);
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+<button #myAnchorButton (click)="showInOverlay()">Show Overlay</button>
+</div>
+```
+
+이제 버튼을 클릭하면 버튼에 상대적으로 위치한 `MyDynamicComponent`이(가) 표시됩니다.
+
+## 사전 설정 오버레이 설정
+
+<ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> 및 <ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> 메서드를 사용하면 미리 정의된 설정 집합을 기반으로 <ApiLink type="OverlaySettings" kind="interface" />을(를) 쉽게 만들 수 있습니다.
+
+<ApiLink type="OverlayService" member="createAbsolutePositionSettings" label="IgxOverlayService.createAbsolutePositionSettings()" /> 메서드는 `outlet` 매개변수가 제공된 경우 <ApiLink type="GlobalPositionStrategy" /> 또는 <ApiLink type="ContainerPositionStrategy" />을(를) 사용하여 모달이 아닌 <ApiLink type="OverlaySettings" kind="interface" />을(를) 만듭니다. `AbsolutePosition` 열거형은 선택할 수 있는 위치를 정의합니다: `Center`, `Top` 또는 `Bottom`. 기본 위치는 `Center`입니다.
+
+```typescript
+const globalOverlaySettings = IgxOverlayService.createAbsoluteOverlaySettings(AbsolutePosition.Top);
+```
+
+<ApiLink type="OverlayService" member="createRelativePositionSettings" label="IgxOverlayService.createRelativePositionSettings()" /> 메서드는 <ApiLink type="AutoPositionStrategy" />, <ApiLink type="ConnectedPositioningStrategy" /> 또는 <ApiLink type="ElasticPositionStrategy" />을(를) 사용하여 <ApiLink type="OverlaySettings" kind="interface" />을(를) 만듭니다. 대상, 위치 및 전략을 받습니다. `target`은(는) 컴포넌트가 표시될 연결 지점 또는 요소입니다. `position`은(는) 다음 옵션을 가진 `RelativePosition` 열거형입니다: `Above`, `Below`, `Before`, `After` 및 `Default`. `Default` 옵션은 요소를 대상 아래에 왼쪽 정렬로 위치시킵니다. 위치 지정 전략은 `RelativePositionStrategy` 열거형으로 설정할 수 있으며, 기본값은 `Auto`입니다.
+
+```typescript
+const targetElement = this.myAnchorButton.nativeElement;
+const connectedOverlaySettings = IgxOverlayService.createRelativeOverlaySettings(
+        targetElement,
+        RelativePosition.Above,
+        RelativePositionStrategy.Connected);
+```
+
+### 데모
+
+<Sample src="/interactions/overlay-preset-settings-sample" height={750} alt="" />
+
+<hr/>
+
+## 오버레이 숨기기
+
+<ApiLink type="OverlayService" member="hide" label="hide(id)" /> 메서드는 오버레이 콘텐츠를 숨깁니다. 오버레이 서비스가 렌더링한 모든 요소에는 서비스가 할당한 고유 ID가 있습니다. <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드는 렌더링된 콘텐츠의 식별자를 반환합니다. 콘텐츠를 숨기려면 이 ID를 오버레이의 <ApiLink type="OverlayService" member="hide" label="hide(id)" /> 메서드에 전달해야 합니다. 모든 오버레이를 숨기려면 <ApiLink type="OverlayService" member="hideAll" label="hideAll()" /> 메서드를 호출할 수 있습니다.
+
+렌더링된 콘텐츠가 더 이상 필요하지 않으면 <ApiLink type="OverlayService" member="detach" label="detach(id)" /> 메서드를 호출해야 합니다. 이 메서드는 콘텐츠를 오버레이에서 제거하고, 해당되는 경우 DOM의 원래 위치에 다시 연결합니다. <ApiLink type="OverlayService" member="detach" label="detach(id)" /> 메서드도 <ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드에서 생성된 ID를 필수 매개변수로 받습니다. 모든 오버레이를 제거하려면 <ApiLink type="OverlayService" member="detachAll" label="detachAll()" /> 메서드를 호출할 수 있습니다.
+
+앞서 정의한 오버레이 메서드를 수정하여, 오버레이 요소를 표시할 뿐만 아니라 숨길 수도 있게 만들 수 있습니다
+
+```typescript
+// my-overlay-component.component.ts
+// add an import for the definition of ConnectedPositioningStrategy class
+import { ConnectedPositioningStrategy } from 'igniteui-angular/core';
+// import { ConnectedPositioningStrategy } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class MyOverlayComponent implements OnDestroy {
+    private _overlayId = ''; // The unique identifier assigned to the component by the Overlay service
+    private _overlayShown = false; // Is the component rendered in the Overlay?
+
+    @ViewChild(`myAnchorButton`)
+    private myAnchorButton: ElementRef;
+
+    public toggleOverlay() {
+        if (!this._overlayShown) { // If the element is not visible, show it
+            //  generate ID
+            if (!this._overlayId) {
+                this._overlayId = this.overlayService.attach(MyDynamicComponent, this.viewContainerRef, {
+                    target: this.myAnchorButton.nativeElement,
+                    positionStrategy: new ConnectedPositioningStrategy({
+                        closeOnOutsideClick: false, // overlay will not close on outside clicks
+                        modal: false // overlay content will not be rendered in a modal dialog
+                    }) // The attach method returns an ID that can be used to reference the shown content
+                });
+            }
+
+            this.overlayService.show(this._overlayId);
+        } else {
+            this.overlayService.hide(this._overlayId); // If element if visible, hide it
+        }
+        this._overlayShown = !this._overlayShown;
+    }
+
+    // finally detach overlay content
+    public ngOnDestroy(): void {
+        if (this._overlayId) {
+            this.overlayService.detach(this._overlayId);
+            delete this._overlayId;
+        }
+    }
+}
+```
+
+```HTML
+{/* my-overlay-component.component.html */}
+<div class='content'>
+...
+    <button #myAnchorButton (click)="toggleOverlay()">Toggle Overlay</button>
+</div>
+```
+
+## 연결 설정
+
+<ApiLink type="OverlayService" member="attach" label="attach()" /> 메서드의 <ApiLink kind="interface" type="OverlaySettings" /> 매개변수를 사용하여 콘텐츠가 표시되는 방식을 바꿀 수 있습니다. 예를 들어 콘텐츠의 위치, 스크롤 동작, 컨테이너가 모달인지 여부를 바꿀 수 있습니다.
+
+<Sample src="/interactions/overlay-sample-main-2" height={400} alt="" />
+
+<hr/>
+
+**어떤** <ApiLink kind="interface" type="OverlaySettings" />도 구성되지 않으면, 토글된 요소는 **기본 표시 설정**을 사용합니다:
+
+```typescript
+defaultOverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new NoOpScrollStrategy(),
+    modal: true,
+    closeOnOutsideClick: true,
+    closeOnEscape: false
+};
+```
+
+<hr/>
+
+## igxToggle과의 통합
+
+<ApiLink type="ToggleDirective" />은(는) <ApiLink type="OverlayService" />과(와) 완전히 통합되어 있습니다. 따라서 토글 디렉티브의 <ApiLink type="ToggleDirective" member="toggle" label="toggle()" /> 메서드를 사용하면 콘텐츠를 토글할 때 사용자 지정 오버레이 설정을 전달할 수 있습니다.
+
+토글 메서드에 구성 설정을 전달하는 방법의 예는 아래와 같습니다:
+
+```html
+{/* In example.component.html */}
+<div>
+    <button igxToggle (click)="callToggle()">Click me!</button>
+    <div [style.visibility]="collapsed ? 'hidden ' : 'visible'">
+        This content is toggle-able!
+    
+</div>
+</div>
+```
+
+```typescript
+// example.component.ts
+@Component({
+    selector: `example-component`,
+    template: `example.component.html`
+})
+export class ExampleComponent {
+    @ViewChild(IgxToggleDirective)
+    private toggleDirective: IgxToggleDirective;
+
+    public get collapsed(): boolean {
+        return this.toggleDirective.collapsed;
+    }
+
+    public callToggle(): void {
+        const overlaySettings: OverlaySettings = {
+            positionStrategy: new AutoPositionStrategy(),
+            scrollStrategy: new BlockScrollStrategy(),
+            modal: true,
+            closeOnOutsideClick: false
+        }
+        this.toggleDirective.toggle(overlaySettings)
+    }
+}
+```
+
+<hr/>
+
+## 가정 및 제한 사항
+
+아웃레트에 오버레이를 표시할 때, 아웃레트가 CSS에서 transform, perspective 또는 filter가 설정된 요소의 하위 요소이면 모달 오버레이를 표시할 수 없습니다. 이유는 위의 CSS 속성 중 하나가 설정되면 브라우저가 새로운 포함 블록을 만들고, 오버레이가 이 포함 블록 안으로 제한되기 때문입니다. 자세한 내용은 [MDN position 문서](https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed)를 참조하십시오.
+
+## API 참조
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />
+## 추가 리소스
+
+- [위치 지정 전략](/overlay-position)
+- [스크롤 전략](/overlay-scroll)
+- [스타일 지정 주제](/overlay-styling)

@@ -1,0 +1,307 @@
+---
+title: "{Platform} {PivotGridTitle} Recursos | Tabelas dinâmicas | Infragistics"
+description: "Crie {Platform} {PivotGridTitle} e tabelas rápidas e responsivas com {ProductName} e execute análises de dados complexas por meio de dados dinâmicos."
+keywords: "{Platform}, {PivotGridTitle}, tabela dinâmica material, {ProductName}, recursos da grade, recursos de tabela dinâmica"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+namespace: Infragistics.Controls
+_language: pt-BR
+llms:
+  description: "Os componentes de grade dinâmica e de grade plana herdam de uma base comum e, por isso, compartilham algumas funcionalidades e recursos."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Recursos do {Platform} {PivotGridTitle}
+
+Os componentes de grade dinâmica e de grade plana herdam de uma base comum e, por isso, compartilham algumas funcionalidades e recursos.
+
+<DocsAside type="info">
+Alguns recursos não têm comportamento significativo no contexto de uma tabela dinâmica e, por isso, não podem ser ativados para <ApiLink type="PivotGrid" />. Entre eles estão:
+- Operações CRUD
+- Agrupamento
+- Fixação de linhas/colunas
+- Resumos
+- Paginação
+</DocsAside>
+
+O componente {PivotGridTitle} tem recursos e funcionalidades adicionais relacionados às suas dimensões, descritos abaixo.
+
+<Sample src="/{PivotGridSample}/features" height={700} alt="Exemplo de {Platform} {PivotGridTitle} com seletor dinâmico" />
+
+
+
+
+<PlatformBlock for="Angular">
+
+
+## Filtragem de dimensões
+
+Todas as dimensões (filtros, linhas, colunas) podem ser filtradas pela UI de chips ou pela API. Essa funcionalidade é embutida e ativada por padrão.
+
+<DocsAside type="info">
+Você pode usar a dimensão de filtro para filtrar valores de dados que não fazem parte da visualização dinâmica.
+</DocsAside>
+
+A UI de filtragem pode ser aberta pelo ícone de filtro dos chips de dimensão e permite a filtragem no estilo Excel dos valores exclusivos da dimensão.
+
+<DocsAside type="info">
+Se não houver espaço suficiente para todos os chips de filtragem, o {PivotGridTitle} mostrará os que ficaram de fora em um dropdown. Os usuários finais podem acessá-los e manipulá-los ali.
+</DocsAside>
+
+As dimensões também podem ser filtradas inicialmente pela configuração de dimensão em <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />, com a propriedade `filter` da dimensão.
+Ela pode ser definida como um novo <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> com a condição de filtro correspondente, por exemplo:
+
+```typescript
+public filterExpTree = new FilteringExpressionsTree(FilteringLogic.And);
+
+constructor() {
+    this.filterExpTree.filteringOperands = [
+        {
+            condition: IgxStringFilteringOperand.instance().condition('equals'),
+            fieldName: 'SellerName',
+            searchVal: 'Stanley'
+        }
+    ];
+}
+
+public pivotConfigHierarchy: IPivotConfiguration = {
+    filters: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            filter: this.filterExpTree
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+
+## Ordenação de dimensões
+
+Os valores de dimensão em `rows` ou `columns` podem ser ordenados pelo chip correspondente ou pela API. Essa funcionalidade é embutida e ativada por padrão.
+
+A dimensão é ordenada ao clicar no chip correspondente, e, como resultado, os valores da dimensão são ordenados em ordem crescente/decrescente.
+
+A ordenação também pode ser aplicada inicialmente pela propriedade `sortDirection` da definição da dimensão.
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'SellerName',
+            enabled: true,
+            sortDirection: SortingDirection.Asc
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        SortDirection = SortingDirection.Asc
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+const dimension: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    sortDirection: SortingDirection.Asc
+};
+```
+
+</PlatformBlock>
+
+
+## Redimensionamento de dimensões
+
+As dimensões de linha podem ser redimensionadas de forma semelhante ao redimensionamento de colunas, por meio de um indicador de redimensionamento localizado na borda direita das células.
+Elas também podem ser ajustadas automaticamente com um clique duplo no indicador de redimensionamento ou pela API correspondente - <ApiLink type="PivotGrid" member="autoSizeRowDimension" label="AutoSizeRowDimension" />.
+
+Um tamanho diferente também pode ser definido inicialmente pela propriedade <ApiLink type="PivotGrid" member="width" label="Width" /> disponível na definição da dimensão:
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+    rows: [
+        {
+            memberName: 'Country',
+            enabled: true,
+            width: '400px'
+        }
+    ]
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+    var pivotConfiguration = new IgbPivotConfiguration();
+    var rowDimension = new IgbPivotDimension() {
+        MemberName = "SellerName",
+        Enabled = true,
+        Width = "400px"
+    };
+    pivotConfiguration.Rows.Add(rowDimension);
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+const igrPivotDimension2: IgrPivotDimension = {
+    memberName: "SellerName",
+    enabled: true,
+    width = "400px"
+};
+```
+
+</PlatformBlock>
+
+
+## Seleção de dimensões
+
+O {PivotGridTitle} oferece suporte à seleção única, que é habilitada da mesma forma que na grade base. Por exemplo:
+
+
+<PlatformBlock for="Angular">
+
+
+```html
+<{PivotGridSelector} #grid1 [rowSelection]="'single'" [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<{PivotGridSelector} id="grid" row-selection="single">
+</{PivotGridSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} PivotConfiguration="PivotConfiguration"
+        Data="PivotSalesData"
+        Name="grid"
+        RowSelection=GridSelectionMode.Single
+        @ref="grid">
+</{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} rowSelection="single">
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+Quando houver várias dimensões de linha ou coluna que criem grupos abrangendo várias linhas/colunas, a seleção é aplicada a todas as células que pertencem ao grupo selecionado.
+
+## Modo super compacto
+O componente <ApiLink type="PivotGrid" /> oferece um input <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" />. Ele é adequado para casos que exigem que muitas células estejam presentes na tela ao mesmo tempo. Se habilitado, a opção ignora a variável CSS `--ig-size` para o {PivotGridTitle}. Habilitar <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" /> também define `--ig-size` como `small` para cada componente filho (como <ApiLink pkg="core" type="Chip" />) que não tenha a opção <ApiLink type="PivotGrid" member="superCompactMode" label="SuperCompactMode" />.
+
+<PlatformBlock for="Angular">
+
+
+```html
+<{PivotGridSelector} [superCompactMode]="true"></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+```html
+<{PivotGridSelector} super-compact-mode="true"></{PivotGridSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{PivotGridSelector} SuperCompactMode=true></{PivotGridSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration} superCompactMode={true}>
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+## Coluna de resumo adicional
+
+Quando uma dimensão `column` define uma hierarquia, o {PivotGridTitle} renderiza uma coluna adicional de resumo/total, que acumula as agregações de todas as colunas dentro do grupo. Quando o grupo é recolhido, apenas a coluna de resumo permanece. Quando o grupo é expandido, a coluna adicional de resumo aparece no fim do grupo.
+
+## Interações
+
+### Navegação pelo teclado
+
+A navegação por teclado no `{PivotGridSelector}` funciona de forma semelhante à do `{GridSelector}`. O {PivotGridTitle} é dividido em três áreas: `rows`, `columns` e `values`. As áreas de `rows` e `columns` são consideradas cabeçalhos para fins de navegação, enquanto a área de `values` é o corpo.
+As setas do teclado permitem navegar pelo elemento ativo somente dentro da área atual.
+
+### Arrastar e soltar dimensões
+As dimensões são representadas por chips, que podem ser arrastados e soltos.
+Todos os chips podem alterar a sua ordem dentro da área por arrastar e soltar.
+Os chips de `rows`, `column`, `filter` (chips de dimensão) podem ser movidos de qualquer uma dessas áreas para qualquer outra, em qualquer posição.
+Os chips dessas áreas não podem ser movidos para a área `values`, e os chips da área `values` não podem ser movidos para nenhuma das áreas de dimensão.
+
+<DocsAside type="info">
+Os chips do {PivotGridTitle} não podem ser movidos para o Pivot Data Selector, e os itens do Pivot Data Selector não podem ser movidos para o {PivotGridTitle}.
+</DocsAside>
+
+
+## Referências da API
+<ApiLink type="PivotGrid" />
+<ApiLink type="PivotDataSelector" />
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+

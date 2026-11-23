@@ -1,0 +1,409 @@
+---
+title: "{Platform} DateTimeInput | Infragistics"
+description: "El {Platform} DateTimeInput de Infragistics permite al usuario editar la fecha y la hora en un elemento de entrada"
+keywords: "Entrada {Platform}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["DateTimeInput"]
+_language: es
+llms:
+  description: "El Date Time Input de {ProductName} permite al usuario establecer y editar la fecha y la hora en un elemento de entrada elegido."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Descripción general de Date Time Input de {Platform}
+
+El Date Time Input de {ProductName} permite al usuario establecer y editar la fecha y la hora en un elemento de entrada elegido. El usuario puede editar las partes de fecha y de hora mediante una entrada enmascarada editable. Además, se puede especificar un formato de visualización y de entrada deseado, así como valores mínimo y máximo para usar la validación.
+
+<Sample src="/inputs/date-time-input/overview" height={150} alt="Ejemplo de descripción general de Date Time Input de {Platform}" />
+
+
+## Uso
+
+
+<PlatformBlock for="WebComponents">
+
+
+Primero, debe instalar {ProductName} ejecutando el siguiente comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+A continuación, deberá importar <ApiLink pkg="core" type="DateTimeInput" />, su CSS necesario y registrar su módulo, de la siguiente manera:
+
+```ts
+import { defineComponents, IgcDateTimeInput } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcDateTimeInput);
+```
+
+Para una introducción completa a {ProductName}, lea el tema [**Primeros pasos**](../general-getting-started.mdx).
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+Primero, debe instalar el paquete npm correspondiente {ProductName} ejecutando el siguiente comando:
+
+```cmd
+npm install igniteui-react
+```
+
+A continuación, deberá importar <ApiLink pkg="core" type="DateTimeInput" /> y su CSS necesario, de la siguiente manera:
+
+```tsx
+import { IgrDateTimeInput } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="DateTimeInputModule" />, el módulo de recursos de cliente de <ApiLink pkg="core" type="DateTimeInput" />, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbDateTimeInputModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](../general-getting-started.mdx#módulos-de-componentes)).
+
+También necesitará enlazar un archivo CSS adicional para aplicar el estilo al componente <ApiLink pkg="core" type="DateTimeInput" />. Lo siguiente debe colocarse en la página host de la aplicación (**wwwroot/index.html** en una aplicación Blazor WebAssembly independiente o Blazor Hybrid, **Pages/_Host.cshtml** en una aplicación Blazor Server, **Components/App.razor** en una aplicación Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+
+</PlatformBlock>
+
+
+### Enlace de valor
+La forma más sencilla de establecer el valor del componente <ApiLink pkg="core" type="DateTimeInput" /> es pasar un objeto Date a la propiedad <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" />:
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const input = document.querySelector('igc-date-time-input') as IgcDateTimeInputComponent;
+const date = new Date();
+
+input.value = date;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDateTimeInput value={someValue}></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" Value="@Date">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents, React">
+
+
+
+El <ApiLink pkg="core" type="DateTimeInput" /> también acepta cadenas [ISO 8601](https://tc39.es/ecma262/#sec-date-time-string-format).
+
+La cadena puede ser una cadena `ISO` completa, con el formato `YYYY-MM-DDTHH:mm:ss.sssZ`, o puede separarse en partes de solo fecha y de solo hora.
+
+#### Solo fecha
+Si se enlaza una cadena que solo contiene la fecha a la propiedad <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" /> del componente, debe estar en el formato `YYYY-MM-DD`. El <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" /> sigue usándose al escribir valores en la entrada, y no tiene que estar en el mismo formato. Además, al enlazar una cadena que solo contiene la fecha, la directiva evitará desplazamientos horarios forzando la hora a `T00:00:00`.
+
+#### Solo hora
+Las cadenas que solo contienen la hora normalmente no se definen en la especificación `ECMA`; sin embargo, para que la directiva pueda integrarse en escenarios que requieren soluciones de solo hora, admite el formato de 24 horas: `HH:mm:ss`. El formato de 12 horas no se admite.
+
+#### Cadena ISO completa
+Si se enlaza una cadena `ISO` completa, la directiva solo la analizará si se proporcionan todos los elementos que requiere [Date.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#date_time_string_format).
+
+Todos los valores falsy, incluido `InvalidDate`, se analizarán como `null`. Las cadenas incompletas de solo fecha, de solo hora o `ISO` completas se analizarán como `InvalidDate`.
+
+
+</PlatformBlock>
+
+
+### Navegación por teclado
+
+El <ApiLink pkg="core" type="DateTimeInput" /> tiene una navegación intuitiva por teclado que facilita incrementar, decrementar o saltar entre distintas `DateParts`, entre otras acciones, sin tener que tocar el ratón.
+
+|Teclas|Descripción|
+|----|-----------|
+| <kbd>←</kbd> | Mover un carácter al principio |
+| <kbd>→</kbd> | Mover un carácter al final |
+| <kbd>HOME</kbd> | Mover al principio |
+| <kbd>END</kbd> | Mover al final |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>←</kbd> | Mover al principio de la sección de fecha/hora: la actual o la de la izquierda |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>→</kbd> | Mover al final de la sección de fecha/hora: la actual o la de la derecha |
+| Enfocar una parte de fecha/hora + <kbd>↓</kbd> | Decrementa una parte de fecha/hora |
+| Enfocar una parte de fecha/hora + <kbd>↑</kbd> | Incrementa una parte de fecha/hora |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>;</kbd> | Establece la fecha/hora actual como valor del editor |
+
+## Establecer formatos
+
+<ApiLink pkg="core" type="DateTimeInput" /> admite distintos formatos de visualización y de entrada.
+
+Usa [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat), lo que le permite admitir opciones de formato predefinidas, como `long` y `short`, `medium` y `full`. Además, también puede aceptar una cadena personalizada construida con caracteres admitidos, como `dd-MM-yy`. Asimismo, si no se proporciona <ApiLink pkg="core" type="DateTimeInput" member="displayFormat" label="DisplayFormat" />, el componente usará <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" /> tal cual.
+
+### Formato de entrada
+La tabla siguiente muestra los formatos que admite el <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" /> del componente:
+
+|Formato|Descripción|
+|-------|----------|
+| `d` | Día; se completará con un cero a la izquierda durante la edición. |
+| `dd` | Día con un cero a la izquierda establecido explícitamente. |
+| `M` | Mes; se completará con un cero a la izquierda durante la edición. |
+| `MM` | Mes con un cero a la izquierda establecido explícitamente. |
+| `yy` | Formato de año corto. |
+| `yyyy` | Formato de año completo. |
+| `h` | Horas en formato de 12 horas; se completará con un cero a la izquierda durante la edición. |
+| `hh` | Horas en formato de 12 horas con un cero a la izquierda establecido explícitamente. |
+| `H` | Horas en formato de 24 horas; se completará con un cero a la izquierda durante la edición. |
+| `HH` | Horas en formato de 24 horas, con un cero a la izquierda establecido explícitamente. |
+| `m` | Minutos; se completarán con un cero a la izquierda durante la edición. |
+| `mm` | Minutos con un cero a la izquierda establecido explícitamente. |
+| `tt` | Sección AM/PM para el formato de 12 horas. |
+
+Para establecer un formato de entrada concreto, páselo como cadena a <ApiLink pkg="core" type="DateTimeInput" />. Esto establecerá tanto el formato de entrada que se espera del usuario como el `mask`. Además, el <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" /> depende de la configuración regional, así que si no se proporciona ninguno, el editor usará `dd/MM/yyyy` de forma predeterminada.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-time-input input-format="dd-MM-yy" display-format="medium"/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDateTimeInput inputFormat="dd-MM-yy" displayFormat="medium"></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" InputFormat="dd-MM-yy" DisplayFormat="medium">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+Si todo ha ido bien, debería ver lo siguiente en su navegador:
+
+<Sample src="/inputs/date-time-input/input-format-display-format" height={150} alt="Ejemplo de formato de entrada y formato de visualización de Date Time Input de {Platform}" />
+
+
+
+
+### Formato de visualización
+El date time input expone formatos predefinidos para mostrar la fecha y la hora de distintas maneras. Todos los ejemplos siguientes están en la configuración regional en-US.
+
+| Opción | Ejemplo |
+|:-------:|:-----------|
+| `short` | 7/17/22, 12:00 AM |
+| `medium` | Jul 17, 2022, 12:00:00 AM |
+| `long` | 17 de julio de 2022 a las 12:00:00 a. m. GMT+3 |
+| `full` | domingo, 17 de julio de 2022 a las 12:00:00 a. m., hora de verano de Europa oriental |
+| `shortDate` | 7/17/22 |
+| `mediumDate` | Jul 17, 2022 |
+| `longDate` | July 17, 2022 |
+| `fullDate` | Sunday, July 17, 2022 |
+| `shortTime` | 12:00 AM |
+| `mediumTime` | 12:00:00 AM |
+| `longTime` | 12:00:00 AM GMT+3 |
+| `fullTime` | 12:00:00 a. m., hora de verano de Europa oriental |
+
+Además, los usuarios pueden construir una cadena displayFormat usando los símbolos admitidos que se describen en la tabla siguiente.
+<br />
+
+| Tipo | Formato | Descripción | Ejemplo |
+|:---|-------:|:-----------|:--------|
+| Día | `d` | Dígitos mínimos. | 7, 17 |
+|   | `dd` | Con relleno de ceros. | 07, 17 |
+| Mes | `M` | Dígitos mínimos. | 3, 10 |
+|   | `MM` | Con relleno de ceros. | 03, 10 |
+|   | `MMM` | Abreviado | Oct |
+|   | `MMMM` | Ancho | October |
+|   | `MMMMM` | Estrecho | O |
+| Año | `y` | Numérico | 2022 |
+|   | `yy` | Dos dígitos | 22
+|   | `yyy` | Numérico | 2022
+|   | `yyyy` |  Numérico  | 2022
+| Hora 1-12 | `h` | Dígitos mínimos | 1, 12 |
+|   | `hh` | Con relleno de ceros | 01, 12
+| Hora 1-24 | `H` | Dígitos mínimos | 1, 23 |
+|   | `HH` | Con relleno de ceros | 01, 23 |
+| Minuto | `m` | Dígitos mínimos | 1, 59 |
+|   | `mm` | Con relleno de ceros | 01, 59 |
+| Segundo |  `s` | Dígitos mínimos | 1, 59 |
+|   | `ss` | Con relleno de ceros | 01, 59 |
+| Periodo del día | `t` | Abreviado | AM, PM |
+|   | `tt` | Abreviado | AM, PM |
+|   | `ttt` | Corto | mediodía |
+|   | `tttt` | Largo | mediodía |
+|   | `ttttt` | Estrecho | n |
+
+<DocsAside type="info">
+Muchas configuraciones regionales usan la misma cadena de periodo del día, independientemente del formato especificado. Además, solo tiene efecto si se usa un reloj de 12 horas.
+</DocsAside>
+
+## Valor mínimo/máximo
+
+Puede especificar las propiedades <ApiLink pkg="core" type="DateTimeInput" member="min" label="Min" /> y <ApiLink pkg="core" type="DateTimeInput" member="max" label="Max" /> para restringir la entrada y controlar la validez del componente. Al igual que la propiedad <ApiLink pkg="core" type="DateTimeInput" member="value" label="Value" />, pueden ser de tipo `string`.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const input = document.querySelector('igc-date-time-input') as IgcDateTimeInputComponent;
+
+input.min = new Date(2021, 0, 1);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-time-input max="2022-01-01T21:00:00.000Z"></igc-date-time-input>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+ <IgrDateTimeInput min={minDate} max={maxDate}></IgrDateTimeInput>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDateTimeInput @ref="DateTimeInputRef" Min="@MinDate" Max="@MaxDate">
+    <IgbIcon IconName="clear" Collection="myIcons" slot="prefix" @onclick="OnClear"></IgbIcon>
+</IgbDateTimeInput>
+```
+
+</PlatformBlock>
+
+Si todo ha ido bien, el componente estará `invalid` si el valor es mayor o menor que las fechas indicadas. Consulte el siguiente ejemplo:
+
+<Sample src="/inputs/date-time-input/min-max-value" height={150} alt="Ejemplo de valor mínimo y máximo de Date Time Input de {Platform}" />
+
+
+## Incrementar/decrementar (step up/down)
+
+<ApiLink pkg="core" type="DateTimeInput" /> expone los métodos públicos <ApiLink pkg="core" type="DateTimeInput" member="stepUp" label="StepUp" /> y <ApiLink pkg="core" type="DateTimeInput" member="stepDown" label="StepDown" />. Incrementan o decrementan una <ApiLink pkg="core" type="DatePart" /> concreta de la fecha y la hora establecidas actualmente, y se pueden usar de un par de maneras.
+
+En el primer escenario, si no se pasa al método ninguna DatePart concreta, una DatePart predeterminada se incrementa o decrementa, según el <ApiLink pkg="core" type="DateTimeInput" member="inputFormat" label="InputFormat" /> especificado y la implementación interna del componente. En el segundo escenario, puede especificar explícitamente qué DatePart manipular, ya que puede adaptarse a requisitos distintos. Además, ambos métodos aceptan un parámetro opcional `delta` de tipo número que puede usarse para establecer el paso de stepUp/stepDown.
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+
+
+Además, <ApiLink pkg="core" type="DateTimeInput" member="spinDelta" label="SpinDelta" /> es una propiedad que puede usarse para aplicar un incremento distinto a cada segmento de fecha y hora. Se aplicará al girar con el teclado, la rueda del ratón o con los métodos <ApiLink pkg="core" type="DateTimeInput" member="stepUp" label="StepUp" /> y <ApiLink pkg="core" type="DateTimeInput" member="stepDown" label="StepDown" />, siempre que no se les pase el parámetro delta, ya que tendrá prioridad sobre <ApiLink pkg="core" type="DateTimeInput" member="spinDelta" label="SpinDelta" />.
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="WebComponents">
+
+```ts
+const input = document.getElementById('dateTimeInput') as IgcDateTimeInputComponent;
+
+const spinDelta: DatePartDeltas = {
+  date: 2,
+  month: 3,
+  year: 10,
+};
+
+input.spinDelta = spinDelta;
+```
+
+</PlatformBlock>
+
+Pruébelo en el siguiente ejemplo:
+
+<Sample src="/inputs/date-time-input/step-up-down" height={150} alt="Ejemplo de incremento/decremento de Date Time Input de {Platform}" />
+
+
+## Estilos
+
+El componente <ApiLink pkg="core" type="DateTimeInput" /> expone partes CSS para casi todos sus elementos internos. La tabla siguiente enumera todas las partes CSS expuestas:
+
+|Nombre|Descripción|
+|--|--|
+| `container` | El wrapper principal que contiene todos los elementos de entrada principales. |
+| `input` | El elemento input nativo. |
+| `label` | El elemento label nativo. |
+| `prefix` | El wrapper del prefijo. |
+| `suffix` | El wrapper del sufijo. |
+| `helper-text` | El wrapper del texto de ayuda. |
+
+```css
+igc-date-time-input {
+    --_background: var(--ig-primary-200);
+    --_foreground: var(--ig-gray-900);
+
+    --input-prefix-color: var(--_foreground);
+    --input-suffix-color: var(--_foreground);
+    --input-prefix-color--filled: var(--_foreground);
+    --input-suffix-color--filled: var(--_foreground);
+    --input-prefix-background: var(--_background);
+    --input-suffix-background: var(--_background);
+    --input-prefix-background--filled: var(--_background);
+    --input-suffix-background--filled: var(--_background);
+    --input-prefix-color--focused: var(--_foreground);
+    --input-suffix-color--focused: var(--_foreground);
+    --input-prefix-background--focused: var(--_background);
+    --input-suffix-background--focused: var(--_background);
+}
+```
+
+<Sample src="/inputs/date-time-input/styling" height={150} alt="Estilo de Date Time Input de {Platform}" />
+
+
+## Referencias de API
+<ApiLink pkg="core" type="Input" />
+<ApiLink pkg="core" type="MaskInput" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="DateTimeInput" />
+## Recursos adicionales
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

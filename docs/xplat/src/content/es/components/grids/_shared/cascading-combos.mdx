@@ -1,0 +1,341 @@
+---
+title: "Combos en cascada de {Platform} {ComponentTitle} - {ProductName}"
+description: "Realice actualizaciones mediante combos en cascada en {ComponentTitle}, usando {Platform} {ComponentTitle}. ¡Consulte demostraciones y ejemplos!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+_language: en
+sharedComponents: ["Grid"]
+namespace: Infragistics.Controls
+llms:
+  description: "La funcionalidad de edición de {ComponentTitle} permite usar componentes Cascading Combobox."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} con combos en cascada
+
+La funcionalidad de edición de {ComponentTitle} permite usar componentes Cascading Combobox. Al seleccionar el valor de cualquier <ApiLink type="Combo" /> anterior, los usuarios recibirán solo los datos relevantes para su selección en el siguiente componente Combobox {Platform}.
+
+## {Platform} {ComponentTitle} con combos en cascada: información general del ejemplo
+
+El siguiente ejemplo muestra cómo funciona <ApiLink type="{ComponentName}" /> con componentes <ApiLink type="Combo" /> en cascada anidados.
+
+
+
+
+<ComponentBlock for="Grid">
+<Sample src="/{ComponentSample}/cascading-combo" height={500} alt="Ejemplo de combos en cascada de {Platform} {ComponentTitle}" />
+</ComponentBlock>
+
+## Configuración
+
+Para habilitar la edición de columnas, asegúrese de que la propiedad <ApiLink type="Column" member="editable" /> esté establecida en `true`.
+
+Una vez habilitada la edición de columnas, puede empezar por añadir sus <ApiLink type="Combo" />. Tenga en cuenta que, para tener solo una única selección disponible, debe usar la propiedad <ApiLink type="Combo" member="singleSelect" />.
+
+
+<PlatformBlock for="WebComponents, Blazor, React">
+<PlatformBlock for="WebComponents, React">
+
+Para empezar con <ApiLink type="Combo" />, primero debe importarlo:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+import { IgcComboComponent, defineAllComponents } from 'igniteui-webcomponents';
+defineAllComponents();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="ComboModule" />, el módulo de recursos de cliente de <ApiLink type="Combo" />, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbComboModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](../../general-getting-started.mdx#módulos-de-componentes)).
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+import { IgrCombo } from 'igniteui-react';
+```
+</PlatformBlock>
+
+A continuación, debe definir la plantilla de columna con el combo:
+
+
+<PlatformBlock for="React">
+```tsx
+   <IgrColumn
+    field="Country"
+    header="Country"
+    bodyTemplate={webGridCountryDropDownTemplate}>
+    </IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const webGridCountryDropDownTemplate = (ctx: IgrCellTemplateContext) => {
+        const rowId = ctx.cell?.id.rowID;
+        if (!rowId) return <></>;
+        const comboId = `country_${rowId}`;
+
+        return (
+        <>
+            <IgrCombo
+                data={countries}
+                ref={getComboRef(comboId)}
+                onChange={(event: CustomEvent) => { onCountryChange(rowId, event) }}
+                placeholder="Choose Country..."
+                valueKey="Country"
+                displayKey="Country"
+                singleSelect={true}
+                name={comboId}>
+            </IgrCombo>
+        </>
+        );
+    }
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Country" Header="Country" BodyTemplate="WebGridCountryDropDownTemplate"></IgbColumn>
+
+@code{
+    public static RenderFragment<IgbCellTemplateContext> WebGridCountryDropDownTemplate = (context) =>
+    {
+        var id = "country_" + context.Cell.Id.RowID;
+        return @<IgbCombo id="@id" Placeholder="Choose Country..." SingleSelect=true ValueKey="Country" DisplayKey="Country" ChangeScript="CountryChange"></IgbCombo>;
+    };
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public webGridCountryDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+    const id = ctx.cell.id.rowID;
+    const comboId = "country_" + id;
+    return html`<igc-combo placeholder="Choose Country..." value-key="Country" display-key="Country" id="${comboId}" single-select></igc-combo>`
+}
+```
+</PlatformBlock>
+
+- <ApiLink type="Combo" member="displayKey" />: obligatorio para los arrays de objetos. Especifica qué propiedad se usará para el texto de los elementos. Si no se especifica ningún valor para <ApiLink type="Combo" member="displayKey" />, el combo usará el <ApiLink type="Combo" member="valueKey" /> indicado (si lo hay).
+
+Para gestionar el cambio de selección, necesitamos el evento change. Los argumentos del evento emitido contienen información sobre la selección anterior al cambio, la selección actual y los elementos que se han añadido o eliminado. Por tanto, filtrará los valores según la selección del combo anterior.
+
+<PlatformBlock for="Blazor">
+
+```javascript
+//In Javascript
+igRegisterScript("CountryChange", (ctx) => {
+    const value = e.detail.newValue;
+    cell.update(value);
+    const nextCombo = document.getElementById("region_" + cell.id.rowID);
+    const nextProgress = document.getElementById("progress_region_" + cell.id.rowID);
+    if (value === "") {
+        nextCombo.deselect(nextCombo.value);
+        nextCombo.disabled = true;
+        nextCombo.data = [];
+    } else {
+        nextProgress.style.display = "block";
+        setTimeout(() => {
+            nextProgress.style.display = "none";
+            nextCombo.disabled = false;
+            nextCombo.data = this.regions.filter(x => x.Country === value);
+        }, 2000);
+    }
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+ public countries = [...this.worldCitiesAbove500K].filter(x => this.countryNames.indexOf(x.Country) !== -1).filter((value, index, array) => array.findIndex(x => x.Country === value.Country) === index);
+public bindEventsCountryCombo(rowId: any, cell: any) {
+        const comboId = "country_" + rowId;
+        var combo = document.getElementById(comboId) as IgcComboComponent<any>;
+        combo?.addEventListener("igcChange", (e:any) => {
+            const value = e.detail.newValue[0];
+            cell.update(value);
+            const nextCombo = document.getElementById("region_" + cell.id.rowID) as IgcComboComponent<any>;
+            const nextProgress = document.getElementById("progress_region_" + cell.id.rowID) as IgcLinearProgressComponent;
+            if (value === "") {
+                nextCombo.deselect(nextCombo.value);
+                nextCombo.disabled = true;
+                nextCombo.data = [];
+            } else {
+                nextProgress.style.display = "block";
+                setTimeout(() => {
+                    nextProgress.style.display = "none";
+                    nextCombo.disabled = false;
+                    nextCombo.data = this.regions.filter(x => x.Country === value);
+                }, 2000);
+
+            }
+        });
+        combo?.addEventListener("igcOpening", (e:any) => {
+            var currCombo = e.target;
+            if (currCombo.data.length === 0) {
+                combo.data = this.countries;
+            };
+        });
+    }
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+    const onCountryChange = (rowId: string, event: CustomEvent) => {
+        const regionCombo = getComboRef(`region_${rowId}`).current;
+        const cityCombo = getComboRef(`city_${rowId}`).current;
+        const regions = regions;
+        const newValue = event.detail.newValue[0];
+
+        if (newValue === undefined) {
+            regionCombo.deselect(regionCombo.value);
+            regionCombo.disabled = true;
+            regionCombo.data = [];
+
+            cityCombo.deselect(regionCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        } else {
+            regionCombo.disabled = false;
+            regionCombo.data = regions.filter(x => x.Country === newValue);
+
+            cityCombo.deselect(cityCombo.value);
+            cityCombo.disabled = true;
+            cityCombo.data = [];
+        }
+    }
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+Para empezar con el componente `SimpleComboBox`, primero debe importar `IgxSimpleComboModule` en su archivo `app.module.ts`:
+
+```typescript
+import { IgxSimpleComboModule } from 'igniteui-angular';
+
+@NgModule({
+    imports: [
+        ...
+        IgxSimpleComboModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Después, en la plantilla, debe enlazar los combos `SimpleCombo` a algunos datos.
+
+- `displayKey`: obligatorio para los arrays de objetos. Especifica qué propiedad se usará para el texto de los elementos. Si no se especifica ningún valor para `displayKey`, el combo simple usará el `valueKey` indicado (si lo hay).
+
+```typescript
+export class MySimpleComboComponent implements OnInit {
+    public countriesData: Country[];
+    public selectedCountry: Country;
+    public selectedCity: City;
+
+    public ngOnInit() {
+        this.countriesData = getCountries([
+            'United States',
+            'Japan',
+            'United Kingdom'
+        ]);
+    }
+}
+```
+
+Para gestionar el cambio de selección, necesitamos `selectionChanging`. Los argumentos del evento emitido, `IComboSelectionChangingEventArgs`, contienen información sobre la selección anterior al cambio, la selección actual y los elementos que se han añadido o eliminado. Por tanto, filtrará los valores según la selección del combo anterior.
+
+```html
+<igx-combo [data]="countriesData" (selectionChanging)="countryChanging($event)"></igx-combo>
+```
+
+```typescript
+public countryChanging(event: IComboSelectionChangeEventArgs) {
+    if (event.added.length) {
+        event.newSelection = event.added;
+    }
+}
+```
+
+Y, por último, añada <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
+`id` es necesario para establecer el valor del atributo `id`.
+
+```html
+ <igx-linear-bar
+    [id]="'region-progress-' + cell.row.data.ID"
+    [style.visibility]="'hidden'"
+    type="info" [indeterminate]="true">
+</igx-linear-bar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+Y, por último, añada <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
+`id` es necesario para establecer el valor del atributo `id`.
+
+```ts
+    public webGridRegionDropDownTemplate: IgcRenderFunction<IgcCellTemplateContext> = (ctx: IgcCellTemplateContext) => {
+        const id = ctx.cell.id.rowID;
+        const comboId = "region_" + id;
+        const progressId = "progress_region_" + id;
+        return html`<div style="display:flex; flex-direction: column;"><igc-combo placeholder="Choose Region..." disabled value-key="Region" display-key="Region" id="${comboId}" single-select></igc-combo>
+        <igc-linear-progress style="display:none;" indeterminate id="${progressId}"></igc-linear-progress></div>`;
+    }
+```
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+Y, por último, añada <ApiLink pkg="core" type="LinearProgress" />, que es necesario al cargar la lista de datos.
+
+
+
+```csharp
+    public static RenderFragment<IgbCellTemplateContext> WebGridRegionDropDownTemplate = (context) =>
+    {
+        var id = "region_" + context.Cell.Id.RowID;
+        return @<div style="display:flex;flex-direction:column;"><IgbCombo id="@id" Placeholder="Choose Region..." SingleSelect=true ValueKey="Region" DisplayKey="Region" ChangeScript="RegionChange"></IgbCombo><IgbLinearProgress Indeterminate=true></IgbLinearProgress></div>;
+    };
+```
+
+</PlatformBlock>
+
+## Problemas conocidos y limitaciones
+
+|Limitación|Descripción|
+|--- |--- |
+| La lista desplegable del combo puede quedar oculta detrás de otros elementos de la interfaz. | Debido al orden de apilamiento de los elementos en la cuadrícula, la lista desplegable del combo puede quedar oculta detrás de otros elementos, como encabezados, pies, etc. |
+
+
+## Referencias de API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+<ApiLink type="Combo" />
+<ApiLink pkg="core" type="LinearProgress" />

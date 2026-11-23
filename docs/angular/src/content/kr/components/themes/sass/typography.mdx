@@ -1,0 +1,273 @@
+---
+title: "타이포그래피"
+description:
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+_extraFont: https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700
+_language: ko
+llms:
+  description: "Ignite UI for Angular 타이포그래피 Sass 모듈을 사용하면 애플리케이션의 모든 컴포넌트, 특정 타입 스케일 또는 특정 컴포넌트의 타이포그래피를 수정할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# 타이포그래피
+
+<div class="highlight">
+Ignite UI for Angular 타이포그래피 Sass 모듈을 사용하면 애플리케이션의 모든 컴포넌트, 특정 타입 스케일 또는 특정 컴포넌트의 타이포그래피를 수정할 수 있습니다.
+</div>
+<igc-divider></igc-divider>
+
+## 개요
+
+애플리케이션은 스케일 범주를 서로 공유할 수 있는 여러 타이포그래피 `scales`을(를) 정의할 수 있습니다. `scale category`은(는) `type styles`의 집합이며, `font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing` 및 `text-transform`에 대한 정보를 담습니다.
+
+Ignite UI for Angular는 각 테마마다 4개의 기본 타입 스케일을 노출합니다 - `$material-type-scale`, `$fluent-type-scale`, `$bootstrap-type-scale` 및 `$indigo-type-scale`. 이들은 차례로 `typography` 믹스인이 타이포그래피 스타일을 설정하는 데 사용됩니다. 하지만 추가 타입 스케일을 만들 수도 있습니다.
+
+많은 경우 타이포그래피에 약간의 수정만 하면 되므로, 아직 읽지 않았다면 먼저 CSS 변수 문서의 [타이포그래피](/themes/typography) 섹션을 읽어 보기를 권장합니다. 전체 타이포그래피 스케일과 관련된 더 깊은 변경을 원하는 경우에만 Sass로 타이포그래피를 수정하면 됩니다.
+
+## 사용법
+
+<DocsAside type="info">
+기본적으로 우리는 어떤 타이포그래피 스타일도 적용하지 않습니다. 애플리케이션에서 우리 타이포그래피를 사용하려면 최상위 요소에 `ig-typography` CSS 클래스를 설정하고, 기본 `.scss` 파일에 `typography` 믹스인을 포함해야 합니다.
+</DocsAside>
+
+Ignite UI for Angular의 Material 테마 기본 글꼴로 [Titillium Web](https://fonts.google.com/selection?selection.family=Titillium+Web:300,400,600,700)을 선택했습니다. 이를 사용하려면 직접 호스팅하거나 Google Fonts에서 가져와야 합니다:
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700" rel="stylesheet"/>
+```
+
+타입 스케일에서 카테고리 스타일을 설정하고 가져오는 데 사용되는 믹스인과 함수가 여러 개 있습니다. 그것들은 다음과 같습니다:
+
+- `type-style` [함수] - 타입 스케일 카테고리에 사용할 스타일 규칙 집합을 반환합니다.
+- `type-scale` [함수] - 13개의 스타일 카테고리 집합을 반환합니다.
+- `type-scale-category` [함수] - 타입 스케일과 카테고리에서 스타일 규칙 맵을 반환합니다.
+- `type-style` [믹스인] - 특정 타입 스케일과 카테고리에서 선택기에 스타일 규칙을 추가합니다.
+- `type-style-vars` [믹스인] - 특정 타입 스타일에서 선택기에 스타일 규칙을 추가합니다.
+- `typography` [믹스인] - 전역 애플리케이션 타이포그래피 스타일을 정의합니다.
+
+앞서 말한 각 믹스인과 함수가 무엇을 하는지 자세히 살펴보겠습니다.
+
+### 타입 스타일
+
+`type-style` 함수는 인터페이스와 비슷한 함수로, 특정 인수가 스케일 카테고리의 스타일 집합의 일부로 전달되도록 보장할 뿐입니다. 예를 들어 `h1` 스케일 카테고리에 대한 새 스타일 규칙 집합을 정의하고 싶다고 해 보겠습니다. 이를 위해 다음과 같이 작성하면 됩니다:
+
+```scss
+$h1-style: type-style(
+  $font-size: rem(112px),
+  $font-weight: 600,
+  $line-height: rem(96px),
+  ...,
+);
+```
+
+### 타입 스케일
+
+타입 스케일은 스케일 카테고리로 사용되는 13개의 타이포그래피 스타일 맵을 생성합니다. 새 타입 스케일을 생성하려면 다음을 수행하십시오:
+
+```scss
+$my-type-scale: type-scale(...);
+```
+
+<DocsAside type="info">
+13개의 스케일 카테고리 각각에 대해 타입 스타일을 제공해야 합니다. 스타일은 위에서 보여 준 것처럼 `type-style` 함수를 사용하여 생성할 수 있습니다.
+</DocsAside>
+
+```scss
+$my-type-scale: type-scale(
+  $h1: $h1-style,
+  [$h2...$overline],
+);
+```
+
+기존 타입 스케일을 확장하여 수정할 수 있습니다. `$material-type-scale`의 `h1` 타입 스타일을 바꾸려면 다음과 같이 하면 됩니다:
+
+```scss
+$my-type-scale: extend(
+  $material-type-scale,
+  (
+    h1: type-style(...),
+  )
+);
+```
+
+스케일에 추가 타입 스타일을 더하는 것도 똑같이 쉽습니다:
+
+```scss
+$my-type-category: type-style(
+  $font-weight: 600,
+  $font-size: rem(42px),
+  $text-transform: uppercase,
+  ...,
+);
+
+$my-type-scale: extend(
+  $my-type-scale,
+  (
+    "my-category": $my-type-category,
+  )
+);
+```
+
+### 타이포그래피 믹스인
+
+타이포그래피 믹스인은 네이티브 h1-h6 및 p 요소가 스타일링되는 방식을 포함하여, 애플리케이션의 전역 타이포그래피 스타일을 정의합니다.
+
+현재 두 개의 인수를 받습니다:
+
+- `$font-family` - 애플리케이션이 사용할 전역 글꼴 패밀리입니다.
+- `$type-scale` - 애플리케이션이 사용할 기본 타입 스케일입니다.
+
+타이포그래피 스타일을 사용하려면 `core` 뒤 어디에서든 `typography` 믹스인을 포함하십시오. 위에서 정의한 타입 스케일 `$my-type-scale`을(를) 활용하여 이를 기본 타입 스케일로 만들어 보겠습니다.
+
+```scss
+@include typography(
+  $font-family: $material-typeface,
+  $type-scale: $my-type-scale
+);
+```
+
+타입 스케일과 비슷하게, 서체를 위한 변수 네 개 - `$material-typeface`, `$fluent-typeface`, `$bootstrap-typeface` 및 `$indigo-typeface`를 노출합니다. `typography` 믹스인을 포함할 때 이들 중 어떤 것이든 어떤 타입 스케일과도 조합하여 사용할 수 있습니다.
+
+## 사용자 지정 타입 스타일
+
+`type-style` 믹스인은 특정 타입 스케일에서 스케일 카테고리의 스타일 규칙을 가져오는 데 사용할 수 있습니다. 또한 추가 스타일 규칙을 더할 수도 있습니다.
+
+```scss
+.my-fancy-h1 {
+  @include type-style('h1') {
+    color: royalblue;
+  }
+}
+```
+
+위 코드는 `$my-type-scale`의 `h1` 스케일 카테고리에 대한 모든 스타일 규칙에, `royalblue` 색상으로 설정된 `color` 속성을 더한 클래스 스타일 선택기 `.my-fancy-h1`을 생성합니다. 이제 어떤 요소의 클래스를 `.my-fancy-h1`(으)로 설정하면, 다른 `h1` 요소와 똑같이 보이지만 색상은 `royalblue`이(가) 됩니다.
+
+## 컴포넌트 타이포그래피
+
+Ignite UI for Angular의 대부분의 컴포넌트는 텍스트 스타일을 지정하기 위해 스케일 카테고리를 사용합니다. 예를 들어 `igx-card` 컴포넌트는 다음 스케일 카테고리를 사용합니다:
+
+- `h6` - 카드 제목의 스타일을 지정하는 데 사용됩니다.
+- `subtitle-2` - 카드 부제목과 작은 제목의 스타일을 지정하는 데 사용됩니다.
+- `body-2` - 카드 텍스트 콘텐츠의 스타일을 지정하는 데 사용됩니다.
+
+카드의 텍스트 스타일을 바꾸는 방법은 두 가지가 있습니다. 첫 번째는 타이포그래피 믹스인에 전달하는 **_material 타입 스케일_**에서 `h6`, `subtitle-2` 및/또는 `body-2` 스케일을 수정하는 것입니다. 따라서 카드의 제목을 더 작게 만들고 싶다면, `h6` 스케일 카테고리의 font-size만 바꾸면 됩니다.
+
+```scss
+// Create a custom h6 scale category style
+$my-h6: type-style(
+  $font-size: rem(12px),
+);
+
+// Create a custom type scale with the modified h6
+$my-type-scale: extend(
+  $material-type-scale,
+  (
+    h6: $my-h6,
+  )
+);
+
+// Pass the custom scale to the global typography mixin
+@include typography($type-scale: $my-type-scale);
+```
+
+<DocsAside type="warning">
+위 코드는 `h6` 스케일 카테고리를 전역으로 수정하며, 이는 `h6` 스케일을 사용하는 모든 컴포넌트의 모양과 느낌에 영향을 줍니다. 이는 애플리케이션 전체에서 모든 `h6` 요소가 같아 보이도록 일관성을 위한 것입니다. `h6`에 대한 수정을 우리의 경우 `igx-card` 컴포넌트처럼 특정 컴포넌트에만 적용하고 싶을 수도 있다는 것을 이해합니다. 모든 컴포넌트의 타이포그래피는 같은 범용 `--ig-{category}-*` 디자인 토큰(예: `--ig-h6-font-size`)을 통해 적용되므로, 전역 타입 스케일을 바꾸는 대신 `type-style-vars` 믹스인으로 그 토큰을 대상으로 하면 관심 있는 요소에만 재정의를 범위 지정할 수 있습니다.
+</DocsAside>
+
+```scss
+// Create a custom h6 scale category style
+$my-h6: type-style(
+  $font-size: rem(12px),
+);
+
+.my-cool-card {
+  // Overwrite the 'h6' tokens for this scope only.
+  // Because CSS custom properties inherit, this affects every
+  // descendant that reads the '--ig-h6-*' tokens, including the
+  // card title inside .my-cool-card.
+  @include type-style-vars('h6', $my-h6);
+}
+```
+
+타이포그래피는 각 컴포넌트 토큰의 일부로 자동 적용되므로, 컴포넌트의 모든 부분이 별다른 설정 없이 애플리케이션의 나머지 부분과 시각적으로 일관성을 유지합니다. 특정 컴포넌트 인스턴스에 고유한 모양을 주고 싶을 때 — 예를 들어 한 카드에만 더 작은 제목을 두고 싶을 때 — 위에서 보여 준 것처럼 해당 카테고리의 `type-style-vars` 재정의를 그 컴포넌트 인스턴스에 범위 지정하십시오. Sass 없이도 기본 `--ig-{category}-*` 토큰을 일반 CSS 사용자 지정 속성으로 직접 사용할 수 있습니다:
+
+```css
+.my-cool-card {
+  --ig-h6-font-size: 0.75rem;
+}
+```
+
+## 단위 변환
+
+속성 단위를 변환하는 타이포그래피 함수도 세 개 있습니다. 이 함수들로 `px` 단위를 `em` 또는 `rem`으로, 그리고 `em` 또는 `rem` 단위를 `px`으로 변환할 수 있습니다.
+세 함수 중 하나를 호출하고 변환하려는 값을 전달하기만 하면 됩니다.
+
+### 'px'로
+
+```scss
+.my-component {
+  margin: px(3.23rem);
+}
+```
+
+### 'rem'으로
+
+```scss
+.my-component {
+  margin: rem(10px) rem(5px);
+}
+```
+
+### 'em'으로
+
+```scss
+.my-component {
+  margin: em(10px) em(5px);
+}
+```
+
+값을 변환할 때는 기본 기준 글꼴 크기가 16px(16px = 1em/rem)이라는 점을 기억하는 것이 중요합니다. 원한다면 변환 함수의 인수로 사용자 지정 기준 글꼴 크기를 제공할 수 있습니다. 이렇게 하면 결과 값이 지정된 기준 글꼴 크기를 기준으로 계산됩니다.
+
+```scss
+.my-component {
+  margin: rem(10px, 26px);
+  // The result will be 0.385rem
+}
+```
+
+이렇게 하면 26px 글꼴 크기를 기준으로 10px 값이 rem으로 변환됩니다.
+
+## CSS 클래스
+
+타입 스케일 카테고리를 기반으로 모든 컴포넌트에 텍스트 스타일을 추가하는 것 외에도, 기본 h1-h6 및 p 요소의 스타일도 지정합니다. 이렇게 하면 의미(semantics)와 스타일을 분리할 수 있습니다. 예를 들어 `typography`을(를) 사용할 때 `h1` 태그에 우리가 제공하는 기본 스타일이 있더라도, `ig-typography__h3` 클래스를 주어 `h3`처럼 보이도록 수정할 수 있습니다.
+
+```html
+<h1 class="ig-typography__h3">Some text</h1>
+```
+
+기본으로 제공하는 모든 CSS 클래스의 목록은 다음과 같습니다:
+
+- `ig-typography__h1`
+- `ig-typography__h2`
+- `ig-typography__h3`
+- `ig-typography__h4`
+- `ig-typography__h5`
+- `ig-typography__h6`
+- `ig-typography__subtitle-1`
+- `ig-typography__subtitle-2`
+- `ig-typography__body-1`
+- `ig-typography__body-2`
+- `ig-typography__button`
+- `ig-typography__caption`
+- `ig-typography__overline`
+
+<igc-divider></igc-divider>
+
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

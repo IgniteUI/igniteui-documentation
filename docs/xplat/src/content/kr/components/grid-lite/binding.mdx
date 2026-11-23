@@ -1,0 +1,243 @@
+---
+title: "{Platform} {GridLiteTitle} 데이터 바인딩 - {ProductName} | MIT 라이선스"
+description: "{GridLiteTitle}용 데이터 바인딩입니다. 오픈 소스 {Platform} {GridLiteTitle}로 앱을 만드십시오. 경량이며 필수 기능이 가득합니다. 지금 사용해 보십시오."
+keywords: "데이터 바인딩, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: ko
+llms:
+  description: "{GridLiteTitle}는 데이터 소스로 일반 객체의 배열을 받습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {GridLiteTitle} 데이터 바인딩
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+{GridLiteTitle}는 데이터 소스로 일반 객체의 배열을 받습니다. 각 그리드 행은 배열의 데이터 레코드를 렌더링한 표현이며, 행의 셀은 열 구성에 의해 제어됩니다.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+{GridLiteTitle}는 데이터 소스로 `IEnumerable<TItem>`, 예를 들어 `List<TItem>`를 받으며, 여기서 `TItem`는 모델을 나타냅니다. 각 그리드 행은 컬렉션의 데이터 레코드를 렌더링한 표현이며, 행의 셀은 열 구성에 의해 제어됩니다.
+
+</PlatformBlock>
+
+
+정렬 및 필터링 같은 데이터 변환을 적용할 때, 그리드는 원래 데이터 참조를 수정하지 않습니다. 즉 데이터 변환은 원본 소스에 반영되지 않습니다. 그리드는 데이터 배열 안의 객체 변경을 추적하지 않으므로, 데이터 객체를 직접 수정하면 반영되지 않습니다.
+
+## 실행 중 데이터 소스 변경하기
+
+컴포넌트는 실행 중에 데이터 소스를 변경하는 것을 지원합니다. 새 소스가 이전 소스와 다른 "형태"를 가진다면 열 구성도 함께 업데이트하십시오.
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+grid.data = [...{
+  /** records follow */
+}];
+```
+
+```html
+<igc-grid-lite>
+    <!-- Update column configuration, add or remove columns as needed to represent the new data. -->
+    <igc-grid-lite-column field="id"></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+/* First we set the initial data */
+const [data, setData] = React.useState([/* initial data */]);
+
+/* Then inside an event handler or a useEffect we update the data via setData */
+const updateData = () => {
+  setData([]);
+};
+
+return (
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite data={data}>
+            {/* Update column configuration, add or remove columns as needed to represent the new data. */}
+            <IgrGridLiteColumn field="id"></IgrGridLiteColumn>
+        </IgrGridLite>
+    </>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="data">
+    <!-- Update column configuration, add or remove columns as needed to represent the new data. -->
+    <IgbGridLiteColumn Field="Id" />
+</IgbGridLite>
+
+@code {
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // Assign a new collection
+        data = new List<Product>
+        {
+            // records follow
+        };
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+그리드에 `autoGenerate`이(가) 활성화되어 있다면, 데이터가 바뀔 때 새 열 구성을 자동으로 "_추론_"합니다.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+그리드에 `AutoGenerate`이(가) 활성화되어 있다면, 데이터가 바뀔 때 새 열 구성을 자동으로 "_추론_"합니다.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+grid.autoGenerate = true;
+
+/** After the new binding the grid will infer the column collection from the bound data. */
+grid.data = [];
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const [data, setData] = React.useState([/* initial data */]);
+
+
+/** After the new binding the grid will infer the column collection from the bound data. */
+const updateData = () => {
+  setData([/* new data */]);
+};
+
+return (
+    <>
+        <IgrButton onClick={updateData}>Update Data</IgrButton>
+        <IgrGridLite id="grid-lite" data={data} autoGenerate={true} />
+    </>
+);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+```razor
+<IgbGridLite Data="data" AutoGenerate="true" />
+
+@code {
+    private List<Product> data = new();
+
+    private void UpdateData()
+    {
+        // After the new binding the grid will infer the column collection from the bound data.
+        data = new List<Product>();
+    }
+}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+<DocsAside type="info">
+이 방식으로 데이터 소스를 바꿀 때 {GridLiteTitle}의 정렬/필터 상태는 유지됩니다.
+</DocsAside>
+보통은 `clearSort()` 및/또는 `clearFilter()`를 호출하여 이 상태를 초기화하고 싶을 것입니다.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+<DocsAside type="info">
+이 방식으로 데이터 소스를 바꿀 때 {GridLiteTitle}의 정렬/필터 상태는 유지됩니다.
+</DocsAside>
+보통은 `ClearSortAsync()` 및/또는 `ClearFilterAsync()`를 호출하여 이 상태를 초기화하고 싶을 것입니다.
+
+</PlatformBlock>
+
+
+아래 샘플에서는 그리드에 열 자동 생성이 활성화되어 있습니다. 데이터 전환 버튼을 클릭하면
+열 컬렉션이 초기화되고 새 데이터 소스가 그리드에 바인딩됩니다.
+
+<Sample src="/{GridLiteSample}/data-binding" height={600} alt="{Platform} {GridLiteTitle} 데이터 바인딩" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## API 참조
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## 추가 리소스
+
+- [열 구성](./column-configuration.mdx)
+- [정렬](./sorting.mdx)
+- [필터링](./filtering.mdx)
+- [테마 및 스타일링](./theming.mdx)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

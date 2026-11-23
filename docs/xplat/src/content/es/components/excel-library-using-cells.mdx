@@ -1,0 +1,498 @@
+---
+title: "Biblioteca de Excel de {Platform} | Uso de celdas | Infragistics"
+description: "Aprenda a realizar operaciones sobre las celdas de la biblioteca de Excel de Infragistics {Platform}, como acceder a ellas, añadir fórmulas y comentarios, combinar celdas y dar formato a las celdas. ¡Vea las demostraciones de Excel de {ProductName}!"
+keywords: "Biblioteca de Excel, operaciones con celdas, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "WorkbookStyleCollection", "IWorksheetCellFormat", "WorkbookColorInfo", "DisplayOptions"]
+_language: es
+llms:
+  description: "Los objetos WorksheetCell de una hoja de cálculo de Excel son los que contienen los valores de datos reales de la hoja."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Uso de celdas
+
+Los objetos <ApiLink type="WorksheetCell" /> de una hoja de cálculo de Excel son los que contienen los valores de datos reales de la hoja. Este tema repasa las numerosas operaciones que puede realizar sobre estas celdas, como acceder a ellas y a sus regiones por nombre, añadir fórmulas y comentarios a las celdas, y combinarlas y darles formato.
+
+## Ejemplo de uso de celdas de {Platform}
+
+
+<Sample src="/excel/excel-library/working-with-cells" height={200} alt="Ejemplo de uso de celdas de {Platform}" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+## Referencias
+
+El siguiente código muestra las importaciones necesarias para usar los fragmentos de código siguientes:
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { Worksheet } from "{PackageExcel}";
+import { WorksheetTable } from "{PackageExcel}";
+import { NamedReference } from "{PackageExcel}";
+import { WorksheetCellComment } from "{PackageExcel}";
+import { FormattedString } from "{PackageExcel}";
+```
+
+</PlatformBlock>
+
+
+## Referenciar celdas y regiones
+
+Puede acceder a un objeto <ApiLink type="WorksheetCell" /> o a un objeto <ApiLink type="WorksheetRegion" /> llamando a los métodos <ApiLink type="Worksheet" /> o <ApiLink type="Worksheet" member="getCell" label="GetCell" /> del objeto <ApiLink type="Worksheet" member="getRegion" label="GetRegion" />, respectivamente. Ambos métodos aceptan un parámetro de cadena que referencia una celda. Obtener una referencia a una celda resulta útil al aplicar formatos o al trabajar con fórmulas y contenidos de celdas.
+
+El siguiente código de ejemplo muestra cómo referenciar celdas y regiones:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+//Accessing a single cell
+var cell = worksheet.getCell("E2");
+//Accessing a range of cells
+var region = worksheet.getRegion("G1:G10");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+//Accessing a single cell
+var cell = worksheet.GetCell("E2");
+//Accessing a range of cells
+var region = worksheet.GetRegion("G1:G10");
+```
+
+</PlatformBlock>
+
+## Acceder a celdas y regiones por nombre
+
+En Microsoft Excel, las celdas individuales y las regiones de celdas pueden tener nombres asignados. El nombre de una celda o región puede usarse para referenciar esa celda o región en lugar de su dirección.
+
+La biblioteca de Excel de Infragistics {Platform} admite la referencia a celdas y regiones por nombre mediante los métodos <ApiLink type="Worksheet" member="getCell" label="GetCell" /> y <ApiLink type="Worksheet" member="getRegion" label="GetRegion" /> del objeto <ApiLink type="Worksheet" />. Se hace referencia a la celda o región mediante la instancia <ApiLink type="NamedReference" /> que apunta a esa celda o región.
+
+Puede usar el siguiente fragmento de código como ejemplo para asignar un nombre a una celda o región:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cell_reference = workbook.namedReferences().add("myCell", "=Sheet1:A1");
+var region_reference = workbook.namedReferences().add("myRegion", "=Sheet1!A1:B2");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cell_reference = workbook.NamedReferences.Add("myCell", "=Sheet1:A1");
+var region_reference = workbook.NamedReferences.Add("myRegion", "=Sheet1!A1:B2");
+```
+
+</PlatformBlock>
+
+El siguiente código puede usarse para obtener la celda y la región referenciadas por las referencias con nombre "myCell" y "myRegion" indicadas arriba:
+
+```ts
+var cell = worksheet.getCell("myCell");
+var region = worksheet.getRegion("myRegion");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var cell = worksheet.GetCell("myCell");
+var region = worksheet.GetRegion("myRegion");
+```
+
+</PlatformBlock>
+
+## Añadir un comentario a una celda
+
+Un comentario permite mostrar sugerencias o notas de una celda cuando el ratón del usuario final se sitúa sobre ella. Los comentarios se muestran como una llamada parecida a una información emergente que contiene texto. La biblioteca de Excel de Infragistics {Platform} le permite añadir comentarios a una celda estableciendo la propiedad <ApiLink type="WorksheetCell" member="comment" label="Comment" /> de un objeto <ApiLink type="WorksheetCell" />.
+
+El siguiente código de ejemplo muestra cómo añadir un comentario a una celda:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cellComment = new WorksheetCellComment();
+var commentText = new FormattedString("This cell has a comment.");
+cellComment.text = commentText;
+
+worksheet.rows(0).cells(0).comment = cellComment;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellComment = new WorksheetCellComment();
+var commentText = new FormattedString("This cell has a comment!");
+cellComment.Text = commentText;
+
+worksheet.Rows[0].Cells[0].Comment = cellComment;
+```
+
+</PlatformBlock>
+
+## Añadir una fórmula a una celda
+
+La biblioteca de Excel de Infragistics {Platform} le permite añadir fórmulas de Microsoft Excel a una celda o a un grupo de celdas de una hoja de cálculo. Puede hacerlo usando el método <ApiLink type="WorksheetCell" member="applyFormula" label="ApplyFormula" /> del objeto <ApiLink type="WorksheetCell" /> o creando una instancia de un objeto <ApiLink type="Formula" /> y aplicándolo a una celda. Independientemente de la forma en que aplique una fórmula a una celda, puede acceder al objeto <ApiLink type="Formula" /> mediante la propiedad <ApiLink type="WorksheetCell" member="formula" label="Formula" /> del objeto <ApiLink type="WorksheetCell" />. Si necesita el valor, use la propiedad <ApiLink type="WorksheetCell" member="value" label="Value" /> de la celda.
+
+El siguiente código muestra cómo añadir una fórmula a una celda.
+
+```ts
+ var workbook = new Workbook();
+ var worksheet = workbook.worksheets().add("Sheet1");
+ worksheet.rows(5).cells(0).applyFormula("=SUM(A1:A5)");
+
+ //Using a Formula object to apply a formula
+ var sumFormula = Formula.parse("=SUM(A1:A5)", CellReferenceMode.A1);
+ sumFormula.applyTo(worksheet.rows(5).cells(0));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+worksheet.Rows[5].Cells[0].ApplyFormula("=SUM(A1:A5)");
+
+//Using a Formula object to apply a formula
+var sumFormula = Formula.Parse("=SUM(A1:A5)", CellReferenceMode.A1);
+sumFormula.ApplyTo(worksheet.Rows[5].Cells[0]);
+```
+
+</PlatformBlock>
+
+## Copiar el formato de una celda
+Las celdas pueden tener distintos formatos, como color de fondo, cadena de formato y estilo de fuente. Si necesita que una celda tenga el mismo formato que una celda ya formateada, en lugar de establecer individualmente cada opción expuesta por la propiedad <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> del objeto <ApiLink type="WorksheetCell" />, puede llamar al método <ApiLink type="IWorksheetCellFormat" member="setFormatting" label="SetFormatting" /> del objeto <ApiLink type="IWorksheetCellFormat" /> y pasarle un objeto <ApiLink type="IWorksheetCellFormat" /> que copiar. Esto copiará todos los ajustes de formato de la primera celda a la segunda. También puede hacerlo con una fila, una región de celdas combinadas o una columna.
+
+El siguiente código muestra cómo copiar el formato de la 2.ª columna a la 4.ª columna:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+//Format 2nd column
+worksheet.columns(1).cellFormat.fill = CellFill.createSolidFill("Blue");
+worksheet.columns(1).cellFormat.font.bold = true;
+
+//Copy format of 2nd column to 4th column
+worksheet.columns(3).cellFormat.setFormatting(worksheet.columns(1).cellFormat);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+//Format 2nd column
+worksheet.Columns[1].CellFormat.Fill = CellFill.CreateSolidFill(CoreGraphics.Colors.Blue);
+worksheet.Columns[1].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+
+//Copy format of 2nd column to 4th column
+worksheet.Columns[3].CellFormat.SetFormatting(worksheet.Columns[1].CellFormat);
+```
+
+</PlatformBlock>
+
+## Dar formato a una celda
+
+La biblioteca de Excel de Infragistics {Platform} le permite personalizar el aspecto y el comportamiento de una celda. Puede personalizar una celda estableciendo las propiedades expuestas por la propiedad <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> de los objetos <ApiLink type="WorksheetCell" />, <ApiLink type="WorksheetRow" />, <ApiLink type="WorksheetColumn" /> o <ApiLink type="WorksheetMergedCellsRegion" />.
+
+Puede personalizar todos los aspectos del aspecto de una celda. Puede establecer la fuente, el fondo y los bordes de una celda, así como la alineación y la rotación del texto. Incluso puede aplicar un formato distinto carácter a carácter al texto de una celda.
+
+También puede dar formato a los valores de las celdas asignando una cadena de formato. Una cadena de formato aceptable sigue las normas tradicionales de formato y los códigos de formato.
+
+El siguiente código muestra cómo dar formato a una celda para mostrar números como moneda:
+
+```ts
+var workbook = new Workbook(format);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.columns(2).cellFormat.formatString = "\"$\"#,##0.00";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+worksheet.Columns[2].CellFormat.FormatString = "\"$\"#,##0.00";
+```
+
+</PlatformBlock>
+
+## Modelo de color de Excel 2007
+
+La paleta de colores es análoga al cuadro de diálogo de color de la interfaz de Microsoft Excel 2007. Puede abrir este cuadro de diálogo yendo a Opciones de Excel => Guardar => Colores.
+
+Puede crear todos los tipos de relleno posibles usando las propiedades y los métodos estáticos de la clase <ApiLink type="CellFill" />. Son los siguientes:
+
+- `NoColor`: propiedad que representa un relleno sin color, que permite que se vea la imagen de fondo de la hoja de cálculo, si la hay.
+
+- `CreateSolidFill`: devuelve una instancia de <ApiLink type="CellFillPattern" /> con un estilo de patrón `Solid` y un color de fondo establecido en el <ApiLink type="WorkbookColorInfo" member="color" label="Color" /> o el <ApiLink type="WorkbookColorInfo" /> especificado en el método.
+
+- `CreatePatternFill`: devuelve una instancia de <ApiLink type="CellFillPattern" /> con el estilo de patrón especificado y los valores <ApiLink type="WorkbookColorInfo" member="color" label="Color" /> o <ApiLink type="WorkbookColorInfo" /> especificados para los colores de fondo y de patrón.
+
+- `CreateLinearGradientFill`: devuelve una instancia de <ApiLink type="CellFillLinearGradient" /> con el ángulo y las paradas de degradado especificados.
+
+- `CreateRectangularGradientFill`: devuelve una instancia de <ApiLink type="CellFillRectangularGradient" /> con la izquierda, la parte superior, la derecha y la parte inferior especificadas del rectángulo interior y las paradas de degradado. Si no se especifican los valores del rectángulo interior, se usa el centro de la celda como rectángulo interior.
+
+Los tipos derivados, que representan los distintos rellenos que pueden crearse, son los siguientes:
+
+- <ApiLink type="CellFillPattern" />: un patrón que representa un relleno de celda sin color, un color sólido o un relleno de patrón para una celda. Tiene información de color de fondo y de color de patrón, que corresponden directamente a las secciones de color de la pestaña Relleno del cuadro de diálogo Formato de celdas de Excel.
+
+- <ApiLink type="CellFillLinearGradient" />: representa un relleno de degradado lineal. Tiene un ángulo, que son los grados en sentido horario del degradado lineal de izquierda a derecha, y una colección de paradas de degradado que describe dos o más transiciones de color a lo largo del degradado.
+
+- <ApiLink type="CellFillRectangularGradient" />: representa un relleno de degradado rectangular. Tiene los valores superior, izquierdo, derecho e inferior, que describen, en coordenadas relativas, el rectángulo interior desde el que empieza el degradado y se extiende hasta los bordes de la celda. También tiene una colección de paradas de degradado que describe dos o más transiciones de color a lo largo del trayecto desde el rectángulo interior hasta los bordes de la celda.
+
+El siguiente fragmento de código muestra cómo crear un relleno sólido en un <ApiLink type="WorksheetCell" />:
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var cellFill = CellFill.createSolidFill("Blue");
+worksheet.rows(0).cells(0).cellFormat.fill = cellFill;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellFill = CellFill.CreateSolidFill(Core.Graphics.Colors.Blue);
+worksheet.Rows[0].Cells[0].CellFormat.Fill = cellFill;
+```
+
+</PlatformBlock>
+
+Puede especificar un color (el color del fondo de las celdas de Excel, de los bordes, etc.) usando degradados lineales y rectangulares en las celdas. Cuando los libros con estos degradados se guardan en formato de archivo .xls y se abren en Microsoft Excel 2007/2010, los degradados se verán, pero cuando estos archivos se abren en Microsoft Excel 2003, la celda se rellenará con el color sólido de la primera parada de degradado.
+
+Estas son las formas en que puede definirse un color:
+
+- El color automático (que es el color del sistema WindowText)
+
+- Cualquier color RGB definido por el usuario
+
+- Un color del tema
+
+Si se usa un color RGB o de tema, puede aplicarse un tono opcional para aclarar u oscurecer el color. Este tono no puede establecerse directamente en la interfaz de Microsoft Excel 2007, pero varios colores de la paleta que se muestra al usuario son en realidad colores de tema con tonos aplicados.
+
+Cada libro de trabajo tiene 12 colores de tema asociados. Son los siguientes:
+
+- Light 1
+
+- Light 2
+
+- Dark 1
+
+- Dark 2
+
+- Accent1
+
+- Accent2
+
+- Accent3
+
+- Accent4
+
+- Accent5
+
+- Accent6
+
+- Hyperlink
+
+- Followed Hyperlink
+
+- Hay valores predeterminados al crear un libro de trabajo, que pueden personalizarse en Excel.
+
+Los colores se definen con la clase <ApiLink type="WorkbookColorInfo" />, que es una clase sellada e inmutable. La clase tiene una propiedad estática `Automatic`, que devuelve el color automático, y hay varios constructores que permiten crear una instancia de <ApiLink type="WorkbookColorInfo" /> con un color o un valor de tema y un tono opcional.
+
+El método <ApiLink type="WorkbookColorInfo" member="getResolvedColor" label="GetResolvedColor" /> de <ApiLink type="WorkbookColorInfo" /> permite determinar qué color verá realmente el usuario cuando abra el archivo en Excel.
+
+Si <ApiLink type="WorkbookColorInfo" /> representa un color de tema, debe pasar una instancia de Workbook al método para que pueda obtener el valor RGB del color del tema a partir del libro de trabajo.
+
+Al guardar en los formatos de archivo más recientes, como .xlsx, la información de color más reciente se guarda directamente en el archivo. Al guardar en un formato de archivo más antiguo, como .xls, se guarda el índice del color más cercano de la paleta. Además, los formatos antiguos tienen registros de características futuras que pueden guardarse para indicar la información de color más reciente.
+
+Cuando los formatos antiguos se abren en Microsoft Excel 2003 y en versiones anteriores, estos registros de características futuras se ignoran, pero cuando los formatos de archivo antiguos se abren en Excel 2007 y posteriores, sus registros se leen y la información de color de ellos sobrescribe el color indexado que se había cargado previamente desde los registros de formato normales.
+
+## Compatibilidad de formatos de Excel
+
+Puede establecer una gran variedad de formatos en una <ApiLink type="WorksheetCell" /> usando el objeto <ApiLink type="IWorksheetCellFormat" /> devuelto por la propiedad <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> de esa celda. Este objeto <ApiLink type="IWorksheetCellFormat" /> le permite dar estilo a muchos aspectos distintos de la celda, como los bordes, la fuente, el relleno, las alineaciones, y si la celda debe reducirse para ajustarse o bloquearse.
+
+También puede acceder a los estilos integrados de Microsoft Excel 2007 usando la colección <ApiLink type="Workbook" member="styles" label="Styles" /> del objeto <ApiLink type="Workbook" />. La lista completa de estilos de Excel puede encontrarse en la galería Estilos de celda de la pestaña Inicio de Microsoft Excel 2007.
+
+Hay un tipo especial de estilo en la colección <ApiLink type="Workbook" member="styles" label="Styles" /> del libro de trabajo, conocido como estilo "normal", al que puede accederse mediante la propiedad <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" /> de esa colección, o indexando la colección con el nombre "Normal".
+
+El <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" /> contiene las propiedades predeterminadas de todas las celdas del libro de trabajo, salvo que se especifique lo contrario en una fila, una columna o una celda. Cambiar las propiedades de <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" /> cambiará todas las propiedades de formato de celda predeterminadas del libro. Esto resulta útil, por ejemplo, si quiere cambiar la fuente predeterminada de su libro de trabajo.
+
+Puede vaciar la colección <ApiLink type="Workbook" member="styles" label="Styles" /> o restablecerla a su estado predefinido usando los métodos <ApiLink type="WorkbookStyleCollection" member="clear" label="Clear" /> y <ApiLink type="WorkbookStyleCollection" member="reset" label="Reset" />, respectivamente. Ambos eliminarán todos los estilos definidos por el usuario, pero <ApiLink type="WorkbookStyleCollection" member="clear" label="Clear" /> vaciará por completo la colección <ApiLink type="Workbook" member="styles" label="Styles" />.
+
+Con esta característica, se ha añadido una propiedad <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> al objeto <ApiLink type="IWorksheetCellFormat" />. Es una referencia a una instancia de <ApiLink type="WorkbookStyle" />, que representa el estilo padre del formato. Para los formatos de un estilo, esta propiedad siempre será null, porque los estilos no pueden tener un estilo padre. Para los formatos de fila, columna y celda, la propiedad <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> siempre devuelve de forma predeterminada <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />.
+
+Si la propiedad <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> se establece en null, volverá a <ApiLink type="WorkbookStyleCollection" member="normalStyle" label="NormalStyle" />. Si se establece en otro estilo de la colección de estilos, ese estilo contendrá ahora los valores predeterminados de todas las propiedades no establecidas del formato de la celda.
+
+Cuando la propiedad <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> se establece en un formato de celda, las opciones de formato incluidas en <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> se eliminan del formato de celda. Todas las demás propiedades se mantienen intactas. Por ejemplo, si se creó un estilo de celda que incluye formato de borde y ese estilo se estableció como <ApiLink type="IWorksheetCellFormat" member="style" label="Style" /> de la celda, la opción de formato de borde del formato de celda se eliminaría, y el formato de celda solo incluiría el formato de relleno.
+
+Cuando se elimina una marca de opción de formato de un formato, todas las propiedades asociadas se restablecen a sus valores no establecidos, de modo que las propiedades de borde del formato de celda se restablecen implícitamente a los valores predeterminados o no establecidos.
+
+Puede determinar lo que realmente se vería en las celdas usando el método <ApiLink type="WorksheetCell" member="getResolvedCellFormat" label="GetResolvedCellFormat" /> de las clases que representan una fila, una columna, una celda y una celda combinada.
+
+Este método devuelve una instancia de <ApiLink type="IWorksheetCellFormat" /> que hace referencia al <ApiLink type="IWorksheetCellFormat" /> asociado en el que se basa. Por tanto, los cambios posteriores en la propiedad <ApiLink type="WorksheetCell" member="cellFormat" label="CellFormat" /> se reflejarán en la instancia devuelta por una llamada a <ApiLink type="WorksheetCell" member="getResolvedCellFormat" label="GetResolvedCellFormat" />.
+
+## Combinar celdas
+
+Además de establecer el valor o el formato de las celdas, también puede combinar celdas para que dos o más celdas aparezcan como una sola. Si combina celdas, deben estar en una región rectangular.
+
+Al combinar celdas, cada celda de la región tendrá el mismo valor y el mismo formato de celda. Las celdas combinadas también se asociarán al mismo objeto <ApiLink type="WorksheetMergedCellsRegion" />, accesible desde su propiedad <ApiLink type="WorksheetCell" member="associatedMergedCellsRegion" label="AssociatedMergedCellsRegion" />. El objeto <ApiLink type="WorksheetMergedCellsRegion" /> resultante también tendrá el mismo valor y el mismo formato de celda que las celdas.
+
+Establecer el valor (o el formato de celda) de la región o de cualquier celda de la región cambiará el valor de todas las celdas y de la región. Si desmonta la combinación de celdas, todas las celdas que estaban combinadas conservarán el formato de celda compartido que tenían antes de desmontarse. Sin embargo, solo la celda superior izquierda de la región conservará el valor compartido.
+
+Para crear una región de celdas combinadas, debe añadir un rango de celdas a la colección <ApiLink type="Worksheet" member="mergedCellsRegions" label="MergedCellsRegions" /> del objeto <ApiLink type="Worksheet" />. Esta colección expone un método `Add` que recibe cuatro parámetros enteros. Los cuatro parámetros determinan el índice de la fila y la columna de inicio (la celda superior izquierda) y el índice de la fila y la columna de fin (la celda inferior derecha).
+
+```ts
+var workbook = new Workbook();
+var worksheet = workbook.worksheets().add("Sheet1");
+
+// Make some column headers
+worksheet.rows(1).cells(1).value = "Morning";
+worksheet.rows(1).cells(2).value = "Afternoon";
+worksheet.rows(1).cells(3).value = "Evening";
+
+// Create a merged region from column 1 to column 3
+var mergedRegion1 =  ws.mergedCellsRegions().add(0, 1, 0, 3);
+
+// Set the value of the merged region
+mergedRegion1.value = "Day 1";
+
+// Set the cell alignment of the middle cell in the merged region.
+// Since a cell and its merged region shared a cell format, this will ultimately set the format of the merged region
+worksheet.rows(0).cells(2).cellFormat.alignment = HorizontalCellAlignment.Center;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+// Make some column headers
+worksheet.Rows[1].Cells[1].Value = "Morning";
+worksheet.Rows[1].Cells[2].Value = "Afternoon";
+worksheet.Rows[1].Cells[3].Value = "Evening";
+
+// Create a merged region from column 1 to column 3
+var mergedRegion1 = worksheet.MergedCellsRegions.Add(0, 1, 0, 3);
+
+// Set the value of the merged region
+mergedRegion1.Value = "Day1";
+
+// Set the cell alignment of the middle cell in the merged region.
+// Since a cell and its merged region shared a cell format, this will ultimately set the format of the merged region
+worksheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
+```
+
+</PlatformBlock>
+
+## Obtener el texto de la celda tal como se muestra en Excel
+
+El texto que se muestra en una celda depende de varios factores distintos del valor real de la celda, como la cadena de formato y el ancho de la columna en la que está la celda.
+
+La cadena de formato determina cómo se convierte el valor de la celda en texto y qué carácter literal debe mostrarse con el valor formateado. Puede encontrar información más detallada sobre los códigos de formato aquí.
+
+La cantidad de espacio horizontal disponible en una celda influye mucho en la forma en que el valor se muestra al usuario.
+
+El texto mostrado puede ser distinto según los distintos anchos de columna.
+
+Al mostrar números y usar una cadena de formato que contiene **"General"** o **"@"**, se prueban varios formatos para encontrar uno que quepa en el ancho de la celda. A continuación se muestra una lista de formatos de ejemplo:
+
+- **Valor normal**: el número se muestra como lo haría si hubiera una cantidad de espacio ilimitada.
+
+- **Eliminar decimales**: los decimales se eliminan de uno en uno hasta encontrar un formato que quepa. Por ejemplo, un valor de 12345.6789 se reducirá a los siguientes formatos hasta que uno quepa: 12345.679, 12345.68, 12345.7 y 12346. Esto se detiene cuando la primera cifra significativa es la única que queda; por ejemplo, un valor como 0.0001234567890 solo puede reducirse a 0.0001.
+
+- **Científico, 5 decimales**: el número se muestra en la forma 0.00000E+00, como 1.23457E+09 o 1.23457E-04.
+
+- **Científico, 4 decimales**: el número se muestra en la forma 0.0000E+00, como 1.2346E+09 o 1.23456E-04.
+
+- **Científico, 3 decimales**: el número se muestra en la forma 0.000E+00, como 1.235E+09 o 1.235E-0.
+
+- **Científico, 2 decimales**: el número se muestra en la forma 0.00E+00, como 1.23E+09 o 1.23E-04.
+
+- **Científico, 1 decimal**: el número se muestra en la forma 0.0E+00, como 1.2E+09 o 1.2E-04.
+
+- **Científico, 0 decimales**: el número se muestra en la forma 0E+00, como 1E+09 o 1E-04.
+
+- **Valor redondeado**: si la primera cifra significativa está en la parte decimal del número, el valor se redondeará al entero más cercano. Por ejemplo, para un valor 0.0001234567890, se redondeará a 0, y el texto mostrado en la celda será 0.
+
+- **Almohadillas**: si no puede mostrarse ninguna versión condensada del número, las almohadillas (#) se repetirán a lo largo del ancho de la celda.
+
+- **Cadena vacía**: si no cabe ninguna almohadilla en la celda, se devolverá una cadena vacía como texto mostrado de la celda.
+
+Si la cadena de formato del valor numérico no contiene General ni @, solo existen las siguientes fases de redimensionamiento: valor normal, almohadillas, cadena vacía.
+
+Si se usa un texto en la celda, el texto mostrado en la celda siempre será el valor completo, esté o no cortado en la celda.
+
+El único caso en que esto no sucede es cuando se usan caracteres de relleno en la cadena de formato. Entonces, el valor se mostrará como una serie de almohadillas cuando no haya espacio suficiente para el texto.
+
+Puede establecer la propiedad <ApiLink type="DisplayOptions" member="showFormulasInCells" label="ShowFormulasInCells" /> de <ApiLink type="Worksheet" member="displayOptions" label="DisplayOptions" /> de la hoja de cálculo para que las fórmulas se muestren en las celdas en lugar de sus resultados, y en ese caso se ignoran las cadenas de formato y los anchos de celda. Los valores de texto se muestran como si su cadena de formato fuera @, los valores numéricos no enteros se muestran como si su cadena de formato fuera 0.0, y los valores numéricos enteros se muestran como si su cadena de formato fuera 0.
+
+Además, si el valor no cabe, no se mostrará como una serie de almohadillas. El texto mostrado seguirá devolviendo todo su texto como texto de la celda, aunque puede que no se vea por completo.
+
+El siguiente fragmento de código muestra cómo usar el método <ApiLink type="WorksheetCell" member="getText" label="GetText" /> para obtener el texto tal como se mostraría en Excel:
+
+```ts
+var workbook = new Workbook();
+var worksheet = this.workbook.worksheets().add("Sheet1");
+
+var cellText = worksheet.rows(0).cells(0).getText();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+var cellText = worksheet.Rows[0].Cells[0].GetText();
+```
+
+</PlatformBlock>
+
+
+## Referencias de API
+<ApiLink type="CellFillLinearGradient" />
+<ApiLink type="CellFillPattern" />
+<ApiLink type="CellFillRectangularGradient" />
+<ApiLink type="CellFill" />
+<ApiLink type="IWorksheetCellFormat" />
+<ApiLink type="Formula" />
+<ApiLink type="WorkbookColorInfo" />
+<ApiLink type="WorkbookStyle" />
+<ApiLink type="Workbook" />
+<ApiLink type="WorksheetCell" />
+<ApiLink type="WorksheetColumn" />
+<ApiLink type="WorksheetRegion" />
+<ApiLink type="WorksheetRow" />
+<ApiLink type="Worksheet" />

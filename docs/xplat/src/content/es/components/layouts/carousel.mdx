@@ -1,0 +1,1335 @@
+---
+title: "Carousel"
+description: "Use el componente {ProductName} Carousel para mostrar contenido basado en diapositivas con navegación, indicadores, animación y transiciones automáticas."
+keywords: "{ProductName}, controles de interfaz, widgets de {Platform}, widgets web, widgets de interfaz, {Platform}, suite de componentes nativos de {Platform}, controles nativos de {Platform}, biblioteca de componentes nativos de {Platform}, componente Carousel de {Platform}, control Carousel de {Platform}"
+license: MIT
+mentionedTypes: ["Carousel", "CarouselSlide", "CarouselIndicator", "Icon", "Input", "Button"]
+relatedComponents: ["Tabs", "Stepper"]
+last_updated: "2026-08-17"
+_language: es
+llms:
+  description: "{ProductName} Carousel es un componente de diseño basado en diapositivas para presentar imágenes, tarjetas u otro contenido con controles de navegación e indicadores."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import carouselAnatomy from '@xplat-images/anatomy-content-light/carousel-lt-a.png';
+import carouselDo1 from '@xplat-images/carousel/carousel_do1.png';
+import carouselDo1_2x from '@xplat-images/carousel/carousel_do1@2x.png';
+import carouselDo2 from '@xplat-images/carousel/carousel_do2.png';
+import carouselDo2_2x from '@xplat-images/carousel/carousel_do2@2x.png';
+import carouselDoNot1 from '@xplat-images/carousel/carousel_do_not1.png';
+import carouselDoNot1_2x from '@xplat-images/carousel/carousel_do_not1@2x.png';
+import carouselDoNot2 from '@xplat-images/carousel/carousel_do_not2.png';
+import carouselDoNot2_2x from '@xplat-images/carousel/carousel_do_not2@2x.png';
+
+# Componente Carousel
+
+{ProductName} Carousel es un componente de diseño basado en diapositivas para presentar imágenes, tarjetas u otro contenido con controles de navegación e indicadores.
+
+Use Carousel cuando los usuarios necesiten recorrer de una en una una pequeña colección de diapositivas relacionadas, con animación opcional, navegación personalizada y transiciones automáticas.
+
+## Demostración en vivo
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/overview" showThemePicker height={500} noBackground={true} noBorder={false} alt="Ejemplo de descripción general de {Platform} Carousel" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-overview-sample" showThemePicker height={500} noBackground={true} noBorder={true} alt="Ejemplo de descripción general de Carousel de Angular" />
+
+</PlatformBlock>
+
+## Anatomía
+
+El componente Carousel se compone de un elemento host, diapositivas proyectadas, controles de navegación e indicadores que seleccionan la diapositiva activa.
+
+<Anatomy
+  class="carousel-anatomy"
+  name="Anatomía de {Platform} Carousel"
+  description="La anatomía del carousel etiqueta el área de diapositivas, los controles de navegación y los indicadores."
+  src={carouselAnatomy.src}
+  alt="Anatomía de {Platform} Carousel: área de diapositivas, controles de navegación e indicadores"
+/>
+
+<style>{`
+  .carousel-anatomy {
+    --igd-anatomy-padding: 48px 32px;
+  }
+
+  .carousel-anatomy .igd-anatomy__image {
+    max-width: 420px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Diapositivas:</strong> los paneles de contenido que se suceden en el carousel, cada uno con una imagen, texto o contenido multimedia.<br />
+<strong>2. Botones de icono de navegación:</strong> permiten ir a la diapositiva anterior y a la siguiente.<br />
+<strong>3. Indicadores:</strong> muestran el número total de diapositivas y resaltan la diapositiva activa en ese momento.</span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-carousel                     // host - coordinates slides, navigation, and indicators
+|- igc-carousel-slide             // slide item
+|- igc-carousel-indicator          // optional custom indicator for a slide
+|- [slot="previous-button"]        // optional custom previous navigation content
+`- [slot="next-button"]            // optional custom next navigation content
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-carousel                     // host - coordinates slides, navigation, and indicators
+|- igx-slide                      // slide item
+|- ng-template[igxCarouselIndicator]   // optional custom indicator template
+|- ng-template[igxCarouselPrevButton]  // optional previous navigation template
+`- ng-template[igxCarouselNextButton]  // optional next navigation template
+```
+
+</PlatformBlock>
+
+## Primeros pasos
+
+{Platform} Carousel requiere el componente carousel, el componente slide y la hoja de estilos del tema antes de declarar las diapositivas.
+
+<PlatformBlock for="Angular">
+
+Instale {ProductName} y configure el tema siguiendo el tema [Getting Started](../general/getting-started.mdx) antes de añadir Carousel a una aplicación.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Instale {ProductName} y configure el tema siguiendo el tema [Getting Started](../general-getting-started.mdx) antes de añadir Carousel a una aplicación.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Importe y registre el componente <ApiLink pkg="core" type="Carousel" /> y su tema.
+
+```ts
+import { defineComponents, IgcCarouselComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcCarouselComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Importe los componentes wrapper de Carousel y la hoja de estilos del tema.
+
+```tsx
+import { IgrCarousel, IgrCarouselSlide } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="CarouselModule" />, el módulo de recursos de cliente de Carousel, es **opcional**: el componente carga sus recursos cuando se renderiza por primera vez. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbCarouselModule))` puede usarse para precargar recursos o para admitir elementos creados solo en el cliente (véase [Component Modules](../general-getting-started.mdx#módulos-de-componentes)).
+
+Añada la hoja de estilos del tema a la página host de la aplicación.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Importe las directivas de Carousel y la hoja de estilos del tema de Ignite UI.
+
+```ts
+import { Component } from '@angular/core';
+import { IGX_CAROUSEL_DIRECTIVES } from 'igniteui-angular/carousel';
+
+@Component({
+    selector: 'app-carousel-sample',
+    imports: [IGX_CAROUSEL_DIRECTIVES],
+    template: `
+        <igx-carousel>
+            <igx-slide>
+                <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+            </igx-slide>
+        </igx-carousel>
+    `,
+})
+export class CarouselSampleComponent {}
+```
+
+</PlatformBlock>
+
+## Uso
+
+{Platform} Carousel se configura colocando componentes de diapositiva dentro del host y activando después el comportamiento de navegación, de indicadores y de transición que necesite su diseño.
+
+### Diapositivas
+
+Use el selector <ApiLink pkg="core" type="Carousel" /> para envolver sus diapositivas. Las diapositivas pueden contener imágenes, texto, formularios u otros componentes.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/ignite-ui-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/ignite-ui-charts.png" alt="Ignite UI Charts" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-charts.png" alt="Ignite UI Charts" />
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### Diapositiva activa
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Establezca la propiedad <ApiLink pkg="core" type="CarouselSlide" member="active" label="active" /> en la diapositiva que debe seleccionarse cuando se renderice el Carousel.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        ...
+    </igc-carousel-slide>
+    <igc-carousel-slide active>
+        ...
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        ...
+    </IgrCarouselSlide>
+    <IgrCarouselSlide active={true}>
+        ...
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        ...
+    </IgbCarouselSlide>
+    <IgbCarouselSlide Active="true">
+        ...
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Establezca la entrada <ApiLink type="Slide" member="active" label="active" /> en la diapositiva que debe seleccionarse cuando se renderice el Carousel.
+
+```html
+<igx-carousel>
+    <igx-slide>
+        ...
+    </igx-slide>
+    <igx-slide [active]="true">
+        ...
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Si no se establece ninguna diapositiva activa, la primera está activa de forma predeterminada. Si hay varias diapositivas activas durante el renderizado inicial o en actualizaciones posteriores, se usa la última diapositiva activa.
+</DocsAside>
+
+### Configuración
+
+Use las propiedades de configuración de Carousel para controlar el bucle, la posición de los indicadores, la visibilidad de la navegación y la orientación.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/configuration" showThemePicker height={460} noBackground={false} alt="Ejemplo de configuración de {Platform} Carousel" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-configuration-sample" showThemePicker height={460} noBackground={false} alt="Ejemplo de configuración de Carousel de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+La propiedad <ApiLink pkg="core" type="Carousel" member="disableLoop" label="disableLoop" /> desactiva el comportamiento de bucle que pasa de la última diapositiva a la primera, o de la primera a la última.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel disable-loop="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel disableLoop={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel DisableLoop="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use la entrada <ApiLink type="Carousel" member="loop" label="loop" /> para controlar si el Carousel vuelve de la última diapositiva a la primera, o de la primera a la última.
+
+```html
+<igx-carousel [loop]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+Use la propiedad <ApiLink pkg="core" type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> para cambiar la posición de los indicadores.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel indicators-orientation="start">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel indicatorsOrientation={CarouselIndicatorsOrientation.Start}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel IndicatorsOrientation="@CarouselIndicatorsOrientation.Start">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel indicatorsOrientation="start">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use <ApiLink pkg="core" type="Carousel" member="hideIndicators" label="hideIndicators" /> para ocultar los indicadores y <ApiLink pkg="core" type="Carousel" member="hideNavigation" label="hideNavigation" /> para ocultar los botones de navegación.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel hide-navigation="true" hide-indicators="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel hideNavigation={true} hideIndicators={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel HideNavigation="true" HideIndicators="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use <ApiLink type="Carousel" member="indicators" label="indicators" /> para ocultar los indicadores y <ApiLink type="Carousel" member="navigation" label="navigation" /> para ocultar los botones de navegación.
+
+```html
+<igx-carousel [navigation]="false" [indicators]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+Use la propiedad <ApiLink pkg="core" type="Carousel" member="vertical" label="vertical" /> para mostrar el Carousel en modo vertical.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel vertical="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel vertical={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel Vertical="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel [vertical]="true">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### Indicadores personalizados
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use el componente <ApiLink pkg="core" type="CarouselIndicator" /> para sustituir el contenido de indicador predeterminado.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-indicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </igc-carousel-indicator>
+    <igc-carousel-indicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </igc-carousel-indicator>
+    <igc-carousel-slide>
+        <img src="assets/images/card/media/the_red_ice_forest.jpg" alt="Red ice forest" />
+    </igc-carousel-slide>
+    <igc-carousel-slide>
+        <img src="assets/images/card/media/yosemite.jpg" alt="Yosemite" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgrCarouselIndicator>
+    <IgrCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgrCarouselIndicator>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </IgrCarouselSlide>
+    <IgrCarouselSlide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgbCarouselIndicator>
+    <IgbCarouselIndicator>
+        <span>Off</span>
+        <span slot="active">On</span>
+    </IgbCarouselIndicator>
+    <IgbCarouselSlide>
+        <img src="assets/images/card/media/the_red_ice_forest.jpg" alt="Red ice forest" />
+    </IgbCarouselSlide>
+    <IgbCarouselSlide>
+        <img src="assets/images/card/media/yosemite.jpg" alt="Yosemite" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+Proporcione tanto el contenido de indicador predeterminado como el contenido del slot `active` para cada indicador personalizado.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use la directiva de plantilla <ApiLink type="CarouselIndicatorDirective" /> para sustituir el contenido de indicador predeterminado.
+
+```html
+<igx-carousel>
+    <ng-template igxCarouselIndicator let-slide>
+        <div [ngClass]="{ selected: slide.current === current }"></div>
+    </ng-template>
+    <igx-slide>
+        <img src="assets/images/carousel/ignite-ui-angular-indigo-design.png" alt="Ignite UI Indigo Design" />
+    </igx-slide>
+    <igx-slide>
+        <img src="assets/images/carousel/slider-image-chart.png" alt="Chart preview" />
+    </igx-slide>
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### Botones de navegación personalizados
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use los slots `previous-button` y `next-button` para proporcionar contenido personalizado en los botones de navegación.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-icon slot="previous-button" name="previous" collection="material"></igc-icon>
+    <igc-icon slot="next-button" name="next" collection="material"></igc-icon>
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrIcon slot="previous-button" name="previous" collection="material"></IgrIcon>
+    <IgrIcon slot="next-button" name="next" collection="material"></IgrIcon>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbIcon slot="previous-button" IconName="previous" Collection="material"></IgbIcon>
+    <IgbIcon slot="next-button" IconName="next" Collection="material"></IgbIcon>
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+Use texto, SVG o contenido <ApiLink pkg="core" type="Icon" /> en estos slots cuando los controles de navegación predeterminados no encajen con el diseño.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use las directivas de plantilla <ApiLink type="CarouselPrevButtonDirective" /> y <ApiLink type="CarouselNextButtonDirective" /> para proporcionar contenido personalizado en los botones de navegación.
+
+```html
+<igx-carousel>
+    <ng-template igxCarouselPrevButton let-disabled>
+        <button igxButton="fab" igxRipple="white" [disabled]="disabled">
+            <igx-icon fontSet="material">navigate_before</igx-icon>
+        </button>
+    </ng-template>
+    <ng-template igxCarouselNextButton let-disabled>
+        <button igxButton="fab" igxRipple="white" [disabled]="disabled">
+            <igx-icon fontSet="material">navigate_next</igx-icon>
+        </button>
+    </ng-template>
+    ...
+</igx-carousel>
+```
+
+Use texto, SVG o contenido <ApiLink type="Icon" /> en estas plantillas cuando los controles de navegación predeterminados no encajen con el diseño.
+
+</PlatformBlock>
+
+### Contenido de la diapositiva
+
+Coloque formularios, imágenes y otros componentes dentro de una diapositiva cuando cada paso del Carousel necesite un contenido más rico.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel>
+    <igc-carousel-slide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <igc-input type="text" placeholder="Username">
+                    <igc-icon slot="prefix" name="person"></igc-icon>
+                </igc-input>
+                <igc-input type="password" placeholder="Password">
+                    <igc-icon slot="prefix" name="password"></igc-icon>
+                </igc-input>
+                <igc-button type="reset">Sign In</igc-button>
+            </form>
+        </div>
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel>
+    <IgrCarouselSlide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <IgrInput type="text" placeholder="Username">
+                    <IgrIcon slot="prefix" name="person"></IgrIcon>
+                </IgrInput>
+                <IgrInput type="password" placeholder="Password">
+                    <IgrIcon slot="prefix" name="password"></IgrIcon>
+                </IgrInput>
+                <IgrButton type="reset">
+                    <span>Sign In</span>
+                </IgrButton>
+            </form>
+        </div>
+    </IgrCarouselSlide>
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel>
+    <IgbCarouselSlide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <IgbInput DisplayType="@InputType.Text" Placeholder="Username">
+                    <IgbIcon slot="prefix" IconName="person" Collection="material"></IgbIcon>
+                </IgbInput>
+                <IgbInput DisplayType="@InputType.Password" Placeholder="Password">
+                    <IgbIcon slot="prefix" IconName="password" Collection="material"></IgbIcon>
+                </IgbInput>
+                <IgbButton DisplayType="@ButtonBaseType.Reset">Sign In</IgbButton>
+            </form>
+        </div>
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/carousel/components" showThemePicker height={480} noBackground={false} alt="Ejemplo de {Platform} Carousel con componentes" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel>
+    <igx-slide>
+        <div>
+            <img src="assets/images/svg/carousel/SignUp.svg" alt="Sign up" />
+            <form>
+                <igx-input-group>
+                    <igx-prefix>
+                        <igx-icon>person</igx-icon>
+                    </igx-prefix>
+                    <input igxInput type="text" placeholder="Username" />
+                </igx-input-group>
+                <igx-input-group>
+                    <igx-prefix>
+                        <igx-icon>password</igx-icon>
+                    </igx-prefix>
+                    <input igxInput type="password" placeholder="Password" />
+                </igx-input-group>
+                <button igxButton="contained" type="reset">Sign In</button>
+            </form>
+        </div>
+    </igx-slide>
+</igx-carousel>
+```
+
+<Sample src="/layouts/carousel-components-sample" showThemePicker height={500} noBackground={false} alt="Ejemplo de Carousel de Angular con componentes" />
+
+</PlatformBlock>
+
+### Animaciones
+
+Establezca la propiedad <ApiLink pkg="core" type="Carousel" member="animationType" label="animationType" /> para cambiar la animación de transición entre diapositivas.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel animation-type="fade">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel animationType="fade">
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel AnimationType="@CarouselAnimationType.Fade">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-carousel animationType="fade">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+Establezca la propiedad <ApiLink pkg="core" type="Carousel" member="animationType" label="animationType" /> en `none` para desactivar las animaciones.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/animations" showThemePicker height={500} noBackground={false} alt="Ejemplo de animaciones de {Platform} Carousel" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-animations" showThemePicker height={460} noBackground={false} alt="Ejemplo de animaciones de Carousel de Angular" />
+
+</PlatformBlock>
+
+### Gestos táctiles
+
+Use Carousel en dispositivos táctiles cuando la navegación por deslizamiento deba reflejar la transición de diapositivas configurada.
+
+<PlatformBlock for="Angular">
+
+Establezca la entrada <ApiLink type="Carousel" member="gesturesSupport" label="gesturesSupport" /> en `false` cuando deban desactivarse los gestos de arrastre.
+
+```html
+<igx-carousel [gesturesSupport]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+### Transición automática
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Establezca la propiedad <ApiLink pkg="core" type="Carousel" member="interval" label="interval" /> para crear una presentación automática.
+
+Establezca <ApiLink pkg="core" type="Carousel" member="disablePauseOnInteraction" label="disablePauseOnInteraction" /> en `true` cuando la transición automática deba continuar durante la interacción con el puntero o con el teclado.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel interval="2000" disable-pause-on-interaction="true">
+    ...
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCarousel interval={2000} disablePauseOnInteraction={true}>
+    ...
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel Interval="2000" DisablePauseOnInteraction="true">
+    ...
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Establezca la entrada <ApiLink type="Carousel" member="interval" label="interval" /> para crear una presentación automática, y establezca <ApiLink type="Carousel" member="pause" label="pause" /> en `false` cuando la transición no deba pausarse al interactuar.
+
+```html
+<igx-carousel [interval]="2000" [pause]="false">
+    ...
+</igx-carousel>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Al pasar el ratón sobre el contenido del carousel o al mover el foco del teclado al interior del contenido, la transición automática se pausa. La transición automática se reanuda cuando el puntero o el foco del teclado salen del carousel.
+</DocsAside>
+
+### Indicadores en miniatura
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use indicadores personalizados con imágenes en miniatura cuando cada indicador deba mostrar una vista previa de su diapositiva correspondiente.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-carousel disable-pause-on-interaction="true" hide-navigation="true" vertical="true" interval="2000" animation-type="fade">
+    <igc-carousel-indicator>
+        <img class="blurred" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail" />
+        <img slot="active" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail active" />
+    </igc-carousel-indicator>
+    <igc-carousel-slide>
+        <img src="assets/images/carousel/WonderfulCoast.png" alt="Wonderful coast" />
+    </igc-carousel-slide>
+</igc-carousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const images = [
+    {
+        src: "assets/images/carousel/WonderfulCoast.png",
+        alt: "Wonderful Coast",
+    },
+];
+
+<IgrCarousel disablePauseOnInteraction={true} hideNavigation={true} interval={2000} vertical={true} animationType="fade">
+    {images.map((image, index) => (
+        <React.Fragment key={index}>
+            <IgrCarouselSlide>
+                <img src={image.src} alt={image.alt} />
+            </IgrCarouselSlide>
+            <IgrCarouselIndicator>
+                <img
+                    className="blurred"
+                    src={image.src.replace(".png", "Thumb.png")}
+                    alt={`${image.alt} thumbnail`}
+                    width="50"
+                    height="60"
+                />
+                <img
+                    slot="active"
+                    src={image.src.replace(".png", "Thumb.png")}
+                    alt={`${image.alt} thumbnail active`}
+                    width="50"
+                    height="60"
+                />
+            </IgrCarouselIndicator>
+        </React.Fragment>
+    ))}
+</IgrCarousel>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCarousel DisablePauseOnInteraction="true"
+             HideNavigation="true"
+             Interval="2000"
+             Vertical="true"
+             AnimationType="@CarouselAnimationType.Fade">
+    <IgbCarouselIndicator>
+        <img class="blurred" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail" />
+        <img slot="active" src="assets/images/carousel/WonderfulCoastThumb.png" width="50" height="60" alt="Wonderful coast thumbnail active" />
+    </IgbCarouselIndicator>
+    <IgbCarouselSlide>
+        <img src="assets/images/carousel/WonderfulCoast.png" alt="Wonderful coast" />
+    </IgbCarouselSlide>
+</IgbCarousel>
+```
+
+</PlatformBlock>
+
+<Sample src="/layouts/carousel/thumbnail" showThemePicker height={470} noBackground={false} alt="Ejemplo de miniaturas de {Platform} Carousel" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use la directiva de plantilla <ApiLink type="CarouselIndicatorDirective" /> con una imagen en miniatura para cada indicador cuando los indicadores deban mostrar una vista previa de su diapositiva correspondiente.
+
+```html
+<igx-carousel [navigation]="false" [pause]="false" [interval]="2000" [vertical]="true" animationType="fade">
+    <ng-template igxCarouselIndicator let-slide>
+        <img
+            [class.blurred]="!slide.active"
+            [src]="slides[slide.index].thumbnail"
+            [alt]="slides[slide.index].alt + ' thumbnail'"
+            width="50"
+            height="60" />
+    </ng-template>
+
+    @for (slide of slides; track slide.image) {
+        <igx-slide>
+            <img class="slide-image" [src]="slide.image" [alt]="slide.alt" />
+        </igx-slide>
+    }
+</igx-carousel>
+```
+
+<Sample src="/layouts/carousel-thumbnail" showThemePicker height={470} noBackground={false} alt="Ejemplo de indicadores en miniatura de Carousel de Angular" />
+
+</PlatformBlock>
+
+### Qué hacer y qué no
+
+**Cuándo usarlo:** use Carousel cuando la interfaz necesite mostrar un conjunto compacto de diapositivas visuales o de contenido mixto relacionadas que los usuarios recorren de una en una.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**Cuándo no usarlo:** no use Carousel para la navegación principal, para flujos de trabajo secuenciales largos ni para contenido que los usuarios deban comparar lado a lado. Use [Tabs](./tabs.mdx) para cambiar entre secciones con nombre, o [Stepper](./stepper.mdx) para tareas secuenciales guiadas.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**Cuándo no usarlo:** no use Carousel para la navegación principal, para flujos de trabajo secuenciales largos ni para contenido que los usuarios deban comparar lado a lado. Use [Tabs](./tabs.mdx) para cambiar entre secciones con nombre, o [Stepper](../stepper.mdx) para tareas secuenciales guiadas.
+
+</PlatformBlock>
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Hacer</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">No hacer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDo1} srcset={`${carouselDo1.src} 1x, ${carouselDo1_2x.src} 2x`} alt="Recomendaciones de uso de {Platform} Carousel" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDoNot1} srcset={`${carouselDoNot1.src} 1x, ${carouselDoNot1_2x.src} 2x`} alt="Recomendaciones de lo que no debe hacer con {Platform} Carousel" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDo2} srcset={`${carouselDo2.src} 1x, ${carouselDo2_2x.src} 2x`} alt="Recomendaciones de uso de {Platform} Carousel con diapositivas visuales" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={carouselDoNot2} srcset={`${carouselDoNot2.src} 1x, ${carouselDoNot2_2x.src} 2x`} alt="Recomendaciones de lo que no debe hacer con {Platform} Carousel con contenido denso" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+## Propiedades
+
+Las siguientes propiedades de Carousel cubren la configuración que más se usa en diseños basados en diapositivas.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="CarouselSlide" member="active" label="active" /> | `boolean` | `false` | Marca una diapositiva como activa. |
+| <ApiLink pkg="core" type="Carousel" member="disableLoop" label="disableLoop" /> | `boolean` | `false` | Desactiva el bucle entre la primera y la última diapositiva. |
+| <ApiLink pkg="core" type="Carousel" member="disablePauseOnInteraction" label="disablePauseOnInteraction" /> | `boolean` | Consulte la API | Evita que la transición automática se pause al interactuar con el puntero o con el teclado. |
+| <ApiLink pkg="core" type="Carousel" member="hideIndicators" label="hideIndicators" /> | `boolean` | `false` | Oculta los indicadores de diapositiva. |
+| <ApiLink pkg="core" type="Carousel" member="hideNavigation" label="hideNavigation" /> | `boolean` | `false` | Oculta los botones de navegación anterior y siguiente. |
+| <ApiLink pkg="core" type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> | `CarouselIndicatorsOrientation` | Consulte la API | Controla la posición de los indicadores. |
+| <ApiLink pkg="core" type="Carousel" member="interval" label="interval" /> | `number` | Consulte la API | Establece el intervalo de la transición automática en milisegundos. |
+| <ApiLink pkg="core" type="Carousel" member="vertical" label="vertical" /> | `boolean` | `false` | Muestra el Carousel en orientación vertical. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink type="Carousel" member="loop" label="loop" /> | `boolean` | `true` | Habilita el bucle entre la primera y la última diapositiva. |
+| <ApiLink type="Carousel" member="navigation" label="navigation" /> | `boolean` | `true` | Muestra u oculta los botones de navegación anterior y siguiente. |
+| <ApiLink type="Carousel" member="indicators" label="indicators" /> | `boolean` | `true` | Muestra u oculta los indicadores de diapositiva. |
+| <ApiLink type="Carousel" member="indicatorsOrientation" label="indicatorsOrientation" /> | `string` | Consulte la API | Controla la posición de los indicadores. |
+| <ApiLink type="Carousel" member="interval" label="interval" /> | `number` | Consulte la API | Establece el intervalo de la transición automática en milisegundos. |
+| <ApiLink type="Carousel" member="pause" label="pause" /> | `boolean` | Consulte la API | Controla si la transición automática se pausa al interactuar. |
+| <ApiLink type="Carousel" member="vertical" label="vertical" /> | `boolean` | `false` | Muestra el Carousel en orientación vertical. |
+| <ApiLink type="Carousel" member="gesturesSupport" label="gesturesSupport" /> | `boolean` | Consulte la API | Habilita o deshabilita los gestos de arrastre. |
+| <ApiLink type="Carousel" member="animationType" label="animationType" /> | `string` | Consulte la API | Establece la animación de transición entre diapositivas. |
+
+</PlatformBlock>
+
+## Estilos
+
+El Carousel puede tener estilo mediante sus partes expuestas, su contenido de indicador personalizado y sus slots de navegación personalizados.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/styling" height={480} noBackground={false} alt="Ejemplo de estilo de {Platform} Carousel" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-styling" height={460} noBackground={false} alt="Ejemplo de estilo de Carousel de Angular" />
+
+</PlatformBlock>
+
+### Temas con Sass
+
+Use el tema con Sass cuando el Carousel necesite cambios a nivel de tema que deban mantenerse coherentes en toda la aplicación.
+
+Use `$button-background` y `$indicator-background` como parámetros principales del tema. El tema deriva de ellos los colores relacionados de los estados de interacción; use los parámetros restantes para ajustes concretos.
+
+| Parámetro | Descripción |
+| --- | --- |
+| `$button-background` | Parámetro principal para el fondo del botón de navegación anterior y siguiente en reposo. |
+| `$indicator-background` | Parámetro principal para el fondo del contenedor de indicadores. |
+| `$slide-background` | Color de fondo de cada diapositiva. |
+| `$button-hover-background` | Fondo del botón de navegación al pasar el ratón por encima. |
+| `$button-disabled-background` | Fondo del botón de navegación cuando está deshabilitado. |
+| `$button-arrow-color` | Color de la flecha de navegación en reposo. |
+| `$button-hover-arrow-color` | Color de la flecha de navegación al pasar el ratón por encima. |
+| `$button-focus-arrow-color` | Color de la flecha de navegación al recibir el foco. |
+| `$button-disabled-arrow-color` | Color de la flecha de navegación cuando está deshabilitada. |
+| `$button-border-color` | Color del borde del botón de navegación en reposo. |
+| `$button-hover-border-color` | Color del borde del botón de navegación al pasar el ratón por encima. |
+| `$button-focus-border-color` | Color del borde del botón de navegación al recibir el foco. |
+| `$button-disabled-border-color` | Color del borde del botón de navegación cuando está deshabilitado. |
+| `$label-indicator-background` | Color de fondo de la etiqueta de texto del indicador. |
+| `$indicator-dot-color` | Color del punto del indicador en reposo. |
+| `$indicator-hover-dot-color` | Color del punto del indicador al pasar el ratón por encima. |
+| `$indicator-focus-color` | Color del punto y del borde del indicador al recibir el foco. |
+| `$indicator-border-color` | Color del borde del indicador en reposo. |
+| `$indicator-active-dot-color` | Color del punto del indicador activo. |
+| `$indicator-active-border-color` | Color del borde del indicador activo. |
+| `$indicator-active-hover-dot-color` | Color del punto y del borde del indicador activo al pasar el ratón por encima. |
+| `$button-shadow` | Elevación o sombra bajo los botones de navegación. |
+| `$border-radius` | Radio de borde de los botones de navegación y del contenedor de indicadores. |
+
+### Partes y slots
+
+Use los slots y las partes expuestos cuando solo una superficie concreta de Carousel necesite contenido personalizado o estilo local.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Superficie | Qué personaliza |
+| --- | --- |
+| Slot `previous-button` | Sustituye el contenido del botón de navegación anterior. |
+| Slot `next-button` | Sustituye el contenido del botón de navegación siguiente. |
+| <ApiLink pkg="core" type="CarouselIndicator" /> | Sustituye el contenido predeterminado del indicador de diapositiva. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Superficie | Qué personaliza |
+| --- | --- |
+| <ApiLink type="CarouselPrevButtonDirective" /> | Sustituye el contenido del botón de navegación anterior. |
+| <ApiLink type="CarouselNextButtonDirective" /> | Sustituye el contenido del botón de navegación siguiente. |
+| <ApiLink type="CarouselIndicatorDirective" /> | Sustituye el contenido predeterminado del indicador de diapositiva. |
+
+</PlatformBlock>
+
+### Dar estilo con Tailwind
+
+Use clases de utilidad de Tailwind con el Carousel {ProductName} cuando necesite un estilo de diseño basado en utilidades junto con los tokens de componentes de Ignite UI.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample src="/layouts/carousel/tailwind-styling" height={480} noBackground={false} alt="Ejemplo de estilo de {Platform} Carousel con Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/layouts/carousel-tailwind-styling" height={460} noBackground={false} alt="Ejemplo de estilo de Carousel de Angular con Tailwind" />
+
+</PlatformBlock>
+
+## Accesibilidad
+
+{Platform} Carousel expone la semántica de carousel, diapositiva e indicador para los usuarios de teclado y de tecnologías de asistencia.
+
+### Interacción por teclado
+
+| Clave | Acción |
+| --- | --- |
+| <kbd>Space</kbd> o <kbd>Enter</kbd> | Activa el botón de navegación que tiene el foco. |
+| <kbd>Arrow Left</kbd> | Mueve el foco del indicador al indicador de diapositiva anterior, o al indicador siguiente en modo de derecha a izquierda. |
+| <kbd>Arrow Right</kbd> | Mueve el foco del indicador al indicador de diapositiva siguiente, o al indicador anterior en modo de derecha a izquierda. |
+| <kbd>Home</kbd> | Mueve el foco del indicador al primer indicador de diapositiva, o al último indicador en modo de derecha a izquierda. |
+| <kbd>End</kbd> | Mueve el foco del indicador al último indicador de diapositiva, o al primero en modo de derecha a izquierda. |
+
+### Lectores de pantalla / ARIA
+
+El Carousel proporciona roles y estado de ARIA para el host, las diapositivas, los indicadores y los controles de navegación.
+
+| Elemento | Rol o atributo | Finalidad |
+| --- | --- | --- |
+| Host de Carousel | `role="region"` y `aria-roledescription="carousel"` | Identifica el Carousel como una región de contenido navegable. |
+| Contenedor de diapositivas | `aria-live="polite"` o `aria-live="off"` | Anuncia los cambios de diapositiva cuando la reproducción automática no está activa. |
+| Diapositiva | `role="tabpanel"`, `aria-roledescription="slide"` y `aria-label` | Identifica cada diapositiva y su posición dentro del conjunto. |
+| Contenedor de indicadores | `role="tablist"` | Agrupa los indicadores de diapositiva. |
+| Indicator | `role="tab"`, `aria-label` y `aria-selected` | Identifica la diapositiva que representa el indicador y si está seleccionada. |
+| Botones de navegación | `aria-label` | Nombra las acciones de diapositiva anterior y siguiente. |
+
+### Cumplimiento de accesibilidad
+
+Infragistics documenta la compatibilidad de accesibilidad de {ProductName} con las áreas de las pautas de la Sección 508 y WCAG 2.1 en el tema [Cumplimiento de accesibilidad](../interactivity/accessibility-compliance.mdx).
+
+| Criterio | Cómo cumple el componente |
+| --- | --- |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html) | Los botones de navegación y los indicadores admiten el uso con teclado. |
+| [2.1.2 Sin trampa de teclado](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) | La interacción con el teclado del Carousel no requiere que el foco permanezca dentro del componente. |
+| [4.1.2 Nombre, función, valor](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) | El host, las diapositivas, los indicadores y los controles de navegación exponen roles, nombres y estado de selección. |
+
+Los autores de la aplicación deben seguir proporcionando contenido significativo en las diapositivas, texto alternativo para las imágenes y un contraste suficiente en el contenido personalizado de los indicadores o de la navegación.
+
+## Referencias de API
+
+Las referencias de API generadas enumeran las API completas de Carousel, de diapositiva, de indicador y de los componentes de apoyo.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Carousel" />
+<ApiLink pkg="core" type="CarouselSlide" />
+<ApiLink pkg="core" type="CarouselIndicator" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Input" />
+<ApiLink pkg="core" type="Button" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Carousel" />
+<ApiLink type="Slide" />
+<ApiLink type="CarouselIndicatorDirective" />
+<ApiLink type="CarouselPrevButtonDirective" />
+<ApiLink type="CarouselNextButtonDirective" />
+<ApiLink type="Icon" />
+<ApiLink type="InputGroup" />
+<ApiLink type="ButtonDirective" />
+
+</PlatformBlock>
+
+## Dependencias
+
+Los ejemplos de Carousel dependen de los tipos de diapositiva e indicador de Carousel, de la hoja de estilos del tema y de los componentes de entrada, icono y botón de apoyo cuando aparecen dentro de las diapositivas o de los slots de navegación.
+
+## Recursos adicionales
+
+Use estos recursos para obtener información más amplia sobre el soporte del producto y el código fuente.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+Use estos componentes de diseño relacionados cuando Carousel no sea la mejor opción para el modelo de interacción.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- [Tabs](./tabs.mdx): use Tabs cuando los usuarios necesiten cambiar entre secciones con nombre sin una navegación de tipo diapositiva.
+- [Stepper](./stepper.mdx): use Stepper cuando los usuarios necesiten completar una secuencia guiada de pasos.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [Tabs](./tabs.mdx): use Tabs cuando los usuarios necesiten cambiar entre secciones con nombre sin una navegación de tipo diapositiva.
+- [Stepper](../stepper.mdx): use Stepper cuando los usuarios necesiten completar una secuencia guiada de pasos.
+
+</PlatformBlock>
+
+## Preguntas frecuentes
+
+<Faq>
+  <FaqItem question="¿Debe un carousel reproducirse automáticamente?" indicatorPosition="end">
+    Prefiera la navegación manual cuando sea posible. Si un carousel rota automáticamente, proporcione una forma clara de pausarlo y reanudarlo para que los usuarios tengan tiempo suficiente para leer e interactuar con cada diapositiva.
+  </FaqItem>
+  <FaqItem question="¿Qué debe ocurrir cuando alguien pasa el ratón sobre un carousel o lo enfoca?" indicatorPosition="end">
+    Pause la rotación automática mientras el usuario lee o interactúa con el carousel. No la reanude hasta que el usuario elija explícitamente continuar.
+  </FaqItem>
+  <FaqItem question="¿Cuántas diapositivas debe contener un carousel?" indicatorPosition="end">
+    Mantenga el conjunto pequeño y centrado. Una colección corta de diapositivas relacionadas es más fácil de descubrir y de recorrer que una secuencia larga con contenido oculto.
+  </FaqItem>
+  <FaqItem question="¿Puede una diapositiva contener formularios, botones o varias acciones?" indicatorPosition="end">
+    Sí, cuando el contenido interactivo tiene un orden de foco predecible y la diapositiva no cambia mientras el usuario interactúa con ella. Mantenga las acciones centradas en la tarea principal de la diapositiva.
+  </FaqItem>
+  <FaqItem question="¿Deben ser interactivos los puntos indicadores?" indicatorPosition="end">
+    Haga que los indicadores sean interactivos cuando representen una navegación directa a diapositivas individuales. Así los usuarios pueden llegar a un contenido concreto sin seleccionar repetidamente anterior o siguiente.
+  </FaqItem>
+  <FaqItem question="¿Cuándo debo usar un diseño estático en lugar de un carousel?" indicatorPosition="end">
+    Use una lista estática, una cuadrícula, pestañas o un stepper cuando los usuarios necesiten comparar elementos, leer todos los elementos o encontrar un elemento concreto de inmediato. Un carousel funciona mejor para una secuencia compacta de contenido relacionado.
+  </FaqItem>
+</Faq>

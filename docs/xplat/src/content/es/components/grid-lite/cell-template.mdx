@@ -1,0 +1,281 @@
+---
+title: "Plantilla de celda de {Platform} {GridLiteTitle} | {ProductName} | Licencia MIT"
+description: "Configure y personalice los renderizadores de celda personalizados de Grid Lite. Cree aplicaciones con nuestros {Platform} {GridLiteTitle} de código abierto. Pruébelo ahora."
+keywords: "plantilla de celda, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: es
+llms:
+  description: "De forma predeterminada, la cuadrícula usa el campo de la columna para mostrar el valor como una cadena dentro de la celda."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Plantilla de celda de columna
+
+De forma predeterminada, la cuadrícula usa el campo de la columna para mostrar el valor como una cadena dentro de la celda. Esto basta para escenarios básicos, pero si quiere personalizar la salida renderizada o si la salida final es una combinación de distintos campos de datos, puede personalizar la plantilla de la celda.
+
+Para conseguirlo, establezca la propiedad `cellTemplate` de la columna.
+
+
+<PlatformBlock for="WebComponents">
+
+
+
+```typescript
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column[field="price"]');
+
+// Set the cellTemplate property
+column.cellTemplate = (params: IgcCellContext<T, K>) => { return html`<!-- template content -->`};
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+// Define cellTemplate function
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  {/* Template contents */}
+);
+
+// Set the cellTemplate property
+return (
+  <IgrGridLite data={data} id="grid-lite">
+    <IgrGridLiteColumn
+      field="price"
+      header="Price"
+      dataType="number"
+      cellTemplate={currencyCellTemplate}
+    ></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+## Uso como función de formato
+
+Para el escenario sencillo en el que se requiere algún formato, basta con devolver el valor formateado. Este es un ejemplo para mostrar un valor numérico con el formato de moneda de una configuración regional:
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currency', currency: 'EUR' });
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column');
+
+// Return the custom currency formatted value
+column.cellTemplate = (params) => asCurrency(params.value); // => "€123,456.79"
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+const formatCurrency = new Intl.NumberFormat("en-150", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// Return the custom currency formatted value
+const currencyCellTemplate = (ctx: IgrCellContext) => (
+  <span>{formatCurrency(ctx.value)}</span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+También puede combinar valores de distintos campos del origen de datos.
+{/*TODO:
+Refer to the API documentation for `GridLiteCellContext` for more information.*/}
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const { format: asCurrency } = new Intl.NumberFormat('en-150', { style: 'currency', currency: 'EUR' });
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column');
+
+// Return the custom currency formatted value
+column.cellTemplate = ({value, row}) => asCurrency(value * row.data.count);
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+const { format: asCurrency } = new Intl.NumberFormat("en-150", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// Return the custom currency formatted value
+const totalCellTemplate = (ctx: IgrCellContext) => (
+  <span>{asCurrency(ctx.value * ctx.row.data.count)}</span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Price"></IgbGridLiteColumn>
+```
+
+</PlatformBlock>
+
+## Plantillas DOM personalizadas
+
+Además de usar la propiedad `cellTemplate` como formateador de valores, también puede crear su propia plantilla DOM, que
+se renderizará dentro del contenedor de la celda.
+
+<PlatformBlock for="WebComponents">
+Hemos decidido reutilizar la funcionalidad que ofrece <a href="https://lit.dev/" target="_blank">Lit</a> y su
+<a href="https://lit.dev/docs/templates/expressions/" target="_blank">sintaxis de plantillas etiquetadas</a> para construir fragmentos DOM
+declarativos.
+
+</PlatformBlock>
+
+
+Puede usar como plantilla cualquier elemento DOM estándar, así como web components de otras bibliotecas.
+
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+// Import the `html` tag function from the Lit package.
+import { html } from "lit";
+
+// Get a reference to the column element
+const column = document.querySelector('igc-grid-lite-column[field="rating"]');
+
+// Use another web component to represent the `rating` value in the grid
+column.cellTemplate = ({ value }) => html`<igc-rating readonly value=${value}></igc-rating>`;
+```
+
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+
+```tsx
+// Import defineComponents and an igniteui-webcomponents component such as the rating component.
+import { defineComponents, IgcRatingComponent } from "igniteui-webcomponents";
+
+defineComponents(IgcRatingComponent);
+
+// Use the web component as you would normally inside the react cell template
+const satisfactionCellTemplate = (ctx: IgrCellContext) => (
+  <span>
+    <igc-rating readonly value={ctx.value}></igc-rating>
+  </span>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```razor
+<!-- Templates TBD in Blazor -->
+<IgbGridLiteColumn Field="Rating"></IgbGridLiteColumn>
+```
+
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Tenga en cuenta que cuanto más compleja y elaborada sea la plantilla, mayor será el coste de rendimiento. Evite las estructuras DOM complejas si el rendimiento es importante.
+</DocsAside>
+
+## Objeto de contexto de la celda
+
+El renderizador de celdas personalizado recibe como parámetro un objeto `GridLiteCellContext` con las siguientes propiedades:
+
+<PlatformBlock for="React, WebComponents">
+```typescript
+/**
+ * Context object for the row cell template callback.
+ */
+export interface GridLiteCellContext<
+  T extends object,
+  K extends Keys<T> = Keys<T>
+> {
+  /**
+   * The cell element parent of the template.
+   */
+  parent: GridLiteCell<T>;
+  /**
+   * The row element containing the cell.
+   */
+  row: GridLiteRow<T>;
+  /**
+   * The current configuration for the column.
+   */
+  column: ColumnConfiguration<T, K>;
+  /**
+   * The value from the data source for this cell.
+   */
+  value: PropertyType<T, K>;
+}
+```
+</PlatformBlock>
+
+<Sample src="/{GridLiteSample}/column-config-basic" height={600} alt="Configuración básica de columnas de {Platform} {GridLiteTitle}" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## Referencias de API
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Recursos adicionales
+
+- [Configuración de columnas](./column-configuration.mdx)
+- [Ordenación](./sorting.mdx)
+- [Filtrado](./filtering.mdx)
+- [Temas y estilos](./theming.mdx)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

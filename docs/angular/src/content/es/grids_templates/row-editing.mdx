@@ -1,0 +1,490 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Editar filas en Angular Data Grid: Ignite UI for Angular"
+description: "¿Quiere habilitar la edición de filas en Angular Data Grid? ¿Necesita una API potente para las operaciones CRUD? ¡Pruebe nuestro componente de edición de filas de Ignite UI for Angular Data Grid!"
+keywords: "edición de filas, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la edición en línea y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid, PivotGrid">
+
+---
+title: "Editar filas en {ComponentTitle} de Angular: Ignite UI for Angular"
+description: "¿Quiere habilitar la edición de filas en {ComponentTitle} de Angular? ¿Necesita una API potente para las operaciones CRUD? ¡Pruebe nuestro componente de edición de filas de Ignite UI for Angular Data Grid!"
+keywords: "edición de filas, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-editing
+_language: es
+llms:
+  description: "El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la edición en línea y una API potente para las operaciones CRUD de Angular."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Edición de filas de {ComponentTitle} en Angular
+
+El {ComponentTitle} ofrece una forma cómoda de realizar manipulaciones de datos mediante la edición en línea y una API potente para las operaciones CRUD de Angular. Haga clic en una fila y pulse la tecla **Enter**, o simplemente haga doble clic con el ratón en la fila que necesita modificar.
+
+## Ejemplo de edición de filas de {ComponentTitle} en Angular
+
+El ejemplo siguiente muestra cómo habilitar la edición de filas en {ComponentTitle}. Cambiar el valor de una celda y después hacer clic o navegar a otra celda de la misma fila no actualizará el valor de la fila hasta que se confirme con el botón **Hecho**, o se descarte con el botón **Cancelar**.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-editing" height={550} alt="Ejemplo de edición de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-row-edit" height={590} alt="Ejemplo de edición de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-row-editing" height={510} alt="Ejemplo de edición de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Cuando una fila está en modo de edición, hacer clic en una celda de otra fila actuará como si se pulsara el botón Hecho: se enviarán todos los cambios de la fila anterior. Si la nueva celda que recibe el foco es editable, la nueva fila también entra en modo de edición; si la celda no es editable, solo la fila anterior sale del modo de edición.
+</DocsAside>
+
+## Uso de la edición de filas
+
+Para empezar, importe `{ComponentName}Module` en el archivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+...
+import { {ComponentName}Module } from 'igniteui-angular';
+
+@NgModule({
+    ...
+    imports: [..., {ComponentName}Module],
+    ...
+})
+export class AppModule {}
+```
+
+A continuación, defina un {ComponentTitle} con el origen de datos enlazado y <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> establecido en true:
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" editable="false"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="ProductName" header="Product Name" [dataType]="'string'"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" [dataType]="'number'">
+        <ng-template igxCellEditor let-cell="cell">
+            <input name="units" [(ngModel)]="cell.value" style="color: black" />
+        </ng-template>
+    </igx-column>
+    <igx-column field="OrderDate" [dataType]="'date'"></igx-column>
+    <igx-column field="Discontinued" header="Discontinued" [dataType]="'boolean'"></igx-column>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [data]="data" [primaryKey]="EmployeID" [foreignKey]="PID"
+               [rowEditable]="true" [rowSelection]="'multiple'" [moving]="true">
+    <igx-column *ngFor="let c of columns"
+        [editable] ="c.editable"
+        [field]="c.field"
+        [dataType]="c.dataType"
+        [header]="c.label"
+        [resizable]="c.resizable"
+        [sortable]="c.sortable"
+        [filterable]="c.filterable">
+    </igx-column>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [data]="localdata" [autoGenerate]="false" [rowEditable]="true">
+    <igx-column field="Artist" [editable]="true" [dataType]="'string'"></igx-column>
+    <igx-column field="HasGrammyAward" [editable]="true" [dataType]="'boolean'">
+    </igx-column>
+    <igx-column field="Debut" [editable]="true" [dataType]="'number'"></igx-column>
+    <igx-column field="GrammyNominations" [editable]="true" [dataType]="'number'" [hasSummary]="true"></igx-column>
+    <igx-column field="GrammyAwards" [editable]="true" [dataType]="'number'"
+    [hasSummary]="true"></igx-column>
+    <igx-column width="10%">
+        <ng-template igxCell let-cell="cell">
+            <button igxIconButton="flat" (click)="removeRow(cell.cellID.rowIndex)">
+                <igx-icon>delete</igx-icon>
+            </button>
+        </ng-template>
+    </igx-column>
+
+    <igx-row-island [key]="'Albums'" #layout1 [autoGenerate]="false">
+        <igx-column field="Album" [editable]="true" [dataType]="'string'"></igx-column>
+        <igx-column field="Launch Date" [editable]="true" [dataType]="'date'"></igx-column>
+        <igx-column field="Billboard Review" [editable]="true" [dataType]="'number'"></igx-column>
+        <igx-column field="US Billboard 200" [editable]="true" [dataType]="'number'"></igx-column>
+        <igx-row-island [key]="'Songs'" [autoGenerate]="false">
+            <igx-column field="No."></igx-column>
+            <igx-column field="Title"></igx-column>
+            <igx-column field="Released"></igx-column>
+            <igx-column field="Genre"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Establecer la clave primaria es obligatorio para las operaciones de edición de filas.
+</DocsAside>
+
+<DocsAside type="info">
+No es necesario habilitar la edición de cada columna por separado. Usando la propiedad <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> en {ComponentTitle}, todas las filas con la propiedad `field` definida serán editables, excepto la clave primaria. Si quiere deshabilitar la edición de una columna concreta, establezca la entrada <ApiLink type="Column" member="editable" label="editable" /> de la columna en `false`.
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+```typescript
+import { IgxGridComponent } from 'igniteui-angular/grids/grid';
+// import { IgxGridComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-grid-row-edit',
+    styleUrls: [`grid-row-editing-sample.component.css`],
+    templateUrl: 'grid-row-editing-sample.component.html'
+})
+export class GridRowEditSampleComponent {
+    @ViewChild('gridRowEdit', { read: IgxGridComponent }) public gridRowEdit: IgxGridComponent;
+
+    public data: any[];
+
+    constructor() {
+        this.data = data;
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```typescript
+import { IgxTreeGridComponent } from 'igniteui-angular/grids/tree-grid';
+// import { IgxTreeGridComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+   providers: [],
+    selector: 'app-tree-grid-row-editing-sample',
+    styleUrls: ['tree-grid-row-editing-sample.component.scss'],
+    templateUrl: 'tree-grid-row-editing-sample.component.html'
+})
+export class TreeGridRowEditSampleComponent implements OnInit {
+
+    public data: any[];
+    public columns: any[];
+
+    @ViewChild('treeGrid') public treeGrid: IgxTreeGridComponent;
+    public ngOnInit(): void {
+        this.data = FLAT_DATA;
+
+        this.columns = [
+            { field: 'FirstName', label: 'First Name', resizable: true, sortable: true, filterable: true, editable: true, dataType: 'string' },
+            { field: 'LastName', label: 'Last Name', resizable: false, sortable: false, filterable: false, editable: true, dataType: 'string' },
+            { field: 'Title', label: 'Title', resizable: true, sortable: true, filterable: true, editable: true, dataType: 'string' },
+            { field: 'HireDate', label: 'Hire Date', resizable: true, sortable: true, filterable: true, editable: true, dataType: 'date' }
+        ];
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+import { IgxRowIslandComponent, IgxHierarchicalGridComponent } from 'igniteui-angular/grids/hierarchical-grid';
+// import { IgxRowIslandComponent, IgxHierarchicalGridComponen } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'hierarchical-grid-row-editing',
+    styleUrls: ['./hierarchical-grid-row-editing.component.scss'],
+    templateUrl: 'hierarchical-grid-row-editing.component.html'
+})
+
+export class HGridRowEditingSampleComponent implements OnInit {
+    public localdata;
+
+    @ViewChild('layout1')
+    layout1: IgxRowIslandComponent;
+
+    @ViewChild('hierarchicalGrid')
+    hierarchicalGrid: IgxHierarchicalGridComponent;
+
+    constructor() {
+        this.localdata = SINGERS;
+    }
+}
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El {ComponentTitle} usa internamente un proveedor <ApiLink type="BaseTransactionService" /> que guarda los cambios pendientes de las celdas hasta que el estado de la fila se envía o se cancela.
+</DocsAside>
+
+## Posicionamiento
+
+- La posición predeterminada de la superposición es debajo de la fila que está en modo de edición
+
+- Si no hay espacio debajo de la fila, la superposición aparecerá encima de la fila.
+
+- Una vez mostrada (arriba o abajo), la superposición mantendrá esa posición durante el desplazamiento, hasta que se cierre.
+
+## Comportamiento
+
+- Si la fila está en modo de edición, la edición continuará si se hace clic en una celda de la misma fila.
+
+- Al hacer clic en el botón "Done" se terminará la edición de la fila y los cambios se enviarán al origen de datos o, si hay una transacción disponible, a esa transacción. Además, la fila saldrá del modo de edición.
+
+- Al hacer clic en el botón "Cancel" se revertirán todos los cambios actuales de la fila y la fila saldrá del modo de edición.
+
+- Si la fila está en modo de edición, hacer clic en una celda de otra fila terminará la edición de la fila actual y enviará los nuevos cambios de la fila (el mismo comportamiento que al hacer clic en el botón "Done"). Si la nueva celda que recibe el foco es editable, la nueva fila también entra en modo de edición; si la celda no es editable, solo la fila anterior sale del modo de edición.
+
+- Si la fila está en modo de edición y {ComponentTitle} se desplaza de forma que la fila queda fuera del área visible, la fila seguirá en modo de edición. Cuando {ComponentTitle} se desplaza de nuevo para que la fila sea visible, la fila seguirá en modo de edición. Si se hace clic fuera de {ComponentTitle}, la celda también permanecerá en modo de edición.
+
+- Al realizar operaciones de _ordenación_, _filtrado_, _búsqueda_ y _ocultación_, se revertirán todos los cambios actuales de la fila y la fila saldrá del modo de edición.
+
+- Al realizar operaciones de _paginación_, _redimensionamiento_, _anclaje_ y _movimiento_, se saldrá del modo de edición y se enviará el último valor.
+
+- Cada celda modificada recibe un estilo de edición hasta que termina la edición de la fila. Este es el comportamiento cuando {ComponentTitle} no se proporciona con transacciones. Cuando hay transacciones disponibles, el estilo de edición de celda se aplica hasta que se confirman todos los cambios.
+
+## Navegación por teclado
+
+- `Enter` y `F2` entran en modo de edición de filas
+
+- `Esc` sale del modo de edición de filas y no envía ninguno de los cambios de celda realizados mientras la fila estaba en modo de edición.
+
+- `Tab` mueve el foco de una celda editable de la fila a la siguiente, y desde la celda editable más a la derecha a los botones CANCEL y DONE. La navegación desde el botón DONE va a la celda editable más a la izquierda de la fila que se está editando.
+
+## Integración de funciones
+
+- Cualquier operación que cambie los datos finalizará las operaciones de edición de filas y enviará los cambios de la fila actual. Esto incluye operaciones como la ordenación, el cambio de los criterios de agrupación y filtrado, la paginación, etc.
+
+- Los resúmenes se actualizarán después de terminar la edición de la fila. Lo mismo ocurre con otras funciones, como la ordenación, el filtrado, etc.
+
+<ComponentBlock for="Grid">
+
+- Expandir y contraer filas agrupadas no terminará la edición de la fila actual.
+</ComponentBlock>
+
+## Personalizar la superposición de edición de filas
+
+### Personalizar el texto
+
+Es posible personalizar el texto de la superposición de edición de filas usando `igxRowEditTextDirective`.
+Se expone la propiedad `rowChangesCount`, que contiene el número de celdas modificadas.
+
+```html
+<ng-template igxRowEditText let-rowChangesCount>
+ Changes: {{rowChangesCount}}
+</ng-template>
+ ```
+
+### Personalizar los botones
+
+Es posible personalizar los botones de la superposición de edición de filas usando `igxRowEditActionsDirective`.
+Si quiere que los botones formen parte de la navegación por teclado, cada uno de ellos debe tener `igxRowEditTabStopDirective`.
+
+ ```html
+ <ng-template igxRowEditActions let-endRowEdit>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+ <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+</ng-template>
+ ```
+
+## Estilos
+
+Usando la [biblioteca de temas de Ignite UI for Angular](/themes), podemos cambiar en gran medida la superposición de edición de filas.
+La superposición de edición de filas es un elemento compuesto: su interfaz se compone de otros componentes:
+    - [`igx-banner`](/banner) para renderizar su contenido
+    - Los [`igx-button`](inputs/button)s se renderizan en la plantilla predeterminada (para los botones `Done` y `Cancel`).
+
+En el ejemplo siguiente usaremos las opciones de estilo de esos dos componentes, [`button styling`](inputs/button#styling) y [`banner-styling`](/banner#estilos), para personalizar la experiencia de la edición de filas de nuestro {ComponentName}.
+También daremos estilo al editor y al fondo de la celda actual para que resalte más.
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Puede obtener más información sobre el estilo de celdas en la sección [Estilo de celdas](/{igPath}/cell-editing#estilos).
+</ComponentBlock>
+
+### Importar el tema
+
+La forma más sencilla de dar estilo al banner de edición de filas es definir los estilos en el archivo de estilos globales de nuestro `app` (normalmente `styles.scss`).
+Lo primero que debemos hacer es importar el archivo `themes/index`; así tenemos acceso a todas las potentes herramientas del framework Sass de Ignite UI for Angular:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Una vez importado el archivo de temas, podemos crear temas personalizados.
+
+#### Definir el tema
+
+Ahora podemos definir un <ApiLink kind="sass" module="themes" type="function-banner-theme" label="tema del banner" code={true} /> personalizado que afectará al fondo de la edición de filas y usará una de las paletas predefinidas, concretamente `$purple-palette` :
+
+```scss
+$banner-theme: banner-theme(
+  $banner-background: #e3e3e3,
+  $banner-message-color: color($purple-palette, "secondary", 600)
+);
+```
+
+Aquí usamos `my-banner-palette` junto con <ApiLink kind="sass" module="palettes" type="function-color" label="igx-color" code={true} /> (expuesto por la biblioteca de temas) para generar nuestros colores.
+
+### Incluir el tema
+
+Solo nos queda aplicar el tema con una instrucción Sass `@include`. Pasamos nuestro `$banner-theme` recién definido a través de <ApiLink kind="sass" module="themes" type="mixin-tokens" label="mixin de tokens" code={true} />:
+
+```scss
+:host {
+  @include tokens($banner-theme);
+}
+```
+
+### Estilos de componente
+
+Como la superposición de edición de filas usa los temas de muchos otros componentes, darle estilo mediante los estilos globales puede afectar a otras partes de nuestra aplicación (por ejemplo, banners, botones, etc.). La mejor forma de evitarlo es limitar el tema del banner al archivo de estilos del componente concreto al que se aplica.
+
+<DocsAside type="info">
+En algunas plantillas de componentes, el encapsulado de vista emulado puede impedir que las declaraciones de tokens generadas lleguen a los elementos anidados de Ignite UI. Si el tema no surte efecto, use `::ng-deep` como se muestra a continuación o traslade el tema a una hoja de estilos global.
+</DocsAside>
+
+```scss
+// custom.component.scss
+
+:host {
+  ::ng-deep {
+    @include tokens($banner-theme);
+  }
+}
+```
+
+Con la sintaxis anterior, nuestro tema de banner personalizado se aplica correctamente a la superposición de edición de filas de la cuadrícula.
+
+### Plantillas personalizadas
+
+Para personalizar aún más la superposición de edición de filas, podemos pasar una plantilla personalizada para dar estilo por separado a los botones `Done` y `Cancel`:
+
+```html
+<!-- in component.html -->
+<{ComponentSelector}>
+    <ng-template igxRowEditActions let-endRowEdit>
+        <div class="custom-buttons">
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(false)">
+                <igx-icon>clear</igx-icon>
+            </button>
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(true)">
+                <igx-icon>check</igx-icon>
+            </button>
+        </div>
+    </ng-template>
+</{ComponentSelector}>
+```
+
+Después de definir nuestros botones personalizados, podemos usar <ApiLink kind="sass" module="themes" type="function-flat-icon-button-theme" label="flat-icon-button-theme" code={true} /> para darles estilo. Puede saber más sobre el estilo de `igx-icon-button` en la documentación [Estilo de botón de icono](/icon-button#estilos-del-botón-de-icono). Podemos crear un tema personalizado para nuestros `Done` y `Cancel`:
+
+```scss
+// custom.component.scss
+...
+
+$button-theme: flat-icon-button-theme(
+  $background: #e3e3e3,
+  $foreground: #423589
+);
+
+...
+.custom-buttons {
+  @include tokens($button-theme);
+}
+```
+
+Limitamos nuestra instrucción `@include` dentro de `.custom-buttons` para que solo se aplique a los botones `Done` y `Cancel`.
+
+### Demostración
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+Después de dar estilo al banner y a los botones, también definimos un estilo personalizado para [la celda en modo de edición](/{igPath}/cell-editing#estilos). El resultado de todos los estilos combinados puede verse a continuación:
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-edit-style" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-row-edit-style" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-row-edit-style" height={560} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Problemas conocidos y limitaciones
+
+- Cuando el grid no tiene `primaryKey` establecido y los escenarios de datos remotos están habilitados (cuando la paginación, la ordenación, el filtrado o el desplazamiento provocan solicitudes a un servidor remoto para obtener los datos que se mostrarán en el grid), una fila perderá el siguiente estado tras completarse una solicitud de datos:
+  - Selección de filas
+  - Expandir/contraer filas
+  - Edición de filas
+  - Anclaje de filas
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" />
+- <ApiLink type="{ComponentApiType}" member="rowEditEnter" label="rowEditEnter" />
+- <ApiLink type="{ComponentApiType}" member="rowEdit" label="rowEdit" />
+- <ApiLink type="{ComponentApiType}" member="rowEditDone" label="rowEditDone" />
+- <ApiLink type="{ComponentApiType}" member="rowEditExit" label="rowEditExit" />
+- <ApiLink type="{ComponentApiType}" member="endEdit" label="endEdit" />
+- <ApiLink type="Column" member="field" label="field" />
+- <ApiLink type="Column" member="editable" label="editable" />
+- <ApiLink type="{ComponentApiType}" member="primaryKey" label="primaryKey" />
+- <ApiLink type="{ComponentApiType}" />
+## Recursos adicionales
+
+
+- [Crear operaciones CRUD con igxGrid](/general/how-to/how-to-perform-crud)
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Edición de {ComponentTitle}](/{igPath}/editing)
+</ComponentBlock>
+- [{ComponentTitle} Transactions](/{igPath}/batch-editing)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

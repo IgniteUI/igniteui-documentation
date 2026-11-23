@@ -1,0 +1,156 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Exibindo imagens do Bing | Infragistics"
+description: "Use o {Platform} da Infragistics para exibir imagens do Microsoft Bing Maps. Veja os tutoriais de mapa de {ProductName}!"
+keywords: "Mapa {Platform}, bing maps, {ProductName}, Infragistics, fonte de blocos de imagem, fundo do mapa"
+license: commercial
+mentionedTypes: ["GeographicMap", "BingMapsMapImagery"]
+_language: pt-BR
+llms:
+  description: "NOTE: As of June 30, 2025 all Microsoft Bing Maps for Enterprise Basic (Free) accounts will be retired."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import bingmapsimagery from '@xplat-images/general/BingMapsImagery.png';
+
+# {Platform} Exibindo imagens do Bing Maps
+
+OBSERVAÇÃO: a partir de 30 de junho de 2025, todas as contas Microsoft Bing Maps for Enterprise Basic (gratuitas) serão desativadas. Se você ainda usa uma conta Basic não paga e a sua chave, agora é o momento de agir para evitar interrupções no serviço. Os titulares de licença Bing Maps for Enterprise podem continuar usando o Bing Maps em seus aplicativos até 30 de junho de 2028.
+
+Para mais detalhes:
+
+[Blogs do Microsoft Bing](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+O {Platform} `BingMapsMapImagery` é um serviço de mapeamento de imagens geográficas fornecido pela empresa Microsoft®. Ele oferece 3 estilos de blocos de imagens geográficas do mundo. Este serviço de imagens geográficas pode ser acessado diretamente no site <a href="http://www.bing.com/maps" target="_blank">www.bing.com/maps</a>. O componente de mapa {ProductName} pode exibir imagens geográficas do Bing Maps no conteúdo de fundo do mapa, usando a classe `BingMapsMapImagery`.
+
+## {Platform} Exemplo de exibição de imagens do Bing Maps
+
+
+{/*<Sample src="/maps/geo-map/display-bing-imagery" height="500" alt="{Platform} Displaying Imagery from Bing Maps Example" />*/}
+<Image src={bingmapsimagery} alt="{Platform} Imagens do Bing Maps" />
+
+
+
+## Trecho de código
+O trecho de código a seguir mostra como exibir blocos de imagens geográficas do Bing Maps em {Platform} `GeographicMap` usando a classe `BingMapsMapImagery`.
+
+```json-snippet source="/maps/geo-map/display-bing-imagery"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": "+doc:markup"
+}
+```
+
+```json-snippet source="/maps/geo-map/display-bing-imagery" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
+
+<PlatformBlock for="Angular, React">
+
+O Bing entrega os seus blocos pelo protocolo indicado no seu URI REST, e uma página servida pelo outro protocolo
+é recusada. Resolva-o em relação à página hospedeira antes de atribuir as imagens:
+
+```ts
+// resolving BingMaps uri based on HTTP protocol of hosting website
+let tileUri = roadImagery.actualBingImageryRestUri;
+const isHttpSecured = window.location.toString().startsWith("https:");
+if (isHttpSecured) {
+    tileUri = tileUri.replace("http:", "https:");
+} else {
+    tileUri = tileUri.replace("https:", "http:");
+}
+roadImagery.bingImageryRestUri = tileUri;
+```
+
+</PlatformBlock>
+
+## Propriedades
+A tabela a seguir resume as propriedades da classe `BingMapsMapImagery`:
+
+| Nome da propriedade  | Tipo da propriedade   | Descrição   |
+|----------------|-----------------|---------------|
+|`apiKey`|string|Representa a propriedade para definir uma chave de API exigida pelo serviço de imagens do Bing Maps. Você deve obter essa chave no site <a href="http://www.bingmapsportal.coms" target="_blank">www.bingmapsportal.com</a>.|
+|`imageryStyle`|`BingMapsImageryStyle`|Representa a propriedade para definir o estilo de mapa dos blocos de imagens do Bing Maps. Esta propriedade pode ser definida com os seguintes valores de enumeração `BingMapsImageryStyle`: <ul><li> Aerial - especifica o estilo de mapa Aerial sem sobreposição de estradas ou rótulos</li> <li> AerialWithLabels - especifica o estilo de mapa Aerial com sobreposição de estradas e rótulos</li><li> Road - especifica o estilo de mapa de estradas sem sobreposição aérea</li></ul>|
+|`bingImageryRestUri`|string|Representa a propriedade para definir o URI REST das imagens do Bing, que especifica de onde virão o TilePath e os SubDomains. Esta é uma propriedade opcional; se não for especificada, será usado o URI REST padrão.|
+|`cultureName`|string|Representa uma propriedade para definir o nome da cultura da fonte de blocos.|
+|`isDeferredLoad`|boolean|Representa a propriedade que especifica se o serviço do Bing Maps deve ser inicializado automaticamente ao atribuir valores válidos às propriedades.|
+|`isInitialized`|boolean|Representa a propriedade que recebe o valor True quando os blocos de imagens geográficas do serviço do Bing Maps foram inicializados e estão prontos para renderização no componente de mapa.|
+|`subDomains`|`\SubDomainsCollection`|Representa uma coleção de imagens de subdomínios de URI|
+|`tilePath`|string|Representa uma propriedade que define o URI da imagem do bloco do mapa, que é a localização real do Bing Maps|
+
+
+## Referências da API
+`BingMapsImageryStyle`
+`BingMapsMapImagery`
+`GeographicMap`

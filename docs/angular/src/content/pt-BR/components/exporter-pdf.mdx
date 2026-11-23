@@ -1,0 +1,220 @@
+---
+title: "Componente Exportar para PDF - Native Angular | Ignite UI for Angular"
+description: "Os usuários podem exportar seus dados para apresentação offline em formato PDF, com o componente Export to PDF do Ignite UI for Angular."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Controls, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Grade Angular, Grade de dados Angular, controle de grade Angular, componente de grade Angular, exportação PDF, componente PDF Angular, exportar PDF Angular"
+license: commercial
+_language: pt-BR
+llms:
+  description: "O serviço PDF Exporter do Ignite UI for Angular oferece recursos poderosos para exportar dados no formato PDF a partir de várias fontes, incluindo arrays de dados brutos e componentes de grade avançados, como IgxGrid, IgxTreeGrid, IgxHierarchicalGrid e IgxPivotGrid."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Exportador PDF
+
+<div class="highlight">
+
+O serviço PDF Exporter do Ignite UI for Angular oferece recursos poderosos para exportar dados no formato PDF a partir de várias fontes, incluindo arrays de dados brutos e componentes de grade avançados, como [**IgxGrid**](/grid/grid), [**IgxTreeGrid**](/treegrid/tree-grid), [**IgxHierarchicalGrid**](/hierarchicalgrid/hierarchical-grid) e [**IgxPivotGrid**](/pivotgrid/pivot-grid). A funcionalidade de exportação está encapsulada na classe <ApiLink type="PdfExporterService" />, que permite a exportação de dados para PDF sem interrupções, com recursos completos, incluindo suporte a documentos de várias páginas, quebras de página automáticas e opções de formatação personalizáveis.
+</div>
+<igc-divider></igc-divider>
+
+## Exemplo de exportador PDF do Angular
+
+<Sample src="/services/export-pdf" height={150} alt="Exemplo de exportador PDF do Angular" />
+
+<hr/>
+
+## Uso
+
+Para começar a usar o Ignite UI PDF Exporter, primeiro importe o <ApiLink type="PdfExporterService" /> no seu componente:
+
+```typescript
+import { IgxPdfExporterService } from 'igniteui-angular/grids/core';
+
+// import { IgxPdfExporterService } from '@infragistics/igniteui-angular/grids/core'; for licensed package
+
+@Component({
+  ...
+})
+export class AppComponent { ... }
+```
+
+Para iniciar um processo de exportação, você pode usar um manipulador de clique de botão no template do seu componente.
+
+```html
+<button (click)="exportButtonHandler()">Export Data to PDF</button>
+```
+
+Você pode acessar o <ApiLink type="PdfExporterService" /> usando a função `inject`. Para exportar dados em formato PDF, você precisa invocar o método <ApiLink type="PdfExporterService" member="exportdata" label="exportData" /> do serviço de exportação. Esse método aceita como primeiro argumento os dados que você quer exportar, e como segundo argumento uma instância de <ApiLink type="PdfExporterOptions" />, que permite configurar o processo de exportação.
+
+Aqui está o código que executará o processo de exportação no arquivo TypeScript do componente:
+
+```typescript
+// component.ts
+
+...
+import { Component, inject, signal } from '@angular/core';
+import { IgxPdfExporterService, IgxPdfExporterOptions } from 'igniteui-angular/grids/core';
+
+// import { IgxPdfExporterService, IgxPdfExporterOptions } from '@infragistics/igniteui-angular/grids/core'; for licensed package
+...
+
+public localData = signal([
+  { Name: 'Eric Ridley', Age: '26' },
+  { Name: 'Alanis Brook', Age: '22' },
+  { Name: 'Jonathan Morris', Age: '23' }
+]);
+
+private pdfExportService = inject(IgxPdfExporterService);
+
+public exportButtonHandler() {
+  this.pdfExportService.exportData(this.localData, new IgxPdfExporterOptions('ExportedDataFile'));
+}
+
+```
+
+Se tudo correu bem, você deve ver um botão de exportação. Ao clicar nele, o processo de exportação será disparado e o navegador fará o download de um arquivo chamado "ExportedDataFile.pdf", que contém os dados do array `localData` em formato PDF.
+
+## Personalizando o conteúdo exportado
+
+Nos exemplos acima, o serviço PDF Exporter exporta todos os dados disponíveis. No entanto, há situações em que você pode querer ignorar a exportação de uma linha ou de uma coluna inteira. Para isso, você pode assinar os eventos <ApiLink type="PdfExporterService" member="columnexporting" label="columnExporting" /> e/ou <ApiLink type="PdfExporterService" member="rowexporting" label="rowExporting" />, que são disparados para cada coluna e/ou para cada linha, respectivamente. Em seguida, pode cancelar a exportação definindo a propriedade <ApiLink kind="interface" type="IRowExportingEventArgs" member="cancel" /> do objeto de argumento do evento como `true`.
+
+O exemplo a seguir exclui uma coluna da exportação se o seu cabeçalho for "Age" e o seu índice for 1:
+
+```typescript
+// component.ts
+
+this.pdfExportService.columnExporting.subscribe((args: IColumnExportingEventArgs) => {
+  if (args.header == 'Age' && args.columnIndex == 1) {
+      args.cancel = true;
+  }
+});
+this.pdfExportService.export(this.igxGrid1, new IgxPdfExporterOptions('ExportedDataFile'));
+```
+
+## Opções de exportação em PDF
+
+A classe <ApiLink type="PdfExporterOptions" /> oferece várias propriedades para personalizar a exportação em PDF:
+
+- **pageOrientation**: especifica a orientação da página (`portrait` ou `landscape`). O padrão é `landscape`.
+- **pageSize**: especifica o tamanho da página (`a3`, `a4`, `a5`, `letter`, `legal`, etc.). O padrão é `a4`.
+- **showTableBorders**: determina se as bordas da tabela devem ser exibidas. O padrão é `true`.
+- **fontSize**: define o tamanho da fonte do conteúdo da tabela. O padrão é `10`.
+- **customFont**: especifica uma fonte TrueType (TTF) personalizada para suporte a caracteres Unicode. Obrigatória ao exportar dados que contêm caracteres não latinos.
+
+O exemplo a seguir demonstra como configurar essas opções:
+
+```typescript
+// component.ts
+
+public exportButtonHandler() {
+  const options = new IgxPdfExporterOptions('ExportedDataFile');
+  options.pageOrientation = 'portrait';
+  options.pageSize = 'letter';
+  options.showTableBorders = true;
+  options.fontSize = 12;
+
+  this.pdfExportService.exportData(this.localData, options);
+}
+```
+
+### Configuração de fonte personalizada para suporte a Unicode
+
+Por padrão, o exportador de PDF usa a fonte integrada Helvetica, que oferece suporte apenas a caracteres latinos básicos. Se os seus dados contiverem caracteres não latinos (como cirílico, chinês, japonês, árabe, hebraico ou símbolos especiais), você deve fornecer uma fonte TrueType (TTF) personalizada, usando a propriedade `customFont`.
+
+Os dados da fonte devem ser fornecidos como uma string codificada em Base64 com o conteúdo do arquivo TTF. Opcionalmente, você pode fornecer uma variante em negrito separada para a estilização do cabeçalho.
+
+#### Convertendo arquivos TTF para Base64
+
+Para converter um arquivo TTF para Base64, use o Node.js:
+
+```javascript
+const fs = require('fs');
+const fontData = fs.readFileSync('path/to/font.ttf');
+const base64 = fontData.toString('base64');
+fs.writeFileSync('font-base64.ts', `export const MY_FONT = '${base64}';`);
+```
+
+Como alternativa, você pode usar uma ferramenta online de codificação Base64 para converter o seu arquivo TTF.
+
+#### Exemplo: uso básico de fonte personalizada
+
+```typescript
+// fonts/noto-sans.ts
+export const NOTO_SANS_REGULAR = 'AAEAAAATAQAABAAwR0...[base64-encoded font data]...';
+
+// component.ts
+import { NOTO_SANS_REGULAR } from './fonts/noto-sans';
+
+public exportButtonHandler() {
+  const options = new IgxPdfExporterOptions('ExportedDataFile');
+  options.customFont = {
+    name: 'NotoSans',
+    data: NOTO_SANS_REGULAR
+  };
+
+  this.pdfExportService.exportData(this.localData, options);
+}
+```
+
+#### Exemplo: fonte personalizada com variante em negrito
+
+```typescript
+// fonts/noto-sans.ts
+export const NOTO_SANS_REGULAR = 'AAEAAAATAQAABAAwR0...[base64-encoded regular font]...';
+export const NOTO_SANS_BOLD = 'BBFAAAAUBQAACAAxS1...[base64-encoded bold font]...';
+
+// component.ts
+import { NOTO_SANS_REGULAR, NOTO_SANS_BOLD } from './fonts/noto-sans';
+
+public exportButtonHandler() {
+  const options = new IgxPdfExporterOptions('ExportedDataFile');
+  options.customFont = {
+    name: 'NotoSans',
+    data: NOTO_SANS_REGULAR,
+    bold: {
+      name: 'NotoSans-Bold',
+      data: NOTO_SANS_BOLD
+    }
+  };
+
+  this.pdfExportService.export(this.igxGrid1, options);
+}
+```
+
+#### Fontes recomendadas para suporte a Unicode
+
+As fontes a seguir oferecem excelente cobertura Unicode:
+
+- **Noto Sans**: cobre a maioria dos scripts Unicode — [Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans)
+- **Arial Unicode MS**: suporte abrangente a caracteres Unicode
+- **Source Han Sans**: excelente suporte a CJK (chinês, japonês, coreano)
+
+### Demonstração
+
+<Sample src="/services/export-pdf-custom-font" height={660} alt="Exemplo de fonte personalizada do exportador PDF do Angular" />
+
+<hr/>
+
+## Limitações conhecidas
+
+| Limitação       | Descrição                                                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Layouts de PDF largos | Grades muito largas podem fazer as colunas do PDF encolherem para caber na página. Aplique larguras de coluna explícitas ou oculte os campos de baixa prioridade antes de exportar, para manter o documento legível. |
+
+## Referências da API
+O serviço PDF Exporter tem mais algumas APIs para explorar, listadas abaixo.
+- <ApiLink type="PdfExporterService" />
+- <ApiLink type="PdfExporterOptions" />
+Componentes adicionais que foram usados:
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+<igc-divider></igc-divider>
+## Recursos adicionais
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

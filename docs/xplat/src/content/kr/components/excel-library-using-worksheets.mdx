@@ -1,0 +1,380 @@
+---
+title: "{Platform} Excel 라이브러리 | 워크시트 사용하기 | Infragistics"
+description: "Infragistics {Platform} Excel 라이브러리를 사용하여 워크시트의 행과 셀을 다루고 해당 값을 설정하여 데이터를 입력하십시오. {ProductName} Excel에서 애플리케이션으로 데이터를 쉽게 옮길 수 있습니다!"
+keywords: "Excel 라이브러리, 워크시트, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet", "WorksheetCell", "DisplayOptions", "WorksheetFilterSettings", "IWorksheetCellFormat"]
+_language: ko
+llms:
+  description: "Infragistics {Platform} Excel 엔진의 워크시트에는 데이터가 보관됩니다."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 워크시트 사용하기
+
+Infragistics {Platform} Excel 엔진의 <ApiLink type="Worksheet" />에는 데이터가 보관됩니다. 워크시트의 행과 셀을 다루고 해당 값을 설정하여 데이터를 입력할 수 있습니다. <ApiLink type="Worksheet" />를 사용하면 아래와 같이 셀을 필터링, 정렬하고 서식을 사용자 지정할 수 있습니다.
+
+## {Platform} 워크시트 사용하기 예제
+
+
+<Sample src="/excel/excel-library/operations-on-worksheets" height={200} alt="{Platform} 워크시트 사용하기 예제" />
+
+
+
+
+<PlatformBlock for="Angular, React, WebComponents">
+
+
+다음 코드는 아래 코드 조각을 사용하는 데 필요한 import를 보여 줍니다:
+
+```ts
+import { Workbook } from "{PackageExcel}";
+import { Worksheet } from "{PackageExcel}";
+import { WorkbookFormat } from "{PackageExcel}";
+import { Color } from "{PackageCore}";
+
+import { CustomFilterCondition } from "{PackageExcel}";
+import { ExcelComparisonOperator } from "{PackageExcel}";
+import { FormatConditionTextOperator } from "{PackageExcel}";
+import { OrderedSortCondition } from "{PackageExcel}";
+import { RelativeIndex } from "{PackageExcel}";
+import { SortDirection } from "{PackageExcel}";
+import { WorkbookColorInfo } from "{PackageExcel}";
+```
+
+</PlatformBlock>
+
+
+## 눈금선 구성하기
+눈금선은 워크시트의 셀을 시각적으로 구분하는 데 사용됩니다. 눈금선을 표시하거나 숨길 수 있으며 색상도 변경할 수 있습니다.
+
+워크시트의 <ApiLink type="DisplayOptions" />의 <ApiLink type="DisplayOptions" member="showGridlines" label="ShowGridlines" /> 속성을 사용하여 눈금선을 표시하거나 숨길 수 있습니다. 다음 코드는 워크시트의 눈금선을 숨기는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showGridlines = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowGridlines = false;
+```
+
+</PlatformBlock>
+
+워크시트의 <ApiLink type="DisplayOptions" />의 <ApiLink type="DisplayOptions" member="gridlineColor" label="GridlineColor" /> 속성을 사용하여 눈금선의 색상을 구성할 수 있습니다. 다음 코드는 워크시트의 눈금선을 빨간색으로 바꾸는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.gridlineColor = "Red";
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.GridlineColor = Core.Graphics.Colors.Red;
+```
+
+</PlatformBlock>
+
+## 머리글 구성하기
+열 머리글과 행 머리글은 열과 행을 시각적으로 식별하는 데 사용됩니다. 또한 현재 선택된 셀 또는 셀 영역을 시각적으로 강조하는 데에도 사용됩니다.
+
+워크시트의 <ApiLink type="DisplayOptions" />의 <ApiLink type="DisplayOptions" member="showRowAndColumnHeaders" label="ShowRowAndColumnHeaders" /> 속성을 사용하여 열 머리글과 행 머리글을 표시하거나 숨길 수 있습니다. 다음 코드는 행 머리글과 열 머리글을 숨기는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.showRowAndColumnHeaders = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.ShowRowAndColumnHeaders = false;
+```
+
+</PlatformBlock>
+
+## 워크시트 편집 구성하기
+기본적으로 저장하는 <ApiLink type="Worksheet" /> 객체는 편집할 수 있습니다. <ApiLink type="Worksheet" /> 객체의 <ApiLink type="Workbook" member="protect" label="Protect" /> 메서드로 워크시트를 보호하여 편집을 비활성화할 수 있습니다. 이 메서드에는 어떤 부분을 보호할지 결정하는 null 가능한 `bool` 인수가 많이 있으며, 그중 하나는 객체 편집을 허용하는 옵션입니다. 이를 **false**로 설정하면 워크시트 편집이 방지됩니다.
+
+다음 코드는 워크시트의 편집을 비활성화하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+<ApiLink type="Worksheet" /> 객체의 <ApiLink type="Workbook" member="protect" label="Protect" /> 메서드를 사용하여 워크시트를 구조 변경으로부터 보호할 수도 있습니다.
+
+보호가 설정된 경우, 개별 셀, 행, 병합된 셀 영역 또는 열에서 <ApiLink type="IWorksheetCellFormat" /> 객체의 <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> 속성을 설정하여 해당 객체에 대한 워크시트 객체의 보호를 재정의할 수 있습니다. 예를 들어 워크시트의 모든 셀을 한 열의 셀을 제외하고 읽기 전용으로 만들어야 한다면, 워크시트를 보호한 다음 특정 <ApiLink type="WorksheetColumn" /> 객체에서 <ApiLink type="IWorksheetCellFormat" /> 객체의 <ApiLink type="IWorksheetCellFormat" member="locked" label="Locked" /> 속성을 **false**로 설정할 수 있습니다. 그러면 사용자는 해당 열의 셀을 편집할 수 있고, 워크시트의 다른 셀은 편집이 비활성화됩니다.
+
+다음 코드는 이를 수행하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+worksheet.columns(0).cellFormat.locked = false;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+worksheet.Columns[0].CellFormat.Locked = ExcelDefaultableBoolean.False;
+```
+
+</PlatformBlock>
+
+## 워크시트 영역 필터링하기
+필터링은 워크시트의 <ApiLink type="WorksheetFilterSettings" />에 필터 조건을 설정하여 수행하며, 이는 <ApiLink type="Worksheet" /> 객체의 <ApiLink type="Worksheet" member="filterSettings" label="FilterSettings" /> 속성에서 가져올 수 있습니다. 필터 조건은 추가, 제거, 수정되거나 워크시트에서 <ApiLink type="WorksheetFilterSettings" member="reapplyFilters" label="ReapplyFilters" /> 메서드가 호출될 때만 다시 적용됩니다. 영역의 데이터가 변경될 때마다 지속적으로 평가되지는 않습니다.
+
+<ApiLink type="WorksheetFilterSettings" /> 객체의 <ApiLink type="WorksheetFilterSettings" member="setRegion" label="SetRegion" /> 메서드를 사용하여 필터를 적용할 영역을 지정할 수 있습니다.
+
+워크시트에 필터를 추가하는 데 사용할 수 있는 메서드와 설명은 다음과 같습니다:
+
+| 메서드        | 설명 |
+| --------------|-------------|
+|<ApiLink type="WorksheetFilterSettings" member="applyAverageFilter" label="ApplyAverageFilter" />|데이터가 전체 데이터 범위의 평균보다 아래인지 위인지에 따라 데이터를 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyDatePeriodFilter" label="ApplyDatePeriodFilter" />|어느 연도의 월 또는 분기에 있는 날짜를 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFillFilter" label="ApplyFillFilter" />|셀의 배경 채우기에 따라 셀을 필터링하는 필터를 나타냅니다. 이 필터는 단일 CellFill을 지정합니다. 이 채우기를 가진 셀은 데이터 범위에서 보이며, 다른 모든 셀은 숨겨집니다.|
+|`ApplyFixedValuesFilter`|표시가 허용된 특정 고정 값에 따라 셀을 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyFontColorFilter" label="ApplyFontColorFilter" />|셀의 글꼴 색상에 따라 셀을 필터링하는 필터를 나타냅니다. 이 필터는 단일 색상을 지정합니다. 이 글꼴 색상을 가진 셀은 데이터 범위에서 보이며, 다른 모든 셀은 숨겨집니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyIconFilter" label="ApplyIconFilter" />|셀의 조건부 서식 아이콘에 따라 셀을 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyRelativeDateRangeFilter" label="ApplyRelativeDateRangeFilter" />|필터가 적용된 시점을 기준으로 상대적인 날짜에 따라 날짜 셀을 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyTopOrBottomFilter" label="ApplyTopOrBottomFilter" />|정렬된 값의 위쪽 또는 아래쪽 부분에 있는 셀을 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyYearToDateFilter" label="ApplyYearToDateFilter" />|날짜가 현재 연도의 시작부터 필터가 평가되는 시점 사이에 있으면 날짜 셀을 필터링할 수 있는 필터를 나타냅니다.|
+|<ApiLink type="WorksheetFilterSettings" member="applyCustomFilter" label="ApplyCustomFilter" />|하나 또는 두 개의 사용자 지정 조건에 따라 데이터를 필터링할 수 있는 필터를 나타냅니다. 이 두 필터 조건은 논리 "and" 또는 논리 "or" 연산으로 결합할 수 있습니다.|
+
+워크시트 영역에 필터를 추가하는 예로 다음 코드 조각을 사용할 수 있습니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.filterSettings.setRegion("Sheet1!A1:A10");
+worksheet.filterSettings.applyAverageFilter(0, AverageFilterType.AboveAverage);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.FilterSettings.SetRegion("Sheet1!A1:A10");
+worksheet.FilterSettings.ApplyAverageFilter(0, Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+```
+
+</PlatformBlock>
+
+## 창 고정 및 분할
+창 고정 기능을 사용하면 워크시트 맨 위의 행이나 왼쪽의 열을 고정할 수 있습니다. 고정된 행과 열은 사용자가 스크롤하는 동안 항상 보입니다. 고정된 행과 열은 워크시트의 나머지 부분과 단일의 실선으로 구분되며, 이 선은 제거할 수 없습니다.
+
+창 고정을 활성화하려면 <ApiLink type="Worksheet" /> 객체의 <ApiLink type="DisplayOptions" />에서 <ApiLink type="DisplayOptions" member="panesAreFrozen" label="PanesAreFrozen" /> 속성을 **true**로 설정해야 합니다. 그런 다음 표시 옵션 <ApiLink type="DisplayOptions" member="frozenPaneSettings" label="FrozenPaneSettings" />의 `FrozenRows` 및 `FrozenColumns` 속성을 각각 사용하여 고정할 행이나 열을 지정할 수 있습니다.
+
+`FirstRowInBottomPane` 및 `FirstColumnInRightPane` 속성을 각각 사용하여 아래쪽 창의 첫 번째 행이나 오른쪽 창의 첫 번째 열을 지정할 수도 있습니다.
+
+다음 코드 조각은 워크시트에서 창 고정 기능을 사용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.panesAreFrozen = true;
+
+worksheet.displayOptions.frozenPaneSettings.frozenRows = 3;
+worksheet.displayOptions.frozenPaneSettings.frozenColumns = 1;
+
+worksheet.displayOptions.frozenPaneSettings.firstColumnInRightPane = 2;
+worksheet.displayOptions.frozenPaneSettings.firstRowInBottomPane = 6;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.PanesAreFrozen = true;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenRows = 3;
+worksheet.DisplayOptions.FrozenPaneSettings.FrozenColumns = 3;
+
+worksheet.DisplayOptions.FrozenPaneSettings.FirstColumnInRightPane = 2;
+worksheet.DisplayOptions.FrozenPaneSettings.FirstRowInBottomPane = 6;
+```
+
+</PlatformBlock>
+
+## 워크시트 확대/축소 수준 설정하기
+<ApiLink type="Worksheet" /> 객체의 <ApiLink type="DisplayOptions" />에 있는 <ApiLink type="WorksheetDisplayOptions" member="magnificationInNormalView" label="MagnificationInNormalView" /> 속성을 사용하여 각 워크시트의 확대/축소 수준을 독립적으로 변경할 수 있습니다. 이 속성은 10에서 400 사이의 값을 받으며, 적용하려는 확대/축소 비율을 나타냅니다.
+
+다음 코드는 이를 수행하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.displayOptions.magnificationInNormalView = 300;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.DisplayOptions.MagnificationInNormalView = 300;
+```
+
+</PlatformBlock>
+
+## 워크시트 수준 정렬
+
+정렬은 열이나 행의 워크시트 수준 객체에 정렬 조건을 설정하여 수행합니다. 열 또는 행을 오름차순 또는 내림차순으로 정렬할 수 있습니다.
+
+이는 영역과 정렬 유형을 <ApiLink type="WorksheetSortSettings" />의 <ApiLink type="Worksheet" /> 객체에 지정하여 수행하며, 이는 시트의 <ApiLink type="Worksheet" member="sortSettings" label="SortSettings" /> 속성을 사용하여 가져올 수 있습니다.
+
+시트의 정렬 조건은 정렬 조건이 추가, 제거, 수정되거나 워크시트에서 <ApiLink type="WorksheetFilterSettings" member="reapplySortConditions" label="ReapplySortConditions" /> 메서드가 호출될 때만 다시 적용됩니다. 열이나 행은 영역 안에서 정렬됩니다. "Rows"가 기본 정렬 유형입니다.
+
+다음 코드 조각은 워크시트의 셀 영역에 정렬을 적용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.sortSettings.sortConditions().addItem(new RelativeIndex(0), new OrderedSortCondition(SortDirection.Ascending));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.SortSettings.SortConditions.Add(new RelativeIndex(0), new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending));
+```
+
+</PlatformBlock>
+
+## 워크시트 보호
+<ApiLink type="Worksheet" /> 객체의 <ApiLink type="Workbook" member="protect" label="Protect" /> 메서드를 호출하여 워크시트를 보호할 수 있습니다. 이 메서드는 다음 사용자 작업을 제한하거나 허용할 수 있는 null 가능한 `bool` 매개변수를 많이 노출합니다:
+
+- 셀 편집.
+- 도형, 주석, 차트, 기타 컨트롤과 같은 객체 편집.
+- 시나리오 편집.
+- 데이터 필터링.
+- 셀 서식 지정.
+- 열 삽입, 삭제, 서식 지정.
+- 행 삽입, 삭제, 서식 지정.
+- 하이퍼링크 삽입.
+- 데이터 정렬.
+- 피벗 테이블 사용.
+
+<ApiLink type="Worksheet" /> 객체의 <ApiLink type="Workbook" member="unprotect" label="Unprotect" /> 메서드를 호출하여 워크시트 보호를 제거할 수 있습니다.
+
+다음 코드 조각은 위에 나열된 모든 사용자 작업의 보호를 활성화하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+worksheet.protect();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+worksheet.Protect();
+```
+
+</PlatformBlock>
+
+## 워크시트 조건부 서식
+
+<ApiLink type="Worksheet" member="conditionalFormats" label="ConditionalFormats" /> 컬렉션에 노출된 많은 "Add" 메서드를 사용하여 <ApiLink type="Worksheet" /> 객체의 조건부 서식을 구성할 수 있습니다. 이러한 "Add" 메서드의 첫 번째 매개변수는 조건부 서식을 적용하려는 워크시트의 `string` 영역입니다.
+
+워크시트에 추가할 수 있는 많은 조건부 서식에는 해당 조건부 서식의 조건이 참일 때 <ApiLink type="WorksheetCell" /> 요소가 어떻게 보여야 하는지 결정하는 <ApiLink type="IWorksheetCellFormat" /> 속성이 있습니다. 예를 들어 이 <ApiLink type="IWorksheetCellFormat" /> 속성에 연결된 <ApiLink type="IWorksheetCellFormat" member="fill" label="Fill" /> 및 <ApiLink type="IWorksheetCellFormat" member="font" label="Font" /> 같은 속성을 사용하여 특정 조건부 서식에서 셀의 배경 및 글꼴 설정을 각각 결정할 수 있습니다.
+
+셀에서의 시각화 동작이 다르기 때문에 <ApiLink type="IWorksheetCellFormat" /> 속성이 없는 조건부 서식도 몇 가지 있습니다. 이러한 조건부 서식은 <ApiLink type="DataBarConditionalFormat" />, <ApiLink type="ColorScaleConditionalFormat" />, <ApiLink type="IconSetConditionalFormat" />입니다.
+
+Excel에서 기존 <ApiLink type="Workbook" />를 불러올 때 <ApiLink type="Workbook" />가 로드되면 서식이 유지됩니다. <ApiLink type="Workbook" />를 Excel 파일로 저장할 때도 마찬가지입니다.
+
+다음 코드 예제는 워크시트에서 조건부 서식을 사용하는 방법을 보여 줍니다:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+
+var color = new Color();
+color.colorString = "Red";
+
+var format = worksheet.conditionalFormats().addAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage);
+format.cellFormat.font.colorInfo = new WorkbookColorInfo(color);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+var worksheet = workbook.Sheets.Add("Sheet1", SheetType.Worksheet) as Worksheet;
+
+var format = worksheet.ConditionalFormats.AddAverageCondition("A1:A10", Documents.Excel.ConditionalFormatting.FormatConditionAboveBelow.AboveAverage);
+format.CellFormat.Font.ColorInfo = new WorkbookColorInfo(Core.Graphics.Colors.Red);
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="IWorksheetCellFormat" />
+<ApiLink type="ColorScaleConditionalFormat" />
+<ApiLink type="DataBarConditionalFormat" />
+<ApiLink type="DisplayOptions" />
+<ApiLink type="Workbook" />
+<ApiLink type="WorksheetCell" />
+<ApiLink type="WorksheetColumn" />
+<ApiLink type="WorksheetFilterSettings" />
+<ApiLink type="WorksheetSortSettings" />
+<ApiLink type="Worksheet" />

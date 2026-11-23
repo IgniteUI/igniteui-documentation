@@ -1,0 +1,311 @@
+---
+title: "Angular HierarchicalGrid의 셀 편집 - Ignite UI for Angular"
+description: "그리드는 셀 내 편집을 사용합니다. 기본 셀 편집 템플릿이 있으며, 데이터 업데이트 작업을 위한 사용자 지정 템플릿도 정의할 수 있습니다. 지금 체험해 보십시오!"
+keywords: data manipulation, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/cell-editing
+_language: ko
+llms:
+  description: "Ignite UI for Angular Hierarchical Grid 컴포넌트는 강력한 데이터 조작 기능과 Angular CRUD 작업을 위한 강력한 API를 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Hierarchical Grid 셀 편집
+
+Ignite UI for Angular Hierarchical Grid 컴포넌트는 강력한 데이터 조작 기능과 Angular CRUD 작업을 위한 강력한 API를 제공합니다. 기본적으로 Hierarchical Grid는 **셀 안에서** 편집하며, **기본 셀 편집 템플릿** 덕분에 열의 데이터 유형에 따라 서로 다른 편집기가 표시됩니다. 또한 데이터 업데이트 작업을 위한 사용자 지정 템플릿을 정의하고, 변경 사항을 커밋하거나 폐기하는 기본 동작을 재정의할 수도 있습니다.
+
+## Angular Hierarchical Grid 셀 편집 및 편집 템플릿 예제
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing" height={660} alt="Angular Hierarchical Grid 셀 편집 및 편집 템플릿 예제" />
+
+<DocsAside type="info">
+어떤 유형의 편집기 컴포넌트와 함께 `igxCellEditor`을(를) 사용하면 키보드 탐색 흐름이 깨집니다. 편집 모드로 들어가는 사용자 지정 셀을 직접 편집하는 경우에도 마찬가지입니다. 이는 `focus`이(가) 우리가 추가한 편집기 컴포넌트([`igxSelect`](/select), [`igxCombo`](/inputs/combo/overview) 등)가 아니라 `cell element`에 계속 머무르기 때문입니다. 따라서 `igxFocus` 디렉티브를 활용해야 하는데, 이 디렉티브는 포커스를 셀 내 컴포넌트로 직접 옮기고 셀/행의 `a fluent editing flow`을(를) 보존합니다.
+</DocsAside>
+
+## 셀 편집
+
+### UI를 통한 편집
+
+편집 가능한 셀에 포커스가 있을 때 다음 방법 중 하나로 특정 셀의 편집 모드에 들어갈 수 있습니다:
+
+- 더블 클릭하면;
+- 싱글 클릭 - 싱글 클릭은 이전에 선택된 셀이 편집 모드였고 현재 선택된 셀이 편집 가능한 경우에만 편집 모드에 들어갑니다. 이전에 선택된 셀이 편집 모드가 아니었다면, 싱글 클릭은 편집 모드에 들어가지 않고 셀만 선택합니다;
+- `Enter` 키를 누르면;
+- `F2` 키를 누르면;
+
+다음 방법 중 하나로 변경 사항을 **커밋하지 않고** 편집 모드를 벗어날 수 있습니다:
+
+- `Escape` 키를 누르면;
+- _정렬_, _필터링_, _검색_ 및 _숨기기_ 작업을 수행할 때;
+
+다음 방법 중 하나로 편집 모드를 벗어나 변경 사항을 **커밋**할 수 있습니다:
+
+- `Enter` 키를 누르면;
+- `F2` 키를 누르면;
+- `Tab` 키를 누르면;
+- 다른 셀을 싱글 클릭하면 - Hierarchical Grid에서 다른 셀을 클릭하면 변경 사항이 제출됩니다.
+- 페이징, 크기 조정, 고정 또는 이동과 같은 작업은 편집 모드를 벗어나게 하며, 변경 사항이 제출됩니다.
+
+<DocsAside type="info">
+세로 또는 가로로 스크롤하거나 Hierarchical Grid 바깥을 클릭해도 셀은 편집 모드에 남아 있습니다. 이는 셀 편집과 행 편집 모두에 적용됩니다.
+</DocsAside>
+
+### API를 통한 편집
+
+기본 키가 정의되어 있는 경우에만 IgxHierarchicalGrid API를 통해 셀 값을 수정할 수도 있습니다:
+
+```typescript
+public updateCell() {
+    this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+셀을 업데이트하는 또 다른 방법은 <ApiLink type="GridCell" />의 <ApiLink type="GridCell" member="update" label="update" /> 메서드를 직접 사용하는 것입니다:
+
+```typescript
+public updateCell() {
+    const cell = this.hierarchicalGrid.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.hierarchicalGrid.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+
+### 셀 편집 템플릿
+
+기본 셀 편집 템플릿에 대한 자세한 내용은 [일반 편집 주제](/hierarchicalgrid/editing#편집-템플릿)에서 확인할 수 있습니다.
+
+셀이 편집 모드에 있을 때 적용되는 사용자 지정 템플릿을 제공하려면 <ApiLink type="CellTemplateDirective" label="igxCellEditor` 디렉티브" />을(를) 사용할 수 있습니다. 이를 위해서는 `igxCellEditor` 디렉티브로 표시한 `ng-template`를 전달하고, 사용자 지정 컨트롤을 <ApiLink type="GridCell" member="editValue" label="cell.editValue" />에 적절히 바인딩해야 합니다:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+이 코드는 `Race`, `Class` 및 `Alignment` 열의 셀에 [`IgxSelectComponent`](/select)을(를) 구현하는 아래 샘플에서 사용됩니다.
+
+<Sample src="/grid/grid-select" height={625} alt="" />
+
+<DocsAside type="info">
+편집 모드에서 셀의 <ApiLink type="GridCell" member="editValue" label="editValue" />에 대해 이루어진 모든 변경 사항은 편집 모드를 벗어날 때 해당 [편집 이벤트](/hierarchicalgrid/editing#이벤트-인수와-순서)를 발생시키며, (트랜잭션이 활성화된 경우) [트랜잭션 상태](/hierarchicalgrid/batch-editing)에 적용됩니다.
+</DocsAside>
+
+<DocsAside type="info">
+셀 템플릿 [`igxCell`](/grid/grid#셀-템플릿)은 편집 모드가 아닐 때 열의 셀이 어떻게 표시되는지를 제어합니다.
+셀 편집 템플릿 디렉티브 `igxCellEditor`은 편집 모드에 있는 열의 셀이 어떻게 표시되는지를 처리하고, 편집 중인 셀의 편집 값을 제어합니다.
+</DocsAside>
+
+<DocsAside type="info">
+어떤 유형의 편집기 컴포넌트와 함께 `igxCellEditor`을(를) 사용하면 키보드 탐색 흐름이 깨집니다. 편집 모드로 들어가는 사용자 지정 셀을 직접 편집하는 경우에도 마찬가지입니다. 이는 `focus`이(가) 우리가 추가한 편집기 컴포넌트([`igxSelect`](/select), [`igxCombo`](/inputs/combo/overview) 등)가 아니라 `cell element`에 계속 머무르기 때문입니다. 따라서 `igxFocus` 디렉티브를 활용해야 하는데, 이 디렉티브는 포커스를 셀 내 컴포넌트로 직접 옮기고 셀/행의 `a fluent editing flow`을(를) 보존합니다.
+</DocsAside>
+
+열과 그 템플릿을 구성하는 방법에 대한 자세한 정보는 [Grid 열 구성](/grid/grid#angular-그리드-열-구성) 문서를 참조하십시오.
+
+## CRUD 작업
+
+<DocsAside type="info">
+**CRUD 작업**을 수행하면 **필터링**, **정렬**, **그룹화**와 같이 적용된 모든 파이프가 다시 적용되고, 뷰가 자동으로 업데이트된다는 점을 기억하십시오.
+</DocsAside>
+
+<ApiLink type="HierarchicalGrid" />은(는) 기본 CRUD 작업을 위한 간단한 API를 제공합니다.
+
+### 새 레코드 추가하기
+
+Hierarchical Grid 컴포넌트는 제공된 데이터를 데이터 소스 자체에 추가하는 <ApiLink type="HierarchicalGrid" member="addRow" label="addRow" /> 메서드를 노출합니다.
+
+```typescript
+public addRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    const record = this.getNewRecord();
+    this.hierarchicalGrid.addRow(record, 1);
+}
+```
+
+### Hierarchical Grid의 데이터 업데이트하기
+
+Hierarchical Grid의 데이터 업데이트는 <ApiLink type="HierarchicalGrid" member="updateRow" label="updateRow" /> 및 <ApiLink type="HierarchicalGrid" member="updateCell" label="updateCell" /> 메서드를 통해 이루어지지만, **그리드의 기본 키가 정의되어 있는 경우에만** 가능합니다. 또한 해당 `update` 메서드를 통해 셀 및/또는 행 값을 직접 업데이트할 수도 있습니다.
+
+```typescript
+// Updating the whole row
+this.hierarchicalGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.hierarchicalGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.hierarchicalGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+### Hierarchical Grid에서 데이터 삭제하기
+
+<ApiLink type="HierarchicalGrid" member="deleteRow" label="deleteRow()" /> 메서드는 기본 키가 정의되어 있는 경우에만 지정된 행을 제거한다는 점을 기억하십시오.
+
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+이것들은 **igx-hierarchical-grid**과(와) 반드시 관련될 필요는 없는 사용자 상호 작용, 예를 들어 버튼 클릭에 연결할 수 있습니다:
+
+```html
+<button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
+```
+
+### 편집 이벤트에서 셀 유효성 검사
+
+그리드의 편집 이벤트를 사용하면 사용자가 그리드와 상호 작용하는 방식을 바꿀 수 있습니다.
+이 예제에서는 <ApiLink type="HierarchicalGrid" member="cellEdit" label="cellEdit" /> 이벤트에 바인딩하여, 셀에 입력된 데이터를 기준으로 셀을 검증하겠습니다. 셀의 새 값이 미리 정의된 기준을 충족하지 않으면, 이벤트를 취소(`event.cancel = true`)하여 그 값이 데이터 소스에 도달하지 못하게 하겠습니다. 또한 [`IgxToast`](../toast.mdx)를 사용하여 사용자 지정 오류 메시지를 표시하겠습니다.
+
+먼저 해야 할 일은 그리드의 이벤트에 바인딩하는 것입니다:
+
+```html
+<igx-hierarchical-grid (cellEdit)="handleCellEdit($event)"
+...>
+...
+</igx-hierarchical-grid>
+```
+
+`cellEdit`은(는) **어떤** 셀의 값이든 커밋되기 직전에 발생합니다. `handleCellEdit` 정의에서는 어떤 조치를 취하기 전에 특정 열을 확인하도록 해야 합니다:
+
+```typescript
+export class MyHGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs) {
+        const today = new Date();
+        const column = event.column;
+        if (column.field === 'Debut') {
+            if (event.newValue > today.getFullYear()) {
+                this.toast.message = 'The debut date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        } else if (column.field === 'LaunchDate') {
+            if (event.newValue > new Date()) {
+                this.toast.message = 'The launch date must be in the past!';
+                this.toast.open();
+                event.cancel = true;
+            }
+        }
+    }
+}
+```
+
+여기서는 두 열을 검증합니다. 사용자가 아티스트의 **데뷔** 연도나 앨범의 **발매일**을 바꾸려고 하면, 그리드는 오늘보다 큰 날짜는 허용하지 않습니다.
+
+위 검증을 우리의 `igx-hierarchical-grid`에 적용한 결과는 아래 데모에서 볼 수 있습니다:
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-events" height={650} alt="" />
+
+## 스타일링
+
+IgxHierarchicalGrid은(는) 셀의 스타일을 [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes)을(를) 통해 지정할 수 있게 합니다. 그리드의 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />는 광범위한 속성을 노출하며, 이를 통해 사용자는 그리드의 여러 다른 측면의 스타일을 지정할 수 있습니다.
+
+아래 단계에서는 편집 모드에 있는 그리드 셀의 스타일을 지정하는 방법과 그 스타일의 범위를 지정하는 방법을 살펴보겠습니다.
+
+[`Ignite UI Theming Library`](/themes/sass/component-themes)을(를) 사용하려면 먼저 전역 스타일에서 테마 `index` 파일을 가져와야 합니다:
+
+### 스타일 라이브러리 가져오기
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+이제 Ignite UI for Angular 테마 엔진이 노출하는 모든 함수를 사용할 수 있습니다.
+
+### 팔레트 정의하기
+
+index 파일을 올바르게 가져온 후, 사용할 사용자 지정 팔레트를 만듭니다. 마음에 드는 세 가지 색상을 정의하고, 이를 사용하여 [`palette`](/themes/palettes)로 팔레트를 만들겠습니다:
+
+```scss
+$white: #fff;
+$blue: #4567bb;
+$gray: #efefef;
+
+$color-palette: palette(
+  $primary: $white, 
+  $secondary: $blue, 
+  $surface: $gray
+);
+```
+
+### 테마 정의하기
+
+이제 팔레트를 사용하여 테마를 정의할 수 있습니다. 셀은 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에 의해 스타일이 지정되므로, 이를 사용하여 IgxHierarchicalGrid의 테마를 생성할 수 있습니다:
+
+```scss
+$grid-theme: grid-theme(
+  $cell-editing-background: $blue,
+  $cell-editing-foreground: $white,
+  $cell-active-border-color: $blue,
+  $cell-edited-value-color: $white,
+  $edit-mode-color: color($color: "secondary", $variant: 200)
+);
+```
+
+### 테마 적용하기
+
+마지막 단계는 사용자 지정 팔레트와 그리드 테마를 **포함**하는 것입니다.
+
+```scss
+igx-hierarchical-grid {
+  @include palette($color-palette);
+  @include tokens($grid-theme);
+}
+```
+
+### 데모
+
+위 단계 외에도, 셀 편집 템플릿에 사용되는 컨트롤의 스타일도 지정할 수 있습니다: [`input-group`](/input-group#스타일링), [`datepicker`](/date-picker#스타일링) 및 [`checkbox`](/inputs/checkbox#styling)
+
+<Sample src="/hierarchical-grid/hierarchical-grid-editing-style" height={660} alt="" />
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="GridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxHierarchicalGridComponent 스타일" />
+
+_<ApiLink type="GridRow" />
+
+- <ApiLink type="InputDirective" />
+- <ApiLink type="DatePicker" />
+- <ApiLink kind="sass" module="themes" type="function-date-picker-theme" label="IgxDatePickerComponent 스타일" />
+- <ApiLink type="Checkbox" />
+- <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="IgxCheckboxComponent 스타일" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />
+## 추가 리소스
+
+- [igxGrid로 CRUD 작업 구현하기](/general/how-to/how-to-perform-crud)
+- [Hierarchical Grid 개요](/hierarchicalgrid/hierarchical-grid)
+- [가상화와 성능](/hierarchicalgrid/virtualization)
+- [페이징](/hierarchicalgrid/paging)
+- [필터링](/hierarchicalgrid/filtering)
+- [정렬](/hierarchicalgrid/sorting)
+- [요약](/hierarchicalgrid/summaries)
+- [열 고정](/hierarchicalgrid/column-pinning)
+- [열 크기 조정](/hierarchicalgrid/column-resizing)
+- [선택](/hierarchicalgrid/selection)
+

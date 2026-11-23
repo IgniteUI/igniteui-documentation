@@ -1,0 +1,158 @@
+---
+title: "Angular Grid 편집 - Ignite UI for Angular"
+description: "강력한 공개 API와, 레코드를 만들고, 업데이트하고, 삭제하는 것 같은 데이터 조작을 쉽게 수행하는 방법을 얻으십시오. Angular data grid 편집 옵션을 확인하십시오!"
+keywords: data manipulation, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Grid 컴포넌트는 레코드를 만들고, 업데이트하고, 삭제하는 것 같은 데이터 조작 작업을 쉽게 수행할 수 있게 합니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 편집
+
+Ignite UI for Angular Grid 컴포넌트는 레코드를 만들고, 업데이트하고, 삭제하는 것 같은 데이터 조작 작업을 쉽게 수행할 수 있게 합니다. 데이터 조작 단계는 [셀 편집](/grid/cell-editing), [행 편집](/grid/row-editing), [일괄 편집](/grid/batch-editing)입니다. Grid는 이러한 작업이 수행되는 방식을 사용자 지정할 수 있게 하는 강력한 공개 API를 제공합니다. 또한 **셀 편집**은 열 데이터 유형에 따라 여러 기본 편집기를 노출하며, 이는 [igxCellEditor 디렉티브](/grid/cell-editing#셀-편집-템플릿) 또는 [igxRow 디렉티브](/grid/row-editing#행-편집-오버레이-사용자-지정하기)를 통해 쉽게 사용자 지정할 수 있습니다.
+
+## 설정
+
+어떤 편집 모드를 활성화할지 지정하기 위해 Grid은(는) 다음 불리언 속성을 노출합니다 - <ApiLink type="Column" member="editable" label="editable" /> 및 <ApiLink type="Grid" member="rowEditable" label="rowEditable" />.
+
+**editable** 속성을 사용하면 다음 옵션을 지정할 수 있습니다:
+
+- **false** - 해당 열의 편집이 비활성화됩니다; /기본값/
+- **true** - 해당 열의 편집이 활성화됩니다;
+
+>열이 편집 가능하지 않더라도, Grid이(가) 노출하는 공개 API를 통해 그 값을 여전히 수정할 수 있다는 점을 기억하십시오.
+
+**rowEditable** 속성을 사용하면 다음 옵션을 지정할 수 있습니다:
+
+- **false** - 해당 그리드의 행 편집이 비활성화됩니다; /기본값/
+- **true** - 해당 그리드의 행 편집이 활성화됩니다;
+
+Grid에서 rowEditable 속성을 true로 설정하고, 어떤 열에도 editable 속성을 명시적으로 정의하지 않았다면, _기본 키_를 제외한 모든 열에서 편집이 활성화됩니다.
+
+그리드의 **일괄 편집**은 **셀 편집**과 **행 편집** 모드 모두에서 활성화할 수 있습니다. 일괄 편집을 설정하려면 그리드에 _TransactionService_를 제공해야 합니다.
+
+- _셀 및 일괄 편집_ - 이 시나리오에서는 각 셀의 모든 개별 수정 사항이 따로 보존되며, 실행 취소/다시 실행 작업은 셀 수준에서 사용할 수 있습니다;
+- _행 및 일괄 편집_ - 이 시나리오에서는 수정 사항이 행 수준에서 보존되므로, 실행 취소/다시 실행 작업은 수정된 각 셀에 대해서가 아니라 각 행의 셀 묶음에 대해 작동합니다.
+
+### 편집 템플릿
+
+ 데이터 유형에 특화된 _편집 템플릿_을 사용하려면, 열의 <ApiLink type="Column" member="dataType" label="dataType" /> 속성을 지정해야 합니다. 이제 각 유형의 기본 템플릿이 무엇인지 살펴보겠습니다:
+
+- `string` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="InputDirective" label="igxInput" />을(를) 사용합니다
+- `number` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="InputDirective" label="igxInput" /> type="number"를 사용하므로, 숫자로 구문 분석할 수 없는 값으로 셀을 업데이트하려고 하면 변경 사항은 버려지고 셀의 값은 0으로 설정됩니다.
+- `date` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="DatePicker" label="igxDatePicker" />을(를) 사용합니다
+- `dateTime` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="DateTimeEditorDirective" />을(를) 사용합니다. 이 편집기는 DateTime 객체의 입력 요소 부분에 대한 마스크 안내를 제공합니다.
+- `date` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="DatePicker" />을(를) 사용합니다.
+- `time` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="TimePicker" />을(를) 사용합니다.
+- `boolean` 데이터 유형의 경우, 기본 템플릿은 <ApiLink type="Checkbox" label="igxCheckbox" />을(를) 사용합니다
+- `currency` 데이터 유형의 경우, 기본 템플릿은 애플리케이션 또는 그리드 locale 설정을 기준으로 접두사/접미사 구성이 있는 <ApiLink type="InputGroup" />을(를) 사용합니다.
+- `percent` 데이터 유형의 경우, 기본 템플릿은 편집 중인 값의 백분율 미리 보기를 보여 주는 접미사 요소가 있는 <ApiLink type="InputGroup" />을(를) 사용합니다.
+- 사용자 지정 템플릿에 대해서는 [셀 편집 주제](/grid/cell-editing#셀-편집-템플릿)를 참조하십시오
+
+사용 가능한 모든 열 데이터 타입은 공식 [열 타입 항목](/grid/column-types#기본-템플릿)에서 찾을 수 있습니다.
+
+#### 날짜-시간 열의 기본 템플릿 편집기
+
+`date`, `dateTime` 및 `time` 열 데이터 유형의 템플릿 편집기는 `IgxGrid`의 <ApiLink type="Grid" member="locale" label="locale" />에 따라 기본 입력 형식을 사용합니다.
+
+열에 <ApiLink kind="interface" type="ColumnType" member="pipeArgs" /> 객체의 `format` 속성이 설정되어 있으면, 편집기의 입력 형식은 그것으로부터 추론됩니다. 조건은 숫자 날짜-시간 부분만 포함하는 것으로 구문 분석될 수 있어야 한다는 것입니다.
+
+편집기의 입력 형식을 명시적으로 설정해야 한다면, <ApiLink type="IColumnEditorOptions" kind="interface" /> 유형의 <ApiLink kind="interface" type="ColumnType" member="editorOptions" /> 객체를 활용할 수 있습니다. 이 객체는 `date`, `dateTime` 및 `time` 열 데이터 유형의 편집기에 대한 입력 형식으로 사용되는 `dateTimeFormat` 속성을 받습니다.
+
+```typescript
+const editorOptions: IColumnEditorOptions = {
+    dateTimeFormat: 'MM/dd/YYYY',
+}
+```
+
+```html
+<igx-column field="sampleDate" dataType="date" [editorOptions]="editorOptions"></igx-column>
+```
+
+### 이벤트 인수와 순서
+
+그리드는 편집 경험을 더 세밀하게 제어할 수 있도록 다양한 이벤트를 노출합니다. 이 이벤트는 [**행 편집**](/grid/row-editing)과 [**셀 편집**](/grid/cell-editing) 수명 주기 동안, 즉 편집 작업을 시작, 커밋 또는 취소할 때 발생합니다.
+
+ | 이벤트 | 설명 | 인수 | 취소 가능 |
+|-------|-------------|-----------|-------------|
+| <ApiLink type="Grid" member="rowEditEnter" label="rowEditEnter" /> | `rowEditing`이(가) 활성화된 경우, 행이 편집 모드에 들어갈 때 발생합니다 | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEditEnter" label="cellEditEnter" /> | 셀이 **편집 모드에 들어갈** 때 발생합니다(`rowEditEnter` 이후) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEdit" label="cellEdit" /> | 값이 변경되었다면, 셀 값이 **커밋되기** **직전**에 발생합니다(예: `Enter`을(를) 누를 때) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="celleditdone" label="cellEditDone" /> | 값이 변경되었다면, 셀이 편집되고 셀 값이 **커밋된** **후**에 발생합니다 | <ApiLink type="IGridEditDoneEventArgs" kind="interface" /> | `false` |
+| <ApiLink type="Grid" member="cellEditExit" label="cellEditExit" /> | 셀이 **편집 모드를 벗어날** 때 발생합니다 | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEdit" label="rowEdit" /> | `rowEditing`이(가) 활성화된 경우, 편집 모드의 행 값이 **커밋되기** 직전에 발생합니다(예: 행 편집 오버레이의 `Done` 버튼을 클릭할 때) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="rowEditDone" label="rowEditDone" /> | `rowEditing`이(가) 활성화된 경우, 행이 편집되고 새 행 값이 **커밋된** **후**에 발생합니다. | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEditExit" label="rowEditExit" /> | `rowEditing`이(가) 활성화된 경우, 행이 **편집 모드를 벗어날** 때 발생합니다 | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+
+### 이벤트 취소
+
+- `RowEditEnter` - 행도 셀도 편집 모드로 들어가지 않습니다.
+- `CellEditEnter` - 셀 편집 진입을 막습니다. <ApiLink type="Grid" member="rowEditable" label="rowEditable" />이(가) 활성화되어 있으면 행 편집은 트리거되지만, 셀 편집은 여전히 금지된 상태로 남습니다.
+- `CellEdit` - 셀/행 편집은 허용되며, **완료** 버튼이나 **Enter**를 누르더라도 값이나 행 트랜잭션은 커밋되지 않습니다. **취소** 버튼을 클릭할 때까지 셀 편집과 행 편집은 닫히지 않습니다.
+- `RowEdit` - 셀은 커밋할 수 있지만 행 전체는 커밋할 수 없습니다. 행은 편집 모드에 남고, 행 트랜잭션은 열린 것으로 간주됩니다. **완료**를 누르면 행은 커밋되거나 닫히지 않습니다. **취소** 버튼은 편집 과정과 트랜잭션을 변경 사항을 커밋하지 않고 닫습니다.
+
+다음 샘플은 편집 실행 순서가 실제로 작동하는 모습을 보여 줍니다:
+
+<Sample src="/grid/grid-editing-lifecycle" height={650} alt="" />
+
+### 기능 통합
+
+셀/행이 편집 모드에 있는 동안 사용자는 여러 방식으로 그리드와 상호 작용할 수 있습니다. 다음 표는 특정 상호 작용이 현재 편집에 어떻게 영향을 주는지 정의합니다:
+
+| Grid     | 필터링  | 정렬 | 페이징 | 이동 | 고정 | 숨기기 | GroupBy | 크기 조정 | Escape | Enter | F2 | 탭 | 셀 클릭 | 새 행 추가/삭제/편집 |
+| ----------------- |:---------:|:-------:|:------:|:------:|:-------:|:------:|:-------:|:--------:|:------:|:-----:|:--:|:---:|:----------:|:-----------------------:|
+| 편집 모드 유지    |           |      |   |   |   |   |   | ✔ |   |   |   |   |   |   |
+| 편집 모드 종료    |✔         | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |   | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 커밋            |   |   |  |  |  |   |   |   |  | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 폐기           | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |✔ |   | ✔  |  |   |   |   |  |
+
+표에서 보듯이, 열 크기 조정을 제외한 모든 상호 작용은 편집을 끝내고 새 값을 버립니다. 새 값을 커밋해야 한다면, 개발자가 해당 기능의 "-ing" 이벤트에서 이를 수행할 수 있습니다.
+
+셀/행이 편집 모드에 있는 동안 사용자가 열을 정렬하려고 하는 경우, 새 값을 커밋하는 예는 다음과 같습니다:
+
+```html
+<igx-grid #grid [data]="localData" [primaryKey]="'ProductID'" (sorting)="onSorting($event)">
+...
+</igx-grid>
+```
+
+```typescript
+public onSorting(event: ISortingEventArgs) {
+    this.grid.endEdit(true);
+    // (event.owner as IgxGridComponent).endEdit(true);
+}
+```
+
+## API 참조
+- <ApiLink type="GridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+
+_<ApiLink type="GridRow" />
+
+- <ApiLink type="InputDirective" />
+- <ApiLink type="DatePicker" />
+- <ApiLink kind="sass" module="themes" type="function-date-picker-theme" label="IgxDatePickerComponent 스타일" />
+- <ApiLink type="Checkbox" />
+- <ApiLink kind="sass" module="themes" type="function-checkbox-theme" label="IgxCheckboxComponent 스타일" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 스타일" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [igxGrid로 CRUD 작업 구현하기](../general/how-to/how-to-perform-crud.mdx)
+- [열 데이터 타입](/grid/column-types#기본-템플릿)
+- [가상화와 성능](/grid/virtualization)
+- [페이징](/grid/paging)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+- [검색](/grid/search)
+

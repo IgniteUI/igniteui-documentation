@@ -1,0 +1,607 @@
+---
+title: "Angular Tooltip 컴포넌트 | Ignite UI for Angular | MIT 라이선스"
+description: "Ignite UI for Angular Tooltip 및 Tooltip Target 디렉티브를 사용하면 툴팁을 만들어 요소에 연결할 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular Tooltip 디렉티브, Angular Tooltip 컨트롤, Angular Tooltip, tooltip, tooltip target"
+license: MIT
+_language: ko
+llms:
+  description: "igxTooltip 및 igxTooltipTarget 디렉티브를 사용하면 완전히 사용자 지정할 수 있는 툴팁을 만들어 페이지의 어떤 요소에든 연결할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Tooltip 디렉티브 개요
+
+<ApiLink type="TooltipDirective" label="igxTooltip" /> 및 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브를 사용하면 완전히 사용자 지정할 수 있는 툴팁을 만들어 페이지의 어떤 요소에든 연결할 수 있습니다.
+대부분의 툴팁은 사용할 수 있는 위치가 제한되어 있지만, <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브를 사용하면 대상(앵커)과의 관계를 유지하면서 페이지에서 원하는 어떤 위치든 지정할 수 있고, 스크롤 전략이나 사용자 지정 애니메이션 같은 다양한 오버레이 설정도 제공할 수 있습니다!
+
+## Angular Tooltip 예제
+
+<Sample src="/interactions/tooltip-simple" height={150} alt="Angular Tooltip 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Tooltip 시작하기
+
+Ignite UI for Angular Tooltip 디렉티브를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxTooltipModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+// import { IgxTooltipModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule],
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxTooltipDirective`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_TOOLTIP_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/directives/src/directives/tooltip/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_TOOLTIP_DIRECTIVES } from 'igniteui-angular/directives';
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+// import { IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <igx-avatar
+      class="avatar"
+      #target="tooltipTarget"
+      [igxTooltipTarget]="tooltipRef"
+      src="assets/images/avatar/10.jpg"
+      size="medium"
+      shape="circle"
+    >
+    </igx-avatar>
+
+    <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+  `,
+  styleUrls: ['home.component.scss'],
+  standalone: true,
+  imports: [IGX_TOOLTIP_DIRECTIVES, IgxAvatarComponent],
+  /* or imports: [IgxTooltipDirective, IgxTooltipTargetDirective, IgxAvatarComponent] */
+})
+export class HomeComponent {}
+```
+
+
+이제 Ignite UI for Angular Tooltip 모듈 또는 디렉티브를 가져왔으므로 `igxTooltip` 디렉티브를 사용할 수 있습니다.
+
+## Angular Tooltip 사용하기
+
+위와 같은 간단한 텍스트 툴팁을 만들고 싶다고 해 보겠습니다. 이 경우 요소로 우리의 훌륭한 [`IgxAvatar`](layouts/avatar.mdx)을(를) 사용하므로, 먼저 `IgxAvatarModule`을(를) 가져오는 것부터 시작합니다.
+
+```typescript
+// app.module.ts
+
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxTooltipModule, IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule, IgxAvatarModule],
+})
+export class AppModule {}
+```
+
+### 툴팁 대상
+
+avatar가 대상이 되며, 여기에 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브를 설정하기만 하면 됩니다. 이렇게 하면 이 요소가 툴팁을 가진 요소로 표시됩니다.
+
+- <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브는 <ApiLink type="ToggleActionDirective" label="igxToggleAction" /> 디렉티브를 확장합니다.
+- <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브는 **tooltipTarget**이라는 이름으로 내보내집니다.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<igx-avatar
+  class="avatar"
+  #target="tooltipTarget"
+  igxTooltipTarget
+  src="assets/images/avatar/10.jpg"
+  size="medium"
+  shape="circle">
+</igx-avatar>
+```
+
+### Tooltip
+
+이제 툴팁 요소 자체를 만들어 봅시다! 간단한 텍스트 툴팁을 원하므로, 텍스트가 들어 있는 일반 div 요소를 정의하고 그 위에 <ApiLink type="TooltipDirective" label="igxTooltip" /> 디렉티브를 설정합니다. 이렇게 하면 툴팁으로 표시됩니다.
+
+- <ApiLink type="TooltipDirective" label="igxTooltip" /> 디렉티브는 <ApiLink type="ToggleDirective" label="igxToggle" /> 디렉티브를 확장합니다.
+- <ApiLink type="TooltipDirective" label="igxTooltip" /> 디렉티브는 **tooltip**이라는 이름으로 내보내집니다.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+### 대상에 툴팁 연결하기
+
+이제 대상과 툴팁을 모두 정의했으니, 남은 일은 툴팁의 참조를 대상의 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 선택기에 할당하는 것뿐입니다.
+
+```html
+{/*simpleTooltip.component.html*/}
+
+<igx-avatar
+  class="avatar"
+  #target="tooltipTarget"
+  [igxTooltipTarget]="tooltipRef"
+  src="assets/images/avatar/10.jpg"
+  size="medium"
+  shape="circle">
+</igx-avatar>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+모든 것이 잘 되었다면 [툴팁 데모](#angular-tooltip-예제) 섹션에 나온 샘플을 볼 수 있을 것입니다.
+
+### 풍부한 툴팁
+
+<ApiLink type="TooltipDirective" label="igxTooltip" /> 콘텐츠는 단순한 텍스트 이상이 될 수 있습니다. 툴팁 자체가 마크업의 일반 요소이므로, 필요한 요소를 추가하고 그에 맞게 스타일을 지정하여 콘텐츠를 강화할 수 있습니다.
+
+<ApiLink type="TooltipDirective" label="igxTooltip" />의 사용을 확장하여 지도의 특정 위치에 대한 더 많은 세부 정보를 제공해 보겠습니다! 지도를 나타내기 위해 간단한 div를 사용하고, 툴팁의 로고에 [`IgxAvatar`](layouts/avatar.mdx)를, 지도의 위치 아이콘에 [`IgxIcon`](/layouts/icon)를 사용하겠습니다. 이를 위해 각각의 모듈을 가져오겠습니다.
+
+```typescript
+// app.module.ts
+
+import { IgxTooltipModule } from 'igniteui-angular/directives';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+import { IgxIconModule } from 'igniteui-angular/icon';
+// import { IgxTooltipModule, IgxAvatarModule, IgxIconModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [IgxTooltipModule, IgxAvatarModule, IgxIconModule],
+})
+export class AppModule {}
+```
+
+애플리케이션에 다음 스타일도 사용하겠습니다:
+
+```css
+/* richTooltip.component.css */
+
+.location:hover {
+  cursor: pointer;
+}
+
+.map {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 252px;
+  background-image: url(assets/images/card/media/infragisticsMap.png);
+  border: 1px solid #d4d4d4;
+}
+
+.locationTooltip {
+  width: 310px;
+  background-color: var(--ig-grays-700);
+  padding: 3px;
+  font-size: 13px;
+}
+
+.locationTooltipContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 10px;
+  min-width: 25px;
+  width: 45px;
+  height: 45px;
+}
+```
+
+먼저 지도를 만들어 봅시다. 배경으로 지도 이미지를 가진 간단한 div가 필요합니다. 또한 위치를 나타내는 아이콘을 추가하겠습니다! 이 위치에 대한 자세한 정보를 제공하고 싶으므로, 아이콘은 당연히 툴팁 대상이 됩니다.
+
+```html
+{/*richTooltip.component.html*/}
+
+<div class="map">
+
+  <igx-icon
+    class="location"
+    [style.color]="'blue'"
+    fontSet="material"
+    [igxTooltipTarget]="locationTooltip"
+    >location_on</igx-icon>
+  ...
+</div>
+```
+
+<DocsAside type="info">
+이 컴포넌트는 Material Icons를 사용합니다. 다음 링크를 `index.html`에 추가하십시오: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+이제 툴팁입니다! 콘텐츠로는 텍스트 정보 요소와 avatar가 채워질 컨테이너를 만들겠습니다. 그다음 툴팁을 대상에 연결하고 몇 가지 멋진 CSS 스타일을 적용하겠습니다!
+
+```html
+{/*richTooltip.component.html*/}
+
+<div class="wrapper">
+
+  <div class="map">
+
+    <igx-icon
+      class="location"
+      [style.color]="'blue'"
+      fontSet="material"
+      [igxTooltipTarget]="locationTooltip"
+      >location_on</igx-icon>
+
+    <div class="locationTooltip" #locationTooltip="tooltip" igxTooltip>
+      <div class="locationTooltipContent">
+
+        <igx-avatar
+          class="logo"
+          src="assets/images/card/avatars/igLogo.png"
+          size="medium"
+          shape="square">
+        </igx-avatar>
+        <div>
+          <div>Infragistics Inc. HQ
+</div>
+          <div>2 Commerce Dr, Cranbury, NJ 08512, USA
+</div>
+        
+</div>
+      
+</div>
+    
+</div>
+  
+</div>
+</div>
+```
+
+모든 것이 잘 되었다면 위치와 툴팁은 다음과 같이 보일 것입니다:
+
+<Sample src="/interactions/tooltip-rich" height={300} alt="" />
+
+<hr/>
+
+### 고급 예제
+
+툴팁은 다른 컴포넌트와 매끄럽게 통합되므로, 내부에 컴포넌트를 포함하는 고급 툴팁을 만들 수 있습니다.
+다음 예제에서는 <ApiLink type="List" />, <ApiLink type="Avatar" />, <ApiLink type="Icon" />, <ApiLink type="Badge" />, <ApiLink type="ButtonDirective" />, <ApiLink type="Card" /> 및 [`IgxCategoryChart`]({environment:dvApiBaseUrl}/products/ignite-ui-angular/api/docs/typescript/latest/classes/igniteui_angular_charts.igxcategorychartcomponent.html) 컴포넌트를 사용하여 설명이 풍부한 툴팁을 만드는 방법을 볼 수 있습니다.
+
+<Sample src="/interactions/tooltip-advanced" height={640} alt="" />
+
+<hr/>
+
+### 표시/숨김 지연 설정
+
+툴팁을 표시하고 숨기기 전에 경과해야 하는 시간을 제어하고 싶다면 어떻게 해야 할까요? 이를 위해 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브의 <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> 및 <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> 속성을 사용할 수 있습니다. 두 속성 모두 **숫자** 형식이며 시간을 밀리초 단위로 받습니다.
+
+<DocsAside type="info">
+<ApiLink type="TooltipTargetDirective" />의 내장 UI 상호 작용 동작은 <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> 및 <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> 속성 값을 고려하여 작동합니다. API 또는 <ApiLink type="TooltipDirective" />의 API를 통해 툴팁을 표시하고 숨기는 것은 <ApiLink type="TooltipTargetDirective" member="showDelay" label="showDelay" /> 및 <ApiLink type="TooltipTargetDirective" member="hideDelay" label="hideDelay" /> 속성 값을 고려하지 않습니다. 필요하다면 그러한 로직은 애플리케이션의 세부 사항에 맞게 수동으로 구현해야 합니다.
+</DocsAside>
+
+### 트리거
+
+기본적으로 <ApiLink type="TooltipDirective" label="igxTooltip" />은(는) <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 위에 마우스를 올릴 때만 트리거됩니다. 하지만 <ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> 및 <ApiLink type="TooltipTargetDirective" member="hidetriggers" label="hideTriggers" /> 속성을 사용하여 이 동작을 바꿀 수 있으며, 이를 통해 <ApiLink type="TooltipDirective" label="igxTooltip" />이(가) 나타나고 사라지는 시점을 제어할 수 있습니다. 이 속성들은 `click`, `focus` 또는 `keypress`과 같은 이벤트 이름을 값으로 받으며, 이를 통해 다양한 상황에서 <ApiLink type="TooltipDirective" label="igxTooltip" />을(를) 트리거할 수 있습니다.
+
+<Sample src="/interactions/tooltip-triggers" height={540} alt="" />
+
+<DocsAside type="info">
+<ApiLink type="TooltipTargetDirective" member="showTriggers" label="showTriggers" /> 및 <ApiLink type="TooltipTargetDirective" member="hidetriggers" label="hideTriggers" />를 설정하는 것은 <ApiLink type="TooltipDirective" label="igxTooltip" /> 자체가 아니라 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />와 상호 작용할 때만 효과가 있습니다. <ApiLink type="TooltipDirective" label="igxTooltip" />의 기본 이벤트 트리거는 `pointerenter` 및 `pointerleave`입니다.
+</DocsAside>
+
+### 오버레이 구성
+
+<ApiLink type="TooltipDirective" label="igxTooltip" />과 <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브는 모두 각 툴팁 요소를 열고 닫기 위해 [`IgxOverlayService`](/overlay)을(를) 사용합니다.
+
+<ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브는 <ApiLink type="TooltipTargetDirective" member="positionsettings" label="positionSettings" /> 속성을 노출하며, 이를 사용하여 툴팁의 애니메이션, UI에서의 위치 등 많은 것을 사용자 지정할 수 있습니다! 이 속성을 설정하지 않으면 기본 위치 설정이 사용됩니다.
+
+툴팁을 더 사용자 지정하려면 (<ApiLink type="ToggleActionDirective" label="igxToggleAction" />에서 상속된) <ApiLink type="TooltipTargetDirective" member="overlaysettings" label="overlaySettings" /> 속성을 사용하십시오.
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [positionSettings]="positionSettings" [overlaySettings]="overlaySettings">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+```ts
+public positionSettings: PositionSettings = {
+  horizontalDirection: HorizontalAlignment.Left,
+  horizontalStartPoint: HorizontalAlignment.Left,
+  verticalDirection: VerticalAlignment.Top,
+  verticalStartPoint: VerticalAlignment.Bottom,
+  openAnimation: useAnimation(slideInTop, { params: { duration: '2000ms' } }),
+  closeAnimation: useAnimation(slideOutBottom, { params: { duration: '2000ms'} }),
+  offset: 10
+}
+
+public overlaySettings: OverlaySettings = {
+  closeOnEscape: false,
+};
+```
+
+<DocsAside type="info">
+<ApiLink type="TooltipTargetDirective" member="positionsettings" label="positionSettings" /> 또는 <ApiLink type="TooltipTargetDirective" member="overlaysettings" label="overlaySettings" />를 통해 설정된 모든 속성은 기본 설정의 같은 속성을 재정의하며, 툴팁에 직접적인 영향을 줍니다.
+</DocsAside>
+
+### 추가 속성
+
+이미 다룬 속성 외에도, <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" />은(는) 툴팁의 동작과 모양을 더 세부적으로 구성할 수 있는 다양한 추가 속성을 제공합니다.
+
+<ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" /> 속성을 사용하여 툴팁을 "고정"할 수 있습니다. 이는 닫기 버튼을 추가하고, 사용자가 닫기 버튼을 클릭하거나 `Esc` 키를 누를 때까지 툴팁을 계속 표시합니다. 이 동작은 기본 마우스 오버 동작을 재정의하여, 사용자가 대상 요소에서 마우스를 떼도 툴팁이 사라지지 않게 합니다.
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [sticky]="true">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+기본 닫기 버튼을 사용자 지정하려면 <ApiLink type="TooltipTargetDirective" member="closetemplate" label="closeButtonTemplate" /> 속성을 사용하십시오.
+
+```html
+
+<igx-icon [igxTooltipTarget]="tooltipRef" [sticky]="true" [closeButtonTemplate]="customTemplate">
+  info
+</igx-icon>
+
+<ng-template #customTemplate>
+  <igx-icon>cancel</igx-icon>
+</ng-template>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+<DocsAside type="info">
+`closeButtonTemplate`을(를) 통해 추가한 사용자 지정 콘텐츠는 툴팁이 고정 모드일 때만 렌더링됩니다.
+</DocsAside>
+
+또한 <ApiLink type="TooltipTargetDirective" member="hasarrow" label="hasArrow" /> 속성을 사용하여 툴팁에 화살표 표시기를 추가할 수 있습니다.
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [hasArrow]="true">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+화살표 요소는 제공된 위치 설정에 따라 배치됩니다. 방향과 시작점이 [미리 정의된 위치 값](#미리-정의된-위치-값) 중 어느 것과도 일치하지 않으면, 화살표는 툴팁의 위쪽 가운데 측면에 위치합니다(기본 툴팁 위치 `bottom`).
+
+#### 미리 정의된 위치 값
+
+| 위치     | 가로 방향       | 가로 시작점     | 세로 방향       | 세로 시작점     |
+| :----------- | :------------------------- | :------------------------- | :----------------------- | :----------------------- |
+| top          | HorizontalAlignment.Center | HorizontalAlignment.Center | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| top-start    | HorizontalAlignment.Right  | HorizontalAlignment.Left   | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| top-end      | HorizontalAlignment.Left   | HorizontalAlignment.Right  | VerticalAlignment.Top    | VerticalAlignment.Top    |
+| bottom       | HorizontalAlignment.Center | HorizontalAlignment.Center | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| bottom-start | HorizontalAlignment.Right  | HorizontalAlignment.Left   | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| bottom-end   | HorizontalAlignment.Left   | HorizontalAlignment.Right  | VerticalAlignment.Bottom | VerticalAlignment.Bottom |
+| right        | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Middle | VerticalAlignment.Middle |
+| right-start  | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Bottom | VerticalAlignment.Top    |
+| right-end    | HorizontalAlignment.Right  | HorizontalAlignment.Right  | VerticalAlignment.Top    | VerticalAlignment.Bottom |
+| left         | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Middle | VerticalAlignment.Middle |
+| left-start   | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Bottom | VerticalAlignment.Top    |
+| left-end     | HorizontalAlignment.Left   | HorizontalAlignment.Left   | VerticalAlignment.Top    | VerticalAlignment.Bottom |
+
+
+아래 예제에서는 모든 위치 옵션과 화살표 위치 지정 동작이 실제로 작동하는 모습을 볼 수 있습니다:
+
+<Sample src="/interactions/tooltip-placement" height={220} alt="" />
+
+<hr/>
+
+#### 화살표 위치 사용자 지정하기
+
+화살표의 위치를 사용자 지정하려면 `positionArrow(arrow: HTMLElement, arrowFit: ArrowFit)` 메서드를 재정의하십시오.
+
+예를 들면:
+
+```ts
+export class CustomStrategy extends TooltipPositionStrategy {
+  constructor(settings?: PositionSettings) {
+    super(settings);
+  }
+
+  public override positionArrow(arrow: HTMLElement, arrowFit: ArrowFit): void {
+    Object.assign(arrow.style, {
+      left: '-0.25rem',
+      transform: 'rotate(-45deg)',
+      [arrowFit.direction]: '-0.25rem',
+    });
+  }
+}
+
+public overlaySettings: OverlaySettings = {
+  positionStrategy: new CustomStrategy({
+    horizontalDirection: HorizontalAlignment.Right,
+    horizontalStartPoint: HorizontalAlignment.Right,
+    verticalDirection: VerticalAlignment.Bottom,
+    verticalStartPoint: VerticalAlignment.Bottom,
+  })
+};
+```
+
+```html
+<igx-icon [igxTooltipTarget]="tooltipRef" [hasArrow]="true" [overlaySettings]="overlaySettings">
+  info
+</igx-icon>
+
+<div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+```
+
+## 스타일링
+
+툴팁의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 간단한 방법으로, <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="tooltip-theme" code={true} />을(를) 확장하고 `$text-color`, `$background` 및 `$border-radius` 매개변수를 제공하는 새 테마를 만듭니다.
+
+```scss
+$dark-tooltip: tooltip-theme(
+  $text-color: #ecaa53,
+  $background: #011627,
+  $border-radius: 6px,
+);
+```
+
+<DocsAside type="info">
+툴팁 콘텐츠의 일부로 사용되는 추가 컴포넌트(예: [`IgxButton`](./inputs/button.mdx), [`IgxSwitch`](./inputs/switch.mdx) 등)의 스타일을 지정하려면, 해당 컴포넌트에 특화된 추가 테마를 만들어 툴팁의 범위 안에만 두어야 합니다(그래야 애플리케이션의 나머지 부분에 영향을 주지 않습니다).
+</DocsAside>
+
+툴팁은 [`IgxOverlayService`](/overlay)을(를) 사용하므로, 사용자 지정 테마가 스타일을 지정하려는 툴팁까지 도달하도록 하기 위해, 툴팁이 보일 때 DOM에 배치될 특정 아웃레트를 제공하겠습니다.
+
+```html
+<igx-avatar
+  #target="tooltipTarget"
+  [igxTooltipTarget]="tooltipRef"
+  [igxToggleOutlet]="outlet"
+>
+</igx-avatar>
+
+<div #outlet="overlay-outlet" igxOverlayOutlet>
+  <div #tooltipRef="tooltip" igxTooltip>Her name is Madelyn James
+</div>
+</div>
+```
+
+마지막 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+  @include tokens($dark-tooltip);
+}
+```
+
+이제 스타일이 지정된 툴팁은 다음과 같아야 합니다:
+
+### 데모
+
+<Sample src="/interactions/tooltip-style" height={200} alt="" />
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 툴팁의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에서 Tailwind를 가져오는 것과 함께, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-tooltip`, `dark-tooltip`.
+
+적용되면 이 클래스들은 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을(를) 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 지정하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="IgxTooltip 테마" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<div
+  class="!light-tooltip ![--background:#90B69F]"
+  #tooltipRef="tooltip"
+  igxTooltip>
+  Her name is Madelyn James
+</div>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 툴팁은 다음과 같이 보여야 합니다:
+
+<Sample src="/interactions/tooltip-tailwind-style/" height={100} iframeOnly />
+
+<hr/>
+
+## 접근성
+
+<ApiLink type="TooltipDirective" label="igxTooltip" />은(는) 접근성을 고려하여 만들어졌으며, 다음 속성과 ARIA 속성을 포함합니다:
+
+- <ApiLink type="TooltipDirective" member="id" label="id" /> 속성 - 개발자가 설정하지 않으면 자동으로 생성됩니다.
+- <ApiLink type="TooltipDirective" member="role" label="role" /> - 툴팁이 기본 동작일 때는 `role="tooltip"`이(가) 적용됩니다. <ApiLink type="TooltipTargetDirective" member="sticky" label="sticky" /> 속성이 활성화되면 역할이 `status`(으)로 바뀝니다.
+- `aria-hidden` - 툴팁이 보이는지 여부에 따라 자동으로 업데이트됩니다.
+
+대상의 **aria-describedby** 속성을 해당 툴팁의 <ApiLink type="TooltipDirective" member="id" label="id" />(으)로 설정하면, 툴팁 요소에 대한 참조가 제공됩니다. 이렇게 하면 최종 사용자가 툴팁을 트리거할 때 스크린 리더가 툴팁의 콘텐츠를 읽어 줄 수 있는 정보를 얻게 됩니다.
+
+다음 상황에서는 특히 주의해야 합니다:
+
+- 툴팁의 콘텐츠가 너무 복잡해서 자동으로 해석될 수 없는 경우.
+- 내장 동작 대신 수동으로 구현한 동작(예: 수동 표시/숨김)으로 툴팁을 사용하는 경우.
+- 대상 요소에 포커스를 줄 수 없는 경우.
+
+## 참고 사항과 제한 사항
+
+| 제한 사항                          | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 화살표가 있는 사용자 지정 위치 전략 | <ApiLink type="TooltipTargetDirective" label="igxTooltipTarget" /> 디렉티브는 <ApiLink type="TooltipPositionStrategy" />를 사용하여 툴팁과 화살표 요소를 배치합니다. 사용자 지정 <ApiLink kind="interface" type="OverlaySettings" member="positionstrategy" />을(를) 사용하고 <ApiLink type="TooltipTargetDirective" member="hasarrow" label="hasArrow" />을(를) `true`(으)로 설정한 경우, 사용자 지정 전략은 <ApiLink type="TooltipPositionStrategy" />을(를) 확장해야 합니다. 그렇지 않으면 화살표가 표시되지 않습니다.|
+
+
+## API 참조
+이 문서에서는 페이지의 요소에 대한 멋진 툴팁을 만들고, 구성하고, 스타일을 지정하는 방법을 배웠습니다! 또한 애플리케이션의 디자인을 개선하기 위해 아이콘과 avatar 같은 추가 Ignite UI for Angular 컴포넌트도 사용했습니다! 관련 API는 아래에 나열되어 있습니다:
+- <ApiLink type="TooltipDirective" />
+- <ApiLink type="TooltipTargetDirective" />
+사용된 추가 컴포넌트 및/또는 디렉티브:
+- <ApiLink type="Avatar" />
+- <ApiLink type="Icon" />
+- <ApiLink type="ToggleDirective" />
+- <ApiLink type="ToggleActionDirective" />
+스타일:
+- <ApiLink kind="sass" module="themes" type="function-tooltip-theme" label="IgxTooltipDirective 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="IgxAvatarComponent 스타일" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIconComponent 스타일" />
+<igc-divider></igc-divider>
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

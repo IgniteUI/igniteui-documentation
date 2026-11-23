@@ -1,0 +1,819 @@
+---
+title: "Edição de linhas do {Platform} {ComponentTitle} - {ProductName}"
+description: "Quer habilitar a edição de linhas no {Platform} {ComponentTitle}? Precisa de uma API poderosa para operações de CRUD? Experimente nosso componente de edição de linhas {ProductName} {ComponentTitle}!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "PivotGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridRowEditing}"
+_language: pt-BR
+llms:
+  description: "O recurso de Edição de linhas do {ProductName} em {Platform} {ComponentTitle} permite editar dados diretamente dentro da {ComponentName}."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Edição de linhas do {Platform} {ComponentTitle}
+
+O recurso de Edição de linhas do {ProductName} em {Platform} {ComponentTitle} permite editar dados diretamente dentro da `{ComponentName}`. Além dessa forma prática de manipular dados, há uma API poderosa para operações de CRUD completas. Você pode editar uma linha da grade clicando nela e pressionando a tecla **Enter**. Outra forma rápida é dar um duplo clique com o mouse na linha que precisa ser modificada.
+
+## Exemplo de edição de linhas do {Platform} {ComponentTitle}
+
+O exemplo a seguir demonstra como habilitar a edição de linhas no `{ComponentName}`. Alterar o valor de uma célula e depois clicar ou navegar para outra célula da mesma linha não atualiza o valor da linha até que seja confirmado pelo botão **Done**, ou descartado pelo botão **Cancel**.
+
+<Sample src="/{ComponentSample}/row-editing-options" height={550} alt="Exemplo de edição de linhas do {Platform} {ComponentTitle}" />
+
+
+
+<DocsAside type="info">
+Quando uma linha está em modo de edição, clicar em uma célula de outra linha se comporta como se o botão "Done" fosse pressionado, enviando todas as alterações feitas na linha anterior. Se a nova célula focada for editável, a nova linha também entra em modo de edição. No entanto, se a célula não for editável, apenas a linha anterior sai do modo de edição.
+</DocsAside>
+
+## Uso da edição de linhas
+
+<PlatformBlock for="Angular">
+Para começar, importe o <ApiLink type="{ComponentModule}" /> no arquivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+import { {ComponentModule} } from 'igniteui-{Platform}';
+
+@NgModule({
+    imports: [{ComponentModule}],
+})
+export class AppModule {}
+```
+
+</PlatformBlock>
+
+Defina um `{ComponentName}` com fonte de dados vinculada e <ApiLink type="{ComponentName}" member="rowEditable" /> definido como true:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" editable="false"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="ProductName" header="Product Name" [dataType]="'string'"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" [dataType]="'number'">
+        <ng-template igxCellEditor let-cell="cell">
+            <input name="units" [(ngModel)]="cell.value" style="color: black" />
+        </ng-template>
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'"></igx-column>
+    <igx-column field="Discontinued" [dataType]="'boolean'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ProductID" width="100%" height="500px" row-editable="true">
+    <igc-column field="ProductID" header="Product ID" editable="false"></igc-column>
+    <igc-column field="ReorderLevel" header="Reorder Level" data-type="number"></igc-column>
+    <igc-column field="ProductName" header="Product Name" data-type="string"></igc-column>
+    <igc-column id="unitsInStock" field="UnitsInStock" header="Units In Stock" data-type="number"></igc-column>
+    <igc-column field="OrderDate" header="Order Date" data-type="date"></igc-column>
+    <igc-column field="Discontinued" data-type="boolean"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('grid') as {ComponentName}Component;
+    var unitsInStock = document.getElementById('unitsInStock') as IgcColumnComponent;
+    grid.data = this.data;
+    unitsInStock.bodyTemplate = this.unitsInStockCellTemplate;
+}
+
+public unitsInStockCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<input name="units" value="${ctx.cell.value}" style="color: black" />`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const unitsInStockCellTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+        <>
+            <input name="units" value={ctx.cell.value} style={{color: "black"}} />;
+        </>
+    );
+}
+
+<{ComponentSelector} primaryKey="ProductID" width="100%" height="500px" rowEditable={true}>
+    <IgrColumn field="ProductID" header="Product ID" editable={false}></IgrColumn>
+    <IgrColumn field="ReorderLevel" header="Reorder Level" dataType="number"></IgrColumn>
+    <IgrColumn field="ProductName" header="Product Name" dataType="string"></IgrColumn>
+    <IgrColumn field="UnitsInStock" header="Units In Stock" dataType="number" bodyTemplate={unitsInStockCellTemplate}></IgrColumn>
+    <IgrColumn field="OrderDate" header="Order Date" dataType="date"></IgrColumn>
+    <IgrColumn field="Discontinued" header="Discontinued" dataType="boolean"></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector} Width="100%"  
+             Height="100%"
+             PrimaryKey="Key"
+             AutoGenerate="false"
+             Data="northwindEmployees"
+             RowEditable="true">
+        <IgbColumn Field="ID" Editable="false"></IgbColumn>
+        <IgbColumn Field="ContactName"></IgbColumn>
+        <IgbColumn Field="ContactTitle"></IgbColumn>
+        <IgbColumn Field="City"></IgbColumn>
+        <IgbColumn Field="CompanyName"></IgbColumn>
+        <IgbColumn Field="Fax"></IgbColumn>
+        <IgbColumn Field="Address"></IgbColumn>
+        <IgbColumn Field="PostalCode"></IgbColumn>
+        <IgbColumn Field="Country"></IgbColumn>
+        <IgbColumn Field="Phone"></IgbColumn>
+    </{ComponentSelector}>
+
+    @code {
+        public string Key = "ID";
+        private Northwind.EmployeesType[] northwindEmployees = Array.Empty<Northwind.EmployeesType>();
+        protected override async Task OnInitializedAsync()
+        {
+            northwindEmployees = await this.northwindService.GetEmployees() ?? northwindEmployees;
+
+        }
+    }
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="Name" header="Name" [dataType]="'string'"></igx-column>
+    <igx-column field="Age" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="Title" header="Title" [dataType]="'string'"></igx-column>
+    <igx-column field="HireDate" header="Hire Date" [dataType]="'date'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" primary-key="ID" width="100%" height="500px" row-editable="true">
+    <igc-column field="Name" header="Name" data-type="string"></igc-column>
+    <igc-column field="Age" header="Age" data-type="number"></igc-column>
+    <igc-column field="Title" header="Title" data-type="string"></igc-column>
+    <igc-column field="HireDate" header="Hire Date" data-type="date"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} primaryKey="ID" width="100%" height="500px" rowEditable={true}>
+    <IgrColumn field="Name" header="Name" dataType="string"></IgrColumn>
+    <IgrColumn field="Age" header="Age" dataType="number"></IgrColumn>
+    <IgrColumn field="Title" header="Title" dataType="string"></IgrColumn>
+    <IgrColumn field="HireDate" header="Hire Date" dataType="date"></IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+ <{ComponentSelector} Width="100%" Height="100%" PrimaryKey="ID" AutoGenerate="false" Data="data" RowEditable="true">
+        <IgbColumn Field="Name" Header="Name" DataType="GridColumnDataType.String"></IgbColumn>
+        <IgbColumn Field="Age" Header="Age" DataType="GridColumnDataType.Number"></IgbColumn>
+        <IgbColumn Field="Title" Header="Title" DataType="GridColumnDataType.String"></IgbColumn>
+        <IgbColumn Field="HireDate" Header="Hire Date" DataType="GridColumnDataType.Date"></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px" [rowEditable]="true">
+    <igx-column field="ProductID" header="Product ID" editable="false"></igx-column>
+    <igx-column field="ReorderLevel" header="Reorder Level" [dataType]="'number'"></igx-column>
+    <igx-column field="ProductName" header="Product Name" [dataType]="'string'"></igx-column>
+    <igx-column field="UnitsInStock" header="Units In Stock" [dataType]="'number'">
+        <ng-template igxCellEditor let-cell="cell">
+            <input name="units" [(ngModel)]="cell.value" style="color: black" />
+        </ng-template>
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date" [dataType]="'date'"></igx-column>
+    <igx-column field="Discontinued" [dataType]="'boolean'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid auto-generate="false" name="hierarchicalGrid" id="hierarchicalGrid" primary-key="ID" row-editable="true">
+    <igc-column field="Artist" header="Artist" data-type="string"> </igc-column>
+    <igc-column field="Photo" header="Photo" data-type="image" editable="false"> </igc-column>
+    <igc-column field="Debut" header="Debut" data-type="number"> </igc-column>
+    <igc-column field="GrammyNominations" header="Grammy Nominations" data-type="number"> </igc-column>
+    <igc-column field="GrammyAwards" header="Grammy Awards" data-type="number"> </igc-column>
+
+    <igc-row-island child-data-key="Albums" auto-generate="false" primary-key="Album" row-editable="true">
+        <igc-column field="Album" header="Album" data-type="string"> </igc-column>
+        <igc-column field="LaunchDate" header="Launch Date" data-type="date"> </igc-column>
+        <igc-column field="BillboardReview" header="Billboard Review" data-type="string"> </igc-column>
+        <igc-column field="USBillboard200" header="US Billboard 200" data-type="string"> </igc-column>
+        <igc-row-island child-data-key="Songs" auto-generate="false" primary-key="Number" row-editable="true">
+            <igc-column field="Number" header="No." data-type="string"> </igc-column>
+            <igc-column field="Title" header="Title" data-type="string"> </igc-column>
+            <igc-column field="Released" header="Released" data-type="date"> </igc-column>
+            <igc-column field="Genre" header="Genre" data-type="string"> </igc-column>
+        </igc-row-island>
+    </igc-row-island>
+
+    <igc-row-island child-data-key="Tours" auto-generate="false" primary-key="Tour" row-editable="true">
+        <igc-column field="Tour" header="Tour" data-type="string"> </igc-column>
+        <igc-column field="StartedOn" header="Started on" data-type="string"> </igc-column>
+        <igc-column field="Location" header="Location" data-type="string"> </igc-column>
+        <igc-column field="Headliner" header="Headliner" data-type="string"> </igc-column>
+    </igc-row-island>
+</igc-hierarchical-grid>
+```
+
+```ts
+constructor() {
+    var grid  = document.getElementById('hierarchicalGrid') as {ComponentName}Component;
+    grid.data = this.data;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid autoGenerate={false} data={singersData} ref={hierarchicalGridRef} id="hierarchicalGrid" primaryKey="ID" rowEditable={true}>
+    <IgrColumn field="Artist" header="Artist" dataType="string" />
+    <IgrColumn field="Photo" header="Photo" dataType="image" editable={false} />
+    <IgrColumn field="Debut" header="Debut" dataType="number" />
+    <IgrColumn field="GrammyNominations" header="Grammy Nominations" dataType="number" />
+    <IgrColumn field="GrammyAwards" header="Grammy Awards" dataType="number" />
+
+    <IgrRowIsland childDataKey="Albums" autoGenerate={false} primaryKey="Album" rowEditable={true}>
+        <IgrColumn field="Album" header="Album" dataType="string" />
+        <IgrColumn field="LaunchDate" header="Launch Date" dataType="date" />
+        <IgrColumn field="BillboardReview" header="Billboard Review" dataType="string" />
+        <IgrColumn field="USBillboard200" header="US Billboard 200" dataType="string" />
+
+        <IgrRowIsland childDataKey="Songs" autoGenerate={false} primaryKey="Number" rowEditable={true}>
+            <IgrColumn field="Number" header="No." dataType="string" />
+            <IgrColumn field="Title" header="Title" dataType="string" />
+            <IgrColumn field="Released" header="Released" dataType="date" />
+            <IgrColumn field="Genre" header="Genre" dataType="string" />
+        </IgrRowIsland>
+    </IgrRowIsland>
+
+    <IgrRowIsland childDataKey="Tours" autoGenerate={false} primaryKey="Tour" rowEditable={true}>
+        <IgrColumn field="Tour" header="Tour" dataType="string" />
+        <IgrColumn field="StartedOn" header="Started on" dataType="string" />
+        <IgrColumn field="Location" header="Location" dataType="string" />
+        <IgrColumn field="Headliner" header="Headliner" dataType="string" />
+    </IgrRowIsland>
+</IgrHierarchicalGrid>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid
+AutoGenerate="false"
+Data="SingersData"
+Name="hierarchicalGrid"
+@ref="hierarchicalGrid"
+Id="hierarchicalGrid"
+PrimaryKey="ID"
+RowEditable="true">
+    <IgbColumn
+    Field="Artist"
+    Header="Artist"
+    DataType="GridColumnDataType.String">
+    </IgbColumn>
+    <IgbColumn
+    Field="Photo"
+    Header="Photo"
+    DataType="GridColumnDataType.Image"
+    Editable="false">
+    </IgbColumn>
+    <IgbColumn
+    Field="Debut"
+    Header="Debut"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+    <IgbColumn
+    Field="GrammyNominations"
+    Header="Grammy Nominations"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+    <IgbColumn
+    Field="GrammyAwards"
+    Header="Grammy Awards"
+    DataType="GridColumnDataType.Number">
+    </IgbColumn>
+
+    <IgbRowIsland
+    ChildDataKey="Albums"
+    AutoGenerate="false"
+    PrimaryKey="Album"
+    RowEditable="true">
+        <IgbColumn
+        Field="Album"
+        Header="Album"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="LaunchDate"
+        Header="Launch Date"
+        DataType="GridColumnDataType.Date">
+        </IgbColumn>
+        <IgbColumn
+        Field="BillboardReview"
+        Header="Billboard Review"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="USBillboard200"
+        Header="US Billboard 200"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+
+        <IgbRowIsland
+        ChildDataKey="Songs"
+        AutoGenerate="false"
+        PrimaryKey="Number"
+        RowEditable="true">
+            <IgbColumn
+            Field="Number"
+            Header="No."
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+            <IgbColumn
+            Field="Title"
+            Header="Title"
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+            <IgbColumn
+            Field="Released"
+            Header="Released"
+            DataType="GridColumnDataType.Date">
+            </IgbColumn>
+            <IgbColumn
+            Field="Genre"
+            Header="Genre"
+            DataType="GridColumnDataType.String">
+            </IgbColumn>
+        </IgbRowIsland>
+    </IgbRowIsland>
+
+    <IgbRowIsland
+    ChildDataKey="Tours"
+    AutoGenerate="false"
+    PrimaryKey="Tour"
+    RowEditable="true">
+        <IgbColumn
+        Field="Tour"
+        Header="Tour"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="StartedOn"
+        Header="Started on"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="Location"
+        Header="Location"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+        <IgbColumn
+        Field="Headliner"
+        Header="Headliner"
+        DataType="GridColumnDataType.String">
+        </IgbColumn>
+    </IgbRowIsland>
+</IgbHierarchicalGrid>
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<DocsAside type="info">
+Definir a chave primária é obrigatório para as operações de edição de linhas.
+</DocsAside>
+
+<DocsAside type="info">
+Não é necessário habilitar a edição de colunas individuais. Usando a propriedade <ApiLink type="{ComponentName}" member="rowEditable" /> no `{ComponentName}`, todas as linhas com a propriedade `Field` definida (exceto a linha primária) ficarão editáveis. Se quiser desabilitar a edição de uma coluna específica, basta definir o input <ApiLink type="{ComponentName}" member="editable" /> dessa coluna como `false`.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+```typescript
+import { Component, ViewChild } from '@{Platform}/core';
+import { data } from './data';
+import { {ComponentName} } from 'igniteui-{Platform}';
+
+@Component({
+    selector: 'app-grid-row-edit',
+    styleUrls: [app-grid-row-edit.component.css],
+    templateUrl: 'app-grid-row-edit.component.html'
+})
+export class {ComponentName}RowEditSampleComponent {
+    @ViewChild('gridRowEdit', { read: {ComponentName} }) public gridRowEdit: {ComponentName};
+
+    public data: any[];
+
+    constructor() {
+        this.data = data;
+    }
+}
+
+```
+</PlatformBlock>
+
+
+<DocsAside type="info">
+O `{ComponentName}` utiliza `BaseTransactionService`, um provedor interno que mantém as alterações pendentes das células até que o estado da linha seja enviado ou cancelado.
+</DocsAside>
+
+## Posicionamento
+
+- A posição padrão do overlay fica abaixo da linha que está em modo de edição.
+
+- Se não houver espaço abaixo da linha, o overlay aparecerá acima dela.
+
+- Depois de exibido — acima ou abaixo —, o overlay manterá essa posição durante a rolagem, até ser fechado.
+
+## Comportamento
+
+- Se a linha estiver em modo de edição, a edição continuará se uma célula da mesma linha for clicada.
+
+- Clicar no botão "Done" finalizará a edição da linha e enviará as alterações ao data source ou a uma transação, se houver uma disponível. Além disso, a linha sairá do modo de edição.
+
+- Clicar no botão "Cancel" reverterá todas as alterações atuais da linha, e a linha sairá do modo de edição.
+
+- Se a linha estiver em modo de edição, clicar em uma célula de outra linha finalizará a edição da linha atual e enviará as novas alterações da linha (o mesmo comportamento de clicar no botão "Done"). Se a nova célula que recebe o foco for editável, a nova linha também entra em modo de edição; se a célula não for editável, apenas a linha anterior sai do modo de edição.
+
+- Se a linha estiver em modo de edição e o `{ComponentName}` for rolado de forma que a linha saia da área visível, ela continuará em modo de edição. Quando o `{ComponentName}` for rolado de volta, de modo que a linha fique visível novamente, ela continuará em modo de edição. Clicar fora do `{ComponentName}` também manterá a célula em modo de edição.
+
+- Ao realizar operações de **ordenação**, **filtragem**, **pesquisa** e **ocultação**, todas as alterações atuais da linha serão revertidas, e a linha sairá do modo de edição.
+
+- Ao realizar operações de **paginação**, **redimensionamento**, **fixação** e **movimentação**, a linha sairá do modo de edição e o valor mais recente será enviado.
+
+- Cada célula modificada recebe o estilo de edição até que a edição da linha seja concluída. Este é o comportamento quando o `{ComponentName}` não é fornecido com transações. Quando há transações disponíveis, o estilo de edição da célula é aplicado até que todas as alterações sejam confirmadas.
+
+
+## Navegação pelo teclado
+
+- <kbd>ENTER</kbd> e <kbd>F2</kbd> entram no modo de edição da linha
+
+- <kbd>ESC</kbd> sai do modo de edição da linha e não envia nenhuma das alterações de célula feitas enquanto a linha estava em modo de edição.
+
+- <kbd>TAB</kbd> move o foco de uma célula editável da linha para a próxima e da célula editável mais à direita para os botões CANCEL e DONE. A navegação a partir do botão DONE vai para a célula editável mais à esquerda da linha que está sendo editada.
+
+
+## Integração de recursos
+
+- Qualquer operação que altere os dados encerrará as operações de edição de linha e enviará as alterações atuais da linha. Isso inclui operações como ordenação, mudança de critérios de agrupamento e filtragem, paginação etc.
+
+- Os resumos serão atualizados depois que a edição da linha for concluída. O mesmo vale para outros recursos, como ordenação, filtragem etc.
+
+<ComponentBlock for="Grid">
+- Expandir e recolher linhas agrupadas não encerrará a edição da linha atual.
+
+</ComponentBlock>
+
+## Personalizando o overlay de edição de linhas
+
+### Personalizando o texto
+
+Personalizar o texto da sobreposição de edição de linha é possível por meio de templates.
+
+<PlatformBlock for="Angular">
+A propriedade `RowChangesCount` é exposta e contém a quantidade de células alteradas.
+
+
+```html
+<ng-template igxRowEditText let-rowChangesCount>
+    Changes: {{rowChangesCount}}
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+igRegisterScript("RowEditTextTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+   Changes: ${ctx.implicit}
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowEditTextTemplate = (ctx: IgcGridRowEditTextTemplateContext) => {
+    return html`Changes: ${ctx.implicit}`;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+const rowEditTextTemplate = (ctx: IgrGridRowEditTextTemplateContext) =>{
+    return (
+        <>
+            Changes: {ctx.implicit}
+        </>
+    );
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+### Personalizando botões
+
+Personalizar os botões da sobreposição de edição de linha também é possível por meio de templates.
+
+<PlatformBlock for="Angular">
+Se quiser que os botões façam parte da navegação por teclado, cada um deles deve ter `RowEditTabStopDirective`.
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+ <ng-template igxRowEditActions let-endRowEdit>
+    <button igxButton igxRowEditTabStop (click)="endRowEdit(false)">Cancel</button>
+    <button igxButton igxRowEditTabStop (click)="endRowEdit(true)">Apply</button>
+</ng-template>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```javascript
+ igRegisterScript("RowEditActionsTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    window.endRowEdit = ctx.implicit;
+    return html`<div>
+  <button @click="(event) => endRowEdit(false, event)">Cancel</button>
+    <button @click="(event) => endRowEdit(true, event)">Apply</button>
+</div>`;
+}, false);
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public rowEditActionsTemplate = (ctx: IgcGridRowEditActionsTemplateContext) => {
+    const endRowEdit = ctx.implicit;
+    return html`
+        <button @click="${(event) => endRowEdit(false, event)}">Cancel</button>
+        <button @click="${(event) => endRowEdit(true, event)}">Apply</button>
+    `;
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+```tsx
+const rowEditActionsTemplate =(ctx: IgrGridRowEditActionsTemplateContext) => {
+    const endRowEdit = ctx.implicit;
+    return (
+        <>
+            <button onClick={(event) => endRowEdit(false, event)}>Cancel</button>
+            <button onClick={(event) => endRowEdit(true, event)}>Apply</button>
+        </>
+    );
+}
+```
+</ComponentBlock>
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## Estilização
+
+Usando a [{ProductName} Theme Library](themes/index.mdx), podemos alterar bastante a sobreposição de edição de linha.
+
+A sobreposição de edição de linha é um elemento composto: sua interface é formada por alguns outros componentes:
+
+- [igx-banner](banner.mdx) para renderizar o seu conteúdo
+- [igx-button](button.mdx)s são renderizados no template padrão (para os botões `Done` e `Cancel`).
+
+No exemplo abaixo, vamos usar as opções de estilo desses dois componentes ([estilo de botão](button.mdx#styling) e [estilo de banner](../banner.mdx#styling)) para personalizar a experiência da edição de linhas da nossa `{ComponentName}`.
+
+Também vamos estilizar o editor e o fundo da célula atual para torná-los mais distintos. Você pode saber mais sobre estilização de células neste [tópico](cell-editing.mdx#styling).
+
+### Importar o tema
+
+A forma mais fácil de estilizar o banner de edição de linha é definir estilos no arquivo de estilos globais do nosso `app` (normalmente `styles.scss`).
+O primeiro passo é importar o arquivo `themes/index`, que nos dá acesso a todas as ferramentas poderosas do framework Sass {ProductName}:
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+Depois de importar o arquivo de temas, podemos criar temas personalizados.
+
+#### Defina o tema
+
+Agora podemos definir um <ApiLink type="function-banner-theme" label="Tema do banner" kind="sass" module="index.html" /> personalizado que afetará o fundo da edição de linhas e usará uma das paletas predefinidas, a saber `$purple-palette`:
+
+```scss
+    $my-light-gray: #e3e3e3;
+    $my-banner-palette: $purple-palette;
+
+    $banner-theme: banner-theme(
+        $banner-background: $my-light-gray,
+        $banner-message-color: color($my-banner-palette, "secondary", 600)
+    );
+```
+
+Aqui estamos usando `my-banner-palette` em conjunto com `igx-color` (exposto pela biblioteca de temas) para gerar as nossas cores.
+
+### Inclua o tema
+
+Tudo o que precisamos fazer agora é aplicar o tema com a instrução Sass `@include`. Passamos nosso `$banner-theme` recém-definido pelo **mixin igx-banner**:
+
+```scss
+@include banner($banner-theme);
+```
+
+Isso aplicará nosso tema de banner personalizado à sobreposição de edição de linha. No entanto, como definimos esses estilos no arquivo de estilos globais, eles também se aplicarão a **todos** os banners da nossa aplicação.
+
+### Estilos de componente
+
+Como a sobreposição de edição de linha usa temas de vários outros componentes, estilizá-la pelos estilos globais pode afetar outras partes da aplicação (por exemplo, banners, botões etc.). A melhor forma de evitar isso é restringir o escopo do nosso tema de banner. Podemos definir nossos estilos (incluindo a [importação do tema](#importar-o-tema)) no componente que contém nossa `{ComponentName}`.
+
+<DocsAside type="info">
+Se o componente usar um ViewEncapsulation [Emulated](themes/styles.mdx#view-encapsulation), é necessário penetrar essa encapsulação usando `::ng-deep` para estilizar a grade.
+Envolvemos a instrução dentro de um seletor `:host` para evitar que nossos estilos afetem elementos fora do nosso componente:
+</DocsAside>
+
+```scss
+// custom.component.scss
+
+:host {
+    ::ng-deep {
+        @include banner($banner-theme);
+    }
+}
+```
+
+Com a sintaxe acima, o nosso tema de banner personalizado se aplica corretamente ao overlay de edição de linhas do grid.
+
+### Templates personalizados
+
+Para personalizar ainda mais o nosso overlay de edição de linhas, podemos passar um template personalizado, para estilizar os botões `Done` e `Cancel` separadamente:
+
+```html
+<!-- in component.html -->
+<{ComponentSelector}>
+    <ng-template igxRowEditActions let-endRowEdit>
+        <div class="custom-buttons">
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(false)">
+                <igx-icon>clear</igx-icon>
+            </button>
+            <button igxIconButton="flat" class="custom-button" igxRowEditTabStop (click)="endRowEdit(true)">
+                <igx-icon>check</igx-icon>
+            </button>
+        </div>
+    </ng-template>
+</{ComponentSelector}>
+```
+
+Depois de definir nossos botões personalizados, podemos usar o <ApiLink type="function-flat-icon-button-theme" label="flat-icon-button-theme" kind="sass" module="index.html" /> para estilizá-los. Você pode saber mais sobre estilização de `igx-icon-button` neste [tópico](../icon-button.mdx#styling). Podemos criar um tema personalizado para nossos `Done` e `Cancel`:
+
+```scss
+// custom.component.scss
+// ...
+
+$button-theme: flat-icon-button-theme(
+  $background: #e3e3e3,
+  $foreground: #423589
+);
+
+.custom-buttons {
+  @include tokens($button-theme);
+}
+```
+
+Restringimos a nossa instrução `@include` em `.custom-buttons`, para que ela seja aplicada somente aos botões `Done` e `Cancel`.
+
+### Demonstração
+
+Depois de estilizar o banner e os botões, também definimos um estilo personalizado para [a célula em modo de edição](cell-editing.mdx#styling). O resultado de todos os estilos combinados pode ser visto abaixo:
+
+
+<Sample src="/{ComponentSample}/row-editing-style" height={560} alt="{Platform} {ComponentTitle} exemplo de estilização da edição de linhas" />
+
+
+
+<DocsAside type="info">
+O exemplo não será afetado pelo tema global selecionado em **Change Theme**.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## Estilização
+
+Além dos temas predefinidos, a grade pode ser personalizada ainda mais definindo algumas das propriedades CSS disponíveis. Para criar um tema completo a partir de apenas algumas cores, consulte o [tópico de temas](theming.mdx).
+Se você quiser alterar algumas das cores, primeiro é preciso definir uma classe para a grade:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Em seguida, defina as propriedades CSS relacionadas para essa classe:
+
+```css
+.grid {
+    --ig-banner-banner-background: #e3e3e3;
+    --ig-banner-banner-message-color: #423589;
+}
+```
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/row-editing-style" height={560} alt="{Platform} {ComponentTitle} exemplo de estilização da edição de linhas" />
+
+
+</PlatformBlock>
+
+## Problemas conhecidos e limitações
+
+- Quando o grid não tem <ApiLink type="{ComponentName}" member="primaryKey" /> definido e os cenários de dados remotos estão habilitados (quando paginação, ordenação, filtragem ou rolagem disparam requisições a um servidor remoto para obter os dados a serem exibidos no grid), uma linha perderá o seguinte estado após a conclusão de uma requisição de dados:
+
+- Seleção de linha
+- Expandir/recolher linha
+- Edição de linha
+- Fixação de linha
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+## Recursos adicionais
+
+<PlatformBlock for="Angular">
+- [Criar operações CRUD com o igxGrid](/general/how-to/how-to-perform-crud.mdx)
+
+- [Edição do {ComponentTitle}](editing.mdx)
+- [{ComponentTitle} Transactions](batch-editing.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+- [Edição do {ComponentTitle}](editing.mdx)
+</ComponentBlock>
+
+</PlatformBlock>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

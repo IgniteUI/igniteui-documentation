@@ -1,0 +1,530 @@
+---
+title: "Componente Date Picker do {Platform} - {ProductName}"
+description: "O {Platform} Date Picker da Infragistics permite que o usuário selecione uma data em um calendário e a defina em um elemento de entrada."
+keywords: "Date Picker do {Platform}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: ["DatePicker"]
+_language: pt-BR
+llms:
+  description: "O Date Picker do {ProductName} é um componente rico em recursos, usado para inserir uma data por digitação manual ou escolher valores de data em um diálogo de calendário que aparece."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Visão geral do componente Date Picker do {Platform}
+
+O Date Picker do {ProductName} é um componente rico em recursos, usado para inserir uma data por digitação manual ou escolher valores de data em um diálogo de calendário que aparece. Leve e simples de usar, o Date Picker permite que os usuários naveguem até a data desejada com várias opções de visão: mês, ano e década. Ele também oferece suporte a propriedades comuns de validação, como restrições de data mínima e máxima e campos obrigatórios.
+
+O componente Date Picker do {ProductName} permite que os usuários escolham uma única data por meio de um dropdown de calendário em visão mensal ou de um campo de entrada editável. O Date Picker do {Platform} também oferece um modo de diálogo para seleção somente pelo calendário, formatação de data sensível ao locale e personalizável, e integração com validação.
+
+## Exemplo do Date Picker do {Platform}
+
+Abaixo você pode ver um exemplo que demonstra como o Date Picker funciona quando os usuários podem escolher uma data por digitação manual e clicar no ícone de calendário à esquerda para navegar até ela. Veja como renderizá-lo.
+
+<Sample src="/scheduling/date-picker/overview" height={500} alt="Exemplo de visão geral de entrada do Date Picker do {Platform}" />
+
+## Primeiros passos com o Date Picker do {Platform}
+
+<PlatformBlock for="WebComponents">
+
+Primeiro, você precisa instalar o {ProductName} executando o seguinte comando:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+Em seguida, você precisará importar o <ApiLink pkg="core" type="DatePicker" />, o CSS necessário e registrar o seu módulo, assim:
+
+```ts
+import { defineComponents, IgcDatePickerComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcDatePickerComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Primeiro, você precisa instalar o {ProductName} executando o seguinte comando:
+
+```cmd
+npm install igniteui-react
+```
+
+Em seguida, você precisará importar o <ApiLink pkg="core" type="DatePicker" />, o CSS necessário e registrar o seu módulo, assim:
+
+```tsx
+import { IgrDatePicker } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar o <ApiLink pkg="core" type="DatePickerModule" />, o módulo de recursos do cliente do componente <ApiLink pkg="core" type="DatePicker" />, é **opcional**: o componente carrega seus recursos na primeira vez em que é renderizado. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbDatePickerModule))` pode ser usado para pré-carregar recursos ou para oferecer suporte a elementos criados apenas no cliente (veja [Módulos de componente](../general-getting-started.mdx#módulos-do-componente)).
+
+Você também precisará vincular um arquivo CSS adicional para aplicar o estilo ao componente <ApiLink pkg="core" type="DatePicker" />. O seguinte deve ser colocado na página host da aplicação (**wwwroot/index.html** em uma aplicação Blazor WebAssembly independente ou Blazor Hybrid, **Pages/_Host.cshtml** em uma aplicação Blazor Server, **Components/App.razor** em uma aplicação Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+Para uma introdução completa ao {ProductName}, leia o tópico [**Primeiros passos**](../general-getting-started.mdx).
+
+## Usando o componente Date Picker do {Platform}
+
+### Exibir o Date Picker
+
+Para instanciar um <ApiLink pkg="core" type="DatePicker" /> em seu estado `dropdown` padrão, use o código a seguir:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker>
+    <span slot="helper-text">Date</span>
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker></IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker @ref="DatePicker"></IgbDatePicker>
+```
+
+</PlatformBlock>
+
+### Opções
+
+<PlatformBlock for="WebComponents">
+
+O <ApiLink pkg="core" type="DatePicker" /> pode ser vinculado a um `date` ou a um `string`.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+O <ApiLink pkg="core" type="DatePicker" /> pode ser vinculado a um `date`.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const DatePicker = document.querySelector('igc-date-picker') as IgcDatePickerComponent;
+const date = new Date();
+
+DatePicker.value = date;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const date = new Date();
+
+<IgrDatePicker value={date}/>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```Razor
+<IgbDatePicker Value="@SelectedDate">
+</IgbDatePicker>
+
+@code {
+
+    public DateTime SelectedDate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.SelectedDate = DateTime.Today;
+    }
+}
+
+```
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+Se uma string for vinculada ao picker, ela precisa estar no formato **ISO 8601**:
+
+```html
+<igc-date-picker value="2000-01-01"></igc-date-picker>
+```
+
+</PlatformBlock>
+
+### Projeção de componentes
+
+Há os slots `prefix` e `suffix` disponíveis, que permitem adicionar conteúdos diferentes antes e depois do conteúdo principal do Input. Ao inserir conteúdo nos slots, recomendamos usar um elemento `<span>` ao adicionar texto simples, símbolos ou emojis, e um componente [`<igc-icon>`](../layouts/icon.mdx) ao adicionar ícones aos slots `prefix` e `suffix`.
+
+Também há um slot `helper-text` exposto, que fornece uma dica colocada abaixo do Input. Recomendamos usar um elemento `<span>` ao inserir conteúdo no slot `helper-text`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker id="DatePicker">
+    <igc-icon slot="suffix" name="arrow_upward" collection="material" class="small" onclick="DatePicker.stepUp()"></igc-icon>
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker>
+    <IgrIcon
+        slot="suffix"
+        name="arrow_upward"
+        collection="material"
+        className="small"
+        onClick={() => datePickerRef.current.stepUp(DatePart.Month)}>
+    </IgrIcon>
+</IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker @ref="DatePicker">
+    <IgbIcon
+        Slot="suffix"
+        IconName="arrow_upward"
+        Collection="bootstrap"
+        Class="small"
+        @onclick="() => DatePicker.StepUp(DatePart.Month)">
+    </IgbIcon>
+</IgbDatePicker>
+```
+
+</PlatformBlock>
+
+O trecho acima adicionará um ícone extra no fim do input, logo após o ícone padrão de limpar. Isso não remove o ícone de alternância padrão, porque prefixos e sufixos podem ser empilhados um após o outro.
+
+#### Personalizando os ícones de alternância e de limpeza
+
+Os ícones de calendário e de limpar podem ser personalizados usando os slots `calendar` e `clear`. Recomendamos usar um elemento `<span>` ao adicionar símbolos ou emojis, e um componente [`<igc-icon>`](../layouts/icon.mdx) ao adicionar ícones aos slots `calendar` e `clear`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker id="DatePicker">
+    <igc-icon slot="calendar" name="calendar" collection="material" class="small"></igc-icon>
+    <igc-icon slot="clear" name="delete" collection="material" class="small"></igc-icon>
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker>
+    <IgrIcon slot="calendar" name="calendar" collection="material" className="small"></IgrIcon>
+    <IgrIcon slot="clear" name="delete" collection="material" className="small"></IgrIcon>
+</IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker>
+    <IgbIcon Slot="calendar" IconName="calendar" Collection="material" Class="small"></IgbIcon>
+    <IgbIcon Slot="clear" IconName="delete" Collection="material" Class="small"></IgbIcon>
+</IgbDatePicker>
+```
+
+</PlatformBlock>
+
+#### Botões de ação personalizados
+
+Os botões de ação do picker podem ser personalizados usando o slot `actions`. Para obter o melhor resultado, recomendamos usar o componente [`<igc-button>`](../inputs/button.mdx) ao adicionar conteúdo ao slot `actions`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker id="DatePicker">
+    <igc-button slot="actions" onclick="DatePicker.showWeekNumbers = true">Show Week Numbers</igc-button>
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker>
+    <IgrButton
+        slot='actions'
+        onClick={() => datePickerRef.current.showWeekNumbers = true}>
+        <span>Show Week Numbers</span>
+    </IgrButton>
+</IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker>
+    <IgbButton Slot="actions" @onclick="() => DatePicker.ShowWeekNumbers = true">Show Week Numbers</IgbButton>
+</IgbDatePicker>
+```
+
+</PlatformBlock>
+
+### Navegação pelo teclado
+
+O <ApiLink pkg="core" type="DatePicker" /> tem uma navegação intuitiva pelo teclado, que facilita incrementar, decrementar ou pular entre diferentes DateParts, entre outras ações, sem precisar usar o mouse.
+
+|Teclas|Descrição|
+|----|-----------|
+| <kbd>←</kbd> | Mover um caractere para o início |
+| <kbd>→</kbd> | Mover um caractere para o fim |
+| <kbd>HOME</kbd> | Mover para o início |
+| <kbd>END</kbd> | Mover para o fim |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>←</kbd> | Mover para o início da seção de data/hora - a atual ou a da esquerda |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>→</kbd> | Mover para o fim da seção de data/hora - a atual ou a da direita |
+| Com foco em uma parte de data/hora + <kbd>↓</kbd> | Decrementa uma parte de data/hora |
+| Com foco em uma parte de data/hora + <kbd>↑</kbd> | Incrementa uma parte de data/hora |
+| <kbd>CTRL</kbd> / <kbd>CMD</kbd> + <kbd>;</kbd> | Define a data/hora atual como o valor do editor |
+| <kbd>ESC</kbd> | Fecha o pop-up do calendário e foca o campo de entrada |
+
+## Exemplos
+
+### Modo de diálogo
+
+O <ApiLink pkg="core" type="DatePicker" /> também oferece suporte a um modo `dialog`:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker id="DatePicker" mode="dialog">
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker mode="dialog"></IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker Mode="PickerMode.Dialog"></IgbDatePicker>
+```
+
+</PlatformBlock>
+
+<Sample src="/scheduling/date-picker/dialog-mode" height={500} alt="Exemplo do modo de diálogo do Date Picker do {Platform}" />
+
+### Formato de exibição e de entrada
+
+<ApiLink pkg="core" type="DatePicker" member="inputFormat" /> e <ApiLink pkg="core" type="DatePicker" member="displayFormat" /> são propriedades que podem ser definidas para que o editor do picker siga um formato especificado. O <ApiLink pkg="core" type="DatePicker" member="inputFormat" /> é baseado no locale; por isso, se nenhum for informado, o picker usará o formato do navegador.
+
+Vale notar que o componente Date Picker sempre acrescentará um zero à esquerda nas partes `date` e `month` quando elas forem informadas em um formato que não o tenha, por exemplo `d/M/yy` vira `dd/MM/yy`. Isso se aplica somente durante a edição.
+
+<ApiLink pkg="core" type="DatePicker" member="displayFormat" /> é usado para formatar a entrada do picker quando ele não está em foco. Se nenhum <ApiLink pkg="core" type="DatePicker" member="displayFormat" /> for informado, o picker usará o <ApiLink pkg="core" type="DatePicker" member="inputFormat" /> como seu <ApiLink pkg="core" type="DatePicker" member="displayFormat" />.
+
+Mais informações sobre estes podem ser encontradas na seção de formato <ApiLink pkg="core" type="DateTimeInput" />.
+
+<Sample src="/scheduling/date-picker/format" height={500} alt="Exemplo de formato de entrada do Date Picker do {Platform}" />
+
+### Incremento e decremento
+
+O <ApiLink pkg="core" type="DatePicker" /> expõe os métodos <ApiLink pkg="core" type="DatePicker" member="stepUp" /> e <ApiLink pkg="core" type="DatePicker" member="stepDown" />. Ambos vêm do <ApiLink pkg="core" type="DateTimeInput" /> e podem ser usados para incrementar e decrementar uma <ApiLink pkg="core" type="DatePart" /> específica da data definida no momento.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker id="DatePicker">
+    <igc-icon slot="prefix" name="arrow_upward" collection="material" onclick="DatePicker.stepUp()"></igc-icon>
+    <igc-icon slot="suffix" name="arrow_downward" collection="material" onclick="DatePicker.stepDown()"></igc-icon>
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker>
+    <IgrIcon
+        slot="prefix"
+        name="arrow_upward"
+        collection="material"
+        onClick={() => datePickerRef.current.stepUp(DatePart.Month)}>
+    </IgrIcon>
+    <IgrIcon
+        slot="suffix"
+        name="arrow_downward"
+        collection="material"
+        onClick={() => datePickerRef.current.stepDown(DatePart.Month)}>
+    </IgrIcon>
+</IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker @ref="DatePicker">
+    <IgbIcon
+        Slot="prefix"
+        IconName="arrow_upward"
+        Collection="material"
+        @onclick="() => DatePicker.StepUp(DatePart.Month)">
+    </IgbIcon>
+    <IgbIcon
+        Slot="suffix"
+        IconName="arrow_downward"
+        Collection="material"
+        @onclick="() => DatePicker.StepDown(DatePart.Month)">
+    </IgbIcon>
+</IgbDatePicker>
+```
+
+</PlatformBlock>
+
+### Em formulários
+
+O <ApiLink pkg="core" type="DatePicker" /> pode ser usado em um elemento de formulário; as propriedades <ApiLink pkg="core" type="DatePicker" member="min" /> e <ApiLink pkg="core" type="DatePicker" member="max" /> do componente atuam como validadores do formulário.
+
+<PlatformBlock for="WebComponents">
+
+Em formulários, podemos tratar o evento `igcChange` do componente e atualizar o valor do rótulo.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Em formulários, podemos tratar o evento `change` do componente e atualizar o valor do rótulo.
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Em formulários, vincule o valor do componente com `@bind-Value`. No exemplo, o picker é obrigatório, e o manipulador `@onsubmit` do formulário mostra a data enviada em vez de recarregar a página. Um botão de reset nativo devolve o picker ao seu valor inicial sem disparar um evento de mudança; por isso, o manipulador `@onreset` limpa o campo vinculado.
+
+</PlatformBlock>
+
+<Sample src="/scheduling/date-picker/form" height={500} alt="Exemplo de formulário com entrada do Date Picker do {Platform}" />
+
+### Configurações específicas do calendário
+
+O <ApiLink pkg="core" type="DatePicker" /> pode modificar algumas configurações do calendário pelas propriedades que o Date Picker expõe. Algumas delas são <ApiLink pkg="core" type="DatePicker" member="visibleMonths" />, que permite exibir mais de um calendário quando o picker é expandido; <ApiLink type="FieldPipeArgs" member="weekStart" />, que determina o dia inicial da semana; <ApiLink pkg="core" type="DatePicker" member="showWeekNumbers" />, que mostra o número de cada semana do ano; e outras.
+
+## Internacionalização
+
+A localização do <ApiLink pkg="core" type="DatePicker" /> pode ser controlada pela sua entrada <ApiLink pkg="core" type="DatePicker" member="locale" />.
+
+Veja como ficaria um <ApiLink pkg="core" type="DatePicker" /> com a definição de locale japonês:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-date-picker locale="ja-JP">
+</igc-date-picker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrDatePicker locale="ja-JP"></IgrDatePicker>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbDatePicker Locale="ja-JP"></IgbDatePicker>
+```
+
+</PlatformBlock>
+
+## Estilização
+
+O componente <ApiLink pkg="core" type="DatePicker" /> deriva dos componentes <ApiLink pkg="core" type="Input" /> e <ApiLink pkg="core" type="Calendar" />; por isso, expõe todas as partes CSS disponíveis. Consulte [Estilização de input](../inputs/input.mdx#estilização) e [Estilização de calendário](./calendar.mdx#estilização) como referência.
+
+```css
+igc-date-picker::part(header) {
+  background-color: var(--ig-primary-500);
+  color: var(--ig-primary-500-contrast);
+}
+igc-date-picker::part(calendar-content) {
+  background-color: var(--ig-surface-300);
+}
+igc-date-picker::part(date-inner current) {
+  color: var(--ig-info-300);
+  background-color: var(--ig-surface-300);
+}
+igc-date-picker::part(navigation-button):hover,
+igc-date-picker::part(months-navigation):hover,
+igc-date-picker::part(years-navigation):hover {
+  color: var(--ig-secondary-500);
+}
+igc-date-picker::part(month-inner current),
+igc-date-picker::part(year-inner current),
+igc-date-picker::part(navigation-button),
+igc-date-picker::part(months-navigation),
+igc-date-picker::part(years-navigation) {
+  color: var(--ig-info-300);
+}
+igc-date-picker::part(date-inner selected),
+igc-date-picker::part(month-inner selected),
+igc-date-picker::part(year-inner selected) {
+  color: var(--ig-secondary-500-contrast);
+  background-color: var(--ig-secondary-500);
+}
+```
+
+<Sample src="/scheduling/date-picker/styling" height={500} alt="Exemplo de estilização de entrada do Date Picker do {Platform}" />
+
+## Referências da API
+
+<ApiLink pkg="core" type="Input" /><br />
+<ApiLink pkg="core" type="Calendar" /><br />
+<ApiLink pkg="core" type="DatePicker" /><br />
+
+## Recursos adicionais
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

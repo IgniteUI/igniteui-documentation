@@ -1,0 +1,88 @@
+---
+title: "{Platform} 스타일 지정 및 테마 | {Platform} 높이감 | Infragistics"
+description:
+keywords: "{ProductName}, Infragistics, 높이감, 스타일 지정"
+license: MIT
+mentionedTypes: []
+_language: ko
+llms:
+  description: "{ProductName}의 높이감 구현은 Material Design의 높이감을 본떠 만들었습니다."
+---
+
+
+# {ProductName}의 높이감
+
+{ProductName}의 높이감 구현은 [Material Design의 높이감](https://material.io/design/environment/elevation.html#elevation-in-material-design)을 본떠 만들었습니다. 높이감은 DOM 트리 사이의 기능적 경계를 설정하고 유지하여 더 나은 기능 캡슐화를 가능하게 하는 데 사용됩니다.
+
+## 개요
+
+{ProductName}의 그림자는 25개의 높이감 수준을 기반으로 깊이 계층을 세우는 Material Design 지침을 충실히 따릅니다. 드리워지는 그림자의 크기는 높이감 수준 번호와 관련됩니다. 높이감 수준 번호가 클수록 그림자도 커집니다. {ProductName}의 높이감은 CSS 변수로 노출됩니다. 각 변수는 `box-shadows` 세트를 저장합니다. 이 `box-shadows`는 실제 세계에서 관찰되는 그림자의 속성인 umbra, penumbra, antumbra 요소를 나타냅니다.
+
+다음은 Bootstrap 테마의 {ProductName} 여러 컴포넌트에서 사용되는 기본 높이감 목록과 해당 CSS 변수 이름입니다:
+
+| 컴포넌트                                       | 기본 고도 수준 | CSS 변수       |
+| ----------------------------------------------- | ----------------------- | ------------------ |
+| Button                                          | 0                       | --ig-elevation-0  |
+| 높임 카드                                   | 2                       | --ig-elevation-2  |
+| Toast, Snackbar                                 | 10                      | --ig-elevation-10 |
+| Navdrawer                                       | 16                      | --ig-elevation-16 |
+
+**CSS 변수** 열에서 볼 수 있듯이, 모든 높이감은 `--ig-elevation-[level]` 형식으로 정의됩니다. 앞에서 말했듯이 높이감 수준 번호는 0부터 24까지(포함)입니다.
+
+## 사용법
+
+자체 컴포넌트에서 높이감을 사용하려면 원하는 수준의 변수 이름을 참조하기만 하면 됩니다:
+
+```css
+.custom-element {
+  box-shadow: var(--ig-elevation-6);
+}
+```
+
+기존 컴포넌트 테마의 높이감을 바꾸는 것도 비슷한 방식으로 작동합니다:
+
+```css
+igc-navbar {
+  box-shadow: var(--ig-elevation-8);
+}
+```
+
+## 고도 정의하기
+
+기본 높이감을 업데이트하는 방식은 팔레트 색을 업데이트하는 방식과 비슷합니다. 변수를 다른 값으로 다시 할당하기만 하면 됩니다. 높이감에서는 값이 `box-shadow`인지 확인하십시오.
+
+예:
+
+```css
+:root {
+  --ig-elevation-1: 0 2px 6px 0 rgba(0, 0, 0, .18);
+  --ig-elevation-2: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+이제 고도 수준 1과 2를 사용하는 모든 컴포넌트의 그림자가 업데이트됩니다.
+
+### 그림자 적용
+
+특정 범위에만 전역으로 설정된 높이감을 덮어쓸 수 있습니다. Snackbar와 Toast 컴포넌트는 높이감 수준 10을 사용한다는 것을 이미 보았습니다. 두 컴포넌트의 그림자를 모두 바꾸려면 다음과 같이 하면 됩니다:
+
+```css
+igc-snackbar,
+igc-toast {
+  --ig-elevation-10: 0 3px 9px 0 rgba(0, 0, 0, .24);
+}
+```
+
+이렇게 하면 toast와 snackbar의 그림자가 `--ig-elevation-10`에 할당된 값으로 설정됩니다.
+
+## 높이감 계수 사용하기
+
+{ProductName}은(는) 높이감 수준 외에도 전역 높이감 계수를 쉽게 제어할 수 있는 CSS 변수를 노출합니다. 기본값은 1이며, 이는 모든 컴포넌트 그림자가 컴포넌트 테마에 정의된 것과 같다는 뜻입니다. 모든 그림자를 제거하려면 속성 값을 0으로 바꾸기만 하면 됩니다:
+
+```css
+:root {
+  --ig-elevation-factor: 0;
+}
+```
+
+`--ig-elevation-factor`은(는) 소수 값이나 1보다 큰 값으로도 설정할 수 있습니다. 값이 클수록 그림자도 커집니다.

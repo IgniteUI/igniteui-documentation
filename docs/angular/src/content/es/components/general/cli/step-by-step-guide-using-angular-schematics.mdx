@@ -1,0 +1,164 @@
+---
+title: "Guía paso a paso para usar Ignite UI for Angular Schematics | Ignite UI for Angular | Infragistics"
+description: "Guía paso a paso para crear y generar proyectos Angular con la colección Ignite UI for Angular Schematics. Cubre la selección del tipo de proyecto, la elección de la plantilla, el tema y la adición de vistas de componentes."
+keywords: "ignite ui for angular, angular schematics, paso a paso, generación de estructura, infragistics"
+last_updated: "2025-04-06"
+_language: es
+llms:
+  description: "El modo paso a paso de Ignite UI for Angular Schematics es un asistente interactivo integrado en la colección @igniteui/angular-schematics."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import { Image } from 'astro:assets';
+import play from '../../../images/general/play.svg';
+import buildCLIappGif from '../../../images/general/buildCLIapp.gif';
+import igStepByStepProjectType from '../../../images/general/ig-step-by-step-project-type.png';
+import igStepByStepNewProjectName from '../../../images/general/ig-step-by-step-new-project-name.png';
+import igStepByStepNewProjectTemplate from '../../../images/general/igx-side-auth-steps.png';
+import igStepByStepNewProjectQuestion from '../../../images/general/igx-side-auth-question.png';
+import igStepByStepNewProjectTheme from '../../../images/general/igx-side-auth-theme.png';
+import igStepByStepNewProjectAction from '../../../images/general/ig-step-by-step-new-project-action.png';
+import igStepByStepTemplateGroup from '../../../images/general/ig-step-by-step-template-group.png';
+import igStepByStepComponentFeatures from '../../../images/general/ig-step-by-step-component-features.png';
+import igStepByStepScenarioTemplates from '../../../images/general/ig-step-by-step-scenario-templates.png';
+import igStepByStepAiConfigAssistants from '../../../images/general/ig-step-by-step-ai-config-assistants.png';
+import igStepByStepAiConfigAgents from '../../../images/general/ig-step-by-step-ai-config-agents.png';
+
+# Guía paso a paso para usar Ignite UI for Angular Schematics
+
+El modo paso a paso de Ignite UI for Angular Schematics es un asistente interactivo integrado en la colección `@igniteui/angular-schematics`. Le guía por el arranque del proyecto, la selección de plantillas y el tema, y después le permite añadir vistas de componentes antes de terminar. El asistente puede activarse tanto para crear un proyecto nuevo como para añadir vistas a un proyecto existente creado antes con [Ignite UI Angular Schematics](./getting-started-with-angular-schematics.mdx).
+
+El modo paso a paso no admite el uso sin interacción ni en scripts; para eso, use los comandos directos `ng new` y `ng g` con argumentos explícitos. El asistente depende de `Inquirer.js`; consulte [los terminales compatibles](https://github.com/SBoudrias/Inquirer.js#support-os-terminals) para ver la compatibilidad.
+
+Para activar el asistente guiado, ejecute:
+
+```cmd
+ng new --collection="@igniteui/angular-schematics"
+```
+
+<div style="display:inline-block;">
+    <a style={`background: url(${buildCLIappGif.src}); display:flex; justify-content:center; width: 80vw; max-width:540px; min-height:315px;`}
+       href="https://youtu.be/QK_NsdtdA70" target="_blank">
+        <Image src={play} alt="Reproducir vídeo: Crear su primera aplicación con Ignite UI CLI" style="vertical-align: middle;" />
+    </a>
+</div>
+
+## Crear un proyecto nuevo
+
+El asistente le guía por los siguientes pasos de configuración antes de generar la estructura del proyecto. Cuando se selecciona **Side Navigation** o **Side Navigation Mini** como plantilla, aparece un paso adicional de autenticación.
+
+### Paso 1: elegir el tipo de arranque
+
+La primera pregunta pide si la aplicación debe arrancarse con componentes standalone o con NgModules.
+
+<Image src={igStepByStepProjectType} alt="Pregunta paso a paso: componentes standalone o NgModules" class="responsive-img" />
+
+Los componentes standalone son el valor predeterminado de Angular 17 o posterior y se recomiendan para proyectos nuevos. Elija NgModules solo si se integra con una base de código existente basada en NgModule.
+
+### Paso 2: indicar el nombre del proyecto
+
+Escriba un nombre para la nueva aplicación. El proyecto se crea en un directorio con el mismo nombre.
+
+<Image src={igStepByStepNewProjectName} alt="Pregunta paso a paso: indicar el nombre del proyecto" class="responsive-img" />
+
+### Paso 3: elegir una plantilla de proyecto
+
+Desplácese por las plantillas de proyecto disponibles con las teclas de flecha y pulse ENTER para confirmar. Hay tres plantillas base:
+
+- **empty**: una estructura de proyecto con enrutamiento y una página de inicio, sin navegación prediseñada
+- **side-nav**: una estructura de proyecto con un cajón de navegación lateral prediseñado
+- **side-nav-mini**: una estructura de proyecto con un cajón de navegación lateral compacto prediseñado
+
+<Image src={igStepByStepNewProjectTemplate} alt="Pregunta paso a paso: elegir la plantilla de proyecto" class="responsive-img" />
+
+Si selecciona **side-nav** o **side-nav-mini**, el asistente mostrará un paso adicional que pregunta si quiere añadir un [módulo de autenticación](./auth-template.mdx) al proyecto. Si responde que sí, se genera la variante de autenticación correspondiente (`side-nav-auth` o `side-nav-mini-auth`). Si selecciona **empty**, se omite la pregunta de autenticación.
+
+<Image src={igStepByStepNewProjectQuestion} alt="Pregunta paso a paso: pregunta de autenticación" class="responsive-img" />
+
+### Paso 4: elegir un tema
+
+Hay dos opciones de tema:
+
+- **default**: incluye un archivo CSS precompilado (`igniteui-angular.css`) con el tema predeterminado de Ignite UI for Angular basado en Material en `angular.json`
+- **custom**: genera una paleta de colores y una configuración de tema con la [API de temas](../../themes/sass/index.mdx) en `app/styles.scss`, lista para personalizar
+
+<Image src={igStepByStepNewProjectTheme} alt="Pregunta paso a paso: elegir el tema default o custom" class="responsive-img" />
+
+Tras completar los pasos anteriores, el asistente genera la estructura del proyecto y después le pide que [configure los asistentes de programación con IA](#integración-con-el-asistente-de-ia). Cuando termina la configuración de IA, se inicializa un repositorio Git y se confirma el estado inicial. Después, el asistente pregunta si quiere terminar o seguir añadiendo una vista de componente.
+
+<Image src={igStepByStepNewProjectAction} alt="Pregunta paso a paso: terminar o añadir una vista" class="responsive-img" />
+
+## Añadir vistas de componentes
+
+La colección Ignite UI for Angular Schematics incluye plantillas de componentes individuales y plantillas de escenarios más elaborados. Este modo está disponible tanto como continuación de la creación del proyecto como de forma independiente en un proyecto existente.
+
+Para activar el asistente de componentes en un proyecto existente, ejecute el schematic `component` (alias: `c`):
+
+```bash
+ng g @igniteui/angular-schematics:component
+```
+
+El asistente muestra las [plantillas de componentes](./component-templates.mdx#plantillas-de-componentes) disponibles, agrupadas por categoría. Desplácese con las teclas de flecha y pulse ENTER para seleccionar.
+
+<Image src={igStepByStepTemplateGroup} alt="Pregunta paso a paso: selección de categoría de plantilla" class="responsive-img" />
+
+Algunas plantillas, como el Custom Grid, muestran una lista de funciones opcionales. Use la tecla SPACE para alternar opciones individuales antes de confirmar con ENTER.
+
+<Image src={igStepByStepComponentFeatures} alt="Pregunta paso a paso: alternancia de funciones opcionales del componente" class="responsive-img" />
+
+También hay plantillas de escenarios, que ofrecen vistas de aplicación más completas que combinan varios componentes. Seleccione "Scenarios" en la lista de categorías para explorarlas.
+
+<Image src={igStepByStepScenarioTemplates} alt="Pregunta paso a paso: selección de plantilla de escenario" class="responsive-img" />
+
+Después de añadir una plantilla, el asistente pregunta si quiere añadir más vistas o terminar el proceso. Al terminar, se instalan las dependencias de paquetes pendientes y la aplicación se sirve y se abre en su navegador predeterminado.
+
+Para añadir más vistas de Ignite UI for Angular a un proyecto más adelante sin el asistente, use el comando directo del schematic:
+
+```cmd
+ng g @igniteui/angular-schematics:c [template] [name]
+```
+
+## Integración con el asistente de IA
+
+Tras elegir el tipo de arranque, el nombre del proyecto, la plantilla y el tema, el asistente le pide que configure la integración con los asistentes de programación con IA. Este paso ejecuta la misma lógica que `ng generate @igniteui/angular-schematics:ai-config`, pero está integrado en el flujo de creación del proyecto.
+
+### Elegir asistentes de programación
+
+Se le pedirá que seleccione para qué asistentes de programación quiere configurar los servidores MCP. Use la tecla SPACE para alternar las selecciones y ENTER para confirmar:
+
+<Image src={igStepByStepAiConfigAssistants} alt="Pregunta paso a paso: elegir asistentes de programación para la configuración de MCP" class="responsive-img" />
+
+- **Generic** (Claude Code, VS Code y otros): escribe `.mcp.json`
+- **VS Code** (GitHub Copilot): escribe `.vscode/mcp.json`
+- **Cursor**: escribe `.cursor/mcp.json`
+- **Gemini**: escribe `.gemini/settings.json`
+- **JetBrains Junie**: escribe `.junie/mcp/mcp.json`
+- **None**: omite la configuración de MCP
+
+La selección predeterminada es **Generic**. Seleccionar **None** omite por completo la configuración del servidor MCP.
+
+### Elegir agentes de IA
+
+A continuación, se le pedirá que seleccione para qué agentes de IA quiere configurar los archivos de skills y las instrucciones:
+
+<Image src={igStepByStepAiConfigAgents} alt="Pregunta paso a paso: elegir agentes de IA para los archivos de skills y las instrucciones" class="responsive-img" />
+
+- **Generic**: `.agents/skills/` y `AGENTS.md`
+- **Claude**: `.claude/skills/` y `.claude/CLAUDE.md`
+- **Copilot**: `.github/skills/` y `.github/copilot-instructions.md`
+- **Cursor**: `.cursor/skills/` y `.cursor/rules/cursor.mdc`
+- **Codex**: `.codex/skills/` y `.codex/instructions.md`
+- **Windsurf**: `.windsurf/skills/` y `.windsurf/rules/guidelines.md`
+- **Gemini**: `.gemini/skills/` y `.gemini/GEMINI.md`
+- **Junie**: `.junie/skills/` y `.junie/guidelines.md`
+- **None**: omite los archivos de skills y las instrucciones
+
+Las selecciones predeterminadas son **Generic** y **Claude**. Seleccionar **None** omite por completo la configuración de los agentes.
+
+Al ejecutarlo a través del schematic de Angular, se incluye automáticamente una entrada adicional de servidor MCP `angular-cli` junto a los servidores de Ignite UI.
+
+<DocsAside type="info">
+Para omitir por completo las preguntas de configuración de IA durante la creación del proyecto sin interacción, pase `--assistants none --agents none` a `ng new`. Para repetir la configuración de IA más adelante, use `ng generate @igniteui/angular-schematics:ai-config` desde la raíz del proyecto.
+</DocsAside>
+
+Para la configuración del cliente MCP y una descripción completa de las herramientas disponibles, consulte [Ignite UI CLI MCP](../../ai/cli-mcp.mdx).

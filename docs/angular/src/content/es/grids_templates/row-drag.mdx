@@ -1,0 +1,896 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Arrastrar filas en Angular Data Grid: Ignite UI for Angular"
+description: "El arrastre de filas en Angular Data Grid sirve para reorganizar rápidamente las filas arrastrándolas con el ratón. Vea cómo configurar el arrastre de filas en su proyecto."
+keywords: "componente de arrastre de angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "En Ignite UI for Angular {ComponentTitle}, RowDrag se inicializa en el componente raíz {ComponentSelector} y es configurable mediante la entrada rowDraggable."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Arrastrar filas en Angular Tree Grid: Ignite UI for Angular"
+description: "El arrastre de filas en Angular Tree Grid sirve para reorganizar rápidamente las filas arrastrándolas con el ratón. Vea cómo configurar el arrastre de filas en su proyecto."
+keywords: "componente de arrastre de angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-drag
+_language: es
+llms:
+  description: "En Ignite UI for Angular {ComponentTitle}, RowDrag se inicializa en el componente raíz {ComponentSelector} y es configurable mediante la entrada rowDraggable."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Arrastrar filas en Angular Hierarchical Grid: Ignite UI for Angular"
+description: "El arrastre de filas en Angular Hierarchical Grid sirve para reorganizar rápidamente las filas arrastrándolas con el ratón. Vea cómo configurar el arrastre de filas en su proyecto."
+keywords: "componente de arrastre de angular, componente material, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/row-drag
+_language: es
+llms:
+  description: "En Ignite UI for Angular {ComponentTitle}, RowDrag se inicializa en el componente raíz {ComponentSelector} y es configurable mediante la entrada rowDraggable."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Arrastrar filas en {ComponentTitle} de Angular
+
+En Ignite UI for Angular {ComponentTitle}, **RowDrag** se inicializa en el componente raíz `{ComponentSelector}` y es configurable mediante la entrada <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />. Al habilitar el arrastre de filas, los usuarios disponen de un tirador de arrastre en cada fila con el que pueden iniciar el arrastre de la fila.
+
+## Ejemplo de arrastre de filas de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-base" height={550} alt="Ejemplo de arrastre de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag-base" height={560} alt="Ejemplo de arrastre de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-row-drag-base" height={560} alt="Ejemplo de arrastre de filas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+## Configuración
+
+Para habilitar el arrastre de filas en su `{ComponentSelector}`, solo tiene que establecer la propiedad <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" /> de la cuadrícula en **`true`**. Una vez habilitado, se mostrará un tirador de arrastre en cada fila. Este tirador puede usarse para iniciar el arrastre de la fila.
+
+```html
+<{ComponentSelector} [rowDraggable]="true">
+ ...
+</{ComponentSelector}>
+```
+
+Al hacer clic en el tirador de arrastre y _mover el cursor_ mientras se mantiene pulsado el botón, se disparará el evento <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" /> de la cuadrícula. Al soltar el clic en cualquier momento se disparará el evento <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />.
+
+A continuación encontrará una guía sobre cómo configurar un `{ComponentSelector}` para admitir el arrastre de filas y cómo gestionar correctamente el evento de soltar.
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+En este ejemplo, gestionaremos el arrastre de una fila desde un grid hasta un área designada y, al soltarla, la eliminaremos del grid.
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+En este ejemplo, gestionaremos el arrastre de una fila de una cuadrícula a otro, eliminándola del primer origen de datos y añadiéndola al segundo.
+</ComponentBlock>
+
+### Áreas de colocación
+
+Habilitar el arrastre de filas ha sido bastante sencillo, pero ahora tenemos que configurar cómo gestionaremos el _soltado_ de filas.
+Podemos definir dónde queremos que se suelten nuestras filas usando la directiva [`igxDrop`](/drag-drop).
+
+Primero tenemos que importar `IgxDragDropModule` en el módulo de nuestra aplicación:
+
+```typescript
+import { ..., IgxDragDropModule } from 'igniteui-angular/directives';
+// import { ..., IgxDragDropModule } from '@infragistics/igniteui-angular'; for licensed package
+...
+@NgModule({
+    imports: [..., IgxDragDropModule]
+})
+```
+
+Después, en nuestra plantilla, definimos un área de colocación usando el selector de la directiva:
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```html
+<div class="drop-area" igxDrop (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)"
+(dropped)="onDropAllowed($event)">
+    <igx-icon>delete</igx-icon>
+    <div>Drag a row here to delete it</div>
+</div>
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+En este caso, nuestra área de colocación será un segundo grid completo donde soltaremos las filas.
+
+```html
+<igx-grid #targetGrid igxDrop [data]="data2" [autoGenerate]="false" [emptyGridTemplate]="dragHereTemplate"
+    (enter)="onEnterAllowed($event)" (leave)="onLeaveAllowed($event)" (dropped)="onDropAllowed($event)" [primaryKey]="'ID'">
+    ...
+</igx-grid>
+```
+
+Como el grid estará inicialmente vacío, también definimos una plantilla que sea más significativa para el usuario:
+
+```html
+<ng-template #dragHereTemplate>
+    Drop a row to add it to the grid
+</ng-template>
+```
+
+</ComponentBlock>
+
+Puede habilitar la animación cuando una fila se suelta en un área no válida para soltar usando el parámetro `animation` del evento <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />. Si se establece en true, la fila arrastrada volverá animada a su posición original al soltarla sobre un área no válida.
+
+Puede habilitar la animación así:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onRowDragEnd(args) {
+        args.animation = true;
+    }
+
+}
+```
+
+### Controladores de eventos del área de colocación
+
+Una vez definida el área de colocación en la plantilla, debemos declarar nuestros controladores para los eventos <ApiLink type="DropDirective" member="enter" label="enter" />, <ApiLink type="DropDirective" member="leave" label="leave" /> y <ApiLink type="DropDirective" member="dropped" label="dropped" /> de `igxDrop` en el archivo `.ts` de nuestro componente.
+
+Primero veamos nuestros controladores `enter` y `leave`. En esos métodos solo queremos cambiar el icono del _fantasma_ del arrastre, para indicar al usuario que está encima de un área que permite soltar la fila:
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    public onEnterAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.ALLOW);
+    }
+
+    public onLeaveAllowed(args) {
+        this.changeGhostIcon(args.drag.ghostElement, DragIcon.DEFAULT);
+    }
+
+    private changeGhostIcon(ghost, icon: string) {
+        if (ghost) {
+            const currentIcon = ghost.querySelector('.igx-grid__drag-indicator > igx-icon');
+            if (currentIcon) {
+                currentIcon.innerText = icon;
+            }
+        }
+    }
+}
+```
+
+El método **privado** `changeGhostIcon` solo cambia el icono dentro del fantasma del arrastre. La lógica del método busca el elemento que contiene el icono (usando la clase `igx-grid__drag-indicator` aplicada al contenedor del indicador de arrastre) y cambia su texto interno por el que se pasa.
+Los propios iconos proceden del conjunto de fuentes [`material`](https://material.io/tools/icons/) y se definen en un **`enum`** aparte:
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'remove'
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+```typescript
+enum DragIcon {
+    DEFAULT = 'drag_indicator',
+    ALLOW = 'add'
+}
+```
+
+</ComponentBlock>
+
+A continuación, tenemos que definir qué debe ocurrir cuando el usuario realmente _suelta_ la fila dentro del área de colocación.
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+
+    public onDropAllowed(args: IDropDroppedEventArgs) {
+        const draggedRow: RowType = args.dragData;
+        draggedRow.delete();
+    }
+
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+Una vez soltada la fila, solo llamamos al método <ApiLink type="GridRow" label="delete()" /> de la fila
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+Una vez soltada la fila, solo llamamos al método <ApiLink type="{ComponentApiType}Row" label="delete()" /> de la fila
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class {ComponentName}RowDragComponent {
+    @ViewChild('sourceGrid', { read: IgxGridComponent }) public sourceGrid: IgxGridComponent;
+    @ViewChild('targetGrid', { read: IgxGridComponent }) public targetGrid: IgxGridComponent;
+
+    public onDropAllowed(args) {
+        this.targetGrid.addRow(args.dragData.data);
+        this.sourceGrid.deleteRow(args.dragData.key);
+    }
+}
+```
+
+Definimos una referencia a cada uno de nuestros grids mediante el decorador `ViewChild` y gestionamos el soltado de la siguiente manera:
+
+- añadir una fila a `targetGrid` que contenga los datos de la fila que se está soltando
+- eliminar la fila arrastrada de `sourceGrid`
+</ComponentBlock>
+
+<DocsAside type="info">
+Al usar los datos de la fila procedentes de los argumentos del evento (`args.dragData.data`) o de cualquier otra propiedad de la fila, tenga en cuenta que la fila completa se pasa en los argumentos como referencia; por tanto, si quiere distinguirla de la de la cuadrícula de origen, debe clonar los datos que necesite.
+</DocsAside>
+
+### Crear una plantilla para el fantasma del arrastre
+
+El fantasma del arrastre puede tener una plantilla usando la directiva `IgxRowDragGhost`, aplicada a un `<ng-template>` dentro del cuerpo de `{ComponentSelector}`:
+
+```html
+<{ComponentSelector}>
+...
+   <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon>
+        </div>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+El resultado de la configuración puede verse a continuación en un `{ComponentSelector}` con arrastre de filas y selección múltiple habilitados. La demostración muestra el número de filas que se están arrastrando en ese momento:
+
+#### Demostración de ejemplo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-multiple-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+El fantasma del arrastre puede tener plantilla en cada nivel de la cuadrícula, lo que permite tener varias plantillas de fantasma o proporcionar una plantilla solo para una única isla de filas.
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxRowDragGhost>
+        <div>
+            <igx-icon fontSet="material">arrow_right_alt</igx-icon> 
+        </div>
+    </ng-template>
+    <igx-row-island>
+        ...
+        <ng-template IgxRowDragGhost>
+            <img src="smile.gif" height="42" width="42">
+        </ng-template>
+    </igx-row-island>
+...
+</{ComponentSelector}>
+```
+
+<Sample src="/hierarchical-grid/hierarchical-grid-multi-row-drag" height={600} alt="" />
+
+</ComponentBlock>
+
+### Crear una plantilla para el icono de arrastre
+
+El icono del tirador de arrastre puede tener plantilla usando el <ApiLink type="{ComponentApiType}" member="dragIndicatorIconTemplate" label="dragIndicatorIconTemplate" /> de la cuadrícula. En el ejemplo que estamos construyendo, cambiemos el icono predeterminado (`drag_indicator`) por `drag_handle`.
+Para hacerlo, podemos usar `igxDragIndicatorIcon` para pasar una plantilla dentro del cuerpo de `{ComponentSelector}`:
+
+```html
+<{ComponentSelector}>
+...
+    <ng-template igxDragIndicatorIcon>
+        <igx-icon>drag_handle</igx-icon>
+    </ng-template>
+...
+</{ComponentSelector}>
+```
+
+Una vez establecida la nueva plantilla de icono, también tenemos que ajustar el icono `DEFAULT` de nuestro `DragIcon enum`, para que lo cambie correctamente el método `changeIcon`:
+
+```typescript
+enum DragIcon {
+    DEFAULT = "drag_handle",
+    ...
+}
+```
+
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+### Dar estilo al área de colocación
+
+Una vez configurados correctamente nuestros controladores de soltado, solo falta dar un poco de estilo al área de colocación:
+
+```css
+.drop-area {
+    width: 160px;
+    height: 160px;
+    background-color: #d3d3d3;
+    border: 1px dashed #131313;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    text-align: center;
+    margin: 8px;
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    width: 100%;
+}
+```
+
+El resultado puede verse en la demostración siguiente:
+</ComponentBlock>
+<ComponentBlock for="Grid">
+
+Una vez configurados correctamente nuestros controladores de soltado, ¡ya está todo listo!
+El resultado de la configuración puede verse a continuación:
+</ComponentBlock>
+
+#### Demostración de ejemplo
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-row-drag-to-grid" height={550} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-row-drag" height={560} alt="" />
+
+</ComponentBlock>
+
+## Demostración de la aplicación
+
+<ComponentBlock for="Grid">
+
+### Usar los eventos de arrastre de filas
+
+La siguiente demostración muestra cómo usar la información de los eventos de arrastre de filas para cambiar tanto el estado de un componente personalizado, en el que se suelta la fila, como el del propio grid de origen.
+Intente arrastrar lunas desde el grid y soltarlas en sus planetas correspondientes. El color de fondo del fantasma del arrastre cambia dinámicamente según el planeta sobre el que pase. Si lo consigue, la fila del grid quedará seleccionada y se deshabilitará el arrastre para ella. Al hacer clic en los planetas obtendrá información útil.
+
+<Sample src="/grid/grid-row-drag" height={560} alt="" />
+
+<DocsAside type="info">
+Las clases aplicadas al fantasma del arrastre de filas, usadas en la demostración anterior, emplean el modificador ::ng-deep, porque el arrastre de filas es una función interna de la cuadrícula y no puede accederse a ella a nivel de aplicación, debido al encapsulado de CSS.
+</DocsAside>
+</ComponentBlock>
+
+### Demostración de reordenación de filas
+
+Con ayuda de los eventos de arrastre de filas del grid y de la directiva `igxDrop`, puede crear un grid que le permita reordenar filas arrastrándolas.
+
+Como todas las acciones se producirán _dentro_ del cuerpo de la cuadrícula, ahí es donde debe adjuntar la directiva `igxDrop`:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid [data]="data" [rowDraggable]="true" [primaryKey]="'ID'" igxDrop (dropped)="onDropAllowed($event)">
+    ...
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid igxPreventDocumentScroll  #treeGrid [data]="localData" [rowDraggable]="true" foreignKey="ParentID"
+    [primaryKey]="'ID'" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="dropInGrid($event)">
+    ...
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #grid [data]="localData" [primaryKey]="'id'"
+    [rowDraggable]="true" (rowDragStart)="rowDragStart($event)" igxDrop (dropped)="rowDrop($event)">
+    ...
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+¡Asegúrese de que el grid tenga especificado un `primaryKey`! La lógica necesita un identificador único para las filas, de modo que puedan reordenarse correctamente
+</DocsAside>
+
+Una vez habilitado `rowDraggable` y definida una zona de colocación, debe implementar un controlador sencillo para el evento de soltar. Cuando se arrastra una fila, compruebe lo siguiente:
+<ComponentBlock for="Grid">
+
+- ¿Se soltó la fila dentro de la cuadrícula?
+- Si es así, ¿sobre qué otra fila _distinta_ se soltó la fila arrastrada?
+- Una vez encontrada la fila de _destino_, intercambie las posiciones de los registros en el array `data`
+</ComponentBlock>
+<ComponentBlock for="TreeGrid, HierarchicalGrid">
+
+- ¿Está expandida la fila? Si es así, contráigala.
+- ¿Se soltó la fila dentro de la cuadrícula?
+- Si es así, ¿sobre qué otra fila _distinta_ se soltó la fila arrastrada?
+- Una vez encontrada la fila de _destino_, intercambie las posiciones de los registros en el array `data`
+- ¿Estaba la fila seleccionada inicialmente? Si es así, márquela como seleccionada.
+</ComponentBlock>
+
+A continuación puede ver esto implementado en el archivo `.ts` del componente:
+
+<ComponentBlock for="Grid">
+
+```typescript
+export class GridRowReorderComponent {
+    public onDropAllowed(args) {
+        const event = args.originalEvent;
+        const currRowIndex = this.getCurrentRowIndex(this.grid.rowList.toArray(),
+            { x: event.clientX, y: event.clientY });
+        if (currRowIndex === -1) { return; }
+        this.grid.deleteRow(args.dragData.key);
+        this.data.splice(currRowIndex, 0, args.dragData.data);
+    }
+
+    private getCurrentRowIndex(rowList, cursorPosition) {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.indexOf(this.data.find((r) => r.rowID === row.rowID));
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```typescript
+export class TreeGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            this.treeGrid.collapseRow(targetrow.key);
+        }
+    }
+
+    public dropInGrid(args: IDropDroppedEventArgs): void {
+        const draggedRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(draggedRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        const row = this.catchCursorPosOnElem(this.treeGrid.rowList.toArray(), cursorPosition);
+        if (!row) { return; }
+        if (row.data.ParentID === -1) {
+            this.performDrop(draggedRow, row).ParentID = -1;
+        } else {
+            if (row.data.ParentID === draggedrow.data.ParentID) {
+                this.performDrop(draggedRow, row);
+            } else {
+                const rowIndex = this.getRowIndex(draggedrow.data);
+                this.localData[rowIndex].ParentID = row.data.ParentID;
+            }
+        }
+        if (draggedRow.selected) {
+            this.treeGrid.selectRows([this.treeGrid.rowList.toArray()
+                .find((r) => r.rowID === draggedrow.key).rowID], false);
+        }
+
+        this.localData = [...this.localData];
+    }
+
+    private performDrop(
+        draggedRow: IgxTreeGridRowComponent, targetRow: IgxTreeGridRowComponent) {
+        const draggedRowIndex = this.getRowIndex(draggedrow.data);
+        const targetRowIndex: number = this.getRowIndex(targetrow.data);
+        if (draggedRowIndex === -1 || targetRowIndex === -1) { return; }
+        this.localData.splice(draggedRowIndex, 1);
+        this.localData.splice(targetRowIndex, 0, draggedrow.data);
+        return this.localData[targetRowIndex];
+    }
+
+    private getRowIndex(rowData: any): number {
+        return this.localData.indexOf(rowData);
+    }
+
+    private catchCursorPosOnElem(rowListArr: IgxTreeGridRowComponent[], cursorPosition: Point)
+        : IgxTreeGridRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            }
+        }
+
+        return null;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class HGridRowReorderComponent {
+    public rowDragStart(args: any): void {
+        const targetRow = args.dragData;
+        if (targetRow.expanded) {
+            targetRow.expanded = false;
+        }
+    }
+
+    public rowDrop(args: IDropDroppedEventArgs): void {
+        const targetRow = args.dragData;
+        const event = args.originalEvent;
+        const cursorPosition: Point = { x: event.clientX, y: event.clientY };
+        this.moveRow(targetRow, cursorPosition);
+    }
+
+    private moveRow(draggedRow: RowType, cursorPosition: Point): void {
+        // const parent: IgxHierarchicalGridComponent = (draggedRow as any).grid;
+        // const parent = args.drag.ghostContext.grid;
+        const parent = this.hGrid;
+        const rowIndex: number = this.getTargetRowIndex(parent.rowList.toArray(), cursorPosition);
+        if (rowIndex === -1) { return; }
+        const wasSelected = draggedRow.selected;
+        draggedRow.delete();
+        parent.data.splice(rowIndex, 0, draggedRow.data);
+        if (wasSelected) {
+            parent.selectRows([parent.rowList.toArray()
+                .find((r) => r.rowID === draggedRow.key).rowID], false);
+        }
+    }
+
+    private getTargetRowIndex(rowListArr: RowType[], cursorPosition: Point): number {
+        const targetElem: IgxHierarchicalRowComponent = this.catchCursorPosOnElem(rowListArr, cursorPosition);
+        return rowListArr.indexOf(rowListArr.find((r) => r.rowData.id === targetElem.rowData.id));
+    }
+
+    private catchCursorPosOnElem(rowListArr: any[], cursorPosition: Point)
+        : IgxHierarchicalRowComponent {
+        for (const row of rowListArr) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return row;
+            } else if (row === rowListArr[rowListArr.length - 1] && cursorPosition.y > rowRect.bottom) {
+                return row;
+            }
+        }
+    }
+}
+```
+
+</ComponentBlock>
+
+Con estos sencillos pasos, ha configurado un grid que permite reordenar filas mediante arrastrar y soltar. Puede ver el código anterior en acción en la siguiente demostración.
+<ComponentBlock for="Grid">
+
+Manteniendo pulsado el icono de arrastre podrá mover una fila a cualquier lugar de la cuadrícula:
+
+<Sample src="/grid/grid-row-reorder" height={830} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+Observe que también tenemos habilitada la selección de filas y que conservamos la selección al soltar la fila arrastrada.
+
+<Sample src="/tree-grid/tree-grid-row-reordering" height={560} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+Observe que también tenemos habilitada la selección de filas y que conservamos la selección al soltar la fila arrastrada.
+
+<Sample src="/hierarchical-grid/hierarchical-row-reorder" height={560} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Mejorar la experiencia de usuario en escenarios de arrastre de filas
+
+Poder obtener el índice de la fila que está actualmente bajo el cursor le permite crear funciones personalizadas avanzadas y mejorar la experiencia de usuario de su aplicación. Por ejemplo, puede cambiar el fantasma del arrastre o mostrar un indicador de colocación según la posición de la fila arrastrada sobre el grid. Otro comportamiento útil que puede lograr así es desplazar el grid hacia arriba o hacia abajo mientras se arrastra una fila, al llegar al borde del grid.
+
+A continuación encontrará fragmentos de ejemplo de un par de implementaciones personalizadas que puede lograr conociendo la posición de la fila.
+
+#### Cambiar el fantasma del arrastre según la posición del cursor
+
+En los fragmentos siguientes verá cómo cambiar el texto dentro del fantasma del arrastre para mostrar el nombre de la fila sobre la que se encuentra el cursor.
+
+Primero, especifique una plantilla que quiera usar para el fantasma del arrastre. La propiedad `dropName` cambiará dinámicamente, obteniendo el nombre de la fila sobre la que se encuentra el cursor:
+
+```html
+<ng-template igxRowDragGhost>
+    <div class="customGhost">
+        <div>{{ dropName }}</div>
+    </div>
+</ng-template>
+```
+
+Después, defina un método que devuelva la instancia de la fila sobre la que está (similar al usado en la [demostración de reordenación de filas](#demostración-de-reordenación-de-filas)):
+
+```typescript
+class MyRowGhostComponent {
+    private getRowDataAtPoint(rowList: IgxGridRowComponent[], cursorPosition: Point): any {
+        for (const row of rowList) {
+            const rowRect = row.nativeElement.getBoundingClientRect();
+            if (cursorPosition.y > rowRect.top + window.scrollY && cursorPosition.y < rowRect.bottom + window.scrollY &&
+                cursorPosition.x > rowRect.left + window.scrollX && cursorPosition.x < rowRect.right + window.scrollX) {
+                return this.data.find((r) => r.rowID === row.rowID);
+            }
+        }
+        return null;
+    }
+}
+```
+
+Por último, creamos un método que se usará para gestionar el evento <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective.dragMove" /> (emitido para la fila arrastrada). El método cambiará el valor de la propiedad usada en la plantilla `igxRowDragGhost` y forzará un nuevo renderizado.
+Queremos suscribirnos al evento `dragMove` solo de la fila concreta que estamos arrastrando, y darnos de baja (para evitar fugas de memoria) cada vez que se suelta una fila.
+
+```typescript
+class MyRowGhostComponent {
+    public ngAfterViewInit(): void {
+        this.grid.rowDragStart.pipe(takeUntil(this.destroy$)).subscribe(this.onRowDragStart.bind(this));
+    }
+
+    private onRowDragStart(e: IRowDragStartEventArgs) {
+        if (e !== null) {
+            this._draggedRow = e.dragData.rowData;
+        }
+        const directive = e.dragDirective;
+        directive.dragMove
+            .pipe(takeUntil(this.grid.rowDragEnd))
+            .subscribe(this.onDragMove.bind(this));
+    }
+
+    private onDragMove(args: IDragMoveEventArgs) {
+        const cursorPosition = this.getCursorPosition(args.originalEvent);
+        const hoveredRowData = this.getRowDataAtPoint(
+            this.grid.rowList.toArray(),
+            cursorPosition
+        );
+        if (!hoveredRowData) {
+            args.cancel = true;
+            return;
+        }
+        const rowID = hoveredRowData.ID;
+        if (rowID !== null) {
+            let newName = this.dropName;
+            if (rowID !== -1) {
+                const targetRow = this.grid.rowList.find((e) => {
+                    return e.rowData.ID === rowID;
+                });
+                newName = targetRow?.rowData.Name;
+            }
+            if (newName !== this.dropName) {
+                this.dropName = newName;
+                args.owner.cdr.detectChanges();
+            }
+        }
+    }
+}
+
+```
+
+#### Mostrar un indicador de colocación según la posición del cursor
+
+En la demostración de la siguiente sección verá cómo mostrar un indicador de dónde se colocaría la fila arrastrada. Puede personalizar este indicador como quiera: puede ser una fila de marcador de posición colocada en la posición donde se soltaría la fila arrastrada, un estilo de borde que indique si la fila se soltaría encima o debajo de la fila sobre la que está el cursor, etc.
+
+Para seguir la posición del cursor, nos enlazamos al evento `dragMove` de <ApiLink type="DragDirective" member="dragMove" label="IgxDragDirective" /> cuando empezamos a arrastrar una fila.
+
+<DocsAside type="info">
+¡Asegúrese de que el grid tenga especificado un `primaryKey`! La lógica necesita un identificador único para las filas, de modo que puedan reordenarse correctamente
+</DocsAside>
+
+```typescript
+public ngAfterViewInit() {
+  this.grid.rowDragStart
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(this.handleRowStart.bind(this));
+}
+
+private handleRowStart(e: IRowDragStartEventArgs): void {
+  if (e !== null) {
+    this._draggedRow = e.dragData.data;
+  }
+  const directive = e.dragDirective;
+  directive.dragMove
+    .pipe(takeUntil(this.grid.rowDragEnd))
+    .subscribe(this.handleDragMove.bind(this));
+}
+
+private handleDragMove(event: IDragMoveEventArgs): void {
+  this.handleOver(event);
+}
+
+private handleOver(event: IDragMoveEventArgs) {
+  const ghostRect = event.owner.ghostElement.getBoundingClientRect();
+  const rowIndex = this.getRowIndexAtPoint(this.grid.rowList.toArray(), {
+    x: ghostRect.x,
+    y: ghostRect.y
+  });
+  if (rowIndex === -1) {
+    return;
+  }
+  const rowElement = this.grid.rowList.find(
+    e => e.rowData.ID === this.grid.data[rowIndex].ID
+  );
+  if (rowElement) {
+    this.changeHighlightedElement(rowElement.element.nativeElement);
+  }
+}
+
+private clearHighlightElement(): void {
+  if (this.highlightedRow !== undefined) {
+    this.renderer.removeClass(this.highlightedRow, 'underlined-class');
+  }
+}
+
+private setHightlightElement(newElement: HTMLElement) {
+  this.renderer.addClass(newElement, 'underlined-class');
+  this.highlightedRow = newElement;
+}
+
+private changeHighlightedElement(newElement: HTMLElement) {
+  if (newElement !== undefined) {
+    if (newElement !== this.highlightedRow) {
+      this.clearHighlightElement();
+      this.setHightlightElement(newElement);
+    } else {
+      return;
+    }
+  }
+}
+```
+
+
+#### Desplazar el grid al arrastrar una fila
+
+Un escenario muy útil es poder desplazar el grid cuando la fila arrastrada llega a su borde superior o inferior. Esto permite reordenar filas fuera del viewport actual cuando el número de filas del grid requiere una barra de desplazamiento.
+
+A continuación verá un ejemplo de los dos métodos que usamos para comprobar si hemos llegado al borde del viewport y desplazarlo si es necesario. El `isGridScrolledToEdge` acepta un parámetro: la dirección en la que queremos desplazar el grid (1 para "Down", -1 para "Up"), y devuelve `true` si hemos llegado a la última fila en esa dirección. El método `scrollGrid` intentará desplazar el grid en una dirección (1 o -1), sin hacer nada si el grid ya está en _ese_ borde.
+
+```typescript
+class MyGridScrollComponent {
+    private isGridScrolledToEdge(dir: 1 | -1): boolean {
+        if (this.grid.data[0] === this.grid.rowList.first.data && dir === -1) {
+            return true;
+        }
+        if (
+            this.grid.data[this.grid.data.length - 1] === this.grid.rowList.last.data &&
+            dir === 1
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private scrollGrid(dir: 1 | -1): void {
+        if (!this.isGridScrolledToEdge(dir)) {
+            if (dir === 1) {
+                this.grid.verticalScrollContainer.scrollNext();
+            } else {
+                this.grid.verticalScrollContainer.scrollPrev();
+            }
+        }
+    }
+}
+
+```
+
+Seguiremos suscribiéndonos al evento `dragMove` de la fila concreta, como en el ejemplo anterior. Como `dragMove` solo se dispara cuando el cursor se mueve realmente, queremos una forma sencilla y limpia de desplazar automáticamente el grid cuando la fila está en uno de los bordes, aunque el usuario **no** mueva el ratón. Añadiremos un método adicional que configurará un `interval`, desplazando automáticamente el grid cada `500ms`.
+
+Creamos y nos suscribimos a `interval` cuando el puntero llega al borde de la cuadrícula, y nos `unsubscribe` de ese `interval` cada vez que se mueve el mouse o se suelta la fila (independientemente de la posición del cursor).
+
+```typescript
+class MyGridScrollComponent {
+    public ngAfterViewInit() {
+        this.grid.rowDragStart
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(this.onDragStart.bind(this));
+        this.grid.rowDragEnd
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.unsubInterval());
+    }
+
+    private onDragMove(event: IDragMoveEventArgs): void {
+        this.unsubInterval();
+        const dir = this.isPointOnGridEdge(event.pageY);
+        if (!dir) {
+            return;
+        }
+        this.scrollGrid(dir);
+        if (!this.intervalSub) {
+            this.interval$ = interval(500);
+            this.intervalSub = this.interval$.subscribe(() => this.scrollGrid(dir));
+        }
+    }
+
+    private unsubInterval(): void {
+        if (this.intervalSub) {
+            this.intervalSub.unsubscribe();
+            this.intervalSub = null;
+        }
+    }
+}
+```
+
+A continuación, el ejemplo de ambos escenarios descritos antes: mostrar un indicador de colocación y desplazar el viewport cuando se alcanza el borde.
+
+<Sample src="/grid/grid-drop-indicator" height={830} alt="" />
+</ComponentBlock>
+
+
+
+## Limitaciones
+
+Actualmente no hay limitaciones conocidas para la directiva `rowDraggable`.
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" member="rowDraggable" label="rowDraggable" />
+- <ApiLink type="{ComponentApiType}" member="rowDragStart" label="rowDragStart" />
+- <ApiLink type="{ComponentApiType}" member="rowDragEnd" label="rowDragEnd" />
+- <ApiLink type="{ComponentApiType}" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

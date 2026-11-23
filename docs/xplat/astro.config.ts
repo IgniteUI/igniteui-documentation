@@ -53,6 +53,8 @@ const PLATFORMS = IGDOCS_PLATFORMS;
 const localizedDescriptionSuffix: Partial<Record<NavLang, string>> = {
     jp: 'のコンポーネントと API リファレンス ドキュメントです。',
     kr: ' 컴포넌트 및 API 참조 문서입니다.',
+    es: ': documentación de componentes y referencia de API.',
+    'pt-BR': ': documentação de componentes e referência de API.',
 };
 
 const XPLAT_ROOT = path.join(__dirname, 'generated', platform, lang);
@@ -314,7 +316,7 @@ function buildFilteredToc(): string {
                 if ((platform === 'WinUI' || platform === 'Uno') &&
                     rest.href === 'grids/data-grid/overview.mdx' && Array.isArray(rest.items)) {
                     const { items, ...overview } = rest;
-                    overview.name = lang === 'jp' ? '概要' : 'Overview';
+                    overview.name = ({ jp: '概要', kr: '개요', es: 'Información general', 'pt-BR': 'Visão geral' } as Record<string, string>)[lang] ?? 'Overview';
                     return [overview, ...items];
                 }
 

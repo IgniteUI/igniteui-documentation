@@ -1,0 +1,412 @@
+---
+title: "Angular Tree Grid | La tabla de árbol de Angular más rápida | Infragistics"
+description: "El Tree Grid de Ignite UI for Angular sirve para mostrar y manipular datos jerárquicos o planos con facilidad. Enlace rápidamente sus datos con muy poco código. Pruébelo GRATIS"
+keywords: "angular tree grid, angular tree table, componente angular tree grid, componente angular tree table, componentes de interfaz de angular, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El Tree Grid de Ignite UI for Angular sirve para mostrar y manipular datos jerárquicos o planos autorreferenciados."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Descripción general del componente Angular Tree Grid
+
+El Tree Grid de Ignite UI for Angular sirve para mostrar y manipular datos jerárquicos o planos autorreferenciados. Enlace rápidamente sus datos con muy poco código o use una variedad de eventos para personalizar distintos comportamientos. Este componente ofrece un amplio conjunto de funciones, como selección de datos, filtrado al estilo de Excel, ordenación, paginación, agrupación, plantillas, movimiento de columnas, anclaje de columnas, exportación a Excel, CSV y PDF, y mucho más.
+
+## Ejemplo de Angular Tree Grid
+
+En este ejemplo puede ver cómo los usuarios pueden mostrar datos jerárquicos. Hemos incluido opciones de filtrado y ordenación, anclaje y ocultación, selección de filas, exportación a Excel, CSV y PDF, y plantillas de celda que usan nuestro componente [Sparkline](/charts/types/sparkline-chart). Además, puede ver un ejemplo de paginación personalizada con [Angular Pagination](/treegrid/paging).
+
+<Sample lob src="/tree-grid/treegrid-childdatakey" height={850} alt="Ejemplo de Angular Tree Grid" />
+
+
+## Primeros pasos con Ignite UI for Angular Tree Grid
+
+Para empezar a usar el componente Ignite UI for Angular Tree Grid, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxTreeGridModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxTreeGridModule } from 'igniteui-angular/grids/tree-grid';
+// import { IgxTreeGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxTreeGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxTreeGridComponent` como dependencia independiente, o usar el token [`IGX_TREE_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/tree-grid/src/tree-grid.module.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_TREE_GRID_DIRECTIVES } from 'igniteui-angular/grids/tree-grid';
+// import { IGX_TREE_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-tree-grid [data]="data"></igx-tree-grid>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_TREE_GRID_DIRECTIVES]
+    /* or imports: [IgxTreeGridComponent] */
+})
+export class HomeComponent {
+    public data: Employee [];
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Tree Grid, puede empezar a usar el componente `igx-tree-grid`.
+
+## Uso de Angular Tree Grid
+
+<ApiLink type="TreeGrid" /> comparte muchas funciones con <ApiLink type="Grid" />, pero además permite mostrar sus datos de forma jerárquica.
+Para lograrlo, <ApiLink type="TreeGrid" /> ofrece dos formas de definir las relaciones entre nuestros objetos de datos: usando una [colección hija](#colección-hija) en cada objeto de datos, o usando [claves primarias y foráneas](#claves-primarias-y-foráneas) en cada objeto de datos.
+
+### Celdas de árbol
+
+Independientemente de la opción que se use para construir la jerarquía del tree grid (colección hija o claves primarias y foráneas), las filas del tree grid se construyen con dos tipos de celdas:
+
+- <ApiLink type="GridCell" />: celda ordinaria que contiene un valor.
+- <ApiLink type="GridCell" />: celda de árbol que contiene un valor, un indicador de expandir/contraer y un elemento div de sangría, que se basa en el nivel de la fila de la celda. Se puede acceder al nivel de un componente de fila mediante la propiedad <ApiLink kind="interface" type="ITreeGridRecord" member="level" /> de su <ApiLink type="TreeGridRow" member="treeRow" /> interno.
+
+<DocsAside type="info">
+Cada fila puede tener solo una celda de árbol, pero puede tener varias celdas ordinarias (o ninguna).
+</DocsAside>
+
+### Profundidad de expansión inicial
+
+Inicialmente, el tree grid expande y muestra todos los niveles de nodos. Este comportamiento puede configurarse con la propiedad <ApiLink type="TreeGrid" member="expansionDepth" />. De forma predeterminada, su valor es **Infinity**, lo que significa que se expanden todos los niveles de nodos. Puede controlar la profundidad de expansión inicial estableciendo esta propiedad en un valor numérico. Por ejemplo, **0** mostrará solo los nodos del nivel raíz, **1** mostrará los nodos del nivel raíz y sus nodos hijos, y así sucesivamente.
+
+### Colección hija
+
+Cuando usamos la opción de **colección hija**, cada objeto de datos contiene una colección hija que se rellena con elementos del mismo tipo que el objeto de datos padre. Así, cada registro de nuestro tree grid tendrá una referencia directa a cada uno de sus hijos. En este caso, la propiedad <ApiLink type="TreeGrid" member="data" /> de nuestro tree grid, que contiene el origen de datos original, será una colección definida jerárquicamente.
+
+Para este ejemplo, usemos la siguiente estructura de colección:
+
+```typescript
+// Sample Employee Data
+
+export const EMPLOYEE_DATA = [
+    {
+        Name: "Johnathan Winchester",
+        ID: 1,
+        HireDate: new Date(2008, 3, 20),
+        Age: 55,
+        Employees: [
+            {
+                Name: "Michael Burke",
+                ID: 3,
+                HireDate: new Date(2011, 6, 3),
+                Age: 43,
+                Employees: []
+            },
+            {
+                Name: "Thomas Anderson"
+                ID: 2,
+                HireDate: new Date(2009, 6, 19),
+                Age: 29,
+                Employees: []
+            },
+            ...
+        ]
+    },
+    ...
+]
+```
+
+Ahora empecemos importando nuestra colección de datos y enlazándola a la entrada <ApiLink type="TreeGrid" member="data" /> de nuestro tree grid.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData">
+</igx-tree-grid>
+```
+
+Para que IgxTreeGridComponent construya la jerarquía, tendremos que establecer su propiedad <ApiLink type="TreeGrid" member="childdatakey" /> en el nombre de la colección hija que se usa en cada uno de nuestros objetos de datos. En nuestro caso, será la colección **Employees**.
+Además, desactivaremos la generación automática de columnas y las definiremos manualmente haciéndolas coincidir con las propiedades reales de nuestros objetos de datos. (La colección **Employees** se usará automáticamente para la jerarquía, así que no es necesario incluirla en las definiciones de las columnas).
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false">
+    <igx-column field="Name" dataType="string"></igx-column>
+    <igx-column field="HireDate" dataType="date"></igx-column>
+    <igx-column field="Age" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+Ahora habilitaremos las funciones de selección de filas y paginación del tree grid usando las propiedades <ApiLink type="Grid" member="rowSelection" /> y <ApiLink type="TreeGrid" member="paging" />.
+También habilitaremos la función de resúmenes en la primera columna, y las funciones de filtrado, ordenación, edición, movimiento y redimensionamiento en cada una de nuestras columnas.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"
+                [hasSummary]="true"></igx-column>
+    <igx-column field="HireDate" dataType="date" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-paginator>
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+Por último, habilitaremos la barra de herramientas de nuestro tree grid, junto con las funciones de ocultar columnas, anclar columnas y exportar, usando <ApiLink type="GridToolbar" />, <ApiLink type="GridToolbarHiding" />, <ApiLink type="GridToolbarPinning" /> y <ApiLink type="GridToolbarExporter" />, respectivamente.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-grid-toolbar>
+            <igx-grid-toolbar-title>Employees</igx-grid-toolbar-title>
+            <igx-grid-toolbar-actions>
+                <igx-grid-toolbar-hiding></igx-grid-toolbar-hiding>
+                <igx-grid-toolbar-pinning></igx-grid-toolbar-pinning>
+                <igx-grid-toolbar-exporter></igx-grid-toolbar-exporter>
+            </igx-grid-toolbar-actions>
+    </igx-grid-toolbar>
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="HireDate" dataType="date" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+Puede ver el resultado del código anterior, al principio de este artículo, en la sección [Ejemplo de Angular Tree Grid](#ejemplo-de-angular-tree-grid).
+
+### Claves primarias y foráneas
+
+Cuando usamos la opción de **claves primarias y foráneas**, cada objeto de datos contiene una clave primaria y una clave foránea. La clave primaria es el identificador único del objeto de datos actual, y la clave foránea es el identificador único de su padre. En este caso, la propiedad <ApiLink type="TreeGrid" member="data" /> de nuestro tree grid, que contiene el origen de datos original, será una colección plana.
+
+A continuación se muestra un ejemplo de componente que contiene una colección plana definida con una relación de claves primarias y foráneas:
+
+```typescript
+// treeGridSample.component.ts
+
+@Component({...})
+export class MyComponent implements OnInit {
+
+    public data: any[];
+
+    constructor() { }
+
+    public ngOnInit() {
+        // Primary and Foreign keys sample data
+        this.data = [
+            { ID: 1, ParentID: -1, Name: "Casey Houston", JobTitle: "Vice President", Age: 32 },
+            { ID: 2, ParentID: 1, Name: "Gilberto Todd", JobTitle: "Director", Age: 41 },
+            { ID: 3, ParentID: 2, Name: "Tanya Bennett", JobTitle: "Director", Age: 29 },
+            { ID: 4, ParentID: 2, Name: "Jack Simon", JobTitle: "Software Developer", Age: 33 },
+            { ID: 5, ParentID: 8, Name: "Celia Martinez", JobTitle: "Senior Software Developer", Age: 44 },
+            { ID: 6, ParentID: -1, Name: "Erma Walsh", JobTitle: "CEO", Age: 52 },
+            { ID: 7, ParentID: 2, Name: "Debra Morton", JobTitle: "Associate Software Developer", Age: 35 },
+            { ID: 8, ParentID: 10, Name: "Erika Wells", JobTitle: "Software Development Team Lead", Age: 50 },
+            { ID: 9, ParentID: 8, Name: "Leslie Hansen", JobTitle: "Associate Software Developer", Age: 28 },
+            { ID: 10, ParentID: -1, Name: "Eduardo Ramirez", JobTitle: "Development Manager", Age: 53 }
+        ];
+    }
+}
+```
+
+En los datos de ejemplo anteriores, todos los registros tienen un ID, un ParentID y algunas propiedades adicionales, como Name, JobTitle y Age. Como se ha dicho antes, el ID de los registros debe ser único. El ParentID contiene el ID del nodo padre. Si una fila tiene un ParentID que no coincide con ninguna fila del tree grid, significa que esa fila es una fila raíz.
+
+La relación padre-hijo se configura mediante las propiedades <ApiLink type="TreeGrid" member="primaryKey" /> y <ApiLink type="TreeGrid" member="foreignKey" /> del tree grid.
+
+Esta es la plantilla del componente que muestra cómo configurar el tree grid para mostrar los datos definidos en la colección plana anterior:
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+    [autoGenerate]="false">
+    <igx-column field="Name" dataType="string"></igx-column>
+    <igx-column field="JobTitle" dataType="string"></igx-column>
+    <igx-column field="Age" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+Además, habilitaremos la función de selección de filas del tree grid usando la propiedad <ApiLink type="Grid" member="rowSelection" />, y también las funciones de filtrado, ordenación, edición, movimiento y redimensionamiento para cada una de nuestras columnas.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+    [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="JobTitle" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+</igx-tree-grid>
+```
+
+Y este es el resultado final:
+
+<Sample lob src="/tree-grid/treegrid-primaryforeignkey" height={450} alt="Ejemplo de clave primaria y foránea de Angular tree grid" />
+
+
+## Persistencia e integración
+
+La sangría de las **celdas de árbol** se mantiene al usar otras funciones del tree grid, como el filtrado, la ordenación y la paginación.
+
+- Cuando se aplica una **ordenación** a una columna, las filas de datos se ordenan por niveles. Esto significa que las filas del nivel raíz se ordenarán de forma independiente de sus respectivos hijos. Las colecciones de hijos de cada una también se ordenarán de forma independiente, y así sucesivamente.
+- La primera columna (la que tiene un <ApiLink type="Column" member="visibleIndex" /> de 0) es siempre la columna de árbol.
+- La columna que acaba con un <ApiLink type="Column" member="visibleIndex" /> de 0 después de operaciones como anclar columnas, ocultar columnas o mover columnas se convierte en la columna de árbol.
+- Las hojas de Excel exportadas reflejan la jerarquía agrupando los registros tal como se agrupan en el propio tree grid. El estado de expansión de todos los registros también se conserva y se refleja.
+- Al exportar a CSV, los niveles y los estados de expansión se ignoran y todos los datos se exportan como planos.
+
+
+## Dimensionamiento de Angular Tree Grid
+
+Consulte el tema [Dimensionamiento de Grid](/treegrid/sizing).
+
+## Estilos
+
+El Tree Grid permite dar estilo mediante [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes). La <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> del tree grid expone una gran variedad de propiedades, lo que permite personalizar todas las funciones del tree grid.
+
+Para empezar a dar estilo al Tree Grid, debemos importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+A continuación debemos crear un tema personalizado; la forma más sencilla y recomendada de dar estilo a `igx-tree-grid` es usar <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y proporcionar solo los tres colores principales: `background`, `foreground` y `accent-color`.
+
+<DocsAside type="info">
+No existe una función específica de `sass` para el tree grid.
+</DocsAside>
+
+Estas son las propiedades de tema principales. Al establecerlas, todas las partes de la cuadrícula y los componentes internos derivan sus colores de esos valores, lo que da como resultado un aspecto coherente en toda la cuadrícula. Los componentes anidados, como botones, iconos, entradas, listas desplegables, casillas, barras de desplazamiento, chips y otros componentes auxiliares, también derivan sus tokens de estilo del <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal para lograr un aspecto unificado.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones [`palette`]({environment:sassApiUrl}/palettes#function-palette) y [`color`]({environment:sassApiUrl}/palettes#function-color). Consulte tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+:host {
+  @include tokens($custom-grid);
+}
+```
+
+### Demostración de estilos de Angular Tree Grid
+
+<Sample src="/tree-grid/treegrid-style" height={710} alt="Demostración de estilos de Angular Tree Grid" />
+
+Además, hay parámetros adicionales en <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que puede usar si quiere personalizaciones más específicas.
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Rendimiento (experimental)
+
+El diseño de `igxTreeGrid` le permite aprovechar la función de fusión de eventos (Event Coalescing) que Angular introdujo. Esta función mejora el rendimiento, con una mejora aproximada de **`20%`** en cuanto a interacciones y capacidad de respuesta. Esta función puede habilitarse a nivel de aplicación simplemente estableciendo las propiedades `ngZoneEventCoalescing` y `ngZoneRunCoalescing` en `true` en el método `bootstrapModule`:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+Esta función sigue siendo experimental para `igxTreeGrid`. Esto significa que podrían producirse comportamientos inesperados en el Tree Grid. Si encuentra alguno de esos comportamientos, póngase en contacto con nosotros en nuestra página de [GitHub](https://github.com/IgniteUI/igniteui-angular/discussions).
+</DocsAside>
+
+<DocsAside type="info">
+Habilitarla puede afectar a otras partes de una aplicación Angular que no están relacionadas con `igxTreeGrid`.
+</DocsAside>
+
+## Limitaciones conocidas
+
+| Limitación            | Descripción                                                                                                                           |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| Plantillas de celdas de árbol | Al crear una plantilla para una celda de árbol, el contenido que sobrepasa los límites de la celda no se mostrará a menos que se coloque en una superposición. |
+| Agrupar por              | La función Agrupar por no es compatible, porque es inherente al tree grid.                                                           |
+
+<DocsAside type="info">
+El tree grid tiene un límite de profundidad de 25 niveles. Para admitir más niveles, es necesario añadir clases CSS personalizadas en la aplicación. A continuación puede ver un ejemplo de esa clase CSS:
+</DocsAside>
+
+```scss
+.igx-grid__tree-cell--padding-level-26 {
+    padding-left: 39rem;
+}
+```
+
+<DocsAside type="info">
+`igxTreeGrid` usa internamente la directiva `igxForOf`, por lo que todas las limitaciones de `igxForOf` son válidas para `igxTreeGrid`. Para más detalles, consulte la sección [Problemas conocidos de igxForOf](/for-of#limitaciones-conocidas).
+</DocsAside>
+
+
+## Referencias de API
+- <ApiLink type="TreeGrid" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+- <ApiLink type="BaseTransactionService" />
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema de IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema de IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="Tema IgxChip" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema de IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema de IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema de IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="Tema IgxSnackBar" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="Tema IgxBadge" />
+
+
+## Recursos adicionales
+
+
+- [Dimensionamiento de Grid](/treegrid/sizing)
+- [Data Grid](/grid/grid)
+- [Edición de filas](/treegrid/row-editing)
+- [Ignite UI for Angular Skills](/ai/skills): Agent Skills para cuadrículas, operaciones de datos y temas
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

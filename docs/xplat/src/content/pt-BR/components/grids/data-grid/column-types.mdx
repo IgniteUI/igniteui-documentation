@@ -1,0 +1,172 @@
+---
+title: "{Platform} Data Grid | Tipos de coluna | Infragistics"
+description: "Saiba como o data table e grid {ProductName} da Infragistics oferece suporte a quatro tipos de coluna para exibir seu conteúdo, como Imagem, Texto, Numérico, DateTime ou uma Coluna de template. Veja os tutoriais de {ProductName}!"
+keywords: "{Platform} Table, Data Grid, tipos de coluna, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "CellInfo", "TemplateCellInfo", "DataGridColumn"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
+_language: pt-BR
+llms:
+  description: "A {ProductName} Data Table / Data Grid oferece suporte a 5 tipos de coluna, além de um tipo de coluna de Template, dando total flexibilidade sobre a forma como seus dados são exibidos no data grid {Platform}."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Tipos de coluna {Platform}
+
+A {ProductName} Data Table / Data Grid oferece suporte a 5 tipos de coluna, além de um tipo de coluna de Template, dando total flexibilidade sobre a forma como seus dados são exibidos no data grid {Platform}. Os tipos de coluna suportados são: coluna de texto, coluna numérica, coluna de DateTime, coluna de imagem, ComboBox e template.
+
+Cada coluna se vincula aos dados definindo a propriedade `Field` como o nome da propriedade correspondente nos itens da sua fonte de dados subjacente, vinculada ao data grid {Platform}.
+
+## Exemplo de tipos de coluna do {Platform}
+
+
+<Sample src="/grids/data-grid/column-types" height={600} alt="Exemplo de tipos de coluna do {Platform}" />
+
+
+
+<div class="divider--half"></div>
+
+## Coluna de texto
+
+O data grid {Platform} é usado para exibir texto formatado nas células associadas. Este é o tipo de coluna padrão usado para exibir dados do tipo string.
+
+## Coluna numérica
+
+A `NumericColumn` é usada para exibir um valor numérico formatado nas células associadas e permite controlar a posição das casas decimais dentro das células e a exibição de dígitos fracionários.
+
+## Coluna DateTime
+
+A `DateTimeColumn` é usada para exibir objetos Date nas células associadas e permite controlar a formatação dos objetos Date como você preferir.
+
+## Coluna de imagem
+
+A `ImageColumn` é usada para exibir uma imagem dentro de uma célula e oferece opções de personalização do estiramento da imagem nas células por meio da opção `ImageStretchOption`.
+
+Você também pode escolher o tipo de recurso da sua imagem definindo a opção `ImageResourceType`.
+
+## Coluna ComboBox
+
+A `ComboBoxColumn` é usada para exibir uma lista suspensa da qual os usuários finais podem selecionar um único item.
+
+O data binding pode ser feito usando um array de objetos complexos por meio da propriedade `DataSource` da coluna.
+
+A propriedade `TextField` determina qual valor é mostrado quando os usuários fazem uma seleção.
+
+A propriedade `ValueField` determina o valor vinculado do item de dados subjacente selecionado. Isso é necessário se a sua lista de objetos tiver várias propriedades.
+
+## Coluna de template
+
+A `TemplateColumn` é usada em conjunto com um template de célula. Ela permite aplicar um template personalizado à célula da coluna. Isso é feito tratando o evento `CellUpdating` da coluna de template.
+
+Os argumentos do evento `CellUpdating` expõem o `TemplateColumn` que dispara o evento, além de um parâmetro `TemplateCellUpdatingEventArgs`. Esse parâmetro de argumentos do evento expõe uma propriedade `Content`: o contêiner nativo que será colocado dentro da célula associada da coluna, cujo tipo depende da plataforma. Você pode então atualizar ou adicionar conteúdo a esse contêiner.
+
+O `TemplateCellUpdatingEventArgs` também expõe uma propriedade `CellInfo` que você pode usar para obter um objeto `TemplateCellInfo`. Esse objeto expõe informações sobre a célula e a linha, como o índice, o item de dados subjacente e a aparência da célula.
+
+<PlatformBlock for="Web">
+
+## Coluna Sparkline
+
+Você pode incorporar componentes Sparkline em `TemplateColumn` para mostrar estruturas de dados mais complexas.
+Consulte o tópico [Column Sparkline](type-sparkline-table.mdx) para informações sobre como fazer isso.
+
+</PlatformBlock>
+
+## Trecho de código
+
+A seguir, mostra-se a implementação de cada uma das colunas descritas neste tópico:
+
+```json-snippet source="/grids/data-grid/column-types"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "EmployeesSalesData",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "height": "100%",
+            "width": "100%",
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "FirstName",
+                    "headerText": "First Name"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "LastName",
+                    "headerText": "Last Name"
+                },
+                {
+                    "type": "ComboBoxColumn",
+                    "field": "Country",
+                    "headerText": "Country",
+                    "dataSourceRef": "CountryNames",
+                    "textField": "Name",
+                    "valueField": "Name"
+                },
+                {
+                    "type": "TemplateColumn",
+                    "field": "Address",
+                    "headerText": "Address",
+                    "cellUpdatingRef": "DataGridAddressLinesTemplate"
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "Photo",
+                    "headerText": "Photo",
+                    "isEditable": false
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Salary",
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "maxFractionDigits": 0,
+                    "minFractionDigits": 0
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Age",
+                    "headerText": "Age"
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "Birthday",
+                    "headerText": "Date of Birth"
+                }
+            ],
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            }
+        }
+    }
+}
+```
+
+## Referências da API
+
+- `DataGrid`
+- `CellInfo`
+- `CellUpdating`
+- `ComboBoxColumn`
+- `Content`
+- `DataSource`
+- `DateTimeColumn`
+- `Field`
+- `ImageColumn`
+- `ImageResourceType`
+- `ImageStretchOption`
+- `NumericColumn`
+- `TemplateCellInfo`
+- `TemplateCellUpdatingEventArgs`
+- `TemplateColumn`
+- `TextField`
+- `ValueField`

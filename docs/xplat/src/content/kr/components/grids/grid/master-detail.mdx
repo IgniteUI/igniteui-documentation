@@ -1,0 +1,194 @@
+---
+title: "{Platform} 마스터-세부 정보 그리드 | Infragistics"
+description: "Ignite UI {Platform} 그리드에서 행 데이터의 확장 가능한 세부 정보 보기 템플릿을 정의하십시오. 계층 구조에서 마스터-세부 정보 스타일의 데이터를 표시하는 데 유용합니다."
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, 마스터-세부 정보, Infragistics"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+_language: ko
+llms:
+  description: "그리드 컴포넌트는 세부 정보 템플릿을 지정할 수 있으며, 이 템플릿은 특정 행의 콘텐츠를 펼치거나 접어서 추가 세부 정보를 표시합니다."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} 마스터-세부 정보 그리드
+
+<ApiLink type="Grid" /> 컴포넌트는 콘텐츠를 펼치거나 접어서 특정 행의 추가 세부 정보를 표시하는 상세 템플릿을 지정하는 것을 지원합니다. 지정하면 각 레코드가 마스터 역할을 하며, 펼치면 현재 레코드의 컨텍스트 데이터가 담긴 사용자 지정 가능한 상세 템플릿을 보여 줍니다.
+
+이 모드는 계층 구조에서 마스터-디테일 스타일의 데이터를 표시해야 할 때 유용합니다.
+
+## {Platform} 그리드 마스터-세부 정보 예제
+
+
+<Sample src="/{GridSample}/master-detail" height={600} alt="{Platform} {ComponentTitle} 마스터-세부 정보 예제" />
+
+
+
+## 구성
+
+<ApiLink type="Grid" />가 마스터-세부 정보 모드로 표시되도록 구성하려면 그리드에 대한 템플릿을 지정해야 합니다:
+
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+  var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+  this._bind = () => {
+    grid.data = this.customersData;
+    grid.detailTemplate = this.masterDetailTemplate;
+  }
+  this._bind();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <IgbGrid DetailTemplateScript="DetailTemplate"  AutoGenerate=true  Data=northwindEmployees></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid detailTemplate={masterDetailTemplate} autoGenerate={false} data={nwindData}></IgrGrid>
+```
+
+</PlatformBlock>
+
+템플릿의 컨텍스트는 마스터 레코드 데이터이므로, 마스터 레코드의 값을 상세 템플릿에 표시할 수 있습니다. 예를 들어:
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+            @if (dataItem.Category) {
+                <div>
+                    <header>{{dataItem.Category.CategoryName}}</header>
+                    <span>{{dataItem.Category.Description}}</span>
+                </div>
+            }
+        </ng-template>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public masterDetailTemplate = (ctx: IgcGridMasterDetailContext) => {
+        var data = ctx.implicit;
+        return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```javascript
+// In JavaScript
+igRegisterScript("DetailTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var data = ctx.implicit;
+    return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const masterDetailTemplate = (args: IgrGridMasterDetailContext) => {
+    const data = args.implicit;
+    return (
+        <div className="contact-container">
+            <span><strong>Name:</strong> {data.ContactName}</span> <br/>
+            <span><strong>Title:</strong> {data.ContactTitle}</span> <br/>
+            <span><strong>Company:</strong> {data.CompanyName}</span> <br/>
+        </div>
+    );
+}
+```
+
+</PlatformBlock>
+
+## API
+
+
+<PlatformBlock for="Angular">
+
+
+
+펼침 상태는 <ApiLink type="Grid" />의 <ApiLink type="GridBaseDirective" member="expansionStates" label="ExpansionStates" /> 입력을 통해 제어할 수 있습니다. 상태는 키-값 쌍 [행 식별자, 펼침 상태]으로 저장됩니다. 이 속성은 현재 펼침 상태를 가져오고 설정하며, 양방향 바인딩을 지원합니다:
+
+```html
+  <{ComponentSelector} [(expansionStates)]='expansionState' >
+  </{ComponentSelector}>
+```
+
+
+</PlatformBlock>
+
+
+펼침 상태를 제어하기 위한 추가 API 메서드도 노출되어 있습니다:
+- <ApiLink type="GridBaseDirective" member="expandAll" label="ExpandAll" />
+- <ApiLink type="GridBaseDirective" member="collapseAll" label="CollapseAll" />
+- <ApiLink type="GridBaseDirective" member="toggleRow" label="ToggleRow" />
+- <ApiLink type="GridBaseDirective" member="expandRow" label="ExpandRow" />
+- <ApiLink type="GridBaseDirective" member="collapseRow" label="CollapseRow" />
+
+## 키보드 탐색
+
+- 포커스가 상세 행에 있을 때:
+
+  - <kbd>🡑</kbd> - 한 행 위로 이동하며, 이전 행의 셀에 포커스를 둡니다.
+  - <kbd>🡓</kbd> - 한 행 아래로 이동하며, 다음 행의 셀에 포커스를 둡니다.
+  - <kbd>TAB</kbd> - 템플릿 안에 포커스를 받을 수 있는 요소가 있으면 포커스를 다음 요소로 이동하고, 없으면 그리드의 다음 행으로 이동합니다.
+  - <kbd>SHIFT</kbd> + <kbd>TAB</kbd> - 포커스를 이전 행으로 이동합니다.
+
+- 포커스가 펼치기 버튼이 있는 데이터 행에 있을 때:
+  - <kbd>ALT</kbd> + <kbd>🡒</kbd> 또는 <kbd>ALT</kbd> + <kbd>🡓</kbd> - 행을 펼칩니다.
+  - <kbd>ALT</kbd> + <kbd>🡐</kbd> 또는 <kbd>ALT</kbd> + <kbd>🡑</kbd> - 행을 접습니다.
+
+## 알려진 문제와 제한 사항
+
+
+|알려진 제한 사항| 설명|
+| --- | --- |
+| 사용자 지정 상세 템플릿 안에서 Tab 탐색을 하면, 다음에 포커스되는 요소가 보이는 뷰포트 밖에 있는 경우 마스터 그리드의 스크롤 위치가 업데이트되지 않을 수 있습니다.| 사용자 지정 상세 템플릿 안에서의 Tab 탐색은 브라우저에 맡겨집니다. |
+| 상세 템플릿은 Excel로 내보내지지 않습니다.| 상세 템플릿은 어떤 종류의 콘텐츠든 포함할 수 있으므로, 기본 상태로는 Excel로 내보낼 수 없습니다.|
+| 검색 기능은 상세 템플릿의 요소를 강조 표시하지 않습니다. | |
+
+
+## API 참조
+
+<ApiLink type="Grid" /><br />
+<ApiLink type="Column" /><br />
+<PlatformBlock for="Angular,React,WebComponents"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock><br />

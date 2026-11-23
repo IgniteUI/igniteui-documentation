@@ -1,0 +1,489 @@
+---
+title: "{Platform} {ComponentTitle} 일괄 편집 및 트랜잭션 - {ProductName}"
+description: "{Platform} {ComponentTitle}를 사용하여 {ComponentTitle} 일괄 편집과 {Platform} CRUD로, 기반 데이터에 영향을 주지 않고 데이터를 조작하십시오. 데모와 예제를 확인하십시오!"
+keywords: "crud, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "{ComponentName}의 일괄 편집 기능은 TransactionService를 기반으로 합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 일괄 편집 및 트랜잭션
+
+<ComponentBlock for="Grid">
+<ApiLink type="{ComponentName}" />의 일괄 편집 기능은 <ApiLink type="TransactionService" />를 기반으로 합니다.<PlatformBlock for="Angular"> <ApiLink type="TransactionService" />의 개요와 구현 방법을 보려면 [**트랜잭션 서비스 클래스 계층**](../transaction-classes.mdx) 항목을 따라가십시오.</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<ApiLink type="{ComponentName}" />의 일괄 편집 기능은 `HierarchicalTransactionService`를 기반으로 합니다.<PlatformBlock for="Angular"> `HierarchicalTransactionService`의 개요와 구현 방법을 보려면 [**트랜잭션 서비스 클래스 계층**](../transaction-classes.mdx) 항목을 따라가십시오.</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+`HierarchicalTransactionService`을(를) <ApiLink type="{ComponentName}" />와 함께 사용하되 각 island마다 별도의 트랜잭션 로그를 누적하려면, 대신 서비스 팩토리를 제공해야 합니다. 하나가 내보내져 있으며 `HierarchicalTransactionServiceFactory`(으)로 바로 사용할 수 있습니다.
+
+</ComponentBlock>
+
+다음은 <ApiLink type="{ComponentName}" /> 컴포넌트에서 일괄 편집을 활성화하는 방법에 대한 자세한 예제입니다.
+
+## {Platform} {ComponentTitle} 일괄 편집 및 트랜잭션 예제
+
+다음 샘플은 <ApiLink type="{ComponentName}" />에 <ApiLink type="{ComponentName}" member="batchEditing" />가 활성화되어 있고 행 편집도 활성화된 시나리오를 보여 줍니다. 후자는 행 편집 전체가 확정된 후에 트랜잭션이 추가되도록 보장합니다.
+
+<Sample src="/{ComponentSample}/data-batch-editing-actions" height={680} alt="{Platform} {ComponentTitle} 일괄 편집 및 트랜잭션 예제" />
+
+
+
+<DocsAside type="info">
+트랜잭션 상태는 업데이트, 추가, 삭제된 모든 행과 그 마지막 상태로 구성됩니다.
+</DocsAside>
+
+## 사용법
+
+{ComponentTitle}에서 <ApiLink type="{ComponentName}" member="batchEditing" />를 활성화해야 합니다:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} [data]="data" [batchEditing]="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data BatchEditing="true">
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+이렇게 하면 <ApiLink type="{ComponentName}" />에 올바른 `Transaction` 서비스 인스턴스가 제공됩니다. 올바른 <ApiLink type="TransactionService" />는 `TransactionFactory`를 통해 제공됩니다.
+
+<PlatformBlock for="Angular">
+이 내부 구현에 대한 자세한 내용은 [트랜잭션 항목](../transaction-classes.mdx#transaction-factory)에서 확인할 수 있습니다.
+
+</PlatformBlock>
+
+일괄 편집이 활성화된 후에는 바인딩된 데이터 소스와 <ApiLink type="{ComponentName}" member="rowEditable" />를 true로 설정하여 <ApiLink type="{ComponentName}" />을(를) 정의하고 바인딩하십시오:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<igx-grid #grid [batchEditing]="true" [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
+    [rowEditable]="true">
+</igx-grid>
+
+<button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo()">Undo</button>
+<button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo()">Redo</button>
+<button igxButton [disabled]="grid.transactions.getAggregatedChanges(false).length < 1"
+    (click)="openCommitDialog(dialogGrid)">Commit</button>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid @ref="grid" BatchEditing="true" Data=data PrimaryKey=primaryKey Width="100%" Height="500px"
+    RowEditable="true">
+</IgbGrid>
+<button @onclick="OnCommitClick" disabled="@grid.transactions.getAggregatedChanges(false).length < 1">Commit</button>
+<button @onclick="OnUndoClick" disabled="!@grid.transactions.canUndo">Undo</button>
+<button @onclick="OnRedoClick" disabled="!@grid.transactions.canRedo">Redo</button>
+@code {
+    private string primaryKey = "ProductID";
+    private IgbGrid grid;
+
+    protected override async Task OnInitializedAsync() => forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+    private void OnCommitClick(MouseEventArgs e)
+    {
+        this.grid.transactions.commit(this.data);
+    }
+
+    private void OnUndoClick(MouseEventArgs e)
+    {
+        this.grid.transactions.undo();
+    }
+
+    private void OnRedoClick(MouseEventArgs e)
+    {
+        this.grid.transactions.redo();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid" batch-editing="true" primary-key="ProductID" width="100%" height="500px"
+    row-editable="true">
+</igc-grid>
+
+<button id="undo">Undo</button>
+<button id="redo">Redo</button>
+<button id="commit">Commit</button>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    var undo = this.undo = document.getElementById('undo') as HTMLButtonElement;
+    var redo = this.redo = document.getElementById('redo') as HTMLButtonElement;
+    var commit = this.commit = document.getElementById('commit') as HTMLButtonElement;
+}
+
+this._bind = () => {
+    grid.data = this.data;
+    undo.addEventListener('click', this.OnUndoClick);
+    redo.addEventListener('click', this.OnRedoClick);
+    commit.addEventListener('click', this.OnCommitClick);
+}
+this._bind();
+
+private OnCommitClick() {
+    if (this.grid.transactions.getAggregatedChanges(false).length > 0)
+        this.grid.transactions.commit(this.data);
+}
+
+private OnUndoClick() {
+    if (this.grid.transactions.canUndo)
+        this.grid.transactions.undo();
+}
+
+private OnRedoClick() {
+    if (this.grid.transactions.canRedo)
+        this.grid.transactions.redo();
+}
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid #treeGrid [batchEditing]="true" [data]="data" primaryKey="employeeID" foreignKey="PID"
+    width ="100%" height ="500px" rowEditable=true>
+</igx-tree-grid>
+<button igxButton (click)="addRow()">Add Root Level Row</button>
+<button igxButton [disabled]="!treeGrid.transactions.canUndo" (click)="undo()">Undo</button>
+<button igxButton [disabled]="!treeGrid.transactions.canRedo" (click)="redo()">Redo</button>
+<button igxButton [disabled]="treeGrid.transactions.getAggregatedChanges(false).length < 1"
+    (click)="openCommitDialog()">Commit</button>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid @ref="grid" BatchEditing="true" Data=data PrimaryKey=primaryKey ForeignKey="PID" Width="100%" Height="500px"
+    RowEditable="true">
+</IgbTreeGrid>
+<button @onclick="OnCommitClick" disabled="@grid.transactions.getAggregatedChanges(false).length < 1">Commit</button>
+<button @onclick="OnUndoClick" disabled="!@grid.transactions.canUndo">Undo</button>
+<button @onclick="OnRedoClick" disabled="!@grid.transactions.canRedo">Redo</button>
+@code {
+    private string primaryKey = "ProductID";
+    private IgbTreeGrid grid;
+
+    protected override async Task OnInitializedAsync() => forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+    private void OnCommitClick(MouseEventArgs e)
+    {
+        this.grid.transactions.commit(this.data);
+    }
+
+    private void OnUndoClick(MouseEventArgs e)
+    {
+        this.grid.transactions.undo();
+    }
+
+    private void OnRedoClick(MouseEventArgs e)
+    {
+        this.grid.transactions.redo();
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="treeGrid" batch-editing="true" primary-key="ProductID" foreign-key="PID"
+    width="100%" height="500px" row-editable="true">
+</igc-tree-grid>
+
+<button id="undo">Undo</button>
+<button id="redo">Redo</button>
+<button id="commit">Commit</button>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    var treeGrid = this.treeGrid = document.getElementById('grid') as IgcTreeGridComponent;
+    var undo = this.undo = document.getElementById('undo') as HTMLButtonElement;
+    var redo = this.redo = document.getElementById('redo') as HTMLButtonElement;
+    var commit = this.commit = document.getElementById('commit') as HTMLButtonElement;
+}
+
+this._bind = () => {
+    treeGrid.data = this.data;
+    undo.addEventListener('click', this.OnUndoClick);
+    redo.addEventListener('click', this.OnRedoClick);
+    commit.addEventListener('click', this.OnCommitClick);
+}
+this._bind();
+
+private OnCommitClick() {
+    if (this.treeGrid.transactions.getAggregatedChanges(false).length > 0)
+        this.treeGrid.transactions.commit(this.data);
+}
+
+private OnUndoClick() {
+    if (this.treeGrid.transactions.canUndo)
+        this.treeGrid.transactions.undo();
+}
+
+private OnRedoClick() {
+    if (this.treeGrid.transactions.canRedo)
+        this.treeGrid.transactions.redo();
+}
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid #hierarchicalGrid [batchEditing]="true" [data]="data" [primaryKey]="'Artist'"
+    [height]="'580px'" [width]="'100%'" [rowEditable]="true" >
+    <igx-row-island #childGrid [key]="'Albums'" [primaryKey]="'Album'" [rowEditable]="true">
+        <igx-grid-toolbar></igx-grid-toolbar>
+        <ng-template igxToolbarCustomContent let-grid="grid">
+            <button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo(grid)">Undo</button>
+            <button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo(grid)">Redo</button>
+        </ng-template>
+    </igx-row-island>
+</igx-hierarchical-grid>
+<div class="buttons-row">
+    <div class="buttons-wrapper">
+        <button igxButton [disabled]="!undoEnabledParent" (click)="undo(hierarchicalGrid)">Undo Parent</button>
+        <button igxButton [disabled]="!redoEnabledParent" (click)="redo(hierarchicalGrid)">Redo Parent</button>
+    </div>
+</div>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+다음 코드는 <ApiLink type="TransactionService" /> API - 실행 취소, 다시 실행, 커밋 - 의 사용법을 보여 줍니다.
+
+<PlatformBlock for="Angular">
+
+```typescript
+export class GridBatchEditingSampleComponent {
+    @ViewChild('grid', { read: IgxGridComponent }) public gridRowEditTransaction: IgxGridComponent;
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.redo()
+    }
+
+    public commit() {
+        this.grid.transactions.commit(this.data);
+        this.toggle.close();
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export class GridBatchEditingSampleComponent {
+    constructor() {
+        var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    }
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.redo()
+    }
+
+    public commit() {
+        this.grid.transactions.commit(this.data);
+        this.toggle.close();
+    }
+}
+```
+
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+다음 코드는 `HierarchicalTransactionService` API - 실행 취소, 다시 실행, 커밋 - 의 사용법을 보여 줍니다.
+
+```typescript
+export class TreeGridBatchEditingSampleComponent {
+    @ViewChild('treeGrid', { read: IgxTreeGridComponent }) public treeGrid: IgxTreeGridComponent;
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.redo();
+    }
+
+    public commit() {
+        this.treeGrid.transactions.commit(this.data);
+        this.dialog.close();
+    }
+}
+```
+
+```ts
+export class GridBatchEditingSampleComponent {
+    constructor() {
+        var treeGrid = this.treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    }
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.redo()
+    }
+
+    public commit() {
+        this.treeGrid.transactions.commit(this.data);
+        this.toggle.close();
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+다음 코드는 <ApiLink type="TransactionService" /> API - 실행 취소, 다시 실행, 커밋 - 의 사용법을 보여 줍니다.
+
+```typescript
+export class HierarchicalGridBatchEditingSampleComponent {
+    public undo(grid: IgxHierarchicalGridComponent) {
+        /* exit edit mode and commit changes */
+        grid.endEdit(true);
+        grid.transactions.undo();
+    }
+
+    public redo(grid: IgxHierarchicalGridComponent) {
+        /* exit edit mode and commit changes */
+        grid.endEdit(true);
+        grid.transactions.redo();
+    }
+
+    public commit() {
+        this.hierarchicalGrid.transactions.commit(this.data);
+        this.childGrid.hgridAPI.getChildGrids().forEach((grid) => {
+            grid.transactions.commit(grid.data);
+        });
+        this.dialogChanges.close();
+    }
+}
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+트랜잭션 API는 편집 종료를 처리하지 않으므로, 직접 처리해야 합니다. 그렇지 않으면 `{ComponentName}`이(가) 편집 모드에 머무르게 됩니다. 한 가지 방법은 해당 메서드에서 `EndEdit`을(를) 호출하는 것입니다.
+</DocsAside>
+
+<ComponentBlock for="TreeGrid">
+<ApiLink type="{ComponentName}" />에서 상위 노드를 삭제하는 데는 몇 가지 특이점이 있습니다. 계층형 데이터를 사용하는 경우, 상위 노드를 삭제하면 하위 노드도 삭제됩니다. 플랫 데이터를 사용하는 경우, <ApiLink type="{ComponentName}" />의 `CascadeOnDelete` 속성으로 원하는 동작을 설정할 수 있습니다. 이 속성은 상위 레코드가 삭제될 때 하위 레코드도 삭제해야 하는지 나타냅니다(기본적으로 **true**로 설정되어 있습니다).
+</ComponentBlock>
+
+<DocsAside type="info">
+<ApiLink type="{ComponentName}" member="rowEditable" /> 속성을 비활성화하면 `{ComponentName}`이(가) 변경되어 셀 변경 시 트랜잭션을 만들며, UI에 행 편집 오버레이는 표시되지 않습니다.
+</DocsAside>
+
+<PlatformBlock for="Angular">
+<ComponentBlock for="Grid">
+## 일괄 편집을 사용한 원격 페이징 데모
+
+[전체 데모 구성 살펴보기](remote-data-operations.mdx#remote-paging-with-batch-editing)
+
+<Sample src="/{ComponentSample}/data-batch-editing-remote" height={620} alt="{Platform} {ComponentTitle} 원격 페이징 및 일괄 편집 예제" />
+
+
+
+</ComponentBlock>
+</PlatformBlock>
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+`Transactions`
+## 추가 리소스
+
+<PlatformBlock for="Angular">
+- [그리드로 CRUD 작업 만들기](../general/how-to/how-to-perform-crud.mdx)
+
+- [{ComponentTitle} 편집](editing.mdx)
+- [{ComponentTitle} 행 편집](row-editing.mdx)
+- [{ComponentTitle} 행 추가](row-adding.mdx)
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- [{ComponentTitle} 편집](editing.mdx)
+- [{ComponentTitle} 행 편집](row-editing.mdx)
+- [{ComponentTitle} 행 추가](row-adding.mdx)
+
+</PlatformBlock>
+
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

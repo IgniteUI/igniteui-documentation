@@ -1,0 +1,888 @@
+---
+title: "Angular Calendar 컴포넌트 – Ignite UI for Angular | MIT 라이선스" 
+description: "Angular Calendar 컴포넌트를 사용하면 세 가지 선택 모드를 활용하여 날짜 정보를 표시하는 직관적인 달력을 애플리케이션에 만들 수 있습니다. 지금 사용해 보십시오"
+keywords: angular calendar, angular calendar component, angular UI components, angular UI library, ignite ui for angular
+license: MIT
+_language: ko
+llms:
+  description: "Angular Calendar는 앱에서 날짜와 요일을 표시하는 데 사용되는 UI 컴포넌트입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Calendar 컴포넌트 개요
+
+Angular Calendar는 앱에서 날짜와 요일을 표시하는 데 사용되는 UI 컴포넌트입니다. 다양한 기능을 지원하여 사용자가 캘린더 기능을 쉽게 관리하고, 캘린더에서 이벤트를 드래그하여 생성하고, 원하는 날짜로 이동하며, 클릭 한 번으로 Angular 캘린더의 월간, 주간 또는 일간 보기에 이벤트를 표시할 수 있습니다.
+
+<div class="highlight">
+
+네이티브 [Angular 컴포넌트](https://angular.io/guide/architecture#components)로 개발된 Ignite UI for Angular Calendar 컴포넌트는 날짜 정보를 표시하고, 날짜를 활성화하거나 Angular 캘린더의 비활성화 날짜 모드를 적용하는 쉽고 직관적인 방법을 제공합니다. 사용자는 단일 선택, 다중 선택 또는 범위 선택의 세 가지 선택 모드 중에서 고를 수 있습니다.
+</div>
+
+## Angular Calendar 예제
+
+다음 Angular Calendar 예제는 Ignite UI for Angular Calendar 패키지를 사용하여 만들었습니다. 기본 캘린더의 모양과 동작, 사용자가 단일 날짜를 선택하고 강조하는 방법, 특정 날짜로 앞뒤로 이동하는 방법을 빠르게 보여 줍니다.
+
+<hr/>
+
+<Sample src="/scheduling/calendar-sample-5" height={480} alt="Angular Calendar 예제" />
+
+## Ignite UI for Angular Calendar 시작하기
+
+Ignite UI for Angular Calendar 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxCalendarModule`을 가져오는 것입니다.
+
+<DocsAside type="info">
+<ApiLink type="Calendar" label="**IgxCalendarComponent**" />은(는) [`BrowserAnimationsModule`](https://angular.io/api/platform-browser/animations/BrowserAnimationsModule)에도 의존하므로, 이것도 AppModule에 추가해야 합니다:
+</DocsAside>
+
+```typescript
+// app.module.ts
+...
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxCalendarModule } from 'igniteui-angular/calendar';
+// import { IgxCalendarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., BrowserAnimationsModule, IgxCalendarModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 <ApiLink type="Calendar" label="IgxCalendarComponent" />을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_CALENDAR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/calendar/src/calendar/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IGX_CALENDAR_DIRECTIVES } from 'igniteui-angular/calendar';
+// import { IGX_CALENDAR_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-calendar></igx-calendar>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [BrowserAnimationsModule, IGX_CALENDAR_DIRECTIVES]
+    /* or imports: [BrowserAnimationsModule, IgxCalendarComponent] */
+})
+export class HomeComponent {}
+```
+
+이제 Ignite UI for Angular Calendar 모듈 또는 디렉티브를 가져왔으므로, `igx-calendar` 컴포넌트를 사용하기 시작할 수 있습니다.
+
+<DocsAside type="info">
+<ApiLink type="Calendar" />은(는) 날짜의 지역화와 형식 지정에 [Intl Web API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat)를 사용합니다.
+</DocsAside>
+대상 플랫폼이 이를 지원하지 않는 경우 [적절한 폴리필](https://github.com/andyearnshaw/Intl.js/)을 사용하는 것을 고려하십시오.
+
+## Angular Calendar 사용하기
+
+### Angular 단일 선택 캘린더
+
+<ApiLink type="Calendar" label="IgxCalendarComponent" />의 인스턴스를 만들려면 해당 선택기 요소를 템플릿에 배치하기만 하면 됩니다. 이렇게 하면 단일 선택 캘린더 모드에서 현재 월이 표시됩니다.
+
+```html
+{/* app.component.html */}
+{/* Single selection mode */}
+<igx-calendar></igx-calendar>
+```
+
+### Angular Calendar 다중 선택  
+
+<ApiLink type="Calendar" member="selection" label="selection" /> 속성을 사용하면 기본 모드를 쉽게 변경할 수 있습니다:
+
+```html
+{/* app.component.html */}
+{/* Multi selection mode */}
+<igx-calendar selection="multi" [showWeekNumbers]="true"></igx-calendar>
+```
+
+<Sample src="/scheduling/calendar-sample-1" height={360} alt="" />
+
+### Angular Calendar 범위 선택기
+
+같은 방식으로 범위 선택 모드로 전환할 수 있습니다:
+
+```html
+{/* app.component.html */}
+{/* Range selection mode */}
+<igx-calendar selection="range"></igx-calendar>
+```
+
+<Sample src="/scheduling/calendar-sample-8" height={480} alt="" />
+
+<DocsAside type="info">
+선택이 `multi` 또는 `range`인 경우에는 캘린더 헤더가 렌더링되지 않는다는 점에 유의하십시오.
+</DocsAside>
+
+### 현지화 및 형식 지정
+
+그 특성상 지역화와 형식 지정은 모든 캘린더에 필수적입니다. <ApiLink type="Calendar" label="IgxCalendarComponent" />에서는 다음 속성 <ApiLink type="Calendar" member="locale" label="locale" />, <ApiLink type="Calendar" member="formatoptions" label="formatOptions" />, <ApiLink type="Calendar" member="formatViews" label="formatViews" />, <ApiLink type="Calendar" member="weekStart" label="weekStart" />를 통해 이를 제어하고 사용자 지정합니다.
+
+이제 <ApiLink type="Calendar" label="IgxCalendarComponent" /> API의 다른 사용자 지정과 함께 이를 시도해 보겠습니다. 먼저 설정해야 할 것은 주의 시작 요일을 제어하는 <ApiLink type="Calendar" member="weekStart" label="weekStart" />입니다. 기본값은 0이며 일요일에 해당하므로, 월요일을 나타내는 1로 설정하겠습니다. 아래 마크업에서는 표시 형식을 사용자 지정하기 위해 `formatOptions` 및 <ApiLink type="Calendar" member="formatViews" label="formatViews" /> 속성도 바인딩합니다. 마지막으로 사용자의 위치 선택에 따라 `locale` 속성을 값에 바인딩합니다:
+
+```html
+{/* app.component.html */}
+<igx-select #select [(ngModel)]="locale">
+    <igx-select-item *ngFor="let locale of locales" [value]="locale">
+        {{ locale }}
+    </igx-select-item>
+</igx-select>
+
+<igx-calendar #calendar
+    [weekStart]="1"
+    [locale]="locale"
+    [formatOptions]="formatOptions"
+    [formatViews]="formatViews">
+</igx-calendar>
+```
+
+모든 속성 값은 AppComponent 파일에서 설정해야 합니다:
+
+```typescript
+// app.component.ts
+@ViewChild('calendar', { read: IgxCalendarComponent }) public calendar: IgxCalendarComponent;
+
+public formatOptions: any;
+public formatViews: any;
+public locales = ['EN', 'DE', 'FR', 'AR', 'ZH'];
+public locale = 'EN';
+
+public ngOnInit() {
+    this.formatOptions = { day: '2-digit', month: 'long', weekday: 'long', year: 'numeric' };
+    this.formatViews = { day: true, month: true, year: true };
+}
+```
+
+모든 것이 잘 진행되었다면, 이제 사용자 위치에 따라 로캘 표현도 바뀌고 날짜 표시가 사용자 지정된 캘린더가 생겼어야 합니다. 확인해 보겠습니다:
+
+<Sample src="/scheduling/calendar-sample-2" height={580} alt="" />
+
+### Angular Calendar에서 날짜를 비활성화하는 방법
+
+이 섹션은 <ApiLink type="Calendar" member="disabledDates" label="disabledDates" /> 기능의 사용법을 보여 줍니다. 이를 위해 서로 다른 단일 날짜 또는 범위를 배열에 추가한 다음 <ApiLink type="Calendar" member="disabledDates" label="disabledDates" /> 설명자에 전달할 수 있습니다.
+
+<ApiLink type="DateRangeType" kind="enum" />은(는) 비활성화될 범위를 지정하는 데 사용됩니다.
+
+현재 달의 3일부터 8일까지의 날짜를 비활성화하는 샘플을 만들어 보겠습니다:
+
+```typescript
+export class CalendarSample6Component {
+    @ViewChild('calendar') public calendar: IgxCalendarComponent;
+    public today = new Date(Date.now());
+    public range = [
+        new Date(this.today.getFullYear(), this.today.getMonth(), 3),
+        new Date(this.today.getFullYear(), this.today.getMonth(), 8)
+    ];
+
+    public ngOnInit() {
+        this.calendar.disabledDates = [{ type: DateRangeType.Between, dateRange: this.range }];
+    }
+}
+```
+
+이 구성을 적용하면 다음과 같은 결과가 나타납니다:
+
+<Sample src="/scheduling/calendar-sample-6" height={420} alt="" />
+
+### 특별한 날짜
+
+<ApiLink type="Calendar" member="specialDates" label="specialDates" /> 기능은 <ApiLink type="Calendar" member="disabledDates" label="disabledDates" />와(과) 거의 같은 구성 원칙을 사용합니다. 차이점은 <ApiLink type="Calendar" member="specialDates" label="specialDates" />을(를) 선택하고 포커스할 수 있다는 점이며, 이것이 `disabled`와 구별되는 부분입니다.
+
+`igxCalendar`에 일부 <ApiLink type="Calendar" member="specialDates" label="specialDates" />을(를) 추가해 보겠습니다. 이를 위해 <ApiLink kind="enum" type="DateRangeType" member="Specific" /> 유형의 <ApiLink type="DateRangeDescriptor" kind="interface" /> 항목을 만들고, 날짜 배열을 <ApiLink kind="interface" type="DateRangeDescriptor" member="dateRange" />로 전달해야 합니다:
+
+```typescript
+export class CalendarSample7Component {
+    @ViewChild('calendar', { static: true })
+    public calendar: IgxCalendarComponent;
+    @ViewChild('alert', { static: true })
+    public dialog: IgxDialogComponent;
+    public range = [];
+
+    public selectPTOdays(dates: Date[]) {
+        this.range = dates;
+    }
+
+    public submitPTOdays(eventArgs) {
+        this.calendar.specialDates =
+            [{ type: DateRangeType.Specific, dateRange: this.range }];
+
+        this.range.forEach((item) => {
+            this.calendar.selectDate(item);
+        });
+
+        ...
+    }
+}
+```
+
+```html
+<igx-calendar #calendar weekStart="1"
+    selection="multi"
+    (selected)="selectPTOdays($event)">
+</igx-calendar>
+<igx-dialog #alert title="Request Time Off"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="alert.close()">
+</igx-dialog>
+<button igxButton="contained" (click)="submitPTOdays($event)">Submit Request</button>
+```
+
+다음 데모는 휴가 신청 옵션이 있는 캘린더를 보여 줍니다:
+
+<Sample src="/scheduling/calendar-sample-7" height={400} alt="" />
+
+### 템플릿
+
+`igx-calendar`은(는) 헤더, 헤더 제목, 부제목 및 날짜 셀에 대한 템플릿을 지원합니다. 특정 부분을 사용자 지정하려면 해당 부분의 디렉티브를 사용하여 캘린더 안의 `ng-template`을(를) 표시하십시오. `IGX_CALENDAR_DIRECTIVES` 토큰에는 모든 템플릿 디렉티브가 포함되어 있습니다.
+
+| 디렉티브 | 대체되는 부분 | 렌더링 결과 |
+| :--- | :--- | :--- |
+| `igxCalendarHeader` | 캘린더 헤더의 날짜 | `selection`이(가) `single` 또는 `range`이고 <ApiLink type="Calendar" member="hasHeader" label="hasHeader" />이(가) `true`인 경우 |
+| `igxCalendarHeaderTitle` | 캘린더 헤더의 날짜 위에 있는 제목 | `selection`이(가) `single` 또는 `range`이고 <ApiLink type="Calendar" member="hasHeader" label="hasHeader" />이(가) `true`인 경우 |
+| `igxCalendarSubheader` | 탐색 버튼 사이에 있는 월과 연도가 포함된 부제목 | 모든 선택 모드에서, 일, 월, 연도 보기에서 |
+| `igxCalendarDay` | 날짜 셀의 콘텐츠 | 모든 선택 모드에서, 보이는 모든 날짜에 대해. [날짜 템플릿](#날짜-템플릿)을 참조하십시오 |
+
+다음 데모는 네 가지 템플릿을 모두 사용하여 이벤트 캘린더를 만듭니다. 헤더 제목에는 선택된 날짜의 이벤트 수가, 부제목에는 해당 월의 이벤트 수가 표시되며, 모든 날짜 셀에는 이벤트마다 점이 표시됩니다:
+
+<Sample src="/scheduling/calendar-templates" height={500} alt="Angular Calendar 템플릿 예제" />
+
+#### 헤더 템플릿
+
+`igxCalendarHeader` 및 `igxCalendarHeaderTitle` 템플릿은 헤더에 표시되는 날짜, 즉 선택된 첫 번째 날짜 또는 아무것도 선택되지 않았을 때는 현재 날짜를 받습니다. `igxCalendarSubheader` 템플릿은 캘린더의 보기 날짜를 받으므로, 월과 연도 사이의 탐색을 따라갑니다.
+
+부제목 템플릿은 보기 사이를 전환하는 월 및 연도 버튼을 포함하여 모든 보기에서 기본 부제목 콘텐츠를 대체합니다. 캘린더의 <ApiLink type="Calendar" member="activeView" label="activeView" />을(를) 사용하면 현재 보기에 맞는 콘텐츠를 렌더링하고 보기 사이를 전환할 수 있습니다. 위 데모에서 부제목은 일 보기에서만 월 버튼을, 모든 보기에서 연도 버튼을 표시합니다:
+
+```html
+<igx-calendar #calendar [value]="selectedDate" (selected)="onSelection($event)">
+    {/* Header title: the number of events for the selected date */}
+    <ng-template igxCalendarHeaderTitle let-parts>
+        @let count = getEvents(parts.date).length;
+        <span>{{ count ? pluralize(count) : 'No events' }}</span>
+    </ng-template>
+
+    {/* Header: the selected date, composed from the formatted date parts */}
+    <ng-template igxCalendarHeader let-parts>
+        <span>{{ parts.weekday.value }}, {{ parts.month.value }} {{ parts.day.value }}</span>
+    </ng-template>
+
+    {/* Subheader: month and year buttons that switch views, plus the month's event count */}
+    <ng-template igxCalendarSubheader let-parts>
+        @if (calendar.activeView === 'month') {
+            <span
+                class="igx-calendar-picker__date"
+                tabindex="0"
+                role="button"
+                [attr.aria-label]="(parts.date | date: 'LLLL') + ', select month'"
+                (click)="calendar.activeView = 'year'"
+                (keydown.enter)="calendar.activeView = 'year'">
+                {{ parts.month.value }}
+            </span>
+        }
+        <span
+            class="igx-calendar-picker__date"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="(parts.date | date: 'yyyy') + ', select year'"
+            (click)="calendar.activeView = 'decade'"
+            (keydown.enter)="calendar.activeView = 'decade'">
+            {{ parts.year.value }}
+        </span>
+        @if (calendar.activeView === 'month') {
+            @let monthCount = getMonthEventsCount(parts.date);
+            @if (monthCount) {
+                <span class="month-badge">{{ pluralize(monthCount) }}</span>
+            }
+        }
+    </ng-template>
+</igx-calendar>
+```
+
+월 및 연도 버튼은 `igx-calendar-picker__date` 클래스를 재사용하므로 기본 스타일을 유지하며, 키보드로도 계속 접근할 수 있도록 `tabindex`, `role` 및 `aria-label`을(를) 설정합니다.
+
+헤더, 헤더 제목 및 부제목 템플릿은 `$implicit`로 다음 컨텍스트를 받습니다:
+
+| 이름 | 타입 | 설명 |
+| :--- | :--- | :--- |
+| `date` | `Date` | 템플릿의 날짜입니다. `igxCalendarHeader`과(와) `igxCalendarHeaderTitle`의 경우 헤더 날짜이고, `igxCalendarSubheader`의 경우 보기 날짜입니다. |
+| `index` | `number` | <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" />이(가) `1`보다 큰 경우, 부제목이 속한 월 보기의 인덱스입니다. 부제목 날짜는 이 개월 수만큼 오프셋됩니다. |
+| `full` | `string` | 캘린더의 `locale` 및 `formatOptions`로 형식이 지정된 전체 날짜입니다. |
+| `era`, `year`, `month`, `day`, `weekday` | `object` | 캘린더의 `locale` 및 `formatOptions`로 형식이 지정된 날짜 부분입니다. |
+
+각 날짜 부분은 세 개의 문자열을 가진 객체입니다. `value`은(는) 지역화된 부분이고, `literal`는 뒤따르는 구분자(있는 경우)이며, `combined`은(는) 둘을 합친 값입니다.
+
+#### 날짜 템플릿
+
+`igx-calendar`의 날짜 셀에 표시되는 내용을 바꾸려면(예: 이벤트 표시기, 가용성 또는 가격 추가), 캘린더 안의 `ng-template`에 `igxCalendarDay` 디렉티브를 표시하십시오. `IgxCalendarDayTemplateDirective`을(를) 캘린더와 함께 가져오거나, 이를 포함하는 `IGX_CALENDAR_DIRECTIVES` 토큰을 사용하십시오. 디렉티브를 가져오지 않으면 `igxCalendarDay` 속성은 무시되고 캘린더는 기본 날짜 콘텐츠를 렌더링합니다.
+
+```typescript
+import { IgxCalendarComponent, IgxCalendarDayTemplateDirective } from 'igniteui-angular/calendar';
+// import { IgxCalendarComponent, IgxCalendarDayTemplateDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+interface CalendarEvent {
+    title: string;
+    type: 'meeting' | 'deadline' | 'personal';
+}
+
+@Component({
+    ...
+    imports: [IgxCalendarComponent, IgxCalendarDayTemplateDirective]
+})
+export class AppComponent {
+    // Events keyed by Date.toDateString()
+    public events = new Map<string, CalendarEvent[]>();
+
+    public getEvents(date: Date): CalendarEvent[] {
+        return this.events.get(date.toDateString()) ?? [];
+    }
+
+    public pluralize(count: number): string {
+        return `${count} ${count === 1 ? 'event' : 'events'}`;
+    }
+}
+```
+
+```html
+<igx-calendar>
+    {/* Day: the date with a dot for each event */}
+    <ng-template igxCalendarDay let-date let-formattedDate="formattedDate" let-selected="selected">
+        @let events = getEvents(date);
+        <span class="day" [class.day--selected]="selected">
+            <span>{{ formattedDate }}</span>
+            <span class="day__dots">
+                @for (event of events; track $index) {
+                    <span class="day__dot day__dot--{{ event.type }}"></span>
+                }
+            </span>
+            @if (events.length) {
+                {/* Readable text for screen readers, announced as the cell description */}
+                <span class="visually-hidden">{{ pluralize(events.length) }}</span>
+            }
+        </span>
+    </ng-template>
+</igx-calendar>
+```
+
+`dayTemplate` 입력을 통해서도 템플릿을 전달할 수 있습니다. 입력을 통해 설정한 템플릿은 `igxCalendarDay`로 표시된 템플릿보다 우선합니다:
+
+```html
+<igx-calendar [dayTemplate]="dayTemplate"></igx-calendar>
+
+<ng-template #dayTemplate let-date>{{ date.getDate() }}</ng-template>
+```
+
+템플릿은 날짜 숫자만 대체합니다. 날짜 셀은 선택, 키보드 탐색, ARIA 속성 및 상태 스타일(선택됨, 범위, 현재, 특별, 비활성화)을 그대로 유지하므로, 템플릿이 적용된 날짜를 선택하는 방식은 이전과 같으며 테마도 선택 상태를 계속 그립니다. 숨겨진 날짜(<ApiLink type="Calendar" member="hideOutsideDays" label="hideOutsideDays" /> 참조)에는 템플릿이 렌더링되지 않으며, <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" />이(가) `1`보다 큰 경우 모든 월 보기에서 사용됩니다.
+
+템플릿은 다음 속성을 가진 `IgxCalendarDayTemplateContext`을(를) 받습니다:
+
+| 이름 | 타입 | 설명 |
+| :--- | :--- | :--- |
+| `$implicit`, `date` | `Date` | 날짜 셀의 날짜입니다. |
+| `formattedDate` | `string` | `formatOptions` 및 `formatViews`로 형식이 지정된 날짜 셀의 기본 텍스트입니다. |
+| `selected` | `boolean` | 날짜가 선택됨으로 렌더링되는지 여부입니다. |
+| `disabled` | `boolean` | 날짜가 `disabledDates`을(를) 통해 비활성화되었는지 여부입니다. |
+| `special` | `boolean` | 날짜가 `specialDates`을(를) 통해 특별한 날짜로 표시되었는지 여부입니다. |
+| `today` | `boolean` | 날짜가 오늘 날짜인지 여부입니다. |
+| `weekend` | `boolean` | 날짜가 주말인지 여부입니다. |
+| `currentMonth` | `boolean` | 날짜가 표시된 월에 속하는지 여부입니다. |
+| `active` | `boolean` | 날짜가 활성(키보드 포커스) 날짜인지 여부입니다. |
+| `firstInRange` | `boolean` | 날짜가 선택되었거나 미리 보기 중인 범위의 첫 번째 날짜인지 여부입니다. |
+| `lastInRange` | `boolean` | 날짜가 선택되었거나 미리 보기 중인 범위의 마지막 날짜인지 여부입니다. |
+| `withinRange` | `boolean` | 날짜가 선택된 범위 안에 있는지 여부입니다. `selection`이(가) `range`인 경우를 제외하고는 항상 `false`입니다. |
+| `withinPreviewRange` | `boolean` | 범위를 선택하는 중에 날짜가 미리 보기 범위 안에 있는지 여부입니다. |
+
+<DocsAside type="info">
+화면 낭독기는 날짜 셀을 자체 `aria-label`을(를) 통해 알리고, 템플릿이 셀 설명으로 렌더링한 텍스트를 읽습니다. 기호만 쓰지 말고 "3 events"와 같이 읽을 수 있는 텍스트를 렌더링하십시오. 셀의 어느 곳을 클릭하더라도 날짜가 선택되므로, 템플릿에 포커스 가능하거나 상호 작용하는 요소를 넣지 마십시오. 선택된 배경에서도 콘텐츠를 읽기 쉽게 유지하려면 `currentColor` 또는 `selected` 컨텍스트 속성을 사용하십시오.
+</DocsAside>
+
+### 주 번호
+
+이제 <ApiLink type="Calendar" member="showWeekNumbers" label="showWeekNumbers" /> 입력을 사용하여 Calendar 및 DatePicker 컴포넌트 모두에 주 번호를 표시할 수 있습니다.
+
+```html
+
+{/* app.component.html */}
+<igx-calendar selection="multi" [showWeekNumbers]="true"></igx-calendar>
+```
+
+다음 데모는 주 번호를 활성화한 캘린더를 보여 줍니다:
+
+<Sample src="/scheduling/calendar-sample-1" height={380} alt="" />
+
+## Calendar 이벤트
+
+캘린더가 발생시키는 이벤트를 살펴보겠습니다:
+
+- <ApiLink type="Calendar" member="selected" label="selected" /> - 캘린더에서 날짜를 선택할 때 발생합니다.
+- <ApiLink type="Calendar" member="viewDateChanged" label="viewDateChanged" /> - 표시되는 월/연도가 바뀔 때마다 발생합니다. 예를 들어 `next` 또는 `previous` 월로 이동한 후입니다.
+- <ApiLink type="Calendar" member="activeViewChanged" label="activeViewChanged" /> - 활성 보기가 바뀐 후 발생합니다. 예를 들어 사용자가 헤더의 `month` 또는 `year` 영역을 클릭한 후입니다.
+
+```html
+{/* app.component.html */}
+<igx-calendar #calendar
+    (selected)="onSelection($event)"
+    (viewDateChanged)="viewDateChanged($event)"
+    (activeViewChanged)="activeViewChanged($event)">
+</igx-calendar>
+```
+
+<ApiLink type="Calendar" member="selected" label="selected" /> 이벤트는 입력 유효성 검사 로직을 구현하기에 적합합니다. 선택 항목이 5일을 초과하면 사용자에게 알리고 선택을 초기화하려면 아래 코드를 사용하십시오:
+
+```typescript
+// app.component.ts
+...
+public onSelection(dates: Date[]) {
+    if (dates.length > 5) {
+        this.calendar.selectedDates = [];
+        // alert the user
+    }
+}
+public viewDateChanged(event: IViewDateChangeEventArgs) {
+    // use event.previousValue to get previous month/year that was presented.
+    // use event.currentValue to get current month/year that is presented.
+}
+
+public activeViewChanged(event: CalendarView) {
+    // use CalendarView[event] to get the current active view (DEFAULT, YEAR or DECADE)
+}
+```
+
+아래 데모에서 선택을 바꾸고 월과 연도를 이동해 보면서, 발생한 이벤트가 실시간으로 기록되는 것을 확인하십시오:
+
+<Sample src="/scheduling/calendar-sample-3" height={420} alt="" />
+
+## Angular Calendar 보기
+
+`IgxCalendarModule`은(는) 독립적으로 사용할 수 있는 별도의 보기를 제공합니다:
+
+- Angular Calendar 일 보기 - <ApiLink type="DaysView" />
+
+<Sample src="/scheduling/calendar-days-view" height={400} alt="" />
+
+- Angular Calendar 월 보기 - <ApiLink type="MonthsView" />
+
+<Sample src="/scheduling/calendar-months-view" height={290} alt="" />
+
+- Angular Calendar 연 보기 - <ApiLink type="YearsView" />
+
+<Sample src="/scheduling/calendar-years-view" height={320} alt="" />
+
+## 키보드 탐색
+
+_Tab 키_로 페이지를 이동할 때는 [W3 접근성 권장 사항](https://www.w3.org/TR/wai-aria-practices/#layoutGrid)에 따라 <ApiLink type="Calendar" label="IgxCalendarComponent" />이(가) 이제 다음 탭 정지 지점을 도입한다는 점을 기억해야 합니다:
+
+- 이전 달 버튼
+- 월 선택 버튼
+- 연도 선택 버튼
+- 다음 달 버튼
+- 선택된 날짜, 오늘 날짜, 일 보기에서 처음으로 포커스 가능한(비활성화되지 않은) 날짜
+
+선택된 날짜가 여러 개인 Angular Calendar에서는 첫 번째 날짜만 탭 정지 지점으로 도입됩니다. 예를 들어 Angular Calendar 다중 선택이 활성화되어 있고 _13/10/2020_, _17/10/2020_, _21/10/2020_ 날짜를 선택했다면, 탭 탐색 중에는 _13/10/2020_만 접근할 수 있습니다. Angular Calendar 범위 선택기에서는 선택된 범위의 첫 번째 날짜만 _페이지 탭 순서_에 포함됩니다.
+
+<DocsAside type="info">
+_v10.2.0_부터의 동작 변경 - _일 보기_에서 Tab 키 탐색은 더 이상 사용할 수 없습니다. _날짜 보기_에서 날짜 사이를 이동하려면 _화살표 키_를 사용해야 합니다.
+</DocsAside>
+
+`igxCalendar` 컴포넌트에 포커스가 있을 때 다음을 사용하십시오:
+
+- <kbd>PageUp</kbd> 키: 이전 달로 이동,
+- <kbd>PageDown</kbd> 키: 다음 달로 이동,
+- <kbd>Shift</kbd> + <kbd>PageUp</kbd> 키: 이전 연도로 이동,
+- <kbd>Shift</kbd> + <kbd>PageDown</kbd> 키: 다음 연도로 이동,
+- <kbd>Home</kbd> 키: 현재 달의 첫 날 또는 보이는 첫 번째 월에 포커스 이동
+- <kbd>End</kbd> 키: 현재 달의 마지막 날 또는 보이는 마지막 월에 포커스 이동
+
+`prev` 또는 `next` 월 버튼(부제목 안)에 포커스가 있을 때 다음을 사용하십시오:
+
+- <kbd>Space</kbd> 또는 <kbd>Enter</kbd> 키: 다음 또는 이전 달을 화면에 스크롤하여 표시합니다.
+
+`months` 버튼(부제목 안)에 포커스가 있을 때 다음을 사용하십시오:
+
+- <kbd>Space</kbd> 또는 <kbd>Enter</kbd> 키: 월 보기를 엽니다.
+
+`year` 버튼(부제목 안)에 포커스가 있을 때 다음을 사용하십시오:
+
+- <kbd>Space</kbd> 또는 <kbd>Enter</kbd> 키: 십년 보기를 엽니다.
+
+현재 달 안의 `day`에 포커스가 있을 때:
+
+- _화살표 키_를 사용하여 날짜 사이를 이동하십시오. 참고: 비활성화된 날짜는 건너뜁니다.
+- 달의 **마지막 날**/**첫 날**에서 **에서**/**로** 이동하는 동안에도 포커스는 보기에 있는 현재 달에 유지됩니다.
+- 키보드 탐색은 연속적이어서, 화살표로 이동하는 동안 모든 달을 차례로 지나갑니다.
+- <kbd>Enter 키</kbd>를 사용하여 현재 포커스된 날짜를 선택하십시오.
+
+월 보기 안의 `month`에 포커스가 있을 때 다음을 사용하십시오:
+
+- 화살표 키: 월 사이를 이동합니다.
+- <kbd>Home</kbd> 키: 월 보기 안의 첫 번째 월에 포커스를 이동합니다.
+- <kbd>End</kbd> 키: 월 보기 안의 마지막 월에 포커스를 이동합니다.
+- <kbd>Enter</kbd> 키: 현재 포커스된 월을 선택하고 보기를 닫습니다.
+
+십년 보기 안의 `year`에 포커스가 있을 때 다음을 사용하십시오:
+
+- <kbd>위쪽 화살표</kbd> 및 <kbd>아래쪽 화살표</kbd> 키: 연도 사이를 이동합니다,
+- <kbd>Enter</kbd> 키: 현재 포커스된 연도를 선택하고 보기를 닫습니다.
+
+<DocsAside type="info">
+8.2.0 버전부터 키보드 탐색은 현재 달 바깥의 날짜에 포커스를 두지 않고, 대신 보이는 월을 변경합니다.
+</DocsAside>
+
+## 다중 보기 캘린더
+
+다중 보기 캘린더는 세 가지 선택 유형을 모두 지원합니다. <ApiLink type="Calendar" member="monthsViewNumber" label="monthsViewNumber" /> 입력을 사용하여 표시할 월 수를 설정하십시오. 이 월들은 flex 컨테이너에서 가로로 표시됩니다. 설정할 수 있는 최댓값에는 제한이 없습니다. 다중 보기 캘린더를 사용할 때는 현재 달에 속하지 않는 날짜를 숨기고 싶을 수 있습니다. 이는 <ApiLink type="Calendar" member="hideOutsideDays" label="hideOutsideDays" /> 속성으로 할 수 있습니다. 키보드 탐색은 보이는 월이 있을 때 다음/이전 월로 이동합니다.
+
+<Sample src="/scheduling/multiview-calendar" height={500} alt="" />
+
+## 캘린더 방향
+
+방향 설정을 사용하면 사용자가 캘린더의 헤더와 보기가 표시되는 방식을 선택할 수 있습니다.
+
+### 헤더 방향 옵션
+
+헤더 방향을 변경하면 캘린더 헤더를 가로(캘린더 보기 위) 또는 세로(캘린더 보기 옆)에 배치할 수 있습니다.
+이렇게 하려면 <ApiLink type="Calendar" member="headerOrientation" label="headerOrientation" /> 속성을 각각 `horizontal` 또는 `vertical`으로 설정하십시오.
+
+### 보기 방향 옵션
+
+보기 방향을 설정하면 캘린더의 월을 가로(나란히) 또는 세로(위아래로) 배치할 수 있습니다.
+이렇게 하려면 <ApiLink type="Calendar" member="orientation" label="orientation" /> 속성을 각각 `horizontal` 또는 `vertical`으로 설정하십시오.
+
+<DocsAside type="info">
+이 속성이 작동하는 것을 보려면 최소한 두 개의 월 보기 캘린더가 필요합니다.
+</DocsAside>
+
+```html
+<igx-calendar [monthsViewNumber]="2" [headerOrientation]="headerOrientation" [orientation]="orientation"></igx-calendar>
+```
+
+```typescript
+const orientations = ["horizontal", "vertical"] as const;
+type Orientation = (typeof orientations)[number];
+
+export class CalendarSample9Component {
+    protected orientations = Array.from(orientations, (o) => o);
+    protected headerOrientation: Orientation = "horizontal";
+    protected orientation: Orientation = "horizontal";
+
+    protected setHeaderOrientation(orientation: Orientation) {
+        this.headerOrientation = orientation;
+    }
+
+    protected setOrientation(orientation: Orientation) {
+        this.orientation = orientation;
+    }
+}
+```
+
+<Sample src="/scheduling/calendar-sample-9" height={750} alt="Angular Calendar 방향 예제" />
+
+## 스타일링
+
+### 캘린더 테마 속성 매핑
+
+`$header-background` 및 `$content-background` 속성을 수정하면, 캘린더 컴포넌트의 스타일이 일관되도록 관련된 모든 테마 속성이 자동으로 조정됩니다. 영향을 받는 테마 속성에 대한 자세한 개요는 아래 표를 참조하십시오.
+
+<div class="theme-switcher-wrapper">
+
+{/*Theme Switcher Radios and Labels*/}
+<input type="radio" name="theme" id="material" checked/>
+<label for="material" class="switch-label">Material</label>
+<input type="radio" name="theme" id="fluent"/>
+<label for="fluent" class="switch-label">Fluent</label>
+<input type="radio" name="theme" id="bootstrap"/>
+<label for="bootstrap" class="switch-label">Bootstrap</label>
+<input type="radio" name="theme" id="indigo"/>
+<label for="indigo" class="switch-label">Indigo</label>
+
+<div class="tables">
+
+    {/* Material Theme Table */}
+    <div class="theme-table material">
+
+        | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | 캘린더 헤더의 텍스트 색상 |
+|  | $picker-hover-foreground | 선택기 마우스 오버 전경색 |
+|  | $picker-focus-foreground | 선택기 포커스 전경색 |
+|  | $navigation-hover-color | 탐색의 마우스 오버 색상 |
+|  | $navigation-focus-color | 탐색의 포커스 색상 |
+|  | $date-selected-background | 선택된 날짜의 배경 |
+|  | $date-selected-current-background | 선택된 오늘 날짜의 배경 |
+|  | $date-selected-foreground | 선택된 날짜의 전경색 |
+|  | $date-selected-current-foreground | 선택된 오늘 날짜의 전경색 |
+|  | $date-selected-current-border-color | 선택된 오늘 날짜의 테두리 색상 |
+|  | $date-selected-special-border-color | 선택된 특별한 날짜의 테두리 색상 |
+|  | $ym-selected-background | 선택된 연/월의 배경 |
+|  | $ym-selected-hover-background | 선택된 연/월 날짜의 마우스 오버 배경 |
+|  | $ym-selected-current-background | 현재 선택된 연/월의 배경 |
+|  | $ym-selected-current-hover-background | 현재 선택된 연/월의 마우스 오버 배경 |
+|  | $ym-selected-foreground | 선택된 연/월의 전경색 |
+|  | $ym-selected-hover-foreground | 선택된 연/월의 마우스 오버 전경색 |
+|  | $ym-selected-current-foreground | 현재 선택된 연/월의 전경색 |
+|  | $ym-selected-current-hover-foreground | 현재 선택된 연/월의 마우스 오버 전경색 |
+| **$content-background** | $content-foreground | 캘린더 콘텐츠 영역 안의 텍스트 및 아이콘 색상 |
+|  | $weekend-color | 주말 날짜의 색상 |
+|  | $inactive-color | 활성 범위 밖의 날짜 색상 |
+|  | $weekday-color | 요일 레이블의 색상 |
+|  | $picker-background | 선택기 배경 |
+|  | $date-hover-background | 마우스 오버된 날짜의 배경 |
+|  | $date-hover-foreground | 마우스 오버된 날짜의 전경색 |
+|  | $date-focus-background | 포커스된 날짜의 배경 |
+|  | $date-focus-foreground | 포커스된 날짜의 전경색 |
+|  | $date-current-background | 오늘 날짜의 배경 |
+|  | $date-current-foreground | 오늘 날짜의 전경색 |
+|  | $date-current-border-color | 오늘 날짜의 테두리 색상 |
+|  | $ym-current-background | 현재 연/월의 배경 |
+|  | $ym-current-hover-background | 현재 연/월의 마우스 오버 배경 |
+|  | $ym-current-foreground | 현재 연/월의 전경색 |
+|  | $ym-current-hover-foreground | 현재 연/월의 마우스 오버 전경색 |
+|  | $date-selected-range-background | 선택된 범위의 배경 |
+|  | $date-selected-range-foreground | 선택된 날짜 범위의 전경색 |
+|  | $date-selected-current-range-background | 선택된 오늘 날짜 범위의 배경 |
+|  | $date-selected-current-range-hover-background | 선택된 오늘 날짜 범위의 마우스 오버 배경 |
+|  | $date-selected-current-range-focus-background | 선택된 오늘 날짜 범위의 포커스 배경 |
+|  | $date-selected-current-range-foreground | 선택된 오늘 날짜 범위의 전경색 |
+|  | $date-special-foreground | 특별한 날짜의 전경색 |
+|  | $date-special-border-color | 특별한 날짜의 테두리 색상 |
+|  | $date-special-hover-border-color | 특별한 날짜의 마우스 오버 테두리 색상 |
+|  | $date-special-focus-foreground | 특별한 날짜의 포커스 전경색 |
+|  | $date-special-range-foreground | 특별한 날짜 범위의 전경색 |
+|  | $date-special-range-border-color | 특별한 날짜 범위의 테두리 색상 |
+|  | $date-special-range-hover-background | 특별한 날짜 범위의 마우스 오버 배경 |
+|  | $date-selected-special-border-color | 선택된 특별한 날짜의 테두리 색상 |
+|  | $date-selected-special-hover-border-color | 선택된 특별한 날짜의 마우스 오버 테두리 색상 |
+|  | $date-selected-special-focus-border-color | 선택된 특별한 날짜의 포커스 테두리 색상 |
+|  | $date-disabled-foreground | 비활성화된 날짜의 전경색 |
+|  | $date-disabled-range-foreground | 비활성화된 범위의 전경색 |
+| **$date-border-radius** | $date-range-border-radius | 날짜 범위의 테두리 반경을 제어합니다. |
+|  | $date-current-border-radius | 오늘 날짜의 테두리 반경을 제어합니다. |
+|  | $date-special-border-radius | 특별한 날짜의 테두리 반경을 제어합니다. |
+|  | $date-border-radius | 지정하지 않고 `$date-range-border-radius`이(가) 설정되어 있으면 `$date-range-border-radius`의 값을 사용합니다. |
+
+</div>
+        {/* Fluent Theme Table */}
+        <div class="theme-table fluent">
+
+            | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | 캘린더 헤더의 텍스트 색상 |
+|  | $picker-hover-foreground | 선택기 마우스 오버 전경색 |
+|  | $picker-focus-foreground | 선택기 포커스 전경색 |
+|  | $date-current-background | 오늘 날짜의 배경 |
+|  | $date-current-hover-foreground | 오늘 날짜의 마우스 오버 전경색 |
+|  | $date-current-focus-foreground | 오늘 날짜의 포커스 전경색 |
+|  | $date-selected-current-foreground | 현재 선택된 날짜의 전경색 |
+|  | $date-selected-current-hover-foreground | 현재 선택된 날짜의 마우스 오버 전경색 |
+|  | $date-selected-current-focus-foreground | 현재 선택된 날짜의 포커스 전경색 |
+|  | $date-special-border-color | 특별한 날짜의 테두리 색상 |
+|  | $date-special-hover-foreground | 특별한 날짜의 마우스 오버 전경색 |
+|**$content-background** | $content-foreground | 캘린더 콘텐츠 영역 안의 텍스트 및 아이콘 색상 |
+|  | $weekend-color | 주말 날짜의 색상 |
+|  | $inactive-color | 활성 범위 밖의 날짜 색상 |
+|  | $weekday-color | 요일 레이블의 색상 |
+|  | $picker-background | 선택기 배경 |
+|  | $date-hover-background | 마우스 오버된 날짜의 배경 |
+|  | $date-hover-foreground | 마우스 오버된 날짜의 전경색 |
+|  | $date-focus-background | 포커스된 날짜의 배경 |
+|  | $date-focus-foreground | 포커스된 날짜의 전경색 |
+|  | $date-selected-background | 선택된 날짜의 배경 |
+|  | $date-selected-hover-background | 선택된 날짜의 마우스 오버 배경 |
+|  | $date-selected-focus-background | 선택된 날짜의 포커스 배경 |
+|  | $date-selected-foreground | 선택된 날짜의 전경색 |
+|  | $date-selected-hover-foreground | 선택된 날짜의 마우스 오버 전경색 |
+|  | $date-selected-focus-foreground | 선택된 날짜의 포커스 전경색 |
+|  | $date-selected-range-background | 선택된 날짜 범위의 배경 |
+|  | $date-selected-range-foreground | 선택된 날짜 범위의 전경색 |
+|  | $date-disabled-foreground | 비활성화된 날짜의 전경색 |
+|  | $date-disabled-range-foreground | 비활성화된 범위의 전경색 |
+| **$date-border-radius** | $date-range-border-radius | 날짜 범위의 테두리 반경을 제어합니다. |
+|  | $date-current-border-radius | 오늘 날짜의 테두리 반경을 제어합니다. |
+|  | $date-special-border-radius | 특별한 날짜의 테두리 반경을 제어합니다. |
+|  | $date-border-radius | 지정하지 않고 `$date-range-border-radius`이(가) 설정되어 있으면 `$date-range-border-radius`의 값을 사용합니다. |
+
+</div>
+        {/* Bootstrap Theme Table */}
+        <div class="theme-table bootstrap">
+
+            | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | 캘린더 헤더의 텍스트 색상 |
+|  | $picker-background | 선택기 배경 |
+|  | $picker-hover-foreground | 선택기 마우스 오버 전경색 |
+|  | $weekday-color | 요일 레이블의 색상 |
+|  | $picker-focus-foreground | 선택기 포커스 전경색 |
+|  | $date-special-border-color | 특별한 날짜의 테두리 색상 |
+|  | $date-special-focus-foreground | 특별한 날짜의 포커스 전경색 |
+| **$content-background** | $content-foreground | 캘린더 콘텐츠 영역 안의 텍스트 및 아이콘 색상 |
+|  | $weekend-color | 주말 날짜의 색상 |
+|  | $inactive-color | 활성 범위 밖의 날짜 색상 |
+|  | $weekday-color | 요일 레이블의 색상 |
+|  | $date-hover-background | 마우스 오버된 날짜의 배경 |
+|  | $date-hover-foreground | 마우스 오버된 날짜의 전경색 |
+|  | $date-focus-background | 포커스된 날짜의 배경 |
+|  | $date-focus-foreground | 포커스된 날짜의 전경색 |
+|  | $date-current-background | 오늘 날짜의 배경 |
+|  | $date-current-foreground | 오늘 날짜의 전경색 |
+|  | $date-current-border-color | 오늘 날짜의 테두리 색상 |
+|  | $date-selected-background | 선택된 날짜의 배경 |
+|  | $date-selected-current-background | 현재 선택된 날짜의 배경 |
+|  | $date-selected-foreground | 선택된 날짜의 전경색 |
+|  | $date-selected-current-foreground | 현재 선택된 날짜의 전경색 |
+|  | $date-selected-special-border-color | 선택된 특별한 날짜의 테두리 색상 |
+|  | $date-selected-special-hover-border-color | 선택된 특별한 날짜의 마우스 오버 테두리 색상 |
+|  | $date-selected-special-focus-border-color | 선택된 특별한 날짜의 포커스 테두리 색상 |
+|  | $date-selected-range-background | 선택된 날짜 범위의 배경 |
+|  | $date-selected-range-foreground | 선택된 날짜 범위의 전경색 |
+|  | $date-disabled-foreground | 비활성화된 날짜의 전경색 |
+|  | $date-disabled-range-foreground | 비활성화된 범위의 전경색 |
+| **$date-border-radius** | $date-range-border-radius | 날짜 범위의 테두리 반경을 제어합니다. |
+|  | $date-current-border-radius | 오늘 날짜의 테두리 반경을 제어합니다. |
+|  | $date-special-border-radius | 특별한 날짜의 테두리 반경을 제어합니다. |
+|  | $date-border-radius | 지정하지 않고 `$date-range-border-radius`이(가) 설정되어 있으면 `$date-range-border-radius`의 값을 사용합니다. |
+
+</div>
+        {/* Indigo Theme Table */}
+        <div class="theme-table indigo">
+
+            | 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$header-background** | $header-foreground | 캘린더 헤더의 텍스트 색상 |
+|  | $picker-background | 선택기 배경 |
+|  | $picker-hover-foreground | 선택기 마우스 오버 전경색 |
+|  | $picker-focus-foreground | 선택기 포커스 전경색 |
+|  | $navigation-hover-color | 탐색의 마우스 오버 색상 |
+|  | $navigation-focus-color | 탐색의 포커스 색상 |
+|  | $date-current-background | 오늘 날짜의 배경 |
+|  | $date-current-border-color | 오늘 날짜의 테두리 색상 |
+|  | $date-current-hover-background | 마우스 오버된 오늘 날짜의 배경 |
+|  | $date-current-hover-border-color | 마우스 오버된 오늘 날짜의 테두리 색상 |
+|  | $date-current-focus-background | 포커스된 오늘 날짜의 배경 |
+|  | $date-current-focus-border-color | 포커스된 오늘 날짜의 테두리 색상 |
+|  | $date-current-foreground | 오늘 날짜의 전경색 |
+|  | $date-current-hover-foreground | 마우스 오버된 오늘 날짜의 전경색 |
+|  | $date-current-focus-foreground | 포커스된 오늘 날짜의 전경색 |
+|  | $date-selected-current-border-color | 현재 선택된 날짜의 테두리 색상 |
+| **$content-background** | $content-foreground | 캘린더 콘텐츠 영역 안의 텍스트 및 아이콘 색상 |
+|  | $weekend-color | 주말 날짜의 색상 |
+|  | $inactive-color | 활성 범위 밖의 날짜 색상 |
+|  | $weekday-color | 요일 레이블의 색상 |
+|  | $date-hover-background | 마우스 오버된 날짜의 배경 |
+|  | $date-hover-foreground | 마우스 오버된 날짜의 전경색 |
+|  | $date-focus-background | 포커스된 날짜의 배경 |
+|  | $date-focus-foreground | 포커스된 날짜의 전경색 |
+|  | $date-selected-background | 선택된 날짜의 배경 |
+|  | $date-selected-current-background | 현재 선택된 날짜의 배경 |
+|  | $date-selected-foreground | 선택된 날짜의 전경색 |
+|  | $date-selected-current-foreground | 현재 선택된 날짜의 전경색 |
+|  | $date-selected-current-border-color | 현재 선택된 날짜의 테두리 색상 |
+|  | $date-selected-range-background | 선택된 날짜 범위의 배경 |
+|  | $date-selected-range-foreground | 선택된 날짜 범위의 전경색 |
+|  | $date-selected-current-range-background | 선택된 범위 안의 오늘 날짜 배경 |
+|  | $date-selected-current-range-hover-background | 선택된 범위 안의 오늘 날짜의 마우스 오버 배경 |
+|  | $date-selected-current-range-foreground | 선택된 범위 안의 오늘 날짜의 전경색 |
+|  | $date-disabled-foreground | 비활성화된 날짜의 전경색 |
+|  | $date-disabled-range-foreground | 비활성화된 범위의 전경색 |
+| **$date-border-radius** | $date-range-border-radius | 날짜 범위의 테두리 반경을 제어합니다. |
+|  | $date-current-border-radius | 오늘 날짜의 테두리 반경을 제어합니다. |
+|  | $date-special-border-radius | 특별한 날짜의 테두리 반경을 제어합니다. |
+|  | $date-border-radius | 지정하지 않고 `$date-range-border-radius`이(가) 설정되어 있으면 `$date-range-border-radius`의 값을 사용합니다. |
+
+</div>
+
+</div>
+</div>{/* .theme-switcher-wrapper */}
+
+캘린더 스타일링을 시작하려면 모든 테마 함수와 `tokens()` 믹스인을 내보내는 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+가장 단순한 방법으로, <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" code={true} />을(를) 확장하고 `$header-background`과(와) `$content-background` 매개변수만 지정하는 새 테마를 만듭니다. 그러면 테마가 적절한 상태 색상과 대비되는 전경색을 자동으로 계산합니다. 물론 필요하다면 어떤 테마 매개변수든 사용자 지정 값으로 재정의할 수 있습니다.
+
+```scss
+$custom-calendar-theme: calendar-theme(
+  $header-background: #ecaa53,
+  $content-background: #011627,
+);
+```
+
+마지막 단계는 사용자 지정 캘린더 테마를 전달하는 것입니다:
+
+```scss
+:host {
+    @include tokens($custom-calendar-theme);
+}
+```
+
+<Sample src="/scheduling/calendar-styling-sample" height={500} alt="" />
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 `calendar`의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](/themes/tailwind)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-calendar`, `dark-calendar`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="calendar-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<igx-calendar
+class="!light-calendar
+![--header-background:#4F6A5A]
+![--content-background:#A3C7B2]"
+[weekStart]="1">
+</igx-calendar>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 캘린더는 다음과 같이 보여야 합니다:
+
+<Sample src="/scheduling/calendar-tailwind-styling-sample" height={500} iframeOnly />
+
+## API 참조
+<hr/>
+- <ApiLink type="Calendar" />
+- <ApiLink type="Calendar" member="activeDate" label="activeDate" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendarComponent 스타일" />
+- <ApiLink type="DateRangeType" kind="enum" />
+- <ApiLink type="DateRangeDescriptor" kind="interface" />
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

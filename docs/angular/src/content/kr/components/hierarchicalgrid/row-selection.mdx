@@ -1,0 +1,302 @@
+---
+title: "Angular Grid 행 선택 - Ignite UI for Angular"
+description: "행 선택을 활성화하여 UX를 개선하고 사용자가 단일 또는 여러 행을 관리할 수 있게 하십시오. Ignite UI로 행 데이터 선택을 구성하는 것이 얼마나 쉬운지 확인하십시오."
+keywords: data select, igniteui for angular, infragistics
+license: commercial
+_canonicalLink: grid/row-selection
+_language: ko
+llms:
+  description: "Ignite UI for Angular의 행 선택에서는 행 안의 다른 모든 열보다 앞서는 행 선택 열이 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Hierarchical Grid 행 선택
+
+Ignite UI for Angular의 행 선택에서는 행 안의 다른 모든 열보다 앞서는 행 선택 열이 있습니다. 사용자가 행 선택기를 클릭하면 그 행이 선택되거나 선택 해제되며, 이를 통해 사용자는 여러 행의 데이터를 선택할 수 있습니다.
+
+## Angular 행 선택 예제
+
+아래 샘플은 Hierarchical Grid의 **행 선택** 동작 세 가지 유형을 보여 줍니다. 아래 버튼을 사용하여 사용 가능한 각 선택 모드를 활성화하십시오. 각 버튼과 상호 작용할 때마다 스낵바 메시지 상자를 통해 간단한 설명이 표시됩니다. 스위치 버튼을 사용하여 행 선택기 체크박스를 _숨기거나_ _표시_할 수 있습니다.
+
+<Sample src="/hierarchical-grid/hierarchical-grid-selection" height={710} alt="Angular 행 선택 예제" />
+
+## 설정
+
+<ApiLink type="HierarchicalGrid" />에서 행 선택을 설정하려면 **rowSelection** 속성을 설정하기만 하면 됩니다. 이 속성은 **GridSelectionMode** 열거형을 받습니다. **GridSelectionMode**는 다음 세 가지 모드를 노출합니다: **none**, **single** 및 **multiple**. 아래에서 각각을 더 자세히 살펴보겠습니다.
+
+### 선택 없음
+
+<ApiLink type="HierarchicalGrid" />에서는 기본적으로 행 선택이 비활성화되어 있습니다. 그렇지 않으면 _([rowSelection]="'none'")_입니다. 따라서 Hierarchical Grid UI와의 상호 작용을 통해서는 행을 선택하거나 선택 해제할 **수 없으며**, 이러한 작업을 완료하는 유일한 방법은 제공된 API 메서드를 사용하는 것입니다.
+
+### 단일 선택
+
+이제 단일 행 선택은 쉽게 설정할 수 있으며, 해야 할 일은 `[rowSelection] = '"single"'` 속성을 설정하는 것뿐입니다. 이를 통해 **그리드 안에서 한 행만 선택**할 수 있습니다. 행의 셀을 클릭하거나, 행의 셀에 포커스가 있을 때 _space_ 키를 누르면 행을 선택할 수 있으며, 물론 행 선택기 필드를 클릭해서도 행을 선택할 수 있습니다. 행이 선택되거나 선택 해제되면 **rowSelectionChanging** 이벤트가 발생합니다.
+
+```html
+<igx-hierarchical-grid [data]="localdata" [autoGenerate]="true"
+        [rowSelection]="'single'" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-hierarchical-grid>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelection(event) {
+    if (args.added.lenght && args.added[0] === 3) {
+        args.cancel = true;
+    }
+}
+```
+
+### 다중 선택
+
+<ApiLink type="HierarchicalGrid" />에서 다중 행 선택을 활성화하려면 <ApiLink type="HierarchicalGrid" member="rowSelection" label="rowSelection" /> 속성을 `multiple`(으)로 설정하기만 하면 됩니다. 이렇게 하면 각 행과 Hierarchical Grid 머리글에 행 선택기 필드가 활성화됩니다. 행 선택기를 사용하면 사용자는 여러 행을 선택할 수 있으며, 선택 상태는 스크롤, 페이징, 정렬 및 필터링 같은 데이터 작업 동안에도 유지됩니다. 행은 셀을 클릭하거나, 셀에 포커스가 있을 때 _space_ 키를 눌러서도 선택할 수 있습니다. 한 행을 선택한 상태에서 _shift_ 키를 누른 채 다른 행을 클릭하면 행의 전체 범위가 선택됩니다. 이 선택 모드에서는 단일 행을 클릭하면 이전에 선택된 행들이 선택 해제됩니다. _ctrl_ 키를 누른 채 _클릭_하면 그 행이 토글되고 이전 선택은 유지됩니다.
+
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" [autoGenerate]="true"
+        [rowSelection]="'multiple'" (rowSelectionChanging)="handleRowSelection($event)">
+</igx-hierarchical-grid>
+```
+
+```ts
+<!-- selectionExample.component.ts -->
+
+ public handleRowSelection(event: IRowSelectionEventArgs) {
+    // use event.newSelection to retrieve primary key/row data of latest selected row
+    this.selectedRowsCount = event.newSelection.length;
+    this.selectedRowIndex = event.newSelection[0];
+ }
+```
+
+**참고**
+
+- Hierarchical Grid에 원격 가상화가 있는 경우에도 올바른 행 선택과 셀 선택을 하려면 <ApiLink type="HierarchicalGrid" member="primarykey" label="primaryKey" />을(를) 제공해야 합니다.
+
+- Hierarchical Grid에 원격 가상화가 있으면, 머리글 체크박스를 클릭하면 그리드에 현재 있는 모든 레코드를 선택/선택 해제합니다. Hierarchical Grid에 데이터가 요청 시 새로 로드되면, 새로 추가된 행은 선택되지 않습니다. 이는 제한 사항이므로, 그 동작은 직접 처리해야 하며, 이러한 행은 제공된 API 메서드를 사용하여 선택할 수 있습니다.
+
+- 행 선택은 <ApiLink type="HierarchicalGrid" member="rowSelectionChanging" label="rowSelectionChanging" /> 이벤트를 발생시킵니다. 이 이벤트는 _새 선택_, _이전 선택_, 이전 선택에서 _추가된_ 행과 _제거된_ 행에 대한 정보를 제공합니다. 또한 이 이벤트는 _취소할 수 있으므로_, 선택을 막을 수 있습니다.
+- 행 선택이 활성화되면 행 선택기가 표시되지만, 표시하고 싶지 않다면 `[hideRowSelectors] = true`을(를) 설정할 수 있습니다.
+- 실행 중에 행 선택 모드를 바꾸면, 이전 행 선택 상태가 지워집니다.
+
+## API 사용법
+
+### 프로그래밍 방식으로 행 선택하기
+
+아래 코드 조각을 사용하여 (<ApiLink type="HierarchicalGrid" member="primaryKey" label="primaryKey" />을(를) 통해) 한 개 또는 여러 개의 행을 동시에 선택할 수 있습니다. 또한 이 메서드의 두 번째 매개변수는 이전 행 선택을 지울지 여부를 선택할 수 있는 불리언 속성입니다. 기본적으로 이전 선택은 유지됩니다.
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-hierarchical-grid ... [primaryKey]="'artist'">
+...
+</igx-hierarchical-grid>
+...
+<button (click)="this.hierarchicalGrid.selectRows([1,2,5], false)">Select 1,2 and 5</button> // select rows and preserve previous selection state
+```
+
+이렇게 하면 ID가 1, 2, 5인 데이터 항목에 해당하는 행이 Hierarchical Grid 선택에 추가됩니다.
+
+### 행 선택 해제하기
+
+프로그래밍 방식으로 행의 선택을 해제해야 한다면 `deselectRows(rowIds: [])` 메서드를 사용할 수 있습니다.
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-hierarchical-grid ... [primaryKey]="'ID'">
+...
+</igx-hierarchical-grid>
+...
+<button (click)="this.hierarchicalGrid.deselectRows([1,2,5])">Deselect 1,2 and 5</button>
+```
+
+### 행 선택 이벤트
+
+행 선택에 변경이 있으면 **<ApiLink type="Grid" member="rowSelectionChanging" label="rowSelectionChanging" />** 이벤트가 발생합니다. **`rowSelectionChanging`**는 다음 인수를 노출합니다:
+
+- `oldSelection` - 행 선택의 이전 상태를 담은 행 데이터의 배열입니다.
+- `newSelection` - 행 선택의 새 상태와 일치하는 행 데이터의 배열입니다.
+- `added` - 현재 선택에 추가된 행 데이터의 배열입니다.
+- `removed` - 이전 선택 상태를 기준으로 현재 제거된 행 데이터의 배열입니다.
+- `event` - 행 선택 변경을 발생시킨 원래 이벤트입니다.
+- `cancel` - 행 선택 변경을 막을 수 있게 합니다.
+
+- `owner` - 이벤트가 하위 그리드에서 발생한 경우, 이벤트를 발생시킨 컴포넌트에 대한 참조를 제공합니다.
+
+#### 원격 데이터 시나리오에서의 행 선택 이벤트
+
+원격 데이터 시나리오에서 그리드에 `primaryKey`이(가) 설정되어 있으면, 현재 데이터 뷰 밖에 있는 행에 대해 <ApiLink kind="interface" type="IRowSelectionEventArgs" member="oldSelection" /> 이벤트 인수는 행 데이터 객체 전체를 담지 않습니다. 이 경우 `rowSelectionChanging.oldSelection` 객체는 `primaryKey` 필드 하나만 가집니다. 현재 데이터 뷰에 있는 나머지 행에 대해서는 `rowSelectionChanging.oldSelection`에 행 데이터 전체가 들어 있습니다.
+
+```html
+<!-- selectionExample.component.html -->
+
+<igx-hierarchical-grid (rowSelectionChanging)="handleRowSelectionChange($event)">
+...
+</igx-hierarchical-grid>
+```
+
+```typescript
+/* selectionExample.component.ts */
+
+public handleRowSelectionChange(args) {
+    args.cancel = true; // this will cancel the row selection
+}
+
+```
+
+### 모든 행 선택
+
+<ApiLink type="HierarchicalGrid" />이(가) 제공하는 또 다른 유용한 API 메서드는 `selectAll(onlyFilteredData)`입니다. 기본적으로 이 메서드는 모든 데이터 행을 선택하지만, 필터가 적용되어 있으면 필터 기준과 일치하는 행만 선택합니다. 하지만 _false_ 매개변수로 메서드를 호출하면, 필터가 적용되어 있더라도 `selectAll(false)`은(는) 항상 그리드의 모든 데이터를 선택합니다.
+<DocsAside type="info">
+`selectAll()`은(는) 삭제된 행을 선택하지 않는다는 점을 기억하십시오.
+</DocsAside>
+
+### 모든 행 선택 해제하기
+
+<ApiLink type="HierarchicalGrid" />은(는) `deselectAll(onlyFilteredData)` 메서드를 제공합니다. 이 메서드는 기본적으로 모든 데이터 행의 선택을 해제하지만, 필터가 적용되어 있으면 필터 기준과 일치하는 행의 선택만 해제합니다. 하지만 _false_ 매개변수로 메서드를 호출하면, 필터가 적용되어 있더라도 `deselectAll(false)`은(는) 항상 모든 행 선택 상태를 지웁니다.
+
+### 선택된 행 가져오는 방법
+
+현재 어떤 행이 선택되어 있는지 확인해야 한다면, `selectedRows` getter로 그 행 ID를 가져올 수 있습니다.
+
+```typescript
+
+public getSelectedRows() {
+    const currentSelection = this.hierarchicalGrid.selectedRows; // return array of row IDs
+}
+```
+
+또한 `selectedRows`에 행 ID를 할당하면 그리드의 선택 상태를 바꿀 수 있습니다.
+
+```typescript
+// arrays of row IDs
+public mySelectedRows = ['Naomi Yepes', 'Ahmad Nazeri'];
+public childSelectedRows = ['Initiation', 'Emergency'];
+```
+
+```html
+<igx-hierarchical-grid primaryKey="Artist" rowSelection="multiple" [autoGenerate]="false" [selectedRows]="mySelectedRows" [data]="data">
+    <igx-column field="Artist"></igx-column>
+    <igx-row-island [key]="'Albums'" rowSelection="multiple">
+        <igx-column field="Album"></igx-column>
+        <igx-column field="LaunchDate"></igx-column>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+### 행 선택기 템플릿
+
+Hierarchical Grid에서 머리글 선택기와 행 선택기를 템플릿화할 수 있으며, 다양한 상황에 유용한 기능을 제공하는 그 컨텍스트에도 접근할 수 있습니다.
+
+기본적으로 Hierarchical Grid은(는) 행 선택기의 상위 컨테이너 또는 행 자체에서 **모든 행 선택 상호 작용을 처리**하며, 템플릿에는 상태 시각화만 남겨 둡니다. 기본 기능을 재정의하는 작업은 일반적으로 [`rowSelectionChanging` 이벤트](#행-선택-이벤트)를 사용하여 해야 합니다. 기본 기능을 재정의하는 `click` 핸들러가 있는 사용자 지정 템플릿을 구현하는 경우, 올바른 행 상태를 유지하기 위해 이벤트 전파를 중단해야 합니다.
+
+#### 행 템플릿
+
+사용자 지정 행 선택기 템플릿을 만들려면, `igx-hierarchical-grid` 안에 `igxRowSelector` 디렉티브가 있는 `<ng-template>`를 선언하십시오. 이 템플릿에서는 암시적으로 제공되는 컨텍스트 변수에 접근할 수 있으며, 그 속성으로 행의 상태에 대한 정보를 얻을 수 있습니다.
+
+`selected` 속성은 현재 행이 선택되었는지 여부를 보여 주고, `index` 속성은 행 인덱스에 접근하는 데 사용할 수 있습니다.
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    {{ rowContext.index }}
+    <igx-checkbox
+        [checked]="rowContext.selected"
+        [readonly]="true"
+    ></igx-checkbox>
+</ng-template>
+```
+
+`rowID` 속성은 `igx-hierarchical-grid` 행에 대한 참조를 가져오는 데 사용할 수 있습니다. 행 선택기 요소에 `click` 핸들러를 구현할 때 유용합니다.
+
+```html
+<ng-template igxRowSelector let-rowContext>
+    <igx-checkbox (click)="onSelectorClick($event, rowContext.key)"></igx-checkbox>
+</ng-template>
+```
+
+위 예제에서는 `igx-checkbox`을(를) 사용하며, `rowContext.selected`을(를) 그 `checked` 속성에 바인딩합니다. [`Row Numbering Demo`](#행-번호-매기기-데모)에서 이것이 실제로 작동하는 모습을 볼 수 있습니다.
+
+<DocsAside type="info">
+`rowContext.select()`과 `rowContext.deselect()` 메서드는 `igx-hierarchical-grid`의 템플릿 컨텍스트에 노출됩니다. 기본 기능을 재정의하는 클릭 핸들러를 구현할 때, 특히 하위 그리드에서 현재 행을 토글하기 쉽게 만들어 줍니다.
+</DocsAside>
+
+### 머리글 템플릿
+
+사용자 지정 머리글 선택기 템플릿을 만들려면, Hierarchical Grid 안에 `igxHeadSelector` 디렉티브가 있는 `<ng-template>`를 선언하십시오. 이 템플릿에서는 암시적으로 제공되는 컨텍스트 변수에 접근할 수 있으며, 그 속성으로 머리글의 상태에 대한 정보를 얻을 수 있습니다.
+
+`selectedCount` 속성은 현재 몇 개의 행이 선택되었는지 보여 주고, `totalCount` 속성은 Hierarchical Grid에 있는 행이 전체 몇 개인지 보여 줍니다.
+
+```html
+<ng-template igxHeadSelector let-headContext>
+    {{ headContext.selectedCount }} / {{ headContext.totalCount  }}
+</ng-template>
+```
+
+`selectedCount`과 `totalCount` 속성은 머리글 선택기를 체크 상태로 할지, 불확정 상태(부분 선택)로 할지 결정하는 데 사용할 수 있습니다.
+
+```html
+<igx-hierarchical-grid [data]="hGridData" primaryKey="ProductID">
+    <ng-template igxHeadSelector let-headContext>
+        <igx-checkbox
+            [checked]="headContext.selectedCount > 0 && headContext.selectedCount === headContext.totalCount"
+            [indeterminate]="headContext.selectedCount > 0 && headContext.selectedCount !== headContext.totalCount">
+        </igx-checkbox>
+    </ng-template>
+
+    <igx-row-island [key]="'ProductInfo'">
+        <ng-template igxHeadSelector let-childHeadContext>
+            <!-- header template goes here -->
+        </ng-template>
+        <ng-template igxRowSelector let-childRowContext>
+            <!-- row template goes here -->
+        </ng-template>
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+`igx-hierarchical-grid`의 각 계층 수준은 자신만의 행 및 머리글 템플릿을 가질 수 있습니다.
+
+<DocsAside type="info">
+`headContext.selectAll()`과 `headContext.deselectAll()` 메서드는 `igx-hierarchical-grid`의 템플릿 컨텍스트에 노출됩니다. 기본 기능을 재정의하는 클릭 핸들러를 구현할 때, 특히 하위 그리드에서 모든 행을 토글하기 쉽게 만들어 줍니다.
+</DocsAside>
+
+### 행 번호 매기기 데모
+
+이 데모는 사용자 지정 머리글 선택기와 행 선택기의 사용법을 보여 줍니다. 후자는 `rowContext.index`을(를) 사용하여 행 번호를 표시하고, `rowContext.selected`에 바인딩된 `igx-checkbox`를 사용합니다.
+
+<Sample src="/hierarchical-grid/hierarchical-grid-selection-template-numbers" height={610} alt="" />
+
+### 조건부 선택 데모
+
+이 데모는 `rowSelectionChanging` 이벤트와, 선택할 수 없는 행에 대해 비활성화된 체크박스가 있는 사용자 지정 템플릿을 사용하여 일부 행이 선택되지 않도록 막습니다.
+
+<Sample src="/hierarchical-grid/hierarchical-grid-conditional-row-selectors" height={630} alt="" />
+
+## API 참조
+- <ApiLink type="HierarchicalGrid" />
+
+_<ApiLink type="GridRow" />
+
+- <ApiLink type="GridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxHierarchicalGridComponent 스타일" />
+## 추가 리소스
+
+- [Hierarchical Grid 개요](/hierarchicalgrid/hierarchical-grid)
+- [선택](/hierarchicalgrid/selection)
+- [셀 선택](/hierarchicalgrid/cell-selection)
+- [페이징](/hierarchicalgrid/paging)
+- [필터링](/hierarchicalgrid/filtering)
+- [정렬](/hierarchicalgrid/sorting)
+- [요약](/hierarchicalgrid/summaries)
+- [열 이동](/hierarchicalgrid/column-moving)
+- [열 고정](/hierarchicalgrid/column-pinning)
+- [열 크기 조정](/hierarchicalgrid/column-resizing)
+- [가상화와 성능](/hierarchicalgrid/virtualization)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

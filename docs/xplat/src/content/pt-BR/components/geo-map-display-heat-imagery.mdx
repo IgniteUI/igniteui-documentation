@@ -1,0 +1,174 @@
+---
+title: "Mapa {Platform} | Ferramentas de visualização de dados | Infragistics"
+description: "Use o mapa {Platform} da Infragistics para exibir imagens de mapa de calor. Confira os demos de mapa de {ProductName}!"
+keywords: "Mapa {Platform}, imagens de mapa de calor, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapeDataSource", "ShapefileRecord", "HeatTileGenerator", "GeographicTileSeries"]
+_language: pt-BR
+llms:
+  description: "O controle de mapa {ProductName} tem a capacidade de exibir imagens de mapa de calor por meio dos ShapefileRecord gerados por um ShapeDataSource, carregando dados geoespaciais de arquivos de forma em uma série de blocos."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Exibindo imagens de calor
+
+O controle de mapa {ProductName} tem a capacidade de exibir imagens de mapa de calor por meio dos `ShapefileRecord` gerados por um `ShapeDataSource`, carregando dados geoespaciais de arquivos de forma em uma série de blocos.
+
+É altamente recomendável que você leia o tópico [Vinculando arquivos de forma com dados geoespaciais](./geo-map-binding-shp-file.mdx) como pré-requisito para este tópico.
+
+## {Platform} Exemplo de exibição de imagens de calor
+
+<Sample src="/maps/geo-map/display-heat-imagery" height={500} alt="{Platform} Exemplo de exibição de imagens de calor" />
+
+
+
+
+Quando um `ShapeDataSource` carrega os seus arquivos de forma, ele converte esses dados em objetos `ShapefileRecord`. Esses objetos podem ser obtidos pelo método `GetPointData()` do `ShapeDataSource` e, em seguida, usados para criar um mapa de calor por meio de um objeto `TileGeneratorMapImagery` com um `HeatTileGenerator` atribuído à sua propriedade `TileGeneratorMapImagery.TileGenerator`. Esse `TileGeneratorMapImagery` pode então ser usado em um `GeographicTileSeries` como sua fonte `tileImagery`.
+
+O objeto `HeatTileGenerator` funciona de modo que tem três caminhos de valor: `xValues`, `yValues` e `Values`. Como exemplo de uso, no caso de um arquivo de forma com informações sobre população, você poderia considerar que o `xValues` é a longitude, o `yValues` é a latitude e o `Values` são os dados de população. Cada uma dessas propriedades recebe um `number[]`.
+
+A exibição da série de blocos geográficos ao usar a funcionalidade de mapa de calor pode ser personalizada definindo as propriedades `minimumColor` e `maximumColor` como strings "rgba" que descrevem as cores que você deseja que correspondam aos valores mínimo e máximo da coleção atribuída à propriedade `Values` do `HeatTileGenerator`. Você pode personalizar ainda mais isso definindo a propriedade `scaleColors` do gerador como uma coleção de strings que descrevem cores, pois isso informará ao `HeatTileGenerator` quais cores usar para os valores exibidos no mapa. Também é possível personalizar como as cores da sua coleção `scaleColors` se misturam, usando as propriedades `blurRadius`, `maxBlurRadius` e `useBlurRadiusAdjustedForZoom`.
+
+O `HeatTileGenerator` também pode usar uma escala logarítmica. Se você quiser usá-la, pode definir a propriedade `useLogarithmicScale` como **true**.
+
+
+<PlatformBlock for="Web">
+
+## Web Worker
+
+O `HeatTileGenerator` também oferece suporte a web workers para fazer o trabalho pesado de carregar as imagens dos blocos do seu arquivo de forma em uma thread separada. Isso pode melhorar muito o desempenho do seu mapa geográfico ao usar a funcionalidade de mapa de calor. Para usar um web worker com o gerador, você pode definir a propriedade `useWebWorkers` como **true** e, em seguida, definir a propriedade `webWorkerInstance` como uma instância do seu web worker.
+
+<PlatformBlock for="Angular">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-angular-core';
+
+const worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = heatWorkerPostMessage;
+function heatWorkerPostMessage() {
+  (self as any).postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+HeatTileGeneratorWebWorker.start();
+export default {} as typeof Worker & (new () => Worker);
+
+```
+
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-react-core';
+
+let worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = postMessageFunction;
+HeatTileGeneratorWebWorker.start();
+function postMessageFunction() {
+    self.postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+export default {} as typeof Worker & (new () => Worker);
+```
+
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+// heatworker.worker.ts
+import { HeatTileGeneratorWebWorker } from 'igniteui-webcomponents-core';
+
+let worker: Worker = self as any;
+worker.onmessage = HeatTileGeneratorWebWorker.onmessage;
+HeatTileGeneratorWebWorker.postmessage = postMessageFunction;
+HeatTileGeneratorWebWorker.start();
+function postMessageFunction() {
+    self.postMessage.apply(self, Array.prototype.slice.call(arguments));
+}
+export default {} as typeof Worker & (new () => Worker);
+
+```
+
+</PlatformBlock>
+</PlatformBlock>
+
+
+## Dependências
+
+```json-snippet source="/maps/geo-map/display-heat-imagery" channel="bindingImports,handlersImports,modulesImports...moduleRegistration"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ],
+    "modules": [
+        "maps/GeographicMapModule",
+        "charts/DataChartInteractivityModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+## Criando o mapa de calor
+
+O trecho de código a seguir mostra como exibir um mapa de calor baseado em população no componente de mapa {ProductName}:
+
+```json-snippet source="/maps/geo-map/display-heat-imagery"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "$type": "+doc:markup",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ]
+}
+```
+
+```json-snippet source="/maps/geo-map/display-heat-imagery" channel="handlersImports,bindingFields...handler"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "map",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true
+        }
+    },
+    "onViewInit": [
+        "MapDisplayHeatImageryOnViewInit"
+    ]
+}
+```
+
+
+
+## Referências da API
+`GeographicTileSeries`
+`HeatTileGenerator`
+`ShapeDataSource`
+`ShapefileRecord`
+`TileGeneratorMapImagery`

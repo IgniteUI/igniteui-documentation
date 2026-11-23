@@ -1,0 +1,106 @@
+---
+title: "Angular Overlay Service – Estratégias de rolagem – Licença MIT" 
+description: "Explicação e exemplo sobre a interface IScrollStrategy do Overlay Service e as classes que a implementam."
+license: MIT
+_language: pt-BR
+llms:
+  description: "A estratégia de rolagem determina como a rolagem é tratada no IgxOverlayService fornecido."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Estratégias de rolagem
+
+A estratégia de rolagem determina como a rolagem é tratada no `IgxOverlayService` fornecido. Existem quatro estratégias de rolagem:
+
+1. **NoOperation** - não faz nada.
+2. **Block** - o evento é cancelado e o componente não rola junto com a janela.
+3. **Close** - usa uma tolerância e fecha um componente expandido ao rolar, caso a tolerância seja excedida.
+4. **Absolute** - rola tudo.
+
+## Uso
+
+Toda estratégia de rolagem tem os seguintes métodos:
+
+- <ApiLink kind="interface" type="IScrollStrategy" member="initialize" /> - inicializa a estratégia de rolagem. Ela precisa de uma referência ao documento, ao serviço de overlay e ao id do componente renderizado
+- <ApiLink kind="interface" type="IScrollStrategy" member="attach" /> - anexa a estratégia de rolagem ao elemento especificado ou ao documento
+- <ApiLink kind="interface" type="IScrollStrategy" member="detach" /> - desanexa a estratégia de rolagem
+
+```typescript
+this.scrollStrategy.initialize(document, overlayService, id);
+this.scrollStrategy.attach();
+this.scrollStrategy.detach();
+```
+
+<hr/>
+
+### Primeiros passos
+
+A estratégia de rolagem é passada como propriedade no parâmetro <ApiLink kind="interface" type="OverlaySettings" /> quando o método <ApiLink type="OverlayService" member="attach" label="overlay.attach()" /> é chamado:
+
+```typescript
+// Initializing and using overlay settings
+const overlaySettings: OverlaySettings = {
+    positionStrategy: new GlobalPositionStrategy(),
+    scrollStrategy: new AbsoluteScrollStrategy(), //Passes the scroll strategy
+    modal: true,
+    closeOnOutsideClick: true
+}
+const overlayId = overlay.attach(dummyElement, overlaySettings); 
+```
+
+<igc-divider></igc-divider>
+
+Para alterar a estratégia de rolagem usada pela sobreposição, substitua a propriedade <ApiLink kind="interface" type="IScrollStrategy" /> do objeto <ApiLink kind="interface" type="OverlaySettings" /> passado para a sobreposição. Se uma estratégia já estiver anexada, você deve desanexar o ID gerado anteriormente:
+
+```typescript
+// overlaySettings is an existing object of type OverlaySettings
+// to override the scroll strategy
+const newOverlaySettings = Object.assing({}, overlaySettings);
+Object.assing(newOverlaySettings, {
+    scrollStrategy: new CloseScrollStrategy()
+})
+const overlayId = overlay.attach(dummyElement, newOverlaySettings);
+overlay.show(overlayId);
+```
+
+<hr/>
+
+### Dependências
+
+Para usar qualquer uma das estratégias de rolagem, importe-a assim:
+
+```typescript
+import { NoOpScrollStrategy } from "./scroll/NoOpScrollStrategy";
+```
+
+### Estratégias de rolagem
+
+As estratégias de rolagem podem ser passadas para o objeto <ApiLink kind="interface" type="OverlaySettings" /> para determinar como a sobreposição deve tratar a rolagem.
+A demonstração a seguir ilustra a diferença entre as <ApiLink kind="interface" type="IScrollStrategy" /> separadas:
+
+<Sample src="/interactions/overlay-scroll-sample-2" height={400} alt="" />
+
+<hr/>
+
+## Modal
+
+O objeto <ApiLink kind="interface" type="OverlaySettings" /> também permite passar uma propriedade booleana (<ApiLink kind="interface" type="OverlaySettings" member="modal" />). Ela controla como a sobreposição será exibida:
+
+- Se a propriedade <ApiLink kind="interface" type="OverlaySettings" member="modal" /> for `false`, o elemento será anexado ao primeiro plano do DOM, mas tudo continuará ativo e interagível, por exemplo, rolagem, cliques etc.
+- Se a propriedade <ApiLink kind="interface" type="OverlaySettings" member="modal" /> for `true`, o elemento será anexado ao primeiro plano do DOM e um bloqueador de sobreposição ficará por trás dele, interrompendo a propagação de todos os eventos:
+
+<Sample src="/interactions/overlay-scroll-sample-1" height={400} alt="" />
+
+<hr/>
+
+## Referências da API
+- <ApiLink type="IScrollStrategy" kind="interface" />
+## Recursos adicionais
+
+- [Tópico principal da sobreposição](/overlay)
+- [Estratégias de posicionamento](/overlay-position)
+- [Tópico de estilização](/overlay-styling)
+- <ApiLink type="OverlayService" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos do IgxOverlay" />

@@ -1,0 +1,185 @@
+---
+title: "Angular Hierarchical Grid 열 크기 조정 - Ignite UI for Angular"
+description: "Angular Hierarchical Grid 열 크기 조정을 사용하여 그리드 열 너비를 즉시 바꾸십시오. Angular 드래그 크기 조정이 이렇게 쉬웠던 적은 없습니다. 무료로 체험해 보십시오!"
+keywords: grid column resizing, igniteui for angular, infragistics
+license: commercial
+_canonicalLink: grid/column-resizing
+_language: ko
+llms:
+  description: "지연된 그리드 열 크기 조정을 사용하면, Angular 드래그 크기 조정 작업이 진행되는 동안 사용자는 임시 크기 조정 표시기를 보게 됩니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Hierarchical Grid 열 크기 조정
+
+지연된 그리드 열 크기 조정을 사용하면, Angular 드래그 크기 조정 작업이 진행되는 동안 사용자는 임시 크기 조정 표시기를 보게 됩니다. 드래그 작업이 끝나면 새 그리드 열 너비가 적용됩니다.
+
+## Angular Hierarchical Grid 열 크기 조정 예제
+
+<Sample lob src="/hierarchical-grid/hierarchical-grid-resizing" height={510} alt="Angular Hierarchical Grid 열 크기 조정 예제" />
+
+**열 크기 조정**은 열 단위로도 활성화되므로, <ApiLink type="HierarchicalGrid" />은(는) 크기 조정이 가능한 열과 불가능한 열이 섞여 있을 수 있습니다. 이는 <ApiLink type="Column" label="igx-column" />의 <ApiLink type="Column" member="resizable" label="resizable" /> 입력을 통해 설정합니다.
+
+```html
+<igx-column [field]="'Artist'" [resizable]="true"></igx-column>
+```
+
+열의 크기가 조정될 때 사용자 지정 로직을 구현하려면 <ApiLink type="HierarchicalGrid" />의 <ApiLink type="HierarchicalGrid" member="columnResized" label="columnResized" /> 이벤트를 구독할 수 있습니다. 이전 열 너비와 새 열 너비, 그리고 <ApiLink type="Column" /> 객체가 모두 이벤트 인수를 통해 노출됩니다.
+
+```html
+  <igx-hierarchical-grid class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+        <igx-column field="Artist" [resizable]="true"></igx-column>
+        ...
+</igx-hierarchical-grid>
+```
+
+```typescript
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+## 픽셀/백분율로 열 크기 조정하기
+
+사용자 시나리오에 따라 열 너비는 픽셀, 백분율 또는 둘을 섞어서 정의할 수 있습니다. 이 모든 시나리오는 열 크기 조정 기능에서 지원됩니다. 기본적으로 너비가 설정되지 않은 열은 픽셀로 설정된 너비로 사용 가능한 공간에 맞춰집니다.
+
+이는 다음과 같은 구성이 가능하다는 뜻입니다:
+
+```html
+  <igx-hierarchical-grid class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+        <igx-column field="Artist" [resizable]="true" [width]="'10%'"></igx-column>
+        <igx-column field="GrammyNominations" [resizable]="true" [width]="'100px'"></igx-column>
+        <igx-column field="GrammyAwards" [resizable]="true"></igx-column>
+        ...
+</igx-hierarchical-grid>
+```
+
+<DocsAside type="info">
+픽셀로 설정된 열과 백분율로 설정된 열의 크기 조정 방식에는 약간의 차이가 있습니다.
+</DocsAside>
+
+**픽셀**
+
+픽셀 너비가 있는 열의 크기 조정은 마우스 이동의 가로 거리를 열의 크기에 직접 더하거나 빼서 작동합니다.
+
+**백분율**
+
+백분율 너비가 있는 열을 크기 조정할 때, 픽셀 단위의 마우스 이동 거리는 그리드 너비에 대한 대략적인 백분율 값으로 변환됩니다. 열은 계속 반응형으로 유지되며, 이후 그리드 크기가 바뀌어도 열에 그대로 반영됩니다.
+
+## 열 크기 조정 제한하기
+
+허용되는 최소 및 최대 열 너비를 구성할 수도 있습니다. 이는 <ApiLink type="Column" label="igx-column" />의 <ApiLink type="Column" member="minWidth" label="minWidth" /> 및 <ApiLink type="Column" member="maxWidth" label="maxWidth" /> 입력을 통해 합니다. 이 경우 크기 조정 표시기 드래그 작업이 제한되어, 열이 <ApiLink type="Column" member="minWidth" label="minWidth" />과(와) <ApiLink type="Column" member="maxWidth" label="maxWidth" />로 정의된 경계 밖으로 크기 조정될 수 없다는 것을 사용자에게 알려 줍니다.
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+최소 및 최대 열 너비 값의 유형(픽셀 또는 백분율)을 섞어 쓰는 것은 허용됩니다. 최소값과 최대값을 백분율로 설정하면, 해당 열의 크기는 픽셀과 마찬가지로 정확히 그 크기로 제한됩니다.
+
+이는 다음과 같은 구성이 가능하다는 뜻입니다:
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+
+또는
+
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'15%'"></igx-column>
+```
+
+## 더블 클릭 시 열 자동 크기 조정
+
+각 열은 머리글의 오른쪽 면을 더블 클릭하여 **자동 크기 조정**할 수 있습니다. 열은 머리글 자체를 포함하여 현재 보이는 가장 긴 셀 값에 맞춰 크기가 정해집니다. 이 동작은 기본적으로 활성화되어 있으며, 추가 구성은 필요하지 않습니다. 하지만 그 열에 <ApiLink type="Column" member="maxWidth" label="maxWidth" />이(가) 설정되어 있고 새 너비가 그 <ApiLink type="Column" member="maxWidth" label="maxWidth" /> 값을 초과하는 경우에는 열이 자동 크기 조정되지 않습니다. 이 경우 열은 미리 설정된 <ApiLink type="Column" member="maxWidth" label="maxWidth" /> 값에 따라 크기가 정해집니다.
+
+<ApiLink type="Column" />의 노출된 <ApiLink type="Column" member="autosize" label="autosize()" /> 메서드를 사용하여 열을 동적으로 자동 크기 조정할 수도 있습니다.
+
+```typescript
+@ViewChild('hierarchicalGrid') hierarchicalGrid: IgxHierarchicalGridComponent;
+
+let column = this.hierarchicalGrid.columnList.filter(c => c.field === 'Artist')[0];
+column.autosize();
+```
+
+## 초기화 시 열 자동 크기 조정
+
+`width`을(를) 'auto'로 설정하여 각 열을 초기화할 때 자동 크기 조정하도록 설정할 수 있습니다:
+
+```html
+<igx-column width='auto'></igx-column>
+```
+
+열이 뷰에서 처음 초기화될 때, 열의 너비는 가장 긴 보이는 셀 또는 머리글의 크기로 결정됩니다. 보이는 행 밖에 있는 셀은 포함되지 않습니다.
+이 방식은 초기화 후에 자동 크기 조정하는 것보다 성능이 최적화되어 있으며, 특히 많은 열을 자동 크기 조정해야 하는 경우에 권장됩니다.
+
+<Sample src="/hierarchical-grid/hGrid-columnAutosizing-sample" height={510} alt="Angular Hierarchical Grid 열 크기 조정 예제" />
+
+## 스타일링
+
+Hierarchical Grid 열 크기 조정 선의 스타일을 지정하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 index 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+이를 달성하는 가장 간단한 방법은 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />을(를) 확장하고, 많은 매개변수와 `$resize-line-color` 매개변수를 받는 새 테마를 만드는 것입니다.
+
+``` scss
+$custom-grid-theme: grid-theme(
+  $resize-line-color: #07ea07
+);
+```
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 직접 하드코딩하는 대신, <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 및 <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> 함수를 사용하면 색상을 훨씬 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](/themes/sass/palettes) 항목을 참조하십시오.
+</DocsAside>
+
+마지막 단계는 `tokens()`으로 컴포넌트 테마를 적용하는 것입니다:
+
+```scss
+:host {
+  @include tokens($custom-grid-theme);
+}
+```
+
+### 데모
+
+<Sample src="/hierarchical-grid/hierarchical-grid-resize-line-styling" height={550} alt="" />
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="Column" />
+- <ApiLink type="HierarchicalGrid" />
+- <ApiLink kind="sass" module="themes" type="mixin-grid" label="IgxHierarchicalGridComponent 스타일" />
+## 추가 리소스
+
+- [Hierarchical Grid 개요](/hierarchicalgrid/hierarchical-grid)
+- [가상화와 성능](/hierarchicalgrid/virtualization)
+- [페이징](/hierarchicalgrid/paging)
+- [필터링](/hierarchicalgrid/filtering)
+- [정렬](/hierarchicalgrid/sorting)
+- [요약](/hierarchicalgrid/summaries)
+- [열 이동](/hierarchicalgrid/column-moving)
+- [열 고정](/hierarchicalgrid/column-pinning)
+- [선택](/hierarchicalgrid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

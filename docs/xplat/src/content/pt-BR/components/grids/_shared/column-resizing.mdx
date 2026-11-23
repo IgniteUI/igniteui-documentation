@@ -1,0 +1,925 @@
+---
+title: "Redimensionamento de colunas do {Platform} {ComponentTitle} - {ProductName}"
+description: "Comece a usar o {Platform} {ComponentTitle} de redimensionamento de colunas para alterar a largura das colunas da grade instantaneamente. {Platform} arrastar para redimensionar nunca foi tão fácil. Experimente gratuitamente!"
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridColumnResizing}"
+_language: pt-BR
+llms:
+  description: "O recurso de redimensionamento de colunas do {ProductName} em {Platform} {ComponentTitle} permite que os usuários ajustem facilmente a largura das colunas da {ComponentName}."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform}  {ComponentTitle} Visão geral do redimensionamento de colunas
+
+O recurso de redimensionamento de colunas do {ProductName} em {Platform} {ComponentTitle} permite que os usuários ajustem facilmente a largura das colunas da <ApiLink type="{ComponentName}" />. Por padrão, eles verão um indicador temporário de redimensionamento enquanto a operação de arrastar está em andamento. Há várias opções de redimensionamento disponíveis: redimensionar colunas em pixels/percentuais, restringir o redimensionamento de colunas, ajustar automaticamente as colunas com clique duplo e ajustar automaticamente as colunas na inicialização.
+
+## {Platform}  {ComponentTitle} Exemplo de redimensionamento de colunas
+
+<Sample src="/{ComponentSample}/column-resizing" height={550} alt="Exemplo de redimensionamento de colunas do {Platform} {ComponentTitle}" />
+
+
+
+O **redimensionamento de colunas** também é habilitado no nível de cada coluna, o que significa que o <ApiLink type="{ComponentName}" /> pode ter uma mistura de colunas redimensionáveis e não redimensionáveis. Isso é feito pela entrada <ApiLink type="Column" member="resizable" /> do <ApiLink type="Column" />.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="ID" Resizable=true Width="100px"></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="ID" width="100px" resizable="true"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="ID" resizable={true} width="100px"></IgrColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'Artist'" [resizable]="true"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Artist" Resizable=true></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Artist" resizable="true"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Artist" resizable={true}></IgrColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+Você pode se inscrever no <PlatformBlock for="Angular,WebComponents"><ApiLink type="GridComponentEventMap" member="columnResized" /></PlatformBlock><PlatformBlock for="React"><ApiLink type="Grid" member="onColumnResized" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="Grid" member="columnResized" label="columnResized" /></PlatformBlock> evento do <ApiLink type="{ComponentName}" /> para implementar alguma lógica personalizada quando uma coluna é redimensionada. As larguras anterior e nova da coluna, bem como o objeto <ApiLink type="Column" />, são expostos pelos argumentos do evento.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'ID'" width="100px" [resizable]="true"></igx-column>
+    <igx-column [field]="'CompanyName'" width="100px" [resizable]="true"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid" auto-generate="false">
+    <igc-column field="ID" width="100px" resizable="true"></igc-column>
+    <igc-column field="CompanyName" width="100px" resizable="true"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+    grid1.data = this.data;
+    grid1.columnResized = this.onResize;
+}
+
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data AutoGenerate=false ColumnResized="onResize">
+    <IgbColumn Field="ID" Resizable=true Width="100px"></IgbColumn>
+    <IgbColumn Field="CompanyName" Resizable=true Width="100px"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private void onResize(IgbColumnResizeEventArgs args)
+    {
+        IgbColumnType col = args.Detail.Column;
+        string pWidth = args.Detail.PrevWidth;
+        string nWidth = args.Detail.NewWidth;
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const onResize = (event: IgrColumnResizeEventArgs) => {
+  const col = event.detail.column;
+  const pWidth = event.detail.prevWidth;
+  const nWidth = event.detail.newWidth;
+}
+
+<{ComponentSelector} id="grid" autoGenerate={false} onColumnResized={onResize}>
+    <IgrColumn field="ID" width="100px" resizable={true}></IgrColumn>
+    <IgrColumn field="CompanyName" width="100px" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'Title'" [resizable]="true" [width]="'100px'"></igx-column>
+    <igx-column [field]="'HireDate'" [resizable]="true" [width]="'100px'"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="treeGrid" auto-generate="false" primary-key="ID" foreign-key="ParentID">
+    <igc-column field="Title" width="100px" resizable="true"></igc-column>
+    <igc-column field="HireDate" width="100px" resizable="true"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var treeGrid = this.treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    treeGrid.data = this.data;
+    treeGrid.columnResized = this.onResize;
+}
+
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const onResize = (event: IgrColumnResizeEventArgs) => {
+  const col = event.detail.column;
+  const pWidth = event.detail.prevWidth;
+  const nWidth = event.detail.newWidth;
+}
+
+<{ComponentSelector} data={data} autoGenerate={false} primaryKey="ID" foreignKey="ParentID" onColumnResized={onResize}>
+    <IgrColumn field="Title" width="100px" resizable={true}></IgrColumn>
+    <IgrColumn field="HireDate" width="100px" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data AutoGenerate=false ColumnResized="onResize" PrimaryKey="ID" ForeignKey="ParentID">
+    <IgbColumn Field="Title" Resizable=true Width="100px"></IgbColumn>
+    <IgbColumn Field="HireDate" Resizable=true Width="100px"></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private void onResize(IgbColumnResizeEventArgs args)
+    {
+        IgbColumnType col = args.Detail.Column;
+        string pWidth = args.Detail.PrevWidth;
+        string nWidth = args.Detail.NewWidth;
+    }
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+    <igx-column field="Artist" [resizable]="true"></igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="hierarchicalGrid" auto-generate="false" primary-key="ID" foreign-key="ParentID"
+    height="600px" width="100%">
+    <igc-column field="Artist" resizable="true"></igc-column>
+</{ComponentSelector}>
+```
+
+```ts
+constructor() {
+    var hierarchicalGrid = this.hierarchicalGrid = document.getElementById('hierarchicalGrid') as IgcHierarchicalGridComponent;
+    hierarchicalGrid.data = this.data;
+    hierarchicalGrid.columnResized = this.onResize;
+}
+
+public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const onResize = (event: IgrColumnResizeEventArgs) => {
+  const col = event.detail.column;
+  const pWidth = event.detail.prevWidth;
+  const nWidth = event.detail.newWidth;
+}
+
+<{ComponentSelector} id="hierarchicalGrid" autoGenerate={false} onColumnResized={onResize}>
+    <IgrColumn field="Artist" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data AutoGenerate=false ColumnResized="onResize">
+    <IgbColumn Field="Artist" Resizable=true></IgbColumn>
+</{ComponentSelector}>
+
+@code {
+    private void onResize(IgbColumnResizeEventArgs args)
+    {
+        IgbColumnType col = args.Detail.Column;
+        string pWidth = args.Detail.PrevWidth;
+        string nWidth = args.Detail.NewWidth;
+    }
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Redimensionando colunas em pixels/percentuais
+
+Dependendo do cenário do usuário, a largura da coluna pode ser definida em pixels, em percentuais ou em uma combinação dos dois. Todos esses cenários são suportados pelo recurso de **Redimensionamento de colunas**. Por padrão, se uma coluna não tiver largura definida, ela ocupa o espaço disponível com a largura definida em pixels.
+
+Isso significa que a seguinte configuração é possível:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```html
+<igx-grid [data]="data" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'ID'" width="10%" [resizable]="true"></igx-column>
+    <igx-column [field]="'CompanyName'" width="100px" [resizable]="true"></igx-column>
+    <igx-column [field]="'ContactTitle'" [resizable]="true"></igx-column>
+</igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data AutoGenerate=false ColumnResized="onResize">
+    <IgbColumn Field="ID" Resizable=true Width="10%"></IgbColumn>
+    <IgbColumn Field="CompanyName" Resizable=true Width="100px"></IgbColumn>
+    <IgbColumn Field="ContactTitle" Resizable=true></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid id="grid" auto-generate="false">
+    <igc-column field="ID" width="10%" resizable="true"></igc-column>
+    <igc-column field="CompanyName" width="100px" resizable="true"></igc-column>
+    <igc-column field="ContactTitle" resizable="true"></igc-column>
+</igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} id="grid" autoGenerate={false}>
+    <IgrColumn field="ID" width="10%" resizable={true}></IgrColumn>
+    <IgrColumn field="CompanyName" width="100px" resizable={true}></IgrColumn>
+    <IgrColumn field="ContactTitle" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-tree-grid [data]="data" primaryKey="ID" foreignKey="ParentID" (columnResized)="onResize($event)" [autoGenerate]="false">
+    <igx-column [field]="'Title'" [resizable]="true" [width]="'10%'"></igx-column>
+    <igx-column [field]="'HireDate'" [resizable]="true" [width]="'100px'"></igx-column>
+    <igx-column [field]="'Age'" dataType="number" [resizable]="true"></igx-column>
+</igx-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data AutoGenerate=false ColumnResized="onResize" PrimaryKey="ID" ForeignKey="ParentID">
+    <IgbColumn Field="Title" Resizable=true Width="10%"></IgbColumn>
+    <IgbColumn Field="HireDate" Resizable=true Width="100px"></IgbColumn>
+    <IgbColumn Field="Age" Resizable=true></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid id="data" primary-key="ID" foreign-key="ParentID" auto-generate="false">
+    <igc-column field="Title" resizable="true" width="10%"></igc-column>
+    <igc-column field="HireDate" resizable="true" width="100px"></igc-column>
+    <igc-column field="Age" data-type="number" resizable="true"></igc-column>
+</igc-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} data={data} autoGenerate={false} primaryKey="ID" foreignKey="ParentID" onColumnResized={onResize}>
+    <IgrColumn field="Title" resizable={true} width="10%"></IgrColumn>
+    <IgrColumn field="HireDate" resizable={true} width="100px"></IgrColumn>
+    <IgrColumn field="Age" dataType="number" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-hierarchical-grid class="hgrid" [data]="localdata" (columnResized)="onResize($event)" [autoGenerate]="false"
+        [height]="'600px'" [width]="'100%'" #hierarchicalGrid>
+        <igx-column field="Artist" [resizable]="true" [width]="'10%'"></igx-column>
+        <igx-column field="GrammyNominations" [resizable]="true" [width]="'100px'"></igx-column>
+        <igx-column field="GrammyAwards" [resizable]="true"></igx-column>
+</igx-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid id="hierarchicalGrid" class="hgrid" auto-generate="false"
+        height="600px" width="100%">
+        <igc-column field="Artist" resizable="true" width="10%"></igc-column>
+        <igc-column field="GrammyNominations" resizable="true" width="100px"></igc-column>
+        <igc-column field="GrammyAwards" resizable="true"></igc-column>
+</igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} Data=data ColumnResized="onResize" AutoGenerate=false Height="600px" Width="100%">
+    <IgbColumn Field="Artist" Resizable=true Width="10%"></IgbColumn>
+    <IgbColumn Field="GrammyNominations" Resizable=true Width="100px"></IgbColumn>
+    <IgbColumn Field="GrammyAwards" Resizable=true></IgbColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} id="hierarchicalGrid" onColumnResized={onResize} autoGenerate={false}
+    height="600px" width="100%">
+    <IgrColumn field="Artist" resizable={true} width="10%"></IgrColumn>
+    <IgrColumn field="GrammyNominations" resizable={true} width="100px"></IgrColumn>
+    <IgrColumn field="GrammyAwards" resizable={true}></IgrColumn>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Há uma pequena diferença na forma como o redimensionamento funciona para colunas definidas em pixels e em porcentagens.
+</DocsAside>
+
+**Pixels**
+
+Redimensionar colunas com largura em pixels funciona adicionando ou subtraindo diretamente, do tamanho da coluna, a quantidade horizontal do movimento do mouse.
+
+**Porcentagens**
+
+Ao redimensionar colunas com largura em porcentagens, a quantidade horizontal do movimento do mouse em pixels se traduz, aproximadamente, na sua quantidade percentual em relação à largura do grid. As colunas permanecem responsivas, e qualquer redimensionamento futuro do grid ainda será refletido nas colunas.
+
+## Restringir o redimensionamento de colunas
+
+Você também pode configurar as larguras mínima e máxima permitidas para as colunas. Isso é feito pelas entradas <ApiLink type="Column" member="minWidth" /> e <ApiLink type="ColumnState" member="maxWidth" /> do <ApiLink type="Column" />. Nesse caso, a operação de arrastar o indicador de redimensionamento é restringida para informar ao usuário que a coluna não pode ser redimensionada além dos limites definidos por <ApiLink type="Column" member="minWidth" /> e <ApiLink type="ColumnState" member="maxWidth" />.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="ID" width="100px" resizable="true"
+            min-width="60px" max-width="230px"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="ID" width="100px" resizable={true}
+            minWidth="60px" maxWidth="230px"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="ContactTitle" Resizable=true Width="100px" MinWidth="60px" MaxWidth="230px"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Artist" width="100px" resizable="true"
+            min-width="60px" max-width="230px"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Artist" width="100px" resizable={true}
+            minWidth="60px" maxWidth="230px"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Artist" Resizable=true Width="100px" MinWidth="60px" MaxWidth="230px"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+É permitido misturar os tipos de valor das larguras mínima e máxima da coluna (pixels ou porcentagens). Se os valores definidos para mínimo e máximo forem porcentagens, o tamanho da coluna correspondente será limitado exatamente a esses tamanhos, de forma semelhante aos pixels.
+
+Isso significa que as seguintes configurações são possíveis:
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'ID'" width="10%" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="ID" width="10%" resizable="true"
+            min-width="60px" max-width="230px"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="ID" width="10%" resizable={true}
+            minWidth="60px" maxWidth="230px"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="ContactTitle" Resizable=true Width="10%" MinWidth="60px" MaxWidth="230px"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'230px'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Artist" width="100px" resizable="true"
+            min-width="60px" max-width="230px"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Artist" width="100px" resizable={true}
+            minWidth="60px" maxWidth="230px"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Artist" Resizable=true Width="100px" MinWidth="60px" MaxWidth="230px"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+ou
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'ID'" width="100px" [resizable]="true"
+            [minWidth]="'5%'" [maxWidth]="'15%'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="ID" width="100px" resizable="true"
+            min-width="5%" max-width="15%"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="ID" width="100px" resizable={true}
+            minWidth="5%" maxWidth="15%"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="ID" Resizable=true Width="100px" MinWidth="5%" MaxWidth="15%"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```html
+<igx-column [field]="'Artist'" width="100px" [resizable]="true"
+            [minWidth]="'60px'" [maxWidth]="'15%'"></igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Artist" width="100px" resizable="true"
+            min-width="60px" max-width="15%"></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Artist" width="100px" resizable={true}
+            minWidth="60px" maxWidth="15%"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Artist" Resizable=true Width="100px" MinWidth="60px" MaxWidth="15%"></IgbColumn>
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Ajustar automaticamente as colunas com clique duplo
+
+Cada coluna pode ser **dimensionada automaticamente** com um clique duplo na borda direita do cabeçalho: a coluna será dimensionada para o valor de célula visível mais longo, incluindo o próprio cabeçalho. Esse comportamento vem habilitado por padrão, sem necessidade de configuração adicional. No entanto, a coluna não será dimensionada automaticamente se <ApiLink type="ColumnState" member="maxWidth" /> estiver definido nessa coluna e a nova largura exceder esse valor <ApiLink type="ColumnState" member="maxWidth" />. Nesse caso, a coluna será dimensionada de acordo com o valor predefinido de <ApiLink type="ColumnState" member="maxWidth" />.
+
+Você também pode dimensionar uma coluna automaticamente de forma dinâmica, usando o método <ApiLink type="Column" member="autosize" /> exposto em <ApiLink type="Column" />.
+
+<ComponentBlock for="Grid, TreeGrid">
+<PlatformBlock for="Angular">
+```typescript
+@ViewChild('@@igObjectRef') @@igObjectRef: {ComponentName};
+
+let column = this.@@igObjectRef.columnList.filter[c => c.field === 'ID'](0);
+column.autosize();
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var id = this.id = document.getElementById('ID') as IgcColumnComponent;
+    id.autosize();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const column = grid.getColumnByName('ID');
+column.autosize();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private {ComponentSelector} gridRef;
+
+    private void AutosizeColumn()
+    {
+        IgbColumn column = gridRef.Columns.Where((col) => { return col.Field == "ID"; }).FirstOrDefault();
+        column.Autosize(false);
+    }
+}
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular">
+```typescript
+@ViewChild('@@igObjectRef') @@igObjectRef: {ComponentName};
+
+let column = this.@@igObjectRef.columnList.filter(c => c.field === 'Artist')[0];
+column.autosize();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var column = this.column = document.getElementById('Artist') as IgcColumnComponent;
+    column.autosize();
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const column = grid.getColumnByName('Artist');
+column.autosize();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private {ComponentSelector} gridRef;
+
+    private void AutosizeColumn()
+    {
+        IgbColumn column = gridRef.Columns.Where((col) => { return col.Field == "Artist"; }).FirstOrDefault();
+        column.Autosize(false);
+    }
+}
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+## Ajustar automaticamente as colunas na inicialização
+
+Cada coluna pode ser configurada para dimensionamento automático na inicialização, definindo <ApiLink type="{ComponentName}" member="width" /> como 'auto':
+
+<PlatformBlock for="Angular">
+```html
+<igx-column width='auto'></igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column width='auto'></igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn width="auto"></IgrColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Width="auto"></IgbColumn>
+```
+</PlatformBlock>
+
+Quando a coluna é inicializada pela primeira vez na visão, ela ajusta a sua largura ao tamanho da célula ou do cabeçalho visível mais longo. Observe que as células que estão fora das linhas visíveis não são incluídas.
+
+Essa abordagem é mais otimizada em desempenho do que o ajuste automático após a inicialização, e é recomendada especialmente quando é preciso ajustar automaticamente um grande número de colunas.
+
+<Sample src="/{ComponentSample}/column-auto-sizing" height={550} alt="Exemplo de redimensionamento de colunas do {Platform} {ComponentTitle}" />
+
+<PlatformBlock for="Angular">
+## Estilização
+
+Para começar a estilizar a linha de redimensionamento da coluna <ApiLink type="{ComponentName}" />, precisamos importar o arquivo de índice, onde ficam todas as funções de tema e os mixins dos componentes:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+A forma mais simples de conseguir isso é criar um novo tema que estenda o <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> e aceite vários parâmetros, além do parâmetro `$resize-line-color`.
+
+```scss
+$custom-grid-theme: grid-theme(
+    $resize-line-color: #0288D1
+);
+```
+
+ <DocsAside type="info">
+ Se o componente estiver usando um ViewEncapsulation [Emulated](../themes/styles.mdx#view-encapsulation), é necessário `penetrate` esse encapsulamento usando `::ng-deep`.
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-grid-theme);
+    }
+}
+```
+
+### Definindo uma paleta de cores
+Em vez de fixar os valores de cor no código, podemos obter mais flexibilidade em relação às cores usando as funções <ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" /> e <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" />.
+
+`igx-palette` gera uma paleta de cores com base na cor primária e na secundária especificadas:
+
+```scss
+$primary-color: #0288D1;
+$secondary-color: #BDBDBD;
+
+$custom-theme-palette: palette($primary: $primary-color, $secondary: $secondary-color);
+```
+
+E então, com <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" />, podemos obter facilmente a cor da paleta.
+
+```scss
+$custom-grid-theme: grid-theme(
+    $palette: $custom-theme-palette,
+    $resize-line-color: color($custom-theme-palette, 'secondary', 500)
+);
+```
+
+<DocsAside type="info">
+As funções `igx-color` e `igx-palette` são poderosas para gerar e obter cores. Consulte o tópico [Paletas](../themes/sass/palettes.mdx) para orientações detalhadas sobre como usá-las.
+</DocsAside>
+
+### Usando schemas
+Indo além do mecanismo de temas, você pode criar uma estrutura robusta e flexível que se beneficia dos [**schemas**](../themes/sass/schemas.mdx). Um **schema** é uma receita de tema.
+
+Estenda o schema predefinido fornecido para cada componente, neste caso - o schema <ApiLink type="variable-_light-grid" label="light-grid" kind="sass" module="index.html" />:
+
+```scss
+// Extending the light grid schema
+$light-grid-schema: extend($_light-grid,
+    (
+        resize-line-color: (
+           color: ('secondary', 500)
+            ),
+        header-background: (
+           color: ("primary", 100)
+            ),
+        header-text-color: (
+           color: ("primary", 600)
+            )
+    )
+);
+```
+
+Para aplicar o nosso schema personalizado, precisamos **estender** um dos globais (<ApiLink type="variable-light-schema" label="light" kind="sass" module="index.html" /> ou <ApiLink type="variable-dark-schema" label="dark" kind="sass" module="index.html" />), o que basicamente indica os componentes com um schema personalizado, e depois adicioná-lo ao tema do respectivo componente:
+
+```scss
+// Extending the global light-schema
+$custom-light-grid-schema: extend($light-schema,(
+    igx-grid: $light-grid-schema
+));
+
+// Specifying the palette and schema of the custom grid theme
+$custom-grid-theme: grid-theme(
+    $palette: $custom-theme-palette,
+    $schema: $custom-light-grid-schema
+);
+```
+
+Não se esqueça de incluir o tema da mesma forma como foi demonstrado acima.
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/column-resize-styling" height={550} alt="{Platform} {ComponentTitle} estilização do redimensionamento de colunas" />
+
+
+<DocsAside type="info">
+O exemplo não será afetado pelo tema global selecionado em **Change Theme**.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+## Estilização
+
+Além dos temas predefinidos, a grade pode ser personalizada ainda mais definindo algumas das propriedades CSS disponíveis. Para criar um tema completo a partir de apenas algumas cores, consulte o [tópico de temas](theming.mdx).
+Se você quiser alterar a cor da alça de redimensionamento, primeiro é preciso definir uma classe para a grade:
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} className="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector} class="grid"></{ComponentSelector}>
+```
+</PlatformBlock>
+
+Em seguida, defina a propriedade CSS relacionada para essa classe:
+
+```css
+.grid {
+    --ig-grid-resize-line-color: #f35b04;
+}
+```
+
+### Demonstração
+
+<Sample src="/{ComponentSample}/column-resize-styling" height={550} alt="{Platform} {ComponentTitle} Exemplo de estilização do redimensionamento de colunas" />
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## Recursos adicionais
+
+- [Virtualização e desempenho](virtualization.mdx)
+- [Paginação](paging.mdx)
+- [Filtragem](filtering.mdx)
+- [Ordenação](sorting.mdx)
+- [Resumos](summaries.mdx)
+- [Movimentação de colunas](column-moving.mdx)
+- [Fixação de colunas](column-pinning.mdx)
+- [Seleção](selection.mdx)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

@@ -1,0 +1,168 @@
+---
+title: "Angular 일괄 편집 | 트랜잭션 서비스 | Ignite UI for Angular | Infragistics"
+description: "컴포넌트에서 Angular CRUD 작업을 실행할 때 일괄 편집을 구현할 수 있게 하는 Transaction Service 클래스의 계층 구조를 알아보십시오."
+keywords: batch editing, igniteui for angular, infragistics
+_language: ko
+llms:
+  description: "Transaction은 Transaction 서비스의 주요 구성 요소입니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Transaction Service 클래스 계층 구조
+
+## Transaction, State, Transaction Log
+
+Transaction은 <ApiLink type="TransactionService" label="Transaction 서비스" />의 주요 구성 요소입니다. Transaction은 실제로 데이터에 대해 실행하는 모든 작업입니다. <ApiLink type="Transaction" kind="interface" /> 인터페이스는 <ApiLink kind="interface" type="Transaction" member="id" />, <ApiLink kind="interface" type="Transaction" member="newValue" /> 및 <ApiLink kind="interface" type="Transaction" member="type" /> 세 가지 속성을 정의합니다.
+
+Transaction의 <ApiLink kind="interface" type="Transaction" member="id" />은(는) 데이터 레코드마다 고유해야 하며, 이 트랜잭션이 영향을 주는 레코드를 정의합니다. <ApiLink kind="enum" type="TransactionType" member="Type" />은(는) 실행하는 작업에 따라 `ADD`, `DELETE` 및 `UPDATE` 세 가지 트랜잭션 유형 중 하나일 수 있습니다. <ApiLink kind="interface" type="Transaction" member="newValue" />에는 `ADD` 트랜잭션을 추가하는 경우 새 레코드의 값이 들어 있습니다. 기존 레코드를 업데이트하는 경우 <ApiLink kind="interface" type="Transaction" member="newValue" />에는 변경 사항만 들어 있습니다. 같은 id를 가진 `UPDATE` 유형의 트랜잭션은 여러 개 있을 수 있습니다. 레코드를 삭제하는 경우 <ApiLink kind="interface" type="Transaction" member="newValue" />에는 삭제된 레코드의 값이 들어 있습니다.
+
+각 유형의 트랜잭션을 추가하는 예제는 [Transaction 서비스 사용 방법](/transaction-how-to-use) 주제에서 볼 수 있습니다.
+
+Transaction을 추가할 때마다 그것은 트랜잭션 로그와 실행 취소 스택에 추가됩니다. 트랜잭션 로그의 모든 변경 사항은 그 후 레코드별로 누적됩니다. 그 시점부터 서비스는 집계된 <ApiLink type="State" kind="interface" />을(를) 유지합니다. <ApiLink type="State" kind="interface" />은(는) 고유한 레코드로 구성되며, 각 레코드는 위에서 언급한 지원되는 트랜잭션 유형 중 하나일 수 있습니다.
+
+트랜잭션을 추가하는 동안 <ApiLink kind="interface" type="TransactionService" member="startpending" />을(를) 호출하여 보류 중인 트랜잭션을 켤 수 있습니다. 그 이후의 모든 트랜잭션은 <ApiLink kind="interface" type="TransactionService" member="endpending" />을(를) 호출할 때까지 하나의 트랜잭션으로 누적됩니다. <ApiLink kind="interface" type="TransactionService" member="endpending" />에 `true`을(를) 전달하면, 누적된 모든 트랜잭션이 트랜잭션 로그와 실행 취소 스택에 단일 트랜잭션으로 추가됩니다.
+
+## igxBaseTransaction 사용하기
+
+
+우리의 그리드 모듈은 Transaction 서비스(<ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />)의 아주 기본적인 구현을 제공하며, 행 편집 기능을 가능하게 하는 보류 세션 기능만 있습니다. <ApiLink kind="interface" type="TransactionService" member="startpending" />과(와) <ApiLink kind="interface" type="TransactionService" member="endpending" />을(를) 사용하면 행 편집은 셀별 작업 여러 개를 하나의 변경으로 결합할 수 있습니다. 즉, 한 레코드의 여러 셀을 편집하면 하나의 트랜잭션이 만들어지고, 행 편집 이벤트 하나만 처리하면 됩니다.
+
+누적된 상태가 부분 객체이므로, 이 서비스를 사용하여 어떤 셀이 편집되었는지 확인하고 그에 맞춰 UI를 만들 수도 있습니다.
+
+<ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />에는 실행 취소 스택이 없으므로 실행 취소/다시 실행 기능을 제공하지 않습니다.
+
+<ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />을(를) 사용하여 행 편집을 활성화하는 방법에 대한 자세한 예제는 다음 주제에서 제공됩니다:
+
+- [Grid 행 편집](/grid/row-editing)
+- [Tree Grid 행 편집](/treegrid/row-editing)
+- [Hierarchical Grid 행 편집](/hierarchicalgrid/row-editing)
+
+## igxTransactionService 및 igxHierarchicalTransactionService에 대한 일반 정보
+
+<ApiLink type="TransactionService" /> 및 <ApiLink type="HierarchicalTransactionFactory" />은(는) <ApiLink kind="interface" type="TransactionService" label="Transaction 서비스" /> 인터페이스를 구현하는 주입 가능한 미들웨어입니다. 컴포넌트는 이를 사용하여 기본 데이터에 영향을 주지 않고 변경 사항을 누적할 수 있습니다. 이 공급자는 데이터에 대한 하나 또는 모든 변경 사항에 _접근_하고, _조작_(실행 취소 및 다시 실행)하며, _폐기하거나 커밋_할 수 있는 API를 노출합니다.
+
+더 구체적인 예로, <ApiLink type="TransactionService" /> 및 <ApiLink type="HierarchicalTransactionFactory" />은(는) [`IgxGrid`](/grid/grid)의 셀 편집과 행 편집 모두에서 작동할 수 있습니다. 셀 편집의 트랜잭션은 셀이 편집 모드를 벗어날 때 추가됩니다. 행 편집이 시작되면 그리드는 <ApiLink kind="interface" type="TransactionService" member="startpending" />을(를) 호출하여 트랜잭션 서비스를 보류 상태로 설정합니다. 편집된 각 셀은 보류 트랜잭션 로그에 추가되며 주 트랜잭션 로그에는 추가되지 않습니다. 행이 편집 모드를 벗어나면 모든 변경 사항이 주 트랜잭션 로그와 실행 취소 로그에 하나의 트랜잭션으로 추가됩니다.
+
+셀 편집과 행 편집 두 경우 모두 그리드 편집의 상태는 업데이트, 추가, 삭제된 모든 행과 그 마지막 상태로 구성됩니다. 이들은 나중에 검사하고, 조작하고, 한 번에 또는 id별로 제출할 수 있습니다. 변경 사항은 편집 모드에 따라 개별 셀 또는 행에 대해 수집되며, 데이터 행/레코드별로 누적됩니다.
+
+## igxTransactionService 사용하기
+
+<ApiLink type="TransactionService" />은(는) <ApiLink type="BaseTransactionService" label="igxBaseTransactionService" />을(를) 확장합니다.
+
+컴포넌트가 데이터 작업을 수행할 때 트랜잭션을 사용하도록 하려면, 컴포넌트의 `providers` 배열에 <ApiLink type="TransactionService" />을(를) 공급자로 정의해야 합니다.
+
+<ApiLink type="TransactionService" />은(는) 실행 취소 스택을 제공하므로 실행 취소/다시 실행 기능을 활용할 수 있습니다. 실행 취소 스택은 실제로 트랜잭션 배열들을 담은 배열입니다. <ApiLink type="TransactionService" />을(를) 사용할 때는 <ApiLink type="TransactionService" member="canundo" label="canUndo" /> 접근자를 확인하여 실행 취소 스택에 트랜잭션이 있는지 알 수 있습니다. 있다면 <ApiLink type="TransactionService" member="undo" label="undo" /> 메서드를 사용하여 마지막 트랜잭션을 제거하고, <ApiLink type="TransactionService" member="redo" label="redo" />을(를) 사용하여 마지막으로 실행 취소된 트랜잭션을 다시 적용할 수 있습니다.
+
+igxGrid와 일괄 편집이 어떻게 구현되는지에 대한 자세한 예제는 다음 주제에서 찾을 수 있습니다:
+
+- [Grid 일괄 편집](/grid/batch-editing)
+
+## igxHierarchicalTransactionService 사용하기
+
+<ApiLink type="HierarchicalTransactionFactory" />은(는) <ApiLink type="TransactionService" />을(를) 확장합니다.
+
+<ApiLink type="HierarchicalTransactionFactory" />은(는) 상위와 하위 항목 간의 관계를 처리하도록 설계되었습니다(예를 들어 <ApiLink type="TreeGrid" label="igxTreeGrid" />와 같은 계층형 데이터 구조가 있을 때 이를 사용하십시오). 이 서비스는 `ADD` 트랜잭션을 추가할 때 새 레코드가 기대한 위치에 추가되도록 보장합니다. 상위 레코드를 삭제하면, 구현에 따라 그 하위 항목은 한 단계 위의 계층으로 올라가거나 상위 항목과 함께 삭제됩니다. 구체적인 예는 tree grid의 <ApiLink type="TreeGrid" member="cascadeondelete" label="cascadeOnDelete" /> 속성을 참조하십시오. 그 값에 따라 상위 레코드를 삭제할 때 하위 항목에 미치는 영향이 달라집니다.
+
+애플리케이션에서는 이미 삭제되어 트랜잭션이 커밋되기를 기다리고 있는 상위 레코드에 사용자가 하위 레코드를 추가하려고 하는 상황을 처리하고 싶을 수 있습니다. Transaction Service는 삭제될 예정인 상위 항목에 레코드를 추가하는 것을 허용하지 않으며, 콘솔에 오류 메시지가 표시됩니다. 하지만 다음 코드를 사용하여 상위 항목이 삭제될 예정인지 확인하고, 사용자에게 직접 알림을 구현할 수 있습니다:
+
+```typescript
+    const state = this.transactions.getState(parentRecordID);
+    if (state && state.type === TransactionType.DELETE) {
+        // Implement your logic here
+    }
+```
+
+<ApiLink type="TreeGrid" label="igxTreeGrid" /> 및 <ApiLink type="HierarchicalGrid" label="igxHierarchicalGrid" />가 일괄 편집과 함께 어떻게 구현되는지에 대한 자세한 예제는 다음 주제에서 찾을 수 있습니다:
+
+- [Tree Grid 일괄 편집](/treegrid/batch-editing)
+- [Hierarchical Grid 일괄 편집](/hierarchicalgrid/batch-editing)
+
+## Transaction Factory
+
+Ignite UI for Angular 그리드 내부의 트랜잭션 구체 구현에서는, 그리드의 <ApiLink type="Grid" member="batchediting" label="batchEditing" /> 값에 따라 적절한 트랜잭션 서비스를 인스턴스화하는 데 팩토리가 사용됩니다. 두 개의 별도 트랜잭션 팩토리가 있습니다 - <ApiLink type="FlatTransactionFactory" />([`Grid`](/grid/batch-editing) 및 [`Hierarchical Grid`](/hierarchicalgrid/batch-editing)에 사용됨)과 <ApiLink type="HierarchicalTransactionFactory" />([Tree Grid](/treegrid/batch-editing)에 사용됨). 두 클래스 모두 한 가지 메서드인 `create`만 노출하며, 이는 올바른 [유형](#igxtransactionservice-및-igxhierarchicaltransactionservice에-대한-일반-정보)의 새 인스턴스를 반환합니다. 전달되는 매개변수(`TRANSACTION_TYPE`)는 내부적으로 사용됩니다. `batchEditing`이 **false**이면 `None`가 사용되고, 일괄 편집이 활성화되면 `Base`가 사용됩니다. `true` - `false` 플래그 대신 `enum`이 사용되는데, 이는 나중에 확장할 수 있기 때문입니다.
+
+## Transaction Factory 사용하기
+
+<ApiLink type="FlatTransactionFactory" />과(와) <ApiLink type="HierarchicalTransactionFactory" /> 모두 `root`에서 제공되며 공개 API로 노출됩니다. 임의의 검사에 따라 트랜잭션 서비스의 새 인스턴스를 만들고 싶다면 트랜잭션 팩토리를 사용할 수 있습니다.
+
+아래 예제는 임의의(`hasUndo`) 플래그에 따라 서로 다른 트랜잭션 서비스를 인스턴스화하는 방법을 보여 줍니다:
+
+```typescript
+import { IgxFlatTransactionFactory, TRANSACTION_TYPE } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory, TRANSACTION_TYPE } from '@infragistics/igniteui-angular'; for licensed package
+
+export class MyCustomComponent {
+    ...
+    constructor(private transactionFactory: IgxFlatTransactionFactory) {}
+    ...
+    public transaction!: IgxTransactionService<Transaction, State>;
+
+    public set hasUndo(val: boolean) {
+        if (val) {
+            this.transactions = this.transactionFactory.create(TRANSACTION_TYPE.Base);
+        } else {
+            this.transactions = this.transactionFactory.create(TRANSACTION_TYPE.None);
+        }
+    }
+}
+```
+
+두 팩토리 클래스 모두 확장할 수 있으며, DI 계층 구조(`providers` 배열 사용)에서 재정의하여 자체 사용자 지정 구현을 제공할 수 있습니다. 이 방식과, 팩토리가 인스턴스화하는 모든 클래스가 공개되어 있다는 사실을 함께 활용하면, 내부적으로 트랜잭션 구현을 사용하는 컴포넌트에 무엇이 제공되는지를 크게 제어할 수 있습니다.
+
+예를 들어 `IgxGridComponent` 내부에서 사용되는 트랜잭션 서비스를 재정의하려면 다음과 같이 하면 됩니다:
+
+먼저 사용자 지정 팩토리 클래스를 정의하십시오
+
+```typescript
+import { IgxFlatTransactionFactory, TRANSACTION_TYPE, IgxBaseTransactionService,
+TransactionService, Transaction, State } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory, TRANSACTION_TYPE, IgxBaseTransactionService,
+// TransactionService, Transaction, State } from '@infragistics/igniteui-angular'; for licensed package
+
+class CustomTransactionService extends IgxBaseTransactionService {
+    ...
+}
+
+export class CustomTransactionFactory extends IgxFlatTransactionFactory {
+    ...
+    create(type: TRANSACTION_TYPE): TransactionService<Transaction, State> {
+        if (type === TRANSACTION_TYPE.Base) {
+            return new CustomTransactionService();
+        }
+        super.create(type);
+    }
+}
+
+```
+
+그다음 컴포넌트의 `providers` 배열에서 (`igx-grid`이(가) 사용하는) `IgxFlatTransactionFactory`을(를) 사용자 지정 구현으로 재정의하십시오.
+
+```typescript
+import { IgxFlatTransactionFactory } from 'igniteui-angular/core';
+// import { IgxFlatTransactionFactory } from '@infragistics/igniteui-angular'; for licensed package
+import { CustomTransactionFactory } from '../custom-factory.ts';
+
+@Component({
+    selector: 'app-grid-view',
+    template: `<igx-grid [batchEditing]="true" [data]="data" [autoGenerate]="true"></igx-grid>`,
+    providers: [{ provide: IgxFlatTransactionFactory, useClass: CustomTransactionFactory }]
+})
+
+export class GridViewComponent {
+    ...
+}
+```
+
+이제 `batchEditing`을(를) `true`(으)로 설정하면, 그리드는 `CustomTransactionService`의 인스턴스를 받게 됩니다.
+
+## 추가 리소스
+
+<hr/>
+
+- <ApiLink kind="interface" type="TransactionService" label="Transaction Service API" />
+- [Transaction Service](/transaction)
+- [Transaction 서비스 사용 방법](/transaction-how-to-use)
+- [Grid 일괄 편집](/grid/batch-editing)
+- [Tree Grid 일괄 편집](/treegrid/batch-editing)
+- [Hierarchical Grid 일괄 편집](/hierarchicalgrid/batch-editing)

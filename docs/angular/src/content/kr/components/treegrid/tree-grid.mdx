@@ -1,0 +1,412 @@
+---
+title: "Angular Tree Grid | 가장 빠른 Angular Tree Table | Infragistics"
+description: "Ignite UI for Angular Tree Grid는 계층형 또는 평면 데이터를 손쉽게 표시하고 조작하는 데 사용됩니다. 적은 코딩으로 데이터를 빠르게 바인딩하십시오. 무료로 체험해 보십시오"
+keywords: angular tree grid, angular tree table, angular tree grid component, angular tree table component, angular ui components, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular Tree Grid는 계층형 또는 평면 자기 참조 데이터를 표시하고 조작하는 데 사용됩니다."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Angular Tree Grid 컴포넌트 개요
+
+Ignite UI for Angular Tree Grid는 계층형 또는 평면 자기 참조 데이터를 표시하고 조작하는 데 사용됩니다. 적은 코드로 데이터를 빠르게 바인딩하거나, 다양한 이벤트를 사용하여 여러 동작을 사용자 지정할 수 있습니다. 이 컴포넌트는 데이터 선택, Excel 스타일 필터링, 정렬, 페이징, 그룹화, 템플릿화, 열 이동, 열 고정, Excel, CSV, PDF로 내보내기 등 풍부한 기능을 제공하며, 그 밖에도 많습니다.
+
+## Angular Tree Grid 예제
+
+이 예제에서는 사용자가 계층형 데이터를 표시하는 방법을 볼 수 있습니다. 필터링 및 정렬 옵션, 고정 및 숨기기, 행 선택, Excel, CSV, PDF로 내보내기, 그리고 [Sparkline](/charts/types/sparkline-chart) 컴포넌트를 사용하는 셀 템플릿화를 포함했습니다. 또한 [Angular 페이지네이션](/treegrid/paging)을 사용한 사용자 지정 페이지네이션 예제도 볼 수 있습니다.
+
+<Sample lob src="/tree-grid/treegrid-childdatakey" height={850} alt="Angular tree grid 예제" />
+
+
+## Ignite UI for Angular Tree Grid 시작하기
+
+Ignite UI for Angular Tree Grid 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxTreeGridModule`을 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxTreeGridModule } from 'igniteui-angular/grids/tree-grid';
+// import { IgxTreeGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxTreeGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxTreeGridComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_TREE_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/tree-grid/src/tree-grid.module.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_TREE_GRID_DIRECTIVES } from 'igniteui-angular/grids/tree-grid';
+// import { IGX_TREE_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-tree-grid [data]="data"></igx-tree-grid>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_TREE_GRID_DIRECTIVES]
+    /* or imports: [IgxTreeGridComponent] */
+})
+export class HomeComponent {
+    public data: Employee [];
+}
+```
+
+이제 Ignite UI for Angular Tree Grid 모듈 또는 디렉티브를 가져왔으므로 `igx-tree-grid` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Tree Grid 사용하기
+
+<ApiLink type="TreeGrid" />은(는) <ApiLink type="Grid" />과(와) 많은 기능을 공유하지만, 데이터를 계층적으로 표시하는 기능도 추가합니다.
+이를 위해 <ApiLink type="TreeGrid" />은(는) 데이터 객체 간의 관계를 정의하는 몇 가지 방법을 제공합니다. 각 데이터 객체에 [자식 컬렉션](#자식-컬렉션)을 사용하거나, 각 데이터 객체에 [기본 키 및 외래 키](#기본-키-및-외래-키)를 사용하는 방법입니다.
+
+### 트리 셀
+
+트리 그리드의 계층을 구성하는 데 어떤 옵션(자식 컬렉션 또는 기본 키와 외래 키)을 사용하든, 트리 그리드의 행은 두 가지 유형의 셀로 구성됩니다:
+
+- <ApiLink type="GridCell" /> - 값을 포함하는 일반 셀입니다.
+- <ApiLink type="GridCell" /> - 값, 펼치기/접기 표시기, 그리고 셀 행의 레벨에 따라 정해지는 들여쓰기 div 요소를 포함하는 트리 셀입니다. 행 컴포넌트의 레벨은 내부 <ApiLink type="TreeGridRow" member="treeRow" />의 <ApiLink kind="interface" type="ITreeGridRecord" member="level" /> 속성을 통해 접근할 수 있습니다.
+
+<DocsAside type="info">
+각 행은 트리 셀을 하나만 가질 수 있지만, 일반 셀은 여러 개(또는 없음) 가질 수 있습니다.
+</DocsAside>
+
+### 초기 펼침 깊이
+
+처음에 트리 그리드는 모든 노드 수준을 펼쳐서 보여 줍니다. 이 동작은 <ApiLink type="TreeGrid" member="expansionDepth" /> 속성을 사용하여 구성할 수 있습니다. 기본값은 **Infinity**이며, 이는 모든 노드 수준이 펼쳐진다는 뜻입니다. 이 속성을 숫자 값으로 설정하여 초기 펼침 깊이를 제어할 수 있습니다. 예를 들어 **0**이면 루트 수준 노드만 표시되고, **1**이면 루트 수준 노드와 그 자식 노드가 표시되며, 이런 식입니다.
+
+### 자식 컬렉션
+
+**자식 컬렉션** 옵션을 사용할 때, 모든 데이터 객체는 상위 데이터 객체와 같은 유형의 항목으로 채워지는 자식 컬렉션을 포함합니다. 이렇게 하면 트리 그리드의 모든 레코드가 자신의 자식 중 어느 것이든 직접 참조할 수 있습니다. 이 경우 원본 데이터 소스를 담고 있는 트리 그리드의 <ApiLink type="TreeGrid" member="data" /> 속성은 계층적으로 정의된 컬렉션이 됩니다.
+
+이 샘플에서는 다음 컬렉션 구조를 사용하겠습니다:
+
+```typescript
+// Sample Employee Data
+
+export const EMPLOYEE_DATA = [
+    {
+        Name: "Johnathan Winchester",
+        ID: 1,
+        HireDate: new Date(2008, 3, 20),
+        Age: 55,
+        Employees: [
+            {
+                Name: "Michael Burke",
+                ID: 3,
+                HireDate: new Date(2011, 6, 3),
+                Age: 43,
+                Employees: []
+            },
+            {
+                Name: "Thomas Anderson"
+                ID: 2,
+                HireDate: new Date(2009, 6, 19),
+                Age: 29,
+                Employees: []
+            },
+            ...
+        ]
+    },
+    ...
+]
+```
+
+이제 데이터 컬렉션을 가져와 트리 그리드의 <ApiLink type="TreeGrid" member="data" /> 입력에 바인딩하는 것부터 시작하겠습니다.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData">
+</igx-tree-grid>
+```
+
+IgxTreeGridComponent가 계층을 만들려면, 그 <ApiLink type="TreeGrid" member="childdatakey" /> 속성을 각 데이터 객체에서 사용하는 자식 컬렉션의 이름으로 설정해야 합니다. 우리의 경우에는 **Employees** 컬렉션이 됩니다.
+또한 자동 열 생성을 비활성화하고, 열을 데이터 객체의 실제 속성과 맞춰 수동으로 정의하겠습니다. (**Employees** 컬렉션은 계층에 자동으로 사용되므로, 열 정의에 포함할 필요가 없습니다.)
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false">
+    <igx-column field="Name" dataType="string"></igx-column>
+    <igx-column field="HireDate" dataType="date"></igx-column>
+    <igx-column field="Age" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+이제 <ApiLink type="Grid" member="rowSelection" /> 및 <ApiLink type="TreeGrid" member="paging" /> 속성을 사용하여 트리 그리드의 행 선택 및 페이징 기능을 활성화하겠습니다.
+또한 첫 번째 열에 요약 기능을, 각 열에 필터링, 정렬, 편집, 이동, 크기 조정 기능을 활성화하겠습니다.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"
+                [hasSummary]="true"></igx-column>
+    <igx-column field="HireDate" dataType="date" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-paginator>
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+마지막으로 <ApiLink type="GridToolbar" />, <ApiLink type="GridToolbarHiding" />, <ApiLink type="GridToolbarPinning" /> 및 <ApiLink type="GridToolbarExporter" />를 사용하여 열 숨기기, 열 고정, 내보내기 기능과 함께 트리 그리드의 도구 모음을 활성화하겠습니다.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="localData" childDataKey="Employees"
+               [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-grid-toolbar>
+            <igx-grid-toolbar-title>Employees</igx-grid-toolbar-title>
+            <igx-grid-toolbar-actions>
+                <igx-grid-toolbar-hiding></igx-grid-toolbar-hiding>
+                <igx-grid-toolbar-pinning></igx-grid-toolbar-pinning>
+                <igx-grid-toolbar-exporter></igx-grid-toolbar-exporter>
+            </igx-grid-toolbar-actions>
+    </igx-grid-toolbar>
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="HireDate" dataType="date" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+위 코드의 결과는 이 문서 시작 부분의 [Angular Tree Grid 예제](#angular-tree-grid-예제) 섹션에서 볼 수 있습니다.
+
+### 기본 키 및 외래 키
+
+**기본 키 및 외래 키** 옵션을 사용할 때, 모든 데이터 객체는 기본 키와 외래 키를 포함합니다. 기본 키는 현재 데이터 객체의 고유 식별자이며, 외래 키는 상위 객체의 고유 식별자입니다. 이 경우 원본 데이터 소스를 담고 있는 트리 그리드의 <ApiLink type="TreeGrid" member="data" /> 속성은 평면 컬렉션이 됩니다.
+
+다음은 기본 키 및 외래 키 관계로 정의된 평면 컬렉션을 포함하는 컴포넌트의 예입니다:
+
+```typescript
+// treeGridSample.component.ts
+
+@Component({...})
+export class MyComponent implements OnInit {
+
+    public data: any[];
+
+    constructor() { }
+
+    public ngOnInit() {
+        // Primary and Foreign keys sample data
+        this.data = [
+            { ID: 1, ParentID: -1, Name: "Casey Houston", JobTitle: "Vice President", Age: 32 },
+            { ID: 2, ParentID: 1, Name: "Gilberto Todd", JobTitle: "Director", Age: 41 },
+            { ID: 3, ParentID: 2, Name: "Tanya Bennett", JobTitle: "Director", Age: 29 },
+            { ID: 4, ParentID: 2, Name: "Jack Simon", JobTitle: "Software Developer", Age: 33 },
+            { ID: 5, ParentID: 8, Name: "Celia Martinez", JobTitle: "Senior Software Developer", Age: 44 },
+            { ID: 6, ParentID: -1, Name: "Erma Walsh", JobTitle: "CEO", Age: 52 },
+            { ID: 7, ParentID: 2, Name: "Debra Morton", JobTitle: "Associate Software Developer", Age: 35 },
+            { ID: 8, ParentID: 10, Name: "Erika Wells", JobTitle: "Software Development Team Lead", Age: 50 },
+            { ID: 9, ParentID: 8, Name: "Leslie Hansen", JobTitle: "Associate Software Developer", Age: 28 },
+            { ID: 10, ParentID: -1, Name: "Eduardo Ramirez", JobTitle: "Development Manager", Age: 53 }
+        ];
+    }
+}
+```
+
+위 샘플 데이터에서 모든 레코드에는 ID, ParentID와 Name, JobTitle, Age 같은 추가 속성이 있습니다. 앞서 언급했듯이 레코드의 ID는 고유해야 합니다. ParentID에는 상위 노드의 ID가 들어 있습니다. 어떤 행의 ParentID가 트리 그리드의 어떤 행과도 일치하지 않으면, 그 행은 루트 행이라는 뜻입니다.
+
+상위-자식 관계는 트리 그리드의 <ApiLink type="TreeGrid" member="primaryKey" /> 및 <ApiLink type="TreeGrid" member="foreignKey" /> 속성을 사용하여 구성합니다.
+
+다음은 트리 그리드가 위에서 정의한 평면 컬렉션의 데이터를 표시하도록 구성하는 방법을 보여 주는 컴포넌트의 템플릿입니다:
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+    [autoGenerate]="false">
+    <igx-column field="Name" dataType="string"></igx-column>
+    <igx-column field="JobTitle" dataType="string"></igx-column>
+    <igx-column field="Age" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+또한 <ApiLink type="Grid" member="rowSelection" /> 속성을 사용하여 트리 그리드의 행 선택 기능을 활성화하고, 각 열에 대해 필터링, 정렬, 편집, 이동, 크기 조정 기능도 활성화하겠습니다.
+
+```html
+<!--treeGridSample.component.html-->
+
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID"
+    [autoGenerate]="false" [rowSelection]="'multiple'" [allowFiltering]="true" [moving]="true">
+    <igx-column field="Name" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="JobTitle" dataType="string" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+    <igx-column field="Age" dataType="number" [sortable]="true" [editable]="true" [resizable]="true"></igx-column>
+</igx-tree-grid>
+```
+
+최종 결과는 다음과 같습니다:
+
+<Sample lob src="/tree-grid/treegrid-primaryforeignkey" height={450} alt="Angular tree grid 기본 키 외래 키 예제" />
+
+
+## 유지와 통합
+
+**트리 셀**의 들여쓰기는 필터링, 정렬, 페이징 같은 다른 트리 그리드 기능에서도 유지됩니다.
+
+- 열에 **정렬**을 적용하면 데이터 행은 레벨별로 정렬됩니다. 즉, 루트 수준 행은 각자의 자식과 독립적으로 정렬됩니다. 각 자식 컬렉션도 독립적으로 정렬되며, 이런 식으로 계속됩니다.
+- 첫 번째 열(<ApiLink type="Column" member="visibleIndex" />이 0인 열)은 항상 트리 열입니다.
+- 열 고정, 열 숨기기, 열 이동 같은 작업 이후 <ApiLink type="Column" member="visibleIndex" />이 0이 되는 열이 트리 열이 됩니다.
+- 내보낸 Excel 워크시트는 트리 그리드 자체에서 그룹화된 것과 같은 방식으로 레코드를 그룹화하여 계층을 반영합니다. 모든 레코드의 펼침 상태도 유지되어 반영됩니다.
+- CSV로 내보내면 레벨과 펼침 상태는 무시되고 모든 데이터가 평면으로 내보내집니다.
+
+
+## Angular Tree Grid 크기 조정
+
+[그리드 크기 조정](/treegrid/sizing) 항목을 참조하십시오.
+
+## 스타일링
+
+Tree Grid는 [`Ignite UI for Angular Theme Library`](/themes/sass/component-themes)을(를) 통해 스타일 지정을 허용합니다. Tree Grid의 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />은(는) 매우 다양한 속성을 노출하여, Tree Grid의 모든 기능을 사용자 지정할 수 있게 합니다.
+
+Tree Grid의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+다음으로 사용자 지정 테마를 만들어야 합니다. `igx-tree-grid`의 스타일을 지정하는 가장 쉽고 권장되는 방법은 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />을(를) 사용하고 세 가지 주요 색상, 즉 `background`, `foreground` 및 `accent-color`만 제공하는 것입니다.
+
+<DocsAside type="info">
+특정 `sass` tree grid 함수는 없습니다.
+</DocsAside>
+
+이것들은 핵심 테마 속성입니다. 이를 설정하면 모든 그리드 부분과 내부 컴포넌트가 그 값에서 색상을 파생하므로, 그리드 전체에 걸쳐 일관된 모양을 얻습니다. 버튼, 아이콘, 입력, 드롭다운, 체크박스, 스크롤바, 칩 및 기타 보조 컴포넌트 같은 중첩 컴포넌트도 통일된 모양을 위해 주요 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 스타일 토큰을 파생합니다.
+
+```scss
+$background: #292826;
+$foreground: #eeece1;
+$accent: #ffcd0f;
+
+$custom-grid: grid-theme(
+  $background: $background,
+  $foreground: $foreground,
+  $accent-color: $accent,
+);
+```
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 하드코딩하는 대신, [`palette`]({environment:sassApiUrl}/palettes#function-palette) 및 [`color`]({environment:sassApiUrl}/palettes#function-color) 함수를 사용하면 색상을 더 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](/themes/sass/palettes) 주제를 참조하십시오.
+</DocsAside>
+
+마지막 단계는 애플리케이션에 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+  @include tokens($custom-grid);
+}
+```
+
+### Angular Tree Grid 스타일 지정 데모
+
+<Sample src="/tree-grid/treegrid-style" height={710} alt="Angular tree grid 스타일 지정 데모" />
+
+보다 구체적인 사용자 지정이 필요하다면 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />에서 사용할 수 있는 추가 매개변수도 있습니다.
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+## 성능(실험적)
+
+`igxTreeGrid`의 설계는 Angular가 도입한 이벤트 병합(Event Coalescing) 기능을 활용할 수 있게 합니다. 이 기능은 상호 작용과 반응성 면에서 대략 **`20%`** 정도의 성능 향상을 가능하게 합니다. 이 기능은 `bootstrapModule` 메서드에서 `ngZoneEventCoalescing`와 `ngZoneRunCoalescing` 속성을 `true`(으)로 설정하기만 하면 애플리케이션 수준에서 활성화할 수 있습니다:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+이는 `igxTreeGrid`의 아직 실험 단계인 기능입니다. 따라서 Tree Grid에서 예상치 못한 동작이 있을 수 있습니다. 그런 동작을 발견하면 [Github](https://github.com/IgniteUI/igniteui-angular/discussions) 페이지를 통해 문의하십시오.
+</DocsAside>
+
+<DocsAside type="info">
+이를 활성화하면 `igxTreeGrid`과 관련 없는 Angular 애플리케이션의 다른 부분에도 영향을 줄 수 있습니다.
+</DocsAside>
+
+## 알려진 제한 사항
+
+| 제한 사항            | 설명                                                                                                                           |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| 트리 셀 템플릿화 | 트리 셀을 템플릿화할 때, 셀의 경계를 벗어나는 콘텐츠는 오버레이에 배치되지 않는 한 표시되지 않습니다. |
+| 그룹화              | 그룹화 기능은 트리 그리드에 내재되어 있으므로 지원되지 않습니다.                                                           |
+
+<DocsAside type="info">
+트리 그리드의 깊이 제한은 25개 수준입니다. 더 많은 수준을 지원하려면 애플리케이션에 사용자 지정 CSS 클래스를 추가해야 합니다. 그러한 CSS 클래스의 예는 아래에서 볼 수 있습니다:
+</DocsAside>
+
+```scss
+.igx-grid__tree-cell--padding-level-26 {
+    padding-left: 39rem;
+}
+```
+
+<DocsAside type="info">
+`igxTreeGrid`은(는) 내부적으로 `igxForOf` 디렉티브를 사용하므로, 모든 `igxForOf` 제한 사항이 `igxTreeGrid`에도 적용됩니다. 자세한 내용은 [igxForOf 알려진 문제](/for-of#알려진-제한-사항) 섹션을 참조하십시오.
+</DocsAside>
+
+
+## API 참조
+- <ApiLink type="TreeGrid" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="TreeGridRow" />
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink type="BaseTransactionService" />
+## 테마 종속성
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="IgxIcon 테마" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="IgxInputGroup 테마" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="IgxChip 테마" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="IgxRipple 테마" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="IgxButton 테마" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="IgxOverlay 테마" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="IgxDropDown 테마" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="IgxCalendar 테마" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="IgxSnackBar 테마" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadge 테마" />
+
+
+## 추가 리소스
+
+
+- [그리드 크기 조정](/treegrid/sizing)
+- [데이터 그리드](/grid/grid)
+- [행 편집](/treegrid/row-editing)
+- [Ignite UI for Angular Skills](/ai/skills) — 그리드, 데이터 작업, 테마를 위한 Agent Skills
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

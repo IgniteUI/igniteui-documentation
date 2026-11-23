@@ -1,0 +1,89 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 산점 비례 시리즈 | 데이터 바인딩 | Infragistics"
+description: "Infragistics {Platform} 지도의 산점 비례 시리즈를 사용하여 애플리케이션의 데이터로 지정된 지리적 점에 마커를 플롯하십시오. {ProductName} 지도의 시리즈에 대해 자세히 알아보십시오!"
+keywords: "{Platform} 지도, 산점 비례 시리즈, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["GeographicMap", "Series"]
+_language: ko
+llms:
+  description: "{Platform} 지도 컴포넌트에서 GeographicProportionalSymbolSeries를 사용하면 애플리케이션의 데이터로 지정된 지리적 위치에 버블 또는 비례 마커를 플롯할 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 지리 버블 지도
+
+{Platform} 지도 컴포넌트에서는 `GeographicProportionalSymbolSeries`를 사용하여 애플리케이션의 데이터로 지정된 지리적 위치에 버블 또는 비례 마커를 플롯할 수 있습니다. 이 지도 시리즈는 백화점, 창고, 사무실처럼 특정 비즈니스 사례에서 관심 지점을 강조하는 데 유용할 수 있습니다. 또한 차량 추적을 위해 플릿 관리 시스템이나 GPS 시스템에서도 이 지도 시리즈를 사용할 수 있습니다.
+
+## {Platform} 지리 버블 지도 예제
+
+
+<Sample src="/maps/geo-map/type-scatter-bubble-series" height={500} alt="{Platform} 산점 비례 시리즈 사용 예제" />
+
+
+
+
+위 데모는 `GeographicProportionalSymbolSeries` 시리즈와 시리즈의 데이터 바인딩 옵션을 지정하는 방법을 보여 줍니다. 자동 마커 선택은 마커 충돌 회피 로직과 함께 구성되며, 마커 윤곽선과 채우기 색상도 지정됩니다.
+
+## 구성 요약
+지도 컨트롤의 다른 유형의 산점 시리즈와 마찬가지로, `GeographicProportionalSymbolSeries` 시리즈에도 객체의 배열에 바인딩할 수 있는 `dataSource` 속성이 있습니다. 또한 ItemsSource의 각 데이터 항목에는 지리 경도와 위도 좌표를 저장하는 두 개의 데이터 열이 있어야 하며, `longitudeMemberPath`와 `latitudeMemberPath` 속성을 사용하여 이 데이터 열을 매핑합니다. `radiusScale`와 `radiusMemberPath` 설정은 버블의 반지름을 구성합니다.
+
+다음 표는 데이터 바인딩에 사용되는 `GeographicProportionalSymbolSeries` 시리즈 속성을 요약합니다.
+
+| 속성|타입|설명 |
+| ---|---|--- |
+| `dataSource`|any|항목 소스를 가져오거나 설정합니다 |
+| `longitudeMemberPath`|string|DataSource 속성을 사용하여 할당된 항목에서 경도 값의 위치를 결정합니다 |
+| `latitudeMemberPath`|string|DataSource 속성을 사용하여 할당된 항목에서 위도 값의 위치를 결정합니다 |
+| `radiusMemberPath`|string|시리즈의 반지름 값을 가져오는 데 사용할 경로를 설정합니다. |
+| `radiusScale`|`SizeScale`|현재 버블 시리즈의 반지름 척도 속성을 가져오거나 설정합니다. |
+| `minimumValue`|any|값 하위 범위를 계산하기 위한 최솟값을 구성합니다. |
+| `maximumValue`|any|값 하위 범위를 계산하기 위한 최댓값을 구성합니다. |
+
+## 코드 조각
+
+```json-snippet source="/maps/geo-map/type-scatter-bubble-series" code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "map",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "series": [
+        {
+            "type": "GeographicProportionalSymbolSeries",
+            "name": "WorldCitiesSeries",
+            "dataSourceRef": "WorldCities",
+            "markerType": "Circle",
+            "radiusScale": {
+                "type": "SizeScale",
+                "minimumValue": 4,
+                "maximumValue": 60
+            },
+            "fillScale": {
+                "type": "ValueBrushScale",
+                "brushes": [
+                    "rgba(14, 194, 14, 0.4)",
+                    "rgba(252, 170, 32, 0.4)",
+                    "rgba(252, 32, 32, 0.4)"
+                ],
+                "minimumValue": 0,
+                "maximumValue": 30
+            },
+            "fillMemberPath": "Population",
+            "radiusMemberPath": "Population",
+            "latitudeMemberPath": "Y",
+            "longitudeMemberPath": "X",
+            "markerOutline": "rgba(0,0,0,0.3)"
+        }
+    ]
+}
+```
+
+
+## API 참조
+
+`GeographicProportionalSymbolSeries`<br />
+`radiusScale`<br />

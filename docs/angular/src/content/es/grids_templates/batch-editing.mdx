@@ -1,0 +1,286 @@
+---
+title: "Edición por lotes y transacciones en Angular {ComponentTitle} Grid | Infragistics"
+description: "Realice manipulaciones de datos sin afectar a los datos subyacentes con {ComponentTitle} edición por lotes y CRUD de Angular, usando Angular Data Grid. ¡Vea demostraciones y ejemplos!"
+keywords: "crud de angular, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "La función de edición por lotes de {ComponentName} se basa en TransactionService."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular {ComponentTitle}: edición por lotes y transacciones
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+La función de edición por lotes de {ComponentName} se basa en <ApiLink type="TransactionService" />. Siga el tema [`Transaction Service class hierarchy`](../transaction-classes.mdx) para ver una descripción general de `igxTransactionService` y detalles sobre cómo se implementa.
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+La función de edición por lotes de {ComponentName} se basa en <ApiLink kind="interface" type="HierarchicalTransactionService" />. Siga el tema [`Transaction Service class hierarchy`](../transaction-classes.mdx) para ver una descripción general de `igxHierarchicalTransactionService` y detalles sobre cómo se implementa.
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+Para usar <ApiLink kind="interface" type="HierarchicalTransactionService" /> con <ApiLink type="HierarchicalGrid" label="{ComponentName}" />, pero con registros de transacciones independientes para cada isla, debe proporcionarse en su lugar una factoría de servicios. Se exporta una y está lista para usarse como <ApiLink kind="interface" type="HierarchicalTransactionService" />.
+</ComponentBlock>
+
+A continuación hay un ejemplo detallado de cómo se habilita la edición por lotes en el componente {ComponentTitle}.
+
+## Ejemplo de edición por lotes y transacciones de Angular {ComponentTitle}
+
+La siguiente demostración muestra un escenario en el que {ComponentObjectRef} tiene <ApiLink type="{ComponentApiType}" member="batchEditing" label="batchEditing" /> habilitado y tiene también habilitada la edición de filas. Esta última garantizará que la transacción se añada después de que se confirme toda la edición de la fila.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-batch-editing" height={650} alt="Ejemplo de edición por lotes y transacciones de Angular {ComponentTitle}" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-batchediting" height={600} alt="Ejemplo de edición por lotes y transacciones de Angular {ComponentTitle}" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-batch-editing" height={680} alt="Ejemplo de edición por lotes y transacciones de Angular {ComponentTitle}" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El estado de las transacciones consiste en todas las filas actualizadas, añadidas y eliminadas, y sus últimos estados.
+</DocsAside>
+
+## Uso
+
+Para empezar, importe `{ComponentName}Module` en el archivo **app.module.ts**:
+
+```typescript
+// app.module.ts
+
+...
+import { {ComponentName}Module } from 'igniteui-angular';
+
+@NgModule({
+    ...
+    imports: [..., {ComponentName}Module],
+    ...
+})
+export class AppModule {}
+```
+
+Después, solo tiene que habilitar `batchEditing` desde su {ComponentTitle}:
+
+```html
+<{ComponentSelector} [data]="data" [batchEditing]="true">
+  ...
+</{ComponentSelector}>
+```
+
+Así se garantiza que se proporcione una instancia adecuada del servicio `Transaction` para {ComponentSelector}. El `TransactionService` adecuado se proporciona mediante una `TransactionFactory`. Puede obtener más información sobre esta implementación interna en el tema [Transacciones](/transaction-classes#factoría-de-transacciones).
+
+Una vez habilitada la edición por lotes, defina un `{ComponentName}` con el origen de datos enlazado, establezca <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> en true y enlácelo:
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid [batchEditing]="true" [data]="data" [primaryKey]="'ProductID'" width="100%" height="500px"
+    [rowEditable]="true">
+    ...
+</igx-grid>
+...
+<button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo()">Undo</button>
+<button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo()">Redo</button>
+<button igxButton [disabled]="grid.transactions.getAggregatedChanges(false).length < 1"
+    (click)="openCommitDialog(dialogGrid)">Commit</button>
+...
+
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [batchEditing]="true" [data]="data" primaryKey="employeeID" foreignKey="PID"
+    width ="100%" height ="500px" rowEditable=true>
+    ...
+</igx-tree-grid>
+...
+    <button igxButton (click)="addRow()">Add Root Level Row</button>
+    <button igxButton [disabled]="!treeGrid.transactions.canUndo" (click)="undo()">Undo</button>
+    <button igxButton [disabled]="!treeGrid.transactions.canRedo" (click)="redo()">Redo</button>
+    <button igxButton [disabled]="treeGrid.transactions.getAggregatedChanges(false).length < 1"
+        (click)="openCommitDialog()">Commit</button>
+...
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [batchEditing]="true" [data]="data" [primaryKey]="'Artist'"
+    [height]="'580px'" [width]="'100%'" [rowEditable]="true" >
+    ...
+    <igx-row-island #childGrid [key]="'Albums'" [primaryKey]="'Album'" [rowEditable]="true">
+        <igx-grid-toolbar></igx-grid-toolbar>
+        ...
+        <ng-template igxToolbarCustomContent let-grid="grid">
+            <button igxButton [disabled]="!grid.transactions.canUndo" (click)="undo(grid)">Undo</button>
+            <button igxButton [disabled]="!grid.transactions.canRedo" (click)="redo(grid)">Redo</button>
+        </ng-template>
+    </igx-row-island>
+</igx-hierarchical-grid>
+...
+<div class="buttons-row">
+    <div class="buttons-wrapper">
+        <button igxButton [disabled]="!undoEnabledParent" (click)="undo(hierarchicalGrid)">Undo Parent</button>
+        <button igxButton [disabled]="!redoEnabledParent" (click)="redo(hierarchicalGrid)">Redo Parent</button>
+    </div>
+</div>
+...
+
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+El código siguiente muestra el uso de la API de <ApiLink type="GridComponent" member="transactions" />: deshacer, rehacer y confirmar.
+
+```typescript
+export class GridBatchEditingSampleComponent {
+    @ViewChild('grid', { read: IgxGridComponent }) public gridRowEditTransaction: IgxGridComponent;
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.grid.endEdit(true);
+        this.grid.transactions.redo()
+    }
+
+    public commit() {
+        this.grid.transactions.commit(this.data);
+        this.toggle.close();
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+El código siguiente muestra el uso de la API de <ApiLink kind="interface" type="HierarchicalTransactionService" />: deshacer, rehacer y confirmar.
+
+```typescript
+export class TreeGridBatchEditingSampleComponent {
+    @ViewChild('treeGrid', { read: IgxTreeGridComponent }) public treeGrid: IgxTreeGridComponent;
+
+    public undo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.undo();
+    }
+
+    public redo() {
+        /* exit edit mode and commit changes */
+        this.treeGrid.endEdit(true);
+        this.treeGrid.transactions.redo();
+    }
+
+    public commit() {
+        this.treeGrid.transactions.commit(this.data);
+        this.dialog.close();
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+El código siguiente muestra el uso de la API de <ApiLink type="GridComponent" member="transactions" />: deshacer, rehacer y confirmar.
+
+```typescript
+...
+export class HierarchicalGridBatchEditingSampleComponent {
+    public undo(grid: any) {
+        /* exit edit mode and commit changes */
+        grid.endEdit(true);
+        grid.transactions.undo();
+    }
+
+    public redo(grid: any) {
+        /* exit edit mode and commit changes */
+        grid.endEdit(true);
+        grid.transactions.redo();
+    }
+
+    public commit() {
+        this.hierarchicalGrid.transactions.commit(this.data);
+        this.childGrid.hgridAPI.getChildGrids().forEach((grid) => {
+            grid.transactions.commit(grid.data);
+        });
+        this.dialogChanges.close();
+    }
+}
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+La API de transacciones no gestiona el fin de la edición, así que tendrá que hacerlo usted mismo. De lo contrario, `{ComponentTitle}` permanecería en modo de edición. Una forma de hacerlo es llamar a <ApiLink type="Grid" member="endEdit" label="endEdit" /> en el método correspondiente.
+</DocsAside>
+
+<ComponentBlock for="TreeGrid">
+
+Eliminar un nodo padre en `{ComponentTitle}` tiene algunas particularidades. Si usa datos jerárquicos, los hijos se eliminarán al eliminar su padre. Si usa datos planos, puede establecer el comportamiento deseado mediante la propiedad <ApiLink type="{ComponentApiType}" member="cascadeOnDelete" label="cascadeOnDelete" /> de `{ComponentTitle}`. Esta propiedad indica si los registros hijos deben eliminarse cuando se elimina su padre (de forma predeterminada, está establecida en `true`).
+</ComponentBlock>
+
+<DocsAside type="info">
+Desactivar la propiedad <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" /> hará que `{ComponentTitle}` cree transacciones al cambiar una celda y no mostrará la superposición de edición de filas en la interfaz.
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+## Demostración de paginación remota con edición por lotes
+
+[Consulte la configuración completa de la demostración](/{igPath}/remote-data-operations#paginación-remota-con-edición-por-lotes)
+
+<Sample src="/grid/remote-paging-batch-editing" height={620} alt="" />
+
+</ComponentBlock>
+
+## Referencias de API
+<ComponentBlock for="Grid">
+- <ApiLink type="{ComponentApiType}" member="transactions" label="transactions" />
+- <ApiLink type="TransactionService" />
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+- <ApiLink kind="interface" type="HierarchicalTransactionService" />
+- <ApiLink type="{ComponentApiType}" member="rowEditable" label="rowEditable" />
+- <ApiLink type="TreeGrid" />
+- <ApiLink type="Grid" />
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+- <ApiLink kind="interface" type="HierarchicalTransactionService" />
+</ComponentBlock>
+## Recursos adicionales
+
+- [Crear operaciones CRUD con igxGrid](/general/how-to/how-to-perform-crud)
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Edición de {ComponentTitle}](/{igPath}/editing)
+</ComponentBlock>
+- [Edición de filas de {ComponentTitle}](/{igPath}/row-editing)
+- [Adición de filas de {ComponentTitle}](/{igPath}/row-adding)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

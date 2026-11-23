@@ -1,0 +1,213 @@
+---
+title: "Angular Paginator 예제 – Ignite UI for Angular - MIT 라이선스" 
+description: "Ignite UI로 Angular 테이블 또는 다른 반복 가능한 UI 컬렉션에서 Angular 페이지네이션을 구성하고 사용자 지정 페이지를 만들며, 다양한 Angular 이벤트를 통해 요청한 페이지의 데이터를 가져오십시오."
+keywords: angular paginator, angular paginator component, angular ui components, igniteui for angular, infragistics
+license: MIT
+_language: ko
+llms:
+  description: "Angular의 페이지네이션은 대규모 데이터 세트를 다룰 때 사용하는 최적화 기법입니다."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Paginator 컴포넌트 개요
+
+Angular의 페이지네이션은 대규모 데이터 세트를 다룰 때 사용하는 최적화 기법입니다. Angular Paginator의 목적은 대량의 데이터를 같은 크기의 페이지로 나누어 배포하는 UI와 API를 제공하는 것이며, 최종 사용자는 이 페이지들을 탐색할 수 있습니다.
+
+Angular Paginator 컴포넌트는 최종 사용자에게 현재 보고 있는 페이지, 페이지 크기, 전체 페이지 수, 그리고 페이지 사이를 빠르게 이동하는 UI 요소를 표시합니다.
+
+Ignite UI for Angular Paginator를 사용하면 데이터 세트를 여러 개의 비슷한 페이지로 나눌 수 있습니다. 이 페이지네이션 방식은 한 번에 모두 표시하고 보기 어려운 대규모 데이터 세트에 특히 적합하며, 그래서 paginator는 보통 항목 목록이나 데이터 테이블과 함께 사용됩니다. Angular의 Paginator는 사용자가 여러 페이지 중에서 특정 페이지를 선택하고, 각 페이지에 표시할 레코드 수를 정할 수 있게 합니다.
+
+## Angular Paginator 예제
+
+다음 Angular 페이지네이션 예제는 사용자가 서로 다른 항목이 있는 4개의 페이지를 탐색하고, 드롭다운 메뉴에서 표시할 항목 수를 선택하는 방법을 보여 주는 Paginator 템플릿입니다.
+
+<Sample src="/pagination/main-pagination" height={600} alt="Angular Paginator 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Paginator 시작하기
+
+Ignite UI for Angular Paginator 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](/general/getting-started) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxPaginatorModule`을(를) 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxPaginatorModule } from 'igniteui-angular/paginator';
+// import { IgxPaginatorModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxPaginatorModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxPaginatorComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_PAGINATOR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/paginator/src/paginator/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { NgFor } from '@angular/common';
+import { IGX_PAGINATOR_DIRECTIVES } from 'igniteui-angular/paginator';
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+// import { IGX_PAGINATOR_DIRECTIVES, IGX_LIST_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-list>
+        <igx-list-item *ngFor="let item of pagedData">{{item.text}}</igx-list-item>
+    </igx-list>
+    <igx-paginator [totalRecords]="products.length" [perPage]="perPage"></igx-paginator>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_PAGINATOR_DIRECTIVES, IGX_LIST_DIRECTIVES, NgFor]
+    /* or imports: [IgxPaginatorComponent, IgxListComponent, IgxListItemComponent, NgFor] */
+})
+export class HomeComponent {
+    public products: Product [];
+    public perPage = 10;
+    public pagedData: Product [];
+}
+```
+
+이제 Ignite UI for Angular Paginator 모듈 또는 디렉티브를 가져왔으므로 `igx-paginator` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Paginator 사용하기
+
+각 paginator 인스턴스에는 다음이 필요합니다:
+
+- 페이지당 항목 수(기본값은 15)
+- 페이지로 나눌 전체 항목 수
+
+또한 기본적으로 Angular paginator 컴포넌트가 초기화될 때 현재 페이지는 0으로 설정되지만, **page** 속성으로 바꿀 수 있습니다.
+
+```html
+<igx-paginator #paginator [totalRecords]="120" [perPage]="25">
+</igx-paginator>
+```
+
+## Angular 페이지네이션 템플릿
+
+기본 페이지네이션 템플릿은 두 가지 주요 부분으로 구성됩니다. 첫째는 각 페이지에 표시할 항목 수를 정할 수 있는 드롭다운이고, 둘째는 페이지들 사이를 쉽게 이동할 수 있는 탐색 버튼입니다.
+
+또한 `igx-paginator` 안에 `igx-paginator-content` 참조가 정의되어 있으면, 페이징 영역에 사용자가 사용자 지정 템플릿을 추가할 수도 있습니다:
+
+```html
+<igx-paginator #paginator>
+    <igx-paginator-content>
+        ...
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+추가로 <ApiLink type="PageSizeSelector" />과(와) <ApiLink type="PageNavigation" />이(가) 도입되어, 이제 paginator 컴포넌트는 아래 예제에서 보여 주는 것처럼 사용자 지정 콘텐츠를 정의할 수 있습니다. 첫 번째는 페이지 크기에 해당하는 드롭다운 요소와 레이블을 추가하고, 두 번째는 모든 작업 버튼을 포함한 페이지 탐색을 처리합니다.
+
+```html
+<igx-paginator #paginator>
+ <igx-paginator-content>
+  <igx-page-size></igx-page-size>
+  <igx-page-nav></igx-page-nav>
+ </igx-paginator-content>
+</igx-paginator>
+```
+
+<ApiLink type="Paginator" member="paginate" label="paginate" />, <ApiLink type="Paginator" member="previousPage" label="previousPage" />, <ApiLink type="Paginator" member="nextPage" label="nextPage" /> 메서드와 <ApiLink type="Paginator" member="page" label="page" />, <ApiLink type="Paginator" member="perPage" label="perPage" />, <ApiLink type="Paginator" member="totalRecords" label="totalRecords" /> 입력을 사용하여 아래 섹션에 더 자세히 설명된 Paging API를 통해 프로그래밍 방식으로 페이징을 수행할 수도 있습니다. 여기서 _page_는 현재 페이지를 설정하고, _perPage_는 한 페이지에 표시되는 항목 수이며, _totalRecords_는 그리드에 있는 레코드 수입니다. `TotalRecords` 속성은 원격 데이터로 페이징을 하면서 전체 원격 레코드를 기준으로 페이지 수를 바꾸고 싶을 때 유용합니다. 페이징을 사용하면서 모든 데이터가 그리드에 전달되는 경우, `totalRecords` 속성의 값은 기본적으로 제공된 데이터 소스의 길이로 설정된다는 점에 유의하십시오. `totalRecords`이(가) 설정되면 데이터 소스 기준의 기본 길이보다 우선합니다.
+
+## Paging API
+
+| Input           |                                                                                             설명              |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------: |
+| page            |                                                                              현재 페이지를 가져오거나 설정합니다.             |
+| perPage         |                                                             페이지당 표시되는 항목 수를 가져오거나 설정합니다.          |
+| selectOptions   | paginator의 Select 요소에 있는 사용자 지정 옵션을 가져오거나 설정합니다. 기본 select 값은 [5, 10, 15, 25, 50, 100, 500]입니다 |
+| totalRecords    |                                                                        전체 레코드 수를 가져오거나 설정합니다.            |
+| totalPages      |                                                                          전체 페이지 수를 가져오거나 설정합니다.            |
+| resourceStrings |                                        리소스 문자열을 가져오거나 설정합니다. 기본적으로 EN 리소스 문자열을 사용합니다.       |
+| overlaySettings |                                                                       사용자 지정 OverlaySettings를 가져오거나 설정합니다.            |
+
+| 출력        |                                                 설명        |
+| :------------ | :----------------------------------------------------------------: |
+| perPageChange | paginator의 `perPage` 속성 값이 변경되면 발생합니다. |
+| pageChange    |                      현재 페이지가 변경된 후 발생합니다.    |
+| paging        |                 페이징이 수행되기 전에 발생합니다. 취소할 수 있습니다.    |
+| pagingDone    |                             페이징이 수행된 후 발생합니다.     |
+
+
+## Angular Paginator 현지화
+
+몇 줄의 코드만으로 Paging 컴포넌트의 모든 문자열을 쉽게 지역화할 수 있습니다. 특정 Paging 인스턴스를 지역화하려면 <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" /> 입력 속성을 사용하십시오. 다음을 사용할 수 있습니다
+
+**1단계** - `IPaginatorResourceStrings` 인터페이스와 <ApiLink kind="function" type="changei18n" /> 함수를 가져오십시오:
+
+```ts
+import { IPaginatorResourceStrings, changei18n } from "igniteui-angular/core";
+```
+
+**2단계** - Paging 리소스 문자열을 정의하십시오:
+
+```ts
+private paginatorResourceStrings: IPaginatorResourceStrings = {
+    igx_paginator_label: 'Records per page:',
+    igx_paginator_first_page_button_text: 'Custom first page text',
+    igx_paginator_last_page_button_text: 'Custom last page text',
+    igx_paginator_next_page_button_text: 'Custom next page text',
+    igx_paginator_previous_page_button_text: 'Custom previous page text',
+    igx_paginator_pager_text: 'out of'
+};
+```
+
+
+**3단계** - 앱 모듈 수준에서 컴포넌트의 전역 i18n을 변경하도록 객체를 <ApiLink kind="function" type="changei18n" /> 함수에 매개변수로 전달하십시오. 이렇게 하면 앱의 모든 Paging 컴포넌트의 리소스 문자열이 변경됩니다:
+
+```ts
+public ngOnInit(): void {
+    changei18n(this.paginatorResourceStrings as any);
+}
+```
+
+특정 Paging 컴포넌트의 리소스 문자열을 변경하려면, @ViewChild를 사용하고 페이지가 다시 그려지기 전에 호출될 콜백과 함께 `requestAnimationFrame` 메서드 안에서 원하는 <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" />을(를) 설정할 수 있습니다. 새로 인스턴스화된 객체를 <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" /> 속성에 설정하면 해당 컴포넌트 인스턴스만 지역화됩니다.
+
+```ts
+@ViewChild('paginator', { read: IgxPaginatorComponent, static: false }) public paginator: IgxPaginatorComponent;
+...
+
+public ngOnInit(): void {
+    requestAnimationFrame(() => {
+        this.paginator.resourceStrings = this.paginatorResourceStrings;
+    });
+}
+```
+
+
+## API 참조
+- <ApiLink type="Paginator" label="IgxPaginator API" />
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="IgxPaginator 스타일" />
+## 추가 리소스
+
+<hr/>
+
+- [Grid](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

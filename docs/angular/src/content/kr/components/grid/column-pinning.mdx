@@ -1,0 +1,190 @@
+---
+title: "Angular Grid 열 고정 - Ignite UI for Angular"
+description: "다음 앱을 개발할 때 Ignite UI for Angular의 고정 기능을 사용하고 싶으십니까? 풍부한 API로 열을 쉽게 잠그거나 열 순서를 바꾸십시오."
+keywords: lock column, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "하나의 열 또는 여러 열을 Angular UI Grid의 왼쪽 또는 오른쪽에 고정할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 열 고정
+
+하나의 열 또는 여러 열을 Angular UI Grid의 왼쪽 또는 오른쪽에 고정할 수 있습니다. Ignite UI for Angular의 **열 고정**을 사용하면 최종 사용자는 특정 열 순서로 열을 잠가 두어, Grid을(를) 가로로 스크롤하는 동안에도 그 열을 계속 볼 수 있습니다. Material UI Grid에는 내장된 열 고정 UI가 있으며, 이는 Grid의 도구 모음을 통해 사용하여 열의 고정 상태를 바꿀 수 있습니다. 또한 사용자 지정 UI를 정의하고 열 고정 API를 통해 열의 고정 상태를 바꿀 수도 있습니다.
+
+## Angular Grid 열 고정 예제
+
+<Sample src="/grid/grid-sample-toolbar-pinning" height={510} alt="Angular Grid 열 고정 예제" />
+
+## 열 고정 API
+
+열 고정은 <ApiLink type="Column" label="igx-column" />의 `pinned` 입력을 통해 제어됩니다. 고정된 열은 기본적으로 Grid의 왼쪽에 렌더링되며, Grid 본문에서 고정되지 않은 열을 가로로 스크롤해도 고정된 상태를 유지합니다.
+
+```html
+<igx-grid #grid1 [data]="data | async" [width]="700px" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)">
+    <igx-column [field]="Name" [pinned]="true"></igx-column>
+    <igx-column [field]="AthleteNumber"></igx-column>
+    <igx-column [field]="TrackProgress"></igx-column>
+    <igx-paginator [perPage]="10">
+    </igx-paginator>
+</igx-grid>
+```
+
+또한 <ApiLink type="Grid" />의 Grid의 <ApiLink type="Grid" member="pinColumn" label="pinColumn" /> 또는 <ApiLink type="Grid" member="unpinColumn" label="unpinColumn" /> 메서드를 사용하여 필드 이름으로 열을 고정하거나 고정 해제할 수도 있습니다:
+
+```typescript
+this.grid.pinColumn('AthleteNumber');
+this.grid.unpinColumn('Name');
+```
+
+두 메서드 모두 각 작업의 성공 여부를 나타내는 불리언 값을 반환합니다. 일반적으로 실패하는 이유는 해당 열이 이미 원하는 상태이기 때문입니다.
+
+열은 가장 오른쪽에 있는 고정된 열의 오른쪽에 고정됩니다. 고정된 열의 순서를 바꾸려면 <ApiLink type="Grid" member="columnPin" label="columnPin" /> 이벤트를 구독하고, 이벤트 인수의 <ApiLink kind="interface" type="IPinColumnEventArgs" member="insertAtIndex" /> 속성을 원하는 위치 인덱스로 바꾸면 됩니다.
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="true" (columnPin)="columnPinning($event)"></igx-grid>
+```
+
+```typescript
+public columnPinning(event) {
+    if (event.column.field === 'Name') {
+        event.insertAtIndex = 0;
+    }
+}
+```
+
+## 고정 위치
+
+<ApiLink type="Grid" member="pinning" label="pinning" /> 구성 옵션을 통해 열 고정 위치를 바꿀 수 있습니다. 이를 통해 열 위치를 Start 또는 End로 설정할 수 있습니다.
+End로 설정하면 열은 고정되지 않은 열 다음에 그리드의 끝에 렌더링됩니다. 고정되지 않은 열은 가로로 스크롤할 수 있고, 고정된 열은 오른쪽에 고정된 상태를 유지합니다.
+
+```html
+<igx-grid [data]="data" [autoGenerate]="true" [pinning]="pinningConfig"></igx-grid>
+```
+
+```typescript
+public pinningConfig: IPinningConfig = { columns: ColumnPinningPosition.End };
+```
+
+### 데모
+
+<Sample src="/grid/grid-sample-right-pinning" height={510} alt="" />
+
+### 양쪽에서 열 고정
+또한 각 열의 고정 위치를 따로 지정할 수 있어, 편의를 위해 그리드의 양쪽에 열을 고정하고 데이터 집합을 더 쉽게 최적화할 수 있습니다. 아래 데모를 참조하십시오. 열을 고정하려면, 머리글을 클릭하여 열을 선택한 다음 도구 모음에 추가된 고정 버튼을 사용하거나, 열을 다른 고정된 열로 끌어다 놓으면 됩니다.
+
+<Sample src="/grid/grid-toolbar-pinning-both-sides" height={510} alt="" />
+
+## 사용자 지정 열 고정 UI
+
+사용자 지정 UI를 정의하고 관련 API를 통해 열의 고정 상태를 바꿀 수 있습니다.
+
+도구 모음 대신, 최종 사용자가 클릭하여 특정 열의 고정 상태를 바꿀 수 있는 고정 아이콘을 열 머리글에 정의하고 싶다고 해 보겠습니다.
+이는 사용자 지정 아이콘이 있는 열의 머리글 템플릿을 만들어 할 수 있습니다.
+
+```html
+<igx-grid #grid1 [data]="data" [width]="'100%'" [height]="'500px'">
+    <igx-column #col *ngFor="let c of columns" [field]="c.field" [header]="c.header" [width]="c.width" [pinned]='c.pinned'
+        [hidden]='c.hidden' [headerClasses]="'customHeaderSyle'">
+        <ng-template igxHeader>
+            <div class="title-inner">
+                <span style="float:left">{{col.header}}</span>
+                <igx-icon class="pin-icon" fontSet="fas" name="fa-thumbtack" (click)="toggleColumn(col)"></igx-icon>
+            </div>
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+사용자 지정 아이콘을 클릭하면 열의 API 메서드를 사용하여 관련 열의 고정 상태를 바꿀 수 있습니다.
+
+```typescript
+public toggleColumn(col: ColumnType) {
+    col.pinned ? col.unpin() : col.pin();
+}
+```
+
+### 데모
+
+<Sample src="/grid/grid-sample-pinning" height={510} alt="" />
+
+## 고정 제한 사항
+
+- 열 너비를 백분율(%)로 명시적으로 설정하면, 고정된 열이 있을 때 Grid 본문과 머리글 콘텐츠가 어긋납니다. 열 고정이 올바르게 작동하려면 열 너비는 픽셀(px)이거나 Grid가 자동으로 할당해야 합니다.
+
+## 스타일링
+
+igxGrid는 [Ignite UI for Angular 테마 라이브러리](/themes/sass/component-themes)를 통한 스타일 지정을 허용합니다. 그리드의 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="theme" />은(는) 매우 다양한 속성을 노출하여 그리드의 모든 기능을 사용자 지정할 수 있게 합니다.
+
+아래 단계에서는 그리드의 고정 스타일을 사용자 지정하는 과정을 살펴보겠습니다.
+
+### 전역 테마 가져오기
+
+고정 기능의 사용자 지정을 시작하려면 모든 스타일 함수와 믹스인이 있는 `index` 파일을 가져와야 합니다.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### 사용자 지정 테마 정의하기
+
+다음으로 <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} />을(를) 확장하고 원하는 대로 고정 기능을 사용자 지정하는 데 필요한 매개변수를 받는 새 테마를 만드십시오.
+
+```scss
+$custom-theme: grid-theme(
+  $pinned-border-width: 5px,
+  $pinned-border-style: double,
+  $pinned-border-color: #ffcd0f,
+  $cell-active-border-color: #ffcd0f
+);
+```
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 직접 하드코딩하는 대신, <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 및 <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> 함수를 사용하면 색상을 훨씬 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](/themes/sass/palettes) 항목을 참조하십시오.
+</DocsAside>
+
+### 사용자 지정 테마 적용하기
+
+테마를 적용하는 가장 쉬운 방법은 전역 스타일 파일에 `sass` `@include` 문을 추가하는 것입니다:
+
+```scss
+:host {
+  @include tokens($custom-theme);
+}
+```
+
+### 데모
+
+<Sample src="/grid/grid-pinning-styling" height={506} alt="" />
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink type="Column" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [페이징](/grid/paging)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

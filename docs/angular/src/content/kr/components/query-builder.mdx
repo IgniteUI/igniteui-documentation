@@ -1,0 +1,425 @@
+---
+title: "Angular Query Builder 컴포넌트 - Ignite UI for Angular"
+description: "Angular Query Builder를 사용하면 뛰어난 UI 경험으로 Angular 앱에서 복잡한 사용자 지정 쿼리를 만들 수 있습니다. 지금 체험해 보십시오."
+keywords: "Angular Query Builder 컴포넌트, Angular Query Builder 컨트롤, Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Angular UI 컴포넌트, Native Angular Components Library"
+license: commercial
+_language: ko
+llms:
+  description: "Angular Query Builder는 Angular 컴포넌트의 일부이며, 지정된 데이터 세트에 대해 복잡한 데이터 필터링 쿼리를 만들 수 있도록 풍부한 UI를 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import queryBuilderDragAndDrop from '../images/general/query-builder-drag-and-drop.gif';
+import queryBuilderKeyboardDragAndDrop from '../images/general/query-builder-keyboard-drag-and-drop.gif';
+
+# Angular Query Builder 컴포넌트 개요
+
+Angular Query Builder는 [Angular 컴포넌트](https://www.infragistics.com/products/ignite-ui-angular)의 일부이며, 지정된 데이터 세트에 대해 복잡한 데이터 필터링 쿼리를 만들 수 있도록 풍부한 UI를 제공합니다. 이 컴포넌트를 사용하면 식의 트리를 만들고, 각 필드의 데이터 유형에 따라 결정되는 편집기와 조건 목록을 사용하여 식 사이에 AND/OR 조건을 설정할 수 있습니다. 그런 다음 식 트리를 백엔드가 지원하는 형식의 쿼리로 쉽게 변환할 수 있습니다.
+
+<div class="highlight">
+
+<ApiLink type="QueryBuilder" /> 컴포넌트는 UI를 통해 복잡한 쿼리를 만드는 방법을 제공합니다. 사용자가 AND/OR 연산자, 조건, 값을 지정하면 쿼리를 설명하는 식 트리가 만들어집니다.
+
+</div>
+
+## Angular Query Builder 예제
+
+이 Angular Query Builder 예제는 Angular Query Builder 컴포넌트의 기본 기능을 보여 주기 위해 만들었습니다. 더하기 버튼을 클릭하여 조건, "and" 그룹, "or" 그룹을 추가하십시오. 식을 그룹화하거나 그룹 해제하고 순서를 바꾸는 작업은 끌어서 놓기 기능으로 할 수 있습니다.
+
+<Sample src="/interactions/query-builder-request-sample" height={700} alt="Angular Query Builder 개요 예제" />
+
+<hr/>
+
+## Ignite UI for Angular Query Builder 시작하기
+
+Ignite UI for Angular Query Builder 컴포넌트를 시작하려면 먼저 Ignite UI for Angular를 설치해야 합니다. 기존 Angular 애플리케이션에서 다음 명령을 입력하십시오:
+
+```cmd
+ng add igniteui-angular
+```
+
+Ignite UI for Angular에 대한 전체 소개는 [_시작하기_](./general/getting-started.mdx) 항목을 읽어 보십시오.
+
+다음 단계는 **app.module.ts** 파일에서 `IgxQueryBuilderModule`을(를) 가져오는 것입니다.
+
+```typescript
+// app.module.ts
+
+import { IgxQueryBuilderModule } from 'igniteui-angular/query-builder';
+// import { IgxQueryBuilderModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxQueryBuilderModule],
+    ...
+})
+export class AppModule {}
+```
+
+또는 `16.0.0` 버전부터는 `IgxQueryBuilderComponent`을 독립형(standalone) 종속성으로 가져올 수 있으며, [`IGX_QUERY_BUILDER_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/query-builder/src/query-builder/public_api.ts) 토큰을 사용하여 컴포넌트와 모든 지원 컴포넌트 및 디렉티브를 가져올 수도 있습니다.
+
+```typescript
+// home.component.ts
+
+import { IGX_QUERY_BUILDER_DIRECTIVES } from 'igniteui-angular/query-builder';
+import { FilteringExpressionsTree, FieldType } from 'igniteui-angular/core';
+// import { IGX_QUERY_BUILDER_DIRECTIVES, FilteringExpressionsTree, FieldType } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-query-builder #queryBuilder
+        [entities]="entities"
+        [(expressionTree)]="expressionTree"
+        (expressionTreeChange)="onExpressionTreeChange()">
+    </igx-query-builder>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_QUERY_BUILDER_DIRECTIVES]
+    /* or imports: [IgxQueryBuilderComponent] */
+})
+export class HomeComponent {
+    public expressionTree: FilteringExpressionsTree;
+    public entities: Array<any>;
+
+    public onExpressionTreeChange() {
+        ...
+    }
+}
+```
+
+이제 Ignite UI for Angular Query Builder 모듈 또는 디렉티브를 가져왔으므로 `igx-query-builder` 컴포넌트를 사용할 수 있습니다.
+
+## Angular Query Builder 사용하기
+
+초기에 식 트리가 설정되지 않은 경우, 먼저 엔티티와 쿼리가 반환해야 할 필드를 선택하여 시작합니다. 그다음 조건이나 하위 그룹을 추가할 수 있습니다.
+
+조건을 추가하려면 필드를 선택하고, 필드의 데이터 유형에 따른 연산자를 선택한 후, 연산자가 단항이 아니라면 값을 입력합니다. `In` 및 `Not In` 연산자를 사용하면 단순히 값을 제공하는 대신 다른 엔티티에 대한 조건으로 내부 쿼리를 만들 수 있습니다. 조건이 확정되면 조건 정보가 담긴 칩이 나타납니다. 칩을 클릭하거나 마우스를 올리면 칩을 수정하거나, 바로 뒤에 다른 조건이나 그룹을 추가하는 옵션을 사용할 수 있습니다.
+
+각 그룹 위에 있는 (<ApiLink kind="enum" type="FilteringLogic" member="And" /> 또는 <ApiLink kind="enum" type="FilteringLogic" member="Or" />) 버튼을 클릭하면 그룹 유형을 변경하거나 그 안의 조건을 그룹 해제하는 옵션이 있는 메뉴가 열립니다.
+
+각 조건은 특정 엔티티의 특정 필드와 관련되어 있으므로, 엔티티를 바꾸면 미리 설정된 모든 조건과 그룹이 초기화됩니다. 새 엔티티를 선택하면 <ApiLink type="QueryBuilder" member="showEntityChangeDialog" label="showEntityChangeDialog" /> 입력 속성이 false로 설정되지 않은 한 확인 대화 상자가 표시됩니다.
+
+<ApiLink type="QueryBuilder" member="entities" label="entities" /> 속성을 엔티티 이름과 필드 배열을 설명하는 배열로 설정하여 컴포넌트를 사용하기 시작할 수 있습니다. 각 필드는 이름과 데이터 유형으로 정의됩니다. 필드를 선택하면 데이터 유형에 따라 해당 연산자가 자동으로 할당됩니다.
+Query Builder에는 <ApiLink type="QueryBuilder" member="expressionTree" label="expressionTree" /> 입력 속성이 있습니다. 이를 사용하여 컨트롤의 초기 상태를 설정하고 사용자가 지정한 필터링 로직에 접근할 수 있습니다.
+
+```typescript
+ngAfterViewInit(): void {
+    const innerTree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Companies', ['ID']);
+    innerTree.filteringOperands.push({
+        fieldName: 'Employees',
+        condition: IgxNumberFilteringOperand.instance().condition('greaterThan'),
+        conditionName: 'greaterThan',
+        searchVal: 100
+    });
+    innerTree.filteringOperands.push({
+        fieldName: 'Contact',
+        condition: IgxBooleanFilteringOperand.instance().condition('true'),
+        conditionName: 'true'
+    });
+
+    const tree = new FilteringExpressionsTree(FilteringLogic.And, undefined, 'Orders', ['*']);
+    tree.filteringOperands.push({
+        fieldName: 'CompanyID',
+        condition: IgxStringFilteringOperand.instance().condition('inQuery'),
+        conditionName: 'inQuery',
+        searchTree: innerTree
+    });
+    tree.filteringOperands.push({
+        fieldName: 'OrderDate',
+        condition: IgxDateFilteringOperand.instance().condition('before'),
+        conditionName: 'before',
+        searchVal: new Date('2024-01-01T00:00:00.000Z')
+    });
+    tree.filteringOperands.push({
+        fieldName: 'ShippedDate',
+        condition: IgxDateFilteringOperand.instance().condition('null'),
+        conditionName: 'null'
+    });
+
+    this.queryBuilder.expressionTree = tree;
+}
+```
+
+<ApiLink type="QueryBuilder" member="expressionTree" label="expressionTree" />은(는) 양방향 바인딩이 가능한 속성으로, 최종 사용자가 조건을 만들거나 편집하거나 삭제하여 UI를 변경할 때 발생하는 <ApiLink type="QueryBuilder" member="expressionTreeChange" label="expressionTreeChange" /> 출력이 구현되어 있다는 뜻입니다. 또한 이를 별도로 구독하여 알림을 받고 그러한 변경에 반응할 수도 있습니다.
+
+```html
+<igx-query-builder #queryBuilder
+    [entities]="entities"
+    [(expressionTree)]="expressionTree"
+    (expressionTreeChange)="onExpressionTreeChange()">
+</igx-query-builder>
+```
+
+## 식 끌어다 놓기
+
+조건 칩은 마우스 [_끌어서 놓기_](./drag-drop.mdx) 또는 [_키보드 순서 변경_](#키보드-상호-작용) 방식으로 쉽게 위치를 바꿀 수 있습니다. 이를 통해 사용자는 쿼리 로직을 동적으로 조정할 수 있습니다.
+
+- 칩을 끌어도 조건이나 내용은 바뀌지 않고, 위치만 바뀝니다.
+- 칩은 그룹과 하위 그룹을 따라서도 끌 수 있습니다. 예를 들어 식 끌어다 놓기 기능으로 식을 그룹화하거나 그룹 해제할 수 있습니다.
+이미 있는 조건을 그룹화하려면, 먼저 'add' 그룹 버튼으로 새 그룹을 추가합니다. 그런 다음 끌어서 필요한 식을 그 그룹으로 옮깁니다. 그룹을 해제하려면 모든 조건을 현재 그룹 밖으로 끌어내면 되며, 마지막 조건이 옮겨지면 그룹은 삭제됩니다.
+
+<DocsAside type="info">
+한 쿼리 트리의 칩은 다른 트리로 끌 수 없습니다. 예를 들어 상위에서 내부로, 또는 그 반대로 끌 수 없습니다.
+</DocsAside>
+
+<Image src={queryBuilderDragAndDrop} alt="마우스를 이용한 Query Builder 끌어다 놓기 애니메이션 예제" class="responsive-img" />
+
+## 키보드 상호 작용
+
+**키 조합**
+
+- <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd> - 다음/이전 칩, 끌기 표시기, 제거 버튼, 'add' 식 버튼으로 이동합니다.
+- <kbd>Arrow Down</kbd>/<kbd>Arrow Up</kbd> - 칩의 끌기 표시기에 포커스가 있을 때 칩을 위/아래로 이동할 수 있습니다.
+- <kbd>Space</kbd> / <kbd>Enter</kbd> - 포커스된 식이 편집 모드로 들어갑니다. 칩을 옮긴 상태라면 새 위치를 확정합니다.
+- <kbd>Esc</kbd> - 칩의 순서 변경이 취소되고 원래 위치로 돌아갑니다.
+
+<DocsAside type="info">
+키보드 순서 변경은 마우스 끌어다 놓기와 같은 기능을 제공합니다. 칩을 옮긴 후에는 사용자가 새 위치를 확정하거나 순서 변경을 취소해야 합니다.
+</DocsAside>
+
+<Image src={queryBuilderKeyboardDragAndDrop} alt="Ignite UI for Angular Query Builder를 사용한 키보드 끌어다 놓기 애니메이션 예제" class="responsive-img" />
+
+## 템플릿
+
+Ignite UI for Angular Query Builder 컴포넌트는 다음의 사전 정의된 참조 이름을 사용하여 컴포넌트의 머리글과 검색 값에 대한 템플릿을 정의할 수 있습니다:
+
+### 헤더 템플릿
+
+기본적으로 <ApiLink type="QueryBuilder" /> 머리글은 표시되지 않습니다. 이를 정의하려면 `igx-query-builder` 안에 <ApiLink type="QueryBuilderHeader" />을(를) 추가해야 합니다.
+
+그다음 머리글 제목을 설정하려면 <ApiLink type="QueryBuilderHeader" member="title" label="title" /> 입력을 사용할 수 있으며, `igx-query-builder-header` 안에 콘텐츠를 전달하면 Query Builder 머리글을 템플릿화할 수 있습니다.
+
+ 다음 코드 조각은 이를 수행하는 방법을 보여 줍니다:
+
+```html
+<igx-query-builder #queryBuilder [entities]="this.entities">
+        <igx-query-builder-header [title]="'Query Builder Template Sample'">  
+        </igx-query-builder-header>
+</igx-query-builder>
+```
+
+### 검색 값
+
+조건의 검색 값은 `igx-query-builder`의 본문 안에 있는 `<ng-template>`에 적용된 <ApiLink type="QueryBuilderSearchValueTemplateDirective" label="igxQueryBuilderSearchValue" /> 디렉티브를 사용하여 템플릿화할 수 있습니다:
+
+```html
+<igx-query-builder #queryBuilder
+    [entities]="entities"
+    [expressionTree]="expressionTree">
+    <ng-template #searchValueTemplate
+                igxQueryBuilderSearchValue 
+                let-searchValue
+                let-selectedField = "selectedField" 
+                let-selectedCondition = "selectedCondition"
+                let-defaultSearchValueTemplate = "defaultSearchValueTemplate">
+        @if (
+            selectedField?.field === 'Region' &&
+            (selectedCondition === 'equals' || selectedCondition === 'doesNotEqual')
+            ){
+            <igx-select [placeholder]="'Select region'" [(ngModel)]="searchValue.value">
+                <igx-select-item *ngFor="let reg of regionOptions" [value]="reg">
+                    {{ reg.text }}
+                </igx-select-item>
+            </igx-select>
+        } 
+        @else if (
+            selectedField?.field === 'OrderStatus' &&
+            (selectedCondition === 'equals' || selectedCondition === 'doesNotEqual')
+            ){
+            <igx-radio-group>
+                <igx-radio class="radio-sample"
+                           *ngFor="let stat of statusOptions"
+                           value="{{stat.value}}"
+                           [(ngModel)]="searchValue.value">
+                    {{stat.text}}
+                </igx-radio>
+            </igx-radio-group>
+        }
+            @else {  
+            <ng-container #defaultTemplate *ngTemplateOutlet="defaultSearchValueTemplate"></ng-container>
+        }
+    </ng-template>
+</igx-query-builder>
+```
+
+### 포매터
+
+조건이 편집 모드가 아닐 때 표시되는 칩의 검색 값 모양을 바꾸려면, fields 배열에 포매터 함수를 설정할 수 있습니다. 검색 값과 선택된 조건은 다음과 같이 value 및 rowData 인수를 통해 접근할 수 있습니다:
+
+```ts
+this.ordersFields = [
+    { field: "CompanyID", dataType: "string" },
+    { field: "OrderID", dataType: "number" },
+    { field: "EmployeeId", dataType: "number" },
+    { field: "OrderDate", dataType: "date" },
+    { field: "RequiredDate", dataType: "date" },
+    { field: "ShippedDate", dataType: "date" },
+    { field: "ShipVia", dataType: "number" },
+    { field: "Freight", dataType: "number" },
+    { field: "ShipName", dataType: "string" },
+    { field: "ShipCity", dataType: "string" },
+    { field: "ShipPostalCode", dataType: "string" },
+    { field: "ShipCountry", dataType: "string" },
+    { field: "Region", dataType: "string", formatter: (value: any, rowData: any) => rowData === 'equals' || rowData === 'doesNotEqual' ? `${value.value}` : value }},
+    { field: "OrderStatus", dataType: "number" }
+];
+```
+
+### 데모
+
+이 Angular Query Builder 예제는 Angular Query Builder 컴포넌트의 머리글과 검색 값에 대한 템플릿화 및 포매터 기능을 보여 주기 위해 만들었습니다.
+
+<Sample src="/interactions/query-builder-template-sample" height={700} alt="Angular Query Builder 템플릿 예제" />
+
+## 스타일링
+
+### Query Builder 테마 속성 맵
+
+기본 속성을 수정하면, 관련된 모든 종속 속성이 변경 사항을 반영하도록 자동으로 업데이트됩니다:
+
+| 기본 속성 | 종속 속성 | 설명 |
+| --- | --- | --- |
+| **$background** | $label-foreground | Query Builder의 "from" 및 "select" 레이블 색상입니다 |
+|  | $header-background | Query Builder 머리글의 배경 색상입니다 |
+|  | $header-foreground | Query Builder 머리글의 전경 색상입니다 |
+|  | $subquery-header-background | 하위 쿼리 머리글의 배경 색상입니다 |
+|  | $subquery-border-color | 쿼리 블록의 테두리 색상입니다 |
+|  | $separator-color | 쿼리 블록의 구분선 색상입니다 |
+|  | $header-border (Bootstrap에서만 해당) | Query Builder 머리글의 테두리 색상입니다 |
+
+Query Builder의 스타일 지정을 시작하려면 모든 테마 함수와 `tokens()` 믹스인이 내보내진 `index` 파일을 가져와야 합니다:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Query Builder는 `background` 매개변수를 사용하여 테마에서 배경 색상을 가져옵니다. 배경을 바꾸려면 사용자 지정 테마를 만들어야 합니다:
+
+```scss
+
+$custom-query-builder: query-builder-theme(
+  $schema: $dark-material-schema,
+  $background: #292826,
+  ...
+);
+```
+
+Query Builder 안에는 버튼, 칩, 드롭다운, 입력 같은 다른 컴포넌트도 있으므로, 각각에 대해 별도의 테마를 만들어야 합니다:
+
+```scss
+$custom-button: flat-button-theme(
+  $schema: $dark-material-schema,
+  $foreground: #ffcd0f,
+);
+
+$custom-input-group: input-group-theme(
+  $schema: $dark-material-schema,
+  $focused-secondary-color: #ffcd0f
+);
+
+$custom-chip: chip-theme(
+  $schema: $dark-material-schema,
+  $background: #ffcd0f,
+);
+
+$custom-icon-button: outlined-icon-button-theme(
+  $schema: $dark-material-schema,
+  $foreground: #ffcd0f,
+);
+```
+
+이 예제에서는 나열된 컴포넌트의 일부 매개변수만 바꾸었지만, <ApiLink kind="sass" module="themes" type="function-flat-button-theme" label="flat-button-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-chip-theme" label="chip-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="drop-down-theme" code={true} />, <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="input-group-theme" code={true} /> 테마는 각 스타일을 제어할 수 있는 훨씬 많은 매개변수를 제공합니다.
+
+<DocsAside type="info">
+방금 한 것처럼 색상 값을 직접 하드코딩하는 대신, <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> 및 <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} /> 함수를 사용하면 색상을 훨씬 유연하게 다룰 수 있습니다. 사용 방법에 대한 자세한 안내는 [`Palettes`](./themes/sass/palettes.mdx) 항목을 참조하십시오.
+</DocsAside>
+
+마지막 단계는 `tokens` 믹스인을 사용하여 새 컴포넌트 테마를 **포함**하는 것입니다.
+
+```scss
+:host {
+    @include tokens($custom-query-builder);
+    @include tokens($custom-input-group);
+    @include tokens($custom-chip);
+    @include tokens($custom-icon-button);
+
+    .igx-filter-tree__buttons {
+      @include tokens($custom-button);
+    }
+}
+```
+
+<DocsAside type="info">
+토큰 재정의는 보통 에뮬레이션된 뷰 캡슐화를 통해 상속되지만, 중첩된 Query Builder 컨트롤의 생성된 선택기는 여전히 `::ng-deep`을(를) 필요로 할 수 있습니다. 로컬 테마가 적용되지 않으면, 해당 include를 `::ng-deep`로 감싸거나 전역 스타일시트로 옮기십시오. 드롭다운이 분리된 오버레이 아웃레트에 연결되어 있다면, 아웃레트와 일치할 수 있는 선택기에서 그 테마를 내보내거나 아웃레트를 테마가 적용된 컨테이너 아래에 구성하십시오.
+</DocsAside>
+
+### 데모
+
+<Sample src="/interactions/query-builder-style" height={530} alt="" />
+
+<DocsAside type="info">
+이 샘플은 `Change Theme`의 선택된 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+<hr/>
+
+### Tailwind로 스타일링하기
+
+사용자 지정 Tailwind 유틸리티 클래스를 사용하여 query builder의 스타일을 지정할 수 있습니다. 먼저 [Tailwind를 설정](./themes/tailwind.mdx)했는지 확인하십시오.
+
+전역 스타일시트에 Tailwind를 가져온 다음, 다음과 같이 원하는 테마 유틸리티를 적용할 수 있습니다:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+유틸리티 파일에는 `light` 및 `dark` 테마 변형이 모두 포함되어 있습니다.
+
+- 밝은 테마에는 `light-*` 클래스를 사용하십시오.
+- 어두운 테마에는 `dark-*` 클래스를 사용하십시오.
+- 접두사 뒤에 컴포넌트 이름을 붙이십시오. 예: `light-query-builder`, `dark-query-builder`.
+
+적용하면 이 클래스는 동적 테마 계산을 가능하게 합니다. 그런 다음 `arbitrary properties`을 사용하여 생성된 CSS 변수를 재정의할 수 있습니다. 콜론 뒤에는 유효한 CSS 색상 형식(HEX, CSS 변수, RGB 등)을 입력하십시오.
+
+속성의 전체 목록은 <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" />에서 확인할 수 있습니다. 구문은 다음과 같습니다:
+
+```html
+<igx-query-builder
+  class="!light-query-builder ![--background:#90B69F]">
+  ...
+</igx-query-builder>
+```
+
+<DocsAside type="info">
+유틸리티 클래스가 우선 적용되도록 느낌표(`!`)가 필요합니다. Tailwind는 스타일을 계층으로 적용하므로, 이 스타일을 중요(important)로 표시하지 않으면 컴포넌트의 기본 테마에 의해 재정의됩니다.
+</DocsAside>
+
+최종적으로 query builder는 다음과 같이 보여야 합니다:
+
+<Sample src="/interactions/query-builder-tailwind-style" height={500} iframeOnly />
+
+실제 UI 컴포넌트와 함께 [WYSIWYG App Builder™](https://www.infragistics.com/products/appbuilder)를 사용하여 Angular 앱 개발을 더욱 간소화할 수도 있습니다.
+
+## API 참조
+<hr/>
+- <ApiLink type="QueryBuilder" />
+- <ApiLink type="QueryBuilderHeader" />
+- <ApiLink type="QueryBuilderSearchValueTemplateDirective" />
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="IgxQueryBuilderComponent 스타일" />
+## 추가 리소스
+
+<hr/>
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

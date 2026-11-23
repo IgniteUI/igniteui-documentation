@@ -1,0 +1,487 @@
+---
+title: "Componente Angular Tree: Ignite UI for Angular | Licencia MIT"
+description: "Con el componente Tree de Ignite UI for Angular puede mostrar datos jerárquicos en una estructura de vista de árbol, personalizar los nodos fácilmente y cargar datos a demanda. Pruébelo GRATIS"
+keywords: "angular tree, angular tree component, angular tree view, angular tree view component, angular ui components, ignite ui for angular, controles de interfaz, infragistics"
+license: MIT
+_language: es
+llms:
+  description: "El componente Angular Tree permite a los usuarios representar datos jerárquicos en una estructura de vista de árbol con relaciones padre-hijo, así como definir una estructura de vista de árbol estática sin un modelo de datos correspondiente."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+<style dangerouslySetInnerHTML={{__html: `
+    code-view .codesandbox-btn {
+        display: none !important;
+    }
+`}} />
+
+# Descripción general del componente Angular Tree
+
+El componente Angular Tree permite a los usuarios representar datos jerárquicos en una estructura de vista de árbol con relaciones padre-hijo, así como definir una estructura de vista de árbol estática sin un modelo de datos correspondiente. Su finalidad principal es permitir que los usuarios finales visualicen y naveguen por estructuras de datos jerárquicas. El componente Ignite UI for Angular Tree también ofrece capacidades de carga a demanda, activación de elementos, selección en cascada de dos y tres estados mediante casillas integradas, navegación por teclado integrada y mucho más.
+
+## Ejemplo de Angular Tree
+
+En este ejemplo básico de Angular Tree puede ver cómo definir un `igx-tree` y sus nodos especificando la jerarquía de nodos y recorriendo un conjunto de datos jerárquico.
+
+<Sample src="/lists/tree-basic-sample" height={400} alt="Ejemplo de Angular Tree" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Tree
+
+Para empezar a usar el componente Ignite UI for Angular Tree, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxTreeModule` en su archivo app.module.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxTreeModule } from 'igniteui-angular/tree';
+// import { IgxTreeModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxTreeModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxTreeComponent` como dependencia independiente, o usar el token [`IGX_TREE_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/tree/src/tree/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_TREE_DIRECTIVES } from 'igniteui-angular/tree';
+// import { IGX_TREE_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-tree>
+        <igx-tree-node>
+            Angular Libraries
+            <igx-tree-node>Ignite UI for Angular</igx-tree-node>
+            <igx-tree-node>Angular Material</igx-tree-node>
+        </igx-tree-node>
+        <igx-tree-node>
+            Web Component Libraries
+            <igx-tree-node>Ignite UI for Web Components</igx-tree-node>
+            <igx-tree-node>Open UI 5</igx-tree-node>
+        </igx-tree-node>
+        <igx-tree-node>
+            Blazor Libraries
+            <igx-tree-node>Ignite UI for Blazor</igx-tree-node>
+        </igx-tree-node>
+    </igx-tree>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_TREE_DIRECTIVES]
+    /* or imports: [IgxTreeComponent, IgxTreeNodeComponent] */
+})
+export class HomeComponent {}
+```
+
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Ahora que hemos importado el módulo o las directivas de Ignite UI for Angular Tree, empecemos con una configuración básica de `igx-tree` y sus nodos.
+
+## Uso del Angular Tree
+
+<ApiLink type="TreeNode" /> es la representación de cada nodo que pertenece a <ApiLink type="Tree" />.  
+Los nodos proporcionan las propiedades <ApiLink type="TreeNode" member="disabled" label="disabled" />, <ApiLink type="TreeNode" member="active" label="active" />, <ApiLink type="TreeNode" member="selected" label="selected" /> y <ApiLink type="TreeNode" member="expanded" label="expanded" />, que le permiten configurar los estados del nodo según sus necesidades.
+La propiedad <ApiLink type="TreeNode" member="data" label="data" /> puede usarse para añadir una referencia a la entrada de datos que representa el nodo. Es necesario enlazar `[data]` para buscar nodos con <ApiLink type="Tree" member="findNodes" label="IgxTreeComponent.findNodes()" />.
+
+### Declarar un árbol
+
+Los nodos pueden declararse con uno de los siguientes enfoques.
+
+- Declarar el árbol y sus nodos especificando la jerarquía de nodos y recorriendo un conjunto de datos
+
+```html
+<igx-tree>
+ <igx-tree-node *ngFor="let node of data" [data]="node" [expanded]="isNodeExpaded(node)" [selected]="isNodeSelected(node)">
+  {{ node.text }}
+  <img [src]="node.image" [alt]="node.imageAlt" />
+  <igx-tree-node *ngFor="let child of node.children" [data]="child" [expanded]="isNodeExpaded(child)" [selected]="isNodeSelected(child)">
+            {{ child.text }}
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+Los nodos pueden enlazarse a un modelo de datos, de modo que sus estados de expandido y seleccionado también se reflejen en los datos subyacentes.
+
+```html
+<igx-tree (nodeSelection)="handleSelectionEvent($event)">
+ <igx-tree-node *ngFor="let node of data" [data]="node" [(expanded)]="node.expanded" [(selected)]="node.selected">
+  {{ node.text }}
+  <img [src]="node.image" [alt]="node.imageAlt" />
+  <igx-tree-node *ngFor="let child of node.children" [data]="child">
+   <a igxTreeNodeLink [href]="child.url" target="_blank">
+                {{ child.text }}
+            </a>
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+- Declarar un árbol creando nodos estáticos sin enlace
+
+Para renderizar un árbol no es necesario un conjunto de datos: pueden crearse nodos individuales sin un modelo de datos subyacente:
+
+```html
+<igx-tree>
+ <igx-tree-node [expanded]="true" [selected]="false">
+  I am a parent node 1
+  <img src="hard_coded_src.webb" alt="Alt Text" />  
+  <igx-tree-node [expanded]="true" [selected]="false">
+   I am a child node 1
+   <igx-tree-node>
+    <a igxTreeNodeLink href="https://google.com" target="_blank">
+        I am a child node of the child
+    </a>
+   </igx-tree-node>
+  </igx-tree-node>
+ </igx-tree-node>
+
+ <igx-tree-node [expanded]="false" [selected]="false">
+  I am a parent node 2
+  <img src="hard_coded_src.webb" alt="Alt Text" />
+        <igx-tree-node [expanded]="false" [selected]="false">
+   I am a child node 1
+  </igx-tree-node>
+ </igx-tree-node>
+
+    <igx-tree-node [selected]="false" [disabled]="true">
+  I am a parent node 3
+ </igx-tree-node>
+</igx-tree>
+```
+
+### Nodos con enlaces
+
+Cuando un nodo debe mostrar un enlace, debe añadirse la directiva `IgxTreeNodeLink` a la etiqueta `<a>`. Esto garantiza que se asigne el rol ARIA adecuado a los elementos del DOM del nodo.
+
+```html
+<igx-tree>
+ <igx-tree-node *ngFor="let node of data" [data]="node" [expanded]="isNodeExpaded(node)" [selected]="isNodeSelected(node)">
+  {{ node.text }}
+  <img [src]="node.image" [alt]="node.imageAlt" />
+  <igx-tree-node *ngFor="let child of node.children" [data]="child">
+            <a igxTreeNodeLink [href]="child.url" target="_blank">
+                {{ child.text }}
+            </a>
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+### Interacciones con los nodos
+
+<ApiLink type="TreeNode" /> puede expandirse o contraerse:
+
+- haciendo clic en el indicador de expansión del nodo _(comportamiento predeterminado)_.
+- haciendo clic en el nodo si la propiedad `igx-tree` <ApiLink type="Tree" member="toggleNodeOnClick" label="toggleNodeOnClick" /> está establecida en `true`.
+
+```html
+<igx-tree [toggleNodeOnClick]="true">
+ <igx-tree-node *ngFor="let node of data" [data]="node">
+  {{ node.text }}
+  <igx-tree-node *ngFor="let child of node.children" [data]="child">
+                {{ child.text }}
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+De forma predeterminada, pueden expandirse varios nodos al mismo tiempo. Para cambiar este comportamiento y permitir que solo se expanda una rama a la vez, puede habilitarse la propiedad <ApiLink type="Tree" member="singleBranchExpand" label="singleBranchExpand" />. Así, al expandir un nodo, se contraen todas las demás ramas ya expandidas del mismo nivel.
+
+```html
+<igx-tree [singleBranchExpand]="true">
+ <igx-tree-node *ngFor="let node of data" [data]="node">
+  {{ node.text }}
+  <igx-tree-node *ngFor="let child of node.children" [data]="child">
+                {{ child.text }}
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+Además, IgxTree proporciona los siguientes métodos de la API para las interacciones con los nodos:
+
+- <ApiLink type="TreeNode" member="expand" label="**expand**" />: expande el nodo con animación.
+- <ApiLink type="TreeNode" member="collapse" label="**collapse**" />: contrae el nodo con animación.
+- <ApiLink type="TreeNode" member="toggle" label="**toggle**" />: alterna el estado de expansión del nodo con animación.
+- <ApiLink type="Tree" member="collapseAll" label="**collapseAll**" />: contrae los nodos especificados con animación. Si no se pasan nodos, contrae todos los nodos padre.
+- <ApiLink type="Tree" member="expandAll" label="**expandAll**" />: establece los nodos especificados como expandidos con animación. Si no se pasan nodos, expande todos los nodos padre.
+- <ApiLink type="Tree" member="deselectAll" label="**deselectAll**" />: deselecciona todos los nodos. Si se pasa un array de nodos, solo deselecciona los nodos especificados. No emite el evento nodeSelection.
+
+### Buscar nodos
+
+Puede encontrar un nodo específico dentro de un IgxTree usando el método <ApiLink type="Tree" member="findNodes" label="findNodes" />. Devuelve un array de nodos que coinciden con los datos especificados.
+Al buscar nodos en escenarios de estructuras de datos más complejas, como claves primarias compuestas, puede pasar una función comparadora personalizada para especificar los criterios de búsqueda de nodos según los datos.
+
+```html
+<igx-tree>
+ <igx-tree-node *ngFor="let node of data" [data]="node" [expanded]="isNodeExpaded(node)" [selected]="isNodeSelected(node)">
+  {{ node.text }}
+  <img [src]="node.image" alt="node.imageAlt" />
+  <igx-tree-node *ngFor="let child of node.children" [data]="child" [expanded]="isNodeExpaded(child)" [selected]="isNodeSelected(child)">
+            {{ child.text }}
+  </igx-tree-node>
+ </igx-tree-node>
+</igx-tree>
+```
+
+```typescript
+export class MyTreeViewComponent {
+  public data: { [key: string]: any, valueKey: string } = MY_DATA;
+  @ViewChild(IgxTreeComponent, { read: IgxTreeComponent })
+  public tree;
+
+  findNode(valueKey: string) {
+    const comparer: IgxTreeSearchResolver =
+      (data: any, node: IgxTreeNodeComponent) => node.data.valueKey === data;
+    const matchingNodes: IgxTreeNode<{ [key: string]: any, valueKey: string }>[] = this.tree.findNodes(valueKey, comparer);
+  }
+}
+```
+
+### Plantillas
+
+Para crear una plantilla reutilizable para sus nodos, declare `<ng-template>` **dentro de `igx-tree`**.
+
+```html
+<igx-tree>
+    <igx-tree-node *ngFor="let node of data" [data]="node">
+        <ng-container *ngTemplateOutlet="#nodeTemplate; context: { $implicit: node }"></ng-container>
+        <igx-tree-node *ngFor="let child of node.ChildCompanies" [data]="child">
+            <ng-container *ngTemplateOutlet="#nodeTemplate; context: { $implicit: child}"></ng-container>
+        </igx-tree-node>
+    </igx-tree-node>
+    <ng-template #nodeTemplate let-data>
+        <div class="node-header company">
+
+            <igx-icon class="company__logo">{{ data.Logo }}</igx-icon>
+            <div class="company__name">
+{{ data.CompanyName }}
+</div>
+
+</div>
+    </ng-template>
+</igx-tree>
+```
+
+Además, usando la entrada <ApiLink type="Tree" member="expandIndicator" label="expandIndicator" /> puede establecer una plantilla personalizada para renderizar los indicadores de expandir y contraer de los nodos.
+
+```html
+<igx-tree>
+    <igx-tree-node *ngFor="let node of data" [data]="node">
+    </igx-tree-node>
+    <ng-template igxTreeExpandIndicator let-expanded>
+        <igx-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</igx-icon>
+    </ng-template>
+</igx-tree>
+```
+
+## Selección en Angular Tree
+
+Para configurar la selección de nodos en `igx-tree`, solo tiene que establecer su propiedad <ApiLink type="Tree" member="selection" label="selection" />. Esta propiedad acepta los tres modos siguientes: **None**, **BiState** y **Cascading**. A continuación veremos cada uno de ellos con más detalle.
+
+### None
+
+En `igx-tree`, la selección de nodos está desactivada de forma predeterminada. Los usuarios no pueden seleccionar ni deseleccionar un nodo mediante la interacción con la interfaz, pero estas acciones sí pueden realizarse a través del método de la API proporcionado.
+
+### Bi-State
+
+Para habilitar la selección de nodos bi-estado en `igx-tree`, basta con establecer la propiedad <ApiLink type="Tree" member="selection" label="selection" /> en **BiState**. Esto mostrará una casilla para cada nodo. Cada nodo tiene dos estados: seleccionado o no seleccionado. Este modo admite la selección múltiple.
+
+```html
+<igx-tree selection="BiState">
+</igx-tree>
+```
+
+### Cascading
+
+Para habilitar la selección de nodos en cascada en `igx-tree`, basta con establecer la propiedad de selección en **Cascading**. Esto mostrará una casilla para cada nodo.
+
+```html
+<igx-tree selection="Cascading">
+</igx-tree>
+```
+
+En este modo, el estado de selección de un padre depende por completo del estado de selección de sus hijos. Cuando un padre tiene algunos hijos seleccionados y otros no, su casilla queda en estado indeterminado.
+
+### Casilla de Angular Tree
+
+El componente Angular Tree incluye soporte integrado para casillas, lo que permite a los usuarios seleccionar más de un elemento.
+
+Las casillas de TreeView también tienen un modo de tres estados, que solo se aplica a los nodos padre parcialmente seleccionados. En este modo, un nodo padre pasa al estado indeterminado cuando algunos, pero no todos, sus nodos hijos están marcados.
+
+## Navegación por teclado
+
+La navegación por teclado en IgxTree ofrece una amplia variedad de interacciones de teclado para el usuario. Esta funcionalidad está habilitada de forma predeterminada y permite a los usuarios moverse por los nodos.
+
+La navegación de IgxTree cumple los estándares de accesibilidad del W3C y es cómoda de usar.
+
+**Combinaciones de teclas**
+
+- <kbd>Arrow Down</kbd>: navega al siguiente nodo visible. Marca el nodo como activo. No hace nada si está en el ÚLTIMO nodo.
+- <kbd>Ctrl + Arrow Down</kbd>: navega al siguiente nodo visible. No hace nada si está en el ÚLTIMO nodo.
+- <kbd>Arrow Up</kbd>: navega al nodo visible anterior. Marca el nodo como activo. No hace nada si está en el PRIMER nodo.
+- <kbd>Ctrl + Arrow Up</kbd>: navega al nodo visible anterior. No hace nada si está en el PRIMER nodo.
+- <kbd>Arrow Left</kbd>: en un nodo padre expandido, lo contrae. Si está en un nodo hijo, se mueve a su nodo padre.
+- <kbd>Arrow Right</kbd>: en un nodo padre expandido, navega al primer hijo del nodo. Si está en un nodo padre contraído, lo expande.
+- <kbd>Home</kbd>: navega al PRIMER nodo
+- <kbd>End</kbd>: navega al ÚLTIMO nodo visible
+- <kbd>Tab</kbd>: navega al siguiente elemento enfocable de la página, fuera del árbol
+- <kbd>Shift + Tab</kbd>: navega al elemento enfocable anterior de la página, fuera del árbol
+- <kbd>Space</kbd>: alterna la selección del nodo actual. Marca el nodo como activo.
+- <kbd>Shift + Space</kbd>: alterna la selección de todos los nodos entre el activo y aquel en el que se pulsó Space manteniendo Shift, si la selección está habilitada
+- <kbd>Enter</kbd>: activa el nodo enfocado. Si el nodo tiene un enlace, abre el enlace
+- <kbd>*</kbd>: expande el nodo y todos los nodos hermanos del mismo nivel
+
+Cuando la selección está habilitada, el usuario final solo puede seleccionar nodos mediante la casilla mostrada. Como ambos tipos de selección permiten la selección múltiple, están disponibles las siguientes interacciones de ratón y teclado:
+
+- <kbd>Clic</kbd>: cuando se realiza sobre la casilla del nodo, alterna la selección del nodo si la selección está habilitada. En caso contrario, enfoca el nodo
+- <kbd>Shift + Clic</kbd>: cuando se realiza sobre la casilla del nodo, alterna la selección de todos los nodos entre el activo y aquel en el que se hizo clic manteniendo Shift, si la selección está habilitada
+
+## Angular Tree con carga a demanda
+
+El IgxTree de Ignite UI for Angular puede renderizarse de forma que necesite la mínima cantidad de datos desde el servidor, para que el usuario pueda verlo lo antes posible. Con este enfoque de carga dinámica de datos, solo después de que el usuario expanda un nodo se recuperan los hijos de ese nodo padre en concreto. Este mecanismo, también conocido como carga a demanda, puede configurarse fácilmente para funcionar con cualquier dato remoto.
+
+### Demostración
+
+<Sample src="/lists/tree-advanced-sample" height={400} alt="Ejemplo de Tree con carga a demanda" />
+
+Después de que el usuario haga clic en el icono de expandir, este se sustituye por un indicador de carga. Cuando la propiedad <ApiLink type="TreeNode" member="loading" label="loading" /> se resuelve como `false`, el indicador de carga desaparece y se cargan los hijos.
+
+## Estilos
+
+### Mapa de propiedades del tema Tree
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente para reflejar el cambio:
+
+
+| Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$background** | $foreground | El color usado para el contenido del nodo del árbol. |
+|  | $background-selected | El color de fondo usado para el nodo del árbol seleccionado. |
+|  | $hover-color | El color de fondo usado para el nodo del árbol al pasar el ratón por encima. |
+|  | $background-active | El color de fondo usado para el nodo del árbol activo. |
+|  | $background-disabled | El color de fondo usado para el nodo del árbol en estado deshabilitado. |
+| **$background-selected** | $foreground-selected | El color usado para el contenido del nodo del árbol seleccionado. |
+|  | $hover-selected-color | El color de fondo usado para el nodo del árbol seleccionado al pasar el ratón por encima. |
+| **$background-active** | $foreground-active | El color usado para el contenido del nodo del árbol activo. |
+|  | $background-active-selected | El color de fondo usado para el nodo del árbol activo y seleccionado. |
+| **$background-active-selected** | $foreground-active-selected | El color usado para el contenido del nodo del árbol activo y seleccionado. |
+| **$background-disabled** | $foreground-disabled | El color usado para el contenido del nodo del árbol deshabilitado. |
+
+Usando el [tema de Ignite UI for Angular](/themes), podemos cambiar en gran medida el aspecto del árbol. Primero, para usar las funciones que expone el motor de temas, debemos importar el archivo `index` en nuestro archivo de estilos:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-tree-theme" label="tree-theme" /> y proporciona solo el parámetro `$background`. El tema calculará automáticamente todos los demás colores necesarios, aunque, por supuesto, puede sobrescribir cualquiera de las otras propiedades:
+
+```scss
+$custom-tree-theme: tree-theme(
+  $background: #ecaa53,
+);
+```
+
+El último paso es incluir el tema del componente.
+
+```scss
+:host {
+  @include tokens($custom-tree-theme);
+}
+```
+
+### Demostración
+
+<Sample src="/lists/tree-styling" height={400} alt="Estilo del árbol" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al árbol con nuestras clases de utilidad de Tailwind personalizadas. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de Tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-tree`, `dark-tree`.
+
+Una vez aplicadas, estas clases permiten cálculos dinámicos del tema. Después puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Tras los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-tree-theme" label="Tema IgxTree" />. La sintaxis es la siguiente:
+
+```html
+<igx-tree class="tree-root">
+    @for (type of data; track type) {
+      <igx-tree-node class="!light-tree ![--background:#81B698]">
+        {{ type.Name }}
+        @for (value of type.Children; track value) {
+          <igx-tree-node class="!light-tree ![--background:#81B698]">
+            {{ value.Name }}
+          </igx-tree-node>
+        }
+      </igx-tree-node>
+    }
+</igx-tree>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su árbol debería verse así:
+
+<Sample src="/lists/tree-tailwind-styling" height={400} iframeOnly />
+
+## Problemas conocidos y limitaciones
+
+|Limitación|Descripción|
+|--- |--- |
+| Nodos de plantilla recursivos | `igx-tree` no admite crear recursivamente los igx-tree-node mediante plantilla. [Más información](https://github.com/IgniteUI/igniteui-angular/wiki/Tree-Specification#assumptions-and-limitations). Todos los nodos deben declararse manualmente, lo que significa que, si quiere visualizar una jerarquía muy profunda, esto afectará al tamaño de su archivo de plantilla. El árbol está pensado principalmente como componente de diseño o de navegación. Si necesita visualizar una fuente de datos jerárquica con muchos niveles de profundidad y datos homogéneos, puede usar [**IgxTreeGrid**](/treegrid/tree-grid)|
+|Usar IgxTreeNodes con View Engine antiguo (anterior a Ivy)|Existe un problema en View Engine de Angular (anterior a Ivy) que impide usar el árbol cuando `enableIvy: false` está establecido en tsconfig.json|
+|Navegación con el tabulador en Firefox|Al entrar en el árbol con la navegación por teclado, cuando el árbol tiene una barra de desplazamiento, primero se enfoca el elemento igx-tree-node. Este es el comportamiento predeterminado de Firefox, pero puede resolverse colocando un `tabIndex = -1` explícito en el árbol.|
+
+## Referencias de API
+<igc-divider></igc-divider>
+- <ApiLink type="Tree" />
+- <ApiLink type="TreeNode" />
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

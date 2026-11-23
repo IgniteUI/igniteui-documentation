@@ -1,0 +1,656 @@
+# Keeps the docs translations in step with the English, with
+# IgniteUI/translation-tools (translation/README.md). One matrix leg per
+# language:
+#
+#   locale  content folder  pull request (branch → vnext)  title tag      label
+#   ja      jp              translations/ja                [jp-sync]      japanese
+#   es      es              translations/es                [es-sync]      spanish
+#   pt-BR   pt-BR           translations/pt-BR             [pt-br-sync]   portuguese
+#   ko      kr              translations/ko                [kr-sync]      korean
+#
+# A language runs for a project (docs/angular, docs/xplat) only when the project
+# has its content folder (docs/<project>/src/content/<folder>/) and its
+# manifests (translation/manifest/<locale>/<project>/): so xplat runs for ja
+# only today, and starts for another language by itself once it is seeded.
+#
+# When English content reaches `vnext`, each leg translates what changed and
+# updates ONE pull request for its language, `translations/<locale>` → `vnext`,
+# labelled translation, automation and the language (the Japanese one like the
+# [jp-sync] pull requests of the sync-jp-docs-* workflows it replaces). Each
+# language has its own reviewers. Nothing is merged automatically: people review
+# the pull request in GitHub or in the Translation Manager, whose saves are
+# commits on the same branch.
+#
+# How it runs:
+#   · a push to `vnext` that changes English content (docs/<project>/src/content/en/**,
+#     the toc.json files included): every language runs for the project(s) the
+#     push changed, and translates every page of that project that is out of date;
+#   · by hand (Actions → Translate docs → Run workflow): the languages to run
+#     (default all), both projects or one; "out-of-date" translates everything
+#     out of date, "dry-run" only reports, "pages" redoes the pages listed (a
+#     person's edits on them are replaced).
+#
+# It cannot trigger itself. It pushes to `translations/<locale>` only, never to
+# `vnext`, and it starts only on a push to `vnext` that changes en/. When a
+# translation pull request merges, the push to `vnext` changes only that
+# language's content folder and its own files in translation/: the commit guard
+# below refuses anything else on the branch, and so does the check before a run.
+# Neither matches the `paths` filter, so the merge does not start a run.
+#
+# The branch: when the language's pull request is open, `vnext` is merged into
+# it first (translation/memory/*.json with the tool's merge driver,
+# merge-memory.mjs: both sides' sentences are kept). Any other conflict stops
+# the leg with a comment on the pull request: a person merges `vnext` into the
+# branch by hand. When there is no open pull request, the branch starts again
+# from `vnext`; one left over from a merged or closed pull request is replaced
+# (its commits stay on that pull request).
+#
+# SECURITY (every property holds for every leg).
+#   · The tool is checked out at a reviewed commit (TOOLS_REF), never a branch.
+#     IgniteUI/translation-tools is private: it is read with an App token
+#     limited to that repo, read-only, not kept in the checkout.
+#   · This repo is checked out without credentials. The only code that runs is
+#     the tool and the site's own docs/angular/src/scripts/grid-configs.mjs (the
+#     tool reads the grids from it), and only after a check that the branch
+#     differs from `vnext` in nothing but the leg's own content folder and its
+#     own files in translation/ (ALLOWED, per language: memory/<locale>.json and
+#     <locale>.human.json, manifest/<locale>/, scope/<locale>.json,
+#     reports/<locale>-*): so that file is `vnext`'s, reviewed, and one
+#     language's pull request cannot change another's pages or memory. No npm
+#     install of this repo happens here; the pull request's own checks build it,
+#     with no secrets.
+#   · AWS credentials (an OIDC role that can only call Claude on Bedrock) exist
+#     only from the Translate step on, and are cleared from the steps after it.
+#     The App token that pushes and comments is created after the tool ran.
+#   · Inputs reach scripts through the environment, never the script text; the
+#     languages are an allow-list. Report text is shown as code.
+#   · One run at a time per language; a run never cancels another (it may be
+#     mid-push), and the languages never wait on or cancel each other.
+#
+# Needs (an admin sets these; translation/README.md, "Setting it up"):
+#   repository variable TRANSLATE_ENABLED = true   (until then nothing runs)
+#   environment `intl-translate`, deployment branches: `vnext`
+#     vars.AWS_TRANSLATE_ROLE_ARN    a role that can only invoke Claude on Bedrock
+#     vars.TRANSLATE_APP_ID          Cross-Org-GitHub-App, installed on this repo
+#     secrets.TRANSLATE_APP_KEY      and on IgniteUI/translation-tools
+#   repository variables (optional)
+#     TRANSLATE_MAX_TOKENS           cap per project per language per run (default 3,000,000)
+#     BEDROCK_MODEL                  default global.anthropic.claude-haiku-5-5
+#
+# Do not run it at the same time as sync-jp-docs-angular / sync-jp-docs-xplat:
+# both would translate the same English push into Japanese (translation/README.md,
+# "Switching over").
+
+name: Translate docs
+
+on:
+  push:
+    branches: [vnext]
+    paths:
+      - 'docs/angular/src/content/en/**'
+      - 'docs/xplat/src/content/en/**'
+  workflow_dispatch:
+    inputs:
+      languages:
+        description: 'Languages, space- or comma-separated: ja, es, pt-BR, ko, or all'
+        type: string
+        default: 'all'
+      projects:
+        description: 'Projects'
+        type: choice
+        options: ['angular xplat', 'angular', 'xplat']
+        default: 'angular xplat'
+      mode:
+        description: 'out-of-date: translate every page out of date. dry-run: report only, no model, no push. pages: redo only the pages below'
+        type: choice
+        options: ['out-of-date', 'dry-run', 'pages']
+        default: 'out-of-date'
+      pages:
+        description: 'For "pages": English files, comma-separated, e.g. docs/xplat/src/content/en/components/badge.mdx'
+        type: string
+        default: ''
+
+permissions: {}
+
+env:
+  BASE_BRANCH: vnext
+  TOOLS_REPO: IgniteUI/translation-tools
+  # The translation tool runs next to the AWS role, so it is pinned to a reviewed
+  # commit, never a branch. SET THIS to the full SHA of the merge commit of the
+  # translation-tools pull request that adds --docs (and later, to each reviewed
+  # commit to adopt), in a pull request here; check-jp-translation.yml uses the
+  # same commit. Until it is a 40-character SHA, the run stops at its first step.
+  TOOLS_REF: SET-ME-TO-THE-TRANSLATION-TOOLS-MERGE-COMMIT
+
+jobs:
+  # The languages this run translates: all on a push; on a run by hand, the ones
+  # picked, each checked against the four known.
+  languages:
+    if: vars.TRANSLATE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      list: ${{ steps.pick.outputs.list }}
+    steps:
+      - name: Which languages
+        id: pick
+        env:
+          IN_LANGUAGES: ${{ inputs.languages }}
+        run: |
+          all=(ja es pt-BR ko)
+          want="${IN_LANGUAGES:-all}"
+          read -ra words <<< "${want//,/ }"
+          picked=()
+          for w in "${words[@]}"; do
+            case "$w" in
+              all) picked+=("${all[@]}") ;;
+              ja|es|pt-BR|ko) picked+=("$w") ;;
+              *) echo "::error::not a language: $(printf '%q' "$w") (ja, es, pt-BR, ko or all)"; exit 1 ;;
+            esac
+          done
+          # Each once, in the order of the list above.
+          list=()
+          for l in "${all[@]}"; do
+            for w in "${picked[@]}"; do [ "$w" = "$l" ] && { list+=("$l"); break; }; done
+          done
+          [ ${#list[@]} -gt 0 ] || { echo "::error::no language picked (ja, es, pt-BR, ko or all)"; exit 1; }
+          json="[$(printf '"%s",' "${list[@]}")"; json="${json%,}]"
+          echo "list=$json" >> "$GITHUB_OUTPUT"
+          echo "Languages: $json"
+
+  translate:
+    needs: languages
+    if: vars.TRANSLATE_ENABLED == 'true' && needs.languages.outputs.list != '[]' && needs.languages.outputs.list != ''
+    name: Translate (${{ matrix.locale }})
+    runs-on: ubuntu-latest
+    environment: intl-translate
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        locale: ${{ fromJSON(needs.languages.outputs.list) }}
+    # One run at a time per language, never cancelled: a second push waits, then
+    # picks up everything. Another language's leg neither waits nor cancels.
+    concurrency:
+      group: translate-docs-${{ matrix.locale }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pull-requests: read   # is a translation pull request open?
+      id-token: write       # the AWS role; writes to GitHub go through the App token
+    env:
+      LOCALE: ${{ matrix.locale }}
+    steps:
+      # The language's settings, from a fixed table (also the allow-list). For
+      # the steps after: FOLDER, LANG_NAME, WORK_BRANCH, PR_TITLE, LABEL,
+      # GLOSSARY and ALLOWED, what a commit on the branch may change: the
+      # language's content folder and its own files in translation/.
+      - name: The language
+        run: |
+          case "$LOCALE" in
+            ja)    folder=jp    name=Japanese               tag=jp-sync    label=japanese   glossary=docs/translation/jp-component-names.md ;;
+            es)    folder=es    name=Spanish                tag=es-sync    label=spanish    glossary= ;;
+            pt-BR) folder=pt-BR name='Brazilian Portuguese' tag=pt-br-sync label=portuguese glossary= ;;
+            ko)    folder=kr    name=Korean                 tag=kr-sync    label=korean     glossary= ;;
+            *) echo "::error::not a language: $(printf '%q' "$LOCALE")"; exit 1 ;;
+          esac
+          {
+            echo "FOLDER=$folder"
+            echo "LANG_NAME=$name"
+            echo "WORK_BRANCH=translations/$LOCALE"
+            echo "PR_TITLE=[$tag] $name translation of English changes"
+            echo "LABEL=$label"
+            echo "GLOSSARY=$glossary"
+            echo "ALLOWED=^(docs/(angular|xplat)/src/content/$folder/|translation/(memory/$LOCALE(\\.human)?\\.json|manifest/$LOCALE/.+|scope/$LOCALE\\.json|reports/$LOCALE-[^/]+)\$)"
+          } >> "$GITHUB_ENV"
+
+      - name: Check the inputs
+        env:
+          IN_MODE: ${{ inputs.mode }}
+          IN_PAGES: ${{ inputs.pages }}
+        run: |
+          if ! [[ "$TOOLS_REF" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::TOOLS_REF in this workflow must be the full commit SHA of IgniteUI/translation-tools to run (the merge commit of its reviewed pull request). It is '$TOOLS_REF'."
+            exit 1
+          fi
+          if [ "$IN_MODE" = pages ]; then
+            [ -n "$IN_PAGES" ] || { echo "::error::mode \"pages\" needs the pages to redo"; exit 1; }
+            IFS=',' read -ra list <<< "$IN_PAGES"
+            for f in "${list[@]}"; do
+              f="${f// /}"
+              if ! [[ "$f" =~ ^docs/(angular|xplat)/src/content/en/[A-Za-z0-9._/-]+\.(mdx|json)$ ]] || [[ "$f" == *..* ]]; then
+                echo "::error::not an English page: $f"; exit 1
+              fi
+            done
+          fi
+
+      # One App, two repos: a token per repo, each with only what the step needs.
+      - name: App token (read the translation tool)
+        id: tools-app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.TRANSLATE_APP_ID }}
+          private-key: ${{ secrets.TRANSLATE_APP_KEY }}
+          owner: IgniteUI
+          repositories: translation-tools
+          permission-contents: read
+
+      - name: Check out the translation tool (pinned)
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.TOOLS_REPO }}
+          ref: ${{ env.TOOLS_REF }}
+          path: tools
+          token: ${{ steps.tools-app.outputs.token }}
+          persist-credentials: false
+
+      # Full history: the branch is merged with vnext, and the report lists the
+      # English commits behind each page.
+      - name: Check out this repo (no credentials kept)
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          path: site
+          fetch-depth: 0
+          persist-credentials: false
+
+      # The projects the push changed (or those picked by hand), of those this
+      # language has: its content folder and its manifests.
+      - name: Which projects
+        id: projects
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          IN_PROJECTS: ${{ inputs.projects }}
+        run: |
+          list=""
+          if [ "$EVENT" = push ] && ! [[ "$BEFORE" =~ ^0+$ ]] && git -C site cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            for p in angular xplat; do
+              git -C site diff --quiet "$BEFORE" "$AFTER" -- "docs/$p/src/content/en" || list+="$p "
+            done
+          elif [ "$EVENT" = push ]; then
+            list="angular xplat"
+          else
+            for p in $IN_PROJECTS; do case "$p" in angular|xplat) list+="$p " ;; esac; done
+          fi
+          has=""
+          for p in $list; do
+            if [ -d "site/docs/$p/src/content/$FOLDER" ] && [ -d "site/translation/manifest/$LOCALE/$p" ]; then
+              has+="$p "
+            else
+              echo "$p: no $LANG_NAME (docs/$p/src/content/$FOLDER or translation/manifest/$LOCALE/$p missing)"
+            fi
+          done
+          list="${has% }"
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+          echo "Projects ($LOCALE): ${list:-none}"
+
+      # Before the branch is set up: the memory merge driver is a node script.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Start from the open translation pull request, if there is one
+        id: branch
+        working-directory: site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SLUG: ${{ steps.tools-app.outputs.app-slug }}
+        run: |
+          # The changed paths ($1, one per line) a commit on the branch may not
+          # touch: outside ALLOWED, or with a . or .. segment (git never lists
+          # one; refused all the same).
+          outside() {
+            printf '%s\n' "$1" | grep -v '^$' | grep -Ev "$ALLOWED" || true
+            printf '%s\n' "$1" | grep -E '(^|/)\.\.?(/|$)' || true
+          }
+          mkdir -p "$RUNNER_TEMP/out"
+          git config user.name "$SLUG[bot]"
+          git config user.email "$SLUG[bot]@users.noreply.github.com"
+          # The memory files merge by sentence (both sides kept), with the tool's
+          # driver. Set in this checkout only (.git/), never committed.
+          git config merge.translation-memory.name "translation memory (translation-tools merge-memory.mjs)"
+          git config merge.translation-memory.driver "node \"$GITHUB_WORKSPACE/tools/merge-memory.mjs\" %O %A %B"
+          echo 'translation/memory/*.json merge=translation-memory' >> .git/info/attributes
+          open=$(gh pr list -R "$GITHUB_REPOSITORY" --head "$WORK_BRANCH" --base "$BASE_BRANCH" --state open --json number --jq '.[0].number // empty')
+          old=$(git ls-remote --heads origin "refs/heads/$WORK_BRANCH" | cut -f1)
+          echo "pr=$open" >> "$GITHUB_OUTPUT"
+          if [ -n "$open" ] && [ -n "$old" ]; then
+            git fetch -q origin "+refs/heads/$WORK_BRANCH:refs/remotes/origin/$WORK_BRANCH"
+            git checkout -q -B "$WORK_BRANCH" "origin/$WORK_BRANCH"
+            echo "lease=$old" >> "$GITHUB_OUTPUT"
+            # Bring in what reached vnext since. A conflict outside the memory
+            # means a person changed the same lines on both sides: stop and say so.
+            if ! git merge -q --no-edit "origin/$BASE_BRANCH"; then
+              conflicts=$(git diff --name-only --diff-filter=U)
+              git merge --abort
+              {
+                echo "**The translation run stopped:** \`$WORK_BRANCH\` conflicts with \`$BASE_BRANCH\` in:"
+                echo
+                printf '%s\n' "$conflicts" | tr -d '`' | sed 's/^/- `/; s/$/`/'
+                echo
+                echo "Merge \`$BASE_BRANCH\` into \`$WORK_BRANCH\` by hand and settle these, then run **Translate docs** again for $LOCALE (Actions → Run workflow)."
+              } > "$RUNNER_TEMP/out/stop.md"
+              echo "stop=true" >> "$GITHUB_OUTPUT"
+              echo "::error::$WORK_BRANCH conflicts with $BASE_BRANCH"; exit 1
+            fi
+          else
+            # No open pull request: start from vnext. A branch left over from a
+            # merged or closed one is replaced, so translations a reviewer
+            # turned down do not come back with it.
+            git checkout -q -B "$WORK_BRANCH" "origin/$BASE_BRANCH"
+            echo "lease=$old" >> "$GITHUB_OUTPUT"
+          fi
+          # The branch may differ from vnext in the language's content folder and
+          # its own files in translation/ only. Anything else (an English or code
+          # change, or another language's pages or memory, made on the branch)
+          # stops the run: the tool would run that code, and the merge would take
+          # it into vnext unreviewed.
+          bad=$(outside "$(git diff --name-only "origin/$BASE_BRANCH" HEAD)")
+          if [ -n "$bad" ]; then
+            {
+              echo "**The translation run stopped:** \`$WORK_BRANCH\` changes files outside the $LANG_NAME content and its own files in \`translation/\`:"
+              echo
+              head -50 <<< "$bad" | tr -d '`' | sed 's/^/- `/; s/$/`/'
+              echo
+              echo "Make those changes in a pull request of their own, take them off this branch, then run **Translate docs** again for $LOCALE."
+            } > "$RUNNER_TEMP/out/stop.md"
+            echo "stop=true" >> "$GITHUB_OUTPUT"
+            echo "::error::$WORK_BRANCH changes files outside the $LANG_NAME content"; exit 1
+          fi
+          echo "start=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Install the translation tool
+        run: npm ci --prefix tools --omit=dev --ignore-scripts
+
+      # A page deleted in English goes from the translation too, with its
+      # manifest (the tool itself only lists such pages). Before the translation,
+      # and before any credentials. Listed in the pull request.
+      - name: Remove translations of deleted English pages
+        working-directory: site
+        run: |
+          for p in angular xplat; do
+            m="translation/manifest/$LOCALE/$p"
+            [ -d "$m" ] || continue
+            (cd "$m" && find . -type f -name '*.json' | sed 's#^\./##; s#\.json$##' | sort) | while read -r rel; do
+              # An English path (en/…), with no . or .. segment.
+              [[ "$rel" == en/* ]] && ! [[ "/$rel/" == */./* || "/$rel/" == */../* ]] || { echo "::warning::skipped manifest $m/$rel.json"; continue; }
+              [ -e "docs/$p/src/content/$rel" ] && continue
+              tr="docs/$p/src/content/$FOLDER/${rel#en/}"
+              rm -f "$tr" "$m/$rel.json"
+              echo "removed $tr (its English is gone)"
+              echo "- \`$(printf '%s' "$tr" | tr -d '`')\`" >> "$RUNNER_TEMP/out/deleted.md"
+            done
+          done
+
+      - name: AWS credentials (Claude on Bedrock only)
+        if: inputs.mode != 'dry-run' && steps.projects.outputs.list != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_TRANSLATE_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: translate-docs-${{ matrix.locale }}-${{ github.run_id }}
+          role-duration-seconds: 3600
+
+      - name: Translate
+        if: steps.projects.outputs.list != ''
+        working-directory: site
+        env:
+          PROJECTS: ${{ steps.projects.outputs.list }}
+          BEDROCK_MODEL: ${{ vars.BEDROCK_MODEL || 'global.anthropic.claude-haiku-5-5' }}
+          MAX_TOKENS: ${{ vars.TRANSLATE_MAX_TOKENS || '3000000' }}
+          # Inputs pass through the environment, never into the script text.
+          IN_MODE: ${{ inputs.mode }}
+          IN_PAGES: ${{ inputs.pages }}
+        run: |
+          out="$RUNNER_TEMP/out"
+          for p in $PROJECTS; do
+            args=(--en "docs/$p" --out "docs/$p/src/content" --docs "$FOLDER" --locale "$LOCALE" --source en
+                  --scope "translation/scope/$LOCALE.json"
+                  --memory "translation/memory/$LOCALE.json"
+                  --fixes "translation/memory/$LOCALE.human.json"
+                  --manifest-dir "translation/manifest/$LOCALE/$p")
+            # Japanese only: the reviewed component names.
+            [ -n "$GLOSSARY" ] && args+=(--glossary "$GLOSSARY")
+            args+=(--engine bedrock --max-tokens "$MAX_TOKENS" --report-md "$out/$p.md")
+            [ "$IN_MODE" = dry-run ] && args+=(--dry-run)
+            if [ "$IN_MODE" = pages ]; then
+              only=$(printf '%s' "$IN_PAGES" | tr -d ' ' | tr ',' '\n' | sed -n "s#^docs/$p/src/content/##p" | paste -sd, -)
+              [ -n "$only" ] || continue
+              args+=(--only "$only" --force)
+            fi
+            echo "::group::$p"
+            node "$GITHUB_WORKSPACE/tools/translate.mjs" "${args[@]}"
+            echo "::endgroup::"
+            cp "$GITHUB_WORKSPACE/tools/.cache/report-$LOCALE-bedrock.json" "$out/$p.json"
+            cat "$out/$p.md" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: Anything to commit?
+        id: changes
+        if: inputs.mode != 'dry-run'
+        working-directory: site
+        run: |
+          if git status --porcelain -- translation "docs/angular/src/content/$FOLDER" "docs/xplat/src/content/$FOLDER" | grep -q .; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No $LANG_NAME page changed." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # The pull request's text: what was translated, what needs a person, what
+      # was removed, anchors and llms.description answers that could not be made
+      # right, and the English commits behind the translated pages. Every name
+      # and message is shown as code: English content and model output must not
+      # render links, images or @mentions here.
+      - name: Write the report
+        if: steps.changes.outputs.changed == 'true' || inputs.mode == 'dry-run'
+        working-directory: site
+        env:
+          PROJECTS: ${{ steps.projects.outputs.list }}
+          IN_MODE: ${{ inputs.mode }}
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const { spawnSync } = require('child_process');
+          const out = `${process.env.RUNNER_TEMP}/out`;
+          const projects = (process.env.PROJECTS ?? '').split(' ').filter(Boolean);
+          const dry = process.env.IN_MODE === 'dry-run';
+          const { LOCALE: locale, FOLDER: folder, LANG_NAME: language } = process.env;
+          const run = (...a) => spawnSync('git', a, { encoding: 'utf8', maxBuffer: 64 << 20 });
+          const git = (...a) => { const r = run(...a); return r.status === 0 ? r.stdout : ''; };
+          const code = (t) => '`' + String(t ?? '').replace(/`/g, "'").replace(/\s*\n\s*/g, ' ').trim() + '`';
+          // A page as this repo has it: the translated file (dry-run anchor lines are <folder>/… already).
+          const tr = (p, rel) => `docs/${p}/src/content/${rel.replace(/^en\//, `${folder}/`)}`;
+          const written = [], person = [], anchors = [], llms = [];
+          for (const p of projects) {
+            let r;
+            try { r = JSON.parse(fs.readFileSync(`${out}/${p}.json`, 'utf8')); } catch { continue; }
+            for (const f of r.files) {
+              const skipped = typeof f.skipped === 'string' ? f.skipped : '';
+              if (f.units != null && !skipped) written.push([p, f.rel]);
+              if (f.attention) person.push([p, f.rel, skipped]);
+              if (skipped.startsWith('anchor ')) anchors.push([p, f.rel, skipped]);
+              if (/llms metadata/.test(skipped)) llms.push([p, f.rel, skipped]);
+              for (const x of f.problems ?? []) {
+                if (x.where === 'anchor') anchors.push([p, f.rel, `${x.en ?? ''}: ${x.problem ?? ''}`]);
+                // Left in English: the model's answers did not pass the site's lint.
+                if (x.where === 'frontmatter llms.description' && !skipped) llms.push([p, f.rel, x.problem]);
+              }
+            }
+          }
+          // The English commits behind each translated page: since the commit its
+          // previous translation was made from (its manifest before this run, at
+          // HEAD), or the last five for a page new to this language.
+          const shas = new Set();
+          for (const [p, rel] of written) {
+            if (!rel.startsWith('en/')) continue;
+            let since = '';
+            try { since = JSON.parse(git('show', `HEAD:translation/manifest/${locale}/${p}/${rel}.json`) || '{}').srcCommit ?? ''; } catch { /* none */ }
+            const range = since && run('cat-file', '-e', `${since}^{commit}`).status === 0 ? [`${since}..HEAD`] : ['-n', '5', 'HEAD'];
+            for (const h of git('log', '--no-merges', '--format=%H', ...range, '--', `docs/${p}/src/content/${rel}`).split('\n')) if (h) shas.add(h);
+          }
+          const commits = shas.size ? git('log', '--no-walk=sorted', '--format=%h%x09%an%x09%s', ...shas).split('\n').filter(Boolean) : [];
+          const list = (rows, max, line) => [...rows.slice(0, max).map(line), ...(rows.length > max ? [`- … and ${rows.length - max} more`] : [])];
+          const L = [];
+          L.push(`### ${dry ? 'Would translate (dry run)' : 'Translated'}: ${written.length} page(s)`, '');
+          L.push(...list(written, 200, ([p, rel]) => `- ${code(tr(p, rel))}`), '');
+          if (person.length) {
+            L.push('### Needs a person', '', `Not changed by the run. A ${language} page someone edited by hand keeps the edit: carry the English change over by hand (the details below show the English diff).`, '');
+            L.push(...person.map(([p, rel, why]) => `- ${code(tr(p, rel))}: ${code(why)}`), '');
+          }
+          let deleted = '';
+          try { deleted = fs.readFileSync(`${out}/deleted.md`, 'utf8'); } catch { /* none */ }
+          if (deleted) L.push('### Removed (their English page was deleted)', '', deleted.trimEnd(), '');
+          if (anchors.length) {
+            L.push('### Anchors that could not be made right', '', 'A `#anchor` link whose heading could not be matched in every page the site builds from the file. Fix the link or the heading by hand.', '');
+            L.push(...list(anchors, 100, ([p, rel, why]) => `- ${code(tr(p, rel))}: ${code(why)}`), '');
+          }
+          if (llms.length) {
+            // The site's lint: 20 characters and Japanese text for Japanese; 40 for the
+            // others, whose folders the lint does not read yet (the tool applies its rules).
+            const passed = locale === 'ja'
+              ? 'passed `npm run check:llms-metadata` (20 to 300 characters, with Japanese)'
+              : 'passed the rules of `npm run check:llms-metadata` (40 to 300 characters)';
+            L.push('### llms.description not accepted', '', `No answer ${passed}: write it by hand.`, '');
+            L.push(...llms.map(([p, rel, why]) => `- ${code(tr(p, rel))}: ${code(why)}`), '');
+          }
+          if (commits.length) {
+            // Names and messages as code: no @mention or link from a commit message.
+            L.push('### English changes behind these pages', '');
+            L.push(...list(commits, 60, (c) => { const [h, who, subj] = c.split('\t'); return `- ${h} ${code(who)}: ${code(subj)}`; }), '');
+          }
+          L.push('<details><summary>Details per project</summary>', '');
+          for (const p of projects) {
+            try { L.push(`#### ${p}`, '', fs.readFileSync(`${out}/${p}.md`, 'utf8'), ''); } catch { /* not run */ }
+          }
+          L.push('</details>', '');
+          fs.writeFileSync(`${out}/report.md`, L.join('\n'));
+          EOF
+          cat "$RUNNER_TEMP/out/report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      # Created only now: the tool ran without it. Limited to this repo.
+      - name: App token (push the branch, open or update the pull request)
+        id: app
+        if: >-
+          !cancelled() && inputs.mode != 'dry-run' &&
+          (steps.changes.outputs.changed == 'true' || (steps.branch.outputs.stop == 'true' && steps.branch.outputs.pr != ''))
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.TRANSLATE_APP_ID }}
+          private-key: ${{ secrets.TRANSLATE_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Say on the pull request why the run stopped
+        if: >-
+          !cancelled() && steps.branch.outputs.stop == 'true' && steps.app.outputs.token != ''
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PR: ${{ steps.branch.outputs.pr }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          printf '\nRun: %s\n' "$RUN_URL" >> "$RUNNER_TEMP/out/stop.md"
+          gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/out/stop.md"
+
+      - name: Commit and push (translations only)
+        id: push
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: site
+        env:
+          TOKEN: ${{ steps.app.outputs.token }}
+          LEASE: ${{ steps.branch.outputs.lease }}
+          PROJECTS: ${{ steps.projects.outputs.list }}
+          # Not needed here; cleared so nothing in this step holds them.
+          AWS_ACCESS_KEY_ID: ''
+          AWS_SECRET_ACCESS_KEY: ''
+          AWS_SESSION_TOKEN: ''
+        run: |
+          outside() { # as in "Start from the open translation pull request"
+            printf '%s\n' "$1" | grep -v '^$' | grep -Ev "$ALLOWED" || true
+            printf '%s\n' "$1" | grep -E '(^|/)\.\.?(/|$)' || true
+          }
+          # translation/ and the language's content folder in each project that
+          # has one (git add refuses a path that matches nothing).
+          paths=(translation)
+          for p in angular xplat; do
+            d="docs/$p/src/content/$FOLDER"
+            if [ -e "$d" ] || [ -n "$(git ls-files -- "$d" | head -1)" ]; then paths+=("$d"); fi
+          done
+          git add -A -- "${paths[@]}"
+          # Anything else staged (another language's files in translation/, say)
+          # means something wrote where it must not: stop rather than push it.
+          bad=$(outside "$(git diff --cached --name-only)")
+          if [ -n "$bad" ]; then echo "::error::refusing to commit outside the $LANG_NAME content and its own files in translation/:"; echo "$bad"; exit 1; fi
+          head=$(git rev-parse --short=8 "origin/$BASE_BRANCH")
+          git commit -q -m "translate($LOCALE): English up to $head (${PROJECTS// /, })"
+          auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
+          echo "::add-mask::$auth"
+          push() { # expected remote head ('' = the branch must not exist yet)
+            git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" \
+              push -q --force-with-lease="refs/heads/$WORK_BRANCH:$1" \
+              "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$WORK_BRANCH"
+          }
+          # The header is passed for each command only, never written to the
+          # checkout's git config. --force-with-lease: only over the commit this
+          # run started from (or replaced), so a reviewer's push is never lost.
+          if push "$LEASE"; then exit 0; fi
+          # The branch moved during the run (a reviewer's save): take it in once,
+          # check it again, and push.
+          echo "::notice::$WORK_BRANCH moved during the run; merging it"
+          git fetch -q origin "+refs/heads/$WORK_BRANCH:refs/remotes/origin/$WORK_BRANCH"
+          now=$(git rev-parse "origin/$WORK_BRANCH")
+          if ! git merge -q --no-edit "origin/$WORK_BRANCH"; then
+            git merge --abort
+            echo "::error::$WORK_BRANCH changed during the run and conflicts with this run's translation. Run the workflow again."; exit 1
+          fi
+          bad=$(outside "$(git diff --name-only "origin/$BASE_BRANCH" HEAD)")
+          if [ -n "$bad" ]; then echo "::error::$WORK_BRANCH now changes files outside the $LANG_NAME content:"; echo "$bad"; exit 1; fi
+          push "$now"
+
+      - name: Open or update the pull request
+        if: steps.push.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          AWS_ACCESS_KEY_ID: ''
+          AWS_SECRET_ACCESS_KEY: ''
+          AWS_SESSION_TOKEN: ''
+        run: |
+          out="$RUNNER_TEMP/out"
+          {
+            echo "Machine translation of English changes into $LANG_NAME, by [translation-tools](https://github.com/IgniteUI/translation-tools) (\`translation/README.md\`). Review it here or in the Translation Manager, and merge into \`vnext\` like any other change."
+            echo "Edit any page before merging: the next run keeps your edit, and lists the page only if its English changes again. A correction to a sentence goes in \`translation/memory/$LOCALE.human.json\` (the Translation Manager saves it there) and is applied wherever that sentence appears."
+            echo
+            echo "## Latest run"
+            echo
+            cat "$out/report.md"
+          } > "$out/body.md"
+          # GitHub refuses a body or comment over 65,536 characters: a long
+          # report is cut at a line, and the rest is on the run page.
+          fit() { # file
+            [ "$(wc -c < "$1")" -le 60000 ] && return 0
+            head -c 60000 "$1" | sed '$d' > "$1.cut"
+            if [ $(( $(grep -cE '^ *`{3,}' "$1.cut" || true) % 2 )) -eq 1 ]; then echo '  `````' >> "$1.cut"; fi
+            printf '\n\n**The report is longer than a pull request allows; the rest is on the run page:** %s\n' "$RUN_URL" >> "$1.cut"
+            mv "$1.cut" "$1"
+          }
+          cp "$out/report.md" "$out/comment.md"
+          fit "$out/body.md"
+          fit "$out/comment.md"
+          pr=$(gh pr list --head "$WORK_BRANCH" --base "$BASE_BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$pr" ]; then
+            # The body shows the latest run; each run's report also stays as a comment.
+            gh pr edit "$pr" --body-file "$out/body.md"
+            gh pr comment "$pr" --body-file "$out/comment.md"
+          else
+            url=$(gh pr create --base "$BASE_BRANCH" --head "$WORK_BRANCH" --title "$PR_TITLE" --body-file "$out/body.md")
+            # Labels as the [jp-sync] pull requests had them, with the language's.
+            # Not worth failing the run for: the App may lack the permission
+            # (translation-tools github-app/README.md), or the label may not exist yet.
+            gh pr edit "$url" --add-label "translation,$LABEL,automation" || echo "::warning::could not label $url"
+          fi

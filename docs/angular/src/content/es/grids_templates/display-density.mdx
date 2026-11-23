@@ -1,0 +1,334 @@
+<ComponentBlock for="Grid">
+
+---
+title:  "Tamaño de Angular Grid: Ignite UI for Angular"
+description: "Aprenda a aplicar las capacidades de tamaño al componente Data Grid. Puede usar un conjunto de opciones de vista compacta en Ignite UI for Angular."
+keywords: "densidad de material, tamaño, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El diseño de {ComponentName} se basa en las guías de Material Design."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title:  "Tamaño de Angular Grid: Ignite UI for Angular"
+description: "Aprenda a aplicar las capacidades de tamaño al componente Tree grid. Puede usar un conjunto de opciones de vista compacta en Ignite UI for Angular."
+keywords: "densidad de material, tamaño, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/display-density
+_language: es
+llms:
+  description: "El diseño de {ComponentName} se basa en las guías de Material Design."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title:  "Tamaño de Angular Grid: Ignite UI for Angular"
+description: "Aprenda a aplicar las capacidades de tamaño al componente Hierarchical grid. Puede usar un conjunto de opciones de vista compacta en Ignite UI for Angular."
+keywords: "densidad de material, tamaño, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/display-density
+_language: es
+llms:
+  description: "El diseño de {ComponentName} se basa en las guías de Material Design."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Tamaño de {ComponentTitle} en Angular
+
+El diseño de **{ComponentName}** se basa en las [guías de Material Design](https://material.io/design). Actualmente ofrecemos la opción de elegir entre un conjunto predefinido de tamaños que dan lugar a una vista pequeña, mediana o grande, respectivamente. Al elegir el tamaño adecuado para su tabla o grid de Material UI puede mejorar notablemente la experiencia del usuario al interactuar con grandes cantidades de contenido.
+
+## Ejemplo de tamaño de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-displayDensity" height={620} alt="Ejemplo de tamaño de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-display-density" height={620} alt="Ejemplo de tamaño de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-density" height={680} alt="Ejemplo de tamaño de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+## Uso
+
+Como puede ver en la demostración anterior, <ApiLink type="{ComponentApiType}" /> ofrece tres opciones de tamaño: **small**, **medium** y **large**. El fragmento de código siguiente muestra cómo establecer el tamaño:
+
+```html
+<{ComponentSelector} #{ComponentObjectRef} [data]="data" style="--ig-size: var(--ig-size-small)">
+</{ComponentSelector}>
+```
+
+Y ahora veamos en detalle cómo se refleja cada opción en el componente {ComponentTitle}. Al cambiar entre distintos tamaños, cambian la altura de cada elemento {ComponentTitle} y los rellenos correspondientes. Además, si quiere aplicar un <ApiLink type="Column" member="width" label="**width**" /> de columna personalizado, tenga en cuenta que debe ser mayor que la suma de los rellenos izquierdo y derecho.
+
+- **--ig-size-large**: es el tamaño {ComponentTitle} predeterminado, con la menor intensidad y una altura de fila igual a `50px`. Los rellenos izquierdo y derecho son `24px`; el <ApiLink type="Column" member="width" label="width" /> mínimo de columna es `80px`;
+- **--ig-size-medium**: es el tamaño intermedio, con una altura de fila de `40px`. Los rellenos izquierdo y derecho son `16px`; el <ApiLink type="Column" member="width" label="width" /> mínimo de columna es `64px`;
+- **--ig-size-small**: es el tamaño más pequeño, con una altura de fila de `32px`. Los rellenos izquierdo y derecho son `12px`; el <ApiLink type="Column" member="width" label="width" /> mínimo de columna es `56px`;
+
+<DocsAside type="info">
+Tenga en cuenta que actualmente **no puede** sobrescribir ninguno de los tamaños.
+</DocsAside>
+
+Continuemos con nuestro ejemplo y veamos en acción cómo se aplica cada tamaño. Primero, añadamos un botón que nos ayude a cambiar entre cada tamaño:
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes"></igx-buttongroup>
+</div>
+```
+
+```typescript
+@ViewChild(IgxButtonGroupComponent) public buttonGroup: IgxButtonGroupComponent;
+public size = 'small';
+public sizes;
+
+public ngOnInit() {
+    this.sizes = [
+        {
+            label: 'small',
+            selected: this.size === 'small',
+            togglable: true
+        },
+        {
+            label: 'medium',
+            selected: this.size === 'medium',
+            togglable: true
+        },
+        {
+            label: 'large',
+            selected: this.size === 'large',
+            togglable: true
+        }
+    ];
+}
+```
+
+Ahora podemos añadir el marcado.
+
+<ComponentBlock for="Grid">
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes" (selected)="selectSize($event)"></igx-buttongroup>
+</div>
+<igx-grid #grid [data]="data" width="100%" height="550px" [allowFiltering]="true">
+    <igx-column-group  header="Customer Information">
+    <igx-column field="CustomerName" header="Customer Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column-group  header="Customer Address">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+            </igx-column>
+        <igx-column field="Address" header="Address" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+        <igx-column field="PostalCode" header="Postal Code" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+    </igx-column-group>
+    </igx-column-group>
+    <igx-column field="Salesperson" header="Sales Person" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="ShipperName" header="Shipper Name"  [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date"  [dataType]="'date'" [sortable]="true" [hasSummary]="true">
+        <ng-template igxCell let-cell="cell" let-val>
+            {{val | date:'dd/MM/yyyy'}}
+        </ng-template>
+    </igx-column>
+    <igx-column-group  header="Product Details">
+        <igx-column field="ProductID" header="ID" [dataType]="'string'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="ProductName" header="Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="UnitPrice" header="Unit Price" [dataType]="'number'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="Quantity" header="Quantity" [dataType]="'number'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="Discontinued" header="Discontinued" [dataType]="'boolean'" [sortable]="true" [hasSummary]="true" >
+        </igx-column>
+    </igx-column-group>
+    <igx-column-group  header="Shipping Information">
+        <igx-column field="ShipName" header="Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+        </igx-column>
+        <igx-column-group  header="Shipping Address">
+            <igx-column field="ShipCountry" header="Country" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+            <igx-column field="ShipCity" header="City" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+            <igx-column field="ShipPostalCode" header="Postal Code" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+        </igx-column-group>
+    </igx-column-group>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes" (selected)="selectSize($event)"></igx-buttongroup>
+</div>
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" width="100%"
+    height="550px" [allowFiltering]="true">
+    <igx-column field="Name" dataType="string" [sortable]="true" [hasSummary]="true" width="200px"></igx-column>
+    <igx-column-group [pinned]="false" header="General Information">
+        <igx-column field="HireDate" dataType="date" [sortable]="true" [hasSummary]="true">
+            <ng-template igxCell let-cell="cell" let-val>
+                {{val | date:'dd/MM/yyyy'}}
+            </ng-template>
+        </igx-column>
+        <igx-column-group header="Person Details">
+            <igx-column field="ID" dataType="number" [filterable]="false"></igx-column>
+            <igx-column field="Title" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="Age" dataType="number" [sortable]="true" [hasSummary]="true"
+                [summaries]="numberSummaries" [filterable]="false"></igx-column>
+        </igx-column-group>
+    </igx-column-group>
+    <igx-column-group header="Address Information">
+        <igx-column-group header="Location">
+            <igx-column field="Country" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="City" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="Address" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+        </igx-column-group>
+        <igx-column-group header="Contact Information">
+            <igx-column field="Phone" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="Fax" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="PostalCode" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+        </igx-column-group>
+    </igx-column-group>
+    <igx-column-group header="Address Information">
+        <igx-column-group header="Location">
+            <igx-column field="Country" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="City" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+            <igx-column field="Address" dataType="string" [sortable]="true" [hasSummary]="true"></igx-column>
+        </igx-column-group>
+        <igx-column-group header="Contact Information">
+            <igx-column field="Phone" dataType="string" [sortable]="true" [resizable]="true"></igx-column>
+            <igx-column field="Fax" dataType="string" [sortable]="true" [resizable]="true"></igx-column>
+            <igx-column field="PostalCode" dataType="string" [sortable]="true" [resizable]="true"></igx-column>
+        </igx-column-group>
+    </igx-column-group>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes" (selected)="selectSize($event)"></igx-buttongroup>
+</div>
+<igx-hierarchical-grid #hGrid [data]="localdata" [height]="'600px'" [width]="'100%'" [allowFiltering]="true">
+    <igx-column field="CustomerID"></igx-column>
+    <igx-column field="CompanyName"></igx-column>
+    <igx-column field="ContactName"></igx-column>
+    <igx-column field="ContactTitle"></igx-column>
+    <igx-column field="Address"></igx-column>
+    <igx-column field="City"></igx-column>
+    <igx-column field="PostalCode"></igx-column>
+    <igx-column field="Country"></igx-column>
+    <igx-column field="Phone"></igx-column>
+    <igx-column field="Fax"></igx-column>
+
+    <igx-row-island [key]="'Orders'" [autoGenerate]="false" #layout1 >
+            <igx-column field="OrderID"></igx-column>
+            <igx-column field="EmployeeID"></igx-column>
+            <igx-column field="OrderDate"></igx-column>
+            <igx-column field="RequiredDate"></igx-column>
+            <igx-column field="ShippedDate"></igx-column>
+            <igx-column field="ShipVia"></igx-column>
+            <igx-column field="Freight"></igx-column>
+            <igx-column field="ShipName"></igx-column>
+            <igx-column field="ShipAddress"></igx-column>
+            <igx-column field="ShipCity"></igx-column>
+            <igx-column field="ShipPostalCode"></igx-column>
+            <igx-column field="ShipCountry"></igx-column>
+        <igx-row-island [key]="'OrderDetails'" [autoGenerate]="false">
+                <igx-column field="ProductID"></igx-column>
+                <igx-column field="UnitPrice"></igx-column>
+                <igx-column field="Quantity"></igx-column>
+                <igx-column field="Discount"></igx-column>
+        </igx-row-island>
+    </igx-row-island>
+
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+Por último, proporcionemos la lógica necesaria para aplicar realmente el tamaño:
+
+```typescript
+@ViewChild('{ComponentObjectRef}', { read: {ComponentName}Component })
+public {ComponentObjectRef}: {ComponentName}Component;
+
+public selectSize(event: any) {
+    this.size = this.sizes[event.index].label;
+}
+
+@HostBinding('style.--ig-size')
+protected get sizeStyle() {
+    return `var(--ig-size-${this.size})`;
+}
+```
+
+Otra opción que <ApiLink type="{ComponentApiType}" /> le ofrece para poder cambiar la altura de las filas de {ComponentTitle} es la propiedad <ApiLink type="{ComponentApiType}" member="rowheight" label="rowHeight" />. Veamos en acción cómo afecta esta propiedad a la disposición de {ComponentTitle} junto con la variable CSS `--ig-size`.
+
+Tenga en cuenta lo siguiente:
+
+- La variable CSS `--ig-size` **NO** tendrá ningún efecto en la altura de la fila **si se especifica <ApiLink type="{ComponentApiType}" member="rowheight" label="rowHeight" />**;
+- `--ig-size` **afectará a todos los demás elementos de {ComponentTitle}**, como se ha descrito antes;
+
+Y ahora podemos ampliar nuestro ejemplo y añadir la propiedad <ApiLink type="{ComponentApiType}" member="rowHeight" label="rowHeight" /> a {ComponentTitle}:
+
+ ```html
+ <{ComponentSelector} #{ComponentObjectRef} [data]="data" [rowHeight]="'80px'" width="100%" 
+ height="550px" [allowFiltering]="true">
+ ..............
+ </{ComponentSelector}>
+ ```
+
+
+## Referencias de API
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+- <ApiLink type="Column" />
+## Recursos adicionales
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Edición](/{igPath}/editing)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+- [Búsqueda](/{igPath}/search)
+</ComponentBlock>
+
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

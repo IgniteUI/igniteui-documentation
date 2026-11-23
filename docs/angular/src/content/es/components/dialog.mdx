@@ -1,0 +1,371 @@
+---
+title: "Componente Angular Dialog Window - Licencia MIT" 
+description: "Tanto si crea diálogos informativos como ventanas de manipulación de datos, el componente Dialog Window de Ignite UI for Angular puede gestionar la información que se muestra en tiempo real, con una respuesta rápida."
+keywords: "Ignite UI for Angular, controles de interfaz, widgets de Angular, widgets web, widgets de interfaz, Angular, Native Angular Components Suite, componentes de interfaz de Angular, Native Angular Components Library, componente Angular Dialog Window, control Angular Dialog Window, componente de diálogo de Angular"
+license: MIT
+_language: es
+llms:
+  description: "Use el componente Dialog Window de Ignite UI for Angular para mostrar mensajes o presentar formularios que los usuarios deban rellenar."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Dialog Window
+
+<div class="highlight">
+Use el componente Dialog Window de Ignite UI for Angular para mostrar mensajes o presentar formularios que los usuarios deban rellenar. El componente abre una ventana de diálogo centrada sobre el contenido de la aplicación. También puede mostrar un mensaje de alerta estándar que el usuario puede cancelar.
+</div>
+
+## Ejemplo de Angular Dialog Window
+
+<Sample src="/interactions/dialog-sample-1" height={200} alt="Ejemplo de Angular Dialog Window" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Dialog Window
+
+Para empezar con el componente Ignite UI for Angular Dialog Window, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxDialogModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxDialogModule } from 'igniteui-angular/dialog';
+// import { IgxDialogModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxDialogModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxDialogComponent` como dependencia independiente, o usar el token [`IGX_DIALOG_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/dialog/src/dialog/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_DIALOG_DIRECTIVES } from 'igniteui-angular/dialog';
+import { IgxButtonDirective } from 'igniteui-angular/directives';
+import { IgxRippleDirective } from 'igniteui-angular/directives';
+// import { IGX_DIALOG_DIRECTIVES, IgxButtonDirective, IgxRippleDirective } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Alert Dialog</button>
+
+    <igx-dialog #alert
+        title="Notification"
+        message="Your email has been sent successfully!"
+        leftButtonLabel="OK"
+        (leftButtonSelect)="alert.close()">
+    </igx-dialog>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_DIALOG_DIRECTIVES, IgxButtonDirective, IgxRippleDirective]
+    /* or imports: [IgxDialogComponent, IgxButtonDirective, IgxRippleDirective] */
+})
+export class HomeComponent {}
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Dialog Window, puede empezar a usar el componente `igx-dialog`.
+
+<hr/>
+
+## Uso de Angular Dialog Window
+
+### Diálogo de alerta
+
+Para crear un diálogo de alerta, en la plantilla de nuestro componente de correo electrónico añadimos el siguiente código. Tenemos que establecer <ApiLink type="Dialog" member="title" label="title" />, <ApiLink type="Dialog" member="message" label="message" />,
+<ApiLink type="Dialog" member="leftButtonLabel" label="leftButtonLabel" /> y gestionar el evento <ApiLink type="Dialog" member="leftButtonSelect" label="leftButtonSelect" />:
+
+```html
+{/*email.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Alert Dialog</button>
+
+<igx-dialog #alert
+    title="Notification"
+    message="Your email has been sent successfully!"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="alert.close()">
+</igx-dialog>
+```
+
+Si todo se ha hecho correctamente, debería ver en su navegador la demostración mostrada arriba.
+
+<hr/>
+
+### Diálogo estándar
+
+Para crear un diálogo estándar, en la plantilla de nuestro componente de gestor de archivos añadimos el siguiente código. Tenemos que establecer <ApiLink type="Dialog" member="title" label="title" />, <ApiLink type="Dialog" member="message" label="message" />,
+<ApiLink type="Dialog" member="leftButtonLabel" label="leftButtonLabel" />, <ApiLink type="Dialog" member="rightButtonLabel" label="rightButtonLabel" />, y gestionar los eventos <ApiLink type="Dialog" member="leftButtonSelect" label="leftButtonSelect" /> y <ApiLink type="Dialog" member="rightButtonSelect" label="rightButtonSelect" />:
+
+```html
+{/*file-manager.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="dialog.open()">Show Confirmation Dialog</button>
+
+<igx-dialog #dialog title="Confirmation"
+    leftButtonLabel="Cancel"
+    (leftButtonSelect)="dialog.close()"
+    rightButtonLabel="OK"
+    (rightButtonSelect)="onDialogOKSelected($event)"
+    message="Are you sure you want to delete the Microsoft_Annual_Report_2015.pdf and Microsoft_Annual_Report_2015.pdf files?">
+</igx-dialog>
+```
+
+<Sample src="/interactions/dialog-sample-2" height={250} alt="" />
+
+<hr/>
+
+### Diálogo personalizado
+
+Para crear un diálogo personalizado, en la plantilla de nuestro componente de inicio de sesión añadimos el siguiente código. El área del título del diálogo se puede personalizar mediante la directiva `igxDialogTitle` o el selector `igx-dialog-title`. El área de acciones se puede personalizar mediante la directiva `igxDialogActions` o el selector `igx-dialog-actions`.
+Añadimos dos grupos de entrada formados por una etiqueta y una entrada decorada con las directivas [**igxLabel**](/input-group) e [**igxInput**](/input-group).
+
+```html
+{/*sign-in.component.html*/}
+<button igxButton="contained" igxRipple="white" (click)="alert.open()">Show Custom Dialog</button>
+
+<igx-dialog #form [closeOnOutsideSelect]="true">
+    <igx-dialog-title>
+        <div class="dialog-container">
+
+            <igx-icon>vpn_key</igx-icon>
+            <div class="dialog-title">
+Sign In
+</div>
+        
+</div>
+    </igx-dialog-title>
+
+    <form class="signInForm">
+        <igx-input-group>
+            <igx-prefix>
+                <igx-icon>person</igx-icon>
+            </igx-prefix>
+            <label igxLabel for="username">Username</label>
+            <input igxInput id="username" type="text"/>
+        </igx-input-group>
+        <igx-input-group>
+            <igx-prefix>
+                <igx-icon>lock</igx-icon>
+            </igx-prefix>
+            <label igxLabel>Password</label>
+            <input igxInput id="password" type="password"/>
+        </igx-input-group>
+    </form>
+
+    <div igxDialogActions>
+        <button igxButton (click)="form.close()">CANCEL</button>
+        <button igxButton (click)="form.close()">SIGN IN</button>
+    
+</div>
+</igx-dialog>
+```
+
+<Sample src="/interactions/dialog-sample-3" height={300} alt="" />
+
+<hr/>
+
+### Ajustes de posición y animación
+
+Hay dos formas de cambiar la posición en la que se mostrará `igx-dialog`:
+
+- Usando el método <ApiLink type="Dialog" member="open" label="open" /> y pasando un <ApiLink kind="interface" type="OverlaySettings" /> válido. Ejemplo:
+
+```typescript
+import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
+// import { PositionSettings, OverlaySettings, GlobalPositionStrategy, NoOpScrollStrategy, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class HomeComponent {
+    public positionSettingsOnOpen: PositionSettings = {
+        horizontalDirection: HorizontalAlignment.Right,
+        verticalDirection: VerticalAlignment.Middle,
+        horizontalStartPoint: HorizontalAlignment.Right,
+        verticalStartPoint: VerticalAlignment.Middle,
+    };
+    public overlaySettings: OverlaySettings = {
+        positionStrategy: new GlobalPositionStrategy(this.positionSettingsOnOpen),
+        scrollStrategy: new NoOpScrollStrategy(),
+        modal: false,
+        closeOnOutsideClick: true
+    };
+
+    public openDialog() {
+        this.alert.open(this.overlaySettings);
+    }
+}
+```
+
+- Usando <ApiLink type="Dialog" member="positionSettings" label="positionSettings" /> `@Input`. Ejemplo:
+
+```html
+<igx-dialog #alert title="Notification" [positionSettings]="positionSettings" >
+</igx-dialog>
+```
+
+```typescript
+import { useAnimation } from '@angular/animations';
+import { slideInTop, slideOutBottom } from 'igniteui-angular/animations';
+import { PositionSettings, HorizontalAlignment, VerticalAlignment } from 'igniteui-angular/core';
+// import { PositionSettings, HorizontalAlignment, VerticalAlignment } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class HomeComponent {
+    public positionSettings: PositionSettings = {
+        openAnimation: useAnimation(slideInTop, { params: { duration: '2000ms' } }),
+        closeAnimation: useAnimation(slideOutBottom, { params: { duration: '2000ms'} }),
+        horizontalDirection: HorizontalAlignment.Left,
+        verticalDirection: VerticalAlignment.Middle,
+        horizontalStartPoint: HorizontalAlignment.Left,
+        verticalStartPoint: VerticalAlignment.Middle,
+        minSize: { height: 100, width: 100 }
+    };
+}
+```
+
+<DocsAside type="info">
+Para los ajustes de animación se debe seguir el mismo enfoque: use las propiedades `openAnimation` y `closeAnimation` para definir parámetros de animación, como la duración.
+</DocsAside>
+Ejemplo de objeto `params`:
+
+```typescript
+params: {
+    delay: '0s',
+    duration: '350ms',
+    easing: EaseOut.quad,
+    endOpacity: 1,
+    fromPosition: 'translateX(-500px)',
+    startOpacity: 0,
+    toPosition: 'translateY(0)'
+}
+```
+
+### Atrapar el foco dentro del diálogo
+
+De forma predeterminada, cuando se abre el diálogo, el foco de la tecla Tab queda atrapado dentro de él; es decir, el foco no sale del elemento cuando el usuario sigue pulsando Tab para recorrer los elementos enfocables. Cuando el foco sale del último elemento, pasa al primero, y viceversa: al pulsar SHIFT + TAB, si el foco sale del primer elemento, debe pasar al último. Si el diálogo no contiene elementos enfocables, el foco quedará atrapado en el propio contenedor del diálogo. Este comportamiento se puede cambiar estableciendo la propiedad <ApiLink type="Dialog" member="focusTrap" label="focusTrap" />.
+
+## Estilos
+
+### Mapa de propiedades del tema del diálogo
+
+Al cambiar la propiedad `$background`, se actualizan automáticamente las siguientes propiedades dependientes:
+
+| Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$background** | $title-color | El color del texto del título del diálogo. |
+|  | $message-color | El color del texto del mensaje del diálogo. |
+|  | $border-color | El color del borde que se usa para el componente de diálogo. |
+
+Para empezar a dar estilo a la ventana de diálogo, tenemos que importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="dialog-theme" code={true} /> y acepta parámetros que dan estilo al diálogo. Al proporcionar `$background`, el tema selecciona automáticamente colores de contraste adecuados para las propiedades de primer plano. Sin embargo, sigue pudiendo definirlas manualmente si lo desea.
+
+```scss
+$my-dialog-theme: dialog-theme(
+  $background: #011627,
+  $title-color: #ecaa53,
+  $border-radius: 5px,
+);
+```
+
+<DocsAside type="info">
+Para dar estilo a cualquier componente adicional que se use como parte del contenido de la ventana de diálogo (como [`IgxButton`](./inputs/button.mdx)), hay que crear un tema adicional específico de ese componente y colocarlo solo dentro del ámbito de la ventana de diálogo, de modo que no afecte al resto de la aplicación.
+</DocsAside>
+
+```scss
+$custom-button: contained-button-theme(
+  $background: #ecaa53,
+  $foreground: #011627,
+);
+```
+
+Como la ventana de diálogo usa [`IgxOverlayService`](/overlay), para que nuestro tema personalizado llegue hasta la ventana de diálogo que queremos dar estilo, proporcionaremos un outlet específico donde se colocará la ventana de diálogo en el DOM cuando esté visible.
+
+```html
+<div igxOverlayOutlet>
+  <igx-dialog #dialog1>
+      {/* .... */}
+  </igx-dialog>
+</div>
+```
+
+<DocsAside type="info">
+Para conocer mejor las distintas opciones para aplicar temas a los elementos que se muestran mediante [`IgxOverlayService`](/overlay), puede consultar el tema [Estilos de superposiciones](/overlay-styling).
+</DocsAside>
+
+### Inclusión de temas
+
+<igc-divider></igc-divider>
+
+El último paso es **incluir** el tema del componente en nuestra aplicación.
+
+```scss
+:host {
+    @include tokens($my-dialog-theme);
+}
+```
+
+<DocsAside type="info">
+En algunas plantillas de componentes, el encapsulado de vista emulado puede impedir que las declaraciones de tokens generadas lleguen a los elementos anidados de Ignite UI. Si el tema no surte efecto, use `::ng-deep` como se muestra a continuación o traslade el tema a una hoja de estilos global.
+</DocsAside>
+
+```scss
+:host {
+  ::ng-deep {
+    @include tokens($my-dialog-theme);
+  }
+}
+```
+
+### Demostración
+
+<Sample src="/interactions/dialog-styling-sample" height={300} alt="" />
+
+<hr/>
+
+## Referencias de API
+<hr/>
+- <ApiLink type="Dialog" />
+- <ApiLink kind="sass" module="themes" type="function-dialog-theme" label="Estilos de IgxDialogComponent" />
+- <ApiLink kind="interface" type="OverlaySettings" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Estilos de IgxOverlay" />
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema de IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema de IgxOverlay" />
+
+## Recursos adicionales
+
+<hr/>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

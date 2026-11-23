@@ -1,0 +1,728 @@
+---
+title: "{Platform} {ComponentTitle} 열 데이터 유형 - {ProductName}"
+description: "{Platform}에서 셀 및 편집 템플릿을 다룰 때 미리 정의된 열 데이터 유형 중에서 선택하십시오. 숫자, 문자열, 날짜, 부울, 통화, 백분율 열이 있습니다."
+keywords: "열 데이터 유형, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridColumnTypes}"
+_language: ko
+llms:
+  description: "{Platform} {ComponentTitle}는 숫자, 문자열, 날짜, 부울, 통화, 백분율 열 데이터 유형을 기본적으로 처리하며, 이를 기준으로 기본 템플릿과 편집 템플릿의 모양이 결정됩니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 열 유형 개요
+
+{Platform} {ComponentTitle}는 **숫자**, **문자열**, **날짜**, **부울**, **통화**, **백분율** 열 데이터 유형을 기본적으로 처리하며, 이를 기준으로 기본 템플릿과 편집 템플릿의 모양이 결정됩니다.
+
+<ComponentBlock for="Grid, TreeGrid">
+## {Platform} {ComponentTitle} 열 유형 예제
+
+<Sample src="/{ComponentSample}/column-data-types" height={550} alt="{Platform} {ComponentTitle} 열 데이터 유형" />
+
+
+</ComponentBlock>
+
+## {Platform} {ComponentTitle} 기본 템플릿
+
+데이터 유형별 템플릿을 활성화하려면 열의 <ApiLink type="Column" member="dataType" /> 입력을 설정해야 합니다. 그렇지 않으면 열 <ApiLink type="Column" member="dataType" />의 기본값이 문자열이므로 문자열 열로 처리됩니다.
+
+다음 섹션에서는 각 <ApiLink type="Column" member="dataType" />의 기본 템플릿을 설명합니다.
+
+### 문자열
+
+이 열 <ApiLink type="Column" member="dataType" />은(는) 셀 값의 모양이나 형식을 바꾸지 않습니다.
+
+### Number
+
+<ApiLink type="Column" member="dataType" />이(가) **숫자**로 설정되면, 셀 값은 애플리케이션 또는 그리드의 <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" /> 설정과 <ApiLink type="Column" member="pipeArgs" /> 속성이 지정된 경우 그것을 기준으로 형식이 지정됩니다. 그러면 숫자 형식은 이들을 기준으로 바뀌며, 예를 들어 다음이 바뀔 수 있습니다:
+
+- 소수점 이하 자릿수
+- `,` 또는 `.`가 있는 소수점 구분 기호
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+  digitsInfo: '1.4-4',
+};
+public formatOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [pipeArgs]="formatOptions" [dataType]="'number'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Sales" DataType="GridColumnDataType.Number" PipeArgs=formatOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatOptions = new IgbColumnPipeArgs() { DigitsInfo = "1.4-4" };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" data-type="number">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatOptions(): any {
+  return {
+    digitsInfo: "1.4-4"
+  };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "1.4-4"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="number"></IgrColumn>
+```
+
+</PlatformBlock>
+
+### DateTime, Date 및 Time
+
+날짜 부분(예: 일, 월, 연도)의 모양은 <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" /> 형식 또는 <ApiLink type="Column" member="pipeArgs" /> 입력을 기준으로 설정됩니다. 파이프 인수를 사용하여 사용자 지정 날짜 형식이나 시간대를 지정할 수 있습니다:
+
+- **format** - 날짜 형식의 기본값은 `'mediumDate'`입니다. 다른 사용 가능한 옵션은 `'short'`, `'long'`, `'shortDate'`, `'fullDate'`, `'longTime'`, `'fullTime'` 등입니다.
+- **timezone** - 기본값은 사용자의 로컬 시스템 시간대입니다. 시간대 오프셋 또는 표준 GMT/UTC나 대륙별 미국 시간대 약어도 전달할 수 있습니다. 세계 어디에서든 해당 위치의 시간을 표시하는 다양한 시간대 예는 다음과 같습니다:
+
+<PlatformBlock for="Angular">
+```ts
+public formatDateOptions = {
+    /** The date/time components that a date column will display, using predefined options or a custom format string. */
+    /** e.g 'dd/mm/yyyy' or 'shortDate' **/
+    format: 'longDate',
+    /** A timezone offset (such as '+0430'), or a standard UTC/GMT or continental US timezone abbreviation. */
+    timezone: 'GMT'
+};
+public formatOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [pipeArgs]="formatDateOptions" [dataType]="'date'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="Date" DataType="GridColumnDataType.Date" PipeArgs=formatDateOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatDateOptions = new IgbColumnPipeArgs()
+    {
+        // The date/time components that a date column will display, using predefined options or a custom format string.
+        // e.g 'dd/mm/yyyy' or 'shortDate'
+        Format = "longDate",
+        /** A timezone offset (such as '+0430'), or a standard UTC/GMT or continental US timezone abbreviation.*/
+        Timezone = "GMT"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" data-type="date">
+</igc-column>
+```
+
+
+```ts
+public get formatDateOptions(): any {
+    return {
+        format: "long",
+        timezone: "UTC+0"
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatDateOptions;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    format: "long",
+    timezone: "UTC+0"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="date"></IgrColumn>
+
+```
+</PlatformBlock>
+
+사용 가능한 시간대:
+
+| 시간대                  | 값                     |
+|---------------------------| ------------------------- |
+| Alpha Time Zone           |'UTC+1'                    |
+| Australian Central Time   |'UTC+9:30/ +10:30'         |
+| Arabia Standard Time      |'UTC+3'                    |
+| Central Standard Time     |'UTC-6'                    |
+| China Standard Time       |'UTC+8'                    |
+| Delta Time Zone           |'UTC+4'                    |
+| Greenwich Mean Time       |'UTC+0'                    |
+| Gulf Standard Time        |'UTC+4'                    |
+| Hawaii Standard Time      |'UTC-10'                   |
+| India Standard Time       |'UTC+4'                    |
+
+
+`{ComponentName}`은(는) **Date 객체**, **숫자(밀리초)**, **ISO 날짜-시간 문자열** 형식의 날짜 값을 받습니다. 이 섹션에서는 [사용자 지정 표시 형식을 구성하는 방법](../data-grid.mdx#사용자-지정-표시-형식)을 보여 줍니다.
+
+샘플에서 볼 수 있듯이, 특정 열 유형에 사용할 수 있는 형식을 보여 주기 위해 서로 다른 형식 옵션을 지정했습니다. 예를 들어 아래에서 Date 객체의 **시간** 부분에 대한 형식 옵션을 찾을 수 있습니다:
+
+<PlatformBlock for="Angular, WebComponents">
+```ts
+// Time format with equivalent example
+public timeFormats = [
+    { format: 'shortTime', eq: 'h:mm a' },
+    { format: 'mediumTime', eq: 'h:mm:ss a' },
+    { format: 'longTime', eq: 'h:mm:ss a z' },
+    { format: 'fullTime', eq: 'h:mm:ss a zzzz' },
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+// Time format with equivalent example
+@code {
+    public Dictionary<string, string> timeFormats = new() {
+        { "shortTime", "h:mm a" },
+        { "mediumTime", "h:mm:ss a" },
+        { "longTime", "h:mm:ss a z" },
+        { "fullTime", "h:mm:ss a zzzz" },
+    };
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const timeFormats = [
+    { format: 'shortTime', eq: 'h:mm a' },
+    { format: 'mediumTime', eq: 'h:mm:ss a' },
+    { format: 'longTime', eq: 'h:mm:ss a z' },
+    { format: 'fullTime', eq: 'h:mm:ss a zzzz' },
+];
+```
+</PlatformBlock>
+
+#### 셀 편집
+
+열 유형에 따라 셀 편집을 할 때 서로 다른 편집기가 나타납니다:
+- `DateTime` - <ApiLink pkg="core" type="DatePicker" />가 사용됩니다. 이 편집기는 `DateTime` 객체의 일부인 입력 요소에 대한 마스크 안내를 제공합니다.
+- `Date` - <ApiLink pkg="core" type="DatePicker" />가 사용됩니다.
+- `Time` - <ApiLink pkg="core" type="DateTimeInput" />가 사용됩니다.
+
+#### 필터링
+
+빠른 필터링/Excel 스타일 필터링의 경우에도 위에 나열된 것과 같은 편집기가 사용됩니다. 각 유형이 노출하는 필터링 연산자는 다음과 같습니다:
+- `DateTime` 및 `Date` - 같음, 같지 않음, 이전, 이후, 오늘, 어제, 이번 달, 지난달, 다음 달, 올해, 작년, 내년, 비어 있음, 비어 있지 않음, Null, Null 아님;
+- `Time` - 일치, 일치하지 않음, 이전, 이후, 이전 또는 일치, 이후 또는 일치, 비어 있음, 비어 있지 않음, Null, Null 아님;
+
+#### 요약
+
+사용 가능한 요약 연산자는 **Count**, **Earliest**(날짜/시간) 및 **Latest**(날짜/시간)입니다.
+
+#### 정렬
+
+- `Time`: 열은 객체의 시간 부분을 기준으로 정렬되며, 밀리초는 무시됩니다.
+- `Date`: 열은 날짜 부분을 기준으로 정렬되며, 시간 부분은 무시됩니다.
+- `DateTime`: 열은 전체 날짜를 기준으로 정렬됩니다.
+
+### 불리언
+
+기본 템플릿은 불리언 값을 시각화하기 위해 Material 아이콘을 사용합니다. **false** 값에는 'clear' 아이콘을, **true** 값에는 'check' 아이콘을 사용합니다. 편집 템플릿은 <ApiLink pkg="core" type="Checkbox" /> 컴포넌트를 사용합니다.
+
+<PlatformBlock for="Angular">
+```html
+<igx-column [dataType]="'boolean'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn DataType="GridColumnDataType.Boolean"></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column data-type="boolean">
+</igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn dataType="boolean"></IgrColumn>
+```
+</PlatformBlock>
+
+### 이미지
+
+기본 템플릿은 데이터에서 가져온 값을 기본 이미지 템플릿의 이미지 소스로 사용합니다. 기본 이미지 템플릿은 이미지 파일의 이름을 추출하여 접근성 요구 사항을 충족하도록 이미지의 `alt` 속성으로 설정합니다. 표시되는 셀 크기는 렌더링되는 이미지의 크기에 맞게 조정되므로, 큰 이미지도 여전히 렌더링되며 그리드 행은 이미지 열의 이미지만큼 커진다는 점을 기억하십시오. 이미지 유형 열에서는 필터링, 정렬, 그룹화가 기본적으로 꺼져 있습니다. 이들을 활성화하려면 데이터 작업을 수행하는 사용자 지정 전략을 제공해야 합니다.
+
+<PlatformBlock for="Angular">
+```html
+<igx-grid>
+    <igx-column [dataType]="'image'">
+    </igx-column>
+<igx-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn DataType="GridColumnDataType.Image"></IgbColumn>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column field="Image" data-type="image">
+</igc-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrColumn field="Image" dataType="image"></IgrColumn>
+```
+</PlatformBlock>
+
+`AutoGenerate`를 사용하는 열의 경우, 그리드는 첫 번째 데이터 레코드의 값을 분석합니다. 값이 문자열 형식이고 이미지 확장자(gif, jpg, jpeg, tiff, png, webp, bmp)로 끝나는 URL 패턴과 일치하면, 해당 열은 자동으로 `dataType === GridColumnDataType.Image`로 표시되고 기본 이미지 템플릿이 렌더링됩니다.
+
+### 통화
+
+#### 기본 템플릿
+
+<PlatformBlock for="Angular">
+기본 템플릿은 통화 기호가 앞 또는 뒤에 붙은 숫자 값을 표시합니다. 통화 기호 위치와 숫자 값 서식은 지정된 애플리케이션 [LOCALE_ID](https://angular.io/api/core/LOCALE_ID) 또는 {ComponentTitle} <ApiLink pkg="core" type="DatePicker" member="locale" label="Locale" />를 기준으로 합니다.
+
+**LOCALE_ID 사용하기**
+
+```ts
+import { LOCALE_ID } from '@angular/core';
+// ...
+
+@Component({
+    selector: 'app-component.sample',
+    templateUrl: 'grid-component.sample.html',
+    providers: [{provide: LOCALE_ID, useValue: 'fr-FR' }]
+})
+```
+
+**그리드의 locale 사용하기**
+
+```html
+<{ComponentSelector} [locale]="'fr-FR'" [data]="data">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents, React">
+기본 템플릿은 앞 또는 뒤에 붙는 통화 기호와 함께 숫자 값을 표시합니다.
+
+</PlatformBlock>
+
+<ApiLink type="Column" member="pipeArgs" /> 입력을 사용하면 최종 사용자는 **소수점**, **currencyCode**, **display**를 기준으로 숫자 형식을 사용자 지정할 수 있습니다.
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+  digitsInfo: '3.4-4',
+  display: 'symbol-narrow'
+};
+public formatOptions = this.options;
+```
+
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatOptions"
+    [dataType]="'currency'">
+</igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="UnitsInStock" DataType="GridColumnDataType.Currency" PipeArgs=formatOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatOptions = new IgbColumnPipeArgs()
+    {
+        DigitsInfo = "3.4-4",
+        Display = "symbol-narrow"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" field="UnitsInStock" data-type="currency">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatOptions(): any {
+    return {
+        digitsInfo: '3.4-4',
+        display: 'symbol-narrow'
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "1.4-4",
+    display: "symbol-narrow"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="currency" field="UnitsInStock"></IgrColumn>
+```
+
+</PlatformBlock>
+
+| 매개변수                 | 설명                                                |
+|---------------------------| -------------------------|
+| digitsInfo                | 통화 값의 소수 표현을 나타냅니다        |
+| display*                  | 좁은 기호 또는 넓은 기호로 값을 표시합니다                |
+
+<PlatformBlock for="Angular">
+| currencyCode              | ISO 4217 통화 코드                                     |
+</PlatformBlock>
+
+*display - 기본 en-US locale에서 USD 코드는 좁은 기호 $ 또는 넓은 기호 US$로 표현할 수 있습니다.
+
+<ComponentBlock for="Grid">
+셀 값을 편집할 때 **통화 기호**가 접미사 또는 접두사로 보입니다. 이에 대한 자세한 내용은 공식 [셀 편집 주제](cell-editing.mdx#{PlatformLower}-grid-셀-편집-및-편집-템플릿-예제)에서 찾을 수 있습니다.
+</ComponentBlock>
+
+> <kbd>↑</kbd> + <kbd>↓</kbd> 화살표 키를 사용하면, digitsInfo - minFractionDigits(소수점 이하 최소 자릿수. 기본값은 0)를 기준으로 한 단계씩 값이 증가/감소합니다.
+
+
+### 백분율
+
+기본 템플릿은 기본 숫자 값에 해당하는 백분율을 표시합니다. 표시되는 셀 값은 표시 계수 '100'을 곱한 결과입니다. 예를 들어 기본 계수가 100이고 셀에 전달된 "값"이 0.123이면, 표시되는 셀 값은 "12.3%"가 됩니다.
+
+셀 편집의 경우 값은 데이터 소스 값과 같으며 표시 계수는 '1'입니다. 셀을 편집하는 동안에는 백분율 값의 미리 보기가 접미사 요소로 표시됩니다. 예를 들어 '0.0547'을 편집하는 동안 미리 보기 요소에는 '5.47%'가 표시됩니다.
+
+<PlatformBlock for="Angular">
+```ts
+public options = {
+    /**
+    * Decimal representation options, specified by a string in the following format:
+    * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+    * `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+    * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+    * `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+    */
+    digitsInfo: '2.2-3'
+};
+public formatPercentOptions = this.options;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```html
+<igx-column field="UnitsInStock"
+    [pipeArgs]="formatPercentOptions"
+    [dataType]="'percent'">
+</igx-column>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbColumn Field="UnitsInStock" DataType="GridColumnDataType.Percent" PipeArgs=formatPercentOptions></IgbColumn>
+
+@code {
+    private IgbColumnPipeArgs formatPercentOptions = new IgbColumnPipeArgs()
+    {
+        /**
+        *Decimal representation options, specified by a string in the following format:
+        * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+        *`minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+        * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+        *`maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+        */
+        DigitsInfo = "2.2-3"
+    };
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="column" field="UnitsInStock" data-type="percent">
+</igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+public get formatPercentOptions(): any {
+    return {
+        /**
+        * Decimal representation options, specified by a string in the following format:
+        * `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+        * `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+        * `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+        * `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+        */
+        digitsInfo: '2.2-3'
+    };
+}
+
+constructor() {
+    var column = document.getElementById('column') as IgcColumnComponent;
+    column.pipeArgs = this.formatPercentOptions;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+/**
+- Decimal representation options, specified by a string in the following format:
+- `{minIntegerDigits}`.`{minFractionDigits}`-`{maxFractionDigits}`.
+- `minIntegerDigits`: The minimum number of integer digits before the decimal point. Default is 1.
+- `minFractionDigits`: The minimum number of digits after the decimal point. Default is 0.
+- `maxFractionDigits`: The maximum number of digits after the decimal point. Default is 3.
+*/
+const formatOptions : IgrColumnPipeArgs = {
+    digitsInfo: "2.2-3"
+};
+
+<IgrColumn pipeArgs={formatOptions} dataType="percent"></IgrColumn>
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+<kbd>↑</kbd> + <kbd>↓</kbd> 화살표 키를 사용하면, digitsInfo - minFractionDigits(소수점 이하 최소 자릿수. 기본값은 0)를 기준으로 한 단계씩 값이 증가/감소합니다.
+</DocsAside>
+
+## 기본 편집 템플릿
+
+[{ComponentTitle} 편집 주제](editing.mdx#편집-템플릿)의 편집 템플릿 부분을 참조하십시오
+
+## 사용자 지정 편집 템플릿 및 포맷터
+
+사용자 지정 템플릿과 열 포매터 정의는 설정된 열 데이터 유형보다 항상 우선합니다:
+
+### 사용자 지정 템플릿
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} #grid1 [data]="data | async" [autoGenerate]="false">
+    <igx-column [field]="'UnitsInStock'" [dataType]="'currency'" [pipeArgs]="formatOptions" [editable]="true">
+        <ng-template igxCellEditor let-value>
+            {{ value | currency:'USD':'symbol':'1.0-0'}}
+        </ng-template>
+    </igx-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false">
+    <igc-column id="UnitsInStock" field="UnitsInStock" data-type="currency" editable="true">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var unitsInStock = document.getElementById('UnitsInStock') as IgcColumnComponent;
+    unitsInStock.inlineEditorTemplate = this.editCellTemplate;
+}
+
+public editCellTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`<input>`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const editCellTemplate = (ctx: IgrCellTemplateContext) => {
+    return (
+        <>
+            <input />
+        </>
+    );
+}
+
+<{ComponentSelector} autoGenerate={false}>
+    <IgrColumn inlineEditorTemplate={editCellTemplate}></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+ <IgbColumn InlineEditorTemplate="EditTemplate"></IgbColumn>
+</{ComponentSelector}>
+@code {
+    public RenderFragment<IgbCellTemplateContext> EditTemplate = (ctx) =>
+    {
+        var value = ctx.Cell.Value;
+        return@<input value="@value" />;
+    };
+}
+```
+</PlatformBlock>
+
+### 열 포맷터
+
+<PlatformBlock for="WebComponents">
+```html
+<{ComponentSelector} id="grid1" auto-generate="false">
+    <igc-column id="UnitsInStock" field="UnitsInStock" data-type="currency">
+    </igc-column>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var unitsInStock = this.unitsInStock = document.getElementById('UnitsInStock') as IgcColumnComponent;
+    unitsInStock.formatter = this.formatCurrency;
+}
+
+public formatCurrency(value: number) {
+    return `$ ${value.toFixed(0)}`;
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+const formatCurrency = (value: number) => {
+    return `$ ${value.toFixed(0)}`;
+}
+
+<{ComponentSelector} autoGenerate={false}>
+    <IgrColumn formatter={formatCurrency} field="UnitsInStock"></IgrColumn>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<{ComponentSelector}>
+ <IgbColumn FormatterScript="CurrencyFormatter"></IgbColumn>
+</{ComponentSelector}>
+
+```
+
+```javascript
+//In Javascript
+igRegisterScript("CurrencyFormatter", (value) => {
+    return `$ ${value.toFixed(0)}`;
+}, false);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+```ts
+ // Through column formatter property
+public formatCurrency(value: number) {
+    return `Dollar sign ${value.toFixed(0)}`;
+}
+
+public init(column: IgxColumnComponent) {
+    switch (column.field) {
+        case 'UnitsInStock':
+            column.formatter = this.formatCurrency;
+            break;
+        default:
+            return;
+}
+
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+## 추가 리소스
+
+- 사용자 지정 템플릿에 대해서는 [셀 편집 주제](cell-editing.mdx#셀-편집-템플릿)를 참조하십시오
+- [편집](editing.mdx)
+- [요약](summaries.mdx)

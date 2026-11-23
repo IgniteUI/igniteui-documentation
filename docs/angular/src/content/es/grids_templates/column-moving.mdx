@@ -1,0 +1,282 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Reordenar y mover columnas en Angular Data Grid | Infragistics"
+description: "Defina un orden de columnas personalizado y habilite la reordenación de columnas mediante arrastrar y soltar con el ratón o gestos táctiles, o usando la API de movimiento de columnas de Angular. ¡Pruebe Ignite UI for Angular!"
+keywords: "orden de columnas, igniteui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular incluye la función de movimiento de columnas, que permite reordenarlas mediante gestos estándar de arrastrar y soltar con el ratón o táctiles, o usando la API de movimiento de columnas."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Reordenar y mover columnas en Angular Tree Grid | Infragistics"
+description: "Defina un orden de columnas personalizado y habilite la reordenación de columnas mediante arrastrar y soltar con el ratón o gestos táctiles, o usando la API de movimiento de columnas de Angular. ¡Pruebe Ignite UI for Angular!"
+keywords: "orden de columnas, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-moving
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular incluye la función de movimiento de columnas, que permite reordenarlas mediante gestos estándar de arrastrar y soltar con el ratón o táctiles, o usando la API de movimiento de columnas."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Reordenar y mover columnas en Angular Hierarchical Grid | Infragistics"
+description: "Defina un orden de columnas personalizado y habilite la reordenación de columnas mediante arrastrar y soltar con el ratón o gestos táctiles, o usando la API de movimiento de columnas de Angular. ¡Pruebe Ignite UI for Angular!"
+keywords: "orden de columnas, igniteui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/column-moving
+_language: es
+llms:
+  description: "El componente {ComponentTitle} de Ignite UI for Angular incluye la función de movimiento de columnas, que permite reordenarlas mediante gestos estándar de arrastrar y soltar con el ratón o táctiles, o usando la API de movimiento de columnas."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Reordenar y mover columnas de {ComponentTitle} en Angular
+
+El componente {ComponentTitle} de Ignite UI for Angular incluye la función **Column Moving**, que permite reordenar columnas mediante gestos estándar de arrastrar y soltar con el ratón o táctiles, o usando la API de movimiento de columnas. El movimiento de columnas funciona tanto con columnas ancladas como no ancladas, y con encabezados de varias columnas. Mover una columna al área anclada la ancla, y viceversa: mover una columna fuera del área anclada la desancla.
+
+<DocsAside type="info">
+La reordenación entre columnas y grupos de columnas solo se permite cuando están en el mismo nivel de la jerarquía y ambos pertenecen al mismo grupo. El movimiento se permite entre columnas o grupos de columnas si son columnas de nivel superior.
+</DocsAside>
+
+<DocsAside type="info">
+Si un encabezado de columna tiene plantilla y el movimiento de columnas está habilitado, o la columna correspondiente se puede agrupar, los elementos con plantilla deben tener el atributo **draggable** establecido en **false**. Esto permite asociar controladores a cualquier evento emitido por el elemento; de lo contrario, el evento lo consume la directiva `igxDrag`.
+</DocsAside>
+
+<DocsAside type="info">
+Si el área anclada supera su anchura máxima permitida (80 % del ancho total de {ComponentTitle}), una pista visual notifica al usuario final que la operación de soltar está prohibida y que no es posible anclar. Esto significa que no se le permitirá soltar una columna en el área anclada.
+</DocsAside>
+
+```html
+<ng-template igxHeader>
+    <igx-icon [attr.draggable]="false" (click)="onClick()"></igx-icon>
+</ng-template>
+```
+
+## Ejemplo de descripción general del movimiento de columnas de {ComponentTitle} en Angular
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-moving-sample" height={650} alt="Ejemplo de descripción general del movimiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-column-moving" height={650} alt="Ejemplo de descripción general del movimiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-moving" height={660} alt="Ejemplo de descripción general del movimiento de columnas de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+
+## Descripción general
+
+La función de **movimiento de columnas** se habilita por grid, lo que significa que <ApiLink type="{ComponentApiType}" /> puede tener columnas móviles o fijas. Esto se hace mediante la entrada <ApiLink type="Grid" member="moving" label="moving" /> de <ApiLink type="Grid" label="igx-grid" />.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid [moving]="true"></igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid [moving]="true"></igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid [moving]="true">
+    ...
+    <igx-row-island [moving]="true"></igx-row-island>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+## API
+
+Además de la funcionalidad de arrastrar y soltar, la función de movimiento de columnas también ofrece dos métodos de la API para mover una columna o reordenar columnas mediante programación:
+
+<ApiLink type="Grid" member="moveColumn" label="moveColumn" />: mueve una columna antes o después de otra columna (el destino). El primer parámetro es la columna que se va a mover, y el segundo es la columna de destino. También acepta un tercer parámetro opcional `position` (que representa un valor de <ApiLink type="DropPosition" kind="enum" />), que determina si la columna se coloca antes o después de la columna de destino.
+
+```typescript
+// Move the ID column after the Name column
+const idColumn = grid.getColumnByName("ID");
+const nameColumn = grid.getColumnByName("Name");
+
+grid.moveColumn(idColumn, nameColumn, DropPosition.AfterDropTarget);
+```
+
+<ApiLink type="Column" member="move" label="move" />: mueve una columna a un índice visible especificado. Si el parámetro de índice pasado no es válido (es negativo o supera el número de columnas), o si la columna no puede moverse a ese índice (si está dentro de otro grupo), no se realiza ninguna operación.
+
+```typescript
+// Move the ID column at 3rd position.
+const idColumn = grid.getColumnByName("ID");
+idColumn.move(3);
+```
+
+Tenga en cuenta que, al usar la API, solo se emitirá el evento <ApiLink type="{ComponentApiType}" member="columnMovingEnd" label="columnMovingEnd" /> si la operación se realiza correctamente. Además, tenga en cuenta que, a diferencia de la funcionalidad de arrastrar y soltar, usar la API no requiere establecer la propiedad `moving` en true.
+
+## Eventos
+
+Hay varios eventos relacionados con el movimiento de columnas que permiten engancharse a las operaciones de arrastrar y soltar de las columnas. Son <ApiLink type="{ComponentApiType}" member="columnMovingStart" label="columnMovingStart" />, <ApiLink type="{ComponentApiType}" member="columnMoving" label="columnMoving" /> y <ApiLink type="{ComponentApiType}" member="columnMovingEnd" label="columnMovingEnd" />.
+Puede suscribirse al evento <ApiLink type="{ComponentApiType}" member="columnMovingEnd" label="columnMovingEnd" /> de <ApiLink type="{ComponentApiType}" /> para implementar una lógica personalizada cuando una columna se suelta en una nueva posición. Por ejemplo, puede cancelar que Category se suelte después de la columna Change On Year(%).
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #dataGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
+    <igx-column [field]="'Category'"></igx-column>
+    <igx-column [field]="'Change On Year(%)'" [dataType]="'number'" ></igx-column>
+</igx-grid>
+```
+
+```typescript
+public onColumnMovingEnd(event) {
+    if (event.source.field === "Category" && event.target.field === "Change On Year(%)") {
+        event.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" primaryKey="ID" foreignKey="ParentID" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
+    <igx-column [field]="'Name'" dataType="string" width="250px"></igx-column>
+    <igx-column [field]="'Title'" dataType="string" width="250px"></igx-column>
+</igx-tree-grid>
+```
+
+```typescript
+public onColumnMovingEnd(event) {
+    if (event.source.field === "Name" && event.target.field === "Title") {
+        event.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [data]="data" [autoGenerate]="false" [moving]="true" (columnMovingEnd)="onColumnMovingEnd($event)">
+    <igx-column [field]="'Country'"></igx-column>
+    <igx-column [field]="'Phone'" [dataType]="'number'"></igx-column>
+</igx-hierarchical-grid>
+```
+
+```typescript
+public onColumnMovingEnd(event) {
+    if (event.source.field === "Phone" && event.target.field === "Country") {
+        event.cancel = true;
+    }
+}
+```
+
+</ComponentBlock>
+
+## Estilos
+
+Para empezar a dar estilo a los encabezados de movimiento de columnas de {ComponentTitle}, debemos importar el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> y acepta los parámetros `$ghost-header-background`, `$ghost-header-text-color` y `$ghost-header-icon-color`.
+
+```scss
+// Define dark theme for the column moving
+$dark-grid-column-moving-theme: grid-theme(
+  $ghost-header-text-color: #f4d45c,
+  $ghost-header-background: #575757,
+  $ghost-header-icon-color: #f4bb5c
+);
+```
+
+<DocsAside type="info">
+En lugar de codificar los valores de color como acabamos de hacer, podemos lograr más flexibilidad con los colores usando las funciones <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> y <ApiLink kind="sass" module="palettes" type="function-color" label="color" code={true} />. Consulte el tema [`Palettes`](/themes/sass/palettes) para obtener orientación detallada sobre cómo usarlas.
+</DocsAside>
+
+El último paso es aplicar el tema del componente con `tokens()`:
+
+```scss
+:host {
+  @include tokens($dark-grid-column-moving-theme);
+}
+```
+
+### Demostración
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-moving-styled-sample" height={650} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-column-moving-styled" height={650} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-moving-styled" height={660} alt="" />
+
+</ComponentBlock>
+
+<DocsAside type="info">
+El ejemplo no se verá afectado por el tema global seleccionado en `Change Theme`.
+</DocsAside>
+
+## Referencias de API
+- <ApiLink type="Column" label="ColumnComponent" />
+- <ApiLink type="{ComponentApiType}" />
+## Recursos adicionales
+
+
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Paginación](/{igPath}/paging)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+- [Búsqueda](/{igPath}/search)
+</ComponentBlock>
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

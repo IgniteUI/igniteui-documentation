@@ -1,0 +1,189 @@
+---
+title: "Biblioteca Excel de {Platform} | Usando tabelas | Infragistics"
+description: "Use a funcionalidade de tabela da biblioteca Excel {Platform} da Infragistics para formatar os seus dados em linhas e colunas. Veja os tutoriais de Excel de {ProductName} para mais informações!"
+keywords: "Biblioteca Excel, tabelas, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "WorksheetTable", "Worksheet", "SortSettings"]
+_language: pt-BR
+llms:
+  description: "A funcionalidade WorksheetTable do Excel Engine {Platform} da Infragistics permite formatar os seus dados em linhas e colunas. Os dados de uma tabela de planilha podem ser gerenciados de forma independente dos dados das demais linhas e colunas de uma planilha."
+platformType: xplat-unmapped
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Usando tabelas
+
+A funcionalidade <ApiLink type="WorksheetTable" /> do Excel Engine {Platform} da Infragistics permite formatar os seus dados em linhas e colunas. Os dados de uma tabela de planilha podem ser gerenciados de forma independente dos dados das demais linhas e colunas de uma <ApiLink type="Worksheet" />.
+{/*## {Platform} Using Tables Example
+
+
+<Sample src="/excel/excel-library/working-with-tables" height={500} alt="{Platform} Using Tables Example" />
+
+
+
+*/}
+
+
+
+## Adicionando uma tabela a uma planilha
+As tabelas de planilha no Excel Engine {Platform} da Infragistics são representadas pelo objeto <ApiLink type="WorksheetTable" /> e são adicionadas à coleção <ApiLink type="Worksheet" member="tables" label="Tables" /> da planilha. Para adicionar uma tabela, você precisa invocar o método `Add` dessa coleção. Nesse método, você pode especificar a região em que deseja adicionar uma tabela, se a tabela deve conter cabeçalhos e, opcionalmente, especificar o estilo da tabela como um objeto <ApiLink type="WorksheetTableStyle" />.
+
+O código a seguir demonstra como adicionar uma tabela com cabeçalhos a uma <ApiLink type="Worksheet" /> que abrange uma região de A1 a G10, em que A1 a G1 serão os cabeçalhos das colunas:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = this.workbook.worksheets().add("Sheet1");
+
+worksheet.tables().add("A1:G10", true);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+
+worksheet.Tables.Add("A1:G10", true);
+```
+
+</PlatformBlock>
+
+Depois de adicionar uma tabela, você pode modificá-la incluindo ou excluindo linhas e colunas, chamando os métodos <ApiLink type="WorksheetTable" member="insertColumns" label="InsertColumns" />, <ApiLink type="WorksheetTable" member="insertDataRows" label="InsertDataRows" />, <ApiLink type="WorksheetTable" member="deleteColumns" label="DeleteColumns" /> ou <ApiLink type="WorksheetTable" member="deleteDataRows" label="DeleteDataRows" /> do <ApiLink type="WorksheetTable" />. Você também pode definir um novo intervalo de tabela usando o método <ApiLink type="WorksheetTable" member="resize" label="Resize" /> da tabela.
+
+O trecho de código a seguir mostra o uso desses métodos:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+//Will add 5 columns at index 1.
+table.insertColumns(1, 5);
+
+//Will add 5 rows at index 0.
+table.insertDataRows(0, 5);
+
+//Will delete 5 columns starting at index 1.
+table.deleteColumns(1, 5);
+
+//Will delete 5 rows starting at index 0.
+table.deleteDataRows(0, 5);
+
+//Will resize the table to be in the region of A1:G15.
+table.resize("A1:G15");
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+//Will add 5 columns at index 1.
+table.InsertColumns(1, 5);
+
+//Will add 5 rows at index 0.
+table.InsertDataRows(0, 5);
+
+//Will delete 5 columns starting at index 1.
+table.DeleteColumns(1, 5);
+
+//Will delete 5 rows starting at index 0.
+table.DeleteDataRows(0, 5);
+
+//Will resize the table to be in the region of A1:G15.
+table.Resize("A1:G15");
+```
+
+</PlatformBlock>
+
+## Filtrando tabelas
+A filtragem é feita aplicando um filtro a uma coluna da <ApiLink type="WorksheetTable" />. Quando o filtro é aplicado a uma coluna, todos os filtros da tabela são reavaliados para determinar quais linhas atendem aos critérios de todos os filtros aplicados.
+
+Se os dados da tabela forem alterados posteriormente, ou se você alterar a propriedade `Hidden` das linhas, as condições de filtro não serão reavaliadas automaticamente. As condições de filtro de uma tabela só são reaplicadas quando filtros de coluna são adicionados, removidos ou modificados, ou quando o método <ApiLink type="WorksheetTable" member="reapplyFilters" label="ReapplyFilters" /> é chamado na tabela.
+
+Os tipos de filtro disponíveis para as colunas da sua <ApiLink type="WorksheetTable" /> são os seguintes:
+
+- <ApiLink type="AverageFilter" /> - as células podem ser filtradas de acordo com estarem acima ou abaixo do valor médio de todas as células da coluna.
+- <ApiLink type="CustomFilter" /> - as células podem ser filtradas com base em uma ou mais condições personalizadas.
+- <ApiLink type="DatePeriodFilter" /> - somente as células com datas em um mês ou trimestre específico de qualquer ano serão exibidas.
+- <ApiLink type="FillFilter" /> - somente as células com um preenchimento específico serão exibidas.
+- <ApiLink type="FixedValuesFilter" /> - as células que correspondem apenas a valores de exibição específicos, ou que estão dentro de um grupo específico de datas/horas, serão exibidas.
+- <ApiLink type="FontColorFilter" /> - somente as células com uma cor de fonte específica serão exibidas.
+- <ApiLink type="RelativeDateRangeFilter" /> - as células com valores de data podem ser filtradas de acordo com ocorrerem dentro de um intervalo de tempo relativo à data em que o filtro foi aplicado, como o dia seguinte ou o trimestre anterior.
+- <ApiLink type="TopOrBottomFilter" /> - este filtro permite filtrar os N valores superiores ou inferiores. Também permite filtrar os N% valores superiores ou inferiores.
+- <ApiLink type="YearToDateFilter" /> - as células com valores de data podem ser filtradas se ocorrerem entre o início do ano e a data em que o filtro foi aplicado.
+
+O trecho de código a seguir demonstra como aplicar um filtro "acima da média" à primeira coluna de uma <ApiLink type="WorksheetTable" />:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+table.columns(0).applyAverageFilter(AverageFilterType.AboveAverage);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+table.Columns[0].ApplyAverageFilter(Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+```
+
+</PlatformBlock>
+
+## Ordenando tabelas
+A ordenação é feita definindo uma condição de classificação em uma coluna da tabela. Quando uma condição de classificação é definida em uma coluna, todas as condições de classificação da tabela são reavaliadas para determinar a ordem das células da tabela. Quando as células precisam ser movidas para atender aos critérios de classificação, a linha inteira de células da tabela é movida como uma unidade.
+
+Se os dados da tabela forem alterados posteriormente, as condições de classificação não serão reavaliadas automaticamente. As condições de classificação de uma tabela só são reaplicadas quando condições de classificação são adicionadas, removidas ou modificadas, ou quando o método <ApiLink type="WorksheetTable" member="reapplySortConditions" label="ReapplySortConditions" /> é chamado na tabela. Quando as condições de classificação são reavaliadas, somente as células visíveis são ordenadas. Todas as células de linhas ocultas são mantidas no lugar.
+
+Além de acessar as condições de classificação pelas colunas da tabela, elas também ficam expostas na coleção <ApiLink type="SortSettings" member="sortConditions" label="SortConditions" /> da propriedade SortSettings do <ApiLink type="WorksheetTable" />. Essa é uma coleção ordenada de pares coluna/condição de classificação. A ordem dessa coleção é a precedência da classificação.
+
+Os seguintes tipos de condição de classificação podem ser definidos nas colunas:
+
+- <ApiLink type="OrderedSortCondition" /> - ordena as células em ordem crescente ou decrescente, com base no seu valor.
+- <ApiLink type="CustomListSortCondition" /> - ordena as células em uma ordem definida, com base no seu texto ou valor de exibição. Por exemplo, isso pode ser útil para ordenar os dias da semana como aparecem em um calendário, e não em ordem alfabética.
+- <ApiLink type="FillSortCondition" /> - ordena as células com base em seu preenchimento ser um padrão ou gradiente específico.
+- <ApiLink type="FontColorSortCondition" /> - ordena as células com base em sua fonte ser de uma cor específica.
+
+Há também uma propriedade <ApiLink type="SortSettings" member="caseSensitive" label="CaseSensitive" /> no SortSettings do <ApiLink type="WorksheetTable" /> que determina se as strings devem ser ordenadas com diferenciação entre maiúsculas e minúsculas ou não.
+
+O trecho de código a seguir demonstra como aplicar um <ApiLink type="OrderedSortCondition" /> a um <ApiLink type="WorksheetTable" />:
+
+```ts
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = this.workbook.worksheets().add("Sheet1");
+var table = worksheet.tables().add("A1:G10", true);
+
+table.columns(0).sortCondition = new OrderedSortCondition(SortDirection.Ascending);
+
+//Alternative:
+table.sortSettings.sortConditions().addItem(table.columns(0), new OrderedSortCondition(SortDirection.Ascending));
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook(WorkbookFormat.Excel2007);
+var worksheet = workbook.Worksheets.Add("Sheet1");
+var table = worksheet.Tables.Add("A1:G10", true);
+
+table.Columns[0].SortCondition = new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending);
+
+//Alternative
+table.SortSettings.SortConditions.Add(table.Columns[0], new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Documents.Excel.Sorting.SortDirection.Ascending));
+```
+
+</PlatformBlock>
+
+
+## Referências da API
+<ApiLink type="WorksheetTableStyle" />
+<ApiLink type="WorksheetTable" />

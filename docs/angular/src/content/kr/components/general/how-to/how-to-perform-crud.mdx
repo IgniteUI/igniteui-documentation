@@ -1,0 +1,263 @@
+---
+title: "Angular에서 CRUD 작업을 활성화하는 방법입니다."
+description: "Angular Crud란 무엇입니까? Angular에서 CRUD 서비스를 만들고, 이를 사용해 그리드 데이터로 CRUD 작업을 수행하는 방법은 무엇입니까? 여기에서 자세히 알아보십시오."
+_language: ko
+llms:
+  description: "CRUD는 데이터 컬렉션에 대해 수행할 수 있는 CREATE, READ, UPDATE, DELETE 작업을 나타내는 컴퓨터 프로그래밍의 약어입니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# CRUD란 무엇입니까
+
+CRUD는 데이터 컬렉션에 대해 수행할 수 있는 CREATE, READ, UPDATE, DELETE 작업을 나타내는 컴퓨터 프로그래밍의 약어입니다. 컴퓨터 세계에서 CRUD 애플리케이션을 이야기할 때, 이는 사용자에게 읽기 전용 데이터를 제공하는 애플리케이션과의 주요 차이점입니다.
+
+## Angular CRUD
+
+Angular CRUD, 즉 Angular의 CRUD 작업을 이야기할 때는 데이터 저장소가 원격 서버에 있다는 점을 짚어 두는 것이 중요합니다. Angular 애플리케이션은 데이터 계층에 직접 접근할 수 없으므로, CRUD 작업용 엔드포인트를 제공하는 Web API를 통해 통신해야 합니다. 예를 들면 다음과 같습니다:
+
+| API                   | 작업                               | HTTP 메서드 |
+| :-------------------- | :-------------------------------------- | :----------- |
+| "api/entities"        | 모든 엔터티 READ                       | GET          |
+| "api/entities/id"     | 해당 id의 엔터티 READ   | GET          |
+| "api/entities/update" | 해당 id의 엔터티 UPDATE | PUT / PATCH  |
+| "api/entities/create" | 새 엔터티 CREATE                     | POST         |
+| "api/entities/delete" | 해당 id의 엔터티 DELETE | DELETE       |
+
+CRUD 작업은 API와 HTTP로 통신하는 데 사용되는 HTTP 메서드와 개념적으로 대응한다는 점에 유의하십시오.
+
+위에서 언급한 API와 함께 동작하는 전체 코드는 Angular 서비스로 추상화할 수 있습니다. 이러한 서비스는 주입 가능하며, 같은 데이터베이스에 대해 CRUD 작업을 수행해야 하는 모든 컴포넌트에서 재사용할 수 있습니다. 좋은 방법은 이러한 서비스를 가능한 한 일반적으로 작성하여, 여러 컴포넌트와 서로 다른 서버에서도 재사용할 수 있도록 하는 것입니다.
+
+이러한 서비스의 일반적인 예는 다음과 같습니다:
+
+
+```typescript
+@Injectable()
+export class CRUDService {
+  /** See https://angular.io/api/common/http/HttpClient */
+  constructor(private http: HttpClient) { }
+
+  /** Gets all entities from server */
+  public getData() {
+      return this.http.get(`${this.serverURL}\api\entities`);
+  }
+
+  /** Gets entity with corresponding id */
+  public getRecord(id) {
+      return this.http.get(`${this.serverURL}\api\entities\${id}`);
+  }
+
+  /** Creates entity from body */
+  public add(entity) {
+      return this.http.post(`${this.serverURL}\api\entities\create`, entity);
+  }
+
+  /* Updates entity with data from body */
+  public update(entity) {
+      return this.http.put(`${this.serverURL}\api\entities\update`, entity);
+  }
+
+  /** Deletes the corresponding entity */
+  public delete(entity) {
+      return this.http.delete(`${this.serverURL}\api\entities\delete`, entity);
+  }
+}
+```
+
+위 서비스에 없는 것은 필터링, 정렬, 페이징 등의 구성입니다. 엔드포인트의 정확한 API 구현에 따라, 서버 요청에는 필터링, 정렬, 페이징을 처리하기 위한 선택적 매개변수가 필요할 수 있습니다. 코드 예제와 함께 데모를 보려면 [원격 데이터 작업](../../grid/remote-data-operations.mdx)을 참조하십시오.
+
+더 많은 예제와 안내는 공식 Angular 문서의 [HTTP 서비스](https://angular.io/tutorial/toh-pt6) 튜토리얼을 참조하십시오.
+
+
+## 그리드와 함께하는 CRUD 작업
+
+그리드에서 CRUD를 활성화한다는 것은 사용자가 그리드 안에서 이러한 CRUD 작업을 수행할 수 있도록 UI를 제공한다는 뜻입니다. 이는 매우 쉽습니다. 그리드는 [**셀 편집**](/grid/cell-editing), [**행 편집**](/grid/row-editing), [**행 추가**](/grid/row-adding), **행 삭제** UI를 기본으로 제공하며, 이를 직접 구현할 수 있는 강력한 API도 제공합니다. 다음으로, 각 편집 작업의 결과를 가져와 CRUD 서비스의 해당 메서드에 전달하여 원래 데이터베이스에 모든 변경 사항을 보존하겠습니다. 이를 마치면 그리드가 CRUD를 지원한다고 말할 수 있습니다.
+
+
+이 섹션은 그리드에서 CRUD 작업을 활성화하는 방법을 설명하는 HOW-TO 튜토리얼로 작성되었으며, 여러분의 코드에 복사해서 붙여 넣을 수 있는 코드 스니펫이 함께 제공됩니다.
+
+
+## 방법
+
+먼저 rowEditing 동작을 활성화하고, 편집 작업에 필요한 UI를 `IgxActionStrip`을(를) 활용하여 가져오며([`IgxActionStrip`](/action-strip)에 대한 자세한 내용은 해당 항목을 참조하십시오), 이벤트 핸들러를 연결하겠습니다:
+
+```html
+<igx-grid 
+    primaryKey="ID"
+    [rowEditable]="true"
+    (rowAdded)="rowAdded($event)"
+    (rowDeleted)="rowDeleted($event)"
+    (rowEditDone)="rowEditDone($event)">
+
+  <igx-action-strip #actionstrip>
+      <igx-grid-editing-actions [addRow]="true"></igx-grid-editing-actions>
+  </igx-action-strip>
+</igx-grid>
+```
+
+Angular 컴포넌트에서 DI를 사용하여 데이터 서비스를 주입하십시오. 이제 서비스를 사용하여 데이터 계층에 대해 완전한 CRUD 작업을 수행할 준비가 되었습니다:
+
+```typescript
+constructor(private crudService: CRUDService) { }
+
+public rowDeleted(event: IRowDataEventArgs) {
+    this._crudService.delete(event.data).subscribe((rec) => {
+        // notification or do any additional handling
+        this.snackbar.open(`Row with ID of ${rec.ID} was deleted.`);
+    });
+}
+
+public rowAdded(event: IRowDataEventArgs) {
+    this._crudService.add(event.data);
+}
+
+public rowEditDone(event: IGridEditDoneEventArgs) {
+    this._crudService.update(event.newValue);
+}
+```
+
+위 예제에서는 해당 메서드를 호출하고 이벤트 인수에서 읽은 데이터를 전달하기만 합니다. 대부분의 API 엔드포인트는 요청이 성공했음을 나타내기 위해 업데이트되거나 추가되거나 삭제된 엔터티를 반환합니다.
+
+검증을 추가하여 모든 작업이 성공적으로 완료되었거나 오류가 발생했음을 사용자에게 알리는 것이 좋은 방법입니다. 이 경우 오류 및 완료 알림에 대한 핸들러도 전달하고 싶을 수 있습니다:
+
+```typescript
+this._crudService.delete(event.data).subscribe({
+    next: (data: any) => {
+      console.log('success');
+    },
+    error: err => {
+      console.log(err);
+    },
+    complete: () => {
+      console.log('Complete notification')
+    }
+});
+```
+
+<DocsAside type="info">
+위 예제는 편집 작업에 대한 기본 그리드 UI를 기준으로 합니다. 다른 유효한 방법은 자체 외부 UI를 제공하는 것입니다. 이 경우 UI에 대한 사용자 상호 작용에 응답하려면 그리드 편집 API를 사용해야 합니다(**그리드에 primaryKey가 설정되어 있는지 확인하십시오**). 참조는 [**API**](/general/how-to/how-to-perform-crud#편집-api) 섹션을 확인하십시오.
+</DocsAside>
+
+<DocsAside type="info">
+모범 사례를 따르고 로컬 데이터가 서버 데이터베이스와 달라지지 않도록 하십시오. 예를 들어 먼저 서버에 레코드 삭제 요청을 보내기로 할 수 있는데, 요청이 실패하면 로컬 그리드 데이터는 삭제하지 마십시오:
+</DocsAside>
+
+```typescript
+this._crudService.delete(event.data).subscribe({
+    next: (data: any) => {
+      this.grid.getRowByKey(event.data[this.grid.primaryKey]).delete();
+    },
+    error: err => {
+      console.log(err); // notify and don't delete the grid row
+    }
+});
+```
+
+## 데모
+
+이 지침에 따라 만든 데모를 확인하십시오. 직접 사용해 보고, 시나리오에 가장 잘 맞도록 사용자 지정 예제를 시도해 보십시오.
+
+<Sample src="/grid/grid-crud" height={410} alt="" />
+
+## 사용자 지정
+
+풍부한 그리드 API를 사용하면 필요에 맞게 편집 과정을 거의 모든 방식으로 사용자 지정할 수 있습니다. 여기에는 다음이 포함되지만 이에 국한되지 않습니다:
+
+- [**일괄 편집**](/general/how-to/how-to-perform-crud#일괄-편집): 일괄 편집을 활성화하면 모든 업데이트를 묶어서 단일 요청으로 모두 커밋할 수 있습니다.
+- [**템플릿**](/general/how-to/how-to-perform-crud#템플릿): 셀 편집용 템플릿을 추가하거나, 행/셀 편집, 행 추가, 행 삭제를 위해 자체 외부 UI를 사용할 수 있습니다.
+- [**이벤트**](/general/how-to/how-to-perform-crud#이벤트): 편집 흐름을 모니터링하고 그에 맞게 반응하십시오. 편집 중 발생하는 모든 이벤트에 이벤트 핸들러를 연결하면 다음을 할 수 있습니다:
+  - 셀 단위 데이터 검증
+  - 행 단위 데이터 검증
+  - 사용자에게 예상되는 입력 유형을 묻기
+  - 업무 규칙에 따라 추가 처리 취소하기
+  - 변경 사항을 수동으로 커밋하기
+- [**풍부한 API**](/general/how-to/how-to-perform-crud#편집-api)
+
+## 일괄 편집
+
+- **일괄 편집**을 활성화하면 업데이트를 클라이언트에 보관하고 단일 요청으로 모두 커밋할 수 있습니다. 일괄 업데이트는 `batchEditing` 옵션을 true로 설정하여 활성화합니다:
+
+ ```html
+ <igx-grid [batchEditing]="'true'" ...>
+ ```
+
+자세한 내용과 데모 샘플은 [일괄 편집](/grid/batch-editing)으로 이동하십시오.
+
+## 템플릿
+
+기본 셀 편집 템플릿에 대해서는 [일반 편집 항목](/grid/editing#편집-템플릿)에서 자세히 알아볼 수 있습니다.
+
+셀이 편집 모드에 있을 때 적용되는 사용자 지정 템플릿을 제공하려면 <ApiLink type="CellTemplateDirective" label="igxCellEditor` 디렉티브" />을(를) 사용할 수 있습니다. 이를 위해서는 `igxCellEditor` 디렉티브로 표시한 `ng-template`를 전달하고, 사용자 지정 컨트롤을 <ApiLink type="GridCell" member="editValue" label="cell.editValue" />에 적절히 바인딩해야 합니다:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+추가 정보와 데모는 [셀 편집](/grid/cell-editing) 항목을 참조하십시오.
+
+## 이벤트
+
+그리드는 편집 경험을 더 세밀하게 제어할 수 있도록 다양한 이벤트를 노출합니다. 이 이벤트는 [**행 편집**](/grid/row-editing)과 [**셀 편집**](/grid/cell-editing) 수명 주기 동안, 즉 편집 작업을 시작, 커밋 또는 취소할 때 발생합니다.
+
+| 이벤트                                                                                      | 설명                                                                                                                                               | 인수                                                                                    | 취소 가능 |
+| :----------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- | :---------- |
+| <ApiLink type="Grid" member="rowEditEnter" label="rowEditEnter" /> | `rowEditing`이(가) 활성화된 경우, 행이 편집 모드에 들어갈 때 발생합니다 | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEditEnter" label="cellEditEnter" /> | 셀이 **편집 모드에 들어갈** 때 발생합니다(`rowEditEnter` 이후) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEdit" label="cellEdit" /> | 값이 변경되었다면, 셀 값이 **커밋되기** **직전**에 발생합니다(예: `Enter`을(를) 누를 때) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="cellEditDone" label="cellEditDone" /> | 값이 변경되었다면, 셀이 편집되고 셀 값이 **커밋된** **후**에 발생합니다 | <ApiLink type="IGridEditDoneEventArgs" kind="interface" /> | `false` |
+| <ApiLink type="Grid" member="cellEditExit" label="cellEditExit" /> | 셀이 **편집 모드를 벗어날** 때 발생합니다 | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEdit" label="rowEdit" /> | `rowEditing`이(가) 활성화된 경우, 편집 모드의 행 값이 **커밋되기** 직전에 발생합니다(예: 행 편집 오버레이의 `Done` 버튼을 클릭할 때) | <ApiLink type="IGridEditEventArgs" kind="interface" /> | `true` |
+| <ApiLink type="Grid" member="rowEditDone" label="rowEditDone" /> | `rowEditing`이(가) 활성화된 경우, 행이 편집되고 새 행 값이 **커밋된** **후**에 발생합니다. | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+| <ApiLink type="Grid" member="rowEditExit" label="rowEditExit" /> | `rowEditing`이(가) 활성화된 경우, 행이 **편집 모드를 벗어날** 때 발생합니다 | <ApiLink kind="interface" type="IGridEditEventArgs" /> | `false` |
+
+자세한 내용과 데모 샘플은 [이벤트](/grid/editing#이벤트-인수와-순서)로 이동하십시오.
+
+## 편집 API
+
+그리드의 데이터 업데이트는 그리드가 노출하는 메서드를 통해 수행합니다:
+
+- <ApiLink type="Grid" member="updateRow" label="updateRow" />
+- <ApiLink type="Grid" member="updateCell" label="updateCell" />
+- <ApiLink type="Grid" member="deleteRow" label="deleteRow" />
+- <ApiLink type="Grid" member="addRow" label="addRow" />
+
+그리고 <ApiLink type="GridCell" />와 <ApiLink type="GridRow" /> 인스턴스가 노출하는 `update` 메서드:
+
+```typescript
+// Through the grid methods
+this.grid.updateRow(newData, rowKey);
+this.grid.updateCell(newData, rowKey, columnField);
+this.grid1.deleteRow(0);
+this.grid.addRow(data);
+
+// Through the methods exposed by cell/row
+this.grid.getCellByColumn(rowIndex, columnField).update(newData);
+this.grid.getCellByKey(rowKey, columnField).value = newData;
+this.grid.getRowByKey(rowID).update(newData);
+this.grid.getRowByKey(rowID).delete();
+```
+
+그리드 API 사용에 대한 자세한 내용과 정보는 [셀 편집 CRUD 작업](/grid/cell-editing#crud-작업) 섹션에서 찾을 수 있습니다.
+
+## 요약
+
+CRUD를 견고한 방식으로 활성화하는 것은 모든 데이터 기반 애플리케이션의 중요한 이정표입니다. 전체 과정을 간소화하기 위해 CRUD 기능을 염두에 두고 IgxGrid를 만들었으며, 기본 제공 UI와 유연한 API를 제공합니다. 이것이 여러분에게 어떤 도움이 될까요? 어떤 데이터베이스에 대해서든 CRUD를 구현할 때 많은 시간을 절약해 줍니다. 현대의 데이터 기반 앱에 대해 말하자면, 결국 모든 것은 견고성, 속도, 유연성으로 귀결됩니다.
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
+- <ApiLink type="ActionStrip" />
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />

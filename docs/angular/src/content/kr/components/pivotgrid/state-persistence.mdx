@@ -1,0 +1,226 @@
+---
+title: "Angular Pivot Grid 상태 지속성 - Ignite UI for Angular"
+description: "Ignite UI for Angular의 포괄적인 도구 세트를 사용하여 그리드 상태를 쉽게 저장하고 복원하십시오. 구성을 복원하는 방법을 배우고, 사용 방법을 살펴보고, 데모를 확인하십시오!"
+keywords: state persistence, ignite ui for angular, infragistics
+license: commercial
+_canonicalLink: grid/state-persistence
+_language: ko
+llms:
+  description: "igxGridState 디렉티브를 사용하면 개발자가 그리드 상태를 쉽게 저장하고 복원할 수 있습니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Pivot Grid 상태 지속성
+
+igxGridState 디렉티브를 사용하면 개발자가 그리드 상태를 쉽게 저장하고 복원할 수 있습니다. <ApiLink type="GridStateDirective" /> 디렉티브가 그리드에 적용되면, 어떤 시나리오에서든 상태 지속성을 구현하는 데 개발자가 사용할 수 있는 <ApiLink type="GridStateDirective" member="getState" label="getState" />과(와) <ApiLink type="GridStateDirective" member="setState" label="setState" /> 메서드를 노출합니다.
+
+## 지원되는 기능
+
+<ApiLink type="GridStateDirective" /> 디렉티브는 다음 기능의 상태를 저장하고 복원하는 것을 지원합니다:
+
+- `Sorting`
+- `Filtering`
+- `Cell Selection`
+- `Row Selection`
+- `Column Selection`
+- `Expansion`
+- `Pivot Configuration`
+  - <ApiLink type="IPivotConfiguration" kind="interface" /> 인터페이스로 정의된 피벗 구성 속성.
+  - 피벗 차원 및 값 함수는 애플리케이션 수준 코드를 사용하여 복원됩니다. [피벗 구성 복원](/pivotgrid/state-persistence#피벗-구성-복원하기) 섹션을 참조하십시오.
+  - 피벗 행 및 열 전략도 애플리케이션 수준 코드를 사용하여 복원됩니다. [피벗 전략 복원](/pivotgrid/state-persistence#피벗-전략-복원하기) 섹션을 참조하십시오.
+
+<DocsAside type="info">
+`Row Selection` 기능은 저장/복원이 올바르게 되도록 <ApiLink type="Grid" member="primaryKey" label="primaryKey" /> 속성이 설정되어 있어야 합니다.
+</DocsAside>
+
+## 사용법
+
+<ApiLink type="GridStateDirective" member="getState" label="getState" /> - 이 메서드는 그리드 상태를 직렬화된 JSON 문자열로 반환하므로, 개발자는 이를 가져와서 어떤 데이터 저장소(데이터베이스, 클라우드, 브라우저 localStorage 등)에든 저장할 수 있습니다. 이 메서드는 선택적인 첫 번째 매개변수 `serialize`를 받으며, 이는 <ApiLink type="GridStateDirective" member="getState" label="getState" />이(가) <ApiLink type="IGridState" kind="interface" /> 객체를 반환할지 직렬화된 JSON 문자열을 반환할지를 결정합니다.
+개발자는 두 번째 인수로 기능 이름이나 기능 이름의 배열을 전달하여, 특정 기능의 상태만 가져오도록 선택할 수 있습니다.
+
+```typescript
+// get all features` state in a serialized JSON string
+const gridState = state.getState();
+
+// get an `IGridState` object, containing all features original state objects, as returned by the grid public API
+const gridState: IGridState = state.getState(false);
+
+// get the sorting and filtering expressions
+const sortingFilteringStates: IGridState = state.getState(false, ['sorting', 'filtering']);
+```
+
+<ApiLink type="GridStateDirective" member="setState" label="setState" /> - <ApiLink type="GridStateDirective" member="setState" label="setState" /> 메서드는 직렬화된 JSON 문자열 또는 <ApiLink type="IGridState" kind="interface" /> 객체를 인수로 받으며, 객체/JSON 문자열에서 찾은 각 기능의 상태를 복원합니다.
+
+```typescript
+state.setState(gridState);
+state.setState(sortingFilteringStates)
+```
+
+`options` - <ApiLink type="GridStateDirective" member="options" label="options" /> 객체는 <ApiLink type="IGridStateOptions" kind="interface" /> 인터페이스를 구현합니다. 즉, 기능의 이름인 각 키에 대해, 이 기능의 상태를 추적할지 여부를 나타내는 불리언 값이 있습니다. <ApiLink type="GridStateDirective" member="getState" label="getState" /> 메서드는 이 기능들의 상태를 반환 값에 넣지 않으며, <ApiLink type="GridStateDirective" member="setState" label="setState" /> 메서드는 이들의 상태를 복원하지 않습니다.
+
+```typescript
+public options =  { cellSelection: false; sorting: false; }
+```
+
+```html
+<igx-pivot-grid [igxGridState]="options"></igx-pivot-grid>
+```
+
+사용하기 쉬운 단일 지점 API를 사용하면 몇 줄의 코드만으로 완전한 상태 지속성 기능을 구현할 수 있습니다. **아래 코드를 복사하여 붙여넣으십시오** - 사용자가 현재 페이지를 떠날 때마다 그리드 상태를 브라우저의 `sessionStorage` 객체에 저장합니다. 사용자가 메인 페이지로 돌아오면 그리드 상태가 복원됩니다. 원하는 데이터를 얻기 위해 복잡한 고급 필터링과 정렬 식을 매번 구성할 필요가 없습니다. 한 번만 설정하면, 아래 코드가 사용자를 위해 나머지를 처리합니다:
+
+```typescript
+// app.component.ts
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public ngOnInit() {
+    this.router.events.pipe(take(1)).subscribe((event: NavigationStart) => {
+        this.saveGridState();
+    });
+}
+
+public ngAfterViewInit() {
+    this.restoreGridState();
+}
+
+public saveGridState() {
+    const state = this.state.getState() as string;
+    window.sessionStorage.setItem('grid1-state', state);
+}
+
+public restoreGridState() {
+    const state = window.sessionStorage.getItem('grid1-state');
+    this.state.setState(state);
+}
+```
+
+## 피벗 구성 복원하기
+
+<ApiLink type="GridStateDirective" />은(는) 기본적으로 피벗 차원 함수, 값 포매터 등을 저장하지 않습니다([`limitations`](/pivotgrid/state-persistence#제한-사항) 참조). 이들 중 어느 것이든 복원하는 것은 애플리케이션 수준 코드로 할 수 있습니다. `IgxPivotGrid`은(는) 구성에 가지고 있는 사용자 지정 함수를 다시 설정하는 데 사용할 수 있는 두 이벤트를 노출합니다: <ApiLink type="PivotGrid" member="dimensionInit" label="dimensionInit" /> 및 <ApiLink type="PivotGrid" member="valueInit" label="valueInit" />. 이를 수행하는 방법을 보여 드리겠습니다:
+
+- `dimensionInit` 및 `valueInit` 이벤트에 대한 이벤트 핸들러를 할당하십시오:
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfig" [igxGridState]="options"
+    (valueInit)='onValueInit($event)' (dimensionInit)='onDimensionInit($event)'>
+</igx-pivot-grid>
+```
+
+> <ApiLink type="PivotGrid" member="dimensionInit" label="dimensionInit" /> 및 <ApiLink type="PivotGrid" member="valueInit" label="valueInit" /> 이벤트는 <ApiLink type="PivotGrid" member="pivotConfiguration" label="pivotConfiguration" /> 속성에 정의된 각 값과 차원에 대해 발생합니다.
+
+- `valueInit` 이벤트 핸들러에서 모든 사용자 지정 집계, 포매터 및 스타일을 설정하십시오:
+
+```typescript
+public onValueInit(value: IPivotValue) {
+    // Needed only for custom aggregators, formatter or styles.
+    if (value.member === 'AmountofSale') {
+        value.aggregate.aggregator = IgxTotalSaleAggregate.totalSale;
+        value.aggregateList?.forEach((aggr: IPivotAggregator) => {
+            switch (aggr.key) {
+                case 'SUM':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalSale;
+                    break;
+                case 'MIN':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMin;
+                    break;
+                case 'MAX':
+                    aggr.aggregator = IgxTotalSaleAggregate.totalMax;
+                    break;
+            }
+        });
+    } else if (value.member === 'Value') {
+        value.formatter = (value) => value ? '$' + parseFloat(value).toFixed(3) : undefined;
+        value.styles.upFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) > 150
+        value.styles.downFontValue = (rowData: any, columnKey: any): boolean => parseFloat(rowData.aggregationValues.get(columnKey.field)) <= 150;
+    }
+}
+```
+
+- `dimensionInit` 이벤트 핸들러에서 모든 사용자 지정 `memberFunction` 구현을 설정하십시오:
+
+```typescript
+public onDimensionInit(dim: IPivotDimension) {
+    switch (dim.memberName) {
+        case 'AllProducts':
+            dim.memberFunction = () => 'All Products';
+            break;
+        case 'ProductCategory':
+            dim.memberFunction = (data) => data.Product.Name;
+            break;
+        case 'City':
+            dim.memberFunction = (data) => data.Seller.City;
+            break;
+        case 'SellerName':
+            dim.memberFunction = (data) => data.Seller.Name;
+            break;
+    }
+}
+```
+
+<Sample lob src="/pivot-grid/pivot-grid-state-persistence" height={820} alt="" />
+
+## 피벗 전략 복원하기
+
+<ApiLink type="GridStateDirective" />은(는) 기본적으로 원격 피벗 작업도, 사용자 지정 차원 전략도 저장하지 않습니다(자세한 내용은 [Pivot Grid 원격 작업](/pivotgrid/pivot-grid-custom) 샘플 참조, [`limitations`](/pivotgrid/state-persistence#제한-사항) 참조). 이들 중 어느 것이든 복원하는 것은 애플리케이션 수준 코드로 할 수 있습니다. `IgxGridState`은(는) 적용되기 전에 그리드 상태를 추가로 수정하는 데 사용할 수 있는 <ApiLink type="GridStateDirective" member="stateParsed" label="stateParsed" />이라는 이벤트를 노출합니다. 이를 수행하는 방법을 보여 드리겠습니다:
+
+> <ApiLink type="GridStateDirective" />은(는) <ApiLink type="GridStateDirective" member="setState" label="setState" />를 문자열 인수와 함께 사용할 때만 발생합니다.
+
+- 사용자 지정 정렬 전략과 사용자 지정 피벗 열 및 행 차원 전략을 설정하십시오:
+
+```html
+<igx-pivot-grid #grid [data]="data" [pivotConfiguration]="pivotConfigHierarchy" [defaultExpandState]='true'
+    [igxGridState]="options" [sortStrategy]="customStrategy" [pivotUI]='{ showConfiguration: false }' [superCompactMode]="true" [height]="'500px'">
+</igx-pivot-grid>
+```
+
+```typescript
+@ViewChild(IgxGridStateDirective, { static: true })
+public state!: IgxGridStateDirective;
+
+public customStrategy = NoopSortingStrategy.instance();
+public options: IGridStateOptions = {...};
+public pivotConfigHierarchy: IPivotConfiguration = {
+    columnStrategy: NoopPivotDimensionsStrategy.instance(),
+    rowStrategy: NoopPivotDimensionsStrategy.instance(),
+    columns: [...],
+    rows: [...],
+    values: [...],
+    filters: [...]
+};
+```
+
+- `sessionStorage`에서 상태를 복원하고 사용자 지정 전략을 적용하는 코드는 다음과 같습니다:
+
+```typescript
+public restoreState() {
+    const state = window.sessionStorage.getItem('grid-state');
+    this.state.stateParsed.pipe(take(1)).subscribe(parsedState => {
+        parsedState.sorting.forEach(x => x.strategy = NoopSortingStrategy.instance());
+        parsedState.pivotConfiguration.rowStrategy = NoopPivotDimensionsStrategy.instance();
+        parsedState.pivotConfiguration.columnStrategy = NoopPivotDimensionsStrategy.instance();
+    });
+    this.state.setState(state as string);
+}
+```
+
+<Sample lob src="/pivot-grid/pivot-grid-noop-persistence" height={580} alt="Angular Pivot Noop Grid 상태 지속성 예제" />
+
+## 제한 사항
+
+- <ApiLink type="GridStateDirective" member="getState" label="getState" /> 메서드는 원래 객체를 JSON 문자열로 변환하기 위해 JSON.stringify()를 사용합니다. JSON.stringify()는 함수를 지원하지 않으므로, <ApiLink type="GridStateDirective" /> 디렉티브는 피벗 차원 <ApiLink kind="interface" type="IPivotDimension" member="memberFunction" />, 피벗 값 <ApiLink kind="interface" type="IPivotValue" member="member" />, <ApiLink kind="interface" type="IPivotValue" member="formatter" />, 사용자 지정 <ApiLink kind="interface" type="IPivotValue" member="aggregate" /> 함수,
+<ApiLink kind="interface" type="IPivotValue" member="styles" /> 및 피벗 구성 전략인 <ApiLink kind="interface" type="IPivotConfiguration" member="columnStrategy" />과 <ApiLink kind="interface" type="IPivotConfiguration" member="rowStrategy" />를 무시합니다.
+
+## API 참조
+
+- <ApiLink type="PivotGrid" />
+- <ApiLink type="GridStateDirective" />
+
+## 추가 리소스
+
+- [Pivot Grid 개요](/pivotgrid/pivot-grid)
+- [Pivot Grid 원격 작업](/pivotgrid/pivot-grid-custom)
+- [Pivot Grid 기능](/pivotgrid/pivot-grid-features)
+

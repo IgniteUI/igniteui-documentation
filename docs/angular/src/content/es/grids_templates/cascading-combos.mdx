@@ -1,0 +1,104 @@
+---
+title: "Combos en cascada en Angular {ComponentTitle} Grid | Infragistics"
+description: "Grid con combos en cascada. Consulte el ejemplo aquí."
+keywords: "combos en cascada de angular con grid, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "La función de edición del Grid permite usar combos en cascada."
+---
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid con combos en cascada
+
+La función de edición del Grid permite usar [combos en cascada](/inputs/combo/single-selection#value-and-selection). Al seleccionar el valor de cualquier [combo](/inputs/combo/overview) anterior, los usuarios recibirán solo los datos relevantes para su selección en el combo siguiente.
+
+## Descripción general del ejemplo de Angular Grid con combos en cascada
+
+El ejemplo siguiente muestra cómo funciona `Grid` con `Cascading Combos` anidados.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-cascading-combos" height={500} alt="Ejemplo de edición por lotes y transacciones de Angular {ComponentTitle}" />
+</ComponentBlock>
+
+## Configuración
+
+Para habilitar la edición de columnas, asegúrese de que la propiedad <ApiLink type="Column" member="editable" label="editable" /> esté establecida en **true**.
+
+Una vez habilitada la edición de columnas, puede empezar por añadir su [ComboBox de selección única](/inputs/combo/single-selection). Tenga en cuenta que, para tener solo una selección única disponible, tendrá que usar [igxSimpleCombo](/inputs/combo/single-selection) en lugar de modificar igxCombo.
+
+Para empezar con el [componente Simple ComboBox](/inputs/combo/single-selection#getting-started), primero debe importar `IgxSimpleComboModule` en su archivo **app.module.ts**:
+
+```typescript
+import { IgxSimpleComboModule } from 'igniteui-angular/simple-combo';
+
+@NgModule({
+    imports: [
+        ...
+        IgxSimpleComboModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Después, en la plantilla, debe enlazar los combos <ApiLink type="SimpleCombo" label="igx-simple-combo" /> a algunos datos.
+
+- `displayKey` - _Obligatorio para arrays de objetos_: especifica qué propiedad se usará para el texto de los elementos. Si no se especifica ningún valor para <ApiLink type="SimpleCombo" member="displayKey" label="displayKey" />, el combobox simple usará el `valueKey` especificado (si lo hay).
+
+```typescript
+export class MySimpleComboComponent implements OnInit {
+    public countriesData: Country[];
+    public selectedCountry: Country;
+    public selectedCity: City;
+
+    public ngOnInit() {
+        this.countriesData = getCountries([
+            'United States',
+            'Japan',
+            'United Kingdom'
+        ]);
+    }
+}
+```
+
+Para gestionar el cambio de selección, necesitamos <ApiLink type="Combo" member="selectionChanging" label="selectionChanging()" />. Los argumentos del evento emitido, <ApiLink type="IComboSelectionChangingEventArgs" kind="interface" />, contienen información sobre la selección anterior al cambio, la selección actual y los elementos que se han añadido o eliminado. Por tanto, filtrará los valores según la selección del combo anterior.
+
+```html
+<igx-combo [data]="countriesData" (selectionChanging)="countryChanging($event)"></igx-combo>
+```
+
+```typescript
+public countryChanging(event: IComboSelectionChangeEventArgs) {
+    if (event.added.length) {
+        event.newSelection = event.added;
+    }
+}
+```
+
+Y, por último, añadiremos el [Linear Progress](../linear-progress.mdx), que es necesario mientras se carga la lista de datos.
+El <ApiLink type="LinearProgressBar" member="id" label="id" /> es necesario para establecer el valor del atributo `id`.
+
+```html
+ <igx-linear-bar 
+    [id]="'region-progress-' + cell.row.data.ID" 
+    [style.visibility]="'hidden'"
+    type="info" [indeterminate]="true">
+</igx-linear-bar>
+```
+
+## Referencias de API
+- <ApiLink type="SimpleCombo" />
+- <ApiLink kind="sass" module="themes" type="function-combo-theme" label="Estilos de IgxComboComponent" />
+- <ApiLink type="LinearProgressBar" />
+- <ApiLink kind="sass" module="themes" type="function-progress-linear-theme" label="Estilos de IgxLinearProgressBarComponent" />
+## Recursos adicionales
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+- [Edición de {ComponentTitle}](/{igPath}/editing)
+</ComponentBlock>
+- [ComboBox de selección única](/inputs/combo/single-selection)
+- [Combos en cascada](/inputs/combo/single-selection#value-and-selection)
+- [Linear Progress](/linear-progress)

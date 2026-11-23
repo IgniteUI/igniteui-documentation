@@ -1,0 +1,133 @@
+---
+title: "고도/그림자"
+description:
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library"
+_language: ko
+llms:
+  description: "고도는 DOM 트리 사이에 기능적 경계를 설정하고 유지하여 더 나은 기능적 캡슐화를 가능하게 하는 데 사용됩니다."
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# 고도
+
+<div class="highlight">
+고도는 DOM 트리 사이에 기능적 경계를 설정하고 유지하여 더 나은 기능적 캡슐화를 가능하게 하는 데 사용됩니다. Sass 테마 라이브러리를 사용하여 고도 집합을 만들 수 있습니다.
+</div>
+<igc-divider></igc-divider>
+
+## 개요
+
+Ignite UI for Angular의 고도는 25개 요소의 맵으로 선언됩니다. 각 요소는 키-값 쌍이며, 키는 고도 수준 이름(0..24)이고 값은 3개의 `box-shadow` 선언 목록입니다. 그림자 색상을 정의할 수 있는 새 고도 집합을 생성할 수 있습니다. 또한 고도 맵에서 특정 고도 수준을 가져오는 함수를 노출합니다. 기본적으로 컴포넌트 전반에서 사용되는 전역 변수 `$elevations`를 노출합니다. 고도와 관련된 CSS 변수 [문서](/themes/elevations)를 아직 읽지 않았다면, 계속하기 전에 먼저 읽어 보기를 권장합니다.
+
+## 사용법
+
+다음 섹션에서는 사용자 지정 고도를 만들고 가져오는 방법을 보여 줍니다.
+
+### 고도 구성하기
+
+기본 고도 프리셋이 사용하는 색상을 바꾸려면 고도 프리셋 모듈을 구성해야 합니다.
+
+```scss
+// Define the 3 elevation colors
+@use 'igniteui-theming/sass/elevations/presets' as * with(
+    $color-1: rgb(153, 191, 170), // Umbra
+    $color-2: rgb(92, 134, 141), // Penumbra
+    $color-3: rgb(92, 61, 70) // Ambient
+);
+
+@include elevations($material-elevations);
+```
+
+### 고도 가져오기
+
+고도 맵에서 box-shadow 집합을 가져오려면 `elevation` 함수에 최대 두 개의 인수, 즉 고도 맵과 원하는 고도 수준을 전달할 수 있습니다. 이 함수는 주어진 수준에 대해 3개의 box-shadow 목록을 반환합니다.
+
+기본 `$elevations` 맵에서 고도를 가져오려면 첫 번째 인수를 생략할 수 있습니다.
+
+```scss
+// Returns elevation 1 shadows
+$elevation-1: elevation(1);
+
+// Returns elevation 1 shadows
+$my-elevation-1: elevation($name: 1);
+```
+
+### 테마에 고도 전달하기
+
+여러 테마 믹스인은 고도 맵을 전달할 수 있게 합니다. 특히 `theme`에는 모든 컴포넌트 테마의 고도를 업데이트할 수 있는 `$elevations`라는 매개변수가 있습니다.
+
+모든 컴포넌트 테마가 사용자 지정 고도를 사용하도록 강제하기:
+
+```scss
+@include theme(
+    //...
+    $elevations: $my-elevations
+);
+```
+
+이에 더해, 테마가 고도를 완전히 무시하거나 사용하지 않도록 설정할 수도 있습니다:
+
+```scss
+@include theme(
+    //...
+    $elevations: $my-elevations,
+    $elevation: false // disables all elevations
+);
+```
+
+`elevation` 함수는 box-shadow 목록을 반환하므로, 이 함수의 반환 값을 사용하면 컴포넌트 테마에서 특정 고도만 수정할 수 있습니다.
+
+```scss
+$card-theme: card-theme(
+    $resting-shadow: elevation(10)
+);
+
+:host {
+  @include tokens($card-theme);
+}
+```
+
+`elevation` 함수를 활용하지 않고 단순한 box-shadow를 전달할 수도 있습니다:
+
+```scss
+$card-theme: card-theme(
+    $resting-shadow: 0 10px 10px 10px #666
+);
+
+.my-card {
+  @include tokens($card-theme);
+}
+```
+
+<hr/>
+
+## 사용자 지정 고도
+
+`elevations` 함수로 생성되는 [Material Design 지침](https://material.io/design/environment/elevation.html)을 따르지 않는 고도 맵을 만들 수도 있습니다. 사용자 지정 고도 맵에는 최소 25개의 고도 수준이 있어야 합니다. 우리 테마가 올바르게 빌드되기 위해 기대하는 고도 맵의 시그니처는 다음과 같습니다:
+
+```scss
+// Omitted levels 2 through 23 for brevity
+$elevations: (
+    0: box-shadow(...),
+    1: box-shadow(...),
+    ...
+    24: box-shadow(...)
+);
+```
+
+## 고도 스키마 선언
+
+고도 수준은 테마 스키마 선언에서도 사용됩니다. 이에 대해서는 문서의 [스키마](/themes/sass/schemas) 섹션에서 더 자세히 다룹니다.
+<hr/>
+
+## API 참조
+- <ApiLink kind="sass" module="elevations" type="mixin-elevations" label="고도 만들기" />
+- <ApiLink kind="sass" module="elevations" type="function-elevation" label="고도 가져오기" />
+## 추가 리소스
+
+<hr/>
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

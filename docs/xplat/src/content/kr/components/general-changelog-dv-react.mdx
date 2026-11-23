@@ -1,0 +1,1755 @@
+---
+title: "{Platform} 새로운 기능 | {ProductName} | Infragistics"
+description: "{ProductName}의 새 기능에 대해 알아보십시오."
+keywords: "변경 로그, 새로운 기능, {ProductName}, Infragistics"
+mentionedTypes: ["SeriesViewer", "XYChart", "DomainChart", "DataChart", "Toolbar", "GeographicMap", "DatePicker", "MultiColumnComboBox", "CategoryChart", "CrosshairLayer", "FinalValueLayer", "CalloutLayer", "DataLegend", "Grid", "GridSelectionMode", DataGridCellEventArgs, DataGridSelectionMode, DataSourceSummaryOperand, "RadialGauge", "RadialChart", "Toolbar"]
+namespace: Infragistics.Controls.Charts
+_language: ko
+llms:
+  description: "{ProductName} 데이터 시각화 컴포넌트의 릴리스 기록으로, 새로운 기능, 수정 사항, 호환되지 않는 변경 사항을 다룹니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import { Image } from 'astro:assets';
+import dataChartUserAnnotationCreate from '@xplat-images/charts/data-chart-user-annotation-create.gif';
+import chartdefaults1 from '@xplat-images/chartDefaults1.png';
+import chartdefaults2 from '@xplat-images/chartDefaults2.png';
+import chartdefaults3 from '@xplat-images/chartDefaults3.png';
+import chartdefaults4 from '@xplat-images/chartDefaults4.png';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {ProductName} 변경 로그
+
+
+
+{ProductName}의 각 버전에 대한 주요 변경 사항은 이 페이지에 기록되어 있습니다.
+
+## **{PackageVerLatest}**
+
+### {PackageGrids}(그리드)
+
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
+  - Excel 스타일 필터링 검색 목록은 이제 <ApiLink type="VirtualScroll" /> 컴포넌트를 사용합니다. 목록은 행이 렌더링될 때 각 행을 측정합니다. 측정된 크기가 추정 크기를 대체합니다.
+  - Excel 스타일 필터링 검색 목록의 마크업이 바뀌었습니다. 가상 스크롤 호스트와 그 항목 래퍼가 내부 표시 컨테이너와 세로 스크롤바 도우미를 대체합니다. 이 요소에 직접 접근하는 애플리케이션과 테스트를 업데이트하십시오.
+  - Excel 스타일 필터링의 내부 가상 스크롤 컨테이너에는 더 이상 중첩된 list 역할이 없습니다. listbox와 그 옵션은 바뀌지 않습니다.
+  - `rowStyles`, `headerStyles` 및 `headerGroupStyles` 속성의 유형이 이제 `GridStyleCSSProperty | null`입니다. 이전에는 유형이 `any`였습니다.
+  - 스크롤바는 이제 표준 `scrollbar-color` 및 `scrollbar-width` CSS 속성을 사용합니다. 이전에는 `::-webkit-scrollbar-*` 의사 요소를 사용했습니다.
+  - 그리드, 열 작업, Excel 스타일 필터링 메뉴의 스크롤바는 호스트의 배경색과 전경색을 사용합니다.
+
+**호환성 깨짐 변경**
+
+- **테마 지정**
+  - `--ig-grid-summary-border-width` 및 `--ig-grid-summary-pinned-border-width` CSS 변수를 제거했습니다. 요약 셀은 이제 그리드의 테두리 두께를 사용합니다. 헤더 테두리 두께가 셀 구분선을 설정하고, 고정 테두리 두께가 고정 테두리를 설정합니다.
+  - 요약 테두리 스타일과 색상은 여전히 `--ig-grid-summary-border-style`, `--ig-grid-summary-pinned-border-style`, `--ig-grid-summary-border-color`, `--ig-grid-summary-pinned-border-color`로 설정할 수 있습니다.
+  - 표준 스크롤바 속성은 두 가지 색상과 세 가지 너비 키워드만 받으므로, 대부분의 스크롤바 테마 변수는 이제 효과가 없습니다. `--sb-thumb-bg-color`와 `--sb-track-bg-color`는 계속 작동합니다. hover, border, corner, 최소 높이 변수는 효과가 없습니다.
+  - `scrollbar-width`는 `auto`, `thin` 또는 `none`만 받으므로 `--sb-size`는 더 이상 스크롤바 두께를 설정하지 않습니다. 더 얇은 스크롤바를 원하면 스크롤바 변수를 선언하는 요소에 `--sb-width: thin`를 설정하십시오. 스크롤되는 요소에 `scrollbar-width: thin`를 직접 설정할 수도 있습니다.
+
+**동작 변경**
+
+- **스크롤바**
+  - 표준 CSS 속성으로는 스크롤바 화살표 버튼을 스타일링하거나 표시할 수 없습니다. `scrollbar-width: thin`는 화살표 버튼을 표시하는 플랫폼에서 화살표 버튼을 제거합니다.
+  - 64 이전 버전의 Firefox는 `scrollbar-color`와 `scrollbar-width`를 지원하지 않습니다. 이 버전에서는 플랫폼의 기본 색상과 크기로 스크롤바가 표시됩니다.
+- **PDF 내보내기**
+  - 요약 행이 이제 헤더 행과 같은 배경을 갖습니다. 헤더 배경과 마찬가지로 `showTableBorders` 옵션이 이 배경을 제어합니다.
+  - <ApiLink type="PivotGrid" /> 내보내기의 행 차원 셀에도 이 배경이 적용됩니다.
+  - 연속된 레코드에서 행 차원 값이 반복되면, <ApiLink type="PivotGrid" /> 내보내기는 이제 값을 하나의 병합된 셀에 한 번만 표시합니다. 그리드도 행 머리글을 같은 방식으로 병합합니다.
+  - 값은 같은 상위 차원 아래에서만 병합됩니다. 예를 들어 서로 다른 두 도시 아래의 같은 날짜는 두 개의 셀이 됩니다.
+  - 병합된 셀이 페이지 하단을 넘으면 셀은 페이지 끝에서 멈춥니다. 셀은 다음 페이지에서 머리글 아래로 계속됩니다.
+
+## **{PackageVerChanges-26-2-SEP}**
+
+### {PackageCommon}
+
+#### 새 컴포넌트
+
+{ProductName}에 이제 `igniteui-webcomponents` 7.3.0 및 7.4.0의 다음 컴포넌트가 포함됩니다:
+
+- [Breadcrumbs](./layouts/breadcrumbs.mdx)(<ApiLink type="Breadcrumbs" /> 및 <ApiLink type="Breadcrumb" />) - 탐색 경로를 표시합니다.
+- [Color Picker](./inputs/color-picker.mdx)(<ApiLink type="ColorPicker" />) - 사용자가 색상을 선택할 수 있게 합니다. 다양한 색상 형식과 사용자 지정 팔레트를 지원합니다.
+- [QR Code](./inputs/qr-code.mdx)(<ApiLink type="QrCode" />) - `value` 속성의 QR 코드를 SVG로 렌더링합니다. 숫자, 영숫자 또는 바이트 모드로 데이터를 인코딩합니다.
+- 가상 스크롤(<ApiLink type="VirtualScroll" />) - 뷰포트에 있는 항목과 `overScan`가 설정하는 추가 항목 수만 렌더링합니다. 크거나 끝이 없는 목록에 사용하십시오.
+  - 컴포넌트는 세로 및 가로 방향, 그리고 오른쪽에서 왼쪽(RTL) 레이아웃을 지원합니다.
+  - 항목 크기는 고정, `estimatedItemSize`로 추정, 또는 가변으로 설정할 수 있습니다. 컴포넌트는 렌더링된 각 항목을 측정하고 추정치를 보정합니다.
+  - 아직 측정되지 않은 항목은 `estimatedItemSize` 대신 측정된 평균 크기를 사용합니다. 그러면 스크롤바가 실제 콘텐츠와 일치합니다.
+  - 컴포넌트는 항목 요소를 재활용합니다. 렌더링된 창에 남아 있는 항목은 자신의 요소를 유지합니다. 창에서 나가는 항목의 요소는 창에 들어오는 항목을 표시합니다.
+  - `keyFunction` 속성은 항목의 키를 반환합니다. 키가 있으면 항목이 `data`에서 이동해도 자신의 요소를 유지합니다. `keyFunction`가 없으면 인덱스가 키가 됩니다.
+  - 항목 템플릿이 바인딩하지 않은 DOM 상태는 요소와 함께 유지됩니다. 예는 `checked` 바인딩이 없는 체크박스의 상태입니다. 항목 템플릿에서 이 상태를 바인딩하십시오.
+  - 컴포넌트는 브라우저의 최대 스크롤 크기보다 큰 목록에서도 올바르게 작동합니다.
+
+#### 변경됨
+
+- `igniteui-webcomponents`를 7.4.1로 업데이트했습니다. 이 업데이트에는 [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [7.3.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#731---2026-09-01), [7.3.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#732---2026-09-09), [7.4.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#740---2026-09-23), [7.4.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#741---2026-09-25) 릴리스가 포함됩니다.
+- `igniteui-dockmanager`를 2.2.1로, `igniteui-grid-lite`를 0.11.0으로 업데이트했습니다. Dock Manager와 Grid Lite 항목을 참조하십시오.
+- #### 라이브러리
+  - `@lit-labs/virtualizer` 종속성을 제거했습니다. 이제 <ApiLink type="VirtualScroll" /> 컴포넌트가 가상화를 수행합니다. <ApiLink type="Combo" /> 목록도 이를 사용합니다.
+  - 선택적 피어 종속성 `dompurify`, `marked`, `shiki`를 현재 안정 버전으로 업데이트했습니다.
+- #### Avatar
+  - 이제 컴포넌트는 `role="img"`을 갖습니다. 이전에는 `image`였는데, 이는 현재 도구가 지원하지 않는 ARIA 1.3 값입니다.
+  - 접근 가능한 이름은 `alt`에서 가져옵니다. `alt`가 설정되지 않으면 이름은 `initials`에서 가져옵니다. 역할 설명은 항상 `avatar`입니다.
+  - 이전에는 이름이 항상 "avatar"였고, `alt` 또는 `initials`가 역할 설명을 설정했습니다.
+- #### Badge
+  - 역할 설명은 항상 `badge`입니다. 보조 기술은 더 이상 `variant`를 읽지 않습니다.
+  - `icon` CSS 파트는 <ApiLink type="Icon" />가 배지의 유일한 콘텐츠일 때만 적용됩니다. 이는 문서와 일치합니다.
+- #### Carousel
+  - 컴포넌트는 이제 다음 순서로 포커스를 위임합니다: 표시기 컨테이너, 탐색 버튼, 그다음 활성 슬라이드의 첫 번째 포커스 가능 요소.
+- #### Chip
+  - `onRemove` 이벤트의 유형은 더 이상 불리언 `detail`를 선언하지 않습니다. 이 이벤트에는 이 세부 정보가 한 번도 없었습니다.
+- #### Tile Manager
+  - <ApiLink type="Tile" />는 이제 크기 조정 핸들을 직접 렌더링합니다. `trigger-side`, `trigger`, `trigger-bottom` CSS 파트는 이름을 유지합니다.
+  - 새 `tile-container` CSS 파트에는 타일 콘텐츠와 크기 조정 핸들이 포함됩니다.
+- #### AI 지원 개발 - 스킬
+  - React 스킬을 에이전트가 스스로 찾을 수 없는 프레임워크별 사실로 줄였습니다. 스킬의 전체 크기는 이전 크기의 약 절반입니다.
+  - 참조 파일을 `COMPONENTS`, `USAGE`, `DATAVIZ`, `MCP`, `TROUBLESHOOTING`로 합쳤습니다. 중복된 설정 및 테마 지정 안내를 제거했습니다.
+  - 스킬은 이제 MCP 도구의 명명된 인수 스키마를 문서화합니다. 문서 도구는 `framework`을, API 도구는 `platform`를 받습니다.
+  - `get_project_setup_guide`를 추가했습니다. 존재하지 않는 `get_theming_guidance`를 `read_resource`로 바꾸었습니다.
+  - 스킬은 이제 다크 모드를 `--ig-theme-variant`와 `configureTheme()`가 제어하는 전역 스위치로 문서화합니다. 사용자 지정 속성으로 페이지의 일부에만 다크 모드를 적용할 수는 없습니다.
+  - 팔레트 재정의를 바로잡았습니다. 모든 음영은 `500` 음영에서 가져옵니다. 예: `--ig-primary-500`. `--ig-primary-h`, `-s`, `-l` 토큰은 존재하지 않습니다.
+  - Excel/CSV 내보내기 가져오기 경로를 `igniteui-react-grids`로 바로잡았습니다. 폼 제출 핸들러 유형을 `React.FormEvent`로, 이벤트 핸들러 유형을 생성된 `Igr*EventArgs` 별칭으로 바로잡았습니다.
+  - 그리드 마이그레이션 안내에서 지원 중단된 `IgrGridModule.register()`를 제거했습니다. 존재하지 않는 `--ig-button-foreground` 토큰 예제를 바꾸었습니다.
+  - 모든 스킬에 `license: MIT`를 추가했습니다. 각 스킬 설명에 이제 `WHEN TO USE:`와 `WHEN NOT TO USE:` 섹션이 있어 에이전트가 올바른 스킬을 선택합니다.
+  - 스킬 README에 이제 Grid Lite에서 프리미엄 그리드로의 마이그레이션 스킬이 나열됩니다.
+
+#### 새 기능
+
+- #### Button Group
+  - 단일 선택 모드(`single` 및 `single-required`)는 이제 라디오 그룹 키보드 패턴을 사용합니다:
+    - 그룹은 하나의 탭 정지점입니다.
+    - 화살표 키는 포커스와 선택을 함께 이동합니다. 비활성화된 버튼은 건너뛰며, 양 끝에서 순환합니다.
+    - `alignment="horizontal"`에서는 ArrowLeft와 ArrowRight가 텍스트 방향으로 선택을 이동합니다. `alignment="vertical"`에서는 ArrowUp과 ArrowDown이 선택을 이동합니다.
+    - `multiple` 모드는 변경되지 않습니다. 각 버튼은 여전히 탭 정지점입니다.
+  - 단일 선택 모드는 이제 `radio` 버튼이 있는 `radiogroup`를 노출합니다. 이전에는 `aria-pressed`가 있는 토글 버튼을 노출했습니다.
+  - <ApiLink type="ButtonGroup" /> 호스트는 이제 `radiogroup` 또는 `group` 역할과 비활성화 상태를 가집니다. 호스트의 `aria-label` 또는 `aria-labelledby`가 그룹의 이름을 지정합니다.
+  - 단일 선택 모드에서 `alignment`는 라디오 그룹의 `aria-orientation`를 설정합니다.
+  - <ApiLink type="ToggleButton" />의 `focused` CSS 파트가 이제 문서화되었습니다.
+- #### Calendar, Date Picker, Date Range Picker
+  - <ApiLink type="Calendar" />는 이제 `label-inner`, `months-row`, `years-row` CSS 파트를 내보냅니다. 선택기는 이를 `calendar-label-inner`, `months-row`, `years-row`로 내보냅니다.
+- #### Chip
+  - 새 `outlined` 속성입니다. 윤곽선이 있는 칩을 표시하려면 `true`로 설정하십시오.
+  - `start` 및 `end` 슬롯과 새 `action` 및 `remove` CSS 파트가 이제 문서화되었습니다.
+- #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
+  - 새 `scrollStrategy` 속성입니다. 컨테이너가 스크롤될 때 팝업의 동작을 설정합니다:
+    - `hide`(기본값)은 앵커가 완전히 보이지 않으면 팝업을 숨깁니다.
+    - `scroll`는 팝업을 계속 보이게 하고 앵커 위에 유지합니다.
+    - `close`는 스크롤할 때마다 컴포넌트를 닫습니다. 이는 `sticky` 툴팁도 닫습니다.
+  - 날짜 선택기는 `dialog` 모드에서 `scrollStrategy`를 무시합니다.
+- #### Dropdown
+  - 대상 요소는 이제 `aria-haspopup="listbox"`를 가집니다. 이전에는 `aria-haspopup="true"`였습니다.
+  - 목록이 열려 있는 동안 대상의 `aria-activedescendant`는 활성 항목을 가리킵니다. 화면 낭독기는 이 항목을 알립니다.
+- #### Icon
+  - `registerIcon`와 `registerIconFromText`는 이제 세 번째 인수로 `RegisterIconOptions` 객체를 받습니다. 일반 컬렉션 문자열도 계속 작동합니다.
+  - `stripMeta: true`는 저장된 SVG에서 `<title>`와 `<desc>` 요소를 제거합니다. 이는 호버 시 브라우저 기본 툴팁을 방지합니다.
+  - 제목 텍스트는 호스트 <ApiLink type="Icon" /> 요소의 `aria-label`로 계속 제공됩니다.
+- #### Mask Input, Date Time Input, Date Range Picker
+  - 마스크 편집기가 이제 실행 취소와 다시 실행을 지원합니다:
+    - 실행 취소: `Ctrl + Z` 또는 `Cmd + Z`.
+    - 다시 실행: `Ctrl + Y`, `Ctrl + Shift + Z` 또는 `Cmd + Shift + Z`.
+  - 연속해서 입력한 문자는 하나의 실행 취소 단계입니다. 연속된 삭제도 하나의 실행 취소 단계입니다.
+  - 캐럿 이동, 붙여넣기, 놓기, 잘라내기, 날짜 부분 회전, IME 조합은 각각 새 단계를 시작합니다.
+  - 복원된 단계는 `onInput`를 발생시킵니다. 양방향 바인딩은 실행 취소를 따릅니다.
+  - 포커스가 바뀌어도 기록은 유지됩니다. 값을 프로그래밍 방식으로 설정하거나, 폼이 컨트롤을 재설정하거나, `mask`, `prompt` 또는 `inputFormat`가 바뀌면 컴포넌트는 기록을 지웁니다.
+- #### Splitter
+  - 새 `startCollapsed` 및 `endCollapsed` 속성입니다. 각 창의 접힘 상태를 가져오고 설정합니다.
+  - 새 `onLayoutChanged` 이벤트입니다. 컴포넌트는 사용자가 크기를 조정하거나 확장 상태가 바뀐 후 이를 발생시킵니다.
+  - `onLayoutChanged` 페이로드에는 현재 레이아웃이 포함됩니다: `startSize`, `endSize`, `startCollapsed`, `endCollapsed`.
+- #### Tabs
+  - 새 `selectedTab` 속성입니다. 선택된 <ApiLink type="Tab" /> 요소를 반환하거나, `null`을 반환합니다.
+  - `select()`는 이제 탭의 `id`뿐만 아니라 `label`도 받습니다. `selected`의 값을 다시 `select()`에 전달할 수 있습니다.
+  - 탭 헤더에 `aria-posinset`와 `aria-setsize`가 추가되었습니다. 스트립에는 `aria-orientation`가 있습니다.
+  - 선택된 패널은 포커스를 받을 수 있습니다. 키보드 사용자는 포커스 가능한 요소가 없는 패널 콘텐츠에도 접근할 수 있습니다.
+  - 선택된 탭이 없으면 스트립은 탭 정지점을 유지합니다.
+  - 컴포넌트는 이제 중간 슬롯을 통해 들어온 <ApiLink type="Tab" /> 요소를 찾습니다. 다른 컴포넌트가 <ApiLink type="Tabs" />를 감쌀 수 있습니다.
+- #### Tooltip
+  - 앵커는 이제 `aria-describedby`로 툴팁을 참조합니다. 화면 낭독기는 툴팁 콘텐츠를 앵커의 설명으로 알립니다.
+  - `sticky` 모드에서 기본 닫기 동작은 레이블이 있는 `<button>`입니다. 키보드로 접근하고 사용할 수 있습니다. 새 `close-button` CSS 파트가 이를 노출합니다.
+- #### Popover
+  - Popover 기반 컴포넌트는 이제 이를 지원하는 브라우저에서 네이티브 CSS 앵커 위치 지정을 사용합니다: Chrome 및 Edge 133 이상, Firefox 147 이상, Safari 26 이상.
+  - 다른 브라우저는 계속 `@floating-ui/dom`를 사용합니다. 필요한 경우에만 로드합니다.
+- #### 테마
+  - 모든 컴포넌트에 이제 Material, Bootstrap, Fluent, Indigo 테마의 `forced-colors: active` 스타일이 있습니다.
+  - Windows 고대비 모드에서 컴포넌트는 시스템 색상(`CanvasText`, `Highlight`, `GrayText`, `LinkText`)을 사용합니다. 비활성, 호버, 포커스, 선택 상태는 서로 다르게 유지됩니다.
+
+#### 호환되지 않는 변경 사항
+
+- #### Chip
+  - `part="base"`는 이제 단순한 래퍼입니다. 선택 컨트롤은 새 `action` 파트로 옮겨졌습니다. 제거 컨트롤은 새 `remove` 파트로 옮겨졌습니다.
+  - 상호 작용 표면의 `::part(base)` 규칙을 `::part(action)`로 옮기십시오.
+  - `focus-shadow-color`와 `focus-selected-shadow-color`가 `focus-outline-color` 및 `focus-selected-outline-color` CSS 변수를 대체합니다.
+- #### AI 지원 개발 - 스킬
+  - `grid-lite-to-igr-grid-migration` 스킬의 이름을 `igniteui-react-migrate-grid-lite-to-premium`로 바꾸었습니다. 새 이름은 다른 스킬과 마찬가지로 `igniteui-react-` 접두사를 사용합니다.
+  - 새 폴더 이름으로 이름이 바뀐 스킬을 다시 설치하고, 이전 폴더는 삭제하십시오.
+  - 각 스킬의 `reference/` 폴더 이름을 `references/`로 바꾸었습니다. 링크가 작동하도록 이 스킬들을 다시 설치하십시오: `igniteui-react-components`, `igniteui-react-customize-theme`, `igniteui-react-generate-from-image-design`.
+
+#### 동작 변경
+
+- #### Combo, Color Picker, Date Picker, Date Range Picker, Dropdown, Select, Tooltip
+  - 이제 앵커가 완전히 보이지 않으면 팝업이 숨겨집니다. 이전에는 팝업이 계속 보였습니다. 이전 동작을 유지하려면 `scrollStrategy="scroll"`를 설정하십시오.
+- #### Dropdown, Select, Tooltip
+  - 팝업은 더 이상 보이도록 뷰포트 가장자리를 따라 움직이지 않습니다. 반대쪽으로 뒤집히기만 합니다.
+- #### Button Group
+  - 비활성화된 그룹은 더 이상 버튼에 `disabled`를 설정하지 않습니다. 버튼은 비활성화 상태를 상속합니다.
+  - 자체 `disabled`가 있는 버튼은 그룹을 다시 활성화해도 비활성 상태를 유지합니다. 비활성화된 그룹에 추가한 버튼도 비활성화됩니다.
+  - 단일 선택 모드에서 버튼은 더 이상 별도의 탭 정지점이 아닙니다. 새 기능의 키보드 패턴을 참조하십시오.
+- #### Calendar, Date Picker, Date Range Picker
+  - `weekStart`가 설정되지 않으면 주는 `locale`의 주 첫 번째 날부터 시작합니다. 컴포넌트는 이 요일을 `Intl.Locale.prototype.getWeekInfo()`에서 가져옵니다.
+  - 예를 들어 주는 `bg`에서는 월요일부터, `en`에서는 일요일부터 시작합니다.
+  - 명시적인 `weekStart`가 우선합니다. 로캘 값을 다시 사용하려면 `weekStart`를 `undefined`로 설정하십시오. `getWeekInfo()`를 지원하지 않는 브라우저는 일요일을 사용합니다.
+  - 헤더 날짜와 월 및 연도 탐색은 `locale`의 필드 순서를 사용합니다. 예를 들어 `ja`에서는 연도 버튼이 월 버튼보다 앞에 옵니다. 연도 보기는 계속 일반 숫자를 표시합니다.
+- #### Date Time Input, Date Picker, Date Range Picker
+  - 컴포넌트는 사용자가 입력하는 동안 `value`를 바꾸지 않습니다. `value`는 확정(commit) 시점에만, `onChange` 이벤트와 함께 바뀝니다. 컴포넌트는 이전과 같이 포커스를 잃을 때 `onChange`를 발생시킵니다.
+  - 이전에는 `value`가 키 입력마다 바뀌었고, 이 변경을 알리는 이벤트가 없었습니다.
+  - 이제 <ApiLink type="Grid" />의 편집 템플릿 등에서 외부에서 `value`를 바인딩할 수 있습니다.
+  - `onInput` 이벤트의 `detail`에는 입력된 값이 들어 있습니다. 날짜 부분 회전이나 `Ctrl + ;`의 결과도 포함됩니다.
+  - 포커스된 편집기에서 날짜 부분을 회전하면 포커스를 잃을 때의 확정도 기다립니다.
+  - 포커스가 없는 컴포넌트에서는 `stepUp()`와 `stepDown()`가 `value`를 즉시 바꿉니다. `clear()`, `setRangeText()`, 그리고 직접 할당도 `value`를 즉시 바꿉니다.
+  - 선택기에서는 사용자가 입력하는 동안 달력이 계속 입력된 날짜를 따라갑니다.
+- #### Dropdown
+  - 사용자가 이미 선택된 항목을 선택해도 컴포넌트는 더 이상 `onChange`를 발생시키지 않습니다. 목록은 여전히 닫힙니다.
+- #### Tabs
+  - 스크롤 버튼은 이제 완전히 보이지 않는 가장 가까운 탭까지 스크롤합니다. 이전에는 고정된 180px 단위로 스크롤했습니다.
+  - 스크롤 버튼 아래에 있는 탭은 보이지 않는 것으로 계산됩니다. 한 번 클릭하면 정확히 탭 하나가 더 표시됩니다.
+- #### Tooltip
+  - 숨김 트리거로 닫히는 툴팁은 이제 정확히 `hideDelay` 동안 기다립니다. 이전에는 문서화되지 않은 추가 180ms를 기다렸습니다.
+  - `sticky` 모드에서 기본 닫기 버튼은 툴팁을 즉시 숨깁니다. `hideDelay`를 기다리지 않습니다.
+  - 기본 `showTriggers`와 `hideTriggers`에는 이제 `focusin`와 `focusout`가 포함됩니다. 툴팁은 앵커가 키보드 포커스를 받으면 열리고, 포커스가 앵커를 떠나면 닫힙니다.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[2229](https://github.com/IgniteUI/igniteui-webcomponents/issues/2229), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Button Group|단일 선택은 이제 각 요소를 추적합니다. `value`가 없거나 같은 `value`를 가진 버튼도 이제 선택할 수 있습니다. `selectedItems`는 이제 현재 선택을 대체합니다. 이전에는 선택에 추가했습니다. `selectedItems`는 더 이상 빈 `value`를 가진 버튼을 무시하지 않습니다. 비활성화된 그룹에 추가된 버튼은 더 이상 그룹 상태를 깨뜨리지 않습니다. 같은 내용이 첫 렌더링 전의 `focus()`, `blur()`, `click()`에도 적용되며, 직접 자식이 아닌 토글 버튼에도 적용됩니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Calendar|보이는 달이 둘 이상인 달력은 이제 라이브 영역 하나와 탭 정지점 하나를 가집니다. 시간만 있는 날짜 문자열은 로컬 날짜를 기준으로 해석됩니다. `weekStart`는 첫 렌더링에서 올바릅니다. 많은 비활성 날짜에 대한 키보드 탐색으로 브라우저가 멈추지 않습니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Carousel|`pause()`로 중지된 캐러셀은 더 이상 포인터나 포커스에서 다시 시작하지 않습니다. `interval`가 바뀐 후 `isPlaying`와 `isPaused`가 올바릅니다. 컴포넌트는 사용하지 않는 타이머를 지웁니다. 슬라이드보다 투영된 표시기가 적은 캐러셀도 더 이상 오류를 일으키지 않습니다. 활성 슬라이드를 제거하거나 슬라이드가 빈 캐러셀에 들어올 때 캐러셀은 활성 슬라이드를 유지합니다. 각 표시기에는 `aria-controls`가 있습니다. 표시기는 `aria-label`를 콘텐츠 어트리뷰트로 설정합니다.|
+|[2328](https://github.com/IgniteUI/igniteui-webcomponents/issues/2328)|Chat|`adoptRootStyles`가 활성화되면 컴포넌트는 이제 초기 채택 후 문서가 받는 스타일시트를 추적합니다. 채택은 메시지와 입력 파트의 테마 스타일을 유지합니다.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Checkbox, Switch, Radio|외부 `<label>`가 이제 `for`를 통해 또는 래퍼로서 컨트롤의 이름을 지정합니다. 레이블을 클릭하면 컨트롤에 포커스가 가고 전환됩니다. 호스트의 `aria-labelledby`가 이제 컨트롤의 이름을 지정합니다.|
+|[2357](https://github.com/IgniteUI/igniteui-webcomponents/pull/2357), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|색상 선택기|선택기 캔버스가 이제 터치 입력에 반응합니다. `default` 모드에서는 외부 `<label>`, 호스트 `aria-labelledby`, 호스트 `aria-label`가 트리거 버튼의 이름을 지정합니다. `input` 모드에서는 텍스트 입력에 더 이상 `aria-expanded`가 없습니다.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Combo, Select|입력 레이블을 클릭해도 더 이상 목록이 열리거나 닫히지 않습니다. `label` 속성과 외부 `<label>`가 이제 입력의 이름을 지정합니다. 이전에는 선택 상태 텍스트가 입력의 이름을 지정했습니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378)|Dropdown|화살표 키 앞의 `Enter`는 더 이상 오류를 일으키지 않습니다. 드롭다운이 다시 열린 후, 명시적 대상이 있든 없든 키보드 탐색, `aria-haspopup`, `aria-expanded`가 올바릅니다. 해결되지 않은 대상이 있는 `show()`는 현재 대상을 유지합니다. 앵커가 없으면 `show()`는 `false`를 반환합니다. `clearSelection()`와 선택된 항목의 제거는 탐색을 재설정합니다. 접근성 트리는 드롭다운 헤더와 그룹 레이블을 올바르게 보여 줍니다. 앵커는 `ariaLabelledByElements`를 통해 목록의 이름을 지정합니다.|
+|[2378](https://github.com/IgniteUI/igniteui-webcomponents/pull/2378), [2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Picker|드롭다운 모드에서 첫 렌더링 후에 설정된 `label`는 이제 네이티브 입력으로 전달됩니다. `container` CSS 파트가 이제 내보내집니다.|
+|[2398](https://github.com/IgniteUI/igniteui-webcomponents/pull/2398)|Date Range Picker|`ranges` CSS 파트가 이제 내보내집니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2374](https://github.com/IgniteUI/igniteui-webcomponents/pull/2374)|폼 연결 컴포넌트|유효성 검사 메시지는 첫 번째 폼 제출 실패 후에도 사라지지 않습니다. 잘못된 스타일은 유효성 상태를 따릅니다. `invalid`가 있는 `required` 입력처럼 잘못된 상태로 시작하는 호스트도 이제 유효성 검사 메시지를 표시합니다.|
+|[2390](https://github.com/IgniteUI/igniteui-webcomponents/pull/2390), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Input, Mask Input, Date Time Input, Date Picker, Date Range Picker, File Input, Textarea, Select, Combo, Color Picker|레이블을 클릭하면 컴포넌트는 이제 `click` 이벤트를 하나만 발생시킵니다. 비활성화된 컴포넌트는 `click` 이벤트를 발생시키지 않습니다. 호스트의 `aria-labelledby`와 `aria-label`가 이제 네이티브 편집기의 이름을 지정합니다. 폼 연결 컴포넌트는 모두 다음 이름 지정 순서를 사용합니다: 호스트 `aria-labelledby`, 외부 `<label>` 요소, 자체 레이블, 호스트 `aria-label`. 첫 렌더링 후에 추가된 `<label>`가 컨트롤의 이름을 지정합니다. 도움말 텍스트 `aria-describedby`는 다시 렌더링된 후에도 유지됩니다.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|File Input|외부 `<label>`를 클릭하면 이제 네이티브 입력에 포커스가 가고 파일 선택기가 열립니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Highlight|최근 Firefox 버전에서 일치 항목이 다시 표시됩니다. 호스트의 루트 노드가 이제 `::highlight()` 규칙을 적용합니다. Chromium에서는 다른 shadow root 안의 컴포넌트가 이제 `--background`와 `--foreground` CSS 변수를 올바르게 해석합니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Icon|참조를 통해 렌더링되는 아이콘은 나중에 대상 아이콘을 등록해도 이제 해석됩니다. 아이콘은 접근 가능한 이름이 있을 때만 `role="img"`를 가집니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26), [2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Rating|소수 `step`가 있는 값이 이제 정확합니다. `stepUp(n)`와 `stepDown(n)`는 `n` 단위로 이동합니다. 숫자가 아닌 `max` 또는 `step`는 유효한 숫자로 대체됩니다. 접근 가능한 이름, `aria-valuetext`, `aria-readonly`, `aria-disabled`가 올바릅니다. 외부 `<label>`가 컨트롤의 이름을 지정합니다. `onHover`는 이제 포인터가 컴포넌트를 떠났다가 같은 기호 위에서 다시 들어올 때 발생합니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Select|선택된 항목이 있는 닫힌 select에서 `ArrowUp`는 이제 이전 항목으로 이동합니다. 타입 어헤드는 첫 글자에서 더 이상 오류를 일으키지 않습니다. 타입 어헤드는 더 이상 키보드 단축키를 막지 않습니다. 선택된 항목을 다시 선택하면 목록이 닫힙니다. 컴포넌트는 일치하는 항목이 존재하기 전에 설정한 `value`를 유지하고, 항목을 추가하면 이를 해석합니다. 입력 텍스트는 선택된 항목의 주 콘텐츠에서만 가져옵니다.|
+|[2402](https://github.com/IgniteUI/igniteui-webcomponents/pull/2402)|Slider|외부 `<label>`와 호스트 `aria-labelledby`가 이제 컨트롤의 이름을 지정합니다. 슬라이더는 첫 렌더링 후 호스트 `aria-label`의 변경을 따릅니다. 보조 기술은 더 이상 값 툴팁을 읽지 않습니다.|
+|[1955](https://github.com/IgniteUI/igniteui-webcomponents/issues/1955), [7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tabs|Indigo 테마의 스크롤 버튼은 이제 불투명합니다. `activation="manual"`, `Enter` 또는 `Space`가 있는 탭은 이제 `onChange`를 발생시킵니다. 활성 탭에 `selected`를 `false`로 설정하거나, 마지막 탭을 제거하거나, 비활성 탭인 경우에도 선택은 올바르게 유지됩니다. 시작 스크롤 버튼과 클릭 스크롤은 브라우저 확대/축소에서도 올바르게 작동합니다. 스트립을 스크롤할 때 렌더링 작업이 줄어듭니다.|
+|[2361](https://github.com/IgniteUI/igniteui-webcomponents/pull/2361)|Textarea|`resize`가 `auto`에서 다른 값으로 바뀌면 이제 인라인 높이가 해제됩니다. 투영된 텍스트는 네이티브 `<textarea>`와 같이 기본값이 됩니다. 컨트롤은 변경되지 않은 상태로 유지되며, 폼 재설정은 텍스트를 복원합니다.|
+|[2359](https://github.com/IgniteUI/igniteui-webcomponents/pull/2359)|Tile Manager|위치가 지정된 두 타일을 맞바꿔도 더 이상 `rowStart`에 열 값을 쓰지 않습니다. 위치가 지정된 단일 타일 옆에 추가한 타일은 더 이상 그 타일과 겹치지 않습니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tooltip|`show()`와 `hide()`는 대기 중인 반대 방향 전환을 취소합니다. 숨김 애니메이션 중에 포인터가 앵커 위로 다시 돌아오면 툴팁이 열린 상태로 유지됩니다. `show(target)`는 더 이상 `open` 상태를 잘못되게 하지 않습니다. 런타임에 설정된 `withArrow`는 이제 화살표 위치를 지정합니다. 지연된 전환의 Promise가 이제 완료됩니다. `Escape`는 툴팁이 열려 있을 때만 `onClosed`를 발생시킵니다.|
+|[7.3.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#730---2026-08-26)|Tree|대용량 또는 깊게 중첩된 트리에 대한 작업이 더 빨라졌습니다. 항목의 `path`를 읽는 비용은 이제 `2^depth`가 아니라 `depth`입니다. 키보드 탐색은 약 5배 빨라졌습니다. 선택된 항목이 있는 하위 트리를 제거하는 작업은 약 2배 빨라졌습니다. `items`, `select()`, 그리고 모든 항목의 확장 또는 축소는 25~45% 빨라졌습니다.|
+|[2363](https://github.com/IgniteUI/igniteui-webcomponents/pull/2363)|Avatar, Badge|대체 텍스트가 설정되지 않으면 아바타 `<img>`에 이제 `alt=""`가 있습니다. 이 경우 이미지는 장식용입니다. 아이콘과 텍스트가 있는 배지는 인라인 안쪽 여백을 유지합니다. 배지가 더 이상 텍스트를 잘라내지 않습니다.|
+|[2362](https://github.com/IgniteUI/igniteui-webcomponents/pull/2362)|Chip|제거 가능한 칩은 제거 컨트롤이 칩 표면의 형제 요소이므로 이제 `nested-interactive` 접근성 감사를 통과합니다. 접근 가능한 이름은 칩 콘텐츠입니다. `Space`는 선택을 전환합니다. `onRemove`는 제거 가능한 칩에서만 발생합니다. 제거 컨트롤에 대한 포커스는 칩의 포커스 상태를 보여 줍니다. 접두사와 접미사 래퍼가 올바르게 숨겨집니다.|
+|[2401](https://github.com/IgniteUI/igniteui-webcomponents/pull/2401)|가상 스크롤|`scrollToIndex`와 `block: 'nearest'`를 함께 사용하면 이제 뷰포트 뒤의 항목을 네이티브 `scrollIntoView`처럼 뷰포트의 끝에 맞춥니다.|
+|[180](https://github.com/IgniteUI/igniteui-react/pull/180)|igniteui-react-grids|패키지에 이제 `exports` 맵이 있습니다. 번들러와 TypeScript가 진입점과 타입 정의를 해석합니다.|
+
+### {PackageDockManager}(Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx)(<ApiLink type="DockManager" />): `igniteui-dockmanager`를 2.1.3에서 2.2.1로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)를 참조하십시오.
+
+#### 새 기능
+
+- 고정 해제된 창 헤더를 위한 새 CSS 변수: `--igc-unpinned-header-background` 및 `--igc-unpinned-header-text`.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[128](https://github.com/IgniteUI/igniteui-dockmanager/issues/128)|IgrDockManager|상위 Dock Manager는 더 이상 중첩된 Dock Manager의 숨겨진 탭 선택 이벤트를 처리하지 않습니다.|
+|[130](https://github.com/IgniteUI/igniteui-dockmanager/issues/130)|IgrDockManager|콘텐츠 창의 브라우저 자동 완성 제안은 사용자가 선택해도 더 이상 오류를 일으키지 않습니다.|
+|[17574](https://github.com/IgniteUI/igniteui-angular/issues/17574)|IgrDockManager|슬롯된 라디오 버튼을 클릭해도 Angular 기본 변경 감지에서 브라우저가 더 이상 멈추지 않습니다.|
+
+### {GridLitePackage}(Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx)(<ApiLink type="GridLite" />): `igniteui-grid-lite`를 0.9.0에서 0.11.0으로 업데이트했습니다. 이 업데이트에는 [0.10.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0100---2026-08-26) 및 [0.11.0](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#0110---2026-09-25) 릴리스가 포함됩니다.
+
+#### 새 기능
+
+- 그리드는 이제 `ElementInternals`을 통해 전체 ARIA 그리드 패턴을 구현합니다: 역할, 행과 열의 개수 및 인덱스, `aria-sort` 및 `aria-selected`. 필터 행은 두 번째 헤더 행입니다.
+- 키보드 탐색과 클릭은 이제 DOM 포커스를 활성 셀로 옮깁니다. 화면 낭독기가 셀을 알립니다.
+- 새 공개 `columns` setter입니다.
+
+#### 변경됨
+
+- 행 가상화는 이제 <ApiLink type="VirtualScroll" /> 컴포넌트를 사용합니다. 뷰포트 밖에 렌더링되는 행이 줄어듭니다. `@lit-labs/virtualizer` 종속성을 제거했습니다.
+- 800px 높이의 그리드에서 10,000개 행과 20개 열로 0.10.0과 비교한 성능입니다:
+  - 부드러운 스크롤이 60fps로 실행됩니다. 이전에는 30fps로 실행되었습니다.
+  - 먼 스크롤 위치로 이동하는 작업이 8배 빨라졌습니다.
+  - 정렬이 8배 빨라졌습니다.
+  - 셀 템플릿을 사용하면 개선 폭이 같거나 더 큽니다.
+- 열 없이 탐색하면 현재 열을 유지합니다.
+- 셀 활성화는 이제 영향을 받는 두 행만 업데이트합니다. 이전에는 보이는 모든 행을 업데이트했습니다.
+- 열이 바뀌면 행이 셀을 재사용합니다. 정렬은 하나의 공유 collator를 사용합니다. `ResizeObserver`가 스크롤바 오프셋을 제어합니다.
+- 취소 가능한 `onSorting` 및 `onFiltering` 이벤트는 상태가 바뀌기 전에 발생합니다. 리스너는 식을 취소하거나 바꿀 수 있습니다.
+- `onSorted` 및 `onFiltered` 이벤트는 데이터 뷰가 업데이트된 후에 발생합니다.
+
+#### 사용 중단됨
+
+- `navigateTo(row, column?, activate?)`의 위치 인수입니다. `navigateTo(row, options)`를 사용하십시오.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|OR 식만 있는 필터가 더 이상 모든 레코드와 일치하지 않습니다.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|문자열 필터 조건이 이제 `null` 또는 `undefined` 셀 값에서 오류를 일으키지 않습니다.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|동시에 실행되는 비동기 데이터 파이프라인이 이제 결과를 잘못된 순서로 적용하지 않습니다.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|래퍼 요소 안의 선언형 열이 더 이상 형제 열을 제거하지 않습니다.|
+|[78](https://github.com/IgniteUI/igniteui-grid-lite/pull/78)|IgrGridLite|각 그리드 인스턴스는 이제 자신의 탐색 상태를 가집니다. 탐색은 숨겨진 열을 건너뛰며 더 이상 잘못된 행 인덱스를 만들지 않습니다.|
+|[79](https://github.com/IgniteUI/igniteui-grid-lite/pull/79)|IgrGridLite|그리드는 이제 어떤 열과도 일치하지 않는 조건이 있는 필터 식을 건너뜁니다.|
+
+## **{PackageVerChanges-26-2-JUL}**
+
+### {PackageCommon}
+
+#### 새 기능
+
+- #### AI 지원 개발 - 스킬
+  - 새 Grid Lite에서 프리미엄 데이터 그리드로의 마이그레이션 스킬입니다. 가져오기, 템플릿, 정렬, 필터링, 서버 측 패턴, 도구 모음 및 내보내기 흐름을 매핑합니다([#168](https://github.com/IgniteUI/igniteui-react/pull/168)).
+
+#### 변경됨
+
+- `igniteui-webcomponents`를 7.2.4로 업데이트했습니다. 이 업데이트에는 [7.2.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#722---2026-06-15), [7.2.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#723---2026-06-18), [7.2.4](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#724---2026-06-29) 패치 릴리스가 포함됩니다.
+- `igniteui-dockmanager`를 2.1.3으로, `igniteui-grid-lite`를 0.9.0으로 업데이트했습니다. Dock Manager와 Grid Lite 항목을 참조하십시오.
+- #### 폼 연결 컴포넌트
+  - 외부 `<label>`가 이제 <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="Textarea" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Select" />, <ApiLink type="Combo" />, <ApiLink type="DatePicker" />, <ApiLink type="DateRangePicker" />의 네이티브 입력에 연결됩니다.
+  - `for` 및 `id` 어트리뷰트를 사용하거나, 컴포넌트를 `<label>` 안에 넣으십시오. 보조 기술이 레이블을 읽습니다. 레이블을 클릭하면 네이티브 입력에 포커스가 갑니다([#2263](https://github.com/IgniteUI/igniteui-webcomponents/pull/2263)).
+- #### Snackbar, Toast
+  - 컨테이너 위치 지정 속성은 이제 새 `NotificationPositioning` 유형을 사용합니다([#2251](https://github.com/IgniteUI/igniteui-webcomponents/pull/2251)).
+- #### AI 지원 개발 - 스킬
+  - React 스킬은 이제 사용 패턴을 위해 MCP 문서와 API 조회를 사용합니다([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - 이미지-React 생성 안내는 이제 표준 MCP 호출을 사용합니다. 예: `list_components('react')` 및 `get_doc('react', '<name>')`([#167](https://github.com/IgniteUI/igniteui-react/pull/167), [#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - 테마 사용자 지정 작업 흐름은 이제 팔레트, 테마, 타이포그래피, 고도에 대해 더 안전한 순서를 설정합니다. 토큰을 재정의하기 전에 토큰을 찾습니다([#167](https://github.com/IgniteUI/igniteui-react/pull/167)).
+  - 안내 및 주의 사항 참조에서 Nav Drawer CSS 변수 이름을 바로잡았습니다([#169](https://github.com/IgniteUI/igniteui-react/pull/169)).
+  - 그리드 안내는 이제 에이전트에게 끝에 빈 공간을 남기는 고정 열 너비를 사용하지 말라고 알려 줍니다. 에이전트는 사용자가 요청할 때만 고정 너비를 사용합니다([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+  - 불분명한 텍스트와 잘못된 API 사용 패턴을 제거했습니다([#170](https://github.com/IgniteUI/igniteui-react/pull/170)).
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[2237](https://github.com/IgniteUI/igniteui-webcomponents/pull/2237)|Expansion Panel|제목 및 부제목 슬롯의 줄 높이를 수정했습니다.|
+|[2256](https://github.com/IgniteUI/igniteui-webcomponents/pull/2256)|Popover 기반 컴포넌트|`position: sticky`가 있는 상위 요소에서 popover 위치가 이제 안정적입니다.|
+|[2257](https://github.com/IgniteUI/igniteui-webcomponents/pull/2257)|Tile Manager|Safari에서 드래그 작업 중 더 이상 텍스트가 선택되지 않습니다. 걸쳐 있는 타일을 최대화해도 높이가 줄어들지 않습니다.|
+|[2268](https://github.com/IgniteUI/igniteui-webcomponents/pull/2268)|Tabs|선택된 탭 헤더가 첫 렌더링에서 더 이상 보이도록 스크롤되지 않습니다.|
+
+### {PackageGrids}(그리드)
+
+- `igniteui-webcomponents-grids`를 7.2.0으로 업데이트했습니다. 이 버전은 `igniteui-angular` [22.0.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2200)을 사용합니다.
+- `igniteui-angular` 22.0.0의 파생 Sass 그리드 테마는 Angular 테마 API에만 적용됩니다. CSS 테마를 사용하는 {ProductName} 그리드는 바뀌지 않습니다.
+
+### {PackageDockManager}(Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx)(<ApiLink type="DockManager" />): `igniteui-dockmanager`를 2.1.2에서 2.1.3으로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)를 참조하십시오.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[125](https://github.com/IgniteUI/igniteui-dockmanager/issues/125)|IgrDockManager|`tab-strip-area top` 파트가 이제 적용됩니다.|
+|[126](https://github.com/IgniteUI/igniteui-dockmanager/issues/126)|IgrDockManager|상위 Dock Manager는 더 이상 중첩된 Dock Manager의 선택된 탭이 보이지 않게 되는 이벤트를 처리하지 않습니다.|
+|[127](https://github.com/IgniteUI/igniteui-dockmanager/issues/127)|IgrDockManager|탭을 재정렬한 후 탭 헤더에 올바른 `aria-label` 값이 표시됩니다.|
+
+### {GridLitePackage}(Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx)(<ApiLink type="GridLite" />): `igniteui-grid-lite`를 0.8.0에서 0.9.0으로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#090---2026-07-09)를 참조하십시오.
+
+#### 변경됨
+
+- 대용량 데이터 세트에서 정렬과 필터링 작업이 더 빨라졌습니다. 그리드는 이제 정렬 키와 필터 식 트리를 미리 계산합니다([#63](https://github.com/IgniteUI/igniteui-grid-lite/pull/63)).
+- 본문 셀과 행 테마는 이제 현재 `igniteui-theming` 변수를 사용합니다. `igniteui-theming`를 27.3.0으로 업데이트했습니다([#66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)).
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[66](https://github.com/IgniteUI/igniteui-grid-lite/pull/66)|IgrGridLite|본문 셀과 행 테두리 스타일은 기본, 홀수, 짝수, 호버, 활성 상태에서 올바른 테마 변수를 사용합니다.|
+
+## **{PackageVerChanges-26-2-MAY}**
+
+### {PackageCommon}
+
+#### 변경됨
+
+- `igniteui-webcomponents`를 7.2.1로 업데이트했습니다. 이 업데이트에는 [7.2.0](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#720---2026-05-27) 릴리스가 포함됩니다.
+- `igniteui-dockmanager`를 2.1.2로, `igniteui-grid-lite`를 0.8.0으로 업데이트했습니다. Dock Manager와 Grid Lite 항목을 참조하십시오.
+- #### 폼 컨트롤
+  - <ApiLink type="Input" />, <ApiLink type="MaskInput" />, <ApiLink type="DateTimeInput" />, <ApiLink type="Checkbox" />, <ApiLink type="Radio" />, <ApiLink type="Switch" />, <ApiLink type="DatePicker" />, <ApiLink type="DateRangePicker" />는 이제 네이티브 컨트롤처럼 사용자가 **Enter**를 누르면 폼을 제출합니다([#2213](https://github.com/IgniteUI/igniteui-webcomponents/pull/2213)).
+- #### Input
+  - `date`, `time`, `datetime-local`, `week`, `month` 입력 유형에 대한 테마 지원을 추가했습니다. 이 유형들은 이제 모든 테마에서 같은 스타일과 떠 있는 레이블 동작을 가집니다([#2223](https://github.com/IgniteUI/igniteui-webcomponents/pull/2223)).
+- #### AI 지원 개발 - 스킬
+  - 패키지의 스킬을 업데이트했습니다.
+
+#### 새 기능
+
+- #### Date Range Picker
+  - 이제 날짜 범위 값을 하나의 입력 필드에서 편집할 수 있습니다([#1733](https://github.com/IgniteUI/igniteui-webcomponents/pull/1733)).
+- #### Nav Drawer
+  - 상대 위치가 아닌 경우 <ApiLink type="NavDrawer" />는 이제 네이티브 Popover API를 사용합니다. 이 API는 모달 의미 체계, 포커스 트랩, 접근성 지원을 제공합니다([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+  - 새 `keepOpenOnEscape` 속성입니다. 사용자가 **Escape**를 누르면 드로어를 열린 상태로 유지합니다. 상대 위치가 아닌 경우에만 적용됩니다.
+  - 새 `onClosing` 이벤트입니다. 사용자 상호 작용이 드로어를 닫기 전에 드로어가 발생시킵니다. 이 이벤트는 취소할 수 있습니다.
+  - 새 `onClosed` 이벤트입니다. 사용자 상호 작용이 드로어를 닫은 후에 드로어가 발생시킵니다.
+- #### Invoker Commands API
+  - <ApiLink type="Button" />와 <ApiLink type="IconButton" />가 이제 `command` 및 `commandFor` 속성을 지원합니다. 이 속성들을 사용하면 버튼이 사용자 지정 JavaScript 없이 대상 컴포넌트를 제어할 수 있습니다([#2225](https://github.com/IgniteUI/igniteui-webcomponents/pull/2225)).
+  - <ApiLink type="Banner" />, <ApiLink type="Dialog" />, <ApiLink type="NavDrawer" />, <ApiLink type="Snackbar" />, <ApiLink type="Toast" />가 이제 invoker 버튼의 `--show`, `--hide`, `--toggle` 명령에 응답합니다.
+- #### Snackbar, Toast
+  - 새 `positioning` 속성(`viewport` 또는 `container`)입니다. 컴포넌트가 이제 브라우저의 최상위 레이어에서 popover로 렌더링됩니다.
+  - `positioning`를 `container`로 설정하면 컴포넌트는 뷰포트 대신 가장 가까운 보이는 상위 요소에 앵커됩니다([#2203](https://github.com/IgniteUI/igniteui-webcomponents/pull/2203)).
+
+#### 호환되지 않는 변경 사항
+
+- #### Nav Drawer
+  - `overlay` CSS 파트를 제거했습니다. 대신 `base` 파트의 `::backdrop` 의사 요소, `--ig-overlay-background-color` 변수 또는 테마 패키지를 사용하십시오([#2194](https://github.com/IgniteUI/igniteui-webcomponents/pull/2194)).
+
+#### 사용 중단됨
+
+- #### 현지화
+  - <ApiLink type="Calendar" />, <ApiLink type="Chat" />, <ApiLink type="DatePicker" />, <ApiLink type="DateRangePicker" />의 이전 리소스 문자열 인터페이스는 지원 중단되었습니다. 이제 컴포넌트는 `igniteui-i18n` 리소스 키를 사용합니다.
+  - 개별 `resourceStrings` 속성은 더 이상 설정할 수 없습니다. 완전한 리소스 문자열 객체를 설정하십시오([#2169](https://github.com/IgniteUI/igniteui-webcomponents/pull/2169)).
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[2219](https://github.com/IgniteUI/igniteui-webcomponents/pull/2219)|Button Group|포커스 및 호버 상태에서 선택 상태의 테두리 색상이 이제 올바릅니다.|
+|[2224](https://github.com/IgniteUI/igniteui-webcomponents/pull/2224)|Combo|단일 선택 모드에서 사용자가 부분 검색 텍스트 후 Tab으로 포커스를 옮기면 이제 표시 값이 올바릅니다.|
+|[2228](https://github.com/IgniteUI/igniteui-webcomponents/pull/2228)|Stepper|상위 stepper보다 먼저 DOM에 연결된 step은 이제 stepper가 채택할 때 컨텍스트를 받습니다.|
+
+### {PackageDockManager}(Dock Manager)
+
+- [Dock Manager](./layouts/dock-manager.mdx)(<ApiLink type="DockManager" />): `igniteui-dockmanager`를 2.1.1에서 2.1.2로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md)를 참조하십시오.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[123](https://github.com/IgniteUI/igniteui-dockmanager/issues/123)|IgrDockManager|창 콘텐츠 안을 누르면 더 이상 슬롯된 `<input>`, `<textarea>`, `<select>` 요소에서 포커스를 빼앗지 않습니다.|
+|[124](https://github.com/IgniteUI/igniteui-dockmanager/issues/124)|IgrDockManager|창이 떠 있을 때 고정 해제된 탭 영역 위치가 `left`로 재설정되지 않습니다. 다시 도킹해도 창이 사라지지 않습니다.|
+
+### {GridLitePackage}(Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx)(<ApiLink type="GridLite" />): `igniteui-grid-lite`를 0.7.1에서 0.8.0으로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#080---2026-05-27)를 참조하십시오.
+
+#### 변경됨
+
+- 필터 행 입력의 스타일을 업데이트했습니다. 공통 필터 로직을 리팩터링했습니다([#54](https://github.com/IgniteUI/igniteui-grid-lite/pull/54)).
+- `igniteui-webcomponents`를 7.2.0으로 업데이트했습니다. 이제 그리드는 Node.js 22 이상이 필요합니다([#65](https://github.com/IgniteUI/igniteui-grid-lite/pull/65), [#64](https://github.com/IgniteUI/igniteui-grid-lite/pull/64)).
+
+## **{PackageVerChanges-26-2-APR}**
+
+이 항목에는 19.6.1(2026년 4월) 패치 릴리스도 포함됩니다.
+
+### {PackageCommon}
+
+#### 변경됨
+
+- `igniteui-webcomponents`를 7.1.3으로 업데이트했습니다. 이 업데이트에는 [7.1.1](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#711---2026-03-25), [7.1.2](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#712---2026-04-22), [7.1.3](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#713---2026-04-28) 패치 릴리스가 포함됩니다.
+- [Dock Manager](./layouts/dock-manager.mdx)(<ApiLink type="DockManager" />): `igniteui-dockmanager`를 2.1.1로 업데이트했습니다. 이 릴리스는 빌드, CI/CD, 개발 워크플로만 변경합니다([#152](https://github.com/IgniteUI/igniteui-react/pull/152)).
+- `igniteui-grid-lite`를 0.7.1로 업데이트했습니다. Grid Lite 항목을 참조하십시오.
+- #### Button Group
+  - 테마 색상을 정렬했습니다([#2182](https://github.com/IgniteUI/igniteui-webcomponents/pull/2182)).
+- #### Checkbox
+  - 비활성 및 불확정 스타일을 업데이트했습니다([#2158](https://github.com/IgniteUI/igniteui-webcomponents/pull/2158)).
+- #### Chip
+  - 칩 콘텐츠가 이제 새 파트 컨테이너 안에 있습니다. 칩 스타일을 업데이트했습니다([#2190](https://github.com/IgniteUI/igniteui-webcomponents/pull/2190)).
+- #### Circular Progress
+  - 원형 및 선형 진행률 막대가 이제 같은 트랙 색상 CSS 변수를 사용합니다([#2185](https://github.com/IgniteUI/igniteui-webcomponents/pull/2185)).
+- #### AI 지원 개발 - 스킬
+  - 새 `igniteui-react-generate-from-image-design` 스킬입니다. AI 코딩 어시스턴트에게 스크린샷, 목업, 와이어프레임 같은 디자인 이미지로부터 React 뷰를 만드는 방법을 보여 줍니다([#146](https://github.com/IgniteUI/igniteui-react/pull/146)).
+  - 스킬이 이제 Ignite UI CLI MCP 서버를 사용합니다([#151](https://github.com/IgniteUI/igniteui-react/pull/151), [#154](https://github.com/IgniteUI/igniteui-react/pull/154)).
+  - 19.6.1: 그리드, Grid Lite, 폼에 대한 안내를 명확히 하고 확장했습니다([#141](https://github.com/IgniteUI/igniteui-react/pull/141)). 완전한 데이터 차트 예제([#143](https://github.com/IgniteUI/igniteui-react/pull/143))와 패키지 라우팅 안내([#145](https://github.com/IgniteUI/igniteui-react/pull/145))를 추가했습니다.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[2168](https://github.com/IgniteUI/igniteui-webcomponents/pull/2168)|Dropdown|선택된 항목 스타일을 수정했습니다.|
+|[2184](https://github.com/IgniteUI/igniteui-webcomponents/pull/2184)|Linear Progress|표시 크기가 이제 모든 플랫폼에서 같습니다.|
+|[2173](https://github.com/IgniteUI/igniteui-webcomponents/pull/2173)|Tree|배경 스타일의 차이를 수정했습니다.|
+|[2209](https://github.com/IgniteUI/igniteui-webcomponents/issues/2209)|Stepper|가로 방향에서 콘텐츠 영역의 높이가 이제 활성 step의 콘텐츠를 따를 수 있습니다. 이전에는 높이가 항상 가장 큰 step의 높이였습니다. 새 `--body-grid-rows` CSS 변수는 각 step 본문의 행 크기를 설정합니다. 기본값 `1fr`는 본문을 콘텐츠에 맞게 확장합니다. `0fr`는 본문을 높이 0으로 접습니다.|
+
+### {PackageGrids}(그리드)
+
+- `igniteui-webcomponents-grids`를 7.1.0으로 업데이트했습니다. 이 버전은 `igniteui-angular` [21.2.0](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2120)을 사용합니다.
+- **보안** - PDF 내보내기의 `jspdf` 종속성을 4.2.1로 업데이트했습니다. 이 버전은 이전 버전([21.1.3](https://github.com/IgniteUI/igniteui-angular/blob/master/CHANGELOG.md#2113))의 보안 취약점을 수정합니다.
+
+### {GridLitePackage}(Grid Lite)
+
+- [Grid Lite](./grid-lite/overview.mdx)(<ApiLink type="GridLite" />): `igniteui-grid-lite`를 0.7.0에서 0.7.1로 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-grid-lite/blob/master/CHANGELOG.md#071---2026-04-01)를 참조하십시오.
+
+#### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[60](https://github.com/IgniteUI/igniteui-grid-lite/pull/60)|IgrGridLite|`filterExpressions`와 `sortExpressions` setter는 이제 현재 상태를 대체합니다. 이전에는 상태에 추가했습니다.|
+|[55](https://github.com/IgniteUI/igniteui-grid-lite/pull/55)|IgrGridLite|열 구성 없이 초기 필터 또는 정렬 상태를 지정해도 더 이상 오류가 발생하지 않습니다.|
+|[58](https://github.com/IgniteUI/igniteui-grid-lite/pull/58)|IgrGridLite|그리드는 이제 connected 콜백에서 채택된 스타일을 올바르게 적용합니다.|
+
+## **{PackageVerChanges-26-2-JUN}**
+
+### {PackageCharts}
+
+#### 새 기능
+
+- `MarkerType` 열거형에 `Checkmark` 옵션을 추가했습니다. 시리즈에 `MarkerType.Checkmark`를 사용하면 원 안에 V자 모양 체크마크 아이콘이 표시됩니다. 새 `MarkerAutomaticBehavior.Checkmark` 열거형 값을 사용하면 체크마크 모양을 차트의 모든 시리즈에 적용할 수 있으며, `SeriesViewer.CheckmarkMarkerTemplate` 속성으로 템플릿을 사용자 지정할 수 있습니다.
+- 마커가 활성화된 차트 시리즈에 `MarkerSize` 지원을 추가하여 장치 독립 픽셀 단위로 마커 크기를 제어하고, `NaN`로 템플릿 기반 크기 지정으로 재설정할 수 있게 했습니다.
+
+### {PackageCommon}
+
+#### 변경됨
+
+- <ApiLink type="DockManager" />: 새 `minResizeWidth` 및 `minResizeHeight` 속성, `paneFlyoutToggle` 이벤트를 포함한 최신 `igniteui-dockmanager@2.1.0`를 사용하도록 업데이트했습니다. 추가 `layoutChange` 이벤트 세부 정보와 수정 사항이 포함됩니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-dockmanager/blob/master/CHANGELOG.md#210)를 참조하십시오.
+- 새 <ApiLink type="Splitter" /> 및 <ApiLink type="Highlight" /> 컨테이너 컴포넌트와 수정 사항을 포함한 최신 `igniteui-webcomponents@7.1.0`를 사용하도록 업데이트했습니다. [전체 변경 로그](https://github.com/IgniteUI/igniteui-webcomponents/blob/master/CHANGELOG.md#710---2026-03-19)를 참조하십시오.
+
+#### 새 기능
+
+- #### AI 지원 개발 - 에이전트 스킬
+  - AI 코딩 어시스턴트(GitHub Copilot, Cursor, Windsurf, Claude, JetBrains AI 등)가 Ignite UI for React와 작업하는 방법을 가르치는 구조화된 지식 파일입니다.
+  - 스킬 파일은 `igniteui-react` 패키지에 포함되며, [skills/](https://github.com/IgniteUI/igniteui-react/tree/master/skills) 디렉터리에도 있습니다:
+    - **components** - UI 패턴에 맞는 올바른 React 컴포넌트(`Igr*`)를 식별한 다음, 설치, import, 사용합니다. JSX 패턴, 이벤트, refs, 폼 등을 다룹니다.
+    - **customize-theme** - React에서 CSS 사용자 지정 속성, Sass, 테마 시스템을 사용하여 스타일을 사용자 지정합니다. Ignite UI Theming MCP 서버 사용을 포함합니다.
+    - **optimize-bundle-size** - 세분화된 import, 트리 셰이킹, 지연 로딩으로 번들 크기를 줄입니다.
+  - 이 스킬들은 에이전트의 스킬 경로(예: `.agents/skills` 또는 `.claude/skills`)에 배치되면 자동으로 검색됩니다.
+
+## **{PackageVerChanges-26-2-MAR}**
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+| 3055 | IgrDataPieChart | 기타 조각의 스타일 속성이 누락되었습니다 |
+| 38668 | IgrDataTooltipLayer | 차트의 TitleTextColor를 사용할 때 TitleTextColor가 재정의됩니다 |
+| 41167 | Excel | 객체의 수식이 왕복 처리되지 않습니다 - 카메라 도구의 왕복 처리를 위한 Excel 지원을 추가했습니다 |
+| 41419 | Excel | VBA 서명된 Excel 파일을 저장하면 서명/인증서가 유지되지 않습니다. |
+| 41594 | IgrDataChart | AssigningCategoryStyle args.GetItems가 null이거나 fragment 시리즈의 항목을 업데이트하지 못합니다. |
+
+### 개선 사항
+
+### {PackageCharts}
+
+- `IgrDataChart`에서 가로 범위 렌더링을 위한 `RangeBarSeries` 지원을 추가했습니다.
+
+## **{PackageVerChanges-26-2-FEB}**
+### {PackageCommon}
+
+#### 새 기능
+
+- #### AI 지원 개발 - Copilot 스킬
+  - `skills/` 디렉터리 아래 `{PackageCommon}` 패키지와 함께 이제 네 가지 최종 사용자 스킬이 제공되며, 일반적인 작업에 대해 GitHub Copilot 및 기타 LLM 에이전트에게 단계별 안내를 제공합니다:
+    - **igniteui-wc-choose-components** - 주어진 UI 패턴에 맞는 컴포넌트를 식별합니다.
+    - **igniteui-wc-integrate-with-framework** - React, Angular, Vue 또는 바닐라 JS에서 컴포넌트를 설정하고 사용합니다.
+    - **igniteui-wc-customize-component-theme** - CSS 사용자 지정 속성, 파트, 테마 시스템을 통해 사용자 지정 스타일을 적용합니다.
+    - **igniteui-wc-optimize-bundle-size** - 선택적 import와 지연 로딩으로 프로덕션 번들 크기를 줄입니다.
+- #### Chat
+  - `adoptRootStyles`는 이제 런타임에 켜고 끌 수 있습니다.
+
+
+#### 호환되지 않는 변경 사항
+
+- #### 테마
+  - 다른 Ignite UI 컴포넌트 라이브러리와 맞추기 위해 컴포넌트 테마용 CSS 사용자 지정 속성의 전역 접두사를 변경했습니다.
+
+- #### Chat
+  - `typingIndicator` 템플릿 렌더러를 제거했습니다. 대신 `typing-indicator` 슬롯을 사용하십시오.
+
+- #### Tooltip
+  - `disableArrow` 지원 중단된 속성을 제거했습니다.
+
+- #### 라이브러리
+  - 이제 요구되는 최소 Node 버전은 22 이상입니다.
+
+  #### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[2033](https://github.com/IgniteUI/igniteui-webcomponents/pull/2033)|Carousel|Blazor의 컨텍스트 인스턴스화|
+|[2085](https://github.com/IgniteUI/igniteui-webcomponents/pull/2085)|Combo|입력이 아닌 부분 위의 올바른 커서 스타일|
+|[2085](https://github.com/IgniteUI/igniteui-webcomponents/pull/2085)|Textarea|입력이 아닌 부분 위의 올바른 커서 스타일|
+
+### {PackageGrids}(그리드)
+
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
+  - 그리드에 표시되는 데이터에 따라 스크롤 스로틀을 동적으로 조정하여 성능을 개선했습니다.
+
+**호환성 깨짐 변경**
+
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />
+  - 원본 `data` 배열의 변경(원본 배열의 레코드 추가/제거/이동 등)은 더 이상 자동으로 감지되지 않습니다. 변경을 감지하려면 컴포넌트에 배열 참조 변경이 필요합니다.
+
+**지역화(i18n)**
+
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />, <ApiLink type="PivotGrid" />, <ApiLink type="Combo" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="DateRangePicker" />, <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="Carousel" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="Tree" />
+  - 날짜와 숫자 같은 데이터를 서식 지정하고 렌더링하는 그리드 컴포넌트용 새 `Intl` 구현입니다. <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="DateRangePicker" />의 `Intl` 구현을 업데이트했습니다.
+  - 현재 지원되는 언어로 리소스 문자열이 있는 모든 컴포넌트에 대해, 현재 지원되는 언어를 위한 새 지역화 구현입니다.
+  - 함께 사용되는 새 리소스를 포함하는 새 공개 지역화 API와 `igniteui-i18n-resources` 패키지입니다.
+
+**PDF 내보내기**
+- 사용자가 그리드 데이터를 PDF 형식으로 내보낼 수 있도록 PDF 내보내기 기능을 추가했습니다.
+
+**Popover API**
+
+- 드롭다운 메뉴와 대화 상자가 이제 더 나은 위치 지정과 접근성을 위해 HTML Popover API를 사용합니다.
+
+## **{PackageVerChanges-25-2-FEB}**
+
+### 개선 사항
+
+### {PackageCharts}
+
+DataPieChart와 ProportionalCategoryAngleAxis에 OthersCategoryBrush와 OthersCategoryOutline을 추가했습니다
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|2270|IgrDataChart|DataPieChart와 ProportionalCategoryAngleAxis에 OthersCategoryBrush와 OthersCategoryOutline을 추가했습니다 |
+|2251|igniteui-react-layouts|@constantValues를 포함하는 속성 편집기 props의 해석을 건너뜁니다 |
+|2353|IgrDataChart|infragistics.dvcommonwidget.js를 빌드하는 동안 구문 오류가 발생합니다 |
+|2354|IgrDataChart|infragistics.dvcommonwidget.js의 케이스 이름에 "unset" 대신 "unser" 오타가 있습니다 |
+|2338|IgrDataPieChart|StartAngle이 설정되면 SeriesPointerMove 이벤트가 올바르게 발생하지 않습니다 |
+|2235|Excel|Workbook.Load()가 Excel.FormulaParseException을 던집니다. |
+|2234|IgrRadialChart|버킷 크기가 0인지 확인하는 검사를 추가했습니다 |
+|2234|IgrDataChart|주석 레이어를 위해 GetCategoryIndexAxis()를 수정합니다 |
+
+## **{PackageVerChanges-25-2-DEC}**
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|33808|IgrDataChart|TimeAxisInterval의 IntervalType Ticks에 설정된 척도가 표시되지 않습니다|
+|34255|IgrDataChart|0.00001 척도 눈금 표시가 서로 겹쳐 표시됩니다|
+|38510|IgrDataChart|누적 시리즈에 대한 AssigningCategoryStyle 이벤트 지원|
+
+### 개선 사항
+
+#### 차트
+
+- TimeXAxisLabelFormat에 LabelFormatOverride 이벤트를 추가하여, 이제 TimeXAxis의 모든 시간 서식 수준에서 이벤트로 서식을 재정의할 수 있습니다.
+
+- 속성에 대해 유효한 값을 찾을 가능성을 높이도록 더 많은 항목을 고려하여 스키마 생성을 조정했습니다.
+
+## **{PackageVerChanges-25-2-NOV}**
+
+### {PackageCharts}(차트)
+
+#### <Badge variant="preview" /> 사용자 주석
+
+{ProductName}에서 이제 새로운 사용자 주석 기능을 사용하여 런타임에 슬라이스, 스트립, 포인트 주석으로 <ApiLink type="DataChart" />에 주석을 달 수 있습니다. 이를 통해 최종 사용자는 슬라이스 주석을 사용하여 회사 분기 보고서와 같은 단일 중요 이벤트를 짚거나, 스트립 주석을 사용하여 기간이 있는 이벤트를 짚는 등 플롯에 세부 정보를 추가할 수 있습니다. 또한 포인트 주석을 사용하여 플롯된 시리즈의 개별 지점을 짚거나, 이 세 가지를 임의로 조합할 수도 있습니다.
+
+이는 <ApiLink type="Grid" member="toolbar" label="Toolbar" />의 사용 가능한 도구와 직접 통합되어 있습니다.
+
+<Image src={dataChartUserAnnotationCreate} alt="{Platform} user-annotation-create" class="responsive-img" />
+
+#### <Badge variant="preview" /> 축 주석의 충돌 감지
+
+축 주석이 충돌을 자동으로 감지하고 더 잘 맞도록 잘라낼 수 있습니다. 이 기능을 활성화하려면 다음 속성을 설정해야 합니다:
+
+- <ApiLink type="CategoryAngleAxis" member="shouldAvoidAnnotationCollisions" label="ShouldAvoidAnnotationCollisions" />
+- <ApiLink type="CategoryAngleAxis" member="shouldAutoTruncateAnnotations" label="ShouldAutoTruncateAnnotations" />
+
+### {PackageMaps}(지리 맵)
+
+- Azure Map 이미지가 이제 RTM입니다.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|40136|Excel Library|Excel 통합 문서를 불러올 때 FormulaParseException 예외가 발생합니다|
+|40262|IgrSpreadsheet|경고가 있으면 #Circularity!가 표시됩니다. Excel과 맞추기 위해 대신 0과 같은 값을 표시해 달라는 요청입니다|
+|40458|IgrSpreadsheet|Arial 글꼴을 사용하면 igx-spreadsheet가 셀의 텍스트를 잘라냅니다|
+|40490|IgrDatePicker|자동 채우기로 입력하면 날짜 선택기에 아무 효과가 없습니다|
+
+## **{PackageVerChanges-25-1-OCT_2}**
+
+### 새 컴포넌트
+
+- <ApiLink type="Chat" /> 컴포넌트를 추가했습니다
+
+### {PackageGrids}(그리드)
+- <ApiLink type="Grid" />, <ApiLink type="TreeGrid" />, <ApiLink type="HierarchicalGrid" />
+- 같은 데이터나 다른 사용자 지정 조건을 기준으로 열의 셀을 구성하여 하나의 셀로 병합할 수 있는 새 셀 병합 기능을 도입했습니다.
+
+        개별 열에서 활성화할 수 있습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrColumn field="field" merge={true}></IgrColumn>
+```
+
+</PlatformBlock>
+        병합은 그리드 수준에서 다음 중 하나에 적용되도록 구성할 수 있습니다:
+  - `onSort` - 열이 정렬된 경우에만.
+  - `always` - 데이터 작업과 관계없이 항상.
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrGrid cellMergeMode="always">
+        </IgrGrid>
+```
+
+</PlatformBlock>
+
+        기본 `cellMergeMode`는 `onSort`입니다.
+
+        사용자 지정 시나리오에 다른 병합 조건이나 로직이 필요하다면, 그리드에 사용자 지정 `mergeStrategy`를 설정하여 이 기능을 수정할 수 있습니다.
+
+        특정 데이터 필드에 맞춤 처리가 필요하다면 개별 열에 `mergeComparer`를 설정할 수도 있습니다.
+
+- 개별 열을 그리드의 특정 쪽(시작 또는 끝)에 고정할 수 있게 되어, 이제 양쪽에서 고정할 수 있습니다. 이는 열의 `pinningPosition` 속성을 설정하여 선언적으로 수행할 수 있습니다:
+
+<PlatformBlock for="React">
+
+```tsx
+        <IgrColumn field="Col1" pinned={true} pinningPosition="pinningPosition">
+        </IgrColumn>
+```
+
+</PlatformBlock>
+
+        ```ts
+        pinningPosition = ColumnPinningPosition.End;
+        ```
+
+        또는 API를 통해 선택적 매개변수로:
+
+        ```ts
+        grid.pinColumn('Col1', 0, ColumnPinningPosition.End);
+        grid.pinColumn('Col2', 0, ColumnPinningPosition.Start);
+        ```
+
+        열에 `pinningPosition` 속성이 설정되지 않으면, 열은 그리드의 `columns`에 대한 `pinning` 옵션에 지정된 위치를 기본값으로 사용합니다.
+
+- **정렬 개선**
+  - Schwartzian 변환을 사용하여 정렬 알고리즘의 효율을 개선했습니다. 이는 decorate-sort-undecorate라고도 알려진 기법으로, 정렬 키를 원본 데이터 레코드와 임시로 연결하여 정렬 키를 다시 계산하지 않도록 합니다.
+  - 정렬 알고리즘을 재귀에서 반복 방식으로 리팩터링했습니다.
+- **그룹화 개선**
+  - 그룹화 알고리즘을 재귀에서 반복 방식으로 리팩터링했습니다.
+  - 그룹화 작업을 최적화했습니다.
+
+
+
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[1853](https://github.com/IgniteUI/igniteui-webcomponents/pull/1853)| List |목록 컴포넌트와 테마 전반에서 중복된 CSS 변수를 제거했습니다|
+|[1871](https://github.com/IgniteUI/igniteui-webcomponents/pull/1871)| Card |테마의 색상을 사용합니다|
+|[1873](https://github.com/IgniteUI/igniteui-webcomponents/pull/1873)| Card |카드 헤더의 아바타 크기|
+|[1882](https://github.com/IgniteUI/igniteui-webcomponents/pull/1882)| Chat |마지막 메시지 뒤에 메시지 작업이 렌더링되지 않습니다|
+|[1885](https://github.com/IgniteUI/igniteui-webcomponents/pull/1885)| Date Picker |편집할 수 없는 입력 구성에서 change 이벤트가 발생하지 않습니다|
+|[1894](https://github.com/IgniteUI/igniteui-webcomponents/pull/1894)| Date Picker | Material 테마에서 값을 지우거나 notch 테두리를 사용할 때 문제가 있습니다|
+
+
+## **{PackageVerChanges-25-1-OCT}**
+
+### {PackageMaps}(지리 맵)
+
+#### <Badge variant="preview" /> Azure Map 이미지 지원
+
+<ApiLink type="IgbGeographicMap" />는 이제 Azure 기반 지도 이미지를 지원하므로, 개발자는 여러 유형의 애플리케이션에서 상세하고 동적인 지도를 표시할 수 있습니다. 여러 지도 레이어를 결합하고, 지리 데이터를 시각화하며, 대화형 지도 경험을 손쉽게 만들 수 있습니다.
+
+참고: Bing Maps 이미지 지원은 단계적으로 종료되고 있습니다. 기존 엔터프라이즈 키로 여전히 Bing Maps에 접근할 수 있으므로, Azure 지도로 전환하는 동안 현재 애플리케이션이 계속 작동합니다.
+
+공개적으로 사용할 수 있는 일부 [Azure 지도는 여기에서 확인할 수 있습니다](https://azure.microsoft.com/en-us/products/azure-maps).
+
+### {PackageCharts}(차트)
+
+#### <Badge variant="preview" /> 새 축 레이블 이벤트
+
+축 레이블에 대한 여러 작업을 감지할 수 있도록 <ApiLink type="IgbDataChart" />에 다음 이벤트가 추가되었습니다:
+
+- `LabelMouseDown`
+- `LabelMouseUp`
+- `LabelMouseEnter`
+- `LabelMouseLeave`
+- `LabelMouseMove`
+- `LabelMouseClick`
+
+#### <Badge variant="preview" /> 보조 축
+
+기존 축의 복제본을 빠르게 만들 수 있도록 X축과 Y축에 `CompanionAxis` 속성을 추가했습니다. <ApiLink type="CategoryAngleAxis" member="companionAxisEnabled" label="CompanionAxisEnabled" /> 속성을 사용하여 활성화하면 복제된 축이 기본적으로 차트의 반대 위치에 놓이며, 그 축의 속성을 구성할 수 있습니다.
+
+#### <Badge variant="preview" /> RadialPieSeries 안쪽 윤곽선
+
+<ApiLink type="RadialPieSeries" />의 윤곽선이 렌더링되는 방식을 제어하는 <ApiLink type="RadialPieSeries" member="useInsetOutlines" label="UseInsetOutlines" />라는 새 속성이 있습니다. 이 값을 **true**로 설정하면 윤곽선이 조각 모양 안쪽으로 들어가고, **false**(기본값)로 설정하면 윤곽선이 조각 모양의 가장자리를 따라 절반은 안, 절반은 밖에 놓입니다.
+
+**호환성 깨짐 변경**
+
+- <ApiLink type="ChartMouseEventArgs" /> 클래스의 <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" />와 <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" /> 속성이 뒤바뀌어 있던 문제를 수정했습니다. 이로 인해 <ApiLink type="ChartMouseEventArgs" member="plotAreaPosition" label="PlotAreaPosition" />와 <ApiLink type="ChartMouseEventArgs" member="chartPosition" label="ChartPosition" />가 반환하는 값이 바뀝니다.
+
+### {PackageGrids}(그리드)
+
+#### <Badge variant="preview" /> 셀 접미사 콘텐츠
+
+셀 값의 끝에 추가 텍스트나 아이콘을 넣고 스타일을 지정할 수 있도록 셀 내 접미사 콘텐츠 지원을 추가했습니다. 셀 접미사 콘텐츠에 추가된 전체 속성 목록은 아래와 같으며, <ApiLink type="DataGridColumn" />와 <ApiLink type="DataGridCellEventArgs" member="CellInfo" label="CellInfo" /> 클래스에서 사용할 수 있습니다:
+
+- <ApiLink type="DataGridColumn" member="suffixText" label="SuffixText" />
+- <ApiLink type="DataGridColumn" member="suffixTextColor" label="SuffixTextColor" />
+- `SuffixTextFont`
+- <ApiLink type="DataGridColumn" member="suffixIconName" label="SuffixIconName" />
+- <ApiLink type="DataGridColumn" member="suffixIconCollectionName" label="SuffixIconCollectionName" />
+- <ApiLink type="DataGridColumn" member="suffixIconStroke" label="SuffixIconStroke" />
+- <ApiLink type="DataGridColumn" member="suffixIconFill" label="SuffixIconFill" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxLeft" label="SuffixIconViewBoxLeft" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxTop" label="SuffixIconViewBoxTop" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxWidth" label="SuffixIconViewBoxWidth" />
+- <ApiLink type="DataGridColumn" member="suffixIconViewBoxHeight" label="SuffixIconViewBoxHeight" />
+- <ApiLink type="DataGridColumn" member="textDecoration" label="TextDecoration" />
+
+아이콘의 최대 크기는 24x24입니다. 이보다 크거나 작은 아이콘을 제공할 수 있지만, 24x24 공간에 맞도록 적절히 크기를 조정하고 완전히 보이도록 viewbox 설정을 구성해야 합니다.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|31624 | <ApiLink type="CategoryChart" /> | <ApiLink type="CategoryChart" />를 포함하는 창의 크기를 조정하면 차트가 시리즈를 렌더링하지 못합니다|
+|27304 | <ApiLink type="DataChart" /> | 확대/축소 사각형의 위치가 배경 사각형과 같지 않습니다|
+|37930 | <ApiLink type="DataChart" /> | 데이터 주석 오버레이 텍스트 색상이 작동하지 않습니다|
+|30600 | <ApiLink type="DoughnutChart" /> | 차트와 시리즈 모두에 textStyle 속성이 없습니다(파이 차트에는 있습니다)|
+|38231 | <ApiLink type="Grid" /> | 숨겨진 열이 있으면 고정 해제된 열이 원래 위치로 돌아가지 않습니다|
+|33861 | Excel Library | 독일어 문화권에서 선 차트를 추가하면 Excel 파일이 손상됩니다|
+
+### 개선 사항
+
+#### IgrBulletGraph
+
+- <Badge variant="preview" /> 새 <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> 속성 추가
+
+#### 차트
+
+- 스타일 지정을 돕기 위해 DataToolTipLayer, ItemToolTipLayer, CategoryToolTipLayer에 새 속성을 추가했습니다: `ToolTipBackground`, `ToolTipBorderBrush`, `ToolTipBorderThickness`
+
+- 스타일 지정을 돕기 위해 DataLegend에 새 속성을 추가했습니다: <ApiLink type="DataLegend" member="contentBackground" label="ContentBackground" />, <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" />, <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" />. <ApiLink type="DataLegend" member="contentBorderBrush" label="ContentBorderBrush" />와 <ApiLink type="DataLegend" member="contentBorderThickness" label="ContentBorderThickness" />의 기본값은 각각 투명과 0이므로, 이 테두리를 보려면 이 속성들을 설정해야 합니다.
+
+- <ApiLink type="ChartMouseEventArgs" />에 마우스의 세계 상대 위치를 제공하는 <ApiLink type="ChartMouseEventArgs" member="worldPosition" label="WorldPosition" />라는 새 속성을 추가했습니다. 이 위치는 축 공간 안에서 X축과 Y축 모두 0과 1 사이의 값이 됩니다.
+
+- <ApiLink type="SeriesViewer" />와 <ApiLink type="DomainChart" />에 <ApiLink type="SeriesViewer" member="highlightingFadeOpacity" label="HighlightingFadeOpacity" />를 추가했습니다. 이를 통해 강조된 시리즈에 적용되는 불투명도를 구성할 수 있습니다.
+
+- 도메인 차트에 `CalloutLabelUpdating` 이벤트를 노출합니다.
+
+#### IgrDataGrid
+
+- 마우스 이벤트가 상위 요소로 전파되지 않도록 하는 `stopPropagation`라는 새 속성을 DataGrid에 추가했습니다
+
+#### IgrLinearGauge
+
+- <Badge variant="preview" /> 새 <ApiLink type="LinearGauge" member="labelsVisible" label="LabelsVisible" /> 속성 추가
+
+## **{PackageVerChanges-25-1-SEP}**
+
+### 개선 사항
+- Date Range Picker [1818](https://github.com/IgniteUI/igniteui-webcomponents/issues/1818)처럼 DatePicker가 입력하는 동안 달력 보기를 업데이트해야 한다는 개선을 추가했습니다
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[1831](https://github.com/IgniteUI/igniteui-webcomponents/pull/1831)| Calendar |탐색 스타일|
+|[1833](https://github.com/IgniteUI/igniteui-webcomponents/pull/1833)|Card| 지원되는 테마에서 슬롯된 igc-avatar 크기 스타일|
+|[1826](https://github.com/IgniteUI/igniteui-webcomponents/pull/1826)|Combo|드롭다운 초기 높이|
+|[1827](https://github.com/IgniteUI/igniteui-webcomponents/pull/1827)|Combo|Indigo 테마의 아이콘 크기 스타일|
+|[1834](https://github.com/IgniteUI/igniteui-webcomponents/pull/1834)|DatePicker, DateRangePicker|비활성 스타일|
+|[1820](https://github.com/IgniteUI/igniteui-webcomponents/pull/1820)|Input|Bootstrap 테마의 접두사 및 접미사 슬롯 스타일|
+|[1824](https://github.com/IgniteUI/igniteui-webcomponents/pull/1824)|Input|Material 테마의 레이블 및 테두리 스타일|
+|[1836](https://github.com/IgniteUI/igniteui-webcomponents/pull/1836)|Input|재정의된 tabindex 속성을 제거했습니다|
+|[1827](https://github.com/IgniteUI/igniteui-webcomponents/pull/1827)|Select|Indigo 테마의 아이콘 크기 스타일|
+|[1809](https://github.com/IgniteUI/igniteui-webcomponents/pull/1809)|Switch|새 thumb hover 속성을 사용합니다|
+|[1837](https://github.com/IgniteUI/igniteui-webcomponents/pull/1837)|TileManager|내부 정규식의 잘못된 이스케이프|
+
+## **{PackageVerChanges-25-1-AUG}**
+
+- 폼 연결 사용자 지정 요소는 이제 `:state()` CSS 선택기로 스타일을 지정할 수 있도록 **ig-invalid** 사용자 지정 상태를 노출합니다.
+[추가 정보는 여기를 참조하십시오](https://developer.mozilla.org/en-US/docs/Web/CSS/:state)
+- 폼 연결 사용자 지정 요소의 유효성 동작. 이제 요소는 `:user-invalid`를 흉내 내려고 하며, UI를 통해 상호 작용하거나 폼 `requestSubmit()/reset()` 호출을 통하지 않는 한 잘못된 스타일을 적용하지 않습니다.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Input|**읽기 전용** 모드에서의 잘못된 상태|
+|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Input|**helper-text**를 스타일링할 수 없습니다|
+|[1795](https://github.com/IgniteUI/igniteui-webcomponents/pull/1795)|Card|Indigo 테마의 슬롯된 igc-avatar|
+|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Combo|잘못된 상태에서 테두리가 레이블 텍스트와 겹칩니다|
+|[1799](https://github.com/IgniteUI/igniteui-webcomponents/pull/1799)|Date Picker|Indigo 고도 스타일|
+|[1783](https://github.com/IgniteUI/igniteui-webcomponents/pull/1783)|날짜 범위 선택기|키보드 상호 작용 시 기본 입력으로 포커스를 되돌립니다|
+|[1792](https://github.com/IgniteUI/igniteui-webcomponents/pull/1792)|Input|Material 테마의 플레이스홀더 및 레이블 정렬|
+|[1806](https://github.com/IgniteUI/igniteui-webcomponents/pull/1806)|탐색 서랍|**상대** 위치 스타일 및 애니메이션을 업데이트합니다|
+|[1786](https://github.com/IgniteUI/igniteui-webcomponents/pull/1786)|Select|잘못된 상태 테마 지정 문제|
+|[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|Material 테마 상호 작용 문제|
+|[1797](https://github.com/IgniteUI/igniteui-webcomponents/pull/1797)|Textarea|접미사 파트가 있을 때의 크기 조정 동작|
+|[1775](https://github.com/IgniteUI/igniteui-webcomponents/pull/1775)|Calendar|세로 모드 컨테이너 안쪽 여백|
+|[1731](https://github.com/IgniteUI/igniteui-webcomponents/issues/1731)|Carousel|포인터로 시작된 포커스 시 자동 회전을 일시 중지합니다|
+|[1772](https://github.com/IgniteUI/igniteui-webcomponents/issues/1772)|Carousel|슬라이드가 바뀔 때 `onSlideChanged` 이벤트가 발생하도록 합니다|
+|[1765](https://github.com/IgniteUI/igniteui-webcomponents/pull/1765)|날짜 선택기|스타일 문제|
+|[1764](https://github.com/IgniteUI/igniteui-webcomponents/pull/1764)|날짜 범위 선택기|CSS 테두리와 고도|
+|[1747](https://github.com/IgniteUI/igniteui-webcomponents/pull/1747)|파일 입력|Bootstrap 잘못된 box-shadow 스타일|
+|[1672](https://github.com/IgniteUI/igniteui-webcomponents/pull/1672)|Stepper|지연 렌더링 시나리오에서 linear 속성을 설정할 때 오류가 발생합니다|
+|[1768](https://github.com/IgniteUI/igniteui-webcomponents/pull/1768)|Textarea|읽기 전용 상태 스타일|
+|[1755](https://github.com/IgniteUI/igniteui-webcomponents/pull/1755)|Dropdown|Bootstrap 테마의 아이콘 크기|
+|[1739](https://github.com/IgniteUI/igniteui-webcomponents/pull/1739)|입력|Material 테마의 레이블 위치 지정 및 전환 로직|
+
+## **{PackageVerChanges-25-1-JUL2}**
+
+- <Badge variant="new" /> 컴포넌트 - 날짜 범위 선택기
+
+### 호환되지 않는 변경 사항
+
+#### File Input
+- `onChange` 및 `onCancel` 이벤트 세부 정보가 이제 기반 컴포넌트의 `files` 속성을 반환합니다.
+
+#### Tooltip
+- 툴팁 이벤트는 더 이상 `detail` 속성에 `anchor` 대상을 반환하지 않습니다
+
+### 동작 변경
+
+#### Tooltip
+- **동작 변경**: 툴팁의 기본 `placement`는 이제 'bottom'입니다.
+- **동작 변경**: `with-arrow`가 설정되지 않는 한 툴팁은 기본적으로 화살표 표시기를 렌더링하지 않습니다.
+
+### 개선 사항
+- 모든 테마에서 대부분의 폼 연결 컴포넌트의 읽기 전용 스타일을 업데이트하여, 컴포넌트가 읽기 전용 상태인지 더 잘 나타내도록 했습니다.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명 |
+|------------|---------|-------------|
+|[1710](https://github.com/IgniteUI/igniteui-webcomponents/issues/1710)|달력 및 날짜 선택기|특정 상황에서 날짜 넘김이 잘못 발생합니다|
+|[1728](https://github.com/IgniteUI/igniteui-webcomponents/pull/1728)|Combo|테마의 대소문자 구분 없는 아이콘 스타일|
+|[1726](https://github.com/IgniteUI/igniteui-webcomponents/pull/1726)|Input|fluent 테마에서 테두리를 box-shadow로 대체합니다|
+|[1732](https://github.com/IgniteUI/igniteui-webcomponents/pull/1732)|Input|Indigo 테마의 포커스 상태 배경색|
+|[1715](https://github.com/IgniteUI/igniteui-webcomponents/pull/1715)|Text Area|레이블 높이와 컴포넌트 높이 재정의|
+
+## **{PackageVerChanges-25-1-JUL1}**
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명      |
+|------------|---------|------------------|
+|36448 | <ApiLink type="RadialGauge" /> | 방사형 레이블 서식 속성이 작동하지 않습니다(예: Title, SubTitles)|
+
+### {PackageCharts}(차트)
+
+- 축 레이블과 함께 사용할 <Badge variant="new" /> `MaximumExtent` 및 `MaximumExtentPercentage` 속성을 추가합니다.
+
+## **{PackageVerChanges-24-2-APR2}**
+
+### {PackageMaps}(지리 맵)
+
+<DocsAside type="info">
+2025년 6월 30일부터 모든 Microsoft Bing Maps for Enterprise Basic(무료) 계정은 서비스가 종료됩니다. 여전히 무료 Basic 계정과 키를 사용 중이라면, 서비스 중단을 피하기 위해 지금 조치하십시오. Bing Maps for Enterprise 라이선스 보유자는 2028년 6월 30일까지 애플리케이션에서 Bing Maps를 계속 사용할 수 있습니다.
+자세한 내용은 다음을 방문하십시오:
+</DocsAside>
+
+[Microsoft Bing 블로그](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+### {PackageCharts}(차트)
+
+- <Badge variant="preview" /> [차트 데이터 주석](./charts/features/chart-data-annotations.mdx) 레이어를 추가했습니다:
+  - Data Annotation Band Layer
+  - Data Annotation Line Layer
+  - Data Annotation Rect Layer
+  - Data Annotation Slice Layer
+  - Data Annotation Strip Layer
+
+- [데이터 툴팁](./charts/features/chart-data-tooltip.mdx)과 [데이터 범례](./charts/features/chart-data-legend.mdx)는 툴팁 또는 범례의 내용을 표 또는 세로 레이아웃 구조로 배치하는 데 사용할 수 있는 <Badge variant="preview" /> <ApiLink type="DataLegend" member="layoutMode" label="LayoutMode" /> 속성을 노출합니다.
+
+- <Badge variant="preview" /> 차트의 <ApiLink type="SeriesViewer" member="defaultInteraction" label="DefaultInteraction" /> 속성이 새 열거형 - `DragSelect`를 포함하도록 업데이트되었습니다. 이 열거형은 드래그 중인 미리 보기 Rect가 그 안에 포함된 점들을 선택하도록 합니다.
+
+- <Badge variant="preview" /> [ValueOverlay 및 ValueLayer](./charts/features/chart-overlays.mdx)는 위에 나열된 <Badge variant="preview" /> [차트 데이터 주석](./charts/features/chart-data-annotations.mdx)과 함께 이제 플롯 영역에 추가 주석 텍스트를 오버레이하는 데 사용할 수 있는 <ApiLink type="ValueLayer" member="overlayText" label="OverlayText" /> 속성을 노출합니다. 이러한 주석의 모양은 OverlayText 접두사가 붙은 다양한 속성으로 구성할 수 있습니다. 예를 들어 `OverlayTextBrush` 속성은 오버레이 텍스트의 색상을 구성합니다.
+
+- <Badge variant="new" /> 특정 시리즈에 추세선 레이어마다 하나의 추세선을 적용할 수 있는 [추세선 레이어](./charts/features/chart-trendlines.mdx) 시리즈 유형입니다. 차트에 여러 [TrendlineLayer](./charts/features/chart-overlays.mdx) 시리즈 유형을 둘 수 있으므로, 하나의 시리즈에 여러 추세선을 사용할 수 있습니다.
+
+### {PackageDashboards}(대시보드)
+
+- <ApiLink type="DashboardTile" />는 이제 DataGrid 보기의 집계(정렬, 그룹화, 필터링, 선택 등)를 차트 시각화로 전파하는 것을 지원합니다. 현재 이는 <ApiLink type="DashboardTile" />의 <ApiLink type="DataSource" />를 <ApiLink type="LocalDataSource" /> 인스턴스에 바인딩하여 지원됩니다.
+
+### {PackageGrids}
+
+**호환성 깨짐 변경**
+
+- <ApiLink type="DataGrid" /> 및 <ApiLink type="MultiColumnComboBox" />가 이제 igniteui-react-data-grids 패키지의 일부입니다.
+
+### 개선 사항
+
+#### Toolbar
+- 도구 모음에서 추가된 값 레이어가 이제 범례에 표시됩니다.
+- 확대/축소 재설정 도구가 확대/축소 드롭다운으로 이동되었습니다.
+
+#### 데이터 파이 차트
+- 차트가 이제 `GetOthersContext()` 메서드를 노출합니다. 이 메서드는 "others" 조각의 콘텐츠를 반환합니다.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명      |
+|------------|---------|------------------|
+|25997 | <ApiLink type="DataGrid" /> | 요약은 첫 번째 그룹화된 하위 행에만 표시됩니다|
+|37023 | <ApiLink type="DataChart" /> | overflow hidden이 설정되어 있으면 툴팁이 잘리거나 화면 밖에 표시됩니다.|
+|37685 | <ApiLink type="Spreadsheet" /> | Arial 글꼴로 서식이 지정된 숫자의 렌더링이 좋지 않습니다.|
+|37244 | Excel Library | 사용자 지정 데이터 유효성 검사가 작동하지 않습니다.|
+
+## **{PackageVerChanges-24-2-APR2}**
+<DocsAside type="info">
+19.0.0에서 React 제품은 API를 개선하고 간소화하기 위해 많은 호환되지 않는 변경을 도입했습니다. 전체 업데이트 가이드를 참조하십시오.
+</DocsAside>
+
+[업데이트 가이드](./update-guide.mdx)
+
+### 제거됨
+- <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />가 제거되었습니다. 대신 <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />를 사용하십시오.
+- <ApiLink pkg="core" type="RadioChangeEventArgs" />가 제거되었습니다. 대신 <ApiLink pkg="core" type="RadioChangeEventArgs" />를 사용하십시오.
+- <ApiLink pkg="core" type="RangeSliderValue" />가 제거되었습니다. 대신 <ApiLink pkg="core" type="RangeSliderValueEventArgs" />를 사용하십시오.
+- `ActiveStepChangingArgs`가 제거되었습니다. 대신 <ApiLink pkg="core" type="ActiveStepChangingEventArgs" />를 사용하십시오.
+- `ActiveStepChangedArgs`가 제거되었습니다. 대신 <ApiLink pkg="core" type="ActiveStepChangedEventArgs" />를 사용하십시오.
+
+
+### 개선 사항
+
+#### Stepper
+Stepper Step의 `titlePosition`는 이제 정의되지 않은 대신 `auto`가 기본값이며, 동작은 같습니다.
+
+#### Tabs
+igr-tab의 `panel` 속성이 제거되었습니다.
+
+igr-tab-panel 컴포넌트가 제거되었습니다. 이제 igr-tab이 탭 헤더와 탭 콘텐츠를 하나의 컴포넌트로 포함합니다.
+
+## **{PackageVerChanges-24-2-APR}**
+
+### 새 컴포넌트
+
+- TileManager
+
+### 개선 사항
+
+#### List
+- <ApiLink pkg="core" type="ListItem" />에 <ApiLink pkg="core" type="ListItem" member="selected" label="Selected" />라는 새 속성을 추가했습니다
+
+#### Accordion
+- 새 이벤트 <ApiLink pkg="core" type="DatePicker" member="open" label="Open" />와 `Close`를 추가했습니다
+
+### {PackageGrids}
+
+- **모든 그리드**
+  - <ApiLink type="GridBaseDirective" member="filteringExpressionsTree" label="FilteringExpressionsTree" /> 속성을 통해 초기 필터링을 적용할 수 있도록 허용합니다
+
+### 지원 중단(Deprecations)
+
+- <ApiLink type="DataGridCellEventArgs" member="button" label="Button" />의 `clicked` 이벤트는 지원 중단되었습니다. 대신 네이티브 `onClick` 핸들러를 사용하십시오.
+
+### 버그 수정
+
+| 버그 번호 | 컨트롤 | 설명      |
+|------------|---------|------------------|
+|25602 | <ApiLink type="DataGrid" /> | 날짜 전용 필터 연산자 중 하나가 있는 레이아웃을 불러오면 TypeError 콘솔 오류가 발생합니다|
+|28480 | <ApiLink type="Combo" /> | 데이터 소스를 교체하면 정의되지 않은 참조 오류가 발생합니다|
+|30319 | <ApiLink type="DataGrid" /> | 값이 바뀌지 않았는데도 레코드가 정렬됩니다|
+|32598 | <ApiLink type="DataGrid" /> | 다중 선택이 올바르게 작동하지 않습니다
+|36374 | <ApiLink pkg="core" type="Input" /> | 모든 터치 기기에서 폼을 제출하면 이전 값이 바인딩되었습니다|
+
+## **{PackageVerChanges-24-2-MAR}**
+
+### {PackageGrids}
+다음 표는 이번 릴리스에서 {ProductName} 툴셋에 대해 수정된 버그를 나열합니다:
+
+| 버그 번호 | 컨트롤 | 설명      |
+|------------|---------|------------------|
+|36864|그리드|React 라이선스 패키지의 가져오기 경로 "grids/combined"가 잘못되었습니다|
+
+## **{PackageVerChanges-24-2-FEB}**
+
+### {PackageGrids}
+
+- **모든 그리드**
+  - 개발자가 일부 요약을 건너뛸 수 있도록 그리드 열에 새 `disabledSummaries`를 추가했습니다
+  - 내부 그리드 작업 버튼을 캡슐화합니다
+
+### {PackageCommon}
+- `Dockmanager`에서 분할 창에 직접 도킹할 수 있도록 `allowSplitterDock` 속성을 새로 추가했습니다.
+- `Dockmanager`의 <ApiLink type="SplitPane" />에 새로운 크기 조정 동작을 허용하는 `useFixedSize` 속성을 새로 추가했습니다.
+
+### 개선 사항
+
+#### Toolbar
+
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" /> 및 <ApiLink type="ToolPanel" />에 새 `groupHeaderTextStyle` 속성을 추가했습니다. 설정하면 모든 <ApiLink type="ToolActionGroupHeader" /> 작업에 적용됩니다.
+- <ApiLink type="ToolAction" />에 제목 텍스트의 가로 정렬을 제어하는 <ApiLink type="SeriesViewer" member="titleHorizontalAlignment" label="TitleHorizontalAlignment" />라는 새 속성을 추가했습니다.
+- <ApiLink type="ToolActionSubPanel" />에 패널 내 항목 사이의 간격을 제어하는 `itemSpacing`라는 새 속성을 추가했습니다.
+
+### 버그 수정
+
+다음 표는 이번 릴리스에서 {ProductName} 툴셋에 대해 수정된 버그를 나열합니다:
+
+| 버그 번호 | 컨트롤 | 설명      |
+|------------|---------|------------------|
+|30286 | <ApiLink type="DataChart" /> | 버블을 클릭하면 버블 시리즈 툴팁 내용이 근처 버블 데이터의 내용으로 바뀝니다|
+|32906 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" />에 위쪽으로 두 개의 xAxis가 표시됩니다|
+|33605 | <ApiLink type="DataChart" /> | ScatterLineSeries가 범례에서 선의 색상을 올바르게 표시하지 않습니다|
+|34776 | <ApiLink type="DataChart" /> | <ApiLink type="DataChart" />를 반복해서 표시하고 숨기면 JS 힙에 메모리 누수가 발생합니다|
+|35498 | <ApiLink type="DataChart" /> | IncludedSeries에 지정된 시리즈의 툴팁이 표시되지 않습니다|
+|34324 | <ApiLink type="Grid" /> | 그리드 템플릿의 조건을 통한 열 숨기기가 작동하지 않습니다|
+|34678 | <ApiLink type="Grid" /> | 열거형 값이 문자열로 강제 변환되어 일부 그리드 속성에서 기대한 숫자 동작이 깨집니다|
+|32093 | <ApiLink type="PivotGrid" /> | PivotDateDimensionOptions가 PivotDateDimension에 적용되지 않습니다|
+|34053 | <ApiLink type="RadialGauge" /> | 척도 레이블의 위치가 이동합니다|
+|35496 | <ApiLink type="Spreadsheet" /> | 이미지가 있는 Excel에서 스타일을 설정할 때 오류가 발생합니다|
+|36176 | Excel Library | LET 함수가 있는 Excel 통합 문서를 불러올 때 예외가 발생합니다|
+|36379 | Excel Library | Excel 통합 문서에서 알파 채널이 있는 색상을 불러오지 못합니다|
+|26218 | Excel Library | Excel 파일을 불러오기만 해도 차트의 플롯 영역 오른쪽 여백이 좁아지고 채우기 패턴과 채우기 전경이 사라집니다|
+|34083 | Excel Library | 템플릿 Excel 파일에서 텍스트에 =가 포함되어 있으면 TextOperatorConditionalFormat이 올바르게 불러오거나 저장되지 않습니다|
+|35495 | Excel Library | 템플릿 파일을 불러오면 셀의 그림이 사라집니다|
+
+## **{PackageVerChanges-24-2-JAN}**
+
+- 버그 수정
+
+### {PackageGrids}
+
+- **모든 그리드**
+  - 여러 중복 브라우저 탭에서 컴포넌트를 열 때 발생하는 심각한 메모리 누수를 수정했습니다.
+
+## **{PackageVerChanges-24-2-DEC}**
+
+### {PackageCharts}(차트)
+
+DashboardTile <Badge variant="preview" />
+
+- 새 [대시보드 타일](./dashboard-tile.mdx) 컴포넌트는 바인딩된 ItemsSource 컬렉션 또는 단일 지점을 분석하고, 데이터의 스키마와 개수에 따라 적절한 데이터 시각화를 반환하는 컨테이너 컨트롤입니다. 이 컨트롤은 내장된 [Toolbar](./menus/toolbar.mdx) 컴포넌트를 활용하여 런타임에 시각화를 변경할 수 있게 하므로, 최소한의 코드로 데이터의 여러 가지 시각화를 볼 수 있습니다.
+
+### {PackageCharts}(입력)
+
+- <Badge variant="preview" /> [색상 편집기](./inputs/color-editor.mdx)는 독립형 색상 선택기로 사용할 수 있으며, 이제 [Toolbar](./menus/toolbar.mdx) 컴포넌트의 <Badge variant="preview" /> ToolAction에 통합되어 런타임에 시각화를 업데이트합니다.
+
+## **{PackageVerChanges-24-2-NOV}**
+
+### 일반
+- 새 [Carousel](./layouts/carousel.mdx) 컴포넌트.
+- <ApiLink pkg="core" type="Input" />
+  - `change` 이벤트 인수 유형을 <ApiLink pkg="core" type="ComponentDataValueChangedEventArgs" />에서 <ApiLink pkg="core" type="ComponentValueChangedEventArgs" />로 변경했습니다
+
+## **{PackageVerChanges-24-1-SEP}**
+
+### {PackageCharts}(차트)
+
+- 새 [데이터 파이 차트](./charts/types/data-pie-chart.mdx) - <ApiLink type="DataPieChart" />는 파이 차트를 렌더링하는 새 컴포넌트입니다. 이 컴포넌트는 <ApiLink type="CategoryChart" />와 비슷하게 작동하여, 기반 데이터 모델의 속성을 자동으로 감지하면서 ItemLegend 컴포넌트를 통해 선택, 강조, 애니메이션 및 범례 지원을 허용합니다.
+
+- 새 [비례 카테고리 각도 축](./charts/types/radial-chart.mdx) - <ApiLink type="DataChart" />의 방사형 파이 시리즈를 위한 새 축으로, 데이터 지점이 원형 그래프 안의 세그먼트로 표현되는 데이터 시각화인 파이 차트와 비슷하게 조각을 플롯합니다.
+
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" />
+
+  - 새 ToolActionCheckboxList
+        항목을 선택하기 위한 체크박스와 함께 항목 컬렉션을 표시하는 새 CheckboxList ToolAction입니다. ToolAction CheckboxList 안의 그리드는 최대 5개 항목까지 높이가 커지며, 그 이후에는 스크롤바가 표시됩니다.
+        IgrCheckboxListModule을 등록해야 합니다.
+
+  - 새 필터링 지원
+
+  - 축 필드 변경
+        CategoryChart를 대상으로 할 때 도구 모음의 새 기본 IconMenu입니다.
+        레이블 필드는 X축에, 값 필드는 Y축에 매핑됩니다.
+        대상 차트는 변경 사항에 실시간으로 반응합니다. 차트에 ItemsSource가 설정되지 않은 경우 IconMenu는 숨겨집니다.
+
+### {PackageCommon}
+
+- 새 [Banner](./notifications/banner.mdx) 컴포넌트.
+- 새 [DatePicker](./scheduling/date-picker.mdx) 컴포넌트.
+- 새 <ApiLink pkg="core" type="Divider" /> 컴포넌트.
+- 모든 컴포넌트에 네이티브 이벤트 지원을 추가했습니다.
+- <ApiLink pkg="core" type="Icon" />
+  - <ApiLink type="setIconRef" /> 메서드를 추가했습니다. 이를 통해 SVG 파일로 아이콘을 등록하고 교체할 수 있습니다.
+  - 이제 모든 컴포넌트가 내부적으로 참조로 아이콘을 사용하므로, 사용자 지정 템플릿을 명시적으로 제공하지 않아도 쉽게 교체할 수 있습니다.
+- <ApiLink type="Combo" />, <ApiLink pkg="core" type="DatePicker" />, <ApiLink pkg="core" type="Dialog" />, <ApiLink pkg="core" type="Dropdown" />, <ApiLink pkg="core" type="ExpansionPanel" />, <ApiLink pkg="core" type="NavDrawer" />, <ApiLink pkg="core" type="Toast" />, <ApiLink pkg="core" type="Snackbar" />, **IgrSelectComponent**
+  - 토글 메서드 `show`, `hide`, `toggle`은 이제 성공하면 **true**를, 그렇지 않으면 **false**를 반환합니다.
+- **IgrButtonComponent**, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Checkbox" />, <ApiLink pkg="core" type="Switch" />, <ApiLink type="Combo" />, <ApiLink pkg="core" type="DateTimeInput" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="MaskInput" />, <ApiLink pkg="core" type="Radio" />, **IgrSelectComponent**, <ApiLink pkg="core" type="Textarea" />
+  - 사용자 지정 `focus` 및 `blur` 이벤트는 지원 중단되었습니다. 대신 네이티브 `onFocus` 및 `onBlur` 이벤트를 사용하십시오
+- <ApiLink pkg="core" type="RadioGroup" />
+  - <ApiLink type="DatePicker" member="name" label="Name" /> 및 <ApiLink pkg="core" type="DatePicker" member="value" label="Value" /> 속성을 추가했습니다.
+
+**호환성 깨짐 변경**
+
+- 기존 **IgrDatePicker**의 이름을 **IgrXDatePicker**로 바꾸었습니다.
+- <ApiLink type="IconButton" member="form" label="Form" /> 컴포넌트를 제거했습니다. 대신 기본 폼을 사용하십시오.
+- 다음 컴포넌트에서 `--ig-size` CSS 사용자 지정 속성을 사용하도록 `size` 속성을 제거했습니다:
+  - <ApiLink pkg="core" type="Avatar" />, **IgrButtonComponent**, <ApiLink pkg="core" type="IconButton" />, <ApiLink pkg="core" type="Calendar" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="Dropdown" />, <ApiLink pkg="core" type="Icon" />, <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="List" />, <ApiLink pkg="core" type="Rating" />, <ApiLink pkg="core" type="Snackbar" />, <ApiLink pkg="core" type="Tabs" />, <ApiLink pkg="core" type="Tree" />
+- <ApiLink pkg="core" type="Badge" />, <ApiLink pkg="core" type="Chip" />, <ApiLink pkg="core" type="LinearProgress" />, <ApiLink pkg="core" type="CircularProgress" />
+  - <ApiLink pkg="core" type="IconButton" member="variant" label="Variant" /> 속성 유형의 이름을 <ApiLink pkg="core" type="StyleVariant" />로 바꾸었습니다.
+- <ApiLink pkg="core" type="Calendar" />
+  - <ApiLink type="FieldPipeArgs" member="weekStart" label="WeekStart" /> 속성 유형의 이름을 <ApiLink pkg="core" type="WeekDays" />로 바꾸었습니다.
+- <ApiLink pkg="core" type="Checkbox" />, <ApiLink pkg="core" type="Switch" />
+  - `change` 이벤트 인수 유형을 <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" />에서 <ApiLink pkg="inputs" type="CheckboxChangeEventArgs" />로 변경했습니다.
+- <ApiLink type="Combo" />, **IgrSelectComponent**
+  - `positionStrategy`, `flip`, `sameWidth` 속성을 제거했습니다.
+- <ApiLink pkg="core" type="DateTimeInput" />
+  - `maxValue` 및 `minValue` 속성을 제거했습니다. 대신 `max` 및 `min`를 사용하십시오.
+- <ApiLink pkg="core" type="Dropdown" />
+  - `positionStrategy` 속성을 제거했습니다.
+- <ApiLink pkg="core" type="Input" />
+  - 이전의 이름이 지정된 `maxlength` 및 `minlength` 속성을 제거했습니다. `maxLength` 및 `minLength`를 사용하십시오.
+  - 이전의 이름이 지정된 `readonly` 및 `inputmode` 속성을 제거했습니다. `readOnly` 및 `inputMode`를 사용하십시오.
+  - `inputMode` 유형도 `string`로 변경했습니다.
+- <ApiLink pkg="core" type="Radio" />
+  - `change` 이벤트 인수 유형을 <ApiLink pkg="core" type="ComponentBoolValueChangedEventArgs" />에서 <ApiLink pkg="core" type="RadioChangeEventArgs" />로 변경했습니다.
+- <ApiLink pkg="core" type="RangeSlider" />
+  - `ariaThumbLower` 및 `ariaThumbUpper` 속성을 제거했습니다. 대신 `thumbLabelLower` 및 `thumbLabelUpper`를 사용하십시오.
+- <ApiLink pkg="core" type="Rating" />
+  - `readonly` 속성의 이름을 `readOnly`로 바꾸었습니다.
+
+### {PackageGrids}
+
+- **모든 그리드**
+  - 새 `RowClick` 이벤트를 추가했습니다.
+- <ApiLink type="PivotGrid" />
+  - <ApiLink type="PivotDimension" />의 `sortable` 속성을 추가했습니다.
+  - 가로 레이아웃을 추가했습니다. 새 `pivotUI` 속성에서 `rowLayout` `horizontal`로 활성화할 수 있습니다.
+  - 가로 레이아웃에만 행 차원 요약을 추가했습니다. `horizontalSummary`를 **true**로 설정하면 각 <ApiLink type="PivotDimension" />에 대해 활성화할 수 있습니다.
+  - `pivotUI`에 가로 요약의 위치를 구성하는 `horizontalSummariesPosition` 속성을 추가했습니다.
+  - 행 차원에 대한 행 머리글을 추가했습니다. 새 `pivotUI` 속성에서 `showHeaders` **true**로 활성화할 수 있습니다.
+  - 이제 키보드 탐색으로 모든 행 차원 머리글 또는 열 머리글에서 행 머리글로 앞뒤로 이동할 수 있습니다.
+  - <kbd>ALT</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> 화살표로 행 차원을 접는 키보드 상호 작용과, <kbd>CTRL</kbd> + <kbd>↑</kbd> <kbd>↓</kbd> 화살표로 행 머리글을 정렬하는 키보드 상호 작용을 추가했습니다.
+
+**호환성 깨짐 변경**
+
+- **모든 그리드**
+  - <ApiLink type="RowIsland" />
+  - `displayDensity` 지원 중단된 속성을 제거했습니다.
+  - `actualColumns`, `contentColumns` 속성의 이름을 `actualColumnList` 및 `contentColumnList`로 바꾸었습니다. 이제 모든 열을 가져오려면 `columns` 또는 `columnList` 속성을 사용하십시오.
+  - `rowDelete` 및 `rowAdd` 이벤트 인수 유형의 이름을 <ApiLink type="RowDataCancelableEventArgs" />로 바꾸었습니다.
+  - `contextMenu` 이벤트 인수 유형의 이름을 <ApiLink type="GridContextMenuEventArgs" />로 바꾸었습니다.
+  - <ApiLink type="GridEditEventArgs" />, <ApiLink type="GridEditDoneEventArgs" />, <ApiLink type="PinRowEventArgs" /> 이벤트 `rowID`와 `primaryKey` 속성을 제거했습니다. 대신 `rowKey`를 사용하십시오.
+- <ApiLink type="PivotGrid" />
+  - `showPivotConfigurationUI` 속성을 제거했습니다. 대신 `pivotUI`를 사용하고 그 안에 새 `showConfiguration` 옵션을 설정하십시오.
+- <ApiLink type="Column" />
+  - `movable` 속성을 제거했습니다. 이제 Grid의 `moving` 속성을 사용하십시오.
+  - `columnChildren` 속성을 제거했습니다. 대신 `childColumns`를 사용하십시오.
+- <ApiLink type="ColumnGroup" />
+  - `children` 속성을 제거했습니다. 대신 `childColumns`를 사용하십시오.
+- <ApiLink type="Paginator" />
+  - `isFirstPageDisabled` 및 `isLastPageDisabled` 속성을 제거했습니다. 대신 `isFirstPage` 및 `isLastPage`를 사용하십시오.
+
+## **{PackageVerChanges-24-1-JUN}**
+
+### {PackageCommon}
+- <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="Textarea" /> - 사용자 입력을 제한하지 않으면서 유효성 검사 규칙을 적용할 수 있도록 <ApiLink pkg="core" type="Input" member="validateOnly" label="ValidateOnly" />를 노출합니다.
+- <ApiLink pkg="core" type="Dropdown" /> - <ApiLink type="PositionStrategy" /> 속성은 지원 중단(deprecated)되었습니다. 드롭다운이 이제 `Popover` API를 사용하여 브라우저 뷰포트의 최상위 레이어에 컨테이너를 렌더링하므로, 이 속성은 필요하지 않게 되었습니다.
+- <ApiLink type="DockManager" /> - <ApiLink type="SplitPane" /> <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" />는 지원 중단(deprecated)되었습니다. 분할 창은 컨테이너 역할만 하므로, 분할 창 수준에서 isMaximized를 true로 설정해도 실질적인 효과가 없습니다. 분할 창에는 최대화해서 보여 줄 실제 콘텐츠가 없기 때문입니다. 대신 <ApiLink type="TabGroupPane" />의 <ApiLink type="SplitPane" member="isMaximized" label="IsMaximized" /> 속성 및/또는 <ApiLink type="ContentPane" />를 사용하십시오.
+
+### {PackageGrids}
+
+- `--ig-size` CSS 사용자 지정 속성을 위해 `DisplayDensity`는 지원 중단(deprecated)되었습니다. 자세한 내용은 [그리드 크기](./grids/_shared/size.mdx) 항목을 확인하십시오.
+
+
+- <ApiLink type="PivotGrid" /> - 이제 컴포넌트의 구성이 올바르게 적용됩니다.
+### {PackageCharts}(차트)
+
+- [데이터 범례 그룹화](./charts/features/chart-data-legend.mdx#{PlatformLower}-데이터-범례-그룹화) 및 [데이터 툴팁 그룹화](./charts/features/chart-data-tooltip.mdx#데이터-차트의-{PlatformLower}-데이터-툴팁-그룹화) - 새 그룹화 기능이 추가되었습니다. <ApiLink type="DataLegend" member="groupRowVisible" label="GroupRowVisible" /> 속성은 그룹화를 전환하며, 각 시리즈는 <ApiLink type="CrosshairLayer" member="dataLegendGroup" label="DataLegendGroup" /> 속성을 통해 그룹 텍스트를 지정하여 참여할 수 있습니다. 같은 값이 둘 이상의 시리즈에 적용되면 그 시리즈들은 그룹으로 표시됩니다. 모든 사용자를 위해 분류되고 정리되어야 하는 대규모 데이터 세트에 유용합니다.
+
+- [차트 선택](./charts/features/chart-data-selection.mdx) - 새로운 시리즈 선택 스타일입니다. <ApiLink type="CategoryChart" /> 및 <ApiLink type="DataChart" />의 모든 카테고리, 금융 및 방사형 시리즈에 폭넓게 적용됩니다. 시리즈를 클릭하면 다른 색상으로 표시되거나, 밝아지거나 흐려지고, 포커스 윤곽선이 나타날 수 있습니다. 개별 시리즈 또는 전체 데이터 항목을 통해 영향을 받는 항목을 관리할 수 있습니다. 여러 시리즈와 마커를 지원합니다. 특정 데이터 항목의 값들 사이에 있는 다양한 차이점이나 유사점을 보여 주는 데 유용합니다. 또한 팝업이나 선택 기반 데이터 분석 화면처럼 애플리케이션 안에서 일어날 수 있는 다른 작업과 관련된 견고한 비즈니스 요구 사항을 구축하는 데 도움이 되도록 `SelectedSeriesItemsChanged` 이벤트와 <ApiLink type="SeriesViewer" member="selectedSeriesItems" label="SelectedSeriesItems" />도 제공됩니다.
+
+- [비례 카테고리 각도 축](./charts/types/radial-chart.mdx) - <ApiLink type="DataChart" />의 방사형 파이 시리즈를 위한 새 축으로, 데이터 차트의 모든 기능을 활용하는 견고한 시각화를 위해 그 안에서 파이 차트를 만들 수 있게 합니다.
+
+- [트리맵 강조](./charts/types/treemap-chart.mdx#{PlatformLower}-트리맵-강조-표시) - 이제 트리맵 항목의 마우스 오버 강조를 구성할 수 있는 <ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> 속성을 노출합니다. 이 속성은 두 가지 옵션을 받습니다: 강조가 마우스를 올린 항목에만 적용되는 `Brighten`, 그리고 호버된 항목의 강조는 그대로 두고 나머지 모든 항목은 흐려지는 `FadeOthers`입니다. 이 강조는 애니메이션되며, <ApiLink type="SeriesViewer" member="highlightingTransitionDuration" label="HighlightingTransitionDuration" /> 속성으로 제어할 수 있습니다.
+
+- [트리맵 백분율 기반 강조](./charts/types/treemap-chart.mdx#{PlatformLower}-트리맵-백분율-기반-강조-표시) - 새로운 백분율 기반 강조로, 노드가 진행률이나 컬렉션의 부분 집합을 나타낼 수 있습니다. 모양은 데이터 항목의 멤버에 의해서 또는 새 <ApiLink type="XYChart" member="highlightedDataSource" label="HighlightedItemsSource" />를 제공하여 특정 값까지 배경색이 채워지는 형태로 표시됩니다. <ApiLink type="SeriesViewer" member="highlightedValuesDisplayMode" label="HighlightedValuesDisplayMode" />로 켜고 끌 수 있으며, `FillBrushes`로 스타일을 지정할 수 있습니다.
+
+- <ApiLink type="Grid" member="toolbar" label="Toolbar" /> - ToolAction에 선택한 특정 도구 주위에 테두리를 표시하는 새 <ApiLink type="ToolActionGroupHeader" member="isHighlighted" label="IsHighlighted" /> 옵션입니다.
+
+### {PackageGauges}(게이지)
+
+- <ApiLink type="RadialGauge" />
+  - 강조 바늘의 새 레이블입니다. HighlightLabel에 <ApiLink type="RadialGauge" member="highlightLabelText" label="HighlightLabelText" />와 <ApiLink type="RadialGauge" member="highlightLabelSnapsToNeedlePivot" label="HighlightLabelSnapsToNeedlePivot" /> 등 많은 스타일 관련 속성이 추가되었습니다.
+
+## **{PackageVerChanges-23-2-MAR}**
+
+### {PackageCharts}
+
+- <ApiLink type="XYChart" member="initialFilter" label="InitialFilter" /> 속성을 통한 새 데이터 필터링. 필터 식을 적용하여 차트 데이터를 레코드의 부분 집합으로 필터링합니다. 대용량 데이터를 드릴다운하는 데 사용할 수 있습니다.
+
+- `RadialChart`
+  - 새 레이블 모드
+        <ApiLink type="CategoryAngleAxis" />에 이제 레이블의 위치를 더 구성할 수 있는 <ApiLink type="CategoryAngleAxis" member="labelMode" label="LabelMode" /> 속성이 노출됩니다. 이를 통해 `Center` 열거형을 선택하여 기본 모드로 전환하거나, 레이블을 원형 플롯 영역에 더 가깝게 가져오는 새 모드 `ClosestPoint`를 사용할 수 있습니다.
+
+### {PackageGrids}
+
+- 새 [<ApiLink type="HierarchicalGrid" />](./grids/hierarchical-grid/overview.mdx) 컴포넌트
+
+### {PackageGauges}
+
+- <ApiLink type="RadialGauge" />
+  - 새 제목/부제목 속성입니다. <ApiLink type="RadialGauge" member="titleText" label="TitleText" />, <ApiLink type="RadialGauge" member="subtitleText" label="SubtitleText" />는 게이지 하단 근처에 나타납니다. 또한 `TitleFontSize`, `TitleFontFamily`, `TitleFontStyle`, `TitleFontWeight`, <ApiLink type="RadialGauge" member="titleExtent" label="TitleExtent" /> 등 다양한 제목/부제목 글꼴 속성이 추가되었습니다. 마지막으로, 새 <ApiLink type="RadialGauge" member="titleDisplaysValue" label="TitleDisplaysValue" />를 사용하면 값이 바늘의 위치와 대응하도록 할 수 있습니다.
+  - <ApiLink type="RadialGauge" />의 새 <ApiLink type="RadialGauge" member="opticalScalingEnabled" label="OpticalScalingEnabled" />와 <ApiLink type="RadialGauge" member="opticalScalingSize" label="OpticalScalingSize" /> 속성입니다. 이 새 기능은 게이지의 레이블, 제목, 부제목이 100% 광학 배율을 갖는 크기를 관리합니다. 이 새 기능에 대한 자세한 내용은 이 [항목](./radial-gauge.mdx#광학-스케일링)에서 확인할 수 있습니다
+  - 새 강조 바늘이 추가되었습니다. <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" />와 <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" />에 값이 모두 제공되고 'Overlay' 설정이 적용되면, 기본 바늘은 흐리게 나타나고 새 바늘이 나타납니다.
+- <ApiLink type="LinearGauge" />
+  - 새 강조 바늘이 추가되었습니다. <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" />와 <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" />에 값이 모두 제공되고 'Overlay' 설정이 적용되면, 기본 바늘은 흐리게 나타나고 새 바늘이 나타납니다.
+- <ApiLink type="BulletGraph" />
+  - <ApiLink type="RadialGauge" member="highlightValueDisplayMode" label="HighlightValueDisplayMode" />가 'Overlay' 설정에 적용되면, 성과 막대는 이제 값과 새 <ApiLink type="RadialGauge" member="highlightValue" label="HighlightValue" /> 사이의 차이를 반영합니다. 강조 값은 필터링되거나 부분 집합으로 완료 측정된 백분율을 채워진 색상으로 보여 주며, 나머지 막대는 할당된 값까지 흐리게 표시되어 성과를 실시간으로 나타냅니다.
+
+### {PackageCommon}
+
+- 새 <ApiLink pkg="core" type="Textarea" /> 컴포넌트
+- 새 <ApiLink pkg="core" type="ButtonGroup" /> 컴포넌트
+- <ApiLink type="DockManager" />
+  - 새 <ApiLink type="DockManager" member="proximityDock" label="ProximityDock" /> 속성입니다. 활성화하면 도킹 표시기가 보이지 않으며, 최종 사용자는 드래그한 창을 대상 창의 가장자리에 가까이 끌어서 도킹할 수 있습니다.
+  - 새 <ApiLink type="DockManager" member="containedInBoundaries" label="ContainedInBoundaries" /> 속성입니다. 떠 있는 창을 Dock Manager 경계 안에 유지할지 여부를 결정합니다. 기본값은 `false`입니다.
+  - 새 <ApiLink type="DockManager" member="showPaneHeaders" label="ShowPaneHeaders" /> 속성입니다. 창 헤더를 마우스를 올렸을 때만 표시할지 아니면 항상 표시할지 결정합니다. 기본값은 `always`입니다.
+- <ApiLink pkg="core" type="Input" />, <ApiLink pkg="core" type="MaskInput" />, <ApiLink pkg="core" type="DateTimeInput" />, <ApiLink pkg="core" type="Rating" />
+  - `Readonly`의 이름이 <ApiLink pkg="core" type="DatePicker" member="readOnly" label="ReadOnly" />로 바뀌었습니다
+- <ApiLink pkg="core" type="Input" />
+  - `Maxlength`의 이름이 <ApiLink pkg="core" type="Input" member="maxLength" label="MaxLength" />로 바뀌었습니다
+  - `Minlength`의 이름이 <ApiLink pkg="core" type="Input" member="minLength" label="MinLength" />로 바뀌었습니다
+- <ApiLink pkg="core" type="Tree" />
+  - 노드를 클릭하면 확장 상태가 바뀔지 여부를 결정하는 `toggleNodeOnClick` 속성을 추가했습니다. 기본값은 `false`입니다.
+- <ApiLink pkg="core" type="Rating" />
+  - `allowReset`를 추가했습니다. 활성화하면 같은 값을 선택할 때 컴포넌트가 재설정됩니다. **동작 변경** - 이전 릴리스에서는 이것이 평점 컴포넌트의 기본 동작이었습니다. 애플리케이션에서 이 동작을 유지해야 한다면 `allowReset`를 설정해야 합니다.
+- <ApiLink pkg="core" type="DatePicker" member="select" label="Select" />, <ApiLink pkg="core" type="Dropdown" />
+  - `selectedItem`, `items`, `groups` getter를 노출했습니다
+
+
+#### 지원 중단(Deprecations)
+
+- <ApiLink type="IconButton" member="form" label="Form" /> 컴포넌트는 지원 중단되었습니다. 대신 네이티브 폼 요소를 사용하십시오.
+- 모든 컴포넌트에서 `size` 속성과 어트리뷰트가 지원 중단되었습니다. 대신 `--ig-size` CSS 사용자 지정 속성을 사용하십시오. 다음 예제는 아바타 컴포넌트의 크기를 작게 설정합니다:
+
+  ```css
+  .avatar {
+      --ig-size: var(--ig-size-small);
+  }
+  ```
+
+- <ApiLink pkg="core" type="DateTimeInput" />
+  - `MinValue` 및 `MaxValue` 속성이 지원 중단되었습니다. 대신 <ApiLink pkg="core" type="DatePicker" member="min" label="Min" /> 및 <ApiLink pkg="core" type="DatePicker" member="max" label="Max" />를 사용하십시오.
+- <ApiLink pkg="core" type="RangeSlider" />
+  - `AriaLabelLower` 및 `AriaLabelUpper` 속성이 지원 중단되었습니다. 대신 <ApiLink pkg="core" type="RangeSlider" member="thumbLabelLower" label="ThumbLabelLower" /> 및 <ApiLink pkg="core" type="RangeSlider" member="thumbLabelUpper" label="ThumbLabelUpper" />를 사용하십시오.
+
+#### 제거됨
+
+- 기본 속성을 가리던 자체 `dir` 어트리뷰트를 제거했습니다. 호환성을 깨지 않는 변경입니다.
+- <ApiLink pkg="core" type="Slider" /> - `ariaLabel` 가려진 속성입니다. 호환성을 깨지 않는 변경입니다.
+- <ApiLink pkg="core" type="Checkbox" /> - `ariaLabelledBy` 가려진 어트리뷰트입니다. 호환성을 깨지 않는 변경입니다.
+- <ApiLink pkg="core" type="Switch" /> - `ariaLabelledBy` 가려진 어트리뷰트입니다. 호환성을 깨지 않는 변경입니다.
+- <ApiLink pkg="core" type="Radio" /> - `ariaLabelledBy` 가려진 어트리뷰트입니다. 호환성을 깨지 않는 변경입니다.
+
+## **{PackageVerChanges-23-2-JAN}**
+
+### {PackageCharts}(차트)
+
+- [차트 강조 필터](./charts/features/chart-highlight-filter.mdx) - <ApiLink type="CategoryChart" />와 <ApiLink type="DataChart" />는 이제 데이터의 부분 집합을 강조하고 그 안팎으로 애니메이션하는 방법을 노출합니다. 이 강조의 표시는 시리즈 유형에 따라 다릅니다. 열 및 영역 시리즈의 경우, 부분 집합은 전체 데이터 위에 표시되며 부분 집합은 시리즈의 실제 브러시 색상으로 칠해지고 전체 세트는 불투명도가 낮아집니다. 선 시리즈의 경우, 부분 집합은 점선으로 표시됩니다.
+
+## **{PackageVerChanges-23-2-DEC}**
+
+### {PackageGrids}(그리드)
+
+- 새 기능 추가 - [상태 지속성](./grids/_shared/state-persistence.mdx)
+
+## **{PackageVerChanges-23-2}**
+
+### {PackageGrids} - 도구 모음 - <Badge variant="preview" />
+
+- 클립보드를 통해 차트를 이미지로 저장하는 저장 도구 작업을 추가했습니다.
+- 도구 모음의 <ApiLink type="Toolbar" member="orientation" label="Orientation" /> 속성을 통해 세로 방향을 추가했습니다. 기본적으로 도구 모음은 가로이지만, 이제 도구 모음을 세로 방향으로 표시할 수 있으며, 도구는 각각 왼쪽/오른쪽으로 팝업됩니다.
+- 도구 모음의 `renderImageFromText` 메서드를 통해 사용자 지정 SVG 아이콘 지원을 추가하여 사용자 지정 도구 생성을 더욱 강화했습니다.
+
+- [그리드](./grids/data-grid.mdx) - 필터링, 정렬, 템플릿, 행 선택, 행 그룹화, 행 고정, 열 이동 같은 기능을 포함하는 완전한 기능의 새 크로스 플랫폼 그리드입니다.
+
+### 지원 중단된 컴포넌트
+
+> [DataGrid](./grids/data-grid.mdx) - DataGrid는 지원 중단되었습니다. 대신 [Grid](./grids/data-grid.mdx)를 사용하십시오
+
+## **{PackageVerChanges-23-1}**
+
+### 새 컴포넌트
+
+- <Badge variant="preview" /> [도구 모음](./menus/toolbar.mdx) - 이 컴포넌트는 주로 차트 컴포넌트와 함께 사용되는 UI 작업을 위한 보조 컨테이너입니다. 도구 모음은 <ApiLink type="DataChart" /> 또는 <ApiLink type="CategoryChart" /> 컴포넌트에 연결되면 속성과 도구 항목의 사전 설정으로 동적으로 업데이트됩니다. 프로젝트를 위한 사용자 지정 도구를 만들 수 있어, 최종 사용자가 변경할 수 있도록 하여 무한한 사용자 지정이 가능합니다.
+
+### {PackageCharts}(차트)
+
+- [ValueLayer](./charts/features/chart-overlays.mdx#{PlatformLower}-값-레이어) - <ApiLink type="ValueLayer" />라는 새 시리즈 유형이 노출되었으며, 이를 통해 플롯된 데이터의 최댓값, 최솟값, 평균 같은 여러 주요 지점에 오버레이를 렌더링할 수 있습니다. 이는 새 <ApiLink type="XYChart" member="valueLines" label="ValueLines" /> 컬렉션에 추가하여 <ApiLink type="CategoryChart" />와 <ApiLink type="FinancialChart" />에 적용됩니다.
+
+- <ApiLink type="DataChart" />의 시리즈 여러 부분에 **대시 배열**을 적용할 수 있게 되었습니다. 차트에 플롯된 [시리즈](./charts/types/line-chart.mdx#{PlatformLower}-선-차트-스타일-지정), 차트의 [눈금선](./charts/features/chart-axis-gridlines.mdx#{PlatformLower}-축-눈금선-속성), 그리고 차트에 플롯된 시리즈의 [추세선](./charts/features/chart-trendlines.mdx#{PlatformLower}-차트-추세선-대시-배열-예제)에 적용할 수 있습니다.
+
+## **{PackageVerChanges-22-2}**
+
+기본 동작을 크게 개선하고, 사용하기 쉽도록 카테고리 차트 API를 다듬었습니다. 새 차트 개선 사항은 다음과 같습니다:
+
+- 브라우저/화면 크기에 따른 가로 레이블 회전의 반응형 레이아웃입니다.
+- 모든 플랫폼에서 둥근 레이블의 렌더링을 개선했습니다.
+- StackedFragmentSeries에 마커 속성을 추가했습니다.
+- <ApiLink type="SeriesViewer" member="shouldPanOnMaximumZoom" label="ShouldPanOnMaximumZoom" /> 속성을 추가했습니다.
+- 새 카테고리 축 속성:
+  - ZoomMaximumCategoryRange
+  - ZoomMaximumItemSpan
+  - ZoomToCategoryRange
+  - ZoomToItemSpan
+- 카테고리 문자열과 숫자 값을 그룹화, 정렬, 요약하는 새 [차트 집계](./charts/features/chart-data-aggregations.mdx) API로, 차트 데이터를 미리 집계하거나 계산할 필요를 없앴습니다:
+  - InitialSortDescriptions
+  - InitialSorts
+  - SortDescriptions
+  - InitialGroups
+  - InitialGroupDescriptions
+  - GroupDescriptions
+  - InitialSummaries
+  - InitialSummaryDescriptions
+  - SummaryDescriptions
+  - InitialGroupSortDescriptions
+  - GroupSorts
+  - GroupSortDescriptions
+
+
+<ApiLink type="XYChart" member="includedProperties" label="IncludedProperties" /> | <ApiLink type="XYChart" member="excludedProperties" label="ExcludedProperties" />를 사용하면 [차트 집계](./charts/features/chart-data-aggregations.mdx)가 작동하지 않습니다. 차트의 이 속성들은 집계되지 않은 데이터를 위한 것입니다. 데이터를 집계하기 시작하면 이 속성들을 더 이상 사용하면 안 됩니다. 작동하지 않는 이유는 집계가 렌더링을 위해 차트에 전달되는 컬렉션을 대체하기 때문입니다. 포함/제외 속성은 해당 데이터의 속성을 걸러내도록 설계되었는데, 그 속성들은 새로운 집계 컬렉션에는 더 이상 존재하지 않습니다.
+
+### {PackageGrids}(데이터 그리드)
+
+- **{IgPrefix}Column**을 <ApiLink type="DataGridColumn" />로 변경했습니다
+- **GridCellEventArgs**를 <ApiLink type="DataGridCellEventArgs" />로 변경했습니다
+- **GridSelectionMode**를 <ApiLink type="DataGridSelectionMode" />로 변경했습니다
+- **SummaryOperand**를 <ApiLink type="DataSourceSummaryOperand" />로 변경했습니다
+
+## **{PackageVerChanges-22-1}**
+### {PackageCharts}(차트)
+
+- <ApiLink type="SeriesViewer" member="Legend" label="Legend" />와 비슷하게 작동하지만 시리즈의 값을 보여 주고 시리즈 행과 값 열을 필터링하며 값의 스타일과 서식을 지정하는 많은 구성 속성을 제공하는 고도로 구성 가능한 [DataLegend](./charts/features/chart-data-legend.mdx) 컴포넌트를 추가했습니다.
+- 툴팁에 시리즈의 값과 제목, 그리고 시리즈의 범례 배지를 표시하는 고도로 구성 가능한 [DataToolTip](./charts/features/chart-data-tooltip.mdx)을 추가했습니다. 이제 모든 차트 유형의 기본 툴팁입니다.
+- 누적 시리즈에 대한 애니메이션과 전환 진입 지원을 추가했습니다. <ApiLink type="CategoryChart" member="isTransitionInEnabled" label="IsTransitionInEnabled" /> 속성을 true로 설정하면 애니메이션을 활성화할 수 있습니다. 그다음 <ApiLink type="CategoryChart" member="transitionInDuration" label="TransitionInDuration" /> 속성으로 애니메이션이 완료되는 데 걸리는 시간을 정하고, <ApiLink type="CategoryChart" member="transitionInMode" label="TransitionInMode" />로 진행되는 애니메이션 유형을 결정할 수 있습니다.
+- <ApiLink type="DataChart" />의 모든 시리즈에서 사용할 수 있는 `AssigningCategoryStyle` 이벤트를 추가했습니다. 이 이벤트는 <ApiLink type="CrosshairLayer" member="fill" label="Fill" /> 배경색과 강조 같은 시리즈 항목의 측면을 조건부로 구성하려 할 때 처리합니다.
+- CalloutLayer용 새 <ApiLink type="CalloutLayer" member="allowedPositions" label="AllowedPositions" /> 열거형입니다. 차트 안에서 콜아웃을 배치할 위치를 제한하는 데 사용됩니다. 기본적으로 콜아웃은 가장 좋은 위치에 지능적으로 배치되지만, 이 열거형을 사용하면 예를 들어 `TopLeft`, `TopRight`, `BottomLeft` 또는 `BottomRight`로 강제할 수 있습니다.
+- 주석 레이어에 새 모서리 반지름 속성을 추가했습니다. 각 콜아웃의 모서리를 둥글게 다듬는 데 사용됩니다. 이제 모서리 반지름이 기본으로 추가되었습니다.
+  - CalloutLayer용 <ApiLink type="CalloutLayer" member="calloutCornerRadius" label="CalloutCornerRadius" />
+  - FinalValueLayer용 <ApiLink type="FinalValueLayer" member="axisAnnotationBackgroundCornerRadius" label="AxisAnnotationBackgroundCornerRadius" />
+  - CrosshairLayer용 <ApiLink type="CrosshairLayer" member="xAxisAnnotationBackgroundCornerRadius" label="XAxisAnnotationBackgroundCornerRadius" />와 <ApiLink type="CrosshairLayer" member="yAxisAnnotationBackgroundCornerRadius" label="YAxisAnnotationBackgroundCornerRadius" />
+- 여러 방식으로 스크롤바를 활성화하는 새 <ApiLink type="SeriesViewer" member="horizontalViewScrollbarMode" label="HorizontalViewScrollbarMode" />와 <ApiLink type="SeriesViewer" member="verticalViewScrollbarMode" label="VerticalViewScrollbarMode" /> 열거형입니다. <ApiLink type="XYChart" member="isVerticalZoomEnabled" label="IsVerticalZoomEnabled" /> 또는 <ApiLink type="XYChart" member="isHorizontalZoomEnabled" label="IsHorizontalZoomEnabled" />와 함께 사용하면, 차트를 탐색하기 위해 축을 따라 스크롤바를 유지하거나 페이드 인/아웃할 수 있습니다.
+- 새 <ApiLink type="NumericXAxis" member="favorLabellingScaleEnd" label="FavorLabellingScaleEnd" />는 축이 척도의 끝에 레이블을 내보내는 것을 선호할지 결정합니다. 숫자 축(예: <ApiLink type="NumericXAxis" />, <ApiLink type="NumericYAxis" />, `PercentChangeAxis`)과만 호환됩니다.
+- 새 <ApiLink type="CategoryChart" member="isSplineShapePartOfRange" label="IsSplineShapePartOfRange" />는 요청된 축 범위에 스플라인 모양을 포함할지 결정합니다.
+- 새 <ApiLink type="CategoryChart" member="xAxisMaximumGap" label="XAxisMaximumGap" />는 <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" />를 사용할 때 플롯된 시리즈에 허용되는 최댓값을 결정합니다. 간격은 플롯된 시리즈의 열 또는 막대 사이의 공간 크기를 결정합니다.
+- 새 <ApiLink type="CategoryChart" member="xAxisMinimumGapSize" label="XAxisMinimumGapSize" />는 <ApiLink type="CategoryChart" member="xAxisGap" label="XAxisGap" />를 사용할 때 플롯된 시리즈에 허용되는 최소 픽셀 기반 값을 결정하여, 각 카테고리 사이에 항상 약간의 간격이 있도록 보장합니다.
+
+### {PackageGrids}(데이터 그리드)
+
+새 기능 추가 - [행 페이징](./grids/_shared/paging.mdx)은 대용량 데이터 세트를 비슷한 내용을 가진 페이지의 순서로 나누는 데 사용됩니다. 페이지 매김을 사용하면 데이터를 정해진 수의 행으로 표시하고, 사용자가 스크롤바 없이 데이터를 "스크롤"할 수 있습니다. 표 페이지 매김의 UI에는 보통 현재 페이지, 전체 페이지 수, 사용자가 데이터 페이지를 넘길 수 있는 클릭 가능한 이전 및 다음 화살표/버튼 같은 요소가 포함됩니다.
+
+## **{PackageVerChanges-21-2.1}**
+
+### {PackageGrids}(데이터 그리드)
+
+#### Data Grid
+- 드롭다운 항목에 여러 필드로 구성된 키가 있을 때 사용할 수 있도록 <ApiLink type="ComboBoxColumn" />에 string[] 유형의 <ApiLink type="ComboBoxColumn" member="valueMultiField" label="ValueMultiField" />를 추가했습니다.
+
+<DocsAside type="info">
+다음과 같은 호환되지 않는 변경 사항이 도입되었습니다
+</DocsAside>
+
+- <ApiLink type="ComboEditor" member="valueField" label="ValueField" /> 속성의 유형을 string[]에서 string으로 변경했습니다.
+
+### {PackageInputs}(입력)
+
+#### Date Picker
+- ValueChanged 이벤트를 `SelectedValueChanged`로 변경했습니다.
+
+#### 다중 열 콤보박스
+- `TextChanged` 이벤트를 `TextValueChanged`로 변경했습니다.
+- `ValueChanged` 이벤트를 `SelectedValueChanged`로 변경했습니다.
+
+
+## **{PackageVerChanges-21-2}**
+
+<DocsAside type="info">
+최적의 호환성을 위해 프로젝트에 "lit-html": "^2.0.0" 이상 패키지를 추가했는지 확인하십시오.
+</DocsAside>
+
+### {PackageCharts}(차트)
+
+이번 릴리스에서는 지리 지도와 모든 차트 컴포넌트의 시각적 디자인과 구성 옵션에 몇 가지 개선과 단순화가 도입되었습니다.
+
+- <ApiLink type="FinancialChart" /> 및 <ApiLink type="CategoryChart" />에서 <ApiLink type="XYChart" member="yAxisLabelLocation" label="YAxisLabelLocation" /> 속성의 유형을 **AxisLabelLocation**에서 **YAxisLabelLocation**으로 변경했습니다
+- <ApiLink type="FinancialChart" />에서 <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> 속성의 유형을 **AxisLabelLocation**에서 **XAxisLabelLocation**으로 변경했습니다
+- <ApiLink type="CategoryChart" />에 <ApiLink type="XYChart" member="xAxisLabelLocation" label="XAxisLabelLocation" /> 속성을 추가했습니다
+- 범례에서 <ApiLink type="GeographicMap" />의 지리 시리즈 표현을 지원하도록 추가했습니다
+- <ApiLink type="FinancialChart" />와 <ApiLink type="CategoryChart" />에 기본적으로 십자선을 추가했습니다
+- <ApiLink type="FinancialChart" />와 <ApiLink type="CategoryChart" />에 기본적으로 십자선 주석을 추가했습니다
+- <ApiLink type="FinancialChart" />에 기본적으로 최종 값 주석을 추가했습니다
+- 카테고리 차트와 금융 차트에 새 속성을 추가했습니다:
+  - 십자선 선을 사용자 지정하기 위한 <ApiLink type="XYChart" member="crosshairsLineThickness" label="CrosshairsLineThickness" /> 및 기타 속성
+  - 십자선 주석을 사용자 지정하기 위한 <ApiLink type="XYChart" member="crosshairsAnnotationXAxisBackground" label="CrosshairsAnnotationXAxisBackground" /> 및 기타 속성
+  - 최종 값 주석을 사용자 지정하기 위한 <ApiLink type="XYChart" member="finalValueAnnotationsBackground" label="FinalValueAnnotationsBackground" /> 및 기타 속성
+  - 시리즈 채우기의 불투명도(예: 영역 차트)를 변경할 수 있는 <ApiLink type="XYChart" member="areaFillOpacity" label="AreaFillOpacity" />
+  - 마커의 두께를 변경할 수 있는 <ApiLink type="XYChart" member="markerThickness" label="MarkerThickness" />
+- 카테고리 차트, 금융 차트, 데이터 차트, 지리 지도에 새 속성을 추가했습니다:
+  - 같은 차트에서 여러 시리즈에 할당되는 마커 유형을 지정하는 <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" />
+  - 범례에 표시되는 모든 시리즈의 배지 모양을 설정하는 <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" />
+  - 범례의 모든 시리즈에 대한 배지 복잡도를 설정하는 <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" />
+- 데이터 차트와 지리 지도의 시리즈에 새 속성을 추가했습니다:
+  - 범례에 표시되는 특정 시리즈의 배지 모양을 설정하는 <ApiLink type="SeriesViewer" member="legendItemBadgeShape" label="LegendItemBadgeShape" />
+  - 범례의 특정 시리즈에 대한 배지 복잡도를 설정하는 <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" />
+- 카테고리 차트와 시리즈에서 기본 세로 십자선 선의 획 색상을 <span style="color:#000000">#000000</span>에서 <span style="color:#BBBBBB">#BBBBBB</span>로 변경했습니다
+- 같은 차트에 있는 모든 시리즈의 마커 모양을 원으로 변경했습니다. 차트의 <ApiLink type="SeriesViewer" member="markerAutomaticBehavior" label="MarkerAutomaticBehavior" /> 속성을 `SmartIndexed` 열거형 값으로 설정하면 이 변경을 되돌릴 수 있습니다
+- 차트 범례의 시리즈 모양을 원, 선, 사각형만 표시하도록 단순화했습니다. 차트의 <ApiLink type="SeriesViewer" member="legendItemBadgeMode" label="LegendItemBadgeMode" /> 속성을 `MatchSeries` 열거형 값으로 설정하면 이 변경을 되돌릴 수 있습니다
+- 접근성을 개선하기 위해 모든 차트에 표시되는 시리즈와 마커의 색상 팔레트를 변경했습니다
+
+| 이전 브러시/윤곽선 | 새 윤곽선/브러시 |
+| -------------------- | ------------------- |
+| <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8B5BB1">#8B5BB1</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#F8A15F">#F8A15F</span> <br /><span style="color:#EE5879">#EE5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F7D262">#F7D262</span> <br /><span style="color:#8CE7D9">#8CE7D9</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> | <span style="color:#8BDC5C">#8BDC5C</span> <br /><span style="color:#8961A9">#8961A9</span> <br /><span style="color:#6DB1FF">#6DB1FF</span> <br /><span style="color:#82E9D9">#82E9D9</span> <br /><span style="color:#EA3C63">#EA3C63</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#F8CE4F">#F8CE4F</span> <br /><span style="color:#A8A8B7">#A8A8B7</span> <br /><span style="color:#E051A9">#E051A9</span> <br /><span style="color:#FF903B">#FF903B</span> <br /> |
+
+
+### {PackageGrids}(데이터 그리드)
+
+- 추가된 새 기능:
+  - [필터 행](./grids/_shared/filtering.mdx)
+  - [레이아웃 사용자 지정 불러오기/저장](./grids/_shared/state-persistence.mdx)
+  - [열 그룹화를 위한 그룹화 영역](./grids/grid/groupby.mdx)
+  - [셀 병합](./grids/_shared/cell-merging.mdx)
+- 새 API:
+  - `SelectionChanged` 이벤트를 추가했습니다. 선택 상호 작용의 변화를 감지하는 데 사용합니다
+     예: 여러 행 선택.
+- 호환성 깨짐 변경:
+  - 그리드의 SummaryScope 속성 유형을 <ApiLink type="DataSourceSummaryScope" />에서 SummaryScope로 변경했습니다
+  - GroupHeaderDisplayMode 속성 유형을 <ApiLink type="DataSourceSectionHeaderDisplayMode" />에서 GroupHeaderDisplayMode로 변경했습니다
+
+
+## **{PackageVerChanges-21-1}**
+### {PackageCharts}(차트)
+
+이번 릴리스에서는 모든 차트 컴포넌트(예: <ApiLink type="DataChart" />, <ApiLink type="CategoryChart" />, <ApiLink type="FinancialChart" />)에 대해 여러 새로운 시각 디자인과 개선된 구성 옵션을 도입합니다.
+
+- Bar/Column/Waterfall 시리즈가 둥근 모서리 대신 각진 모서리를 갖도록 변경되었습니다
+- Scatter High Density 시리즈의 heat min 속성 색상을 <span style="color:#8a5bb1">#8a5bb1</span>에서 <span style="color:#000000">#000000</span>으로 변경했습니다
+- Scatter High Density 시리즈의 heat max 속성 색상을 <span style="color:#ee5879">#ee5879</span>에서 <span style="color:#ee5879">#ee5879</span>로 변경했습니다
+- Financial/Waterfall 시리즈의 `NegativeBrush` 및 `NegativeOutline` 속성을 <span style="color:#C62828">#C62828</span>에서 <span style="color:#ee5879">#ee5879</span>로 변경했습니다
+- 마커 두께가 1px에서 2px로 변경되었습니다
+- <ApiLink type="PointSeries" />, <ApiLink type="BubbleSeries" />, <ApiLink type="ScatterSeries" />, <ApiLink type="PolarScatterSeries" />의 마커 채우기가 마커 윤곽선과 일치하도록 변경했습니다. 이 변경을 되돌리려면 <ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> 속성을 Normal로 설정하십시오
+- <ApiLink type="TimeXAxis" />와 <ApiLink type="OrdinalTimeXAxis" />의 레이블 압축 표시
+- 새로운 마커 속성:
+  - series.<ApiLink type="XYChart" member="markerFillMode" label="MarkerFillMode" /> - `MatchMarkerOutline`로 설정할 수 있으며, 이 경우 마커는 윤곽선에 따릅니다
+  - series.<ApiLink type="XYChart" member="markerFillOpacity" label="MarkerFillOpacity" /> - 0에서 1 사이의 값으로 설정할 수 있습니다
+  - series.<ApiLink type="XYChart" member="markerOutlineMode" label="MarkerOutlineMode" /> - `MatchMarkerBrush`로 설정할 수 있으며, 이 경우 마커 윤곽선은 채우기 브러시 색상에 따릅니다
+- 새 시리즈 속성:
+  - series.<ApiLink type="XYChart" member="outlineMode" label="OutlineMode" /> - 시리즈 윤곽선의 표시 여부를 전환하도록 설정할 수 있습니다. 참고로 데이터 차트에서는 이 속성이 시리즈에 있습니다
+- 차트가 기본 확대/축소 수준에 있을 때 뷰포트에 번지는 영역을 정의하는 새 차트 속성입니다. 일반적인 사용 사례는 축과 첫 번째/마지막 데이터 지점 사이에 공간을 두는 것입니다. 참고로 아래의 <ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />는 마커가 활성화되면 여백을 자동으로 설정합니다. 나머지는 두께를 나타내는 `Double`를 지정하도록 설계되었으며, PlotAreaMarginLeft 등은 차트의 네 면 모두에 대한 공간을 조정합니다:
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginLeft" label="PlotAreaMarginLeft" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginTop" label="PlotAreaMarginTop" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginRight" label="PlotAreaMarginRight" />
+  - chart.<ApiLink type="XYChart" member="plotAreaMarginBottom" label="PlotAreaMarginBottom" />
+  - chart.<ApiLink type="XYChart" member="computedPlotAreaMarginMode" label="ComputedPlotAreaMarginMode" />
+- 새로운 강조 표시 속성
+  - chart.<ApiLink type="SeriesViewer" member="highlightingMode" label="HighlightingMode" /> - 마우스가 올라간 시리즈 또는 올라가지 않은 시리즈를 흐리게 또는 밝게 할지 설정합니다
+  - chart.<ApiLink type="SeriesViewer" member="highlightingBehavior" label="HighlightingBehavior" /> - 마우스 위치(예: 바로 위 또는 가장 가까운 항목)에 따라 시리즈가 강조되는지 설정합니다
+  - 참고로 이전 릴리스에서는 강조 표시가 마우스 오버 시 흐려지는 효과로만 제한되어 있었습니다.
+- 누적, 산점, 극좌표, 방사형, 도형 시리즈의 강조를 추가했습니다:
+- 누적, 산점, 극좌표, 방사형, 도형 시리즈에 주석 레이어를 추가했습니다:
+- 스택형 시리즈 내부의 개별 스택 조각에 대해 데이터 소스를 재정의하는 기능이 추가되었습니다
+- Stacked, Scatter, Range, Polar, Radial, Shape 시리즈에 사용자 지정 스타일 이벤트가 추가되었습니다
+- 세로 확대/축소를 시리즈 콘텐츠에 자동으로 동기화하는 기능이 추가되었습니다
+- 처음 표시되는 레이블에 따라 차트의 가로 여백을 자동으로 넓히는 기능이 추가되었습니다
+- 시리즈와 마커의 색상 팔레트를 재디자인했습니다:
+
+| 이전 브러시/윤곽선 | 새 윤곽선/브러시 |
+| -------------------- | ------------------- |
+| <span style="color:#7446B9">#7446B9</span> <br /><span style="color:#9FB328">#9FB328</span> <br /><span style="color:#F96232">#F96232</span> <br /><span style="color:#2E9CA6">#2E9CA6</span> <br /><span style="color:#DC3F76">#DC3F76</span> <br /><span style="color:#FF9800">#FF9800</span> <br /><span style="color:#3F51B5">#3F51B5</span> <br /><span style="color:#439C47">#439C47</span> <br /><span style="color:#795548">#795548</span> <br /><span style="color:#9A9A9A">#9A9A9A</span> | <span style="color:#8bdc5c">#8bdc5c</span> <br /><span style="color:#8b5bb1">#8b5bb1</span> <br /><span style="color:#6db1ff">#6db1ff</span> <br /><span style="color:#f8a15f">#f8a15f</span> <br /><span style="color:#ee5879">#ee5879</span> <br /><span style="color:#735656">#735656</span> <br /><span style="color:#f7d262">#f7d262</span> <br /><span style="color:#8ce7d9">#8ce7d9</span> <br /><span style="color:#e051a9">#e051a9</span> <br /><span style="color:#a8a8b7">#a8a8b7</span> <br /> |
+
+예:
+
+|   |   |
+|---|---|
+| <Image src={chartdefaults1} alt="chartDefaults1" class="responsive-img" /> | <Image src={chartdefaults2} alt="chartDefaults2" class="responsive-img" /> |
+| <Image src={chartdefaults3} alt="chartDefaults3" class="responsive-img" /> | <Image src={chartdefaults4} alt="chartDefaults4" class="responsive-img" /> |
+
+#### 차트 범례
+
+- Bubble, Donut, Pie Chart와 함께 사용할 수 있는 ItemLegend의 가로 <ApiLink type="Toolbar" member="orientation" label="Orientation" /> 속성을 추가했습니다
+- <ApiLink type="SeriesViewer" member="legendHighlightingMode" label="LegendHighlightingMode" /> 속성을 추가했습니다 - 범례 항목 위에 마우스를 올리면 시리즈 강조를 활성화합니다
+
+### {PackageMaps}(GeoMap)
+
+<DocsAside type="info">
+이 기능들은 CTP입니다
+</DocsAside>
+
+- 지도를 감싸서 표시하는 기능(가로로 무한 스크롤)이 추가되었습니다
+- 좌표 원점을 감싸는 동안 일부 지도 시리즈의 표시를 이동하는 기능이 추가되었습니다
+- Shape 시리즈의 강조 표시 기능이 추가되었습니다
+- Shape 시리즈에 대한 일부 주석 레이어 기능이 추가되었습니다
+
+
+### {PackageGrids}(데이터 그리드)
+
+- <ApiLink type="Grid" member="editOnKeyPress" label="EditOnKeyPress" />(Excel 스타일 편집)를 추가했습니다. 입력을 시작하면 즉시 편집을 시작합니다.
+- <ApiLink type="Grid" member="editModeClickAction" label="EditModeClickAction" /> 속성을 추가했습니다 - 기본적으로 편집 모드에 들어가려면 더블 클릭이 필요합니다. 이를 `SingleClick`로 설정하면 새 셀을 선택할 때 편집 모드가 발생하도록 할 수 있습니다.
+- <ApiLink type="EnterKeyBehaviors" /> 속성을 추가했습니다(Excel 스타일 탐색(Enter 동작)) - Enter 키의 동작을 제어합니다. 예: (없음, 편집, 위, 아래, 왼쪽, 오른쪽으로 이동)
+- <ApiLink type="EnterKeyBehaviorAfterEdit" /> 속성을 추가했습니다 - 편집 모드에서 Enter를 누를 때의 동작을 제어합니다. 예: (아래, 위, 오른쪽, 왼쪽 셀로 이동)
+- <ApiLink type="Grid" member="selectAllRows" label="SelectAllRows" /> 메서드를 추가했습니다.
+- 행 범위 선택을 추가했습니다 - <ApiLink type="GridSelectionMode" /> 속성을 MultipleRow로 설정하면 다음과 같은 새 기능이 포함됩니다:
+  - 클릭하고 드래그하여 행을 선택합니다
+  - <kbd>SHIFT</kbd>를 누른 상태에서 클릭하여 여러 행을 선택합니다.
+  - <kbd>SHIFT</kbd>를 누른 상태에서 <kbd>↑</kbd> + <kbd>↓</kbd> 화살표 키를 눌러 여러 행을 선택합니다.
+- <ApiLink type="GridSelectionMode" /> 속성을 MultipleRow 또는 SingleRow로 설정하면 스페이스 바를 눌러 활성 행의 선택을 전환합니다
+- 열 옵션 대화 상자에 열 요약을 추가했습니다.
+
+### {PackageInputs}(입력)
+
+#### Date Picker
+
+- <ApiLink type="DatePicker" member="showTodayButton" label="ShowTodayButton" /> - 오늘 버튼의 표시 여부를 전환합니다
+- <ApiLink pkg="core" type="DatePicker" member="label" label="Label" /> - 날짜 값 위에 레이블을 추가합니다
+- <ApiLink pkg="core" type="DatePicker" member="placeholder" label="Placeholder" /> 속성 - 값이 선택되지 않았을 때 사용자 지정 텍스트를 추가합니다
+- <ApiLink type="IWorksheetCellFormat" member="formatString" label="FormatString" /> - 입력 날짜 문자열을 사용자 지정합니다. 예: (`yyyy-MM-dd`)
+- <ApiLink type="DatePicker" member="dateFormat" label="DateFormat" /> - 선택된 날짜를 LongDate 또는 ShortDate로 표시할지 지정합니다
+- <ApiLink type="DatePicker" member="firstDayOfWeek" label="FirstDayOfWeek" /> - 주의 첫 번째 요일을 지정합니다
+- <ApiLink type="DatePicker" member="firstWeekOfYear" label="FirstWeekOfYear" /> - 연도의 첫 주를 언제 표시할지 지정합니다. 예: (First Full Week, First Four day Week)
+- <ApiLink pkg="core" type="DatePicker" member="showWeekNumbers" label="ShowWeekNumbers" /> - 주 번호의 표시 여부를 전환합니다
+- <ApiLink type="DatePicker" member="minDate" label="MinDate" /> 및 <ApiLink type="DatePicker" member="maxDate" label="MaxDate" /> - 선택 가능한 날짜의 범위를 지정하는 날짜 제한입니다.
+- 접근성 추가
+
+
+## **{PackageVerChangedFields}**
+
+### {PackageGrids}(데이터 그리드)
+
+<DocsAside type="info">
+이 호환되지 않는 변경은 그리드 패키지에 도입되었습니다.
+</DocsAside>
+
+- PropertyPath의 이름을 변경했습니다
+
+데이터 그리드 컴포넌트의 속성 `propertyPath`의 이름이 `field`로 바뀌었습니다. 이는 모든 Column 유형, GroupDescription, SortDescription, SummaryDescription에 적용됩니다.
+
+<PlatformBlock for="React">
+
+```tsx
+ <IgrTextColumn field="Name"/>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrColumnSummaryDescription, IgrColumnSortDescription, IgrColumnGroupDescription } from 'igniteui-react-data-grids'
+const productCount = new IgrColumnSummaryDescription();
+productCount.field = "ProductName";
+const colSortDesc = new IgrColumnSortDescription();
+colSortDesc.field = "UnitsInStock";
+const income = new IgrColumnGroupDescription();
+income.field = "Income";
+```
+
+</PlatformBlock>
+
+## **{PackageVerRenamedGrid}**
+
+### {PackageGrids}(데이터 그리드)
+
+- Live Grid의 이름을 변경했습니다
+
+데이터 그리드 컴포넌트와 해당 모듈의 이름이 "LiveGrid"에서 "DataGrid"로 바뀌었습니다.
+
+<DocsAside type="info">
+이 호환되지 않는 변경은 다음 패키지와 컴포넌트에만 도입되었습니다:
+</DocsAside>
+
+그리드와 해당 모듈을 가져오는 새 코드는 다음과 같습니다:
+
+<PlatformBlock for="React">
+
+```ts
+import { IgrDataGrid } from "igniteui-react-data-grids";
+import { IgrDataGridModule } from 'igniteui-react-data-grids';
+```
+
+</PlatformBlock>
+
+- Data Grid에 필요한 피어 종속성
+
+데이터 그리드 컴포넌트에는 "inputs" 패키지가 필요합니다.
+
+```cmd
+npm install --save {PackageInputs}
+```
+
+
+## **{PackageVerChangedImports}**
+
+- 변경된 import 문
+
+가져오기 문이 API 클래스와 열거형의 전체 경로 대신 패키지 이름만 사용하도록 간소화되었습니다.
+
+<DocsAside type="info">
+이 호환되지 않는 변경은 다음 패키지와 컴포넌트에만 도입되었습니다:
+</DocsAside>
+
+| 영향을 받는 패키지 | 영향을 받는 컴포넌트 |
+| ------------------|---------------------|
+| <a href="{PackageWebsite}{PackageExcel}/v/{PackageVerChangedImports}" target="_blank">{PackageExcel}</a> | [Excel 라이브러리](./excel-library.mdx)  |
+| <a href="{PackageWebsite}{PackageSpreadsheet}/v/{PackageVerChangedImports}" target="_blank">{PackageSpreadsheet}</a> | [Spreadsheet](./spreadsheet-overview.mdx) |
+| <a href="{PackageWebsite}{PackageMaps}/v/{PackageVerChangedImports}" target="_blank">{PackageMaps}</a> | [Geo Map](./geo-map.mdx), [Treemap](./charts/types/treemap-chart.mdx)  |
+| <a href="{PackageWebsite}{PackageGauges}/v/{PackageVerChangedImports}" target="_blank">{PackageGauges}</a> |  [Bullet Graph](./bullet-graph.mdx), [Linear Gauge](./linear-gauge.mdx), [Radial Gauge](./radial-gauge.mdx)   |
+| <a href="{PackageWebsite}{PackageCharts}/v/{PackageVerChangedImports}" target="_blank">{PackageCharts}</a>| Category Chart, Data Chart, Donut Chart, Financial Chart], Pie Chart, [Zoom Slider](./zoomslider-overview.mdx)  |
+| <a href="{PackageWebsite}{PackageCore}/v/{PackageVerChangedImports}" target="_blank">{PackageCore}</a> | 모든 클래스와 열거형  |
+| <a href="{PackageWebsite}{PackageGrids}/v/{PackageVerChangedImports}" target="_blank">{PackageGrids}</a> | [데이터 그리드](./grids/data-grid.mdx) |
+
+- 변경 후 코드
+
+이제 API 클래스와 열거형의 전체 경로 대신 패키지 이름만 사용해야 합니다.
+
+또한 Data Grid 컴포넌트와 해당 모듈의 이름도 변경되었다는 점에 유의하십시오.
+
+<PlatformBlock for="React">
+
+```ts
+// gauges:
+import { IgrLinearGauge } from "igniteui-react-gauges";
+import { IgrLinearGaugeModule } from "igniteui-react-gauges";
+import { IgrLinearGraphRange } from "igniteui-react-gauges";
+import { IgrRadialGauge } from 'igniteui-react-gauges';
+import { IgrRadialGaugeModule } from 'igniteui-react-gauges';
+import { IgrRadialGaugeRange } from 'igniteui-react-gauges';
+import { SweepDirection } from 'igniteui-react-core';
+// charts:
+import { IgrFinancialChart } from 'igniteui-react-charts';
+import { IgrFinancialChartModule } from 'igniteui-react-charts';
+import { IgrDataChart } from 'igniteui-react-charts';
+import { IgrDataChartCoreModule } from 'igniteui-react-charts';
+// maps:
+import { IgrGeographicMap } from "igniteui-react-maps";
+import { IgrGeographicMapModule } from "igniteui-react-maps";
+// grids:
+import { IgrLiveGrid } from "igniteui-react-data-grids";
+import { IgrLiveGridModule } from 'igniteui-react-data-grids';
+```
+
+</PlatformBlock>
+
+- 변경 전 코드
+
+이전에는 API 클래스와 열거형을 전체 경로로 가져와야 했습니다:
+
+<PlatformBlock for="React">
+
+```ts
+// gauges:
+import { IgrLinearGauge } from "igniteui-react-gauges/ES5/igr-linear-gauge";
+import { IgrLinearGaugeModule } from "igniteui-react-gauges/ES5/igr-linear-gauge-module";
+import { IgrLinearGraphRange } from "igniteui-react-gauges/ES5/igr-linear-graph-range";
+
+import { IgrRadialGauge } from "igniteui-react-gauges/ES5/igr-radial-gauge";
+import { IgrRadialGaugeModule } from "igniteui-react-gauges/ES5/igr-radial-gauge-module";
+import { IgrRadialGaugeRange } from "igniteui-react-gauges/ES5/igr-radial-gauge-range";
+import { SweepDirection } from "igniteui-react-core/ES5/SweepDirection";
+
+// charts:
+import { IgrFinancialChart } from "igniteui-react-charts/ES5/igr-financial-chart";
+import { IgrFinancialChartModule } from "igniteui-react-charts/ES5/igr-financial-chart-module";
+import { IgrDataChart } from "igniteui-react-charts/ES5/igr-data-chart";
+import { IgrDataChartCoreModule } from "igniteui-react-charts/ES5/igr-data-chart-core-module";
+
+// maps:
+import { IgrGeographicMap } from "igniteui-react-maps/ES5/igr-geographic-map";
+import { IgrGeographicMapModule } from "igniteui-react-maps/ES5/igr-geographic-map-module";
+
+// grids:
+import { IgrLiveGrid } from "igniteui-react-data-grids/ES5/igr-live-grid";
+import { IgrLiveGridModule } from 'igniteui-react-data-grids/ES5/igr-live-grid-module';
+```
+
+</PlatformBlock>

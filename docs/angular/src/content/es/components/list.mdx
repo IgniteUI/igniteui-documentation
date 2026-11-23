@@ -1,0 +1,728 @@
+---
+title: "Vista de lista de Angular | Ejemplo de lista de Angular | Infragistics | Licencia MIT"
+description: "El componente List de Ignite UI for Angular muestra filas de elementos y admite uno o varios elementos de encabezado, así como la búsqueda y el filtrado de los elementos de la lista. Pruébelo GRATIS"
+keywords: angular list, ignite ui for angular, angular list component, angular list view, angular list view component, angular ui components
+license: MIT
+_language: es
+llms:
+  description: "El componente List de Ignite UI for Angular muestra filas de elementos y admite uno o varios elementos de encabezado, así como la búsqueda y el filtrado de los elementos de la lista."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular List View
+
+El componente List de Ignite UI for Angular muestra filas de elementos y admite uno o varios elementos de encabezado, así como la búsqueda y el filtrado de los elementos de la lista. Cada elemento de la lista es totalmente personalizable con plantillas y admite cualquier HTML válido o [componente de Angular](https://www.infragistics.com/products/ignite-ui-angular). El componente de lista también incluye funcionalidad de desplazamiento integrada, plantillas para los estados vacío y de carga, y admite la virtualización de listas grandes mediante la directiva [`IgxForOf`](/for-of).
+
+## Ejemplo de lista de Angular
+
+El siguiente ejemplo muestra una lista rellenada con contactos que tienen las propiedades _nombre_ y _número de teléfono_. El componente <ApiLink type="List" /> usa [`igx-avatar`](layouts/avatar.mdx) y [`igx-icon`](/layouts/icon) para enriquecer la experiencia del usuario y mostrar las funciones de establecer una imagen de avatar y un icono distinto para _marcar un contacto como favorito_. Además, la vista de lista expone capacidades de ordenación mediante nuestro pipe de filtrado.
+
+<Sample src="/lists/list-sample-4" height={513} alt="Ejemplo de lista de Angular" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular List
+
+Para empezar con el componente Ignite UI for Angular List View, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxListModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxListModule } from 'igniteui-angular/list';
+// import { IgxListModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxListModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxListComponent` como dependencia independiente, o usar el token [`IGX_LIST_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/list/src/list/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+// import { IGX_LIST_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-list>
+        <igx-list-item isHeader="true">Header</igx-list-item>
+        <igx-list-item>Item 1</igx-list-item>
+        <igx-list-item>Item 2</igx-list-item>
+        <igx-list-item>Item 3</igx-list-item>
+    </igx-list>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_LIST_DIRECTIVES]
+    /* or imports: [IgxListComponent, IgxListItemComponent] */
+})
+export class HomeComponent {}
+```
+
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular List, puede empezar a usar el componente `igx-list`.
+
+## Uso de Angular List
+
+Después, en la plantilla de nuestro componente de contactos, podemos crear la lista, pero ¿qué pasa si ahora (o en algún momento futuro) no tenemos elementos en ella?
+En ese caso, la lista de Angular nos proporciona una plantilla predeterminada que se usa cuando la lista está vacía.
+Siempre podemos proporcionar nuestra propia plantilla para el aspecto de la lista vacía usando simplemente la directiva <ApiLink type="EmptyListTemplateDirective" />. En este caso, no se usará la plantilla predeterminada:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list>
+    <ng-template igxEmptyList>
+        <div class="empty">
+No contacts! :(
+</div>
+    </ng-template>
+</igx-list>
+```
+
+Y nuestro estilo para la plantilla vacía:
+
+```css
+/* contacts.component.css */
+
+.empty {
+    color: rgba(0, 153, 255, 1);
+    font-size: 25px;
+    font-weight: 600;
+    text-shadow: 2px 1px 2px rgba(150, 150, 150, 1);
+}
+```
+
+Si todo ha ido bien, así debería verse nuestra lista vacía:
+
+<Sample src="/lists/list-sample-5" height={100} alt="" />
+
+A veces puede haber un retraso en la carga de sus datos. En ese caso, puede establecer la propiedad <ApiLink type="List" member="isLoading" label="isLoading" /> de la lista en `true` y una plantilla predeterminada informará al usuario del proceso de carga de datos en curso. También puede proporcionar su propia plantilla de carga usando la directiva <ApiLink type="DataLoadingTemplateDirective" />:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list>
+    <ng-template igxDataLoading>
+        <div class="loading">
+Patience, we are currently loading your data...
+</div>
+    </ng-template>
+</igx-list>
+```
+
+```css
+/* contacts.component.css */
+
+.loading {
+    color: rgba(255, 153, 0, 1);
+    font-size: 25px;
+    font-weight: 600;
+    text-shadow: 2px 1px 2px rgba(150, 150, 150, 1);
+}
+```
+
+<Sample src="/lists/list-sample-6" height={300} alt="" />
+
+### Añadir elementos a la lista
+
+Está bien tener una plantilla para cuando la lista está vacía, ¡pero ahora vamos a añadir algunos elementos! Podemos añadir el siguiente código para obtener una lista sencilla de elementos:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list>
+    <igx-list-item isHeader="true">Header</igx-list-item>
+    <igx-list-item>Item 1</igx-list-item>
+    <igx-list-item>Item 2</igx-list-item>
+    <igx-list-item>Item 3</igx-list-item>
+</igx-list>
+```
+
+Si todo ha ido bien, debería ver lo siguiente en su navegador:
+
+<Sample src="/lists/list-sample-2" height={200} alt="" />
+
+Vamos a mejorar un poco nuestros elementos de la lista. Digamos que queremos crear una lista de Angular de contactos con un nombre y un número de teléfono mostrado debajo del nombre.
+En el archivo TypeScript de nuestro componente podemos definir una lista de contactos:
+
+```typescript
+// contacts.component.ts
+...
+public contacts = [{
+    name: "Terrance Orta",
+    phone: "770-504-2217"
+}, {
+    name: "Richard Mahoney",
+    phone: "423-676-2869"
+}, {
+    name: "Donna Price",
+    phone: "859-496-2817"
+}, {
+    name: "Lisa Landers",
+    phone: "901-747-3428"
+}, {
+    name: "Dorothy H. Spencer",
+    phone: "573-394-9254"
+}];
+```
+
+Ahora que tenemos algunos datos que queremos renderizar, vamos a configurar el marcado.
+Si queremos algo de estilo de forma inmediata, podemos usar algunas de las directivas que incluyen los elementos de la lista.
+
+Veamos cómo podemos usar algunas de ellas en el siguiente ejemplo:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list>
+  <igx-list-item isHeader="true">
+    Contacts
+  </igx-list-item>
+  <igx-list-item *ngFor="let contact of contacts">
+    <h4 igxListLineTitle>{{ contact.name }}</h4>
+    <p igxListLineSubTitle>{{ contact.phone }}</p>
+  </igx-list-item>
+</igx-list>
+```
+
+Ambas directivas `igxListLineTitle` y `igxListLineSubTitle` dan a nuestros elementos de la lista un aspecto predeterminado.
+
+Después de todo eso, nuestra lista de Angular debería tener este aspecto:
+
+<Sample src="/lists/list-sample-3" height={400} alt="" />
+
+### Añadir avatar e iconos
+
+Podemos usar algunos de nuestros otros componentes junto con el componente <ApiLink type="List" /> para enriquecer la experiencia y añadir funcionalidad. Podemos mostrar un avatar con imagen a la izquierda de los valores del nombre y del teléfono. Además, podemos añadir un icono de estrella a la derecha de ellos para que el usuario pueda marcar un contacto como favorito. Para hacerlo, importemos los módulos [**IgxAvatar**](layouts/avatar.mdx) y [**IgxIcon**](/layouts/icon) en nuestro archivo app.module.ts.
+
+```typescript
+// app.module.ts
+
+...
+import { IgxListModule } from 'igniteui-angular/list';
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+import { IgxIconModule } from 'igniteui-angular/icon';
+// import { IgxListModule, IgxAvatarModule, IgxIconModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxAvatarModule, IgxIconModule],
+})
+export class AppModule {}
+```
+
+A continuación, tenemos que añadir más información a nuestro objeto de contacto, como un origen `photo` para el avatar y una propiedad `isFavorite` que indique el estado de favorito del contacto.
+
+```typescript
+// contacts.component.ts
+
+public contacts = [{
+    name: 'Terrance Orta',
+    phone: '770-504-2217',
+    photo: 'https://randomuser.me/api/portraits/men/27.jpg',
+    isFavorite: false
+}, {
+    name: 'Richard Mahoney',
+    phone: '423-676-2869',
+    photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+    isFavorite: true
+}, {
+    name: 'Donna Price',
+    phone: '859-496-2817',
+    photo: 'https://randomuser.me/api/portraits/women/50.jpg',
+    isFavorite: false
+}, {
+    name: 'Lisa Landers',
+    phone: '901-747-3428',
+    photo: 'https://randomuser.me/api/portraits/women/3.jpg',
+    isFavorite: false
+}, {
+    name: 'Dorothy H. Spencer',
+    phone: '573-394-9254',
+    photo: 'https://randomuser.me/api/portraits/women/67.jpg',
+    isFavorite: true
+}];
+```
+
+Genial, ahora actualicemos la plantilla de nuestra lista de contactos para mostrar el avatar y el icono. De nuevo, podemos hacerlo usando algunas de las directivas de lista.
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list>
+  <igx-list-item isHeader="true">
+    Contacts
+  </igx-list-item>
+  <igx-list-item #item *ngFor="let contact of contacts;">
+      <igx-avatar igxListThumbnail [src]="contact.photo" shape="circle"></igx-avatar>
+      <h4 igxListLineTitle>{{ contact.name }}</h4>
+      <p igxListLineSubTitle class="phone">{{ contact.phone }}</p>
+      <span igxListLine>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, laborum.</span>
+      <igx-icon igxListAction [color]="contact.isFavorite ? 'orange' : 'lightgray'" (click)="toggleFavorite(item)">star</igx-icon>
+  </igx-list-item>
+</igx-list>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Añada el siguiente enlace a su `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+- `igxListThumbnail` se usa si necesitamos añadir algún tipo de contenido multimedia al principio de nuestros elementos de la lista. La directiva envolverá el elemento de destino, en nuestro caso igx-avatar, en un contenedor que proporcionará una posición y un espaciado predeterminados.
+- `igxListAction` se usa en los elementos de la lista que tienen algún tipo de acción o metadatos, por ejemplo, un switch, un botón de radio, una casilla, etc. En nuestro caso, la acción estará representada por un `igx-icon`. De nuevo, la directiva envolverá el elemento de destino en un contenedor que tendrá la posición y el espaciado correctos.
+- `igxListLine` se usa si necesitamos algo de texto entre `igxListThumbnail` y `igxListAction`; la directiva se asegurará de que la posición, el espaciado y la alineación del texto queden bien junto con las otras dos directivas que lo rodean.
+
+A continuación, escuchamos un evento de clic en el componente [**IgxIcon**](/layouts/icon) para alternar la propiedad _isFavorite_ de nuestro objeto de contacto.
+
+```typescript
+// contacts.component.ts
+
+...
+toggleFavorite(item: IgxListItem) {
+    const contact = this.contacts[item.index - 1];
+    contact.isFavorite = !contact.isFavorite;
+}
+```
+
+También permitamos al usuario elegir el tamaño de la lista mediante la propiedad personalizada de CSS `--ig-size`. Para ello, importaremos `IgxButtonGroupModule` y usaremos [**IgxButtonGroup**](/inputs/button-group) para mostrar todos los valores de tamaño. Así, cada vez que se seleccione uno, actualizaremos el **tamaño** de la lista.
+
+```typescript
+// app.module.ts
+...
+import { IgxButtonGroupModule } from 'igniteui-angular/button-group';
+// import { IgxButtonGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [..., IgxButtonGroupModule]
+})
+```
+
+```html
+{/*contacts.component.html*/}
+
+<igx-buttongroup [values]="sizes" (selected)="selectSize($event)"></igx-buttongroup>
+...
+<igx-list>
+    ...
+</igx-list>
+```
+
+```typescript
+// contacts.component.ts
+
+public size = 'large';
+public sizes;
+
+public ngOnInit() {
+    this.sizes = [
+        { label: 'large', selected: this.size === 'large', togglable: true },
+        { label: 'medium', selected: this.size === 'medium', togglable: true },
+        { label: 'small', selected: this.size === 'small', togglable: true }
+    ];
+}
+
+public selectSize(event: any) {
+    this.size = this.sizes[event.index].label;
+}
+
+@HostBinding('style.--ig-size')
+protected get sizeStyle() {
+    return `var(--ig-size-${this.size})`;
+}
+```
+
+Y este es el resultado de todo ese trabajo:
+
+<Sample src="/lists/list-sample-4" height={513} alt="" />
+
+<hr/>
+
+### Desplazamiento de los elementos de la lista
+
+Ahora que tenemos una lista de Angular tan atractiva con contactos y sus números de teléfono, ¿por qué no implementar la posibilidad de llamar a un contacto?
+<ApiLink type="List" /> tiene la solución perfecta para esto: el desplazamiento de elementos de la lista.
+Para hacerlo, tiene que seguir estos pasos:
+
+- Habilite el desplazamiento usando las propiedades <ApiLink type="List" member="allowLeftPanning" label="allowLeftPanning" /> y/o <ApiLink type="List" member="allowRightPanning" label="allowRightPanning" />
+- Defina las plantillas para el desplazamiento hacia la izquierda y/o hacia la derecha
+- Gestione los eventos de desplazamiento del elemento de la lista y realice la acción deseada
+
+El siguiente ejemplo muestra cómo gestionar el desplazamiento hacia la izquierda y hacia la derecha. El controlador del evento para el desplazamiento hacia la derecha muestra un mensaje emergente. El controlador del evento para el desplazamiento hacia la izquierda elimina un elemento de la <ApiLink type="List" />.
+
+<DocsAside type="info">
+Tenga en cuenta que eliminar un elemento de la lista es una tarea de la aplicación. El propio <ApiLink type="List" /> no puede eliminar elementos del origen de datos, porque <ApiLink type="List" /> no tiene referencia al origen de datos.
+</DocsAside>
+
+Este es el código HTML del ejemplo:
+
+```html
+{/* contacts.component.html */}
+
+<igx-list [allowLeftPanning]="true" [allowRightPanning]="true"
+  (leftPan)="leftPanPerformed($event)" (rightPan)="rightPanPerformed($event)">
+  <ng-template igxListItemLeftPanning>
+    <div class="listItemLeftPanningStyle">
+
+      <igx-icon [color]="white" style="margin-left:10px">delete</igx-icon>Delete
+    
+</div>
+  </ng-template>
+  <ng-template igxListItemRightPanning>
+    <div class="listItemRightPanningStyle">
+
+      <igx-icon [color]="white" style="margin-right:10px">call</igx-icon>Dial
+    
+</div>
+  </ng-template>
+  <igx-list-item isHeader="true">Contacts</igx-list-item>
+  <igx-list-item #item *ngFor="let contact of contacts">
+    <igx-avatar igxListThumbnail [src]="contact.photo" shape="circle"></igx-avatar>
+    <h4 igxListLineTitle>{{ contact.name }}</h4>
+    <p igxListLineSubTitle class="phone">{{ contact.phone }}</p>
+    <igx-icon igxListAction [color]="contact.isFavorite ? 'orange' : 'lightgray'" (click)="toggleFavorite(item)">star</igx-icon>
+  </igx-list-item>
+</igx-list>
+
+<igx-toast #toast></igx-toast>
+```
+
+El ejemplo anterior usa algunos estilos CSS que pueden encontrarse aquí:
+
+```css
+/* contacts.component.css */
+
+igx-icon {
+    cursor: pointer;
+    user-select: none;
+}
+
+.listItemLeftPanningStyle {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color:orange;
+    color: white;
+    width: 100%;
+    padding-right: 10px;
+    align-items: center;
+}
+
+.listItemRightPanningStyle {
+    display: flex;
+    flex-direction: row;
+    background-color:limegreen;
+    color: white;
+    width: 100%;
+    padding-left: 10px;
+    align-items: center;
+}
+```
+
+Y, por último, este es el código TypeScript que gestiona los eventos de desplazamiento:
+
+```typescript
+// contacts.component.ts
+
+...
+@ViewChild('toast')
+public toast: IgxToastComponent;
+
+public rightPanPerformed(args) {
+  args.keepItem = true;
+  this.toast.message = 'Dialing ' + this.contacts[args.item.index - 1].name;
+  this.toast.open();
+}
+
+public leftPanPerformed(args) {
+  args.keepItem = false;
+  setTimeout((idx = args.item.index - 1) => {
+    this.toast.message = 'Contact ' + this.contacts[idx].name + ' removed.';
+    this.toast.open();
+    this.contacts.splice(idx, 1);
+  }, 500);
+}
+
+...
+```
+
+<DocsAside type="info">
+Al desplazar los elementos de la lista hay un umbral que debe alcanzarse para que se emitan los eventos de desplazamiento. Puede cambiar el umbral usando la propiedad <ApiLink type="List" member="panEndTriggeringThreshold" label="panEndTriggeringThreshold" /> de <ApiLink type="List" />. De forma predeterminada, esta propiedad tiene un valor de 0,5, lo que significa el 50 % del ancho del elemento de la lista.
+</DocsAside>
+
+Ahora pruebe usted mismo a desplazar los elementos de la lista:
+
+<Sample src="/lists/list-sample-7" height={500} alt="" />
+
+<hr/>
+
+## Lista filtrable de Angular
+
+Nuestra lista tiene buen aspecto, pero ¿no sería aún mejor poder buscar contactos por nombre? Podemos conseguirlo fácilmente usando nuestro pipe de filtrado.
+Hagámoslo.
+
+Primero vamos a añadir un campo de entrada en la parte superior de la plantilla de nuestro componente de Angular y a enlazarlo a una propiedad de nuestro componente llamada _searchContact_:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-input-group type="search" class="search">
+    <igx-prefix>
+        <igx-icon>search</igx-icon>
+    </igx-prefix>
+    <input #search igxInput placeholder="Search Contacts" [(ngModel)]="searchContact"/>
+    @if (search.value.length > 0) {
+        <igx-suffix (click)="searchContact = null">
+            <igx-icon>clear</igx-icon>
+        </igx-suffix>
+    }
+</igx-input-group>
+```
+
+Es momento de importar `IgxFilterModule` y `IgxInputGroupModule` en nuestro archivo app.module.ts y <ApiLink type="FilterOptions" /> en nuestro componente de contactos:
+
+```typescript
+// app.module.ts
+...
+import { IgxFilterModule } from 'igniteui-angular/directives';
+import { IgxInputGroupModule } from 'igniteui-angular/input-group';
+// import { IgxFilterModule, IgxInputGroupModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [..., IgxFilterModule, IgxInputGroupModule]
+})
+
+// contacts.component.ts
+...
+import { IgxFilterOptions } from 'igniteui-angular/directives';
+// import { IgxFilterOptions } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({...})
+export class ContactListComponent {
+    public searchContact: string;
+    ...
+    get filterContacts(): IgxFilterOptions {
+        const fo = new IgxFilterOptions();
+        fo.key = 'name';
+        fo.inputValue = this.searchContact;
+        return fo;
+    }
+}
+```
+
+Después de importar <ApiLink type="FilterOptions" />, tenemos que registrar un nuevo getter que devuelva las opciones de filtrado que usará el pipe cada vez que se actualice la propiedad `searchContact`. Para que el filtro funcione, tenemos que registrar un `key` por el que filtrar el objeto de contacto. En nuestro caso, sería el `name` de cada contacto. La segunda propiedad que hay que registrar en el objeto <ApiLink type="FilterOptions" /> es el valor con el que debemos comparar el nombre del contacto. Este es la propiedad `searchContact` que enlazamos al campo de entrada situado encima de nuestra lista de contactos.
+
+Por último, tenemos que aplicar el pipe de filtrado a nuestros datos de contactos antes de usarlos. Así que, en nuestra plantilla, simplemente añadimos:
+
+```html
+{/*contacts.component.html*/}
+
+<igx-list-item *ngFor="let contact of contacts | igxFilter: filterContacts; let i = index">
+    ...
+</igx-list-item>
+```
+
+<hr/>
+
+## Selección de elementos de la lista
+
+Los elementos de la lista tienen una propiedad `selected` que nos ayuda a hacer el seguimiento de los elementos "seleccionados". Esta propiedad permite identificar y gestionar el estado de selección de cada elemento.
+
+Este es un ejemplo que ilustra cómo cambia el estilo visual de los elementos al usar la propiedad `selected`:
+
+<Sample src="/lists/list-item-selection" height={420} alt="" />
+
+De forma predeterminada, la propiedad `selected` está establecida en `false`. Podemos alternar su valor usando una expresión en línea enlazada al evento `(click)` de cada elemento de la lista, cambiando efectivamente el estado visual del elemento cada vez que se hace clic en él.
+
+```html
+<igx-list>
+    <igx-list-item [isHeader]="true">Contacts</igx-list-item>
+    @for (contact of contacts | igxFilter: filterContacts; track contact) {
+      <igx-list-item [selected]="contact.selected" (click)="contact.selected = !contact.selected">
+        <igx-avatar igxListThumbnail [src]="contact.photo" shape="circle"></igx-avatar>
+        <span igxListLineTitle>{{ contact.name }}</span>
+        <span igxListLineSubTitle>{{ contact.phone }}</span>
+        <igx-icon igxListAction [style.color]="contact.isFavorite ? 'orange' : 'lightgray'" igxRipple="pink"
+          [igxRippleCentered]="true" (click)="toggleFavorite(contact, $event)"
+        (mousedown)="mousedown($event)">star</igx-icon>
+      </igx-list-item>
+    }
+  </igx-list>
+```
+
+El elemento de la lista también expone algunas variables CSS que puede usar para dar estilo a distintas partes de los elementos seleccionados:
+
+- `--item-background-selected`
+- `--item-text-color-selected`
+- `--item-title-color-selected`
+- `--item-action-color-selected`
+- `--item-subtitle-color-selected`
+- `--item-thumbnail-color-selected`
+
+```scss
+igx-list-item {
+  --item-background-selected: var(--ig-secondary-500);
+  --item-title-color-selected: var(--ig-secondary-500-contrast);
+  --item-subtitle-color-selected: var(--ig-info-100);
+}
+```
+
+Si prefiere usar la función de temas de la lista, hay parámetros disponibles que le permiten dar estilo al estado seleccionado de los elementos de la lista. Puede encontrar más información sobre estos parámetros aquí: <ApiLink kind="sass" module="themes" type="function-list-theme" label="list-theme" code={true} />
+
+<hr/>
+
+## Componente de chat
+
+El siguiente ejemplo muestra cómo crear un componente de chat sencillo usando **IgxList**.
+
+<Sample src="/lists/list-chat-sample" height={650} alt="" />
+
+<hr/>
+
+## Estilos
+
+### Mapa de propiedades del tema de List
+
+Al modificar una propiedad principal, todas las propiedades dependientes relacionadas se actualizan automáticamente para reflejar el cambio:
+
+| Propiedad principal | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| **$background** | $header-background | El color de fondo del encabezado de la lista. |
+|  | $item-background | El color de fondo de los elementos de la lista. |
+| **$header-background** | $header-text-color | El color del texto del encabezado de la lista. |
+| **$item-background** | $background | El color de fondo de la lista. |
+|  | $header-background | El color de fondo del encabezado de la lista. |
+|  | $item-background-hover | El color de fondo de los elementos de la lista al pasar el puntero. |
+|  | $item-text-color | El color del texto de los elementos de la lista. |
+|  | $item-title-color | El color del título de los elementos de la lista. |
+|  | $item-action-color | El color de la acción de los elementos de la lista. |
+|  | $item-thumbnail-color | El color de la miniatura de los elementos de la lista. |
+|  | $item-subtitle-color | El color del subtítulo de los elementos de la lista. |
+|  | $border-color | El color del borde de la lista. (Solo Fluent/Bootstrap) |
+| **$item-background-hover** | $item-background-active | El color de fondo del elemento de la lista activo. |
+|  | $item-text-color-hover | El color del texto de los elementos de la lista al pasar el puntero. |
+|  | $item-title-color-hover | El color del título de los elementos de la lista al pasar el puntero. |
+|  | $item-action-color-hover | El color de la acción de los elementos de la lista al pasar el puntero. |
+|  | $item-thumbnail-color-hover | El color de la miniatura de los elementos de la lista al pasar el puntero. |
+|  | $item-subtitle-color-hover | El color del subtítulo de los elementos de la lista al pasar el puntero. |
+| **$item-background-active** | $item-background-selected | El color de fondo del elemento de la lista seleccionado. |
+|  | $item-text-color-active | El color del texto del elemento de la lista activo. |
+|  | $item-title-color-active | El color del título del elemento de la lista activo. |
+|  | $item-action-color-active | El color de la acción del elemento de la lista activo. |
+|  | $item-thumbnail-color-active | El color de la miniatura del elemento de la lista activo. |
+|  | $item-subtitle-color-active | El color del subtítulo del elemento de la lista activo. |
+| **$item-background-selected** | $item-text-color-selected | El color del texto del elemento de la lista seleccionado. |
+|  | $item-title-color-selected | El color del título del elemento de la lista seleccionado. |
+|  | $item-action-color-selected | El color de la acción del elemento de la lista seleccionado. |
+|  | $item-thumbnail-color-selected | El color de la miniatura del elemento de la lista seleccionado. |
+|  | $item-subtitle-color-selected | El color del subtítulo del elemento de la lista seleccionado. |
+
+> **Nota:** Los resultados reales pueden variar según la variante del tema.
+
+Veamos cómo podemos cambiar el fondo de nuestra lista. Primero tenemos que importar index.scss en el archivo .scss de nuestro componente.
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Siguiendo el enfoque más sencillo, creamos un tema nuevo que extiende <ApiLink kind="sass" module="themes" type="function-list-theme" label="list-theme" code={true} /> y, al pasar solo el parámetro `$background`, el tema calculará automáticamente los colores de estado y los primeros planos con contraste adecuado. Sin embargo, sigue pudiendo definirlos manualmente si lo desea.
+
+```scss
+$my-list-theme: list-theme(
+  $background: #57a5cd
+);
+```
+
+Consulte la sección <ApiLink kind="sass" module="themes" type="function-list-theme" label="list-theme" code={true} /> para ver una lista completa de los parámetros disponibles para dar estilo a la lista.
+
+El último paso es **incluir** los temas recién creados.
+
+```scss
+:host {
+  @include tokens($my-list-theme);
+}
+```
+
+El resultado es el siguiente:
+
+<Sample src="/lists/list-sample-8" height={365} alt="" />
+
+Para ver la lista completa de parámetros que puede cambiar en el componente de lista, consulte: <ApiLink kind="sass" module="themes" type="function-list-theme" label="Estilos de IgxListComponent" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo a la lista usando nuestras clases de utilidad personalizadas de Tailwind. Asegúrese de [configurar Tailwind](/themes/tailwind) primero.
+
+Junto con la importación de tailwind en su hoja de estilos global, puede aplicar las utilidades de tema deseadas de la siguiente manera:
+
+```scss
+@import "tailwindcss";
+...
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+El archivo de utilidades incluye las variantes de tema `light` y `dark`.
+
+- Use las clases `light-*` para el tema claro.
+- Use las clases `dark-*` para el tema oscuro.
+- Añada el nombre del componente después del prefijo, por ejemplo, `light-list`, `dark-list`.
+
+Una vez aplicadas, estas clases habilitan los cálculos dinámicos del tema. A partir de ahí, puede sobrescribir las variables CSS generadas usando `arbitrary properties`. Después de los dos puntos, indique cualquier formato de color CSS válido (HEX, variable CSS, RGB, etc.).
+
+Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-list-theme" label="list-theme" />. La sintaxis es la siguiente:
+
+```html
+<igx-list class="!light-list ![--background:#81B698] ![--item-background:#A3C7B2]">
+    ...
+</igx-list>
+```
+
+<DocsAside type="info">
+El signo de exclamación (`!`) es obligatorio para asegurar que la clase de utilidad tenga prioridad. Tailwind aplica los estilos por capas y, si no se marcan estos estilos como importantes, los sobrescribirá el tema predeterminado del componente.
+</DocsAside>
+
+Al final, su lista debería tener este aspecto:
+
+<Sample src="/lists/list-tailwind-styling" height={400} iframeOnly />
+
+## Referencias de API
+En este artículo hemos recorrido mucho terreno con el componente de lista de Angular. Creamos una lista de elementos de contacto. Usamos algunos componentes adicionales de Ignite UI for Angular dentro de los elementos de la lista, como avatares e iconos. Creamos una disposición personalizada de los elementos y le dimos estilo. Por último, añadimos el filtrado de la lista. El componente de lista tiene algunas API más que explorar, que se enumeran a continuación.
+- <ApiLink type="List" />
+- <ApiLink kind="sass" module="themes" type="function-list-theme" label="Estilos de IgxListComponent" />
+- <ApiLink type="ListItem" />
+Componentes adicionales de Angular que se han usado:
+- <ApiLink type="Avatar" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Estilos de IgxAvatarComponent" />
+- <ApiLink type="Icon" />
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Estilos de IgxIconComponent" />
+<igc-divider></igc-divider>
+## Dependencias de temas
+
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema de IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Tema de IgxAvatar" />
+
+## Recursos adicionales
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

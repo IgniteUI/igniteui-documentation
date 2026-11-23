@@ -1,0 +1,796 @@
+---
+title: "Switch"
+description: "El componente {ProductName} Switch permite a los desarrolladores usar funciones de entrada de datos binarios de activado/desactivado o verdadero/falso dentro de sus aplicaciones."
+keywords: "{ProductName}, controles de interfaz, widgets de {Platform}, widgets web, widgets de interfaz, {Platform}, suite de componentes nativos de {Platform}, controles nativos de {Platform}, biblioteca de componentes nativos de {Platform}, componentes Switch de {Platform}, controles Switch de {Platform}"
+mentionedTypes: ["Switch"]
+relatedComponents: [Checkbox, ToggleButton]
+license: MIT
+last_updated: "2026-08-31"
+_language: es
+llms:
+  description: "El componente {ProductName} Switch es un componente de selección de opción binaria que se comporta de forma similar al componente switch de iOS."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import switchAnatomy from '@xplat-images/anatomy-content-light/switch-lt-a.png';
+import switchDo from '@xplat-images/switch/switch-do.png';
+import switchDoNot from '@xplat-images/switch/switch-do-not.png';
+
+# Componente Switch
+
+El componente {ProductName} Switch es un componente de selección de opción binaria que se comporta de forma similar al componente switch de iOS.
+
+## Demostración en vivo
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/switch-overview" showThemePicker height={500} position="center" noBorder={false} spacing="md" alt="Ejemplo de Switch de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/switches/overview" showThemePicker height={500} position="center" noBorder={false} spacing="md" alt="Ejemplo de {Platform} Switch" />
+
+</PlatformBlock>
+
+## Anatomía
+
+El {Platform} Switch contiene un control para cambiar un estado binario y una etiqueta opcional.
+
+<Anatomy
+  class="switch-anatomy"
+  name="Switch"
+  description="El componente Switch contiene un control para cambiar un estado binario y una etiqueta opcional."
+  src={switchAnatomy.src}
+  alt="Anatomía del Switch"
+/>
+
+<style>{`
+  .switch-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .switch-anatomy .igd-anatomy__image {
+    max-width: 142.5px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Pista:</strong> indica el recorrido del switch entre los estados activado y desactivado.<br />
+<strong>2. Pulgar:</strong> cambia el estado actual.<br />
+<strong>3. Etiqueta (opcional):</strong> describe lo que controla el switch.</span>
+
+El siguiente diagrama muestra la estructura lógica del {Platform} Switch. El control gestiona el estado binario, mientras que la etiqueta opcional describe el ajuste que controla el switch.
+
+```text
+Switch
+├── Control
+└── Label (optional)
+```
+
+## Primeros pasos
+
+Para usar el {Platform} Switch, siga el tema <PlatformBlock for="Angular">[{ProductName} Primeros pasos](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[{ProductName} Primeros pasos](../general-getting-started.mdx)</PlatformBlock> para la configuración básica del proyecto y, después, registre el componente para su plataforma de destino.
+
+En esencia, el componente <ApiLink pkg="core" type="Switch" /> permite alternar entre los estados activado y desactivado. El estilo predeterminado se hace según la especificación de controles de selección de las pautas de Material Design.
+
+<PlatformBlock for="Angular">
+
+Para Angular usando el paquete **igniteui-angular**, instale el paquete:
+
+```cmd
+npm install igniteui-angular
+```
+
+A continuación, importe `IgxSwitchComponent`:
+
+```ts
+import { IgxSwitchComponent } from 'igniteui-angular/switch';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Para Web Components usando el paquete **{PackageWebComponents}**, instale el paquete:
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+A continuación, importe <ApiLink pkg="core" type="Switch" />, su CSS de tema y registre el componente:
+
+```ts
+import { defineComponents, IgcSwitchComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcSwitchComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Para React usando el paquete **igniteui-react**, instale el paquete:
+
+```cmd
+npm install igniteui-react
+```
+
+A continuación, importe el wrapper de Switch y su CSS de tema:
+
+```tsx
+import { IgrSwitch } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="SwitchModule" />, el módulo de recursos de cliente del Switch, es **opcional**: el componente carga sus recursos cuando se renderiza por primera vez. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbSwitchModule))` puede usarse para precargar recursos o para admitir elementos creados solo en el cliente (véase [Component Modules](../general-getting-started.mdx#módulos-de-componentes)).
+
+A continuación, enlace el archivo CSS adicional en la página host de la aplicación (**wwwroot/index.html** en una aplicación Blazor WebAssembly independiente o Blazor Hybrid, **Pages/_Host.cshtml** en una aplicación Blazor Server, **Components/App.razor** en una aplicación Blazor Web App):
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+La forma más sencilla de empezar a usar <ApiLink pkg="core" type="Switch" /> es la siguiente:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-switch [checked]="true">Simple switch</igx-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+<DocsAside type="warning" title="Warning">
+El componente <ApiLink pkg="core" type="Switch" /> no funciona con un elemento HTML `<form>` estándar en Blazor. Use en su lugar el componente `EditForm` de Blazor.
+</DocsAside>
+
+</PlatformBlock>
+
+## Uso
+
+Use el {Platform} Switch como control de opción binaria para ajustes que surten efecto de inmediato cuando el usuario cambia su estado.
+
+El siguiente ejemplo muestra la configuración básica del Switch. Para dar al switch una etiqueta significativa, basta con colocar algo de texto entre las etiquetas de apertura y de cierre:
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-switch>Accept terms</igx-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch>Accept terms</IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch>Accept terms</igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch>Accept terms</IgbSwitch>
+```
+
+</PlatformBlock>
+
+Puede usar la propiedad <ApiLink pkg="core" type="Switch" member="required" label="required" /> para marcar el switch como obligatorio.
+
+<PlatformBlock for="Angular">
+```html
+<igx-switch [required]="true">Label</igx-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch required={true}></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch required></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Required="true" />
+```
+
+</PlatformBlock>
+
+Puede usar la propiedad <ApiLink pkg="core" type="Switch" member="invalid" label="invalid" /> para marcar el switch como no válido.
+
+<PlatformBlock for="Angular">
+```html
+<igx-switch [invalid]="true">Label</igx-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch invalid={true}></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch invalid></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Invalid="true" />
+```
+
+</PlatformBlock>
+
+### Estados de interacción
+
+El Switch puede insertarse en un estado `Enabled` o `Disabled`. En el estado `Enabled`, el switch también admite los estados `Hover`, `Focused` y `Focused & Hover`.
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/switch-enabled" showThemePicker height={316} position="start center" noBorder={false} spacing="md" alt="Ejemplo de estados de interacción del Switch de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/switches/enabled" showThemePicker height={316} position="start center" noBorder={false} spacing="md" alt="Ejemplo de estados de interacción del {Platform} Switch" />
+
+</PlatformBlock>
+
+### Estados deshabilitados
+
+También puede establecer el estado del switch en `Disabled` para impedir que el usuario interactúe con él. Puede usar el atributo <ApiLink pkg="core" type="Switch" member="disabled" label="disabled" /> para establecer este estado.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-switch [disabled]="true">Label</igx-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch disabled={true}></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch disabled></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Disabled="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample src="/data-entries/switch-disabled" showThemePicker height={212} position="start" noBorder={false} spacing="md" alt="Ejemplo de Switch deshabilitado de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/switches/disabled" showThemePicker height={212} position="start" noBorder={false} spacing="md" alt="Ejemplo de Switch deshabilitado de {Platform}" />
+
+</PlatformBlock>
+
+### Estados activado/desactivado
+
+El Switch puede establecerse en estado `On` o `Off` para indicar si un ajuste está habilitado o deshabilitado.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-switch [checked]="true">On</igx-switch>
+<igx-switch [checked]="false">Off</igx-switch>
+```
+
+<Sample src="/data-entries/switch-selected" showThemePicker height={250} position="center" noBorder={false} spacing="md" alt="Ejemplo de estados activado y desactivado del Switch de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch checked={true}>On</IgrSwitch>
+<IgrSwitch checked={false}>Off</IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch checked>On</igc-switch>
+<igc-switch>Off</igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Checked="true">On</IgbSwitch>
+<IgbSwitch Checked="false">Off</IgbSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/switches/selected" showThemePicker height={250} position="center" noBorder={false} spacing="md" alt="Ejemplo de estados activado y desactivado del {Platform} Switch" />
+
+</PlatformBlock>
+
+### Disposición
+
+Puede especificar si la etiqueta debe colocarse antes o después del interruptor del switch estableciendo la propiedad <ApiLink pkg="core" type="Switch" member="labelPosition" label="LabelPosition" /> del switch. Los valores permitidos son `before` y `after` (predeterminado):
+
+<PlatformBlock for="Angular">
+```html
+<igx-switch labelPosition="before">Label</igx-switch>
+```
+
+<Sample src="/data-entries/switch-layout" showThemePicker height={212} position="start center" noBorder={false} spacing="md" alt="Ejemplo de disposición del Switch de Angular" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrSwitch aria-labelledby="switch-label" labelPosition="before"><span id="switch-label">Label</span></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch label-position="before">Label</igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch LabelPosition="@ToggleLabelPosition.Before">Label</IgbSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+<Sample src="/inputs/switches/layout" showThemePicker height={212} position="start center" noBorder={false} spacing="md" alt="Ejemplo de disposición del {Platform} Switch" />
+
+</PlatformBlock>
+
+El switch también puede etiquetarse con elementos externos a él. En este caso, se da al usuario control total para colocar y dar estilo a la etiqueta según sus necesidades.
+
+<PlatformBlock for="React">
+
+```tsx
+<>
+  <span id="switch-label">Label</span>
+  <IgrSwitch aria-labelledby="switch-label"></IgrSwitch>
+</>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<span id="switch-label">Label</span>
+<igc-switch aria-labelledby="switch-label"></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<span id="switch-label">Label</span>
+<IgbSwitch AriaLabelledBy="switch-label" />
+```
+
+</PlatformBlock>
+
+### Qué hacer y qué no
+
+**Cuándo usarlo:** use Switch para un ajuste inmediato de activado/desactivado que surte efecto cuando el usuario lo cambia.
+
+**Cuándo no usarlo:** use [Checkbox](./checkbox.mdx) cuando los usuarios seleccionen una o más opciones para un envío de formulario posterior, o [Button](./button.mdx) cuando el control represente una acción o un comando alternable.
+
+<div class="table-responsive">
+  <table class="table" style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin-bottom: 24px;">
+    <thead>
+      <tr>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Hacer</th>
+        <th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">No hacer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={switchDo} alt="Switch usado para un ajuste inmediato de activado/desactivado" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+        <td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={switchDoNot} alt="Switch usado para seleccionar opciones o representar una acción" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Propiedades
+
+| Nombre | Tipo | Valor predeterminado | Descripción |
+| --- | --- | --- | --- |
+| <ApiLink pkg="core" type="Switch" member="checked" label="checked" /> | `boolean` | `false` | Obtiene o establece si el switch está activado. |
+| <ApiLink pkg="core" type="Switch" member="disabled" label="disabled" /> | `boolean` | `false` | Obtiene o establece si el switch está deshabilitado. |
+| <ApiLink pkg="core" type="Switch" member="invalid" label="invalid" /> | `boolean` | `false` | Obtiene o establece si el switch no es válido. |
+| <ApiLink pkg="core" type="Switch" member="labelPosition" label="labelPosition" /> | `ToggleLabelPosition` | `after` | Establece la posición de la etiqueta respecto al control. |
+| <ApiLink pkg="core" type="Switch" member="name" label="name" /> | `string` | `-` | Establece el nombre que se usa cuando el switch se envía con un formulario. |
+| <ApiLink pkg="core" type="Switch" member="required" label="required" /> | `boolean` | `false` | Obtiene o establece si el switch es obligatorio. |
+| <ApiLink pkg="core" type="Switch" member="value" label="value" /> | `string` | `-` | Establece el valor que se usa cuando el switch se envía con un formulario. |
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch name="wifi" value="enabled"></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Name="wifi" Value="enabled" />
+```
+
+</PlatformBlock>
+
+## Estilos
+
+El {Platform} Switch usa partes CSS y variables CSS para dar estilo a su pista, su pulgar y su etiqueta.
+
+<PlatformBlock for="Angular">
+
+### Temas con Sass
+
+Para empezar a dar estilo al switch, importe el archivo `index`, donde se exportan todas las funciones de tema y el mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+```
+
+A continuación, cree un tema nuevo que extienda <ApiLink kind="sass" module="themes" type="function-switch-theme" label="switch-theme" code={true} />. Proporcionar `$thumb-off-color` y `$thumb-on-color` basta para obtener un switch totalmente estilizado, porque el tema genera a partir de ellos los colores restantes:
+
+```scss
+$custom-switch-theme: switch-theme(
+    $thumb-off-color: #7cadd5,
+    $thumb-on-color: #ecaa53,
+);
+```
+
+Por último, incluya el tema personalizado en su aplicación:
+
+```scss
+:host {
+  @include tokens($custom-switch-theme);
+}
+```
+
+<Sample src="/data-entries/switch-styling" height={500} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo de Switch de Angular" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al switch usando las clases de utilidad de Tailwind de Ignite UI. Asegúrese de [configurar Tailwind](/themes/tailwind) primero y, después, importe el archivo de utilidades en su hoja de estilos global:
+
+```scss
+@import "tailwindcss";
+@use 'igniteui-theming/tailwind/utilities/material.css';
+```
+
+Use `light-switch` o `dark-switch` para el tema correspondiente, y sobrescriba las variables CSS generadas con propiedades arbitrarias. Puede encontrar la lista completa de propiedades en <ApiLink kind="sass" module="themes" type="function-switch-theme" label="Tema de IgxSwitch" />:
+
+```html
+<igx-switch
+  class="!light-switch ![--thumb-on-color:#FF4E00]"
+  [checked]="true">
+  Label
+</igx-switch>
+```
+
+El signo de exclamación (`!`) hace que la clase de utilidad sea importante, de modo que tenga prioridad sobre el tema del componente.
+
+<Sample src="/data-entries/switch-tailwind-styling" height={450} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo de Switch de Angular con Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React,WebComponents,Blazor">
+
+### Temas con Sass
+
+Use el sistema de temas de {ProductName} para dar estilo al Switch de forma coherente con el resto de su aplicación.
+
+Importe las funciones de tema antes de crear un tema personalizado para el Switch:
+
+```scss
+@use "igniteui-theming" as *;
+```
+
+Cree un tema con `switch-theme` e inclúyalo en la hoja de estilos global. Los parámetros de pista y de pulgar se usan como base para los colores de los estados de interacción relacionados:
+
+```scss
+$custom-switch: switch-theme(
+    $track-on-color: #57a5cd,
+);
+
+igc-switch {
+    @include switch($custom-switch);
+}
+```
+
+El mismo tema se aplica directamente a Web Components y al elemento `igc-switch` subyacente que renderizan los wrappers de React y Blazor.
+
+### Variables CSS
+
+Use las siguientes variables CSS para personalizar los colores y los estados de interacción del Switch. Establézcalas en el elemento del Switch para aplicar los estilos a su pista, a su pulgar y a su etiqueta:
+
+| Propiedad primaria | Propiedad dependiente | Descripción |
+| --- | --- | --- |
+| `--track-on-color` | `--track-on-hover-color` | Fondo de la pista cuando el switch está activado. |
+|  | `--track-off-color` | Fondo de la pista cuando el switch está desactivado. |
+| `--thumb-on-color` | `--thumb-off-color` | Color del pulgar para los estados activado y desactivado. |
+| `--label-color` | `--label-disabled-color` | Color de la etiqueta para los estados predeterminado y deshabilitado. |
+
+### Partes de estilo
+
+Use las siguientes partes CSS para dirigirse al Switch y a sus elementos internos:
+
+| Parte | Componente | Qué estiliza |
+| --- | --- | --- |
+| `base` | <ApiLink pkg="core" type="Switch" /> | El wrapper base del switch. |
+| `control` | <ApiLink pkg="core" type="Switch" /> | El elemento input del switch. |
+| `thumb` | <ApiLink pkg="core" type="Switch" /> | El indicador de posición del switch. |
+| `label` | <ApiLink pkg="core" type="Switch" /> | La etiqueta del switch. |
+
+### Estilo personalizado
+
+El siguiente ejemplo cambia los colores de la pista y del pulgar para los estados activado y desactivado:
+
+| Selector | Declaración | Efecto |
+| --- | --- | --- |
+| `igc-switch` | `--track-on-color`, `--track-off-color` | Cambia el fondo de la pista para los estados activado y desactivado. |
+| `igc-switch` | `--thumb-on-color`, `--thumb-off-color` | Cambia el color del pulgar para los estados activado y desactivado. |
+
+```css
+igc-switch {
+  --thumb-on-color: white;
+  --thumb-off-color: var(--ig-success-500);
+  --track-on-color: var(--ig-success-500); /* Background color when checked */
+  --track-off-color: white; /* Background color when unchecked */
+  --track-on-hover-color: var(--ig-success-500); /* Background hover color when checked */
+}
+```
+
+<Sample src="/inputs/switches/styling" height={500} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Switch" />
+
+### Dar estilo con Tailwind
+
+Puede dar estilo al {Platform} Switch con las clases de utilidad personalizadas de Tailwind de `igniteui-theming`. Asegúrese de [configurar Tailwind](/themes/tailwind) primero y, después, importe las utilidades de Ignite UI en su hoja de estilos global:
+
+```css
+@import "tailwindcss";
+@import "igniteui-theming/tailwind/utilities/material.css";
+```
+
+<PlatformBlock for="React">
+
+```jsx
+<IgrSwitch className="!light-switch ![--track-on-color:#7B9E89]"></IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-switch class="!light-switch ![--track-on-color:#7B9E89]"></igc-switch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbSwitch Class="!light-switch ![--track-on-color:#7B9E89]" />
+```
+
+</PlatformBlock>
+
+El signo de exclamación (`!`) da prioridad a la utilidad de Tailwind sobre los estilos del tema predeterminado del Switch.
+
+<Sample src="/inputs/switches/tailwind-styling" height={450} position="center" noBorder={false} spacing="md" alt="Ejemplo de estilo de {Platform} Switch con Tailwind" />
+
+</PlatformBlock>
+
+## Accesibilidad
+
+El {Platform} Switch expone un estado binario y admite un nombre accesible mediante su etiqueta o sus atributos ARIA.
+
+### Interacción por teclado
+
+| Clave | Acción |
+| --- | --- |
+| Tab / Shift+Tab | Mueve el foco hacia el switch o desde él. |
+| Space | Alterna el switch enfocado. |
+
+### Lectores de pantalla / ARIA
+
+El Switch renderiza un control interactivo con un estado binario marcado. Proporcione contenido de etiqueta visible o un nombre accesible con `aria-label` o `aria-labelledby`, y mantenga la etiqueta específica del ajuste que controla el switch.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- El control expone a la tecnología de asistencia su estado marcado y su estado deshabilitado.
+- El evento `igcChange` se emite cuando cambia el estado marcado.
+
+</PlatformBlock>
+
+### Cumplimiento de accesibilidad
+
+Infragistics documenta la compatibilidad de accesibilidad de {ProductName} con las áreas de las pautas de la Sección 508 y WCAG 2.1 en el tema [Cumplimiento de accesibilidad](../interactivity/accessibility-compliance.mdx).
+
+| Criterio | Cómo cumple el componente |
+| --- | --- |
+| [2.1.1 Teclado](https://www.w3.org/WAI/WCAG21/Understanding/keyboard) | Se puede llegar al switch con el teclado y alternarlo con Space. |
+| [4.1.2 Nombre, función, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | El switch expone un nombre accesible y su estado marcado binario mediante el control renderizado. |
+
+## Solución de problemas
+
+Use esta sección para revisar los límites y las decisiones habituales antes de tratar el Switch como un campo de formulario, un comando interactivo o un control de ajustes.
+
+### ¿Por qué el Switch no se envía con mi formulario?
+
+El Switch está asociado a formularios, pero necesita un `name` y un `value` para aportar un valor cuando se envía el formulario. Establezca ambas propiedades y use la integración con formularios que admita su plataforma de destino.
+
+### ¿Por qué un lector de pantalla no anuncia bien el Switch?
+
+El Switch necesita un nombre accesible. Añada contenido de etiqueta visible o haga referencia a una etiqueta externa con `aria-labelledby`; use `aria-label` cuando no haya texto visible disponible.
+
+### Limitaciones conocidas
+
+El {Platform} Switch tiene las siguientes limitaciones independientes de la plataforma:
+
+- Un Switch representa un único ajuste binario; use un control diferente cuando los usuarios necesiten varias opciones o una selección diferida en un formulario.
+- Un Switch no proporciona automáticamente un nombre accesible cuando no tiene etiqueta ni un atributo ARIA de nombrado.
+
+## Referencias de API
+
+Consulte la referencia completa de la API del {Platform} Switch:
+
+<ApiLink pkg="core" type="Switch" />
+
+<PlatformBlock for="Angular">
+<ApiLink kind="sass" module="themes" type="function-switch-theme" label="Tema de IgxSwitchComponent" />
+</PlatformBlock>
+
+## Dependencias
+
+El {Platform} Switch requiere una hoja de estilos de tema para aplicar su estilo visual. Consulte la configuración específica del framework en <PlatformBlock for="Angular">[**Primeros pasos**](../general/getting-started.mdx)</PlatformBlock><PlatformBlock for="React,WebComponents,Blazor">[**Primeros pasos**](../general-getting-started.mdx)</PlatformBlock>.
+
+## Recursos adicionales
+
+Use los siguientes recursos de {Platform} para obtener detalles de la API, ejemplos y soporte para el proyecto:
+
+- [Switch - Componente del sistema de diseño](https://www.infragistics.com/products/indigo-design/help/components/switch)
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+- [Checkbox](./checkbox.mdx): use Checkbox cuando los usuarios seleccionen una o más opciones, sobre todo como parte de un formulario.
+- [Button](./button.mdx): use Button cuando el control represente un comando o una acción en lugar de un ajuste.
+
+## Preguntas frecuentes
+
+<Faq>
+  <FaqItem question="¿Cómo establezco el Switch en su estado inicial de activado o desactivado?">
+    Establezca la propiedad <ApiLink pkg="core" type="Switch" member="checked" label="checked" /> en `true` para el estado activado, o en `false` para el estado desactivado. La propiedad usa un valor booleano en la sintaxis de React, Web Components y Blazor.
+  </FaqItem>
+  <FaqItem question="¿Cómo coloco la etiqueta del Switch?">
+    Coloque el texto de la etiqueta dentro del Switch y establezca la propiedad <ApiLink pkg="core" type="Switch" member="labelPosition" label="labelPosition" /> en `before` o en `after`. La posición predeterminada de la etiqueta es `after`.
+  </FaqItem>
+  <FaqItem question="¿Cómo envío el valor de un Switch con un formulario?">
+    Establezca las propiedades <ApiLink pkg="core" type="Switch" member="name" label="name" /> y <ApiLink pkg="core" type="Switch" member="value" label="value" />. En Blazor, use el componente `EditForm` en lugar de un `form` HTML estándar.
+  </FaqItem>
+  <FaqItem question="¿Cómo hago que un Switch sea obligatorio o no válido?">
+    Establezca la propiedad <ApiLink pkg="core" type="Switch" member="required" label="required" /> cuando el ajuste deba estar seleccionado, y <ApiLink pkg="core" type="Switch" member="invalid" label="invalid" /> cuando el control esté en estado no válido. Use <ApiLink pkg="core" type="Switch" member="disabled" label="disabled" /> cuando los usuarios no deban poder cambiar el ajuste.
+  </FaqItem>
+</Faq>

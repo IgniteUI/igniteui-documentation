@@ -1,0 +1,122 @@
+---
+title: "Plantilla de celda de Angular Grid Lite | Ignite UI for Angular | Licencia MIT"
+description: "Configuración de columnas y propiedades de columna de Grid Lite. Pruebe nuestro Angular Grid Lite de código abierto: ligero y con las funciones esenciales."
+keywords: "configuración de columnas, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: MIT
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+_language: es
+llms:
+  description: "Las columnas se definen de forma declarativa mediante componentes hijos de columna dentro de la cuadrícula."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Configuración de columnas
+
+Las columnas se definen de forma declarativa mediante componentes hijos de columna dentro de la cuadrícula. La propiedad `field` es la única obligatoria para una columna, ya que sirve como identificador de la columna. También es la propiedad que se usa para asignar y renderizar los datos correspondientes en las filas de la cuadrícula.
+
+```html
+<igx-grid-lite [data]="data">
+  <igx-grid-lite-column
+    field="account"
+    header="Account Number"
+    ...
+  ></igx-grid-lite-column>
+  {/* Additional columns */}
+</igx-grid-lite>
+```
+
+## Configuración basada en el origen de datos
+
+La cuadrícula admite inferir la configuración de columnas a partir del origen de datos proporcionado cuando `autoGenerate` está establecido en true. Intenta inferir las `field` y `dataType` adecuadas a partir de los registros de los datos.
+
+```typescript
+const data: Record[] = [
+  { entryId: "1234", source: "https://example.com", ts: 1373521917579 },
+  ...
+];
+```
+
+```html
+<igx-grid-lite [autoGenerate]="true" [data]="data"></igx-grid-lite>
+```
+
+El fragmento anterior hará que la cuadrícula cree automáticamente columnas equivalentes a:
+
+```html
+<igx-grid-lite [data]="data">
+  <igx-grid-lite-column field="entryId" dataType="string"></igx-grid-lite-column>
+  <igx-grid-lite-column field="source" dataType="string"></igx-grid-lite-column>
+  <igx-grid-lite-column field="ts" dataType="number"></igx-grid-lite-column>
+</igx-grid-lite>
+```
+
+Resulta útil para renderizar rápidamente algunos datos sin personalizaciones adicionales.
+
+<DocsAside type="info">
+Es una operación de una sola vez que se ejecuta cuando la cuadrícula se añade por primera vez al DOM. Pasar un origen de datos vacío o un origen de datos que se enlaza más tarde (como una solicitud HTTP) suele dar como resultado una configuración de columnas vacía en la cuadrícula. Esta propiedad se ignora si ya existe alguna configuración de columnas en la cuadrícula. Consulte [el tema de enlace de datos](/grid-lite/binding) para obtener información adicional sobre la generación automática de la configuración de columnas a partir del origen de datos.
+</DocsAside>
+
+## Configuración adicional de columnas
+
+La columna expone varias propiedades más para personalizarla:
+
+### Ancho de columna
+
+De forma predeterminada, las columnas tienen un ancho de `minmax(136px, 1fr)`, que se traduce en un ancho mínimo de 136 px y un máximo de
+1 parte del espacio disponible en Grid Lite. De este modo, las columnas son fluidas y se adaptan a los cambios
+en el ancho de la cuadrícula.
+
+Para cambiar el ancho de una columna, use la propiedad `width` de la columna.
+
+```html
+<igx-grid-lite-column field="price" width="250px"></igx-grid-lite-column>
+```
+
+La propiedad acepta <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#numbers_lengths_and_percentages" target="_blank">unidades de longitud CSS válidas</a>.
+
+### Ocultar columnas
+
+Las columnas pueden ocultarse o mostrarse estableciendo la propiedad `hidden` de la columna.
+
+```html
+<igx-grid-lite-column field="price" hidden></igx-grid-lite-column>
+```
+
+### Redimensionar columnas
+
+Cada columna del componente Grid Lite puede configurarse para que sea redimensionable estableciendo la propiedad `resizable` del elemento de columna.
+
+```html
+<igx-grid-lite-column field="price" resizable></igx-grid-lite-column>
+```
+
+Si una columna está configurada como redimensionable, puede arrastrar el borde derecho del encabezado de la columna para aumentar o reducir su ancho. Al hacer doble clic en el área de redimensionado, se activará el autoajuste de la columna, que intentará ajustar su ancho según el contenido más grande de sus celdas o de su encabezado.
+
+<DocsAside type="info">
+Las columnas con anchos "fluidos" (fr, %, etc.) pueden comportarse de forma errática al redimensionar la cuadrícula, ya que intentan adaptarse a las nuevas dimensiones. Según el escenario de la aplicación, puede ser preferible usar unidades "fijas" para que los usuarios no vean cambios de disposición.
+</DocsAside>
+
+En el ejemplo siguiente puede probar las distintas propiedades de columna y ver cómo se reflejan en la cuadrícula renderizada.
+
+<Sample src="/grid-lite/column-config-dynamic" height={510} alt="Configuración dinámica de columnas de Angular Grid Lite" />
+
+## Referencias de API
+
+- <ApiLink type="GridLite" />
+- <ApiLink type="GridLiteColumn" />
+
+## Recursos adicionales
+
+- [Enlace de datos](/grid-lite/binding)
+- [Ordenación](/grid-lite/sorting)
+- [Filtrado](/grid-lite/filtering)
+- [Temas y estilos](/grid-lite/theming)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Grid Lite  **GitHub**](https://github.com/IgniteUI/igniteui-grid-lite)

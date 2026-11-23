@@ -1,0 +1,155 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | Bing 이미지 표시 | Infragistics"
+description: "Infragistics의 {Platform}를 사용하여 Microsoft Bing Maps의 이미지를 표시하십시오. {ProductName} 지도 튜토리얼을 확인하십시오!"
+keywords: "{Platform} 지도, bing maps, {ProductName}, Infragistics, 이미지 타일 소스, 지도 배경"
+license: commercial
+mentionedTypes: ["GeographicMap", "BingMapsMapImagery"]
+_language: ko
+llms:
+  description: "참고: 2025년 6월 30일부터 모든 Microsoft Bing Maps for Enterprise Basic(무료) 계정은 서비스가 종료됩니다."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import bingmapsimagery from '@xplat-images/general/BingMapsImagery.png';
+
+# {Platform} Bing Maps의 이미지 표시
+
+참고: 2025년 6월 30일부터 모든 Microsoft Bing Maps for Enterprise Basic(무료) 계정은 서비스가 종료됩니다. 여전히 무료 Basic 계정과 키를 사용 중이라면, 서비스 중단을 피하기 위해 지금 조치하십시오. Bing Maps for Enterprise 라이선스 보유자는 2028년 6월 30일까지 애플리케이션에서 Bing Maps를 계속 사용할 수 있습니다.
+
+자세한 내용:
+
+[Microsoft Bing 블로그](https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025)
+
+{Platform} `BingMapsMapImagery`는 Microsoft® 회사가 제공하는 지리 이미지 매핑 서비스입니다. 세계의 3가지 스타일의 지리 이미지 타일을 제공합니다. 이 지리 이미지 서비스는 <a href="http://www.bing.com/maps" target="_blank">www.bing.com/maps</a> 웹사이트에서 직접 접근할 수 있습니다. {ProductName} 지도 컴포넌트는 `BingMapsMapImagery` 클래스를 사용하여 지도 배경 콘텐츠에 Bing Maps의 지리 이미지를 표시할 수 있습니다.
+
+## {Platform} Bing Maps의 이미지 표시 예제
+
+
+{/*<Sample src="/maps/geo-map/display-bing-imagery" height="500" alt="{Platform} Displaying Imagery from Bing Maps Example" />*/}
+<Image src={bingmapsimagery} alt="{Platform} Bing Maps 이미지" />
+
+
+
+## 코드 조각
+다음 코드 조각은 `BingMapsMapImagery` 클래스를 사용하여 {Platform} `GeographicMap`에 Bing Maps의 지리 이미지 타일을 표시하는 방법을 보여 줍니다.
+
+```json-snippet source="/maps/geo-map/display-bing-imagery"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": "+doc:markup"
+}
+```
+
+```json-snippet source="/maps/geo-map/display-bing-imagery" channel="bindingImports...bindingFields,bindingInit,bindingCode"
+{
+    "type": "GeographicMap",
+    "$setInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "$assignInCode": {
+        "backgroundContent": [
+            "angular",
+            "react",
+            "webComponents",
+            "blazor",
+            "winUI",
+            "wpf"
+        ]
+    },
+    "name": "roadMap",
+    "height": "100%",
+    "width": "100%",
+    "zoomable": true,
+    "backgroundContent": {
+        "type": "BingMapsMapImagery",
+        "name": "roadImagery",
+        "apiKey": "REPLACE_WITH_BING_KEY",
+        "imageryStyle": "Road"
+    },
+    "$type": [
+        "+doc:bindingImports",
+        "+doc:bindingFields",
+        "+doc:bindingInit",
+        "+doc:bindingCode"
+    ]
+}
+```
+
+<PlatformBlock for="Angular, React">
+
+Bing은 REST URI에 지정된 프로토콜로 타일을 제공하며, 다른 프로토콜로 제공된 페이지는 거부됩니다. 이미지를 할당하기 전에 호스팅 페이지를 기준으로 이를 해석하십시오:
+
+```ts
+// resolving BingMaps uri based on HTTP protocol of hosting website
+let tileUri = roadImagery.actualBingImageryRestUri;
+const isHttpSecured = window.location.toString().startsWith("https:");
+if (isHttpSecured) {
+    tileUri = tileUri.replace("http:", "https:");
+} else {
+    tileUri = tileUri.replace("https:", "http:");
+}
+roadImagery.bingImageryRestUri = tileUri;
+```
+
+</PlatformBlock>
+
+## 속성
+다음 표는 `BingMapsMapImagery` 클래스의 속성을 요약합니다:
+
+| 속성 이름  | 속성 유형   | 설명   |
+|----------------|-----------------|---------------|
+|`apiKey`|string|Bing Maps 이미지 서비스에 필요한 API 키를 설정하는 속성을 나타냅니다. 이 키는 <a href="http://www.bingmapsportal.coms" target="_blank">www.bingmapsportal.com</a> 웹사이트에서 얻어야 합니다.|
+|`imageryStyle`|`BingMapsImageryStyle`|Bing Maps 이미지 타일의 지도 스타일을 설정하는 속성을 나타냅니다. 이 속성은 다음 `BingMapsImageryStyle` 열거형 값으로 설정할 수 있습니다: <ul><li> Aerial - 도로나 레이블 오버레이가 없는 항공 지도 스타일을 지정합니다</li> <li> AerialWithLabels - 도로와 레이블 오버레이가 있는 항공 지도 스타일을 지정합니다</li><li> Road - 항공 오버레이가 없는 도로 지도 스타일을 지정합니다</li></ul>|
+|`bingImageryRestUri`|string|TilePath와 SubDomains가 어디에서 오는지 지정하는 Bing 이미지 REST URI를 설정하는 속성을 나타냅니다. 이는 선택적인 속성이며, 지정하지 않으면 기본 REST URI를 사용합니다.|
+|`cultureName`|string|타일 소스의 문화권 이름을 설정하는 속성을 나타냅니다.|
+|`isDeferredLoad`|boolean|유효한 속성 값을 할당할 때 Bing Maps 서비스를 자동으로 초기화할지 지정하는 속성을 나타냅니다.|
+|`isInitialized`|boolean|Bing Maps 서비스의 지리 이미지 타일이 초기화되어 지도 컴포넌트에서 렌더링할 준비가 되었을 때 True로 설정되는 속성을 나타냅니다.|
+|`subDomains`|`\SubDomainsCollection`|URI 서브 도메인의 이미지 컬렉션을 나타냅니다|
+|`tilePath`|string|지도 타일 이미지 URI를 설정하는 속성을 나타냅니다. 이는 Bing Maps의 실제 위치입니다|
+
+
+## API 참조
+`BingMapsImageryStyle`
+`BingMapsMapImagery`
+`GeographicMap`

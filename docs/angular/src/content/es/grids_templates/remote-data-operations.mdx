@@ -1,0 +1,955 @@
+<ComponentBlock for="Grid">
+
+---
+title: "Operaciones de datos remotos en Angular Grid: Ignite UI for Angular"
+description: "Empiece a usar las operaciones de datos remotos de Angular, como el filtrado remoto, la ordenación remota y el desplazamiento remoto, para cargar datos desde un servidor con Ignite UI for Angular."
+keywords: "operaciones de datos remotos de angular, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "El {ComponentTitle} de Ignite UI for Angular admite operaciones de datos remotos, como la virtualización remota, la ordenación remota, el filtrado remoto y otras."
+---
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+---
+title: "Operaciones de datos remotos en Angular Tree: Ignite UI for Angular"
+description: "Empiece a usar las operaciones de datos remotos de Angular, como el filtrado remoto, la ordenación remota y el desplazamiento remoto, para cargar datos desde un servidor con Ignite UI for Angular."
+keywords: "operaciones de datos remotos de angular, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/remote-data-operations
+_language: es
+llms:
+  description: "El {ComponentTitle} de Ignite UI for Angular admite operaciones de datos remotos, como la virtualización remota, la ordenación remota, el filtrado remoto y otras."
+---
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+---
+title: "Operaciones de datos remotos en Angular Hierarchical Grid: Ignite UI for Angular"
+description: "Empiece a usar las operaciones de datos remotos de Angular, como el filtrado remoto, la ordenación remota y el desplazamiento remoto, para cargar datos desde un servidor con Ignite UI for Angular."
+keywords: "operaciones de datos remotos de angular, ignite ui for angular, infragistics"
+license: commercial
+_canonicalLink: grid/remote-data-operations
+_language: es
+llms:
+  description: "El {ComponentTitle} de Ignite UI for Angular admite operaciones de datos remotos, como la virtualización remota, la ordenación remota, el filtrado remoto y otras."
+---
+
+</ComponentBlock>
+
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Operaciones de datos remotos de {ComponentTitle} en Angular
+
+El {ComponentTitle} de Ignite UI for Angular admite operaciones de datos remotos, como la virtualización remota, la ordenación remota, el filtrado remoto y otras. Esto permite al desarrollador realizar estas tareas en un servidor, recuperar los datos generados y mostrarlos en {ComponentTitle}.
+
+<ComponentBlock for="Grid">
+
+## Ejemplo de descripción general de las operaciones de datos remotos de {ComponentTitle} en Angular
+
+<Sample src="/grid/grid-remote-filtering" height={500} alt="Ejemplo de descripción general de las operaciones de datos remotos de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+## Ejemplo de descripción general de las operaciones de datos remotos de {ComponentTitle} en Angular
+
+<Sample src="/tree-grid/treegrid-remote-filtering" height={550} alt="Ejemplo de descripción general de las operaciones de datos remotos de {ComponentTitle} en Angular" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+{/*TODO*/}
+</ComponentBlock>
+
+De forma predeterminada, {ComponentTitle} usa su propia lógica para realizar las operaciones de datos.
+Puede realizar estas tareas de forma remota y alimentar los datos resultantes en {ComponentTitle} aprovechando determinadas entradas y eventos que expone {ComponentTitle}.
+
+<ComponentBlock for="Grid">
+
+## Virtualización remota
+
+<ApiLink type="{ComponentApiType}" /> admite el escenario en el que los fragmentos de datos se solicitan a un servicio remoto, exponiendo el comportamiento implementado en la directiva <ApiLink type="ForOfDirective" label="igxForOf" /> que usa internamente.
+
+Para usar esta función, debe suscribirse a la salida <ApiLink type="{ComponentApiType}" member="dataPreLoad" label="dataPreLoad" /> para realizar la solicitud adecuada según los argumentos recibidos, así como establecer la propiedad pública <ApiLink type="{ComponentApiType}" /> <ApiLink type="{ComponentApiType}" member="totalItemCount" label="totalItemCount" /> con la información correspondiente procedente del servicio.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [autoGenerate]="false"
+          (dataPreLoad)="processData(false)"
+          (sortingDone)="processData(true)">
+    <igx-column [field]="'ProductID'" [sortable]="true"></igx-column>
+    <igx-column [field]="'ProductName'" [sortable]="true"></igx-column>
+    <igx-column [field]="'UnitPrice'" [dataType]="'number'" [formatter]="formatCurrency" [sortable]="true"></igx-column>
+</igx-grid>
+```
+
+```typescript
+public ngAfterViewInit() {
+    this.grid.isLoading = true;
+
+    this._remoteService.getData(this.grid.virtualizationState, this.grid.sortingExpressions[0], true, (data) => {
+            this.grid.totalItemCount = data['@odata.count'];
+            this.grid.isLoading = false;
+    });
+}
+
+public processData(reset) {
+    if (this.prevRequest) {
+        this.prevRequest.unsubscribe();
+    }
+
+    this._prevRequest = this._remoteService.getData(this.grid.virtualizationState,
+        this.grid.sortingExpressions[0], reset, () => {
+        ...
+        this.cdr.detectChanges();
+    });
+}
+```
+
+Al solicitar datos, debe usar la interfaz <ApiLink type="IForOfState" kind="interface" />, que proporciona las propiedades <ApiLink kind="interface" type="IForOfState" member="startIndex" /> y <ApiLink kind="interface" type="IForOfState" member="chunkSize" />.
+
+<DocsAside type="info">
+El primer <ApiLink kind="interface" type="IForOfState" member="chunkSize" /> siempre será 0 y debe determinarlo usted según el escenario concreto de su aplicación.
+</DocsAside>
+
+### Demostración de virtualización remota
+
+<Sample src="/grid/grid-sample-4" height={550} alt="Ejemplo de descripción general de las operaciones de datos remotos de {ComponentTitle} en Angular" />
+
+## Desplazamiento infinito
+
+ Un diseño muy habitual en los escenarios que requieren obtener datos por fragmentos desde un punto final es el denominado desplazamiento infinito. En las cuadrículas de datos se caracteriza por el aumento continuo de los datos cargados, provocado por el usuario final al desplazarse hasta el final. Los siguientes párrafos explican cómo puede usar la API disponible para lograr fácilmente el desplazamiento infinito en `IgxGrid`.
+
+Para implementar el desplazamiento infinito, debe obtener los datos por fragmentos. Los datos que ya se han obtenido deben almacenarse localmente, y debe determinar la longitud de un fragmento y cuántos fragmentos hay. También debe llevar un registro del índice de la última fila de datos visible en la cuadrícula. De este modo, usando las propiedades `startIndex` y `chunkSize`, puede determinar si el usuario se desplaza hacia arriba, en cuyo caso debe mostrar los datos ya obtenidos, o hacia abajo, en cuyo caso debe obtener más datos del punto final.
+
+Lo primero que hay que hacer es usar el hook de ciclo de vida `ngAfterViewInit` para obtener el primer fragmento de datos. Es importante establecer la propiedad `totalItemCount`, ya que permite a la cuadrícula dimensionar correctamente su barra de desplazamiento.
+
+```typescript
+public ngAfterViewInit() {
+    this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+        if (request.data) {
+            this.grid.totalItemCount = this.page * this.pageSize;
+            this.grid.data = this._remoteService.getCachedData({startIndex: 0, chunkSize: 10});
+            this.totalItems = request.data['@odata.count'];
+            this.totalPageCount = Math.ceil(this.totalItems / this.pageSize);
+            this.grid.isLoading = false;
+        }
+    });
+}
+```
+
+Además, debe suscribirse a la salida `dataPreLoad`, para poder proporcionar al grid los datos que necesita cuando intenta mostrar un fragmento distinto del cargado actualmente. En el controlador del evento, debe determinar si debe obtener datos nuevos o devolver datos que ya están en caché local.
+
+```typescript
+public handlePreLoad() {
+    const isLastChunk = this.grid.totalItemCount ===
+                        this.grid.virtualizationState.startIndex + this.grid.virtualizationState.chunkSize;
+    // when last chunk reached load another page of data
+    if (isLastChunk) {
+        if (this.totalPageCount === this.page) {
+            this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+            return;
+        }
+        this.page++;
+        this.grid.isLoading = true;
+        this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+            if (request.data) {
+                this.grid.totalItemCount = Math.min(this.page * this.pageSize, this.totalItems);
+                this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+                this.grid.isLoading = false;
+            }
+        });
+    } else {
+        this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+    }
+}
+```
+
+### Demostración de desplazamiento infinito
+
+<Sample src="/grid/grid-sample-5" height={510} alt="" />
+
+## Ordenación/filtrado remoto
+
+Para proporcionar ordenación y filtrado remotos, debe suscribirse a las salidas <ApiLink type="{ComponentApiType}" member="dataPreLoad" label="dataPreLoad" />, <ApiLink type="{ComponentApiType}" member="sortingExpressionsChange" label="sortingExpressionsChange" /> y <ApiLink type="{ComponentApiType}" member="filteringexpressionstreechange" label="filteringExpressionsTreeChange" />, para realizar la solicitud adecuada según los argumentos recibidos, así como establecer la propiedad pública <ApiLink type="{ComponentApiType}" /> <ApiLink type="{ComponentApiType}" member="totalItemCount" label="totalItemCount" /> con la información correspondiente procedente del servicio.
+
+También aprovecharemos la función **rxjs** `debounceTime`, que emite un valor del Observable de origen solo después de que haya pasado un periodo de tiempo concreto sin que se emita otro valor. Así, la operación remota solo se disparará cuando haya transcurrido el tiempo especificado sin que el usuario la interrumpa.
+
+```typescript
+const DEBOUNCE_TIME = 300;
+...
+public ngAfterViewInit() {
+    ...
+    this.grid.dataPreLoad.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+
+    this.grid.filteringExpressionsTreeChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData(true);
+    });
+
+    this.grid.sortingExpressionsChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+}
+```
+
+Cuando se proporcionan ordenación y filtrado remotos, normalmente no necesitamos la ordenación y el filtrado integrados de la cuadrícula. Podemos deshabilitarlos estableciendo las entradas <ApiLink type="{ComponentApiType}" member="sortStrategy" label="sortStrategy" /> y <ApiLink type="{ComponentApiType}" member="filterStrategy" label="filterStrategy" /> de la cuadrícula en las instancias `NoopSortingStrategy` y `NoopFilteringStrategy` respectivas.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [height]="'500px'" [width]="'100%'" [autoGenerate]='false'
+        [filterStrategy]="noopFilterStrategy"
+        [sortStrategy]="noopSortStrategy"
+        [allowFiltering]="true">
+    ...
+</igx-grid>
+```
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+<DocsAside type="info">
+Cuando se solicitan datos remotos, la operación de filtrado distingue entre mayúsculas y minúsculas.
+</DocsAside>
+
+### Demostración de ordenación/filtrado remoto
+
+Puede ver el resultado del código anterior, al principio de este artículo, en la sección [Demostración](#ejemplo-de-descripción-general-de-las-operaciones-de-datos-remotos-de-grid-en-angular).
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+### Filtrado remoto
+
+Para proporcionar filtrado remoto, debe suscribirse a la salida <ApiLink type="{ComponentApiType}" member="filteringExpressionsTreeChange" label="filteringExpressionsTreeChange" /> para realizar la solicitud adecuada según los argumentos recibidos. Usemos una colección plana como origen de datos de nuestro Tree Grid proporcionando un <ApiLink type="{ComponentApiType}" member="primaryKey" label="primaryKey" /> y un <ApiLink type="{ComponentApiType}" member="foreignKey" label="foreignKey" />.
+
+También aprovecharemos la función **rxjs** `debounceTime`, que emite un valor del Observable de origen solo después de que haya pasado un periodo de tiempo concreto sin que se emita otro valor. Así, la operación remota solo se disparará cuando haya transcurrido el tiempo especificado sin que el usuario la interrumpa.
+
+```typescript
+const DEBOUNCE_TIME = 300;
+...
+public ngAfterViewInit() {
+    ...
+    this.treeGrid.filteringExpressionsTreeChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+}
+```
+
+Cuando se proporciona filtrado remoto, normalmente no necesitamos el filtrado integrado del Tree Grid. Podemos deshabilitarlo estableciendo la entrada <ApiLink type="{ComponentApiType}" member="filterStrategy" label="filterStrategy" /> del Tree Grid en la instancia `NoopFilteringStrategy`.
+
+```html
+<!-- tree-grid-remote-filtering-sample.html -->
+
+<igx-tree-grid #treeGrid [data]="remoteData | async" primaryKey="ID" foreignKey="ParentID"
+               [autoGenerate]="false"
+               [filterStrategy]="noopFilterStrategy"
+               [allowFiltering]="true">
+    <igx-column [field]="'Name'" dataType="string"></igx-column>
+    <igx-column [field]="'Title'" dataType="string"></igx-column>
+    <igx-column [field]="'Age'" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+```typescript
+// tree-grid-remote-filtering-sample.ts
+
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+
+public processData() {
+    this.treeGrid.isLoading = true;
+
+    const filteringExpr = this.treeGrid.filteringExpressionsTree;
+
+    this._remoteService.getData(filteringExpr, () => {
+        this.treeGrid.isLoading = false;
+    });
+}
+```
+
+El filtrado remoto tendrá que realizarse directamente sobre la colección plana. Además, tendremos que incluir todos los padres de cualquier registro que cumpla la condición de filtrado, independientemente de si los padres cumplen o no el filtro (lo hacemos para mantener intacta la jerarquía). El resultado puede verse a continuación:
+
+<DocsAside type="info">
+Cuando se solicitan datos remotos, la operación de filtrado distingue entre mayúsculas y minúsculas.
+</DocsAside>
+
+### Demostración de filtrado remoto
+
+Puede ver el resultado del código anterior, al principio de este artículo, en la sección [Demostración](#ejemplo-de-descripción-general-de-las-operaciones-de-datos-remotos-de-tree-grid-en-angular).
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+{/*TODO*/}
+## Estrategia de valores únicos de columna
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid, TreeGrid, PivotGrid">
+
+### Estrategia de valores únicos de columna
+
+</ComponentBlock>
+
+Los elementos de la lista del cuadro de diálogo de filtrado al estilo de Excel representan los valores únicos de la columna correspondiente. De forma predeterminada, {ComponentTitle} genera estos valores a partir de su origen de datos. En el caso del filtrado remoto, los datos del grid no contienen todos los datos del servidor. Para proporcionar los valores únicos manualmente y cargarlos a demanda, podemos aprovechar la entrada <ApiLink type="{ComponentApiType}" member="uniqueColumnValuesStrategy" label="uniqueColumnValuesStrategy" /> de {ComponentTitle}. Esta entrada es en realidad un método que proporciona tres argumentos:
+
+- **column**: la instancia de la columna correspondiente.
+- **filteringExpressionsTree**: el árbol de expresiones de filtrado, que se reduce según la columna correspondiente.
+- **done**: callback que debe llamarse con los valores de columna recién generados cuando se recuperen del servidor.
+
+El desarrollador puede generar manualmente los valores únicos de columna necesarios según la información proporcionada por los argumentos **column** y **filteringExpressionsTree**, y después invocar el callback **done**.
+
+<DocsAside type="info">
+Cuando se proporciona la entrada <ApiLink type="{ComponentApiType}" member="uniqueColumnValuesStrategy" label="uniqueColumnValuesStrategy" />, no se usará el proceso predeterminado de generación de valores únicos del filtrado al estilo de Excel.
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    ...
+</igx-grid>
+```
+
+```typescript
+public columnValuesStrategy = (column: ColumnType,
+                               columnExprTree: IFilteringExpressionsTree,
+                               done: (uniqueValues: any[]) => void) => {
+    // Get specific column data.
+    this.remoteValuesService.getColumnData(column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+### Demostración de la estrategia de valores únicos de columna
+
+<Sample src="/grid/grid-excel-style-filtering-load-on-demand" height={800} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    ...
+</igx-tree-grid>
+```
+
+```typescript
+public columnValuesStrategy = (column: ColumnType,
+                               columnExprTree: IFilteringExpressionsTree,
+                               done: (uniqueValues: any[]) => void) => {
+    // Get specific column data.
+    this.remoteValuesService.getColumnData(column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+### Demostración de la estrategia de valores únicos de columna
+
+<Sample src="/tree-grid/treegrid-excel-style-filtering-load-on-demand" height={800} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'Artist'" [data]="data" [filterMode]="'excelStyleFilter'"
+                       [uniqueColumnValuesStrategy]="singersColumnValuesStrategy">
+    ...
+    <igx-row-island [primaryKey]="'Album'" [allowFiltering]="true" [filterMode]="'excelStyleFilter'"
+                    [uniqueColumnValuesStrategy]="albumsColumnValuesStrategy">
+        ...
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+```typescript
+public singersColumnValuesStrategy = (column: ColumnType,
+                                      columnExprTree: IFilteringExpressionsTree,
+                                      done: (uniqueValues: any[]) => void) => {
+// Get specific column data for the singers.
+this.remoteValuesService.getColumnData(
+    null, 'Singers', column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+
+public albumsColumnValuesStrategy = (column: ColumnType,
+                                     columnExprTree: IFilteringExpressionsTree,
+                                     done: (uniqueValues: any[]) => void) => {
+// Get specific column data for the albums of a specific singer.
+const parentRowId = (column.grid as any).foreignKey;
+this.remoteValuesService.getColumnData(
+    parentRowId, 'Albums', column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+### Demostración de la estrategia de valores únicos de columna
+
+<Sample src="/hierarchical-grid/hierarchical-grid-excel-style-filtering-load-on-demand" height={800} alt="" />
+
+</ComponentBlock>
+
+Para proporcionar una plantilla de carga personalizada para el filtrado al estilo de Excel, podemos usar la directiva `igxExcelStyleLoading`:
+
+```html
+<{ComponentSelector} [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    ...
+    <ng-template igxExcelStyleLoading>
+        Loading ...
+    </ng-template>
+</{ComponentSelector}>
+```
+
+
+## Paginación remota
+
+<ComponentBlock for="Grid, HierarchicalGrid">
+
+La función de paginación puede funcionar con datos remotos. Para demostrarlo, declaremos primero nuestro servicio, responsable de la obtención de datos. Necesitaremos el número de todos los elementos de datos para calcular el número de páginas. Esta lógica se añadirá a nuestro servicio.
+
+```typescript
+@Injectable()
+export class RemotePagingService {
+    public remoteData: BehaviorSubject<any[]>;
+    public dataLenght: BehaviorSubject<number> = new BehaviorSubject(0);
+    public url = 'https://www.igniteui.com/api/products';
+
+    constructor(private http: HttpClient) {
+        this.remoteData = new BehaviorSubject([]) as any;
+    }
+
+    public getData(index?: number, perPage?: number): any {
+        let qS = '';
+
+        if (perPage) {
+            qS = `?$skip=${index}&$top=${perPage}&$count=true`;
+        }
+
+        this.http
+            .get(`${this.url + qS}`).pipe(
+                map((data: any) => data)
+            ).subscribe((data) => this.remoteData.next(data));
+    }
+
+    public getDataLength(): any {
+        return this.http.get(this.url).pipe(
+            map((data: any) => data.length)
+        );
+    }
+}
+```
+
+Después de declarar el servicio, debemos crear un componente, responsable de la construcción de {ComponentTitle} y de la suscripción a los datos.
+<ComponentBlock for="Grid">
+
+```typescript
+export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy {
+    public data: Observable<any[]>;
+    private _dataLengthSubscriber;
+
+    constructor(private remoteService: RemoteService) {}
+
+    public ngOnInit() {
+        this.data = this.remoteService.remoteData.asObservable();
+
+        this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+            this.totalCount = data;
+            this.grid1.isLoading = false;
+        });
+    }
+
+    public ngOnDestroy() {
+        if (this._dataLengthSubscriber) {
+            this._dataLengthSubscriber.unsubscribe();
+        }
+    }
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, OnDestroy {
+    public data: BehaviorSubject<any> = new BehaviorSubject([]);
+    private _dataLengthSubscriber;
+
+    constructor(private remoteService: RemotePagingService) {}
+
+    public ngOnInit() {
+        this.data = this.remoteService.remoteData.asObservable();
+
+        this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+            this.totalCount = data;
+            this.grid1.isLoading = false;
+        });
+    }
+
+    public ngOnDestroy() {
+        if (this._dataLengthSubscriber) {
+            this._dataLengthSubscriber.unsubscribe();
+        }
+    }
+}
+```
+
+</ComponentBlock>
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+En este ejemplo demostraremos cómo mostrar un número determinado de registros raíz por página, sin importar cuántos registros hijos tengan. Para cancelar el algoritmo de paginación integrado del Tree Grid, que muestra un número determinado de registros sin importar su nivel (raíz o hijo), debemos establecer la propiedad <ApiLink type="Paginator" member="perPage" label="perPage" /> en `Number.MAX_SAFE_INTEGER`.
+
+```html
+<igx-tree-grid #treeGrid ...>
+        <igx-paginator [perPage]="maxPerPage">
+        </igx-paginator>
+...
+```
+
+```typescript
+public maxPerPage = Number.MAX_SAFE_INTEGER;
+```
+
+</ComponentBlock>
+
+Ahora podemos elegir entre configurar nuestra propia _plantilla de paginación personalizada_ o usar la predeterminada que proporciona `igx-paginator`. Veamos primero qué es necesario para configurar la paginación remota usando la _plantilla de paginación predeterminada_.
+
+### Paginación remota con la plantilla predeterminada
+
+Si quiere usar la _plantilla de paginación predeterminada_, debe establecer la propiedad <ApiLink type="Paginator" member="totalRecords" label="totalRecords" /> del Paginator; solo entonces el grid podrá calcular el _número total de páginas_ a partir de los registros remotos totales. Al realizar una paginación remota, el Paginator solo pasará al grid los datos de la página actual, de modo que el grid no intentará paginar el origen de datos proporcionado. Por eso debemos establecer la propiedad <ApiLink type="{ComponentApiType}" member="pagingMode" label="pagingMode" /> del grid en _GridPagingMode.remote_. Además, es necesario suscribirse a los eventos <ApiLink type="Paginator" member="pagingDone" label="pagingDone" /> o <ApiLink type="Paginator" member="perPageChange" label="perPageChange" /> para obtener los datos de su servicio remoto; qué evento se usa depende del caso de uso.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" [isLoading]="isLoading" [pagingMode]="mode">
+    <igx-column field="ID"></igx-column>
+    ...
+    <igx-paginator [(page)]="page" [(perPage)]="perPage"  [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)">
+    </igx-paginator>
+</igx-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data | async" childDataKey="Content" [pagingMode]="mode">
+    <igx-column field="Name"></igx-column>
+    ...
+    <igx-paginator [(page)]="page" [(perPage)]="perPage" [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)">
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'CustomerID'" [pagingMode]="mode">
+    <igx-column field="CustomerID"></igx-column>
+    ...
+    <igx-paginator [(page)]="page" [(perPage)]="perPage" [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)" (perPageChange)="getFirstPage()">
+    </igx-paginator>
+</igx-hierarchical-grid>
+```
+
+</ComponentBlock>
+
+```typescript
+public totalCount = 0;
+public data: Observable<any[]>;
+public mode = GridPagingMode.remote;
+public isLoading = true;
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _dataLengthSubscriber;
+
+public set perPage(val: number) {
+    this._perPage = val;
+    this.paginate(0);
+}
+
+public ngOnInit() {
+    this.data = this.remoteService.remoteData.asObservable();
+
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data: any) => {
+        this.totalCount = data;
+        this.grid1.isLoading = false;
+    });
+}
+
+public ngAfterViewInit() {
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/remote-paging-default-template" height={620} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/tree-grid-remote-paging-default-template" height={560} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/remote-paging-default-template" height={580} alt="" />
+
+</ComponentBlock>
+
+### Paginación remota con igx-paginator-content personalizado
+
+Cuando definimos un contenido de paginador personalizado, debemos definir el contenido de forma que solo obtenga los datos de la página solicitada y pase los parámetros **skip** y **top** correctos al servicio remoto según la página seleccionada y los elementos <ApiLink type="Paginator" member="perPage" label="perPage" />. Vamos a usar `<igx-paginator>` para simplificar la configuración de nuestro ejemplo, junto con <ApiLink type="PageSizeSelector" /> y <ApiLink type="PageNavigation" />, que se introdujeron: `igx-page-size` añadirá el desplegable y la etiqueta de elementos por página, y `igx-page-nav` añadirá los botones de acción de navegación y sus etiquetas.
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-paginator #paginator
+    [totalRecords]="totalCount"
+    [(page)]="page"
+    [(perPage)]="perPage"
+    [selectOptions]="selectOptions"
+    (pageChange)="paginate($event)"
+    (perPageChange)="perPageChange($event)">
+    <igx-paginator-content>
+     <igx-page-size></igx-page-size>
+        [This is my custom content]
+     <igx-page-nav></igx-page-nav>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _perPage = 15;
+private _dataLengthSubscriber: { unsubscribe: () => void; } | undefined;
+
+constructor(private remoteService: RemotePagingService) { }
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+
+public perPageChange(perPage: number) {
+    const skip = this.page * perPage;
+    const top = perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-paginator #paginator
+    [totalRecords]="totalCount"
+    [(perPage)]="perPage"
+    [(page)]="page"
+    [selectOptions]="selectOptions"
+    (pageChange)="paginate($event)"
+    (perPageChange)="perPageChange($event)">
+    <igx-paginator-content>
+        <igx-page-size></igx-page-size>
+        [This is my custom content]
+        <igx-page-nav></igx-page-nav>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+```typescript
+@ViewChild('hierarchicalGrid', { static: true }) public hierarchicalGrid: IgxHierarchicalGridComponent;
+
+public ngOnInit(): void {
+    this._dataLengthSubscriber = this.remoteService.getDataLength(
+        { parentID: null, rootLevel: true, key: 'Customers' }).subscribe((length) => {
+            this.totalCount = length;
+        });
+}
+
+public ngAfterViewInit() {
+    this.hierarchicalGrid.isLoading = true;
+    this._dataSubscriber = this.remoteService.getData({parentID: null, rootLevel: true, key: 'Customers' }, 0, this.perPage)
+        .subscribe((data) => {
+            this.hierarchicalGrid.isLoading = false;
+            this.data.next(data);
+        },(error) => {
+                this.hierarchicalGrid.emptyGridMessage = error.message;
+                this.hierarchicalGrid.isLoading = false;
+                this.hierarchicalGrid.cdr.detectChanges();
+            }
+        );
+}
+
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-paginator #paginator
+    [totalRecords]="totalCount"
+    [(perPage)]="perPage"
+    [selectOptions]="selectOptions"
+    (pageChange)="paginate($event)">
+    <igx-paginator-content>
+        <igx-page-size></igx-page-size>
+        [This is my custom content]
+        <igx-page-nav></igx-page-nav>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+```typescript
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+</ComponentBlock>
+
+<DocsAside type="info">
+Para que la paginación remota se configure correctamente, debe establecer un `GridPagingMode.Remote`:
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+```html
+<igx-grid #grid1 [data]="data | async" width="100%" height="580px" [pagingMode]="mode"></igx-grid>
+...
+public mode = GridPagingMode.Remote;
+```
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [data]="data | async" [primaryKey]="'CustomerID'"
+    [height]="'550px'" [width]="'100%'" [pagingMode]="mode"></igx-hierarchical-grid>
+...
+public mode = GridPagingMode.Remote;
+```
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+```html
+<igx-tree-grid #treeGrid [data]="data | async" childDataKey="Content"
+        expansionDepth="0" width="100%" height="540px" [pagingMode]="mode"></igx-tree-grid>
+...
+public mode = GridPagingMode.Remote;
+```
+
+</ComponentBlock>
+
+El último paso es declarar el contenido del paginador según sus requisitos.
+
+```html
+<igx-paginator-content>
+    <igx-page-size></igx-page-size>
+    [This is my custom content]
+    <igx-page-nav></igx-page-nav>
+</igx-paginator-content>
+```
+
+Después de todos los cambios anteriores, se obtendrá el siguiente resultado.
+
+<ComponentBlock for="Grid">
+
+<Sample src="/grid/grid-remote-paging-sample" height={620} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="TreeGrid">
+
+<Sample src="/tree-grid/treegrid-remote-paging" height={560} alt="" />
+
+</ComponentBlock>
+<ComponentBlock for="HierarchicalGrid">
+
+<Sample src="/hierarchical-grid/hierarchical-grid-remote-paging" height={580} alt="" />
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Paginación remota con paginador personalizado
+
+En algunos casos puede que quiera definir su propio comportamiento de paginación; en ese caso podemos aprovechar la plantilla de paginación y añadir nuestra lógica personalizada junto a ella. Vamos a ampliar el ejemplo de paginación remota para demostrarlo:
+
+<Sample src="/grid/grid-custom-remote-paging-sample" height={620} alt="" />
+
+A continuación encontrará los métodos que hemos definido para implementar nuestras propias acciones de página `next` y `previous`.
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public nextPage() {
+    this.firstPage = false;
+    this.page++;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page + 1 >= this.totalPages) {
+        this.lastPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public previousPage() {
+    this.lastPage = false;
+    this.page--;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page <= 0) {
+        this.firstPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public paginate(page: number, recalculate = false) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    if (recalculate) {
+        this.totalPages = Math.ceil(this.totalCount / this.perPage);
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+    this.remoteService.getData(skip, top);
+    this.buttonDeselection(this.page, this.totalPages);
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Paginación remota con edición por lotes
+
+Con los ejemplos vistos hasta ahora hemos aclarado cómo configurar {ComponentName} con datos remotos. Ahora centrémonos en habilitar la edición por lotes del grid siguiendo la [guía o tema de edición por lotes](/{igPath}/batch-editing).
+
+Antes de continuar con el ejemplo conviene aclarar el caso de uso actual. Cuando la paginación se realiza en el servidor, el grid contiene los datos solo de la página actual, y si añadimos filas nuevas, las filas añadidas (con edición por lotes) se concatenarán con los datos actuales del grid. Por tanto, si el servidor no devuelve datos para una página determinada, el origen de datos del grid estará compuesto solo por las filas recién añadidas, que el grid paginará según la configuración de paginación definida (page, perPage).
+
+```typescript
+public ngOnInit() {
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+        this.totalCount = data;
+        this._recordOnServer = data;
+        this._totalPagesOnServer = Math.floor(this.totalCount / this.perPage);
+        this.grid1.isLoading = false;
+    });
+}
+```
+
+Para gestionar correctamente este caso de uso, necesitamos implementar cierta lógica personalizada.
+Primero, tenemos que conocer el número total de registros que hay en el servidor. Con ese dato, calculamos el número total de páginas de datos en el servidor (véase `this._totalPagesOnServer`) y, según su valor, implementaremos la lógica de paginación personalizada.
+
+```typescript
+
+public paginate(page: number) {
+    this.grid1.endEdit(true);
+    if (page > this._totalPagesOnServer) {
+        if (this.page !== this._totalPagesOnServer) {
+            const skipEl = this._totalPagesOnServer * this.perPage;
+            this.remoteService.getData(skipEl, this.perPage);
+        }
+        this.page = page - this._totalPagesOnServer;
+        this.page = page;
+        return;
+    } else {
+        this.page = 0;
+    }
+    this.page = page;
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+
+```
+
+Como puede ver en el método **paginate**, se realiza la lógica de paginación personalizada según el valor de `_totalPagesOnServer`.
+
+#### Demostración de paginación remota con edición por lotes
+
+<Sample src="/grid/remote-paging-batch-editing" height={620} alt="" />
+
+</ComponentBlock>
+
+
+## Problemas conocidos y limitaciones
+
+- Cuando el grid no tiene `primaryKey` establecido y los escenarios de datos remotos están habilitados (cuando la paginación, la ordenación, el filtrado o el desplazamiento provocan solicitudes a un servidor remoto para obtener los datos que se mostrarán en el grid), una fila perderá el siguiente estado tras completarse una solicitud de datos:
+  - Selección de filas
+  - Expandir/contraer filas
+  - Edición de filas
+  - Anclaje de filas
+- En escenarios de datos remotos, cuando el grid tiene un `primaryKey` establecido, el argumento del evento <ApiLink kind="interface" type="IRowSelectionEventArgs" member="oldSelection" /> no contendrá el objeto completo de datos de la fila para las filas que están actualmente fuera de la vista de datos. En este caso, el objeto `rowSelectionChanging.oldSelection` contendrá solo una propiedad, que es el campo `primaryKey`. Para el resto de filas, que están en la vista de datos, `rowSelectionChanging.oldSelection` contendrá los datos completos de la fila.
+
+## Referencias de API
+- <ApiLink type="Paginator" label="API de IgxPaginatorComponent" />
+- <ApiLink type="{ComponentApiType}" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de {ComponentName}Component" />
+## Recursos adicionales
+
+
+- [Paginación](/{igPath}/paging)
+- [Descripción general de {ComponentTitle}](/{igPath}/{ComponentMainTopic})
+- [Virtualización y rendimiento](/{igPath}/virtualization)
+- [Filtrado](/{igPath}/filtering)
+- [Ordenación](/{igPath}/sorting)
+- [Resúmenes](/{igPath}/summaries)
+- [Movimiento de columnas](/{igPath}/column-moving)
+- [Anclaje de columnas](/{igPath}/column-pinning)
+- [Redimensionado de columnas](/{igPath}/column-resizing)
+- [Selección](/{igPath}/selection)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

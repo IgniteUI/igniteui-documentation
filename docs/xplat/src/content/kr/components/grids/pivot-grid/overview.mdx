@@ -1,0 +1,778 @@
+---
+title: "{Platform} 피벗 그리드 컴포넌트 - Infragistics의 {ProductName}"
+description: "{ProductName}로 빠르고 반응성이 뛰어난 {Platform} 피벗 그리드와 테이블을 만드십시오. 복잡한 분석을 수행하고 데이터 정렬, 그룹화 또는 필터링을 적용하십시오."
+keywords: "{Platform} 피벗 그리드, {Platform} material 피벗 테이블, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["PivotGrid", "PivotDimension", "PivotValue"]
+namespace: Infragistics.Controls
+_language: ko
+llms:
+  description: "{Platform} Pivot Grid는 방대한 다차원 데이터를 교차 표 형식으로 합산하고 표현하는 데 사용됩니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} 피벗 그리드 개요
+
+{Platform} Pivot Grid는 방대한 다차원 데이터를 교차 표 형식으로 합산하고 표현하는 데 사용됩니다. 데이터 요약은 쉽고 빠르게 정렬, 그룹화 또는 필터링할 수 있습니다. 이러한 데이터에는 합계, 평균 및 기타 통계가 포함될 수 있습니다. 최종 사용자는 필요에 따라 끌어서 놓기 작업으로 피벗 테이블 레이아웃을 수정할 수 있습니다.
+
+{Platform} Pivot Grid는 피벗 테이블로 데이터를 표시하며, 사용자가 제공된 데이터 세트에 대해 복잡한 분석을 수행하도록 돕습니다. 이 정교한 Pivot Grid 컨트롤은 방대한 양의 데이터를 정리, 요약, 필터링하는 데 사용되며, 그 결과는 나중에 교차 표 형식으로 표시됩니다. {Platform} Pivot Grid의 핵심 기능은 행 차원, 열 차원, 집계, 필터입니다.
+
+<ApiLink type="PivotGrid" />은(는) 사용자가 다차원 피벗 테이블 구조로 데이터를 구성하고 표시할 수 있게 합니다.
+행과 열은 서로 다른 데이터 그룹을 나타내고, 데이터 셀 값은 집계를 나타냅니다. 이를 통해 단순한 평면 데이터 세트를 기반으로 복잡한 데이터 분석을 할 수 있습니다. <ApiLink type="PivotGrid" />은(는) 다양한 차원과 값을 쉽게 구성할 수 있고, 필터링과 정렬 같은 추가 데이터 작업도 제공하는 기능이 풍부한 피벗 테이블입니다.
+
+## {Platform} 피벗 그리드 예제
+
+다음은 {Platform} 피벗 데이터 선택기 컴포넌트와 함께 사용하는 {Platform} Pivot Grid 예제입니다. 이렇게 하면 더 유연한 런타임 구성 옵션을 제공할 수 있습니다.
+
+<Sample src="/{PivotGridSample}/data-selector" height={700} alt="{Platform} 피벗 그리드와 피벗 선택기 예제" />
+
+## {Platform} 피벗 그리드 시작하기
+
+{Platform} {PivotGridName}는 <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" /> 속성을 통해 구성할 수 있습니다.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-pivot-grid #grid1 [data]="data" [pivotConfiguration]="pivotConfigHierarchy">
+</igx-pivot-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-pivot-grid #grid1 data="data" pivot-configuration="pivotConfigHierarchy">
+</igc-pivot-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbPivotGrid PivotConfiguration="PivotConfiguration" Data="PivotData">
+</IgbPivotGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrPivotGrid data={pivotData} pivotConfiguration={pivotConfiguration}>
+</IgrPivotGrid>
+```
+
+</PlatformBlock>
+
+이는 **행**, **열**, **값**의 세 가지 주요 차원으로 정의됩니다. **행**과 **열**은 그리드의 행과 열에 표시되는 그룹화된 구조를 정의합니다. **값**은 집계 필드와, 그룹의 관련 값을 계산하고 표시하는 데 사용될 집계를 정의합니다.
+
+차원이나 값으로 추가하지는 않지만 UI를 통해 해당 멤버 값을 필터링하고 싶은 필드에 대해서는 **filters** 구성 속성으로 필터를 정의할 수도 있습니다.
+
+### 차원 구성
+
+각 기본 차원 구성에는 제공된 **데이터**의 필드와 일치하는 <ApiLink type="PivotDimension" member="memberName" label="MemberName" />가 필요합니다.
+
+여러 개의 형제 차원을 정의할 수 있으며, 이는 관련 행 또는 열 차원 영역에 더 복잡한 중첩 그룹을 만듭니다.
+
+차원은 해당 칩을 끌어서 놓기로 순서를 바꾸거나 한 영역에서 다른 영역으로 옮길 수 있습니다.
+
+차원은 <ApiLink type="PivotDimension" member="childLevel" label="ChildLevel" /> 속성을 통해 확장 가능한 계층을 설명할 수도 있습니다. 예를 들어:
+<PlatformBlock for="React">
+
+```tsx
+const dimension: IgrPivotDimension = {
+  memberName: "AllProducts",
+  enabled: true,
+  childLevel: {
+    memberName: "ProductCategory",
+    enabled: true
+  }
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+
+```typescript
+{
+  memberFunction: () => 'All',
+  memberName: 'AllProducts',
+  enabled: true,
+  childLevel: {
+    memberFunction: (data) => data.ProductCategory,
+    memberName: 'ProductCategory',
+    enabled: true
+  }
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  var pivotConfiguration = new IgbPivotConfiguration();
+  pivotConfiguration.Rows.Add(new IgbPivotDimension()
+  {
+    MemberName = "Product",
+    Enabled = true,
+    Name = "pivotDimension1",
+    ChildLevel = new IgbPivotDimension() { MemberName = "Country", Enabled = true, Name = "pivotDimension2" }
+  });
+}
+```
+
+</PlatformBlock>
+이 경우 차원은 그리드의 관련 섹션(행 또는 열)에 확장 도구를 렌더링하고, 하위 항목을 계층 구조의 일부로 펼치거나 접을 수 있게 합니다. 기본적으로 행 차원은 처음에 펼쳐져 있습니다. 이 동작은 Pivot Grid의 <ApiLink type="PivotGrid" member="defaultExpandState" label="DefaultExpandState" /> 속성으로 제어할 수 있습니다.
+
+### 미리 정의된 차원
+
+Pivot Grid의 일부로 구성을 쉽게 하기 위해 몇 가지 추가 미리 정의된 차원이 노출됩니다.
+
+<ApiLink type="PivotDateDimension" />은(는) 날짜 필드에 사용할 수 있습니다. 기본적으로 다음 계층을 설명합니다:
+
+- 모든 기간
+- 연도
+- 분기
+- 월
+- 전체 날짜
+
+행이나 열에 설정할 수 있습니다. 예를 들어:
+<PlatformBlock for="React">
+
+```ts
+const pivotConfiguration: IgrPivotConfiguration = {
+  columns: [
+    new IgrPivotDateDimension({
+      enabled: true,
+      memberName: "Date",
+    })
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  rows: [
+    new IgxPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  rows: [
+    new IgcPivotDateDimension({ memberName: 'Date', enabled: true });
+  ]
+}
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotDateDimension dateDim = new IgbPivotDateDimension();
+  dateDim.BaseDimension = new IgbPivotDimension()
+    {
+      MemberName = "Date",
+      Enabled = true
+    };
+  _config.Rows.Add(dateDim);
+}
+```
+
+</PlatformBlock>
+
+두 번째 옵션 매개변수를 통해 추가로 사용자 지정할 수도 있어, 계층의 특정 부분을 활성화하거나 비활성화할 수 있습니다. 예를 들어:
+<PlatformBlock for="Angular">
+
+```typescript
+new IgxPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="React">
+
+```tsx
+new IgrPivotDateDimension({
+  enabled: true,
+  memberName: "Date",
+}, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+new IgcPivotDateDimension({ memberName: 'Date', enabled: true }, {
+  total: true,
+  years: true,
+  months: true,
+  fullDate: true,
+  quarters: false
+});
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotDateDimension dateDim = new IgbPivotDateDimension();
+  dateDim.BaseDimension = new IgbPivotDimension()
+    {
+      MemberName = "Date",
+      Enabled = true
+    };
+  dateDim.Options = new IgbPivotDateDimensionOptions()
+    {
+      Years = true,
+      Months = true,
+      FullDate = true,
+      Quarters = true
+    };
+  _config.Rows.Add(dateDim);
+}
+```
+
+</PlatformBlock>
+### 값 구성
+
+값 구성에는 제공된 **데이터**의 필드와 일치하는 **멤버**가 필요하거나, 더 복잡한 사용자 지정 시나리오를 위해 사용자 지정 **집계** 함수를 정의할 수 있습니다. 기본으로 4개의 미리 정의된 집계가 있으며, 데이터 필드의 데이터 유형에 따라 사용할 수 있습니다:
+
+- `PivotNumericAggregate` - 숫자 필드용입니다.
+  다음 집계 함수를 포함합니다: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`.
+- `PivotDateAggregate` - 날짜 필드용입니다.
+  다음 집계 함수를 포함합니다: `LATEST`, `EARLIEST`, `COUNT`.
+- `PivotTimeAggregate` - 시간 필드용입니다.
+  다음 집계 함수를 포함합니다: `LATEST`, `EARLIEST`, `COUNT`.
+- `PivotAggregate` - 그 밖의 모든 데이터 유형용입니다. 기본 집계입니다.
+  다음 집계 함수를 포함합니다: `COUNT`.
+
+현재 집계 함수는 값 칩의 드롭다운을 사용하여 실행 중에 바꿀 수 있습니다. 기본적으로 필드의 데이터 유형에 따라 사용 가능한 집계 목록을 표시합니다. <ApiLink type="PivotValue" member="aggregateList" label="AggregateList" /> 속성으로 사용자 지정 집계 목록을 설정할 수도 있습니다. 예를 들어:
+<PlatformBlock for="React">
+
+```typescript
+const totalSale = (members: any, data: any) => data.reduce((accumulator:any, value: any) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+const totalMin = (members: any, data: any) => {
+  return data.map((x:any) => x.UnitPrice * x.UnitsSold).reduce((a:number, b:number) => Math.min(a, b));
+};
+
+const totalMax = (members: any, data: any) => {
+  return data.map((x:any) => x.UnitPrice * x.UnitsSold).reduce((a:number, b:number) => Math.max(a,b));
+};
+
+const pivotConfiguration: IgrPivotConfiguration = {
+  values: [
+    {
+      enabled: true,
+      member: "AmountofSale",
+      displayName: "Amount of Sale",
+      aggregate: {
+          aggregatorName: "SUM",
+          key: "SUM",
+          label: "Sum of Sale",
+      },
+      aggregateList: [{
+          key: 'SUM',
+          aggregator: totalSale,
+          label: 'Sum of Sale'
+      }, {
+          key: 'MIN',
+          aggregator: totalMin,
+          label: 'Minimum of Sale'
+      }, {
+          key: 'MAX',
+          aggregator: totalMax,
+          label: 'Maximum of Sale'
+      }]
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+          key: 'SUM',
+          aggregator: IgxTotalSaleAggregate.totalSale,
+          label: 'Sum of Sale'
+      },
+      aggregateList: [{
+          key: 'SUM',
+          aggregator: IgxTotalSaleAggregate.totalSale,
+          label: 'Sum of Sale'
+      }, {
+          key: 'MIN',
+          aggregator: IgxTotalSaleAggregate.totalMin,
+          label: 'Minimum of Sale'
+      }, {
+          key: 'MAX',
+          aggregator: IgxTotalSaleAggregate.totalMax,
+          label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  values: [
+    {
+      member: 'AmountOfSale',
+      displayName: 'Amount of Sale',
+      aggregate: {
+        key: 'SUM',
+        aggregator: IgcTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      },
+      aggregateList: [{
+        key: 'SUM',
+        aggregator: IgcTotalSaleAggregate.totalSale,
+        label: 'Sum of Sale'
+      }, {
+        key: 'MIN',
+        aggregator: IgcTotalSaleAggregate.totalMin,
+        label: 'Minimum of Sale'
+      }, {
+        key: 'MAX',
+        aggregator: IgcTotalSaleAggregate.totalMax,
+        label: 'Maximum of Sale'
+      }]
+    }
+  ]
+}
+
+public static totalSale: PivotAggregation = (members, data: any) =>
+  data.reduce((accumulator, value) => accumulator + value.UnitPrice * value.UnitsSold, 0);
+
+public static totalMin: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.min(a, b));
+};
+
+public static totalMax: PivotAggregation = (members, data: any) => {
+  return data.map(x => x.UnitPrice * x.UnitsSold).reduce((a, b) => Math.max(a,b));
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  IgbPivotConfiguration pivotConfiguration1 = new IgbPivotConfiguration();
+  IgbPivotValue pivotValue = new IgbPivotValue()
+    {
+      Member = "Sales",
+      Name = "pivotValue1",
+      DisplayName = "Amount of Sales",
+      Enabled = true,
+      Aggregate = new IgbPivotAggregator() { Key = "sum", AggregatorName = PivotAggregationType.SUM, Label = "Sum of Sales" }
+    };
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "sum", AggregatorName = PivotAggregationType.SUM, Label = "Sum of Sales" });
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "min", AggregatorName = PivotAggregationType.MIN, Label = "Minimum of Sales" });
+  pivotValue.AggregateList.Add(new IgbPivotAggregator() { Key = "max", AggregatorName = PivotAggregationType.MAX, Label = "Maximum of Sales" });
+  pivotConfiguration1.Values.Add(pivotValue);
+```
+
+</PlatformBlock>
+
+피벗 값에는 <ApiLink type="PivotDimension" member="displayName" label="DisplayName" /> 속성도 있습니다. 이는 열 머리글에 이 값의 사용자 지정 이름을 표시하는 데 사용할 수 있습니다.
+
+### 활성화 속성
+
+<ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />은 <ApiLink type="PivotGrid" /> 컴포넌트의 현재 상태를 설명하는 인터페이스입니다. 이를 통해 개발자는 데이터의 필드를 **행**, **열**, **필터** 또는 **값**으로 선언할 수 있습니다. 구성을 통해 각 요소를 개별적으로 활성화하거나 비활성화할 수 있습니다. 활성화된 요소만 Pivot Grid의 현재 상태에 포함됩니다. <ApiLink type="PivotDataSelector" /> 컴포넌트도 같은 구성을 사용하며, 활성화된 항목과 비활성화된 항목을 포함한 모든 요소의 목록을 표시합니다. 각 항목에는 적절한 상태의 체크박스가 있습니다. 최종 사용자는 이 체크박스를 사용하여 여러 요소를 전환함으로써 피벗 상태를 쉽게 조정할 수 있습니다.
+`Enable` 속성은 주어진 <ApiLink type="PivotDimension" /> 또는 <ApiLink type="PivotValue" />이 활성 상태인지, 그리고 Pivot Grid가 렌더링하는 피벗 뷰에 참여하는지를 제어합니다.
+
+### 전체 구성 코드
+
+기본 피벗 구성을 살펴보겠습니다:
+<PlatformBlock for="React">
+
+```tsx
+const pivotConfiguration1: IgrPivotConfiguration = {
+  columns: [
+    new IgrPivotDateDimension({
+      enabled: true,
+      memberName: "Date",
+    })
+  ],
+  rows: [
+    {
+      enabled: true,
+      memberName: "SellerCity"
+    },
+    {
+      enabled: true,
+      memberName: "ProductName"
+    }
+  ],
+  filters: [
+    {
+      enabled: true,
+      memberName: "SellerName"
+    }
+  ],
+  values: [
+    {
+      member: "ProductUnitPrice",
+      displayName: "Amount of Sale",
+      dataType: "currency",
+      enabled: true,
+      aggregate: {
+        aggregatorName: "SUM",
+        key: "SUM",
+        label: "Sum of Sale",
+      }
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Angular">
+
+```typescript
+public pivotConfigHierarchy: IPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'Product',
+      memberFunction: (data) => data.Product.Name,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'Seller',
+      memberFunction: (data) => data.Seller.Name,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'NumberOfUnits',
+      aggregate: {
+        aggregator: IgxPivotNumericAggregate.sum,
+        key: 'sum',
+        label: 'Sum'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="WebComponents">
+
+```typescript
+public pivotConfigHierarchy: IgcPivotConfiguration = {
+  columns: [
+    {
+      memberName: 'ProductName',
+      memberFunction: (data) => data.ProductName,
+      enabled: true
+    },
+    {
+      memberName: 'SellerCity',
+      memberFunction: (data) => data.SellerCity,
+      enabled: true
+    }
+  ],
+  rows: [
+    {
+      memberName: 'SellerName',
+      memberFunction: (data) => data.SellerName,
+      enabled: true,
+    }
+  ],
+  values: [
+    {
+      member: 'AmountofSale',
+      displayName: "Amount of Sale",
+      aggregate: {
+        aggregator: IgcPivotNumericAggregate.sum,
+        key: 'SUM',
+        label: 'Sum of Sale'
+      },
+      enabled: true
+    }
+  ]
+};
+```
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+```csharp
+IgbPivotConfiguration pivotConfiguration = new IgbPivotConfiguration();
+pivotConfiguration.Rows.Add(new IgbPivotDimension()
+  {
+    MemberName = "SellerName",
+    Enabled = true,
+    Name = "pivotDimension1"
+  });
+pivotConfiguration.Columns.Add(new IgbPivotDimension()
+  {
+    MemberName = "ProductName",
+    Enabled = true,
+    Name = "pivotDimension2"
+  });
+pivotConfiguration.Columns.Add(new IgbPivotDimension()
+  {
+    MemberName = "SellerCity",
+    Enabled = true,
+    Name = "pivotDimension2"
+  });
+pivotConfiguration.Values.Add(new IgbPivotValue()
+  {
+    Member = "AmountofSale",
+    Name = "pivotValue1",
+    Enabled = true,
+    Aggregate = new IgbPivotAggregator() { Key = "SUM", AggregatorName = PivotAggregationType.SUM, Label = "Sum" }
+  });
+```
+
+</PlatformBlock>
+
+이 구성은 행 1개, 열 1개, 그리고 각 차원 그룹의 값을 합산하는 집계 1개를 정의합니다.
+멤버는 제공된 데이터 소스에서 사용할 수 있는 필드와 일치합니다:
+
+<PlatformBlock for="WebComponents">
+```typescript
+public data = [
+[
+  {
+    ProductName: `Clothing`,
+    ProductUnitPrice: 12.8,
+    SellerName: `Stanley Brooker`,
+    SellerCity: `Seattle`,
+    Date: `2007-01-01T00:00:00`,
+    Value: 94.4,
+    NumberOfUnits: 282
+  },
+];
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+public PivotDataFlat()
+{
+  this.Add(new PivotDataFlatItem()
+  {
+    ProductName = @"Clothing",
+    ProductUnitPrice = 12.8,
+    SellerName = @"Stanley Brooker",
+    SellerCity = @"Seattle",
+    Date = @"2007-01-01T00:00:00",
+    Value = 94.4,
+    NumberOfUnits = 282
+  });
+```
+
+</PlatformBlock>
+
+### 전체 구성 예제
+
+위 코드를 사용하면 고유한 Date 열, Product Name, Seller City를 고유한 행으로 그룹화하고, 관련 셀에 판매량에 대한 해당 집계를 표시하는 다음 예제가 만들어집니다:
+
+<Sample src="/{PivotGridSample}/features" height={700} alt="{Platform} 피벗 그리드 기본 기능 예제" />
+
+
+### 구성 자동 생성
+<ApiLink type="PivotGrid" member="autoGenerateConfig" label="AutoGenerateConfig" /> 속성은 데이터 소스 필드를 기반으로 차원과 값을 자동으로 생성합니다:
+
+- 숫자 필드:
+  - `PivotNumericAggregate.sum` 집계기를 사용하여 <ApiLink type="PivotValue" />(으)로 생성됩니다.
+  - 값 컬렉션에 추가되며 기본적으로 활성화됩니다.
+
+- 숫자가 아닌 필드:
+  - <ApiLink type="PivotDimension" />(으)로 생성됩니다.
+  - 기본적으로 비활성화되어 있습니다.
+  - 열 컬렉션에 추가됩니다.
+
+- 날짜 필드(첫 번째 `date` 필드만 활성화되고, 다른 `date` 필드는 숫자가 아닌 필드 규칙을 적용합니다):
+  - <ApiLink type="PivotDateDimension" />(으)로 생성됩니다
+  - 기본적으로 활성화됩니다
+  - 행 컬렉션에 추가됩니다.
+
+이 기능을 사용하면 개발자는 차원과 값을 수동으로 지정하지 않고도 피벗 보기를 빠르게 만들 수 있습니다. 피벗 그리드 옆의 피벗 선택기를 사용하면 사용자가 필요에 따라 차원과 값을 활성화하고 순서를 바꿀 수 있습니다.
+
+### 피벗 값 계산 키
+
+피벗 그리드는 피벗 계산에 사용하는 객체 키 필드를 사용자 지정할 수 있도록 합니다.
+이것이 어떻게 사용되는지에 대한 자세한 내용은 이미 집계된 값을 보여 주는 아래 예제 데이터에서 확인할 수 있습니다:
+
+```json
+[
+  {
+    ProductCategory: 'All', AllProducts: 'All Products', All: 1000, 'All-Bulgaria': 774, 'All-USA': 829, 'All-Uruguay': 524,
+    AllProducts_records: [
+      { ProductCategory: 'Clothing', 'All-Bulgaria': 774, 'All-USA': 296, 'All-Uruguay': 456 },
+      { ProductCategory: 'Bikes', 'All-Uruguay': 68 },
+      { ProductCategory: 'Accessories', 'All-USA': 293 },
+      { ProductCategory: 'Components', 'All-USA': 240 }
+    ]
+  }
+];
+```
+
+이들은 모두 <ApiLink type="PivotGrid" member="pivotConfiguration" label="PivotConfiguration" />의 일부인 **pivotKeys** 속성에 저장되며, 기본 피벗 키를 바꾸는 데 사용할 수 있습니다.
+- **children** - 계층 구성을 위해 하위 항목을 저장하는 필드입니다. 그룹화된 값과 그 값을 기반으로 하는 모든 pivotGridRecords 사이의 맵을 나타냅니다. 계층을 만드는 동안 무언가를 해야 하는 매우 특정한 시나리오에서만 활용할 수 있습니다. 일반적인 용도에서는 변경할 필요가 없습니다.
+- **records** - 원본 데이터 레코드에 대한 참조를 저장하는 필드입니다. 위 예제에서 **AllProducts_records**로 볼 수 있습니다. 이 속성과 같은 이름의 필드를 데이터에 설정하지 마십시오. 데이터 레코드에 **records** 속성이 있다면, **pivotKeys**를 사용하여 다른 고유한 값을 지정할 수 있습니다.
+- **aggregations** - 집계 값을 저장하는 필드입니다. 계층을 만드는 동안 적용되며, 일반적인 시나리오에서는 변경하지 않아야 합니다.
+- **level** - 계층 구조에 따른 차원 수준을 저장하는 필드입니다. 이 속성과 같은 이름의 필드를 데이터에 설정하지 마십시오. 데이터 레코드에 **level** 속성이 있다면, **pivotKeys**를 사용하여 다른 고유한 값을 지정할 수 있습니다.
+- **columnDimensionSeparator** - 고유한 열 필드 값을 생성할 때 사용되는 구분자입니다. 예시 값 **All-Bulgaria**에서의 대시(**-**)입니다.
+- **rowDimensionSeparator** - 고유한 행 필드 값을 생성할 때 사용되는 구분자입니다. **records** 및 **level** 필드를 만들 때 사용됩니다.
+
+기본값은 다음과 같습니다:
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+{
+  aggregations: 'aggregations',
+  records: 'records',
+  children: 'children',
+  level: 'level',
+  rowDimensionSeparator: '_',
+  columnDimensionSeparator: '-'
+};
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+  {
+    aggregations: 'aggregations',
+    records: 'records',
+    children: 'children',
+    level: 'level',
+    rowDimensionSeparator: '_',
+    columnDimensionSeparator: '-'
+  };
+}
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+데이터 필드 값에 기본 키가 포함되어 있다면, 구분자를 현재 사용하지 않는 다른 기호로 반드시 바꾸십시오. 그렇지 않으면 집계 값을 계산하고 표시하는 과정에서 예기치 않은 동작이 발생할 수 있습니다.
+</DocsAside>
+<PlatformBlock for="Blazor">
+
+Blazor에서 <ApiLink type="PivotConfiguration" member="pivotKeys" label="PivotKeys" />를 재정의할 때는, 새 PivotKeys 객체를 할당하면 기본값이 완전히 대체되므로 현재 다른 모든 키를 정의해야 합니다:
+
+```razor
+@code {
+  var pivotConfiguration = new IgbPivotConfiguration();
+  pivotConfiguration.PivotKeys = new IgbPivotKeys()
+  {
+    Aggregations = "aggregations",
+    Records = "records",
+    Children = "children",
+    Level = "level",
+    RowDimensionSeparator = "_",
+    ColumnDimensionSeparator = "^"
+  };
+}
+```
+
+</PlatformBlock>
+
+## 스타일링
+
+{Platform} Pivot Grid는 기본 그리드와 같은 CSS 속성을 공유합니다. 스타일을 지정하려면 원하는 속성 값을 설정하고 이를 Pivot Grid 컴포넌트에 범위 지정하기만 하면 됩니다. 몇 가지 색상만으로 완전한 테마를 만드는 방법은 [테마 지정 항목](../_shared/theming.mdx)을 참조하십시오.
+
+```css
+igc-pivot-grid {
+  --header-background: #3b3a3a;
+  --header-text-color: #ffcd0f;
+  --content-background: #494949;
+  --content-text-color: #ffcd0f;
+  --row-odd-background: #494949;
+  --row-even-background: #494949;
+  --row-hover-background: #3b3a3a;
+  --row-hover-text-color: #ffcd0f;
+}
+```
+
+<Sample src="/{PivotGridSample}/styling" height={700} alt="{Platform} 피벗 그리드 스타일 지정" />
+
+## 알려진 문제와 제한 사항
+
+|제한 사항|설명|
+|--- |--- |
+| 열을 선언적으로 설정하는 것은 지원되지 않습니다. | Pivot grid는 <ApiLink type="PivotGrid" member="columns" label="Columns" /> 구성을 기반으로 열을 생성하므로, 기본 그리드처럼 선언적으로 설정하는 것은 지원되지 않습니다. 이러한 열은 무시됩니다. |
+| 차원/값에 중복된 <ApiLink type="PivotDimension" member="memberName" label="MemberName" /> 또는 <ApiLink type="PivotValue" member="member" label="Member" /> 속성 값을 설정하는 경우. | 이 속성들은 각 차원/값마다 고유해야 합니다. 중복되면 최종 결과에서 데이터가 손실될 수 있습니다. |
+| 행 선택은 **Single** 모드에서만 지원됩니다. | 다중 선택은 현재 지원되지 않습니다. |
+
+<PlatformBlock for="Angular">
+| 차원 멤버 병합은 대소문자를 구분합니다| Pivot Grid는 그룹을 만들고 (대소문자를 구분하여) 같은 값을 병합합니다. 하지만 차원은 <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" />를 제공하며, 이는 거기에서 바꿀 수 있고, <ApiLink type="PivotDimension" member="memberFunction" label="MemberFunction" />의 결과가 비교되어 표시 값으로 사용됩니다.|
+</PlatformBlock>
+## API 참조
+
+<ApiLink type="PivotConfiguration" /><br />
+<ApiLink type="PivotGrid" /><br />
+<ApiLink type="PivotDataSelector" /><br />
+<ApiLink type="PivotDateDimensionOptions" /><br />
+<ApiLink type="Column" /><br />
+
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [{ProductName} **포럼**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

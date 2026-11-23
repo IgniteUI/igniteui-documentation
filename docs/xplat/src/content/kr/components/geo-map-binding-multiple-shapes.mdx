@@ -1,0 +1,216 @@
+---
+title: "{Platform} 지도 | 데이터 시각화 도구 | 여러 데이터 도형 바인딩 | Infragistics"
+description: "Infragistics {Platform}를 사용하여 여러 지리 시리즈 객체를 추가하면 지리 공간 데이터가 있는 셰이프 파일 몇 개를 겹쳐 놓을 수 있습니다. {ProductName} 지도 튜토리얼을 확인하십시오!"
+keywords: "{Platform} 지도, 셰이프 파일, {ProductName}, Infragistics, 데이터 바인딩"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+namespace: Infragistics.Controls.Maps
+_language: ko
+llms:
+  description: "{ProductName} 지도에서는 여러 지리 시리즈 객체를 추가하여 지리 공간 데이터가 있는 셰이프 파일 몇 개를 겹쳐 놓을 수 있습니다."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 여러 셰이프 파일 바인딩 및 겹쳐 놓기
+
+{ProductName} 지도에서는 여러 지리 시리즈 객체를 추가하여 지리 공간 데이터가 있는 셰이프 파일 몇 개를 겹쳐 놓을 수 있습니다. 예를 들어 항구의 지리적 위치를 플롯하는 `GeographicSymbolSeries`, 항구 사이의 경로를 플롯하는 `GeographicPolylineSeries`, 국가의 모양을 플롯하는 `GeographicShapeSeries`를 사용할 수 있습니다.
+
+## {Platform} 여러 셰이프 파일 바인딩 및 겹쳐 놓기 예제
+
+
+<Sample src="/maps/geo-map/binding-multiple-shapes" height={500} alt="{Platform} 여러 셰이프 파일 바인딩 및 겹쳐 놓기 예제" />
+
+
+
+
+이 항목은 지도 컴포넌트에 여러 지리 시리즈를 표시하는 과정을 단계별로 안내합니다. 모든 지리 시리즈는 `ShapefileRecord` 클래스를 사용하여 셰이프 파일에서 불러온 다음 지리 공간 데이터를 플롯합니다. `ShapefileRecord` 객체에 대한 자세한 정보는 [셰이프 파일 바인딩](./geo-map-binding-shp-file.mdx) 항목을 참조하십시오.
+
+- `GeographicSymbolSeries` - 주요 도시의 위치를 표시합니다
+- `GeographicPolylineSeries` - 주요 항구 사이의 경로를 표시합니다
+- `GeographicShapeSeries` - 세계 국가의 모양을 표시합니다
+
+위 또는 다른 조합으로 지리 시리즈를 사용하여 원하는 데이터를 플롯할 수 있습니다.
+
+## 컴포넌트 가져오기
+
+먼저 필요한 컴포넌트와 모듈을 가져옵시다:
+
+```json-snippet id="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="bindingImports,handlersImports"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true,
+            "series": [
+                {
+                    "type": "GeographicShapeSeries",
+                    "name": "polygonSeries",
+                    "shapeMemberPath": "points",
+                    "shapeFill": "rgb(150, 150, 150)",
+                    "shapeStroke": "Black",
+                    "shapeStrokeThickness": 1
+                },
+                {
+                    "type": "GeographicPolylineSeries",
+                    "name": "lineSeries",
+                    "shapeMemberPath": "points",
+                    "shapeStroke": "rgba(147, 15, 180, 0.5)",
+                    "thickness": 3
+                },
+                {
+                    "type": "GeographicSymbolSeries",
+                    "name": "symbolSeries",
+                    "longitudeMemberPath": "longitude",
+                    "latitudeMemberPath": "latitude",
+                    "markerType": "Circle",
+                    "markerOutline": "rgb(2, 102, 196)",
+                    "markerBrush": "White"
+                }
+            ]
+        }
+    },
+    "onViewInit": [
+        "MapMultipleShapesLoad"
+    ]
+}
+```
+
+<PlatformBlock for="Blazor">
+
+패닝과 줌 같은 지도의 마우스 상호 작용은 <ApiLink raw type="DataChartInteractivityModule" />에서 오며, 이는 어떤 컴포넌트도 단독으로 요청하지 않으므로 등록해야 합니다. <ApiLink raw type="GeographicMapModule" />는 선택 사항입니다. `GeographicMap`가 처음 렌더링될 때 이를 로드하기 때문입니다([컴포넌트 모듈](general-getting-started.mdx#컴포넌트-모듈) 참조).
+
+</PlatformBlock>
+
+```json-snippet source="/maps/geo-map/binding-multiple-shapes" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap"
+        }
+    },
+    "modules": [
+        "maps/GeographicMapModule",
+        "charts/DataChartInteractivityModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+
+## 시리즈 만들기
+
+다음으로, 나중에 서로 다른 유형의 셰이프 파일을 불러올 몇 개의 지리 시리즈가 있는 지도를 만들어야 합니다.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes"
+```
+
+
+## 셰이프 파일 불러오기
+
+다음으로 페이지의 생성자에 지리 맵 컴포넌트에 표시하려는 셰이프 파일마다 `ShapefileRecord`를 추가하십시오. 각 소스에는 레코드를 데이터로 바꾸는 메서드가 주어지며, 이 메서드들은 `\MapMultipleShapesReaders` 클래스에 속하고, 아래 섹션에서 각각을 보여 드립니다.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="handlersImports...handler" item="MapMultipleShapesLoad"
+```
+
+## 다각형 처리하기
+
+`ShapefileRecord`에서 불러온 세계 국가의 도형 데이터를 처리하고 `GeographicShapeSeries` 객체에 할당하십시오.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPolygons" item="MapMultipleShapesReaders"
+```
+
+## 폴리라인 처리하기
+
+`ShapefileRecord`에서 불러온 주요 도시 간 통신 경로의 도형 데이터를 처리하고 `GeographicPolylineSeries` 객체에 할당하십시오.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPolylines" item="MapMultipleShapesReaders"
+```
+
+## 점 처리하기
+
+`ShapefileRecord`에서 불러온 주요 도시의 위치 도형 데이터를 처리하고 `GeographicSymbolSeries` 객체에 할당하십시오.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPoints" item="MapMultipleShapesReaders"
+```
+
+## 지도 배경
+
+또한 셰이프 파일이 애플리케이션에 충분한 지리적 맥락(예: 국가의 모양)을 제공한다면, 지도 배경 콘텐츠에서 지리 이미지를 숨기고 싶을 수 있습니다.
+
+```json-snippet code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "backgroundContent": null
+}
+```
+
+
+## 요약
+
+편의를 위해 위의 모든 코드 조각을 하나의 코드 블록으로 합쳤으며, 프로젝트에 쉽게 복사할 수 있습니다.
+
+```json-snippet id="multiShapesAll" source="/maps/geo-map/binding-multiple-shapes"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true,
+            "series": [
+                {
+                    "type": "GeographicShapeSeries",
+                    "name": "polygonSeries",
+                    "shapeMemberPath": "points",
+                    "shapeFill": "rgb(150, 150, 150)",
+                    "shapeStroke": "Black",
+                    "shapeStrokeThickness": 1
+                },
+                {
+                    "type": "GeographicPolylineSeries",
+                    "name": "lineSeries",
+                    "shapeMemberPath": "points",
+                    "shapeStroke": "rgba(147, 15, 180, 0.5)",
+                    "thickness": 3
+                },
+                {
+                    "type": "GeographicSymbolSeries",
+                    "name": "symbolSeries",
+                    "longitudeMemberPath": "longitude",
+                    "latitudeMemberPath": "latitude",
+                    "markerType": "Circle",
+                    "markerOutline": "rgb(2, 102, 196)",
+                    "markerBrush": "White"
+                }
+            ]
+        }
+    },
+    "onViewInit": [
+        "MapMultipleShapesLoad"
+    ]
+}
+```
+
+```json-snippet ref="multiShapesAll" source="/maps/geo-map/binding-multiple-shapes" channel="handlersImports...handler"
+```
+
+
+## API 참조
+`GeographicPolylineSeries`
+`GeographicShapeSeries`
+`GeographicSymbolSeries`
+`ShapefileRecord`

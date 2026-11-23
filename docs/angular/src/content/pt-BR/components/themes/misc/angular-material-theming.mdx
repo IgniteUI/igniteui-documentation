@@ -1,0 +1,430 @@
+---
+title: "Temas do Angular Material"
+description: "O mecanismo de temas do Ignite UI for Angular facilita o uso conjunto com componentes externos importados de outras bibliotecas de temas, como a biblioteca Angular Material."
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, temas, Angular Material, componentes Material"
+_language: pt-BR
+llms:
+  description: "O mecanismo de temas do Ignite UI for Angular facilita o uso conjunto com componentes externos importados de outras bibliotecas de temas, como a biblioteca Angular Material."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import materialNav from '../../../images/material-nav.png';
+import igniteuiDialog from '../../../images/igniteui-dialog.png';
+import igxExpansionPanel from '../../../images/igx-expansion-panel.png';
+import materialDark from '../../../images/material-dark.png';
+
+# Temas do Angular Material
+
+<div class="highlight">
+
+O mecanismo de temas do Ignite UI for Angular facilita o uso conjunto com componentes externos importados de outras bibliotecas de temas, como a biblioteca [`Angular Material`](https://material.angular.io/).
+</div>
+<hr/>
+
+## Visão geral do Ignite UI e do Angular Material
+
+O Angular Material é uma biblioteca de componentes de UI para aplicações web Angular para dispositivos móveis e desktop. Ele inclui vários temas prontos e um grande número de componentes baseados em [`Material Design specification`](https://material.io/components).
+
+O Ignite UI for Angular é um conjunto completo de widgets de UI, componentes e kits de UI do Figma baseados em Material, além de diretivas de suporte para Angular, que permitem aos desenvolvedores criar aplicações modernas e de alto desempenho. Nosso mecanismo de temas é fácil de usar e permite granularidade de tema em diferentes níveis, desde um único componente, vários componentes ou todo o conjunto. Além disso, ele pode ser usado para estilizar componentes de outras bibliotecas de temas com muito pouco esforço.
+
+O artigo a seguir demonstra como usar componentes do Ignite UI e do Angular Material em uma mesma aplicação e como estilizá-los para que tenham aparência semelhante.
+
+## Exemplo de temas do Angular Material
+
+<Sample src="/theming/angular-sample" height={1100} alt="" />
+
+<hr/>
+
+## Primeiros passos com o Ignite UI e o Angular Material
+
+### Como instalar o Angular Material
+
+Se você usa o Angular CLI e já tem um projeto Angular, pode adicionar o Angular Material com o comando abaixo:
+
+```cmd
+ng add @angular/material
+```
+
+Em seguida, você precisará escolher um dos temas prontos e definir se deseja configurar estilos globais de tipografia e animações do navegador para o Angular Material. Quando terminar essa configuração, a sua aplicação estará pronta para usar os componentes do Angular Material.
+
+Você pode encontrar mais informações sobre o uso da biblioteca Angular Material na [`official documentation`](https://material.angular.io/guide/getting-started) deles.
+
+### Como instalar o Ignite UI for Angular
+
+Para instalar o pacote do Ignite UI for Angular junto com todas as suas dependências, importações de fontes e referências de estilos, execute o seguinte comando no seu projeto:
+
+```cmd
+ng add igniteui-angular
+```
+
+Depois, você pode usar os componentes do Ignite UI importando os respectivos módulos no seu arquivo _app.module.ts_:
+
+```ts
+// manually addition of the Igx Avatar component
+import { IgxAvatarModule } from 'igniteui-angular/avatar';
+// import { IgxAvatarModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...,
+        IgxAvatarModule,
+        ...
+    ]
+)}
+```
+
+Siga o tópico [`Getting Started`](/general/getting-started) para uma introdução completa ao uso do Ignite UI for Angular em projetos existentes. Mais informações sobre como importar e usar cada um dos nossos componentes, com exemplos guiados, podem ser encontradas na documentação do componente.
+
+## Componentes do Ignite UI e do Angular Material
+
+Vamos ver como é feito o nosso exemplo de demonstração. Ele é uma mistura de componentes do Ignite UI e do Angular Material, estilizados para se encaixar bem em uma única aplicação. A navegação no nosso exemplo é criada usando o [`mat-toolbar`](https://material.angular.io/components/toolbar/overview) do material, junto com <ApiLink type="ButtonDirective" label="igx-buttons" /> e <ApiLink type="Avatar" label="igx-avatar" />. O [`menu`](https://material.angular.io/components/menu/overview) abaixo do botão Campaigns também vem da biblioteca Angular Material. Abaixo da navegação, usamos o componente <ApiLink type="Card" label="igx-card" /> para exibir algumas estatísticas. Dentro dos cards, colocamos vários itens — <ApiLink type="Avatar" label="igx-avatars" /> e <ApiLink type="Icon" label="igx-icons" />, bem como [`buttons`](https://material.angular.io/components/button/overview) do material.
+
+<Image src={materialNav} alt="Navegação com componentes do Angular Material" width="100%" />
+
+Ao clicar nos botões `More`, você verá o <ApiLink type="Dialog" label="igx-dialog" />:
+
+<Image src={igniteuiDialog} alt="Dialog do Ignite UI for Angular" width="100%" />
+
+Em seguida, adicionamos um <ApiLink type="ExpansionPanel" label="igx-expansion-panel" /> que mostra informações sobre alguns cartões de crédito. No seu conteúdo, há [`mat-sliders`](https://material.angular.io/components/slider/overview), um <ApiLink type="Divider" label="igx-divider" /> e um [`mat-stepper`](https://material.angular.io/components/stepper/overview) com [`mat-form-fields`](https://material.angular.io/components/form-field/overview).
+
+<Image src={igxExpansionPanel} alt="Expansion Panel do Ignite UI for Angular" width="100%" />
+
+Por fim, inserimos um <ApiLink type="IconButtonDirective" label="botão de ícone" /> do Ignite UI for Angular no canto superior direito, que altera o tema de todo o aplicativo:
+
+<Image src={materialDark} alt="Tema da variante escura" width="100%" />
+
+## Estilizando componentes Angular
+
+Para começar a estilizar componentes usando o mecanismo de temas do Ignite UI, crie um arquivo scss com o nome que preferir, que será o arquivo base do seu tema global. Vamos chamar este arquivo de `_variables.scss`. Em seguida, precisamos importar os arquivos `index` do Ignite UI e do Angular Material:
+
+// _variables.scss
+
+```scss
+@use "igniteui-angular/theming" as *;
+@use "@angular/material" as mat;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### Paletas de cores
+
+A função <ApiLink kind="sass" module="palettes" type="function-palette" label="palette" code={true} /> do Ignite UI for Angular produz um mapa de paleta de cores que inclui três subpaletas para os tons `primary`, `secondary` e `gray`, além de cinco cores adicionais para `info`, `success`, `warn`, `error` e `surface`. Para cada variante de cor, nosso mecanismo de temas gera automaticamente, em tempo de execução, cores de contraste de texto, que também são incluídas na paleta. Abaixo, você pode ver a paleta material clara predefinida:
+
+```scss
+$igx-light-palette: palette(
+    $primary: #09f,
+    $secondary: #e41c77
+    $info: #1377d5,
+    $success: #4eb862,
+    $warn: #fbb13c,
+    $error: #ff134a,
+    $gray: #000,
+    $surface: #fff
+);
+```
+
+Diferentemente das paletas do Ignite UI, os mapas de paleta de cores do Angular Material incluem tons de apenas uma cor e as suas cores de contraste correspondentes. Por exemplo, podemos ver a paleta `$mat-purple`:
+
+```scss
+$light-primary-text: white;
+$dark-primary-text: rgba(black, 0.87);
+
+$mat-purple: (
+  50: #f3e5f5,
+  100: #e1bee7,
+  ...,
+  A700: #aa00ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    ...,
+    A700: $light-primary-text,
+  )
+);
+```
+
+### Gerando paletas de tema
+
+Para definir uma paleta de tema, precisamos usar a função material `define-palette`, que gera um mapa de matizes para cores. No nosso exemplo, queremos estilizar componentes do Angular Material com o tema do Ignite UI; por isso, precisamos transformar a nossa `$light-material-palette` de acordo com a estrutura deles.
+
+Para isso, vamos criar uma função Sass com parâmetros para `$color`, `$saturations` e `$palette`, que retorna um mapa de todas as variantes de cor seguidas das cores de contraste. As saturações que usamos seguem a [`Material Design color system`](https://material.io/design/color/the-color-system.html).
+
+```scss
+$saturations: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
+
+@function material-like-palette(
+    $color,
+    $saturations,
+    $palette,
+) {
+    $shade: ();
+    $contrast: ();
+    $result: ();
+    @each $saturation in $saturations {
+        $shade: map-merge($shade, (
+            $saturation: color($palette, $color, $saturation)
+        ));
+        $contrast: map-merge($contrast, (
+            $saturation: color($palette, $color, #{$saturation}-contrast)
+        ));
+        $result: map-merge($shade, (contrast: $contrast));
+    }
+
+    @return $result;
+}
+```
+
+#### Paleta do tema claro
+
+Vamos definir uma paleta de tema material primária clara usando a cor `primary` da `$igx-light-palette` do Ignite UI e a nossa função `material-like-palette` recém-criada. O resultado precisa ser passado como parâmetro para a função `define-palette`, que gerará os valores de cor para os tons `default`, `lighter`, `darker` e `text` e os adicionará ao mapa da paleta:
+
+```scss
+$light-palette-primary: mat.define-palette(
+    material-like-palette('primary', $saturations, $igx-light-palette));
+```
+
+Vamos fazer o mesmo para a paleta de destaque clara:
+
+```scss
+$light-palette-accent: mat.define-palette(
+    material-like-palette('secondary', $saturations, $igx-light-palette));
+```
+
+Por fim, estamos prontos para passar as duas paletas de cores para a função `define-light-theme`, que criará um tema do Angular Material com cores tiradas da paleta de cores material do Ignite UI:
+
+```scss
+$custom-mat-light-theme: mat.define-light-theme((
+    color: (
+        primary: $light-palette-primary,
+        accent: $light-palette-accent
+    )
+));
+```
+
+<DocsAside type="info">
+Visite a nossa seção [`palettes with Sass`](../sass/palettes.mdx) para saber mais sobre as paletas fornecidas pelo Ignite UI for Angular e aprender a criar uma nova.
+</DocsAside>
+
+#### Paleta do tema escuro
+
+Seguindo a abordagem anterior, vamos criar paletas material para o modo escuro. Desta vez, também vamos definir uma `igx-palette` personalizada:
+
+```scss
+// Custom palette
+$custom-dark-palette: palette(
+    $primary: #206094,
+    $secondary: #72da67,
+    $surface: #222,
+    $info: #1377d5,
+    $success: #4eb862,
+    $warn: #fbb13c,
+    $error: #ff134a,
+);
+
+// Material dark primary palette
+$dark-palette-primary: mat.define-palette(
+    material-like-palette('primary', $saturations, $custom-dark-palette));
+// Material dark accent palette
+$dark-palette-accent: mat.define-palette(
+    material-like-palette('secondary', $saturations, $custom-dark-palette));
+// Material dark theme
+$custom-mat-dark-theme: mat.define-dark-theme((
+    color: (
+        primary: $dark-palette-primary,
+        accent: $dark-palette-accent
+    )
+));
+```
+
+### Temas
+
+Para alternar entre o modo `light` e o `dark`, adicionamos uma classe personalizada `dark`, que será alterada ao clicar em um botão. No nosso arquivo de estilos, vamos incluir paletas de cores diferentes com escopo em cada classe.
+
+O Ignite UI for Angular vem com temas predefinidos inspirados no [Material Design](https://material.io/design). Para usá-los, primeiro você precisa incluir o nosso mixin `core` e, em seguida, o mixin de tema integrado — <ApiLink kind="sass" module="themes" type="mixin-theme" label="theme" />. Também usaremos as nossas paletas material predefinidas — <ApiLink kind="sass" module="palettes" type="variable-light-material-palette" label="$light-material-palette" /> e <ApiLink kind="sass" module="palettes" type="variable-dark-material-palette" label="$dark-material-palette" />.
+
+Para os componentes do Angular Material, também precisamos incluir o mixin `core` deles e, em seguida, o mixin `all-component-themes` com os temas material personalizados mencionados acima.
+
+```scss
+// Make sure you always include the core mixin first
+@include core();
+
+::ng-deep {
+    @include mat.core();
+    @include theme($igx-light-palette);
+    @include mat.all-component-themes($custom-mat-light-theme);
+
+    .dark {
+        @include dark-theme($custom-dark-palette);
+        @include mat.all-component-themes($custom-mat-dark-theme);
+    }
+}
+```
+
+<DocsAside type="warning">
+Certifique-se de colocar o código acima dentro do seletor `::ng-deep` para `penetrate` o encapsulamento [`Emulated`](../sass/component-themes.mdx#encapsulamento-de-visualização) de ViewEncapsulation.
+</DocsAside>
+
+#### Modo claro
+
+Quando terminarmos de configurar as paletas de cores e os temas, podemos fazer algumas alterações adicionais de cor nos componentes. A cor de fundo da aplicação precisa ser definida explicitamente no elemento host. No nosso exemplo, queremos usar a cor `surface` da paleta passada. O logotipo é uma imagem SVG; por isso, podemos alterar a sua cor facilmente usando CSS. Além disso, vamos alterar algumas das cores do componente `mat-slider` para `secondary`, para que ele se encaixe melhor na nossa aplicação:
+
+```scss
+:host {
+    &.light {
+        // The background color of the application in light mode
+        background: color($igx-light-palette, 'surface');
+
+        // The application logo fill color
+        #Path1 {
+            fill: color($igx-light-palette, 'secondary');
+        }
+
+        // The application logo stroke color
+        #Path2 {
+            stroke: color($igx-light-palette, 'secondary');
+            stroke-width: "0.8";
+        }
+    }
+
+    //  Update material slider component colors for both light and dark mode
+    .mat-mdc-slider.secondary .mdc-slider__track--inactive,
+    .mat-mdc-slider.secondary .mdc-slider__thumb-knob {
+        background-color: color($custom-mat-light-theme, 'secondary');
+    }
+
+    .mat-mdc-slider.secondary .mdc-slider__track--active_fill,
+    .mat-mdc-slider.secondary .mdc-slider__thumb-knob {
+        border-color: color($custom-mat-light-theme, 'secondary');
+    }
+
+    .mat-mdc-slider.secondary .mat-mdc-slider-visual-thumb .mat-ripple > * {
+        background-color: color($custom-mat-light-theme, 'secondary');
+        opacity: .12;
+    }
+}
+```
+
+#### Modo escuro
+
+Para a nossa variante escura, vamos aplicar os mesmos estilos CSS, mas usando a `$custom-dark-palette`. Além disso, vamos atualizar algumas das cores do componente `mat-stepper`:
+
+```scss
+:host {
+    &.dark {
+        // The background color of the application in dark mode
+        background: color($custom-dark-palette, 'surface');
+
+        // The application logo fill color
+        #Path1 {
+            fill: color($custom-dark-palette, 'secondary');
+        }
+
+        // The application logo stroke color
+        #Path2 {
+            stroke: color($custom-dark-palette, 'secondary');
+            stroke-width: "0.8";
+        }
+
+        ::ng-deep {
+            // The background of the selected step icon inside the material stepper
+            .mat-step-header .mat-step-icon-selected {
+                background-color: color($custom-dark-palette, 'secondary');
+            }
+
+            // The background of the material stepper
+            .mat-stepper-horizontal {
+                background: color($custom-dark-palette, 'surface');
+            }
+        }
+    }
+}
+```
+
+### Gerar classe
+
+A `toolbar` do Angular Material usa classes CSS para a sua cor de fundo. No nosso exemplo, queremos que essa cor mude de acordo com o tema selecionado; por isso, vamos usar o mixin `color-classes`. Ele gerará nomes de classes CSS para todas as cores de uma determinada propriedade e paleta de cores, com prefixo e sufixo opcionais anexados ao nome da classe. Para a demonstração, incluiremos o mixin duas vezes: uma para o modo claro, com a respectiva `$igx-light-palette` como primeiro valor, e outra para o modo escuro, com a `$custom-dark-palette`:
+
+```scss
+:host {
+    &.light {
+        @include color-classes(
+            $palette: $igx-light-palette,
+            $prop: 'background',
+            $prefix: 'bg'
+        );
+    }
+
+    &.dark {
+        @include color-classes(
+            $palette: $custom-dark-palette,
+            $prop: "background",
+            $prefix: "bg"
+        );
+    }
+}
+```
+
+Em seguida, adicione uma classe CSS ao seu componente navbar seguindo o padrão "bg - cor da paleta - variante da cor". No nosso aplicativo de exemplo, estamos usando `bg-gray-100`.
+
+### Tipografia dos componentes Angular
+
+O Ignite UI for Angular expõe quatro escalas tipográficas padrão para cada um dos seus temas, que podem ser usadas dentro do mixin <ApiLink kind="sass" module="typography" type="mixin-typography" label="typography" code={true} /> para definir os estilos globais de tipografia de uma aplicação. No nosso exemplo, vamos aplicar as `typeface` e `type-scale` predefinidas do material, mas você pode criar escalas personalizadas, se quiser.
+
+```scss
+:host {
+    @include typography($font-family: $material-typeface, $type-scale: $material-type-scale);
+}
+```
+
+Para personalizar a tipografia do Angular Material, precisamos usar a função `define-typography-config` deles. Vamos substituir as `$font-family` deles pelas `$material-typeface` do Ignite UI e pelos estilos `$button`, da seguinte forma:
+
+```scss
+$custom-typography: mat.define-typography-config(
+    $font-family: $material-typeface,
+    $button: mat.define-typography-level(14px, $font-weight: 600)
+);
+```
+
+Depois, a configuração de tipografia precisa ser passada para o mixin `define-light-theme`:
+
+```scss
+$custom-mat-light-theme: mat.define-light-theme((
+    color: (
+        primary: $light-palette-primary,
+        accent: $light-palette-accent
+    ),
+    typography: $custom-typography
+));
+```
+
+Consulte a [`Typography documentation`](https://material.angular.io/guide/typography) do Angular Material para informações mais detalhadas.
+
+## Referências da API
+<hr/>
+- <ApiLink kind="sass" module="palettes" type="variable-light-material-palette" label="Paleta material clara" />
+- <ApiLink kind="sass" module="palettes" type="variable-dark-material-palette" label="Paleta material escura" />
+- <ApiLink kind="sass" module="themes" type="mixin-light-theme" label="Tema material claro" />
+- <ApiLink kind="sass" module="themes" type="mixin-dark-theme" label="Tema material escuro" />
+- <ApiLink kind="sass" module="palettes" type="function-palette" label="Função de paleta" />
+- <ApiLink kind="sass" module="typography" type="mixin-typography" label="Mixin de tipografia" />
+Tópicos relacionados:
+- [Paletas](../sass/palettes.mdx)
+- [Temas de componentes](../sass/component-themes.mdx)
+- [Tipografia](../sass/typography.mdx)
+- [Componente Avatar](../../layouts/avatar.mdx)
+- [Componente Button](inputs/button)
+- [Componente Dialog](../../dialog.mdx)
+- [Componente Icon](../../layouts/icon.mdx)
+- [Componente Expansion Panel](../../expansion-panel.mdx)
+## Recursos adicionais
+
+<hr/>
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

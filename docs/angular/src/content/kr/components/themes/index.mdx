@@ -1,0 +1,243 @@
+---
+title: "테마"
+description: "Ignite UI for Angular 테마 기능을 사용하면 CSS 사용자 지정 속성과 선택적 Sass 엔진으로 단일 컴포넌트부터 전체 애플리케이션까지 컴포넌트의 스타일을 다시 지정할 수 있습니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Native Angular Components, Angular Theming Engine, Angular Theming, CSS 변수, Sass 테마, 팔레트, 고도, 둥근 정도"
+_language: ko
+llms:
+  description: "Ignite UI for Angular를 사용하면 CSS 변수로 모든 컴포넌트 테마의 스타일을 수정하거나, 더 깊이 들어가 강력한 Sass 테마 엔진을 사용할 수 있습니다."
+last_updated: "2026-09-10"
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# 테마
+
+Ignite UI for Angular를 사용하면 CSS 변수로 모든 컴포넌트 테마의 스타일을 수정하거나, 모든 최신 브라우저에서 특정 디자인 언어에 맞춘 전역 또는 컴포넌트 테마를 만들 수 있는 강력한 Sass 테마 엔진을 사용할 수 있습니다.
+
+<DocsAside type="info">
+이 문서는 버전 12부터 Ignite UI for Angular의 테마 시스템을 설명합니다. 버전 12부터는 **전역 및 컴포넌트 테마를 수정하는 권장 방법은 CSS 변수입니다**. Sass 테마 라이브러리도 여전히 사용할 수 있으며 CSS 변수와 함께 작동합니다.
+</DocsAside>
+
+## 주요 기능
+
+| 기능 | 설명 | 이점 |
+| :------ | :----------- | :------ |
+| 번들된 디자인 시스템 테마 | Material, Bootstrap, Fluent, Indigo 테마이며 각각 밝은 변형과 어두운 변형이 있고, LTR/RTL을 기본 지원합니다. | 스타일시트 참조 하나만으로 프로덕션에 바로 쓸 수 있는 모양을 얻을 수 있으며, 별도의 빌드 단계가 필요하지 않습니다. |
+| CSS 사용자 지정 속성 | 모든 테마는 색상, 고도, 타이포그래피, 구성 값을 `--ig-*` CSS 변수로 노출합니다. | Sass를 다시 컴파일하지 않고도 애플리케이션별 또는 인스턴스별로 실행 중에 컴포넌트의 스타일을 다시 지정할 수 있습니다. |
+| Sass 테마 엔진 | 번들된 모든 테마를 만드는 데 내부적으로 사용되는 것과 같은 Sass API로, 공개된 믹스인과 함수로 노출되어 있습니다. | 팔레트를 생성하고, 사용하지 않는 컴포넌트 토큰을 제외하며, 컴파일 시점에 완전히 사용자 지정된 테마를 만들 수 있습니다. |
+| 전역 및 로컬 컴포넌트 변수 | 각 컴포넌트는 같은 속성에 대해 전역(`--ig-[component]-*`) 변수와 로컬(`--*`) 변수를 노출합니다. | 애플리케이션 전체에서 모양을 재정의한 다음, 추가 CSS 특이성 트릭 없이 개별 인스턴스만 선택적으로 재정의할 수 있습니다. |
+| 구성 가능한 둥근 정도와 고도 | 단일 `--ig-radius-factor` 및 `--ig-elevation-factor` 변수로 모든 컴포넌트의 모서리와 그림자의 크기를 조정합니다. | 개별 컴포넌트 스타일을 건드리지 않고도 UI의 전체적인 모양과 깊이를 바꿀 수 있습니다. |
+
+## 번들 테마
+
+모든 테마는 밝은 변형과 어두운 변형을 제공하며, 기본적으로 왼쪽에서 오른쪽(LTR)과 오른쪽에서 왼쪽(RTL) 콘텐츠를 지원합니다. 번들 테마를 사용하는 가장 쉬운 방법은 `angular.json` 구성에서 해당 CSS 파일을 참조하는 것입니다. 예를 들어 어두운 Material 테마를 사용하려면:
+
+```json
+"styles": [
+  "node_modules/igniteui-angular/styles/igniteui-angular-dark.css",
+  "src/styles.css"
+]
+```
+
+<DocsAside type="info">
+`ng add igniteui-angular`을(를) 사용하여 Ignite UI for Angular를 설치했다면, `igniteui-angular.css`은(는) 이미 styles 배열에 추가되어 있습니다.
+</DocsAside>
+
+styles 폴더에 포함된 테마의 전체 목록은 다음과 같습니다:
+
+| 테마 이름              | 경로                                                                   |
+| :---------------------- | :--------------------------------------------------------------------- |
+| **Material Light**      | `node_modules/igniteui-angular/styles/igniteui-angular.css`            |
+| **Material Dark**       | `node_modules/igniteui-angular/styles/igniteui-angular-dark.css`       |
+| **Bootstrap Light**     | `node_modules/igniteui-angular/styles/igniteui-bootstrap-light.css`    |
+| **Bootstrap Dark**      | `node_modules/igniteui-angular/styles/igniteui-bootstrap-dark.css`     |
+| **Material Dark Green** | `node_modules/igniteui-angular/styles/igniteui-dark-green.css`         |
+| **Fluent Light**        | `node_modules/igniteui-angular/styles/igniteui-fluent-light.css`       |
+| **Fluent Dark**         | `node_modules/igniteui-angular/styles/igniteui-fluent-dark.css`        |
+| **Fluent Light Excel**  | `node_modules/igniteui-angular/styles/igniteui-fluent-light-excel.css` |
+| **Fluent Dark Excel**   | `node_modules/igniteui-angular/styles/igniteui-fluent-dark-excel.css`  |
+| **Fluent Light Word**   | `node_modules/igniteui-angular/styles/igniteui-fluent-light-word.css`  |
+| **Fluent Dark Word**    | `node_modules/igniteui-angular/styles/igniteui-fluent-dark-word.css`   |
+| **Indigo Light**        | `node_modules/igniteui-angular/styles/igniteui-indigo-light.css`       |
+| **Indigo Dark**         | `node_modules/igniteui-angular/styles/igniteui-indigo-dark.css`        |
+
+모든 번들 테마는 테마 엔진의 공개 `mixins` 및 `functions`를 사용하여 같은 Sass 소스에서 컴파일됩니다. Sass를 사용하지 않아도 괜찮습니다. 컴파일된 모든 테마는 값을 [CSS 사용자 지정 속성](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)으로도 노출하므로, Sass 빌드 단계 없이 스타일을 다시 지정할 수 있습니다. 같은 프로젝트에서 두 방식을 함께 사용할 수도 있습니다.
+
+## CSS 변수로 사용자 지정하기
+
+번들된 모든 CSS 테마는 `colors`, `shadows`, `typography` 및 `configuration`를 포함하여 `:root` 범위에서 변수를 선언합니다. 이 변수들을 바꾸면 애플리케이션 전체에서 해당 컴포넌트 스타일이 업데이트됩니다.
+
+### 팔레트 색상
+
+주 색상, 보조 색상, 표면 색상을 바꾸려면 `styles.css` 파일에서 해당 변수를 설정하십시오:
+
+```css
+/* styles.css */
+:root {
+  --ig-primary-500: #09f;
+  --ig-secondary-500: red;
+  --ig-surface-base: rgb(221 211 211);
+}
+```
+
+`ig` 접두사는 해당 변수가 Ignite UI for Angular 테마의 일부임을 나타내고, `primary`는 색상 변수의 이름을 나타내며, `500`는 색상 변형을 나타냅니다. Ignite UI for Angular는 여러 기본 색상 변수(`primary`, `secondary`, `surface`, `success`, `info` 등)를 제공하며, 각각 여러 변형이 있습니다. 번들 테마에서는 변형이 실행 중에 `500`(주) 값에서 파생되므로, `500` 변형을 바꾸면 그 색상의 나머지 팔레트가 다시 생성됩니다. Sass `palette()` 함수로 생성한 팔레트는 기본적으로 `fitted` 생성기를 사용하며, 이 생성기는 고정된 색상을 출력하므로 거기에서 `500`을(를) 재정의하면 해당 변형만 바뀝니다. `surface` 색상은 번호가 매겨진 변형이 아니라 이름 붙은 레이어로 구성됩니다. Ignite UI for Angular 22.3.0부터 컴포넌트는 `--ig-surface-500` 대신 `--ig-surface-base`를 읽으므로, 표면을 바꾸려면 `--ig-surface-base`을(를) 설정하십시오. 모든 변형과 표면 레이어의 전체 목록은 [팔레트](/themes/palettes)를, 생성기들이 어떻게 다른지는 [팔레트 생성](/themes/palette-generation)을 참조하십시오.
+
+<DocsAside type="warning">
+일부 컴포넌트는 팔레트의 색상을 사용하지 않습니다. 이런 경우에는 컴포넌트의 CSS 변수를 직접 대상으로 하여 색상을 바꾸십시오. 컴포넌트가 어떤 팔레트 색상을 사용하는지 알아보려면 <ApiLink kind="sass" module="themes" label="Sass 테마 API 참조" />을 참조하십시오.
+</DocsAside>
+
+### 고도
+
+고도(그림자)도 같은 방식으로 25단계(0–24)에 걸쳐 작동합니다:
+
+```css
+/* styles.css */
+:root {
+  --ig-elevation-0: none;
+  --ig-elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.26),
+                    0 1px 1px 0 rgba(0, 0, 0, 0.12),
+                    0 2px 1px -1px rgba(0, 0, 0, 0.08);
+  /* ... */
+  --ig-elevation-24: 0 11px 15px -7px rgba(0, 0, 0, 0.26),
+                  0 24px 38px 3px rgba(0, 0, 0, 0.12),
+                  0 9px 46px 8px rgba(0, 0, 0, 0.08);
+}
+```
+
+각 변수는 쌓인 CSS [`box-shadow`](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow) 선언입니다. 이 중 어느 것이든 다른 유효한 `box-shadow` 값으로 바꿀 수 있습니다. 고도 수준이 높을수록 그림자가 커집니다. 기본적으로 컴포넌트마다 서로 다른 고도 수준을 사용합니다. 전체 내용은 [고도](/themes/elevations)를, 각 컴포넌트가 사용하는 수준은 <ApiLink kind="sass" module="themes" label="Sass 테마 API 참조" />를 참조하십시오.
+
+### 둥근 정도와 고도 계수
+
+두 변수가 컴포넌트의 모양과 깊이를 전역으로 구성합니다:
+
+- `--ig-radius-factor`은(는) 모든 컴포넌트의 반경 계수를 설정합니다. 기본값은 `1`입니다. 모든 컴포넌트의 모서리를 직각으로 만들려면 `0`(으)로 설정하십시오:
+
+  ```css
+  /* Makes all components appear blocky in shape */
+  :root {
+    --ig-radius-factor: 0;
+  }
+  ```
+
+- `--ig-elevation-factor`은(는) 모든 컴포넌트의 고도(그림자) 계수를 설정합니다. 기본값은 `1`입니다. 그림자를 완전히 제거하려면 `0`(으)로 설정하십시오:
+
+  ```css
+  /* Makes all components appear flat (no shadows) */
+  :root {
+    --ig-elevation-factor: 0;
+  }
+  ```
+
+전체 애플리케이션 대신 개별 컴포넌트에 `--ig-radius-factor`의 범위를 지정하려면 [둥근 정도](/themes/roundness)를 참조하십시오.
+
+### 컴포넌트 변수
+
+각 컴포넌트는 테마를 적용할 수 있는 속성마다 두 개의 변수를 노출합니다. 하나는 **전역** 변수(접두사 `--ig-[component-name]-`)이고, 다른 하나는 **로컬** 변수(`--*`)입니다. 둘 다 같은 속성을 수정하며, 차이는 범위에 있습니다. 전역 변수는 어떤 상위 선택기에서든 컴포넌트의 모든 인스턴스에 적용됩니다. 로컬 변수는 이를 설정한 선택기와 일치하는 인스턴스에만 적용되며, 항상 전역 변수보다 우선합니다.
+
+예를 들어 avatar 컴포넌트는 `--ig-avatar-background`(전역)과 `--background`(로컬)를 찾습니다:
+
+```css
+/* styles.css */
+:root {
+  --ig-avatar-background: black;
+}
+
+igx-avatar {
+  --background: orange;
+}
+```
+
+이렇게 하면 모든 avatar의 배경이 주황색이 되는데, 이는 `igx-avatar`에 직접 설정된 곳에서는 로컬 `--background` 변수가 전역 변수를 재정의하기 때문입니다. avatar 컴포넌트는 내부적으로 다음과 같이 이를 구현합니다:
+
+```css
+igx-avatar {
+  --background: var(--ig-avatar-background, var(--ig-gray-400));
+  background: var(--background);
+}
+```
+
+전역 변수를 사용하면 컴포넌트의 모든 인스턴스 스타일을 한 번에 다시 지정할 수 있고, 로컬 변수를 사용하면 특정 인스턴스를 대상으로 할 수 있습니다. 예를 들어:
+
+```html
+{/* app.component.html */}
+<igx-avatar>AB</igx-avatar>
+<igx-avatar>CD</igx-avatar>
+<app-contacts></app-contacts>
+```
+
+```html
+{/* contacts.component.html */}
+<igx-avatar>EF</igx-avatar>
+<igx-avatar>GH</igx-avatar>
+```
+
+```css
+/* styles.css */
+:root {
+  --ig-avatar-background: lavender;
+}
+```
+
+```css
+/* contacts.component.css */
+igx-avatar {
+  --background: purple;
+}
+```
+
+Avatar `AB` 및 `CD`는 전역으로 설정된 _라벤더_ 배경을 사용하며, `contacts.component.css` 아래로 범위가 지정된 avatar `EF` 및 `GH`는 _보라색_을 사용합니다.
+
+**각 컴포넌트는 자신의 주제에 있는 스타일 지정 섹션에서 자체 테마 속성을 문서화합니다.**
+
+## Sass 테마 엔진
+
+CSS 변수로는 충분한 제어가 어렵다면 — 예를 들어 같은 컴포넌트의 재사용 가능한 여러 테마 변형이 필요하거나, 생성된 CSS를 사용하는 컴포넌트만 남도록 트리 셰이킹하고 싶다면 — Sass 테마 엔진을 직접 사용하십시오. 이 엔진은 모든 번들 테마를 만드는 데 사용되는 것과 같은 `palette`, `core`, `theme` API를 노출합니다:
+
+```scss
+// Import the theming module
+@use "igniteui-angular/theming" as *;
+
+$my-color-palette: palette(
+  $primary: #2ab759,
+  $secondary: #f96a88,
+  $surface: #e5e5e5
+);
+
+// IMPORTANT: Always include core() first — it provides the base
+// definitions theme() depends on.
+@include core();
+@include theme($my-color-palette);
+```
+
+팔레트, 스키마, 타이포그래피, 둥근 정도, 고도, 애니메이션 등 전체 개념 구성과 이를 사용하여 전역 또는 컴포넌트 범위의 테마를 만드는 방법은 [Sass로 테마 적용하기](/themes/sass)를 참조하십시오.
+
+## 접근성
+
+팔레트 색상과 그 대비 텍스트 색상은 함께 생성됩니다. 팔레트의 모든 색상 변형에는 읽기 쉬운 대비를 위해 선택된 일치하는 `-contrast` 변형(검정 또는 흰색)이 있으며, 이는 Sass `contrast-color` 함수로 가져올 수 있습니다 — [대비 텍스트 색상](/themes/sass/palettes#대비-텍스트-색상)을 참조하십시오. 컴파일된 테마는 이들 각각을 `--ig-*-contrast` CSS 변수로도 노출합니다. [팔레트](/themes/palettes)를 참조하십시오.
+
+`core()` Sass 믹스인은 `$enhanced-accessibility` 인수(기본값 `false`)를 받습니다. 이를 활성화하면 차트 색상 브러시가 일반 팔레트 대신 색맹 친화적인 팔레트로 바뀝니다:
+
+```scss
+@include core($enhanced-accessibility: true);
+```
+
+## API 참조
+
+- <ApiLink kind="sass" module="themes" label="Sass 테마 API 참조" />
+
+## 다음 단계
+
+- [팔레트](/themes/palettes)
+- [고도](/themes/elevations)
+- [타이포그래피](/themes/typography)
+- [둥근 정도](/themes/roundness)
+- [간격](/themes/spacing)
+- [Sass로 테마 적용하기](/themes/sass)
+
+## 추가 리소스
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

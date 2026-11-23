@@ -1,0 +1,195 @@
+---
+title: "Angular Grid 키보드 탐색 - Ignite UI for Angular"
+description: "Ignite UI for Angular로 Grid 키보드 탐색을 사용하는 방법을 알아보십시오. 키보드 상호 작용을 통해 사용자는 셀, 행, 열 사이를 빠르게 이동할 수 있습니다."
+keywords: keyboard navigation, ignite ui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "IgxGrid의 키보드 탐색은 사용자에게 다양한 키보드 상호 작용을 제공합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 키보드 탐색
+
+ **IgxGrid**의 키보드 탐색은 사용자에게 다양한 키보드 상호 작용을 제공합니다. 이는 **IgxGrid**의 접근성을 높이며, 내부의 모든 유형의 요소(셀, 행, 열 머리글, 도구 모음, 바닥글 등)를 탐색할 수 있게 합니다. 이 기능은 기본적으로 활성화되어 있으며, 개발자는 쉬운 방법으로 기본 동작 중 어느 것이든 재정의할 수 있습니다.
+
+IgxGrid의 탭 정지 지점이 줄어들어, 탐색이 W3C 접근성 표준을 준수하며 사용하기 편리해졌습니다.
+
+현재 IgxGrid은(는) 다음 탭 정지 지점을 도입합니다:
+
+- **GroupBy 또는 도구 모음 영역**(활성화된 경우);
+- **IgxGrid 머리글**;
+- **IgxGrid 본문**;
+- **열 요약**(활성화된 경우);
+- **IgxGrid 페이지네이터**(활성화된 경우);
+
+<DocsAside type="info">
+이 변경으로 인해 IgxGrid에서는 <kbd>tab</kbd> 및 <kbd>Shift + Tab</kbd>으로 셀 사이를 이동하는 것이 더 이상 지원되지 않습니다.
+이제 <kbd>Tab</kbd> 키를 누르면 다음 순서로 탭 정지 지점을 지나갑니다: **GroupBy** / **도구 모음** -> **머리글** -> **본문** -> **요약** -> **바닥글 / 페이지네이터**.
+</DocsAside>
+
+<DocsAside type="info">
+템플릿을 통해 **IgxGrid** 본문에 **포커스 가능한** 요소를 노출하면, 브라우저의 기본 동작이 막히지 않으므로 키보드 탐색에 **부작용**이 생길 수 있습니다. 이를 적절히 막거나 수정하는 것은 개발자의 책임입니다.
+</DocsAside>
+
+## 머리글 탐색
+
+이제 **IgxGrid** 머리글에 대한 완전한 _키보드 탐색_ 지원이 도입되었습니다. 열 머리글은 화살표 키로 쉽게 이동할 수 있습니다. 또한 **필터링**, **정렬**, **그룹화** 등 열에 대한 동작을 실행하는 여러 키 조합도 있습니다.
+**IgxGrid** 머리글 컨테이너에 포커스가 있으면 다음 키 조합을 사용할 수 있습니다:
+
+### 키 조합
+
+- <kbd>Arrow Up</kbd>는 머리글에서 셀 한 칸 위로 이동합니다(순환하지 않음). 다중 행 레이아웃(MRL) 또는 다중 열 머리글(MCH)이 정의된 경우에만 사용할 수 있습니다
+- <kbd>Arrow Down</kbd>는 머리글에서 셀 한 칸 아래로 이동합니다(줄 바꿈 없음). 다중 행 레이아웃(MRL) 또는 다중 열 머리글(MCH)이 정의된 경우에만 사용할 수 있습니다
+- <kbd>Arrow Left</kbd>은 셀 한 칸 왼쪽으로 이동합니다(순환하지 않음)
+- <kbd>Arrow Right</kbd>은 셀 한 칸 오른쪽으로 이동합니다(줄 사이 줄 바꿈 없음)
+- <kbd>Ctrl + Arrow Left</kbd>은 행에서 가장 왼쪽 셀로 이동합니다. MRL 또는 MCH가 활성화된 경우, 같은 수준에서 가장 왼쪽 셀로 이동합니다
+- <kbd>Home</kbd>은 행에서 가장 왼쪽 셀로 이동합니다. MRL 또는 MCH가 활성화된 경우, 같은 수준에서 가장 왼쪽 셀로 이동합니다
+- <kbd>Ctrl + Arrow Right</kbd>은 행에서 가장 오른쪽 셀로 이동합니다. MRL 또는 MCH가 활성화된 경우, 같은 수준에서 가장 오른쪽 셀로 이동합니다
+- <kbd>End</kbd>는 행에서 가장 오른쪽 셀로 이동합니다. MRL 또는 MCH가 활성화된 경우, 같은 수준에서 가장 오른쪽 셀로 이동합니다
+- <kbd>Alt + L</kbd>은 고급 필터링이 활성화되어 있으면 고급 필터링 대화 상자를 엽니다
+- <kbd>Ctrl + Shift + L</kbd>은 열을 필터링할 수 있으면 Excel 스타일 필터 대화 상자 또는 기본 (행) 필터를 엽니다
+- <kbd>Ctrl + Arrow Up</kbd>는 활성 열 머리글을 오름차순으로 정렬합니다. 열이 이미 오름차순으로 정렬되어 있으면 정렬 상태가 지워집니다
+- <kbd>Ctrl + Arrow Down</kbd>는 활성 열 머리글을 내림차순으로 정렬합니다. 열이 이미 내림차순으로 정렬되어 있으면 정렬 상태가 지워집니다
+- <kbd>Space</kbd>는 열을 선택합니다. 열이 이미 선택되어 있으면 선택이 지워집니다
+
+- <kbd>Shift + Alt + Arrow Left</kbd>은 열이 그룹화 가능으로 표시되어 있으면 열을 그룹화합니다
+- <kbd>Shift + Alt + Arrow Right</kbd>은 열이 그룹화 가능으로 표시되어 있으면 열의 그룹을 해제합니다
+- <kbd>Alt + Arrow Left</kbd> 또는 <kbd>Alt + Arrow Up</kbd>는 열 그룹 머리글이 이미 접혀 있지 않다면 그 머리글을 접습니다
+- <kbd>Alt + Arrow Right</kbd> 또는 <kbd>Alt + Arrow Down</kbd>는 열 그룹 머리글이 이미 펼쳐져 있지 않다면 그 머리글을 펼칩니다
+
+## 본문 탐색
+
+**IgxGrid** 본문에 포커스가 있으면 다음 키 조합을 사용할 수 있습니다:
+
+### 키 조합
+
+- <kbd>Arrow Up</kbd> - 셀 한 칸 위로 이동합니다(순환하지 않음)
+- <kbd>Arrow Down</kbd>는 셀 한 칸 아래로 이동합니다(순환하지 않음)
+
+- <kbd>Arrow Left</kbd>은 셀 한 칸 왼쪽으로 이동합니다(줄 사이 줄 바꿈 없음)
+- <kbd>Arrow Right</kbd> - 셀 한 칸 오른쪽으로 이동합니다(줄 사이 줄 바꿈 없음)
+- <kbd>Ctrl + Arrow Left</kbd>은 행에서 가장 왼쪽 셀로 이동합니다
+- <kbd>Ctrl + Arrow Right</kbd>은 행에서 가장 오른쪽 셀로 이동합니다
+- <kbd>Ctrl + Arrow Up</kbd>는 열에서 첫 번째 셀로 이동합니다
+- <kbd>Ctrl + Arrow Down</kbd>는 열에서 마지막 셀로 이동합니다
+- <kbd>Home</kbd>은 행에서 가장 왼쪽 셀로 이동합니다
+- <kbd>End</kbd>는 행에서 가장 오른쪽 셀로 이동합니다
+- <kbd>Ctrl + Home</kbd>은 그리드에서 가장 위 왼쪽 데이터 셀로 이동합니다
+- <kbd>Ctrl + End</kbd>는 그리드에서 가장 아래 오른쪽 데이터 셀로 이동합니다
+- <kbd>Page Up</kbd>은 한 페이지(뷰포트)만큼 위로 스크롤합니다
+- <kbd>Page Down</kbd>은 한 페이지(뷰포트)만큼 아래로 스크롤합니다
+- <kbd>Enter</kbd>는 편집 모드로 들어갑니다
+- <kbd>F2</kbd>는 편집 모드로 들어갑니다
+- <kbd>Esc</kbd>는 편집 모드를 벗어납니다
+- <kbd>Tab</kbd>은 편집 모드에 있는 셀이 있을 때만 사용할 수 있으며, 포커스를 행의 다음 편집 가능한 셀로 옮깁니다. 행의 마지막 셀에 도달하면 포커스를 다음 행의 첫 번째 편집 가능한 셀로 옮깁니다. **행 편집**이 활성화되어 있으면, 포커스를 가장 오른쪽 편집 가능한 셀에서 **CANCEL** 및 **DONE** 버튼으로 옮기고, **DONE** 버튼에서 행의 가장 왼쪽 편집 가능한 셀로 옮깁니다
+- <kbd>Shift + Tab</kbd> - 편집 모드에 있는 셀이 있을 때만 사용할 수 있으며, 포커스를 행의 이전 편집 가능한 셀로 옮깁니다. 행의 첫 번째 셀에 도달하면 포커스를 이전 행의 마지막 편집 가능한 셀로 옮깁니다. **행 편집**이 활성화되어 있으면, 포커스를 가장 오른쪽 편집 가능한 셀에서 **CANCEL** 및 **DONE** 버튼으로 옮기고, **DONE** 버튼에서 행의 가장 오른쪽 편집 가능한 셀로 옮깁니다
+- <kbd>Space</kbd> - <kbd>행 선택</kbd>이 활성화되어 있으면 행을 선택합니다
+
+- <kbd>Alt + Arrow Left</kbd> 또는 <kbd>Alt + Arrow Up</kbd> - 그룹 행 위에서 - 그룹을 접습니다
+- <kbd>Alt + Arrow Right</kbd> 또는 <kbd>Alt + Arrow Down</kbd> - 그룹 행 위에서 - 그룹을 펼칩니다
+- <kbd>Alt + Arrow Left</kbd> 또는 <kbd>Alt + Arrow Up</kbd> - 마스터-디테일 행 위에서 - 세부 정보 보기를 접습니다
+- <kbd>Alt + Arrow Right</kbd> 또는 <kbd>Alt + Arrow Down</kbd> - 마스터-디테일 행 위에서 - 세부 정보 보기를 펼칩니다
+- <kbd>Space</kbd> - 그룹 행 위에서 - <kbd>rowSelection</kbd> 속성이 다중으로 설정되어 있으면 그룹의 모든 행을 선택합니다
+
+아래 데모 샘플에서 위에 언급한 모든 동작을 직접 연습해 보십시오. 탐색 가능한 그리드 요소에 포커스를 두면, 그 요소에서 사용할 수 있는 동작 일부를 보여 주는 목록이 표시되어 안내합니다.
+
+## 데모
+
+<Sample src="/grid/grid-keyboardnav-guide" height={470} alt="" />
+
+## 사용자 지정 키보드 탐색
+
+특정 키 또는 키 조합에 대한 기본 동작을 재정의하는 것은 **키보드 탐색** 기능이 제공하는 장점 중 하나입니다. 예를 들어 <kbd>Enter</kbd> 또는 <kbd>Tab</kbd> 키를 누르면 다음 셀이나 아래 셀로 이동합니다. 이 또는 다른 탐색 시나리오는 **키보드 탐색** API로 쉽게 구현할 수 있습니다:
+
+| API | 설명 | 인수 |
+|---------|-------------|-----------|
+| <ApiLink type="Grid" member="gridKeydown" label="gridKeydown" /> | 위에서 설명한 키 입력/조합 중 어느 것이든 수행될 때 발생하는 이벤트입니다. 취소할 수 있습니다. 그 밖의 다른 키 입력/조합에는 기본 `onkeydown` 이벤트를 사용하십시오. | <ApiLink type="IGridKeydownEventArgs" kind="interface" /> |
+| <ApiLink type="Grid" member="activeNodeChange" label="activeNodeChange" /> | 활성 노드가 바뀔 때 발생하는 이벤트입니다. 이를 사용하여 활성 포커스 위치(머리글, tbody 등), 열 인덱스, 행 인덱스 또는 중첩 수준을 확인할 수 있습니다. | <ApiLink type="IActiveNodeChangeEventArgs" kind="interface" /> |
+| <ApiLink type="Grid" member="navigateTo" label="navigateTo" /> | 제공된 `rowindex`과 `visibleColumnIndex`를 기준으로 그리드의 한 위치로 이동합니다. `&#123; targetType: GridKeydownTargetType, target: Object &#125;` 타입의 매개변수를 받는 콜백 함수를 통해 대상 요소에 대한 사용자 지정 로직도 실행할 수 있습니다. 사용법: <br />_grid.navigateTo(10, 3, (args) => &#123; args.target.nativeElement.focus(); &#125;);_ | `rowindex`: 숫자, `visibleColumnIndex`: 숫자, `callback`: (`&#123; targetType: GridKeydownTargetType, target: Object &#125;`) => &#123;&#125; |
+| <ApiLink type="Grid" member="getNextCell" label="getNextCell" />| `rowIndex`과 `visibleColumnIndex`로 다음 셀을 정의하는 <ApiLink type="ICellPosition" kind="interface" /> 객체를 반환합니다. <ApiLink type="Grid" member="getnextcell" label="getNextCell" /> 메서드의 세 번째 매개변수로 콜백 함수를 전달할 수 있습니다. 콜백 함수는 `IgxColumnComponent`을(를) 매개변수로 받고, 주어진 기준이 충족되면 `boolean` 값을 반환합니다: <br />_const nextEditableCell = grid.getNextCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: 숫자, `currentVisibleColumnIndex`: 숫자, `callback`: (`IgxColumnComponent`) => boolean |
+| <ApiLink type="Grid" member="getPreviousCell" label="getPreviousCell" />| `rowIndex`과 `visibleColumnIndex`로 이전 셀을 정의하는 <ApiLink type="ICellPosition" kind="interface" /> 객체를 반환합니다. <ApiLink type="Grid" member="getPreviousCell" label="getPreviousCell" /> 메서드의 세 번째 매개변수로 콜백 함수를 전달할 수 있습니다. 콜백 함수는 `IgxColumnComponent`을(를) 매개변수로 받고, 주어진 기준이 충족되면 `boolean` 값을 반환합니다: <br />_const prevEditableCell = grid.getPreviousCell(0, 4, (col) => col.editable);_ | `currentRowIndex`: 숫자, `currentVisibleColumnIndex`: 숫자, `callback`: (`IgxColumnComponent`) => boolean |
+
+ 
+
+사용자 입력 검증이나 사용자 지정 탐색 같은 일반적인 시나리오를 구현하는 방법을 보여 주기 위해 API를 사용해 보겠습니다. 먼저 <ApiLink type="Grid" member="gridKeydown" label="gridKeydown" /> 이벤트에 대한 이벤트 핸들러를 등록해야 합니다:
+
+```html
+<igx-grid #grid1 [data]="data" [primaryKey]="'ProductID'" (gridKeydown)="customKeydown($event)"></igx-grid>
+```
+
+```typescript
+public customKeydown(args: IGridKeydownEventArgs) {
+    const target: IgxGridCell = args.target as IgxGridCell;
+    const evt: KeyboardEvent = args.event as KeyboardEvent;
+    const type = args.targetType;
+
+    if (type === 'dataCell' && target.inEditMode && evt.key.toLowerCase() === 'tab') {
+        // 1. USER INPUT VALIDATION ON TAB
+    }
+    if (type === 'dataCell' && evt.key.toLowerCase() === 'enter') {
+        // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    }
+}
+```
+
+<ApiLink type="IGridKeydownEventArgs" kind="interface" /> 값을 기준으로 우리 자체 로직을 제공해야 하는 두 가지 경우를 확인했습니다(위 참조). 이제 API의 메서드를 사용하여 원하는 동작을 구현하겠습니다. 편집 모드에 있는 셀에서 사용자가 <kbd>Tab</kbd> 키를 누르면 입력에 대한 검증을 수행합니다. 셀에서 사용자가 <kbd>Enter</kbd> 키를 누르면 포커스를 다음 행의 셀로 옮깁니다:
+
+```typescript
+    // 1. USER INPUT VALIDATION ON TAB
+    if (target.column.dataType === 'number' && target.editValue < 10) {
+        // alert the user that the input is invalid
+        return;
+    }
+    // 2. CUSTOM NAVIGATION ON ENTER KEY PRESS
+    this.grid1.navigateTo(target.row.index + 1, target.column.visibleIndex, (obj) => {
+            obj.target.activate();
+        });
+```
+
+<DocsAside type="info">
+전체 구현 세부 사항은 샘플 코드를 참조하십시오.
+</DocsAside>
+
+방금 구현한 사용자 지정 시나리오를 시험해 보려면 아래 데모를 사용하십시오:
+
+- **Order** 열의 셀을 더블 클릭하거나 <kbd>F2</kbd> 키를 누르고, 값을 **7**로 바꾼 다음 <kbd>Tab</kbd> 키를 누릅니다. 안내 메시지가 표시됩니다.
+- 셀을 선택한 다음 <kbd>Enter</kbd> 키를 몇 번 누릅니다. 키를 누를 때마다 포커스가 같은 열의 다음 행 셀로 이동합니다.
+
+### 데모
+
+<Sample src="/grid/grid-custom-keyboard-navigation" height={400} alt="" />
+
+## 알려진 제한 사항
+
+|제한 사항|설명|
+|--- |--- |
+| 스크롤 가능한 상위 컨테이너가 있는 그리드 안에서의 탐색입니다. | 그리드가 스크롤 가능한 상위 컨테이너 안에 있고 사용자가 뷰 밖에 있는 그리드 셀로 이동하면, 상위 컨테이너는 스크롤되지 않습니다.|
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+## 추가 리소스
+
+_[Hierarchical Grid 키보드 탐색](/hierarchicalgrid/keyboard-navigation)
+
+_ [Tree Grid 키보드 탐색](/treegrid/keyboard-navigation)
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 이동](/grid/column-moving)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)
+

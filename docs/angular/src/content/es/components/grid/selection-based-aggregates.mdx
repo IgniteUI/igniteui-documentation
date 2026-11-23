@@ -1,0 +1,80 @@
+---
+title: "Agregación de datos basada en la selección en la cuadrícula de Angular - Ignite UI for Angular"
+description: "Aprenda a agregar los datos seleccionados en una cuadrícula con Ignite UI. Obtenga agregaciones de contenido al instante en los datos virtualizados y una API completa para su próximo proyecto."
+keywords: "Agregación de datos, selección, ignite ui for angular, infragistics"
+license: commercial
+_language: es
+llms:
+  description: "Con el ejemplo que se ilustra a continuación, puede ver cómo se usa la selección múltiple junto con funciones de resumen personalizadas para mostrar agregados basados en los valores seleccionados en el pie de la cuadrícula."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+
+# Agregación de datos basada en la selección en la cuadrícula de Angular
+
+Con el ejemplo que se ilustra a continuación, puede ver cómo se usa la selección múltiple junto con funciones de resumen personalizadas para mostrar agregados basados en los valores seleccionados en el pie de la cuadrícula.
+
+## Descripción general del tema
+
+Para lograr la funcionalidad de agregados basados en la selección, puede usar nuestra función [Grid Selection](/grid/selection), junto con los [Grid Summaries](/grid/summaries).
+Los resúmenes permiten personalizar la funcionalidad básica de la función de resumen extendiendo una de las clases base, <ApiLink type="SummaryOperand" />, <ApiLink type="NumberSummaryOperand" /> o <ApiLink type="DateSummaryOperand" />, según el tipo de datos de la columna y sus necesidades.
+
+## Selección
+
+Para empezar a trabajar con los datos del intervalo seleccionado de la cuadrícula, tendrá que suscribirse a los eventos que notifican los cambios en la selección de la cuadrícula. Eso se puede hacer suscribiéndose al evento <ApiLink type="Grid" member="selected" /> y al evento <ApiLink type="Grid" member="rangeSelected" />. Tiene que enlazar a ambos porque la función Selection distingue entre seleccionar una sola celda y seleccionar un intervalo de celdas.
+
+En la lógica de suscripción a eventos, puede extraer los datos seleccionados usando la función <ApiLink type="Grid" member="getSelectedData" /> de la cuadrícula y pasar los datos seleccionados al operando de resumen personalizado.
+
+
+## Resumen
+
+Dentro de la clase de resumen personalizada, tendría que distinguir los tipos de datos de la cuadrícula. Por ejemplo, en el escenario siguiente hay cuatro columnas distintas cuyo tipo de datos es adecuado para resúmenes personalizados: el precio unitario, las unidades en stock, el estado de descontinuado y la fecha del pedido.
+El método `operate` de la clase derivada de `IgxSummaryOperand` es donde procesará los datos, empezando por clasificarlos en distintas categorías según su tipo de datos:
+
+```typescript
+const numberData = data.filter(rec => typeof rec === "number");
+const boolData = data.filter(rec => typeof rec === "boolean");
+const dates = data.filter(rec => isDate(rec));
+```
+
+<DocsAside type="info">
+Tenga en cuenta que `isDate` es una función personalizada.
+</DocsAside>
+
+Una vez agrupados los datos según su tipo, puede proceder a la agregación en sí. Para ello, puede usar los métodos ya expuestos de `IgxNumberSummaryOperand` y `IgxDateSummaryOperand`.
+Después, tendrá que colocar los datos agregados en el mismo array, que se devolverá a la plantilla.
+Para la visualización de los datos, puede que quiera usar `<igx-grid-footer>`, que combinado con la clase `custom-summaries` dará el aspecto natural del resumen.
+
+
+### Demostración
+
+Cambie la selección para ver los resúmenes del intervalo seleccionado actualmente.
+
+
+<Sample src="/grid/grid-selection-custom-summaries" height={560} alt="" />
+
+
+## Referencias de API
+- <ApiLink type="Grid" label="API de IgxGridComponent" />
+- <ApiLink type="GridCell" label="API de IgxGridCell" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos de IgxGridComponent" />
+## Recursos adicionales
+
+
+- [Descripción general de la cuadrícula](/grid/grid)
+- <ApiLink type="GridSelectionService" label="Servicio de selección" />
+- [Selección de filas](/grid/row-selection)
+- [Selección de celdas](/grid/cell-selection)
+- <ApiLink type="NumberSummaryOperand" />
+- <ApiLink type="DateSummaryOperand" />
+- [Resúmenes](/grid/summaries)
+- [Paginación](/grid/paging)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

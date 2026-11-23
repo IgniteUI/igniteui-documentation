@@ -1,0 +1,158 @@
+---
+title: "Vinculação de dados unidirecional no Angular | Guia de WPF para Angular | Infragistics"
+description: "Saiba sobre a vinculação de dados unidirecional no Angular e como ela é usada para mostrar informações ao usuário final, mantendo-as sincronizadas com as mudanças nos dados subjacentes."
+keywords: "vinculação de dados unidirecional no angular, ignite ui for angular, infragistics"
+_language: pt-BR
+llms:
+  description: "A vinculação de dados unidirecional no Angular (ou seja, vinculação unidirecional) é uma forma de vincular dados do componente à visualização (DOM) ou vice-versa - da visualização para o componente."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# O que é vinculação de dados unidirecional no Angular
+
+A vinculação de dados unidirecional no Angular (ou seja, vinculação unidirecional) é uma forma de vincular dados do componente à visualização (DOM) ou vice-versa - da visualização para o componente. Ela é usada para exibir informações ao usuário final, que permanecem sincronizadas automaticamente a cada mudança nos dados subjacentes. Isso é semelhante à vinculação unidirecional do WPF.
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/fP7iVhFNTOk">
+</iframe>
+
+## O que é vinculação de dados do Angular?
+
+A vinculação de dados é amplamente usada por programadores, porque esse tipo de serviço simplifica bastante o processo de atualização de qualquer UI e também reduz a quantidade de código repetitivo ao construir uma aplicação. A vinculação de dados no Angular é super fácil e, diferentemente do WPF, não precisamos nos preocupar com um contexto de dados, um view model ou `INotifyPropertyChanged` (INPC). Tudo o que precisamos é de um arquivo HTML e de um arquivo typescript. Para qualquer vinculação de dados, a primeira coisa de que você precisa são propriedades às quais vincular. Então vamos adicionar uma propriedade chamada `text` à classe do componente e definir o seu valor.
+No WPF, precisamos definir o DataContext e vincular a propriedade no XAML:
+
+```csharp
+public class IgniteUIClass
+{
+  public string Text  { get; set; }
+  
+  public IgniteUIClass()
+  { 
+    this.Text = "IgniteUI for Angular";
+  }
+}
+...
+public MainWindow()
+{
+  InitializeComponent();
+  this.DataContext = new IgniteUIClass();
+}
+```
+
+```xml
+<Label Content="{Binding Path=Text, Mode=OneWay}"></Label>
+```
+
+No Angular, vinculamos diretamente uma propriedade do DOM a uma propriedade do componente:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+
+  constructor() { }
+  ngOnInit() {}
+}
+```
+
+```html
+<h2>{{ text }}</h2>
+```
+
+## Interpolação de vinculação de dados do Angular
+
+No código acima, simplesmente exibimos um texto no HTML usando uma vinculação ao valor da propriedade `text`. Neste caso, estamos usando `interpolation` para criar uma vinculação unidirecional. Fazemos isso digitando chaves duplas, o nome da propriedade - no nosso caso, `text` - e duas chaves de fechamento. Outra forma de obter o mesmo resultado é criar uma tag h2 e vincular a propriedade `text` à sua propriedade innerHTML, usando novamente a sintaxe `interpolation`:
+
+```html
+<h2 innerHTML="{{ text }}"></h2>
+```
+
+Há duas coisas importantes sobre `interpolation`.
+
+- Primeiro, tudo o que está dentro das chaves é renderizado como um `string`.
+- Segundo, tudo o que está dentro das chaves é chamado de `template expression`. Isso nos permite fazer coisas mais complexas, como concatenação.
+
+Por exemplo, vamos concatenar um texto com o valor da propriedade `text`:
+
+```html
+<h2>{{"Welcome to " + text }}</h2>
+```
+
+O uso de expressões de template também nos permite vincular a propriedades e métodos do JavaScript. Por exemplo, podemos vincular à propriedade length de `text`, que resultará no número 20:
+
+```html
+<h2>{{ text.length }}</h2>
+```
+
+Também podemos vincular a métodos dessa propriedade, por exemplo, a `toUpperCase()`:
+
+```html
+<h2>{{ text.toUpperCase() }}</h2>
+```
+
+Isso é muito mais poderoso do que a vinculação de dados do WPF e também muito mais fácil de usar. Podemos até fazer cálculos matemáticos dentro da expressão de template. Por exemplo, basta colocar **2 + 2** na expressão, e ela vai exibir o resultado, que é igual a 4:
+
+```html
+<h2>{{ 2 + 2 }}</h2>
+```
+
+Mais uma coisa que podemos fazer é vincular a métodos reais do arquivo typescript. Aqui está um pequeno exemplo de como fazer isso:
+
+```html
+<h2>{{ getTitle() }}</h2>
+```
+
+Este `getTitle()` é um método definido no arquivo typescript. O resultado na página é o valor retornado por esse método:
+
+```typescript
+getTitle() {
+  return 'Simple Title';
+}
+```
+
+Embora a `interpolation` pareça bastante poderosa, ela tem limitações: por exemplo, só representa uma **string**.
+Vamos então criar uma propriedade booleana simples na classe do componente:
+
+```typescript
+export class SampleComponent implements OnInit {
+
+  text = 'IgniteUI for Angular';
+  isDisabled = false;
+  constructor() { }
+...
+```
+
+Vamos agora criar um `input` simples do tipo text e vincular a propriedade `isDisabled` à propriedade `disabled` da entrada:
+
+```html
+<input type="text" disabled="{{ isDisabled }}"/>
+```
+
+O resultado esperado é que a `input` fique habilitada, mas ela está desabilitada. Isso acontece porque `interpolation` retorna uma string, mas a propriedade disabled da entrada é do tipo booleano e exige um valor booleano.
+Para que isso funcione corretamente, o Angular oferece `property binding`.
+
+## Vinculação de propriedade do Angular
+
+A vinculação de propriedade no Angular é usada para vincular valores às propriedades de destino de elementos HTML ou de diretivas. A sintaxe aqui é um pouco diferente da interpolação. Na vinculação de propriedade, o nome da propriedade fica entre colchetes, e o seu valor não contém chaves - apenas o nome da propriedade à qual ela está vinculada.  
+
+```html
+<input type="text" [disabled]="isDisabled"/>
+```
+
+Usando a vinculação de propriedade, a propriedade `disabled` da entrada é vinculada a um resultado booleano, **não** a uma string. O valor de `isDisabled` é false, e executar a aplicação exibiria a entrada como habilitada.
+
+<DocsAside type="info">
+É muito importante lembrar que, quando uma vinculação depende do tipo de dado do resultado, deve-se usar `property binding`! Se a vinculação depender apenas de um valor string, deve-se usar `interpolation`.
+</DocsAside>
+
+## Recursos adicionais
+
+- [Do desktop para a web: vinculação de dados unidirecional com interpolação e vinculação de propriedade do Angular](https://www.youtube.com/watch?v=fP7iVhFNTOk&list=PLG8rj6Rr0BU-AqcJMuwggKy0GMIkjkt3j)
+- [Vinculação bidirecional no Angular](/general/wpf-to-angular-guide/two-way-binding)
+- [Exibindo dados no Angular](https://angular.io/guide/displaying-data#displaying-data)
+
+<hr/>
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

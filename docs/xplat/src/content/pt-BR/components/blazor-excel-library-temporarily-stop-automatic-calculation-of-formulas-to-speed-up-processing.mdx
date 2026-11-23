@@ -1,0 +1,156 @@
+---
+title: "Biblioteca Excel de {Platform} | Interromper temporariamente o cálculo automático de fórmulas para acelerar o processamento | Infragistics"
+description: "Biblioteca Excel do Infragistics Blazor – Interromper temporariamente o cálculo automático de fórmulas para acelerar o processamento"
+keywords: "{Platform} biblioteca Excel, cálculo, acelerar o processamento, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: []
+_language: pt-BR
+llms:
+  description: "Ao ler uma planilha Excel com determinada biblioteca de processamento de documentos, referenciar ou reescrever o valor de uma célula pode levar um tempo considerável, especialmente se a planilha tiver um grande número de células com fórmulas."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+
+# Biblioteca Excel do Blazor – Interromper temporariamente o cálculo automático de fórmulas para acelerar o processamento
+
+Ao ler uma planilha Excel com determinada biblioteca de processamento de documentos, referenciar ou reescrever o valor de uma célula pode levar um tempo considerável, especialmente se a planilha tiver um grande número de células com fórmulas. Isso é particularmente verdadeiro para [aplicativos Blazor WebAssembly](./general-getting-started.mdx#standalone-blazor-webassembly-apps).
+
+Mas identificamos uma forma de ajudar você a acelerar o processamento usando nossa [Biblioteca Excel do Blazor](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library).
+
+Como?
+
+Desativando temporariamente o cálculo automático de fórmulas.
+Neste artigo prático e rápido, mostramos exatamente como fazer isso e abordamos as seguintes questões:
+- O que é a Biblioteca Excel do Blazor no Ignite UI
+- O que são os Workbooks do Blazor no Ignite UI
+- Acelerando o processamento na Biblioteca Excel do Blazor
+
+## O Que é a Biblioteca Excel do Blazor no Ignite UI
+
+A Biblioteca Excel do Infragistics Blazor é uma biblioteca de processamento de documentos que permite trabalhar com dados de planilhas de forma rápida e fácil, de modo semelhante ao Microsoft® Excel®. Ela traz os objetos de planilha conhecidos, como Workbook, Worksheet, Cell, Formula e outros.
+
+No entanto, para usar a biblioteca Excel do Blazor, você precisa primeiro adicionar a seguinte instrução @using:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+```
+
+</PlatformBlock>
+
+Se você está usando um projeto Blazor WebAssembly (WASM), há mais alguns passos:
+
+Adicione uma referência ao script a seguir no arquivo wwwroot/index.html:
+
+<PlatformBlock for="Blazor">
+
+```razor
+<script src="_content/IgniteUI.Blazor.Documents.Excel/excel.js"></script>
+```
+
+</PlatformBlock>
+
+Defina o Workbook.InProcessRuntime estático para o runtime atual. Isso pode ser feito com o código a seguir:
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Microsoft.JSInterop
+
+@code {
+    [Inject]
+    public IJSRuntime Runtime { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Workbook.InProcessRuntime = (IJSInProcessRuntime)this.Runtime;
+    }
+}
+```
+
+</PlatformBlock>
+
+## O Que São os Workbooks do Blazor no Ignite UI
+
+Os [Workbooks do Blazor no Ignite UI](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/excel-library-using-workbooks) foram projetados para reunir facilmente várias planilhas, para que você possa obter, armazenar, organizar, gerenciar, editar e processar dados da forma mais eficiente. Você pode criar um novo workbook do Blazor do zero ou importar um documento existente que já tenha sido concluído.
+
+Veja como criar um workbook e definir seu título e as propriedades de documento de status:
+
+<PlatformBlock for="Blazor">
+
+```razor
+var workbook = new Workbook();
+workbook.DocumentProperties.Title = "Expense Report";
+workbook.DocumentProperties.Status = "Complete";
+```
+
+</PlatformBlock>
+
+Usando o Infragistics Blazor Excel Engine, você pode:
+
+- Salvar dados em e carregar dados do Microsoft® Excel®.
+- Criar uma coleção de planilhas com dados relacionados.
+- Gerenciar a exportação do Blazor para o Excel e a importação de Excel para o Blazor no seu aplicativo, usando as classes da biblioteca.
+- Alterar os estilos padrão e adicionar uma nova fonte à coleção Styles do Workbook.
+- Defina as propriedades do Workbook que fornecem informações para ajudar a organizar e acompanhar seus documentos. As propriedades disponíveis são: Author, Title, Subject, Keywords, Category, Status, Comments, Company e Manager.
+- Ative o recurso de proteção do workbook para proteger a estrutura do workbook, invocando o método protect.
+
+## Acelerando o processamento na Biblioteca Excel do Blazor
+
+Como já mencionado, a melhor e mais rápida forma de melhorar o tempo de processamento quando você lida com um grande número de células com fórmulas é interromper temporariamente o cálculo automático de fórmulas. Depois, faça referência e reescreva o valor da célula e retome o cálculo automático da fórmula quando o processo estiver concluído. Você pode ativar o cálculo automático sempre que decidir.
+
+Como exatamente funciona essa suspensão do cálculo automático de fórmulas? Quando ela está desativada, mesmo que você faça referência ou reescreva o valor da célula, a fórmula não é recalculada a cada vez, o que reduz o tempo de processamento.
+
+Chame os métodos SuspendCalculations () e ResumeCalculations () do objeto Workbook.
+
+<PlatformBlock for="Blazor">
+
+```razor
+@using Infragistics.Documents.Excel
+// ...
+var workbook = Workbook.Load("path-to-your-file");
+
+// Calling SuspendCalculations function will stop the automatic calculation of formulas.
+workbook.SuspendCalculations();
+
+// Here is where you read, write, etc. the cells contained in this Workbook
+// Call ResumeCalculations function to resume the automatic formula calculation.
+workbook.ResumeCalculations();
+```
+
+</PlatformBlock>
+
+No entanto, há dois casos básicos em que esse método de interromper temporariamente o cálculo automático de fórmulas não pode ser aplicado para melhorar a velocidade de processamento.
+
+1. Essa abordagem interrompe temporariamente o cálculo automático das células. Assim, se a lógica de negócio depender do cálculo automático de fórmulas, talvez você não consiga usar essa abordagem. Há a possibilidade de uma célula conter um valor que ainda não foi atualizado.
+
+2. Se o cálculo automático de fórmulas não for a causa do longo tempo de processamento, não se pode esperar que essa solução alternativa melhore a velocidade de processamento.
+
+É importante observar que, em programas [Blazor WebAssembly](https://www.infragistics.com/community/blogs/b/jason_beres/posts/blazor-server-vs-blazor-webassembly) do .NET 6 e posteriores, habilitar a "compilação AOT" deve melhorar a velocidade de processamento, especialmente em processos com muito uso de computação (como o processamento de planilhas Excel). No entanto, a compilação AOT tem algumas desvantagens, como:
+
+- Leva muito tempo para publicar.
+- Aumenta o tamanho do conteúdo do aplicativo gerado.
+
+## Conclusão
+Processar um arquivo Excel pode levar um tempo considerável, dependendo de:
+
+- o conteúdo
+- a escala dos dados que você quer processar
+- o número de células
+
+O foco deste artigo foi mostrar rapidamente como melhorar a velocidade de seus documentos e do processamento de dados ao usar a Excel Library e os Workbooks do Ignite UI for Blazor. A principal técnica demonstrada foi desabilitar o cálculo automático de fórmulas.
+
+Mas há mais alguns truques que você também pode experimentar:
+
+- Use a compilação AOT (Ahead-Of-Time).
+- Execute do lado do servidor.
+
+Você pode ler sobre os passos exatos para fazer isso no nosso post anterior - How to Read and Write Excel Files on Blazor WebAssembly To Reduce Server Load.
+
+## O que é o Ignite UI for Blazor?
+
+O [Ignite UI for Blazor](https://www.infragistics.com/products/ignite-ui-blazor) vem repleto de componentes Blazor com design profissional, como o [Blazor Dock Manager](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/layouts/dock-manager), o superrápido e leve [Blazor Data Grid](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/grids/grids), mais de 60 gráficos de alto desempenho - [Financial/Stock Chart](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/types/stock-chart), [Pie Chart](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/charts/types/pie-chart) e mais - [Geospatial Maps](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/geo-map), [Multi-Column Combo Box](https://www.infragistics.com/products/ignite-ui-blazor/blazor/components/editors/multi-column-combobox), com suporte total ao Blazor Server, ao Blazor WebAssembly e ao .NET 6.
+
+Com a [versão Ultimate 22.1](https://www.infragistics.com/community/blogs/b/infragistics/posts/ignite-ui-for-blazor---what-s-new-in-22-1) mais recente, você já pode aproveitar recursos como a geração de código atualizada, por meio do [App Builder™ low-code/no-code](https://www.infragistics.com/products/appbuilder) atualizado, paginação para o Blazor Grid, visualização de dados no Blazor, Tooltip e outros recursos e controles excelentes.

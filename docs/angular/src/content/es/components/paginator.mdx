@@ -1,0 +1,213 @@
+---
+title: "Ejemplo de Angular Paginator – Ignite UI for Angular - Licencia MIT" 
+description: "Configure la paginación de Angular y cree páginas personalizadas en la tabla de Angular, o en otra colección de interfaz iterable, con Ignite UI; obtenga los datos de las páginas solicitadas con distintos eventos de Angular."
+keywords: angular paginator, angular paginator component, angular ui components, igniteui for angular, infragistics
+license: MIT
+_language: es
+llms:
+  description: "La paginación en Angular es una técnica de optimización al trabajar con conjuntos de datos muy grandes."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Descripción general del componente Angular Paginator
+
+La paginación en Angular es una técnica de optimización al trabajar con conjuntos de datos muy grandes. El objetivo de Angular Paginator es proporcionar una interfaz y una API para dividir y distribuir grandes volúmenes de datos en páginas de igual tamaño, que el usuario final puede recorrer.
+
+El componente Angular Paginator muestra al usuario final la página que está viendo, el tamaño de la página, el número total de páginas y los elementos de interfaz para navegar rápidamente entre páginas.
+
+Ignite UI for Angular Paginator le permite dividir un conjunto de datos en varias páginas similares. Este método de paginación es especialmente adecuado para conjuntos de datos grandes que son difíciles de mostrar y ver de una sola vez; por eso, el paginador suele usarse junto con una lista de elementos o una tabla de datos. El Paginator de Angular permite al usuario seleccionar una página concreta de un intervalo de páginas y determinar cuántos registros quiere ver en cada página.
+
+## Ejemplo de Angular Paginator
+
+El siguiente ejemplo de paginación de Angular muestra una plantilla de Paginator que demuestra cómo los usuarios pueden desplazarse por 4 páginas con distintos elementos y seleccionar el número de elementos que se mostrarán desde un menú desplegable.
+
+<Sample src="/pagination/main-pagination" height={600} alt="Ejemplo de Angular Paginator" />
+
+<hr/>
+
+## Primeros pasos con Ignite UI for Angular Paginator
+
+Para empezar con el componente Ignite UI for Angular Paginator, primero debe instalar Ignite UI for Angular. En una aplicación Angular existente, escriba el siguiente comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para una introducción completa a Ignite UI for Angular, lea el tema [_primeros pasos_](/general/getting-started).
+
+El siguiente paso es importar `IgxPaginatorModule` en el archivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxPaginatorModule } from 'igniteui-angular/paginator';
+// import { IgxPaginatorModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxPaginatorModule],
+    ...
+})
+export class AppModule {}
+```
+
+Como alternativa, a partir de `16.0.0` puede importar `IgxPaginatorComponent` como dependencia independiente, o usar el token [`IGX_PAGINATOR_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/paginator/src/paginator/public_api.ts) para importar el componente y todos sus componentes y directivas de apoyo.
+
+```typescript
+// home.component.ts
+
+import { NgFor } from '@angular/common';
+import { IGX_PAGINATOR_DIRECTIVES } from 'igniteui-angular/paginator';
+import { IGX_LIST_DIRECTIVES } from 'igniteui-angular/list';
+// import { IGX_PAGINATOR_DIRECTIVES, IGX_LIST_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: `
+    <igx-list>
+        <igx-list-item *ngFor="let item of pagedData">{{item.text}}</igx-list-item>
+    </igx-list>
+    <igx-paginator [totalRecords]="products.length" [perPage]="perPage"></igx-paginator>
+    `,
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_PAGINATOR_DIRECTIVES, IGX_LIST_DIRECTIVES, NgFor]
+    /* or imports: [IgxPaginatorComponent, IgxListComponent, IgxListItemComponent, NgFor] */
+})
+export class HomeComponent {
+    public products: Product [];
+    public perPage = 10;
+    public pagedData: Product [];
+}
+```
+
+Ahora que ha importado el módulo o las directivas de Ignite UI for Angular Paginator, puede empezar a usar el componente `igx-paginator`.
+
+## Uso del paginador de Angular
+
+Cada instancia del paginador requiere:
+
+- El número de elementos por página (predeterminado: 15)
+- El número total de elementos que se paginan
+
+Además, de forma predeterminada, la página actual se establece en 0 cuando se inicializa el componente paginador de Angular, pero esto puede cambiarse mediante la propiedad **page**.
+
+```html
+<igx-paginator #paginator [totalRecords]="120" [perPage]="25">
+</igx-paginator>
+```
+
+## Plantilla de paginación de Angular
+
+La plantilla de paginación predeterminada consta de dos partes principales. La primera es un menú desplegable, que permite definir el número de elementos que se muestran en cada página; la segunda son los botones de navegación, que le permiten desplazarse fácilmente por las páginas.
+
+Además, el área de paginación admite que el usuario añada una plantilla personalizada, si se define una referencia `igx-paginator-content` dentro de `igx-paginator`:
+
+```html
+<igx-paginator #paginator>
+    <igx-paginator-content>
+        ...
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+Además, se han introducido <ApiLink type="PageSizeSelector" /> y <ApiLink type="PageNavigation" />, y ahora el componente paginador permite definir contenido personalizado, como se muestra en el ejemplo siguiente. El primero añadirá el elemento desplegable y la etiqueta correspondientes al tamaño de página, y el segundo gestionará la navegación entre páginas con todos los botones de acción.
+
+```html
+<igx-paginator #paginator>
+ <igx-paginator-content>
+  <igx-page-size></igx-page-size>
+  <igx-page-nav></igx-page-nav>
+ </igx-paginator-content>
+</igx-paginator>
+```
+
+La paginación también puede hacerse mediante código, a través de la API de paginación /que se describe con más detalle en la sección siguiente/, usando los métodos <ApiLink type="Paginator" member="paginate" label="paginate" />, <ApiLink type="Paginator" member="previousPage" label="previousPage" />, <ApiLink type="Paginator" member="nextPage" label="nextPage" /> y las entradas <ApiLink type="Paginator" member="page" label="page" />, <ApiLink type="Paginator" member="perPage" label="perPage" /> y <ApiLink type="Paginator" member="totalRecords" label="totalRecords" />. Donde _page_ permite establecer la página actual, _perPage_, el número de elementos que se muestran en una página, y _totalRecords_, el número de registros que hay en la cuadrícula. La propiedad `TotalRecords` es útil cuando hay paginación con datos remotos y se quiere modificar el número de páginas según el total de registros remotos. Tenga en cuenta que, si usa paginación y se pasan todos los datos a la cuadrícula, el valor de la propiedad `totalRecords` se establecerá por defecto a la longitud del origen de datos proporcionado. Si se establece `totalRecords`, tendrá prioridad sobre la longitud predeterminada basada en el origen de datos.
+
+## API de paginación
+
+| Input           |                                                                                             Descripción              |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------: |
+| page            |                                                                              Obtiene o establece la página actual.             |
+| perPage         |                                                             Obtiene o establece el número de elementos visibles por página.          |
+| selectOptions   | Obtiene o establece opciones personalizadas en el elemento Select del paginador. Valores predeterminados del select [5, 10, 15, 25, 50, 100, 500] |
+| totalRecords    |                                                                        Obtiene o establece el número total de registros.            |
+| totalPages      |                                                                          Obtiene o establece el número total de páginas.            |
+| resourceStrings |                                        Obtiene o establece las cadenas de recursos. De forma predeterminada usa las cadenas de recursos en EN.       |
+| overlaySettings |                                                                       Obtiene o establece un OverlaySettings personalizado.            |
+
+| Salida        |                                                 Descripción        |
+| :------------ | :----------------------------------------------------------------: |
+| perPageChange | Se emite cuando cambia el valor de la propiedad `perPage` del paginador. |
+| pageChange    |                      Se emite después de que cambia la página actual.    |
+| paging        |                 Se emite antes de realizar la paginación. Cancelable.    |
+| pagingDone    |                             Se emite después de realizar la paginación.     |
+
+
+## Localización del paginador de Angular
+
+Con solo unas pocas líneas de código puede localizar fácilmente todas las cadenas que forman parte del componente de paginación. Para localizar una instancia concreta de paginación, use la propiedad de entrada <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" />. Puede usar esto
+
+**Paso 1**: importe la interfaz `IPaginatorResourceStrings` y la función <ApiLink kind="function" type="changei18n" />:
+
+```ts
+import { IPaginatorResourceStrings, changei18n } from "igniteui-angular/core";
+```
+
+**Paso 2**: defina las cadenas de recursos de la paginación:
+
+```ts
+private paginatorResourceStrings: IPaginatorResourceStrings = {
+    igx_paginator_label: 'Records per page:',
+    igx_paginator_first_page_button_text: 'Custom first page text',
+    igx_paginator_last_page_button_text: 'Custom last page text',
+    igx_paginator_next_page_button_text: 'Custom next page text',
+    igx_paginator_previous_page_button_text: 'Custom previous page text',
+    igx_paginator_pager_text: 'out of'
+};
+```
+
+
+**Paso 3**: pase el objeto a la función <ApiLink kind="function" type="changei18n" /> como parámetro para cambiar la i18n global del componente a nivel del módulo de la aplicación (app.module). Esto cambiará las cadenas de recursos de todos los componentes de paginación de su aplicación:
+
+```ts
+public ngOnInit(): void {
+    changei18n(this.paginatorResourceStrings as any);
+}
+```
+
+Para cambiar las cadenas de recursos de un componente de paginación concreto, puede usar un @ViewChild y establecer el <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" /> deseado dentro de un método `requestAnimationFrame` con una devolución de llamada, que se invocará antes de repintar la página. Asignar un objeto recién instanciado a la propiedad <ApiLink type="Paginator" member="resourceStrings" label="resourceStrings" /> localizará solo la instancia de ese componente.
+
+```ts
+@ViewChild('paginator', { read: IgxPaginatorComponent, static: false }) public paginator: IgxPaginatorComponent;
+...
+
+public ngOnInit(): void {
+    requestAnimationFrame(() => {
+        this.paginator.resourceStrings = this.paginatorResourceStrings;
+    });
+}
+```
+
+
+## Referencias de API
+- <ApiLink type="Paginator" label="API de IgxPaginator" />
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="Estilos de IgxPaginator" />
+## Recursos adicionales
+
+<hr/>
+
+- [Grid](/grid/grid)
+- [Virtualización y rendimiento](/grid/virtualization)
+- [Filtrado](/grid/filtering)
+- [Ordenación](/grid/sorting)
+- [Resúmenes](/grid/summaries)
+
+
+<hr/>
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [Ignite UI for Angular **Foros**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

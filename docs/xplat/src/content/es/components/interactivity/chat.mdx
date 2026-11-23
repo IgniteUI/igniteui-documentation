@@ -1,0 +1,1046 @@
+---
+title: "Chat de {Platform} | {ProductName}"
+description: "Con el Chat de {ProductName} puede crear experiencias de mensajería interactivas con compatibilidad con mensajes, adjuntos, sugerencias, indicadores de escritura y plantillas personalizadas."
+keywords: "{ProductName}, controles de interfaz, widgets de {Platform}, widgets web, widgets de interfaz, {Platform}, suite de componentes nativos de {Platform}, controles nativos de {Platform}, biblioteca de componentes nativos de {Platform}, componentes de chat de {Platform}, controles de chat de {Platform}"
+mentionedTypes: ["Chat"]
+license: MIT
+_language: es
+llms:
+  description: "El componente Chat de {ProductName} ofrece una solución completa para crear interfaces conversacionales en sus aplicaciones."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Descripción general del Chat de {Platform}
+
+El componente Chat de {ProductName} ofrece una solución completa para crear interfaces conversacionales en sus aplicaciones. Tanto si crea una herramienta de atención al cliente, un espacio de trabajo colaborativo o un asistente chatbot, el componente Chat le da los bloques básicos que necesita: enviar y recibir mensajes de texto, subir archivos adjuntos, mostrar sugerencias de respuesta rápida y mostrar indicadores de escritura cuando el otro participante está redactando una respuesta.
+
+A diferencia de una lista de mensajes estática, el componente <ApiLink pkg="core" type="Chat" /> es interactivo y está diseñado para la **comunicación en tiempo real**. Gestiona la entrada, la renderización y la interacción del usuario, y le da control total sobre cómo se muestran los mensajes y los adjuntos. También expone una API de renderizado amplia que le permite sustituir cualquier parte de su diseño o de su aspecto visual.
+
+<Sample src="/interactions/chat/overview" height={900} alt="Ejemplo de descripción general del Chat de {Platform}" />
+
+
+## Instalación
+
+<PlatformBlock for="React, WebComponents">
+
+Para empezar, instale {ProductName} ejecutando el siguiente comando:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```cmd
+npm install {PackageWebComponents}
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```cmd
+npm install igniteui-react
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Para empezar, instale {ProductName} como se describe en [Instalación de {ProductName}](../general-installing-blazor.mdx).
+
+</PlatformBlock>
+
+<PlatformBlock for="React, WebComponents">
+
+Una vez instalado, puede importar el componente en su proyecto y registrarlo para que esté disponible como elemento personalizado:
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+import { defineComponents, IgcChatComponent } from "igniteui-webcomponents";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcChatComponent);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+import { IgrChat } from "igniteui-react";
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre los servicios de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="ChatModule" />, el módulo de recursos de cliente de <ApiLink pkg="core" type="Chat" />, es **opcional**: el componente carga sus recursos la primera vez que se muestra. Incluirlo en `builder.Services.AddIgniteUIBlazor(typeof(IgbChatModule))` sirve para precargar recursos o para admitir elementos creados solo en el cliente (véase [Módulos de componentes](../general-getting-started.mdx#módulos-de-componentes)).
+
+También necesitará enlazar un archivo CSS adicional para aplicar el estilo al componente <ApiLink pkg="core" type="Chat" />.
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+El archivo CSS incluye uno de nuestros temas predeterminados. Puede sustituirlo por otro tema o crear uno personalizado si quiere que <ApiLink pkg="core" type="Chat" /> encaje con la identidad de marca de su aplicación.
+
+## Uso
+
+La forma más sencilla de usar <ApiLink pkg="core" type="Chat" /> es declararlo de la siguiente manera:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options: IgcChatOptions = {
+  currentUserId: 'me',
+  headerText: 'Support Chat',
+};
+```
+
+```html
+<igc-chat id="myChat" .options=${options}>
+</igc-chat>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+import { IgrChat, IgrChatOptions } from 'igniteui-react';
+
+const options: IgrChatOptions = {
+  currentUserId: 'me',
+  headerText: 'Support Chat',
+};
+
+return (
+  <IgrChat options={options} />
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+ public IgbChatOptions Options = new IgbChatOptions()
+ {
+  CurrentUserId = "user",
+  HeaderText = "Support Chat"
+ };
+```
+
+```razor
+<IgbChat @ref="Chat" Options="Options">
+</IgbChat>
+```
+
+</PlatformBlock>
+
+
+Aquí, la propiedad `currentUserId` indica al componente qué mensajes son "salientes" (enviados por el usuario actual) y cuáles "entrantes" (enviados por otros). `headerText` proporciona un título para la ventana del chat.
+
+Una vez renderizado, puede añadir mensajes mediante programación:
+
+<PlatformBlock for="WebComponents">
+
+
+
+```ts
+const chat = document.getElementById('myChat');
+const newMessage = {
+  id: '1',
+  sender: 'me',
+  text: 'Hello! How can I help you?',
+  timestamp: Date.now().toString()
+};
+chat.messages = [...chat.messages, newMessage ];
+
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+import { useRef } from 'react';
+import { IgrChat } from 'igniteui-react';
+
+const ChatExample = () => {
+  const chatRef = useRef<IgrChat>(null);
+
+  const sendMessage = () => {
+    const newMessage = {
+      id: '1',
+      sender: 'me',
+      text: 'Hello! How can I help you?',
+      timestamp: Date.now().toString()
+    };
+    chatRef.current!.messages = [...chatRef.current!.messages, newMessage];
+  };
+
+  return (
+    <>
+      <IgrChat ref={chatRef} options={{ currentUserId: 'me', headerText: 'Support Chat' }} />
+      <button onClick={sendMessage}>Send Message</button>
+    </>
+  );
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChat @ref="Chat" Options="Options" Messages="Messages" MessageCreated="OnMessageCreated"></IgbChat>
+```
+
+```cs
+ public IgbChatMessage[] Messages = new IgbChatMessage[]
+ {
+     new IgbChatMessage()
+     {
+         Id = "1",
+         Text = "Hi, I have a question about my recent order, #7890.",
+         Sender = "user",
+         Timestamp = (DateTime.Now - TimeSpan.FromMilliseconds(3500000)).ToString()
+     }
+ }
+```
+
+La colección de `Messages` se actualiza automáticamente cuando el usuario envía un mensaje. Puede gestionar el evento `MessageCreated` para guardar el mensaje o realizar otros efectos secundarios; no vuelva a añadir el detalle del evento a `Messages`:
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Console.WriteLine($"Message created: {e.Detail.Text}");
+}
+```
+
+</PlatformBlock>
+
+Este enfoque facilita conectar el chat con su propia fuente de datos, como un endpoint de servidor, un motor de chatbot o el backend de una aplicación colaborativa.
+
+### Propiedades
+El componente <ApiLink pkg="core" type="Chat" /> expone varias propiedades clave que le permiten controlar su estado y su configuración:
+
+| Nombre                                                                                                                                    | Descripción                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <PlatformBlock for="Blazor">`Messages`</PlatformBlock><PlatformBlock for="WebComponents,React">`messages`</PlatformBlock>               | Matriz bidireccional de mensajes (<ApiLink pkg="core" type="ChatMessage" />[]) que se muestra en el chat. El Chat actualiza la colección suministrada cuando el usuario envía un mensaje.                  |
+| <PlatformBlock for="Blazor">`DraftMessage`</PlatformBlock><PlatformBlock for="WebComponents,React">`draftMessage`</PlatformBlock>       | El mensaje no enviado actual, representado como un objeto que contiene `text` y, opcionalmente, `attachments`. Es útil para guardar o restaurar borradores de mensajes.                          |
+| <PlatformBlock for="Blazor">`Options`</PlatformBlock><PlatformBlock for="WebComponents,React">`options`</PlatformBlock>                 | Configuración del chat (<ApiLink pkg="core" type="ChatOptions" />), como el ID del usuario actual, los marcadores de posición de la entrada, los tipos de archivo admitidos, las sugerencias de respuesta rápida, el retardo de escritura y los renderizadores personalizados. |
+| <PlatformBlock for="Blazor">`ResourceStrings`</PlatformBlock><PlatformBlock for="WebComponents,React">`resourceStrings`</PlatformBlock> | Cadenas de recursos localizadas para etiquetas, encabezados y texto del sistema. Use esta propiedad para adaptar el componente a distintos idiomas.                                                 |
+
+Estas propiedades facilitan sincronizar la interfaz del chat con el estado y el backend de su aplicación.
+
+#### Colección bidireccional de mensajes
+
+El <PlatformBlock for="WebComponents,React">`messages`</PlatformBlock><PlatformBlock for="Blazor">`Messages`</PlatformBlock> La colección es bidireccional: la aplicación proporciona los mensajes que se muestran y el Chat actualiza la colección original a medida que avanza la conversación. Después de que el usuario envíe un mensaje, el código que mantiene una referencia a la colección puede acceder al mensaje recién creado.
+
+El <PlatformBlock for="WebComponents">`igcMessageCreated`</PlatformBlock><PlatformBlock for="React">`onMessageCreated`</PlatformBlock><PlatformBlock for="Blazor">`MessageCreated`</PlatformBlock> El evento es una notificación para la persistencia u otros efectos secundarios. No vuelva a añadir el mensaje creado a la colección.
+
+Si la colección original debe permanecer sin cambios, pase al Chat una copia superficial. Los objetos de mensaje existentes siguen compartidos; cree una nueva instancia de cada mensaje al construir la colección copiada si esos objetos también deben permanecer independientes.
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const chatMessages = [...originalMessages];
+chat.messages = chatMessages;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+
+```tsx
+const chatMessages = [...originalMessages];
+
+return <IgrChat messages={chatMessages} options={options} />;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+
+```cs
+IgbChatMessage[] chatMessages = originalMessages.ToArray();
+```
+
+```razor
+<IgbChat Messages="chatMessages" Options="Options"></IgbChat>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React">
+
+### Adjuntos
+Las conversaciones actuales rara vez se limitan solo a texto. El componente Chat incluye compatibilidad integrada con archivos adjuntos, lo que permite a los usuarios compartir imágenes, documentos y otros archivos.
+De forma predeterminada, el área de entrada incluye un botón de adjuntar. Puede controlar qué tipos de archivo están permitidos estableciendo la propiedad `acceptedFiles`:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options: IgcChatOptions = {
+  acceptedFiles: "image/*,.pdf",
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options: IgrChatOptions = {
+  acceptedFiles: "image/*,.pdf",
+};
+```
+
+</PlatformBlock>
+
+En este ejemplo, los usuarios solo podrán subir imágenes y archivos PDF.
+Si su caso de uso no requiere adjuntos, puede desactivarlos fácilmente:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options: IgcChatOptions = {
+  disableInputAttachments: true,
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options: IgrChatOptions = {
+  disableInputAttachments: true,
+};
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+### Sugerencias
+Las sugerencias de respuesta rápida ofrecen a los usuarios respuestas predefinidas que pueden pulsar para responder al instante. Esta función resulta especialmente útil en chatbots, flujos de atención al cliente o cuando se guía a los usuarios por un proceso estructurado.
+Puede proporcionar sugerencias enlazando una matriz de cadenas a la propiedad suggestions. El atributo `suggestions-position` le permite controlar dónde se muestran: debajo del área de entrada o debajo de la lista de mensajes.
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options: IgcChatOptions = {
+  currentUserId: "me",
+  suggestions: ['Yes', 'No', 'Maybe later'],
+  suggestionsPosition: "below-input"
+};
+```
+
+```html
+<igc-chat
+  .options=${options}>
+</igc-chat>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options: IgrChatOptions = {
+  currentUserId: "me",
+  suggestions: ['Yes', 'No', 'Maybe later'],
+  suggestionsPosition: "below-input"
+};
+
+return (
+  <IgrChat ref={chatRef} options={options} />
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  CurrentUserId = "me",
+  Suggestions = new string[] { "Yes", "No", "Maybe later" },
+  SuggestionsPosition = ChatSuggestionsPosition.BelowInput
+};
+```
+
+</PlatformBlock>
+
+Este enfoque ayuda a agilizar la interacción con el usuario, reduce la necesidad de escribir respuestas repetitivas y mejora la experiencia general en las conversaciones guiadas.
+
+### Indicador de escritura
+Las conversaciones resultan más naturales cuando los participantes pueden ver que la otra persona está escribiendo. El componente Chat ofrece este comportamiento mediante la propiedad `isTyping` del objeto de opciones.
+Cuando se establece en true, el chat muestra un indicador de escritura discreto debajo de los mensajes:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options: IgcChatOptions = {
+  isTyping: true
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options: IgrChatOptions = {
+  isTyping: true
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  IsTyping = true
+};
+```
+
+</PlatformBlock>
+
+Esta función suele activarse o desactivarse mediante programación, por ejemplo, al recibir un evento de escritura de su servicio de backend.
+
+### Renderizadores personalizados
+Aunque el componente Chat funciona de inmediato con su interfaz predeterminada, muchas aplicaciones necesitan personalizar el aspecto. Por ejemplo, puede que quiera añadir confirmaciones de lectura, mostrar avatares o sustituir el área de entrada por un botón de grabación de voz.
+El componente <ApiLink pkg="core" type="Chat" /> resuelve esta necesidad con un sistema de renderizadores. Un renderizador es simplemente una función que devuelve una plantilla para una parte concreta de la interfaz. Puede sustituir tantos renderizadores como quiera, o tan pocos como necesite.
+
+#### ChatTemplateRenderer
+Todos los renderizadores siguen la misma firma de función:
+
+<PlatformBlock for="WebComponents, React">
+
+```ts
+export type ChatTemplateRenderer<T> = (ctx: T) => unknown;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```js
+igRegisterScript("MyTemplate", (ctx) => {
+}, false);
+```
+
+</PlatformBlock>
+
+El parámetro ctx proporciona distintos datos contextuales según lo que se esté renderizando.
+
+#### Contextos de los renderizadores
+
+| Tipo de contexto                | Datos proporcionados                                                                                                          |
+| --------------------------- | -----------------------------------------------------------------------------------------------------------------------|
+| <ApiLink pkg="core" type="ChatRenderContext" />       | `instance` (la instancia del componente de chat).                                                |
+| <ApiLink pkg="core" type="ChatInputRenderContext" />      | Hereda <ApiLink pkg="core" type="ChatRenderContext" /> y añade `attachments` (matriz de <ApiLink pkg="core" type="ChatMessageAttachment" />) y `value` (texto de entrada actual). |
+| <ApiLink pkg="core" type="ChatMessageRenderContext" />    | Hereda <ApiLink pkg="core" type="ChatRenderContext" /> y añade <ApiLink pkg="core" type="ChatMessage" /> (el <ApiLink pkg="core" type="ChatMessage" /> que se está renderizando).                                      |
+| <ApiLink pkg="core" type="ChatAttachmentRenderContext" /> | Hereda <ApiLink pkg="core" type="ChatMessageRenderContext" /> y añade `attachment` (el <ApiLink pkg="core" type="ChatMessageAttachment" /> que se está renderizando).                      |
+
+#### Renderizadores disponibles
+
+Se pueden personalizar las siguientes partes del chat:
+- Nivel de mensaje: message, messageHeader, messageContent, messageAttachments, messageActions
+- Nivel de adjunto: attachment, attachmentHeader, attachmentContent
+- Nivel de entrada: input, inputActions, inputActionsStart, inputActionsEnd, inputAttachments, fileUploadButton, sendButton
+- Sugerencias: suggestionPrefix
+
+Este nivel de detalle permite ajustar solo una parte (por ejemplo, el aspecto de los adjuntos) sin reescribir toda la disposición del chat.
+
+#### Ejemplo: contenido de mensaje personalizado
+Este ejemplo muestra cómo sustituir la burbuja del mensaje por su propia plantilla:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options = {
+  renderers: {
+    messageContent: (ctx) => {
+      const { message } = ctx;
+      return html`<div class="bubble custom">${message.content}</div>`;
+    }
+  }
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options = {
+  renderers: {
+    messageContent: (ctx) => {
+      const { message } = ctx;
+      return (
+        <div className="bubble custom">${message.content}</div>
+      );
+    }
+  }
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        MessageContentScript = "MessageContentScript"
+    }
+};
+```
+
+```js
+igRegisterScript("MessageContentScript", (ctx) => {
+    var html = window.igTemplating.html;
+    return  html`<div class="bubble custom">${ctx.message.text}</div>`;
+}, false);
+
+```
+
+</PlatformBlock>
+
+#### Ejemplo: área de entrada personalizada
+De forma predeterminada, la entrada del chat es un área de texto. Puede reemplazarla para ofrecer una experiencia más adaptada, por ejemplo añadiendo un botón de entrada por voz:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options = {
+  renderers: {
+    input: (ctx) => html`
+      <textarea placeholder=${ctx.instance?.options?.inputPlaceholder || 'Type here...'}>${ctx.value}</textarea>
+      <button @click=${() => alert('Voice input!')}>🎤</button>
+    `
+  }
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options = {
+  renderers: {
+    input: (ctx) => {
+      return (
+        <>
+          <textarea placeholder={ctx.instance?.options?.inputPlaceholder || 'Type here...'}>{ctx.value}</textarea>
+          <button onClick={() => alert('Voice input!')}>🎤</button>
+        </>
+      );
+    }
+  }
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+    Renderers = new IgbChatRenderers()
+    {
+        InputScript = "InputTemplate"
+    }
+};
+```
+
+
+```js
+igRegisterScript("InputTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<textarea placeholder=${ctx.instance?.options?.inputPlaceholder || 'Type here...'}>${ctx.value}</textarea>
+    <button @click=${() => alert('Voice input!')}>🎤</button>`;
+}, false);
+```
+
+</PlatformBlock>
+
+#### Ejemplo: ampliar las acciones de entrada
+El componente <ApiLink pkg="core" type="Chat" /> proporciona dos renderizadores que resultan útiles cuando quiere mantener las acciones predeterminadas (subir y enviar) pero ampliarlas con controles adicionales:
+- `inputActionsStart`: le permite insertar contenido personalizado después del botón de subida integrado.
+- `inputActionsEnd`: le permite insertar contenido personalizado después del botón de envío integrado.
+
+Por ejemplo, puede que quiera añadir un botón de grabación de voz antes de los demás botones, o un menú de opciones adicionales después del botón de enviar.
+En el siguiente ejemplo se conserva el botón de subida predeterminado, pero se añade junto a él un botón de micrófono. Por otro lado, se elimina el botón de enviar predeterminado y se sustituye por un botón personalizado «Ask» y un menú «more».
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const _actionsStartTemplate = () => html`
+  <igc-icon-button variant="flat">🎤</igc-icon-button>
+`;
+
+const _actionsEndTemplate = (ctx: ChatRenderContext) => html`
+  <div>
+    <igc-button @click=${() => handleCustomSendClick(ctx.instance)}>Ask</igc-button>
+    <igc-icon-button variant="flat" name="more_horiz"></igc-icon-button>
+  </div>
+`;
+
+const options = {
+  renderers: {
+    inputActionsStart: _actionsStartTemplate,
+    inputActionsEnd: _actionsEndTemplate,
+    sendButton: () => nothing,
+  },
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const _actionsStartTemplate = () => (
+  <IgrIconButton variant="flat">🎤</IgrIconButton>
+);
+
+const _actionsEndTemplate = (ctx) => (
+  <div>
+    <IgrButton onClick={() => handleCustomSendClick(ctx.instance)}>Ask</IgrButton>
+    <IgrIconButton variant="flat" name="more_horiz"></IgrIconButton>
+  </div>
+);
+
+const options = {
+  renderers: {
+    inputActionsStart: _actionsStartTemplate,
+    inputActionsEnd: _actionsEndTemplate,
+    sendButton: () => null,
+  },
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```cs
+public IgbChatOptions Options = new IgbChatOptions
+{
+  Renderers = new IgbChatRenderers()
+  {
+    InputActionsStartScript = "InputActionsStartTemplate",
+    InputActionsEndScript = "InputActionsEndTemplate",
+    SendButtonScript = "SendButtonTemplate"
+  }
+};
+```
+
+
+```js
+igRegisterScript("SendButtonTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html``;
+}, false);
+
+
+igRegisterScript("InputActionsStartTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<igc-icon-button variant="flat">🎤</igc-icon-button>`;
+}, false);
+
+igRegisterScript("InputActionsEndTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html`<div>
+    <igc-button @click=${() => handleCustomSendClick(ctx.instance)}>Ask</igc-button>
+    <igc-icon-button variant="flat" name="more_horiz"></igc-icon-button>
+  </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+En esta configuración:
+<PlatformBlock for="WebComponents, React">
+- El botón de subida permanece en su sitio.
+</PlatformBlock>
+- Se añade un botón de micrófono justo después (inputActionsStart).
+- Se elimina el botón de envío predeterminado y se sustituye por un botón personalizado Ask y un icono "más" (inputActionsEnd).
+
+Este enfoque le da total flexibilidad sobre la barra de entrada del chat, permitiéndole añadir, eliminar o reordenar acciones sin reconstruir el área de entrada desde cero.
+
+<PlatformBlock for="WebComponents, React">
+
+### Renderizado de Markdown
+
+<PlatformBlock for="WebComponents">
+
+El componente Chat incluye compatibilidad integrada con contenido Markdown a través del asistente `createMarkdownRenderer`, que se exporta desde el punto de entrada `igniteui-webcomponents/extras` del paquete principal. Esto le permite mostrar mensajes con texto con formato, enlaces, listas e incluso bloques de código con resaltado de sintaxis, a la vez que garantiza que todo el HTML renderizado se sanitice por seguridad.
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+El componente Chat incluye compatibilidad integrada con contenido Markdown a través del asistente `createMarkdownRenderer`, que se exporta desde el punto de entrada `igniteui-react/extras` del paquete principal. Esto le permite mostrar mensajes con texto con formato, enlaces, listas e incluso bloques de código con resaltado de sintaxis, a la vez que garantiza que todo el HTML renderizado se sanitice por seguridad.
+
+</PlatformBlock>
+
+<DocsAside type="info">
+Para usar el renderizador de Markdown, debe instalar las siguientes dependencias de pares en su proyecto:
+</DocsAside>
+
+```cmd
+npm install marked marked-shiki shiki dompurify
+```
+
+De forma predeterminada, los mensajes se renderizan como texto sin formato. Si quiere habilitar la compatibilidad con Markdown, puede sustituir el renderizador messageContent y usar el renderizador de Markdown como se muestra a continuación:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+import { createMarkdownRenderer } from 'igniteui-webcomponents/extras';
+
+// Create a reusable Markdown renderer instance
+const markdownRenderer = await createMarkdownRenderer();
+
+const options = {
+  renderers: {
+    messageContent: async ({ message }) => markdownRenderer(message),
+  }
+};
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+import { createMarkdownRenderer } from 'igniteui-react/extras';
+
+// Create a reusable Markdown renderer instance
+const markdownRenderer = await createMarkdownRenderer();
+
+const options = {
+  renderers: {
+    messageContent: async ({ message }) => markdownRenderer(message),
+  }
+};
+```
+
+</PlatformBlock>
+
+En este ejemplo:
+- La propiedad text de cada mensaje se analizará como Markdown usando la biblioteca [marked](https://github.com/markedjs/marked).
+- El renderizador sanea la salida usando [DOMPurify](https://github.com/cure53/DOMPurify)
+- Los enlaces se abren automáticamente en una pestaña nueva con atributos rel seguros.
+
+#### Resaltado de sintaxis
+
+El renderizador de Markdown también admite el resaltado de sintaxis de los bloques de código mediante [Shiki](https://shiki.matsu.io/). De forma predeterminada, incluye el resaltado de JavaScript, TypeScript, HTML y CSS con el tema github-light. Puede personalizar este comportamiento mediante MarkdownRendererOptions:
+
+```ts
+const markdownRenderer = await createMarkdownRenderer({
+  theme: { light: 'min-light' },
+  languages: ['javascript', 'python']
+});
+```
+
+Esto habilitará los bloques de código resaltados para JavaScript, Python y Go, con el tema oscuro de GitHub.
+
+#### Opciones de configuración
+
+| Opción          | Descripción                                                                     |
+| --------------- | ------------------------------------------------------------------------------- |
+| `noHighlighter` | Si `true`, desactiva por completo el resaltado de sintaxis.                               |
+| `languages`     | Lista de lenguajes de programación que se admiten en los bloques de código resaltados.            |
+| `theme`         | Un objeto que especifica los temas de **Shiki** que se aplican. Admite valores independientes para el modo `light` y el modo `dark` (por ejemplo, `{ light: 'github-light', dark: 'github-dark' }`). |
+| `sanitizer`     | Una función personalizada para sanitizar el HTML final. El valor predeterminado es `DOMPurify.sanitize`. |
+
+</PlatformBlock>
+
+### Eventos
+Para integrarse con la lógica de su aplicación, el componente Chat emite un conjunto de eventos:
+
+<PlatformBlock for="WebComponents">
+
+
+- igcMessageCreated: cuando se crea un mensaje nuevo.
+- igcMessageReact: cuando se reacciona a un mensaje.
+- igcAttachmentClick: cuando se hace clic en un adjunto.
+- igcAttachmentAdded: cuando se añade un adjunto.
+- igcAttachmentRemoved: cuando se elimina un adjunto.
+- igcAttachmentDrag: mientras se arrastra un adjunto.
+- igcAttachmentDrop: cuando se suelta un adjunto.
+- igcTypingChange: cuando cambia el estado de escritura.
+- igcInputFocus / igcInputBlur: eventos de foco de la entrada.
+- igcInputChange: cuando cambia el valor de la entrada.
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+- onMessageCreated: cuando se crea un mensaje nuevo.
+- onMessageReact: cuando se reacciona a un mensaje.
+- onAttachmentClick: cuando se hace clic en un adjunto.
+- onAttachmentAdded: cuando se añade un adjunto.
+- onAttachmentRemoved: cuando se elimina un adjunto.
+- onAttachmentDrag: mientras se arrastra un adjunto.
+- onAttachmentDrop: cuando se suelta un adjunto.
+- onTypingChange: cuando cambia el estado de escritura.
+- onInputFocus / onInputBlur: eventos de foco de la entrada.
+- onInputChange: cuando cambia el valor de la entrada.
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+- MessageCreated: cuando se crea un mensaje nuevo.
+- MessageReact: cuando se reacciona a un mensaje.
+- TypingChange: cuando cambia el estado de escritura.
+- InputFocus / onInputBlur: eventos de foco de la entrada.
+- InputChange: cuando cambia el valor de la entrada.
+
+</PlatformBlock>
+
+Puede escuchar estos eventos y sincronizarlos con su backend:
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+chat.addEventListener('igcMessageCreated', (e) => {
+  console.log('Message:', e.detail);
+});
+```
+
+<Sample src="/interactions/chat/features" height={900} alt="Funciones del Chat de Web Components" />
+
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const chatRef = useRef<IgrChat>(null);
+chatRef.current.addEventListener('onMessageCreated', (e) => {
+  console.log('Message:', e.detail);
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbChat MessageCreated="OnMessageCreated"></IgbChat>
+```
+
+```cs
+public void OnMessageCreated(IgbChatMessageEventArgs e)
+{
+  Console.WriteLine($"Message: {e.Detail.Text}");
+}
+```
+
+<Sample src="/interactions/chat/features" height={900} alt="Funciones del Chat de {Platform}" />
+
+</PlatformBlock>
+## Estilos
+
+El componente <ApiLink pkg="core" type="Chat" /> expone tanto **partes CSS** como **slots** para una personalización detallada de su aspecto y de su estructura.
+
+### Partes CSS
+
+| Nombre de la parte                       | Descripción                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------ |
+| "chat-container"                | Da estilo al contenedor principal del chat.                                                      |
+| "header"                        | Da estilo al contenedor del encabezado del chat.                                                    |
+| "prefix"                        | Da estilo al elemento anterior al título del chat (por ejemplo, un avatar).                             |
+| "title"                         | Da estilo al título del encabezado del chat.                                                        |
+| "message-area-container"        | Da estilo al contenedor que agrupa los mensajes y las sugerencias (opcionales).                |
+| "message-list"                  | Da estilo al contenedor de la lista de mensajes.                                                   |
+| "message-item"                  | Da estilo a cada contenedor de mensaje.                                                         |
+| "typing-indicator"              | Da estilo al contenedor del indicador de escritura.                                               |
+| "typing-dot"                    | Da estilo a los puntos individuales del indicador de escritura.                                             |
+| "suggestions-container"         | Da estilo al contenedor que agrupa todas las sugerencias.                                        |
+| "suggestions-header"            | Da estilo al encabezado de las sugerencias.                                                       |
+| "suggestion"                    | Da estilo a cada elemento de sugerencia.                                                         |
+| "suggestion-prefix"             | Da estilo al icono o al prefijo de una sugerencia.                                           |
+| "suggestion-title"              | Da estilo al texto o al título de una sugerencia.                                               |
+| "empty-state"                   | Da estilo al contenedor del estado vacío cuando no hay mensajes.                         |
+| "input-area-container"          | Da estilo al contenedor del área de entrada del chat.                                       |
+| "input-container"               | Da estilo al contenedor principal de la entrada.                                                     |
+| "input-attachments-container"   | Da estilo al contenedor de los adjuntos en la entrada.                                   |
+| "input-attachment-container"    | Da estilo a un único adjunto en el área de entrada.                                        |
+| "input-attachment-name"         | Da estilo al nombre de archivo de un adjunto.                                               |
+| "input-attachment-icon"         | Da estilo al icono de un adjunto.                                                    |
+| "text-input"                    | Da estilo al campo de texto para escribir mensajes.                                     |
+| "input-actions-container"       | Da estilo al contenedor de las acciones de entrada.                                              |
+| "input-actions-start"           | Da estilo al grupo de acciones al inicio de la entrada, después de la subida de archivos predeterminada. |
+| "input-actions-end"             | Da estilo al grupo de acciones al final de la entrada.                                 |
+| "file-upload-container"         | Da estilo al contenedor de la entrada de subida de archivos.                                      |
+| "file-upload"                   | Da estilo a la propia entrada de subida de archivos.                                                 |
+| "send-button-container"         | Da estilo al contenedor del botón de envío.                                         |
+| "send-button"                   | Da estilo al botón de envío.                                                              |
+| "message-container"             | Da estilo al contenedor de un mensaje individual.                                            |
+| "message-list (forwarded)"      | Da estilo a la lista interna de mensajes.                                                |
+| "message-header"                | Da estilo al encabezado de un mensaje (por ejemplo, remitente, marca de tiempo).                            |
+| "message-content"               | Da estilo al contenido de texto de un mensaje.                                                |
+| "message-attachments-container" | Da estilo al contenedor de los adjuntos de un mensaje.                                        |
+| "message-attachment"            | Da estilo a un adjunto individual de un mensaje.                                                  |
+| "message-actions-container"     | Da estilo al contenedor que agrupa las acciones del mensaje.                                        |
+| "message-sent"                  | Da estilo a los mensajes marcados como enviados por el usuario actual.                                  |
+| "attachment-header"             | Da estilo al encabezado de un bloque de adjuntos.                                            |
+| "attachment-content"            | Da estilo al contenido de un bloque de adjuntos.                                           |
+| "attachment-icon"               | Da estilo al icono de un adjunto.                                                    |
+| "file-name"                     | Da estilo al nombre de archivo que se muestra en un adjunto.                                         |
+
+### Slots
+
+| Nombre del slot             | Descripción                                                              |
+| --------------------- | ------------------------------------------------------------------------ |
+| "prefix"              | Slot para insertar contenido (por ejemplo, un avatar o un icono) antes del título del chat. |
+| "title"               | Slot para sobrescribir el contenido del título del chat.                              |
+| "actions"             | Slot para insertar acciones del encabezado (por ejemplo, botones o menús).                |
+| "suggestions-header"  | Slot para representar un encabezado personalizado de la lista de sugerencias.             |
+| "suggestions"         | Slot para representar una lista personalizada de sugerencias de respuesta rápida.             |
+| "suggestions-actions" | Slot para representar acciones adicionales.                                   |
+| "suggestion"          | Slot para representar un elemento de sugerencia individual.                             |
+| "empty-state"         | Slot que se muestra cuando no hay mensajes.                                   |
+
+#### Adopción de estilos raíz (adoptRootStyles)
+
+Las opciones del componente Chat incluyen una marca especial para escenarios de estilo avanzados:
+
+| Opción            | Tipo      | Valor predeterminado | Descripción        |
+| ----------------- | --------- | ------- | ------------------ |
+| `adoptRootStyles` | `boolean` | false   | Cuando `true`, el componente permite que el contenido renderizado dentro de su Shadow DOM (por ejemplo, el procedente de renderizadores personalizados) herede los estilos del elemento raíz del documento. Esto ofrece una solución rápida para dar estilo, pero **no se recomienda** para producción. |
+
+Esta propiedad puede resultar útil si prefiere no lidiar con el encapsulado de Shadow DOM al aplicar CSS global a plantillas renderizadas de forma personalizada.
+Sin embargo, tiene compensaciones:
+- ✅ Comodidad: permite que los estilos globales (del documento) afecten a los renderizadores de mensajes personalizados.
+- ⚠ Riesgo: rompe el encapsulado y puede provocar fugas de estilos, cuando el CSS global altera sin querer el aspecto interno.
+- 🔒 Ajuste de una sola vez: esta opción solo puede establecerse al inicializar. Cambiarla en tiempo de ejecución no tiene efecto.
+
+Recomendamos encarecidamente usar los enfoques estándar de estilo de Web Components antes de recurrir a esta propiedad:
+- API de variables CSS y ::part: prefiera la personalización mediante las partes y variables expuestas.
+- Elementos `<link>`: para hojas de estilo más grandes, insértelas dentro del Shadow DOM.
+- Etiquetas `<style>` en línea: para sobrescrituras de estilo pequeñas y acotadas.
+
+#### Ejemplo
+
+```css
+igc-chat::part(header) {
+  background-color: var(--ig-gray-800);
+  color: var(--ig-warn-400);
+}
+
+igc-chat::part(message-container) {
+  background: var(--ig-warn-200);
+  color: var(--ig-warn-200-contrast);
+}
+
+igc-chat::part(message-sent) {
+  background: var(--ig-warn-500);
+  color: var(--ig-warn-500-contrast);
+}
+
+igc-chat::part(message-header) {
+  color: var(--ig-warn-A700); 
+}
+```
+
+Esto le permite dar estilo a <ApiLink pkg="core" type="Chat" /> para que coincida con su marca sin reemplazar su funcionalidad.
+
+<Sample src="/interactions/chat/styling" height={900} alt="Ejemplo de estilo de {Platform} Chat" />
+
+
+## Referencia de API
+
+- <ApiLink pkg="core" type="Chat" />
+- <ApiLink pkg="core" type="ChatOptions" />
+- <ApiLink pkg="core" type="ChatMessage" />
+- <ApiLink pkg="core" type="ChatMessageAttachment" />
+- <ApiLink pkg="core" type="ChatRenderers" />
+- <ApiLink type="ChatTemplateRenderer" />
+- [Estilos y temas](../themes/overview.mdx)
+
+## Recursos adicionales
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

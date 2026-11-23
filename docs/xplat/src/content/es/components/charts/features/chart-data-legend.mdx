@@ -1,0 +1,181 @@
+---
+title: "Leyenda de datos de gráficos de {Platform} | Herramientas de visualización de datos | Infragistics"
+description: "Use el gráfico de Infragistics {ProductName} con la leyenda de datos."
+keywords: "Gráficos {Platform}, leyenda de gráfico, leyenda, tipos de leyenda, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["CategoryChart", "DataLegend", "Series", "DataLegendSummaryType", "DataAbbreviationMode", "DataLegendLayoutMode"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "En {ProductName}, DataLegend es una versión muy personalizable de Legend, que muestra los valores de las series y ofrece muchas propiedades de configuración para filtrar filas de series y columnas de valores, y para dar estilo y formato a los valores."
+platformType: xplat
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import layoutMode from '@xplat-images/general/layout_mode.png';
+
+
+# Leyenda de datos de {Platform}
+
+En {ProductName}, `DataLegend` es una versión muy personalizable de `Legend`, que muestra los valores de las series y ofrece muchas propiedades de configuración para filtrar filas de series y columnas de valores, y para dar estilo y formato a los valores. Esta leyenda se actualiza al mover el ratón dentro del área de trazado de `CategoryChart`<PlatformBlock for="Web">, `FinancialChart`,</PlatformBlock> y `DataChart`. Además, tiene un estado persistente que recuerda el último punto sobre el que se pasó el cursor cuando el puntero del ratón del usuario sale del área de trazado. Muestra este contenido usando tres tipos de filas (encabezado, serie y resumen) y cuatro tipos de columnas (título, etiqueta, valor y unidad).
+
+## Filas de la leyenda de datos de {Platform}
+
+Las filas de `DataLegend` incluyen la fila de encabezado, la(s) fila(s) de series y la fila de resumen. La fila de encabezado muestra la etiqueta del eje del punto sobre el que se pasa el cursor, y puede cambiarse con la propiedad `headerText`.
+
+<Sample src="/charts/category-chart/data-legend" height={450} alt="Ejemplo de leyenda de datos de {Platform} para gráficos de categorías" />
+
+
+### Fila de encabezado
+
+La fila de encabezado muestra la etiqueta actual del eje X cuando el ratón pasa sobre una serie de categorías o una serie financiera. Puede usar las propiedades `headerFormatDate` y `headerFormatTime` para dar formato a la fecha y la hora en `DataLegend` si el eje X muestra fechas. Para otros tipos de serie, `DataLegend` no muestra la fila de encabezado.
+
+### Fila de series
+
+La fila de series representa cada serie representada en el gráfico. Estas filas muestran el distintivo de la leyenda, el título de la serie, el valor real o abreviado de la serie y el símbolo de abreviatura o la unidad de medida, si se ha especificado. Puede filtrar las filas de series estableciendo las propiedades `includedSeries` o `excludedSeries` en una colección de índices de serie (1, 2, 3) o de títulos de serie (Tesla, Microsoft).
+
+### Fila de resumen
+
+Por último, hay una fila de resumen que muestra el total de todos los valores de las series. El título de resumen predeterminado puede cambiarse con la propiedad `summaryTitleText` de la leyenda. Además, puede usar la propiedad `summaryType` para personalizar si se muestran en la fila de resumen el `Total`, el `Min`, el `Max` o el `Average` de los valores de las series.
+
+## Columnas de la leyenda de datos de {Platform}
+
+Las columnas de `DataLegend` incluyen el título de la serie, la etiqueta, el valor de la columna de datos y la unidad opcional asociada al valor. Algunas series del gráfico pueden tener varias columnas para la etiqueta, el valor y las unidades.
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+Por ejemplo, la serie de precios financieros tiene las columnas de datos **High**, **Low**, **Open** y **Close**, que pueden filtrarse en `DataLegend` mediante las propiedades `includedColumns` o `excludedColumns`.
+
+<Sample src="/charts/financial-chart/data-legend" height={450} alt="Ejemplo de leyenda de datos de {Platform} Financial Chart" />
+</PlatformBlock>
+
+
+
+
+Establecer valores en las propiedades `includedColumns` y `excludedColumns` depende del tipo de serie y de cuántas columnas de datos admita. Por ejemplo, puede establecer la propiedad `includedColumns` en una colección de cadenas **Open** y **Close**, y la leyenda mostrará solo los valores de apertura y cierre de los precios de las acciones cuando el gráfico represente series financieras. La tabla siguiente enumera todos los nombres de columna que pueden usarse para filtrar columnas en la leyenda de datos.
+
+|  Tipo de serie  | Nombres de columna |
+| -----------------|-------------- |
+| Category Series  | Valor |
+| Radial Series    | Valor |
+| Polar Series     | Radius, Angle |
+| Bubble Series    | X, Y, Radius |
+| Scatter Series   | X, Y |
+| Range Series     | High, Low |
+| Financial Series | High, Low, Open, Close, Change, TypicalPrice, Volume |
+
+Donde **TypicalPrice** y el **cambio** porcentual de los precios OHLC los calculan automáticamente las series financieras, por lo que no es necesario incluirlos en sus orígenes de datos.
+
+### Columna de título
+
+La columna de título muestra los distintivos de la leyenda y los títulos de las series, que proceden de la propiedad `chartTitle` de las distintas `Series` representadas en el gráfico.
+
+### Columna de etiqueta
+
+La columna de etiqueta muestra un nombre corto a la izquierda de la columna de valor, por ejemplo, "O" para el precio de apertura de la acción **Open**. Puede alternar la visibilidad de esta columna con la propiedad `labelDisplayMode`.
+
+### Columna de valor
+
+La columna de valor muestra los valores de las series como texto abreviado, que puede formatearse con la propiedad `valueFormatAbbreviation` para aplicar la misma abreviatura a todos los números estableciendo esta propiedad en `Shared`. Como alternativa, un usuario puede elegir otras abreviaturas, como `Independent`, `Kilo`, `Million`, etc. La precisión de los valores abreviados se controla con `valueFormatMinFractions` y `valueFormatMaxFractions` para el número mínimo y máximo de dígitos, respectivamente.
+
+
+### Columna de unidad
+
+La columna de unidad muestra un símbolo de abreviatura a la derecha de la columna de valor. El símbolo de unidad depende de la propiedad `valueFormatAbbreviation`; por ejemplo, "M" para la abreviatura `Million`.
+
+### Personalizar las columnas
+
+Puede personalizar el texto que se muestra en las columnas **Label** y **Unit** mediante propiedades que terminan en **MemberAsLegendLabel** y **MemberAsLegendUnit** en cada serie. La tabla siguiente muestra algunas personalizaciones posibles de las columnas **Label** y **Unit**.
+
+|  Tipo de serie | Propiedades de las series |
+| ------|---- |
+| Category Series | ValueMemberAsLegendLabel="$" <br /> ValueMemberAsLegendUnit="M" |
+| Radial Series | ValueMemberAsLegendLabel="Distance:" <br /> ValueMemberAsLegendUnit="KM" |
+| Polar Series | RadiusMemberAsLegendLabel="Radius:" <br /> RadiusMemberAsLegendUnit="KM" <br /> AngleMemberAsLegendLabel="Angle:" <br /> AngleMemberAsLegendUnit="°" |
+| Range Series | HighMemberAsLegendLabel="H:" <br /> HighMemberAsLegendUnit="K" <br /> LowMemberAsLegendLabel="L:" <br /> LowMemberAsLegendUnit="K" |
+| Financial Series | OpenMemberAsLegendLabel="O:" <br /> OpenMemberAsLegendUnit="K" <br /> HighMemberAsLegendLabel="H:" <br /> HighMemberAsLegendUnit="K" <br /> LowMemberAsLegendLabel="L:" <br /> LowMemberAsLegendUnit="K" <br /> CloseMemberAsLegendLabel="C:" <br /> CloseMemberAsLegendUnit="K" <br /> |
+
+Además, puede usar la propiedad `UnitsText` de `DataLegend` para cambiar el texto que se muestra en todas las columnas de unidad.
+
+## Modo de disposición
+
+Los elementos de la leyenda pueden colocarse en una estructura vertical o de tabla mediante la propiedad `layoutMode`. El valor predeterminado es `Table`, que mantiene el mismo aspecto que en versiones anteriores.
+
+p. ej.
+
+<Image src={layoutMode} alt="Modo de disposición" />
+
+## Estilo de la leyenda de datos de {Platform}
+
+`DataLegend` ofrece propiedades para dar estilo a cada tipo de columna. Cada una de estas propiedades empieza por **Title**, **Label**, **Value** o **Units**. Puede dar estilo al color, la fuente y el margen del texto. Por ejemplo, si quisiera establecer el color del texto de todas las columnas, tendría que establecer las propiedades `titleTextColor`, `labelTextColor`, `valueTextColor` y `unitsTextColor`.
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+El siguiente ejemplo muestra un uso de las propiedades de estilo mencionadas anteriormente:
+
+<Sample src="/charts/financial-chart/data-legend-styling-props" height={450} alt="Ejemplo de estilo de la leyenda de datos de {Platform}" />
+</PlatformBlock>
+
+
+
+
+## Formato de valores de la leyenda de datos de {Platform}
+
+`DataLegend` abrevia automáticamente los números grandes mediante su propiedad `valueFormatAbbreviation`. Esto añade un multiplicador en la columna de unidades, como kilo, millón, mil millones, etc. Puede personalizar el número de decimales que se muestran estableciendo `valueFormatMinFractions` y `valueFormatMaxFractions`. Así podrá determinar el número mínimo y máximo de dígitos que aparecen después de la coma decimal, respectivamente.
+El siguiente ejemplo muestra cómo usar esas propiedades:
+
+<Sample src="/charts/category-chart/data-legend-formatting-decimals" height={450} alt="Ejemplo de formato de decimales de la leyenda de datos de {Platform}" />
+
+
+
+
+## Modo de valor de la leyenda de datos de {Platform}
+
+Puede cambiar la visualización decimal predeterminada de los valores dentro de `DataLegend` a una moneda, modificando la propiedad `valueFormatMode`. Además, puede cambiar la configuración regional del símbolo de moneda mostrado estableciendo la propiedad `valueFormatCulture` con una etiqueta de configuración regional.
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+Por ejemplo, la siguiente leyenda de datos con `valueFormatCulture` establecida en "en-GB" muestra el símbolo de la libra esterlina británica (£):
+
+<Sample src="/charts/financial-chart/data-legend-formatting-currency" height={450} alt="Ejemplo de formato de moneda de {Platform}" />
+</PlatformBlock>
+
+
+
+## Agrupación de la leyenda de datos de {Platform}
+
+`dataLegendGroup` puede establecerse, en todos los tipos de serie, como una cadena que clasifica un grupo de series en la leyenda de datos. Cada grupo tendrá su propia fila de resumen, que se muestra antes de otro grupo de series:
+De forma predeterminada, DataLegend oculta los nombres de los grupos, pero puede mostrarlos estableciendo la propiedad `groupRowVisible` en true.
+
+<Sample src="/charts/data-chart/data-legend-grouping" height={450} alt="Agrupación de la leyenda de datos de {Platform}" />
+
+
+
+## Estilo y eventos de la leyenda de datos de {Platform}
+
+Se exponen varias propiedades, incluida la agrupación de partes de la leyenda.
+
+- `GroupRowMarginLeft/GroupRowMarginTop/GroupRowMarginRight/GroupRowMarginBottom`
+- `GroupTextMarginLeft/GroupTextMarginTop/GroupTextMarginRight/GroupTextMarginBottom`
+- `groupTextColor`
+- `GroupTextFontSize/GroupTextFontFamily/GroupTextFontStyle/GroupTextFontWeight`
+- `HeaderTextMarginLeft/HeaderTextMarginTop/HeaderTextMarginRight/HeaderTextMarginBottom`
+- `headerTextColor`
+- `HeaderTextFontSize/HeaderTextFontFamily/HeaderTextFontStyle/HeaderTextFontWeight`
+
+`DataLegend` tiene varios eventos que se disparan al representar su fila correspondiente, incluso durante las interacciones con el ratón en las que se actualizan los valores. A continuación se enumeran estos eventos con una descripción de para qué están diseñados:
+
+- `styleGroupRow`: este evento se dispara para cada grupo, para dar estilo al texto que se muestra en las filas de grupo.
+- `styleHeaderRow`: este evento se dispara al representar la fila de encabezado.
+- `styleSeriesRow`: este evento se dispara una vez por cada fila de serie, lo que permite dar estilo condicional a los valores de la serie.
+- `styleSeriesColumn`: este evento se dispara una vez por cada columna de serie, lo que permite dar estilo condicional a las distintas columnas de las series del gráfico.
+- `styleSummaryRow`: este evento se dispara una vez al representar la fila de resumen.
+- `styleSummaryColumn`: este evento se dispara una vez al representar la columna de resumen.
+
+Algunos de los eventos exponen un parámetro `DataLegendStylingRowEventArgs` como argumento, lo que le permite personalizar el texto de cada elemento, el color del texto y la visibilidad general de la fila. Los argumentos del evento también exponen propiedades específicas de cada evento. Por ejemplo, como el evento `StyleSeriesRow` se dispara para cada serie, los argumentos del evento devuelven el índice y el título de la serie para la fila que representa la serie.
+
+Los eventos `StyleSummaryColumn` y `StyleSeriesColumn` exponen un parámetro `DataLegendStylingColumnEventArgs` como argumento, para personalizar cada campo de la serie. Los argumentos del evento también exponen propiedades específicas del evento, como el índice de columna y las propiedades relacionadas con los miembros de valor sobre las columnas.
+
+<Sample src="/charts/data-chart/data-legend-styling" height={450} alt="Estilo de la leyenda de datos de {Platform}" />
+
+
+## Referencias de API
+`DataLegend`

@@ -1,0 +1,176 @@
+---
+title: "Componente Dashboard Tile de {Platform} | {ProductName}"
+description: "Vea lo fácil que es empezar con el componente Dashboard Tile de {Platform}."
+keywords: "{ProductName}, controles de interfaz, widgets de {Platform}, widgets web, widgets de interfaz, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, componentes de panel de {Platform}, controles Dashboard Tile de {Platform}"
+license: commercial
+mentionedTypes: ["Toolbar", "CategoryChart", "DataChart", "RadialGauge", "LinearGauge", "GeographicMap", "DashboardTile"]
+_language: es
+llms:
+  description: "El Dashboard Tile de {Platform} es un componente de visualización de datos automático que determina, mediante el análisis de una colección o array de DataSource o de un único punto de datos, cuál es la visualización más adecuada para mostrar."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import dashboardTileToolbar from '@xplat-images/dashboard-tile-toolbar.png';
+import Badge from 'igniteui-astro-components/components/mdx/Badge.astro';
+
+
+# Dashboard Tile de {Platform} <Badge variant="preview" />
+
+El Dashboard Tile de {Platform} es un componente de visualización de datos automático que determina, mediante el análisis de una colección o array de DataSource o de un único punto de datos, cuál es la visualización más adecuada para mostrar. Además, ofrece un conjunto de herramientas en su `Toolbar` integrada que le permiten modificar de diversas formas la visualización presentada.
+
+Según la forma de los datos proporcionados, puede seleccionarse una gran variedad de visualizaciones, entre ellas, entre otras: gráficos de categorías, gráficos radiales y polares, gráficos de dispersión, mapas geográficos, indicadores radiales y lineales, gráficos financieros y gráficos apilados.
+
+Al interactuar con el menú de tipos de gráfico de la barra de herramientas, puede seleccionar otra visualización entre la lista de candidatas probables.
+
+## Ejemplo de Dashboard Tile de {Platform}
+
+<Sample src="/charts/dashboard-tile/local-data-source-dashboard" height={600} alt="Ejemplo de Dashboard Tile de {Platform}" />
+
+
+<PlatformBlock for="Angular, React, WebComponents, Blazor">
+## Dependencias
+
+<PlatformBlock for="Angular, WebComponents, React">
+Instale los siguientes paquetes en el conjunto de herramientas de {ProductName}:
+
+```cmd
+npm install {PackageCharts}
+npm install {PackageCore}
+npm install {PackageDashboards}
+npm install {PackageGauges}
+npm install {PackageDataGrids}
+npm install {PackageInputs}
+npm install {PackageLayouts}
+npm install {PackageMaps}
+```
+
+Al usar el componente Dashboard Tile se sugieren los siguientes módulos:
+
+</PlatformBlock>
+<PlatformBlock for="Blazor">
+
+
+
+Añada el espacio de nombres **IgniteUI.Blazor.Controls** en el archivo **_Imports.razor**:
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+El `DashboardTile` muestra cada tipo de visualización a través de su propio módulo, que ningún componente solicita por sí mismo. Registre los módulos de los tipos que muestran sus tiles, al iniciar la aplicación o más tarde con su método `\Register` (véase [Módulos de componentes](general-getting-started.mdx#módulos-de-componentes)).
+
+</PlatformBlock>
+
+```json-snippet source="/charts/dashboard-tile/gauge-dashboard" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "DashboardTile",
+            "name": "tile"
+        }
+    },
+    "modules": [
+        "dashboards/DashboardTileModule",
+        "dashboards/DataChartDashboardTileModule",
+        "dashboards/GeographicMapDashboardTileModule",
+        "dashboards/LinearGaugeDashboardTileModule",
+        "dashboards/PieChartDashboardTileModule",
+        "dashboards/RadialGaugeDashboardTileModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+
+</PlatformBlock>
+
+
+## Uso
+
+La visualización que se ve por defecto depende de la propiedad `DashboardTile.DataSource` a la que enlace el Dashboard Tile, ya que el control evalúa los datos enlazados y después elige una visualización del conjunto de herramientas de {ProductName} para mostrarla. Los controles de visualización de datos incluidos para mostrarse en el Dashboard Tile son los siguientes:
+
+- [{IgPrefix}CategoryChart](./charts/chart-overview.mdx)
+- [{IgPrefix}DataChart](./charts/chart-overview.mdx)
+- [{IgPrefix}DataPieChart](./charts/types/data-pie-chart.mdx)
+- [{IgPrefix}GeographicMap](./geo-map.mdx)
+- [{IgPrefix}Linear Gauge](./linear-gauge.mdx)
+- [{IgPrefix}RadialGauge](./radial-gauge.mdx)
+
+<PlatformBlock for="WinUI,Uno">
+
+La compilación y el empaquetado pueden eliminar los tipos de visualización que no se referencian explícitamente. Para conservar los que necesite, registre sus características en el constructor de App en App.xaml.cs:
+
+```csharp
+public App()
+{ 
+    WinUIDataChartDashboardTileFeature.Register();
+    WinUIPieChartDashboardTileFeature.Register();
+    WinUIRadialGaugeDashboardTileFeature.Register();
+    WinUILinearGaugeDashboardTileFeature.Register();
+    WinUIGeographicMapDashboardTileFeature.Register();
+
+    this.InitializeComponent();
+}
+```
+
+</PlatformBlock>
+
+La visualización de datos que se elige por defecto depende principalmente del esquema y del número de `DashboardTile.DataSource` que haya enlazado. Por ejemplo, si enlaza un único valor numérico, obtendrá un `RadialGauge`, pero si enlaza una colección de pares valor-etiqueta que se distinguen fácilmente entre sí, probablemente obtendrá un `DataPieChart`. Si enlaza un `DashboardTile.DataSource` que tiene más rutas de valor, obtendrá un `DataChart` con varias series de columnas o series de líneas, según el número de la colección enlazada, principalmente. También puede enlazar a un `ShapeDataSource` o a datos que parezcan contener puntos geográficos para obtener un `GeographicMap`.
+
+No queda limitado a una única visualización al enlazar el `DashboardTile.DataSource`, y puede indicar al control que quiere ver una visualización concreta estableciendo su propiedad `VisualizationType`. Por ejemplo, si quisiera ver específicamente un gráfico de líneas, podría definir el Dashboard Tile así:
+
+```json-snippet
+{
+    "type": "DashboardTile",
+    "name": "dashboard",
+    "visualizationType": "LineChart"
+}
+```
+
+<Sample src="/charts/dashboard-tile/gauge-dashboard" height={600} alt="Ejemplo de indicador de Dashboard Tile de {Platform}" />
+
+
+La visualización o las propiedades de la visualización también pueden configurarse mediante `Toolbar` situada en la parte superior del control. Esta `Toolbar` tiene las herramientas predeterminadas de la visualización actual, además de cuatro herramientas específicas del Dashboard Tile, destacadas a continuación:
+
+<Image src={dashboardTileToolbar} alt="Barra de herramientas del Dashboard Tile" />
+
+De izquierda a derecha:
+
+- La primera herramienta muestra una cuadrícula de datos con `DashboardTile.DataSource` proporcionados al control. Es una herramienta de alternancia: si vuelve a hacer clic en ella después de mostrar la cuadrícula, se volverá a la visualización.
+- La segunda herramienta le permite configurar los ajustes de la visualización de datos actual.
+- La tercera herramienta le permite cambiar la visualización actual, para representar otro tipo de serie o mostrar un tipo de visualización completamente distinto. Puede establecerse en el control mediante la propiedad `VisualizationType`, mencionada anteriormente.
+- La última herramienta le permite configurar qué propiedades de su elemento de datos subyacente se incluyen en el control. Puede configurarlo estableciendo la colección `includedProperties` o `excludedProperties` en el control.
+
+Esta demostración muestra la integración del dashboard tile con el Pie Chart de {Platform}. Las opciones de la barra de herramientas situada arriba a la derecha dan acceso al estilo y al cambio de la visualización de datos.
+
+<Sample src="/charts/dashboard-tile/pie-dashboard" height={600} alt="Ejemplo de tile de panel con gráfico circular de {Platform}" />
+
+
+Esta demostración muestra la integración del dashboard tile con el Geographic Map de {Platform}. Las opciones de la barra de herramientas situada arriba a la derecha dan acceso al estilo y al cambio de la visualización de datos.
+
+<Sample src="/charts/dashboard-tile/map-dashboard" height={600} alt="Ejemplo de tile de panel con mapa de {Platform}" />
+
+
+## Referencias de API
+
+
+
+`Toolbar`<br />
+`CategoryChart`<br />
+`DataChart`<br />
+`DataPieChart`<br />
+`GeographicMap`<br />
+`LinearGauge`<br />
+`RadialGauge`<br />
+
+## Recursos adicionales
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

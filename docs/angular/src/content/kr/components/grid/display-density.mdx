@@ -1,0 +1,187 @@
+---
+title:  "Angular Grid 크기 - Ignite UI for Angular"
+description: "Data grid 컴포넌트에 크기 기능을 적용하는 방법을 알아보십시오. Ignite UI for Angular의 압축 보기 옵션 집합을 사용할 수 있습니다."
+keywords: material density, size, igniteui for angular, infragistics
+license: commercial
+_language: ko
+llms:
+  description: "IgxGrid 디자인은 Material Design 지침을 기반으로 합니다."
+---
+
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Grid 크기
+
+**IgxGrid** 디자인은 [Material Design 지침](https://material.io/design)을 기반으로 합니다. 현재 작은, 중간, 큰 보기를 각각 제공하는 미리 정의된 크기 옵션 집합 중에서 선택할 수 있는 옵션을 제공합니다. Material UI 테이블/Material UI 그리드에 맞는 크기를 선택하면, 많은 양의 콘텐츠와 상호 작용할 때 사용자 경험을 크게 개선할 수 있습니다.
+
+## Angular Grid 크기 예제
+
+<Sample src="/grid/grid-displayDensity" height={620} alt="Angular Grid 크기 예제" />
+
+## 사용법
+
+위 데모에서 볼 수 있듯이, <ApiLink type="Grid" />은(는) 세 가지 크기 옵션, 즉 **작음**, **중간**, **큼**을 제공합니다. 아래 코드 조각은 크기를 설정하는 방법을 보여 줍니다:
+
+```html
+<igx-grid #grid [data]="data" style="--ig-size: var(--ig-size-small)">
+</igx-grid>
+```
+
+이제 각 옵션이 Grid 컴포넌트에 어떻게 반영되는지 자세히 살펴보겠습니다. 서로 다른 크기로 바꾸면 각 Grid 요소의 높이와 해당 패딩이 바뀝니다. 또한 사용자 지정 열 <ApiLink type="Column" member="width" label="**width**" />을(를) 적용하고 싶다면, 그 값은 왼쪽과 오른쪽 패딩의 합보다 커야 한다는 점을 고려하십시오.
+
+- **--ig-size-large** - 가장 낮은 밀도이며 행 높이가 `50px`인 기본 Grid 크기입니다. 왼쪽 및 오른쪽 패딩은 `24px`이고, 최소 열 <ApiLink type="Column" member="width" label="width" />은(는) `80px`입니다;
+- **--ig-size-medium** - `40px` 행 높이를 가진 중간 크기입니다. 왼쪽 및 오른쪽 패딩은 `16px`이고, 최소 열 <ApiLink type="Column" member="width" label="width" />은(는) `64px`입니다;
+- **--ig-size-small** - `32px` 행 높이를 가진 가장 작은 크기입니다. 왼쪽 및 오른쪽 패딩은 `12px`이고, 최소 열 <ApiLink type="Column" member="width" label="width" />은(는) `56px`입니다;
+
+<DocsAside type="info">
+현재는 어떤 크기도 재정의할 수 **없다는** 점을 기억하십시오.
+</DocsAside>
+
+이제 샘플을 계속 진행하면서 각 크기가 실제로 적용되는 모습을 보겠습니다. 먼저 각 크기 사이를 전환하는 데 도움이 되는 버튼을 추가하겠습니다:
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes"></igx-buttongroup>
+</div>
+```
+
+```typescript
+@ViewChild(IgxButtonGroupComponent) public buttonGroup: IgxButtonGroupComponent;
+public size = 'small';
+public sizes;
+
+public ngOnInit() {
+    this.sizes = [
+        {
+            label: 'small',
+            selected: this.size === 'small',
+            togglable: true
+        },
+        {
+            label: 'medium',
+            selected: this.size === 'medium',
+            togglable: true
+        },
+        {
+            label: 'large',
+            selected: this.size === 'large',
+            togglable: true
+        }
+    ];
+}
+```
+
+이제 마크업을 추가할 수 있습니다.
+
+```html
+<div class="density-chooser">
+    <igx-buttongroup [values]="sizes" (selected)="selectSize($event)"></igx-buttongroup>
+</div>
+<igx-grid #grid [data]="data" width="100%" height="550px" [allowFiltering]="true">
+    <igx-column-group  header="Customer Information">
+    <igx-column field="CustomerName" header="Customer Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column-group  header="Customer Address">
+        <igx-column field="Country" header="Country" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+        <igx-column field="City" header="City" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+            </igx-column>
+        <igx-column field="Address" header="Address" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+        <igx-column field="PostalCode" header="Postal Code" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+        </igx-column>
+    </igx-column-group>
+    </igx-column-group>
+    <igx-column field="Salesperson" header="Sales Person" [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="ShipperName" header="Shipper Name"  [dataType]="'string'" [sortable]="true" [hasSummary]="true">
+    </igx-column>
+    <igx-column field="OrderDate" header="Order Date"  [dataType]="'date'" [sortable]="true" [hasSummary]="true">
+        <ng-template igxCell let-cell="cell" let-val>
+            {{val | date:'dd/MM/yyyy'}}
+        </ng-template>
+    </igx-column>
+    <igx-column-group  header="Product Details">
+        <igx-column field="ProductID" header="ID" [dataType]="'string'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="ProductName" header="Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="UnitPrice" header="Unit Price" [dataType]="'number'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="Quantity" header="Quantity" [dataType]="'number'" [sortable]="true" [hasSummary]="true" [filterable]="false">
+        </igx-column>
+        <igx-column field="Discontinued" header="Discontinued" [dataType]="'boolean'" [sortable]="true" [hasSummary]="true" >
+        </igx-column>
+    </igx-column-group>
+    <igx-column-group  header="Shipping Information">
+        <igx-column field="ShipName" header="Name" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+        </igx-column>
+        <igx-column-group  header="Shipping Address">
+            <igx-column field="ShipCountry" header="Country" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+            <igx-column field="ShipCity" header="City" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+            <igx-column field="ShipPostalCode" header="Postal Code" [dataType]="'string'" [sortable]="true" [hasSummary]="true" >
+            </igx-column>
+        </igx-column-group>
+    </igx-column-group>
+</igx-grid>
+```
+
+마지막으로 실제로 크기를 적용하기 위한 로직을 제공하겠습니다:
+
+```typescript
+@ViewChild('grid', { read: IgxGridComponent })
+public grid: IgxGridComponent;
+
+public selectSize(event: any) {
+    this.size = this.sizes[event.index].label;
+}
+
+@HostBinding('style.--ig-size')
+protected get sizeStyle() {
+    return `var(--ig-size-${this.size})`;
+}
+```
+
+<ApiLink type="Grid" />이(가) Grid의 행 높이를 바꿀 수 있게 하는 또 다른 옵션은 <ApiLink type="Grid" member="rowheight" label="rowHeight" /> 속성입니다. 그러면 이 속성이 Grid 레이아웃에 `--ig-size` CSS 변수와 함께 어떻게 영향을 주는지 실제로 보겠습니다.
+
+다음 사항을 기억하십시오:
+
+- `--ig-size` CSS 변수는 **지정된 <ApiLink type="Grid" member="rowheight" label="rowHeight" />가 있으면** 행 높이에 **영향을 주지 않습니다**;
+- `--ig-size`은(는) 위에서 설명한 것처럼 **Grid의 나머지 모든 요소에 영향을 줍니다**;
+
+이제 샘플을 확장하여 Grid에 <ApiLink type="Grid" member="rowHeight" label="rowHeight" /> 속성을 추가할 수 있습니다:
+
+ ```html
+ <igx-grid #grid [data]="data" [rowHeight]="'80px'" width="100%" 
+ height="550px" [allowFiltering]="true">
+ ..............
+ </igx-grid>
+ ```
+
+## API 참조
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="IgxGridComponent 스타일" />
+- <ApiLink type="Column" />
+## 추가 리소스
+
+- [Grid 개요](/grid/grid)
+- [가상화와 성능](/grid/virtualization)
+- [편집](/grid/editing)
+- [페이징](/grid/paging)
+- [필터링](/grid/filtering)
+- [정렬](/grid/sorting)
+- [요약](/grid/summaries)
+- [열 고정](/grid/column-pinning)
+- [열 크기 조정](/grid/column-resizing)
+- [선택](/grid/selection)
+
+- [검색](/grid/search)
+
+커뮤니티는 활발하며 새로운 아이디어를 언제나 환영합니다.
+
+- [Ignite UI for Angular **포럼**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

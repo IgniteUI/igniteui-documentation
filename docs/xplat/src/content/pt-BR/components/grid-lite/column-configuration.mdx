@@ -1,0 +1,391 @@
+---
+title: "Template de célula do {Platform} {GridLiteTitle} | {ProductName} | Licença MIT"
+description: "Configuração de colunas e propriedades de coluna do Grid Lite. Experimente o nosso {Platform} {GridLiteTitle} de código aberto - leve e cheio de recursos essenciais."
+keywords: "configuração de colunas, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+_language: pt-BR
+llms:
+  description: "As colunas são definidas de forma declarativa, usando componentes filhos de coluna dentro da grade."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Configuração de colunas
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+As colunas são definidas de forma declarativa, usando componentes filhos de coluna dentro da grade. A propriedade `field` é a única obrigatória para uma coluna, pois serve como identificador da coluna. Ela também é a propriedade usada para mapear e renderizar os dados relevantes nas linhas da grade.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column
+    field="account"
+    header="Account Number"
+    ...
+  ></igc-grid-lite-column>
+  <!-- Additional columns follow -->
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn
+      field="account"
+      header="Account Number"
+      ...
+    ></IgrGridLiteColumn>
+    {/* Additional columns follow */}
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+
+As colunas são definidas de forma declarativa, usando elementos filhos `<IgbGridLiteColumn>` dentro da grade. A propriedade <ApiLink type="Column" member="field" label="Field" /> é a única obrigatória para uma coluna, pois serve como identificador da coluna. Ela também é a propriedade usada para mapear e renderizar os dados relevantes nas linhas da grade.
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn 
+        Field="Name"
+        Header="Product Name"
+        DataType="GridLiteColumnDataType.String" />
+    <!-- Additional columns follow -->
+</IgbGridLite>
+```
+
+## Configuração com base na fonte de dados
+
+A grade oferece suporte à inferência da configuração de colunas com base na fonte de dados fornecida, quando `AutoGenerate` é definido como true. Ela tenta inferir as propriedades <ApiLink type="Column" member="field" label="Field" /> e <ApiLink type="Column" member="dataType" label="DataType" /> adequadas com base nos registros dos dados.
+
+```razor
+<IgbGridLite AutoGenerate=true Data="@products"/>
+@code {
+    private List<ProductInfo> products;
+
+    protected override void OnInitialized()
+    {
+        products = new List<ProductInfo>
+        {
+            new ProductInfo { Id = "1", Name = "example", Price = 10 },
+            ...
+        };
+    }
+
+    public class ProductInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+## Configuração com base na fonte de dados
+
+A grade oferece suporte à inferência da configuração de colunas com base na fonte de dados fornecida, quando `autoGenerate` é definido como true. Ela tenta inferir as `field` e `dataType` adequadas com base nos registros dos dados.
+
+```typescript
+const data: Record[] = [
+  { entryId: "1234", source: "https://example.com", ts: 1373521917579 },
+  ...
+];
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite auto-generate .data=${data}></igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data} autoGenerate={true}></IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+O trecho anterior fará com que a grade crie automaticamente colunas equivalentes a:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column field="entryId" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="source" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="ts" data-type="number"></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn field="entryId" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="source" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="ts" dataType="number"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn Field="Id" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Name" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Price" DataType="GridLiteColumnDataType.Number" />
+</IgbGridLite>
+```
+
+</PlatformBlock>
+
+Útil para uma renderização rápida de alguns dados sem nenhuma personalização adicional.
+
+
+## Configuração de colunas adicional
+
+A coluna expõe várias outras propriedades para personalização:
+
+### Largura da coluna
+
+Por padrão, as colunas têm uma largura de **minmax(136px, 1fr)**, que equivale a uma largura mínima de 136px e máxima de
+1 parte do espaço disponível no {GridLiteTitle}. Assim, as colunas são fluidas e responsivas, acompanhando as mudanças
+na largura da grade.
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Para alterar a largura de uma coluna, use a propriedade `width` da coluna.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" width="250px"></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" width="250px"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Para alterar a largura da coluna, use o parâmetro <ApiLink type="Column" member="width" label="Width" /> do componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Width="250px" />
+```
+
+
+</PlatformBlock>
+
+
+A propriedade aceita <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#numbers_lengths_and_percentages" target="_blank">unidades de comprimento CSS válidas</a>.
+
+### Ocultando colunas
+
+<PlatformBlock for="React, WebComponents">
+
+
+As colunas podem ser ocultadas/exibidas definindo a propriedade `hidden` da coluna.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" hidden></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" hidden></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+As colunas podem ser ocultadas ou exibidas definindo o parâmetro <ApiLink type="Column" member="hidden" label="Hidden" /> no componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Hidden="true" />
+```
+
+
+</PlatformBlock>
+
+
+### Redimensionamento de colunas
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Cada coluna do {GridLiteTitle} pode ser configurada para ser redimensionável definindo a propriedade `resizable` do elemento da coluna.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" resizable></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" resizable></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Cada coluna do {GridLiteTitle} pode ser configurada para ser redimensionável definindo o parâmetro <ApiLink type="Column" member="resizable" label="Resizable" /> no componente <ApiLink type="IgbGridLiteColumn" />.
+
+```razor
+<IgbGridLiteColumn Field="Price" Resizable="true" />
+```
+
+
+</PlatformBlock>
+
+
+Se uma coluna estiver configurada como redimensionável, você pode arrastar a borda direita do cabeçalho da coluna para aumentar ou diminuir a largura dela. Clicar duas vezes na área de redimensionamento dispara o dimensionamento automático da coluna, que tenta definir a largura de acordo com o maior conteúdo das suas células/cabeçalho.
+
+<DocsAside type="info">
+Colunas com larguras "fluidas" (fr, %, etc.) podem se comportar de forma irregular ao redimensionar a grade, pois tentam se acomodar às novas dimensões. Dependendo do cenário da aplicação, pode ser melhor usar unidades "fixas", para que os usuários não percebam deslocamentos de layout.
+</DocsAside>
+
+No exemplo abaixo, você pode testar as diferentes propriedades de coluna e ver como elas se refletem na grade renderizada.
+
+<Sample src="/{GridLiteSample}/column-config-dynamic" height={600} alt="Configuração dinâmica de colunas do {Platform} {GridLiteTitle}" />
+
+
+<PlatformBlock for="WebComponents, Blazor">
+
+## Referências da API
+
+<PlatformBlock for="WebComponents">
+<ApiLink type="GridLite" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ApiLink type="GridLite<TItem>" /><br />
+<ApiLink type="GridLiteColumn" /><br />
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Recursos adicionais
+
+- [Vinculação de dados](./binding.mdx)
+- [Ordenação](./sorting.mdx)
+- [Filtragem](./filtering.mdx)
+- [Tema e estilização](./theming.mdx)
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

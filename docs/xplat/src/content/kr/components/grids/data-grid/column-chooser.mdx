@@ -1,0 +1,393 @@
+---
+title: "{Platform} 데이터 그리드 | 열 선택기 | Infragistics"
+description: "Infragistics {ProductName} 그리드 컴포넌트가 UI를 통해 직접, 또는 {Platform} 컨트롤을 사용하여 열을 표시하고 숨기는 기능을 어떻게 지원하는지 알아보십시오. 자세한 정보는 {ProductName} 테이블 데모를 확인하십시오!"
+keywords: "{Platform} 테이블, 데이터 그리드, 열 선택기, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["DataGrid", "DataGridColumn", "DataGridToolbar", "Button", "ColumnChooser", "ColumnHidingAnimationMode", "ColumnShowingAnimationMode", "ColumnChooserTitle"]
+namespace: Infragistics.Controls.Grids.Implementation
+_canonicalLink: "{CanonicalLinkToGridMain}"
+_language: ko
+llms:
+  description: "{ProductName} 데이터 그리드는 DataGridToolbar 컴포넌트를 통해 UI로 열을 표시하고 숨기거나, 페이지의 어디에든 배치할 수 있는 유연성을 제공하는 ColumnChooser 컴포넌트를 통해 열을 표시하고 숨길 수 있습니다."
+platformType: xplat
+---
+
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# {Platform} 그리드 열 선택기 개요
+
+{ProductName} 데이터 그리드는 페이지의 어디에든 배치할 수 있는 유연성을 제공하는 `DataGridToolbar` 컴포넌트를 통해 UI로 열을 표시하고 숨길 수 있으며, 또는 `ColumnChooser` 컴포넌트를 통해서도 가능합니다. 열의 `IsHidden` 속성을 사용하여, 수동 열 생성을 위해 프로그래밍 방식으로 단일 열을 빠르게 숨기거나 표시할 수도 있으며, `IsHidden`의 값은 `ColumnChooser` 컴포넌트에 반영됩니다. 각 방식은 서로 바꿔 사용하여 열의 표시 상태를 바꿀 수 있습니다.
+
+## {Platform} 그리드 열 선택기 예제
+
+
+<Sample src="/grids/data-grid/column-chooser-toolbar" height={600} alt="{Platform} 그리드 열 선택기 예제" />
+
+
+
+<div class="divider--half"></div>
+
+
+## 도구 모음의 열 선택기 UI
+
+열 선택기 UI는 그리드와 별도로 `DataGridToolbar` 컴포넌트 안에서 사용할 수 있습니다. 이를 위해서는 도구 모음의 `ColumnChooser` 속성을 true로 설정하기만 하면 됩니다. 그러면 도구 모음에 `Button`이(가) 표시되며, 이를 클릭하면 열 선택기 UI가 나타납니다. 이 버튼에는 숨겨진 열의 총 개수도 표시됩니다. 도구 모음이 생성되지 않았다면 `ColumnChooser` 속성을 활성화해도 효과가 없고 버튼도 숨겨집니다.
+
+`DataGridToolbar`은(는) 추가 속성을 제공합니다. `ToolbarTitle` 속성으로 도구 모음에 제목을 추가하고, `ColumnChooserText` 속성을 설정하여 `Button`에 텍스트를 배치하며, `ColumnChooserTitle`를 설정하여 열 선택기 UI에 제목 머리글을 추가할 수 있습니다.
+
+그리드의 `ColumnHidingAnimationMode` 및 `ColumnShowingAnimationMode` 속성을 설정하여 열 선택기에 애니메이션을 구성할 수 있습니다.
+
+## 코드 조각
+
+다음은 {Platform} 데이터 그리드에 열 선택기 도구 모음 UI를 구현하는 방법을 보여 줍니다:
+
+```json-snippet source="/grids/data-grid/column-chooser-toolbar"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "DataGridToolbar",
+            "name": "toolbar",
+            "targetGridRef": "grid",
+            "toolbarTitle": "Grid Title",
+            "columnChooser": true,
+            "columnChooserText": "Columns",
+            "columnChooserTitle": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+## 단순 열 선택기
+
+도구 모음 없이 `ColumnChooser` UI를 수동으로 표시하고 페이지의 원하는 위치에 두고 싶다고 합시다. 이는 마크업에서 컴포넌트의 인스턴스를 만들기만 하면 쉽게 할 수 있습니다.
+
+## 데모
+
+
+<Sample src="/grids/data-grid/column-chooser-picker" height={600} alt="{Platform} 데이터 그리드 열 선택기 피커" />
+
+
+<div class="divider--half"></div>
+
+## 코드 조각
+
+다음은 데이터 그리드에 열 선택기 UI를 구현하는 방법을 보여 줍니다:
+
+```json-snippet source="/grids/data-grid/column-chooser-picker"
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "aboveContent": {
+            "type": "ColumnChooser",
+            "name": "chooser",
+            "targetGridRef": "grid",
+            "title": "Column Chooser"
+        },
+        "content": {
+            "type": "DataGrid",
+            "name": "grid",
+            "dataSourceRef": "ProductOrders",
+            "autoGenerateColumns": false,
+            "defaultColumnMinWidth": 120,
+            "scrollbarStyle": "Thin",
+            "height": "calc(100% - 40px)",
+            "width": "100%",
+            "$setInCode": {
+                "dataSourceRef": [
+                    "webComponents"
+                ]
+            },
+            "columns": [
+                {
+                    "type": "TextColumn",
+                    "field": "ProductID",
+                    "headerText": "ID",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": false,
+                        "value": 90
+                    },
+                    "isHidden": true,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "ProductName",
+                    "headerText": "Product",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isHidden": true
+                },
+                {
+                    "type": "ImageColumn",
+                    "field": "CountryFlag",
+                    "headerText": "Country",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "isEditable": false,
+                    "paddingTop": 5,
+                    "paddingBottom": 5,
+                    "contentOpacity": 1,
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "ProductPrice",
+                    "headerText": "Price",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "isHidden": true,
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true,
+                    "minFractionDigits": 2
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderItems",
+                    "headerText": "Orders",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    }
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "OrderValue",
+                    "headerText": "Order Value",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "DateTimeColumn",
+                    "field": "OrderDate",
+                    "headerText": "Order Date",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 150
+                    },
+                    "horizontalAlignment": "Right",
+                    "dateTimeFormat": "DateShort"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Margin",
+                    "headerText": "Margin",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positiveSuffix": "%",
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "NumericColumn",
+                    "field": "Profit",
+                    "headerText": "Profit",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 120
+                    },
+                    "positivePrefix": "$",
+                    "showGroupingSeparator": true
+                },
+                {
+                    "type": "TextColumn",
+                    "field": "Status",
+                    "headerText": "Status",
+                    "width": {
+                        "type": "ColumnWidth",
+                        "isStarSized": true,
+                        "value": 1,
+                        "minimumWidth": 110
+                    },
+                    "horizontalAlignment": "Center"
+                }
+            ]
+        }
+    }
+}
+```
+
+## API 참조
+
+- `Button`
+- `ColumnChooserText`
+- `ColumnChooserTitle`
+- `ColumnChooser`
+- `ColumnHidingAnimationMode`
+- `ColumnShowingAnimationMode`
+- `DataGridToolbar`

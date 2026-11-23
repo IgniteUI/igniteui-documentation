@@ -1,0 +1,750 @@
+---
+title: "Rendimiento de gráficos de {Platform} | Visualización de datos | Infragistics"
+description: "Rendimiento de gráficos de {Platform} de Infragistics"
+keywords: "Gráficos {Platform}, rendimiento, Infragistics"
+license: commercial
+mentionedTypes: ["DomainChart", "CategoryChart", "FinancialChart", "DataChart", "FinancialChartVolumeType", "FinancialChartZoomSliderType", "FinancialChartYAxisMode", "NumericAxisBase"]
+namespace: Infragistics.Controls.Charts
+_language: es
+llms:
+  description: "Los gráficos {Platform} están optimizados para un renderizado de alto rendimiento de millones de puntos de datos y para actualizarlos cada pocos milisegundos."
+platformType: xplat
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Rendimiento de gráficos de {Platform}
+
+Los gráficos {Platform} están optimizados para un renderizado de alto rendimiento de millones de puntos de datos y para actualizarlos cada pocos milisegundos. Sin embargo, hay varias características del gráfico que afectan al rendimiento del gráfico y deben tenerse en cuenta al optimizar el rendimiento de su aplicación. Este tema le guiará para que los gráficos {Platform} funcionen lo más rápido posible en su aplicación.
+
+## Ejemplos de rendimiento de gráficos de {Platform}
+
+Los siguientes ejemplos muestran dos escenarios de alto rendimiento de los gráficos {Platform}.
+
+## Gráfico {Platform} con alta frecuencia
+
+En el escenario de alta frecuencia, los gráficos {Platform} pueden representar elementos de datos que se actualizan en tiempo real o en intervalos de milisegundos especificados. No notará retrasos, parpadeos de pantalla ni demoras visuales, incluso al interactuar con el gráfico en un dispositivo táctil. El siguiente ejemplo muestra el `CategoryChart` en el escenario de alta frecuencia.
+
+<Sample src="/charts/category-chart/high-frequency" height={400} alt="Gráfico {Platform} con alta frecuencia" />
+
+
+
+
+## Gráfico {Platform} con gran volumen
+
+En el escenario de gran volumen, los gráficos {Platform} pueden representar 1 millón de puntos de datos mientras el gráfico mantiene un rendimiento fluido cuando el usuario final amplía, reduce o navega por el contenido del gráfico. El siguiente ejemplo muestra el `CategoryChart` en el escenario de gran volumen.
+
+<Sample src="/charts/category-chart/high-volume" height={400} alt="Gráfico {Platform} con gran volumen" />
+
+
+
+## Directrices generales de rendimiento
+
+Esta sección enumera directrices y características de los gráficos que aumentan la sobrecarga y el procesamiento de las actualizaciones en los gráficos {Platform}.
+
+### Tamaño de los datos
+
+Si necesita representar orígenes de datos con un gran número de puntos de datos (por ejemplo, más de 10 000), le recomendamos usar {Platform} `DataChart` con uno de los siguientes tipos de serie, que están diseñados específicamente para ese fin.
+<PlatformBlock for="Web">
+- [Scatter HD Chart](../types/scatter-chart.mdx#scatter-high-density-chart-de-{PlatformLower}) en lugar de [Category Point Chart](../types/point-chart.mdx) o [Scatter Marker Chart](../types/scatter-chart.mdx#gráfico-de-dispersión-con-marcadores-de-{PlatformLower})</PlatformBlock>
+- [Scatter Polyline Chart](../types/shape-chart.mdx#scatter-polyline-chart-de-{PlatformLower}) en lugar de [Category Line Chart](../types/line-chart.mdx#ejemplo-de-gráfico-de-líneas-de-{PlatformLower}) o [Scatter Line Chart](../types/scatter-chart.mdx#scatter-line-chart-de-{PlatformLower})
+- [Scatter Polygon Chart](../types/shape-chart.mdx#gráfico-de-dispersión-de-polígonos-de-{PlatformLower}) en lugar de [Category Area Chart](../types/area-chart.mdx#ejemplo-de-gráfico-de-áreas-de-{PlatformLower}) o [Column Chart](../types/column-chart.mdx#ejemplo-de-gráfico-de-columnas-de-{PlatformLower})
+
+### Estructura de los datos
+
+Aunque los gráficos {Platform} admiten la representación de varios orígenes de datos enlazando un array de arrays de puntos de datos a la propiedad `DataSource`, es mucho más rápido en los gráficos aplanar varios orígenes de datos en un único origen de datos en el que cada elemento de datos contenga varias columnas de datos en lugar de solo una. Por ejemplo:
+
+<PlatformBlock for="Xaml">
+
+```csharp
+this.CategoryChart.ItemsSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+this.CategoryChart.DataSource = FlattenDataSource.Create();
+this.FinancialChart.DataSource = FlattenDataSource.Create();
+
+public static class FlattenDataSource
+{
+    public static List<FlattenDataItem> Create() {
+        var data = new List<FlattenDataItem>() {
+            new FlattenDataItem { Year = "1996", USA = 148, CHN = 110 },
+            new FlattenDataItem { Year = "2000", USA = 142, CHN = 115 },
+        };
+        return data;
+    }
+    public class FlattenDataItem
+    {
+        public int USA { get; set; }
+        public int CHN { get; set; }
+        public string Year { get; set; }
+    }
+}
+// instead of this data structure:
+public static class MultiDataSources
+{
+    public static List<List<MultiDataItem>> Create() {
+        var dataSource1 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 148 },
+            new MultiDataItem { Year = "2000", Value = 142 },
+        };
+        var dataSource2 = new List<MultiDataItem>() {
+            new MultiDataItem { Year = "1996", Value = 110 },
+            new MultiDataItem { Year = "2000", Value = 115 },
+        };
+        var multipleSources = new List<List<MultiDataItem>>();
+        multipleSources.Add(dataSource1);
+        multipleSources.Add(dataSource2);
+        return multipleSources;
+    }
+    public class MultiDataItem
+    {
+        public int Value { get; set; }
+        public string Year { get; set; }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular, WebComponents, React">
+
+```ts
+this.CategoryChart.dataSource = FlattenDataSource.create();
+this.FinancialChart.dataSource = FlattenDataSource.create();
+
+export class FlattenDataSource {
+    public static create(): any[] {
+        const data: any[] = [];
+        data.push({ "Year": "1996", "USA": 148, "CHN": 110 });
+        data.push({ "Year": "2000", "USA": 142, "CHN": 115 });
+        return data;
+    }
+}
+// instead of this data structure:
+export class MultiDataSources {
+    public static create(): any[] {
+        const dataSource1: any[] = [];
+        dataSource1.push({ "Year": "1996", "Value": 148 });
+        dataSource1.push({ "Year": "2000", "Value": 142 });
+        const dataSource2: any[] = [];
+        dataSource2.push({ "Year": "1996", "Value": 110 });
+        dataSource2.push({ "Year": "2000", "Value": 115 });
+        const multipleSources: any[] = [dataSource1, dataSource2];
+        return multipleSources;
+    }
+}
+```
+
+</PlatformBlock>
+
+### Filtrado de datos
+
+{Platform} `CategoryChart`<PlatformBlock for="Web"> y los controles `FinancialChart` tienen</PlatformBlock><PlatformBlock for="WinUI, Uno"> el control tiene</PlatformBlock> un adaptador de datos integrado que analiza sus datos y genera series de gráfico por usted. Sin embargo, funciona más rápido si usa `includedProperties` y `excludedProperties` para filtrar solo las columnas de datos que realmente quiere representar. Por ejemplo,
+
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "content": {
+            "type": "CategoryChart",
+            "name": "Chart",
+            "includedProperties": [
+                "Year",
+                "USA",
+                "RUS"
+            ],
+            "$includedProperties": "+perf:code",
+            "excludedProperties": [
+                "CHN",
+                "FRN",
+                "GER"
+            ],
+            "$excludedProperties": "+perf:code"
+        }
+    }
+}
+```
+
+## Directrices de rendimiento de los gráficos
+
+### Tipos de gráfico
+
+Los tipos de gráfico más sencillos, como [Line Chart](../types/line-chart.mdx), tienen un rendimiento mayor que [Spline Chart](../types/spline-chart.mdx), debido a la compleja interpolación de las líneas spline entre los puntos de datos. Por ello, debe usar la propiedad `CategoryChart.chartType` de {Platform} `CategoryChart`<PlatformBlock for="Web"> o el `FinancialChart`</PlatformBlock> control para seleccionar el tipo de gráfico que se represente más rápido. Como alternativa, puede cambiar el tipo de una serie por otra más rápida en el control {Platform} `DataChart`.
+
+La tabla siguiente enumera los tipos de gráfico ordenados de mayor a menor rendimiento dentro de cada grupo de gráficos:
+
+| Grupo de gráficos     | Tipo de gráfico |
+| ----------------|--------------------------------- |
+| Gráficos circulares       | - [Gráfico circular](../types/pie-chart.mdx) <br /> - [Gráfico de anillos](../types/donut-chart.mdx) <br /> - [Gráfico circular radial](../types/radial-chart.mdx#gráfico-circular-radial-de-{PlatformLower}) |
+| Gráficos de líneas      | - [Gráfico de líneas por categorías](../types/line-chart.mdx#ejemplo-de-gráfico-de-líneas-de-{PlatformLower}) <br /> - [Gráfico de splines por categorías](../types/spline-chart.mdx#ejemplo-de-spline-chart-de-{PlatformLower}) <br /> - [Gráfico de líneas escalonadas](../types/step-chart.mdx#step-line-chart-de-{PlatformLower}) <br /> - [Gráfico de líneas radial](../types/radial-chart.mdx#gráfico-de-líneas-radiales-de-{PlatformLower}) <br /> - [Gráfico de líneas polar](../types/polar-chart.mdx#gráfico-de-líneas-polares-de-{PlatformLower}) <br /> - [Gráfico de líneas de dispersión](../types/scatter-chart.mdx#scatter-line-chart-de-{PlatformLower}) <br /> - [Gráfico de polilíneas de dispersión](../types/shape-chart.mdx#scatter-polyline-chart-de-{PlatformLower}) (\*)  <br /> - [Gráfico de contorno de dispersión](../types/scatter-chart.mdx#scatter-contour-chart-de-{PlatformLower}) <br /> - [Gráfico de líneas apiladas](../types/stacked-chart.mdx#gráfico-de-líneas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de líneas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-líneas-apiladas-al-100--de-{PlatformLower}) <br /> |
+| Gráficos de áreas      | - [Gráfico de áreas por categorías](../types/area-chart.mdx#ejemplo-de-gráfico-de-áreas-de-{PlatformLower}) <br /> - [Gráfico de áreas escalonadas](../types/step-chart.mdx#gráfico-de-áreas-escalonado-de-{PlatformLower}) <br /> - [Gráfico de áreas de rango](../types/area-chart.mdx#gráfico-de-áreas-de-rango-de-{PlatformLower}) <br /> - [Gráfico de áreas radial](../types/radial-chart.mdx#gráfico-de-áreas-radiales-de-{PlatformLower}) <br /> - [Gráfico de áreas polar](../types/polar-chart.mdx#gráfico-de-áreas-polares-de-{PlatformLower}) <br /> - [Gráfico de polígonos de dispersión](../types/shape-chart.mdx#gráfico-de-dispersión-de-polígonos-de-{PlatformLower}) (\*) <br /> - [Gráfico de áreas de dispersión](../types/scatter-chart.mdx#scatter-area-chart-de-{PlatformLower}) <br /> - [Gráfico de áreas apiladas](../types/stacked-chart.mdx#gráfico-de-áreas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de áreas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-áreas-apiladas-al-100-de-{PlatformLower}) <br /> |
+| Gráficos de columnas    | - [Gráfico de columnas](../types/column-chart.mdx#ejemplo-de-gráfico-de-columnas-de-{PlatformLower}) <br /> - [Gráfico de barras](../types/bar-chart.mdx#ejemplo-de-gráfico-de-barras-de-{PlatformLower}) <br /> - [Gráfico de cascada](../types/column-chart.mdx#gráfico-de-cascada-de-{PlatformLower}) <br /> - [Gráfico de columnas de rango](../types/column-chart.mdx#gráfico-de-columnas-de-rango-de-{PlatformLower}) <br /> - [Gráfico de barras de rango](../types/bar-chart.mdx#gráfico-de-barras-de-rango-de-{PlatformLower}) <br /> - [Gráfico de columnas radial](../types/radial-chart.mdx#gráfico-de-columnas-radiales-de-{PlatformLower}) <br /> - [Gráfico de columnas apiladas](../types/stacked-chart.mdx#gráfico-de-columnas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de barras apiladas](../types/stacked-chart.mdx#gráfico-de-barras-apiladas-de-{PlatformLower}) <br /> - [Gráfico de columnas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-columnas-apiladas-al-100--de-{PlatformLower}) <br /> - [Gráfico de barras apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-barras-apiladas-al-100--de-{PlatformLower}) |
+| Gráficos spline    | - [Gráfico de splines por categorías](../types/spline-chart.mdx#ejemplo-de-spline-chart-de-{PlatformLower}) <br /> - [Gráfico de splines polar](../types/polar-chart.mdx#gráfico-spline-polar-de-{PlatformLower}) <br /> - [Gráfico de splines de dispersión](../types/scatter-chart.mdx#scatter-spline-chart-de-{PlatformLower}) <br /> - [Gráfico de splines apilados](../types/stacked-chart.mdx#spline-chart-apilado-de-{PlatformLower}) <br /> - [Gráfico de splines apilados al 100 %](../types/stacked-chart.mdx#spline-chart-apilado-al-100--de-{PlatformLower}) <br /> |
+| Gráficos de puntos     | - [Category Point Chart](../types/point-chart.mdx) <br /><PlatformBlock for="Web"> - [Scatter HD Chart](../types/scatter-chart.mdx#scatter-high-density-chart-de-{PlatformLower})  <br /></PlatformBlock> - [Gráfico de marcadores de dispersión](../types/scatter-chart.mdx#gráfico-de-dispersión-con-marcadores-de-{PlatformLower}) <br /> - [Gráfico de burbujas de dispersión](../types/bubble-chart.mdx) <br /> - [Gráfico de marcadores polar](../types/polar-chart.mdx#gráfico-de-marcadores-polares-de-{PlatformLower}) <br /> |<PlatformBlock for="Web">
+| Gráficos financieros | - [Gráfico bursátil en modo de líneas](../types/stock-chart.mdx) <br /> - [Gráfico bursátil en modo de columnas](../types/stock-chart.mdx) <br /> - [Gráfico bursátil en modo de barras](../types/stock-chart.mdx) <br /> - [Gráfico bursátil en modo de velas](../types/stock-chart.mdx) <br /> - [Gráfico bursátil con superposiciones](../types/stock-chart.mdx) <br /> - [Gráfico bursátil con panel de zoom](../types/stock-chart.mdx) <br /> - [Gráfico bursátil con panel de volumen](../types/stock-chart.mdx#panel-de-volumen) <br /> - [Gráfico bursátil con panel de indicadores](../types/stock-chart.mdx#panel-de-indicadores) <br /> |</PlatformBlock>
+| Gráficos de dispersión   | <PlatformBlock for="Web">- [Scatter HD Chart](../types/scatter-chart.mdx#scatter-high-density-chart-de-{PlatformLower}) <br /> </PlatformBlock>- [Gráfico de marcadores de dispersión](../types/scatter-chart.mdx#gráfico-de-dispersión-con-marcadores-de-{PlatformLower}) <br /> - [Gráfico de líneas de dispersión](../types/scatter-chart.mdx#scatter-line-chart-de-{PlatformLower}) <br /> - [Gráfico de burbujas de dispersión](../types/bubble-chart.mdx) <br /> - [Gráfico de splines de dispersión](../types/scatter-chart.mdx#scatter-spline-chart-de-{PlatformLower}) <br /> - [Gráfico de áreas de dispersión](../types/scatter-chart.mdx#scatter-area-chart-de-{PlatformLower}) <br /> - [Gráfico de contorno de dispersión](../types/scatter-chart.mdx#scatter-contour-chart-de-{PlatformLower}) <br /> - [Gráfico de polilíneas de dispersión](../types/shape-chart.mdx#scatter-polyline-chart-de-{PlatformLower}) (\*) <br /> - [Gráfico de polígonos de dispersión](../types/shape-chart.mdx#gráfico-de-dispersión-de-polígonos-de-{PlatformLower}) (\*) <br /> |
+| Gráficos radiales    | - [Gráfico de líneas radial](../types/radial-chart.mdx#gráfico-de-líneas-radiales-de-{PlatformLower}) <br /> - [Gráfico de áreas radial](../types/radial-chart.mdx#gráfico-de-áreas-radiales-de-{PlatformLower}) <br /> - [Gráfico circular radial](../types/radial-chart.mdx#gráfico-circular-radial-de-{PlatformLower}) <br /> - [Gráfico de columnas radial](../types/radial-chart.mdx#gráfico-de-columnas-radiales-de-{PlatformLower}) <br /> |
+| Gráficos polares     | - [Gráfico de marcadores polar](../types/polar-chart.mdx#gráfico-de-marcadores-polares-de-{PlatformLower}) <br /> - [Gráfico de líneas polar](../types/polar-chart.mdx#gráfico-de-líneas-polares-de-{PlatformLower}) <br /> - [Gráfico de áreas polar](../types/polar-chart.mdx#gráfico-de-áreas-polares-de-{PlatformLower}) <br /> - [Gráfico de splines polar](../types/polar-chart.mdx#gráfico-spline-polar-de-{PlatformLower}) <br /> - [Gráfico de áreas de splines polar](../types/polar-chart.mdx#gráfico-de-áreas-spline-polares-de-{PlatformLower}) <br /> |
+| Gráficos apilados   | - [Gráfico de líneas apiladas](../types/stacked-chart.mdx#gráfico-de-líneas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de áreas apiladas](../types/stacked-chart.mdx#gráfico-de-áreas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de columnas apiladas](../types/stacked-chart.mdx#gráfico-de-columnas-apiladas-de-{PlatformLower}) <br /> - [Gráfico de barras apiladas](../types/stacked-chart.mdx#gráfico-de-barras-apiladas-de-{PlatformLower}) <br /> - [Gráfico de splines apilados](../types/stacked-chart.mdx#spline-chart-apilado-de-{PlatformLower}) <br /> - [Gráfico de líneas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-líneas-apiladas-al-100--de-{PlatformLower}) <br /> - [Gráfico de áreas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-áreas-apiladas-al-100-de-{PlatformLower}) <br /> - [Gráfico de columnas apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-columnas-apiladas-al-100--de-{PlatformLower}) <br /> - [Gráfico de barras apiladas al 100 %](../types/stacked-chart.mdx#gráfico-de-barras-apiladas-al-100--de-{PlatformLower}) <br /> - [Gráfico de splines apilados al 100 %](../types/stacked-chart.mdx#spline-chart-apilado-al-100--de-{PlatformLower}) <br /> |
+
+
+\* Tenga en cuenta que [Scatter Polygon Chart](../types/shape-chart.mdx) y [Scatter Polyline Chart](../types/shape-chart.mdx) tienen mejor rendimiento que el resto de gráficos si tiene muchos orígenes de datos enlazados al gráfico. Para más información, consulte la sección [Series Collection](#colección-de-series). En los demás casos, los demás tipos de gráfico son más rápidos.
+
+### Animaciones del gráfico
+
+Habilitar [Chart Animations](chart-animations.mdx) retrasará ligeramente la representación final de las series en los gráficos {Platform} mientras reproducen las animaciones de entrada.
+
+### Anotaciones del gráfico
+
+Habilitar [Chart Annotations](chart-annotations.mdx), como las anotaciones de llamada, las anotaciones de línea de mira o las anotaciones de valor final, reducirá ligeramente el rendimiento del gráfico {Platform}.
+
+### Resaltado del gráfico
+
+Habilitar [Chart Highlighting](chart-highlighting.mdx) reducirá ligeramente el rendimiento del gráfico {Platform}.
+
+### Leyenda del gráfico
+
+Añadir una leyenda a los gráficos {Platform} puede reducir el rendimiento si los títulos de las series o de los elementos de datos asignados a la leyenda cambian con frecuencia durante la ejecución.
+
+### Marcadores del gráfico
+
+En los gráficos {Platform}, los [Markers](chart-markers.mdx) son especialmente costosos en cuanto al rendimiento del gráfico, porque aumentan la complejidad de la disposición del gráfico y realizan enlace de datos para obtener cierta información. Además, los marcadores reducen el rendimiento cuando hay muchos puntos de datos o cuando hay muchos orígenes de datos enlazados. Por tanto, si no se necesitan marcadores, deben eliminarse del gráfico.
+
+Este fragmento de código muestra cómo eliminar los marcadores de los gráficos {Platform}.
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "CategoryChart",
+    "name": "Chart",
+    "$comments": { "markerTypes": "on CategoryChart or FinancialChart" },
+    "markerTypes": [ "None" ],
+    "$markerTypes": "+perf:code"
+}
+```
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "DataChart",
+    "name": "Chart",
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "LineSeries",
+            "$comments": { "markerType": "on LineSeries of DataChart" },
+            "markerType": "None",
+            "$markerType": "+perf:code"
+        }
+    ]
+}
+```
+
+
+### Resolución del gráfico
+
+Establecer la propiedad `DomainChart.resolution` en un valor más alto mejorará el rendimiento, pero reducirá la fidelidad gráfica de las líneas de las series representadas. Por tanto, puede aumentarse hasta el punto en que la fidelidad resulte inaceptable.
+
+Este fragmento de código muestra cómo reducir la resolución en los gráficos {Platform}.
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "CategoryChart",
+    "name": "Chart",
+    "$comments": { "resolution": "on CategoryChart" },
+    "resolution": 10,
+    "$resolution": "+perf:code"
+}
+```
+
+```json-snippet channel="code"
+{
+    "$styleOptions": { "qualifyCodeBehindFields": true },
+    "type": "DataChart",
+    "name": "Chart",
+    "series": [
+        {
+            "type": "LineSeries",
+            "name": "LineSeries",
+            "$comments": { "resolution": "on LineSeries of DataChart" },
+            "resolution": 10,
+            "$resolution": "+perf:code"
+        }
+    ]
+}
+```
+
+
+### Superposiciones del gráfico
+
+Habilitar [Chart Overlays](chart-overlays.mdx) reducirá ligeramente el rendimiento del gráfico {Platform}.
+
+### Líneas de tendencia del gráfico
+
+Habilitar [Chart Trendlines](chart-trendlines.mdx) reducirá ligeramente el rendimiento del gráfico {Platform}.
+
+### Tipos de ejes
+
+No se recomienda usar un eje X con compatibilidad con fecha y hora si el espacio entre los puntos de datos, basado en el intervalo de tiempo que hay entre ellos, no es importante. En su lugar, debe usarse un eje ordinal o de categoría, porque es más eficiente a la hora de agrupar los datos. Además, el eje ordinal o de categoría no realiza ninguna ordenación de los datos, a diferencia del eje X basado en el tiempo.
+
+<DocsAside type="info">
+`CategoryChart` ya usa un eje ordinal o de categoría, por lo que no es necesario cambiar sus propiedades.
+</DocsAside>
+<PlatformBlock for="Web">
+Este fragmento de código muestra cómo establecer un eje X ordinal o de categoría en los controles `FinancialChart` y `DataChart`.
+
+```json-snippet
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "financialChart": {
+            "type": "FinancialChart",
+            "xAxisMode": "Ordinal"
+        },
+        "dataChart": {
+            "type": "DataChart",
+            "axes": [
+                { "type": "CategoryXAxis", "label": "Time" }
+            ]
+        }
+    }
+}
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+Este fragmento de código muestra cómo establecer un eje X ordinal o de categoría en el control `DataChart`.
+
+```json-snippet
+{
+    "skipAlterDataCasing": true,
+    "descriptions": {
+        "dataChart": {
+            "type": "DataChart",
+            "axes": [
+                { "type": "CategoryXAxis", "label": "Time" }
+            ]
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+
+### Intervalos de los ejes
+
+De forma predeterminada, los gráficos {Platform} calcularán automáticamente `yAxisInterval` según el rango de sus datos. Por tanto, debe evitar establecer el intervalo del eje, sobre todo con un valor pequeño, para no representar demasiadas líneas de cuadrícula y etiquetas del eje. Además, puede que quiera aumentar la propiedad `yAxisInterval` a un valor mayor que el intervalo del eje calculado automáticamente si no necesita muchas líneas de cuadrícula ni etiquetas del eje.
+
+<DocsAside type="info">
+No recomendamos establecer el intervalo secundario del eje, ya que reduce el rendimiento del gráfico.
+</DocsAside>
+
+Este fragmento de código muestra cómo establecer el intervalo principal del eje en los gráficos {Platform}.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisInterval": 5,
+        "yAxisInterval": 50
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisInterval": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "interval": 5
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "interval": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisInterval": 5,
+        "yAxisInterval": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "interval": 5
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "interval": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### Escala del eje
+
+Se recomienda establecer la propiedad `yAxisIsLogarithmic` en false para obtener un mayor rendimiento, ya que se necesitan menos operaciones que para calcular el rango del eje y los valores de las etiquetas del eje en escala logarítmica.
+
+### Visibilidad de las etiquetas del eje
+
+Al igual que los marcadores, las etiquetas del eje también son costosas, porque usan plantillas y enlaces, y su contexto de datos puede cambiar con frecuencia. Si no se usan las etiquetas, deben ocultarse o aumentarse su intervalo para reducir el número de etiquetas del eje.
+
+Este fragmento de código muestra cómo ocultar las etiquetas del eje en los gráficos {Platform}.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelVisibility": "Collapsed"
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelVisibility": "Collapsed"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisLabelVisibility": "Collapsed",
+        "yAxisLabelVisibility": "Collapsed"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelVisibility": "Collapsed"
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelVisibility": "Collapsed"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### Abreviatura de las etiquetas del eje
+
+Aunque los gráficos {Platform} admiten la abreviatura de números grandes (por ejemplo, más de 10 000) que se muestran en las etiquetas del eje cuando `yAxisAbbreviateLargeNumbers` se establece en true, recomendamos, en su lugar, preprocesar los valores grandes de sus elementos de datos dividiéndolos entre un factor común y, a continuación, establecer `yAxisTitle` en una cadena que represente el factor usado para abreviar los valores de sus datos.
+
+Este fragmento de código muestra cómo establecer el título del eje en los gráficos {Platform}.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "FinancialChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "NumericYAxis",
+                "title": "In millions of Dollars"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "yAxisTitle": "In millions of Dollars"
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "NumericYAxis",
+                "title": "In millions of Dollars"
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### Extensión de las etiquetas del eje
+
+En tiempo de ejecución, los gráficos {Platform} ajustan la extensión de las etiquetas del eje Y según la etiqueta con el valor más largo. Esto puede reducir el rendimiento del gráfico si el rango de los datos cambia y las etiquetas deben actualizarse con frecuencia. Por ello, se recomienda establecer la extensión de las etiquetas en tiempo de diseño para mejorar el rendimiento del gráfico.
+
+El siguiente fragmento de código muestra cómo establecer una extensión fija para las etiquetas del eje Y en los gráficos {Platform}.
+<PlatformBlock for="Web">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "FinancialChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelExtent": 50
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelExtent": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock><PlatformBlock for="WinUI, Uno">
+
+```json-snippet
+[
+    {
+        "type": "CategoryChart",
+        "xAxisExtent": 50,
+        "yAxisExtent": 50
+    },
+    {
+        "type": "DataChart",
+        "axes": [
+            {
+                "type": "CategoryXAxis",
+                "name": "xAxis",
+                "labelExtent": 50
+            },
+            {
+                "type": "NumericYAxis",
+                "name": "yAxis",
+                "labelExtent": 50
+            }
+        ]
+    }
+]
+```
+
+</PlatformBlock>
+
+### Otros elementos visuales del eje
+
+Habilitar elementos visuales adicionales del eje (por ejemplo, los títulos de los ejes) o cambiar sus valores predeterminados puede reducir el rendimiento de los gráficos {Platform}.
+
+Por ejemplo, cambiar estas propiedades en el `CategoryChart`<PlatformBlock for="Web"> o `FinancialChart`</PlatformBlock> control:
+
+| Elemento visual del eje          | Propiedades del eje X | Propiedades del eje Y |
+| ---------------------|-------------------|------------------- |
+| Todos los elementos visuales del eje      | `xAxisInterval`<br />  `xAxisMinorInterval` | `yAxisInterval`<br />  `yAxisMinorInterval` |
+| Marcas de graduación del eje       | `xAxisTickStroke` <br />  `xAxisTickStrokeThickness`<br />  `xAxisTickLength`<br />  | `yAxisTickStroke` <br />  `yAxisTickStrokeThickness`<br />  `yAxisTickLength`<br /> |
+| Líneas de cuadrícula principales del eje | `xAxisMajorStroke`<br />  `xAxisMajorStrokeThickness`<br />   | `yAxisMajorStroke`<br />  `yAxisMajorStrokeThickness`<br /> |
+| Líneas de cuadrícula secundarias del eje | `xAxisMinorStroke`<br />  `xAxisMinorStrokeThickness`<br />   | `yAxisMinorStroke`<br />  `yAxisMinorStrokeThickness`<br /> |
+| Línea principal del eje       | `xAxisStroke`<br />  `xAxisStrokeThickness`<br />   | `yAxisStroke`<br />  `yAxisStrokeThickness`<br /> |
+| Títulos de los ejes          | `xAxisTitle`<br />  `xAxisTitleAngle`<br />    | `yAxisTitle`<br />  `yAxisTitleAngle`<br /> |
+| Bandas del eje          | `xAxisStrip`<br />   | `yAxisStrip`<br /> |
+
+
+O cambiar las propiedades de un `Axis` en el control `DataChart`:
+
+| Elemento visual del eje          | Propiedades de los ejes |
+| ---------------------|------------------- |
+| Todos los elementos visuales del eje     | `Interval`, `MinorInterval` |
+| Marcas de graduación del eje       | `tickStroke`, `tickStrokeThickness`, `tickLength` |
+| Líneas de cuadrícula principales del eje | `majorStroke`, `majorStrokeThickness` |
+| Líneas de cuadrícula secundarias del eje | `minorStroke`, `minorStrokeThickness` |
+| Línea principal del eje       | `Axis.stroke`, `strokeThickness` |
+| Títulos de los ejes          | `chartTitle`, `TitleAngle` |
+| Bandas del eje          | `Axis.strip` |
+
+<PlatformBlock for="Web">
+## Rendimiento en Financial Chart
+
+Además de las directrices de rendimiento anteriores, el control {Platform} `FinancialChart` tiene las siguientes características únicas que afectan al rendimiento.
+
+### Modo del eje Y
+
+Se recomienda establecer la opción `yAxisMode` en `Numeric` para obtener un mayor rendimiento, ya que se necesitan menos operaciones que con el modo `LineSeries.percentChange`.
+
+### Paneles del gráfico
+
+Establecer muchos paneles con las opciones `indicatorTypes` y `overlayTypes` puede reducir el rendimiento; se recomienda usar algunos indicadores financieros y una superposición financiera.
+
+### Zoom Slider
+
+Establecer la opción `zoomSliderType` en `None` mejorará el rendimiento del gráfico y dejará más espacio vertical para otros indicadores y para el panel de volumen.
+
+### Tipo de volumen
+
+Establecer la propiedad `volumeType` puede tener el siguiente impacto en el rendimiento del gráfico:
+
+- `None`: es el menos costoso, ya que no muestra el panel de volumen.
+- `Line`: es un tipo de volumen más costoso de representar, y se recomienda cuando se representan muchos puntos de datos o muchos orígenes de datos.
+- `Area`: es más costoso de representar que el tipo de volumen `Line`.
+- `Column`: es más costoso de representar que el tipo de volumen `Area`, y se recomienda cuando se representan datos de volumen de 1 a 3 acciones.
+</PlatformBlock>
+## Rendimiento en Data Chart
+
+Además de las directrices generales de rendimiento, el control {Platform} `DataChart` tiene las siguientes características únicas que afectan al rendimiento.
+
+### Colección de ejes
+
+Añadir demasiados ejes a la colección `Axes` del control `DataChart` reducirá el rendimiento del gráfico, y recomendamos [compartir ejes](chart-axis-layouts.mdx#ejemplo-de-uso-compartido-de-ejes) entre series.
+
+### Colección de series
+
+Además, añadir muchas series a la colección `Series` del control {Platform} `DataChart` añadirá sobrecarga al renderizado, porque cada serie tiene su propio lienzo de representación. Esto es especialmente importante si tiene más de 10 series en Data Chart. Recomendamos combinar varios orígenes de datos en un origen de datos aplanado (véase la sección [Estructura de los datos](#estructura-de-los-datos)) y, después, usar la característica de estilo condicional de las siguientes series:
+
+| Escenario de rendimiento más lento | Escenario más rápido con estilo condicional |
+| ----------------------------|---------------------------------------- |
+| Más de 10 de `LineSeries`         | `ScatterLineSeries` único |
+| Más de 20 de `LineSeries`         | `ScatterPolylineSeries` único |
+| Más de 10 de `ScatterLineSeries`  | `ScatterPolylineSeries` único |
+| Más de 10 de `PointSeries`        | `ScatterSeries` único |<PlatformBlock for="Web">
+| Más de 20 de `PointSeries`        | `HighDensityScatterSeries` único |
+| Más de 20 de `ScatterSeries`      | `HighDensityScatterSeries` único |</PlatformBlock>
+| Más de 10 de `AreaSeries`         | `ScatterPolygonSeries` único |
+| Más de 10 de `ColumnSeries`       | `ScatterPolygonSeries` único |
+
+
+## Recursos adicionales
+
+Puede encontrar más información sobre tipos de gráfico relacionados en estos temas:
+
+- [Area Chart](../types/area-chart.mdx)
+- [Bar Chart](../types/bar-chart.mdx)
+- [Bubble Chart](../types/bubble-chart.mdx)
+- [Column Chart](../types/column-chart.mdx)
+- [Donut Chart](../types/donut-chart.mdx)
+- [Pie Chart](../types/pie-chart.mdx)
+- [Point Chart](../types/point-chart.mdx)
+- [Polar Chart](../types/polar-chart.mdx)
+- [Radial Chart](../types/radial-chart.mdx)
+- [Shape Chart](../types/shape-chart.mdx)
+- [Spline Chart](../types/spline-chart.mdx)
+- [Scatter Chart](../types/scatter-chart.mdx)
+- [Stacked Chart](../types/stacked-chart.mdx)
+- [Step Chart](../types/shape-chart.mdx)<PlatformBlock for="Web">
+- [Gráfico bursátil](../types/stock-chart.mdx)</PlatformBlock>
+- [Animaciones de gráficos](chart-animations.mdx)
+- [Anotaciones de gráficos](chart-annotations.mdx)
+- [Resaltado de gráficos](chart-highlighting.mdx)
+- [Chart Markers](chart-markers.mdx)
+- [Chart Overlays](chart-overlays.mdx)
+- [Líneas de tendencia de gráficos](chart-trendlines.mdx)
+
+
+## Referencias de API
+`CategoryChart`<PlatformBlock for="Web">
+`FinancialChart`</PlatformBlock>
+`DataChart`

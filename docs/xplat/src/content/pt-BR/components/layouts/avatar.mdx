@@ -1,0 +1,695 @@
+---
+title: "Componente {Platform} Avatar | Layouts | Infragistics"
+description: "Use o componente {Platform} Avatar para representar usuários, entidades ou objetos com imagens, iniciais, ícones ou conteúdo personalizado."
+keywords: "{Platform} Avatar, componente avatar, imagem de perfil, iniciais, {ProductName}, Infragistics"
+last_updated: "2026-07-29"
+license: MIT
+mentionedTypes: ["Avatar", "Badge", "Icon"]
+relatedComponents: ["Badge"]
+_language: pt-BR
+llms:
+  description: "O tópico {ProductName} Avatar mostra como renderizar a identidade de usuários, entidades ou objetos com imagens, iniciais, ícones, conteúdo personalizado, forma, tamanho, estilização e orientações de acessibilidade."
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Anatomy from 'igniteui-astro-components/components/mdx/Anatomy.astro';
+import Faq from 'igniteui-astro-components/components/mdx/Faq.astro';
+import FaqItem from 'igniteui-astro-components/components/mdx/FaqItem.astro';
+import { Image } from 'astro:assets';
+import avatarAnatomy from '@xplat-images/anatomy-content-light/avatar-lt-a.png';
+import avatarDo from '@xplat-images/avatar/avatar_do1.png';
+import avatarDo2x from '@xplat-images/avatar/avatar_do1@2x.png';
+import avatarDoNot from '@xplat-images/avatar/avatar_do_not1.png';
+import avatarDoNot2x from '@xplat-images/avatar/avatar_dont1@2x.png';
+
+# Componente Avatar
+
+O {ProductName} Avatar representa um usuário, uma entidade ou um objeto com uma imagem, iniciais ou conteúdo personalizado.
+
+Use o avatar para oferecer uma identidade visual compacta em listas, cartões, menus de perfil e feeds de atividade.
+
+## Demo ao vivo
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample spacing="sm" showThemePicker height={300} src="/layouts/avatar/overview" alt="Exemplo de visão geral do {Platform} Avatar" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample spacing="sm" showThemePicker height={300} src="/layouts/avatar-overview" alt="Exemplo de visão geral do {Platform} Avatar" />
+
+</PlatformBlock>
+
+## Anatomia
+
+O avatar é um único elemento host que aplica semântica de imagem e renderiza um dos padrões de conteúdo compatíveis.
+
+<Anatomy
+  class="avatar-anatomy"
+  name="Anatomia do {Platform} Avatar"
+  description="A anatomia do avatar identifica os contêineres de imagem, ícone e iniciais."
+  src={avatarAnatomy.src}
+  alt="Anatomia do {Platform} Avatar: contêineres de imagem, ícone e iniciais"
+/>
+
+<style>{`
+  .avatar-anatomy {
+    --igd-anatomy-padding: 64px 32px;
+  }
+
+  .avatar-anatomy .igd-anatomy__image {
+    max-width: 520px;
+  }
+`}</style>
+
+<span class="ig-typography__body-2" style="display: block; margin-bottom: 24px;"><strong>1. Contêiner de imagem:</strong> exibe conteúdo do tipo imagem.<br />
+<strong>2. Contêiner de ícone:</strong> exibe conteúdo do tipo ícone.<br />
+<strong>3. Contêiner de iniciais:</strong> exibe conteúdo do tipo texto.</span>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```text
+igc-avatar[role="img"]           // host - exposes the avatar
+└─ div[part="base"]              // avatar wrapper
+   ├─ span[part="initials"]      // rendered when `initials` is set
+   ├─ slot                       // rendered when `initials` is not set
+   └─ img[part="image"]          // rendered while `src` is set and loads
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```text
+igx-avatar[role="img"]           // host - exposes the avatar
+└─ one of, by priority:
+   ├─ div.igx-avatar__image      // `src` set - image painted as a background
+   ├─ igx-icon                   // `icon` set
+   ├─ span                       // `initials` set - first two characters
+   └─ ng-content                 // custom projected content
+```
+
+</PlatformBlock>
+
+## Primeiros passos
+
+<PlatformBlock for="WebComponents">
+
+Registre o componente avatar antes de usá-lo. Se você ainda não configurou o {ProductName}, conclua primeiro o tópico compartilhado [Primeiros passos](../general-getting-started.mdx).
+
+```ts
+import { defineComponents, IgcAvatarComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcAvatarComponent);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Importe o componente avatar do Angular antes de renderizar o `<igx-avatar>`. Se você ainda não configurou o {ProductName}, conclua primeiro o tópico compartilhado [Primeiros passos](../general/getting-started.mdx).
+
+```ts
+import { IgxAvatarComponent } from 'igniteui-angular/avatar';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+Importe o wrapper do React e a folha de estilo do tema antes de renderizar o avatar. Se você ainda não configurou o {ProductName}, conclua primeiro o tópico compartilhado [Primeiros passos](../general-getting-started.mdx).
+
+```tsx
+import { IgrAvatar } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Registre os serviços de {ProductName}:
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
+```
+
+Registrar <ApiLink pkg="core" type="AvatarModule" />, o módulo de recursos do cliente do avatar, é **opcional**: o componente carrega seus recursos na primeira renderização. Listá-lo em `builder.Services.AddIgniteUIBlazor(typeof(IgbAvatarModule))` pode ser usado para pré-carregar recursos ou para oferecer suporte a elementos criados somente no cliente (consulte [Módulos de componentes](../general-getting-started.mdx#módulos-do-componente)).
+
+Adicione a folha de estilo do tema à sua página hospedeira. Se você ainda não configurou o {ProductName}, conclua primeiro o tópico compartilhado [Primeiros passos](../general-getting-started.mdx).
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+</PlatformBlock>
+
+## Uso
+
+Renderize um avatar com uma fonte de imagem, iniciais ou conteúdo personalizado no slot padrão.
+
+### Variantes
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Defina somente a fonte de conteúdo que pretende exibir. O avatar renderiza <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> quando definidos; caso contrário, renderiza o conteúdo do slot padrão. Ele também renderiza um elemento de imagem enquanto <ApiLink pkg="core" type="Avatar" member="src" label="Src" /> estiver definido e carregar com sucesso.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Defina somente a fonte de conteúdo que pretende exibir. O avatar do Angular renderiza primeiro `src`, depois `icon` e, por fim, `initials`, e recorre ao conteúdo personalizado projetado quando nenhuma dessas entradas está definida.
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-avatar initials="AZ"></igc-avatar>
+
+<igc-avatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane">
+</igc-avatar>
+
+<igc-avatar>
+  <igc-icon name="home"></igc-icon>
+</igc-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="AZ"></igx-avatar>
+
+<igx-avatar src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"></igx-avatar>
+
+<igx-avatar icon="home"></igx-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrAvatar initials="AZ" />
+
+<IgrAvatar
+  src="https://static.infragistics.com/xplatform/images/people/men/1.jpg"
+  alt="A photo of Ana Zane"
+/>
+
+<IgrAvatar>
+  <IgrIcon name="home" />
+</IgrAvatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbAvatar Initials="AZ" />
+
+<IgbAvatar
+  Src="https://static.infragistics.com/xplatform/images/people/GUY01.png"
+  Alt="A photo of Ana Zane" />
+
+<IgbAvatar>
+  <IgbIcon Name="home" />
+</IgbAvatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar/variants" alt="Exemplo de variantes do {Platform} Avatar" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar-variants" alt="Exemplo de variantes do {Platform} Avatar" />
+
+</PlatformBlock>
+
+### Shape
+
+Defina <ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> como `square`, `rounded` ou `circle`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-avatar initials="AZ" shape="circle"></igc-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="AZ" shape="circle"></igx-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrAvatar initials="AZ" shape="circle" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbAvatar Initials="AZ" Shape="@AvatarShape.Circle" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar/shape" alt="Exemplo de formato do {Platform} Avatar" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar-shape" alt="Exemplo de formato do {Platform} Avatar" />
+
+</PlatformBlock>
+
+### Tamanho
+
+Defina `--ig-size` como um dos tokens de tamanho compartilhados quando precisar de um tamanho predefinido de avatar.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-avatar {
+  --ig-size: var(--ig-size-large);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-avatar initials="AZ" size="large"></igx-avatar>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar/size" alt="Exemplo de tamanho do {Platform} Avatar" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample position="center" spacing="sm" showThemePicker height={300} src="/layouts/avatar-size" alt="Exemplo de tamanho do {Platform} Avatar" />
+
+</PlatformBlock>
+
+### Faça/Não faça
+
+**Quando usar:** use o avatar quando uma interface precisar de uma pequena representação de uma pessoa, organização, objeto ou conta, como uma imagem de perfil, iniciais ou um ícone. Mantenha uma estratégia de avatar consistente na mesma região da interface para que identidades repetidas sejam fáceis de identificar.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+**Quando não usar:** use o componente [Badge](../inputs/badge.mdx) quando precisar mostrar uma contagem, um status ou um indicador de notificação, em vez de representar uma entidade. Os badges também podem decorar avatares quando identidade e status precisam aparecer juntos.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+**Quando não usar:** use o componente [Badge](../inputs/badge.mdx) quando precisar mostrar uma contagem, um status ou um indicador de notificação, em vez de representar uma entidade. Os badges também podem decorar avatares quando identidade e status precisam aparecer juntos.
+
+</PlatformBlock>
+
+<div class="table-responsive">
+<table class="table" style="width: 100%; max-width: 720px; table-layout: fixed; border-collapse: collapse; border: 1px solid #d3d3d3; margin: 0 auto 24px;">
+<thead>
+<tr>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Faça</th>
+<th style="width: 50%; background-color: #d3d3d3; text-align: left; padding: 16px 20px; font-size: 18px; font-weight: 500;">Não faça</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDo} srcset={`${avatarDo.src} 1x, ${avatarDo2x.src} 2x`} alt="Orientações de uso do {Platform} Avatar" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+<td style="border: 1px solid #d3d3d3; padding: 16px 20px;"><Image src={avatarDoNot} srcset={`${avatarDoNot.src} 1x, ${avatarDoNot2x.src} 2x`} alt="Orientações de não uso do {Platform} Avatar" class="responsive-img" style="display: block; width: 100%; max-width: 100%; height: auto;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+## Propriedades
+
+O avatar expõe um pequeno conjunto de entradas para o conteúdo e a forma.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Nome | Tipo | Padrão | Descrição |
+| -- | -- | -- | -- |
+| <ApiLink pkg="core" type="Avatar" member="alt" label="Alt" /> | `string` | n/a | Define o texto alternativo para o avatar de imagem. |
+| <ApiLink pkg="core" type="Avatar" member="initials" label="Initials" /> | `string` | n/a | Define as iniciais de texto exibidas quando nenhuma imagem é mostrada. |
+| <ApiLink pkg="core" type="Avatar" member="shape" label="Shape" /> | `"square" \| "rounded" \| "circle"` | `"square"` | Define a forma do avatar. |
+| <ApiLink pkg="core" type="Avatar" member="src" label="Src" /> | `string` | n/a | Define a URL da fonte da imagem. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Nome | Tipo | Padrão | Descrição |
+| -- | -- | -- | -- |
+| <ApiLink type="Avatar" member="icon" label="icon" /> | `string` | n/a | Define o ícone exibido pelo avatar. |
+| <ApiLink type="Avatar" member="initials" label="initials" /> | `string` | n/a | Define as iniciais de texto exibidas pelo avatar. |
+| <ApiLink type="Avatar" member="shape" label="shape" /> | `"square" \| "rounded" \| "circle"` | `"square"` | Define a forma do avatar. |
+| <ApiLink type="Avatar" member="size" label="size" /> | `"small" \| "medium" \| "large"` | `"small"` | Define o tamanho do avatar. |
+| <ApiLink type="Avatar" member="src" label="src" /> | `string` | n/a | Define a URL da fonte da imagem. |
+
+</PlatformBlock>
+
+## Estilização
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<Sample spacing="sm" height={420} src="/layouts/avatar/styling" alt="Exemplo de Avatar estilizado com {Platform}" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<Sample spacing="sm" height={420} src="/layouts/avatar-styling" alt="Exemplo de Avatar estilizado com {Platform}" />
+
+</PlatformBlock>
+
+A aparência do avatar é controlada por variáveis de tema e por pontos de estilização específicos da plataforma.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use as variáveis CSS do avatar para alterações no nível dos tokens e as partes CSS quando precisar direcionar o wrapper renderizado, a imagem, o ícone ou as iniciais.
+
+| Variável | o que muda |
+| -- | -- |
+| `--ig-avatar-background` | Cor de fundo do avatar. |
+| `--ig-avatar-color` | Cor do texto e das iniciais. |
+| `--ig-avatar-icon-color` | Cor do ícone inserido no slot. |
+| `--ig-avatar-border-radius` | Raio da borda usado pelos avatares arredondados. |
+| `--ig-avatar-size` | Largura e altura do avatar. |
+| `--ig-size` | Token de tamanho de componente compartilhado usado para derivar os tamanhos predefinidos do avatar. |
+
+| Parte CSS | Descrição |
+| -- | -- |
+| `base` | O wrapper do avatar. |
+| `icon` | O wrapper do ícone. |
+| `initials` | O wrapper das iniciais. |
+| `image` | O elemento de imagem. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use as variáveis CSS do avatar para alterações no nível dos tokens e as classes de host do Angular quando precisar direcionar um tipo ou formato específico renderizado.
+
+| Variável | o que muda |
+| -- | -- |
+| `--ig-avatar-background` | Cor de fundo do avatar. |
+| `--ig-avatar-color` | Cor do texto e das iniciais. |
+| `--ig-avatar-icon-color` | Cor do ícone. |
+| `--ig-avatar-border-radius` | Raio da borda usado pelos avatares arredondados. |
+| `--ig-avatar-size` | Largura e altura do avatar. |
+| `--ig-size` | Token de tamanho de componente compartilhado usado para derivar os tamanhos predefinidos do avatar. |
+
+| Seletor | Descrição |
+| -- | -- |
+| `igx-avatar` | O elemento host do avatar. |
+| `.igx-avatar--rounded` | Aplicado quando `shape` é `rounded`. |
+| `.igx-avatar--circle` | Aplicado quando `shape` é `circle`. |
+| `.igx-avatar--image` | Aplicado quando o avatar renderiza uma imagem. |
+| `.igx-avatar--icon` | Aplicado quando o avatar renderiza um ícone. |
+| `.igx-avatar--initials` | Aplicado quando o avatar renderiza iniciais. |
+| `.igx-avatar__image` | O elemento do avatar de imagem. |
+
+</PlatformBlock>
+
+### Temas em Sass
+
+Use a função <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="avatar-theme" code={true} /> quando sua aplicação personalizar os temas do Ignite UI com Sass.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```scss
+@use "igniteui-theming/sass/themes" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+$custom-avatar-theme: avatar-theme(
+  $background: #72da67,
+  $border-radius: 16px,
+  $size: 3rem
+);
+
+:root {
+  @include tokens($custom-avatar-theme);
+}
+```
+
+</PlatformBlock>
+
+### Variáveis CSS
+
+Defina as variáveis CSS do componente diretamente quando precisar de estilização local, sem uma etapa de build com Sass.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+```css
+igc-avatar {
+  --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
+}
+
+igc-avatar::part(base) {
+  border: 2px solid var(--ig-success-700);
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```css
+igx-avatar {
+  --ig-avatar-background: var(--ig-success-500);
+  --ig-avatar-color: var(--ig-success-500-contrast);
+  --ig-avatar-border-radius: 20px;
+}
+```
+
+</PlatformBlock>
+
+### Estilizando com Tailwind
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Use classes utilitárias do Tailwind com o {ProductName} Avatar quando precisar de estilização de layout utility-first junto com os tokens dos componentes do Ignite UI.
+
+<Sample spacing="sm" height={560} src="/layouts/avatar/tailwind-styling" alt="Exemplo de estilização do {Platform} Avatar com Tailwind" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+Use a sintaxe utilitária do Tailwind do Angular quando sua aplicação estilizar componentes do Ignite UI por classes do Tailwind.
+
+<Sample height={560} src="/layouts/avatar-tailwind-styling" alt="Exemplo de estilização do {Platform} Avatar com Tailwind" />
+
+</PlatformBlock>
+
+## Acessibilidade
+
+O avatar é um elemento visual de identidade não interativo, com semântica de imagem acessível.
+
+### Interação por teclado
+
+O avatar não recebe foco e não tem interação por teclado.
+
+| Tecla | Ação |
+| -- | -- |
+| n/a | O avatar não é interativo pelo teclado. |
+
+### Leitores de tela / ARIA
+
+O avatar é inicializado com semântica de imagem e um rótulo acessível padrão de `avatar`.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- Defina `alt` quando uma imagem `src` representar uma pessoa, entidade ou objeto específico.
+- Adicione um `aria-label` explícito quando o conteúdo personalizado projetado precisar de um nome acessível diferente.
+- Considere avatares decorativos redundantes quando o texto ao lado já identificar a mesma entidade.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- Use o texto ao redor para identificar a pessoa, a entidade ou o objeto representado quando um avatar de imagem transmitir identidade.
+- Considere avatares decorativos redundantes quando o texto ao lado já identificar a mesma entidade.
+
+</PlatformBlock>
+
+### Conformidade de acessibilidade
+
+A Infragistics documenta o suporte de acessibilidade do {ProductName} para as áreas das diretrizes da Seção 508 e da WCAG 2.1 no tópico [Conformidade de acessibilidade](../interactivity/accessibility-compliance.mdx).
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+| Critério | Como o componente atende |
+| -- | -- |
+| [1.1.1 Conteúdo não textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | O avatar tem um rótulo acessível, e avatares de imagem podem receber um texto alternativo específico por meio de `alt`. |
+| [4.1.2 Nome, função, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | O componente é inicializado com semântica de imagem e expõe informações ARIA relacionadas ao conteúdo. |
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+| Critério | Como o componente atende |
+| -- | -- |
+| [1.1.1 Conteúdo não textual](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content) | O avatar tem um rótulo acessível e pode ser combinado com o texto ao redor que identifica a entidade representada. |
+| [4.1.2 Nome, função, valor](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value) | O componente é inicializado com `role="img"` e um rótulo acessível padrão. |
+
+</PlatformBlock>
+
+Suas responsabilidades:
+
+- Mantenha contraste suficiente entre o fundo do avatar e a cor do texto ou do ícone ao sobrescrever estilos.
+- Evite repetir o mesmo anúncio de identidade quando o texto ao lado já nomear a pessoa ou a entidade.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- Forneça um rótulo descritivo ou um texto de `alt` quando o avatar transmitir identidade.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- Garanta que o texto próximo identifique a entidade representada quando a imagem do avatar transmitir identidade.
+
+</PlatformBlock>
+
+## Solução de problemas
+
+Use esta seção para verificar limites e decisões comuns antes de tratar o Avatar como um componente interativo ou de status.
+
+### Limitações conhecidas
+
+O avatar é um elemento básico de identidade visual e não adiciona, por si só, comportamento de interação, status ou notificação.
+
+- Use um contêiner interativo, como um botão ou um item de lista, quando a entidade representada precisar ser clicável.
+- Use um badge com o avatar quando precisar mostrar status, contagens ou indicadores de notificação.
+
+## Referências da API
+
+Use estas referências de API para a superfície completa da API do avatar.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+<ApiLink pkg="core" type="Avatar" />
+<ApiLink pkg="core" type="Icon" />
+<ApiLink pkg="core" type="Badge" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ApiLink type="Avatar" />
+
+</PlatformBlock>
+
+## Dependências
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+Ícones inseridos em slots exigem que o componente <ApiLink pkg="core" type="Icon" /> esteja registrado ou importado.
+
+</PlatformBlock>
+
+<PlatformBlock for="React, Blazor">
+
+O avatar também usa a folha de estilo do tema compartilhado para sua aparência padrão.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+O fluxo de estilização com Sass usa as APIs <ApiLink kind="sass" module="themes" type="function-avatar-theme" label="Tema do IgxAvatar" /> e <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />.
+
+</PlatformBlock>
+
+## Recursos adicionais
+
+Use estes recursos para suporte e para a documentação relacionada do Ignite UI.
+
+- [{ProductName} **Fóruns**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})
+
+## Componentes relacionados
+
+Use estes componentes relacionados quando a identidade precisar ser combinada com status, ações ou um layout mais rico.
+
+<PlatformBlock for="WebComponents, React, Blazor">
+
+- [Badge](../inputs/badge.mdx) - use o Badge para mostrar contagens, status ou indicadores de notificação. O Badge pode decorar o Avatar quando a interface precisa de identidade e status ao mesmo tempo.
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- [Badge](../inputs/badge.mdx) - use o Badge para mostrar contagens, status ou indicadores de notificação. O Badge pode decorar o Avatar quando a interface precisa de identidade e status ao mesmo tempo.
+
+</PlatformBlock>
+
+## Perguntas frequentes
+
+<Faq>
+  <FaqItem question="Quando devo usar o Avatar em vez do Badge?" indicatorPosition="end">
+    Use o Avatar quando a interface precisar representar uma pessoa, uma conta, uma organização ou um objeto. Use o Badge quando a interface precisar mostrar uma contagem, um status ou um indicador de notificação.
+  </FaqItem>
+
+  <FaqItem question="O Avatar adiciona interação por teclado?" indicatorPosition="end">
+    Não. O Avatar não é interativo e não recebe foco por conta própria. Coloque-o dentro de um componente interativo quando a entidade representada precisar de uma ação.
+  </FaqItem>
+
+  <FaqItem question="Como devo rotular avatares de imagem para leitores de tela?" indicatorPosition="end">
+    Forneça um texto alternativo significativo quando a imagem do avatar identificar uma entidade específica. Evite repetir a mesma identidade quando o texto ao lado já nomear essa entidade.
+  </FaqItem>
+</Faq>

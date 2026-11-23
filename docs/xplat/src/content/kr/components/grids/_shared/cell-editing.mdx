@@ -1,0 +1,1561 @@
+---
+title: "{Platform} {ComponentTitle} 셀 편집 - {ProductName}"
+description: "{ComponentTitle}는 셀 내 편집을 사용합니다. 기본 셀 편집 템플릿이 있지만, 데이터 업데이트 작업을 위한 자신만의 사용자 지정 템플릿을 정의할 수도 있습니다. 지금 사용해 보십시오!"
+keywords: "데이터 조작, Excel 편집, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: [{ComponentApiMembers}]
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridCellEditing}"
+_language: ko
+llms:
+  description: "{Platform} {ComponentTitle}의 {ProductName} 셀 편집은 {Platform} {ComponentTitle} 컴포넌트 안의 개별 셀 내용에 대한 훌륭한 데이터 조작 기능을 제공하며, React CRUD 작업을 위한 강력한 API를 갖추고 있습니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} {ComponentTitle} 셀 편집
+
+{Platform} {ComponentTitle}의 {ProductName} 셀 편집은 {Platform} {ComponentTitle} 컴포넌트 안의 개별 셀 내용에 대한 훌륭한 데이터 조작 기능을 제공하며, React CRUD 작업을 위한 강력한 API를 갖추고 있습니다. 스프레드시트, 데이터 표, 데이터 그리드 같은 앱의 기본 기능으로, 사용자가 특정 셀에 데이터를 추가, 편집, 업데이트할 수 있게 합니다.
+기본적으로 {ProductName}의 그리드는 셀 편집에 사용됩니다. 그리고 **기본 셀 편집 템플릿** 때문에 열 데이터 유형에 따라 서로 다른 편집기가 나타납니다. 폼 상단을 참조하십시오.
+
+또한 데이터 업데이트 작업을 위한 자신만의 사용자 지정 템플릿을 정의하고, 변경 사항을 확정하고 버리는 기본 동작을 재정의할 수 있습니다.
+
+## {Platform} {ComponentTitle} 셀 편집 및 편집 템플릿 예제
+
+<Sample src="/{ComponentSample}/editing-columns" height={700} alt="{Platform} {ComponentTitle} 셀 편집 및 편집 템플릿 예제" />
+
+<PlatformBlock for="Angular">
+<DocsAside type="info">
+<ApiLink type="{ComponentName}" member="cellEditor" />를 어떤 유형의 편집기 컴포넌트와 함께 사용하면 키보드 탐색 흐름이 깨집니다. 편집 모드로 들어가는 사용자 지정 셀을 직접 편집하는 경우에도 마찬가지입니다. 이는 **포커스**가 우리가 추가한 편집기 컴포넌트가 아니라 **셀 요소**에 남아 있기 때문입니다. 그래서 `Focus` 디렉티브를 활용해야 합니다. 이 디렉티브는 포커스를 셀 내부 컴포넌트에 직접 옮기고, 셀/행의 **자연스러운 편집 흐름**을 유지합니다.
+</DocsAside>
+
+</PlatformBlock>
+
+## 셀 편집
+
+### UI를 통한 편집
+
+편집 가능한 셀에 포커스가 있을 때 다음 방법 중 하나로 특정 셀의 편집 모드에 들어갈 수 있습니다:
+- 더블 클릭하면;
+- 싱글 클릭 - 싱글 클릭은 이전에 선택된 셀이 편집 모드였고 현재 선택된 셀이 편집 가능한 경우에만 편집 모드에 들어갑니다. 이전에 선택된 셀이 편집 모드가 아니었다면, 싱글 클릭은 편집 모드에 들어가지 않고 셀만 선택합니다;
+- 키 입력 <kbd>ENTER</kbd>에서;
+- 키 입력 <kbd>F2</kbd>에서;
+
+다음 방법 중 하나로 변경 사항을 **커밋하지 않고** 편집 모드를 벗어날 수 있습니다:
+- 키 입력 <kbd>Escape</kbd>에서;
+- **정렬**, **필터링**, **검색** 및 **숨기기** 작업을 수행할 때;
+
+다음 방법 중 하나로 편집 모드를 벗어나 변경 사항을 **커밋**할 수 있습니다:
+- 키 입력 <kbd>ENTER</kbd>에서;
+- 키 입력 <kbd>F2</kbd>에서;
+- 키 입력 <kbd>TAB</kbd>에서;
+- 다른 셀을 싱글 클릭하면 - <ApiLink type="{ComponentName}" />에서 다른 셀을 클릭하면 변경 사항이 제출됩니다.
+- 페이징, 크기 조정, 고정 또는 이동과 같은 작업은 편집 모드를 벗어나게 하며, 변경 사항이 제출됩니다.
+
+
+<DocsAside type="info">
+세로 또는 가로로 스크롤하거나 <ApiLink type="{ComponentName}" /> 바깥을 클릭해도 셀은 편집 모드에 남아 있습니다. 이는 셀 편집과 행 편집 모두에 적용됩니다.
+</DocsAside>
+
+### API를 통한 편집
+
+기본 키가 정의되어 있는 경우에만 <ApiLink type="{ComponentName}" /> API를 통해 셀 값을 수정할 수도 있습니다:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    this.grid1.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```csharp
+this.grid.UpdateCell(newValue, rowID, 'ReorderLevel')
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function updateCell() {
+    grid1Ref.current.updateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public updateCell() {
+    this.treeGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    this.treeGrid.UpdateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    this.hierarchicalGrid.updateCell(newValue, rowID, 'Age');
+}
+```
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    this.hierarchicalGrid.UpdateCell(newValue, rowID, 'ReorderLevel');
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+셀을 업데이트하는 또 다른 방법은 `Cell`의 <ApiLink type="CellType" member="update" label="Update" /> 메서드를 직접 사용하는 것입니다:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    const cell = this.grid1.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.grid1.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.grid1.GetCellByColumn(rowIndex, "ReorderLevel");
+        cell.Update(70);
+    }
+}
+```
+</PlatformBlock>
+<PlatformBlock for="React">
+```typescript
+function updateCell() {
+    const cell = grid1Ref.current.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = grid1Ref.current.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public updateCell() {
+    const cell = this.treeGrid.getCellByColumn(rowIndex, 'Age');
+    // You can also get cell by rowID if primary key is defined
+    // const cell = this.treeGrid.getCellByKey(rowID, 'Age');
+    cell.update(9999);
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.treeGrid.GetCellByColumn(rowIndex, "Age");
+        cell.Update(9999);
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public updateCell() {
+    const cell = this.hierarchicalGrid.getCellByColumn(rowIndex, 'ReorderLevel');
+    // You can also get cell by rowID if primary key is defined
+    // cell = this.hierarchicalGrid.getCellByKey(rowID, 'ReorderLevel');
+    cell.update(70);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    private UpdateCell() {
+        IgbCell cell = this.hierarchicalGrid.GetCellByColumn(rowIndex, "ReorderLevel");
+        cell.Update(70);
+    }
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+
+### 셀 편집 템플릿
+
+기본 셀 편집 템플릿에 대한 자세한 내용은 [일반 편집 주제](editing.mdx#편집-템플릿)에서 확인할 수 있습니다.
+
+<PlatformBlock for="Angular">
+셀이 편집 모드에 있을 때 적용될 사용자 지정 템플릿을 제공하려면, `CellTemplateDirective`를 사용할 수 있습니다. 이를 위해서는 <ApiLink type="{ComponentName}" member="cellEditor" /> 디렉티브로 표시된 **ng-template**을 전달하고 사용자 지정 컨트롤을 셀의 <ApiLink type="CellType" member="editValue" />에 적절히 바인딩해야 합니다:
+
+```html
+<igx-column field="class" header="Class" [editable]="true">
+    <ng-template igxCellEditor let-cell="cell" let-value>
+        <igx-select class="cell-select" [(ngModel)]="cell.editValue" [igxFocus]="true">
+            <igx-select-item *ngFor="let class of classes" [value]="class">
+                {{ class }}
+            </igx-select-item>
+        </igx-select>
+    </ng-template>
+</igx-column>
+```
+
+<PlatformBlock for="WebComponents">
+```html
+<igc-column id="class" field="class" header="Class" editable="true">
+</igc-column>
+```
+</PlatformBlock>
+
+```ts
+constructor() {
+    const classColumn = document.getElementById('class') as IgcColumnComponent;
+
+    this._bind = () => {
+        classColumn.inlineEditorTemplateRef = this.classEditTemplate;
+    }
+    this._bind();
+}
+
+public classEditTemplate = (ctx: IgcCellTemplateContext) => {
+    return html`
+        <igc-select class="cell-select" value="${ctx.cell.value}" >
+        </igc-select>
+    `;
+}
+```
+
+이 코드는 `Race`, `Class`, `Alignment` 열의 셀에 [SelectComponent](../select.mdx)를 구현하는 아래 샘플에서 사용됩니다.
+
+<Sample src="/{ComponentSample}/cell-selection-style" height={625} alt="{Platform} {ComponentTitle} 선택 예제" />
+
+<DocsAside type="info">
+편집 모드에서 셀의 <ApiLink type="{ComponentName}" member="editValue" />를 변경하면, 종료 시 적절한 [편집 이벤트](editing.mdx#event-arguments-and-sequence)가 발생하고 트랜잭션이 활성화되어 있으면 트랜잭션 상태에 적용됩니다.
+</DocsAside>
+
+<DocsAside type="info">
+셀 템플릿 `Cell`는 편집 모드가 아닐 때 열의 셀이 어떻게 표시되는지 제어합니다.
+셀 편집 템플릿 디렉티브 <ApiLink type="{ComponentName}" member="cellEditor" />는 편집 모드에 있는 열의 셀이 어떻게 표시되는지 처리하고, 편집 중인 셀의 편집 값을 제어합니다.
+</DocsAside>
+
+<DocsAside type="info">
+<ApiLink type="{ComponentName}" member="cellEditor" />를 어떤 유형의 편집기 컴포넌트와 함께 사용하면 키보드 탐색 흐름이 깨집니다. 편집 모드로 들어가는 사용자 지정 셀을 직접 편집하는 경우에도 마찬가지입니다. 이는 **포커스**가 우리가 추가한 편집기 컴포넌트가 아니라 **셀 요소**에 남아 있기 때문입니다. 그래서 `Focus` 디렉티브를 활용해야 합니다. 이 디렉티브는 포커스를 셀 내부 컴포넌트에 직접 옮기고, 셀/행의 **자연스러운 편집 흐름**을 유지합니다.
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents">
+셀에 적용될 사용자 지정 템플릿을 제공하려면, 그 템플릿을 셀 자체 또는 그 머리글에 전달할 수 있습니다. 먼저 평소처럼 열을 만드십시오:
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+<ComponentBlock for="Grid">
+```razor
+<IgbColumn
+    Field="Race"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```razor
+<IgbColumn
+    Field="Category"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```razor
+<IgbColumn
+    Field="Age"
+    DataType="GridColumnDataType.String"
+    InlineEditorTemplateScript="WebGridCellEditCellTemplate"
+    Editable="true"
+    Name="column1"
+    @ref="column1">
+</IgbColumn>
+```
+</ComponentBlock>
+
+그리고 템플릿을 전달하십시오:
+
+```javascript
+
+igRegisterScript("WebGridCellEditCellTemplate", (ctx) => {
+    let cellValues = [];
+    let uniqueValues = [];
+    for(const i of ctx.cell.grid.data){
+        const field = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`<div>
+    <igc-select position-strategy="fixed" @igcChange=${ e => ctx.cell.editValue = e.detail.value}>
+          ${cellValues}
+    </igc-select>
+</div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+<ComponentBlock for="Grid">
+```html
+<igc-column
+    field="Race"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+그다음 index.ts 파일에서 이 열에 템플릿을 전달하십시오:
+
+```typescript
+constructor() {
+    var grid1 = document.getElementById('grid1') as {ComponentName}Component;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+    var column2 = document.getElementById('column2') as IgcColumnComponent;
+    var column3 = document.getElementById('column3') as IgcColumnComponent;
+
+    grid1.data = this.webGridCellEditSampleRoleplay;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column2.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column3.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.webGridCellEditSampleRoleplay as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+        <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+        </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```html
+<igc-column
+    field="Category"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+그다음 index.ts 파일에서 이 열에 템플릿을 전달하십시오:
+
+```ts
+
+constructor() {
+    var treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+
+    treeGrid.data = this.webGridCellEditSampleRoleplay;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column2.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+    column3.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.webGridCellEditSampleRoleplay as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+    <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+    </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+```html
+<igc-column
+    field="Age"
+    data-type="string"
+    editable="true"
+    id="column1">
+</igc-column>
+```
+
+그다음 index.ts 파일에서 이 열에 템플릿을 전달하십시오:
+
+```ts
+
+constructor() {
+    var hierarchicalGrid = document.getElementById('hierarchicalGrid') as IgcHierarchicalGridComponent;
+    var column1 = document.getElementById('column1') as IgcColumnComponent;
+
+    hierarchicalGrid.data = this.singersData;
+    column1.inlineEditorTemplate = this.webGridCellEditCellTemplate;
+}
+
+public webGridCellEditCellTemplate = (ctx: IgcCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    for(const i of (this.singersData as any)){
+        const field: string = ctx.cell.column.field;
+        if(uniqueValues.indexOf(i[field]) === -1 )
+        {
+            cellValues.push(html`<igc-select-item value=${i[field]}>${(i[field])}</igc-select-item>`);
+            uniqueValues.push(i[field]);
+        }
+    }
+    return html`
+    <igc-select style="width:100%; height:100%" size="large" @igcChange=${(e: any) => ctx.cell.editValue = e.detail.value}>
+            ${cellValues}
+    </igc-select>
+    `;
+}
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+셀에 적용될 사용자 지정 템플릿을 제공하려면, 그 템플릿을 셀 자체 또는 그 머리글에 전달할 수 있습니다. 먼저 평소처럼 열을 만드십시오:
+
+```tsx
+<IgrColumn
+    field="race"
+    header="Race"
+    dataType="string"
+    editable={true}
+    inlineEditorTemplate={this.webGridCellEditCellTemplate}>
+</IgrColumn>
+```
+
+그다음 index.ts 파일에서 이 열에 템플릿을 전달하십시오:
+
+```typescript
+public webGridCellEditCellTemplate = (e: IgrCellTemplateContext) => {
+    let cellValues: any = [];
+    let uniqueValues: any = [];
+    const cell = e.cell;
+    const colIndex = cell.id.columnID;
+    const field: string = this.grid1.getColumnByVisibleIndex(colIndex).field;
+    let index = 0;
+    for (const i of this.roleplayDataStats as any) {
+      if (uniqueValues.indexOf(i[field]) === -1) {
+        cellValues.push(
+          <>
+            <IgrSelectItem
+              selected={e.cell.value == i[field]}
+              value={i[field]}
+            >
+              <div>{i[field]}</div>
+            </IgrSelectItem>
+          </>
+        );
+        uniqueValues.push(i[field]);
+      }
+      index++;
+    }
+    return (
+      <>
+        <IgrSelect
+          onChange={(x: any) => {
+            setTimeout(() => {
+              cell.editValue = x.target.value;
+            });
+          }}
+        >
+          {cellValues}
+        </IgrSelect>
+      </>
+    );
+  };
+```
+
+</PlatformBlock>
+
+위의 작동하는 샘플은 참고용으로 여기에서 확인할 수 있습니다:
+
+<Sample src="/{ComponentSample}/cell-editing-sample" height={650} alt="{Platform} {ComponentTitle} 셀 편집 템플릿 샘플" />
+
+<PlatformBlock for="Angular">
+열과 그 템플릿을 구성하는 방법에 대한 자세한 정보는 [Grid 열 구성](../grid/grid.mdx#angular-grid-column-configuration) 문서를 참조하십시오.
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+### {ComponentTitle} Excel 스타일 편집
+
+
+Excel 스타일 편집을 사용하면 사용자는 Excel을 사용할 때처럼 셀 사이를 이동하며 매우 빠르게 편집할 수 있습니다.
+
+이 사용자 지정 기능은 <ApiLink type="{ComponentName}" />의 이벤트를 활용하여 구현할 수 있습니다. 먼저 그리드의 keydown 이벤트에 연결한 다음, 거기에서 두 가지 기능을 구현할 수 있습니다:
+
+<PlatformBlock for="React">
+```tsx
+const gridRef = useRef<IgrGrid>();
+useEffect(() => {
+    gridRef.current.addEventListener("keydown", handleKeyDown);
+    return () => {
+        gridRef.current.removeEventListener("keydown", handleKeyDown);
+    };
+}, []);
+<IgrGrid ref={gridRef} autoGenerate={false} data={nwindData} primaryKey="ProductID">
+</IgrGrid>
+```
+
+<DocsAside type="info">
+React의 synthetic onKeyDown 이벤트 대신 네이티브 브라우저 keydown 이벤트를 사용합니다. 셀이 편집 모드에 들어가고 ENTER 키를 눌러 다음 행으로 이동하면, 그리드의 편집 기능이 셀 값을 업데이트하고 편집 모드를 닫습니다. 그 결과 편집에 사용된 입력 요소가 DOM에서 제거됩니다. React의 이벤트 시스템 최적화 때문에, 그 순간 요소가 더 이상 React 트리에 없으므로 onKeyDown 합성 이벤트는 그리드까지 버블링되지 않습니다. 따라서 기대하는 동작을 보장하려면 네이티브 이벤트 리스너를 사용해야 합니다.
+</DocsAside>
+
+</PlatformBlock>
+
+- 상시 편집 모드
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public keydownHandler(event) {
+  const key = event.keyCode;
+  const grid = this.grid;
+  const activeElem = grid.navigation.activeNode;
+
+  if ((key >= 48 && key <= 57) ||
+      (key >= 65 && key <= 90) ||
+      (key >= 97 && key <= 122)) {
+        // Number or Alphabet upper case or Alphabet lower case
+        const columnName = grid.getColumnByVisibleIndex(activeElem.column).field;
+        const cell = grid.getCellByColumn(activeElem.row, columnName);
+        if (cell && !grid.crudService.cellInEditMode) {
+            grid.crudService.enterEditMode(cell);
+            cell.editValue = event.key;
+        }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function handleKeyDown(event: KeyBoardEvent) {
+    const code = event.code;
+    const grid = event.currentTarget as IgrGrid;
+    const activeElem = grid.selectedCells[0];
+
+    if ((event.code >= "Digit0" && event.code <= "Digit9") || (event.code >= "KeyA" && event.code <= "KeyZ")
+        || (event.code >= "Numpad0" && event.code <= "Numpad9" && event.code !== "Enter" && event.code !== "NumpadEnter")) {
+        if (activeElem && !activeElem.editMode) {
+            activeElem.editMode = true;
+            activeElem.editValue = event.key;
+        } else if (activeElem && activeElem.editMode) {
+            event.preventDefault();
+            activeElem.editValue = activeElem.editValue + event.key;
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+- <kbd>ENTER</kbd>/<kbd>SHIFT</kbd> + <kbd>ENTER</kbd> 탐색
+
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+if (key == 13) {
+    let thisRow = activeElem.row;
+    const column = activeElem.column;
+    const rowInfo = grid.dataView;
+
+    // to find the next eligible cell, we will use a custom method that will check the next suitable index
+    let nextRow = this.getNextEditableRowIndex(thisRow, rowInfo, event.shiftKey);
+
+    // and then we will navigate to it using the grid's built in method navigateTo
+    this.grid.navigateTo(nextRow, column, (obj) => {
+        obj.target.activate();
+        this.grid.clearCellSelection();
+        this.cdr.detectChanges();
+    });
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+if (code === "Enter" || code === "NumpadEnter") {
+    const thisRow = activeElem.row.index;
+    const dataView = grid.dataView;
+    const nextRowIndex = getNextEditableRowIndex(thisRow, dataView, event.shiftKey);
+
+    grid.navigateTo(nextRowIndex, activeElem.column.visibleIndex, (obj: any) => {
+        obj.target.activate();
+        grid.endEdit(true);
+        grid.markForCheck();
+    });
+}
+```
+
+</PlatformBlock>
+
+다음으로 편집 가능한 인덱스를 찾는 핵심 부분은 다음과 같습니다:
+
+<PlatformBlock for="Angular, WebComponents, React">
+```typescript
+//first we check if the currently selected cell is the first or the last
+if (currentRowIndex < 0 || (currentRowIndex === 0 && previous) || (currentRowIndex >= dataView.length - 1 && !previous)) {
+    return currentRowIndex;
+}
+// in case using shift + enter combination, we look for the first suitable cell going up the field
+if (previous) {
+    return  dataView.findLastIndex((rec, index) => index < currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+}
+// or for the next one down the field
+return dataView.findIndex((rec, index) => index > currentRowIndex && this.isEditableDataRecordAtIndex(index, dataView));
+```
+</PlatformBlock>
+
+자세한 내용은 전체 샘플을 확인하십시오:
+
+#### {Platform} 그리드 Excel 스타일 편집 샘플
+
+<PlatformBlock for="React">
+<Sample src="/{ComponentSample}/editing-excel-style" height={550} alt="{Platform} {ComponentTitle} Excel 스타일 편집 예제" />
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor">
+<Sample src="/{ComponentSample}/editing-excel-style-custom" height={550} alt="{Platform} {ComponentTitle} Excel 스타일 편집 예제" />
+</PlatformBlock>
+
+위 방식의 주요 이점은 다음과 같습니다:
+
+- 상시 편집 모드: 셀이 선택된 상태에서 입력하면 기존 값을 대체하며 입력한 값으로 즉시 편집 모드에 들어갑니다
+- <kbd>ENTER</kbd>/<kbd>SHIFT</kbd> + <kbd>ENTER</kbd>로 탐색할 때 데이터가 아닌 행은 건너뜁니다. 이를 통해 사용자가 값들을 빠르게 순환할 수 있습니다.
+
+</ComponentBlock>
+
+## CRUD 작업
+
+<DocsAside type="info">
+**CRUD 작업**을 수행하면 **필터링**, **정렬**, **그룹화**와 같이 적용된 모든 파이프가 다시 적용되고, 뷰가 자동으로 업데이트된다는 점을 기억하십시오.
+</DocsAside>
+
+<ApiLink type="{ComponentName}" />은(는) 기본 CRUD 작업을 위한 간단한 API를 제공합니다.
+
+### 새 레코드 추가하기
+
+<ApiLink type="{ComponentName}" /> 컴포넌트는 제공된 데이터를 데이터 소스 자체에 추가하는 <ApiLink type="{ComponentName}" member="addRow" label="AddRow" /> 메서드를 노출합니다.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = this.getNewRecord();
+this.grid.addRow(record);
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    //Assuming we have a `GetNewRecord` method returning the new row data.
+    const record = this.GetNewRecord();
+    this.GridRef.AddRow(record);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Adding a new record
+// Assuming we have a `getNewRecord` method returning the new row data.
+const record = getNewRecord();
+grid1Ref.current.addRow(record);
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+```typescript
+public addNewChildRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    // And specifying the parentRowID.
+    const record = this.getNewRecord();
+    this.treeGrid.addRow(record, 1);
+}
+```
+
+<PlatformBlock for="Blazor">
+```razor
+//Assuming we have a `GetNewRecord` method returning the new row data.
+const record = this.GetNewRecord();
+this.TreeGridRef.AddRow(record);
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+public addRow() {
+    // Adding a new record
+    // Assuming we have a `getNewRecord` method returning the new row data
+    const record = this.getNewRecord();
+    this.hierarchicalGrid.addRow(record);
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    //Assuming we have a `GetNewRecord` method returning the new row data.
+    const record = this.GetNewRecord();
+    this.HierarchicalGridRef.AddRow(record);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### {ComponentTitle}의 데이터 업데이트하기
+
+{ComponentTitle}의 데이터 업데이트는 <ApiLink type="{ComponentName}" member="updateRow" />와 <ApiLink type="{ComponentName}" member="updateCell" /> 메서드로 수행하지만, **그리드의 PrimaryKey가 정의되어 있는 경우에만** 가능합니다. 셀이나 행 값은 각각의 **update** 메서드를 통해 직접 업데이트할 수도 있습니다.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Updating the whole row
+this.grid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.grid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.grid.getRowByKey(rowID);
+row.update(newData);
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Updating the whole row
+grid1Ref.current.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+grid1Ref.current.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = grid1Ref.current.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.grid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Grid API
+    this.grid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.grid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Updating the whole row
+this.treeGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Tree Grid API
+this.treeGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.treeGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.treeGrid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Tree Grid API
+    this.treeGrid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.treeGrid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Updating the whole row
+this.hierarchicalGrid.updateRow(newData, this.selectedCell.cellID.rowID);
+
+// Just a particular cell through the Grid API
+this.hierarchicalGrid.updateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+// Directly using the cell `update` method
+this.selectedCell.update(newData);
+
+// Directly using the row `update` method
+const row = this.hierarchicalGrid.getRowByKey(rowID);
+row.update(newData);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Updating the whole row
+    this.hierarchicalGrid.UpdateRow(newData, this.selectedCell.cellID.rowID);
+
+    // Just a particular cell through the Tree Grid API
+    this.hierarchicalGrid.UpdateCell(newData, this.selectedCell.cellID.rowID, this.selectedCell.column.field);
+
+    // Directly using the cell `update` method
+    this.selectedCell.Update(newData);
+
+    // Directly using the row `update` method
+    IgbRowType row = this.hierarchicalGrid.GetRowByKey(rowID);
+    row.Update(newData);
+}
+
+```
+</PlatformBlock>
+</ComponentBlock>
+
+### {ComponentTitle}에서 데이터 삭제하기
+
+<ApiLink type="{ComponentName}" member="deleteRow" label="DeleteRow" /> 메서드는 <ApiLink type="{ComponentName}" member="primaryKey" />가 정의되어 있는 경우에만 지정된 행을 제거한다는 점을 기억하십시오.
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular, WebComponents">
+```typescript
+// Delete row through Grid API
+this.grid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.grid.getRowByIndex(rowIndex);
+row.delete();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Delete row through Grid API
+grid1Ref.current.deleteRow(selectedCell.cellID.rowID);
+// Delete row through row object
+const row = grid1Ref.current.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Grid API
+    this.grid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.grid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Delete row through Tree Grid API
+this.treeGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.treeGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Tree Grid API
+    this.treeGrid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.treeGrid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+// Delete row through Grid API
+this.hierarchicalGrid.deleteRow(this.selectedCell.cellID.rowID);
+// Delete row through row object
+const row = this.hierarchicalGrid.getRowByIndex(rowIndex);
+row.delete();
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+@code {
+    // Delete row through Grid API
+    this.hierarchicalGrid.DeleteRow(this.selectedCell.cellID.rowID);
+    // Delete row through row object
+    IgbRowType row = this.hierarchicalGrid.GetRowByIndex(rowIndex);
+    row.Del();
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+이들은 <ApiLink type="{ComponentName}" />와 반드시 관련될 필요 없이, 예를 들어 버튼 클릭 같은 사용자 상호 작용에 연결할 수 있습니다:
+
+<PlatformBlock for="Angular">
+```html
+<button igxButton igxRipple (click)="deleteRow($event)">Delete Row</button>
+```
+</PlatformBlock>
+
+### 편집 이벤트에서 셀 유효성 검사
+
+<ApiLink type="{ComponentName}" />의 편집 이벤트를 사용하면 사용자가 <ApiLink type="{ComponentName}" />와 상호 작용하는 방식을 바꿀 수 있습니다.
+
+이 예제에서는 <ApiLink type="{ComponentName}" member="cellEdit" /> 이벤트에 연결하여, 셀에 입력된 데이터를 기준으로 셀을 검증합니다. 셀의 새 값이 미리 정의된 기준을 충족하지 않으면, 이벤트를 취소하여 그 값이 데이터 소스에 도달하지 못하게 합니다.
+
+<PlatformBlock for="Angular">
+또한 [Toast](../../notifications/toast.mdx)를 사용하여 사용자 지정 오류 메시지를 표시합니다.
+
+</PlatformBlock>
+
+먼저 해야 할 일은 그리드의 이벤트에 연결하는 것입니다:
+
+<PlatformBlock for="Angular">
+```html
+<{ComponentSelector} (cellEdit)="handleCellEdit($event)">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<{ComponentSelector} onCellEdit={handleCellEdit}>
+</{ComponentSelector}>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents">
+```razor
+<{ComponentSelector} CellEditScript="HandleCellEdit" />
+```
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var grid = document.getElementById('grid') as IgcGridComponent;
+    this.webGridCellEdit = this.webGridCellEdit.bind(this);
+    grid.addEventListener("cellEdit", this.webGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+constructor() {
+    var treeGrid = document.getElementById('treeGrid') as IgcTreeGridComponent;
+    this.webTreeGridCellEdit = this.webTreeGridCellEdit.bind(this);
+    treeGrid.addEventListener("cellEdit", this.webTreeGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```ts
+constructor() {
+    var hGrid = document.getElementById('hGrid') as IgcHierarchicalGridComponent;
+    this.webHierarchicalGridCellEdit = this.webHierarchicalGridCellEdit.bind(this);
+    hGrid.addEventListener("cellEdit", this.webHierarchicalGridCellEdit);
+}
+```
+</PlatformBlock>
+</ComponentBlock>
+
+</PlatformBlock>
+
+<ApiLink type="{ComponentName}" member="cellEdit" />는 **어떤** 셀의 값이든 확정되기 직전에 발생합니다. 우리의 **CellEdit** 정의에서는 어떤 동작을 하기 전에 특정 열을 확인하도록 해야 합니다:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="Angular">
+```typescript
+export class MyGridEventsComponent {
+    public handleCellEdit(event: IGridEditEventArgs): void {
+        const column = event.column;
+        if (column.field === 'UnitsOnOrder') {
+            const rowData = event.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                this.toast.open();
+            }
+        }
+    }
+}
+```
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+```typescript
+public webGridCellEdit(event: CustomEvent<IgcGridEditEventArgs>): void {
+    const column = event.detail.column;
+    if (column.field === 'UnitsOnOrder') {
+            const rowData = event.detail.rowData;
+            if (!rowData) {
+                return;
+            }
+            if (event.detail.newValue > rowData.UnitsInStock) {
+                event.cancel = true;
+                alert("You cannot order more than the units in stock!");
+            }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```typescript
+function handleCellEdit(args: IgrGridEditEventArgs): void {
+    const column = args.detail.column;
+
+    if (column.field === 'UnitsOnOrder') {
+        const rowData = args.detail.rowData;
+        if (!rowData) {
+            return;
+        }
+        if (args.detail.newValue > rowData.UnitsInStock) {
+            args.detail.cancel = true;
+            alert("You cannot order more than the units in stock!");
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("HandleCellEdit", (ev) => {
+    var d = ev.detail;
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}, false);
+```
+
+</PlatformBlock>
+
+**주문 수량** 열의 셀에 입력한 값이 사용 가능한 수량(**재고 수량**의 값)보다 크면, 편집이 취소되고 사용자에게 취소를 알립니다.
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+public webTreeGridCellEdit(event: CustomEvent<IgcGridEditEventArgs>): void {
+    const column = event.detail.column;
+
+    if (column.field === 'Age') {
+        if (event.detail.newValue < 18) {
+            event.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (event.detail.newValue > new Date().getTime()) {
+            event.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}
+
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("HandleCellEdit", (ev) => {
+    const column = event.detail.column;
+
+    if (column.field === 'Age') {
+        if (event.detail.newValue < 18) {
+            event.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (event.detail.newValue > new Date().getTime()) {
+            event.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}, false);
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="TreeGrid">
+```tsx
+public webTreeGridCellEdit(args: IgrGridEditEventArgs): void {
+    const column = args.detail.column;
+
+    if (column.field === 'Age') {
+        if (args.detail.newValue < 18) {
+            args.detail.cancel = true;
+            alert('Employees must be at least 18 years old!');
+        }
+    } else if (column.field === 'HireDate') {
+        if (args.detail.newValue > new Date().getTime()) {
+            args.detail.cancel = true;
+            alert('The employee hire date must be in the past!');
+        }
+    }
+}
+
+```
+</ComponentBlock>
+</PlatformBlock>
+<PlatformBlock for="WebComponents, React, Blazor">
+<ComponentBlock for="HierarchicalGrid">
+**주문 수량** 열의 셀에 입력한 값이 사용 가능한 수량(**재고 수량**의 값)보다 크면, 편집이 취소되고 사용자에게 취소를 알립니다.
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+여기서는 두 열을 검증합니다. 사용자가 직원의 **나이**(18세 미만)나 **입사일**(미래 날짜)에 잘못된 값을 설정하려고 하면, 편집이 취소되고(값은 제출되지 않음) 오류 메시지가 담긴 토스트가 표시됩니다.
+
+</PlatformBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```typescript
+ public webGridEditingEventsCellEdit(args: CustomEvent<IgcGridEditEventArgs>): void {
+    var d = args.detail;
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("WebGridEditingEventsCellEdit", (ev) => {
+    var d = ev.detail;
+
+    if (d.column != null && d.column.field == "UnitsOnOrder") {
+        if (d.newValue > d.rowData.UnitsInStock) {
+            d.cancel = true;
+            alert("You cannot order more than the units in stock!")
+        }
+    }
+}, false);
+
+```
+
+</PlatformBlock>
+
+
+</ComponentBlock>
+
+<PlatformBlock for="React">
+<ComponentBlock for="HierarchicalGrid">
+```tsx
+public handleCellEdit(event: IgrGridEditEventArgs): void {
+    const detail = event.detail;
+    if (detail.column != null && detail.column.field == "UnitsOnOrder") {
+        if (detail.newValue > detail.rowData.UnitsInStock) {
+            detail.cancel = true;
+            alert("You cannot order more than the units in stock!");
+        }
+    }
+}
+```
+
+</ComponentBlock>
+</PlatformBlock>
+
+위 검증을 우리의 <ApiLink type="{ComponentName}" />에 적용한 결과는 아래 데모에서 볼 수 있습니다:
+
+<Sample src="/{ComponentSample}/editing-events" height={650} alt="{Platform} {ComponentTitle} 편집 이벤트 예제" />
+
+## 스타일링
+
+<PlatformBlock for="WebComponents, Blazor, React">
+기본 제공 테마 외에도, 사용 가능한 CSS 속성 몇 가지를 설정하여 그리드를 더 사용자 지정할 수 있습니다. 몇 가지 색상만으로 완전한 테마를 만드는 방법은 [테마 지정 항목](theming.mdx)을 참조하십시오.
+일부 색상을 바꾸려면 먼저 그리드에 클래스를 설정해야 합니다:
+
+<ComponentBlock for="Grid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-grid class="grid"></igc-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+</PlatformBlock>
+
+그다음 해당 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.grid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-tree-grid class="treeGrid"></igc-tree-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbTreeGrid Class="treeGrid"></IgbTreeGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrTreeGrid className="treeGrid"></IgrTreeGrid>
+```
+</PlatformBlock>
+
+그다음 해당 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.treeGrid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+<PlatformBlock for="WebComponents">
+```html
+<igc-hierarchical-grid class="hierarchicalGrid"></igc-hierarchical-grid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+```razor
+<IgbHierarchicalGrid Class="hierarchicalGrid"></IgbHierarchicalGrid>
+```
+</PlatformBlock>
+
+<PlatformBlock for="React">
+```tsx
+<IgrHierarchicalGrid className="hierarchicalGrid"></IgrHierarchicalGrid>
+```
+</PlatformBlock>
+
+그다음 해당 클래스에 관련 CSS 속성을 설정하십시오:
+
+```css
+.hierarchicalGrid {
+    --ig-grid-edit-mode-color: #FFA500;
+    --ig-grid-cell-active-border-color: #FFA500;
+    --ig-grid-cell-editing-background: #add8e6;
+}
+```
+
+</ComponentBlock>
+
+### 스타일 지정 예제
+
+<Sample src="/{ComponentSample}/cell-editing-styling" height={650} alt="{Platform} {ComponentTitle} 셀 편집 스타일 지정 예제" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+<ApiLink type="{ComponentName}" />는 [{ProductName} 테마 라이브러리](../themes/styles.mdx)를 통해 셀의 스타일을 지정할 수 있도록 합니다. 그리드의 <ApiLink type="function-grid-theme" label="theme" kind="sass" module="index.html" />는 그리드의 여러 측면에 스타일을 지정할 수 있는 다양한 속성을 노출합니다.
+
+아래 단계에서는 편집 모드에 있는 그리드 셀의 스타일을 지정하는 방법과 그 스타일의 범위를 지정하는 방법을 살펴보겠습니다.
+
+[Ignite UI 테마 라이브러리](../themes/styles.mdx)를 사용하려면, 먼저 전역 스타일에서 테마 `index` 파일을 import해야 합니다:
+
+
+### 스타일 라이브러리 import하기
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+이제 {ProductName} 테마 엔진이 노출하는 모든 함수를 사용할 수 있습니다.
+
+### 팔레트 정의하기
+
+index 파일을 올바르게 import한 후, 사용할 수 있는 사용자 지정 팔레트를 만듭니다. 마음에 드는 두 가지 색상을 정의하고, 이를 사용하여 [igx-palette](../themes/palettes.mdx)로 팔레트를 만드십시오:
+
+```scss
+$white: #fff;
+$blue: #4567bb;
+
+$color-palette: palette($primary: $white, $secondary: $blue);
+```
+
+### 테마 정의하기
+
+이제 팔레트를 사용하여 테마를 정의할 수 있습니다. 셀은 <ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" />에 의해 스타일이 지정되므로, 이를 사용하여 <ApiLink type="{ComponentName}" />의 테마를 생성할 수 있습니다:
+
+```scss
+$custom-grid-theme: grid-theme(
+    $cell-editing-background: $blue,
+    $cell-edited-value-color: $white,
+    $cell-active-border-color: $white,
+    $edit-mode-color: color($color-palette, "secondary", 200)
+);
+```
+
+### 테마 적용하기
+
+테마를 적용하는 가장 쉬운 방법은 전역 스타일 파일에 `sass` `@include` 문을 넣는 것입니다:
+
+```scss
+@include grid($custom-grid-theme);
+```
+
+이렇게 하면 테마가 애플리케이션의 **모든** 그리드에 적용됩니다. 이 사용자 지정 스타일을 특정 컴포넌트에만 적용하려면 테마의 범위를 지정해야 합니다.
+
+### 범위가 지정된 컴포넌트 테마
+
+사용자 지정 테마가 특정 컴포넌트에만 영향을 주도록 하려면, 방금 정의한 모든 스타일을 전역 스타일 파일에서 사용자 지정 컴포넌트의 스타일 파일로 옮길 수 있습니다(`index` 파일의 [import](#importing-style-library) 포함).
+
+이렇게 하면 {Platform}의 [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) 때문에 스타일이 사용자 지정 컴포넌트에만 적용됩니다.
+
+ <DocsAside type="info">
+ 컴포넌트가 [Emulated](../themes/styles.mdx#view-encapsulation) ViewEncapsulation을 사용한다면, 그리드의 스타일을 지정하려면 `::ng-deep`를 사용하여 이 캡슐화를 관통해야 합니다.
+ </DocsAside>
+
+ <DocsAside type="info">
+ 컴포넌트 바깥의 요소에 스타일이 영향을 주지 않도록, 이 문을 `:host` 선택자로 감쌉니다:
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+            @include grid($custom-grid-theme);
+        }
+    }
+}
+```
+
+### 스타일 지정 데모
+
+위 단계 외에도, 셀 편집 템플릿에 사용되는 컨트롤의 스타일도 지정할 수 있습니다: [igx-input-group](../input-group.mdx#styling), [igx-datepicker](../date-picker.mdx#styling), [igx-checkbox](/inputs/checkbox#styling)
+
+<Sample src="/{ComponentSample}/editing-style" height={700} alt="{Platform} {ComponentTitle} 편집 스타일 예제" />
+
+<DocsAside type="info">
+이 샘플은 **테마 변경**에서 선택한 전역 테마의 영향을 받지 않습니다.
+</DocsAside>
+
+</PlatformBlock>
+
+## API 참조
+<ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />
+<ApiLink pkg="core" type="DatePicker" />
+## 추가 리소스
+
+<PlatformBlock for="Angular">
+
+- [그리드로 CRUD 작업 만들기](../general/how-to/how-to-perform-crud.mdx)
+
+
+- [가상화와 성능](virtualization.mdx)
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 고정](column-pinning.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [선택](selection.mdx)
+<ComponentBlock for=" HierarchicalGrid">
+[검색](search.mdx)
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor, WebComponents, React">
+<ComponentBlock for="Grid">
+- [가상화와 성능](virtualization.mdx)
+- [페이징](paging.mdx)
+- [필터링](filtering.mdx)
+- [정렬](sorting.mdx)
+- [요약](summaries.mdx)
+- [열 고정](column-pinning.mdx)
+- [열 크기 조정](column-resizing.mdx)
+- [선택](selection.mdx)
+- [검색](search.mdx)
+</ComponentBlock>
+
+</PlatformBlock>

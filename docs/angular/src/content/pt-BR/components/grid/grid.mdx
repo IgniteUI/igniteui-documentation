@@ -1,0 +1,924 @@
+---
+title: "Data Grid do Angular | Crie tabelas Angular rápidas | Infragistics"
+description: "Crie data grids e tabelas Angular super rápidos e responsivos com o Ignite UI for Angular. Oferece suporte a edição, filtragem, vinculação de dados e muito mais. Experimente agora!"
+keywords: angular data grid, angular grid component, angular data grid component, angular table component, angular data table component, angular table, angular UI components, ignite ui for angular
+license: commercial
+_language: pt-BR
+llms:
+  description: "O Data Grid do Angular é um componente para exibir dados em formato tabular."
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import { Image } from 'astro:assets';
+import landingGridPage from '../../images/general/landing-grid-page.png';
+
+<style dangerouslySetInnerHTML={{__html: `.sample-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.sample-column {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 0 25%;
+    align-content: flex-start;
+    min-width: 280px;
+}
+
+.tabbar-wrapper {
+    width: inherit;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.tabbar-wrapper > p {
+    padding-right: 20px
+}`}} />
+
+# Visão geral do componente Angular Data Grid
+
+<div class="sample-content">
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <p>O Data Grid do Angular é um componente para exibir dados em formato tabular. As grades modernas são complexas e geralmente trazem um grande conjunto de recursos, como seleção de dados, filtragem no estilo Excel, ordenação, paginação, agrupamento, templates, movimentação de colunas, fixação de colunas, exportação para os formatos Excel, CSV ou PDF e muito mais.</p>
+            <p>O Ignite UI Angular Data Grid cobre todos esses recursos básicos de grade, mas também recursos avançados, como edição em lote, persistência de estado, navegação pelo teclado e muito mais. Garantindo integração perfeita com várias fontes de dados, o nosso componente oferece o melhor desempenho e escalabilidade, sendo ideal para aplicações que lidam com grandes conjuntos de dados ou que precisam de atualizações rápidas em tempo real.</p>
+        </div>
+    </article>
+    <article class="sample-column">
+        <div class="tabbar-wrapper">
+            <div class="tab-content">
+                <Image src={landingGridPage} alt="Angular Data Grid" class="b-lazy responsive-img" />
+                </div>
+        </div>
+    </article>
+</div>
+
+## Exemplo de Angular Data Grid
+
+Maratona de Boston 2021 – neste exemplo de grade Angular, você pode ver como os usuários podem fazer filtragem básica e no estilo Excel, ordenação com dados ao vivo, além de usar resumos da grade e templates de célula que incluem o nosso componente [Sparkline](/charts/types/sparkline-chart),
+[Circular Progress Indicator](/circular-progress) e [Icons](/layouts/icon). A demonstração também inclui paginação personalizada e o uso por página, parte da [Angular Pagination](/grid/paging).
+
+
+<Sample lob src="/grid/grid" height={700} alt="Exemplo de data grid do Angular" />
+
+
+## Primeiros passos com o Data Grid do Ignite UI for Angular
+
+Para começar com o componente Data Grid do Ignite UI for Angular, primeiro é preciso instalar o Ignite UI for Angular. Em um aplicativo Angular existente, digite o seguinte comando:
+
+```cmd
+ng add igniteui-angular
+```
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+O próximo passo é importar o `IgxGridModule` no arquivo **app.module.ts**.
+
+```typescript
+// app.module.ts
+
+import { IgxGridModule } from 'igniteui-angular/grids/grid';
+// import { IgxGridModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    imports: [
+        ...
+        IgxGridModule,
+        ...
+    ]
+})
+export class AppModule {}
+```
+
+Alternativamente, a partir de `16.0.0` você pode importar o `IgxGridComponent` como uma dependência independente, ou usar o token [`IGX_GRID_DIRECTIVES`](https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/grids/grid/src/grid.module.ts) para importar o componente e todos os seus componentes e diretivas de apoio.
+
+```typescript
+// home.component.ts
+
+import { IGX_GRID_DIRECTIVES } from 'igniteui-angular/grids/grid';
+// import { IGX_GRID_DIRECTIVES } from '@infragistics/igniteui-angular'; for licensed package
+
+@Component({
+    selector: 'app-home',
+    template: '<igx-grid [data]="localData" [autoGenerate]="true"></igx-grid>',
+    styleUrls: ['home.component.scss'],
+    standalone: true,
+    imports: [IGX_GRID_DIRECTIVES]
+    /* or imports: [IgxGridComponent] */
+})
+export class HomeComponent {
+    public data: Product [];
+}
+```
+
+Agora que você importou o módulo ou as diretivas do Grid do Ignite UI for Angular, pode começar a usar o componente `igx-grid`.
+
+## Usando o Data Grid do Angular
+
+```html
+<igx-grid #grid1 id="grid1" [data]="localData" [autoGenerate]="true"></igx-grid>
+```
+
+A propriedade **data** vincula a grade, neste caso, a um array local de objetos.
+
+A propriedade <ApiLink type="Grid" member="autoGenerate" /> informa ao `igx-grid` para gerar automaticamente as <ApiLink type="Column" /> da grade com base nos campos da fonte de dados. Ele também tentará deduzir o tipo de dado adequado para a coluna, quando possível. Os desenvolvedores também podem [definir as colunas](#configuração-de-colunas-da-grade-angular) explicitamente, bem como o mapeamento para os campos da fonte de dados.
+
+## Definição de grade bootstrap do Angular
+
+<p>O Ignite UI for Angular inclui um poderoso sistema de layout baseado em flex, semelhante à grade do bootstrap. Hoje em dia, espera-se que qualquer aplicação moderna siga uma abordagem de web design responsivo, o que significa que ela pode ajustar com elegância o layout dos elementos HTML de acordo com o tamanho do dispositivo ou simplesmente ao redimensionar o navegador. Uma grade de layout bootstrap no Angular era a abordagem mais usada no passado, mas um sistema de layout baseado em flex, como o CSS grid, tornou-se mais popular, porque funciona em qualquer navegador. A Diretiva de Layout do Ignite UI for Angular permite fluxo vertical e horizontal, incluindo quebra de conteúdo/texto, justificação e alinhamento. A grade do Ignite UI for Angular oferece suporte a layout responsivo usando CSS, dando a você a máxima flexibilidade sobre como a grade se comporta ao ser redimensionada.</p>
+
+## Configuração de estilo da grade Angular
+
+<DocsAside type="info">
+O <ApiLink type="Grid" /> usa **layout de grade CSS**, que **não é compatível com o IE sem prefixos**; por isso, ele não será renderizado corretamente.
+</DocsAside>
+
+No [**Angular**](https://angular.io/), a maioria dos estilos recebe prefixos implicitamente, graças ao plugin [Autoprefixer](https://www.npmjs.com/package/autoprefixer).
+
+Para aplicar prefixos aos **layouts de grade**, porém, você precisa habilitar a **propriedade grid** do [Autoprefixer](https://www.npmjs.com/package/autoprefixer) com o comentário `/* autoprefixer grid:on */`.
+
+Para facilitar o seu trabalho, aplique o comentário no arquivo `src/styles.scss`.
+
+ ```scss
+// src/styles.scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+@include core();
+/* autoprefixer grid:on */
+@include theme($default-palette);
+ ```
+
+## Grade Angular editável
+
+<p>Cada operação de edição da grade Angular inclui operações em lote, o que significa que a API oferece a opção de agrupar as edições em uma única chamada ao servidor, ou você pode executar as operações de edição/atualização da grade conforme elas acontecem, com as interações na grade. Além de uma ótima experiência de desenvolvedor, como uma grade Angular editável com operações CRUD, a grade Angular inclui navegação pelo teclado semelhante ao Excel. A navegação padrão comum da grade está incluída, além da opção de substituir qualquer opção de navegação para atender às necessidades dos seus clientes. Uma grade editável no Angular com um bom esquema de navegação é essencial para qualquer aplicação de negócios moderna; com a grade do Ignite UI, isso fica fácil.</p>
+
+Neste tópico, você vai saber mais sobre o [template de célula](/grid/grid#template-de-célula) e o [template de edição de célula](/grid/grid#template-de-edição-de-célula), bem como sobre a edição.
+
+## Configuração de colunas da grade Angular
+
+<ApiLink type="Column" /> é usado para definir a coleção <ApiLink type="Grid" member="columns" /> da grade e para habilitar recursos por coluna, como **ordenação** e **filtragem**. Também estão disponíveis templates de célula, de cabeçalho e de rodapé.
+
+### Definindo as colunas
+
+Vamos desligar a propriedade <ApiLink type="Grid" member="autoGenerate" /> e definir a coleção de colunas no markup:
+
+```html
+<igx-grid #grid1 [data]="data | async" [autoGenerate]="false" (columnInit)="initColumns($event)"
+    (selected)="selectCell($event)" [allowFiltering]="true">
+    <igx-column field="Name" [sortable]="true" header=" "></igx-column>
+    <igx-column field="AthleteNumber" [sortable]="true" header="Athlete number" [filterable]="false"></igx-column>
+    <igx-column field="TrackProgress" header="Track progress" [filterable]="false">
+        <ng-template igxCell let-value>
+            <igx-linear-bar [stripped]="false" [value]="value" [max]="100"></igx-linear-bar>
+        </ng-template>
+    </igx-column>
+    <igx-paginator [perPage]="6">
+    </igx-paginator>
+</igx-grid>
+```
+
+
+Cada uma das colunas da grade pode ter um template separado. A coluna espera as diretivas do módulo de grade do Angular `ng-template`.
+
+Ela também expõe a entrada <ApiLink type="Column" member="additionalTemplateContext" />, que pode ser usada para propriedades personalizadas e qualquer tipo de contexto de dados que você queira passar para a própria coluna:
+
+```html
+<igx-column [additionalTemplateContext]="contextObject">
+    <ng-template igxCell let-cell="cell" let-props="additionalTemplateContext">
+        {{ props.firstProperty }}
+    </ng-template>
+</igx-column>
+```
+
+```ts
+public contextObject = { firstProperty: 'testValue', secondProperty: 'testValue1'};
+```
+
+### Template de cabeçalho
+
+`igxHeader` direciona o cabeçalho da coluna, fornecendo como contexto o próprio objeto da coluna.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxHeader let-column>
+        {{ column.field | uppercase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+<DocsAside type="info">
+Sempre que um template de cabeçalho é usado junto com a funcionalidade de agrupamento/movimentação, a _área do cabeçalho da coluna_ fica **arrastável**, e você não consegue acessar as partes personalizadas do template do cabeçalho até marcá-las como **não arrastáveis**. Exemplo abaixo.
+</DocsAside>
+
+```html
+<igx-column #col field="ProductName" header="Product Name"
+    [groupable]="true" [hasSummary]="true">
+    <ng-template igxHeader let-col>
+        <div class="text">{{col.field}}</div>
+        <igx-icon (click)="toggleSummary(col)" [attr.draggable]="false">functions
+        </igx-icon>
+    </ng-template>
+</igx-column>
+```
+
+<DocsAside type="info">
+Este componente usa Material Icons. Adicione o seguinte link ao seu `index.html`: `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
+</DocsAside>
+
+Como você pode ver, estamos adicionando o atributo **draggable** definido como _false_.
+
+### Template de célula
+
+`igxCell` aplica o template informado a todas as células da coluna. O objeto de contexto fornecido no template consiste no valor da célula, fornecido implicitamente, e no próprio objeto da célula. Ele pode ser usado para definir um template em que as células crescem de acordo com o seu conteúdo, como no exemplo abaixo.
+
+```html
+...
+<igx-column field="Name">
+    <ng-template igxCell let-value>
+        {{ value | titlecase }}
+    </ng-template>
+</igx-column>
+...
+```
+
+No trecho acima, "pegamos" uma referência ao valor da célula fornecido implicitamente. Isso basta se você só quiser apresentar alguns dados e talvez aplicar alguma estilização personalizada ou transformações de pipe sobre o valor da célula. No entanto, é ainda mais útil pegar a própria instância da <ApiLink kind="interface" type="CellType" />, como mostrado abaixo:
+
+```html
+<igx-grid #grid [data]="data">
+    <igx-column dataType="string" field="Name">
+        <ng-template igxCell let-cell="cell">
+            <!-- Implement row deleting inside the cell template itself -->
+            <span tabindex="0" (keydown.delete)="grid.deleteRow(cell.row.index)">{{ cell.value | titlecase }}</span>
+        </ng-template>
+    </igx-column>
+    <igx-column dataType="boolean" field="Subscribtion">
+        <ng-template igxCell let-cell="cell">
+            <!-- Bind the cell value through the ngModel directive and update the data source when the value is changed in the template -->
+            <input type="checkbox" [ngModel]="cell.value" (ngModelChange)="cell.update($event)" />
+        </ng-template>
+    </igx-column>
+</igx-grid>
+```
+
+Ao alterar dados pelo **template de célula** usando `ngModel`, você precisa chamar os métodos de API apropriados para garantir que o valor seja atualizado corretamente na coleção de dados subjacente da grade Angular. No trecho acima, a chamada `ngModelChange` passa pela [API de edição](/grid/cell-editing#edição-pela-api) da grade e pelo pipeline de edição da grade, disparando corretamente as [transações](/grid/batch-editing) (se aplicável) e tratando os [resumos](/grid/summaries), a [seleção](/grid/selection) etc. No entanto, este `ngModelChange` será disparado sempre que o valor da célula mudar, e não apenas quando o usuário terminar a edição, resultando em muito mais chamadas de API.
+
+<DocsAside type="info">
+A grade expõe um tratamento padrão para colunas dos tipos number, string, date e boolean. Por exemplo, a coluna exibirá um ícone `check` ou `close`, em vez de true/false, por padrão, para colunas do tipo boolean.
+</DocsAside>
+
+Se os dados de uma célula forem vinculados com `[(ngModel)]` e a mudança de valor não for tratada, o novo valor **não** será atualizado corretamente na fonte de dados subjacente da grade Angular. Ao lidar com a edição de células com um template personalizado, recomenda-se fortemente usar o **template de edição de célula** da célula.
+
+Quando implementado corretamente, o template de edição de célula também garante que o `editValue` da célula passe corretamente pelo [ciclo de eventos de edição](/grid/editing#argumentos-e-sequência-de-eventos) da grade.
+
+### Template de edição de célula
+
+A coluna também aceita um último template, que será usado quando uma célula estiver no modo de edição. Assim como nos outros templates de coluna, o objeto de contexto fornecido é, novamente, o valor da célula e o próprio objeto da célula. Naturalmente, para tornar o template do modo de edição acessível aos usuários finais, é preciso
+definir a propriedade <ApiLink type="Column" member="editable" /> de <ApiLink type="Column" /> como `true`.
+
+```html
+<igx-column dataType="number" editable="true" field="Price">
+    <ng-template igxCellEditor let-cell="cell">
+        <label for="price">
+            Enter the new price tag
+        </label>
+        <input name="price" type="number" [(ngModel)]="cell.editValue" />
+    </ng-template>
+</igx-column>
+```
+
+Certifique-se de consultar a API de <ApiLink kind="interface" type="CellType" /> para se familiarizar com as propriedades disponíveis que você pode usar nos seus templates.
+
+### API de template de coluna
+
+Cada um dos templates de coluna pode ser alterado programaticamente, a qualquer momento, pelo próprio objeto <ApiLink type="Column" />. Por exemplo, no código abaixo, declaramos dois templates para os dados do nosso usuário. No nosso código TypeScript, obteremos as referências aos próprios templates e, então, com base em alguma condição, renderizaremos o template adequado para a coluna na nossa aplicação.
+
+```html
+<igx-grid>
+    <!-- Column declarations -->
+</igx-grid>
+
+<ng-template #normalView let-value>
+    <div class="user-details">{{ value }}</div>
+    <user-details-component></user-details-component>
+</ng-template>
+
+<ng-template #smallView let-value>
+    <div class="user-details-small">{{ value }}</div>
+</ng-template>
+```
+
+```typescript
+@ViewChild("normalView", { read: TemplateRef })
+public normalView: TemplateRef<any>;
+
+@ViewChild("smallView", { read: TemplateRef })
+public smallView: TemplateRef<any>;
+
+....
+
+const column = this.grid.getColumnByName("User");
+// Return the appropriate template based on some conditiion.
+// For example saved user settings, viewport size, etc.
+column.bodyTemplate = this.smallView;
+```
+
+As propriedades de coluna também podem ser definidas no código, no evento <ApiLink type="Grid" member="columnInit" />, que é emitido quando as colunas são inicializadas na grade.
+
+```typescript
+public initColumns(column: IgxGridColumn) {
+    if (column.field === 'ProductName') {
+        column.sortable = true;
+        column.editable = true;
+    }
+}
+```
+
+O código acima vai tornar a coluna **ProductName** ordenável e editável, e vai instanciar a UI dos recursos correspondentes (como campos para edição etc.).
+
+### Formato de exibição personalizado
+
+Todos os valores de uma coluna de data, numérica, de moeda e de percentual são transformados pelos pipes [`DatePipe`](https://angular.io/api/common/DatePipe), [`DecimalPipe`](https://angular.io/api/common/DecimalPipe), [`CurrencyPipe`](https://angular.io/api/common/CurrencyPipe) e [`PercentPipe`](https://angular.io/api/common/PercentPipe) do Angular, conforme o caso. Isso não modifica o valor original, apenas o valor exibido na coluna. Portanto, lembre-se de que todas as operações e manipulações de dados são feitas com base nos valores da sua fonte de dados. Por padrão, os valores serão exibidos de acordo com a <ApiLink type="Grid" member="locale" /> da grade (se não for especificada, usa-se como fallback a localidade da aplicação, que tem como padrão `'en-US'`).
+
+Consulte [Configurando a localidade da sua aplicação](https://angular.io/guide/i18n#setting-up-the-locale-of-your-app) para mais detalhes.
+
+Além disso, existem parâmetros opcionais para formatação:
+
+- `format` - determina quais partes de data/hora são exibidas; o padrão é `'mediumDate'`, equivalente a `'MMM d, y'`
+- `timezone` - o deslocamento de fuso horário para datas. Por padrão, usa o fuso horário local do sistema do usuário final
+- `digitsInfo` - objetos de representação decimal. O padrão é `'1.0-3'`
+
+Para permitir personalizar o formato de exibição por meio desses parâmetros, a entrada <ApiLink type="Column" member="pipeArgs" /> é exposta. Uma coluna respeitará apenas as propriedades correspondentes ao seu tipo de dado, se `pipeArgs` estiver definido. Exemplo:
+
+```typescript
+const pipeArgs: IColumnPipeArgs = {
+     format: 'longDate',
+     timezone: 'UTC',
+     digitsInfo: '1.1-2'
+}
+```
+
+```html
+<igx-column field="OrderDate" dataType="date" [pipeArgs]="pipeArgs"></igx-column>
+<igx-column field="UnitPrice" dataType="number" [pipeArgs]="pipeArgs"></igx-column>
+```
+
+A coluna `OrderDate` vai respeitar apenas as propriedades `format` e `timezone`, enquanto a `UnitPrice` vai respeitar apenas a `digitsInfo`. Para mais detalhes, consulte a documentação oficial do Angular em [Localizando sua aplicação](https://angular.io/guide/i18n).
+
+Todos os tipos de dados de coluna disponíveis podem ser encontrados no tópico oficial [Tipos de coluna](/grid/column-types#template-padrão).
+
+## Estrutura de dados da grade Angular
+
+A <ApiLink type="Grid" /> trata **dados planos** e **POJOs (Plain Old Java Objects) aninhados**. A estrutura de dados específica para renderização tem a forma:
+
+```typescript
+const OBJECT_ARRAY = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: valueN
+    },
+    // ...
+  }];
+
+const POJO = [{
+        ObjectKey1: value1,
+        ObjectKey2: value2,
+        // ...
+        ObjectKeyN: {
+          ObjectKeyN1: value1,
+          ObjectKeyN2: value2,
+          // ...
+          ObjectKeyNM: valueNM,
+        }
+    },
+    // ...
+  }];
+
+```
+
+<DocsAside type="warning">
+**As chaves dos valores não podem conter arrays**.
+Se você usar colunas <ApiLink type="Grid" member="autoGenerate" />, **as chaves dos dados devem ser idênticas.**
+</DocsAside>
+
+## Vinculação de dados da grade Angular
+
+Antes de avançar com a grade, queremos alterar a grade Angular para se vincular a um serviço de dados remoto, que é o cenário comum em aplicações de grande porte. Uma boa prática é separar toda a lógica relacionada à busca de dados em um serviço de dados separado; por isso, vamos criar um serviço que vai tratar a busca de dados do servidor.
+
+Vamos implementar o nosso serviço em um arquivo separado
+
+```typescript
+// northwind.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, map } from 'rxjs/operators';
+```
+
+Estamos importando o decorador `Injectable`, que é um [ingrediente essencial](https://angular.io/guide/dependency-injection) em qualquer definição de serviço Angular. O `HttpClient` nos dará a funcionalidade para se comunicar com serviços de back-end. Ele retorna um `Observable` de algum resultado, ao qual vamos nos inscrever no nosso componente de grade.
+
+**Observação**: antes do Angular 5, o `HttpClient` ficava em `@angular/http` e se chamava `Http`.
+
+Como vamos receber uma resposta JSON contendo um array de registros, podemos nos ajudar especificando qual tipo de dado esperamos que seja retornado no observable, definindo uma interface com o formato correto. A verificação de tipo é sempre recomendada e pode poupar muitas dores de cabeça no futuro.
+
+```typescript
+// northwind.service.ts
+
+export interface NorthwindRecord {
+    ProductID: number;
+    ProductName: string;
+    SupplierID: number;
+    CategoryID: number;
+    QuantityPerUnit: string;
+    UnitPrice: number;
+    UnitsInStock: number;
+    UnitsOnOrder: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
+    CategoryName: string;
+}
+```
+
+O serviço em si é bem simples e consiste em um único método: `fetchData`, que vai retornar um `Observable<NorthwindRecord[]>`. Quando a requisição falhar por qualquer motivo (servidor indisponível, erro de rede etc.), o `HttpClient` vai retornar um erro. Vamos usar o operador `catchError`, que intercepta um _Observable_ que falhou e passa o erro para um manipulador de erros. Nosso manipulador de erros vai registrar o erro e retornar um valor seguro.
+
+```typescript
+// northwind.service.ts
+
+@Injectable()
+export class NorthwindService {
+    private url = 'http://services.odata.org/V4/Northwind/Northwind.svc/Alphabetical_list_of_products';
+
+    constructor(private http: HttpClient) {}
+
+    public fetchData(): Observable<NorthwindRecord[]> {
+        return this.http
+            .get(this.url)
+            .pipe(
+                map(response => response['value']),
+                catchError(
+                    this.errorHandler('Error loading northwind data', [])
+                )
+            );
+    }
+
+    private errorHandler<T>(message: string, result: T) {
+        return (error: any): Observable<any> => {
+            console.error(`${message}: ${error.message}`);
+            return of(result as T);
+        };
+    }
+}
+```
+
+Certifique-se de importar tanto o `HttpClientModule` quanto o nosso serviço no módulo da aplicação e de registrar o serviço como provider.
+
+```typescript
+// app.module.ts
+
+import { HttpClientModule } from '@angular/common/http';
+...
+import { NorthwindService } from './northwind.service';
+
+@NgModule({
+    imports: [
+        ...
+        HttpClientModule
+        ...
+    ],
+    providers: [
+        NorthwindService
+    ]
+})
+export class AppModule {}
+```
+
+Depois de implementar o serviço, vamos injetá-lo no construtor do nosso componente e usá-lo para recuperar os dados. O gancho de ciclo de vida `ngOnInit` é um bom lugar para disparar a requisição inicial.
+
+**Observação**: no código abaixo, você pode se perguntar por que estamos definindo a propriedade _records_ como um array vazio antes de nos inscrevermos no serviço. A requisição Http é assíncrona e, até ser concluída, a propriedade _records_ será _undefined_, o que resultará em erro quando a grade tentar se vincular a ela. Você deve inicializá-la com um valor padrão ou usar um `BehaviorSubject`.
+
+```typescript
+// my.component.ts
+
+@Component({...})
+export class MyComponent implements OnInit {
+
+    public records: NorthwindRecord[];
+
+    constructor(private northwindService: NorthwindService) {}
+
+    ngOnInit() {
+        this.records = [];
+        this.northwindService.fetchData().subscribe((records) => this.records = records);
+    }
+}
+```
+
+e no template do componente:
+
+```html
+    <igx-grid [data]="records">
+        <igx-column field="ProductId"></igx-column>
+        <!-- rest of the column definitions -->
+        ...
+    </igx-grid>
+```
+
+**Observação**: é melhor evitar, por enquanto, a propriedade <ApiLink type="Grid" member="autoGenerate" /> da grade ao se vincular a dados remotos. Ela pressupõe que os dados estejam disponíveis para inspecioná-los e gerar as colunas adequadas. Isso geralmente não é o caso até que o serviço remoto responda, e a grade vai lançar um erro. Tornar <ApiLink type="Grid" member="autoGenerate" /> disponível ao se vincular a um serviço remoto está no nosso roadmap para versões futuras.
+
+## Vinculação de dados complexos
+
+A <ApiLink type="Grid" /> oferece suporte à vinculação a objetos complexos (incluindo aninhamento além de um nível) por meio de um "caminho" de propriedades no registro de dados.
+
+Dê uma olhada no seguinte modelo de dados:
+
+```typescript
+interface AminoAcid {
+    name: string;
+    abbreviation: {
+        short: string;
+        long: string;
+    }
+    weight: {
+        molecular: number;
+        residue: number;
+    },
+    formula: {
+        molecular: string;
+        residue: string;
+    }
+    ...
+}
+```
+
+Por exemplo, para exibir os pesos de um determinado aminoácido na grade, o trecho a seguir basta
+
+```html
+<igx-column field="weight.molecular"></igx-column>
+<igx-column field="weight.residue"></igx-column>
+```
+
+Consulte a demonstração abaixo para mais informações. Este tipo de vinculação oferece suporte a
+toda a funcionalidade padrão que você esperaria da grade.
+Isso significa que as operações de ordenação e filtragem funcionam de imediato, sem nenhuma
+configuração adicional. O mesmo vale para as operações de agrupamento e edição, com ou sem transações, além da capacidade de transformar em template as células da coluna vinculada.
+
+<DocsAside type="warning">
+As grades **não** oferecem suporte a este tipo de vinculação para as propriedades `primary key`, `foreign key` e `child key`, quando aplicável.
+</DocsAside>
+
+
+<Sample src="/grid/grid-nested-data-binding-2" height={460} alt="Exemplo de dados aninhados em grade Angular" />
+
+
+Uma forma alternativa de vincular dados complexos, ou de visualizar dados compostos (de mais de uma coluna) no **IgxGrid**, é usar um template de corpo personalizado para a coluna. Em geral, é possível:
+    - usar o `value` da célula, que contém os dados aninhados
+    - usar o objeto `cell` no template, a partir do qual acessar o `row.data` e, assim, obter qualquer valor dele, por exemplo, `cell.row.data[field]` e `cell.row.data[field][nestedField]`
+
+e interpolá-los no template.
+
+```html
+<igx-column field="abbreviation.long" header="Long">
+    <ng-template igxCell let-cell="cell">
+        <div>
+            <div>
+                {{ cell.value }}
+                {{ cell.row.data['name'] }}
+                {{ cell.row.data['weight']['molecular'] }}
+            </div>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+Abaixo estão os dados que vamos usar:
+
+```typescript
+export const EMPLOYEE_DATA = [
+    {
+        Age: 55,
+        Employees: [
+            {
+                Age: 43,
+                HireDate: new Date(2011, 6, 3),
+                ID: 3,
+                Name: "Michael Burke",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 29,
+                HireDate: new Date(2009, 6, 19),
+                ID: 2,
+                Name: "Thomas Anderson",
+                Title: "Senior Software Developer"
+            },
+            {
+                Age: 31,
+                HireDate: new Date(2014, 8, 18),
+                ID: 11,
+                Name: "Monica Reyes",
+                Title: "Software Development Team Lead"
+            },
+            {
+                Age: 35,
+                HireDate: new Date(2015, 9, 17),
+                ID: 6,
+                Name: "Roland Mendel",
+                Title: "Senior Software Developer"
+            }],
+        HireDate: new Date(2008, 3, 20),
+        ID: 1,
+        Name: "John Winchester",
+        Title: "Development Manager"
+    },
+...
+```
+
+O template personalizado para a coluna, que vai renderizar os dados aninhados:
+
+```html
+...
+ <igx-column field="Employees" header="Employees" [cellClasses]="{ expand: true }" width="40%">
+        <ng-template #nestedDataTemp igxCell let-people let-cell="cell">
+            <div class="employees-container">
+                <igx-expansion-panel *ngFor="let person of people">
+                    <igx-expansion-panel-header iconPosition="right">
+                        <igx-expansion-panel-description>
+                            {{ person.Name }}
+                        </igx-expansion-panel-description>
+                    </igx-expansion-panel-header>
+                    <igx-expansion-panel-body>
+                        <div class="description">
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small)">
+                                <label igxLabel for="title">Title</label>
+                                <input type="text" name="title" igxInput [(ngModel)]="person.Title" style="text-overflow: ellipsis;" />
+                            </igx-input-group>
+                            <igx-input-group (keydown)="stop($event)" style="--ig-size: var(--ig-size-small); width: 15%;">
+                                <label igxLabel for="age">Age</label>
+                                <input type="number" name="age" igxInput [(ngModel)]="person.Age" />
+                            </igx-input-group>
+                        </div>
+                    </igx-expansion-panel-body>
+                </igx-expansion-panel>
+            </div>
+        </ng-template>
+ </igx-column>
+...
+```
+
+E o resultado dessa configuração é:
+
+
+<Sample src="/grid/grid-nested-data-binding" height={460} alt="Exemplo de vinculação de dados aninhados em grade Angular" />
+
+
+### Trabalhando com dados planos
+
+A abordagem de vinculação de dados planos é semelhante à que já descrevemos acima, mas, em vez do **valor da célula**, vamos usar a propriedade <ApiLink type="GridRow" member="data" /> do <ApiLink type="GridRow" />.
+
+Como a grade Angular é um componente para **renderizar**, **manipular** e **preservar** registros de dados, ter acesso a **cada registro de dados** dá a você a oportunidade de personalizar a forma de tratá-los. A propriedade <ApiLink type="GridRow" member="data" /> oferece essa oportunidade.
+
+Abaixo estão os dados que vamos usar:
+
+```typescript
+export const DATA: any[] = [
+    {
+        Address: "Obere Str. 57",
+        City: "Berlin",
+        CompanyName: "Alfreds Futterkiste",
+        ContactName: "Maria Anders",
+        ContactTitle: "Sales Representative",
+        Country: "Germany",
+        Fax: "030-0076545",
+        ID: "ALFKI",
+        Phone: "030-0074321",
+        PostalCode: "12209",
+        Region: null
+    },
+...
+]
+```
+
+O template personalizado:
+
+```html
+...
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template #compositeTemp igxCell let-cell="cell">
+        <div class="address-container">
+        // In the Address column combine the Country, City and PostCode values of the corresponding data record
+            <span><strong>Country:</strong> {{cell.row.data.Country}}</span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+        </div>
+    </ng-template>
+</igx-column>
+```
+
+Tenha em mente que, com o template definido acima, você não poderá fazer operações de edição; por isso, precisamos de um template de editor.
+
+```html
+<igx-column field="Address" header="Address" width="25%" editable="true">
+    <ng-template  igxCellEditor let-cell="cell">
+        <div class="address-container">
+            <span>
+                <strong>Country:</strong> {{cell.row.data.Country}}
+                <igx-input-group width="100%">
+                        <input igxInput [(ngModel)]="cell.row.data.Country" />
+                </igx-input-group>
+            </span>
+            <br/>
+            <span><strong>City:</strong> {{cell.row.data.City}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.City" />
+            </igx-input-group>
+            <br/>
+            <span><strong>Postal Code:</strong> {{cell.row.data.PostalCode}}</span>
+            <igx-input-group width="100%">
+                    <input igxInput [(ngModel)]="cell.row.data.PostalCode" />
+            </igx-input-group>
+        </div>
+    </ng-template>
+</igx-column>
+...
+```
+
+E o resultado é:
+
+
+<Sample src="/grid/grid-composite-data-binding" height={550} alt="Exemplo de vinculação de dados compostos em grade Angular" />
+
+
+## Navegação pelo teclado
+
+A navegação pelo teclado da grade oferece uma grande variedade de interações por teclado para o usuário. Ela melhora a acessibilidade e permite uma navegação intuitiva por qualquer tipo de elemento interno (célula, linha, cabeçalho de coluna, barra de ferramentas, rodapé etc.).
+Consulte estes recursos para mais informações:
+
+- [Navegação pelo teclado na Grid](/grid/keyboard-navigation)
+- [Navegação pelo teclado na TreeGrid](/treegrid/keyboard-navigation)
+- [Navegação pelo teclado na Hierarchical Grid](/hierarchicalgrid/keyboard-navigation)
+- [Post no blog](https://www.infragistics.com/community/blogs/b/engineering/posts/grid-keyboard-navigation-accessibility) - Melhorando a usabilidade, a acessibilidade e a conformidade com ARIA com a navegação pelo teclado da grade
+
+## Persistência de estado
+
+Criar uma estrutura de persistência de estado ficou mais fácil do que nunca, usando a nova diretiva integrada [`IgxGridState`](/grid/state-persistence).
+
+## Dimensionamento
+
+Veja o tópico [Dimensionamento da grade](/grid/sizing).
+
+## Desempenho (experimental)
+
+O design do `IgxGridComponent` permite que ele aproveite o recurso de Event Coalescing introduzido pelo Angular. Esse recurso melhora o desempenho, com cerca de **`20%`** em termos de interações e responsividade. Ele pode ser habilitado no nível da aplicação simplesmente definindo as propriedades `ngZoneEventCoalescing` e `ngZoneRunCoalescing` como `true` no método `bootstrapModule`:
+
+```typescript
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true, ngZoneRunCoalescing: true })
+  .catch(err => console.error(err));
+```
+
+<DocsAside type="info">
+Isso ainda é um recurso experimental para o `IgxGridComponent`. Isso significa que podem ocorrer comportamentos inesperados na grade. Se encontrar algum comportamento desse tipo, entre em contato conosco na nossa página do [Github](https://github.com/IgniteUI/igniteui-angular/discussions).
+</DocsAside>
+
+<DocsAside type="info">
+Habilitá-lo pode afetar outras partes de uma aplicação Angular que não estejam relacionadas ao `IgxGridComponent`.
+</DocsAside>
+
+## Limitações conhecidas
+
+| Limitação                                                                                                                                                                           | Descrição                                                                                                                                                                                                                                                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Larguras de coluna definidas em `percentage` e `px`                                                                                                                                           | No momento, não oferecemos suporte à combinação de larguras de coluna com `%` e `px`.                                                                                                                                                                                                                                    |
+| Ao tentar filtrar uma coluna do tipo `number`                                                                                                                                      | Se um valor diferente de `number` for digitado no campo de filtragem, `NaN` será retornado devido a uma conversão incorreta.                                                                                                                                                                                       |
+|A <ApiLink type="Grid" member="width" /> da grade não depende das larguras das colunas | A <ApiLink type="Column" member="width" /> de todas as colunas não determina a extensão da própria grade. Ela é determinada pelas dimensões do contêiner pai ou pela <ApiLink type="Grid" member="width" /> definida da grade.|
+|Grade aninhada em um contêiner pai | Quando a <ApiLink type="Grid" member="width" /> da grade não é definida e ela é colocada em um contêiner pai com dimensões definidas, a grade ocupa esse contêiner.|
+| `OnPush` ChangeDetectionStrategy da grade                                                                                                                                                | A grade funciona com `ChangeDetectionStrategy.OnPush`; por isso, sempre que alguma personalização for feita, certifique-se de notificar a grade sobre as mudanças que acontecem.                                                                                                                                        |
+| As colunas têm uma largura mínima permitida. Dependendo do valor da variável CSS [`--ig-size`], elas são as seguintes: <br/>"small": 56px <br/> "medium": 64px <br/> "large ": 80px | Se for definida uma largura menor que a mínima permitida, isso não afetará os elementos renderizados. Eles serão renderizados com a largura mínima permitida para o [`--ig-size`] correspondente. Isso pode levar a um comportamento inesperado com a virtualização horizontal e, por isso, não é suportado.                       |
+| A altura da linha não é afetada pela altura das células que não estão renderizadas na visualização atual.                                                                                           | Por causa da virtualização, uma coluna com template personalizado (que altera a altura da célula) que não está na visualização não afetará a altura da linha. A altura da linha só será afetada enquanto a coluna relacionada estiver visível na visualização por rolagem.                                                                   |
+
+<DocsAside type="info">
+`igxGrid` usa internamente a diretiva `igxForOf`; por isso, todas as limitações de `igxForOf` são válidas para `igxGrid`. Para mais detalhes, veja a seção [Problemas conhecidos do igxForOf](/for-of#limitações-conhecidas).
+</DocsAside>
+
+## Temas
+
+A forma mais fácil e recomendada de estilizar o `igxGrid` é usar o <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> e informar apenas as três cores principais: `background`, `foreground` e `accent-color`.
+
+Estas são as propriedades principais do tema. Quando você as define, todas as partes da grade e os componentes internos derivam suas cores desses valores, resultando em uma aparência consistente em toda a grade. Componentes aninhados, como botões, ícones, entradas, drop-downs, caixas de seleção, barras de rolagem, chips e outros componentes auxiliares também derivam seus tokens de estilo do <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> principal, para uma aparência unificada.
+
+```scss
+$custom-grid: grid-theme(
+  $background: #292826,
+  $foreground: #eeece1,
+  $accent-color: #ffcd0f,
+);
+
+igx-grid {
+  @include tokens($custom-grid);
+}
+```
+
+Também há parâmetros adicionais em <ApiLink kind="sass" module="themes" type="function-grid-theme" label="grid-theme" code={true} /> que você pode usar se quiser personalizações mais específicas.
+
+### Temas adicionais
+
+Se você quiser mais controle sobre os componentes aninhados, a grade também oferece temas adicionais. Use-os quando quiser que um componente aninhado específico tenha um estilo diferente do restante do tema da grade.
+
+Os temas independentes disponíveis incluem:
+
+- <ApiLink kind="sass" module="themes" type="function-excel-filtering-theme" label="excel-filtering-theme" code={true} /> para o componente de filtragem no estilo Excel
+- <ApiLink kind="sass" module="themes" type="function-grid-toolbar-theme" label="grid-toolbar-theme" code={true} /> para o componente de barra de ferramentas da grade
+- <ApiLink kind="sass" module="themes" type="function-paginator-theme" label="paginator-theme" code={true} /> para o componente de paginador
+- <ApiLink kind="sass" module="themes" type="function-column-actions-theme" label="column-actions-theme" code={true} /> para o componente de ações de coluna
+- <ApiLink kind="sass" module="themes" type="function-query-builder-theme" label="query-builder-theme" code={true} /> para a caixa de diálogo de filtragem avançada
+
+```scss
+$excel-filtering-theme: excel-filtering-theme(
+  $background: #3c6eda,
+  $foreground: #f5f5f5,
+  $accent-color: #8e11fb
+);
+
+$query-builder-theme: query-builder-theme(
+  $background: #f59906,
+  $foreground: #050505,
+  $accent-color: #443209
+);
+
+igx-grid-excel-style-filtering,
+.igx-excel-filter__secondary {
+  @include tokens($excel-filtering-theme);
+}
+
+igx-advanced-filtering-dialog {
+  @include tokens($query-builder-theme);
+}
+```
+
+Ao informar apenas as três cores principais, todas as partes do componente ficam com estilo consistente. Esses temas também expõem parâmetros adicionais, caso você precise de uma personalização mais detalhada.
+
+### Temas de componentes aninhados
+
+Se você quiser direcionar apenas componentes aninhados menores dentro da grade, como botões, ícones, entradas ou chips, pode aplicar os temas independentes deles diretamente. Certifique-se de que o escopo do seu seletor seja específico o suficiente para que o tema informado afete apenas o elemento pretendido.
+
+Alguns dos temas de componentes são:
+
+- <ApiLink kind="sass" module="themes" type="function-icon-theme" label="Tema do IgxIcon" />
+- <ApiLink kind="sass" module="themes" type="function-input-group-theme" label="Tema do IgxInputGroup" />
+- <ApiLink kind="sass" module="themes" type="function-chip-theme" label="IgxChip Theme" />
+- <ApiLink kind="sass" module="themes" type="function-ripple-theme" label="Tema do IgxRipple" />
+- <ApiLink kind="sass" module="themes" type="function-button-theme" label="Tema do IgxButton" />
+- <ApiLink kind="sass" module="themes" type="function-overlay-theme" label="Tema do IgxOverlay" />
+- <ApiLink kind="sass" module="themes" type="function-drop-down-theme" label="Tema do IgxDropDown" />
+- <ApiLink kind="sass" module="themes" type="function-calendar-theme" label="Tema do IgxCalendar" />
+- <ApiLink kind="sass" module="themes" type="function-snackbar-theme" label="IgxSnackBar Theme" />
+- <ApiLink kind="sass" module="themes" type="function-badge-theme" label="IgxBadge Theme" />
+
+## Referências da API
+
+- <ApiLink type="Grid" />
+- <ApiLink kind="sass" module="themes" type="function-grid-theme" label="Estilos do IgxGridComponent" />
+- <ApiLink type="Column" />
+- <ApiLink type="GridRow" />
+- <ApiLink type="GridCell" />
+
+## Vídeo tutorial
+
+Saiba mais sobre como criar um data grid do Angular no nosso vídeo tutorial curto:
+
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/Xv_fQVQ8fmM">
+</iframe>
+
+## Recursos adicionais
+
+
+- [Dimensionamento da grade](/grid/sizing)
+- [Virtualização e desempenho](/grid/virtualization)
+- [Paginação](/grid/paging)
+- [Filtragem](/grid/filtering)
+- [Ordenação](/grid/sorting)
+- [Resumos](/grid/summaries)
+- [Movimentação de colunas](/grid/column-moving)
+- [Fixação de colunas](/grid/column-pinning)
+- [Redimensionamento de colunas](/grid/column-resizing)
+- [Seleção](/grid/selection)
+- [Tipos de dados de coluna](/grid/column-types#template-padrão)
+- [Criar operações CRUD com o igxGrid](/general/how-to/how-to-perform-crud)
+- [Skills do Ignite UI for Angular](/ai/skills) — Agent Skills para grades, operações de dados e temas
+
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

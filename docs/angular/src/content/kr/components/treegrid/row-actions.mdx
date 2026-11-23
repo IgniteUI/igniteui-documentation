@@ -1,0 +1,93 @@
+---
+title:  "Angular Data Grid의 행 작업 - Ignite UI for Angular" 
+description: "Ignite UI for Angular의 그리드 컴포넌트는 ActionStrip을 사용하고, 행/셀 컴포넌트에 대해 CRUD를 활용하며, 행 고정 기능을 제공합니다."
+keywords: "Ignite UI for Angular, UI 컨트롤, Angular 위젯, 웹 위젯, UI 위젯, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, Angular ActionStrip 컴포넌트, Angular ActionStrip 디렉티브, Angular ActionStrip 컨트롤"
+license: commercial
+_language: ko
+llms:
+  description: "Ignite UI for Angular의 그리드 컴포넌트는 ActionStrip을 사용하고, 행/셀 컴포넌트에 대해 CRUD를 활용하며, 행 고정 기능을 제공합니다."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Angular Tree Grid의 행 작업
+
+Ignite UI for Angular의 tree grid 컴포넌트는 [ActionStrip](/action-strip)을 사용하고, 행/셀 컴포넌트에 대해 CRUD를 활용하며, 행 고정 기능을 제공합니다. Action Strip 컴포넌트는 이러한 작업을 위한 미리 정의된 UI 컨트롤을 담을 수 있습니다.
+
+## 사용법
+
+첫 번째 단계는 **app.module.ts** 파일에서 **IgxActionStripModule**을 가져오는 것입니다:
+
+```typescript
+// app.module.ts
+
+...
+import { IgxActionStripModule } from 'igniteui-angular/action-strip';
+// import { IgxActionStripModule } from '@infragistics/igniteui-angular'; for licensed package
+
+@NgModule({
+    ...
+    imports: [..., IgxActionStripModule],
+    ...
+})
+```
+
+미리 정의된 `actions` UI 컴포넌트는 다음과 같습니다:
+
+- <ApiLink type="GridEditingActions" /> - 그리드 편집 전용으로 설계된 기능과 UI를 포함합니다. 그리드의 <ApiLink type="Grid" member="rowEditable" label="rowEditable" /> 옵션과 행 삭제에 따라 셀이나 행의 편집 모드를 빠르게 전환할 수 있게 합니다.
+
+- <ApiLink type="GridPinningActions" /> - 그리드 행 고정 전용으로 설계된 기능과 UI를 포함합니다. 행을 빠르게 고정하고, 고정된 행과 비활성화된 대응 행 사이를 이동할 수 있게 합니다.
+
+이들은 `<igx-action-strip>` 안에 추가되며, 기본 상호 작용을 제공하는 Action Strip을 만들기 위해 필요한 것은 이것이 전부입니다.
+
+```html
+<igx-tree-grid [data]="data" [rowEditable]="true" [primaryKey]="'ID'">
+    <igx-column *ngFor="let c of columns" [field]="c.field">
+    </igx-column>
+
+    <igx-action-strip #actionStrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <igx-grid-editing-actions></igx-grid-editing-actions>
+    </igx-action-strip>
+</igx-tree-grid>
+```
+
+<DocsAside type="info">
+`IgxActionStripComponent`이(가) 그리드의 하위 컴포넌트이면, 행에 마우스를 올릴 때 UI가 자동으로 표시됩니다.
+</DocsAside>
+
+## 사용자 지정 구현
+
+이 컴포넌트들은 사용자 지정을 위한 유연성을 주는 템플릿을 노출합니다. 예를 들어 `delete`, `edit` 등의 행 작업이 있는 Gmail 시나리오에 `ActionStrip`을(를) 사용하고 싶다면, `igx-icon`을(를) 가진 버튼 컴포넌트를 만들고, 거기에 클릭 이벤트를 추가한 다음 `igx-action-strip` 컴포넌트에 삽입하면 됩니다.
+
+```html
+<igx-grid>
+    <igx-action-strip #actionstrip>
+        <igx-grid-pinning-actions></igx-grid-pinning-actions>
+        <button title="Edit" igxIconButton="flat" igxRipple (click)='startEdit(actionstrip.context)'>
+            <igx-icon>edit</igx-icon>
+        </button>
+        @if (!isDeleted(actionstrip.context)) {
+            <button title="Delete" igxIconButton="flat" igxRipple (click)='actionstrip.context.delete()'>
+                <igx-icon>delete</igx-icon>
+            </button>
+        }
+    </igx-action-strip>
+</igx-grid>
+```
+
+<Sample src="/tree-grid/tree-grid-action-strip" height={600} alt="" />
+
+<DocsAside type="info">
+미리 정의된 작업은 [`IgxGridActionsBaseDirective`]({environment:infragisticsBaseUrl}/classes/igxgridactionsbasedirective.html)을(를) 상속하며, 사용자 지정 그리드 작업 컴포넌트를 만들 때도 `IgxGridActionsBaseDirective`을(를) 상속해야 합니다.
+</DocsAside>
+
+## API 참조
+Action Strip API에 대한 자세한 내용은 다음 링크를 참조하십시오:
+- <ApiLink type="ActionStrip" />
+Action Strip 안에서 사용할 수 있는 추가 컴포넌트 및/또는 디렉티브:
+- <ApiLink type="GridActionsBaseDirective" />
+- <ApiLink type="GridPinningActions" />
+- <ApiLink type="GridEditingActions" />
+- <ApiLink type="Divider" />

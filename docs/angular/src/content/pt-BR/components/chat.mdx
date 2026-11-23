@@ -1,0 +1,466 @@
+---
+title: Angular Chat | Ignite UI | Infragistics
+description: "Com o componente Chat do Ignite UI for Angular, você pode criar experiências de mensagens interativas, com suporte a mensagens, anexos, sugestões, indicadores de digitação e templates personalizados."  
+keywords: "Ignite UI for Angular, controles de UI, widgets Angular, widgets web, widgets de UI, Angular, Native Angular Components Suite, Native Angular Controls, Native Angular Components Library, componentes de chat do Angular, controles de chat do Angular"
+license: MIT
+mentionedTypes: ["Chat"]  
+_language: pt-BR
+llms:
+  description: "O componente Chat oferece uma solução completa para criar interfaces de conversação nos seus aplicativos."
+---
+
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Visão geral do Angular Chat
+
+O componente Chat oferece uma solução completa para criar interfaces de conversação nos seus aplicativos. Seja para criar uma ferramenta de suporte ao cliente, um espaço de trabalho colaborativo ou um assistente de chatbot, o componente Chat oferece os blocos de construção de que você precisa: envio e recebimento de mensagens de texto, upload de anexos, exibição de sugestões de respostas rápidas e indicadores de digitação quando o outro participante está escrevendo uma resposta.
+
+Diferentemente de uma lista estática de mensagens, o componente Chat é interativo e foi projetado para **comunicação em tempo real**. Ele gerencia a entrada, a renderização e a interação do usuário, dando a você controle total sobre como as mensagens e os anexos são exibidos. Ele também expõe uma API de renderização extensa, que permite substituir qualquer parte do layout ou dos elementos visuais.
+
+<Sample src="/interactions/chat-overview-sample" height={900} alt="Visão geral do Angular Chat" />
+
+## Instalação
+
+Para começar, instale o pacote Ignite UI for Angular, bem como o pacote Ignite UI for Web Component que alimenta a UI:
+
+```cmd
+npm install igniteui-angular igniteui-webcomponents
+```
+
+<ApiLink type="Chat" /> fornece vinculações do Angular (eventos, templates, DI, detecção de mudanças, pipes), enquanto a UI visual do chat é renderizada pelo Web Component. Instalar os dois garante que o chat se comporte nativamente no Angular e, ao mesmo tempo, aproveite toda a UI do Web Component.
+
+Para uma introdução completa ao Ignite UI for Angular, leia o tópico [_primeiros passos_](/general/getting-started).
+
+Depois de instalado, você pode importar o componente no seu projeto:
+
+```ts
+import { Component } from '@angular/core';
+import { IgxChatComponent } from "igniteui-angular/chat";
+
+@Component({
+  ...
+})
+export class AppComponent { ... }
+```
+
+## Uso
+Defina as opções do chat e vincule-as no seu template:
+
+```ts
+import { IgxChatComponent, IgxChatOptions } from "igniteui-angular/chat";
+
+public options: IgxChatOptions  = {
+  currentUserId: 'me',
+  headerText: 'Support Chat',
+};
+```
+
+```html
+<igx-chat 
+    [options]="options"
+    [messages]="messages">
+</igx-chat>
+```
+
+Aqui, a propriedade `currentUserId` informa ao componente quais mensagens são "de saída" (enviadas pelo usuário atual) e quais são "de entrada" (enviadas por outras pessoas). A propriedade `headerText` fornece um título para a janela do chat.
+
+Depois de renderizado, você pode adicionar mensagens por programação atualizando o array de mensagens vinculado:
+
+```ts
+public addMessage() {    
+    const newMessage = {
+      id: '1',
+      sender: 'me',
+      text: 'Hello! How can I help you?',
+      timestamp: Date.now().toString()
+    };
+    this.messages = [...this.messages, newMessage ];
+}
+```
+
+Essa abordagem facilita conectar o Chat à sua própria fonte de dados, como um endpoint de servidor, um mecanismo de chatbot ou o back-end de um aplicativo colaborativo.
+
+### Entradas
+O componente Chat expõe várias propriedades principais que permitem controlar o estado e a configuração dele:
+
+| Nome              | Descrição                                                                                                                                                          |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `messages`        | Array bidirecional de mensagens (`IgcChatMessage[]`) exibidas no chat. O Chat atualiza a coleção fornecida quando o usuário envia uma mensagem.                     |
+| `draftMessage`    | A mensagem atual ainda não enviada, representada como um objeto que contém `text` e, opcionalmente, `attachments`. Isso é útil para salvar ou restaurar rascunhos de mensagens.            |
+| `options`         | Configuração do chat (<ApiLink type="ChatOptions" />), como o ID do usuário atual, os placeholders da entrada, os tipos de arquivo aceitos, as sugestões de respostas rápidas e o comportamento de digitação. |
+| `templates` | Templates Angular personalizados (<ApiLink type="ChatTemplates" />) para o conteúdo das mensagens, a entrada, os anexos e outras partes da UI do chat.                                   |
+
+Essas propriedades tornam simples sincronizar a UI do Chat com o estado e o back-end do seu aplicativo.
+
+#### Coleção bidirecional de mensagens
+
+A coleção `messages` é bidirecional: o aplicativo fornece as mensagens a exibir, e o Chat atualiza a coleção original conforme a conversa continua. Depois que o usuário envia uma mensagem, o código que mantém uma referência à coleção pode acessar a mensagem recém-criada. Trata-se de uma atualização no próprio local da coleção, e não de vinculação bidirecional do Angular com `[(messages)]`.
+
+O evento `messageCreated` é uma notificação para persistência ou outros efeitos colaterais. Não adicione a mensagem criada à coleção novamente.
+
+Se a coleção original precisar permanecer inalterada, passe ao Chat uma cópia rasa:
+
+```ts
+public messages = [...this.originalMessages];
+```
+
+Os objetos de mensagem existentes ainda são compartilhados. Crie uma nova instância de cada mensagem ao montar a coleção copiada, se esses objetos também precisarem permanecer independentes.
+
+### Anexos
+As conversas modernas raramente se limitam apenas a texto. O componente Chat inclui suporte integrado a anexos de arquivos, permitindo que os usuários compartilhem imagens, documentos e outros arquivos.
+Por padrão, a área de entrada inclui um botão de anexo. Você pode controlar quais tipos de arquivo são permitidos definindo a propriedade `acceptedFiles`:
+
+```ts
+public options: IgxChatOptions = {
+  acceptedFiles: "image/*,.pdf",
+};
+```
+
+Neste exemplo, os usuários só poderão enviar imagens e arquivos PDF.
+Se o seu caso de uso não exigir anexos, você pode desativá-los facilmente:
+
+```ts
+public options: IgxChatOptions = {
+  disableInputAttachments: true,
+};
+```
+
+### Sugestões
+As sugestões de respostas rápidas oferecem aos usuários respostas predefinidas que eles podem tocar para responder na hora. Este recurso é especialmente útil em chatbots, fluxos de atendimento ao cliente ou quando você guia os usuários por um processo estruturado.
+Você pode fornecer sugestões vinculando um array de strings à propriedade suggestions. A propriedade `suggestionsPosition` permite controlar onde elas são exibidas: abaixo da área de entrada ou abaixo da lista de mensagens.
+
+```ts
+public options: IgxChatOptions = {
+  currentUserId: "me",
+  suggestions: ['Yes', 'No', 'Maybe later'],
+  suggestionsPosition: "below-input"
+};
+```
+
+Essa abordagem ajuda a simplificar as interações do usuário, reduzindo a necessidade de digitar respostas repetitivas, e melhora a experiência geral em conversas guiadas.
+
+### Indicador de digitação
+As conversas ficam mais naturais quando os participantes podem ver que a outra pessoa está digitando. O componente Chat oferece esse comportamento por meio da propriedade `isTyping` do objeto de opções.
+Quando definida como true, o chat mostra um indicador de digitação discreto abaixo das mensagens:
+
+```ts
+public options: IgxChatOptions = {
+  isTyping: true
+};
+```
+
+Esse recurso normalmente é ativado ou desativado por programação, por exemplo, ao receber um evento de digitação do seu serviço de back-end.
+
+### Templates personalizados
+Embora o componente Chat funcione de imediato com a UI padrão, muitos aplicativos precisam personalizar a aparência. Por exemplo, você pode querer adicionar confirmações de leitura, exibir avatares ou substituir a área de entrada por um botão de gravação de voz.
+O componente Chat atende a essa necessidade usando templates Angular. Os templates são fornecidos por meio da entrada `templates` e usam diretivas Angular fortemente tipadas.
+
+#### Templates disponíveis
+As seguintes partes do Chat podem ser personalizadas:
+- Nível da mensagem: message, messageHeader, messageContent, messageAttachments, messageActions
+- Nível do anexo: attachment, attachmentHeader, attachmentContent
+- Nível da entrada: input, inputActions, inputActionsStart, inputActionsEnd, inputAttachments, fileUploadButton, sendButton
+- Sugestões: suggestionPrefix
+- Diversos: typingIndicator
+
+Esse nível de granularidade permite ajustar apenas uma parte (por exemplo, a aparência dos anexos) sem reescrever todo o layout do chat.
+
+#### Conteúdo de mensagem personalizado
+
+```html
+<igx-chat
+        [options]="options"
+        [messages]="messages"
+        [templates]="{ messageContent: messageContent }">
+</igx-chat>
+<ng-template #messageContent let-message igxChatMessageContext>
+  <div class="custom-message">
+
+    <strong>{{ message.sender }}:</strong> {{ message.text }}
+  
+</div>
+</ng-template>
+```
+
+Aqui:
+- `let-message` expõe o objeto da mensagem.
+- A diretiva <ApiLink type="ChatMessageContextDirective" label="igxChatMessageContext" /> garante a tipagem adequada para os templates de mensagem.
+
+#### Área de entrada personalizada
+Por padrão, a entrada do chat é uma área de texto. Você pode substituí-la para oferecer uma experiência mais adequada, como adicionar um botão de entrada por voz:
+
+```html
+<igx-chat
+  [options]="options"
+  [templates]="{ input: customInput }">
+</igx-chat>
+
+<ng-template #customInput let-input igxChatInputContext>
+  <div class="custom-input">
+
+    <textarea [(ngModel)]="input.value"></textarea>
+    <button (click)="speechToText()">🎤</button>
+  
+</div>
+</ng-template>
+```
+
+#### Estendendo as ações de entrada
+O componente Chat oferece dois templates úteis quando você quer manter as ações padrão (upload e envio), mas estendê-las com controles adicionais:
+- `inputActionsStart` – permite inserir conteúdo personalizado depois do botão de upload integrado.
+- `inputActionsEnd` – permite inserir conteúdo personalizado depois do botão de envio integrado.
+
+Por exemplo, você pode querer adicionar um botão de gravação de voz depois do botão de upload, ou um menu de opções extras depois do botão de envio.
+No exemplo a seguir, o botão de upload padrão é mantido, mas adicionamos um botão de microfone ao lado dele. Por outro lado, removemos o botão de envio padrão e o substituímos por um botão personalizado Ask e um menu "more":
+
+```html
+<igx-chat
+  [options]="options"
+  [templates]="{
+    inputActionsStart: inputStart,
+    inputActionsEnd: inputEnd
+  }">
+</igx-chat>
+
+<ng-template #inputStart>
+  <button class="icon-btn">🎤</button>
+</ng-template>
+
+<ng-template #inputEnd>
+  <button (click)="ask()">Ask</button>
+  <button class="icon-btn">⋮</button>
+</ng-template>
+```
+
+Nesta configuração:
+- O botão de upload permanece no lugar.
+- Um botão de microfone é adicionado depois dele (inputActionsStart).
+- O botão de envio padrão é removido e substituído por um botão personalizado Ask e um ícone "more" (inputActionsEnd).
+
+Essa abordagem oferece total flexibilidade sobre a barra de entrada do chat, permitindo adicionar, remover ou reordenar ações sem reconstruir a área de entrada do zero.
+
+### Suporte a Markdown
+O componente Chat inclui suporte integrado a conteúdo Markdown por meio do pipe `fromMarkdown`, que transforma o texto da mensagem em HTML seguro. Isso permite exibir mensagens com texto formatado, links, listas e até blocos de código com realce de sintaxe, garantindo que todo o HTML renderizado seja sanitizado por segurança.
+
+A renderização de Markdown é feita de forma assíncrona por motivos de desempenho, por isso o pipe `fromMarkdown` deve ser combinado com o pipe `async` do Angular.
+
+Exemplo - renderizando markdown dentro de um template:
+
+```html
+<ng-template #messageContent let-message igxChatMessageContext>
+    <div [innerHTML]="message.text | fromMarkdown | async"></div>
+</ng-template>
+```
+
+Neste exemplo:
+- A propriedade text de cada mensagem será interpretada como Markdown usando a biblioteca [marked](https://github.com/markedjs/marked).
+- O renderizador sanitiza a saída usando o [DOMPurify](https://github.com/cure53/DOMPurify)
+- Os links abrem automaticamente em uma nova aba, com atributos rel seguros.
+
+#### Realce de sintaxe
+O pipe `fromMarkdown` também oferece suporte ao realce de sintaxe em blocos de código. Quando uma mensagem contém código delimitado (```js...```), ele é renderizado usando o [Shiki](https://shiki.matsu.io/), um realçador de código de alta fidelidade usado pelo VS Code. Por padrão, inclui realce para JavaScript, TypeScript, HTML e CSS com o tema github-light.
+
+Exemplo - quando uma mensagem contém:
+
+```markdown
+Here is a JavaScript example:
+\`\`\`ts
+function greet(name: string) {
+  return `Hello, ${name}!`;
+}
+\`\`\`
+```
+
+A saída dentro da mensagem do chat vai aparecer com:
+- Realce de sintaxe automático
+- Estilização que segue o tema (github-light / github-dark)
+- Indentação adequada e fonte monoespaçada
+- Nenhuma configuração adicional é necessária - os temas padrão são carregados automaticamente.
+
+### Saídas (eventos)
+Para integrar com a lógica da sua aplicação, o componente Chat emite um conjunto de eventos:
+- messageCreated – quando uma nova mensagem é criada.
+- messageReact – quando uma mensagem recebe uma reação.
+- attachmentClick – quando um anexo é clicado.
+- attachmentAdded – quando um anexo é adicionado.
+- attachmentRemoved – quando um anexo é removido.
+- attachmentDrag – enquanto um anexo está sendo arrastado.
+- attachmentDrop – quando um anexo é solto.
+- typingChange – quando o status de digitação muda.
+- inputFocus / inputBlur – eventos de foco da entrada.
+- inputChange – quando o valor da entrada muda.
+
+Você pode escutar esses eventos e sincronizá-los com o seu back-end:
+
+```html
+<igx-chat
+        [options]="options"
+        [messages]="messages"
+        (messageCreated)="onMessageCreated($event)">
+</igx-chat>
+```
+
+<Sample src="/interactions/chat-features-sample" height={900} alt="Recursos do Angular Chat" />
+
+<hr/>
+
+## Estilização
+
+O componente Chat expõe tanto **partes CSS** quanto **slots** para uma personalização detalhada da aparência e da estrutura.
+
+### Partes CSS
+
+| Nome da parte                       | Descrição                                                                          |
+| :------------------------------ | :----------------------------------------------------------------------------------- |
+| `chat-container`                | Estiliza o contêiner principal do chat.                                                      |
+| `header`                        | Estiliza o contêiner do cabeçalho do chat.                                                    |
+| `prefix`                        | Estiliza o elemento antes do título do chat (por exemplo, avatar).                             |
+| `title`                         | Estiliza o título do cabeçalho do chat.                                                        |
+| `message-area-container`        | Estiliza o contêiner que contém as mensagens e as sugestões (opcionais).                |
+| `message-list`                  | Estiliza o contêiner da lista de mensagens.                                                   |
+| `message-item`                  | Estiliza o invólucro de cada mensagem.                                                         |
+| `typing-indicator`              | Estiliza o contêiner do indicador de digitação.                                               |
+| `typing-dot`                    | Estiliza os pontos individuais do indicador de digitação.                                             |
+| `suggestions-container`         | Estiliza o contêiner que reúne todas as sugestões.                                        |
+| `suggestions-header`            | Estiliza o cabeçalho das sugestões.                                                       |
+| `suggestion`                    | Estiliza cada item de sugestão.                                                         |
+| `suggestion-prefix`             | Estiliza o ícone ou o prefixo de uma sugestão.                                           |
+| `suggestion-title`              | Estiliza o texto/título de uma sugestão.                                               |
+| `empty-state`                   | Estiliza o contêiner do estado vazio, quando não há mensagens.                         |
+| `input-area-container`          | Estiliza o invólucro da área de entrada do chat.                                       |
+| `input-container`               | Estiliza o contêiner principal da entrada.                                                     |
+| `input-attachments-container`   | Estiliza o contêiner dos anexos na entrada.                                   |
+| `input-attachment-container`    | Estiliza um único anexo na área de entrada.                                        |
+| `input-attachment-name`         | Estiliza o nome do arquivo de um anexo.                                               |
+| `input-attachment-icon`         | Estiliza o ícone de um anexo.                                                    |
+| `text-input`                    | Estiliza o campo de texto para digitar mensagens.                                     |
+| `input-actions-container`       | Estiliza o contêiner das ações de entrada.                                              |
+| `input-actions-start`           | Estiliza o grupo de ações no início da entrada, depois do upload de arquivo padrão. |
+| `input-actions-end`             | Estiliza o grupo de ações no fim da entrada.                                 |
+| `file-upload-container`         | Estiliza o contêiner da entrada de upload de arquivo.                                      |
+| `file-upload`                   | Estiliza a própria entrada de upload de arquivo.                                                 |
+| `send-button-container`         | Estiliza o contêiner em volta do botão de envio.                                         |
+| `send-button`                   | Estiliza o botão de envio.                                                              |
+| `message-container`             | Estiliza o contêiner de uma única mensagem.                                            |
+| `message-list (forwarded)`      | Estiliza a lista interna de mensagens.                                                |
+| `message-header`                | Estiliza o cabeçalho de uma mensagem (por exemplo, remetente, data e hora).                            |
+| `message-content`               | Estiliza o conteúdo de texto de uma mensagem.                                                |
+| `message-attachments-container` | Estiliza o contêiner dos anexos da mensagem.                                        |
+| `message-attachment`            | Estiliza um único anexo de mensagem.                                                  |
+| `message-actions-container`     | Estiliza o contêiner que reúne as ações da mensagem.                                        |
+| `message-sent`                  | Estiliza as mensagens marcadas como enviadas pelo usuário atual.                                  |
+| `attachment-header`             | Estiliza o cabeçalho de um bloco de anexo.                                            |
+| `attachment-content`            | Estiliza o conteúdo de um bloco de anexo.                                           |
+| `attachment-icon`               | Estiliza o ícone de um anexo.                                                    |
+| `file-name`                     | Estiliza o nome do arquivo exibido em um anexo.                                         |
+
+#### Exemplo
+
+```css
+igc-chat::part(header) {
+  background: var(--ig-primary-100);
+}
+
+igc-chat::part(message-container) {
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+igc-chat::part(empty-state) {
+  font-style: italic;
+  color: var(--ig-gray-500);
+}
+```
+
+Isso permite estilizar o `Chat` para combinar com a sua marca, sem substituir sua funcionalidade.
+
+### Slots
+
+| Nome do slot             | Descrição                                                              |
+| :-------------------- | :----------------------------------------------------------------------- |
+| `prefix`              | Slot para inserir conteúdo (por exemplo, avatar ou ícone) antes do título do chat. |
+| `title`               | Slot para substituir o conteúdo do título do chat.                              |
+| `actions`             | Slot para inserir ações do cabeçalho (por exemplo, botões, menus).                |
+| `suggestions-header`  | Slot para renderizar um cabeçalho personalizado para a lista de sugestões.             |
+| `suggestions`         | Slot para renderizar uma lista personalizada de sugestões de respostas rápidas.             |
+| `suggestions-actions` | Slot para renderizar ações adicionais.                                   |
+| `suggestion`          | Slot para renderizar um único item de sugestão.                             |
+| `empty-state`         | Slot exibido quando não há mensagens.                                   |
+
+Esses slots permitem inserir UI personalizada na área do cabeçalho ou das sugestões:
+
+```html
+<igx-chat>
+  <span slot="actions">
+    <button class="icon">⚙️</button>
+  </span>
+</igx-chat>
+```
+
+#### Adoção de estilos raiz (adoptRootStyles)
+
+As opções do componente Chat incluem um sinalizador especial para cenários avançados de estilização:
+
+| Opção            | Tipo      | Padrão | Descrição                                                                                                                                                                                                                                    |
+| :---------------- | :-------- | :------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `adoptRootStyles` | `boolean` | false   | Quando `true`, o componente permite que o conteúdo renderizado dentro do seu Shadow DOM (por exemplo, a partir de renderizadores personalizados) herde estilos da raiz do documento. Isso oferece uma solução rápida para estilização, mas **não é recomendado** para uso em produção. |
+
+Esta propriedade pode ser útil se você preferir não lidar com o encapsulamento do Shadow DOM ao aplicar CSS global a templates renderizados de forma personalizada.
+No entanto, ela tem contrapartidas:
+- ✅ Conveniência: permite que estilos globais (do documento) afetem os renderizadores de mensagens personalizados.
+- ⚠ Arriscado: quebra o encapsulamento e pode causar vazamento de estilos, em que o CSS global altera de forma não intencional a aparência interna.
+- 🔒 Configuração única: esta opção só pode ser definida na inicialização. Alterá-la em tempo de execução não tem efeito.
+
+Recomendamos muito usar as abordagens padrão de estilização de Web Components antes de recorrer a esta propriedade:
+- Variáveis CSS e API ::part – prefira personalizar por meio das partes e variáveis expostas.
+- Elementos `<link>` – para folhas de estilo maiores, injete-os dentro do Shadow DOM.
+- Tags `<style>` inline – para substituições de estilo pequenas e com escopo.
+
+### Tema do Chat
+
+Além das **partes CSS** e dos **slots**, o componente Chat também tem uma função <ApiLink kind="sass" module="themes" type="function-chat-theme" label="chat-theme" code={true} /> exposta pelo nosso mecanismo de temas.
+
+Para estilizar o componente Chat usando a função de tema, primeiro precisamos importar o módulo de temas, onde são exportadas todas as funções de tema e o mixin `tokens()`:
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+Em seguida, criamos um novo tema que estende o <ApiLink kind="sass" module="themes" type="function-chat-theme" label="chat-theme" code={true} /> e fornecemos os parâmetros `$header-background`, `$sent-message-background` e `$received-message-background`. Com base nesses valores, `$header-color`, `$sent-message-color` e `$received-message-color` são definidos automaticamente como preto ou branco, dependendo de qual oferece melhor contraste com o fundo.
+
+```scss
+$custom-chat-theme: chat-theme(
+  $header-background: #4a4a4a,
+  $sent-message-background: #fb8500,
+  $received-message-background: #e2d8c9
+);
+```
+
+Por fim, **inclua** o tema personalizado na sua aplicação:
+
+```scss
+:host {
+  @include tokens($custom-chat-theme);
+}
+```
+
+<Sample src="/interactions/chat-styling-sample" height={900} alt="Estilização do Angular Chat" />
+
+## Referência da API
+
+- <ApiLink type="Chat" />
+- <ApiLink type="ChatOptions" />
+- <ApiLink type="ChatTemplates" />
+- <ApiLink type="ChatMessageContextDirective" />
+- <ApiLink type="ChatInputContextDirective" />
+- <ApiLink type="ChatAttachmentContextDirective" />
+- [`Styling & Themes`](/themes)
+
+## Recursos adicionais
+Nossa comunidade é ativa e sempre receptiva a novas ideias.
+- [Ignite UI for Angular **Fóruns**](https://www.infragistics.com/community/forums/f/ignite-ui-for-angular)
+- [Ignite UI for Angular **GitHub**](https://github.com/IgniteUI/igniteui-angular)

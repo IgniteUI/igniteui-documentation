@@ -1,0 +1,64 @@
+---
+title: "{Platform} Excel 라이브러리 | 차트 사용하기 | Infragistics"
+description: "Infragistics {Platform} Excel 라이브러리의 차트 기능을 사용하여 워크시트의 셀 영역에 걸친 데이터 추세를 시각적 차트로 추가하십시오. {ProductName} Excel 데이터를 70개가 넘는 차트 유형으로 시각화하십시오!"
+keywords: "Excel 라이브러리, 차트, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes: ["Workbook", "Worksheet"]
+
+_language: ko
+llms:
+  description: "Infragistics {Platform} Excel 엔진의 WorksheetChart 기능을 사용하면 워크시트의 셀 영역에 걸친 데이터 추세를 시각적 차트로 추가할 수 있습니다."
+platformType: xplat-unmapped
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} 차트 사용하기
+
+Infragistics {Platform} Excel 엔진의 <ApiLink type="WorksheetChart" /> 기능을 사용하면 워크시트의 셀 영역에 걸친 데이터 추세를 시각적 차트로 추가할 수 있습니다. 예를 들어 셀 영역의 Excel 데이터를 열, 선 또는 70개가 넘는 다른 차트 유형으로 보고 싶다면, 이 기능이 그렇게 할 수 있도록 도와줍니다.
+
+## {Platform} 차트 사용하기 예제
+
+
+<Sample src="/excel/excel-library/working-with-charts" height={500} alt="{Platform} 차트 사용하기 예제" />
+
+
+<DocsAside type="info">
+XLSX 형식이 필요합니다. 현재 다른 형식은 지원되지 않습니다.
+</DocsAside>
+
+
+## 사용법
+워크시트에 차트를 추가하려면 워크시트의 도형 컬렉션에 있는 <ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> 메서드를 사용해야 합니다. 이 메서드에서 사용하려는 차트 유형, 왼쪽 위 셀, 오른쪽 아래 셀, 그리고 차트가 차지할 해당 셀의 백분율을 지정할 수 있습니다.
+
+<ApiLink type="WorksheetShapeCollection" member="addChart" label="AddChart" /> 메서드는 워크시트에 추가할 워크시트 차트 요소를 반환합니다. 이를 얻은 후 차트의 <ApiLink type="WorksheetChart" member="setSourceData" label="SetSourceData" /> 메서드를 사용하여 데이터 소스로 사용할 워크시트 셀 영역의 셀 주소를 설정할 수 있으며, 열과 행을 X축과 Y축에 매핑하는 방식을 바꿀지 여부도 설정할 수 있습니다.
+
+지원되는 차트 유형은 `Line`, `Area`, <ApiLink type="Column" />, `Pie`를 포함하여 70개가 넘습니다.
+
+다음 코드는 Excel 차트 기능을 사용하는 방법을 보여 줍니다. 아래 코드 조각은 워크시트 첫 번째 행의 첫 번째 셀과 13번째 셀 사이에 열 차트를 추가합니다. 그다음 A2:M6 영역의 데이터를 원본 데이터로 설정하며, 열 차트의 X축과 Y축에 대한 열과 행의 매핑을 바꿉니다:
+
+```ts
+var chart = ws.shapes().addChart(ChartType.ColumnClustered,
+      ws.rows(0).cells(0), { x: 0, y: 0 },
+      ws.rows(0).cells(12), { x: 100, y: 100 });
+
+chart.setSourceData("A2:M6", true);
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+var chart = sheet.Shapes.AddChart(Documents.Excel.Charts.ChartType.ColumnClustered,
+    sheet.Rows[0].Cells[0], new Core.Point(0, 0),
+    sheet.Rows[0].Cells[props.Length - 1], new Core.Point(100, 100));
+
+chart.SetSourceData("A2:M6", true);
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="WorksheetChart" />

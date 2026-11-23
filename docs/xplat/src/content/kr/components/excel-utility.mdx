@@ -1,0 +1,362 @@
+---
+title: "{Platform} Excel 라이브러리 | Excel 유틸리티 | Infragistics"
+description: "Microsoft Excel 기능을 사용하여 스프레드시트 데이터를 다루려면 Infragistics {Platform} Excel 라이브러리를 사용하십시오. {ProductName} Excel 라이브러리를 사용하면 Excel에서 애플리케이션으로 데이터를 얼마나 쉽게 옮길 수 있는지 알아보십시오!"
+keywords: "excel 라이브러리, {ProductName}, Infragistics, 파일 저장, 파일 불러오기, WorkbookFormat"
+license: commercial
+mentionedTypes: ["Workbook", "WorkbookFormat", "WorkbookSaveOptions"]
+_language: ko
+llms:
+  description: "{ProductName} Excel 라이브러리로 통합 문서 데이터를 불러오고, 저장하고, 변환하는 데 사용되는 ExcelUtility 도우미를 설명합니다."
+platformType: xplat-unmapped
+---
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+
+# {Platform} Excel 유틸리티
+
+이 항목은 [Excel 라이브러리](./excel-library.mdx)를 사용하여 Microsoft Excel 파일을 불러오고 저장하는 유틸리티 함수를 제공합니다.
+
+<PlatformBlock for="Angular">
+```ts
+import { saveAs } from "file-saver"; // npm package: "file-saver": "^1.3.8"
+import { Workbook } from 'igniteui-angular-excel';
+import { WorkbookFormat } from 'igniteui-angular-excel';
+import { WorkbookSaveOptions } from 'igniteui-angular-excel';
+
+export class ExcelUtility {
+    public static getExtension(format: WorkbookFormat) {
+        switch (format) {
+            case WorkbookFormat.StrictOpenXml:
+            case WorkbookFormat.Excel2007:
+                return ".xlsx";
+            case WorkbookFormat.Excel2007MacroEnabled:
+                return ".xlsm";
+            case WorkbookFormat.Excel2007MacroEnabledTemplate:
+                return ".xltm";
+            case WorkbookFormat.Excel2007Template:
+                return ".xltx";
+            case WorkbookFormat.Excel97To2003:
+                return ".xls";
+            case WorkbookFormat.Excel97To2003Template:
+                return ".xlt";
+        }
+    }
+
+    public static load(file: File): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            ExcelUtility.readFileAsUint8Array(file).then((a) => {
+                Workbook.load(a, null, (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    public static loadFromUrl(url: string): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "arraybuffer";
+            req.onload = (d) => {
+                const data = new Uint8Array(req.response);
+                Workbook.load(data, null, (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            };
+            req.send();
+        });
+    }
+
+    public static save(workbook: Workbook, fileNameWithoutExtension: string): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const opt = new WorkbookSaveOptions();
+            opt.type = "blob";
+
+            workbook.save(opt, (d) => {
+                const fileExt = ExcelUtility.getExtension(workbook.currentFormat);
+                const fileName = fileNameWithoutExtension + fileExt;
+                saveAs(d as Blob, fileName);
+                resolve(fileName);
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    private static readFileAsUint8Array(file: File): Promise<Uint8Array> {
+        return new Promise<Uint8Array>((resolve, reject) => {
+            const fr = new FileReader();
+            fr.onerror = (e) => {
+                reject(fr.error);
+            };
+
+            if (fr.readAsBinaryString) {
+                fr.onload = (e) => {
+                    const rs = (fr as any).resultString;
+                    const str: string = rs != null ? rs : fr.result;
+                    const result = new Uint8Array(str.length);
+                    for (let i = 0; i < str.length; i++) {
+                        result[i] = str.charCodeAt(i);
+                    }
+                    resolve(result);
+                };
+                fr.readAsBinaryString(file);
+            } else {
+                fr.onload = (e) => {
+                    resolve(new Uint8Array(fr.result as ArrayBuffer));
+                };
+                fr.readAsArrayBuffer(file);
+            }
+        });
+    }
+}
+
+```
+
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+import { saveAs } from "file-saver"; // npm package: "file-saver": "^1.3.8"
+import { Workbook } from 'igniteui-react-excel';
+import { WorkbookFormat } from 'igniteui-react-excel';
+import { WorkbookSaveOptions } from 'igniteui-react-excel';
+import { WorkbookLoadOptions } from 'igniteui-react-excel';
+import { IgrExcelXlsxModule } from 'igniteui-react-excel';
+import { IgrExcelCoreModule } from 'igniteui-react-excel';
+import { IgrExcelModule } from 'igniteui-react-excel';
+
+IgrExcelCoreModule.register();
+IgrExcelModule.register();
+IgrExcelXlsxModule.register();
+
+export class ExcelUtility {
+    public static getExtension(format: WorkbookFormat) {
+        switch (format) {
+            case WorkbookFormat.StrictOpenXml:
+            case WorkbookFormat.Excel2007:
+                return ".xlsx";
+            case WorkbookFormat.Excel2007MacroEnabled:
+                return ".xlsm";
+            case WorkbookFormat.Excel2007MacroEnabledTemplate:
+                return ".xltm";
+            case WorkbookFormat.Excel2007Template:
+                return ".xltx";
+            case WorkbookFormat.Excel97To2003:
+                return ".xls";
+            case WorkbookFormat.Excel97To2003Template:
+                return ".xlt";
+        }
+    }
+
+    public static load(file: File): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            ExcelUtility.readFileAsUint8Array(file).then((a) => {
+                Workbook.load(a, new WorkbookLoadOptions(), (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    public static loadFromUrl(url: string): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "arraybuffer";
+            req.onload = (d) => {
+                const data = new Uint8Array(req.response);
+                Workbook.load(data, new WorkbookLoadOptions(), (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            };
+            req.send();
+        });
+    }
+
+    public static save(workbook: Workbook, fileNameWithoutExtension: string): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const opt = new WorkbookSaveOptions();
+            opt.type = "blob";
+
+            workbook.save(opt, (d) => {
+                const fileExt = ExcelUtility.getExtension(workbook.currentFormat);
+                const fileName = fileNameWithoutExtension + fileExt;
+                saveAs(d as Blob, fileName);
+                resolve(fileName);
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    private static readFileAsUint8Array(file: File): Promise<Uint8Array> {
+        return new Promise<Uint8Array>((resolve, reject) => {
+            const fr = new FileReader();
+            fr.onerror = (e) => {
+                reject(fr.error);
+            };
+
+            if (fr.readAsBinaryString) {
+                fr.onload = (e) => {
+                    const rs = (fr as any).resultString;
+                    const str: string = rs != null ? rs : fr.result;
+                    const result = new Uint8Array(str.length);
+                    for (let i = 0; i < str.length; i++) {
+                        result[i] = str.charCodeAt(i);
+                    }
+                    resolve(result);
+                };
+                fr.readAsBinaryString(file);
+            } else {
+                fr.onload = (e) => {
+                    resolve(new Uint8Array(fr.result as ArrayBuffer));
+                };
+                fr.readAsArrayBuffer(file);
+            }
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+import { saveAs } from "file-saver"; // npm package: "file-saver": "^1.3.8"
+import { Workbook } from 'igniteui-webcomponents-excel';
+import { WorkbookFormat } from 'igniteui-webcomponents-excel';
+import { WorkbookSaveOptions } from 'igniteui-webcomponents-excel';
+import { WorkbookLoadOptions } from 'igniteui-webcomponents-excel';
+import { IgcExcelModule } from 'igniteui-webcomponents-excel';
+import { ModuleManager } from 'igniteui-webcomponents-core';
+
+ModuleManager.register(
+    IgcExcelModule,
+);
+
+export class ExcelUtility {
+    public static getExtension(format: WorkbookFormat) {
+        switch (format) {
+            case WorkbookFormat.StrictOpenXml:
+            case WorkbookFormat.Excel2007:
+                return ".xlsx";
+            case WorkbookFormat.Excel2007MacroEnabled:
+                return ".xlsm";
+            case WorkbookFormat.Excel2007MacroEnabledTemplate:
+                return ".xltm";
+            case WorkbookFormat.Excel2007Template:
+                return ".xltx";
+            case WorkbookFormat.Excel97To2003:
+                return ".xls";
+            case WorkbookFormat.Excel97To2003Template:
+                return ".xlt";
+        }
+    }
+
+    public static load(file: File): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            ExcelUtility.readFileAsUint8Array(file).then((a) => {
+                Workbook.load(a, new WorkbookLoadOptions(), (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    public static loadFromUrl(url: string): Promise<Workbook> {
+        return new Promise<Workbook>((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "arraybuffer";
+            req.onload = (d) => {
+                const data = new Uint8Array(req.response);
+                Workbook.load(data, new WorkbookLoadOptions(), (w) => {
+                    resolve(w);
+                }, (e) => {
+                    reject(e);
+                });
+            };
+            req.send();
+        });
+    }
+
+    public static save(workbook: Workbook, fileNameWithoutExtension: string): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const opt = new WorkbookSaveOptions();
+            opt.type = "blob";
+
+            workbook.save(opt, (d) => {
+                const fileExt = ExcelUtility.getExtension(workbook.currentFormat);
+                const fileName = fileNameWithoutExtension + fileExt;
+                saveAs(d as Blob, fileName);
+                resolve(fileName);
+            }, (e) => {
+                reject(e);
+            });
+        });
+    }
+
+    private static readFileAsUint8Array(file: File): Promise<Uint8Array> {
+        return new Promise<Uint8Array>((resolve, reject) => {
+            const fr = new FileReader();
+            fr.onerror = (e) => {
+                reject(fr.error);
+            };
+
+            if (fr.readAsBinaryString) {
+                fr.onload = (e) => {
+                    const rs = (fr as any).resultString;
+                    const str: string = rs != null ? rs : fr.result;
+                    const result = new Uint8Array(str.length);
+                    for (let i = 0; i < str.length; i++) {
+                        result[i] = str.charCodeAt(i);
+                    }
+                    resolve(result);
+                };
+                fr.readAsBinaryString(file);
+            } else {
+                fr.onload = (e) => {
+                    resolve(new Uint8Array(fr.result as ArrayBuffer));
+                };
+                fr.readAsArrayBuffer(file);
+            }
+        });
+    }
+}
+```
+
+</PlatformBlock>
+
+
+## API 참조
+<ApiLink type="WorkbookFormat" />
+<ApiLink type="WorkbookSaveOptions" />
+<ApiLink type="Workbook" />

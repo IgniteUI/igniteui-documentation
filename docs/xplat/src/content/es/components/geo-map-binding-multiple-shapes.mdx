@@ -1,0 +1,216 @@
+---
+title: "Mapa de {Platform} | Herramientas de visualización de datos | Enlace de varias formas de datos | Infragistics"
+description: "Use {Platform} de Infragistics para añadir varios objetos de serie geográfica y superponer algunos archivos de forma con datos geoespaciales. ¡Vea los tutoriales del mapa de {ProductName}!"
+keywords: "Mapa de {Platform}, archivos de forma, {ProductName}, Infragistics, enlace de datos"
+license: commercial
+mentionedTypes: ["GeographicMap", "ShapefileRecord", "Series", "GeographicShapeSeriesBase"]
+namespace: Infragistics.Controls.Maps
+_language: es
+llms:
+  description: "En el mapa de {ProductName} puede añadir varios objetos de serie geográfica para superponer algunos archivos de forma con datos geoespaciales."
+platformType: xplat
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform}: enlazar y superponer varios archivos de forma
+
+En el mapa de {ProductName} puede añadir varios objetos de serie geográfica para superponer algunos archivos de forma con datos geoespaciales. Por ejemplo, `GeographicSymbolSeries` para representar las ubicaciones geográficas de los puertos, `GeographicPolylineSeries` para representar las rutas entre puertos, y `GeographicShapeSeries` para representar las formas de los países.
+
+## Ejemplo de {Platform}: enlazar y superponer varios archivos de forma
+
+
+<Sample src="/maps/geo-map/binding-multiple-shapes" height={500} alt="Ejemplo de {Platform}: enlazar y superponer varios archivos de forma" />
+
+
+
+
+Este tema le guía paso a paso para mostrar varias series geográficas en el componente de mapa. Todas las series geográficas representan los datos geoespaciales cargados desde archivos de forma mediante la clase `ShapefileRecord`. Consulte el tema [Enlazar archivos de forma](./geo-map-binding-shp-file.mdx) para más información sobre el objeto `ShapefileRecord`.
+
+- `GeographicSymbolSeries`: muestra las ubicaciones de las principales ciudades
+- `GeographicPolylineSeries`: muestra las rutas entre los principales puertos
+- `GeographicShapeSeries`: muestra las formas de los países del mundo
+
+Puede usar series geográficas en las combinaciones anteriores u otras para representar los datos que desee.
+
+## Importar los componentes
+
+En primer lugar, importemos los componentes y los módulos necesarios:
+
+```json-snippet id="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="bindingImports,handlersImports"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true,
+            "series": [
+                {
+                    "type": "GeographicShapeSeries",
+                    "name": "polygonSeries",
+                    "shapeMemberPath": "points",
+                    "shapeFill": "rgb(150, 150, 150)",
+                    "shapeStroke": "Black",
+                    "shapeStrokeThickness": 1
+                },
+                {
+                    "type": "GeographicPolylineSeries",
+                    "name": "lineSeries",
+                    "shapeMemberPath": "points",
+                    "shapeStroke": "rgba(147, 15, 180, 0.5)",
+                    "thickness": 3
+                },
+                {
+                    "type": "GeographicSymbolSeries",
+                    "name": "symbolSeries",
+                    "longitudeMemberPath": "longitude",
+                    "latitudeMemberPath": "latitude",
+                    "markerType": "Circle",
+                    "markerOutline": "rgb(2, 102, 196)",
+                    "markerBrush": "White"
+                }
+            ]
+        }
+    },
+    "onViewInit": [
+        "MapMultipleShapesLoad"
+    ]
+}
+```
+
+<PlatformBlock for="Blazor">
+
+Las interacciones del ratón en el mapa, como el desplazamiento y el zoom, proceden de <ApiLink raw type="DataChartInteractivityModule" />, que ningún componente solicita por sí mismo, por lo que debe registrarse. <ApiLink raw type="GeographicMapModule" /> es opcional: el `GeographicMap` lo carga la primera vez que se renderiza (consulte [Módulos de componentes](general-getting-started.mdx#módulos-de-componentes)).
+
+</PlatformBlock>
+
+```json-snippet source="/maps/geo-map/binding-multiple-shapes" channel="modulesImports...moduleRegistration" exclude="Xaml"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap"
+        }
+    },
+    "modules": [
+        "maps/GeographicMapModule",
+        "charts/DataChartInteractivityModule"
+    ],
+    "$modules": [
+        "+doc:modulesImports",
+        "+doc:moduleRegistration"
+    ]
+}
+```
+
+
+## Crear las series
+
+A continuación, necesitamos crear un mapa con algunas series geográficas que más adelante cargarán distintos tipos de shapefile.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes"
+```
+
+
+## Cargar los shapefiles
+
+A continuación, en el constructor de su página, añada un `ShapefileRecord` para cada shapefile que quiera mostrar en el componente de mapa geográfico. A cada origen se le asigna el método que convierte sus registros en datos; esos métodos pertenecen a la clase `\MapMultipleShapesReaders`, y en las secciones siguientes se muestra cada uno de ellos.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="handlersImports...handler" item="MapMultipleShapesLoad"
+```
+
+## Procesar los polígonos
+
+Procese los datos de forma cargados en `ShapefileRecord` con los países del mundo y asígnelos al objeto `GeographicShapeSeries`.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPolygons" item="MapMultipleShapesReaders"
+```
+
+## Procesar las polilíneas
+
+Procese los datos de forma cargados en `ShapefileRecord` con las rutas de comunicación entre las principales ciudades y asígnelos al objeto `GeographicPolylineSeries`.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPolylines" item="MapMultipleShapesReaders"
+```
+
+## Procesar los puntos
+
+Procese los datos de forma cargados en `ShapefileRecord` con las ubicaciones de las principales ciudades y asígnelos al objeto `GeographicSymbolSeries`.
+
+```json-snippet ref="shapes" source="/maps/geo-map/binding-multiple-shapes" channel="readPoints" item="MapMultipleShapesReaders"
+```
+
+## Fondo del mapa
+
+Además, puede que quiera ocultar las imágenes geográficas del contenido de fondo del mapa si sus archivos de forma proporcionan contexto geográfico suficiente (por ejemplo, la forma de los países) para su aplicación.
+
+```json-snippet code="allCode"
+{
+    "type": "GeographicMap",
+    "name": "geoMap",
+    "height": "100%",
+    "width": "100%",
+    "backgroundContent": null
+}
+```
+
+
+## Resumen
+
+Para su comodidad, todos los fragmentos de código anteriores se combinan en un único bloque de código que puede copiar fácilmente en su proyecto.
+
+```json-snippet id="multiShapesAll" source="/maps/geo-map/binding-multiple-shapes"
+{
+    "descriptions": {
+        "content": {
+            "type": "GeographicMap",
+            "name": "geoMap",
+            "height": "100%",
+            "width": "100%",
+            "zoomable": true,
+            "series": [
+                {
+                    "type": "GeographicShapeSeries",
+                    "name": "polygonSeries",
+                    "shapeMemberPath": "points",
+                    "shapeFill": "rgb(150, 150, 150)",
+                    "shapeStroke": "Black",
+                    "shapeStrokeThickness": 1
+                },
+                {
+                    "type": "GeographicPolylineSeries",
+                    "name": "lineSeries",
+                    "shapeMemberPath": "points",
+                    "shapeStroke": "rgba(147, 15, 180, 0.5)",
+                    "thickness": 3
+                },
+                {
+                    "type": "GeographicSymbolSeries",
+                    "name": "symbolSeries",
+                    "longitudeMemberPath": "longitude",
+                    "latitudeMemberPath": "latitude",
+                    "markerType": "Circle",
+                    "markerOutline": "rgb(2, 102, 196)",
+                    "markerBrush": "White"
+                }
+            ]
+        }
+    },
+    "onViewInit": [
+        "MapMultipleShapesLoad"
+    ]
+}
+```
+
+```json-snippet ref="multiShapesAll" source="/maps/geo-map/binding-multiple-shapes" channel="handlersImports...handler"
+```
+
+
+## Referencias de API
+`GeographicPolylineSeries`
+`GeographicShapeSeries`
+`GeographicSymbolSeries`
+`ShapefileRecord`
