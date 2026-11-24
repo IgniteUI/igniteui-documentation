@@ -282,11 +282,37 @@ function viewCodeLanguage(node, ctx) {
     node.lang = lang;
 }
 
+const STRUCTURE_TAGS = new Set(['table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'ul', 'ol', 'li', 'dl', 'dt', 'dd']);
+
+/**
+ * Table or list tags in a code block that open or close outside it (`<tr>` and `<td>` alone, a
+ * cell's text with the end tag after it): a piece of a table of the topic that the parse cut off
+ * and read as indented code, not a sample. A sample has its elements whole; what a script or
+ * style element holds (a row template) is set aside.
+ */
+function structureFragment(value) {
+    const text = value.replace(/<!--[\s\S]*?-->/g, '').replace(/<(script|style)\b[\s\S]*?<\/\1\s*>/gi, '');
+    const open = [];
+    for (const m of text.matchAll(/<(\/?)([a-z][a-z0-9]*)\b[^<>]*>/gi)) {
+        const name = m[2].toLowerCase();
+        if (!STRUCTURE_TAGS.has(name) || m[0].endsWith('/>')) continue;
+        if (!m[1]) {
+            open.push(name);
+            continue;
+        }
+        const at = open.lastIndexOf(name);
+        if (at === -1) return true;
+        open.splice(at);
+    }
+    return open.length > 0;
+}
+
 /** Code blocks: fenced (the serializer writes every block fenced), language normalized or inferred by rule. */
 export function code(tree, ctx) {
     visitParents(tree, 'code', (node, ancestors) => {
         const parent = ancestors.at(-1);
         handled(ctx, 'code', 'code blocks');
+        if (structureFragment(node.value)) undecided(ctx, 'code', 'table or list markup that opens or closes outside the block (a piece of a table read as code?)', node.value.trim().split('\n')[0].slice(0, 60), node);
         // Hard tabs become spaces (the site's lint forbids tabs; the code is the same code). A
         // block indented with tabs alone keeps its nesting at four columns a tab. One that mixes
         // tabs with spaces lines up at the tab width its author had, four or eight (the old site
@@ -342,6 +368,347 @@ export function code(tree, ctx) {
             return;
         }
         undecided(ctx, 'code', 'no language', value.split('\n')[0].slice(0, 60), node);
+    });
+}
+
+// ── ASPX view code → Razor ──────────────────────────────────────────────────
+
+/**
+ * The ASP.NET MVC examples were written for the ASPX view engine (`<%= … %>`), some also for
+ * Razor. The site shows Razor only, so view code is converted by rule where each construct has one
+ * Razor form:
+ *
+ *   <%= e %>, <%: e %>             @e where Razor reads e whole as an implicit expression (one
+ *                                  line, names, calls and indexers only, no generic arguments, not
+ *                                  run on by what follows), otherwise @(e)
+ *   <%@ Import Namespace="N" %>    @using N, on a line of its own (also when written <%= Import … %>)
+ *   <%@ Page|Control Inherits="System.Web.Mvc.ViewPage<T>" %>   @model T (with Language="C#" and
+ *                                  an empty Title, nothing else)
+ *   <% using|if|foreach (…) %> <% { %> … <% } %>   @using (…) { … }, when the body is markup
+ *   <% statement; %>               @{ statement; }
+ *
+ * A converted block becomes `razor`, and an "In ASPX:" label over it says Razor. Where the same
+ * example stands next to it in Razor (two labelled blocks in a row), the ASPX block and its label
+ * are removed. A block with Web Forms markup (runat="server", <asp:…>, <%# %>, master pages) or with
+ * anything else stays as written and is listed, and so is prose that still says ASPX in a topic
+ * whose code changed. Implicit `@e` follows the hand-written Razor examples of the same topics
+ * (`src="@Url.Content(…)"`, `@(Html.Infragistics()…)`).
+ */
+const CLOSERS = { '(': ')', '[': ']', '{': '}' };
+
+/** Index of the bracket that closes the one at `at`, strings skipped; -1 if none. */
+function closingBracket(text, at) {
+    const stack = [];
+    let quote = null;
+    for (let i = at; i < text.length; i++) {
+        const ch = text[i];
+        if (quote) {
+            if (ch === '\\') i++;
+            else if (ch === quote) quote = null;
+            continue;
+        }
+        if (ch === '"' || ch === '\'') quote = ch;
+        else if (CLOSERS[ch]) stack.push(CLOSERS[ch]);
+        else if (ch === ')' || ch === ']' || ch === '}') {
+            if (stack.pop() !== ch) return -1;
+            if (!stack.length) return i;
+        }
+    }
+    return -1;
+}
+
+/** Whether (), [] and {} pair up in a block, strings skipped. */
+function bracketsBalance(text) {
+    const stack = [];
+    let quote = null;
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (quote) {
+            if (ch === '\\') i++;
+            else if (ch === quote) quote = null;
+            continue;
+        }
+        if (ch === '"') quote = ch;
+        else if (CLOSERS[ch]) stack.push(CLOSERS[ch]);
+        else if ((ch === ')' || ch === ']' || ch === '}') && stack.pop() !== ch) return false;
+    }
+    return stack.length === 0;
+}
+
+/** The `<% … %>` constructs of a block, C# strings inside them skipped; null if one is not closed. */
+function aspxConstructs(text) {
+    const found = [];
+    for (let at = text.indexOf('<%'); at !== -1; at = text.indexOf('<%', at)) {
+        let i = at + 2;
+        let quote = null;
+        for (; i < text.length - 1; i++) {
+            const ch = text[i];
+            if (quote) {
+                if (ch === '\\') i++;
+                else if (ch === quote) quote = null;
+            } else if (ch === '"') quote = ch;
+            else if (ch === '%' && text[i + 1] === '>') break;
+        }
+        if (i >= text.length - 1) return null;
+        const kind = /^<%(--|[@=:#])?/.exec(text.slice(at, at + 4))[1] ?? '';
+        found.push({ start: at, end: i + 2, kind, code: text.slice(at + 2 + kind.length, i) });
+        at = i + 2;
+    }
+    return found;
+}
+
+/** First words Razor reads as its own keywords, and C# words an implicit expression cannot start with. */
+const RAZOR_WORDS = new Set(['if', 'else', 'using', 'model', 'section', 'foreach', 'for', 'while', 'do', 'switch', 'try',
+    'lock', 'functions', 'helper', 'inherits', 'layout', 'inject', 'page', 'namespace', 'await', 'case', 'default', 'new',
+    'this', 'base', 'var', 'true', 'false', 'null', 'typeof', 'class', 'code', 'implements', 'attribute']);
+
+/** e is a Razor implicit expression: a name, then `.name`, `(…)` and `[…]` only, on one line. */
+function implicitExpression(e) {
+    const first = /^[A-Za-z_]\w*/.exec(e);
+    if (!first || RAZOR_WORDS.has(first[0]) || e.includes('\n')) return false;
+    for (let i = first[0].length; i < e.length;) {
+        if (e[i] === '.' && /^\.[A-Za-z_]\w*/.test(e.slice(i))) {
+            i += /^\.[A-Za-z_]\w*/.exec(e.slice(i))[0].length;
+        } else if (e[i] === '(' || e[i] === '[') {
+            const end = closingBracket(e, i);
+            if (end === -1 || e.slice(i, end).includes('\n')) return false;
+            i = end + 1;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+
+/** Razor for `<%= code %>`; `before`/`after` are the characters around the construct. */
+function razorExpression(code, before, after) {
+    const e = code.trim();
+    // Razor would run on into a name, a call or a member access after it, or read `x@y` as an address.
+    const runsOn = /^[\w([]|^\.[A-Za-z_]/.test(after) || /[A-Za-z0-9]$/.test(before);
+    if (implicitExpression(e) && !runsOn) return `@${e}`;
+    let inner = code.replace(/^[ \t]+/, '');
+    const trailing = /\s*$/.exec(inner)[0];
+    inner = inner.slice(0, inner.length - trailing.length);
+    // `<%=(Html…Render())%>`: the parentheses are Razor's own.
+    if (inner.startsWith('(') && closingBracket(inner, 0) === inner.length - 1) inner = inner.slice(1, -1);
+    // `%>` on a line of its own keeps its line for the closing parenthesis.
+    const close = trailing.includes('\n') ? trailing.slice(trailing.lastIndexOf('\n')) : '';
+    return `@(${inner}${close})`;
+}
+
+const MODEL_BASE = /^(?:System\.Web\.Mvc\.)?View(?:Page|UserControl)<([\s\S]+)>$/;
+
+/** A directive's Razor line, or the reason there is none. */
+function razorDirective(code) {
+    const m = /^\s*(\w+)\s*([\s\S]*?)\s*$/.exec(code);
+    const attributes = {};
+    const rest = m[2].replace(/(\w+)\s*=\s*"([^"]*)"/g, (all, name, value) => {
+        attributes[name.toLowerCase()] = value;
+        return '';
+    });
+    if (rest.trim()) return { reason: `<%@ ${m[1]} %> with attributes that are not name="value"` };
+    const name = m[1].toLowerCase();
+    if (name === 'import' && Object.keys(attributes).join() === 'namespace') return { razor: `@using ${attributes.namespace.trim()}`, rule: '<%@ Import %> → @using' };
+    if (name === 'page' || name === 'control') {
+        const other = Object.keys(attributes).filter(a => !(a === 'inherits' || (a === 'language' && /^c#$/i.test(attributes[a])) || (a === 'title' && !attributes[a])));
+        if (other.length) return { reason: `<%@ ${m[1]} %> with ${other.map(a => (a === 'masterpagefile' ? 'a master page' : a)).join(', ')}` };
+        const model = MODEL_BASE.exec(attributes.inherits ?? '');
+        if (!model) return { reason: `<%@ ${m[1]} %> that inherits ${attributes.inherits ?? 'nothing'}` };
+        return { razor: `@model ${model[1]}`, rule: '<%@ Page Inherits="ViewPage<T>" %> → @model T' };
+    }
+    return { reason: `<%@ ${m[1]} %> directive` };
+}
+
+const CONTROL_STATEMENT = /^(using|if|foreach|for|while|lock)\s*\([\s\S]*\)\s*(\{)?$/;
+
+/**
+ * One block of view code to Razor: { value, rules } or { reason }. The output is assembled from
+ * the text between the constructs, as written, and the Razor of each construct.
+ */
+export function aspxToRazor(text) {
+    if (/^\s*(?:`{3,}|~{3,})/m.test(text)) return { reason: 'the block holds Markdown (a fence line), not only code' };
+    if (/\brunat\s*=/i.test(text)) return { reason: 'Web Forms markup (runat="server")' };
+    if (/<asp:/i.test(text)) return { reason: 'Web Forms controls (<asp:…>)' };
+    const constructs = aspxConstructs(text);
+    if (!constructs) return { reason: 'a <% that is not closed' };
+    const rules = [];
+    let out = '';
+    let at = 0;
+    let body = null;
+    for (const [index, c] of constructs.entries()) {
+        out += text.slice(at, c.start);
+        const before = text.slice(0, c.start);
+        const after = text.slice(c.end);
+        const lineRest = /^[^\n]*/.exec(after)[0];
+        const indent = /[^\n]*$/.exec(before)[0].match(/^\s*/)[0];
+        // A directive takes the rest of its line in Razor.
+        const ownLine = razor => (lineRest.trim() ? `${razor}\n${indent}` : razor);
+        if (c.kind === '@') {
+            const d = razorDirective(c.code);
+            if (d.reason) return { reason: d.reason };
+            out += ownLine(d.razor);
+            rules.push(d.rule);
+        } else if (c.kind === '=' || c.kind === ':') {
+            const mistyped = /^\s*Import\s+Namespace\s*=\s*["“”]([\w.]+)["“”]\s*$/.exec(c.code);
+            if (mistyped) {
+                out += ownLine(`@using ${mistyped[1]}`);
+                rules.push('<%= Import Namespace %> (a directive written as an expression) → @using');
+            } else {
+                const razor = razorExpression(c.code, before.slice(-1), after.slice(0, 2));
+                out += razor;
+                rules.push(razor.startsWith('@(') ? '<%= e %> → @(e)' : '<%= e %> → @e');
+            }
+        } else if (c.kind === '') {
+            const code = c.code.trim();
+            const control = CONTROL_STATEMENT.exec(code);
+            const next = constructs[index + 1];
+            if (code === '{' || code === '}') {
+                if (!body || (code === '{') === (body === 'open')) return { reason: `a lone <% ${code} %>` };
+                body = code === '{' ? 'open' : null;
+                out += code;
+            } else if (control && (control[2] || (next?.kind === '' && next.code.trim() === '{' && !text.slice(c.end, next.start).trim()))) {
+                if (body) return { reason: 'nested statements' };
+                body = control[2] ? 'open' : 'expect';
+                out += `@${code}`;
+                rules.push('<% using|if|foreach (…) { %> → @using (…) {');
+            } else if (/;\s*$/.test(code) && bracketsBalance(code)) {
+                out += `@{ ${code} }`;
+                rules.push('<% statement; %> → @{ statement; }');
+            } else {
+                return { reason: `a statement the rules do not cover (<% ${code.split('\n')[0].slice(0, 30)} %>)` };
+            }
+        } else {
+            return { reason: c.kind === '#' ? 'Web Forms data binding (<%# %>)' : 'an ASPX comment (<%-- --%>)' };
+        }
+        at = c.end;
+    }
+    out += text.slice(at);
+    if (body) return { reason: 'a statement block that is not closed' };
+    // Inside `@using (…) { … }` Razor reads a line as code unless it is markup or an expression.
+    const block = /\{\n([\s\S]*)\n[ \t]*\}/.exec(out);
+    if (rules.some(r => r.startsWith('<% using')) && block && !block[1].split('\n').every(line => !line.trim() || /^\s*[<@.)}]/.test(line))) {
+        return { reason: 'a statement block with text that is not markup' };
+    }
+    if (out.includes('<%') || out.includes('%>')) return { reason: 'a stray <% or %> left in the text' };
+    return { value: out, rules };
+}
+
+const isViewLabel = paragraph => paragraph?.type === 'paragraph' && toString(paragraph).trim().length <= 40
+    && /^(?:in |code in |mvc )?[\w .#()/-]*:?$/i.test(toString(paragraph).trim()) && /\b(?:aspx|razor|cshtml|mvc|html|c#)\b/i.test(toString(paragraph));
+const RAZOR_SYNTAX = /(?:^|[\s>"'(=])@(?:\(|\{|using\b|model\b|Html\.|Url\.|[A-Za-z_]\w*\.)/m;
+
+/** Replaces "ASPX" with "Razor" in a label's text. */
+function relabel(paragraph) {
+    visit(paragraph, 'text', node => { node.value = node.value.replace(/\bASPX\b/gi, 'Razor'); });
+}
+
+/** Words of a block, to tell whether two blocks show the same example. */
+const wordsOf = text => new Set(text.match(/[A-Za-z_]\w{2,}/g) ?? []);
+function sameExample(a, b) {
+    const x = wordsOf(a);
+    const y = wordsOf(b);
+    const shared = [...x].filter(w => y.has(w)).length;
+    return shared / (x.size + y.size - shared || 1) >= 0.5;
+}
+
+/**
+ * The source line a text starts on, for the report: its first line looked up in the source, after
+ * line `after` and not one of `skip`. Code blocks and text lose their positions on the way through
+ * the HTML parser.
+ */
+function findLine(ctx, text, after = 0, skip = null) {
+    const first = text.split('\n').find(line => line.trim())?.trim();
+    if (!first || !ctx.sourceLines) return null;
+    for (let i = after; i < ctx.sourceLines.length; i++) {
+        if (ctx.sourceLines[i].includes(first) && !skip?.has(i + 1)) return i + 1;
+    }
+    return null;
+}
+
+/** ASPX view code to Razor (see above). Runs before `code`, which then leaves `razor` as it is. */
+export function aspxViews(tree, ctx) {
+    const listed = (reason, line, text) => {
+        ctx.report.code.undecided.push({ topic: ctx.row.source, line, reason, detail: text.trim().split('\n')[0].slice(0, 70) });
+    };
+    let changed = false;
+    // The same example twice, ASPX and Razor, each under its label: the ASPX one goes.
+    visit(tree, n => Array.isArray(n.children), parent => {
+        const kids = parent.children;
+        for (let i = 0; i + 3 < kids.length; i++) {
+            const [la, ca, lb, cb] = kids.slice(i, i + 4);
+            if (ca.type !== 'code' || cb.type !== 'code' || !isViewLabel(la) || !isViewLabel(lb)) continue;
+            const [aspxAt, aspx, razor, razorLabel] = /<%/.test(ca.value) && !/<%/.test(cb.value) ? [i, ca, cb, lb] : /<%/.test(cb.value) && !/<%/.test(ca.value) ? [i + 2, cb, ca, la] : [];
+            if (!aspx || !/razor|cshtml/i.test(toString(razorLabel)) || !RAZOR_SYNTAX.test(razor.value)) continue;
+            const converted = aspxToRazor(aspx.value);
+            if (!sameExample(converted.value ?? aspx.value, razor.value)) {
+                listed('ASPX block next to a Razor block that shows something else (both kept)', findLine(ctx, aspx.value), aspx.value);
+                continue;
+            }
+            kids.splice(aspxAt, 2);
+            handled(ctx, 'code', 'ASPX → Razor: ASPX blocks removed (the same example stands next to it in Razor)');
+            changed = true;
+        }
+    });
+    // Source lines of the labels relabelled, so that the prose check below does not report them.
+    const relabelled = new Set();
+    let cursor = 0;
+    visitParents(tree, 'code', (node, ancestors) => {
+        const parent = ancestors.at(-1);
+        const label = parent.children[parent.children.indexOf(node) - 1];
+        const labelled = isViewLabel(label) && /\baspx\b/i.test(toString(label));
+        if (!labelled && !/<%/.test(node.value)) return;
+        // Blocks in order, each looked up after the one before.
+        const line = findLine(ctx, node.value, cursor);
+        if (line) cursor = line;
+        const relabelHere = () => {
+            const text = toString(label).trim();
+            for (let i = (line ?? 1) - 2; line && i >= Math.max(0, line - 8); i--) {
+                if (ctx.sourceLines[i].includes(text)) {
+                    relabelled.add(i + 1);
+                    break;
+                }
+            }
+            relabel(label);
+        };
+        if (!/<%/.test(node.value)) {
+            // An "In ASPX:" label over code that is already Razor, or plain markup of the view.
+            if (RAZOR_SYNTAX.test(node.value) || node.value.trimStart().startsWith('<')) {
+                relabelHere();
+                handled(ctx, 'code', 'ASPX → Razor: "In ASPX:" labels over Razor or markup relabelled');
+                changed = true;
+            } else {
+                listed('"In ASPX:" label over code with no view syntax (label kept)', line, node.value);
+            }
+            return;
+        }
+        const result = aspxToRazor(node.value);
+        // The constructs' delimiters removed, the source's brackets: a block that does not pair
+        // them up is converted as it is; one that does must still do so after the conversion.
+        const sourceBalance = bracketsBalance(node.value.replace(/<%[@=:#]?|%>/g, ''));
+        if (!result.reason && !bracketsBalance(result.value) && sourceBalance) result.reason = 'the conversion would leave brackets unpaired';
+        if (result.reason) {
+            listed(`ASPX left as written: ${result.reason}`, line, node.value);
+            return;
+        }
+        if (!sourceBalance) listed('ASPX → Razor: converted, brackets do not pair up (as in the source)', line, node.value);
+        node.value = result.value;
+        if (node.lang !== 'js' && node.lang !== 'typescript') node.lang = 'razor';
+        for (const rule of result.rules) handled(ctx, 'code', `ASPX → Razor: ${rule}`);
+        handled(ctx, 'code', 'ASPX → Razor: blocks converted');
+        if (labelled) {
+            relabelHere();
+            handled(ctx, 'code', 'ASPX → Razor: "In ASPX:" labels relabelled');
+        }
+        changed = true;
+    });
+    if (!changed) return;
+    // Prose of the topic that still speaks of ASPX (not in a URL) now that its code is Razor.
+    let after = 0;
+    visit(tree, 'text', node => {
+        if (!/\baspx\b/i.test(node.value.replace(/\S+:\/\/\S+/g, ''))) return;
+        const line = node.position?.start.line ?? findLine(ctx, node.value, after, relabelled);
+        if (line) after = line;
+        listed('text that still says ASPX after the code became Razor', line, node.value);
     });
 }
 

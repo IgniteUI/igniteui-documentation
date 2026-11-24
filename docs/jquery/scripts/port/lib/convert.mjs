@@ -17,7 +17,7 @@ import {
 } from './parse.mjs';
 import { createConverter } from './html.mjs';
 import {
-    readMetadataComment, takeTitle, anchors, code, apiLinks, topicLinks, samples, images, notes,
+    readMetadataComment, takeTitle, anchors, code, aspxViews, apiLinks, topicLinks, samples, images, notes,
     tokens, describe, dropInTopicList,
 } from './steps.mjs';
 import { formatCode } from './format-code.mjs';
@@ -61,6 +61,8 @@ export async function convertTopic(raw, ctx) {
 
     // ── parse ──
     let text = normalizeSource(raw);
+    // The lines as written, for the steps that report a block whose position the HTML parser lost.
+    ctx.sourceLines = text.split('\n');
     if (raw.charCodeAt(0) === 0xfeff) handled(report, 'parse', 'byte-order marks removed');
     if (raw.includes('\r')) handled(report, 'parse', 'line endings normalized');
     const joined = joinSplitHtmlBlocks(text);
@@ -138,6 +140,7 @@ export async function convertTopic(raw, ctx) {
     samples(tree, ctx);
     images(tree, ctx);
     notes(tree, ctx);
+    aspxViews(tree, ctx);
     code(tree, ctx);
     await formatCode(tree, ctx);
     tokens(tree, ctx);

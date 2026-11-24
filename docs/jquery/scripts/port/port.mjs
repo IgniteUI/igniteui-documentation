@@ -22,8 +22,8 @@
  * --no-gate    skip compiling the output
  *
  * Steps (lib/): parse (CommonMark + GFM, marked compatibility), metadata, HTML (parse5 via
- * hast-util-raw, back to Markdown + JSX), headings, code (language, then Prettier where it has a
- * parser), API links, topic links, samples (heights from sample-heights.json, which
+ * hast-util-raw, back to Markdown + JSX), headings, code (ASPX view code to Razor, language, then
+ * Prettier where it has a parser), API links, topic links, samples (heights from sample-heights.json, which
  * measure-samples.mjs writes), images, notes, tokens, description, gate. Each records what it
  * handled and what it could not decide.
  */

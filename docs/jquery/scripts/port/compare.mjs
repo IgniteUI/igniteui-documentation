@@ -7,7 +7,7 @@
  *   the built page (`dist/jquery/<slug>.html`, `<main>`), counted the same way.
  *
  *   node docs/jquery/scripts/port/compare.mjs --topics=<…>/topics --out=docs/jquery/src/content/en \
- *     --only=<source folder> [--dist=dist/jquery] [--live-cache=<dir>] [--json=<file>]
+ *     --only=<source folders or files, comma-separated> [--dist=dist/jquery] [--live-cache=<dir>] [--json=<file>]
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +18,7 @@ import remarkMdx from 'remark-mdx';
 import remarkFrontmatter from 'remark-frontmatter';
 import { visit } from 'unist-util-visit';
 import { parseDocument, DomUtils } from 'htmlparser2';
-import { normalizeSource, joinSplitHtmlBlocks, parseMarkdown, fixHeadingsWithoutSpace } from './lib/parse.mjs';
+import { normalizeSource, joinSplitHtmlBlocks, parseMarkdown, fixHeadingsWithoutSpace, inlineMarkdownInHtml } from './lib/parse.mjs';
 import { ruleSlug } from './lib/topic-map.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map(a => {
@@ -80,13 +80,9 @@ function countSource(file) {
                 before = html;
                 html = html.replace(/<!--[\s\S]*?-->/g, '');
             }
-            countHtml(html, c);
-            // Markdown links written inside HTML blocks, which the old renderer rendered.
-            for (const m of node.value.matchAll(/\]\(([^)\s]+)\)/g)) {
-                if (m[1].startsWith('#') || m[1].startsWith('%%SamplesEmbedUrl%%')) continue;
-                if (/%%jQueryApiUrl%%|Infragistics[\w.]*~/.test(m[1])) c.apiLinks++;
-                else c.links++;
-            }
+            // The Markdown written inside HTML blocks (links, images, code spans), rendered as the
+            // old renderer rendered it: then a `<textarea>` written as code is not read as markup.
+            countHtml(inlineMarkdownInHtml(html, { inlineRendered: 0 }), c);
         }
     });
     return c;
@@ -138,7 +134,10 @@ const walk = (dir, rel) => {
         else if (e.isFile() && e.name.endsWith('.md')) rows.push(r.replace(/^\//, ''));
     }
 };
-walk(path.join(topicsDir, only), only);
+for (const one of only.split(',').map(s => s.replace(/\/$/, ''))) {
+    if (fs.statSync(path.join(topicsDir, one)).isFile()) rows.push(one);
+    else walk(path.join(topicsDir, one), one);
+}
 
 const results = [];
 for (const source of rows.sort()) {

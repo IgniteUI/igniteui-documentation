@@ -5,8 +5,11 @@
  *
  * 1. HTML blocks spanning blank lines. marked kept an HTML block open until its closing tag;
  *    CommonMark ends it at the first blank line, and the indented rows after it become code. When
- *    a top-level HTML block leaves an element open and the next block starts with a tag, the blank
- *    lines between them are removed and the text parsed again.
+ *    an HTML block (at the top, or in a list item) leaves an element open, the blank lines are
+ *    removed up to the end tag that closes it, provided that the element is part of a table or all
+ *    CommonMark reads in between is HTML, paragraphs or indented code (cell text, indented or not);
+ *    otherwise, at the top, only while the next block starts with a tag. Tags inside code spans do
+ *    not count. The text is then parsed again.
  * 2. Headings without a space after `#`. marked made `#Title` a heading and let it interrupt a
  *    paragraph; CommonMark reads it as paragraph text. Paragraph lines that start that way become
  *    headings.
@@ -65,33 +68,118 @@ export function unclosedElements(html) {
 
 const lineStart = (text, offset) => text.lastIndexOf('\n', offset - 1) + 1;
 
+/**
+ * The text with the content of its code spans blanked, at the same offsets: a tag written as code
+ * (`<textarea>` in a cell) is not markup, and an HTML parser that took it for one would read the
+ * rest of the text as the textarea's content.
+ */
+function maskCodeSpans(text) {
+    const spans = [];
+    visitParents(inlineOnly.parse(text), 'inlineCode', node => { spans.push(node.position); });
+    if (!spans.length) return text;
+    let out = '';
+    let at = 0;
+    for (const { start, end } of spans) {
+        out += text.slice(at, start.offset) + text.slice(start.offset, end.offset).replace(/[^\n]/g, ' ');
+        at = end.offset;
+    }
+    return out + text.slice(at);
+}
+
+/**
+ * Where the elements opened from `start` on are all closed again: the offset just after the end
+ * tag that closes the outermost of them, reading on through the rest of the text; -1 if never.
+ */
+function closingOffset(text, start) {
+    const stack = [];
+    let at = -1;
+    const parser = new Parser({
+        onopentag(name) {
+            if (!VOID.has(name) && isKnownTag(name)) stack.push(name);
+        },
+        onclosetag(name, isImplied) {
+            if (isImplied || VOID.has(name) || at !== -1) return;
+            const index = stack.lastIndexOf(name);
+            if (index === -1) return;
+            stack.splice(index);
+            if (!stack.length) {
+                at = start + parser.endIndex + 1;
+                parser.pause();
+            }
+        },
+    }, { lowerCaseTags: true, recognizeSelfClosing: true });
+    parser.write(text.slice(start));
+    if (at === -1) parser.end();
+    return at;
+}
+
+/**
+ * What marked read as the text of an HTML block that ran across it: more HTML, a paragraph (cell
+ * text at the margin) or an indented code block (cell text indented). Outside a table, a heading,
+ * list, fenced code block or quote in between means the author wrapped Markdown in an element, and
+ * CommonMark's reading of that is kept. Inside a table it is cell text that CommonMark took for a
+ * block (`-` in a cell under a line of text is a heading underline, `>` a quote), which marked
+ * showed as text, and which would break the table into pieces.
+ */
+const TABLE_PARTS = new Set(['table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th']);
+const readAsBlockText = (node, text, open) => open.some(name => TABLE_PARTS.has(name))
+    || node.type === 'html' || node.type === 'paragraph'
+    || (node.type === 'code' && !/^(?:`{3,}|~{3,})/.test(text.slice(node.position.start.offset, node.position.start.offset + 3)));
+
 /** Rule 1. Returns the possibly rewritten text and what was joined. */
 export function joinSplitHtmlBlocks(text) {
     const joined = [];
     for (let guard = 0; guard < 50; guard++) {
         const tree = parseMarkdown(text);
+        const masked = maskCodeSpans(text);
         const edits = [];
-        for (const node of tree.children) {
-            if (node.type !== 'html' || unclosedElements(node.value).length === 0) continue;
-            // Follow the block across each blank line while an element is still open and the
-            // next line is markup; once joined, CommonMark continues the block to the next blank.
+        const covered = [];
+        // Blocks at the top and in list items (a table in a step of a procedure); the end tag
+        // must then be in the same item.
+        const containers = [tree];
+        visitParents(tree, 'listItem', item => { containers.push(item); });
+        for (const parent of containers) for (const [index, node] of parent.children.entries()) {
+            if (node.type !== 'html') continue;
             const start = node.position.start.offset;
+            if (covered.some(([from, to]) => start >= from && start < to)) continue;
+            const open = unclosedElements(masked.slice(start, node.position.end.offset));
+            if (!open.length) continue;
+            // To the end tag, as marked did, when only text-like blocks lie in between.
+            const close = closingOffset(masked, start);
+            const within = close !== -1 && (parent === tree || close <= parent.position.end.offset);
+            const inside = within ? parent.children.slice(index + 1).filter(n => n.position.start.offset < close) : [];
+            if (inside.length && inside.every(n => readAsBlockText(n, text, open))) {
+                const from = node.position.end.offset;
+                for (const gap of text.slice(from, close).matchAll(/\n(?:[ \t]*\n)+/g)) {
+                    edits.push({ from: from + gap.index, to: from + gap.index + gap[0].length, line: node.position.end.line, open });
+                }
+                covered.push([start, close]);
+                continue;
+            }
+            if (parent !== tree) continue;
+            // Otherwise follow the block across each blank line while an element is still open
+            // and the next line is markup; once joined, CommonMark continues it to the next blank.
             let cursor = node.position.end.offset;
             for (;;) {
                 const gap = /^\n(?:[ \t]*\n)+/.exec(text.slice(cursor, cursor + 4000));
                 if (!gap) break;
                 const nextLine = cursor + gap[0].length;
                 if (!/^[ \t]*</.test(text.slice(nextLine, nextLine + 200))) break;
-                const open = unclosedElements(text.slice(start, cursor));
-                if (!open.length) break;
-                edits.push({ from: cursor, to: nextLine, line: node.position.end.line, open });
+                const stillOpen = unclosedElements(masked.slice(start, cursor));
+                if (!stillOpen.length) break;
+                edits.push({ from: cursor, to: nextLine, line: node.position.end.line, open: stillOpen });
                 const rest = text.slice(nextLine).search(/\n[ \t]*\n/);
                 cursor = rest === -1 ? text.length : nextLine + rest;
             }
         }
         if (!edits.length) return { text, joined };
-        // Applied from the end so the offsets stay valid; then parsed again to confirm.
+        // Applied from the end so the offsets stay valid; then parsed again to confirm. Two blocks
+        // can reach the same blank line (the second one lies in the run the first one follows,
+        // `</tr> <tr>` at the margin); it is removed once, or the second removal eats the text.
+        let applied = Infinity;
         for (const edit of edits.sort((a, b) => b.from - a.from)) {
+            if (edit.to > applied) continue;
+            applied = edit.from;
             text = `${text.slice(0, edit.from)}\n${text.slice(edit.to)}`;
             joined.push({ line: edit.line, open: edit.open.join('>') });
         }
