@@ -87,6 +87,50 @@ export function takeTitle(tree, ctx) {
     return ctx.tokens.literal(title);
 }
 
+const IN_TOPIC_HEADING = /^in this topic\s*:?$/i;
+const IN_TOPIC_INTRO = /^this topic contains the following sections?\s*[:.]?$/i;
+const withoutBlanks = children => children.filter(c => !(c.type === 'text' && !c.value.trim()));
+
+/** A list item's line that is one link into the page, bold or not. */
+function inPageLinkOnly(paragraph) {
+    let nodes = withoutBlanks(paragraph.children);
+    while (nodes.length === 1 && (nodes[0].type === 'strong' || nodes[0].type === 'emphasis')) nodes = withoutBlanks(nodes[0].children);
+    return nodes.length === 1 && nodes[0].type === 'link' && nodes[0].url.startsWith('#');
+}
+const sectionList = list => list.type === 'list' && list.children.every(item =>
+    item.children[0]?.type === 'paragraph' && inPageLinkOnly(item.children[0]) && item.children.slice(1).every(sectionList));
+
+/**
+ * The "In this topic" section many topics open with: the heading, its introducing sentence and a
+ * list that only links to the topic's own sections. The site lists a page's headings beside every
+ * topic, so the section is removed, and with it a heading it leaves with nothing under it. A
+ * section of any other shape is kept and returned as `kept`. Runs on the parsed source, before
+ * the links are counted, so that an anchor only this list pointed at is not kept for it.
+ */
+export function dropInTopicList(tree) {
+    const at = tree.children.findIndex(n => n.type === 'heading' && IN_TOPIC_HEADING.test(toString(n).trim()));
+    if (at === -1) return null;
+    let end = at + 1;
+    while (end < tree.children.length && tree.children[end].type !== 'heading') end++;
+    const heading = tree.children[at];
+    const body = tree.children.slice(at + 1, end);
+    const lists = body.filter(n => !(n.type === 'paragraph' && IN_TOPIC_INTRO.test(toString(n).trim())));
+    const other = lists.find(n => !sectionList(n));
+    if (!lists.length || other || body.length - lists.length > 1) {
+        const why = !lists.length ? 'no list' : !other ? 'more than one introducing sentence'
+            : other.type === 'list' ? 'an item that is not one link into the page' : `a ${other.type} besides the list`;
+        return { kept: heading, why };
+    }
+    tree.children.splice(at, end - at);
+    // The heading above, when the list was all it had (`## Topic Overview` over `### In this topic`).
+    const above = tree.children[at - 1];
+    const below = tree.children[at];
+    const emptied = above?.type === 'heading' && above.depth > 1 && above.depth < heading.depth
+        && (!below || (below.type === 'heading' && below.depth <= above.depth));
+    if (emptied) tree.children.splice(at - 1, 1);
+    return { removed: true, emptied };
+}
+
 /** marked 0.3.2 heading ids, which old links may point at. */
 const markedId = text => text.toLowerCase().replace(/[^\w]+/g, '-');
 
@@ -181,26 +225,94 @@ function labelLanguage(paragraph) {
     return null;
 }
 
+const expandTabs = (text, stop) => text.split('\n').map(line => {
+    let out = '';
+    for (const ch of line) out += ch === '\t' ? ' '.repeat(stop - (out.length % stop)) : ch;
+    return out;
+}).join('\n');
+
+/**
+ * How unevenly a block is indented: the lines whose indent differs from the usual one of their
+ * nesting depth, which is counted from the brackets (strings and line comments set aside).
+ */
+function indentSpread(text) {
+    const byDepth = new Map();
+    let depth = 0;
+    for (const line of text.split('\n')) {
+        const code = line.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, '').replace(/\/\/.*$/, '');
+        const trimmed = code.trim();
+        if (!line.trim()) continue;
+        const closing = /^[)\]}]*/.exec(trimmed)[0].length;
+        const at = Math.max(0, depth - closing);
+        if (!byDepth.has(at)) byDepth.set(at, new Map());
+        const indent = /^ */.exec(line)[0].length;
+        byDepth.get(at).set(indent, (byDepth.get(at).get(indent) ?? 0) + 1);
+        depth = Math.max(0, depth + (code.match(/[([{]/g)?.length ?? 0) - (code.match(/[)\]}]/g)?.length ?? 0));
+    }
+    let spread = 0;
+    for (const counts of byDepth.values()) {
+        const all = [...counts.values()];
+        spread += all.reduce((a, b) => a + b, 0) - Math.max(...all);
+    }
+    return spread;
+}
+
+/**
+ * View code, which the topics tag and label loosely ("In Razor:" over ASPX, `csharp` on Razor).
+ * The language follows the code: the highlighter has no grammar for the ASPX view engine
+ * (`<%= … %>`), and its Razor grammar leaves such a block uncoloured, while its C# grammar reads
+ * what is between the delimiters. Razor (`@(…)`, `@model`) reads best as Razor, and code under a
+ * Razor label with no `@` and no markup in it is C#.
+ */
+function viewCodeLanguage(node, ctx) {
+    const value = node.value.trimStart();
+    // Markup tagged as script (`<script>…</script>` under `javascript`) is markup.
+    if ((node.lang === 'js' || node.lang === 'typescript') && /^<(?:!doctype\b|!--|[a-z][a-z0-9]*[\s>/])/i.test(value)) {
+        handled(ctx, 'code', `markup tagged as script: ${node.lang} → html`);
+        node.lang = 'html';
+        return;
+    }
+    if (node.lang !== 'razor' && node.lang !== 'csharp') return;
+    let lang = node.lang;
+    if (/<%[=:#@-]?/.test(value)) lang = 'csharp';
+    else if (/^@(?:\(|\{|Html\b|using\b|model\b|section\b|if\b|foreach\b|\*)/.test(value)) lang = 'razor';
+    else if (node.lang === 'razor' && !value.includes('@') && !value.startsWith('<')) lang = 'csharp';
+    if (lang === node.lang) return;
+    handled(ctx, 'code', `view code: ${node.lang} → ${lang} (${lang === 'razor' ? 'Razor syntax' : value.includes('<%') ? 'ASPX syntax' : 'no Razor syntax'})`);
+    node.lang = lang;
+}
+
 /** Code blocks: fenced (the serializer writes every block fenced), language normalized or inferred by rule. */
 export function code(tree, ctx) {
     visitParents(tree, 'code', (node, ancestors) => {
         const parent = ancestors.at(-1);
         handled(ctx, 'code', 'code blocks');
-        // Hard tabs become spaces at tab stops of four (the site's lint forbids tabs; the code is
-        // the same code).
+        // Hard tabs become spaces (the site's lint forbids tabs; the code is the same code). A
+        // block indented with tabs alone keeps its nesting at four columns a tab. One that mixes
+        // tabs with spaces lines up at the tab width its author had, four or eight (the old site
+        // showed eight): the one that puts lines of the same nesting at the same indent.
         if (node.value.includes('\t')) {
-            node.value = node.value.split('\n').map(line => {
-                let out = '';
-                for (const ch of line) out += ch === '\t' ? ' '.repeat(4 - (out.length % 4)) : ch;
-                return out;
-            }).join('\n');
-            handled(ctx, 'code', 'code blocks with tabs expanded to spaces');
+            const indents = node.value.split('\n').map(line => /^[ \t]*/.exec(line)[0]);
+            const mixed = indents.some(i => i.includes('\t')) && indents.some(i => / {2}/.test(i));
+            const stop = mixed && indentSpread(expandTabs(node.value, 8)) < indentSpread(expandTabs(node.value, 4)) ? 8 : 4;
+            node.value = expandTabs(node.value, stop);
+            handled(ctx, 'code', mixed ? `code blocks with tabs expanded to spaces (mixed with spaces: tab stops of ${stop === 8 ? 'eight' : 'four'})` : 'code blocks with tabs expanded to spaces');
+        }
+        // Indentation every line of a block shares says nothing and costs width.
+        {
+            const lines = node.value.split('\n');
+            const common = Math.min(...lines.filter(line => line.trim()).map(line => /^ */.exec(line)[0].length));
+            if (Number.isFinite(common) && common > 0) {
+                node.value = lines.map(line => line.slice(common)).join('\n');
+                handled(ctx, 'code', 'code blocks with their common indentation removed');
+            }
         }
         if (node.lang) {
             const mapped = LANG_ALIASES[node.lang] ?? LANG_ALIASES[node.lang.toLowerCase()] ?? node.lang;
             if (mapped !== node.lang) handled(ctx, 'code', `language ${node.lang} → ${mapped}`);
             node.lang = mapped;
             if (!KNOWN_LANGS.has(node.lang)) undecided(ctx, 'code', 'unknown language', node.lang, node);
+            viewCodeLanguage(node, ctx);
             return;
         }
         const previous = parent.children[parent.children.indexOf(node) - 1];
@@ -208,6 +320,7 @@ export function code(tree, ctx) {
         if (fromLabel) {
             node.lang = fromLabel;
             handled(ctx, 'code', 'language from the "In …:" label');
+            viewCodeLanguage(node, ctx);
             return;
         }
         const value = node.value.trimStart();
@@ -375,6 +488,8 @@ export function topicLinks(tree, ctx) {
  * language). Sample links keep pointing at the samples site through
  * `{environment:samplesBrowserUrl}` (the token step).
  */
+const SAMPLE_HEIGHT = { default: 500, max: 1000 };
+
 export function samples(tree, ctx) {
     visitParents(tree, 'mdxJsxFlowElement', (node, ancestors) => {
         const cls = String(getAttr(node, 'class') ?? '');
@@ -390,9 +505,17 @@ export function samples(tree, ctx) {
         }
         const alt = ctx.tokens.literal(toString(link).trim());
         ctx.sampleEmbeds.push(m[1]);
+        // The old help gave every sample the same frame and the page scrolled inside it. Here a
+        // sample gets the height its page was measured to need: never less than the default, so
+        // that drop-downs and dialogs keep their room, and no more than the cap.
+        const measured = ctx.sampleHeights?.[m[1]];
+        if (measured === undefined) undecided(ctx, 'samples', 'embedded sample not measured (default height)', m[1], node);
+        else if (measured > SAMPLE_HEIGHT.max) undecided(ctx, 'samples', `embedded sample taller than ${SAMPLE_HEIGHT.max}px (scrolls in its frame)`, `${m[1]}: ${measured}px`, node);
+        const height = Math.min(SAMPLE_HEIGHT.max, Math.max(SAMPLE_HEIGHT.default, Math.ceil((measured ?? 0) / 10) * 10));
+        if (height > SAMPLE_HEIGHT.default) handled(ctx, 'samples', 'embedded samples given a taller frame (measured)');
         replaceNode(parent, node, {
             type: 'mdxJsxFlowElement', name: 'Sample', position: node.position, children: [],
-            attributes: [attr('src', `/${m[1]}/index.html`), exprAttr('height', '500'), attr('alt', alt), attr('chrome', 'bare'), attr('fullscreenBtn', null)],
+            attributes: [attr('src', `/${m[1]}/index.html`), exprAttr('height', String(height)), attr('alt', alt), attr('chrome', 'bare'), attr('fullscreenBtn', null)],
         });
         ctx.usesComponents.add('Sample');
         handled(ctx, 'samples', 'embedded samples → Sample');

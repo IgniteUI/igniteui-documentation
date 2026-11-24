@@ -117,6 +117,18 @@ function splitLines(children) {
 }
 
 const NO_SPACE_HEADING = /^(#{1,6})(?=[^#\s])/;
+/**
+ * The marker of a heading without a space, at the start of a paragraph line. In
+ * `##<a id="x"></a>Title` the text node holds the marker alone and the anchor follows it.
+ */
+function noSpaceHeading(line) {
+    const first = line[0];
+    if (first?.type !== 'text') return null;
+    const m = NO_SPACE_HEADING.exec(first.value);
+    if (m) return m;
+    const bare = /^(#{1,6})$/.exec(first.value);
+    return bare && line[1]?.type === 'html' ? bare : null;
+}
 
 /** Rule 2. Mutates the tree; returns the headings it made. */
 export function fixHeadingsWithoutSpace(tree) {
@@ -124,7 +136,7 @@ export function fixHeadingsWithoutSpace(tree) {
     visitParents(tree, 'paragraph', (node, ancestors) => {
         const parent = ancestors.at(-1);
         const lines = splitLines(node.children);
-        if (!lines.some(line => line[0]?.type === 'text' && NO_SPACE_HEADING.test(line[0].value))) return;
+        if (!lines.some(line => noSpaceHeading(line))) return;
         const replacement = [];
         let buffer = [];
         const flush = () => {
@@ -139,11 +151,14 @@ export function fixHeadingsWithoutSpace(tree) {
         };
         for (const line of lines) {
             const first = line[0];
-            const m = first?.type === 'text' ? NO_SPACE_HEADING.exec(first.value) : null;
+            const m = noSpaceHeading(line);
             if (!m) { buffer.push(line); continue; }
             flush();
-            const rest = first.value.slice(m[1].length).replace(/\s+#*\s*$/, '');
+            // The closing sequence is cut here only when the text is the whole line.
+            const rest = line.length === 1 ? first.value.slice(m[1].length).replace(/\s+#*\s*$/, '') : first.value.slice(m[1].length);
             const children = [...(rest ? [{ ...first, value: rest }] : []), ...line.slice(1)];
+            const afterAnchor = children.find(c => c.type === 'text');
+            if (afterAnchor && afterAnchor !== children[0]) afterAnchor.value = afterAnchor.value.replace(/^\s+/, '');
             // A trailing closing sequence (`#Title#`) is not part of the text.
             const last = children.at(-1);
             if (last?.type === 'text') last.value = last.value.replace(/\s*#+\s*$/, '');

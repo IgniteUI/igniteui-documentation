@@ -18,8 +18,9 @@ import {
 import { createConverter } from './html.mjs';
 import {
     readMetadataComment, takeTitle, anchors, code, apiLinks, topicLinks, samples, images, notes,
-    tokens, describe,
+    tokens, describe, dropInTopicList,
 } from './steps.mjs';
+import { formatCode } from './format-code.mjs';
 
 export const STEPS = ['parse', 'metadata', 'html', 'headings', 'code', 'apiLinks', 'topicLinks', 'samples', 'images', 'notes', 'tokens', 'description', 'gate'];
 
@@ -53,7 +54,7 @@ function handled(report, step, what, n = 1) {
  * @param {string} raw the source file
  * @param {object} ctx { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report }
  */
-export function convertTopic(raw, ctx) {
+export async function convertTopic(raw, ctx) {
     const { report } = ctx;
     const where = line => ({ topic: ctx.row.source, line });
     Object.assign(ctx, { usesComponents: new Set(), imageImports: [], imageCopies: [], sampleEmbeds: [] });
@@ -80,6 +81,10 @@ export function convertTopic(raw, ctx) {
 
     const made = fixHeadingsWithoutSpace(tree);
     if (made.length) handled(report, 'headings', 'headings without a space after # made headings', made.length);
+    const inTopic = dropInTopicList(tree);
+    if (inTopic?.removed) handled(report, 'headings', '"In this topic" lists of the topic\'s own sections removed');
+    if (inTopic?.emptied) handled(report, 'headings', 'headings removed that held only that list');
+    if (inTopic?.kept) report.headings.undecided.push({ ...where(inTopic.kept.position?.start.line), reason: '"In this topic" section of another shape (kept)', detail: inTopic.why });
     const strong = markedStrong(tree);
     if (strong) handled(report, 'parse', 'strong spans closed before a letter (**Note:**Text)', strong);
 
@@ -134,6 +139,7 @@ export function convertTopic(raw, ctx) {
     images(tree, ctx);
     notes(tree, ctx);
     code(tree, ctx);
+    await formatCode(tree, ctx);
     tokens(tree, ctx);
     anchors(tree, ctx);
     visit(tree, 'mdxJsxTextElement', node => { if (node.name === 'ApiLink') ctx.usesComponents.add('ApiLink'); });

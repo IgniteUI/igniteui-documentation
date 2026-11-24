@@ -22,8 +22,10 @@
  * --no-gate    skip compiling the output
  *
  * Steps (lib/): parse (CommonMark + GFM, marked compatibility), metadata, HTML (parse5 via
- * hast-util-raw, back to Markdown + JSX), headings, code, API links, topic links, samples, images,
- * notes, tokens, description, gate. Each records what it handled and what it could not decide.
+ * hast-util-raw, back to Markdown + JSX), headings, code (language, then Prettier where it has a
+ * parser), API links, topic links, samples (heights from sample-heights.json, which
+ * measure-samples.mjs writes), images, notes, tokens, description, gate. Each records what it
+ * handled and what it could not decide.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,8 +33,8 @@ import { fileURLToPath } from 'node:url';
 import { buildTopicMap } from './lib/topic-map.mjs';
 import { loadTokenTable, createTokens } from './lib/tokens.mjs';
 import { loadIndex } from './lib/api-index.mjs';
-import { parseMarkdown, normalizeSource } from './lib/parse.mjs';
-import { metadataFromText, collectAnchorRefs, buildImageIndex } from './lib/steps.mjs';
+import { parseMarkdown, normalizeSource, fixHeadingsWithoutSpace } from './lib/parse.mjs';
+import { metadataFromText, collectAnchorRefs, buildImageIndex, dropInTopicList } from './lib/steps.mjs';
 import { convertTopic, gate, emptyReport, STEPS } from './lib/convert.mjs';
 import { buildToc } from './lib/navigation.mjs';
 import { writeReports } from './lib/report.mjs';
@@ -59,6 +61,8 @@ const indexFile = path.resolve(args.index ?? path.join(repoRoot, 'src/data/api-l
 const only = args.only ? String(args.only).split(',').map(s => s.replace(/\\/g, '/').replace(/\/$/, '')) : null;
 const slugOverrides = JSON.parse(fs.readFileSync(path.join(here, 'slug-overrides.json'), 'utf8'));
 const EXCLUDED_FOLDERS = ['10_AngularJS Directives/'];
+// The height each embedded sample's page needs, measured by measure-samples.mjs.
+const sampleHeights = JSON.parse(fs.readFileSync(path.join(here, 'sample-heights.json'), 'utf8')).heights;
 
 const tokenValues = loadTokenTable(args.tokens, args.version);
 const tokens = createTokens(tokenValues);
@@ -71,11 +75,14 @@ const map = buildTopicMap(topicsDir, {
 const api = loadIndex(indexFile);
 const imageIndex = buildImageIndex(topicsDir);
 
-// Pass 1, whole set: which anchors of which topic links point at.
+// Pass 1, whole set: which anchors of which topic links point at. A topic's own list of its
+// sections is not counted: it is removed.
 const anchorRefs = new Map();
 for (const row of map.topics) {
-    const text = normalizeSource(fs.readFileSync(path.join(topicsDir, row.source), 'utf8'));
-    collectAnchorRefs(parseMarkdown(text), row, map, anchorRefs);
+    const tree = parseMarkdown(normalizeSource(fs.readFileSync(path.join(topicsDir, row.source), 'utf8')));
+    fixHeadingsWithoutSpace(tree);
+    dropInTopicList(tree);
+    collectAnchorRefs(tree, row, map, anchorRefs);
 }
 
 const selected = map.topics.filter(row => !row.excluded && (!only || only.some(prefix => row.source === prefix || row.source.startsWith(`${prefix}/`))));
@@ -92,10 +99,10 @@ const perTopic = [];
 const copies = new Map();
 for (const row of selected) {
     const raw = fs.readFileSync(path.join(topicsDir, row.source), 'utf8');
-    const ctx = { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report };
+    const ctx = { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report, sampleHeights };
     let result;
     try {
-        result = convertTopic(raw, ctx);
+        result = await convertTopic(raw, ctx);
     } catch (error) {
         report.gate.undecided.push({ topic: row.source, line: null, reason: 'converter error', detail: String(error.stack ?? error).split('\n').slice(0, 3).join(' | ') });
         perTopic.push({ source: row.source, slug: row.slug, converted: false });
