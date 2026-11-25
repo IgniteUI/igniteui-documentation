@@ -49,25 +49,25 @@ The following are the browser History and History.js API methods that are needed
 
 - **pushState()** - add an entry to the history stack.
 
-```
+```js
 window.History.pushState(state, title, url);
 ```
 
 - **getState()** - get current entry from the history stack.
 
-```
+```js
 window.History.getState();
 ```
 
 - **replaceState()** - update an entry to the history stack.
 
-```
+```js
 window.History.replaceState(currState.data);
 ```
 
 - **statechange** - History.js event fired when navigation through the browser history appears.
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) { }
 ```
 
@@ -77,7 +77,7 @@ In this section igGrid control is used to show how IgniteUI control can be integ
 
 The state object contains all the information needed to restore the page at the desired point and it is associated with a URL to describe it. Let's start by adding a paging state to the browse history. After that will see what's the difference when adding the same functionality for the sorting feature:
 
-```
+```js
 pageIndexChanged: function (e, args) {
     var pageIndex = args.pageIndex + 1, // pageIndex starts from 0
         state = { key: "page", value: pageIndex };
@@ -89,7 +89,7 @@ We choose our state to have the name of the feature and the pageIndex. This is a
 
 Then the state can be recovered inside the statechange event handler:
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     currState = window.History.getState().data;
     gridHistoryJS.igGridPaging("pageIndex", currState.value - 1);
@@ -107,20 +107,24 @@ This is enough for a feature like paging, where we always have a selected page a
 
 When the first back is hit, then what we want to do is to change last sorted column state, from descending to ascending. If we have added previously a sorting state, the same way as paging:
 
-```
+```js
 columnSorted: function (e, args) {
     var columnKey = args.columnKey,
         dir = args.direction,
         state = { key: "sort", value: [columnKey, dir] };
     if (!isEmptyValue(columnKey) && !isEmptyValue(dir)) {
-        window.History.pushState(state, null, formURL("sort", [columnKey, dir]));
+        window.History.pushState(
+            state,
+            null,
+            formURL("sort", [columnKey, dir])
+        );
     }
 }
 ```
 
 then we can restore last column sorting state correctly using the code below.
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
@@ -133,7 +137,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 But when the second back is hit, and we go from state 3 to 2 (in the list above), then the code above will not work, cause what we really want is unsort the last sorted column. That's why the following code will be needed instead:
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey;
@@ -147,20 +151,21 @@ The problem here is how to distinguish, which is the correct method you need, wh
 
 For each feature state, before we add it to the history stack, we want to save its undo state. This can happen in an IgniteUI control's *-ing* event, where we still have the old state information. For sorting, it is the columnSorting event:
 
-```
+```js
 columnSorting: function (e, args) {
-    var currState = window.History.getState(), data;
+    var currState = window.History.getState(),
+        data;
 
-            data = { key: "sort", value: [args.columnKey] };
-            data.undo = true;
-            currState.data.undoData = data;
-            window.History.replaceState(currState.data);
+    data = { key: "sort", value: [args.columnKey] };
+    data.undo = true;
+    currState.data.undoData = data;
+    window.History.replaceState(currState.data);
 }
 ```
 
 We take the previous state, add and undo information to it, and replace it in the history stack. The code above defines an object *undoData* similar to the *data* one, having in addition a flag that says the state needs to be undone.
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
