@@ -154,7 +154,8 @@ The following steps demonstrate how to configure Row Edit Dialog in the `igGrid`
        <script>
        <script id="editorsTemplate" type="text/html">
            <tr>
-              <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+              <td style="text-align:right;color:#777;">
+                  <strong${headerText}</strong></td>
                <td><input data-editor-for-${key}="true" /></td>
            </tr>
    </script>
@@ -336,7 +337,8 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
    </script>
    <script id="editorsTemplate" type="text/html">
        <tr>
-          <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+          <td style="text-align:right;color:#777;">
+              <strong${headerText}</strong></td>
            <td><input data-editor-for-${key}="true" /></td>
        </tr>
    </script>
@@ -368,17 +370,22 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
           .RenderCheckboxes(true)
           .Columns(column =>
           {
-              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px"); 
+              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px");
               column.For(x => x.Name).HeaderText(“Name”).Width("200px");
-              column.For(x => x.ModifiedDate).HeaderText(“Modified Date”).Width("200px");           
-              column.For(x => x.MakeFlag).DataType("bool").HeaderText(“Make Flag”).Width("150px");
+              column.For(x => x.ModifiedDate)
+                  .HeaderText(“Modified Date”)
+                  .Width("200px");
+              column.For(x => x.MakeFlag)
+                  .DataType("bool")
+                  .HeaderText(“Make Flag”)
+                  .Width("150px");
               column.For(x => x.ListPrice).HeaderText(“List Price”).Width("150px");
           })
           .Features(features => {
           features.Sorting().Type(OpType.Local);
           features.Paging().PageSize(30).Type(OpType.Local);
           features.Selection().Mode(SelectionMode.Row);
-          features.Updating().EnableAddRow(false).EnableDeleteRow(true)                
+          features.Updating().EnableAddRow(false).EnableDeleteRow(true)
               .EditMode(GridEditMode.Dialog)
               RowEditDialogOptions(opt =>
               {
@@ -392,9 +399,17 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
              .ColumnSettings(settings =>
               {
                   settings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
-                  settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Mask);
-                  settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");                      
-                  settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency).EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");                   
+                  settings.ColumnSetting()
+                      .ColumnKey("Name")
+                      .EditorType(ColumnEditorType.Mask);
+                  settings.ColumnSetting()
+                      .ColumnKey("ModifiedDate")
+                      .EditorType(ColumnEditorType.DatePicker)
+                      .EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");
+                  settings.ColumnSetting()
+                      .ColumnKey("ListPrice")
+                      .EditorType(ColumnEditorType.Currency)
+                      .EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");
               });            
           })  
           .DataBind()
@@ -412,7 +427,8 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
    ```csharp
    public ActionResult Editing()
          {
-             var ctx = new AdventureWorksDataContext(this.DataRepository.GetDataContext().Connection);
+             var ctx = new AdventureWorksDataContext(
+                 this.DataRepository.GetDataContext().Connection);
              var ds = ctx.ProductAllDatas.Take(40);      
              return View("RowEditDialog", ds);
          }

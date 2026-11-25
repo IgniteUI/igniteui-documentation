@@ -112,25 +112,27 @@ The below example shows how to apply the above steps in a ASP.NET MVC applicatio
 
 ```csharp
 public JsonResult GetData() {
-            IEnumerable<Order> orders = RepositoryFactory.GetOrderRepository().Get().Take(200);
-            IQueryable data = orders.AsQueryable();
-      int totalCount = data.Count();
-      if (Request.QueryString["$top"] != null && Request.QueryString["$skip"] != null) {
-                data = ApplyPaging(Request.QueryString, data);
-            }
+    IEnumerable<Order> orders =
+        RepositoryFactory.GetOrderRepository().Get().Take(200);
+    IQueryable data = orders.AsQueryable();
+    int totalCount = data.Count();
+    if (Request.QueryString["$top"] != null
+        && Request.QueryString["$skip"] != null) {
+        data = ApplyPaging(Request.QueryString, data);
+    }
 
-      JsonResult result = new JsonResult();
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = new { Records = data, TotalRecordsCount = totalCount };
-            return result;
+    JsonResult result = new JsonResult();
+    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+    result.Data = new { Records = data, TotalRecordsCount = totalCount };
+    return result;
 }
 private IQueryable ApplyPaging(NameValueCollection queryString, IQueryable data)
 {
-            int recCount = Convert.ToInt32(queryString["$top"]);
-            int startIndex = Convert.ToInt32(queryString["$skip"]);
+    int recCount = Convert.ToInt32(queryString["$top"]);
+    int startIndex = Convert.ToInt32(queryString["$skip"]);
 
-            data = data.Skip(startIndex).Take(recCount);
-            return data;
+    data = data.Skip(startIndex).Take(recCount);
+    return data;
 }
 ```
 
@@ -182,147 +184,187 @@ The below example shows how to apply the above steps in a ASP.NET MVC applicatio
 
 ```csharp
 public JsonResult GetData() {
-            IEnumerable<Order> orders = RepositoryFactory.GetOrderRepository().Get().Take(200);
-            IQueryable data = orders.AsQueryable();
-      var filterExprs = Request.QueryString.AllKeys.Where(x => x.Contains("filter"));
-            if (filterExprs.Count() != 0)
-            {
-                data = ApplyFilterExpr(Request.QueryString, data);
-            }
-      JsonResult result = new JsonResult();
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = data;
-            return result;
+    IEnumerable<Order> orders =
+        RepositoryFactory.GetOrderRepository().Get().Take(200);
+    IQueryable data = orders.AsQueryable();
+    var filterExprs =
+        Request.QueryString.AllKeys.Where(x => x.Contains("filter"));
+    if (filterExprs.Count() != 0)
+    {
+        data = ApplyFilterExpr(Request.QueryString, data);
+    }
+    JsonResult result = new JsonResult();
+    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+    result.Data = data;
+    return result;
 }
-private IQueryable ApplyFilterExpr(NameValueCollection queryString, IQueryable data)
+private IQueryable ApplyFilterExpr(
+    NameValueCollection queryString,
+    IQueryable data)
 {
-            List<FilterExpression> exprs = GetFilterExpressions(queryString);
-            StringBuilder builder = new StringBuilder();
-            int count = 0;
+    List<FilterExpression> exprs = GetFilterExpressions(queryString);
+    StringBuilder builder = new StringBuilder();
+    int count = 0;
 
-            for (int i = 0; i < exprs.Count; i++)
-            {
-                if (count != 0 && count <= exprs.Count - 1)
-                {
-                    builder.Append(exprs[i].Logic.ToLower() == "AND".ToLower() ? " AND " : " OR ");
-                }
-                count++;
+    for (int i = 0; i < exprs.Count; i++)
+    {
+        if (count != 0 && count <= exprs.Count - 1)
+        {
+            builder.Append(exprs[i].Logic.ToLower() == "AND".ToLower()
+                ? " AND "
+                : " OR ");
+        }
+        count++;
 
-                string condition = exprs[i].Condition;
-                string expr = exprs[i].Expr;
-                string colKey = exprs[i].Key;
-                var dt = DateTime.Now;
-                
-                switch (condition.ToLower())
-                {
-                    case "startswith":
-                         builder.Append(colKey + ".StartsWith(\"" + expr + "\")");
-                        break;
-                    case "contains":
-                         builder.Append(colKey + ".Contains(\"" + expr + "\")");
-                        break;
-                    case "endswith":
-                         builder.Append(colKey + ".EndsWith(\"" + expr + "\")");
-                        break;
-                    case "equals":
-                        if (colKey == "ShipName") {
-                            //col type is string
-                            builder.Append(colKey + " == \"" + expr + "\"");
-                        }
-                        else
-                        {
-                            //col type is number
-                            builder.Append(colKey + " == " + expr);
-                        }
-                        
-                        break;
-                    case "doesnotequal":
-                        if (colKey == "ShipName")
-                        {
-                            //col type is string
-                            builder.Append(colKey + " != \"" + expr + "\"");
-                        }
-                        else
-                        {
-                            //col type is number
-                            builder.Append(colKey + " != " + expr);
-                        }
-                        break;
-                    case "doesnotcontain":
-                         builder.Append("! " + colKey + ".Contains(\"" + expr + "\")");
-                        break;
-                    case "lessthan":
-                         builder.Append(colKey + " < " + expr);
-                        break;
-                    case "greaterthan":
-                         builder.Append(colKey + " > " + expr);
-                        break;
-                    case "lessthanorequalto":
-                         builder.Append(colKey + " <= " + expr);
-                        break;
-                    case "greaterthanorequalto":
-                         builder.Append(colKey + " >= " + expr);
-                        break;
-                    case "on":
-                        dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(double.Parse(expr)).ToUniversalTime();
-                         builder.Append("(" + colKey + ".Value.Day == " + dt.Day + " AND " + colKey +
-                            ".Value.Year == " + dt.Year + " AND " +colKey + ".Value.Month == " + dt.Month + ")");
-                        break;
-                    case "noton":
-                        dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(double.Parse(expr)).ToUniversalTime();
-                         builder.Append("!("+colKey + ".Value.Day == " + dt.Day + " AND " + colKey +
-                            ".Value.Year == " + dt.Year + " AND " + colKey + ".Value.Month == " + dt.Month + ")");
-                        break;
-                    case "after":
-                        dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(double.Parse(expr)).ToUniversalTime();
-                         builder.Append("((" + colKey + ".Value.Year > " + dt.Year + " OR (" +
-                            colKey + ".Value.Month > " + dt.Month + " AND " + colKey + ".Value.Year == " + dt.Year + ") OR (" +
-                            colKey + ".Value.Day > " + dt.Day + " AND " + colKey + ".Value.Year == " + dt.Year + " AND " +
-                            colKey + ".Value.Month == " + dt.Month + ")))");
-                        break;
-                    case "before":
-                        dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(double.Parse(expr)).ToUniversalTime();
-                        builder.Append("((" + colKey + ".Value.Year < " + dt.Year + " OR (" +
-                                       colKey + ".Value.Month < " + dt.Month + " AND " + colKey + ".Value.Year == " + dt.Year + ") OR (" +
-                                       colKey + ".Value.Day < " + dt.Day + " AND " + colKey + ".Value.Year == " + dt.Year + " AND " +
-                                       colKey + ".Value.Month == " + dt.Month + ")))");
-                        break;
-                    case "today":
-                        builder.Append("(" + colKey + ".Value.Day == " + DateTime.Now.Day + " AND " + colKey +
-                         ".Value.Year == " + DateTime.Now.Year + " AND " + colKey + ".Value.Month == " + DateTime.Now.Month + ")");
-                        break;
-                    case "yesterday":
-                        DateTime yesterday = DateTime.Now.AddDays(-1);
-                        builder.Append("(" + colKey + ".Value.Day == " + yesterday.Day + " AND " + colKey +
-                         ".Value.Year == " + yesterday.Year + " AND " + colKey + ".Value.Month == " + yesterday.Month + ")");
-                        break;
-                    case "thismonth":
-                        builder.Append("(" + colKey + ".Value.Year == " + DateTime.Now.Year + " AND " + colKey + ".Value.Month == " + DateTime.Now.Month + ")");
-                        break;
-                    case "lastmonth":
-                        builder.Append("(" + colKey + ".Value.Year == " + (DateTime.Now.Year - 1) + " AND " + colKey + ".Value.Month == " + (DateTime.Now.Month - 1) + ")");
-                        break;
-                    case "nextmonth":
-                        builder.Append("(" + colKey + ".Value.Year == " + (DateTime.Now.Year - 1) + " AND " + colKey + ".Value.Month == " + (DateTime.Now.Month + 1) + ")");
-                        break;
-                    case "thisyear":
-                        builder.Append(colKey + ".Value.Year == " + DateTime.Now.Year);
-                        break;
-                    case "lastyear":
-                        builder.Append(colKey + ".Value.Year == " + (DateTime.Now.Year - 1));
-                        break;
-                    case "nextyear":
-                        builder.Append(colKey + ".Value.Year == " + (DateTime.Now.Year + 1));
-                        break;
-                    default:
-                        break;
+        string condition = exprs[i].Condition;
+        string expr = exprs[i].Expr;
+        string colKey = exprs[i].Key;
+        var dt = DateTime.Now;
+
+        switch (condition.ToLower())
+        {
+            case "startswith":
+                builder.Append(colKey + ".StartsWith(\"" + expr + "\")");
+                break;
+            case "contains":
+                builder.Append(colKey + ".Contains(\"" + expr + "\")");
+                break;
+            case "endswith":
+                builder.Append(colKey + ".EndsWith(\"" + expr + "\")");
+                break;
+            case "equals":
+                if (colKey == "ShipName") {
+                    //col type is string
+                    builder.Append(colKey + " == \"" + expr + "\"");
                 }
-            }
-            if (builder.Length > 0) {
-                data = data.Where(builder.ToString(), new object[0]);
-            }
-        
-            return data;
+                else
+                {
+                    //col type is number
+                    builder.Append(colKey + " == " + expr);
+                }
+
+                break;
+            case "doesnotequal":
+                if (colKey == "ShipName")
+                {
+                    //col type is string
+                    builder.Append(colKey + " != \"" + expr + "\"");
+                }
+                else
+                {
+                    //col type is number
+                    builder.Append(colKey + " != " + expr);
+                }
+                break;
+            case "doesnotcontain":
+                builder.Append("! " + colKey + ".Contains(\"" + expr + "\")");
+                break;
+            case "lessthan":
+                builder.Append(colKey + " < " + expr);
+                break;
+            case "greaterthan":
+                builder.Append(colKey + " > " + expr);
+                break;
+            case "lessthanorequalto":
+                builder.Append(colKey + " <= " + expr);
+                break;
+            case "greaterthanorequalto":
+                builder.Append(colKey + " >= " + expr);
+                break;
+            case "on":
+                dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                    .AddMilliseconds(double.Parse(expr))
+                    .ToUniversalTime();
+                builder.Append("(" + colKey + ".Value.Day == " + dt.Day
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + " AND " +colKey + ".Value.Month == " + dt.Month
+                    + ")");
+                break;
+            case "noton":
+                dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                    .AddMilliseconds(double.Parse(expr))
+                    .ToUniversalTime();
+                builder.Append("!("+colKey + ".Value.Day == " + dt.Day
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + " AND " + colKey + ".Value.Month == " + dt.Month
+                    + ")");
+                break;
+            case "after":
+                dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                    .AddMilliseconds(double.Parse(expr))
+                    .ToUniversalTime();
+                builder.Append("((" + colKey + ".Value.Year > " + dt.Year
+                    + " OR (" + colKey + ".Value.Month > " + dt.Month
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + ") OR (" + colKey + ".Value.Day > " + dt.Day
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + " AND " + colKey + ".Value.Month == " + dt.Month
+                    + ")))");
+                break;
+            case "before":
+                dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                    .AddMilliseconds(double.Parse(expr))
+                    .ToUniversalTime();
+                builder.Append("((" + colKey + ".Value.Year < " + dt.Year
+                    + " OR (" + colKey + ".Value.Month < " + dt.Month
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + ") OR (" + colKey + ".Value.Day < " + dt.Day
+                    + " AND " + colKey + ".Value.Year == " + dt.Year
+                    + " AND " + colKey + ".Value.Month == " + dt.Month
+                    + ")))");
+                break;
+            case "today":
+                builder.Append("(" + colKey + ".Value.Day == "
+                    + DateTime.Now.Day
+                    + " AND " + colKey + ".Value.Year == " + DateTime.Now.Year
+                    + " AND " + colKey + ".Value.Month == " + DateTime.Now.Month
+                    + ")");
+                break;
+            case "yesterday":
+                DateTime yesterday = DateTime.Now.AddDays(-1);
+                builder.Append("(" + colKey + ".Value.Day == " + yesterday.Day
+                    + " AND " + colKey + ".Value.Year == " + yesterday.Year
+                    + " AND " + colKey + ".Value.Month == " + yesterday.Month
+                    + ")");
+                break;
+            case "thismonth":
+                builder.Append("(" + colKey + ".Value.Year == "
+                    + DateTime.Now.Year
+                    + " AND " + colKey + ".Value.Month == " + DateTime.Now.Month
+                    + ")");
+                break;
+            case "lastmonth":
+                builder.Append("(" + colKey + ".Value.Year == "
+                    + (DateTime.Now.Year - 1)
+                    + " AND " + colKey + ".Value.Month == "
+                    + (DateTime.Now.Month - 1) + ")");
+                break;
+            case "nextmonth":
+                builder.Append("(" + colKey + ".Value.Year == "
+                    + (DateTime.Now.Year - 1)
+                    + " AND " + colKey + ".Value.Month == "
+                    + (DateTime.Now.Month + 1) + ")");
+                break;
+            case "thisyear":
+                builder.Append(colKey + ".Value.Year == " + DateTime.Now.Year);
+                break;
+            case "lastyear":
+                builder.Append(colKey + ".Value.Year == "
+                    + (DateTime.Now.Year - 1));
+                break;
+            case "nextyear":
+                builder.Append(colKey + ".Value.Year == "
+                    + (DateTime.Now.Year + 1));
+                break;
+            default:
+                break;
+        }
+    }
+    if (builder.Length > 0) {
+        data = data.Where(builder.ToString(), new object[0]);
+    }
+
+    return data;
 }
 ```
 
@@ -382,60 +424,75 @@ The below example shows how to apply the above steps in a ASP.NET MVC applicatio
 
 ```csharp
 public JsonResult GetData() {
-            IEnumerable<Order> orders = RepositoryFactory.GetOrderRepository().Get().Take(200);
-            IQueryable data = orders.AsQueryable();
-      var sortExprs = Request.QueryString.AllKeys.Where(x => x.Contains("sort"));
-            if (sortExprs.Count() != 0) {
-                data = ApplySorting(Request.QueryString, data);
-            }
-      JsonResult result = new JsonResult();
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = data;
-            return result;
+    IEnumerable<Order> orders =
+        RepositoryFactory.GetOrderRepository().Get().Take(200);
+    IQueryable data = orders.AsQueryable();
+    var sortExprs =
+        Request.QueryString.AllKeys.Where(x => x.Contains("sort"));
+    if (sortExprs.Count() != 0) {
+        data = ApplySorting(Request.QueryString, data);
+    }
+    JsonResult result = new JsonResult();
+    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+    result.Data = data;
+    return result;
 }
-private IQueryable ApplySorting(NameValueCollection queryString, IQueryable data)
-        {
-            List<SortExpression> sortExpressions = BuildSortExpressions(queryString, "sort", false);
-
-            string orderBy = "OrderBy";
-            string orderByDescending = "OrderByDescending";
-            foreach (SortExpression expr in sortExpressions)
-            {
-
-                data = ApplyOrder(data, expr.Key, expr.Mode == SortMode.Ascending ? orderBy : orderByDescending);
-                orderBy = "ThenBy";
-                orderByDescending = "ThenByDescending";
-            }
-            return data;
-            
-        }
-public List<SortExpression> BuildSortExpressions(NameValueCollection queryString, string sortKey, bool isTable)
+private IQueryable ApplySorting(
+    NameValueCollection queryString,
+    IQueryable data)
 {
-            List<SortExpression> expressions = new List<SortExpression>();
-            List<string> sortKeys = new List<string>();
-            foreach (string key in queryString.Keys)
-            {
-                if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
-                {
-                    SortExpression e = new SortExpression();
-                    e.Key = key.Substring(key.IndexOf("(")).Replace("(", "").Replace(")", "");
-                    e.Logic = "AND";
-                    e.Mode = queryString[key].ToLower().StartsWith("asc") ? SortMode.Ascending : SortMode.Descending;
-                    expressions.Add(e);
-                    sortKeys.Add(key);
-                }
-            }
-            if (sortKeys.Count > 0 && isTable)
-            {
-                foreach (string sortedKey in sortKeys)
-                {
-                    queryString.Remove(sortedKey);
-                }
-                string url = Request.Url.AbsolutePath;
-                string updatedQueryString = "?" + queryString.ToString();
-                Response.Redirect(url + updatedQueryString);
-            }
-            return expressions;
+    List<SortExpression> sortExpressions =
+        BuildSortExpressions(queryString, "sort", false);
+
+    string orderBy = "OrderBy";
+    string orderByDescending = "OrderByDescending";
+    foreach (SortExpression expr in sortExpressions)
+    {
+
+        data = ApplyOrder(
+            data,
+            expr.Key,
+            expr.Mode == SortMode.Ascending ? orderBy : orderByDescending);
+        orderBy = "ThenBy";
+        orderByDescending = "ThenByDescending";
+    }
+    return data;
+
+}
+public List<SortExpression> BuildSortExpressions(
+    NameValueCollection queryString,
+    string sortKey,
+    bool isTable)
+{
+    List<SortExpression> expressions = new List<SortExpression>();
+    List<string> sortKeys = new List<string>();
+    foreach (string key in queryString.Keys)
+    {
+        if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
+        {
+            SortExpression e = new SortExpression();
+            e.Key = key.Substring(key.IndexOf("("))
+                .Replace("(", "")
+                .Replace(")", "");
+            e.Logic = "AND";
+            e.Mode = queryString[key].ToLower().StartsWith("asc")
+                ? SortMode.Ascending
+                : SortMode.Descending;
+            expressions.Add(e);
+            sortKeys.Add(key);
+        }
+    }
+    if (sortKeys.Count > 0 && isTable)
+    {
+        foreach (string sortedKey in sortKeys)
+        {
+            queryString.Remove(sortedKey);
+        }
+        string url = Request.Url.AbsolutePath;
+        string updatedQueryString = "?" + queryString.ToString();
+        Response.Redirect(url + updatedQueryString);
+    }
+    return expressions;
 }
 ```
 

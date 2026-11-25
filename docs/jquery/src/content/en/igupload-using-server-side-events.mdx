@@ -121,17 +121,20 @@ To add a custom message you can use the `UploadStarting`, `UploadFinishing` and 
 **In C#**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-              e.ServerMessage = "Upload of " + e.FileName + " started.";   
-        }
-        
-public static void igUpload_UploadFinishing(object sender, Infragistics.Web.Mvc.UploadFinishingEventArgs e){          
-             e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";   
-        }
-        
-public static void igUpload_UploadFinished(object sender, Infragistics.Web.Mvc.UploadFinishedEventArgs e){          
-                e.ServerMessage = "Upload of " + e.FileName + "is finished.";   
-        }           
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + " started.";
+}
+
+public static void igUpload_UploadFinishing(object sender,
+    Infragistics.Web.Mvc.UploadFinishingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";
+}
+
+public static void igUpload_UploadFinished(object sender,
+    Infragistics.Web.Mvc.UploadFinishedEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is finished.";
+}
 ```
 
 This value can then be retrieved on the client-side on the related client-side events- <ApiLink type="igUpload" member="events:fileUploading" pkg="core" label="fileUploading" /> and <ApiLink type="igUpload" member="events:fileUploaded" pkg="core" label="fileUploaded" />. The `uploadInfo` event argument contains the additional file information, including the serverMessage value send from the server.
@@ -174,13 +177,14 @@ To get the data on the server-side you can use the `UploadStarting`,`UploadFinis
 **In C#:**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-       foreach (var dataField in e.AdditionalDataFields)
-       {
-           string fieldName = dataField.Name;
-           string fieldValue = dataField.Value;
-       } 
-   }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    foreach (var dataField in e.AdditionalDataFields)
+    {
+        string fieldName = dataField.Name;
+        string fieldValue = dataField.Value;
+    }
+}
 ```
 
 ## Walkthrough: Server-side validation in MVC
@@ -209,21 +213,22 @@ You register the `UploadStarting` event handler in the `Global.asax` in the `App
 ```csharp
 protected void Application_Start()
 {
-            //configurations for  Area Registration, WebApi, Filte and Route 
-            AreaRegistration.RegisterAllAreas();
+    //configurations for  Area Registration, WebApi, Filte and Route
+    AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+    WebApiConfig.Register(GlobalConfiguration.Configuration);
+    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+    RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            //registed UploadStarting event via the UploadProgressManager
-            UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
-           new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
-} 
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e)
+    //registed UploadStarting event via the UploadProgressManager
+    UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
+        new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
+}
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e)
 {
-            // implement logic here. See next step for details.
-} 
+    // implement logic here. See next step for details.
+}
 ```
 
 **Step 2.** In the event handler add your custom validation logic and if the conditions are not met set a custom <ApiLink type="UploadCancellableBaseEventArgs" member="ServerMessage" pkg="mvc" label="ServerMessage" /> and cancel the event.
@@ -231,11 +236,12 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 **In C#**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){
-            //Custom Validation logic       
-            e.ServerMessage = "Custom error";
-            e.Cancel = true;
-        }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    //Custom Validation logic
+    e.ServerMessage = "Custom error";
+    e.Cancel = true;
+}
 ```
 
 **Step 3.** Display the custom server message on the client side in the client-side error event:

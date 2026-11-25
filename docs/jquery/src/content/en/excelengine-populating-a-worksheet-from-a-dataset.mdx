@@ -42,9 +42,11 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
 
       northWindDbConnection.Open()
       Try
-              Dim customersSelectCommand As New System.Data.SqlClient.SqlCommand("SELECT * FROM Customers", northWindDbConnection)
+              Dim customersSelectCommand As New System.Data.SqlClient.SqlCommand(
+                "SELECT * FROM Customers", northWindDbConnection)
 
-              Dim customersReader As System.Data.SqlClient.SqlDataReader = customersSelectCommand.ExecuteReader()
+              Dim customersReader As System.Data.SqlClient.SqlDataReader = _
+                customersSelectCommand.ExecuteReader()
 
               ' Load all data from the customers table in the database
               Dim customersTable As New DataTable("Customers")
@@ -52,9 +54,11 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
               ' Add the customers data table to the data set
               dataSet.Tables.Add(customersTable)
 
-              Dim ordersSelectCommand As New System.Data.SqlClient.SqlCommand("SELECT * FROM Orders", northWindDbConnection)
+              Dim ordersSelectCommand As New System.Data.SqlClient.SqlCommand(
+                "SELECT * FROM Orders", northWindDbConnection)
 
-              Dim ordersReader As System.Data.SqlClient.SqlDataReader = ordersSelectCommand.ExecuteReader()
+              Dim ordersReader As System.Data.SqlClient.SqlDataReader = _
+                ordersSelectCommand.ExecuteReader()
 
               ' Load all data from the customers orders in the database
               Dim ordersTable As New DataTable("Orders")
@@ -69,18 +73,21 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
       **In C#:**
 
       ```csharp
-      System.Data.SqlClient.SqlConnection northWindDbConnection = new System.Data.SqlClient.SqlConnection(
-        @"Data Source=.SQLEXPRESS;AttachDbFilename=""C:Program FilesMicrosoft SQL ServerMSSQL.1MSSQLDataNorthwind.mdf"";Integrated Security=True;Connect Timeout=30;User Instance=True");
+      System.Data.SqlClient.SqlConnection northWindDbConnection =
+        new System.Data.SqlClient.SqlConnection(
+          @"Data Source=.SQLEXPRESS;AttachDbFilename=""C:Program FilesMicrosoft SQL ServerMSSQL.1MSSQLDataNorthwind.mdf"";Integrated Security=True;Connect Timeout=30;User Instance=True");
 
       DataSet dataSet = new DataSet();
 
       northWindDbConnection.Open();
       try
       {
-              System.Data.SqlClient.SqlCommand customersSelectCommand = new System.Data.SqlClient.SqlCommand(
-                "SELECT * FROM Customers", northWindDbConnection);
+              System.Data.SqlClient.SqlCommand customersSelectCommand =
+                new System.Data.SqlClient.SqlCommand(
+                  "SELECT * FROM Customers", northWindDbConnection);
 
-              System.Data.SqlClient.SqlDataReader customersReader = customersSelectCommand.ExecuteReader();
+              System.Data.SqlClient.SqlDataReader customersReader =
+                customersSelectCommand.ExecuteReader();
 
               // Load all data from the customers table in the database
               DataTable customersTable = new DataTable("Customers");
@@ -88,10 +95,12 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
               // Add the customers data table to the data set
               dataSet.Tables.Add(customersTable);
 
-              System.Data.SqlClient.SqlCommand ordersSelectCommand = new System.Data.SqlClient.SqlCommand(
-                "SELECT * FROM Orders", northWindDbConnection);
+              System.Data.SqlClient.SqlCommand ordersSelectCommand =
+                new System.Data.SqlClient.SqlCommand(
+                  "SELECT * FROM Orders", northWindDbConnection);
 
-              System.Data.SqlClient.SqlDataReader ordersReader = ordersSelectCommand.ExecuteReader();
+              System.Data.SqlClient.SqlDataReader ordersReader =
+                ordersSelectCommand.ExecuteReader();
 
               // Load all data from the customers orders in the database
               DataTable ordersTable = new DataTable("Orders");
@@ -118,7 +127,8 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
       **In C#:**
 
       ```csharp
-      Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+      Infragistics.Documents.Excel.Workbook workbook =
+        new Infragistics.Documents.Excel.Workbook();
       ```
 
    2. Iterate the data tables in the data set and create a worksheet for each one. Also, populate the worksheet with the data from the data table:
@@ -128,10 +138,12 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
       ```vb
       For Each table As DataTable In dataSet.Tables
               ' Create the worksheet to represent this data table
-              Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add(table.TableName)
+              Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
+                workbook.Worksheets.Add(table.TableName)
               ' Create column headers for each column
               For columnIndex As Integer = 0 To table.Columns.Count – 1
-                      worksheet.Rows.Item(0).Cells.Item(columnIndex).Value = table.Columns.Item(columnIndex).ColumnName
+                      worksheet.Rows.Item(0).Cells.Item(columnIndex).Value = _
+                        table.Columns.Item(columnIndex).ColumnName
               Next
               ' Starting at row index 1, copy all data rows in
               ' the data table to the worksheet
@@ -141,7 +153,8 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
                         worksheet.Rows.Item(rowIndex)
                       rowIndex = rowIndex + 1
                       For columnIndex As Integer = 0 To dataRow.ItemArray.Length – 1
-                              row.Cells.Item(columnIndex).Value = dataRow.ItemArray(columnIndex)
+                              row.Cells.Item(columnIndex).Value = _
+                                dataRow.ItemArray(columnIndex)
                       Next
               Next
       Next
@@ -153,12 +166,16 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
       foreach (DataTable table in dataSet.Tables)
       {
               // Create the worksheet to represent this data table
-              Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add(table.TableName);
+              Infragistics.Documents.Excel.Worksheet worksheet =
+                workbook.Worksheets.Add(table.TableName);
 
               // Create column headers for each column
-              for (int columnIndex = 0; columnIndex < table.Columns.Count; columnIndex++)
+              for (int columnIndex = 0;
+                columnIndex < table.Columns.Count;
+                columnIndex++)
               {
-                      worksheet.Rows[0].Cells[columnIndex].value = table.Columns[columnIndex].ColumnName;
+                      worksheet.Rows[0].Cells[columnIndex].value =
+                        table.Columns[columnIndex].ColumnName;
               }
 
               // Starting at row index 1, copy all data rows in
@@ -166,11 +183,15 @@ This walkthrough will show you how to create a `DataSet` from some tables in a d
               int rowIndex = 1;
               foreach (DataRow dataRow in table.Rows)
               {
-                      Infragistics.Documents.Excel.WorksheetRow row = worksheet.Rows[rowIndex++];
+                      Infragistics.Documents.Excel.WorksheetRow row =
+                        worksheet.Rows[rowIndex++];
 
-                      for (int columnIndex = 0; columnIndex < dataRow.ItemArray.Length; columnIndex++)
+                      for (int columnIndex = 0;
+                        columnIndex < dataRow.ItemArray.Length;
+                        columnIndex++)
                       {
-                              row.Cells[columnIndex].value = dataRow.ItemArray[columnIndex];
+                              row.Cells[columnIndex].value =
+                                dataRow.ItemArray[columnIndex];
                       }
               }
       }

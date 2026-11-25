@@ -53,7 +53,9 @@ $("#hgrid1").igHierarchicalGrid({
         .AutoGenerateColumns(false)
         .Columns(column =>
         {
-                column.For(x => x.OrderID).HeaderText("OrderID").DataType("number");
+                column.For(x => x.OrderID)
+                    .HeaderText("OrderID")
+                    .DataType("number");
                 column.For(x => x.Name).HeaderText("Name"). DataType("string");
                 column.For(x => x.Date).HeaderText("Date").HeaderText("date");
         })
@@ -249,45 +251,103 @@ $("#hierarchicalGrid1").igHierarchicalGrid({
 **In Razor:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("hierarchicalGrid1").LoadOnDemand(false).AutoGenerateColumns(false).AutoGenerateLayouts(false).PrimaryKey("EmployeeID").RenderCheckboxes(true).Columns(column => 
+@(Html.Infragistics().Grid(Model)
+    .ID("hierarchicalGrid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("EmployeeID")
+    .RenderCheckboxes(true)
+    .Columns(column =>
+    {
+        column.For(x => x.EmployeeID)
+            .HeaderText(this.GetGlobalResourceObject(
+                "HierarchicalGrid", "EmployeeID").ToString())
+            .DataType("number");
+        column.For(x => x.ManagerID)
+            .HeaderText(this.GetGlobalResourceObject(
+                "HierarchicalGrid", "ManagerID").ToString())
+            .DataType("number");
+        column.For(x => x.Title)
+            .HeaderText(this.GetGlobalResourceObject(
+                "HierarchicalGrid", "Title").ToString())
+            .DataType("string");
+        column.For(x => x.CurrentFlag)
+            .HeaderText(this.GetGlobalResourceObject(
+                "HierarchicalGrid", "CurrentFlag").ToString())
+            .DataType("bool");
+        column.For(x => x.SalariedFlag)
+            .HeaderText(this.GetGlobalResourceObject(
+                "HierarchicalGrid", "SalariedFlag").ToString())
+            .DataType("bool");
+    })
+    .ColumnLayouts(layouts => {
+        layouts.For(x => x.Employees)
+            .ForeignKey("EmployeeID")
+            .AutoGenerateColumns(false)
+            .AutoGenerateLayouts(false)
+            .RenderCheckboxes(true)
+            .Columns(childcolumn =>
             {
-                column.For(x => x.EmployeeID).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "EmployeeID").ToString()).DataType("number");
-                column.For(x => x.ManagerID).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "ManagerID").ToString()).DataType("number");
-                column.For(x => x.Title).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "Title").ToString()).DataType("string");
-                column.For(x => x.CurrentFlag).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "CurrentFlag").ToString()).DataType("bool");
-                column.For(x => x.SalariedFlag).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "SalariedFlag").ToString()).DataType("bool");
-            })
-            .ColumnLayouts(layouts => {
-                layouts.For(x => x.Employees).ForeignKey("EmployeeID").AutoGenerateColumns(false).AutoGenerateLayouts(false).RenderCheckboxes(true).Columns(childcolumn =>
-                    {
-                        childcolumn.For(x => x.EmployeeID).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "EmployeeID").ToString()).DataType("number");
-                        childcolumn.For(x => x.ManagerID).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "ManagerID").ToString()).DataType("number");
-                        childcolumn.For(x => x.Title).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "Title").ToString()).DataType("string");
-                        childcolumn.For(x => x.CurrentFlag).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "CurrentFlag").ToString()).DataType("bool");
-                        childcolumn.For(x => x.SalariedFlag).HeaderText(this.GetGlobalResourceObject("HierarchicalGrid", "SalariedFlag").ToString()).DataType("bool");
-                    })
-                    .Features(features => {
-                        features.Selection().Mode(SelectionMode.Row);
-                        features.Updating().EnableAddRow(false).EditMode(GridEditMode.Row).EnableDeleteRow(false).ColumnSettings(columnSettings =>
-                        {
-                            columnSettings.ColumnSetting().ColumnKey("EmployeeID").ReadOnly(true);
-                            columnSettings.ColumnSetting().ColumnKey("ManagerID").ReadOnly(true);
-                        });
-                        features.Paging().Type(OpType.Local);
-                        features.Sorting();
-                    });
+                childcolumn.For(x => x.EmployeeID)
+                    .HeaderText(this.GetGlobalResourceObject(
+                        "HierarchicalGrid", "EmployeeID").ToString())
+                    .DataType("number");
+                childcolumn.For(x => x.ManagerID)
+                    .HeaderText(this.GetGlobalResourceObject(
+                        "HierarchicalGrid", "ManagerID").ToString())
+                    .DataType("number");
+                childcolumn.For(x => x.Title)
+                    .HeaderText(this.GetGlobalResourceObject(
+                        "HierarchicalGrid", "Title").ToString())
+                    .DataType("string");
+                childcolumn.For(x => x.CurrentFlag)
+                    .HeaderText(this.GetGlobalResourceObject(
+                        "HierarchicalGrid", "CurrentFlag").ToString())
+                    .DataType("bool");
+                childcolumn.For(x => x.SalariedFlag)
+                    .HeaderText(this.GetGlobalResourceObject(
+                        "HierarchicalGrid", "SalariedFlag").ToString())
+                    .DataType("bool");
             })
             .Features(features => {
-                    features.Selection().Mode(SelectionMode.Row);
-                    features.Updating().EnableAddRow(false).EditMode(GridEditMode.Row).EnableDeleteRow(false).ColumnSettings(columnSettings =>
+                features.Selection().Mode(SelectionMode.Row);
+                features.Updating()
+                    .EnableAddRow(false)
+                    .EditMode(GridEditMode.Row)
+                    .EnableDeleteRow(false)
+                    .ColumnSettings(columnSettings =>
                     {
-                        columnSettings.ColumnSetting().ColumnKey("EmployeeID").ReadOnly(true);
-                        columnSettings.ColumnSetting().ColumnKey("ManagerID").ReadOnly(true);
+                        columnSettings.ColumnSetting()
+                            .ColumnKey("EmployeeID")
+                            .ReadOnly(true);
+                        columnSettings.ColumnSetting()
+                            .ColumnKey("ManagerID")
+                            .ReadOnly(true);
                     });
-                    features.Paging().Type(OpType.Local);
-                    features.Sorting();
-            }).DataBind().Height("500px").Render()
-            )
+                features.Paging().Type(OpType.Local);
+                features.Sorting();
+            });
+    })
+    .Features(features => {
+        features.Selection().Mode(SelectionMode.Row);
+        features.Updating()
+            .EnableAddRow(false)
+            .EditMode(GridEditMode.Row)
+            .EnableDeleteRow(false)
+            .ColumnSettings(columnSettings =>
+            {
+                columnSettings.ColumnSetting()
+                    .ColumnKey("EmployeeID")
+                    .ReadOnly(true);
+                columnSettings.ColumnSetting()
+                    .ColumnKey("ManagerID")
+                    .ReadOnly(true);
+            });
+        features.Paging().Type(OpType.Local);
+        features.Sorting();
+    }).DataBind().Height("500px").Render()
+)
 ```
 
 ## Related Topics

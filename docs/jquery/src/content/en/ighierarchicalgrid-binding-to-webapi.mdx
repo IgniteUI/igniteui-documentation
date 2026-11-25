@@ -177,9 +177,17 @@ Replace the `Index` action method with the following code:
 ```csharp
 public ActionResult Index()
 {
-    NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+    NorthwindModel.NorthwindEntities db =
+        new NorthwindModel.NorthwindEntities();
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return View(customers.AsQueryable());
 }
 ```
@@ -233,9 +241,15 @@ Define the grid:
     Rest(true).
     Columns(column =>
     {
-        column.For(x => x.CustomerID).HeaderText("Customer ID").DataType("string");
-        column.For(x => x.CompanyName).HeaderText("Company Name").DataType("string");
-        column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+        column.For(x => x.CustomerID).
+            HeaderText("Customer ID").
+            DataType("string");
+        column.For(x => x.CompanyName).
+            HeaderText("Company Name").
+            DataType("string");
+        column.For(x => x.ContactName).
+            HeaderText("Contact Name").
+            DataType("string");
         column.For(x => x.Address).HeaderText("Address").DataType("string");
         column.For(x => x.City).HeaderText("City").DataType("string");
     }).
@@ -249,14 +263,22 @@ Define the grid:
             AutoGenerateLayouts(false).
             Columns(childcolumn =>
             {
-                childcolumn.For(x => x.OrderID).HeaderText("Order ID").DataType("number");
-                childcolumn.For(x => x.ShipAddress).HeaderText("Ship Address").DataType("string");
-                childcolumn.For(x => x.ShipName).HeaderText("Ship Name").DataType("string");
-            }).Features(features => features.Updating().EditMode(GridEditMode.Row));
+                childcolumn.For(x => x.OrderID).
+                    HeaderText("Order ID").
+                    DataType("number");
+                childcolumn.For(x => x.ShipAddress).
+                    HeaderText("Ship Address").
+                    DataType("string");
+                childcolumn.For(x => x.ShipName).
+                    HeaderText("Ship Name").
+                    DataType("string");
+            }).Features(features =>
+                features.Updating().EditMode(GridEditMode.Row));
     }).
     RestSettings(rest =>
     {
-        rest.RestSetting().        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
+        rest.RestSetting().
+        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Update(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Remove(r => r.RestVerbSetting().Url("/api/customers/").Batch(false));
     }).
@@ -300,7 +322,11 @@ In the `RouteConfig.cs` file in the `App_Start` folder, add the route for the ch
 routes.MapHttpRoute(
     name: "ChildApi",
     routeTemplate: "api/{parentcontroller}/{parentid}/{controller}/{id}",
-    defaults: new { parentcontroller = "customers", id = RouteParameter.Optional }
+    defaults: new
+    {
+        parentcontroller = "customers",
+        id = RouteParameter.Optional
+    }
 );
 ```
 
@@ -332,7 +358,8 @@ Add a new empty Web API controller to the Controllers folder and name it `Custom
 **In C#:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3. Define the GET controller action
@@ -345,7 +372,14 @@ Add a new method to the `CustomersController` to handle the grid’s GET request
 public IEnumerable<Customer> GetCustomers(int dbdepth)
 {
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return customers;
 }
 ```
@@ -418,8 +452,10 @@ public HttpResponseMessage PostCustomer(Customer customer)
         };
         db.Customers.AddObject(newCustomer);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
         return response;
     }
     else
@@ -444,7 +480,8 @@ Add new method to the `CustomersController` which will handle grid’s DELETE re
 ```csharp
 public HttpResponseMessage DeleteCustomer(string id)
 {
-    NorthwindModel.Customer customer = db.Customers.Single(c => c.CustomerID == id);
+    NorthwindModel.Customer customer =
+        db.Customers.Single(c => c.CustomerID == id);
     if (customer == null)
     {
         return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -477,7 +514,8 @@ Add a new empty Web API controller to the Controllers folder and name it `Orders
 **In C#:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3. Define the GET controller action
@@ -495,7 +533,12 @@ public IEnumerable<Order> GetOrders(string parentid)
 {
     var orders = from o in db.Orders
                     where o.CustomerID == parentid
-                    select new Order() { OrderID = o.OrderID, ShipAddress = o.ShipAddress, ShipName = o.ShipName };
+                    select new Order()
+                    {
+                        OrderID = o.OrderID,
+                        ShipAddress = o.ShipAddress,
+                        ShipName = o.ShipName
+                    };
     return orders;
 }
 ```
@@ -561,8 +604,10 @@ public HttpResponseMessage PostOrder(Order order)
         };
         db.Orders.AddObject(newOrder);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, order);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, order);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
         return response;
     }
     else

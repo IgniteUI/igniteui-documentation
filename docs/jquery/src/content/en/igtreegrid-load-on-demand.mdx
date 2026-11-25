@@ -60,7 +60,7 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
 1. Define `igTreeGridModel` in the View. Set <ApiLink type="TreeGridModel" member="EnableRemoteLoadOnDemand" pkg="mvc" label="EnableRemoteLoadOnDemand" /> to `true` and <ApiLink type="GridModel" member="DataSourceUrl" pkg="mvc" label="DataSourceUrl" /> to the endpoint URL that will handle the requests: **In CSHTML:**
 
    ```razor
-        @(Html.Infragistics().TreeGrid<IgniteUI.SamplesBrowser.Models.EmployeeData>()
+   @(Html.Infragistics().TreeGrid<IgniteUI.SamplesBrowser.Models.EmployeeData>()
        .DataSourceUrl(Url.Action("GetTreeData"))
        .Width("100%")
        .Height("600px")
@@ -70,19 +70,39 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
        .Columns(column =>
        {
            column.For(x => x.ID).HeaderText("ID").DataType("number").Width("10%");
-           column.For(x => x.FirstName).HeaderText("First Name)").DataType("string").Width("25%");
-           column.For(x => x.LastName).HeaderText("Last Name)").DataType("string").Width("15%");
-           column.For(x => x.Email).HeaderText("Email)").DataType("string").Width("25%");
-           column.For(x => x.Title).HeaderText("Title)").DataType("string").Width("25%");
-           column.For(x => x.HireDate).HeaderText("Hire Date)").DataType("date").Width("10%");
+           column.For(x => x.FirstName)
+               .HeaderText("First Name)")
+               .DataType("string")
+               .Width("25%");
+           column.For(x => x.LastName)
+               .HeaderText("Last Name)")
+               .DataType("string")
+               .Width("15%");
+           column.For(x => x.Email)
+               .HeaderText("Email)")
+               .DataType("string")
+               .Width("25%");
+           column.For(x => x.Title)
+               .HeaderText("Title)")
+               .DataType("string")
+               .Width("25%");
+           column.For(x => x.HireDate)
+               .HeaderText("Hire Date)")
+               .DataType("date")
+               .Width("10%");
 
        })
        .PrimaryKey("ID")
        .ChildDataKey("Employees")
        .Features(features =>
        {
-           features.Paging().Type(OpType.Remote).Mode(TreeGridPagingMode.RootLevelOnly).PageSize(3);
-           features.Filtering().Type(OpType.Remote).DisplayMode(TreeGridFilteringDisplayMode.ShowWithAncestors);
+           features.Paging()
+               .Type(OpType.Remote)
+               .Mode(TreeGridPagingMode.RootLevelOnly)
+               .PageSize(3);
+           features.Filtering()
+               .Type(OpType.Remote)
+               .DisplayMode(TreeGridFilteringDisplayMode.ShowWithAncestors);
            features.Sorting().Type(OpType.Remote);
        })
        .DataBind()
@@ -96,7 +116,8 @@ To quickly get enable the Load on demand functionality of the Tree Grid follow t
 [TreeGridDataSourceAction]
 public ActionResult ChildEmployeesOnDemand()
 {
-    IQueryable allData = RepositoryFactory.GetHierarchicalEmployeeData().AsQueryable();
+    IQueryable allData = RepositoryFactory.GetHierarchicalEmployeeData()
+        .AsQueryable();
     return View("load-on-demand", allData);
 }
 ```
