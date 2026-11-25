@@ -68,7 +68,7 @@ window.History.replaceState(currState.data);
 - **statechange** - History.js event fired when navigation through the browser history appears.
 
 ```js
-window.History.Adapter.bind(window, 'statechange', function (e, args) { }
+window.History.Adapter.bind(window, "statechange", function (e, args) {});
 ```
 
 ## igGrid and History.js Integration
@@ -90,10 +90,10 @@ We choose our state to have the name of the feature and the pageIndex. This is a
 Then the state can be recovered inside the statechange event handler:
 
 ```js
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     currState = window.History.getState().data;
     gridHistoryJS.igGridPaging("pageIndex", currState.value - 1);
-}
+});
 ```
 
 This is enough for a feature like paging, where we always have a selected page and also have only one method to change paging state - *pageIndex()*. The procedure above will not work for a feature like sorting. It's because in sorting, we can have several sorted columns, which state we need to save and restore separately, and when restoring we may need to unsort a column, instead of sorting it, which is achieved with two different API methods. We will look in details, with the next case. Let imagine we have the following case:
@@ -125,26 +125,24 @@ columnSorted: function (e, args) {
 then we can restore last column sorting state correctly using the code below.
 
 ```js
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
         status = currState.value.dir;
 
-        gridHistoryJS.igGridSorting("sortColumn", column, status);
-
-}
+    gridHistoryJS.igGridSorting("sortColumn", column, status);
+});
 ```
 
 But when the second back is hit, and we go from state 3 to 2 (in the list above), then the code above will not work, cause what we really want is unsort the last sorted column. That's why the following code will be needed instead:
 
 ```js
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey;
 
-        gridHistoryJS.igGridSorting("unsortColumn", column);
-
-}
+    gridHistoryJS.igGridSorting("unsortColumn", column);
+});
 ```
 
 The problem here is how to distinguish, which is the correct method you need, when going back in the history? This is not possible, unless you have some additional information for the current history state. What we really need, in this case is, before we add new state for the sorted column (in 3.), is to modify the previous paging state and add an undo state for the sorted column. This will help, not only restore the previous paging state, but in addition to undo and unsort the current sorted one.
@@ -166,19 +164,18 @@ columnSorting: function (e, args) {
 We take the previous state, add and undo information to it, and replace it in the history stack. The code above defines an object *undoData* similar to the *data* one, having in addition a flag that says the state needs to be undone.
 
 ```js
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
         status = currState.value.dir,
         undoColumn = currState.undoData.value.columnKey;
 
-        if (currState.undoData.undo) {
-            gridHistoryJS.igGridSorting("unsortColumn", undoColumn);
-        } else {
-            gridHistoryJS.igGridSorting("sortColumn", column, status);
-        }
-
-}
+    if (currState.undoData.undo) {
+        gridHistoryJS.igGridSorting("unsortColumn", undoColumn);
+    } else {
+        gridHistoryJS.igGridSorting("sortColumn", column, status);
+    }
+});
 ```
 
 ## Sample
