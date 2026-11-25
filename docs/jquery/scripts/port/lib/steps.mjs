@@ -1122,6 +1122,9 @@ const sentencesOf = text => text.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/).map(s =
  *    the site's check rejects page-oriented openings;
  * 4. still under 40 characters, or still opening with "The following" or "Below": the title is put
  *    in front (`<title>: <text>`).
+ * A topic none of whose paragraphs says something on its own is described by what it opens with:
+ * the sentences of a lead-in before it leads in, or its one sentence; failing that, the title and
+ * the topics it lists (a landing page). The site's check wants a description on every topic.
  * Every result is marked generated in the front matter for review.
  */
 export function describe(tree, ctx) {
@@ -1133,19 +1136,62 @@ export function describe(tree, ctx) {
         source = 'first paragraph';
     }
     const candidates = [];
+    // What the topic opens with when no paragraph says something on its own: a lead-in, a list.
+    const opening = { leadIns: [], list: null, content: false, over: false };
     for (let i = start + 1; i < kids.length && candidates.length < 3; i++) {
         const n = kids[i];
         if (n.type === 'heading' && source === 'purpose') break;
-        if (n.type !== 'paragraph') continue;
+        if (n.type === 'heading') {
+            if (opening.content) opening.over = true;
+            continue;
+        }
+        if (!opening.over && n.type === 'list' && !opening.list) opening.list = n;
+        if (n.type !== 'paragraph') {
+            opening.content = true;
+            continue;
+        }
         const text = plain(ctx, n);
+        if (text.length >= 15 && isLeadIn(text) && !opening.over) opening.leadIns.push(text);
+        opening.content = true;
         if (text.length < 15 || isLeadIn(text)) continue;
         candidates.push(text);
+    }
+    const rules = [source];
+    if (!candidates.length) {
+        // A lead-in may say something before it leads in ("X is built as …. For more, see the
+        // following:"), or be the one sentence the topic has.
+        const said = opening.leadIns
+            .filter(text => /:$/.test(text) && !/^(in|code in)\b/i.test(text) && !/\bfollowing (sections|topics)\b/i.test(text))
+            .map(text => {
+                const sentences = sentencesOf(text);
+                return sentences.length > 1 ? sentences.slice(0, -1).join(' ') : text.replace(/:$/, '');
+            })
+            .find(text => text.length >= 15);
+        if (said) {
+            candidates.push(said);
+            rules.push('from a lead-in');
+        }
+    }
+    if (!candidates.length && opening.list) {
+        // A topic that is a list of its topics is described by that list.
+        const items = opening.list.children.map(item => (item.children[0]?.type === 'paragraph' ? plain(ctx, item.children[0]) : '')).filter(Boolean);
+        let out = `${ctx.titleText}:`;
+        let used = 0;
+        for (const item of items) {
+            const next = `${out}${used ? ',' : ''} ${item.replace(/[.:;,]+$/, '')}`;
+            if (item.length > 90 || next.length > 299) break;
+            out = next;
+            used++;
+        }
+        if (used >= 2 && out.length >= 40) {
+            handled(ctx, 'description', 'rule: the title and the topics the topic lists');
+            return `${out.replace(/<\/?([A-Za-z][\w-]*)[^>]*>/g, '$1')}.`;
+        }
     }
     if (!candidates.length) {
         undecided(ctx, 'description', 'no prose to derive a description from', null, null);
         return null;
     }
-    const rules = [source];
     let out = '';
     for (const s of candidates.flatMap(sentencesOf)) {
         if (out.length >= 40) break;
@@ -1167,6 +1213,9 @@ export function describe(tree, ctx) {
         rules.push('shortened at a word');
     }
     out = out.replace(/[:;,]$/, '');
+    // An element named in the text (`the <video> tag`) is named without its brackets: the site's
+    // check takes them for markup.
+    out = out.replace(/<\/?([A-Za-z][\w-]*)[^>]*>/g, '$1');
     if (!/[.!?)]$/.test(out)) out += '.';
     if (out.length < 40) undecided(ctx, 'description', 'derived description shorter than 40 characters', out, null);
     handled(ctx, 'description', `rule: ${rules.join(', ')}`);
