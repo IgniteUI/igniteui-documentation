@@ -558,6 +558,73 @@ NuGet を使用した Ignite UI for Blazor のインストールの詳細につ�
 ## Ignite UI for Blazor の登録
 
 1 - **Program.cs** ファイルを開き、**builder.Services.AddIgniteUIBlazor()** 関数を呼び出して Ignite UI for Blazor サービスを登録します。WebAssembly または Auto レンダー モードの Blazor Web App では、サーバー プロジェクトとクライアント プロジェクトの両方の **Program.cs** で登録します。
+
+```csharp
+builder.Services.AddIgniteUIBlazor();
+```
+
+2 - **IgniteUI.Blazor.Controls** 名前空間を **_Imports.razor** ファイルに追加します (クライアント プロジェクトがある場合は両方のプロジェクトに追加します)。
+
+```razor
+@using IgniteUI.Blazor.Controls
+```
+
+3 - **Components/App.razor** ファイルの **`<head>`** 要素にスタイル シートを追加します。
+
+```razor
+<head>
+    <link rel="stylesheet" href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" />
+</head>
+```
+
+.NET 9 以降のアプリケーションでは、**Assets** コレクション プロパティを使用することを推奨します。
+
+```razor
+<head>
+    <link rel="stylesheet" href="@Assets["_content/IgniteUI.Blazor/themes/light/bootstrap.css"]" />
+</head>
+```
+
+4 - **Components/App.razor** ファイルで、Blazor スクリプトの前にスクリプト参照を追加します。**Assets** を介さずに直接参照します。
+
+```razor
+<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
+<script src="@Assets["_framework/blazor.web.js"]"></script>
+```
+
+### コンポーネント モジュール
+
+ほとんどのアプリでは `builder.Services.AddIgniteUIBlazor()` を呼び出すだけで十分です。各コンポーネントは、初めてレンダリングされるときにクライアント リソースを読み込みます。次の場合は、モジュールを明示的に登録します。
+
+- アプリの起動時に、コンポーネントが初めてレンダリングされる前にリソースを準備しておく場合。
+- JavaScript テンプレートなどによってクライアント側でのみ作成され、どの Razor コンポーネントからもモジュールが要求されないコンポーネントを使用する場合。
+- チャートのインタラクティビティ (<ApiLink raw type="DataChartInteractivityModule" />)、`*FullModule` バンドルなど、どのコンポーネントからも要求されない機能を有効にする場合。これらはすべて **{PackageCore}** パッケージに含まれています。
+
+`\AddIgniteUIBlazor` にモジュールを指定すると、Ignite UI ランタイムの起動時に読み込まれます。
+
+```csharp
+builder.Services.AddIgniteUIBlazor(
+    typeof(IgbBadgeModule),
+    typeof(IgbDataChartInteractivityModule)
+);
+```
+
+または、挿入されたランタイムを使用して、後からモジュールを登録します。
+
+```razor
+@inject IIgniteUIBlazor IgniteUIBlazor
+
+@code {
+    protected override void OnInitialized()
+    {
+        IgbBadgeModule.Register(IgniteUIBlazor);
+    }
+}
+```
+
+## Ignite UI for Blazor コンポーネントの追加
+
+インタラクティブ レンダー モードが設定された Razor ページに Ignite UI for Blazor コンポーネントを追加します。WebAssembly または Auto レンダー モードでは、ページをクライアント プロジェクトに配置する必要があります。
 </PlatformBlock>
 
 <PlatformBlock for="WinUI">
@@ -726,73 +793,6 @@ Uno Platform は WinUI と同じ `using:` 形式と同じ名前空間を使用�
 
 
 <PlatformBlock for="Blazor">
-
-```csharp
-builder.Services.AddIgniteUIBlazor();
-```
-
-2 - **IgniteUI.Blazor.Controls** 名前空間を **_Imports.razor** ファイルに追加します (クライアント プロジェクトがある場合は両方のプロジェクトに追加します)。
-
-```razor
-@using IgniteUI.Blazor.Controls
-```
-
-3 - **Components/App.razor** ファイルの **`<head>`** 要素にスタイル シートを追加します。
-
-```razor
-<head>
-    <link rel="stylesheet" href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" />
-</head>
-```
-
-.NET 9 以降のアプリケーションでは、**Assets** コレクション プロパティを使用することを推奨します。
-
-```razor
-<head>
-    <link rel="stylesheet" href="@Assets["_content/IgniteUI.Blazor/themes/light/bootstrap.css"]" />
-</head>
-```
-
-4 - **Components/App.razor** ファイルで、Blazor スクリプトの前にスクリプト参照を追加します。**Assets** を介さずに直接参照します。
-
-```razor
-<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
-<script src="@Assets["_framework/blazor.web.js"]"></script>
-```
-
-### コンポーネント モジュール
-
-ほとんどのアプリでは `builder.Services.AddIgniteUIBlazor()` を呼び出すだけで十分です。各コンポーネントは、初めてレンダリングされるときにクライアント リソースを読み込みます。次の場合は、モジュールを明示的に登録します。
-
-- アプリの起動時に、コンポーネントが初めてレンダリングされる前にリソースを準備しておく場合。
-- JavaScript テンプレートなどによってクライアント側でのみ作成され、どの Razor コンポーネントからもモジュールが要求されないコンポーネントを使用する場合。
-- チャートのインタラクティビティ (<ApiLink raw type="DataChartInteractivityModule" />)、`*FullModule` バンドルなど、どのコンポーネントからも要求されない機能を有効にする場合。これらはすべて **{PackageCore}** パッケージに含まれています。
-
-`\AddIgniteUIBlazor` にモジュールを指定すると、Ignite UI ランタイムの起動時に読み込まれます。
-
-```csharp
-builder.Services.AddIgniteUIBlazor(
-    typeof(IgbBadgeModule),
-    typeof(IgbDataChartInteractivityModule)
-);
-```
-
-または、挿入されたランタイムを使用して、後からモジュールを登録します。
-
-```razor
-@inject IIgniteUIBlazor IgniteUIBlazor
-
-@code {
-    protected override void OnInitialized()
-    {
-        IgbBadgeModule.Register(IgniteUIBlazor);
-    }
-}
-```
-
-## Ignite UI for Blazor コンポーネントの追加
-
-インタラクティブ レンダー モードが設定された Razor ページに Ignite UI for Blazor コンポーネントを追加します。WebAssembly または Auto レンダー モードでは、ページをクライアント プロジェクトに配置する必要があります。
 
 ```razor
 <IgbCard style="width:350px">
