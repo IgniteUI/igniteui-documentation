@@ -845,7 +845,7 @@ export function topicLinks(tree, ctx) {
             handled(ctx, 'topicLinks', c.hardcoded ? 'links resolved (absolute help URL)' : 'links resolved');
             return;
         }
-        const reason = r.status === 'resolved' ? 'links to a dropped topic (AngularJS)' : 'links to a topic that does not exist';
+        const reason = r.status === 'resolved' ? `links to a topic that is left out (${r.row.excluded})` : 'links to a topic that does not exist';
         undecided(ctx, 'topicLinks', reason, node.url, node);
         handled(ctx, 'topicLinks', 'links made plain text');
         replaceNode(parent, node, node.children);

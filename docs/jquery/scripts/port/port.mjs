@@ -63,6 +63,15 @@ const indexFile = path.resolve(args.index ?? path.join(repoRoot, 'src/data/api-l
 const only = args.only ? String(args.only).split(',').map(s => s.replace(/\\/g, '/').replace(/\/$/, '')) : null;
 const slugOverrides = JSON.parse(fs.readFileSync(path.join(here, 'slug-overrides.json'), 'utf8'));
 const EXCLUDED_FOLDERS = ['10_AngularJS Directives/'];
+/**
+ * Why a topic is left out, or false. Besides the AngularJS topics, a topic that is a title and
+ * nothing else: a placeholder that was never written, and an empty page on the old help.
+ */
+function excluded(rel) {
+    if (EXCLUDED_FOLDERS.some(f => rel.startsWith(f))) return 'AngularJS';
+    const body = normalizeSource(fs.readFileSync(path.join(topicsDir, rel), 'utf8')).replace(/<!--[\s\S]*?-->/g, '').split('\n').filter(line => line.trim());
+    return body.length === 0 || (body.length === 1 && body[0].trim().startsWith('#')) ? 'a title and nothing else' : false;
+}
 // The height each embedded sample's page needs, measured by measure-samples.mjs.
 const sampleHeights = JSON.parse(fs.readFileSync(path.join(here, 'sample-heights.json'), 'utf8')).heights;
 
@@ -72,7 +81,7 @@ const map = buildTopicMap(topicsDir, {
     replaceTokens: tokens.quiet,
     readMetadata: metadataFromText,
     slugOverrides,
-    excluded: rel => EXCLUDED_FOLDERS.some(f => rel.startsWith(f)),
+    excluded,
 });
 const api = loadIndex(indexFile);
 const imageIndex = buildImageIndex(topicsDir);
@@ -102,6 +111,9 @@ if (args.clean) {
 fs.mkdirSync(outDir, { recursive: true });
 
 const report = emptyReport();
+for (const row of map.topics) {
+    if (row.excluded) report.parse.handled[`topics left out: ${row.excluded}`] = (report.parse.handled[`topics left out: ${row.excluded}`] ?? 0) + 1;
+}
 const perTopic = [];
 const copies = new Map();
 for (const row of selected) {
