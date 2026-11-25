@@ -749,6 +749,37 @@ export function resolveTopic(map, rest) {
     return { status: 'missing', name, fragment };
 }
 
+/**
+ * Whether a group's landing page is only an index of its topics: headings, an introduction of a
+ * few lines, pictures, and lists or tables that link to topics. Code, a sample, a note or an HTML
+ * table make it a topic of its own. Takes the parsed source.
+ */
+export function isIndexPage(tree) {
+    let prose = 0;
+    let links = 0;
+    let heavy = false;
+    for (const node of tree.children) {
+        if (node.type === 'heading' || node.type === 'thematicBreak' || node.type === 'definition') continue;
+        if (node.type === 'paragraph') {
+            const kids = node.children.filter(c => !(c.type === 'text' && !c.value.trim()));
+            if (!kids.every(c => c.type === 'image' || c.type === 'html')) prose += toString(node).length;
+        } else if (node.type === 'list' || node.type === 'table') {
+            visit(node, n => {
+                if (n.type === 'code' || n.type === 'blockquote') heavy = true;
+                else if (n.type === 'link' && classifyUrl(n.url).kind === 'topic') links++;
+            });
+        } else if (node.type === 'html') {
+            // Comments (the metadata), anchors and pictures are not content.
+            const rest = node.value.replace(/<!--[\s\S]*?-->/g, '').replace(/<\/?a\b[^>]*>|<img\b[^>]*>|<br\s*\/?>/gi, '').trim();
+            if (rest) heavy = true;
+        } else {
+            heavy = true;
+        }
+        if (heavy) return false;
+    }
+    return links >= 1 && prose <= 1200;
+}
+
 /** Collects, over the whole set, which anchors of which topic are linked to. */
 export function collectAnchorRefs(tree, row, map, refs) {
     const add = (slug, fragment, from) => {
@@ -845,6 +876,12 @@ export function topicLinks(tree, ctx) {
             handled(ctx, 'topicLinks', c.hardcoded ? 'links resolved (absolute help URL)' : 'links resolved');
             return;
         }
+        // A link to a group's index page goes to the group's overview topic, which stands in for it.
+        if (r.status === 'resolved' && r.row.replacedBy) {
+            node.url = `./${r.row.replacedBy.slug}.mdx`;
+            handled(ctx, 'topicLinks', 'links to a group\'s index page pointed at its overview topic');
+            return;
+        }
         const reason = r.status === 'resolved' ? `links to a topic that is left out (${r.row.excluded})` : 'links to a topic that does not exist';
         undecided(ctx, 'topicLinks', reason, node.url, node);
         handled(ctx, 'topicLinks', 'links made plain text');
@@ -914,6 +951,9 @@ export function imageTarget(sourceRel) {
 
 export function buildImageIndex(topicsDir) {
     const byBase = new Map();
+    // A file's path as it is written on disk, by its lowercased path: a topic may name it in
+    // another letter case, which only a case-insensitive file system forgives.
+    byBase.exact = new Map();
     const walk = (dir, rel) => {
         for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
             const abs = path.join(dir, e.name);
@@ -923,6 +963,7 @@ export function buildImageIndex(topicsDir) {
                 const key = e.name.toLowerCase();
                 if (!byBase.has(key)) byBase.set(key, []);
                 byBase.get(key).push(r);
+                byBase.exact.set(r.toLowerCase(), r);
             }
         }
     };
@@ -944,6 +985,8 @@ export function resolveImage(ctx, src) {
     const clean = decodeURIComponent(src.split('#')[0].split('?')[0]);
     const topicDir = path.posix.dirname(ctx.row.source);
     const direct = path.posix.normalize(path.posix.join(topicDir, clean));
+    const exact = ctx.imageIndex.exact?.get(direct.toLowerCase());
+    if (exact) return { status: 'resolved', file: exact };
     if (fs.existsSync(path.join(ctx.topicsDir, direct))) return { status: 'resolved', file: direct };
     const candidates = ctx.imageIndex.get(path.posix.basename(clean).toLowerCase()) ?? [];
     if (candidates.length === 1) return { status: 'flattened', file: candidates[0] };

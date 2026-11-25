@@ -30,13 +30,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildTopicMap } from './lib/topic-map.mjs';
+import { buildTopicMap, walkNav } from './lib/topic-map.mjs';
 import { loadTokenTable, createTokens } from './lib/tokens.mjs';
 import { loadIndex } from './lib/api-index.mjs';
 import {
     parseMarkdown, normalizeSource, fixHeadingsWithoutSpace, markedBlocks, splitInlineTagBlocks, markedTables, markedSpacedLinks,
 } from './lib/parse.mjs';
-import { metadataFromText, collectAnchorRefs, buildImageIndex, dropInTopicList } from './lib/steps.mjs';
+import { metadataFromText, collectAnchorRefs, buildImageIndex, dropInTopicList, isIndexPage } from './lib/steps.mjs';
 import { convertTopic, gate, emptyReport, STEPS } from './lib/convert.mjs';
 import { buildToc } from './lib/navigation.mjs';
 import { writeReports } from './lib/report.mjs';
@@ -86,11 +86,8 @@ const map = buildTopicMap(topicsDir, {
 const api = loadIndex(indexFile);
 const imageIndex = buildImageIndex(topicsDir);
 
-// Pass 1, whole set: which anchors of which topic links point at. A topic's own list of its
-// sections is not counted: it is removed.
-const anchorRefs = new Map();
-for (const row of map.topics) {
-    // Read as the conversion reads it, so that the "In this topic" list left out is the same one.
+/** A topic's source read as the conversion reads it, so that both passes see the same topic. */
+function readTree(row) {
     const text = markedBlocks(normalizeSource(fs.readFileSync(path.join(topicsDir, row.source), 'utf8'))).text;
     const tree = parseMarkdown(text);
     splitInlineTagBlocks(tree, text);
@@ -98,8 +95,38 @@ for (const row of map.topics) {
     fixHeadingsWithoutSpace(tree);
     dropInTopicList(tree);
     markedSpacedLinks(tree);
-    collectAnchorRefs(tree, row, map, anchorRefs);
+    return tree;
 }
+
+// Index pages. In the old help a click on a group opened its landing page: a few lines and links
+// to the group's topics. This site has no page behind a group; it lists a group's page inside the
+// group as "Overview", next to the group's real overview topic where it has one.
+// Where a group has both, its index page is left out and the links to it go to the overview
+// topic. Where the index page is the only overview a group has, it stays.
+{
+    const rowOf = new Map(map.topics.map(row => [row.slug, row]));
+    const groups = [...walkNav(map.nav)].filter(node => node.kind === 'folder' && node.slug && !rowOf.get(node.slug).excluded);
+    const index = groups.filter(node => isIndexPage(readTree(rowOf.get(node.slug))));
+    // Inner groups first: an inner group named "… Overview" stands in for its parent's index page
+    // with whatever page it keeps.
+    for (const group of index.reverse()) {
+        // The group's own overview: a topic or an inner group with "Overview" in its name.
+        const overview = group.children
+            .filter(child => child.slug && /\boverview\b/i.test(child.label ?? ''))
+            .map(child => rowOf.get(child.slug))
+            .map(row => (row.excluded ? row.replacedBy : row))
+            .find(Boolean);
+        if (!overview) continue;
+        const row = rowOf.get(group.slug);
+        row.excluded = 'an index of its group\'s topics, beside the group\'s overview topic';
+        row.replacedBy = overview;
+    }
+}
+
+// Pass 1, whole set: which anchors of which topic links point at. A topic's own list of its
+// sections is not counted: it is removed.
+const anchorRefs = new Map();
+for (const row of map.topics) collectAnchorRefs(readTree(row), row, map, anchorRefs);
 
 const selected = map.topics.filter(row => !row.excluded && (!only || only.some(prefix => row.source === prefix || row.source.startsWith(`${prefix}/`))));
 if (args.clean) {
