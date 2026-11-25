@@ -1,0 +1,59 @@
+---
+title: "Known Issues and Limitations (igTreeGrid)"
+keywords: "Grids, Data Binding, Getting Started"
+llms:
+  description: "Known Issues and Limitations (igTreeGrid): The following table summarizes the known issues and limitations of the igTreeGrid control."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgPositive from './images/positive.png';
+import imgNegative from './images/negative.png';
+import imgPlannedFix from './images/plannedFix.png';
+
+# Known Issues and Limitations (igTreeGrid)
+
+The following table summarizes the known issues and limitations of the `igTreeGrid`™ control. Detailed explanations of some of the issues and the existing workarounds are provided after the summary table.
+
+| Legend                               |                      |
+| ------------------------------------ | -------------------- |
+| <Image src={imgPositive} alt="" />   | Workaround available |
+| <Image src={imgNegative} alt="" />   | No known workaround  |
+| <Image src={imgPlannedFix} alt="" /> | Fix planned          |
+
+| Issue                                                                                                     | Description                                                                                                                                                                                | Status                             |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| [Expansion indicators can be cropped/hidden with remote features](#expand-indicator-crop)                 | Expansion indicators on lower levels in the hierarchy can be cropped/hidden when rendered in the separate indicators non-data column in remote scenarios                                   | <Image src={imgPositive} alt="" /> |
+| [Misaligned first cells' data on lower levels](#misaligned-data)                                          | Padding on lower levels can push displayed data beyond the available width of the cell and cause the text to wrap around to the initial position, breaking visual hierarchy                | <Image src={imgPositive} alt="" /> |
+| Scroll position changes when expanding/collapsing rows in rowVirtualization mode with paging (allLevels). | When rowVirtualization and paging with `mode` set to `allLevels` are enabled the scroll position will change when expanding/collapsing rows.                                               | <Image src={imgNegative} alt="" /> |
+| Paging Context Row is not supported with Column Fixing.                                                   | An exception is thrown when <ApiLink type="igTreeGridPaging" member="options:contextRowMode" pkg="core" label="contextRowMode" /> is "parent" or "breadcrumb" and Column Fixing is enabled | <Image src={imgNegative} alt="" /> |
+
+## <a id="expand-indicator-crop" />Expansion indicators can be cropped/hidden when rendered on lower levels
+
+Expansion indicators can become cropped or hidden when the expansion indicator column's width is not bid enough. Normally it is determined from the bound data, but in a remote scenario it should instead be provided from the back-end through the <ApiLink type="igTreeGrid" member="options:initialIndentationLevel" pkg="core" label="initialIndentationLevel" /> setting which determines how many indentations should be reserved as width for that column.
+
+Besides the number of indentations the actual step width can also be reduced by setting the row <ApiLink type="igTreeGrid" member="options:indentation" pkg="core" label="indentation" /> option to lower value.
+
+## <a id="misaligned-data" />Misaligned first cell data on lower levels
+
+Deeply nested levels of hierarchy can add a large amount of padding and cause the text to wrap around to the initial position, breaking visual hierarchy. To overcome this analysis of the data structure is required - the very basic options is to modify either the number of columns or the <ApiLink type="igTreeGrid" member="options:columns.width" pkg="core" label="columns.width" /> where possible to fit in more content.
+
+The other option available is to reduce the overall padding by setting the row <ApiLink type="igTreeGrid" member="options:indentation" pkg="core" label="indentation" /> option to lower value. For example:
+
+```js
+$(".selector").igTreeGrid({
+    indentation: "15px"
+});
+```
+
+## Related Content
+
+### Topics
+
+- [Features Overview (igTreeGrid)](./igtreegrid-features-overview.mdx): This topic covers the basics around the modular features available for the `igTreeGrid` control.
+
+### Samples
+
+- [igTreeGrid Overview](\{environment:samplesBrowserUrl}/tree-grid/overview)

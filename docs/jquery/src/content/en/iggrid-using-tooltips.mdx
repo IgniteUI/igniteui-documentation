@@ -1,0 +1,180 @@
+---
+title: "Configuring Tooltips (igGrid)"
+keywords: "Getting Started, Grids"
+llms:
+  description: "Demonstrates, with code examples, how to configure the jQuery igGrid tooltips for the most common usage scenarios."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgUsingIgGridTooltips01 from './images/Controls/igGrid/Features/Tooltips/Using_igGrid_Tooltips_01.png';
+import imgUsingIgGridTooltips02 from './images/Controls/igGrid/Features/Tooltips/Using_igGrid_Tooltips_02.png';
+import imgUsingIgGridTooltips03 from './images/Controls/igGrid/Features/Tooltips/Using_igGrid_Tooltips_03.png';
+import imgUsingIgGridTooltips04 from './images/Controls/igGrid/Features/Tooltips/Using_igGrid_Tooltips_04.png';
+
+# Configuring Tooltips (igGrid)
+
+## Topic Overview
+
+### Purpose
+
+This topic demonstrates, with code examples, how to configure the jQuery `igGrid`™ tooltips for the most common usage scenarios.
+
+## Tooltips Configuration Chart
+
+The table below lists the most common use cases of jQuery `igGrid` tooltips together with the properties that configure them. Each of these use cases is explained in greater detail in the text blocks following the table.
+
+| Use case                                                                 | Configuration details                                                                                                                                                               | Configuration property                                                                                                                                                                                        |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Displaying the tooltips with their default settings](#default-settings) | To display tooltips with their default settings, just call the Tooltips feature.                                                                                                    | name                                                                                                                                                                                                          |
+| [Configuring cell columns without tooltips](#disable)                    | Disabling the tooltips for a column is useful when, for example, the cells in column contain images. In this case, you configure the tooltip behavior individually per each column. | <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" /> <ApiLink type="igGridTooltips" member="options:columnSettings" pkg="core" label="columnSettings" />               |
+| [Configuring a custom tooltip position](#custom)                         | Specifying the position at which the tooltip to appear. You configure this by specifying offset of the tooltip from the mouse pointer.                                              | <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" /> |
+
+## <a id="default-settings" />Displaying the Tooltips with Their Default Settings
+
+### Default tooltip behavior overview
+
+By default, tooltips display only if the text in a cell is too long to fit in it and appears truncated. The two pictures below demonstrate this behavior:
+
+- Left – the text is fully visible in the grid cell so no tooltip is displayed
+- Right – the text is too long for the cell and appears truncated, therefore a tooltip is displayed
+
+<Image src={imgUsingIgGridTooltips01} alt="" /> <Image src={imgUsingIgGridTooltips02} alt="" />
+
+### Default tooltip behavior property settings
+
+The following table lists the default property settings of the jQuery Tooltip widget.
+
+| Property                                                                                                | Setting    |
+| ------------------------------------------------------------------------------------------------------- | ---------- |
+| <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" />             | “overflow” |
+| <ApiLink type="igGridTooltips" member="options:showDelay" pkg="core" label="showDelay" />               | 500        |
+| <ApiLink type="igGridTooltips" member="options:hideDelay" pkg="core" label="hideDelay" />               | 300        |
+| <ApiLink type="igGridTooltips" member="options:fadeTimespan" pkg="core" label="fadeTimespan" />         | 150        |
+| <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> | 10         |
+| <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" />   | 15         |
+| <ApiLink type="igGridTooltips" member="options:style" pkg="core" label="style" />                       | "tooltip"  |
+
+### Code example
+
+To enable the tooltips with their default settings, just set the name property to “Tooltips”.
+
+The following code enables the default behavior of the `igGrid` Tooltips.
+
+**In Javascript:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips"
+        }
+    ]
+});
+```
+
+<DocsAside type="note">
+  For information on how to do the same with MVC, see the Adding Tooltips to an `igGrid` topic.
+</DocsAside>
+
+## <a id="disable" />Disabling the Tooltips for a Column
+
+In this example, the tooltips are configured to display over every column that contains text and not over the columns that store images.
+
+The two pictures below demonstrate this behavior:
+
+- Left – the cells in the column contain text, so the tooltips are displayed
+- Right – the cells in the column contain images, so no tooltips are displayed
+
+To configure this behavior, you need to define the properties individually for every column.
+
+### Property settings
+
+The table below demonstrates the required property settings for hiding the tooltips for one column while always displaying the tooltips for the rest. For details about the properties, refer to the API documentation.
+
+| Property                                                                                            | Setting                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| name                                                                                                | “Tooltips”                                                                                                                                |
+| <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" />         | “always”                                                                                                                                  |
+| <ApiLink type="igGridTooltips" member="options:columnSettings" pkg="core" label="columnSettings" /> | \[\{ columnKey: "col1", allowTooltips: true }, \{ columnKey: "col2", allowTooltips: false }, \{ columnKey: "col3", allowTooltips: true }] |
+
+### Code example
+
+The following code disables the tooltips for the second column.
+
+**In Javascript:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips",
+            columnSettings: [
+                { columnKey: "Name", allowTooltips: true },
+                { columnKey: "BoxArt", allowTooltips: false },
+                { columnKey: "Synopsis", allowTooltips: true }
+            ]
+        }
+    ]
+});
+```
+
+<DocsAside type="note">
+  For information on how to do the same with MVC, see the Adding Tooltips to a jQuery `igGrid` topic.
+</DocsAside>
+
+## <a id="custom" />Configuring a Custom Tooltip Position
+
+To configure the position of the tooltip, you specify the offset of the tooltip from the mouse pointer in the jQuery `igGrid` Tooltip API.
+
+<Image src={imgUsingIgGridTooltips03} alt="" /> <Image src={imgUsingIgGridTooltips04} alt="" />
+
+### Property settings
+
+The tooltip positioning is managed by the `cursorLeftOffset` and `cursorTopOffset` properties. The table below demonstrates the required property settings for achieving the offset shown in the picture above. For details about the properties, refer to the API documentation.
+
+| Property                                                                                                | Setting    |
+| ------------------------------------------------------------------------------------------------------- | ---------- |
+| name                                                                                                    | “Tooltips” |
+| <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> | 50         |
+| <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" />   | 50         |
+
+### Code example
+
+The following code configures the offset shown in the picture above.
+
+**In Javascript:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips",
+            cursorLeftOffset: 50,
+            cursorTopOffset: 50
+        }
+    ]
+});
+```
+
+<DocsAside type="note">
+  For information on how to do the same with MVC, see the [Enable Tooltips for an igGrid](./iggrid-enabling-tooltips.mdx) topic.
+</DocsAside>
+
+## Running sample
+
+<Sample src="/grid/tooltips/index.html" height={500} alt="igGrid Tooltips" chrome="bare" fullscreenBtn />
+
+## Related Topics
+
+Following are some other topics you may find useful.
+
+- [igGrid Tooltips Overview](./iggrid-tooltips-overview.mdx)
+
+- [Enable Tooltips for an igGrid](./iggrid-enabling-tooltips.mdx)
+
+- [igGrid Known Issues and Breaking Changes](./iggrid-known-issues.mdx)

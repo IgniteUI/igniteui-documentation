@@ -1,0 +1,361 @@
+---
+title: "Configuring Row Selectors (igGrid)"
+keywords: "Getting Started, Grids, Selection"
+llms:
+  description: "Discusses how to configure row selection in the igGrid."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgRowSelectorsConfigurePic1 from './images/Controls/igGrid/Features/Row-Selectors/RowSelectors_Configure_Pic1.png';
+import imgGridPagingSelectAll from './images/Controls/igGrid/Features/Row-Selectors/gridPagingSelectAll.png';
+import imgRowSelectorsConfigurePic2 from './images/Controls/igGrid/Features/Row-Selectors/RowSelectors_Configure_Pic2.png';
+import imgRowSelectorsConfigurePic3 from './images/Controls/igGrid/Features/Row-Selectors/RowSelectors_Configure_Pic3.png';
+
+# Configuring Row Selectors (igGrid)
+
+## Topic Overview
+
+### Purpose
+
+This topic discusses how to configure row selection in the igGrid.
+
+### Required Background
+
+The table below lists the required background you need for fully understanding the information in this topic.
+
+- Topics
+  - You need to first read the [Enabling Row Selectors](./iggrid-enabling-row-selectors.mdx) topic.
+- External Resources
+  - You need to first read the [jQuery on() API](http://api.jquery.com/on/) article.
+
+## RowSelectors Configuration Overview
+
+The `rowSelectors` widget of the `igGrid`™ control exposes a lot of configurable options. The table below lists the configurable screen elements and behaviors manageable through the widget. For some of the behaviors/features, detailed explanations and examples are provided in the blocks following the chart.
+
+| Configurable behavior / feature              | Configuration details                                                                                                                                       | Configuration properties                                                                                                |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Multiple rows selection                      | By default, the RowSelectors widget has row numbering enabled.                                                                                              | –                                                                                                                       |
+| Selection checkboxes                         | Determines whether the row selectors column should contain checkboxes                                                                                       | <ApiLink type="igGridRowSelectors" member="options:enableCheckBoxes" pkg="core" label="enableCheckBoxes" />             |
+| Row numbering                                | The row selectors column can contain row numbers if a property is enabled.                                                                                  | <ApiLink type="igGridRowSelectors" member="options:enableRowNumbering" pkg="core" label="enableRowNumbering" />         |
+| Canceling the check box state changing event | Hook to `checkBoxStateChanging` event and cancel it on some condition.                                                                                      | –                                                                                                                       |
+| Row numbering seed                           | The seed is added to the default numbering.                                                                                                                 | <ApiLink type="igGridRowSelectors" member="options:rowNumberingSeed" pkg="core" label="rowNumberingSeed" />             |
+| Width of the row selectors column.           | The width of row selectors column is configurable by setting a property.                                                                                    | <ApiLink type="igGridRowSelectors" member="options:rowSelectorColumnWidth" pkg="core" label="rowSelectorColumnWidth" /> |
+| Configurable events                          | For information about these events, refer to their listing in the property reference section: [igGridRowSelectors Events](./iggrid-rowselectors-events.mdx) |                                                                                                                         |
+| Require Selection                            | Requires the selection feature to be enabled. If selection is not enabled, an exception is thrown                                                           | <ApiLink type="igGridRowSelectors" member="options:requireSelection" pkg="core" label="requireSelection" />             |
+
+## Enabling Multiple Rows Selection
+
+Selecting cells or rows with RowSelectors requires initializing the Selection feature for the grid. RowSelectors do not initialize the Selection feature automatically and expects you to enable it if needed. Without the Selection feature, RowSelectors can still be used, for example, for their row numbering functionality. In the example below, multiple-selection is enabled. Red arrows show row selectors column.
+
+### Preview
+
+In the picture below, RowSelectors and multiple Selection features are enabled.
+
+<Image src={imgRowSelectorsConfigurePic1} alt="" />
+
+### Code
+
+**In HTML:**
+
+```html
+<script type="text/javascript">
+    $(function () {
+        $("#grid").igGrid({
+            autoGenerateColumns: true,
+            dataSource: source,
+            features: [
+                {
+                    name: "RowSelectors"
+                },
+                {
+                    name: "Selection",
+                    mode: "cell",
+                    multipleSelection: true
+                }
+            ]
+        });
+    });
+</script>
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model)
+    .AutoGenerateColumns(true)
+    .Features(feature =>        {       
+        feature.Selection().MultipleSelection(true);
+        feature.RowSelectors();
+    })
+    .DataBind()
+    .Render()
+)
+```
+
+## <a id="select-all-pages" />Enabling Selection across all pages
+
+By default the header checkbox, available in multiple selection mode, checks all rows from the current data view. Now the grid Row Selectors along with Paging feature provides the ability to select all records across all pages using the option "enableSelectAllForPaging" (set to true by default). In case of local Paging when header checkbox is clicked an overlay is displayed suggesting the end user to select/deselect the rows from all pages (see the screenshot below).
+
+<DocsAside type="note">
+  "Select All" functionality does not work for remote Paging. Clicking on the header checkbox will only select the rows from the current page.
+</DocsAside>
+
+### Preview
+
+The picture below demonstrates the "Select All" functionality.
+
+<Image src={imgGridPagingSelectAll} alt="" />
+
+### Property settings for enabling "Select All" functionality
+
+The table below maps the desired configurations to property settings. The properties are accessed through the igGridRowSelectors options.
+
+| Property                                                                                                                    | Setting |
+| --------------------------------------------------------------------------------------------------------------------------- | ------- |
+| <ApiLink type="igGridRowSelectors" member="options:enableSelectAllForPaging" pkg="core" label="enableSelectAllForPaging" /> | true    |
+| <ApiLink type="igGridRowSelectors" member="options:enableCheckBoxes" pkg="core" label="enableCheckBoxes" />                 | true    |
+| <ApiLink type="igGridSelection" member="options:multipleSelection" pkg="core" label="multipleSelection" />                  | true    |
+
+### Code
+
+**In HTML:**
+
+```html
+<script type="text/javascript">
+    $(function () {
+        $("#grid").igGrid({
+            autoGenerateColumns: true,
+            dataSource: source,
+            features: [
+                {
+                    name: "RowSelectors",
+                    enableCheckBoxes: true,
+                    enableSelectAllForPaging: true
+                },
+                {
+                    name: "Selection",
+                    multipleSelection: true
+                },
+                {
+                    name: "Paging",
+                    type: "local",
+                    pageSize: 10
+                }
+            ]
+        });
+    });
+</script>
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model)
+    .AutoGenerateColumns(true)
+    .Features(feature =>        {       
+        feature.Selection().MultipleSelection(true);
+        feature.RowSelectors()
+            .EnableCheckBoxes(true)
+            .EnableSelectAllForPaging(true);
+        feature.Paging().PageSize(10);
+    })
+    .DataBind()
+    .Render()
+)
+```
+
+## Adding Selection Checkboxes
+
+Selection checkboxes are added by setting the `enableCheckBoxes` property to true. It is recommended, if enabling the checkboxes feature, to use multiple-selection so the user won’t need to hold Ctrl key when selecting multiple rows. When multiple-selection is enabled a checkbox will display in the row selectors column header. This checkbox enables selection/deselection of all the rows at once (in case when Paging feature is enabled selects/deselects only the rows from the current page).
+
+<DocsAside type="note">
+  Enabling checkboxes forces `igGridSelection` to use "row" selection mode.
+</DocsAside>
+
+### Preview
+
+In the picture below demonstrates a grid with both checkboxes and Paging enabled.
+
+<Image src={imgRowSelectorsConfigurePic2} alt="" />
+
+### Property settings for enabling checkboxes
+
+The table below maps the desired configurations to property settings. The properties are accessed through the igGridRowSelectors options.
+
+| Property                                                                                                    | Setting |
+| ----------------------------------------------------------------------------------------------------------- | ------- |
+| <ApiLink type="igGridRowSelectors" member="options:enableCheckBoxes" pkg="core" label="enableCheckBoxes" /> | true    |
+
+### Code
+
+**In HTML:**
+
+```html
+<script type="text/javascript">
+    $(function () {
+        $("#grid").igGrid({
+            autoGenerateColumns: true,
+            dataSource: source,
+            features: [
+                {
+                    name: "RowSelectors",
+                    enableCheckBoxes: true
+                },
+                {
+                    name: "Selection",
+                    multipleSelection: true
+                }
+            ]
+        });
+    });
+</script>
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model)
+    .AutoGenerateColumns(true)
+    .Features(feature =>         { 
+        feature.Selection().MultipleSelection(true);
+        feature.RowSelectors().EnableCheckBoxes(true);
+     })
+    .DataBind()
+    .Render()
+)
+```
+
+## Enabling Row Numbering
+
+The row selector column in the grid can be used to display the sequential numbers of the rows. This is managed through the `enableRowNumbering` option of the `RowSelectors` feature.
+
+### Preview
+
+In the picture demonstrates a grid with, row numbering enabled.
+
+<Image src={imgRowSelectorsConfigurePic3} alt="" />
+
+### Property settings for enabling row numbering
+
+The table below maps the desired configurations to property settings. The properties are accessed through the `igGridRowSelectors` options. To set a start value different from 0 use the `rowNumberingSeed` option.
+
+| Property           | Setting |
+| ------------------ | ------- |
+| enableRowNumbering | true    |
+| rowNumberingSeed   | 0       |
+
+### Code
+
+**In HTML:**
+
+```html
+<script type="text/javascript">
+    $(function () {
+        $("#grid").igGrid({
+            autoGenerateColumns: true,
+            dataSource: source,
+            features: [
+                {
+                    name: "RowSelectors",
+                    enableRowNumbering: true
+                }
+            ]
+        });
+    });
+</script>
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model)
+    .AutoGenerateColumns(true)
+    .Features(feature =>        {
+        feature.Selection().MultipleSelection(true);
+        feature.RowSelectors().EnableRowNumbering(true);
+    })
+    .DataBind()
+    .Render()
+)
+```
+
+## Canceling the Check Box State Changing Event
+
+By handling the `checkBoxStateChanging` event, a checkbox selection can be canceled.
+
+Following is a conceptual overview of the process:
+
+1. Handling the `checkBoxStateChanging` event
+2. Canceling the event
+
+### Steps
+
+1. Handle the `checkBoxStateChanging` event.
+
+   1. Define a function that will be called when the `checkBoxStateChanging` event fires.
+
+      **In Javascript:**
+
+      ```js
+      function gridcheckboxStateChanging(evt, ui) {}
+      ```
+
+   2. Set the handler to the `rowSelectorClicked` event of the `igGrid`.
+
+      Once you have a handler defined, it needs to be set as the handler for the gridcheckboxStateChanging event.
+
+      In jQuery, this can be done when the widget is instantiated.
+
+      In ASP.NET MVC, the event should be attached using the jQuery delegate() or bind() API. The type for this event is ‘iggridrowselectorscheckboxstatechanging'.
+
+      **In Javascript:**
+
+      ```js
+      $(function () {
+          $("#grid1").igGrid({
+              autoGenerateColumns: true,
+              dataSource: adventureWorks,
+              responseDataKey: "Records",
+              features: [
+                  {
+                      name: "RowSelectors",
+                      enableCheckBoxes: true,
+                      checkBoxStateChanging: "gridcheckboxStateChanging"
+                  },
+                  {
+                      name: "Selection"
+                  }
+              ]
+          });
+      });
+      ```
+
+2. Cancel the event.
+
+   Cancel the event by returning false.
+
+   **In Javascript:**
+
+   ```js
+   function gridcheckboxStateChanging(evt, ui) {
+       if (conditionNotMet) return false;
+   }
+   ```
+
+## Related Topics
+
+Following are some other topics you may find useful.
+
+- [Enabling Row Selectors](./iggrid-enabling-row-selectors.mdx)
+- [Row Selectors Events](./iggrid-rowselectors-events.mdx)
+
+### Samples
+
+This sample shows how to configure a Row Selectors in the `igGrid`.
+
+<Sample src="/grid/row-selectors/index.html" height={1000} alt="Configuring Row Selectors" chrome="bare" fullscreenBtn />

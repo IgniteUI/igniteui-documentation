@@ -1,0 +1,75 @@
+---
+title: "Creating a Word Document"
+keywords: "Formatting, Getting Started, How Do I"
+llms:
+  description: "Illustrates how to create a Word document using the forward-only WordDocumentWriter streamer object."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgWordCreateAWordDocument01 from './images/ASP-NET-MVC/Word-Library/Using-Infragistics-Word-Library/Word_Create_a_Word_Document_01.png';
+
+# Creating a Word Document
+
+This topic illustrates how to create a Word document using the forward-only <ApiLink type="WordDocumentWriter" pkg="documents-io" label="WordDocumentWriter" /> streamer object. The static Create method of the `WordDocumentWriter` object creates a new Word document.
+
+The following screenshot shows a Word document created with text and hyperlink:
+
+<Image src={imgWordCreateAWordDocument01} alt="" />
+
+The various properties of the document such as `Author`, `Title`, `Subject` etc., can be set using the <ApiLink type="WordDocumentWriter" member="DocumentProperties" pkg="documents-io" label="DocumentProperties" /> property of the `WordDocumentWriter` object. These information can be accessed in Word 2007 by clicking the Office Button and navigating to Prepare > Properties section. Similarly in Word 2010 by clicking the File tab the document properties can be accessed from the right side of the backstage view.
+
+In order to start writing into the Word document use the <ApiLink type="WordDocumentWriter" member="StartDocument" pkg="documents-io" label="StartDocument" /> method that must be balanced with a corresponding call to the <ApiLink type="WordDocumentWriter" member="EndDocument" pkg="documents-io" label="EndDocument" /> method.
+
+A Paragraph provides the ability to display a block of text which can be aligned or indented. Use the <ApiLink type="WordDocumentWriter" member="StartParagraph" pkg="documents-io" label="StartParagraph" /> method to begin a paragraph. The <ApiLink type="WordDocumentWriter" member="AddTextRun" pkg="documents-io" label="AddTextRun" /> method provides a way to add content to the paragraph. Once content is added the paragraph must be closed using the <ApiLink type="WordDocumentWriter" member="EndParagraph" pkg="documents-io" label="EndParagraph" /> method.
+
+<DocsAside type="note">
+  A reference to the `Infragistics.Web.Documents.IO` assembly is required for the following code.
+</DocsAside>
+
+<DocsAside type="note">
+  When using the `WordDocumentWriter` object for creating Word documents the streamer object must be disposed or closed using either the Dispose or Close method.
+</DocsAside>
+
+**In C#:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Create a new instance of the WordDocumentWriter class
+// using the static 'Create' method.
+WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:TestWordDoc.docx");
+// Use inches as the unit of measure
+docWriter.Unit = UnitOfMeasurement.Inch;
+// Set the document properties, such as title, author, etc.
+docWriter.DocumentProperties.Title = "Sample Document";
+docWriter.DocumentProperties.Author = string.Format("Infragistics.{0}", SystemInformation.UserName);
+// Start the document...note that each call to
+// StartDocument must be balanced with a corresponding call to EndDocument.
+docWriter.StartDocument();
+//  Start a paragraph
+docWriter.StartParagraph();
+//  Add a text run for the title
+docWriter.AddTextRun("Paragraphs and Topic Sentences");
+// Add a new line
+docWriter.AddNewLine();
+//  Add a Hyperlink
+docWriter.AddHyperlink("http://www.infragistics.com", "Infragistics Inc.");
+//  End the paragraph
+docWriter.EndParagraph();
+//  End Document
+docWriter.EndDocument();
+// Close the writer
+docWriter.Close();
+```
+
+## Related Topics
+
+- [Applying Formatting to Word Document](./word-apply-formatting-to-word-document.mdx)
+- [Adding Table to Word Document](./word-add-table-to-word-document.mdx)
+- [Word Add Images to Word Document](./word-add-images-to-word-document.mdx)
+- [Headers Footers and Page Numbers](./word-headers-footers-and-page-numbers.mdx)
+- [Understanding Infragistics Word Library](./word-understanding-infragistics-word-library.mdx)

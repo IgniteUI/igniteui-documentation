@@ -1,0 +1,217 @@
+---
+title: "Configure Checkboxes and Selection with igTree"
+keywords: "Events, Selection"
+llms:
+  description: "Discusses some common ways to configure selections in the igTree control."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgTreeSelection01 from './images/Controls/igTree/igTree_Selection_01.png';
+import imgIgTreeSelection02 from './images/Controls/igTree/igTree_Selection_02.png';
+import imgIgTreeSelection03 from './images/Controls/igTree/igTree_Selection_03.png';
+
+# Configure Checkboxes and Selection with igTree
+
+## Topic Overview
+
+### Purpose
+
+This topic discusses some common ways to configure selections in the `igTree`™ control.
+
+### Required background
+
+The table below lists the required background you need for fully understanding the information in this topic.
+
+| Background type    | Content                                                                                                                                                   |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Topics             | You need to first read the [Getting Started with igTree](./igtree-getting-started.mdx) topic.                                                             |
+| External Resources | You need to first read the following articles: [jQuery `bind()` API](http://api.jquery.com/bind/)<br />[jQuery `live()` API](http://api.jquery.com/live/) |
+
+## igTree Configuration Overview
+
+### Control configuration chart
+
+The table below lists the configurable behaviors of the `igTree` control.
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Configurable behavior</th><th>Configuration details</th><th>Configuration properties</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Configure checkboxes</td><td>The `igTree` control supports bi-state and tri-state checkboxes. When tri-state checkboxes are enabled, the parent nodes update dynamically to reflect whether their children are all selected, all unselected, or partially selected.</td>
+
+      <td>
+        - checkboxMode
+      </td>
+    </tr>
+
+    <tr>
+      <td>Get checked nodes</td><td>The `igTree` control has an API to get all checked nodes, all unchecked nodes, and all partially selected nodes.</td>
+
+      <td>
+        - checkedNodes
+        - uncheckedNodes
+        - partiallyCheckedNodes
+      </td>
+    </tr>
+
+    <tr>
+      <td>Handle selection and checkbox events</td><td>Capture selection events to perform logic in response to a selection operation occurring.</td>
+
+      <td>
+        - selectionChanging
+        - selectionChanged
+        - nodeCheckstateChanging
+        - nodeCheckstateChanged
+      </td>
+    </tr>
+
+    <tr>
+      <td>Select/Deselect Nodes</td><td>Use these methods to select and deselect modes through code.</td>
+
+      <td>
+        - select(node)
+        - deselect(node)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Configuring checkboxes
+
+### Checkboxes configuration overview
+
+The `igTree` control supports bi-state and tri-state checkboxes. When tri-state checkboxes are enabled, the parent nodes reflect whether their children are all selected, all unselected, or partially selected.
+
+<Image src={imgIgTreeSelection01} alt="" />
+
+## Checkboxes property settings
+
+The table below maps the desired behaviors to property settings. The properties are accessed through the `igTree`’s options.
+
+| In order to…                | Use this property: | And set it to… |
+| --------------------------- | ------------------ | -------------- |
+| Enable bi-state checkboxes  | checkboxMode       | biState        |
+| Enable tri-state checkboxes | checkboxMode       | triState       |
+
+### Example: configuring tri-state checkboxes
+
+The image below demonstrates tri-state checkboxes as a result of the following settings:
+
+| Property     | Setting  | Preview                                     |
+| ------------ | -------- | ------------------------------------------- |
+| checkboxMode | triState | <Image src={imgIgTreeSelection02} alt="" /> |
+
+### Example: configuring bi-state checkboxes
+
+The image below demonstrates tri-state checkboxes as a result of the following settings:
+
+| Property     | Setting | Preview                                     |
+| ------------ | ------- | ------------------------------------------- |
+| checkboxMode | biState | <Image src={imgIgTreeSelection03} alt="" /> |
+
+### Configuring checkoxes’ property reference
+
+For detailed information about these properties, refer to their listing in the property reference section:
+
+- <ApiLink type="igTree" pkg="core" label="igTree Options" />
+
+## Getting checked nodes
+
+### Checked nodes overview
+
+The `igTree` has an API to get all checked nodes, all unchecked nodes, and all partially selected nodes.
+
+### Getting checked nodes property settings
+
+The table below maps the desired behaviors to property settings. The properties are accessed through the `igTree` methods.
+
+| In order to…                    | Use this method:      | Returns…       |
+| ------------------------------- | --------------------- | -------------- |
+| Get all checked nodes           | checkedNodes          | array of Nodes |
+| Get all unchecked nodes         | uncheckedNodes        | array of Nodes |
+| Get all partially checked nodes | partiallyCheckedNodes | array of Nodes |
+
+### Getting all checked nodes
+
+The code below demonstrates how to get all checked nodes as a result of the following:
+
+| Method       | Returns…       |
+| ------------ | -------------- |
+| checkedNodes | array of Nodes |
+
+**In JavaScript:**
+
+```js
+var nodes = $("#tree").igTree("checkedNodes");
+```
+
+## Handling selection and checkbox events
+
+### Selection and checkbox event overview
+
+By handling the selection and checkbox events, you can perform custom logic in response to these operations. These events can be configured when a widget is initialized in jQuery or on the client using the bind or live jQuery functions.
+
+### Selection and checkbox events property settings
+
+The table below maps the desired behaviors to property settings. The properties are accessed through the `igTree` events.
+
+| In order to…                                 | Use this property:     | And set it to… |
+| -------------------------------------------- | ---------------------- | -------------- |
+| Handle an event before a selection operation | selectionChanging      | function()     |
+| Handle an event after a selection operation  | selectionChanged       | function()     |
+| Handle an event before a checkbox operation  | nodeCheckstateChanging | function()     |
+| Handle an event before a checkbox operation  | nodeCheckstateChanged  | function()     |
+
+### Example: configuring a selection event during instantiation
+
+The code below demonstrates configuring a selection during instantiation of the `igTree` using the following:
+
+| Property              | Setting               |
+| --------------------- | --------------------- |
+| selectionChanged      | function(evt, ui)\{ } |
+| nodeCheckstateChanged | function(evt, ui)\{ } |
+
+**In HTML:**
+
+```html
+$("#tree").igTree({ dataSource: data, checkboxMode: "triState", bindings: {
+textKey: 'Text', childDataProperty: 'Nodes' }, selectionChanged: function (evt,
+ui) { }, nodeCheckstateChanged: function (evt, ui) { } });
+```
+
+### Example: configuring selection and checkbox events with live and bind
+
+The code below demonstrates handling selection and checkbox events using jQuery bind and live functions. The type of the events are lower case strings constructed by appending `igTree` to the beginning of the event name.
+
+**In HTML:**
+
+```html
+$("#tree").bind("igtreeselectionchanging", function (evt, ui) { });
+$("#tree").live("igtreenodecheckstatechanged", function (evt, ui) { });
+```
+
+## Canceling selection
+
+The code below demonstrates how to cancel the selection operation by returning false from the event handler function. The same approach can be used for an –ing function for the `igTree`. In this code example, cancel represents the Boolean result of application logic that determines whether selection should occur or not.
+
+**In HTML:**
+
+```html
+$("#tree").live("igtreenodecheckstatechanging", function (evt, ui) { if (cancel
+== true) return false; });
+```
+
+## Related Topics
+
+Following are some other topics you may find useful.
+
+- igTree API documentation
+- <ApiLink type="TreeModel" pkg="mvc" label="igTree MVC API documentation" />

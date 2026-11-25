@@ -1,0 +1,194 @@
+---
+title: "Configuring igGridExcelExporter"
+keywords: "Exporting"
+llms:
+  description: "Explains the options igGridExcelExporter provides to configure how igGrid data and features will be exported to the Excel Worksheet."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# Configuring igGridExcelExporter
+
+## Topic Overview
+
+### Purpose
+
+This topic explains the options `igGridExcelExporter`™ provides to configure how `igGrid` data and features will be exported to the Excel Worksheet.
+
+### Required background
+
+- [igGridExcelExporter Overview](./iggridexcelexporter-overview.mdx "igGridExcelExporter Overview") - General information on the `igGridExcelExporter` control.
+
+## Configure the `gridFeatureOptions` settings
+
+Тhe <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions" pkg="core" label="gridFeatureOptions" /> object defines how the data and layout manipulations caused by the `Filtering`, `Hiding`, `Paging`, `Sorting`, `Summaries` and `Column Fixing` features of the `igGrid` will be reflected in the exported Excel Worksheet.
+
+#### Filtering
+
+All `igGrid` built-in filtering conditions are matched to the corresponding filtering conditions that are native to Excel, thus verifying the user works with a valid set of data. Custom filtering conditions defined in `igGrid` are not supported, so if such exists, they are ignored by the `igGridExcelExporter`.
+
+#### Sorting
+
+`Sorting` in `igGrid` displays a sort indicator and colors the column cells. When exported in Excel, the column headers will display indicators showing the sorting direction (ascending or descending), but the column itself will not be colored. This is native behavior to Excel, but can be customized in some `igGridExcelExporter` event, see the [`events`](#callbacks) below for example.
+
+#### Summaries
+
+`Summaries` in `igGrid` are highly flexible, allowing developers to customize the way summaries are calculated and modify the specific UI that is rendered. When applying summaries in the Worksheet, the `igGridExcelExporter` uses the native data aggregations available to Excel - `sum`, `min`, `max`, `average` and `count`. Custom summaries defined in `igGrid` are not supported and are ignored by the `igGridExcelExporter`.
+
+#### Paging
+
+`Paging` in `igGrid` can be customized in many ways, but in the context of `igGridExcelExporter` it is only about exporting the current page data or all pages data.
+
+#### Hiding
+
+Columns in `igGrid` can be defined as hidden initially or can be hidden/shown by the user if the `Hiding` feature is enabled. The `igGridExcelExporter` allows the developer to control whether these columns will be exported using the `hiding` property.
+
+#### Column Fixing
+
+Columns in `igGrid` can be fixed to either left or right direction, while in Excel columns get fixed to the left side only.
+
+Refer to the below table that lists the properties of the `gridFeatureOptions` object along with all the possible values and how they affect the exported Excel Worksheet.
+
+| Setting                 | Property                                                                                                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Configure Sorting       | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.sorting" pkg="core" label="sorting" />           | Accepted values `"none"` , `"applied"`<br />.When `"none"` Sorting is not applied in the Excel. When `"applied"` Sorting is applied in the Excel Worksheet.                                                                                                                                                                                                                                                                                                                                             |
+| Configure Filtering     | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.filtering" pkg="core" label="filtering" />       | Accepted values: `"none"` , `"applied"` , `"filteredRowsOnly"`.<br />When `"none"` Filtering is not applied in the Excel. When `"applied"` filtering expressions are read from the `igGrid` and applied to respective columns in Excel. Value of `"filteredRowsOnly"` will export only the records that have been filtered in the `igGrid` and will not apply filtering in the Excel worksheet.                                                                                                         |
+| Configure Paging        | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.paging" pkg="core" label="paging" />             | Accepted values: `"currentPage"` , `"allRows"`<br />`"currentPage"` will export only the current `igGrid` page, while `"allRows"` will export all data pages.                                                                                                                                                                                                                                                                                                                                           |
+| Configure Hiding        | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.hiding" pkg="core" label="hiding" />             | Accepted values: `"none"` , `"applied"` , `"visibleColumnsOnly"`<br />Value of `"none"` will ignore if any columns are hidden initially or through the `igGrid` UI and will still export them to the worksheet. `"applied"` will export the hidden columns, but they will not be visible in Excel until the user changes the column width in Excel to a value greater than 0. When value is `"visibleColumnsOnly"` the `igGridExcelExporter` will export only the `igGrid` columns that are not hidden. |
+| Configure Column Fixing | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.columnfixing" pkg="core" label="columnfixing" /> | Accepted values: `"none"` , `"applied"`<br />Set `"none"` to ignore `Column Fixing`. Value of `"applied"` will fix the respective columns in the Excel Worksheet.                                                                                                                                                                                                                                                                                                                                       |
+| Configure Summaries     | <ApiLink type="GridExcelExporter" member="options:settings.gridFeatureOptions.summaries" pkg="core" label="summaries" />       | Accepted values: `"none"` , `"applied"`<br />Set `"none"` to ignore the `igGrid` summaries. Value of `"applied"` will make the Excel calculate summaries for each column that has summaries in `igGrid`.                                                                                                                                                                                                                                                                                                |
+
+<DocsAside type="note">
+  While `Filtering` and `Sorting` always manipulate the whole data set in the `igGrid`, the data exported to Excel might be just a subset of the whole data (when `paging` is set to `"currentPage"`). Applying the same filtering and/or sorting expression to the Excel data will bring different results than in `igGrid`. Same is valid when calculating summaries for a given column in the Excel.
+</DocsAside>
+
+Code sample:
+
+```js
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    gridFeatureOptions: {
+        // Fixed `igGrid` columns will be fixed in the excel worksheet
+        columnfixing: "applied",
+        // summaries will not be calculated in the worksheet
+        summaries: "none",
+        // Sorted `igGrid` columns will be sorted in the excel worksheet
+        sorting: "applied",
+        // Hidden `igGrid` columns will be exported, but hidden in the worksheet
+        hiding: "applied",
+        // All pages of data will be exported
+        paging: "allRows",
+        // The same filter expressions will be applied to the excel worksheet
+        filtering: "applied"
+    }
+});
+```
+
+### Configure exporting hierarchical data
+
+When exporting `igHierarchicalGrid` you may opt to export all data down the hierarchy or just the data under expanded rows. The behavior is controlled by the <ApiLink type="GridExcelExporter" member="options:settings.dataExportMode" pkg="core" label="dataExportMode" /> property, which takes values `"allRows"` or `"expandedRows"`.
+
+```js
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    // The keys of the columns that will not be exported
+    dataExportMode: "expandedRows"
+});
+```
+
+### Configure columns that will not be exported
+
+<ApiLink type="GridExcelExporter" member="options:settings.columnsToSkip" pkg="core" label="columnsToSkip" /> option is used to define columns that will not be exported. The option takes an array containing the column keys:
+
+```js
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    // The keys of the columns that will not be exported
+    columnsToSkip: ["ProductID", "Supplier"]
+});
+```
+
+### Configure styling
+
+By default the `igGridExcelExporter` will copy styles from the header row and the first two data rows from `igGrid` to apply the same to the Worksheet table. If <ApiLink type="GridExcelExporter" member="options:settings.gridStyling" pkg="core" label="gridStyling" /> is set to `"none"`, then a predefined Excel table style will be applied to the worksheet. Table styles follow the [ECMA specification for Office Open XML](http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm) (see section on Table Style Definitions). The predefined style may be set using the <ApiLink type="GridExcelExporter" member="options:settings.tableStyle" pkg="core" label="tableStyle" /> and the available choices are divided into three categories: `TableStyleMedium[1-28]`, `TableStyleLight[1-21]` and `TableStyleDark[1-11]`. The range in brackets is the available theme number that may be chosen:
+
+```js
+$.ig.GridExcelExporter.exportGrid($(".selector"), {
+    gridStyling: "none",
+    //Setting the table style to 18th theme from TableStyleMedium category
+    tableStyle: "TableStyleMedium18"
+});
+```
+
+### <a id="callbacks" />Attach to callbacks (events)
+
+A number of callbacks (events) are exposed that are called during the exporting process and provide entry points to customize or end the exporting process. Exporting/ed callbacks that are available for cells and rows are suitable to apply formulas and conditional formatting, read/write values from the Worksheet object, etc. There are also the <ApiLink type="GridExcelExporter" member="options:callbacks.exportStarting" pkg="core" label="exportStarting" />, <ApiLink type="GridExcelExporter" member="options:callbacks.exportEnding" pkg="core" label="exportEnding" /> and <ApiLink type="GridExcelExporter" member="options:callbacks.error" pkg="core" label="error" /> and <ApiLink type="GridExcelExporter" member="options:callbacks.success" pkg="core" label="success" /> callbacks, which are suitable to verify anything before exporting or before saving the file locally, or to display a modal overlay over the `igGrid` while exporting, as shown in the [Display an overlay while exporting](#exporting_overlay) section.
+
+```js
+$.ig.GridExcelExporter.exportGrid($("#grid1"), {},
+{
+    cellExported: function (e, args) {
+        if (args.columnKey == 'Company') {
+            var xlRow = args.xlRow;
+            // apply formula to a cell
+            xlRow.cells(args.columnIndex).applyFormula('=HYPERLINK("' + args.cellValue + '")');
+        },
+        if (args.columnKey == "Age" && args.cellValue > 43) {
+            // format the font and the cell fill color
+            args.xlRow.getCellFormat(args.columnIndex).font().bold(1);
+            args.xlRow.getCellFormat(args.columnIndex).fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
+        }
+    },
+    exportEnding: function (e, args) {
+        // format a date value to be displayed as 19/Mar/2017
+        args.worksheet.columns().item(3).cellFormat().formatString("dd/MMM/YYYY");
+    },
+});
+```
+
+### <a id="exporting_overlay" />Display an overlay while exporting
+
+During exporting the `igGrid` UI is not available for interactions so you may want to place a modal overlay above. It will show in the beginning of exporting and hide in the end. To implement this the <ApiLink type="GridExcelExporter" member="options:callbacks.exportStarting" pkg="core" label="exportStarting" /> and <ApiLink type="GridExcelExporter" member="options:callbacks.success" pkg="core" label="success" /> callbacks are used:
+
+```js
+$.ig.GridExcelExporter.exportGrid(
+    $("#grid1"),
+    {},
+    {
+        exportStarting: function (e, args) {
+            showOverlay(args.grid, exportingOverlay);
+        },
+        success: function () {
+            hideOverlay(exportingOverlay);
+        }
+    }
+);
+```
+
+### Create igGrid with Excel Exporting configured using the Ignite UI CLI
+
+The easiest way to add a new igGrid, with Excel Exporting configured, to your application is via the Ignite UI CLI.
+
+To install the Ignite UI CLI:
+
+```bash
+npm install -g igniteui-cli
+```
+
+Once the Ignite UI CLI is installed the commands for generating an Ignite UI project, adding a new igGrid component, with Excel Exporting configured, building and serving the project are as following:
+
+```bash
+ig new <project name>
+cd <project name>
+ig add grid-export newGridExport
+ig start
+```
+
+For more information and the list of all available commands read the [Using Ignite UI CLI](./using-ignite-ui-cli.mdx) topic.
+
+### Preview
+
+The following is a preview of the final result.
+
+<Sample src="/grid/export-client-events/index.html" height={500} alt="https://github.com/IgniteUI/help-samples/tree/master/25.1/EN/grid/export-client-events" chrome="bare" fullscreenBtn />
