@@ -5,9 +5,21 @@
  *
  * Only layout changes. A block is formatted when Prettier has a parser for its language, the block
  * parses as that language, and the result has the same text once layout, quotes and optional
- * punctuation are set aside; any other block stays as written. So fragments that are not whole
- * statements stay, and so do C#, Visual Basic, Razor and ASPX, for which Prettier has no parser.
- * What is still wider than the block is listed, for the pass that works the lists.
+ * punctuation are set aside; any other block stays as written. So C#, Visual Basic, Razor and
+ * ASPX stay, for which Prettier has no parser.
+ *
+ * Script that does not parse as written gets a second chance, because much of it is sound code
+ * written the way documentation writes it:
+ * - `...` where code is left out (`function () { ... }`, a line of its own, the end of a list). It
+ *   is set aside while Prettier runs and put back.
+ * - The members of an object without the object, and a call chain without what it is called on.
+ *   They are formatted inside one and taken out again.
+ * - Typographic quotes for string quotes, from a word processor. They become straight quotes. This
+ *   is the one repair that changes the code, and it is kept only where the code parses with it
+ *   and did not without.
+ * Script that still does not parse is broken in a way no rule should guess at; it stays as
+ * written and is listed, with what is still wider than the block, for the pass that works the
+ * lists.
  */
 import * as prettier from 'prettier';
 import { visit } from 'unist-util-visit';
@@ -61,6 +73,129 @@ function wrapLineComments(text) {
     }).join('\n');
 }
 
+// ── script that does not parse as written ───────────────────────────────────
+
+const ELLIPSIS = String.raw`(?:\.\.\.|…)`;
+/** `{ ... }`: a body or an object whose content is left out. */
+const ELIDED_BODY = new RegExp(String.raw`\{[ \t]*${ELLIPSIS}[ \t]*\}`, 'g');
+/** A line that is only `...`: statements or members left out. */
+const ELIDED_LINE = new RegExp(String.raw`^([ \t]*)(${ELLIPSIS})[ \t]*(,?)[ \t]*$`, 'gm');
+/** `...` in a line, where an argument or an element is left out. Before a name it is spread syntax. */
+const ELIDED = new RegExp(String.raw`${ELLIPSIS}(?=[ \t]*(?:[,)\]};]|$))`, 'gm');
+
+/**
+ * Sets the placeholders aside: an elided body becomes an empty one, which Prettier keeps on its
+ * line; a line of its own becomes a comment, which Prettier keeps on a line of its own between
+ * members and statements alike; any other becomes a name. `restore` puts them back, or returns
+ * null when it cannot (it cannot tell which empty braces were placeholders, or a marker is gone).
+ */
+function setPlaceholdersAside(text) {
+    if (text.includes('__elided')) return null;
+    const bodies = [];
+    const tokens = [];
+    let out = text.replace(ELIDED_BODY, m => { bodies.push(m.includes('…') ? '{ … }' : '{ ... }'); return '{}'; });
+    out = out.replace(ELIDED_LINE, (m, indent, token, comma, offset, whole) => {
+        // Prettier drops the comma that led on to what is left out; remember to put it back.
+        tokens.push({ token: `${token}${comma}`, line: true, commaBefore: /,\s*$/.test(whole.slice(0, offset)) });
+        return `${indent}/*__elided${tokens.length - 1}__*/`;
+    });
+    out = out.replace(ELIDED, token => { tokens.push({ token }); return `__elided${tokens.length - 1}__`; });
+    if (!bodies.length && !tokens.length) return null;
+    return {
+        text: out,
+        restore(formatted) {
+            if ((formatted.match(/\{\}/g) ?? []).length !== bodies.length) return null;
+            let next = 0;
+            const lines = formatted.replace(/\{\}/g, () => bodies[next++]).split('\n');
+            for (const [index, { token, line, commaBefore }] of tokens.entries()) {
+                // As a statement the name got a semicolon.
+                const marker = line ? `/*__elided${index}__*/` : new RegExp(`__elided${index}__;?`);
+                const at = lines.findIndex(l => (line ? l.includes(marker) : marker.test(l)));
+                if (at === -1) return null;
+                lines[at] = lines[at].replace(marker, token);
+                if (line && commaBefore && at > 0 && /[^,{[(\s]\s*$/.test(lines[at - 1]) && lines[at].trim() === token) lines[at - 1] += ',';
+            }
+            return lines.join('\n');
+        },
+    };
+}
+
+const straightQuotes = text => text.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
+const dedent = lines => lines.map(line => line.replace(/^ {4}/, '')).join('\n');
+
+/** A fragment formatted inside what it is a part of, and taken out again. */
+const WRAPPERS = {
+    // `key: value,` lines: the members of an object.
+    object: {
+        applies: () => true,
+        wrap: text => `({\n${text}\n})`,
+        unwrap(formatted, source) {
+            const lines = /^\(\{\n([\s\S]*)\n\}\);?$/.exec(formatted);
+            const one = lines ? null : /^\(\{ ?([\s\S]*?) ?\}\);?$/.exec(formatted);
+            if (!lines && !one) return null;
+            const inner = lines ? dedent(lines[1].split('\n')) : one[1];
+            // Prettier drops the comma that led on to the members not shown.
+            return /,\s*$/.test(source) ? `${inner},` : inner;
+        },
+    },
+    // `.on(…)`: a call chain without what it is called on.
+    chain: {
+        applies: text => text.trimStart().startsWith('.'),
+        wrap: text => `__chain__${text.trimStart()}`,
+        unwrap(formatted, source) {
+            let inner;
+            if (formatted.startsWith('__chain__\n')) inner = dedent(formatted.split('\n').slice(1));
+            else if (formatted.startsWith('__chain__.')) inner = formatted.slice('__chain__'.length);
+            else return null;
+            return /;\s*$/.test(source) ? inner : inner.replace(/;$/, '');
+        },
+    },
+};
+
+/** The repairs to try on script that does not parse, the fewest first. */
+const ATTEMPTS = [
+    ['placeholders'], ['quotes'], ['object'], ['chain'],
+    ['placeholders', 'object'], ['placeholders', 'chain'], ['quotes', 'placeholders'], ['quotes', 'object'], ['quotes', 'chain'],
+    ['quotes', 'placeholders', 'object'], ['quotes', 'placeholders', 'chain'],
+];
+const REPAIR_NAMES = {
+    placeholders: 'with "..." placeholders set aside',
+    quotes: 'with typographic quotes made straight',
+    object: 'as the members of an object',
+    chain: 'as a call chain',
+};
+
+/** The block laid out with these repairs, or null when it does not parse with them or would say something else. */
+async function formatRepaired(source, parser, repairs) {
+    let text = source;
+    if (repairs.includes('quotes')) {
+        text = straightQuotes(text);
+        if (text === source) return null;
+    }
+    // What the result must say: the source, with straight quotes when that is the repair.
+    const said = text;
+    let aside = null;
+    if (repairs.includes('placeholders')) {
+        aside = setPlaceholdersAside(text);
+        if (!aside) return null;
+        text = aside.text;
+    }
+    const wrapper = WRAPPERS[repairs.find(r => WRAPPERS[r])];
+    if (wrapper) {
+        if (!wrapper.applies(said)) return null;
+        text = wrapper.wrap(text);
+    }
+    let formatted;
+    try {
+        formatted = (await prettier.format(text, { ...OPTIONS, parser })).replace(/\n+$/, '');
+    } catch {
+        return null;
+    }
+    if (wrapper) formatted = wrapper.unwrap(formatted, said);
+    if (formatted !== null && aside) formatted = aside.restore(formatted);
+    return formatted !== null && essence(formatted) === essence(said) ? formatted : null;
+}
+
 function skipReason(node) {
     if (!node.value.trim()) return 'empty';
     if (!PARSERS[node.lang]) return node.lang ? `no formatter for ${node.lang}` : 'no language';
@@ -88,10 +223,26 @@ export async function formatCode(tree, ctx) {
                     count('code blocks laid out by Prettier');
                 }
             } catch (error) {
-                why = `does not parse as ${node.lang}`;
-                const message = String(error.message).split('\n')[0].replace(/\s*\(\d+:\d+\)\s*$/, '');
-                if (/Unexpected character|Unterminated/.test(message)) {
-                    undecided.push({ topic: ctx.row.source, line: node.position?.start.line ?? null, reason: `code is not valid ${node.lang}`, detail: message });
+                let repaired = null;
+                if (node.lang === 'js' || node.lang === 'typescript') {
+                    for (const repairs of ATTEMPTS) {
+                        const formatted = await formatRepaired(node.value, PARSERS[node.lang], repairs);
+                        if (formatted === null) continue;
+                        repaired = repairs;
+                        node.value = formatted;
+                        break;
+                    }
+                }
+                if (repaired) {
+                    for (const repair of repaired) count(`code blocks laid out by Prettier ${REPAIR_NAMES[repair]}`);
+                } else {
+                    why = `does not parse as ${node.lang}`;
+                    const message = String(error.message).split('\n')[0].replace(/\s*\(\d+:\d+\)\s*$/, '');
+                    undecided.push({
+                        topic: ctx.row.source, line: node.data?.sourceLine ?? null,
+                        reason: `code that does not parse as ${node.lang} (left as written)`,
+                        detail: `${message}: ${node.value.trim().split('\n')[0].slice(0, 60)}`,
+                    });
                 }
             }
         }
@@ -106,7 +257,7 @@ export async function formatCode(tree, ctx) {
         const wide = node.value.split('\n').filter(line => line.length > CODE_WIDTH);
         if (wide.length) {
             undecided.push({
-                topic: ctx.row.source, line: node.position?.start.line ?? null,
+                topic: ctx.row.source, line: node.data?.sourceLine ?? null,
                 reason: `lines wider than ${CODE_WIDTH} columns (${why ?? 'Prettier cannot break them'})`,
                 detail: `${wide.length} of ${node.value.split('\n').length} lines, the longest ${Math.max(...wide.map(l => l.length))}: ${wide[0].trim().slice(0, 50)}`,
             });
