@@ -1,0 +1,376 @@
+---
+title: "{Platform} {GridLiteTitle} Cell Template | {ProductName} | MIT license"
+description: Grid Lite column configuration and column properties. Try our open-source {Platform} {GridLiteTitle} - lightweight and packed with essential features.
+keywords: column configuration, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+mentionedTypes: [{ComponentApiMembers}]
+namespace: Infragistics.Controls
+license: MIT
+llms:
+  description: "Columns are defined declaratively using column child components within the grid."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# Column Configuration
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+Columns are defined declaratively using column child components within the grid. The `field` property is the only required for a column, as it serves as the column identifier. It is also the property that is used to map and render the relevant data in the grid rows.
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column
+    field="account"
+    header="Account Number"
+    ...
+  ></igc-grid-lite-column>
+  <!-- Additional columns follow -->
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn
+      field="account"
+      header="Account Number"
+      ...
+    ></IgrGridLiteColumn>
+    {/* Additional columns follow */}
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+
+Columns are defined declaratively using `<IgbGridLiteColumn>` child elements within the grid. The <ApiLink type="Column" member="field" label="Field" /> property is the only required for a column, as it serves as the column identifier. It is also the property that is used to map and render the relevant data in the grid rows.
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn 
+        Field="Name"
+        Header="Product Name"
+        DataType="GridLiteColumnDataType.String" />
+    <!-- Additional columns follow -->
+</IgbGridLite>
+```
+
+## Configuration Based on the Data Source
+
+The grid supports inferring the column configuration based on the provided data source when `AutoGenerate` is set to true. It tries to infer the appropriate <ApiLink type="Column" member="field" label="Field" /> and <ApiLink type="Column" member="dataType" label="DataType" /> properties based on records in the data.
+
+```razor
+<IgbGridLite AutoGenerate=true Data="@products"/>
+@code {
+    private List<ProductInfo> products;
+
+    protected override void OnInitialized()
+    {
+        products = new List<ProductInfo>
+        {
+            new ProductInfo { Id = "1", Name = "example", Price = 10 },
+            ...
+        };
+    }
+
+    public class ProductInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+
+## Configuration Based on the Data Source
+
+The grid supports inferring the column configuration based on the provided data source when `autoGenerate` is set to true. It tries to infer the appropriate `field` and `dataType` based on records in the data.
+
+```typescript
+const data: Record[] = [
+  { entryId: "1234", source: "https://example.com", ts: 1373521917579 },
+  ...
+];
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite auto-generate .data=${data}></igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data} autoGenerate={true}></IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+The previous snippet will result in the grid automatically creating columns equivalent to:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite .data=${data}>
+  <igc-grid-lite-column field="entryId" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="source" data-type="string"></igc-grid-lite-column>
+  <igc-grid-lite-column field="ts" data-type="number"></igc-grid-lite-column>
+</igc-grid-lite>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite data={data}>
+    <IgrGridLiteColumn field="entryId" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="source" dataType="string"></IgrGridLiteColumn>
+    <IgrGridLiteColumn field="ts" dataType="number"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGridLite Data="@products">
+    <IgbGridLiteColumn Field="Id" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Name" DataType="GridLiteColumnDataType.String" />
+    <IgbGridLiteColumn Field="Price" DataType="GridLiteColumnDataType.Number" />
+</IgbGridLite>
+```
+
+</PlatformBlock>
+
+Useful for a quick render of some data without any additional customizations.
+
+
+## Additional Column Configuration
+
+The column exposes several more properties for customization:
+
+### Column Width
+
+By default, the columns have a width of **minmax(136px, 1fr)** which translates to a minimum width of 136px and maximum of
+1 part of the available space in the {GridLiteTitle}. This way the columns are fluid and responsive accommodating for changes
+in the grid width.
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+To change the width of column, use the `width` property of the column.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" width="250px"></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" width="250px"></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+To change the width of column, use the <ApiLink type="Column" member="width" label="Width" /> parameter of the <ApiLink type="IgbGridLiteColumn" /> component.
+
+```razor
+<IgbGridLiteColumn Field="Price" Width="250px" />
+```
+
+
+</PlatformBlock>
+
+
+The property accepts <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#numbers_lengths_and_percentages" target="_blank">valid CSS length units</a>.
+
+### Hiding columns
+
+<PlatformBlock for="React, WebComponents">
+
+
+Columns can be hidden/shown by setting the `hidden` property of the column.
+
+</PlatformBlock>
+
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" hidden></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" hidden></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Columns can be hidden/shown by setting the <ApiLink type="Column" member="hidden" label="Hidden" /> parameter on the <ApiLink type="IgbGridLiteColumn" /> component.
+
+```razor
+<IgbGridLiteColumn Field="Price" Hidden="true" />
+```
+
+
+</PlatformBlock>
+
+
+### Column resize
+
+
+<PlatformBlock for="React, WebComponents">
+
+
+Each column of the {GridLiteTitle} can be configured to be resizable by setting the `resizable` property of the column element.
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="WebComponents">
+
+
+```html
+<igc-grid-lite-column field="price" resizable></igc-grid-lite-column>
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="React">
+
+```tsx
+return (
+  <IgrGridLite>
+    <IgrGridLiteColumn field="price" resizable></IgrGridLiteColumn>
+  </IgrGridLite>
+);
+```
+
+</PlatformBlock>
+
+
+<PlatformBlock for="Blazor">
+
+
+Each column of the {GridLiteTitle} can be configured to be resizable by setting the <ApiLink type="Column" member="resizable" label="Resizable" /> parameter on the <ApiLink type="IgbGridLiteColumn" /> component.
+
+```razor
+<IgbGridLiteColumn Field="Price" Resizable="true" />
+```
+
+
+</PlatformBlock>
+
+
+If a column is set to be resizable, you can drag the right size of the column header to either increase/decrease  the column width. Double-clicking on the resize area will trigger auto-sizing of the column where it will try set its width according to the largest content of its cells/header.
+
+<DocsAside type="info">
+Columns with "fluid" widths (fr, %, etc.) can behave erratically when resizing in the grid is performed as they try to accommodate for the new dimensions. Depending on the application scenario, it may be better to use "hard" units so users don't experience layout shifts.
+</DocsAside>
+
+In the sample below you can try out the different column properties and how they reflect in the rendered grid.
+
+<Sample src="/{GridLiteSample}/column-config-dynamic" height={600} alt="{Platform} {GridLiteTitle} Column Config Dynamic" />
+
+
+{/*TODO <ApiLink type="{ComponentName}" />
+<ApiLink type="Column" />*/}
+
+## Additional Resources
+
+- [Data Binding](binding.md)
+- [Sorting](sorting.md)
+- [Filtering](filtering.md)
+- [Theming & Styling](theming.md)
+
+Our community is active and always welcoming to new ideas.
+
+- [{GridLiteTitle} **GitHub**]({GithubLinkLite})

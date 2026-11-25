@@ -1,0 +1,449 @@
+---
+title: "{Platform} {ComponentTitle} 複数行レイアウト - {ProductName}"
+description: "{ProductName} データ グリッドの複数行レイアウト機能を使用して、列の位置とサイズをより強力な方法で設定できます。例とデモをご確認ください。"
+keywords: 複数行レイアウト, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: "{ProductName} の複数行レイアウトは、{Platform} {ComponentTitle} のレンダリング機能を拡張します。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import { Image } from 'astro:assets';
+import multiRowLayout1 from '@xplat-images/multi-row-layout-1.png';
+
+# {Platform} {ComponentTitle} 複数行レイアウト
+
+{ProductName} の複数行レイアウトは、{Platform} {ComponentTitle} のレンダリング機能を拡張します。この機能により、単一のデータ レコードを複数の表示行に分割できます。
+
+## {Platform} 複数行レイアウトの例
+
+<Sample src="/{ComponentSample}/multi-row-layout-options" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Overview Example" />
+
+複数行レイアウトの宣言は、<ApiLink type="ColumnLayout" /> コンポーネントを使用して行います。各 <ApiLink type="ColumnLayout" /> コンポーネントは、1 つまたは複数の <ApiLink type="Column" /> コンポーネントを含むブロックとして考える必要があります。グリッドの一部の機能はブロック レベルで動作します (これらは下の「機能の統合」セクションに一覧表示されています)。たとえば、仮想化は仮想チャンクを決定するためにブロックを使用するため、パフォーマンスを向上させるには、レイアウトで可能な場合は列をより多くの <ApiLink type="ColumnLayout" /> ブロックに分割します。これらのブロックの外側に列があってはならず、複数行レイアウトを構成する際に <ApiLink type="ColumnGroup" /> を使用してはなりません。複数行レイアウトは [グリッド レイアウト](https://www.w3.org/TR/css-grid-1/) 仕様に基づいて実装されており、その要件に準拠する必要があります。
+
+<ApiLink type="Column" /> コンポーネントは、各セルの位置とスパンを決定するために 4 つの <ApiLink pkg="core" type="Input" /> プロパティを公開します。
+
+- <ApiLink type="ColumnState" member="colStart" /> - フィールドが開始する列インデックス。このプロパティは**必須**です。
+- <ApiLink type="Column" member="rowStart" /> - フィールドが開始する行インデックス。このプロパティは**必須**です。
+- <ApiLink type="ColumnState" member="colEnd" /> - 現在のフィールドが終了する列インデックス。colStart と colEnd の間の列数によって、そのフィールドにまたがる列数が決まります。このプロパティは**任意**です。設定されていない場合、既定値は **colStart + 1** です。
+- <ApiLink type="Column" member="rowEnd" /> - 現在のフィールドが終了する行インデックス。rowStart と rowEnd の間の行数によって、そのフィールドにまたがる行数が決まります。このプロパティは**任意**です。設定されていない場合、既定値は **rowStart + 1** です。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [rowEnd]="3" field="ID"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="CompanyName"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" [colEnd]="2" field="ContactName"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="2" [colEnd]="3" field="ContactTitle"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" [colEnd]="3" field="Country"></igx-column>
+    <igx-column [rowStart]="1" [colStart]="3" [colEnd]="5" field="Region"></igx-column>
+    <igx-column [rowStart]="1" [colStart]="5" [colEnd]="7" field="PostalCode"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" [colEnd]="4" field="City"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="4" [colEnd]="7" field="Address"></igx-column>
+</igx-column-layout>
+<igx-column-layout>
+    <igx-column [rowStart]="1" [colStart]="1" field="Phone"></igx-column>
+    <igx-column [rowStart]="2" [colStart]="1" field="Fax"></igx-column>
+</igx-column-layout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" RowEnd="3" ColStart="1" Field="ID"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" ColEnd="3" Field="CompanyName"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" ColEnd="2" Field="ContactName"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="2" ColEnd="3" Field="ContactTitle"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" ColEnd="3" Field="Country"></IgbColumn>
+    <IgbColumn RowStart="1" ColStart="3" ColEnd="5" Field="Region"></IgbColumn>
+    <IgbColumn RowStart="1" ColStart="5" ColEnd="7" Field="PostalCode"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" ColEnd="4" Field="City"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="4" ColEnd="7" Field="Address"></IgbColumn>
+</IgbColumnLayout>
+<IgbColumnLayout>
+    <IgbColumn RowStart="1" ColStart="1" Field="Phone"></IgbColumn>
+    <IgbColumn RowStart="2" ColStart="1" Field="Fax"></IgbColumn>
+</IgbColumnLayout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" row-end="3" field="ID"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" col-end="3" field="CompanyName"></igc-column>
+    <igc-column row-start="2" col-start="1" col-end="2" field="ContactName"></igc-column>
+    <igc-column row-start="2" col-start="2" col-end="3" field="ContactTitle"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" col-end="3" field="Country"></igc-column>
+    <igc-column row-start="1" col-start="3" col-end="5" field="Region"></igc-column>
+    <igc-column row-start="1" col-start="5" col-end="7" field="PostalCode"></igc-column>
+    <igc-column row-start="2" col-start="1" col-end="4" field="City"></igc-column>
+    <igc-column row-start="2" col-start="4" col-end="7" field="Address"></igc-column>
+</igc-column-layout>
+<igc-column-layout>
+    <igc-column row-start="1" col-start="1" field="Phone"></igc-column>
+    <igc-column row-start="2" col-start="1" field="Fax"></igc-column>
+</igc-column-layout>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} rowEnd={3} field="ID"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} colEnd={3} field="CompanyName"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} colEnd={2} field="ContactName"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={2} colEnd={3} field="ContactTitle"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} colEnd={3} field="Country"></IgrColumn>
+    <IgrColumn rowStart={1} colStart={3} colEnd={5} field="Region"></IgrColumn>
+    <IgrColumn rowStart={1} colStart={5} colEnd={7} field="PostalCode"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} colEnd={4} field="City"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={4} colEnd={7} field="Address"></IgrColumn>
+</IgrColumnLayout>
+<IgrColumnLayout>
+    <IgrColumn rowStart={1} colStart={1} field="Phone"></IgrColumn>
+    <IgrColumn rowStart={2} colStart={1} field="Fax"></IgrColumn>
+</IgrColumnLayout>
+```
+
+</PlatformBlock>
+
+上記の構成の結果は、以下のスクリーンショットで確認できます。
+
+<Image src={multiRowLayout1} alt="multi-row-layout" style="width: 100%" />
+
+<DocsAside type="info">
+
+<ApiLink type="{ComponentName}" member="rowStart" /> および <ApiLink type="{ComponentName}" member="colStart" /> プロパティは、<ApiLink type="ColumnLayout" /> 内の各 <ApiLink type="Column" /> に設定する必要があります。<ApiLink type="ColumnLayout" /> コンポーネントは、レイアウトが正しいかどうかを検証せず、それに関するエラーや警告もスローしません。開発者は、自身のレイアウト宣言が正しく完全であることを確認する必要があります。そうしないと、位置ずれ、重なり、ブラウザー間の不整合を伴う破損したレイアウトになる可能性があります。
+
+</DocsAside>
+
+## 機能の統合
+
+複数行レイアウトはまったく異なるレンダリング アプローチを使用するため、一部の列機能は <ApiLink type="ColumnLayout" /> コンポーネントでのみ動作します。このような機能には、列の固定と列の非表示があります。それ以外の場合、並べ替えとグループ化は同じ方法で、<ApiLink type="Column" /> コンポーネント上で動作します。
+
+- フィルタリング - Excel スタイル フィルタリングのみがサポートされています。<ApiLink type="{ComponentName}" member="filterMode" /> を明示的に <ApiLink type="FilterMode" member="quickFilter" label="FilterMode.quickFilter" /> に設定しても効果はありません。
+- ページング - 表示行ではなく、レコードに対して動作します。
+- グループ化 - 複数行レイアウトでは <ApiLink type="{ComponentName}" member="hideGroupedColumns" /> オプションは効果がありません。グループ化された列は常に表示されます。
+
+現在、以下の機能は**サポートされていません**。
+
+- 列の移動
+- 複数列ヘッダー
+- Excel へのエクスポート
+- 集計
+
+## キーボード ナビゲーション
+
+複数行レイアウトを使用する <ApiLink type="{ComponentName}" /> は、組み込みのキーボード ナビゲーションを提供します。
+
+### 水平ナビゲーション
+
+- <kbd>←</kbd> または <kbd>→</kbd> - 定義されている列レイアウトの影響を受けずに、現在の行内で左/右の隣接セルへ移動します。現在のセルが複数行にまたがる場合、以前に他の隣接セルへ移動していない限り、<kbd>←</kbd> と <kbd>→</kbd> は、同じ `rowStart` を持つ左側および右側の最初のセルへ移動する必要があります。ナビゲーションは開始ナビゲーション セルを保存し、可能であれば同じ `rowStart` を持つセルへ移動します。
+- <kbd>コントロール</kbd> + <kbd>←</kbd> (<kbd>ホーム</kbd>) または <kbd>コントロール</kbd> + <kbd>→</kbd> (<kbd>終了</kbd>) - 行の先頭または末尾へ移動し、開始ナビゲーション セルに従ってセルを選択します。
+
+### 垂直ナビゲーション
+
+- <kbd>↑</kbd> または <kbd>↓</kbd> - 開始位置に関連して上/下のセルへ移動し、行の影響を受けません。現在のセルが複数列にまたがる場合、開始ナビゲーション セルに従って次のアクティブ セルが選択されます。
+- <kbd>コントロール</kbd> + <kbd>↑</kbd> または <kbd>コントロール</kbd> + <kbd>下</kbd> - 最初の行または最後の行の同じ列へ移動し、フォーカスを適用します。
+- <kbd>コントロール</kbd> + <kbd>ホーム</kbd> または <kbd>コントロール</kbd> + <kbd>終了</kbd> - 最初の行へ移動して最初のセルにフォーカスするか、最後の行へ移動して最後のセルにフォーカスします。
+
+<DocsAside type="info">
+
+複数の行または列にまたがるセル間のナビゲーションは、開始ナビゲーション セルに従って行われ、反対方向のキーを使用して開始セルへ戻ることができます。グループ行間を移動する場合も同じアプローチが使用されます。
+
+</DocsAside>
+
+<DocsAside type="info">
+
+選択と複数セル選択はレイアウト上で動作します。つまり、セルがアクティブになると、そのレイアウトが選択されます。また、ドラッグ選択などの複数選択のすべての機能が適用可能で、セル単位ではなくレイアウト単位で動作します。
+
+</DocsAside>
+
+### カスタム キーボード ナビゲーション
+
+グリッドでは、特定のキーが押されたときの既定のナビゲーション動作をカスタマイズできます。**次のセルへ移動**や**下のセル**などのアクションは、強力なキーボード ナビゲーション API によって簡単に処理できます。
+
+- <ApiLink type="{ComponentName}" member="gridKeydown" /> が公開されています。このイベントは `IGridKeydownEventArgs` を発行します。このイベントは、上記のキーボード キーの組み合わせを通じてのみ使用できます。その他のすべてのキー操作には `KeyDown` イベントを使用できます。
+- `NavigateTo` - このメソッドを使用すると、提供された `RowIndex` と `VisibleColumnIndex` に基づいて位置へ移動できます。
+
+以下のデモでは、Excel で見られる動作と同様に、<kbd>入力</kbd> キーおよび <kbd>シフト</kbd> + <kbd>入力</kbd> キーによる下/上への追加ナビゲーションを追加しています。
+
+### デモ
+
+<Sample src="/{ComponentSample}/keyboard-mrl-navigation" height={605} alt="{Platform} {ComponentTitle} Multi Row Layout Navigation Example" />
+
+<PlatformBlock for="Angular">
+
+### レイアウト コンフィギュレーター
+
+列レイアウトを構成する際、適切な <ApiLink type="ColumnState" member="colStart" /> と <ApiLink type="ColumnState" member="colEnd" />、または <ApiLink type="Column" member="rowStart" /> と <ApiLink type="Column" member="rowEnd" /> を計算して設定することが難しい場合があります。特に、単一のレイアウトに多数の列がある場合です。そのため、小さなコンフィギュレーターを作成しました。これにより、簡単に設定でき、適用時に <ApiLink type="{ComponentName}" /> 内でどのように表示されるかの同様のプレビューを確認できます。これを使用して、次の操作を実行できます。
+
+- 構成全体の行数を設定します。すべてのレイアウトは同じ行数である必要があります。
+
+- **レイアウトの追加**チップをクリックして列レイアウトを追加/削除するか、レイアウト チップを左右にドラッグして並べ替えます。
+
+- 列数や幅など、各レイアウトの特定の設定を設定します。この設定は現在選択されているレイアウトを参照します。
+
+- レイアウト プレビューで列セルのサイズを変更して、より多くの列/行にまたがるようにするか、`Delete` ボタンを使用してクリアします。
+
+- 列チップを配置したい場所へドラッグして、プレビュー内に列を設定します。
+
+- **列の追加**チップを使用して新しい列を追加/削除します。
+
+- 構成全体のテンプレート出力を取得します。これは <ApiLink type="{ComponentName}" /> 内に配置できる状態で提供されます。また、JSON 表現も取得でき、たとえば [NgForOf](https://angular.io/api/common/NgForOf) を使用してテンプレート内で使用および解析できます。
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+既定では、前のサンプルと同じ列を設定していますが、クリアして目的の構成に合わせて設定できます。
+
+<Sample src="/{ComponentSample}/multi-row-layout-configuration" height={500} alt="{Platform} {ComponentTitle} Multi Row Layout Configuration Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## スタイル設定
+
+<ApiLink type="{ComponentName}" /> では、[{ProductName} テーマ ライブラリ](../themes/styles.md) を通じてスタイル設定できます。グリッドの <ApiLink type="Theme" /> は、グリッドのすべての機能をカスタマイズできる幅広いプロパティを公開します。
+
+以下の手順では、グリッドの複数行レイアウトのスタイル設定をカスタマイズする手順を説明します。
+
+### グローバル テーマのインポート
+
+複数行レイアウト機能のカスタマイズを開始するには、すべてのスタイル設定関数とミックスインが配置されている <ApiLink type="Column" member="index" label="Index" /> ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+### カスタム テーマの定義
+
+次に、`GridTheme` を拡張し、必要に応じて機能レイアウトをカスタマイズするために必要なパラメーターを受け取る新しいテーマを作成します。
+
+```scss
+$custom-theme: grid-theme(
+    $cell-active-border-color: #ffcd0f,
+    $cell-selected-background: #6f6f6f,
+    $row-hover-background: #fde069,
+    $row-selected-background: #8d8d8d,
+    $header-background: #494949,
+    $header-text-color: #fff,
+    $sorted-header-icon-color: #ffcd0f,
+    $sortable-header-icon-hover-color: #e9bd0d
+);
+```
+
+### カスタム カラー パレットの定義
+
+上記で説明したアプローチでは、カラー値がハードコーディングされていました。別の方法として、`Palette` 関数と <ApiLink pkg="core" type="Color" /> 関数を使用して、より高い柔軟性を実現できます。
+
+`Palette` は、提供されたプライマリ カラーとセカンダリ カラーに基づいてカラー パレットを生成します。
+
+```scss
+$black-color: #494949;
+$yellow-color: #FFCD0F;
+
+$custom-palette: palette(
+ $primary: $black-color,
+ $secondary: $yellow-color
+);
+```
+
+カスタム パレットが生成された後、<ApiLink pkg="core" type="Color" /> 関数を使用して、プライマリ カラーとセカンダリ カラーのさまざまなバリエーションを取得できます。
+
+```scss
+$custom-theme: grid-theme(
+    $cell-active-border-color: color($custom-palette, "secondary", 500),
+    $cell-selected-background: color($custom-palette, "primary", 300),
+    $row-hover-background: color($custom-palette, "secondary", 300),
+    $row-selected-background: color($custom-palette, "primary", 100),
+    $header-background: color($custom-palette, "primary", 500),
+    $header-text-color:contrast-color($custom-palette, "primary", 500),
+    $sorted-header-icon-color: color($custom-palette, "secondary", 500),
+    $sortable-header-icon-hover-color: color($custom-palette, "secondary", 600)
+);
+```
+
+### カスタム スキーマの定義
+
+さらに進んで、[**スキーマ**](../themes/sass/schemas.md) のすべての利点を持つ柔軟な構造を構築できます。**スキーマ**はテーマのレシピです。
+
+各コンポーネントに提供されている 2 つの定義済みスキーマのいずれかを拡張します。この場合は、`$_light_grid` を使用します。
+
+```scss
+$custom-grid-schema: extend($_light-grid,(
+    cell-active-border-color: (igx-color:('secondary', 500)),
+    cell-selected-background: (igx-color:('primary', 300)),
+    row-hover-background: (igx-color:('secondary', 300)),
+    row-selected-background: (igx-color:('primary', 100)),
+    header-background: (igx-color:('primary', 500)),
+    header-text-color: (igx-contrast-color:('primary', 500)),
+    sorted-header-icon-color: (igx-color:('secondary', 500)),
+    sortable-header-icon-hover-color: (igx-color:('secondary', 600))
+));
+```
+
+カスタム スキーマを適用するには、`Light` または `Dark` グローバルのいずれかを拡張する必要があります。プロセス全体は、実際にはコンポーネントにカスタム スキーマを提供し、その後それを対応するコンポーネント テーマに追加することです。
+
+```scss
+$my-custom-schema: extend($light-schema, (
+    igx-grid: $custom-grid-schema
+));
+ $custom-theme: grid-theme(
+    $palette: $custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+### カスタム テーマの適用
+
+テーマを適用する最も簡単な方法は、グローバル スタイル ファイルで `sass` `@include` ステートメントを使用することです。
+
+```scss
+@include grid($custom-theme);
+```
+
+### スコープ付きコンポーネント テーマ
+
+カスタム テーマが特定のコンポーネントにのみ影響するようにするには、グローバル スタイル ファイルで定義したすべてのスタイルをカスタム コンポーネントのスタイル ファイルに移動します (`index` ファイルのインポートを含む)。
+
+この方法では、{Platform} の [ViewEncapsulation](https://angular.io/api/core/Component#encapsulation) により、スタイルはカスタム コンポーネントにのみ適用されます。
+
+ <DocsAside type="info">
+
+コンポーネントが [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation を使用している場合、グリッドのスタイルを設定するために `::ng-deep` を使用してこのカプセル化を貫通する必要があります。
+
+ </DocsAside>
+
+ <DocsAside type="info">
+
+スタイルがコンポーネント外の要素に影響しないように、ステートメントを `:host` セレクター内にラップします。
+
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-theme);
+    }
+}
+```
+
+### デモ
+
+<Sample src="/{ComponentSample}/multi-row-layout-styling" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Styling Example" />
+
+<DocsAside type="info">
+
+サンプルは、**テーマの変更**で選択されたグローバル テーマの影響を受けません。
+
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## スタイル設定
+
+定義済みテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md) の一部を設定することで、グリッドをさらにカスタマイズできます。
+一部の色を変更したい場合は、まずグリッドにクラスを設定する必要があります。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid class="grid"></igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid"></IgrGrid>
+```
+
+</PlatformBlock>
+
+次に、関連する CSS プロパティをこのクラスに設定します。
+
+```css
+.grid {
+    --ig-grid-cell-active-border-color: #ffcd0f;
+    --ig-grid-cell-selected-background: #6f6f6f;
+    --ig-grid-row-hover-background: #fde069;
+    --ig-grid-row-selected-background: #8d8d8d;
+    --ig-grid-header-background: #494949;
+    --ig-grid-header-text-color: #fff;
+}
+```
+
+### デモ
+
+<Sample src="/{ComponentSample}/multi-row-layout-style" height={755} alt="{Platform} {ComponentTitle} Multi Row Layout Styling Example" />
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Column" />
+
+## その他のリソース
+
+<ComponentBlock for="Grid">
+
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [並べ替え](sorting.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+
+</ComponentBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

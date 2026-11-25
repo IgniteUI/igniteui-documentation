@@ -1,0 +1,1882 @@
+---
+title: "{Platform} {ComponentTitle} Operaciones de datos remotos - {ProductName}"
+description: Comience a usar operaciones de datos remotos de Angular, como filtrado remoto, ordenación remota y desplazamiento remoto, para cargar datos desde un servidor con {ProductName}.
+keywords: Datos remotos, Paginación, {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: commercial
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+llms:
+  description: La característica Operaciones de datos remotos de {ProductName} en {Platform} {ComponentTitle} admite operaciones como virtualización remota, ordenación remota, filtrado remoto y otras.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} Operaciones de datos remotas
+
+<PlatformBlock for="Angular">
+
+La funcionalidad Operaciones de datos remotas de {ProductName} en {Platform} {ComponentTitle} admite operaciones como virtualización remota, ordenación remota, filtrado remoto y otras. Esto permite al desarrollador realizar estas tareas en un servidor, recuperar los datos que se producen y mostrarlos en <ApiLink type="{ComponentName}" />.
+
+## Ejemplo de información general de operaciones de datos remotas de {Platform} {ComponentTitle}
+
+<Sample src="/{ComponentSample}/remote-filtering-data" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example" />
+
+</PlatformBlock>
+
+De forma predeterminada, <ApiLink type="{ComponentName}" /> utiliza su propia lógica para realizar operaciones de datos.
+
+Puede realizar estas tareas de forma remota y proporcionar los datos resultantes a <ApiLink type="{ComponentName}" /> aprovechando determinadas entradas y eventos, que expone <ApiLink type="{ComponentName}" />.
+
+<PlatformBlock for="Angular">
+
+<ComponentBlock for="Grid">
+
+## Virtualización remota
+
+<ApiLink type="{ComponentName}" /> admite el escenario en el que los fragmentos de datos se solicitan desde un servicio remoto, exponiendo el comportamiento implementado en la directiva `ForOf` que utiliza internamente.
+
+Para utilizar esta funcionalidad, debe suscribirse a la salida <ApiLink type="{ComponentName}" member="dataPreLoad" /> para realizar la solicitud adecuada en función de los argumentos recibidos, así como establecer la propiedad pública <ApiLink type="{ComponentName}" /> <ApiLink type="{ComponentName}" member="totalItemCount" /> con la información correspondiente procedente del servicio.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [autoGenerate]="false"
+          (dataPreLoad)="processData(false)"
+          (sortingDone)="processData(true)">
+    <igx-column [field]="'ProductID'" [sortable]="true"></igx-column>
+    <igx-column [field]="'ProductName'" [sortable]="true"></igx-column>
+    <igx-column [field]="'UnitPrice'" [dataType]="'number'" [formatter]="formatCurrency" [sortable]="true"></igx-column>
+</igx-grid>
+```
+
+```typescript
+public ngAfterViewInit() {
+    this.grid.isLoading = true;
+
+    this._remoteService.getData(this.grid.virtualizationState, this.grid.sortingExpressions[0], true, (data) => {
+            this.grid.totalItemCount = data['@odata.count'];
+            this.grid.isLoading = false;
+    });
+}
+
+public processData(reset) {
+    if (this.prevRequest) {
+        this.prevRequest.unsubscribe();
+    }
+
+    this._prevRequest = this._remoteService.getData(this.grid.virtualizationState,
+        this.grid.sortingExpressions[0], reset, () => {
+        this.cdr.detectChanges();
+    });
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Al solicitar datos, debe utilizar la interfaz <ApiLink type="ForOfState" />, que proporciona las propiedades <PlatformBlock for="React"><ApiLink type="ForOfState" member="startIndex" /></PlatformBlock><ApiLink type="ForOfState" member="startIndex" /> y <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="ForOfState" member="chunkSize" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="ForOfState" label="chunkSize" /></PlatformBlock>.
+
+<DocsAside type="info">
+
+El primer <ApiLink type="{ComponentName}" member="chunkSize" /> siempre será 0 y debe determinarlo usted en función del escenario específico de la aplicación.
+
+</DocsAside>
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<ComponentBlock for="Grid">
+
+### Demo de virtualización remota
+
+{/*NOTE: this sample is differed*/}
+
+<Sample src="/{ComponentSample}/data-performance-operations" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Overview Example" />
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+## Desplazamiento infinito
+
+Un diseño popular para escenarios que requieren obtener datos por fragmentos desde un punto de conexión es el denominado desplazamiento infinito. Para las cuadrículas de datos, se caracteriza por el aumento continuo de los datos cargados, desencadenado cuando el usuario final se desplaza hasta la parte inferior. Los siguientes párrafos explican cómo puede usar la API disponible para lograr fácilmente el desplazamiento infinito en <ApiLink type="{ComponentName}" />.
+
+Para implementar el desplazamiento infinito, debe obtener los datos en fragmentos. Los datos que ya se han obtenido deben almacenarse localmente y debe determinar la longitud de un fragmento y cuántos fragmentos hay. También debe llevar un seguimiento del índice de la última fila de datos visible en la cuadrícula. De esta manera, mediante las propiedades <ApiLink type="ForOfState" member="chunkSize" /> y <ApiLink type="ForOfState" member="chunkSize" />, puede determinar si el usuario se desplaza hacia arriba y debe mostrarle datos ya obtenidos, o si se desplaza hacia abajo y debe obtener más datos del punto de conexión.
+
+Lo primero que debe hacer es obtener el primer fragmento de los datos. Establecer la propiedad <ApiLink type="{ComponentName}" member="totalItemCount" /> es importante, ya que permite que la cuadrícula dimensione correctamente su barra de desplazamiento.
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngAfterViewInit() {
+    this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+        if (request.data) {
+            this.grid.totalItemCount = this.page * this.pageSize;
+            this.grid.data = this._remoteService.getCachedData({startIndex: 0, chunkSize: 10});
+            this.totalItems = request.data['@odata.count'];
+            this.totalPageCount = Math.ceil(this.totalItems / this.pageSize);
+            this.grid.isLoading = false;
+        }
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                var grid = this.grid;
+                grid.IsLoading = true;
+                double dataViewSize = 480.0 / 50.0;
+                this.PageSize = Convert.ToInt32(Math.Floor(dataViewSize * 1.5));
+                var data = await GetDataRemote(1, this.PageSize);
+                this.CachedData = data;
+                this.LocalData = this.CachedData;
+                grid.TotalItemCount = (this.PageSize * this.Page) + 1;
+                double pageCount = Math.Ceiling((double)this.TotalItems / (double)this.PageSize);
+                this.TotalPageCount = (int)pageCount;
+                grid.IsLoading = false;
+                StateHasChanged();
+            }
+
+        }
+}
+
+```
+
+</PlatformBlock>
+
+Además, debe suscribirse a la salida <ApiLink type="{ComponentName}" member="dataPreLoad" />, para poder proporcionar los datos que necesita la cuadrícula cuando intenta mostrar un fragmento diferente al cargado actualmente. En el controlador de eventos, debe determinar si obtener nuevos datos o devolver datos que ya están almacenados en caché localmente.
+
+<PlatformBlock for="Angular">
+
+```typescript
+public handlePreLoad() {
+    const isLastChunk = this.grid.totalItemCount ===
+                        this.grid.virtualizationState.startIndex + this.grid.virtualizationState.chunkSize;
+    // when last chunk reached load another page of data
+    if (isLastChunk) {
+        if (this.totalPageCount === this.page) {
+            this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+            return;
+        }
+        this.page++;
+        this.grid.isLoading = true;
+        this._remoteService.loadDataForPage(this.page, this.pageSize, (request) => {
+            if (request.data) {
+                this.grid.totalItemCount = Math.min(this.page * this.pageSize, this.totalItems);
+                this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+                this.grid.isLoading = false;
+            }
+        });
+    } else {
+        this.grid.data = this._remoteService.getCachedData(this.grid.virtualizationState);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="false"
+         Height="480px"
+         Name="grid"
+         Id="grid"
+         Data="LocalData"
+         @ref="grid"
+         DataPreLoad="OnDataPreLoad">
+    <IgbColumn Name="ID"
+               Field="ProductID"
+               Header="ID">
+    </IgbColumn>
+
+    <IgbColumn Name="ProductName"
+               Field="ProductName"
+               Header="Product Name">
+    </IgbColumn>
+
+    <IgbColumn Name="QuantityPerUnit"
+               Field="QuantityPerUnit"
+               Header="Quantity Per Unit">
+    </IgbColumn>
+
+    <IgbColumn Name="UnitPrice"
+               Field="UnitPrice"
+               Header="Unit Price">
+    </IgbColumn>
+
+    <IgbColumn Name="OrderDate"
+               Field="OrderDate"
+               Header="Order Date">
+    </IgbColumn>
+
+    <IgbColumn Name="Discontinued"
+               Field="Discontinued"
+               Header="Discontinued">
+    </IgbColumn>
+
+</IgbGrid>
+@code {
+        private IgbGrid grid;
+        public async void OnDataPreLoad(IgbForOfStateEventArgs e)
+        {
+            int chunkSize = (int)e.Detail.ChunkSize;
+            int startIndex = (int)e.Detail.StartIndex;
+            int totalCount = (int)this.grid.TotalItemCount;
+
+            bool isLastChunk = totalCount == startIndex + chunkSize;
+            // when last chunk reached load another page of data
+            if (isLastChunk)
+            {
+                if (this.TotalPageCount == this.Page)
+                {
+                    this.LocalData = this.CachedData.Skip(startIndex).Take(chunkSize).ToList();
+                    return;
+                }
+
+                // add next page of remote data to cache
+                this.grid.IsLoading = true;
+                this.Page++;
+                var remoteData = await GetDataRemote(this.Page, this.PageSize);
+                this.CachedData.AddRange(remoteData);
+
+                var data = this.CachedData.Skip(startIndex).Take(chunkSize);
+                this.LocalData = data.ToList();
+                this.grid.IsLoading = false;
+                this.grid.TotalItemCount = Math.Min(this.Page * this.PageSize, this.TotalItems);
+            }
+            else
+            {
+                var data = this.CachedData.Skip(startIndex).Take(chunkSize).ToList();
+                this.LocalData = data;
+            }
+        }
+}
+
+```
+
+</PlatformBlock>
+
+### Demo de desplazamiento infinito
+
+<Sample src="/{ComponentSample}/infinite-scroll" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Infinite Scroll Example" />
+
+<PlatformBlock for="Angular">
+
+## Ordenación/filtrado remotos
+
+Para proporcionar ordenación y filtrado remotos, debe suscribirse a las salidas <ApiLink type="{ComponentName}" member="dataPreLoad" />, <ApiLink type="{ComponentName}" member="sortingExpressionsChange" /> y <ApiLink type="{ComponentName}" member="filteringExpressionsTreeChange" />, para realizar la solicitud adecuada en función de los argumentos recibidos, así como establecer la propiedad pública <ApiLink type="{ComponentName}" /> <ApiLink type="{ComponentName}" member="totalItemCount" /> con la información correspondiente procedente del servicio.
+
+También aprovecharemos la función `debounceTime` de **rxjs**, que emite un valor desde el Observable de origen solo después de que haya transcurrido un intervalo de tiempo determinado sin otra emisión de origen. De esta manera, la operación remota se desencadenará solo cuando haya transcurrido la cantidad de tiempo especificada sin que el usuario la interrumpa.
+
+```typescript
+const DEBOUNCE_TIME = 300;
+public ngAfterViewInit() {
+    this.grid.dataPreLoad.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+
+    this.grid.filteringExpressionsTreeChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData(true);
+    });
+
+    this.grid.sortingExpressionsChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Cuando se proporcionan ordenación y filtrado remotos, normalmente no necesitamos la ordenación ni el filtrado integrados de la cuadrícula. Podemos deshabilitarlos estableciendo las entradas <ApiLink type="{ComponentName}" member="sortStrategy" /> y <ApiLink type="{ComponentName}" member="filterStrategy" /> de la cuadrícula en las instancias respectivas <ApiLink type="NoopSortingStrategy" /> y <ApiLink type="NoopFilteringStrategy" />.
+
+```html
+<igx-grid #grid [data]="remoteData | async" [height]="'500px'" [width]="'100%'" [autoGenerate]='false'
+        [filterStrategy]="noopFilterStrategy"
+        [sortStrategy]="noopSortStrategy"
+        [allowFiltering]="true">
+</igx-grid>
+```
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+public noopSortStrategy = NoopSortingStrategy.instance();
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+
+Cuando se solicitan datos remotos, la operación de filtrado distingue entre mayúsculas y minúsculas.
+
+</DocsAside>
+
+### Demo de ordenación/filtrado remotos
+
+Puede ver el resultado del código anterior al principio de este artículo en la sección Demo.
+
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+
+### Filtrado remoto
+
+Para proporcionar filtrado remoto, debe suscribirse a la salida <ApiLink type="{ComponentName}" member="filteringExpressionsTreeChange" /> para realizar la solicitud adecuada en función de los argumentos recibidos. Usemos una colección plana como origen de datos para nuestra Tree Grid proporcionando un <ApiLink type="{ComponentName}" member="primaryKey" /> y un `ForeignKey`.
+
+También aprovecharemos la función `debounceTime` de **rxjs**, que emite un valor desde el Observable de origen solo después de que haya transcurrido un intervalo de tiempo determinado sin otra emisión de origen. De esta manera, la operación remota se desencadenará solo cuando haya transcurrido la cantidad de tiempo especificada sin que el usuario la interrumpa.
+
+```typescript
+const DEBOUNCE_TIME = 300;
+public ngAfterViewInit() {
+    this.treeGrid.filteringExpressionsTreeChange.pipe(
+        debounceTime(DEBOUNCE_TIME),
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.processData();
+    });
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Cuando se proporciona filtrado remoto, normalmente no necesitamos el filtrado integrado de la Tree Grid. Podemos deshabilitarlo estableciendo la entrada <ApiLink type="{ComponentName}" member="filterStrategy" /> de la Tree Grid en la instancia <ApiLink type="NoopFilteringStrategy" />.
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-tree-grid #treeGrid [data]="remoteData | async" primaryKey="ID" foreignKey="ParentID"
+               [autoGenerate]="false"
+               [filterStrategy]="noopFilterStrategy"
+               [allowFiltering]="true">
+    <igx-column [field]="'Name'" dataType="string"></igx-column>
+    <igx-column [field]="'Title'" dataType="string"></igx-column>
+    <igx-column [field]="'Age'" dataType="number"></igx-column>
+</igx-tree-grid>
+```
+
+</PlatformBlock>
+
+```typescript
+public noopFilterStrategy = NoopFilteringStrategy.instance();
+
+public processData() {
+    this.treeGrid.isLoading = true;
+
+    const filteringExpr = this.treeGrid.filteringExpressionsTree;
+
+    this._remoteService.getData(filteringExpr, () => {
+        this.treeGrid.isLoading = false;
+    });
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+El filtrado remoto deberá realizarse directamente sobre la colección plana. También tendremos que incluir todos los padres de cualquier registro que coincida con la condición de filtrado, independientemente de si los padres coinciden o no con el filtrado (hacemos esto para mantener intacta la jerarquía). El resultado puede verse a continuación:
+
+<DocsAside type="info">
+
+Cuando se solicitan datos remotos, la operación de filtrado distingue entre mayúsculas y minúsculas.
+
+</DocsAside>
+
+### Demo de filtrado remoto
+
+Puede ver el resultado del código anterior al principio de este artículo en la sección Demo.
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+
+## Estrategia de valores únicos de columna
+
+Los elementos de la lista dentro del diálogo de filtrado estilo Excel representan los valores únicos de la columna correspondiente. <ApiLink type="{ComponentName}" /> genera estos valores basándose en su origen de datos de forma predeterminada. En el caso del filtrado remoto, los datos de la cuadrícula no contienen todos los datos del servidor. Para proporcionar manualmente los valores únicos y cargarlos bajo demanda, podemos aprovechar la entrada <ApiLink type="{ComponentName}" /> de <ApiLink type="{ComponentName}" member="uniqueColumnValuesStrategy" label="UniqueColumnValuesStrategy" />. Esta entrada es en realidad un método que proporciona tres argumentos:
+
+- <ApiLink type="Column" />  - La instancia de columna correspondiente.
+- <ApiLink type="FilteringExpressionsTree" /> - El árbol de expresiones de filtrado, que se reduce según la columna correspondiente.
+- `Done` - Callback que debe llamarse con los valores de columna recién generados cuando se recuperan del servidor.
+
+El desarrollador puede generar manualmente los valores únicos de columna necesarios basándose en la información que proporcionan los argumentos <ApiLink type="Column" /> y <ApiLink type="FilteringExpressionsTree" /> y, a continuación, invocar el callback `Done`.
+
+<DocsAside type="info">
+
+Cuando se proporciona la entrada `UniqueColumnValuesStrategy`, no se utilizará el proceso predeterminado de generación de valores únicos en el filtrado estilo Excel.
+
+</DocsAside>
+
+```html
+<igx-grid #grid1 [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+</igx-grid>
+```
+
+```html
+<igx-tree-grid #treeGrid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+</igx-tree-grid>
+```
+
+```typescript
+public columnValuesStrategy = (column: IgxColumnComponent,
+                               columnExprTree: IFilteringExpressionsTree,
+                               done: (uniqueValues: any[]) => void) => {
+    // Get specific column data.
+    this.remoteValuesService.getColumnData(column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+### Demo de estrategia de valores únicos de columna
+
+<Sample src="/{ComponentSample}/excel-style-filtering-load-on-demand" height={550} alt="{Platform} {ComponentTitle} Remote Data Operations Unique Column Values Strategy Example" />
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'Artist'" [data]="data" [filterMode]="'excelStyleFilter'"
+                       [uniqueColumnValuesStrategy]="singersColumnValuesStrategy">
+    <igx-row-island [primaryKey]="'Album'" [allowFiltering]="true" [filterMode]="'excelStyleFilter'"
+                    [uniqueColumnValuesStrategy]="albumsColumnValuesStrategy">
+    </igx-row-island>
+</igx-hierarchical-grid>
+```
+
+```typescript
+public singersColumnValuesStrategy = (column: IgxColumnComponent,
+                                      columnExprTree: IFilteringExpressionsTree,
+                                      done: (uniqueValues: any[]) => void) => {
+// Get specific column data for the singers.
+this.remoteValuesService.getColumnData(
+    null, 'Singers', column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+
+public albumsColumnValuesStrategy = (column: IgxColumnComponent,
+                                     columnExprTree: IFilteringExpressionsTree,
+                                     done: (uniqueValues: any[]) => void) => {
+// Get specific column data for the albums of a specific singer.
+const parentRowId = (column.grid as any).foreignKey;
+this.remoteValuesService.getColumnData(
+    parentRowId, 'Albums', column, columnExprTree, uniqueValues => done(uniqueValues));
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Para proporcionar una plantilla de carga personalizada para el filtrado estilo Excel, podemos usar la directiva `ExcelStyleLoading`:
+
+```html
+<igx-grid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    <ng-template igxExcelStyleLoading>
+        Loading...
+    </ng-template>
+</igx-grid>
+```
+
+```html
+<igx-tree-grid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    <ng-template igxExcelStyleLoading>
+        Loading...
+    </ng-template>
+</igx-tree-grid>
+```
+
+```html
+<igx-hierarchical-grid [data]="data" [filterMode]="'excelStyleFilter'" [uniqueColumnValuesStrategy]="columnValuesStrategy">
+    <ng-template igxExcelStyleLoading>
+        Loading...
+    </ng-template>
+</igx-hierarchical-grid>
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+## Paginación remota
+
+<ComponentBlock for="Grid">
+
+La funcionalidad de paginación puede funcionar con datos remotos. Para demostrarlo, primero declaremos nuestro servicio, que será responsable de obtener los datos. Necesitaremos el recuento de todos los elementos de datos para calcular el recuento de páginas. Esta lógica se añadirá a nuestro servicio.
+
+<PlatformBlock for="Angular">
+
+```typescript
+@Injectable()
+export class RemotePagingService {
+    public remoteData: BehaviorSubject<any[]>;
+    public dataLenght: BehaviorSubject<number> = new BehaviorSubject(0);
+    public url = 'https://www.igniteui.com/api/products';
+
+    constructor(private http: HttpClient) {
+        this.remoteData = new BehaviorSubject([]) as any;
+    }
+
+    public getData(index?: number, perPage?: number): any {
+        let qS = '';
+
+        if (perPage) {
+            qS = `?$skip=${index}&$top=${perPage}&$count=true`;
+        }
+
+        this.http
+            .get(`${this.url + qS}`).pipe(
+                map((data: any) => data)
+            ).subscribe((data) => this.remoteData.next(data));
+    }
+
+    public getDataLength(): any {
+        return this.http.get(this.url).pipe(
+            map((data: any) => data.length)
+        );
+    }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export class RemotePagingService {
+    public static CUSTOMERS_URL = `https://data-northwind.indigo.design/Customers/GetCustomersWithPage`;
+    constructor() {}
+
+    public static getDataWithPaging(pageIndex?: number, pageSize?: number) {
+        return fetch(RemotePagingService.buildUrl(RemotePagingService.CUSTOMERS_URL, pageIndex, pageSize))
+        .then((result) => result.json())
+        .catch((error) => console.error(error.message));
+    }
+
+    private static buildUrl(baseUrl: string, pageIndex?: number, pageSize?: number) {
+        let qS = "";
+        if (baseUrl) {
+                qS += `${baseUrl}`;
+        }
+
+        // Add pageIndex and size to the query string if they are defined
+        if (pageIndex !== undefined) {
+            qS += `?pageIndex=${pageIndex}`;
+            if (pageSize !== undefined) {
+                qS += `&size=${pageSize}`;
+            }
+        } else if (pageSize !== undefined) {
+            qS += `?perPage=${pageSize}`;
+        }
+
+        return `${qS}`;
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Como Blazor Server ya es una instancia remota, a diferencia de las demos de las otras plataformas no necesitamos establecer otra instancia remota para los datos, ya que los datos ya son remotos. Para realizar paginación remota, solo necesitamos establecer un par de métodos en la clase de datos
+
+```csharp
+        public Task<List<NwindDataItem>> GetData(int index, int perPage)
+        {
+            var itemsToReturn = items.Skip(index).Take(perPage).ToList();
+            return Task.FromResult(itemsToReturn);
+        }
+
+        public Task<int> GetDataLength()
+        {
+            return Task.FromResult(items.Count);
+        }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const CUSTOMERS_URL = `https://data-northwind.indigo.design/Customers/GetCustomersWithPage`;
+
+export class RemoteService {
+
+    public static getDataWithPaging(pageIndex?: number, pageSize?: number) {
+        return fetch(this.buildUrl(CUSTOMERS_URL, pageIndex, pageSize))
+        .then((result) => result.json());
+    }
+
+    private static buildUrl(baseUrl: string, pageIndex?: number, pageSize?: number) {
+        let qS = "";
+        if (baseUrl) {
+                qS += `${baseUrl}`;
+        }
+
+        // Add pageIndex and size to the query string if they are defined
+        if (pageIndex !== undefined) {
+            qS += `?pageIndex=${pageIndex}`;
+            if (pageSize !== undefined) {
+                qS += `&size=${pageSize}`;
+            }
+        } else if (pageSize !== undefined) {
+            qS += `?perPage=${pageSize}`;
+        }
+
+        return `${qS}`;
+    }
+}
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+
+La funcionalidad de paginación puede funcionar con datos remotos. Para demostrarlo, primero declaremos nuestro servicio, que será responsable de obtener los datos. Necesitaremos el recuento de todos los elementos de datos para calcular el recuento de páginas. Esta lógica se añadirá a nuestro servicio.
+
+```typescript
+@Injectable()
+export class RemotePagingService {
+    public remoteData: BehaviorSubject<any[]>;
+    public dataLenght: BehaviorSubject<number> = new BehaviorSubject(0);
+    public url = 'https://www.igniteui.com/api/products';
+
+    constructor(private http: HttpClient) {
+        this.remoteData = new BehaviorSubject([]) as any;
+    }
+
+    public getData(index?: number, perPage?: number): any {
+        let qS = '';
+
+        if (perPage) {
+            qS = `?$skip=${index}&$top=${perPage}&$count=true`;
+        }
+
+        this.http
+            .get(`${this.url + qS}`).pipe(
+                map((data: any) => data)
+            ).subscribe((data) => this.remoteData.next(data));
+    }
+
+    public getDataLength(): any {
+        return this.http.get(this.url).pipe(
+            map((data: any) => data.length)
+        );
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+export class RemotePagingService {
+    public static BASE_URL = 'https://data-northwind.indigo.design/';
+    public static CUSTOMERS_URL = `${RemotePagingService.BASE_URL}Customers/GetCustomersWithPage`;
+
+    constructor() {}
+
+    public static getDataWithPaging(pageIndex?: number, pageSize?: number) {
+        return fetch(RemotePagingService.buildUrl(RemotePagingService.CUSTOMERS_URL, pageIndex, pageSize))
+        .then((result) => result.json())
+        .catch((error) => console.error(error.message));
+    }
+
+    public static getHierarchyDataById(parentEntityName: string, parentId: string, childEntityName: string) {
+        return fetch(`${RemotePagingService.BASE_URL}${parentEntityName}/${parentId}/${childEntityName}`)
+        .then((result) => result.json());
+    }
+
+    private static buildUrl(baseUrl: string, pageIndex?: number, pageSize?: number) {
+        let qS = "";
+        if (baseUrl) {
+                qS += `${baseUrl}`;
+        }
+
+        // Add pageIndex and size to the query string if they are defined
+        if (pageIndex !== undefined) {
+            qS += `?pageIndex=${pageIndex}`;
+            if (pageSize !== undefined) {
+                qS += `&size=${pageSize}`;
+            }
+        } else if (pageSize !== undefined) {
+            qS += `?perPage=${pageSize}`;
+        }
+
+        return `${qS}`;
+    }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Como Blazor Server ya es una instancia remota, a diferencia de las demos de las otras plataformas no necesitamos establecer otra instancia remota para los datos, ya que los datos ya son remotos. Para realizar paginación remota, solo necesitamos establecer un par de métodos en la clase de datos
+
+```csharp
+        public Task<List<NwindDataItem>> GetData(int index, int perPage)
+        {
+            var itemsToReturn = items.Skip(index).Take(perPage).ToList();
+            return Task.FromResult(itemsToReturn);
+        }
+
+        public Task<int> GetDataLength()
+        {
+            return Task.FromResult(items.Count);
+        }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const BASE_URL = `https://data-northwind.indigo.design/`;
+const CUSTOMERS_URL = `${BASE_URL}Customers/GetCustomersWithPage`;
+
+export class RemoteService {
+
+    public static getCustomersDataWithPaging(pageIndex?: number, pageSize?: number) {
+        return fetch(this.buildUrl(CUSTOMERS_URL, pageIndex, pageSize))
+        .then((result) => result.json());
+    }
+
+    public static getHierarchyDataById(parentEntityName: string, parentId: string, childEntityName: string) {
+        return fetch(`${BASE_URL}${parentEntityName}/${parentId}/${childEntityName}`)
+        .then((result) => result.json());
+    }
+
+    private static buildUrl(baseUrl: string, pageIndex?: number, pageSize?: number) {
+        let qS = "";
+        if (baseUrl) {
+                qS += `${baseUrl}`;
+        }
+
+        // Add pageIndex and size to the query string if they are defined
+        if (pageIndex !== undefined) {
+            qS += `?pageIndex=${pageIndex}`;
+            if (pageSize !== undefined) {
+                qS += `&size=${pageSize}`;
+            }
+        } else if (pageSize !== undefined) {
+            qS += `?perPage=${pageSize}`;
+        }
+
+        return `${qS}`;
+    }
+}
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+Después de declarar el servicio, necesitamos crear un componente, que será responsable de la construcción de <ApiLink type="{ComponentName}" /> y la suscripción de datos.
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+export class RemotePagingGridSample implements OnInit, AfterViewInit, OnDestroy {
+    public data: Observable<any[]>;
+    private _dataLengthSubscriber;
+
+    constructor(private remoteService: RemoteService) {}
+
+    public ngOnInit() {
+        this.data = this.remoteService.remoteData.asObservable();
+
+        this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+            this.totalCount = data;
+            this.grid1.isLoading = false;
+        });
+    }
+
+    public ngOnDestroy() {
+        if (this._dataLengthSubscriber) {
+            this._dataLengthSubscriber.unsubscribe();
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Primero debemos enlazarnos a los eventos relevantes para que, cuando cambiemos de página y la cantidad de registros mostrados por página, el servicio remoto obtenga la cantidad correcta de datos
+
+```ts
+  constructor() {
+      this.grid = document.getElementById('grid') as IgcGridComponent;
+      this.pager = document.getElementById('paginator') as IgcPaginatorComponent;
+
+      this._bind = () => {
+        window.addEventListener("load", () => {
+          this.loadData(this.page,this.perPage);
+        });
+
+        this.pager.addEventListener("perPageChange", ((args: CustomEvent<any>) => {
+          this.perPage = args.detail;
+          this.loadData(this.page, this.perPage);
+        }) as EventListener);
+
+        this.pager.addEventListener("pageChange", ((args: CustomEvent<any>) => {
+          this.page = args.detail;
+          this.loadData(this.page, this.perPage);
+        }) as EventListener);
+      }
+
+      this._bind();
+  }
+```
+
+También debemos establecer el método para cargar datos y actualizar la UI según corresponda:
+
+```ts
+  private loadData(pageIndex?: number, pageSize?: number): void {
+    this.grid.isLoading = true;
+
+    RemotePagingService.getDataWithPaging(pageIndex,pageSize)
+    .then((response: CustomersWithPageResponseModel) => {
+      this.totalRecordsCount = response.totalRecordsCount;
+      this.pager.perPage = pageSize;
+      this.pager.totalRecords = this.totalRecordsCount;
+      this.page = response.pageNumber;
+      this.data = response.items;
+      this.grid.isLoading = false;
+      this.updateUI(); // Update the UI after receiving data
+    })
+    .catch((error) => {
+      console.error(error.message);
+      // Stop loading even if error occurs. Prevents endless loading
+      this.grid.isLoading = false;
+      this.updateUI();
+    })
+  }
+
+    private updateUI(): void {
+    if (this.grid && this.data) { // Check if grid and data are available
+        this.grid.data = this.data;
+    }
+  }
+```
+
+Para obtener más referencias, consulte la demo a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Primero deberíamos cargar algunos datos en la cuadrícula. Es mejor hacerlo después de que la cuadrícula se haya renderizado para evitar cualquier problema de temporización.
+
+```csharp
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Paginate(0, PerPage);
+            totalRecordsCount = await NwindDataService.GetDataLength();
+            StateHasChanged();
+        }
+    }
+```
+
+Después de eso, solo necesitamos enlazar los eventos de paginación a nuestros métodos personalizados, y la paginación remota queda configurada:
+
+```razor
+<IgbPaginator @ref="pager" PageChange="OnPageChange" PerPageChange="OnPerPageChange" TotalRecords="totalRecordsCount"></IgbPaginator>
+
+....
+
+@code {
+        private async void OnPerPageChange(IgbNumberEventArgs e)
+    {
+        PerPage = e.Detail;
+        await Paginate(0, e.Detail);
+    }
+
+    private async void OnPageChange(IgbNumberEventArgs e)
+    {
+        await Paginate(e.Detail, PerPage);
+    }
+    ...
+        private async Task Paginate(double page, double perPage)
+    {
+        this.page = page;
+        double skip = this.page * PerPage;
+        double top = PerPage;
+
+        try
+        {
+            data = await NwindDataService.GetData(Convert.ToInt32(skip), Convert.ToInt32(perPage));
+            isLoading = false;
+            UpdateUI();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+        }
+    }
+}
+```
+
+Para obtener más referencias, consulte la demo completa a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+     <IgrGrid
+          ref={grid}
+          data={data}
+          pagingMode="remote"
+          primaryKey="customerId"
+          height="600px"
+          isLoading={isLoading}
+        >
+        <IgrPaginator
+          perPage={perPage}
+          ref={paginator}
+          onPageChange={onPageNumberChange}
+          onPerPageChange={onPageSizeChange}>
+        </IgrPaginator>
+          <IgrColumn field="customerId" hidden={true}></IgrColumn>
+          <IgrColumn field="companyName" header="Company Name"></IgrColumn>
+          <IgrColumn field="contactName" header="Contact Name"></IgrColumn>
+          <IgrColumn field="contactTitle" header="Contact Title"></IgrColumn>
+          <IgrColumn field="address.country" header="Country"></IgrColumn>
+          <IgrColumn field="address.phone" header="Phone"></IgrColumn>
+        </IgrGrid>
+```
+
+luego configure el estado:
+
+```tsx
+  const grid = useRef<IgrGrid>(null);
+  const paginator = useRef<IgrPaginator>(null);
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [perPage, setPerPage] = useState(15);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadGridData(page, perPage);
+  }, [page, perPage]);
+```
+
+y finalmente configure el método para cargar los datos:
+
+```tsx
+  function loadGridData(pageIndex?: number, pageSize?: number) {
+    // Set loading state
+    setIsLoading(true);
+
+    // Fetch data
+    RemoteService.getDataWithPaging(pageIndex, pageSize)
+      .then((response: CustomersWithPageResponseModel) => {
+        setData(response.items);
+        // Stop loading when data is retrieved
+        setIsLoading(false);
+        paginator.current.totalRecords = response.totalRecordsCount;
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setData([]);
+        // Stop loading even if error occurs. Prevents endless loading
+        setIsLoading(false);
+      })
+  }
+```
+
+Para obtener más referencias, consulte el ejemplo completo a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Grid Remote Paging Example" />
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+export class HGridRemotePagingSampleComponent implements OnInit, AfterViewInit, OnDestroy {
+    public data: BehaviorSubject<any> = new BehaviorSubject([]);
+    private _dataLengthSubscriber;
+
+    constructor(private remoteService: RemotePagingService) {}
+
+    public ngOnInit() {
+        this.data = this.remoteService.remoteData.asObservable();
+
+        this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+            this.totalCount = data;
+            this.grid1.isLoading = false;
+        });
+    }
+
+    public ngOnDestroy() {
+        if (this._dataLengthSubscriber) {
+            this._dataLengthSubscriber.unsubscribe();
+        }
+    }
+}
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+Primero debemos enlazarnos a los eventos relevantes para que, cuando cambiemos de página y la cantidad de registros mostrados por página, el servicio remoto obtenga la cantidad correcta de datos
+
+```ts
+    constructor() {
+        this.hierarchicalGrid = document.getElementById("hGrid") as IgcHierarchicalGridComponent;
+        this.pager = document.getElementById('paginator') as IgcPaginatorComponent;
+        const ordersRowIsland = document.getElementById("ordersRowIsland") as IgcRowIslandComponent;
+        const orderDetailsRowIsland = document.getElementById("orderDetailsRowIsland") as IgcRowIslandComponent;
+
+        ordersRowIsland.paginatorTemplate = this.webHierarchicalGridPaginatorTemplate;
+        orderDetailsRowIsland.paginatorTemplate = this.webHierarchicalGridPaginatorTemplate;
+
+        this._bind = () => {
+            window.addEventListener("load", () => {
+                this.pager.perPage = this._perPage;
+                this.loadCustomersData(this.page,this.perPage);
+            });
+
+            this.pager.addEventListener("perPageChange", ((args: CustomEvent<any>) => {
+              this.perPage = args.detail;
+              this.loadCustomersData(this.page, this.perPage);
+            }) as EventListener);
+
+            this.pager.addEventListener("pageChange", ((args: CustomEvent<any>) => {
+              this.page = args.detail;
+              this.loadCustomersData(this.page, this.perPage);
+            }) as EventListener);
+
+            ordersRowIsland.addEventListener("gridCreated", (event: any) => {
+                this.gridCreated(event, "Customers");
+            });
+
+            orderDetailsRowIsland.addEventListener("gridCreated", (event: any) => {
+                this.gridCreated(event, "Orders");
+            });
+        }
+
+        this._bind();
+    }
+```
+
+También debemos establecer el método para cargar datos y actualizar la UI según corresponda:
+
+```ts
+  private updateUI(): void {
+        if (this.hierarchicalGrid && this.data) { // Check if grid and data are available
+            this.hierarchicalGrid.data = this.data;
+        }
+    }
+
+    private loadCustomersData(pageIndex?: number, pageSize?: number): void {
+        this.hierarchicalGrid.isLoading = true;
+
+        RemotePagingService.getDataWithPaging(pageIndex,pageSize)
+        .then((response: CustomersWithPageResponseModel) => {
+          this.totalRecordsCount = response.totalRecordsCount;
+          this.pager.perPage = pageSize;
+          this.pager.totalRecords = this.totalRecordsCount;
+          this.page = response.pageNumber;
+          this.data = response.items;
+          this.hierarchicalGrid.isLoading = false;
+          this.updateUI(); // Update the UI after receiving data
+        })
+        .catch((error) => {
+          console.error(error.message);
+          this.hierarchicalGrid.data = [];
+          this.hierarchicalGrid.isLoading = false;
+          this.updateUI();
+        })
+      }
+```
+
+Y finalmente debemos manejar el comportamiento detrás de los niveles de jerarquía reales de la cuadrícula jerárquica
+
+```ts
+    public gridCreated(event: CustomEvent<IgcGridCreatedEventArgs>, parentKey: string) {
+        const context = event.detail;
+        const parentId: string = context.parentID;
+        const childDataKey: string = context.owner.childDataKey;
+
+        context.grid.isLoading = true;
+        RemotePagingService.getHierarchyDataById(parentKey, parentId, childDataKey)
+        .then((data: any) => {
+          context.grid.data = data;
+          context.grid.isLoading = false;
+          context.grid.markForCheck();
+        })
+        .catch((error) => {
+          console.error(error.message);
+          context.grid.data = [];
+          context.grid.isLoading = false;
+          context.grid.markForCheck();
+        });
+    }
+
+    public webHierarchicalGridPaginatorTemplate = () => {
+       return html `
+        <igc-paginator
+            id="islandPaginator">
+        </igc-paginator>`
+    }
+```
+
+Para obtener más referencias, consulte la demo a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-hgrid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+Primero deberíamos cargar algunos datos en la cuadrícula. Es mejor hacerlo después de que la cuadrícula se haya renderizado para evitar cualquier problema de temporización.
+
+```csharp
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Paginate(0, PerPage);
+            totalRecordsCount = await NwindDataService.GetDataLength();
+            StateHasChanged();
+        }
+    }
+```
+
+Después de eso, solo necesitamos enlazar los eventos de paginación a nuestros métodos personalizados, y la paginación remota queda configurada:
+
+```razor
+<IgbPaginator @ref="pager" PageChange="OnPageChange" PerPageChange="OnPerPageChange" TotalRecords="totalRecordsCount"></IgbPaginator>
+
+....
+
+@code {
+        private async void OnPerPageChange(IgbNumberEventArgs e)
+    {
+        PerPage = e.Detail;
+        await Paginate(0, e.Detail);
+    }
+
+    private async void OnPageChange(IgbNumberEventArgs e)
+    {
+        await Paginate(e.Detail, PerPage);
+    }
+    ...
+        private async Task Paginate(double page, double perPage)
+    {
+        this.page = page;
+        double skip = this.page * PerPage;
+        double top = PerPage;
+
+        try
+        {
+            data = await NwindDataService.GetData(Convert.ToInt32(skip), Convert.ToInt32(perPage));
+            isLoading = false;
+            UpdateUI();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+        }
+    }
+}
+```
+
+Para obtener más referencias, consulte la demo completa a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-grid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+  <IgrHierarchicalGrid
+          ref={hierarchicalGrid}
+          data={data}
+          pagingMode="remote"
+          primaryKey="customerId"
+          height="600px"
+        >
+          <IgrPaginator
+            perPage={perPage}
+            ref={paginator}
+            onPageChange={onPageNumberChange}
+            onPerPageChange={onPageSizeChange}
+          ></IgrPaginator>
+          ...
+          <IgrRowIsland
+            childDataKey="Orders"
+            primaryKey="orderId"
+            onGridCreated={onCustomersGridCreatedHandler}>
+            ...
+
+            <IgrRowIsland
+              childDataKey="Details"
+              primaryKey="productId"
+              onGridCreated={onOrdersGridCreatedHandler}>
+              ...
+            </IgrRowIsland>
+          </IgrRowIsland>
+        </IgrHierarchicalGrid>
+
+```
+
+luego configure el estado:
+
+```tsx
+  const hierarchicalGrid = useRef<IgrHierarchicalGrid>(null);
+  const paginator = useRef<IgrPaginator>(null);
+
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [perPage, setPerPage] = useState(15);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadGridData(page, perPage);
+  }, [page, perPage]);
+```
+
+a continuación, configure el método para cargar los datos:
+
+```tsx
+  function loadGridData(pageIndex?: number, pageSize?: number) {
+    // Set loading state
+    setIsLoading(true);
+
+    // Fetch data
+    RemoteService.getCustomersDataWithPaging(pageIndex, pageSize)
+      .then((response: CustomersWithPageResponseModel) => {
+        setData(response.items);
+        // Stop loading when data is retrieved
+        setIsLoading(false);
+        paginator.current.totalRecords = response.totalRecordsCount;
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setData([]);
+        // Stop loading even if error occurs. Prevents endless loading
+        setIsLoading(false);
+      })
+  }
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="React">
+
+y finalmente configure el comportamiento para RowIslands:
+
+<ComponentBlock for="HierarchicalGrid">
+
+```tsx
+  function gridCreated(event: IgrGridCreatedEventArgs, parentKey: string) {
+    const context = event.detail;
+    context.grid.isLoading = true;
+
+    const parentId: string = context.parentID;
+    const childDataKey: string = context.owner.childDataKey;
+
+    RemoteService.getHierarchyDataById(parentKey, parentId, childDataKey)
+      .then((data: any) => {
+        context.grid.data = data;
+        context.grid.isLoading = false;
+        context.grid.markForCheck();
+      })
+      .catch((error) => {
+        console.error(error.message);
+        context.grid.data = [];
+        context.grid.isLoading = false;
+        context.grid.markForCheck();
+      });
+  }
+
+  const onCustomersGridCreatedHandler = (e: IgrGridCreatedEventArgs) => {
+    gridCreated(e, "Customers")
+  };
+
+  const onOrdersGridCreatedHandler = (e: IgrGridCreatedEventArgs) => {
+    gridCreated(e, "Orders")
+  };
+
+```
+
+Para obtener más referencias, consulte el ejemplo completo a continuación:
+
+### Demo de paginación remota de cuadrícula
+
+<Sample src="/{ComponentSample}/remote-paging-hgrid" height={550} alt="{Platform} {ComponentTitle} Hierarchical Grid Remote Paging Example" />
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Angular">
+
+En este ejemplo demostraremos cómo mostrar una determinada cantidad de registros raíz por página, sin importar cuántos registros secundarios tengan. Para cancelar el algoritmo de paginación integrado de Tree Grid, que muestra una determinada cantidad de registros sin importar su nivel (raíz o secundario), debemos establecer la propiedad <ApiLink type="Paginator" member="perPage" label="PerPage" /> en `Number.MAX_SAFE_INTEGER`.
+
+```html
+<igx-tree-grid #treeGrid>
+        <igx-paginator [perPage]="maxPerPage">
+        </igx-paginator>
+```
+
+```typescript
+public maxPerPage = Number.MAX_SAFE_INTEGER;
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<PlatformBlock for="Angular">
+
+Ahora podemos elegir entre configurar nuestra propia plantilla de paginación personalizada o usar la predeterminada que proporciona <ApiLink type="Paginator" />. Primero veamos qué es necesario para configurar la paginación remota usando la plantilla de paginación predeterminada.
+
+### Paginación remota con plantilla predeterminada
+
+Si desea usar la plantilla de paginación predeterminada, debe establecer la propiedad <ApiLink type="GridBaseDirective" member="totalRecords" label="TotalRecords" /> del Paginator; solo entonces la cuadrícula podrá calcular el número total de páginas basándose en el total de registros remotos. Al realizar una paginación remota, el Paginator pasará a la cuadrícula solo los datos de la página actual, por lo que la cuadrícula no intentará paginar el origen de datos proporcionado. Por eso debemos establecer la propiedad <ApiLink type="GridBaseDirective" member="pagingMode" label="PagingMode" /> de la cuadrícula en <ApiLink type="GridPagingMode" member="Remote" label="GridPagingMode.Remote" />. También es necesario suscribirse a los eventos `PagingDone` o `PerPageChange` para obtener los datos desde su servicio remoto; depende del caso de uso qué evento se utilizará.
+
+```html
+<igx-grid #grid1 [data]="data | async" [isLoading]="isLoading" [pagingMode]="mode">
+    <igx-column field="ID"></igx-column>
+
+    <igx-paginator [(page)]="page" [(perPage)]="perPage"  [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)">
+    </igx-paginator>
+</igx-grid>
+```
+
+```html
+<igx-tree-grid #treeGrid [data]="data | async" childDataKey="Content" [pagingMode]="mode">
+    <igx-column field="Name"></igx-column>
+
+    <igx-paginator [(page)]="page" [(perPage)]="perPage" [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)">
+    </igx-paginator>
+</igx-tree-grid>
+```
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [primaryKey]="'CustomerID'" [pagingMode]="mode">
+    <igx-column field="CustomerID"></igx-column>
+
+    <igx-paginator [(page)]="page" [(perPage)]="perPage" [totalRecords]="totalCount"
+        (pagingDone)="paginate($event.current)" (perPageChange)="getFirstPage()">
+    </igx-paginator>
+</igx-hierarchical-grid>
+```
+
+```typescript
+public totalCount = 0;
+public data: Observable<any[]>;
+public mode = GridPagingMode.remote;
+public isLoading = true;
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _dataLengthSubscriber;
+
+public set perPage(val: number) {
+    this._perPage = val;
+    this.paginate(0);
+}
+
+public ngOnInit() {
+    this.data = this.remoteService.remoteData.asObservable();
+
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data: any) => {
+        this.totalCount = data;
+        this.grid1.isLoading = false;
+    });
+}
+
+public ngAfterViewInit() {
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+<Sample src="/{ComponentSample}/remote-paging-template" height={620} alt="{Platform} {ComponentTitle} Remote Paging Default Template Example" />
+
+### Paginación remota con contenido de Paginator personalizado
+
+Cuando definimos un contenido de paginador personalizado, debemos definir el contenido de forma que obtenga los datos solo para la página solicitada y pase los parámetros correctos **skip** y **top** al servicio remoto de acuerdo con la página seleccionada y los elementos <ApiLink type="Paginator" member="perPage" label="PerPage" />. Vamos a usar <ApiLink type="Paginator" /> para facilitar la configuración de nuestro ejemplo, junto con `PageSizeSelectorComponent` y `PageNavigationComponent` que se introdujeron: `PageSize` añadirá el desplegable y la etiqueta de elementos por página, y `PageNav` añadirá los botones de acción y las etiquetas de navegación.
+
+```html
+<igx-paginator #paginator
+    [totalRecords]="totalCount"
+    [(page)]="page"
+    [(perPage)]="perPage"
+    [selectOptions]="selectOptions"
+    (pageChange)="paginate($event)"
+    (perPageChange)="perPageChange($event)">
+    <igx-paginator-content>
+        <igx-page-size></igx-page-size>
+        [This is my custom content]
+        <igx-page-nav></igx-page-nav>
+    </igx-paginator-content>
+</igx-paginator>
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+private _perPage = 15;
+private_dataLengthSubscriber: { unsubscribe: () => void; } | undefined;
+
+constructor(private remoteService: RemotePagingService) { }
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+
+public perPageChange(perPage: number) {
+    const skip = this.page * perPage;
+    const top = perPage;
+
+    this.remoteService.getData(skip, top);
+}
+
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+```typescript
+@ViewChild('hierarchicalGrid', { static: true }) public hierarchicalGrid: IgxHierarchicalGridComponent;
+
+public ngOnInit(): void {
+    this._dataLengthSubscriber = this.remoteService.getDataLength(
+        { parentID: null, rootLevel: true, key: 'Customers' }).subscribe((length) => {
+            this.totalCount = length;
+        });
+}
+
+public ngAfterViewInit() {
+    this.hierarchicalGrid.isLoading = true;
+    this._dataSubscriber = this.remoteService.getData({parentID: null, rootLevel: true, key: 'Customers' }, 0, this.perPage)
+        .subscribe((data) => {
+            this.hierarchicalGrid.isLoading = false;
+            this.data.next(data);
+        },(error) => {
+                this.hierarchicalGrid.emptyGridMessage = error.message;
+                this.hierarchicalGrid.isLoading = false;
+                this.hierarchicalGrid.cdr.detectChanges();
+            }
+        );
+}
+
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+```typescript
+public paginate(page: number) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+
+    this.remoteService.getData(skip, top);
+}
+
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<DocsAside type="info">
+
+Para que la paginación remota se configure correctamente, debe establecerse un <ApiLink type="GridPagingMode" member="Remote" label="GridPagingMode.Remote" />:
+
+</DocsAside>
+
+```typescript
+public mode = GridPagingMode.Remote;
+```
+
+```html
+<igx-grid #grid1 [data]="data | async" width="100%" height="580px" [pagingMode]="mode"></igx-grid>
+```
+
+```html
+<igx-hierarchical-grid #hierarchicalGrid [data]="data | async" [primaryKey]="'CustomerID'"
+    [height]="'550px'" [width]="'100%'" [pagingMode]="mode"></igx-hierarchical-grid>
+```
+
+```html
+<igx-tree-grid #treeGrid [data]="data | async" childDataKey="Content"
+        expansionDepth="0" width="100%" height="540px" [pagingMode]="mode"></igx-tree-grid>
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+El último paso será declarar el contenido del paginador según sus requisitos.
+
+```html
+<igx-paginator-content>
+    <igx-page-size></igx-page-size>
+    [This is my custom content]
+    <igx-page-nav></igx-page-nav>
+</igx-paginator-content>
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Después de todos los cambios anteriores, se logrará el siguiente resultado.
+
+<Sample src="/{ComponentSample}/remote-paging-data" height={620} alt="{Platform} {ComponentTitle} Remote Paging Custom Template Example" />
+
+<ComponentBlock for="Grid">
+
+### Paginación remota con paginador personalizado
+
+En algunos casos, es posible que desee definir su propio comportamiento de paginación, y aquí es cuando podemos aprovechar la plantilla de paginación y añadir nuestra lógica personalizada junto con ella. Vamos a ampliar el ejemplo de paginación remota para demostrar esto:
+
+<Sample src="/{ComponentSample}/remote-paging-custom" height={620} alt="{Platform} {ComponentTitle} Remote Paging Custom Paging Example" />
+
+A continuación encontrará los métodos que hemos definido para implementar nuestras propias acciones de página `next` y `previous`.
+
+```typescript
+@ViewChild('grid1', { static: true }) public grid1: IgxGridComponent;
+
+public ngAfterViewInit() {
+    this.grid1.isLoading = true;
+    this.remoteService.getData(0, this.perPage);
+}
+
+public nextPage() {
+    this.firstPage = false;
+    this.page++;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page + 1 >= this.totalPages) {
+        this.lastPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public previousPage() {
+    this.lastPage = false;
+    this.page--;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    this.remoteService.getData(skip, top);
+    if (this.page <= 0) {
+        this.firstPage = true;
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+}
+
+public paginate(page: number, recalculate = false) {
+    this.page = page;
+    const skip = this.page * this.perPage;
+    const top = this.perPage;
+    if (recalculate) {
+        this.totalPages = Math.ceil(this.totalCount / this.perPage);
+    }
+    this.setNumberOfPagingItems(this.page, this.totalPages);
+    this.remoteService.getData(skip, top);
+    this.buttonDeselection(this.page, this.totalPages);
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="Grid">
+
+### Paginación remota con edición por lotes
+
+Con los ejemplos hasta ahora aclaramos cómo configurar <ApiLink type="{ComponentName}" /> con datos remotos. Ahora, centrémonos en habilitar la edición por lotes para la cuadrícula siguiendo el [tema/guía de edición por lotes](batch-editing.md).
+
+Antes de continuar con el ejemplo, conviene aclarar el caso de uso actual. Cuando la paginación se realiza en el servidor, la cuadrícula contiene los datos solo de la página actual y, si añadimos nuevas filas, las filas recién añadidas (con edición por lotes) se concatenarán con los datos actuales que contiene la cuadrícula. Por lo tanto, si el servidor no devuelve datos para una página determinada, el origen de datos de la cuadrícula estará compuesto solo por las filas recién añadidas, que la cuadrícula paginará basándose en la configuración de paginación definida (page, perPage).
+
+```typescript
+public ngOnInit() {
+    this._dataLengthSubscriber = this.remoteService.getDataLength().subscribe((data) => {
+        this.totalCount = data;
+        this._recordOnServer = data;
+        this._totalPagesOnServer = Math.floor(this.totalCount / this.perPage);
+        this.grid1.isLoading = false;
+    });
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Para manejar correctamente este caso de uso, necesitamos implementar cierta lógica personalizada.
+
+Primero, debemos conocer el número total de registros que hay en el servidor. Con eso, calculamos el número total de páginas de datos en el servidor y, basándonos en su valor, implementaremos la lógica de paginación personalizada.
+
+```typescript
+public paginate(page: number) {
+    this.grid1.endEdit(true);
+    if (page > this._totalPagesOnServer) {
+        if (this.page !== this._totalPagesOnServer) {
+            const skipEl = this._totalPagesOnServer * this.perPage;
+            this.remoteService.getData(skipEl, this.perPage);
+        }
+        this.page = page - this._totalPagesOnServer;
+        this.page = page;
+        return;
+    } else {
+        this.page = 0;
+    }
+    this.page = page;
+    const skip = this.page * this.perPage;
+    this.remoteService.getData(skip, this.perPage);
+}
+```
+
+<PlatformBlock for="Blazor">
+
+```razor
+BLAZOR CODE SNIPPET HERE
+```
+
+</PlatformBlock>
+
+Como puede ver en el método <ApiLink type="Paginator" member="paginate" label="Paginate" />, la lógica de paginación personalizada se realiza basándose en el valor `TotalPagesOnServer`.
+
+#### Demo de paginación remota con edición por lotes
+
+<Sample src="/{ComponentSample}/remote-paging-batch-editing" height={620} alt="{Platform} {ComponentTitle} Remote Paging Batch Editing Example" />
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+## Problemas conocidos y limitaciones
+
+- Cuando la cuadrícula no tiene establecido <ApiLink type="{ComponentName}" member="primaryKey" /> y los escenarios de datos remotos están habilitados (cuando la paginación, la ordenación, el filtrado o el desplazamiento desencadenan solicitudes a un servidor remoto para recuperar los datos que se mostrarán en la cuadrícula), una fila perderá el siguiente estado después de que se complete una solicitud de datos:
+
+- Selección de fila
+
+- Expandir/contraer fila
+
+- Edición de fila
+
+- Anclado de fila
+
+## Referencias de API
+
+<ApiLink type="{ComponentName}" />
+
+<ApiLink type="Paginator" />
+
+## Recursos adicionales
+
+<ComponentBlock for="Grid">
+
+- [Paginación](paging.md)
+- [Virtualización y rendimiento](virtualization.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Resúmenes](summaries.md)
+- [Movimiento de columnas](column-moving.md)
+- [Anclado de columnas](column-pinning.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+</ComponentBlock>
+
+Nuestra comunidad es activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

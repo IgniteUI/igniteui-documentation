@@ -1,0 +1,897 @@
+---
+title: "{Platform} Cuadrícula Agrupar por | Agrupar por varios campos | Infragistics"
+description: Configure la función de agrupar por que permite visualizar registros de datos en la tabla Material de {Platform}, visualice los datos agrupados en un grupo de columnas independiente y práctico.
+keywords: "{Platform}, cuadrícula, {ProductName}, agrupar por, Infragistics"
+license: commercial
+mentionedTypes: ["Grid", "RowDirective", "GroupByRowSelectorTemplateDetails"]
+namespace: Infragistics.Controls
+llms:
+  description: El comportamiento Agrupar por de {ProductName} en {Platform} {GridName} crea filas de datos agrupadas en función de los valores de las columnas.
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Agrupar por en la cuadrícula
+
+El comportamiento Agrupar por de {ProductName} en {Platform} {GridName} crea filas de datos agrupadas en función de los valores de columna. Agrupar por en <ApiLink type="Grid" /> permite visualizar los grupos en una estructura jerárquica. Las filas de datos agrupadas se pueden expandir o contraer, y el orden de agrupación se puede cambiar mediante la UI o la API. Cuando la selección de filas está habilitada, se representa un selector de fila de Agrupar por en el área más a la izquierda de la fila de grupo. En caso de que la propiedad <ApiLink type="Grid" member="rowSelection" label="RowSelection" /> esté establecida en single, las casillas de verificación se deshabilitan y solo sirven como indicación del grupo donde se coloca la selección. Si la propiedad <ApiLink type="Grid" member="rowSelection" label="RowSelection" /> está establecida en multiple, al hacer clic sobre el selector de fila de Agrupar por se seleccionan todos los registros que pertenecen a este grupo.
+
+## Ejemplo de Agrupar por en la cuadrícula {Platform}
+
+Este ejemplo presenta las capacidades de agrupación de una gran cantidad de datos. Arrastrar los encabezados de columna a la parte superior (área de agrupación) permite a los usuarios ver los datos de la columna seleccionada en una estructura jerárquica. Pueden agrupar por varios campos arrastrando más encabezados de columna a la parte superior. Estas opciones de agrupación son útiles cuando se tienen tablas con numerosas filas y columnas donde los usuarios quieren presentar los datos de una manera mucho más rápida y visualmente aceptable.
+
+<Sample src="/{GridSample}/groupby-expressions" height={605} alt="{Platform} {GridTitle} Group By Example" />
+
+## Estado de agrupación inicial
+
+Es posible definir la agrupación inicial de la cuadrícula asignando una matriz de expresiones a la propiedad <ApiLink type="Grid" member="groupingExpressions" label="GroupingExpressions" /> de la cuadrícula.
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    grid.groupingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Desc },
+        { fieldName: 'Released', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+constructor() {
+    var grid = document.getElementById("grid") as IgcGridComponent;
+    grid.groupingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Desc },
+        { fieldName: 'Released', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const expressions = [
+    { fieldName: 'ProductName', dir: SortingDirection.Desc },
+    { fieldName: 'Released', dir: SortingDirection.Desc }
+];
+const grid1Ref = useRef<IgrGrid>(null);
+
+<IgrGrid
+    autoGenerate={true}
+    groupingExpressions={expressions}
+    ref={grid1Ref}>
+</IgrGrid>
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" @ref="grid" Id="grid" GroupingExpressions="GroupingExpression1"></IgbGrid>
+
+@code {
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+}
+```
+
+</PlatformBlock>
+
+Las expresiones de agrupación implementan la interfaz `ISortingExpression`.
+
+## API de Agrupar por
+
+### API de agrupación
+
+La agrupación está disponible a través de la UI y mediante una API robusta expuesta por el componente de cuadrícula. Los desarrolladores pueden permitir que los usuarios finales agrupen los datos de la cuadrícula por determinadas columnas, estableciendo la propiedad <ApiLink type="Column" member="groupable" label="Groupable" /> de cada columna en `true`.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-grid auto-generate="false" id="grid">
+    <igc-column field="OrderID" hidden="true"></igc-column>
+    <igc-column field="ShipCountry" header="Ship Country" width="200px" groupable="true"> </igc-column>
+    <igc-column field="OrderDate" header="Order Date" data-type="date" width="200px" groupable="true"> </igc-column>
+    <igc-column field="PostalCode" header="Postal Code" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Discontinued" width="200px" data-type="boolean" groupable="true" name="column1" id="column1"> </igc-column>
+    <igc-column field="ShipName" header="Ship Name" width="200px" groupable="true"> </igc-column>
+    <igc-column field="ShipCity" header="Ship City" width="200px" groupable="true"> </igc-column>
+    <igc-column field="ShipperName" header="Shipper Name" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Salesperson" header="Sales Person" width="200px" groupable="true"> </igc-column>
+    <igc-column field="UnitPrice" header="Unit Price" width="200px" groupable="true"> </igc-column>
+    <igc-column field="Quantity" width="200px" groupable="true"> </igc-column>
+</igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="false" Data="InvoicesData" @ref="grid" Id="grid" GroupingExpressions="GroupingExpression1" GroupRowTemplateScript="WebGridGroupByRowTemplate">
+    <IgbColumn Field="OrderID" Hidden="true"></IgbColumn>
+    <IgbColumn Field="ShipCountry" Header="Ship Country" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="OrderDate" Header="Order Date" DataType="GridColumnDataType.Date" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="PostalCode" Header="Postal Code" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="Discontinued" Width="200px" DataType="GridColumnDataType.Boolean" Groupable="true" BodyTemplateScript="WebGridBooleanCellTemplate" Name="column1" @ref="column1"></IgbColumn>
+    <IgbColumn Field="ShipName" Header="Ship Name" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="ShipCity" Header="Ship City" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="ShipperName" Header="Shipper Name"Width="200px"Groupable="true"></IgbColumn>
+    <IgbColumn Field="Salesperson" Header="Sales Person" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="UnitPrice" Header="Unit Price" Width="200px" Groupable="true"></IgbColumn>
+    <IgbColumn Field="Quantity" Width="200px" Groupable="true"></IgbColumn>
+</IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    grid.columns.forEach((column) => {
+        column.groupable = true;
+    });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid
+    autoGenerate={false}
+    ref={gridRef}>
+    <IgrColumn field="OrderID" hidden={true}></IgrColumn>
+    <IgrColumn field="ShipCountry" header="Ship Country" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="OrderDate" header="Order Date" dataType="date" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="PostalCode" header="Postal Code" width="200px" groupable={true}></IgrColumn>
+    <IgrColumn field="Discontinued" width="200px" dataType="boolean" groupable={true}></IgrColumn>
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+    constructor() {
+        var column1 = (this.column1 = document.getElementById("column1") as IgcColumnComponent);
+        column1.groupable = true;
+    }
+```
+
+</PlatformBlock>
+
+Durante el tiempo de ejecución, las expresiones se pueden obtener y establecer desde la propiedad <ApiLink type="Grid" member="groupingExpressions" label="groupingExpressions" />. Si necesita agregar o cambiar una expresión existente, también puede usar el método <ApiLink type="Grid" member="groupBy" label="GroupBy" /> con una sola expresión o una matriz de expresiones.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+grid.groupBy({ fieldName: 'ProductName', dir: SortingDirection.Desc, ignoreCase: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+gridRef.current.groupBy([{ fieldName: 'ProductName', dir: SortingDirection.Desc, ignoreCase: true }]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    public IgbGrid grid;
+
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+
+
+    private void GroupGrid()
+    {
+        this.grid.GroupBy(GroupingExpression1);
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+Hasta ahora, la agrupación y la ordenación funcionaban en conjunto. En la versión 13.2, se introduce un nuevo comportamiento que desacopla la agrupación de la ordenación. Por ejemplo, borrar la agrupación no borrará las expresiones de ordenación en la cuadrícula ni viceversa. Aun así, si una columna está tanto ordenada como agrupada, las expresiones agrupadas tienen prioridad.
+
+</DocsAside>
+
+</PlatformBlock>
+
+### API de expandir/contraer
+
+Además de las expresiones de agrupación, también puede controlar los estados de expansión de las filas de grupo. Se almacenan en una propiedad separada del componente <ApiLink type="Grid" />, <ApiLink type="Grid" member="groupingExpansionState" label="GroupingExpansionState" />, que es una colección de <ApiLink type="GroupByExpandState" />. Cada estado de expansión se define de forma única por el nombre del campo para el que se crea y el valor que representa para cada nivel de agrupación, es decir, el identificador es una matriz jerárquica de <ApiLink type="GroupByKey" />.
+
+Al igual que con <ApiLink type="Grid" member="groupingExpressions" label="GroupingExpressions" />, establecer una lista de <ApiLink type="GroupByExpandState" /> directamente en <ApiLink type="Grid" member="groupingExpansionState" label="GroupingExpansionState" /> cambiará la expansión en consecuencia. Además, <ApiLink type="Grid" /> expone un método <ApiLink type="Grid" member="toggleGroup" label="ToggleGroup" /> que alterna un grupo mediante la instancia del registro de grupo o a través de la propiedad <ApiLink type="RowDirective" member="expanded" label="Expanded" /> de la fila.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.toggleGroup(groupRow);
+```
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0);
+groupRow.expanded = false;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.toggleGroup(groupRow);
+```
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0);
+groupRow.expanded = false;
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" GroupingExpressions="GroupingExpression1" GroupingExpansionState=ExpansionState @ref="grid" Id="grid">
+</IgbGrid>
+
+@code {
+    public IgbGroupingExpression[] GroupingExpression1 = new IgbGroupingExpression[2]
+    {
+        new IgbGroupingExpression(){ FieldName = "ShipCountry", Dir= SortingDirection.Asc },
+        new IgbGroupingExpression() { FieldName = "ShipCity", Dir= SortingDirection.Asc  }
+    };
+    public IgbGroupByExpandState[] state = new IgbGroupByExpandState[1]
+    {
+        new IgbGroupByExpandState(){ Hierarchy = new IgbGroupByKey[1]{ new IgbGroupByKey() { FieldName="ShipCountry", Value = "USA" } },  Expanded = false }
+    };
+}
+```
+
+</PlatformBlock>
+
+Los grupos se pueden crear expandidos (**valor predeterminado**) o contraídos, y los estados de expansión generalmente solo contendrían el estado opuesto al comportamiento predeterminado. Puede controlar si los grupos deben crearse expandidos o no mediante la propiedad <ApiLink type="Grid" member="groupsExpanded" label="GroupsExpanded" />.
+
+### API para seleccionar/deseleccionar todas las filas de un grupo
+
+La selección/deselección de todas las filas de un grupo está disponible mediante los métodos de API <ApiLink type="Grid" member="selectRowsInGroup" label="SelectRowsInGroup" /> y <ApiLink type="Grid" member="deselectRowsInGroup" label="DeselectRowsInGroup" />.
+
+El fragmento de código siguiente se puede usar para seleccionar todas las filas dentro de un grupo mediante el método de instancia de registro de grupo <ApiLink type="Grid" member="selectRowsInGroup" label="SelectRowsInGroup" />. Además, el segundo parámetro de este método es una propiedad booleana mediante la cual puede elegir si la selección de filas anterior se borrará o no. La selección anterior se conserva de forma predeterminada.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.selectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.selectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+var row = await this.grid.GetRowByIndexAsync(0);
+this.grid.SelectRowsInGroup(row.GroupRow, true);
+```
+
+</PlatformBlock>
+
+Si necesita deseleccionar todas las filas dentro de un grupo mediante programación, puede usar el método <ApiLink type="Grid" member="deselectRowsInGroup" label="DeselectRowsInGroup" />.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+const groupRow = this.grid.getRowByIndex(0).groupRow;
+grid.deselectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupRow = gridRef.current.getRowByIndex(0).groupRow;
+gridRef.current.deselectRowsInGroup(groupRow);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```csharp
+var row = await this.grid.GetRowByIndexAsync(0);
+this.grid.DeselectRowsInGroup(row.GroupRow);
+```
+
+</PlatformBlock>
+
+## Plantillas
+
+### Plantillas de fila de grupo
+
+La fila de grupo, excepto la UI de expandir/contraer, admite plantillas por completo. De forma predeterminada, representa un icono de agrupación y muestra el nombre del campo y el valor que representa. El contexto con el que se representa la plantilla es de tipo <ApiLink type="GroupByRecord" />.
+
+Como ejemplo, la siguiente plantilla haría que el resumen de las filas de grupo fuera más detallado:
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRow let-groupRow>
+    <span>Total items with value: {{ groupRow.value }} are {{ groupRow.records.length }}</span>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowTemplateContext) => {
+    const groupRow = ctx.implicit;
+    return (<>
+       <span>Total items with value: { groupRow.value } are { groupRow.records.length }</span>
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public groupByRowTemplate = (ctx: IgcGroupByRowTemplateContext) => {
+        const groupRow: IgcGroupByRecord = ctx.implicit;
+        return html`<span>Total items with value: ${ groupRow.value } are ${ groupRow.records.length }</span>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid AutoGenerate="true" Data="InvoicesData" @ref="grid" Id="grid" GroupRowTemplateScript="WebGridGroupByRowTemplate"></IgbGrid>
+```
+
+```javascript
+//In JavaScript:
+igRegisterScript("WebGridGroupByRowTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var groupRow = ctx.implicit;
+    return html`<span>Total items with value: ${groupRow.value} are ${groupRow.records.length}</span>`;
+}, false);
+```
+
+</PlatformBlock>
+
+### Plantillas del selector de fila de grupo
+
+Como se mencionó anteriormente, la fila de grupo, excepto la UI de expandir/contraer, admite plantillas por completo. Para crear una plantilla personalizada de selector de fila de Agrupar por, use <ApiLink type="Grid" member="groupByRowSelectorTemplate" label="GroupByRowSelectorTemplate" />. Desde la plantilla, puede acceder a la variable de contexto proporcionada implícitamente, con propiedades que le brindan información sobre el estado de la fila de Agrupar por.
+
+La propiedad <ApiLink type="GroupByRowSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> muestra cuántos de los registros del grupo están seleccionados actualmente, mientras que <ApiLink type="GroupByRowSelectorTemplateDetails" member="totalCount" label="TotalCount" /> muestra cuántos registros pertenecen al grupo.
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRowSelector let-groupByRowContext>
+    {{ groupByRowContext.selectedCount }} / {{ groupByRowContext.totalCount  }}
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowSelectorTemplateContext) => {
+    return (<>
+        { ctx.implicit.selectedCount } / { ctx.implicit.totalCount }
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public groupByRowSelectorTemplate = (ctx: IgcGroupByRowSelectorTemplateContext) => {
+    return html`
+        ${ ctx.implicit.selectedCount } / ${ ctx.implicit.totalCount  }
+    `;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid GroupByRowSelectorTemplateScript="GroupByRowSelectorTemplate"></IgbGrid>
+```
+
+```javascript
+//In Javascript
+igRegisterScript("GroupByRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    return html` ${ctx.implicit.selectedCount} / ${ctx.implicit.totalCount} `;
+}, false);
+```
+
+</PlatformBlock>
+
+La propiedad <ApiLink type="GroupByRowSelectorTemplateDetails" member="groupRow" label="GroupRow" /> devuelve una referencia a la fila de grupo.
+
+<PlatformBlock for="Angular">
+
+```html
+<ng-template GroupByRowSelector let-groupByRowContext>
+    <div (click)="handleGroupByRowSelectorClick($event, groupByRowContext.groupRow)">Handle groupRow</div>
+</ng-template>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const template = (ctx: IgrGroupByRowSelectorTemplateContext) => {
+    const groupRow = ctx.implicit.groupRow;
+    return (<>
+        <div onClick={(e: any) => handleGroupByRowSelectorClick(e, groupRow)}>Handle groupRow</div> `;
+    </>)
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+public groupByRowSelectorTemplate = (ctx: IgcGroupByRowSelectorTemplateContext) => {
+    const groupRow = ctx.implicit.groupRow;
+    return html` <div @click=${(e: any) => this.handleGroupByRowSelectorClick(e, groupRow)} ">Handle groupRow</div> `;
+};
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid GroupByRowSelectorTemplateScript="GroupByRowSelectorTemplate"></IgbGrid>
+```
+
+```javascript
+//In Javascript
+igRegisterScript("GroupByRowSelectorTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var groupRow = ctx.implicit.groupRow;
+    return html`<div onclick="handleGroupByRowSelectorClick()">Handle groupRow</div> `;
+}, false);
+```
+
+</PlatformBlock>
+
+Las propiedades <ApiLink type="GroupByRowSelectorTemplateDetails" member="selectedCount" label="SelectedCount" /> y <ApiLink type="GroupByRowSelectorTemplateDetails" member="totalCount" label="TotalCount" /> se pueden usar para determinar si el selector de fila de Agrupar por debe estar marcado o indeterminado (seleccionado parcialmente).
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-grid #grid [data]="gridData" primaryKey="ProductID" rowSelection="multiple">
+    <!-- ... -->
+    <ng-template GroupByRowSelector let-context>
+        <igx-checkbox
+            [checked]=" context.selectedCount > 0 && context.selectedCount === context.totalCount"
+            [indeterminate]="context.selectedCount > 0 && context.selectedCount !== context.totalCount">
+        </igx-checkbox>
+    </ng-template>
+</igx-grid>
+```
+
+</PlatformBlock>
+
+## Agrupar por en la cuadrícula {Platform} con paginación
+
+Las filas de grupo participan en el proceso de paginación junto con las filas de datos. Cuentan para el tamaño de página de cada página. Las filas contraídas no se incluyen en el proceso de paginación. Cualquier operación de expansión o contracción obliga a la paginación a volver a calcular el recuento de páginas y ajustar el índice de página si es necesario.
+Los grupos que abarcan varias páginas se dividen entre ellas. La fila de grupo solo es visible en la página en la que comienza y no se repite en páginas posteriores. La información de resumen de las filas de grupo se calcula en función de todo el grupo y no se ve afectada por la paginación.
+
+### Ejemplo de Agrupar por {Platform} con paginación
+
+<Sample src="/{GridSample}/groupby-paging" height={605} alt="{Platform} {GridTitle} group by with paging example" />
+
+## Agrupar por con resúmenes
+
+La integración entre Agrupar por y Resúmenes se describe en el tema [Resúmenes](summaries.md#summaries-with-group-by).
+
+## Navegación por teclado
+
+La UI de agrupación admite las siguientes interacciones de teclado:
+
+- Para filas de grupo (el foco debe estar en la fila o en la celda de expandir/contraer)
+  - <kbd>ALT</kbd> + <kbd>DERECHA</kbd> - Expande el grupo
+  - <kbd>ALT</kbd> + <kbd>IZQUIERDA</kbd> - Contrae el grupo
+  - <kbd>ESPACIO</kbd> - selecciona todas las filas del grupo, si la propiedad <kbd>rowSelection</kbd> está establecida en multiple
+
+- Para componentes <ApiLink pkg="core" type="Chip" /> de grupo en el área de agrupar por (el foco debe estar en el chip)
+  - <kbd>MAYÚS</kbd> + <kbd>IZQUIERDA</kbd> - mueve el chip enfocado a la izquierda, cambiando el orden de agrupación, si es posible
+  - <kbd>MAYÚS</kbd> + <kbd>DERECHA</kbd> - mueve el chip enfocado a la derecha, cambiando el orden de agrupación, si es posible
+  - <kbd>ESPACIO</kbd> - cambia la dirección de ordenación
+  - <kbd>ELIMINAR</kbd> - desagrupa el campo
+  - Los elementos independientes del chip también pueden recibir foco y se puede interactuar con ellos usando la tecla <kbd>ENTRAR</kbd>.
+
+<PlatformBlock for="WebComponents, Angular, React">
+
+## Agrupar por personalizado en la cuadrícula {Platform}
+
+La cuadrícula permite definir agrupación personalizada por columna o por expresión de agrupación, lo que proporciona agrupación basada en una condición personalizada. Esto resulta útil cuando necesita agrupar por objetos complejos o para otros escenarios específicos de la aplicación.
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+Para implementar una agrupación personalizada, primero los datos deben ordenarse adecuadamente. Debido a esto, es posible que también necesite aplicar una estrategia de ordenación personalizada que extienda la base `DefaultSortingStrategy`. Después de ordenar los datos, los grupos personalizados se pueden determinar especificando un <ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> para la columna o para la expresión de agrupación específica.
+
+</DocsAside>
+
+<DocsAside type="info">
+
+Para implementar una agrupación personalizada, primero los datos deben ordenarse adecuadamente. Debido a esto, es posible que también necesite aplicar una estrategia de ordenación personalizada que extienda la base <ApiLink type="DefaultSortingStrategy" />. Después de ordenar los datos, los grupos personalizados se pueden determinar especificando un <ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> para la columna o para la expresión de agrupación específica.
+
+</DocsAside>
+
+</PlatformBlock>
+
+El ejemplo siguiente demuestra la agrupación personalizada por `Date`, donde los valores de fecha se ordenan y se agrupan por día, semana, mes o año según el modo de agrupación seleccionado por el usuario.
+
+### Ejemplo de Agrupar por personalizado {Platform}
+
+<Sample src="/{GridSample}/groupby-custom" height={605} alt="{Platform} {GridTitle} custom group by example" />
+
+El ejemplo define una ordenación personalizada para las diferentes condiciones de fecha.
+Cada estrategia personalizada define el método <PlatformBlock for="React"><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /></PlatformBlock><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" />, que es la función de comparación personalizada que se usa al ordenar los valores. Además, extrae los valores de la fecha necesarios para la comparación.
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public groupByMode = "Month";
+public getParsedDate(date: any) {
+    return {
+        day: date.getDay(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear()
+    };
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```typescript
+const groupByMode = "Month";
+function getParsedDate(date: any) {
+    return {
+        day: date.getDay(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear()
+    };
+}
+```
+
+</PlatformBlock>
+
+Se define una función <PlatformBlock for="React"><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /></PlatformBlock><ApiLink type="GroupingExpression" member="groupingComparer" label="GroupingComparer" /> para las expresiones de agrupación, que determina los elementos que pertenecen al mismo grupo según el modo de agrupación seleccionado. Los valores de los datos ordenados para los que esta función devuelve 0 se marcan como parte del mismo grupo.
+
+```typescript
+grid.groupingExpressions = [
+    { fieldName: 'OrderDate', dir: SortingDirection.Desc,
+    groupingComparer: (a, b) => {
+            const dateA = this.getParsedDate(a);
+            const dateB = this.getParsedDate(b);
+            if (this.groupByMode === 'Month') {
+                return dateA.month === dateB.month ? 0 : -1;
+            } else if (this.groupByMode === "Year") {
+                return dateA.year === dateB.year ? 0 : -1;
+            } else if (this.groupByMode === 'Week') {
+                return this.getWeekOfDate(a) === this.getWeekOfDate(b) ? 0 : -1;
+            }
+            return dateA.day === dateB.day && dateA.month === dateB.month ? 0 : -1;
+        }
+    }
+];
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## Estilos
+
+Además de los temas predefinidos, la cuadrícula se puede personalizar aún más estableciendo algunas de las [propiedades CSS](../theming-grid.md) disponibles.
+En caso de que desee cambiar algunos de los colores, primero debe establecer una clase para la cuadrícula:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+<igc-grid class="grid"></igc-grid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid className="grid">
+</IgrGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbGrid Class="grid"></IgbGrid>
+```
+
+</PlatformBlock>
+
+A continuación, establezca las propiedades CSS relacionadas para esa clase:
+
+```css
+.grid {
+    --ig-grid-group-row-background: #969799;
+    --ig-grid-group-row-selected-background: #969799;
+    --ig-grid-group-label-column-name-text: #f8f8f8;
+    --ig-grid-group-label-text: #f8f8f8;
+    --ig-grid-group-count-text-color: #222;
+    --ig-grid-expand-icon-color: #f8f8f8;
+    --ig-grid-expand-icon-hover-color: #f8f8f8;
+}
+```
+
+### Demostración
+
+<Sample src="/{GridSample}/groupby-styling" height={605} alt="{Platform} {GridTitle} Group By Styling Example" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+La cuadrícula permite aplicar estilos mediante la [biblioteca de temas {ProductName}](../themes/styles.md). El tema de la cuadrícula expone una amplia variedad de propiedades que permiten la personalización de todas las características de la cuadrícula.
+
+En los pasos siguientes, repasamos los pasos para personalizar los estilos de Agrupar por de la cuadrícula.
+
+### Importación del tema global
+
+Para comenzar la personalización de la característica Agrupar por, debe importar el archivo `index`, donde se encuentran todas las funciones de estilo y mixins.
+
+```scss
+@use "igniteui-{Platform}/theming" as *;
+
+// IMPORTANT: Prior to {ProductName} version 13 use:
+// @import '~igniteui-{Platform}/lib/core/styles/themes/index';
+```
+
+### Definición de un tema personalizado
+
+A continuación, cree un tema nuevo que extienda `grid-theme` y acepte los parámetros necesarios para personalizar Agrupar por según se desee. También debe extender `chip-theme`, porque se usa en la característica Agrupar por.
+
+```scss
+
+$custom-theme: grid-theme(
+    /* Group By properties that affect styling */
+    $group-row-background: #494949,
+    $group-row-selected-background: #383838,
+    $group-label-column-name-text: #f8f8f8,
+    $group-label-icon: #FFCD0F,
+    $group-label-text: #f8f8f8,
+    $group-count-background: #FFCD0F,
+    $group-count-text-color: #000,
+    $expand-icon-color: #FFCD0F,
+    $expand-icon-hover-color: rgb(223, 181, 13),
+    $cell-active-border-color: #FFCD0F,
+    $row-selected-background: #fff6d3,
+    $row-selected-text-color: #000,
+    $drop-indicator-color: #FFCD0F
+    /* add other features properties here... */
+);
+
+/* Chip theme will style the chips in the Group By area */
+$custom-chips-theme: chip-theme(
+    $background: #494949,
+    $text-color: #f8f8f8,
+    $hover-text-color: #e7e7e7
+);
+```
+
+### Definición de una paleta de colores personalizada
+
+En el enfoque que describimos anteriormente, los valores de color estaban codificados de forma rígida. Como alternativa, puede lograr mayor flexibilidad usando las funciones `palette` y `color`.
+`palette` genera una paleta de colores basada en los colores primarios y secundarios proporcionados.
+
+```scss
+$black-color: #292826;
+$yellow-color: #FFCD0F;
+
+$custom-palette: palette(
+  $primary: $black-color,
+  $secondary: $yellow-color
+);
+```
+
+Después de generar una paleta personalizada, la función `color` se puede usar para obtener diferentes variedades de los colores primarios y secundarios.
+
+```scss
+$custom-theme: grid-theme(
+    $group-row-background: color($custom-palette, "primary", 300),
+    $group-row-selected-background: color($custom-palette, "primary", 400),
+    $group-label-column-name-text:contrast-color($custom-palette, "primary", 500),
+    $group-label-icon: color($custom-palette, "secondary", 600),
+    $group-label-text:contrast-color($custom-palette, "primary", 500),
+    $group-count-background: color($custom-palette, "secondary", 600),
+    $group-count-text-color: color($custom-palette, "primary", 400),
+    $expand-icon-color: color($custom-palette, "secondary", 600),
+    $expand-icon-hover-color: color($custom-palette, "secondary", 300),
+    $cell-active-border-color: color($custom-palette, "secondary", 600)
+);
+
+$custom-chips-theme: chip-theme(
+    $background: color($custom-palette, "primary", 300),
+    $text-color:contrast-color($custom-palette, "primary", 500),
+    $hover-text-color:contrast-color($custom-palette, "primary", 600)
+);
+```
+
+### Definición de esquemas personalizados
+
+Puede ir aún más lejos y crear una estructura flexible que tenga todos los beneficios de un [**esquema**](../themes/sass/schemas.md). El **esquema** es la receta de un tema.
+Extienda uno de los dos esquemas predefinidos que se proporcionan para cada componente. En nuestro caso, usaríamos `$_light_grid`.
+
+```scss
+$custom-grid-schema: extend($_light-grid,(
+    group-row-background: (-color:('secondary', 100)),
+    group-row-selected-background: (-color:('primary', 400)),
+    group-label-column-name-text: (-color:('primary', 600)),
+    group-label-icon: (-color:('primary', 600)),
+    group-label-text: (-color:('secondary', 700)),
+    group-count-background: (-color:('primary', 600)),
+    group-count-text-color: (-color:('secondary', 400)),
+    expand-icon-color: (-color:('primary', 600)),
+    expand-icon-hover-color: (-color:('primary', 400))
+));
+```
+
+Para que se aplique el esquema personalizado, se debe extender `light` o los globales `dark`. Todo el proceso consiste en proporcionar a un componente un esquema personalizado y agregarlo posteriormente al tema del componente correspondiente.
+
+```scss
+$my-custom-schema: extend($light-schema, (
+    -grid: $custom-grid-schema
+));
+
+$custom-theme: grid-theme(
+    $palette: $custom-palette,
+    $schema: $my-custom-schema
+);
+```
+
+### Aplicación del tema personalizado
+
+La forma más sencilla de aplicar su tema es con una instrucción `sass` `@include` en el archivo de estilos global:
+
+```scss
+@include grid($custom-theme);
+@include chip($custom-chips-theme);
+```
+
+### Tema de componente con ámbito
+
+Para que el tema personalizado afecte solo a un componente específico, puede mover todos los estilos que acaba de definir desde el archivo de estilos global al archivo de estilos del componente personalizado (incluida la importación del archivo `index`).
+
+De esta manera, debido a [ViewEncapsulation](https://{Platform}.io/api/core/Component#encapsulation) de {Platform}, sus estilos se aplicarán solo a su componente personalizado.
+
+ <DocsAside type="info">
+
+Si el componente usa una ViewEncapsulation [emulada](../themes/styles.md#view-encapsulation), es necesario penetrar esta encapsulación usando `::ng-deep` para aplicar estilos a la cuadrícula.
+
+ </DocsAside>
+
+ <DocsAside type="info">
+
+Envuelva la instrucción dentro de un selector `:host` para evitar que sus estilos afecten a elementos fuera de nuestro componente:
+
+ </DocsAside>
+
+```scss
+:host {
+    ::ng-deep {
+        @include grid($custom-theme);
+        @include chip($custom-chips-theme);
+    }
+}
+```
+
+### Demostración
+
+{/*NOTE this sample is differed*/}
+
+<Sample src="/{GridSample}/groupby-styling" height={570} alt="{Platform} {GridTitle} groupby styling" />
+
+<DocsAside type="info">
+
+El ejemplo no se verá afectado por el tema global seleccionado desde **Cambiar tema**.
+
+</DocsAside>
+
+</PlatformBlock>
+
+## Limitaciones conocidas
+
+| Limitación                               | Descripción                                             |
+| ---------------------------------------- | ------------------------------------------------------- |
+| La cantidad máxima de columnas agrupadas es 10. | Si se agrupan más de 10 columnas, se produce un error. |
+
+## Referencias de API
+
+<ApiLink type="Grid" />
+
+<ApiLink type="Column" />
+
+<ApiLink pkg="core" type="Chip" />
+
+## Recursos adicionales
+
+- [Información general de la cuadrícula](../data-grid.md)
+- [Virtualización y rendimiento](virtualization.md)
+- [Paginación](paging.md)
+- [Filtrado](filtering.md)
+- [Ordenación](sorting.md)
+- [Movimiento de columnas](column-moving.md)
+- [Resúmenes](summaries.md)
+- [Cambio de tamaño de columnas](column-resizing.md)
+- [Selección](selection.md)
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [**Foros** {ProductName}]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

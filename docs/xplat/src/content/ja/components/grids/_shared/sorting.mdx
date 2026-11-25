@@ -1,0 +1,1119 @@
+---
+title: "{Platform} {ComponentTitle} ソート - {ProductName}"
+description: "{ProductName} {ComponentTitle} の {Platform} ソート機能の使用を開始しましょう。ソート可能な列を混在して構成し、データ レコードの表示順序を変更します。"
+keywords: "{Platform} ソート, {Platform}, {ProductName}, Infragistics"
+license: commercial
+mentionedTypes:
+  - ComponentApiMembers: null
+sharedComponents: ["Grid", "TreeGrid", "HierarchicalGrid"]
+namespace: Infragistics.Controls
+_canonicalLink: "{CanonicalLinkToGridSorting}"
+llms:
+  description: "{Platform} {ComponentTitle} の {ProductName} データ ソート機能は列ごとに有効化されます。つまり、{ComponentName} にはソート可能な列とソート不可能な列を混在させることができます。"
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} {ComponentTitle} ソート
+
+{Platform} {ComponentTitle} の {ProductName} データ ソート機能は列ごとに有効化されます。つまり、<ApiLink type="{ComponentName}" /> にはソート可能な列とソート不可の列を混在させることができます。{Platform} ソート操作を実行すると、指定した条件に基づいてレコードの表示順序を変更できます。
+
+<PlatformBlock for="Angular">
+
+<DocsAside type="info">
+
+これまでは、グループ化/ソートは相互に連動して機能していました。バージョン 13.2 では、グループ化とソートを切り離す新しい動作が導入されました。たとえば、グループ化をクリアしてもグリッド内のソート式はクリアされず、その逆も同様です。ただし、列がソートされ、かつグループ化されている場合は、グループ化式が優先されます。
+
+</DocsAside>
+
+</PlatformBlock>
+
+## {Platform} {ComponentTitle} ソート概要サンプル
+
+<ComponentBlock for="HierarchicalGrid">
+
+さらに、<ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="contextMenu" /> 出力を使用してソートするためのカスタム コンテキストメニューが追加されています。
+
+</ComponentBlock>
+
+<Sample src="/{ComponentSample}/column-sorting-options" height={550} alt="{Platform} {ComponentTitle} column sorting options" />
+
+これは <ApiLink type="Column" member="sortable" /> 入力を介して行われます。<ApiLink type="{ComponentName}" /> ソートでは、<ApiLink type="ColumnState" member="sortingIgnoreCase" /> プロパティを設定して、大文字と小文字を区別したソートを実行することもできます。
+
+<PlatformBlock for="Angular">
+
+```html
+<igx-column field="ProductName" header="Product Name" [dataType]="'string'" sortable="true"></igx-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbColumn Field="Title" Sortable="true"></IgbColumn>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-column field="ProductName" header="Product Name" data-type="string" sortable="true"></igc-column>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrColumn field="ProductName" header="Product Name" dataType="string" sortable={true}></IgrColumn>
+```
+
+</PlatformBlock>
+
+## ソート インジケーター
+
+一定数の列がソートされている場合、ソート順を示すものがないと非常にわかりにくくなることがあります。
+
+<ApiLink type="{ComponentName}" /> は、各ソート済み列のインデックスを示すことで、この問題を解決します。
+
+<Sample src="/{ComponentSample}/column-sorting-indicators" height={550} alt="{Platform} {ComponentTitle} column sorting indicators" />
+
+## API によるソート
+
+<ApiLink type="{ComponentName}" /> API の <ApiLink type="{ComponentName}" member="sort" label="Sort" /> メソッドを使用して、任意の列または列の組み合わせをソートできます。
+
+<PlatformBlock for="Angular">
+
+```typescript
+import { SortingDirection } from 'igniteui-angular';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+import { SortingDirection } from 'igniteui-webcomponents-grids';
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+import { SortingDirection } from "igniteui-react-grids";
+```
+
+</PlatformBlock>
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the ProductName column.
+this.grid.sort({ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true });
+
+// Perform sorting on both the ProductName and Price columns.
+this.grid.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the ProductName column.
+this.grid.sort([{ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the ProductName and Price columns.
+this.grid.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    this.grid.SortAsync(new IgbSortingExpression[]
+        {
+            new IgbSortingExpression
+            {
+                FieldName = "CompanyName",
+                Dir = SortingDirection.Asc
+            },
+            new IgbSortingExpression
+            {
+                FieldName = "Country",
+                Dir = SortingDirection.Asc
+            }
+        });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Perform a case insensitive ascending sort on the ProductName column.
+gridRef.current.sort([{ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the ProductName and Price columns.
+gridRef.current.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the Category column.
+this.treeGrid.sort({ fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true });
+
+// Perform sorting on both the Category and Price columns.
+this.treeGrid.sort([
+    { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the Category column.
+this.treeGrid.sort([{ fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the Category and Price columns.
+this.treeGrid.sort([
+    { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    this.grtreeGridid.SortAsync(new IgbSortingExpression[]
+        {
+            new IgbSortingExpression
+            {
+                FieldName = "Category",
+                Dir = SortingDirection.Asc
+            },
+            new IgbSortingExpression
+            {
+                FieldName = "Price",
+                Dir = SortingDirection.Desc
+            }
+        });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Perform a case insensitive ascending sort on the Category column.
+treeGridRef.current.sort([{ fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the Category and Price columns.
+treeGridRef.current.sort([
+    { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the ProductName column.
+this.hierarchicalGrid.sort({ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true });
+
+// Perform sorting on both the ProductName and Price columns.
+this.hierarchicalGrid.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+
+// Perform a case insensitive ascending sort on the ProductName column.
+this.hierarchicalGrid.sort([{ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the ProductName and Price columns.
+this.hierarchicalGrid.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    this.hierarchicalGrid.SortAsync(new IgbSortingExpression[]
+        {
+            new IgbSortingExpression
+            {
+                FieldName = "CompanyName",
+                Dir = SortingDirection.Asc
+            },
+            new IgbSortingExpression
+            {
+                FieldName = "Country",
+                Dir = SortingDirection.Asc
+            }
+        });
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Perform a case insensitive ascending sort on the ProductName column.
+hierarchicalGridRef.current.sort([{ fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true }]);
+
+// Perform sorting on both the ProductName and Price columns.
+hierarchicalGridRef.current.sort([
+    { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+]);
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<DocsAside type="info">
+
+ソートは、当社の <ApiLink type="GridSortingStrategy" /> アルゴリズムを使用して実行されます。任意の <ApiLink type="Column" /> または `ISortingExpression` は、代替アルゴリズムとして <ApiLink type="GridSortingStrategy" /> のカスタム実装を使用できます。これは、たとえば複雑なテンプレート列や画像列に対してカスタム ソートを定義する必要がある場合に便利です。
+
+</DocsAside>
+
+フィルタリング動作と同様に、<ApiLink type="{ComponentName}" member="clearSort" /> メソッドを使用してソート状態をクリアできます。
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+// Removes the sorting state from the ProductName column
+this.grid.clearSort('ProductName');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+this.grid.clearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Removes the sorting state from the ProductName column
+gridRef.current.clearSort('ProductName');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+gridRef.current.clearSort();
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    @*Removes the sorting state from the Title column*@
+    this.grid.ClearSortAsync("Title");
+
+    @*Removes the sorting state from every column in the Grid*@
+    this.grid.ClearSortAsync("");
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+// Removes the sorting state from the Category column
+this.treeGrid.clearSort('Category');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+this.treeGrid.clearSort();
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Removes the sorting state from the Category column
+treeGridRef.current.clearSort('Category');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+treeGridRef.current.clearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    @*Removes the sorting state from the Category column*@
+    this.treeGrid.ClearSortAsync("Category");
+
+    @*Removes the sorting state from every column in the Grid*@
+    this.treeGrid.ClearSortAsync("");
+}
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular, WebComponents">
+
+```typescript
+// Removes the sorting state from the ProductName column
+this.hierarchicalGrid.clearSort('ProductName');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+this.hierarchicalGrid.clearSort();
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+// Removes the sorting state from the ProductName column
+hierarchicalGridRef.current.clearSort('ProductName');
+
+// Removes the sorting state from every column in the {ComponentTitle}
+hierarchicalGridRef.current.clearSort();
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    @*Removes the sorting state from the Title column*@
+    this.hierarchicalGrid.ClearSortAsync("Title");
+
+    @*Removes the sorting state from every column in the Grid*@
+    this.hierarchicalGrid.ClearSortAsync("");
+}
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<DocsAside type="info">
+
+<ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="sortStrategy" /> は、異なるスコープで機能し、異なるパラメーターを公開するため、<ApiLink type="Column" /> の <ApiLink type="{ComponentName}" member="sortStrategy" /> とは異なる型です。
+
+</DocsAside>
+
+<DocsAside type="info">
+
+ソート操作は、<ApiLink type="{ComponentName}" /> の基になるデータソースを **変更しません**。
+
+</DocsAside>
+
+## 初期ソート状態
+
+ソート式の配列を <ApiLink type="{ComponentName}" /> の <ApiLink type="{ComponentName}" member="sortingExpressions" /> プロパティに渡すことで、<ApiLink type="{ComponentName}" /> の初期ソート状態を設定できます。
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    this.grid.sortingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    protected override void OnAfterRender(bool first)
+    {
+        if (first)
+        {
+            this.grid.SortingExpressions = new IgbSortingExpression[]{
+                new IgbSortingExpression()
+                {
+                    FieldName = "Title",
+                    Dir = SortingDirection.Asc
+                }};
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public connectedCallback() {
+    this.grid.sortingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const sortingExpressions: IgrSortingExpression[] = [
+    { fieldName: 'UnitsInStock', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'ProductName', dir: SortingDirection.Desc }
+];
+
+<IgrGrid
+    data={productSales}
+    sortingExpressions={sortingExpressions}>
+</IgrGrid>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="TreeGrid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    this.treeGrid.sortingExpressions = [
+        { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    protected override void OnAfterRender(bool first)
+    {
+        if (first)
+        {
+            this.treeGrid.SortingExpressions = new IgbSortingExpression[]{
+                new IgbSortingExpression()
+                {
+                    FieldName = "Category",
+                    Dir = SortingDirection.Asc
+                }};
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public connectedCallback() {
+    this.treeGrid.sortingExpressions = [
+        { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const sortingExpressions: IgrSortingExpression[] = [
+    { fieldName: 'Category', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'Price', dir: SortingDirection.Desc }
+];
+
+<IgrTreeGrid
+    data={productSales}
+    sortingExpressions={sortingExpressions}>
+</IgrTreeGrid>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<ComponentBlock for="HierarchicalGrid">
+
+<PlatformBlock for="Angular">
+
+```typescript
+public ngOnInit() {
+    this.hierarchicalGrid.sortingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    protected override void OnAfterRender(bool first)
+    {
+        if (first)
+        {
+            this.hierarchicalGrid.SortingExpressions = new IgbSortingExpression[]{
+                new IgbSortingExpression()
+                {
+                    FieldName = "Title",
+                    Dir = SortingDirection.Asc
+                }};
+        }
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```typescript
+public connectedCallback() {
+    this.hierarchicalGrid.sortingExpressions = [
+        { fieldName: 'ProductName', dir: SortingDirection.Asc, ignoreCase: true },
+        { fieldName: 'Price', dir: SortingDirection.Desc }
+    ];
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const sortingExpressions: IgrSortingExpression[] = [
+    { fieldName: 'UnitsInStock', dir: SortingDirection.Asc, ignoreCase: true },
+    { fieldName: 'ProductName', dir: SortingDirection.Desc }
+];
+
+<IgrHierarchicalGrid
+    data={productSales}
+    sortingExpressions={sortingExpressions}>
+</IgrHierarchicalGrid>
+
+```
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+<DocsAside type="info">
+
+`string` 型の値が <ApiLink type="{ComponentName}" member="dataType" /> `Date` の列で使用されている場合、<ApiLink type="{ComponentName}" /> はそれらを `Date` オブジェクトに解析せず、<ApiLink type="{ComponentName}" /> `Sorting` を使用しても期待どおりに動作しません。`string` オブジェクトを使用したい場合は、値を `Date` オブジェクトに解析するために、アプリケーション レベルで追加のロジックを実装する必要があります。
+
+</DocsAside>
+
+<ComponentBlock for="Grid">
+
+<PlatformBlock for="Angular">
+
+## リモート ソート
+
+<ApiLink type="{ComponentName}" /> はリモート ソートをサポートしており、これは [{ComponentTitle} リモート データ操作](remote-data-operations.md) トピックで説明されています。
+
+</PlatformBlock>
+
+</ComponentBlock>
+
+## ソート インジケーター テンプレート
+
+列ヘッダー内のソート インジケーター アイコンは、テンプレートを使用してカスタマイズできます。任意のソート状態 (昇順、降順、なし) のソート インジケーターをテンプレート化するために、以下のプロパティを使用できます。
+
+<PlatformBlock for="Angular">
+
+- `IgxSortHeaderIconDirective` – ソートが適用されていない場合に、ソート アイコンのテンプレートを再定義します。
+
+```html
+<ng-template igxSortHeaderIcon>
+    <igx-icon>unfold_more</igx-icon>
+</ng-template>
+```
+
+</PlatformBlock>
+
+- <ApiLink type="{ComponentName}" member="sortHeaderIconTemplate" /> – ソートが適用されていない場合に、ソート アイコンのテンプレートを再定義します。
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```razor
+<{ComponentSelector} SortHeaderIconTemplate="SortDefaultTemplate"></{ComponentSelector}>
+
+@code {
+    public RenderFragment<IgbGridHeaderTemplateContext> SortDefaultTemplate = (ctx) =>
+    {
+        return @<IgbIcon Size="SizableComponentSize.Small" IconName="unfold_more" Collection="material"></IgbIcon>;
+    };
+}
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.sortHeaderIconTemplate = this.sortHeaderIconTemplate;
+}
+
+public sortHeaderIconTemplate = (ctx: IgcGridHeaderTemplateContext) => {
+    return html`<igc-icon name="unfold_more"></igc-icon>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```tsx
+const sortHeaderIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
+    return (
+        <>
+            <IgrIcon name='unfold_more'></IgrIcon>
+        </>
+    );
+}
+
+<{ComponentSelector} sortHeaderIconTemplate={sortHeaderIconTemplate}></{ComponentSelector}>
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- `IgxSortAscendingHeaderIconDirective` – 列が昇順にソートされている場合に、ソート アイコンのテンプレートを再定義します。
+
+```html
+<ng-template igxSortAscendingHeaderIcon>
+    <igx-icon>expand_less</igx-icon>
+</ng-template>
+```
+
+</PlatformBlock>
+
+- <ApiLink type="{ComponentName}" member="sortAscendingHeaderIconTemplate" /> – 列が昇順にソートされている場合に、ソート アイコンのテンプレートを再定義します。
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```razor
+<{ComponentSelector} SortAscendingHeaderIconTemplate="SortAscendingTemplate"></{ComponentSelector}>
+
+@code {
+    public RenderFragment<IgbGridHeaderTemplateContext> SortAscendingTemplate = (ctx) =>
+    {
+        return @<IgbIcon Size="SizableComponentSize.Small" IconName="expand_less" Collection="material"></IgbIcon>;
+    };
+}
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.sortAscendingHeaderIconTemplate = this.sortAscendingHeaderIconTemplate;
+}
+
+public sortAscendingHeaderIconTemplate = (ctx: IgcGridHeaderTemplateContext) => {
+    return html`<igc-icon name="expand_less"></igc-icon>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```tsx
+const sortAscendingHeaderIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
+    return (
+        <>
+            <IgrIcon name='expand_less'></IgrIcon>
+        </>
+    );
+}
+
+<{ComponentSelector} sortAscendingHeaderIconTemplate={sortAscendingHeaderIconTemplate}></{ComponentSelector}>
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+- `IgxSortDescendningHeaderIconDirective` – 列が降順にソートされている場合に、ソート アイコンのテンプレートを再定義します。
+
+```html
+<ng-template igxSortDescendingHeaderIcon>
+    <igx-icon>expand_more</igx-icon>
+</ng-template>
+```
+
+</PlatformBlock>
+
+- <ApiLink type="{ComponentName}" member="sortDescendingHeaderIconTemplate" /> – 列が降順にソートされている場合に、ソート アイコンのテンプレートを再定義します。
+
+<PlatformBlock for="Blazor">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```razor
+<{ComponentSelector} SortDescendingHeaderIconTemplate="SortDescendingTemplate"></{ComponentSelector}>
+
+@code {
+    public RenderFragment<IgbGridHeaderTemplateContext> SortDescendingTemplate = (ctx) =>
+    {
+        return @<IgbIcon Size="SizableComponentSize.Small" IconName="expand_more" Collection="material"></IgbIcon>;
+    };
+}
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+    var grid = this.grid = document.getElementById('grid') as {ComponentName}Component;
+    grid.data = this.data;
+    grid.sortDescendingHeaderIconTemplate = this.sortDescendingHeaderIconTemplate;
+}
+
+public sortDescendingHeaderIconTemplate = (ctx: IgcGridHeaderTemplateContext) => {
+    return html`<igc-icon name="expand_more"></igc-icon>`;
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+<ComponentBlock for="Grid, TreeGrid, HierarchicalGrid">
+
+```tsx
+const sortDescendingHeaderIconTemplate = (ctx: IgrGridHeaderTemplateContext) => {
+    return (
+        <>
+            <IgrIcon name='expand_more'></IgrIcon>
+        </>
+    );
+}
+
+<{ComponentSelector} sortDescendingHeaderIconTemplate={sortDescendingHeaderIconTemplate}></{ComponentSelector}>
+
+```
+
+</ComponentBlock>
+
+</PlatformBlock>
+
+<PlatformBlock for="Angular">
+
+## スタイル設定
+
+ソート動作のスタイル設定を始めるには、すべてのテーマ関数とコンポーネント ミックスインが含まれている `index` ファイルをインポートする必要があります。
+
+```scss
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+```
+
+最も簡単な方法として、<ApiLink type="function-grid-theme" label="grid-theme" kind="sass" module="index.html" /> を拡張し、`$sorted-header-icon-color` および `sortable-header-icon-hover-color` パラメーターを受け取る新しいテーマを作成します。
+
+```scss
+$custom-theme: grid-theme(
+    $sorted-header-icon-color: #ffb06a,
+    $sortable-header-icon-hover-color: black
+);
+```
+
+最後の手順は、コンポーネント ミックスインを **含める** ことです。
+
+```scss
+ @include grid($custom-theme);
+```
+
+<DocsAside type="info">
+
+コンポーネントが [Emulated](../themes/styles.md#view-encapsulation) ViewEncapsulation を使用している場合は、`::ng-deep` を使用してこのカプセル化を `penetrate` する必要があります。
+
+</DocsAside>
+
+```scss
+:host {
+   ::ng-deep {
+       @include grid($custom-theme);
+   }
+}
+```
+
+### カラー パレットの定義
+
+先ほどのようにカラー値をハードコーディングする代わりに、<ApiLink type="function-igx-palette" label="igx-palette" kind="sass" module="index.html" /> 関数と <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" /> 関数を使用することで、色に関するより高い柔軟性を実現できます。
+
+`igx-palette` は、渡されたプライマリ カラーとセカンダリ カラーに基づいてカラー パレットを生成します。
+
+```scss
+$black-color: black;
+$orange-color: #ffb06a;
+
+$custom-palette: palette($primary: $black-color, $secondary: $orange-color);
+```
+
+そして <ApiLink type="function-igx-color" label="igx-color" kind="sass" module="index.html" /> を使用すると、パレットから簡単に色を取得できます。
+
+```scss
+$custom-theme: grid-theme(
+    $sorted-header-icon-color: color($custom-palette, "secondary", 500),
+    $sortable-header-icon-hover-color: color($custom-palette, "primary", 500)
+);
+```
+
+<DocsAside type="info">
+
+`igx-color` と `igx-palette` は、色の生成と取得のための強力な関数です。使用方法の詳細なガイダンスについては、[パレット](../themes/sass/palettes.md) トピックを参照してください。
+
+</DocsAside>
+
+### スキーマの使用
+
+テーマ エンジンをさらに活用すると、[**スキーマ**](../themes/sass/schemas.md) を利用した堅牢で柔軟な構造を構築できます。**スキーマ** はテーマのレシピです。
+
+各コンポーネントに提供されている 2 つの定義済みスキーマのいずれかを拡張します。この場合は <ApiLink type="variable-_light-grid" label="_light-grid" kind="sass" module="index.html" /> です。
+
+```scss
+// Extending the light grid schema
+$custom-grid-schema: extend($_light-grid,
+    (
+        sorted-header-icon-color: (igx-color:('secondary', 500)),
+        sortable-header-icon-hover-color: (igx-color:('primary', 500))
+    )
+);
+```
+
+カスタム スキーマを適用するには、グローバル (<ApiLink type="variable-light-schema" label="light" kind="sass" module="index.html" /> または <ApiLink type="variable-dark-schema" label="dark" kind="sass" module="index.html" />) のいずれかを **拡張** する必要があります。これは基本的にカスタム スキーマを持つコンポーネントを指し示すもので、その後、それぞれのコンポーネント テーマに追加します。
+
+```scss
+// Extending the global light-schema
+$my-custom-schema: extend($light-schema,
+    (
+        igx-grid: $custom-grid-schema
+    )
+);
+
+// Defining our custom theme with the custom schema
+$custom-theme: grid-theme(
+  $palette: $custom-palette,
+  $schema: $my-custom-schema
+);
+```
+
+上記で示したのと同じ方法でテーマを含めることを忘れないでください。
+
+### デモ
+
+<Sample src="/{ComponentSample}/column-sorting-style" height={550} alt="{Platform} {ComponentTitle} column sorting style" />
+
+<DocsAside type="info">
+
+サンプルは **テーマの変更** で選択されたグローバル テーマの影響を受けません。
+
+</DocsAside>
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents, Blazor, React">
+
+## スタイル設定
+
+定義済みテーマに加えて、利用可能な [CSS プロパティ](../theming-grid.md) の一部を設定することで、グリッドをさらにカスタマイズできます。
+いくつかの色を変更したい場合は、まずグリッドにクラスを設定する必要があります。
+
+<PlatformBlock for="WebComponents">
+
+```html
+<{ComponentSelector} class="grid">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<{ComponentSelector} class="grid">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<{ComponentSelector} className="grid">
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+次に、関連する CSS プロパティをこのクラスに設定します。
+
+```css
+.grid {
+    --ig-grid-sorted-header-icon-color: #ffb06a;
+    --ig-grid-sortable-header-icon-hover-color: black;
+}
+```
+
+### デモ
+
+<Sample src="/{ComponentSample}/column-sorting-style" height={550} alt="{Platform} {ComponentTitle} column sorting style" />
+
+</PlatformBlock>
+
+## API リファレンス
+
+<ApiLink type="{ComponentName}" /><br /> <ApiLink type="SortingExpression" /><br />
+
+## その他のリソース
+
+<ComponentBlock for="Grid">
+
+- [仮想化とパフォーマンス](virtualization.md)
+- [ページング](paging.md)
+- [ソート](sorting.md)
+- [集計](summaries.md)
+- [列の移動](column-moving.md)
+- [列の固定](column-pinning.md)
+- [列のサイズ変更](column-resizing.md)
+- [選択](selection.md)
+
+</ComponentBlock>
+
+私たちのコミュニティは活発で、新しいアイデアを常に歓迎しています。
+
+- [{ProductName} **フォーラム**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

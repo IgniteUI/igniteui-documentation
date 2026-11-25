@@ -1,0 +1,267 @@
+---
+title: "{Platform} {ComponentTitle} Personalizar iconos- Infragistics"
+description: Configure iconos personalizados para la cuadrícula {Platform}.
+keywords: iconos, iconos personalizados, igniteui for {Platform}, {ComponentKeywords}, {ProductName}, Infragistics
+license: MIT
+mentionedTypes: ["Infragistics.Controls.Grid"]
+llms:
+  description: Explica cómo reemplazar los iconos predeterminados de la cuadrícula {ProductName} por iconos personalizados de otra colección de iconos.
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} Personalizar iconos de la cuadrícula
+
+Los iconos de {ProductName} <ApiLink type="Grid" /> se pueden personalizar para usar iconos personalizados de un conjunto de colección diferente mediante los métodos de API expuestos:
+
+<PlatformBlock for="Angular,React,WebComponents">
+
+- <ApiLink type="registerIconFromText" />
+- <ApiLink type="registerIcon" />
+- <ApiLink type="setIconRef" />
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+- <ApiLink pkg="core" type="Icon" member="RegisterIconFromText(string, string, string)" label="RegisterIconFromText" />
+- <ApiLink pkg="core" type="Icon" member="RegisterIcon(string, string, string)" label="RegisterIcon" />
+- <ApiLink pkg="core" type="Icon" member="SetIconRefAsync(string, string, IgbIconMeta)" label="SetIconRefAsync" />
+
+</PlatformBlock>
+
+Registrar un icono lo almacena en caché localmente, de modo que se pueda reutilizar entre componentes que hacen referencia a ese icono por nombre y por nombre de colección. Establecer una referencia cambia qué icono, de qué colección, se usará al hacer referencia a ese icono por nombre.
+
+<PlatformBlock for="WebComponents">
+
+```ts
+// Add a new 'material' icon called 'filter_list' from string
+registerIconFromText("filter_list", '<svg>...</svg>', "material");
+
+// Add a new 'material' icon called 'my-filter_list' from svg url
+registerIcon("filter_list", "url" , "material")
+
+// Sets the icon reference to the new registered icon.
+setIconRef('filter_list', 'default', {
+            name: 'filter_list',
+            collection: 'material',
+});
+
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```ts
+// Add a new 'material' icon called 'filter_list' from string
+registerIconFromText("filter_list", '<svg>...</svg>', "material");
+
+// Add a new 'material' icon called 'my-filter_list' from svg url
+registerIcon("filter_list", "url" , "material")
+
+// Sets the icon reference to the new registered icon.
+setIconRef('filter_list', 'default', {
+            name: 'filter_list',
+            collection: 'material',
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    private IgbIcon icon;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (this.icon != null && firstRender)
+        {
+            this.icon.EnsureReady().ContinueWith(new Action<Task>((e) =>
+            {
+                // Add a new 'material' icon called 'filter_list' from string
+                this.icon.RegisterIconFromText("filter_list", '<svg>...</svg>', "material");
+
+                // Add a new 'material' icon called 'filter_list' from svg url
+                this.icon.RegisterIcon("filter_list", "url" , "material")
+
+                // Sets the icon reference to the new registered icon.
+                this.icon.SetIconRef("filter_list", "default", new IgbIconMeta()
+                {
+                    Name = "filter_list",
+                    Collection = "material",
+                });
+            }));
+        }
+    }
+}
+
+```
+
+</PlatformBlock>
+
+## {Platform} Ejemplo de personalización de iconos
+
+El siguiente ejemplo demuestra cómo cambiar de los iconos material originales a iconos svg personalizados de font awesome y volver a material.
+
+<Sample src="/{GridSample}/change-icons-custom" height={600} alt="{Platform} {ComponentTitle} Customize Icons Example" />
+
+## Iconos internos
+
+A continuación se enumeran todos los iconos internos. Alias es el nombre del icono mediante el cual se puede hacer referencia a él. Icono de destino es el nombre interno del icono y Colección de destino es la colección en la que el icono se registra internamente.
+
+| Alias                                | Icono de destino      | Colección de destino |
+| ------------------------------------ | --------------------- | ----------------- |
+| **add**                              | add                   | material          |
+| **add\_child**                       | add-child             | imx-icons         |
+| **add\_row**                         | add-row               | imx-icons         |
+| **arrow\_back**                      | arrow\_back           | material          |
+| **arrow\_drop\_down**                | arrow\_drop\_up       | material          |
+| **arrow\_forward**                   | arrow\_forward        | material          |
+| **arrow\_next**                      | chevron\_right        | material          |
+| **arrow\_prev**                      | chevron\_left         | material          |
+| **case\_sensitive**                  | case-sensitive        | imx-icons         |
+| **carousel\_next**                   | arrow\_forward        | material          |
+| **carousel\_prev**                   | arrow\_back           | material          |
+| **chevron\_left**                    | chevron\_left         | material          |
+| **chevron\_right**                   | chevron\_right        | material          |
+| **clock**                            | access\_time          | material          |
+| **close**                            | close                 | material          |
+| **collapse**                         | expand\_less          | material          |
+| **confirm**                          | check                 | material          |
+| **date\_range**                      | date\_range           | material          |
+| **delete**                           | delete                | material          |
+| **drag\_indicator**                  | drag\_indicator       | material          |
+| **edit**                             | edit                  | material          |
+| **error**                            | error                 | material          |
+| **expand**                           | expand\_more          | material          |
+| **expand\_more**                     | expand\_more          | material          |
+| **file\_download**                   | file\_download        | material          |
+| **filter\_all**                      | select-all            | imx-icons         |
+| **filter\_before**                   | is-before             | imx-icons         |
+| **filter\_contains**                 | contains              | imx-icons         |
+| **filter\_does\_not\_contain**       | does-not-contain      | imx-icons         |
+| **filter\_empty**                    | is-empty              | imx-icons         |
+| **filter\_equal**                    | equals                | imx-icons         |
+| **filter\_false**                    | is-false              | imx-icons         |
+| **filter\_greater\_than**            | greater-than          | imx-icons         |
+| **filter\_greater\_than\_or\_equal** | greater-than-or-equal | imx-icons         |
+| **filter\_in**                       | is-in                 | imx-icons         |
+| **filter\_last\_month**              | last-month            | imx-icons         |
+| **filter\_last\_year**               | last-year             | imx-icons         |
+| **filter\_less\_than**               | less-than             | imx-icons         |
+| **filter\_less\_than\_or\_equal**    | less-than-or-equal    | imx-icons         |
+| **filter\_next\_month**              | next-month            | imx-icons         |
+| **filter\_next\_year**               | next-year             | imx-icons         |
+| **filter\_not\_empty**               | not-empty             | imx-icons         |
+| **filter\_not\_equal**               | not-equal             | imx-icons         |
+| **filter\_not\_null**                | is-not-null           | imx-icons         |
+| **filter\_null**                     | is-null               | imx-icons         |
+| **filter\_starts\_with**             | starts-with           | imx-icons         |
+| **filter\_this\_month**              | this-month            | imx-icons         |
+| **filter\_this\_year**               | this-year             | imx-icons         |
+| **filter\_today**                    | today                 | imx-icons         |
+| **filter\_true**                     | is-true               | imx-icons         |
+| **filter\_yesterday**                | yesterday             | imx-icons         |
+| **first\_page**                      | first\_page           | material          |
+| **group\_work**                      | group\_work           | material          |
+| **hide**                             | visibility\_off       | material          |
+| **import\_export**                   | import\_export        | material          |
+| **input\_collapse**                  | arrow\_drop\_up       | material          |
+| **input\_clear**                     | clear                 | material          |
+| **input\_expand**                    | arrow\_drop\_down     | material          |
+| **jump\_down**                       | jump-down             | imx-icons         |
+| **jump\_up**                         | jump-up               | imx-icons         |
+| **last\_page**                       | last\_page            | material          |
+| **more\_vert**                       | more\_vert            | material          |
+| **next**                             | navigate\_next        | material          |
+| **pin**                              | pin-left              | imx-icons         |
+| **prev**                             | navigate\_before      | material          |
+| **refresh**                          | refresh               | material          |
+| **remove**                           | cancel                | material          |
+| **search**                           | search                | material          |
+| **selected**                         | done                  | material          |
+| **show**                             | visibility            | material          |
+| **sort\_asc**                        | arrow\_upward         | material          |
+| **sort\_desc**                       | arrow\_downward       | material          |
+| **functions**                        | functions             | material          |
+| **table\_rows**                      | table\_rows           | material          |
+| **today**                            | calendar\_today       | material          |
+| **tree\_collapse**                   | expand\_more          | material          |
+| **tree\_expand**                     | chevron\_right        | material          |
+| **unfold\_less**                     | unfold\_less          | material          |
+| **unfold\_more**                     | unfold\_more          | material          |
+| **unpin**                            | unpin-left            | imx-icons         |
+| **view\_column**                     | view\_column          | material          |
+
+A continuación se muestra un desglose de todos los iconos según los usa el componente:
+
+## Cuadrícula
+
+| Icono                 | Descripción                                                                |
+| --------------------- | -------------------------------------------------------------------------- |
+| **add**               | Se usa en el menú de filtro de Excel para agregar una entrada de filtro.   |
+| **arrow\_back**       | Se usa en varios elementos de UI para mover una columna hacia atrás.       |
+| **arrow\_drop\_down** | Se usa en varios botones para indicar menús conmutables.                   |
+| **arrow\_forward**    | Se usa en varios elementos de UI para mover una columna hacia adelante.    |
+| **cancel**            | Se usa en varios elementos de UI para cancelar operaciones.                |
+| **chevron\_right**    | Se usa para indicar menús expandibles, como en el filtrado de estilo Excel. |
+| **close**             | Se usa para cerrar un menú expandido.                                      |
+| **confirm**           | Se usa para confirmar una operación.                                       |
+| **drag\_indicator**   | Se usa para mostrar un controlador que indique que un elemento se puede arrastrar. |
+| **error**             | Se usa en celdas editables para indicar una entrada de datos errónea.      |
+| **expand\_more**      | Lo usa el menú de filtrado de Excel para indicar la adición de más filtros. |
+| **file\_download**    | Lo usa el exportador de filtros de Excel.                                  |
+| **filter\_**          | Se usa para varios operandos de filtrado.                                  |
+| **group\_work**       | Lo usa el área de colocación de agrupación.                                |
+| **hide**              | Lo usan varios elementos de UI para ocultar columnas.                      |
+| **import\_export**    | Lo usa el selector de datos dinámicos para mover.                          |
+| **input\_clear**      | Lo usan los campos de entrada para borrar datos de entrada.                |
+| **next**              | Lo usa el menú de fila de filtrado para navegar entre chips.               |
+| **pin**               | Lo usan varios elementos de UI para anclar columnas.                       |
+| **prev**              | Lo usa el menú de fila de filtrado para navegar entre chips.               |
+| **remove**            | Lo usan varios elementos de UI como indicador de eliminación.              |
+| **refresh**           | Lo usa el menú de fila de filtrado para recargar los filtros.              |
+| **selected**          | Lo usan varios elementos de UI para indicar una selección activa.          |
+| **show**              | Lo usan varios elementos de UI para mostrar columnas.                      |
+| **sort\_asc**         | Lo usan varios elementos de UI para indicar la dirección de ordenación.    |
+| **sort\_desc**        | Lo usan varios elementos de UI para indicar la dirección de ordenación.    |
+| **functions**         | Lo usan la cuadrícula dinámica y los selectores de datos.                  |
+| **table\_rows**       | Lo usa el selector de datos de la cuadrícula dinámica.                     |
+| **tree\_collapse**    | Lo usa una estructura similar a árbol para mostrar menos detalles.         |
+| **tree\_expand**      | Lo usa una estructura similar a árbol para mostrar más detalles.           |
+| **unpin**             | Lo usan varios elementos de UI para anclar columnas.                       |
+| **unfold\_less**      | Lo usa la cuadrícula jerárquica para contraer todas las filas.             |
+| **unfold\_more**      | Lo usa la cuadrícula jerárquica para expandir todas las filas.             |
+| **view\_column**      | Lo usa el selector de datos dinámicos.                                     |
+
+## Paginador
+
+| Icono           | Descripción                                                  |
+| --------------- | ------------------------------------------------------------ |
+| **first\_page** | Lo usa el botón utilizado para navegar a la primera página.  |
+| **last\_page**  | Lo usa el botón utilizado para navegar a la última página.   |
+| **prev**        | Lo usa el botón utilizado para navegar a la página anterior. |
+| **next**        | Lo usa el botón utilizado para navegar a la página siguiente. |
+
+## Banda de acciones
+
+| Icono          | Descripción             |
+| -------------- | ----------------------- |
+| **add\_child** | Lo usa el menú emergente. |
+| **add\_row**   | Lo usa el menú emergente. |
+| **more\_vert** | Lo usa el menú emergente. |
+
+## Referencias de API
+
+<ApiLink type="Grid" />
+
+## Recursos adicionales
+
+Nuestra comunidad está activa y siempre da la bienvenida a nuevas ideas.
+
+- [{ProductName} **Foros**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

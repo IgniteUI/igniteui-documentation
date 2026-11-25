@@ -1,0 +1,531 @@
+---
+title: "{Platform} ComboBox Component – {ProductName}"
+description: "{ProductName} ComboBox Component Features"
+keywords: "{ProductName}, UI controls, {Platform} widgets, web widgets, UI widgets, {Platform}, Native {Platform} Components Suite, Native {Platform} Controls, Native {Platform} Components Library, {Platform} ComboBox Component Features"
+license: MIT
+mentionedTypes: ["Combo", "ComboList", "ComboItem"]
+llms:
+  description: "The {ProductName} ComboBox component exposes several features such as filtering and grouping."
+---
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+
+# {Platform} ComboBox Features
+
+The {ProductName} ComboBox component exposes several features such as filtering and grouping.
+
+## Combobox Features Example
+The following demo shows some <ApiLink type="Combo" /> features that are enabled/disabled at runtime:
+
+<Sample src="/inputs/combo/features" height={400} alt="{Platform} Combo Features" />
+
+
+
+
+In our sample we are going to use the <ApiLink pkg="core" type="Switch" /> component, so we have to import them together with the combo:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+import { defineComponents, IgcComboComponent, IgcSwitchComponent } from 'igniteui-webcomponents';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+
+defineComponents(IgcComboComponent, IgcSwitchComponent);
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="Blazor">
+
+
+```csharp
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor(typeof(IgbComboModule));
+builder.Services.AddIgniteUIBlazor(typeof(IgbSwitchModule));
+```
+
+You will also need to link an additional CSS file to apply the styling to the <ApiLink pkg="core" type="Switch" /> component. The following needs to be placed in the **wwwroot/index.html** file in a **Blazor Web Assembly** project or the **Pages/_Host.cshtml** file in a **Blazor Server** project:
+
+```razor
+<link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
+```
+
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+
+```tsx
+import { IgrCombo, IgrSwitch  } from 'igniteui-react';
+import 'igniteui-webcomponents/themes/light/bootstrap.css';
+```
+
+
+</PlatformBlock>
+
+
+Then, using React's useState hook, we will declare our variables which will update when the state of the switches change. This will keep track for updates and reflect the changes to the combo inputs accordingly:
+
+<PlatformBlock for="React">
+
+```tsx
+const [disableFiltering, setDisableFiltering] = useState(false);
+const [caseSensitiveIcon, setCaseSensitiveIcon] = useState(false);
+const [groupingEnabled, setGroupingEnabled] = useState(false);
+const [comboDisabled, setComboDisabled] = useState(false);
+
+<IgrCombo
+    valueKey="id"
+    displayKey="name"
+    label="Cities"
+    placeholder="Pick a city"
+    placeholderSearch="Search for a city"
+    data={Cities}
+    disableFiltering={disableFiltering}
+    caseSensitiveIcon={caseSensitiveIcon}
+    groupKey={groupingEnabled ? "country" : undefined}
+    disabled={comboDisabled}>
+</IgrCombo>
+
+
+<IgrSwitch checked={disableFiltering} onChange={e => setDisableFiltering(e.detail.checked)}>
+    <span>Disable Filtering</span>
+</IgrSwitch>
+<IgrSwitch checked={caseSensitiveIcon} onChange={e => setCaseSensitiveIcon(e.detail.checked)}>
+    <span>Show Case-sensitive Icon</span>
+</IgrSwitch>
+<IgrSwitch checked={groupingEnabled} onChange={e => setGroupingEnabled(e.detail.checked)}>
+    <span>Enable Grouping</span>
+</IgrSwitch>
+<IgrSwitch checked={comboDisabled} onChange={e => setComboDisabled(e.detail.checked)}>
+    <span>Disable Combo</span>
+</IgrSwitch>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+let combo = document.getElementById('combo') as IgcComboComponent<City>;
+
+let switchIcon = document.getElementById('caseSensitive') as IgcSwitchComponent;
+let switchFilter = document.getElementById('filtering') as IgcSwitchComponent;
+let switchDisable = document.getElementById('disabled') as IgcSwitchComponent;
+
+switchIcon.addEventListener("igcChange", () => {
+    combo.caseSensitiveIcon = switchIcon.checked;
+});
+
+switchFilter.addEventListener("igcChange", () => {
+    combo.disableFiltering = switchIcon.disabled = switchFilter.checked;
+});
+
+switchDisable.addEventListener("igcChange", () => {
+    combo.disabled = switchDisable.checked;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo
+    Label="Cities"
+    Placeholder="Pick a city"
+    Data="Data"
+    ValueKey="Id"
+    DisplayKey="Name"
+    DisableFiltering="@DisableFiltering"
+    CaseSensitiveIcon="@CaseSensitiveIcon"
+    GroupKey="@Group"
+    Disabled="@Disabled">
+</IgbCombo>
+
+<IgbSwitch Change="@OnDisableFilteringClick">Disable Filtering</IgbSwitch>
+<IgbSwitch Change="@OnCaseSensitiveClick" Disabled="@DisableFiltering">Show Case-sensitive Icon</IgbSwitch>
+<IgbSwitch Change="@OnGroupClick">Enable Grouping</IgbSwitch>
+<IgbSwitch Change="@OnDisableClick">Disable Combo</IgbSwitch>
+
+@code {
+    private bool DisableFiltering = false;
+    private bool CaseSensitiveIcon = false;
+    private bool Disabled = false;
+
+    public void OnDisableFilteringClick(IgbComponentBoolValueChangedEventArgs e) {
+        IgbSwitch sw = e.Parent as IgbSwitch;
+        this.DisableFiltering = sw.Checked;
+    }
+
+    public void OnCaseSensitiveClick(IgbComponentBoolValueChangedEventArgs e) {
+        IgbSwitch sw = e.Parent as IgbSwitch;
+        this.CaseSensitiveIcon = sw.Checked;
+    }
+
+    public void OnDisableClick(IgbComponentBoolValueChangedEventArgs e) {
+        IgbSwitch sw = e.Parent as IgbSwitch;
+        this.Disabled = sw.Checked;
+    }
+}
+```
+
+</PlatformBlock>
+
+Note that grouping is enabled/disabled by setting the <ApiLink type="Combo" member="groupKey" label="GroupKey" /> property to a corresponding data source field:
+
+<PlatformBlock for="WebComponents">
+
+```ts
+let switchGroup = document.getElementById('grouping') as IgcSwitchComponent;
+
+switchGroup.addEventListener("igcChange", () => {
+    this.combo.groupKey = switchGroup.checked ? "country" : undefined;
+});
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+@code {
+    private string Group = "";
+
+    public void OnGroupClick(IgbComponentBoolValueChangedEventArgs e) {
+        IgbSwitch sw = e.Parent as IgbSwitch;
+        this.Group = sw.Checked ? "Country" : "";
+    }
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupKey={groupingEnabled ? "country" : undefined}></IgrCombo>
+```
+
+</PlatformBlock>
+
+## Features
+
+### Filtering
+
+By default, filtering in the ComboBox is enabled. It can be disabled by setting the <ApiLink type="Combo" member="disableFiltering" label="DisableFiltering" /> property.
+
+Filtering options can be further enhanced by enabling the search case sensitivity. The case-sensitive icon can be turned on using the <ApiLink type="Combo" member="caseSensitiveIcon" label="CaseSensitiveIcon" /> property so that end-users can control the case sensitivity.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo disable-filtering case-sensitive-icon></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo DisableFiltering="true" CaseSensitiveIcon="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo disableFiltering={true} caseSensitiveIcon={true}></IgrCombo>
+```
+
+</PlatformBlock>
+
+#### Filtering Options
+
+The {ProductName} <ApiLink type="Combo" /> exposes one more filtering property that allows passing configuration of both `FilterKey` and `CaseSensitive` options. The `FilterKey` indicates which data source field should be used for filtering the list of options. The `CaseSensitive` option indicates if the filtering should be case-sensitive or not.
+
+The following code snippet shows how to filter the cities from our data source by country instead of name. We are also making the filtering case-sensitive by default:
+
+
+<PlatformBlock for="WebComponents">
+
+
+```ts
+const options = {
+    filterKey: 'country',
+    caseSensitive: true
+};
+
+combo.filteringOptions = options;
+```
+
+</PlatformBlock>
+
+
+
+<PlatformBlock for="React">
+
+
+```tsx
+const options = {
+    filterKey: 'country',
+    caseSensitive: true
+};
+
+<IgrCombo filteringOptions={options} />
+```
+
+</PlatformBlock>
+
+
+### Grouping
+
+Defining a <ApiLink type="Combo" member="groupKey" label="GroupKey" /> option will group the items, according to the provided key:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-key="region"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo GroupKey="region" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupKey="region" />
+```
+
+</PlatformBlock>
+
+<DocsAside type="info">
+The <ApiLink type="Combo" member="groupKey" label="GroupKey" /> property will only have effect if your data source consists of complex objects.
+</DocsAside>
+
+#### Sorting Direction
+
+The ComboBox component also exposes an option for setting whether groups should be sorted in ascending or descending order. By default, the sorting order is ascending:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo group-sorting="desc"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo GroupSorting="desc" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo groupSorting="desc" />
+```
+
+</PlatformBlock>
+
+### Label
+
+The <ApiLink type="Combo" /> label can be set easily using the <ApiLink type="Combo" member="label" label="Label" /> property:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo label="Cities"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Label="Cities" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo label="Cities" />
+```
+
+</PlatformBlock>
+
+### Placeholder
+
+A placeholder text can be specified for both the ComboBox component input and the search input placed inside the dropdown menu:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo placeholder="Pick a city" placeholder-search="Search for a city"></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Placeholder="Pick a city" PlaceholderSearch="Search for a city" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo placeholder="Pick a city" placeholderSearch="Search for a city" />
+```
+
+</PlatformBlock>
+
+### Autofocus
+
+If you want your ComboBox to be automatically focused on page load you can use the following code:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Autofocus="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo autofocus={true} />
+```
+
+</PlatformBlock>
+
+### Search Input Focus
+
+The ComboBox search input is focused by default. To disable this feature and move the focus to the list of options use the <ApiLink type="Combo" member="autofocusList" label="AutofocusList" /> property as shown below:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo autofocus-list></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo AutofocusList="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo autofocusList={true} />
+```
+
+</PlatformBlock>
+
+### Required
+
+The ComboBox can be marked as required by setting the required property.
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo required></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Required="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo required={true} />
+```
+
+</PlatformBlock>
+
+### Disable ComboBox
+
+You can disable the ComboBox using the <ApiLink type="Combo" member="disabled" label="Disabled" /> property:
+
+<PlatformBlock for="WebComponents">
+
+```html
+<igc-combo disabled></igc-combo>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+<IgbCombo Disabled="true" />
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrCombo disabled={true} />
+```
+
+</PlatformBlock>
+
+
+## API References
+
+
+<ApiLink type="Combo" /><br />
+
+## Additional Resources
+
+- [{ProductName} **Forums**]({ForumsLink})
+- [{ProductName} **GitHub**]({GithubLink})

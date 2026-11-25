@@ -1,0 +1,181 @@
+---
+title: "{Platform} マスター詳細グリッド - Infragistics"
+description: Ignite UI {Platform} グリッドで、行内のデータに対する展開可能な詳細ビュー テンプレートを定義します。階層構造でマスター詳細形式のデータを表示する場合に便利です。
+keywords: "{Platform}, {ComponentKeywords}, {ProductName}, マスター詳細, Infragistics"
+license: commercial
+mentionedTypes: ["Infragistics.Controls.Grid"]
+llms:
+  description: グリッド コンポーネントは、コンテンツを展開/折りたたむことで特定の行の追加詳細を表示する詳細テンプレートの指定をサポートしています。
+---
+import PlatformBlock from 'igniteui-astro-components/components/mdx/PlatformBlock.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# {Platform} マスター詳細グリッド
+
+<ApiLink type="Grid" /> コンポーネントは、コンテンツを展開/縮小することで特定の行の追加詳細を表示する詳細テンプレートの指定をサポートします。指定すると、各レコードはマスターとして機能し、展開時に現在のレコードのコンテキスト データを含むカスタマイズ可能な詳細テンプレートが表示されます。
+
+このモードは、マスター詳細形式のデータを階層構造で表示する必要がある場合に便利です。
+
+## {Platform} グリッドのマスター詳細の例
+
+<Sample src="/{GridSample}/master-detail" height={600} alt="{Platform} {ComponentTitle} Master Detail Example" />
+
+## 構成
+
+<ApiLink type="Grid" /> をマスター詳細モードで表示するように構成するには、グリッドのテンプレートを指定する必要があります。
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+              <!-- Custom detail template content here -->
+        </ng-template>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+constructor() {
+  var grid = this.grid = document.getElementById('grid') as IgcGridComponent;
+  this._bind = () => {
+    grid.data = this.customersData;
+    grid.detailTemplate = this.masterDetailTemplate;
+  }
+  this._bind();
+}
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```razor
+    <IgbGrid DetailTemplateScript="DetailTemplate"  AutoGenerate=true  Data=northwindEmployees></IgbGrid>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+<IgrGrid detailTemplate={masterDetailTemplate} autoGenerate={false} data={nwindData}></IgrGrid>
+```
+
+</PlatformBlock>
+
+テンプレートのコンテキストはマスター レコード データであるため、マスター レコードの値を詳細テンプレートに表示できます。例:
+
+<PlatformBlock for="Angular">
+
+```html
+<{ComponentSelector}>
+         <ng-template GridDetail let-dataItem>
+            <div *ngIf="dataItem.Category">
+                <header>{{dataItem.Category.CategoryName}}</header>
+                <span>{{dataItem.Category.Description}}</span>
+            </div>
+        </ng-template>
+</{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="WebComponents">
+
+```ts
+    public masterDetailTemplate = (ctx: IgcGridMasterDetailContext) => {
+        var data = ctx.implicit;
+        return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+    }
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+```javascript
+// In JavaScript
+igRegisterScript("DetailTemplate", (ctx) => {
+    var html = window.igTemplating.html;
+    var data = ctx.implicit;
+    return html` <div class="contact-container">
+        <span><strong>Name:</strong> ${data.ContactName}</span> <br/>
+        <span><strong>Title:</strong> ${data.ContactTitle}</span> <br/>
+        <span><strong>Company:</strong> ${data.CompanyName}</span> <br/>
+    </div>`;
+}, false);
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="React">
+
+```tsx
+const masterDetailTemplate = (args: IgrGridMasterDetailContext) => {
+    const data = args.implicit;
+    return (
+        <div className="contact-container">
+            <span><strong>Name:</strong> {data.ContactName}</span> <br/>
+            <span><strong>Title:</strong> {data.ContactTitle}</span> <br/>
+            <span><strong>Company:</strong> {data.CompanyName}</span> <br/>
+        </div>
+    );
+}
+```
+
+</PlatformBlock>
+
+## API
+
+<PlatformBlock for="Angular">
+
+展開状態は、<ApiLink type="Grid" /> の <ApiLink type="GridBaseDirective" member="expansionStates" label="ExpansionStates" /> 入力を介して制御できます。状態はキーと値のペア \[行識別子、展開状態] に保存されます。このプロパティは現在の展開状態を取得/設定し、双方向バインディングをサポートします。
+
+```html
+  <{ComponentSelector} [(expansionStates)]='expansionState' >
+  </{ComponentSelector}>
+```
+
+</PlatformBlock>
+
+展開状態を制御するための追加の API メソッドも公開されています。
+
+- <ApiLink type="GridBaseDirective" member="expandAll" label="ExpandAll" />
+- <ApiLink type="GridBaseDirective" member="collapseAll" label="CollapseAll" />
+- <ApiLink type="GridBaseDirective" member="toggleRow" label="ToggleRow" />
+- <ApiLink type="GridBaseDirective" member="expandRow" label="ExpandRow" />
+- <ApiLink type="GridBaseDirective" member="collapseRow" label="CollapseRow" />
+
+## キーボード ナビゲーション
+
+- 詳細行にフォーカスがある場合:
+
+  - <kbd>🡑</kbd> - 1 行上に移動し、前の行のセルにフォーカスします。
+  - <kbd>🡓</kbd> - 1 行下に移動し、次の行のセルにフォーカスします。
+  - <kbd>タブ</kbd> - テンプレート内にフォーカス可能な要素がある場合は、フォーカスを次のフォーカス可能な要素に移動できます。それ以外の場合は次のグリッド行に移動します。
+  - <kbd>シフト</kbd> + <kbd>タブ</kbd> - フォーカスを前の行に移動します。
+
+- エキスパンダー付きのデータ行にフォーカスがある場合:
+  - <kbd>代替</kbd> + <kbd>🡒</kbd> または <kbd>代替</kbd> + <kbd>🡓</kbd> - 行を展開します。
+  - <kbd>代替</kbd> + <kbd>🡐</kbd> または <kbd>代替</kbd> + <kbd>🡑</kbd> - 行を縮小します。
+
+## 既知の問題と制限
+
+| 既知の制限                                                                                                                                                  | 説明                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| カスタム詳細テンプレート内の Tab ナビゲーションでは、次にフォーカスされる要素が表示ビューポートの外にある場合、マスター グリッドのスクロール位置が更新されないことがあります。 | カスタム詳細テンプレート内の Tab ナビゲーションはブラウザーに委ねられます。                          |
+| 詳細テンプレートは Excel にエクスポートされません。                                                                                                                    | 詳細テンプレートには任意の種類のコンテンツを含めることができるため、そのままでは Excel にエクスポートできません。 |
+| 検索機能では、詳細テンプレートの要素は強調表示されません。                                                                                          |                                                                                                      |
+
+## API リファレンス
+
+<ApiLink type="Grid" /><br /> <ApiLink type="Column" /><br /> <PlatformBlock for="Angular,React,WebComponents"><ApiLink type="GridRowComponent" /></PlatformBlock><PlatformBlock for="Blazor"><ApiLink type="GridRow" /></PlatformBlock><br />
