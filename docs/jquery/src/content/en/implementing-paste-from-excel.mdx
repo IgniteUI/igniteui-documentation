@@ -41,7 +41,10 @@ This topic takes you step-by-step toward implementing pasting of data from an Ex
    These events can be attached directly to the igGrid main element, for example:
 
    ```js
-   $("#grid").igGrid({ ... }).on('focusin', function (e) { ... }).on('keydown', function (evnt) { ... });
+   $("#grid")
+       .igGrid({ ... })
+       .on("focusin", function (e) { ... })
+       .on("keydown", function (evnt) { ... });
    ```
 
 3. In `focusin` event handler, attach an invisible `textarea` to the page. Attach event handlers for the `paste` event of the newly added `textarea`.
@@ -49,24 +52,23 @@ This topic takes you step-by-step toward implementing pasting of data from an Ex
    The `textarea`'s purpose is to handle the `paste` event where we can safely access the pasted data. Not all browsers allow directly accessing the clipboards outside of the related events data due to security reasons. The `textarea` is attached to the DOM as an invisible element in order to not interfere with the UI.
 
    ```js
-   .on('focusin', function (e) {
+   .on("focusin", function (e) {
        if ($("#pasteHelper").length > 0) {
            return;
        }
        var container = $(document.body);
-       var containerDiv = $("<div></div>")
-           .css({
-               "position": "fixed",
-               "top": -10000,
-               "left": -10000
-           });
+       var containerDiv = $("<div></div>").css({
+           "position": "fixed",
+           "top": -10000,
+           "left": -10000
+       });
        //create textarea for handling paste event. Text area will be transparent.
        var textArea = $("<textarea id='pasteHelper'></textarea>")
            .css({
                "opacity": 0,
                "overflow": "hidden"
            })
-       .appendTo(containerDiv);
+           .appendTo(containerDiv);
        containerDiv.appendTo(container);
 
        textArea.on("paste", pasteHandler);
@@ -78,10 +80,14 @@ This topic takes you step-by-step toward implementing pasting of data from an Ex
    This will ensure that the `keydown` event is passed on to the `textarea` so that its paste event is fired for it with the pasted data.
 
    ```js
-   .on('keydown', function (evnt) {
+   .on("keydown", function (evnt) {
        //handle grid's keydown event
-       var ctrl = evnt.ctrlKey, key = evnt.keyCode;
-       if (ctrl && key == 86 || evnt.shiftKey && key == 45) // Ctrl-V || Shift-Ins
+       var ctrl = evnt.ctrlKey,
+           key = evnt.keyCode;
+       if (
+           (ctrl && key == 86) ||
+           (evnt.shiftKey && key == 45)
+       ) // Ctrl-V || Shift-Ins
        {
            //on paste (Ctrl+V) move focus to textarea
            $("#pasteHelper").focus();
