@@ -12,8 +12,9 @@ import YAML from 'yaml';
 import { visit } from 'unist-util-visit';
 import { visitParents } from 'unist-util-visit-parents';
 import {
-    normalizeSource, joinSplitHtmlBlocks, parseMarkdown, fixHeadingsWithoutSpace,
+    normalizeSource, markedBlocks, parseMarkdown, fixHeadingsWithoutSpace,
     escapeUnknownTags, inlineMarkdownInHtml, isKnownTag, tagNameOf, closeSelfClosedElements, markedStrong,
+    markedTables, looksLikePipeTable, splitInlineTagBlocks, markedSpacedLinks,
 } from './parse.mjs';
 import { createConverter } from './html.mjs';
 import {
@@ -54,9 +55,32 @@ function handled(report, step, what, n = 1) {
  * @param {string} raw the source file
  * @param {object} ctx { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report }
  */
+/**
+ * Line of the text as rules 1 and 6 left it → line of the source. Rule 1 takes out blank lines and
+ * rule 6 changes indentation only, so the lines with text in them are the same, in the same order.
+ */
+function sourceLineMap(source, rewritten) {
+    const from = source.split('\n');
+    const to = rewritten.split('\n');
+    const map = [0];
+    let j = 0;
+    let last = 0;
+    for (const line of to) {
+        if (line.trim()) {
+            while (j < from.length && from[j].trim() !== line.trim()) j++;
+            last = j < from.length ? j + 1 : last + 1;
+            j++;
+            map.push(last);
+        } else {
+            map.push(last + 1);
+        }
+    }
+    return map;
+}
+
 export async function convertTopic(raw, ctx) {
     const { report } = ctx;
-    const where = line => ({ topic: ctx.row.source, line });
+    const where = line => ({ topic: ctx.row.source, line: (line && ctx.lineMap?.[line]) || line });
     Object.assign(ctx, { usesComponents: new Set(), imageImports: [], imageCopies: [], sampleEmbeds: [] });
 
     // ── parse ──
@@ -65,17 +89,40 @@ export async function convertTopic(raw, ctx) {
     ctx.sourceLines = text.split('\n');
     if (raw.charCodeAt(0) === 0xfeff) handled(report, 'parse', 'byte-order marks removed');
     if (raw.includes('\r')) handled(report, 'parse', 'line endings normalized');
-    const joined = joinSplitHtmlBlocks(text);
-    text = joined.text;
-    if (joined.joined.length) handled(report, 'parse', 'HTML blocks rejoined across blank lines', joined.joined.length);
+    const blocks = markedBlocks(text);
+    ctx.lineMap = sourceLineMap(text, blocks.text);
+    text = blocks.text;
+    if (blocks.joined) handled(report, 'parse', 'HTML blocks rejoined across blank lines', blocks.joined);
+    if (blocks.raised) handled(report, 'parse', 'list item lines indented to their item, as marked read them', blocks.raised);
     let tree = parseMarkdown(text);
+    const inlineTagBlocks = splitInlineTagBlocks(tree, text);
+    if (inlineTagBlocks) handled(report, 'parse', 'lines of an inline tag alone (`<a id="x" />`) no longer taking in the lines under them', inlineTagBlocks);
+    for (const [what, n] of Object.entries(markedTables(tree, text))) if (n) handled(report, 'parse', `pipe tables: ${what}`, n);
+    // What still reads like a pipe table and is text (in a list item, where marked made no table
+    // either), and the tables GFM made in list items (marked showed their text; they are kept).
+    visitParents(tree, ['paragraph', 'table'], (node, ancestors) => {
+        if (!node.position) return;
+        const detail = text.slice(node.position.start.offset, node.position.end.offset).split('\n')[0].slice(0, 60);
+        if (node.type === 'paragraph' && looksLikePipeTable(text.slice(node.position.start.offset, node.position.end.offset))) {
+            report.parse.undecided.push({ ...where(node.position.start.line), reason: 'text that reads like a pipe table (marked made none there either)', detail });
+        } else if (node.type === 'table' && ancestors.some(a => a.type === 'listItem')) {
+            report.parse.undecided.push({ ...where(node.position.start.line), reason: 'pipe table in a list item (kept; marked showed it as text)', detail });
+        }
+    });
     const metadata = readMetadataComment(tree, ctx);
 
     const lines = text.split('\n');
     visit(tree, 'code', node => {
         const first = lines[node.position.start.line - 1] ?? '';
         const fence = /^\s*(`{3,}|~{3,})/.exec(first);
-        if (!fence) { handled(report, 'code', 'indented blocks made fenced'); return; }
+        // Markdown read as code: a fence in it; in indented code also an "In …:" label or a list item.
+        if (/^\s*(?:`{3,}|~{3,})/m.test(node.value) || (!fence && (/^\s*\*\*In [^*\n]+:?\*\*:?\s*$/m.test(node.value) || /^(?:[-*+]|\d+\.)[ \t]+\S/.test(node.value.trimStart())))) {
+            report.code.undecided.push({ ...where(node.position.start.line), reason: 'code that holds Markdown (a fence; in indented code an "In …:" label or a list item)', detail: node.value.trim().split('\n')[0].slice(0, 60) });
+        }
+        if (!fence) {
+            handled(report, 'code', 'indented blocks made fenced');
+            return;
+        }
         const last = lines[node.position.end.line - 1] ?? '';
         const closed = node.position.end.line > node.position.start.line && new RegExp(`^\\s*${fence[1][0]}{${fence[1].length},}\\s*$`).test(last);
         if (!closed) report.code.undecided.push({ ...where(node.position.start.line), reason: 'unclosed fence (runs to the end of its container)', detail: first.trim().slice(0, 40) });
@@ -89,6 +136,8 @@ export async function convertTopic(raw, ctx) {
     if (inTopic?.kept) report.headings.undecided.push({ ...where(inTopic.kept.position?.start.line), reason: '"In this topic" section of another shape (kept)', detail: inTopic.why });
     const strong = markedStrong(tree);
     if (strong) handled(report, 'parse', 'strong spans closed before a letter (**Note:**Text)', strong);
+    const spaced = markedSpacedLinks(tree);
+    if (spaced) handled(report, 'parse', 'links and images with a space in the destination', spaced);
 
     visitParents(tree, 'html', (node, ancestors) => {
         const parent = ancestors.at(-1);
@@ -123,7 +172,18 @@ export async function convertTopic(raw, ctx) {
     });
 
     // ── HTML through the HTML parser, back to Markdown + JSX ──
+    // Code blocks come back without positions; their source lines are given back to them in
+    // order, by their text, for the report.
+    const codeLines = [];
+    visit(tree, 'code', node => { codeLines.push({ value: node.value, line: ctx.lineMap[node.position.start.line] }); });
     tree = createConverter(report.html).convert(tree);
+    let nextCode = 0;
+    visit(tree, 'code', node => {
+        const at = codeLines.findIndex((c, i) => i >= nextCode && c.value === node.value);
+        if (at === -1) return;
+        node.data = { ...node.data, sourceLine: codeLines[at].line };
+        nextCode = at + 1;
+    });
     for (const comment of report.html.comments.splice(0)) {
         report.html.undecided.push({ ...where(null), reason: 'HTML comment removed', detail: comment });
     }

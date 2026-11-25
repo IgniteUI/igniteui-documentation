@@ -18,7 +18,7 @@ import remarkMdx from 'remark-mdx';
 import remarkFrontmatter from 'remark-frontmatter';
 import { visit } from 'unist-util-visit';
 import { parseDocument, DomUtils } from 'htmlparser2';
-import { normalizeSource, joinSplitHtmlBlocks, parseMarkdown, fixHeadingsWithoutSpace, inlineMarkdownInHtml } from './lib/parse.mjs';
+import { normalizeSource, markedBlocks, parseMarkdown, fixHeadingsWithoutSpace, inlineMarkdownInHtml, markedTables, splitInlineTagBlocks, markedSpacedLinks } from './lib/parse.mjs';
 import { ruleSlug } from './lib/topic-map.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map(a => {
@@ -59,9 +59,12 @@ function noteLike(node) {
 
 function countSource(file) {
     let text = normalizeSource(fs.readFileSync(file, 'utf8'));
-    text = joinSplitHtmlBlocks(text).text;
+    text = markedBlocks(text).text;
     const tree = parseMarkdown(text);
+    splitInlineTagBlocks(tree, text);
+    markedTables(tree, text);
     fixHeadingsWithoutSpace(tree);
+    markedSpacedLinks(tree);
     const c = empty();
     visit(tree, node => {
         if (node.type === 'heading') c.headings++;

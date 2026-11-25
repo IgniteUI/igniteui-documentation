@@ -12,6 +12,7 @@ import { resolveClient, resolveDotNet } from './api-index.mjs';
 import { TOKEN_RE, URL_TOKENS } from './tokens.mjs';
 import { ruleSlug } from './topic-map.mjs';
 import { htmlTagNames } from 'html-tag-names';
+import { inlineMarkdownInHtml } from './parse.mjs';
 
 const HTML_TAGS = new Set(htmlTagNames);
 
@@ -20,8 +21,14 @@ const exprAttr = (name, expression) => ({ type: 'mdxJsxAttribute', name, value: 
 const getAttr = (node, name) => node.attributes?.find(a => a.name === name)?.value;
 const lineOf = node => node?.position?.start?.line ?? null;
 
+/** The source line of a node: a code block's own (see convert.mjs), or its position mapped back past rules 1 and 6. */
+function sourceLineOf(ctx, node) {
+    const line = lineOf(node);
+    return node?.data?.sourceLine ?? ((line && ctx.lineMap?.[line]) || line);
+}
+
 function undecided(ctx, step, reason, detail, node) {
-    ctx.report[step].undecided.push({ topic: ctx.row.source, line: lineOf(node), reason, detail });
+    ctx.report[step].undecided.push({ topic: ctx.row.source, line: sourceLineOf(ctx, node), reason, detail });
 }
 function handled(ctx, step, what, n = 1) {
     const h = ctx.report[step].handled;
@@ -658,7 +665,7 @@ export function aspxViews(tree, ctx) {
         const labelled = isViewLabel(label) && /\baspx\b/i.test(toString(label));
         if (!labelled && !/<%/.test(node.value)) return;
         // Blocks in order, each looked up after the one before.
-        const line = findLine(ctx, node.value, cursor);
+        const line = node.data?.sourceLine ?? findLine(ctx, node.value, cursor);
         if (line) cursor = line;
         const relabelHere = () => {
             const text = toString(label).trim();
@@ -760,8 +767,9 @@ export function collectAnchorRefs(tree, row, map, refs) {
         }
     };
     visit(tree, 'link', node => consider(node.url));
+    // In HTML, also the Markdown links that rule 3 renders (`[x](#y)` in a table cell).
     visit(tree, 'html', node => {
-        for (const m of node.value.matchAll(/href\s*=\s*["']([^"']+)["']/gi)) consider(m[1]);
+        for (const m of inlineMarkdownInHtml(node.value, { inlineRendered: 0 }).matchAll(/href\s*=\s*["']([^"']+)["']/gi)) consider(m[1]);
     });
 }
 

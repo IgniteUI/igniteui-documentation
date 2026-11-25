@@ -33,7 +33,9 @@ import { fileURLToPath } from 'node:url';
 import { buildTopicMap } from './lib/topic-map.mjs';
 import { loadTokenTable, createTokens } from './lib/tokens.mjs';
 import { loadIndex } from './lib/api-index.mjs';
-import { parseMarkdown, normalizeSource, fixHeadingsWithoutSpace } from './lib/parse.mjs';
+import {
+    parseMarkdown, normalizeSource, fixHeadingsWithoutSpace, markedBlocks, splitInlineTagBlocks, markedTables, markedSpacedLinks,
+} from './lib/parse.mjs';
 import { metadataFromText, collectAnchorRefs, buildImageIndex, dropInTopicList } from './lib/steps.mjs';
 import { convertTopic, gate, emptyReport, STEPS } from './lib/convert.mjs';
 import { buildToc } from './lib/navigation.mjs';
@@ -79,9 +81,14 @@ const imageIndex = buildImageIndex(topicsDir);
 // sections is not counted: it is removed.
 const anchorRefs = new Map();
 for (const row of map.topics) {
-    const tree = parseMarkdown(normalizeSource(fs.readFileSync(path.join(topicsDir, row.source), 'utf8')));
+    // Read as the conversion reads it, so that the "In this topic" list left out is the same one.
+    const text = markedBlocks(normalizeSource(fs.readFileSync(path.join(topicsDir, row.source), 'utf8'))).text;
+    const tree = parseMarkdown(text);
+    splitInlineTagBlocks(tree, text);
+    markedTables(tree, text);
     fixHeadingsWithoutSpace(tree);
     dropInTopicList(tree);
+    markedSpacedLinks(tree);
     collectAnchorRefs(tree, row, map, anchorRefs);
 }
 
