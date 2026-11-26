@@ -208,7 +208,11 @@ export async function convertTopic(raw, ctx) {
     visit(tree, 'mdxJsxTextElement', node => { if (node.name === 'ApiLink') ctx.usesComponents.add('ApiLink'); });
 
     // ── front matter and imports ──
-    const frontmatter = { title };
+    // The site makes a page's address from its file name and drops what is not a letter, a digit,
+    // a hyphen or an underscore: `asp.net-mvc` would be served as `aspnet-mvc`, away from the
+    // address the topic has and the other topics link to. A `slug` in the front matter is taken
+    // as it is, so the topics whose slug has a dot or a parenthesis name it there.
+    const frontmatter = /[^a-z0-9_-]/.test(ctx.row.slug) ? { slug: ctx.row.slug, title } : { title };
     if (metadata?.tags?.length) frontmatter.keywords = ctx.tokens.literal(metadata.tags.join(', '));
     if (description) {
         frontmatter.llms = { description };
