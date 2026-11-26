@@ -1,19 +1,22 @@
 # Frontmatter audit rules
 
-Version: v7 · 2026-10-22 · igniteui doc-skill set. Content carried from SKILL.md v2 unchanged; restructured into this reference so rules can evolve without touching the router. The normative field contract lives in `../../igniteui-doc-topics/references/house-style.md` → "File format & frontmatter"; where wording differs, house-style wins.
+Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.md v2 so rules can evolve without touching the router; the xplat title rule and the `relatedComponents` wording changed in v8 (see `.agents/CHANGELOG.md`). The normative field contract lives in `../../igniteui-doc-topics/references/house-style.md` → "File format & frontmatter"; where wording differs, house-style wins.
 
 ## Doc sets and tokens
 
 - Angular topics live under `docs/angular/src/content/<lang>/components/`.
 - xplat topics live under `docs/xplat/src/content/<lang>/components/` and may use tokens such as
-  `{Platform}`, `{ProductName}`, `{ComponentTitle}`, and `{ComponentKeywords}`.
+  `{Platform}` and `{ProductName}`. `{ComponentTitle}` and `{ComponentKeywords}` are grid-only:
+  they are defined per grid type and resolve in the grid topics alone.
 
 Keep valid platform tokens in xplat frontmatter. Do not replace them with a single concrete
 framework name unless the topic itself is framework-specific.
 
 For xplat component metadata, avoid repeating the framework identity in the same field. The xplat
-site layout already appends the resolved product name to the HTML title, so use
-`title: "{ComponentTitle}"` and do not add `| {ProductName}` in topic frontmatter. Use `{ProductName}` in
+site layout already appends the site title to the HTML title, so use
+`title: "{Platform} ‹Component› Component"` and do not add `| {ProductName}` or another suffix in
+topic frontmatter. `{ComponentTitle}` is a grid-template token (`grids/_shared/`), where it resolves
+to the grid type; it is not a general component-title token. Use `{ProductName}` in
 `description` and `llms.description` when the resolved product name identifies the platform, and use
 `{Platform}` in `keywords` or when the field genuinely needs the shorter platform label.
 
@@ -57,9 +60,10 @@ synthesized text (`<VERIFY: which schema nodes the pipeline emits and from which
 ## Required quality checks
 
 - **Title:** present, concise, topic-specific, and shaped as the query a developer would type.
-  - **xplat component topics:** `title: "{ComponentTitle}"`; the xplat site layout appends the
-    resolved product name to the HTML title. Do not add a framework-specific product suffix or
-    duplicate the framework/platform in the component phrase.
+  - **xplat component topics:** `title: "{Platform} ‹Component› Component"`
+    (`"{Platform} Tabs Component"`); the xplat site layout appends the site title to the HTML
+    title. Do not add a category or brand suffix (`| Layouts | Infragistics`), and name the
+    platform once.
   - **Angular topics:** the Angular set has no tokens. Target shape: `"Angular <Component> Component"`,
     aiming for <=60 characters of query-relevant terms. Do not hand-code category or brand suffixes
     (`| Layouts | Infragistics`) in frontmatter unless the layout verifiably appends nothing
@@ -104,8 +108,8 @@ synthesized text (`<VERIFY: which schema nodes the pipeline emits and from which
   Angular-set usage is currently unscoped (`<VERIFY: does the Angular pipeline consume
   mentionedTypes?>`): until answered, treat Angular occurrences as tolerated, not required, and do
   not recommend adding the field to Angular topics.
-- **`relatedComponents`:** recommend only for close sibling components that should affect Do/Don't
-  guidance. Do not add generic category neighbors just to fill the field.
+- **`relatedComponents`:** recommend only for close sibling components that the Related Components
+  section covers as better-fit alternatives. Do not add generic category neighbors just to fill the field.
 - **`keywords`:** treat as legacy/internal metadata, not an SEO optimization surface. Coherence
   test if present: every keyword (or its token-resolved form) appears in the topic body; flag
   aspirational terms that appear nowhere. Do not spend effort keyword-stuffing. If the repo later
