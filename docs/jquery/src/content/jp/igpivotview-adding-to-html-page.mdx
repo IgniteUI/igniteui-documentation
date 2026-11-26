@@ -1,0 +1,368 @@
+---
+title: "igPivotView の HTML ページへの追加"
+keywords: "Application Blocks, Data Binding, Data Presentation, Drilldown, Getting Started, Grids, How Do I"
+llms:
+  description: "このトピックでは、 HTML ページへ igPivotView コンポーネントを追加する方法についての概念と詳しい手順を説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgPivotViewAdding1 from './images/igPivotView_Adding_1.png';
+
+# igPivotView の HTML ページへの追加
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、 HTML ページへ `igPivotView` コンポーネントを追加する方法についての概念と詳しい手順を説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [Ignite UI for jQuery で JavaScript リソースを使用](./deployment-guide-javascript-resources.mdx): このトピックでは、必要な JavaScript リソースを追加して Ignite UI for jQuery ライブラリからコントロールを使用する場合の全般的な説明をします。
+
+- [igPivotView 概要](./igpivotview-overview.mdx): このトピックは、主要機能、最小要件およびユーザー機能性など、`igPivotView` コントロールに関する概念的な情報を提供します。
+
+## igPivotView の追加 - 概要
+
+### <a id="summary" />igPivotView 追加の概要
+
+`igPivotView` は、`igOlapFlatDataSource`™ または `igOlapXmlaDataSource`™ のインスタンスを使用して操作します。したがって、`igPivotView` を HTML ページに追加する場合、内部で作成できるように、事前に構成されたデータ ソース インスタンスを提供するか、必要なオプションを指定する必要があります。
+
+データ ソースは、`igPivotView` の <ApiLink type="igPivotView" member="options:dataSource" pkg="core" label="dataSource" /> パラメータまたは <ApiLink type="igPivotView" member="options:dataSourceOptions" pkg="core" label="dataSourceOptions" /> プロパティを介して指定します。データ ソースの設定は、`igPivotView` の初期化時に唯一設定しなければならない強制オプションです。
+
+### 要件
+
+次の表は、`igPivotView` コントロールを使用する際に必要な事項を要約したものです。
+
+<table cellspacing="0" cellpadding="0" class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>要件/必要なリソース</th><th>説明</th><th>必要な作業</th>
+    </tr>
+
+    <tr>
+      <td>jQuery および jQuery UI JavaScript リソース</td>
+
+      <td>
+        Ignite UI for jQuery™ は、これらのフレームワークの最上位にビルドされます。
+
+        - [jQuery](http://jquery.com/)
+        - [jQuery UI](http://jqueryui.com/)
+      </td>
+
+      <td>ページの `<head>` セクションで両方のライブラリにスクリプト参照を追加します。</td>
+    </tr>
+
+    <tr>
+      <td>Modernizr ライブラリ (オプション)</td>
+
+      <td>
+        Modernizr ライブラリは、ブラウザとデバイス機能を検出するために igPivotView で使用されます。これは強制ではありませんが、含まれないとコントロールは HTML 互換ブラウザーで標準のデスクトップ環境であるかのように振る舞います。
+
+        - [Modernizr](http://modernizr.com/)
+      </td>
+
+      <td>ページの `<head>` セクションでライブラリにスクリプト参照を追加します。</td>
+    </tr>
+
+    <tr>
+      <td>全般的な igPivotView JavaScript リソース</td>
+
+      <td>
+        Ignite UI for jQuery ライブラリの igPivotView 機能性は、複数のファイルに渡って配布されます。必要なリソースは以下の方法で読み込むことができます。
+
+        - **カスタム JavaScript ファイルを含む**: 推薦される Ignite UI for jQuery JavaScript ファイルの参照方法です。Ignite UI for jQuery コントロールの[カスタム ダウンロード](\{environment:samplesBrowserUrl}/download)を作成できます。
+        - **Infragistics Loader の使用**: *Infragistics Loader* は、すべての Infragistics リソース (スタイルおよびスクリプト) を解決するために使用されます。
+        - 必要なリソースを手動で読み込みます。以下の表にリストされる依存関係を使用する必要があります。
+
+        以下の表は、igPivotView コントロール関連の Ignite UI for jQuery ライブラリの依存関係をリストします。これらのリソースは、リソースを手動で取り込むことを選択する場合は明示的に参照される必要があります (igLoader は使用しない)。
+
+        <table cellspacing="0" cellpadding="0" class="table table-bordered">
+          <tbody>
+            <tr>
+              <th>JavaScript リソース</th><th>説明</th>
+            </tr>
+
+            <tr>
+              <td>`infragistics.util.js`<br />`infragistics.util.jquery.js`</td><td>Ignite UI for jQuery ユーティリティ</td>
+            </tr>
+
+            <tr>
+              <td>(条件付き- `igOlapFlatDataSource` を使用する場合) `infragistics.datasource.js`</td><td>`igDataSource`™ コンポーネント</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.olapflatdatasource.js` または `infragistics.olapxmladatasource.js`</td><td>データ ソース フレームワーク</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.templating.js`</td><td>テンプレート エンジン (`igTemplate`™)</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.shared.js`</td><td>Ignite UI for jQuery 共有コード</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.scroll.js`</td><td>内部仕様されるスクロール ヘルパー</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.combo.js`</td><td>コンボ ボックス コントロール (`igCombo`™)</td>
+            </tr>
+
+            <tr>
+              <td height="22">`infragistics.ui.splitter.js`</td><td height="22">`igSplitter`™ コントロール</td>
+            </tr>
+
+            <tr>
+              <td height="22">`infragistics.ui.tree.js`</td><td height="22">`igTree`™ コントロール</td>
+            </tr>
+
+            <tr>
+              <td height="22">`infragistics.ui.grid.framework.js`</td><td height="22">`igGrid`™ コントロール</td>
+            </tr>
+
+            <tr>
+              <td height="22">`infragistics.ui.grid.multicolumnheaders.js`</td><td height="22">`igGrid` コントロール用のマルチ列ヘッダー機能</td>
+            </tr>
+
+            <tr>
+              <td height="22">`infragistics.ui.pivot.shared.js`</td><td height="22">ピボット コンポーネント用の Ignite UI for jQuery 共有コード</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.pivotgrid.js`</td><td>`igPivotGrid` コントロール</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.pivotdataselector.js`</td><td>`igPivotDataSelector`™ コントロール</td>
+            </tr>
+
+            <tr>
+              <td>`infragistics.ui.pivotview.js`</td><td>`igPivotView`™ コントロール</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <br />
+      </td>
+
+      <td>
+        以下のいずれかを追加します。
+
+        - カスタム JavaScript ファイルへの参照
+        - `igLoader` への参照
+        - すべての必要な JavaScript ファイルへの参照 (左側の表に一覧表示)
+      </td>
+    </tr>
+
+    <tr>
+      <td>IG テーマ (オプション)</td>
+
+      <td>
+        このテーマには、Ignite UI for jQuery ライブラリ用のビジュアル スタイルが含まれます。テーマ ファイル:
+
+        - `<IG CSS root>/themes/Infragistics/infragistics.theme.css`
+      </td>
+
+      <td />
+    </tr>
+
+    <tr>
+      <td>igPivotView CSS リソース ファイル</td>
+
+      <td>
+        以下の CSS ファイルからのスタイルは、コントロールの各種要素のレンダリングに使用されます。
+
+        - `<IG CSS root>/structure/modules/infragistics.ui.shared.css`
+        - `<IG CSS root>/structure/modules/infragistics.ui.combo.css`
+        - `<IG CSS root>/structure/modules/infragistics.ui.splitter.css`
+        - `<IG CSS root>/structure/modules/infragistics.ui.tree.css`
+        - `<IG CSS root>/structure/modules/infragistics.ui.grid.css`
+        - `<IG CSS root>/structure/modules/infragistics.ui.pivot.css`
+      </td>
+
+      <td>ページのファイルにスタイル参照を追加します。</td>
+    </tr>
+  </tbody>
+</table>
+
+### 手順
+
+`igPivotView` を HTML ページへ追加するための一般的な手順をおおまかに示すと、次のようになります。
+
+1. 必要なリソースへの参照を追加する
+
+2. `igPivotView` で必要な HTML マークアップを追加する
+
+3. データ ソースを追加する
+
+4. `igPivotView` を初期化する
+
+## igPivotView の追加 - 手順
+
+### 概要
+
+以下の手順は、Adventure Works サンプル データベースをビジュアル化する HTML アプリケーションに `igPivotView` コンポーネントを追加する方法をコード例を用いて説明します。プロシージャは Infragistics Loader (`igLoader`) を使用して、推奨オプションである必要なリソースを参照します。
+
+### プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+<Image src={imgIgPivotViewAdding1} alt="" />
+
+### 前提条件
+
+この手順を実行するには、以下のリソースが必要です。
+
+- Adventure Works サンプル データベース
+- `$.ig.OlapXmlaDataSource` オブジェクトまたは `$.ig.OlapFlatDataSource` オブジェクトのインスタンス
+
+### 概要
+
+1. 必要なリソースへの参照を追加する
+
+2. `igPivotView` で必要な HTML マークアップを追加する
+
+3. データ ソースを追加する
+
+4. `igPivotView` を初期化する
+
+### 手順
+
+以下の手順では、jQuery `igPivotView` を初期化する方法を紹介します。
+
+1. 必要なリソースへの参照を追加します。
+
+   1. 必要なファイルを構造化します。
+
+      A. **jQuery、jQueryUI および Modernizr JavaScript のリソースを Web ページが置かれているディレクトリ内に Scripts という名前のフォルダーに追加します。**
+
+      B. **Content/ig という名前のフォルダーに Ignite UI for jQuery CSS ファイルを追加します (詳細は、[Ignite UI for jQuery のスタイル設定とテーマ設定](./deployment-guide-styling-and-theming.mdx)のトピックを参照してください)。**
+
+      C. **Ignite UI for jQuery JavaScript ファイルを Web サイト　またはアプリケーション内の Scripts/ig という名前のフォルダーに追加します (詳細は 「[Ignite UI for jQuery での JavaScript リソースの使用](./deployment-guide-javascript-resources.mdx)」 トピックを参照)。**
+
+   2. 必要な JavaScript ライブラリへの参照を追加します。**jQuery、jQuery UI および Modernizr ライブラリの参照**をページの `<head>` セクションに追加します。
+
+      **HTML の場合:**
+
+      ```html
+      <script type="text/javascript" src="Scripts/jquery.js"></script>
+      <script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+      <script type="text/javascript" src="Scripts/modernizr.js"></script>
+      ```
+
+   3. `igLoader` への参照を追加します。**ページ内に `igLoader` スクリプトを含めます。**
+
+      **HTML の場合:**
+
+      ```html
+      <script type="text/javascript" src="Scripts/ig/infragistics.loader.js"></script>
+      ```
+
+   4. 必要なリソースをロードします。
+
+      igLoader をインスタンス化します。
+
+      **HTML の場合:**
+
+      ```html
+      <script type="text/javascript">
+          $.ig.loader({
+              scriptPath: "Scripts/ig/",
+              cssPath: "Content/ig/",
+              resources: “igPivotView,igOlapXmlaDataSource"
+          });
+      <script>
+      ```
+
+2. `igPivotView` で必要な HTML マークアップを追加します。
+
+   **HTML ページに “`dataSelector`” の `id` で `div` タグを作成します。**
+
+   **HTML の場合:**
+
+   ```html
+   <div id="pivotView"></div>
+   ```
+
+3. データ ソースを追加します。
+
+   igLoader の ready イベント ハンドラーでは、データ ソース宣言を追加します。
+
+   **JavaScript の場合:**
+
+   ```js
+   var dataSource = new $.ig.OlapXmlaDataSource({
+       serverUrl: "http://sampledata.infragistics.com/olap/msmdpump.dll",
+       catalog: "Adventure Works DW Standard Edition",
+       cube: "Adventure Works",
+       measureGroup: "Internet Sales",
+       rows: "[Sales Territory].[Sales Territory]",
+       columns: "[Product].[Product Categories]",
+       measures:
+           "[Measures].[Internet Order Count],[Measures].[Internet Gross Profit Margin]"
+   });
+   ```
+
+   このデータ ソースを IE で正しく操作するには、**データ ソース宣言を追加する前に**、jQuery クロスオリジン要求のサポートを true に設定する必要があります。
+
+   **JavaScript の場合:**
+
+   ```js
+   $.support.cors = true;
+   ```
+
+4. `igPivotView` を初期化します。
+
+   igPivotView をロードするには、データ ソースの宣言後に以下のコードを追加しなければなりません。
+
+   **JavaScript の場合:**
+
+   ```js
+   $("#pivotView").igPivotView({
+       dataSource: dataSource
+   });
+   ```
+
+   以下は、igPivotView の <ApiLink type="igPivotView" member="options:dataSourceOptions" pkg="core" label="dataSourceOptions" />プロパティを使用してデータ ソースを指定するオルタナティブな (直接の) 方法です。(「[igPivotView 追加の概要](#summary)」を参照)
+
+   **JavaScript の場合:**
+
+   ```js
+   $("#dataSelector").igPivotView({
+         dataSourceOptions: {
+          xmlaOptions: {
+             serverUrl: " http://sampledata.infragistics.com/olap/msmdpump.dll ",
+             catalog: "Adventure Works DW Standard Edition ",
+             cube: "Adventure Works",
+             measureGroup: "Internet Sales",
+          }
+          rows: "[Sales Territory].[Sales Territory]",
+          columns: "[Product].[Product Categories]",
+          measures: "[Measures].[Internet Order Count],[Measures].[Internet Gross Profit Margin]"      
+       }
+   });
+   ```
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [igPivotView の ASP.NET MVC アプリケーションへの追加](./igpivotview-adding-using-the-mvc-helper.mdx): このトピックは、Ignite UI for MVCを使用して ASP.NET MVC アプリケーションへ `igPivotView` コントロールを追加する方法についての概念と詳しい手順を説明します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [フラット データ ソースへのバインド](\{environment:samplesBrowserUrl}/pivot-view/binding-to-flat-data-source): このサンプルでは、`igPivotView` を `igOlapFlatDataSource` にバインドする方法を紹介します。
+
+- [XMLA にバインドした KPI の表示](\{environment:samplesBrowserUrl}/pivot-view/binding-to-xmla-data-source): このサンプルでは、`igPivotView` を `igOlapXmlaDataSource` にバインドする方法を紹介します。

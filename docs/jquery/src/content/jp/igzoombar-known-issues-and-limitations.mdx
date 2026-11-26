@@ -1,0 +1,115 @@
+---
+title: "既知の問題と制限 (igZoombar)"
+keywords: "Charting, Data Presentation, Known Issues, Breaking Changes"
+llms:
+  description: "以下の表で、igZoombar コントロールの既知の問題と制限を簡単に説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgNegative from './images/negative.png';
+import imgPositive from './images/positive.png';
+import imgPlannedFix from './images/plannedFix.png';
+
+# 既知の問題と制限 (igZoombar)
+
+## 既知の問題と制限
+
+### 概要
+
+以下の表で、`igZoombar` コントロールの既知の問題と制限を簡単に説明します。以下の概要表に、いくつかの問題に関する既知の問題の詳細説明と考えられる回避策が記載されています。
+
+### 凡例:
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td><Image src={imgPositive} alt="" class="img-responsive" /></td><td>回避策</td>
+    </tr>
+
+    <tr>
+      <td><Image src={imgNegative} alt="" class="img-responsive" /></td><td>既知の回避策はありません</td>
+    </tr>
+
+    <tr>
+      <td><Image src={imgPlannedFix} alt="" class="img-responsive" /></td><td>修正予定です</td>
+    </tr>
+  </tbody>
+</table>
+
+### igZoombar
+
+| 問題                                                                                                         | 説明                                                                                                                                                                                                                                                                                                                            | 状態                                 |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `igDataChart` ラジアル シリーズがサポートされない                                                                           | `igZoombar` は水平方向のみのズームをサポートしますが、ラジアル シリーズでは両方の軸で行った場合のみサポートされます。そのため、ラジアル シリーズの `igZoombar` によるズームは正しく機能しません。                                                                                                                                                                                                                | <Image src={imgNegative} alt="" /> |
+| [igDataChart で使用した場合、igZoombar のサムネイルが描画されない](./igzoombar-known-issues-and-limitations.mdx#thumbnail)      | `igZoombar` は `igDataChart` コントロールのオプション (`igZoombar` の <ApiLink type="igZoombar" pkg="core" label="target" /> オプションで参照されます) を使用してサムネイルを作成します。`igZoombar` は、サムネイルの乱雑さを回避するためにこれらのオプションの一部を削除します。その結果、新しいオプション セットが無効になることがあります。                                                                                               | <Image src={imgPositive} alt="" /> |
+| [igZoombar のクローンとターゲット ウィジェットが自動的に同期しない](./igzoombar-known-issues-and-limitations.mdx#synchronize)         | `igZoombar` コントロールによりズームされたウィジェットを変更しても、クローンが自動的に更新されません。                                                                                                                                                                                                                                                                     | <Image src={imgPositive} alt="" /> |
+| [`igZoombar` が積層シリーズを含む igDataChart と正しく動作しない](./igzoombar-known-issues-and-limitations.mdx#stackedseries) | `igZoombar` は、ターゲットとする元の `igDataChart` のクローンを作成します。デフォルトで `igZoombar` は元のチャート オブジェクトからクローンのオプションを暗示します (`igZoombar` の <ApiLink type="igZoombar" member="options:clone" pkg="core" label="clone" /> オプションを参照してください)。 より複雑な構造を持つ積層シリーズの場合、ユーザーが内部的に提供する元のチャート シリーズを変更します。これにより、`igZoombar` は元のシリーズを取得できず、クローンを自動で再作成することができません。 | <Image src={imgPositive} alt="" /> |
+
+## igZoombar
+
+### <a id="thumbnail" />igDataChart で使用した場合、igZoombar のサムネイルが描画されない
+
+`igZoombar` は `igDataChart` コントロールのオプション (`igZoombar` の <ApiLink type="igZoombar" member="options:target" pkg="core" label="target" /> オプションで参照されます) を使用してサムネイルを作成します。`igZoombar` は、サムネイルの乱雑さを回避するためにこれらのオプションの一部を削除します。その結果、新しいオプション セットが無効になることがあります。
+
+<DocsAside type="note" title="回避策">
+  `igDataChart` オプションを使用し、<ApiLink type="igZoombar" member="methods:clone" pkg="core" label="clone" /> オプションを構成して `igZoombar` を初期化します。
+</DocsAside>
+
+**JavaScript の場合:**
+
+```js
+$("#zoombar").igZoombar({
+    target: "chart",
+    clone: {
+        // use igDataChart options
+    }
+});
+```
+
+### <a id="synchronize" />igZoombar のクローンとターゲット ウィジェットが自動的に同期しない
+
+`igZoombar` コントロールによりズームされたウィジェットを変更しても、クローンが自動的に更新されません。
+
+<DocsAside type="note" title="回避策">
+  `igZoombar` 公開 API を使用して、クローンが初期化される要素を検索し、それに同じ変更を適用します。`igDataChart` インスタンスを更新するときに、<ApiLink type="igZoombar" pkg="core" label="clone" /> API メソッドを使用し、その `igZoombar` サムネイル クローンも更新します。
+</DocsAside>
+
+**JavaScript の場合:**
+
+```js
+$("#dataChart").igDataChart(
+    "addItem",
+    { "Item1": "Value1", "Item2": 1000, "Item3": 1019.75 },
+    "series1"
+);
+$("#zoombar")
+    .igZoombar("clone")
+    .igDataChart(
+        "addItem",
+        { "Item1": "Value1", "Item2": 1000, "Item3": 1019.75 },
+        "series1"
+    );
+```
+
+### <a id="stackedseries" />igZoombar が積層シリーズを含む igDataChart と正しく動作しない
+
+`igZoombar` は、ターゲットとする元の `igDataChart` のクローンを作成します。デフォルトで `igZoombar` は元のチャート オブジェクトからクローンのオプションを推測します (`igZoombar` の <ApiLink type="igZoombar" member="options:clone" pkg="core" label="clone" /> オプションを参照してください)。 より複雑な構造を持つ積層シリーズの場合、ユーザーが内部的に提供する元のチャート シリーズを変更します。これにより、`igZoombar` は元のシリーズを取得できず、クローンを自動で再作成することができません。
+
+<DocsAside type="note" title="回避策">
+  igDataChart オプションを使用し、<ApiLink type="igZoombar" member="methods:clone" pkg="core" label="clone" /> オプションを構成して igZoombar を初期化します。
+</DocsAside>
+
+**JavaScript の場合:**
+
+```js
+$("#zoombar").igZoombar({
+    target: "chart",
+    clone: {
+        // igDataChart オプションを使用
+    }
+});
+```
