@@ -49,25 +49,25 @@ Ignite UI for jQuery コントロールは 完全に history.js と統合でき�
 
 - **pushState()** - 履歴スタックにエントリを追加します。
 
-```
+```js
 window.History.pushState(state, title, url);
 ```
 
 - **getState()** - 履歴スタックに現在のエントリを取得します。
 
-```
+```js
 window.History.getState();
 ```
 
 - **replaceState()** - 履歴スタックにエントリを更新します。
 
-```
+```js
 window.History.replaceState(currState.data);
 ```
 
 - **statechange** - History.js イベントがブラウザー履歴の表示を移動する際に発生します。
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) { }
 ```
 
@@ -77,7 +77,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) { }
 
 ステート オブジェクトは、必要なポイントで復元するために必要なすべての情報を含み、説明するための URL と関連付けされます。 ブラウザー履歴にページング ステートを追加します。同じ機能を並べ替え機能に追加した場合の違いを確認します。
 
-```
+```js
 pageIndexChanged: function (e, args) {
     var pageIndex = args.pageIndex + 1, // pageIndex starts from 0
         state = { key: "page", value: pageIndex };
@@ -89,7 +89,7 @@ pageIndexChanged: function (e, args) {
 
 ステートは statechange イベント ハンドラー内で復元できます。
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     currState = window.History.getState().data;
     gridHistoryJS.igGridPaging("pageIndex", currState.value - 1);
@@ -107,20 +107,24 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 最初に戻るが押されたとき、最後の並べ替え列のステートを降順から昇順へ変更する必要があります。並べ替えステートを前に追加した場合、ページングと同じ方法になります。
 
-```
+```js
 columnSorted: function (e, args) {
     var columnKey = args.columnKey,
         dir = args.direction,
         state = { key: "sort", value: [columnKey, dir] };
     if (!isEmptyValue(columnKey) && !isEmptyValue(dir)) {
-        window.History.pushState(state, null, formURL("sort", [columnKey, dir]));
+        window.History.pushState(
+            state,
+            null,
+            formURL("sort", [columnKey, dir])
+        );
     }
 }
 ```
 
 その場合以下のコードで最後の列並べ替えステートを正しく復元できます。
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
@@ -133,7 +137,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 ただし戻るボタンが 2 回目に押された場合、ステート 3 から 2 になるため、前回の列並べ替えを解除する必要があり、上記コードは使用できません。この場合、以下のコードが必要になります。
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey;
@@ -147,20 +151,21 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 各機能のステートには履歴スタックに追加する前に元に戻すステートを追加します。これは古いステート情報を持つ IgniteUI コントロールの *-ing* イベントで可能です。並べ替えは columnSorting イベントです。
 
-```
+```js
 columnSorting: function (e, args) {
-    var currState = window.History.getState(), data;
+    var currState = window.History.getState(),
+        data;
 
-            data = { key: "sort", value: [args.columnKey] };
-            data.undo = true;
-            currState.data.undoData = data;
-            window.History.replaceState(currState.data);
+    data = { key: "sort", value: [args.columnKey] };
+    data.undo = true;
+    currState.data.undoData = data;
+    window.History.replaceState(currState.data);
 }
 ```
 
 前のステートを取得し、情報を追加または元に戻します。次に履歴スタックでそれを置き換えます。 上記コードは *data* と同様の *undoData* オブジェクトを定義し、ステートを元に戻す必要があることを示すフラグがあります。
 
-```
+```js
 window.History.Adapter.bind(window, 'statechange', function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
