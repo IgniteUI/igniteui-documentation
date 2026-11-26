@@ -177,19 +177,21 @@ import imgIgOlapFlatDataSourceDefiningMetadata4 from './images/igOlapFlatDataSou
 
 **JavaScript の場合:**
 
-```jsmeasuresDimension
-measuresDimension:{
-     measures [ { 
-         name: "Units Sold", 
-         aggregator: function (items, cellMetadata) { 
-             var sum = 0; 
-             $.each(items, function (index, item) { 
-                 sum += item.UnitsSold; 
-             }); 
-         return sum;     
-         } 
-     }], 
- }
+```js
+measuresDimension: {
+    measures: [
+        {
+            name: "Units Sold",
+            aggregator: function (items, cellMetadata) {
+                var sum = 0;
+                $.each(items, function (index, item) {
+                    sum += item.UnitsSold;
+                });
+                return sum;
+            }
+        }
+    ];
+}
 ```
 
 - `dimensions`
@@ -402,95 +404,170 @@ cube: {
 **JavaScript の場合:**
 
 ```js
-Var dataSource = new $.ig.FlatDataSource({
-                dataOptions: {
-                    dataSource:
-                        [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-                        { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-                        { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-                        { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-                        { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-                        { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-                        { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }]
-                },
-                metadata: {
-                    cube: {
-                        name: "Sales",
-                        measuresDimension: {
-                            measures: [
+var dataSource = new $.ig.FlatDataSource({
+    dataOptions: {
+        dataSource: [
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 12.81,
+                "SellerName": "Stanley Brooker",
+                "Country": "Bulgaria",
+                "City": "Plovdiv",
+                "Date": "2007-01-01",
+                "UnitsSold": 282
+            },
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 49.57,
+                "SellerName": "Elisa Longbottom",
+                "Country": "US",
+                "City": "New York",
+                "Date": "2007-01-05",
+                "UnitsSold": 296
+            },
+            {
+                "ProductCategory": "Bikes",
+                "UnitPrice": 3.56,
+                "SellerName": "Lydia Burson",
+                "Country": "Uruguay",
+                "City": "Ciudad de la Costa",
+                "Date": "2007-01-06",
+                "UnitsSold": 68
+            },
+            {
+                "ProductCategory": "Accessories",
+                "UnitPrice": 85.58,
+                "SellerName": "David Haley",
+                "Country": "UK",
+                "City": "London",
+                "Date": "2007-01-07",
+                "UnitsSold": 293
+            },
+            {
+                "ProductCategory": "Components",
+                "UnitPrice": 18.13,
+                "SellerName": "John Smith",
+                "Country": "Japan",
+                "City": "Yokohama",
+                "Date": "2007-01-08",
+                "UnitsSold": 240
+            },
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 68.33,
+                "SellerName": "Larry Lieb",
+                "Country": "Uruguay",
+                "City": "Ciudad de la Costa",
+                "Date": "2007-01-12",
+                "UnitsSold": 456
+            },
+            {
+                "ProductCategory": "Components",
+                "UnitPrice": 16.05,
+                "SellerName": "Walter Pang",
+                "Country": "Bulgaria",
+                "City": "Sofia",
+                "Date": "2007-02-09",
+                "UnitsSold": 492
+            }
+        ]
+    },
+    metadata: {
+        cube: {
+            name: "Sales",
+            measuresDimension: {
+                measures: [
+                    {
+                        // example for sum aggreagor
+                        name: "Units Sold Sum",
+                        aggregator: function (items, cellMetadata) {
+                            var sum = 0;
+                            $.each(items, function (index, item) {
+                                sum += item.UnitsSold;
+                            });
+                            return sum;
+                        }
+                    },
+                    {
+                        // example for average aggreagor
+                        name: "Average Unit Price",
+                        aggregator: function (items, cellMetadata) {
+                            var sum = 0;
+                            $.each(items, function (index, item) {
+                                sum += item.UnitPrice;
+                            });
+                            return sum / items.length;
+                        }
+                    },
+                    {
+                        // example for count aggregator
+                        name: "Sales Count",
+                        aggregator: function (items, cellMetadata) {
+                            var count = 0;
+                            $.each(items, function (index, item) {
+                                if (
+                                    item.UnitsSold !== undefined &&
+                                    item.UnitsSold !== null &&
+                                    item.UnitsSold > 0
+                                ) {
+                                    count++;
+                                }
+                            });
+                            return count;
+                        }
+                    }
+                ]
+            },
+            dimensions: [
+                {
+                    name: "Seller",
+                    hierarchies: [
+                        {
+                            name: "Seller",
+                            levels: [
                                 {
-                                    // example for sum aggreagor
-                                    name: "Units Sold Sum",
-                                    aggregator: function (items, cellMetadata) {
-                                        var sum = 0;
-                                        $.each(items, function (index, item) {
-                                            sum += item.UnitsSold;
-                                        });
-                                        return sum;
+                                    name: "All Sellers",
+                                    memberProvider: function (item) {
+                                        return "All Sellers";
                                     }
                                 },
                                 {
-                                    // example for average aggreagor
-                                    name: "Average Unit Price",
-                                    aggregator: function (items, cellMetadata) {
-                                        var sum = 0;
-                                        $.each(items, function (index, item) {
-                                            sum += item.UnitPrice;
-                                        });
-                                        return sum / items.length;
-                                    }
-                                },
-                                {
-                                    // example for count aggregator
-                                    name: "Sales Count",
-                                    aggregator: function (items, cellMetadata) {
-                                        var count = 0;
-                                        $.each(items, function (index, item) {
-                                            if (item.UnitsSold !== undefined &&
-                                                item.UnitsSold !== null &&
-                                                item.UnitsSold > 0) {
-                                                count++;
-                                            }
-                                        });
-                                        return count;
+                                    name: "Seller",
+                                    memberProvider: function (item) {
+                                        return item.SellerName;
                                     }
                                 }
-                            ],
-                        },
-                        dimensions: [
-                            {
-                                name: "Seller", hierarchies:
-                                   [{
-                                       name: "Seller", levels: [
-                                         {
-                                             name: "All Sellers",
-                                             memberProvider: function (item) { return "All Sellers"; }
-                                         },
-                                         {
-                                             name: "Seller",
-                                             memberProvider: function (item) { return item.SellerName; }
-                                         }]
-                                   }]
-                            },
-                            {
-                                caption: "Product", name: "Product", hierarchies: [
-                                    {
-                                        name: "Product", levels: [
-                                            {
-                                                name: "All Products",
-                                                memberProvider: function (item) { return "All Products"; }
-                                            },
-                                            {
-                                                name: "Product Category",
-                                                memberProvider: function (item) { return item.ProductCategory; }
-                                            }
-                                        ]
-                                    }]
-                            }
-                        ]
-                    }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    caption: "Product",
+                    name: "Product",
+                    hierarchies: [
+                        {
+                            name: "Product",
+                            levels: [
+                                {
+                                    name: "All Products",
+                                    memberProvider: function (item) {
+                                        return "All Products";
+                                    }
+                                },
+                                {
+                                    name: "Product Category",
+                                    memberProvider: function (item) {
+                                        return item.ProductCategory;
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 }
-            });
+            ]
+        }
+    }
+});
 ```
 
 ## 関連コンテンツ
