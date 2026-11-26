@@ -1,6 +1,6 @@
 # Ignite UI house style
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set (v8 made `### Prerequisites and Version Compatibility`, Troubleshooting and Known Limitations content-driven and aligned Do/Don't, the H1 and title, the doc sets, Styling, `<Sample>`, Anatomy and the reference tables with the topics rewritten since v7; v7 added the Blazor module-registration rule; v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
+Version: v9 · 2026-11-26 · igniteui doc-skill set (v9 let a Figma design of the topic override the Usage outline; v8 made `### Prerequisites and Version Compatibility`, Troubleshooting and Known Limitations content-driven and aligned Do/Don't, the H1 and title, the doc sets, Styling, `<Sample>`, Anatomy and the reference tables with the topics rewritten since v7; v7 added the Blazor module-registration rule; v4 added the xplat `apiTerms` contract, the `json-snippet` rule and the `platformType` populations; content was unchanged from v2 through v3). Before editing, confirm this version line against `.agents/CHANGELOG.md`. The "File format & frontmatter" section below is the **single normative field contract** for the doc-skill set; the two SKILL.md files reference it rather than restating it.
 
 The Ignite UI documentation conventions an authored or audited topic must follow. Pair this with
 `diataxis-cheatsheet.md` (the *why*); the section→mode map is the "Diátaxis mode" column of the
@@ -293,6 +293,13 @@ this slot. **A conditional section or subsection with nothing verified to say is
 padded** — an empty or filler section costs the reader more than a missing heading. **These names
 are the only allowed H2s.** Anything feature-specific becomes a sub-heading
 under **Usage**, never a new top-level section.
+
+**A Figma design of the topic wins for Usage.** When the request or the topic's redesign issue links
+a Figma design of the page, follow the design's structure for **Usage**: a section the design draws
+at the H2 level next to **Usage** keeps that level and the design's position, for example
+`## Features` right after **Usage** in the Data Grid design. Every other section keeps the order
+below. Whenever the design overrides a rule in this file, tell the author which rule and which part
+of the design, so that the deviation reads as a decision in review, not as an oversight.
 
 | # | Section (`##`) | Required? | Diátaxis mode | Contents |
 |---|---|---|---|---|

@@ -1,6 +1,6 @@
 # Create workflow
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.md v2 so the workflow can evolve without touching the router; steps 2, 3, 4 and 6 changed in v8 (see `.agents/CHANGELOG.md`). Blueprints, mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from `audit-rubric.md` before delivering.
+Version: v9 · 2026-11-26 · igniteui doc-skill set. Restructured out of SKILL.md v2 so the workflow can evolve without touching the router; step 5 changed in v9, steps 2, 3, 4 and 6 in v8 (see `.agents/CHANGELOG.md`). Blueprints, mechanics, and the frontmatter contract live in `house-style.md`; run the rubric self-check from `audit-rubric.md` before delivering.
 
 ## Steps
 
@@ -49,7 +49,9 @@ Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.m
      topics with close siblings only). Then run the companion `igniteui-topic-frontmatter` skill's
      cross-field consistency and body-support checks before delivery.
 5. **Lay out the canonical sections** in order for that topic type, required ones always present.
-   Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections.
+   Feature-specific content goes as sub-headings under **Usage**, never as new top-level sections,
+   unless the topic's Figma design draws the section at that level (house-style → *Component topic —
+   canonical section order*; tell the author).
 6. **Fill each section in its mode**, in six passes:
    - **6a — Leads and modes.** Lead every section with one plain, specific sentence that names the
      component (and platform token where the set uses them) — except **Live Demo**, which holds

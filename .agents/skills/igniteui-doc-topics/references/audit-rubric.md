@@ -1,6 +1,6 @@
 # Audit rubric
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set. Before editing, confirm this version line against `.agents/CHANGELOG.md`.
+Version: v9 · 2026-11-26 · igniteui doc-skill set. Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 The audit workflow, the checkable rules for **audit mode**, and the report format to produce. Every
 finding maps to a concrete rule below (structure, naming, Diátaxis mode, or metadata) and to a fix.
@@ -63,7 +63,9 @@ content for them.
 - A3 (Warning) A conditional section sits in the wrong slot.
 - A4 (Error) A feature-specific top-level `##` exists that should be a sub-heading under **Usage**,
   including a top-level `## Do/Don't`; or a required canonical section has been omitted or replaced
-  by a non-standard heading.
+  by a non-standard heading. A top-level section that the topic's Figma design draws there is not a
+  finding (house-style → *Component topic — canonical section order*); name the overridden rule in the
+  report instead.
 - A5 (Error) `## Live Demo` is missing near the top of the topic, appears after **Anatomy**, or the
   top preview `<Sample>` is left as a bare block instead of living inside the `## Live Demo` section.
 - A6 (Suggestion) A `<Sample>` shows nothing that the snippet above it doesn't already convey.

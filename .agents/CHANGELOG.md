@@ -1,6 +1,18 @@
 # igniteui doc-skill set · changelog
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set.
+Version: v9 · 2026-11-26 · igniteui doc-skill set.
+
+## v9 · 2026-11-26
+
+Lets a Figma design of a topic override the fixed outline for **Usage**. The Data Grid redesign (IgniteUI/igniteui-documentation#1112) draws **Features** as its own section right after Usage, and its review asked for it there; under v8 the rule "these names are the only allowed H2s" put it under Usage, and A4 reported the design's layout as an error. Decision: docs team, 2026-11-26; no issue number.
+
+### Changed
+
+| Change | File(s) |
+|---|---|
+| Canonical section order: when the request or the topic's redesign issue links a Figma design, the design's structure for Usage wins, including a section it draws at the H2 level, in the design's position. The author is told which rule the design overrides. | `.agents/skills/igniteui-doc-topics/references/house-style.md` |
+| Audit check A4 does not report a top-level section that the topic's Figma design draws there and names the overridden rule instead; create step 5 points to the exception. | `.agents/skills/igniteui-doc-topics/references/audit-rubric.md`, `.agents/skills/igniteui-doc-topics/references/create-workflow.md` |
+| Set bumped to v9. | `.agents/**` |
 
 ## v8 · 2026-11-20
 

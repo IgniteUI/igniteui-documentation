@@ -1,6 +1,6 @@
 # Diátaxis cheat-sheet
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set (v8 added the note that inline tables are hand-written; otherwise unchanged). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
+Version: v9 · 2026-11-26 · igniteui doc-skill set (v8 added the note that inline tables are hand-written; otherwise unchanged). Before editing, confirm this version line against `.agents/CHANGELOG.md`.
 
 Condensed from https://diataxis.fr (tutorials, how-to, reference, explanation, compass).
 This is the *reasoning layer*. For how the four modes attach to Ignite UI sections, see
