@@ -1,0 +1,103 @@
+---
+title: "編集 API (igSpreadsheet)"
+llms:
+  description: "このトピックでは、スプレッドシートの編集に関連するコントロール API の概要を説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgSpreadsheetEditing from './images/Controls/igSpreadsheet/igSpreadsheet_editing.png';
+import imgIgSpreadsheetDecimals from './images/Controls/igSpreadsheet/igSpreadsheet_decimals.png';
+
+# 編集 API (igSpreadsheet)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、スプレッドシートの編集に関連するコントロール API の概要を説明します。
+
+### 前提条件
+
+このトピックを理解するために [Infragistics JavaScript Excel Library](./api-overview.mdx) の概念とトピックは前提条件です。
+
+## 概要
+
+スプレッドシートのコンテンツを編集しているセル上に配置されるエディターを使用して「インプレース」で編集または数式エディターで編集できます。コントロールはセルについての情報または入力した書式設定データを取得、あるは編集をキャンセルする API を公開します。以下の画像は、セルが編集モードにある Excel ワークブックを表示します。
+
+<Image src={imgIgSpreadsheetEditing} alt="" />
+
+## イベント
+
+以下の表はセル編集機能に関連するイベントについて示します。以下はこのイベントを使用するシナリオについて示します。
+
+| イベント                                                                                                                |                                                                                                                     説明                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <ApiLink type="igSpreadsheet" member="events:editModeEntering" pkg="core" label="editModeEntering" />               |                                                   Spreadsheet が <ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> のインプレース編集を開始しようとするときに呼び出されます。                                                  |
+| <ApiLink type="igSpreadsheet" member="events:editModeEntered" pkg="core" label="editModeEntered" />                 |                                                     Spreadsheet が <ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> のインプレース編集を開始したときに呼び出されます。                                                    |
+| <ApiLink type="igSpreadsheet" member="events:editModeExiting" pkg="core" label="editModeExiting" />                 |                                                   Spreadsheet が <ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> のインプレース編集を終了しようとするときに呼び出されます。                                                  |
+| <ApiLink type="igSpreadsheet" member="events:editModeExited" pkg="core" label="editModeExited" />                   |                                                     Spreadsheet が <ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> のインプレース編集を終了したときに呼び出されます。                                                    |
+| <ApiLink type="igSpreadsheet" member="events:editModeValidationError" pkg="core" label="editModeValidationError" /> | Spreadsheet が編集モードを終了し、<ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> の新しい値がセルの <ApiLink type="DataValidationRule" pkg="core" label="ig.excel.DataValidationRule" /> の条件に基づいて有効ではない場合に発生されます。 |
+
+すべてのセルの編集をキャンセルするには、<ApiLink type="igSpreadsheet" member="events:editModeEntering" pkg="core" label="editModeEntering" /> イベントをキャンセルします。
+
+```js
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    editModeEntering: function (evt, ui) {
+        return false;
+    }
+});
+```
+
+セルの編集が完了してスプレッドシートの更新時に通知を表示するには、<ApiLink type="igSpreadsheet" member="events:editModeExited" pkg="core" label="editModeExited" /> イベントを使用できます。
+
+```js
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    editModeExited: function (evt, ui) {
+        $("$notification").html("Cell " + ui.cell + " has been update");
+    }
+});
+```
+
+## メソッド
+
+以下の表は、スプレッドシートの現在の編集状態を取得するために公開されたメソッドを説明します。
+
+| メソッド                                                                                                 |                                                            説明                                                            |
+| ---------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------: |
+| <ApiLink type="igSpreadsheet" member="methods:getIsInEditMode" pkg="core" label="getIsInEditMode" /> | コントロールが現在 <ApiLink type="igSpreadsheet" member="options:activeCell" pkg="core" label="activeCell" /> の値を編集しているかどうかを示します。 |
+| <ApiLink type="igSpreadsheet" member="methods:getCellEditMode" pkg="core" label="getCellEditMode" /> |                                               現在の編集モード状態を示すために使用する列挙体を返します。                                              |
+
+## オプション
+
+スプレッドシートに小数位を持つ数値を多数入力する場合、以下の表のオプションを使用してすばやく入力できます。これは、入力した数値を定義された小数位で自動的に書式設定することを許可します。
+
+| オプション                                                                                                              |                     説明                     |
+| ------------------------------------------------------------------------------------------------------------------ | :----------------------------------------: |
+| <ApiLink type="igSpreadsheet" member="options:isFixedDecimalEnabled" pkg="core" label="isFixedDecimalEnabled" />   | 編集モードで整数が入力されたときに固定小数位が自動的に追加されるかどうかを示します。 |
+| <ApiLink type="igSpreadsheet" member="options:fixedDecimalPlaceCount" pkg="core" label="fixedDecimalPlaceCount" /> |           編集モードで入力された整数に使用される小数位。          |
+
+この機能を有効化して小数位を 3 に設定した場合、123456 の値をスプレッドシート セルに入力にすると、セルの編集モード終了後に 123.456 になります。
+
+```js
+$("#spreadsheet1").igSpreadsheet({
+    height: "600",
+    width: "100%",
+    isFixedDecimalEnabled: true,
+    fixedDecimalPlaceCount: 3
+});
+```
+
+<Image src={imgIgSpreadsheetDecimals} alt="" />
+
+## 関連リンク
+
+- [igSpreadsheet の概要](./igspreadsheet-feature-overview.mdx)
+- [igSpreadsheet の構成](./configuring-igspreadsheet.mdx)
+- <ApiLink type="igSpreadsheet" pkg="core" label="igSpreadsheet API" />

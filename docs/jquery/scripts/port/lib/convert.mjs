@@ -116,7 +116,7 @@ export async function convertTopic(raw, ctx) {
         const first = lines[node.position.start.line - 1] ?? '';
         const fence = /^\s*(`{3,}|~{3,})/.exec(first);
         // Markdown read as code: a fence in it; in indented code also an "In …:" label or a list item.
-        if (/^\s*(?:`{3,}|~{3,})/m.test(node.value) || (!fence && (/^\s*\*\*In [^*\n]+:?\*\*:?\s*$/m.test(node.value) || /^(?:[-*+]|\d+\.)[ \t]+\S/.test(node.value.trimStart())))) {
+        if (/^\s*(?:`{3,}|~{3,})/m.test(node.value) || (!fence && (/^\s*\*\*(?:In [^*\n]+|[^*\n]+の場合)[:：]?\*\*[:：]?\s*$/m.test(node.value) || /^(?:[-*+]|\d+\.)[ \t]+\S/.test(node.value.trimStart())))) {
             report.code.undecided.push({ ...where(node.position.start.line), reason: 'code that holds Markdown (a fence; in indented code an "In …:" label or a list item)', detail: node.value.trim().split('\n')[0].slice(0, 60) });
         }
         if (!fence) {
@@ -208,7 +208,11 @@ export async function convertTopic(raw, ctx) {
     visit(tree, 'mdxJsxTextElement', node => { if (node.name === 'ApiLink') ctx.usesComponents.add('ApiLink'); });
 
     // ── front matter and imports ──
-    const frontmatter = { title };
+    // The site makes a page's address from its file name and drops what is not a letter, a digit,
+    // a hyphen or an underscore: `asp.net-mvc` would be served as `aspnet-mvc`, away from the
+    // address the topic has and the other topics link to. A `slug` in the front matter is taken
+    // as it is, so the topics whose slug has a dot or a parenthesis name it there.
+    const frontmatter = /[^a-z0-9_-]/.test(ctx.row.slug) ? { slug: ctx.row.slug, title } : { title };
     if (metadata?.tags?.length) frontmatter.keywords = ctx.tokens.literal(metadata.tags.join(', '));
     if (description) {
         frontmatter.llms = { description };

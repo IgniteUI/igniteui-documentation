@@ -1,0 +1,275 @@
+---
+title: "地理ポリライン シリーズの構成 (igMap)"
+keywords: "Charting, Data Presentation, How Do I"
+llms:
+  description: "このトピックでは、igMap コントロールを使用して地理ポリライン シリーズを構成する方法について説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgConfiguringGeographicPolylineSeries1 from './images/Configuring_Geographic_Polyline_Series_1.png';
+
+# 地理ポリライン シリーズの構成 (igMap)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igMap`™ コントロールを使用して地理ポリライン シリーズを構成する方法について説明します。
+
+### 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+- [igMap の概要](./overview-igmap.mdx): このトピックは、`igMap` コントロールについて、その主要機能、最小要件、ユーザー インタラクションといった事項の概念的情報を提供します。
+
+- [igMap の追加](./adding-igmap.mdx): このトピックでは、基本的な機能を備えた簡易マップを Web ページに追加する方法を示します。
+
+## 概要
+
+### 地理ポリライン シリーズの概要
+
+`igMap` コントロールの地理ポリライン シリーズは、個々のアプリケーションの提供するシェイプ ファイルで指定された地理領域にポリラインを描画するためのものです。ポリラインは、シェイプ (SHP) ファイルで座標によって記述される道路や河川のようなオープン パスです。
+
+各シェイプ ファイルとそれぞれに対応するデータベース DBF は常にペアで提供され、対応するデータベース DBF ファイルには各シェイプに関する情報が収められています。地理ポリライン シリーズは、マップ上で重要なパスを強調表示するのに便利です。これは、サプライ ルートや主要道路を示すという処理や、GPS　データを使用して追跡車両の移動経路を描くといった処理に適しています。
+
+<Image src={imgConfiguringGeographicPolylineSeries1} alt="" />
+
+ポリラインの色は、シリーズ オブジェクトの CSS スタイルやオプションを使用して管理できます。詳細については、トピック[igMap のスタイル設定](./styling-igmap.mdx) を参照してください。
+
+注: モバイル デバイスを対象にする場合には、小さい図形データ セットを使用することをお勧めします。地理空間データをレンダリングするにはより多くのコンピューティング リソースが必要になり、ほとんどのモバイル デバイスの場合、デスクトップ PC やノート PC と比較してパフォーマンスが低くなります。
+
+## 地理ポリライン シリーズの構成の概要
+
+### 地理ポリライン シリーズの構成に関する要点チャート
+
+次の表は、地理ポリライン シリーズの表示に使用できる `igMap` コントロールについて構成可能な項目をまとめたものです。
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>構成可能な項目</th><th>詳細</th><th>プロパティ</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>シリーズ タイプの設定</td><td>当該の必須設定値は、地理ポリラインのマップ シリーズのタイプを構成し、シリーズ名を設定します。</td>
+
+      <td>
+        **JavaScript の場合:**
+
+        - <ApiLink type="igMap" member="options:series.type" pkg="core" label="series.type" />
+        - <ApiLink type="igMap" member="options:series.name" pkg="core" label="series.name" />
+
+        値:<br />**series.type: “geographicPolyline”** **series.type: “seriesName”**<br />ASP.NET MVC の場合:<br />
+
+        - <ApiLink type="MapSeriesBuilder<T>" pkg="mvc" label="MapSeriesBuilder<t> クラス" />
+          - <ApiLink type="MapSeriesBuilder<T>" member="GeographicPolyline" pkg="mvc" label=".GeographicPolyline()" />
+
+        値:<br />**series.GeographicPolyline(“seriesName”)**
+      </td>
+    </tr>
+
+    <tr>
+      <td>データ バインドのオプション</td><td>当該の必須設定値は、シェイプ ファイル、データベース ファイル、またはカスタム データ ソースに収められる URL を構成します。</td>
+
+      <td>
+        JavaScript の場合:
+
+        - <ApiLink type="igMap" member="options:series.shapeDataSource" pkg="core" label="series.shapeDataSource" />
+        - <ApiLink type="igMap" member="options:series.databaseSource" pkg="core" label="series.databaseSource" />
+
+        ASP.NET MVC の場合:
+
+        - <ApiLink type="GeographicPolylineSeries<T>" pkg="mvc" label="GeographicPolylineSeries<t> クラス" />
+          - <ApiLink type="GeographicShapeSeriesBase<T, M, A>" member="ShapeDataSource" pkg="mvc" label=".ShapeDataSource()" />
+          - <ApiLink type="GeographicShapeSeriesBase<T, M, A>" member="DatabaseSource" pkg="mvc" label=".DatabaseSource()" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>ポリラインの色</td><td>この項目はポリラインの色を構成します。輪郭線の既定色は白になっています。</td>
+
+      <td>
+        JavaScript の場合:
+
+        - <ApiLink type="igMap" member="options:series.outline" pkg="core" label="series.outline" />
+        - <ApiLink type="igMap" member="options:series.shapeStyle" pkg="core" label="series.shapeStyle.stroke" />
+
+        ASP.NET MVC の場合:
+
+        - <ApiLink type="GeographicPolylineSeries<T>" pkg="mvc" label="GeographicPolylineSeries<t> クラス" />
+          - <ApiLink type="Series<T, M, A>" member="Outline" pkg="mvc" label=".Outline()" />
+          - <ApiLink type="GeographicShapeSeriesBase<T, M, A>" member="ShapeStyle" pkg="mvc" label=".ShapeStyle()" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>ポリラインの太さ</td><td>この項目はポリラインの太さを構成します。太さの既定値は 0 になっています。</td>
+
+      <td>
+        JavaScript の場合:
+
+        - <ApiLink type="igMap" member="options:series.thickness" pkg="core" label="series.thickness" />
+        - <ApiLink type="igMap" member="options:series.shapeStyle" pkg="core" label="series.shapeStyle.thickness" />
+
+        ASP.NET MVC の場合:
+
+        - <ApiLink type="GeographicPolylineSeries<T>" pkg="mvc" label="GeographicPolylineSeries<t> クラス" />
+          - <ApiLink type="Series<T, M, A>" member="Thickness" pkg="mvc" label=".Thickness()" />
+          - <ApiLink type="GeographicShapeSeriesBase<T, M, A>" member="ShapeStyle" pkg="mvc" label=".ShapeStyle()" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## コード例の概要
+
+### コード例の概要表
+
+以下の表は、このトピックで使用したコード例をまとめたものです。
+
+| 例                                                   | 説明                                                                       |
+| --------------------------------------------------- | ------------------------------------------------------------------------ |
+| [JavaScript での地理ポリライン シリーズの構成](#config-series-js)   | このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールを JavaScript で構成する方法を示します。      |
+| [ASP.NET MVC での地理ポリライン シリーズの構成](#config-series-mvc) | このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールを ASP.NET MVC で構成する方法を示します。     |
+| [カスタム図形データ ソースの構成](#config-custom-datasource)       | このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールをカスタム シェイプ データ ソースで構成する方法を示します。 |
+
+## <a id="config-series-js" />コード例: JavaScript での地理ポリライン シリーズの構成
+
+### 説明
+
+このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールを JavaScript で構成する方法を示します。この例では、シェイプ ファイルおよびデータベース ファイルの URL と、ポリラインの色を指定する方法を示します。
+
+### コード
+
+**JavaScript の場合:**
+
+```js
+Code
+$("#map").igMap({
+    ...
+    series: [{
+        type: "geographicPolyline",
+        name: "seriesName",
+        shapeDataSource: "/Data/America/geopolylines.shp",
+        databaseSource: "/Data/geopolylines.dbf",
+        outline: "grey"
+    }],
+    ...
+    }
+});
+```
+
+## <a id="config-series-mvc" />コード例: ASP.NET MVC での地理ポリライン シリーズの構成
+
+### 説明
+
+このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールを ASP.NET MVC で構成する方法を示します。この例では、シェイプ ファイルとデータベース ファイルの URL を指定する方法を示します。また、シェイプの輪郭線と塗りつぶしの色、自動マーカー選択、およびマーカーの輪郭線と塗りつぶしの色も構成します。
+
+### コード
+
+**Razor の場合:**
+
+```razor
+Code
+@(Html.Infragistics().Map()
+        .ID("map")
+        ...
+        .Series(series => {
+            series.GeographicPolyline("seriesName")
+                .ShapeDataSource(Url.Content("~/Data/geopolylines.shp"))
+                .DatabaseSource(Url.Content("~/Data/geopolylines.dbf"))
+                .Outline("grey");
+        })
+        ...
+        .DataBind()
+        .Render()
+)
+```
+
+## <a id="config-custom-datasource" />コード例: カスタム図形データ ソースの構成
+
+### 説明
+
+このコード例では、地理ポリライン シリーズを表示する `igMap` コントロールをカスタム シェイプ データ ソースで構成する方法を示します。この例は、コントロールによって処理されるデータ オブジェクトの一般的な構造を示しています。また、`igMap` コントロールでの series オブジェクトの構成方法を示すものでもあります。
+
+### コード
+
+次のコード スニペットは、2 つのシェイプに関する情報が含まれる JavaScript 配列を定義しています。それぞれのシェイプはポイントと呼ばれるメンバーから構成され、各メンバーにはパスの配列が収められます。それぞれのパスは地理ポイントの配列であるため、1 つのポリラインに複数のパスが含まれる場合もあります。
+
+**JavaScript の場合:**
+
+```js
+var data = [
+    {
+        points: [
+            [
+                { x: 0, y: 0 },
+                { x: 30, y: 0 },
+                { x: 30, y: 30 },
+                { x: 0, y: 30 }
+            ],
+            [
+                { x: 5, y: 5 },
+                { x: 35, y: 5 },
+                { x: 35, y: 35 },
+                { x: 5, y: 35 }
+            ]
+        ]
+    },
+    {
+        points: [
+            [
+                { x: 40, y: 0 },
+                { x: 70, y: 0 },
+                { x: 70, y: 30 },
+                { x: 40, y: 30 }
+            ]
+        ]
+    }
+];
+```
+
+次のコード スニペットは、前の例で指定したカスタム データ ソースを使用して地理ポリライン シリーズを構成します。このコードでは、`shapeMemberPath` オプションを図形オブジェクトの points データ メンバーの名前に明示的に設定しています。これにより、プロパティ名の異なる任意のオブジェクトにシェイプ データを格納できるようになります。
+
+**JavaScript の場合:**
+
+```js
+$("#map").igMap({
+    ...
+    series: [
+        {
+            type: "geographicPolyline",
+            name: "customShapeSource",
+            dataSource: data,
+            shapeMemberPath: "points",
+            outline: "black"
+        }
+    ],
+    ...
+});
+```
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [マップ シリーズの構成 (igMap)](./igmap-creating-different-kinds-maps.mdx): このトピックは、`igMap` コントロールでサポートされているすべてのマップ視覚エフェクトを構成し、さまざまな背景コンテンツ (マップ プロバイダー) を使用する方法を説明するトピックのリンクがあるランディング ページです。
+
+- [機能の構成 (igMap)](./igmap-configuring-features.mdx): このグループのトピックでは、`igMap` コントロールのさまざまな機能を構成する方法を説明します。対応する機能としては、特定の地理領域へのナビゲーション、Overview Plus Detail パネルの有効または無効化、表示中の領域をマップ上で取得、パンとズームに関するユーザー インタラクションの構成、ツールチップ テンプレートの構成、カスタム マーカーの設定などがあります。
+
+- [データ バインディング (igMap)](./data-binding-igmap.mdx): このトピックは、視覚化されたマップ シリーズに応じて `igMap` コントロールをさまざまなデータ ソースにバインドする方法を説明します。
+
+- [マップのスタイル設定 (igMap)](./styling-igmap.mdx): このトピックでは、テーマを使用して `igMap` コントロールのルック アンド フィールをカスタマイズする方法を説明します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [地理的ポリライン シリーズ](\{environment:samplesBrowserUrl}/map/geo-polyline-series): このサンプルでは、シェープ ファイルおよびデータベース ファイルをバインドして地理ポリライン シリーズを構成する方法を示します。

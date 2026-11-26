@@ -1,0 +1,208 @@
+---
+title: "選択の構成 (igCombo)"
+keywords: "Selection"
+llms:
+  description: "igCombo コントロールは、選択ビヘイビアーをプログラム的に変更するための単一の選択および複数選択、チェックボックス、選択イベント、および API をサポートしています。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgConfigureSelectionInTheIgCombo01 from './images/Configure_Selection_in_the_igCombo__01.png';
+import imgConfigureSelectionInTheIgCombo02 from './images/Configure_Selection_in_the_igCombo__02.png';
+
+# 選択の構成 (igCombo)
+
+## トピックの概要
+
+### 目的
+
+`igCombo`™ コントロールは、選択ビヘイビアーをプログラム的に変更するための単一の選択および複数選択、チェックボックス、選択イベント、および API をサポートしています。このトピックでは、選択機能を構成する方法を示します。
+
+### 前提条件
+
+以下の表は、このトピックの情報を完全に理解するために前提条件を示しています。
+
+**トピック**
+
+[igCombo の概要](./igcombo-overview.mdx)および [igCombo の追加](./igcombo-getting-started.mdx)トピックをお読みください。
+
+**外部リソース**
+
+まず以下のセクションを読む必要があります。
+
+- [jQuery bind() API](http://api.jquery.com/bind/)
+- [jQuery live() API](http://api.jquery.com/live/)
+
+## igCombo 選択構成の概要
+
+### 選択の構成
+
+以下の表は、`igCombo` コントロールの構成可能なビヘイビアーを示しています。
+
+| 構成可能な動作   | ビヘイビアーの詳細                                                         | 構成プロパティ                                                                                                                                                                                                |
+| --------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 複数選択      | 複数選択では、ユーザーはドロップダウンから、またはテキスト ボックスに複数の値を入力してコンボの 1 つ以上の項目を選択できます。 | <ApiLink type="igCombo" member="options:multiSelection" pkg="core" label="multiSelection" />                                                                                                           |
+| 選択のクリア    | igCombo コントロールから選択をプログラム的にクリアします。                                 | <ApiLink type="igCombo" member="methods:deselectAll" pkg="core" label="deselectAll" />                                                                                                                 |
+| 選択イベントの処理 | 選択イベントをキャプチャし、発生している選択操作に対するロジックを実行します。                           | <ApiLink type="igCombo" member="events:selectionChanging" pkg="core" label="selectionChanging" />                                                                                                      |
+| 選択イベントの処理 | 選択イベントをキャプチャし、発生している選択操作に対するロジックを実行します。                           | <ApiLink type="igCombo" member="events:selectionChanging" pkg="core" label="selectionChanging" /><br /><ApiLink type="igCombo" member="events:selectionChanged" pkg="core" label="selectionChanged" /> |
+| 選択のキャンセル  | 選択操作をキャンセルするには、選択変更イベントをキャンセルします                                  | <ApiLink type="igCombo" member="events:selectionChanging" pkg="core" label="selectionChanging" />                                                                                                      |
+
+## 複数選択の構成
+
+### 複数選択の詳細
+
+複数選択が有効になっている場合、ユーザーはマウスまたはキーボードによってドロップダウン リストから複数項目を選択できます。また、テキスト ボックスに複数の値を入力し、`itemSeparator` で区切って対応する値を選択することもできます。`itemSeparator` のデフォルト値は `', '` です。
+
+最後に、複数選択が簡単にできるようチェックボックスを有効にできます。
+
+<Image src={imgConfigureSelectionInTheIgCombo01} alt="" />
+
+### 複数選択の設定
+
+以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは `igCombo` コントロールのオプションからアクセスされます。
+
+| 構成の目的:      | このオプションの使用:                                                                                                                | プロパティ値 |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 複数選択        | <ApiLink type="igCombo" member="options:multiSelection.enabled" pkg="core" label="multiSelection.enabled" />               | true   |
+| チェックボックスの表示 | <ApiLink type="igCombo" member="options:multiSelection.showCheckboxes" pkg="core" label="multiSelection.showCheckboxes" /> | true   |
+
+### コード例: チェックボックスの構成
+
+以下のパラメーターを指定した `igCombo` コントロール オプションを使用して複数選択を構成するため、この例で使用されている完全なコードを次に示します。
+
+**複数選択** - チェックボックスで有効
+
+**HTML の場合:**
+
+```html
+<script type="text/javascript">
+    $(function () {
+        $("#comboTarget").igCombo({
+            dataSource: colors,
+            multiSelection: {
+                enabled: true,
+                showCheckboxes: true
+            }
+        });
+    });
+</script>
+```
+
+**Razor の場合:**
+
+```razor
+@(Html.
+    Infragistics().
+    Combo().
+    DataSource(this.Model as IQueryable<System.Drawing.Color>).
+    MultiSelectionSettings(ms => {
+        ms.Enabled(true);
+        ms.ShowCheckBoxes(true);
+    }).    
+    Render()
+)
+```
+
+### 複数選択プロパティの参照
+
+これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
+
+**igCombo のオプション**
+
+#### 選択のクリア
+
+###### 選択の詳細のクリア
+
+`igCombo` コントロールの選択をプログラム的にクリアするには、deselectAll メソッドを使用します。
+
+<Image src={imgConfigureSelectionInTheIgCombo02} alt="" />
+
+###### 選択の設定のクリア
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは `igCombo` オプションからアクセスされます。
+
+| 目的:                  | このメソッドおよびイベントの使用:                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| 選択のクリア               | <ApiLink type="igCombo" member="methods:deselectAll" pkg="core" label="deselectAll" />          |
+| 選択が変更された後でイベントを処理します | <ApiLink type="igCombo" member="events:selectionChanged" pkg="core" label="selectionChanged" /> |
+
+### 選択イベントの処理
+
+###### 選択イベントの詳細
+
+選択イベントを使用して、選択操作の発生時にロジックを実行できます。`selectionChanging` はコントロール内で選択が変更される前に発生し、`selectionChanged` イベントは igCombo の選択が変更された直後に発生します。
+
+###### 選択イベントの設定
+
+以下の表は、プロパティ設定の推奨構成をマップしています。プロパティは `igCombo` オプションからアクセスされます。
+
+| 目的:                  | このイベントの使用:                                                                                        | プロパティ値       |
+| -------------------- | ------------------------------------------------------------------------------------------------- | ------------ |
+| 変更中の選択の前にイベントを処理します  | <ApiLink type="igCombo" member="events:selectionChanging" pkg="core" label="selectionChanging" /> | `function()` |
+| 選択が変更された後でイベントを処理します | <ApiLink type="igCombo" member="events:selectionChanged" pkg="core" label="selectionChanged" />   | `function()` |
+
+## 選択のキャンセル
+
+### 概要
+
+`selectionChanging` イベントを処理することで、選択操作をキャンセルできます。
+
+### 概要
+
+- 以下はプロセスの概念的概要です。
+
+- `selectionChanging` イベントの処理
+
+- false を返すことによるイベントのキャンセル
+
+### 手順
+
+1. `selectionChanging` イベントを処理します。
+
+   1. ハンドラー関数を定義します。
+
+      `selectionChanging` イベントが発生したときに呼び出される関数を定義します。
+
+      **HTML と Razor の場合:**
+
+      ```html
+      <script type="text/javascript">
+          function comboSelectionChanging(evt, ui) {}
+      </script>
+      ```
+
+   2. `selectionChanging` イベントのハンドラーを構成します。
+
+      いったんハンドラーを定義したら、`selectionChanging` イベントのハンドラーとして設定する必要があります。jQuery では、これはウィジェットがインスタンス化されるときに行うことができます。ASP.NET MVC では、jQuery live または bind API を使用してイベントを添付する必要があります。また live または bind API の使用は、純粋な jQuery 実装のイベントを添付するためのオプションです。このイベントの型は「igcomboselectionchanging」です。
+
+      **HTML の場合:**
+
+      ```html
+      $("#comboTarget").igCombo({ selectionChanging: comboSelectionChanging });
+      ```
+
+      **ASPX の場合:**
+
+      ```csharp
+      $("#comboTarget").bind("igcomboselectionchanging", comboSelectionChanging);
+      ```
+
+2. false を返すことでイベントをキャンセルします。
+
+   **HTML と Razor の場合:**
+
+   ```html
+   <script type="text/javascript">
+       function comboSelectionChanging(evt, ui) {
+           if (conditionNotMet) return false;
+       }
+   </script>
+   ```
+
+## 関連トピック
+
+以下は、その他の役立つトピックです。
+
+- [igCombo の構成](./igcombo-configuring.mdx)

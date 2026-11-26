@@ -1,0 +1,180 @@
+---
+title: "ツールチップの構成 (igGrid)"
+keywords: "Getting Started, Grids"
+llms:
+  description: "このトピックでは、コード例を使用して、最も一般的なケースの jQuery igGrid ツールチップの構成方法を説明しています。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgUsingIgGridTooltips01 from './images/Using_igGrid_Tooltips_01.png';
+import imgUsingIgGridTooltips02 from './images/Using_igGrid_Tooltips_02.png';
+import imgUsingIgGridTooltips03 from './images/Using_igGrid_Tooltips_03.png';
+import imgUsingIgGridTooltips04 from './images/Using_igGrid_Tooltips_04.png';
+
+# ツールチップの構成 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、コード例を使用して、最も一般的なケースの jQuery `igGrid`™ ツールチップの構成方法を説明しています。
+
+## ツールチップ構成表
+
+以下の表に jQuery `igGrid` ツールチップの最も一般的なユース ケースと、それらを構成するプロパティを示します。これらユース ケースの詳細はそれぞれ、表に続くテキスト ブロックで説明しています。
+
+| ユース ケース                                  | 構成の詳細                                                                         | 構成プロパティ                                                                                                                                                                                                       |
+| ---------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [デフォルト設定でツールチップを表示する](#default-settings) | デフォルト設定でツールチップを表示するには、ツールチップ機能を呼び出します。                                        | name                                                                                                                                                                                                          |
+| [ツールチップのないセル列を構成する](#disable)            | たとえば、列のセルに画像が含まれている場合に、その列のツールチップを無効にすると便利です。この場合、列ごとに個々にツールチップのビヘイビアーを構成します。 | <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" /> <ApiLink type="igGridTooltips" member="options:columnSettings" pkg="core" label="columnSettings" />               |
+| [カスタム ツールチップ位置を構成する](#custom)            | ツールチップを表示させる位置を指定する。マウス ポインターからツールチップのオフセットを指定することでこれを構成します。                  | <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" /> |
+
+## <a id="default-settings" />デフォルト設定でツールチップを表示する
+
+### デフォルトのツールチップ ビヘイビアーの概要
+
+デフォルトでは、セル中のテキストが長すぎてセルに納まらず、切り捨てられて表示される場合のみツールチップが表示されます。以下の 2 つの図は、このビヘイビアーを示しています。
+
+- 左側 - テキストはグリッド セルで完全に表示できるため、ツールチップは表示されません
+- 右側 - セルのテキストが長すぎて、切り捨てられて表示されるため、ツールチップが表示されます
+
+<Image src={imgUsingIgGridTooltips01} alt="" /> <Image src={imgUsingIgGridTooltips02} alt="" />
+
+### デフォルトのツールチップ ビヘイビアーのプロパティ設定
+
+以下の表に、jQuery ツールチップ ウィジェットのデフォルト プロパティ設定を示しています。
+
+| プロパティ                                                                                                   | 設定         |
+| ------------------------------------------------------------------------------------------------------- | ---------- |
+| <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" />             | “overflow” |
+| <ApiLink type="igGridTooltips" member="options:showDelay" pkg="core" label="showDelay" />               | 500        |
+| <ApiLink type="igGridTooltips" member="options:hideDelay" pkg="core" label="hideDelay" />               | 300        |
+| <ApiLink type="igGridTooltips" member="options:fadeTimespan" pkg="core" label="fadeTimespan" />         | 150        |
+| <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> | 10         |
+| <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" />   | 15         |
+| <ApiLink type="igGridTooltips" member="options:style" pkg="core" label="style" />                       | "tooltip"  |
+
+### コード例
+
+ツールチップをデフォルト設定で有効にするには、Name プロパティを「Tooltips」に設定します。
+
+以下のコードは、`igGrid` ツールチップのデフォルト ビヘイビアーを有効にします。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips"
+        }
+    ]
+});
+```
+
+<DocsAside type="note" title="注">
+  MVC で同様の操作を行う方法については、「ツールチップを `igGrid` に追加する」トピックを参照してください。
+</DocsAside>
+
+## <a id="disable" />列のツールチップを無効にする
+
+この例では、画像を保存している列ではなく、テキストを含むあらゆる列でツールチップを表示するよう構成しています。
+
+以下の 2 つの図は、このビヘイビアーを示しています。
+
+- 左側 - 列のセルにはテキストが含まれているため、ツールチップが表示されます
+- 右側 - 列のセルには画像が含まれているため、ツールチップは表示されません
+
+このビヘイビアーを構成するには、列ごとに個々にプロパティを定義する必要があります。
+
+### プロパティ設定
+
+以下の表は、ある列のツールチップを非表示にする一方で残りの列のツールチップを常に表示する場合に必要なプロパティ設定を示しています。プロパティの詳細については、API ドキュメントを参照してください。
+
+| プロパティ                                                                                               | 設定                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| name                                                                                                | “Tooltips”                                                                                                                                |
+| <ApiLink type="igGridTooltips" member="options:visibility" pkg="core" label="visibility" />         | “always”                                                                                                                                  |
+| <ApiLink type="igGridTooltips" member="options:columnSettings" pkg="core" label="columnSettings" /> | \[\{ columnKey: "col1", allowTooltips: true }, \{ columnKey: "col2", allowTooltips: false }, \{ columnKey: "col3", allowTooltips: true }] |
+
+### コード例
+
+以下のコードでは、第 2 列のツールチップが無効になっています。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips",
+            columnSettings: [
+                { columnKey: "Name", allowTooltips: true },
+                { columnKey: "BoxArt", allowTooltips: false },
+                { columnKey: "Synopsis", allowTooltips: true }
+            ]
+        }
+    ]
+});
+```
+
+<DocsAside type="note" title="注">
+  MVC で同様の操作を行う方法については、「ツールチップを jQuery `igGrid` に追加する」トピックを参照してください。
+</DocsAside>
+
+## <a id="custom" />カスタム ツールチップ位置を構成する
+
+ツールチップの位置を構成するには、jQuery `igGrid` ツールチップ API でマウス ポインターからのツールチップのオフセットを指定します。
+
+<Image src={imgUsingIgGridTooltips03} alt="" /> <Image src={imgUsingIgGridTooltips04} alt="" />
+
+### プロパティ設定
+
+ツールチップの配置は、`cursorLeftOffset` プロパティおよび `cursorTopOffset` プロパティで管理されます。以下の表は、上の図で示すオフセットを得るために必要なプロパティ設定を示しています。プロパティの詳細については、API ドキュメントを参照してください。
+
+| プロパティ                                                                                                   | 設定         |
+| ------------------------------------------------------------------------------------------------------- | ---------- |
+| name                                                                                                    | “Tooltips” |
+| <ApiLink type="igGridTooltips" member="options:cursorLeftOffset" pkg="core" label="cursorLeftOffset" /> | 50         |
+| <ApiLink type="igGridTooltips" member="options:cursorTopOffset" pkg="core" label="cursorTopOffset" />   | 50         |
+
+### コード例
+
+以下のコードでは、上の図で示すオフセットが構成されています。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "Tooltips",
+            cursorLeftOffset: 50,
+            cursorTopOffset: 50
+        }
+    ]
+});
+```
+
+<DocsAside type="note" title="注">
+  MVC で同様の操作を行う方法については、「[igGrid のツールチップを有効にする](./iggrid-enabling-tooltips.mdx)」トピックを参照してください。
+</DocsAside>
+
+## サンプル
+
+<Sample src="/grid/tooltips/index.html" height={500} alt="igGrid ツールチップ" chrome="bare" fullscreenBtn />
+
+## 関連トピック
+
+以下は、その他の役立つトピックです。
+
+- [igGrid ツールチップの概要](./iggrid-tooltips-overview.mdx)
+
+- [igGrid のツールチップを有効にする](./iggrid-enabling-tooltips.mdx)
+
+- [igGrid の既知の問題および重大な変更](./iggrid-known-issues.mdx)
