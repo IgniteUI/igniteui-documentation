@@ -192,7 +192,7 @@ The following steps demonstrate how to configure data annotation validation for 
 
 5. Create a form for the Person object.
 
-   In the aspx markup, create labels for each member of the Person class. Additionally, instantiate the appropriate editors for each member as indicated in the code example. Notice how the combo uses both the Model.Group property as well as the Model.AvailableGroups property. Your View should now look like this:
+   In the Razor view, create labels for each member of the Person class. Additionally, instantiate the appropriate editors for each member as indicated in the code example. Notice how the combo uses both the Model.Group property as well as the Model.AvailableGroups property. Your View should now look like this:
 
    **In Razor:**
 
@@ -239,68 +239,62 @@ The following steps demonstrate how to configure data annotation validation for 
 
    Once you have finished the above steps, the code of your View should look like this:
 
-   **In ASPX:**
+   **In Razor:**
 
-   ```csharp
-   <%@ Page
-       Title=""
-       Language="C#"
-       MasterPageFile="~/Views/Shared/Site.Master"
-       Inherits="System.Web.Mvc.ViewPage<DataAnnotationValidation.Models.Person>"
-   %>
-   <%@ Import Namespace="Infragistics.Web.Mvc" %>
-   <asp:content id="Content2" contentplaceholderid="MainContent" runat="server">
-       <h2>Create</h2>
-       <link
-           href="/Content/css/themes/infragistics/infragistics.theme.css"
-           rel="stylesheet"
-           type="text/css" />
-       <link
-           href="/Content/css/structure/infragistics.css"
-           rel="stylesheet"
-           type="text/css" />
-       <script src="/Scripts/jquery.js" type="text/javascript"></script>
-       <script src="/Scripts/jquery-ui.js" type="text/javascript"></script>
-       <script
-           src="/Scripts/js/infragistics.core.js"
-           type="text/javascript"></script>
-       <script
-           src="/Scripts/js/infragistics.lob.js"
-           type="text/javascript"></script>
-       
-       <% using (Html.BeginForm()) %>
-       <% { %>
-           <p>
-               <%= Html.LabelFor(m => m.Name) %>
-               <%= Html.Infragistics()
-                   .TextEditorFor(m => m.Name)
-                   .Render() %>
-           </p>
-           <p>
-               <%= Html.LabelFor(m => m.Age) %>
-               <%= Html.Infragistics()
-                   .NumericEditorFor(m => m.Age)
-                   .Render() %>
-           </p>
-           <p>
-               <%= Html.LabelFor(m => m.Email) %>
-               <%= Html.Infragistics()
-                   .TextEditorFor(m => m.Email)
-                   .Render() %>
-           </p>
-           <p>
-               <%= Html.LabelFor(m => m.Group) %>
-               <%= Html.Infragistics()
-                   .ComboFor(m => m.Group)
-                   .DataSource(Model.AvailableGroups)
-                   .DataBind()
-                   .Render() %>
-           </p>
-           <p>
-               <input type="submit" value="Create" />
-           </p>
-       <% } %>
-   </asp:content>
+   ```razor
+   @model DataAnnotationValidation.Models.Person
+   @using Infragistics.Web.Mvc
+
+   <h2>Create</h2>
+   <link
+       href="/Content/css/themes/infragistics/infragistics.theme.css"
+       rel="stylesheet"
+       type="text/css" />
+   <link
+       href="/Content/css/structure/infragistics.css"
+       rel="stylesheet"
+       type="text/css" />
+   <script src="/Scripts/jquery.js" type="text/javascript"></script>
+   <script src="/Scripts/jquery-ui.js" type="text/javascript"></script>
+   <script
+       src="/Scripts/js/infragistics.core.js"
+       type="text/javascript"></script>
+   <script
+       src="/Scripts/js/infragistics.lob.js"
+       type="text/javascript"></script>
+
+   @using (Html.BeginForm())
+   {
+       <p>
+           @Html.LabelFor(m => m.Name)
+           @(Html.Infragistics()
+               .TextEditorFor(m => m.Name)
+               .Render())
+       </p>
+       <p>
+           @Html.LabelFor(m => m.Age)
+           @(Html.Infragistics()
+               .NumericEditorFor(m => m.Age)
+               .Render())
+       </p>
+       <p>
+           @Html.LabelFor(m => m.Email)
+           @(Html.Infragistics()
+               .TextEditorFor(m => m.Email)
+               .Render())
+       </p>
+       <p>
+           @Html.LabelFor(m => m.Group)
+           @(Html.Infragistics()
+               .ComboFor(m => m.Group)
+               .DataSource(Model.AvailableGroups)
+               .DataBind()
+               .Render())
+       </p>
+       <p>
+           <input type="submit" value="Create" />
+       </p>
+   }
    ```
 
 ​**3**. **Add Data Annotation Validators**
