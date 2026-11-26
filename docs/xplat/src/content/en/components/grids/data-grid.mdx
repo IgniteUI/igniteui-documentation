@@ -469,13 +469,13 @@ public formatUppercase(value: string) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("UpperCaseTemplate", (ctx) => {
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-    var html = window.igTemplating.html;
+registerScript("UpperCaseTemplate", (ctx) => {
 
-    return html`${this.formatUppercase(ctx.column.field)}`;
+    return html`${formatUppercase(ctx.column.field)}`;
 
-}, false)
+})
 
 function formatUppercase(value) {
     return value.toUpperCase();
@@ -557,11 +557,11 @@ public formatTitleCase(value: string) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("NameCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-    return html`${this.formatTitleCase(ctx.implicit)}`;
-}, false);
+registerScript("NameCellTemplate", (ctx) => {
+    return html`${formatTitleCase(ctx.implicit)}`;
+});
 
 function formatTitleCase(value) {
     return value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
@@ -717,25 +717,25 @@ function formatTitleCase(value: string) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("NameCellTemplate", (ctx) => {
-       var html = window.igTemplating.html;
-    return html`
-        <span tabindex="0" @keyup=${(e) => this.deleteRow(e, ctx.cell.id.rowIndex)}> ${this.formatTitleCase(ctx.cell.value)}</span>
-    `;
-}, false);
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
-igRegisterScript("SubscriptionCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+registerScript("NameCellTemplate", (ctx) => {
+    return html`
+        <span tabindex="0" @keyup=${(e) => deleteRow(e, ctx.cell.id.rowIndex)}> ${formatTitleCase(ctx.cell.value)}</span>
+    `;
+});
+
+registerScript("SubscriptionCellTemplate", (ctx) => {
      if (ctx.cell.value) {
             return html` <input type="checkbox" checked /> `;
     } else {
             return html` <input type="checkbox"/> `;
     }
-}, false);
+});
 
 function deleteRow(e, rowIndex) {
     if (e.code === "Delete") {
-        this.grid.deleteRow(rowIndex);
+        grid.deleteRow(rowIndex);
     }
 }
 
@@ -856,17 +856,17 @@ function updateValue(value: number) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("PriceCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
 
+registerScript("PriceCellTemplate", (ctx) => {
     return html`
         <label>
             Enter the new price tag
         </label>
         <input name="price" type="number" value="${ctx.cell.value}"
-        @change=${(e) => this.updateValue(e, ctx.cell.value)} />
+        @change=${(e) => updateValue(e, ctx.cell.value)} />
     `;
-}, false);
+});
 
 function updateValue(event, value) {
 }
@@ -1009,20 +1009,20 @@ column.bodyTemplate = smallViewTemplate;
 
 ```javascript
 //In JavaScript:
-igRegisterScript("NormalViewTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("NormalViewTemplate", (ctx) => {
     return html`
         <div class="user-details">${ctx.cell.value}</div>
         <user-details-component></user-details-component>
     `;
-}, false);
+});
 
-igRegisterScript("SmallViewTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+registerScript("SmallViewTemplate", (ctx) => {
     return html`
         <div class="user-details-small" style="color: blue">${ctx.cell.value}</div>
     `;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -1658,26 +1658,27 @@ function abbreviationLongCellTemplate(ctx: IgrCellTemplateContext) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("AbbreviationLongCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AbbreviationLongCellTemplate", (ctx) => {
     return html`
         <div>
             <div>
                 ${ctx.cell.value}
-                ${this.GetName(ctx.cell.id.rowIndex)}
-                ${this.GetWeight(ctx.cell.id.rowIndex)}
+                ${GetName(ctx.cell.id.rowIndex)}
+                ${GetWeight(ctx.cell.id.rowIndex)}
             </div>
         </div>
     `;
-}, false);
+});
 
 function GetName(rowIndex) {
-    return this.grid.getRowByIndex(rowIndex).data["Name"];
+    return grid.getRowByIndex(rowIndex).data["Name"];
 
 }
 
 function GetWeight(rowIndex) {
-    return this.grid.getRowByIndex(rowIndex).data["Weight"]["Molecular"];
+    return grid.getRowByIndex(rowIndex).data["Weight"]["Molecular"];
 }
 ```
 
@@ -1918,8 +1919,9 @@ function addressCellTemplate(ctx: IgrCellTemplateContext) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("WebGridNestedDataCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("WebGridNestedDataCellTemplate", (ctx) => {
     window.keyUpHandler = function() {
         ctx.cell.row.data[window.event.target.id] = window.event.target.value;
     }
@@ -1945,7 +1947,7 @@ igRegisterScript("WebGridNestedDataCellTemplate", (ctx) => {
     </igc-expansion-panel>
         `;
     }
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -2132,8 +2134,9 @@ function addressCellTemplate(ctx: IgrCellTemplateContext) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("AddressCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AddressCellTemplate", (ctx) => {
     return html`<div class="address-container">
     <div class="country-city">
         <span><strong>Country:</strong> ${ctx.cell.row.data.Country}</span>
@@ -2147,7 +2150,7 @@ igRegisterScript("AddressCellTemplate", (ctx) => {
     </div>
     <br />
 </div>`;
-}, false);
+});
 ```
 
 </PlatformBlock>
@@ -2287,8 +2290,9 @@ function addressEditCellTemplate(ctx: IgrCellTemplateContext) {
 
 ```javascript
 //In JavaScript:
-igRegisterScript("AddressEditCellTemplate", (ctx) => {
-    var html = window.igTemplating.html;
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("AddressEditCellTemplate", (ctx) => {
     window.keyUpHandler = function() {
         ctx.cell.row.data[window.event.target.id] = window.event.target.value;
     }
@@ -2310,7 +2314,7 @@ igRegisterScript("AddressEditCellTemplate", (ctx) => {
     </div>
     <br>
 </div>`;
-}, false);
+});
 ```
 
 </PlatformBlock>

@@ -628,12 +628,28 @@ For .NET 9 or later applications, it is recommended to use the **Assets** collec
 </head>
 ```
 
-4 - Add the script reference before the Blazor script in the **Components/App.razor** file. Reference it directly, not through **Assets**:
+Ignite UI for Blazor loads its JavaScript on its own when Blazor starts, so the host page needs no script reference for it. Apps that still reference `_content/IgniteUI.Blazor/app.bundle.js` keep working.
+
+### Client Scripts
+
+Component parameters whose names end in `\Script`, such as `\BodyTemplateScript` on a grid column, take the name of a JavaScript function registered on the client. Register the function with `\registerScript`, and build templates with the `html` tag, both imported from the `_content/IgniteUI.Blazor/api.js` module:
+
+```js
+// wwwroot/scripts.js
+import { registerScript, html } from './_content/IgniteUI.Blazor/api.js';
+
+registerScript("NameCellTemplate", (ctx) => html`<b>${ctx.cell.value}</b>`);
+```
+
+The import path is relative to the script file, so a script in a subfolder of **wwwroot** imports `../_content/IgniteUI.Blazor/api.js`. Load the file as a module script in the **Components/App.razor** file:
 
 ```razor
-<script src="_content/IgniteUI.Blazor/app.bundle.js"></script>
-<script src="@Assets["_framework/blazor.web.js"]"></script>
+<script type="module" src="scripts.js"></script>
 ```
+
+Module scripts run once the page is parsed, before Blazor renders the first component, so the functions are registered before the components that use them. `\registerScript` registers the function itself, which is what most `*Script` parameters expect. For a parameter that takes the value a function produces, pass `true` as the third argument: the function is then called and its result is used.
+
+The `\igRegisterScript` and `\igTemplating.html` globals of earlier versions are deprecated but keep working. When you move a call to `\registerScript`, keep its third argument as it was: `\igRegisterScript` calls the function when the third argument is omitted, while `\registerScript` does not.
 
 ### Component Modules
 
@@ -883,14 +899,12 @@ Build and run the Blazor app.
 
 In an app created from the **Blazor WebAssembly Standalone App** template (`dotnet new blazorwasm`), every component is interactive, so no render mode is needed. Follow the steps above with these differences:
 
-- Add the style sheet in the **`<head>`** element of the **wwwroot/index.html** file.
-- Skip the script reference in step 4.
+- Add the style sheet in the **`<head>`** element of the **wwwroot/index.html** file, and load any [client scripts](#client-scripts) there.
 
 ## Existing Blazor Server Apps
 
 Apps created from the **Blazor Server App** template before .NET 8 are still supported, but Microsoft recommends Blazor Web Apps (see [Convert a Blazor Server app into a Blazor Web App](https://learn.microsoft.com/aspnet/core/migration/70-to-80#convert-a-blazor-server-app-into-a-blazor-web-app)). Until you convert, no render mode is needed. Follow the steps above with these differences:
 
-- Add the style sheet in the **`<head>`** element of the **Pages/_Host.cshtml** file (**Pages/_Layout.cshtml** in .NET 6).
-- Skip the script reference in step 4.
+- Add the style sheet in the **`<head>`** element of the **Pages/_Host.cshtml** file (**Pages/_Layout.cshtml** in .NET 6), and load any [client scripts](#client-scripts) there.
 
 </PlatformBlock>
