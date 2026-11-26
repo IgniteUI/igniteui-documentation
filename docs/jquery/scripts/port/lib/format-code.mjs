@@ -55,22 +55,63 @@ const LINE_COMMENTS = new Set(['js', 'typescript', 'csharp']);
 function wrapLineComments(text) {
     return text.split('\n').flatMap(line => {
         const m = /^(\s*)(\/\/+ ?)(.*)$/.exec(line);
-        if (!m || line.length <= CODE_WIDTH) return [line];
+        if (!m || widthOf(line) <= CODE_WIDTH) return [line];
         const [, indent, marker, body] = m;
         const room = Math.max(20, CODE_WIDTH - indent.length - marker.length);
         const parts = [];
         let current = '';
-        for (const word of body.trim().split(/\s+/)) {
-            if (current && current.length + 1 + word.length > room) {
+        for (const piece of piecesOf(body)) {
+            const glue = current && piece.spaced ? ' ' : '';
+            if (current && widthOf(current) + glue.length + widthOf(piece.text) > room) {
                 parts.push(current);
-                current = word;
+                current = piece.text;
             } else {
-                current = current ? `${current} ${word}` : word;
+                current = `${current}${glue}${piece.text}`;
             }
         }
         if (current) parts.push(current);
         return parts.map(part => `${indent}${marker}${part}`);
     }).join('\n');
+}
+
+/**
+ * Columns a text takes in a code block. A Japanese character (kana, kanji, full-width forms and
+ * punctuation) is as wide as two Latin ones in a monospaced face, and Prettier counts it so too.
+ */
+const WIDE = /[\u1100-\u115f\u2e80-\u303e\u3041-\u33ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uff60\uffe0-\uffe6]/;
+const WIDE_ALL = new RegExp(WIDE.source, 'g');
+export const widthOf = text => text.length + (text.match(WIDE_ALL)?.length ?? 0);
+
+/** Japanese punctuation that does not start a line, and brackets that do not end one. */
+const NOT_FIRST = /[、。，．・：；！？）」』】〕〉》ー々ぁぃぅぇぉっゃゅょァィゥェォッャュョ)\]}.,:;!?]/;
+const NOT_LAST = /[（「『【〔〈《(\[{]/;
+
+/**
+ * The pieces a comment can be broken between: its words, and inside Japanese text, which has no
+ * spaces, any two characters that punctuation does not hold together. `spaced` says a space stood
+ * before the piece.
+ */
+function piecesOf(body) {
+    const pieces = [];
+    for (const word of body.trim().split(/\s+/)) {
+        if (!WIDE.test(word)) {
+            pieces.push({ text: word, spaced: true });
+            continue;
+        }
+        const chars = [...word];
+        let current = '';
+        let spaced = true;
+        chars.forEach((ch, i) => {
+            current += ch;
+            const next = chars[i + 1];
+            if (next === undefined || !(WIDE.test(ch) || WIDE.test(next)) || NOT_FIRST.test(next) || NOT_LAST.test(ch)) return;
+            pieces.push({ text: current, spaced });
+            current = '';
+            spaced = false;
+        });
+        if (current) pieces.push({ text: current, spaced });
+    }
+    return pieces;
 }
 
 // ── script that does not parse as written ───────────────────────────────────
@@ -254,12 +295,12 @@ export async function formatCode(tree, ctx) {
                 count('code blocks with whole-line comments wrapped');
             }
         }
-        const wide = node.value.split('\n').filter(line => line.length > CODE_WIDTH);
+        const wide = node.value.split('\n').filter(line => widthOf(line) > CODE_WIDTH);
         if (wide.length) {
             undecided.push({
                 topic: ctx.row.source, line: node.data?.sourceLine ?? null,
                 reason: `lines wider than ${CODE_WIDTH} columns (${why ?? 'Prettier cannot break them'})`,
-                detail: `${wide.length} of ${node.value.split('\n').length} lines, the longest ${Math.max(...wide.map(l => l.length))}: ${wide[0].trim().slice(0, 50)}`,
+                detail: `${wide.length} of ${node.value.split('\n').length} lines, the longest ${Math.max(...wide.map(widthOf))}: ${wide[0].trim().slice(0, 50)}`,
             });
         }
     }

@@ -29,11 +29,12 @@ const DEFAULT_API_DOCS_BASE_URL = 'https://staging.infragistics.com/api';
 
 /**
  * Platforms whose API reference is not hosted with the others. The jQuery reference goes to
- * igniteui.com and is not deployed yet: this origin is a placeholder. `API_DOCS_BASE_URL` still
- * overrides it, as it does for every platform.
+ * igniteui.com and is not deployed yet: this origin is a placeholder. The Japanese help has its
+ * own host, so the origin goes by the build's language (`LANG_CODE`; English when a language has
+ * no entry). `API_DOCS_BASE_URL` still overrides it, as it does for every platform.
  */
-const API_DOCS_BASE_URL_BY_PLATFORM: Partial<Record<PlatformName, string>> = {
-    jQuery: 'https://www.igniteui.com/api',
+const API_DOCS_BASE_URL_BY_PLATFORM: Partial<Record<PlatformName, { en: string } & Record<string, string>>> = {
+    jQuery: { en: 'https://www.igniteui.com/api', jp: 'https://jp.igniteui.com/api' },
 };
 
 const PLATFORMS: Record<PlatformName, PlatformContext> = {
@@ -196,8 +197,9 @@ function getBuildMode(): string {
 
 function getApiDocsBaseUrl(name?: PlatformName): string {
     const mode = getBuildMode();
+    const ownOrigin = name ? API_DOCS_BASE_URL_BY_PLATFORM[name] : undefined;
     const value = process.env.API_DOCS_BASE_URL
-        ?? (name ? API_DOCS_BASE_URL_BY_PLATFORM[name] : undefined)
+        ?? (ownOrigin ? ownOrigin[process.env.LANG_CODE ?? 'en'] ?? ownOrigin.en : undefined)
         ?? (mode === 'production'
             ? 'https://www.infragistics.com/api'
             : 'https://staging.infragistics.com/api');

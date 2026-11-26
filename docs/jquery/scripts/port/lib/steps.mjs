@@ -94,8 +94,10 @@ export function takeTitle(tree, ctx) {
     return ctx.tokens.literal(title);
 }
 
-const IN_TOPIC_HEADING = /^in this topic\s*:?$/i;
-const IN_TOPIC_INTRO = /^this topic contains the following sections?\s*[:.]?$/i;
+// In English and in Japanese (このトピックの内容, このトピックの構成): the Japanese help is the same
+// help translated, with the same shapes under translated labels.
+const IN_TOPIC_HEADING = /^(?:in this topic|このトピックの(?:内容|構成))\s*[:：]?$/i;
+const IN_TOPIC_INTRO = /^(?:this topic contains the following sections?\s*[:.]?|(?:この)?トピックは、?\s*以下の(?:セクションで構成されます|とおりです|ように構成されています)\s*[。.:：]?)$/i;
 const withoutBlanks = children => children.filter(c => !(c.type === 'text' && !c.value.trim()));
 
 /** A list item's line that is one link into the page, bold or not. */
@@ -226,7 +228,8 @@ const LABEL_LANGS = [
 function labelLanguage(paragraph) {
     if (paragraph?.type !== 'paragraph') return null;
     const text = toString(paragraph).trim();
-    const m = /^(?:in|code in|example in|code)\s+([^:]+?)\s*:?$/i.exec(text);
+    // "In HTML:", and its Japanese form "HTML の場合:".
+    const m = /^(?:in|code in|example in|code)\s+([^:]+?)\s*:?$/i.exec(text) ?? /^(.+?)\s*の場合\s*[:：]?$/.exec(text);
     if (!m) return null;
     for (const [re, lang] of LABEL_LANGS) if (re.test(m[1].trim())) return lang;
     return null;
@@ -601,7 +604,7 @@ export function aspxToRazor(text) {
 }
 
 const isViewLabel = paragraph => paragraph?.type === 'paragraph' && toString(paragraph).trim().length <= 40
-    && /^(?:in |code in |mvc )?[\w .#()/-]*:?$/i.test(toString(paragraph).trim()) && /\b(?:aspx|razor|cshtml|mvc|html|c#)\b/i.test(toString(paragraph));
+    && /^(?:in |code in |mvc )?[\w .#()/\-とまたは]*(?:の場合|ビュー)?\s*[:：]?$/i.test(toString(paragraph).trim()) && /\b(?:aspx|razor|cshtml|mvc|html|c#)\b/i.test(toString(paragraph));
 const RAZOR_SYNTAX = /(?:^|[\s>"'(=])@(?:\(|\{|using\b|model\b|Html\.|Url\.|[A-Za-z_]\w*\.)/m;
 
 /** Replaces "ASPX" with "Razor" in a label's text. */
@@ -1062,6 +1065,8 @@ const NOTE_LABELS = [
     [/^(warning|caution)$/i, 'warning', null],
     [/^workaround$/i, 'note', 'Workaround'],
     [/^(注|注意|メモ|ヒント|重要)$/, 'note', 'jp'],
+    [/^(?:回避方法|回避策)(?:\s*\d+)?$/, 'note', 'jp'],
+    [/^警告$/, 'warning', 'jp'],
 ];
 
 function noteLabel(paragraph) {
@@ -1073,13 +1078,18 @@ function noteLabel(paragraph) {
         const after = paragraph.children[1];
         // A label alone in its paragraph (`> **Workaround**` above the text) is a label too.
         if (m && !after) return { word: m[1], consume: 'strong' };
+        // `**回避方法**text`: the label run on by its text, with no colon between them.
+        if (m && /^(?:回避方法|回避策)(?:\s*\d+)?$/.test(m[1]) && after?.type === 'text' && !/^\s*[:：]/.test(after.value)) return { word: m[1], consume: 'strong' };
         if (m && (text.endsWith(':') || text.endsWith('：') || (after?.type === 'text' && /^\s*[:：]/.test(after.value)))) {
             return { word: m[1], consume: after?.type === 'text' && /^\s*[:：]/.test(after.value) ? 'strong+colon' : 'strong' };
         }
         return null;
     }
     if (first.type === 'text') {
-        const m = /^\s*([A-Za-z]+|[^\s:：]{1,3})\s*[:：]\s*/.exec(first.value);
+        const m = /^\s*([A-Za-z]+|(?:回避方法|回避策)(?:\s*\d+)?|[^\s:：]{1,3})\s*[:：]\s*/.exec(first.value)
+            // `**注: **text`: bold to the old renderer, plain text with asterisks to CommonMark,
+            // which does not close a strong span after a space.
+            ?? /^\s*\*\*\s*((?:回避方法|回避策)(?:\s*\d+)?|[^\s:：*\x00-\x7f]{1,3})\s*[:：]\s*\*\*\s*/.exec(first.value);
         if (m) return { word: m[1], consume: 'text', length: m[0].length };
     }
     return null;
@@ -1118,7 +1128,7 @@ export function notes(tree, ctx) {
     // Paragraph notes outside a blockquote are counted, not converted (a decision).
     visit(tree, 'paragraph', node => {
         const label = noteLabel(node);
-        if (label && /^notes?$/i.test(label.word)) handled(ctx, 'notes', 'paragraph notes outside a blockquote (not converted)');
+        if (label && /^(?:notes?|注)$/i.test(label.word)) handled(ctx, 'notes', 'paragraph notes outside a blockquote (not converted)');
     });
 }
 
@@ -1150,10 +1160,11 @@ const TOPIC_SUBJECT = /^(?:this|the following) (?:topic|article|document|section
 
 const plain = (ctx, node) => ctx.tokens.literal(toString(node)).replace(/[™®]/g, '').replace(/\s+/g, ' ').replace(/\s+([.,;:])/g, '$1').trim();
 /** Paragraphs that introduce something rather than say something. */
-const isLeadIn = text => /:$/.test(text) || /\bfollowing (sections|topics)\b/i.test(text) || /^(in|code in)\b[^.]*$/i.test(text);
+const isLeadIn = text => /[:：]$/.test(text) || /\bfollowing (sections|topics)\b/i.test(text) || /^(in|code in)\b[^.]*$/i.test(text)
+    || /以下の(?:セクション|トピック)/.test(text) || /の場合$/.test(text);
 
-/** Sentences of a text, each with its closing punctuation. */
-const sentencesOf = text => text.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/).map(s => s.trim()).filter(Boolean);
+/** Sentences of a text, each with its closing punctuation (Japanese sentences run on without a space). */
+const sentencesOf = text => text.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])|(?<=[。！？])\s*(?=[^\s。！？）」』)])/).map(s => s.trim()).filter(Boolean);
 
 /**
  * `llms.description`, derived by rule from the topic's own first prose:
@@ -1169,10 +1180,17 @@ const sentencesOf = text => text.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/).map(s =
  * the sentences of a lead-in before it leads in, or its one sentence; failing that, the title and
  * the topics it lists (a landing page). The site's check wants a description on every topic.
  * Every result is marked generated in the front matter for review.
+ *
+ * Japanese (`ctx.lang` is `jp`): the same rules with Japanese punctuation. The section is 目的,
+ * sentences end with 。 and are joined without a space, the site's check wants 20 characters and
+ * not 40, a text over 300 characters ends at its last 。 or 、, and "このトピックでは、…" stays as it
+ * is: the check has no objection to it and the sentence does not read well without it.
  */
 export function describe(tree, ctx) {
+    const jp = ctx.lang === 'jp';
+    const minimum = jp ? 20 : 40;
     const kids = tree.children;
-    let start = kids.findIndex(n => n.type === 'heading' && /^purpose$/i.test(toString(n).trim()));
+    let start = kids.findIndex(n => n.type === 'heading' && /^(?:purpose|目的)$/i.test(toString(n).trim()));
     let source = 'purpose';
     if (start === -1) {
         start = kids.findIndex(n => n.type === 'heading' && n.depth === 1);
@@ -1204,10 +1222,10 @@ export function describe(tree, ctx) {
         // A lead-in may say something before it leads in ("X is built as …. For more, see the
         // following:"), or be the one sentence the topic has.
         const said = opening.leadIns
-            .filter(text => /:$/.test(text) && !/^(in|code in)\b/i.test(text) && !/\bfollowing (sections|topics)\b/i.test(text))
+            .filter(text => /[:：]$/.test(text) && !/^(in|code in)\b/i.test(text) && !/\bfollowing (sections|topics)\b/i.test(text) && !/以下の(?:セクション|トピック)/.test(text))
             .map(text => {
                 const sentences = sentencesOf(text);
-                return sentences.length > 1 ? sentences.slice(0, -1).join(' ') : text.replace(/:$/, '');
+                return sentences.length > 1 ? sentences.slice(0, -1).join(jp ? '' : ' ') : text.replace(/[:：]$/, '');
             })
             .find(text => text.length >= 15);
         if (said) {
@@ -1221,14 +1239,14 @@ export function describe(tree, ctx) {
         let out = `${ctx.titleText}:`;
         let used = 0;
         for (const item of items) {
-            const next = `${out}${used ? ',' : ''} ${item.replace(/[.:;,]+$/, '')}`;
+            const next = `${out}${used ? (jp ? '、' : ', ') : ' '}${item.replace(/[.:;,。：；、]+$/, '')}`;
             if (item.length > 90 || next.length > 299) break;
             out = next;
             used++;
         }
-        if (used >= 2 && out.length >= 40) {
+        if (used >= 2 && out.length >= minimum) {
             handled(ctx, 'description', 'rule: the title and the topics the topic lists');
-            return `${out.replace(/<\/?([A-Za-z][\w-]*)[^>]*>/g, '$1')}.`;
+            return `${out.replace(/<\/?([A-Za-z][\w-]*)[^>]*>/g, '$1')}${jp ? '。' : '.'}`;
         }
     }
     if (!candidates.length) {
@@ -1237,8 +1255,8 @@ export function describe(tree, ctx) {
     }
     let out = '';
     for (const s of candidates.flatMap(sentencesOf)) {
-        if (out.length >= 40) break;
-        const next = out ? `${out} ${s}` : s;
+        if (out.length >= (jp ? 30 : 40)) break;
+        const next = out ? `${out}${jp ? '' : ' '}${s}` : s;
         if (out && next.length > 300) break;
         out = next;
     }
@@ -1247,20 +1265,26 @@ export function describe(tree, ctx) {
         out = out.charAt(0).toUpperCase() + out.slice(1);
         rules.push('"This topic" dropped');
     }
-    if (out.length < 40 || GENERIC_OPENING.test(out)) {
+    if (out.length < minimum || GENERIC_OPENING.test(out)) {
         out = `${ctx.titleText}: ${out}`;
         rules.push('title put in front');
     }
-    if (out.length > 300) {
+    if (out.length > 300 && jp) {
+        const cut = out.slice(0, 300);
+        const at = Math.max(cut.lastIndexOf('。') + 1, cut.lastIndexOf('、'));
+        out = at > 100 ? cut.slice(0, at) : cut.slice(0, 299);
+        rules.push('shortened at a phrase');
+    } else if (out.length > 300) {
         out = out.slice(0, 300).replace(/\s+\S*$/, '').replace(/[,;:]$/, '');
         rules.push('shortened at a word');
     }
-    out = out.replace(/[:;,]$/, '');
+    out = out.replace(/[:;,：；、]$/, '');
     // An element named in the text (`the <video> tag`) is named without its brackets: the site's
     // check takes them for markup.
     out = out.replace(/<\/?([A-Za-z][\w-]*)[^>]*>/g, '$1');
-    if (!/[.!?)]$/.test(out)) out += '.';
-    if (out.length < 40) undecided(ctx, 'description', 'derived description shorter than 40 characters', out, null);
+    if (!/[.!?)。！？）]$/.test(out)) out += jp ? '。' : '.';
+    if (out.length < minimum) undecided(ctx, 'description', `derived description shorter than ${minimum} characters`, out, null);
+    if (jp && !/[\u3040-\u30ff\u3400-\u9fff]/.test(out)) undecided(ctx, 'description', 'derived description has no Japanese text (the topic opens in English)', out, null);
     handled(ctx, 'description', `rule: ${rules.join(', ')}`);
     return out;
 }

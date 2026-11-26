@@ -14,6 +14,11 @@
  *     --out=docs/jquery/src/content/en \
  *     --report=<dir outside the repository> [--only=02_Controls/igGrid/03_Features/05_Updating] [--clean]
  *
+ * --lang       en (default) or jp: the language of the sources. The Japanese help is the same help
+ *              translated, so the rules that go by a label know both forms ("In this topic" and
+ *              このトピックの内容, "In HTML:" and "HTML の場合:", "Note" and 注); the flag is for
+ *              what is written, the description, which follows Japanese punctuation. The sources
+ *              are then the Japanese help's and the token table its own.
  * --index      merged API link index (default: src/data/api-link-index/jquery/staging-latest.json)
  * --only       convert the topics under this source folder (repeatable, comma-separated); links,
  *              anchors and navigation are still resolved against the whole set
@@ -61,6 +66,11 @@ const outDir = path.resolve(args.out);
 const reportDir = path.resolve(args.report);
 const indexFile = path.resolve(args.index ?? path.join(repoRoot, 'src/data/api-link-index/jquery/staging-latest.json'));
 const only = args.only ? String(args.only).split(',').map(s => s.replace(/\\/g, '/').replace(/\/$/, '')) : null;
+const lang = args.lang ?? 'en';
+if (lang !== 'en' && lang !== 'jp') {
+    console.error(`--lang is "en" or "jp", not "${lang}".`);
+    process.exit(2);
+}
 const slugOverrides = JSON.parse(fs.readFileSync(path.join(here, 'slug-overrides.json'), 'utf8'));
 const EXCLUDED_FOLDERS = ['10_AngularJS Directives/'];
 /**
@@ -112,7 +122,7 @@ function readTree(row) {
     for (const group of index.reverse()) {
         // The group's own overview: a topic or an inner group with "Overview" in its name.
         const overview = group.children
-            .filter(child => child.slug && /\boverview\b/i.test(child.label ?? ''))
+            .filter(child => child.slug && /\boverview\b|概要/i.test(child.label ?? ''))
             .map(child => rowOf.get(child.slug))
             .map(row => (row.excluded ? row.replacedBy : row))
             .find(Boolean);
@@ -145,7 +155,7 @@ const perTopic = [];
 const copies = new Map();
 for (const row of selected) {
     const raw = fs.readFileSync(path.join(topicsDir, row.source), 'utf8');
-    const ctx = { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report, sampleHeights };
+    const ctx = { row, map, tokens, api, topicsDir, imageIndex, anchorRefs, report, sampleHeights, lang };
     let result;
     try {
         result = await convertTopic(raw, ctx);

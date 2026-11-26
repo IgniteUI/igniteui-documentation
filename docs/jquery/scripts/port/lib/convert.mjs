@@ -116,7 +116,7 @@ export async function convertTopic(raw, ctx) {
         const first = lines[node.position.start.line - 1] ?? '';
         const fence = /^\s*(`{3,}|~{3,})/.exec(first);
         // Markdown read as code: a fence in it; in indented code also an "In …:" label or a list item.
-        if (/^\s*(?:`{3,}|~{3,})/m.test(node.value) || (!fence && (/^\s*\*\*In [^*\n]+:?\*\*:?\s*$/m.test(node.value) || /^(?:[-*+]|\d+\.)[ \t]+\S/.test(node.value.trimStart())))) {
+        if (/^\s*(?:`{3,}|~{3,})/m.test(node.value) || (!fence && (/^\s*\*\*(?:In [^*\n]+|[^*\n]+の場合)[:：]?\*\*[:：]?\s*$/m.test(node.value) || /^(?:[-*+]|\d+\.)[ \t]+\S/.test(node.value.trimStart())))) {
             report.code.undecided.push({ ...where(node.position.start.line), reason: 'code that holds Markdown (a fence; in indented code an "In …:" label or a list item)', detail: node.value.trim().split('\n')[0].slice(0, 60) });
         }
         if (!fence) {
