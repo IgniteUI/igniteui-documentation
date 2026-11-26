@@ -165,7 +165,9 @@ $("#grid1").igGrid({
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ProductNumber).HeaderText("Product Number").Width("200px");
+        column.For(x => x.ProductNumber)
+            .HeaderText("Product Number")
+            .Width("200px");
     })
 .Features(features => {
         features.Updating();
@@ -207,11 +209,17 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ProductNumber).HeaderText("Product Number").Width("200px");
+        column.For(x => x.ProductNumber)
+            .HeaderText("Product Number")
+            .Width("200px");
     }).Features(features => {
         features.Updating()
             .EnableDeleteRow(true)
@@ -394,20 +402,34 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");
+        column.For(x => x.ModifiedDate)
+            .HeaderText("Modified Date")
+            .Width("200px");
         column.For(x => x.ListPrice).HeaderText("List Price").Width("200px");
     }).Features(features => {
         features.Updating()
             .ColumnSettings(settings =>
              {
                  settings.ColumnSetting().ColumnKey("ProductID").ReadOnly();
-                 settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Text).Required().Validation();
-                 settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker);
-                 settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency);
+                 settings.ColumnSetting()
+                     .ColumnKey("Name")
+                     .EditorType(ColumnEditorType.Text)
+                     .Required()
+                     .Validation();
+                 settings.ColumnSetting()
+                     .ColumnKey("ModifiedDate")
+                     .EditorType(ColumnEditorType.DatePicker);
+                 settings.ColumnSetting()
+                     .ColumnKey("ListPrice")
+                     .EditorType(ColumnEditorType.Currency);
              });
     }).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
     .DataBind().Render())
@@ -506,20 +528,34 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
 {
     column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
     column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-    column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");            
+    column.For(x => x.ModifiedDate)
+        .HeaderText("Modified Date")
+        .Width("200px");
     column.For(x => x.ListPrice).HeaderText("List Price").Width("200px");
 }).Features(features => {
     features.Updating()
         .ColumnSettings(settings =>
              {
                  settings.ColumnSetting().ColumnKey("ProductID").ReadOnly();
-                 settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Text).Required().Validation();
-                 settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker);
-                 settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency);
+                 settings.ColumnSetting()
+                     .ColumnKey("Name")
+                     .EditorType(ColumnEditorType.Text)
+                     .Required()
+                     .Validation();
+                 settings.ColumnSetting()
+                     .ColumnKey("ModifiedDate")
+                     .EditorType(ColumnEditorType.DatePicker);
+                 settings.ColumnSetting()
+                     .ColumnKey("ListPrice")
+                     .EditorType(ColumnEditorType.Currency);
              });
 }).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
 .DataBind().Render())
@@ -544,11 +580,15 @@ public ActionResult UpdatingSaveChanges()
     var ds = ctx.MyComplexProducts;
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<MyComplexProduct>> transactions = m.LoadTransactions<MyComplexProduct>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<MyComplexProduct>> transactions =
+        m.LoadTransactions<MyComplexProduct>(
+            HttpContext.Request.Form["ig_transactions"]);
 
     foreach (Transaction<MyComplexProduct> t in transactions)
     {
-        var product = (from p in ctx.MyComplexProducts where p.ProductID == Int32.Parse(t.rowId) select p).Single();
+        var product = (from p in ctx.MyComplexProducts
+                       where p.ProductID == Int32.Parse(t.rowId)
+                       select p).Single();
         if(t.row.Name != null)
         {
             product.Name = t.row.Name;
@@ -589,11 +629,15 @@ public ActionResult UpdatingSaveChanges()
     var ds = ctx.MyComplexProducts;
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<MyComplexProduct>> transactions = m.LoadTransactions<MyComplexProduct>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<MyComplexProduct>> transactions =
+        m.LoadTransactions<MyComplexProduct>(
+            HttpContext.Request.Form["ig_transactions"]);
 
     foreach (Transaction<MyComplexProduct> t in transactions)
     {
-        var product = (from p in ctx.MyComplexProducts where p.ProductID == Int32.Parse(t.rowId) select p).Single();
+        var product = (from p in ctx.MyComplexProducts
+                       where p.ProductID == Int32.Parse(t.rowId)
+                       select p).Single();
         switch(t.col)
         {
             case "Name":

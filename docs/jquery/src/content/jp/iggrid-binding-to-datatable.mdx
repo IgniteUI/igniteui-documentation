@@ -104,7 +104,9 @@ public ActionResult UpdateDataTableGrid()
             features.Paging().PageSize(5).Type(OpType.Remote);
             features.Updating();
             features.Hiding();
-            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.Selection()
+                .Mode(SelectionMode.Row)
+                .MultipleSelection(true);
             features.RowSelectors();
             features.Resizing();
             features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -132,23 +134,29 @@ public ActionResult UpdateDataTableGrid()
 public ActionResult UpdateDataTableGrid()
 {
     DataTable dt = this.MyEmployees;
-    NameValueCollection queryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+    NameValueCollection queryString =
+        HttpUtility.ParseQueryString(Request.QueryString.ToString());
     // check the query string for sorting expressions
-    List<SortExpression> sortExpressions = BuildSortExpressions(queryString, "sort", true);
+    List<SortExpression> sortExpressions =
+        BuildSortExpressions(queryString, "sort", true);
     DataView dv = customers.DefaultView;
     if (sortExpressions.Count > 0)
     {
         String sortExpression = "";
         foreach (SortExpression expr in sortExpressions)
         {
-            sortExpression += expr.Key + " " + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
+            sortExpression += expr.Key + " "
+                + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
         }
         dv.Sort = sortExpression.Substring(0, sortExpression.Length - 1);
     }
     return View("UpdateDataTableGrid", dv.ToTable());
 }
 
-public List<SortExpression> BuildSortExpressions(NameValueCollection queryString, string sortKey, bool isTable)
+public List<SortExpression> BuildSortExpressions(
+    NameValueCollection queryString,
+    string sortKey,
+    bool isTable)
 {
     List<SortExpression> expressions = new List<SortExpression>();
     List<string> sortKeys = new List<string>();
@@ -157,9 +165,13 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
         if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
         {
             SortExpression e = new SortExpression();
-            e.Key = key.Substring(key.IndexOf("(")).Replace("(", "").Replace(")", "");
+            e.Key = key.Substring(key.IndexOf("("))
+                .Replace("(", "")
+                .Replace(")", "");
             e.Logic = "AND";
-            e.Mode = queryString[key].ToLower().StartsWith("asc") ? SortMode.Ascending : SortMode.Descending;
+            e.Mode = queryString[key].ToLower().StartsWith("asc")
+                ? SortMode.Ascending
+                : SortMode.Descending;
             expressions.Add(e);
             sortKeys.Add(key);
         }
@@ -217,9 +229,11 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
 **C# の場合:**
 
 ```csharp
-public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+    where T : class
 {
-    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    List<Transaction<T>> transactions =
+        JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
     return transactions;
 }
 ```
@@ -244,7 +258,9 @@ public ActionResult EditingSaveChanges()
 {
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<Employee>> transactions = m.LoadTransactions<Employee>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<Employee>> transactions =
+        m.LoadTransactions<Employee>(
+            HttpContext.Request.Form["ig_transactions"]);
     foreach (Transaction<Employee> t in transactions)
     {
         if (t.type == "row")
@@ -318,14 +334,23 @@ public class Employee
 **Razor の場合:**
 
 ```razor
-@( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
+@( Html.Infragistics().Grid<Employee>()
+        .ID("grid1")
+        .Height("500px")
+        .Width("1000px")
         .Columns(column =>
         {
-            column.For(x => x.EmployeeID).DataType("number").HeaderText("Employee ID");
+            column.For(x => x.EmployeeID)
+                .DataType("number")
+                .HeaderText("Employee ID");
             column.For(x => x.Name).DataType("string").HeaderText("Name");
             column.For(x => x.Site).DataType("string").HeaderText("Site");
-            column.For(x => x.DepartmentID).DataType("number").HeaderText("Department");
-            column.For(x => x.DateOfHire).DataType("date").HeaderText("Date Of Hire");
+            column.For(x => x.DepartmentID)
+                .DataType("number")
+                .HeaderText("Department");
+            column.For(x => x.DateOfHire)
+                .DataType("date")
+                .HeaderText("Date Of Hire");
             column.For(x => x.OnSite).DataType("bool").HeaderText("On site");
         })   
         .DataBind()
@@ -441,9 +466,11 @@ public class Employee
       /// <typeparam name="T"></typeparam>
       /// <param name="postdata"></param>
       /// <returns></returns>
-      public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+      public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+          where T : class
       {
-          List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+          List<Transaction<T>> transactions =
+              JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
           return transactions;
       }
       }
@@ -467,7 +494,9 @@ public class Employee
       {           DataTable dt = this.MyEmployees as DataTable;
       NewtonSoftGridModel m = new NewtonSoftGridModel();     
 
-      List<Transaction<Dictionary<string, string>>> transactionsDict = m.LoadTransactionsDictionary<Dictionary<string, string>>(HttpContext.Request.Form["ig_transactions"]);
+      List<Transaction<Dictionary<string, string>>> transactionsDict =
+          m.LoadTransactionsDictionary<Dictionary<string, string>>(
+              HttpContext.Request.Form["ig_transactions"]);
       foreach (Transaction<Dictionary<string, string>> t in transactionsDict)
       {…..
         if (t.type == "row")
@@ -483,7 +512,8 @@ public class Employee
                   dateString = dateString.Replace("/Date(", "");
                   dateString = dateString.Replace(")/", "");
                   long lngString = Int64.Parse(dateString);
-                  DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                  DateTime origin =
+                      new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                   DateTime dateValue = origin.AddSeconds(lngString / 1000);
                   dr["DateOfHire"] = dateValue;
               }

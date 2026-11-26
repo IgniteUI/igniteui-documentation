@@ -181,9 +181,17 @@ public class Order
 ```csharp
 public ActionResult Index()
 {
-    NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+    NorthwindModel.NorthwindEntities db =
+        new NorthwindModel.NorthwindEntities();
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return View(customers.AsQueryable());
 }
 ```
@@ -237,9 +245,15 @@ Infragistics Loader を追加します。
     Rest(true).
     Columns(column =>
     {
-        column.For(x => x.CustomerID).HeaderText("Customer ID").DataType("string");
-        column.For(x => x.CompanyName).HeaderText("Company Name").DataType("string");
-        column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+        column.For(x => x.CustomerID).
+            HeaderText("Customer ID").
+            DataType("string");
+        column.For(x => x.CompanyName).
+            HeaderText("Company Name").
+            DataType("string");
+        column.For(x => x.ContactName).
+            HeaderText("Contact Name").
+            DataType("string");
         column.For(x => x.Address).HeaderText("Address").DataType("string");
         column.For(x => x.City).HeaderText("City").DataType("string");
     }).
@@ -253,14 +267,22 @@ Infragistics Loader を追加します。
             AutoGenerateLayouts(false).
             Columns(childcolumn =>
             {
-                childcolumn.For(x => x.OrderID).HeaderText("Order ID").DataType("number");
-                childcolumn.For(x => x.ShipAddress).HeaderText("Ship Address").DataType("string");
-                childcolumn.For(x => x.ShipName).HeaderText("Ship Name").DataType("string");
-            }).Features(features => features.Updating().EditMode(GridEditMode.Row));
+                childcolumn.For(x => x.OrderID).
+                    HeaderText("Order ID").
+                    DataType("number");
+                childcolumn.For(x => x.ShipAddress).
+                    HeaderText("Ship Address").
+                    DataType("string");
+                childcolumn.For(x => x.ShipName).
+                    HeaderText("Ship Name").
+                    DataType("string");
+            }).Features(features =>
+                features.Updating().EditMode(GridEditMode.Row));
     }).
     RestSettings(rest =>
     {
-        rest.RestSetting().        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
+        rest.RestSetting().
+        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Update(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Remove(r => r.RestVerbSetting().Url("/api/customers/").Batch(false));
     }).
@@ -304,7 +326,11 @@ Child1PrimaryKeyID = 10308
 routes.MapHttpRoute(
     name: "ChildApi",
     routeTemplate: "api/{parentcontroller}/{parentid}/{controller}/{id}",
-    defaults: new { parentcontroller = "customers", id = RouteParameter.Optional }
+    defaults: new
+    {
+        parentcontroller = "customers",
+        id = RouteParameter.Optional
+    }
 );
 ```
 
@@ -336,7 +362,8 @@ Controllers フォルダーに空の Web API コントローラーを新規作�
 **C# の場合:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### 3.GET コントローラー アクションを定義します。
@@ -349,7 +376,14 @@ private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntiti
 public IEnumerable<Customer> GetCustomers(int dbdepth)
 {
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return customers;
 }
 ```
@@ -422,8 +456,10 @@ public HttpResponseMessage PostCustomer(Customer customer)
         };
         db.Customers.AddObject(newCustomer);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
         return response;
     }
     else
@@ -448,7 +484,8 @@ public HttpResponseMessage PostCustomer(Customer customer)
 ```csharp
 public HttpResponseMessage DeleteCustomer(string id)
 {
-    NorthwindModel.Customer customer = db.Customers.Single(c => c.CustomerID == id);
+    NorthwindModel.Customer customer =
+        db.Customers.Single(c => c.CustomerID == id);
     if (customer == null)
     {
         return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -481,7 +518,8 @@ Controllers フォルダーに空の Web API コントローラーを新規作�
 **C# の場合:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### 3.GET コントローラー アクションを定義します。
@@ -499,7 +537,12 @@ public IEnumerable<Order> GetOrders(string parentid)
 {
     var orders = from o in db.Orders
                     where o.CustomerID == parentid
-                    select new Order() { OrderID = o.OrderID, ShipAddress = o.ShipAddress, ShipName = o.ShipName };
+                    select new Order()
+                    {
+                        OrderID = o.OrderID,
+                        ShipAddress = o.ShipAddress,
+                        ShipName = o.ShipName
+                    };
     return orders;
 }
 ```
@@ -565,8 +608,10 @@ public HttpResponseMessage PostOrder(Order order)
         };
         db.Orders.AddObject(newOrder);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, order);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, order);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
         return response;
     }
     else
