@@ -1,0 +1,189 @@
+---
+title: "列のグループ化の概要 (igGrid)"
+keywords: "Getting Started, Grids, Grouping"
+llms:
+  description: "このトピックでは、igGrid のグループ化機能を紹介します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgIgGridGroupByOverview01 from './images/igGrid_GroupBy_Overview_01.png';
+
+# 列のグループ化の概要 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igGrid`™ のグループ化機能を紹介します。
+
+## 概要
+
+`igGrid` では、グリッド内の 1 つまたは複数の列値をグループ化/再編成の基準 (たとえば、第 1 基準、第 2 基準、…等々) として使用し、グループ単位で各グループのレコードを再編成することができます。下の図に示すグリッドでは、データが `SafetyStockLevel` 列の値 (500、8000、1,000 といった数値) に基づいてグループ化/編成されています。つまり、このグリッドは `SafetyStockLevel` 列によってグループ化されたものです。
+
+<Image src={imgIgGridGroupByOverview01} alt="Safety Level でグループ化し、1 つのグループを折りたたみ、2 つを展開した igGrid" />
+
+`igGrid` のグループ化機能の使い方は、Microsoft® Office Outlook® のグループ化機能と同じです。グループ化の基準として使用したい列をグリッドの上にある特別なグループ化領域にドラッグしてください。すると、選択したグリッド列のデータ件数と同じ数のグループでグリッドが再編成されます。また、各グループの内部でもレコードの並び替えが行われます。さらに列をドラッグして追加していくと、既存のグループ内のデータがさらに細かくグループ化されていきます。
+
+グループ化メソッドは自身で定義することできます。カスタムのグループ化メソッドの詳細については、「Grid Group By の概要」というトピックをご覧ください。
+
+グループ化は、GroupBy ウィジェットによって実行/管理されます。
+
+## GroupBy の永続化
+
+`igGrid` バインディングの間にグループ化された列の永続化は 14.1 リリースの新機能です。以前のデフォルト動作を置き換えます。
+
+<DocsAside type="note" title="注">
+  GroupBy の永続化はデフォルトで True です。これは重大な変更です。
+</DocsAside>
+
+`igGridGroupBy` を有効する場合、<ApiLink type="igGridGroupBy" member="options:persist" pkg="core" label="persist" /> モードで使用されます。`dataBind()` への呼び出しの後、UI およびデータ ソース ビューで永続化が適用されます。グループ化された列はクリアされなく、データ ソースの並べ替えも残ります。
+
+GroupBy の永続化は `igHierarchicalGrid` にも実装されています。
+
+以下のサンプルは、GroupBy 機能の永続化機能を紹介します。
+
+<Sample src="/grid/feature-persistence/index.html" height={520} alt="機能の永続化" chrome="bare" fullscreenBtn />
+
+ユーザーが `igGrid` を再バインドした後にグループ化をクリアする以前の動作に戻るには、<ApiLink type="igGridGroupBy" member="options:persist" pkg="core" label="persist" /> オプションで機能を無効できます。以下はコード スニペットです。
+
+**JavaScript の場合:**
+
+```js
+features: [
+    {
+        name: "GroupBy",
+        persist: false
+    }
+];
+```
+
+## グループ化機能の概要
+
+下の表は、主なグループ化機能と、各機能の管理に使用するグループ化ウィジェットのプロパティをまとめたものです。
+
+<DocsAside type="note" title="注">
+  次の表において、[グループ化ダイアログ](./iggrid-group-by-dialog-overview.mdx)特有のプロパティとイベントは示されていません。 それらは[グループ化ダイアログ](./iggrid-group-by-dialog-overview.mdx)のトピックにあります。
+</DocsAside>
+
+| 機能                     | 説明                                                                                                                                                                                                        | jQuery プロパティ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | MVC プロパティ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| グループ化モード               | グループ化ウィジェットは複数のグループ化モードに対応しています。                                                                                                                                                                          | <ApiLink type="igGridGroupBy" member="options:type" pkg="core" label="type" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | <ApiLink type="GridGroupBy" member="Type" pkg="mvc" label="Type" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 列の設定                   | このオプションを使用すると、各列のグループ化基準を個別に構成できます。                                                                                                                                                                       | <ApiLink type="igGridGroupBy" member="options:columnSettings" pkg="core" label="columnSettings" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | <ApiLink type="GridGroupBy" member="ColumnSettings" pkg="mvc" label="ColumnSettings" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| グループ行でのグループ集計          | グループの集計には、個々のグループに固有な情報 (たとえば、そのグループに含まれる列の数といった情報) が表示されます。グループの集計は、グループごとに個別に構成されます。                                                                                                                    | <ApiLink type="igGridGroupBy" member="options:summarySettings" pkg="core" label="summarySettings" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | <ApiLink type="GridGroupBy" member="SummarySettings" pkg="mvc" label="SummarySettings" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| データ アイランド別の GroupBy 集計 | アイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下に追加の集計行を表示できます。                                                                                                                                                     | <ApiLink type="igGridGroupBy" member="options:groupSummaries" pkg="core" label="groupSummaries" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | <ApiLink type="GridGroupBy" member="GroupSummaries" pkg="mvc" label="SummarySettings" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| グループ化される行テキストのテンプレート   | グループ化される行テキストのテンプレート。(jQuery テンプレート処理ガイドラインに準拠)。                                                                                                                                                          | <ApiLink type="igGridGroupBy" member="options:groupedRowTextTemplate" pkg="core" label="groupedRowTextTemplate" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | <ApiLink type="GridGroupBy" member="GroupedRowTextTemplate" pkg="mvc" label="GroupedRowTextTemplate" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| クライアント イベント            | グループ化ウィジェットには、そのライフサイクル中に処理できる特殊なイベントがあります。以下のようなイベントです。<br />グループ化アクションが開始したときに呼び出されるイベント。 (このイベントはキャンセルできます)。<br />グループ化アクションが終了したときに呼び出されるイベント。**このイベントは、グループ化モーダル ダイアログでグループ化/グループ化の解除を行った際にも開始します。** | <ApiLink type="igGridGroupBy" member="events:groupedColumnsChanging" pkg="core" label="groupedColumnsChanging" /><br /><ApiLink type="igGridGroupBy" member="events:groupedColumnsChanged" pkg="core" label="groupedColumnsChanged" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | <ApiLink type="igGridGroupBy" member="events:groupedColumnsChanging" pkg="core" label="groupedColumnsChanging" /><br /><ApiLink type="igGridGroupBy" member="events:groupedColumnsChanged" pkg="core" label="groupedColumnsChanged" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 外観                     | グループ インジケーターのルック アンド フィールや各インジケーターのテキストを変更できる豊富な機能。                                                                                                                                                       | <ApiLink type="igGridGroupBy" member="options:groupByAreaVisibility" pkg="core" label="groupByAreaVisibility" /><br /><ApiLink type="igGridGroupBy" member="options:initialExpand" pkg="core" label="initialExpand" /><br /><ApiLink type="igGridGroupBy" member="options:locale.emptyGroupByAreaContent" pkg="core" label="emptyGroupByAreaContent" /><br /><ApiLink type="igGridGroupBy" member="options:expansionIndicatorVisibility" pkg="core" label="expansionIndicatorVisibility" /><br /><ApiLink type="igGridGroupBy" member="options:groupByLabelWidth" pkg="core" label="groupByLabelWidth" /><br /><ApiLink type="igGridGroupBy" member="options:labelDragHelperOpacity" pkg="core" label="labelDragHelperOpacity" /><br /><ApiLink type="igGridGroupBy" member="options:indentation" pkg="core" label="indentation" /><br /><ApiLink type="igGridGroupBy" member="options:locale.expandTooltip" pkg="core" label="expandTooltip" /><br /><ApiLink type="igGridGroupBy" member="options:locale.collapseTooltip" pkg="core" label="collapseTooltip" /><br /><ApiLink type="igGridGroupBy" member="options:locale.removeButtonTooltip" pkg="core" label="removeButtonTooltip" /> | <ApiLink type="GridGroupBy" member="GroupByAreaVisibility" pkg="mvc" label="GroupByAreaVisibility" /><br /><ApiLink type="GridGroupBy" member="InitialExpand" pkg="mvc" label="InitialExpand" /><br /><ApiLink type="GridGroupBy" member="EmptyGroupByAreaContent" pkg="mvc" label="EmptyGroupByAreaContent" /><br /><ApiLink type="GridGroupBy" member="ExpansionIndicatorVisibility" pkg="mvc" label="ExpansionIndicatorVisibility" /><br /><ApiLink type="GridGroupBy" member="GroupByLabelWidth" pkg="mvc" label="GroupByLabelWidth" /><br /><ApiLink type="GridGroupBy" member="LabelDragHelperOpacity" pkg="mvc" label="LabelDragHelperOpacity" /><br /><ApiLink type="GridGroupBy" member="Indentation" pkg="mvc" label="Indentation" /><br /><ApiLink type="GridGroupBy" member="ExpandTooltip" pkg="mvc" label="ExpandTooltip" /><br /><ApiLink type="GridGroupBy" member="CollapseTooltip" pkg="mvc" label="CollapseTooltip" /><br /><ApiLink type="GridGroupBy" member="RemoveButtonTooltip" pkg="mvc" label="RemoveButtonTooltip" /> |
+
+以下のサンプルは、グループ化をカスタマイズするために <ApiLink type="igGridGroupBy" member="options:columnSettings.compareFunc" pkg="core" label="compareFunc" /> を使用する方法を紹介します。
+
+<DocsAside type="note" title="注">
+  `time` 列のグループ化をカスタマイズするには、`compareFunc` を使用します。詳細については、実例のコードを参照してください。
+</DocsAside>
+
+<Sample src="/grid/grouping-customization/index.html" height={500} alt="グループ化のカスタマイズ" chrome="bare" fullscreenBtn />
+
+## <a id="api-usage" />API の使用
+
+列をプログラムでグループ化するには、次の方法で行うことができます。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGridGroupBy("groupByColumn", "ProductID");
+```
+
+適用された並べ替え式がグリッドのデータ ソースから取得できます。コードで取得するには、以下のコードを使用します:
+
+**JavaScript の場合:**
+
+```js
+var expressions = $('#grid1').data('igGrid').dataSource.settings.sorting
+    .expressions; // array of expressions
+// expression structure
+{
+    compareFunc: <type="function" comparer function>,
+    dir: <type="string" sort direction>,
+    fieldName: <type="string" column key>,
+    isGroupBy: <type="bool" is the expression created by the Group By widget>,
+    layout: <type="string" the key of the layout if done in igHierarchicalGrid>
+}
+```
+
+グループ化ウィジェットにより作成された式の "isGroupBy" プロパティが "true" の場合、式と並べ替えウィジェットで作成された式を識別します。
+
+グループ化されたデータ (データ行およびグループ行) をコードで取得するには、以下のコードを使用します:
+
+**JavaScript の場合:**
+
+```js
+var data = $('#grid1').data('igGrid').dataSource.groupByData();
+// group rows' structure
+{
+    collapsed: <type="bool" collapsed state>,
+    fieldName: <type="string" column key>,
+    gbExpr: <type="object" group by expression object>,
+    id: <type="string" identificator of the group row>,
+    len: <type="number" the number of data rows in the group>,
+    level: <type="number" level of grouping>,
+    recs: <type="array" set of the data records in the group>,
+    val: <type="string" the value of the group>
+}
+```
+
+グループ化データのグループ行は、グループ行の生成された ID を含むオブジェクトです。コードで行を <ApiLink type="igGridGroupBy" member="methods:collapse" pkg="core" label="collapse" /> / <ApiLink type="igGridGroupBy" member="methods:expand" pkg="core" label="expand" /> ために ID を使用します。
+
+**JavaScript の場合:**
+
+```js
+var data = $("#grid1").data("igGrid").dataSource.groupByData(),
+    id = data[0].id;
+// collapse
+$("#grid1").igGridGroupBy("collapse", id);
+// expand
+$("#grid1").igGridGroupBy("expand", id);
+```
+
+API 使用については、以下のサンプルも参照してください。
+
+<Sample src="/grid/grouping-api/index.html" height={620} alt="グループ化 API" chrome="bare" fullscreenBtn />
+
+## キーボード操作
+
+以下のキーボード操作が可能です。
+
+グリッドにフォーカスがある場合:
+
+- TAB: GroupBy 機能のフォーカス可能な要素間でフォーカスを移動: GroupBy 領域の選択列リンク。
+
+要素にフォーカスがある場合:
+
+- ENTER: グループ化ダイアログを開く。
+
+ダイアログにフォーカスがある場合:
+
+- TAB: ダイアログのフォーカス可能な要素間でフォーカスを移動 - \[グループ化] ボタン、\[すべてクリア] ボタン、\[適用] および \[キャンセル] ボタン フォーカスが関連する要素にある際に、ENTER を押すことにより関連する操作を適用できます。
+- ESCAPE: ダイアログを閉じる。
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+- [列のグループ化の有効化 (igGrid)](./iggrid-enabling-groupby.mdx)
+
+- <ApiLink type="igGridGroupBy" pkg="core" label="グリッド GroupBy プロパティ リファレンス" />
+
+- [グリッドの既知の問題と重要な変更](./iggrid-known-issues.mdx)
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [グループ化](\{environment:samplesBrowserUrl}/grid/grouping)

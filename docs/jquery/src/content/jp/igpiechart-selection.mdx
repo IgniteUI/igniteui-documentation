@@ -1,0 +1,109 @@
+---
+title: "選択"
+keywords: "Charting, Getting Started, How Do I"
+llms:
+  description: "このトピックでは、igPieChart コントロールの選択機能の有効化および使用方法について説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import imgPieChartSingleSelection01 from './images/PieChart_SingleSelection_01.png';
+import imgPieChartMultipleSelection01 from './images/PieChart_MultipleSelection_01.png';
+
+# 選択
+
+このトピックでは、`igPieChart`™ コントロールの選択機能の有効化および使用方法について説明します。
+
+### 要件
+
+このトピックは、ユーザーが[データ バインディング](./igpiechart-databinding.mdx) トピックを既に読んでいることを前提とし、初めにそのコードを使用します。
+
+### 概要
+
+デフォルトで、円チャートはマウス クリックによるスライス選択をサポートします。選択されたスライスは、'selectedItem' プロパティで取得します。以下の画像にあるように、選択されたスライスは強調表示されます。
+
+<Image src={imgPieChartSingleSelection01} alt="Marketing スライスが選択され、強調表示された輪郭で描画された igPieChart" />
+
+### 選択の有効化
+
+円チャートのモードは `selectionMode` プロパティで設定します。デフォルトは Single です。選択機能を無効化するためにはプロパティを Manual に設定します。
+
+以下のコード例では、選択機能を無効化する方法を示します。
+
+**JavaScript の場合:**
+
+```js
+$(function () {
+    $("#chart").igPieChart({
+        dataSource: data,
+        dataValue: "Pop2008",
+        dataLabel: "CountryName",
+        labelsPosition: "bestFit",
+        selectionMode: "manual"
+    });
+});
+```
+
+### 選択モード
+
+円チャートは、選択モードを 3 つサポートします。
+
+- Single
+- Multiple
+- Manual
+
+### Single
+
+Single モードに設定すると、一度に 1 つのスライスのみ選択します。他のスライスを選択すると、最初に選択したスライスは選択解除され、新しいスライスが選択されます。
+
+<Image src={imgPieChartSingleSelection01} alt="Marketing スライスが選択され、強調表示された輪郭で描画された igPieChart" />
+
+### Multiple
+
+Multiple モードに設定すると、一度に複数のスライスを選択します。スライスをクリックするとスライスが選択され、他のスライスをクリックすると、最初のスライスも、新しくクリックしたスライスも選択されます。
+
+<Image src={imgPieChartMultipleSelection01} alt="Multiple 選択モードで複数のスライスを同時に選択し、それぞれ強調表示された輪郭で描画した igPieChart" />
+
+### Manual
+
+Manual モードに設定すると、選択は無効化されます。
+
+### セル イベント
+
+円チャートには、選択機能に関連する 4 つのイベントがあります。
+
+- `selectedItemChanging`
+- `selectedItemChanged`
+- `selectedItemsChanging`
+- `selectedItemsChanged`
+
+「Changing」で終わるイベントはキャンセル可能なイベントです。すなわち、イベント引数プロパティ Cancel を true に設定することで、スライスの選択を停止します。True に設定すると、関連付けられたプロパティは更新されず、その結果スライスは選択されません。この設定はたとえば、スライスのデータによって一定のスライスの選択を無効化する場合に使用します。
+
+**JavaScript の場合:**
+
+```js
+$(function () {
+    $("#chart").igPieChart({
+        dataSource: data,
+        dataValue: "Pop2008",
+        dataLabel: "CountryName",
+        labelsPosition: "bestFit",
+        selectedItemChanging: function (evt, ui) {
+            ui.cancel;
+        }
+    });
+});
+```
+
+### 「その他」スライスの選択
+
+「その他」スライスをクリックすると、 `pieSliceOthersContext` オブジェクトが返されます。オブジェクトは、「その他」スライスに含まれるデータ項目のリストがあります。
+
+### 関連トピック
+
+- [データ バインディング (igPieChart)](./igpiechart-databinding.mdx): このトピックでは、さまざまなデータ ソースを `igPieChart`™ コントロールにバインドする方法を説明します。
+
+- [jQuery および MVC API リファレンス リンク (igPieChart)](./igpiechart-api-links.mdx): このトピックは、`igDataChart`™ の jQuery および Ignite UI for MVC クラスのたえの API マニュアルへのリンクを提供します。
+
+- [igPieChart にテーマを設定する](./igpiechart-styling-themes.mdx): スタイルを用い、`igPieChart`™ にテーマを適用する方法を説明します。

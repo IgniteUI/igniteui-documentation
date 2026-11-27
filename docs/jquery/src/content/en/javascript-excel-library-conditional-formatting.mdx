@@ -1,0 +1,93 @@
+---
+title: "Conditional Formatting"
+keywords: "How Do I, Conditional Formatting"
+llms:
+  description: "Explains how to configure and set conditional formatting on a worksheet using the Infragistics Excel Library."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Conditional Formatting
+
+### Purpose
+
+This topic explains how to configure and set conditional formatting on a worksheet using the Infragistics Excel Library.
+
+<a id="formattingsummary" />
+
+## Conditional Formatting Configuration Summary
+
+You can configure the conditional formatting of a particular worksheet by using the many "Add" methods exposed on the ConditionalFormats collection of that worksheet. The first parameter of these "Add" methods is the `string` region of the worksheet that you would like to apply the conditional format to.
+
+Many of the conditional formats that you can add to your Worksheet have a `CellFormat` method that determines the way that the worksheet cell elements should look when the condition in that conditional format holds true. For example, you can use the methods attached to this `CellFormat` method such as Fill and Font to determine the background and font settings of your cells, respectively.
+
+When a conditional format is created and a cell format applied, there is a subset of properties that are currently supported by the worksheet cell. The properties that are currently honored off of the CellFormat method are Fill, Border properties, FormatString, and some Font properties such as Strikethrough, Underline, Italic, Bold, and Color. Many of these can be seen from the code snippet below.
+
+There are a few conditional formats that do not have a `CellFormat` method, as their visualization on the worksheet cell behaves differently. These conditional formats are the `DataBarConditionalFormat`, `ColorScaleConditionalFormat`, and `IconSetConditionalFormat`.
+
+When loading a pre-existing workbook from Excel, the formats will be preserved when that workbook is loaded. The same is true for when you save the workbook out to an Excel file.
+
+<a id="formattingsummarychart" />
+
+## Conditional Formatting Configuration Summary Chart
+
+The following table briefly explains the different conditional formats supported by the worksheet and maps them to the methods off of that element's `ConditionalFormats` collection used to add them:
+
+| Conditional Format                                                                                | Method                 | Description                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <ApiLink type="AverageConditionalFormat" pkg="core" label="AverageConditionalFormat" />           | <ApiLink type="ConditionalFormatCollection" member="methods:addAverageCondition" pkg="core" label="addAverageCondition" />    | Exposes methods which control the visual attributes of a worksheet cell based on whether a cell's value is above or below the average or standard deviation for the associated range. |
+| <ApiLink type="BlanksConditionalFormat" pkg="core" label="BlanksConditionalFormat" />             | <ApiLink type="ConditionalFormatCollection" member="methods:addBlanksCondition" pkg="core" label="addBlanksCondition" />     | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is not set.                                                              |
+| <ApiLink type="ColorScaleConditionalFormat" pkg="core" label="ColorScaleConditionalFormat" />     | <ApiLink type="ConditionalFormatCollection" member="methods:addColorScaleCondition" pkg="core" label="addColorScaleCondition" /> | Exposes properties which control the coloring of a worksheet cell based on the cell's value as relative to minimum, midpoint, and maximum threshold values.                           |
+| <ApiLink type="DataBarConditionalFormat" pkg="core" label="DataBarConditionalFormat" />           | <ApiLink type="ConditionalFormatCollection" member="methods:addDataBarCondition" pkg="core" label="addDataBarCondition" />    | Exposes properties which display data bars in a worksheet cell based on the cell's value as relative to the associated range of values.                                               |
+| <ApiLink type="DateTimeConditionalFormat" pkg="core" label="DateTimeConditionalFormat" />         | <ApiLink type="ConditionalFormatCollection" member="methods:addDateTimeCondition" pkg="core" label="addDateTimeCondition" />   | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's date value falls within a given range of time.                                   |
+| <ApiLink type="DuplicateConditionalFormat" pkg="core" label="DuplicateConditionalFormat" />       | <ApiLink type="ConditionalFormatCollection" member="methods:addDuplicateCondition" pkg="core" label="addDuplicateCondition" />  | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is unique or duplicated across the associated range.                       |
+| <ApiLink type="ErrorsConditionalFormat" pkg="core" label="ErrorsConditionalFormat" />             | <ApiLink type="ConditionalFormatCollection" member="methods:addErrorsCondition" pkg="core" label="addErrorsCondition" />     | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is valid.                                                                |
+| <ApiLink type="FormulaConditionalFormat" pkg="core" label="FormulaConditionalFormat" />           | <ApiLink type="ConditionalFormatCollection" member="methods:addFormulaCondition" pkg="core" label="addFormulaCondition" />    | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value meets the criteria defined by a formula.                                 |
+| <ApiLink type="IconSetConditionalFormat" pkg="core" label="IconSetConditionalFormat" />           | <ApiLink type="ConditionalFormatCollection" member="methods:addIconSetCondition" pkg="core" label="addIconSetCondition" />    | Exposes properties which display icons in a worksheet cell based on the cell's value as relative to threshold values.                                                                 |
+| <ApiLink type="NoBlanksConditionalFormat" pkg="core" label="NoBlanksConditionalFormat" />         | <ApiLink type="ConditionalFormatCollection" member="methods:addNoBlanksCondition" pkg="core" label="addNoBlanksCondition" />   | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is set.                                                                  |
+| <ApiLink type="NoErrorsConditionalFormat" pkg="core" label="NoErrorsConditionalFormat" />         | <ApiLink type="ConditionalFormatCollection" member="methods:addNoErrorsCondition" pkg="core" label="addNoErrorsCondition" />   | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value is valid.                                                                |
+| <ApiLink type="OperatorConditionalFormat" pkg="core" label="OperatorConditionalFormat" />         | <ApiLink type="ConditionalFormatCollection" member="methods:addOperatorCondition" pkg="core" label="addOperatorCondition" />   | Exposes properties which control the visual attributes of a worksheet cell based on whether the cell's value meets the criteria defined by a logical operator.                        |
+| <ApiLink type="RankConditionalFormat" pkg="core" label="RankConditionalFormat" />                 | <ApiLink type="ConditionalFormatCollection" member="methods:addRankCondition" pkg="core" label="addRankCondition" />       | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is within the top of bottom rank of values across the associated range.    |
+| <ApiLink type="TextOperatorConditionalFormat" pkg="core" label="TextOperatorConditionalFormat" /> | <ApiLink type="ConditionalFormatCollection" member="methods:addTextCondition" pkg="core" label="addTextCondition" />       | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's text value meets the criteria defined by a string.                               |
+| <ApiLink type="UniqueConditionalFormat" pkg="core" label="UniqueConditionalFormat" />             | <ApiLink type="ConditionalFormatCollection" member="methods:addUniqueCondition" pkg="core" label="addUniqueCondition" />     | Exposes properties which control the visual attributes of a worksheet cell based on whether a cell's value is unique across the associated range.                                     |
+
+<a id="codeexample" />
+
+## Code Example
+
+The following code example demonstrates usage of many of the conditional formats mentioned above.
+
+**In HTML:**
+
+```html
+$(function () { var workbook = new
+$.ig.excel.Workbook($.ig.excel.WorkbookFormat.excel2007); var sheet =
+workbook.worksheets().add('Sheet1'); var duplicateCondition =
+sheet.conditionalFormats().addDuplicateCondition("A2:A15");
+duplicateCondition.cellFormat().font().colorInfo(new
+$.ig.excel.WorkbookColorInfo("red")); var blanksCondition =
+sheet.conditionalFormats().addBlanksCondition("B2:B15");
+blanksCondition.cellFormat().fill($.ig.excel.CellFill.createSolidFill("gray"));
+var textCondition = sheet.conditionalFormats().addTextCondition("C2:C15",
+"Bev"); textCondition.cellFormat().font().colorInfo(new
+$.ig.excel.WorkbookColorInfo("blue")); var uniqueCondition =
+sheet.conditionalFormats().addUniqueCondition("D2:D15");
+uniqueCondition.cellFormat().font().colorInfo(new
+$.ig.excel.WorkbookColorInfo("orange")); var notBlankCondition =
+sheet.conditionalFormats().addNoBlanksCondition("E2:E15");
+notBlankCondition.cellFormat().font().colorInfo(new
+$.ig.excel.WorkbookColorInfo("green"));
+sheet.conditionalFormats().addDataBarCondition("F2:F15"); var avgCondition =
+sheet.conditionalFormats().addAverageCondition("G2:G15");
+avgCondition.cellFormat().font().colorInfo(new
+$.ig.excel.WorkbookColorInfo("red")); });
+```
+
+<a id="relatedcontent" />
+
+### Related Content
+
+- [Merge Cells](./javascript-excel-library-merge-cells.mdx)
+- <ApiLink type="Worksheet" pkg="core" label="Worksheet API" />

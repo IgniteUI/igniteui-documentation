@@ -176,10 +176,11 @@ Other available commands:
 | Scope | Command |
 |---|---|
 | Full CI simulation (preferred) | `npm run check-relative-links:ci` |
-| Both trees, no setup (skips the generate steps) | `npm run check-relative-links` |
+| Every tree, no setup (skips the generate steps) | `npm run check-relative-links` |
 | Full pipeline, combined report to file | `npm run check-relative-links:report` |
+| The jQuery doc set alone (it has nothing to generate; its own CI workflow runs this) | `npm run check-relative-links:jquery` |
 
-To check a single tree without running the generate steps, call the script directly with `--platform` (`angular`, `xplat`, `react`, `wc`, or `blazor`):
+To check a single tree without running the generate steps, call the script directly with `--platform` (`angular`, `xplat`, `react`, `wc`, `blazor`, or `jquery`):
 
 ```bash
 node scripts/check-relative-links.mjs --platform=angular

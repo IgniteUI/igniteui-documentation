@@ -1,0 +1,162 @@
+---
+title: "Headers Footers and Page Numbers"
+keywords: "How Do I, Layouts"
+llms:
+  description: "Using the Infragistics Word library you can create headers and footers that may be as simple as a document title and a page number to images, multiple paragraphs, tables and hyperlinks."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgWordHeadersFootersAndPageNumbers01 from './images/ASP-NET-MVC/Word-Library/Using-Infragistics-Word-Library/Word_Headers_Footers_and_Page_Numbers_01.png';
+import imgWordHeadersFootersAndPageNumbers02 from './images/ASP-NET-MVC/Word-Library/Using-Infragistics-Word-Library/Word_Headers_Footers_and_Page_Numbers_02.png';
+
+# Headers Footers and Page Numbers
+
+Using the Infragistics® Word library you can create headers and footers that may be as simple as a document title and a page number to images, multiple paragraphs, tables and hyperlinks.
+
+The following screenshots depicts a Word document created with text and image in the `Header`:
+
+<Image src={imgWordHeadersFootersAndPageNumbers01} alt="Word document whose header holds a balloon picture and two right-aligned lines of gray text" />
+
+The following screenshots depicts a Word document created with text and page number in the `Footer`:
+
+<Image src={imgWordHeadersFootersAndPageNumbers02} alt="Word document whose footer shows right-aligned gray text followed by the page number" />
+
+<DocsAside type="note">
+  A reference to the `Infragistics.Web.Documents.IO` assembly is required for the following code.
+</DocsAside>
+
+## Headers and Footers
+
+To write content to the headers and footers in a document section you must use the <ApiLink type="SectionHeaderFooterWriterSet" pkg="documents-io" label="SectionHeaderFooterWriterSet" /> class that holds one or more <ApiLink type="WordHeaderFooterWriter" pkg="documents-io" label="WordHeaderFooterWriter" /> instances. The headers and footers can either be set to all pages or to the first page only. Text, image, multiple paragraphs, hyperlinks can all be added to the header and footer sections.
+
+**In C#:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+//  Specify the default parts for header and footer
+SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages
+    | SectionHeaderFooterParts.FooterAllPages;
+SectionHeaderFooterWriterSet writerSet =
+    docWriter.AddSectionHeaderFooter(parts);
+// Set text for Header
+writerSet.HeaderWriterAllPages.Open();
+writerSet.HeaderWriterAllPages.StartParagraph();
+writerSet.HeaderWriterAllPages.AddTextRun("This text appears in the Header.");
+writerSet.HeaderWriterAllPages.EndParagraph();
+writerSet.HeaderWriterAllPages.Close();
+// Set text for Footer
+writerSet.FooterWriterAllPages.Open();
+writerSet.FooterWriterAllPages.StartParagraph();
+writerSet.FooterWriterAllPages.AddTextRun("This text appears in the footer.");
+writerSet.FooterWriterAllPages.EndParagraph();
+writerSet.FooterWriterAllPages.Close();
+```
+
+## Page Numbers
+
+Page numbers are possible by adding the right settings to either the header or footer of a Word document using the <ApiLink type="WordHeaderFooterWriter" member="AddPageNumberField" pkg="documents-io" label="AddPageNumberField" /> method. This method accepts the `PageNumberFieldType` enum value and font object as optional argument. The `PageNumberFieldType` enum offers several formats such as `Decimal`, `RomanLowercase`, `TextCardinal`, `Ordinal` etc., for the page numbers.
+
+**In C#:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Add Page numbers to the Footer
+writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal,
+    font);
+```
+
+The following complete code adds header, footer and page numbers to the Word document.
+
+**In C#:**
+
+```csharp
+using Infragistics.Documents.Word;
+
+// Create a new instance of the WordDocumentWriter class using the
+// static 'Create' method.
+//  This instance must be closed once content is written into Word.
+WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:\TestWordDoc.docx");
+//  Use inches as the unit of measure
+docWriter.Unit = UnitOfMeasurement.Inch;
+//  Create a font, which we can use in content creation
+Infragistics.Documents.Word.Font font = docWriter.CreateFont();
+font.Bold = true;
+// Paragraph Properties
+ParagraphProperties paraformat = docWriter.CreateParagraphProperties();
+
+//Start the document...note that each call to StartDocument must
+//be balanced with a corresponding call to EndDocument.
+docWriter.StartDocument();
+//Start a paragraph
+docWriter.StartParagraph();
+docWriter.AddNewLine();
+docWriter.AddTextRun(
+    "This document demonstrates headers, footers and page numbers.",
+    font);
+// End the paragraph
+docWriter.EndParagraph();
+// Create a page break
+paraformat.PageBreakBefore = true;
+docWriter.StartParagraph(paraformat);
+docWriter.EndParagraph();
+// Header and Footer
+//  Specify the default parts for header and footer.
+SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages
+    | SectionHeaderFooterParts.FooterAllPages;
+SectionHeaderFooterWriterSet writerSet =
+    docWriter.AddSectionHeaderFooter(parts);
+// Get Image to display in the Header
+Image img = Image.FromFile(@"..\..\Ballon_New_Year.jpg");
+// Create an Anchored Image
+AnchoredPicture anchPic = docWriter.CreateAnchoredPicture(img);
+anchPic.Size = new SizeF(0.75f, 0.75f);
+// Reset paragraph properties
+paraformat.Reset();
+paraformat.Alignment = ParagraphAlignment.Right;
+// Header
+writerSet.HeaderWriterAllPages.Open();
+// The header text alignment is set to right
+// by passing in the ParagraphProperties instance
+writerSet.HeaderWriterAllPages.StartParagraph(paraformat);
+// Add Image to the header
+writerSet.HeaderWriterAllPages.AddAnchoredPicture(anchPic);
+// Add text to the Header
+writerSet.HeaderWriterAllPages.AddTextRun("This text appears in the Header.");
+writerSet.HeaderWriterAllPages.EndParagraph();
+writerSet.HeaderWriterAllPages.StartParagraph(paraformat);
+// Add text to the Header
+writerSet.HeaderWriterAllPages.AddTextRun(
+    "Multiple paragraphs can be added to the Header.");
+writerSet.HeaderWriterAllPages.EndParagraph();
+writerSet.HeaderWriterAllPages.Close();
+//Footer
+writerSet.FooterWriterAllPages.Open();
+// The footer text alignment is set to right
+// by passing in the ParagraphProperties instance
+writerSet.FooterWriterAllPages.StartParagraph(paraformat);
+writerSet.FooterWriterAllPages.AddTextRun("This text appears in the footer. ");
+// Add Page numbers to the Footer
+writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal,
+    font);
+writerSet.FooterWriterAllPages.EndParagraph();
+writerSet.FooterWriterAllPages.Close();
+
+// End the Document
+docWriter.EndDocument();
+// Close the writer
+docWriter.Close();
+```
+
+## Related Topics
+
+- [Creating a Word Document](./word-create-a-word-document.mdx)
+- [Applying Formatting to Word Document](./word-apply-formatting-to-word-document.mdx)
+- [Adding Table to Word Document](./word-add-table-to-word-document.mdx)
+- [Word Add Images to Word Document](./word-add-images-to-word-document.mdx)
+- [Understanding Infragistics Word Library](./word-understanding-infragistics-word-library.mdx)

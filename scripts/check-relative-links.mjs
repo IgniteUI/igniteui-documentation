@@ -17,6 +17,8 @@
  * When --platform=angular the script scans docs/angular/src/content plus
  * docs/xplat/generated/Angular — the two roots the Angular site serves.
  * When --platform=react|wc|blazor  it scans docs/xplat/src/content.
+ * When --platform=jquery it scans docs/jquery/src/content, whose topics lie flat
+ * in each language's folder next to that language's toc.json.
  * Omitting --platform scans every tree in one pass.
  *
  * Usage:
@@ -25,6 +27,7 @@
  *   node scripts/check-relative-links.mjs --platform=react
  *   node scripts/check-relative-links.mjs --platform=wc
  *   node scripts/check-relative-links.mjs --platform=blazor
+ *   node scripts/check-relative-links.mjs --platform=jquery
  *   node scripts/check-relative-links.mjs --src=docs/xplat/src/content
  *   node scripts/check-relative-links.mjs --md=reports/relative-links-report.md
  *
@@ -59,8 +62,12 @@ const SUMMARY   = args.summary  === true;
 
 const XPLAT_PLATFORMS = new Set(['react', 'wc', 'blazor']);
 
+/** Repo-relative path of the Ignite UI for jQuery doc set's content root. */
+const JQUERY_ROOT = 'docs/jquery/src/content';
+
 function getSrcDirs() {
     if (args.src) return [String(args.src)];
+    if (PLATFORM === 'jquery') return keepExistingRoots([JQUERY_ROOT]);
     // The Angular site overlays the xplat generator's Angular output on its own
     // content instead of copying it in, so both trees have to be scanned — and
     // links may point across them (see lib/angular-content-roots.mjs).
@@ -81,10 +88,10 @@ function getSrcDirs() {
         return dirs;
     }
     if (PLATFORM) {
-        console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor`);
+        console.error(`Unknown platform "${PLATFORM}". Use: angular, xplat, react, wc, blazor, jquery`);
         process.exit(1);
     }
-    return keepExistingRoots([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content']);
+    return keepExistingRoots([ANGULAR_AUTHORED_ROOT, ANGULAR_OVERLAY_ROOT, 'docs/xplat/src/content', JQUERY_ROOT]);
 }
 
 // File walking
@@ -199,8 +206,18 @@ function platformSetForFile(filePath) {
     return null; // no filtering
 }
 
-/** Markdown link: [text](url) — captures the URL portion. */
-const MD_LINK_RE = /\[(?:[^\]\\]|\\.)*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+/**
+ * Markdown link: [text](url) — captures the URL portion.
+ *
+ * A backslash escapes the character after it, as in CommonMark, so a URL may
+ * hold a parenthesis: [text](./feature-compatibility-matrix\(iggrid\).mdx).
+ */
+const MD_LINK_RE = /\[(?:[^\]\\]|\\.)*\]\(((?:\\.|[^)\s\\])+)(?:\s+"[^"]*")?\)/g;
+
+/** A link URL as Markdown reads it: a backslash before ASCII punctuation is dropped. */
+function unescapeUrl(url) {
+    return url.replace(/\\([!-/:-@[-`{-~])/g, '$1');
+}
 
 /**
  * JSX href attribute with relative path:  href="./..." or href='../'
@@ -406,7 +423,7 @@ function extractRelativeLinks(content, filePath) {
     MD_LINK_RE.lastIndex = 0;
     let m;
     while ((m = MD_LINK_RE.exec(stripped)) !== null) {
-        const href = m[1];
+        const href = unescapeUrl(m[1]);
         if (isRelativeFilePath(href)) {
             links.push({ href, line: offsetToLine(m.index), kind: 'relative' });
         } else if (isAbsoluteDocLink(href)) {
@@ -621,27 +638,31 @@ function* walkTocEntries(entries, platform, trail = [], parentVisible = true, co
  *
  * docExists() accepts the href as written and also swaps .md ↔ .mdx, so both
  * count here. Like docExists(), a root never answers for a path it excludes.
+ *
+ * `topicsDir` is the folder under a language root that the hrefs are relative
+ * to: `components` for Angular and xplat, the root itself for jQuery.
  */
-function tocHrefResolves(langRoots, href) {
+function tocHrefResolves(langRoots, href, topicsDir = 'components') {
     const normalized = href.replace(/\\/g, '/');
     const swapped = normalized.endsWith('.mdx') ? normalized.slice(0, -4) + '.md'
                   : normalized.endsWith('.md')  ? normalized.slice(0, -3) + '.mdx'
                   : null;
 
     for (const langRoot of langRoots) {
-        if (isServedFile(resolve(langRoot, 'components', normalized))) return true;
-        if (swapped && isServedFile(resolve(langRoot, 'components', swapped))) return true;
+        if (isServedFile(resolve(langRoot, topicsDir, normalized))) return true;
+        if (swapped && isServedFile(resolve(langRoot, topicsDir, swapped))) return true;
     }
     return false;
 }
 
 /**
- * The tocs in scope, as { toc, langRoots, platform }.
+ * The tocs in scope, as { toc, langRoots, platform, topicsDir }.
  *
  * Angular ships its own toc per language and resolves through getRootGroup(),
  * so it picks up the xplat-authored pages the site overlays. The xplat
  * platforms share one source toc that astro.config.ts filters per platform at
  * build time, so the same filter is applied here against each generated tree.
+ * jQuery has one toc per language, next to the topics it names.
  */
 function getTocTargets() {
     const targets = [];
@@ -666,12 +687,20 @@ function getTocTargets() {
         }
     }
 
+    if (!PLATFORM || PLATFORM === 'jquery') {
+        for (const lang of ['en', 'jp']) {
+            const langRoot = resolve(cwd, JQUERY_ROOT, lang) + '/';
+            const toc = resolve(langRoot, 'toc.json');
+            if (existsSync(toc)) targets.push({ toc, langRoots: [langRoot], platform: null, topicsDir: '' });
+        }
+    }
+
     return targets;
 }
 
 let totalTocHrefs = 0;
 
-for (const { toc, langRoots, platform } of getTocTargets()) {
+for (const { toc, langRoots, platform, topicsDir } of getTocTargets()) {
     const text = readFileSync(toc, 'utf-8');
     const relToc = relative(cwd, toc).replace(/\\/g, '/');
 
@@ -689,7 +718,7 @@ for (const { toc, langRoots, platform } of getTocTargets()) {
         if (!visible) continue;
 
         totalTocHrefs++;
-        if (tocHrefResolves(langRoots, href)) continue;
+        if (tocHrefResolves(langRoots, href, topicsDir)) continue;
 
         brokenLinks.push({
             file: relToc,

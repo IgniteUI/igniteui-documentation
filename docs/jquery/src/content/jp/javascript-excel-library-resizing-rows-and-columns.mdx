@@ -1,0 +1,139 @@
+---
+title: "行と列のサイズを変更"
+keywords: "Editing, How Do I"
+llms:
+  description: "JavaScript Excel Library を使用して、ワークシートの行と列のサイズを変更する方法を紹介します。"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgExcelEngineResizingRowsAndColumns01 from './images/ExcelEngine_Resizing_Rows_and_Columns_01.png';
+import imgExcelEngineResizingRowsAndColumns02 from './images/ExcelEngine_Resizing_Rows_and_Columns_02.png';
+import imgExcelEngineResizingRowsAndColumns03 from './images/ExcelEngine_Resizing_Rows_and_Columns_03.png';
+import imgExcelEngineResizingRowsAndColumns04 from './images/ExcelEngine_Resizing_Rows_and_Columns_04.png';
+import imgExcelEngineResizingRowsAndColumns05 from './images/ExcelEngine_Resizing_Rows_and_Columns_05.png';
+import imgExcelEngineResizingRowsAndColumns06 from './images/ExcelEngine_Resizing_Rows_and_Columns_06.png';
+
+# 行と列のサイズを変更
+
+## 始める前に
+
+ワークシートでは、セルに大量のテキストが含まれている場合もありますし、セルに大きな画像を表示させたい場合もあります。デフォルトのセル サイズではセルのコンテンツが入りきらない場合は、行、列、またはワークシート全体にあるすべてのセルの高さと幅を簡単に増やすことができます。
+
+ただし、状況によっては、行の高さが自動的に増えるので、すべてのコンテンツが表示されます。たとえば、セル内のテキストを回転または折り返し、そのセルを含む行の高さが既定値の場合、すべてのコンテンツが表示されるように行の高さが自動的に増加します。列の幅は自動的に管理されないので、セルのコンテンツに関係なく常に一定のままです。
+
+個々の行と列のサイズを変更することに加えて、ワークシートの <ApiLink type="Worksheet" member="methods:defaultRowHeight" pkg="core" label="defaultRowHeight" /> プロパティと `defaultColumnWidth` プロパティを設定することによって、すべての行と列のサイズを変更できます。
+
+## 達成すること
+
+この詳細なガイドでは、行を自動サイズ設定する方法をいくつか示します。さらに、セルがそのコンテンツを完全に含むように行と列を手動でサイズ調整する方法も紹介します。
+
+## 次の手順を実行します
+
+1. **ワークシートを使用してワークブックを作成します。**
+
+   1. HTML ページを作成します。
+
+   2. それにボタンを追加します。
+
+   3. そのボタンのクリック イベントの機能を作成します。
+
+   4. ひとつのワークシートを使用してワークブックを作成します。
+
+   5. **JavaScript の場合:**
+
+      ```js
+      var workbook = new $.ig.excel.Workbook();
+      var worksheet = workbook.worksheets().add("Sheet1");
+      ```
+
+2. **行の高さを自動的に変更します。**
+
+   1. 行の高さがデフォルトのままのセル内のテキストを回転させます。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
+
+      **JavaScript の場合:**
+
+      ```js
+      worksheet.rows(0).cells(0).value("Rotated Text");
+      worksheet.rows(0).cells(0).cellFormat().rotation(70);
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns01} alt="A1 セルに回転した「Rotated Text」を表示し、行の高さを合わせたワークシート" />
+
+   2. 行の高さがデフォルトのままのセル内のテキストを折り返します。行は、セルのコンテンツがちょうど収まるように自動サイズ設定されます。
+
+      **JavaScript の場合:**
+
+      ```js
+      worksheet
+          .rows(1)
+          .cells(1)
+          .value("This text will be wrapped in the cell so all text is visible");
+      worksheet.rows(1).cells(1).cellFormat().wrapText(true);
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns02} alt="回転したテキストの A1 と、行の高さが調整されて折り返したテキストがすべて見える B2 のワークシート" />
+
+3. **テキストがセルの外側に出ないように列のサイズを変更します。**
+
+   1. テキストがセルの境界線の外側に出ないようにセルに十分なテキストを配置します。
+
+      **JavaScript の場合:**
+
+      ```js
+      worksheet.rows(2).cells(2).value("This text will not be wrapped");
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns03} alt="さらに C3 に折り返さないテキスト「This text will not be wrapped」を加えたワークシート" />
+
+   2. すべてのテキストが表示されますが、値をセル D3 に設定すると、長いテキストは切り落とされます。セルの幅を増やすには、Worksheet の columns コレクションからアクセス可能な WorksheetColumn の幅を増やします。
+
+      **JavaScript の場合:**
+
+      ```js
+      worksheet.columns(2).width(6100);
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns04} alt="C 列の幅を広げて、C3 の折り返さないテキストが列内に収まったワークシート" />
+
+4. **セルに画像を配置して、画像が歪まないようにセルのサイズを変更します。**
+
+   1. 画像を作成して、セル全体に収まるようにします。
+
+      **JavaScript の場合:**
+
+      ```js
+      var shape = new $.ig.excel.RectangleShape();
+
+      shape.topLeftCornerCell(worksheet.rows(3).cells(3));
+      shape.bottomRightCornerCell(worksheet.rows(3).cells(3));
+      shape.bottomRightCornerPosition({ x: 100, y: 100 });
+
+      worksheet.shapes().add(shape);
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns05} alt="さらに D4 に小さな NetAdvantage for Windows Forms のロゴ画像を配置したワークシート" />
+
+   2. 画像が歪まないようにセルの行と列の幅と高さを増やします。
+
+      **JavaScript の場合:**
+
+      ```js
+      worksheet.rows(3).height(600);
+      worksheet.columns[3].width(10000);
+      ```
+
+      <Image src={imgExcelEngineResizingRowsAndColumns06} alt="D 列の幅と 4 行目の高さを広げて、NetAdvantage for Windows Forms のロゴ全体を表示したワークシート" />
+
+5. **ワークブックを保存します。**
+
+   ワークブックをファイルに書き出します。
+
+   **JavaScript の場合:**
+
+   ```js
+   workbook.save(
+       function (data) {},
+       function (error) {}
+   );
+   ```

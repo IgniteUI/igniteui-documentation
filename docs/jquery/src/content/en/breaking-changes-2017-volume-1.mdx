@@ -1,0 +1,97 @@
+---
+title: "Breaking Changes 2017 Volume 1"
+keywords: "Breaking Changes, Known Issues"
+llms:
+  description: "Summarizes the breaking changes of the 2017 Volume 1 release."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Breaking Changes 2017 Volume 1
+
+The following topic summarizes the breaking changes of the 2017 Volume 1 release.
+
+## General
+
+### Split of the Infragistics Util file
+
+From version 17.1 the `infragistics.util.js` file has been split into a non-jQuery specific file and jQuery specific files. The new structure is the following:
+
+- `infragistics.util.js` - holds only utility functions that do not depend on jQuery framework.
+- `infragistics.util.jquery.js` - holds jQuery dependant utility functions.
+- `infragistics.util.jquerydeferred.js` - custom CommonJS Promises/A implementation, for users that are using versions of the jQuery, prior to version 1.5, which doesn't support $.Deferred.
+
+For applications that are using the igLoader to load Ignite UI for jQuery controls' dependencies, no change is required, because the loader is handling this internally. The other applications that load manually the files, may take advantage and not include the unnecessary utility references.
+
+There is a new, jQuery dependant file, explicitly needed for Ignite UI for jQuery DV components - `infragistics.dv_jquerydom.js`. It needs to be loaded prior to the `infragistics.dv_core.js` dependency.
+
+```html
+...
+<script src="js/modules/infragistics.dv_jquerydom.js"></script>
+<script src="js/modules/infragistics.dv_core.js"></script>
+...
+```
+
+#### Related Topics
+
+- [JavaScript Files in Ignite UI for jQuery](./deployment-guide-javascript-files.mdx)
+
+### New Bootstrap themes structure
+
+The default and all Bootstrap 3 based themes have moved under a common "/bootstrap3" folder. The following lists the current Bootstrap 3 themes currently shipped with Ignite UI for jQuery and the location of the `infragistics.theme.css` relative to the product source root ("\~"):
+
+| Themes                | Previous path            | New Path                            |
+| --------------------- | ------------------------ | ----------------------------------- |
+| Bootstrap 3 (default) | \~/css/themes/bootstrap/ | \~/css/themes/bootstrap3/           |
+| Flatly                | \~/css/themes/flatly/    | \~/css/themes/bootstrap3/flatly/    |
+| Yeti                  | \~/css/themes/yeti/      | \~/css/themes/bootstrap3/yeti/      |
+| Superhero             | \~/css/themes/superhero/ | \~/css/themes/bootstrap3/superhero/ |
+
+So for pages referencing the current Yeti theme for example, the new link becomes:
+
+```html
+<link
+    href="/css/themes/bootstrap3/yeti/infragistics.theme.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+```
+
+Or if using the Infragistics Loader with <ApiLink type="loaderClass" member="options:settings.theme" pkg="core" label="theme" /> option:
+
+```js
+$.ig.loader({
+    //...
+    theme: "bootstrap3/yeti"
+});
+```
+
+## igGrid
+
+### headerText option behavior changes
+
+When headerText option is not set in columns definition of the grid, then column key is used as header text.
+
+### Options changes in igGrid Summaries
+
+The options *isGridFormatter* and *defaultDecimalDisplay* in the igGrid Summaries main level options have been removed. The *isGridFormatter* and *decimalDisplay* options under <ApiLink type="igGridSummaries" member="options:columnSettings.summaryOperands" pkg="core" label="columnSettings.summaryOperands" /> have been removed as well.
+
+The new <ApiLink type="igGridSummaries" member="options:columnSettings.summaryOperands.format" pkg="core" label="format" /> option in the igGrid Summaries can be used now in conjunction with the column <ApiLink type="igGrid" member="options:columns.format" pkg="core" label="format" /> and <ApiLink type="igGrid" member="options:autoFormat" pkg="core" label="autoFormat" /> options to determine how the summary would be formatted.
+
+With this option can be set how many decimals after the floating point will be displayed similar to the deleted *decimalDisplay* option. If the <ApiLink type="igGridSummaries" member="options:columnSettings.summaryOperands.format" pkg="core" label="format" /> option for the summaryOperand is not set the format for the summary will be taken based on the column it is displaying for, meaning if that column has set <ApiLink type="igGrid" member="options:columns.format" pkg="core" label="format" /> - that format will be taken into account.
+
+If no format is set for the summary and the current column the regional settings for the column type will be applied to that summary. Since due to <ApiLink type="igGrid" member="options:autoFormat" pkg="core" label="autoFormat" /> being default to 'date', the regional settings will be applied only to summaries in that type of column and in other type of columns won't receive any formatting. Meaning that if regional settings need to be applied for other type of columns when the *format* option is not set for both summary and column the <ApiLink type="igGrid" member="options:autoFormat" pkg="core" label="autoFormat" /> option needs to be set. It will specify which summaries will receive the regional auto formatting depending the column they are in.
+
+### Date handling
+
+The option <ApiLink type="igGrid" member="options:enableUTCDates" pkg="core" label="enableUTCDates" /> has now a different function. It affects only the dates serialization. You should use the new option <ApiLink type="igGrid" member="options:columns.dateDisplayType" pkg="core" label="dateDisplayType" /> in the grid column's definition to handle date timezone display. Please follow the [Migrating enableUTCDates option after 17.1](./migrating-enableutcdates-option-in-17-1.mdx) topic to see how you can adapt to the new changes and the [Using Ignite UI for jQuery controls in different time zones](./using-igniteui-controls-in-different-time-zones.mdx) topic for more detailed information of how the both options work.
+
+## igDateEditor/igDatePicker
+
+The option <ApiLink type="igDateEditor" member="options:enableUTCDates" pkg="core" label="enableUTCDates" /> has now a different function. You can use the <ApiLink type="igDateEditor" member="options:displayTimeOffset" pkg="core" label="displayTimeOffset" /> if you want to show the time in the editor with the desired offset. Please follow the [Migrating date handling in 17.1](./igdateeditor-migrating-date-handling-in-17-1.mdx) topic to see how you can adapt to the new changes and the [Using Ignite UI for jQuery controls in different time zones](./using-igniteui-controls-in-different-time-zones.mdx) topic for more detailed information of how the both options work.
+
+## igNumericEditor
+
+In previous versions of the product, if user sets or enters a value in a numeric editor that has more decimal places than the one defined in the `maxDecimals` option, then the value was truncated. E.g. If an editor with defined 'maxDecimals' to `3`, receives a value `123.4567`, then it will be truncated to `123.456`. With version 17.1 of the product, a new option <ApiLink type="igNumericEditor" member="options:roundDecimals" pkg="core" label="roundDecimals" /> is introduced, which is enabled by default and rounds the numeric values, using the JavaScript `Math.round()` function. This means that the value of `123.4567` will be rounded and displayed in the editor as `123.457`. If the <ApiLink type="igNumericEditor" member="options:roundDecimals" pkg="core" label="roundDecimals" /> is disabled, then it will truncate the value and will show it as `123.456`, like in the old versions.

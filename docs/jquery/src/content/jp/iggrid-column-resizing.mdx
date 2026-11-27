@@ -1,0 +1,269 @@
+---
+title: "列のサイズ変更 (igGrid)"
+keywords: "Resizing"
+llms:
+  description: "このトピックでは、igGrid コントロールの列サイズ変更機能について説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgIgGridCoulmnResizing01 from './images/igGrid_Coulmn_Resizing__01.png';
+
+# 列のサイズ変更 (igGrid)
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igGrid`™ コントロールの列サイズ変更機能について説明します。
+
+## 概要
+
+`igGrid` コントロールの列のサイズ変更機能によりユーザーは、グリッドの列の幅を変更できます。サイズ変更機能は、グリッド全体 (デフォルト) と列ごとの 2 つのレベルで有効にできます。ただし、個々の列をプログラム的に無効または有効にできます。
+
+<DocsAside type="note" title="注">
+  列サイズ変更はタッチ デバイスでサポートされません。
+</DocsAside>
+
+### サイズ変更機能
+
+- 列のサイズ変更の有効化/無効化この機能は <ApiLink type="igGridResizing" member="options:columnSettings.allowResizing" pkg="core" label="allowResizing" /> プロパティから管理されます。
+
+- ダブルクリックで自動サイズ変更を有効にする – 有効になると、列は現在表示されている最も幅が広いセル コンテンツ (ヘッダーおよびフッター セルを含む) の幅にサイズ変更されます。この機能は <ApiLink type="igGridResizing" member="options:allowDoubleClickToResize" pkg="core" label="allowDoubleClickToResize" /> オプションから管理されます。
+
+- 列幅の最大値/最小値 - サイズ変更をする場合に、ユーザーが列の幅を変更できる最小/最大幅。この機能はそれぞれ <ApiLink type="igGridResizing" member="options:columnSettings.minimumWidth" pkg="core" label="minimumWidth" />/<ApiLink type="igGridResizing" member="options:columnSettings.maximumWidth" pkg="core" label="maximumWidth" /> プロパティから管理されます。
+
+- 遅延サイズ変更 - ユーザーがサイズ変更を終了するか、直ちに適用するまでサイズ変更は保留されます。この機能は <ApiLink type="igGridResizing" member="options:deferredResizing" pkg="core" label="deferredResizing" /> オプションから管理されます。
+
+- 構成可能なサイズ変更ハンドル - サイズ変更可能な列ヘッダーそれぞれの右側にあるサイズ変更ハンドルの幅 (ピクセル単位) がカスタマイズできます。この機能は <ApiLink type="igGridResizing" member="options:handleThreshold" pkg="core" label="handleThreshold" /> オプションから管理されます。
+
+- 列キー - 指定された列設定を適用する列を指定します。この機能は <ApiLink type="igGridResizing" member="options:columnSettings.columnKey" pkg="core" label="columnKey" /> オプションから管理されます。
+
+- 列インデックス - 指定された列設定を適用する列を指定します。この機能は <ApiLink type="igGridResizing" member="options:columnSettings.columnIndex" pkg="core" label="columnIndex" /> オプションから管理されます。
+
+## サイズ変更を有効にする
+
+以下は最終結果のプレビューです。
+
+<Image src={imgIgGridCoulmnResizing01} alt="色列のヘッダーの境界線をドラッグして列幅を変更している igGrid" />
+
+### 要件
+
+リスト 1: アプリケーションへの組み込みに必要な CSS 参照および JavaScript 参照
+
+**HTML の場合:**
+
+```html
+<link type="text/css" href="infragistics.theme.css" rel="stylesheet" />
+<link type="text/css" href="infragistics.css" rel="stylesheet" />
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
+<script type="text/javascript" src="infragistics.core.js"></script>
+<script type="text/javascript" src="infragistics.lob.js"></script>
+```
+
+リスト 2: 縮小も結合もしていない CSS 参照および JavaScript 参照の最小セット - サイズ変更にのみ必要
+
+**HTML の場合:**
+
+```html
+<script type="text/javascript" src="infragistics.util.js"></script>
+<script type="text/javascript" src="infragistics.util.jquery.js"></script>
+<script type="text/javascript" src="infragistics.dataSource.js"></script>
+<script type="text/javascript" src="infragistics.ui.shared.js"></script>
+<script type="text/javascript" src="infragistics.ui.grid.framework.js"></script>
+<script type="text/javascript" src="infragistics.ui.grid.resizing.js"></script>
+```
+
+### コード例
+
+リスト 3: 列のサイズ変更を有効にした `igGrid` コード例
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        {
+            headerText: "ProductNumber",
+            key: "ProductNumber",
+            dataType: "string"
+        }
+    ],
+    dataSource: adventureWorks,
+    responseDataKey: "Records",
+    width: "800px",
+    height: "400px",
+    features: [
+        {
+            name: "Resizing"
+        }
+    ]
+});
+```
+
+**Razor(MVC) の場合:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
+    .Columns(column =>
+    {
+        column.For(x => x.ProductID).HeaderText("Product ID");
+        column.For(x => x.Name).HeaderText("Product Name");
+        column.For(x => x.ProductNumber).HeaderText("Product Number");
+    }).Features(features => {
+        features.Resizing();
+    }).Height("400").Width("800")
+    .DataSourceUrl(Url.Action("ColumnResizingGetData"))
+    .DataBind().Render())
+```
+
+リスト 4: 特定の列の列のサイズ変更を無効にするグリッド コード例
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        {
+            headerText: "ProductNumber",
+            key: "ProductNumber",
+            dataType: "string"
+        }
+    ],
+    dataSource: adventureWorks,
+    responseDataKey: "Records",
+    width: "800px",
+    height: "400px",
+    features: [
+        {
+            name: "Resizing",
+            columnSettings: [{ columnKey: "ProductID", allowResizing: false }]
+        }
+    ]
+});
+```
+
+**C# の場合:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
+    .Columns(column =>
+        {
+            column.For(x => x.ProductID)
+                .HeaderText("Product ID")
+                .Width("100px");
+            column.For(x => x.Name).HeaderText("Product Name").Width("200px");
+            column.For(x => x.ModifiedDate)
+                .HeaderText("Modified Date")
+                .Width("200px");
+            column.For(x => x.ListPrice)
+                .HeaderText("List Price")
+                .Width("200px");
+        })
+    .Features(features => {
+        features.Resizing()
+            .AllowDoubleClickToResize(true)
+            .DeferredResizing(true)
+            .ColumnSettings(s =>
+            {
+                s.ColumnSetting().ColumnKey("ProductID").AllowResizing(false);
+            });
+    }).Height("500").DataSourceUrl(Url.Action("ColumnResizingGetData"))
+    .DataBind().Render())
+```
+
+**Razor(MVC) の場合:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
+    .Columns(column =>
+    {
+        column.For(x => x.ProductID).HeaderText("Product ID");
+        column.For(x => x.Name).HeaderText("Product Name");
+        column.For(x => x.ProductNumber).HeaderText("Product Number");
+    })
+    .Features(features => {
+        features.Resizing();
+    }).Height("400").Width("800")
+    .DataSourceUrl(Url.Action("ColumnResizingGetData"))
+    .DataBind().Render())
+```
+
+## クライアント側イベント
+
+それぞれ、リスト 5 とリスト 6 に記載された 2 種類の方法でハンドラーを Resizing にバインドできます。
+
+リスト 5: アプリケーションの任意の場所からのクライアント側イベントへのバインド
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").bind("iggridresizingcolumnresizing", handler);
+```
+
+リスト 6: サイズ変更機能を初期化する場合にイベント名をオプション指定した、クライアント側イベントへのバインド (大文字と小文字を区別)
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        {
+            headerText: "Product Number",
+            key: "ProductNumber",
+            dataType: "string"
+        }
+    ],
+    width: "500px",
+    dataSource: products,
+    features: [
+        {
+            name: "Resizing",
+            columnResizing: handler
+        }
+    ]
+});
+
+//Handler code
+function handler(event, args) {}
+```
+
+<DocsAside type="note" title="注">
+  `columnResizing` イベントはキャンセルできます。`columnResizing` イベントをキャンセルするには、その該当イベント ハンドラーは false を返す必要があります。
+</DocsAside>
+
+グリッド列のサイズ変更機能は、表 1 にクライアント側イベントの詳細を公開しています。
+
+表 1: サイズ変更機能の引数オブジェクト定義
+
+| イベント名                                                                                              | 引数 (args) パラメーター                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <ApiLink type="igGridResizing" member="events:columnResizing" pkg="core" label="columnResizing" /> | columnIndex: 現在選択されたグリッド列インデックス<br />columnKey: 現在選択されたグリッド列キー<br />owner: サイズ変更ウィジェット オブジェクトへの参照<br />desiredWidth: 現在選択された列の要求幅<br />                         |
+| <ApiLink type="igGridResizing" member="events:columnResized" pkg="core" label="columnResized" />   | columnIndex: 現在選択されたグリッド列インデックス<br />columnKey: 現在選択されたグリッド列キー<br />owner: サイズ変更ウィジェット オブジェクトへの参照<br />originalWidth: 現在選択された列の元の幅<br />newWidth: 現在選択された列の新しい幅 |
+
+## 列のサイズ変更プロパティ
+
+以下の表は列のサイズ変更機能を管理するプロパティの詳細を記載しています。
+
+| プロパティ名                                                                                                                  | タイプおよびデフォルト値        | 説明                                                     |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------ |
+| <ApiLink type="igGridResizing" member="options:allowDoubleClickToResize" pkg="core" label="allowDoubleClickToResize" /> | ブール型 (デフォルト: True)  | 列を現在表示されている最も長いセル値のサイズに変更することを有効または無効にします              |
+| <ApiLink type="igGridResizing" member="options:deferredResizing" pkg="core" label="deferredResizing" />                 | ブール型 (デフォルト: False) | ユーザーがサイズ変更を終了するか、サイズ変更が直ちに適用されるまでサイズ変更を保留するかどうかを指定します。 |
+| <ApiLink type="igGridResizing" member="options:handleThreshold" pkg="core" label="handleThreshold" />                                                                                                          | Int (default: 5)    | サイズ変更可能な列ヘッダーそれぞれの右側に配置される、サイズ変更ハンドルの幅 (ピクセル単位)。       |
+
+## 関連トピック
+
+以下は、その他の役立つトピックです。
+
+- [igGrid の概要](./iggrid-overview.mdx)
+- [igGrid の機能](./append-rows-on-demand-overview.mdx)

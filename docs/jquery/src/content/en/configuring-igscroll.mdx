@@ -1,0 +1,215 @@
+---
+title: "Configuring igScroll"
+keywords: "Configuration, igScroll"
+llms:
+  description: "Explains, with code examples, how to configure the igScroll."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Configuring igScroll
+
+## Purpose
+
+This topic explains, with code examples, how to configure the igScroll.
+
+## Default configuration
+
+This section lists the default igScroll settings that affect its display and scrolling behavior.
+
+| Property                                                                                        | Type   | Default Value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------- | ------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <ApiLink type="igScroll" member="options:scrollbarType" pkg="core" label="scrollbarType" />     | string | "custom"      | This option determines the type of scrollbars that will be displayed in the container. By default custom scrollbars are displayed. If you'd like to show the native scrollbars for the current environment set the option to "native". If you'd like to hide the scrollbars set it to "none".                                                                                                                                             |
+| <ApiLink type="igScroll" member="options:alwaysVisible" pkg="core" label="alwaysVisible" />     | bool   | false         | This option determines whether the custom thin scrollbars should be always visible, regardless of the environment. By default the scrollbars hide when the user does not interact with the scrollable content or scrollbar. If you'd like the scrollbars to always be visible set this option to true. \* Applicable only when <ApiLink type="igScroll" member="options:scrollbarType" pkg="core" label="scrollbarType" /> is "custom". \* |
+| <ApiLink type="igScroll" member="options:wheelStep" pkg="core" label="wheelStep" />             | number | 50            | This option determines how many pixels will be scrolled when using mouse wheel once. *Applicable only for scrolling with no smoothing - <ApiLink type="igScroll" member="options:smoothing" pkg="core" label="smoothing" /> option should be set to "false".*                                                                                                                                                                              |
+| <ApiLink type="igScroll" member="options:inertiaStep" pkg="core" label="inertiaStep" />         | number | 1             | This option determines the modifier how much the inertia will scroll on touch devices. If a negative value is set the scrolling will be inverted.                                                                                                                                                                                                                                                                                          |
+| <ApiLink type="igScroll" member="options:inertiaDuration" pkg="core" label="inertiaDuration" /> | number | 1             | This option determines the modifier for how long the inertia will scroll before stopping on touch devices. Setting the value to 0 will disable inertia for touch devices.                                                                                                                                                                                                                                                                  |
+| <ApiLink type="igScroll" member="options:swipeToleranceX" pkg="core" label="swipeToleranceX" /> | number | 30            | This option determines how much pixels of left/right deviation will be tolerated when you're swiping up/down via touch actions. This ensures that when the user intends to scroll down/up but his gesture has a slight left/right deviation, the content will only scroll in the intended direction - up/down (without also scrolling left/right).                                                                                         |
+| <ApiLink type="igScroll" member="options:inertiaDeltaY" pkg="core" label="inertiaDeltaY" />     | number | 1.25          | This option determines how many times the vertical speed should be bigger than the horizontal one so the inertia proceeds only vertically without scrolling horizontally.                                                                                                                                                                                                                                                                  |
+| <ApiLink type="igScroll" member="options:inertiaDeltaX" pkg="core" label="inertiaDeltaX" />     | number | 2             | This option determines how many times the horizontal speed should be bigger than the vertical one so the inertia proceeds only horizontally without scrolling vertically.                                                                                                                                                                                                                                                                  |
+
+## Configuration Summary
+
+The following table lists the configurable aspects of `igScroll`.
+
+| In order to configure:                                                                                                                                                                                                                                                                                                                                                                           | Use these properties:                                                                                                                                                                                                                                                                         | And set them to:                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Smooth wheel scrolling -<br />Behavior is similar to the scrolling behavior on Firefox when using mouse wheel.                                                                                                                                                                                                                                                                                   | <ApiLink type="igScroll" member="options:smoothing" pkg="core" label="smoothing" /><br /><ApiLink type="igScroll" member="options:smoothingStep" pkg="core" label="smoothingStep" /><br /><ApiLink type="igScroll" member="options:smoothingDuration" pkg="core" label="smoothingDuration" /> | true<br />1<br />1                                                                                                                                                              |
+| [Scrolling multiple containers at once vertically](#syncVertically)                                                                                                                                                                                                                                                                                                                              | <ApiLink type="igScroll" member="options:syncedElemsV" pkg="core" label="syncedElemsV" />                                                                                                                                                                                                     | Array of jQuery elements that you want to be vertically synched with the current igScroll.                                                                                      |
+| [Scrolling multiple containers at once horizontally](#syncHorizontally)                                                                                                                                                                                                                                                                                                                          | <ApiLink type="igScroll" member="options:syncedElemsH" pkg="core" label="syncedElemsH" />                                                                                                                                                                                                     | Array of jQuery elements that you want to be horizontally synched with the current igScroll.                                                                                    |
+| [Set custom horizontal scrollbar](#customHorizontalScr)                                                                                                                                                                                                                                                                                                                                          | <ApiLink type="igScroll" member="options:scrollbarH" pkg="core" label="scrollbarH" />                                                                                                                                                                                                         | Element that should act as the horizontal scrollbar.<br />Could be an external element with `overflow-x: auto` and content with width in order to display horizontal scrollbar. |
+| [Set custom vertical scrollbar](#customVerticalScr)                                                                                                                                                                                                                                                                                                                                              | <ApiLink type="igScroll" member="options:scrollbarV" pkg="core" label="scrollbarV" />                                                                                                                                                                                                         | Element that should act as the vertical scrollbar.<br />Could be an external element with `overflow-y: auto` and content with height in order to display vertical scrollbar.    |
+| When custom scrollbars are linked, allow scrolling to happen only via the linked scrollbars and disallow scrolling from the current ones.<br />This is useful in case when there’s custom logic behind the linked vertical scrollbar that scrolls the main content up/down like updating how much is showed after certain scrolling position.<br />For example when implementing virtualization. | <ApiLink type="igScroll" member="options:scrollOnlyVBar" pkg="core" label="scrollOnlyVBar" />/<ApiLink type="igScroll" member="options:scrollOnlyHBar" pkg="core" label="scrollOnlyHBar" />                                                                                                   | true                                                                                                                                                                            |
+| Set custom horizontal scrollbar parent for the horizontal/vertical scrollbars.<br />Useful when you want to build a more custom DOM structure - for example in combination with the <ApiLink type="igScroll" member="options:syncedElemsV" pkg="core" label="modifyDOM" /> option set to false.                                                                                                  | <ApiLink type="igScroll" member="options:scrollbarHParent" pkg="core" label="scrollbarHParent" />/ <ApiLink type="igScroll" member="options:scrollbarHParent" pkg="core" label="scrollbarVParent" />                                                                                          | Element that will act as the parent element of the scroll.                                                                                                                      |
+
+## <a id="syncVertically" />Scrolling multiple containers at once vertically
+
+This section contains information on how to sync different containers vertically with a code example.
+
+### Example
+
+1. Define the igScroll DOM element.
+
+   **In HTML:**
+
+   ```html
+   <div style="width: 33%; float: left; position: relative">
+       <div
+           id="scrContainerLeft"
+           style="height: 200px; width: 100%; overflow: hidden"
+       >
+           <div style="width: 500px">...</div>
+       </div>
+   </div>
+   ```
+
+2. Define the additional scrollable containers that will be synced to the igScroll.
+
+   **In HTML:**
+
+   ```html
+   <div style="width: 33%; float: left; position: relative">
+       <div
+           id="scrContainerMiddle"
+           style="height: 200px; width: 100%; overflow: auto"
+       >
+           <div style="height: 600px; width: 500px; background-color: green">
+               ...
+           </div>
+       </div>
+   </div>
+   <div style="width: 33%; float: right; position: relative">
+       <div
+           id="scrContainerRight"
+           style="height: 200px; width: 100%; overflow: auto"
+       >
+           <div style="height: 600px; width: 500px; background-color: red">
+               ...
+           </div>
+       </div>
+   </div>
+   ```
+
+3. Initialize an igScroll widget with the <ApiLink type="igScroll" member="options:syncedElemsV" pkg="core" label="syncedElemsV" /> option pointing to the additional scrollable elements.
+
+**In JavaScript:**
+
+```js
+$("#scrContainerLeft").igScroll({
+    syncedElemsV: [$("#scrContainerMiddle"), $("#scrContainerRight")]
+});
+```
+
+## <a id="syncHorizontally" />Scrolling multiple containers at once horizontally
+
+This section contains information on how to sync different containers horizontally with a code example.
+
+### Example
+
+Follow steps 1 and 2 for defining multiple scrollable containers in [Scrolling multiple containers at once vertically](#syncVertically). And initialize an igScroll widget with the <ApiLink type="igScroll" member="options:syncedElemsH" pkg="core" label="syncedElemsH" /> option pointing to the additional scrollable elements.
+
+**In JavaScript:**
+
+```js
+$("#scrContainerLeft").igScroll({
+    syncedElemsH: [$("#scrContainerMiddle"), $("#scrContainerRight")]
+});
+```
+
+## <a id="customHorizontalScr" />Set custom horizontal scrollbar
+
+This section contains information on how to set a custom element as the horizontal scrollbar of the igScroll with a code example.
+
+### Example
+
+1. Define the main target element.
+
+   **In HTML:**
+
+   ```html
+   <div style="width: 200px">
+       <div
+           id="scrContainerLeft"
+           style="height: 200px; width: 100%; overflow: hidden"
+       >
+           <div style="width: 500px">...</div>
+       </div>
+   </div>
+   ```
+
+2. Define the custom scrollbar element.
+
+   **In HTML:**
+
+   ```html
+   <div id="customHScroll" style="width: 200px; overflow-x: auto">
+       <div style="width: 500px; height: 1px"></div>
+   </div>
+   ```
+
+3. Initialize an igScroll widget with the <ApiLink type="igScroll" member="options:scrollbarH" pkg="core" label="scrollbarH" /> option pointing to the custom scrollbar element.
+
+**In JavaScript:**
+
+```js
+$("#scrContainerLeft").igScroll({
+    scrollbarH: $("#customHScroll")
+});
+```
+
+## <a id="customVerticalScr" />Set custom vertical scrollbar
+
+This section contains information on how to set a custom element as the vertical scrollbar of the igScroll with a code example.
+
+### Example
+
+1. Define the main target element.
+
+   **In HTML:**
+
+   ```html
+   <div style="width: 200px; float: left; position: relative">
+       <div
+           id="scrContainerLeft"
+           style="height: 200px; width: 100%; overflow: hidden"
+       >
+           <div style="width: 500px">...</div>
+       </div>
+   </div>
+   ```
+
+2. Define the custom scrollbar element.
+
+   **In HTML:**
+
+   ```html
+   <div
+       id="customVScroll"
+       style="height: 200px; overflow-y: auto; float: left; position: relative"
+   >
+       <div style="width: 20px; height: 500px"></div>
+   </div>
+   ```
+
+3. Initialize an igScroll widget with the <ApiLink type="igScroll" member="options:scrollbarH" pkg="core" label="scrollbarH" /> option pointing to the custom scrollbar element.
+
+**In JavaScript:**
+
+```js
+$("#scrContainerLeft").igScroll({
+    scrollbarV: $("#customVScroll")
+});
+```
+
+## Related Content
+
+### Topics
+
+- [Accessibility Compliance (igScroll)](./igscroll-accessibility-compliance.mdx)
+- [Known Issues (igScroll)](./igscroll-known-issues.mdx)
+
+### Samples
+
+- [Configuration Options](\{environment:samplesBrowserUrl}/scroll/configuration-options)

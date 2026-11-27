@@ -1,0 +1,191 @@
+---
+title: "igHierarchicalGrid のスタイル設定"
+keywords: "Grids, Styling, Theming"
+llms:
+  description: "このトピックでは、テーマを使用した igHierarchicalGrid のスタイル設定方法、Theme Switcher ツール、およびその内部アニメーション プロパティについて説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgJQueryGridStylingAndTheming201121 from './images/jQuery_Grid_Styling_and_Theming_2011.2_1.png';
+import imgIgHierarchicalGridStylingAndTheming01 from './images/igHierarchicalGrid_Styling_and_Theming_01.png';
+
+# igHierarchicalGrid のスタイル設定
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、テーマを使用した igHierarchicalGrid のスタイル設定方法、Theme Switcher ツール、およびその内部アニメーション プロパティについて説明します。
+
+## 概要
+
+すべての jQuery コントロールが jQuery UI CSS Framework クラス規約に従っています。igHierarchicalGrid やその機能のスタイル設定も、この規格に従って行われます。コントロールのスタイル設定を行うためのサードパーティー ツール、たとえば、Theme Switcher のようなツールと階層グリッドを簡単に統合できるのはこのためです。このトピックでは、igHierarchicalGrid で使用できるアニメーション プロパティの利用方法についても説明しますが、まず、コントロールを正しく表示するために必須リソースとして搭載しておくべきリソースを明らかにします。
+
+## テーマを使用したスタイル設定
+
+### 必要な CSS とテーマ
+
+Ignite UI for jQuery™ 階層グリッドは、ほかの jQuery ウィジェットのように、スタイリングに jQuery UI CSS Framework を使用します。Ignite UI for jQuery には、Infragistics および Metro と呼ばれるカスタム jQuery UI テーマが含まれています。これらのテーマによって、Infragistics ウィジェットおよび標準の jQuery UI ウィジェットが、プロフェッショナルで魅力的な外観になります。
+
+Infragistics および Metro テーマに加えて、Infragistics ウィジェットの基本 CSS レイアウトに必要な structure ディレクトリがあります。
+
+### 必要なテーマの Web サイトへの追加
+
+Infragistics および Metro テーマは、css フォルダー内のインストール ディレクトリに配置されています。テーマをアプリケーションに追加するには、css フォルダー全体 (structure および themes ディレクトリを含む) をサイトの場所にコピーします。
+
+<DocsAside type="note" title="注">
+  Infragistics Loader の使用時は、フォルダー構造を保持する必要があります。このようにすると、ローダーは期待通りに機能します。使用されないテーマがある場合、それらは削除することができますが、その構造は変更してはいけません。
+</DocsAside>
+
+**図 1:** 製品インストール時に含まれるテーマ フォルダー
+
+<Image src={imgJQueryGridStylingAndTheming201121} alt="インストールされた css フォルダーのツリー。structure には画像、モジュール、jQuery UI スタイルシートが含まれます。" />
+
+## Infragistics および Metro テーマ
+
+Infragistics テーマは、jQuery UI テーマに通常存在するすべてのスタイルを含むカスタム テーマです。このテーマは、別のテーマで置き換えることができますが、jQuery ウィジェットを正しく表示するには、`{IG Resources root}/css/structure/infragistics.css` ファイルへの参照が必要です。
+
+Metro テーマは、クリーン、モダンかつ高速な Metro デザイン言語の実装です。これには、Infragistics テーマと同様に、`{IG Resources ルート}/css/structure/infragistics.css` と同じ要件があります。
+
+Infragistics (または Metro) テーマ以外のテーマを使うと、igHierarchicalGrid にスタイリング ポイントがいくつか追加されるため、完璧なデザインを実現するには、カスタマイズが必要になる場合があります (igHierarchicalGrid で有効にしている機能とテーマによります)。
+
+igHierarchicalGrid コントロールには、標準の jQuery UI テーマのスタイルシートへのリンクが必要です。IG テーマの場合、テーマのスタイルシートへの参照をページに含める必要があります。
+
+#### リスト 1: Infragistics テーマへの手動 CSS 参照
+
+**HTML の場合:**
+
+```html
+<link
+    href="css/themes/infragistics/infragistics.theme.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+<link
+    href="css/structure/modules/infragistics.ui.grid.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+```
+
+#### リスト 2: ASP.NET MVC の Infragistics テーマへの CSS 参照
+
+**Razor の場合:**
+
+```razor
+@using Infragistics.Web.Mvc
+<!DOCTYPE html>
+<html>
+<head>
+<link
+    href="@Url.Content("~/css/themes/infragistics/infragistics.theme.css")"
+    rel="stylesheet"
+    type="text/css" />
+<link
+    href="@Url.Content("~/css/structure/modules/infragistics.ui.grid.css")"
+    rel="stylesheet"
+    type="text/css" />
+```
+
+### Metro テーマ
+
+Metro テーマは、jQuery テーマの後に参照されます。igHierarchicalGrid コントロールを使用する場合、次のスタイルシートが必要です。
+
+#### リスト 3: Metro テーマへの手動 CSS 参照
+
+**HTML の場合:**
+
+```html
+<link
+    href="css/themes/metro/infragistics.theme.css "
+    rel="stylesheet"
+    type="text/css"
+/>
+<link
+    href="css/structure/modules/infragistics.ui.grid.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+```
+
+#### リスト 4: ASP.NET MVC の Metro テーマへの CSS 参照
+
+**Razor の場合:**
+
+```razor
+@using Infragistics.Web.Mvc
+<!DOCTYPE html>
+<html>
+<head>
+<link
+    href="@Url.Content("~/css/themes/metro/infragistics.theme.css ")"
+    rel="stylesheet"
+    type="text/css" />
+<link
+    href="@Url.Content("~/css/structure/modules/infragistics.ui.grid.css")"
+    rel="stylesheet"
+    type="text/css" />
+```
+
+### 動的なカラー変更
+
+igHierarchicalGrid は jQuery UI CSS Framework の規約に準拠したものであるため、Theme Switcher ツールを適用して igHierarchicalGrid の配色を動的に変更できるようになっています。Theme Switcher はコントロールのスタイルを設定できるサードパーティー ツールです。ただし、そのコントロールは、jQuery UI CSS Framework のクラス規約に準拠したものでなければいけません (詳細については、Theme Switcher を参照してください)。階層グリッドも、そうしたコントロールの 1 つです。
+
+## アニメーションの使用
+
+### アニメーション参照
+
+igHierarchicalGrid では、一連のプロパティを設定することによって、展開/縮小アニメーションの変更や、(展開時と縮小時の) ヒント表示テキストの編集が行えます。下の表は、jQuery と MVC の両方についてアニメーション管理プロパティをまとめたものです。
+
+| jQuery プロパティ                                                                                                               | MVC プロパティ                                                                                                | 説明                                            |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| <ApiLink type="igHierarchicalGrid" member="options:expandCollapseAnimations" pkg="core" label="expandCollapseAnimation" /> | <ApiLink type="GridModel" member="ExpandCollapseAnimations" pkg="mvc" label="ExpandCollapseAnimation" /> | 展開/縮小アニメーションを有効または無効にします。                     |
+| <ApiLink type="igHierarchicalGrid" member="options:animationDuration" pkg="core" label="animationDuration" />              | <ApiLink type="GridModel" member="AnimationDuration" pkg="mvc" label="AnimationDuration" />              | アニメーションの長さをミリ秒単位で設定します。                       |
+| <ApiLink type="igHierarchicalGrid" member="options:locale.expandTooltip" pkg="core" label="expandTooltip" />               | <ApiLink type="GridModel" member="ExpandTooltip" pkg="mvc" label="ExpandTooltip" />                      | 展開されたセルの上にマウス ポインターが当てられるとツールチップが表示されるようにします。 |
+| <ApiLink type="igHierarchicalGrid" member="options:locale.collapseTooltip" pkg="core" label="collapseTooltip" />           | <ApiLink type="GridModel" member="CollapseTooltip" pkg="mvc" label="CollapseTooltip" />                  | 縮小されたセルの上にマウス ポインターが当てられるとツールチップが表示されるようにします。 |
+
+### アニメーション コード サンプル
+
+以下のサンプル コードは、igHierarchicalGrid のアニメーション プロパティの設定方法を示したものです。次の図は、展開アニメーションが進行している様子を表したものです。
+
+<Image src={imgIgHierarchicalGridStylingAndTheming01} alt="1 行目の下で子グリッドがスライドして開き、展開ボタンにカスタム ツールチップがある igHierarchicalGrid" />
+
+jQuery の場合
+
+```js
+$("#grid1").igHierarchicalGrid({
+    expandCollapseAnimations: true,
+    animationDuration: 1000,
+    expandTooltip: "Custom expand tooltip",
+    collapseTooltip: "Custom collapse tooltip"
+});
+```
+
+MVC の場合
+
+```razor
+@(Html.Infragistics()
+    .Grid(Model)
+    .ID("grid1")
+    .ExpandCollapseAnimations(true)
+    .AnimationDuration(1000)
+    .ExpandTooltip("Custom expand Text")
+    .CollapseTooltip("Custom collapse Text")
+    .DataBind()
+    .Render())
+```
+
+## 関連トピック
+
+以下は、その他の役立つトピックです。
+
+- [igHierarchicalGrid の概要](./ighierarchicalgrid-overview.mdx)
+- [igHierarchicalGrid のセットアップ](./ighierarchicalgrid-initializing.mdx)
+- <ApiLink type="igHierarchicalGrid" pkg="core" label="igHierarchicalGrid プロパティ リファレンス" />
+
+## 関連リソース
+

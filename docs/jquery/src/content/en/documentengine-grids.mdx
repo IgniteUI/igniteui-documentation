@@ -1,0 +1,275 @@
+---
+title: "Grids"
+keywords: "Layouts, Reporting"
+llms:
+  description: "The Grid element displays content in a layout of columns and rows."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgDocumentEngineGrids01 from './images/ASP-NET-MVC/Document-Engine/Writing/Elements/Pattern/DocumentEngine_Grids_01.png';
+
+# Grids
+
+The Grid element displays content in a layout of columns and rows. Each cell in a grid is bound to a layout that is determined by how many columns and rows you add. For example, a cell's width is determined by the column's width, and its height is determined by the row's height.
+
+<Image src={imgDocumentEngineGrids01} alt="Report page with a Grid element showing its header, rows, columns, a column span, a row span and a footer" />
+
+Each cell also has a <ApiLink type="IGridCell" member="ColSpan" pkg="documents-reports" label="ColSpan" /> and <ApiLink type="IGridCell" member="RowSpan" pkg="documents-reports" label="RowSpan" /> property, allowing the cell to span as many columns and rows as needed. Therefore, if you needed a heading for your grid, you would need to add the first cell in the row and set its ColSpan property to as many columns as are in your grid.
+
+The Grid element also contains Header, Footer, and Divider elements. These elements consist of only one row and the number of columns you add to your grid using the <ApiLink type="IGrid" member="AddColumn" pkg="documents-reports" label="AddColumn" /> method off the IGrid interface. These elements also behave in the same manner as the Header, Footer, and Divider elements of the Band element. Headers display at the top of the grid on every page or only the first page, depending on the <ApiLink type="IGridHeader" member="Repeat" pkg="documents-reports" label="Repeat" /> property; the same goes for footers, but applying to the last page. Dividers display at the end of every page where the grid spills over to the next page.
+
+Being a member of the [pattern content](./documentengine-pattern-content.mdx "Explains the pattern content available in the document engine.") family, you can modify the style of different grid elements by applying patterns at different levels of the grid:
+
+- **Grid Pattern** -- Styles the grid as a whole and provides access to all other patterns except the cell pattern (the <ApiLink type="GridPattern" pkg="documents-reports" label="GridPattern" /> class applies styles to the <ApiLink type="IGrid" pkg="documents-reports" label="IGrid" /> interface).
+- **Header Pattern** -- Styles the header element of your grid (the <ApiLink type="GridHeaderPattern" pkg="documents-reports" label="GridHeaderPattern" /> class applies styles to the <ApiLink type="IGridHeader" pkg="documents-reports" label="IGridHeader" /> interface).
+- **Divider Pattern** -- Styles the divider element of your grid (the <ApiLink type="GridDividerPattern" pkg="documents-reports" label="GridDividerPattern" /> class applies styles to the  <ApiLink type="IGridDivider" pkg="documents-reports" label="IGridDivider" /> interface).
+- **Footer Pattern** -- Styles the footer element of your grid (the <ApiLink type="GridFooterPattern" pkg="documents-reports" label="GridFooterPattern" /> class applies styles to the  <ApiLink type="IGridFooter" pkg="documents-reports" label="IGridFooter" /> interface).
+- **Column Pattern** -- Styles each column in your grid (the <ApiLink type="GridColumnPattern" pkg="documents-reports" label="GridColumnPattern" /> class applies styles to the  <ApiLink type="IGridColumn" pkg="documents-reports" label="IGridColumn" /> interface).
+- **Row Pattern** -- Styles each row in your grid (the <ApiLink type="GridRowPattern" pkg="documents-reports" label="GridRowPattern" /> class applies styles to the <ApiLink type="IGridRow" pkg="documents-reports" label="IGridRow" /> interface).
+- **Cell Pattern** -- Styles each individual cell for granular detail (the <ApiLink type="GridCellPattern" pkg="documents-reports" label="GridCellPattern" /> class applies styles to the  <ApiLink type="IGridCell" pkg="documents-reports" label="IGridCell" /> interface).
+
+---
+
+The following code creates a grid that consists of five columns by five rows with a header and footer. Once the cell-creation loop encounters cell 2 x 2, it will span that cell by two columns; when the loop encounters cell 5 x 3, it will span that cell by three rows.
+
+1. **Create a pattern for the grid as a whole and then for each cell.**
+
+   **In Visual Basic:**
+
+   ```vb
+   Imports Infragistics.Documents.Reports.Report
+   .
+   .
+   .
+   ' Create a new pattern for the grid as a whole.
+   Dim gridPattern As New Infragistics.Documents.Reports.Report.Grid.GridPattern()
+   gridPattern.Borders = New Borders(New Pen(New Color(0, 0, 0)), 5)
+   gridPattern.Background = New Background(Brushes.LightSteelBlue)
+
+   ' Create a new pattern for each cell.
+   Dim cellPattern As _
+       New Infragistics.Documents.Reports.Report.Grid.GridCellPattern()
+   cellPattern.Paddings = New Paddings(5, 10)
+   cellPattern.Borders = New Borders(New Pen(New Color(0, 0, 0)))
+   'cellPattern.Background = new Background(brush3);
+   cellPattern.Alignment = _
+     New ContentAlignment(Alignment.Center, Alignment.Middle)
+   ```
+
+   **In C#:**
+
+   ```csharp
+   using Infragistics.Documents.Reports.Report;
+   .
+   .
+   .
+   // Create a new pattern for the grid as a whole.
+   Infragistics.Documents.Reports.Report.Grid.GridPattern gridPattern = 
+     new GridPattern();
+   gridPattern.Borders = new Borders(new Pen(new Color(0, 0, 0)), 5);
+
+   // Create a new pattern for each cell.
+   Infragistics.Documents.Reports.Report.Grid.GridCellPattern cellPattern =
+       new GridCellPattern();
+   cellPattern.Paddings = new Paddings(5, 10);
+   cellPattern.Borders = new Borders(new Pen(new Color(0, 0, 0)));
+   cellPattern.Background = new Background(Brushes.LightSteelBlue);
+   cellPattern.Alignment = 
+     new ContentAlignment(Alignment.Center, Alignment.Middle);
+   ```
+
+2. **Create the grid and apply the grid pattern.**
+
+   **In Visual Basic:**
+
+   ```vb
+   ' Create the grid and apply the GridPattern
+   Dim grid As Infragistics.Documents.Reports.Report.Grid.IGrid = _
+       section1.AddGrid()
+   grid.ApplyPattern(gridPattern)
+
+   ' Declare a Row, and Cell object 
+   ' for object creation.
+   Dim gridRow As Infragistics.Documents.Reports.Report.Grid.IGridRow
+   Dim gridCell As Infragistics.Documents.Reports.Report.Grid.IGridCell
+   ```
+
+   **In C#:**
+
+   ```csharp
+   // Create the grid and apply the GridPattern
+   Infragistics.Documents.Reports.Report.Grid.IGrid grid = section1.AddGrid();
+   grid.ApplyPattern(gridPattern);
+
+   // Declare a Row, and Cell object 
+   // for object creation.
+   Infragistics.Documents.Reports.Report.Grid.IGridRow gridRow;
+   Infragistics.Documents.Reports.Report.Grid.IGridCell gridCell;
+   ```
+
+3. **Define the columns.**
+
+   **In Visual Basic:**
+
+   ```vb
+   ' Add five columns to the grid.
+   For i As Integer = 0 To 4
+           grid.AddColumn()
+   Next i
+   ```
+
+   **In C#:**
+
+   ```csharp
+   // Add five columns to the grid.
+   for (int i = 0; i < 5; i++)
+   {
+           grid.AddColumn();
+   }
+   ```
+
+4. **Add the header and footer.**
+
+   **In Visual Basic:**
+
+   ```vb
+   ' Add a header to the grid.
+   Dim gridHeader As Infragistics.Documents.Reports.Report.Grid.IGridHeader = _
+       grid.Header
+   Dim headerCell As Infragistics.Documents.Reports.Report.Grid.IGridCell = _
+     gridHeader.AddCell()
+   headerCell.ColSpan = 5
+   cellPattern.Apply(headerCell)
+   Dim headerCellText As IText = headerCell.AddText()
+   headerCellText.Alignment = _
+     New TextAlignment(Alignment.Center, Alignment.Middle)
+   headerCellText.AddContent("Grid Header")
+
+   ' Add a footer to the grid.
+   Dim gridFooter As Infragistics.Documents.Reports.Report.Grid.IGridFooter = _
+       grid.Footer
+   Dim footerCell As Infragistics.Documents.Reports.Report.Grid.IGridCell = _
+     gridFooter.AddCell()
+   footerCell.ColSpan = 5
+   cellPattern.Apply(footerCell)
+   Dim gridFooterText As Infragistics.Documents.Reports.Report.Text.IText = _
+     footerCell.AddText()
+   gridFooterText.Alignment = _
+     New TextAlignment(Alignment.Right, Alignment.Middle)
+   gridFooterText.AddContent("Grid Footer")
+   ```
+
+   **In C#:**
+
+   ```csharp
+   // Add a header to the grid.
+   Infragistics.Documents.Reports.Report.Grid.IGridHeader gridHeader = grid.Header;
+   Infragistics.Documents.Reports.Report.Grid.IGridCell headerCell = 
+     gridHeader.AddCell();
+   headerCell.ColSpan = 5;
+   cellPattern.Apply(headerCell);
+   Infragistics.Documents.Reports.Report.Text.IText headerCellText =
+       headerCell.AddText();
+   headerCellText.Alignment = 
+     new TextAlignment(Alignment.Center, Alignment.Middle);
+   headerCellText.AddContent("Grid Header");
+
+   // Add a footer to the grid.
+   Infragistics.Documents.Reports.Report.Grid.IGridFooter gridFooter = grid.Footer;
+   Infragistics.Documents.Reports.Report.Grid.IGridCell footerCell = 
+     gridFooter.AddCell();
+   footerCell.ColSpan = 5;
+   cellPattern.Apply(footerCell);
+   Infragistics.Documents.Reports.Report.Text.IText gridFooterText = 
+     footerCell.AddText();
+   gridFooterText.Alignment = 
+     new TextAlignment(Alignment.Right, Alignment.Middle);
+   gridFooterText.AddContent("Grid Footer");
+   ```
+
+5. **Add five rows and five cells to each row.**
+
+   **In Visual Basic:**
+
+   ```vb
+   For i As Integer = 0 To 4
+           gridRow = grid.AddRow()
+
+           ' Add five cells to each row.
+           For j As Integer = 0 To 4
+
+                   If i = 1 AndAlso j = 1 Then
+                           gridCell = gridRow.AddCell()
+                           cellPattern.Apply(gridCell)
+                           gridCell.Background = _
+                             New Background(Brushes.LightSlateGray)
+                           gridCell.AddQuickText("Column Span")
+
+                           gridCell.ColSpan = 2
+
+                           j += 1
+                   ElseIf i = 2 AndAlso j = 4 Then
+                           gridCell = gridRow.AddCell()
+                           cellPattern.Apply(gridCell)
+                           gridCell.Background = _
+                             New Background(Brushes.LightSlateGray)
+                           gridCell.AddQuickText("Row Span")
+
+                           gridCell.RowSpan = 3
+                   Else
+                           gridCell = gridRow.AddCell()
+                           cellPattern.Apply(gridCell)
+                           gridCell.AddQuickText( _
+                             ("row " + i.ToString() + ", col " + j.ToString()))
+                   End If
+           Next j
+   Next i
+   ```
+
+   **In C#:**
+
+   ```csharp
+   // Add five rows to the grid.
+   for (int i = 0; i < 5; i++)
+   {
+           gridRow = grid.AddRow();
+
+           // Add five cells to each row.
+           for (int j = 0; j < 5; j++)
+           {
+
+                   if (i == 1 && j == 1)
+                   {
+                           gridCell = gridRow.AddCell();
+                           cellPattern.Apply(gridCell);
+                           gridCell.Background = 
+                             new Background(Brushes.LightSlateGray);
+                           gridCell.AddQuickText("Column Span");
+
+                           gridCell.ColSpan = 2;
+
+                           j++;
+                   }
+                   else if (i == 2 && j == 4)
+                   {
+                           gridCell = gridRow.AddCell();
+                           cellPattern.Apply(gridCell);
+                           gridCell.Background = 
+                             new Background(Brushes.LightSlateGray);
+                           gridCell.AddQuickText("Row Span");
+
+                           gridCell.RowSpan = 3;
+                   }
+                   else
+                   {
+                           gridCell = gridRow.AddCell();
+                           cellPattern.Apply(gridCell);
+                           gridCell.AddQuickText( 
+                             "row " + i + ", col " + j);
+                   }
+           }
+   }
+   ```

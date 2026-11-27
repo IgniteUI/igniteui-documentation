@@ -1,0 +1,45 @@
+---
+title: "Excel 2007 XLSX ファイルをワークブックに読み込む"
+keywords: "Data Binding, How Do I"
+llms:
+  description: "Microsoft Excel ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。"
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Excel 2007 XLSX ファイルをワークブックに読み込む
+
+Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み込むことができます。Excel ファイルが静的な <ApiLink type="Workbook" member="Load" pkg="documents-excel" label="Load" /> メソッドで読み取られる時に、<ApiLink type="Workbook" pkg="documents-excel" label="Workbook" /> オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が移植されます。
+
+特定のフォーマットのワークブックをロードし、それを別のフォーマットで保存したい場合、<ApiLink type="Workbook" pkg="documents-excel" label="Infragistics.Documents.Excel.Workbook" /> クラスの <ApiLink type="Workbook" member="SetCurrentFormat" pkg="documents-excel" label="SetCurrentFormat" /> メソッドを使用できます。また、<ApiLink type="Workbook" member="CurrentFormat" pkg="documents-excel" label="CurrentFormat" /> プロパティは、現在のワークブック形式を取得するために使用できます。
+
+xlsx フォーマットをロードおよび保存する時のプロジェクトの依存および参照についての詳細は、トピック [Office® 2007 xlsx ファイル生成の参照と依存](./excelengine-office-2007-xlsx-file-generation-references-and-dependencies.mdx)を参照してください。
+
+<DocsAside type="note" title="注">
+  ワークブックを新しい xlsx フォーマット (Excel2007) でロードする時、Microsoft® Excel® などの安全なソースでワークブックが保存されたことを確信できる場合には、<ApiLink type="Workbook" member="Load" pkg="documents-excel" label="Load" /> メソッドの verifyExcel2007Xml オーバーロードに False を割り当てることができます。大きいファイルに False を割り当てると、ロードされるファイルのコンテンツを検証することから Excel アセンブリは除外されます。これが順々にパフォーマンスを高めてより大きいファイルのロード時間を短縮します。
+</DocsAside>
+
+以下のコードは、既存の XLSX ワークブックで読み取り、変更を行い、ワークブックを新しいファイルに書き込む方法を示します。
+
+**Visual Basic の場合:**
+
+```vb
+Dim workbook As Infragistics.Documents.Excel.Workbook = _
+  Infragistics.Documents.Excel.Workbook.Load("C:\ExistingWorkbook.xlsx")
+
+workbook.Worksheets.Item(0).Rows.Item(0).Cells.Item(0).Value = 19
+workbook.Save("C:\ModifiedWorkbook.xlsx")
+```
+
+**C# の場合:**
+
+```csharp
+Infragistics.Documents.Excel.Workbook workbook = 
+  Infragistics.Documents.Excel.Workbook.Load( "C:\\ExistingWorkbook.xlsx" );
+
+workbook.Worksheets[0].Rows[0].Cells[0].Value = 19;
+workbook.Save( "C:\\ModifiedWorkbook.xlsx" );
+```

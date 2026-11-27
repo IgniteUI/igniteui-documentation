@@ -1,0 +1,136 @@
+---
+title: "igPivotGrid の構成"
+keywords: "Getting Started, Configuring, Pivot Grid"
+llms:
+  description: "このトピックでは、igPivotGrid コントロールを構成する方法を説明します。"
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+
+# igPivotGrid の構成
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igPivotGrid`™ コントロールを構成する方法を説明します。
+
+## 基本構成
+
+次の表に、ピボット表にデータを表示するために定義する必要のある基本オプションを示します。
+
+igPivotGrid の場合:
+
+| オプション                                                                                    | 説明                                                           |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| <ApiLink type="igPivotGrid" member="options:dataSource" pkg="core" label="dataSource" /> | $.ig.OlapXmlaDataSource または $.ig.OlapFlatDataSource のインスタンス。 |
+
+**$.ig.OlapXmlaDataSource** コンポーネントは、msmdpump.dll HTTP データ プロバイダーで構成された Microsoft® SQL Server Analysis Services (SSAS) サーバーとのコミュニケーションを処理します。 関連する基本設定は次のとおりです。
+
+| オプション                                                                                                 | 説明                                             |
+| ----------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.serverUrl" pkg="core" label="serverUrl" /> | XMLA サーバーの URL。                                |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.catalog" pkg="core" label="catalog" />     | カタログ名。                                         |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.cube" pkg="core" label="cube" />           | データ ソース内のキューブの名前。                              |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.rows" pkg="core" label="rows" />           | コンマ (,) で区切られた階層名のリスト。これは、データ ソースの行の階層になります。   |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.columns" pkg="core" label="columns" />     | コンマ (,) で区切られた階層名のリスト。これは、データ ソースの列の階層になります。   |
+| <ApiLink type="OlapXmlaDataSource" member="options:options.measures" pkg="core" label="measures" />   | コンマ (,) で区切られたメジャー名のリスト。これは、データ ソースのメジャーになります。 |
+
+構成の例を示す次の基本サンプルを参照してください。
+
+- [XMLA データ ソースへのバインド](\{environment:samplesBrowserUrl}/pivot-grid/binding-to-xmla-data-source)
+
+**$.ig.OlapFlatDataSource** コンポーネントは、フラットなデータ コレクション上で多次元の (OLAP のような) 解析を実行します。 関連する基本設定は次のとおりです。
+
+OlapFlatDataSource の場合:
+
+| オプション                                                                                                   | 説明                                                                    |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| <ApiLink type="OlapFlatDataSource" member="options:options.dataSource" pkg="core" label="dataSource" /> | $.ig.DataSource が受け入れる有効なデータ ソース、または $.ig.DataSource 自体のインスタンスを指定します。 |
+| <ApiLink type="OlapFlatDataSource" member="options:options.metadata" pkg="core" label="metadata" />     | $ .ig.DataSource データの処理命令を含むオブジェクト。                                   |
+| <ApiLink type="OlapFlatDataSource" member="options:options.metadata.cube" pkg="core" label="metadata.cube" />                                                                                           | キューブの作成に使用されるメタデータ。                                                   |
+| <ApiLink type="OlapFlatDataSource" member="options:options.metadata.cube.measuresDimension" pkg="core" label="metadata.cube.measuresDimension" />                                                                         | メジャーのルート ノードについての情報を提供するオブジェクト。                                       |
+| <ApiLink type="OlapFlatDataSource" member="options:options.metadata.cube.dimensions" pkg="core" label="metadata.cube.dimensions" />                                                                                | 次元メタデータ オブジェクトの配列。                                                    |
+| <ApiLink type="OlapFlatDataSource" member="options:options.rows" pkg="core" label="rows" />             | コンマ (,) で区切られた階層名のリスト。これは、データ ソースの行の階層になります。                          |
+| <ApiLink type="OlapFlatDataSource" member="options:options.columns" pkg="core" label="columns" />       | コンマ (,) で区切られた階層名のリスト。これは、データ ソースの列の階層になります。                          |
+| <ApiLink type="OlapFlatDataSource" member="options:options.measures" pkg="core" label="measures" />     | コンマ (,) で区切られたメジャー名のリスト。これは、データ ソースのメジャーになります。                        |
+
+構成の例を示す次の基本サンプルを参照してください。
+
+- [フラット データ ソースへのバインド](\{environment:samplesBrowserUrl}/pivot-grid/binding-to-flat-data-source)
+
+## 詳細の構成
+
+次のセクションでは、カスタム シナリオを構成する方法を示します。
+
+### 移動のカスタム検証
+
+igPivotGridを使用すると、<ApiLink type="igPivotGrid" member="options:customMoveValidation" pkg="core" label="customMoveValidation" /> 関数を指定できます。これにより、移動操作を許可するかどうかを指定できます。
+
+以下のサンプルでは、PivotGrid の列にアイテムをドロップすることを禁止する方法を示します。また、名前に「Seller」が含まれる階層では、ピボット グリッドおよびデータ セレクターのドロップ領域へのドロップが無効になります。
+
+<Sample src="/pivot-grid/custom-drag-drop-validation/index.html" height={1000} alt="移動のカスタム検証" chrome="bare" fullscreenBtn />
+
+### カスタム要素のドラッグ アンド ドロップ
+
+次の手順では、igPivotGrid でカスタム要素のドラッグ アンド ドロップを実装する方法を示します。
+
+#### 手順
+
+1. Data-type 属性および data-name 属性を持つ要素を定義します。
+
+   データ型は、要素の型に設定する必要があります。次元、階層、メジャーまたはレベル。データ名は関連する値でなければなりません。 たとえば、
+
+   ```html
+   <div
+       class="ui-igpivot-metadataitem ui-state-default ui-corner-all custom-draggable"
+       data-type="Hierarchy"
+       data-name="[Seller].[Seller]"
+   >
+       <span>Hierarchy: Seller</span>
+   </div>
+   <div
+       class="ui-igpivot-metadataitem ui-state-default ui-corner-all custom-draggable"
+       data-type="Measure"
+       data-name="[Measures].[UnitsSold]"
+   >
+       <span>Measure: Units Sold</span>
+   </div>
+   ```
+
+2. jQuery UI の[ドラッグ可能な](https://jqueryui.com/draggable/)インタラクションを使用して、定義された要素をドラッグ可能にします。
+
+このような例を示す次の基本サンプルを参照してください。
+
+<Sample src="/pivot-grid/drag-drop-custom-elements/index.html" height={1000} alt="カスタム要素のドラッグ アンド ドロップ" chrome="bare" fullscreenBtn />
+
+### メンバーの展開
+
+ピボットグリッド内のメンバーをコードで展開するには、<ApiLink type="igPivotGrid" member="methods:expandTupleMember" pkg="core" label="expandTupleMember" /> メソッドを使用できます。 以下のサンプルは、グリッドのデータ ソースが <ApiLink type="igPivotGrid" member="events:dataSourceInitialized" pkg="core" label="dataSourceInitialized" /> イベントハンドラーで初期化された場合に、このメソッドを使用する方法を示します。
+
+<Sample src="/pivot-grid/expand-members/index.html" height={1000} alt="メンバーの展開" chrome="bare" fullscreenBtn />
+
+## 関連コンテンツ
+
+### トピック
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+- [igPivotGrid の HTML ページへの追加](./igpivotgrid-adding-to-an-html-page.mdx): このトピックは、`igPivotGrid` を HTML ページへ追加する方法を示します。
+
+- [igPivotGrid の ASP.NET MVC アプリケーションへの追加](./igpivotgrid-adding-using-the-mvc-helper.mdx): このトピックは、ASP.NET MVC アプリケーションへ `igPivotGrid` コントロールを追加する方法についての概念と詳しい手順を説明します。
+
+### サンプル
+
+このトピックについては、以下のサンプルも参照してください。
+
+- [フラット データ ソースへのバインド](\{environment:samplesBrowserUrl}/pivot-grid/binding-to-flat-data-source): このサンプルでは、`igPivotGrid` を `igOlapFlatDataSource` にバインドする方法を説明します。データ選択で `igPivotDataSelector` が使用されています。
+
+- [Ignite UI for MVC と XMLA データ ソースの使用](\{environment:samplesBrowserUrl}/pivot-grid/using-the-asp-net-mvc-helper-with-xmla-data-source): このサンプルでは、`igOlapXmlaDataSource`で Ignite UI for MVC `igPivotGrid` を使用する方法を紹介します。
+
+- [並べ替え](\{environment:samplesBrowserUrl}/pivot-grid/sorting): このサンプルでは、`igPivotGrid` の並べ替えを有効にし、初期化で特定のレベルに並べ替えを適用する方法を紹介します。
+
+- [レイアウト モード](\{environment:samplesBrowserUrl}/pivot-grid/layout-modes): このサンプルでは、コンパクト列と行ヘッダーが有効または無効な場合の `igPivotGrid` のレイアウトを比較します。

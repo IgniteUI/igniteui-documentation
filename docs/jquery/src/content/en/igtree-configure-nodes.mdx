@@ -1,0 +1,168 @@
+---
+title: "Configure Nodes in igTree"
+keywords: "API, How Do I"
+llms:
+  description: "Discusses how to configure nodes in the igTree control."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+
+# Configure Nodes in igTree
+
+## Topic Overview
+
+### Purpose
+
+This topic discusses how to configure nodes in the `igTree`™ control.
+
+### Required background
+
+The table below lists the required background you need for fully understanding the information in this topic.
+
+You need to first read the [Getting Started with igTree](./igtree-getting-started.mdx) topic.
+
+**External Resources**
+
+You need to first read the following articles:
+
+- [jQuery bind() API](https://api.jquery.com/bind/)
+
+- [jQuery live() API](https://api.jquery.com/live/)
+
+## igTree Configuration Overview
+
+### Control configuration chart
+
+The table below lists the configurable screen elements and behaviors of the `igTree` control.
+
+| Configurable screen elements and behavior  | Configuration details                                                                                                    | Configuration properties                                               |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| Expand and collapse nodes programmatically | You can expand and collapse nodes programmatically to respond to external operations.                                    | expand<br />collapse<br />expandToNode                                 |
+| Handle expand and collapse events          | You can handle events to perform other operations in your application in response to a node being expanded or collapsed. | nodeCollapsing<br />nodeCollapsed<br />nodeExpanding<br />nodeExpanded |
+
+## Expanding and collapsing nodes programmatically
+
+### Expand and collapse details
+
+There are times in your application when you may need to programmatically expand or collapse nodes. For instance when using a tree for navigation, there may be times when a user goes directly to a piece of content and the tree navigation should reflect where user has navigated. The following examples demonstrate how to programmatically work with the `igTree` control.
+
+### Expand and collapse configuration settings
+
+The table below maps the desired behaviors to property settings. The properties are accessed through the `igTree` control’s methods.
+
+| In order to…                            | Use this method: | And provide… |
+| --------------------------------------- | ---------------- | ------------ |
+| Expand a node that is in view           | expand           | node         |
+| Collapse a node                         | collapse         | node         |
+| Expand all parent nodes of a child node | expandToNode     | node         |
+
+<DocsAside type="note">
+  Each method accepts an instance of an `igTree` node to expand or collapse.
+</DocsAside>
+
+### Example: expand a node that is in view
+
+The code below demonstrates how to expand a node that is in the currently expanded parent node .
+
+| Property | Setting |
+| -------- | ------- |
+| expand   | node    |
+
+**In JavaScript:**
+
+```js
+$("#tree").igTree("expand", node);
+```
+
+### Example: collapse a node
+
+The code below demonstrates how to collapse a node.
+
+| Property | Setting |
+| -------- | ------- |
+| collapse | node    |
+
+**In JavaScript:**
+
+```js
+$("#tree").igTree("collapse", node);
+```
+
+### Example: expand all parent nodes of a child node
+
+When you may know that a node needs to be visible but it is nested within child levels of the `igTree` control. The code below demonstrates how to expand all parent nodes of the target node to bring it into view using the `expandToNode` view.
+
+| Property     | Setting |
+| ------------ | ------- |
+| expandToNode | Node    |
+
+**In JavaScript:**
+
+```js
+$("#tree").igTree("expandToNode", node);
+```
+
+### Expand and collapse settings reference
+
+For detailed information about these methods, refer to their listing in the property reference section:
+
+- <ApiLink type="igTree" pkg="core" label="igTree Options" />
+
+## Handling expand and collapse events
+
+### Expand and collapse event details
+
+When you want to perform custom logic after a node is expanded or collapsed, you can use the events. Events that end in –ing occur prior to a node being expanded or collapsed and events ending in –ed occur after a node is expanded or collapsed.
+
+### Expand and collapse event configuration settings
+
+The table below maps the desired behaviors to property settings. The properties are accessed through the `igTree` control methods.
+
+| In order to…                               | Use this event: | And set it to… |
+| ------------------------------------------ | --------------- | -------------- |
+| Handle and event before a node is expanded | nodeExpanding   | function()     |
+| Handle an event after a node is expanded   | nodeExpanded    | function()     |
+| Handle an event before a node is collapsed | nodeCollapsing  | function()     |
+| Handle an event after a node is collapsed  | nodeCollapsed   | function()     |
+
+## Example: configure the expansion events during instantiation
+
+The `igTree` control events can be configured when the control is instantiating. The events are configured by setting a handler function that accepts the parameters for the event and UI arguments. This type of configuration is only available when configuring the control on the client. The code below demonstrates handling the expansion events as a result of the following settings:
+
+| Property      | Setting           |
+| ------------- | ----------------- |
+| nodeExpanding | function(evt, ui) |
+| nodeExpanded  | function(evt, ui) |
+
+**In HTML:**
+
+```html
+$(function () { $("#tree").igTree({ nodeExpanding: function (evt, ui) { },
+nodeExpanded: function (evt, ui) { } }); });
+```
+
+### Example: configure the collapse events using bind and live
+
+There are times when an event handler needs to be attached to the `igTree` after the tree is instantiated. Post-initialization event binding is the primary way events are configured when the `igTree` control is instantiated using the Ignite UI for MVC helper. When using attaching event handlers after the control is instantiated, the event type is needed. Event types are determined by combining the widget name with the event name. The code below demonstrates how to configure events using the jQuery bind and live method:
+
+| Method | Parameters                                    |
+| ------ | --------------------------------------------- |
+| bind() | “igtreenodecollapsing” function(evt, ui) \{ } |
+| live() | “igtreenodecollapsed” function(evt, ui) \{ }  |
+
+**In JavaScript:**
+
+```js
+$("#tree").bind("igtreenodecollapsing", function (evt, ui) {});
+
+$("#tree").live("igtreenodecollapsed", function (evt, ui) {});
+```
+
+## Related Topics
+
+Following are some other topics you may find useful.
+
+- [Configuring Node Images with igTree](./igtree-configure-node-images.mdx)

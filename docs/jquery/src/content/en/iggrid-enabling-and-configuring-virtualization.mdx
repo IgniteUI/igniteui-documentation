@@ -1,0 +1,261 @@
+---
+title: "Enabling and Configuring Virtualization (igGrid)"
+llms:
+  description: "Explains, with code examples, how to enable and configure the Virtualization feature in the igGrid."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgIgGridEnablingAndConfiguringVirtualization1 from './images/Controls/igGrid/Features/Virtualization/igGrid_Enabling_and_Configuring_Virtualization_1.png';
+
+# Enabling and Configuring Virtualization (igGrid)
+
+## Topic Overview
+
+### Purpose
+
+This topic explains, with code examples, how to enable and configure the Virtualization feature in the `igGrid`™.
+
+## Configuring Virtualization Overview
+
+The following table lists the different configurable settings of the Virtualization feature and maps them to the respective properties that manage them.
+
+| Setting                            | Property                                                                                                | Description                                                                                                                                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Row virtualization                 | <ApiLink type="igGrid" member="options:rowVirtualization" pkg="core" label="rowVirtualization" />       | Enables/Disables virtualization for rows only.                                                                                                                                             |
+| Column virtualization              | <ApiLink type="igGrid" member="options:columnVirtualization" pkg="core" label="columnVirtualization" /> | Enables/Disables Column Virtualization. Column Virtualization depends on Fixed Row Virtualization and will enable it implicitly if it is not enabled explicitly.                           |
+| Both Row and Column virtualization | <ApiLink type="igGrid" member="options:virtualization" pkg="core" label="virtualization" />             | Shorthand for setting `rowVirtualization` and `columnVirtualization` via a single option.                                                                                                  |
+| Virtualization mode                | <ApiLink type="igGrid" member="options:virtualizationMode" pkg="core" label="virtualizationMode" />     | Determines Row Virtualization mode.                                                                                                                                                        |
+| Average Row Height                 | <ApiLink type="igGrid" member="options:avgRowHeight" pkg="core" label="avgRowHeight" />                 | Used for Fixed Row Virtualization. Determines the average value in pixels that will be used to calculate how many rows to render. All row heights will be automatically set to this value. |
+| Average Column Width               | <ApiLink type="igGrid" member="options:avgColumnWidth" pkg="core" label="avgColumnWidth" />             | Used for Column Virtualization. This is the average value in pixels for the column widths.                                                                                                 |
+
+## <a id="fixed-row" />Enabling and Configuring Fixed Row Virtualization
+
+Fixed Row Virtualization is enabled by setting the <ApiLink type="igGrid" member="options:rowVirtualization" pkg="core" label="rowVirtualization" /> option of the `igGrid` control to `true`.
+
+It requires the following additional options to be set:
+
+- <ApiLink type="igGrid" member="options:height" pkg="core" label="height" />
+- <ApiLink type="igGrid" member="options:avgRowHeight" pkg="core" label="avgRowHeight" />
+
+When Fixed Row Virtualization is used, all rows have the same height. That height is determined by the `avgRowHeight` option. Please refer to the ['Configuring the average rows’ height'](#fixed-row-configuring) section for more details on how this option should be calculated. Note that if average row height is not set correctly, the last rows may be cut off (not shown) in the grid.
+
+### <a id="fixed-row-configuring" />Configuring the average rows’ height
+
+An important aspect of configuring Fixed Virtualization is the process of determining the value for the `avgRowHeight` property. The `avgRowHeight` property determines the average height of the displayed rows in the grid. The general rule for setting this option is to always set an `avgRowHeight` to value that is evenly divisible by the value of the height of the grid. By default, the grid sets a row height of "30px" that would work for most data sources, however a greater `avgRowHeight` value may have to be set in order to accommodate word wrapping.
+
+Example:
+
+Grid Height: 600px => `avgRowHeight`: 30, or 15, or 60.
+
+### Fixed Row Virtualization Example
+
+The following table demonstrates how to configure Fixed Row Virtualization.
+
+| Property                                                                                                       | Value                   |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| <ApiLink type="igGrid" member="options:rowVirtualization" pkg="core" label="rowVirtualization" />              | true                    |
+| <ApiLink type="igGrid" member="options:virtualizationMode" pkg="core" label="virtualizationMode" /> (Optional) | "fixed" (Default value) |
+| <ApiLink type="igGrid" member="options:height" pkg="core" label="height" />                                    | "600px"                 |
+| <ApiLink type="igGrid" member="options:avgRowHeight" pkg="core" label="avgRowHeight" /> (Optional)             | "30px" (Default value)  |
+
+#### Code
+
+The following code configures the setting in the Example.
+
+**In JavaScript:**
+
+```js
+$("#grid1").igGrid({
+    rowVirtualization: true,
+    virtualizationMode: "fixed",
+    height: "600px",
+    avgRowHeight: "30px"
+});
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("ProjectID")
+    .Columns(column => 
+    {
+        column.For(x => x.ProjectID).HeaderText("ProjectID");
+        column.For(x => x.Name).HeaderText("Name");
+        column.For(x => x.StartDate).HeaderText("StartDate");
+        column.For(x => x.EndDate).HeaderText("EndDate");
+    })
+    .Height("600px")
+    .RowVirtualization(true)
+    .VirtualizationMode(VirtualizationMode.Fixed)
+    .AvgRowHeight("30px")
+    .DataBind().Render())
+```
+
+The sample below demonstrates how the fixed virtualization works:
+
+<Sample src="/grid/virtualization-fixed/index.html" height={520} alt="Virtualization (Fixed)" chrome="bare" fullscreenBtn />
+
+## Enabling and Configuring Column Virtualization
+
+Column Virtualization is enabled by setting the <ApiLink type="igGrid" member="options:columnVirtualization" pkg="core" label="columnVirtualization" /> option of the `igGrid` control to `true`. When enabled it also **enables Fixed Row Virtualization**.
+
+It requires the following additional options to be set:
+
+- <ApiLink type="igGrid" member="options:width" pkg="core" label="width" />
+- <ApiLink type="igGrid" member="options:defaultColumnWidth" pkg="core" label="defaultColumnWidth" /> or column <ApiLink type="igGrid" member="options:columns.width" pkg="core" label="width" /> for each column.
+- <ApiLink type="igGrid" member="options:avgColumnWidth" pkg="core" label="avgColumnWidth" />
+- <ApiLink type="igGrid" member="options:height" pkg="core" label="height" /> (due to auto enabling row virtualization)
+- <ApiLink type="igGrid" member="options:avgRowHeight" pkg="core" label="avgRowHeight" /> (due to auto enabling row virtualization)
+
+When Column Virtualization is enabled the sum of the visible column widths should be equal to the grid width so that the current visible columns are fully visible in the viewport. The `avgColumnWidth` option should also be calculated and set in order for the horizontal scrollbar width to be correct and to allow scrolling to the last visible column. Next section explains how to calculate `avgColumnWidth` option.
+
+### Configuring the average columns' width
+
+The `avgColumnWidth` option determines the average width of the columns defined in the grid. This option should be set to the average width of the columns in the current grid configuration in pixels.
+
+Example:
+
+Grid Width: 300px, example column widths for 4 columns: 100px, 200px, 100px, 200px => `avgColumnWidth`: 150
+
+### Column Virtualization Example
+
+The following table demonstrates how to configure Column Virtualization.
+
+| Property                                                                                                       | Value                   |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| <ApiLink type="igGrid" member="options:columnVirtualization" pkg="core" label="columnVirtualization" />        | true                    |
+| <ApiLink type="igGrid" member="options:virtualizationMode" pkg="core" label="virtualizationMode" /> (Optional) | "fixed" (Default Value) |
+| <ApiLink type="igGrid" member="options:width" pkg="core" label="width" />                                      | "400px"                 |
+| <ApiLink type="igGrid" member="options:defaultColumnWidth" pkg="core" label="defaultColumnWidth" />            | "200px"                 |
+| <ApiLink type="igGrid" member="options:avgColumnWidth" pkg="core" label="avgColumnWidth" />                    | "200px"                 |
+| <ApiLink type="igGrid" member="options:height" pkg="core" label="height" />                                    | "600px"                 |
+| <ApiLink type="igGrid" member="options:avgRowHeight" pkg="core" label="avgRowHeight" /> (Optional)             | "30px" (Default Value)  |
+
+<DocsAside type="note">
+  Note that instead of `defaultColumnWidth` you can instead define specific width for each column.
+</DocsAside>
+
+#### Code
+
+The following code configures the setting in the Example.
+
+**In JavaScript:**
+
+```js
+$("#grid1").igGrid({
+    columnVirtualization: true,
+    width: "400px",
+    height: "600px",
+    defaultColumnWidth: "200px",
+    avgColumnWidth: "200px",
+    avgRowHeight: "30px"
+});
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("ProjectID")
+    .Columns(column => 
+    {
+        column.For(x => x.ProjectID).HeaderText("ProjectID");
+        column.For(x => x.Name).HeaderText("Name");
+        column.For(x => x.StartDate).HeaderText("StartDate");
+        column.For(x => x.EndDate).HeaderText("EndDate");
+    })
+    .Width("400px")
+    .Height("600px")
+    .DefaultColumnWidth("200px")
+    .ColumnVirtualization(true)
+    .AvgRowHeight("30px")
+    .AvgColumnWidth("200px")
+    .DataBind().Render())
+```
+
+As a result you'll have only two columns rendered in the grid viewport.
+
+## <a id="continuous" />Enabling and Configuring Continuous Virtualization
+
+Continuous Virtualization is enabled by setting the <ApiLink type="igGrid" member="options:rowVirtualization" pkg="core" label="rowVirtualization" /> option of the igGrid control to `true` and <ApiLink type="igGrid" member="options:virtualizationMode" pkg="core" label="virtualizationMode" /> to "continuous".
+
+It requires the following additional options to be set:
+
+- <ApiLink type="igGrid" member="options:height" pkg="core" label="height" />
+
+<DocsAside type="note">
+  Column Virtualization is not supported with Continuous Virtualization.
+</DocsAside>
+
+### Example
+
+The following table demonstrates how to configure Continuous Virtualization for both rows and columns with row height of 400 pixels.
+
+| Property                                                                                            | Value        |
+| --------------------------------------------------------------------------------------------------- | ------------ |
+| <ApiLink type="igGrid" member="options:rowVirtualization" pkg="core" label="rowVirtualization" />   | true         |
+| <ApiLink type="igGrid" member="options:virtualizationMode" pkg="core" label="virtualizationMode" /> | "continuous" |
+| <ApiLink type="igGrid" member="options:height" pkg="core" label="height" />                         | "400px"      |
+
+<Image src={imgIgGridEnablingAndConfiguringVirtualization1} alt="igGrid with virtualization showing five order rows, next to developer tools listing only a few table rows in the DOM" />
+
+#### Code
+
+The following code configures the setting in the Example.
+
+**In JavaScript:**
+
+```js
+$("#grid1").igGrid({
+    rowVirtualization: true,
+    virtualizationMode: "continuous",
+    height: "400px"
+});
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics().Grid(Model).ID("grid1")
+    .LoadOnDemand(false)
+    .AutoGenerateColumns(false)
+    .AutoGenerateLayouts(false)
+    .PrimaryKey("ProjectID")
+    .Columns(column => 
+    {
+        column.For(x => x.ProjectID).HeaderText("ProjectID");
+        column.For(x => x.Name).HeaderText("Name");
+        column.For(x => x.StartDate).HeaderText("StartDate");
+        column.For(x => x.EndDate).HeaderText("EndDate");
+    })
+    .RowVirtualization(true)
+    .VirtualizationMode(VirtualizationMode.Continuous)
+    .Height("400px")
+    .DataBind().Render()
+ )
+```
+
+The sample below demonstrates how the continuous virtualization works:
+
+<Sample src="/grid/virtualization-continuous/index.html" height={500} alt="Virtualization (Continuous)" chrome="bare" fullscreenBtn />
+
+## Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Virtualization Overview](./iggrid-virtualization-overview.mdx): This topic introduces the Virtualization feature of the `igGrid` control.
+- [Feature Compatibility Matrix (igGrid)](./feature-compatibility-matrix\(iggrid\).mdx): This topic shows the compatibility between `igGrid` features when enabled at the same time.

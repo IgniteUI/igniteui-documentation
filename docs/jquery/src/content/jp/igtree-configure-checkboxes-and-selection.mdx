@@ -1,0 +1,217 @@
+---
+title: "チェックボックスおよび igTree による選択の構成"
+keywords: "Events, Selection"
+llms:
+  description: "このトピックでは、igTree コントロールで選択を構成する一般的な方法を説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgTreeSelection01 from './images/igTree_Selection_01.png';
+import imgIgTreeSelection02 from './images/igTree_Selection_02.png';
+import imgIgTreeSelection03 from './images/igTree_Selection_03.png';
+
+# チェックボックスおよび igTree による選択の構成
+
+## トピックの概要
+
+### 目的
+
+このトピックでは、`igTree`™ コントロールで選択を構成する一般的な方法を説明します。
+
+### 前提条件
+
+以下の表は、このトピックを理解するために必要な前提条件です。
+
+| 前提条件タイプ | コンテンツ                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------- |
+| トピック    | [「igTree を使用した作業の開始」](./igtree-getting-started.mdx)というトピックを最初にお読みください。                                                      |
+| 外部リソース  | まず [jQuery `bind()` API](https://api.jquery.com/bind/) 記事を読む必要があります。<br />[jQuery `live()` API](https://api.jquery.com/live/) |
+
+## igTree 構成の概要
+
+### コントロールの構成表
+
+以下の表は、`igTree` コントロールの構成可能なビヘイビアーを示しています。
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>構成可能な動作</th><th>構成の詳細</th><th>構成プロパティ</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>チェックボックスを構成する</td><td>`igTree` コントロールは bi-state チェックボックスと tri-state チェックボックスをサポートします。tri-state チェックボックスが有効な場合、親ノードはその子がすべてオン、すべてオフ、または部分的にオンになっているかどうか反映するために動的に更新します。</td>
+
+      <td>
+        - checkboxMode
+      </td>
+    </tr>
+
+    <tr>
+      <td>オンにされたノードを取得する</td><td>`igTree` コントロールは、オンにされたすべてのノード、オフにされたすべてのノード、および部分的に選択されたノードを取得する API を備えています。</td>
+
+      <td>
+        - checkedNodes
+        - uncheckedNodes
+        - partiallyCheckedNodes
+      </td>
+    </tr>
+
+    <tr>
+      <td>選択イベントとチェックボックス イベントを処理する</td><td>選択イベントをキャプチャし、発生している選択操作に対するロジックを実行します。</td>
+
+      <td>
+        - selectionChanging
+        - selectionChanged
+        - nodeCheckstateChanging
+        - nodeCheckstateChanged
+      </td>
+    </tr>
+
+    <tr>
+      <td>ノードを選択/選択解除する</td><td>これらのメソッドを使用して、コードからモードを選択および選択解除します。</td>
+
+      <td>
+        - select(node)
+        - deselect(node)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## チェックボックスを構成する
+
+### チェックボックス構成の概要
+
+`igTree` コントロールは bi-state チェックボックスと tri-state チェックボックスをサポートします。tri-state チェックボックスが有効な場合、親ノードはその子がすべてオン、すべてオフ、または部分的にオンになっているかどうかを反映します。
+
+<Image src={imgIgTreeSelection01} alt="2009 とそのレポートがオン、2010 とマイドキュメントが部分的にオンの tri-state チェックボックスを持つ igTree" />
+
+## チェックボックスのプロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは `igTree` のオプション経由でアクセスされます。
+
+| 目的                       | 使用するプロパティ:   | それを次に設定... |
+| ------------------------ | ------------ | ---------- |
+| bi-state チェックボックスを有効にする  | checkboxMode | biState    |
+| tri-state チェックボックスを有効にする | checkboxMode | triState   |
+
+### 例: tri-state チェックボックスを構成する
+
+以下の画像は、以下の設定を行った後の tri-state チェックボックスを示しています。
+
+| プロパティ        | 設定       | プレビュー                                       |
+| ------------ | -------- | ------------------------------------------- |
+| checkboxMode | triState | <Image src={imgIgTreeSelection02} alt="checkboxMode が triState の igTree。一部の子がオンの 2010 とマイドキュメントが部分的にオン" /> |
+
+### 例: bi-state チェックボックスを構成する
+
+以下の画像は、以下の設定を行った後の tri-state チェックボックスを示しています。
+
+| プロパティ        | 設定      | プレビュー                                       |
+| ------------ | ------- | ------------------------------------------- |
+| checkboxMode | biState | <Image src={imgIgTreeSelection03} alt="checkboxMode が biState の igTree。ミュージック、2010 年 バースデー、ネットワークのチェックボックスがオン" /> |
+
+### チェックボックスのプロパティ参照を構成する
+
+これらのプロパティの詳細情報は、プロパティ参照セクションのリストを参照してください。
+
+- <ApiLink type="igTree" pkg="core" label="igTree オプション" />
+
+## オンにされたノードを取得する
+
+### オンにされたノードの概要
+
+`igTree` は、オンにされたすべてのノード、オフにされたすべてのノード、および部分的に選択されたノードを取得する API を備えています。
+
+### オンにされたノードを取得するプロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは、`igTree` メソッドからアクセスされます。
+
+| 目的                     | このメソッドを使用:            | 戻り値... |
+| ---------------------- | --------------------- | ------ |
+| オンにされたすべてのノードを取得する     | checkedNodes          | ノードの配列 |
+| オフにされたすべてのノードを取得する     | uncheckedNodes        | ノードの配列 |
+| 部分的にオンにされたすべてのノードを取得する | partiallyCheckedNodes | ノードの配列 |
+
+### オンにされたすべてのノードを取得する
+
+以下のコードは、以下の結果としてオンにされたすべてのノードを取得する方法を示しています。
+
+| メソッド         | 戻り値... |
+| ------------ | ------ |
+| checkedNodes | ノードの配列 |
+
+**JavaScript の場合:**
+
+```js
+var nodes = $("#tree").igTree("checkedNodes");
+```
+
+## 選択イベントとチェックボックス イベントを処理する
+
+### 選択イベントとチェックボックス イベントの概要
+
+選択イベントとチェックボックス イベントを処理することで、これらの操作に対するカスタム ロジックを実行できます。これらのイベントは、ウィジェットが bind または live jQuery 関数を使用して jQuery またはクライアントで初期化されるときに構成できます。
+
+### 選択イベントとチェックボックス イベントのプロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは、`igTree` イベントからアクセスされます。
+
+| 目的                     | 使用するプロパティ:             | それを次に設定... |
+| ---------------------- | ---------------------- | ---------- |
+| 選択操作の前にイベントを処理する       | selectionChanging      | function() |
+| 選択操作の後にイベントを処理する       | selectionChanged       | function() |
+| チェックボックス操作の前にイベントを処理する | nodeCheckstateChanging | function() |
+| チェックボックス操作の前にイベントを処理する | nodeCheckstateChanged  | function() |
+
+### 例: インスタンス化中に選択イベントを構成する
+
+以下のコードは、以下を使用して `igTree` のインスタンス化に選択を構成する方法を示しています。
+
+| プロパティ                 | 設定                    |
+| --------------------- | --------------------- |
+| selectionChanged      | function(evt, ui)\{ } |
+| nodeCheckstateChanged | function(evt, ui)\{ } |
+
+**HTML の場合:**
+
+```html
+$("#tree").igTree({ dataSource: data, checkboxMode: "triState", bindings: {
+textKey: 'Text', childDataProperty: 'Nodes' }, selectionChanged: function (evt,
+ui) { }, nodeCheckstateChanged: function (evt, ui) { } });
+```
+
+### 例: live および bind で選択イベントとチェックボックス イベントを構成する
+
+以下のコードは、jQuery bind 関数と live 関数を使用して選択イベントとチェックボックス イベントを処理する方法を示しています。イベントの型は `igTree` をイベント名の先頭に付加して、小文字の文字列で構築します。
+
+**HTML の場合:**
+
+```html
+$("#tree").bind("igtreeselectionchanging", function (evt, ui) { });
+$("#tree").live("igtreenodecheckstatechanged", function (evt, ui) { });
+```
+
+## 選択をキャンセルする
+
+以下のコードは、イベント ハンドラー関数から false を返すことで、選択操作をキャンセルする方法を示しています。`igTree` の -ing 関数に同じアプローチを使用できます。このコード例では、キャンセルは選択を行うかどうかを判断するアプリケーション ロジックのブール値結果を表します。
+
+**HTML の場合:**
+
+```html
+$("#tree").live("igtreenodecheckstatechanging", function (evt, ui) { if (cancel
+== true) return false; });
+```
+
+## 関連トピック
+
+以下は、その他の役立つトピックです。
+
+- <ApiLink type="igTree" pkg="core" label="igTree API ドキュメント" />
+- <ApiLink type="TreeModel" pkg="mvc" label="igTree MVC API ドキュメント" />

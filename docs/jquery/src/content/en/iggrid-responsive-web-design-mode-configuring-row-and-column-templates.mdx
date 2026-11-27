@@ -1,0 +1,191 @@
+---
+title: "Configuring Column Templates (igGrid, RWD Mode)"
+llms:
+  description: "Explains, with code examples, how to define column templates for the individual Responsive Web Design (RWD) mode configurations of the igGrid control and how to configure automatic change of template when switching the active RWD mode configuration."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgConfiguringTemplateSwitching1 from './images/Controls/igGrid/Features/Responsive/Configure/Configuring_Template_Switching_1.png';
+import imgConfiguringTemplateSwitching2 from './images/Controls/igGrid/Features/Responsive/Configure/Configuring_Template_Switching_2.png';
+import imgConfiguringTemplateSwitching3 from './images/Controls/igGrid/Features/Responsive/Configure/Configuring_Template_Switching_3.png';
+
+# Configuring Column Templates (igGrid, RWD Mode)
+
+## Topic Overview
+
+### Purpose
+
+This topic explains, with code examples, how to define column templates for the individual Responsive Web Design (RWD) mode configurations of the `igGrid`™ control and how to configure automatic change of template when switching the active RWD mode configuration.
+
+### Required background
+
+The following lists the concepts, topics, and articles required as a prerequisite to understanding this topic.
+
+- Concept
+  - Responsive Web Design
+  - Responsive Frameworks
+  - CSS Media Queries
+- Topics
+  - [Responsive Web Design Mode Overview (igGrid)](./iggrid-responsive-web-design-mode-overview.mdx): This topic explains conceptually the RWD Mode feature of the `igGrid` control and the functionalities this feature provides.
+  - [Enabling Responsive Web Design (RWD) Mode (igGrid)](./iggrid-enabling-responsive-web-design-mode.mdx): This topic explains, with code examples, how to enable the Responsive Web Design (RWD) mode in the `igGrid` control.
+  - [Configuring Responsive Web Design (RWD) Mode Overview (igGrid)](./iggrid-configuring-responsive-web-design-mode-overview.mdx): This topic explains conceptually the elements of which configuring Responsive Web Design (RWD) mode consists – configuring column hiding and configuring the templates – and how these elements relate to each other.
+- External Resources
+  - [A List Apart: Responsive Web Design](https://alistapart.com/article/responsive-web-design/)
+  - [Twitter Bootstrap](https://getbootstrap.com/)
+  - [Wikipedia: Responsive Web Design](https://en.wikipedia.org/wiki/Responsive_web_design)
+  - [CSS 3 Media Queries](https://www.w3.org/TR/css3-mediaqueries/)
+
+## Template Configuration Summary
+
+RWD mode templates are `igGrid` templates configured per profile. For example, using templates, in the Desktop profile, you may have `City`, `Country`, and `Address` as separate columns and, in the Tablet profile, you can merge them into a single column.
+
+The following screenshots demonstrate how the `igGrid` looks in the different RWD configurations. In the Desktop configuration, the grid has 3 columns: `Country`, `City`, and `Address`. In the Tablet configuration, the `Country` column is hidden. In the Phone configuration, the `Country` and `City` columns are hidden, but their data is appended to the `Address` column.
+
+Desktop Configuration (1280 x 1024 px)
+
+<Image src={imgConfiguringTemplateSwitching1} alt="igGrid in the Desktop configuration with separate Country, City and Address columns" />
+
+| Tablet configuration (768 x 1024 px)                    | Phone configuration (320 x 480 px)                      |
+| ------------------------------------------------------- | ------------------------------------------------------- |
+| <Image src={imgConfiguringTemplateSwitching2} alt="igGrid in the Tablet configuration with City and Address columns" /> | <Image src={imgConfiguringTemplateSwitching3} alt="igGrid in the Phone configuration with a single Address column combining street, city and country" /> |
+
+When there RWD configuration templates configured, the templates switch automatically with profile activation.
+
+### Template configuration summary chart
+
+The following table lists the configurable aspects of *RWD Mode template switching*. Additional details are available after the table.
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Configurable aspect</th><th>Details</th><th>Properties</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>[Column template](#column-template)</td><td>Column templates are defined individually for each column.</td>
+
+      <td>
+        - <ApiLink type="igGridResponsive" member="options:columnSettings" pkg="core" label="columnSettings" />
+        - <ApiLink type="igGridResponsive" member="options:columnSettings.columnKey" pkg="core" label="columnSettings.columnKey" />
+        - <ApiLink type="igGridResponsive" member="options:columnSettings.configuration" pkg="core" label="columnSettings.configuration.desktop.template" />
+        - <ApiLink type="igGridResponsive" member="options:columnSettings.configuration" pkg="core" label="columnSettings.configuration.tablet.template" />
+        - <ApiLink type="igGridResponsive" member="options:columnSettings.configuration" pkg="core" label="columnSettings.configuration.phone.template" />
+        - columnSettings.configuration.\<custom_mode>.template
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## <a id="column-template" />Configuring Column Templates
+
+Column templates are defined on column level, i.e. individually for each column. Column template switching is configured in the RWD Mode <ApiLink type="igGridResponsive" member="options:columnSettings" pkg="core" label="columnSettings" /> property of the RWD Mode feature.
+
+### Property settings
+
+The following table maps the desired configuration the property settings related to it.
+
+| In order to:                                                                                         | Use this property:                                                              | And set it to:        |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | --------------------- |
+| Configure column template for the Desktop RWD profile                                                | <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.columnKey" /> | the key of the column |
+| <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.configuration.desktop.template" /> | a template string                                                               |                       |
+| Configure column template for the Tablet RWD profile                                                 | <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.columnKey" /> | the key of the column |
+| <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.configuration.tablet.template" />  | a template string                                                               |                       |
+| Configure column template switching for the Phone RWD profile                                        | <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.columnKey" /> | the key of the column |
+| <ApiLink type="igGridResponsive" pkg="core" label="columnSettings.configuration.phone.template" />   | a template string                                                               |                       |
+
+### Example
+
+The following code demonstrates how to define a column template for the `Name` column for each of the RWD mode default profiles. The templates set the font size of the cell.
+
+**In JavaScript:**
+
+```js
+$("#grid1").igGrid({
+    height: "100%",
+    width: "100%",
+    columns: [
+        { headerText: "Product ID", key: "ProductID", dataType: "number" },
+        { headerText: "Product Name", key: "Name", dataType: "string" },
+        {
+            headerText: "Product Number",
+            key: "ProductNumber",
+            dataType: "string"
+        }
+    ],
+    autoGenerateColumns: false,
+    dataSource: adventureWorks,
+    responseDataKey: "Records",
+    features: [
+        {
+            name: "Responsive",
+            columnSettings: [
+                {
+                    columnKey: "Name",
+                    configuration: {
+                        desktop: {
+                            template:
+                                "<span style='font-weight: bold; font-size: 1.2em;'>${Name}</span>"
+                        },
+                        tablet: {
+                            template:
+                                "<span style='font-size: 1.1em;'>${Name}</span>"
+                        },
+                        phone: {
+                            template:
+                                "<span style='font-size: 0.8em;'>${Name}</span>"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+});
+```
+
+**In Razor:**
+
+```razor
+@using Infragistics.Web.Mvc
+@model IQueryable<GridDataBinding.Models.Product>
+@(Html.Infragistics()
+    .Grid(Model)
+    .ID("grid1")
+    .AutoGenerateColumns(false)
+    .Columns(col =>
+    {
+        col.For(c => c.ProductID).HeaderText("Product ID");
+        col.For(c => c.Name).HeaderText("Product Name");
+        col.For(c => c.ProductNumber).HeaderText("Product Number");
+    })
+    .Features(feature =>
+    {
+        feature.Responsive().ColumnSettings(cs =>
+        {
+            cs.ColumnSetting().ColumnKey("Name").Configuration(conf => {
+                conf.AddColumnModeConfiguration("desktop", c => c.Template(
+                    "<span style='font-weight: bold; font-size: 1.2em;'>${Name}</span>"));
+                conf.AddColumnModeConfiguration("tablet", c => c.Template(
+                    "<span style='font-size: 1.1em;'>${Name}</span>"));
+                conf.AddColumnModeConfiguration("phone", c => c.Template(
+                    "<span style='font-size: 0.8em;'>${Name}</span>"));
+            });
+        });
+    })
+    .DataBind()
+    .Render())
+```
+
+## Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Configuring Column Hiding (igGrid, RWD Mode)](./iggrid-responsive-web-design-mode-configuring-column-hiding.mdx): This topic explains, with code examples, how to configure column hiding for the `igGrid` control in Responsive Web Design (RWD) mode.
+
+- [Creating Custom Responsive Web Design (RWD) Profiles (igGrid)](./iggrid-responsive-web-design-mode-creating-custom-profile.mdx): This topic explains, with code examples, how to create custom Responsive Web Design (RWD) mode profiles for the `igGrid` control.

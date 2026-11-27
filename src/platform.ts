@@ -41,6 +41,7 @@ export type PlatformKey =
     | 'web-components'
     | 'winui'
     | 'uno'
+    | 'jquery'
     | 'slingshot'
     | 'appbuilder';
 
@@ -176,6 +177,7 @@ export const PLATFORM_DEFS: Record<PlatformKey, PlatformDef> = {
     'web-components': { styles: IG_STYLES, scripts: [] },
     winui: { styles: IG_STYLES, scripts: [] },
     uno: { styles: IG_STYLES, scripts: [] },
+    jquery: { styles: IG_STYLES, scripts: [] },
     slingshot: { styles: IG_STYLES, scripts: [] },
     appbuilder: { styles: APPBUILDER_STYLES, scripts: APPBUILDER_SCRIPTS },
 };

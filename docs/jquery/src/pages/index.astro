@@ -1,0 +1,19 @@
+---
+import { sidebar } from 'virtual:docs-template/site-meta';
+
+// The site root has no page of its own: it sends the reader to the first page of the navigation.
+type SidebarEntry = { label: string; slug: string } | { label: string; items: SidebarEntry[] };
+
+function firstSlug(items: SidebarEntry[]): string | null {
+    for (const item of items) {
+        if ('slug' in item) return item.slug;
+        const found = firstSlug(item.items);
+        if (found) return found;
+    }
+    return null;
+}
+
+const slug = firstSlug(sidebar as SidebarEntry[]);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+return Astro.redirect(slug ? `${base}/${slug}` : `${base}/404`, 301);
+---

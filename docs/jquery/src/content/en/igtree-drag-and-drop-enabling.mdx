@@ -1,0 +1,194 @@
+---
+title: "Enabling Drag-and-Drop (igTree)"
+keywords: "Getting Started, How Do I"
+llms:
+  description: "Explains, with code examples, how to enable the Drag-and-Drop feature in the igTree control."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import imgIgTreeDragAndDropEnabling1 from './images/Controls/igTree/Drag-and-Drop/igTree_Drag-and-Drop_Enabling_1.png';
+import imgIgTreeDragAndDropEnabling2 from './images/Controls/igTree/Drag-and-Drop/igTree_Drag-and-Drop_Enabling_2.png';
+
+# Enabling Drag-and-Drop (igTree)
+
+## Topic Overview
+
+### Purpose
+
+This topic explains, with code examples, how to enable the Drag-and-Drop feature in the `igTree`™ control.
+
+## Introduction
+
+### The Drag-and-Drop feature
+
+Dragging and dropping can be performed within the same `igTree` control or between different `igTree` controls. The latter is configured in addition to the “normal” (within the same tree) drag-and-drop.
+
+## <a id="feature-summary" />Enabling the Drag-and-Drop Feature Summary
+
+### Enabling Drag-and-Drop summary chart
+
+The following table lists the two ways to enable the Drag-and-drop feature of the `igTree` control.
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Type of enabling</th><th>Configuration Details</th><th>Properties</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Enabling drag-and-drop within an `igTree`</td><td>The `igTree` control must have the Drag-and-Drop feature enabled.</td>
+
+      <td>
+        - [dragAndDrop](./igtree-drag-and-drop-property-api-reference.mdx)
+      </td>
+    </tr>
+
+    <tr>
+      <td>Enabling the drag-and-drop between different `igTrees`</td><td>All participating `igTree` controls must have the Drag-and-Drop feature enabled. In addition to that, each the must be configured to accept drops from other `igTree` controls.</td>
+
+      <td>
+        - [dragAndDrop](./igtree-drag-and-drop-property-api-reference.mdx)
+        - [dragAndDropSettings](./igtree-drag-and-drop-property-api-reference.mdx)
+        - [allowDrop](./igtree-drag-and-drop-property-api-reference.mdx)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## <a id="drag-drop-within-tree" />Enabling Drag-and-Drop Within an igTree Control
+
+### <a id="within-tree-overview" />Overview
+
+The `igTree` control must have the Drag-and-Drop feature enabled.
+
+<Image src={imgIgTreeDragAndDropEnabling1} alt="igTree node BirthDay2009 dragged onto BirthDay2010 within the same tree, with the token reading Move to BirthDay2010." />
+
+Enabling the dragging within same control is managed by the [dragAndDrop](./igtree-drag-and-drop-property-api-reference.mdx) property.
+
+### <a id="within-tree-settings" />Property settings
+
+The following table maps the desired configuration to property settings.
+
+| In order to:                  | Use this property:                                               | And set it to: |
+| ----------------------------- | ---------------------------------------------------------------- | -------------- |
+| Enable dragging in the igTree | [dragAndDrop](./igtree-drag-and-drop-property-api-reference.mdx) | true           |
+
+### <a id="within-tree-code-example" />Code Example
+
+The following snippets demonstrate the [](#within-tree-settings)implemented in code.
+
+**In JavaScript:**
+
+```js
+$("#tree").igTree({
+    dragAndDrop: true
+});
+```
+
+**In Razor:**
+
+```razor
+@(Html.
+    Infragistics().
+    Tree().
+    ID("tree").
+    DragAndDrop(true).
+    DataBind().
+    Render()
+)
+```
+
+## <a id="between-different-trees" />Enabling Drag-and-Drop Between Different igTree Controls
+
+### <a id="between-trees-overview" />Overview
+
+All participating `igTree` controls must have the Drag-and-Drop feature enabled. In addition to that, each the must be configured to accept drops from other `igTree` controls.
+
+<Image src={imgIgTreeDragAndDropEnabling2} alt="Two igTree controls with the Y.Malmsteen node dragged from the left tree onto the AC/DC node of the right tree." />
+
+This means that you must set [dragAndDrop](./igtree-drag-and-drop-api-reference.mdx) property of each participating `igTree` control.
+
+to true to enable dragging. To enable dropping between these `igTree` controls, you must set two additional properties for each `igTree` that will be accepting drops from the other trees:
+
+- [dragAndDropSettings](./igtree-drag-and-drop-property-api-reference.mdx) to allowDrop
+- [allowDrop](./igtree-drag-and-drop-property-api-reference.mdx) property to true
+
+### <a id="between-trees-settings" />Property settings
+
+The following table maps the desired configuration to property settings.
+
+| In order to:                  | Use this property:                                                       | And set it to: |
+| ----------------------------- | ------------------------------------------------------------------------ | -------------- |
+| Enable dragging in the igTree | [dragAndDrop](./igtree-drag-and-drop-property-api-reference.mdx)         | true           |
+| Enable Drag-and-Drop settings | [dragAndDropSettings](./igtree-drag-and-drop-property-api-reference.mdx) | allowDrop      |
+| Enable dropping in the igTree | [allowDrop](./igtree-drag-and-drop-property-api-reference.mdx)           | true           |
+
+### <a id="between-trees-code-example" />Code Example
+
+The following snippets demonstrate the settings in Example block implemented in code.
+
+**In JavaScript:**
+
+```js
+$("#firstTree").igTree({
+    dragAndDrop: true,
+    dragAndDropSettings: {
+        allowDrop: true
+    }
+});
+
+$("#secondTree").igTree({
+    dragAndDrop: true,
+    dragAndDropSettings: {
+        allowDrop: true
+    }
+});
+```
+
+**In Razor:**
+
+```razor
+@(Html.Infragistics()
+    .Tree()
+    .ID("firstTree")
+    .DragAndDrop(true)
+    .DragAndDropSettings(settings =>{
+        settings.AllowDrop(true);
+    })
+    .DataBind()
+    .Render())
+                                                                       
+@(Html.Infragistics()
+    .Tree()
+    .ID("secondTree")
+    .DragAndDrop(true)
+    .DragAndDropSettings(settings =>{
+        settings.AllowDrop(true);
+    })
+    .DataBind()
+    .Render())
+```
+
+## Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Configuring Drag-and-Drop (igTree)](./igtree-drag-and-drop-configuring.mdx): This topic explains, with code examples, how to configure the Drag-and-Drop of the `igTree` control, in both JavaScript and MVC.
+
+- [Drag-and-Drop API Reference (igTree)](./igtree-drag-and-drop-api-reference.mdx): The topics in this group provide reference information about the events and properties of the `igTree` control that are related to the Drag-and-Drop feature.
+
+### Samples
+
+The following samples provide additional information related to this topic.
+
+- [Drag and Drop - Single Tree](\{environment:samplesBrowserUrl}/tree/drag-and-drop-single-tree): This sample demonstrates how to initialize the `igTree` control with the Drag-and-Drop feature enabled.
+
+- [Drag and Drop - Multiple Trees](\{environment:samplesBrowserUrl}/tree/drag-and-drop-multiple-trees): This sample demonstrates how to drag-and-drop nodes between two `igTrees`.
+
+- [API and Events](./igtree-event-reference.mdx#attaching-handlers-jquery): This sample demonstrates how to use `igTree` API.

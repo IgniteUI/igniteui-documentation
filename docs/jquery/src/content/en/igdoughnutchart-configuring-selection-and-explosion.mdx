@@ -1,0 +1,282 @@
+---
+title: "Configuring Selection and Explosion (igDoughnutChart)"
+keywords: "API, Charting, How Do I, Selection"
+llms:
+  description: "Explains how to configure selection and explosion for the slices of the igDoughnutChart."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgIgDoughnutChartConfiguringSelectionAndExplosionIgDoughnutChart1 from './images/Controls/igDoughnutChart/igDoughnutChart_Configuring_Selection_and_Explosion_(igDoughnutChart)_1.png';
+import imgIgDoughnutChartConfiguringSelectionAndExplosionIgDoughnutChart2 from './images/Controls/igDoughnutChart/igDoughnutChart_Configuring_Selection_and_Explosion_(igDoughnutChart)_2.png';
+
+# Configuring Selection and Explosion (igDoughnutChart)
+
+## Topic Overview
+
+### Purpose
+
+This topic explains how to configure selection and explosion for the slices of the <ApiLink type="igDoughnutChart" pkg="core" label="igDoughnutChart" />™.
+
+### Required background
+
+The following concept is required for understanding this topic:
+
+- [*igDoughnutChart* Overview](./igdoughnutchart-overview.mdx): This topic provides an overall look at the `igDoughnutChart` control.
+
+- [Adding *igDoughnutChart*](./igdoughnutchart-adding.mdx): This is a group of topics demonstrating how to add the `igDoughnutChart` control to an HTML page and to an ASP.NET MVC application.
+
+## Slice Selection Configuration Summary
+
+The following table lists the configurable aspects of the `igDoughnutChart` control related to slice selection.
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Configurable aspect</th><th>Details</th><th>Properties / Events</th>
+    </tr>
+
+    <tr>
+      <td>Enable/disable slice selection</td><td>You can enable or disable the ability to select slices or not.</td><td><ApiLink type="igDoughnutChart" member="options:allowSliceSelection" pkg="core" label="allowSliceSelection" /></td>
+    </tr>
+
+    <tr>
+      <td>Configuring the look of the selected slices</td><td>You can define how the selected slices will look by defining a `style` and assigning it to the <ApiLink type="igDoughnutChart" member="options:selectedStyle" pkg="core" label="selectedStyle" /> property of the *igDoughnutChart* control.</td><td>selectedStyle</td>
+    </tr>
+
+    <tr>
+      <td>Changing the selection state upon slice click</td><td>If you attach an event handler for the <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /> event, it supplies a reference to the clicked slice in the event arguments allowing you to modify its selection state.</td>
+
+      <td>
+        - <ApiLink type="igDoughnutChart" pkg="core" label="sliceClick" />
+        - <ApiLink type="igDoughnutChart" pkg="core" label="slice.isSelected" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Enable/ Disable Slice Selection
+
+You can alternately enable (default setting) or disable slice selection in the `igDoughnutChart`.
+
+<DocsAside type="note">
+  You must perform all the remaining slice selection configurations in this topic with slice selection enabled.
+</DocsAside>
+
+### Property settings
+
+The following table maps the desired behavior to property settings.
+
+| In order to:                   | Use this property:                                                                                             | And set it to:    |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- | ----------------- |
+| Enable/Disable slice selection | <ApiLink type="igDoughnutChart" member="options:allowSliceSelection" pkg="core" label="allowSliceSelection" /> | `true` or `false` |
+
+## Configuring the Look of the Selected Slices
+
+### Overview
+
+The `igDoughnutChart` exposes a <ApiLink type="igDoughnutChart" member="options:selectedStyle" pkg="core" label="selectedStyle" /> property that determines the look of the selected slices. By default, no style is applied, and selecting a slice will not alter its appearance in any way. In order to apply your own style to the selected slices, you need to define a style first and then configure it as the value of the `selectedStyle` property. Apart from setting a style that would apply to the slices of all series, it is also possible to specify different styles for the different series by assigning a separate style to each series’ `selectedStyle` property.
+
+### Property settings
+
+The following table maps the desired behavior to property settings.
+
+| In order to:                           | Use this property:                                                                                 | And set it to: |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------- |
+| Configure the look for selected slices | <ApiLink type="igDoughnutChart" member="options:selectedStyle" pkg="core" label="selectedStyle" /> | A style.       |
+
+### Example
+
+The screenshot below demonstrates how the `igDoughnutChart` control looks as a result of the following settings:
+
+| Property                                                                             | Value                                      |
+| ------------------------------------------------------------------------------------ | ------------------------------------------ |
+| <ApiLink type="igDoughnutChart" member="options:width" pkg="core" label="width" />   | “350”                                      |
+| <ApiLink type="igDoughnutChart" member="options:height" pkg="core" label="height" /> | “350”                                      |
+| <ApiLink type="igDoughnutChart" member="options:series" pkg="core" label="series" /> | \{ … selectedStyle: stroke: '#31FF1E' }, } |
+
+<Image src={imgIgDoughnutChartConfiguringSelectionAndExplosionIgDoughnutChart1} alt="igDoughnutChart with the small green slice selected and outlined in bright green" />
+
+Following is the code that implements this example.
+
+**In HTML:**
+
+```html
+<html>
+    <head>
+        ...
+        <script type="text/javascript">
+            $(function () {
+                var dc = $("#doughnutChart").igDoughnutChart({
+                    ...
+                    series: [
+                        {
+                            name: "flatSeries",
+                            valueMemberPath: "Index",
+                            dataSource: data,
+                            labelMemberPath: 'ProductCategory',
+                            selectedStyle: { stroke: '#31FF1E' },
+                        }
+                    ]
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Target element for the igDoughnutChart -->
+        <div id="doughnutChart"></div>
+    </body>
+</html>
+```
+
+## Changing the Selection State upon Slice Click
+
+The `igDoughnutChart` exposes a <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /> event used to change the selected/unselected state of a slice.
+
+### Property settings
+
+The following table maps the desired behavior to property settings.
+
+| In order to:                  | Use this event / property:                                                                                  | What to do:                                         |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Set the `isSelected` property | <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /><br />isSelected | Set the `isSelected` property to `true` or `false`. |
+
+### Example
+
+The following code example demonstrates how to toggle the selection state of slices upon click.
+
+**In HTML:**
+
+```html
+<html>
+    <head>
+        ...
+        <script type="text/javascript">
+            $(function () {
+                var dc = $("#doughnutChart").igDoughnutChart({
+                    width: 350,
+                    height: 350,
+                    sliceClick: function (event, ui) {
+                        ui.slice.isSelected = !ui.slice.isSelected;
+                    },
+                    series: [
+                        {
+                            ...
+                        }
+                    ]
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Target element for the igDoughnutChart -->
+        <div id="doughnutChart"></div>
+    </body>
+</html>
+```
+
+## Slice Explosion Configuration Summary
+
+The following table lists the configurable aspects of the `igDoughnutChart` control related to slice explosion.
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Configurable aspect</th><th>Details</th><th>Properties / Events</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Enable/disable slice explosion</td><td>You can enable or disable the ability to explode slices.</td><td><ApiLink type="igDoughnutChart" member="options:allowSliceExplosion" pkg="core" label="allowSliceExplosion" /></td>
+    </tr>
+
+    <tr>
+      <td>Changing the exploded state of a slice upon slice click</td><td>If you attach an event handler for the <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /> event, a reference to the clicked slice is supplied in the event arguments and you can modify its exploded state.</td>
+
+      <td>
+        - `sliceClick`
+        - <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="slice.isExploded" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Enable/ Disable Slice Explosion
+
+You can enable (default setting) or disable slice explosion in the `igDoughnutChart`.
+
+<DocsAside type="note">
+  You must perform all the remaining slice explosion configurations in this topic with slice explosion enabled.
+</DocsAside>
+
+### Property settings
+
+The following table maps the desired behavior to property settings.
+
+| In order to:                   | Use this property:                                                                                             | And set it to:    |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- | ----------------- |
+| Enable/Disable slice explosion | <ApiLink type="igDoughnutChart" member="options:allowSliceExplosion" pkg="core" label="allowSliceExplosion" /> | `true` or `false` |
+
+### Example
+
+The following screenshot demonstrates an `igDoughnutChart` with 1 slice exploded.
+
+<Image src={imgIgDoughnutChartConfiguringSelectionAndExplosionIgDoughnutChart2} alt="igDoughnutChart with the dark blue slice exploded outward from the ring" />
+
+## Changing the Explosion State upon Slice Click
+
+The `igDoughnutChart` exposes a <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /> event used to change whether a slice explodes.
+
+### Property settings
+
+The following table maps the desired behavior to property settings.
+
+| In order to:                                                                                                 | Use this event / property:                                                                                                                                                                   | What to do:                                    |
+| ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| Set the <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="isExploded" /> property | <ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="sliceClick" /><br /><ApiLink type="igDoughnutChart" member="events:sliceClick" pkg="core" label="isExploded" /> | Set the `isExploded` property to true or false |
+
+### Example
+
+The following code example demonstrates how to toggle the explosion state of slices upon click.
+
+**In HTML:**
+
+```html
+<html>
+    <head>
+        ...
+        <script type="text/javascript">
+            $(function () {
+                var dc = $("#doughnutChart").igDoughnutChart({
+                    width: 350,
+                    height: 350,
+                    sliceClick: function (event, ui) {
+                        ui.slice.isExploded = !ui.slice.isExploded;
+                    },
+                    series: [
+                        {
+                            ...
+                        }
+                    ]
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Target element for the igDoughnutChart -->
+        <div id="doughnutChart"></div>
+    </body>
+</html>
+```
+
+## Related Content
+
+### Samples
+
+The following samples provide additional information related to this topic.
+
+- [Bind to Collection](\{environment:samplesBrowserUrl}/doughnut-chart/bind-to-collection): This is an example of rendering the `igDoughnutChart` using Ignite UI for MVC. The helper binds to a collection of objects on the server and serializes the collection to JSON objects and renders the required `igDoughnutChart` HTML and JavaScript.

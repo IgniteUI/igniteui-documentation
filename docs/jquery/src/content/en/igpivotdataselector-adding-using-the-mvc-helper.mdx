@@ -1,0 +1,178 @@
+---
+title: "Adding igPivotDataSelector to an ASP.NET MVC Application"
+keywords: "Application Blocks, Getting Started, Grids, How Do I, MVC"
+llms:
+  description: "Explains, in both conceptual and step-by-step form, how to add the igPivotDataSelector control to an ASP.NET MVC application using Ignite UI for MVC."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgPivotDataSelectorAdding1 from './images/Controls/igPivotDataSelector/Adding/igPivotDataSelector_Adding_1.png';
+
+# Adding igPivotDataSelector to an ASP.NET MVC Application
+
+## Topic Overview
+
+### Purpose
+
+This topic explains, in both conceptual and step-by-step form, how to add the `igPivotDataSelector`™ control to an ASP.NET MVC application using Ignite UI for MVC.
+
+### Required background
+
+The following topics are prerequisites to understanding this topic:
+
+- [**igPivotDataSelector Overview**](./igpivotdataselector-overview.mdx): This topic provides conceptual information about the `igPivotDataSelector` control including its main features, minimum requirements, and user functionality.
+
+- [**Adding igPivotDataSelector to an HTML Page**](./igpivotdataselector-adding-to-html-page.mdx): This topic explains, in both conceptual and step-by-step form, how to add the `igPivotDataSelector` control to an HTML page. This topic provides the complete listing of the required JavaScript resource files.
+
+## Adding igPivotDataSelector to an ASP.NET MVC Application – Conceptual Overview
+
+### Adding igPivotDataSelector to an ASP.NET MVC application summary
+
+The `igPivotDataSelector` is a client-side component accompanied by an Ignite UI for MVC implementation that allows the component to be used in the CS/VB code of an MVC View. It allows also consuming data from the View’s Model (using `igOlapFlatDataSource`). When using the Ignite UI for MVC `igPivotDataSelector`, there are two ways to bind it to data:
+
+- By configuring a data source.
+
+This is done by setting the required <ApiLink type="OlapDataSourceWrapper" member="DataSourceOptions" pkg="mvc" label="DataSourceOptions" /> (used to create a data source object). This approach is explained in this topic.
+
+- By referencing a pre-configured data source.
+
+This is done by providing the ID of a pre-configured data source instance (<ApiLink type="PivotDataSelectorWrapper" member="DataSourceID" pkg="mvc" label="DataSourceID" />) (as explained in [Adding igOlapXmlaDataSource to an ASP.NET MVC Application](./igolapxmladatasource-adding-to-an-aspnetmvc-application.mdx) and [Adding igOlapFlatDataSource to an ASP.NET MVC Application](./igolapflatdatasource-adding-using-mvc-helper.mdx)).
+
+Defining the `igPivotDataSelector` in the View is achieved by setting the required properties using methods that always return the same object that called them. This allows chaining syntax to be used for setting all required properties. For complex objects such as `DataSourceOptions`, lambda expression builders are used in order to achieve this kind of syntax.
+
+### Requirements
+
+Following are the general requirements for adding `igPivotDataSelector` to an ASP.NET MVC application:
+
+- A reference to the Infragistics® namespace
+- The required JavaScript files added to your application (For the complete listing, refer to [Adding igPivotDataSelector to an HTML Page](./igpivotdataselector-adding-to-html-page.mdx).)
+- References to the required JavaScript files added to your application (For the complete listing, refer to [Adding igPivotDataSelector to an HTML Page](./igpivotdataselector-adding-to-html-page.mdx).)
+
+### Steps
+
+Following are the general conceptual steps for adding `igPivotDataSelector` to an ASP.NET MVC application.
+
+1. Adding a reference to the Infragistics namespace
+
+2. Adding a reference to the required JavaScript resources
+
+3. Adding the `igPivotDataSelector` and configuring the data source
+
+## Adding igPivotDataSelector to an ASP.NET MVC Application – Example
+
+### Introduction
+
+The procedure below demonstrates how to add the `igPivotDataSelector` control to an ASP.NET MVC application. Code examples for both approaches for adding igPivotDataSelector – by setting the <ApiLink type="PivotDataSelectorWrapper" member="DataSourceOptions" pkg="mvc" label="DataSourceOptions" /> and by setting the <ApiLink type="PivotDataSelectorWrapper" member="DataSourceID" pkg="mvc" label="DataSourceID" />, are available. The required resources in this example are referred to automatically with the Infragistics Loader.
+
+### Preview
+
+The following screenshot is a preview of the final result.
+
+<Image src={imgIgPivotDataSelectorAdding1} alt="igPivotDataSelector with an Adventure Works cube, its metadata tree, and hierarchies and a measure in the drop areas" />
+
+### Prerequisites
+
+To complete the procedure, you need the following:
+
+- An ASP.NET MVC application
+- Reference to the `Infragistics.Web.Mvc.dll` assembly added to the application project
+- The Adventure Works sample database deployed on an SQL server ([http://sampledata.infragistics.com](http://sampledata.infragistics.com) is used in this example)
+
+### Steps
+
+The following steps demonstrate how to add an `igPivotDataSelector` to an ASP.NET MVC application.
+
+1. Add a reference to the Infragistics namespace.
+
+   Add the `Infragistics.Web.Mvc` namespace to your View code.
+
+   **In Razor:**
+
+   ```razor
+   @using Infragistics.Web.Mvc
+   ```
+
+2. Add a reference to the required JavaScript resources.
+
+   1. Add script reference to the `igLoader`.
+
+      Add the following script reference to the head section of the View.
+
+      **In Razor:**
+
+      ```csharp
+      <script src="[path to js folder]/infragistics.loader.js"></script>
+      ```
+
+3. Add the `igLoader` definition.
+
+   The following code loads the required resources using the Infragistics Loader.
+
+   **In Razor:**
+
+   ```razor
+   @(Html.Infragistics()
+           .Loader()
+           .ScriptPath("[path to js folder]")
+           .CssPath("[path to css folder]")
+           .Render()
+   )
+   ```
+
+4. Add the `igPivotDataSelector` and configure the data source.
+
+   The following code adds an `igPivotDataSelector` bound to an `igOlapXmlaDataSource`:
+
+   **In Razor:**
+
+   ```razor
+   @(Html.Infragistics().PivotDataSelector()
+   .DataSourceOptions(
+       dataSourceOptions => dataSourceOptions
+           .Columns("[Product].[Product Categories]")
+           .Rows("[Sales Territory].[Sales Territory]")
+           .Measures("[Measures].[Internet Order Count]")
+           .XmlaOptions(
+           xmlaOptions => xmlaOptions
+               .ServerUrl("http://sampledata.infragistics.com/olap/msmdpump.dll")
+               .Catalog("Adventure Works DW Standard Edition")
+               .Cube("Adventure Works")
+               .MeasureGroup("Internet Sales"))).Render()
+   )
+   ```
+
+   If you prefer to use an already preconfigured data source you need to set the <ApiLink type="PivotDataSelectorWrapper" member="DataSourceID" pkg="mvc" label="DataSourceID" /> property . The code example below assumes that an igOlapXmlaDataSource or igOlapFlatDataSource with ID of “olapDataSource” is present in the view. (For details, refer to [Adding igOlapXmlaDataSource to an ASP.NET MVC Application](./igolapxmladatasource-adding-to-an-aspnetmvc-application.mdx) or [Adding igOlapFlatDataSource to an ASP.NET MVC Application](./igolapflatdatasource-adding-using-mvc-helper.mdx).)
+
+   **In Razor:**
+
+   ```razor
+   @(Html.Infragistics().PivotDataSelector()
+   .DataSourceID(“olapDataSource”)
+   .Render()
+   )
+   ```
+
+## Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Adding igOlapFlatDataSource to an ASP.NET MVC Application](./igolapflatdatasource-adding-using-mvc-helper.mdx): This topic explains, in both conceptual and step-by-step form, how to add the `igOlapFlatDataSource`™ control to an ASP.NET MVC application using Ignite UI for MVC.
+
+- [Adding igOlapXmlaDataSource to an ASP.NET MVC Application](./igolapxmladatasource-adding-to-an-aspnetmvc-application.mdx): This topic explains, in both conceptual and step-by-step form, how to add the `igOlapXmlaDataSource`™ control to an ASP.NET MVC application using Ignite UI for MVC.
+
+- [igPivotGrid Overview](./igpivotgrid-overview.mdx): This topic provides conceptual information about the `igPivotGrid`™ control including its main features, minimum requirements, and user functionality.
+
+- [igPivotView Overview](./igpivotview-overview.mdx): This topic provides conceptual information about the `igPivotView`™ control including its main features, minimum requirements, and user functionality.
+
+### Samples
+
+The following samples provide additional information related to this topic.
+
+- [Using theIgnite UI for MVC with Flat Data Source](\{environment:samplesBrowserUrl}/pivot-data-selector/using-the-asp-net-mvc-helper-with-flat-data-source): This sample demonstrates how to use the Ignite UI for MVC `igOlapFlatDataSource` and how to use this data source in `igPivotDataSelector` and `igPivotGrid`.
+
+- [Using the Ignite UI for MVC with Xmla Data Source](\{environment:samplesBrowserUrl}/pivot-data-selector/using-the-asp-net-mvc-helper-with-xmla-data-source): This sample demonstrates how to use the Ignite UI for MVC `igOlapXmlaDataSource` and how to use this data source in `igPivotDataSelector` and `igPivotGrid`.

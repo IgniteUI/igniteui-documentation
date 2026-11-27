@@ -113,6 +113,7 @@ describe('PLATFORM_MAP', () => {
             blazor: 'Blazor',
             winui: 'WinUI',
             uno: 'Uno',
+            jquery: 'jQuery',
         });
     });
 

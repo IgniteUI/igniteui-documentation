@@ -1,0 +1,288 @@
+---
+title: "Configuring igOlapXmlaDataSource Through a Remote Provider"
+keywords: "Getting Started, How Do I"
+llms:
+  description: "Explains how to configure a remote data provider for the igOlapXmlaDataSource component."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import imgIgOlapXmlaDataSourceConfiguringThroughARemoteProvider1 from './images/Data-Sources/OLAP/Xmla/Config/Data-Provider/igOlapXmlaDataSource_Configuring_Through_a_Remote_Provider_1.png';
+
+# Configuring igOlapXmlaDataSource Through a Remote Provider
+
+## Topic Overview
+
+### Purpose
+
+This topic explains how to configure a remote data provider for the `igOlapXmlaDataSource`™ component.
+
+### Required background
+
+The following table lists the topics and articles required as a prerequisite to understanding this topic.
+
+**Topics**
+
+- [igOlapXmlaDataSource Overview](./igolapxmladatasource-overview.mdx): This topic provides an overview of the `igOlapXmlaDataSource` component and its main features.
+
+- [Adding igOlapXmlaDataSource to an HTML Page](./igolapxmladatasource-adding-to-an-html-page.mdx): This topic explains how to add the `igOlapXmlaDataSource` to and HTML page and how to configure it for retrieving data from a Microsoft® SQL Server Analysis Services (SSAS) Server.
+
+- [Data Provider Configuration Overview (igOlapXmlaDataSource)](./igolapxmladatasource-data-provider-configuration-overview.mdx): This topic provides an overview of the supported data providers for the `igOlapXmlaDataSource` component and conceptual-level information on how to configure them.
+
+**External Resources**
+
+- [Developing with ADOMD.NET](https://learn.microsoft.com/en-us/analysis-services/adomd/developing-with-adomd-net): This is a group of topics related the ADOMD.NET.
+
+- [Configure HTTP Access to Analysis Services on Internet Information Services (IIS) 7.0](https://learn.microsoft.com/en-us/analysis-services/instances/configure-http-access-to-analysis-services-on-iis-8-0): An article explaining how to configure an HTTP data provider (`msmdpump.dll`) for your SSAS Server.
+
+## Introduction
+
+To configure the `igOlapXmlaDataSource` for a remote data provider, you need to first add the data provider to your ASP.NET MVC application and then configure `igOlapXmlaDataSource` to use a remote provider and supply it with the provider URL.
+
+For conceptual explanation of configuring remote data providers, refer to [Data Provider Configuration Overview (igOlapXmlaDataSource)](./igolapxmladatasource-data-provider-configuration-overview.mdx)
+
+## Configuring a Remote Data Provider – Conceptual Overview
+
+### Remote data provider configuration summary
+
+The following table lists the types of remote data providers supported by the `igOlapXmlaDataSource` component and briefly explains them.
+
+| Remote data provider type | Description                                                       |
+| ------------------------- | ----------------------------------------------------------------- |
+| XMLA                      | Connects to an HTTP data provider (msmdpump) for SSAS.            |
+| ADOMD.NET                 | Connects directly to an SSAS instance using Microsoft® ADOMD.NET. |
+
+### Requirements
+
+Following are the general requirements for configuring `igOlapXmlaDataSource` through a remote data provider.
+
+- A MS SSAS Server with at least one database
+- (Conditional – ADOMD provider only) ADOMD.NET Client (`Microsoft.AnalysisServices.AdomdClient.dll` assembly version 10.0.0.0) installed on the server
+- (Conditional – XMLA provider only) The HTTP server having read access to the MS SQL Server instance
+- An ASP.NET MVC application with references to the following assemblies:
+  - `Infragistics.Web.Mvc.dll`
+  - (Conditional – ADOMD provider only) `Infragistics.Olap.DataProvider.Adomd.Mvc.dll`
+
+### Steps
+
+Following are the general conceptual steps for configuring `igOlapXmlaDataSource` through a remote data provider.
+
+1. Configuring the endpoint
+
+2. Configuring `igOlapXmlaDataSource`
+
+For a concrete example of this procedure, see [Configuring a Remote Data Provider – Example](#remote-data-provider-example).
+
+## <a id="remote-data-provider-example" />Configuring a Remote Data Provider – Example
+
+### Introduction
+
+This procedure sets up either an ADOMD.NET remote data provider or an XMLA remote data provider in an ASP.NET MVC Application, and configures an `igOlapXmlaDataSource` that consumes the data from the data provider and visualizes it in an `igPivotGrid`™. (Optionally you can preload a catalog, cube, rows, columns, and measures or further configure the data source. In this procedure, a pivot grid is added for displaying the result.)
+
+### Preview
+
+The following screenshot is a preview of the final result: the pivot grid fed with data from the remote data provider.
+
+<Image src={imgIgOlapXmlaDataSourceConfiguringThroughARemoteProvider1} alt="igPivotGrid fed by a remote provider showing Internet Order Count for All Products by calendar year, 2001 to 2004." />
+
+### Prerequisites
+
+To complete the procedure, you need the following:
+
+- The required JS/CSS resources, as listed in Adding `igPivotGrid` to an HTML Page or the JavaScript and CSS combined files
+
+### Overview
+
+Following is a conceptual overview of the process:
+
+1. Configuring the endpoint
+
+2. Configuring the `igOlapXmlaDataSource`
+
+### Steps
+
+The following steps demonstrate how to configure the `igOlapXmlaDataSource` through a remote data provider.
+
+1. Configure the endpoint.
+
+   To make the remote data provider available to the `igOlapXmlaDataSource`, configure an Action in the Controller to which the `igOlapXmlaDataSource` will connect.
+
+   For ADOMD remote provider
+
+   The Action requires applying the AdomdDataSourceActionAttribute. In the Action’s body, return a new View passing an AdomdDataSourceModel instance with its ConnectionString property set accordingly.
+
+   **In C#:**
+
+   ```csharp
+   [AdomdDataSourceAction]
+   public ActionResult RemoteAdomdProviderEndpoint()
+   {
+       return View(new AdomdDataSourceModel {
+           ConnectionString = "Provider=MSOLAP.4;Persist Security Info=True;Data Source=http://sampledata.infragistics.com/olap/msmdpump.dll;Initial Catalog=Adventure Works DW Standard Edition;MDX Compatibility=1;Safety Options=2;MDX Missing Member Mode=Error"});
+   }
+   ```
+
+   If you do not have version 10.0.0.0 of the `Microsoft.AnalysisServices.AdomdClient` assembly installed on your server, but you have another version already installed, you can add the following binding redirect section to the `web.config` file of your web application and use the version you have:
+
+   **In XML:**
+
+   ```xml
+   <runtime>
+     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+       <dependentAssembly>
+         <assemblyIdentity name="Microsoft.AnalysisServices.AdomdClient"
+             publicKeyToken="89845dcd8080cc91"
+             culture="neutral" />
+         <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535"
+             newVersion="[your version]" />
+       </dependentAssembly>
+     </assemblyBinding>
+   </runtime>
+   ```
+
+   For XMLA remote provider
+
+   The Action requires applying the <ApiLink type="XmlaDataSourceActionAttribute" pkg="mvc" label="XmlaDataSourceActionAttribute" />. In the Action’s body, return a new View passing an <ApiLink type="XmlaDataSourceModel" pkg="mvc" label="XmlaDataSourceModel" /> instance with its <ApiLink type="XmlaDataSourceModel" member="ServerUrl" pkg="mvc" label="ServerUrl" /> property set to the URL of the msmdpump data provider.
+
+   **In C#:**
+
+   ```csharp
+   [XmlaDataSourceAction]
+   public ActionResult RemoteXmlaProviderEndpoint()
+   {
+       return View(new XmlaDataSourceModel{
+           ServerUrl = "http://sampledata.infragistics.com/olap/msmdpump.dll" });
+   }
+   ```
+
+2. Configure `igOlapXmlaDataSource`.
+
+   For `igOlapXmlaDataSource` to work with the remote data provider, set the <ApiLink type="OlapXmlaDataSource" member="options:options.serverUrl" pkg="core" label="serverUrl" /> to the URL of the action defined in step 1 and set the <ApiLink type="OlapXmlaDataSource" member="options:options.isRemote" pkg="core" label="isRemote" /> option to true.
+
+   For this example procedure, add a pivot grid for displaying the result. (Optionally you can preload a catalog, cube, rows, columns, and measures or further configure the data source.)
+
+   **In JavaScript:**
+
+   ```js
+   $(function () {
+       var remoteDataSource = new $.ig.OlapXmlaDataSource({
+           isRemote: true,
+           // if using ADOMD
+           serverUrl: '@Url.Action("RemoteAdomdProviderEndpoint")',
+           // if using XMLA
+           //serverUrl: '@Url.Action("RemoteXmlaProviderEndpoint")',
+           catalog: "Adventure Works DW 2008",
+           cube: "Adventure Works",
+           rows: "[Date].[Calendar]",
+           columns: "[Product].[Product Categories]",
+           measures: "[Measures].[Internet Order Count]"
+       });
+       $("#pivotGrid").igPivotDataSelector({
+           dataSource: remoteDataSource,
+           width: "900px",
+           height: "500px"
+       });
+   });
+   ```
+
+### Full code – Controller
+
+Following is the full code code for the PivotGridController.
+
+**In C#:**
+
+```csharp
+using System.Web.Mvc;
+using Infragistics.Web.Mvc;
+namespace OlapAdomdMvc.Controllers
+{
+    public class PivotGridController : Controller
+    {
+        [AdomdDataSourceAction]
+        public ActionResult RemoteAdomdProviderEndpoint()
+        {
+            return View(new AdomdDataSourceModel {
+                ConnectionString = "Provider=MSOLAP.4;Persist Security Info=True;Data Source=http://sampledata.infragistics.com/olap/msmdpump.dll;Initial Catalog=Adventure Works DW Standard Edition;MDX Compatibility=1;Safety Options=2;MDX Missing Member Mode=Error" });
+        }
+        [XmlaDataSourceAction]
+        public ActionResult RemoteXmlaProviderEndpoint()
+        {
+            return View(new XmlaDataSourceModel {
+                ServerUrl =
+                    "http://sampledata.infragistics.com/olap/msmdpump.dll" });
+        }
+        public ActionResult RemoteDataProvider()
+        {
+            return View("RemoteDataProvider");
+        }
+    }
+}
+```
+
+### Full code – View
+
+Following is the code for the RemoteDataProviderSample View.
+
+**In HTML:**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <!-- Ignite UI for jQuery Required Combined CSS Files -->
+    <link
+        href="@Url.Content("[IG root]/css/themes/infragistics/infragistics.theme.css")"
+        rel="stylesheet" />
+    <link href="@Url.Content("[IG root]/css/structure/infragistics.css")"
+        rel="stylesheet" />
+    <script src="@Url.Content("~/js/modernizr.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery-ui.min.js")"></script>
+    <!-- Ignite UI for jQuery Required Combined JavaScript Files -->
+    <script src="@Url.Content("[IG root]/js/infragistics.core.js")"></script>
+    <script src="@Url.Content("[IG root]/js/infragistics.lob.js")"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $.support.cors = true;
+        $(function () {
+            var remoteDataSource = new $.ig.OlapXmlaDataSource({
+                isRemote: true,
+                serverUrl: '@Url.Action("RemoteXmlaProviderEndpoint")',
+                catalog: 'Adventure Works DW 2008',
+                cube: 'Adventure Works',
+                rows: '[Date].[Calendar]',
+                columns: '[Product].[Product Categories]',
+                measures: '[Measures].[Internet Order Count]'
+            });
+            $("#pivotGrid").igPivotGrid({
+                dataSource: remoteDataSource,
+                width: "500px",
+                height: "270px"
+            });
+        });
+    </script>
+    <div id="pivotGrid"></div>
+</body>
+</html>
+```
+
+## Related Content
+
+### Topics
+
+The following topics provide additional information related to this topic.
+
+- [Configuring the Tabular View of the Result Set by Arranging the Columns, Rows, Filters, and Measures of the Pivot Grid (igOlapFlatDataSource, igOlapXmlaDataSource, igPivotDataSelector, igPivotGrid, igPivotView)](./configuring-the-tabular-view.mdx): This topic explains how to configure the tabular View of the OLAP cube result set by arranging the hierarchies of the pivot grid columns, rows, filters, and measures, either from the grid’s interface or programmatically in the code.
+
+### Samples
+
+The following samples provide additional information related to this topic.
+
+- [Remote Xmla Provider](\{environment:samplesBrowserUrl}/pivot-grid/remote-xmla-provider): This sample demonstrates reducing the network traffic using a remote provider with the igOlapXmlaDataSource component.
+
+- [ADOMD.NET Remote Data Provider](\{environment:samplesBrowserUrl}/pivot-grid/remote-adomd-provider): This sample demonstrates using the ADOMD.NET remote provider with the igPivotGrid control.
+

@@ -70,6 +70,20 @@ describe('getPlatformContext', () => {
             .toBe('https://www.infragistics.com/api/angular/igniteui-angular/latest');
     });
 
+    it.each([
+        [undefined, 'https://www.igniteui.com/api/'],
+        ['jp', 'https://jp.igniteui.com/api/'],
+        ['kr', 'https://www.igniteui.com/api/'],
+    ])('roots the jQuery API packages at its own origin for LANG_CODE %s', async (lang, origin) => {
+        useTmpAsCwd();
+        vi.stubEnv('LANG_CODE', lang);
+        const { getPlatformContext } = await loadModule();
+        const roots = Object.values(getPlatformContext('jQuery').apiPackages).map(pkg => pkg.docRoot);
+
+        expect(roots.length).toBeGreaterThan(0);
+        expect(roots.every(root => root.startsWith(origin))).toBe(true);
+    });
+
     it('rewrites the docRoot from API_DOCS_BASE_URL', async () => {
         useTmpAsCwd();
         vi.stubEnv('API_DOCS_BASE_URL', 'https://custom.test/api');

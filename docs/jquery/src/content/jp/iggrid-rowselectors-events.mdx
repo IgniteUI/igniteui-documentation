@@ -1,0 +1,97 @@
+---
+title: "行セレクター イベント (igGrid)"
+keywords: "API, Grids, Selection"
+llms:
+  description: "このトピックは、igGrid の RowSelectors ウィジェットに固有のイベントを説明します。"
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro';
+import imgNegative from './images/negative.png';
+import imgPositive from './images/positive.png';
+
+# 行セレクター イベント (igGrid)
+
+### 目的
+
+このトピックは、`igGrid`™ の RowSelectors ウィジェットに固有のイベントを説明します。
+
+## イベントの概要
+
+RowSelectors ウィジェットに固有なイベントは 3 つあります。(以下の「イベント参照チャート」ブロックを参照してください)。`checkBoxStateChanging` イベントはキャンセルでき、ハンドラーで false を返す場合に伝達を終了できます。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    features: [
+        {
+            name: "RowSelectors",
+            enableCheckBoxes: true,
+            checkBoxStateChanging: function (ui, args) {
+                return false;
+            }
+        },
+        {
+            name: "Selection"
+        }
+    ]
+});
+```
+
+引数のメソッドおよびプロパティのほとんどに、それらが属するグリッドだけでなく、行固有のデータが含まれています。
+
+## jQuery および MVC でハンドラーをイベントに添付する
+
+イベントに添付するには、プロパティの定義と同じようにイベントのハンドラーを定義する必要があります。これでイベントをトリガーすると、ハンドラーが呼び出されます。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").igGrid({
+    responseDataKey: "Records",
+    features: [
+        {
+            name: "RowSelectors",
+            enableCheckBoxes: true,
+            rowSelectorClicked: function (evt, ui) {
+                // Handle event
+            }
+        },
+        {
+            name: "Selection"
+        }
+    ]
+});
+```
+
+MVC でハンドラーを添付する場合、jQuery UI パターンを使用する必要があります。このパターンは、コントロールとイベントの名前を小文字で連結したものです。
+
+**JavaScript の場合:**
+
+```js
+$("#grid1").on("iggridrowselectorsrowselectorclicked", function (evt, ui) {
+    // Handle event
+});
+```
+
+<DocsAside type="note" title="注">
+  詳細については、[Ignite UI for jQuery でイベントの使用](./using-events-in-igniteui-for-jquery.mdx)を参照してください。
+</DocsAside>
+
+## イベント参照チャート
+
+| イベント                                                                                                                 | 説明                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | キャンセル可能                            |
+| -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| <ApiLink type="igGridRowSelectors" member="events:rowSelectorClicked" pkg="core" label="rowSelectorClicked" />       | 行セレクターがクリックされた後に発生します。<br />関数には引数 evt および ui が必要です。<br />ui.row を使用して、クリックされた行セレクターが常駐する行への参照を取得します。<br />ui.rowIndex を使用して、クリックされた行セレクターが常駐する行のインデックスを取得します。<br />ui.rowKey を使用して、クリックされた行セレクターが常駐する行のキーを取得します。<br />ui.rowSelector を使用して行セレクター セルへの参照を取得します。<br />ui.owner を使用して igRowSelectors への参照を取得します。<br />ui.grid を使用して igRowSelectors が初期化されている igGrid への参照を取得します。                                                                                                                                                                                                             | <Image src={imgNegative} alt="いいえ" /> |
+| <ApiLink type="igGridRowSelectors" member="events:checkBoxStateChanging" pkg="core" label="checkBoxStateChanging" /> | 行セレクターのチェックボックスが変化している場合に発生します。<br />関数には引数 evt および ui が必要です。<br />ui.row を使用して、クリックされた行セレクターが常駐する行への参照を取得します。<br />ui.rowIndex を使用して、クリックされた行セレクターが常駐する行のインデックスを取得します。<br />ui.rowKey を使用して、クリックされた行セレクターが常駐する行のキーを取得します。<br />ui.rowSelector を使用して行セレクター セルへの参照を取得します。<br />ui.owner を使用して igRowSelectors への参照を取得します。<br />ui.grid を使用して igRowSelectors が初期化されている igGrid への参照を取得します。<br />ui.currentState を使用してチェックボックスの現在の状態 (「on」、「off」) を取得します。<br />ui.newState を使用してチェックボックスの新しい状態 (「on」、「off」) を取得します。<br />ui.isHeader を使用してヘッダー チェックボックスがクリックされているかどうか確認します。この場合、行関連の引数は渡されません。 | <Image src={imgPositive} alt="はい" /> |
+| <ApiLink type="igGridRowSelectors" member="events:checkBoxStateChanged" pkg="core" label="checkBoxStateChanged" />   | 行セレクターのチェックボックスの状態が変化した後に発生します。<br />関数には引数 evt および ui が必要です。<br />ui.row を使用して、クリックされた行セレクターが常駐する行への参照を取得します。<br />ui.rowIndex を使用して、クリックされた行セレクターが常駐する行のインデックスを取得します。<br />ui.rowKey を使用して、クリックされた行セレクターが常駐する行のキーを取得します。<br />ui.rowSelector を使用して行セレクター セルへの参照を取得します。<br />ui.owner を使用して igRowSelectors への参照を取得します。<br />ui.grid を使用して igRowSelectors が初期化されている igGrid への参照を取得します。<br />ui.state を使用してチェックボックスの状態 (「on」、「off」) を取得します。<br />ui.isHeader を使用してヘッダー チェックボックスがクリックされているかどうか確認します。この場合、行関連の引数は渡されません。                                                                     | <Image src={imgNegative} alt="いいえ" /> |
+
+## 関連トピック
+
+- [行セレクターを有効にする](./iggrid-enabling-row-selectors.mdx)
+
+- [igGrid 構成: 行セレクター](./iggrid-configuring-row-selectors.mdx)

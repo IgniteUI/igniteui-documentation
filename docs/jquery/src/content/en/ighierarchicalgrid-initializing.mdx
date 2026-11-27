@@ -1,0 +1,161 @@
+---
+title: "Initializing igHierarchicalGrid"
+keywords: "Getting Started, Grids, How Do I"
+llms:
+  description: "Demonstrates how to initialize the igHierarchicalGrid in both jQuery and MVC."
+generated:
+  - "llms.description"
+---
+
+import { Image } from 'astro:assets';
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
+import imgIgHierarchicalGridInitializing01 from './images/Controls/igHierarchicalGrid/igHierarchicalGrid_Initializing_01.png';
+import imgIgHierarchicalGridInitializing02 from './images/Controls/igHierarchicalGrid/igHierarchicalGrid_Initializing_02.png';
+
+# Initializing igHierarchicalGrid
+
+## Topic Overview
+
+### Purpose
+
+This topic demonstrates how to initialize the igHierarchicalGrid™ in both jQuery and MVC.
+
+## Introduction
+
+Bellow following are the main igHierarchicalGrid properties that are typically used with initialization. They are same as the properties of the flat igGrid.
+
+- `key` – the ID of a column layout
+- `dataSource` – the data source that the igHierarchicalGrid takes the data from
+- `initialDataBindDepth` – The level of hierarchy, at which the igHierarchicalGrid will initially bind the data source
+- `responseDataKey` – the object that holds the collection of the row elements.
+- `primaryKey` – the primary key of a child layout
+- `foreignKey` – the foreign key of a child layout
+
+These properties are used in the example procedure that follows.
+
+## Preview
+
+Following is a preview of the final result.
+
+<Image src={imgIgHierarchicalGridInitializing01} alt="igHierarchicalGrid of employees with an expanded child grid of orders that has its own paging and summaries" />
+
+## Requirements
+
+### General Requirements
+
+- jQuery-specific requirements
+
+  - An HTML web page with a grid connected to a data source
+  - A table tag in the body of the HTML page to serve as a container for the grid
+
+  **In HTML:**
+
+  ```html
+  <table id="hierarchicalGrid"></table>
+  ```
+
+- MVC-specific requirements
+
+  - An MVC 4, MVC 5 or ASP.NET Core project in MS Visual Studio® with a grid connected to a data source
+  - A reference to the MVC dll (stores the MVC IG wrappers)
+
+### Scripting Requirements
+
+The required scripts for the jQuery and MVC samples are the same because Ignite UI for MVC renders jQuery widgets.
+
+The following scripts are required to run the grid and its grouping functionality:
+
+- The jQuery library script
+- The jQuery User Interface (UI) library
+- The IG library script (This is obfuscated code for the controls)
+
+The following code sample demonstrates the scripts as added to the header code of the HTML file.
+
+**In HTML:**
+
+```html
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
+<script type="text/javascript" src="infragistics.core.js"></script>
+<script type="text/javascript" src="infragistics.lob.js"></script>
+```
+
+### Database Requirements
+
+For the purpose of this example only:
+
+- jQuery – Northwind database
+
+- MVC – Adventure Works database.
+
+## Initializing a jQuery igHierarchicalGrid
+
+The sample below demonstrates how to bind igHierarchicalGrid to JSON data source.
+
+<Sample src="/hierarchical-grid/json-binding/index.html" height={840} alt="igHierarchicalGrid JSON Binding" chrome="bare" fullscreenBtn />
+
+## Initializing an MVC igHierarchicalGrid
+
+1. Create the LINQ to SQL model. <Image src={imgIgHierarchicalGridInitializing02} alt="Data model diagram with Product related one-to-many to ProductInventory through ProductID" />
+
+2. Create an MVC Controller method.
+
+   Create MVC Controller method that will get data from the Model and will call the View
+
+   **In MVC:**
+
+   ```csharp
+   public ActionResult Default()
+   {
+       var ctx = new AdventureWorksDataContext("ConnString");
+       var ds = ctx.Products;
+
+       return View("Events", ds);
+    }
+   ```
+
+3. Define the igHierarchicalGrid.
+
+   **In Razor:**
+
+   ```razor
+   @(Html.Infragistics()
+   .Grid(Model)
+   .ID("grid1")
+   .LoadOnDemand(false)
+   .AutoGenerateColumns(true)
+   .PrimaryKey("ProductID")
+   .AutoGenerateLayouts(false)
+   .ColumnLayouts(layouts => {
+       layouts.For(x => x.ProductInventories)
+           .PrimaryKey("LocationID")
+           .ForeignKey("ProductID")
+           .AutoGenerateColumns(false)
+           .Columns(childcols1 =>
+           {
+               childcols1.For(x => x.ProductID);
+               childcols1.For(x => x.LocationID);
+               childcols1.For(x => x.Shelf);
+               childcols1.For(x => x.Bin);
+               childcols1.For(x => x.Quantity);
+           });
+   })
+   .Width("750px")
+   .DataBind()
+   .Render())
+   ```
+
+4. Save the project.
+
+5. (Optional) Verify the result.
+
+To verify the result, run your application. You should see the igHierarchicalGrid (as shown in the Preview above).
+
+## Related Topics
+
+Following are some other topics you may find useful.
+
+- [igHierarchicalGrid Overview](./ighierarchicalgrid-overview.mdx)
+- <ApiLink type="igGrid" pkg="core" label="Grid Properties Reference" />
+- <ApiLink type="igHierarchicalGrid" pkg="core" label="igHierarchicalGrid Properties Reference" />

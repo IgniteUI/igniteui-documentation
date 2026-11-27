@@ -9,7 +9,9 @@ const CONTENT_ROOTS = [
     'docs/angular/src/content/en',
     'docs/angular/src/content/jp',
     'docs/xplat/src/content/en',
-    'docs/xplat/src/content/jp'
+    'docs/xplat/src/content/jp',
+    'docs/jquery/src/content/en',
+    'docs/jquery/src/content/jp'
 ];
 
 const execFileAsync = promisify(execFile);

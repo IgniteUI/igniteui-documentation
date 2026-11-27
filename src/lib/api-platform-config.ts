@@ -1,4 +1,4 @@
-export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'WinUI' | 'Uno';
+export type PlatformName = 'Angular' | 'React' | 'WebComponents' | 'Blazor' | 'WinUI' | 'Uno' | 'jQuery';
 
 export type ApiPackageDefinition = {
     packageId: string;
@@ -29,6 +29,7 @@ export const PLATFORM_MAP = {
     blazor: 'Blazor',
     winui: 'WinUI',
     uno: 'Uno',
+    jquery: 'jQuery',
 } as const satisfies Record<string, PlatformName>;
 
 export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> = {
@@ -168,6 +169,29 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
             dashboards:   { packageId: 'Infragistics.Uno.Dashboards', pascalCaseMembers: true },
             datasources:  { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
             'geo-core':   { packageId: 'Infragistics.Uno.DataVisualization', pascalCaseMembers: true },
+        },
+    },
+    // -----------------------------------------------------------------------
+    // jQuery
+    //
+    // Its own doc set (docs/jquery), not an xplat platform. One registry holds two
+    // api-docs builds: the JavaScript API (`ignite-ui`) and the .NET API of the MVC,
+    // ASP.NET Core and Documents assemblies, one package per assembly. Class names
+    // carry no prefix (`igGrid`), member keys carry their kind (`options:autoCommit`),
+    // and names repeat across packages (`GridModel`, `Workbook`), so links name `pkg`.
+    // -----------------------------------------------------------------------
+    jQuery: {
+        folder: 'jquery',
+        prefix: '',
+        apiPackages: {
+            core:                { packageId: 'ignite-ui' },
+            mvc:                 { packageId: 'Infragistics.Web.Mvc' },
+            aspnetcore:          { packageId: 'Infragistics.Web.AspNetCore' },
+            'documents-core':    { packageId: 'Infragistics.Web.Documents.Core' },
+            'documents-excel':   { packageId: 'Infragistics.Web.Documents.Excel' },
+            'documents-io':      { packageId: 'Infragistics.Web.Documents.IO' },
+            'documents-reports': { packageId: 'Infragistics.Web.Documents.Reports' },
+            'documents-word':    { packageId: 'Infragistics.Web.Documents.Word' },
         },
     },
 };

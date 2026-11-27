@@ -1,0 +1,161 @@
+---
+title: "Grouping with Summaries (igHierarchicalGrid)"
+llms:
+  description: "Demonstrates, with code examples, the various ways to configure summary values calculation with the igHierarchicalGrid control’s Grouping feature."
+generated:
+  - "llms.description"
+---
+
+import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
+
+# Grouping with Summaries (igHierarchicalGrid)
+
+Configuring Grouping with Summaries (igHierarchicalGrid)
+
+## Topic Overview
+
+### Purpose
+
+Demonstrates, with code examples, the various ways to configure summary values calculation with the *igHierarchicalGrid*™ control’s Grouping feature.
+
+### Required background
+
+The following lists the topics required as a prerequisite to understanding this topic.
+
+- [igHierarchicalGrid Overview](./ighierarchicalgrid-overview.mdx): Provides conceptual information about the igHierarchicalGrid™ including information regarding features, binding to data sources, requirements, templates, and interaction.
+- [Initializing igHierarchicalGrid](./ighierarchicalgrid-initializing.mdx): Demonstrates how to initialize the *igHierarchicalGrid* using both jQuery and MVC.
+- [igHierarchicalGrid GroupBy Overview](./ighierarchicalgrid-grouping-overview.mdx): Introduces the igHierarchicalGrid™ control’s grouping feature as well as providing an overview of the configurable aspects of the feature.
+
+## Configuring Grouping with Summaries – Overview
+
+#### Configuring Grouping with Summaries chart
+
+The configurable aspects of the *igGridGroupBy* control related to its use in *igHierarchicalGrid*.
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Configurable aspects</th><th>Details</th><th>Properties</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>The summary delimiter character</td><td>Use to define one or more characters acting as a delimiter between different summary functions displayed in group rows.</td>
+
+      <td>
+        - jQuery: <ApiLink type="igGridGroupBy" pkg="core" label="summarySettings.multiSummaryDelimiter" />
+        - MVC: <ApiLink type="GroupBySummarySettings" member="MultiSummaryDelimiter" pkg="mvc" label="GroupBySummarySettings.MultiSummaryDelimiter" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>The summary format</td><td>Use to define a format string for the values of the summary function’s output.</td>
+
+      <td>
+        - jQuery: <ApiLink type="igGridGroupBy" pkg="core" label="summarySettings.summaryFormat" />
+        - MVC: <ApiLink type="GroupBySummarySettings" member="SummaryFormat" pkg="mvc" label="GroupBySummarySettings.SummaryFormat" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>The summary text before the summary</td><td>Use to define custom text to display on the group row before the summary values.</td>
+
+      <td>
+        - jQuery: <ApiLink type="igGridGroupBy" pkg="core" label="columnSettings.summaries.text" />
+        - MVC: <ApiLink type="GroupBySummaryWrapper" member="Text" pkg="mvc" label="GroupBySummaryWrapper.Text" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>The summary function(s)</td><td>Allows you to set any of various built-in summary functions like, row count, sum, average, minimum and maximum. Additionally, you can configure the name of a custom grouping comparer function for use when composing individual groups in the grid.</td>
+
+      <td>
+        - jQuery (built-in): <ApiLink type="igGridGroupBy" pkg="core" label="columnSettings.summaries.summaryFunction" />
+        - jQuery (custom): <ApiLink type="igGridGroupBy" pkg="core" label="columnSettings.summaries.customSummary" />
+
+        * MVC (built-in): <ApiLink type="GroupBySummaryWrapper" member="SummaryFunction" pkg="mvc" label="GroupBySummaryWrapper. SummaryFunction" />
+        * MVC (custom): <ApiLink type="GroupBySummaryWrapper" member="CustomSummary" pkg="mvc" label="GroupBySummaryWrapper.CustomSummary" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Code Example: Configuring a Summary with a Delimiter, Values Format, and a Built-In and Custom Functions
+
+#### Description
+
+The code snippet below activates the Grouping feature of a layout in an igHierarchicalGrid and applies the following settings related to summary values calculation and display:
+
+- A delimiter of comma and space (e.g. A, B)
+- Formats summary values as fixed point decimal with one digit to the right of the decimal point and a leading zero to the left of the decimal point. If the value is less than 1: summaryFormat: "#0.0".
+- For the Quantity column two summary functions are calculated:
+- - The maximal value in the group with a text prefix “Max:” (e.g. Max: 55.0): summaryFunction: "max", text: "Max:".
+  - A custom function called summaryDelta()used for summary value with a text prefix “Delta:”: summaryFunction: "custom", customSummary: summaryDelta, text: "Delta:".
+
+#### Code: HTML and jQuery
+
+**In JavaScript:**
+
+```js
+...
+features: [
+    {
+        name: "GroupBy",
+        inherit: true,
+        summarySettings: {
+            multiSummaryDelimiter: ", ",
+            summaryFormat: "#0.0"
+        },
+        columnSettings: [
+            { columnKey: "Bin", isGroupBy: true },
+            {
+                columnKey: "Quantity",
+                summaries: [
+                    {
+                        summaryFunction: "max",
+                        text: "Max:"
+                    },
+                    {
+                        summaryFunction: "custom",
+                        text: "Delta:",
+                        customSummary: summaryDelta
+                    }
+                ]
+            }
+        ]
+    }
+]
+...
+```
+
+#### Code: ASP.NET MVC
+
+**In Razor:**
+
+```razor
+...
+.Features(feature => {
+    feature.GroupBy().Inherit(true)
+    .SummarySettings(new GroupBySummarySettings { 
+        SummaryFormat = "#0.0",
+        MultiSummaryDelimiter = ","
+    })
+    .ColumnSettings(setting =>
+    {
+        setting.ColumnSetting().ColumnKey("Bin").IsGroupBy(true);
+        setting.ColumnSetting().ColumnKey("Quantity").Summaries(summary =>
+        {
+            summary.Summary()
+                .Text("Max").SummaryFunction(SummaryFunction.Max);
+            summary.Summary()
+                .Text("Delta").SummaryFunction(SummaryFunction.Custom).CustomSummary("summaryDelta");
+        });
+    });
+});
+...
+```
+
+## Related Content
+
+- [Enabling and Configuring Grouping (igHierarchicalGrid)](./ighierarchicalgrid-grouping-enabling-and-configuring.mdx): Demonstrates how to add grouping functionality to the igHierarchicalGrid™ control in both jQuery and MVC.
