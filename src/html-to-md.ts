@@ -181,6 +181,7 @@ export async function htmlPageToMd(
         'div[data-pagefind-ignore]',          // pagefind-excluded block regions
         'nav[data-pagefind-ignore]',          // pagefind-excluded nav regions
         'section[data-pagefind-ignore]',      // pagefind-excluded section regions
+        '.igd-sample-theming',                // theme picker controls beside the sample
         '.igd-aside__icon',                   // DocsAside decorative icon
         '.igd-aside__title',                  // DocsAside visible label (we use aria-label instead)
         '.igd-anchor-link',                   // heading anchor-link buttons (§ links)

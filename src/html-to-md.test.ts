@@ -98,6 +98,16 @@ describe('htmlPageToMd', () => {
         expect(md).not.toContain('Premium');
     });
 
+    it('omits the theme picker and keeps the titled demo link between its paragraphs', async () => {
+        const md = await htmlPageToMd(fixture('themed-sample.html'), SITE_URL, buildHtmlToMdConverter());
+
+        expect(md).toBe(
+            'Try selecting a tab in the demo.\n\n' +
+            '[Tabs Example](https://example.test/samples/tabs)\n\n' +
+            'The demo uses the Material theme.\n',
+        );
+    });
+
     it('normalises typographic characters to ASCII', async () => {
         const md = await convert();
 
