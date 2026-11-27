@@ -1,5 +1,5 @@
 /**
- * llms.ts  —  llms.txt manifest generation and metadata extraction
+ * llms.ts  —  llms.txt manifest generation, metadata extraction, and Markdown abridgment
  *
  * Generates the llms.txt manifest that indexes every documentation page with
  * its LLM-friendly .md URL, description, and keyword tags.
@@ -17,6 +17,7 @@
  *   – extractLlmsMeta()  — parse frontmatter into LlmsMeta
  *   – buildLlmsMetaMap()  — build slug → LlmsMeta map from source docs
  *   – buildLlmsTxt()      — generate the complete llms.txt content string
+ *   – buildLlmsSmallTxt() — abridge the combined Markdown for llms-small.txt
  *   – toUrlSlug()         — derive a URL-safe slug from a label
  *   – getBroadSectionsForPlatform() — navigation bucket labels per platform
  */
@@ -433,4 +434,12 @@ export function buildLlmsTxt(
 
     walkLlmsItems(sidebarItems, base, lines, metaMap, new Set(), [], 0, broadSections);
     return lines.join('\n');
+}
+
+export function buildLlmsSmallTxt(fullContent: string): string {
+    // Match the opening fence length so a shorter fence inside a Markdown example stays inside it.
+    return fullContent
+        .replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
 }

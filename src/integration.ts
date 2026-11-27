@@ -55,7 +55,7 @@ import { defineConfig } from 'astro/config';
 import type { AstroIntegration } from 'astro';
 import mdx from '@astrojs/mdx';
 import {
-    buildLlmsTxt, buildLlmsMetaMap, getBroadSectionsForPlatform, toUrlSlug,
+    buildLlmsTxt, buildLlmsSmallTxt, buildLlmsMetaMap, getBroadSectionsForPlatform, toUrlSlug,
     type LlmsMeta, type LlmsSet, type SidebarEntry,
 } from './llms.ts';
 import { buildSidebarFromToc } from './sidebar';
@@ -276,7 +276,7 @@ function resolveApiDocsLlmsUrl(siteUrl: string, platform: PlatformKey | null): s
  * Produces:
  *   /{slug}.md        — per-page Markdown converted from the rendered HTML
  *   /llms-full.txt    — all pages concatenated into a single file
- *   /llms-small.txt   — same as full, but with code blocks and inline code removed
+ *   /llms-small.txt   — all pages with fenced code blocks removed and inline code preserved
  *   /_llms-txt/*.txt  — topic-specific bundles defined by `llmsSets`
  */
 async function generateLlmsMdFiles({ outDir, slugs, docsDirs, siteUrl, llmsSets }: GenerateLlmsMdOptions): Promise<void> {
@@ -348,13 +348,7 @@ async function generateLlmsMdFiles({ outDir, slugs, docsDirs, siteUrl, llmsSets 
     const fullContent = pageTexts.join('\n\n---\n\n');
     await fsp.writeFile(path.join(outDir, 'llms-full.txt'), withUtf8Bom(fullContent), 'utf-8');
 
-    // Small variant: strip fenced code blocks and inline code to reduce token count.
-    // Backreference ensures a 4-backtick block isn't closed by a nested 3-backtick line.
-    const smallContent = fullContent
-        .replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '')
-        .replace(/`[^`\n]+`/g, '')
-        .replace(/\n{3,}/g, '\n\n')
-        .trim();
+    const smallContent = buildLlmsSmallTxt(fullContent);
     await fsp.writeFile(path.join(outDir, 'llms-small.txt'), withUtf8Bom(smallContent), 'utf-8');
 
     // ── /_llms-txt/{set-slug}.txt ────────────────────────────────────────────
