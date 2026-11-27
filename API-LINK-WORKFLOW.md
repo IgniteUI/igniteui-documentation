@@ -99,6 +99,8 @@ The registry records the package and URL for each symbol rather than constructin
 
 The Blazor Excel package is separate from `IgniteUI.Blazor`. The registry's `u` field contains the symbol's current URL; older version-specific URLs are not the lookup contract.
 
+On Blazor, the `core`, `inputs` and `layouts` package keys map to `IgniteUI.Blazor.Lite`, which documents the components of [igniteui-blazor](https://github.com/IgniteUI/igniteui-blazor). `IgniteUI.Blazor` documents only the rest, such as the grids and charts, so a link to one of those symbols uses `pkg="grids"`, `pkg="charts"` or another key that maps to `IgniteUI.Blazor`, or no `pkg`.
+
 Member anchors belong to the owning symbol's `m` map. A column property does not necessarily exist on the grid symbol, and an options property may belong to an interface rather than the component using those options. The registry and the upstream TypeDoc data identify the owner.
 
 ## Checker Commands

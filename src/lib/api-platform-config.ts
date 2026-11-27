@@ -101,13 +101,15 @@ export const API_PLATFORM_CONFIGS: Record<PlatformName, ApiPlatformDefinition> =
         prefix: 'Igb',
         pascalCaseMembers: true,
         apiPackages: {
-            core:          { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
+            // core, inputs and layouts are the components of github.com/IgniteUI/igniteui-blazor,
+            // documented under IgniteUI.Blazor.Lite; IgniteUI.Blazor documents only the rest.
+            core:          { packageId: 'IgniteUI.Blazor.Lite', pascalCaseMembers: true },
             charts:        { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
             grids:         { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
             gauges:        { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
             maps:          { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
-            inputs:        { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
-            layouts:       { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
+            inputs:        { packageId: 'IgniteUI.Blazor.Lite', pascalCaseMembers: true },
+            layouts:       { packageId: 'IgniteUI.Blazor.Lite', pascalCaseMembers: true },
             dashboards:    { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
             spreadsheet:   { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
             datasources:   { packageId: 'IgniteUI.Blazor', pascalCaseMembers: true },
