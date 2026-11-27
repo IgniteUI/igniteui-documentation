@@ -38,7 +38,7 @@ import imgIgGridUpdating01 from './images/igGrid_Updating_01.png';
 | 更新をコミットして次のセルを編集 | TAB キーを押下                   | 現在のセルに対する更新をコミットし、次の編集可能なセルを編集モードにします。次のセルは、同じ行のすぐ右側のセルになり、最後の列に値をコミットした場合は、次の行の最初の編集可能なセルになります。この操作は、`editMode` が cell に設定されている時のみサポートされます。 |
 
 **図 1: ユーザー インターフェイスを更新する igGrid コントロール行**\
-<Image src={imgIgGridUpdating01} alt="" />
+<Image src={imgIgGridUpdating01} alt="1 行目が編集モードで各セルにエディターがあり、新規行追加バーと Done、Cancel ボタンがある igGrid" />
 
 `autoCommit` が有効な場合、編集行のアクションによってデータ ソースの更新が実行されます。`autoCommit` が有効ではない場合、ページング、並べ替え、またはフィルタリングなどの、グリッドを再バインドする操作中にデータ ソースを更新する必要があります。グリッド内の変更の検出は `dataDirty` イベントによって管理され、これによってデータをデータ ソースにコミットするタイミングを制御できます。
 
@@ -165,7 +165,9 @@ $("#grid1").igGrid({
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ProductNumber).HeaderText("Product Number").Width("200px");
+        column.For(x => x.ProductNumber)
+            .HeaderText("Product Number")
+            .Width("200px");
     })
 .Features(features => {
         features.Updating();
@@ -207,11 +209,17 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ProductNumber).HeaderText("Product Number").Width("200px");
+        column.For(x => x.ProductNumber)
+            .HeaderText("Product Number")
+            .Width("200px");
     }).Features(features => {
         features.Updating()
             .EnableDeleteRow(true)
@@ -394,20 +402,34 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
         column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-        column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");
+        column.For(x => x.ModifiedDate)
+            .HeaderText("Modified Date")
+            .Width("200px");
         column.For(x => x.ListPrice).HeaderText("List Price").Width("200px");
     }).Features(features => {
         features.Updating()
             .ColumnSettings(settings =>
              {
                  settings.ColumnSetting().ColumnKey("ProductID").ReadOnly();
-                 settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Text).Required().Validation();
-                 settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker);
-                 settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency);
+                 settings.ColumnSetting()
+                     .ColumnKey("Name")
+                     .EditorType(ColumnEditorType.Text)
+                     .Required()
+                     .Validation();
+                 settings.ColumnSetting()
+                     .ColumnKey("ModifiedDate")
+                     .EditorType(ColumnEditorType.DatePicker);
+                 settings.ColumnSetting()
+                     .ColumnKey("ListPrice")
+                     .EditorType(ColumnEditorType.Currency);
              });
     }).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
     .DataBind().Render())
@@ -506,20 +528,34 @@ $("#grid1").igGrid({
 **Razor の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").UpdateUrl(Url.Action("UpdatingSaveChanges")).Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .UpdateUrl(Url.Action("UpdatingSaveChanges"))
+    .Columns(column =>
 {
     column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
     column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-    column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");            
+    column.For(x => x.ModifiedDate)
+        .HeaderText("Modified Date")
+        .Width("200px");
     column.For(x => x.ListPrice).HeaderText("List Price").Width("200px");
 }).Features(features => {
     features.Updating()
         .ColumnSettings(settings =>
              {
                  settings.ColumnSetting().ColumnKey("ProductID").ReadOnly();
-                 settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Text).Required().Validation();
-                 settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker);
-                 settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency);
+                 settings.ColumnSetting()
+                     .ColumnKey("Name")
+                     .EditorType(ColumnEditorType.Text)
+                     .Required()
+                     .Validation();
+                 settings.ColumnSetting()
+                     .ColumnKey("ModifiedDate")
+                     .EditorType(ColumnEditorType.DatePicker);
+                 settings.ColumnSetting()
+                     .ColumnKey("ListPrice")
+                     .EditorType(ColumnEditorType.Currency);
              });
 }).Height("500").DataSourceUrl(Url.Action("UpdatingGetData"))
 .DataBind().Render())
@@ -544,11 +580,15 @@ public ActionResult UpdatingSaveChanges()
     var ds = ctx.MyComplexProducts;
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<MyComplexProduct>> transactions = m.LoadTransactions<MyComplexProduct>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<MyComplexProduct>> transactions =
+        m.LoadTransactions<MyComplexProduct>(
+            HttpContext.Request.Form["ig_transactions"]);
 
     foreach (Transaction<MyComplexProduct> t in transactions)
     {
-        var product = (from p in ctx.MyComplexProducts where p.ProductID == Int32.Parse(t.rowId) select p).Single();
+        var product = (from p in ctx.MyComplexProducts
+                       where p.ProductID == Int32.Parse(t.rowId)
+                       select p).Single();
         if(t.row.Name != null)
         {
             product.Name = t.row.Name;
@@ -589,11 +629,15 @@ public ActionResult UpdatingSaveChanges()
     var ds = ctx.MyComplexProducts;
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<MyComplexProduct>> transactions = m.LoadTransactions<MyComplexProduct>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<MyComplexProduct>> transactions =
+        m.LoadTransactions<MyComplexProduct>(
+            HttpContext.Request.Form["ig_transactions"]);
 
     foreach (Transaction<MyComplexProduct> t in transactions)
     {
-        var product = (from p in ctx.MyComplexProducts where p.ProductID == Int32.Parse(t.rowId) select p).Single();
+        var product = (from p in ctx.MyComplexProducts
+                       where p.ProductID == Int32.Parse(t.rowId)
+                       select p).Single();
         switch(t.col)
         {
             case "Name":
@@ -748,7 +792,7 @@ $("#grid1").igGridUpdating("option", "editMode", "cell");
 
 ## キーボード操作
 
-###### 編集時に以下のキーボード操作が可能です。:
+###### 編集時に以下のキーボード操作が可能です。
 
 <DocsAside type="note" title="注">
   このセクションは、デフォルト プロパティ設定でのキーボード操作について説明します。これらの動作を変更する関連オプション:

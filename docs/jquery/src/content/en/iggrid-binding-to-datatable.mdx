@@ -104,7 +104,9 @@ Similarly, the summaries feature is unsupported when using a `DataTable`/`DataSe
             features.Paging().PageSize(5).Type(OpType.Remote);
             features.Updating();
             features.Hiding();
-            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.Selection()
+                .Mode(SelectionMode.Row)
+                .MultipleSelection(true);
             features.RowSelectors();
             features.Resizing();
             features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -132,23 +134,29 @@ The below example demonstrates how to implement remote *sorting* by processing t
 public ActionResult UpdateDataTableGrid()
 {
     DataTable dt = this.MyEmployees;
-    NameValueCollection queryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+    NameValueCollection queryString =
+        HttpUtility.ParseQueryString(Request.QueryString.ToString());
     // check the query string for sorting expressions
-    List<SortExpression> sortExpressions = BuildSortExpressions(queryString, "sort", true);
+    List<SortExpression> sortExpressions =
+        BuildSortExpressions(queryString, "sort", true);
     DataView dv = customers.DefaultView;
     if (sortExpressions.Count > 0)
     {
         String sortExpression = "";
         foreach (SortExpression expr in sortExpressions)
         {
-            sortExpression += expr.Key + " " + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
+            sortExpression += expr.Key + " "
+                + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
         }
         dv.Sort = sortExpression.Substring(0, sortExpression.Length - 1);
     }
     return View("UpdateDataTableGrid", dv.ToTable());
 }
 
-public List<SortExpression> BuildSortExpressions(NameValueCollection queryString, string sortKey, bool isTable)
+public List<SortExpression> BuildSortExpressions(
+    NameValueCollection queryString,
+    string sortKey,
+    bool isTable)
 {
     List<SortExpression> expressions = new List<SortExpression>();
     List<string> sortKeys = new List<string>();
@@ -157,9 +165,13 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
         if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
         {
             SortExpression e = new SortExpression();
-            e.Key = key.Substring(key.IndexOf("(")).Replace("(", "").Replace(")", "");
+            e.Key = key.Substring(key.IndexOf("("))
+                .Replace("(", "")
+                .Replace(")", "");
             e.Logic = "AND";
-            e.Mode = queryString[key].ToLower().StartsWith("asc") ? SortMode.Ascending : SortMode.Descending;
+            e.Mode = queryString[key].ToLower().StartsWith("asc")
+                ? SortMode.Ascending
+                : SortMode.Descending;
             expressions.Add(e);
             sortKeys.Add(key);
         }
@@ -212,14 +224,16 @@ If a `DataTable` or a `DataSet` has a `PrimaryKey` defined then the `igGrid` aut
 
 When updating, a serializer which supports `Dictionary<string, string>` should be used It is a known issue that the Microsoft JSON serializer doesn’t support deserializing a Dictionary to JSON. If you want to use the updating feature, the `GridModel` must override the `LoadTransactions` method. You can use the Json.NET serializer for this purpose. You can download it from the page below and it is also included in ASP.NET MVC 4 as the default serializer.
 
-[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
+[https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
 **In C#:**
 
 ```csharp
-public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+    where T : class
 {
-    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    List<Transaction<T>> transactions =
+        JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
     return transactions;
 }
 ```
@@ -244,7 +258,9 @@ public ActionResult EditingSaveChanges()
 {
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<Employee>> transactions = m.LoadTransactions<Employee>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<Employee>> transactions =
+        m.LoadTransactions<Employee>(
+            HttpContext.Request.Form["ig_transactions"]);
     foreach (Transaction<Employee> t in transactions)
     {
         if (t.type == "row")
@@ -318,14 +334,23 @@ public class Employee
 **In Razor:**
 
 ```razor
-@( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
+@( Html.Infragistics().Grid<Employee>()
+        .ID("grid1")
+        .Height("500px")
+        .Width("1000px")
         .Columns(column =>
         {
-            column.For(x => x.EmployeeID).DataType("number").HeaderText("Employee ID");
+            column.For(x => x.EmployeeID)
+                .DataType("number")
+                .HeaderText("Employee ID");
             column.For(x => x.Name).DataType("string").HeaderText("Name");
             column.For(x => x.Site).DataType("string").HeaderText("Site");
-            column.For(x => x.DepartmentID).DataType("number").HeaderText("Department");
-            column.For(x => x.DateOfHire).DataType("date").HeaderText("Date Of Hire");
+            column.For(x => x.DepartmentID)
+                .DataType("number")
+                .HeaderText("Department");
+            column.For(x => x.DateOfHire)
+                .DataType("date")
+                .HeaderText("Date Of Hire");
             column.For(x => x.OnSite).DataType("bool").HeaderText("On site");
         })
         .DataBind()
@@ -345,7 +370,7 @@ To complete the procedure, you need the following:
 - A reference to the *Infragistics.Web.Mvc.dll* assembly
 - Json.NET Serializer - Newtonsoft.Json.dll
 
-This can be downloaded from [http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
+This can be downloaded from [https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
 ### Overview
 
@@ -380,7 +405,9 @@ Following are the general conceptual steps for enabling the updating feature whe
               features.Paging().PageSize(5).Type(OpType.Remote);
               features.Updating();
               features.Hiding();
-              features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+              features.Selection()
+                  .Mode(SelectionMode.Row)
+                  .MultipleSelection(true);
               features.RowSelectors();
               features.Resizing();
               features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -411,7 +438,7 @@ Following are the general conceptual steps for enabling the updating feature whe
 
    1. Download the *Newtonsoft.Json.dll*
 
-      [http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
+      [https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
       This is required for ASP.NET MVC 3 and below but is included in the default ASP.NET MVC 4 templates. This JSON library can also be obtained through NuGet.
 
@@ -441,9 +468,11 @@ Following are the general conceptual steps for enabling the updating feature whe
           /// <typeparam name="T"></typeparam>
           /// <param name="postdata"></param>
           /// <returns></returns>
-          public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+          public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+              where T : class
           {
-              List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+              List<Transaction<T>> transactions =
+                  JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
               return transactions;
           }
       }
@@ -469,7 +498,8 @@ Following are the general conceptual steps for enabling the updating feature whe
       NewtonSoftGridModel m = new NewtonSoftGridModel();
 
       List<Transaction<Dictionary<string, string>>> transactionsDict =
-          m.LoadTransactionsDictionary<Dictionary<string, string>>(HttpContext.Request.Form["ig_transactions"]);
+          m.LoadTransactionsDictionary<Dictionary<string, string>>(
+              HttpContext.Request.Form["ig_transactions"]);
 
       foreach (Transaction<Dictionary<string, string>> t in transactionsDict)
       {
@@ -487,7 +517,8 @@ Following are the general conceptual steps for enabling the updating feature whe
                   dateString = dateString.Replace("/Date(", "");
                   dateString = dateString.Replace(")/", "");
                   long lngString = Int64.Parse(dateString);
-                  DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                  DateTime origin =
+                      new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                   DateTime dateValue = origin.AddSeconds(lngString / 1000);
                   dr["DateOfHire"] = dateValue;
               }
@@ -526,4 +557,4 @@ The following topics provide additional information related to this topic.
 
 The following material (available outside the Infragistics family of content) provides additional information related to this topic.
 
-- [Newtonsoft serializer](http://www.newtonsoft.com/json): The home page of Json.NET serializer.
+- [Newtonsoft serializer](https://www.newtonsoft.com/json): The home page of Json.NET serializer.

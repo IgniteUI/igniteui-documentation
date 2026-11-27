@@ -215,27 +215,42 @@ Infragistics® JavaScript ファイルは、デフォルトで Ignite UI for jQu
                measuresDimension: {
                    caption: "Measures",
                    measures: [
-                       {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                           var sum = 0;
-                           $.each(items, function (index, item) {
-                               sum += item.UnitsSold;
-                           });
-                           return sum;}},
+                       {
+                           name: "Units Sold",
+                           aggregator: function (items, cellMetadata) {
+                               var sum = 0;
+                               $.each(items, function (index, item) {
+                                   sum += item.UnitsSold;
+                               });
+                               return sum;
+                           }
+                       }
+                   ]
                },
-               dimensions: [ 
+               dimensions: [
                    {
-                       name: "Seller", hierarchies: [{
-                           name: "Seller", levels: [
-                               {
-                                   name: "All Sellers",
-                                   memberProvider: function (item) { return "All Sellers"; }
-                               },
-                               {
-                                   name: "Seller Name",
-                                   memberProvider: function (item) { return item.SellerName; }
-                               }]
-                       }]
-                   }]
+                       name: "Seller",
+                       hierarchies: [
+                           {
+                               name: "Seller",
+                               levels: [
+                                   {
+                                       name: "All Sellers",
+                                       memberProvider: function (item) {
+                                           return "All Sellers";
+                                       }
+                                   },
+                                   {
+                                       name: "Seller Name",
+                                       memberProvider: function (item) {
+                                           return item.SellerName;
+                                       }
+                                   }
+                               ]
+                           }
+                       ]
+                   }
+               ]
            }
        }
    });
@@ -243,7 +258,7 @@ Infragistics® JavaScript ファイルは、デフォルトで Ignite UI for jQu
 
 5. データ ソースを初期化します。
 
-   ルート <ApiLink type="OlapMetadataTreeItem" pkg="core" label="OlapMetadataTreeItem" /> (メタデータ ツリーのルート ノード) で解決される [promise](http://api.jquery.com/deferred.promise/) オブジェクトを返す OlapFlatDataSource オブジェクトの `initialize()` メソッドを呼び出すことによって、フラットなデータ ソースを初期化します。これは、初期化が非同期処理であるためです。promise オブジェクトは、操作が完了または失敗 ([done](http://api.jquery.com/deferred.done/)、[fail](http://api.jquery.com/deferred.fail/) など) したときにコールバックを開始および実行できるメソッドを公開する、非同期の操作をカプセル化するオブジェクトです。
+   ルート <ApiLink type="OlapMetadataTreeItem" pkg="core" label="OlapMetadataTreeItem" /> (メタデータ ツリーのルート ノード) で解決される [promise](https://api.jquery.com/deferred.promise/) オブジェクトを返す OlapFlatDataSource オブジェクトの `initialize()` メソッドを呼び出すことによって、フラットなデータ ソースを初期化します。これは、初期化が非同期処理であるためです。promise オブジェクトは、操作が完了または失敗 ([done](https://api.jquery.com/deferred.done/)、[fail](https://api.jquery.com/deferred.fail/) など) したときにコールバックを開始および実行できるメソッドを公開する、非同期の操作をカプセル化するオブジェクトです。
 
    <DocsAside type="note" title="注">
      promise (1.6 以前) を実装しない jQuery のバージョンを使用している場合、同じインターフェイスを提供するカスタム フォールバックは自動で使用されます。
@@ -253,24 +268,82 @@ Infragistics® JavaScript ファイルは、デフォルトで Ignite UI for jQu
 
 以下のコードは、`igOlapFlatDataSource` コンポーネントの新しいインスタンスの作成および初期化を示しています。必要な JavaScript リソースを参照するオルタナティブが提供されます。Infragistics Loader を使用する場合としない場合の両方です。
 
-### Infragistics Loader を使用した OlapFlatDataSourceのインスタンス化 :
+### Infragistics Loader を使用した OlapFlatDataSourceのインスタンス化
 
 **JavaScript の場合:**
 
 ```js
 $.ig.loader({
-    scriptPath: '[path to js folder]',
-    cssPath: '[path to css folder]',
-    resources: 'igOlapFlatDataSource'
+    scriptPath: "[path to js folder]",
+    cssPath: "[path to css folder]",
+    resources: "igOlapFlatDataSource"
 });
 $.ig.loader(function () {
-    var data = [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-   { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-   { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-   { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-   { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-   { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-   { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }];
+    var data = [
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 12.81,
+            "SellerName": "Stanley Brooker",
+            "Country": "Bulgaria",
+            "City": "Plovdiv",
+            "Date": "2007-01-01",
+            "UnitsSold": 282
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 49.57,
+            "SellerName": "Elisa Longbottom",
+            "Country": "US",
+            "City": "New York",
+            "Date": "2007-01-05",
+            "UnitsSold": 296
+        },
+        {
+            "ProductCategory": "Bikes",
+            "UnitPrice": 3.56,
+            "SellerName": "Lydia Burson",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-06",
+            "UnitsSold": 68
+        },
+        {
+            "ProductCategory": "Accessories",
+            "UnitPrice": 85.58,
+            "SellerName": "David Haley",
+            "Country": "UK",
+            "City": "London",
+            "Date": "2007-01-07",
+            "UnitsSold": 293
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 18.13,
+            "SellerName": "John Smith",
+            "Country": "Japan",
+            "City": "Yokohama",
+            "Date": "2007-01-08",
+            "UnitsSold": 240
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 68.33,
+            "SellerName": "Larry Lieb",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-12",
+            "UnitsSold": 456
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 16.05,
+            "SellerName": "Walter Pang",
+            "Country": "Bulgaria",
+            "City": "Sofia",
+            "Date": "2007-02-09",
+            "UnitsSold": 492
+        }
+    ];
     var dataSource = new $.ig.OlapFlatDataSource({
         dataSource: data,
         metadata: {
@@ -279,52 +352,127 @@ $.ig.loader(function () {
                 measuresDimension: {
                     caption: "Measures",
                     measures: [
-                        {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                            var sum = 0;
-                            $.each(items, function (index, item) {
-                                sum += item.UnitsSold;
-                            });
-                            return sum;}},
+                        {
+                            name: "Units Sold",
+                            aggregator: function (items, cellMetadata) {
+                                var sum = 0;
+                                $.each(items, function (index, item) {
+                                    sum += item.UnitsSold;
+                                });
+                                return sum;
+                            }
+                        }
+                    ]
                 },
-                dimensions: [ 
+                dimensions: [
                     {
-                        name: "Seller", hierarchies: [{
-                            name: "Seller", levels: [
-                                {
-                                    name: "All Sellers",
-                                    memberProvider: function (item) { return "All Sellers"; }
-                                },
-                                {
-                                    name: "Seller Name",
-                                    memberProvider: function (item) { return item.SellerName; }
-                                }]
-                        }]
-                    }]
+                        name: "Seller",
+                        hierarchies: [
+                            {
+                                name: "Seller",
+                                levels: [
+                                    {
+                                        name: "All Sellers",
+                                        memberProvider: function (item) {
+                                            return "All Sellers";
+                                        }
+                                    },
+                                    {
+                                        name: "Seller Name",
+                                        memberProvider: function (item) {
+                                            return item.SellerName;
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         }
-    });    
+    });
     var promise = dataSource.initialize();
-    promise.done(function (metadataTree) {
+    promise
+        .done(function (metadataTree) {
             // do something when the data source is initialized
-        }).fail(function (error) {
+        })
+        .fail(function (error) {
             throw error;
         });
 });
 ```
 
-### Infragistics Loader を使用しない OlapFlatDataSourceのインスタンス化 :
+### Infragistics Loader を使用しない OlapFlatDataSourceのインスタンス化
 
 **JavaScript の場合:**
 
 ```js
-$(function() {
-    var data = [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-   { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-   { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-   { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-   { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-   { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-   { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }];
+$(function () {
+    var data = [
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 12.81,
+            "SellerName": "Stanley Brooker",
+            "Country": "Bulgaria",
+            "City": "Plovdiv",
+            "Date": "2007-01-01",
+            "UnitsSold": 282
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 49.57,
+            "SellerName": "Elisa Longbottom",
+            "Country": "US",
+            "City": "New York",
+            "Date": "2007-01-05",
+            "UnitsSold": 296
+        },
+        {
+            "ProductCategory": "Bikes",
+            "UnitPrice": 3.56,
+            "SellerName": "Lydia Burson",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-06",
+            "UnitsSold": 68
+        },
+        {
+            "ProductCategory": "Accessories",
+            "UnitPrice": 85.58,
+            "SellerName": "David Haley",
+            "Country": "UK",
+            "City": "London",
+            "Date": "2007-01-07",
+            "UnitsSold": 293
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 18.13,
+            "SellerName": "John Smith",
+            "Country": "Japan",
+            "City": "Yokohama",
+            "Date": "2007-01-08",
+            "UnitsSold": 240
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 68.33,
+            "SellerName": "Larry Lieb",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-12",
+            "UnitsSold": 456
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 16.05,
+            "SellerName": "Walter Pang",
+            "Country": "Bulgaria",
+            "City": "Sofia",
+            "Date": "2007-02-09",
+            "UnitsSold": 492
+        }
+    ];
     var dataSource = new $.ig.OlapFlatDataSource({
         dataSource: data,
         metadata: {
@@ -333,34 +481,51 @@ $(function() {
                 measuresDimension: {
                     caption: "Measures",
                     measures: [
-                        {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                            var sum = 0;
-                            $.each(items, function (index, item) {
-                                sum += item.UnitsSold;
-                            });
-                            return sum;}},
+                        {
+                            name: "Units Sold",
+                            aggregator: function (items, cellMetadata) {
+                                var sum = 0;
+                                $.each(items, function (index, item) {
+                                    sum += item.UnitsSold;
+                                });
+                                return sum;
+                            }
+                        }
+                    ]
                 },
-                dimensions: [ 
+                dimensions: [
                     {
-                        name: "Seller", hierarchies: [{
-                            name: "Seller", levels: [
-                                {
-                                    name: "All Sellers",
-                                    memberProvider: function (item) { return "All Sellers"; }
-                                },
-                                {
-                                    name: "Seller Name",
-                                    memberProvider: function (item) { return item.SellerName; }
-                                }]
-                        }]
-                    }]
+                        name: "Seller",
+                        hierarchies: [
+                            {
+                                name: "Seller",
+                                levels: [
+                                    {
+                                        name: "All Sellers",
+                                        memberProvider: function (item) {
+                                            return "All Sellers";
+                                        }
+                                    },
+                                    {
+                                        name: "Seller Name",
+                                        memberProvider: function (item) {
+                                            return item.SellerName;
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         }
-    });    
+    });
     var promise = dataSource.initialize();
-    promise.done(function (metadataTree) {
+    promise
+        .done(function (metadataTree) {
             // do something when the data source is initialized
-        }).fail(function (error) {
+        })
+        .fail(function (error) {
             throw error;
         });
 });

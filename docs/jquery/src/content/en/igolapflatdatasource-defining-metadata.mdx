@@ -177,19 +177,21 @@ The screenshot below visualizes a `MeasuresDimensionMetadata` object containing 
 
 **In JavaScript:**
 
-```jsmeasuresDimension
-measuresDimension:{
-     measures [ { 
-         name: "Units Sold", 
-         aggregator: function (items, cellMetadata) { 
-             var sum = 0; 
-             $.each(items, function (index, item) { 
-                 sum += item.UnitsSold; 
-             }); 
-         return sum;     
-         } 
-     }], 
- }
+```js
+measuresDimension: {
+    measures: [
+        {
+            name: "Units Sold",
+            aggregator: function (items, cellMetadata) {
+                var sum = 0;
+                $.each(items, function (index, item) {
+                    sum += item.UnitsSold;
+                });
+                return sum;
+            }
+        }
+    ]
+}
 ```
 
 - `dimensions`
@@ -224,7 +226,7 @@ dimensions: [
 ];
 ```
 
-<Image src={imgIgOlapFlatDataSourceDefiningMetadata1} alt="" />
+<Image src={imgIgOlapFlatDataSourceDefiningMetadata1} alt="igPivotDataSelector metadata tree of the Sales cube with the Units Sold and Unit Price measures and a Seller dimension." />
 
 Following is the code that implements this example.
 
@@ -317,7 +319,7 @@ The following table maps the desired configuration to the respective property se
     </tr>
 
     <tr>
-      <td>Specify the position of the measure in the display hierarchy</td><td>displayFolder</td><td>string</td><td>A string in the following format: `“Folder\\Inner Folder”`. In an igPivotDataSelector such a measure will be displayed like this: <Image src={imgIgOlapFlatDataSourceDefiningMetadata2} alt="" /></td><td>No</td>
+      <td>Specify the position of the measure in the display hierarchy</td><td>displayFolder</td><td>string</td><td>A string in the following format: `“Folder\\Inner Folder”`. In an igPivotDataSelector such a measure will be displayed like this: <Image src={imgIgOlapFlatDataSourceDefiningMetadata2} alt="igPivotDataSelector metadata tree with the Units Sold measure nested in Folder1 and Folder2 under Measures." /></td><td>No</td>
     </tr>
 
     <tr>
@@ -367,7 +369,7 @@ The following table maps the desired configuration to property settings.
 | ----------------------------------------------------------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | Set the name of the hierarchy                               | name               | String   | A string containing the desired name. Used for identifying the hierarchy.                                                                                                                            | Yes       |
 | Set the caption for the hierarchy                           | caption            | string   | A string containing the desired caption. Used for displaying a label for that hierarchy in the pivot grid. (If the caption is not set, the value of the name will be used.)                          | No        |
-| Specify the hierarchy’s position                            | displayFolder      | string   | A string in the following format: `“Folder\\Inner Folder”` In an `igPivotDataSelector` such a hierarchy will be displayed like this: <Image src={imgIgOlapFlatDataSourceDefiningMetadata3} alt="" /> | No        |
+| Specify the hierarchy’s position                            | displayFolder      | string   | A string in the following format: `“Folder\\Inner Folder”` In an `igPivotDataSelector` such a hierarchy will be displayed like this: <Image src={imgIgOlapFlatDataSourceDefiningMetadata3} alt="igPivotDataSelector metadata tree with the Date hierarchy nested in Folder1 and Folder2 under the Date dimension." /> | No        |
 | Specify metadata for the levels belonging to this hierarchy | levels             | Array    | An array of `levelMetadata` objects containing the metadata for the hierarchy.                                                                                                                       | Yes       |
 
 ## <a id="config-levels" />Configuring Levels
@@ -392,7 +394,7 @@ The following table maps the desired configuration to the respective property se
 
 The following code example configures metadata for the `igOlapFlatDataSource` component by defining three measures using different aggregator functions and two dimensions with one hierarchy for each. Each of the hierarchies has two levels.
 
-<Image src={imgIgOlapFlatDataSourceDefiningMetadata4} alt="" />
+<Image src={imgIgOlapFlatDataSourceDefiningMetadata4} alt="igPivotDataSelector metadata tree with three measures and the Seller and Product dimensions, each with one hierarchy." />
 
 ### Code
 
@@ -401,95 +403,170 @@ Following is the full code of the example demonstrates including a complete decl
 **In JavaScript:**
 
 ```js
-Var dataSource = new $.ig.FlatDataSource({
-                dataOptions: {
-                    dataSource:
-                        [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-                        { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-                        { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-                        { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-                        { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-                        { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-                        { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }]
-                },
-                metadata: {
-                    cube: {
-                        name: "Sales",
-                        measuresDimension: {
-                            measures: [
+var dataSource = new $.ig.FlatDataSource({
+    dataOptions: {
+        dataSource: [
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 12.81,
+                "SellerName": "Stanley Brooker",
+                "Country": "Bulgaria",
+                "City": "Plovdiv",
+                "Date": "2007-01-01",
+                "UnitsSold": 282
+            },
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 49.57,
+                "SellerName": "Elisa Longbottom",
+                "Country": "US",
+                "City": "New York",
+                "Date": "2007-01-05",
+                "UnitsSold": 296
+            },
+            {
+                "ProductCategory": "Bikes",
+                "UnitPrice": 3.56,
+                "SellerName": "Lydia Burson",
+                "Country": "Uruguay",
+                "City": "Ciudad de la Costa",
+                "Date": "2007-01-06",
+                "UnitsSold": 68
+            },
+            {
+                "ProductCategory": "Accessories",
+                "UnitPrice": 85.58,
+                "SellerName": "David Haley",
+                "Country": "UK",
+                "City": "London",
+                "Date": "2007-01-07",
+                "UnitsSold": 293
+            },
+            {
+                "ProductCategory": "Components",
+                "UnitPrice": 18.13,
+                "SellerName": "John Smith",
+                "Country": "Japan",
+                "City": "Yokohama",
+                "Date": "2007-01-08",
+                "UnitsSold": 240
+            },
+            {
+                "ProductCategory": "Clothing",
+                "UnitPrice": 68.33,
+                "SellerName": "Larry Lieb",
+                "Country": "Uruguay",
+                "City": "Ciudad de la Costa",
+                "Date": "2007-01-12",
+                "UnitsSold": 456
+            },
+            {
+                "ProductCategory": "Components",
+                "UnitPrice": 16.05,
+                "SellerName": "Walter Pang",
+                "Country": "Bulgaria",
+                "City": "Sofia",
+                "Date": "2007-02-09",
+                "UnitsSold": 492
+            }
+        ]
+    },
+    metadata: {
+        cube: {
+            name: "Sales",
+            measuresDimension: {
+                measures: [
+                    {
+                        // example for sum aggreagor
+                        name: "Units Sold Sum",
+                        aggregator: function (items, cellMetadata) {
+                            var sum = 0;
+                            $.each(items, function (index, item) {
+                                sum += item.UnitsSold;
+                            });
+                            return sum;
+                        }
+                    },
+                    {
+                        // example for average aggreagor
+                        name: "Average Unit Price",
+                        aggregator: function (items, cellMetadata) {
+                            var sum = 0;
+                            $.each(items, function (index, item) {
+                                sum += item.UnitPrice;
+                            });
+                            return sum / items.length;
+                        }
+                    },
+                    {
+                        // example for count aggregator
+                        name: "Sales Count",
+                        aggregator: function (items, cellMetadata) {
+                            var count = 0;
+                            $.each(items, function (index, item) {
+                                if (
+                                    item.UnitsSold !== undefined &&
+                                    item.UnitsSold !== null &&
+                                    item.UnitsSold > 0
+                                ) {
+                                    count++;
+                                }
+                            });
+                            return count;
+                        }
+                    }
+                ]
+            },
+            dimensions: [
+                {
+                    name: "Seller",
+                    hierarchies: [
+                        {
+                            name: "Seller",
+                            levels: [
                                 {
-                                    // example for sum aggreagor
-                                    name: "Units Sold Sum",
-                                    aggregator: function (items, cellMetadata) {
-                                        var sum = 0;
-                                        $.each(items, function (index, item) {
-                                            sum += item.UnitsSold;
-                                        });
-                                        return sum;
+                                    name: "All Sellers",
+                                    memberProvider: function (item) {
+                                        return "All Sellers";
                                     }
                                 },
                                 {
-                                    // example for average aggreagor
-                                    name: "Average Unit Price",
-                                    aggregator: function (items, cellMetadata) {
-                                        var sum = 0;
-                                        $.each(items, function (index, item) {
-                                            sum += item.UnitPrice;
-                                        });
-                                        return sum / items.length;
-                                    }
-                                },
-                                {
-                                    // example for count aggregator
-                                    name: "Sales Count",
-                                    aggregator: function (items, cellMetadata) {
-                                        var count = 0;
-                                        $.each(items, function (index, item) {
-                                            if (item.UnitsSold !== undefined &&
-                                                item.UnitsSold !== null &&
-                                                item.UnitsSold > 0) {
-                                                count++;
-                                            }
-                                        });
-                                        return count;
+                                    name: "Seller",
+                                    memberProvider: function (item) {
+                                        return item.SellerName;
                                     }
                                 }
-                            ],
-                        },
-                        dimensions: [
-                            {
-                                name: "Seller", hierarchies:
-                                   [{
-                                       name: "Seller", levels: [
-                                         {
-                                             name: "All Sellers",
-                                             memberProvider: function (item) { return "All Sellers"; }
-                                         },
-                                         {
-                                             name: "Seller",
-                                             memberProvider: function (item) { return item.SellerName; }
-                                         }]
-                                   }]
-                            },
-                            {
-                                caption: "Product", name: "Product", hierarchies: [
-                                    {
-                                        name: "Product", levels: [
-                                            {
-                                                name: "All Products",
-                                                memberProvider: function (item) { return "All Products"; }
-                                            },
-                                            {
-                                                name: "Product Category",
-                                                memberProvider: function (item) { return item.ProductCategory; }
-                                            }
-                                        ]
-                                    }]
-                            }
-                        ]
-                    }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    caption: "Product",
+                    name: "Product",
+                    hierarchies: [
+                        {
+                            name: "Product",
+                            levels: [
+                                {
+                                    name: "All Products",
+                                    memberProvider: function (item) {
+                                        return "All Products";
+                                    }
+                                },
+                                {
+                                    name: "Product Category",
+                                    memberProvider: function (item) {
+                                        return item.ProductCategory;
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 }
-            });
+            ]
+        }
+    }
+});
 ```
 
 ## Related Content

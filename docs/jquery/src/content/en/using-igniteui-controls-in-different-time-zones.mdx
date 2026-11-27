@@ -47,16 +47,17 @@ It is important to note that the igGrid/igHierarchicalGrid/igTreeGrid take the t
 
 ```js
 "Metadata": {
-                "timezoneOffset": 7200000,
-                "timezoneOffsets": {
-                    "0": {
-                        "ExpirationDate": 7200000
-                    },
-                    "1": {
-                        "ExpirationDate": 7200000
-                    },
-                    ...
-                    }
+    "timezoneOffset": 7200000,
+    "timezoneOffsets": {
+        "0": {
+            "ExpirationDate": 7200000
+        },
+        "1": {
+            "ExpirationDate": 7200000
+        },
+        ...
+    }
+}
 ```
 
 As the different dates may have a different type (UTC or Local) the specific date values for each row have their specific offset send as part of the metadata as demonstrated above.
@@ -65,7 +66,7 @@ As the different dates may have a different type (UTC or Local) the specific dat
   If the data source contains information on the timezone offset of the server, that offset is always taken into consideration when rendering the date on the client. Therefore when the grid is instantiated via the MVC wrapper the third option for `dateDisplayType` is used by default.
 </DocsAside>
 
-### Practical Example:
+### Practical Example
 
 Consider the following scenario:
 
@@ -80,7 +81,7 @@ The date is created in local time on the server, for example:
 DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);  
 ```
 
-A user in Singapore will see the exact same time displayed in the grid cell: <Image src={imgIgniteuiDifferentTimeZones1} alt="" />
+A user in Singapore will see the exact same time displayed in the grid cell: <Image src={imgIgniteuiDifferentTimeZones1} alt="igGrid row whose Expiration Date cell shows 10/01/2015 07:00:00, the same time the server sent." />
 
 As will any other user from any other time zone in the world. The displayed date will always be the same as the one sent from the server.
 
@@ -90,22 +91,24 @@ Here's what exactly happens in the upper example:
 
 We have a date in Eastern Time 1 Jan 2015. That date needs to be parsed to Json, it will be send in the form of Ticks. The timezoneOffset of the server will be - 18000000 ticks (- 5:00 hours). So the json data will look like this:
 
-```js
+```json
 {
-   "Records": [{
-       "ID": 0,
-       "Name": "Name0",
-       "ExpirationDate": "2015-01-10T05:00:00.000Z"
-   }],
-   "TotalRecordsCount": 0,
-   "Metadata": {
-       "timezoneOffset": -18000000,
-       "timezoneOffsets": {
-           "0": {
-               "ExpirationDate": -18000000
-           }
-       }
-   }
+    "Records": [
+        {
+            "ID": 0,
+            "Name": "Name0",
+            "ExpirationDate": "2015-01-10T05:00:00.000Z"
+        }
+    ],
+    "TotalRecordsCount": 0,
+    "Metadata": {
+        "timezoneOffset": -18000000,
+        "timezoneOffsets": {
+            "0": {
+                "ExpirationDate": -18000000
+            }
+        }
+    }
 }
 ```
 
@@ -113,7 +116,7 @@ The original date send from the server, converted in local time would be Jan 10 
 
 When adding/updating a dates the new value will be stored in UTC. For example, if the user in Singapore updates the value from 10/01/2015 07:00:00 to 10/01/2015 08:00:00, the date value that will be send as part of the update transaction will be the value in UTC, so the send value will be 10/01/2015 08:00:00 in UTC (not in local time). So after updating the value and saving the changes to the server, the value received on the server is 10/01/2015 08:00:00 in UTC.
 
-<Image src={imgIgniteuiDifferentTimeZones2} alt="" />
+<Image src={imgIgniteuiDifferentTimeZones2} alt="Visual Studio debugger showing the saved ExpirationDate with Kind Utc and hour 8." />
 
 ## igDatePicker and igDateEditor
 
@@ -131,7 +134,7 @@ The `igDateEditor` and `igDatePicker` offer several options to properly handle d
   For more information of how you can migrate editors, configured with enableUTCDates option, from 16.2 to 17.1 follow the [Migrating date handling in 17.1](./igdateeditor-migrating-date-handling-in-17-1.mdx) document.
 </DocsAside>
 
-Client `igDateEditor`/`igDatePicker` widgets can serialize the date either in UTC format or containing local time and offset based on the `enableUTCDates` option. Both values refer to the same point in time, however one also carries additional information for the client and depending on the server platform it can make a difference when parsing submitted values. For example in .NET [`DateTimeOffset`](https://msdn.microsoft.com/en-us/library/system.datetimeoffset\(v=vs.110\).aspx) allows handling the client offset separately.
+Client `igDateEditor`/`igDatePicker` widgets can serialize the date either in UTC format or containing local time and offset based on the `enableUTCDates` option. Both values refer to the same point in time, however one also carries additional information for the client and depending on the server platform it can make a difference when parsing submitted values. For example in .NET [`DateTimeOffset`](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset) allows handling the client offset separately.
 
 Since the JavaScript `Date` always converts the initial value to local time discarding any time zone offset in the process, it is always recommended to set UTC standard values for the `igDateEditor` and `igDatePicker`, especially when <ApiLink type="igDateEditor" member="options:displayTimeOffset" pkg="core" label="displayTimeOffset" /> option is defined, otherwise values with specific or ambiguous time zone could map to unpredictable times depending on the user agent local zone.
 
@@ -172,7 +175,7 @@ $("#StartHour").igDateEditor({
 
 The above configuration will render the following value in the editor:
 
-<Image src={imgTimeZonesEditor1} alt="" />
+<Image src={imgTimeZonesEditor1} alt="Date editor showing 2016-01-09 10:35." />
 
 ### Ignoring server offset and displaying the specific client one
 
@@ -206,7 +209,7 @@ $("#StartHour").igDateEditor({
 
 The above configuration will render the following value in the editor, if our time is "FLE Standard Time", which is GMT+02:00:
 
-<Image src={imgTimeZonesEditor2} alt="" />
+<Image src={imgTimeZonesEditor2} alt="Date editor showing 2016-01-09 11:35, the value shifted to the client’s GMT+02:00 offset." />
 
 ### Configuring EnableUTCDates option
 
@@ -232,7 +235,7 @@ Then the submitted value will be formatted as local time and offset. And because
 
 If we decide to display a date in "Russian Standard Time", GMT+03:00, then what we need is to define the appropriate offset from UTC time, in minutes:
 
-```js
+```razor
 @(Html.Infragistics()
     .DateEditor()
     .Value(new DateTime(2016, 1, 9, 10, 55, 55))
@@ -262,7 +265,7 @@ $("#StartHour").igDateEditor({
 
 The result on the browser will be:
 
-<Image src={imgTimeZonesEditor3} alt="" />
+<Image src={imgTimeZonesEditor3} alt="Date editor showing 2016-01-09 12:35, the value with the configured display time offset applied." />
 
 <DocsAside type="note">
   Keep in mind that the `displayTimeOffset` is a static value that can't account for Daylight Saving. For that reason, if targeting a specific zone rather than just offset, the back end logic should check if the target date falls under DST to provide the correct offset value for the specific date. With .NET the `DisplayTimeOffset` type can be used and can also be handled automatically by the MVC editor wrappers.

@@ -38,7 +38,7 @@ import imgIgGridCoulmnResizing01 from './images/igGrid_Coulmn_Resizing__01.png';
 
 - 遅延サイズ変更 - ユーザーがサイズ変更を終了するか、直ちに適用するまでサイズ変更は保留されます。この機能は <ApiLink type="igGridResizing" member="options:deferredResizing" pkg="core" label="deferredResizing" /> オプションから管理されます。
 
-- 構成可能なサイズ変更ハンドル - サイズ変更可能な列ヘッダーそれぞれの右側にあるサイズ変更ハンドルの幅 (ピクセル単位) がカスタマイズできます。この機能は `handleTreshold` オプションから管理されます。
+- 構成可能なサイズ変更ハンドル - サイズ変更可能な列ヘッダーそれぞれの右側にあるサイズ変更ハンドルの幅 (ピクセル単位) がカスタマイズできます。この機能は <ApiLink type="igGridResizing" member="options:handleThreshold" pkg="core" label="handleThreshold" /> オプションから管理されます。
 
 - 列キー - 指定された列設定を適用する列を指定します。この機能は <ApiLink type="igGridResizing" member="options:columnSettings.columnKey" pkg="core" label="columnKey" /> オプションから管理されます。
 
@@ -48,7 +48,7 @@ import imgIgGridCoulmnResizing01 from './images/igGrid_Coulmn_Resizing__01.png';
 
 以下は最終結果のプレビューです。
 
-<Image src={imgIgGridCoulmnResizing01} alt="" />
+<Image src={imgIgGridCoulmnResizing01} alt="色列のヘッダーの境界線をドラッグして列幅を変更している igGrid" />
 
 ### 要件
 
@@ -110,14 +110,16 @@ $("#grid1").igGrid({
 **Razor(MVC) の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Columns(column =>
+@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID");
         column.For(x => x.Name).HeaderText("Product Name");
         column.For(x => x.ProductNumber).HeaderText("Product Number");
     }).Features(features => {
         features.Resizing();
-    }).Height("400").Width("800").DataSourceUrl(Url.Action("ColumnResizingGetData"))
+    }).Height("400").Width("800")
+    .DataSourceUrl(Url.Action("ColumnResizingGetData"))
     .DataBind().Render())
 ```
 
@@ -155,13 +157,21 @@ $("#grid1").igGrid({
 @(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
     .Columns(column =>
         {
-            column.For(x => x.ProductID).HeaderText("Product ID").Width("100px");
+            column.For(x => x.ProductID)
+                .HeaderText("Product ID")
+                .Width("100px");
             column.For(x => x.Name).HeaderText("Product Name").Width("200px");
-            column.For(x => x.ModifiedDate).HeaderText("Modified Date").Width("200px");
-            column.For(x => x.ListPrice).HeaderText("List Price").Width("200px");
+            column.For(x => x.ModifiedDate)
+                .HeaderText("Modified Date")
+                .Width("200px");
+            column.For(x => x.ListPrice)
+                .HeaderText("List Price")
+                .Width("200px");
         })
     .Features(features => {
-        features.Resizing().AllowDoubleClickToResize(true).DeferredResizing(true)
+        features.Resizing()
+            .AllowDoubleClickToResize(true)
+            .DeferredResizing(true)
             .ColumnSettings(s =>
             {
                 s.ColumnSetting().ColumnKey("ProductID").AllowResizing(false);
@@ -173,7 +183,8 @@ $("#grid1").igGrid({
 **Razor(MVC) の場合:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Columns(column =>
+@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID")
+    .Columns(column =>
     {
         column.For(x => x.ProductID).HeaderText("Product ID");
         column.For(x => x.Name).HeaderText("Product Name");
@@ -181,13 +192,14 @@ $("#grid1").igGrid({
     })
     .Features(features => {
         features.Resizing();
-    }).Height("400").Width("800").DataSourceUrl(Url.Action("ColumnResizingGetData"))
+    }).Height("400").Width("800")
+    .DataSourceUrl(Url.Action("ColumnResizingGetData"))
     .DataBind().Render())
 ```
 
 ## クライアント側イベント
 
-それぞれ、リスト 5 とリスト 6 に記載された 2 種類の方法でハンドラーを Reisizing にバインドできます。
+それぞれ、リスト 5 とリスト 6 に記載された 2 種類の方法でハンドラーを Resizing にバインドできます。
 
 リスト 5: アプリケーションの任意の場所からのクライアント側イベントへのバインド
 
@@ -247,7 +259,7 @@ function handler(event, args) {}
 | ----------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------ |
 | <ApiLink type="igGridResizing" member="options:allowDoubleClickToResize" pkg="core" label="allowDoubleClickToResize" /> | ブール型 (デフォルト: True)  | 列を現在表示されている最も長いセル値のサイズに変更することを有効または無効にします              |
 | <ApiLink type="igGridResizing" member="options:deferredResizing" pkg="core" label="deferredResizing" />                 | ブール型 (デフォルト: False) | ユーザーがサイズ変更を終了するか、サイズ変更が直ちに適用されるまでサイズ変更を保留するかどうかを指定します。 |
-| handleTreshold                                                                                                          | Int (default: 5)    | サイズ変更可能な列ヘッダーそれぞれの右側に配置される、サイズ変更ハンドルの幅 (ピクセル単位)。       |
+| <ApiLink type="igGridResizing" member="options:handleThreshold" pkg="core" label="handleThreshold" />                                                                                                          | Int (default: 5)    | サイズ変更可能な列ヘッダーそれぞれの右側に配置される、サイズ変更ハンドルの幅 (ピクセル単位)。       |
 
 ## 関連トピック
 

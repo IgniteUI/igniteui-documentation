@@ -25,12 +25,12 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 **概念**
 
 - JavaScript 配列
-- [JSON](http://www.json.org/)
+- [JSON](https://www.json.org/)
 - [Web サービス](https://ja.wikipedia.org/wiki/Webサービス)
-- [WCF サービス](http://msdn.microsoft.com/ja-jp/library/aa480190.aspx)
-- [ASP.NET MVC](http://www.asp.net/mvc)
-- [シェープ ファイル](http://wiki.openstreetmap.org/wiki/Shapefiles)
-- [DBF データベース ファイル](http://en.wikipedia.org/wiki/DBase)
+- [WCF サービス](https://learn.microsoft.com/en-us/previous-versions/dotnet/articles/aa480190(v=msdn.10))
+- [ASP.NET MVC](https://learn.microsoft.com/en-us/aspnet/mvc/)
+- [シェープ ファイル](https://wiki.openstreetmap.org/wiki/Shapefiles)
+- [DBF データベース ファイル](https://en.wikipedia.org/wiki/DBase)
 - [三角測量 (ITF) ファイル](http://vterrain.org/Implementation/Formats/ITF.html)
 
 **トピック**
@@ -202,7 +202,12 @@ var data = [
     { Name: "London", Country: "England", Latitude: 51.50, Longitude: 0.12 },
     { Name: "Berlin", Country: "Germany", Latitude: 52.50, Longitude: 13.33 },
     { Name: "Moscow", Country: "Russia", Latitude: 55.75, Longitude: 37.51 },
-    { Name: "Sydney", Country: "Australia", Latitude: -33.83, Longitude: 151.2 },
+    {
+        Name: "Sydney",
+        Country: "Australia",
+        Latitude: -33.83,
+        Longitude: 151.2
+    },
     { Name: "Tokyo", Country: "Japan", Latitude: 35.6895, Longitude: 139.6917 }
 ];
 ```
@@ -265,7 +270,7 @@ $("#map").igMap({
    ```csharp
    public ActionResult Index()
    {
-       List<SampleMvcApp.Models.WorldCity> worldCities = 
+       List<SampleMvcApp.Models.WorldCity> WorldCities = 
            new List<SampleMvcApp.Models.WorldCity>
        {
            new WorldCity { Name = "Warsaw", Country = "Poland", 
@@ -281,7 +286,7 @@ $("#map").igMap({
            new WorldCity { Name = "Tokyo", Country = "Japan", 
                Latitude = 35.6895, Longitude = 139.6917 }
        };
-       return View(worldCities.AsQueryable());
+       return View(WorldCities.AsQueryable());
    }
    ```
 
@@ -289,12 +294,12 @@ $("#map").igMap({
 
    以下のコード スニペットは、厳密に型指定された ASP.NET MVC ビューで Ignite UI for MVC `Map` コントロールのインスタンスを作成する MVC ヘルパー コードを示します。
 
-   **ASPX の場合:**
+   **Razor の場合:**
 
-   ```csharp
-   <%@ Page Language="C#" Inherits="IQueryable<SampleMvcApp.Models.WorldCity>"
-       MasterPageFile="~/Views/Shared/MvcSite.Master" %>
-   <%= Html.Infragistics().Map(Model)
+   ```razor
+   @model IQueryable<SampleMvcApp.Models.WorldCity>
+
+   @(Html.Infragistics().Map(Model)
            .ID("map")
            .BackgroundContent(bgr => bgr.OpenStreetMaps())
            .Series(series => {
@@ -304,7 +309,7 @@ $("#map").igMap({
            })
            .DataBind()
            .Render()
-   %>
+   )
    ```
 
    - 以下のコード スニペットは、model オブジェクトの型を直接ヘルパーに設定して、通常の ASP.NET MVC ビューで Ignite UI for MVC `Map` コントロールのインスタンスを作成する MVC ヘルパー コードを示します。
@@ -494,8 +499,9 @@ $("#map").igMap({
                     cs.CustomPalette()
                         .InterpolationMode(InterpolationMode.InterpolateRGB)
                         .MinimumValue(0.15)
-                        .Palette(new List<string>() { "#3300CC", "#4775FF", "#0099CC", 
-                            "#00CC99", "#33CC00", "#99CC00", "#CC9900", "#FFC20A", 
+                        .Palette(new List<string>() {
+                            "#3300CC", "#4775FF", "#0099CC", "#00CC99",
+                            "#33CC00", "#99CC00", "#CC9900", "#FFC20A",
                             "#CC3300" })
                 )
                 .TriangleVertexMemberPath1("v1")
@@ -504,7 +510,8 @@ $("#map").igMap({
                 .LongitudeMemberPath("pointX")
                 .LatitudeMemberPath("pointY")
                 .ColorMemberPath("value")
-                .TriangulationDataSource(Url.Content("~/Data/precipitation.itf"));
+                .TriangulationDataSource(
+                    Url.Content("~/Data/precipitation.itf"));
         })
         .DataBind()
         .Render()

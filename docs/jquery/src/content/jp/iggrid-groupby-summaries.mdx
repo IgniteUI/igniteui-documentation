@@ -24,7 +24,7 @@ import imgIgGridGroupBySummariesOverview02 from './images/igGrid_GroupBy_Summari
 
 グループ化集計機能は、そのアイランドにあるデータ列の集計情報を表示するグループ データ アイランドの下、上、または上下の両方に追加の集計行を表示します。集計行は、関連するグループが展開された場合のみ表示されます。以下の画像は、グループ化された列を持つグリッドで各グループの下に「Price」列の合計数が集計行に表示されます。
 
-<Image src={imgIgGridGroupBySummariesOverview01} alt="" />
+<Image src={imgIgGridGroupBySummariesOverview01} alt="City と Existing でグループ化し、各グループの下にある Price の合計の集計行を赤枠で囲んだ igGrid" />
 
 この機能は、データ グループの意味のある集計を提供するためにデフォルトの集計関数 (合計、最小値、最大値、平均値など) の結果、またはカスタム集計の結果を表示できます。
 
@@ -60,7 +60,7 @@ $("#grid1").igGrid({
 
 以下にデフォルト設定の結果の例を示します。
 
-<Image src={imgIgGridGroupBySummariesOverview02} alt="" />
+<Image src={imgIgGridGroupBySummariesOverview02} alt="City でグループ化し、グループごとに Count と Price の Min、Max、Sum、Avg の集計行を表示する igGrid" />
 
 適用可能な列タイプおよびデフォルト集計に関連するその他のオプションを `$.ig.util.defaultSummaryMethods` 配列で変更できます。
 
@@ -90,17 +90,18 @@ groupSummaries オプションは、true/false に設定して集計を有効/�
 
 ```js
 $("#grid1").igGrid({
-   features: [
-    {
-        name: "GroupBy",
-        initialExpand: false,
-        groupSummaries: [
-            {
-                summaryFunction: "Sum",
-                label: "Total = "
-            }
-        ]
-     ]
+    features: [
+        {
+            name: "GroupBy",
+            initialExpand: false,
+            groupSummaries: [
+                {
+                    summaryFunction: "Sum",
+                    label: "Total = "
+                }
+            ]
+        }
+    ],
     dataSource: data
 });
 ```
@@ -139,30 +140,32 @@ $("#grid1").igGrid({
 ```js
 $("#grid1").igGrid({
     features: [
-         {
+        {
             name: "GroupBy",
             initialExpand: false,
             columnSettings: [
                 {
                     columnKey: "ExisitingCustomer",
                     groupSummaries: [
-                     {
-                         summaryFunction: existingCount,
-                         label: "Existing Count: "
-                      }
+                        {
+                            summaryFunction: existingCount,
+                            label: "Existing Count: "
+                        }
                     ]
                 }
+            ]
         }
     ],
     dataSource: data
- });
+});
 
-function existingCount(data) {
-    var i, count = 0; 
+function existingCount(data, dataType) {
+    var i,
+        count = 0;
     for (i = 0; i < data.length; i++) {
-        if(data[i] === "Y"){
-           count++;
-       }
+        if (data[i] === "Y") {
+            count++;
+        }
     }
     return count;
 }

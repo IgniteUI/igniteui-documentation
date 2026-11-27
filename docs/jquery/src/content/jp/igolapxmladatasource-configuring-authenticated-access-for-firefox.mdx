@@ -30,11 +30,11 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
 
 **概念**
 
-- [SQL Server Analysis Services (SSAS)](http://msdn.microsoft.com/ja-jp/library/ms175609%28v=sql.90%29.aspx)
-- [XML for Analysis (XMLA)](http://en.wikipedia.org/wiki/XML_for_Analysis)
-- [オンライン解析処理 (OLAP) との操作](http://msdn.microsoft.com/ja-jp/library/ms175367%28v=sql.90%29.aspx)
-- [インターネット インフォメーション サービス (IIS)](http://technet.microsoft.com/ja-jp/library/hh831725)
-- [IIS のマネージド ハンドラー](http://technet.microsoft.com/ja-jp/library/cc753249%28v=ws.10%29.aspx)
+- [SQL Server Analysis Services (SSAS)](https://learn.microsoft.com/ja-jp/previous-versions/sql/sql-server-2005/ms175609(v=sql.90))
+- [XML for Analysis (XMLA)](https://en.wikipedia.org/wiki/XML_for_Analysis)
+- [オンライン解析処理 (OLAP) との操作](https://learn.microsoft.com/ja-jp/previous-versions/sql/sql-server-2005/ms175367(v=sql.90))
+- [インターネット インフォメーション サービス (IIS)](https://learn.microsoft.com/ja-jp/previous-versions/windows/server/hh831725(v=ws.11))
+- [IIS のマネージド ハンドラー](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753249(v=ws.10))
 
 **トピック**
 
@@ -127,23 +127,30 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
       {
           internal class ConfigHelper
           {
-              public static bool IsAuthenticated(out string authentication, bool applicationHost = true)
+              public static bool IsAuthenticated(out string authentication,
+                  bool applicationHost = true)
               {
                   return IsAuthenticated(out authentication, applicationHost, "IIS7");
               }
-              public static bool IsAuthenticated(out string authentication, bool applicationHost, string iisVersion)
+              public static bool IsAuthenticated(out string authentication,
+                  bool applicationHost, string iisVersion)
               {
                   authentication = null;
                   string leadPathPart = iisVersion.ToUpper() == "IIS7"
                                         ? "system.webServer/security/"
                                         : "system.web/";
                   string[] authPaths = new string[4];
-                  authPaths[0] = leadPathPart + "authentication/anonymousAuthentication";
-                  authPaths[1] = leadPathPart + "authentication/basicAuthentication";
-                  authPaths[2] = leadPathPart + "authentication/digestAuthentication";
-                  authPaths[3] = leadPathPart + "authentication/windowsAuthentication";
+                  authPaths[0] = leadPathPart +
+                      "authentication/anonymousAuthentication";
+                  authPaths[1] = leadPathPart +
+                      "authentication/basicAuthentication";
+                  authPaths[2] = leadPathPart +
+                      "authentication/digestAuthentication";
+                  authPaths[3] = leadPathPart +
+                      "authentication/windowsAuthentication";
                   ServerManager serverManager = new ServerManager();
-                  Configuration appHostConfig = serverManager.GetApplicationHostConfiguration();
+                  Configuration appHostConfig =
+                      serverManager.GetApplicationHostConfiguration();
                   ConfigurationSection configSection = null;
                   for (int i = 0; i < authPaths.Length; i++)
                   {
@@ -155,7 +162,8 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
                           }
                           else
                           {
-                              configSection = WebConfigurationManager.GetSection(authPaths[i]);
+                              configSection =
+                                  WebConfigurationManager.GetSection(authPaths[i]);
                           }
                       }
                       catch (Exception)
@@ -163,7 +171,8 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
                       }
                       if (configSection != null)
                       {
-                          bool enabled = Convert.ToBoolean(configSection.GetAttributeValue("enabled"));
+                          bool enabled = Convert.ToBoolean(
+                              configSection.GetAttributeValue("enabled"));
                           if (enabled)
                           {
                               authentication = authPaths[i];
@@ -188,31 +197,47 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
       Imports Microsoft.Web.Administration
       Namespace CrossOriginRequestModule
             Friend Class ConfigHelper
-                  Public Shared Function IsAuthenticated(ByRef authentication As String, Optional applicationHost As Boolean = True) As Boolean
-                        Return IsAuthenticated(authentication, applicationHost, "IIS7")
+                  Public Shared Function IsAuthenticated(
+                        ByRef authentication As String,
+                        Optional applicationHost As Boolean = True) As Boolean
+                        Return IsAuthenticated(authentication, applicationHost,
+                              "IIS7")
                   End Function
-                  Public Shared Function IsAuthenticated(ByRef authentication As String, applicationHost As Boolean, iisVersion As String) As Boolean
+                  Public Shared Function IsAuthenticated(
+                        ByRef authentication As String,
+                        applicationHost As Boolean,
+                        iisVersion As String) As Boolean
                         authentication = Nothing
-                        Dim leadPathPart As String = If(iisVersion.ToUpper() = "IIS7", "system.webServer/security/", "system.web/")
+                        Dim leadPathPart As String = If(iisVersion.ToUpper() = "IIS7",
+                              "system.webServer/security/", "system.web/")
                         Dim authPaths As String() = New String(3) {}
-                        authPaths(0) = leadPathPart & "authentication/anonymousAuthentication"
-                        authPaths(1) = leadPathPart & "authentication/basicAuthentication"
-                        authPaths(2) = leadPathPart & "authentication/digestAuthentication"
-                        authPaths(3) = leadPathPart & "authentication/windowsAuthentication"
+                        authPaths(0) = leadPathPart &
+                              "authentication/anonymousAuthentication"
+                        authPaths(1) = leadPathPart &
+                              "authentication/basicAuthentication"
+                        authPaths(2) = leadPathPart &
+                              "authentication/digestAuthentication"
+                        authPaths(3) = leadPathPart &
+                              "authentication/windowsAuthentication"
                         Dim serverManager As New ServerManager()
-                        Dim appHostConfig As Configuration = serverManager.GetApplicationHostConfiguration()
+                        Dim appHostConfig As Configuration =
+                              serverManager.GetApplicationHostConfiguration()
                         Dim configSection As ConfigurationSection = Nothing
                         For i As Integer = 0 To authPaths.Length - 1
                               Try
                                     If applicationHost Then
-                                          configSection = appHostConfig.GetSection(authPaths(i))
+                                          configSection =
+                                                appHostConfig.GetSection(authPaths(i))
                                     Else
-                                          configSection = WebConfigurationManager.GetSection(authPaths(i))
+                                          configSection =
+                                                WebConfigurationManager.GetSection(
+                                                      authPaths(i))
                                     End If
                               Catch generatedExceptionName As Exception
                               End Try
                               If configSection IsNot Nothing Then
-                                    Dim enabled As Boolean = Convert.ToBoolean(configSection.GetAttributeValue("enabled"))
+                                    Dim enabled As Boolean = Convert.ToBoolean(
+                                          configSection.GetAttributeValue("enabled"))
                                     If enabled Then
                                           authentication = authPaths(i)
                                           ' do nothing for anonymousAuthentication 
@@ -262,39 +287,52 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
                       }
                       if (!string.IsNullOrEmpty(origin))
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Origin", origin);
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Origin", origin);
                       }
-                      if (!string.IsNullOrEmpty(context.Request.Headers.Get("Access-Control-Request-Method")))
+                      if (!string.IsNullOrEmpty(
+                          context.Request.Headers.Get(
+                              "Access-Control-Request-Method")))
                       {
-                          context.Response.AppendHeader("Access-Control-Request-Method", "POST, GET");
+                          context.Response.AppendHeader(
+                              "Access-Control-Request-Method", "POST, GET");
                       }
-                      string accessControlRequestHeaders = context.Request.Headers.Get("Access-Control-Request-Headers");
+                      string accessControlRequestHeaders =
+                          context.Request.Headers.Get(
+                              "Access-Control-Request-Headers");
                       string authentication = null;
-                      bool isAuthenticated = ConfigHelper.IsAuthenticated(out authentication, false);
+                      bool isAuthenticated =
+                          ConfigHelper.IsAuthenticated(out authentication, false);
                       // no auth section in web.config
                       if (authentication == null)
                       {
                           isAuthenticated = false;
-                          isAuthenticated = ConfigHelper.IsAuthenticated(out authentication);
+                          isAuthenticated =
+                              ConfigHelper.IsAuthenticated(out authentication);
                       }
                       if (isAuthenticated)
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Credentials", "true");
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Credentials", "true");
                           if (!string.IsNullOrEmpty(accessControlRequestHeaders) &&
                               !accessControlRequestHeaders.Contains("authorization"))
                           {
-                              accessControlRequestHeaders = accessControlRequestHeaders + ", authorization";
+                              accessControlRequestHeaders =
+                                  accessControlRequestHeaders + ", authorization";
                           }
                       }
                       if (!string.IsNullOrEmpty(accessControlRequestHeaders))
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Headers", accessControlRequestHeaders);
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Headers",
+                              accessControlRequestHeaders);
                       }
                       if (context.Request.HttpMethod == "OPTIONS")
                       {
                           if (authentication != null)
                           {
-                              context.Response.Write(string.Format("Authentication: {0}", authentication));
+                              context.Response.Write(string.Format(
+                                  "Authentication: {0}", authentication));
                           }
                           HttpContext.Current.ApplicationInstance.CompleteRequest();
                       }
@@ -320,47 +358,70 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
                   End Sub
                   Public Sub Init(app As HttpApplication) Implements IHttpModule.Init
                         ' register for events created by the pipeline 
-                        AddHandler app.BeginRequest, New EventHandler(AddressOf Me.OnBeginRequest)
-                  End Sub
-                  Private Sub OnBeginRequest(sender As Object, e As EventArgs)
-                        Dim context As HttpApplication = DirectCast(sender, HttpApplication)
-                        Try
-                              Dim origin As String = context.Request.Headers.[Get]("Origin")
-                              If String.IsNullOrEmpty(origin) Then
-                                    origin = context.Request.Headers.[Get]("origin")
+                  AddHandler app.BeginRequest,
+                        New EventHandler(AddressOf Me.OnBeginRequest)
+            End Sub
+            Private Sub OnBeginRequest(sender As Object, e As EventArgs)
+                  Dim context As HttpApplication =
+                        DirectCast(sender, HttpApplication)
+                  Try
+                        Dim origin As String =
+                              context.Request.Headers.[Get]("Origin")
+                        If String.IsNullOrEmpty(origin) Then
+                              origin = context.Request.Headers.[Get]("origin")
+                        End If
+                        If Not String.IsNullOrEmpty(origin) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Origin", origin)
+                        End If
+                        If Not String.IsNullOrEmpty(
+                              context.Request.Headers.[Get](
+                                    "Access-Control-Request-Method")) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Request-Method", "POST, GET")
+                        End If
+                        Dim accessControlRequestHeaders As String =
+                              context.Request.Headers.[Get](
+                                    "Access-Control-Request-Headers")
+                        Dim authentication As String = Nothing
+                        Dim isAuthenticated As Boolean =
+                              ConfigHelper.IsAuthenticated(authentication, False)
+                        ' no auth section in web.config
+                        If authentication Is Nothing Then
+                              isAuthenticated = False
+                              isAuthenticated =
+                                    ConfigHelper.IsAuthenticated(authentication)
+                        End If
+                        If isAuthenticated Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Credentials", "true")
+                              If Not String.IsNullOrEmpty(
+                                    accessControlRequestHeaders) AndAlso
+                                    Not accessControlRequestHeaders.Contains(
+                                          "authorization") Then
+                                    accessControlRequestHeaders =
+                                          accessControlRequestHeaders &
+                                          ", authorization"
                               End If
-                              If Not String.IsNullOrEmpty(origin) Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Origin", origin)
+                        End If
+                        If Not String.IsNullOrEmpty(
+                              accessControlRequestHeaders) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Headers",
+                                    accessControlRequestHeaders)
+                        End If
+                        If context.Request.HttpMethod = "OPTIONS" Then
+                              If authentication IsNot Nothing Then
+                                    context.Response.Write(String.Format(
+                                          "Authentication: {0}", authentication))
                               End If
-                              If Not String.IsNullOrEmpty(context.Request.Headers.[Get]("Access-Control-Request-Method")) Then
-                                    context.Response.AppendHeader("Access-Control-Request-Method", "POST, GET")
-                              End If
-                              Dim accessControlRequestHeaders As String = context.Request.Headers.[Get]("Access-Control-Request-Headers")
-                              Dim authentication As String = Nothing
-                              Dim isAuthenticated As Boolean = ConfigHelper.IsAuthenticated(authentication, False)
-                              ' no auth section in web.config
-                              If authentication Is Nothing Then
-                                    isAuthenticated = False
-                                    isAuthenticated = ConfigHelper.IsAuthenticated(authentication)
-                              End If
-                              If isAuthenticated Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Credentials", "true")
-                                    If Not String.IsNullOrEmpty(accessControlRequestHeaders) AndAlso Not accessControlRequestHeaders.Contains("authorization") Then
-                                          accessControlRequestHeaders = accessControlRequestHeaders & ", authorization"
-                                    End If
-                              End If
-                              If Not String.IsNullOrEmpty(accessControlRequestHeaders) Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Headers", accessControlRequestHeaders)
-                              End If
-                              If context.Request.HttpMethod = "OPTIONS" Then
-                                    If authentication IsNot Nothing Then
-                                          context.Response.Write(String.Format("Authentication: {0}", authentication))
-                                    End If
-                                    HttpContext.Current.ApplicationInstance.CompleteRequest()
-                              End If
-                        Catch ex As Exception
-                              context.Response.Write(ex.Message)
-                              HttpContext.Current.ApplicationInstance.CompleteRequest()
+                              HttpContext.Current.ApplicationInstance _
+                                    .CompleteRequest()
+                        End If
+                  Catch ex As Exception
+                        context.Response.Write(ex.Message)
+                        HttpContext.Current.ApplicationInstance _
+                              .CompleteRequest()
                         End Try
                   End Sub
             End Class
@@ -383,11 +444,11 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
 
       IIS マネージャー インターフェイスを使用して、HTTP アクセス プロバイダー (`msmdpump.dll` など) をホストするアプリケーションへ移動します。以下の画像では、olapsecured アプリケーションにアクセスします。
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox1} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox1} alt="olapsecured アプリケーションが選択され、「モジュール」機能が強調表示された IIS マネージャー" />
 
    4. サーバーのアプリケーションに含まれるフォルダーを開きます。
 
-      IIS でアプリケーションを**右クリック**して、コンテキスト メニューから\*\*「エクスプローラー」をクリック\*\*します。
+      IIS でアプリケーションを**右クリック**して、コンテキスト メニューから<strong>「エクスプローラー」をクリック</strong>します。
 
       Windows エクスプローラーはサーバーのアプリケーションに含まれるフォルダーを開きます。
 
@@ -401,7 +462,7 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
 
       インターネット インフォメーション サービス マネージャーで Modules にアクセスします。
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox2} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox2} alt="一覧の先頭にカスタムの RequestsModule がある olapsecured アプリケーションの IIS マネージャー「モジュール」ページ" />
 
    2. カスタム HTTP モジュールを追加します。
 
@@ -415,7 +476,7 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
 
       b. Type のために、以前の手順で追加したカスタム HTTP モジュールを選択します (CrossOriginRequestModule.RequestsModule)。
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox3} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox3} alt="名前 RequestsModule と種類 CrossOriginRequestModule.RequestsModule の IIS モジュール追加ダイアログ" />
 
 ## 関連コンテンツ
 
@@ -431,10 +492,10 @@ import imgIgXmlaDataSourceConfiguringIISForFirefox3 from './images/igXmlaDataSou
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
 
-- [XML for Analysis (XMLA)](http://msdn.microsoft.com/ja-jp/library/ms187178%28v=SQL.90%29.aspx): このトピックでは、XML for Analysis ツールの基本機能を説明します。
+- [XML for Analysis (XMLA)](https://learn.microsoft.com/ja-jp/previous-versions/sql/sql-server-2005/ms187178(v=sql.90)): このトピックでは、XML for Analysis ツールの基本機能を説明します。
 
-- [SQL Server Analysis Services](http://msdn.microsoft.com/ja-jp/library/ms175609%28v=sql.90%29.aspx): このページは MSDN の SQL Server Analysis Services (SSAS) の概要です。
+- [SQL Server Analysis Services](https://learn.microsoft.com/ja-jp/previous-versions/sql/sql-server-2005/ms175609(v=sql.90)): このページは MSDN の SQL Server Analysis Services (SSAS) の概要です。
 
-- [オンライン解析処理 (OLAP) との操作](http://msdn.microsoft.com/ja-jp/library/ms175367%28v=SQL.90%29.aspx): このトピックは OLAP データの操作の概要です。
+- [オンライン解析処理 (OLAP) との操作](https://learn.microsoft.com/ja-jp/previous-versions/sql/sql-server-2005/ms175367(v=sql.90)): このトピックは OLAP データの操作の概要です。
 
-- [チュートリアル: カスタム HTTP モジュールの作成と登録](http://msdn.microsoft.com/ja-jp/library/ms227673%28v=vs.100%29.aspx): このチュートリアルは、カスタム HTTP モジュールの基本機能を紹介します。
+- [チュートリアル: カスタム HTTP モジュールの作成と登録](https://learn.microsoft.com/en-us/previous-versions/aspnet/ms227673(v=vs.100)): このチュートリアルは、カスタム HTTP モジュールの基本機能を紹介します。

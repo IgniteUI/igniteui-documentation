@@ -215,27 +215,42 @@ The following steps demonstrate how to add the `igOlapFlatDataSource` component 
                measuresDimension: {
                    caption: "Measures",
                    measures: [
-                       {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                           var sum = 0;
-                           $.each(items, function (index, item) {
-                               sum += item.UnitsSold;
-                           });
-                           return sum;}},
+                       {
+                           name: "Units Sold",
+                           aggregator: function (items, cellMetadata) {
+                               var sum = 0;
+                               $.each(items, function (index, item) {
+                                   sum += item.UnitsSold;
+                               });
+                               return sum;
+                           }
+                       }
+                   ]
                },
-               dimensions: [ 
+               dimensions: [
                    {
-                       name: "Seller", hierarchies: [{
-                           name: "Seller", levels: [
-                               {
-                                   name: "All Sellers",
-                                   memberProvider: function (item) { return "All Sellers"; }
-                               },
-                               {
-                                   name: "Seller Name",
-                                   memberProvider: function (item) { return item.SellerName; }
-                               }]
-                       }]
-                   }]
+                       name: "Seller",
+                       hierarchies: [
+                           {
+                               name: "Seller",
+                               levels: [
+                                   {
+                                       name: "All Sellers",
+                                       memberProvider: function (item) {
+                                           return "All Sellers";
+                                       }
+                                   },
+                                   {
+                                       name: "Seller Name",
+                                       memberProvider: function (item) {
+                                           return item.SellerName;
+                                       }
+                                   }
+                               ]
+                           }
+                       ]
+                   }
+               ]
            }
        }
    });
@@ -243,7 +258,7 @@ The following steps demonstrate how to add the `igOlapFlatDataSource` component 
 
 5. Initialize the data source.
 
-   Initialize the flat data source by calling the OlapFlatDataSource object’s `initialize()` method that returns a [promise](http://api.jquery.com/deferred.promise/) object that will be resolved with the root <ApiLink type="OlapMetadataTreeItem" pkg="core" label="OlapMetadataTreeItem" /> (the root node of the metadata tree). This is because the initialization is an asynchronous process. The promise object is an object that encapsulates an asynchronous operation exposing methods that can initiate and execute callbacks when the operation either completes or fails such as [done](http://api.jquery.com/deferred.done/), [fail](http://api.jquery.com/deferred.fail/), etc..
+   Initialize the flat data source by calling the OlapFlatDataSource object’s `initialize()` method that returns a [promise](https://api.jquery.com/deferred.promise/) object that will be resolved with the root <ApiLink type="OlapMetadataTreeItem" pkg="core" label="OlapMetadataTreeItem" /> (the root node of the metadata tree). This is because the initialization is an asynchronous process. The promise object is an object that encapsulates an asynchronous operation exposing methods that can initiate and execute callbacks when the operation either completes or fails such as [done](https://api.jquery.com/deferred.done/), [fail](https://api.jquery.com/deferred.fail/), etc..
 
    <DocsAside type="note">
      If using a version of jQuery that does not implement promises (1.6 and prior), a custom fallback implementation that provides the same interface is automatically used.
@@ -253,24 +268,82 @@ The following steps demonstrate how to add the `igOlapFlatDataSource` component 
 
 The following code demonstrates creating and initializing a new instance of the `igOlapFlatDataSource` component. Both alternatives for referencing the required JavaScript resources are provided – with and without using the Infragistics Loader.
 
-### Instantiating OlapFlatDataSource using the Infragistics Loader:
+### Instantiating OlapFlatDataSource using the Infragistics Loader
 
 **In JavaScript:**
 
 ```js
 $.ig.loader({
-    scriptPath: '[path to js folder]',
-    cssPath: '[path to css folder]',
-    resources: 'igOlapFlatDataSource'
+    scriptPath: "[path to js folder]",
+    cssPath: "[path to css folder]",
+    resources: "igOlapFlatDataSource"
 });
 $.ig.loader(function () {
-    var data = [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-   { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-   { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-   { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-   { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-   { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-   { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }];
+    var data = [
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 12.81,
+            "SellerName": "Stanley Brooker",
+            "Country": "Bulgaria",
+            "City": "Plovdiv",
+            "Date": "2007-01-01",
+            "UnitsSold": 282
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 49.57,
+            "SellerName": "Elisa Longbottom",
+            "Country": "US",
+            "City": "New York",
+            "Date": "2007-01-05",
+            "UnitsSold": 296
+        },
+        {
+            "ProductCategory": "Bikes",
+            "UnitPrice": 3.56,
+            "SellerName": "Lydia Burson",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-06",
+            "UnitsSold": 68
+        },
+        {
+            "ProductCategory": "Accessories",
+            "UnitPrice": 85.58,
+            "SellerName": "David Haley",
+            "Country": "UK",
+            "City": "London",
+            "Date": "2007-01-07",
+            "UnitsSold": 293
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 18.13,
+            "SellerName": "John Smith",
+            "Country": "Japan",
+            "City": "Yokohama",
+            "Date": "2007-01-08",
+            "UnitsSold": 240
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 68.33,
+            "SellerName": "Larry Lieb",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-12",
+            "UnitsSold": 456
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 16.05,
+            "SellerName": "Walter Pang",
+            "Country": "Bulgaria",
+            "City": "Sofia",
+            "Date": "2007-02-09",
+            "UnitsSold": 492
+        }
+    ];
     var dataSource = new $.ig.OlapFlatDataSource({
         dataSource: data,
         metadata: {
@@ -279,52 +352,127 @@ $.ig.loader(function () {
                 measuresDimension: {
                     caption: "Measures",
                     measures: [
-                        {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                            var sum = 0;
-                            $.each(items, function (index, item) {
-                                sum += item.UnitsSold;
-                            });
-                            return sum;}},
+                        {
+                            name: "Units Sold",
+                            aggregator: function (items, cellMetadata) {
+                                var sum = 0;
+                                $.each(items, function (index, item) {
+                                    sum += item.UnitsSold;
+                                });
+                                return sum;
+                            }
+                        }
+                    ]
                 },
-                dimensions: [ 
+                dimensions: [
                     {
-                        name: "Seller", hierarchies: [{
-                            name: "Seller", levels: [
-                                {
-                                    name: "All Sellers",
-                                    memberProvider: function (item) { return "All Sellers"; }
-                                },
-                                {
-                                    name: "Seller Name",
-                                    memberProvider: function (item) { return item.SellerName; }
-                                }]
-                        }]
-                    }]
+                        name: "Seller",
+                        hierarchies: [
+                            {
+                                name: "Seller",
+                                levels: [
+                                    {
+                                        name: "All Sellers",
+                                        memberProvider: function (item) {
+                                            return "All Sellers";
+                                        }
+                                    },
+                                    {
+                                        name: "Seller Name",
+                                        memberProvider: function (item) {
+                                            return item.SellerName;
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         }
-    });    
+    });
     var promise = dataSource.initialize();
-    promise.done(function (metadataTree) {
+    promise
+        .done(function (metadataTree) {
             // do something when the data source is initialized
-        }).fail(function (error) {
+        })
+        .fail(function (error) {
             throw error;
         });
 });
 ```
 
-### Instantiating OlapFlatDataSource without using the Infragistics Loader:
+### Instantiating OlapFlatDataSource without using the Infragistics Loader
 
 **In JavaScript:**
 
 ```js
-$(function() {
-    var data = [{ "ProductCategory": "Clothing", "UnitPrice": 12.81, "SellerName": "Stanley Brooker", "Country": "Bulgaria", "City": "Plovdiv", "Date": "2007-01-01", "UnitsSold": 282 },
-   { "ProductCategory": "Clothing", "UnitPrice": 49.57, "SellerName": "Elisa Longbottom", "Country": "US", "City": "New York", "Date": "2007-01-05", "UnitsSold": 296 },
-   { "ProductCategory": "Bikes", "UnitPrice": 3.56, "SellerName": "Lydia Burson", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-06", "UnitsSold": 68 },
-   { "ProductCategory": "Accessories", "UnitPrice": 85.58, "SellerName": "David Haley", "Country": "UK", "City": "London", "Date": "2007-01-07", "UnitsSold": 293 },
-   { "ProductCategory": "Components", "UnitPrice": 18.13, "SellerName": "John Smith", "Country": "Japan", "City": "Yokohama", "Date": "2007-01-08", "UnitsSold": 240 },
-   { "ProductCategory": "Clothing", "UnitPrice": 68.33, "SellerName": "Larry Lieb", "Country": "Uruguay", "City": "Ciudad de la Costa", "Date": "2007-01-12", "UnitsSold": 456 },
-   { "ProductCategory": "Components", "UnitPrice": 16.05, "SellerName": "Walter Pang", "Country": "Bulgaria", "City": "Sofia", "Date": "2007-02-09", "UnitsSold": 492 }];
+$(function () {
+    var data = [
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 12.81,
+            "SellerName": "Stanley Brooker",
+            "Country": "Bulgaria",
+            "City": "Plovdiv",
+            "Date": "2007-01-01",
+            "UnitsSold": 282
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 49.57,
+            "SellerName": "Elisa Longbottom",
+            "Country": "US",
+            "City": "New York",
+            "Date": "2007-01-05",
+            "UnitsSold": 296
+        },
+        {
+            "ProductCategory": "Bikes",
+            "UnitPrice": 3.56,
+            "SellerName": "Lydia Burson",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-06",
+            "UnitsSold": 68
+        },
+        {
+            "ProductCategory": "Accessories",
+            "UnitPrice": 85.58,
+            "SellerName": "David Haley",
+            "Country": "UK",
+            "City": "London",
+            "Date": "2007-01-07",
+            "UnitsSold": 293
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 18.13,
+            "SellerName": "John Smith",
+            "Country": "Japan",
+            "City": "Yokohama",
+            "Date": "2007-01-08",
+            "UnitsSold": 240
+        },
+        {
+            "ProductCategory": "Clothing",
+            "UnitPrice": 68.33,
+            "SellerName": "Larry Lieb",
+            "Country": "Uruguay",
+            "City": "Ciudad de la Costa",
+            "Date": "2007-01-12",
+            "UnitsSold": 456
+        },
+        {
+            "ProductCategory": "Components",
+            "UnitPrice": 16.05,
+            "SellerName": "Walter Pang",
+            "Country": "Bulgaria",
+            "City": "Sofia",
+            "Date": "2007-02-09",
+            "UnitsSold": 492
+        }
+    ];
     var dataSource = new $.ig.OlapFlatDataSource({
         dataSource: data,
         metadata: {
@@ -333,34 +481,51 @@ $(function() {
                 measuresDimension: {
                     caption: "Measures",
                     measures: [
-                        {  name: "Units Sold", aggregator: function (items, cellMetadata) {
-                            var sum = 0;
-                            $.each(items, function (index, item) {
-                                sum += item.UnitsSold;
-                            });
-                            return sum;}},
+                        {
+                            name: "Units Sold",
+                            aggregator: function (items, cellMetadata) {
+                                var sum = 0;
+                                $.each(items, function (index, item) {
+                                    sum += item.UnitsSold;
+                                });
+                                return sum;
+                            }
+                        }
+                    ]
                 },
-                dimensions: [ 
+                dimensions: [
                     {
-                        name: "Seller", hierarchies: [{
-                            name: "Seller", levels: [
-                                {
-                                    name: "All Sellers",
-                                    memberProvider: function (item) { return "All Sellers"; }
-                                },
-                                {
-                                    name: "Seller Name",
-                                    memberProvider: function (item) { return item.SellerName; }
-                                }]
-                        }]
-                    }]
+                        name: "Seller",
+                        hierarchies: [
+                            {
+                                name: "Seller",
+                                levels: [
+                                    {
+                                        name: "All Sellers",
+                                        memberProvider: function (item) {
+                                            return "All Sellers";
+                                        }
+                                    },
+                                    {
+                                        name: "Seller Name",
+                                        memberProvider: function (item) {
+                                            return item.SellerName;
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         }
-    });    
+    });
     var promise = dataSource.initialize();
-    promise.done(function (metadataTree) {
+    promise
+        .done(function (metadataTree) {
             // do something when the data source is initialized
-        }).fail(function (error) {
+        })
+        .fail(function (error) {
             throw error;
         });
 });

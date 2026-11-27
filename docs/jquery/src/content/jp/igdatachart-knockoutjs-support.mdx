@@ -32,7 +32,7 @@ import Sample from 'igniteui-astro-components/components/mdx/Sample.astro';
 
 **外部リソース**
 
-- [**Knockout インタラクティブ チュートリアル**](http://learn.knockoutjs.com/#/?tutorial=intro)
+- [**Knockout インタラクティブ チュートリアル**](https://learn.knockoutjs.com/#/?tutorial=intro)
 
 ## 概要
 
@@ -80,7 +80,9 @@ Knockout 管理データ構造へバインドされるチャート コントロ�
           プロパティが監視可能に設定されたデータ ソースのレコードがある場合、更新され、レコードの更新による影響が *igDataChart* 項目にすぐに反映されます。
         </DocsAside>
 
-        > **Knockout JS のチャート拡張機能を使用している場合、チャートをデータ ソースの配列にバインドすることはできません。**
+        <DocsAside type="note">
+          **Knockout JS のチャート拡張機能を使用している場合、チャートをデータ ソースの配列にバインドすることはできません。**
+        </DocsAside>
       </td>
 
       <td>
@@ -93,12 +95,12 @@ Knockout 管理データ構造へバインドされるチャート コントロ�
 
       <td>
         - <ApiLink type="igDataChart" member="options:series" pkg="core" label="シリーズ" />
-          - valueMemeberPath
+          - <ApiLink type="igDataChart" member="options:series.valueMemberPath" pkg="core" label="valueMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.lowMemberPath" pkg="core" label="lowMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.xMemberPath" pkg="core" label="xMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.yMemberPath" pkg="core" label="yMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.radiusMemberPath" pkg="core" label="radiusMemberPath" />
-          - fillMemeberPath
+          - <ApiLink type="igDataChart" member="options:series.fillMemberPath" pkg="core" label="fillMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.labelMemberPath" pkg="core" label="labelMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.angleMemberPath" pkg="core" label="angleMemberPath" />
           - <ApiLink type="igDataChart" member="options:series.openMemberPath" pkg="core" label="openMemberPath" />
@@ -127,27 +129,29 @@ Knockout 管理データ構造へバインドされるチャート コントロ�
 
 ```js
 var viewModel = {
-    data: ko.observableArray(
-        [{
+    data: ko.observableArray([
+        {
             label: ko.observable("I"),
             value1: ko.observable(90.34),
             value2: ko.observable(15.77),
             value3: ko.observable(10.09)
-        }, {
+        },
+        {
             label: ko.observable("II"),
             value1: ko.observable(45.11),
             value2: ko.observable(80.12),
             value3: ko.observable(9.89)
-        }, {
-        . . .
-        }];
-    );
-}
+        },
+        {...}
+    ])
+};
 ```
 
 以下のコード スニペットは、宣言されたKnockout バインディングをページに適用する方法を示します。
 
-> \*\*注: \*\*`ko.applyBindings()` 呼び出しは、 Loader の即時コールバック内で出される点に注意してください。これは、Knockout のチャート拡張機能はバインディングが適用される前にページに読み込まなければならないため必要です。
+<DocsAside type="note" title="注">
+  `ko.applyBindings()` 呼び出しは、 Loader の即時コールバック内で出される点に注意してください。これは、Knockout のチャート拡張機能はバインディングが適用される前にページに読み込まなければならないため必要です。
+</DocsAside>
 
 **JavaScript の場合:**
 
@@ -168,38 +172,40 @@ $.ig.loader({
 **HTML の場合:**
 
 ```html
-<div data-bind="igDataChart: {
+<div
+    data-bind="igDataChart: {
       dataSource: data,
       axes: [{
-            name: "xAxis",
-            type: "categoryX",
-            label: "label",
+            name: 'xAxis',
+            type: 'categoryX',
+            label: 'label',
       }, {
-            name: "yAxis",
-            type: "numericY",
+            name: 'yAxis',
+            type: 'numericY',
       }],
       series: [{
-            name: "line1",
-            type: "line",
-            markerType: "automatic",
-            xAxis: "xAxis",
-            yAxis: "yAxis",
-            valueMemberPath: "value1"
+            name: 'line1',
+            type: 'line',
+            markerType: 'automatic',
+            xAxis: 'xAxis',
+            yAxis: 'yAxis',
+            valueMemberPath: 'value1'
       }, {
-            name: "line2",
-            type: "line",
-            markerType: "automatic",
-            xAxis: "xAxis",
-            yAxis: "yAxis",
-            valueMemberPath: "value2"
+            name: 'line2',
+            type: 'line',
+            markerType: 'automatic',
+            xAxis: 'xAxis',
+            yAxis: 'yAxis',
+            valueMemberPath: 'value2'
       }, {
-            name: "line3",
-            type: "line",
-            markerType: "automatic",
-            xAxis: "xAxis",
-            yAxis: "yAxis",
-            valueMemberPath: "value3"
-      }] }"></div>
+            name: 'line3',
+            type: 'line',
+            markerType: 'automatic',
+            xAxis: 'xAxis',
+            yAxis: 'yAxis',
+            valueMemberPath: 'value3'
+      }] }"
+></div>
 ```
 
 コントロールが Knockout を通してビューモデルにバインドされる場合、すべての変更に関する通知を受け取ります。
@@ -244,4 +250,4 @@ $.ig.loader({
 
 以下に、このトピックに関連する追加情報を示します (Infragistics のコンテンツ ファミリー以外にも利用できます)。
 
-- [Knockout Web サイト](http://knockoutjs.com/): これは、すべての必要なドキュメンテーションおよびサンプルが利用可能な Knockout ライブラリのホーム ページホーム ページです。
+- [Knockout Web サイト](https://knockoutjs.com/): これは、すべての必要なドキュメンテーションおよびサンプルが利用可能な Knockout ライブラリのホーム ページホーム ページです。

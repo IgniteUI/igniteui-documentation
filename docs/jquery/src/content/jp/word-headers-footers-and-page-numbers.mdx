@@ -19,11 +19,11 @@ Infragistics® Word ライブラリを使用すると、ドキュメント タ�
 
 以下のスクリーンショットは、`Header` にテキストと画像を付けて作成された Word 文書を表示します。
 
-<Image src={imgWordHeadersFootersAndPageNumbers01} alt="" />
+<Image src={imgWordHeadersFootersAndPageNumbers01} alt="ヘッダーに風船の画像と、右揃えの灰色のテキスト 2 行を持つ Word 文書" />
 
 以下のスクリーンショットは、`Footer` にテキストとページ番号を付けて作成された Word 文書を表示します。
 
-<Image src={imgWordHeadersFootersAndPageNumbers02} alt="" />
+<Image src={imgWordHeadersFootersAndPageNumbers02} alt="フッターに右揃えの灰色のテキスト「このテキストはフッターに表示されます」を持つ Word 文書" />
 
 <DocsAside type="note" title="注">
   `Infragistics.Web.Documents.IO` アセンブリへの参照が以下のコードに必要とされます。
@@ -39,8 +39,10 @@ Infragistics® Word ライブラリを使用すると、ドキュメント タ�
 using Infragistics.Documents.Word;
 
 //  Specify the default parts for header and footer
-SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages | SectionHeaderFooterParts.FooterAllPages;
-SectionHeaderFooterWriterSet writerSet = docWriter.AddSectionHeaderFooter(parts);
+SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages
+    | SectionHeaderFooterParts.FooterAllPages;
+SectionHeaderFooterWriterSet writerSet =
+    docWriter.AddSectionHeaderFooter(parts);
 // Set text for Header
 writerSet.HeaderWriterAllPages.Open();
 writerSet.HeaderWriterAllPages.StartParagraph();
@@ -65,7 +67,8 @@ writerSet.FooterWriterAllPages.Close();
 using Infragistics.Documents.Word;
 
 // Add Page numbers to the Footer
-writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal, font);
+writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal,
+    font);
 ```
 
 以下の完全なコードはヘッダー、フッター、ページ番号を Word 文書に追加します。
@@ -78,7 +81,7 @@ using Infragistics.Documents.Word;
 // Create a new instance of the WordDocumentWriter class using the
 // static 'Create' method.
 //  This instance must be closed once content is written into Word.
-WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:TestWordDoc.docx");
+WordDocumentWriter docWriter = WordDocumentWriter.Create(@"C:\TestWordDoc.docx");
 //  Use inches as the unit of measure
 docWriter.Unit = UnitOfMeasurement.Inch;
 //  Create a font, which we can use in content creation
@@ -93,7 +96,9 @@ docWriter.StartDocument();
 //Start a paragraph
 docWriter.StartParagraph();
 docWriter.AddNewLine();
-docWriter.AddTextRun("This document demonstrates headers, footers and page numbers.", font);
+docWriter.AddTextRun(
+    "This document demonstrates headers, footers and page numbers.",
+    font);
 // End the paragraph
 docWriter.EndParagraph();
 // Create a page break
@@ -102,10 +107,12 @@ docWriter.StartParagraph(paraformat);
 docWriter.EndParagraph();
 // Header and Footer
 //  Specify the default parts for header and footer.
-SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages | SectionHeaderFooterParts.FooterAllPages;
-SectionHeaderFooterWriterSet writerSet = docWriter.AddSectionHeaderFooter(parts);
+SectionHeaderFooterParts parts = SectionHeaderFooterParts.HeaderAllPages
+    | SectionHeaderFooterParts.FooterAllPages;
+SectionHeaderFooterWriterSet writerSet =
+    docWriter.AddSectionHeaderFooter(parts);
 // Get Image to display in the Header
-Image img = Image.FromFile(@"....Ballon_New_Year.jpg");
+Image img = Image.FromFile(@"..\..\Ballon_New_Year.jpg");
 // Create an Anchored Image
 AnchoredPicture anchPic = docWriter.CreateAnchoredPicture(img);
 anchPic.Size = new SizeF(0.75f, 0.75f);
@@ -124,7 +131,8 @@ writerSet.HeaderWriterAllPages.AddTextRun("This text appears in the Header.");
 writerSet.HeaderWriterAllPages.EndParagraph();
 writerSet.HeaderWriterAllPages.StartParagraph(paraformat);
 // Add text to the Header
-writerSet.HeaderWriterAllPages.AddTextRun("Multiple paragraphs can be added to the Header.");
+writerSet.HeaderWriterAllPages.AddTextRun(
+    "Multiple paragraphs can be added to the Header.");
 writerSet.HeaderWriterAllPages.EndParagraph();
 writerSet.HeaderWriterAllPages.Close();
 //Footer
@@ -134,7 +142,8 @@ writerSet.FooterWriterAllPages.Open();
 writerSet.FooterWriterAllPages.StartParagraph(paraformat);
 writerSet.FooterWriterAllPages.AddTextRun("This text appears in the footer. ");
 // Add Page numbers to the Footer
-writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal, font);
+writerSet.FooterWriterAllPages.AddPageNumberField(PageNumberFieldFormat.Ordinal,
+    font);
 writerSet.FooterWriterAllPages.EndParagraph();
 writerSet.FooterWriterAllPages.Close();
 

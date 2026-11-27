@@ -23,7 +23,7 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 
 - [igGrid の概要](./iggrid-overview.mdx): このトピックでは、`igGrid` を Web ページに追加する方法を説明します。
 
-- [igGrid/igDataSource アーキテクチャの概要](./iggrid-igdatasource-architecture-overview.mdx): このトピックでは、`igGrid` 内部の働きと、各種データ ソースとのバインディングを可能にするために igGrid が` gDataSource` とどのように協調するかを説明します。
+- [igGrid/igDataSource アーキテクチャの概要](./iggrid-igdatasource-architecture-overview.mdx): このトピックでは、`igGrid` 内部の働きと、各種データ ソースとのバインディングを可能にするために igGrid が`gDataSource` とどのように協調するかを説明します。
 
 - [igGrid の更新](./iggrid-updating.mdx): このトピックでは、`igGrid` コントロールの更新機能の使用方法を説明します。
 
@@ -46,8 +46,8 @@ import DocsAside from 'igniteui-astro-components/components/mdx/DocsAside.astro'
 @(Html.Infragistics().Grid<System.Data.DataTable>().ID("grid1").Height("500px")
         …
         .DataSource(Model)
-        .DataSourceUrl(Url.Action("UpdateDataTableGrid"))        
-        .DataBind()        
+        .DataSourceUrl(Url.Action("UpdateDataTableGrid"))
+        .DataBind()
         .Render()
 )
 ```
@@ -94,9 +94,9 @@ public ActionResult UpdateDataTableGrid()
 
 ```razor
 @(Html.Infragistics().Grid<dynamic>().ID("grid1").Height("500px")
-        .AutoGenerateColumns(true)       
+        .AutoGenerateColumns(true)
         .RenderCheckboxes(true)
-        .AutoCommit(false)       
+        .AutoCommit(false)
         .Features(features => {
             features.Sorting().Type(OpType.Local).Mode(SortingMode.Single);
             features.Filtering().Type(OpType.Local);
@@ -104,11 +104,13 @@ public ActionResult UpdateDataTableGrid()
             features.Paging().PageSize(5).Type(OpType.Remote);
             features.Updating();
             features.Hiding();
-            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.Selection()
+                .Mode(SelectionMode.Row)
+                .MultipleSelection(true);
             features.RowSelectors();
             features.Resizing();
             features.Tooltips().Visibility(TooltipsVisibility.Always);
-        })        
+        })
         .GenerateCompactJSONResponse(false)
         .DataSource(Model)
         .DataSourceUrl(Url.Action("datatable-interactions"))
@@ -132,23 +134,29 @@ public ActionResult UpdateDataTableGrid()
 public ActionResult UpdateDataTableGrid()
 {
     DataTable dt = this.MyEmployees;
-    NameValueCollection queryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+    NameValueCollection queryString =
+        HttpUtility.ParseQueryString(Request.QueryString.ToString());
     // check the query string for sorting expressions
-    List<SortExpression> sortExpressions = BuildSortExpressions(queryString, "sort", true);
+    List<SortExpression> sortExpressions =
+        BuildSortExpressions(queryString, "sort", true);
     DataView dv = customers.DefaultView;
     if (sortExpressions.Count > 0)
     {
         String sortExpression = "";
         foreach (SortExpression expr in sortExpressions)
         {
-            sortExpression += expr.Key + " " + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
+            sortExpression += expr.Key + " "
+                + (expr.Mode == SortMode.Ascending ? "asc" : "desc") + ",";
         }
         dv.Sort = sortExpression.Substring(0, sortExpression.Length - 1);
     }
     return View("UpdateDataTableGrid", dv.ToTable());
 }
 
-public List<SortExpression> BuildSortExpressions(NameValueCollection queryString, string sortKey, bool isTable)
+public List<SortExpression> BuildSortExpressions(
+    NameValueCollection queryString,
+    string sortKey,
+    bool isTable)
 {
     List<SortExpression> expressions = new List<SortExpression>();
     List<string> sortKeys = new List<string>();
@@ -157,9 +165,13 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
         if (!string.IsNullOrEmpty(key) && key.StartsWith(sortKey))
         {
             SortExpression e = new SortExpression();
-            e.Key = key.Substring(key.IndexOf("(")).Replace("(", "").Replace(")", "");
+            e.Key = key.Substring(key.IndexOf("("))
+                .Replace("(", "")
+                .Replace(")", "");
             e.Logic = "AND";
-            e.Mode = queryString[key].ToLower().StartsWith("asc") ? SortMode.Ascending : SortMode.Descending;
+            e.Mode = queryString[key].ToLower().StartsWith("asc")
+                ? SortMode.Ascending
+                : SortMode.Descending;
             expressions.Add(e);
             sortKeys.Add(key);
         }
@@ -194,9 +206,9 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
 @(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
         .PrimaryKey("ProductID")
         .AutoGenerateLayouts(true)
-        .AutoGenerateColumns(true)       
+        .AutoGenerateColumns(true)
         .RenderCheckboxes(true)
-        .AutoCommit(false)   
+        .AutoCommit(false)
         .GenerateCompactJSONResponse(false)
         .DataSource(Model)
         .DataSourceUrl(Url.Action("datatable-interactions"))
@@ -212,14 +224,16 @@ public List<SortExpression> BuildSortExpressions(NameValueCollection queryString
 
 更新時は、`Dictionary<string, string>` をサポートするシリアライザーを使用してください。ちなみに、Microsoft JSON シリアライザーでは Dictionary を JSON にシリアル化解除できないという問題があります。更新機能を使用するとき、`GridModel` で、`LoadTransactions` メソッドをオーバーライドしてください。これには、Json.NET シリアライザーで対応できます。このシリアライザーは以下のページでダウンロードできます。また ASP.NET MVC 4 にはデフォルト シリアライザーとして組み込まれています。
 
-[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
+[https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
 **C# の場合:**
 
 ```csharp
-public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+    where T : class
 {
-    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    List<Transaction<T>> transactions =
+        JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
     return transactions;
 }
 ```
@@ -239,12 +253,14 @@ public class Employee
     public bool OnSite { get; set; }
 }
 ...
-  
+
 public ActionResult EditingSaveChanges()
 {
     ViewData["GenerateCompactJSONResponse"] = false;
     GridModel m = new GridModel();
-    List<Transaction<Employee>> transactions = m.LoadTransactions<Employee>(HttpContext.Request.Form["ig_transactions"]);
+    List<Transaction<Employee>> transactions =
+        m.LoadTransactions<Employee>(
+            HttpContext.Request.Form["ig_transactions"]);
     foreach (Transaction<Employee> t in transactions)
     {
         if (t.type == "row")
@@ -278,7 +294,7 @@ public ActionResult EditingSaveChanges()
     response.Add("Success", true);
     result.Data = response;
     return result;
-}   
+}
 ```
 
 ### ビューに Ignite UI for MVC Grid の列を手動で作成します。
@@ -318,16 +334,25 @@ public class Employee
 **Razor の場合:**
 
 ```razor
-@( Html.Infragistics().Grid<Employee>().ID("grid1").Height("500px").Width("1000px")
+@( Html.Infragistics().Grid<Employee>()
+        .ID("grid1")
+        .Height("500px")
+        .Width("1000px")
         .Columns(column =>
         {
-            column.For(x => x.EmployeeID).DataType("number").HeaderText("Employee ID");
+            column.For(x => x.EmployeeID)
+                .DataType("number")
+                .HeaderText("Employee ID");
             column.For(x => x.Name).DataType("string").HeaderText("Name");
             column.For(x => x.Site).DataType("string").HeaderText("Site");
-            column.For(x => x.DepartmentID).DataType("number").HeaderText("Department");
-            column.For(x => x.DateOfHire).DataType("date").HeaderText("Date Of Hire");
+            column.For(x => x.DepartmentID)
+                .DataType("number")
+                .HeaderText("Department");
+            column.For(x => x.DateOfHire)
+                .DataType("date")
+                .HeaderText("Date Of Hire");
             column.For(x => x.OnSite).DataType("bool").HeaderText("On site");
-        })   
+        })
         .DataBind()
         .Render()
 )
@@ -345,7 +370,7 @@ public class Employee
 - *Infragistics.Web.Mvc.dll* アセンブリへの参照
 - Json.NET シリアライザー - Newtonsoft.Json.dll
 
-これは、[http://www.newtonsoft.com/json](http://www.newtonsoft.com/json) からダウンロードできます。
+これは、[https://www.newtonsoft.com/json](https://www.newtonsoft.com/json) からダウンロードできます。
 
 ### 概要
 
@@ -370,29 +395,31 @@ public class Employee
 
       ```razor
       @(Html.Infragistics().Grid<DataTable>(Model).ID("grid1").Height("500px")
-      .AutoGenerateColumns(true)       
-      .RenderCheckboxes(true)
-      .AutoCommit(false)       
-      .Features(features => {
-          features.Sorting().Type(OpType.Local).Mode(SortingMode.Single);
-          features.Filtering().Type(OpType.Local);
-          features.GroupBy().Type(OpType.Local);
-          features.Paging().PageSize(5).Type(OpType.Remote);
-          features.Updating();
-          features.Hiding();
-          features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
-          features.RowSelectors();
-          features.Resizing();
-          features.Tooltips().Visibility(TooltipsVisibility.Always);
-      })        
-      .GenerateCompactJSONResponse(false)
-      .DataSource(Model)
-      .DataSourceUrl(Url.Action("DataTableInteractions"))
-      .UpdateUrl(Url.Action("EditingSaveChanges"))
-      .DataBind()
-      .Width("100%")
-      .Height("100%")
-      .Render()
+          .AutoGenerateColumns(true)
+          .RenderCheckboxes(true)
+          .AutoCommit(false)
+          .Features(features => {
+              features.Sorting().Type(OpType.Local).Mode(SortingMode.Single);
+              features.Filtering().Type(OpType.Local);
+              features.GroupBy().Type(OpType.Local);
+              features.Paging().PageSize(5).Type(OpType.Remote);
+              features.Updating();
+              features.Hiding();
+              features.Selection()
+                  .Mode(SelectionMode.Row)
+                  .MultipleSelection(true);
+              features.RowSelectors();
+              features.Resizing();
+              features.Tooltips().Visibility(TooltipsVisibility.Always);
+          })
+          .GenerateCompactJSONResponse(false)
+          .DataSource(Model)
+          .DataSourceUrl(Url.Action("DataTableInteractions"))
+          .UpdateUrl(Url.Action("EditingSaveChanges"))
+          .DataBind()
+          .Width("100%")
+          .Height("100%")
+          .Render()
       )
       ```
 
@@ -400,9 +427,9 @@ public class Employee
 
       ```csharp
       public ActionResult DataTableInteractions()
-      { 
+      {
 
-      DataTable dt = this.MyEmployees;  
+      DataTable dt = this.MyEmployees;
       return View("DataTableInteractions",dt);
       }
       ```
@@ -411,7 +438,7 @@ public class Employee
 
    1. *Newtonsoft.Json.dll* をダウンロードする
 
-      [http://www.newtonsoft.com/json](http://www.newtonsoft.com/json)
+      [https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
       この dll は ASP.NET MVC 3 以下に必要ですが、デフォルトの ASP.NET MVC 4 テンプレートに組み込まれています。この JSON ライブラリは NuGet でも取得できます。
 
@@ -431,21 +458,23 @@ public class Employee
       using Newtonsoft.Json;
       public class NewtonSoftGridModel : GridModel
       {
-      /// <summary>
-      /// loads a list of transactions from the POST data, in case saveChanges() is
-      /// invoked in the client side and UpdateUrl is set
-      /// to a valid controller action (GridUpdating)
-      /// The method is using the Newtonsoft serializer, which gives the ability to
-      /// deserialize objects in to Dictionary<string, string>
-      /// </summary>
-      /// <typeparam name="T"></typeparam>
-      /// <param name="postdata"></param>
-      /// <returns></returns>
-      public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
-      {
-          List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
-          return transactions;
-      }
+          /// <summary>
+          /// loads a list of transactions from the POST data, in case saveChanges()
+          /// is invoked in the client side and UpdateUrl is set
+          /// to a valid controller action (GridUpdating)
+          /// The method is using the Newtonsoft serializer, which gives the ability
+          /// to deserialize objects in to Dictionary<string, string>
+          /// </summary>
+          /// <typeparam name="T"></typeparam>
+          /// <param name="postdata"></param>
+          /// <returns></returns>
+          public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+              where T : class
+          {
+              List<Transaction<T>> transactions =
+                  JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+              return transactions;
+          }
       }
       ```
 
@@ -464,13 +493,18 @@ public class Employee
       ```csharp
       [ActionName("EditingSaveChanges")]
       public ActionResult EditingSaveChanges()
-      {           DataTable dt = this.MyEmployees as DataTable;
-      NewtonSoftGridModel m = new NewtonSoftGridModel();     
+      {
+      DataTable dt = this.MyEmployees as DataTable;
+      NewtonSoftGridModel m = new NewtonSoftGridModel();
 
-      List<Transaction<Dictionary<string, string>>> transactionsDict = m.LoadTransactionsDictionary<Dictionary<string, string>>(HttpContext.Request.Form["ig_transactions"]);
+      List<Transaction<Dictionary<string, string>>> transactionsDict =
+          m.LoadTransactionsDictionary<Dictionary<string, string>>(
+              HttpContext.Request.Form["ig_transactions"]);
+
       foreach (Transaction<Dictionary<string, string>> t in transactionsDict)
-      {…..
-        if (t.type == "row")
+      {
+          ...
+          if (t.type == "row")
           {
               DataRow dr =    dt.Rows.Find(Int32.Parse(t.rowId));
               if (t.row["Name"] != null)
@@ -483,7 +517,8 @@ public class Employee
                   dateString = dateString.Replace("/Date(", "");
                   dateString = dateString.Replace(")/", "");
                   long lngString = Int64.Parse(dateString);
-                  DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                  DateTime origin =
+                      new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                   DateTime dateValue = origin.AddSeconds(lngString / 1000);
                   dr["DateOfHire"] = dateValue;
               }
@@ -501,7 +536,7 @@ public class Employee
               }
               dt.AcceptChanges();
           }
-      } 
+      }
       JsonResult result = new JsonResult();
       Dictionary<string, bool> response = new Dictionary<string, bool>();
       response.Add("Success", true);
@@ -522,4 +557,4 @@ public class Employee
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
 
-- [Newtonsoft シリアライザー](http://www.newtonsoft.com/json): Json.NET シリアライザーのホーム ページ。
+- [Newtonsoft シリアライザー](https://www.newtonsoft.com/json): Json.NET シリアライザーのホーム ページ。

@@ -111,7 +111,7 @@ $.ig.GridExcelExporter.exportGrid($(".selector"), {
 
 ### スタイルの構成
 
-デフォルトで `igGridExcelExporter` が `igGrid` のヘッダー行と最初の 2 行のスタイルをコピーし、ワークシート テーブルに適用します。<ApiLink type="GridExcelExporter" member="options:settings.gridStyling" pkg="core" label="gridStyling" /> が `"none"` に設定される場合、Excel のテーブル スタイルがワークシートに適用されます。テーブルのスタイルは [Office Open XML の ECMA 仕様](http://www.ecma-international.org/news/TC45_current_work/TC45_available_docs.htm) (Table Style Definitions セクション参照) に準拠します。<ApiLink type="GridExcelExporter" member="options:settings.tableStyle" pkg="core" label="tableStyle" /> を使用して定義済みのスタイルを設定できます。選択可能なスタイルは 3 つのカテゴリに分類されます。 `TableStyleMedium[1-28]`、`TableStyleLight[1-21]`、および `TableStyleDark[1-11]`。 括弧内の範囲が利用できるテーマ数です。
+デフォルトで `igGridExcelExporter` が `igGrid` のヘッダー行と最初の 2 行のスタイルをコピーし、ワークシート テーブルに適用します。<ApiLink type="GridExcelExporter" member="options:settings.gridStyling" pkg="core" label="gridStyling" /> が `"none"` に設定される場合、Excel のテーブル スタイルがワークシートに適用されます。テーブルのスタイルは [Office Open XML の ECMA 仕様](https://ecma-international.org/publications-and-standards/standards/ecma-376/) (Table Style Definitions セクション参照) に準拠します。<ApiLink type="GridExcelExporter" member="options:settings.tableStyle" pkg="core" label="tableStyle" /> を使用して定義済みのスタイルを設定できます。選択可能なスタイルは 3 つのカテゴリに分類されます。 `TableStyleMedium[1-28]`、`TableStyleLight[1-21]`、および `TableStyleDark[1-11]`。 括弧内の範囲が利用できるテーマ数です。
 
 ```js
 $.ig.GridExcelExporter.exportGrid($(".selector"), {
@@ -126,25 +126,42 @@ $.ig.GridExcelExporter.exportGrid($(".selector"), {
 エクスポート処理時に呼び出されるコールバック数 (イベント) が公開され、カスタマイズするエントリ ポイントを提供またはエクスポート処理を終了します。セルと行で使用できるコールバックのエクスポートまたはエクスポートされたコールバックは、ワークシート オブジェクトの read/write の値など数式や条件付き書式に適用できます。また <ApiLink type="GridExcelExporter" member="options:callbacks.exportStarting" pkg="core" label="exportStarting" />、<ApiLink type="GridExcelExporter" member="options:callbacks.exportEnding" pkg="core" label="exportEnding" />、<ApiLink type="GridExcelExporter" member="options:callbacks.error" pkg="core" label="error" />、<ApiLink type="GridExcelExporter" member="options:callbacks.success" pkg="core" label="success" /> コールバックは、エクスポート前またはファイルをローカルに保存する前に何かを確認する場合に適しています。または、[エクスポート時にオーバーレイを表示](#exporting_overlay) セクションで示すようにエクスポート時に `igGrid` 上にモーダルオーバーレイを表示するのにも適しています。
 
 ```js
-$.ig.GridExcelExporter.exportGrid($("#grid1"), {},
-{
-    cellExported: function (e, args) {
-        if (args.columnKey == 'Company') {
-            var xlRow = args.xlRow;
-            // apply formula to a cell
-            xlRow.cells(args.columnIndex).applyFormula('=HYPERLINK("' + args.cellValue + '")');
+$.ig.GridExcelExporter.exportGrid(
+    $("#grid1"),
+    {},
+    {
+        cellExported: function (e, args) {
+            if (args.columnKey == "Company") {
+                var xlRow = args.xlRow;
+                // apply formula to a cell
+                xlRow
+                    .cells(args.columnIndex)
+                    .applyFormula('=HYPERLINK("' + args.cellValue + '")');
+            }
+            if (args.columnKey == "Age" && args.cellValue > 43) {
+                // format the font and the cell fill color
+                args.xlRow.getCellFormat(args.columnIndex).font().bold(1);
+                args.xlRow
+                    .getCellFormat(args.columnIndex)
+                    .fill(
+                        $.ig.excel.CellFill.createLinearGradientFill(
+                            45,
+                            "#FF0000",
+                            "#00FFFF"
+                        )
+                    );
+            }
         },
-        if (args.columnKey == "Age" && args.cellValue > 43) {
-            // format the font and the cell fill color
-            args.xlRow.getCellFormat(args.columnIndex).font().bold(1);
-            args.xlRow.getCellFormat(args.columnIndex).fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
+        exportEnding: function (e, args) {
+            // format a date value to be displayed as 19/Mar/2017
+            args.worksheet
+                .columns()
+                .item(3)
+                .cellFormat()
+                .formatString("dd/MMM/YYYY");
         }
-    },
-    exportEnding: function (e, args) {
-        // format a date value to be displayed as 19/Mar/2017
-        args.worksheet.columns().item(3).cellFormat().formatString("dd/MMM/YYYY");
-    },
-});
+    }
+);
 ```
 
 ### <a id="exporting_overlay" />エクスポート時にオーバーレイを表示

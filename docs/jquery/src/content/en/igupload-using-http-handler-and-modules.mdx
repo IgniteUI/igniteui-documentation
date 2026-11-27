@@ -30,7 +30,9 @@ The examples below demonstrate how to configure an HttpModule for IIS6 (or devel
     <httpModules>
         <add name="IGUploadModule type="Infragistics.Web.Mvc.UploadModule" />
     </httpModules>
-    <!--OPTIONAL: Set the maximum request length. By default the request length is 4 MB. More info: http://msdn.microsoft.com/en-us/library/e1f13641(v=vs.85).aspx-->
+    <!--OPTIONAL: Set the maximum request length.
+    By default the request length is 4 MB.
+    More info: https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/e1f13641(v=vs.100)-->
     <httpRuntime executionTimeout="3600" maxRequestLength="2097151000"/>
 </system.web>
 ```
@@ -47,7 +49,7 @@ The examples below demonstrate how to configure an HttpModule for IIS6 (or devel
     </modules>    
     <security>      
         <requestFiltering>    
-            <!--OPTIONAL: Set the maximum request length. By default the request length is ~30 MB. More info: http://www.iis.net/configreference/system.webserver/security/requestfiltering/requestlimits-->        
+            <!--OPTIONAL: Set the maximum request length. By default the request length is ~30 MB. More info: https://learn.microsoft.com/en-us/iis/configuration/system.webserver/security/requestfiltering/requestlimits/>        
             <requestLimits maxAllowedContentLength="2097151000"/>      
         </requestFiltering>    
     </security>
@@ -62,7 +64,7 @@ All the requests between the upload control and the handler are sent via Ajax. U
 
 As contrasted from the HttpModule, the HttpHandler is accessible via a URL. Commands for every file sent become parameters in the URL. Commands can be one of the following three types:
 
-- **Status**: Returns the current the file status. The JSON response contains information for total bytes, uploaded bytes and current file error status. JSON format is: <Image src={imgIgUploadHandlerAndModule01} alt="" />
+- **Status**: Returns the current the file status. The JSON response contains information for total bytes, uploaded bytes and current file error status. JSON format is: <Image src={imgIgUploadHandlerAndModule01} alt="Network log of a GET to the upload status handler, its JSON response holding error, size, bytesUploaded and status." />
 - **Cancel**: When this command is requested the file upload process is canceled
 - **fileSize**: This command is called in two special cases when the size of the file to be uploaded is needed from the handler to display in the control. The first is when `autostartupload` property is set to `false`. The size information is required as the file is not processing until the user starts the upload. The second case is when `autostartupload` property is set to true but there are files placed in the uploading queue and their uploading process is not started.
 
@@ -88,8 +90,11 @@ To enable the handler you need to add the appropriate sections in Web.config fil
 ```xml
 <system.webServer>
     <handlers>
-        <add name="IGUploadStatusHandler" path="IGUploadStatusHandler.ashx" verb="*"
-             type="Infragistics.Web.Mvc.UploadStatusHandler" preCondition="integratedMode" />
+        <add name="IGUploadStatusHandler"
+            path="IGUploadStatusHandler.ashx"
+            verb="*"
+            type="Infragistics.Web.Mvc.UploadStatusHandler"
+            preCondition="integratedMode" />
    </handlers>
 </system.webServer>
 ```
@@ -110,7 +115,7 @@ When upload information is transferred from server to the client, it contains st
 
 An example of a JSON response that includes the described data is depicted in Figure 2.
 
-<Image src={imgIgUploadHandlerAndModule01} alt="" />
+<Image src={imgIgUploadHandlerAndModule01} alt="Network log of a GET to the upload status handler, its JSON response holding error, size, bytesUploaded and status." />
 
 **Note:** The other JSON properties – `size`, `serverMessage` and `bytesUploaded`, are not needed to be created as enumeration types on the server, like error and status, because they are either dynamically changed strings or numbers.
 

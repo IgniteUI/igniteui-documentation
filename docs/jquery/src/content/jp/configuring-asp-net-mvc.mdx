@@ -1,9 +1,7 @@
 ---
 title: "ASP.NET MVC コンボの構成"
 llms:
-  description: "ビューでコンボをインスタンス化するために Ignite UI for MVC Combo が使用されます。"
-generated:
-  - "llms.description"
+  description: "基本的な ASP.NET MVC ビューで Ignite UI for MVC Combo を使用し、リモート データとリモート フィルタリングを構成する方法を紹介します。"
 ---
 
 import { Image } from 'astro:assets';
@@ -28,7 +26,7 @@ import imgIgComboUpdatedMVCExample from './images/igCombo_updated_MVC_example.pn
 
 以下のスクリーンショットは最終結果のプレビューです。
 
-<Image src={imgIgComboInitMVCExample} alt="" />
+<Image src={imgIgComboInitMVCExample} alt="現在の従業員 Steven Buchanan、新しい従業員を選ぶ空の igCombo と Update ボタンがあるフォーム" />
 
 ### 要件
 
@@ -106,7 +104,8 @@ import imgIgComboUpdatedMVCExample from './images/igCombo_updated_MVC_example.pn
        [ActionName("employee-combo-data")]
        public ActionResult ComboData()
        {
-           IEnumerable<Employee> employees = RepositoryFactory.GetEmployeeRepository().Get();
+           IEnumerable<Employee> employees =
+               RepositoryFactory.GetEmployeeRepository().Get();
            return View(employees);
        }
 
@@ -121,18 +120,24 @@ import imgIgComboUpdatedMVCExample from './images/igCombo_updated_MVC_example.pn
        [ActionName("aspnet-mvc-helper")]
        public ActionResult UsingAspNetMvcHelper(Order updatedOrder)
        {
-           ItemRepository<Order> orderRepository = RepositoryFactory.GetOrderRepository();
-           ItemRepository<Employee> employeeRepository = RepositoryFactory.GetEmployeeRepository();
+           ItemRepository<Order> orderRepository =
+               RepositoryFactory.GetOrderRepository();
+           ItemRepository<Employee> employeeRepository =
+               RepositoryFactory.GetEmployeeRepository();
 
-           Order existingOrder = orderRepository.Get(o => o.OrderID == updatedOrder.OrderID);
-           Employee newEmployee = employeeRepository.Get(e => e.ID == updatedOrder.EmployeeID);
+           Order existingOrder =
+               orderRepository.Get(o => o.OrderID == updatedOrder.OrderID);
+           Employee newEmployee =
+               employeeRepository.Get(e => e.ID == updatedOrder.EmployeeID);
 
            if (existingOrder != null && newEmployee != null)
            {
                existingOrder.EmployeeID = newEmployee.ID;
                existingOrder.EmployeeName = newEmployee.Name;
 
-               orderRepository.Update(existingOrder, o => o.OrderID == existingOrder.OrderID);
+               orderRepository.Update(
+                   existingOrder,
+                   o => o.OrderID == existingOrder.OrderID);
                orderRepository.Save();
            }
 
@@ -161,8 +166,14 @@ import imgIgComboUpdatedMVCExample from './images/igCombo_updated_MVC_example.pn
    **Razor の場合:**
 
    ```csharp
-   <link href="/Content/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" type="text/css" />
-   <link href="/Content/css/structure/infragistics.css" rel="stylesheet" type="text/css" />
+   <link
+       href="/Content/css/themes/infragistics/infragistics.theme.css"
+       rel="stylesheet"
+       type="text/css" />
+   <link
+       href="/Content/css/structure/infragistics.css"
+       rel="stylesheet"
+       type="text/css" />
    <script src="/Scripts/jquery.js" type="text/javascript"></script>
    <script src="/Scripts/jquery-ui.js" type="text/javascript"></script>
    <script src="/Scripts/js/infragistics.core.js" type="text/javascript"></script>
@@ -224,7 +235,7 @@ import imgIgComboUpdatedMVCExample from './images/igCombo_updated_MVC_example.pn
 
 サンプルを実行してドロップダウンから項目を選択します。次に更新ボタンをクリックして現在の従業員の値を更新します。
 
-<Image src={imgIgComboUpdatedMVCExample} alt="" />
+<Image src={imgIgComboUpdatedMVCExample} alt="更新後、現在の従業員と igCombo の選択がどちらも Andrew Fuller になったフォーム" />
 
 ### 関連コンテンツ
 

@@ -23,7 +23,7 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
 `igGrid` は、ページング、フィルタリング、並べ替え機能をもったクライアント側のデータ グリッド コントロールです。グリッドは、XML、JSON、JavaScript 配列、HTML テーブル、ウェブサービスから返されるリモート データなどのローカル データへバインドできます。
 
-`igGrid` コントロールをリモート データにバインドするもっともシームレスな方法は、それを [OData](http://en.wikipedia.org/wiki/OData) と一緒に使用することです。OData または Open Data プロトコルは HTTP の上で動作し、JSON や AtomPub フォーマットのデータを共通の URL 規則を介して問い合わせたり更新する手段を提供します。つまり、URL をもつグリッドを OData サービスに提供し、ひとつのプロパティを設定し、あらゆるページングやフィルタリング、ソーティングが追加の構成を必要とせずにサーバー上で実行できます。
+`igGrid` コントロールをリモート データにバインドするもっともシームレスな方法は、それを [OData](https://en.wikipedia.org/wiki/OData) と一緒に使用することです。OData または Open Data プロトコルは HTTP の上で動作し、JSON や AtomPub フォーマットのデータを共通の URL 規則を介して問い合わせたり更新する手段を提供します。つまり、URL をもつグリッドを OData サービスに提供し、ひとつのプロパティを設定し、あらゆるページングやフィルタリング、ソーティングが追加の構成を必要とせずにサーバー上で実行できます。
 
 このトピックでは、ASP.NET Web アプリケーションに WCF データ サービスをセットアップし、`igGrid` の 2 つのオプションを設定して、リモート ページング、フィルタリング、ソーティングとともにクライアント側の jQuery グリッドをセットアップする方法を紹介します。
 
@@ -35,7 +35,7 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
      `igGrid` コントロールが使用する基になる `igDataSource` コンポーネントは、サーバーに依存しません。従って、この演習では、Ignite UI for jQuery がアウト オブ ボックスで ASP.NET *OData* をサポートするのに対して、ASP.NET WebForms でサポートされる OData の実装方法について説明します。
    </DocsAside>
 
-   <Image src={imgGettingStartedWithIgGridODataWCF01} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF01} alt="Visual Studio の新しいプロジェクトで「ASP.NET 空の Web アプリケーション」を選択した状態" />
 
 2. プロジェクトへ *App_Data* フォルダーを追加し、そのフォルダーに *AdventureWorks* データベースを追加する
 
@@ -43,32 +43,33 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
      AdventureWorks データベースを入手するには、ここからダウンロードしてください。
    </DocsAside>
 
-   <Image src={imgGdodProj1} alt="" />
+   <Image src={imgGdodProj1} alt="プロジェクトの App_Data フォルダーに AdventureWorks データベース ファイルがあるソリューション エクスプローラー" />
 
 3. 次に、*AdventureWorksEntities.edmx* という名称の ADO.NET エンティティ データ モデルをプロジェクトに追加し、それを *AdventureWorks* データベースに向けます。
 
-   <Image src={imgGettingStartedWithIgGridODataWCF02} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF02} alt="Data テンプレートで ADO.NET Entity Data Model を選択した Visual Studio の新しい項目の追加ダイアログ" />
 
-   <Image src={imgGettingStartedWithIgGridODataWCF03} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF03} alt="Generate from database を選択した Entity Data Model ウィザードの Choose Model Contents ページ" />
 
 4. エンティティ データ モデルに含まれるようになる Product テーブルの選択
 
-   <Image src={imgGettingStartedWithIgGridODataWCF04} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF04} alt="Product テーブルだけをチェックした Entity Data Model ウィザードの Choose Your Database Objects ページ" />
 
 5. 次に、WCF データサービスを 'AdventureWorksService.svc' という名のプロジェクトに追加します。
 
-   <Image src={imgGettingStartedWithIgGridODataWCF05} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF05} alt="WCF Data Service を選択し、AdventureWorksService.svc と名前を付けた新しい項目の追加ダイアログ" />
 
 6. この時点でプロジェクトは次のようになっています。
 
-   <Image src={imgGettingStartedWithIgGridODataWCF06} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF06} alt="データ サービス、エンティティ データ モデル、データベースがあるプロジェクトのソリューション エクスプローラー" />
 
 7. 次に、 'AdventureWorksDataService' を開きます。このクラスは T がまだ定義されていない `DataService<T>` から派生します。エンティティ データ モデルのタイプをここで指定
 
    **C# の場合:**
 
    ```csharp
-   public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
+   public class AdventureWorksDataService
+       : DataService<AdventureWorksLT2008_DataEntities>
    ```
 
 8. 次に、`InitializeService` メソッドで `DataServiceConfiguration` を使用してデータサービスを通じた Products テーブルへのアクセスを有効にします。
@@ -81,7 +82,8 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
        config.SetEntitySetAccessRule("Products", EntitySetRights.AllRead);
 
-       config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
+       config.DataServiceBehavior.MaxProtocolVersion =
+           DataServiceProtocolVersion.V2;
 
    }
    ```
@@ -94,7 +96,8 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
     ```csharp
     [JSONPSupportBehavior]
-    public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
+    public class AdventureWorksDataService
+        : DataService<AdventureWorksLT2008_DataEntities>
     ```
 
 11. この時点で、Web アプリケーションが実行でき、サービスのデータにアクセスできますので、`igGrid` コントロールを設定することができるようになります。
@@ -102,7 +105,7 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 12. Ignite UI for jQuery 製品に付随する結合および縮小済みのスクリプト ファイル infragistics.core.js および infragistics.lob.js が必要です。加えて、サンプルを実行するには jQuery コア および jQuery UI スクリプトが必要です。[このヘルプ トピック](./deployment-guide-javascript-resources.mdx)では、必要なスクリプトへの参照やアプリケーションに追加する統合および縮小されたスクリプトがどこにあるかについて説明します。
 
     <DocsAside type="note" title="注">
-      製品版とトライアル版は[こちら](http://jp.infragistics.com/products/jquery)からダウンロードできます。
+      製品版とトライアル版は[こちら](https://jp.infragistics.com/products/ignite-ui)からダウンロードできます。
     </DocsAside>
 
 13. プロジェクト内にスクリプト ディレクトリを作成し、そのフォルダーに JavaScript ファイルをコピーしてください。
@@ -111,7 +114,7 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
 15. 次に、サンプル ページを設定します。アプリケーションに対し新しい html ページを追加し、それを 'default.htm' と呼ぶことにします。それが終わると、プロジェクトは次のように表示されます。
 
-    <Image src={imgGettingStartedWithIgGridODataWCF07} alt="" />
+    <Image src={imgGettingStartedWithIgGridODataWCF07} alt="scripts と styles フォルダーと default.htm ページを追加したプロジェクトのソリューション エクスプローラー" />
 
 16. default.htm ファイルを開き、jQuery リソース用の CSS リンクとスクリプト タグを含めます。
 
@@ -180,9 +183,9 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
 19. `igGrid` コントロールをデータにバインドするには、データと `responseDataKey` に対する URL を定義するための ２ つのオプションを設定する必要があります。
 
-    ```
-    responseDataKey: 'd.results',
-    dataSource: 'AdventureWorksDataService.svc/Products?$format=json',
+    ```js
+    responseDataKey: "d.results",
+    dataSource: "AdventureWorksDataService.svc/Products?$format=json",
     ```
 
     <DocsAside type="note" title="注">
@@ -219,16 +222,16 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Getting_Started_with
 
 サンプルを実行して、*OData* のデータを使用して `igGrid` コントロールが生成されるのを確認できます。*OData* と組み合わせて、グリッドで `dataSource` として単一の URL を使用し、データをリモートでフィルター、並べ替え、ページングすることができます。
 
-<Image src={imgGettingStartedWithIgGridODataWCF08} alt="" />
+<Image src={imgGettingStartedWithIgGridODataWCF08} alt="ヘッダーにフィルター アイコン、ページャーに「1 - 15 of 295 records」を表示する製品の igGrid" />
 
-[**サンプルをダウンロードする**](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igGridOData.zip)
+[**サンプルをダウンロードする**](https://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igGridOData.zip)
 
 <DocsAside type="note" title="注">
   AdventureWorks データベースと Ignite UI for jQuery リソースはサンプル内にありません。以下のリンクからソフトウェアを入手できます。
 
-  - [AdventureWorks データベース](http://msftdbprodsamples.codeplex.com/releases/view/37109)
+- [AdventureWorks データベース](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/adventure-works)
 
-  - [Ignite UI for jQuery](http://jp.infragistics.com/products/jquery)
+- [Ignite UI for jQuery](https://jp.infragistics.com/products/ignite-ui)
 </DocsAside>
 
 ## 関連トピック

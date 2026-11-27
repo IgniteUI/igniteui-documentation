@@ -29,7 +29,7 @@ Ignite UI for jQuery コントロールはブラウザーの履歴機能を提�
 - 外部リソース
   - [ブラウザー履歴の操作](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
   - [History.js ライブラリ](https://github.com/browserstate/history.js/)
-  - [履歴 API を使用した作業の開始](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
+  - [履歴 API を使用した作業の開始](https://blog.teamtreehouse.com/getting-started-with-the-history-api)
 
 ## History.js 概要
 
@@ -49,26 +49,26 @@ Ignite UI for jQuery コントロールは 完全に history.js と統合でき�
 
 - **pushState()** - 履歴スタックにエントリを追加します。
 
-```
+```js
 window.History.pushState(state, title, url);
 ```
 
 - **getState()** - 履歴スタックに現在のエントリを取得します。
 
-```
+```js
 window.History.getState();
 ```
 
 - **replaceState()** - 履歴スタックにエントリを更新します。
 
-```
+```js
 window.History.replaceState(currState.data);
 ```
 
 - **statechange** - History.js イベントがブラウザー履歴の表示を移動する際に発生します。
 
-```
-window.History.Adapter.bind(window, 'statechange', function (e, args) { }
+```js
+window.History.Adapter.bind(window, "statechange", function (e, args) {});
 ```
 
 ## igGrid と History.js の統合
@@ -77,7 +77,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) { }
 
 ステート オブジェクトは、必要なポイントで復元するために必要なすべての情報を含み、説明するための URL と関連付けされます。 ブラウザー履歴にページング ステートを追加します。同じ機能を並べ替え機能に追加した場合の違いを確認します。
 
-```
+```js
 pageIndexChanged: function (e, args) {
     var pageIndex = args.pageIndex + 1, // pageIndex starts from 0
         state = { key: "page", value: pageIndex };
@@ -89,11 +89,11 @@ pageIndexChanged: function (e, args) {
 
 ステートは statechange イベント ハンドラー内で復元できます。
 
-```
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+```js
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     currState = window.History.getState().data;
     gridHistoryJS.igGridPaging("pageIndex", currState.value - 1);
-}
+});
 ```
 
 常に選択したページがあり、ページング ステート *pageIndex()* を変更するメソッドが 1 つのみのページングなどの機能には十分です。 上記の方法は並べ替えなどの機能には使用できません。これは並べ替えに複数の並べ替え列があり、ステートが保存および別々に復元する必要があるとともに、復元時には列を並べ替えする代わりに並べ替えを解除する必要がある場合があり、2 つの API メソッドが必要となるためです。次の例で詳細を示します。以下の場合を想定します。
@@ -107,73 +107,75 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 最初に戻るが押されたとき、最後の並べ替え列のステートを降順から昇順へ変更する必要があります。並べ替えステートを前に追加した場合、ページングと同じ方法になります。
 
-```
+```js
 columnSorted: function (e, args) {
     var columnKey = args.columnKey,
         dir = args.direction,
         state = { key: "sort", value: [columnKey, dir] };
     if (!isEmptyValue(columnKey) && !isEmptyValue(dir)) {
-        window.History.pushState(state, null, formURL("sort", [columnKey, dir]));
+        window.History.pushState(
+            state,
+            null,
+            formURL("sort", [columnKey, dir])
+        );
     }
 }
 ```
 
 その場合以下のコードで最後の列並べ替えステートを正しく復元できます。
 
-```
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+```js
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
         status = currState.value.dir;
 
-        gridHistoryJS.igGridSorting("sortColumn", column, status);
-
-}
+    gridHistoryJS.igGridSorting("sortColumn", column, status);
+});
 ```
 
 ただし戻るボタンが 2 回目に押された場合、ステート 3 から 2 になるため、前回の列並べ替えを解除する必要があり、上記コードは使用できません。この場合、以下のコードが必要になります。
 
-```
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+```js
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey;
 
-        gridHistoryJS.igGridSorting("unsortColumn", column);
-
-}
+    gridHistoryJS.igGridSorting("unsortColumn", column);
+});
 ```
 
 ここでの問題は、履歴に戻る際にどちらのメソッドが必要であるかをどのように識別するかです。それには現在の履歴ステートの追加情報が必要になります。新しいステートを並べ替え列に追加する前に (3.)、以前のページングステートを変更して元に戻すステーを並べ替え列に追加します。この方法は、前のページング ステートを復元するだけでなく、現在の並べ替えされている列の元に戻すおよび並べ替え解除で使用できます。
 
 各機能のステートには履歴スタックに追加する前に元に戻すステートを追加します。これは古いステート情報を持つ IgniteUI コントロールの *-ing* イベントで可能です。並べ替えは columnSorting イベントです。
 
-```
+```js
 columnSorting: function (e, args) {
-    var currState = window.History.getState(), data;
+    var currState = window.History.getState(),
+        data;
 
-            data = { key: "sort", value: [args.columnKey] };
-            data.undo = true;
-            currState.data.undoData = data;
-            window.History.replaceState(currState.data);
+    data = { key: "sort", value: [args.columnKey] };
+    data.undo = true;
+    currState.data.undoData = data;
+    window.History.replaceState(currState.data);
 }
 ```
 
 前のステートを取得し、情報を追加または元に戻します。次に履歴スタックでそれを置き換えます。 上記コードは *data* と同様の *undoData* オブジェクトを定義し、ステートを元に戻す必要があることを示すフラグがあります。
 
-```
-window.History.Adapter.bind(window, 'statechange', function (e, args) {
+```js
+window.History.Adapter.bind(window, "statechange", function (e, args) {
     var currState = window.History.getState().data,
         column = currState.value.columnKey,
         status = currState.value.dir,
         undoColumn = currState.undoData.value.columnKey;
 
-        if (currState.undoData.undo) {
-            gridHistoryJS.igGridSorting("unsortColumn", undoColumn);
-        } else {
-            gridHistoryJS.igGridSorting("sortColumn", column, status);
-        }
-
-}
+    if (currState.undoData.undo) {
+        gridHistoryJS.igGridSorting("unsortColumn", undoColumn);
+    } else {
+        gridHistoryJS.igGridSorting("sortColumn", column, status);
+    }
+});
 ```
 
 ## サンプル
@@ -190,7 +192,7 @@ window.History.Adapter.bind(window, 'statechange', function (e, args) {
 
 - [ブラウザー履歴の操作](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
 - [History.js ライブラリ](https://github.com/browserstate/history.js/)
-- [履歴 API を使用した作業の開始](http://blog.teamtreehouse.com/getting-started-with-the-history-api)
+- [履歴 API を使用した作業の開始](https://blog.teamtreehouse.com/getting-started-with-the-history-api)
 - [ページング](./iggrid-paging.mdx) ページング機能では、オリジナル データ ソースから事前に定義された数のレコードだけフェッチすることで、パフォーマンスが改善できるよう、ページ中のデータを分割できます。
 - [フィルタリング](./iggrid-filtering.mdx) フィルタリング機能によりユーザーがデータを Excel 形式でフィルターすることができます。
 - [並べ替えの概要](./iggrid-sorting-overview.mdx) igGrid コントロールの並べ替え機能では、1 つまたは複数の列を昇順または降順に並べ替えることができます。

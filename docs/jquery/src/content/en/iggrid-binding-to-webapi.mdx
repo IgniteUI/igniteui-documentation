@@ -65,7 +65,7 @@ The example is using data from the `Customers` table of the `Northwind` database
 
 The following screenshot is a preview of the final result.
 
-<Image src={imgIgGridBindingToWebAPI1} alt="" />
+<Image src={imgIgGridBindingToWebAPI1} alt="igGrid of customers with an Add new row button and a Save Changes button below it" />
 
 ### Prerequisites
 
@@ -104,9 +104,9 @@ The following steps demonstrate how to bind igGrid to MVC 4 Web API.
 **In HTML:**
 
 ```html
-<script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <script src="~/Scripts/Infragistics/js/infragistics.loader.js"></script>
 ```
 
@@ -125,7 +125,7 @@ In the `_Layout.cshtml` file under `Views\Shared` folder delete the following li
 
 Add an ADO.NET Entity Data Model for the *Customers* tables in the `Northwind` Database and name it `NorthwindModel`.
 
-<Image src={imgIgGridBindingToWebAPI2} alt="" />
+<Image src={imgIgGridBindingToWebAPI2} alt="Entity designer showing the Customer entity and its properties such as CustomerID and CompanyName" />
 
 ### Create the Customer model class
 
@@ -160,9 +160,17 @@ Replace the `Index` action method with the following code:
 ```csharp
 public ActionResult Index()
 {
-    NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+    NorthwindModel.NorthwindEntities db =
+        new NorthwindModel.NorthwindEntities();
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return View(customers.AsQueryable());
 }
 ```
@@ -216,15 +224,23 @@ Define the grid:
     Rest(true).
     Columns(column =>
     {
-        column.For(x => x.CustomerID).HeaderText("Customer ID").DataType("string").Hidden(true);
-        column.For(x => x.CompanyName).HeaderText("Company Name").DataType("string");
-        column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+        column.For(x => x.CustomerID).
+            HeaderText("Customer ID").
+            DataType("string").
+            Hidden(true);
+        column.For(x => x.CompanyName).
+            HeaderText("Company Name").
+            DataType("string");
+        column.For(x => x.ContactName).
+            HeaderText("Contact Name").
+            DataType("string");
         column.For(x => x.Address).HeaderText("Address").DataType("string");
         column.For(x => x.City).HeaderText("City").DataType("string");
     }).
     RestSettings(rest =>
     {
-        rest.RestSetting().Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
+        rest.RestSetting().
+        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Update(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Remove(r => r.RestVerbSetting().Url("/api/customers/").Batch(false));
     }).
@@ -248,7 +264,8 @@ Add a new empty Web API controller to the Controllers folder and name it `Custom
 **In C#:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3. Define the GET controller action
@@ -261,7 +278,14 @@ Add a new method to the `CustomersController` to handle the grid’s GET request
 public IEnumerable<Customer> GetCustomers()
 {
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return customers;
 }
 ```
@@ -269,7 +293,7 @@ public IEnumerable<Customer> GetCustomers()
 In the `GetCustomers` method, wrap the data from the `Customers` table in the `Customer` object defined earlier.
 
 <DocsAside type="note">
-  For the sake of simplicity, this example doesn’t use the [Repository design pattern](http://msdn.microsoft.com/en-us/library/ff649690.aspx) but instead directly accesses the Entity Framework API to modify the data store.
+  For the sake of simplicity, this example doesn’t use the [Repository design pattern](https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)) but instead directly accesses the Entity Framework API to modify the data store.
 </DocsAside>
 
 ### ​4. Define the PUT controller action
@@ -334,8 +358,10 @@ public HttpResponseMessage PostCustomer(Customer customer)
         };
         db.Customers.AddObject(newCustomer);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
         return response;
     }
     else
@@ -360,7 +386,8 @@ Add new method to the `CustomersController` which will handle grid’s DELETE re
 ```csharp
 public HttpResponseMessage DeleteCustomer(string id)
 {
-    NorthwindModel.Customer customer = db.Customers.Single(c => c.CustomerID == id);
+    NorthwindModel.Customer customer =
+        db.Customers.Single(c => c.CustomerID == id);
     if (customer == null)
     {
         return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -396,7 +423,7 @@ $("#saveBtn").click(function () {
 });
 ```
 
-The changes will be send to the server in REST format and the previously specified controller actions will proccess them and save the data to the database.
+The changes will be send to the server in REST format and the previously specified controller actions will process them and save the data to the database.
 
 ## Related Content
 
@@ -410,4 +437,4 @@ The following topics provide additional information related to this topic.
 
 The following material (available outside the Infragistics family of content) provides additional information related to this topic.
 
-- [Getting Started with ASP.NET Web API](http://www.asp.net/web-api): ASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients, including browsers and mobile devices. ASP.NET Web API is an ideal platform for building RESTful applications on the .NET Framework.
+- [Getting Started with ASP.NET Web API](https://learn.microsoft.com/en-us/aspnet/web-api/): ASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients, including browsers and mobile devices. ASP.NET Web API is an ideal platform for building RESTful applications on the .NET Framework.

@@ -80,24 +80,28 @@ features: [
 **JavaScript の場合:**
 
 ```js
-$(document).delegate("#grid1", "iggridfilteringdatafiltering", function (evt, ui) {
-    var expressions = ui.expressions;
-}
+$(document).delegate(
+    "#grid1",
+    "iggridfilteringdatafiltering",
+    function (evt, ui) {
+        var expressions = ui.expressions;
+    }
+);
 ```
 
-<Image src={imgSimple} alt="" />
+<Image src={imgSimple} alt="Product ID の条件ドロップダウンを開いて「Greater than」を選択した igGrid のフィルター行" />
 
 図 1: 簡易フィルタリング (モード:「簡易」)
 
-<Image src={imgAdvanced} alt="" />
+<Image src={imgAdvanced} alt="ヘッダーにフィルター アイコンがあり「No filter applied」のツールチップを表示する詳細フィルタリング モードの igGrid" />
 
 図 2: 詳細フィルタリング (モード:「詳細」)
 
-<Image src={imgDialog} alt="" />
+<Image src={imgDialog} alt="ALL 一致のセレクター、Product Name の starts with 条件、Search ボタンがある igGrid の詳細フィルター ダイアログ" />
 
 図 3: 詳細フィルタリング ダイアログ
 
-<Image src={imgTooltip} alt="" />
+<Image src={imgTooltip} alt="「Product ID Equals 1 AND Product Name Starts with a」というフィルタリング ツールチップを表示した igGrid ヘッダー" />
 
 図 4: フィルタリング ツールチップ (モード:「詳細」)
 
@@ -148,15 +152,13 @@ $("#myGrid").igGrid({
         { headerText: "State", key: "StateName" },
         { headerText: "Congressional District", key: "CongressionalDistrict" },
         { headerText: "Population", key: "TotalPopulation" }
-    ]
-    features:[
+    ],
+    features: [
         {
-            name: "Filtering", 
+            name: "Filtering",
             allowFiltering: true,
             caseSensitive: false,
-            columnSettings: [
-                {columnKey: "StateName", allowFiltering: false} 
-            ]            
+            columnSettings: [{ columnKey: "StateName", allowFiltering: false }]
         }
     ]
 });
@@ -168,9 +170,27 @@ $("#myGrid").igGrid({
 
 ```js
 [
-   {"AverageFamilySize":3.36, "AverageHouseholdSize":2.91, "CongressionalDistrict":"14", "StateName": "Illinois", "TotalPopulation":720663},
-   {"AverageFamilySize":3.00, "AverageHouseholdSize":2.43, "CongressionalDistrict":"15", "StateName": "Illinois", "TotalPopulation":595833},
-   {"AverageFamilySize":3.16, "AverageHouseholdSize":2.67, "CongressionalDistrict":"16", "StateName": "Illinois", "TotalPopulation":691356}
+   {
+      "AverageFamilySize":3.36,
+      "AverageHouseholdSize":2.91,
+      "CongressionalDistrict":"14",
+      "StateName": "Illinois",
+      "TotalPopulation":720663
+   },
+   {
+      "AverageFamilySize":3.00,
+      "AverageHouseholdSize":2.43,
+      "CongressionalDistrict":"15",
+      "StateName": "Illinois",
+      "TotalPopulation":595833
+   },
+   {
+      "AverageFamilySize":3.16,
+      "AverageHouseholdSize":2.67,
+      "CongressionalDistrict":"16",
+      "StateName": "Illinois",
+      "TotalPopulation":691356
+   }
 ]
 ```
 
@@ -191,9 +211,15 @@ $("#myGrid").igGrid({
 **Razor の場合:**
 
 ```razor
-@Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Height("400px").Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .Height("400px")
+    .Columns(column =>
     {
-        column.For(x => x.ProductID).HeaderText("Product ID").DataType("number");
+        column.For(x => x.ProductID)
+            .HeaderText("Product ID")
+            .DataType("number");
         column.For(x => x.Name).HeaderText("Product Name");
         column.For(x => x.ModifiedDate).HeaderText("Modified Date");
         column.For(x => x.ListPrice).HeaderText("List Price");
@@ -211,12 +237,12 @@ $("#myGrid").igGrid({
 フィルタリングをリモートに構成している場合 (type オプションが remote に設定されているなど)、エンド ユーザー アクションに基づいて (あるいは、プログラムによるフィルタリングを実行している場合は渡されたパラメーターに基づいて) すべてのフィルタリング式が自動的にエンコードされるよう、URL が自動的に構成されます。`filterExprUrlKey` が指定されていない場合、oData URI 規則がエンコードで自動的に使用されます。
 
 <DocsAside type="note" title="注">
-  oData URI 規則の詳細については、[http://www.odata.org/documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/) をご覧ください。
+  oData URI 規則の詳細については、[https://www.odata.org/documentation/odata-version-2-0/uri-conventions/](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) をご覧ください。
 </DocsAside>
 
 それ以外の場合は、グリッドは以下の方法でフィルタリング情報をエンコードします (例)。
 
-```
+```text
 http://<SERVER>/grid/GridGetData? filter(Name)=startsWith(a)&filter(ModifiedDate)=today()&filterLogic=AND
 ```
 
@@ -415,8 +441,8 @@ function handler(event, args) {}
 
 グリッドをプログラムでフィルターするためには、`igGridFiltering` ウィジェットで filter() 関数を呼び出す必要があります。フィルター関数は次のように定義されます。
 
-```
-filter(expressions, updateUI)
+```js
+filter(expressions, updateUI);
 ```
 
 expressions 引数は式オブジェクトの配列です。リスト 10 は、各式オブジェクトの構造の概要を示しています。updateUI 引数はオプションで、グリッドがプログラムでフィルターされたときに UI が更新されないよう、明示的に false に設定できます。
@@ -458,7 +484,7 @@ $("#grid1").igGridFiltering("filter", [
 
 リスト 13: 適用したフィルタリング式を取得
 
-\*\* Javascript の場合:\*\*
+**JavaScript の場合:**
 
 ```js
 var expressions =
@@ -541,7 +567,7 @@ var expressions =
 | filterDropDownAnimationDuration (500)           | filterDropDownAnimations が「linear」に設定されている場合のアニメーションの期間                                                                                                                                                        |
 | filterDropDownWidth (0)                         | フィルター ドロップダウン幅のデフォルト幅。0 に設定されている場合、幅はコンテンツにしたがって自動的に大きくなります                                                                                                                                                    |
 | filterDropDownHeight (0)                        | filterDropDownWidth と同じですが、高さに使用します                                                                                                                                                                            |
-| filterExprUrlKey (null)                         | リモート フィルタリングを実行している場合に URL にエンコードする式キー。デフォルト値の null は oData URI 規則を使用することを前提としています ([documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/)) |
+| filterExprUrlKey (null)                         | リモート フィルタリングを実行している場合に URL にエンコードする式キー。デフォルト値の null は oData URI 規則を使用することを前提としています ([documentation/odata-version-2-0/uri-conventions/](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/)) |
 | filterDropDownItemIcons (true)                  | フィルター条件の小さな画像アイコンは、このオプションが有効な場合にあらゆるドロップダウン項目の前に描画されます。このオプションはデフォルトで有効になっています。                                                                                                                               |
 | columnSettings (\[])                            | フィルタリング条件のカスタム列設定のリスト。リスト中の列設定オブジェクトそれぞれのフォーマットを以下に示します。                                                                                                                                                       |
 | type (“remote”)                                 | フィルタリング操作のタイプ。リモートまたはローカルです。ローカル設定は、データ ソースに現在バインドされているデータでフィルタリングを実行することを示します。                                                                                                                                |

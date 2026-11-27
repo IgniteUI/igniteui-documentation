@@ -20,7 +20,7 @@ Grids are handling dates through two options <ApiLink type="igGrid" member="opti
 - <ApiLink type="igGrid" member="options:columns.dateDisplayType" pkg="core" label="dateDisplayType" /> – This option is part of the columns definitions and can be used for the date columns. If set to "local" (default) the grid is rendering the dates in local time zone. If set to "utc" the grid is rendering the dates in UTC. There is one more behavior delivered with that option and designed specifically to handle the default Ignite UI for MVC Grid scenario. It requires data source with time zone offset metadata. The dates are rendered as if in "utc" with the added offset. The idea behind this is to show the same dates the user sees on the server. The option dateDisplayType has no effect on non-date type columns and is ignored.
 
 <DocsAside type="note">
-  When a Ignite UI for MVC Grid is initalized `enableUTCDates` is set to `true` by default. When a Ignite UI for jQuery grid is initialized the option is set to `false` by default. For example if the `enableUTCDates` is not specified(using the default behavior) and Ignite UI for MVC is used the dates are serialized in ISO UTC format ("2016-11-11T05:00:00Z"). In non-MVC scenario not specifing `enableUTCDates` would serialize the dates to local time and zone values ("2016-11-11T10:00:00+05:00").
+  When a Ignite UI for MVC Grid is initialized `enableUTCDates` is set to `true` by default. When a Ignite UI for jQuery grid is initialized the option is set to `false` by default. For example if the `enableUTCDates` is not specified(using the default behavior) and Ignite UI for MVC is used the dates are serialized in ISO UTC format ("2016-11-11T05:00:00Z"). In non-MVC scenario not specifying `enableUTCDates` would serialize the dates to local time and zone values ("2016-11-11T10:00:00+05:00").
 </DocsAside>
 
 The main questions to answer in order to understand the date handling are how and where are the dates stored. All records and their values(including dates) are stored by igDataSource. Before storing the dates igDataSource transforms them as Date objects, if they are not already Date objects. Once stored they should be rendered and displayed into the grid cells. The responsibility for this is owned by $.ig.formatter. The formatter renders the dates as they are expected and in accordance with `dateDisplayType` option.
@@ -29,7 +29,7 @@ Another behavioral change is that the transaction log will not keep dates serial
 
 In 17.1 and above Ignite UI for MVC will send the dates into the following format:
 
-```js
+```json
 {
     "testData": {
         "Records": [
@@ -46,7 +46,7 @@ In 17.1 and above Ignite UI for MVC will send the dates into the following forma
                 "0": {
                     "ExpirationDate": 10800000
                 },
-                "..."
+                ...
             }
         }
     }
@@ -78,12 +78,13 @@ The option `enableUTCDates` determines how the grid displays and uses dates into
             "ExpirationDate": 7200000
         },
         ...
-        }
+    }
+}
 ```
 
 Each date has its specific offset. This is how the data source looks like when there is metadata for the time zone offsets. If the data source contains information about the server time zone offsets, igDataSource is always considering the offsets to form the transformed data.
 
-```js
+```json
 {
     "testData": {
         "Records": [
@@ -100,7 +101,7 @@ Each date has its specific offset. This is how the data source looks like when t
                 "0": {
                     "ExpirationDate": 10800000
                 },
-                "..."
+                ...
             }
         }
     }
@@ -109,8 +110,8 @@ Each date has its specific offset. This is how the data source looks like when t
 
 The data source stores its objects with the sum of the ticks from ExpirationDate and the ticks of the offset for this date. The data source this object for this date value:
 
-```
-new Date(1268467810000 + 10800000)
+```js
+new Date(1268467810000 + 10800000);
 ```
 
 Accumulated transactions returned with the API method allTransactions() are being serialized immediately. This means that when a date is updated or added to the data source the value into the accumulated transactions will be with the following format `/Date(1485881423759)/`. On the other hand `pendingChanges()` API method is returning the date object(not serialized). The API method `saveChanges()` is sending the serialized accumulated transactions to the server.
@@ -211,11 +212,28 @@ After Ignite UI for MVC 17.1:
     .AutoGenerateLayouts(false)
     .Columns(column =>
     {
-        column.For(project => project.ProjectId).HeaderText("Project ID").DataType("number").Width("100px");
-        column.For(project => project.Name).HeaderText("Name").DataType("string ").Width("200px");
-        column.For(project => project.IsPostponed).HeaderText("Is Postponed?").DataType("bool").Width("100px");
-        column.For(project => project.StartDate).HeaderText("Start Date").DataType("date").Width("150px").DateDisplayType(DateDisplayType.UTC);
-        column.For(project => project.EndDate).HeaderText("End Date").DataType("date").Width("150px").DateDisplayType(DateDisplayType.UTC);
+        column.For(project => project.ProjectId)
+            .HeaderText("Project ID")
+            .DataType("number")
+            .Width("100px");
+        column.For(project => project.Name)
+            .HeaderText("Name")
+            .DataType("string ")
+            .Width("200px");
+        column.For(project => project.IsPostponed)
+            .HeaderText("Is Postponed?")
+            .DataType("bool")
+            .Width("100px");
+        column.For(project => project.StartDate)
+            .HeaderText("Start Date")
+            .DataType("date")
+            .Width("150px")
+            .DateDisplayType(DateDisplayType.UTC);
+        column.For(project => project.EndDate)
+            .HeaderText("End Date")
+            .DataType("date")
+            .Width("150px")
+            .DateDisplayType(DateDisplayType.UTC);
     }
     )
     .PrimaryKey("ProjectId")
@@ -234,11 +252,26 @@ Before Ignite UI for MVC 16.2:
     .EnableUTCDates(true)
     .Columns(column =>
     {
-        column.For(project => project.ProjectId).HeaderText("Project ID").DataType("number").Width("100px");
-        column.For(project => project.Name).HeaderText("Name").DataType("string ").Width("200px");
-        column.For(project => project.IsPostponed).HeaderText("Is Postponed?").DataType("bool").Width("100px");
-        column.For(project => project.StartDate).HeaderText("Start Date").DataType("date").Width("150px");
-        column.For(project => project.EndDate).HeaderText("End Date").DataType("date").Width("150px");
+        column.For(project => project.ProjectId)
+            .HeaderText("Project ID")
+            .DataType("number")
+            .Width("100px");
+        column.For(project => project.Name)
+            .HeaderText("Name")
+            .DataType("string ")
+            .Width("200px");
+        column.For(project => project.IsPostponed)
+            .HeaderText("Is Postponed?")
+            .DataType("bool")
+            .Width("100px");
+        column.For(project => project.StartDate)
+            .HeaderText("Start Date")
+            .DataType("date")
+            .Width("150px");
+        column.For(project => project.EndDate)
+            .HeaderText("End Date")
+            .DataType("date")
+            .Width("150px");
     }
     )
     .PrimaryKey("ProjectId")
@@ -336,11 +369,28 @@ After Ignite UI for MVC 17.1:
     .AutoGenerateLayouts(false)
     .Columns(column =>
     {
-        column.For(project => project.ProjectId).HeaderText("Project ID").DataType("number").Width("100px");
-        column.For(project => project.Name).HeaderText("Name").DataType("string ").Width("200px");
-        column.For(project => project.IsPostponed).HeaderText("Is Postponed?").DataType("bool").Width("100px");
-        column.For(project => project.StartDate).HeaderText("Start Date").DataType("date").Width("150px").DateDisplayType(DateDisplayType.Local);
-        column.For(project => project.EndDate).HeaderText("End Date").DataType("date").Width("150px").DateDisplayType(DateDisplayType.Local);
+        column.For(project => project.ProjectId)
+            .HeaderText("Project ID")
+            .DataType("number")
+            .Width("100px");
+        column.For(project => project.Name)
+            .HeaderText("Name")
+            .DataType("string ")
+            .Width("200px");
+        column.For(project => project.IsPostponed)
+            .HeaderText("Is Postponed?")
+            .DataType("bool")
+            .Width("100px");
+        column.For(project => project.StartDate)
+            .HeaderText("Start Date")
+            .DataType("date")
+            .Width("150px")
+            .DateDisplayType(DateDisplayType.Local);
+        column.For(project => project.EndDate)
+            .HeaderText("End Date")
+            .DataType("date")
+            .Width("150px")
+            .DateDisplayType(DateDisplayType.Local);
     }
     )
     .PrimaryKey("ProjectId")
@@ -359,11 +409,26 @@ Before Ignite UI for MVC 16.2:
     .EnableUTCDates(false)
     .Columns(column =>
     {
-        column.For(project => project.ProjectId).HeaderText("Project ID").DataType("number").Width("100px");
-        column.For(project => project.Name).HeaderText("Name").DataType("string ").Width("200px");
-        column.For(project => project.IsPostponed).HeaderText("Is Postponed?").DataType("bool").Width("100px");
-        column.For(project => project.StartDate).HeaderText("Start Date").DataType("date").Width("150px");
-        column.For(project => project.EndDate).HeaderText("End Date").DataType("date").Width("150px");
+        column.For(project => project.ProjectId)
+            .HeaderText("Project ID")
+            .DataType("number")
+            .Width("100px");
+        column.For(project => project.Name)
+            .HeaderText("Name")
+            .DataType("string ")
+            .Width("200px");
+        column.For(project => project.IsPostponed)
+            .HeaderText("Is Postponed?")
+            .DataType("bool")
+            .Width("100px");
+        column.For(project => project.StartDate)
+            .HeaderText("Start Date")
+            .DataType("date")
+            .Width("150px");
+        column.For(project => project.EndDate)
+            .HeaderText("End Date")
+            .DataType("date")
+            .Width("150px");
     }
     )
     .PrimaryKey("ProjectId")

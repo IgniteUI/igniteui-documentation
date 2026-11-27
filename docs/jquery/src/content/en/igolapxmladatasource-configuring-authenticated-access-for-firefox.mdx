@@ -30,11 +30,11 @@ The following table lists the concepts and topics required as a prerequisite to 
 
 **Concepts**
 
-- [SQL Server Analysis Services (SSAS)](http://msdn.microsoft.com/en-us/library/ms175609%28v=sql.90%29.aspx)
-- [XML for Analysis (XMLA)](http://en.wikipedia.org/wiki/XML_for_Analysis)
-- [Working with Online Analytical Processing (OLAP)](http://msdn.microsoft.com/en-us/library/ms175367%28v=sql.90%29.aspx)
-- [Internet Information Services (IIS)](http://technet.microsoft.com/en-us/library/hh831725)
-- [IIS Managed Handlers](http://technet.microsoft.com/en-us/library/cc753249%28v=ws.10%29.aspx)
+- [SQL Server Analysis Services (SSAS)](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2005/ms175609(v=sql.90))
+- [XML for Analysis (XMLA)](https://en.wikipedia.org/wiki/XML_for_Analysis)
+- [Working with Online Analytical Processing (OLAP)](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2005/ms175367(v=sql.90))
+- [Internet Information Services (IIS)](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/hh831725(v=ws.11))
+- [IIS Managed Handlers](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753249(v=ws.10))
 
 **Topics**
 
@@ -127,23 +127,30 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
       {
           internal class ConfigHelper
           {
-              public static bool IsAuthenticated(out string authentication, bool applicationHost = true)
+              public static bool IsAuthenticated(out string authentication,
+                  bool applicationHost = true)
               {
                   return IsAuthenticated(out authentication, applicationHost, "IIS7");
               }
-              public static bool IsAuthenticated(out string authentication, bool applicationHost, string iisVersion)
+              public static bool IsAuthenticated(out string authentication,
+                  bool applicationHost, string iisVersion)
               {
                   authentication = null;
                   string leadPathPart = iisVersion.ToUpper() == "IIS7"
                                         ? "system.webServer/security/"
                                         : "system.web/";
                   string[] authPaths = new string[4];
-                  authPaths[0] = leadPathPart + "authentication/anonymousAuthentication";
-                  authPaths[1] = leadPathPart + "authentication/basicAuthentication";
-                  authPaths[2] = leadPathPart + "authentication/digestAuthentication";
-                  authPaths[3] = leadPathPart + "authentication/windowsAuthentication";
+                  authPaths[0] = leadPathPart +
+                      "authentication/anonymousAuthentication";
+                  authPaths[1] = leadPathPart +
+                      "authentication/basicAuthentication";
+                  authPaths[2] = leadPathPart +
+                      "authentication/digestAuthentication";
+                  authPaths[3] = leadPathPart +
+                      "authentication/windowsAuthentication";
                   ServerManager serverManager = new ServerManager();
-                  Configuration appHostConfig = serverManager.GetApplicationHostConfiguration();
+                  Configuration appHostConfig =
+                      serverManager.GetApplicationHostConfiguration();
                   ConfigurationSection configSection = null;
                   for (int i = 0; i < authPaths.Length; i++)
                   {
@@ -155,7 +162,8 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
                           }
                           else
                           {
-                              configSection = WebConfigurationManager.GetSection(authPaths[i]);
+                              configSection =
+                                  WebConfigurationManager.GetSection(authPaths[i]);
                           }
                       }
                       catch (Exception)
@@ -163,7 +171,8 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
                       }
                       if (configSection != null)
                       {
-                          bool enabled = Convert.ToBoolean(configSection.GetAttributeValue("enabled"));
+                          bool enabled = Convert.ToBoolean(
+                              configSection.GetAttributeValue("enabled"));
                           if (enabled)
                           {
                               authentication = authPaths[i];
@@ -188,31 +197,47 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
       Imports Microsoft.Web.Administration
       Namespace CrossOriginRequestModule
             Friend Class ConfigHelper
-                  Public Shared Function IsAuthenticated(ByRef authentication As String, Optional applicationHost As Boolean = True) As Boolean
-                        Return IsAuthenticated(authentication, applicationHost, "IIS7")
+                  Public Shared Function IsAuthenticated(
+                        ByRef authentication As String,
+                        Optional applicationHost As Boolean = True) As Boolean
+                        Return IsAuthenticated(authentication, applicationHost,
+                              "IIS7")
                   End Function
-                  Public Shared Function IsAuthenticated(ByRef authentication As String, applicationHost As Boolean, iisVersion As String) As Boolean
+                  Public Shared Function IsAuthenticated(
+                        ByRef authentication As String,
+                        applicationHost As Boolean,
+                        iisVersion As String) As Boolean
                         authentication = Nothing
-                        Dim leadPathPart As String = If(iisVersion.ToUpper() = "IIS7", "system.webServer/security/", "system.web/")
+                        Dim leadPathPart As String = If(iisVersion.ToUpper() = "IIS7",
+                              "system.webServer/security/", "system.web/")
                         Dim authPaths As String() = New String(3) {}
-                        authPaths(0) = leadPathPart & "authentication/anonymousAuthentication"
-                        authPaths(1) = leadPathPart & "authentication/basicAuthentication"
-                        authPaths(2) = leadPathPart & "authentication/digestAuthentication"
-                        authPaths(3) = leadPathPart & "authentication/windowsAuthentication"
+                        authPaths(0) = leadPathPart &
+                              "authentication/anonymousAuthentication"
+                        authPaths(1) = leadPathPart &
+                              "authentication/basicAuthentication"
+                        authPaths(2) = leadPathPart &
+                              "authentication/digestAuthentication"
+                        authPaths(3) = leadPathPart &
+                              "authentication/windowsAuthentication"
                         Dim serverManager As New ServerManager()
-                        Dim appHostConfig As Configuration = serverManager.GetApplicationHostConfiguration()
+                        Dim appHostConfig As Configuration =
+                              serverManager.GetApplicationHostConfiguration()
                         Dim configSection As ConfigurationSection = Nothing
                         For i As Integer = 0 To authPaths.Length - 1
                               Try
                                     If applicationHost Then
-                                          configSection = appHostConfig.GetSection(authPaths(i))
+                                          configSection =
+                                                appHostConfig.GetSection(authPaths(i))
                                     Else
-                                          configSection = WebConfigurationManager.GetSection(authPaths(i))
+                                          configSection =
+                                                WebConfigurationManager.GetSection(
+                                                      authPaths(i))
                                     End If
                               Catch generatedExceptionName As Exception
                               End Try
                               If configSection IsNot Nothing Then
-                                    Dim enabled As Boolean = Convert.ToBoolean(configSection.GetAttributeValue("enabled"))
+                                    Dim enabled As Boolean = Convert.ToBoolean(
+                                          configSection.GetAttributeValue("enabled"))
                                     If enabled Then
                                           authentication = authPaths(i)
                                           ' do nothing for anonymousAuthentication 
@@ -262,39 +287,52 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
                       }
                       if (!string.IsNullOrEmpty(origin))
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Origin", origin);
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Origin", origin);
                       }
-                      if (!string.IsNullOrEmpty(context.Request.Headers.Get("Access-Control-Request-Method")))
+                      if (!string.IsNullOrEmpty(
+                          context.Request.Headers.Get(
+                              "Access-Control-Request-Method")))
                       {
-                          context.Response.AppendHeader("Access-Control-Request-Method", "POST, GET");
+                          context.Response.AppendHeader(
+                              "Access-Control-Request-Method", "POST, GET");
                       }
-                      string accessControlRequestHeaders = context.Request.Headers.Get("Access-Control-Request-Headers");
+                      string accessControlRequestHeaders =
+                          context.Request.Headers.Get(
+                              "Access-Control-Request-Headers");
                       string authentication = null;
-                      bool isAuthenticated = ConfigHelper.IsAuthenticated(out authentication, false);
+                      bool isAuthenticated =
+                          ConfigHelper.IsAuthenticated(out authentication, false);
                       // no auth section in web.config
                       if (authentication == null)
                       {
                           isAuthenticated = false;
-                          isAuthenticated = ConfigHelper.IsAuthenticated(out authentication);
+                          isAuthenticated =
+                              ConfigHelper.IsAuthenticated(out authentication);
                       }
                       if (isAuthenticated)
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Credentials", "true");
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Credentials", "true");
                           if (!string.IsNullOrEmpty(accessControlRequestHeaders) &&
                               !accessControlRequestHeaders.Contains("authorization"))
                           {
-                              accessControlRequestHeaders = accessControlRequestHeaders + ", authorization";
+                              accessControlRequestHeaders =
+                                  accessControlRequestHeaders + ", authorization";
                           }
                       }
                       if (!string.IsNullOrEmpty(accessControlRequestHeaders))
                       {
-                          context.Response.AppendHeader("Access-Control-Allow-Headers", accessControlRequestHeaders);
+                          context.Response.AppendHeader(
+                              "Access-Control-Allow-Headers",
+                              accessControlRequestHeaders);
                       }
                       if (context.Request.HttpMethod == "OPTIONS")
                       {
                           if (authentication != null)
                           {
-                              context.Response.Write(string.Format("Authentication: {0}", authentication));
+                              context.Response.Write(string.Format(
+                                  "Authentication: {0}", authentication));
                           }
                           HttpContext.Current.ApplicationInstance.CompleteRequest();
                       }
@@ -320,47 +358,70 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
                   End Sub
                   Public Sub Init(app As HttpApplication) Implements IHttpModule.Init
                         ' register for events created by the pipeline 
-                        AddHandler app.BeginRequest, New EventHandler(AddressOf Me.OnBeginRequest)
-                  End Sub
-                  Private Sub OnBeginRequest(sender As Object, e As EventArgs)
-                        Dim context As HttpApplication = DirectCast(sender, HttpApplication)
-                        Try
-                              Dim origin As String = context.Request.Headers.[Get]("Origin")
-                              If String.IsNullOrEmpty(origin) Then
-                                    origin = context.Request.Headers.[Get]("origin")
+                  AddHandler app.BeginRequest,
+                        New EventHandler(AddressOf Me.OnBeginRequest)
+            End Sub
+            Private Sub OnBeginRequest(sender As Object, e As EventArgs)
+                  Dim context As HttpApplication =
+                        DirectCast(sender, HttpApplication)
+                  Try
+                        Dim origin As String =
+                              context.Request.Headers.[Get]("Origin")
+                        If String.IsNullOrEmpty(origin) Then
+                              origin = context.Request.Headers.[Get]("origin")
+                        End If
+                        If Not String.IsNullOrEmpty(origin) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Origin", origin)
+                        End If
+                        If Not String.IsNullOrEmpty(
+                              context.Request.Headers.[Get](
+                                    "Access-Control-Request-Method")) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Request-Method", "POST, GET")
+                        End If
+                        Dim accessControlRequestHeaders As String =
+                              context.Request.Headers.[Get](
+                                    "Access-Control-Request-Headers")
+                        Dim authentication As String = Nothing
+                        Dim isAuthenticated As Boolean =
+                              ConfigHelper.IsAuthenticated(authentication, False)
+                        ' no auth section in web.config
+                        If authentication Is Nothing Then
+                              isAuthenticated = False
+                              isAuthenticated =
+                                    ConfigHelper.IsAuthenticated(authentication)
+                        End If
+                        If isAuthenticated Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Credentials", "true")
+                              If Not String.IsNullOrEmpty(
+                                    accessControlRequestHeaders) AndAlso
+                                    Not accessControlRequestHeaders.Contains(
+                                          "authorization") Then
+                                    accessControlRequestHeaders =
+                                          accessControlRequestHeaders &
+                                          ", authorization"
                               End If
-                              If Not String.IsNullOrEmpty(origin) Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Origin", origin)
+                        End If
+                        If Not String.IsNullOrEmpty(
+                              accessControlRequestHeaders) Then
+                              context.Response.AppendHeader(
+                                    "Access-Control-Allow-Headers",
+                                    accessControlRequestHeaders)
+                        End If
+                        If context.Request.HttpMethod = "OPTIONS" Then
+                              If authentication IsNot Nothing Then
+                                    context.Response.Write(String.Format(
+                                          "Authentication: {0}", authentication))
                               End If
-                              If Not String.IsNullOrEmpty(context.Request.Headers.[Get]("Access-Control-Request-Method")) Then
-                                    context.Response.AppendHeader("Access-Control-Request-Method", "POST, GET")
-                              End If
-                              Dim accessControlRequestHeaders As String = context.Request.Headers.[Get]("Access-Control-Request-Headers")
-                              Dim authentication As String = Nothing
-                              Dim isAuthenticated As Boolean = ConfigHelper.IsAuthenticated(authentication, False)
-                              ' no auth section in web.config
-                              If authentication Is Nothing Then
-                                    isAuthenticated = False
-                                    isAuthenticated = ConfigHelper.IsAuthenticated(authentication)
-                              End If
-                              If isAuthenticated Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Credentials", "true")
-                                    If Not String.IsNullOrEmpty(accessControlRequestHeaders) AndAlso Not accessControlRequestHeaders.Contains("authorization") Then
-                                          accessControlRequestHeaders = accessControlRequestHeaders & ", authorization"
-                                    End If
-                              End If
-                              If Not String.IsNullOrEmpty(accessControlRequestHeaders) Then
-                                    context.Response.AppendHeader("Access-Control-Allow-Headers", accessControlRequestHeaders)
-                              End If
-                              If context.Request.HttpMethod = "OPTIONS" Then
-                                    If authentication IsNot Nothing Then
-                                          context.Response.Write(String.Format("Authentication: {0}", authentication))
-                                    End If
-                                    HttpContext.Current.ApplicationInstance.CompleteRequest()
-                              End If
-                        Catch ex As Exception
-                              context.Response.Write(ex.Message)
-                              HttpContext.Current.ApplicationInstance.CompleteRequest()
+                              HttpContext.Current.ApplicationInstance _
+                                    .CompleteRequest()
+                        End If
+                  Catch ex As Exception
+                        context.Response.Write(ex.Message)
+                        HttpContext.Current.ApplicationInstance _
+                              .CompleteRequest()
                         End Try
                   End Sub
             End Class
@@ -383,7 +444,7 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
 
       Using the IIS Manager interface, navigate to your application which is hosting the HTTP access provider (e.g. `msmdpump.dll`). In the screenshot below, the olapsecured application is being accessed.
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox1} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox1} alt="IIS Manager with the olapsecured application selected and the Modules feature highlighted." />
 
    4. Open the folder in which your application resides on the server.
 
@@ -401,15 +462,13 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
 
       In the Internet Information Services manager, access Modules.
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox2} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox2} alt="IIS Manager Modules page for the olapsecured application with the custom RequestsModule at the top of the list." />
 
    2. Add your custom HTTP module.
 
       A. From the Actions menu, **click** Add Managed Module….
 
-      ```
       The Add Managed Module window opens.
-      ```
 
       B. Provide the name and the type of the module.
 
@@ -417,7 +476,7 @@ The following steps demonstrate how to setup IIS for accepting managed handlers.
 
       ​b. For Type, select the custom HTTP module you added in the previous step( CrossOriginRequestModule.RequestsModule).
 
-      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox3} alt="" />
+      <Image src={imgIgXmlaDataSourceConfiguringIISForFirefox3} alt="IIS Add Managed Module dialog with the name RequestsModule and the type CrossOriginRequestModule.RequestsModule." />
 
 ## Related Content
 
@@ -433,10 +492,10 @@ The following samples provide additional information related to this topic.
 
 The following material (available outside the Infragistics family of content) provides additional information related to this topic.
 
-- [XML for Analysis (XMLA)](http://msdn.microsoft.com/en-us/library/ms187178%28v=SQL.90%29.aspx): This article explains the basics of the XML for Analysis protocol.
+- [XML for Analysis (XMLA)](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2005/ms187178(v=sql.90)): This article explains the basics of the XML for Analysis protocol.
 
-- [SQL Server Analysis Services](http://msdn.microsoft.com/en-us/library/ms175609%28v=sql.90%29.aspx): This page is the introductory point for the SQL Server Analysis Services (SSAS) in MSDN.
+- [SQL Server Analysis Services](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2005/ms175609(v=sql.90)): This page is the introductory point for the SQL Server Analysis Services (SSAS) in MSDN.
 
-- [Working with Online Analytical Processing (OLAP)](http://msdn.microsoft.com/en-US/library/ms175367%28v=SQL.90%29.aspx): This article is an introduction to working with OLAP data.
+- [Working with Online Analytical Processing (OLAP)](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2005/ms175367(v=sql.90)): This article is an introduction to working with OLAP data.
 
-- [Walkthrough: Creating and Registering a Custom HTTP Module](http://msdn.microsoft.com/en-us/library/ms227673%28v=vs.100%29.aspx): This walkthrough illustrates the basic functionality of a custom HTTP module.
+- [Walkthrough: Creating and Registering a Custom HTTP Module](https://learn.microsoft.com/en-us/previous-versions/aspnet/ms227673(v=vs.100)): This walkthrough illustrates the basic functionality of a custom HTTP module.

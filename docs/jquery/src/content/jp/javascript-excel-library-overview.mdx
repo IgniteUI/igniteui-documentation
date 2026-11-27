@@ -78,7 +78,7 @@ Excel ライブラリを使用するには、Ignite UI for jQuery 製品から�
 
 このコードを追加すると、Excel ライブラリの型が `$.ig.excel` 名前空間に表示されるようになります。
 
-<Image src={imgClientSideExcelLibraryOverview1} alt="" />
+<Image src={imgClientSideExcelLibraryOverview1} alt="Excel ライブラリの名前空間の型を一覧表示し、Workbook とそのツールチップを表示した Visual Studio の IntelliSense" />
 
 このような IntelliSense を設定すると、各関数の呼出し方法や返却値などの重要な情報にアクセス可能になり、Excel ライブラリでの作業の生産性が大きく向上します。
 
@@ -206,19 +206,29 @@ for (var rIndex = 0; rIndex < 100; rIndex++) {
 
 ```js
 var workbook = new $.ig.excel.Workbook();
-var worksheet = workbook.worksheets().add('Sheet1');
+var worksheet = workbook.worksheets().add("Sheet1");
 var format = worksheet.getCell("A1").cellFormat();
-format.fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
-Or as described above, if you have a performance-critical area of code, you can bypass the address parsing and cell object creation by going through the row directly:
+format.fill(
+    $.ig.excel.CellFill.createLinearGradientFill(45, "#FF0000", "#00FFFF")
+);
+```
+
+または、前述のように、コードのパフォーマンスが重要な領域では、行から直接アクセスすることで、アドレスの解析とセル オブジェクトの作成をバイパスできます。
+
+**JavaScript の場合:**
+
+```js
 var workbook = new $.ig.excel.Workbook();
-var worksheet = workbook.worksheets().add('Sheet1');
+var worksheet = workbook.worksheets().add("Sheet1");
 var format = worksheet.rows(0).getCellFormat(0);
-format.fill($.ig.excel.CellFill.createLinearGradientFill(45, '#FF0000', '#00FFFF'));
+format.fill(
+    $.ig.excel.CellFill.createLinearGradientFill(45, "#FF0000", "#00FFFF")
+);
 ```
 
 これら 2 つのコードのいずれかを使用してワークブックを作成します。Microsoft の Excel で保存したワークブックを開くと、以下のようになります。
 
-<Image src={imgClientSideExcelLibraryOverview2} alt="" />
+<Image src={imgClientSideExcelLibraryOverview2} alt="セル A1 を赤から青緑のグラデーションで塗りつぶした Microsoft Excel" />
 
 フォーマット オブジェクトを使用すると、セルの外観の変更やテキストの表示に使用するフォントを変更できます。プロパティと関係があるすべてのフォントは、フォーマットの font 関数で返されるフォント サブオブジェクトで公開されます。以下のコードは、セル、行、または列で設定可能な各種の書式とフォントのプロパティを示します。
 
@@ -285,7 +295,7 @@ font.italic($.ig.excel.ExcelDefaultableBoolean.true);
 
 このコードは作成した `FormattedString` インスタンスをセルに設定し、次にテキストの特定の範囲にフォントの書式を適用します。`getFont` 関数はフォントを返し、開始のインデックスとオプションの長さパラメータに基づいた特定の範囲にそれらのフォントを適用します。長さが指定されていない場合、返却されたフォントが、開始インデックスから文字列の終りまでをコントロールします。これらのフォント オブジェクトは、セル書式の font 関数で示されたフォント サブオブジェクトと同じです。一般的なフォントの情報はワークブックの内部で共有されます。スタンドアローンの `FormattedString` インスタンスはフォント情報を共有するワークブックを持たないため、書式化を適用する前に `FormattedString` をセルで設定する必要があることに注意してください。このコードは、以下に示すMicrosoft の Excel で保存し開いた状態のワークブックを作成します。
 
-<Image src={imgClientSideExcelLibraryOverview3} alt="" />
+<Image src={imgClientSideExcelLibraryOverview3} alt="セル A1 に「このテキストは太字と斜体になっています。」と表示し、「太字」と「斜体」に書式が適用された Microsoft Excel" />
 
 ### ワークブックの保存
 

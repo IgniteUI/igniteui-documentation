@@ -25,7 +25,7 @@ This topic introduces the grouping functionality of the `igGrid`™.
 
 The `igGrid` supports a column grouping functionality that enables the user to employ the data in one or more columns in a grid as a primary and, respectively, secondary criteria for organizing the records in the group in groups. The picture bellow demonstrate a grid in which the values of the `SafetyStockLevel` column – 500, 8000, 1,000, etc. – are used to group and arrange the data in the grid, i.e. the grid is grouped by its `SafetyStockLevel` column.
 
-<Image src={imgIgGridGroupByOverview01} alt="" />
+<Image src={imgIgGridGroupByOverview01} alt="igGrid grouped by Safety Level with one group collapsed and two expanded" />
 
 Grouping in the `igGrid` works the same as the analogous functionality in Microsoft® Office Outlook® – you drag a column that you want to group by and drop it into a special grouping area above the grid. This re-arranges the grid with as many groups as distinct value are there in the selected column. In addition, inside the groups, the records are sorted. If you drop additional columns, then, within the already existing groups, further groupings are applied.
 
@@ -37,13 +37,15 @@ Grouping is implemented and managed by the Group By widget.
 
 Persisting grouped columns between `igGrid` re-bindings is made easy in version 14.1 and in fact replaces the previous default behavior.
 
-> **Note** GroupBy persistence is true by default. This is a breaking change.
+<DocsAside type="note">
+  GroupBy persistence is true by default. This is a breaking change.
+</DocsAside>
 
 When you enable `igGridGroupBy` you are already using it in a <ApiLink type="igGridGroupBy" member="options:persist" pkg="core" label="persist" /> mode. This means that after explicitly calls of `dataBind()`, that persistence is applied for UI and data source view (the grouped columns are not cleared and the data source remains sorted)
 
 GroupBy persistence is implemented for `igHierarchicalGrid` too.
 
-The following sample demonstrates the persistance capabilities of the GroupBy feature.
+The following sample demonstrates the persistence capabilities of the GroupBy feature.
 
 <Sample src="/grid/feature-persistence/index.html" height={520} alt="Feature Persistence" chrome="bare" fullscreenBtn />
 
@@ -101,9 +103,16 @@ The applied sorting expressions can be retrieved from the data source of the gri
 **In JavaScript:**
 
 ```js
-var expressions = $('#grid1').data('igGrid').dataSource.settings.sorting.expressions; // array of expressions
+var expressions = $('#grid1').data('igGrid').dataSource.settings.sorting
+    .expressions; // array of expressions
 // expression structure
-{compareFunc: <type="function" comparer function>, dir: <type="string" sort direction>, fieldName: <type="string" column key>, isGroupBy: <type="bool" is the expression created by the Group By widget>, layout: <type="string" the key of the layout if done in igHierarchicalGrid>}
+{
+    compareFunc: <type="function" comparer function>,
+    dir: <type="string" sort direction>,
+    fieldName: <type="string" column key>,
+    isGroupBy: <type="bool" is the expression created by the Group By widget>,
+    layout: <type="string" the key of the layout if done in igHierarchicalGrid>
+}
 ```
 
 Expressions created by the Group By widget have a property "isGroupBy" equals to "true" to distinguish them from the ones created by the Sorting widget.
@@ -115,7 +124,16 @@ To get the grouped data (data rows and group rows) programmatically you need to 
 ```js
 var data = $('#grid1').data('igGrid').dataSource.groupByData();
 // group rows' structure
-{collapsed: <type="bool" collapsed state>, fieldName: <type="string" column key>, gbExpr: <type="object" group by expression object>, id: <type="string" identificator of the group row>, len: <type="number" the number of data rows in the group>, level: <type="number" level of grouping>, recs: <type="array" set of the data records in the group>, val: <type="string" the value of the group>}
+{
+    collapsed: <type="bool" collapsed state>,
+    fieldName: <type="string" column key>,
+    gbExpr: <type="object" group by expression object>,
+    id: <type="string" identificator of the group row>,
+    len: <type="number" the number of data rows in the group>,
+    level: <type="number" level of grouping>,
+    recs: <type="array" set of the data records in the group>,
+    val: <type="string" the value of the group>
+}
 ```
 
 The group rows in the group by data are objects which contain the generated ID of the physical group row. The ID can be used to <ApiLink type="igGridGroupBy" member="methods:collapse" pkg="core" label="collapse" /> and <ApiLink type="igGridGroupBy" member="methods:expand" pkg="core" label="expand" /> the row programmatically:

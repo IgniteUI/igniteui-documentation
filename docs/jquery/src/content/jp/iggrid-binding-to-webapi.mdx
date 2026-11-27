@@ -65,7 +65,7 @@ ASP.NET MVC 4 Web API へバインドする手順の概要は、次のように�
 
 以下のスクリーンショットは最終結果のプレビューです。
 
-<Image src={imgIgGridBindingToWebAPI1} alt="" />
+<Image src={imgIgGridBindingToWebAPI1} alt="下に「Add new row」ボタンと「Save Changes」ボタンがある顧客の igGrid" />
 
 ### 前提条件
 
@@ -104,9 +104,9 @@ ASP.NET MVC 4 Web API へバインドする手順の概要は、次のように�
 **HTML の場合:**
 
 ```html
-<script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <script src="~/Scripts/Infragistics/js/infragistics.loader.js"></script>
 ```
 
@@ -125,7 +125,7 @@ ASP.NET MVC 4 Web API へバインドする手順の概要は、次のように�
 
 `Northwind` データベースの *Customers* テーブルのための ADO.NET エンティティー データ モデルを追加し、`NorthwindModel` という名前を付けます。
 
-<Image src={imgIgGridBindingToWebAPI2} alt="" />
+<Image src={imgIgGridBindingToWebAPI2} alt="Customer エンティティと CustomerID、CompanyName などのプロパティを表示するエンティティ デザイナー" />
 
 ### Customer モデル クラスを作成します。
 
@@ -160,9 +160,17 @@ public class Customer
 ```csharp
 public ActionResult Index()
 {
-    NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+    NorthwindModel.NorthwindEntities db =
+        new NorthwindModel.NorthwindEntities();
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return View(customers.AsQueryable());
 }
 ```
@@ -216,15 +224,23 @@ Infragistics Loader を追加します。
     Rest(true).
     Columns(column =>
     {
-        column.For(x => x.CustomerID).HeaderText("Customer ID").DataType("string").Hidden(true);
-        column.For(x => x.CompanyName).HeaderText("Company Name").DataType("string");
-        column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+        column.For(x => x.CustomerID).
+            HeaderText("Customer ID").
+            DataType("string").
+            Hidden(true);
+        column.For(x => x.CompanyName).
+            HeaderText("Company Name").
+            DataType("string");
+        column.For(x => x.ContactName).
+            HeaderText("Contact Name").
+            DataType("string");
         column.For(x => x.Address).HeaderText("Address").DataType("string");
         column.For(x => x.City).HeaderText("City").DataType("string");
     }).
     RestSettings(rest =>
     {
-        rest.RestSetting().Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
+        rest.RestSetting().
+        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Update(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Remove(r => r.RestVerbSetting().Url("/api/customers/").Batch(false));
     }).
@@ -248,7 +264,8 @@ Controllers フォルダーに空の Web API コントローラーを新規作�
 **C# の場合:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3.GET コントローラー アクションを定義します。
@@ -261,7 +278,14 @@ private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntiti
 public IEnumerable<Customer> GetCustomers()
 {
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return customers;
 }
 ```
@@ -269,7 +293,7 @@ public IEnumerable<Customer> GetCustomers()
 `GetCustomers` メソッドで、前に定義した `Customer` オブジェクト内にある `Customers` テーブルのデータをラップします。
 
 <DocsAside type="note" title="注">
-  分かりやすくするために、この例では、[リポジトリ デザイン パターン](http://msdn.microsoft.com/en-us/library/ff649690.aspx)を使用する代わりに、エンティティー フレームワーク API に直接アクセスしてデータ ストアを変更します。
+  分かりやすくするために、この例では、[リポジトリ デザイン パターン](https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10))を使用する代わりに、エンティティー フレームワーク API に直接アクセスしてデータ ストアを変更します。
 </DocsAside>
 
 ### ​4.PUT コントローラー アクションを定義します。
@@ -334,8 +358,10 @@ public HttpResponseMessage PostCustomer(Customer customer)
         };
         db.Customers.AddObject(newCustomer);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
         return response;
     }
     else
@@ -360,7 +386,8 @@ public HttpResponseMessage PostCustomer(Customer customer)
 ```csharp
 public HttpResponseMessage DeleteCustomer(string id)
 {
-    NorthwindModel.Customer customer = db.Customers.Single(c => c.CustomerID == id);
+    NorthwindModel.Customer customer =
+        db.Customers.Single(c => c.CustomerID == id);
     if (customer == null)
     {
         return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -410,4 +437,4 @@ $("#saveBtn").click(function () {
 
 以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
 
-- [ASP.NET Web API を使用した作業の開始](http://www.asp.net/web-api): ASP.NET Web API は、ブラウザーやモバイル デバイスを含めた広範なクライアントから利用できる HTTP サービスの構築を容易にするフレームワークです。ASP.NET Web API は、REST を多用したアプリケーションを .NET フレームワーク上で構築するための理想的なプラットフォームです。
+- [ASP.NET Web API を使用した作業の開始](https://learn.microsoft.com/en-us/aspnet/web-api/): ASP.NET Web API は、ブラウザーやモバイル デバイスを含めた広範なクライアントから利用できる HTTP サービスの構築を容易にするフレームワークです。ASP.NET Web API は、REST を多用したアプリケーションを .NET フレームワーク上で構築するための理想的なプラットフォームです。

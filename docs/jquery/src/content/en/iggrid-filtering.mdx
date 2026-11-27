@@ -30,13 +30,15 @@ The Filtering feature of the `igGrid` allows users to do Excel-style filtering o
 
 Persisting Filtering between `igGrid` re-bindings is made easy in version 14.1 and in fact replaces the previous default behavior.
 
-> **Note** Filtering persistence is true by default. This is a breaking change.
+<DocsAside type="note">
+  Filtering persistence is true by default. This is a breaking change.
+</DocsAside>
 
 When you enable `igGridFiltering` you are already using it in a <ApiLink type="igGridFiltering" member="options:persist" pkg="core" label="persist" /> mode. This means that after explicitly calls of **dataBind()**, that persistence is applied for UI and data source view (the filter editors are not cleared and the data source remains filtered)
 
 Filtering persistence is implemented for `igHierarchicalGrid` too.
 
-The following sample demonstrates the persistance capabilities of the Filtering feature.
+The following sample demonstrates the persistence capabilities of the Filtering feature.
 
 <Sample src="/grid/feature-persistence/index.html" height={520} alt="Feature Persistence" chrome="bare" fullscreenBtn />
 
@@ -78,24 +80,28 @@ You can get the current list of expression objects from the `dataFiltering` even
 **In JavaScript:**
 
 ```js
-$(document).delegate("#grid1", "iggridfilteringdatafiltering", function (evt, ui) {
-    var expressions = ui.expressions;
-}
+$(document).delegate(
+    "#grid1",
+    "iggridfilteringdatafiltering",
+    function (evt, ui) {
+        var expressions = ui.expressions;
+    }
+);
 ```
 
-<Image src={imgSimple} alt="" />
+<Image src={imgSimple} alt="igGrid filter row with the condition drop-down open on Product ID and Greater than selected" />
 
 Figure 1: Simple Filtering (mode: “simple”)
 
-<Image src={imgAdvanced} alt="" />
+<Image src={imgAdvanced} alt="igGrid in advanced filtering mode with filter icons in the headers and a No filter applied tooltip" />
 
 Figure 2: Advanced Filtering (mode: “advanced”)
 
-<Image src={imgDialog} alt="" />
+<Image src={imgDialog} alt="igGrid Advanced Filter dialog with a match ALL selector, a Product Name starts with condition and Search button" />
 
 Figure 3: Advanced Filtering dialog
 
-<Image src={imgTooltip} alt="" />
+<Image src={imgTooltip} alt="igGrid header with a filtering tooltip reading Product ID Equals 1 AND Product Name Starts with a" />
 
 Figure 4: Filtering tooltips (mode: “advanced”)
 
@@ -146,15 +152,13 @@ $("#myGrid").igGrid({
         { headerText: "State", key: "StateName" },
         { headerText: "Congressional District", key: "CongressionalDistrict" },
         { headerText: "Population", key: "TotalPopulation" }
-    ]
-    features:[
+    ],
+    features: [
         {
             name: "Filtering",
             allowFiltering: true,
             caseSensitive: false,
-            columnSettings: [
-                {columnKey: "StateName", allowFiltering: false}
-            ]
+            columnSettings: [{ columnKey: "StateName", allowFiltering: false }]
         }
     ]
 });
@@ -166,9 +170,27 @@ Listing 4: Sample JSON response
 
 ```js
 [
-   {"AverageFamilySize":3.36, "AverageHouseholdSize":2.91, "CongressionalDistrict":"14", "StateName": "Illinois", "TotalPopulation":720663},
-   {"AverageFamilySize":3.00, "AverageHouseholdSize":2.43, "CongressionalDistrict":"15", "StateName": "Illinois", "TotalPopulation":595833},
-   {"AverageFamilySize":3.16, "AverageHouseholdSize":2.67, "CongressionalDistrict":"16", "StateName": "Illinois", "TotalPopulation":691356}
+   {
+      "AverageFamilySize":3.36,
+      "AverageHouseholdSize":2.91,
+      "CongressionalDistrict":"14",
+      "StateName": "Illinois",
+      "TotalPopulation":720663
+   },
+   {
+      "AverageFamilySize":3.00,
+      "AverageHouseholdSize":2.43,
+      "CongressionalDistrict":"15",
+      "StateName": "Illinois",
+      "TotalPopulation":595833
+   },
+   {
+      "AverageFamilySize":3.16,
+      "AverageHouseholdSize":2.67,
+      "CongressionalDistrict":"16",
+      "StateName": "Illinois",
+      "TotalPopulation":691356
+   }
 ]
 ```
 
@@ -189,9 +211,15 @@ Listing 6: Razor or CSHTML markup to use with Ignite UI for MVC
 **In Razor:**
 
 ```razor
-@(Html.Infragistics().Grid(Model).ID("grid1").PrimaryKey("ProductID").Height("400px").Columns(column =>
+@(Html.Infragistics().Grid(Model)
+    .ID("grid1")
+    .PrimaryKey("ProductID")
+    .Height("400px")
+    .Columns(column =>
     {
-        column.For(x => x.ProductID).HeaderText("Product ID").DataType("number");
+        column.For(x => x.ProductID)
+            .HeaderText("Product ID")
+            .DataType("number");
         column.For(x => x.Name).HeaderText("Product Name");
         column.For(x => x.ModifiedDate).HeaderText("Modified Date");
         column.For(x => x.ListPrice).HeaderText("List Price");
@@ -209,12 +237,12 @@ Listing 6: Razor or CSHTML markup to use with Ignite UI for MVC
 If filtering is configured to be remotely (ie: the type option is set to remote), the URL is automatically configured so that all filtering expressions are encoded automatically based on the end user actions (or based on the parameters passed, if programmatic filtering is performed). If no `filterExprUrlKey` is specified, oData URI conventions are automatically used in the encoding.
 
 <DocsAside type="note">
-  For more information regarding oData URI conventions, please visit: [http://www.odata.org/documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/)
+  For more information regarding oData URI conventions, please visit: [https://www.odata.org/documentation/odata-version-2-0/uri-conventions/](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/)
 </DocsAside>
 
 Otherwise, the grid encodes filtering information in the following way (example):
 
-```
+```text
 http://<SERVER>/grid/GridGetData? filter(Name)=startsWith(a)&filter(ModifiedDate)=today()&filterLogic=AND
 ```
 
@@ -413,8 +441,8 @@ Table 2: Filtering Client-side events
 
 In order to filter the grid programmatically, you need to call the filter() function on the `igGridFiltering` widget. The filter function is defined in the following way:
 
-```
-filter(expressions, updateUI)
+```js
+filter(expressions, updateUI);
 ```
 
 The expressions argument is an array of expression objects. Listing 10 gives an overview of the structure of each expression object. The updateUI argument is optional and it can be set explicitly to false so that the UI is not updated when the grid is filtered programmatically.
@@ -539,14 +567,14 @@ Option and default value shows in brackets
 | filterDropDownAnimationDuration (500)                | Duration of the animations when filterDropDownAnimations is set to “linear”                                                                                                                                                                                                                                                                                             |
 | filterDropDownWidth (0)                              | Default width of the filter dropdown width. When set to 0, the width will grow with contents automatically                                                                                                                                                                                                                                                              |
 | filterDropDownHeight (0)                             | Same as filterDropDownWidth but for height                                                                                                                                                                                                                                                                                                                              |
-| filterExprUrlKey (null)                              | Expression key to encode in the URL when remote filtering is performed. Default value of null assumes oData URI Conventions will be used ([documentation/odata-version-2-0/uri-conventions/](http://www.odata.org/documentation/odata-version-2-0/uri-conventions/))                                                                                                    |
+| filterExprUrlKey (null)                              | Expression key to encode in the URL when remote filtering is performed. Default value of null assumes oData URI Conventions will be used ([documentation/odata-version-2-0/uri-conventions/](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/))                                                                                                    |
 | filterDropDownItemIcons (true)                       | Small image icons for the filtering conditions will be rendered in front of every dropdown item if this option is enabled – it is enabled by default.                                                                                                                                                                                                                   |
 | columnSettings (\[])                                 | A list of custom column settings for filtering conditions. The format of each column settings object in the list is described below.                                                                                                                                                                                                                                    |
 | type (“remote”)                                      | Type of the filtering operations. Can be remote or local. The local setting implies filtering is performed on the currently bound data in the data source.                                                                                                                                                                                                              |
 | filterDelay (500)                                    | Delay before filtering is triggered. As the end user is typing, most of the times we don’t want a filtering request after every keystroke, so this is the delay that starts after every keystroke, and is cancelled if the time between the previous and the potential next keystroke (if any) exceeds this value.                                                      |
 | mode (“simple”)                                      | Simple filtering renders a filter row below the grid’s headers, where each column has a dedicated editor and button (optional) that is always visible. “advanced” filtering renders a button in the header which, after clicked, opens up the advanced filtering dialog where multiple conditions can be configured (even more than 1 conditions per column)            |
 | advancedModeEditorsVisible (false)                   | When this option is set to true, dedicated filtering editors are still rendered for every column header, even though the filter mode is Advanced. The advanced filtering dialog can be accessed from the “Advanced” button located at the end of every column filter dropdown.                                                                                          |
-| advancedModeHeaderButtonLocation (“left”)            | When the filtering mode is Advanced, and advancedModeEditorsVisible is false, the advanced button is renderd in the header next to the header text, so this property controls if it will be rendered before the header text or after it. If there is sorting enabled, and a column is sorted, the sorting indicator gets rendered always to the right of anything else. |
+| advancedModeHeaderButtonLocation (“left”)            | When the filtering mode is Advanced, and advancedModeEditorsVisible is false, the advanced button is rendered in the header next to the header text, so this property controls if it will be rendered before the header text or after it. If there is sorting enabled, and a column is sorted, the sorting indicator gets rendered always to the right of anything else. |
 | filterDialogWidth (350)                              | Width of the advanced filtering dialog (if applicable)                                                                                                                                                                                                                                                                                                                  |
 | filterDialogHeight (‘’)                              | Height of the advanced filtering dialog (if applicable). By default no height is set to that it grows with the contents.                                                                                                                                                                                                                                                |
 | filterDialogFilterDropDownDefaultWidth (80)          | This is the default width of every dropdown Filter Condition added in the advanced filtering. That’s the second dropdown in every filter row, which is also a plain HTML SELECT element, and lets the end user choose from the filtering conditions list.                                                                                                               |

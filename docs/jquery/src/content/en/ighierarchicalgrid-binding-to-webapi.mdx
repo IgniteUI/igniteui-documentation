@@ -64,7 +64,7 @@ The example is using data from the `Customers` and `Orders` tables of the `North
 
 The following screenshot is a preview of the final result.
 
-<Image src={imgIgHierarchicalGridBindingToWebAPI1} alt="" />
+<Image src={imgIgHierarchicalGridBindingToWebAPI1} alt="igHierarchicalGrid of customers loaded from an ASP.NET Web API, with expandable rows and an Add new row bar" />
 
 ### Prerequisites
 
@@ -126,7 +126,7 @@ In the `_Layout.cshtml` file under `Views\Shared` folder delete the following li
 
 Add an ADO.NET Entity Data Model for the *Customers* and `Orders` tables in the `Northwind` Database and name it `NorthwindModel`.
 
-<Image src={imgIgHierarchicalGridBindingToWebAPI2} alt="" />
+<Image src={imgIgHierarchicalGridBindingToWebAPI2} alt="Entity model diagram with Customer and Order entities in a one-to-many relationship" />
 
 ### Create the Customer and Order model classes
 
@@ -177,9 +177,17 @@ Replace the `Index` action method with the following code:
 ```csharp
 public ActionResult Index()
 {
-    NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+    NorthwindModel.NorthwindEntities db =
+        new NorthwindModel.NorthwindEntities();
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return View(customers.AsQueryable());
 }
 ```
@@ -233,9 +241,15 @@ Define the grid:
     Rest(true).
     Columns(column =>
     {
-        column.For(x => x.CustomerID).HeaderText("Customer ID").DataType("string");
-        column.For(x => x.CompanyName).HeaderText("Company Name").DataType("string");
-        column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+        column.For(x => x.CustomerID).
+            HeaderText("Customer ID").
+            DataType("string");
+        column.For(x => x.CompanyName).
+            HeaderText("Company Name").
+            DataType("string");
+        column.For(x => x.ContactName).
+            HeaderText("Contact Name").
+            DataType("string");
         column.For(x => x.Address).HeaderText("Address").DataType("string");
         column.For(x => x.City).HeaderText("City").DataType("string");
     }).
@@ -249,14 +263,22 @@ Define the grid:
             AutoGenerateLayouts(false).
             Columns(childcolumn =>
             {
-                childcolumn.For(x => x.OrderID).HeaderText("Order ID").DataType("number");
-                childcolumn.For(x => x.ShipAddress).HeaderText("Ship Address").DataType("string");
-                childcolumn.For(x => x.ShipName).HeaderText("Ship Name").DataType("string");
-            }).Features(features => features.Updating().EditMode(GridEditMode.Row));
+                childcolumn.For(x => x.OrderID).
+                    HeaderText("Order ID").
+                    DataType("number");
+                childcolumn.For(x => x.ShipAddress).
+                    HeaderText("Ship Address").
+                    DataType("string");
+                childcolumn.For(x => x.ShipName).
+                    HeaderText("Ship Name").
+                    DataType("string");
+            }).Features(features =>
+                features.Updating().EditMode(GridEditMode.Row));
     }).
     RestSettings(rest =>
     {
-        rest.RestSetting().        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
+        rest.RestSetting().
+        Create(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Update(r => r.RestVerbSetting().Url("/api/customers/").Batch(false)).
         Remove(r => r.RestVerbSetting().Url("/api/customers/").Batch(false));
     }).
@@ -269,19 +291,19 @@ Define the grid:
 
 By default, the *igHierarchicalGrid* child layouts’ request URLs are constructed the following way:
 
-```
+```text
 Url/RootPrimaryKeyID/Child1LayoutName/Child1PrimaryKeyID/Child2LayoutName/Child2PrimaryKeyID
 ```
 
 Example:
 
-```
+```text
 /api/customers/ANATR/orders/10308
 ```
 
 where
 
-```
+```text
 Url = /api/customers/,
 RootPrimaryKeyID = ANATR,
 Child1LayoutName = orders,
@@ -290,7 +312,7 @@ Child1PrimaryKeyID = 10308
 
 ASP.NET Web API doesn’t handle this route by default, so a route handler should be added to the route table.
 
-Alternatively you can customize the `restSettings.create.Template`, `restSettings.Update.Template` and `restSettings.remove.Template `properties to customize the requests URLs to match your REST Service configuration.
+Alternatively you can customize the `restSettings.create.Template`, `restSettings.Update.Template` and `restSettings.remove.Template`properties to customize the requests URLs to match your REST Service configuration.
 
 In the `RouteConfig.cs` file in the `App_Start` folder, add the route for the child layout in the `RegisterRoutes` method.
 
@@ -300,13 +322,17 @@ In the `RouteConfig.cs` file in the `App_Start` folder, add the route for the ch
 routes.MapHttpRoute(
     name: "ChildApi",
     routeTemplate: "api/{parentcontroller}/{parentid}/{controller}/{id}",
-    defaults: new { parentcontroller = "customers", id = RouteParameter.Optional }
+    defaults: new
+    {
+        parentcontroller = "customers",
+        id = RouteParameter.Optional
+    }
 );
 ```
 
 A request `url: /api/customers/ANATR/orders/10308` is handled the following way:
 
-```
+```text
 "api/{parentcontroller}" = "/api/customers",
 "{parentid}" = “ANATR”,
 "{controller}" = "orders",
@@ -332,7 +358,8 @@ Add a new empty Web API controller to the Controllers folder and name it `Custom
 **In C#:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3. Define the GET controller action
@@ -345,7 +372,14 @@ Add a new method to the `CustomersController` to handle the grid’s GET request
 public IEnumerable<Customer> GetCustomers(int dbdepth)
 {
     var customers = from c in db.Customers
-                    select new Customer() { CustomerID = c.CustomerID, CompanyName = c.CompanyName, ContactName = c.ContactName, City = c.City, Address = c.Address };
+                    select new Customer()
+                    {
+                        CustomerID = c.CustomerID,
+                        CompanyName = c.CompanyName,
+                        ContactName = c.ContactName,
+                        City = c.City,
+                        Address = c.Address
+                    };
     return customers;
 }
 ```
@@ -353,7 +387,7 @@ public IEnumerable<Customer> GetCustomers(int dbdepth)
 In the `GetCustomers` method, wrap the data from the `Customers` table in the `Customer` object defined earlier. You can use the `dbdepth` parameter to examine if the grid is defined as load on demand or not and return the correct hierarchy of data.
 
 <DocsAside type="note">
-  For the sake of simplicity, this example doesn’t use the [Repository design pattern](http://msdn.microsoft.com/en-us/library/ff649690.aspx) but instead directly accesses the Entity Framework API to modify the data store.
+  For the sake of simplicity, this example doesn’t use the [Repository design pattern](https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)) but instead directly accesses the Entity Framework API to modify the data store.
 </DocsAside>
 
 ### ​4. Define the PUT controller action
@@ -418,8 +452,10 @@ public HttpResponseMessage PostCustomer(Customer customer)
         };
         db.Customers.AddObject(newCustomer);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = customer.CustomerID }));
         return response;
     }
     else
@@ -444,7 +480,8 @@ Add new method to the `CustomersController` which will handle grid’s DELETE re
 ```csharp
 public HttpResponseMessage DeleteCustomer(string id)
 {
-    NorthwindModel.Customer customer = db.Customers.Single(c => c.CustomerID == id);
+    NorthwindModel.Customer customer =
+        db.Customers.Single(c => c.CustomerID == id);
     if (customer == null)
     {
         return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -477,7 +514,8 @@ Add a new empty Web API controller to the Controllers folder and name it `Orders
 **In C#:**
 
 ```csharp
-private NorthwindModel.NorthwindEntities db = new NorthwindModel.NorthwindEntities();
+private NorthwindModel.NorthwindEntities db =
+    new NorthwindModel.NorthwindEntities();
 ```
 
 ### ​3. Define the GET controller action
@@ -495,7 +533,12 @@ public IEnumerable<Order> GetOrders(string parentid)
 {
     var orders = from o in db.Orders
                     where o.CustomerID == parentid
-                    select new Order() { OrderID = o.OrderID, ShipAddress = o.ShipAddress, ShipName = o.ShipName };
+                    select new Order()
+                    {
+                        OrderID = o.OrderID,
+                        ShipAddress = o.ShipAddress,
+                        ShipName = o.ShipName
+                    };
     return orders;
 }
 ```
@@ -561,8 +604,10 @@ public HttpResponseMessage PostOrder(Order order)
         };
         db.Orders.AddObject(newOrder);
         db.SaveChanges();
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, order);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
+        HttpResponseMessage response =
+            Request.CreateResponse(HttpStatusCode.Created, order);
+        response.Headers.Location =
+            new Uri(Url.Link("DefaultApi", new { id = order.OrderID }));
         return response;
     }
     else
@@ -622,4 +667,4 @@ The following topics provide additional information related to this topic.
 
 The following material (available outside the Infragistics family of content) provides additional information related to this topic.
 
-- [Getting Started with ASP.NET Web API](http://www.asp.net/web-api): ASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients, including browsers and mobile devices. ASP.NET Web API is an ideal platform for building RESTful applications on the .NET Framework.
+- [Getting Started with ASP.NET Web API](https://learn.microsoft.com/en-us/aspnet/web-api/): ASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients, including browsers and mobile devices. ASP.NET Web API is an ideal platform for building RESTful applications on the .NET Framework.

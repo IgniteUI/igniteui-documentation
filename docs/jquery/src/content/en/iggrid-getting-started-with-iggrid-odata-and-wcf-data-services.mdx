@@ -23,7 +23,7 @@ import imgGettingStartedWithIgGridODataWCF08 from './images/Controls/igGrid/Bind
 
 The `igGrid` is a client-side data grid control that includes paging, filtering, and sorting functionality. The grid can bind to local data including XML, JSON, JavaScript arrays, HTML tables and remote data returned through web services.
 
-The most seamless way to bind the `igGrid` control to remote data is to use it in conjunction with [OData](http://en.wikipedia.org/wiki/OData). OData, or Open Data Protocol, operates over HTTP and provides a means of querying and updating data in JSON and AtomPub formats through a set of common URL conventions. This means that you can provide the grid with a URL to the OData service, set one property, and all of the paging, filtering, and sorting is handled on the server without any additional configuration.
+The most seamless way to bind the `igGrid` control to remote data is to use it in conjunction with [OData](https://en.wikipedia.org/wiki/OData). OData, or Open Data Protocol, operates over HTTP and provides a means of querying and updating data in JSON and AtomPub formats through a set of common URL conventions. This means that you can provide the grid with a URL to the OData service, set one property, and all of the paging, filtering, and sorting is handled on the server without any additional configuration.
 
 This topic demonstrates how to setup a client-side jQuery grid with remote paging, filtering, and sorting by setting up a WCF Data Service in an ASP.NET Web Application and setting two options on the `igGrid`.
 
@@ -35,7 +35,7 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
      The `igGrid` control uses the underlying `igDataSource` component is server-agnostic. Therefore this exercise demonstrates how you can implement *OData* support in ASP.NET WebForms as opposed to ASP.NET MVC which Ignite UI for jQuery supports out-of-the-box.
    </DocsAside>
 
-   <Image src={imgGettingStartedWithIgGridODataWCF01} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF01} alt="Visual Studio New Project dialog with ASP.NET Empty Web Application selected under Visual C#, Web" />
 
 2. Add an *App_Data* folder to your project and add the *AdventureWorks* database into that folder:
 
@@ -43,32 +43,33 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
      To obtain the AdventureWorks database, download it here.
    </DocsAside>
 
-   <Image src={imgGdodProj1} alt="" />
+   <Image src={imgGdodProj1} alt="Visual Studio Solution Explorer with the AdventureWorks database file in the project’s App_Data folder" />
 
 3. Next, add an ADO.NET Entity Data Model named *AdventureWorksEntities.edmx* to the project and point it to the *AdventureWorks* database:
 
-   <Image src={imgGettingStartedWithIgGridODataWCF02} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF02} alt="Visual Studio Add New Item dialog with ADO.NET Entity Data Model selected under Data templates" />
 
-   <Image src={imgGettingStartedWithIgGridODataWCF03} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF03} alt="Entity Data Model Wizard on Choose Model Contents with Generate from database selected" />
 
 4. Choose the Product table to be included in the Entity Data Model:
 
-   <Image src={imgGettingStartedWithIgGridODataWCF04} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF04} alt="Entity Data Model Wizard on Choose Your Database Objects with only the Product table checked" />
 
 5. Next add a WCF Data Service to the project named ‘AdventureWorksService.svc’:
 
-   <Image src={imgGettingStartedWithIgGridODataWCF05} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF05} alt="Visual Studio Add New Item dialog with WCF Data Service selected and named AdventureWorksService.svc" />
 
 6. At this point your project should look like this:
 
-   <Image src={imgGettingStartedWithIgGridODataWCF06} alt="" />
+   <Image src={imgGettingStartedWithIgGridODataWCF06} alt="Solution Explorer showing the data service, the entity data model and the database in the project" />
 
 7. Next, open the ‘AdventureWorksDataService’. This class derives from `DataService<T>` where T has not yet been defined. Specify the type of your Entity Data Model here:
 
    **In C#:**
 
    ```csharp
-   public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
+   public class AdventureWorksDataService
+       : DataService<AdventureWorksLT2008_DataEntities>
    ```
 
 8. Next, enable access to the Products table through the Data Service by adjusting the `DataServiceConfiguration` in the `InitializeService` method:
@@ -81,7 +82,8 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 
        config.SetEntitySetAccessRule("Products", EntitySetRights.AllRead);
 
-       config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
+       config.DataServiceBehavior.MaxProtocolVersion =
+           DataServiceProtocolVersion.V2;
 
    }
    ```
@@ -94,7 +96,8 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 
     ```csharp
     [JSONPSupportBehavior]
-    public class AdventureWorksDataService : DataService<AdventureWorksLT2008_DataEntities>
+    public class AdventureWorksDataService
+        : DataService<AdventureWorksLT2008_DataEntities>
     ```
 
 11. At this point, you can run the Web Application and access the data of the service so now it’s time to setup the `igGrid` control.
@@ -102,7 +105,7 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 12. You will need the Ignite UI for jQuery combined and minified script files, infragistics.core.js and infragistics.lob.js, which come with the product. In addition, you must reference the jQuery core and jQuery UI scripts to run the sample. [This help article](./deployment-guide-javascript-resources.mdx) discusses referencing the required scripts and where the combined and minified scripts are available to add to your application.
 
     <DocsAside type="note">
-      You can [download the full or trial product here](http://www.infragistics.com/products/jquery#Downloads).
+      You can [download the full or trial product here](https://www.infragistics.com/products/ignite-ui).
     </DocsAside>
 
 13. Create a “scripts” directory in your project and copy the JavaScript files into this folder.
@@ -111,7 +114,7 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 
 15. Next, you can setup the sample page. You are going to add a new html page to the application and call it ‘default.htm’. Once that is done your project will look like this:
 
-    <Image src={imgGettingStartedWithIgGridODataWCF07} alt="" />
+    <Image src={imgGettingStartedWithIgGridODataWCF07} alt="Solution Explorer with scripts and styles folders and a default.htm page added to the project" />
 
 16. Open the default.htm file and include CSS links and script tags for the jQuery resources:
 
@@ -180,9 +183,9 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 
 19. To bind the `igGrid` control to data, two options are required - URL for the data and the `responseDataKey`:
 
-    ```
-    responseDataKey: 'd.results',
-    dataSource: 'AdventureWorksDataService.svc/Products?$format=json',
+    ```js
+    responseDataKey: "d.results",
+    dataSource: "AdventureWorksDataService.svc/Products?$format=json",
     ```
 
     <DocsAside type="note">
@@ -219,16 +222,16 @@ This topic demonstrates how to setup a client-side jQuery grid with remote pagin
 
 Run the sample to see the `igGrid` control populated with data from an *OData* service. Combined with *OData*, the grid can filter, sort, and page data remotely by supplying a single URL as the `dataSource`.
 
-<Image src={imgGettingStartedWithIgGridODataWCF08} alt="" />
+<Image src={imgGettingStartedWithIgGridODataWCF08} alt="igGrid of products with filter icons in the headers and a pager showing 1 - 15 of 295 records" />
 
-[**Download Sample**](http://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igGridOData.zip)
+[**Download Sample**](https://dl.infragistics.com/community/jquery/codesamples/aaronm/2011-07-28/igGridOData.zip)
 
 <DocsAside type="note">
   The AdventureWorks database and Ignite UI for jQuery resources are not included in the sample. Visit these links to obtain the software:
 
-  - [AdventureWorks Database](http://msftdbprodsamples.codeplex.com/releases/view/37109)
+- [AdventureWorks Database](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/adventure-works)
 
-  - [Ignite UI for jQuery](http://www.infragistics.com/products/jquery#Downloads)
+- [Ignite UI for jQuery](https://www.infragistics.com/products/ignite-ui)
 </DocsAside>
 
 ## Related Topics

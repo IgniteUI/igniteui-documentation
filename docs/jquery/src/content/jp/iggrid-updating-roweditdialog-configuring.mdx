@@ -34,7 +34,7 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
 
 この機能は `igGridUpdating` ウィジェットの一部として実装されます。`editMode` オプションに「dialog」という新しい値が追加されています。この値を指定すると、行編集ダイアログが有効になります。新しいダイアログは異なるテンプレートを使用し、複雑なカスタム編集ダイアログの構築を可能にします。
 
-<Image src={imgIgGridUpdatingRowEditDialog} alt="" />
+<Image src={imgIgGridUpdatingRowEditDialog} alt="淡色表示の igGrid の上に、ジジ マッシューの役職、電話、雇用日と写真を表示する「行データの編集」ダイアログ" />
 
 行テンプレートは、新たに追加された `rowEditDialogOptions` オプションのさまざまなプロパティを設定するして定義します。これらのオプションを以下の表に示します。
 
@@ -154,7 +154,8 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
        <script>
        <script id="editorsTemplate" type="text/html">
            <tr>
-              <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+              <td style="text-align:right;color:#777;">
+                  <strong${headerText}</strong></td>
                <td><input data-editor-for-${key}="true" /></td>
            </tr>
    </script>
@@ -182,38 +183,64 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
 
    ```js
    $.ig.loader(function () {
-   $("#grid1").igGrid({
-       height: "300px",
-       width: "600px",
-       columns: [
-               { headerText: "Product ID", key: "ProductID", width: "100px", dataType: "number" },
-               { headerText: "Units In Stock", key: "UnitsInStock", width: "100px", dataType: "number", format: 'double' },
-               { headerText: "Product Description", key: "ProductDescription", width: "150px", dataType: "string" },
-               { headerText: "Date Column", key: "DateCol", width: "100px", dataType: "date" },
-               { headerText: "Unit Price", key: "UnitPrice", width: "100px", dataType: "integer" }
-               ],
-       autoGenerateColumns: false,
-       dataSource: namedData,
-       primaryKey: "ProductID",
-       features: [
-         {
-               name: "Selection",
-               mode: "row",
-               multipleSelection: true
-         },
-         {
-               name: 'Updating',
-               startEditTriggers: 'enter dblclick',
-               editMode: 'dialog',
-               rowEditDialogOptions:{
-                   dialogTemplateSelector: "#dialogTemplate",
-                   editorsTemplateSelector: "#editorsTemplate",
-                   containment: "owner",
-                   showReadonlyEditors: false,
-
+       $("#grid1").igGrid({
+           height: "300px",
+           width: "600px",
+           columns: [
+               {
+                   headerText: "Product ID",
+                   key: "ProductID",
+                   width: "100px",
+                   dataType: "number"
+               },
+               {
+                   headerText: "Units In Stock",
+                   key: "UnitsInStock",
+                   width: "100px",
+                   dataType: "number",
+                   format: "double"
+               },
+               {
+                   headerText: "Product Description",
+                   key: "ProductDescription",
+                   width: "150px",
+                   dataType: "string"
+               },
+               {
+                   headerText: "Date Column",
+                   key: "DateCol",
+                   width: "100px",
+                   dataType: "date"
+               },
+               {
+                   headerText: "Unit Price",
+                   key: "UnitPrice",
+                   width: "100px",
+                   dataType: "integer"
                }
-               
-         }]
+           ],
+           autoGenerateColumns: false,
+           dataSource: namedData,
+           primaryKey: "ProductID",
+           features: [
+               {
+                   name: "Selection",
+                   mode: "row",
+                   multipleSelection: true
+               },
+               {
+                   name: "Updating",
+                   startEditTriggers: "enter dblclick",
+                   editMode: "dialog",
+                   rowEditDialogOptions: {
+                       dialogTemplateSelector: "#dialogTemplate",
+                       editorsTemplateSelector: "#editorsTemplate",
+                       containment: "owner",
+                       showReadonlyEditors: false
+                   }
+               }
+           ]
+       });
    });
    ```
 
@@ -310,7 +337,8 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
    </script>
    <script id="editorsTemplate" type="text/html">
        <tr>
-          <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+          <td style="text-align:right;color:#777;">
+              <strong${headerText}</strong></td>
            <td><input data-editor-for-${key}="true" /></td>
        </tr>
    </script>
@@ -342,17 +370,22 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
           .RenderCheckboxes(true)
           .Columns(column =>
           {
-              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px"); 
+              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px");
               column.For(x => x.Name).HeaderText(“Name”).Width("200px");
-              column.For(x => x.ModifiedDate).HeaderText(“Modified Date”).Width("200px");           
-              column.For(x => x.MakeFlag).DataType("bool").HeaderText(“Make Flag”).Width("150px");
+              column.For(x => x.ModifiedDate)
+                  .HeaderText(“Modified Date”)
+                  .Width("200px");
+              column.For(x => x.MakeFlag)
+                  .DataType("bool")
+                  .HeaderText(“Make Flag”)
+                  .Width("150px");
               column.For(x => x.ListPrice).HeaderText(“List Price”).Width("150px");
           })
           .Features(features => {
           features.Sorting().Type(OpType.Local);
           features.Paging().PageSize(30).Type(OpType.Local);
           features.Selection().Mode(SelectionMode.Row);
-          features.Updating().EnableAddRow(false).EnableDeleteRow(true)                
+          features.Updating().EnableAddRow(false).EnableDeleteRow(true)
               .EditMode(GridEditMode.Dialog)
               RowEditDialogOptions(opt =>
               {
@@ -366,9 +399,17 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
              .ColumnSettings(settings =>
               {
                   settings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
-                  settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Mask);
-                  settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");                      
-                  settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency).EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");                   
+                  settings.ColumnSetting()
+                      .ColumnKey("Name")
+                      .EditorType(ColumnEditorType.Mask);
+                  settings.ColumnSetting()
+                      .ColumnKey("ModifiedDate")
+                      .EditorType(ColumnEditorType.DatePicker)
+                      .EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");
+                  settings.ColumnSetting()
+                      .ColumnKey("ListPrice")
+                      .EditorType(ColumnEditorType.Currency)
+                      .EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");
               });            
           })  
           .DataBind()
@@ -386,7 +427,8 @@ import imgIgGridUpdatingRowEditDialog from './images/igGrid_Updating_RowEditDial
    ```csharp
    public ActionResult Editing()
          {
-             var ctx = new AdventureWorksDataContext(this.DataRepository.GetDataContext().Connection);
+             var ctx = new AdventureWorksDataContext(
+                 this.DataRepository.GetDataContext().Connection);
              var ds = ctx.ProductAllDatas.Take(40);      
              return View("RowEditDialog", ds);
          }

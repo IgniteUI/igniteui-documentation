@@ -2,9 +2,7 @@
 title: "注文合計を計算"
 keywords: "Getting Started, How Do I"
 llms:
-  description: "Microsoft Excel ワークブックによく見られるタスクは、1 列または 1 行の数値データを格納し、これらの数値の合計を含むセルを作ることです。"
-generated:
-  - "llms.description"
+  description: "Infragistics Excel Engine を使用して、ワークシートの数値列の合計を計算する数式を追加する方法を紹介します。"
 ---
 
 import { Image } from 'astro:assets';
@@ -45,8 +43,10 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
       **C# の場合:**
 
       ```csharp
-      Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
-      Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
+      Infragistics.Documents.Excel.Workbook workbook =
+        new Infragistics.Documents.Excel.Workbook();
+      Infragistics.Documents.Excel.Worksheet worksheet =
+        workbook.Worksheets.Add( "Sheet1" );
       ```
 
 2. **ワークシート データの列を定義します。**
@@ -56,7 +56,8 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
       **Visual Basic の場合:**
 
       ```vb
-      Dim headersRow As Infragistics.Documents.Excel.WorksheetRow = worksheet.Rows.Item(0)
+      Dim headersRow As Infragistics.Documents.Excel.WorksheetRow = _
+        worksheet.Rows.Item(0)
       headersRow.Cells.Item(0).Value = "Order ID"
       headersRow.Cells.Item(1).Value = "Product"
       headersRow.Cells.Item(2).Value = "Unit Price"
@@ -219,7 +220,7 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
         Infragistics.Documents.Excel.HorizontalCellAlignment.Right;
       ```
 
-   <Image src={imgExcelEngineCalculatingOrderTotals01} alt="" />
+   <Image src={imgExcelEngineCalculatingOrderTotals01} alt="Order Total 列が空の、Order ID、Product、Unit Price、Quantity、Discount の注文ワークシート" />
 
 5. **各注文記録の小計を計算するために数式を適用します。**
 
@@ -237,7 +238,9 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
 
       ```csharp
       Infragistics.Documents.Excel.Formula orderTotalFormula =
-      Infragistics.Documents.Excel.Formula.Parse( "=C2*D2*(1-E2)", Infragistics.Documents.Excel.CellReferenceMode.A1 );
+        Infragistics.Documents.Excel.Formula.Parse(
+          "=C2*D2*(1-E2)",
+          Infragistics.Documents.Excel.CellReferenceMode.A1 );
       ```
 
    2. 数式が適用されるセルを定義するセル領域を作成します。
@@ -270,7 +273,7 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
       orderTotalFormula.ApplyTo( region );
       ```
 
-   <Image src={imgExcelEngineCalculatingOrderTotals02} alt="" />
+   <Image src={imgExcelEngineCalculatingOrderTotals02} alt="各行の Order Total 列に数式で注文合計を計算した注文ワークシート" />
 
 6. **総計を決定するために数式を適用します。**
 
@@ -306,7 +309,7 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
       grandTotalFormula.ApplyTo( worksheet.Rows[5].Cells[5] );
       ```
 
-   <Image src={imgExcelEngineCalculatingOrderTotals03} alt="" />
+   <Image src={imgExcelEngineCalculatingOrderTotals03} alt="各注文の Order Total と、Grand Total の $1,928.66 を計算した注文ワークシート" />
 
 7. **ワークブックを保存します。**
 
@@ -315,11 +318,11 @@ Microsoft® Excel® ワークブックによく見られるタスクは、1 列�
    **Visual Basic の場合:**
 
    ```vb
-   workbook.Serialize("C:Orders.xls")
+   workbook.Serialize("C:\Orders.xls")
    ```
 
    **C# の場合:**
 
    ```csharp
-   workbook.Serialize( "C:Orders.xls" );
+   workbook.Serialize( "C:\\Orders.xls" );
    ```

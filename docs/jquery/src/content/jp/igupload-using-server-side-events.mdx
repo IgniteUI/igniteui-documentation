@@ -2,7 +2,7 @@
 title: "ASP.NET MVC でサーバー側イベントの使用 (igUpload)"
 keywords: "Events"
 llms:
-  description: "このトピックでは、igUpload コントロールのサーバー側イベントをリストし、目的および引数を説明し、Infragistics.Web.Mvc.dll の ** UploadProgressManager** クラスによってイベントの処理の例を表示します。"
+  description: "このトピックでは、igUpload コントロールのサーバー側イベントをリストし、目的および引数を説明し、Infragistics.Web.Mvc.dll の UploadProgressManager クラスによってイベントの処理の例を表示します。"
 generated:
   - "llms.description"
 ---
@@ -16,7 +16,7 @@ import imgIgUploadCustomErrorMessage from './images/igUpload_CustomErrorMessage.
 
 ## トピックの概要
 
-このトピックでは、*igUpload* コントロールのサーバー側イベントをリストし、目的および引数を説明し、Infragistics.Web.Mvc.dll の \*\* UploadProgressManager\*\* クラスによってイベントの処理の例を表示します。サーバー側の検証を実装するためにファイル アップロード プロセスを処理する例もあります。
+このトピックでは、*igUpload* コントロールのサーバー側イベントをリストし、目的および引数を説明し、Infragistics.Web.Mvc.dll の **UploadProgressManager** クラスによってイベントの処理の例を表示します。サーバー側の検証を実装するためにファイル アップロード プロセスを処理する例もあります。
 
 ## 前提条件
 
@@ -24,12 +24,6 @@ import imgIgUploadCustomErrorMessage from './images/igUpload_CustomErrorMessage.
 
 - [igUpload の概要](./igupload-overview.mdx)
 - [HTTP ハンドラーおよびモジュールの使用 (igUpload)](./igupload-using-http-handler-and-modules.mdx)
-
-## このトピックの内容
-
-- UploadProgressManager とサーバー イベント
-- クライアントおよびサーバの間に追加データの送信
-- チュートリアル: MVC でのサーバー側検証
 
 ## UploadProgressManager とサーバー イベント
 
@@ -99,10 +93,10 @@ ASP.NET MVC の場合、`igUpload` コントロールのサーバー側イベン
 
 | UploadProgressManager メソッド     | イベント            | 例                                                                                                   |
 | ------------------------------ | --------------- | --------------------------------------------------------------------------------------------------- |
-| AddStartingUploadEventHandler  | UploadStarting  | `UploadProgressManager .Instance.AddStartingUploadEventHandler("upload1" , startingUploadHandler);` |
-| AddFileUploadingEventHandler   | FileUploading   | `UploadProgressManager .Instance.AddFileUploadingEventHandler("upload1" , fileUploadingHandler);`   |
-| AddFinishingUploadEventHandler | UploadFinishing | `UploadProgressManager .Instance.AddFinishingUploadEventHandler("upload1" , fileFinishingHandler);` |
-| AddFinishedUploadEventHandler  | UploadFinished  | `UploadProgressManager .Instance.AddFinishedUploadEventHandler("upload1" , fileFinishedHandler);`   |
+| <ApiLink type="UploadProgressManager" member="AddStartingUploadEventHandler" pkg="mvc" label="AddStartingUploadEventHandler" /> | UploadStarting  | `UploadProgressManager .Instance.AddStartingUploadEventHandler("upload1" , startingUploadHandler);` |
+| <ApiLink type="UploadProgressManager" member="AddFileUploadingEventHandler" pkg="mvc" label="AddFileUploadingEventHandler" /> | FileUploading   | `UploadProgressManager .Instance.AddFileUploadingEventHandler("upload1" , fileUploadingHandler);`   |
+| <ApiLink type="UploadProgressManager" member="AddFinishingUploadEventHandler" pkg="mvc" label="AddFinishingUploadEventHandler" /> | UploadFinishing | `UploadProgressManager .Instance.AddFinishingUploadEventHandler("upload1" , fileFinishingHandler);` |
+| <ApiLink type="UploadProgressManager" member="AddFinishedUploadEventHandler" pkg="mvc" label="AddFinishedUploadEventHandler" /> | UploadFinished  | `UploadProgressManager .Instance.AddFinishedUploadEventHandler("upload1" , fileFinishedHandler);`   |
 
 **注:** コントローラー アクションで `igUpload` サーバー側イベントにアタッチしないでください。コントローラー アクションがアプリケーション ライフサイクルで複数回起動する可能性があるため、単一のイベント ハンドラーが複数回にアタッチする結果が可能です。サーバー側イベントに一回のみアタッチします。MVC プロジェクトの Global.asax ファイルのアプリケーション開始ロジックでサーバー側イベントを処理してください。
 
@@ -121,17 +115,20 @@ ASP.NET MVC の場合、`igUpload` コントロールのサーバー側イベン
 **C# の場合**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-              e.ServerMessage = "Upload of " + e.FileName + " started.";   
-        }
-        
-public static void igUpload_UploadFinishing(object sender, Infragistics.Web.Mvc.UploadFinishingEventArgs e){          
-             e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";   
-        }
-        
-public static void igUpload_UploadFinished(object sender, Infragistics.Web.Mvc.UploadFinishedEventArgs e){          
-                e.ServerMessage = "Upload of " + e.FileName + "is finished.";   
-        }           
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + " started.";
+}
+
+public static void igUpload_UploadFinishing(object sender,
+    Infragistics.Web.Mvc.UploadFinishingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";
+}
+
+public static void igUpload_UploadFinished(object sender,
+    Infragistics.Web.Mvc.UploadFinishedEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is finished.";
+}
 ```
 
 この値はクライアント側で、<ApiLink type="igUpload" member="events:fileUploading" pkg="core" label="fileUploading" /> および <ApiLink type="igUpload" member="events:fileUploaded" pkg="core" label="fileUploaded" /> の関連するクライアント側イベントから取得します。`uploadInfo` イベント引数は、サーバーから送信された serverMessage 値など、追加ファイル情報を含みます。
@@ -174,27 +171,32 @@ $("#upload1").on("iguploadonformdatasubmit", function (evt, ui) {
 **C# の場合:**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-       foreach (var dataField in e.AdditionalDataFields)
-       {
-           string fieldName = dataField.Name;
-           string fieldValue = dataField.Value;
-       } 
-   }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    foreach (var dataField in e.AdditionalDataFields)
+    {
+        string fieldName = dataField.Name;
+        string fieldValue = dataField.Value;
+    }
+}
 ```
 
-\##　チュートリアル: MVC でのサーバー側検証
+## チュートリアル: MVC でのサーバー側検証
 
-\###　概要 この手順は、`igUpload` のカスタム検証をサーバー側で実装する方法を説明します。
+### 概要
 
-\###　要件 この手順を実行する前に、[igUpload の概要](./igupload-overview.mdx) トピックの手順を完了してください。
+この手順は、`igUpload` のカスタム検証をサーバー側で実装する方法を説明します。
+
+### 要件
+
+この手順を実行する前に、[igUpload の概要](./igupload-overview.mdx) トピックの手順を完了してください。
 
 1. jQuery アップロードの Web ページへの追加
 2. ASP.NET の HTTP ハンドラーとモジュールの構成
 
 その手順を実行した後、MVC アプリケーションで基本のアップロード コントロールがあります。
 
-\###　手順
+### 手順
 
 **手順 1**`igUpload` の UploadStarting イベントのサーバー側イベント ハンドラーを登録します。
 
@@ -205,21 +207,22 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 ```csharp
 protected void Application_Start()
 {
-            //configurations for  Area Registration, WebApi, Filte and Route 
-            AreaRegistration.RegisterAllAreas();
+    //configurations for  Area Registration, WebApi, Filte and Route
+    AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+    WebApiConfig.Register(GlobalConfiguration.Configuration);
+    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+    RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            //registed UploadStarting event via the UploadProgressManager
-            UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
-           new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
-} 
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e)
+    //registed UploadStarting event via the UploadProgressManager
+    UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
+        new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
+}
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e)
 {
-            // implement logic here. See next step for details.
-} 
+    // implement logic here. See next step for details.
+}
 ```
 
 **手順 2** イベント ハンドラーでカスタム検証ロジックを追加します。条件と一致しない場合、カスタム <ApiLink type="UploadCancellableBaseEventArgs" member="ServerMessage" pkg="mvc" label="ServerMessage" /> を設定し、イベントをキャンセルします。
@@ -227,11 +230,12 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 **C# の場合**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){
-            //Custom Validation logic       
-            e.ServerMessage = "Custom error";
-            e.Cancel = true;
-        }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    //Custom Validation logic
+    e.ServerMessage = "Custom error";
+    e.Cancel = true;
+}
 ```
 
 **手順 3**クライアント側エラー イベントでカスタム サーバー メッセージをクライアント側で表示します。
@@ -253,7 +257,7 @@ $(function () {
 
 条件と一致しないファイルをアップロードした後、カスタム エラー メッセージが表示されます。
 
-<Image src={imgIgUploadCustomErrorMessage} alt="" />
+<Image src={imgIgUploadCustomErrorMessage} alt="無効なファイルのアップロード後に igUpload の上に表示された「Custom error」のブラウザー警告" />
 
 ## 関連リンク
 

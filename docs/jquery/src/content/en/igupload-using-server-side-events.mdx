@@ -2,7 +2,7 @@
 title: "Using Server-Side Events in ASP.NET MVC (igUpload)"
 keywords: "Events"
 llms:
-  description: "Lists the different server-side events of the igUpload control, describes their purpose and arguments and shows examples on how to handle the events via the** UploadProgressManager** class (residing in Infragistics.Web.Mvc.dll)."
+  description: "Lists the different server-side events of the igUpload control, describes their purpose and arguments and shows examples on how to handle the events via the UploadProgressManager class (residing in Infragistics.Web.Mvc.dll)."
 generated:
   - "llms.description"
 ---
@@ -16,7 +16,7 @@ import imgIgUploadCustomErrorMessage from './images/Controls/igUpload/Working-wi
 
 ## Topic Overview
 
-This topic lists the different server-side events of the *igUpload* control, describes their purpose and arguments and shows examples on how to handle the events via the\*\* UploadProgressManager\*\* class (residing in Infragistics.Web.Mvc.dll). It also contains an example on how to handle the file uploading process to implement server-side validation.
+This topic lists the different server-side events of the *igUpload* control, describes their purpose and arguments and shows examples on how to handle the events via the **UploadProgressManager** class (residing in Infragistics.Web.Mvc.dll). It also contains an example on how to handle the file uploading process to implement server-side validation.
 
 ## Required background
 
@@ -24,12 +24,6 @@ The following lists the concepts, topics, and articles required as a prerequisit
 
 - [igUpload Overview](./igupload-overview.mdx)
 - [Using the HTTP Handler and Module (igUpload)](./igupload-using-http-handler-and-modules.mdx)
-
-## In this topic
-
-- UploadProgressManager and Server Events
-- Sending additional data between the client and server
-- Walkthrough: Server-side validation in MVC
 
 ## UploadProgressManager and Server Events
 
@@ -99,10 +93,10 @@ In ASP.NET MVC to attach/detach to a server-side event of an `igUpload` control 
 
 | UploadProgressManager method   | Event           | Example                                                                                             |
 | ------------------------------ | --------------- | --------------------------------------------------------------------------------------------------- |
-| AddStartingUploadEventHandler  | UploadStarting  | `UploadProgressManager .Instance.AddStartingUploadEventHandler("upload1" , startingUploadHandler);` |
-| AddFileUploadingEventHandler   | FileUploading   | `UploadProgressManager .Instance.AddFileUploadingEventHandler("upload1" , fileUploadingHandler);`   |
-| AddFinishingUploadEventHandler | UploadFinishing | `UploadProgressManager .Instance.AddFinishingUploadEventHandler("upload1" , fileFinishingHandler);` |
-| AddFinishedUploadEventHandler  | UploadFinished  | `UploadProgressManager .Instance.AddFinishedUploadEventHandler("upload1" , fileFinishedHandler);`   |
+| <ApiLink type="UploadProgressManager" member="AddStartingUploadEventHandler" pkg="mvc" label="AddStartingUploadEventHandler" /> | UploadStarting  | `UploadProgressManager .Instance.AddStartingUploadEventHandler("upload1" , startingUploadHandler);` |
+| <ApiLink type="UploadProgressManager" member="AddFileUploadingEventHandler" pkg="mvc" label="AddFileUploadingEventHandler" /> | FileUploading   | `UploadProgressManager .Instance.AddFileUploadingEventHandler("upload1" , fileUploadingHandler);`   |
+| <ApiLink type="UploadProgressManager" member="AddFinishingUploadEventHandler" pkg="mvc" label="AddFinishingUploadEventHandler" /> | UploadFinishing | `UploadProgressManager .Instance.AddFinishingUploadEventHandler("upload1" , fileFinishingHandler);` |
+| <ApiLink type="UploadProgressManager" member="AddFinishedUploadEventHandler" pkg="mvc" label="AddFinishedUploadEventHandler" /> | UploadFinished  | `UploadProgressManager .Instance.AddFinishedUploadEventHandler("upload1" , fileFinishedHandler);`   |
 
 **Note:** It's a common error to attach to `igUpload` server-side events in a controller action. Since controller actions can be invoked multiple times during the application lifecycle this will result in single event handler attached multiple times (usually you'll want to attach to a server-side event only once.). It is recommended that you handle server-side events in the application start logic in the Global.asax file of a MVC project.
 
@@ -121,17 +115,20 @@ To add a custom message you can use the `UploadStarting`, `UploadFinishing` and 
 **In C#**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-              e.ServerMessage = "Upload of " + e.FileName + " started.";   
-        }
-        
-public static void igUpload_UploadFinishing(object sender, Infragistics.Web.Mvc.UploadFinishingEventArgs e){          
-             e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";   
-        }
-        
-public static void igUpload_UploadFinished(object sender, Infragistics.Web.Mvc.UploadFinishedEventArgs e){          
-                e.ServerMessage = "Upload of " + e.FileName + "is finished.";   
-        }           
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + " started.";
+}
+
+public static void igUpload_UploadFinishing(object sender,
+    Infragistics.Web.Mvc.UploadFinishingEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is about to finish.";
+}
+
+public static void igUpload_UploadFinished(object sender,
+    Infragistics.Web.Mvc.UploadFinishedEventArgs e){
+    e.ServerMessage = "Upload of " + e.FileName + "is finished.";
+}
 ```
 
 This value can then be retrieved on the client-side on the related client-side events- <ApiLink type="igUpload" member="events:fileUploading" pkg="core" label="fileUploading" /> and <ApiLink type="igUpload" member="events:fileUploaded" pkg="core" label="fileUploaded" />. The `uploadInfo` event argument contains the additional file information, including the serverMessage value send from the server.
@@ -174,13 +171,14 @@ To get the data on the server-side you can use the `UploadStarting`,`UploadFinis
 **In C#:**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){          
-       foreach (var dataField in e.AdditionalDataFields)
-       {
-           string fieldName = dataField.Name;
-           string fieldValue = dataField.Value;
-       } 
-   }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    foreach (var dataField in e.AdditionalDataFields)
+    {
+        string fieldName = dataField.Name;
+        string fieldValue = dataField.Value;
+    }
+}
 ```
 
 ## Walkthrough: Server-side validation in MVC
@@ -209,21 +207,22 @@ You register the `UploadStarting` event handler in the `Global.asax` in the `App
 ```csharp
 protected void Application_Start()
 {
-            //configurations for  Area Registration, WebApi, Filte and Route 
-            AreaRegistration.RegisterAllAreas();
+    //configurations for  Area Registration, WebApi, Filte and Route
+    AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+    WebApiConfig.Register(GlobalConfiguration.Configuration);
+    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+    RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            //registed UploadStarting event via the UploadProgressManager
-            UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
-           new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
-} 
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e)
+    //registed UploadStarting event via the UploadProgressManager
+    UploadProgressManager.Instance.AddStartingUploadEventHandler("upload1",
+        new EventHandler<UploadStartingEventArgs>(igUpload_UploadStarting));
+}
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e)
 {
-            // implement logic here. See next step for details.
-} 
+    // implement logic here. See next step for details.
+}
 ```
 
 **Step 2.** In the event handler add your custom validation logic and if the conditions are not met set a custom <ApiLink type="UploadCancellableBaseEventArgs" member="ServerMessage" pkg="mvc" label="ServerMessage" /> and cancel the event.
@@ -231,11 +230,12 @@ public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.U
 **In C#**
 
 ```csharp
-public static void igUpload_UploadStarting(object sender, Infragistics.Web.Mvc.UploadStartingEventArgs e){
-            //Custom Validation logic       
-            e.ServerMessage = "Custom error";
-            e.Cancel = true;
-        }
+public static void igUpload_UploadStarting(object sender,
+    Infragistics.Web.Mvc.UploadStartingEventArgs e){
+    //Custom Validation logic
+    e.ServerMessage = "Custom error";
+    e.Cancel = true;
+}
 ```
 
 **Step 3.** Display the custom server message on the client side in the client-side error event:
@@ -257,7 +257,7 @@ $(function () {
 
 After uploading a file that does not meet the requirements, the custom error message is displayed.
 
-<Image src={imgIgUploadCustomErrorMessage} alt="" />
+<Image src={imgIgUploadCustomErrorMessage} alt="Browser alert reading Custom error shown over igUpload after an invalid file was uploaded." />
 
 ## Related Links
 

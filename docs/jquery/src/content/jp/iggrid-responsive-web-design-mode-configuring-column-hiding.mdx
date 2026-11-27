@@ -33,10 +33,10 @@ import imgConfiguringColumnHiding3 from './images/Configuring_Column_Hiding_3.pn
   - [レスポンス Web デザイン (RWD) モードの概要 (igGrid)](./iggrid-responsive-web-design-mode-overview.mdx): このトピックは、`igGrid` コントロールの RWD モード機能およびこの機能が提供する機能性について概念的に説明します。
   - [レスポンス Web デザイン (RWD) モード構成を有効にする (igGrid)](./iggrid-enabling-responsive-web-design-mode.mdx): このトピックは、コード例を用いて、`igGrid` コントロールでレスポンス Web デザイン (RWD) モードを有効にする方法について説明します。
 - 外部リソース
-  - [A List Apart: レスポンシブ Web デザイン](http://alistapart.com/article/responsive-web-design)
-  - [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
-  - [Wikipedia: レスポンシブ Web デザイン](http://en.wikipedia.org/wiki/Responsive_web_design)
-  - [CSS 3 メディア クエリ](http://www.w3.org/TR/css3-mediaqueries/)
+  - [A List Apart: レスポンシブ Web デザイン](https://alistapart.com/article/responsive-web-design/)
+  - [Twitter Bootstrap](https://getbootstrap.com/)
+  - [Wikipedia: レスポンシブ Web デザイン](https://en.wikipedia.org/wiki/Responsive_web_design)
+  - [CSS 3 メディア クエリ](https://www.w3.org/TR/css3-mediaqueries/)
 
 ## 列非表示構成の概要
 
@@ -44,17 +44,17 @@ import imgConfiguringColumnHiding3 from './images/Configuring_Column_Hiding_3.pn
 
 | 携帯電話 プロファイル (320 x 480 px)                         | タブレット プロファイル (768 x 1024 px)                       |
 | -------------------------------------------------- | -------------------------------------------------- |
-| <Image src={imgConfiguringColumnHiding1} alt="" /> | <Image src={imgConfiguringColumnHiding2} alt="" /> |
+| <Image src={imgConfiguringColumnHiding1} alt="Product Name と Product Number の列だけを表示する Phone プロファイルの igGrid" /> | <Image src={imgConfiguringColumnHiding2} alt="Product Name から Color までの 4 列を表示する Tablet プロファイルの igGrid" /> |
 
 デスクトップ プロファイルでは、より多くの列が表示されます。以下の画像は、デスクトップ プロファイルで表示される同じグリッドを示します。
 
 **デスクトップ プロファイル (1280 x 1024 px)**
 
-<Image src={imgConfiguringColumnHiding3} alt="" />
+<Image src={imgConfiguringColumnHiding3} alt="Product ID と Safety Level を含む全 7 列を表示する Desktop プロファイルの igGrid" />
 
 列の非表示は、以下の２つの選択可能な方法で構成できます。
 
-- **[CSS メディア クエリー](http://www.w3.org/TR/css3-mediaqueries/)に基づいて**、 CSS クラス を使用- デフォルトでは、 CSS クラスは [**CCS 3 メディア クエリ**](http://www.w3.org/TR/css3-mediaqueries/)を使用します。
+- **[CSS メディア クエリー](https://www.w3.org/TR/css3-mediaqueries/)に基づいて**、 CSS クラス を使用- デフォルトでは、 CSS クラスは [**CCS 3 メディア クエリ**](https://www.w3.org/TR/css3-mediaqueries/)を使用します。
 - **指定する列単位では**、各個別のプロファイルにおいて各列について非表示か表示かを指定します。
 
 列単位の構成は、[インライン カスタム RWD モード](./iggrid-responsive-web-design-mode-creating-custom-profile.mdx) を定義した場合、または CSS メディア クエリーに依存しないカスタム RWD モード構成を実装した場合に列の非表示を構成するために唯一使用可能な方法です。
@@ -98,7 +98,7 @@ import imgConfiguringColumnHiding3 from './images/Configuring_Column_Hiding_3.pn
 
 ## <a id="css" />CSS クラスを使用している列非表示の構成
 
-CSS クラスで定義された列の非表示は、CSS 3 メディア クエリーを使用します。CSS クラスは 列単位で `columnSettings` プロパティで構成されます。 `columnSettings.classes` プロパティは、 [HTML 要素のクラス属性](http://www.w3.org/TR/html401/struct/global.html#h-7.5.2)を設定するルールに従います。単一のクラスまたはドットなしで複数のクラスを設定できます。複数のクラスを設定する場合は スペースで区切ります。
+CSS クラスで定義された列の非表示は、CSS 3 メディア クエリーを使用します。CSS クラスは 列単位で `columnSettings` プロパティで構成されます。 `columnSettings.classes` プロパティは、 [HTML 要素のクラス属性](https://www.w3.org/TR/html401/struct/global.html#h-7.5.2)を設定するルールに従います。単一のクラスまたはドットなしで複数のクラスを設定できます。複数のクラスを設定する場合は スペースで区切ります。
 
 ### プロパティ設定
 
@@ -261,8 +261,12 @@ $("#grid1").igGrid({
     {
         feature.Responsive().ColumnSettings(cs =>
         {
-            cs.ColumnSetting().ColumnKey("ProductID").Classes("ui-hidden-tablet ui-hidden-phone");
-            cs.ColumnSetting().ColumnKey("ProductNumber").Classes("ui-hidden-phone");
+            cs.ColumnSetting()
+                .ColumnKey("ProductID")
+                .Classes("ui-hidden-tablet ui-hidden-phone");
+            cs.ColumnSetting()
+                .ColumnKey("ProductNumber")
+                .Classes("ui-hidden-phone");
         });
     })
     .DataBind()
@@ -439,7 +443,8 @@ $("#grid1").igGrid({
         feature.Responsive().ColumnSettings(cs =>
         {
             cs.ColumnSetting().ColumnKey("ProductID").Configuration(conf => {
-                conf.AddColumnModeConfiguration("desktop", c => c.Hidden(false));
+                conf.AddColumnModeConfiguration("desktop",
+                    c => c.Hidden(false));
                 conf.AddColumnModeConfiguration("tablet", c => c.Hidden(true));
                 conf.AddColumnModeConfiguration("phone", c => c.Hidden(true));
             });

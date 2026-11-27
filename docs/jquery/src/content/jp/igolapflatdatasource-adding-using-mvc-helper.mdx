@@ -88,9 +88,24 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
    ```csharp
    //…
    var sales = new List<object>() { 
-       new { ProductCategory = "Clothing", SellerName = "Stanley Brooker", UnitPrice = 12.814, UnitsSold = 282, SalesDate = DateTime.Today.ToShortDateString()},
-       new { ProductCategory = "Bikes", SellerName = "Elisa Longbottom", UnitPrice = 49.579, UnitsSold = 201, SalesDate = DateTime.Today.AddMonths(-14).ToShortDateString()},
-       new { ProductCategory = "Accessories", SellerName = "Erica Wild", UnitPrice = 3.565, UnitsSold = 68, SalesDate = DateTime.Today.AddMonths(-20).ToShortDateString()}
+       new {
+           ProductCategory = "Clothing",
+           SellerName = "Stanley Brooker",
+           UnitPrice = 12.814,
+           UnitsSold = 282,
+           SalesDate = DateTime.Today.ToShortDateString()},
+       new {
+           ProductCategory = "Bikes",
+           SellerName = "Elisa Longbottom",
+           UnitPrice = 49.579,
+           UnitsSold = 201,
+           SalesDate = DateTime.Today.AddMonths(-14).ToShortDateString()},
+       new {
+           ProductCategory = "Accessories",
+           SellerName = "Erica Wild",
+           UnitPrice = 3.565,
+           UnitsSold = 68,
+           SalesDate = DateTime.Today.AddMonths(-20).ToShortDateString()}
    };
    return View(sales);
    ```
@@ -159,49 +174,93 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
       ```razor
       @(Html.Infragistics().OlapDataSource().ID("flatDataSource")
-        .DataSourceOptions(dataSourceOptions => dataSourceOptions
-            // common properties
-            .FlatDataOptions(flatOptions => flatOptions.Metadata(
-          metadata => metadata.Cube(cube => cube.Name("Sales")
-              .MeasuresDimension(measuresDimension => measuresDimension.Measures(
-                  measures =>
-                  {
-                      measures.AddMeasure().Name("UnitPrice").Caption("Unit Price").Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitPrice')");
-                      measures.AddMeasure().Name("UnitsSold").Caption("Units Sold").Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitsSold')");
-                  }))
-              .Dimensions(dimensions =>
-                  {
-                      dimensions.AddDimension().Name("Seller").Caption("Seller").Hierarchies(
-                          hiearachies =>
-                              hiearachies.AddHierarchy().Name("Seller").Caption("Seller").Levels(levels =>
-                              {
-                                  levels.AddLevel().Name("AllSellers").Caption("All Sellers")
-                                      .MemberProvider("function(item) {return 'All Sellers';}");
-                                  levels.AddLevel().Name("SellerName").Caption("Seller Name")
-                                      .MemberProvider("function(item) {return item.SellerName; }");
-                              }));
-                      dimensions.AddDimension().Name("SalesDate").Caption("Sales Date").Hierarchies(
-                          hierarchies =>
+          .DataSourceOptions(dataSourceOptions => dataSourceOptions
+              // common properties
+              .FlatDataOptions(flatOptions => flatOptions.Metadata(
+                  metadata => metadata.Cube(cube => cube.Name("Sales")
+                      .MeasuresDimension(measuresDimension =>
+                          measuresDimension.Measures(measures =>
                           {
-                              hierarchies.AddHierarchy().Name("SalesDate").Caption("Sales Date").Levels(levels =>
+                              measures.AddMeasure()
+                                  .Name("UnitPrice")
+                                  .Caption("Unit Price")
+                                  .Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitPrice')");
+                              measures.AddMeasure()
+                                  .Name("UnitsSold")
+                                  .Caption("Units Sold")
+                                  .Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitsSold')");
+                          }))
+                      .Dimensions(dimensions =>
+                      {
+                          dimensions.AddDimension()
+                              .Name("Seller")
+                              .Caption("Seller")
+                              .Hierarchies(hiearachies =>
+                                  hiearachies.AddHierarchy()
+                                      .Name("Seller")
+                                      .Caption("Seller")
+                                      .Levels(levels =>
+                                      {
+                                          levels.AddLevel()
+                                              .Name("AllSellers")
+                                              .Caption("All Sellers")
+                                              .MemberProvider("function(item) {return 'All Sellers';}");
+                                          levels.AddLevel()
+                                              .Name("SellerName")
+                                              .Caption("Seller Name")
+                                              .MemberProvider("function(item) {return item.SellerName; }");
+                                      }));
+                          dimensions.AddDimension()
+                              .Name("SalesDate")
+                              .Caption("Sales Date")
+                              .Hierarchies(hierarchies =>
                               {
-                                  levels.AddLevel().Name("AllPeriods").Caption("All Periods").MemberProvider("function(item) { return 'All Periods'; }");
-                                  levels.AddLevel().Name("Year").Caption("Year").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('year', 'SalesDate')");
-                                  levels.AddLevel().Name("Quarter").Caption("Quarter").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('quarter', 'SalesDate')");
-                                  levels.AddLevel().Name("Month").Caption("Month").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('month', 'SalesDate')");
-                                  levels.AddLevel().Name("Date").Caption("Date").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('date', 'SalesDate')");
+                                  hierarchies.AddHierarchy()
+                                      .Name("SalesDate")
+                                      .Caption("Sales Date")
+                                      .Levels(levels =>
+                                      {
+                                          levels.AddLevel()
+                                              .Name("AllPeriods")
+                                              .Caption("All Periods")
+                                              .MemberProvider("function(item) { return 'All Periods'; }");
+                                          levels.AddLevel()
+                                              .Name("Year")
+                                              .Caption("Year")
+                                              .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('year', 'SalesDate')");
+                                          levels.AddLevel()
+                                              .Name("Quarter")
+                                              .Caption("Quarter")
+                                              .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('quarter', 'SalesDate')");
+                                          levels.AddLevel()
+                                              .Name("Month")
+                                              .Caption("Month")
+                                              .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('month', 'SalesDate')");
+                                          levels.AddLevel()
+                                              .Name("Date")
+                                              .Caption("Date")
+                                              .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('date', 'SalesDate')");
+                                      });
                               });
-                          });
-                      dimensions.AddDimension().Name("ProductCategory").Caption("Product Category").Hierarchies(
-                          hiearachies =>
-                              hiearachies.AddHierarchy().Name("ProductCategory").Caption("Product Category").Levels(levels =>
-                              {
-                                  levels.AddLevel().Name("AllProducts").Caption("All Products")
-                                      .MemberProvider("function(item) {return 'All Products'; }");
-                                  levels.AddLevel().Name("ProductCategory").Caption("Product Category")
-                                      .MemberProvider("function(item) {return item.ProductCategory; }");
-                              }));
-                  })))
+                          dimensions.AddDimension()
+                              .Name("ProductCategory")
+                              .Caption("Product Category")
+                              .Hierarchies(hiearachies =>
+                                  hiearachies.AddHierarchy()
+                                      .Name("ProductCategory")
+                                      .Caption("Product Category")
+                                      .Levels(levels =>
+                                      {
+                                          levels.AddLevel()
+                                              .Name("AllProducts")
+                                              .Caption("All Products")
+                                              .MemberProvider("function(item) {return 'All Products'; }");
+                                          levels.AddLevel()
+                                              .Name("ProductCategory")
+                                              .Caption("Product Category")
+                                              .MemberProvider("function(item) {return item.ProductCategory; }");
+                                      }));
+                      })))))
       )
       ```
 
@@ -216,7 +275,6 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
           dataSourceOptions => dataSourceOptions.FlatDataOptions(
               // flat data options
           ).DataSource(this.Model).DataBind()))
-      )
       ```
 
    5. JavaScript コードを描画します。
@@ -242,55 +300,99 @@ import ApiLink from 'igniteui-astro-components/components/mdx/ApiLink.astro';
 
 ```razor
 @(Html.Infragistics().OlapDataSource().ID("flatDataSource")
-        .DataSourceOptions(
-            dataSourceOptions => dataSourceOptions
-                .Columns("[SalesDate].[SalesDate]")
-                .Rows("[ProductCategory].[ProductCategory]")
-                .Measures("[Measures].[UnitPrice]")
-                .FlatDataOptions(flatOptions => flatOptions.Metadata(
-                    metadata => metadata.Cube(cube => cube.Name("Sales")
-                        .MeasuresDimension(measuresDimension => measuresDimension.Measures(
-                            measures =>
-                            {
-                                measures.AddMeasure().Name("UnitPrice").Caption("Unit Price").Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitPrice')");
-                                measures.AddMeasure().Name("UnitsSold").Caption("Units Sold").Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitsSold')");
-                            }))
-                        .Dimensions(dimensions =>
-                            {
-                                dimensions.AddDimension().Name("Seller").Caption("Seller").Hierarchies(
-                                    hiearachies =>
-                                        hiearachies.AddHierarchy().Name("Seller").Caption("Seller").Levels(levels =>
-                                        {
-                                            levels.AddLevel().Name("AllSellers").Caption("All Sellers")
-                                                .MemberProvider("function(item) {return 'All Sellers';}");
-                                            levels.AddLevel().Name("SellerName").Caption("Seller Name")
-                                                .MemberProvider("function(item) {return item.SellerName; }");
-                                        }));
-                                dimensions.AddDimension().Name("SalesDate").Caption("Sales Date").Hierarchies(
-                                    hierarchies =>
+    .DataSourceOptions(
+        dataSourceOptions => dataSourceOptions
+            .Columns("[SalesDate].[SalesDate]")
+            .Rows("[ProductCategory].[ProductCategory]")
+            .Measures("[Measures].[UnitPrice]")
+            .FlatDataOptions(flatOptions => flatOptions.Metadata(
+                metadata => metadata.Cube(cube => cube.Name("Sales")
+                    .MeasuresDimension(measuresDimension =>
+                        measuresDimension.Measures(measures =>
+                        {
+                            measures.AddMeasure()
+                                .Name("UnitPrice")
+                                .Caption("Unit Price")
+                                .Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitPrice')");
+                            measures.AddMeasure()
+                                .Name("UnitsSold")
+                                .Caption("Units Sold")
+                                .Aggregator("$.ig.OlapUtilities.prototype.sumAggregator('UnitsSold')");
+                        }))
+                    .Dimensions(dimensions =>
+                    {
+                        dimensions.AddDimension()
+                            .Name("Seller")
+                            .Caption("Seller")
+                            .Hierarchies(hiearachies =>
+                                hiearachies.AddHierarchy()
+                                    .Name("Seller")
+                                    .Caption("Seller")
+                                    .Levels(levels =>
                                     {
-                                        hierarchies.AddHierarchy().Name("SalesDate").Caption("Sales Date").Levels(levels =>
-                                        {
-                                            levels.AddLevel().Name("AllPeriods").Caption("All Periods").MemberProvider("function(item) { return 'All Periods'; }");
-                                            levels.AddLevel().Name("Year").Caption("Year").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('year', 'SalesDate')");
-                                            levels.AddLevel().Name("Quarter").Caption("Quarter").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('quarter', 'SalesDate')");
-                                            levels.AddLevel().Name("Month").Caption("Month").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('month', 'SalesDate')");
-                                            levels.AddLevel().Name("Date").Caption("Date").MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('date', 'SalesDate')");
-                                        });
+                                        levels.AddLevel()
+                                            .Name("AllSellers")
+                                            .Caption("All Sellers")
+                                            .MemberProvider("function(item) {return 'All Sellers';}");
+                                        levels.AddLevel()
+                                            .Name("SellerName")
+                                            .Caption("Seller Name")
+                                            .MemberProvider("function(item) {return item.SellerName; }");
+                                    }));
+                        dimensions.AddDimension()
+                            .Name("SalesDate")
+                            .Caption("Sales Date")
+                            .Hierarchies(hierarchies =>
+                            {
+                                hierarchies.AddHierarchy()
+                                    .Name("SalesDate")
+                                    .Caption("Sales Date")
+                                    .Levels(levels =>
+                                    {
+                                        levels.AddLevel()
+                                            .Name("AllPeriods")
+                                            .Caption("All Periods")
+                                            .MemberProvider("function(item) { return 'All Periods'; }");
+                                        levels.AddLevel()
+                                            .Name("Year")
+                                            .Caption("Year")
+                                            .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('year', 'SalesDate')");
+                                        levels.AddLevel()
+                                            .Name("Quarter")
+                                            .Caption("Quarter")
+                                            .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('quarter', 'SalesDate')");
+                                        levels.AddLevel()
+                                            .Name("Month")
+                                            .Caption("Month")
+                                            .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('month', 'SalesDate')");
+                                        levels.AddLevel()
+                                            .Name("Date")
+                                            .Caption("Date")
+                                            .MemberProvider("$.ig.OlapUtilities.prototype.dateMemberProvider('date', 'SalesDate')");
                                     });
-                                dimensions.AddDimension().Name("ProductCategory").Caption("Product Category").Hierarchies(
-                                    hiearachies =>
-                                        hiearachies.AddHierarchy().Name("ProductCategory").Caption("Product Category").Levels(levels =>
-                                        {
-                                            levels.AddLevel().Name("AllProducts").Caption("All Products")
-                                                .MemberProvider("function(item) {return 'All Products'; }");
-                                            levels.AddLevel().Name("ProductCategory").Caption("Product Category")
-                                                .MemberProvider("function(item) {return item.ProductCategory; }");
-                                        }));
-                            })))
-                        .DataSource(this.Model)
-                        .DataBind()))
-                    .Render()
+                            });
+                        dimensions.AddDimension()
+                            .Name("ProductCategory")
+                            .Caption("Product Category")
+                            .Hierarchies(hiearachies =>
+                                hiearachies.AddHierarchy()
+                                    .Name("ProductCategory")
+                                    .Caption("Product Category")
+                                    .Levels(levels =>
+                                    {
+                                        levels.AddLevel()
+                                            .Name("AllProducts")
+                                            .Caption("All Products")
+                                            .MemberProvider("function(item) {return 'All Products'; }");
+                                        levels.AddLevel()
+                                            .Name("ProductCategory")
+                                            .Caption("Product Category")
+                                            .MemberProvider("function(item) {return item.ProductCategory; }");
+                                    }));
+                    })))
+                .DataSource(this.Model)
+                .DataBind()))
+    .Render()
 )
 ```
 

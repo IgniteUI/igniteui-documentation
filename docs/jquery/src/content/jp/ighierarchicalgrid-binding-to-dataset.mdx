@@ -69,7 +69,9 @@ model.ColumnLayouts[0].ColumnLayouts[0].DataMember = "Employees";
             features.Filtering().Type(OpType.Local);
             features.GroupBy().Type(OpType.Local);
             features.Hiding();
-            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.Selection()
+                .Mode(SelectionMode.Row)
+                .MultipleSelection(true);
             features.RowSelectors();
             features.Resizing();
             features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -147,7 +149,7 @@ public JsonResult NewBindChild(string path, string layout)
 
 `DataMember` を設定せず、`AutoGenerateLayouts` の設定を false で DataSet にバインドすると、`igHierarchicalGrid` は DataSet テーブル コレクションの最初のテーブルにだけバインドされます。
 
-このグリッドは テーブル間で [DataRelations](http://msdn.microsoft.com/ja-jp/library/system.data.datarelation.aspx) を使用して、階層を構築します。
+このグリッドは テーブル間で [DataRelations](https://learn.microsoft.com/ja-jp/dotnet/api/system.data.datarelation) を使用して、階層を構築します。
 
 1. DataSet テーブル配列の最初のテーブルはルート テーブルとして使用します。
 2. DataTables に DataRelations がない場合、グリッドはルート テーブルのみを表示します。
@@ -178,7 +180,9 @@ GroupBy の Type が Local に設定しても ColumnSettings オプションに�
                 features.Paging().PageSize(5).Type(OpType.Remote);
                 features.Updating();
                 features.Hiding();
-                features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+                features.Selection()
+                    .Mode(SelectionMode.Row)
+                    .MultipleSelection(true);
                 features.RowSelectors();
                 features.Resizing();
                 features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -210,14 +214,16 @@ model.Features.Add(filtering);
 
 Microsoft JSON シリアライザーはJSON からのディクショナリのシリアル化解除はサポートしていません。更新機能を使用するとき、`GridModel` で、`LoadTransactions` メソッドをオーバーライドしてください。これには、Json.NET シリアライザーで対応できます。このシリアライザーは以下のページでダウンロードできます。また ASP.NET MVC 4 にはデフォルトの JSON シリアライザーとして組み込まれています。
 
-[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx)
+[https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
 **C# の場合:**
 
 ```csharp
-public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+    where T : class
 {
-    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    List<Transaction<T>> transactions =
+        JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
     return transactions;
 }
 ```
@@ -289,13 +295,19 @@ public class Order
             column.For(x => x.CustomerID).HeaderText(“CustomerID”);
         }).
         ColumnLayouts(layouts => {
-            layouts.For(x => x.Orders).ResponseDataKey(String.Empty).Width("100%").ForeignKey("CustomerID").PrimaryKey("OrderID")
+            layouts.For(x => x.Orders)
+                .ResponseDataKey(String.Empty)
+                .Width("100%")
+                .ForeignKey("CustomerID")
+                .PrimaryKey("OrderID")
 .AutoGenerateColumns(false).AutoGenerateLayouts(false)
 .Columns(childcolumn =>
                 {
                     childcolumn.For(x => x.OrderID).HeaderText(“OrderID”);
                     
-                }).Features(features => features.Updating().EditMode(GridEditMode.Row).ColumnSettings(
+                }).Features(features => features.Updating()
+                    .EditMode(GridEditMode.Row)
+                    .ColumnSettings(
                     cs => cs.ColumnSetting().ColumnKey("OrderID").ReadOnly(true)
                 ));
         })

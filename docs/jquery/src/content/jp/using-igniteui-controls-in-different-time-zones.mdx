@@ -47,16 +47,17 @@ igGrid/igHierarchicalGrid/igTreeGrid は、以下のシナリオでサーバー�
 
 ```js
 "Metadata": {
-                "timezoneOffset": 7200000,
-                "timezoneOffsets": {
-                    "0": {
-                        "ExpirationDate": 7200000
-                    },
-                    "1": {
-                        "ExpirationDate": 7200000
-                    },
-                    ...
-                    }
+    "timezoneOffset": 7200000,
+    "timezoneOffsets": {
+        "0": {
+            "ExpirationDate": 7200000
+        },
+        "1": {
+            "ExpirationDate": 7200000
+        },
+        ...
+    }
+}
 ```
 
 日付によって別のタイプ (UTC またはローカル) が設定される可能があるので、各行の日付値のオフセットがメタデータの部分として送信されます。
@@ -65,7 +66,7 @@ igGrid/igHierarchicalGrid/igTreeGrid は、以下のシナリオでサーバー�
   データ ソースがサーバーのタイム ゾーン オフセットについての情報を含む場合、そのオフセットはクライアントで日付の描画時に適用されます。Tグリッドが MVC ラッパーによってインスタンス化された場合、デフォルトで `dateDisplayType` の 3 つ目のオプションが使用されます。
 </DocsAside>
 
-### 詳細例:
+### 詳細例
 
 以下のシナリオを検討します。
 
@@ -80,7 +81,7 @@ igGrid/igHierarchicalGrid/igTreeGrid は、以下のシナリオでサーバー�
 DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);  
 ```
 
-シンガポールでグリッド セルに同じ時間が表示されます。 <Image src={imgIgniteuiDifferentTimeZones1} alt="" />
+シンガポールでグリッド セルに同じ時間が表示されます。 <Image src={imgIgniteuiDifferentTimeZones1} alt="Expiration Date セルにサーバーが送信したのと同じ 10/01/2015 07:00:00 を表示する igGrid の行" />
 
 任意のタイム ゾーンで同じ時間が表示されます。表示される日付はサーバーから送信された同じ日付です。
 
@@ -90,22 +91,24 @@ DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);
 
 東部標準時の日付「1 Jan 2015」があります。この日付は JSON に解析され、Ticks の書式で送信されます。サーバーの timezoneOffset は - 18000000 ticks (- 5:00 時) です。 JSON データは:
 
-```js
+```json
 {
-   "Records": [{
-       "ID": 0,
-       "Name": "Name0",
-       "ExpirationDate": "2015-01-10T05:00:00.000Z"
-   }],
-   "TotalRecordsCount": 0,
-   "Metadata": {
-       "timezoneOffset": -18000000,
-       "timezoneOffsets": {
-           "0": {
-               "ExpirationDate": -18000000
-           }
-       }
-   }
+    "Records": [
+        {
+            "ID": 0,
+            "Name": "Name0",
+            "ExpirationDate": "2015-01-10T05:00:00.000Z"
+        }
+    ],
+    "TotalRecordsCount": 0,
+    "Metadata": {
+        "timezoneOffset": -18000000,
+        "timezoneOffsets": {
+            "0": {
+                "ExpirationDate": -18000000
+            }
+        }
+    }
 }
 ```
 
@@ -113,7 +116,7 @@ DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);
 
 日付を追加/更新する場合、新しい値は UTC で保存されます。たとえば、シンガポールのユーザーが値を「10/01/2015 07:00:00」から「10/01/2015 08:00:00」に変更すると、更新トランザクションで送信される日付値は UTC の値です。送信される値はローカル時間ではなく、UTC の「10/01/2015 08:00:00」になります。 値を変更してサーバーに変更を保存した後、サーバーによって受信された値は UTC の「10/01/2015 08:00:00」です。
 
-<Image src={imgIgniteuiDifferentTimeZones2} alt="" />
+<Image src={imgIgniteuiDifferentTimeZones2} alt="保存された ExpirationDate の Kind が Utc、時が 8 であることを示す Visual Studio デバッガー" />
 
 ## igDatePicker および igDateEditor
 
@@ -130,7 +133,7 @@ DateTime date = new DateTime(2015, 1, 10, 7, 0, 0, 0, DateTimeKind.Local);
   16.2 から 17.1 へのエディター移行や enableUTCDates オプションを使用した構成については、「[17.1 で日付処理の移行](./igdateeditor-migrating-date-handling-in-17-1.mdx)」をご覧ください。
 </DocsAside>
 
-クライアント `igDateEditor`/`igDatePicker` ウィジェットは、UTC 書式で日付をシリアル化、またはローカルタイムを含んで `enableUTCDates` オプションに基づいてオフセットできます。両値が同じ時点を参照しますが、クライアントの追加情報も持っており、サーバー プラットフォームに基づいて提出した値を解析する際に違いが発生します。たとえば、.NET [`DateTimeOffset`](https://msdn.microsoft.com/ja-jp/library/system.datetimeoffset\(v=vs.110\).aspx) は、クライアント オフセットを別々に処理できます。
+クライアント `igDateEditor`/`igDatePicker` ウィジェットは、UTC 書式で日付をシリアル化、またはローカルタイムを含んで `enableUTCDates` オプションに基づいてオフセットできます。両値が同じ時点を参照しますが、クライアントの追加情報も持っており、サーバー プラットフォームに基づいて提出した値を解析する際に違いが発生します。たとえば、.NET [`DateTimeOffset`](https://learn.microsoft.com/ja-jp/dotnet/api/system.datetimeoffset) は、クライアント オフセットを別々に処理できます。
 
 JavaScript `Date` は、処理ですべてのタイムゾーン オフセットを無視するため常に初期値をローカル タイムに変換するため、特に <ApiLink type="igDateEditor" member="options:displayTimeOffset" pkg="core" label="displayTimeOffset" /> が定義されている場合は `igDateEditor` および `igDatePicker` に UTC 標準値に設定することを推奨します。そうでない場合、ユーザー エージェントのローカル時間に基づいて特定の値またはあいまいなタイムゾーンは予期しない時間にマップされる場合があります。
 
@@ -171,7 +174,7 @@ $("#StartHour").igDateEditor({
 
 上記の構成によってエディターに以下の値を描画します。
 
-<Image src={imgTimeZonesEditor1} alt="" />
+<Image src={imgTimeZonesEditor1} alt="2016-01-09 10:35 を表示する日付エディター" />
 
 ### サーバー オフセットを無視して特定のクライアント オフセットの表示
 
@@ -205,7 +208,7 @@ $("#StartHour").igDateEditor({
 
 上記の構成では、FLE 標準時 (GMT+02:00) の場合に次の値をエディターで描画します。
 
-<Image src={imgTimeZonesEditor2} alt="" />
+<Image src={imgTimeZonesEditor2} alt="クライアントの GMT+02:00 のオフセットでずれた 2016-01-09 11:35 を表示する日付エディター" />
 
 ### EnableUTCDates オプションの構成
 
@@ -233,7 +236,7 @@ MVC ラッパー設定を変更する場合:
 
 ロシア標準時 (GMT+03:00 ) で日付を表示する場合、UTC から適切なオフセットを分単位で定義する必要があります。
 
-```js
+```razor
 @(Html.Infragistics()
     .DateEditor()
     .Value(new DateTime(2016, 1, 9, 10, 55, 55))
@@ -263,7 +266,7 @@ $("#StartHour").igDateEditor({
 
 以下はブラウザーの結果です。
 
-<Image src={imgTimeZonesEditor3} alt="" />
+<Image src={imgTimeZonesEditor3} alt="設定した表示時間のオフセットを適用した 2016-01-09 12:35 を表示する日付エディター" />
 
 <DocsAside type="note" title="注">
   `displayTimeOffset` は静的な値で、サマータイム用に変更しません。そのため、オフセットのみでなく特定のゾーンをターゲットとした場合、バックエンド ロジックでターゲット日が DST に該当し、特定の日時に正しいオフセット値を提供するかどうかを確認します。.NET で `DisplayTimeOffset` タイプが使用でき、MVC エディター ラッパーで自動的に処理できます。

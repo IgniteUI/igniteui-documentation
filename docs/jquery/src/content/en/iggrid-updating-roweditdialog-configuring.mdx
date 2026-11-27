@@ -34,7 +34,7 @@ The Row Edit Dialog allows users to edit records in a pop up dialog, as compared
 
 The feature is implemented as part of the `igGridUpdating` widget. The `editMode` option has a new value: “dialog”, to enable the row edit dialog. The new dialog uses a different templating structure and allows building complex custom editing dialog.
 
-<Image src={imgIgGridUpdatingRowEditDialog} alt="" />
+<Image src={imgIgGridUpdatingRowEditDialog} alt="Edit Row Data dialog over a dimmed igGrid, showing Title, Phone and HireDate fields and a photo for Davolio, Nancy" />
 
 The row template itself can be defined by setting different properties in the newly added `rowEditDialogOptions` option. These options are listed in the following table:
 
@@ -43,8 +43,8 @@ The row template itself can be defined by setting different properties in the ne
 | animationDuration           | Specifies the animation duration for the opening and closing operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | dialogTemplate              | Specifies a template to be rendered against the currently edited record.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | dialogTemplateSelector      | Specifies a selector to a template rendered against the currently edited record.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| editorsTemplate             | Specifies a template to be executed for each column in the grid's column collection (or just the read-write columns if showReadonlyEditors is false). Decorate the element to be used as an editor with 'data-editor-for-$\{key}'.The $\{key} template tag should be replaced with the chosen templating engine's syntax for rendering values. If any editors for columns are specified in the dialog markup they will be exluded from the data the template will be rendered for.This property is ignored if the dialog template does not include an element with the "data-render-tmpl" attribute. If both editorsTemplate and editorsTemplateSelector are specified, editorsTemplateSelector will be used. |
-| editorsTemplateSelector     | Specifies a selector to a template to be executed for each column in the grid's column collection. Decorate the element to be used as an editor with 'data-editor-for-$\{key}'. The $\{key} template tag should be replaced with the chosen templating engine's syntax for rendering values. If any editors for columns are specified in the dialog markup they will be exluded from the data the template will be rendered for. This property is ignored if the dialog markup does not include an element with the 'data-render-tmpl' attribute. If both editorsTemplate and editorsTemplateSelector are specified, editorsTemplateSelector will be used.                                                    |
+| editorsTemplate             | Specifies a template to be executed for each column in the grid's column collection (or just the read-write columns if showReadonlyEditors is false). Decorate the element to be used as an editor with 'data-editor-for-$\{key}'.The $\{key} template tag should be replaced with the chosen templating engine's syntax for rendering values. If any editors for columns are specified in the dialog markup they will be excluded from the data the template will be rendered for.This property is ignored if the dialog template does not include an element with the "data-render-tmpl" attribute. If both editorsTemplate and editorsTemplateSelector are specified, editorsTemplateSelector will be used. |
+| editorsTemplateSelector     | Specifies a selector to a template to be executed for each column in the grid's column collection. Decorate the element to be used as an editor with 'data-editor-for-$\{key}'. The $\{key} template tag should be replaced with the chosen templating engine's syntax for rendering values. If any editors for columns are specified in the dialog markup they will be excluded from the data the template will be rendered for. This property is ignored if the dialog markup does not include an element with the 'data-render-tmpl' attribute. If both editorsTemplate and editorsTemplateSelector are specified, editorsTemplateSelector will be used.                                                    |
 | namesColumnWidth            | Controls the width of the column containing the column names in the default row edit dialog.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | showEditorsForHiddenColumns | Controls if editors should be rendered for hidden columns.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | width                       | Controls the default row edit dialog width.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -154,7 +154,8 @@ The following steps demonstrate how to configure Row Edit Dialog in the `igGrid`
        <script>
        <script id="editorsTemplate" type="text/html">
            <tr>
-              <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+              <td style="text-align:right;color:#777;">
+                  <strong${headerText}</strong></td>
                <td><input data-editor-for-${key}="true" /></td>
            </tr>
    </script>
@@ -182,38 +183,64 @@ The following steps demonstrate how to configure Row Edit Dialog in the `igGrid`
 
    ```js
    $.ig.loader(function () {
-   $("#grid1").igGrid({
-       height: "300px",
-       width: "600px",
-       columns: [
-               { headerText: "Product ID", key: "ProductID", width: "100px", dataType: "number" },
-               { headerText: "Units In Stock", key: "UnitsInStock", width: "100px", dataType: "number", format: 'double' },
-               { headerText: "Product Description", key: "ProductDescription", width: "150px", dataType: "string" },
-               { headerText: "Date Column", key: "DateCol", width: "100px", dataType: "date" },
-               { headerText: "Unit Price", key: "UnitPrice", width: "100px", dataType: "integer" }
-               ],
-       autoGenerateColumns: false,
-       dataSource: namedData,
-       primaryKey: "ProductID",
-       features: [
-         {
-               name: "Selection",
-               mode: "row",
-               multipleSelection: true
-         },
-         {
-               name: 'Updating',
-               startEditTriggers: 'enter dblclick',
-               editMode: 'dialog',
-               rowEditDialogOptions:{
-                   dialogTemplateSelector: "#dialogTemplate",
-                   editorsTemplateSelector: "#editorsTemplate",
-                   containment: "owner",
-                   showReadonlyEditors: false,
-
+       $("#grid1").igGrid({
+           height: "300px",
+           width: "600px",
+           columns: [
+               {
+                   headerText: "Product ID",
+                   key: "ProductID",
+                   width: "100px",
+                   dataType: "number"
+               },
+               {
+                   headerText: "Units In Stock",
+                   key: "UnitsInStock",
+                   width: "100px",
+                   dataType: "number",
+                   format: "double"
+               },
+               {
+                   headerText: "Product Description",
+                   key: "ProductDescription",
+                   width: "150px",
+                   dataType: "string"
+               },
+               {
+                   headerText: "Date Column",
+                   key: "DateCol",
+                   width: "100px",
+                   dataType: "date"
+               },
+               {
+                   headerText: "Unit Price",
+                   key: "UnitPrice",
+                   width: "100px",
+                   dataType: "integer"
                }
-               
-         }]
+           ],
+           autoGenerateColumns: false,
+           dataSource: namedData,
+           primaryKey: "ProductID",
+           features: [
+               {
+                   name: "Selection",
+                   mode: "row",
+                   multipleSelection: true
+               },
+               {
+                   name: "Updating",
+                   startEditTriggers: "enter dblclick",
+                   editMode: "dialog",
+                   rowEditDialogOptions: {
+                       dialogTemplateSelector: "#dialogTemplate",
+                       editorsTemplateSelector: "#editorsTemplate",
+                       containment: "owner",
+                       showReadonlyEditors: false
+                   }
+               }
+           ]
+       });
    });
    ```
 
@@ -310,7 +337,8 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
    </script>
    <script id="editorsTemplate" type="text/html">
        <tr>
-          <td style="text-align:right;color:#777;"><strong${headerText}</strong></td>
+          <td style="text-align:right;color:#777;">
+              <strong${headerText}</strong></td>
            <td><input data-editor-for-${key}="true" /></td>
        </tr>
    </script>
@@ -342,17 +370,22 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
           .RenderCheckboxes(true)
           .Columns(column =>
           {
-              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px"); 
+              column.For(x => x.ProductID).HeaderText(“Product ID”).Width("150px");
               column.For(x => x.Name).HeaderText(“Name”).Width("200px");
-              column.For(x => x.ModifiedDate).HeaderText(“Modified Date”).Width("200px");           
-              column.For(x => x.MakeFlag).DataType("bool").HeaderText(“Make Flag”).Width("150px");
+              column.For(x => x.ModifiedDate)
+                  .HeaderText(“Modified Date”)
+                  .Width("200px");
+              column.For(x => x.MakeFlag)
+                  .DataType("bool")
+                  .HeaderText(“Make Flag”)
+                  .Width("150px");
               column.For(x => x.ListPrice).HeaderText(“List Price”).Width("150px");
           })
           .Features(features => {
           features.Sorting().Type(OpType.Local);
           features.Paging().PageSize(30).Type(OpType.Local);
           features.Selection().Mode(SelectionMode.Row);
-          features.Updating().EnableAddRow(false).EnableDeleteRow(true)                
+          features.Updating().EnableAddRow(false).EnableDeleteRow(true)
               .EditMode(GridEditMode.Dialog)
               RowEditDialogOptions(opt =>
               {
@@ -366,9 +399,17 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
              .ColumnSettings(settings =>
               {
                   settings.ColumnSetting().ColumnKey("ProductID").ReadOnly(true);
-                  settings.ColumnSetting().ColumnKey("Name").EditorType(ColumnEditorType.Mask);
-                  settings.ColumnSetting().ColumnKey("ModifiedDate").EditorType(ColumnEditorType.DatePicker).EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");                      
-                  settings.ColumnSetting().ColumnKey("ListPrice").EditorType(ColumnEditorType.Currency).EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");                   
+                  settings.ColumnSetting()
+                      .ColumnKey("Name")
+                      .EditorType(ColumnEditorType.Mask);
+                  settings.ColumnSetting()
+                      .ColumnKey("ModifiedDate")
+                      .EditorType(ColumnEditorType.DatePicker)
+                      .EditorOptions("minValue: new Date(1955, 1, 19), maxValue: new Date(), required: true");
+                  settings.ColumnSetting()
+                      .ColumnKey("ListPrice")
+                      .EditorType(ColumnEditorType.Currency)
+                      .EditorOptions("button: 'spin', minValue: 0, maxValue: 100000, validatorOptions: {}");
               });            
           })  
           .DataBind()
@@ -386,7 +427,8 @@ The following steps demonstrate how to configure a Row Edit Dialog in `igGrid`.
    ```csharp
    public ActionResult Editing()
          {
-             var ctx = new AdventureWorksDataContext(this.DataRepository.GetDataContext().Connection);
+             var ctx = new AdventureWorksDataContext(
+                 this.DataRepository.GetDataContext().Connection);
              var ds = ctx.ProductAllDatas.Take(40);      
              return View("RowEditDialog", ds);
          }

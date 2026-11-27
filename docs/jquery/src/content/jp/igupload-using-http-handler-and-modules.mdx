@@ -30,12 +30,14 @@ HttpModule を構成すると、ファイル アップロード処理を管理�
     <httpModules>
         <add name="IGUploadModule type="Infragistics.Web.Mvc.UploadModule" />
     </httpModules>
-    <!--OPTIONAL: Set the maximum request length. By default the request lenght is 4 MB. More info: http://msdn.microsoft.com/ja-jp/library/e1f13641(v=vs.85).aspx-->
+    <!--OPTIONAL: Set the maximum request length.
+    By default the request length is 4 MB.
+    More info: https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/e1f13641(v=vs.100)-->
     <httpRuntime executionTimeout="3600" maxRequestLength="2097151000"/>
 </system.web>
 ```
 
-## IIS7 の場合:
+## IIS7 の場合
 
 **Web.config の場合:**
 
@@ -47,7 +49,7 @@ HttpModule を構成すると、ファイル アップロード処理を管理�
     </modules>    
     <security>      
         <requestFiltering>    
-            <!--OPTIONAL: Set the maximum request length. By default the request lenght is ~30 MB. More info: http://www.iis.net/configreference/system.webserver/security/requestfiltering/requestlimits-->        
+            <!--OPTIONAL: Set the maximum request length. By default the request length is ~30 MB. More info: https://learn.microsoft.com/en-us/iis/configuration/system.webserver/security/requestfiltering/requestlimits/>        
             <requestLimits maxAllowedContentLength="2097151000"/>      
         </requestFiltering>    
     </security>
@@ -62,7 +64,7 @@ HttpHandler は、.NET IHttpHandler インターフェイスを実装し、ク�
 
 HttpModule とは違い、HttpHandler は URL 経由でアクセス可能です。すべてのファイルに送信されたコマンドが、URL のパラメーターになります。コマンドは次の 3 つのタイプのいずれかです。
 
-- **Status**: 現在のファイルの状態を返します。JSON 応答には、合計バイト数、アップロード済みバイト数、現在のファイルのエラー状態の情報が含まれています。JSON 形式は次の通りです。<Image src={imgIgUploadHandlerAndModule01} alt="" />
+- **Status**: 現在のファイルの状態を返します。JSON 応答には、合計バイト数、アップロード済みバイト数、現在のファイルのエラー状態の情報が含まれています。JSON 形式は次の通りです。<Image src={imgIgUploadHandlerAndModule01} alt="アップロード状態ハンドラーへの GET と、error、size、bytesUploaded、status を含む JSON 応答のネットワーク ログ" />
 - **Cancel**: このコマンドが要求されると、ファイル アップロード処理がキャンセルされます。
 - **fileSize**: アップロードするファイルのサイズをハンドラーからコントロールに表示する必要がある場合、このコマンドは 2 つの特別なケースで呼び出されます。1 つ目のケースは、`autostartupload` プロパティが `false` に設定されている場合です。ユーザーがアップロードを開始するまでファイルが処理されないため、サイズ情報が必要です。2 つ目のケースは、`autostartupload` プロパティが True に設定されていて、アップロード キューにファイルが配置されているものの、アップロード処理が開始されていない場合です。
 
@@ -81,15 +83,18 @@ HttpModule とは違い、HttpHandler は URL 経由でアクセス可能です�
 </system.web>
 ```
 
-## IIS7 の場合:
+## IIS7 の場合
 
 **Web.config の場合:**
 
 ```xml
 <system.webServer>
     <handlers>
-        <add name="IGUploadStatusHandler" path="IGUploadStatusHandler.ashx" verb="*"
-             type="Infragistics.Web.Mvc.UploadStatusHandler" preCondition="integratedMode" />
+        <add name="IGUploadStatusHandler"
+            path="IGUploadStatusHandler.ashx"
+            verb="*"
+            type="Infragistics.Web.Mvc.UploadStatusHandler"
+            preCondition="integratedMode" />
    </handlers>
 </system.webServer>
 ```
@@ -110,7 +115,7 @@ HttpModule とは違い、HttpHandler は URL 経由でアクセス可能です�
 
 記載したデータを含む JSON 応答の例を図 2 に示します。
 
-<Image src={imgIgUploadHandlerAndModule01} alt="" />
+<Image src={imgIgUploadHandlerAndModule01} alt="アップロード状態ハンドラーへの GET と、error、size、bytesUploaded、status を含む JSON 応答のネットワーク ログ" />
 
 **注:** その他の JSON プロパティ (`size`、`serverMessage`、`bytesUploaded` など) は、エラーや状態のようにサーバー上の列挙型として作成する必要はありません。これらは動的に変更できる文字列または数値です。
 

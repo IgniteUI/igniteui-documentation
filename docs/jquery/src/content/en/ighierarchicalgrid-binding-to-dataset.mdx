@@ -50,7 +50,7 @@ Another change in volume 12.2 is that `AutoGenerateLayouts` is `False` by defaul
 
 Binding to a `DataSet` is accomplished in one of the following ways:
 
-#### Return the DataSet from the action method referenced by the grid’s *DataSourceURL* in the view.
+#### Return the DataSet from the action method referenced by the grid’s *DataSourceURL* in the view
 
 In this scenario the model type is `DataSet`, however you may set it to be of type dynamic as well.
 
@@ -69,7 +69,9 @@ In this scenario the model type is `DataSet`, however you may set it to be of ty
             features.Filtering().Type(OpType.Local);
             features.GroupBy().Type(OpType.Local);
             features.Hiding();
-            features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+            features.Selection()
+                .Mode(SelectionMode.Row)
+                .MultipleSelection(true);
             features.RowSelectors();
             features.Resizing();
             features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -147,7 +149,7 @@ public JsonResult NewBindChild(string path, string layout)
 
 When binding to a DataSet with no `DataMember` set and `AutoGenerateLayouts` is false, then the `igHierarchicalGrid` is bound only to the first table in the DataSet collection.
 
-The grid uses the [DataRelations](http://msdn.microsoft.com/en-us/library/system.data.datarelation.aspx) between the tables to build the hierarchy.
+The grid uses the [DataRelations](https://learn.microsoft.com/en-us/dotnet/api/system.data.datarelation) between the tables to build the hierarchy.
 
 1. The first table in the dataset tables array is used as the root table.
 2. If the DataTables do not have DataRelations, the grid shows the root table only.
@@ -178,7 +180,9 @@ In addition, the Summaries feature is unsupported when using a `DataSet` as the 
                 features.Paging().PageSize(5).Type(OpType.Remote);
                 features.Updating();
                 features.Hiding();
-                features.Selection().Mode(SelectionMode.Row).MultipleSelection(true);
+                features.Selection()
+                    .Mode(SelectionMode.Row)
+                    .MultipleSelection(true);
                 features.RowSelectors();
                 features.Resizing();
                 features.Tooltips().Visibility(TooltipsVisibility.Always);
@@ -210,14 +214,16 @@ The following features work remotely with the grid:
 
 The Microsoft JSON serializer doesn’t support deserializing a Dictionary from JSON. If you want to use the updating feature, the `GridModel` must override the `LoadTransactions` method. You can use the Json.NET serializer for this purpose. You can download it from the page below and it is also included in ASP.NET MVC 4 as the default JSON serializer.
 
-[http://james.newtonking.com/projects/json-net.aspx](http://james.newtonking.com/projects/json-net.aspx)
+[https://www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 
 **In C#:**
 
 ```csharp
-public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata) where T : class
+public List<Transaction<T>> LoadTransactionsDictionary<T>(string postdata)
+    where T : class
 {
-    List<Transaction<T>> transactions = JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
+    List<Transaction<T>> transactions =
+        JsonConvert.DeserializeObject<List<Transaction<T>>>(postdata);
     return transactions;
 }
 ```
@@ -289,13 +295,19 @@ public class Order
             column.For(x => x.CustomerID).HeaderText(“CustomerID”);
         }).
         ColumnLayouts(layouts => {
-            layouts.For(x => x.Orders).ResponseDataKey(String.Empty).Width("100%").ForeignKey("CustomerID").PrimaryKey("OrderID")
+            layouts.For(x => x.Orders)
+                .ResponseDataKey(String.Empty)
+                .Width("100%")
+                .ForeignKey("CustomerID")
+                .PrimaryKey("OrderID")
 .AutoGenerateColumns(false).AutoGenerateLayouts(false)
 .Columns(childcolumn =>
                 {
                     childcolumn.For(x => x.OrderID).HeaderText(“OrderID”);
                     
-                }).Features(features => features.Updating().EditMode(GridEditMode.Row).ColumnSettings(
+                }).Features(features => features.Updating()
+                    .EditMode(GridEditMode.Row)
+                    .ColumnSettings(
                     cs => cs.ColumnSetting().ColumnKey("OrderID").ReadOnly(true)
                 ));
         })
