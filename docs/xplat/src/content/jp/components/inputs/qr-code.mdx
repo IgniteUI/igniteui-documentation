@@ -27,10 +27,6 @@ import qrCodeDo2_2x from '@xplat-images/qr-code/qr-code-do2@2x.png';
 import qrCodeDoNot2 from '@xplat-images/qr-code/qr-code-do-not2.png';
 import qrCodeDoNot2_2x from '@xplat-images/qr-code/qr-code-do-not2@2x.png';
 
-{/*
-Blazor is excluded in toc.json until its QR Code wrappers ship. Its blocks below are staged and must be verified against the released wrapper APIs before removing the exclusion.
-*/}
-
 # QR Code (QR コード) コンポーネント <Badge variant="new" />
 
 {ProductName} QR Code は、スキャン可能な QR (Quick Response) コードをインライン SVG としてレンダリングします。コードは任意の文字列値からクライアント側で生成され、サイズ、誤り訂正、中央ロゴをカスタマイズできます。
@@ -158,13 +154,17 @@ import 'igniteui-webcomponents/themes/light/bootstrap.css';
 
 <PlatformBlock for="Blazor">
 
-**Program.cs** で <ApiLink pkg="core" type="QrCode" /> モジュールを登録します:
+{ProductName} のサービスを登録します。
 
 ```csharp
-builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
+// in Program.cs file
+
+builder.Services.AddIgniteUIBlazor();
 ```
 
-テーマ スタイルシートを **wwwroot/index.html** (Blazor WebAssembly) または **Pages/_Host.cshtml** (Blazor Server) でリンクします:
+QR Code のクライアント リソース モジュールである <ApiLink type="QrCodeModule" /> の登録は**任意**です。コンポーネントは初めてレンダリングされるときにリソースを読み込みます。ただし、`builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule))` のように指定すると、リソースを事前に読み込んだり、クライアント側でのみ作成される要素に対応したりできます ([コンポーネント モジュール](../general-getting-started.mdx#コンポーネント-モジュール)を参照)。
+
+テーマ スタイルシートをホスト ページに追加します。{ProductName} をまだセットアップしていない場合は、最初に共通の[作業の開始](../general-getting-started.mdx)トピックを完了してください。
 
 ```razor
 <link href="_content/IgniteUI.Blazor/themes/light/bootstrap.css" rel="stylesheet" />
@@ -206,7 +206,7 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
 
 ### 誤り訂正
 
-`errorLevel` を使用して、`L`、`M` (デフォルト)、`Q`、または `H` の誤り訂正レベルを選択します。レベルが高いほど、損傷したり覆われたりしたコードをより多く復元できますが、コードの密度は高くなります。予測可能なモジュール寸法が必要な場合は、`version` を使用して `1` から `40` までの QR バージョンを固定します。未設定のままにすると、`value` が収まる最小のバージョンが使用されます。
+`errorLevel` を使用して、<PlatformBlock for="Angular,React,WebComponents">`L`、`M` (デフォルト)、`Q`、または `H`</PlatformBlock><PlatformBlock for="Blazor">`Low` (`L`)、`Medium` (`M`、デフォルト)、`Quartile` (`Q`)、または `High` (`H`)</PlatformBlock> の誤り訂正レベルを選択します。レベルが高いほど、損傷したり覆われたりしたコードをより多く復元できますが、コードの密度は高くなります。予測可能なモジュール寸法が必要な場合は、`version` を使用して `1` から `40` までの QR バージョンを固定します。未設定のままにすると、`value` が収まる最小のバージョンが使用されます。
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -238,7 +238,7 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
 <IgbQrCode
   Value="https://www.infragistics.com"
   Version="4"
-  ErrorLevel="QrCodeErrorLevel.H">
+  ErrorLevel="QrErrorCorrectionLevel.High">
 </IgbQrCode>
 ```
 
@@ -349,7 +349,7 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com"
-  ErrorLevel="QrCodeErrorLevel.H"
+  ErrorLevel="QrErrorCorrectionLevel.High"
   LogoSrc="/assets/logo.png"
   LogoSize="0.5"
   LogoMargin="4">
@@ -372,7 +372,7 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
 
 ### 形状
 
-`dotStyle` を使用してデータ モジュールと位置検出パターンの内側のドットの形状を設定し、`squareStyle` を使用して位置検出パターンの外側の四角形の形状を設定します。どちらも `square` (デフォルト)、`circle`、または `rounded` を受け入れます。
+`dotStyle` を使用してデータ モジュールと位置検出パターンの内側のドットの形状を設定し、`squareStyle` を使用して位置検出パターンの外側の四角形の形状を設定します。どちらも <PlatformBlock for="Angular,React,WebComponents">`square` (デフォルト)、`circle`、または `rounded`</PlatformBlock><PlatformBlock for="Blazor">`Square` (デフォルト)、`Circle`、または `Rounded`</PlatformBlock> を受け入れます。
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -403,8 +403,8 @@ builder.Services.AddIgniteUIBlazor(typeof(IgbQrCodeModule));
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com"
-  DotStyle="QrCodeDotStyle.Rounded"
-  SquareStyle="QrCodeSquareStyle.Rounded">
+  DotStyle="QrDotStyle.Rounded"
+  SquareStyle="QrCornerSquareStyle.Rounded">
 </IgbQrCode>
 ```
 
@@ -437,6 +437,31 @@ const qrCode = document.querySelector('igc-qr-code') as IgcQrCodeComponent;
 
 // Downloads a 512×512 PNG from a 256px QR code.
 await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download: true });
+```
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+### エクスポート
+
+<ApiLink type="QrCode" member="ToImageAsync" label="ToImageAsync" /> を呼び出して QR コードを PNG、JPEG、WebP、または SVG ファイルとしてエクスポートします。ファイルはブラウザーでダウンロードされるため、.NET に読み戻すことはできません。テーマの色を解決し、ロゴをインライン化するため、エクスポート結果はレンダリングされたコードと一致します。
+
+```razor
+<IgbQrCode @ref="QrCode" Value="https://www.infragistics.com" Size="256"></IgbQrCode>
+<IgbButton @onclick="DownloadAsync">Download</IgbButton>
+
+@code {
+    private IgbQrCode QrCode;
+
+    // Downloads a 512×512 PNG from a 256px QR code.
+    private Task DownloadAsync() => QrCode.ToImageAsync(new IgbQrCodeExportOptions
+    {
+        Format = QrCodeExportFormat.Png,
+        Scale = 2,
+        FileName = "my-qr-code"
+    });
+}
 ```
 
 </PlatformBlock>
@@ -502,16 +527,16 @@ await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download
 
 | 名前 | 型 | デフォルト | 説明 |
 | -- | -- | -- | -- |
-| <ApiLink pkg="core" type="QrCode" member="value" label="value" /> | `string` | — | QR コードにエンコードされる文字列。 |
-| <ApiLink pkg="core" type="QrCode" member="version" label="version" /> | `number` | — | QR バージョン (1–40)。設定されていない場合は、`value` が収まる最小のバージョンが使用されます。 |
-| <ApiLink pkg="core" type="QrCode" member="errorLevel" label="errorLevel" /> | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'` | 誤り訂正レベル。ロゴ サイズの上限も決定します。 |
-| <ApiLink pkg="core" type="QrCode" member="size" label="size" /> | `number` | `128` | レンダリングされる幅と高さ (ピクセル単位)。 |
-| <ApiLink pkg="core" type="QrCode" member="margin" label="margin" /> | `number` | `4` | クワイエット ゾーンの余白 (QR モジュール単位)。 |
-| <ApiLink pkg="core" type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | オプションの中央ロゴ画像のソース URL。 |
-| <ApiLink pkg="core" type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | 安全なロゴ領域の最大値に対する比率 (0–1) としてのロゴ サイズ。 |
-| <ApiLink pkg="core" type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | ロゴの周囲の余白 (ピクセル単位)。 |
-| <ApiLink pkg="core" type="QrCode" member="dotStyle" label="dotStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | データ モジュールと位置検出パターンの内側のドットの形状。 |
-| <ApiLink pkg="core" type="QrCode" member="squareStyle" label="squareStyle" /> | `'square' \| 'circle' \| 'rounded'` | `'square'` | 位置検出パターンの外側の四角形の形状。 |
+| <ApiLink type="QrCode" member="value" label="value" /> | `string` | — | QR コードにエンコードされる文字列。 |
+| <ApiLink type="QrCode" member="version" label="version" /> | `number` | — | QR バージョン (1–40)。設定されていない場合は、`value` が収まる最小のバージョンが使用されます。 |
+| <ApiLink type="QrCode" member="errorLevel" label="errorLevel" /> | <PlatformBlock for="Angular,React,WebComponents">`'L' \| 'M' \| 'Q' \| 'H'`</PlatformBlock><PlatformBlock for="Blazor">`QrErrorCorrectionLevel`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'M'`</PlatformBlock><PlatformBlock for="Blazor">`Medium`</PlatformBlock> | 誤り訂正レベル。ロゴ サイズの上限も決定します。 |
+| <ApiLink type="QrCode" member="size" label="size" /> | `number` | `128` | レンダリングされる幅と高さ (ピクセル単位)。 |
+| <ApiLink type="QrCode" member="margin" label="margin" /> | `number` | `4` | クワイエット ゾーンの余白 (QR モジュール単位)。 |
+| <ApiLink type="QrCode" member="logoSrc" label="logoSrc" /> | `string` | — | オプションの中央ロゴ画像のソース URL。 |
+| <ApiLink type="QrCode" member="logoSize" label="logoSize" /> | `number` | `0.4` | 安全なロゴ領域の最大値に対する比率 (0–1) としてのロゴ サイズ。 |
+| <ApiLink type="QrCode" member="logoMargin" label="logoMargin" /> | `number` | — | ロゴの周囲の余白 (ピクセル単位)。 |
+| <ApiLink type="QrCode" member="dotStyle" label="dotStyle" /> | <PlatformBlock for="Angular,React,WebComponents">`'square' \| 'circle' \| 'rounded'`</PlatformBlock><PlatformBlock for="Blazor">`QrDotStyle`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'square'`</PlatformBlock><PlatformBlock for="Blazor">`Square`</PlatformBlock> | データ モジュールと位置検出パターンの内側のドットの形状。 |
+| <ApiLink type="QrCode" member="squareStyle" label="squareStyle" /> | <PlatformBlock for="Angular,React,WebComponents">`'square' \| 'circle' \| 'rounded'`</PlatformBlock><PlatformBlock for="Blazor">`QrCornerSquareStyle`</PlatformBlock> | <PlatformBlock for="Angular,React,WebComponents">`'square'`</PlatformBlock><PlatformBlock for="Blazor">`Square`</PlatformBlock> | 位置検出パターンの外側の四角形の形状。 |
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -521,6 +546,16 @@ await qrCode.toImage({ format: 'png', scale: 2, fileName: 'my-qr-code', download
 | -- | -- | -- |
 | `toBlob()` | `Promise<Blob>` | テーマの色を解決し、ロゴをインライン化した状態で、QR コードを `image/svg+xml` blob にシリアル化します。`value` が設定されていない場合は拒否されます。 |
 | `toImage(options?)` | `Promise<File>` | QR コードを画像ファイルとしてエクスポートします。`options` は、`format` (デフォルトは `'png'`、その他に `'jpeg'`、`'webp'`、または `'svg'`)、`scale` (デフォルトは `1`)、`fileName` (デフォルトは `'qr-code'`)、および `download` (デフォルトは `false`) を受け入れます。`value` が設定されていない場合、またはオプションが無効な場合は拒否されます。 |
+
+</PlatformBlock>
+
+<PlatformBlock for="Blazor">
+
+## メソッド
+
+| 名前 | 戻り値 | 説明 |
+| -- | -- | -- |
+| <ApiLink type="QrCode" member="ToImageAsync" label="ToImageAsync" />, <ApiLink type="QrCode" member="ToImage" label="ToImage" /> | `Task`, `void` | QR コードを画像ファイルとしてダウンロードします。<ApiLink type="QrCodeExportOptions" /> は、`Format` (デフォルトは `QrCodeExportFormat.Png`、その他に `Jpeg`、`Webp`、または `Svg`)、`Scale` (デフォルトは `1`)、および `FileName` (デフォルトは `qr-code`) を設定します。`Value` が設定されていない場合、またはオプションが無効な場合は失敗します。 |
 
 </PlatformBlock>
 
@@ -600,9 +635,10 @@ Tailwind ユーティリティ クラスを QR Code の CSS 変数と組み合�
 ```css
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "igniteui-theming/tailwind/utilities/bootstrap.css";
 ```
 
-`light-qr-code` ユーティリティを適用して QR Code にテーマ変数を付与し、その後、任意のプロパティ クラスで個々の変数をオーバーライドします。`!` プレフィックスはユーティリティを important としてマークし、コンポーネントのデフォルト スタイルより優先されるようにします。
+`igniteui-theming` の `light-qr-code` ユーティリティを適用して QR Code にテーマ変数を付与し、その後、任意のプロパティ クラスで個々の変数をオーバーライドします。`!` プレフィックスはユーティリティを important としてマークし、コンポーネントのデフォルト スタイルより優先されるようにします。
 
 <PlatformBlock for="WebComponents, Angular">
 
@@ -688,7 +724,7 @@ QR Code はフォーカス可能ではなく、キーボード入力に応答し
 ```razor
 <IgbQrCode
   Value="https://www.infragistics.com/products"
-  AriaLabel="Scan to visit our product page">
+  aria-label="Scan to visit our product page">
 </IgbQrCode>
 ```
 
@@ -737,7 +773,7 @@ QR Code はフォーカス可能ではなく、キーボード入力に応答し
 - QR Code にはスロットやイベントはありません。
 - QR Code の視覚的な構造は標準化された固定のレイアウトに従うため、右から左 (RTL) のコンテキストでは反転されません。
 
-<PlatformBlock for="WebComponents, Angular">
+<PlatformBlock for="WebComponents, Angular, Blazor">
 
 - CORS ヘッダーを送信しないクロスオリジンの URL から読み込まれたロゴは、エクスポートから除外されます。
 
@@ -755,7 +791,7 @@ QR Code の完全な API サーフェスについては、次の API リファ�
 
 <PlatformBlock for="React, Blazor">
 
-<ApiLink pkg="core" type="QrCode" />
+<ApiLink type="QrCode" />
 
 </PlatformBlock>
 
