@@ -1,0 +1,84 @@
+name: CI jQuery
+
+permissions:
+  contents: read
+
+# The Ignite UI for jQuery doc set shares nothing with the Angular and xplat doc sets but the site
+# shell, so it is built and checked only when its own files or the shell change. The other doc
+# sets, their generators and their API registries do not start it.
+on:
+  pull_request:
+    branches: [ master, vnext ]
+    paths:
+      # The doc set.
+      - 'docs/jquery/**'
+      # The shell: the site code every doc set is built with, its chrome and its dependencies.
+      - 'src/**'
+      - 'ig-chrome/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      # Of the API registries, only the jQuery one and the manifest that lists them all.
+      - '!src/data/api-link-index/**'
+      - 'src/data/api-link-index/manifest.json'
+      - 'src/data/api-link-index/jquery/**'
+      # What the jobs below run.
+      - 'scripts/check-relative-links.mjs'
+      - 'scripts/lib/**'
+      - '.github/workflows/ci-jquery.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-verify:
+    name: build-and-verify (jquery, ${{ matrix.lang }})
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lang: en
+            script: jquery:build
+          - lang: jp
+            script: jquery:build:jp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build jQuery (${{ matrix.lang }})
+        run: npm run ${{ matrix.script }}
+        env:
+          DOCS_TOC_STRICT: 'true'
+
+  # The links between the topics, and the navigation's, in both languages. The check reads the
+  # sources and needs nothing installed.
+  check-relative-links:
+    name: check-relative-links (jquery)
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Check relative links and toc entries
+        run: npm run check-relative-links:jquery
