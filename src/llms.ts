@@ -436,6 +436,7 @@ export function buildLlmsTxt(
     return lines.join('\n');
 }
 
+/** Build llms-small.txt from the combined Markdown, omitting fenced blocks and preserving inline code. */
 export function buildLlmsSmallTxt(fullContent: string): string {
     // Match the opening fence length so a shorter fence inside a Markdown example stays inside it.
     return fullContent
