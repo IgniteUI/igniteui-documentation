@@ -1,6 +1,6 @@
 # Frontmatter audit rules
 
-Version: v8 · 2026-11-20 · igniteui doc-skill set. Restructured out of SKILL.md v2 so rules can evolve without touching the router; the xplat title rule and the `relatedComponents` wording changed in v8 (see `.agents/CHANGELOG.md`). The normative field contract lives in `../../igniteui-doc-topics/references/house-style.md` → "File format & frontmatter"; where wording differs, house-style wins.
+Version: v9 · 2026-11-26 · igniteui doc-skill set. Restructured out of SKILL.md v2 so rules can evolve without touching the router; the xplat title rule and the `relatedComponents` wording changed in v8 (see `.agents/CHANGELOG.md`). The normative field contract lives in `../../igniteui-doc-topics/references/house-style.md` → "File format & frontmatter"; where wording differs, house-style wins.
 
 ## Doc sets and tokens
 
