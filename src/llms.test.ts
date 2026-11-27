@@ -4,6 +4,7 @@ import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
     buildLlmsMetaMap,
+    buildLlmsSmallTxt,
     buildLlmsTxt,
     collectSlugs,
     extractLlmsMeta,
@@ -211,6 +212,26 @@ describe('getBroadSectionsForPlatform', () => {
 
     it('returns an empty set for a platform with no broad sections', () => {
         expect(getBroadSectionsForPlatform('appbuilder').size).toBe(0);
+    });
+});
+
+describe('buildLlmsSmallTxt', () => {
+    it('keeps inline code and API link labels while removing fenced examples', () => {
+        const instruction = 'Set `selected` to `false` on [`IgrTab`](https://example.test/api/IgrTab).';
+        const nextParagraph = 'Read `selected` to check the tab state.';
+        const full = [
+            instruction,
+            '',
+            '````markdown',
+            '```tsx',
+            '<IgrTab selected={false} />',
+            '```',
+            '````',
+            '',
+            nextParagraph,
+        ].join('\n');
+
+        expect(buildLlmsSmallTxt(full)).toBe(`${instruction}\n\n${nextParagraph}`);
     });
 });
 
