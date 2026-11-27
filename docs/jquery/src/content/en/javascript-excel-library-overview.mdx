@@ -34,28 +34,28 @@ The JavaScript Excel Library is available in Ignite UI for jQuery 14.2 and later
 To use the Excel library, you must reference the following JavaScript files from the Ignite UI for jQuery product, which are the minimum required:
 
 - infragistics.util.js
-- infragistics.ext_core.js \[new in 17.1]
-- infragistics.ext_collections.js \[new in 17.1]
-- infragistics.ext_text.js \[new in 17.1]
-- infragistics.ext_io.js \[new in 17.1]
-- infragistics.ext_ui.js \[new in 17.1]
-- infragistics.documents.core_core.js \[new in 17.1]
-- infragistics.ext_collectionsextended.js \[new in 17.1]
-- infragistics.excel_core.js \[new in 17.1]
+- infragistics.ext_core.js
+- infragistics.ext_collections.js
+- infragistics.ext_text.js
+- infragistics.ext_io.js
+- infragistics.ext_ui.js
+- infragistics.documents.core_core.js
+- infragistics.ext_collectionsextended.js
+- infragistics.excel_core.js
 
 When а worksheet object needs to be loaded from an existing Excel file or saved to a new Excel file (in the default Office Excel 2007 (and later) XML-based file format.), then you must reference the following as well:
 
-- infragistics.ext_threading.js \[new in 17.1]
-- infragistics.ext_web.js \[new in 17.1]
-- infragistics.xml.js \[new in 17.1]
-- infragistics.documents.core_openxml.js \[new in 17.1]
-- infragistics.excel_serialization_openxml.js \[new in 17.1]
+- infragistics.ext_threading.js
+- infragistics.ext_web.js
+- infragistics.xml.js
+- infragistics.documents.core_openxml.js
+- infragistics.excel_serialization_openxml.js
 
 In addition, if you are working in Visual Studio, you can include the following IntelliSense annotation files to get better statement completion support and descriptions while coding:
 
-- infragistics.documents.core_core.intellisense.js \[new in 17.1]
-- infragistics.excel_core.intellisense.js \[new in 17.1]
-- infragistics.excel_serialization_openxml.intellisense.js \[new in 17.1]
+- infragistics.documents.core_core.intellisense.js
+- infragistics.excel_core.intellisense.js
+- infragistics.excel_serialization_openxml.intellisense.js
 
 Once these references are included, you need to add the following code to the top of your `.js` files which has code using the Excel library:
 
@@ -142,7 +142,7 @@ var x = cell.value(); // x === 14.708
 
 This code snippet shows a few things. First of all, it shows the `getCell` function being used with an A1 style cell address. This is the default cell reference mode of the workbook when it is created (you can get or set the cell reference mode using the workbook’s `cellReferenceMode` function) and by default, `getCell` will use the workbook’s cell reference mode to parse the reference string and get the cell. This code also demonstrates the ability to override this cell reference mode and use the R1C1 mode to parse the reference instead. The `getCell` function can also accept the name of a named reference which refers to a cell. The call can optionally accept another cell instance as an origin cell if the reference string represents a relative reference with offsets, such as ‘R\[-3]C’.
 
-In addition to getting cell instances, this code also shows how to set a cell value with the value function. This function allows you to specify a Boolean, Number, String, Date (**Note**: Dates are not yet fully supported in the CTP, and may cause exceptions when setting them on cells or loading/saving a workbook with them as cell values), `ErrorValue` instance to represent an error literal and a `FormattedString` instance to represent text with mixed formatting. As you can also see at the end of the code, the value function can be specified with no arguments to get a cell’s value. Many functions in the Excel library representing read-write entities follow this pattern: if they are supplied an argument, they set the value and if they are invoked without arguments, they retrieve the value.
+In addition to getting cell instances, this code also shows how to set a cell value with the value function. This function allows you to specify a Boolean, Number, String, Date, `ErrorValue` instance to represent an error literal and a `FormattedString` instance to represent text with mixed formatting. As you can also see at the end of the code, the value function can be specified with no arguments to get a cell’s value. Many functions in the Excel library representing read-write entities follow this pattern: if they are supplied an argument, they set the value and if they are invoked without arguments, they retrieve the value.
 
 This code also demonstrates how to set formulas on a cell with the `applyFormula` function. The function accepts the formula string in the cell reference mode currently being used by the workbook (A1 by default). This code also shows that the formula’s calculated value can be obtained immediately by getting the value of the cell owning the formula.
 
@@ -248,18 +248,18 @@ format.fill(
     $.ig.excel.CellFill.createLinearGradientFill(45, "#FF0000", "#00FFFF")
 );
 format.formatString("0.00%");
-format.locked($.ig.excel.ExcelDefaultableBoolean.true);
+format.locked(true);
 format.rotation(45);
-format.shrinkToFit($.ig.excel.ExcelDefaultableBoolean.false);
+format.shrinkToFit(false);
 format.style(workbook.styles("Bad"));
 format.verticalAlignment($.ig.excel.VerticalCellAlignment.top);
-format.wrapText($.ig.excel.ExcelDefaultableBoolean.true);
-format.font().bold($.ig.excel.ExcelDefaultableBoolean.true);
+format.wrapText(true);
+format.font().bold(true);
 format.font().colorInfo(new $.ig.excel.WorkbookColorInfo("#0000FF"));
 format.font().height(440);
-format.font().italic($.ig.excel.ExcelDefaultableBoolean.true);
+format.font().italic(true);
 format.font().name("Consolas");
-format.font().strikeout($.ig.excel.ExcelDefaultableBoolean.true);
+format.font().strikeout(true);
 format
     .font()
     .superscriptSubscriptStyle(
@@ -269,11 +269,11 @@ format.font().underlineStyle($.ig.excel.FontUnderlineStyle.single);
 ```
 
 <DocsAside type="note">
-  The JavaScript Excel library has been ported from the Infragistics C# Excel library provided on various platforms. At the time of that code’s creation, representing a Boolean with an additional default value required an enumeration type, which in this case was called `ExcelDefaultableBoolean`. Newer versions of C# now allow for a nullable Boolean, which removes the need for `ExcelDefaultableBoolean`, but removing the enumeration and using a nullable Boolean would constitute a breaking change we are not willing to make. In the porting process, the enumeration was brought over as well despite it being unnecessary in JavaScript, as the functions such as bold on the font would be able to accept true, false, or null. However, there was not sufficient time to safely make a change like this before for the CTP. For the RTM version of the JavaScript Excel library, this change will be made and `ExcelDefaultableBoolean` will no longer exist.
+  The JavaScript Excel library has been ported from the Infragistics C# Excel library provided on various platforms, which represents a Boolean with an additional default value with an enumeration type called `ExcelDefaultableBoolean`. The JavaScript Excel library does not have this enumeration: functions such as `bold` on the font accept `true`, `false` or `null`.
 </DocsAside>
 
 <DocsAside type="note">
-  Another change which could not be made in time for the CTP was the ability to pass colors where `WorkbookColorInfo` instances are required. `WorkbookColorInfo` can represent accent and tinted colors, but in many cases, a normal RGB color with no tinting will be specified. In these cases, the color string should be sufficient and it should get wrapped in a `WorkbookColorInfo` automatically. This will be done for the RTM, but for the CTP, any place accepting a `WorkbookColorInfo` will need to have one passed in manually as shown in the snippet above.
+  `WorkbookColorInfo` can represent accent and tinted colors, but in many cases, a normal RGB color with no tinting will be specified. Even then, a color string is not wrapped in a `WorkbookColorInfo` automatically, so any place accepting a `WorkbookColorInfo` needs one passed in, as shown in the snippet above.
 </DocsAside>
 
 You can also create a cell value that has mixed formatting:
@@ -290,9 +290,9 @@ var formattedString = new $.ig.excel.FormattedString(
 // formats are shared internally on the workbook
 worksheet.getCell("A1").value(formattedString);
 var font = formattedString.getFont(13, 4);
-font.bold($.ig.excel.ExcelDefaultableBoolean.true);
+font.bold(true);
 font = formattedString.getFont(22);
-font.italic($.ig.excel.ExcelDefaultableBoolean.true);
+font.italic(true);
 ```
 
 This code creates a `FormattedString` instance, sets it on a cell, and then applies font formatting to it in specific ranges of text. The `getFont` function returns fonts that apply to ranges based on a start index and optional length parameter. If the length is not specified, the returned font will control from the start index to the end of the string. These font objects are the same font sub-objects exposed by the font function of a cell format. Note that the `FormattedString` must be set on a cell before formatting can be applied because common font information is shared internally on the workbook and a standalone `FormattedString` instance has no workbook with which to share font information. This code creates the following workbook when saved and opened in Microsoft Excel:
